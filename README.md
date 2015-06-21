@@ -9,7 +9,7 @@ There is no code in this repository, only issues and documentation.
 
 ## Official Cucumber Implementations
 
-* [Cucumber Ruby](https://github.com/cucumber/cucumber)
+* [Cucumber Ruby](https://github.com/cucumber/cucumber-ruby)
 * [Cucumber-JVM](https://github.com/cucumber/cucumber-jvm)
 * [Cucumber.js](https://github.com/cucumber/cucumber-js)
 * [Cucumber-CPP](https://github.com/cucumber/cucumber-cpp)
