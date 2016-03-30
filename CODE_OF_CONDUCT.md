@@ -1,6 +1,6 @@
 # Cucumber Community Code of Conduct
 
-Cucumber is used and developed by people from all over the world who have a diverse set of skills, personalities and experiences. This diversity is wonderful, and are committed to ensuring that the Cucumber community is a safe, enjoyable and thriving environment for everyone.
+Cucumber is used and developed by people from all over the world who have a diverse set of skills, personalities and experiences. This diversity is wonderful, and we are committed to ensuring that the Cucumber community is a safe, enjoyable and thriving environment for everyone.
 
 As a community, we expect any participant to act according to the following ground rules. They ensure that everyone within the community is clear about the behaviour that is expected of them, and that newcomers know what kind of environment they can expect to find.
 
