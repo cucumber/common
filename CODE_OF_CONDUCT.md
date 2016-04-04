@@ -6,7 +6,7 @@ As a community, we expect any participant to act according to the following grou
 
 ## Enforcing this code of conduct
 
-If you experience or observe a violation of this code of conduct, or have any other concerns, please contact us immediately: contact Matt Wynne ([Email](mods@cucumber.io)). We are there to help you. Your reports will be taken seriously, treated in confidence and will not be dismissed or argued with.
+If you experience or observe a violation of this code of conduct, or have any other concerns, please [contact]mailto:mods@cucumber.io [the moderators](#who-are-the-moderators). We are there to help you. Your reports will be taken seriously, treated in confidence and will not be dismissed or argued with.
 
 As a member of the community, you are also encouraged to help others act according to the following principles.
 
@@ -45,13 +45,23 @@ The rules listed above apply to all official Cucumber venues; including the Cuke
 
 ## Consequences
 
-If someone engages in any behaviour violating this Code of Conduct, [the moderators of this community](mods@cucumber.io) may take any action they deem appropriate, including warning the offender in private or in public, expulsion from the community, exclusion from any interaction and loss of all rights in this community.
+If someone engages in any behaviour violating this Code of Conduct, [the moderators](#who-are-the-moderators) may take any action they deem appropriate, including warning the offender in private or in public, expulsion from the community, exclusion from any interaction and loss of all rights in this community.
 
-Decisions about consequences of violations of this Code of Conduct are made by [this community’s moderators](mods@cucumber.io) and will not necessarily be discussed with the person responsible for the violation.
+Decisions about consequences of violations of this Code of Conduct are made by [the moderators](#who-are-the-moderators) and will not necessarily be discussed with the person responsible for the violation.
 
 ## Questions or Feedback
 
-If you have any questions or feedback on this Code of Conduct, [we’re happy to hear from you](mods@cucumber.io).
+If you have any questions or feedback on this Code of Conduct, [we’re happy to hear from you](mailto:mods@cucumber.io).
+
+## Who are the moderators?
+
+The current moderators of the Cucumber community are:
+
+* Matt Wynne
+* Aslak Hellesøy
+* Tracey S. Rosenberg
+
+You can contact them by email at [mods@cucumber.io](mailto:mods@cucumber.io).
 
 ## References / inspiration
 
