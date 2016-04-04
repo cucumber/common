@@ -61,7 +61,7 @@ The current moderators of the Cucumber community are:
 * Aslak Hellesøy
 * Tracey S. Rosenberg
 
-You can contact them by email at [mods@cucumber.io](mailto:mods@cucumber.io).
+You can contact us by email at [mods@cucumber.io](mailto:mods@cucumber.io).
 
 ## References / inspiration
 
