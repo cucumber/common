@@ -13,7 +13,7 @@ Looking for a particular implementation? [look here](https://cucumber.io/docs#cu
 
 All significant cucumber projects and libraries will soon be moved into this repository.
 Each project/library will have its subtree mirrored as a standalone read-only repository, managed
-by [splitish-lite](https://github.com/splitsh/lite).
+by [splitsh-lite](https://github.com/splitsh/lite).
 
 Here are a couple of quick and excellent introductions to monorepos, in case you are unfamiliar with them:
 
