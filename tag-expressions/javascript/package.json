@@ -1,0 +1,35 @@
+{
+  "name": "cucumber-tag-expressions",
+  "version": "1.0.0",
+  "description": "Cucumber Tag Expression parser",
+  "scripts": {
+    "test": "ISTANBUL=true istanbul cover _mocha -- --recursive",
+    "posttest": "istanbul check-coverage --statements 100 --branches 94",
+    "test-fast": "mocha --recursive",
+    "sloc": "sloc lib",
+    "sloccheck": "sloc --format csv lib | grep Total | cut -f3 -d',' | ruby -e 'sloc=STDIN.read.to_i; max=500; puts \"#{sloc} SLOC\"; raise \"#{sloc}>#{max}\" if sloc>max'"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/cucumber/tag-expressions-javascript.git"
+  },
+  "keywords": [
+    "cucumber",
+    "tags",
+    "tag",
+    "parser",
+    "boolean",
+    "bool"
+  ],
+  "author": "Cucumber Limited <cukes@googlegroups.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/cucumber/tag-expressions-javascript/issues"
+  },
+  "homepage": "https://github.com/cucumber/tag-expressions-javascript#readme",
+  "devDependencies": {
+    "istanbul": "^0.4.0",
+    "mocha": "^2.3.3",
+    "sloc": "^0.1.9"
+  }
+}
