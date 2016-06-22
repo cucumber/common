@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+#
+# Pushes subtrees to manyrepos. A subtree is defined by a `.splitsh`
+# file in a directory. The contents of the file should
+# be the manyrepo name.
+#
+
+set -euf -o pipefail
+
+find . -name "*.splitsh"|while read fname; do
+  manyrepo=$(head -n 1 ${fname})
+  prefix=$(dirname ${fname} | cut -c 3-)
+  ref=$(splitsh-lite --prefix=${prefix})
+  git push git@github.com:cucumber/${manyrepo}.git ${ref}:master --force
+done
