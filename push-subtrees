@@ -1,15 +1,22 @@
 #!/usr/bin/env bash
 #
-# Pushes subtrees to manyrepos. A subtree is defined by a `.splitsh`
-# file in a directory. The contents of the file should
-# be the manyrepo name.
+# Pushes subtrees to manyrepos. A subtree is defined by a `.travis.yml`
+# file with a "# manyrepo: repo-name" comment.
 #
 
 set -euf -o pipefail
 
-find . -name "*.splitsh"|while read fname; do
-  manyrepo=$(head -n 1 ${fname})
+RED='\033[0;31m'
+NC='\033[0m'
+
+find . -name "*.travis.yml"|while read fname; do
+  manyrepo=$(awk '/^#[ \t]+manyrepo:/ {print $3}' ${fname})
+  if [ "${manyrepo}" = "" ]
+  then
+    echo -e "${RED}No manyrepo comment in ${fname}${NC}"
+    exit 1
+  fi
   prefix=$(dirname ${fname} | cut -c 3-)
-  ref=$(splitsh-lite --prefix=${prefix})
+  ref=$(splitsh-lite --prefix=${prefix} 2> /dev/null)
   git push git@github.com:cucumber/${manyrepo}.git ${ref}:master --force
 done
