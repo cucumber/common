@@ -1,12 +1,11 @@
 package io.cucumber.tagexpressions;
 
-import io.cucumber.tagexpressions.TagExpressionParser;
-import io.cucumber.tagexpressions.TagExpressionParser.Expression;
 import org.junit.Test;
 
 import static java.util.Arrays.asList;
 import static java.util.Collections.singletonList;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 
 public class TagExpressionParserTest {
 
@@ -22,6 +21,6 @@ public class TagExpressionParserTest {
     @Test
     public void evaluates_example() {
         Expression expr = parser.parse("not @a or @b and not @c or not @d or @e and @f");
-        System.out.println(expr.evaluate(asList("@a @c @d".split(" "))));
+        assertFalse(expr.evaluate(asList("@a @c @d".split(" "))));
     }
 }

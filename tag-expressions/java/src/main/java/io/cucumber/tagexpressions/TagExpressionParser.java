@@ -95,14 +95,10 @@ public class TagExpressionParser {
         return ASSOC.get(token) != null;
     }
 
-    public interface Expression {
-        boolean evaluate(List<String> variables);
-    }
-
-    class Literal implements Expression {
+    private class Literal implements Expression {
         private final String value;
 
-        public Literal(String value) {
+        Literal(String value) {
             this.value = value;
         }
 
@@ -117,11 +113,11 @@ public class TagExpressionParser {
         }
     }
 
-    class Or implements Expression {
+    private class Or implements Expression {
         private final Expression left;
         private final Expression right;
 
-        public Or(Expression left, Expression right) {
+        Or(Expression left, Expression right) {
             this.left = left;
             this.right = right;
         }
@@ -137,11 +133,11 @@ public class TagExpressionParser {
         }
     }
 
-    class And implements Expression {
+    private class And implements Expression {
         private final Expression left;
         private final Expression right;
 
-        public And(Expression left, Expression right) {
+        And(Expression left, Expression right) {
             this.left = left;
             this.right = right;
         }
@@ -157,10 +153,10 @@ public class TagExpressionParser {
         }
     }
 
-    class Not implements Expression {
+    private class Not implements Expression {
         private final Expression expr;
 
-        public Not(Expression expr) {
+        Not(Expression expr) {
             this.expr = expr;
         }
 

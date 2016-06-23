@@ -1,7 +1,5 @@
 package io.cucumber.tagexpressions;
 
-import io.cucumber.tagexpressions.TagExpressionParser;
-import io.cucumber.tagexpressions.TagExpressionParser.Expression;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
