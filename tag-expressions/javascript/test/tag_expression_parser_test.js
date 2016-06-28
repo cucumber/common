@@ -77,11 +77,18 @@ describe("TagExpressionParser", function () {
 
     it("errors when there are several expressions", function () {
       try {
-        var expr = parser.parse("a b");
+        parser.parse("a b");
         throw new Error("expected error")
       } catch (expected) {
         assert.equal(expected.message, "Not empty")
       }
+    });
+
+    it("errors when there are only operators", function () {
+      assert.throws(
+        () => parser.parse("or or"),
+        "empty stack"
+      );
     });
   });
 });

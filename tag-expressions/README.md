@@ -1,6 +1,26 @@
 # Cucumber Tag Expressions
 
-*This library is part of the Cucumber Standard Library - which hasn't yet been adopted by all Cucumber implementations*
+Cucumber Tag Expressions are used to run a subset of features or scenarios from
+the [command line](#) or [configuration](#), and to select scenarios in [tagged hooks](#).
+
+Tag expressions are simply [boolean expressions](https://en.wikipedia.org/wiki/Boolean_expression) of tags with the operators `and`, `or` and `not`. Here is an example:
+
+    @smoke and not @ui
+
+You can also use parenthesis for clarity, or to change operator precedence:
+
+## Implementation status
+
+|               | Library implemented | Used by Cucumber |
+|     :---      |         :---:       |      :---:       |
+| .NET          |           ❌        |        ❌        |
+| Go            |           ❌        |        ❌        |
+| Java          |           ✅        |        ❌        |
+| JavaScript    |           ✅        |        ❌        |
+| Objective-C   |           ❌        |        ❌        |
+| Perl          |           ❌        |        ❌        |
+| Python        |           ❌        |        ❌        |
+| Ruby          |           ❌        |        ❌        |
 
 This library implements a parser for infix boolean expressions, which is the
 grammar used for Cucumber's tag expressions.

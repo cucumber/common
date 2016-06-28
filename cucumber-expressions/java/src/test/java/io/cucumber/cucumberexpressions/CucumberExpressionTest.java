@@ -1,8 +1,6 @@
 package io.cucumber.cucumberexpressions;
 
-import org.junit.Rule;
 import org.junit.Test;
-import org.junit.rules.ExpectedException;
 
 import java.util.List;
 import java.util.Locale;
@@ -13,9 +11,6 @@ import static java.util.Collections.singletonList;
 import static org.junit.Assert.assertEquals;
 
 public class CucumberExpressionTest {
-    @Rule
-    public ExpectedException exception = ExpectedException.none();
-
     @Test
     public void transforms_nothing_by_default() {
         List<Object> values = match("{what}", "22", Double.class);

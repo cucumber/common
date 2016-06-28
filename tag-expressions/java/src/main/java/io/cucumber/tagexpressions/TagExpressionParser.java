@@ -38,20 +38,20 @@ public class TagExpressionParser {
                                 ||
                                 (ASSOC.get(token) == Assoc.RIGHT && PREC.get(token) < PREC.get(ops.peek())))
                         ) {
-                    pushExpr(ops.pop(), exprs);
+                    pushExpr(pop(ops), exprs);
                 }
                 ops.push(token);
             } else if ("(".equals(token)) {
                 ops.push(token);
             } else if (")".equals(token)) {
                 while (ops.size() > 0 && !"(".equals(ops.peek())) {
-                    pushExpr(ops.pop(), exprs);
+                    pushExpr(pop(ops), exprs);
                 }
                 if (ops.size() == 0) {
                     throw new RuntimeException("Unclosed (");
                 }
                 if ("(".equals(ops.peek())) {
-                    ops.pop();
+                    pop(ops);
                 }
             } else {
                 pushExpr(token, exprs);
@@ -62,7 +62,7 @@ public class TagExpressionParser {
             if ("(".equals(ops.peek())) {
                 throw new Error("Unclosed (");
             }
-            pushExpr(ops.pop(), exprs);
+            pushExpr(pop(ops), exprs);
         }
 
         Expression expr = exprs.pop();
@@ -72,18 +72,23 @@ public class TagExpressionParser {
         return expr;
     }
 
+    private <T> T pop(Deque<T> stack) {
+        if (stack.isEmpty()) throw new TagExpressionException("empty stack");
+        return stack.pop();
+    }
+
     private void pushExpr(String token, Deque<Expression> stack) {
         switch (token) {
             case "and":
-                Expression rightAndExpr = stack.pop();
-                stack.push(new And(stack.pop(), rightAndExpr));
+                Expression rightAndExpr = pop(stack);
+                stack.push(new And(pop(stack), rightAndExpr));
                 break;
             case "or":
-                Expression rightOrExpr = stack.pop();
-                stack.push(new Or(stack.pop(), rightOrExpr));
+                Expression rightOrExpr = pop(stack);
+                stack.push(new Or(pop(stack), rightOrExpr));
                 break;
             case "not":
-                stack.push(new Not(stack.pop()));
+                stack.push(new Not(pop(stack)));
                 break;
             default:
                 stack.push(new Literal(token));

@@ -7,10 +7,10 @@ Gherkin steps.
 
 |               | Library implemented | Used by Cucumber |
 |     :---      |         :---:       |      :---:       |
-| .NET          |           ✅        |        ❌        |
-| Go            |           ✅        |        ❌        |
-| Java          |           ❌        |        ❌        |
-| JavaScript    |           ❌        |        ❌        |
+| .NET          |           ❌        |        ❌        |
+| Go            |           ❌        |        ❌        |
+| Java          |           ✅        |        ❌        |
+| JavaScript    |           ✅        |        ❌        |
 | Objective-C   |           ❌        |        ❌        |
 | Perl          |           ❌        |        ❌        |
 | Python        |           ❌        |        ❌        |
