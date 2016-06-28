@@ -1,0 +1,5 @@
+# manyrepo: cucumber-expressions-java
+language: java
+jdk:
+  - oraclejdk8
+  - oraclejdk7

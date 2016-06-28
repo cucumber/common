@@ -1,0 +1,31 @@
+{
+  "name": "cucumber-expressions",
+  "version": "1.0.0",
+  "description": "Cucumber Expressions - a simpler alternative to Regular Expressions",
+  "scripts": {
+    "test": "mocha --recursive",
+    "coverage": "ISTANBUL=true istanbul cover _mocha -- --recursive",
+    "postcoverage": "istanbul check-coverage --statements 100 --branches 100"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/cucumber/cucumber-expressions-javascript.git"
+  },
+  "keywords": [
+    "cucumber",
+    "steps",
+    "regexp",
+    "regex"
+  ],
+  "author": "Cucumber Limited <cukes@googlegroups.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/cucumber/cucumber-expressions-javascript/issues"
+  },
+  "homepage": "https://github.com/cucumber/cucumber-expressions-javascript#readme",
+  "devDependencies": {
+    "eslint": "^2.13.1",
+    "istanbul": "^0.4.0",
+    "mocha": "^2.3.3"
+  }
+}
