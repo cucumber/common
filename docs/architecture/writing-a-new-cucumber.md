@@ -16,9 +16,9 @@ a JavaScript implementation we're writing from scratch.
 
 Let's get started!
 
-## Gherkin3
+## Gherkin
 
-Before you start you should make sure you have a working [Gherkin3](https://github.com/cucumber/gherkin3)
+Before you start you should make sure you have a working [Gherkin](#)
 parser that can parse and compile `.feature` files.
 
 It isn't the first thing you'll use when you write a new Cucumber

@@ -1,21 +1,16 @@
-# Cucumber
+# ![Cucumber Logo](docs/images/cucumber.png)
 
-This is the parent repository for Cucumber.
+Cucumber is a tool that supports [Behaviour-Driven Development (BDD)](#) - a software
+development process that aims to enhance software quality and reduce maintenance costs.
 
-The purpose of this repository is to document aspects that are common to all official Cucumber
-implementations for various platforms.
+Cucumber executes *executable specifications* written in [plain language](gherkin.md)
+and produces reports indicating whether the software behaves according to the
+specification or not.
 
-There is no code in this repository, only issues/tickets and documentation.
+Cucumber reduces the effort to keep requirements specifications, tests and documentation
+in sync - with Cucumber they are all the same documents - a single source of truth
+for everyone on the team.
 
-Looking for a particular implementation? [look here](https://cucumber.io/docs#cucumber-implementations).
+![Single Source of Truth](docs/images/single-source-of-truth-256x256.png)
 
-## Coming here soon: Monorepo with all Cucumber source code
-
-All significant cucumber projects and libraries will soon be moved into this repository.
-Each project/library will have its subtree mirrored as a standalone read-only repository, managed
-by [splitsh-lite](https://github.com/splitsh/lite).
-
-Here are a couple of quick and excellent introductions to monorepos, in case you are unfamiliar with them:
-
-* [Talk: Monolithic repositories vs. Many repositories](http://www.thedotpost.com/2016/05/fabien-potencier-monolithic-repositories-vs-many-repositories)
-* [Advantages of monolithic version control](http://danluu.com/monorepo/)
+Cucumber is compatible with all the major software platforms.
