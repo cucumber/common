@@ -1,4 +1,4 @@
 # Summary
 
-* Installation
+* [Installation](docs/installation.md)
 
