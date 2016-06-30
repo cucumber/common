@@ -1,0 +1,8 @@
+{
+  "plugins": [ "codetabs" ],
+  "pluginsConfig": {
+    "melchior": {
+      "includes": "_includes"
+    }
+  }
+}

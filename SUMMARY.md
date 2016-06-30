@@ -3,7 +3,7 @@
 ### Getting Started
 
 * [Installation](docs/installation.md)
-* [10 minute tutorial](docs/10-min-tutorial.md)
+* [10 minute tutorial](docs/10-minute-tutorial.md)
 
 ### Reference
 
