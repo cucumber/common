@@ -64,15 +64,18 @@ In general, it should be brief and to the point.
 
 * Every page should starts with an informational/motivational paragraph
 * Paragraphs should be short enough to be readable, but long enough to develop an idea.
-* Use links to external sites sparingly
 * Every page should start with a `h1` heading. Sections use `h2`. Subsections use `h3`
 * Write in present tense
 * Use unemotional language, but try to make it a little entertaining (this is hard)
+* Write in a platform-neutral way as much as possible
+  * Cucumber is implemented in several languages, and the docs should not assume a particular platform
+  * Some good examples of cross-platform/language docs are [Stripe](https://stripe.com/docs/api) and [.NET](https://msdn.microsoft.com/en-us/library/system.array(v=vs.110).aspx)
 * Use [codetabs](https://github.com/GitbookIO/plugin-codetabs) for all code examples (except Gherkin)
   * If you're only familiar with one programming language - just add a single tab - someone
     else will fill the gaps for the other languages!
 * All documents should use [British English](https://en.wikipedia.org/wiki/British_English)
   * Contributions in [American English](https://en.wikipedia.org/wiki/American_English) is fine - editors will do the translation.
+* Use links to external sites sparingly
 
 ### Tutorial writing style {#tutorial-style}
 
@@ -88,7 +91,6 @@ In general, it should be brief and to the point.
 ### Reference writing style {#reference-style}
 
 * Use a `h2` section for every major feature.
-* Write in a platform-neutral way as much as possible
 * Append `(platform-consistent)` or `(platform-inconsistent)` to each header
   * `(platform-consistent)` means this works the same on all platforms, like Gherkin
   * `(platform-inconsistent)` means this currently works differently across platforms, like formatter outputs
