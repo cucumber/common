@@ -6,10 +6,11 @@
 
 set -euf -o pipefail
 
+GREEN='\033[0;32m'
 RED='\033[0;31m'
 NC='\033[0m'
 
-find . -name "*.travis.yml"|while read fname; do
+find . -name "*.travis.yml" -not -path "**/node_modules/*" -not -path "./_book/**"|while read fname; do
   manyrepo=$(awk '/^#[ \t]+manyrepo:/ {print $3}' ${fname})
   if [ "${manyrepo}" = "" ]
   then
@@ -18,5 +19,6 @@ find . -name "*.travis.yml"|while read fname; do
   fi
   prefix=$(dirname ${fname} | cut -c 3-)
   ref=$(splitsh-lite --prefix=${prefix} 2> /dev/null)
-  git push git@github.com:cucumber/${manyrepo}.git ${ref}:master --force
+  echo -e "${GREEN}pushing manyrepo ${manyrepo}${NC}"
+  git push git@github.com:${manyrepo}.git ${ref}:master --force
 done
