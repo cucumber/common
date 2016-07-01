@@ -68,13 +68,15 @@ In general, it should be brief and to the point.
 * Every page should start with a `h1` heading. Sections use `h2`. Subsections use `h3`
 * Write in present tense
 * Use unemotional language, but try to make it a little entertaining (this is hard)
+* Use [codetabs](https://github.com/GitbookIO/plugin-codetabs) for all code examples (except Gherkin)
+  * If you're only familiar with one programming language - just add a single tab - someone
+    else will fill the gaps for the other languages!
 * All documents should use [British English](https://en.wikipedia.org/wiki/British_English)
   * Contributions in [American English](https://en.wikipedia.org/wiki/American_English) is fine - editors will do the translation.
 
 ### Tutorial writing style {#tutorial-style}
 
 * Assume the reader has little or no knowledge of the topic
-* Use [codetabs](https://github.com/GitbookIO/plugin-codetabs) for different programming languages
 * Use a conversational style
 * Don't go too deep - refer to Learning and Reference docs for depth
 
@@ -87,7 +89,6 @@ In general, it should be brief and to the point.
 
 * Use a `h2` section for every major feature.
 * Write in a platform-neutral way as much as possible
-* Use [codetabs](https://github.com/GitbookIO/plugin-codetabs) to illustrate different programming languages
 * Append `(platform-consistent)` or `(platform-inconsistent)` to each header
   * `(platform-consistent)` means this works the same on all platforms, like Gherkin
   * `(platform-inconsistent)` means this currently works differently across platforms, like formatter outputs
