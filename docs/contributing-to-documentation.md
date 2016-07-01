@@ -14,7 +14,8 @@ The full process is described in the [Cucumber Community Contributing Guide](../
 
 ## Join the Community
 
-[![Join the chat at https://gitter.im/cucumber/docs](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/cucumber/docs) - come and say hi!
+* Chat: [![Join the chat at https://gitter.im/cucumber/docs](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/cucumber/docs)
+* [Mailing list](mailto:cukes-devs@googlegroups.com)
 
 ## What to contribute
 
