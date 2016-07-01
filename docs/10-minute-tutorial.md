@@ -80,11 +80,5 @@ Well done - you're ready to create some files
 TODO
 {%- language name="Ruby" -%}
 .
-├── Gemfile
-├── features
-│   ├── fizz_buzz.feature
-│   └── step_definitions
-│       └── fizz_buzz_steps.rb
-└── lib
-    └── fizz_buzz.rb
+bundle exec cucumber --init
 {%- endcodetabs %}
