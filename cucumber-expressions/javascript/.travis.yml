@@ -1,4 +1,4 @@
-# manyrepo: cucumber/tag-expressions-javascript
+# manyrepo: cucumber/cucumber-expressions-javascript
 language: node_js
 node_js:
   - "6"
