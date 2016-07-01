@@ -1,0 +1,5 @@
+# manyrepo: cucumber-ltd/shouty.java
+language: java
+jdk:
+  - oraclejdk8
+  - oraclejdk7
