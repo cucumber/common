@@ -13,7 +13,7 @@ documentation goes into more detail.
 
 ## Install Cucumber
 
-Add Cucumber to your build file:
+Add Cucumber to your project:
 
 {% codetabs name="Maven", type="xml" -%}
 <dependency>
