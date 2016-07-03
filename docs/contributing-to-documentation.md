@@ -19,7 +19,7 @@ The full process is described in the [Cucumber Community Contributing Guide](../
 
 ## What to contribute
 
-The [SUMMARY.md](./SUMMARY.MD)(../SUMMARY.md) file is the table of contents. As you see,
+The [SUMMARY.md](./SUMMARY.md)(../SUMMARY.md) file is the table of contents. As you see,
 several of the links point to non-existent files. This is what we need help with.
 
 We recommend you start by contributing to the [Reference](#reference-style) documentation.
