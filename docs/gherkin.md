@@ -80,7 +80,7 @@ Scenario Outline: Password validation
   | abcd     | invalid          |
   | abcd1    | valid            |
 ```
-In that feature, it isn't clear why certain passwords are valid or invalid. By reformatting the examples into two tables with descriptive text, the scenario outline becomes a much more effective (p.75):
+In that feature, it isn't clear why certain passwords are valid or invalid. By reformatting the examples into two tables with descriptive text, the scenario outline becomes much more effective (p.75):
 
 ```gherkin
 Feature: Account Creation
