@@ -69,7 +69,7 @@
   * [Given/When/Then (Steps)](docs/gherkin.md#steps)
   * [Tags](docs/tags.md)
   * [Background](docs/gherkin.md#background)
-  * [Scenario Outline](docs/gherkin.md#background)
+  * [Scenario Outline](docs/gherkin.md#scenario-outline)
   * [Background](gdocs/herkin.md#background)
   * [Data Tables](docs/gherkin.md#background)
   * [Doc Strings](docs/gherkin.md#background)
