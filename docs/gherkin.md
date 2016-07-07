@@ -37,8 +37,8 @@ First line starts the feature. Lines 2–4 are unparsed text, which is expected 
 
 Read more
 
- * [Feature Introduction](docs/gherkin.md#feature) – general structure of a feature
- * [Given/When/Then (Steps)](docs/gherkin.md#steps)
+ * [Feature Introduction](gherkin.md#feature) – general structure of a feature
+ * [Given/When/Then (Steps)](gherkin.md#steps)
 
 ## Feature Introduction {#feature}
 
@@ -103,7 +103,7 @@ This step definition uses a regular expression with one match group – `(\d+)`.
 
 When Cucumber prints the results of the running features it will underline all step arguments so that it’s easier to see what part of a step was actually recognised as an argument. It will also print the path and line of the matching step definition. This makes it easy to go from a feature file to any step definition.
 
-Take a look at [Step Definitions](docs/step-definitions.md) and the examples directory to see more.
+Take a look at [Step Definitions](step-definitions.md) and the examples directory to see more.
 
 ## Background {#background}
 
