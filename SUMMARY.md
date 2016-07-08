@@ -10,7 +10,7 @@
 
 ### Behaviour-Driven Development
 
-* [Introduction to BDD](docs/introduction-bdd.md)
+* [Introduction to BDD](#)
 * [Roles](#)
   * [Domain Expert](#)
   * [Developer](#)
