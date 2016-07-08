@@ -7,17 +7,44 @@
      
    Coming to reality Customer is a person who is an expert in dealing the things other than Technology. They need not to be aware of Edge case scenarios,beta testing and Alpha testing and so on. Even if he(customer) is familiar of the Technology stack,the only thing that is evolving in much faster pace is business, which change at constant pace.
      
-   In this modern Agile world, teams understand this and structure their approach to delivery with this in mind. Rather than attempt to conceive, build, and deliver the perfect application in one fell swoop, they steadily deliver work in small and usable chunks for every few weeks.  The customer is encouraged to think in terms of what functionality will be delivered at the maximum benefit to the business and prioritize the pipeline of work accordingly.
+   In this modern Agile world, teams understands the business change and structure their approach according to the business needs.Rather attempt to conceive, build, and deliver the perfect application in one fell swoop, they steadily deliver work in small and usable chunks for every few weeks.  The customer is encouraged to think in terms of what functionality will be delivered at the maximum benefit to the business and prioritize the pipeline of work accordingly.
      
   ![misconception between the team](images/problems.png)
 
-   This is where BDD comes in.  It bakes quality into the process by smoothing communication between stakeholders.  Here is how we're practicing it on my current project:
-   * The Business Analyst works with the Customer to determine what it is that the business is trying to accomplish.
-   * The BA, QA, and Developer sit down and have a discussion. The QA focuses on flushing out the bounds of the system and edge cases.  The Dev focuses on implementation and brings up potential technical hurdles.  The Business Analyst answers questions, ensuring that the customer's high-level business needs are met.  This is the software equivalent of 'measure twice, cut once.'  Many times, poorly conceived requirements are eliminated before even reaching development.
+   This is where BDD comes in.  It bakes quality into the process by smoothing communication between stakeholders.  
+  
+  The BDD process looks like this:
+
+  A Subject-Matter-Expert (typically a business user) works with a Business Analyst to identify a business requirement. 
+  
+  *This is expressed as a story using the following template:*
+
+|As a Role
+|-
+|I request a Feature
+|To gain a Benefit
+|The speaker, who holds the Role, is the person who will gain the Benefit from the requested Feature.
+
+This can also be paraphrased variously as ...
+
+I want to achieve a specific Goal, and as a Role I should be able to accomplish this by performing Functionality.
+A Role invokes Feature to cause a Benefit[1]
+
+Software teams work best when the developers and business stakeholders
+are communicating clearly with one another. A great way to do that is to
+collaboratively specify the work that’s about to be done using automated
+acceptance tests.
+
+When the acceptance tests are written as examples, they stimulate people’s
+imaginations and help them see other scenarios they hadn’t previously
+considered.
+
+When the team write their acceptance tests collaboratively, they can develop
+their own ubiquitous language for talking about their problem domain. This
+helps them avoid misunderstandings.[2]
+   
    
    **"Behavior-driven development is about implementing an application by describing its behavior from the perspective of its stakeholders”** -- DAN North
-
-
 
 
 # BDD with Cucumber:
@@ -26,7 +53,10 @@
      
  ![Cucumber_role](images/cucumber_core.png)
    
-   Along with the features, you give Cucumber a set of step definitions, which map the business-readable language of each step into Ruby code to carry out whatever action is being described by the step. In a mature test suite, the step definition itself will probably just be one or two lines of Ruby that delegate to a library of support code, specific to the domain of your application, that knows how to carry out common tasks on the system. Normally that will involve using an automation library, like the browser automation library Capybara, to interact with the system itself.
+Along with the features, you give Cucumber a set of step definitions, which
+map the business-readable language of each step into Ruby code to carry out
+whatever action is being described by the step. In a mature test suite, the
+step definition itself will probably just be one or two lines of Ruby that delegate to a library of support code, specific to the domain of your application, that knows how to carry out common tasks on the system. Normally that will involve using an automation library, like the browser automation library Capybara, to interact with the system itself.[2]
     
 
 ### Example
@@ -34,7 +64,7 @@
    
    Here is an example of a Cucumber acceptance test:
    
-|**Feature: Sign up Sign up should be quick and friendly**
+**Feature: Sign up Sign up should be quick and friendly**
 
 
 |**Scenario**: Successful sign up.  New users should get a confirmation email and greeted personally by the site once signed in.
@@ -52,8 +82,16 @@
 |**Then ** I should be told that the email is already registered
 |**And** I should be offered the option to recover my password
 
-   Notice how the test is specified as examples of the way we want the system to behave in particular scenarios. Using examples like this has an unexpectedly powerful effect in enabling people to visualize the system before it has been built. Anyone from the team can go through the Feature file an can understand what is the system for, And how it works(functionality).This helps in analyzing the functionality of the system and come up with more scenarios where the system/software can be tested thoroughly
+   Notice how the tests specified as examples of the way we want the system to behave in particular scenarios. Using the examples like this has an unexpectedly powerful effect in enabling people to visualize the system before it has been built. Anyone from the team can go through the Feature file an can understand what is the system for, And how it works(functionality).This helps in analyzing the functionality of the system and come up with more scenarios where the system/software can be tested thoroughly
       
    In this way, we say that the story functions as a living document.  As the behavior of the system evolves over time, the team is forced to evolve the documentation in parallel.
    
   Acceptance tests written in this style become more than just tests,they are executable specifications with living documentation.
+  
+  
+
+---
+
+[1] [*BDD PROCESS*](http://behaviourdriven.org/BDDProcess)
+
+[2] *THE CUCUMBER BOOK*
