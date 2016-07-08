@@ -30,25 +30,30 @@
     
 
 ### Example
-   What makes Cucumber stand out from the crowd of other testing tools is that it has been designed specifically to ensure the acceptance tests can easily be read and written by anyone on the team. This reveals the true value of acceptance tests: as a communication and collaboration tool. The easy readability of Cucumber tests draws business stakeholders into the process, helping you really explore and understand their requirements.
-    Here is an example of a Cucumber acceptance test:
+   What makes Cucumber to stand out from the crowd of other testing tools is that it has been designed specifically to ensure the acceptance tests can easily be read and written by anyone on the team. This reveals the true value of acceptance tests: as a communication and collaboration tool. The easy readability of Cucumber tests draws business stakeholders into the process, helping you really explore and understand their requirements.
+   
+   Here is an example of a Cucumber acceptance test:
+   
+|**Feature: Sign up Sign up should be quick and friendly**
 
-  Feature: Sign up
-  Sign up should be quick and friendly.
-   Scenario: Successful sign up
-    New users should get a confirmation email and greeted personally by the site once signed in.
-    **Given** I have chosen to sign up
-    **When** I sign up with valid details
-    **Then** I should receive a confirmation email
-    **And** I should see a personalized greeting message
-    
-  **Scenario**: Duplicate email
-    Where someone tries to create an account for an email address that already exists.
-    **Given** I have chosen to sign up
-    **But** I enter an email address that has already registered
-    **Then ** I should be told that the email is already registered
-    **And** I should be offered the option to recover my password
-    
-     Notice how the test is specified as examples of the way we want the system to behave in particular scenarios. Using examples like this has an unexpectedly powerful effect in enabling people to visualize the system before it has been built. Anyone on the team can read a test like this and tell you whether it reflects their understanding of what the system should do, and it may well spark their imagination into thinking of other scenarios that you’ll need to consider too. Many case studies of teams who have discovered this and used it to their advantage.
-         In this way, we say that the story functions as a living document.  As the behavior of the system evolves over time, the team is forced to evolve the documentation in parallel.
-            Acceptance tests written in this style become more than just tests; they are executable specifications.
+
+|**Scenario**: Successful sign up.  New users should get a confirmation email and greeted personally by the site once signed in.
+| -- |
+|**Given** I have chosen to sign up
+|**When** I sign up with valid details
+|**Then** I should receive a confirmation email
+|**And** I should see a personalized greeting message
+
+
+|**Scenario**: Duplicate email. Where someone tries to create an account for an email address that already exists.
+| -- |
+|**Given** I have chosen to sign up
+|**But** I enter an email address that has already registered
+|**Then ** I should be told that the email is already registered
+|**And** I should be offered the option to recover my password
+
+   Notice how the test is specified as examples of the way we want the system to behave in particular scenarios. Using examples like this has an unexpectedly powerful effect in enabling people to visualize the system before it has been built. Anyone from the team can go through the Feature file an can understand what is the system for, And how it works(functionality).This helps in analyzing the functionality of the system and come up with more scenarios where the system/software can be tested thoroughly
+      
+   In this way, we say that the story functions as a living document.  As the behavior of the system evolves over time, the team is forced to evolve the documentation in parallel.
+   
+  Acceptance tests written in this style become more than just tests,they are executable specifications with living documentation.
