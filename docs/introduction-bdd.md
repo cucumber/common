@@ -86,7 +86,7 @@ step definition itself will probably just be one or two lines of Ruby that deleg
       
    In this way, we say that the story functions as a living document.  As the behavior of the system evolves over time, the team is forced to evolve the documentation in parallel.
    
-  Acceptance tests written in this style become more than just tests,they are executable specifications with living documentation.
+  Acceptance tests written in this style become more than just tests,they are executable specifications along with living documentation.
   
   
 
