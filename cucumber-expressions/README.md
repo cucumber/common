@@ -28,7 +28,7 @@ This expression would match the following Gherkin step text (The `Given ` keywor
     I have 42 cukes in my belly
 
 When this step is matched against the expression, the `{n}` argument would get the
-value `"22"` and be passed to the step definition's body.
+value `"42"` and be passed to the step definition's body.
 
 ## Type transformations
 
