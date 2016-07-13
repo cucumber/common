@@ -64,3 +64,6 @@ end
 
 {%- endcodetabs %}
 ```
+
+---
+[*WATIR EXAMPLES*](https://watir.com/frameworks)

@@ -1,7 +1,7 @@
 ## Selenium Web Driver
-WebDriver is designed to provide a simpler, more concise programming interface in addition to addressing some limitations in the Selenium-RC API. Selenium-WebDriver was developed to better support dynamic web pages where elements of a page may change without the page itself being reloaded. WebDriver’s goal is to supply a well-designed object-oriented API that provides improved support for modern advanced web-app testing problems.
+WebDriver is designed to provide a simpler, more concise programming interface in addition to addressing some limitations in the Selenium-RC API. Selenium-WebDriver was developed to better support dynamic web pages where elements of a page may change without the page itself being reloaded. WebDriver’s goal is to supply a well-designed object-oriented API that provides improved support for modern advanced web-app testing problems.[1]
 
-Let us see an example how cucumber can fit into selenium-webdriver in UI testinng, by converting [Selenium-Web driver by example     ](http://docs.seleniumhq.org/docs/03_webdriver.jsp#introducing-the-selenium-webdriver-api-by-example "Selenium-Webdriver by Example tutorial")
+Let us see an example how cucumber can fit into selenium-webdriver in UI testinng, by converting [Selenium-Webdriver by example     ](http://docs.seleniumhq.org/docs/03_webdriver.jsp#introducing-the-selenium-webdriver-api-by-example "Selenium-Webdriver by Example tutorial")
 
  We can express the example as the following Scenario:
  
@@ -10,11 +10,12 @@ Let us see an example how cucumber can fit into selenium-webdriver in UI testinn
    Given I am on the Google search page
    When I search for "Cheese!"
    Then the page title should start with "cheese"
+ ```
  
  ```java
  
  USING JAVA
- {% codetabs name="Java", type="java" -%}
+{% codetabs name="Java", type="java" -%}
  package class.exmple;
  
  public class ExampleSteps {
@@ -54,7 +55,7 @@ Let us see an example how cucumber can fit into selenium-webdriver in UI testinn
  
 ```ruby
  USING RUBY:
- {% codetabs name="Ruby", type="rb" -%}
+{% codetabs name="Ruby", type="rb" -%}
  require 'rubygems'
  require 'selenium-webdriver'
  
@@ -77,3 +78,6 @@ Let us see an example how cucumber can fit into selenium-webdriver in UI testinn
  end
 {%- endcodetabs %}
 ```
+
+---
+[*1. Selenium*](http://docs.seleniumhq.org/docs/03_webdriver.jsp)

@@ -17,15 +17,15 @@ Clean code that works, in Ron Jeffries' pithy phrase, is the goal of Test-Driven
 * It lets your teammates count on you, and you on them.
 * It feels good to write it.
 
-But how do we get to clean code that works? Many forces drive us away from clean code,and even from code that works. Without taking too much counsel of our fears, here's what we do: we drive development with automated tests, a style of development called Test Driven Development (TDD). 
+But how do we get to clean code that works? Many forces drive us away from clean code,and even from code that works. Without taking too much counsel of our fears, here's what we do: we drive development with automated tests,a style of development called Test Driven Development (TDD). 
 
 In Test-Driven Development, we 
-* Write new code only, if an automated test has failed
+* Write new code only, if an automated test has failed 
 * Eliminate duplication
 
 These are two simple rules, but they generate complex individual and group behavior with technical implications such as the following.
 * We must design organically, with running code providing feedback between decisions.
-* We must write our own tests, because we can't wait 20 times per day for someone else to write a test.
+* Programmers must write their own tests, because we can't wait 20 times per day for someone else to write a test.
 * Our development environment must provide rapid response to small changes.
 * Our designs must consist of many highly cohesive, loosely coupled components, just to make testing easy.
 
