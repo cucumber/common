@@ -22,7 +22,11 @@ The full process is described in the [Cucumber Community Contributing Guide](../
 The [SUMMARY.md](../SUMMARY.md) file is the table of contents. As you see,
 several of the links point to non-existent files. This is what we need help with.
 
-We recommend you start by contributing to the [Reference](#reference-style) documentation.
+Another great way to contribute is to answer a [mailing list](https://groups.google.com/group/cukes) question by improving
+the docs, and then reply on the mailing list with a link to your contribution.
+
+If you are contributing for the first time we recommend you start by contributing to the [Reference](#reference-style) documentation. Once you get a hang of that you
+can start contributing to [Learning](#learning-style) and [Tutorial](#tutorial-style) documentation.
 
 ## Toolchain
 
