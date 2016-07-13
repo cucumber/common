@@ -37,6 +37,8 @@ Any change to resources in this repository must be through pull requests. This a
 to documentation, code, binary files, etc. Even long term committers and TC members must use
 pull requests, except for trivial changes.
 
+Pull requests must be independent so they can be merged/rejected independently of other pull requests. Every pull request must be made on a separate branch, branched off from the HEAD of the master branch. No pull requests should depend on other pull requests or be branched off from non-master branches.
+
 No pull request can be merged without being reviewed.
 
 For non-trivial contributions, pull requests should sit for at least 36 hours to ensure that
