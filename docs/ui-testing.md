@@ -1,8 +1,8 @@
-##UI-Testing
+##UI Testing
 
 User interface testing, a testing technique used to identify the presence of defects is a product/software under test by using Graphical user interface [GUI].
 
-GUI Testing - Characteristics:
+GUI Testing Characteristics:
  *GUI is a hierarchical, graphical front end to the application, contains graphical objects with a set of properties.
  *During execution, the values of the properties of each objects of a GUI define the GUI state.
  *It has capabilities to exercise GUI events like key press/mouse click.
