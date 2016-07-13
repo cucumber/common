@@ -76,6 +76,8 @@ In general, it should be brief and to the point.
 * All documents should use [British English](https://en.wikipedia.org/wiki/British_English)
   * Contributions in [American English](https://en.wikipedia.org/wiki/American_English) is fine - editors will do the translation.
 * Use links to external sites sparingly
+* Do not use copyrighted material (images, text or other)
+* Illustrations are great, but please use lo-fi drawings. Cucumber's design team will recreate illustrations according to Cucumber's [brand guidelines](https://github.com/cucumber-ltd/brand).
 
 ### Tutorial writing style {#tutorial-style}
 
