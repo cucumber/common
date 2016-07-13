@@ -10,6 +10,8 @@ Once your first pull request has been accepted you will be promoted to a **commi
 gain write access to the [GitHub](https://github.com/cucumber/cucumber) repository.
 As a **committer** you should still use pull requests.
 
+Each pull request should only modify/add a single topic. Don't lump many unrelated document changes into the same pull request.
+
 The full process is described in the [Cucumber Community Contributing Guide](../CONTRIBUTING.md).
 
 ## Join the Community
