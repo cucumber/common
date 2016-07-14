@@ -6,9 +6,9 @@ On its own, a step is just documentation; it needs a step definition to bring it
 A step definition is a piece of code that says to Cucumber, "If you see a step that looks like this..., then here’s what I want you to do....".
 When Cucumber tries to execute each step, it looks for a matching step definition to execute.
 
-## Step definitions {#steps}
+### Step definitions {#steps}
 
-For each step Cucumber will look for a matching **step definition**. A step definition is written in Ruby. Each step definition consists of a keyword, a string or regular expression, and a block. Example:
+For each step Cucumber will look for a matching **step definition**. A step definition is written in a programming language depending on the [chosen implementation](https://cucumber.io/docs#cucumber-implementations). Each step definition consists of a keyword, a string or regular expression, and a block. Example:
 
 {% codetabs name="Ruby", type="rb" -%}
 # features/step_definitions/coffee_steps.rb
