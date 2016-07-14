@@ -1,16 +1,16 @@
 # Hooks
 
-Cucumber provides a number of hooks which allow us to run blocks at various points in the Cucumber test cycle. You can define them anywhere in your support or step definition layers, using the methods `Before` and `After`. Hooks are global by default, meaning they run for every scenario in your
-features. If you want them to run for just certain scenarios, you need to tag
-those scenarios and then use a [tagged hook](hooks.md#tagged-hooks).
+Cucumber provides a number of hooks which allow us to run blocks at various points in the Cucumber test cycle. You can define them anywhere in your support or step definition layers, using the methods `Before` and `After`. Hooks are global by default, meaning they run for every scenario in your `features`. If you want them to run for just certain scenarios, you need to tag those scenarios and then use a [tagged hook](#tagged-hooks).
 
 ## Scenario hooks
+
+### Before hooks
 
 `Before` hooks will be run before the first step of each scenario. They will run in the same order of which they are registered.
 
 {% codetabs name="Ruby", type="rb" -%}
 Before do
-  # Do something before each scenario.
+  puts "About to start the scenario"
 end
 {%- language name="Java", type="java" -%}
   {% raw %}
@@ -21,16 +21,12 @@ end
   {% endraw %}
 {%- endcodetabs %}
 
-or like this:
+The main difference between [Background](gherkin.md#background) and `Before` hook is:
 
-{% codetabs name="Ruby", type="rb" -%}
-Before do |scenario|
-  # The +scenario+ argument is optional, but if you use it, you can get the title,
-  # description, or name (title + description) of the scenario that is about to be
-  # executed.
-  Rails.logger.debug "Starting scenario: #{scenario.title}"
-end
-{%- endcodetabs %}
+* a **Background** section allows you to specify a set of steps that are common to **every scenario** in the file
+* a **Before** hook will be run **before** the first step of **each scenario**
+
+### After hooks
 
 `After` hooks will be run after the last step of each scenario, even when there are failing, undefined, pending or skipped steps. They will run in the opposite order of which they are registered.
 {% codetabs name="Ruby", type="rb" -%}
@@ -49,36 +45,28 @@ end
   {% raw %}
   @After
   public void afterRunningScenario(Scenario scenario) {
-    System.out.println("*********** Just finished running scenario: "
-      + scenario.getStatus());
+    if (scenario.isFailed()) {
+      String subject = scenario.getName();
+      sendFailureEmail("Failed scenario" + subject);
+    }
   }
   {% endraw %}
 {%- endcodetabs %}
 
-`Around` hooks give you more power than Before and After hooks, allowing you to
-actually control how many times the scenario is run. An Around hook is passed
-two parameters: an object that represents the scenario and a block of code
-that, when called, will run the scenario:
+or like this:
 
 {% codetabs name="Ruby", type="rb" -%}
-Around do |scenario, block|
-  puts "About to run #{scenario.name}"
-  block.call
-  puts "Finished running #{scenario.name}"
+After('@javascript') do |scenario| if(scenario.failed?)
+  # taking a screenshot only when there is a browser
+  page.driver.browser.save_screenshot("html-report/#{scenario.__id__}.png")
+  embed("#{scenario.__id__}.png", "image/png", "SCREENSHOT") end
 end
 {%- endcodetabs %}
 
-`Around` hooks also accept tags, so you can restrict them to run for only some
-scenarios, just like `Before` and `After` hooks. One great trick we’ve seen them used for is to run the same scenario twice under different conditions, like this:
 
-{% codetabs name="Ruby", type="rb" -%}
-Around('@run_with_and_without_javascript') do |scenario, block|
-Capybara.current_driver = Capybara.javascript_driver
-  block.call
-  Capybara.use_default_driver
-  block.call
-end
-{%- endcodetabs %}
+The most common use of `Before` and `After hooks is to clear up any residual state left in external systems like databases or starting browsers or servers so that each scenario starts with the system in a known state.
+
+It means that the next scenario that comes along starts with a blank slate, and we don’t need to worry about leftovers from the previous scenario.
 
 ## Tagged hooks {#tagged-hooks}
 

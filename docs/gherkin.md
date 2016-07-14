@@ -14,7 +14,7 @@ There are a few conventions.
 ## Gherkin Syntax
 
 A Gherkin source file usually looks like this
-```
+```gherkin
 Feature: Some terse yet descriptive text of what is desired
   Textual description of the business value of this feature
   Business rules that govern the scope of the feature
@@ -22,31 +22,41 @@ Feature: Some terse yet descriptive text of what is desired
 
   Scenario: Some determinable business situation
     Given some precondition
-    And some other precondition
     When some action by the actor
-    And some other action
-    And yet another action
     Then some testable outcome is achieved
-    And something else we can check happens too
 
   Scenario: A different situation
     ...
 ```
-
-First line starts the feature. Lines 2–4 are unparsed text, which is expected to describe the business value of this feature. Line 6 starts a scenario. Lines 7–13 are the steps for the scenario. Line 15 starts next scenario and so on.
+You can probably see that Cucumber expects a little bit of structure in this file. The keywords `Feature`, `Scenario`, `Given`, `When`, and `Then` are the structure, and everything else is documentation.
 
 Read more
 
- * [Feature Introduction](gherkin.md#feature) – general structure of a feature
- * [Given/When/Then (Steps)](gherkin.md#steps)
+ * [Feature Introduction](#feature) – general structure of a feature
+ * [Given/When/Then (Steps)](#steps)
 
 ## Feature Introduction {#feature}
 
-Every `.feature` file conventionally consists of a single feature. A line starting with the keyword Feature followed by free indented text starts a feature. A feature usually contains a list of scenarios. You can write whatever you want up until the first scenario, which starts with the word Scenario (or localized equivalent; Gherkin is localized for [dozens of languages](https://github.com/cucumber/cucumber/wiki/Spoken-languages)) on a new line. You can use tagging to group features and scenarios together independent of your file and directory structure.
+Each Gherkin file begins with the `Feature` keyword.
+A Cucumber feature is a grouping of related scenarios, describing the same software feature. Every `.feature` file conventionally consists of a single feature.
 
-Every scenario consists of a list of steps, which must start with one of the keywords **Given, When, Then, But** or **And**. Cucumber treats them all the same, but you shouldn’t. Here is an example:
+The text immediately following on the same line as the `Feature` keyword is the name of the feature, and the remaining lines are its description.
+You can include any text you like in the description except a line beginning with one of the words `Scenario`, `Background`, or `Scenario Outline`.
 
-```
+A feature usually contains a list of scenarios.
+You can write whatever you want up until the first scenario, which starts with the word `Scenario` (or localized equivalent; Gherkin is localized for [dozens of languages](https://github.com/cucumber/cucumber/wiki/Spoken-languages)) on a new line.
+
+You can use tagging to group features and scenarios together independent of your file and directory structure.
+
+Every scenario consists of a list of steps, which must start with one of the keywords **Given**, **When**, **Then**, **But** or **And**. Cucumber treats them all the same, but you shouldn’t.
+
+* Given describes the current state of the world. It can also describe something that has happened in the past.
+* When is an event, or an action that is expected to cause an observable change.
+* Then is an expected and observable outcome, or result.
+
+Here is an example:
+
+```gherkin
 Feature: Serve coffee
   Coffee should not be served until paid for
   Coffee should not be served until the button has been pressed
@@ -59,71 +69,22 @@ Feature: Serve coffee
     Then I should be served a coffee
 ```
 
-In addition to a scenario, a feature may contain a background, scenario outline and examples. Respective keywords (in English) and places to read more about them are listed below. You can get a list of localized keywords with cucumber `--i18n [LANG]`.
+In addition to a scenario, a feature may contain a [Background](#background), [Scenario Outline](#background) and [Examples](#background).
+Respective keywords (in English) and places to read more about them are listed below.
+You can get a list of localized keywords with `cucumber --i18n [LANG]`.
 
-|     keyword     |     localized           | more info see     |
-|-----------------|-------------------------|-------------------|
-| name            | 'English'               |                   |
-| native          | 'English'               |                   |
-| encoding        | 'UTF-8'                 |                   |
-| feature         | 'Feature'               | [Feature](gherkin.md#feature)
-| background      | 'Backgroound'           | [Background](gherkin.md#background)
-| scenario        | 'Scenario'              | [Scenario](gherkin.md#feature)
-| scenario_outline| 'Scenario Outline'      | [Scenario Outline](gherkin.md#background)
-| examples        | 'Examples'/ 'Scenarios' | [Scenario Outline](docs/gherkin.md#background)
-| given           | 'Given'                 | [Given/When/Then (Steps)](docs/gherkin.md#steps)
-| when            | 'When'                  | [Given/When/Then (Steps)](docs/gherkin.md#steps)
-| then            | 'Then'                  | [Given/When/Then (Steps)](docs/gherkin.md#steps)
-| and             | 'And'                   | [Given/When/Then (Steps)](docs/gherkin.md#steps)
-| but             | 'But'                   | [Given/When/Then (Steps)](docs/gherkin.md#steps)
-
-## Step definitions {#steps}
-
-For each step Cucumber will look for a matching **step definition**. A step definition is written in Ruby. Each step definition consists of a keyword, a string or regular expression, and a block. Example:
-
-{% codetabs name="Ruby", type="rb" -%}
-# features/step_definitions/coffee_steps.rb
-
-Then "I should be served coffee" do
-  @machine.dispensed_drink.should == "coffee"
-end
-{%- language name="Java", type="java" -%}
-{% raw %}
-@Given("I have \\$100 in my Account")
-public void iHave$100InMyAccount() throws Throwable {
-// TODO: code that puts $100 into User's Account goes here
-}
-{% endraw %}
-{%- endcodetabs %}
-
-Step definitions can also take parameters if you use regular expressions:
-
-{% codetabs name="Ruby", type="rb" -%}
-# features/step_definitions/coffee_steps.rb
-
-Given /there are (\d+) coffees left in the machine/ do |n|
-  @machine = Machine.new(n.to_i)
-end
-{%- language name="Java", type="java" -%}
-{% raw%}
-@Given("I have deposited \\$(100) in my Account")
-public void iHaveDeposited$100InMyAccount(int amount) {
-// TODO: code goes here
-}
-{% endraw %}
-{%- endcodetabs %}
-
-This step definition uses a regular expression with one match group – `(\d+)`. (It matches any sequence of digits). Therefore, it matches the first line of the scenario. The value of each matched group gets yielded to the block as a string. You must take care to have the same number of regular expression groups and block arguments. Since block arguments are always strings, you have to do any type conversions inside the block, or use Step Argument Transforms.
-
-When Cucumber prints the results of the running features it will underline all step arguments so that it’s easier to see what part of a step was actually recognised as an argument. It will also print the path and line of the matching step definition. This makes it easy to go from a feature file to any step definition.
-
-Take a look at [Step Definitions](step-definitions.md) and the examples directory to see more.
+* [Feature](#feature)
+* [Background](#background)
+* [Scenario](#feature)
+* [Scenario Outline](#background)
+* [Examples](#background)
+* [Given/When/Then (Steps)](step_definitions.md#steps)
 
 ## Background {#background}
 
 A background section in a feature file allows you to specify a set of steps that are common to every scenario in the file. Instead of having to repeat those steps over and over for each scenario, you move them up into a Background element. There are a couple of advantages to doing this:
 
-A Background is much like a scenario containing a number of steps. The difference is when it is run. The background is run before each of your scenarios but after any of your Before [Hooks](hooks.md).
+A Background is much like a scenario containing a number of steps. The difference is when it is run. The background is run before each of your scenarios but after any of your `Before` [Hooks](hooks.md).
 
 Example:
 
@@ -132,18 +93,18 @@ Feature: Change PIN
   #some feature description comes here
 
   Background:
-    Given I have been issued a new card
+    Given I was issued a new card
     And I insert the card, entering the correct PIN
     And I choose "Change PIN" from the menu
 
-    Scenario: Change PIN successfully
-      When I change the PIN to 9876
-      Then the system should remember my PIN is now 9876
+  Scenario: Change PIN successfully
+    When I change the PIN to 9876
+    Then the system should remember my PIN is now 9876
 
-    Scenario: Try to change PIN to the same as before
-      When I try to change the PIN to the original PIN number
-      Then I should see a warning message
-      And the system should not have changed my PIN
+  Scenario: Try to change PIN to the same as before
+    When I try to change the PIN to the original PIN number
+    Then I should see a warning message
+    And the system should not have changed my PIN
 ```
 
 You can have a single `Background` element per feature file, and it must appear before any of the `Scenario` or `Scenario Outline` elements. Just like all the other _Gherkin_ elements, you can give it a name, and you have space to put a multiline description before the first step. For example:
@@ -164,7 +125,7 @@ Feature: Change PIN
     ...
 ```
 
-### Good practices for using Background
+### Good practices
 
   * Don’t use `Background` to set up complicated state unless that state is actually something the client needs to know.
   * Keep your `Background` section short.
