@@ -11,11 +11,7 @@
      
   ![misconception between the team](images/problems.png)
 
-   This is where BDD comes in.  It bakes quality into the process by smoothing communication between stakeholders.  
-  
-  The BDD process looks like this:
-
-  A Subject-Matter-Expert (typically a business user) works with a Business Analyst to identify a business requirement. 
+  A team using Behaviour Driven Development use conversations and collaboration around concrete examples to build up a shared understanding of the features they are supposed to build. Conversations about concrete examples, and counter-examples, are a great way to flush out any hidden assumptions or misunderstandings about what a feature needs to do.[1]
   
   *This is expressed as a story using the following template:*
 
@@ -27,19 +23,18 @@
 
 This can also be paraphrased variously as ...
 
-I want to achieve a specific Goal, and as a Role I should be able to accomplish this by performing Functionality.A Role invokes Feature to cause a Benefit[1]
+I want to achieve a specific Goal, and as a Role I should be able to accomplish this by performing Functionality.A Role invokes Feature to cause a Benefit[2]
 
 Software teams work best when the developers and business stakeholders are communicating clearly with one another. A great way to do that is to ollaboratively specify the work that’s about to be done using automated acceptance tests.
 
 When the acceptance tests are written as examples, they stimulate people’s imaginations and help them see other scenarios they hadn’t previously considered.
 
-When the team write their acceptance tests collaboratively, they can develop their own ubiquitous language for talking about their problem domain.This helps them avoid misunderstandings.[2]
+When the team write their acceptance tests collaboratively, they can develop their own ubiquitous language for talking about their problem domain.This helps them avoid misunderstandings.[3]
    
    
    **"Behavior-driven development is about implementing an application by describing its behavior from the perspective of its stakeholders”** -- Dan North
 
 ---
-
-[1] *BDD PROCESS*
-
-[2] *THE CUCUMBER BOOK*
+[1] [*BDD FUNDAMENTAL*](http://thucydides.info/docs/articles/an-introduction-to-serenity-bdd-with-cucumber.html)
+[2] *BDD PROCESS*
+[3] *THE CUCUMBER BOOK*
