@@ -11,6 +11,8 @@ The goal of this document is to create a contribution process that:
 * Creates a transparent decision making process which makes it clear how
 contributors can be involved in decision making.
 
+also see [guidelines for documentation contributions](docs/contributing-to-documentation.md)
+
 This document is based on the [Node.js Community Contributing Guide](https://github.com/nodejs/TSC/blob/master/BasePolicies/CONTRIBUTING.md).
 
 ## Vocabulary
