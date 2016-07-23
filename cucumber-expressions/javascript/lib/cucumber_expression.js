@@ -3,12 +3,17 @@ const matchArguments = require('./match_arguments')
 class CucumberExpression {
   constructor(expression, targetTypes, transformLookup) {
     const variablePattern = /\{([^}:]+)(:([^}]+))?}/g
+    const optionalPattern = /\(([^\)]+)\)/g
 
     this.transforms = []
     let sb = "^"
     let typeNameIndex = 0
     let match
     let index = 0
+
+    // Create non-capturing, optional capture groups from parenthesis
+    expression = expression.replace(optionalPattern, '(?:$1)?')
+
     while ((match = variablePattern.exec(expression)) !== null) {
       const targetType = targetTypes.length <= typeNameIndex ? null : targetTypes[typeNameIndex++]
       const expressionTypeName = match[3]

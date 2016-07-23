@@ -7,11 +7,13 @@ import java.util.regex.Pattern;
 
 public class CucumberExpression implements Expression {
     private static final Pattern VARIABLE_PATTERN = Pattern.compile("\\{([^\\}:]+)(:([^\\}]+))?\\}");
+    private static final Pattern OPTIONAL_PATTERN = Pattern.compile("\\(([^\\)]+)\\)");
 
     private final Pattern pattern;
     private final List<Transform<?>> transforms = new ArrayList<>();
 
     public CucumberExpression(String expression, List<Class> targetTypes, TransformLookup transformLookup) {
+        expression = OPTIONAL_PATTERN.matcher(expression).replaceAll("(?:$1)?");
         Matcher matcher = VARIABLE_PATTERN.matcher(expression);
 
         StringBuffer sb = new StringBuffer();

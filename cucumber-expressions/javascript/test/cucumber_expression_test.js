@@ -55,6 +55,13 @@ describe(CucumberExpression.name, () => {
         /^I have (-?\d*\.?\d+) cukes in my (.+) at (-?\d+) o'clock$/
       )
     })
+
+    it("translates parenthesis to non-capturing optional capture group", () => {
+      assertRegexp(
+        "I have many big(ish) cukes",
+        /^I have many big(?:ish)? cukes$/
+      )
+    })
   })
 })
 

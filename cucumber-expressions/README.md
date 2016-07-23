@@ -30,6 +30,20 @@ This expression would match the following Gherkin step text (The `Given ` keywor
 When this step is matched against the expression, the `{n}` argument would get the
 value `"42"` and be passed to the step definition's body.
 
+## Optional text
+
+Optional text is simply surrounded by parenthesis:
+
+    I have {n} cuke(s) in my belly
+
+This would match both this:
+
+    I have 2 cukes in my belly
+
+And this (singular cuke):
+
+    I have 2 cuke in my belly
+
 ## Type transformations
 
 Cucumber Expressions have built-in support for transformation of arguments to
