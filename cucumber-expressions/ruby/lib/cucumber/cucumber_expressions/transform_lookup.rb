@@ -26,8 +26,6 @@ module Cucumber
         @transforms_by_capture_group_regexp[capture_group_regexp]
       end
 
-    private
-
       def add_transform(transform)
         @transforms_by_type_name[transform.type_name] = transform
         transform.capture_group_regexps.each do |capture_group_regexp|
