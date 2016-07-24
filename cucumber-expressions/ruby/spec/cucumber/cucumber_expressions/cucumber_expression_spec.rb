@@ -14,6 +14,10 @@ module Cucumber
       it "transforms nothing by default" do
         expect( match("{what}", "22") ).to eq(["22"])
       end
+
+      it "transforms to int by expression_type" do
+        expect( match("{what:int}", "22") ).to eq([22])
+      end
     end
   end
 end
