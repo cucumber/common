@@ -37,7 +37,7 @@ module Cucumber
           @transforms.push(transform)
 
           text = expression.slice(index...match.offset(0)[0])
-          capture_regexp = "(#{transform.capture_group_regexp})"
+          capture_regexp = "(#{transform.capture_group_regexps[0]})"
           index = match.offset(0)[1]
           sb += text
           sb += capture_regexp

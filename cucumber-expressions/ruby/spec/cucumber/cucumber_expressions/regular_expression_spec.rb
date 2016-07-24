@@ -15,8 +15,16 @@ module Cucumber
         expect( match(/(.+)/, "22") ).to eq(["22"])
       end
 
-      it "transforms to int by expression type" do
+      it "transforms nothing by default, for anything" do
+        expect( match(/(\d\d)/, "22") ).to eq(["22"])
+      end
+
+      it "transforms to int by capture group pattern" do
         expect( match(/(-?\d+)/, "22") ).to eq([22])
+      end
+
+      it "transforms to int by alternate capture group pattern" do
+        expect( match(/(\d+)/, "22") ).to eq([22])
       end
     end
   end

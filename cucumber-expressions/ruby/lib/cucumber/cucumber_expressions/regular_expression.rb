@@ -20,6 +20,7 @@ module Cucumber
 
           capture_group_pattern = match[1]
           transform = transform_lookup.lookup_by_capture_group_regexp(capture_group_pattern)
+          transform = transform_lookup.lookup('string') if transform.nil?
           @transforms.push(transform)
 
           index = match.offset(0)[1]

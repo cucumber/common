@@ -1,10 +1,19 @@
 module Cucumber
   module CucumberExpressions
     class Transform
-      attr_reader :type_name, :capture_group_regexp
+      attr_reader :type_name, :capture_group_regexps
 
-      def initialize(type_name, capture_group_regexp, transformer)
-        @type_name, @capture_group_regexp, @transformer = type_name, capture_group_regexp, transformer
+      # Create a new Transform
+      #
+      # @param type_name [String] name of type to use in {arg:type_name}
+      # @param capture_group_regexps [Array] list of regexps for capture groups.
+      #   The first one is the primary one, used to convert CucumberExpression instances
+      #   to their internal Regexp representation. They are all used for type conversion
+      #   in RegularExpression instances.
+      # @transformer lambda that transforms a String to another type
+      #
+      def initialize(type_name, capture_group_regexps, transformer)
+        @type_name, @capture_group_regexps, @transformer = type_name, capture_group_regexps, transformer
       end
 
       def transform(value)
