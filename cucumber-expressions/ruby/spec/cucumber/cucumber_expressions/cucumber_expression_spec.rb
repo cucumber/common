@@ -62,6 +62,13 @@ module Cucumber
             /^I have (-?\d*\.?\d+) cukes in my (.+) at (-?\d+) o'clock$/
           )
         end
+
+        it "translates parenthesis to non-capturing optional capture group" do
+          assert_regexp(
+            "I have many big(ish) cukes",
+            /^I have many big(?:ish)? cukes$/
+          )
+        end
       end
     end
   end

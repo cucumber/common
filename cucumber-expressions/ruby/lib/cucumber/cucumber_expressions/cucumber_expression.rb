@@ -17,7 +17,7 @@ module Cucumber
         index = 0
 
         # Create non-capturing, optional capture groups from parenthesis
-        expression = expression.gsub(OPTIONAL_PATTERN, '(?:$1)?')
+        expression = expression.gsub(OPTIONAL_PATTERN, '(?:\1)?')
 
         loop do
           match = VARIABLE_PATTERN.match(expression, index)
