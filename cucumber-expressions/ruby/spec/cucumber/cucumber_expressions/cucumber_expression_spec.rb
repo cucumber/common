@@ -34,6 +34,35 @@ module Cucumber
       it "doesn't transform unknown type" do
         expect { match("{what:unknown}", "something") }.to raise_error('No transformer for type "unknown"')
       end
+
+      context "Regexp translation" do
+        def assert_regexp(expression, regexp, types = [])
+          cucumber_expression = CucumberExpression.new(expression, types, TransformLookup.new)
+          expect(regexp).to eq(cucumber_expression.regexp)
+          # assert.equal(cucumber_expression.regexp.toString(), regexp.toString())
+        end
+
+        it "translates no arguments" do
+          assert_regexp(
+            "I have 10 cukes in my belly now",
+            /^I have 10 cukes in my belly now$/
+          )
+        end
+
+        it "translates two untyped arguments" do
+          assert_regexp(
+            "I have {n} cukes in my {bodypart} now",
+            /^I have (.+) cukes in my (.+) now$/
+          )
+        end
+
+        it "translates three typed arguments" do
+          assert_regexp(
+            "I have {n:float} cukes in my {bodypart} at {time:int} o'clock",
+            /^I have (-?\d*\.?\d+) cukes in my (.+) at (-?\d+) o'clock$/
+          )
+        end
+      end
     end
   end
 end

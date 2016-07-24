@@ -6,6 +6,8 @@ module Cucumber
       VARIABLE_PATTERN = /\{([^}:]+)(:([^}]+))?}/
       OPTIONAL_PATTERN = /\(([^\)]+)\)/
 
+      attr_reader :regexp
+
       def initialize(expression, target_types, transform_lookup)
 
         @transforms = []
@@ -34,7 +36,7 @@ module Cucumber
           end
           @transforms.push(transform)
 
-          text = expression.slice(index, match.offset(0)[0])
+          text = expression.slice(index...match.offset(0)[0])
           capture_regexp = "(#{transform.capture_group_regexp})"
           index = match.offset(0)[1]
           sb += text
