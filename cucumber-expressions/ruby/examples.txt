@@ -1,0 +1,11 @@
+I have {n} cukes in my {bodypart} now
+I have 22 cukes in my belly now
+["22", "belly"]
+---
+I have {n:int} cukes in my {bodypart} now
+I have 22 cukes in my belly now
+[22, "belly"]
+---
+/I have (\d+) cukes in my (.+) now/
+I have 22 cukes in my belly now
+[22, "belly"]
