@@ -15,8 +15,24 @@ module Cucumber
         expect( match("{what}", "22") ).to eq(["22"])
       end
 
-      it "transforms to int by expression_type" do
+      it "transforms to int by expression type" do
         expect( match("{what:int}", "22") ).to eq([22])
+      end
+
+      it "transforms to int by explicit type" do
+        expect( match("{what}", "22", ['int']) ).to eq([22])
+      end
+
+      it "transforms to float by expression type" do
+        expect( match("{what:float}", "0.22") ).to eq([0.22])
+      end
+
+      it "transforms to float by explicit type" do
+        expect( match("{what}", "0.22", ['float']) ).to eq([0.22])
+      end
+
+      it "doesn't transform unknown type" do
+        expect { match("{what:unknown}", "something") }.to raise_error('No transformer for type "unknown"')
       end
     end
   end
