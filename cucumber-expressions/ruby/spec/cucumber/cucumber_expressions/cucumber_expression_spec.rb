@@ -39,7 +39,6 @@ module Cucumber
         def assert_regexp(expression, regexp, types = [])
           cucumber_expression = CucumberExpression.new(expression, types, TransformLookup.new)
           expect(regexp).to eq(cucumber_expression.regexp)
-          # assert.equal(cucumber_expression.regexp.toString(), regexp.toString())
         end
 
         it "translates no arguments" do

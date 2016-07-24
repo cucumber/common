@@ -9,7 +9,8 @@ module Cucumber
         offset = 0
         (1...m.length).map do |index|
           value = m[index]
-          transformed_value = transforms[index-1].transform(value)
+          transform = transforms[index-1]
+          transformed_value = transform ? transform.transform(value) : value
           Argument.new(m.offset(index)[0], value, transformed_value)
         end
       end
