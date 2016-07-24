@@ -33,7 +33,7 @@ public class CucumberExpression implements Expression {
             }
             transforms.add(transform);
 
-            matcher.appendReplacement(sb, Matcher.quoteReplacement("(" + transform.getCaptureGroupRegexp() + ")"));
+            matcher.appendReplacement(sb, Matcher.quoteReplacement("(" + transform.getCaptureGroupRegexps().get(0) + ")"));
         }
         matcher.appendTail(sb);
         sb.append("$");
