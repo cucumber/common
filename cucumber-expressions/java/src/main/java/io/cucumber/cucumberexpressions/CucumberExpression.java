@@ -11,10 +11,12 @@ public class CucumberExpression implements Expression {
 
     private final Pattern pattern;
     private final List<Transform<?>> transforms = new ArrayList<>();
+    private final String expression;
 
-    public CucumberExpression(String expression, List<Class> targetTypes, TransformLookup transformLookup) {
-        expression = OPTIONAL_PATTERN.matcher(expression).replaceAll("(?:$1)?");
-        Matcher matcher = VARIABLE_PATTERN.matcher(expression);
+    public CucumberExpression(final String expression, List<Class> targetTypes, TransformLookup transformLookup) {
+        this.expression = expression;
+        String expressionWithOptionalGroups = OPTIONAL_PATTERN.matcher(expression).replaceAll("(?:$1)?");
+        Matcher matcher = VARIABLE_PATTERN.matcher(expressionWithOptionalGroups);
 
         StringBuffer sb = new StringBuffer();
         sb.append("^");
@@ -44,6 +46,11 @@ public class CucumberExpression implements Expression {
     @Override
     public List<Argument> match(String text) {
         return ArgumentMatcher.matchArguments(pattern, text, transforms);
+    }
+
+    @Override
+    public String getExpression() {
+        return expression;
     }
 
     Pattern getPattern() {

@@ -33,4 +33,9 @@ public class RegularExpression implements Expression {
     public List<Argument> match(String text) {
         return ArgumentMatcher.matchArguments(pattern, text, transforms);
     }
+
+    @Override
+    public String getExpression() {
+        return pattern.pattern();
+    }
 }
