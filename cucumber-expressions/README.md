@@ -19,6 +19,9 @@ Gherkin steps.
 Cucumber Expressions provide an alternative to [Regular Expressions](https://en.wikipedia.org/wiki/Regular_expression)
 which is easier to read and write for humans.
 
+The Cucumber Expression syntax is inspired by similar expression syntaxes in
+other BDD tools, such as [Turnip](https://github.com/jnicklas/turnip), [Behat](https://github.com/Behat/Behat) and [Behave](https://github.com/behave/behave).
+
 This is an example of a Cucumber expression with a single argument `{n}`:
 
     I have {n} cukes in my belly
@@ -28,7 +31,21 @@ This expression would match the following Gherkin step text (The `Given ` keywor
     I have 42 cukes in my belly
 
 When this step is matched against the expression, the `{n}` argument would get the
-value `"22"` and be passed to the step definition's body.
+value `"42"` and be passed to the step definition's body.
+
+## Optional text
+
+Optional text is simply surrounded by parenthesis:
+
+    I have {n} cuke(s) in my belly
+
+This would match both this:
+
+    I have 2 cukes in my belly
+
+And this (singular cuke):
+
+    I have 2 cuke in my belly
 
 ## Type transformations
 

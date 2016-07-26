@@ -60,6 +60,15 @@ public class CucumberExpressionPatternTest {
         );
     }
 
+    @Test
+    public void translates_parenthesis_to_non_capturing_optional_capture_group() {
+        assertPattern(
+                "I have many big(ish) cukes",
+                "^I have many big(?:ish)? cukes$",
+                emptyList()
+        );
+
+    }
     private void assertPattern(String expr, String expectedRegexp, List<Class> types) {
         CucumberExpression cucumberExpression = new CucumberExpression(expr, types, new TransformLookup(Locale.ENGLISH));
         assertEquals(expectedRegexp, cucumberExpression.getPattern().pattern());

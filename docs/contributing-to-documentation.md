@@ -10,6 +10,8 @@ Once your first pull request has been accepted you will be promoted to a **commi
 gain write access to the [GitHub](https://github.com/cucumber/cucumber) repository.
 As a **committer** you should still use pull requests.
 
+Each pull request should only modify/add a single topic. Don't lump many unrelated document changes into the same pull request.
+
 The full process is described in the [Cucumber Community Contributing Guide](../CONTRIBUTING.md).
 
 ## Join the Community
@@ -22,7 +24,11 @@ The full process is described in the [Cucumber Community Contributing Guide](../
 The [SUMMARY.md](../SUMMARY.md) file is the table of contents. As you see,
 several of the links point to non-existent files. This is what we need help with.
 
-We recommend you start by contributing to the [Reference](#reference-style) documentation.
+Another great way to contribute is to answer a [mailing list](https://groups.google.com/group/cukes) question by improving
+the docs, and then reply on the mailing list with a link to your contribution.
+
+If you are contributing for the first time we recommend you start by contributing to the [Reference](#reference-style) documentation. Once you get a hang of that you
+can start contributing to [Learning](#learning-style) and [Tutorial](#tutorial-style) documentation.
 
 ## Toolchain
 
@@ -76,6 +82,8 @@ In general, it should be brief and to the point.
 * All documents should use [British English](https://en.wikipedia.org/wiki/British_English)
   * Contributions in [American English](https://en.wikipedia.org/wiki/American_English) is fine - editors will do the translation.
 * Use links to external sites sparingly
+* Do not use copyrighted material (images, text or other)
+* Illustrations are great, but please use lo-fi drawings. Cucumber's design team will recreate illustrations according to Cucumber's [brand guidelines](https://github.com/cucumber-ltd/brand).
 
 ### Tutorial writing style {#tutorial-style}
 

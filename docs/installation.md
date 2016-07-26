@@ -7,6 +7,23 @@ Cucumber is published as several jar files in the central Maven repository. Inst
 
 ### Maven
 
+Add these dependencies to your project:
+
+    <dependency>
+        <groupId>info.cukes</groupId>
+        <artifactId>cucumber-java</artifactId>
+        <version>1.2.4</version>
+        <scope>test</scope>
+    </dependency>
+    
+    <dependency>
+        <groupId>info.cukes</groupId>
+        <artifactId>cucumber-junit</artifactId>
+        <version>1.2.4</version>
+        <scope>test</scope>
+    </dependency>
+
+
 ### Gradle
 
 ## JavaScript

@@ -11,6 +11,8 @@ The goal of this document is to create a contribution process that:
 * Creates a transparent decision making process which makes it clear how
 contributors can be involved in decision making.
 
+also see [guidelines for documentation contributions](docs/contributing-to-documentation.md)
+
 This document is based on the [Node.js Community Contributing Guide](https://github.com/nodejs/TSC/blob/master/BasePolicies/CONTRIBUTING.md).
 
 ## Vocabulary
@@ -36,6 +38,8 @@ Please be courteous, respectful, and every participant is expected to follow the
 Any change to resources in this repository must be through pull requests. This applies to all changes
 to documentation, code, binary files, etc. Even long term committers and TC members must use
 pull requests, except for trivial changes.
+
+Pull requests must be independent so they can be merged/rejected independently of other pull requests. Every pull request must be made on a separate branch, branched off from the HEAD of the master branch. No pull requests should depend on other pull requests or be branched off from non-master branches.
 
 No pull request can be merged without being reviewed.
 
