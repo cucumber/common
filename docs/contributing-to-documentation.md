@@ -12,7 +12,9 @@ As a **committer** you should still use pull requests.
 
 Each pull request should only modify/add a single topic. Don't lump many unrelated document changes into the same pull request.
 
-The full process is described in the [Cucumber Community Contributing Guide](../CONTRIBUTING.md).
+The title of documentation pull requests should be prefixed `DOC: `. The title should explain what docs you are modifying/creating. For example "DOC: Add tags.md" or "DOC: Modify tags.md to explain boolean expressions".
+
+The more general contribution process is described in the [Cucumber Community Contributing Guide](../CONTRIBUTING.md).
 
 ## Join the Community
 
