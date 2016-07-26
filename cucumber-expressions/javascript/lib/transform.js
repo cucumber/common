@@ -1,12 +1,12 @@
 class Transform {
-  constructor(typeName, captureRegexp, transformer) {
+  constructor(typeName, captureRegexps, transformer) {
     this._typeName = typeName
-    this._captureRegexp = captureRegexp
+    this._captureRegexps = captureRegexps
     this._transformer = transformer
   }
 
   get typeName() { return this._typeName}
-  get captureGroupRegexp() { return this._captureRegexp }
+  get captureGroupRegexps() { return this._captureRegexps }
 
   transform(string) { return this._transformer(string) }
 }

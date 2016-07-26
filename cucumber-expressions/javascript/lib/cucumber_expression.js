@@ -29,7 +29,7 @@ class CucumberExpression {
       this.transforms.push(transform)
 
       const text = expression.slice(index, match.index)
-      const captureRegexp = `(${transform.captureGroupRegexp})`
+      const captureRegexp = `(${transform.captureGroupRegexps[0]})`
       index = variablePattern.lastIndex
       sb += text
       sb += captureRegexp
