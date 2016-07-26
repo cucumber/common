@@ -49,7 +49,7 @@ public class CucumberExpression implements Expression {
     }
 
     @Override
-    public String getExpression() {
+    public String getSource() {
         return expression;
     }
 

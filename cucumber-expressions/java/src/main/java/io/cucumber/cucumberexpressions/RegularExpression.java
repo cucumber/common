@@ -35,7 +35,7 @@ public class RegularExpression implements Expression {
     }
 
     @Override
-    public String getExpression() {
+    public String getSource() {
         return pattern.pattern();
     }
 }
