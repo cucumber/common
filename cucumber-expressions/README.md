@@ -100,7 +100,33 @@ the type name - it will be derived from the argument name instead:
 
     I have a {currency} account
 
+### Implicit transforms
+
+If you're using a statically typed language, and your type constructor accepts
+a single `String` argument, then an instance of that type will be created even
+if no custom transform is registered:
+
+    I have a {color} ball
+
+If the signature of the Step Definition is `(Color)`, then you'll get an instance
+of that as long as the type has a constructor with signature `(String)`.
+
 ### Regular Expression support
+
+Regular Expressions can be used instead of Cucumber Expressions.
+
+Type transformation works with Regular Expressions too, as long as the expression
+uses one of the argument patterns in the registered transforms.
+
+In the `Currency` example above, the following Regular Expression would cause
+automatic conversion to `Currency`:
+
+    I have a ([A-Z]{3}) account
+
+This also applies to the built-in conversions for `int` and `float`. The following
+Regular Expression would automatically convert the argument to `int`:
+
+    I have (\d+) cukes in my belly
 
 ## Acknowledgements
 
