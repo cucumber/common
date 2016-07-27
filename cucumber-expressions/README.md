@@ -3,8 +3,11 @@
 Cucumber Expressions are simple patterns for matching Step Definitions with
 Gherkin steps.
 
+(See the [implementations](IMPLEMENTATIONS.md) list to see if Cucumber Expressions
+are what Cucumber implentations support Cucumber Expressions).
+
 Cucumber Expressions are an alternative to [Regular Expressions](https://en.wikipedia.org/wiki/Regular_expression)
-which is easier to read and write for humans.
+that are easier to read and write for humans.
 
 This is an example of a Cucumber Expression with a single argument `{n}`:
 
@@ -87,6 +90,10 @@ transform_lookup.add_transform(Transform.new(
   lambda { |s| Currency.new(s)}
 ))
 {%- endcodetabs %}
+
+With this in place you'll automatically get instances of Currency:
+
+    I have a {currency:currency} account
 
 ### Regular Expression support
 
