@@ -30,7 +30,7 @@ describe(CucumberExpression.name, () => {
   it("doesn't transform unknown type", () => {
     assert.throws(
       () => match("{what:unknown}", "something"),
-      'No transformer for type "unknown"'
+      /No transformer for type "unknown"/
     )
   })
 

@@ -1,4 +1,5 @@
 require 'cucumber/cucumber_expressions/argument_matcher'
+require 'cucumber/cucumber_expressions/transform'
 
 module Cucumber
   module CucumberExpressions
@@ -28,11 +29,23 @@ module Cucumber
 
           transform = nil
           if (expression_type_name)
-            transform = transform_lookup.lookup(expression_type_name)
-          elsif (!target_type.nil?)
-            transform = transform_lookup.lookup(target_type)
-          else
-            transform = transform_lookup.lookup('string')
+            transform = transform_lookup.lookup_by_type_name(expression_type_name)
+            raise Exception.new("No transformer for type \"#{expression_type_name}\"") if transform.nil?
+          end
+          if (!transform && !target_type.nil?)
+            if target_type.is_a?(String)
+              transform = transform_lookup.lookup_by_type_name(target_type)
+            elsif target_type.is_a?(Class)
+              transform = transform_lookup.lookup_by_type(target_type)
+            end
+          end
+          if (!transform && !target_type.nil?)
+            if target_type.is_a?(Class)
+              transform = Transform.new(nil, nil, [".+"], lambda {|s| target_type.new(s)})
+            end
+          end
+          if (!transform)
+            transform = transform_lookup.lookup_by_type_name('string')
           end
           @transforms.push(transform)
 

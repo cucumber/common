@@ -19,7 +19,7 @@ public class RegularExpression implements Expression {
         while (matcher.find()) {
             String captureGroupPattern = matcher.group(1);
             Transform transform = transformLookup.lookupByCaptureGroupRegexp(captureGroupPattern);
-            if(transform == null) transform = transformLookup.lookup("string");
+            if(transform == null) transform = transformLookup.lookupByTypeName("string");
             transforms.add(transform);
         }
     }

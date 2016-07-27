@@ -58,7 +58,7 @@ public class RegularExpressionTest {
         TransformLookup transformLookup = new TransformLookup(locale);
         Expression expression;
         if(types != null) {
-            List<Transform<?>> transforms = types.stream().map(transformLookup::lookup).collect(Collectors.toList());
+            List<Transform<?>> transforms = types.stream().map(transformLookup::lookupByType).collect(Collectors.toList());
             expression = new RegularExpression(Pattern.compile(expr), transforms);
         } else {
             expression = new RegularExpression(Pattern.compile(expr), transformLookup);

@@ -5,14 +5,10 @@ module Cucumber
   module CucumberExpressions
     describe CucumberExpression do
       def match(expression, text, explicit_types = [])
-        cucumber_expression = CucumberExpression.new(expression, explicit_types, @transform_lookup)
+        cucumber_expression = CucumberExpression.new(expression, explicit_types, TransformLookup.new)
         arguments = cucumber_expression.match(text)
         return nil if arguments.nil?
         arguments.map { |arg| arg.transformed_value }
-      end
-
-      before do
-        @transform_lookup = TransformLookup.new
       end
 
       it "transforms nothing by default" do
@@ -37,24 +33,6 @@ module Cucumber
 
       it "doesn't transform unknown type" do
         expect { match("{what:unknown}", "something") }.to raise_error('No transformer for type "unknown"')
-      end
-
-      it "allows registration of custom transform" do
-        currency_transform = Transform.new('currency', ['[A-Z]{3}'], lambda { |s| Currency.new(s)})
-        @transform_lookup.add_transform(currency_transform)
-
-        expect( match("I have a {cur:currency} account", "I have a GBP account") ).to eq([Currency.new('GBP')])
-      end
-
-      class Currency
-        attr_reader :sym
-        def initialize(sym)
-          @sym = sym
-        end
-
-        def == (other)
-          other.is_a?(Currency) && other.sym == sym
-        end
       end
 
       context "Regexp translation" do

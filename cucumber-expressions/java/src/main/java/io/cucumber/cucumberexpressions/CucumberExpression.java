@@ -1,5 +1,6 @@
 package io.cucumber.cucumberexpressions;
 
+import java.lang.reflect.Constructor;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -25,13 +26,21 @@ public class CucumberExpression implements Expression {
             Class targetType = targetTypes.size() <= typeNameIndex ? null : targetTypes.get(typeNameIndex++);
             String expressionTypeName = matcher.group(3);
 
-            Transform transform;
+            Transform transform = null;
             if (expressionTypeName != null) {
-                transform = transformLookup.lookup(expressionTypeName);
-            } else if (targetType != null) {
-                transform = transformLookup.lookup(targetType);
-            } else {
-                transform = transformLookup.lookup(String.class);
+                transform = transformLookup.lookupByTypeName(expressionTypeName);
+                if(transform == null) {
+                    throw new CucumberExpressionException("No transformer for type \"%s\"", expressionTypeName);
+                }
+            }
+            if (transform == null && targetType != null) {
+                transform = transformLookup.lookupByType(targetType);
+            }
+            if (transform == null && targetType != null) {
+                transform = new ConstructorTransform(targetType);
+            }
+            if (transform == null) {
+                transform = transformLookup.lookupByType(String.class);
             }
             transforms.add(transform);
 

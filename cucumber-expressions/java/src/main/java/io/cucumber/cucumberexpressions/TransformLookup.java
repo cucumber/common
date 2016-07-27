@@ -15,7 +15,7 @@ public class TransformLookup {
     private static final List<String> STRING_REGEXPS = singletonList(".+");
 
     private Map<Class<?>, Transform<?>> transformsByType = new HashMap<>();
-    private Map<String, Transform<?>> transformsByName = new HashMap<>();
+    private Map<String, Transform<?>> transformsByTypeName = new HashMap<>();
     private Map<String, Transform<?>> transformsByCaptureGroupRegexp = new HashMap<>();
 
     public TransformLookup(Locale locale) {
@@ -39,23 +39,27 @@ public class TransformLookup {
     }
 
     public void addTransform(Transform<?> transform) {
-        String name = transform.getType().getSimpleName().toLowerCase();
-        transformsByName.put(name, transform);
         transformsByType.put(transform.getType(), transform);
+
+        // For these loops, any previously registered transforms will be clobbered. That's ok - the last one
+        // wins. We're registering Long and Double converters last - as they have the most precision
+        // and can be cast to "smaller" types if necessary
+
+        for (String typeName : transform.getTypeNames()) {
+            transformsByTypeName.put(typeName, transform);
+        }
+
         for (String captureGroupRegexp : transform.getCaptureGroupRegexps()) {
-            // Any previously registered transforms will be clobbered. That's ok - the last one
-            // wins. We're registering Long and Double converters last - as they have the most precision
-            // and can be cast to "smaller" types if necessary
             transformsByCaptureGroupRegexp.put(captureGroupRegexp, transform);
         }
     }
 
-    public <T> Transform<T> lookup(Class<T> type) {
+    public <T> Transform<T> lookupByType(Class<T> type) {
         return (Transform<T>) transformsByType.get(type);
     }
 
-    public Transform<?> lookup(String name) {
-        return transformsByName.get(name);
+    public Transform<?> lookupByTypeName(String typeName) {
+        return transformsByTypeName.get(typeName);
     }
 
     public Transform lookupByCaptureGroupRegexp(String captureGroupPattern) {

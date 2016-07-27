@@ -1,6 +1,12 @@
 const matchArguments = require('./match_arguments')
+const Transform = require('./transform')
 
 class CucumberExpression {
+  /**
+   * @param expression
+   * @param targetTypes Array of type name (String) or types (constructor functions)
+   * @param transformLookup
+   */
   constructor(expression, targetTypes, transformLookup) {
     const variablePattern = /\{([^}:]+)(:([^}]+))?}/g
     const optionalPattern = /\(([^\)]+)\)/g
@@ -20,11 +26,25 @@ class CucumberExpression {
 
       let transform
       if (expressionTypeName) {
-        transform = transformLookup.lookup(expressionTypeName)
-      } else if (targetType != null) {
-        transform = transformLookup.lookup(targetType)
-      } else {
-        transform = transformLookup.lookup('string')
+        transform = transformLookup.lookupByTypeName(expressionTypeName)
+        if (!transform) {
+          throw new Error(`No transformer for type "${expressionTypeName}"`)
+        }
+      }
+      if (!transform && targetType != null) {
+        if (typeof targetType === 'string') {
+          transform = transformLookup.lookupByTypeName(targetType)
+        } else if (typeof targetType === 'function') {
+          transform = transformLookup.lookupByConstructor(targetType)
+        }
+      }
+      if (!transform && targetType != null) {
+        if (typeof targetType === 'function') {
+          transform = new Transform(null, null, [".+"], s => new targetType(s))
+        }
+      }
+      if (!transform) {
+        transform = transformLookup.lookupByTypeName('string')
       }
       this.transforms.push(transform)
 

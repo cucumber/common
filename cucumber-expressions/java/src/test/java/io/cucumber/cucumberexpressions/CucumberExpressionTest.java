@@ -9,6 +9,7 @@ import java.util.stream.Collectors;
 import static java.util.Collections.emptyList;
 import static java.util.Collections.singletonList;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
 
 public class CucumberExpressionTest {
     @Test
@@ -39,6 +40,16 @@ public class CucumberExpressionTest {
     public void transforms_to_float_by_explicit_type() {
         List<Object> values = match("{what}", ".22", Float.class);
         assertEquals(singletonList(new Float(0.22)), values);
+    }
+
+    @Test
+    public void doesnt_transform_unknown_type() {
+        try {
+            match("{what:unknown}", ".22");
+            fail();
+        } catch (CucumberExpressionException expected) {
+            assertEquals("No transformer for type \"unknown\"", expected.getMessage());
+        }
     }
 
     // Java-specific

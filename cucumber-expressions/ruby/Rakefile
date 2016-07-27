@@ -18,11 +18,6 @@ namespace :spec do
       Rake::Task['spec'].invoke
     end
   end
-
-  desc "run (slow) performance tests"
-  RSpec::Core::RakeTask.new(:slow) do |t|
-    t.rspec_opts = %w[--tag slow]
-  end
 end
 
-task default: ['spec:warnings', 'spec:slow']
+task default: ['spec:warnings']
