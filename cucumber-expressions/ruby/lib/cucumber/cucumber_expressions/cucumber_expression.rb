@@ -12,7 +12,7 @@ module Cucumber
       def initialize(expression, target_types, transform_lookup)
 
         @transforms = []
-        sb = "^"
+        regexp = "^"
         type_name_index = 0
         match = nil
         index = 0
@@ -56,12 +56,12 @@ module Cucumber
           text = expression.slice(index...match.offset(0)[0])
           capture_regexp = "(#{transform.capture_group_regexps[0]})"
           index = match.offset(0)[1]
-          sb += text
-          sb += capture_regexp
+          regexp += text
+          regexp += capture_regexp
         end
-        sb += expression.slice(index..-1)
-        sb += "$"
-        @regexp = Regexp.new(sb)
+        regexp += expression.slice(index..-1)
+        regexp += "$"
+        @regexp = Regexp.new(regexp)
       end
 
       def match(text)

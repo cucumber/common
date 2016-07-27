@@ -12,7 +12,7 @@ class CucumberExpression {
     const optionalPattern = /\(([^\)]+)\)/g
 
     this.transforms = []
-    let sb = "^"
+    let regexp = "^"
     let typeNameIndex = 0
     let match
     let index = 0
@@ -55,12 +55,12 @@ class CucumberExpression {
       const text = expression.slice(index, match.index)
       const captureRegexp = `(${transform.captureGroupRegexps[0]})`
       index = variablePattern.lastIndex
-      sb += text
-      sb += captureRegexp
+      regexp += text
+      regexp += captureRegexp
     }
-    sb += expression.slice(index)
-    sb += "$"
-    this.regexp = new RegExp(sb)
+    regexp += expression.slice(index)
+    regexp += "$"
+    this.regexp = new RegExp(regexp)
   }
 
   match(text) {

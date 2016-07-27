@@ -1,6 +1,5 @@
 package io.cucumber.cucumberexpressions;
 
-import java.lang.reflect.Constructor;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -19,8 +18,8 @@ public class CucumberExpression implements Expression {
         String expressionWithOptionalGroups = OPTIONAL_PATTERN.matcher(expression).replaceAll("(?:$1)?");
         Matcher matcher = VARIABLE_PATTERN.matcher(expressionWithOptionalGroups);
 
-        StringBuffer sb = new StringBuffer();
-        sb.append("^");
+        StringBuffer regexp = new StringBuffer();
+        regexp.append("^");
         int typeNameIndex = 0;
         while (matcher.find()) {
             Class targetType = targetTypes.size() <= typeNameIndex ? null : targetTypes.get(typeNameIndex++);
@@ -30,7 +29,7 @@ public class CucumberExpression implements Expression {
             Transform transform = null;
             if (expressionTypeName != null) {
                 transform = transformLookup.lookupByTypeName(expressionTypeName);
-                if(transform == null) {
+                if (transform == null) {
                     throw new CucumberExpressionException("No transformer for type \"%s\"", expressionTypeName);
                 }
             }
@@ -48,12 +47,12 @@ public class CucumberExpression implements Expression {
             }
             transforms.add(transform);
 
-            matcher.appendReplacement(sb, Matcher.quoteReplacement("(" + transform.getCaptureGroupRegexps().get(0) + ")"));
+            matcher.appendReplacement(regexp, Matcher.quoteReplacement("(" + transform.getCaptureGroupRegexps().get(0) + ")"));
         }
-        matcher.appendTail(sb);
-        sb.append("$");
+        matcher.appendTail(regexp);
+        regexp.append("$");
 
-        pattern = Pattern.compile(sb.toString());
+        pattern = Pattern.compile(regexp.toString());
     }
 
     @Override
