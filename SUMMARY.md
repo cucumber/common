@@ -22,10 +22,10 @@
   * [Documentation](#)
 * [Communication](#)
 
-* [Techniques](#)
+* [Techniques](docs/techniques.md)
   * [Analysis](#)
     * [Example Mapping](#)
-      * [Three Amigos](#)
+      * [Three Amigos](docs/techniques.md#three-amigos)
       * [Discovery Workshop](#)
       * [Deliberate Discovery](#)
     * [Event Storming](#)
