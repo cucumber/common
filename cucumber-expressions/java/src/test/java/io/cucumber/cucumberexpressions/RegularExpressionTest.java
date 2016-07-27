@@ -17,8 +17,13 @@ public class RegularExpressionTest {
     }
 
     @Test
-    public void converts_integer_to_double() {
+    public void converts_integer_to_double_using_explicit_type() {
         assertEquals(singletonList(22.0), match("(.*)", "22", singletonList(Double.class)));
+    }
+
+    @Test
+    public void converts_to_double_using_capture_group_pattern() {
+        assertEquals(singletonList(22L), match("(\\d+)", "22"));
     }
 
     @Test
@@ -41,14 +46,23 @@ public class RegularExpressionTest {
         assertEquals(singletonList(1), match("(.*)", "1.22", singletonList(Integer.class)));
     }
 
+    private List<?> match(String expr, String text) {
+        return match(expr, text, null, Locale.ENGLISH);
+    }
+
     private List<?> match(String expr, String text, List<Class<?>> types) {
         return match(expr, text, types, Locale.ENGLISH);
     }
 
     private List<?> match(String expr, String text, List<Class<?>> types, Locale locale) {
         TransformLookup transformLookup = new TransformLookup(locale);
-        List<Transform<?>> transforms = types.stream().map(transformLookup::lookup).collect(Collectors.toList());
-        Expression expression = new RegularExpression(Pattern.compile(expr), transforms);
+        Expression expression;
+        if(types != null) {
+            List<Transform<?>> transforms = types.stream().map(transformLookup::lookupByType).collect(Collectors.toList());
+            expression = new RegularExpression(Pattern.compile(expr), transforms);
+        } else {
+            expression = new RegularExpression(Pattern.compile(expr), transformLookup);
+        }
         List<Argument> arguments = expression.match(text);
         return arguments.stream().map(Argument::getTransformedValue).collect(Collectors.toList());
     }

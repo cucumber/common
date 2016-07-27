@@ -7,7 +7,7 @@ describe(CucumberExpression.name, () => {
     assert.deepEqual(match("{what}", "22"), ["22"])
   })
 
-  it("transforms to int by expression_type", () => {
+  it("transforms to int by expression type", () => {
     assert.deepEqual(match("{what:int}", "22"), [22])
   })
 
@@ -19,7 +19,7 @@ describe(CucumberExpression.name, () => {
     assert.deepEqual(match("{what:int}", "1.22"), null)
   })
 
-  it("transforms to float by expression_type", () => {
+  it("transforms to float by expression type", () => {
     assert.deepEqual(match("{what:float}", "0.22"), [0.22])
   })
 
@@ -30,7 +30,7 @@ describe(CucumberExpression.name, () => {
   it("doesn't transform unknown type", () => {
     assert.throws(
       () => match("{what:unknown}", "something"),
-      'No transformer for type "unknown"'
+      /No transformer for type "unknown"/
     )
   })
 

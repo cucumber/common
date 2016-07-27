@@ -20,7 +20,7 @@ class ArgumentMatcher {
                 Transform transform = transforms.get(i);
                 Object transformedValue = transform.transform(value);
 
-                arguments.add(new Argument(startIndex, transformedValue));
+                arguments.add(new Argument(startIndex, value, transformedValue));
             }
             return arguments;
         } else {

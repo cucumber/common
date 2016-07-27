@@ -11,39 +11,58 @@ public class CucumberExpression implements Expression {
 
     private final Pattern pattern;
     private final List<Transform<?>> transforms = new ArrayList<>();
+    private final String expression;
 
-    public CucumberExpression(String expression, List<Class> targetTypes, TransformLookup transformLookup) {
-        expression = OPTIONAL_PATTERN.matcher(expression).replaceAll("(?:$1)?");
-        Matcher matcher = VARIABLE_PATTERN.matcher(expression);
+    public CucumberExpression(final String expression, List<Class> targetTypes, TransformLookup transformLookup) {
+        this.expression = expression;
+        String expressionWithOptionalGroups = OPTIONAL_PATTERN.matcher(expression).replaceAll("(?:$1)?");
+        Matcher matcher = VARIABLE_PATTERN.matcher(expressionWithOptionalGroups);
 
-        StringBuffer sb = new StringBuffer();
-        sb.append("^");
+        StringBuffer regexp = new StringBuffer();
+        regexp.append("^");
         int typeNameIndex = 0;
         while (matcher.find()) {
             Class targetType = targetTypes.size() <= typeNameIndex ? null : targetTypes.get(typeNameIndex++);
+            String argumentName = matcher.group(1);
             String expressionTypeName = matcher.group(3);
 
-            Transform transform;
+            Transform transform = null;
             if (expressionTypeName != null) {
-                transform = transformLookup.lookup(expressionTypeName);
-            } else if (targetType != null) {
-                transform = transformLookup.lookup(targetType);
-            } else {
-                transform = transformLookup.lookup(String.class);
+                transform = transformLookup.lookupByTypeName(expressionTypeName);
+                if (transform == null) {
+                    throw new CucumberExpressionException("No transformer for type \"%s\"", expressionTypeName);
+                }
+            }
+            if (transform == null && targetType != null) {
+                transform = transformLookup.lookupByType(targetType);
+            }
+            if (transform == null && targetType != null) {
+                transform = new ConstructorTransform(targetType);
+            }
+            if (transform == null) {
+                transform = transformLookup.lookupByTypeName(argumentName);
+            }
+            if (transform == null) {
+                transform = transformLookup.lookupByType(String.class);
             }
             transforms.add(transform);
 
-            matcher.appendReplacement(sb, Matcher.quoteReplacement("(" + transform.getCaptureGroupRegexp() + ")"));
+            matcher.appendReplacement(regexp, Matcher.quoteReplacement("(" + transform.getCaptureGroupRegexps().get(0) + ")"));
         }
-        matcher.appendTail(sb);
-        sb.append("$");
+        matcher.appendTail(regexp);
+        regexp.append("$");
 
-        pattern = Pattern.compile(sb.toString());
+        pattern = Pattern.compile(regexp.toString());
     }
 
     @Override
     public List<Argument> match(String text) {
         return ArgumentMatcher.matchArguments(pattern, text, transforms);
+    }
+
+    @Override
+    public String getSource() {
+        return expression;
     }
 
     Pattern getPattern() {

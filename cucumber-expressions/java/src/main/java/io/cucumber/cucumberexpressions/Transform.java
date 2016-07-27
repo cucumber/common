@@ -1,21 +1,14 @@
 package io.cucumber.cucumberexpressions;
 
-public abstract class Transform<T> {
-    private final Class<T> type;
-    private final String captureGroupRegexp;
+import java.util.List;
 
-    public Transform(Class<T> type, String captureGroupRegexp) {
-        this.type = type;
-        this.captureGroupRegexp = captureGroupRegexp;
-    }
+public interface Transform<T> {
 
-    public Class<T> getType() {
-        return type;
-    }
+    List<String> getTypeNames();
 
-    public String getCaptureGroupRegexp() {
-        return captureGroupRegexp;
-    }
+    Class<T> getType();
 
-    public abstract T transform(String value);
+    List<String> getCaptureGroupRegexps();
+
+    T transform(String value);
 }
