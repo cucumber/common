@@ -16,10 +16,15 @@ The title of documentation pull requests should be prefixed `DOC: `. The title s
 
 The more general contribution process is described in the [Cucumber Community Contributing Guide](../CONTRIBUTING.md).
 
-## Join the Community
+## Discuss the documentation
 
-* Chat: [![Join the chat at https://gitter.im/cucumber/docs](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/cucumber/docs)
-* [Mailing list](mailto:cukes-devs@googlegroups.com)
+It's great to get feedback on your writing. Start out with small changes, then wait for feedback from other contributors and committers in the pull request.
+
+Discussions about docs that are already published can be done in [GitBook comments](https://www.gitbook.com/blog/features/discussions) - check the [discussion page](https://www.gitbook.com/book/cucumber/cucumber/discussions) regularly to see if there are open discussions.
+
+Sometimes it might be quicker to hop into the [gitter chat room](https://gitter.im/cucumber/docs) to discuss in real time, if the people you want to talk to are online.
+
+And finally - there is always the friendly [Cucumber Google group](mailto:cukes-devs@googlegroups.com)
 
 ## What to contribute
 
