@@ -91,9 +91,14 @@ transform_lookup.add_transform(Transform.new(
 ))
 {%- endcodetabs %}
 
-With this in place you'll automatically get instances of Currency:
+With this in place you'll automatically get instances of `Currency`:
 
     I have a {currency:currency} account
+
+If the argument name is the same as the type name, you don't need to specify
+the type name - it will be derived from the argument name instead:
+
+    I have a {currency} account
 
 ### Regular Expression support
 

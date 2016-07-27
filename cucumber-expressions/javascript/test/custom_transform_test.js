@@ -35,6 +35,12 @@ describe('Custom transform', () => {
     assert.equal(transformedArgumentValue.symbol, "EUR")
   })
 
+  it("converts CucumberExpression arguments without explicit type", () => {
+    const expression = new CucumberExpression("I have a {currency} account", [], transformLookup)
+    const transformedArgumentValue = expression.match("I have a EUR account")[0].transformedValue
+    assert.equal(transformedArgumentValue.symbol, "EUR")
+  })
+
   it("converts CucumberExpression arguments with explicit type using constructor directly", () => {
     const expression = new CucumberExpression("I have a {currency} account", [Currency], new TransformLookup())
     const transformedArgumentValue = expression.match("I have a EUR account")[0].transformedValue

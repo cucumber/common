@@ -25,6 +25,7 @@ module Cucumber
           break if match.nil?
           target_type = target_types.length <= type_name_index ? nil : target_types[type_name_index]
           type_name_index += 1
+          argument_name = match[1]
           expression_type_name = match[3]
 
           transform = nil
@@ -43,6 +44,9 @@ module Cucumber
             if target_type.is_a?(Class)
               transform = Transform.new(nil, nil, [".+"], lambda {|s| target_type.new(s)})
             end
+          end
+          if (!transform)
+            transform = transform_lookup.lookup_by_type_name(argument_name)
           end
           if (!transform)
             transform = transform_lookup.lookup_by_type_name('string')

@@ -24,6 +24,7 @@ public class CucumberExpression implements Expression {
         int typeNameIndex = 0;
         while (matcher.find()) {
             Class targetType = targetTypes.size() <= typeNameIndex ? null : targetTypes.get(typeNameIndex++);
+            String argumentName = matcher.group(1);
             String expressionTypeName = matcher.group(3);
 
             Transform transform = null;
@@ -38,6 +39,9 @@ public class CucumberExpression implements Expression {
             }
             if (transform == null && targetType != null) {
                 transform = new ConstructorTransform(targetType);
+            }
+            if (transform == null) {
+                transform = transformLookup.lookupByTypeName(argumentName);
             }
             if (transform == null) {
                 transform = transformLookup.lookupByType(String.class);

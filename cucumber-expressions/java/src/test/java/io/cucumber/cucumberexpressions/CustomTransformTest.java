@@ -50,6 +50,13 @@ public class CustomTransformTest {
     }
 
     @Test
+    public void transforms_CucumberExpression_arguments_without_explicit_type() {
+        Expression expression = new CucumberExpression("I have a {currency} account", emptyList(), transformLookup);
+        Object transformedArgumentValue = expression.match("I have a EUR account").get(0).getTransformedValue();
+        assertEquals(Currency.getInstance("EUR"), transformedArgumentValue);
+    }
+
+    @Test
     public void transforms_CucumberExpression_arguments_with_explicit_type_using_constructor_directly() {
         Expression expression = new CucumberExpression("The train runs at {speed} now", singletonList(Speed.class), transformLookup);
         Speed speed = (Speed) expression.match("The train runs at 22 mph now").get(0).getTransformedValue();

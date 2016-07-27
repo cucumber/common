@@ -22,6 +22,7 @@ class CucumberExpression {
 
     while ((match = variablePattern.exec(expression)) !== null) {
       const targetType = targetTypes.length <= typeNameIndex ? null : targetTypes[typeNameIndex++]
+      const argumentName = match[1]
       const expressionTypeName = match[3]
 
       let transform
@@ -42,6 +43,9 @@ class CucumberExpression {
         if (typeof targetType === 'function') {
           transform = new Transform(null, null, [".+"], s => new targetType(s))
         }
+      }
+      if (!transform) {
+        transform = transformLookup.lookupByTypeName(argumentName)
       }
       if (!transform) {
         transform = transformLookup.lookupByTypeName('string')
