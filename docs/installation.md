@@ -15,7 +15,7 @@ $ gem install cucumber
 
 Before you can use the generator, add the gem to your project's Gemfile as follows:
 
-``` shell
+``` ruby
     group :test do
       gem 'cucumber-rails', :require => false
       # database_cleaner is not required, but highly recommended
