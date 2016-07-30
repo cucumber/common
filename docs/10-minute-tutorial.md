@@ -15,11 +15,13 @@ documentation goes into more detail.
 
 Add Cucumber to your project:
 
-{% codetabs name="Maven", type="xml" -%}
+This is the experiment Thomas is doing with codetabs. Will it render properly or will we get an error?
+
+{% codetabs name="Maven", type="xml" %}
 <dependency>
     <groupId>info.cukes</groupId>
     <artifactId>cucumber-java</artifactId>
-    <version>${cucumber.version}</version>
+    <version>1.2.4</version>
     <scope>test</scope>
 </dependency>
 
@@ -29,33 +31,33 @@ Add Cucumber to your project:
     <version>1.2.4</version>
     <scope>test</scope>
 </dependency>
-{%- language name="Node.js", type="json" -%}
+{% language name="Node.js", type="json" %}
 {
   "devDependencies": {
     "cucumber": "^1.2.0"
   }
 }
-{%- language name="Ruby", type="ruby" -%}
+{% language name="Ruby", type="ruby" %}
 group :test do
   gem 'cucumber', '~> 2.4.0'
 end
-{%- endcodetabs %}
+{% endcodetabs %}
 
 Download Cucumber
 
-{% codetabs name="Maven", type="bash" -%}
+{% codetabs name="Maven", type="bash" %}
 # Nothing to do at this step
-{%- language name="Node.js", type="bash" -%}
+{% language name="Node.js", type="bash" %}
 npm install
-{%- language name="Ruby", type="bash" -%}
+{% language name="Ruby", type="bash" %}
 bundle install
-{%- endcodetabs %}
+{% endcodetabs %}
 
 Well done - you're ready to create some files
 
 ## Create a simple directory structure
 
-{% codetabs name="Maven" -%}
+{% codetabs name="Maven" %}
 .
 ├── pom.xml
 └── src
@@ -76,9 +78,9 @@ Well done - you're ready to create some files
                 └── cucumber
                     └── tutorial
                         └── FizzBuzz.feature
-{%- language name="Node.js" -%}
+{% language name="Node.js" %}
 TODO
-{%- language name="Ruby" -%}
+{% language name="Ruby" %}
 .
 bundle exec cucumber --init
-{%- endcodetabs %}
+{% endcodetabs %}
