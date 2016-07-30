@@ -15,8 +15,6 @@ documentation goes into more detail.
 
 Add Cucumber to your project:
 
-This is the experiment Thomas is doing with codetabs. Will it render properly or will we get an error?
-
 {% codetabs name="Maven", type="xml" %}
 <dependency>
     <groupId>info.cukes</groupId>

@@ -66,14 +66,14 @@ Given("I have {n} cukes in my belly", (int n) -> {
 
 You can also register your own types:
 
-{% codetabs name="Java", type="java" -%}
+{% codetabs name="Java", type="java" %}
 TransformLookup transformLookup = new TransformLookup(Locale.ENGLISH);
 transformLookup.addTransform(new FunctionTransform<>(
   Currency.class,
   singletonList("[A-Z]{3}"),
   Currency::getInstance
 ));
-{%- language name="JavaScript", type="js" -%}
+{% language name="JavaScript", type="js" %}
 const transformLookup = new TransformLookup()
 transformLookup.addTransform(new Transform(
   ['currency'],
@@ -81,7 +81,7 @@ transformLookup.addTransform(new Transform(
   ['[A-Z]{3}'],
   s => new Currency(s)
 ))
-{%- language name="Ruby", type="rb" -%}
+{% language name="Ruby", type="rb" %}
 transform_lookup = TransformLookup.new
 transform_lookup.add_transform(Transform.new(
   ['currency'],
@@ -89,7 +89,7 @@ transform_lookup.add_transform(Transform.new(
   ['[A-Z]{3}'],
   lambda { |s| Currency.new(s)}
 ))
-{%- endcodetabs %}
+{% endcodetabs %}
 
 With this in place you'll automatically get instances of `Currency`:
 
