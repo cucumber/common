@@ -75,9 +75,10 @@ In general, it should be brief and to the point.
 
 ### General writing style
 
-* Every page should starts with an informational/motivational paragraph
+* Every page should start with an informational/motivational paragraph
 * Paragraphs should be short enough to be readable, but long enough to develop an idea.
 * Every page should start with a `h1` heading. Sections use `h2`. Subsections use `h3`
+* Break long lines. Insert a new line at around column 80. This is important because review comments can only be added to a line.
 * Write in present tense
 * Use unemotional language, but try to make it a little entertaining (this is hard)
 * Write in a platform-neutral way as much as possible
