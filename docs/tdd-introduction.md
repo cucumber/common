@@ -22,8 +22,3 @@ This procdure is called as **RED-GREEN-REFACTOR**
 Final Note: TDD is aot about testing, It is the process of approach towards your design and force us to think about the implemantation before we code.
 
 The main objective of this framework is code design with tests.
-
-
-
-
- 
