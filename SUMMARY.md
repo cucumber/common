@@ -5,6 +5,9 @@
 * [About this Documentation](docs/about-this-documentation.md)
 * [Installation](docs/installation.md)
   * [Pick your Flavour](#)
+    * [Ruby](docs/installation.md#ruby)
+    * [Java](docs/installation.md#java)
+    * [Javascript](docs/installation.md#javascript)
     * [Unofficial Cucumbers](#)
 * [10 minute tutorial](docs/10-minute-tutorial.md)
 
