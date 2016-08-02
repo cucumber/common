@@ -2,8 +2,8 @@
  
  The first question that would rise for a beginner would be 
  
-  *1. What is Cucumber?
-  *2. How Cucumber works with BDD?
+  *1. What is Cucumber?*
+  *2. How Cucumber works with BDD?*
   
 For these two typical questions here are the answers
 
