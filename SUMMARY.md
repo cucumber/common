@@ -46,7 +46,8 @@
     * [Shallow Tests](#)
     * [Narrow Tests](#)
     * [UI Testing](#)
-      * [Selenium WebDriver](#)
+      * [Selenium WebDriver](docs/selenium-webdriver)
+	  * [Watir Webdriver](docs/watir-webdriver)
     * [Databases](#)
     * [Web Services](#)
     * [Domain Layer](#)
@@ -102,8 +103,8 @@
   * [PicoContainer](#)
 * [3rd Party Extensions](#)
   * [IDEs/Text Editors](#)
-  * [Watir](#)
-  * [Selenium WebDriver](#)
+  * [Watir]
+  * [Selenium WebDriver]
   * [Serenity](#)
 
 ### Common Anti-Patterns
