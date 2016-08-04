@@ -18,7 +18,7 @@ class ArgumentMatcher {
                 String value = matcher.group(i + 1);
 
                 Transform transform = transforms.get(i);
-                Object transformedValue = transform.transform(value);
+                Object transformedValue = transform == null ? value : transform.transform(value);
 
                 arguments.add(new Argument(startIndex, value, transformedValue));
             }

@@ -19,10 +19,10 @@ module Cucumber
       before do
         @transform_lookup = TransformLookup.new
         @transform_lookup.add_transform(Transform.new(
-          ['currency'],
+          'currency',
           Currency,
-          ['[A-Z]{3}'],
-          lambda { |s| Currency.new(s)}
+          '[A-Z]{3}',
+          lambda { |s| Currency.new(s) }
         ))
       end
 

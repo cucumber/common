@@ -11,22 +11,39 @@ public class RegularExpression implements Expression {
     private final Pattern pattern;
     private final List<Transform<?>> transforms;
 
-    public RegularExpression(Pattern pattern, TransformLookup transformLookup) {
+    /**
+     * Creates a new instance. Use this when the transform types are not known in advance,
+     * and should be determined by the regular expression's capture groups. Use this with
+     * dynamically typed languages.
+     *
+     * @param pattern         the regular expression to use
+     * @param transformLookup transform lookup
+     */
+    public RegularExpression(Pattern pattern, List<Class<?>> types, TransformLookup transformLookup) {
         this.pattern = pattern;
         this.transforms = new ArrayList<>();
 
         Matcher matcher = CAPTURE_GROUP_PATTERN.matcher(pattern.pattern());
+        int typeIndex = 0;
         while (matcher.find()) {
+            Class<?> type = types.size() <= typeIndex ? null : types.get(typeIndex++);
             String captureGroupPattern = matcher.group(1);
-            Transform transform = transformLookup.lookupByCaptureGroupRegexp(captureGroupPattern);
-            if(transform == null) transform = transformLookup.lookupByTypeName("string");
+
+            Transform<?> transform = null;
+            if (type != null) {
+                transform = transformLookup.lookupByType(type);
+            }
+            if (transform == null) {
+                transform = transformLookup.lookupByCaptureGroupRegexp(captureGroupPattern);
+            }
+            if (transform == null && type != null) {
+                transform = new ConstructorTransform<>(type);
+            }
+            if (transform == null) {
+                transform = new ConstructorTransform<>(String.class);
+            }
             transforms.add(transform);
         }
-    }
-
-    public RegularExpression(Pattern pattern, List<Transform<?>> transforms) {
-        this.pattern = pattern;
-        this.transforms = transforms;
     }
 
     @Override

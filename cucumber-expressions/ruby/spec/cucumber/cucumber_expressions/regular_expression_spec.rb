@@ -11,8 +11,12 @@ module Cucumber
         arguments.map { |arg| arg.transformed_value }
       end
 
-      it "transforms nothing by default" do
+      it "transforms to string by default" do
         expect( match(/(.+)/, "22") ).to eq(["22"])
+      end
+
+      it "transforms integer to double using explicit type" do
+        expect( match(/(.*)/, "22"), [Float] ).to eq([22.0])
       end
 
       it "transforms nothing by default, for anything" do

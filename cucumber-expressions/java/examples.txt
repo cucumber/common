@@ -1,15 +1,15 @@
-I have {n} cukes in my {bodypart} now
+I have {n} cuke(s) in my {bodypart} now
 I have 22 cukes in my belly now
 ["22","belly"]
 ---
-I have {n:int} cukes in my {bodypart} now
+I have {n:int} cuke(s) in my {bodypart} now
+I have 1 cuke in my belly now
+[1,"belly"]
+---
+/I have (\d+) cukes? in my (.+) now/
 I have 22 cukes in my belly now
 [22,"belly"]
 ---
-/I have (\d+) cukes in my (.+) now/
-I have 22 cukes in my belly now
-[22,"belly"]
----
-/I have (-?\d+) cukes in my (.*) now/
-I have 22 cukes in my belly now
-[22,"belly"]
+/I have (-?\d+) cukes? in my (.*) now/
+I have 1 cuke in my belly now
+[1,"belly"]

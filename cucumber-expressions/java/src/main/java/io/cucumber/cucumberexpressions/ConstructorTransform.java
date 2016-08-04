@@ -1,34 +1,21 @@
 package io.cucumber.cucumberexpressions;
 
 import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 import java.util.Collections;
 import java.util.List;
 
-public class ConstructorTransform<T> implements Transform<T> {
+public class ConstructorTransform<T> extends AbstractTransform<T> {
     public static final List<String> ANYTHING_GOES = Collections.singletonList(".+");
     private final Constructor<T> constructor;
 
     public ConstructorTransform(Class<T> clazz) {
+        super(null, clazz, ANYTHING_GOES);
         try {
             this.constructor = clazz.getConstructor(String.class);
         } catch (NoSuchMethodException e) {
-            throw new CucumberExpressionException("Missing String constructor for " + clazz.getName());
+            throw new CucumberExpressionException(String.format("Missing constructor: `public %s(String)`", clazz.getSimpleName()));
         }
-    }
-
-    @Override
-    public List<String> getTypeNames() {
-        throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public Class<T> getType() {
-        throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public List<String> getCaptureGroupRegexps() {
-        return ANYTHING_GOES;
     }
 
     @Override
@@ -36,7 +23,8 @@ public class ConstructorTransform<T> implements Transform<T> {
         try {
             return constructor.newInstance(value);
         } catch (Exception e) {
-            throw new CucumberExpressionException("Couldn't instantiate " + constructor + " from String \"" + value + "\"");
+            Throwable cause = e instanceof InvocationTargetException ? ((InvocationTargetException) e).getTargetException() : e;
+            throw new CucumberExpressionException(String.format("Failed to invoke `new %s(\"%s\")`", constructor.getDeclaringClass().getSimpleName(), value), cause);
         }
     }
 }

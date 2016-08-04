@@ -5,22 +5,18 @@ import org.junit.Test;
 
 import java.util.Currency;
 import java.util.Locale;
-import java.util.regex.Pattern;
 
-import static java.lang.Integer.parseInt;
 import static java.util.Collections.emptyList;
 import static java.util.Collections.singletonList;
+import static java.util.regex.Pattern.compile;
 import static org.junit.Assert.assertEquals;
 
 public class CustomTransformTest {
-    public static class Speed {
-        public final int value;
-        public final String unit;
+    public static class CurrencyWithStringCtor {
+        public final String symbol;
 
-        public Speed(String s) {
-            String[] tokens = s.split(" ");
-            this.value = parseInt(tokens[0]);
-            this.unit = tokens[1];
+        public CurrencyWithStringCtor(String symbol) {
+            this.symbol = symbol;
         }
     }
 
@@ -29,15 +25,16 @@ public class CustomTransformTest {
     @Before
     public void create_transform() {
         transformLookup.addTransform(new FunctionTransform<>(
+                "currency",
                 Currency.class,
-                singletonList("[A-Z]{3}"),
+                "[A-Z]{3}",
                 Currency::getInstance
         ));
     }
 
     @Test
     public void transforms_CucumberExpression_arguments_with_expression_type() {
-        Expression expression = new CucumberExpression("I have a {currency:Currency} account", emptyList(), transformLookup);
+        Expression expression = new CucumberExpression("I have a {currency:currency} account", emptyList(), transformLookup);
         Object transformedArgumentValue = expression.match("I have a EUR account").get(0).getTransformedValue();
         assertEquals(Currency.getInstance("EUR"), transformedArgumentValue);
     }
@@ -50,7 +47,7 @@ public class CustomTransformTest {
     }
 
     @Test
-    public void transforms_CucumberExpression_arguments_without_explicit_type() {
+    public void transforms_CucumberExpression_arguments_using_argument_name_as_type() {
         Expression expression = new CucumberExpression("I have a {currency} account", emptyList(), transformLookup);
         Object transformedArgumentValue = expression.match("I have a EUR account").get(0).getTransformedValue();
         assertEquals(Currency.getInstance("EUR"), transformedArgumentValue);
@@ -58,16 +55,33 @@ public class CustomTransformTest {
 
     @Test
     public void transforms_CucumberExpression_arguments_with_explicit_type_using_constructor_directly() {
-        Expression expression = new CucumberExpression("The train runs at {speed} now", singletonList(Speed.class), transformLookup);
-        Speed speed = (Speed) expression.match("The train runs at 22 mph now").get(0).getTransformedValue();
-        assertEquals(22, speed.value);
-        assertEquals("mph", speed.unit);
+        Expression expression = new CucumberExpression("I have a {currency} account", singletonList(CurrencyWithStringCtor.class), new TransformLookup(Locale.ENGLISH));
+        CurrencyWithStringCtor transformedArgumentValue = (CurrencyWithStringCtor) expression.match("I have a EUR account").get(0).getTransformedValue();
+        assertEquals("EUR", transformedArgumentValue.symbol);
     }
 
+    ///// RegularExpression
+
     @Test
-    public void transforms_RegularExpression_arguments() {
-        Expression expression = new RegularExpression(Pattern.compile("I have a ([A-Z]{3}) account"), transformLookup);
+    public void transforms_RegularExpression_arguments_with_explicit_type() {
+        Expression expression = new RegularExpression(compile("I have a ([A-Z]{3}) account"), singletonList(Currency.class), transformLookup);
         Object transformedArgumentValue = expression.match("I have a EUR account").get(0).getTransformedValue();
         assertEquals(Currency.getInstance("EUR"), transformedArgumentValue);
     }
+
+    @Test
+    public void transforms_RegularExpression_arguments_without_explicit_type() {
+        Expression expression = new RegularExpression(compile("I have a ([A-Z]{3}) account"), emptyList(), transformLookup);
+        Object transformedArgumentValue = expression.match("I have a EUR account").get(0).getTransformedValue();
+        assertEquals(Currency.getInstance("EUR"), transformedArgumentValue);
+    }
+
+    @Test
+    public void transforms_RegularExpression_arguments_with_explicit_type_using_constructor_directly() {
+        Expression expression = new RegularExpression(compile("I have a ([A-Z]{3}) account"), singletonList(CurrencyWithStringCtor.class), new TransformLookup(Locale.ENGLISH));
+        CurrencyWithStringCtor transformedArgumentValue = (CurrencyWithStringCtor) expression.match("I have a EUR account").get(0).getTransformedValue();
+        assertEquals("EUR", transformedArgumentValue.symbol);
+    }
+
+
 }

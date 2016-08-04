@@ -8,7 +8,7 @@ describe('examples.txt', () => {
   const match = (expression_text, text) => {
     const m = /\/(.*)\//.exec(expression_text)
     const expression = m ?
-      new RegularExpression(new RegExp(m[1]), new TransformLookup()) :
+      new RegularExpression(new RegExp(m[1]), [], new TransformLookup()) :
       new CucumberExpression(expression_text, [], new TransformLookup())
     const arguments = expression.match(text)
     if (!arguments) return null

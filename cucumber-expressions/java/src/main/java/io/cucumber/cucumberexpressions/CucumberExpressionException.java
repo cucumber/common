@@ -1,7 +1,11 @@
 package io.cucumber.cucumberexpressions;
 
 public class CucumberExpressionException extends RuntimeException {
-    public CucumberExpressionException(String message, Object... args) {
-        super(String.format(message, args));
+    public CucumberExpressionException(String message) {
+        super(message);
+    }
+
+    public CucumberExpressionException(String message, Throwable cause) {
+        super(message, cause);
     }
 }

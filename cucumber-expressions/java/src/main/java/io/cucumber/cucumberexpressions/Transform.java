@@ -4,7 +4,7 @@ import java.util.List;
 
 public interface Transform<T> {
 
-    List<String> getTypeNames();
+    String getTypeName();
 
     Class<T> getType();
 

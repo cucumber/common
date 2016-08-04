@@ -1,19 +1,19 @@
 const matchArguments = require('./match_arguments')
-const Transform = require('./transform')
 
 class CucumberExpression {
   /**
    * @param expression
-   * @param targetTypes Array of type name (String) or types (constructor functions)
+   * @param types Array of type name (String) or types (function). Functions can be a regular function or a constructor
    * @param transformLookup
    */
-  constructor(expression, targetTypes, transformLookup) {
+  constructor(expression, types, transformLookup) {
     const variablePattern = /\{([^}:]+)(:([^}]+))?}/g
     const optionalPattern = /\(([^\)]+)\)/g
 
-    this.transforms = []
+    this._expression = expression
+    this._transforms = []
     let regexp = "^"
-    let typeNameIndex = 0
+    let typeIndex = 0
     let match
     let index = 0
 
@@ -21,36 +21,24 @@ class CucumberExpression {
     expression = expression.replace(optionalPattern, '(?:$1)?')
 
     while ((match = variablePattern.exec(expression)) !== null) {
-      const targetType = targetTypes.length <= typeNameIndex ? null : targetTypes[typeNameIndex++]
       const argumentName = match[1]
-      const expressionTypeName = match[3]
+      const typeName = match[3]
+      const type = types.length <= typeIndex ? null : types[typeIndex++]
 
-      let transform
-      if (expressionTypeName) {
-        transform = transformLookup.lookupByTypeName(expressionTypeName)
-        if (!transform) {
-          throw new Error(`No transformer for type "${expressionTypeName}"`)
-        }
+      let transform;
+      if (type) {
+        transform = transformLookup.lookupByType(type)
       }
-      if (!transform && targetType != null) {
-        if (typeof targetType === 'string') {
-          transform = transformLookup.lookupByTypeName(targetType)
-        } else if (typeof targetType === 'function') {
-          transform = transformLookup.lookupByConstructor(targetType)
-        }
-      }
-      if (!transform && targetType != null) {
-        if (typeof targetType === 'function') {
-          transform = new Transform(null, null, [".+"], s => new targetType(s))
-        }
+      if (!transform && typeName) {
+        transform = transformLookup.lookupByTypeName(typeName, false)
       }
       if (!transform) {
-        transform = transformLookup.lookupByTypeName(argumentName)
+        transform = transformLookup.lookupByTypeName(argumentName, true)
       }
       if (!transform) {
-        transform = transformLookup.lookupByTypeName('string')
+        transform = transformLookup.createAnonymousLookup(s => s)
       }
-      this.transforms.push(transform)
+      this._transforms.push(transform)
 
       const text = expression.slice(index, match.index)
       const captureRegexp = `(${transform.captureGroupRegexps[0]})`
@@ -60,11 +48,15 @@ class CucumberExpression {
     }
     regexp += expression.slice(index)
     regexp += "$"
-    this.regexp = new RegExp(regexp)
+    this._regexp = new RegExp(regexp)
   }
 
   match(text) {
-    return matchArguments(this.regexp, text, this.transforms)
+    return matchArguments(this._regexp, text, this._transforms)
+  }
+
+  get source() {
+    return this._expression
   }
 }
 

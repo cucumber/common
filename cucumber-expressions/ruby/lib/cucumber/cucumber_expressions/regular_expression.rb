@@ -7,23 +7,29 @@ module Cucumber
 
       attr_reader :regexp
 
-      def initialize(regexp, transform_lookup)
+      def initialize(regexp, transform_list_or_transform_lookup)
         @regexp = regexp
-        @transforms = []
 
-        match = nil
-        index = 0
+        if transform_list_or_transform_lookup.is_a?(Array)
+          @transforms = transform_list_or_transform_lookup
+        else
+          @transforms = []
+          transform_lookup = transform_list_or_transform_lookup
 
-        loop do
-          match = CAPTURE_GROUP_PATTERN.match(regexp.source, index)
-          break if match.nil?
+          match = nil
+          index = 0
 
-          capture_group_pattern = match[1]
-          transform = transform_lookup.lookup_by_capture_group_regexp(capture_group_pattern)
-          transform = transform_lookup.lookup_by_type_name('string') if transform.nil?
-          @transforms.push(transform)
+          loop do
+            match = CAPTURE_GROUP_PATTERN.match(regexp.source, index)
+            break if match.nil?
 
-          index = match.offset(0)[1]
+            capture_group_pattern = match[1]
+            transform = transform_lookup.lookup_by_capture_group_regexp(capture_group_pattern)
+            transform = transform_lookup.lookup_by_type_name('string') if transform.nil?
+            @transforms.push(transform)
+
+            index = match.offset(0)[1]
+          end
         end
       end
 

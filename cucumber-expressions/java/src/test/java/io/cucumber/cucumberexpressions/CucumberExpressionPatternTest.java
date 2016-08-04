@@ -45,7 +45,7 @@ public class CucumberExpressionPatternTest {
     @Test
     public void translates_expression_types() {
         assertPattern(
-                "I have {n:int} cukes in my {bodyPart:string}",
+                "I have {n:int} cukes in my {bodyPart}",
                 "^I have (-?\\d+) cukes in my (.+)$",
                 emptyList()
         );
@@ -54,7 +54,7 @@ public class CucumberExpressionPatternTest {
     @Test
     public void translates_expression_types_with_explicit_types() {
         assertPattern(
-                "I have {n:int} cukes in my {bodyPart:string}",
+                "I have {n:int} cukes in my {bodyPart}",
                 "^I have (-?\\d+) cukes in my (.+)$",
                 asList(int.class, String.class)
         );
@@ -69,7 +69,7 @@ public class CucumberExpressionPatternTest {
         );
 
     }
-    private void assertPattern(String expr, String expectedRegexp, List<Class> types) {
+    private void assertPattern(String expr, String expectedRegexp, List<Class<?>> types) {
         CucumberExpression cucumberExpression = new CucumberExpression(expr, types, new TransformLookup(Locale.ENGLISH));
         assertEquals(expectedRegexp, cucumberExpression.getPattern().pattern());
     }

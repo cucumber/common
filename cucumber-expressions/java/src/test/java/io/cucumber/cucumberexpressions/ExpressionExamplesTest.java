@@ -58,7 +58,7 @@ public class ExpressionExamplesTest {
         Matcher matcher = REGEX_PATTERN.matcher(expressionString);
         TransformLookup transformLookup = new TransformLookup(Locale.ENGLISH);
         if (matcher.matches()) {
-            expression = new RegularExpression(Pattern.compile(matcher.group(1)), transformLookup);
+            expression = new RegularExpression(Pattern.compile(matcher.group(1)), emptyList(), transformLookup);
         } else {
             expression = new CucumberExpression(expressionString, emptyList(), transformLookup);
         }

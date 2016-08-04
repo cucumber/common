@@ -13,37 +13,34 @@ public class CucumberExpression implements Expression {
     private final List<Transform<?>> transforms = new ArrayList<>();
     private final String expression;
 
-    public CucumberExpression(final String expression, List<Class> targetTypes, TransformLookup transformLookup) {
+    public CucumberExpression(final String expression, List<Class<?>> types, TransformLookup transformLookup) {
         this.expression = expression;
         String expressionWithOptionalGroups = OPTIONAL_PATTERN.matcher(expression).replaceAll("(?:$1)?");
         Matcher matcher = VARIABLE_PATTERN.matcher(expressionWithOptionalGroups);
 
         StringBuffer regexp = new StringBuffer();
         regexp.append("^");
-        int typeNameIndex = 0;
+        int typeIndex = 0;
         while (matcher.find()) {
-            Class targetType = targetTypes.size() <= typeNameIndex ? null : targetTypes.get(typeNameIndex++);
+            Class<?> type = types.size() <= typeIndex ? null : types.get(typeIndex++);
             String argumentName = matcher.group(1);
-            String expressionTypeName = matcher.group(3);
+            String typeName = matcher.group(3);
 
-            Transform transform = null;
-            if (expressionTypeName != null) {
-                transform = transformLookup.lookupByTypeName(expressionTypeName);
-                if (transform == null) {
-                    throw new CucumberExpressionException("No transformer for type \"%s\"", expressionTypeName);
-                }
+            Transform<?> transform = null;
+            if (type != null) {
+                transform = transformLookup.lookupByType(type);
             }
-            if (transform == null && targetType != null) {
-                transform = transformLookup.lookupByType(targetType);
-            }
-            if (transform == null && targetType != null) {
-                transform = new ConstructorTransform(targetType);
+            if (transform == null && typeName != null) {
+                transform = transformLookup.lookupByType(typeName, false);
             }
             if (transform == null) {
-                transform = transformLookup.lookupByTypeName(argumentName);
+                transform = transformLookup.lookupByType(argumentName, true);
+            }
+            if (transform == null && type != null) {
+                transform = new ConstructorTransform<>(type);
             }
             if (transform == null) {
-                transform = transformLookup.lookupByType(String.class);
+                transform = new ConstructorTransform<>(String.class);
             }
             transforms.add(transform);
 

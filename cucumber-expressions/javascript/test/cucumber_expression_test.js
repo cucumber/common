@@ -21,54 +21,34 @@ describe(CucumberExpression.name, () => {
 
   it("transforms to float by expression type", () => {
     assert.deepEqual(match("{what:float}", "0.22"), [0.22])
+    assert.deepEqual(match("{what:float}", ".22"), [0.22])
   })
 
   it("transforms to float by explicit type", () => {
     assert.deepEqual(match("{what}", "0.22", ['float']), [0.22])
+    assert.deepEqual(match("{what}", ".22", ['float']), [0.22])
   })
 
   it("doesn't transform unknown type", () => {
     assert.throws(
       () => match("{what:unknown}", "something"),
-      /No transformer for type "unknown"/
+      /No transformer for type name "unknown"/
     )
   })
 
-  describe('RegExp translation', () => {
-    it("translates no arguments", () => {
-      assertRegexp(
-        "I have 10 cukes in my belly now",
-        /^I have 10 cukes in my belly now$/
-      )
-    })
+  it("exposes source", () => {
+    const expr = "I have {n:int} cuke(s) in my {bodypart} now";
+    assert.equal(new CucumberExpression(expr, [], new TransformLookup()).source, expr)
+  })
 
-    it("translates two untyped arguments", () => {
-      assertRegexp(
-        "I have {n} cukes in my {bodypart} now",
-        /^I have (.+) cukes in my (.+) now$/
-      )
-    })
-
-    it("translates three typed arguments", () => {
-      assertRegexp(
-        "I have {n:float} cukes in my {bodypart} at {time:int} o'clock",
-        /^I have (-?\d*\.?\d+) cukes in my (.+) at (-?\d+) o'clock$/
-      )
-    })
-
-    it("translates parenthesis to non-capturing optional capture group", () => {
-      assertRegexp(
-        "I have many big(ish) cukes",
-        /^I have many big(?:ish)? cukes$/
-      )
-    })
+  it("exposes offset and value", () => {
+    const expr = "I have {n:int} cuke(s) in my {bodypart} now";
+    const expression = new CucumberExpression(expr, [], new TransformLookup())
+    const arg1 = expression.match("I have 800 cukes in my brain now")[0]
+    assert.equal(arg1.offset, 7)
+    assert.equal(arg1.value, "800")
   })
 })
-
-const assertRegexp = (expression, regexp, types = []) => {
-  const cucumberExpression = new CucumberExpression(expression, types, new TransformLookup())
-  assert.equal(cucumberExpression.regexp.toString(), regexp.toString())
-}
 
 const match = (expression, text, explicitTypes) => {
   const cucumberExpression = new CucumberExpression(expression, explicitTypes || [], new TransformLookup())

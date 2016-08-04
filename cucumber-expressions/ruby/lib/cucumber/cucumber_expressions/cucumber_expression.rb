@@ -29,10 +29,12 @@ module Cucumber
           expression_type_name = match[3]
 
           transform = nil
+          # 1
           if (expression_type_name)
             transform = transform_lookup.lookup_by_type_name(expression_type_name)
             raise Exception.new("No transformer for type \"#{expression_type_name}\"") if transform.nil?
           end
+          # 2
           if (!transform && !target_type.nil?)
             if target_type.is_a?(String)
               transform = transform_lookup.lookup_by_type_name(target_type)
@@ -40,16 +42,18 @@ module Cucumber
               transform = transform_lookup.lookup_by_type(target_type)
             end
           end
+          # 3
           if (!transform && !target_type.nil?)
             if target_type.is_a?(Class)
               transform = Transform.new(nil, nil, [".+"], lambda {|s| target_type.new(s)})
             end
           end
+          # 4
           if (!transform)
             transform = transform_lookup.lookup_by_type_name(argument_name)
           end
           if (!transform)
-            transform = transform_lookup.lookup_by_type_name('string')
+            transform = Transform.new(nil, nil, [".+"], lambda {|s| s})
           end
           @transforms.push(transform)
 
