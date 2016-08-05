@@ -1,7 +1,7 @@
 package io.cucumber.cucumberexpressions;
 
-import com.google.gson.Gson;
 import com.google.common.io.Files;
+import com.google.gson.Gson;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
@@ -12,13 +12,12 @@ import java.io.IOException;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import java.util.stream.Collectors;
 
-import static java.util.Collections.emptyList;
 import static org.junit.Assert.assertEquals;
 
 @RunWith(Parameterized.class)
@@ -58,12 +57,16 @@ public class ExpressionExamplesTest {
         Matcher matcher = REGEX_PATTERN.matcher(expressionString);
         TransformLookup transformLookup = new TransformLookup(Locale.ENGLISH);
         if (matcher.matches()) {
-            expression = new RegularExpression(Pattern.compile(matcher.group(1)), emptyList(), transformLookup);
+            expression = new RegularExpression(Pattern.compile(matcher.group(1)), Collections.<Class<?>>emptyList(), transformLookup);
         } else {
-            expression = new CucumberExpression(expressionString, emptyList(), transformLookup);
+            expression = new CucumberExpression(expressionString, Collections.<Class<?>>emptyList(), transformLookup);
         }
         List<Argument> arguments = expression.match(text);
         if (arguments == null) return null;
-        return arguments.stream().map(Argument::getTransformedValue).collect(Collectors.toList());
+        List<Object> transformedValues = new ArrayList<>();
+        for (Argument argument : arguments) {
+            transformedValues.add(argument.getTransformedValue());
+        }
+        return transformedValues;
     }
 }

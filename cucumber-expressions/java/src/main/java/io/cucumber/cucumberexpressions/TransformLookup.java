@@ -22,19 +22,78 @@ public class TransformLookup {
         NumberFormat numberFormat = NumberFormat.getNumberInstance(locale);
         final NumberParser numberParser = new NumberParser(numberFormat);
 
-        // TODO: Convert to Java7 - shouldn't have to use Java8
-        addTransform(new FunctionTransform<>("byte", byte.class, FIXNUM_REGEXPS, numberParser::parseByte));
-        addTransform(new FunctionTransform<>("byte", Byte.class, FIXNUM_REGEXPS, numberParser::parseByte));
-        addTransform(new FunctionTransform<>("short", short.class, FIXNUM_REGEXPS, numberParser::parseShort));
-        addTransform(new FunctionTransform<>("short", Short.class, FIXNUM_REGEXPS, numberParser::parseShort));
-        addTransform(new FunctionTransform<>("int", int.class, FIXNUM_REGEXPS, numberParser::parseInt));
-        addTransform(new FunctionTransform<>("int", Integer.class, FIXNUM_REGEXPS, numberParser::parseInt));
-        addTransform(new FunctionTransform<>("long", long.class, FIXNUM_REGEXPS, numberParser::parseLong));
-        addTransform(new FunctionTransform<>("long", Long.class, FIXNUM_REGEXPS, numberParser::parseLong));
-        addTransform(new FunctionTransform<>("float", float.class, FLOATING_POINT_REGEXPS, numberParser::parseFloat));
-        addTransform(new FunctionTransform<>("float", Float.class, FLOATING_POINT_REGEXPS, numberParser::parseFloat));
-        addTransform(new FunctionTransform<>("double", double.class, FLOATING_POINT_REGEXPS, numberParser::parseDouble));
-        addTransform(new FunctionTransform<>("double", Double.class, FLOATING_POINT_REGEXPS, numberParser::parseDouble));
+        addTransform(new SimpleTransform<>("byte", byte.class, FIXNUM_REGEXPS, new Function<String, Byte>() {
+            @Override
+            public Byte apply(String s) {
+                return numberParser.parseByte(s);
+            }
+        }));
+        addTransform(new SimpleTransform<>("byte", Byte.class, FIXNUM_REGEXPS, new Function<String, Byte>() {
+            @Override
+            public Byte apply(String s) {
+                return numberParser.parseByte(s);
+            }
+        }));
+        addTransform(new SimpleTransform<>("short", short.class, FIXNUM_REGEXPS, new Function<String, Short>() {
+            @Override
+            public Short apply(String s) {
+                return numberParser.parseShort(s);
+            }
+        }));
+        addTransform(new SimpleTransform<>("short", Short.class, FIXNUM_REGEXPS, new Function<String, Short>() {
+            @Override
+            public Short apply(String s) {
+                return numberParser.parseShort(s);
+            }
+        }));
+        addTransform(new SimpleTransform<>("int", int.class, FIXNUM_REGEXPS, new Function<String, Integer>() {
+            @Override
+            public Integer apply(String s) {
+                return numberParser.parseInt(s);
+            }
+        }));
+        addTransform(new SimpleTransform<>("int", Integer.class, FIXNUM_REGEXPS, new Function<String, Integer>() {
+            @Override
+            public Integer apply(String s) {
+                return numberParser.parseInt(s);
+            }
+        }));
+        addTransform(new SimpleTransform<>("long", long.class, FIXNUM_REGEXPS, new Function<String, Long>() {
+            @Override
+            public Long apply(String s) {
+                return numberParser.parseLong(s);
+            }
+        }));
+        addTransform(new SimpleTransform<>("long", Long.class, FIXNUM_REGEXPS, new Function<String, Long>() {
+            @Override
+            public Long apply(String s) {
+                return numberParser.parseLong(s);
+            }
+        }));
+        addTransform(new SimpleTransform<>("float", float.class, FLOATING_POINT_REGEXPS, new Function<String, Float>() {
+            @Override
+            public Float apply(String s) {
+                return numberParser.parseFloat(s);
+            }
+        }));
+        addTransform(new SimpleTransform<>("float", Float.class, FLOATING_POINT_REGEXPS, new Function<String, Float>() {
+            @Override
+            public Float apply(String s) {
+                return numberParser.parseFloat(s);
+            }
+        }));
+        addTransform(new SimpleTransform<>("double", double.class, FLOATING_POINT_REGEXPS, new Function<String, Double>() {
+            @Override
+            public Double apply(String s) {
+                return numberParser.parseDouble(s);
+            }
+        }));
+        addTransform(new SimpleTransform<>("double", Double.class, FLOATING_POINT_REGEXPS, new Function<String, Double>() {
+            @Override
+            public Double apply(String s) {
+                return numberParser.parseDouble(s);
+            }
+        }));
     }
 
     public void addTransform(Transform<?> transform) {
@@ -52,8 +111,8 @@ public class TransformLookup {
 
     public Transform<?> lookupByType(String typeName, boolean ignoreUnknownTypeName) {
         Transform<?> transform = transformsByTypeName.get(typeName);
-        if(transform == null) {
-            if(ignoreUnknownTypeName) {
+        if (transform == null) {
+            if (ignoreUnknownTypeName) {
                 return null;
             } else {
                 throw new CucumberExpressionException(String.format("No transformer for type name \"%s\"", typeName));

@@ -6,7 +6,6 @@ import java.util.Currency;
 import java.util.Date;
 import java.util.Locale;
 
-import static java.util.Collections.singletonList;
 import static org.junit.Assert.assertEquals;
 
 public class CucumberExpressionGeneratorTest {
@@ -42,7 +41,7 @@ public class CucumberExpressionGeneratorTest {
 
     @Test
     public void generates_snippet_for_custom_type() {
-        transformLookup.addTransform(new FunctionTransform<>(
+        transformLookup.addTransform(new SimpleTransform<>(
                 "currency",
                 Currency.class,
                 "[A-Z]{3}",
@@ -55,13 +54,13 @@ public class CucumberExpressionGeneratorTest {
 
     @Test
     public void prefers_leftmost_match_when_there_is_overlap() {
-        transformLookup.addTransform(new FunctionTransform<>(
+        transformLookup.addTransform(new SimpleTransform<>(
                 "currency",
                 Currency.class,
                 "cd",
                 null
         ));
-        transformLookup.addTransform(new FunctionTransform<>(
+        transformLookup.addTransform(new SimpleTransform<>(
                 "date",
                 Date.class,
                 "bc",
@@ -74,13 +73,13 @@ public class CucumberExpressionGeneratorTest {
 
     @Test
     public void prefers_widest_match_when_pos_is_same() {
-        transformLookup.addTransform(new FunctionTransform<>(
+        transformLookup.addTransform(new SimpleTransform<>(
                 "currency",
                 Currency.class,
                 "cd",
                 null
         ));
-        transformLookup.addTransform(new FunctionTransform<>(
+        transformLookup.addTransform(new SimpleTransform<>(
                 "date",
                 Date.class,
                 "cde",

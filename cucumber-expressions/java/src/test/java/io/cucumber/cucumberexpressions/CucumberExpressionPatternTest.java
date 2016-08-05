@@ -2,6 +2,8 @@ package io.cucumber.cucumberexpressions;
 
 import org.junit.Test;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 
@@ -20,7 +22,7 @@ public class CucumberExpressionPatternTest {
         assertPattern(
                 "hello",
                 "^hello$",
-                emptyList()
+                Collections.<Class<?>>emptyList()
         );
     }
 
@@ -29,7 +31,7 @@ public class CucumberExpressionPatternTest {
         assertPattern(
                 "I have {n} cukes",
                 "^I have (-?\\d+) cukes$",
-                singletonList(int.class)
+                Collections.<Class<?>>singletonList(int.class)
         );
     }
 
@@ -38,7 +40,7 @@ public class CucumberExpressionPatternTest {
         assertPattern(
                 "I have {n} cukes",
                 "^I have (-?\\d+) cukes$",
-                singletonList(Integer.class)
+                Collections.<Class<?>>singletonList(Integer.class)
         );
     }
 
@@ -47,16 +49,19 @@ public class CucumberExpressionPatternTest {
         assertPattern(
                 "I have {n:int} cukes in my {bodyPart}",
                 "^I have (-?\\d+) cukes in my (.+)$",
-                emptyList()
+                Collections.<Class<?>>emptyList()
         );
     }
 
     @Test
     public void translates_expression_types_with_explicit_types() {
+        List<Class<?>> types = new ArrayList<>();
+        types.add(Integer.class);
+        types.add(String.class);
         assertPattern(
                 "I have {n:int} cukes in my {bodyPart}",
                 "^I have (-?\\d+) cukes in my (.+)$",
-                asList(int.class, String.class)
+                types
         );
     }
 
@@ -65,7 +70,7 @@ public class CucumberExpressionPatternTest {
         assertPattern(
                 "I have many big(ish) cukes",
                 "^I have many big(?:ish)? cukes$",
-                emptyList()
+                Collections.<Class<?>>emptyList()
         );
 
     }
