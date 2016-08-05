@@ -7,9 +7,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 
-import static java.util.Arrays.asList;
-import static java.util.Collections.emptyList;
-import static java.util.Collections.singletonList;
 import static org.junit.Assert.assertEquals;
 
 /**
@@ -74,6 +71,7 @@ public class CucumberExpressionPatternTest {
         );
 
     }
+
     private void assertPattern(String expr, String expectedRegexp, List<Class<?>> types) {
         CucumberExpression cucumberExpression = new CucumberExpression(expr, types, new TransformLookup(Locale.ENGLISH));
         assertEquals(expectedRegexp, cucumberExpression.getPattern().pattern());

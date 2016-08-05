@@ -35,10 +35,10 @@ class TransformMatcher implements Comparable<TransformMatcher> {
         if (posComparison != 0) return posComparison;
         int lengthComparison = Integer.compare(o.group().length(), group().length());
         if (lengthComparison != 0) return lengthComparison;
-        if(transform.getType().equals(int.class)) {
+        if (transform.getType().equals(int.class)) {
             return -1;
         }
-        if(transform.getType().equals(double.class)) {
+        if (transform.getType().equals(double.class)) {
             return -1;
         }
         return 0;

@@ -14,9 +14,11 @@ public class Argument {
     public int getOffset() {
         return offset;
     }
+
     public String getValue() {
         return value;
     }
+
     public Object getTransformedValue() {
         return transformedValue;
     }

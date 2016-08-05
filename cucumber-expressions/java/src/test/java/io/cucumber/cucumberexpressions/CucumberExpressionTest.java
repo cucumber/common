@@ -1,15 +1,12 @@
 package io.cucumber.cucumberexpressions;
 
 import org.junit.Test;
-import sun.swing.BakedArrayList;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
-import java.util.stream.Collectors;
 
-import static java.util.Collections.emptyList;
 import static java.util.Collections.singletonList;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
