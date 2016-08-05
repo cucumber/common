@@ -8,7 +8,7 @@ module Cucumber
     describe 'examples.txt' do
       def match(expression_text, text)
         expression = expression_text =~ /\/(.*)\// ?
-          RegularExpression.new(Regexp.new($1), TransformLookup.new) :
+          RegularExpression.new(Regexp.new($1), [], TransformLookup.new) :
           CucumberExpression.new(expression_text, [], TransformLookup.new)
 
         arguments = expression.match(text)

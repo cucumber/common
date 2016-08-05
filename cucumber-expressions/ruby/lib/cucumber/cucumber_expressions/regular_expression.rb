@@ -5,31 +5,35 @@ module Cucumber
     class RegularExpression
       CAPTURE_GROUP_PATTERN = /\(([^(]+)\)/
 
-      attr_reader :regexp
-
-      def initialize(regexp, transform_list_or_transform_lookup)
+      def initialize(regexp, types, transform_lookup)
         @regexp = regexp
+        @transforms = []
 
-        if transform_list_or_transform_lookup.is_a?(Array)
-          @transforms = transform_list_or_transform_lookup
-        else
-          @transforms = []
-          transform_lookup = transform_list_or_transform_lookup
+        type_index = 0
+        match = nil
+        match_offset = 0
 
-          match = nil
-          index = 0
+        loop do
+          match = CAPTURE_GROUP_PATTERN.match(regexp.source, match_offset)
+          break if match.nil?
 
-          loop do
-            match = CAPTURE_GROUP_PATTERN.match(regexp.source, index)
-            break if match.nil?
+          capture_group_pattern = match[1]
+          type = types.length <= type_index ? nil : types[type_index]
+          type_index += 1
 
-            capture_group_pattern = match[1]
-            transform = transform_lookup.lookup_by_capture_group_regexp(capture_group_pattern)
-            transform = transform_lookup.lookup_by_type_name('string') if transform.nil?
-            @transforms.push(transform)
-
-            index = match.offset(0)[1]
+          transform = nil
+          if (type)
+            transform = transform_lookup.lookup_by_type(type)
           end
+          if (transform.nil?)
+            transform = transform_lookup.lookup_by_capture_group_regexp(capture_group_pattern)
+          end
+          if (transform.nil?)
+            transform = transform_lookup.create_anonymous_lookup(lambda {|s| s})
+          end
+
+          @transforms.push(transform)
+          match_offset = match.offset(0)[1]
         end
       end
 

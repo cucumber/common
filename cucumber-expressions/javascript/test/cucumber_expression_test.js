@@ -21,12 +21,12 @@ describe(CucumberExpression.name, () => {
 
   it("transforms to float by expression type", () => {
     assert.deepEqual(match("{what:float}", "0.22"), [0.22])
-    assert.deepEqual(match("{what:float}", ".22"), [0.22])
+    assert.deepEqual(match("{what:float}",  ".22"), [0.22])
   })
 
   it("transforms to float by explicit type", () => {
     assert.deepEqual(match("{what}", "0.22", ['float']), [0.22])
-    assert.deepEqual(match("{what}", ".22", ['float']), [0.22])
+    assert.deepEqual(match("{what}",  ".22", ['float']), [0.22])
   })
 
   it("doesn't transform unknown type", () => {
@@ -50,8 +50,8 @@ describe(CucumberExpression.name, () => {
   })
 })
 
-const match = (expression, text, explicitTypes) => {
-  const cucumberExpression = new CucumberExpression(expression, explicitTypes || [], new TransformLookup())
+const match = (expression, text, types) => {
+  const cucumberExpression = new CucumberExpression(expression, types || [], new TransformLookup())
   const arguments = cucumberExpression.match(text)
   if (!arguments) return null
   return arguments.map(arg => arg.transformedValue)

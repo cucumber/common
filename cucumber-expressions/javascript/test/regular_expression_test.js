@@ -4,14 +4,22 @@ const TransformLookup = require('../lib/transform_lookup')
 
 describe(RegularExpression.name, () => {
   it("transforms to string by default", () => {
-    assert.deepEqual(match(/(.*)/, "22", ['']), ['22'])
+    assert.deepEqual(match(/(\d\d)/, "22"), ['22'])
   })
 
   it("transforms integer to double using explicit type", () => {
     assert.deepEqual(match(/(.*)/, "22", ['float']), [22.0])
   })
 
-  it("transforms to double using capture group pattern", () => {
+  it("transforms integer to double using explicit function", () => {
+    assert.deepEqual(match(/(.*)/, "22", [parseFloat]), [22.0])
+  })
+
+  it("transforms to int using capture group pattern", () => {
+    assert.deepEqual(match(/(-?\d+)/, "22"), [22])
+  })
+
+  it("transforms to int using alternate capture group pattern", () => {
     assert.deepEqual(match(/(\d+)/, "22"), [22])
   })
 
@@ -27,7 +35,7 @@ describe(RegularExpression.name, () => {
     assert.deepEqual(match(/(.*)/, "-1.22", [parseFloat]), [-1.22])
   })
 
-  it("transforms double with sign using function", () => {
+  it("transforms double with sign using anonymous function", () => {
     assert.deepEqual(match(/(.*)/, "-1.22", [s => parseFloat(s)]), [-1.22])
   })
 
@@ -48,15 +56,9 @@ describe(RegularExpression.name, () => {
   })
 })
 
-const match = (regexp, text, targetTypes) => {
+const match = (regexp, text, types) => {
   var transformLookup = new TransformLookup()
-  let regularExpression
-  if (targetTypes) {
-    regularExpression = new RegularExpression(regexp, targetTypes, transformLookup)
-  } else {
-    regularExpression = new RegularExpression(regexp, [], transformLookup)
-  }
-
+  const regularExpression = new RegularExpression(regexp, types || [], transformLookup)
   const arguments = regularExpression.match(text)
   if (!arguments) return null
   return arguments.map(arg => arg.transformedValue)

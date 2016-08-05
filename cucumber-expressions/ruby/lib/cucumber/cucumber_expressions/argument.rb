@@ -6,11 +6,6 @@ module Cucumber
       def initialize(offset, value, transformed_value)
         @offset, @value, @transformed_value = offset, value, transformed_value
       end
-
-      # For backwards compatibility with Cucumber::StepArgument
-      def val
-        value
-      end
     end
   end
 end

@@ -49,13 +49,13 @@ class TransformLookup {
     }
   }
 
-  lookupByTypeName(s, ignoreUnknownTypeName) {
-    const transform = this._transformsByTypeName.get(s)
+  lookupByTypeName(typeName, ignoreUnknownTypeName) {
+    const transform = this._transformsByTypeName.get(typeName)
     if (!transform) {
       if (ignoreUnknownTypeName) {
         return null
       } else {
-        throw new Error(`No transformer for type name "${s}"`)
+        throw new Error(`No transformer for type name "${typeName}"`)
       }
     } else {
       return transform
