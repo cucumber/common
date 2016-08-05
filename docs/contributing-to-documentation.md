@@ -12,7 +12,9 @@ As a **committer** you should still use pull requests.
 
 Each pull request should only modify/add a single topic. Don't lump many unrelated document changes into the same pull request.
 
-The title of documentation pull requests should be prefixed `DOC: `. The title should explain what docs you are modifying/creating. For example "DOC: Add tags.md" or "DOC: Modify tags.md to explain boolean expressions".
+The title of documentation pull requests should be prefixed `[docs] `.
+The title should explain what docs you are modifying/creating.
+For example `[docs] Add tags.md` or `[docs] Modify tags.md to explain boolean expressions`.
 
 The more general contribution process is described in the [Cucumber Community Contributing Guide](../CONTRIBUTING.md).
 
@@ -31,7 +33,15 @@ And finally - there is always the friendly [Cucumber Google group](mailto:cukes-
 The [SUMMARY.md](../SUMMARY.md) file is the table of contents. As you see,
 several of the links point to non-existent files. This is what we need help with.
 
-Another great way to contribute is to answer a [mailing list](https://groups.google.com/group/cukes) question by improving
+Documentation that isn't [reference](#reference-style) documentation for a particular library (the
+majority of the documentation) lives under the `/docs` directory.
+
+Some [reference](#reference-style) documentation lives
+in `README` files inside standard libraries, such as
+`/cucumber-expressions/README.md` and `/tag-expressions/README.md`.
+
+A great way to start contributing is to answer a
+[mailing list](https://groups.google.com/group/cukes) question by improving
 the docs, and then reply on the mailing list with a link to your contribution.
 
 If you are contributing for the first time we recommend you start by contributing to the [Reference](#reference-style) documentation. Once you get a hang of that you
