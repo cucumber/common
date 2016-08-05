@@ -7,7 +7,6 @@ rvm:
   - 2.2
   - 2.1
   - 2.0
-  - 1.9.3
   - jruby-9.1.2.0
 
 before_install:
