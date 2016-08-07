@@ -121,4 +121,5 @@
 * [Overview](CONTRIBUTING.md)
 * [Contributing to Documentation](docs/contributing-to-documentation.md)
 * [Contributing to Code](docs/contributing-to-code.md)
+* [Standard Library](docs/standard-library.adoc)
 * [Team](#)

@@ -53,9 +53,11 @@ We use [GitBook](https://gitbook.com) to write and host the documentation. If
 you want to contribute you should sign up for a GitBook account and link your GitHub account.
 
 The documentation is written in [Markdown](http://toolchain.gitbook.com/syntax/markdown.html)
-and stored on [GitHub](https://github.com/cucumber/cucumber)
+(simple markup) and [AsciiDoc](http://toolchain.gitbook.com/syntax/asciidoc.html) (richer markup).
 
-Follow the [GitBook Toolchain installation instructions](https://toolchain.gitbook.com).
+The documentation is stored on [GitHub](https://github.com/cucumber/cucumber)
+
+Follow the [GitBook Toolchain installation instructions](https://toolchain.gitbook.com/setup.html).
 
 When you have the toolchain installed, you can view the documentation locally:
 

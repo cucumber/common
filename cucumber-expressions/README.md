@@ -3,11 +3,14 @@
 Cucumber Expressions are simple patterns for matching Step Definitions with
 Gherkin steps.
 
-(The [implementations](IMPLEMENTATIONS.md) list indicates what Cucumber implementations
-currently support Cucumber Expressions).
+(The [standard library](../standard-library.adoc#implementations) list indicates
+what Cucumber implementations currently support Cucumber Expressions).
 
-Cucumber Expressions are an alternative to [Regular Expressions](https://en.wikipedia.org/wiki/Regular_expression)
-that are both easier to read and write.
+Cucumber Expressions is a human friendly alternative to [Regular Expressions](https://en.wikipedia.org/wiki/Regular_expression).
+
+Cucumber Expressions trade the flexibility and power of Regular Expressions with
+vastly improved readability. Cucumber Expressions also offer additional functionality,
+such as automatic [type transformation](#type-transforms).
 
 This is an example of a Cucumber Expression with a single argument `{n}`:
 
@@ -34,7 +37,7 @@ But it would also match this text (note the singular cuke):
 
     I have 1 cuke in my belly
 
-## Type Transforms
+## Type Transforms {#type-transforms}
 
 Arguments extracted from a successful match are strings by default. In many cases
 you want the type of the argument to be something else, and you can specify the

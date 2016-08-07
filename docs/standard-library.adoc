@@ -1,0 +1,49 @@
+= Standard Library
+
+.Implementation Status
+|===
+|Platform |Cucumber Expressions |Tag Expressions
+
+|.NET
+|X
+|X
+
+|Go
+|X
+|X
+
+|Java
+|image:https://travis-ci.org/cucumber/cucumber-expressions-java.svg?branch=master["Build Status", link="https://travis-ci.org/cucumber/cucumber-expressions-java"]
+image:https://img.shields.io/badge/cucumber-%23500-red.svg["Integrated Into Cucumber", link="#link-to-github-ticket-500"]
+|image:https://travis-ci.org/cucumber/tag-expressions-java.svg?branch=master["Build Status", link="https://travis-ci.org/cucumber/tag-expressions-java"]
+image:https://img.shields.io/badge/cucumber-%23500-red.svg["Integrated Into Cucumber", link="#link-to-github-ticket-500"]
+
+|JavaScript
+|image:https://travis-ci.org/cucumber/cucumber-expressions-javascript.svg?branch=master["Build Status", link="https://travis-ci.org/cucumber/cucumber-expressions-javascript"]
+image:https://img.shields.io/badge/cucumber-%23500-red.svg["Integrated Into Cucumber", link="#link-to-github-ticket-500"]
+|image:https://travis-ci.org/cucumber/tag-expressions-javascript.svg?branch=master["Build Status", link="https://travis-ci.org/cucumber/tag-expressions-javascript"]
+image:https://img.shields.io/badge/cucumber-%23500-red.svg["Integrated Into Cucumber", link="#link-to-github-ticket-500"]
+
+|Ojective-C
+|X
+|X
+
+|Perl
+|X
+|X
+
+|PHP
+|X
+|X
+
+|Python
+|X
+|X
+
+|Ruby
+|image:https://travis-ci.org/cucumber/cucumber-expressions-ruby.svg?branch=master["Build Status", link="https://travis-ci.org/cucumber/cucumber-expressions-ruby"]
+image:https://img.shields.io/badge/cucumber-%23500-red.svg["Integrated Into Cucumber", link="#link-to-github-ticket-500"]
+|image:https://img.shields.io/badge/build-not%20implemented-lightgrey.svg["Not Implemented"]
+image:https://img.shields.io/badge/cucumber-%23500-red.svg["Integrated Into Cucumber", link="#link-to-github-ticket-500"]
+
+|===
