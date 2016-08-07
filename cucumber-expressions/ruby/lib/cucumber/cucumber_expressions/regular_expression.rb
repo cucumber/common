@@ -40,6 +40,10 @@ module Cucumber
       def match(text)
         ArgumentMatcher.match_arguments(@regexp, text, @transforms)
       end
+
+      def source
+        @regexp
+      end
     end
   end
 end

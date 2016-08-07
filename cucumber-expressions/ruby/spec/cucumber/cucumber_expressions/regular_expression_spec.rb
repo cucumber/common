@@ -47,6 +47,11 @@ module Cucumber
         expect( lambda { match(/(.*)/, "-1.22", [99]) } ).to raise_error(
           'Type must be string or class, but was 99 of type Fixnum')
       end
+
+      it "exposes source" do
+        expr = /I have (\d+) cukes? in my (\+) now/
+        expect(RegularExpression.new(expr, [], TransformLookup.new).source).to eq(expr)
+      end
     end
   end
 end

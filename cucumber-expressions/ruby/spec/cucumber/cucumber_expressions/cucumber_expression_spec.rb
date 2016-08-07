@@ -48,12 +48,12 @@ module Cucumber
       end
 
       it "exposes source" do
-        expr = "I have {n:int} cuke(s) in my {bodypart} now";
+        expr = "I have {n:int} cuke(s) in my {bodypart} now"
         expect(CucumberExpression.new(expr, [], TransformLookup.new).source).to eq(expr)
       end
 
-      it "exposes ffset and value" do
-        expr = "I have {n:int} cuke(s) in my {bodypart} now";
+      it "exposes offset and value" do
+        expr = "I have {n:int} cuke(s) in my {bodypart} now"
         expression = CucumberExpression.new(expr, [], TransformLookup.new)
         arg1 = expression.match("I have 800 cukes in my brain now")[0]
         expect(arg1.offset).to eq(7)
