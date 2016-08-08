@@ -14,6 +14,7 @@ Gem::Specification.new do |s|
   s.add_development_dependency 'bundler',   '>= 1.12.5'
   s.add_development_dependency 'rake',      '>= 10.5.0'
   s.add_development_dependency 'rspec',     '~> 3.5'
+  s.add_development_dependency 'json',     '~> 2.0.2'
 
   # For coverage reports
   s.add_development_dependency 'coveralls', '~> 0.7'

@@ -13,6 +13,10 @@ class TransformLookup {
     this.addTransform(new Transform('float', Number, FLOATING_POINT_REGEXPS, parseFloat))
   }
 
+  get transforms() {
+    return this._transformsByTypeName.values()
+  }
+
   lookupByType(type) {
     if (typeof type === 'function') {
       return this.lookupByFunction(type)
@@ -75,9 +79,9 @@ class TransformLookup {
 
     this._transformsByTypeName.set(transform.typeName, transform)
 
-    transform.captureGroupRegexps.forEach(captureGroupRegexp => {
+    for(let captureGroupRegexp of transform.captureGroupRegexps) {
       this._transformsByCaptureGroupRegexp.set(captureGroupRegexp, transform)
-    })
+    }
   }
 }
 

@@ -15,7 +15,7 @@ class CucumberExpression {
     let regexp = "^"
     let typeIndex = 0
     let match
-    let index = 0
+    let matchOffset = 0
 
     // Create non-capturing, optional capture groups from parenthesis
     expression = expression.replace(optionalPattern, '(?:$1)?')
@@ -40,13 +40,13 @@ class CucumberExpression {
       }
       this._transforms.push(transform)
 
-      const text = expression.slice(index, match.index)
+      const text = expression.slice(matchOffset, match.index)
       const captureRegexp = `(${transform.captureGroupRegexps[0]})`
-      index = variablePattern.lastIndex
+      matchOffset = variablePattern.lastIndex
       regexp += text
       regexp += captureRegexp
     }
-    regexp += expression.slice(index)
+    regexp += expression.slice(matchOffset)
     regexp += "$"
     this._regexp = new RegExp(regexp)
   }

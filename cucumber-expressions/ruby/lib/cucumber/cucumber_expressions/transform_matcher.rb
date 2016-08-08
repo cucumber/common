@@ -1,5 +1,3 @@
-require 'cucumber/cucumber_expressions/transform_matcher'
-
 module Cucumber
   module CucumberExpressions
     class TransformMatcher

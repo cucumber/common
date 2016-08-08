@@ -184,14 +184,9 @@ Regular Expression would automatically convert the argument to `int`:
 
     I have (\d+) cukes in my belly
 
-## TODOs
+## Test Coverage
 
-* Implement snippets in ruby
-* Implement snippets in javascript
-* 100% coverage for all impls
-* Add tests verifying that the result is null/nil when expression doesn't match
-* Handle arity mismatch - when there is mismatch between expression args and types length
-* Verify that all impls have the same tests
+The `Cucumber Expressions` library has 100% test coverage for all implementations.
 
 ## Acknowledgements
 

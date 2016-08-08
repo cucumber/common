@@ -1,4 +1,5 @@
 require 'cucumber/cucumber_expressions/cucumber_expression_generator'
+require 'cucumber/cucumber_expressions/transform'
 require 'cucumber/cucumber_expressions/transform_lookup'
 
 module Cucumber

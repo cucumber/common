@@ -17,11 +17,11 @@ describe('examples.txt', () => {
 
   const examples = fs.readFileSync("examples.txt", "utf-8")
   const chunks = examples.split(/^---/m)
-  chunks.forEach(chunk => {
+  for(let chunk of chunks) {
     const [expression_text, text, expected_args] = chunk.trim().split(/\n/m)
     it(`Works with: ${expression_text}`, () => {
       assert.deepEqual(JSON.stringify(match(expression_text, text)), expected_args)
     })
-  })
+  }
 
 })
