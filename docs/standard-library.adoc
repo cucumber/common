@@ -17,10 +17,10 @@ integration status. There are more planned libraries to come:
 * Gherkin Compiler
 * Data Tables
 * Wire Protocol
-* Formatters
-  * HTML
-  * Pretty
-  * JUnit
+* Formatters (only implemented in Go, as standalone command line using STDIN/STDOUT)
+** HTML
+** Pretty
+** JUnit
 
 The adoption of the libraries will be gradual and the
 [Technical Committee](../CONTRIBUTING.md#vocabulary) of each Cucumber implementation
