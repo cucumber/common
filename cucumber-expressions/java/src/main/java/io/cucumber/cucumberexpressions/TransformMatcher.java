@@ -5,16 +5,16 @@ import java.util.regex.Matcher;
 class TransformMatcher implements Comparable<TransformMatcher> {
     private final Transform<?> transform;
     private final Matcher matcher;
-    private final String captureGroupRegexp;
+    private final int textLength;
 
-    public TransformMatcher(Transform<?> transform, String captureGroupRegexp, Matcher matcher) {
+    public TransformMatcher(Transform<?> transform, Matcher matcher, int textLength) {
         this.transform = transform;
-        this.captureGroupRegexp = captureGroupRegexp;
         this.matcher = matcher;
+        this.textLength = textLength;
     }
 
-    public TransformMatcher region(int start, int end) {
-        return new TransformMatcher(transform, captureGroupRegexp, matcher.region(start, end));
+    public TransformMatcher advanceTo(int newMatchPos) {
+        return new TransformMatcher(transform, matcher.region(newMatchPos, textLength), textLength);
     }
 
     public boolean find() {
@@ -35,6 +35,9 @@ class TransformMatcher implements Comparable<TransformMatcher> {
         if (posComparison != 0) return posComparison;
         int lengthComparison = Integer.compare(o.group().length(), group().length());
         if (lengthComparison != 0) return lengthComparison;
+        // int and double are more commonly used than other number types.
+        // We give special priority to those types so that the generated expression
+        // will use those types.
         if (transform.getType().equals(int.class)) {
             return -1;
         }

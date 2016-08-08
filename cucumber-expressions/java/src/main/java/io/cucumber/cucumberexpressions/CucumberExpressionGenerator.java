@@ -14,7 +14,7 @@ public class CucumberExpressionGenerator {
         this.transformLookup = transformLookup;
     }
 
-    public String generateCucumberExpression(String text, boolean typed) {
+    public String generateExpression(String text, boolean typed) {
         List<TransformMatcher> transformMatchers = createTransformMatchers(text);
         List<Transform<?>> transforms = new ArrayList<>();
 
@@ -25,9 +25,9 @@ public class CucumberExpressionGenerator {
             List<TransformMatcher> matchingTransformMatchers = new ArrayList<>();
 
             for (TransformMatcher transformMatcher : transformMatchers) {
-                TransformMatcher movedTransformMatcher = transformMatcher.region(pos, text.length());
-                if (movedTransformMatcher.find()) {
-                    matchingTransformMatchers.add(movedTransformMatcher);
+                TransformMatcher advancedTransformMatcher = transformMatcher.advanceTo(pos);
+                if (advancedTransformMatcher.find()) {
+                    matchingTransformMatchers.add(advancedTransformMatcher);
                 }
             }
 
@@ -73,9 +73,9 @@ public class CucumberExpressionGenerator {
         List<TransformMatcher> result = new ArrayList<>();
         List<String> captureGroupRegexps = transform.getCaptureGroupRegexps();
         for (String captureGroupRegexp : captureGroupRegexps) {
-            Pattern pattern = Pattern.compile("(" + captureGroupRegexp + ")");
-            Matcher matcher = pattern.matcher(text);
-            result.add(new TransformMatcher(transform, captureGroupRegexp, matcher));
+            Pattern regexp = Pattern.compile("(" + captureGroupRegexp + ")");
+            Matcher matcher = regexp.matcher(text);
+            result.add(new TransformMatcher(transform, matcher, text.length()));
         }
         return result;
     }

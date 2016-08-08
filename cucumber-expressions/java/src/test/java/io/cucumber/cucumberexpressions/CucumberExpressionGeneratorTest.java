@@ -14,33 +14,33 @@ public class CucumberExpressionGeneratorTest {
     private final CucumberExpressionGenerator generator = new CucumberExpressionGenerator(transformLookup);
 
     @Test
-    public void generates_snippet_for_no_args() {
+    public void generates_expression_for_no_args() {
         assertTypedExpression("hello", "hello");
     }
 
     @Test
-    public void generates_snippet_for_int_double_arg() {
+    public void generates_expression_for_int_double_arg() {
         assertTypedExpression(
                 "I have {arg1:int} cukes and {arg2:double} euro",
                 "I have 2 cukes and 1.5 euro");
     }
 
     @Test
-    public void generates_snippet_just_int() {
+    public void generates_expression_for_just_int() {
         assertTypedExpression(
                 "{arg1:int}",
                 "99999");
     }
 
     @Test
-    public void generates_snippet_without_expression_type() {
+    public void generates_expression_without_expression_type() {
         assertUntypedExpression(
                 "I have {arg1} cukes and {arg2} euro",
                 "I have 2 cukes and 1.5 euro");
     }
 
     @Test
-    public void generates_snippet_for_custom_type() {
+    public void generates_expression_for_custom_type() {
         transformLookup.addTransform(new SimpleTransform<>(
                 "currency",
                 Currency.class,
@@ -91,10 +91,10 @@ public class CucumberExpressionGeneratorTest {
     }
 
     private void assertTypedExpression(String expected, String text) {
-        assertEquals(expected, generator.generateCucumberExpression(text, true));
+        assertEquals(expected, generator.generateExpression(text, true));
     }
 
     private void assertUntypedExpression(String expected, String text) {
-        assertEquals(expected, generator.generateCucumberExpression(text, false));
+        assertEquals(expected, generator.generateExpression(text, false));
     }
 }

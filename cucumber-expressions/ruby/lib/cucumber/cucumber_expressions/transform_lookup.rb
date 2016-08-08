@@ -61,6 +61,10 @@ module Cucumber
         end
       end
 
+      def transforms
+        @transforms_by_type_name.values
+      end
+
     end
   end
 end
