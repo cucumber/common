@@ -90,11 +90,18 @@ public class CucumberExpressionGeneratorTest {
                 "abcdefg");
     }
 
+    @Test
+    public void exposes_transforms_in_generated_expression() {
+        GeneratedExpression snippet = generator.generateExpression("I have 2 cukes and 1.5 euro", true);
+        assertEquals(int.class, snippet.getTransforms().get(0).getType());
+        assertEquals(double.class, snippet.getTransforms().get(1).getType());
+    }
+
     private void assertTypedExpression(String expected, String text) {
-        assertEquals(expected, generator.generateExpression(text, true));
+        assertEquals(expected, generator.generateExpression(text, true).getSource());
     }
 
     private void assertUntypedExpression(String expected, String text) {
-        assertEquals(expected, generator.generateExpression(text, false));
+        assertEquals(expected, generator.generateExpression(text, false).getSource());
     }
 }

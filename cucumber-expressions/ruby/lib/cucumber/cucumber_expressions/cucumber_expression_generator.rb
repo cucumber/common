@@ -1,4 +1,5 @@
 require 'cucumber/cucumber_expressions/transform_matcher'
+require 'cucumber/cucumber_expressions/generated_expression'
 
 module Cucumber
   module CucumberExpressions
@@ -47,7 +48,7 @@ module Cucumber
         end
 
         expression += text.slice(pos..-1)
-        expression
+        GeneratedExpression.new(expression, transforms)
       end
 
     private

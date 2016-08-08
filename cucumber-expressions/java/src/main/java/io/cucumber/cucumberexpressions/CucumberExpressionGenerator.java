@@ -14,7 +14,7 @@ public class CucumberExpressionGenerator {
         this.transformLookup = transformLookup;
     }
 
-    public String generateExpression(String text, boolean typed) {
+    public GeneratedExpression generateExpression(String text, boolean typed) {
         List<TransformMatcher> transformMatchers = createTransformMatchers(text);
         List<Transform<?>> transforms = new ArrayList<>();
 
@@ -57,7 +57,7 @@ public class CucumberExpressionGenerator {
             }
         }
         expression.append(text.substring(pos));
-        return expression.toString();
+        return new GeneratedExpression(expression.toString(), transforms);
     }
 
     private List<TransformMatcher> createTransformMatchers(String text) {

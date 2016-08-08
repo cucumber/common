@@ -117,7 +117,7 @@ of that class as long as the type has a constructor with signature `(String)`.
 Registering an explicit transform is still beneficial, because it will allow Cucumber
 to suggest snippets for undefined steps with the correct type.
 
-### Step Definition Snippets and Custom Transforms
+## Step Definition Snippets
 
 When Cucumber encounters a [Gherkin step](../docs/gherkin.md#steps) without a
 matching [Step Definition](#), it will print a code snippet with a matching
@@ -128,6 +128,8 @@ step definition that you can use as a starting point. Consider this Gherkin step
 Cucumber would suggest a Step Definition with the following Cucumber Expression:
 
     Given I have {arg1:int} red balls
+
+### Snippets for Custom Transforms
 
 You may have a `Color` class that you want to use to capture the `red` part of the
 step, but unless you register a transform for that class, Cucumber won't be able
@@ -155,12 +157,16 @@ transform_lookup.add_transform(Transform.new(
 ))
 {%- endcodetabs %}
 
-This time, Cucumber would recognise that `red` looks like a color and suggest
+With this transform registered, we can ask Cucumber to generate a snippet again:
+
+    Given I have 2 red balls
+
+This time, Cucumber would recognise that `red` looks like a `color` and suggest
 a Step Definition snippet with the following Cucumber Expression:
 
     Given I have {arg1:int} {arg2:color} balls
 
-### Regular Expressions
+## Regular Expressions
 
 Cucumber has a long relationship with Regular Expressions, and they can still be
 used instead of instead of Cucumber Expressions if you prefer.

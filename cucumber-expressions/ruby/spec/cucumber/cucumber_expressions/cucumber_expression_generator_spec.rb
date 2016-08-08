@@ -47,12 +47,18 @@ module Cucumber
           "I have a EUR account")
       end
 
+      it "exposes transforms in generated expression" do
+        expression = @generator.generate_expression("I have 2 cukes and 1.5 euro", true)
+        types = expression.transforms.map(&:type)
+        expect(types).to eq([Fixnum, Float])
+      end
+
       def assert_typed_expression(expected, text)
-        expect(@generator.generate_expression(text, true)).to eq(expected)
+        expect(@generator.generate_expression(text, true).source).to eq(expected)
       end
 
       def assert_untyped_expression(expected, text)
-        expect(@generator.generate_expression(text, false)).to eq(expected)
+        expect(@generator.generate_expression(text, false).source).to eq(expected)
       end
     end
   end
