@@ -23,11 +23,11 @@ integration status. There are more planned libraries to come:
 ** JUnit
 
 The adoption of the libraries will be gradual and the
-[Technical Committee](../CONTRIBUTING.md#vocabulary) of each Cucumber implementation
+link:../CONTRIBUTING.md#vocabulary[Technical Committee] of each Cucumber implementation
 will decide on the migration path.
 
-[Contributors](../CONTRIBUTING.md#vocabulary) are encouraged to send pull request
-against the [cucumber/cucumber](https://github.com/cucumber/cucumber) repository
+link:../CONTRIBUTING.md#vocabulary[Contributors] are encouraged to send pull request
+against the https://github.com/cucumber/cucumber[cucumber] repository
 with library implementations for new languages.
 
 |===
