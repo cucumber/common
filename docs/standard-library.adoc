@@ -5,10 +5,10 @@ consistent across platforms.
 
 This will benefit both users and contributors:
 
-* The same Documentation can be used for all Cucumber implementations
-* Moving between Cucumber implementations is a lot smoother
+* All Cucumber implementations share the same documentation
+* All Cucumber implementations behave consistently
 * Less duplicate effort for contributors (reusable components)
-* It becomes easier to contribute to Cucumber (often just a matter of porting a library)
+* Contributing to to Cucumber is easier (often just a matter of porting a library)
 * Adding a new feature becomes easier because all implementations have a similar design
 
 The table below shows the current libraries along with their implementation and
