@@ -53,7 +53,7 @@ image:https://img.shields.io/badge/cucumber-not%20implemented-lightgrey.svg["Int
 
 |JavaScript
 |image:https://travis-ci.org/cucumber/cucumber-expressions-javascript.svg?branch=master["Build Status", link="https://travis-ci.org/cucumber/cucumber-expressions-javascript"]
-image:https://img.shields.io/badge/cucumber-not%20implemented-lightgrey.svg["Integrated Into Cucumber"]
+image:https://img.shields.io/badge/cucumber-%23622-red.svg["Integrated Into Cucumber", link="https://github.com/cucumber/cucumber-js/issues/622"]
 |image:https://travis-ci.org/cucumber/tag-expressions-javascript.svg?branch=master["Build Status", link="https://travis-ci.org/cucumber/tag-expressions-javascript"]
 image:https://img.shields.io/badge/cucumber-not%20implemented-lightgrey.svg["Integrated Into Cucumber"]
 
