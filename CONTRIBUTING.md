@@ -15,7 +15,7 @@ also see [guidelines for documentation contributions](docs/contributing-to-docum
 
 This document is based on the [Node.js Community Contributing Guide](https://github.com/nodejs/TSC/blob/master/BasePolicies/CONTRIBUTING.md).
 
-## Vocabulary
+## Vocabulary {#vocabulary}
 
 * A **Contributor** is any individual creating or commenting on an issue or pull request.
 * A **Committer** is a subset of contributors who have been given write access to the repository.
