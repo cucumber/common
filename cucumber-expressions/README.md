@@ -70,27 +70,30 @@ The built-in transforms are handy, but you'll often want to register
 transforms for additional types:
 
 {% codetabs name="Java", type="java" %}
-TransformLookup transformLookup = new TransformLookup(Locale.ENGLISH);
-transformLookup.addTransform(new FunctionTransform<>(
-  Currency.class,
-  singletonList("[A-Z]{3}"),
-  Currency::getInstance
+transformLookup.addTransform(new SimpleTransform<>(
+        "currency",
+        Currency.class,
+        "[A-Z]{3}",
+        new Function<String, Currency>() {
+            @Override
+            public Currency apply(String currencyCode) {
+                return Currency.getInstance(currencyCode);
+            }
+        }
 ));
 {% language name="JavaScript", type="js" %}
-const transformLookup = new TransformLookup()
 transformLookup.addTransform(new Transform(
-  ['currency'],
+  'currency',
   Currency,
   ['[A-Z]{3}'],
   s => new Currency(s)
 ))
 {% language name="Ruby", type="rb" %}
-transform_lookup = TransformLookup.new
 transform_lookup.add_transform(Transform.new(
-  ['currency'],
+  'currency',
   Currency,
   ['[A-Z]{3}'],
-  lambda { |s| Currency.new(s)}
+  lambda { |s| Currency.new(s) }
 ))
 {% endcodetabs %}
 
@@ -136,24 +139,30 @@ step, but unless you register a transform for that class, Cucumber won't be able
 to recognise that. Let's register a transform for `Color`:
 
 {% codetabs name="Java", type="java" -%}
-transformLookup.addTransform(new FunctionTransform<>(
-  Color.class,
-  singletonList("red|blue|yellow"),
-  Color::new
+transformLookup.addTransform(new SimpleTransform<>(
+        "currency",
+        Currency.class,
+        "[A-Z]{3}",
+        new Function<String, Currency>() {
+            @Override
+            public Currency apply(String currencyCode) {
+                return Currency.getInstance(currencyCode);
+            }
+        }
 ));
 {%- language name="JavaScript", type="js" -%}
 transformLookup.addTransform(new Transform(
-  ['color'],
+  'color',
   Color,
-  ['red|blue|yellow'],
+  'red|blue|yellow',
   s => new Color(s)
 ))
 {%- language name="Ruby", type="rb" -%}
 transform_lookup.add_transform(Transform.new(
-  ['color'],
+  'color',
   Color,
-  ['red|blue|yellow'],
-  lambda { |s| Color.new(s)}
+  'red|blue|yellow',
+  lambda { |s| Color.new(s) }
 ))
 {%- endcodetabs %}
 
