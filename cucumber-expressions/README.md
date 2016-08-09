@@ -20,7 +20,7 @@ This expression would match the text of the following [Gherkin Step](../docs/ghe
 When this text is matched against the expression, the `{n}` argument would get the
 value `"42"` and be passed to the body of the [Step Definition](../docs/step-definitions.md).
 
-(The [standard library](../standard-library.adoc#implementations) list indicates
+(The [standard library](../docs/standard-library.adoc#implementations) list indicates
 what Cucumber implementations currently support Cucumber Expressions).
 
 ## Optional Text
@@ -140,13 +140,13 @@ to recognise that. Let's register a transform for `Color`:
 
 {% codetabs name="Java", type="java" -%}
 transformLookup.addTransform(new SimpleTransform<>(
-        "currency",
-        Currency.class,
-        "[A-Z]{3}",
-        new Function<String, Currency>() {
+        "color",
+        Color.class,
+        "red|blue|yellow",
+        new Function<String, Color>() {
             @Override
-            public Currency apply(String currencyCode) {
-                return Currency.getInstance(currencyCode);
+            public Color apply(String color) {
+                return new Color(color);
             }
         }
 ));
