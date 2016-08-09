@@ -71,3 +71,11 @@ Cucumber.js is available as an npm module.
 ``` shell
 $ npm install cucumber
 ```
+
+## PHP {#php}
+
+[Behat](http://docs.behat.org/) is an official Cucumber implementation available as a Composer package.
+
+``` shell
+$ composer require behat/behat
+```
