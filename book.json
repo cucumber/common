@@ -1,8 +1,9 @@
 {
-  "plugins": [ "codetabs" ],
+  "plugins": [ "codetabs", "edit-link" ],
   "pluginsConfig": {
-    "melchior": {
-      "includes": "_includes"
+    "edit-link": {
+      "base": "https://github.com/cucumber/cucumber/edit/master",
+      "label": "Edit this page"
     }
   }
 }
