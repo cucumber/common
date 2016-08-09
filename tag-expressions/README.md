@@ -16,18 +16,8 @@ For more complex Tag Expressions you can use parenthesis for clarity, or to chan
 
     (@smoke or @ui) and (not @slow)
 
-## Implementation status
-
-|               | Library implemented | Used by Cucumber |
-|     :---      |         :---:       |      :---:       |
-| .NET          |           ❌        |        ❌        |
-| Go            |           ❌        |        ❌        |
-| Java          |           ✅        |        ❌        |
-| JavaScript    |           ✅        |        ❌        |
-| Objective-C   |           ❌        |        ❌        |
-| Perl          |           ❌        |        ❌        |
-| Python        |           ❌        |        ❌        |
-| Ruby          |           ❌        |        ❌        |
+(The [standard library](../standard-library.adoc#implementations) list indicates
+what Cucumber implementations currently support Tag Expressions).
 
 ## Internal design
 

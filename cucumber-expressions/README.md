@@ -3,9 +3,6 @@
 Cucumber Expressions are simple patterns for matching Step Definitions with
 Gherkin steps.
 
-(The [standard library](../standard-library.adoc#implementations) list indicates
-what Cucumber implementations currently support Cucumber Expressions).
-
 Cucumber Expressions is a human friendly alternative to [Regular Expressions](https://en.wikipedia.org/wiki/Regular_expression).
 
 Cucumber Expressions trade the flexibility and power of Regular Expressions with
@@ -22,6 +19,9 @@ This expression would match the text of the following [Gherkin Step](../docs/ghe
 
 When this text is matched against the expression, the `{n}` argument would get the
 value `"42"` and be passed to the body of the [Step Definition](../docs/step-definitions.md).
+
+(The [standard library](../standard-library.adoc#implementations) list indicates
+what Cucumber implementations currently support Cucumber Expressions).
 
 ## Optional Text
 
