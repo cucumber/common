@@ -14,16 +14,16 @@ class CucumberExpressionGenerator {
     let argCounter = 0
     let pos = 0
 
-    while(true) {
+    while (true) {
       let matchingTransformMatchers = []
-      for(let transformMatcher of transformMatchers) {
+      for (let transformMatcher of transformMatchers) {
         const advancedTransformMatcher = transformMatcher.advanceTo(pos)
-        if(advancedTransformMatcher.find) {
+        if (advancedTransformMatcher.find) {
           matchingTransformMatchers.push(advancedTransformMatcher)
         }
       }
 
-      if(matchingTransformMatchers.length > 0) {
+      if (matchingTransformMatchers.length > 0) {
         matchingTransformMatchers = matchingTransformMatchers.sort(TransformMatcher.compare)
         const bestTransformMatcher = matchingTransformMatchers[0]
         transforms.push(bestTransformMatcher.transform)
@@ -31,7 +31,7 @@ class CucumberExpressionGenerator {
         expression += text.slice(pos, bestTransformMatcher.start)
         expression += `{arg${++argCounter}`
 
-        if(typed) {
+        if (typed) {
           expression += `:${bestTransformMatcher.transform.typeName}`
         }
         expression += "}"
@@ -40,7 +40,7 @@ class CucumberExpressionGenerator {
         break
       }
 
-      if(pos >= text.length) {
+      if (pos >= text.length) {
         break
       }
     }

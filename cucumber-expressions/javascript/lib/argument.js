@@ -5,11 +5,17 @@ class Argument {
     this._transformedValue = transformedValue
   }
 
-  get offset() { return this._offset }
+  get offset() {
+    return this._offset
+  }
 
-  get value() { return this._value }
+  get value() {
+    return this._value
+  }
 
-  get transformedValue() { return this._transformedValue }
+  get transformedValue() {
+    return this._transformedValue
+  }
 }
 
 module.exports = Argument

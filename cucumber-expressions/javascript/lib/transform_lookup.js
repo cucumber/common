@@ -79,7 +79,7 @@ class TransformLookup {
 
     this._transformsByTypeName.set(transform.typeName, transform)
 
-    for(let captureGroupRegexp of transform.captureGroupRegexps) {
+    for (let captureGroupRegexp of transform.captureGroupRegexps) {
       this._transformsByCaptureGroupRegexp.set(captureGroupRegexp, transform)
     }
   }

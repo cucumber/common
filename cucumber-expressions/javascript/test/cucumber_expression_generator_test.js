@@ -3,7 +3,8 @@ const CucumberExpressionGenerator = require('../lib/cucumber_expression_generato
 const Transform = require('../lib/transform')
 const TransformLookup = require('../lib/transform_lookup')
 
-class Currency {}
+class Currency {
+}
 
 describe(CucumberExpressionGenerator.name, () => {
 
