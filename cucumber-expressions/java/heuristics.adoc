@@ -1,0 +1,33 @@
+= Cucumber Expression - Java Heuristics
+
+Java doesn't provide a literal syntax for regular expressions, so they
+have to be specified as strings. Cucumber uses heuristics to determine
+if a string should be interpreted as a Cucumber Expression or a Regular Expression.
+
+The table below describes the heuristics, along with some examples
+
+|===
+|Expression|Type|Explanation
+
+|strings are cukexp by default
+|CucumberExpression
+|When there are no special characters, a Cucumber Expression is always assumed.
+
+|^definitely a regexp$
+|RegularExpression
+|The presence of anchors assumes a Regular Expression, even if only one of the anchors are present.
+
+|/surely a regexp/
+|RegularExpression
+|Forward slashes always assumes Regular Expression. The slashes themselves are removed.
+
+|this (.+) like a regexp
+|RegularExpression
+|If there are capture groups, assume Regular Expression.
+
+|this look(s) like a cukexp
+|CucumberExpression
+|Parenthesis containing only alphabetic characters are not considered Regular Expression capture groups,
+but Cucumber Expression optional text.
+
+|===

@@ -82,6 +82,7 @@
 * [Step Definitions](docs/step-definitions.md)
   * [Regular Expressions](#)
   * [Cucumber Expressions](cucumber-expressions/README.md)
+    * [Cucumber Expressions and Java](cucumber-expressions/java/heuristics.adoc)
   * [Passing & Failing Steps](#)
   * [Type Transformation](#)
   * [World](#)

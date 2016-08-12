@@ -37,7 +37,7 @@ public class RegularExpression implements Expression {
                 transform = transformLookup.lookupByCaptureGroupRegexp(captureGroupPattern);
             }
             if (transform == null && type != null) {
-                transform = new ConstructorTransform<>(type);
+                transform = new ClassTransform<>(type);
             }
             if (transform == null) {
                 transform = new ConstructorTransform<>(String.class);

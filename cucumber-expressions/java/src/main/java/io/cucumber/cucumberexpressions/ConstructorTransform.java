@@ -6,7 +6,7 @@ import java.util.Collections;
 import java.util.List;
 
 public class ConstructorTransform<T> extends AbstractTransform<T> {
-    public static final List<String> ANYTHING_GOES = Collections.singletonList(".+");
+    private static final List<String> ANYTHING_GOES = Collections.singletonList(".+");
     private final Constructor<T> constructor;
 
     public ConstructorTransform(Class<T> clazz) {
