@@ -58,7 +58,7 @@ types from the step definition body's signature instead of the Cucumber Expressi
 
 Here is an example in Java:
 
-```
+```java
 Given("I have {n} cukes in my belly", (int n) -> {
   // no need to specify {n:int} - the signature makes that explicit.
 })
@@ -69,33 +69,42 @@ Given("I have {n} cukes in my belly", (int n) -> {
 The built-in transforms are handy, but you'll often want to register
 transforms for additional types:
 
-{% codetabs name="Java", type="java" %}
+{% method %}
+{% sample lang="java" %}
+```java
 transformLookup.addTransform(new SimpleTransform<>(
-        "currency",
-        Currency.class,
-        "[A-Z]{3}",
-        new Function<String, Currency>() {
-            @Override
-            public Currency apply(String currencyCode) {
-                return Currency.getInstance(currencyCode);
-            }
-        }
+  "currency",
+  Currency.class,
+  "[A-Z]{3}",
+  new Function<String, Currency>() {
+    @Override
+    public Currency apply(String currencyCode) {
+      return Currency.getInstance(currencyCode);
+    }
+  }
 ));
-{% language name="JavaScript", type="js" %}
+```
+
+{% sample lang="js" %}
+```javascript
 transformLookup.addTransform(new Transform(
   'currency',
   Currency,
   ['[A-Z]{3}'],
   s => new Currency(s)
 ))
-{% language name="Ruby", type="rb" %}
+```
+
+{% sample lang="rb" %}
+```ruby
 transform_lookup.add_transform(Transform.new(
   'currency',
   Currency,
   ['[A-Z]{3}'],
   lambda { |s| Currency.new(s) }
 ))
-{% endcodetabs %}
+```
+{% endmethod %}
 
 With this in place you'll automatically get instances of `Currency`:
 
@@ -130,7 +139,7 @@ step definition that you can use as a starting point. Consider this Gherkin step
 
 Cucumber would suggest a Step Definition with the following Cucumber Expression:
 
-    Given I have {arg1:int} red balls
+    I have {arg1:int} red balls
 
 ### Snippets for Custom Transforms
 
@@ -138,33 +147,42 @@ You may have a `Color` class that you want to use to capture the `red` part of t
 step, but unless you register a transform for that class, Cucumber won't be able
 to recognise that. Let's register a transform for `Color`:
 
-{% codetabs name="Java", type="java" -%}
+{% method %}
+{% sample lang="java" %}
+```java
 transformLookup.addTransform(new SimpleTransform<>(
-        "color",
-        Color.class,
-        "red|blue|yellow",
-        new Function<String, Color>() {
-            @Override
-            public Color apply(String color) {
-                return new Color(color);
-            }
-        }
+  "color",
+  Color.class,
+  "red|blue|yellow",
+  new Function<String, Color>() {
+    @Override
+    public Color apply(String color) {
+      return new Color(color);
+    }
+  }
 ));
-{%- language name="JavaScript", type="js" -%}
+```
+
+{% sample lang="js" %}
+```javascript
 transformLookup.addTransform(new Transform(
   'color',
   Color,
   'red|blue|yellow',
   s => new Color(s)
 ))
-{%- language name="Ruby", type="rb" -%}
+```
+
+{% sample lang="rb" %}
+```ruby
 transform_lookup.add_transform(Transform.new(
   'color',
   Color,
   'red|blue|yellow',
   lambda { |s| Color.new(s) }
 ))
-{%- endcodetabs %}
+```
+{% endmethod %}
 
 With this transform registered, we can ask Cucumber to generate a snippet again:
 

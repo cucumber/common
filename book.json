@@ -1,9 +1,12 @@
 {
-  "plugins": [ "codetabs", "edit-link" ],
+  "plugins": [ "codetabs", "edit-link", "theme-api" ],
   "pluginsConfig": {
     "edit-link": {
       "base": "https://github.com/cucumber/cucumber/edit/master",
       "label": "Edit this page"
+    },
+    "theme-api": {
+      "theme": "dark"
     }
   }
 }
