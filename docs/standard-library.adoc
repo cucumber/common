@@ -7,8 +7,8 @@ This will benefit both users and contributors:
 
 * All Cucumber implementations share the same documentation
 * All Cucumber implementations behave consistently
-* Less duplicate effort for contributors (reusable components)
-* Contributing to to Cucumber is easier (often just a matter of porting a library)
+* Less duplicate effort for link:..//CONTRIBUTING.md#vocabulary[contributors] (reusable components)
+* link:..//CONTRIBUTING.md#vocabulary[Contributing] to to Cucumber is easier (often just a matter of porting a library)
 * Adding a new feature becomes easier because all implementations have a similar design
 
 The table below shows the current libraries along with their implementation and
