@@ -1,0 +1,29 @@
+{
+  "name": "cucumber-html-formatter",
+  "version": "1.0.0",
+  "description": "HTML formatter for Cucumber",
+  "main": "lib/index.js",
+  "scripts": {
+    "test": "mocha && cucumberjs"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/cucumber/cucumber-html-formatter-nodejs.git"
+  },
+  "keywords": [
+    "cucumber",
+    "html",
+    "report",
+    "formatter"
+  ],
+  "author": "Cucumber Ltd",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/cucumber/cucumber-html-formatter-nodejs/issues"
+  },
+  "homepage": "https://github.com/cucumber/cucumber-html-formatter-nodejs#readme",
+  "devDependencies": {
+    "cucumber": "^1.2.2",
+    "mocha": "^3.0.2"
+  }
+}
