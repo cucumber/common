@@ -3,9 +3,7 @@
 Cucumber Expressions are simple patterns for matching Step Definitions with
 Gherkin steps.
 
-What if I add a line right here?
-
-I've change it now [Regular Expressions](https://en.wikipedia.org/wiki/Regular_expression).
+Cucumber Expressions is a human friendly alternative to [Regular Expressions](https://en.wikipedia.org/wiki/Regular_expression).
 
 Cucumber Expressions trade the flexibility and power of Regular Expressions with
 vastly improved readability. Cucumber Expressions also offer additional functionality,
