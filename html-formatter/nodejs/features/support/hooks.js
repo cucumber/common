@@ -34,53 +34,43 @@ module.exports = function () {
   this.Before(function () {
     this._app = buildApp()
 
-    const startWebServer = process.env.cucumber_html_formatter_output === 'eventsource' ?
-      () => this._app.webServer.start(WEB_PORT) :
-      () => Promise.resolve()
-
-    const startSocketServer = process.env.cucumber_html_formatter_input === 'socket' ?
-      () => this._app.socketServer.start(SOCKET_PORT) :
-      () => Promise.resolve()
-
-    const connectToInputStream = process.env.cucumber_html_formatter_input === 'socket' ?
-      () => new Promise((resolve, reject) => {
-        const socket = new Socket({writable: true})
-        socket.on('connect', () => resolve())
-        socket.on('error', reject)
-        socket.connect(SOCKET_PORT)
-
-        const toJsonStream = new ToJsonLineStream()
-        toJsonStream.pipe(socket)
-
-        this._inputStream = toJsonStream
-      }) :
-      () => {
-        this._inputStream = this._app.engine.openStream()
-      }
-
-    const connectToOuptutStream = process.env.cucumber_html_formatter_output === 'eventsource' ?
-      () => new Promise((resolve, reject) => {
-        this._eventSource = new EventSource(`http://localhost:${WEB_PORT}/sse`)
-        this._outputStream = new EventSourceStream(this._eventSource)
-        this._eventSource.onopen = () => resolve()
-        this._eventSource.onerror = () => reject(new Error("Couln't connect EventSource"))
-      }) :
-      () => {
-        this._outputStream = this._app.engine.openStream()
-      }
-
     this._stopWebServer = process.env.cucumber_html_formatter_output === 'eventsource' ?
       () => this._app.webServer.stop() :
       () => Promise.resolve()
 
-    return startWebServer()
-      .then(startSocketServer)
-      .then(connectToInputStream)
-      .then(connectToOuptutStream)
-      .then(() => {
-        this._sinkStream = new SinkStream()
-        this._outputStream.pipe(this._sinkStream)
-      })
+    const connectToEventSource = () => this._app.webServer.start(WEB_PORT)
+      .then(() => new Promise((resolve, reject) => {
+        const eventSource = new EventSource(`http://localhost:${WEB_PORT}/sse`)
+        const outputStream = new EventSourceStream(eventSource)
+        eventSource.onopen = () => resolve(outputStream)
+        eventSource.onerror = () => reject(new Error("Couln't connect EventSource"))
+      }))
+    
+    const connectToSocket = () => this._app.socketServer.start(SOCKET_PORT)
+      .then(() => new Promise((resolve, reject) => {
+        const socket = new Socket({writable: true})
+        const toJsonStream = new ToJsonLineStream()
+        toJsonStream.pipe(socket)
+
+        socket.on('connect', () => resolve(toJsonStream))
+        socket.on('error', reject)
+        socket.connect(SOCKET_PORT)
+      }))
+
+    const connectToEngineStream = () => Promise.resolve(this._app.engine.openStream())
+
+    const connectOutput = process.env.cucumber_html_formatter_output === 'eventsource' ?
+      connectToEventSource :
+      connectToEngineStream
+
+    const connectInput = process.env.cucumber_html_formatter_input === 'socket' ?
+      connectToSocket :
+      connectToEngineStream
+
+    return connectOutput()
+      .then(outputStream => outputStream.pipe(this._sinkStream = new SinkStream()))
+      .then(connectInput)
+      .then(inputStream => this._inputStream = inputStream)
   })
 
   this.After(function () {
