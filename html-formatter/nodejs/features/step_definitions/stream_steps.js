@@ -28,7 +28,7 @@ module.exports = function () {
 
 
   this.Then(/^the feature should be reported$/, function () {
-    return new Promise(resolve => setTimeout(resolve, 200)) // Hack to wait for messages to arrive.
+    return new Promise(resolve => setTimeout(resolve, 800)) // Hack to wait for messages to arrive.
       .then(() => {
         const sourceEvent = this._sinkStream.events.find(e => e.__type__ == 'source')
         assert.equal(sourceEvent.data, this._gherkinSource)

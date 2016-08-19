@@ -5,7 +5,7 @@
   "main": "lib/index.js",
   "scripts": {
     "test": "mocha && cucumberjs",
-    "test-cucumber-full": "cucumber_html_formatter_output=eventsource cucumberjs"
+    "test-cucumber-full": "cucumber_html_formatter_output=eventsource cucumber_html_formatter_input=socket cucumberjs"
   },
   "repository": {
     "type": "git",
@@ -30,6 +30,7 @@
     "mocha": "^3.0.2"
   },
   "dependencies": {
+    "event-stream": "^3.3.4",
     "eventsource": "^0.2.1",
     "express": "^4.14.0",
     "server-destroy": "^1.0.1",
