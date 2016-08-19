@@ -1,5 +1,5 @@
 const enableDestroy = require('server-destroy')
-const streamEventSourceNotifications = require('./stream_to_event_source')
+const EventSourceBroadcastStream = require('./event_source_broadcast_stream')
 
 class WebServer {
   constructor(engine, webApp) {
@@ -11,8 +11,8 @@ class WebServer {
     return new Promise((resolve, reject) => {
       this._server = this._webApp.listen(port, err => {
         if (err) return reject(err)
-
-        streamEventSourceNotifications(this._server, '/sse', this._engine.openStream(), 20000)
+        const esStream = new EventSourceBroadcastStream(this._server, '/sse', 20000)
+        this._engine.openStream().pipe(esStream)
         resolve(port)
       })
       enableDestroy(this._server)
