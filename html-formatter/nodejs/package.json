@@ -24,7 +24,57 @@
   "homepage": "https://github.com/cucumber/cucumber-html-formatter-nodejs#readme",
   "devDependencies": {
     "cucumber": "^1.2.2",
+    "eslint": "^3.3.1",
     "gherkin": "^4.0.0",
     "mocha": "^3.0.2"
+  },
+  "dependencies": {
+    "eventsource": "^0.2.1",
+    "express": "^4.14.0",
+    "server-destroy": "^1.0.1",
+    "sse": "0.0.6"
+  },
+  "eslintConfig": {
+    "env": {
+      "browser": true,
+      "es6": true,
+      "node": true
+    },
+    "parserOptions": {
+      "ecmaVersion": 6,
+      "sourceType": "module",
+      "ecmaFeatures": {
+        "jsx": true
+      }
+    },
+    "rules": {
+      "indent": [
+        "error",
+        2,
+        {
+          "SwitchCase": 1
+        }
+      ],
+      "linebreak-style": [
+        "error",
+        "unix"
+      ],
+      "semi": [
+        "error",
+        "never"
+      ],
+      "no-warning-comments": [
+        "warn"
+      ],
+      "comma-dangle": [
+        "off"
+      ],
+      "no-console": [
+        "off"
+      ],
+      "keyword-spacing": [
+        "error"
+      ]
+    }
   }
 }

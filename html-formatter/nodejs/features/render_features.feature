@@ -12,4 +12,5 @@ Feature: Render Feature
         Scenario: World
           Given hello
       ```
+    When the stream is closed
     Then the feature should be reported

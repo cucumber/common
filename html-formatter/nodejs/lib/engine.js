@@ -13,8 +13,12 @@ class CucumberEventStream extends Stream.Transform {
 }
 
 class Engine {
+  constructor() {
+    this._stream = new CucumberEventStream()
+  }
+
   openStream() {
-    return new CucumberEventStream()
+    return this._stream
   }
 }
 
