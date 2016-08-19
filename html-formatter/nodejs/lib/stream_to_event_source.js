@@ -20,7 +20,7 @@ class WritableEventSourceStream extends Stream.Writable {
   }
 }
 
-const streamEventSourceNotifications = (server, path, readableEventStream, pingIntervalMs) => {
+const streamToEventSource = (server, path, readableEventStream, pingIntervalMs) => {
   const sse = new SSE(server, {path})
   const emitter = new EventEmitter()
 
@@ -39,4 +39,4 @@ const streamEventSourceNotifications = (server, path, readableEventStream, pingI
   return emitter
 }
 
-module.exports = streamEventSourceNotifications
+module.exports = streamToEventSource

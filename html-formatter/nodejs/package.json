@@ -4,7 +4,8 @@
   "description": "HTML formatter for Cucumber",
   "main": "lib/index.js",
   "scripts": {
-    "test": "mocha && cucumberjs"
+    "test": "mocha && cucumberjs",
+    "test-cucumber-full": "cucumber_html_formatter_output=eventsource cucumberjs"
   },
   "repository": {
     "type": "git",

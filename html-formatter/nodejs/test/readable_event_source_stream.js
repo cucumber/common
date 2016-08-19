@@ -4,10 +4,6 @@ class ReadableEventSourceStream extends Stream.Readable {
   constructor(es) {
     super({objectMode: true})
 
-    es.onopen = () => {
-      console.log('OPEN')
-    }
-
     es.onmessage = messageEvent => {
       try {
         const event = JSON.parse(messageEvent.data)
@@ -15,10 +11,6 @@ class ReadableEventSourceStream extends Stream.Readable {
       } catch (err) {
         this.emit('error', err)
       }
-    }
-
-    es.onerror = errorEvent => {
-      this.emit('error', new Error("EventSource errored"))
     }
   }
 

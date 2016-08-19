@@ -1,5 +1,5 @@
 const enableDestroy = require('server-destroy')
-const streamEventSourceNotifications = require('./stream_event_source_notifications')
+const streamEventSourceNotifications = require('./stream_to_event_source')
 
 class WebServer {
   constructor(engine, webApp) {
