@@ -6,7 +6,7 @@ class FromJsonStream extends Stream.Transform {
   }
 
   _transform(line, _, callback) {
-    if(line === '') return callback()
+    if (line === '') return callback()
     try {
       var event = JSON.parse(line)
       this.push(event)

@@ -10,8 +10,9 @@ class SocketServer {
   start(port) {
     return new Promise((resolve, reject) => {
       this._server = net.createServer(socket => {
+        const splitStream = es.split() // deliver individual lines
         const fromJsonStream = new FromJsonStream()
-        socket.pipe(es.split()).pipe(fromJsonStream).pipe(this._engine.openStream())
+        socket.pipe(splitStream).pipe(fromJsonStream).pipe(this._engine.openStream())
         socket.on('error', err => console.error(err.stack))
       })
       this._server.listen(port, err => {

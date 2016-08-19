@@ -1,0 +1,27 @@
+#!/usr/bin/env node
+
+const es = require('event-stream')
+const buildApp = require('../lib/build_app')
+const FromJsonStream = require('../lib/from_json_stream')
+
+const app = buildApp()
+
+if (process.stdin.isTTY) {
+  app.webServer.start(2222)
+    .then(() => app.socketServer.start(2223))
+    .then(() => process.stdin.pipe(app.engine.openStream()))
+    .then(() => {
+      console.log('Socket: 2223, HTTP: 2222')
+    })
+    .catch(err => {
+      console.error(err.stack)
+      process.exit(1)
+    })
+} else {
+  process.stdin.setEncoding('utf8')
+  const fromJsonStream = new FromJsonStream()
+  // TODO: Add error listeners to streams
+  process.stdin.pipe(es.split()).pipe(fromJsonStream).pipe(app.engine.openStream())
+}
+
+
