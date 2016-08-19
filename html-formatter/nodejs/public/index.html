@@ -1,0 +1,11 @@
+<div id="events">
+
+</div>
+
+<script>
+    var es = new EventSource('/sse')
+    es.onmessage = function (messageEvent) {
+        var event = JSON.parse(messageEvent.data)
+        console.log(event)
+    }
+</script>

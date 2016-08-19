@@ -45,7 +45,7 @@ module.exports = function () {
         eventSource.onopen = () => resolve(outputStream)
         eventSource.onerror = () => reject(new Error("Couln't connect EventSource"))
       }))
-    
+
     const connectToSocket = () => this._app.socketServer.start(SOCKET_PORT)
       .then(() => new Promise((resolve, reject) => {
         const socket = new Socket({writable: true})
