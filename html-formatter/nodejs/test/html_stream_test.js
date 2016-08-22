@@ -1,6 +1,6 @@
 import assert from 'assert'
 import arrayToStream from './array_to_stream'
-import streamToArray from './stream_to_Array'
+import streamToArray from './stream_to_array'
 import ReduceStream from '../lib/reduce_stream'
 import HtmlStream from '../lib/html_stream'
 
