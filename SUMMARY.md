@@ -94,6 +94,7 @@
   * [Colours](#)
 * [Reporting](#)
   * [Formatters](#)
+    * [HTML Formatter](html-formatter/README.md)
   * [Screenshots](#)
   * [Attachments](#)
 * [Extending Cucumber](#)
