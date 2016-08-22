@@ -9,6 +9,9 @@ It is a standalone executable that reads events from `STDIN` or a socket and
 writes output (HTML) to `STDOUT`, a specified directory or directly to a browser
 (when run in server-mode).
 
+(The [standard library](../docs/standard-library.adoc#implementations) list indicates
+what Cucumber implementations currently support the Cucumber Event Protocol).
+
 ## Implementation
 
 Cucumber HTML Formatter consists of two main components:

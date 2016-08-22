@@ -2,9 +2,10 @@
 
 The Cucumber Event Protocol allows various components in the Cucumber
 ecosystem to exchange information. For example, it's how Cucumber notifies
-formatters (such as HTML or JUnit) about the results of a Cucumber run.
+formatters (such as [HTML Formatter](../../html-formatter/README.md) or
+JUnit Formatter) about the results of a Cucumber run.
 
-This protocol enables more reuse of complicated components - a Cucumber implementation
+This protocol enables more reuse of complicated components because a Cucumber implementation
 written in one programming language can integrate with components written in
 another programming language.
 
