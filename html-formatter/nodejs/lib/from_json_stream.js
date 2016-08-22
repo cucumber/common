@@ -1,4 +1,4 @@
-const Stream = require('stream')
+import Stream from "stream"
 
 class FromJsonStream extends Stream.Transform {
   constructor() {
@@ -17,4 +17,4 @@ class FromJsonStream extends Stream.Transform {
   }
 }
 
-module.exports = FromJsonStream
+export default FromJsonStream

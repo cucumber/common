@@ -1,5 +1,5 @@
-const enableDestroy = require('server-destroy')
-const EventSourceBroadcastStream = require('./event_source_broadcast_stream')
+import enableDestroy from "server-destroy"
+import EventSourceBroadcastStream from "./event_source_broadcast_stream"
 
 class WebServer {
   constructor(engine, webApp) {
@@ -29,4 +29,4 @@ class WebServer {
   }
 }
 
-module.exports = WebServer
+export default WebServer

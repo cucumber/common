@@ -1,20 +1,10 @@
-const Stream = require('stream')
-const Socket = require('net').Socket
-const EventSource = require('eventsource')
-const EventSourceStream = require('./../../test/readable_event_source_stream')
-const buildApp = require('../../lib/build_app')
-
-class SinkStream extends Stream.Writable {
-  constructor() {
-    super({objectMode: true})
-    this.events = []
-  }
-
-  _write(event, _, callback) {
-    this.events.push(event)
-    callback()
-  }
-}
+import Stream from "stream"
+import {Socket} from "net"
+import EventSource from "eventsource"
+import buildApp from "../../lib/build_app"
+import EventSourceStream from "../../test/event_source_stream"
+import ReactOutput from "../../test/react_output"
+import ReducerOutput from "../../test/reducer_output"
 
 class ToJsonLineStream extends Stream.Transform {
   constructor() {
@@ -38,13 +28,42 @@ module.exports = function () {
       () => this._app.webServer.stop() :
       () => Promise.resolve()
 
-    const connectToEventSource = () => this._app.webServer.start(WEB_PORT)
+    const createEventSourceOutput = () => this._app.webServer.start(WEB_PORT)
       .then(() => new Promise((resolve, reject) => {
         const eventSource = new EventSource(`http://localhost:${WEB_PORT}/sse`)
         const outputStream = new EventSourceStream(eventSource)
-        eventSource.onopen = () => resolve(outputStream)
+        this._output = new ReducerOutput()
+        outputStream.pipe(this._output)
+        eventSource.onopen = () => resolve(this._output)
         eventSource.onerror = () => reject(new Error("Couln't connect EventSource"))
       }))
+
+    const createReactOutput = () => {
+      this._output = new ReactOutput()
+      this._app.engine.openStream().pipe(this._output)
+      return Promise.resolve(this._output)
+    }
+
+    const createReducerOutput = () => {
+      this._output = new ReducerOutput()
+      this._app.engine.openStream().pipe(this._output)
+      return Promise.resolve(this._output)
+    }
+
+    let createOutput
+    switch (process.env.cucumber_html_formatter_output) {
+      case 'eventsource':
+        createOutput = createEventSourceOutput
+        break
+      case 'react':
+        createOutput = createReactOutput
+        break
+      default:
+        createOutput = createReducerOutput
+        break
+    }
+
+    // Input
 
     const connectToSocket = () => this._app.socketServer.start(SOCKET_PORT)
       .then(() => new Promise((resolve, reject) => {
@@ -59,16 +78,12 @@ module.exports = function () {
 
     const connectToEngineStream = () => Promise.resolve(this._app.engine.openStream())
 
-    const connectOutput = process.env.cucumber_html_formatter_output === 'eventsource' ?
-      connectToEventSource :
-      connectToEngineStream
-
     const connectInput = process.env.cucumber_html_formatter_input === 'socket' ?
       connectToSocket :
       connectToEngineStream
 
-    return connectOutput()
-      .then(outputStream => outputStream.pipe(this._sinkStream = new SinkStream()))
+    return createOutput()
+      .then(output => this._output = output)
       .then(connectInput)
       .then(inputStream => this._inputStream = inputStream)
   })

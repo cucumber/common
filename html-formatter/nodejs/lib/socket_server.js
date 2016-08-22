@@ -1,6 +1,6 @@
-const net = require('net')
-const es = require('event-stream')
-const FromJsonStream = require('./from_json_stream')
+import net from "net"
+import es from "event-stream"
+import FromJsonStream from "./from_json_stream"
 
 class SocketServer {
   constructor(engine) {
@@ -23,4 +23,4 @@ class SocketServer {
   }
 }
 
-module.exports = SocketServer
+export default SocketServer

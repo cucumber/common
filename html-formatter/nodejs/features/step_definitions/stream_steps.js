@@ -1,18 +1,16 @@
-const assert = require('assert')
+import assert from "assert"
 
 module.exports = function () {
   const series = "df1d3970-644e-11e6-8b77-86f30ca893d3" // some arbitrary uuid
 
   this.When(/^a new feature at (.*) is streamed:$/, function (uri, gherkinSource, callback) {
-    this._gherkinSource = gherkinSource
-
     this._inputStream.write({
-      __type__: "start",
+      type: "start",
       timestamp: Date.now(),
       series
     })
     this._inputStream.write({
-      __type__: "source",
+      type: "source",
       timestamp: Date.now(),
       series,
       contentType: "text/plain+gherkin",
@@ -27,11 +25,10 @@ module.exports = function () {
   })
 
 
-  this.Then(/^the feature should be reported$/, function () {
+  this.Then(/^a feature with name "([^"]*)" should be reported$/, function (featureName) {
     return new Promise(resolve => setTimeout(resolve, 800)) // Hack to wait for messages to arrive.
       .then(() => {
-        const sourceEvent = this._sinkStream.events.find(e => e.__type__ == 'source')
-        assert.equal(sourceEvent.data, this._gherkinSource)
+        assert.equal(this._output.getFeatureName(), featureName)
       })
   })
 }

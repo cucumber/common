@@ -1,6 +1,6 @@
-const Stream = require('stream')
+import Stream from "stream"
 
-class ReadableEventSourceStream extends Stream.Readable {
+class EventSourceStream extends Stream.Readable {
   constructor(es) {
     super({objectMode: true})
 
@@ -14,7 +14,8 @@ class ReadableEventSourceStream extends Stream.Readable {
     }
   }
 
-  _read() {}
+  _read() {
+  }
 }
 
-module.exports = ReadableEventSourceStream
+module.exports = EventSourceStream

@@ -13,4 +13,4 @@ Feature: Render Feature
           Given hello
       ```
     When the stream is closed
-    Then the feature should be reported
+    Then a feature with name "Hello" should be reported

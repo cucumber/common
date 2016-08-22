@@ -4,9 +4,10 @@
   "description": "HTML formatter for Cucumber",
   "main": "lib/index.js",
   "scripts": {
-    "test": "mocha && npm run test-cucumber && npm run test-cucumber-full",
+    "test": "mocha && npm run test-cucumber && npm run test-cucumber-eventsource && npm run test-cucumber-react",
     "test-cucumber": "cucumberjs",
-    "test-cucumber-full": "cucumber_html_formatter_output=eventsource cucumber_html_formatter_input=socket cucumberjs"
+    "test-cucumber-eventsource": "cucumber_html_formatter_output=eventsource cucumber_html_formatter_input=socket cucumberjs",
+    "test-cucumber-react": "cucumber_html_formatter_output=react cucumber_html_formatter_input=socket cucumberjs"
   },
   "repository": {
     "type": "git",

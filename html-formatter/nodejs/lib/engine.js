@@ -1,4 +1,4 @@
-const Stream = require('stream')
+import Stream from "stream"
 
 class CucumberEventStream extends Stream.Transform {
   constructor() {
@@ -22,4 +22,4 @@ class Engine {
   }
 }
 
-module.exports = Engine
+export default Engine

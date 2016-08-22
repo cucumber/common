@@ -1,5 +1,5 @@
-const path = require('path')
-const express = require('express')
+import path from 'path'
+import express from 'express'
 
 const webApp = engine => {
   const app = express()
@@ -12,4 +12,4 @@ const webApp = engine => {
   return app
 }
 
-module.exports = webApp
+export default webApp
