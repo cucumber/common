@@ -32,12 +32,14 @@ against the https://github.com/cucumber/cucumber[cucumber] repository
 with library implementations for new languages.
 
 |===
-|Platform |link:../cucumber-expressions/README.md[Cucumber Expressions] |link:../tag-expressions/README.md[Tag Expressions]
+|Platform |link:../cucumber-expressions/README.md[Cucumber Expressions] |link:../tag-expressions/README.md[Tag Expressions] |link:../html-formatter/README.md[HTML Formatter]
 
 |.NET
 |image:https://img.shields.io/badge/build-not%20implemented-lightgrey.svg["Build Status"]
 image:https://img.shields.io/badge/cucumber-not%20implemented-lightgrey.svg["Integrated Into Cucumber"]
 |image:https://img.shields.io/badge/build-not%20implemented-lightgrey.svg["Build Status"]
+image:https://img.shields.io/badge/cucumber-not%20implemented-lightgrey.svg["Integrated Into Cucumber"]
+|image:https://travis-ci.org/cucumber/html-formatter-nodejs.svg?branch=master["Build Status", link="https://travis-ci.org/cucumber/html-formatter-nodejs"]
 image:https://img.shields.io/badge/cucumber-not%20implemented-lightgrey.svg["Integrated Into Cucumber"]
 
 |Go
@@ -45,23 +47,31 @@ image:https://img.shields.io/badge/cucumber-not%20implemented-lightgrey.svg["Int
 image:https://img.shields.io/badge/cucumber-not%20implemented-lightgrey.svg["Integrated Into Cucumber"]
 |image:https://img.shields.io/badge/build-not%20implemented-lightgrey.svg["Build Status"]
 image:https://img.shields.io/badge/cucumber-not%20implemented-lightgrey.svg["Integrated Into Cucumber"]
+|image:https://travis-ci.org/cucumber/html-formatter-nodejs.svg?branch=master["Build Status", link="https://travis-ci.org/cucumber/html-formatter-nodejs"]
+image:https://img.shields.io/badge/cucumber-not%20implemented-lightgrey.svg["Integrated Into Cucumber"]
 
 |Java
 |image:https://travis-ci.org/cucumber/cucumber-expressions-java.svg?branch=master["Build Status", link="https://travis-ci.org/cucumber/cucumber-expressions-java"]
 image:https://img.shields.io/badge/cucumber-%231041-red.svg["Integrated Into Cucumber", link="https://github.com/cucumber/cucumber-jvm/issues/1041"]
 |image:https://travis-ci.org/cucumber/tag-expressions-java.svg?branch=master["Build Status", link="https://travis-ci.org/cucumber/tag-expressions-java"]
 image:https://img.shields.io/badge/cucumber-%231040-red.svg["Integrated Into Cucumber", link="https://github.com/cucumber/cucumber-jvm/issues/1040"]
+|image:https://travis-ci.org/cucumber/html-formatter-nodejs.svg?branch=master["Build Status", link="https://travis-ci.org/cucumber/html-formatter-nodejs"]
+image:https://img.shields.io/badge/cucumber-not%20implemented-lightgrey.svg["Integrated Into Cucumber"]
 
 |JavaScript
 |image:https://travis-ci.org/cucumber/cucumber-expressions-javascript.svg?branch=master["Build Status", link="https://travis-ci.org/cucumber/cucumber-expressions-javascript"]
 image:https://img.shields.io/badge/cucumber-%23622-red.svg["Integrated Into Cucumber", link="https://github.com/cucumber/cucumber-js/issues/622"]
 |image:https://travis-ci.org/cucumber/tag-expressions-javascript.svg?branch=master["Build Status", link="https://travis-ci.org/cucumber/tag-expressions-javascript"]
 image:https://img.shields.io/badge/cucumber-%23623-red.svg["Integrated Into Cucumber", link="https://github.com/cucumber/cucumber-js/issues/623"]
+|image:https://travis-ci.org/cucumber/html-formatter-nodejs.svg?branch=master["Build Status", link="https://travis-ci.org/cucumber/html-formatter-nodejs"]
+image:https://img.shields.io/badge/cucumber-not%20implemented-lightgrey.svg["Integrated Into Cucumber"]
 
 |Ojective-C
 |image:https://img.shields.io/badge/build-not%20implemented-lightgrey.svg["Build Status"]
 image:https://img.shields.io/badge/cucumber-not%20implemented-lightgrey.svg["Integrated Into Cucumber"]
 |image:https://img.shields.io/badge/build-not%20implemented-lightgrey.svg["Build Status"]
+image:https://img.shields.io/badge/cucumber-not%20implemented-lightgrey.svg["Integrated Into Cucumber"]
+|image:https://travis-ci.org/cucumber/html-formatter-nodejs.svg?branch=master["Build Status", link="https://travis-ci.org/cucumber/html-formatter-nodejs"]
 image:https://img.shields.io/badge/cucumber-not%20implemented-lightgrey.svg["Integrated Into Cucumber"]
 
 |Perl
@@ -69,11 +79,15 @@ image:https://img.shields.io/badge/cucumber-not%20implemented-lightgrey.svg["Int
 image:https://img.shields.io/badge/cucumber-not%20implemented-lightgrey.svg["Integrated Into Cucumber"]
 |image:https://img.shields.io/badge/build-not%20implemented-lightgrey.svg["Build Status"]
 image:https://img.shields.io/badge/cucumber-not%20implemented-lightgrey.svg["Integrated Into Cucumber"]
+|image:https://travis-ci.org/cucumber/html-formatter-nodejs.svg?branch=master["Build Status", link="https://travis-ci.org/cucumber/html-formatter-nodejs"]
+image:https://img.shields.io/badge/cucumber-not%20implemented-lightgrey.svg["Integrated Into Cucumber"]
 
 |PHP
 |image:https://img.shields.io/badge/build-not%20implemented-lightgrey.svg["Build Status"]
 image:https://img.shields.io/badge/cucumber-not%20implemented-lightgrey.svg["Integrated Into Cucumber"]
 |image:https://img.shields.io/badge/build-not%20implemented-lightgrey.svg["Build Status"]
+image:https://img.shields.io/badge/cucumber-not%20implemented-lightgrey.svg["Integrated Into Cucumber"]
+|image:https://travis-ci.org/cucumber/html-formatter-nodejs.svg?branch=master["Build Status", link="https://travis-ci.org/cucumber/html-formatter-nodejs"]
 image:https://img.shields.io/badge/cucumber-not%20implemented-lightgrey.svg["Integrated Into Cucumber"]
 
 |Python
@@ -81,11 +95,15 @@ image:https://img.shields.io/badge/cucumber-not%20implemented-lightgrey.svg["Int
 image:https://img.shields.io/badge/cucumber-not%20implemented-lightgrey.svg["Integrated Into Cucumber"]
 |image:https://img.shields.io/badge/build-not%20implemented-lightgrey.svg["Build Status"]
 image:https://img.shields.io/badge/cucumber-not%20implemented-lightgrey.svg["Integrated Into Cucumber"]
+|image:https://travis-ci.org/cucumber/html-formatter-nodejs.svg?branch=master["Build Status", link="https://travis-ci.org/cucumber/html-formatter-nodejs"]
+image:https://img.shields.io/badge/cucumber-not%20implemented-lightgrey.svg["Integrated Into Cucumber"]
 
 |Ruby
 |image:https://travis-ci.org/cucumber/cucumber-expressions-ruby.svg?branch=master["Build Status", link="https://travis-ci.org/cucumber/cucumber-expressions-ruby"]
 image:https://img.shields.io/badge/cucumber-%231002-red.svg["Integrated Into Cucumber", link="https://github.com/cucumber/cucumber-ruby/issues/1002"]
 |image:https://img.shields.io/badge/build-not%20implemented-lightgrey.svg["Not Implemented", link="https://github.com/cucumber/cucumber/issues/60"]
 image:https://img.shields.io/badge/cucumber-%231003-red.svg["Integrated Into Cucumber", link="https://github.com/cucumber/cucumber-ruby/issues/1003"]
+|image:https://travis-ci.org/cucumber/html-formatter-nodejs.svg?branch=master["Build Status", link="https://travis-ci.org/cucumber/html-formatter-nodejs"]
+image:https://img.shields.io/badge/cucumber-not%20implemented-lightgrey.svg["Integrated Into Cucumber"]
 
 |===
