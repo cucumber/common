@@ -16,7 +16,7 @@ For more complex Tag Expressions you can use parenthesis for clarity, or to chan
 
     (@smoke or @ui) and (not @slow)
 
-(The [standard library](../standard-library.adoc#implementations) list indicates
+(The [standard library](../docs/standard-library.adoc#implementations) list indicates
 what Cucumber implementations currently support Tag Expressions).
 
 ## Internal design
