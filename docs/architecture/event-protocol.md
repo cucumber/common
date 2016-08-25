@@ -20,7 +20,7 @@ formatters for results. They can even be combined.
 
 * Independent of Gherkin - should work with other doc types such as Markdown
   * Use path, line and column to link certain events to source
-* [JSON Line](http://jsonlines.org/) formatted
+* [Newline Delimited JSON](http://ndjson.org) formatted
 * The following transport should be supported by all producers/consumers:
   * Raw socket
   * STDIN/STDOUT
