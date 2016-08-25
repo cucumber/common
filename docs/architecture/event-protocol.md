@@ -1,5 +1,7 @@
 # Cucumber Event Protocol
 
+(This is still a work in progress)
+
 The Cucumber Event Protocol allows various components in the Cucumber
 ecosystem to exchange information. For example, it's how Cucumber notifies
 formatters (such as [HTML Formatter](../../html-formatter/README.md) or
@@ -35,7 +37,7 @@ formatters for results. They can even be combined.
 This is an incomplete list. It should be expanded as various tools implement support for
 additional events.
 
-### Start
+### Start {#start}
 
 Example:
 
@@ -47,7 +49,7 @@ Example:
 }
 ```
 
-### Finish
+### Finish {#finish}
 
 Example:
 
@@ -59,7 +61,7 @@ Example:
 }
 ```
 
-### Source
+### Source {#source}
 
 Example:
 
@@ -75,7 +77,7 @@ Example:
 }
 ```
 
-### Attachment
+### Attachment {#attachment}
 
 #### Embedded data
 
