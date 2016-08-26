@@ -21,9 +21,11 @@ module.exports = function () {
   })
 
   this.When(/^the stream is closed$/, function (callback) {
-    this._inputStream.end(callback)
+    // Allow messages to arrive on the other side before closing....
+    setTimeout(() => {
+      this._inputStream.end(callback)
+    }, 800)
   })
-
 
   this.Then(/^a feature with name "([^"]*)" should be reported$/, function (featureName) {
     return new Promise(resolve => setTimeout(resolve, 800)) // Hack to wait for messages to arrive.

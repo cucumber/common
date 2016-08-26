@@ -1,10 +1,10 @@
 import Stream from "stream"
 import {Socket} from "net"
-import EventSource from "eventsource"
 import buildApp from "../../lib/build_app"
+import ReduceStream from "../../lib/reduce_stream"
 import EventSourceStream from "../../test/event_source_stream"
 import ReactOutput from "../../test/react_output"
-import ReducerOutput from "../../test/reducer_output"
+import StateOutput from "../../test/state_output"
 
 class ToJsonLineStream extends Stream.Transform {
   constructor() {
@@ -28,25 +28,28 @@ module.exports = function () {
       () => this._app.webServer.stop() :
       () => Promise.resolve()
 
+    // es -> reduce ->  state
+    // When the stream is closed
+    //    inputStream.end() (writable)
+    //    es.flush()
     const createEventSourceOutput = () => this._app.webServer.start(WEB_PORT)
       .then(() => new Promise((resolve, reject) => {
-        const eventSource = new EventSource(`http://localhost:${WEB_PORT}/sse`)
-        const outputStream = new EventSourceStream(eventSource)
-        this._output = new ReducerOutput()
-        outputStream.pipe(this._output)
-        eventSource.onopen = () => resolve(this._output)
-        eventSource.onerror = () => reject(new Error("Couln't connect EventSource"))
+        const outputStream = new EventSourceStream(`http://localhost:${WEB_PORT}/sse`)
+        this._output = new StateOutput()
+        outputStream.pipe(new ReduceStream()).pipe(this._output)
+        outputStream.on('open', () => resolve(this._output)) // TODO: Look up stream API for proper event
+        outputStream.on('error', reject)
       }))
 
     const createReactOutput = () => {
       this._output = new ReactOutput()
-      this._app.engine.openStream().pipe(this._output)
+      this._app.engine.openStream().pipe(new ReduceStream()).pipe(this._output)
       return Promise.resolve(this._output)
     }
 
     const createReducerOutput = () => {
-      this._output = new ReducerOutput()
-      this._app.engine.openStream().pipe(this._output)
+      this._output = new StateOutput()
+      this._app.engine.openStream().pipe(new ReduceStream()).pipe(this._output)
       return Promise.resolve(this._output)
     }
 

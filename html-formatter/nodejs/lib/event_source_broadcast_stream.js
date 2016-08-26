@@ -1,5 +1,5 @@
-import Stream from 'stream'
-import SSE from 'sse'
+import Stream from "stream"
+import SSE from "sse"
 
 class ConnectionStream extends Stream.Writable {
   constructor(eventSourceConnection, pingIntervalMs) {
@@ -9,7 +9,10 @@ class ConnectionStream extends Stream.Writable {
       () => this._eventSourceConnection.send({event: 'ping', data: Date.now().toString()}),
       pingIntervalMs
     )
-    this.on('finish', () => clearInterval(pingInterval))
+    this.on('finish', () => {
+      clearInterval(pingInterval)
+      eventSourceConnection.close()
+    })
   }
 
   _write(event, _, callback) {
