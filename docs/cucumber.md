@@ -36,8 +36,8 @@ Under the hood, step definitions translate from the business-facing language of 
    
 Here is an example of a Cucumber Feature:
  
- ```gherkin 
-Feature: Sign up Sign up should be quick and friendly**
+```gherkin 
+Feature: Sign up should be quick and friendly
 
 Scenario: Successful sign up.  New users should get a confirmation email and greeted personally by the site once signed in.
 
@@ -46,7 +46,6 @@ When I sign up with valid details
 Then I should receive a confirmation email
 And I should see a personalized greeting message
 ```
-
 ```gherkin
 Scenario: Duplicate email. Where someone tries to create an account for an email address that already exists.
 
@@ -54,11 +53,10 @@ Given I have chosen to sign up
 But I specify an email address that has already registered
 Then I should be told that the email is already registered
 And I should be offered the option to recover my password
-
- ``` 
+``` 
   
  Anyone from the team can go through the Feature file an can understand what is the system for, And how it works(functionality).This helps in analyzing the functionality of the system and come up with more scenarios where the system/software can be tested thoroughly.
       
 In this way, we say that the story functions as a living document. As the behavior of the system evolves over time, the team is forced to evolve the documentation in parallel.
    
-Acceptance tests written in this style become more than just tests,they are executable specifications along with [living documentation](docs/living-documentation).
+Acceptance tests written in this style become more than just tests,they are executable specifications along with [living documentation](docs/living-documentation.md).
