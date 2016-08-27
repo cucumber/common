@@ -28,11 +28,7 @@ module.exports = function () {
       () => this._app.webServer.stop() :
       () => Promise.resolve()
 
-    // es -> reduce ->  state
-    // When the stream is closed
-    //    inputStream.end() (writable)
-    //    es.flush()
-    const createEventSourceOutput = () => this._app.webServer.start(WEB_PORT)
+    const createEventSourceOutput = () => this._app.webServer.start(WEB_PORT, true)
       .then(() => new Promise((resolve, reject) => {
         const outputStream = new EventSourceStream(`http://localhost:${WEB_PORT}/sse`)
         this._output = new StateOutput()

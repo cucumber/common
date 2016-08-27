@@ -9,7 +9,7 @@ import HtmlStream from "../lib/html_stream"
 const app = buildApp()
 
 if (process.stdin.isTTY) {
-  app.webServer.start(2222)
+  app.webServer.start(2222, false)
     .then(() => app.socketServer.start(2223))
     .then(() => process.stdin.pipe(app.engine.openStream()))
     .then(() => {
