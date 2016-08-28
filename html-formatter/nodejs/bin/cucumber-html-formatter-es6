@@ -3,7 +3,7 @@
 import es from "event-stream"
 import buildApp from "../lib/build_app"
 import FromJsonStream from "../lib/from_json_stream"
-import ReduceStream from "../lib/reduce_stream"
+import ReduceStream from "../lib/reducer_stream"
 import HtmlStream from "../lib/html_stream"
 
 const app = buildApp()

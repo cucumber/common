@@ -2,9 +2,9 @@ import assert from "assert"
 import Stream from "stream"
 import arrayToStream from './array_to_stream'
 import streamToArray from './stream_to_array'
-import ReduceStream from '../lib/reduce_stream'
+import ReducerStream from '../lib/reducer_stream'
 
-describe(ReduceStream.name, () => {
+describe(ReducerStream.name, () => {
   it("reduces events to state", () => {
     const events = [
       {"type": "start", "timestamp": 1471614838649, "series": "df1d3970-644e-11e6-8b77-86f30ca893d3"},
@@ -19,10 +19,10 @@ describe(ReduceStream.name, () => {
       }
     ]
 
-    const reduceStream = new ReduceStream()
+    const reducerStream = new ReducerStream()
     const passthru = new Stream.PassThrough({objectMode: true})
     arrayToStream(events)
-      .pipe(reduceStream)
+      .pipe(reducerStream)
       .pipe(passthru)
 
     return streamToArray(passthru)

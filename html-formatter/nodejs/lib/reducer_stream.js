@@ -1,7 +1,7 @@
 import Stream from 'stream'
 import reducer from './reducer'
 
-class ReduceStream extends Stream.Transform {
+class ReducerStream extends Stream.Transform {
   constructor() {
     super({objectMode: true})
     this._state = reducer()
@@ -18,4 +18,4 @@ class ReduceStream extends Stream.Transform {
   }
 }
 
-export default ReduceStream
+export default ReducerStream
