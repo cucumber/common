@@ -38,6 +38,7 @@
     "react-addons-test-utils": "^15.3.1"
   },
   "dependencies": {
+    "debug": "^2.2.0",
     "event-stream": "^3.3.4",
     "eventsource": "^0.2.1",
     "express": "^4.14.0",
