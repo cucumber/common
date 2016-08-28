@@ -6,7 +6,7 @@ class ConnectionStream extends Stream.Writable {
     super({objectMode: true})
     this._eventSourceConnection = eventSourceConnection
     const pingInterval = setInterval(
-      () => this._eventSourceConnection.send({event: 'ping', data: Date.now().toString()}),
+      () => this._eventSourceConnection.res.write(':ok\n\n'),
       pingIntervalMs
     )
     this.on('finish', () => {
