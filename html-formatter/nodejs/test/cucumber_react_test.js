@@ -6,8 +6,6 @@ import reducer from "../lib/reducer"
 
 describe('Cucumber React', () => {
   it("renders the feature header", () => {
-    const initialState = reducer()
-
     // taken from example.txt
     const events = [
       {"type": "start", "timestamp": 1471614838649, "series": "df1d3970-644e-11e6-8b77-86f30ca893d3"},
@@ -22,10 +20,10 @@ describe('Cucumber React', () => {
       }
     ]
 
-    const state = events.reduce(reducer, initialState)
+    const state = events.reduce(reducer, reducer())
     const gherkinDocumentComp = shallow(<GherkinDocument node={state.getIn(['sources', 'features/hello.feature'])}/>)
     const featureComp = gherkinDocumentComp.find(Feature)
 
-    assert.equal(featureComp.prop('node').name, 'Hello')
+    assert.equal(featureComp.prop('node').get('name'), 'Hello')
   })
 })

@@ -10,8 +10,8 @@ class StateOutput extends Stream.Writable {
     callback()
   }
 
-  getFeatureName() {
-    return this._state.getIn(['sources', 'features/hello.feature']).feature.name
+  getFeatureNames() {
+    return Array.from(this._state.get('sources').values()).map(gherkinDocument => gherkinDocument.getIn(['feature', 'name']))
   }
 }
 

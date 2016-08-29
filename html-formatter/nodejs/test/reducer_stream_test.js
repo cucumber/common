@@ -26,6 +26,9 @@ describe(ReducerStream.name, () => {
       .pipe(passthru)
 
     return streamToArray(passthru)
-      .then(states => assert.deepEqual(states[0].get('sources').get('features/hello.feature').feature.name, 'Hello'))
+      .then(states => assert.deepEqual(
+        states[0].getIn(['sources', 'features/hello.feature', 'feature', 'name']),
+        'Hello'
+      ))
   })
 })

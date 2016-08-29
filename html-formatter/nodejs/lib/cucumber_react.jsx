@@ -1,11 +1,15 @@
-import React from 'react' // eslint-disable-line no-unused-vars
+import React from "react" // eslint-disable-line no-unused-vars
+
+const Cucumber = ({state}) => <div>
+  {Array.from(state.get('sources').keys()).map(uri => <GherkinDocument key={uri} node={state.getIn(['sources', uri])}/>)}
+</div>
 
 const GherkinDocument = ({node}) => <div>
-  <Feature node={node.feature}/>
+  <Feature node={node.get('feature')}/>
 </div>
 
 const Feature = ({node}) => <div>
-  <h1><span>{node.keyword}: </span><span>{node.name}</span></h1>
+  <h1 className="feature"><span>{node.get('keyword')}: </span><span className="name">{node.get('name')}</span></h1>
 </div>
 
-export { GherkinDocument, Feature }
+export {Cucumber, GherkinDocument, Feature}
