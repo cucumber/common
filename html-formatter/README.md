@@ -3,7 +3,7 @@
 The Cucumber HTML Formatter renders Cucumber features as HTML. It can optionally include
 extra information such as Cucumber results, stack traces, screenshots,
 [Gherkin-Lint results](../../gherkin-lint/README.md) or any other information that can be embedded
-in the [Cucumber Event Protocol](../../docs/architecture/event-protocol.md).
+in the [Cucumber Event Protocol](../docs/architecture/event-protocol.md).
 
 It is a standalone executable that reads events from `STDIN` or a socket and
 writes output (HTML) to `STDOUT`, a specified directory or directly to a browser
