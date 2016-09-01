@@ -53,7 +53,7 @@ Example:
 
 ```javascript
 {
-  type: finish,
+  type: "finish",
   timestamp: 1471420027068,
   series: "df1d3970-644e-11e6-8b77-86f30ca893d3"
 }
