@@ -3,6 +3,6 @@ LICENSE: ../../LICENSE
 
 .PHONY: release
 release:
-	npm deploy
+	npm publish
 	version=$$(jq -r ".version" package.json); \
 	git tag --annotate v$$version --message "Release $$version"
