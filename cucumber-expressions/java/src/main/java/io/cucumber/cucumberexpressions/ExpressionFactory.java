@@ -17,8 +17,13 @@ public class ExpressionFactory {
     private static final Pattern SCRIPT_STYLE_REGEXP = Pattern.compile("^/(.*)/$");
     private static final Pattern PARENS = Pattern.compile("\\(([^\\)]+)\\)");
     private static final Pattern ALPHA = Pattern.compile("[a-zA-Z]+");
+    private final TransformLookup transformLookup;
 
-    public Expression createExpression(String expressionString, List<Class<?>> types, TransformLookup transformLookup) {
+    public ExpressionFactory(TransformLookup transformLookup) {
+        this.transformLookup = transformLookup;
+    }
+
+    public Expression createExpression(String expressionString, List<Class<?>> types) {
         Matcher m = BEGIN_ANCHOR.matcher(expressionString);
         if (m.find()) {
             return new RegularExpression(Pattern.compile(expressionString), types, transformLookup);
