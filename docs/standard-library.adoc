@@ -101,7 +101,7 @@ image:https://img.shields.io/badge/cucumber-not%20implemented-lightgrey.svg["Int
 |Ruby
 |image:https://travis-ci.org/cucumber/cucumber-expressions-ruby.svg?branch=master["Build Status", link="https://travis-ci.org/cucumber/cucumber-expressions-ruby"]
 image:https://img.shields.io/badge/cucumber-%231002-red.svg["Integrated Into Cucumber", link="https://github.com/cucumber/cucumber-ruby/issues/1002"]
-|image:https://img.shields.io/badge/build-not%20implemented-lightgrey.svg["Not Implemented", link="https://github.com/cucumber/cucumber/issues/60"]
+|image:https://travis-ci.org/cucumber/tag-expressions-ruby.svg?branch=master["Build Status", link="https://travis-ci.org/cucumber/tag-expressions-ruby"]
 image:https://img.shields.io/badge/cucumber-%231003-red.svg["Integrated Into Cucumber", link="https://github.com/cucumber/cucumber-ruby/issues/1003"]
 |image:https://travis-ci.org/cucumber/html-formatter-nodejs.svg?branch=master["Build Status", link="https://travis-ci.org/cucumber/html-formatter-nodejs"]
 |image:https://img.shields.io/badge/cucumber-not%20implemented-lightgrey.svg["Integrated Into Cucumber"]
