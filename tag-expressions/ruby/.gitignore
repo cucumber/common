@@ -1,0 +1,3 @@
+coverage/
+pkg/
+Gemfile.lock
