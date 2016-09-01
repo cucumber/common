@@ -5,4 +5,4 @@ LICENSE: ../../LICENSE
 release:
 	npm deploy
 	version=$$(jq -r ".version" package.json); \
-	echo git tag --annotate v$$version --message "Release $$version"
+	git tag --annotate v$$version --message "Release $$version"
