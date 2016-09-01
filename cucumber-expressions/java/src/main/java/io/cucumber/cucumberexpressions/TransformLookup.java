@@ -1,5 +1,6 @@
 package io.cucumber.cucumberexpressions;
 
+import java.lang.reflect.Type;
 import java.text.NumberFormat;
 import java.util.Collection;
 import java.util.HashMap;
@@ -14,7 +15,7 @@ public class TransformLookup {
     private static final List<String> FIXNUM_REGEXPS = asList("-?\\d+", "\\d+");
     private static final List<String> FLOATING_POINT_REGEXPS = singletonList("-?\\d*[\\.,]\\d+");
 
-    private Map<Class<?>, Transform<?>> transformsByType = new HashMap<>();
+    private Map<Type, Transform<?>> transformsByType = new HashMap<>();
     private Map<String, Transform<?>> transformsByTypeName = new HashMap<>();
     private Map<String, Transform<?>> transformsByCaptureGroupRegexp = new HashMap<>();
 
@@ -105,7 +106,7 @@ public class TransformLookup {
         }
     }
 
-    public <T> Transform<T> lookupByType(Class<T> type) {
+    public <T> Transform<T> lookupByType(Type type) {
         return (Transform<T>) transformsByType.get(type);
     }
 

@@ -1,24 +1,23 @@
 package io.cucumber.cucumberexpressions;
 
+import java.lang.reflect.Type;
 import java.util.List;
 
 import static java.util.Collections.singletonList;
 
-
 public abstract class AbstractTransform<T> implements Transform<T> {
     private final String typeName;
-    private final Class<T> type;
+    private final Type type;
     private final List<String> captureGroupRegexps;
 
-    public AbstractTransform(String typeName, Class<T> type, List<String> captureGroupRegexps) {
+    public AbstractTransform(String typeName, Type type, List<String> captureGroupRegexps) {
         this.captureGroupRegexps = captureGroupRegexps;
         this.typeName = typeName;
         this.type = type;
     }
 
-    public AbstractTransform(String typeName, Class<T> type, String captureGroupRegexp) {
+    public AbstractTransform(String typeName, Type type, String captureGroupRegexp) {
         this(typeName, type, singletonList(captureGroupRegexp));
-
     }
 
     @Override
@@ -27,7 +26,7 @@ public abstract class AbstractTransform<T> implements Transform<T> {
     }
 
     @Override
-    public Class<T> getType() {
+    public Type getType() {
         return type;
     }
 

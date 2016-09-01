@@ -2,6 +2,7 @@ package io.cucumber.cucumberexpressions;
 
 import org.junit.Test;
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -57,13 +58,13 @@ public class CucumberExpressionTest {
     @Test
     public void exposes_source() {
         String expr = "I have {n:int} cuke(s) in my {bodypart} now";
-        assertEquals(expr, new CucumberExpression(expr, Collections.<Class<?>>emptyList(), new TransformLookup(Locale.ENGLISH)).getSource());
+        assertEquals(expr, new CucumberExpression(expr, Collections.<Type>emptyList(), new TransformLookup(Locale.ENGLISH)).getSource());
     }
 
     @Test
     public void exposes_offset_and_value() {
         String expr = "I have {n:int} cuke(s) in my {bodypart} now";
-        Expression expression = new CucumberExpression(expr, Collections.<Class<?>>emptyList(), new TransformLookup(Locale.ENGLISH));
+        Expression expression = new CucumberExpression(expr, Collections.<Type>emptyList(), new TransformLookup(Locale.ENGLISH));
         Argument arg1 = expression.match("I have 800 cukes in my brain now").get(0);
         assertEquals(7, arg1.getOffset());
         assertEquals("800", arg1.getValue());
@@ -73,19 +74,19 @@ public class CucumberExpressionTest {
 
     @Test
     public void transforms_to_double_with_comma_for_locale_using_comma() {
-        List<Object> values = match("{what}", "1,22", Collections.<Class<?>>singletonList(Double.class), Locale.FRANCE);
+        List<Object> values = match("{what}", "1,22", Collections.<Type>singletonList(Double.class), Locale.FRANCE);
         assertEquals(singletonList(1.22), values);
     }
 
     private List<Object> match(String expr, String text) {
-        return match(expr, text, Collections.<Class<?>>emptyList(), Locale.ENGLISH);
+        return match(expr, text, Collections.<Type>emptyList(), Locale.ENGLISH);
     }
 
-    private List<Object> match(String expr, String text, Class<?> type) {
-        return match(expr, text, Collections.<Class<?>>singletonList(type), Locale.ENGLISH);
+    private List<Object> match(String expr, String text, Type type) {
+        return match(expr, text, Collections.singletonList(type), Locale.ENGLISH);
     }
 
-    private List<Object> match(String expr, String text, List<Class<?>> explicitTypes, Locale locale) {
+    private List<Object> match(String expr, String text, List<Type> explicitTypes, Locale locale) {
         CucumberExpression expression = new CucumberExpression(expr, explicitTypes, new TransformLookup(locale));
         List<Argument> arguments = expression.match(text);
         if (arguments == null) return null;

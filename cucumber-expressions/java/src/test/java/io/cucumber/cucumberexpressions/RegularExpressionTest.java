@@ -2,6 +2,7 @@ package io.cucumber.cucumberexpressions;
 
 import org.junit.Test;
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -15,12 +16,12 @@ import static org.junit.Assert.assertEquals;
 public class RegularExpressionTest {
     @Test
     public void transforms_to_string_by_default() {
-        assertEquals(singletonList("22"), match(compile("(.*)"), "22", Collections.<Class<?>>singletonList(String.class)));
+        assertEquals(singletonList("22"), match(compile("(.*)"), "22", Collections.<Type>singletonList(String.class)));
     }
 
     @Test
     public void transforms_integer_to_double_using_explicit_type() {
-        assertEquals(singletonList(22.0), match(compile("(.*)"), "22", Collections.<Class<?>>singletonList(Double.class)));
+        assertEquals(singletonList(22.0), match(compile("(.*)"), "22", Collections.<Type>singletonList(Double.class)));
     }
 
     @Test
@@ -30,39 +31,39 @@ public class RegularExpressionTest {
 
     @Test
     public void transforms_double_without_integer_value() {
-        assertEquals(singletonList(0.22), match(compile("(.*)"), ".22", Collections.<Class<?>>singletonList(Double.class)));
+        assertEquals(singletonList(0.22), match(compile("(.*)"), ".22", Collections.<Type>singletonList(Double.class)));
     }
 
     @Test
     public void transforms_double_with_comma_decimal_separator() {
-        assertEquals(singletonList(1.22), match(compile("(.*)"), "1,22", Collections.<Class<?>>singletonList(Double.class), Locale.FRANCE));
+        assertEquals(singletonList(1.22), match(compile("(.*)"), "1,22", Collections.<Type>singletonList(Double.class), Locale.FRANCE));
     }
 
     @Test
     public void transforms_double_with_sign() {
-        assertEquals(singletonList(-1.22), match(compile("(.*)"), "-1.22", Collections.<Class<?>>singletonList(Double.class)));
+        assertEquals(singletonList(-1.22), match(compile("(.*)"), "-1.22", Collections.<Type>singletonList(Double.class)));
     }
 
     @Test
     public void rounds_double_to_integer() {
-        assertEquals(singletonList(1), match(compile("(.*)"), "1.22", Collections.<Class<?>>singletonList(Integer.class)));
+        assertEquals(singletonList(1), match(compile("(.*)"), "1.22", Collections.<Type>singletonList(Integer.class)));
     }
 
     @Test
     public void exposes_source() {
         String expr = "I have (\\d+) cukes? in my (.+) now";
-        assertEquals(expr, new RegularExpression(Pattern.compile(expr), Collections.<Class<?>>emptyList(), new TransformLookup(Locale.ENGLISH)).getSource());
+        assertEquals(expr, new RegularExpression(Pattern.compile(expr), Collections.<Type>emptyList(), new TransformLookup(Locale.ENGLISH)).getSource());
     }
 
     private List<?> match(Pattern pattern, String text) {
-        return match(pattern, text, Collections.<Class<?>>emptyList(), Locale.ENGLISH);
+        return match(pattern, text, Collections.<Type>emptyList(), Locale.ENGLISH);
     }
 
-    private List<?> match(Pattern pattern, String text, List<Class<?>> types) {
+    private List<?> match(Pattern pattern, String text, List<Type> types) {
         return match(pattern, text, types, Locale.ENGLISH);
     }
 
-    private List<?> match(Pattern pattern, String text, List<Class<?>> types, Locale locale) {
+    private List<?> match(Pattern pattern, String text, List<Type> types, Locale locale) {
         TransformLookup transformLookup = new TransformLookup(locale);
         RegularExpression regularExpression;
         regularExpression = new RegularExpression(pattern, types, transformLookup);

@@ -1,5 +1,6 @@
 package io.cucumber.cucumberexpressions;
 
+import java.lang.reflect.Type;
 import java.util.List;
 
 public class ClassTransform<T> implements Transform<T> {
@@ -19,7 +20,7 @@ public class ClassTransform<T> implements Transform<T> {
     }
 
     @Override
-    public Class<T> getType() {
+    public Type getType() {
         return delegate.getType();
     }
 

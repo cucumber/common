@@ -1,5 +1,6 @@
 package io.cucumber.cucumberexpressions;
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -13,7 +14,7 @@ public class CucumberExpression implements Expression {
     private final List<Transform<?>> transforms = new ArrayList<>();
     private final String expression;
 
-    public CucumberExpression(final String expression, List<Class<?>> types, TransformLookup transformLookup) {
+    public CucumberExpression(final String expression, List<Type> types, TransformLookup transformLookup) {
         this.expression = expression;
         String expressionWithOptionalGroups = OPTIONAL_PATTERN.matcher(expression).replaceAll("(?:$1)?");
         Matcher matcher = VARIABLE_PATTERN.matcher(expressionWithOptionalGroups);
@@ -22,7 +23,7 @@ public class CucumberExpression implements Expression {
         regexp.append("^");
         int typeIndex = 0;
         while (matcher.find()) {
-            Class<?> type = types.size() <= typeIndex ? null : types.get(typeIndex++);
+            Type type = types.size() <= typeIndex ? null : types.get(typeIndex++);
             String argumentName = matcher.group(1);
             String typeName = matcher.group(3);
 
@@ -36,8 +37,8 @@ public class CucumberExpression implements Expression {
             if (transform == null) {
                 transform = transformLookup.lookupByType(argumentName, true);
             }
-            if (transform == null && type != null) {
-                transform = new ClassTransform<>(type);
+            if (transform == null && type != null && type instanceof Class) {
+                transform = new ClassTransform<>((Class) type);
             }
             if (transform == null) {
                 transform = new ConstructorTransform<>(String.class);

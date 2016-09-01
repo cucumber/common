@@ -12,6 +12,6 @@ public class EnumTransform<T extends Enum<T>> extends AbstractTransform<T> {
 
     @Override
     public T transform(String value) {
-        return Enum.valueOf(getType(), value);
+        return Enum.valueOf((Class<T>) getType(), value);
     }
 }
