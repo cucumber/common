@@ -4,7 +4,7 @@ import {Map, OrderedMap, fromJS} from "immutable"
 const parser = new Gherkin.Parser()
 
 const reducer = (state, action) => {
-  if (!state) return new Map()
+  if (!state) return new Map({sources: new Map()})
 
   switch (action.type) {
     case 'start':

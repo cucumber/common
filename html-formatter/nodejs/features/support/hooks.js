@@ -4,6 +4,7 @@ import buildApp from "../../lib/build_app"
 import ReduceStream from "../../lib/reducer_stream"
 import EventSourceStream from "../../test/event_source_stream"
 import ReactOutput from "../../test/react_output"
+import SeleniumOutput from "../../test/selenium_output"
 import StateOutput from "../../test/state_output"
 
 class ToJsonLineStream extends Stream.Transform {
@@ -43,6 +44,9 @@ module.exports = function () {
       return Promise.resolve(this._output)
     }
 
+    const createSeleniumOutput = () => this._app.webServer.start(WEB_PORT, true)
+      .then(() => new SeleniumOutput(WEB_PORT))
+
     const createReducerOutput = () => {
       this._output = new StateOutput()
       this._app.engine.openStream().pipe(new ReduceStream()).pipe(this._output)
@@ -56,6 +60,9 @@ module.exports = function () {
         break
       case 'react':
         createOutput = createReactOutput
+        break
+      case 'selenium':
+        createOutput = createSeleniumOutput
         break
       default:
         createOutput = createReducerOutput

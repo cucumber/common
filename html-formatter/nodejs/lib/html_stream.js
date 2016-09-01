@@ -9,7 +9,8 @@ class HtmlStream extends Stream.Transform {
   }
 
   _transform(state, _, callback) {
-    const html = ReactDOMServer.renderToStaticMarkup(<Cucumber state={state}/>)
+    var sources = state.get('sources')
+    const html = ReactDOMServer.renderToStaticMarkup(<Cucumber sources={sources}/>)
     this.push(html)
     callback()
   }

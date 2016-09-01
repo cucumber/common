@@ -3,7 +3,7 @@
 The Cucumber HTML Formatter renders Cucumber features as HTML. It can optionally include
 extra information such as Cucumber results, stack traces, screenshots,
 [Gherkin-Lint results](../../gherkin-lint/README.md) or any other information that can be embedded
-in the [Cucumber Event Protocol](../../docs/architecture/event-protocol.md).
+in the [Cucumber Event Protocol](../docs/architecture/event-protocol.md).
 
 It is a standalone executable that reads events from `STDIN` or a socket and
 writes output (HTML) to `STDOUT`, a specified directory or directly to a browser
@@ -27,7 +27,7 @@ as a Docker image.
 
 Make sure you `cd /cucumber/html-formatter/nodejs` first.
 
-### Writing events to STDIN
+### Events to STDIN, HTML to STDOUT
 
     cat example.txt | bin/cucumber-html-formatter
 
@@ -37,16 +37,22 @@ open it in a browser:
     cat example.txt | bin/cucumber-html-formatter > cucumber.html
     open cucumber.html
 
-### Writing events over a socket
+### Events via socket, HTML to browser
 
 In the first shell:
 
     bin/cucumber-html-formatter
 
-In the 2nd shell:
+Now, open up a browser:
+
+    open http://localhost:2222
+
+And optionally, in a new shell:
 
     curl --header "Accept: text/event-stream" http://localhost:2222/sse
 
-In the 3rd shell:
+Write some events over the socket:
 
     cat example.txt | nc localhost 2223
+
+You should see the browser update with HTML (and if you ran `curl` you should see events there too)
