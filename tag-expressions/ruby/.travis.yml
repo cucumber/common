@@ -1,0 +1,17 @@
+# manyrepo: cucumber/tag-expressions-ruby
+language: ruby
+sudo: false
+
+rvm:
+  - 2.3.1
+  - 2.2
+  - 2.1
+  - 2.0
+  - jruby-9.1.2.0
+
+before_install:
+  - gem update bundler
+
+notifications:
+  email:
+    - cukes-devs@googlegroups.com
