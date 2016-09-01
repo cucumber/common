@@ -3,7 +3,7 @@
 
     <groupId>io.cucumber</groupId>
     <artifactId>tag-expressions</artifactId>
-    <version>1.0.0-SNAPSHOT</version>
+    <version>1.0.0</version>
     <packaging>jar</packaging>
     <name>Cucumber Tag Expressions</name>
     <description>Parses boolean infix expressions</description>
