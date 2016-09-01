@@ -20,6 +20,7 @@ formatters for results. They can even be combined.
 
 * Independent of Gherkin - should work with other doc types such as Markdown
   * Use path, line and column to link certain events to source
+* No "cucumber run" semantics - there will be producers (like Gherkin-Lint) that don't "run" anything
 * Order of events should not matter to consumer - different tools may issue events in the order they want
   * Consumers can fuzz-test this. Randomise some stock events and expect the end result to always be the same.
 * Parse errors is just another event (could be represented with the same event used to signal a runtime step error)
