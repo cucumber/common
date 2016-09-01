@@ -1,16 +1,5 @@
 require 'cucumber/tag_expressions/expressions.rb'
 
-# Array monkey-patch
-class Array
-  alias peek last
-
-  def pop!(n = 1)
-    result = pop(n)
-    raise('Empty stack') if result.size != n
-    n == 1 ? result.first : result
-  end
-end
-
 module Cucumber
   module TagExpressions
     # Ruby tag expression parser
@@ -31,10 +20,10 @@ module Cucumber
       def parse(infix_expression)
         process_tokens!(infix_expression)
         while @operations.any?
-          raise 'Unclosed (' if @operations.peek == '('
-          push_expression(@operations.pop!)
+          raise 'Unclosed (' if @operations.last == '('
+          push_expression(pop(@operations))
         end
-        expression = @expressions.pop!
+        expression = pop(@expressions)
         @expressions.empty? ? expression : raise('Not empty')
       end
 
@@ -49,9 +38,9 @@ module Cucumber
 
       def lower_precedence?(operation)
         (assoc_of(operation, :left) &&
-         prec(operation) <= prec(@operations.peek)) ||
+         prec(operation) <= prec(@operations.last)) ||
           (assoc_of(operation, :right) &&
-           prec(operation) < prec(@operations.peek))
+           prec(operation) < prec(@operations.last))
       end
 
       def operation?(token)
@@ -79,11 +68,11 @@ module Cucumber
       def push_expression(token)
         case token
         when 'and'
-          @expressions.push(And.new(*@expressions.pop!(2)))
+          @expressions.push(And.new(*pop(@expressions, 2)))
         when 'or'
-          @expressions.push(Or.new(*@expressions.pop!(2)))
+          @expressions.push(Or.new(*pop(@expressions, 2)))
         when 'not'
-          @expressions.push(Not.new(@expressions.pop!))
+          @expressions.push(Not.new(pop(@expressions)))
         else
           @expressions.push(Literal.new(token))
         end
@@ -97,23 +86,29 @@ module Cucumber
       end
 
       def handle_operation(token)
-        while @operations.any? && operation?(@operations.peek) &&
+        while @operations.any? && operation?(@operations.last) &&
               lower_precedence?(token)
-          push_expression(@operations.pop!)
+          push_expression(pop(@operations))
         end
         @operations.push(token)
       end
 
       def handle_close_paren(_token)
-        while @operations.any? && @operations.peek != '('
-          push_expression(@operations.pop!)
+        while @operations.any? && @operations.last != '('
+          push_expression(pop(@operations))
         end
         raise 'Unclosed (' if @operations.empty?
-        @operations.pop! if @operations.peek == '('
+        pop(@operations) if @operations.last == '('
       end
 
       def handle_open_paren(token)
         @operations.push(token)
+      end
+
+      def pop(array, n = 1)
+        result = array.pop(n)
+        raise('Empty stack') if result.size != n
+        n == 1 ? result.first : result
       end
     end
   end
