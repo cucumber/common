@@ -26,7 +26,7 @@
   "bugs": {
     "url": "https://github.com/cucumber/tag-expressions-javascript/issues"
   },
-  "homepage": "https://github.com/cucumber/tag-expressions-javascript#readme",
+  "homepage": "https://github.com/cucumber/tag-expressions-javascript",
   "devDependencies": {
     "istanbul": "^0.4.0",
     "mocha": "^2.3.3",
