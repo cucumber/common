@@ -35,12 +35,12 @@ Make sure you `cd /cucumber/html-formatter/nodejs` first.
 
 ### Events to STDIN, HTML to STDOUT
 
-    cat example.txt | bin/cucumber-html-formatter
+    cat example-events.ndjson | bin/cucumber-html-formatter
 
 This should print a HTML report to `STDOUT`. You probably want to direct it to a file, then
 open it in a browser:
 
-    cat example.txt | bin/cucumber-html-formatter > cucumber.html
+    cat example-events.ndjson | bin/cucumber-html-formatter > cucumber.html
     open cucumber.html
 
 ### Events via socket, HTML to browser
@@ -59,6 +59,6 @@ And optionally, in a new shell:
 
 Write some events over the socket:
 
-    cat example.txt | nc localhost 2223
+    cat example-events.ndjson | nc localhost 2223
 
 You should see the browser update with HTML (and if you ran `curl` you should see events there too)
