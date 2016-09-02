@@ -2,11 +2,10 @@ import React from "react"
 import {createStore} from "redux"
 import {connect, Provider} from "react-redux"
 import {render} from "react-dom"
-import reducer from "./reducer"
-import {Cucumber} from "./cucumber_react"
+import reducer from "../common/reducer"
+import {Cucumber} from "../cucumber_react/cucumber_react"
 
 const store = createStore(reducer)
-console.log('STATE', store.getState())
 
 const mapStateToProps = (state) => {
   return {
@@ -16,15 +15,14 @@ const mapStateToProps = (state) => {
 
 const ConnectedCucumber = connect(mapStateToProps)(Cucumber)
 
-render(<Provider store={store}>
-    <ConnectedCucumber sources={store.getState().get('sources')}/>
-  </Provider>,
-  document.getElementById('app'))
+const provider = <Provider store={store}>
+  <ConnectedCucumber sources={store.getState().get('sources')}/>
+</Provider>
 
+render(provider, document.getElementById('app'))
 
-var es = new EventSource('/sse')
+const es = new EventSource('/sse')
 es.onmessage = function (messageEvent) {
-  var event = JSON.parse(messageEvent.data)
-  console.log(event)
+  const event = JSON.parse(messageEvent.data)
   store.dispatch(event)
 }

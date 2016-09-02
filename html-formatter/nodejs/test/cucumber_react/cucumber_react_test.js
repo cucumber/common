@@ -1,8 +1,8 @@
 import assert from 'assert'
 import React from 'react' // eslint-disable-line no-unused-vars
 import {shallow} from "enzyme"
-import {GherkinDocument, Feature} from '../lib/cucumber_react'
-import reducer from "../lib/reducer"
+import {GherkinDocument, Feature} from '../../lib/cucumber_react/cucumber_react'
+import reducer from "../../lib/common/reducer"
 
 describe('Cucumber React', () => {
   it("renders the feature header", () => {

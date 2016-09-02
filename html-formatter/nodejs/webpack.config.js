@@ -1,5 +1,5 @@
 module.exports = {
-  entry: './lib/html_formatter_app.js',
+  entry: './lib/react/html_formatter_app.js',
   output: {
     path: './public',
     filename: 'html_formatter_app.bundle.js'

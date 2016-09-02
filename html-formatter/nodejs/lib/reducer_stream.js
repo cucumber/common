@@ -1,5 +1,5 @@
 import Stream from 'stream'
-import reducer from './reducer'
+import reducer from './common/reducer'
 
 class ReducerStream extends Stream.Transform {
   constructor() {

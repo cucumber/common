@@ -65,7 +65,6 @@
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	var store = (0, _redux.createStore)(_reducer2.default);
-	console.log('STATE', store.getState());
 
 	var mapStateToProps = function mapStateToProps(state) {
 	  return {
@@ -75,16 +74,17 @@
 
 	var ConnectedCucumber = (0, _reactRedux.connect)(mapStateToProps)(_cucumber_react.Cucumber);
 
-	(0, _reactDom.render)(_react2.default.createElement(
+	var provider = _react2.default.createElement(
 	  _reactRedux.Provider,
 	  { store: store },
 	  _react2.default.createElement(ConnectedCucumber, { sources: store.getState().get('sources') })
-	), document.getElementById('app'));
+	);
+
+	(0, _reactDom.render)(provider, document.getElementById('app'));
 
 	var es = new EventSource('/sse');
 	es.onmessage = function (messageEvent) {
 	  var event = JSON.parse(messageEvent.data);
-	  console.log(event);
 	  store.dispatch(event);
 	};
 

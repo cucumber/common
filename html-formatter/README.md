@@ -27,6 +27,12 @@ as a Docker image.
 
 Make sure you `cd /cucumber/html-formatter/nodejs` first.
 
+### Build it
+
+    npm install
+    npm run build
+    npm test
+
 ### Events to STDIN, HTML to STDOUT
 
     cat example.txt | bin/cucumber-html-formatter

@@ -1,5 +1,5 @@
 import assert from "assert"
-import reducer from "../lib/reducer"
+import reducer from "../../lib/common/reducer"
 
 describe(reducer.name, () => {
   it("keeps a map of sources", () => {
