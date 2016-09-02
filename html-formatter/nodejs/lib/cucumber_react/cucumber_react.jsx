@@ -1,5 +1,5 @@
-import React from "react"
-import Immutable from "immutable" // eslint-disable-line no-unused-vars
+import React from "react" // eslint-disable-line no-unused-vars
+import Immutable from "immutable"
 
 const Cucumber = ({sources}) =>
   <div>
