@@ -16,6 +16,7 @@ integration status. There are more planned libraries to come:
 
 * Gherkin Parser
 * Gherkin Compiler
+* Pickles
 * Data Tables
 * Wire Protocol
 * Formatters (only implemented in onle language, as standalone command line using STDIN/STDOUT)
