@@ -9,19 +9,15 @@ describe(reducer.name, () => {
         "type": "source",
         "timestamp": 1471614838650,
         "series": "df1d3970-644e-11e6-8b77-86f30ca893d3",
-        "contentType": "text/plain+gherkin",
         "uri": "features/hello.feature",
-        "data": "Feature: Hello\n",
-        "dataEncoding": "utf-8"
+        "data": "Feature: Hello\n"
       },
       {
         "type": "source",
         "timestamp": 1471614838650,
         "series": "df1d3970-644e-11e6-8b77-86f30ca893d3",
-        "contentType": "text/plain+gherkin",
         "uri": "features/world.feature",
-        "data": "Feature: World\n",
-        "dataEncoding": "utf-8"
+        "data": "Feature: World\n"
       }
     ]
 

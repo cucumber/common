@@ -1,5 +1,5 @@
 import Gherkin from "gherkin"
-import {Map, OrderedMap, fromJS} from "immutable"
+import {Map, OrderedMap, List, fromJS} from "immutable"
 
 const parser = new Gherkin.Parser()
 

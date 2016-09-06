@@ -12,10 +12,8 @@ describe(HtmlStream.name, () => {
         "type": "source",
         "timestamp": 1471614838650,
         "series": "df1d3970-644e-11e6-8b77-86f30ca893d3",
-        "contentType": "text/plain+gherkin",
         "uri": "features/hello.feature",
-        "data": "Feature: Hello\n  Scenario: World\n    Given hello",
-        "dataEncoding": "utf-8"
+        "data": "Feature: Hello\n  Scenario: World\n    Given hello"
       }
     ]
 

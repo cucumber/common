@@ -1,0 +1,9 @@
+{
+  "type": "source",
+  "timestamp": 1471420027078,
+  "series": "df1d3970-644e-11e6-8b77-86f30ca893d3",
+  "contentType": "text/plain+gherkin",
+  "uri": "features/hello.feature",
+  "data": "Feature: Hello\n",
+  "dataEncoding": "utf-8"
+}
