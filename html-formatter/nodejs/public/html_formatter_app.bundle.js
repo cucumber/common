@@ -85,6 +85,7 @@
 	var es = new EventSource('/sse');
 	es.onmessage = function (messageEvent) {
 	  var event = JSON.parse(messageEvent.data);
+	  console.log(event);
 	  store.dispatch(event);
 	};
 
@@ -23052,6 +23053,14 @@
 	    case 'source':
 	      var gherkinDocument = parser.parse(action.data);
 	      return state.setIn(['sources', action.uri], (0, _immutable.fromJS)(gherkinDocument));
+	    case 'attachment':
+	      return state.updateIn(['sources', action.source.uri, 'attachments', action.source.start.line], function (list) {
+	        return (list ? list : new _immutable.List()).push((0, _immutable.fromJS)({
+	          uri: action.uri,
+	          data: action.data,
+	          media: action.media
+	        }));
+	      });
 	    default:
 	      throw new Error("Unsupported action: " + JSON.stringify(action));
 	  }
@@ -34382,7 +34391,7 @@
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
-	exports.Feature = exports.GherkinDocument = exports.Cucumber = undefined;
+	exports.Attachment = exports.Step = exports.Scenario = exports.Feature = exports.GherkinDocument = exports.Cucumber = undefined;
 
 	var _react = __webpack_require__(1);
 
@@ -34394,7 +34403,8 @@
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	// eslint-disable-line no-unused-vars
+	var EMPTY_LIST = new _immutable2.default.List();
+	var EMPTY_MAP = new _immutable2.default.Map();
 
 	var Cucumber = function Cucumber(_ref) {
 	  var sources = _ref.sources;
@@ -34407,21 +34417,22 @@
 	      "Cucumber HTML"
 	    ),
 	    Array.from(sources.keys()).map(function (uri) {
-	      return _react2.default.createElement(GherkinDocument, { key: uri,
-	        node: sources.get(uri) });
+	      return _react2.default.createElement(GherkinDocument, { node: sources.get(uri), uri: uri, key: uri });
 	    })
 	  );
 	};
+
 	Cucumber.propTypes = {
 	  sources: _react2.default.PropTypes.instanceOf(_immutable2.default.Map).isRequired
 	};
 
 	var GherkinDocument = function GherkinDocument(_ref2) {
 	  var node = _ref2.node;
+	  var uri = _ref2.uri;
 	  return _react2.default.createElement(
 	    "div",
 	    null,
-	    _react2.default.createElement(Feature, { node: node.get('feature') })
+	    _react2.default.createElement(Feature, { node: node.get('feature'), uri: uri, attachmentsByLine: node.get('attachments', EMPTY_MAP) })
 	  );
 	};
 
@@ -34431,11 +34442,13 @@
 
 	var Feature = function Feature(_ref3) {
 	  var node = _ref3.node;
+	  var uri = _ref3.uri;
+	  var attachmentsByLine = _ref3.attachmentsByLine;
 	  return _react2.default.createElement(
 	    "div",
 	    null,
 	    _react2.default.createElement(
-	      "h1",
+	      "h2",
 	      { className: "feature" },
 	      _react2.default.createElement(
 	        "span",
@@ -34448,17 +34461,128 @@
 	        { className: "name" },
 	        node.get('name')
 	      )
-	    )
+	    ),
+	    Array.from(node.get('children')).map(function (child) {
+	      var line = child.getIn(['location', 'line']);
+	      var childId = uri + ":" + line;
+	      return _react2.default.createElement(Scenario, { node: child,
+	        attachmentsByLine: attachmentsByLine,
+	        id: childId,
+	        key: childId });
+	    })
 	  );
 	};
 
 	Feature.propTypes = {
-	  node: _react2.default.PropTypes.instanceOf(_immutable2.default.Map).isRequired
+	  node: _react2.default.PropTypes.instanceOf(_immutable2.default.Map).isRequired,
+	  attachmentsByLine: _react2.default.PropTypes.instanceOf(_immutable2.default.Map).isRequired
+	};
+
+	var Scenario = function Scenario(_ref4) {
+	  var node = _ref4.node;
+	  var id = _ref4.id;
+	  var attachmentsByLine = _ref4.attachmentsByLine;
+	  return _react2.default.createElement(
+	    "div",
+	    null,
+	    _react2.default.createElement(
+	      "h3",
+	      { className: "scenario" },
+	      _react2.default.createElement(
+	        "span",
+	        null,
+	        node.get('keyword'),
+	        ": "
+	      ),
+	      _react2.default.createElement(
+	        "span",
+	        { className: "name" },
+	        node.get('name')
+	      )
+	    ),
+	    _react2.default.createElement(
+	      "ol",
+	      null,
+	      Array.from(node.get('steps')).map(function (step) {
+	        var line = step.getIn(['location', 'line']);
+	        var childId = id + ":" + line;
+	        var attachments = attachmentsByLine.get(line, EMPTY_LIST);
+	        return _react2.default.createElement(Step, {
+	          node: step,
+	          attachments: attachments,
+	          id: childId,
+	          key: childId });
+	      })
+	    )
+	  );
+	};
+
+	Scenario.propTypes = {
+	  node: _react2.default.PropTypes.instanceOf(_immutable2.default.Map).isRequired,
+	  attachmentsByLine: _react2.default.PropTypes.instanceOf(_immutable2.default.Map).isRequired
+	};
+
+	var Step = function Step(_ref5) {
+	  var node = _ref5.node;
+	  var id = _ref5.id;
+	  var attachments = _ref5.attachments;
+	  return _react2.default.createElement(
+	    "li",
+	    null,
+	    _react2.default.createElement(
+	      "span",
+	      { className: "step" },
+	      _react2.default.createElement(
+	        "span",
+	        null,
+	        node.get('keyword')
+	      ),
+	      _react2.default.createElement(
+	        "span",
+	        { className: "text" },
+	        node.get('text')
+	      )
+	    ),
+	    Array.from(attachments).map(function (attachment, n) {
+	      return _react2.default.createElement(Attachment, {
+	        attachment: attachment,
+	        key: id + "@" + n });
+	    })
+	  );
+	};
+
+	Step.propTypes = {
+	  node: _react2.default.PropTypes.instanceOf(_immutable2.default.Map).isRequired,
+	  attachments: _react2.default.PropTypes.instanceOf(_immutable2.default.List).isRequired
+	};
+
+	var Attachment = function Attachment(_ref6) {
+	  var attachment = _ref6.attachment;
+
+	  var mediaType = attachment.getIn(['media', 'type']);
+	  var mediaEncoding = attachment.getIn(['media', 'encoding']);
+	  var data = attachment.get('data');
+	  if (mediaType && mediaType.match(/^image\//) && mediaEncoding == 'base64') {
+	    var src = "data:" + mediaType + ";" + mediaEncoding + "," + data;
+	    return _react2.default.createElement(
+	      "div",
+	      { className: "attachment" },
+	      _react2.default.createElement("img", { src: src })
+	    );
+	  }
+	  return null;
+	};
+
+	Attachment.propTypes = {
+	  attachment: _react2.default.PropTypes.instanceOf(_immutable2.default.Map).isRequired
 	};
 
 	exports.Cucumber = Cucumber;
 	exports.GherkinDocument = GherkinDocument;
 	exports.Feature = Feature;
+	exports.Scenario = Scenario;
+	exports.Step = Step;
+	exports.Attachment = Attachment;
 
 /***/ }
 /******/ ]);

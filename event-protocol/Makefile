@@ -10,3 +10,7 @@ default: .valid
 
 examples/events.ndjson: $(EXAMPLES)
 	cat $(EXAMPLES) | jq --compact-output "." > $@
+
+.PHONY: clean
+clean:
+	rm -rf .valid examples/events.ndjson

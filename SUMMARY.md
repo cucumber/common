@@ -124,5 +124,5 @@
 * [Contributing to Documentation](docs/contributing-to-documentation.md)
 * [Contributing to Code](docs/contributing-to-code.md)
 * [Standard Library](docs/standard-library.adoc)
-  * [Event Protocol](docs/architecture/event-protocol.md)
+  * [Event Protocol](event-protocol/README.md)
 * [Team](#)

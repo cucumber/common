@@ -1,5 +1,6 @@
 #!/usr/bin/env node
-/* This script reads an ndjson stream of cucumber events from STDIN
+/*
+ * This script reads an ndjson stream of cucumber events from STDIN
  * and validates each event using JSON Schema.
  *
  * Valid events are printed as green.
@@ -15,10 +16,9 @@ const es = require('event-stream')
 const fs = require('mz/fs')
 const Ajv = require('ajv');
 const ajv = new Ajv();
-const RED   = '\033[0;31m'
+const RED = '\033[0;31m'
 const GREEN = '\033[0;32m'
-const NC    = '\033[0m'
-
+const NC = '\033[0m'
 
 const loadSchemas = (schemaDir) => {
   return fs.readdir(schemaDir)
@@ -39,13 +39,13 @@ const validateEvents = (schemas) => {
       .pipe(es.map((json, cb) => json ? cb(null, JSON.parse(json)) : cb()))
       .pipe(es.map((event, cb) => {
         const validate = schemas.get(event.type)
-        if(!validate) return cb(null, [`No schema for ${inspect(event)}`, event])
+        if (!validate) return cb(null, [`No schema for ${inspect(event)}`, event])
         const valid = validate(event)
         if (!valid) return cb(null, [JSON.stringify(validate.errors), event])
         cb(null, [null, event])
       }))
       .pipe(es.map(([errorMessage, event], cb) => {
-        if(errorMessage) {
+        if (errorMessage) {
           validationError = true
           const output = RED + JSON.stringify(event) + NC + "\n" +
             RED + "  ERROR: " + errorMessage + NC + "\n"

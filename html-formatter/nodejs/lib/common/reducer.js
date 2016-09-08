@@ -12,6 +12,14 @@ const reducer = (state, action) => {
     case 'source':
       const gherkinDocument = parser.parse(action.data)
       return state.setIn(['sources', action.uri], fromJS(gherkinDocument))
+    case 'attachment':
+      return state.updateIn(['sources', action.source.uri, 'attachments', action.source.start.line], list => {
+        return (list ? list : new List()).push(fromJS({
+          uri: action.uri,
+          data: action.data,
+          media: action.media
+        }))
+      })
     default:
       throw new Error("Unsupported action: " + JSON.stringify(action))
   }

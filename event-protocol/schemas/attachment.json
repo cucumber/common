@@ -14,6 +14,36 @@
       "type": "string",
       "pattern": "^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$"
     },
+    "source": {
+      "type": "object",
+      "properties": {
+        "uri": {
+          "type": "string"
+        },
+        "start": {
+          "type": "object",
+          "properties": {
+            "line": {
+              "type": "integer",
+              "minimum": 1
+            },
+            "column": {
+              "type": "integer",
+              "minimum": 1
+            }
+          },
+          "required": [
+            "line"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "required": [
+        "uri",
+        "start"
+      ],
+      "additionalProperties": false
+    },
     "uri": {
       "type": "string"
     },
@@ -39,9 +69,7 @@
     "type",
     "timestamp",
     "series",
-    "uri",
-    "data",
-    "media"
+    "source"
   ],
   "additionalProperties": false
 }

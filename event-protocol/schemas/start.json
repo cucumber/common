@@ -1,20 +1,24 @@
 {
-	"title": "start",
-	"type": "object",
-	"properties": {
-		"type": {
-			"type": "string"
-		},
-		"timestamp": {
+  "title": "start",
+  "type": "object",
+  "properties": {
+    "type": {
+      "type": "string"
+    },
+    "timestamp": {
       "description": "Milliseconds since epoch",
-			"type": "integer",
+      "type": "integer",
       "minimum": 0
-		},
-		"series": {
-			"type": "string",
-			"pattern": "^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$"
-		}
-	},
-	"required": ["type", "timestamp", "series"],
-	"additionalProperties": false
+    },
+    "series": {
+      "type": "string",
+      "pattern": "^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$"
+    }
+  },
+  "required": [
+    "type",
+    "timestamp",
+    "series"
+  ],
+  "additionalProperties": false
 }

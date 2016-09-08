@@ -33,7 +33,7 @@ against the https://github.com/cucumber/cucumber[cucumber] repository
 with library implementations for new languages.
 
 |===
-|Platform |link:../cucumber-expressions/README.md[Cucumber Expressions] |link:../tag-expressions/README.md[Tag Expressions] |link:../html-formatter/README.md[HTML Formatter] |link:../docs/architecture/event-protocol.md[Event Protocol]
+|Platform |link:../cucumber-expressions/README.md[Cucumber Expressions] |link:../tag-expressions/README.md[Tag Expressions] |link:../html-formatter/README.md[HTML Formatter] |link:../event-protocol/README.md[Event Protocol]
 
 |.NET
 |image:https://img.shields.io/badge/build-not%20implemented-lightgrey.svg["Build Status"]
