@@ -29,6 +29,23 @@ const events = [
       "encoding": "base64",
       "type": "image/png"
     }
+  },
+  {
+    "type": "attachment",
+    "timestamp": 1471420027078,
+    "series": "df1d3970-644e-11e6-8b77-86f30ca893d3",
+    "source": {
+      "uri": "features/hello.feature",
+      "start": {
+        "line": 3,
+        "column": 7
+      }
+    },
+    "data": "Exception in thread \"main\" java.lang.NullPointerException\n        at com.example.myproject.Book.getTitle(Book.java:16)\n        at com.example.myproject.Author.getBookTitles(Author.java:25)\n        at com.example.myproject.Bootstrap.main(Bootstrap.java:14)\n",
+    "media": {
+      "encoding": "utf-8",
+      "type": "text/vnd.cucumber.stacktrace.java+plain"
+    }
   }
 ]
 
@@ -91,12 +108,12 @@ describe('Cucumber React', () => {
       const attachments = state.getIn(['sources', uri, 'attachments', 3])
 
       const component = shallow(<Step node={node} uri={uri} attachments={attachments}/>)
-      assert.equal(component.find(Attachment).length, 1)
+      assert.equal(component.find(Attachment).length, 2)
     })
   })
 
   describe(Attachment.name, () => {
-    it("renders step status", () => {
+    it("renders pngs", () => {
       const uri = 'features/hello.feature'
       const attachment = state.getIn(['sources', uri, 'attachments', 3, 0])
       const component = shallow(<Attachment attachment={attachment}/>)
@@ -106,14 +123,13 @@ describe('Cucumber React', () => {
       assert.equal(component.find('img').prop('src'), expectedSrc)
     })
 
-    it("renders attached pngs", () => {
+    it("renders stack trace", () => {
       const uri = 'features/hello.feature'
-      const attachment = state.getIn(['sources', uri, 'attachments', 3, 0])
+      const attachment = state.getIn(['sources', uri, 'attachments', 3, 1])
       const component = shallow(<Attachment attachment={attachment}/>)
 
-      assert.equal(component.find('img').length, 1)
-      const expectedSrc = `data:image/png;base64,${attachment.get('data')}`
-      assert.equal(component.find('img').prop('src'), expectedSrc)
+      assert.equal(component.find('pre').length, 1)
+      assert.equal(component.find('pre').text().split(/\n/)[0], 'Exception in thread "main" java.lang.NullPointerException')
     })
   })
 })

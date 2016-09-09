@@ -1,0 +1,17 @@
+{
+  "type": "attachment",
+  "timestamp": 1471420027078,
+  "series": "df1d3970-644e-11e6-8b77-86f30ca893d3",
+  "source": {
+    "uri": "features/hello.feature",
+    "start": {
+      "line": 3,
+      "column": 7
+    }
+  },
+  "data": "Exception in thread \"main\" java.lang.NullPointerException\n        at com.example.myproject.Book.getTitle(Book.java:16)\n        at com.example.myproject.Author.getBookTitles(Author.java:25)\n        at com.example.myproject.Bootstrap.main(Bootstrap.java:14)\n",
+  "media": {
+    "encoding": "utf-8",
+    "type": "text/vnd.cucumber.stacktrace.java+plain"
+  }
+}

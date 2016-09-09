@@ -85,12 +85,20 @@ const Attachment = ({attachment}) => {
   const mediaType = attachment.getIn(['media', 'type'])
   const mediaEncoding = attachment.getIn(['media', 'encoding'])
   const data = attachment.get('data')
+
   if (mediaType && mediaType.match(/^image\//) && mediaEncoding == 'base64') {
     const src = `data:${mediaType};${mediaEncoding},${data}`
     return <div className="attachment">
       <img src={src}/>
     </div>
   }
+
+  if (mediaType && mediaType.match(/^text\/vnd\.cucumber\.stacktrace\.\w+\+plain/) && mediaEncoding == 'utf-8') {
+    return <div className="attachment">
+      <pre>{data}</pre>
+    </div>
+  }
+
   return null
 }
 
