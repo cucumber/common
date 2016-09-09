@@ -5,7 +5,7 @@ extra information such as Cucumber results, stack traces, screenshots,
 [Gherkin-Lint results](../../gherkin-lint/README.md) or any other information that can be embedded
 in the [Cucumber Event Protocol](../event-protocol/README.md).
 
-It is a standalone executable that reads events from `STDIN` or a socket and
+It is a standalone executable that reads events from `STDIN` or a TCP socket and
 writes output (HTML) to `STDOUT`, a specified directory or directly to a browser
 (when run in server-mode).
 
