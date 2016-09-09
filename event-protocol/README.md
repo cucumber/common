@@ -74,7 +74,7 @@ allows for alternative document formats in the future.
 #### No Cucumber execution semantics
 
 Some consumers (such as the [HTML Formatter](../html-formatter/README.md)) may
-consume events emitted by other consumers than Cucumber (for example [Gherkin-Lint](../gherkin-lint/README.md)).
+consume events emitted by other producers than Cucumber (for example [Gherkin-Lint](../gherkin-lint/README.md)).
 
 For this reason, events containing information about execution should be represented
 in a more generic way.
