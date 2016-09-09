@@ -30,7 +30,9 @@
           ]
         },
         "type": {
-          "type": "string"
+          "enum": [
+            "text/vnd.cucumber.gherkin+plain"
+          ]
         }
       }
     }

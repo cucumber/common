@@ -6,6 +6,6 @@
   "data": "Feature: Hello\n  Scenario: World\n    Given a step\n",
   "media": {
     "encoding": "utf-8",
-    "type": "text/plain+gherkin"
+    "type": "text/vnd.cucumber.gherkin+plain"
   }
 }
