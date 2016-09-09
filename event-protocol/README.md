@@ -48,8 +48,11 @@ Attachments can have many types (specified by a media type), and are typically u
 * `text/vnd.cucumber.stacktrace.java+plain`, stack trace of a failing step (from java in this case)
 * `image/png`, `image/jpg`, `image/gif` - screenshots
 
-Example:
+Example (PNG image):
 [import](examples/events/003_attachment-png-embedded.json)
+
+Example (Java stack trace):
+[import](examples/events/004_attachment-stacktrace.json)
 
 ## Implementation
 
