@@ -34,7 +34,12 @@
             "text/vnd.cucumber.gherkin+plain"
           ]
         }
-      }
+      },
+      "required": [
+        "encoding",
+        "type"
+      ],
+      "additionalProperties": false
     }
   },
   "required": [

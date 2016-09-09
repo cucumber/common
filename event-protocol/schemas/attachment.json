@@ -44,9 +44,6 @@
       ],
       "additionalProperties": false
     },
-    "uri": {
-      "type": "string"
-    },
     "data": {
       "type": "string"
     },
@@ -62,14 +59,21 @@
         "type": {
           "type": "string"
         }
-      }
+      },
+      "required": [
+        "encoding",
+        "type"
+      ],
+      "additionalProperties": false
     }
   },
   "required": [
     "type",
     "timestamp",
     "series",
-    "source"
+    "source",
+    "data",
+    "media"
   ],
   "additionalProperties": false
 }
