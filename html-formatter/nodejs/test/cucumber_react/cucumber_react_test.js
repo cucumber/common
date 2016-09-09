@@ -20,17 +20,17 @@ const events = [
     "source": {
       "uri": "features/hello.feature",
       "start": {
-        "line": 22,
+        "line": 3,
         "column": 7
       }
     },
-    // 16x16 cucumber logo, compressed with pngquant
     "data": "iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAMAAAAoLQ9TAAAABGdBTUEAALGPC/xhBQAAAAFzUkdCAK7OHOkAAAELUExURUdwTACoGAClFACqHACoFwCnGQCnFQCnGACoGQCoGQCoGACuGgCnFwCiFwCoGACoGACnFwClFgCpGACoFwD/AACnGAC2JACoGACnFwCqKgCoGACoGACqGQCoFwCnFwCoFwB/AACnGACoGAC/AACoGACoFgCmFwCnFwCnFwCqFgCmFgCZAACoGC64Ql3IbA2sJBuxMBiwLhewLR2yMgmrIOn36/z+/BGuJ9/04rHkuIDUjGHJcA6tJeD04wGoGQusIpnco+T257PlugSpHN704XDOfQeqHiCzNc7u0+z57t3z4HvSh7fmvj69UJzdpSi2PNjy3AKpGlrHahqxMBCtJpHZm83u0jS6R0vCXEWczDEAAAAsdFJOUwDIJQlYPSP7cFCqE1cW+mf4ImiBAXQHPu8GfP0zzoyOAp2wBOg4a2PqOU4FxgPjdgAAAK9JREFUGNNNj1UCwkAMRBcotLi7uw1S3N3d4f4nYSvIfO28bCYJIaI0OSabJ1+pFaDKpD4+zUJS1CHVWSwer+esDNhEQP+fV/f5uAd4XEIesNldl5WK0KSlQAtcDkc5xUcBA+y3tL/UKQIhCpLA+sTzw1K7UQVHQTyB23QyKraaNSAgTOGAQb9bqBeAoDg2EpMT4XdLm3rD8qrO7zFWO7UW8+86oodJp/zzRGUwyq83Mjcb8VXl0ZMAAAAASUVORK5CYII=",
     "media": {
       "encoding": "base64",
       "type": "image/png"
     }
-  }]
+  }
+]
 
 const state = events.reduce(reducer, reducer())
 
@@ -88,7 +88,7 @@ describe('Cucumber React', () => {
     it("renders attachments", () => {
       const uri = 'features/hello.feature'
       const node = state.getIn(['sources', uri, 'feature', 'children', 0])
-      const attachments = state.getIn(['sources', uri, 'attachments', 22])
+      const attachments = state.getIn(['sources', uri, 'attachments', 3])
 
       const component = shallow(<Step node={node} uri={uri} attachments={attachments}/>)
       assert.equal(component.find(Attachment).length, 1)
@@ -96,9 +96,19 @@ describe('Cucumber React', () => {
   })
 
   describe(Attachment.name, () => {
+    it("renders step status", () => {
+      const uri = 'features/hello.feature'
+      const attachment = state.getIn(['sources', uri, 'attachments', 3, 0])
+      const component = shallow(<Attachment attachment={attachment}/>)
+
+      assert.equal(component.find('img').length, 1)
+      const expectedSrc = `data:image/png;base64,${attachment.get('data')}`
+      assert.equal(component.find('img').prop('src'), expectedSrc)
+    })
+
     it("renders attached pngs", () => {
       const uri = 'features/hello.feature'
-      const attachment = state.getIn(['sources', uri, 'attachments', 22, 0])
+      const attachment = state.getIn(['sources', uri, 'attachments', 3, 0])
       const component = shallow(<Attachment attachment={attachment}/>)
 
       assert.equal(component.find('img').length, 1)
