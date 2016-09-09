@@ -21,6 +21,7 @@ const GherkinDocument = ({node, uri}) =>
 
 GherkinDocument.propTypes = {
   node: React.PropTypes.instanceOf(Immutable.Map).isRequired,
+  uri: React.PropTypes.string.isRequired
 }
 
 const Feature = ({node, uri, attachmentsByLine}) =>
@@ -28,32 +29,33 @@ const Feature = ({node, uri, attachmentsByLine}) =>
     <h2 className="feature"><span>{node.get('keyword')}: </span><span className="name">{node.get('name')}</span></h2>
     {Array.from(node.get('children')).map(child => {
       const line = child.getIn(['location', 'line'])
-      const childId = `${uri}:${line}`
+      const key = `${uri}:${line}`
       return <Scenario node={child}
                        attachmentsByLine={attachmentsByLine}
-                       id={childId}
-                       key={childId}/>
+                       uri={uri}
+                       key={key}/>
     })}
   </div>
 
 Feature.propTypes = {
   node: React.PropTypes.instanceOf(Immutable.Map).isRequired,
+  uri: React.PropTypes.string.isRequired,
   attachmentsByLine: React.PropTypes.instanceOf(Immutable.Map).isRequired
 }
 
-const Scenario = ({node, id, attachmentsByLine}) =>
+const Scenario = ({node, uri, attachmentsByLine}) =>
   <div>
     <h3 className="scenario"><span>{node.get('keyword')}: </span><span className="name">{node.get('name')}</span></h3>
     <ol>
       {Array.from(node.get('steps')).map(step => {
         const line = step.getIn(['location', 'line'])
-        const childId = `${id}:${line}`
+        const key = `${uri}:${line}`
         const attachments = attachmentsByLine.get(line, EMPTY_LIST)
         return <Step
           node={step}
           attachments={attachments}
-          id={childId}
-          key={childId}/>
+          uri={uri}
+          key={key}/>
       })}
     </ol>
   </div>
@@ -61,19 +63,21 @@ const Scenario = ({node, id, attachmentsByLine}) =>
 
 Scenario.propTypes = {
   node: React.PropTypes.instanceOf(Immutable.Map).isRequired,
+  uri: React.PropTypes.string.isRequired,
   attachmentsByLine: React.PropTypes.instanceOf(Immutable.Map).isRequired
 }
 
-const Step = ({node, id, attachments}) =>
+const Step = ({node, uri, attachments}) =>
   <li>
     <span className="step"><span>{node.get('keyword')}</span><span className="text">{node.get('text')}</span></span>
     {Array.from(attachments).map((attachment, n) => <Attachment
       attachment={attachment}
-      key={`${id}@${n}`}/>)}
+      key={`${uri}:${node.getIn(['location', 'line'])}@${n}`}/>)}
   </li>
 
 Step.propTypes = {
   node: React.PropTypes.instanceOf(Immutable.Map).isRequired,
+  uri: React.PropTypes.string.isRequired,
   attachments: React.PropTypes.instanceOf(Immutable.List).isRequired
 }
 

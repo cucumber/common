@@ -1,8 +1,8 @@
 import assert from "assert"
-import React from "react" // eslint-disable-line no-unused-vars
+import React from "react"
 import {shallow} from "enzyme"
 import {GherkinDocument, Feature, Scenario, Step, Attachment} from "../../lib/cucumber_react/cucumber_react"
-import reducer from "../../lib/common/reducer"
+import reducer from "../../lib/common/reducer" // eslint-disable-line no-unused-vars
 
 const events = [
   {"type": "start", "timestamp": 1471614838649, "series": "df1d3970-644e-11e6-8b77-86f30ca893d3"},
@@ -37,61 +37,68 @@ const state = events.reduce(reducer, reducer())
 describe('Cucumber React', () => {
   describe(GherkinDocument.name, () => {
     it("renders the feature", () => {
-      const node = state.getIn(['sources', 'features/hello.feature'])
-      const component = shallow(<GherkinDocument node={node}/>)
+      const uri = 'features/hello.feature'
+      const node = state.getIn(['sources', uri])
+      const component = shallow(<GherkinDocument node={node} uri={uri}/>)
       assert.equal(component.find(Feature).length, 1)
     })
   })
 
   describe(Feature.name, () => {
     it("renders the name", () => {
-      const node = state.getIn(['sources', 'features/hello.feature', 'feature'])
-      const attachmentsByLine = state.getIn(['sources', 'features/hello.feature', 'attachments'])
+      const uri = 'features/hello.feature'
+      const node = state.getIn(['sources', uri, 'feature'])
+      const attachmentsByLine = state.getIn(['sources', uri, 'attachments'])
 
-      const component = shallow(<Feature node={node} attachmentsByLine={attachmentsByLine}/>)
+      const component = shallow(<Feature node={node} uri={uri} attachmentsByLine={attachmentsByLine}/>)
       assert.equal(component.find('.name').text(), 'Hello')
     })
 
     it("renders the scenario", () => {
-      const node = state.getIn(['sources', 'features/hello.feature', 'feature'])
-      const attachmentsByLine = state.getIn(['sources', 'features/hello.feature', 'attachments'])
+      const uri = 'features/hello.feature'
+      const node = state.getIn(['sources', uri, 'feature'])
+      const attachmentsByLine = state.getIn(['sources', uri, 'attachments'])
 
-      const component = shallow(<Feature node={node} attachmentsByLine={attachmentsByLine}/>)
+      const component = shallow(<Feature node={node} uri={uri} attachmentsByLine={attachmentsByLine}/>)
       assert.equal(component.find(Scenario).length, 1)
     })
   })
 
   describe(Scenario.name, () => {
     it("renders the name", () => {
-      const node = state.getIn(['sources', 'features/hello.feature', 'feature', 'children', 0])
-      const attachmentsByLine = state.getIn(['sources', 'features/hello.feature', 'attachments'])
+      const uri = 'features/hello.feature'
+      const node = state.getIn(['sources', uri, 'feature', 'children', 0])
+      const attachmentsByLine = state.getIn(['sources', uri, 'attachments'])
 
-      const component = shallow(<Scenario node={node} attachmentsByLine={attachmentsByLine}/>)
+      const component = shallow(<Scenario node={node} uri={uri} attachmentsByLine={attachmentsByLine}/>)
       assert.equal(component.find('.name').text(), 'World')
     })
 
     it("renders the step", () => {
-      const node = events.reduce(reducer, reducer()).getIn(['sources', 'features/hello.feature', 'feature', 'children', 0])
-      const attachmentsByLine = state.getIn(['sources', 'features/hello.feature', 'attachments'])
+      const uri = 'features/hello.feature'
+      const node = events.reduce(reducer, reducer()).getIn(['sources', uri, 'feature', 'children', 0])
+      const attachmentsByLine = state.getIn(['sources', uri, 'attachments'])
 
-      const component = shallow(<Scenario node={node} attachmentsByLine={attachmentsByLine}/>)
+      const component = shallow(<Scenario node={node} uri={uri} attachmentsByLine={attachmentsByLine}/>)
       assert.equal(component.find(Step).length, 1)
     })
   })
 
   describe(Step.name, () => {
     it("renders attachments", () => {
-      const node = state.getIn(['sources', 'features/hello.feature', 'feature', 'children', 0])
-      const attachments = state.getIn(['sources', 'features/hello.feature', 'attachments', 22])
+      const uri = 'features/hello.feature'
+      const node = state.getIn(['sources', uri, 'feature', 'children', 0])
+      const attachments = state.getIn(['sources', uri, 'attachments', 22])
 
-      const component = shallow(<Step node={node} attachments={attachments}/>)
+      const component = shallow(<Step node={node} uri={uri} attachments={attachments}/>)
       assert.equal(component.find(Attachment).length, 1)
     })
   })
 
   describe(Attachment.name, () => {
     it("renders attached pngs", () => {
-      const attachment = state.getIn(['sources', 'features/hello.feature', 'attachments', 22, 0])
+      const uri = 'features/hello.feature'
+      const attachment = state.getIn(['sources', uri, 'attachments', 22, 0])
       const component = shallow(<Attachment attachment={attachment}/>)
 
       assert.equal(component.find('img').length, 1)
