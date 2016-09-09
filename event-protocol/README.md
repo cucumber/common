@@ -31,10 +31,20 @@ Examples of consumers are:
 
 ### start {#event-start}
 
+A `start` event marks the start of a stream of events. This allows multiple logical
+event streams to be sent over the same transport without collision. The `series`
+property specified in the `start` event must be repeated by other events in the same
+logical stream.
+
 Example:
 [import](examples/events/001_start.json)
 
 ### source {#event-source}
+
+A `source` event indicates that a Gherkin document has been loaded. (The event is
+called `source` to permit other document media types in the future).
+
+A `source` event must arrive before any `attachment` events linking to that same source.
 
 Example:
 [import](examples/events/002_source.json)
@@ -44,7 +54,6 @@ Example:
 An `attachment` attaches a piece of metadata to a particular line in a `source` file.
 Attachments can have many types (specified by a media type), and are typically used for:
 
-* `text/vnd.cucumber.step.status+plain`, status of a failing step (passed, undefined, pending, failed, skipped)
 * `text/vnd.cucumber.stacktrace.java+plain`, stack trace of a failing step (from java in this case)
 * `image/png`, `image/jpg`, `image/gif` - screenshots
 
@@ -53,6 +62,18 @@ Example (PNG image):
 
 Example (Java stack trace):
 [import](examples/events/004_attachment-stacktrace.json)
+
+### Cucumber-specific attachments
+
+Cucumber-specific events such as "a step definition was found for this step" or
+"a step failed" could be represented as attachments with special media types, for example:
+
+* `application/vnd.cucumber.step.match+json`, information about the match such as arguments, stepdef line number etc.
+* `text/vnd.cucumber.step.status+plain`, status of a failing step (passed, undefined, pending, failed, skipped)
+
+They could also be represented as distinct events with a separate type. The Cucumber team
+is currently undecided on this. Once consumers evolve we will have more information about
+the tradeoffs of each design. See the [contributing](#contributing) section for details.
 
 ## Implementation
 
@@ -73,14 +94,6 @@ key principles to consider:
 While Gherkin is currently the only file format that will be used in `source`
 events, no events should assume that all files will be Gherkin documents. This
 allows for alternative document formats in the future.
-
-#### No Cucumber execution semantics
-
-Some consumers (such as the [HTML Formatter](../html-formatter/README.md)) may
-consume events emitted by other producers than Cucumber (for example [Gherkin-Lint](../gherkin-lint/README.md)).
-
-For this reason, events containing information about execution should be represented
-in a more generic way.
 
 #### Errors are attachments
 
@@ -137,17 +150,17 @@ If it reads from a socket:
 
 ## Contributing {#contributing}
 
-If you have suggestions to improve the event protocol, start by making sure your
-can run its current tests:
+The design of events should be
+[consumer-driven](http://www.martinfowler.com/articles/consumerDrivenContracts.html),
+not speculative.
 
-    make clean
-    make
+A prerequisite for changing the event protocol is that a consumer is
+going to need this change. Ideally there should be code to demonstrate this need,
+typically in a git repository and/or pull request for a consumer.
 
-Add or modify `schema/*.json` files as well as `examples/events*.json` files,
-then run `make` again.
+To modify the protocol, start by adding or modifying an example event in `examples/events/`.
+When you run `make` this should cause a validation error.
 
-Your contribution should be [consumer-driven](http://www.martinfowler.com/articles/consumerDrivenContracts.html).
-Your contribution is more likely to be accepted if you can point to some code for
-a consumer that would like to consume the new/modified events you are proposing.
+Next, add or modify a schema in `schema/` and ensure `make` runs without validation errors.
 
 Also see the general [contributing guidelines](../CONTRIBUTING.md).
