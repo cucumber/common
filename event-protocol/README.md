@@ -154,6 +154,10 @@ The design of events should be
 [consumer-driven](http://www.martinfowler.com/articles/consumerDrivenContracts.html),
 not speculative.
 
+We should consider the needs of several different event consumers to influence the design of the
+protocol. This means there may be certain events or event properties that some of
+the consumers don't care about. That's ok.
+
 A prerequisite for changing the event protocol is that a consumer is
 going to need this change. Ideally there should be code to demonstrate this need,
 typically in a git repository and/or pull request for a consumer.
