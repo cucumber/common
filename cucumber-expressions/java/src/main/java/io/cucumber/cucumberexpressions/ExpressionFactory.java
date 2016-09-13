@@ -1,5 +1,6 @@
 package io.cucumber.cucumberexpressions;
 
+import java.lang.reflect.Type;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -17,8 +18,13 @@ public class ExpressionFactory {
     private static final Pattern SCRIPT_STYLE_REGEXP = Pattern.compile("^/(.*)/$");
     private static final Pattern PARENS = Pattern.compile("\\(([^\\)]+)\\)");
     private static final Pattern ALPHA = Pattern.compile("[a-zA-Z]+");
+    private final TransformLookup transformLookup;
 
-    public Expression createExpression(String expressionString, List<Class<?>> types, TransformLookup transformLookup) {
+    public ExpressionFactory(TransformLookup transformLookup) {
+        this.transformLookup = transformLookup;
+    }
+
+    public Expression createExpression(String expressionString, List<Type> types) {
         Matcher m = BEGIN_ANCHOR.matcher(expressionString);
         if (m.find()) {
             return new RegularExpression(Pattern.compile(expressionString), types, transformLookup);

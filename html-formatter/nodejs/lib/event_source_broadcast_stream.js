@@ -1,15 +1,18 @@
-import Stream from 'stream'
-import SSE from 'sse'
+import Stream from "stream"
+import SSE from "sse"
 
 class ConnectionStream extends Stream.Writable {
   constructor(eventSourceConnection, pingIntervalMs) {
     super({objectMode: true})
     this._eventSourceConnection = eventSourceConnection
     const pingInterval = setInterval(
-      () => this._eventSourceConnection.send({event: 'ping', data: Date.now().toString()}),
+      () => this._eventSourceConnection.res.write(':ok\n\n'),
       pingIntervalMs
     )
-    this.on('finish', () => clearInterval(pingInterval))
+    this.on('finish', () => {
+      clearInterval(pingInterval)
+      eventSourceConnection.close()
+    })
   }
 
   _write(event, _, callback) {

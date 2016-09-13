@@ -9,6 +9,7 @@ import org.junit.runners.Parameterized.Parameters;
 
 import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.Type;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -57,9 +58,9 @@ public class ExpressionExamplesTest {
         Matcher matcher = REGEX_PATTERN.matcher(expressionString);
         TransformLookup transformLookup = new TransformLookup(Locale.ENGLISH);
         if (matcher.matches()) {
-            expression = new RegularExpression(Pattern.compile(matcher.group(1)), Collections.<Class<?>>emptyList(), transformLookup);
+            expression = new RegularExpression(Pattern.compile(matcher.group(1)), Collections.<Type>emptyList(), transformLookup);
         } else {
-            expression = new CucumberExpression(expressionString, Collections.<Class<?>>emptyList(), transformLookup);
+            expression = new CucumberExpression(expressionString, Collections.<Type>emptyList(), transformLookup);
         }
         List<Argument> arguments = expression.match(text);
         if (arguments == null) return null;

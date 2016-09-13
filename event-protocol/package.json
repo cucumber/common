@@ -1,0 +1,12 @@
+{
+  "name": "cucumber-event-protocol",
+  "version": "1.0.0",
+  "description": "Validator for the Cucumber Event Protocol",
+  "author": "Cucumber Limited <cukes@googlegroups.com>",
+  "license": "MIT",
+  "devDependencies": {
+    "ajv": "^4.6.1",
+    "event-stream": "^3.3.4",
+    "mz": "^2.4.0"
+  }
+}

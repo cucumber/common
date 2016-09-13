@@ -1,7 +1,7 @@
 import Stream from 'stream'
 import React from 'react' // eslint-disable-line no-unused-vars
 import ReactDOMServer from 'react-dom/server'
-import { GherkinDocument } from './cucumber_react'
+import { Cucumber } from './cucumber_react/cucumber_react'
 
 class HtmlStream extends Stream.Transform {
   constructor() {
@@ -9,8 +9,8 @@ class HtmlStream extends Stream.Transform {
   }
 
   _transform(state, _, callback) {
-    // TODO: Obviously don't hardcode here
-    const html = ReactDOMServer.renderToStaticMarkup(<GherkinDocument node={state.getIn(['sources', 'features/hello.feature'])}/>)
+    var sources = state.get('sources')
+    const html = ReactDOMServer.renderToStaticMarkup(<Cucumber sources={sources}/>) + "\n"
     this.push(html)
     callback()
   }

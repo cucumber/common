@@ -2,6 +2,7 @@ package io.cucumber.cucumberexpressions;
 
 import org.junit.Test;
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Locale;
 
@@ -61,7 +62,7 @@ public class ExpressionFactoryTest {
     }
 
     private void assertExpression(Class<? extends Expression> expectedClass, String expectedSource, String expressionSource) {
-        Expression expression = new ExpressionFactory().createExpression(expressionSource, new ArrayList<Class<?>>(), new TransformLookup(Locale.ENGLISH));
+        Expression expression = new ExpressionFactory(new TransformLookup(Locale.ENGLISH)).createExpression(expressionSource, new ArrayList<Type>());
         assertEquals(expectedClass, expression.getClass());
         if (expectedSource != null) {
             assertEquals(expectedSource, expression.getSource());

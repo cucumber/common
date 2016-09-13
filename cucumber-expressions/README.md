@@ -49,7 +49,7 @@ In this case the argument would be converted to the integer `42` instead.
 
 Cucumber Expressions have built-in support for `int` and `float` types, and any
 additional numeric types available in your programming language. You can easily
-add support for [custom type transforms](#custom-type-transforms)
+add support for [custom type transforms](#custom-type-transforms).
 
 ### Statically Typed Languages
 

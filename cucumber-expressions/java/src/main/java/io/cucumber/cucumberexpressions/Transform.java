@@ -1,12 +1,17 @@
 package io.cucumber.cucumberexpressions;
 
+import java.lang.reflect.Type;
 import java.util.List;
 
 public interface Transform<T> {
 
+    /**
+     * This is used in the type name in typed expressions
+     * @return human readable type name
+     */
     String getTypeName();
 
-    Class<T> getType();
+    Type getType();
 
     List<String> getCaptureGroupRegexps();
 

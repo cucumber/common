@@ -1,0 +1,79 @@
+{
+  "title": "source",
+  "type": "object",
+  "properties": {
+    "type": {
+      "type": "string"
+    },
+    "timestamp": {
+      "description": "Milliseconds since epoch",
+      "type": "integer",
+      "minimum": 0
+    },
+    "series": {
+      "type": "string",
+      "pattern": "^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$"
+    },
+    "source": {
+      "type": "object",
+      "properties": {
+        "uri": {
+          "type": "string"
+        },
+        "start": {
+          "type": "object",
+          "properties": {
+            "line": {
+              "type": "integer",
+              "minimum": 1
+            },
+            "column": {
+              "type": "integer",
+              "minimum": 1
+            }
+          },
+          "required": [
+            "line"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "required": [
+        "uri",
+        "start"
+      ],
+      "additionalProperties": false
+    },
+    "data": {
+      "type": "string"
+    },
+    "media": {
+      "type": "object",
+      "properties": {
+        "encoding": {
+          "enum": [
+            "utf-8",
+            "base64"
+          ]
+        },
+        "type": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "encoding",
+        "type"
+      ],
+      "additionalProperties": false
+    }
+  },
+  "required": [
+    "type",
+    "timestamp",
+    "series",
+    "source",
+    "data",
+    "media"
+  ],
+  "additionalProperties": false
+}

@@ -1,7 +1,7 @@
 import assert from 'assert'
 import arrayToStream from './array_to_stream'
 import streamToArray from './stream_to_array'
-import ReduceStream from '../lib/reduce_stream'
+import ReducerStream from '../lib/reducer_stream'
 import HtmlStream from '../lib/html_stream'
 
 describe(HtmlStream.name, () => {
@@ -12,17 +12,15 @@ describe(HtmlStream.name, () => {
         "type": "source",
         "timestamp": 1471614838650,
         "series": "df1d3970-644e-11e6-8b77-86f30ca893d3",
-        "contentType": "text/plain+gherkin",
         "uri": "features/hello.feature",
-        "data": "Feature: Hello\n  Scenario: World\n    Given hello",
-        "dataEncoding": "utf-8"
+        "data": "Feature: Hello\n  Scenario: World\n    Given hello"
       }
     ]
 
-    const reduceStream = new ReduceStream()
+    const reducerStream = new ReducerStream()
     const htmlStream = new HtmlStream()
     arrayToStream(events)
-      .pipe(reduceStream)
+      .pipe(reducerStream)
       .pipe(htmlStream)
 
     return streamToArray(htmlStream)

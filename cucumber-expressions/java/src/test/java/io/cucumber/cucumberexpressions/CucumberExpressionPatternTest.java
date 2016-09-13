@@ -2,6 +2,7 @@ package io.cucumber.cucumberexpressions;
 
 import org.junit.Test;
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -19,7 +20,7 @@ public class CucumberExpressionPatternTest {
         assertPattern(
                 "hello",
                 "^hello$",
-                Collections.<Class<?>>emptyList()
+                Collections.<Type>emptyList()
         );
     }
 
@@ -28,7 +29,7 @@ public class CucumberExpressionPatternTest {
         assertPattern(
                 "I have {n} cukes",
                 "^I have (-?\\d+) cukes$",
-                Collections.<Class<?>>singletonList(int.class)
+                Collections.<Type>singletonList(int.class)
         );
     }
 
@@ -37,7 +38,7 @@ public class CucumberExpressionPatternTest {
         assertPattern(
                 "I have {n} cukes",
                 "^I have (-?\\d+) cukes$",
-                Collections.<Class<?>>singletonList(Integer.class)
+                Collections.<Type>singletonList(Integer.class)
         );
     }
 
@@ -46,13 +47,13 @@ public class CucumberExpressionPatternTest {
         assertPattern(
                 "I have {n:int} cukes in my {bodyPart}",
                 "^I have (-?\\d+) cukes in my (.+)$",
-                Collections.<Class<?>>emptyList()
+                Collections.<Type>emptyList()
         );
     }
 
     @Test
     public void translates_expression_types_with_explicit_types() {
-        List<Class<?>> types = new ArrayList<>();
+        List<Type> types = new ArrayList<>();
         types.add(Integer.class);
         types.add(String.class);
         assertPattern(
@@ -67,12 +68,12 @@ public class CucumberExpressionPatternTest {
         assertPattern(
                 "I have many big(ish) cukes",
                 "^I have many big(?:ish)? cukes$",
-                Collections.<Class<?>>emptyList()
+                Collections.<Type>emptyList()
         );
 
     }
 
-    private void assertPattern(String expr, String expectedRegexp, List<Class<?>> types) {
+    private void assertPattern(String expr, String expectedRegexp, List<Type> types) {
         CucumberExpression cucumberExpression = new CucumberExpression(expr, types, new TransformLookup(Locale.ENGLISH));
         assertEquals(expectedRegexp, cucumberExpression.getPattern().pattern());
     }

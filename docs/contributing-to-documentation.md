@@ -57,7 +57,9 @@ The documentation is written in [Markdown](http://toolchain.gitbook.com/syntax/m
 
 The documentation is stored on [GitHub](https://github.com/cucumber/cucumber)
 
-Follow the [GitBook Toolchain installation instructions](https://toolchain.gitbook.com/setup.html).
+Install the [GitBook command-line](https://toolchain.gitbook.com/setup.html) tool:
+
+    npm install gitbook-cli -g
 
 When you have the toolchain installed, you can view the documentation locally:
 

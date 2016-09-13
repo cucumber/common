@@ -1,5 +1,5 @@
 {
-  "plugins": [ "codetabs", "edit-link", "theme-api" ],
+  "plugins": [ "codetabs", "edit-link", "theme-api", "include-codeblock" ],
   "pluginsConfig": {
     "edit-link": {
       "base": "https://github.com/cucumber/cucumber/edit/master",

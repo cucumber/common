@@ -1,5 +1,6 @@
 package io.cucumber.cucumberexpressions;
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -19,14 +20,14 @@ public class RegularExpression implements Expression {
      * @param pattern         the regular expression to use
      * @param transformLookup transform lookup
      */
-    public RegularExpression(Pattern pattern, List<Class<?>> types, TransformLookup transformLookup) {
+    public RegularExpression(Pattern pattern, List<Type> types, TransformLookup transformLookup) {
         this.pattern = pattern;
         this.transforms = new ArrayList<>();
 
         Matcher matcher = CAPTURE_GROUP_PATTERN.matcher(pattern.pattern());
         int typeIndex = 0;
         while (matcher.find()) {
-            Class<?> type = types.size() <= typeIndex ? null : types.get(typeIndex++);
+            Type type = types.size() <= typeIndex ? null : types.get(typeIndex++);
             String captureGroupPattern = matcher.group(1);
 
             Transform<?> transform = null;
@@ -36,8 +37,8 @@ public class RegularExpression implements Expression {
             if (transform == null) {
                 transform = transformLookup.lookupByCaptureGroupRegexp(captureGroupPattern);
             }
-            if (transform == null && type != null) {
-                transform = new ClassTransform<>(type);
+            if (transform == null && type != null && type instanceof Class) {
+                transform = new ClassTransform<>((Class) type);
             }
             if (transform == null) {
                 transform = new ConstructorTransform<>(String.class);

@@ -1,10 +1,10 @@
 # Cucumber HTML Formatter
 
 The Cucumber HTML Formatter renders Cucumber features as HTML. It can optionally include
-extra information such as Cucumber results, stack traces, screenshots, or any other information that can be embedded
-in the [Cucumber Event Protocol](../docs/architecture/event-protocol.md).
+extra information such as Cucumber results, stack traces, screenshots or any other information that can be embedded
+in the [Cucumber Event Protocol](../event-protocol/README.md).
 
-It is a standalone executable that reads events from `STDIN` or a socket and
+It is a standalone executable that reads events from `STDIN` or a TCP socket and
 writes output (HTML) to `STDOUT`, a specified directory or directly to a browser
 (when run in server-mode).
 
@@ -26,26 +26,43 @@ as a Docker image.
 
 Make sure you `cd /cucumber/html-formatter/nodejs` first.
 
-### Writing events to STDIN
+### Build it
 
-    cat example.txt | bin/cucumber-html-formatter
+    npm install
+    npm run build
+    npm test
+
+### Events to STDIN, HTML to STDOUT
+
+    cat ../../event-protocol/examples/events.ndjson | bin/cucumber-html-formatter
 
 This should print a HTML report to `STDOUT`. You probably want to direct it to a file, then
 open it in a browser:
 
-    cat example.txt | bin/cucumber-html-formatter > cucumber.html
+    cat ../../event-protocol/examples/events.ndjson | bin/cucumber-html-formatter > cucumber.html
     open cucumber.html
 
-### Writing events over a socket
+Or, you can pipe it straight to your browser if you `gem install bcat` first:
+
+    cat ../../event-protocol/examples/events.ndjson | bin/cucumber-html-formatter | bcat
+
+### Events via socket, HTML to browser
 
 In the first shell:
 
+    npm run build
     bin/cucumber-html-formatter
 
-In the 2nd shell:
+Now, open up a browser:
+
+    open http://localhost:2222
+
+And optionally, in a new shell:
 
     curl --header "Accept: text/event-stream" http://localhost:2222/sse
 
-In the 3rd shell:
+Write some events over the socket:
 
-    cat example.txt | nc localhost 2223
+    cat ../../event-protocol/examples/events.ndjson | nc localhost 2223
+
+You should see the browser update with HTML (and if you ran `curl` you should see events there too)
