@@ -1,6 +1,11 @@
 # Tag Expressions
 
-Tag Expressions provide a simple query language for tags. Example:
+Tag Expressions provide a simple query language for tags. The simplest tag expression is 
+simply a single tag, for example:
+
+    @smoke
+
+A slightly more elaborate expression may combine tags, for example:
 
     @smoke and not @ui
 
@@ -9,7 +14,7 @@ Tag Expressions are used for two purposes:
 1. Run a subset of scenarios (using the `--tags expression` option of the [command line](#))
 2. Specify that a hook should only run for a subset of scenarios (using [tagged hooks](#))
 
-Tag Expressions are simply [boolean expressions](https://en.wikipedia.org/wiki/Boolean_expression)
+Tag Expressions are [boolean expressions](https://en.wikipedia.org/wiki/Boolean_expression)
 of tags with the logical operators `and`, `or` and `not`.
 
 For more complex Tag Expressions you can use parenthesis for clarity, or to change operator precedence:
