@@ -1,0 +1,44 @@
+{
+  "name": "gherkin-lint",
+  "version": "1.0.0",
+  "description": "Linter for Gherkin documents",
+  "main": "lib/index.js",
+  "engines": {
+    "node": ">=6.5.0"
+  },
+  "scripts": {
+    "test": "npm run eslint && npm run mocha && npm run test-cucumber",
+    "eslint": "eslint lib test",
+    "mocha": "mocha",
+    "test-cucumber": "cucumberjs"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/cucumber/gherkin-lint-javascript.git"
+  },
+  "keywords": [
+    "cucumber",
+    "gherkin",
+    "lint"
+  ],
+  "author": "Cucumber Ltd",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/cucumber/cucumber/issues"
+  },
+  "homepage": "https://github.com/cucumber/gherkin-lint-javascript#readme",
+  "devDependencies": {
+    "babel": "^6.5.2",
+    "babel-cli": "^6.11.4",
+    "babel-preset-es2015": "^6.13.2",
+    "cucumber": "^1.3.0",
+    "eslint": "^3.5.0",
+    "eslint-config-eslint": "^3.0.0",
+    "eslint-plugin-node": "^2.0.0",
+    "gherkin": "^4.0.0",
+    "mocha": "^3.0.2"
+  },
+  "dependencies": {
+    "gherkin": "^4.0.0"
+  }
+}

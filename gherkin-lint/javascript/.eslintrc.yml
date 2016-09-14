@@ -1,0 +1,10 @@
+root: true
+
+parserOptions:
+  sourceType: module
+
+plugins:
+  - node
+extends:
+  - eslint:recommended
+  - plugin:node/recommended

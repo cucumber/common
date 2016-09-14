@@ -102,6 +102,7 @@
 ### Cucumber Extensions
 
 * [Official Extensions](#)
+  * [Gherkin-Lint](gherkin-lint/README.md)
   * [CLI automation - Aruba](#)
   * [Ruby on Rails](#)
   * [Spring Framework](#)
