@@ -1,7 +1,6 @@
 import net from "net"
 import es from "event-stream"
 import FromJsonStream from "./from_json_stream"
-
 import dbg from "debug"
 const debug = dbg('cucumber-html:SocketServer')
 
@@ -18,6 +17,7 @@ class SocketServer {
         const splitStream = es.split() // deliver individual lines
         const fromJsonStream = new FromJsonStream()
         socket.pipe(splitStream).pipe(fromJsonStream).pipe(this._engine.openStream(), {end: closeEngineStreamOnDisconnect})
+        // eslint-disable-next-line no-console
         socket.on('error', err => console.error(err.stack))
       })
       this._server.listen(port, err => {

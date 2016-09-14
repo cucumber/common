@@ -1,7 +1,7 @@
 import path from 'path'
 import express from 'express'
 
-const webApp = engine => {
+const buildWebApp = () => {
   const app = express()
   app.use(express.static(path.join(__dirname, '..', 'public')))
 
@@ -12,4 +12,4 @@ const webApp = engine => {
   return app
 }
 
-export default webApp
+export default buildWebApp
