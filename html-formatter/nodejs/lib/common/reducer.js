@@ -7,12 +7,14 @@ const reducer = (state, action) => {
   if (!state) return new Map({sources: new Map()})
 
   switch (action.type) {
-    case 'start':
+    case 'start': {
       return state.set('sources', OrderedMap())
-    case 'source':
+    }
+    case 'source': {
       const gherkinDocument = parser.parse(action.data)
       return state.setIn(['sources', action.uri], fromJS(gherkinDocument))
-    case 'attachment':
+    }
+    case 'attachment': {
       return state.updateIn(['sources', action.source.uri, 'attachments', action.source.start.line], list => {
         return (list ? list : new List()).push(fromJS({
           uri: action.uri,
@@ -20,8 +22,10 @@ const reducer = (state, action) => {
           media: action.media
         }))
       })
-    default:
+    }
+    default: {
       throw new Error("Unsupported action: " + JSON.stringify(action))
+    }
   }
 }
 

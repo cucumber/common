@@ -3,9 +3,14 @@
   "version": "1.0.0",
   "description": "HTML formatter for Cucumber",
   "main": "lib/index.js",
+  "engines": {
+    "node": ">=6.5.0"
+  },
   "scripts": {
     "build": "webpack",
-    "test": "mocha && npm run test-cucumber && npm run test-cucumber-eventsource && npm run test-cucumber-react",
+    "test": "npm run eslint && npm run mocha && npm run test-cucumber && npm run test-cucumber-eventsource && npm run test-cucumber-react",
+    "eslint": "eslint --ext js,jsx lib test",
+    "mocha": "mocha",
     "test-cucumber": "cucumberjs",
     "test-cucumber-eventsource": "cucumber_html_formatter_output=eventsource cucumber_html_formatter_input=socket cucumberjs",
     "test-cucumber-react": "cucumber_html_formatter_output=react cucumber_html_formatter_input=socket cucumberjs",
@@ -33,9 +38,12 @@
     "babel-loader": "^6.2.5",
     "babel-preset-es2015": "^6.13.2",
     "babel-preset-react": "^6.11.1",
-    "cucumber": "^1.2.2",
+    "cucumber": "^1.3.0",
     "enzyme": "^2.4.1",
-    "eslint": "^3.3.1",
+    "eslint": "^3.5.0",
+    "eslint-config-eslint": "^3.0.0",
+    "eslint-plugin-node": "^2.0.0",
+    "eslint-plugin-react": "^6.2.1",
     "gherkin": "^4.0.0",
     "json-loader": "^0.5.4",
     "mocha": "^3.0.2",
@@ -53,51 +61,8 @@
     "react": "^15.3.1",
     "react-dom": "^15.3.1",
     "react-redux": "^4.4.5",
-    "redux": "^3.5.2",
+    "redux": "^3.6.0",
     "server-destroy": "^1.0.1",
     "sse": "0.0.6"
-  },
-  "eslintConfig": {
-    "env": {
-      "browser": true,
-      "es6": true,
-      "node": true
-    },
-    "parserOptions": {
-      "ecmaVersion": 7,
-      "sourceType": "module",
-      "ecmaFeatures": {
-        "jsx": true
-      }
-    },
-    "rules": {
-      "indent": [
-        "error",
-        2,
-        {
-          "SwitchCase": 1
-        }
-      ],
-      "linebreak-style": [
-        "error",
-        "unix"
-      ],
-      "semi": [
-        "error",
-        "never"
-      ],
-      "no-warning-comments": [
-        "warn"
-      ],
-      "comma-dangle": [
-        "off"
-      ],
-      "no-console": [
-        "off"
-      ],
-      "keyword-spacing": [
-        "error"
-      ]
-    }
   }
 }

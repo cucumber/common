@@ -1,3 +1,4 @@
+/* eslint-env mocha */
 import assert from "assert"
 import Stream from "stream"
 import arrayToStream from './array_to_stream'

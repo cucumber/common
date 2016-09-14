@@ -29,7 +29,6 @@ class EventSourceStream extends Stream.Readable {
         this.emit('error', new Error(`Failed to connect to ${url}`))
       }
     }
-    es.onclose = () => console.log('ES CLOSE')
   }
 
   _read() {

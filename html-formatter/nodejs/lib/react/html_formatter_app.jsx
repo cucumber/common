@@ -1,3 +1,4 @@
+/* eslint-env browser */
 import React from "react"
 import {createStore} from "redux"
 import {connect, Provider} from "react-redux"
@@ -24,6 +25,5 @@ render(provider, document.getElementById('app'))
 const es = new EventSource('/sse')
 es.onmessage = function (messageEvent) {
   const event = JSON.parse(messageEvent.data)
-  console.log(event)
   store.dispatch(event)
 }

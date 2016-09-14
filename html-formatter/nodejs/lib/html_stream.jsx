@@ -1,7 +1,7 @@
-import Stream from 'stream'
-import React from 'react' // eslint-disable-line no-unused-vars
-import ReactDOMServer from 'react-dom/server'
-import { Cucumber } from './cucumber_react/cucumber_react'
+import Stream from "stream"
+import React from "react"
+import ReactDOMServer from "react-dom/server"
+import {Cucumber} from "./cucumber_react/cucumber_react"
 
 class HtmlStream extends Stream.Transform {
   constructor() {

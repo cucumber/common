@@ -17,7 +17,7 @@ class App {
 
 export default () => {
   const engine = new Engine()
-  const webApp = buildWebApp(engine)
+  const webApp = buildWebApp()
   const webServer = new WebServer(engine, webApp)
   const socketServer = new SocketServer(engine)
 
