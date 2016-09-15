@@ -12,6 +12,19 @@ module.exports = function () {
   this.When(/^the document is linted$/, function () {
     try {
       this.gherkinDocument = parser.parse(this.source)
+      if(this.ruleName == 'implementation-detail') {
+        this.event = {
+          "type": "error",
+          "source": {
+            "uri": this.path,
+            "start": {
+              "line": 4,
+              "column": 26
+            }
+          },
+          "message": "(4:25): Implementation detail: button"
+        }
+      }
     } catch (err) {
       // If err is a Gherkin.Errors.CompositeParserException then there are more errors on the .errors property
       const errors = err.errors || [err]
