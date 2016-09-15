@@ -16,7 +16,7 @@ Feature: Linting Rules
 
   Scenario: Syntax error in Gherkin document
     Given a Gherkin document at features/hello.feature with contents:
-      ```
+      ```gherkin
       #language:no-such
       Feature: Meh
       ```
@@ -35,3 +35,11 @@ Feature: Linting Rules
         "message": "(1:1): Language not supported: no-such"
       }
       ```
+
+  Scenario: Valid Gherkin document
+    Given a Gherkin document at features/hello.feature with contents:
+      ```gherkin
+      Feature: Meh
+      ```
+    When the document is linted
+    Then no error events should be emitted

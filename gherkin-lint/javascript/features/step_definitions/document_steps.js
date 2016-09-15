@@ -32,4 +32,8 @@ module.exports = function () {
     const expectedEvent = JSON.parse(json)
     assert.deepEqual(this.event, expectedEvent)
   })
+
+  this.Then(/^no error events should be emitted$/, function () {
+    assert.equal(this.event, undefined)
+  })
 }
