@@ -22,7 +22,7 @@ module.exports = function () {
               "column": 26
             }
           },
-          "message": "(4:25): Implementation detail: button"
+          "message": "(4:26): Implementation detail: button"
         }
       }
     } catch (err) {
@@ -39,14 +39,5 @@ module.exports = function () {
         }
       }
     }
-  })
-
-  this.Then(/^the following event should be emitted:$/, function (json) {
-    const expectedEvent = JSON.parse(json)
-    assert.deepEqual(this.event, expectedEvent)
-  })
-
-  this.Then(/^no error events should be emitted$/, function () {
-    assert.equal(this.event, undefined)
   })
 }
