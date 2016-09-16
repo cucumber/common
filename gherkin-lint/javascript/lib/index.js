@@ -2,6 +2,8 @@ import Gherkin from "gherkin"
 const parser = new Gherkin.Parser()
 
 class GherkinLint {
+  // TODO: Pass in a list of "configured" rule objects, or perhaps just pass in
+  // a config object here
   constructor(enabledRuleNames) {
     this._enabledRuleNames = enabledRuleNames
   }
