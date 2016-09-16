@@ -120,6 +120,17 @@ describe('Cucumber React', () => {
       const component = shallow(<Step node={node} uri={uri} attachments={attachments}/>)
       assert.equal(component.find(Attachment).length, 2)
     })
+
+    it("renders a gutter element", () => {
+      const uri = 'features/hello.feature'
+      const node = state.getIn(['sources', uri, 'feature', 'children', 0, 'steps', 0])
+      const attachments = state.getIn(['sources', uri, 'attachments', 3])
+
+      const gutterFn = (uri, line, column) => <div className="gutter">{uri}:{line}:{column}</div>
+
+      const component = shallow(<Step node={node} uri={uri} attachments={attachments} gutterFn={gutterFn}/>)
+      assert.equal(component.find('.gutter').text(), 'features/hello.feature:3:5')
+    })
   })
 
   describe(Attachment.name, () => {

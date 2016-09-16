@@ -15,9 +15,11 @@ const mapStateToProps = (state) => {
 }
 
 const ConnectedCucumber = connect(mapStateToProps)(Cucumber)
+const gutterFn = (uri, line, column) => <button style={{float: 'right'}}>Comment on {uri}:{line}:{column}</button>
 
 const provider = <Provider store={store}>
-  <ConnectedCucumber sources={store.getState().get('sources')}/>
+  <ConnectedCucumber sources={store.getState().get('sources')}
+                     gutterFn={gutterFn}/>
 </Provider>
 
 render(provider, document.getElementById('app'))
