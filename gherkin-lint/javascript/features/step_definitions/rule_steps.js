@@ -7,13 +7,18 @@ module.exports = function () {
 
   this.Then(/^the following warning should emitted:$/, function (errorTable) {
     const expectedError = errorTable.rowsHash()
+
+    assert(Array.isArray(this.warningEvents))
+    assert(this.warningEvents.length, 1)
+
+    const event = this.warningEvents[0]
     assert.deepEqual({
-      location: `${this.event.source.uri}:${this.event.source.start.line}:${this.event.source.start.column}`,
-      message: this.event.message
+      location: `${event.source.uri}:${event.source.start.line}:${event.source.start.column}`,
+      message: event.message
     }, expectedError)
   })
 
   this.Then(/^no warnings should be emitted$/, function () {
-    assert.equal(this.event, undefined)
+    assert.deepEqual(this.warningEvents, [])
   })
 }
