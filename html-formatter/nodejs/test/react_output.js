@@ -1,7 +1,8 @@
 import Stream from "stream"
-import React from "react" // eslint-disable-line no-unused-vars
+import React from "react"
 import {render} from "enzyme"
-import {Cucumber} from "../lib/cucumber_react/cucumber_react"
+import {CucumberReact} from "cucumber-react"
+const {Cucumber} = CucumberReact
 
 class ReactOutput extends Stream.Writable {
   constructor() {

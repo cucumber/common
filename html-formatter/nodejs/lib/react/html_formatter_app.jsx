@@ -3,8 +3,8 @@ import React from "react"
 import {createStore} from "redux"
 import {connect, Provider} from "react-redux"
 import {render} from "react-dom"
-import reducer from "../common/reducer"
-import {Cucumber} from "../cucumber_react/cucumber_react"
+import {CucumberReact, reducer} from "cucumber-react"
+const {Cucumber} = CucumberReact
 
 const store = createStore(reducer)
 

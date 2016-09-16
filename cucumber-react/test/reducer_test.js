@@ -1,6 +1,6 @@
 /* eslint-env mocha */
 import assert from "assert"
-import reducer from "../../lib/common/reducer"
+import reducer from "../lib/reducer"
 
 describe(reducer.name, () => {
   it("keeps a map of sources", () => {
