@@ -22,7 +22,7 @@ Feature: Linting Rules
       """
 
     When the document is linted
-    Then the following errors should be found:
+    Then the following warning should emitted:
       | location | features/hello.feature:1:1             |
       | message  | (1:1): Language not supported: no-such |
 
@@ -32,4 +32,4 @@ Feature: Linting Rules
       Feature: Meh
       """
     When the document is linted
-    Then no error events should be emitted
+    Then no warnings should be emitted

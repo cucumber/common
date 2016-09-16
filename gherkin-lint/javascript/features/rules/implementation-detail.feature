@@ -13,6 +13,6 @@ Feature: implementation-detail
       """
     And the implementation-detail rule is enabled
     When the document is linted
-    Then the following errors should be found:
+    Then the following warning should emitted:
       | location | features/implementation-detail.feature:4:26 |
-      | message  | (4:26): Implementation detail: button       |
+      | message  | Implementation detail: button               |

@@ -1,4 +1,3 @@
-import assert from "assert"
 import Gherkin from "gherkin"
 
 const parser = new Gherkin.Parser()
@@ -22,7 +21,7 @@ module.exports = function () {
               "column": 26
             }
           },
-          "message": "(4:26): Implementation detail: button"
+          "message": "Implementation detail: button"
         }
       }
     } catch (err) {
