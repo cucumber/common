@@ -7,11 +7,11 @@
 ## Example
 
 ```js
-var TagExpressionParser = require('cucumber-tag-expressions').TagExpressionParser;
-var parser = new TagExpressionParser();
+import {TagExpressionParser} from 'cucumber-tag-expressions'
+const parser = new TagExpressionParser()
 
-var expressionNode = parser.parse('@tagA and @tagB');
+const expressionNode = parser.parse('@tagA and @tagB')
 
-expressionNode.evaluate(["@tagA", "@tagB"]); # => true
-expressionNode.evaluate(["@tagA", "@tagC"]); # => false
+expressionNode.evaluate(["@tagA", "@tagB"]) // => true
+expressionNode.evaluate(["@tagA", "@tagC"]) // => false
 ```
