@@ -8,9 +8,9 @@
 
 ```js
 var TagExpressionParser = require('cucumber-tag-expressions').TagExpressionParser;
-var tagExpressionParser = new TagExpressionParser();
+var parser = new TagExpressionParser();
 
-var expressionNode = tagExpressionParser.parse('@tagA and @tagB');
+var expressionNode = parser.parse('@tagA and @tagB');
 
 expressionNode.evaluate(["@tagA", "@tagB"]); # => true
 expressionNode.evaluate(["@tagA", "@tagC"]); # => false
