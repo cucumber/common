@@ -10,7 +10,7 @@ The Cucumber HTML Formatter consists of two main components:
     # Link the local cucumber-react module
     cd ../../cucumber-react
     npm link
-    cd ../cucumber-react/nodejs
+    cd ../html-formatter/nodejs
     npm link cucumber-react
 
     # Install other modules
