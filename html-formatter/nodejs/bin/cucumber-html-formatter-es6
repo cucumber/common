@@ -11,10 +11,7 @@ const app = buildApp()
 if (process.stdin.isTTY) {
   app.webServer.start(2222)
     .then(() => app.socketServer.start(2223, false))
-    .then(() => process.stdin.pipe(app.engine.openStream()))
-    .then(() => {
-      console.log('Socket: 2223, HTTP: 2222')
-    })
+    .then(() => console.log('Socket: 2223, HTTP: 2222'))
     .catch(err => {
       console.error(err.stack)
       process.exit(1)
@@ -25,7 +22,6 @@ if (process.stdin.isTTY) {
   process.stdin
     .pipe(es.split())
     .pipe(new FromJsonStream())
-    .pipe(app.engine.openStream())
     .pipe(new ReduceStream())
     .pipe(new HtmlStream())
     .pipe(process.stdout)
