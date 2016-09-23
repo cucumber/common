@@ -40,7 +40,7 @@ module.exports = function () {
 
     const createReactOutput = () => {
       this._output = new ReactOutput()
-      this._app.engine.openStream().pipe(new ReduceStream()).pipe(this._output)
+      this._app.eventBus.pipe(new ReduceStream()).pipe(this._output)
       return Promise.resolve(this._output)
     }
 
@@ -49,7 +49,7 @@ module.exports = function () {
 
     const createReducerOutput = () => {
       this._output = new StateOutput()
-      this._app.engine.openStream().pipe(new ReduceStream()).pipe(this._output)
+      this._app.eventBus.pipe(new ReduceStream()).pipe(this._output)
       return Promise.resolve(this._output)
     }
 
@@ -82,7 +82,7 @@ module.exports = function () {
         socket.connect(SOCKET_PORT)
       }))
 
-    const connectToEngineStream = () => Promise.resolve(this._app.engine.openStream())
+    const connectToEngineStream = () => Promise.resolve(this._app.eventBus)
 
     const connectInput = process.env.cucumber_html_formatter_input === 'socket' ?
       connectToSocket :
