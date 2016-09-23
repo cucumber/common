@@ -72,7 +72,7 @@ describe('Cucumber React', () => {
       assert.equal(component.find('.name').text(), 'Hello')
     })
 
-    it("renders the scenario", () => {
+    it("renders scenarios", () => {
       const uri = 'features/hello.feature'
       const node = state.getIn(['sources', uri, 'feature'])
       const attachmentsByLine = state.getIn(['sources', uri, 'attachments'])
@@ -92,7 +92,7 @@ describe('Cucumber React', () => {
       assert.equal(component.find('.name').text(), 'World')
     })
 
-    it("renders the step", () => {
+    it("renders steps", () => {
       const uri = 'features/hello.feature'
       const node = events.reduce(reducer, reducer()).getIn(['sources', uri, 'feature', 'children', 0])
       const attachmentsByLine = state.getIn(['sources', uri, 'attachments'])
@@ -103,13 +103,33 @@ describe('Cucumber React', () => {
   })
 
   describe(Step.name, () => {
+    it("renders the text", () => {
+      const uri = 'features/hello.feature'
+      const node = state.getIn(['sources', uri, 'feature', 'children', 0, 'steps', 0])
+      const attachments = state.getIn(['sources', uri, 'attachments', 3])
+
+      const component = shallow(<Step node={node} uri={uri} attachments={attachments}/>)
+      assert.equal(component.find('.text').text(), 'hello')
+    })
+
     it("renders attachments", () => {
       const uri = 'features/hello.feature'
-      const node = state.getIn(['sources', uri, 'feature', 'children', 0])
+      const node = state.getIn(['sources', uri, 'feature', 'children', 0, 'steps', 0])
       const attachments = state.getIn(['sources', uri, 'attachments', 3])
 
       const component = shallow(<Step node={node} uri={uri} attachments={attachments}/>)
       assert.equal(component.find(Attachment).length, 2)
+    })
+
+    it("renders a gutter element", () => {
+      const uri = 'features/hello.feature'
+      const node = state.getIn(['sources', uri, 'feature', 'children', 0, 'steps', 0])
+      const attachments = state.getIn(['sources', uri, 'attachments', 3])
+
+      const gutterFn = (uri, line, column) => <div className="gutter">{uri}:{line}:{column}</div>
+
+      const component = shallow(<Step node={node} uri={uri} attachments={attachments} gutterFn={gutterFn}/>)
+      assert.equal(component.find('.gutter').text(), 'features/hello.feature:3:5')
     })
   })
 

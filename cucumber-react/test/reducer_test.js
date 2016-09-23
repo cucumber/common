@@ -70,8 +70,8 @@ describe(reducer.name, () => {
 
     const attachments = state.getIn(['sources', 'features/hello.feature', 'attachments', 22])
     assert.deepEqual(attachments.toJS(), [
-      { uri: 'build/screenshots/hello.png', data: undefined, media: undefined },
-      { uri: 'build/screenshots/world.png', data: undefined, media: undefined }
+      {uri: 'build/screenshots/hello.png', data: undefined, media: undefined},
+      {uri: 'build/screenshots/world.png', data: undefined, media: undefined}
     ])
   })
 })
