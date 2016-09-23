@@ -3,7 +3,7 @@ import assert from "assert"
 import reducer from "../lib/reducer"
 
 describe(reducer.name, () => {
-  it("keeps a map of sources", () => {
+  it("keeps a map of parsed gherkin AST documents", () => {
     const events = [
       {"type": "start", "timestamp": 1471614838649, "series": "df1d3970-644e-11e6-8b77-86f30ca893d3"},
       {
