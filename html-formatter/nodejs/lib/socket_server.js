@@ -5,8 +5,8 @@ import dbg from "debug"
 const debug = dbg('cucumber-html:SocketServer')
 
 class SocketServer {
-  constructor(engine) {
-    this._engine = engine
+  constructor(eventBus) {
+    this._eventBus = eventBus
   }
 
   start(port, closeEngineStreamOnDisconnect) {
@@ -16,7 +16,7 @@ class SocketServer {
         debug('New connection')
         const splitStream = es.split() // deliver individual lines
         const fromJsonStream = new FromJsonStream()
-        socket.pipe(splitStream).pipe(fromJsonStream).pipe(this._engine.openStream(), {end: closeEngineStreamOnDisconnect})
+        socket.pipe(splitStream).pipe(fromJsonStream).pipe(this._eventBus, {end: closeEngineStreamOnDisconnect})
         // eslint-disable-next-line no-console
         socket.on('error', err => console.error(err.stack))
       })

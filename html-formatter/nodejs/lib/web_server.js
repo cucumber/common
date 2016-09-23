@@ -2,9 +2,9 @@ import enableDestroy from "server-destroy"
 import EventSourceBroadcastStream from "./event_source_broadcast_stream"
 
 class WebServer {
-  constructor(engine, webApp) {
-    this._engine = engine
+  constructor(webApp, eventBus) {
     this._webApp = webApp
+    this._eventBus = eventBus
   }
 
   start(port) {
@@ -12,7 +12,7 @@ class WebServer {
       this._server = this._webApp.listen(port, err => {
         if (err) return reject(err)
         const esStream = new EventSourceBroadcastStream(this._server, '/sse', 20000)
-        this._engine.openStream().pipe(esStream)
+        this._eventBus.pipe(esStream)
         resolve(port)
       })
       enableDestroy(this._server)
