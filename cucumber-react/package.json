@@ -11,7 +11,7 @@
     "eslint": "eslint src test",
     "build": "babel src --out-dir dist",
     "prepublish": "npm run build",
-    "postinstall": "scripts/postinstall.js",
+    "postinstall": "node scripts/postinstall.js",
     "mocha": "mocha"
   },
   "repository": {
