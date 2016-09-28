@@ -1,4 +1,4 @@
-import Engine from "./engine"
+import stream from "stream"
 import buildWebApp from "./build_web_app"
 import WebServer from "./web_server"
 import SocketServer from "./socket_server"
@@ -16,13 +16,13 @@ class App {
 }
 
 export default () => {
-  const engine = new Engine()
+  const eventBus = new stream.PassThrough({objectMode: true})
   const webApp = buildWebApp()
-  const webServer = new WebServer(engine, webApp)
-  const socketServer = new SocketServer(engine)
+  const webServer = new WebServer(webApp, eventBus)
+  const socketServer = new SocketServer(eventBus)
 
   return new App({
-    engine,
+    eventBus,
     webApp,
     webServer,
     socketServer

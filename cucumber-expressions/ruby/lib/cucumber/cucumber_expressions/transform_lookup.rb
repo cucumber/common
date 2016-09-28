@@ -38,7 +38,7 @@ module Cucumber
         transform = @transforms_by_type_name[type_name]
         if transform.nil?
           return nil if ignore_unknown_type_name
-          raise Exception.new("No transformer for type name \"#{type_name}\"")
+          raise Exception.new("No transform for type name \"#{type_name}\"")
         else
           transform
         end

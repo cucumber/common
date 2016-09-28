@@ -7,7 +7,7 @@ class CucumberExpression {
    * @param transformLookup
    */
   constructor(expression, types, transformLookup) {
-    const variablePattern = /\{([^}:]+)(:([^}]+))?}/g
+    const parameterPattern = /\{([^}:]+)(:([^}]+))?}/g
     const optionalPattern = /\(([^\)]+)\)/g
 
     this._expression = expression
@@ -20,8 +20,8 @@ class CucumberExpression {
     // Create non-capturing, optional capture groups from parenthesis
     expression = expression.replace(optionalPattern, '(?:$1)?')
 
-    while ((match = variablePattern.exec(expression)) !== null) {
-      const argumentName = match[1]
+    while ((match = parameterPattern.exec(expression)) !== null) {
+      const parameterName = match[1]
       const typeName = match[3]
       const type = types.length <= typeIndex ? null : types[typeIndex++]
 
@@ -33,7 +33,7 @@ class CucumberExpression {
         transform = transformLookup.lookupByTypeName(typeName, false)
       }
       if (!transform) {
-        transform = transformLookup.lookupByTypeName(argumentName, true)
+        transform = transformLookup.lookupByTypeName(parameterName, true)
       }
       if (!transform) {
         transform = transformLookup.createAnonymousLookup(s => s)
@@ -42,7 +42,7 @@ class CucumberExpression {
 
       const text = expression.slice(matchOffset, match.index)
       const captureRegexp = `(${transform.captureGroupRegexps[0]})`
-      matchOffset = variablePattern.lastIndex
+      matchOffset = parameterPattern.lastIndex
       regexp += text
       regexp += captureRegexp
     }

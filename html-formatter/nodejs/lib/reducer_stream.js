@@ -1,5 +1,5 @@
 import Stream from 'stream'
-import reducer from './common/reducer'
+import { reducer } from 'cucumber-react'
 
 class ReducerStream extends Stream.Transform {
   constructor() {

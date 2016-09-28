@@ -3,6 +3,19 @@ const RegularExpression = require('../lib/regular_expression')
 const TransformLookup = require('../lib/transform_lookup')
 
 describe(RegularExpression.name, () => {
+  it("documents match arguments", () => {
+    const transformLookup = new TransformLookup()
+
+    /// [capture-match-arguments]
+    const expr = /I have (\d+) cukes? in my (\w+) now/
+    const types = ['int', null]
+    const expression = new RegularExpression(expr, types, transformLookup)
+    const args = expression.match("I have 7 cukes in my belly now")
+    assert.equal(7, args[0].transformedValue)
+    assert.equal("belly", args[1].transformedValue)
+    /// [capture-match-arguments]
+  })
+
   it("transforms to string by default", () => {
     assert.deepEqual(match(/(\d\d)/, "22"), ['22'])
   })

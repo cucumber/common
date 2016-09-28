@@ -2,8 +2,8 @@
 import assert from "assert"
 import React from "react"
 import {shallow} from "enzyme"
-import {GherkinDocument, Feature, Scenario, Step, Attachment} from "../../lib/cucumber_react/cucumber_react"
-import reducer from "../../lib/common/reducer" // eslint-disable-line no-unused-vars
+import {CucumberReact, reducer} from "../src"
+const {GherkinDocument, Feature, Scenario, Step, Attachment} = CucumberReact
 
 const events = [
   {"type": "start", "timestamp": 1471614838649, "series": "df1d3970-644e-11e6-8b77-86f30ca893d3"},

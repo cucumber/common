@@ -8,11 +8,26 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 
+import static java.util.Arrays.asList;
 import static java.util.Collections.singletonList;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 
 public class CucumberExpressionTest {
+    @Test
+    public void documents_match_arguments() {
+        TransformLookup transformLookup = new TransformLookup(Locale.ENGLISH);
+
+        /// [capture-match-arguments]
+        String expr = "I have {n} cuke(s) in my {bodypart} now";
+        List<? extends Class<?>> types = asList(Integer.class, String.class);
+        Expression expression = new CucumberExpression(expr, types, transformLookup);
+        List<Argument> args = expression.match("I have 7 cukes in my belly now");
+        assertEquals(7, args.get(0).getTransformedValue());
+        assertEquals("belly", args.get(1).getTransformedValue());
+        /// [capture-match-arguments]
+    }
+
     @Test
     public void transforms_nothing_by_default() {
         assertEquals(singletonList("22"), match("{what}", "22"));
@@ -35,14 +50,14 @@ public class CucumberExpressionTest {
 
     @Test
     public void transforms_to_float_by_expression_type() {
-        assertEquals(singletonList(new Float(0.22)), match("{what:float}", "0.22"));
-        assertEquals(singletonList(new Float(0.22)), match("{what:float}", ".22"));
+        assertEquals(singletonList(0.22f), match("{what:float}", "0.22"));
+        assertEquals(singletonList(0.22f), match("{what:float}", ".22"));
     }
 
     @Test
     public void transforms_to_float_by_explicit_type() {
-        assertEquals(singletonList(new Float(0.22)), match("{what}", "0.22", Float.class));
-        assertEquals(singletonList(new Float(0.22)), match("{what}", ".22", Float.class));
+        assertEquals(singletonList(0.22f), match("{what}", "0.22", Float.class));
+        assertEquals(singletonList(0.22f), match("{what}", ".22", Float.class));
     }
 
     @Test
@@ -51,7 +66,7 @@ public class CucumberExpressionTest {
             match("{what:unknown}", "something");
             fail();
         } catch (CucumberExpressionException expected) {
-            assertEquals("No transformer for type name \"unknown\"", expected.getMessage());
+            assertEquals("No transform for type name \"unknown\"", expected.getMessage());
         }
     }
 
@@ -88,10 +103,10 @@ public class CucumberExpressionTest {
 
     private List<Object> match(String expr, String text, List<Type> explicitTypes, Locale locale) {
         CucumberExpression expression = new CucumberExpression(expr, explicitTypes, new TransformLookup(locale));
-        List<Argument> arguments = expression.match(text);
-        if (arguments == null) return null;
+        List<Argument> args = expression.match(text);
+        if (args == null) return null;
         List<Object> transformedValues = new ArrayList<>();
-        for (Argument argument : arguments) {
+        for (Argument argument : args) {
             transformedValues.add(argument.getTransformedValue());
         }
         return transformedValues;

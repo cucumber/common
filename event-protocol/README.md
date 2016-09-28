@@ -8,6 +8,8 @@ formatters that report the results in various formats. The protocol is designed
 to allow for other producers to emit events, and for other consumers to consume
 them.
 
+Events are encoded as [Newline Delimited JSON](http://ndjson.org/).
+
 The protocol is transport agnostic, and can be transmitted in-process as well as
 between processes. This means some components (such as the [HTML Formatter](../html-formatter/README.md))
 can be implemented in a single programming language and used by Cucumber

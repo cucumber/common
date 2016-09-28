@@ -1,0 +1,12 @@
+root: true
+
+parserOptions:
+  sourceType: module
+
+plugins:
+  - node
+  - react
+extends:
+  - eslint:recommended
+  - plugin:node/recommended
+  - plugin:react/recommended

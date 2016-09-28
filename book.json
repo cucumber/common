@@ -1,5 +1,10 @@
 {
-  "plugins": [ "codetabs", "edit-link", "theme-api", "include-codeblock" ],
+  "plugins": [
+    "codetabs",
+    "edit-link",
+    "theme-api",
+    "snippet@git+https://github.com/cucumber-ltd/gitbook-plugin-snippet.git"
+  ],
   "pluginsConfig": {
     "edit-link": {
       "base": "https://github.com/cucumber/cucumber/edit/master",

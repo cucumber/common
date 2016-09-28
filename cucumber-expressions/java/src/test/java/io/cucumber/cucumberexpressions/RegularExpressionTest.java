@@ -9,11 +9,26 @@ import java.util.List;
 import java.util.Locale;
 import java.util.regex.Pattern;
 
+import static java.util.Arrays.asList;
 import static java.util.Collections.singletonList;
 import static java.util.regex.Pattern.compile;
 import static org.junit.Assert.assertEquals;
 
 public class RegularExpressionTest {
+    @Test
+    public void document_match_arguments() {
+        TransformLookup transformLookup = new TransformLookup(Locale.ENGLISH);
+
+        /// [capture-match-arguments]
+        Pattern expr = Pattern.compile("I have (\\d+) cukes? in my (\\w+) now");
+        List<? extends Class<?>> types = asList(Integer.class, String.class);
+        Expression expression = new RegularExpression(expr, types, transformLookup);
+        List<Argument> match = expression.match("I have 7 cukes in my belly now");
+        assertEquals(7, match.get(0).getTransformedValue());
+        assertEquals("belly", match.get(1).getTransformedValue());
+        /// [capture-match-arguments]
+    }
+
     @Test
     public void transforms_to_string_by_default() {
         assertEquals(singletonList("22"), match(compile("(.*)"), "22", Collections.<Type>singletonList(String.class)));
