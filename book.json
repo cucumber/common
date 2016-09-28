@@ -3,7 +3,7 @@
     "codetabs",
     "edit-link",
     "theme-api",
-    "snippet"
+    "snippet@git+https://github.com/cucumber-ltd/gitbook-plugin-snippet.git"
   ],
   "pluginsConfig": {
     "edit-link": {
