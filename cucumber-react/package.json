@@ -9,7 +9,9 @@
   "scripts": {
     "test": "npm run eslint && npm run mocha",
     "eslint": "eslint src test",
-    "prepublish": "babel src --out-dir dist",
+    "build": "babel src --out-dir dist",
+    "prepublish": "npm run build",
+    "postinstall": "scripts/postinstall.js",
     "mocha": "mocha"
   },
   "repository": {
