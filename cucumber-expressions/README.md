@@ -111,15 +111,15 @@ If a type used in a step definition has a constructor that accepts a single
 {% method %}
 {% sample lang="java" %}
 ```java
-[snippet](java/src/test/java/io/cucumber/cucumberexpressions/CustomTransformTest.java#add-color-transform)
+[snippet](java/src/test/java/io/cucumber/cucumberexpressions/CustomTransformTest.java#color-constructor)
 ```
 {% sample lang="js" %}
 ```javascript
-[snippet](javascript/test/custom_transform_test.js#add-color-transform)
+[snippet](javascript/test/custom_transform_test.js#color-constructor)
 ```
 {% sample lang="rb" %}
 ```ruby
-[snippet](ruby/spec/cucumber/cucumber_expressions/custom_transform_spec.rb#add-color-transform)
+[snippet](ruby/spec/cucumber/cucumber_expressions/custom_transform_spec.rb#color-constructor)
 ```
 {% endmethod %}
 
