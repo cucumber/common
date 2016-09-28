@@ -20,7 +20,7 @@ public class RegularExpression implements Expression {
      * @param pattern         the regular expression to use
      * @param transformLookup transform lookup
      */
-    public RegularExpression(Pattern pattern, List<Type> types, TransformLookup transformLookup) {
+    public RegularExpression(Pattern pattern, List<? extends Type> types, TransformLookup transformLookup) {
         this.pattern = pattern;
         this.transforms = new ArrayList<>();
 

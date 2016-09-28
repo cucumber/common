@@ -59,7 +59,7 @@ class TransformLookup {
       if (ignoreUnknownTypeName) {
         return null
       } else {
-        throw new Error(`No transformer for type name "${typeName}"`)
+        throw new Error(`No transform for type name "${typeName}". Registered transforms: ${Object.keys(this._transformsByTypeName)}`)
       }
     } else {
       return transform

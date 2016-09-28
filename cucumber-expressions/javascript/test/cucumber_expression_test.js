@@ -3,6 +3,19 @@ const CucumberExpression = require('../lib/cucumber_expression')
 const TransformLookup = require('../lib/transform_lookup')
 
 describe(CucumberExpression.name, () => {
+  it("documents match arguments", () => {
+    const transformLookup = new TransformLookup()
+
+    /// [capture-match-arguments]
+    const expr = "I have {n} cuke(s) in my {bodypart} now"
+    const types = ['int', null]
+    const expression = new CucumberExpression(expr, types, transformLookup)
+    const args = expression.match("I have 7 cukes in my belly now")
+    assert.equal(7, args[0].transformedValue)
+    assert.equal("belly", args[1].transformedValue)
+    /// [capture-match-arguments]
+  })
+
   it("transforms nothing by default", () => {
     assert.deepEqual(match("{what}", "22"), ["22"])
   })
@@ -32,7 +45,7 @@ describe(CucumberExpression.name, () => {
   it("doesn't transform unknown type", () => {
     assert.throws(
       () => match("{what:unknown}", "something"),
-      /No transformer for type name "unknown"/
+      /No transform for type name "unknown"/
     )
   })
 
@@ -52,7 +65,7 @@ describe(CucumberExpression.name, () => {
 
 const match = (expression, text, types) => {
   const cucumberExpression = new CucumberExpression(expression, types || [], new TransformLookup())
-  const arguments = cucumberExpression.match(text)
-  if (!arguments) return null
-  return arguments.map(arg => arg.transformedValue)
+  const args = cucumberExpression.match(text)
+  if (!args) return null
+  return args.map(arg => arg.transformedValue)
 }

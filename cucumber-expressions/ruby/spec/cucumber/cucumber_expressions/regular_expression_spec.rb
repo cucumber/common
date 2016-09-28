@@ -4,11 +4,17 @@ require 'cucumber/cucumber_expressions/transform_lookup'
 module Cucumber
   module CucumberExpressions
     describe RegularExpression do
-      def match(expression, text, types = [])
-        regular_expression = RegularExpression.new(expression, types, TransformLookup.new)
-        arguments = regular_expression.match(text)
-        return nil if arguments.nil?
-        arguments.map { |arg| arg.transformed_value }
+      it "documents match arguments" do
+        transform_lookup = TransformLookup.new
+
+        ### [capture-match-arguments]
+        expr = /I have (\d+) cukes? in my (\w*) now/
+        types = ['int', nil]
+        expression = RegularExpression.new(expr, types, transform_lookup)
+        args = expression.match("I have 7 cukes in my belly now")
+        expect( args[0].transformed_value ).to eq(7)
+        expect( args[1].transformed_value ).to eq("belly")
+        ### [capture-match-arguments]
       end
 
       it "transforms to string by default" do
@@ -51,6 +57,13 @@ module Cucumber
       it "exposes source" do
         expr = /I have (\d+) cukes? in my (\+) now/
         expect(RegularExpression.new(expr, [], TransformLookup.new).source).to eq(expr)
+      end
+
+      def match(expression, text, types = [])
+        regular_expression = RegularExpression.new(expression, types, TransformLookup.new)
+        arguments = regular_expression.match(text)
+        return nil if arguments.nil?
+        arguments.map { |arg| arg.transformed_value }
       end
     end
   end

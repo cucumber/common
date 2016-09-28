@@ -7,24 +7,24 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class CucumberExpression implements Expression {
-    private static final Pattern VARIABLE_PATTERN = Pattern.compile("\\{([^\\}:]+)(:([^\\}]+))?\\}");
+    private static final Pattern PARAMETER_PATTERN = Pattern.compile("\\{([^\\}:]+)(:([^\\}]+))?\\}");
     private static final Pattern OPTIONAL_PATTERN = Pattern.compile("\\(([^\\)]+)\\)");
 
     private final Pattern pattern;
     private final List<Transform<?>> transforms = new ArrayList<>();
     private final String expression;
 
-    public CucumberExpression(final String expression, List<Type> types, TransformLookup transformLookup) {
+    public CucumberExpression(final String expression, List<? extends Type> types, TransformLookup transformLookup) {
         this.expression = expression;
         String expressionWithOptionalGroups = OPTIONAL_PATTERN.matcher(expression).replaceAll("(?:$1)?");
-        Matcher matcher = VARIABLE_PATTERN.matcher(expressionWithOptionalGroups);
+        Matcher matcher = PARAMETER_PATTERN.matcher(expressionWithOptionalGroups);
 
         StringBuffer regexp = new StringBuffer();
         regexp.append("^");
         int typeIndex = 0;
         while (matcher.find()) {
             Type type = types.size() <= typeIndex ? null : types.get(typeIndex++);
-            String argumentName = matcher.group(1);
+            String parameterName = matcher.group(1);
             String typeName = matcher.group(3);
 
             Transform<?> transform = null;
@@ -32,10 +32,10 @@ public class CucumberExpression implements Expression {
                 transform = transformLookup.lookupByType(type);
             }
             if (transform == null && typeName != null) {
-                transform = transformLookup.lookupByType(typeName, false);
+                transform = transformLookup.lookupByTypeName(typeName, false);
             }
             if (transform == null) {
-                transform = transformLookup.lookupByType(argumentName, true);
+                transform = transformLookup.lookupByTypeName(parameterName, true);
             }
             if (transform == null && type != null && type instanceof Class) {
                 transform = new ClassTransform<>((Class) type);

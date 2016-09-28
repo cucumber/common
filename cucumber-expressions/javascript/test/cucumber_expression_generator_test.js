@@ -23,6 +23,17 @@ describe(CucumberExpressionGenerator.name, () => {
     generator = new CucumberExpressionGenerator(transformLookup)
   })
 
+  it("documents expression generation", () => {
+    const transformLookup = new TransformLookup()
+    /// [generate-expression]
+    const generator = new CucumberExpressionGenerator(transformLookup)
+    const undefinedStepText = "I have 2 cucumbers and 1.5 tomato"
+    const generatedExpression = generator.generateExpression(undefinedStepText, true)
+    assert.equal(generatedExpression.source, "I have {arg1:int} cucumbers and {arg2:float} tomato")
+    assert.equal(generatedExpression.transforms[1].typeName, 'float')
+    /// [generate-expression]
+  })
+
   it("generates expression for no args", () => {
     assertTypedExpression("hello", "hello")
   })

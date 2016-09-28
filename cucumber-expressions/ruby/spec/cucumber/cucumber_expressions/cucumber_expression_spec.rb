@@ -4,11 +4,17 @@ require 'cucumber/cucumber_expressions/transform_lookup'
 module Cucumber
   module CucumberExpressions
     describe CucumberExpression do
-      def match(expression, text, types = [])
-        cucumber_expression = CucumberExpression.new(expression, types, TransformLookup.new)
-        arguments = cucumber_expression.match(text)
-        return nil if arguments.nil?
-        arguments.map { |arg| arg.transformed_value }
+      it "documents match arguments" do
+        transform_lookup = TransformLookup.new
+
+        ### [capture-match-arguments]
+        expr = "I have {n} cuke(s) in my {bodypart} now"
+        types = ['int', nil]
+        expression = CucumberExpression.new(expr, types, transform_lookup)
+        args = expression.match("I have 7 cukes in my belly now")
+        expect( args[0].transformed_value ).to eq(7)
+        expect( args[1].transformed_value ).to eq("belly")
+        ### [capture-match-arguments]
       end
 
       it "transforms nothing by default" do
@@ -44,7 +50,7 @@ module Cucumber
 
       it "doesn't transform unknown type" do
         expect { match("{what:unknown}", "something") }.to raise_error(
-          'No transformer for type name "unknown"')
+          'No transform for type name "unknown"')
       end
 
       it "exposes source" do
@@ -58,6 +64,13 @@ module Cucumber
         arg1 = expression.match("I have 800 cukes in my brain now")[0]
         expect(arg1.offset).to eq(7)
         expect(arg1.value).to eq("800")
+      end
+
+      def match(expression, text, types = [])
+        cucumber_expression = CucumberExpression.new(expression, types, TransformLookup.new)
+        args = cucumber_expression.match(text)
+        return nil if args.nil?
+        args.map { |arg| arg.transformed_value }
       end
     end
   end

@@ -14,6 +14,18 @@ public class CucumberExpressionGeneratorTest {
     private final CucumberExpressionGenerator generator = new CucumberExpressionGenerator(transformLookup);
 
     @Test
+    public void documents_expression_generation() {
+        TransformLookup transformLookup = new TransformLookup(Locale.ENGLISH);
+        /// [generate-expression]
+        CucumberExpressionGenerator generator = new CucumberExpressionGenerator(transformLookup);
+        String undefinedStepText = "I have 2 cucumbers and 1.5 tomato";
+        GeneratedExpression generatedExpression = generator.generateExpression(undefinedStepText, true);
+        assertEquals("I have {arg1:int} cucumbers and {arg2:double} tomato", generatedExpression.getSource());
+        assertEquals(Double.TYPE, generatedExpression.getTransforms().get(1).getType());
+        /// [generate-expression]
+    }
+
+    @Test
     public void generates_expression_for_no_args() {
         assertTypedExpression("hello", "hello");
     }

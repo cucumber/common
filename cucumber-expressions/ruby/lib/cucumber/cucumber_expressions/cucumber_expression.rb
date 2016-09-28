@@ -4,7 +4,7 @@ require 'cucumber/cucumber_expressions/transform'
 module Cucumber
   module CucumberExpressions
     class CucumberExpression
-      VARIABLE_PATTERN = /\{([^}:]+)(:([^}]+))?}/
+      PARAMETER_PATTERN = /\{([^}:]+)(:([^}]+))?}/
       OPTIONAL_PATTERN = /\(([^\)]+)\)/
 
       attr_reader :source
@@ -21,10 +21,10 @@ module Cucumber
         expression = expression.gsub(OPTIONAL_PATTERN, '(?:\1)?')
 
         loop do
-          match = VARIABLE_PATTERN.match(expression, match_offset)
+          match = PARAMETER_PATTERN.match(expression, match_offset)
           break if match.nil?
 
-          argument_name = match[1]
+          parameter_name = match[1]
           type_name = match[3]
           type = types.length <= type_index ? nil : types[type_index]
           type_index += 1
@@ -37,7 +37,7 @@ module Cucumber
             transform = transform_lookup.lookup_by_type_name(type_name, false)
           end
           if (transform.nil?)
-            transform = transform_lookup.lookup_by_type_name(argument_name, true)
+            transform = transform_lookup.lookup_by_type_name(parameter_name, true)
           end
           if (transform.nil?)
             transform = transform_lookup.create_anonymous_lookup(lambda {|s| s})

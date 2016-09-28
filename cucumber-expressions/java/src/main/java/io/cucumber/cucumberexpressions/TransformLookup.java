@@ -110,13 +110,13 @@ public class TransformLookup {
         return (Transform<T>) transformsByType.get(type);
     }
 
-    public Transform<?> lookupByType(String typeName, boolean ignoreUnknownTypeName) {
+    public Transform<?> lookupByTypeName(String typeName, boolean ignoreUnknownTypeName) {
         Transform<?> transform = transformsByTypeName.get(typeName);
         if (transform == null) {
             if (ignoreUnknownTypeName) {
                 return null;
             } else {
-                throw new CucumberExpressionException(String.format("No transformer for type name \"%s\"", typeName));
+                throw new CucumberExpressionException(String.format("No transform for type name \"%s\"", typeName));
             }
         }
         return transform;
