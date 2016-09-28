@@ -8,7 +8,7 @@ Cucumber Expressions trade the flexibility and power of
 with vastly improved readability. Cucumber Expressions also offer additional functionality,
 such as automatic [type transformation](#type-transforms).
 
-This is an example of a Cucumber Expression with a single parameter `{n}`:
+This is an example of a Cucumber Expression with a single parameter `n`:
 
     I have {n} cukes in my belly
 
@@ -16,8 +16,8 @@ This expression would match the text of the following [Gherkin Step](../docs/ghe
 
     I have 42 cukes in my belly
 
-When this text is matched against the expression, the `{n}` parameter would get the
-value `"42"`, which is passed as an argument [Step Definition](../docs/step-definitions.md) body.
+When this text is matched against the expression, the string `"42"`, is passed
+as an argument to the [Step Definition](../docs/step-definitions.md) body.
 
 (The [standard library](../docs/standard-library.adoc#implementations) list indicates
 what Cucumber implementations currently support Cucumber Expressions).
