@@ -1,6 +1,6 @@
 {
   "name": "cucumber-expressions",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Cucumber Expressions - a simpler alternative to Regular Expressions",
   "scripts": {
     "test": "mocha --recursive",
