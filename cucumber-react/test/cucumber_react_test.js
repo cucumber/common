@@ -2,7 +2,7 @@
 import assert from "assert"
 import React from "react"
 import {shallow} from "enzyme"
-import {CucumberReact, reducer} from "../lib"
+import {CucumberReact, reducer} from "../src"
 const {GherkinDocument, Feature, Scenario, Step, Attachment} = CucumberReact
 
 const events = [

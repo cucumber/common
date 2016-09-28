@@ -2,13 +2,14 @@
   "name": "cucumber-react",
   "version": "1.0.0",
   "description": "React component for Cucumber",
-  "main": "lib/index.js",
+  "main": "dist/index.js",
   "engines": {
     "node": ">=6.5.0"
   },
   "scripts": {
     "test": "npm run eslint && npm run mocha",
-    "eslint": "eslint lib test",
+    "eslint": "eslint src test",
+    "prepublish": "babel src --out-dir dist",
     "mocha": "mocha"
   },
   "repository": {

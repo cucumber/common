@@ -1,6 +1,6 @@
 /* eslint-env mocha */
 import assert from "assert"
-import reducer from "../lib/reducer"
+import reducer from "../src/reducer"
 
 describe(reducer.name, () => {
   it("keeps a map of parsed gherkin AST documents", () => {
