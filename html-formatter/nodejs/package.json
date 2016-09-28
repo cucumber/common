@@ -51,7 +51,7 @@
     "webpack": "^1.13.2"
   },
   "dependencies": {
-    "cucumber-react": "^1.0.0",
+    "cucumber-react": "cucumber/cucumber-react",
     "debug": "^2.2.0",
     "event-stream": "^3.3.4",
     "eventsource": "^0.2.1",
