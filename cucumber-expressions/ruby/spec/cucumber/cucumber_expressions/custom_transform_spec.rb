@@ -32,25 +32,25 @@ module Cucumber
       end
 
       describe CucumberExpression do
-        it "converts arguments with expression type" do
+        it "transforms arguments with expression type" do
           expression = CucumberExpression.new("I have a {color:color} ball", [], @transform_lookup)
           transformed_argument_value = expression.match("I have a red ball")[0].transformed_value
           expect( transformed_argument_value ).to eq(Color.new('red'))
         end
 
-        it "converts arguments with explicit type" do
+        it "transforms arguments with explicit type" do
           expression = CucumberExpression.new("I have a {color} ball", [Color], @transform_lookup)
           transformed_argument_value = expression.match("I have a red ball")[0].transformed_value
           expect( transformed_argument_value ).to eq(Color.new('red'))
         end
 
-        it "converts arguments using argument name as type" do
+        it "transforms arguments using argument name as type" do
           expression = CucumberExpression.new("I have a {color} ball", [], @transform_lookup)
           transformed_argument_value = expression.match("I have a red ball")[0].transformed_value
           expect( transformed_argument_value ).to eq(Color.new('red'))
         end
 
-        it "converts arguments with explicit type using constructor directly" do
+        it "transforms arguments with explicit type using constructor directly" do
           expression = CucumberExpression.new("I have a {color} ball", [Color], TransformLookup.new)
           transformed_argument_value = expression.match("I have a red ball")[0].transformed_value
           expect( transformed_argument_value ).to eq(Color.new('red'))
@@ -58,19 +58,19 @@ module Cucumber
       end
 
       describe RegularExpression do
-        it "converts arguments with expression type" do
+        it "transforms arguments with expression type" do
           expression = RegularExpression.new(/I have a (red|blue|yellow) ball/, [], @transform_lookup)
           transformed_argument_value = expression.match("I have a red ball")[0].transformed_value
           expect( transformed_argument_value ).to eq(Color.new('red'))
         end
 
-        it "converts arguments with explicit type" do
+        it "transforms arguments with explicit type" do
           expression = RegularExpression.new(/I have a (red|blue|yellow) ball/, ['color'], @transform_lookup)
           transformed_argument_value = expression.match("I have a red ball")[0].transformed_value
           expect( transformed_argument_value ).to eq(Color.new('red'))
         end
 
-        it "converts arguments with explicit type using constructor directly" do
+        it "transforms arguments with explicit type using constructor directly" do
           expression = RegularExpression.new(/I have a (red|blue|yellow) ball/, [Color], TransformLookup.new)
           transformed_argument_value = expression.match("I have a red ball")[0].transformed_value
           expect( transformed_argument_value ).to eq(Color.new('red'))
