@@ -6,6 +6,7 @@ const Transform = require('../lib/transform')
 
 class Color {
   /// [color-constructor]
+  #
   constructor(name) {
     this.name = name
   }
@@ -28,32 +29,32 @@ describe('Custom transform', () => {
   })
 
   describe(CucumberExpression.name, () => {
-    it("converts arguments with expression type", () => {
+    it("transforms arguments with expression type", () => {
       const expression = new CucumberExpression("I have a {color:color} ball", [], transformLookup)
       const transformedArgumentValue = expression.match("I have a red ball")[0].transformedValue
       assert.equal(transformedArgumentValue.name, "red")
     })
 
-    it("converts arguments with explicit type", () => {
+    it("transforms arguments with explicit type", () => {
       const expression = new CucumberExpression("I have a {color} ball", [Color], transformLookup)
       const transformedArgumentValue = expression.match("I have a red ball")[0].transformedValue
       assert.equal(transformedArgumentValue.name, "red")
     })
 
-    it("converts arguments using argument name as type", () => {
+    it("transforms arguments using argument name as type", () => {
       const expression = new CucumberExpression("I have a {color} ball", [], transformLookup)
       const transformedArgumentValue = expression.match("I have a red ball")[0].transformedValue
       assert.equal(transformedArgumentValue.name, "red")
     })
 
-    it("converts arguments with explicit type using constructor directly", () => {
+    it("transforms arguments with explicit type using constructor directly", () => {
       const expression = new CucumberExpression("I have a {color} ball", [Color], new TransformLookup())
       const transformedArgumentValue = expression.match("I have a red ball")[0].transformedValue
       assert.equal(transformedArgumentValue.name, "red")
     })
 
     // JavaScript-specific (specifying type as string)
-    it("converts arguments with explicit type name", () => {
+    it("transforms arguments with explicit type name", () => {
       const expression = new CucumberExpression("I have a {color} ball", ['color'], transformLookup)
       const transformedArgumentValue = expression.match("I have a red ball")[0].transformedValue
       assert.equal(transformedArgumentValue.name, "red")
@@ -61,26 +62,26 @@ describe('Custom transform', () => {
   })
 
   describe(RegularExpression.name, () => {
-    it("converts arguments with explicit type", () => {
+    it("transforms arguments with explicit type", () => {
       const expression = new RegularExpression(/I have a (red|blue|yellow) ball/, [Color], transformLookup)
       const transformedArgumentValue = expression.match("I have a red ball")[0].transformedValue
       assert.equal(transformedArgumentValue.name, "red")
     })
 
-    it("converts arguments without explicit type", () => {
+    it("transforms arguments without explicit type", () => {
       const expression = new RegularExpression(/I have a (red|blue|yellow) ball/, [], transformLookup)
       const transformedArgumentValue = expression.match("I have a red ball")[0].transformedValue
       assert.equal(transformedArgumentValue.name, "red")
     })
 
-    it("converts arguments with explicit type using constructor directly", () => {
+    it("transforms arguments with explicit type using constructor directly", () => {
       const expression = new RegularExpression(/I have a (red|blue|yellow) ball/, [Color], new TransformLookup())
       const transformedArgumentValue = expression.match("I have a red ball")[0].transformedValue
       assert.equal(transformedArgumentValue.name, "red")
     })
 
     // JavaScript-specific (specifying type as string)
-    it("converts arguments with explicit type name", () => {
+    it("transforms arguments with explicit type name", () => {
       const expression = new RegularExpression(/I have a (red|blue|yellow) ball/, ['color'], transformLookup)
       const transformedArgumentValue = expression.match("I have a red ball")[0].transformedValue
       assert.equal(transformedArgumentValue.name, "red")
