@@ -11,7 +11,8 @@
       "label": "Edit this page"
     },
     "theme-api": {
-      "theme": "dark"
+      "theme": "dark",
+      "split": false
     }
   }
 }

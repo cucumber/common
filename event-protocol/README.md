@@ -39,7 +39,10 @@ property specified in the `start` event must be repeated by other events in the 
 logical stream.
 
 Example:
-[import](examples/events/001_start.json)
+
+```json
+[snippet](examples/events/001_start.json)
+```
 
 ### source {#event-source}
 
@@ -49,7 +52,10 @@ called `source` to permit other document media types in the future).
 A `source` event must arrive before any `attachment` events linking to that same source.
 
 Example:
-[import](examples/events/002_source.json)
+
+```json
+[snippet](examples/events/002_source.json)
+```
 
 ### attachment {#event-attachment}
 
@@ -60,10 +66,16 @@ Attachments can have many types (specified by a media type), and are typically u
 * `image/png`, `image/jpg`, `image/gif` - screenshots
 
 Example (PNG image):
-[import](examples/events/003_attachment-png-embedded.json)
+
+```json
+[snippet](examples/events/003_attachment-png-embedded.json)
+```
 
 Example (Java stack trace):
-[import](examples/events/004_attachment-stacktrace.json)
+
+```json
+[snippet](examples/events/004_attachment-stacktrace.json)
+```
 
 ### Cucumber-specific attachments
 
