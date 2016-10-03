@@ -6,7 +6,6 @@ const Transform = require('../lib/transform')
 
 class Color {
   /// [color-constructor]
-  #
   constructor(name) {
     this.name = name
   }
