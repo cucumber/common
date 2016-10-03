@@ -6,7 +6,6 @@ import java.util.Currency;
 import java.util.Date;
 import java.util.Locale;
 
-import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 
 public class CucumberExpressionGeneratorTest {

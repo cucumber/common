@@ -17,7 +17,7 @@ public class GeneratedExpression {
         return expression;
     }
 
-    public String getNransforms() {
+    public String getArgumentNames() {
         return argumentNames;
     }
 
