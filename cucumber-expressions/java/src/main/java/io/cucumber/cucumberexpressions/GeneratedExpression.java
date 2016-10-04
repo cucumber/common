@@ -17,7 +17,7 @@ public class GeneratedExpression {
         return expression;
     }
 
-    public String getArgumentNames() {
+    public List<String> getArgumentNames() {
         return argumentNames;
     }
 

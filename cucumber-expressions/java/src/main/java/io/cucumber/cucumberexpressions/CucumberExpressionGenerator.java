@@ -33,7 +33,7 @@ public class CucumberExpressionGenerator {
             }
 
             if (!matchingTransformMatchers.isEmpty()) {
-                argumentName = "arg" + (++argCounter)
+                String argumentName = "arg" + (++argCounter)
                 argumentNames.add(argumentName)
                 Collections.sort(matchingTransformMatchers);
                 TransformMatcher bestTransformMatcher = matchingTransformMatchers.get(0);
