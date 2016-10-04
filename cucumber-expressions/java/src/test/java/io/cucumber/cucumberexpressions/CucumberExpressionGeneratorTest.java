@@ -21,6 +21,7 @@ public class CucumberExpressionGeneratorTest {
         String undefinedStepText = "I have 2 cucumbers and 1.5 tomato";
         GeneratedExpression generatedExpression = generator.generateExpression(undefinedStepText, true);
         assertEquals("I have {arg1:int} cucumbers and {arg2:double} tomato", generatedExpression.getSource());
+        assertEquals("arg1", generatedExpression.getArgumentNames().get(0));
         assertEquals(Double.TYPE, generatedExpression.getTransforms().get(1).getType());
         /// [generate-expression]
     }

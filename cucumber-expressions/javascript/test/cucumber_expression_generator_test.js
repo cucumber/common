@@ -30,6 +30,7 @@ describe(CucumberExpressionGenerator.name, () => {
     const undefinedStepText = "I have 2 cucumbers and 1.5 tomato"
     const generatedExpression = generator.generateExpression(undefinedStepText, true)
     assert.equal(generatedExpression.source, "I have {arg1:int} cucumbers and {arg2:float} tomato")
+    assert.equal(generatedExpression.argumentNames[0], 'arg1')
     assert.equal(generatedExpression.transforms[1].typeName, 'float')
     /// [generate-expression]
   })

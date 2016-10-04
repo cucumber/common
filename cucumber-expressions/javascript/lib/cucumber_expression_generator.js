@@ -7,6 +7,7 @@ class CucumberExpressionGenerator {
   }
 
   generateExpression(text, typed) {
+    const argumentNames = []
     const transformMatchers = this._createTransformMatchers(text)
     const transforms = []
 
@@ -24,12 +25,14 @@ class CucumberExpressionGenerator {
       }
 
       if (matchingTransformMatchers.length > 0) {
+        const argumentName = `arg${++argCounter}`
+        argumentNames.push(argumentName)
         matchingTransformMatchers = matchingTransformMatchers.sort(TransformMatcher.compare)
         const bestTransformMatcher = matchingTransformMatchers[0]
         transforms.push(bestTransformMatcher.transform)
 
         expression += text.slice(pos, bestTransformMatcher.start)
-        expression += `{arg${++argCounter}`
+        expression += `{${argumentName}`
 
         if (typed) {
           expression += `:${bestTransformMatcher.transform.typeName}`
@@ -46,7 +49,7 @@ class CucumberExpressionGenerator {
     }
 
     expression += text.slice(pos)
-    return new GeneratedExpression(expression, transforms)
+    return new GeneratedExpression(expression, argumentNames, transforms)
   }
 
   _createTransformMatchers(text) {

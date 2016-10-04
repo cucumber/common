@@ -15,6 +15,7 @@ public class CucumberExpressionGenerator {
     }
 
     public GeneratedExpression generateExpression(String text, boolean typed) {
+        List<String> argumentNames = new ArrayList<>();
         List<TransformMatcher> transformMatchers = createTransformMatchers(text);
         List<Transform<?>> transforms = new ArrayList<>();
 
@@ -32,15 +33,16 @@ public class CucumberExpressionGenerator {
             }
 
             if (!matchingTransformMatchers.isEmpty()) {
+                String argumentName = "arg" + (++argCounter);
+                argumentNames.add(argumentName);
                 Collections.sort(matchingTransformMatchers);
                 TransformMatcher bestTransformMatcher = matchingTransformMatchers.get(0);
-
                 transforms.add(bestTransformMatcher.getTransform());
 
                 expression
                         .append(text.substring(pos, bestTransformMatcher.start()))
-                        .append("{arg")
-                        .append(++argCounter);
+                        .append("{")
+                        .append(argumentName);
                 if (typed) {
                     expression
                             .append(":")
@@ -57,7 +59,7 @@ public class CucumberExpressionGenerator {
             }
         }
         expression.append(text.substring(pos));
-        return new GeneratedExpression(expression.toString(), transforms);
+        return new GeneratedExpression(expression.toString(), argumentNames, transforms);
     }
 
     private List<TransformMatcher> createTransformMatchers(String text) {

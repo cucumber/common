@@ -20,6 +20,7 @@ module Cucumber
         undefined_step_text = "I have 2 cucumbers and 1.5 tomato"
         generated_expression = generator.generate_expression(undefined_step_text, true)
         expect(generated_expression.source).to eq("I have {arg1:int} cucumbers and {arg2:float} tomato")
+        expect(generated_expression.argumentNames[0]).to eq("arg1")
         expect(generated_expression.transforms[1].type).to eq(Float)
         ### [generate-expression]
       end

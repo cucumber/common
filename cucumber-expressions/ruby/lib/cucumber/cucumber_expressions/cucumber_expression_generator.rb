@@ -9,6 +9,7 @@ module Cucumber
       end
 
       def generate_expression(text, typed)
+        argumentNames = []
         transform_matchers = create_transform_matchers(text)
         transforms = []
 
@@ -26,12 +27,14 @@ module Cucumber
           end
 
           if matching_transform_matchers.any?
+            argumentName = "arg#{arg_counter += 1}"
+            argumentNames.push(argumentName)
             matching_transform_matchers = matching_transform_matchers.sort
             best_transform_matcher = matching_transform_matchers[0]
             transforms.push(best_transform_matcher.transform)
 
             expression += text.slice(pos...best_transform_matcher.start)
-            expression += "{arg#{arg_counter += 1}"
+            expression += "{#{argumentName}"
 
             if typed
               expression += ":#{best_transform_matcher.transform.type_name}"
@@ -48,7 +51,7 @@ module Cucumber
         end
 
         expression += text.slice(pos..-1)
-        GeneratedExpression.new(expression, transforms)
+        GeneratedExpression.new(expression, argumentNames, transforms)
       end
 
     private
