@@ -1,4 +1,5 @@
 {
+  "gitbook": "3.2.2",
   "plugins": [
     "codetabs",
     "edit-link",
