@@ -13,7 +13,7 @@ module.exports = function () {
 
     const event = this.warningEvents[0]
     assert.deepEqual({
-      location: `${event.source.uri}:${event.source.start.line}:${event.source.start.column}`,
+      location: `${event.source.uri}:${event.source.start.line}`,
       message: event.message
     }, expectedError)
   })

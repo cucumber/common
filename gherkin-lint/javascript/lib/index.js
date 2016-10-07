@@ -10,19 +10,20 @@ class GherkinLint {
   }
 
   lint(path, source) {
-    const warningEvents = []
+    let errorEvents = []
 
     try {
-      parser.parse(source)
+      const gherkinDocument = parser.parse(source)
       if(this._enabledRuleNames[0] == 'implementation-detail') {
         const rule = new ImplementionDetail()
-        rule.validate(warningEvents, path)
+        const ruleErrorEvents = rule.validate(gherkinDocument, path)
+        errorEvents = errorEvents.concat(ruleErrorEvents)
       }
     } catch (err) {
       // If err is a Gherkin.Errors.CompositeParserException then there are more errors on the .errors property
       const errors = err.errors || [err]
       for (const e of errors) {
-        warningEvents.push({
+        errorEvents.push({
           "type": "error",
           "source": {
             "uri": path,
@@ -33,7 +34,7 @@ class GherkinLint {
       }
     }
 
-    return warningEvents
+    return errorEvents
   }
 }
 

@@ -14,5 +14,5 @@ Feature: implementation-detail
     And the implementation-detail rule is enabled
     When the document is linted
     Then the following warning should emitted:
-      | location | features/implementation-detail.feature:4:26 |
-      | message  | Implementation detail: button               |
+      | location | features/implementation-detail.feature:4 |
+      | message  | Implementation detail: button            |

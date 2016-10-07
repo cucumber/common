@@ -23,7 +23,7 @@ Feature: Linting Rules
 
     When the document is linted
     Then the following warning should emitted:
-      | location | features/hello.feature:1:1             |
+      | location | features/hello.feature:1               |
       | message  | (1:1): Language not supported: no-such |
 
   Scenario: Valid Gherkin document
