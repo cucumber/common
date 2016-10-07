@@ -1,4 +1,5 @@
 import Gherkin from "gherkin"
+import ImplementionDetail from './rules/implementation_detail'
 const parser = new Gherkin.Parser()
 
 class GherkinLint {
@@ -14,17 +15,8 @@ class GherkinLint {
     try {
       parser.parse(source)
       if(this._enabledRuleNames[0] == 'implementation-detail') {
-        warningEvents.push({
-          "type": "error",
-          "source": {
-            "uri": path,
-            "start": {
-              "line": 4,
-              "column": 26
-            }
-          },
-          "message": "Implementation detail: button"
-        })
+        const rule = new ImplementionDetail()
+        rule.validate(warningEvents, path)
       }
     } catch (err) {
       // If err is a Gherkin.Errors.CompositeParserException then there are more errors on the .errors property
