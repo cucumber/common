@@ -1,3 +1,4 @@
+/* eslint-env mocha */
 import assert from 'assert'
 import ImplementationDetail from '../../lib/rules/implementation_detail'
 import Gherkin from "gherkin"
