@@ -39,4 +39,4 @@ class TransformMatcher {
   }
 }
 
-module.exports = TransformMatcher
+export default TransformMatcher

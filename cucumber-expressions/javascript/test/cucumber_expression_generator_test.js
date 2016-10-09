@@ -1,7 +1,8 @@
-const assert = require('assert')
-const CucumberExpressionGenerator = require('../lib/cucumber_expression_generator')
-const Transform = require('../lib/transform')
-const TransformLookup = require('../lib/transform_lookup')
+/* eslint-env mocha */
+import assert from 'assert'
+import CucumberExpressionGenerator from '../src/cucumber_expression_generator'
+import Transform from '../src/transform'
+import TransformLookup from '../src/transform_lookup'
 
 class Currency {
 }

@@ -1,0 +1,14 @@
+root: true
+
+parserOptions:
+  sourceType: module
+
+plugins:
+  - node
+
+extends:
+  - eslint:recommended
+  - plugin:node/recommended
+
+rules:
+  node/no-unsupported-features: [error, 6]

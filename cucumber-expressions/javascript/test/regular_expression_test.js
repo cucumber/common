@@ -1,6 +1,7 @@
-const assert = require('assert')
-const RegularExpression = require('../lib/regular_expression')
-const TransformLookup = require('../lib/transform_lookup')
+/* eslint-env mocha */
+import assert from 'assert'
+import RegularExpression from '../src/regular_expression'
+import TransformLookup from '../src/transform_lookup'
 
 describe(RegularExpression.name, () => {
   it("documents match arguments", () => {
@@ -72,7 +73,7 @@ describe(RegularExpression.name, () => {
 const match = (regexp, text, types) => {
   var transformLookup = new TransformLookup()
   const regularExpression = new RegularExpression(regexp, types || [], transformLookup)
-  const arguments = regularExpression.match(text)
-  if (!arguments) return null
-  return arguments.map(arg => arg.transformedValue)
+  const args = regularExpression.match(text)
+  if (!args) return null
+  return args.map(arg => arg.transformedValue)
 }

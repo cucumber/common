@@ -18,4 +18,4 @@ class GeneratedExpression {
   }
 }
 
-module.exports = GeneratedExpression
+export default GeneratedExpression

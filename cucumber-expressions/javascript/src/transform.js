@@ -23,4 +23,4 @@ class Transform {
   }
 }
 
-module.exports = Transform
+export default Transform

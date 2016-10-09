@@ -1,4 +1,4 @@
-const matchArguments = require('./match_arguments')
+import matchArguments from './match_arguments'
 
 class CucumberExpression {
   /**
@@ -60,4 +60,4 @@ class CucumberExpression {
   }
 }
 
-module.exports = CucumberExpression
+export default CucumberExpression

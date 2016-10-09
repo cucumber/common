@@ -18,4 +18,4 @@ class Argument {
   }
 }
 
-module.exports = Argument
+export default Argument

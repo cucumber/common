@@ -1,4 +1,4 @@
-const matchArguments = require('./match_arguments')
+import matchArguments from './match_arguments'
 
 class RegularExpression {
   constructor(regexp, types, transformLookup) {
@@ -36,4 +36,4 @@ class RegularExpression {
   }
 }
 
-module.exports = RegularExpression
+export default RegularExpression

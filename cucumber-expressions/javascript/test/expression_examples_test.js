@@ -1,8 +1,9 @@
-const fs = require('fs')
-const assert = require('assert')
-const CucumberExpression = require('../lib/cucumber_expression')
-const RegularExpression = require('../lib/regular_expression')
-const TransformLookup = require('../lib/transform_lookup')
+/* eslint-env mocha */
+import fs from 'fs'
+import assert from 'assert'
+import CucumberExpression from '../src/cucumber_expression'
+import RegularExpression from '../src/regular_expression'
+import TransformLookup from '../src/transform_lookup'
 
 describe('examples.txt', () => {
   const match = (expression_text, text) => {
@@ -10,9 +11,9 @@ describe('examples.txt', () => {
     const expression = m ?
       new RegularExpression(new RegExp(m[1]), [], new TransformLookup()) :
       new CucumberExpression(expression_text, [], new TransformLookup())
-    const arguments = expression.match(text)
-    if (!arguments) return null
-    return arguments.map(arg => arg.transformedValue)
+    const args = expression.match(text)
+    if (!args) return null
+    return args.map(arg => arg.transformedValue)
   }
 
   const examples = fs.readFileSync("examples.txt", "utf-8")

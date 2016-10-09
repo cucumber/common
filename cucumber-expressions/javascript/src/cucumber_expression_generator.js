@@ -1,5 +1,5 @@
-const TransformMatcher = require('./transform_matcher')
-const GeneratedExpression = require('./generated_expression')
+import TransformMatcher from './transform_matcher'
+import GeneratedExpression from './generated_expression'
 
 class CucumberExpressionGenerator {
   constructor(transformLookup) {
@@ -15,7 +15,7 @@ class CucumberExpressionGenerator {
     let argCounter = 0
     let pos = 0
 
-    while (true) {
+    while (true) { // eslint-disable-line no-constant-condition
       let matchingTransformMatchers = []
       for (let transformMatcher of transformMatchers) {
         const advancedTransformMatcher = transformMatcher.advanceTo(pos)
@@ -69,4 +69,4 @@ class CucumberExpressionGenerator {
   }
 }
 
-module.exports = CucumberExpressionGenerator
+export default CucumberExpressionGenerator

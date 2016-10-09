@@ -1,6 +1,6 @@
-const assert = require('assert')
-const CucumberExpression = require('../lib/cucumber_expression')
-const TransformLookup = require('../lib/transform_lookup')
+/* eslint-env mocha */
+import assert from 'assert'
+import { CucumberExpression, TransformLookup } from '../src/index'
 
 describe(CucumberExpression.name, () => {
   it("documents match arguments", () => {

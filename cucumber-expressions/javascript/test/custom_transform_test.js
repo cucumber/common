@@ -1,8 +1,9 @@
-const assert = require('assert')
-const CucumberExpression = require('../lib/cucumber_expression')
-const RegularExpression = require('../lib/regular_expression')
-const TransformLookup = require('../lib/transform_lookup')
-const Transform = require('../lib/transform')
+/* eslint-env mocha */
+import assert from 'assert'
+import CucumberExpression from '../src/cucumber_expression'
+import RegularExpression from '../src/regular_expression'
+import TransformLookup from '../src/transform_lookup'
+import Transform from '../src/transform'
 
 class Color {
   /// [color-constructor]
