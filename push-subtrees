@@ -5,20 +5,21 @@
 #
 
 set -euf -o pipefail
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
 GREEN='\033[0;32m'
 RED='\033[0;31m'
 NC='\033[0m'
 
-find . -name "*.travis.yml" -not -path "**/node_modules/*" -not -path "./_book/**"|while read fname; do
+find ${DIR} -name "*.travis.yml" -not -path "**/node_modules/*" -not -path "${DIR}/_book/**"|while read fname; do
   manyrepo=$(awk '/^#[ \t]+manyrepo:/ {print $3}' ${fname})
   if [ "${manyrepo}" = "" ]
   then
     echo -e "${RED}No manyrepo comment in ${fname}${NC}"
     exit 1
   fi
-  prefix=$(dirname ${fname} | cut -c 3-)
-  ref=$(splitsh-lite --prefix=${prefix} 2> /dev/null)
+  prefix=$(dirname ${fname} | sed -e "s|^${DIR}/||")
+  ref=$(splitsh-lite --path "${DIR}" --prefix "${prefix}" 2> /dev/null)
   echo -e "${GREEN}pushing manyrepo ${manyrepo}${NC}"
   git push git@github.com:${manyrepo}.git ${ref}:master --force
 done
