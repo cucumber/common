@@ -10,8 +10,7 @@
     "prepublish": "npm run build",
     "postinstall": "node scripts/postinstall.js",
     "mocha": "mocha",
-    "coverage": "ISTANBUL=true istanbul cover _mocha",
-    "postcoverage": "istanbul check-coverage --statements 100 --branches 100"
+    "coverage": "ISTANBUL=true istanbul cover _mocha"
   },
   "repository": {
     "type": "git",
