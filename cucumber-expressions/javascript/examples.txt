@@ -13,3 +13,7 @@ I have 22 cukes in my belly now
 /I have (-?\d+) cukes? in my (.*) now/
 I have 1 cuke in my belly now
 [1,"belly"]
+---
+/^Something( with an optional argument)?$/
+Something
+[null]
