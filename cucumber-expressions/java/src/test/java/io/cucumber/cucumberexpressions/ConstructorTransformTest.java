@@ -3,6 +3,7 @@ package io.cucumber.cucumberexpressions;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.fail;
 
 public class ConstructorTransformTest {
@@ -50,5 +51,10 @@ public class ConstructorTransformTest {
             assertEquals("Failed to invoke `new Abstract(\"hello\")`", expected.getMessage());
             assertEquals(InstantiationException.class, expected.getCause().getClass());
         }
+    }
+
+    @Test
+    public void returns_null_for_value_null() {
+        assertNull(new ConstructorTransform<>(Abstract.class).transform(null));
     }
 }

@@ -20,6 +20,9 @@ public class ConstructorTransform<T> extends AbstractTransform<T> {
 
     @Override
     public T transform(String value) {
+        if (value == null) {
+            return (T)null;
+        }
         try {
             return constructor.newInstance(value);
         } catch (Exception e) {
