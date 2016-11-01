@@ -1,14 +1,11 @@
 root: true
 
+env:
+  es6: true
+
 parserOptions:
   sourceType: module
-
-plugins:
-  - node
+  ecmaVersion: 6
 
 extends:
   - eslint:recommended
-  - plugin:node/recommended
-
-rules:
-  node/no-unsupported-features: [error, 6]
