@@ -1,6 +1,3 @@
-LICENSE: ../../LICENSE
-	cp $< $@
-
 .PHONY: release
 release:
 	npm publish

@@ -1,6 +1,3 @@
-LICENSE: ../../LICENSE
-	cp $< $@
-
 .PHONY: release
 release:
 	mvn -P release-sign-artifacts clean source:jar javadoc:jar deploy
