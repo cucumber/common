@@ -3,10 +3,9 @@
 # Copies the toplevel LICENSE file to all the manyrepo directories
 #
 set -euf -o pipefail
-DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
-. ${DIR}/functions.sh
+source "$(dirname $0)/functions.sh"
 
 travis_ymls | while read travis_yml; do
   manyrepo_dir=$(dirname ${travis_yml})
-  cp "${DIR}/../LICENSE" "${manyrepo_dir}"
+  cp "$(root_dir)/LICENSE" "${manyrepo_dir}"
 done

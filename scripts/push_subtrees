@@ -1,0 +1,26 @@
+#!/usr/bin/env bash
+#
+# Pushes subtrees to manyrepos. A subtree is defined by a `.travis.yml`
+# file with a "# manyrepo: repo-name" comment.
+#
+set -euf -o pipefail
+source "$(dirname $0)/functions.sh"
+
+GREEN='\033[0;32m'
+RED='\033[0;31m'
+NC='\033[0m'
+
+travis_ymls | while read travis_yml; do
+  manyrepo=$(awk '/^#[ \t]+manyrepo:/ {print $3}' ${travis_yml})
+  if [ "${manyrepo}" = "" ]
+  then
+    echo -e "${RED}No manyrepo comment in ${travis_yml}${NC}"
+    exit 1
+  fi
+  manyrepo_url=git@github.com:${manyrepo}.git
+  echo -e "${GREEN}pushing manyrepo ${manyrepo}${NC}"
+
+  manyrepo_dir_relative_from_root=$(dirname ${travis_yml} | sed -e "s|^$(root_dir)/||")
+  ref=$(splitsh-lite --path "$(root_dir)" --prefix "${manyrepo_dir_relative_from_root}" 2> /dev/null)
+  git push "${manyrepo_url}" ${ref}:master --force
+done
