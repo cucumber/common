@@ -1,0 +1,11 @@
+language: go
+install:
+- "./scripts/install_splitsh-lite"
+- git fetch --unshallow
+script: PATH=${PATH}:./bin ./scripts/push_manyrepos
+before_install:
+- "./scripts/ci_before_install"
+env:
+  global:
+  - ENCRYPTION_LABEL: "7fee10189ef4"
+  - COMMIT_AUTHOR_EMAIL: "cucumber-manyrepo@cucumber.io"

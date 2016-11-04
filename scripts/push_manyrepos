@@ -17,10 +17,12 @@ travis_ymls | while read travis_yml; do
     echo -e "${RED}No manyrepo comment in ${travis_yml}${NC}"
     exit 1
   fi
-  manyrepo_url=git@github.com:${manyrepo}.git
-  echo -e "${GREEN}pushing manyrepo ${manyrepo}${NC}"
+  manyrepo_url=https://github.com/${manyrepo}.git
+  branch_name=${TRAVIS_BRANCH:-$(git rev-parse --abbrev-ref HEAD)}
+  echo -e "${GREEN}Pushing manyrepo ${manyrepo} branch ${branch_name} ...${NC}"
 
   manyrepo_dir_relative_from_root=$(dirname ${travis_yml} | sed -e "s|^$(root_dir)/||")
-  ref=$(splitsh-lite --path "$(root_dir)" --prefix "${manyrepo_dir_relative_from_root}" 2> /dev/null)
-  git push "${manyrepo_url}" ${ref}:master --force
+  ref=$(splitsh-lite --path "$(root_dir)" --prefix "${manyrepo_dir_relative_from_root}")
+
+  git push "${manyrepo_url}" "${ref}:${branch_name}" --force || echo -e "${RED}Pushing manyrepo ${manyrepo} branch ${branch_name} - ignoring${NC}"
 done

@@ -7,9 +7,9 @@ function root_dir()
     echo "$( cd "$( dirname "${BASH_SOURCE[0]}" )" && cd .. && pwd )"
 }
 
-# Lists all the .travis.yml files in this monorepo. These files declare a manyrepo
-# in the parent directory.
+# Lists all the .travis.yml files in this monorepo (except the one in the root).
+# The presence of a .travis.yml file declares a manyrepo in the parent directory.
 function travis_ymls()
 {
-    find "$(root_dir)" -name "*.travis.yml" -not -path "**/node_modules/*" -not -path "$(root_dir)/_book/**"
+    git ls-files "**/.travis.yml"
 }

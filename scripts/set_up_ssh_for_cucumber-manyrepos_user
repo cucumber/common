@@ -1,0 +1,37 @@
+#!/usr/bin/env bash
+#
+# Generates an SSH key pair for the cucumber-manyrepo user and puts the
+# encrypted private key on travis, and the public key in the GitHub account.
+#
+# This is based on the following gist:
+# https://gist.github.com/domenic/ec8b0fc8ab45f39403dd#get-encrypted-credentials
+#
+
+set -euf -o pipefail
+source "$(dirname $0)/functions.sh"
+
+GREEN='\033[0;32m'
+RED='\033[0;31m'
+NC='\033[0m'
+
+echo -e "${GREEN}Generating keypair...${NC}"
+ssh-keygen -t rsa -N '' -b 4096 -C "cucumber-manyrepo@cucumber.io" -f cucumber_manyrepo_id_rsa
+
+echo -e "${GREEN}Encrypting private key for Travis...${NC}"
+travis encrypt-file cucumber_manyrepo_id_rsa --add
+
+key=$(cat cucumber_manyrepo_id_rsa.pub)
+key_spec=$(
+  jq --compact-output --monochrome-output --raw-output --null-input \
+     --arg key "${key}" \
+     '{"title": "cucumber-manyrepo@cucumber.io", "key": $key}'
+)
+
+echo -e "${GREEN}Uploading public key to cucumber-manyrepo's GitHub account...${NC}"
+echo -e "${GREEN}${key_spec}${NC}"
+# This fails for some reason. A workaround is to upload the key via the web page.
+curl --user "${GITHUB_USERNAME}:${GITHUB_ACCESS_TOKEN}" \
+  --header "Content-Type: application/json" \
+  --request POST \
+  --data "${key_spec}" \
+  https://api.github.com/user/keys
