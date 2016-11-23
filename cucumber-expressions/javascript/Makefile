@@ -1,3 +1,8 @@
+.PHONY: build
+build:
+	npm install
+	npm test
+
 .PHONY: release
 release:
 	npm publish

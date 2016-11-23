@@ -1,3 +1,7 @@
+.PHONY: build
+build:
+	mvn test
+
 .PHONY: release
 release:
 	mvn -P release-sign-artifacts clean source:jar javadoc:jar deploy

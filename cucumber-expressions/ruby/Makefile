@@ -1,3 +1,7 @@
+.PHONY: build
+build:
+	bundle exec rake
+
 .PHONY: release
 release:
 	bundle exec rake build release:guard_clean release:rubygem_push
