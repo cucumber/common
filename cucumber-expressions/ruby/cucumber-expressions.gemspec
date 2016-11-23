@@ -6,7 +6,7 @@ Gem::Specification.new do |s|
   s.description = 'Cucumber Expressions - a simpler alternative to Regular Expressions'
   s.summary     = "cucumber-expressions-#{s.version}"
   s.email       = 'cukes@googlegroups.com'
-  s.homepage    = "https://cucumber.io/"
+  s.homepage    = "https://github.com/cucumber/cucumber-expressions-ruby#readme"
   s.platform    = Gem::Platform::RUBY
   s.license     = "MIT"
   s.required_ruby_version = ">= 1.9.3"
