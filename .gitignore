@@ -2,5 +2,6 @@
 node_modules/
 _book/
 .idea/
+**/*/tmp/
 cucumber_manyrepo_id_rsa
 cucumber_manyrepo_id_rsa.pub
