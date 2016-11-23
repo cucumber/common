@@ -17,3 +17,6 @@ ls ~/.gem/credentials && echo_green "rubygems ok" || echo_red "\nYou need to: ge
 
 echo_green "Checking maven..."
 ls ~/.m2/settings.xml && echo_green "maven ok" || echo_red "\nFollow these instructions: https://maven.apache.org/guides/mini/guide-encryption.html"
+
+echo_green "Checking gpg..."
+ls ~/.gnupg/secring.gpg && echo_green "gpg ok" || echo_red "\nFollow these instructions: http://blog.sonatype.com/2010/01/how-to-generate-pgp-signatures-with-maven/"

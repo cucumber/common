@@ -9,7 +9,7 @@ are required to build it. Here is how:
 
 ### OS X
 
-    brew install go cmake maven gpg
+    brew install go cmake maven gpg gpg-agent
 
 ## Monorepo
 
