@@ -5,7 +5,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ----
-## [Unreleased] - TBD
+## [1.0.3] - 2016-11-24
 
 ### Removed
 
@@ -14,10 +14,23 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Changed
 
 ### Fixed
-* (JavaScript) Generated expressions - expose argument names.
+* javascript: Include `dist` in npm package.
   ([#83](https://github.com/cucumber/cucumber/pull/83)
    by [charlierudolph])
-* (JavaScript) Build with Babel.
+
+## [1.0.2] - 2016-11-23
+
+### Removed
+
+### Added
+
+### Changed
+
+### Fixed
+* javascript: Generated expressions - expose argument names.
+  ([#83](https://github.com/cucumber/cucumber/pull/83)
+   by [charlierudolph])
+* javascript: Build with Babel.
   ([#86](https://github.com/cucumber/cucumber/pull/86)
    by [aslakhellesoy])
 * Handle optional groups in regexp.
@@ -31,7 +44,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 * First stable release!
 
 <!-- Releases -->
-[Unreleased]: https://github.com/cucumber/cucumber/compare/cucumber-expressions-v1.0.1...HEAD
+[Unreleased]: https://github.com/cucumber/cucumber/compare/cucumber-expressions-v1.0.3...HEAD
+[1.0.3]:      https://github.com/cucumber/cucumber/compare/cucumber-expressions-v1.0.2...cucumber-expressions-v1.0.3
 [1.0.2]:      https://github.com/cucumber/cucumber/compare/cucumber-expressions-v1.0.1...cucumber-expressions-v1.0.2
 [1.0.1]:      https://github.com/cucumber/cucumber/releases/tag/cucumber-expressions-v1.0.1
 
