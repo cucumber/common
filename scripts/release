@@ -22,6 +22,12 @@ manyrepos | while read manyrepo; do
   release_dir="tmp/${manyrepo_dir}"
   rm -rf "${release_dir}"
   manyrepo_url=git@github.com:${manyrepo_name}.git
+
   echo_green "***** Cloning ${manyrepo_url} *****"
   git clone "${manyrepo_url}" "${release_dir}"
+
+  echo_green "***** Releasing ${manyrepo_url} *****"
+  pushd "${release_dir}"
+  make release
+  popd
 done
