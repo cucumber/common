@@ -15,8 +15,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Fixed
 * javascript: Include `dist` in npm package.
-  ([#83](https://github.com/cucumber/cucumber/pull/83)
-   by [charlierudolph])
+  ([#85](https://github.com/cucumber/cucumber/issues/85)
+   by [aslakhellesoy])
 
 ## [1.0.2] - 2016-11-23
 
