@@ -1,6 +1,6 @@
 # Tag Expressions
 
-Tag Expressions provide a simple query language for tags. The simplest tag expression is 
+Tag Expressions provide a simple query language for tags. The simplest tag expression is
 simply a single tag, for example:
 
     @smoke
@@ -23,6 +23,14 @@ For more complex Tag Expressions you can use parenthesis for clarity, or to chan
 
 (The [standard library](../docs/standard-library.adoc#implementations) list indicates
 what Cucumber implementations currently support Tag Expressions).
+
+## Migrating from old style tags
+
+* `--tags @dev` stays the same
+* `--tags ~@dev` becomes `--tags 'not @dev'`
+* `--tags @foo,@bar` becomes  `--tags '@foo or @bar'`
+* `--tags @foo --tags @bar` becomes `--tags '@foo and bar'`
+* `--tags ~@foo --tags @bar,@zap` becomes `--tags 'not @foo and (@bar or @zap)'`
 
 ## Internal design
 
