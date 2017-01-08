@@ -1,0 +1,11 @@
+; DO NOT EDIT (unless you know what you are doing)
+;
+; This subdirectory is a git "subrepo", and this file is maintained by the
+; git-subrepo command. See https://github.com/git-commands/git-subrepo#readme
+;
+[subrepo]
+	remote = https://github.com/cucumber/gherkin-perl.git
+	branch = master
+	commit = c34b7790894402b4fd4679d5f6a1313aa636f161
+	parent = 14a312f0ca198122a7c1d10ae6c0a95e885ec1bc
+	cmdver = 0.3.1
