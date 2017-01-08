@@ -1,0 +1,18 @@
+language: csharp
+mono: latest
+sudo: false
+
+before_install:
+  - export EnableNuGetPackageRestore=true
+
+before_script: "mono .nuget/NuGet.exe restore Gherkin.CSharp.sln"
+script: "xbuild /p:Configuration=Release"
+after_success: "mono .nuget/NuGet.exe pack Gherkin.NuGetPackages/Gherkin.nuspec"
+
+branches:
+  only:
+    - master
+
+notifications:
+  email:
+    - cukes-devs@googlegroups.com

@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
+
+mono --runtime=v4.0 $DIR/../Gherkin.CLI/bin/Debug/gherkin.exe $*

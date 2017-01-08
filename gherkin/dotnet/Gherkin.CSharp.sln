@@ -1,0 +1,60 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.31101.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gherkin", "Gherkin\Gherkin.csproj", "{370982B4-9938-4533-8EA1-6F9044B84130}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{8392D4CF-66B0-45C7-AE22-E8E0CA112C93}"
+	ProjectSection(SolutionItems) = preProject
+		gherkin-csharp.razor = gherkin-csharp.razor
+		..\gherkin-languages.json = ..\gherkin-languages.json
+		..\gherkin.berp = ..\gherkin.berp
+		Makefile = Makefile
+		README.md = README.md
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{03DF2D10-4FD0-45F2-BFF5-8D388E0C6BA5}"
+	ProjectSection(SolutionItems) = preProject
+		.nuget\packages.config = .nuget\packages.config
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gherkin.Specs", "Gherkin.Specs\Gherkin.Specs.csproj", "{214A8851-F162-460A-8CF4-9E1B3FC2BFC9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gherkin.TokensGenerator", "Gherkin.TokensGenerator\Gherkin.TokensGenerator.csproj", "{B7311B05-D061-4A82-B8DF-1C1EE65EEA70}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gherkin.NuGetPackages", "Gherkin.NuGetPackages\Gherkin.NuGetPackages.csproj", "{894388D5-B928-4F41-BE03-9BC107CF0581}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gherkin.CLI", "Gherkin.CLI\Gherkin.CLI.csproj", "{D8EAD6E5-CE46-49F8-A750-0523B9FB531E}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{370982B4-9938-4533-8EA1-6F9044B84130}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{370982B4-9938-4533-8EA1-6F9044B84130}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{370982B4-9938-4533-8EA1-6F9044B84130}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{370982B4-9938-4533-8EA1-6F9044B84130}.Release|Any CPU.Build.0 = Release|Any CPU
+		{214A8851-F162-460A-8CF4-9E1B3FC2BFC9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{214A8851-F162-460A-8CF4-9E1B3FC2BFC9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{214A8851-F162-460A-8CF4-9E1B3FC2BFC9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{214A8851-F162-460A-8CF4-9E1B3FC2BFC9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B7311B05-D061-4A82-B8DF-1C1EE65EEA70}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B7311B05-D061-4A82-B8DF-1C1EE65EEA70}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B7311B05-D061-4A82-B8DF-1C1EE65EEA70}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B7311B05-D061-4A82-B8DF-1C1EE65EEA70}.Release|Any CPU.Build.0 = Release|Any CPU
+		{894388D5-B928-4F41-BE03-9BC107CF0581}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{894388D5-B928-4F41-BE03-9BC107CF0581}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{894388D5-B928-4F41-BE03-9BC107CF0581}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{894388D5-B928-4F41-BE03-9BC107CF0581}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D8EAD6E5-CE46-49F8-A750-0523B9FB531E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D8EAD6E5-CE46-49F8-A750-0523B9FB531E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D8EAD6E5-CE46-49F8-A750-0523B9FB531E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D8EAD6E5-CE46-49F8-A750-0523B9FB531E}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
