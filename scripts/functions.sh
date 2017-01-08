@@ -9,6 +9,9 @@ RED='\033[0;31m'
 BLUE='\033[0;34m'
 NC='\033[0m'
 
+# The root dir of the monorepo
+root_dir="$(realpath "$( cd "$( dirname "${BASH_SOURCE[0]}" )" && cd .. && pwd )")"
+
 function echo_err()
 {
   echo_red "$@" 1>&2
@@ -27,12 +30,6 @@ function echo_red
 function echo_blue
 {
   echo -e "${BLUE}$@${NC}"
-}
-
-# The root dir of the monorepo
-function root_dir()
-{
-  echo "$( cd "$( dirname "${BASH_SOURCE[0]}" )" && cd .. && pwd )"
 }
 
 # Prints all subrepos. Optionally specify a parent dir.
@@ -110,11 +107,29 @@ function group_release()
     git clone "${remote}" "${release_dir}"
     release_subrepo_clone "${subrepo}"
 
-    echo_green "***** Releasing ${remote} *****"
-    pushd "${release_dir}"
+    echo_green "***** TODO: RELEASE ${remote} *****"
     release_subrepo_clone "${release_dir}"
-    popd
   done
+}
+
+function release_karma_all()
+{
+  group_path=$1
+
+  subrepos "${group_path}" | while read subrepo; do
+    release_karma "$subrepo"
+  done
+}
+
+# Publishes a released package for a subrepo (from a clone of the subrepo)
+function release_karma()
+{
+  dir=$1
+
+  ptype=$(project_type "${dir}")
+  if [ -n "${ptype}" ]; then
+    eval ${ptype}_release_karma "${dir}"
+  fi
 }
 
 # Publishes a released package for a subrepo (from a clone of the subrepo)
@@ -140,6 +155,7 @@ function update_version()
   fi
 }
 
+# TODO: Replace with a simple `basename`
 function project_type()
 {
   dir=$1
@@ -154,7 +170,7 @@ function project_type()
     echo "perl"
   elif [ -f "$(find_path ${dir} "*.gemspec")" ]; then
     echo "rubygem"
-  elif [ -f "$(find_path ${dir} "*.sln")" ]; then
+  elif [ -f "$(find_path ${dir} "*.nuspec")" ]; then
     echo "dotnet"
   elif [ -f "$(find_path ${dir} "*.go")" ]; then
     echo "go"
@@ -169,7 +185,7 @@ function find_path()
 {
   subrepo=$1
   glob=$2
-  find "${subrepo}" -maxdepth 1 -name "${glob}" | head -1
+  find "${subrepo}" -name "${glob}" | head -1
 }
 
 ################ MAVEN ################
@@ -189,12 +205,25 @@ function maven_update_version()
     --update "/pom:project/pom:version" \
     --value "${version}" \
     "${subrepo}/pom.xml"
+  echo_green "Updated ${subrepo} to ${version}"
+}
+
+function maven_release_karma()
+{
+  echo_green "Checking maven release karma..."
+  ls ~/.m2/settings.xml && echo_green "maven ok" || echo_red "\nFollow these instructions: https://maven.apache.org/guides/mini/guide-encryption.html"
+
+  echo_green "Checking gpg..."
+  ls ~/.gnupg/secring.gpg && echo_green "gpg ok" || echo_red "\nFollow these instructions: http://blog.sonatype.com/2010/01/how-to-generate-pgp-signatures-with-maven/"
 }
 
 function maven_release()
 {
   dir=$1
-  echo "RELEASING MAVEN ${dir}"
+
+  pushd "${dir}"
+  echo "TODO: RELEASE MAVEN ${dir}"
+  popd "${dir}"
 }
 
 ################ NPM ################
@@ -213,11 +242,20 @@ function npm_update_version()
   echo_green "Updated ${subrepo} to ${version}"
 }
 
+function npm_release_karma()
+{
+  echo_green "Checking npm release karma..."
+  npm whoami && echo_green "npm ok" || echo_red "\nYou need to: npm login"
+}
+
 function npm_release() {
   dir=$1
-  echo "RELEASING NPM ${dir}"
+
+  pushd "${dir}"
+  echo "TODO: RELEASE NPM ${dir}"
   # npm install
   # npm publish
+  popd "${dir}"
 }
 
 ################ RUBYGEM ################
@@ -236,9 +274,18 @@ function rubygem_update_version()
   echo_green "Updated ${subrepo} to ${version}"
 }
 
+function rubygem_release_karma()
+{
+  echo_green "Checking rubygems release karma..."
+  ls ~/.gem/credentials && echo_green "rubygems ok" || echo_red "\nYou need to: gem push"
+}
+
 function rubygem_release() {
   dir=$1
-  echo "RELEASING GEM ${dir}"
+
+  pushd "${dir}"
+  echo "TODO: RELEASE GEM ${dir}"
+  popd "${dir}"
 }
 
 ################ PYTHON ################
@@ -256,7 +303,10 @@ function python_update_version()
 
 function python_release() {
   dir=$1
-  echo "RELEASING PYTHON ${dir}"
+
+  pushd "${dir}"
+  echo "TODO: RELEASE PYTHON ${dir}"
+  popd "${dir}"
 }
 
 ################ PERL ################
@@ -269,9 +319,18 @@ function perl_update_version()
   echo_green "Updated ${subrepo} to ${version}"
 }
 
+function perl_release_karma()
+{
+  echo_green "Checking Perl release karma..."
+  ls ~/.pause && echo_green "Perl ok" || echo_red "\nYou need a PAUSE (CPAN) account"
+}
+
 function perl_release() {
   dir=$1
-  echo "RELEASING PERL ${dir}"
+
+  pushd "${dir}"
+  echo "TODO: RELEASE PERL ${dir}"
+  popd "${dir}"
 }
 
 ################ .NET ################
@@ -280,7 +339,34 @@ function dotnet_update_version()
 {
   subrepo=$1
   version=$2
-  echo_blue "You must manually update to ${version} in ${subrepo}"
+
+  xmlstarlet ed --inplace --ps -N nuspec="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd" \
+    --update "/package/nuspec:metadata/nuspec:version" \
+    --value "${version}" \
+    "$(find_path "${subrepo}" "*.nuspec")"
+  echo_green "Updated ${subrepo} to ${version}"
+}
+
+function dotnet_release_karma()
+{
+  echo_green "Checking .NET release karma..."
+  ls ~/.config/NuGet/NuGet.Config && echo_green ".NET ok" || echo_red "\nYou need to: nuget setApiKey Your-API-Key. See https://docs.nuget.org/ndocs/create-packages/publish-a-package"
+}
+
+function dotnet_release()
+{
+  dir=$1
+
+  nuget=${root_dir}/bin/NuGet.exe
+  sln=$(find_path "${dir}" "*.sln")
+  nuspec=$(find_path "${dir}" "*.nuspec")
+
+  pushd "${dir}"
+  mono "${nuget}" restore "${sln}"
+  xbuild /p:Configuration=Release
+  mono "${nuget}" pack "${nuspec}"
+  mono "${nuget}" push "$(find_path "${dir}" "*.nupkg")"
+  popd "${dir}"
 }
 
 ################ .NET ################
@@ -299,4 +385,9 @@ function xcode_update_version()
   subrepo=$1
   version=$2
   echo_blue "No need to update to ${version} in ${subrepo} (currently not using an xcode package manager)"
+}
+
+function xcode_release_karma()
+{
+  echo_blue "No release karma needed for ${subrepo} (currently not using an xcode package manager)"
 }
