@@ -2378,6 +2378,100 @@ module.exports={
       "Ja "
     ]
   },
+  "mk-Cyrl": {
+    "and": [
+      "* ",
+      "И "
+    ],
+    "background": [
+      "Контекст",
+      "Содржина"
+    ],
+    "but": [
+      "* ",
+      "Но "
+    ],
+    "examples": [
+      "Примери",
+      "Сценарија"
+    ],
+    "feature": [
+      "Функционалност",
+      "Бизнис потреба",
+      "Можност"
+    ],
+    "given": [
+      "* ",
+      "Дадено ",
+      "Дадена "
+    ],
+    "name": "Macedonian",
+    "native": "Македонски",
+    "scenario": [
+      "Сценарио",
+      "На пример"
+    ],
+    "scenarioOutline": [
+      "Преглед на сценарија",
+      "Скица",
+      "Концепт"
+    ],
+    "then": [
+      "* ",
+      "Тогаш "
+    ],
+    "when": [
+      "* ",
+      "Кога "
+    ]
+  },
+  "mk-Latn": {
+    "and": [
+      "* ",
+      "I "
+    ],
+    "background": [
+      "Kontekst",
+      "Sodrzhina"
+    ],
+    "but": [
+      "* ",
+      "No "
+    ],
+    "examples": [
+      "Primeri",
+      "Scenaria"
+    ],
+    "feature": [
+      "Funkcionalnost",
+      "Biznis potreba",
+      "Mozhnost"
+    ],
+    "given": [
+      "* ",
+      "Dadeno ",
+      "Dadena "
+    ],
+    "name": "Macedonian (Latin)",
+    "native": "Makedonski (Latinica)",
+    "scenario": [
+      "Scenario",
+      "Na primer"
+    ],
+    "scenarioOutline": [
+      "Pregled na scenarija",
+      "Skica",
+      "Koncept"
+    ],
+    "then": [
+      "* ",
+      "Togash "
+    ],
+    "when": [
+      "* ",
+      "Koga "
+    ]
+  },
   "mn": {
     "and": [
       "* ",
