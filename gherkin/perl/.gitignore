@@ -1,7 +1,0 @@
-acceptance/
-.build/
-.built
-.cpanfile_dependencies
-.compared
-CHANGES
-Gherkin-*
