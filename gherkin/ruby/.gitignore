@@ -1,0 +1,6 @@
+Gemfile.lock
+coverage/
+acceptance/
+.built
+.compared
+pkg/

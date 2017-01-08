@@ -1,0 +1,11 @@
+; DO NOT EDIT (unless you know what you are doing)
+;
+; This subdirectory is a git "subrepo", and this file is maintained by the
+; git-subrepo command. See https://github.com/git-commands/git-subrepo#readme
+;
+[subrepo]
+	remote = https://github.com/cucumber/gherkin-ruby.git
+	branch = master
+	commit = 0a5759066897c79356be6186f67c7daad660ea1e
+	parent = d29a2d38a23b9b3749618a43f48a6685390b50bf
+	cmdver = 0.3.1
