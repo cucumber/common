@@ -12,7 +12,9 @@ This document is formatted according to the principles of [Keep A CHANGELOG](htt
 ### Removed
 
 ### Added
-* (I18n) mk-Cyrl: Added Macedonian language
+* (.NET, Java, JavaScript, Ruby, Python) Streaming API and command line client.
+  ([#240](https://github.com/cucumber/gherkin/pull/240))
+* (I18n) mk-Cyrl/mk-Latn: Added Macedonian language
   ([#249](https://github.com/cucumber/gherkin/pull/249)
    by [nikolovski])
 * (Build) Automate the version update for the sub-projects
