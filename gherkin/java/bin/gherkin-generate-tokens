@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
+
+java \
+    -classpath ~/.m2/repository/io/cucumber/gherkin-jvm-deps/1.0.4/gherkin-jvm-deps-1.0.4.jar:$DIR/../target/classes \
+    gherkin.GenerateTokens $*

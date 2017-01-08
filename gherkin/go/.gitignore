@@ -1,0 +1,6 @@
+bin/gherkin-generate-ast
+bin/gherkin-generate-tokens
+.built
+.compared
+acceptance/
+pkg/

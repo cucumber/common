@@ -1,0 +1,182 @@
+﻿@using Berp;
+@helper CallProduction(ProductionRule production)
+{
+  switch(production.Type)
+  {
+    case ProductionRuleType.Start:
+      @:  $self->_start_rule($context, '@production.RuleName');
+      break;
+    case ProductionRuleType.End:
+      @:  $self->_end_rule($context, '@production.RuleName');
+      break;
+    case ProductionRuleType.Process:
+      @:  $self->_build($context, $token);
+      break;
+  }
+}
+@helper HandleParserError(IEnumerable<string> expectedTokens, State state)
+{<text>$token->detach;
+
+    # Create the appropriate error
+    my $error_class = "Gherkin::Exceptions::" . (
+        $token->is_eof ? 'UnexpectedEOF' : 'UnexpectedToken' );
+
+    my @@args = (
+        $token,
+        ["@Raw(string.Join("\", \"", expectedTokens))"], #"
+        "State: @state.Id - @Raw(state.Comment)",
+    );
+
+    $error_class->throw( @@args ) if $self->stop_at_first_error;
+
+    eval {$error_class->throw( @@args )};
+    $self->add_error( $context, $@@ );
+
+    return @state.Id;
+} </text>}
+@helper MatchToken(TokenType tokenType)
+{<text>match_@(tokenType)($context, $token)</text>}
+package Gherkin::Generated::@(Model.ParserClassName);
+
+# This file is generated. Do not edit! Edit gherkin-perl.razor instead.
+use strict;
+use warnings;
+
+use base 'Gherkin::ParserBase';
+
+our @@RULE_TYPES = [
+    'None',
+    @foreach(var rule in Model.RuleSet.Where(r => !r.TempRule))
+    {<text>    '@rule.Name.Replace("#", "_")',  # @rule.ToString(true)
+</text>}
+];
+
+our %states_to_match_names = (
+    @foreach(var state in Model.States.Values.Where(s => !s.IsEndState)) //..
+    {
+@:    @state.Id => "match_token_at_@(state.Id)",
+    }
+);
+
+sub parse {
+    my ( $self, $token_scanner, $token_matcher ) = @@_;
+
+    $token_matcher ||= Gherkin::TokenMatcher->new();
+    $token_scanner = Gherkin::TokenScanner->new($token_scanner)
+      unless ref $token_scanner && (ref $token_scanner ne 'SCALAR');
+
+    $self->ast_builder->reset();
+    $token_matcher->reset();
+
+    my $context = Gherkin::ParserContext->new(
+        {
+            token_scanner => $token_scanner,
+            token_matcher => $token_matcher,
+        }
+    );
+
+    $self->_start_rule( $context, '@Model.RuleSet.StartRule.Name' );
+
+    my $state = 0;
+    my $token;
+
+    while (1) {
+        $token = $context->read_token($context);
+        $state = $self->match_token( $state, $token, $context );
+
+        last if $token->is_eof();
+    }
+
+    $self->_end_rule( $context, '@Model.RuleSet.StartRule.Name' );
+
+    if ( my @@errors = $context->errors ) {
+        Gherkin::Exceptions::CompositeParser->throw(@@errors);
+    }
+
+    return $self->get_result();
+}
+
+sub match_token {
+    my ( $self, $state, $token, $context ) = @@_;
+    my $method_name = $states_to_match_names{ $state } ||
+        die "Unknown state: $state";
+    $self->$method_name( $token, $context );
+}
+
+@foreach(var rule in Model.RuleSet.TokenRules)
+{<text>
+sub match_@(rule.Name.Replace("#", "")) {
+    my ($self, $context, $token) = @@_;
+    @if (rule.Name != "#EOF")
+    {
+    @: return if $token->is_eof;
+    }
+    return $self->handle_external_error(
+        $context,
+        0, # Default return value
+        sub { $context->token_matcher->match_@rule.Name.Replace("#", "")
+        ( $token ) }
+    );
+}
+</text>}
+
+@foreach(var state in Model.States.Values.Where(s => !s.IsEndState)) //..
+{<text>
+# @Raw(state.Comment)
+sub match_token_at_@(state.Id) {
+    my ( $self, $token, $context ) = @@_;
+    @foreach(var transition in state.Transitions)
+    {
+    @:if ($self->@MatchToken(transition.TokenType)) {
+        if (transition.LookAheadHint != null)
+        {
+        @:if ($self->lookahead_@(transition.LookAheadHint.Id)($context, $token)) {
+        }
+        foreach(var production in transition.Productions)
+        {
+        @CallProduction(production)
+        }
+        @:return @transition.TargetState;
+        if (transition.LookAheadHint != null)
+        {
+        @:}
+        }
+    @:}
+    }
+
+    @HandleParserError(state.Transitions.Select(t => "#" + t.TokenType.ToString()).Distinct(), state)</text>
+}
+
+@foreach(var lookAheadHint in Model.RuleSet.LookAheadHints)
+{
+<text>
+sub lookahead_@(lookAheadHint.Id) {
+    my ($self, $context, $current_token) = @@_;
+
+    $current_token->detach();
+
+    my $token;
+    my @@queue;
+    my $match = 0;
+
+    while (1) {
+        $token = $context->read_token();
+        $token->detach;
+        push( @@queue, $token );
+
+        if (@foreach(var tokenType in lookAheadHint.ExpectedTokens) {<text>$self->@MatchToken(tokenType) || </text>}0) {
+            $match = 1;
+            last;
+        }
+
+        if (! (@foreach(var tokenType in lookAheadHint.Skip) {<text>$self->@MatchToken(tokenType) || </text>}0)) {
+            last;
+        }
+
+    }
+
+    $context->add_tokens( @@queue );
+    return $match;
+}</text>}
+
+1;

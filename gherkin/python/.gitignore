@@ -1,0 +1,6 @@
+acceptance/
+.built
+.compared
+*.pyc
+dist/
+build/
