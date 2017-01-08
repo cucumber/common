@@ -28,7 +28,6 @@ all of the subrepos:
 
 Make sure they all build successfully:
 
-    # TODO: implement this
     build_subrepos ${group_path}
 
 Update the version you're about to release. Pay special attention to messages
