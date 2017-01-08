@@ -1,0 +1,11 @@
+; DO NOT EDIT (unless you know what you are doing)
+;
+; This subdirectory is a git "subrepo", and this file is maintained by the
+; git-subrepo command. See https://github.com/git-commands/git-subrepo#readme
+;
+[subrepo]
+	remote = https://github.com/cucumber/gherkin-python.git
+	branch = master
+	commit = fe6713f97c4a537b745678be3477ee520635cb62
+	parent = 4ce72b201767ff214eff3c9907c55903f1982f7c
+	cmdver = 0.3.1

@@ -1,0 +1,8 @@
+language: python
+sudo: false
+
+python:
+  - "2.7"
+  - "3.4"
+install: "pip install -r requirements.txt"
+script: nosetests
