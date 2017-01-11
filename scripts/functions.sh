@@ -10,7 +10,7 @@ BLUE='\033[0;34m'
 NC='\033[0m'
 
 # The root dir of the monorepo
-root_dir="$(realpath "$( cd "$( dirname "${BASH_SOURCE[0]}" )" && cd .. && pwd )")"
+root_dir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && cd .. && pwd )"
 
 function echo_err()
 {
