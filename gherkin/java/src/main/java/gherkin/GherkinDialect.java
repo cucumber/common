@@ -23,11 +23,11 @@ public class GherkinDialect {
 
     public List<String> getStepKeywords() {
         List<String> result = new ArrayList<>();
-        result.addAll(keywords.get("given"));
-        result.addAll(keywords.get("when"));
-        result.addAll(keywords.get("then"));
-        result.addAll(keywords.get("and"));
-        result.addAll(keywords.get("but"));
+        result.addAll(getGivenKeywords());
+        result.addAll(getWhenKeywords());
+        result.addAll(getThenKeywords());
+        result.addAll(getAndKeywords());
+        result.addAll(getButKeywords());
         return result;
     }
 
@@ -41,6 +41,26 @@ public class GherkinDialect {
 
     public List<String> getExamplesKeywords() {
         return keywords.get("examples");
+    }
+
+    public List<String> getGivenKeywords() {
+        return keywords.get("given");
+    }
+
+    public List<String> getWhenKeywords() {
+        return keywords.get("when");
+    }
+
+    public List<String> getThenKeywords() {
+        return keywords.get("then");
+    }
+
+    public List<String> getAndKeywords() {
+        return keywords.get("and");
+    }
+
+    public List<String> getButKeywords() {
+        return keywords.get("but");
     }
 
     public String getLanguage() {

@@ -6,8 +6,12 @@ import gherkin.deps.com.google.gson.Gson;
 import java.io.InputStreamReader;
 import java.io.Reader;
 import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+
+import static java.util.Collections.sort;
+import static java.util.Collections.unmodifiableList;
 
 public class GherkinDialectProvider implements IGherkinDialectProvider {
     private static Map<String, Map<String, List<String>>> DIALECTS;
@@ -43,5 +47,12 @@ public class GherkinDialectProvider implements IGherkinDialectProvider {
         }
 
         return new GherkinDialect(language, map);
+    }
+
+    @Override
+    public List<String> getLanguages() {
+        List<String> languages = new ArrayList<String>(DIALECTS.keySet());
+        sort(languages);
+        return unmodifiableList(languages);
     }
 }
