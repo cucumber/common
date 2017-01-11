@@ -7,6 +7,7 @@ function Compiler() {
     if (gherkin_document.feature == null) return pickles;
 
     var feature = gherkin_document.feature;
+    var language = feature.language;
     var featureTags = feature.tags;
     var backgroundSteps = [];
 
@@ -14,15 +15,15 @@ function Compiler() {
       if(scenarioDefinition.type === 'Background') {
         backgroundSteps = pickleSteps(scenarioDefinition);
       } else if(scenarioDefinition.type === 'Scenario') {
-        compileScenario(featureTags, backgroundSteps, scenarioDefinition, pickles);
+        compileScenario(featureTags, backgroundSteps, scenarioDefinition, language, pickles);
       } else {
-        compileScenarioOutline(featureTags, backgroundSteps, scenarioDefinition, pickles);
+        compileScenarioOutline(featureTags, backgroundSteps, scenarioDefinition, language, pickles);
       }
     });
     return pickles;
   };
 
-  function compileScenario(featureTags, backgroundSteps, scenario, pickles) {
+  function compileScenario(featureTags, backgroundSteps, scenario, language, pickles) {
     if (scenario.steps.length == 0) return;
 
     var steps = [].concat(backgroundSteps);
@@ -36,13 +37,14 @@ function Compiler() {
     var pickle = {
       tags: pickleTags(tags),
       name: scenario.name,
+      language: language,
       locations: [pickleLocation(scenario.location)],
       steps: steps
     };
     pickles.push(pickle);
   }
 
-  function compileScenarioOutline(featureTags, backgroundSteps, scenarioOutline, pickles) {
+  function compileScenarioOutline(featureTags, backgroundSteps, scenarioOutline, language, pickles) {
     if (scenarioOutline.steps.length == 0) return;
 
     scenarioOutline.examples.filter(function(e) { return e.tableHeader != undefined; }).forEach(function (examples) {
@@ -68,6 +70,7 @@ function Compiler() {
 
         var pickle = {
           name: interpolate(scenarioOutline.name, variableCells, valueCells),
+          language: language,
           steps: steps,
           tags: pickleTags(tags),
           locations: [

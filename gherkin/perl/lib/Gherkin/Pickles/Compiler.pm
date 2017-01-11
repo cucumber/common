@@ -8,12 +8,13 @@ sub compile {
     my @pickles;
 
     my $feature = $gherkin_document->{'feature'};
+    my $language         = $feature->{'language'};
     my $feature_tags     = $feature->{'tags'};
     my $background_steps = [];
 
     for my $scenario_definition ( @{ $feature->{'children'} } ) {
         my @args = (
-            $feature_tags, $background_steps, $scenario_definition, \@pickles
+            $feature_tags, $background_steps, $scenario_definition, $language, \@pickles
         );
         if ( $scenario_definition->{'type'} eq 'Background' ) {
             $background_steps = $class->_pickle_steps($scenario_definition)
@@ -35,7 +36,7 @@ sub _pickle_steps {
 }
 
 sub _compile_scenario {
-    my ( $class, $feature_tags, $background_steps, $scenario, $pickles )
+    my ( $class, $feature_tags, $background_steps, $scenario, $language, $pickles )
       = @_;
 
     my $array_reference = $scenario->{'steps'};
@@ -55,6 +56,7 @@ sub _compile_scenario {
         @$pickles,
         {
             tags => $class->_pickle_tags( \@tags ),
+            language => $language,
             name => $scenario->{'name'},
             locations =>
               [ $class->_pickle_location( $scenario->{'location'} ) ],
@@ -64,7 +66,7 @@ sub _compile_scenario {
 }
 
 sub _compile_scenario_outline {
-    my ( $class, $feature_tags, $background_steps, $scenario_outline, $pickles )
+    my ( $class, $feature_tags, $background_steps, $scenario_outline, $language, $pickles )
       = @_;
 
     my $array_reference = $scenario_outline->{'steps'};
@@ -118,6 +120,7 @@ sub _compile_scenario_outline {
                             $scenario_outline->{'name'}, $variable_cells,
                             $value_cells,
                         ),
+                    language  => $language,
                     steps     => \@steps,
                     tags      => $class->_pickle_tags( \@tags ),
                     locations => [

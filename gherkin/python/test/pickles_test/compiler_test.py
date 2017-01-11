@@ -26,6 +26,7 @@ def test_compiles_a_scenario():
         [
           {
             "name": "s",
+            "language": "en",
             "steps": [
               {
                 "text": "passing",
@@ -73,6 +74,7 @@ def test_compiles_a_scenario_outline_with_i18n_characters():
         [
           {
             "name": "with 'é' in title",
+            "language": "en",
             "steps": [
               {
                 "text": "passing",

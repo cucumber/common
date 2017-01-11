@@ -34,6 +34,7 @@ public class Compiler {
             return pickles;
         }
 
+        String language = feature.getLanguage();
         List<Tag> featureTags = feature.getTags();
         List<PickleStep> backgroundSteps = new ArrayList<>();
 
@@ -41,15 +42,15 @@ public class Compiler {
             if (scenarioDefinition instanceof Background) {
                 backgroundSteps = pickleSteps(scenarioDefinition);
             } else if (scenarioDefinition instanceof Scenario) {
-                compileScenario(pickles, backgroundSteps, (Scenario) scenarioDefinition, featureTags);
+                compileScenario(pickles, backgroundSteps, (Scenario) scenarioDefinition, featureTags, language);
             } else {
-                compileScenarioOutline(pickles, backgroundSteps, (ScenarioOutline) scenarioDefinition, featureTags);
+                compileScenarioOutline(pickles, backgroundSteps, (ScenarioOutline) scenarioDefinition, featureTags, language);
             }
         }
         return pickles;
     }
 
-    private void compileScenario(List<Pickle> pickles, List<PickleStep> backgroundSteps, Scenario scenario, List<Tag> featureTags) {
+    private void compileScenario(List<Pickle> pickles, List<PickleStep> backgroundSteps, Scenario scenario, List<Tag> featureTags, String language) {
         if (scenario.getSteps().isEmpty())
             return;
 
@@ -64,6 +65,7 @@ public class Compiler {
 
         Pickle pickle = new Pickle(
                 scenario.getName(),
+                language,
                 steps,
                 pickleTags(scenarioTags),
                 singletonList(pickleLocation(scenario.getLocation()))
@@ -71,7 +73,7 @@ public class Compiler {
         pickles.add(pickle);
     }
 
-    private void compileScenarioOutline(List<Pickle> pickles, List<PickleStep> backgroundSteps, ScenarioOutline scenarioOutline, List<Tag> featureTags) {
+    private void compileScenarioOutline(List<Pickle> pickles, List<PickleStep> backgroundSteps, ScenarioOutline scenarioOutline, List<Tag> featureTags, String language) {
         if (scenarioOutline.getSteps().isEmpty())
             return;
 
@@ -109,6 +111,7 @@ public class Compiler {
 
                 Pickle pickle = new Pickle(
                         interpolate(scenarioOutline.getName(), variableCells, valueCells),
+                        language,
                         steps,
                         pickleTags(tags),
                         asList(

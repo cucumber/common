@@ -10,9 +10,10 @@ def compile(gherkin_document):
 
     feature = gherkin_document['feature']
     feature_tags = feature['tags']
+    language = feature['language']
     background_steps = []
     for scenario_definition in feature['children']:
-        args = (feature_tags, background_steps, scenario_definition, pickles)
+        args = (feature_tags, background_steps, scenario_definition, language, pickles)
         if scenario_definition['type'] is 'Background':
             background_steps = _pickle_steps(scenario_definition)
         elif scenario_definition['type'] is 'Scenario':
@@ -22,9 +23,9 @@ def compile(gherkin_document):
     return pickles
 
 
-def _compile_scenario(feature_tags, background_steps, scenario, pickles):
+def _compile_scenario(feature_tags, background_steps, scenario, language, pickles):
     if len(scenario['steps']) == 0:
-      return
+        return
 
     steps = list(background_steps)
     tags = list(feature_tags) + list(scenario['tags'])
@@ -35,15 +36,16 @@ def _compile_scenario(feature_tags, background_steps, scenario, pickles):
     pickle = {
         'tags': _pickle_tags(tags),
         'name': scenario['name'],
+        'language': language,
         'locations': [_pickle_location(scenario['location'])],
         'steps': steps
     }
     pickles.append(pickle)
 
 
-def _compile_scenario_outline(feature_tags, background_steps, scenario_outline, pickles):
+def _compile_scenario_outline(feature_tags, background_steps, scenario_outline, language, pickles):
     if len(scenario_outline['steps']) == 0:
-      return
+        return
 
     for examples in (e for e in scenario_outline['examples'] if 'tableHeader' in e):
         variable_cells = examples['tableHeader']['cells']
@@ -79,6 +81,7 @@ def _compile_scenario_outline(feature_tags, background_steps, scenario_outline, 
                     scenario_outline['name'],
                     variable_cells,
                     value_cells),
+                'language': language,
                 'steps': steps,
                 'tags': _pickle_tags(tags),
                 'locations': [
@@ -133,7 +136,7 @@ def _interpolate(name, variable_cells, value_cells):
 
 def _pickle_steps(scenario_definition):
     return [_pickle_step(step)
-        for step in scenario_definition['steps']]
+            for step in scenario_definition['steps']]
 
 
 def _pickle_step(step):

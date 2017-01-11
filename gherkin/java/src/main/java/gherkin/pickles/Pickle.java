@@ -6,12 +6,14 @@ import static java.util.Collections.unmodifiableList;
 
 public class Pickle {
     private final String name;
+    private final String language;
     private final List<PickleStep> steps;
     private final List<PickleTag> tags;
     private final List<PickleLocation> locations;
 
-    public Pickle(String name, List<PickleStep> steps, List<PickleTag> tags, List<PickleLocation> locations) {
+    public Pickle(String name, String language, List<PickleStep> steps, List<PickleTag> tags, List<PickleLocation> locations) {
         this.name = name;
+        this.language = language;
         this.steps = unmodifiableList(steps);
         this.tags = tags;
         this.locations = unmodifiableList(locations);
@@ -19,6 +21,10 @@ public class Pickle {
 
     public String getName() {
         return name;
+    }
+
+    public String getLanguage() {
+        return language;
     }
 
     public List<PickleStep> getSteps() {

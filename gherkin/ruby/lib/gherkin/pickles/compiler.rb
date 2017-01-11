@@ -13,9 +13,9 @@ module Gherkin
           if(scenario_definition[:type] == :Background)
             background_steps = pickle_steps(scenario_definition)
           elsif(scenario_definition[:type] == :Scenario)
-            compile_scenario(feature_tags, background_steps, scenario_definition, pickles)
+            compile_scenario(feature_tags, background_steps, scenario_definition, feature[:language], pickles)
           else
-            compile_scenario_outline(feature_tags, background_steps, scenario_definition, pickles)
+            compile_scenario_outline(feature_tags, background_steps, scenario_definition, feature[:language], pickles)
           end
         end
         return pickles
@@ -23,7 +23,7 @@ module Gherkin
 
     private
 
-      def compile_scenario(feature_tags, background_steps, scenario, pickles)
+      def compile_scenario(feature_tags, background_steps, scenario, language, pickles)
         return if scenario[:steps].empty?
 
         steps = [].concat(background_steps)
@@ -37,13 +37,14 @@ module Gherkin
         pickle = {
           tags: pickle_tags(tags),
           name: scenario[:name],
+          language: language,
           locations: [pickle_location(scenario[:location])],
           steps: steps
         }
         pickles.push(pickle)
       end
 
-      def compile_scenario_outline(feature_tags, background_steps, scenario_outline, pickles)
+      def compile_scenario_outline(feature_tags, background_steps, scenario_outline, language, pickles)
         return if scenario_outline[:steps].empty?
 
         scenario_outline[:examples].reject { |examples| examples[:tableHeader].nil? }.each do |examples|
@@ -69,6 +70,7 @@ module Gherkin
 
             pickle = {
               name: interpolate(scenario_outline[:name], variable_cells, value_cells),
+              language: language,
               steps: steps,
               tags: pickle_tags(tags),
               locations: [
