@@ -1,8 +1,8 @@
 language: go
 install:
-- "./scripts/install_splitsh-lite"
+#- "./scripts/install_splitsh-lite"
 - git fetch --unshallow
-script: PATH=${PATH}:./bin ./scripts/push_manyrepos
+script: source ./scripts/functions.sh && push_subrepos
 before_install:
 - "./scripts/ci_before_install"
 env:
