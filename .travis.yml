@@ -6,7 +6,7 @@ before_install:
 - "git fetch --unshallow"
 
 install: "echo 'Nothing to install'"
-script: "source ./bin/git-subrepo/.rc && source ./scripts/functions.sh && push_subrepos"
+script: "source ./bin/git-subrepo/.rc && source ./scripts/functions.sh && git checkout master && push_subrepos"
 env:
   global:
   - ENCRYPTION_LABEL: "7fee10189ef4"
