@@ -1,10 +1,11 @@
 language: go
-install:
-#- "./scripts/install_splitsh-lite"
-- git fetch --unshallow
-script: source ./scripts/functions.sh && push_subrepos
 before_install:
 - "./scripts/ci_before_install"
+- "git clone https://github.com/cucumber/git-subrepo ./bin/git-subrepo"
+# Convert shallow clone to unshallow one
+- "git fetch --unshallow"
+
+script: "PATH=${PATH}:./bin/git-subrepo && source ./scripts/functions.sh && push_subrepos"
 env:
   global:
   - ENCRYPTION_LABEL: "7fee10189ef4"
