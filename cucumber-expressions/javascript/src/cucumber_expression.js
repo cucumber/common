@@ -41,7 +41,7 @@ class CucumberExpression {
       this._transforms.push(transform)
 
       const text = expression.slice(matchOffset, match.index)
-      const captureRegexp = `(${transform.captureGroupRegexps[0]})`
+      const captureRegexp = getCaptureRegexp(transform.captureGroupRegexps)
       matchOffset = parameterPattern.lastIndex
       regexp += text
       regexp += captureRegexp
@@ -58,6 +58,18 @@ class CucumberExpression {
   get source() {
     return this._expression
   }
+}
+
+function getCaptureRegexp(captureGroupRegexps) {
+  if (captureGroupRegexps.length === 1) {
+    return `(${captureGroupRegexps[0]})`
+  }
+
+  const captureGroups = captureGroupRegexps.map(group => {
+    return `(?:${group})`
+  })
+
+  return `(${captureGroups.join('|')})`
 }
 
 export default CucumberExpression

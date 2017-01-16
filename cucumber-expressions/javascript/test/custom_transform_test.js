@@ -22,7 +22,7 @@ describe('Custom transform', () => {
     transformLookup.addTransform(new Transform(
       'color',
       Color,
-      'red|blue|yellow',
+      ['red|blue|yellow', '(?:dark|light) (?:red|blue|yellow)'],
       s => new Color(s)
     ))
     /// [add-color-transform]
@@ -33,6 +33,12 @@ describe('Custom transform', () => {
       const expression = new CucumberExpression("I have a {color:color} ball", [], transformLookup)
       const transformedArgumentValue = expression.match("I have a red ball")[0].transformedValue
       assert.equal(transformedArgumentValue.name, "red")
+    })
+
+    it("transforms arguments with expression type", () => {
+      const expression = new CucumberExpression("I have a {color:color} ball", [], transformLookup)
+      const transformedArgumentValue = expression.match("I have a dark red ball")[0].transformedValue
+      assert.equal(transformedArgumentValue.name, "dark red")
     })
 
     it("transforms arguments with explicit type", () => {
