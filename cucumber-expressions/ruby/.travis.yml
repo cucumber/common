@@ -1,20 +1,14 @@
-# manyrepo: cucumber/cucumber-expressions-ruby
 language: ruby
-sudo: false
 
 rvm:
-  - 2.3.1
+  - 2.3
   - 2.2
-  - 2.1
-  - 2.0
-  - jruby-9.1.2.0
-
-before_install:
-  - gem update bundler
+  - jruby
 
 notifications:
-  email:
-    - cukes-devs@googlegroups.com
   webhooks:
-    urls: # gitter
-      - https://webhooks.gitter.im/e/dc010332f9d40fcc21c4
+    urls:
+      - https://webhooks.gitter.im/e/5373e574ed4e88026838
+    on_success: always
+    on_failure: always
+    on_start: never

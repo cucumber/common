@@ -1,4 +1,3 @@
-# manyrepo: cucumber/cucumber-expressions-java
 language: java
 jdk:
   - oraclejdk8
