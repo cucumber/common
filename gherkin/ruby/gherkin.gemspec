@@ -6,7 +6,7 @@ Gem::Specification.new do |s|
   s.description = 'Gherkin parser'
   s.summary     = "gherkin-#{s.version}"
   s.email       = 'cukes@googlegroups.com'
-  s.homepage    = "https://github.com/cucumber/gherkin"
+  s.homepage    = "https://github.com/cucumber/gherkin-ruby"
   s.platform    = Gem::Platform::RUBY
   s.license     = "MIT"
   s.required_ruby_version = ">= 1.9.3"
