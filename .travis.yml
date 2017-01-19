@@ -1,13 +1,4 @@
 language: ruby
-before_install:
-- "./scripts/ci_before_install"
-- "git clone https://github.com/cucumber/git-subrepo ./bin/git-subrepo"
-# Convert shallow clone to unshallow one
-- "git fetch --unshallow"
 
 install: "echo 'Nothing to install'"
-script: "echo 'Pushing to the monorepo currently doesn't push to subrepos - that's manual for now"
-env:
-  global:
-  - ENCRYPTION_LABEL: "7fee10189ef4"
-  - COMMIT_AUTHOR_EMAIL: "cucumber-manyrepo@cucumber.io"
+script: echo "Pushing to the monorepo currently doesn't push to subrepos - that's manual for now"
