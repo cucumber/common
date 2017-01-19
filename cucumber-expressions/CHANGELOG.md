@@ -5,13 +5,32 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ----
+## [Unreleased]
+
+### Removed
+N/A
+
+### Added
+N/A
+
+### Changed
+N/A
+
+### Fixed
+* javascript, ruby, java: Handle multiple capture group regexps for matching
+  ([#102](https://github.com/cucumber/cucumber/issues/102)
+   by [gpichot])
+
 ## [1.0.3] - 2016-11-25
 
 ### Removed
+N/A
 
 ### Added
+N/A
 
 ### Changed
+N/A
 
 ### Fixed
 * javascript: Include `dist` in npm package.
@@ -21,10 +40,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ## [1.0.2] - 2016-11-23
 
 ### Removed
+N/A
 
 ### Added
+N/A
 
 ### Changed
+N/A
 
 ### Fixed
 * javascript: Generated expressions - expose argument names.
@@ -53,3 +75,4 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 [aslakhellesoy]:    https://github.com/aslakhellesoy
 [brasmusson]:       https://github.com/brasmusson
 [charlierudolph]:   https://github.com/charlierudolph
+[gpichot]:          https://github.com/charlierudolph
