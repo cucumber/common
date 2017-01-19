@@ -28,7 +28,7 @@ public class CucumberExpressionPatternTest {
     public void translates_an_int_arg() {
         assertPattern(
                 "I have {n} cukes",
-                "^I have (-?\\d+) cukes$",
+                "^I have ((?:-?\\d+)|(?:\\d+)) cukes$",
                 Collections.<Type>singletonList(int.class)
         );
     }
@@ -37,7 +37,7 @@ public class CucumberExpressionPatternTest {
     public void translates_an_integer_arg() {
         assertPattern(
                 "I have {n} cukes",
-                "^I have (-?\\d+) cukes$",
+                "^I have ((?:-?\\d+)|(?:\\d+)) cukes$",
                 Collections.<Type>singletonList(Integer.class)
         );
     }
@@ -46,7 +46,7 @@ public class CucumberExpressionPatternTest {
     public void translates_expression_types() {
         assertPattern(
                 "I have {n:int} cukes in my {bodyPart}",
-                "^I have (-?\\d+) cukes in my (.+)$",
+                "^I have ((?:-?\\d+)|(?:\\d+)) cukes in my (.+)$",
                 Collections.<Type>emptyList()
         );
     }
@@ -58,7 +58,7 @@ public class CucumberExpressionPatternTest {
         types.add(String.class);
         assertPattern(
                 "I have {n:int} cukes in my {bodyPart}",
-                "^I have (-?\\d+) cukes in my (.+)$",
+                "^I have ((?:-?\\d+)|(?:\\d+)) cukes in my (.+)$",
                 types
         );
     }

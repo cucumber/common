@@ -45,7 +45,7 @@ module Cucumber
           @transforms.push(transform)
 
           text = expression.slice(match_offset...match.offset(0)[0])
-          capture_regexp = "(#{transform.capture_group_regexps[0]})"
+          capture_regexp = capture_group_regexp(transform.capture_group_regexps)
           match_offset = match.offset(0)[1]
           regexp += text
           regexp += capture_regexp
@@ -57,6 +57,14 @@ module Cucumber
 
       def match(text)
         ArgumentMatcher.match_arguments(@regexp, text, @transforms)
+      end
+
+      private
+
+      def capture_group_regexp(capture_group_regexps)
+        return "(#{capture_group_regexps[0]})" if capture_group_regexps.size == 1
+        capture_groups = capture_group_regexps.map { |group| "(?:#{group})" }
+        "(#{capture_groups.join('|')})"
       end
     end
   end

@@ -7,6 +7,7 @@ import java.lang.reflect.Type;
 import java.util.Collections;
 import java.util.Locale;
 
+import static java.util.Arrays.asList;
 import static java.util.regex.Pattern.compile;
 import static org.junit.Assert.assertEquals;
 
@@ -39,7 +40,7 @@ public class CustomTransformTest {
         transformLookup.addTransform(new SimpleTransform<>(
                 "color",
                 Color.class,
-                "red|blue|yellow",
+                asList("red|blue|yellow", "(?:dark|light) (?:red|blue|yellow)"),
                 new Function<String, Color>() {
                     @Override
                     public Color apply(String name) {
@@ -51,10 +52,17 @@ public class CustomTransformTest {
     }
 
     @Test
-    public void transforms_CucumberExpression_arguments_with_expression_type() {
+    public void transforms_CucumberExpression_arguments_with_expression_type_I() {
         Expression expression = new CucumberExpression("I have a {color:color} ball", Collections.<Type>emptyList(), transformLookup);
         Object transformedArgumentValue = expression.match("I have a red ball").get(0).getTransformedValue();
         assertEquals(new Color("red"), transformedArgumentValue);
+    }
+
+    @Test
+    public void transforms_CucumberExpression_arguments_with_expression_type_II() {
+        Expression expression = new CucumberExpression("I have a {color:color} ball", Collections.<Type>emptyList(), transformLookup);
+        Object transformedArgumentValue = expression.match("I have a dark red ball").get(0).getTransformedValue();
+        assertEquals(new Color("dark red"), transformedArgumentValue);
     }
 
     @Test

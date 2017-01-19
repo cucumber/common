@@ -45,12 +45,30 @@ public class CucumberExpression implements Expression {
             }
             transforms.add(transform);
 
-            matcher.appendReplacement(regexp, Matcher.quoteReplacement("(" + transform.getCaptureGroupRegexps().get(0) + ")"));
+            matcher.appendReplacement(regexp, Matcher.quoteReplacement(getCaptureGroupRegexp(transform.getCaptureGroupRegexps())));
         }
         matcher.appendTail(regexp);
         regexp.append("$");
 
         pattern = Pattern.compile(regexp.toString());
+    }
+
+    private String getCaptureGroupRegexp(List<String> captureGroupRegexps) {
+        StringBuilder sb = new StringBuilder("(");
+
+        if(captureGroupRegexps.size() == 1) {
+            sb.append(captureGroupRegexps.get(0));
+        } else {
+            boolean bar = false;
+            for (String captureGroupRegexp : captureGroupRegexps) {
+                if(bar) sb.append("|");
+                sb.append("(?:").append(captureGroupRegexp).append(")");
+                bar = true;
+            }
+        }
+
+        sb.append(")");
+        return sb.toString();
     }
 
     @Override

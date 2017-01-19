@@ -25,17 +25,23 @@ module Cucumber
         @transform_lookup.add_transform(Transform.new(
           'color',
           Color,
-          'red|blue|yellow',
+          ['red|blue|yellow', '(?:dark|light) (?:red|blue|yellow)'],
           lambda { |s| Color.new(s) }
         ))
         ### [add-color-transform]
       end
 
       describe CucumberExpression do
-        it "transforms arguments with expression type" do
+        it "transforms arguments with expression type I" do
           expression = CucumberExpression.new("I have a {color:color} ball", [], @transform_lookup)
           transformed_argument_value = expression.match("I have a red ball")[0].transformed_value
           expect( transformed_argument_value ).to eq(Color.new('red'))
+        end
+
+        it "transforms arguments with expression type II" do
+          expression = CucumberExpression.new("I have a {color:color} ball", [], @transform_lookup)
+          transformed_argument_value = expression.match("I have a dark red ball")[0].transformed_value
+          expect( transformed_argument_value ).to eq(Color.new('dark red'))
         end
 
         it "transforms arguments with explicit type" do
