@@ -93,20 +93,29 @@ function build_subrepos()
 # with all the various package managers:
 #
 #   ./scripts/check-release-karma
-function group_release()
+function release_subrepos()
 {
   group_path=$1
+  version=$2
+  next_version=$3
 
   subrepos "${group_path}" | while read subrepo; do
-    clone_for_release "${subrepo}"
+    release_subrepo "${subrepo}" "${version}" "${next_version}"
   done
 }
 
-function release_dir()
+function release_subrepo()
 {
-  echo "$1/.release"
+  subrepo=$1
+  version=$2
+  next_version=$3
+
+  clone_for_release "${subrepo}"
+  release_subrepo_clone "$(release_dir "${subrepo}")" "${version}" "${next_version}"
 }
 
+# Clones a subrepo into a temporary directory, which is where the release will be
+# made from.
 function clone_for_release()
 {
   subrepo=$1
@@ -119,6 +128,24 @@ function clone_for_release()
   git clone "${remote}" "${rdir}"
 }
 
+# Publishes a released package for a subrepo (from a clone of the subrepo)
+function release_subrepo_clone()
+{
+  dir=$1
+  version=$2
+  next_version=$3
+
+  ptype=$(project_type "${dir}")
+  if [ -n "${ptype}" ]; then
+    eval ${ptype}_release "${dir}" "${version}" "${next_version}"
+  fi
+}
+
+function release_dir()
+{
+  echo "$1/.release"
+}
+
 function release_karma_all()
 {
   group_path=$1
@@ -128,38 +155,16 @@ function release_karma_all()
   done
 }
 
-# Publishes a released package for a subrepo (from a clone of the subrepo)
+# Check whether the current user (probably) has the karma to release a subrepo.
+# This is not a real check, just high level checks you're logged into the package
+# repo, and other heuristics.
 function release_karma()
 {
   dir=$1
 
   ptype=$(project_type "${dir}")
   if [ -n "${ptype}" ]; then
-    eval ${ptype}_release_karma "${dir}"
-  fi
-}
-
-# Publishes a released package for a subrepo (from a clone of the subrepo)
-function release_subrepo_clone()
-{
-  dir=$1
-  next_version=$2
-
-  ptype=$(project_type "${dir}")
-  if [ -n "${ptype}" ]; then
-    eval ${ptype}_release "${dir}" "${next_version}"
-  fi
-}
-
-# Updates the version for a subrepo
-function update_version()
-{
-  subrepo=$1
-  version=$2
-
-  ptype=$(project_type "${subrepo}")
-  if [ -n "${ptype}" ]; then
-    eval ${ptype}_update_version "${subrepo}" "${version}"
+    eval ${ptype}_release_karma
   fi
 }
 
@@ -198,12 +203,6 @@ function find_path()
 
 ################ MAVEN ################
 
-function maven_version()
-{
-  subrepo=$1
-  xmllint --xpath "//*[local-name()='project']/*[local-name()='version']/text()" "${subrepo}/pom.xml"
-}
-
 function maven_update_version()
 {
   subrepo=$1
@@ -231,30 +230,18 @@ function maven_release_karma()
 function maven_release()
 {
   dir=$1
-  next_version=$2
+  version=$2
+  next_version=$3
 
   pushd "${dir}"
   mvn release:clean
   mvn --batch-mode -P release-sign-artifacts release:prepare -DdevelopmentVersion=${next_version}-SNAPSHOT
   mvn --batch-mode -P release-sign-artifacts release:perform
+  echo_green "Log in to https://oss.sonatype.org/, close and release the project."
   popd
 }
 
 ################ NPM ################
-
-function npm_version()
-{
-  subrepo=$1
-  jq -r ".version" "${subrepo}/package.json"
-}
-
-function npm_update_version()
-{
-  subrepo=$1
-  version=$2
-  sed -i "" "s/\(\"version\" *: *\"\)[0-9]*\.[0-9]*\.[0-9]*\(\"\)/\1${version}\2/" "${subrepo}/package.json"
-  echo_green "Updated ${subrepo} to ${version}"
-}
 
 function npm_release_karma()
 {
@@ -264,22 +251,21 @@ function npm_release_karma()
 
 function npm_release() {
   dir=$1
-  next_version=$2
+  version=$2
+  next_version=$3
 
   pushd "${dir}"
-  echo "TODO: RELEASE NPM ${dir}"
-  # npm install
-  # npm publish
+  npm install
+  npm version "${version}"
+  npm publish
+  git push --tags
+  npm --no-git-tag-version version "${next_version}"
+  git add package.json
+  git commit -m "Post-release: bump version to ${next_version}"
   popd
 }
 
 ################ RUBYGEM ################
-
-function rubygem_version()
-{
-  subrepo=$1
-  cat "$(find_path "${subrepo}" "*.gemspec")" | grep -m 1 ".version *= *" | sed "s/.*= *'\([^']*\)'.*/\1/"
-}
 
 function rubygem_update_version()
 {
@@ -297,7 +283,8 @@ function rubygem_release_karma()
 
 function rubygem_release() {
   dir=$1
-  next_version=$2
+  version=$2
+  next_version=$3
 
   pushd "${dir}"
   echo "TODO: RELEASE GEM ${dir}"
@@ -319,7 +306,8 @@ function python_update_version()
 
 function python_release() {
   dir=$1
-  next_version=$2
+  version=$2
+  next_version=$3
 
   pushd "${dir}"
   echo "TODO: RELEASE PYTHON ${dir}"
@@ -344,7 +332,8 @@ function perl_release_karma()
 
 function perl_release() {
   dir=$1
-  next_version=$2
+  version=$2
+  next_version=$3
 
   pushd "${dir}"
   echo "TODO: RELEASE PERL ${dir}"
@@ -374,7 +363,8 @@ function dotnet_release_karma()
 function dotnet_release()
 {
   dir=$1
-  next_version=$2
+  version=$2
+  next_version=$3
 
   nuget=${root_dir}/bin/NuGet.exe
   sln=$(find_path "${dir}" "*.sln")

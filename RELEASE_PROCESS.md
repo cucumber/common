@@ -9,17 +9,17 @@ current shell:
 ## Library groups
 
 Some libraries are implemented in several programming languages.
-These libraries are called _library groups_. Examples are
-_Gherkin_, _Cucumber Expressions_ and _Tag Expressions_.
+Examples are _Gherkin_, _Cucumber Expressions_ and _Tag Expressions_.
 
-In the instructions below, `group_path` refers to the main directory of a
-library group, for example `gherkin`, `cucumber-expressions` or `tag-expressions`.
+In the instructions below, `group_path` refers to the main directory
+containing several implementations, for example `gherkin`,
+`cucumber-expressions` or `tag-expressions`.
 
-All implementations of a library groups should be released at the same time.
-The reason for this is that they all follow the same versioning scheme
-([semver](http://semver.org/)).
+If a library has multiple implementations, they should always be released at the
+same time, even if only one of them has been modified. The reason for this is
+that they all follow the same versioning scheme ([semver](http://semver.org/)).
 
-### Preparing the release
+## Releasing a library
 
 Make sure the main `cucumber/cucumber` repo has the most recent commits from
 all of the subrepos:
@@ -30,19 +30,16 @@ Make sure they all build successfully:
 
     build_subrepos ${group_path}
 
-Update the version you're about to release. Pay special attention to messages
-printed in blue - you might need to take some manual steps:
-
-    group_update_version ${group_path} ${version}
-
-Commit and push all subrepos
-
-    git commit -am "${group_path}: Release ${version}"
-    push_subrepos
-    git push
-
 Release all the subrepos in the group
 
-    git clean -dffx
-    # TODO: finish implementing this
-    group_release "${group_path}""
+    release_subrepos ${group_path} ${version} ${next_version}
+
+Alternatively, release each language independently:
+
+    release_subrepo ${subrepo_path} ${version} ${next_version}
+
+Tag the monorepo:
+
+    # group_name is typically the same as group_path, e.g. "cucumber-expressions"
+    git tag "${group_name}-${version}"
+    git push --tags
