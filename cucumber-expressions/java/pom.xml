@@ -4,7 +4,7 @@
 
     <groupId>io.cucumber</groupId>
     <artifactId>cucumber-expressions</artifactId>
-    <version>1.0.4-SNAPSHOT</version>
+    <version>1.0.5-SNAPSHOT</version>
     <packaging>jar</packaging>
     <name>cucumber-expressions</name>
     <description>Cucumber Expressions</description>
@@ -26,7 +26,8 @@
         <connection>scm:git:git://github.com/cucumber/cucumber-expressions-java.git</connection>
         <developerConnection>scm:git:git@github.com:cucumber/cucumber-expressions-java.git</developerConnection>
         <url>git://github.com/cucumber/cucumber-expressions-java.git</url>
-    </scm>
+      <tag>HEAD</tag>
+  </scm>
 
     <dependencies>
         <dependency>
@@ -150,6 +151,10 @@
                         <version>1.6</version>
                         <configuration>
                             <useAgent>true</useAgent>
+                            <gpgArguments>
+                              <arg>--local-user</arg>
+                              <arg>devs@cucumber.io</arg>
+                            </gpgArguments>
                         </configuration>
                         <executions>
                             <execution>
