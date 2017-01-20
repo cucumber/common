@@ -98,18 +98,25 @@ function group_release()
   group_path=$1
 
   subrepos "${group_path}" | while read subrepo; do
-    remote=$(subrepo_remote "${subrepo}")
-
-    release_dir="${subrepo}/.release"
-    rm -rf "${release_dir}"
-
-    echo_green "***** Cloning ${remote} (${subrepo}) *****"
-    git clone "${remote}" "${release_dir}"
-    release_subrepo_clone "${subrepo}"
-
-    echo_green "***** TODO: RELEASE ${remote} *****"
-    release_subrepo_clone "${release_dir}"
+    clone_for_release "${subrepo}"
   done
+}
+
+function release_dir()
+{
+  echo "$1/.release"
+}
+
+function clone_for_release()
+{
+  subrepo=$1
+  remote=$(subrepo_remote "${subrepo}")
+  rdir=$(release_dir "${subrepo}")
+
+  rm -rf "${rdir}"
+
+  echo_green "***** Cloning ${remote} (${subrepo}) *****"
+  git clone "${remote}" "${rdir}"
 }
 
 function release_karma_all()
@@ -136,10 +143,11 @@ function release_karma()
 function release_subrepo_clone()
 {
   dir=$1
+  next_version=$2
 
   ptype=$(project_type "${dir}")
   if [ -n "${ptype}" ]; then
-    eval ${ptype}_release "${dir}"
+    eval ${ptype}_release "${dir}" "${next_version}"
   fi
 }
 
@@ -220,10 +228,13 @@ function maven_release_karma()
 function maven_release()
 {
   dir=$1
+  next_version=$2
 
   pushd "${dir}"
-  echo "TODO: RELEASE MAVEN ${dir}"
-  popd "${dir}"
+  mvn release:clean
+  mvn --batch-mode -P release-sign-artifacts release:prepare -DdevelopmentVersion=${next_version}-SNAPSHOT
+  mvn --batch-mode -P release-sign-artifacts release:perform
+  popd
 }
 
 ################ NPM ################
@@ -250,12 +261,13 @@ function npm_release_karma()
 
 function npm_release() {
   dir=$1
+  next_version=$2
 
   pushd "${dir}"
   echo "TODO: RELEASE NPM ${dir}"
   # npm install
   # npm publish
-  popd "${dir}"
+  popd
 }
 
 ################ RUBYGEM ################
@@ -282,10 +294,11 @@ function rubygem_release_karma()
 
 function rubygem_release() {
   dir=$1
+  next_version=$2
 
   pushd "${dir}"
   echo "TODO: RELEASE GEM ${dir}"
-  popd "${dir}"
+  popd
 }
 
 ################ PYTHON ################
@@ -303,10 +316,11 @@ function python_update_version()
 
 function python_release() {
   dir=$1
+  next_version=$2
 
   pushd "${dir}"
   echo "TODO: RELEASE PYTHON ${dir}"
-  popd "${dir}"
+  popd
 }
 
 ################ PERL ################
@@ -327,10 +341,11 @@ function perl_release_karma()
 
 function perl_release() {
   dir=$1
+  next_version=$2
 
   pushd "${dir}"
   echo "TODO: RELEASE PERL ${dir}"
-  popd "${dir}"
+  popd
 }
 
 ################ .NET ################
@@ -356,6 +371,7 @@ function dotnet_release_karma()
 function dotnet_release()
 {
   dir=$1
+  next_version=$2
 
   nuget=${root_dir}/bin/NuGet.exe
   sln=$(find_path "${dir}" "*.sln")
@@ -366,7 +382,7 @@ function dotnet_release()
   xbuild /p:Configuration=Release
   mono "${nuget}" pack "${nuspec}"
   mono "${nuget}" push "$(find_path "${dir}" "*.nupkg")"
-  popd "${dir}"
+  popd
 }
 
 ################ .NET ################

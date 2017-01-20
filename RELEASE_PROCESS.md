@@ -38,10 +38,11 @@ printed in blue - you might need to take some manual steps:
 Commit and push all subrepos
 
     git commit -am "${group_path}: Release ${version}"
-    git push
     push_subrepos
+    git push
 
 Release all the subrepos in the group
 
+    git clean -dffx
     # TODO: finish implementing this
     group_release "${group_path}""
