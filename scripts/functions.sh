@@ -223,6 +223,8 @@ function maven_release_karma()
 
   echo_green "Checking gpg..."
   ls ~/.gnupg/secring.gpg && echo_green "gpg ok" || echo_red "\nFollow these instructions: http://blog.sonatype.com/2010/01/how-to-generate-pgp-signatures-with-maven/"
+
+  echo_green "To specify key name and passwphrase before release: export GPG_PASSPHRASE=..."
 }
 
 function maven_release()
@@ -233,7 +235,7 @@ function maven_release()
   pushd "${dir}"
   mvn release:clean
   mvn --batch-mode -P release-sign-artifacts release:prepare -DdevelopmentVersion=${next_version}-SNAPSHOT
-  mvn --batch-mode -P release-sign-artifacts release:perform
+  mvn --batch-mode -P release-sign-artifacts release:perform -Dgpg.keyname=devs@cucumber.io -Dgpg.passphrase=${GPG_PASSPHRASE}
   popd
 }
 
