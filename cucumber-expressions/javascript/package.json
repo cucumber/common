@@ -1,6 +1,6 @@
 {
   "name": "cucumber-expressions",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Cucumber Expressions - a simpler alternative to Regular Expressions",
   "main": "dist/index.js",
   "scripts": {
