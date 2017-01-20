@@ -30,13 +30,21 @@ Make sure they all build successfully:
 
     build_subrepos ${group_path}
 
-Release all the subrepos in the group
+Make sure anything modified in the monorepo is pushed to subrepos:
+
+    push_subrepos ${group_path}
+
+Release all the subrepos in the group:
 
     release_subrepos ${group_path} ${version} ${next_version}
 
 Alternatively, release each language independently:
 
     release_subrepo ${subrepo_path} ${version} ${next_version}
+
+Pull back all the changes to the monorepo:
+
+    pull_subrepos ${group_path}
 
 Tag the monorepo:
 

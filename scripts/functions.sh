@@ -49,17 +49,6 @@ function subrepo_remote()
   git subrepo status "${subrepo}" | grep "Remote URL:" | sed -e 's/[ \t][ \t]*Remote URL:[ \t][ \t]*//g'
 }
 
-# Updates the version number for all subrepos in a group
-function group_update_version()
-{
-  group_path=$1
-  version=$2
-
-  subrepos "${group_path}" | while read subrepo; do
-    update_version "${subrepo}" "${version}"
-  done
-}
-
 function pull_subrepos()
 {
   subrepos $1 | while read subrepo; do
@@ -259,21 +248,10 @@ function npm_release() {
   npm version "${version}"
   npm publish
   git push --tags
-  npm --no-git-tag-version version "${next_version}"
-  git add package.json
-  git commit -m "Post-release: bump version to ${next_version}"
   popd
 }
 
 ################ RUBYGEM ################
-
-function rubygem_update_version()
-{
-  subrepo=$1
-  version=$2
-  sed -i "" "s/\(s\.version *= *'\)[0-9]*\.[0-9]*\.[0-9]*\('\)/\1${version}\2/" "$(find_path "${subrepo}" "*.gemspec")"
-  echo_green "Updated ${subrepo} to ${version}"
-}
 
 function rubygem_release_karma()
 {
@@ -287,7 +265,10 @@ function rubygem_release() {
   next_version=$3
 
   pushd "${dir}"
-  echo "TODO: RELEASE GEM ${dir}"
+  sed -i "" "s/\(s\.version *= *'\)[0-9]*\.[0-9]*\.[0-9]*\('\)/\1${version}\2/" "$(find_path "." "*.gemspec")"
+  git add .
+  git commit -m "Release ${version}"
+  bundle exec rake build release
   popd
 }
 
