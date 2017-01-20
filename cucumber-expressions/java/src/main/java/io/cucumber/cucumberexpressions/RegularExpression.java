@@ -18,6 +18,7 @@ public class RegularExpression implements Expression {
      * dynamically typed languages.
      *
      * @param pattern         the regular expression to use
+     * @param types           types to convert capture groups to
      * @param transformLookup transform lookup
      */
     public RegularExpression(Pattern pattern, List<? extends Type> types, TransformLookup transformLookup) {
