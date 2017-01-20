@@ -49,5 +49,5 @@ Pull back all the changes to the monorepo:
 Tag the monorepo:
 
     # group_name is typically the same as group_path, e.g. "cucumber-expressions"
-    git tag "${group_name}-${version}"
+    git tag "${group_name}-v${version}"
     git push --tags

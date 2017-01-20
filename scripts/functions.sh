@@ -247,6 +247,7 @@ function npm_release() {
   npm install
   npm version "${version}"
   npm publish
+  git push
   git push --tags
   popd
 }
