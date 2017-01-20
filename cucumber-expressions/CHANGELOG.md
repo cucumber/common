@@ -14,12 +14,13 @@ N/A
 N/A
 
 ### Changed
-N/A
+* ruby: Use `Integer` instead of `Fixnum`
 
 ### Fixed
 * javascript, ruby, java: Handle multiple capture group regexps for matching
   ([#102](https://github.com/cucumber/cucumber/issues/102)
    by [gpichot])
+* ruby: Make the tests pass on 2.4.0 (as well as older rubies)
 
 ## [1.0.3] - 2016-11-25
 

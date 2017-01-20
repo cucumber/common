@@ -63,7 +63,7 @@ module Cucumber
       it "exposes transforms in generated expression" do
         expression = @generator.generate_expression("I have 2 cukes and 1.5 euro", true)
         types = expression.transforms.map(&:type)
-        expect(types).to eq([Fixnum, Float])
+        expect(types).to eq([Integer, Float])
       end
 
       def assert_typed_expression(expected, text)

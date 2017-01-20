@@ -13,7 +13,7 @@ module CaptureWarnings
     end
 
     if other_warnings.any?
-      puts "#{ other_warnings.count } non-cucumber-core warnings detected, set VIEW_OTHER_WARNINGS=true to see them."
+      puts "#{ other_warnings.count } non-cucumber-expressions warnings detected, set VIEW_OTHER_WARNINGS=true to see them."
       print_warnings('other', other_warnings) if ENV['VIEW_OTHER_WARNINGS']
     end
 
@@ -23,9 +23,9 @@ module CaptureWarnings
     end
 
     if project_warnings.any?
-      puts "#{ project_warnings.count } cucumber-core warnings detected"
-      print_warnings('cucumber-core', project_warnings)
-      fail "Please remove all cucumber-core warnings."
+      puts "#{ project_warnings.count } cucumber-expressions warnings detected"
+      print_warnings('cucumber-expressions', project_warnings)
+      fail "Please remove all cucumber-expressions warnings."
     end
 
     ensure_system_exit_if_required

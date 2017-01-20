@@ -13,7 +13,7 @@ module Cucumber
       end
       ### [color-constructor]
 
-      def == (other)
+      def ==(other)
         other.is_a?(Color) && other.name == name
       end
     end

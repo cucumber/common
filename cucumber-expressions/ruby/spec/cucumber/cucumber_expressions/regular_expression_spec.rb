@@ -51,7 +51,8 @@ module Cucumber
 
       it "fails when type is not type name or class" do
         expect( lambda { match(/(.*)/, "-1.22", [99]) } ).to raise_error(
-          'Type must be string or class, but was 99 of type Fixnum')
+          # Ruby 2.3 and older report Fixnum, 2.4 and newer report Integer
+          /Type must be string or class, but was 99 of type (?:Fixnum)|(?:Integer)/)
       end
 
       it "exposes source" do

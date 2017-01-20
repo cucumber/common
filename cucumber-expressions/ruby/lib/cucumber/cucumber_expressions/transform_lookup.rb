@@ -3,7 +3,7 @@ require 'cucumber/cucumber_expressions/transform'
 module Cucumber
   module CucumberExpressions
     class TransformLookup
-      FIXNUM_REGEXPS = ['-?\d+', '\d+']
+      INTEGER_REGEXPS = ['-?\d+', '\d+']
       FLOATING_POINT_REGEXPS = ['-?\d*\.?\d+']
 
       def initialize
@@ -11,7 +11,7 @@ module Cucumber
         @transforms_by_capture_group_regexp = {}
         @transforms_by_class = {}
 
-        add_transform(Transform.new('int', Fixnum, FIXNUM_REGEXPS, lambda {|s| s.to_i}))
+        add_transform(Transform.new('int', Integer, INTEGER_REGEXPS, lambda {|s| s.to_i}))
         add_transform(Transform.new('float', Float, FLOATING_POINT_REGEXPS, lambda {|s| s.to_f}))
       end
 

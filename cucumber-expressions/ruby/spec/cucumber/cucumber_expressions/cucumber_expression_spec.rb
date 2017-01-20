@@ -30,8 +30,8 @@ module Cucumber
       end
 
       # Ruby-specific
-      it "transforms to Fixnum by explicit type" do
-        expect( match("{what}", "22", [Fixnum]) ).to eq([22])
+      it "transforms to Integer by explicit type" do
+        expect( match("{what}", "22", [Integer]) ).to eq([22])
       end
 
       it "doesn't match a float to an int" do
