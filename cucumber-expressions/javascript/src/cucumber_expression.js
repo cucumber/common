@@ -17,6 +17,15 @@ class CucumberExpression {
     let match
     let matchOffset = 0
 
+    // Does not include parenthesis and brackets
+    // because they have special meaning
+    const specialCharacters = ['\\', '[', '^', '$', '.', '|', '?', '*', '+']
+    for (const index in specialCharacters) {
+      const c = specialCharacters[index]
+      const regexp = new RegExp(`\\${c}`, 'g')
+      expression = expression.replace(regexp, `\\${c}`)
+    }
+
     // Create non-capturing, optional capture groups from parenthesis
     expression = expression.replace(optionalPattern, '(?:$1)?')
 
