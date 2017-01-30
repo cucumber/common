@@ -63,7 +63,7 @@ describe(CucumberExpression.name, () => {
   })
 
   describe('RegExp special characters', () => {
-    ['[', '\\', '^', '$', '?', '*', '+'].forEach((character) => {
+    ['\\', '[', ']', '^', '$', '.', '|', '?', '*', '+'].forEach((character) => {
       it(`escapes ${character}`, () => {
         const expr = `I have {n:int} cuke(s) and ${character}`
         const expression = new CucumberExpression(expr, [], new TransformLookup())
