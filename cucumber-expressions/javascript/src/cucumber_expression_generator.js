@@ -6,13 +6,13 @@ class CucumberExpressionGenerator {
     this._transformLookup = transformLookup
   }
 
-  generateExpression(text, typed) {
+  generateExpression(text) {
     const argumentNames = []
     const transformMatchers = this._createTransformMatchers(text)
     const transforms = []
+    const usageByTypeName = {}
 
     let expression = ""
-    let argCounter = 0
     let pos = 0
 
     while (true) { // eslint-disable-line no-constant-condition
@@ -25,19 +25,17 @@ class CucumberExpressionGenerator {
       }
 
       if (matchingTransformMatchers.length > 0) {
-        const argumentName = `arg${++argCounter}`
-        argumentNames.push(argumentName)
         matchingTransformMatchers = matchingTransformMatchers.sort(TransformMatcher.compare)
         const bestTransformMatcher = matchingTransformMatchers[0]
-        transforms.push(bestTransformMatcher.transform)
+        const transform = bestTransformMatcher.transform
+        transforms.push(transform)
+
+        const argumentName = this._getArgumentName(transform.typeName, usageByTypeName)
+        argumentNames.push(argumentName)
 
         expression += text.slice(pos, bestTransformMatcher.start)
-        expression += `{${argumentName}`
+        expression += `{${transform.typeName}}`
 
-        if (typed) {
-          expression += `:${bestTransformMatcher.transform.typeName}`
-        }
-        expression += "}"
         pos = bestTransformMatcher.start + bestTransformMatcher.group.length
       } else {
         break
@@ -50,6 +48,14 @@ class CucumberExpressionGenerator {
 
     expression += text.slice(pos)
     return new GeneratedExpression(expression, argumentNames, transforms)
+  }
+
+  _getArgumentName(typeName, usageByTypeName) {
+      let count = usageByTypeName[typeName]
+      count = count ? count + 1 : 1
+      usageByTypeName[typeName] = count
+
+      return count == 1 ? typeName : `${typeName}${count}`
   }
 
   _createTransformMatchers(text) {
