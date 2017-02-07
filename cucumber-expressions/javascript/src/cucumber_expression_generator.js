@@ -1,5 +1,5 @@
-import TransformMatcher from './transform_matcher'
-import GeneratedExpression from './generated_expression'
+const TransformMatcher = require('./transform_matcher')
+const GeneratedExpression = require('./generated_expression')
 
 class CucumberExpressionGenerator {
   constructor(transformLookup) {
@@ -75,4 +75,4 @@ class CucumberExpressionGenerator {
   }
 }
 
-export default CucumberExpressionGenerator
+module.exports = CucumberExpressionGenerator

@@ -1,9 +1,11 @@
 /* eslint-env mocha */
-import assert from 'assert'
-import CucumberExpression from '../src/cucumber_expression'
-import RegularExpression from '../src/regular_expression'
-import TransformLookup from '../src/transform_lookup'
-import Transform from '../src/transform'
+'use strict'
+
+const assert = require('assert')
+const CucumberExpression = require('../src/cucumber_expression')
+const RegularExpression = require('../src/regular_expression')
+const TransformLookup = require('../src/transform_lookup')
+const Transform = require('../src/transform')
 
 class Color {
   /// [color-constructor]
@@ -59,10 +61,25 @@ describe('Custom transform', () => {
       assert.equal(transformedArgumentValue.name, "red")
     })
 
-    // JavaScript-specific (specifying type as string)
+    // JavaScript-specific
+
     it("transforms arguments with explicit type name", () => {
       const expression = new CucumberExpression("I have a {color} ball", ['color'], transformLookup)
       const transformedArgumentValue = expression.match("I have a red ball")[0].transformedValue
+      assert.equal(transformedArgumentValue.name, "red")
+    })
+
+    it("transforms arguments using async transform", async () => {
+      transformLookup.addTransform(new Transform(
+        'asyncColor',
+        Color,
+        ['red|blue|yellow', '(?:dark|light) (?:red|blue|yellow)'],
+        async s => new Color(s)
+      ))
+
+      const expression = new CucumberExpression("I have a {asyncColor} ball", ['asyncColor'], transformLookup)
+      const args = await expression.match("I have a red ball")
+      const transformedArgumentValue = await args[0].transformedValue
       assert.equal(transformedArgumentValue.name, "red")
     })
   })

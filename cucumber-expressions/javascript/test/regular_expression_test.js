@@ -1,7 +1,7 @@
 /* eslint-env mocha */
-import assert from 'assert'
-import RegularExpression from '../src/regular_expression'
-import TransformLookup from '../src/transform_lookup'
+const assert = require('assert')
+const RegularExpression = require('../src/regular_expression')
+const TransformLookup = require('../src/transform_lookup')
 
 describe(RegularExpression.name, () => {
   it("documents match arguments", () => {

@@ -1,4 +1,4 @@
-import matchArguments from './match_arguments'
+const matchArguments = require('./match_arguments')
 
 class CucumberExpression {
   /**
@@ -72,4 +72,4 @@ function getCaptureRegexp(captureGroupRegexps) {
   return `(${captureGroups.join('|')})`
 }
 
-export default CucumberExpression
+module.exports = CucumberExpression
