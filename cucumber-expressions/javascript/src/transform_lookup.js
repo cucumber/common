@@ -1,4 +1,4 @@
-import Transform from './transform'
+const Transform = require('./transform')
 
 class TransformLookup {
   constructor() {
@@ -85,4 +85,4 @@ class TransformLookup {
   }
 }
 
-export default TransformLookup
+module.exports = TransformLookup

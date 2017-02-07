@@ -1,10 +1,10 @@
-import CucumberExpression from "./cucumber_expression"
-import RegularExpression from "./regular_expression"
-import CucumberExpressionGenerator from "./cucumber_expression_generator"
-import TransformLookup from "./transform_lookup"
-import Transform from "./transform"
+const CucumberExpression = require("./cucumber_expression")
+const RegularExpression = require("./regular_expression")
+const CucumberExpressionGenerator = require("./cucumber_expression_generator")
+const TransformLookup = require("./transform_lookup")
+const Transform = require("./transform")
 
-export {
+module.exports = {
   CucumberExpression,
   RegularExpression,
   CucumberExpressionGenerator,

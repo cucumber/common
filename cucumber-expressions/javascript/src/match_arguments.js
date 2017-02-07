@@ -1,4 +1,4 @@
-import Argument from './argument'
+const Argument = require('./argument')
 
 const matchArguments = (regexp, text, transforms) => {
   const m = regexp.exec(text)
@@ -12,4 +12,4 @@ const matchArguments = (regexp, text, transforms) => {
   })
 }
 
-export default matchArguments
+module.exports = matchArguments

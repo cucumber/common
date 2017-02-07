@@ -1,7 +1,7 @@
 /* eslint-env mocha */
-import assert from 'assert'
-import CucumberExpression from '../src/cucumber_expression'
-import TransformLookup from '../src/transform_lookup'
+const assert = require('assert')
+const CucumberExpression = require('../src/cucumber_expression')
+const TransformLookup = require('../src/transform_lookup')
 
 describe(CucumberExpression.name, () => {
   describe('RegExp translation', () => {

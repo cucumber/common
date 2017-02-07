@@ -1,9 +1,9 @@
 /* eslint-env mocha */
-import fs from 'fs'
-import assert from 'assert'
-import CucumberExpression from '../src/cucumber_expression'
-import RegularExpression from '../src/regular_expression'
-import TransformLookup from '../src/transform_lookup'
+const fs = require('fs')
+const assert = require('assert')
+const CucumberExpression = require('../src/cucumber_expression')
+const RegularExpression = require('../src/regular_expression')
+const TransformLookup = require('../src/transform_lookup')
 
 describe('examples.txt', () => {
   const match = (expression_text, text) => {
