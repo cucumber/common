@@ -2,10 +2,14 @@ package io.cucumber.cucumberexpressions;
 
 import org.junit.Test;
 
+import java.util.Collections;
 import java.util.Currency;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
+import static java.util.Arrays.asList;
+import static java.util.Collections.singletonList;
 import static org.junit.Assert.assertEquals;
 
 public class CucumberExpressionGeneratorTest {
@@ -15,54 +19,52 @@ public class CucumberExpressionGeneratorTest {
 
     @Test
     public void documents_expression_generation() {
-        TransformLookup transformLookup = new TransformLookup(Locale.ENGLISH);
         /// [generate-expression]
         CucumberExpressionGenerator generator = new CucumberExpressionGenerator(transformLookup);
         String undefinedStepText = "I have 2 cucumbers and 1.5 tomato";
-        GeneratedExpression generatedExpression = generator.generateExpression(undefinedStepText, true);
-        assertEquals("I have {arg1:int} cucumbers and {arg2:double} tomato", generatedExpression.getSource());
-        assertEquals("arg1", generatedExpression.getArgumentNames().get(0));
+        GeneratedExpression generatedExpression = generator.generateExpression(undefinedStepText);
+        assertEquals("I have {int} cucumbers and {double} tomato", generatedExpression.getSource());
         assertEquals(Double.TYPE, generatedExpression.getTransforms().get(1).getType());
         /// [generate-expression]
     }
 
     @Test
     public void generates_expression_for_no_args() {
-        assertTypedExpression("hello", "hello");
+        assertExpression("hello", Collections.<String>emptyList(), "hello");
     }
 
     @Test
     public void generates_expression_for_int_double_arg() {
-        assertTypedExpression(
-                "I have {arg1:int} cukes and {arg2:double} euro",
+        assertExpression(
+                "I have {int} cukes and {double} euro", asList("int1", "double1"),
                 "I have 2 cukes and 1.5 euro");
     }
 
     @Test
     public void generates_expression_for_just_int() {
-        assertTypedExpression(
-                "{arg1:int}",
+        assertExpression(
+                "{int}", singletonList("int1"),
                 "99999");
     }
 
     @Test
-    public void generates_expression_without_expression_type() {
-        assertUntypedExpression(
-                "I have {arg1} cukes and {arg2} euro",
-                "I have 2 cukes and 1.5 euro");
+    public void numbers_all_arguments_when_type_is_reserved_keyword() {
+        assertExpression(
+                "I have {int} cukes and {int} euro", asList("int1", "int2"),
+                "I have 2 cukes and 5 euro");
     }
 
     @Test
-    public void generates_expression_for_custom_type() {
+    public void numbers_only_second_argument_when_type_is_not_reserved_keyword() {
         transformLookup.addTransform(new SimpleTransform<>(
                 "currency",
                 Currency.class,
                 "[A-Z]{3}",
                 null
         ));
-        assertTypedExpression(
-                "I have a {arg1:currency} account",
-                "I have a EUR account");
+        assertExpression(
+                "I have a {currency} account and a {currency} account", asList("currency", "currency2"),
+                "I have a EUR account and a GBP account");
     }
 
     @Test
@@ -79,8 +81,8 @@ public class CucumberExpressionGeneratorTest {
                 "bc",
                 null
         ));
-        assertTypedExpression(
-                "a{arg1:date}defg",
+        assertExpression(
+                "a{date}defg", singletonList("date"),
                 "abcdefg");
     }
 
@@ -98,23 +100,21 @@ public class CucumberExpressionGeneratorTest {
                 "cde",
                 null
         ));
-        assertTypedExpression(
-                "ab{arg1:date}fg",
+        assertExpression(
+                "ab{date}fg", singletonList("date"),
                 "abcdefg");
     }
 
     @Test
     public void exposes_transforms_in_generated_expression() {
-        GeneratedExpression snippet = generator.generateExpression("I have 2 cukes and 1.5 euro", true);
-        assertEquals(int.class, snippet.getTransforms().get(0).getType());
-        assertEquals(double.class, snippet.getTransforms().get(1).getType());
+        GeneratedExpression generatedExpression = generator.generateExpression("I have 2 cukes and 1.5 euro");
+        assertEquals(int.class, generatedExpression.getTransforms().get(0).getType());
+        assertEquals(double.class, generatedExpression.getTransforms().get(1).getType());
     }
 
-    private void assertTypedExpression(String expected, String text) {
-        assertEquals(expected, generator.generateExpression(text, true).getSource());
-    }
-
-    private void assertUntypedExpression(String expected, String text) {
-        assertEquals(expected, generator.generateExpression(text, false).getSource());
+    private void assertExpression(String expectedExpression, List<String> expectedArgumentNames, String text) {
+        GeneratedExpression generatedExpression = generator.generateExpression(text);
+        assertEquals(expectedArgumentNames, generatedExpression.getArgumentNames());
+        assertEquals(expectedExpression, generatedExpression.getSource());
     }
 }

@@ -8,13 +8,13 @@ module Cucumber
         @transform_lookup = transform_lookup
       end
 
-      def generate_expression(text, typed)
-        argumentNames = []
+      def generate_expression(text)
+        argument_names = []
         transform_matchers = create_transform_matchers(text)
         transforms = []
+        usage_by_type_name = Hash.new(0)
 
         expression = ""
-        arg_counter = 0
         pos = 0
 
         loop do
@@ -27,19 +27,17 @@ module Cucumber
           end
 
           if matching_transform_matchers.any?
-            argumentName = "arg#{arg_counter += 1}"
-            argumentNames.push(argumentName)
             matching_transform_matchers = matching_transform_matchers.sort
             best_transform_matcher = matching_transform_matchers[0]
-            transforms.push(best_transform_matcher.transform)
+            transform = best_transform_matcher.transform
+            transforms.push(transform)
+
+            argument_name = get_argument_name(transform.type_name, usage_by_type_name)
+            argument_names.push(argument_name)
 
             expression += text.slice(pos...best_transform_matcher.start)
-            expression += "{#{argumentName}"
+            expression += "{#{transform.type_name}}"
 
-            if typed
-              expression += ":#{best_transform_matcher.transform.type_name}"
-            end
-            expression += "}"
             pos = best_transform_matcher.start + best_transform_matcher.group.length
           else
             break
@@ -51,10 +49,15 @@ module Cucumber
         end
 
         expression += text.slice(pos..-1)
-        GeneratedExpression.new(expression, argumentNames, transforms)
+        GeneratedExpression.new(expression, argument_names, transforms)
       end
 
     private
+
+      def get_argument_name(type_name, usage_by_type_name)
+        count = (usage_by_type_name[type_name] += 1)
+        count == 1 ? type_name : "#{type_name}#{count}"
+      end
 
       def create_transform_matchers(text)
         transform_matchers = []

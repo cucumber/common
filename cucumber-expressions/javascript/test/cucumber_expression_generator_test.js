@@ -11,12 +11,10 @@ describe(CucumberExpressionGenerator.name, () => {
 
   let transformLookup, generator
 
-  function assertTypedExpression(expected, text) {
-    assert.deepEqual(generator.generateExpression(text, true).source, expected)
-  }
-
-  function assertUntypedExpression(expected, text) {
-    assert.deepEqual(generator.generateExpression(text, false).source, expected)
+  function assertExpression(expectedExpression, expectedArgumentNames, text) {
+    const generatedExpression = generator.generateExpression(text)
+    assert.deepEqual(generatedExpression.argumentNames, expectedArgumentNames)
+    assert.equal(generatedExpression.source, expectedExpression)
   }
 
   beforeEach(() => {
@@ -29,33 +27,33 @@ describe(CucumberExpressionGenerator.name, () => {
     /// [generate-expression]
     const generator = new CucumberExpressionGenerator(transformLookup)
     const undefinedStepText = "I have 2 cucumbers and 1.5 tomato"
-    const generatedExpression = generator.generateExpression(undefinedStepText, true)
-    assert.equal(generatedExpression.source, "I have {arg1:int} cucumbers and {arg2:float} tomato")
-    assert.equal(generatedExpression.argumentNames[0], 'arg1')
+    const generatedExpression = generator.generateExpression(undefinedStepText)
+    assert.equal(generatedExpression.source, "I have {int} cucumbers and {float} tomato")
+    assert.equal(generatedExpression.argumentNames[0], 'int')
     assert.equal(generatedExpression.transforms[1].typeName, 'float')
     /// [generate-expression]
   })
 
   it("generates expression for no args", () => {
-    assertTypedExpression("hello", "hello")
+    assertExpression("hello", [], "hello")
   })
 
-  it("generates expression for int double arg", () => {
-    assertTypedExpression(
-      "I have {arg1:int} cukes and {arg2:float} euro",
+  it("generates expression for int float arg", () => {
+    assertExpression(
+      "I have {int} cukes and {float} euro", ["int", "float"],
       "I have 2 cukes and 1.5 euro")
   })
 
   it("generates expression for just int", () => {
-    assertTypedExpression(
-      "{arg1:int}",
+    assertExpression(
+      "{int}", ["int"],
       "99999")
   })
 
-  it("generates expression without expression type", () => {
-    assertUntypedExpression(
-      "I have {arg1} cukes and {arg2} euro",
-      "I have 2 cukes and 1.5 euro")
+  it("numbers only second argument when builtin type is not reserved keyword", () => {
+    assertExpression(
+      "I have {float} cukes and {float} euro", ["float", "float2"],
+      "I have 2.5 cukes and 1.5 euro")
   })
 
   it("generates expression for custom type", () => {
@@ -66,8 +64,8 @@ describe(CucumberExpressionGenerator.name, () => {
       null
     ))
 
-    assertTypedExpression(
-      "I have a {arg1:currency} account",
+    assertExpression(
+      "I have a {currency} account", ["currency"],
       "I have a EUR account")
   })
 
@@ -85,13 +83,13 @@ describe(CucumberExpressionGenerator.name, () => {
       null
     ))
 
-    assertTypedExpression(
-      "a{arg1:date}defg",
+    assertExpression(
+      "a{date}defg", ["date"],
       "abcdefg")
   })
 
   it("exposes transforms in generated expression", () => {
-    const expression = generator.generateExpression("I have 2 cukes and 1.5 euro", true)
+    const expression = generator.generateExpression("I have 2 cukes and 1.5 euro")
     const typeNames = expression.transforms.map(transform => transform.typeName)
     assert.deepEqual(typeNames, ['int', 'float'])
   })
