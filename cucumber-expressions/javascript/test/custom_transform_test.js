@@ -68,6 +68,20 @@ describe('Custom transform', () => {
       const transformedArgumentValue = expression.match("I have a red ball")[0].transformedValue
       assert.equal(transformedArgumentValue.name, "red")
     })
+
+    it("transforms arguments using async transform", async () => {
+      transformLookup.addTransform(new Transform(
+        'asyncColor',
+        Color,
+        ['red|blue|yellow', '(?:dark|light) (?:red|blue|yellow)'],
+        async s => new Color(s)
+      ))
+
+      const expression = new CucumberExpression("I have a {asyncColor} ball", ['asyncColor'], transformLookup)
+      const args = await expression.match("I have a red ball")
+      const transformedArgumentValue = await args[0].transformedValue
+      assert.equal(transformedArgumentValue.name, "red")
+    })
   })
 
   describe(RegularExpression.name, () => {
