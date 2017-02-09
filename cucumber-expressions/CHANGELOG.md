@@ -17,6 +17,9 @@ N/A
 * ruby: Use `Integer` instead of `Fixnum`
 
 ### Fixed
+* javascript, ruby: Regexp literals in transforms.
+  ([#109](https://github.com/cucumber/cucumber/issues/109)
+   by [aslakhellesoy])
 * javascript, ruby, java: Handle multiple capture group regexps for matching
   ([#102](https://github.com/cucumber/cucumber/issues/102)
    by [gpichot])

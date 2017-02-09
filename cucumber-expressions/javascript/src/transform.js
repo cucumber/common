@@ -2,7 +2,7 @@ class Transform {
   constructor(typeName, constructorFunction, captureGroupRegexps, transformer) {
     this._typeName = typeName
     this._constructorFunction = constructorFunction
-    this._captureGroupRegexps = (typeof captureGroupRegexps == 'string') ? [captureGroupRegexps] : captureGroupRegexps
+    this._captureGroupRegexps = stringArray(captureGroupRegexps)
     this._transformer = transformer
   }
 
@@ -21,6 +21,11 @@ class Transform {
   transform(string) {
     return this._transformer(string)
   }
+}
+
+function stringArray(captureGroupRegexps) {
+  const array = Array.isArray(captureGroupRegexps) ? captureGroupRegexps : [captureGroupRegexps]
+  return array.map(r => typeof r == 'string' ? r : r.source)
 }
 
 module.exports = Transform

@@ -24,7 +24,7 @@ describe('Custom transform', () => {
     transformLookup.addTransform(new Transform(
       'color',
       Color,
-      ['red|blue|yellow', '(?:dark|light) (?:red|blue|yellow)'],
+      [/red|blue|yellow/, /(?:dark|light) (?:red|blue|yellow)/],
       s => new Color(s)
     ))
     /// [add-color-transform]

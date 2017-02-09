@@ -25,7 +25,7 @@ module Cucumber
         @transform_lookup.add_transform(Transform.new(
           'color',
           Color,
-          ['red|blue|yellow', '(?:dark|light) (?:red|blue|yellow)'],
+          [/red|blue|yellow/, /(?:dark|light) (?:red|blue|yellow)/],
           lambda { |s| Color.new(s) }
         ))
         ### [add-color-transform]
