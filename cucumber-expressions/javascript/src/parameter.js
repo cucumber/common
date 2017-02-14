@@ -1,9 +1,9 @@
-class Transform {
-  constructor(typeName, constructorFunction, captureGroupRegexps, transformer) {
+class Parameter {
+  constructor(typeName, constructorFunction, captureGroupRegexps, transform) {
     this._typeName = typeName
     this._constructorFunction = constructorFunction
     this._captureGroupRegexps = (typeof captureGroupRegexps == 'string') ? [captureGroupRegexps] : captureGroupRegexps
-    this._transformer = transformer
+    this._transform = transform
   }
 
   get typeName() {
@@ -19,8 +19,8 @@ class Transform {
   }
 
   transform(string) {
-    return this._transformer(string)
+    return this._transform(string)
   }
 }
 
-module.exports = Transform
+module.exports = Parameter

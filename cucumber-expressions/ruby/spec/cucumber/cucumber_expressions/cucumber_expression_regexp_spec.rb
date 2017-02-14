@@ -1,12 +1,12 @@
 require 'cucumber/cucumber_expressions/cucumber_expression'
-require 'cucumber/cucumber_expressions/transform_lookup'
+require 'cucumber/cucumber_expressions/parameter_registry'
 
 module Cucumber
   module CucumberExpressions
     describe CucumberExpression do
       context "Regexp translation" do
         def assert_regexp(expression, regexp)
-          cucumber_expression = CucumberExpression.new(expression, [], TransformLookup.new)
+          cucumber_expression = CucumberExpression.new(expression, [], ParameterRegistry.new)
           expect(regexp).to eq(cucumber_expression.instance_variable_get('@regexp'))
         end
 

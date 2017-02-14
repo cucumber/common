@@ -11,7 +11,7 @@ public class EnumFormatTest {
 
     @Test
     public void constructs_enum() {
-        Transform<Color> t = new EnumTransform<>(Color.class);
+        Parameter<Color> t = new EnumParameter<>(Color.class);
         assertEquals(Color.BLUE, t.transform("BLUE"));
     }
 }

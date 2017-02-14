@@ -1,17 +1,17 @@
-const matchArguments = require('./match_arguments')
+const matchPattern = require('./build_arguments')
 
 class CucumberExpression {
   /**
    * @param expression
    * @param types Array of type name (String) or types (function). Functions can be a regular function or a constructor
-   * @param transformLookup
+   * @param parameterRegistry
    */
-  constructor(expression, types, transformLookup) {
+  constructor(expression, types, parameterRegistry) {
     const parameterPattern = /\{([^}:]+)(:([^}]+))?}/g
     const optionalPattern = /\(([^)]+)\)/g
 
     this._expression = expression
-    this._transforms = []
+    this._parameters = []
     let regexp = "^"
     let typeIndex = 0
     let match
@@ -25,23 +25,23 @@ class CucumberExpression {
       const typeName = match[3]
       const type = types.length <= typeIndex ? null : types[typeIndex++]
 
-      let transform;
+      let parameter;
       if (type) {
-        transform = transformLookup.lookupByType(type)
+        parameter = parameterRegistry.lookupByType(type)
       }
-      if (!transform && typeName) {
-        transform = transformLookup.lookupByTypeName(typeName, false)
+      if (!parameter && typeName) {
+        parameter = parameterRegistry.lookupByTypeName(typeName, false)
       }
-      if (!transform) {
-        transform = transformLookup.lookupByTypeName(parameterName, true)
+      if (!parameter) {
+        parameter = parameterRegistry.lookupByTypeName(parameterName, true)
       }
-      if (!transform) {
-        transform = transformLookup.createAnonymousLookup(s => s)
+      if (!parameter) {
+        parameter = parameterRegistry.createAnonymousLookup(s => s)
       }
-      this._transforms.push(transform)
+      this._parameters.push(parameter)
 
       const text = expression.slice(matchOffset, match.index)
-      const captureRegexp = getCaptureRegexp(transform.captureGroupRegexps)
+      const captureRegexp = getCaptureRegexp(parameter.captureGroupRegexps)
       matchOffset = parameterPattern.lastIndex
       regexp += text
       regexp += captureRegexp
@@ -52,7 +52,7 @@ class CucumberExpression {
   }
 
   match(text) {
-    return matchArguments(this._regexp, text, this._transforms)
+    return matchPattern(this._regexp, text, this._parameters)
   }
 
   get source() {
