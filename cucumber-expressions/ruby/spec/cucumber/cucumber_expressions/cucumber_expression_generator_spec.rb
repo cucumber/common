@@ -1,6 +1,6 @@
 require 'cucumber/cucumber_expressions/cucumber_expression_generator'
-require 'cucumber/cucumber_expressions/transform'
-require 'cucumber/cucumber_expressions/transform_lookup'
+require 'cucumber/cucumber_expressions/parameter'
+require 'cucumber/cucumber_expressions/parameter_registry'
 
 module Cucumber
   module CucumberExpressions
@@ -9,18 +9,18 @@ module Cucumber
       end
 
       before do
-        @transform_lookup = TransformLookup.new
-        @generator = CucumberExpressionGenerator.new(@transform_lookup)
+        @parameter_registry = ParameterRegistry.new
+        @generator = CucumberExpressionGenerator.new(@parameter_registry)
       end
 
       it "documents expression generation" do
-        transform_lookup = TransformLookup.new
+        parameter_registry = ParameterRegistry.new
         ### [generate-expression]
-        generator = CucumberExpressionGenerator.new(transform_lookup)
+        generator = CucumberExpressionGenerator.new(parameter_registry)
         undefined_step_text = "I have 2 cucumbers and 1.5 tomato"
         generated_expression = generator.generate_expression(undefined_step_text)
         expect(generated_expression.source).to eq("I have {int} cucumbers and {float} tomato")
-        expect(generated_expression.transforms[1].type).to eq(Float)
+        expect(generated_expression.parameters[1].type).to eq(Float)
         ### [generate-expression]
       end
 
@@ -47,7 +47,7 @@ module Cucumber
       end
 
       it "numbers only second argument when type is not reserved keyword" do
-        @transform_lookup.add_transform(Transform.new(
+        @parameter_registry.add_parameter(Parameter.new(
           'currency',
           Currency,
           '[A-Z]{3}',
@@ -59,9 +59,9 @@ module Cucumber
           "I have a EUR account and a GBP account")
       end
 
-      it "exposes transforms in generated expression" do
+      it "exposes parameters in generated expression" do
         expression = @generator.generate_expression("I have 2 cukes and 1.5 euro")
-        types = expression.transforms.map(&:type)
+        types = expression.parameters.map(&:type)
         expect(types).to eq([Integer, Float])
       end
 

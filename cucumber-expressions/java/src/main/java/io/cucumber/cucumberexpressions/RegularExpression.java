@@ -10,7 +10,7 @@ public class RegularExpression implements Expression {
     private static final Pattern CAPTURE_GROUP_PATTERN = Pattern.compile("\\(([^(]+)\\)");
 
     private final Pattern pattern;
-    private final List<Transform<?>> transforms;
+    private final List<Parameter<?>> parameters;
 
     /**
      * Creates a new instance. Use this when the transform types are not known in advance,
@@ -19,11 +19,11 @@ public class RegularExpression implements Expression {
      *
      * @param pattern         the regular expression to use
      * @param types           types to convert capture groups to
-     * @param transformLookup transform lookup
+     * @param parameterRegistry transform lookup
      */
-    public RegularExpression(Pattern pattern, List<? extends Type> types, TransformLookup transformLookup) {
+    public RegularExpression(Pattern pattern, List<? extends Type> types, ParameterRegistry parameterRegistry) {
         this.pattern = pattern;
-        this.transforms = new ArrayList<>();
+        this.parameters = new ArrayList<>();
 
         Matcher matcher = CAPTURE_GROUP_PATTERN.matcher(pattern.pattern());
         int typeIndex = 0;
@@ -31,26 +31,26 @@ public class RegularExpression implements Expression {
             Type type = types.size() <= typeIndex ? null : types.get(typeIndex++);
             String captureGroupPattern = matcher.group(1);
 
-            Transform<?> transform = null;
+            Parameter<?> parameter = null;
             if (type != null) {
-                transform = transformLookup.lookupByType(type);
+                parameter = parameterRegistry.lookupByType(type);
             }
-            if (transform == null) {
-                transform = transformLookup.lookupByCaptureGroupRegexp(captureGroupPattern);
+            if (parameter == null) {
+                parameter = parameterRegistry.lookupByCaptureGroupRegexp(captureGroupPattern);
             }
-            if (transform == null && type != null && type instanceof Class) {
-                transform = new ClassTransform<>((Class) type);
+            if (parameter == null && type != null && type instanceof Class) {
+                parameter = new ClassParameter<>((Class) type);
             }
-            if (transform == null) {
-                transform = new ConstructorTransform<>(String.class);
+            if (parameter == null) {
+                parameter = new ConstructorParameter<>(String.class);
             }
-            transforms.add(transform);
+            parameters.add(parameter);
         }
     }
 
     @Override
     public List<Argument> match(String text) {
-        return ArgumentMatcher.matchArguments(pattern, text, transforms);
+        return ArgumentBuilder.buildArguments(pattern, text, parameters);
     }
 
     @Override

@@ -32,45 +32,45 @@ public class CucumberExpressionGenerator {
         return (Arrays.binarySearch(JAVA_KEYWORDS, keyword, ENGLISH_COLLATOR) >= 0);
     }
 
-    private final TransformLookup transformLookup;
+    private final ParameterRegistry parameterRegistry;
 
-    public CucumberExpressionGenerator(TransformLookup transformLookup) {
-        this.transformLookup = transformLookup;
+    public CucumberExpressionGenerator(ParameterRegistry parameterRegistry) {
+        this.parameterRegistry = parameterRegistry;
     }
 
     public GeneratedExpression generateExpression(String text) {
         List<String> argumentNames = new ArrayList<>();
-        List<TransformMatcher> transformMatchers = createTransformMatchers(text);
-        List<Transform<?>> transforms = new ArrayList<>();
+        List<ParameterMatcher> parameterMatchers = createTransformMatchers(text);
+        List<Parameter<?>> parameters = new ArrayList<>();
         Map<String, Integer> usageByTypeName = new HashMap<>();
 
         StringBuilder expression = new StringBuilder();
         int pos = 0;
         while (true) {
-            List<TransformMatcher> matchingTransformMatchers = new ArrayList<>();
+            List<ParameterMatcher> matchingParameterMatchers = new ArrayList<>();
 
-            for (TransformMatcher transformMatcher : transformMatchers) {
-                TransformMatcher advancedTransformMatcher = transformMatcher.advanceTo(pos);
-                if (advancedTransformMatcher.find()) {
-                    matchingTransformMatchers.add(advancedTransformMatcher);
+            for (ParameterMatcher parameterMatcher : parameterMatchers) {
+                ParameterMatcher advancedParameterMatcher = parameterMatcher.advanceTo(pos);
+                if (advancedParameterMatcher.find()) {
+                    matchingParameterMatchers.add(advancedParameterMatcher);
                 }
             }
 
-            if (!matchingTransformMatchers.isEmpty()) {
-                Collections.sort(matchingTransformMatchers);
-                TransformMatcher bestTransformMatcher = matchingTransformMatchers.get(0);
-                Transform<?> transform = bestTransformMatcher.getTransform();
-                transforms.add(transform);
+            if (!matchingParameterMatchers.isEmpty()) {
+                Collections.sort(matchingParameterMatchers);
+                ParameterMatcher bestParameterMatcher = matchingParameterMatchers.get(0);
+                Parameter<?> parameter = bestParameterMatcher.getParameter();
+                parameters.add(parameter);
 
-                String argumentName = getArgumentName(transform.getTypeName(), usageByTypeName);
+                String argumentName = getArgumentName(parameter.getTypeName(), usageByTypeName);
                 argumentNames.add(argumentName);
 
                 expression
-                        .append(text.substring(pos, bestTransformMatcher.start()))
+                        .append(text.substring(pos, bestParameterMatcher.start()))
                         .append("{")
-                        .append(transform.getTypeName())
+                        .append(parameter.getTypeName())
                         .append("}");
-                pos = bestTransformMatcher.start() + bestTransformMatcher.group().length();
+                pos = bestParameterMatcher.start() + bestParameterMatcher.group().length();
             } else {
                 break;
             }
@@ -80,7 +80,7 @@ public class CucumberExpressionGenerator {
             }
         }
         expression.append(text.substring(pos));
-        return new GeneratedExpression(expression.toString(), argumentNames, transforms);
+        return new GeneratedExpression(expression.toString(), argumentNames, parameters);
     }
 
     private String getArgumentName(String typeName, Map<String, Integer> usageByTypeName) {
@@ -91,22 +91,22 @@ public class CucumberExpressionGenerator {
         return count == 1 && !isJavaKeyword(typeName) ? typeName : typeName + count;
     }
 
-    private List<TransformMatcher> createTransformMatchers(String text) {
-        Collection<Transform<?>> transforms = transformLookup.getTransforms();
-        List<TransformMatcher> transformMatchers = new ArrayList<>();
-        for (Transform<?> transform : transforms) {
-            transformMatchers.addAll(createTransformMatchers(transform, text));
+    private List<ParameterMatcher> createTransformMatchers(String text) {
+        Collection<Parameter<?>> parameters = parameterRegistry.getParameters();
+        List<ParameterMatcher> parameterMatchers = new ArrayList<>();
+        for (Parameter<?> parameter : parameters) {
+            parameterMatchers.addAll(createTransformMatchers(parameter, text));
         }
-        return transformMatchers;
+        return parameterMatchers;
     }
 
-    private List<TransformMatcher> createTransformMatchers(Transform<?> transform, String text) {
-        List<TransformMatcher> result = new ArrayList<>();
-        List<String> captureGroupRegexps = transform.getCaptureGroupRegexps();
+    private List<ParameterMatcher> createTransformMatchers(Parameter<?> parameter, String text) {
+        List<ParameterMatcher> result = new ArrayList<>();
+        List<String> captureGroupRegexps = parameter.getCaptureGroupRegexps();
         for (String captureGroupRegexp : captureGroupRegexps) {
             Pattern regexp = Pattern.compile("(" + captureGroupRegexp + ")");
             Matcher matcher = regexp.matcher(text);
-            result.add(new TransformMatcher(transform, matcher, text.length()));
+            result.add(new ParameterMatcher(parameter, matcher, text.length()));
         }
         return result;
     }

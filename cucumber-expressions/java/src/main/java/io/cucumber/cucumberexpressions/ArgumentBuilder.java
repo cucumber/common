@@ -5,20 +5,20 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-class ArgumentMatcher {
-    static List<Argument> matchArguments(Pattern pattern, String text, List<Transform<?>> transforms) {
+class ArgumentBuilder {
+    static List<Argument> buildArguments(Pattern pattern, String text, List<Parameter<?>> parameters) {
         Matcher matcher = pattern.matcher(text);
         if (matcher.lookingAt()) {
-            if (matcher.groupCount() != transforms.size()) {
-                throw new RuntimeException(String.format("Expression has %s arguments, but there were %s transforms", matcher.groupCount(), transforms.size()));
+            if (matcher.groupCount() != parameters.size()) {
+                throw new RuntimeException(String.format("Expression has %s arguments, but there were %s parameters", matcher.groupCount(), parameters.size()));
             }
             List<Argument> arguments = new ArrayList<>(matcher.groupCount());
             for (int i = 0; i < matcher.groupCount(); i++) {
                 int startIndex = matcher.start(i + 1);
                 String value = matcher.group(i + 1);
 
-                Transform transform = transforms.get(i);
-                Object transformedValue = transform == null ? value : transform.transform(value);
+                Parameter parameter = parameters.get(i);
+                Object transformedValue = parameter == null ? value : parameter.transform(value);
 
                 arguments.add(new Argument(startIndex, value, transformedValue));
             }

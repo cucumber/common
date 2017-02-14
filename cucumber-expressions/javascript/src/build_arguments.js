@@ -1,15 +1,15 @@
 const Argument = require('./argument')
 
-const matchArguments = (regexp, text, transforms) => {
+const buildArguments = (regexp, text, parameters) => {
   const m = regexp.exec(text)
   if (!m) return null
-  let transformIndex = 0
+  let parameterIndex = 0
   let offset = 0
   return m.slice(1).map(value => {
     offset = text.indexOf(value, offset)
-    const transformedValue = transforms[transformIndex++].transform(value)
+    const transformedValue = parameters[parameterIndex++].transform(value)
     return new Argument(offset, value, transformedValue)
   })
 }
 
-module.exports = matchArguments
+module.exports = buildArguments

@@ -1,15 +1,15 @@
-const TransformMatcher = require('./transform_matcher')
+const TransformMatcher = require('./parameter_matcher')
 const GeneratedExpression = require('./generated_expression')
 
 class CucumberExpressionGenerator {
-  constructor(transformLookup) {
-    this._transformLookup = transformLookup
+  constructor(parameterRegistry) {
+    this._parameterRegistry = parameterRegistry
   }
 
   generateExpression(text) {
     const argumentNames = []
-    const transformMatchers = this._createTransformMatchers(text)
-    const transforms = []
+    const parameterMatchers = this._createTransformMatchers(text)
+    const parameters = []
     const usageByTypeName = {}
 
     let expression = ""
@@ -17,8 +17,8 @@ class CucumberExpressionGenerator {
 
     while (true) { // eslint-disable-line no-constant-condition
       let matchingTransformMatchers = []
-      for (let transformMatcher of transformMatchers) {
-        const advancedTransformMatcher = transformMatcher.advanceTo(pos)
+      for (let parameterMatcher of parameterMatchers) {
+        const advancedTransformMatcher = parameterMatcher.advanceTo(pos)
         if (advancedTransformMatcher.find) {
           matchingTransformMatchers.push(advancedTransformMatcher)
         }
@@ -27,14 +27,14 @@ class CucumberExpressionGenerator {
       if (matchingTransformMatchers.length > 0) {
         matchingTransformMatchers = matchingTransformMatchers.sort(TransformMatcher.compare)
         const bestTransformMatcher = matchingTransformMatchers[0]
-        const transform = bestTransformMatcher.transform
-        transforms.push(transform)
+        const parameter = bestTransformMatcher.parameter
+        parameters.push(parameter)
 
-        const argumentName = this._getArgumentName(transform.typeName, usageByTypeName)
+        const argumentName = this._getArgumentName(parameter.typeName, usageByTypeName)
         argumentNames.push(argumentName)
 
         expression += text.slice(pos, bestTransformMatcher.start)
-        expression += `{${transform.typeName}}`
+        expression += `{${parameter.typeName}}`
 
         pos = bestTransformMatcher.start + bestTransformMatcher.group.length
       } else {
@@ -47,7 +47,7 @@ class CucumberExpressionGenerator {
     }
 
     expression += text.slice(pos)
-    return new GeneratedExpression(expression, argumentNames, transforms)
+    return new GeneratedExpression(expression, argumentNames, parameters)
   }
 
   _getArgumentName(typeName, usageByTypeName) {
@@ -59,17 +59,17 @@ class CucumberExpressionGenerator {
   }
 
   _createTransformMatchers(text) {
-    let transformMatchers = []
-    for (let transform of this._transformLookup.transforms) {
-      transformMatchers = transformMatchers.concat(this._createTransformMatchers2(transform, text))
+    let parameterMatchers = []
+    for (let parameter of this._parameterRegistry.parameters) {
+      parameterMatchers = parameterMatchers.concat(this._createTransformMatchers2(parameter, text))
     }
-    return transformMatchers
+    return parameterMatchers
   }
 
-  _createTransformMatchers2(transform, text) {
+  _createTransformMatchers2(parameter, text) {
     const result = []
-    for (let captureGroupRegexp of transform.captureGroupRegexps) {
-      result.push(new TransformMatcher(transform, captureGroupRegexp, text))
+    for (let captureGroupRegexp of parameter.captureGroupRegexps) {
+      result.push(new TransformMatcher(parameter, captureGroupRegexp, text))
     }
     return result
   }

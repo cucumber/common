@@ -1,55 +1,55 @@
 /* eslint-env mocha */
 const assert = require('assert')
 const RegularExpression = require('../src/regular_expression')
-const TransformLookup = require('../src/transform_lookup')
+const TransformLookup = require('../src/parameter_registry')
 
 describe(RegularExpression.name, () => {
   it("documents match arguments", () => {
-    const transformLookup = new TransformLookup()
+    const parameterRegistry = new TransformLookup()
 
     /// [capture-match-arguments]
     const expr = /I have (\d+) cukes? in my (\w+) now/
     const types = ['int', null]
-    const expression = new RegularExpression(expr, types, transformLookup)
+    const expression = new RegularExpression(expr, types, parameterRegistry)
     const args = expression.match("I have 7 cukes in my belly now")
     assert.equal(7, args[0].transformedValue)
     assert.equal("belly", args[1].transformedValue)
     /// [capture-match-arguments]
   })
 
-  it("transforms to string by default", () => {
+  it("does no transform by default", () => {
     assert.deepEqual(match(/(\d\d)/, "22"), ['22'])
   })
 
-  it("transforms integer to double using explicit type", () => {
+  it("transforms int to float by explicit type name", () => {
     assert.deepEqual(match(/(.*)/, "22", ['float']), [22.0])
   })
 
-  it("transforms integer to double using explicit function", () => {
+  it("transforms int to float by explicit function", () => {
     assert.deepEqual(match(/(.*)/, "22", [parseFloat]), [22.0])
   })
 
-  it("transforms to int using capture group pattern", () => {
+  it("transforms int by parameter pattern", () => {
     assert.deepEqual(match(/(-?\d+)/, "22"), [22])
   })
 
-  it("transforms to int using alternate capture group pattern", () => {
+  it("transforms int by alternate parameter pattern", () => {
     assert.deepEqual(match(/(\d+)/, "22"), [22])
   })
 
-  it("transforms double without integer value", () => {
+  it("transforms float without integer part", () => {
     assert.deepEqual(match(/(.*)/, ".22", ['float']), [0.22])
   })
 
-  it("transforms double with sign", () => {
+  it("transforms float with sign", () => {
     assert.deepEqual(match(/(.*)/, "-1.22", ['float']), [-1.22])
   })
 
-  it("transforms double with sign using function", () => {
+  it("transforms float with sign using function", () => {
     assert.deepEqual(match(/(.*)/, "-1.22", [parseFloat]), [-1.22])
   })
 
-  it("transforms double with sign using anonymous function", () => {
+  it("transforms float with sign using anonymous function", () => {
     assert.deepEqual(match(/(.*)/, "-1.22", [s => parseFloat(s)]), [-1.22])
   })
 
@@ -71,8 +71,8 @@ describe(RegularExpression.name, () => {
 })
 
 const match = (regexp, text, types) => {
-  var transformLookup = new TransformLookup()
-  const regularExpression = new RegularExpression(regexp, types || [], transformLookup)
+  var parameterRegistry = new TransformLookup()
+  const regularExpression = new RegularExpression(regexp, types || [], parameterRegistry)
   const args = regularExpression.match(text)
   if (!args) return null
   return args.map(arg => arg.transformedValue)

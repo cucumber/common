@@ -3,7 +3,7 @@ package io.cucumber.cucumberexpressions;
 import java.lang.reflect.Type;
 import java.util.List;
 
-public interface Transform<T> {
+public interface Parameter<T> {
 
     /**
      * This is used in the type name in typed expressions
