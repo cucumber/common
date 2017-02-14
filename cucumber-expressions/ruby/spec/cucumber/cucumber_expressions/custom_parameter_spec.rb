@@ -25,7 +25,7 @@ module Cucumber
         @parameter_registry.add_parameter(Parameter.new(
           'color',
           Color,
-          ['red|blue|yellow', '(?:dark|light) (?:red|blue|yellow)'],
+          [/red|blue|yellow/, /(?:dark|light) (?:red|blue|yellow)/],
           lambda { |s| Color.new(s) }
         ))
         ### [add-color-parameter]
