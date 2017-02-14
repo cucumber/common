@@ -1,13 +1,13 @@
-require 'cucumber/cucumber_expressions/argument_matcher'
+require 'cucumber/cucumber_expressions/argument_builder'
 
 module Cucumber
   module CucumberExpressions
     class RegularExpression
       CAPTURE_GROUP_PATTERN = /\(([^(]+)\)/
 
-      def initialize(regexp, types, transform_lookup)
+      def initialize(regexp, types, parameter_registry)
         @regexp = regexp
-        @transforms = []
+        @parameters = []
 
         type_index = 0
         match = nil
@@ -21,24 +21,24 @@ module Cucumber
           type = types.length <= type_index ? nil : types[type_index]
           type_index += 1
 
-          transform = nil
+          parameter = nil
           if (type)
-            transform = transform_lookup.lookup_by_type(type)
+            parameter = parameter_registry.lookup_by_type(type)
           end
-          if (transform.nil?)
-            transform = transform_lookup.lookup_by_capture_group_regexp(capture_group_pattern)
+          if (parameter.nil?)
+            parameter = parameter_registry.lookup_by_capture_group_regexp(capture_group_pattern)
           end
-          if (transform.nil?)
-            transform = transform_lookup.create_anonymous_lookup(lambda {|s| s})
+          if (parameter.nil?)
+            parameter = parameter_registry.create_anonymous_lookup(lambda {|s| s})
           end
 
-          @transforms.push(transform)
+          @parameters.push(parameter)
           match_offset = match.offset(0)[1]
         end
       end
 
       def match(text)
-        ArgumentMatcher.match_arguments(@regexp, text, @transforms)
+        ArgumentBuilder.build_arguments(@regexp, text, @parameters)
       end
 
       def source

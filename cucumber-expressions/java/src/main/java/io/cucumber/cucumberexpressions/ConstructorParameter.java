@@ -5,11 +5,11 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.Collections;
 import java.util.List;
 
-public class ConstructorTransform<T> extends AbstractTransform<T> {
+public class ConstructorParameter<T> extends AbstractParameter<T> {
     private static final List<String> ANYTHING_GOES = Collections.singletonList(".+");
     private final Constructor<T> constructor;
 
-    public ConstructorTransform(Class<T> clazz) {
+    public ConstructorParameter(Class<T> clazz) {
         super(null, clazz, ANYTHING_GOES);
         try {
             this.constructor = clazz.getConstructor(String.class);

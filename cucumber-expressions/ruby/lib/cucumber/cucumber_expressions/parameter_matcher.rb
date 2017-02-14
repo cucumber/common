@@ -1,15 +1,15 @@
 module Cucumber
   module CucumberExpressions
-    class TransformMatcher
-      attr_reader :transform
+    class ParameterMatcher
+      attr_reader :parameter
 
-      def initialize(transform, regexp, text, match_position=0)
-        @transform, @regexp, @text = transform, regexp, text
+      def initialize(parameter, regexp, text, match_position=0)
+        @parameter, @regexp, @text = parameter, regexp, text
         @match = @regexp.match(@text, match_position)
       end
 
       def advance_to(new_match_position)
-        self.class.new(@transform, @regexp, @text, new_match_position)
+        self.class.new(parameter, @regexp, @text, new_match_position)
       end
 
       def find

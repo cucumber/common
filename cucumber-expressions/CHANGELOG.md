@@ -14,6 +14,10 @@ N/A
 N/A
 
 ### Changed
+* javascript, ruby, java: Rename transform to parameter
+  ([#114](https://github.com/cucumber/cucumber/issues/114)
+   [#115](https://github.com/cucumber/cucumber/pull/115)
+   by [aslakhellesoy])
 * ruby: Use `Integer` instead of `Fixnum`
 
 ### Fixed

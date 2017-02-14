@@ -3,7 +3,7 @@ const fs = require('fs')
 const assert = require('assert')
 const CucumberExpression = require('../src/cucumber_expression')
 const RegularExpression = require('../src/regular_expression')
-const TransformLookup = require('../src/transform_lookup')
+const TransformLookup = require('../src/parameter_registry')
 
 describe('examples.txt', () => {
   const match = (expression_text, text) => {
