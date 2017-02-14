@@ -5,7 +5,7 @@ module Cucumber
   module CucumberExpressions
     class CucumberExpression
       PARAMETER_PATTERN = /\{([^}:]+)(:([^}]+))?}/
-      OPTIONAL_PATTERN = /\(([^\)]+)\)/
+      OPTIONAL_PATTERN = /\(([^)]+)\)/
 
       attr_reader :source
 
@@ -30,16 +30,16 @@ module Cucumber
           type_index += 1
 
           parameter = nil
-          if (type)
+          if type
             parameter = parameter_registry.lookup_by_type(type)
           end
-          if (parameter.nil? && type_name)
+          if parameter.nil? && type_name
             parameter = parameter_registry.lookup_by_type_name(type_name, false)
           end
-          if (parameter.nil?)
+          if parameter.nil?
             parameter = parameter_registry.lookup_by_type_name(parameter_name, true)
           end
-          if (parameter.nil?)
+          if parameter.nil?
             parameter = parameter_registry.create_anonymous_lookup(lambda {|s| s})
           end
           @parameters.push(parameter)
