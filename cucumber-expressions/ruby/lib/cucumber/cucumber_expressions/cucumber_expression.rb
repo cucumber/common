@@ -30,16 +30,16 @@ module Cucumber
           type_index += 1
 
           transform = nil
-          if (type)
+          if type
             transform = transform_lookup.lookup_by_type(type)
           end
-          if (transform.nil? && type_name)
+          if transform.nil? && type_name
             transform = transform_lookup.lookup_by_type_name(type_name, false)
           end
-          if (transform.nil?)
+          if transform.nil?
             transform = transform_lookup.lookup_by_type_name(parameter_name, true)
           end
-          if (transform.nil?)
+          if transform.nil?
             transform = transform_lookup.create_anonymous_lookup(lambda {|s| s})
           end
           @transforms.push(transform)
