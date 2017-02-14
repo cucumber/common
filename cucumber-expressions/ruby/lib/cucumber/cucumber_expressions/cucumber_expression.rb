@@ -5,7 +5,7 @@ module Cucumber
   module CucumberExpressions
     class CucumberExpression
       PARAMETER_PATTERN = /\{([^}:]+)(:([^}]+))?}/
-      OPTIONAL_PATTERN = /\(([^\)]+)\)/
+      OPTIONAL_PATTERN = /\(([^)]+)\)/
 
       attr_reader :source
 

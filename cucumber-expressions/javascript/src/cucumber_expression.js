@@ -8,7 +8,7 @@ class CucumberExpression {
    */
   constructor(expression, types, transformLookup) {
     const parameterPattern = /\{([^}:]+)(:([^}]+))?}/g
-    const optionalPattern = /\(([^\)]+)\)/g
+    const optionalPattern = /\(([^)]+)\)/g
 
     this._expression = expression
     this._transforms = []
