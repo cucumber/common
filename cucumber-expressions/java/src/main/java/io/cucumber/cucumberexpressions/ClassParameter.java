@@ -3,14 +3,14 @@ package io.cucumber.cucumberexpressions;
 import java.lang.reflect.Type;
 import java.util.List;
 
-public class ClassTransform<T> implements Transform<T> {
-    private final Transform<T> delegate;
+public class ClassParameter<T> implements Parameter<T> {
+    private final Parameter<T> delegate;
 
-    public ClassTransform(Class<T> type) {
+    public ClassParameter(Class<T> type) {
         if (type.isEnum()) {
-            delegate = (Transform<T>) new EnumTransform<>((Class<? extends Enum>) type);
+            delegate = (Parameter<T>) new EnumParameter<>((Class<? extends Enum>) type);
         } else {
-            delegate = new ConstructorTransform<>(type);
+            delegate = new ConstructorParameter<>(type);
         }
     }
 

@@ -5,12 +5,12 @@ import java.util.List;
 public class GeneratedExpression {
     private final String expression;
     private final List<String> argumentNames;
-    private final List<Transform<?>> transforms;
+    private final List<Parameter<?>> parameters;
 
-    public GeneratedExpression(String expression, List<String> argumentNames, List<Transform<?>> transforms) {
+    public GeneratedExpression(String expression, List<String> argumentNames, List<Parameter<?>> parameters) {
         this.expression = expression;
         this.argumentNames = argumentNames;
-        this.transforms = transforms;
+        this.parameters = parameters;
     }
 
     public String getSource() {
@@ -21,7 +21,7 @@ public class GeneratedExpression {
         return argumentNames;
     }
 
-    public List<Transform<?>> getTransforms() {
-        return transforms;
+    public List<Parameter<?>> getParameters() {
+        return parameters;
     }
 }

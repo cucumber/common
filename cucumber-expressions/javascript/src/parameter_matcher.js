@@ -1,7 +1,7 @@
-class TransformMatcher {
+class ParameterMatcher {
 
-  constructor(transform, captureGroupRegexp, text, matchPosition) {
-    this._transform = transform
+  constructor(parameter, captureGroupRegexp, text, matchPosition) {
+    this._parameter = parameter
     this._captureGroupRegexp = captureGroupRegexp
     this._text = text
     this._matchPosition = matchPosition || 0
@@ -10,12 +10,12 @@ class TransformMatcher {
     this._match = regexp.exec(text.slice(this._matchPosition))
   }
 
-  get transform() {
-    return this._transform
+  get parameter() {
+    return this._parameter
   }
 
   advanceTo(newMatchPosition) {
-    return new TransformMatcher(this._transform, this._captureGroupRegexp, this._text, newMatchPosition)
+    return new ParameterMatcher(this._parameter, this._captureGroupRegexp, this._text, newMatchPosition)
   }
 
   get find() {
@@ -39,4 +39,4 @@ class TransformMatcher {
   }
 }
 
-export default TransformMatcher
+module.exports = ParameterMatcher

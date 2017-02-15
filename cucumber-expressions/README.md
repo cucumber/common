@@ -3,157 +3,149 @@
 Cucumber Expressions are simple patterns for matching [Step Definitions](../docs/step-definitions.md)
 with Gherkin steps.
 
-Cucumber Expressions trade the flexibility and power of
-[Regular Expressions](https://en.wikipedia.org/wiki/Regular_expression)
-with vastly improved readability. Cucumber Expressions also offer additional functionality,
-such as automatic [type transformation](#type-transforms).
+Cucumber Expressions offer similar functionality to
+[Regular Expressions](https://en.wikipedia.org/wiki/Regular_expression), with the following improvements:
 
-This is an example of a Cucumber Expression with a single parameter `n`:
+* Improved readability
+* Custom parameter types
+* Expression generation
 
-    I have {n} cukes in my belly
+## Introduction
 
-This expression would match the text of the following [Gherkin Step](../docs/gherkin.md#steps) (The part after the `Given ` keyword):
+Let's write a Cucumber Expression that matches the following text:
 
-    I have 42 cukes in my belly
+    I have 42 cucumbers in my belly
 
-When this text is matched against the expression, the string `"42"`, is passed
-as an argument to the [Step Definition](../docs/step-definitions.md) body.
+The simplest Cucumber Expression that matches that text would be the text itself,
+but we can also write a slightly more generic one, with an `int` *parameter*:
 
-(The [standard library](../docs/standard-library.adoc#implementations) list indicates
-what Cucumber implementations currently support Cucumber Expressions).
+    I have {int} cucumbers in my belly
+
+When the text is matched against that expression, the number `42` is extracted
+from the first (and only) parameter.
+
+(Cucumber passes the extracted values as arguments to your [Step Definitions](../docs/step-definitions.md)).
+
+The following text would not match the expression:
+
+    I have 42.5 cucumbers in my belly
+
+This is because `42.5` does not look like an `int` (integers don't have a decimal part).
+Let's change the parameter to a `float` instead:
+
+    I have {float} cucumbers in my belly
+
+Now the expression will match the text, and the number `42.5` is extracted.
 
 ## Optional Text
 
-Optional text is simply surrounded by parenthesis:
+It's grammatically incorrect to say *1 cucumbers*, so we should make that `s`
+optional. That can be done by surrounding the optional text with parenthesis:
 
-    I have {n} cuke(s) in my belly
+    I have {int} cucumber(s) in my belly
 
-That expression would still match this text:
+That expression would match this text:
 
-    I have 42 cukes in my belly
+    I have 1 cucumber in my belly
 
-But it would also match this text (note the singular cuke):
+It would also match this text:
 
-    I have 1 cuke in my belly
+    I have 42 cucumbers in my belly
 
-## Type Transforms {#type-transforms}
+## Custom Parameters {#custom-parameters}
 
-Arguments extracted from a successful match are strings by default. In many cases
-you want the type of the argument to be something else, and you can specify the
-desired type after the parameter:
+Cucumber Expressions have built-in support for `int` and `float` parameter types
+as well as other numeric types available in your programming language.
 
-    I have {n:int} cukes in my belly
+Defining your own parameter types is useful for two reasons:
 
-In this case the argument would be converted to the integer `42` instead.
+1. Enforce certain patterns
+1. Convert to custom types
 
-Cucumber Expressions have built-in support for `int` and `float` types, and any
-additional numeric types available in your programming language.
-
-You can easily add support for [custom type transforms](#custom-type-transforms).
-
-### Custom Type Transforms {#custom-type-transforms}
-
-The built-in transforms are handy for numeric types, but you'll often want to register
-transforms for additional types. For instance, we can register a transform for
-a `Color` type:
+Imagine we want our parameter to match the colors `red`, `blue` or `yellow`
+(but nothing else). Let's assume a `Color` class is already defined.
+This is how we would define a custom `color` parameter:
 
 {% method %}
 {% sample lang="java" %}
 ```java
-[snippet](java/src/test/java/io/cucumber/cucumberexpressions/CustomTransformTest.java#add-color-transform)
+[snippet](java/src/test/java/io/cucumber/cucumberexpressions/CustomParameterTest.java#add-color-parameter)
 ```
 {% sample lang="js" %}
 ```javascript
-[snippet](javascript/test/custom_transform_test.js#add-color-transform)
+[snippet](javascript/test/custom_parameter_test.js#add-color-parameter)
 ```
 {% sample lang="rb" %}
 ```ruby
-[snippet](ruby/spec/cucumber/cucumber_expressions/custom_transform_spec.rb#add-color-transform)
+[snippet](ruby/spec/cucumber/cucumber_expressions/custom_parameter_spec.rb#add-color-parameter)
 ```
 {% endmethod %}
 
-The Cucumber Expression
-
-    I have a {color:color} ball
-
-would match the following text and pass a `Color` object to the step definition:
+Now assume we have a Gherkin step with the following text following the step keyword:
 
     I have a red ball
 
-If the parameter name is the same as the type name, you don't need to specify
-the type name - it will be derived from the argument name instead:
+This will now be matched by following Cucumber Expression:
 
     I have a {color} ball
 
-### Statically Typed Languages
+Not only that, but the extracted argument will be of type `Color`.
 
-When [Step Definitions](../docs/step-definitions.md) are written in a
-statically typed programming language, Cucumber Expression
-usage may be simplified in a couple of areas.
+The following text would not match the expression, because `green` isn't part
+of the parameter definition.
 
-#### Implicit parameter types
+    I have a green ball
 
-There is no need to specify the parameter type in the Cucumber Expression as the
-type can be inferred from the step definition body's signature. Here is an
-example in Java:
+## Implicit parameters (statically typed languages only)
 
-```java
-Given("I have {n} cukes in my belly", (int n) -> {
-  // no need to specify {n:int} - the signature makes that explicit.
-})
-```
-
-#### Implicit transforms
-
-If a type used in a step definition has a constructor that accepts a single
-`String` argument, then there is no need to register a custom transform for that type.
+If a type  used in a step definition has a constructor that accepts a single
+`String` argument, then there is no need to register a custom parameter for that type.
 
 {% method %}
 {% sample lang="java" %}
 ```java
-[snippet](java/src/test/java/io/cucumber/cucumberexpressions/CustomTransformTest.java#color-constructor)
-```
-{% sample lang="js" %}
-```javascript
-[snippet](javascript/test/custom_transform_test.js#color-constructor)
-```
-{% sample lang="rb" %}
-```ruby
-[snippet](ruby/spec/cucumber/cucumber_expressions/custom_transform_spec.rb#color-constructor)
+[snippet](java/src/test/java/io/cucumber/cucumberexpressions/CustomParameterTest.java#color-constructor)
 ```
 {% endmethod %}
 
-Registering an explicit transform is still beneficial, because it will allow Cucumber
-to suggest snippets for undefined steps with the correct type.
+Registering a parameter is still beneficial, because it will allow Cucumber
+to generate Cucumber Expression snippets for undefined steps using the correct type.
 
-## Step Definition Snippets
+## Step Definition Snippets (Expression generation)
 
 When Cucumber encounters a [Gherkin step](../docs/gherkin.md#steps) without a
-matching [Step Definition](../docs/step-definitions.md), it will print a code
-snippet with a matching step definition that you can use as a starting point.
+matching [Step Definition](../docs/step-definitions.md), it will print a step
+Step Definition snippet with a matching Cucumber Expression that you can use as
+a starting point.
+
 Consider this Gherkin step:
 
     Given I have 3 red balls
 
-Assuming you have registered the [color](#custom-type-transforms) transform above,
+If you had registered the [color](#custom-parameters) parameter above,
 Cucumber would suggest a Step Definition with the following Cucumber Expression:
 
-    I have {arg1:int} {arg2:color} balls
+    I have {int} {color} balls
 
-If you hadn't registered the `color` transform, Cucumber would have suggested
-the following Cucumber Expression:
+If you hadn't registered the `color` parameter, Cucumber would have suggested
+the following Cucumber Expression (only the built-in `int` parameter would be
+recognised):
 
-    I have {arg1:int} red balls
+    I have {int} red balls
+
+If you register your own domain-specific parameters, Cucumber will generate
+better snippets for you, and you'll also end up with a more consistent domain
+language in your Gherkin scenarios.
 
 ## Regular Expressions
 
-Cucumber has a long relationship with Regular Expressions, and they can still be
-used instead of instead of Cucumber Expressions if you prefer.
+Cucumber has a long relationship with Regular Expressions, and they are still
+fully supported.
 
-The Cucumber Expression library's Regular Expression support has automatic type
+The Cucumber Expression library's Regular Expression support has automatic parameter
 conversion just like Cucumber Expressions.
 
-Imagine you have registered the (Color transform above)[#custom-type-transforms],
+Imagine you have registered the (Color parameter above)[#custom-parameters],
 and have a step definition with the following Regular Expression:
 
     I have a (red|blue|yellow) ball
@@ -162,7 +154,7 @@ The following Gherkin step would automatically convert to a `Color` instance:
 
     I have a red ball
 
-Built-in conversions for `int` and `float` also apply. The following
+Built-in parameters for `int` and `float` also apply. The following
 Regular Expression would automatically convert arguments to `int`:
 
     I have (\d+) cukes in my belly
@@ -174,15 +166,16 @@ Cucumber Expressions programmatically. Here are some pointers:
 
 ### Capturing match arguments
 
-When a Gherkin step is matched against an expression (`CucumberExpression` or `RegularExpression`), the result of the match is a list of `Argument`
-(or `null`/`nil` if there was no match).
+When a Gherkin step is matched against an expression
+(`CucumberExpression` or `RegularExpression`), the result of the match is a list
+of `Argument` (or `null`/`nil` if there was no match).
 
 This API is similar to most regexp APIs, but the `Argument` type has additional
 information:
 
-* `value` - the string value of the parameter
-* `transformedValue` - the value of the parameter, after type transformation
-* `offset` - the position where the value was found
+* `value` - the string value of the match against the expression.
+* `transformedValue` - the transformed value of the match (transformed by the parameter)
+* `offset` - the offset from the start of the text where the value was found
 
 Arguments are captured by creating an *expression*, and invoking `match` with a
 string.
@@ -224,12 +217,12 @@ string.
 ### Generating snippets
 
 When Cucumber can't find a matching step definition, it will generate a snippet
-of code. This snippet will have a suggested Cucumber Expression, and possibly
-a function signature with the appropriate type(s).
+of code. This snippet will have a suggested Cucumber Expression, and a function
+signature with the appropriate type(s).
 
 This information is in a `GeneratedExpression` object, which is generated by a
 `CucumberExpressionGenerator`. The `CucumberExpressionGenerator` is aware of any
-registered [transforms](#custom-type-transforms).
+registered [parameters](#custom-parameters).
 
 {% method %}
 {% sample lang="java" %}
@@ -245,10 +238,6 @@ registered [transforms](#custom-type-transforms).
 [snippet](ruby/spec/cucumber/cucumber_expressions/cucumber_expression_generator_spec.rb#generate-expression)
 ```
 {% endmethod %}
-
-### Test Coverage
-
-The `Cucumber Expressions` library has 100% test coverage for all implementations.
 
 ## Acknowledgements
 

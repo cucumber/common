@@ -1,46 +1,44 @@
-require 'cucumber/cucumber_expressions/transform_matcher'
+require 'cucumber/cucumber_expressions/parameter_matcher'
 require 'cucumber/cucumber_expressions/generated_expression'
 
 module Cucumber
   module CucumberExpressions
     class CucumberExpressionGenerator
-      def initialize(transform_lookup)
-        @transform_lookup = transform_lookup
+      def initialize(parameter_registry)
+        @parameter_registry = parameter_registry
       end
 
-      def generate_expression(text, typed)
-        argumentNames = []
-        transform_matchers = create_transform_matchers(text)
-        transforms = []
+      def generate_expression(text)
+        argument_names = []
+        parameter_matchers = create_parameter_matchers(text)
+        parameters = []
+        usage_by_type_name = Hash.new(0)
 
         expression = ""
-        arg_counter = 0
         pos = 0
 
         loop do
-          matching_transform_matchers = []
-          transform_matchers.each do |transform_matcher|
-            advanced_transform_matcher = transform_matcher.advance_to(pos)
-            if advanced_transform_matcher.find
-              matching_transform_matchers.push(advanced_transform_matcher)
+          matching_parameter_matchers = []
+          parameter_matchers.each do |parameter_matcher|
+            advanced_parameter_matcher = parameter_matcher.advance_to(pos)
+            if advanced_parameter_matcher.find
+              matching_parameter_matchers.push(advanced_parameter_matcher)
             end
           end
 
-          if matching_transform_matchers.any?
-            argumentName = "arg#{arg_counter += 1}"
-            argumentNames.push(argumentName)
-            matching_transform_matchers = matching_transform_matchers.sort
-            best_transform_matcher = matching_transform_matchers[0]
-            transforms.push(best_transform_matcher.transform)
+          if matching_parameter_matchers.any?
+            matching_parameter_matchers = matching_parameter_matchers.sort
+            best_parameter_matcher = matching_parameter_matchers[0]
+            parameter = best_parameter_matcher.parameter
+            parameters.push(parameter)
 
-            expression += text.slice(pos...best_transform_matcher.start)
-            expression += "{#{argumentName}"
+            argument_name = get_argument_name(parameter.type_name, usage_by_type_name)
+            argument_names.push(argument_name)
 
-            if typed
-              expression += ":#{best_transform_matcher.transform.type_name}"
-            end
-            expression += "}"
-            pos = best_transform_matcher.start + best_transform_matcher.group.length
+            expression += text.slice(pos...best_parameter_matcher.start)
+            expression += "{#{parameter.type_name}}"
+
+            pos = best_parameter_matcher.start + best_parameter_matcher.group.length
           else
             break
           end
@@ -51,25 +49,30 @@ module Cucumber
         end
 
         expression += text.slice(pos..-1)
-        GeneratedExpression.new(expression, argumentNames, transforms)
+        GeneratedExpression.new(expression, argument_names, parameters)
       end
 
     private
 
-      def create_transform_matchers(text)
-        transform_matchers = []
-        @transform_lookup.transforms.each do |transform|
-          transform_matchers += create_transform_matchers2(transform, text)
-        end
-        transform_matchers
+      def get_argument_name(type_name, usage_by_type_name)
+        count = (usage_by_type_name[type_name] += 1)
+        count == 1 ? type_name : "#{type_name}#{count}"
       end
 
-      def create_transform_matchers2(transform, text)
+      def create_parameter_matchers(text)
+        parameter_matchers = []
+        @parameter_registry.parameters.each do |parameter|
+          parameter_matchers += create_parameter_matchers2(parameter, text)
+        end
+        parameter_matchers
+      end
+
+      def create_parameter_matchers2(parameter, text)
         result = []
-        capture_group_regexps = transform.capture_group_regexps
+        capture_group_regexps = parameter.capture_group_regexps
         capture_group_regexps.each do |capture_group_regexp|
           regexp = Regexp.new("(#{capture_group_regexp})")
-          result.push(TransformMatcher.new(transform, regexp, text))
+          result.push(ParameterMatcher.new(parameter, regexp, text))
         end
         result
       end

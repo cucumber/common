@@ -1,17 +1,17 @@
-require 'cucumber/cucumber_expressions/argument_matcher'
-require 'cucumber/cucumber_expressions/transform'
+require 'cucumber/cucumber_expressions/argument_builder'
+require 'cucumber/cucumber_expressions/parameter'
 
 module Cucumber
   module CucumberExpressions
     class CucumberExpression
       PARAMETER_PATTERN = /\{([^}:]+)(:([^}]+))?}/
-      OPTIONAL_PATTERN = /\(([^\)]+)\)/
+      OPTIONAL_PATTERN = /\(([^)]+)\)/
 
       attr_reader :source
 
-      def initialize(expression, types, transform_lookup)
+      def initialize(expression, types, parameter_registry)
         @source = expression
-        @transforms = []
+        @parameters = []
         regexp = "^"
         type_index = 0
         match = nil
@@ -29,23 +29,23 @@ module Cucumber
           type = types.length <= type_index ? nil : types[type_index]
           type_index += 1
 
-          transform = nil
-          if (type)
-            transform = transform_lookup.lookup_by_type(type)
+          parameter = nil
+          if type
+            parameter = parameter_registry.lookup_by_type(type)
           end
-          if (transform.nil? && type_name)
-            transform = transform_lookup.lookup_by_type_name(type_name, false)
+          if parameter.nil? && type_name
+            parameter = parameter_registry.lookup_by_type_name(type_name, false)
           end
-          if (transform.nil?)
-            transform = transform_lookup.lookup_by_type_name(parameter_name, true)
+          if parameter.nil?
+            parameter = parameter_registry.lookup_by_type_name(parameter_name, true)
           end
-          if (transform.nil?)
-            transform = transform_lookup.create_anonymous_lookup(lambda {|s| s})
+          if parameter.nil?
+            parameter = parameter_registry.create_anonymous_lookup(lambda {|s| s})
           end
-          @transforms.push(transform)
+          @parameters.push(parameter)
 
           text = expression.slice(match_offset...match.offset(0)[0])
-          capture_regexp = capture_group_regexp(transform.capture_group_regexps)
+          capture_regexp = capture_group_regexp(parameter.capture_group_regexps)
           match_offset = match.offset(0)[1]
           regexp += text
           regexp += capture_regexp
@@ -56,7 +56,7 @@ module Cucumber
       end
 
       def match(text)
-        ArgumentMatcher.match_arguments(@regexp, text, @transforms)
+        ArgumentBuilder.build_arguments(@regexp, text, @parameters)
       end
 
       private

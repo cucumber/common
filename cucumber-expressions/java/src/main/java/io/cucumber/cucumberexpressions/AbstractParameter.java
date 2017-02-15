@@ -5,18 +5,18 @@ import java.util.List;
 
 import static java.util.Collections.singletonList;
 
-public abstract class AbstractTransform<T> implements Transform<T> {
+public abstract class AbstractParameter<T> implements Parameter<T> {
     private final String typeName;
     private final Type type;
     private final List<String> captureGroupRegexps;
 
-    public AbstractTransform(String typeName, Type type, List<String> captureGroupRegexps) {
+    public AbstractParameter(String typeName, Type type, List<String> captureGroupRegexps) {
         this.captureGroupRegexps = captureGroupRegexps;
         this.typeName = typeName;
         this.type = type;
     }
 
-    public AbstractTransform(String typeName, Type type, String captureGroupRegexp) {
+    public AbstractParameter(String typeName, Type type, String captureGroupRegexp) {
         this(typeName, type, singletonList(captureGroupRegexp));
     }
 

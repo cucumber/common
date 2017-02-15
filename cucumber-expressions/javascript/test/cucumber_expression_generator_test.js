@@ -1,98 +1,96 @@
 /* eslint-env mocha */
-import assert from 'assert'
-import CucumberExpressionGenerator from '../src/cucumber_expression_generator'
-import Transform from '../src/transform'
-import TransformLookup from '../src/transform_lookup'
+const assert = require('assert')
+const CucumberExpressionGenerator = require('../src/cucumber_expression_generator')
+const Parameter = require('../src/parameter')
+const ParameterRegistry = require('../src/parameter_registry')
 
 class Currency {
 }
 
 describe(CucumberExpressionGenerator.name, () => {
 
-  let transformLookup, generator
+  let parameterRegistry, generator
 
-  function assertTypedExpression(expected, text) {
-    assert.deepEqual(generator.generateExpression(text, true).source, expected)
-  }
-
-  function assertUntypedExpression(expected, text) {
-    assert.deepEqual(generator.generateExpression(text, false).source, expected)
+  function assertExpression(expectedExpression, expectedArgumentNames, text) {
+    const generatedExpression = generator.generateExpression(text)
+    assert.deepEqual(generatedExpression.argumentNames, expectedArgumentNames)
+    assert.equal(generatedExpression.source, expectedExpression)
   }
 
   beforeEach(() => {
-    transformLookup = new TransformLookup()
-    generator = new CucumberExpressionGenerator(transformLookup)
+    parameterRegistry = new ParameterRegistry()
+    generator = new CucumberExpressionGenerator(parameterRegistry)
   })
 
   it("documents expression generation", () => {
-    const transformLookup = new TransformLookup()
+    const parameterRegistry = new ParameterRegistry()
     /// [generate-expression]
-    const generator = new CucumberExpressionGenerator(transformLookup)
+    const generator = new CucumberExpressionGenerator(parameterRegistry)
     const undefinedStepText = "I have 2 cucumbers and 1.5 tomato"
-    const generatedExpression = generator.generateExpression(undefinedStepText, true)
-    assert.equal(generatedExpression.source, "I have {arg1:int} cucumbers and {arg2:float} tomato")
-    assert.equal(generatedExpression.argumentNames[0], 'arg1')
-    assert.equal(generatedExpression.transforms[1].typeName, 'float')
+    const generatedExpression = generator.generateExpression(undefinedStepText)
+    assert.equal(generatedExpression.source, "I have {int} cucumbers and {float} tomato")
+    assert.equal(generatedExpression.argumentNames[0], 'int')
+    assert.equal(generatedExpression.parameters[1].typeName, 'float')
     /// [generate-expression]
   })
 
   it("generates expression for no args", () => {
-    assertTypedExpression("hello", "hello")
+    assertExpression("hello", [], "hello")
   })
 
-  it("generates expression for int double arg", () => {
-    assertTypedExpression(
-      "I have {arg1:int} cukes and {arg2:float} euro",
+  it("generates expression for int float arg", () => {
+    assertExpression(
+      "I have {int} cukes and {float} euro", ["int", "float"],
       "I have 2 cukes and 1.5 euro")
   })
 
   it("generates expression for just int", () => {
-    assertTypedExpression(
-      "{arg1:int}",
+    assertExpression(
+      "{int}", ["int"],
       "99999")
   })
 
-  it("generates expression without expression type", () => {
-    assertUntypedExpression(
-      "I have {arg1} cukes and {arg2} euro",
-      "I have 2 cukes and 1.5 euro")
+  it("numbers only second argument when builtin type is not reserved keyword", () => {
+    assertExpression(
+      "I have {float} cukes and {float} euro", ["float", "float2"],
+      "I have 2.5 cukes and 1.5 euro")
   })
 
   it("generates expression for custom type", () => {
-    transformLookup.addTransform(new Transform(
+    parameterRegistry.addParameter(new Parameter(
       'currency',
       Currency,
       '[A-Z]{3}',
       null
     ))
 
-    assertTypedExpression(
-      "I have a {arg1:currency} account",
+    assertExpression(
+      "I have a {currency} account", ["currency"],
       "I have a EUR account")
   })
 
   it("prefers leftmost match when there is overlap", () => {
-    transformLookup.addTransform(new Transform(
+    parameterRegistry.addParameter(new Parameter(
       'currency',
       Currency,
       'cd',
       null
     ))
-    transformLookup.addTransform(new Transform(
+    parameterRegistry.addParameter(new Parameter(
       'date',
       Date,
       'bc',
       null
     ))
 
-    assertTypedExpression(
-      "a{arg1:date}defg",
+    assertExpression(
+      "a{date}defg", ["date"],
       "abcdefg")
   })
 
-  it("exposes transforms in generated expression", () => {
-    const expression = generator.generateExpression("I have 2 cukes and 1.5 euro", true)
-    const typeNames = expression.transforms.map(transform => transform.typeName)
+  it("exposes parameter type names in generated expression", () => {
+    const expression = generator.generateExpression("I have 2 cukes and 1.5 euro")
+    const typeNames = expression.parameters.map(parameter => parameter.typeName)
     assert.deepEqual(typeNames, ['int', 'float'])
   })
 })

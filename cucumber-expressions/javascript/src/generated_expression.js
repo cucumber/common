@@ -1,8 +1,8 @@
 class GeneratedExpression {
-  constructor(expression, argumentNames, transforms) {
+  constructor(expression, argumentNames, parameters) {
     this._expression = expression
     this._argumentNames = argumentNames
-    this._transforms = transforms
+    this._parameters = parameters
   }
 
   get source() {
@@ -13,9 +13,9 @@ class GeneratedExpression {
     return this._argumentNames
   }
 
-  get transforms() {
-    return this._transforms
+  get parameters() {
+    return this._parameters
   }
 }
 
-export default GeneratedExpression
+module.exports = GeneratedExpression

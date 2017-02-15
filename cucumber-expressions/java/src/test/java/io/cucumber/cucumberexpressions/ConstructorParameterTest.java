@@ -6,7 +6,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.fail;
 
-public class ConstructorTransformTest {
+public class ConstructorParameterTest {
     public static class NoStringCtor {
     }
 
@@ -24,7 +24,7 @@ public class ConstructorTransformTest {
     @Test
     public void requires_string_ctor() {
         try {
-            new ConstructorTransform<>(NoStringCtor.class);
+            new ConstructorParameter<>(NoStringCtor.class);
             fail();
         } catch (CucumberExpressionException expected) {
             assertEquals("Missing constructor: `public NoStringCtor(String)`", expected.getMessage());
@@ -34,7 +34,7 @@ public class ConstructorTransformTest {
     @Test
     public void reports_ctor_exceptions() {
         try {
-            new ConstructorTransform<>(FailingCtor.class).transform("hello");
+            new ConstructorParameter<>(FailingCtor.class).transform("hello");
             fail();
         } catch (CucumberExpressionException expected) {
             assertEquals("Failed to invoke `new FailingCtor(\"hello\")`", expected.getMessage());
@@ -45,7 +45,7 @@ public class ConstructorTransformTest {
     @Test
     public void reports_abstract_exceptions() {
         try {
-            new ConstructorTransform<>(Abstract.class).transform("hello");
+            new ConstructorParameter<>(Abstract.class).transform("hello");
             fail();
         } catch (CucumberExpressionException expected) {
             assertEquals("Failed to invoke `new Abstract(\"hello\")`", expected.getMessage());
@@ -55,6 +55,6 @@ public class ConstructorTransformTest {
 
     @Test
     public void returns_null_for_value_null() {
-        assertNull(new ConstructorTransform<>(Abstract.class).transform(null));
+        assertNull(new ConstructorParameter<>(Abstract.class).transform(null));
     }
 }

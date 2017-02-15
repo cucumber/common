@@ -11,7 +11,7 @@ import static java.util.Arrays.asList;
 import static java.util.regex.Pattern.compile;
 import static org.junit.Assert.assertEquals;
 
-public class CustomTransformTest {
+public class CustomParameterTest {
     public static class Color {
         public final String name;
 
@@ -32,12 +32,12 @@ public class CustomTransformTest {
         }
     }
 
-    private TransformLookup transformLookup = new TransformLookup(Locale.ENGLISH);
+    private ParameterRegistry parameterRegistry = new ParameterRegistry(Locale.ENGLISH);
 
     @Before
-    public void create_transform() {
-        /// [add-color-transform]
-        transformLookup.addTransform(new SimpleTransform<>(
+    public void create_parameter() {
+        /// [add-color-parameter]
+        parameterRegistry.addParameter(new SimpleParameter<>(
                 "color",
                 Color.class,
                 asList("red|blue|yellow", "(?:dark|light) (?:red|blue|yellow)"),
@@ -48,40 +48,40 @@ public class CustomTransformTest {
                     }
                 }
         ));
-        /// [add-color-transform]
+        /// [add-color-parameter]
     }
 
     @Test
     public void transforms_CucumberExpression_arguments_with_expression_type_I() {
-        Expression expression = new CucumberExpression("I have a {color:color} ball", Collections.<Type>emptyList(), transformLookup);
+        Expression expression = new CucumberExpression("I have a {color:color} ball", Collections.<Type>emptyList(), parameterRegistry);
         Object transformedArgumentValue = expression.match("I have a red ball").get(0).getTransformedValue();
         assertEquals(new Color("red"), transformedArgumentValue);
     }
 
     @Test
     public void transforms_CucumberExpression_arguments_with_expression_type_II() {
-        Expression expression = new CucumberExpression("I have a {color:color} ball", Collections.<Type>emptyList(), transformLookup);
+        Expression expression = new CucumberExpression("I have a {color:color} ball", Collections.<Type>emptyList(), parameterRegistry);
         Object transformedArgumentValue = expression.match("I have a dark red ball").get(0).getTransformedValue();
         assertEquals(new Color("dark red"), transformedArgumentValue);
     }
 
     @Test
     public void transforms_CucumberExpression_arguments_with_explicit_type() {
-        Expression expression = new CucumberExpression("I have a {color} ball", Collections.<Type>singletonList(Color.class), transformLookup);
+        Expression expression = new CucumberExpression("I have a {color} ball", Collections.<Type>singletonList(Color.class), parameterRegistry);
         Object transformedArgumentValue = expression.match("I have a red ball").get(0).getTransformedValue();
         assertEquals(new Color("red"), transformedArgumentValue);
     }
 
     @Test
     public void transforms_CucumberExpression_arguments_using_argument_name_as_type() {
-        Expression expression = new CucumberExpression("I have a {color} ball", Collections.<Type>emptyList(), transformLookup);
+        Expression expression = new CucumberExpression("I have a {color} ball", Collections.<Type>emptyList(), parameterRegistry);
         Object transformedArgumentValue = expression.match("I have a red ball").get(0).getTransformedValue();
         assertEquals(new Color("red"), transformedArgumentValue);
     }
 
     @Test
     public void transforms_CucumberExpression_arguments_with_explicit_type_using_constructor_directly() {
-        Expression expression = new CucumberExpression("I have a {color} ball", Collections.<Type>singletonList(Color.class), new TransformLookup(Locale.ENGLISH));
+        Expression expression = new CucumberExpression("I have a {color} ball", Collections.<Type>singletonList(Color.class), new ParameterRegistry(Locale.ENGLISH));
         Color transformedArgumentValue = (Color) expression.match("I have a red ball").get(0).getTransformedValue();
         assertEquals("red", transformedArgumentValue.name);
     }
@@ -90,21 +90,21 @@ public class CustomTransformTest {
 
     @Test
     public void transforms_RegularExpression_arguments_with_explicit_type() {
-        Expression expression = new RegularExpression(compile("I have a (red|blue|yellow) ball"), Collections.<Type>singletonList(Color.class), transformLookup);
+        Expression expression = new RegularExpression(compile("I have a (red|blue|yellow) ball"), Collections.<Type>singletonList(Color.class), parameterRegistry);
         Object transformedArgumentValue = expression.match("I have a red ball").get(0).getTransformedValue();
         assertEquals(new Color("red"), transformedArgumentValue);
     }
 
     @Test
     public void transforms_RegularExpression_arguments_without_explicit_type() {
-        Expression expression = new RegularExpression(compile("I have a (red|blue|yellow) ball"), Collections.<Type>emptyList(), transformLookup);
+        Expression expression = new RegularExpression(compile("I have a (red|blue|yellow) ball"), Collections.<Type>emptyList(), parameterRegistry);
         Object transformedArgumentValue = expression.match("I have a red ball").get(0).getTransformedValue();
         assertEquals(new Color("red"), transformedArgumentValue);
     }
 
     @Test
     public void transforms_RegularExpression_arguments_with_explicit_type_using_constructor_directly() {
-        Expression expression = new RegularExpression(compile("I have a (red|blue|yellow) ball"), Collections.<Type>singletonList(Color.class), new TransformLookup(Locale.ENGLISH));
+        Expression expression = new RegularExpression(compile("I have a (red|blue|yellow) ball"), Collections.<Type>singletonList(Color.class), new ParameterRegistry(Locale.ENGLISH));
         Color transformedArgumentValue = (Color) expression.match("I have a red ball").get(0).getTransformedValue();
         assertEquals("red", transformedArgumentValue.name);
     }
