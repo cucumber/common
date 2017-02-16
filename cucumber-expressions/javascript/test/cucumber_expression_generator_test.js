@@ -13,7 +13,7 @@ describe(CucumberExpressionGenerator.name, () => {
 
   function assertExpression(expectedExpression, expectedArgumentNames, text) {
     const generatedExpression = generator.generateExpression(text)
-    assert.deepEqual(generatedExpression.argumentNames, expectedArgumentNames)
+    assert.deepEqual(generatedExpression.parameterNames, expectedArgumentNames)
     assert.equal(generatedExpression.source, expectedExpression)
   }
 
@@ -29,7 +29,7 @@ describe(CucumberExpressionGenerator.name, () => {
     const undefinedStepText = "I have 2 cucumbers and 1.5 tomato"
     const generatedExpression = generator.generateExpression(undefinedStepText)
     assert.equal(generatedExpression.source, "I have {int} cucumbers and {float} tomato")
-    assert.equal(generatedExpression.argumentNames[0], 'int')
+    assert.equal(generatedExpression.parameterNames[0], 'int')
     assert.equal(generatedExpression.parameters[1].typeName, 'float')
     /// [generate-expression]
   })

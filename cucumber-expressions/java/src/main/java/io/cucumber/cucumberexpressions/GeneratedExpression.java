@@ -4,12 +4,12 @@ import java.util.List;
 
 public class GeneratedExpression {
     private final String expression;
-    private final List<String> argumentNames;
+    private final List<String> parameterNames;
     private final List<Parameter<?>> parameters;
 
-    public GeneratedExpression(String expression, List<String> argumentNames, List<Parameter<?>> parameters) {
+    public GeneratedExpression(String expression, List<String> parameterNames, List<Parameter<?>> parameters) {
         this.expression = expression;
-        this.argumentNames = argumentNames;
+        this.parameterNames = parameterNames;
         this.parameters = parameters;
     }
 
@@ -17,8 +17,8 @@ public class GeneratedExpression {
         return expression;
     }
 
-    public List<String> getArgumentNames() {
-        return argumentNames;
+    public List<String> getParameterNames() {
+        return parameterNames;
     }
 
     public List<Parameter<?>> getParameters() {
