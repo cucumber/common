@@ -7,7 +7,7 @@ class CucumberExpressionGenerator {
   }
 
   generateExpression(text) {
-    const argumentNames = []
+    const parameterNames = []
     const parameterMatchers = this._createTransformMatchers(text)
     const parameters = []
     const usageByTypeName = {}
@@ -17,7 +17,7 @@ class CucumberExpressionGenerator {
 
     while (true) { // eslint-disable-line no-constant-condition
       let matchingTransformMatchers = []
-      for (let parameterMatcher of parameterMatchers) {
+      for (const parameterMatcher of parameterMatchers) {
         const advancedTransformMatcher = parameterMatcher.advanceTo(pos)
         if (advancedTransformMatcher.find) {
           matchingTransformMatchers.push(advancedTransformMatcher)
@@ -30,8 +30,8 @@ class CucumberExpressionGenerator {
         const parameter = bestTransformMatcher.parameter
         parameters.push(parameter)
 
-        const argumentName = this._getArgumentName(parameter.typeName, usageByTypeName)
-        argumentNames.push(argumentName)
+        const parameterName = this._getParameterName(parameter.typeName, usageByTypeName)
+        parameterNames.push(parameterName)
 
         expression += text.slice(pos, bestTransformMatcher.start)
         expression += `{${parameter.typeName}}`
@@ -47,10 +47,10 @@ class CucumberExpressionGenerator {
     }
 
     expression += text.slice(pos)
-    return new GeneratedExpression(expression, argumentNames, parameters)
+    return new GeneratedExpression(expression, parameterNames, parameters)
   }
 
-  _getArgumentName(typeName, usageByTypeName) {
+  _getParameterName(typeName, usageByTypeName) {
       let count = usageByTypeName[typeName]
       count = count ? count + 1 : 1
       usageByTypeName[typeName] = count

@@ -67,7 +67,7 @@ module Cucumber
 
       def assert_expression(expected_expression, expected_argument_names, text)
         generated_expression = @generator.generate_expression(text)
-        expect(generated_expression.argument_names).to eq(expected_argument_names)
+        expect(generated_expression.parameter_names).to eq(expected_argument_names)
         expect(generated_expression.source).to eq(expected_expression)
       end
     end

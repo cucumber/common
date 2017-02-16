@@ -39,7 +39,7 @@ public class CucumberExpressionGenerator {
     }
 
     public GeneratedExpression generateExpression(String text) {
-        List<String> argumentNames = new ArrayList<>();
+        List<String> parameterNames = new ArrayList<>();
         List<ParameterMatcher> parameterMatchers = createTransformMatchers(text);
         List<Parameter<?>> parameters = new ArrayList<>();
         Map<String, Integer> usageByTypeName = new HashMap<>();
@@ -62,8 +62,8 @@ public class CucumberExpressionGenerator {
                 Parameter<?> parameter = bestParameterMatcher.getParameter();
                 parameters.add(parameter);
 
-                String argumentName = getArgumentName(parameter.getTypeName(), usageByTypeName);
-                argumentNames.add(argumentName);
+                String parameterName = getParameterName(parameter.getTypeName(), usageByTypeName);
+                parameterNames.add(parameterName);
 
                 expression
                         .append(text.substring(pos, bestParameterMatcher.start()))
@@ -80,10 +80,10 @@ public class CucumberExpressionGenerator {
             }
         }
         expression.append(text.substring(pos));
-        return new GeneratedExpression(expression.toString(), argumentNames, parameters);
+        return new GeneratedExpression(expression.toString(), parameterNames, parameters);
     }
 
-    private String getArgumentName(String typeName, Map<String, Integer> usageByTypeName) {
+    private String getParameterName(String typeName, Map<String, Integer> usageByTypeName) {
         Integer count = usageByTypeName.get(typeName);
         count = count != null ? count + 1 : 1;
         usageByTypeName.put(typeName, count);

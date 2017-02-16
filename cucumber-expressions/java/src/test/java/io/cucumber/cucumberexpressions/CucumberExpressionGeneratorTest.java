@@ -114,7 +114,7 @@ public class CucumberExpressionGeneratorTest {
 
     private void assertExpression(String expectedExpression, List<String> expectedArgumentNames, String text) {
         GeneratedExpression generatedExpression = generator.generateExpression(text);
-        assertEquals(expectedArgumentNames, generatedExpression.getArgumentNames());
+        assertEquals(expectedArgumentNames, generatedExpression.getParameterNames());
         assertEquals(expectedExpression, generatedExpression.getSource());
     }
 }

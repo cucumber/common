@@ -9,7 +9,7 @@ module Cucumber
       end
 
       def generate_expression(text)
-        argument_names = []
+        parameter_names = []
         parameter_matchers = create_parameter_matchers(text)
         parameters = []
         usage_by_type_name = Hash.new(0)
@@ -32,8 +32,8 @@ module Cucumber
             parameter = best_parameter_matcher.parameter
             parameters.push(parameter)
 
-            argument_name = get_argument_name(parameter.type_name, usage_by_type_name)
-            argument_names.push(argument_name)
+            parameter_name = get_parameter_name(parameter.type_name, usage_by_type_name)
+            parameter_names.push(parameter_name)
 
             expression += text.slice(pos...best_parameter_matcher.start)
             expression += "{#{parameter.type_name}}"
@@ -49,12 +49,12 @@ module Cucumber
         end
 
         expression += text.slice(pos..-1)
-        GeneratedExpression.new(expression, argument_names, parameters)
+        GeneratedExpression.new(expression, parameter_names, parameters)
       end
 
     private
 
-      def get_argument_name(type_name, usage_by_type_name)
+      def get_parameter_name(type_name, usage_by_type_name)
         count = (usage_by_type_name[type_name] += 1)
         count == 1 ? type_name : "#{type_name}#{count}"
       end
