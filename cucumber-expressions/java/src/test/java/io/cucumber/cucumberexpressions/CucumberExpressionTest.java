@@ -85,6 +85,15 @@ public class CucumberExpressionTest {
         assertEquals("800", arg1.getValue());
     }
 
+    @Test
+    public void escapes_special_characters() {
+        String expr = "I have {int} cuke(s) and ^";
+        Expression expression = new CucumberExpression(expr, Collections.<Type>emptyList(), new ParameterRegistry(Locale.ENGLISH));
+        Argument arg1 = expression.match("I have 800 cukes and ^").get(0);
+        assertEquals(7, arg1.getOffset());
+        assertEquals("800", arg1.getValue());
+    }
+
     // Java-specific
 
     @Test

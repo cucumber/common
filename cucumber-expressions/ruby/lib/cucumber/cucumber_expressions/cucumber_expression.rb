@@ -17,6 +17,9 @@ module Cucumber
         match = nil
         match_offset = 0
 
+        # Does not include (){} because they have special meaning
+        expression = expression.gsub(/([\\\^\[$.|?*+\]])/, '\\\\\1')
+
         # Create non-capturing, optional capture groups from parenthesis
         expression = expression.gsub(OPTIONAL_PATTERN, '(?:\1)?')
 
