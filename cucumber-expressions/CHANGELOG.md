@@ -21,6 +21,10 @@ N/A
 * ruby: Use `Integer` instead of `Fixnum`
 
 ### Fixed
+* javascript, ruby, java: Escape RegExp characters.
+  ([#103](https://github.com/cucumber/cucumber/issues/103)
+   [#106](https://github.com/cucumber/cucumber/pull/106)
+   by [charlierudolph] and [aslakhellesoy])
 * javascript, ruby: Regexp literals in transforms.
   ([#109](https://github.com/cucumber/cucumber/issues/109)
    by [aslakhellesoy])

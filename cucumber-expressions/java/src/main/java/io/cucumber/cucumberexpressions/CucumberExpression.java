@@ -7,8 +7,9 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class CucumberExpression implements Expression {
-    private static final Pattern PARAMETER_PATTERN = Pattern.compile("\\{([^\\}:]+)(:([^\\}]+))?\\}");
-    private static final Pattern OPTIONAL_PATTERN = Pattern.compile("\\(([^\\)]+)\\)");
+    private static final Pattern ESCAPE_PATTERN = Pattern.compile("([\\\\\\^\\[$.|?*+\\]])");
+    private static final Pattern PARAMETER_PATTERN = Pattern.compile("\\{([^}:]+)(:([^}]+))?}");
+    private static final Pattern OPTIONAL_PATTERN = Pattern.compile("\\(([^)]+)\\)");
 
     private final Pattern pattern;
     private final List<Parameter<?>> parameters = new ArrayList<>();
@@ -16,7 +17,8 @@ public class CucumberExpression implements Expression {
 
     public CucumberExpression(final String expression, List<? extends Type> types, ParameterRegistry parameterRegistry) {
         this.expression = expression;
-        String expressionWithOptionalGroups = OPTIONAL_PATTERN.matcher(expression).replaceAll("(?:$1)?");
+        String escapedExpression = ESCAPE_PATTERN.matcher(expression).replaceAll("\\\\$1");
+        String expressionWithOptionalGroups = OPTIONAL_PATTERN.matcher(escapedExpression).replaceAll("(?:$1)?");
         Matcher matcher = PARAMETER_PATTERN.matcher(expressionWithOptionalGroups);
 
         StringBuffer regexp = new StringBuffer();

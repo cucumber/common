@@ -50,7 +50,7 @@ public class ExpressionExamplesTest {
     @Test
     public void works_with_expression() {
         String args = new Gson().toJson(match(expressionString, text));
-        assertEquals(expectedArgs, args);
+        assertEquals(String.format("\nExpression: %s\n      Text: %s", expressionString, text), expectedArgs, args);
     }
 
     private List<Object> match(String expressionString, String text) {

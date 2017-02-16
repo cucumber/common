@@ -66,6 +66,18 @@ module Cucumber
         expect(arg1.value).to eq("800")
       end
 
+      describe "RegExp special characters" do
+        %w(\\ [ ] ^ $ . | ? * +).each do |character|
+          it "escapes #{character}" do
+            expr = "I have {int} cuke(s) and #{character}"
+            expression = CucumberExpression.new(expr, [], ParameterRegistry.new)
+            arg1 = expression.match("I have 800 cukes and #{character}")[0]
+            expect(arg1.offset).to eq(7)
+            expect(arg1.value).to eq("800")
+          end
+        end
+      end
+
       def match(expression, text, types = [])
         cucumber_expression = CucumberExpression.new(expression, types, ParameterRegistry.new)
         args = cucumber_expression.match(text)
