@@ -29,7 +29,7 @@
   },
   "homepage": "https://github.com/cucumber/cucumber-expressions-javascript#readme",
   "devDependencies": {
-    "babel-cli": "^6.22.2",
+    "babel-cli": "^6.23.0",
     "eslint": "^3.15.0",
     "eslint-config-eslint": "^3.0.0",
     "istanbul": "1.0.0-alpha.2",
