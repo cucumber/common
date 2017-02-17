@@ -26,6 +26,10 @@ class CucumberExpression {
     while ((match = parameterPattern.exec(expression)) !== null) {
       const parameterName = match[1]
       const typeName = match[3]
+      if (typeName && (typeof console !== 'undefined') && (typeof console.error == 'function')) {
+        console.error(`Cucumber expression parameter syntax {${parameterName}:${typeName}} is deprecated. Please use {${typeName}} instead.`);
+      }
+
       const type = types.length <= typeIndex ? null : types[typeIndex++]
 
       let parameter;
@@ -33,10 +37,10 @@ class CucumberExpression {
         parameter = parameterRegistry.lookupByType(type)
       }
       if (!parameter && typeName) {
-        parameter = parameterRegistry.lookupByTypeName(typeName, false)
+        parameter = parameterRegistry.lookupByTypeName(typeName)
       }
       if (!parameter) {
-        parameter = parameterRegistry.lookupByTypeName(parameterName, true)
+        parameter = parameterRegistry.lookupByTypeName(parameterName)
       }
       if (!parameter) {
         parameter = parameterRegistry.createAnonymousLookup(s => s)

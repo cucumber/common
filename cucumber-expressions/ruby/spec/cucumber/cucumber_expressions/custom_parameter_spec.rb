@@ -33,13 +33,13 @@ module Cucumber
 
       describe CucumberExpression do
         it "matches typed parameters" do
-          expression = CucumberExpression.new("I have a {color:color} ball", [], @parameter_registry)
+          expression = CucumberExpression.new("I have a {color} ball", [], @parameter_registry)
           parametered_argument_value = expression.match("I have a red ball")[0].transformed_value
           expect( parametered_argument_value ).to eq(Color.new('red'))
         end
 
         it "matches typed parameters with optional group" do
-          expression = CucumberExpression.new("I have a {color:color} ball", [], @parameter_registry)
+          expression = CucumberExpression.new("I have a {color} ball", [], @parameter_registry)
           parametered_argument_value = expression.match("I have a dark red ball")[0].transformed_value
           expect( parametered_argument_value ).to eq(Color.new('dark red'))
         end

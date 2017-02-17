@@ -32,13 +32,13 @@ describe('Custom parameter', () => {
 
   describe(CucumberExpression.name, () => {
     it("matches typed parameters", () => {
-      const expression = new CucumberExpression("I have a {color:color} ball", [], parameterRegistry)
+      const expression = new CucumberExpression("I have a {color} ball", [], parameterRegistry)
       const transformedValue = expression.match("I have a red ball")[0].transformedValue
       assert.equal(transformedValue.name, "red")
     })
 
     it("matches typed parameters with optional group", () => {
-      const expression = new CucumberExpression("I have a {color:color} ball", [], parameterRegistry)
+      const expression = new CucumberExpression("I have a {color} ball", [], parameterRegistry)
       const transformedValue = expression.match("I have a dark red ball")[0].transformedValue
       assert.equal(transformedValue.name, "dark red")
     })

@@ -25,19 +25,23 @@ public class CucumberExpression implements Expression {
         regexp.append("^");
         int typeIndex = 0;
         while (matcher.find()) {
-            Type type = types.size() <= typeIndex ? null : types.get(typeIndex++);
             String parameterName = matcher.group(1);
             String typeName = matcher.group(3);
+            if (typeName != null) {
+                System.err.println(String.format("Cucumber expression parameter syntax {%s:%s} is deprecated. Please use {%s} instead.", parameterName, typeName, typeName));
+            }
+
+            Type type = types.size() <= typeIndex ? null : types.get(typeIndex++);
 
             Parameter<?> parameter = null;
             if (type != null) {
                 parameter = parameterRegistry.lookupByType(type);
             }
             if (parameter == null && typeName != null) {
-                parameter = parameterRegistry.lookupByTypeName(typeName, false);
+                parameter = parameterRegistry.lookupByTypeName(typeName);
             }
             if (parameter == null) {
-                parameter = parameterRegistry.lookupByTypeName(parameterName, true);
+                parameter = parameterRegistry.lookupByTypeName(parameterName);
             }
             if (parameter == null && type != null && type instanceof Class) {
                 parameter = new ClassParameter<>((Class) type);
@@ -58,12 +62,12 @@ public class CucumberExpression implements Expression {
     private String getCaptureGroupRegexp(List<String> captureGroupRegexps) {
         StringBuilder sb = new StringBuilder("(");
 
-        if(captureGroupRegexps.size() == 1) {
+        if (captureGroupRegexps.size() == 1) {
             sb.append(captureGroupRegexps.get(0));
         } else {
             boolean bar = false;
             for (String captureGroupRegexp : captureGroupRegexps) {
-                if(bar) sb.append("|");
+                if (bar) sb.append("|");
                 sb.append("(?:").append(captureGroupRegexp).append(")");
                 bar = true;
             }

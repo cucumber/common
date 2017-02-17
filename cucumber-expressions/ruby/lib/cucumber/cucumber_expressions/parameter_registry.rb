@@ -19,7 +19,7 @@ module Cucumber
         if type.is_a?(Class)
           lookup_by_class(type)
         elsif type.is_a?(String)
-          lookup_by_type_name(type, false)
+          lookup_by_type_name(type)
         else
           raise Exception.new("Type must be string or class, but was #{type} of type #{type.class}")
         end
@@ -34,14 +34,8 @@ module Cucumber
         end
       end
 
-      def lookup_by_type_name(type_name, ignore_unknown_type_name)
-        parameter = @parameters_by_type_name[type_name]
-        if parameter.nil?
-          return nil if ignore_unknown_type_name
-          raise Exception.new("No parameter for type name \"#{type_name}\"")
-        else
-          parameter
-        end
+      def lookup_by_type_name(type_name)
+        @parameters_by_type_name[type_name]
       end
 
       def lookup_by_capture_group_regexp(capture_group_regexp)

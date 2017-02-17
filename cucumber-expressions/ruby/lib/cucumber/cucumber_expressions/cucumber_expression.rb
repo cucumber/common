@@ -29,6 +29,10 @@ module Cucumber
 
           parameter_name = match[1]
           type_name = match[3]
+          if type_name
+            $stderr.puts("Cucumber expression parameter syntax {#{parameter_name}:#{type_name}} is deprecated. Please use {#{type_name}} instead.")
+          end
+
           type = types.length <= type_index ? nil : types[type_index]
           type_index += 1
 
@@ -37,10 +41,10 @@ module Cucumber
             parameter = parameter_registry.lookup_by_type(type)
           end
           if parameter.nil? && type_name
-            parameter = parameter_registry.lookup_by_type_name(type_name, false)
+            parameter = parameter_registry.lookup_by_type_name(type_name)
           end
           if parameter.nil?
-            parameter = parameter_registry.lookup_by_type_name(parameter_name, true)
+            parameter = parameter_registry.lookup_by_type_name(parameter_name)
           end
           if parameter.nil?
             parameter = parameter_registry.create_anonymous_lookup(lambda {|s| s})
