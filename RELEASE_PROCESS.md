@@ -28,6 +28,12 @@ First of all, make sure you have the right release karma:
 If the library has a Java implementation, make sure the `pom.xml` version the version
 you are about to release, with the `-SNAPSHOT` suffix. Add and commit.
 
+Update `CHANGELOG.md` of the library in the following places:
+* Change `Unreleased` to `[X.Y.Z] - yyyy-MM-DD`
+* Add a new empty `Unreleased` section at the top of the page
+* Update the `Unreleased` link at the bottom of the page
+* Add a new `[X.Y.Z]` link at the bottom of the page
+
 Make sure the main `cucumber/cucumber` repo has the most recent commits from
 all of the subrepos:
 
