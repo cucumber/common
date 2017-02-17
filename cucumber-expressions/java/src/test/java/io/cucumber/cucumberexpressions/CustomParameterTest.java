@@ -5,11 +5,13 @@ import org.junit.Test;
 
 import java.lang.reflect.Type;
 import java.util.Collections;
+import java.util.List;
 import java.util.Locale;
 
 import static java.util.Arrays.asList;
 import static java.util.regex.Pattern.compile;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
 
 public class CustomParameterTest {
     public static class Color {
@@ -84,6 +86,28 @@ public class CustomParameterTest {
         Expression expression = new CucumberExpression("I have a {color} ball", Collections.<Type>singletonList(Color.class), new ParameterRegistry(Locale.ENGLISH));
         Color transformedArgumentValue = (Color) expression.match("I have a red ball").get(0).getTransformedValue();
         assertEquals("red", transformedArgumentValue.name);
+    }
+
+    @Test
+    public void defers_transformation_until_queried_from_argument() {
+        parameterRegistry.addParameter(new SimpleParameter<>(
+                "throwing",
+                String.class,
+                "bad",
+                new Function<String, String>() {
+                    @Override
+                    public String apply(String name) {
+                        throw new RuntimeException(String.format("Can't transform [%s]", name));
+                    }
+                }));
+        Expression expression = new CucumberExpression("I have a {throwing} parameter", Collections.<Type>emptyList(), parameterRegistry);
+        List<Argument> arguments = expression.match("I have a bad parameter");
+        try {
+            arguments.get(0).getTransformedValue();
+            fail("should have failed");
+        } catch (RuntimeException expected) {
+            assertEquals("Can't transform [bad]", expected.getMessage());
+        }
     }
 
     ///// RegularExpression

@@ -9,8 +9,7 @@ module Cucumber
         (1...m.length).map do |index|
           value = m[index]
           parameter = parameters[index-1]
-          transformed_value = parameter.transform(value)
-          Argument.new(m.offset(index)[0], value, transformed_value)
+          Argument.new(m.offset(index)[0], value, parameter)
         end
       end
     end

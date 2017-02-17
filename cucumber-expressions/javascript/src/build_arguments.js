@@ -7,8 +7,8 @@ const buildArguments = (regexp, text, parameters) => {
   let offset = 0
   return m.slice(1).map(value => {
     offset = text.indexOf(value, offset)
-    const transformedValue = parameters[parameterIndex++].transform(value)
-    return new Argument(offset, value, transformedValue)
+    const parameter = parameters[parameterIndex++]
+    return new Argument(offset, value, parameter)
   })
 }
 

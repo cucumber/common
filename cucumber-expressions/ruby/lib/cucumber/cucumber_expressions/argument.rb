@@ -1,10 +1,14 @@
 module Cucumber
   module CucumberExpressions
     class Argument
-      attr_reader :offset, :value, :transformed_value
+      attr_reader :offset, :value
 
-      def initialize(offset, value, transformed_value)
-        @offset, @value, @transformed_value = offset, value, transformed_value
+      def initialize(offset, value, parameter)
+        @offset, @value, @parameter = offset, value, parameter
+      end
+
+      def transformed_value
+        @parameter.transform(@value)
       end
     end
   end
