@@ -3,8 +3,8 @@ require 'cucumber/cucumber_expressions/parameter'
 module Cucumber
   module CucumberExpressions
     class ParameterRegistry
-      INTEGER_REGEXPS = ['-?\d+', '\d+']
-      FLOATING_POINT_REGEXPS = ['-?\d*\.?\d+']
+      INTEGER_REGEXPS = [/-?\d+/, /\d+/]
+      FLOAT_REGEXPS = [/-?\d*\.?\d+/]
 
       def initialize
         @parameters_by_type_name = {}
@@ -12,7 +12,7 @@ module Cucumber
         @parameters_by_class = {}
 
         add_parameter(Parameter.new('int', Integer, INTEGER_REGEXPS, lambda {|s| s.to_i}))
-        add_parameter(Parameter.new('float', Float, FLOATING_POINT_REGEXPS, lambda {|s| s.to_f}))
+        add_parameter(Parameter.new('float', Float, FLOAT_REGEXPS, lambda {|s| s.to_f}))
       end
 
       def lookup_by_type(type)

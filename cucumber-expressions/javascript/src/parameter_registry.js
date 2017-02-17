@@ -6,11 +6,11 @@ class ParameterRegistry {
     this._parametersByCaptureGroupRegexp = new Map()
     this._parametersByConstructorName = new Map()
 
-    const FIXNUM_REGEXPS = ["-?\\d+", "\\d+"]
-    const FLOATING_POINT_REGEXPS = ["-?\\d*\\.?\\d+"]
+    const INTEGER_REGEXPS = [/-?\d+/, /\d+/]
+    const FLOAT_REGEXPS = [/-?\d*\.?\d+/]
 
-    this.addParameter(new Parameter('int', Number, FIXNUM_REGEXPS, parseInt))
-    this.addParameter(new Parameter('float', Number, FLOATING_POINT_REGEXPS, parseFloat))
+    this.addParameter(new Parameter('int', Number, INTEGER_REGEXPS, parseInt))
+    this.addParameter(new Parameter('float', Number, FLOAT_REGEXPS, parseFloat))
   }
 
   get parameters() {

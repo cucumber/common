@@ -80,7 +80,7 @@ describe('Custom parameter', () => {
       parameterRegistry.addParameter(new Parameter(
         'asyncColor',
         Color,
-        ['red|blue|yellow', '(?:dark|light) (?:red|blue|yellow)'],
+        [/red|blue|yellow/, /(?:dark|light) (?:red|blue|yellow)/],
         async s => new Color(s)
       ))
 
