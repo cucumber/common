@@ -34,6 +34,7 @@ Make sure anything modified in the monorepo is pushed to subrepos:
 
     push_subrepos ${group_path}
 
+Wait for the CI of each subrepo to build successfully.
 Release all the subrepos in the group:
 
     release_subrepos ${group_path} ${version} ${next_version}
