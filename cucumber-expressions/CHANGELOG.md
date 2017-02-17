@@ -14,6 +14,9 @@ N/A
 N/A
 
 ### Changed
+* javascript, ruby, java: Deprecate `{name:type}` syntax in favour of `{type}`
+  ([#117](https://github.com/cucumber/cucumber/pull/117)
+   by [aslakhellesoy])
 * javascript, ruby, java: Rename transform to parameter
   ([#114](https://github.com/cucumber/cucumber/issues/114)
    [#115](https://github.com/cucumber/cucumber/pull/115)
