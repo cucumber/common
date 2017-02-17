@@ -11,7 +11,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 N/A
 
 ### Added
-N/A
+* Document how to define `async` parameters.
+  Depends on [cucumber/cucumber-js#753](https://github.com/cucumber/cucumber-js/pull/753).
+  ([#108](https://github.com/cucumber/cucumber/issues/108)
+   by [aslakhellesoy])
 
 ### Changed
 * Defer parameter transformation until after the match

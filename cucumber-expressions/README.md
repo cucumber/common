@@ -75,6 +75,12 @@ This is how we would define a custom `color` parameter:
 ```javascript
 [snippet](javascript/test/custom_parameter_test.js#add-color-parameter)
 ```
+
+The `transform` function can also return a `Promise`:
+```javascript
+[snippet](javascript/test/custom_parameter_test.js#add-color-parameter)
+```
+
 {% sample lang="rb" %}
 ```ruby
 [snippet](ruby/spec/cucumber/cucumber_expressions/custom_parameter_spec.rb#add-color-parameter)

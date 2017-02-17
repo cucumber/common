@@ -77,12 +77,14 @@ describe('Custom parameter', () => {
 
     // JavaScript-specific
     it("creates arguments using async transform", async () => {
+      /// [add-async-parameter]
       parameterRegistry.addParameter(new Parameter(
         'asyncColor',
         Color,
-        [/red|blue|yellow/, /(?:dark|light) (?:red|blue|yellow)/],
+        [/red|blue|yellow/],
         async s => new Color(s)
       ))
+      /// [add-async-parameter]
 
       const expression = new CucumberExpression("I have a {asyncColor} ball", ['asyncColor'], parameterRegistry)
       const args = await expression.match("I have a red ball")
