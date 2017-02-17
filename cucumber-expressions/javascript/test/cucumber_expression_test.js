@@ -51,12 +51,12 @@ describe(CucumberExpression.name, () => {
   })
 
   it("exposes source", () => {
-    const expr = "I have {int} cuke(s) in my {bodypart} now";
+    const expr = "I have {int} cuke(s) in my {bodypart} now"
     assert.equal(new CucumberExpression(expr, [], new ParameterRegistry()).source, expr)
   })
 
   it("exposes offset and value", () => {
-    const expr = "I have {int} cuke(s) in my {bodypart} now";
+    const expr = "I have {int} cuke(s) in my {bodypart} now"
     const expression = new CucumberExpression(expr, [], new ParameterRegistry())
     const arg1 = expression.match("I have 800 cukes in my brain now")[0]
     assert.equal(arg1.offset, 7)

@@ -13,7 +13,7 @@ class RegularExpression {
       const captureGroupPattern = match[1]
       const type = types.length <= typeIndex ? null : types[typeIndex++]
 
-      let parameter;
+      let parameter
       if (type) {
         parameter = parameterRegistry.lookupByType(type)
       }

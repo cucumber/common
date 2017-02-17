@@ -66,7 +66,7 @@ describe(RegularExpression.name, () => {
 
   it("exposes source", () => {
     const expr = /I have (\d+) cukes? in my (.+) now/
-    assert.deepEqual(new RegularExpression(expr, [], new TransformLookup()).getSource(), expr.toString());
+    assert.deepEqual(new RegularExpression(expr, [], new TransformLookup()).getSource(), expr.toString())
   })
 })
 

@@ -26,13 +26,15 @@ class CucumberExpression {
     while ((match = parameterPattern.exec(expression)) !== null) {
       const parameterName = match[1]
       const typeName = match[3]
+      // eslint-disable-next-line no-console
       if (typeName && (typeof console !== 'undefined') && (typeof console.error == 'function')) {
-        console.error(`Cucumber expression parameter syntax {${parameterName}:${typeName}} is deprecated. Please use {${typeName}} instead.`);
+        // eslint-disable-next-line no-console
+        console.error(`Cucumber expression parameter syntax {${parameterName}:${typeName}} is deprecated. Please use {${typeName}} instead.`)
       }
 
       const type = types.length <= typeIndex ? null : types[typeIndex++]
 
-      let parameter;
+      let parameter
       if (type) {
         parameter = parameterRegistry.lookupByType(type)
       }
