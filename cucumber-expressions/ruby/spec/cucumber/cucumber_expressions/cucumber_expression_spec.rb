@@ -22,7 +22,7 @@ module Cucumber
       end
 
       it "transforms to int by parameter type" do
-        expect( match("{what:int}", "22") ).to eq([22])
+        expect( match("{int}", "22") ).to eq([22])
       end
 
       it "transforms to int by explicit type" do
@@ -35,12 +35,12 @@ module Cucumber
       end
 
       it "doesn't match a float with an int parameter" do
-        expect( match("{what:int}", "1.22") ).to be_nil
+        expect( match("{int}", "1.22") ).to be_nil
       end
 
       it "transforms to float by parameter type" do
-        expect( match("{what:float}", "0.22") ).to eq([0.22])
-        expect( match("{what:float}",  ".22") ).to eq([0.22])
+        expect( match("{float}", "0.22") ).to eq([0.22])
+        expect( match("{float}",  ".22") ).to eq([0.22])
       end
 
       it "transforms to float by explicit type" do
@@ -48,18 +48,21 @@ module Cucumber
         expect( match("{what}",  ".22", ['float']) ).to eq([0.22])
       end
 
-      it "doesn't match unknown parameter type" do
-        expect { match("{what:unknown}", "something") }.to raise_error(
-          'No parameter for type name "unknown"')
+      it "leaves unknown type untransformed" do
+        expect( match("{unknown}", "something") ).to eq(["something"])
+      end
+
+      it "supports deprecated {name:type} syntax for now" do
+        expect( match("{param:unknown}", "something") ).to eq(["something"])
       end
 
       it "exposes source" do
-        expr = "I have {n:int} cuke(s) in my {bodypart} now"
+        expr = "I have {int} cuke(s) in my {bodypart} now"
         expect(CucumberExpression.new(expr, [], ParameterRegistry.new).source).to eq(expr)
       end
 
       it "exposes offset and value" do
-        expr = "I have {n:int} cuke(s) in my {bodypart} now"
+        expr = "I have {int} cuke(s) in my {bodypart} now"
         expression = CucumberExpression.new(expr, [], ParameterRegistry.new)
         arg1 = expression.match("I have 800 cukes in my brain now")[0]
         expect(arg1.offset).to eq(7)

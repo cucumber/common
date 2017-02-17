@@ -45,7 +45,7 @@ public class CucumberExpressionPatternTest {
     @Test
     public void translates_expression_types() {
         assertPattern(
-                "I have {n:int} cukes in my {bodyPart}",
+                "I have {int} cukes in my {bodyPart}",
                 "^I have ((?:-?\\d+)|(?:\\d+)) cukes in my (.+)$",
                 Collections.<Type>emptyList()
         );
@@ -57,7 +57,7 @@ public class CucumberExpressionPatternTest {
         types.add(Integer.class);
         types.add(String.class);
         assertPattern(
-                "I have {n:int} cukes in my {bodyPart}",
+                "I have {int} cukes in my {bodyPart}",
                 "^I have ((?:-?\\d+)|(?:\\d+)) cukes in my (.+)$",
                 types
         );

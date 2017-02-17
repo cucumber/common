@@ -53,14 +53,14 @@ public class CustomParameterTest {
 
     @Test
     public void transforms_CucumberExpression_arguments_with_expression_type_I() {
-        Expression expression = new CucumberExpression("I have a {color:color} ball", Collections.<Type>emptyList(), parameterRegistry);
+        Expression expression = new CucumberExpression("I have a {color} ball", Collections.<Type>emptyList(), parameterRegistry);
         Object transformedArgumentValue = expression.match("I have a red ball").get(0).getTransformedValue();
         assertEquals(new Color("red"), transformedArgumentValue);
     }
 
     @Test
     public void transforms_CucumberExpression_arguments_with_expression_type_II() {
-        Expression expression = new CucumberExpression("I have a {color:color} ball", Collections.<Type>emptyList(), parameterRegistry);
+        Expression expression = new CucumberExpression("I have a {color} ball", Collections.<Type>emptyList(), parameterRegistry);
         Object transformedArgumentValue = expression.match("I have a dark red ball").get(0).getTransformedValue();
         assertEquals(new Color("dark red"), transformedArgumentValue);
     }

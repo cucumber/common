@@ -110,20 +110,12 @@ public class ParameterRegistry {
         return (Parameter<T>) parametersByType.get(type);
     }
 
-    public Parameter<?> lookupByTypeName(String typeName, boolean ignoreUnknownTypeName) {
-        Parameter<?> parameter = parametersByTypeName.get(typeName);
-        if (parameter == null) {
-            if (ignoreUnknownTypeName) {
-                return null;
-            } else {
-                throw new CucumberExpressionException(String.format("No parameter type for type name \"%s\"", typeName));
-            }
-        }
-        return parameter;
+    public <T> Parameter<T> lookupByTypeName(String typeName) {
+        return (Parameter<T>) parametersByTypeName.get(typeName);
     }
 
-    public Parameter lookupByCaptureGroupRegexp(String captureGroupPattern) {
-        return parametersByCaptureGroupRegexp.get(captureGroupPattern);
+    public <T> Parameter<T> lookupByCaptureGroupRegexp(String captureGroupPattern) {
+        return (Parameter<T>) parametersByCaptureGroupRegexp.get(captureGroupPattern);
     }
 
     public Collection<Parameter<?>> getParameters() {

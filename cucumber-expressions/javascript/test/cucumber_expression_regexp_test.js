@@ -21,7 +21,7 @@ describe(CucumberExpression.name, () => {
 
     it("translates three typed arguments", () => {
       assertRegexp(
-        "I have {n:float} cukes in my {bodypart} at {time:int} o'clock",
+        "I have {float} cukes in my {bodypart} at {int} o'clock",
         /^I have (-?\d*\.?\d+) cukes in my (.+) at ((?:-?\d+)|(?:\d+)) o'clock$/
       )
     })

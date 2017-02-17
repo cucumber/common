@@ -35,7 +35,7 @@ public class CucumberExpressionTest {
 
     @Test
     public void transforms_to_int_by_expression_type() {
-        assertEquals(singletonList(22), match("{what:int}", "22"));
+        assertEquals(singletonList(22), match("{int}", "22"));
     }
 
     @Test
@@ -45,13 +45,13 @@ public class CucumberExpressionTest {
 
     @Test
     public void doesnt_match_a_float_to_an_int() {
-        assertEquals(null, match("{what:int}", "1.22"));
+        assertEquals(null, match("{int}", "1.22"));
     }
 
     @Test
     public void transforms_to_float_by_expression_type() {
-        assertEquals(singletonList(0.22f), match("{what:float}", "0.22"));
-        assertEquals(singletonList(0.22f), match("{what:float}", ".22"));
+        assertEquals(singletonList(0.22f), match("{float}", "0.22"));
+        assertEquals(singletonList(0.22f), match("{float}", ".22"));
     }
 
     @Test
@@ -61,24 +61,24 @@ public class CucumberExpressionTest {
     }
 
     @Test
-    public void doesnt_transform_unknown_type() {
-        try {
-            match("{what:unknown}", "something");
-            fail();
-        } catch (CucumberExpressionException expected) {
-            assertEquals("No parameter type for type name \"unknown\"", expected.getMessage());
-        }
+    public void leaves_unknown_type_untransformed() {
+        assertEquals(singletonList("something"), match("{unknown}", "something"));
+    }
+
+    @Test
+    public void supports_deprecated_name_colon_type_syntax_for_now() {
+        assertEquals(singletonList("something"), match("{param:unknown}", "something"));
     }
 
     @Test
     public void exposes_source() {
-        String expr = "I have {n:int} cuke(s) in my {bodypart} now";
+        String expr = "I have {int} cuke(s) in my {bodypart} now";
         assertEquals(expr, new CucumberExpression(expr, Collections.<Type>emptyList(), new ParameterRegistry(Locale.ENGLISH)).getSource());
     }
 
     @Test
     public void exposes_offset_and_value() {
-        String expr = "I have {n:int} cuke(s) in my {bodypart} now";
+        String expr = "I have {int} cuke(s) in my {bodypart} now";
         Expression expression = new CucumberExpression(expr, Collections.<Type>emptyList(), new ParameterRegistry(Locale.ENGLISH));
         Argument arg1 = expression.match("I have 800 cukes in my brain now").get(0);
         assertEquals(7, arg1.getOffset());

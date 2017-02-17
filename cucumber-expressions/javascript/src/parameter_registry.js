@@ -21,7 +21,7 @@ class ParameterRegistry {
     if (typeof type === 'function') {
       return this.lookupByFunction(type)
     } else if (typeof type === 'string') {
-      return this.lookupByTypeName(type, false)
+      return this.lookupByTypeName(type)
     } else {
       throw new Error(`Type must be string or function, but was ${type} of type ${typeof type}`)
     }
@@ -53,17 +53,8 @@ class ParameterRegistry {
     }
   }
 
-  lookupByTypeName(typeName, ignoreUnknownTypeName) {
-    const parameter = this._parametersByTypeName.get(typeName)
-    if (!parameter) {
-      if (ignoreUnknownTypeName) {
-        return null
-      } else {
-        throw new Error(`No parameter for type name "${typeName}". Registered parameters: ${Object.keys(this._parametersByTypeName)}`)
-      }
-    } else {
-      return parameter
-    }
+  lookupByTypeName(typeName) {
+    return this._parametersByTypeName.get(typeName)
   }
 
   lookupByCaptureGroupRegexp(captureGroupRegexp) {
