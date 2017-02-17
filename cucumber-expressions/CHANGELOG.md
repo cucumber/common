@@ -11,6 +11,21 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 N/A
 
 ### Added
+N/A
+
+### Changed
+N/A
+
+### Fixed
+N/A
+
+## [2.0.1] - 2017-02-17
+N/A
+
+### Removed
+N/A
+
+### Added
 * Document how to define `async` parameters.
   Depends on [cucumber/cucumber-js#753](https://github.com/cucumber/cucumber-js/pull/753).
   ([#108](https://github.com/cucumber/cucumber/issues/108)
@@ -115,7 +130,8 @@ N/A
 * First stable release!
 
 <!-- Releases -->
-[Unreleased]: https://github.com/cucumber/cucumber/compare/cucumber-expressions-v2.0.0...master
+[Unreleased]: https://github.com/cucumber/cucumber/compare/cucumber-expressions-v2.0.1...master
+[2.0.1]:      https://github.com/cucumber/cucumber/compare/cucumber-expressions-v2.0.0...v2.0.1
 [2.0.0]:      https://github.com/cucumber/cucumber/compare/cucumber-expressions-v1.0.4...v2.0.0
 [1.0.4]:      https://github.com/cucumber/cucumber/compare/cucumber-expressions-v1.0.3...cucumber-expressions-v1.0.4
 [1.0.3]:      https://github.com/cucumber/cucumber/compare/cucumber-expressions-v1.0.2...cucumber-expressions-v1.0.3
