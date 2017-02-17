@@ -61,6 +61,18 @@ module Cucumber
           parametered_argument_value = expression.match("I have a red ball")[0].transformed_value
           expect( parametered_argument_value ).to eq(Color.new('red'))
         end
+
+        it("defers transformation until queried from argument") do
+          @parameter_registry.add_parameter(Parameter.new(
+              'throwing',
+              String,
+              /bad/,
+              lambda { |s| raise "Can't transform [#{s}]" }
+          ))
+          expression = CucumberExpression.new("I have a {throwing} parameter", [], @parameter_registry)
+          args = expression.match("I have a bad parameter")
+          expect { args[0].transformed_value }.to raise_error("Can't transform [bad]")
+        end
       end
 
       describe RegularExpression do

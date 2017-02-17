@@ -16,11 +16,9 @@ class ArgumentBuilder {
             for (int i = 0; i < matcher.groupCount(); i++) {
                 int startIndex = matcher.start(i + 1);
                 String value = matcher.group(i + 1);
-
                 Parameter parameter = parameters.get(i);
-                Object transformedValue = parameter == null ? value : parameter.transform(value);
 
-                arguments.add(new Argument(startIndex, value, transformedValue));
+                arguments.add(new Argument(startIndex, value, parameter));
             }
             return arguments;
         } else {

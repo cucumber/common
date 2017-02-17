@@ -3,12 +3,12 @@ package io.cucumber.cucumberexpressions;
 public class Argument {
     private final int offset;
     private final String value;
-    private final Object transformedValue;
+    private final Parameter parameter;
 
-    public Argument(Integer offset, String value, Object transformedValue) {
+    public Argument(Integer offset, String value, Parameter parameter) {
         this.offset = offset;
         this.value = value;
-        this.transformedValue = transformedValue;
+        this.parameter = parameter;
     }
 
     public int getOffset() {
@@ -20,6 +20,6 @@ public class Argument {
     }
 
     public Object getTransformedValue() {
-        return transformedValue;
+        return parameter.transform(value);
     }
 }

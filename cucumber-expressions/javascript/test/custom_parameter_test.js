@@ -55,6 +55,19 @@ describe('Custom parameter', () => {
       assert.equal(transformedValue.name, "red")
     })
 
+    it("defers transformation until queried from argument", () => {
+      parameterRegistry.addParameter(new Parameter(
+        'throwing',
+        () => null,
+        /bad/,
+        s => { throw new Error(`Can't transform [${s}]`) }
+      ))
+
+      const expression = new CucumberExpression("I have a {throwing} parameter", [], parameterRegistry)
+      const args = expression.match("I have a bad parameter")
+      assert.throws(() => args[0].transformedValue, Error, "Can't transform [bad]")
+    })
+
     // JavaScript-specific
     it("matches untyped parameters with explicit type name", () => {
       const expression = new CucumberExpression("I have a {color} ball", ['color'], parameterRegistry)
