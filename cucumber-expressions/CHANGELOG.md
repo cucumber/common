@@ -20,7 +20,9 @@ N/A
    by [aslakhellesoy])
 
 ### Fixed
-N/A
+* Tweak Babel settings to produce ES5 code
+  ([#119](https://github.com/cucumber/cucumber/issues/119)
+   by [aslakhellesoy])
 
 ## [2.0.0] - 2017-02-17
 
