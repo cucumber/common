@@ -21,6 +21,13 @@ that they all follow the same versioning scheme ([semver](http://semver.org/)).
 
 ## Releasing a library
 
+First of all, make sure you have the right release karma:
+
+    release_karma_all ${group_path}
+
+If the library has a Java implementation, make sure the `pom.xml` version the version
+you are about to release, with the `-SNAPSHOT` suffix. Add and commit.
+
 Make sure the main `cucumber/cucumber` repo has the most recent commits from
 all of the subrepos:
 
