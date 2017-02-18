@@ -78,7 +78,7 @@ This is how we would define a custom `color` parameter:
 
 The `transform` function can also return a `Promise`:
 ```javascript
-[snippet](javascript/test/custom_parameter_test.js#add-color-parameter)
+[snippet](javascript/test/custom_parameter_test.js#add-async-parameter)
 ```
 
 {% sample lang="rb" %}
