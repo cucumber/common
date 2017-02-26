@@ -4,6 +4,7 @@
     "codetabs",
     "edit-link",
     "theme-api",
+    "heading-anchors",
     "snippet@git+https://github.com/cucumber-ltd/gitbook-plugin-snippet.git"
   ],
   "pluginsConfig": {
