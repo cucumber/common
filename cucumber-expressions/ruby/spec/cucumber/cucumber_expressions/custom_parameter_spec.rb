@@ -20,12 +20,12 @@ module Cucumber
 
     describe "Custom parameter" do
       before do
-        ### [add-color-parameter]
         parameter_registry = ParameterRegistry.new
+        ### [add-color-parameter]
         parameter_registry.add_parameter(Parameter.new(
           'color',
           Color,
-          [/red|blue|yellow/, /(?:dark|light) (?:red|blue|yellow)/],
+          /red|blue|yellow/,
           lambda { |s| Color.new(s) }
         ))
         ### [add-color-parameter]
@@ -40,7 +40,14 @@ module Cucumber
         end
 
         it "matches typed parameters with optional group" do
-          expression = CucumberExpression.new("I have a {color} ball", [], @parameter_registry)
+          parameter_registry = ParameterRegistry.new
+          parameter_registry.add_parameter(Parameter.new(
+              'color',
+              Color,
+              [/red|blue|yellow/, /(?:dark|light) (?:red|blue|yellow)/],
+              lambda { |s| Color.new(s) }
+          ))
+          expression = CucumberExpression.new("I have a {color} ball", [], parameter_registry)
           transformed_argument_value = expression.match("I have a dark red ball")[0].transformed_value
           expect( transformed_argument_value ).to eq(Color.new('dark red'))
         end
@@ -63,7 +70,7 @@ module Cucumber
           expect( transformed_argument_value ).to eq(Color.new('red'))
         end
 
-        it("defers transformation until queried from argument") do
+        it "defers transformation until queried from argument" do
           @parameter_registry.add_parameter(Parameter.new(
               'throwing',
               String,
@@ -73,6 +80,41 @@ module Cucumber
           expression = CucumberExpression.new("I have a {throwing} parameter", [], @parameter_registry)
           args = expression.match("I have a bad parameter")
           expect { args[0].transformed_value }.to raise_error("Can't transform [bad]")
+        end
+
+        describe "conflicting parameter type" do
+          it "is detected for type name" do
+            expect {
+              @parameter_registry.add_parameter(Parameter.new(
+                  'color',
+                  String,
+                  /.*/,
+                  lambda { |s| s }
+              ))
+            }.to raise_error("There is already a parameter with type name color")
+          end
+
+          it "is detected for type" do
+            expect {
+              @parameter_registry.add_parameter(Parameter.new(
+                  'color2',
+                  Color,
+                  /.*/,
+                  lambda { |s| Color.new(s) }
+              ))
+            }.to raise_error("There is already a parameter with type Cucumber::CucumberExpressions::Color")
+          end
+
+          it "is detected for regexp" do
+            expect {
+              @parameter_registry.add_parameter(Parameter.new(
+                  'color2',
+                  String,
+                  /red|blue|yellow/,
+                  lambda { |s| s }
+              ))
+            }.to raise_error("There is already a parameter with regexp red|blue|yellow")
+          end
         end
       end
 

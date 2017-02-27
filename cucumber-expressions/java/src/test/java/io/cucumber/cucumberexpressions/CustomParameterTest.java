@@ -42,7 +42,7 @@ public class CustomParameterTest {
         parameterRegistry.addParameter(new SimpleParameter<>(
                 "color",
                 Color.class,
-                asList("red|blue|yellow", "(?:dark|light) (?:red|blue|yellow)"),
+                "red|blue|yellow",
                 new Function<String, Color>() {
                     @Override
                     public Color apply(String name) {
@@ -54,14 +54,26 @@ public class CustomParameterTest {
     }
 
     @Test
-    public void transforms_CucumberExpression_arguments_with_expression_type_I() {
+    public void transforms_CucumberExpression_arguments_with_expression_type() {
         Expression expression = new CucumberExpression("I have a {color} ball", Collections.<Type>emptyList(), parameterRegistry);
         Object transformedArgumentValue = expression.match("I have a red ball").get(0).getTransformedValue();
         assertEquals(new Color("red"), transformedArgumentValue);
     }
 
     @Test
-    public void transforms_CucumberExpression_arguments_with_expression_type_II() {
+    public void transforms_CucumberExpression_arguments_with_expression_type_using_optional_group() {
+        parameterRegistry = new ParameterRegistry(Locale.ENGLISH);
+        parameterRegistry.addParameter(new SimpleParameter<>(
+                "color",
+                Color.class,
+                asList("red|blue|yellow", "(?:dark|light) (?:red|blue|yellow)"),
+                new Function<String, Color>() {
+                    @Override
+                    public Color apply(String name) {
+                        return new Color(name);
+                    }
+                }
+        ));
         Expression expression = new CucumberExpression("I have a {color} ball", Collections.<Type>emptyList(), parameterRegistry);
         Object transformedArgumentValue = expression.match("I have a dark red ball").get(0).getTransformedValue();
         assertEquals(new Color("dark red"), transformedArgumentValue);
@@ -110,6 +122,65 @@ public class CustomParameterTest {
         }
     }
 
+    ///// Conflicting parameter types
+
+    @Test
+    public void conflicting_parameter_type_is_detected_for_type() {
+        try {
+            parameterRegistry.addParameter(new SimpleParameter<>(
+                    "color",
+                    String.class,
+                    ".*",
+                    new Function<String, String>() {
+                        @Override
+                        public String apply(String s) {
+                            return s;
+                        }
+                    }));
+            fail("should have failed");
+        } catch (RuntimeException expected) {
+            assertEquals("There is already a parameter with type name color", expected.getMessage());
+        }
+    }
+
+    @Test
+    public void conflicting_parameter_type_is_detected_for_type_name() {
+        try {
+            parameterRegistry.addParameter(new SimpleParameter<>(
+                    "whatever",
+                    Color.class,
+                    ".*",
+                    new Function<String, Color>() {
+                        @Override
+                        public Color apply(String s) {
+                            return new Color(s);
+                        }
+                    }));
+            fail("should have failed");
+        } catch (RuntimeException expected) {
+            assertEquals("There is already a parameter with type io.cucumber.cucumberexpressions.CustomParameterTest$Color", expected.getMessage());
+        }
+    }
+
+    @Test
+    public void conflicting_parameter_type_is_detected_for_regexp() {
+        try {
+            parameterRegistry.addParameter(new SimpleParameter<>(
+                    "whatever",
+                    String.class,
+                    "red|blue|yellow",
+                    new Function<String, String>() {
+                        @Override
+                        public String apply(String s) {
+                            return s;
+                        }
+                    }));
+            fail("should have failed");
+        } catch (RuntimeException expected) {
+            assertEquals("There is already a parameter with regexp red|blue|yellow", expected.getMessage());
+        }
+    }
+
     ///// RegularExpression
 
     @Test
@@ -132,6 +203,4 @@ public class CustomParameterTest {
         Color transformedArgumentValue = (Color) expression.match("I have a red ball").get(0).getTransformedValue();
         assertEquals("red", transformedArgumentValue.name);
     }
-
-
 }

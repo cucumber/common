@@ -1,5 +1,6 @@
 /* eslint-env mocha */
 const assert = require('assert')
+const assertThrows = require('./assert_throws')
 const RegularExpression = require('../src/regular_expression')
 const TransformLookup = require('../src/parameter_registry')
 
@@ -58,9 +59,9 @@ describe(RegularExpression.name, () => {
   })
 
   it("fails when type is not type name or function", () => {
-    assert.throws(
+    assertThrows(
       () => match(/(.*)/, "-1.22", [99]),
-      /Type must be string or function, but was 99 of type number/
+      'Type must be string or function, but was 99 of type number'
     )
   })
 

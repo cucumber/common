@@ -3,6 +3,8 @@ package io.cucumber.cucumberexpressions;
 import org.junit.Test;
 
 import java.lang.reflect.Type;
+import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -11,7 +13,6 @@ import java.util.Locale;
 import static java.util.Arrays.asList;
 import static java.util.Collections.singletonList;
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.fail;
 
 public class CucumberExpressionTest {
     @Test
@@ -95,6 +96,31 @@ public class CucumberExpressionTest {
     }
 
     // Java-specific
+
+    @Test
+    public void transforms_to_byte_by_expression_type() {
+        assertEquals(singletonList((byte) 15), match("{byte}", "0x0F"));
+    }
+
+    @Test
+    public void transforms_to_short_by_expression_type() {
+        assertEquals(singletonList(Short.MAX_VALUE), match("{short}", String.valueOf(Short.MAX_VALUE)));
+    }
+
+    @Test
+    public void transforms_to_long_by_expression_type() {
+        assertEquals(singletonList(Long.MAX_VALUE), match("{long}", String.valueOf(Long.MAX_VALUE)));
+    }
+
+    @Test
+    public void transforms_to_bigint_by_expression_type() {
+        assertEquals(singletonList(BigInteger.ONE), match("{bigint}", BigInteger.ONE.toString()));
+    }
+
+    @Test
+    public void transforms_to_bigdecimal_by_expression_type() {
+        assertEquals(singletonList(BigDecimal.ONE), match("{bigdecimal}", BigDecimal.ONE.toString()));
+    }
 
     @Test
     public void transforms_to_double_with_comma_for_locale_using_comma() {

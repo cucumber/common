@@ -40,8 +40,9 @@ public class RegularExpressionTest {
     }
 
     @Test
-    public void transforms_to_double_using_capture_group_pattern() {
-        assertEquals(singletonList(22L), match(compile("(\\d+)"), "22"));
+    public void transforms_to_long_using_capture_group_pattern() {
+        List<?> match = match(compile("(\\d+)"), "22");
+        assertEquals(singletonList(22L), match);
     }
 
     @Test
@@ -57,11 +58,6 @@ public class RegularExpressionTest {
     @Test
     public void transforms_double_with_sign() {
         assertEquals(singletonList(-1.22), match(compile("(.*)"), "-1.22", Collections.<Type>singletonList(Double.class)));
-    }
-
-    @Test
-    public void rounds_double_to_integer() {
-        assertEquals(singletonList(1), match(compile("(.*)"), "1.22", Collections.<Type>singletonList(Integer.class)));
     }
 
     @Test

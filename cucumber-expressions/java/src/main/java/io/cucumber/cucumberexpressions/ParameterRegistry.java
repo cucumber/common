@@ -1,6 +1,8 @@
 package io.cucumber.cucumberexpressions;
 
 import java.lang.reflect.Type;
+import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.text.NumberFormat;
 import java.util.Collection;
 import java.util.HashMap;
@@ -9,11 +11,11 @@ import java.util.Locale;
 import java.util.Map;
 
 import static java.util.Arrays.asList;
-import static java.util.Collections.singletonList;
 
 public class ParameterRegistry {
     private static final List<String> INTEGER_REGEXPS = asList("-?\\d+", "\\d+");
-    private static final List<String> FLOAT_REGEXPS = singletonList("-?\\d*[\\.,]\\d+");
+    private static final String FLOAT_REGEXP = "-?\\d*[\\.,]\\d+";
+    private static final String HEX_REGEXP = "0[xX][0-9a-fA-F]{2}";
 
     private Map<Type, Parameter<?>> parametersByType = new HashMap<>();
     private Map<String, Parameter<?>> parametersByTypeName = new HashMap<>();
@@ -23,73 +25,85 @@ public class ParameterRegistry {
         NumberFormat numberFormat = NumberFormat.getNumberInstance(locale);
         final NumberParser numberParser = new NumberParser(numberFormat);
 
-        addParameter(new SimpleParameter<>("byte", byte.class, INTEGER_REGEXPS, new Function<String, Byte>() {
+        addPredefinedParameter(new SimpleParameter<>("bigint", BigInteger.class, INTEGER_REGEXPS, new Function<String, BigInteger>() {
+            @Override
+            public BigInteger apply(String s) {
+                return new BigInteger(s);
+            }
+        }));
+        addPredefinedParameter(new SimpleParameter<>("bigdecimal", BigDecimal.class, INTEGER_REGEXPS, new Function<String, BigDecimal>() {
+            @Override
+            public BigDecimal apply(String s) {
+                return new BigDecimal(s);
+            }
+        }));
+        addPredefinedParameter(new SimpleParameter<>("byte", byte.class, HEX_REGEXP, new Function<String, Byte>() {
             @Override
             public Byte apply(String s) {
-                return numberParser.parseByte(s);
+                return Byte.decode(s);
             }
         }));
-        addParameter(new SimpleParameter<>("byte", Byte.class, INTEGER_REGEXPS, new Function<String, Byte>() {
+        addPredefinedParameter(new SimpleParameter<>("byte", Byte.class, HEX_REGEXP, new Function<String, Byte>() {
             @Override
             public Byte apply(String s) {
-                return numberParser.parseByte(s);
+                return Byte.decode(s);
             }
         }));
-        addParameter(new SimpleParameter<>("short", short.class, INTEGER_REGEXPS, new Function<String, Short>() {
+        addPredefinedParameter(new SimpleParameter<>("short", short.class, INTEGER_REGEXPS, new Function<String, Short>() {
             @Override
             public Short apply(String s) {
-                return numberParser.parseShort(s);
+                return Short.decode(s);
             }
         }));
-        addParameter(new SimpleParameter<>("short", Short.class, INTEGER_REGEXPS, new Function<String, Short>() {
+        addPredefinedParameter(new SimpleParameter<>("short", Short.class, INTEGER_REGEXPS, new Function<String, Short>() {
             @Override
             public Short apply(String s) {
-                return numberParser.parseShort(s);
+                return Short.decode(s);
             }
         }));
-        addParameter(new SimpleParameter<>("int", int.class, INTEGER_REGEXPS, new Function<String, Integer>() {
+        addPredefinedParameter(new SimpleParameter<>("int", int.class, INTEGER_REGEXPS, new Function<String, Integer>() {
             @Override
             public Integer apply(String s) {
-                return numberParser.parseInt(s);
+                return Integer.decode(s);
             }
         }));
-        addParameter(new SimpleParameter<>("int", Integer.class, INTEGER_REGEXPS, new Function<String, Integer>() {
+        addPredefinedParameter(new SimpleParameter<>("int", Integer.class, INTEGER_REGEXPS, new Function<String, Integer>() {
             @Override
             public Integer apply(String s) {
-                return numberParser.parseInt(s);
+                return Integer.decode(s);
             }
         }));
-        addParameter(new SimpleParameter<>("long", long.class, INTEGER_REGEXPS, new Function<String, Long>() {
+        addPredefinedParameter(new SimpleParameter<>("long", long.class, INTEGER_REGEXPS, new Function<String, Long>() {
             @Override
             public Long apply(String s) {
-                return numberParser.parseLong(s);
+                return Long.decode(s);
             }
         }));
-        addParameter(new SimpleParameter<>("long", Long.class, INTEGER_REGEXPS, new Function<String, Long>() {
+        addPredefinedParameter(new SimpleParameter<>("long", Long.class, INTEGER_REGEXPS, new Function<String, Long>() {
             @Override
             public Long apply(String s) {
-                return numberParser.parseLong(s);
+                return Long.decode(s);
             }
         }));
-        addParameter(new SimpleParameter<>("float", float.class, FLOAT_REGEXPS, new Function<String, Float>() {
+        addPredefinedParameter(new SimpleParameter<>("float", float.class, FLOAT_REGEXP, new Function<String, Float>() {
             @Override
             public Float apply(String s) {
                 return numberParser.parseFloat(s);
             }
         }));
-        addParameter(new SimpleParameter<>("float", Float.class, FLOAT_REGEXPS, new Function<String, Float>() {
+        addPredefinedParameter(new SimpleParameter<>("float", Float.class, FLOAT_REGEXP, new Function<String, Float>() {
             @Override
             public Float apply(String s) {
                 return numberParser.parseFloat(s);
             }
         }));
-        addParameter(new SimpleParameter<>("double", double.class, FLOAT_REGEXPS, new Function<String, Double>() {
+        addPredefinedParameter(new SimpleParameter<>("double", double.class, FLOAT_REGEXP, new Function<String, Double>() {
             @Override
             public Double apply(String s) {
                 return numberParser.parseDouble(s);
             }
         }));
-        addParameter(new SimpleParameter<>("double", Double.class, FLOAT_REGEXPS, new Function<String, Double>() {
+        addPredefinedParameter(new SimpleParameter<>("double", Double.class, FLOAT_REGEXP, new Function<String, Double>() {
             @Override
             public Double apply(String s) {
                 return numberParser.parseDouble(s);
@@ -98,12 +112,26 @@ public class ParameterRegistry {
     }
 
     public void addParameter(Parameter<?> parameter) {
-        parametersByType.put(parameter.getType(), parameter);
-        parametersByTypeName.put(parameter.getTypeName(), parameter);
+        addParameter0(parameter, true);
+    }
+
+    private void addPredefinedParameter(Parameter<?> parameter) {
+        addParameter0(parameter, false);
+    }
+
+    private void addParameter0(Parameter<?> parameter, boolean checkConflicts) {
+        put(parametersByType, parameter.getType(), parameter, "type", parameter.getType().getTypeName(), checkConflicts);
+        put(parametersByTypeName, parameter.getTypeName(), parameter, "type name", parameter.getTypeName(), checkConflicts);
 
         for (String captureGroupRegexp : parameter.getCaptureGroupRegexps()) {
-            parametersByCaptureGroupRegexp.put(captureGroupRegexp, parameter);
+            put(parametersByCaptureGroupRegexp, captureGroupRegexp, parameter, "regexp", captureGroupRegexp, checkConflicts);
         }
+    }
+
+    private <K> void put(Map<K, Parameter<?>> map, K key, Parameter<?> parameter, String prop, String keyName, boolean checkConflicts) {
+        if (checkConflicts && map.containsKey(key))
+            throw new RuntimeException(String.format("There is already a parameter with %s %s", prop, keyName));
+        map.put(key, parameter);
     }
 
     public <T> Parameter<T> lookupByType(Type type) {

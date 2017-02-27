@@ -7,10 +7,10 @@ class ParameterRegistry {
     this._parametersByConstructorName = new Map()
 
     const INTEGER_REGEXPS = [/-?\d+/, /\d+/]
-    const FLOAT_REGEXPS = [/-?\d*\.?\d+/]
+    const FLOAT_REGEXP = /-?\d*\.?\d+/
 
-    this.addParameter(new Parameter('int', Number, INTEGER_REGEXPS, parseInt))
-    this.addParameter(new Parameter('float', Number, FLOAT_REGEXPS, parseFloat))
+    this._addPredefinedParameter(new Parameter('int', Number, INTEGER_REGEXPS, parseInt))
+    this._addPredefinedParameter(new Parameter('float', Number, FLOAT_REGEXP, parseFloat))
   }
 
   get parameters() {
@@ -66,14 +66,27 @@ class ParameterRegistry {
   }
 
   addParameter(parameter) {
-    this._parametersByConstructorName.set(parameter.constructorFunction.name, parameter)
+    this._addParameter(parameter, true)
+  }
 
-    this._parametersByTypeName.set(parameter.typeName, parameter)
+  _addPredefinedParameter(parameter) {
+    this._addParameter(parameter, false)
+  }
+
+  _addParameter(parameter, checkConflicts) {
+    set(this._parametersByConstructorName, parameter.constructorFunction.name, parameter, 'constructor', checkConflicts)
+    set(this._parametersByTypeName, parameter.typeName, parameter, 'type name', checkConflicts)
 
     for (let captureGroupRegexp of parameter.captureGroupRegexps) {
-      this._parametersByCaptureGroupRegexp.set(captureGroupRegexp, parameter)
+      set(this._parametersByCaptureGroupRegexp, captureGroupRegexp, parameter, 'regexp', checkConflicts)
     }
   }
+}
+
+function set(map, key, value, prop, checkConflicts) {
+  if(checkConflicts && map.has(key))
+    throw new Error(`There is already a parameter with ${prop} ${key}`)
+  map.set(key, value)
 }
 
 module.exports = ParameterRegistry
