@@ -14,7 +14,9 @@ N/A
 N/A
 
 ### Changed
-N/A
+* Stricter conflict checks when defining parameters.
+  ([#121](https://github.com/cucumber/cucumber/pull/121)
+   by [aslakhellesoy])
 
 ### Fixed
 N/A
