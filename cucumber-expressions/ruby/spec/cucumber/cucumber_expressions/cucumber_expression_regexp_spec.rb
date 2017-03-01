@@ -17,6 +17,13 @@ module Cucumber
           )
         end
 
+        it "translates alternation" do
+          assert_regexp(
+            "I had/have a great/nice/charming friend",
+            /^I (?:had|have) a (?:great|nice|charming) friend$/
+          )
+        end
+
         it "translates two untyped arguments" do
           assert_regexp(
             "I have {n} cukes in my {bodypart} now",

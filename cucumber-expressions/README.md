@@ -37,7 +37,7 @@ Let's change the parameter to a `float` instead:
 
 Now the expression will match the text, and the number `42.5` is extracted.
 
-## Optional Text
+## Optional text
 
 It's grammatically incorrect to say *1 cucumbers*, so we should make that `s`
 optional. That can be done by surrounding the optional text with parenthesis:
@@ -52,15 +52,27 @@ It would also match this text:
 
     I have 42 cucumbers in my belly
 
+## Alternative text
+
+Sometimes you want to relax your language, to make it flow better. For example:
+
+    I have {int} cucumber(s) in my belly/stomach
+
+This would match either of those texts:
+
+    I have 42 cucumbers in my belly
+    I have 42 cucumbers in my stomach
+
 ## Custom Parameters {#custom-parameters}
 
 Cucumber Expressions have built-in support for `int` and `float` parameter types
 as well as other numeric types available in your programming language.
 
-Defining your own parameter types is useful for two reasons:
+Defining your own parameter types is useful for several reasons:
 
 1. Enforce certain patterns
 1. Convert to custom types
+1. Document and evolve your ubiquitous domain language
 
 Imagine we want our parameter to match the colors `red`, `blue` or `yellow`
 (but nothing else). Let's assume a `Color` class is already defined.

@@ -4,8 +4,9 @@ require 'cucumber/cucumber_expressions/parameter'
 module Cucumber
   module CucumberExpressions
     class CucumberExpression
-      PARAMETER_PATTERN = /\{([^}:]+)(:([^}]+))?}/
-      OPTIONAL_PATTERN = /\(([^)]+)\)/
+      PARAMETER_REGEXP = /\{([^}:]+)(:([^}]+))?}/
+      OPTIONAL_REGEXP = /\(([^)]+)\)/
+      ALTERNATIVE_WORD_REGEXP = /([[:alpha:]]+)((\/[[:alpha:]]+)+)/
 
       attr_reader :source
 
@@ -14,17 +15,20 @@ module Cucumber
         @parameters = []
         regexp = "^"
         type_index = 0
-        match = nil
         match_offset = 0
 
-        # Does not include (){} because they have special meaning
+        # Escape Does not include (){} because they have special meaning
         expression = expression.gsub(/([\\\^\[$.|?*+\]])/, '\\\\\1')
 
         # Create non-capturing, optional capture groups from parenthesis
-        expression = expression.gsub(OPTIONAL_PATTERN, '(?:\1)?')
+        expression = expression.gsub(OPTIONAL_REGEXP, '(?:\1)?')
+
+        expression = expression.gsub(ALTERNATIVE_WORD_REGEXP) do |_|
+          "(?:#{$1}#{$2.tr('/', '|')})"
+        end
 
         loop do
-          match = PARAMETER_PATTERN.match(expression, match_offset)
+          match = PARAMETER_REGEXP.match(expression, match_offset)
           break if match.nil?
 
           parameter_name = match[1]

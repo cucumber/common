@@ -12,6 +12,13 @@ describe(CucumberExpression.name, () => {
       )
     })
 
+    it("translates alternation", () => {
+      assertRegexp(
+        "I had/have a great/nice/charming friend",
+        /^I (?:had|have) a (?:great|nice|charming) friend$/
+      )
+    })
+
     it("translates two untyped arguments", () => {
       assertRegexp(
         "I have {n} cukes in my {bodypart} now",

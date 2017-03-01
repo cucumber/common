@@ -25,6 +25,15 @@ public class CucumberExpressionPatternTest {
     }
 
     @Test
+    public void translates_alternation() {
+        assertPattern(
+                "I had/have a great/nice/charming friend",
+                "^I (?:had|have) a (?:great|nice|charming) friend$",
+                Collections.<Type>emptyList()
+        );
+    }
+
+    @Test
     public void translates_an_int_arg() {
         assertPattern(
                 "I have {n} cukes",

@@ -11,10 +11,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 N/A
 
 ### Added
-N/A
+* Alternative text: `I have a cat/dog/fish`
+  (by [aslakhellesoy])
 
 ### Changed
-* Stricter conflict checks when defining parameters.
+* Stricter conflict checks when defining parameters
   ([#121](https://github.com/cucumber/cucumber/pull/121)
    by [aslakhellesoy])
 

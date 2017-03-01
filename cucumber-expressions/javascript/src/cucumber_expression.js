@@ -6,9 +6,10 @@ class CucumberExpression {
    * @param types Array of type name (String) or types (function). Functions can be a regular function or a constructor
    * @param parameterRegistry
    */
-  constructor(expression, types, parameterRegistry) {
-    const parameterPattern = /\{([^}:]+)(:([^}]+))?}/g
-    const optionalPattern = /\(([^)]+)\)/g
+  constructor (expression, types, parameterRegistry) {
+    const PARAMETER_REGEXP = /\{([^}:]+)(:([^}]+))?}/g
+    const OPTIONAL_REGEXP = /\(([^)]+)\)/g
+    const ALTERNATIVE_WORD_REGEXP = /(\w+)((\/\w+)+)/g
 
     this._expression = expression
     this._parameters = []
@@ -21,9 +22,11 @@ class CucumberExpression {
     expression = expression.replace(/([\\\^\[$.|?*+])/g, "\\$1")
 
     // Create non-capturing, optional capture groups from parenthesis
-    expression = expression.replace(optionalPattern, '(?:$1)?')
+    expression = expression.replace(OPTIONAL_REGEXP, '(?:$1)?')
 
-    while ((match = parameterPattern.exec(expression)) !== null) {
+    expression = expression.replace(ALTERNATIVE_WORD_REGEXP, (_, p1, p2) => `(?:${p1}${p2.replace(/\//g, '|')})`)
+
+    while ((match = PARAMETER_REGEXP.exec(expression)) !== null) {
       const parameterName = match[1]
       const typeName = match[3]
       // eslint-disable-next-line no-console
@@ -51,7 +54,7 @@ class CucumberExpression {
 
       const text = expression.slice(matchOffset, match.index)
       const captureRegexp = getCaptureRegexp(parameter.captureGroupRegexps)
-      matchOffset = parameterPattern.lastIndex
+      matchOffset = PARAMETER_REGEXP.lastIndex
       regexp += text
       regexp += captureRegexp
     }
@@ -60,16 +63,16 @@ class CucumberExpression {
     this._regexp = new RegExp(regexp)
   }
 
-  match(text) {
+  match (text) {
     return matchPattern(this._regexp, text, this._parameters)
   }
 
-  get source() {
+  get source () {
     return this._expression
   }
 }
 
-function getCaptureRegexp(captureGroupRegexps) {
+function getCaptureRegexp (captureGroupRegexps) {
   if (captureGroupRegexps.length === 1) {
     return `(${captureGroupRegexps[0]})`
   }
