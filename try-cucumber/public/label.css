@@ -1,0 +1,12 @@
+[data-label] {
+  position: relative;
+  display: inline-block;
+  z-index: 2;
+}
+
+[data-label]:before {
+  position: absolute;
+  top: 100%;
+  content: attr(data-label);
+  text-align: center;
+}
