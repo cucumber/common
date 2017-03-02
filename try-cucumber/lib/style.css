@@ -10,6 +10,10 @@
   background-color: #626262 !important;
 }
 
+.step-arg {
+  background-color: yellow;
+}
+
 [data-label] {
   position: relative;
   display: inline-block;

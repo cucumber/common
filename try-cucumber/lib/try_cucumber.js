@@ -79,6 +79,12 @@ function matchStepWithExpression() {
   stepMirror.getWrapperElement().classList.remove('no-match')
   cukexpMirror.getWrapperElement().classList.remove('not-used')
 
+  // Add widgets to the steps
+  for(const arg of args) {
+    const argWidget = createArgWidget(stepMirror, arg.value.length)
+    stepMirror.addWidget({line: 0, ch: arg.offset}, argWidget)
+  }
+
   // Generate parameter names
   // We're using internal logic in the generator to generate parameter names,
   // because it generates unique variable names (int, int2) etc.
@@ -107,6 +113,17 @@ function addSpan(text, parent) {
   return span
 }
 
+function createArgWidget(cm, width) {
+  const rect = document.createElement('div')
+  rect.style.width = width * cm.defaultCharWidth() + 'px'
+  rect.style.height = cm.defaultTextHeight() + 'px'
+  rect.style.top = '-' + cm.defaultTextHeight() + 'px'
+  rect.style.position = 'relative'
+  rect.style.background = '#118811'
+  const cursor = document.createElement('div')
+  cursor.appendChild(rect)
+  return cursor
+}
 // http://stackoverflow.com/questions/13026285/codemirror-for-just-one-line-textfield
 function makeOneLine(cm) {
   cm.setSize(cm.getScrollInfo().width, cm.defaultTextHeight() + 2 * 4);
