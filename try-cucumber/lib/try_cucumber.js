@@ -1,3 +1,7 @@
+require('./style.css')
+require('codemirror/lib/codemirror.css')
+require('codemirror/theme/vibrant-ink.css')
+
 const CodeMirror = require('codemirror')
 require('codemirror/addon/mode/simple')
 const CucumberExpressions = require('cucumber-expressions')

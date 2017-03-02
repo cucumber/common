@@ -1,3 +1,15 @@
+.editor {
+  padding: 4px;
+}
+
+.no-match {
+  background-color: #832323 !important;
+}
+
+.not-used {
+  background-color: #626262 !important;
+}
+
 [data-label] {
   position: relative;
   display: inline-block;
