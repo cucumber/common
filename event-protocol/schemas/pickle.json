@@ -1,0 +1,72 @@
+{
+  "id": "https://raw.github.com/cucumber/cucumber/master/event-protocol/schemas/pickle.json#",
+  "title": "pickle",
+  "description": "Schema for pickle message which describes a test case and its steps",
+  "type": "object",
+  "properties": {
+    "type": {
+      "type": "string"
+    },
+    "timestamp": { "$ref": "defs.json#/timestamp" },
+    "series": { "$ref": "defs.json#/series" },
+    "uri": {
+      "type": "string"
+    },
+    "pickle": {
+      "type": "object",
+      "properties": {
+        "tags": {
+          "type": "array",
+          "items": { "$ref": "defs.json#/tag" }
+        },
+        "name": {
+          "type": "string"
+        },
+        "locations": {
+          "type": "array",
+          "items": { "$ref": "defs.json#/location" }
+        },
+        "steps": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "text": {
+                "type": "string"
+              },
+              "arguments": {
+                "type": "array",
+                "items": {}
+              },
+              "locations": {
+                "type": "array",
+                "items": { "$ref": "defs.json#/location" }
+              }
+            },
+            "required": [
+              "text",
+              "arguments",
+              "locations"
+            ],
+            "additionalProperties": false
+          }
+        }
+      },
+      "required": [
+        "tags",
+        "name",
+        "locations",
+        "steps"
+      ],
+      "additionalProperties": false
+    }
+  },
+  "required": [
+    "type",
+    "timestamp",
+    "series",
+    "uri",
+    "pickle"
+  ],
+  "additionalProperties": false
+}
