@@ -179,6 +179,6 @@ typically in a git repository and/or pull request for a consumer.
 To modify the protocol, start by adding or modifying an example event in `examples/events/`.
 When you run `make` this should cause a validation error.
 
-Next, add or modify a schema in `schema/` and ensure `make` runs without validation errors.
+Next, add or modify a schema in `schema/` and ensure `make` runs without validation errors. You can learn about JSON schemas in [this short book](https://spacetelescope.github.io/understanding-json-schema/UnderstandingJSONSchema.pdf).
 
 Also see the general [contributing guidelines](../CONTRIBUTING.md).
