@@ -1,6 +1,7 @@
 {
   "id": "https://raw.github.com/cucumber/cucumber/master/event-protocol/schemas/source.json#",
   "title": "source",
+  "description": "Describes a specification document that contains executable examples",
   "type": "object",
   "properties": {
     "type": {
