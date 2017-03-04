@@ -1,7 +1,7 @@
 {
   "id": "https://raw.github.com/cucumber/cucumber/master/event-protocol/schemas/pickle.json#",
   "title": "pickle",
-  "description": "Schema for pickle message which describes a test case and its steps",
+  "description": "Describes a test case and its steps",
   "type": "object",
   "properties": {
     "type": {
@@ -24,6 +24,7 @@
         },
         "locations": {
           "type": "array",
+          "minLength": 1,
           "items": { "$ref": "defs.json#/location" }
         },
         "steps": {
@@ -40,12 +41,11 @@
               },
               "locations": {
                 "type": "array",
+                "minLength": 1,
                 "items": { "$ref": "defs.json#/location" }
               }
             },
             "required": [
-              "text",
-              "arguments",
               "locations"
             ],
             "additionalProperties": false
