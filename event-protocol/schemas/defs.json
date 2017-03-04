@@ -10,5 +10,25 @@
   "series": {
     "type": "string",
     "pattern": "^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$"
+  },
+  "location": {
+    "type": "object",
+    "properties": {
+      "line": {
+        "type": "integer",
+        "minimum": 1
+      },
+      "column": {
+        "type": "integer",
+        "minimum": 1
+      },
+      "uri": {
+        "type": "string"
+      }
+    },
+    "required": [
+      "line"
+    ],
+    "additionalProperties": false
   }
 }
