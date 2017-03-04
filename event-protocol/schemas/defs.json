@@ -1,7 +1,7 @@
 {
   "id": "https://raw.github.com/cucumber/cucumber/master/event-protocol/schemas/defs.json#",
   "title": "definitions",
-  "description": "re-usable parts of the schema",
+  "description": "Re-usable parts of the schema, referenced by others",
   "timestamp": {
     "description": "Milliseconds since epoch",
     "type": "integer",
