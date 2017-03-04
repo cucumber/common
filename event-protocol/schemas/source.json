@@ -1,19 +1,13 @@
 {
+  "id": "https://raw.github.com/cucumber/cucumber/master/event-protocol/schemas/source.json#",
   "title": "source",
   "type": "object",
   "properties": {
     "type": {
       "type": "string"
     },
-    "timestamp": {
-      "description": "Milliseconds since epoch",
-      "type": "integer",
-      "minimum": 0
-    },
-    "series": {
-      "type": "string",
-      "pattern": "^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$"
-    },
+    "timestamp": { "$ref": "defs.json#/timestamp" },
+    "series": { "$ref": "defs.json#/series" },
     "uri": {
       "type": "string"
     },
