@@ -57,6 +57,16 @@ Example:
 [snippet](examples/events/002_source.json)
 ```
 
+### pickle
+
+A `pickle' event contains details of a compiled test case.
+
+Example:
+
+```json
+[snippet](examples/events/003_pickle.json)
+```
+
 ### attachment {#event-attachment}
 
 An `attachment` attaches a piece of metadata to a particular line in a `source` file.
@@ -68,13 +78,13 @@ Attachments can have many types (specified by a media type), and are typically u
 Example (PNG image):
 
 ```json
-[snippet](examples/events/003_attachment-png-embedded.json)
+[snippet](examples/events/004_attachment-png-embedded.json)
 ```
 
 Example (Java stack trace):
 
 ```json
-[snippet](examples/events/004_attachment-stacktrace.json)
+[snippet](examples/events/005_attachment-stacktrace.json)
 ```
 
 ### Cucumber-specific attachments
