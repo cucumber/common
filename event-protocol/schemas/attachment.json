@@ -1,42 +1,21 @@
 {
-  "title": "source",
+  "id": "https://raw.github.com/cucumber/cucumber/master/event-protocol/schemas/attachment.json#",
+  "title": "attachment",
+  "description": "Event describing a specification document, containing executable examples",
   "type": "object",
   "properties": {
     "type": {
       "type": "string"
     },
-    "timestamp": {
-      "description": "Milliseconds since epoch",
-      "type": "integer",
-      "minimum": 0
-    },
-    "series": {
-      "type": "string",
-      "pattern": "^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$"
-    },
+    "timestamp": { "$ref": "defs.json#/timestamp" },
+    "series": { "$ref": "defs.json#/series" },
     "source": {
       "type": "object",
       "properties": {
         "uri": {
           "type": "string"
         },
-        "start": {
-          "type": "object",
-          "properties": {
-            "line": {
-              "type": "integer",
-              "minimum": 1
-            },
-            "column": {
-              "type": "integer",
-              "minimum": 1
-            }
-          },
-          "required": [
-            "line"
-          ],
-          "additionalProperties": false
-        }
+        "start": { "$ref": "defs.json#/location" }
       },
       "required": [
         "uri",

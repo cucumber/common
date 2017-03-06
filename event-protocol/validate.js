@@ -15,21 +15,19 @@ const path = require('path')
 const es = require('event-stream')
 const fs = require('mz/fs')
 const Ajv = require('ajv');
-const ajv = new Ajv();
 const RED = '\033[0;31m'
 const GREEN = '\033[0;32m'
 const NC = '\033[0m'
+const SCHEMA_BASE_URL = 'https://raw.github.com/cucumber/cucumber/master/event-protocol/schemas/'
 
-const loadSchemas = (schemaDir) => {
-  return fs.readdir(schemaDir)
-    .then(fileNames => Promise.all(
-      fileNames.map(
-        fileName => fs.readFile(path.join(schemaDir, fileName), 'utf-8')
-          .then(schemaSource => [path.basename(fileName, '.json'), ajv.compile(JSON.parse(schemaSource))])
-      )
-    ))
-    .then(fileNameSourcePairs => new Map(fileNameSourcePairs))
-}
+const schemaDir = __dirname + '/schemas'
+const schemaFiles = fs.readdirSync(schemaDir)
+  .map(name => path.resolve(`${schemaDir}/${name}`))
+
+var ajv = Ajv({
+  allErrors: true,
+  schemas: schemaFiles.map(require)
+})
 
 const validateEvents = (schemas) => {
   let validationError = false
@@ -38,7 +36,7 @@ const validateEvents = (schemas) => {
       .pipe(es.split())
       .pipe(es.map((json, cb) => json ? cb(null, JSON.parse(json)) : cb()))
       .pipe(es.map((event, cb) => {
-        const validate = schemas.get(event.type)
+        const validate = schemas.getSchema(`${SCHEMA_BASE_URL}${event.type}.json#`)
         if (!validate) return cb(null, [`No schema for ${inspect(event)}`, event])
         const valid = validate(event)
         if (!valid) return cb(null, [JSON.stringify(validate.errors), event])
@@ -61,8 +59,7 @@ const validateEvents = (schemas) => {
   })
 }
 
-loadSchemas(__dirname + '/schemas')
-  .then(schemas => validateEvents(schemas))
+validateEvents(ajv)
   .then(validationError => process.exit(validationError ? 1 : 0))
   .catch(err => {
     console.error(`${RED}${err}${NC}`)
