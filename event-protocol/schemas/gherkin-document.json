@@ -23,10 +23,12 @@
               "type": "string"
             },
             "tags": {
-              "type": "array"
+              "type": "array",
+              "items": { "$ref": "defs.json#/ast-tag" }
             },
             "location": {
-              "type": "object"
+              "type": "object",
+              "items": { "$ref": "defs.json#/ast-location" }
             },
             "language": {
               "type": "string"

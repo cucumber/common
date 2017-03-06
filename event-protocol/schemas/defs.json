@@ -38,6 +38,49 @@
         "type": "string"
       },
       "location": { "$ref": "defs.json#/location" }
-    }
+    },
+    "required": [
+      "name",
+      "location"
+    ],
+    "additionalProperties": false
+  },
+  "ast-location": {
+    "type": "object",
+    "properties": {
+      "line": {
+        "type": "integer",
+        "minimum": 1
+      },
+      "column": {
+        "type": "integer",
+        "minimum": 1
+      }
+    },
+    "required": [
+      "line",
+      "column"
+    ],
+    "additionalProperties": false
+  },
+  "ast-tag": {
+    "type": "object",
+    "properties": {
+      "type": {
+        "enum": [
+          "Tag"
+        ]
+      },
+      "name": {
+        "type": "string"
+      },
+      "location": { "$ref": "defs.json#/location" }
+    },
+    "required": [
+      "type",
+      "name",
+      "location"
+    ],
+    "additionalProperties": false
   }
 }
