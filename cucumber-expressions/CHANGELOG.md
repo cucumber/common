@@ -11,11 +11,25 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 N/A
 
 ### Added
+N/A
+
+### Changed
+N/A
+
+### Fixed
+N/A
+
+## [3.0.0] - 2017-03-08
+
+### Removed
+N/A
+
+### Added
 * Alternative text: `I have a cat/dog/fish`
   (by [aslakhellesoy])
 * `ParameterType` can be constructed with `null`/`nil` arguments for
   * `type` / `constructorFunction`: Makes it simpler to use in languages without static types
-  * `transform`: Leave arguments unchanged, return as string 
+  * `transform`: Leave arguments unchanged, return as string
   (by [aslakhellesoy])
 
 ### Changed
@@ -142,9 +156,10 @@ N/A
 * First stable release!
 
 <!-- Releases -->
-[Unreleased]: https://github.com/cucumber/cucumber/compare/cucumber-expressions-v2.0.1...master
-[2.0.1]:      https://github.com/cucumber/cucumber/compare/cucumber-expressions-v2.0.0...v2.0.1
-[2.0.0]:      https://github.com/cucumber/cucumber/compare/cucumber-expressions-v1.0.4...v2.0.0
+[Unreleased]: https://github.com/cucumber/cucumber/compare/cucumber-expressions-v3.0.0...master
+[3.0.0]:      https://github.com/cucumber/cucumber/compare/cucumber-expressions-v2.0.1...cucumber-expressions-v3.0.0
+[2.0.1]:      https://github.com/cucumber/cucumber/compare/cucumber-expressions-v2.0.0...cucumber-expressions-v2.0.1
+[2.0.0]:      https://github.com/cucumber/cucumber/compare/cucumber-expressions-v1.0.4...cucumber-expressions-v2.0.0
 [1.0.4]:      https://github.com/cucumber/cucumber/compare/cucumber-expressions-v1.0.3...cucumber-expressions-v1.0.4
 [1.0.3]:      https://github.com/cucumber/cucumber/compare/cucumber-expressions-v1.0.2...cucumber-expressions-v1.0.3
 [1.0.2]:      https://github.com/cucumber/cucumber/compare/cucumber-expressions-v1.0.1...cucumber-expressions-v1.0.2
