@@ -61,8 +61,10 @@ module Cucumber
       end
 
       def define_parameter_type0(parameter_type, check_conflicts)
+        if parameter_type.type
+          put(@parameter_types_by_class, parameter_type.type, parameter_type, "type", check_conflicts)
+        end
         put(@parameter_types_by_name, parameter_type.name, parameter_type, "type name", check_conflicts)
-        put(@parameter_types_by_class, parameter_type.type, parameter_type, "type", check_conflicts)
 
         parameter_type.regexps.each do |regexp|
           put(@parameter_types_by_regexp, regexp, parameter_type, "regexp", check_conflicts)

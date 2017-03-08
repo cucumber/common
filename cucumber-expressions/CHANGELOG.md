@@ -13,6 +13,9 @@ N/A
 ### Added
 * Alternative text: `I have a cat/dog/fish`
   (by [aslakhellesoy])
+* `ParameterType` can be constructed with `null`/`nil` arguments for
+  * `type` / `constructorFunction`: Makes it simpler to use in languages without static types
+  (by [aslakhellesoy])
 
 ### Changed
 * Renamed API:

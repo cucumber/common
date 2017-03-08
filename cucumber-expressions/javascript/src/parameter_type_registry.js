@@ -29,16 +29,15 @@ class ParameterTypeRegistry {
 
   lookupByFunction(fn) {
     if (fn.name) {
-      const prefix = fn.name[0]
-      const looksLikeConstructor = prefix.toUpperCase() === prefix
+      const looksLikeCtor = looksLikeConstructor(fn)
 
       let parameter
-      if (looksLikeConstructor) {
+      if (looksLikeCtor) {
         parameter = this._parameterTypesByConstructorName.get(fn.name)
       }
       if (!parameter) {
         const factory = s => {
-          if (looksLikeConstructor) {
+          if (looksLikeCtor) {
             return new fn(s)
           } else {
             return fn(s)
@@ -74,7 +73,9 @@ class ParameterTypeRegistry {
   }
 
   _defineParameterType(parameterType, checkConflicts) {
-    set(this._parameterTypesByConstructorName, parameterType.constructorFunction.name, parameterType, 'constructor', checkConflicts)
+    if(looksLikeConstructor(parameterType.constructorFunction)) {
+      set(this._parameterTypesByConstructorName, parameterType.constructorFunction.name, parameterType, 'constructor', checkConflicts)
+    }
     set(this._parameterTypesByTypeName, parameterType.name, parameterType, 'type name', checkConflicts)
 
     for (const regexp of parameterType.regexps) {
@@ -88,5 +89,13 @@ function set(map, key, value, prop, checkConflicts) {
     throw new Error(`There is already a parameter with ${prop} ${key}`)
   map.set(key, value)
 }
+
+function looksLikeConstructor (fn) {
+  if(typeof fn !== 'function') return false
+  if(!fn.name) return false
+  const prefix = fn.name[0]
+  return prefix.toUpperCase() === prefix
+}
+
 
 module.exports = ParameterTypeRegistry

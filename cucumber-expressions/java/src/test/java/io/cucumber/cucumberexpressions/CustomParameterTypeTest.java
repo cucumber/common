@@ -181,6 +181,30 @@ public class CustomParameterTypeTest {
         }
     }
 
+    @Test
+    public void conflicting_parameter_type_is_not_detected_when_type_is_null() {
+        parameterTypeRegistry.defineParameterType(new SimpleParameterType<>(
+                "foo",
+                null,
+                "foo",
+                new Function<String, String>() {
+                    @Override
+                    public String apply(String s) {
+                        return s;
+                    }
+                }));
+        parameterTypeRegistry.defineParameterType(new SimpleParameterType<>(
+                "bar",
+                null,
+                "bar",
+                new Function<String, String>() {
+                    @Override
+                    public String apply(String s) {
+                        return s;
+                    }
+                }));
+    }
+
     ///// RegularExpression
 
     @Test

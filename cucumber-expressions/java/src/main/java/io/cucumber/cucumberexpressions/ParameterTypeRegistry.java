@@ -120,7 +120,9 @@ public class ParameterTypeRegistry {
     }
 
     private void defineParameterType0(ParameterType<?> parameterType, boolean checkConflicts) {
-        put(parameterTypesByType, parameterType.getType(), parameterType, "type", parameterType.getType().getTypeName(), checkConflicts);
+        if (parameterType.getType() != null) {
+            put(parameterTypesByType, parameterType.getType(), parameterType, "type", parameterType.getType().getTypeName(), checkConflicts);
+        }
         put(parameterTypesByTypeName, parameterType.getName(), parameterType, "type name", parameterType.getName(), checkConflicts);
 
         for (String captureGroupRegexp : parameterType.getRegexps()) {

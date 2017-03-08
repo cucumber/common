@@ -103,6 +103,38 @@ describe('Custom parameter type', () => {
           s => s
         )), "There is already a parameter with regexp red|blue|yellow")
       })
+
+      it("is not detected when constructor function is anonymous", () => {
+        parameterTypeRegistry = new ParameterTypeRegistry()
+        parameterTypeRegistry.defineParameterType(new ParameterType(
+          'foo',
+          () => null,
+          /foo/,
+          s => s
+        ))
+        parameterTypeRegistry.defineParameterType(new ParameterType(
+          'bar',
+          () => null,
+          /bar/,
+          s => s
+        ))
+      })
+
+      it("is not detected when constructor function is null", () => {
+        parameterTypeRegistry = new ParameterTypeRegistry()
+        parameterTypeRegistry.defineParameterType(new ParameterType(
+          'foo',
+          null,
+          /foo/,
+          s => s
+        ))
+        parameterTypeRegistry.defineParameterType(new ParameterType(
+          'bar',
+          null,
+          /bar/,
+          s => s
+        ))
+      })
     })
 
     // JavaScript-specific

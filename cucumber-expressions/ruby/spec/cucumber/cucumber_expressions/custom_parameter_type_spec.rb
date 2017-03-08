@@ -115,6 +115,21 @@ module Cucumber
               ))
             }.to raise_error("There is already a parameter with regexp red|blue|yellow")
           end
+
+          it "is not detected when type is nil" do
+            @parameter_type_registry.define_parameter_type(ParameterType.new(
+                'foo',
+                nil,
+                /foo/,
+                lambda { |s| s }
+            ))
+            @parameter_type_registry.define_parameter_type(ParameterType.new(
+                'bar',
+                nil,
+                /bar/,
+                lambda { |s| s }
+            ))
+          end
         end
       end
 
