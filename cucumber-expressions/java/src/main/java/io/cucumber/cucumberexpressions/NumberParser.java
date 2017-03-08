@@ -18,22 +18,6 @@ class NumberParser {
         return parse(s).floatValue();
     }
 
-    byte parseByte(String s) {
-        return parse(s).byteValue();
-    }
-
-    int parseInt(String s) {
-        return parse(s).intValue();
-    }
-
-    long parseLong(String s) {
-        return parse(s).longValue();
-    }
-
-    short parseShort(String s) {
-        return parse(s).shortValue();
-    }
-
     private Number parse(String s) {
         try {
             return numberFormat.parse(s);

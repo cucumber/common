@@ -1,15 +1,15 @@
 /* eslint-env mocha */
 const assert = require('assert')
-const { CucumberExpression, ParameterRegistry } = require('../src/index')
+const { CucumberExpression, ParameterTypeRegistry } = require('../src/index')
 
 describe(CucumberExpression.name, () => {
   it("documents match arguments", () => {
-    const parameterRegistry = new ParameterRegistry()
+    const parameterTypeRegistry = new ParameterTypeRegistry()
 
     /// [capture-match-arguments]
     const expr = "I have {n} cuke(s) in my {bodypart} now"
     const types = ['int', null]
-    const expression = new CucumberExpression(expr, types, parameterRegistry)
+    const expression = new CucumberExpression(expr, types, parameterTypeRegistry)
     const args = expression.match("I have 7 cukes in my belly now")
     assert.equal(7, args[0].transformedValue)
     assert.equal("belly", args[1].transformedValue)
@@ -20,7 +20,7 @@ describe(CucumberExpression.name, () => {
     assert.deepEqual(match("{what}", "22"), ["22"])
   })
 
-  it("transforms to int by parameter type", () => {
+  it("transforms to int by parameterType type", () => {
     assert.deepEqual(match("{int}", "22"), [22])
   })
 
@@ -28,11 +28,11 @@ describe(CucumberExpression.name, () => {
     assert.deepEqual(match("{what}", "22", ['int']), [22])
   })
 
-  it("doesn't match a float with an int parameter", () => {
+  it("doesn't match a float with an int parameterType", () => {
     assert.deepEqual(match("{int}", "1.22"), null)
   })
 
-  it("transforms to float by parameter type", () => {
+  it("transforms to float by parameterType type", () => {
     assert.deepEqual(match("{float}", "0.22"), [0.22])
     assert.deepEqual(match("{float}", ".22"), [0.22])
   })
@@ -52,12 +52,12 @@ describe(CucumberExpression.name, () => {
 
   it("exposes source", () => {
     const expr = "I have {int} cuke(s) in my {bodypart} now"
-    assert.equal(new CucumberExpression(expr, [], new ParameterRegistry()).source, expr)
+    assert.equal(new CucumberExpression(expr, [], new ParameterTypeRegistry()).source, expr)
   })
 
   it("exposes offset and value", () => {
     const expr = "I have {int} cuke(s) in my {bodypart} now"
-    const expression = new CucumberExpression(expr, [], new ParameterRegistry())
+    const expression = new CucumberExpression(expr, [], new ParameterTypeRegistry())
     const arg1 = expression.match("I have 800 cukes in my brain now")[0]
     assert.equal(arg1.offset, 7)
     assert.equal(arg1.value, "800")
@@ -67,7 +67,7 @@ describe(CucumberExpression.name, () => {
     ['\\', '[', ']', '^', '$', '.', '|', '?', '*', '+'].forEach((character) => {
       it(`escapes ${character}`, () => {
         const expr = `I have {int} cuke(s) and ${character}`
-        const expression = new CucumberExpression(expr, [], new ParameterRegistry())
+        const expression = new CucumberExpression(expr, [], new ParameterTypeRegistry())
         const arg1 = expression.match(`I have 800 cukes and ${character}`)[0]
         assert.equal(arg1.offset, 7)
         assert.equal(arg1.value, "800")
@@ -76,7 +76,7 @@ describe(CucumberExpression.name, () => {
 
     it(`escapes .`, () => {
       const expr = `I have {int} cuke(s) and .`
-      const expression = new CucumberExpression(expr, [], new ParameterRegistry())
+      const expression = new CucumberExpression(expr, [], new ParameterTypeRegistry())
       assert.equal(expression.match(`I have 800 cukes and 3`), null)
       const arg1 = expression.match(`I have 800 cukes and .`)[0]
       assert.equal(arg1.offset, 7)
@@ -85,7 +85,7 @@ describe(CucumberExpression.name, () => {
 
     it(`escapes |`, () => {
       const expr = `I have {int} cuke(s) and a|b`
-      const expression = new CucumberExpression(expr, [], new ParameterRegistry())
+      const expression = new CucumberExpression(expr, [], new ParameterTypeRegistry())
       assert.equal(expression.match(`I have 800 cukes and a`), null)
       assert.equal(expression.match(`I have 800 cukes and b`), null)
       const arg1 = expression.match(`I have 800 cukes and a|b`)[0]
@@ -96,7 +96,7 @@ describe(CucumberExpression.name, () => {
 })
 
 const match = (expression, text, types) => {
-  const cucumberExpression = new CucumberExpression(expression, types || [], new ParameterRegistry())
+  const cucumberExpression = new CucumberExpression(expression, types || [], new ParameterTypeRegistry())
   const args = cucumberExpression.match(text)
   if (!args) return null
   return args.map(arg => arg.transformedValue)

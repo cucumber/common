@@ -2,11 +2,11 @@
 const assert = require('assert')
 const assertThrows = require('./assert_throws')
 const RegularExpression = require('../src/regular_expression')
-const TransformLookup = require('../src/parameter_registry')
+const ParameterTypeRegistry = require('../src/parameter_type_registry')
 
 describe(RegularExpression.name, () => {
   it("documents match arguments", () => {
-    const parameterRegistry = new TransformLookup()
+    const parameterRegistry = new ParameterTypeRegistry()
 
     /// [capture-match-arguments]
     const expr = /I have (\d+) cukes? in my (\w+) now/
@@ -30,11 +30,11 @@ describe(RegularExpression.name, () => {
     assert.deepEqual(match(/(.*)/, "22", [parseFloat]), [22.0])
   })
 
-  it("transforms int by parameter pattern", () => {
+  it("transforms int by parameterType pattern", () => {
     assert.deepEqual(match(/(-?\d+)/, "22"), [22])
   })
 
-  it("transforms int by alternate parameter pattern", () => {
+  it("transforms int by alternate parameterType pattern", () => {
     assert.deepEqual(match(/(\d+)/, "22"), [22])
   })
 
@@ -67,12 +67,12 @@ describe(RegularExpression.name, () => {
 
   it("exposes source", () => {
     const expr = /I have (\d+) cukes? in my (.+) now/
-    assert.deepEqual(new RegularExpression(expr, [], new TransformLookup()).getSource(), expr.toString())
+    assert.deepEqual(new RegularExpression(expr, [], new ParameterTypeRegistry()).getSource(), expr.toString())
   })
 })
 
 const match = (regexp, text, types) => {
-  var parameterRegistry = new TransformLookup()
+  const parameterRegistry = new ParameterTypeRegistry()
   const regularExpression = new RegularExpression(regexp, types || [], parameterRegistry)
   const args = regularExpression.match(text)
   if (!args) return null

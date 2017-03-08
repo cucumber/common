@@ -1,15 +1,15 @@
 /* eslint-env mocha */
 const assert = require('assert')
 const CucumberExpressionGenerator = require('../src/cucumber_expression_generator')
-const Parameter = require('../src/parameter')
-const ParameterRegistry = require('../src/parameter_registry')
+const ParameterType = require('../src/parameter_type')
+const ParameterTypeRegistry = require('../src/parameter_type_registry')
 
 class Currency {
 }
 
 describe(CucumberExpressionGenerator.name, () => {
 
-  let parameterRegistry, generator
+  let parameterTypeRegistry, generator
 
   function assertExpression(expectedExpression, expectedArgumentNames, text) {
     const generatedExpression = generator.generateExpression(text)
@@ -18,19 +18,19 @@ describe(CucumberExpressionGenerator.name, () => {
   }
 
   beforeEach(() => {
-    parameterRegistry = new ParameterRegistry()
-    generator = new CucumberExpressionGenerator(parameterRegistry)
+    parameterTypeRegistry = new ParameterTypeRegistry()
+    generator = new CucumberExpressionGenerator(parameterTypeRegistry)
   })
 
   it("documents expression generation", () => {
-    const parameterRegistry = new ParameterRegistry()
+    const parameterRegistry = new ParameterTypeRegistry()
     /// [generate-expression]
     const generator = new CucumberExpressionGenerator(parameterRegistry)
     const undefinedStepText = "I have 2 cucumbers and 1.5 tomato"
     const generatedExpression = generator.generateExpression(undefinedStepText)
     assert.equal(generatedExpression.source, "I have {int} cucumbers and {float} tomato")
     assert.equal(generatedExpression.parameterNames[0], 'int')
-    assert.equal(generatedExpression.parameters[1].typeName, 'float')
+    assert.equal(generatedExpression.parameterTypes[1].name, 'float')
     /// [generate-expression]
   })
 
@@ -57,7 +57,7 @@ describe(CucumberExpressionGenerator.name, () => {
   })
 
   it("generates expression for custom type", () => {
-    parameterRegistry.addParameter(new Parameter(
+    parameterTypeRegistry.defineParameterType(new ParameterType(
       'currency',
       Currency,
       '[A-Z]{3}',
@@ -70,13 +70,13 @@ describe(CucumberExpressionGenerator.name, () => {
   })
 
   it("prefers leftmost match when there is overlap", () => {
-    parameterRegistry.addParameter(new Parameter(
+    parameterTypeRegistry.defineParameterType(new ParameterType(
       'currency',
       Currency,
       'cd',
       null
     ))
-    parameterRegistry.addParameter(new Parameter(
+    parameterTypeRegistry.defineParameterType(new ParameterType(
       'date',
       Date,
       'bc',
@@ -90,7 +90,7 @@ describe(CucumberExpressionGenerator.name, () => {
 
   it("exposes parameter type names in generated expression", () => {
     const expression = generator.generateExpression("I have 2 cukes and 1.5 euro")
-    const typeNames = expression.parameters.map(parameter => parameter.typeName)
+    const typeNames = expression.parameterTypes.map(parameter => parameter.name)
     assert.deepEqual(typeNames, ['int', 'float'])
   })
 })

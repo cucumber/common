@@ -62,7 +62,7 @@ public class ExpressionFactoryTest {
     }
 
     private void assertExpression(Class<? extends Expression> expectedClass, String expectedSource, String expressionSource) {
-        Expression expression = new ExpressionFactory(new ParameterRegistry(Locale.ENGLISH)).createExpression(expressionSource, new ArrayList<Type>());
+        Expression expression = new ExpressionFactory(new ParameterTypeRegistry(Locale.ENGLISH)).createExpression(expressionSource, new ArrayList<Type>());
         assertEquals(expectedClass, expression.getClass());
         if (expectedSource != null) {
             assertEquals(expectedSource, expression.getSource());

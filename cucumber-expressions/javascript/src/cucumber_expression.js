@@ -4,15 +4,15 @@ class CucumberExpression {
   /**
    * @param expression
    * @param types Array of type name (String) or types (function). Functions can be a regular function or a constructor
-   * @param parameterRegistry
+   * @param parameterTypeRegistry
    */
-  constructor (expression, types, parameterRegistry) {
+  constructor (expression, types, parameterTypeRegistry) {
     const PARAMETER_REGEXP = /\{([^}:]+)(:([^}]+))?}/g
     const OPTIONAL_REGEXP = /\(([^)]+)\)/g
     const ALTERNATIVE_WORD_REGEXP = /(\w+)((\/\w+)+)/g
 
     this._expression = expression
-    this._parameters = []
+    this._parameterTypes = []
     let regexp = "^"
     let typeIndex = 0
     let match
@@ -28,32 +28,32 @@ class CucumberExpression {
 
     while ((match = PARAMETER_REGEXP.exec(expression)) !== null) {
       const parameterName = match[1]
-      const typeName = match[3]
+      const parameterTypeName = match[3]
       // eslint-disable-next-line no-console
-      if (typeName && (typeof console !== 'undefined') && (typeof console.error == 'function')) {
+      if (parameterTypeName && (typeof console !== 'undefined') && (typeof console.error == 'function')) {
         // eslint-disable-next-line no-console
-        console.error(`Cucumber expression parameter syntax {${parameterName}:${typeName}} is deprecated. Please use {${typeName}} instead.`)
+        console.error(`Cucumber expression parameter syntax {${parameterName}:${parameterTypeName}} is deprecated. Please use {${parameterTypeName}} instead.`)
       }
 
       const type = types.length <= typeIndex ? null : types[typeIndex++]
 
       let parameter
       if (type) {
-        parameter = parameterRegistry.lookupByType(type)
+        parameter = parameterTypeRegistry.lookupByType(type)
       }
-      if (!parameter && typeName) {
-        parameter = parameterRegistry.lookupByTypeName(typeName)
-      }
-      if (!parameter) {
-        parameter = parameterRegistry.lookupByTypeName(parameterName)
+      if (!parameter && parameterTypeName) {
+        parameter = parameterTypeRegistry.lookupByTypeName(parameterTypeName)
       }
       if (!parameter) {
-        parameter = parameterRegistry.createAnonymousLookup(s => s)
+        parameter = parameterTypeRegistry.lookupByTypeName(parameterName)
       }
-      this._parameters.push(parameter)
+      if (!parameter) {
+        parameter = parameterTypeRegistry.createAnonymousLookup(s => s)
+      }
+      this._parameterTypes.push(parameter)
 
       const text = expression.slice(matchOffset, match.index)
-      const captureRegexp = getCaptureRegexp(parameter.captureGroupRegexps)
+      const captureRegexp = getCaptureRegexp(parameter.regexps)
       matchOffset = PARAMETER_REGEXP.lastIndex
       regexp += text
       regexp += captureRegexp
@@ -64,7 +64,7 @@ class CucumberExpression {
   }
 
   match (text) {
-    return matchPattern(this._regexp, text, this._parameters)
+    return matchPattern(this._regexp, text, this._parameterTypes)
   }
 
   get source () {
@@ -72,12 +72,12 @@ class CucumberExpression {
   }
 }
 
-function getCaptureRegexp (captureGroupRegexps) {
-  if (captureGroupRegexps.length === 1) {
-    return `(${captureGroupRegexps[0]})`
+function getCaptureRegexp (regexps) {
+  if (regexps.length === 1) {
+    return `(${regexps[0]})`
   }
 
-  const captureGroups = captureGroupRegexps.map(group => {
+  const captureGroups = regexps.map(group => {
     return `(?:${group})`
   })
 

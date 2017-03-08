@@ -1,9 +1,9 @@
-const matchPattern = require('./build_arguments')
+const buildArguments = require('./build_arguments')
 
 class RegularExpression {
-  constructor(regexp, types, parameterRegistry) {
+  constructor(regexp, types, parameterTypeRegistry) {
     this._regexp = regexp
-    this._parameters = []
+    this._parameterTypes = []
 
     const CAPTURE_GROUP_PATTERN = /\(([^(]+)\)/g
 
@@ -13,22 +13,22 @@ class RegularExpression {
       const captureGroupPattern = match[1]
       const type = types.length <= typeIndex ? null : types[typeIndex++]
 
-      let parameter
+      let parameterType
       if (type) {
-        parameter = parameterRegistry.lookupByType(type)
+        parameterType = parameterTypeRegistry.lookupByType(type)
       }
-      if (!parameter) {
-        parameter = parameterRegistry.lookupByCaptureGroupRegexp(captureGroupPattern)
+      if (!parameterType) {
+        parameterType = parameterTypeRegistry.lookupByRegexp(captureGroupPattern)
       }
-      if (!parameter) {
-        parameter = parameterRegistry.createAnonymousLookup(s => s)
+      if (!parameterType) {
+        parameterType = parameterTypeRegistry.createAnonymousLookup(s => s)
       }
-      this._parameters.push(parameter)
+      this._parameterTypes.push(parameterType)
     }
   }
 
   match(text) {
-    return matchPattern(this._regexp, text, this._parameters)
+    return buildArguments(this._regexp, text, this._parameterTypes)
   }
 
   getSource() {

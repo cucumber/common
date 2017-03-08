@@ -10,9 +10,9 @@ import java.util.Locale;
 import static java.util.Arrays.asList;
 import static org.junit.Assert.assertEquals;
 
-public class GenericParameterTest {
-    class ListOfStringParameter extends AbstractParameter<List<String>> {
-        public ListOfStringParameter() {
+public class GenericParameterTypeTest {
+    class ListOfStringParameterType extends AbstractParameterType<List<String>> {
+        public ListOfStringParameterType() {
             super("stringlist", new TypeReference<List<String>>() {
             }.getType(), ".*");
         }
@@ -25,9 +25,9 @@ public class GenericParameterTest {
 
     @Test
     public void transforms_to_a_list_of_string() {
-        ParameterRegistry parameterRegistry = new ParameterRegistry(Locale.ENGLISH);
-        parameterRegistry.addParameter(new ListOfStringParameter());
-        Expression expression = new CucumberExpression("I have {stringlist} yay", Collections.<Type>emptyList(), parameterRegistry);
+        ParameterTypeRegistry parameterTypeRegistry = new ParameterTypeRegistry(Locale.ENGLISH);
+        parameterTypeRegistry.defineParameterType(new ListOfStringParameterType());
+        Expression expression = new CucumberExpression("I have {stringlist} yay", Collections.<Type>emptyList(), parameterTypeRegistry);
         List<Argument> args = expression.match("I have three,blind,mice yay");
         assertEquals(asList("three", "blind", "mice"), args.get(0).getTransformedValue());
     }

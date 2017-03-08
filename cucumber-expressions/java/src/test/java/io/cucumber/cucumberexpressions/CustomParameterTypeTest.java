@@ -13,7 +13,7 @@ import static java.util.regex.Pattern.compile;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 
-public class CustomParameterTest {
+public class CustomParameterTypeTest {
     public static class Color {
         public final String name;
 
@@ -34,12 +34,12 @@ public class CustomParameterTest {
         }
     }
 
-    private ParameterRegistry parameterRegistry = new ParameterRegistry(Locale.ENGLISH);
+    private ParameterTypeRegistry parameterTypeRegistry = new ParameterTypeRegistry(Locale.ENGLISH);
 
     @Before
     public void create_parameter() {
         /// [add-color-parameter]
-        parameterRegistry.addParameter(new SimpleParameter<>(
+        parameterTypeRegistry.defineParameterType(new SimpleParameterType<>(
                 "color",
                 Color.class,
                 "red|blue|yellow",
@@ -55,15 +55,15 @@ public class CustomParameterTest {
 
     @Test
     public void transforms_CucumberExpression_arguments_with_expression_type() {
-        Expression expression = new CucumberExpression("I have a {color} ball", Collections.<Type>emptyList(), parameterRegistry);
+        Expression expression = new CucumberExpression("I have a {color} ball", Collections.<Type>emptyList(), parameterTypeRegistry);
         Object transformedArgumentValue = expression.match("I have a red ball").get(0).getTransformedValue();
         assertEquals(new Color("red"), transformedArgumentValue);
     }
 
     @Test
     public void transforms_CucumberExpression_arguments_with_expression_type_using_optional_group() {
-        parameterRegistry = new ParameterRegistry(Locale.ENGLISH);
-        parameterRegistry.addParameter(new SimpleParameter<>(
+        parameterTypeRegistry = new ParameterTypeRegistry(Locale.ENGLISH);
+        parameterTypeRegistry.defineParameterType(new SimpleParameterType<>(
                 "color",
                 Color.class,
                 asList("red|blue|yellow", "(?:dark|light) (?:red|blue|yellow)"),
@@ -74,35 +74,35 @@ public class CustomParameterTest {
                     }
                 }
         ));
-        Expression expression = new CucumberExpression("I have a {color} ball", Collections.<Type>emptyList(), parameterRegistry);
+        Expression expression = new CucumberExpression("I have a {color} ball", Collections.<Type>emptyList(), parameterTypeRegistry);
         Object transformedArgumentValue = expression.match("I have a dark red ball").get(0).getTransformedValue();
         assertEquals(new Color("dark red"), transformedArgumentValue);
     }
 
     @Test
     public void transforms_CucumberExpression_arguments_with_explicit_type() {
-        Expression expression = new CucumberExpression("I have a {color} ball", Collections.<Type>singletonList(Color.class), parameterRegistry);
+        Expression expression = new CucumberExpression("I have a {color} ball", Collections.<Type>singletonList(Color.class), parameterTypeRegistry);
         Object transformedArgumentValue = expression.match("I have a red ball").get(0).getTransformedValue();
         assertEquals(new Color("red"), transformedArgumentValue);
     }
 
     @Test
     public void transforms_CucumberExpression_arguments_using_argument_name_as_type() {
-        Expression expression = new CucumberExpression("I have a {color} ball", Collections.<Type>emptyList(), parameterRegistry);
+        Expression expression = new CucumberExpression("I have a {color} ball", Collections.<Type>emptyList(), parameterTypeRegistry);
         Object transformedArgumentValue = expression.match("I have a red ball").get(0).getTransformedValue();
         assertEquals(new Color("red"), transformedArgumentValue);
     }
 
     @Test
     public void transforms_CucumberExpression_arguments_with_explicit_type_using_constructor_directly() {
-        Expression expression = new CucumberExpression("I have a {color} ball", Collections.<Type>singletonList(Color.class), new ParameterRegistry(Locale.ENGLISH));
+        Expression expression = new CucumberExpression("I have a {color} ball", Collections.<Type>singletonList(Color.class), new ParameterTypeRegistry(Locale.ENGLISH));
         Color transformedArgumentValue = (Color) expression.match("I have a red ball").get(0).getTransformedValue();
         assertEquals("red", transformedArgumentValue.name);
     }
 
     @Test
     public void defers_transformation_until_queried_from_argument() {
-        parameterRegistry.addParameter(new SimpleParameter<>(
+        parameterTypeRegistry.defineParameterType(new SimpleParameterType<>(
                 "throwing",
                 String.class,
                 "bad",
@@ -112,7 +112,7 @@ public class CustomParameterTest {
                         throw new RuntimeException(String.format("Can't transform [%s]", name));
                     }
                 }));
-        Expression expression = new CucumberExpression("I have a {throwing} parameter", Collections.<Type>emptyList(), parameterRegistry);
+        Expression expression = new CucumberExpression("I have a {throwing} parameter", Collections.<Type>emptyList(), parameterTypeRegistry);
         List<Argument> arguments = expression.match("I have a bad parameter");
         try {
             arguments.get(0).getTransformedValue();
@@ -127,7 +127,7 @@ public class CustomParameterTest {
     @Test
     public void conflicting_parameter_type_is_detected_for_type() {
         try {
-            parameterRegistry.addParameter(new SimpleParameter<>(
+            parameterTypeRegistry.defineParameterType(new SimpleParameterType<>(
                     "color",
                     String.class,
                     ".*",
@@ -139,14 +139,14 @@ public class CustomParameterTest {
                     }));
             fail("should have failed");
         } catch (RuntimeException expected) {
-            assertEquals("There is already a parameter with type name color", expected.getMessage());
+            assertEquals("There is already a parameter type with type name color", expected.getMessage());
         }
     }
 
     @Test
     public void conflicting_parameter_type_is_detected_for_type_name() {
         try {
-            parameterRegistry.addParameter(new SimpleParameter<>(
+            parameterTypeRegistry.defineParameterType(new SimpleParameterType<>(
                     "whatever",
                     Color.class,
                     ".*",
@@ -158,14 +158,14 @@ public class CustomParameterTest {
                     }));
             fail("should have failed");
         } catch (RuntimeException expected) {
-            assertEquals("There is already a parameter with type io.cucumber.cucumberexpressions.CustomParameterTest$Color", expected.getMessage());
+            assertEquals("There is already a parameter type with type io.cucumber.cucumberexpressions.CustomParameterTypeTest$Color", expected.getMessage());
         }
     }
 
     @Test
     public void conflicting_parameter_type_is_detected_for_regexp() {
         try {
-            parameterRegistry.addParameter(new SimpleParameter<>(
+            parameterTypeRegistry.defineParameterType(new SimpleParameterType<>(
                     "whatever",
                     String.class,
                     "red|blue|yellow",
@@ -177,7 +177,7 @@ public class CustomParameterTest {
                     }));
             fail("should have failed");
         } catch (RuntimeException expected) {
-            assertEquals("There is already a parameter with regexp red|blue|yellow", expected.getMessage());
+            assertEquals("There is already a parameter type with regexp red|blue|yellow", expected.getMessage());
         }
     }
 
@@ -185,21 +185,21 @@ public class CustomParameterTest {
 
     @Test
     public void transforms_RegularExpression_arguments_with_explicit_type() {
-        Expression expression = new RegularExpression(compile("I have a (red|blue|yellow) ball"), Collections.<Type>singletonList(Color.class), parameterRegistry);
+        Expression expression = new RegularExpression(compile("I have a (red|blue|yellow) ball"), Collections.<Type>singletonList(Color.class), parameterTypeRegistry);
         Object transformedArgumentValue = expression.match("I have a red ball").get(0).getTransformedValue();
         assertEquals(new Color("red"), transformedArgumentValue);
     }
 
     @Test
     public void transforms_RegularExpression_arguments_without_explicit_type() {
-        Expression expression = new RegularExpression(compile("I have a (red|blue|yellow) ball"), Collections.<Type>emptyList(), parameterRegistry);
+        Expression expression = new RegularExpression(compile("I have a (red|blue|yellow) ball"), Collections.<Type>emptyList(), parameterTypeRegistry);
         Object transformedArgumentValue = expression.match("I have a red ball").get(0).getTransformedValue();
         assertEquals(new Color("red"), transformedArgumentValue);
     }
 
     @Test
     public void transforms_RegularExpression_arguments_with_explicit_type_using_constructor_directly() {
-        Expression expression = new RegularExpression(compile("I have a (red|blue|yellow) ball"), Collections.<Type>singletonList(Color.class), new ParameterRegistry(Locale.ENGLISH));
+        Expression expression = new RegularExpression(compile("I have a (red|blue|yellow) ball"), Collections.<Type>singletonList(Color.class), new ParameterTypeRegistry(Locale.ENGLISH));
         Color transformedArgumentValue = (Color) expression.match("I have a red ball").get(0).getTransformedValue();
         assertEquals("red", transformedArgumentValue.name);
     }

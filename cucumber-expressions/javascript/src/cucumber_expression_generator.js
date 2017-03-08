@@ -1,42 +1,42 @@
-const TransformMatcher = require('./parameter_matcher')
+const ParameterTypeMatcher = require('./parameter_type_matcher')
 const GeneratedExpression = require('./generated_expression')
 
 class CucumberExpressionGenerator {
-  constructor(parameterRegistry) {
-    this._parameterRegistry = parameterRegistry
+  constructor(parameterTypeRegistry) {
+    this._parameterTypeRegistry = parameterTypeRegistry
   }
 
   generateExpression(text) {
     const parameterNames = []
-    const parameterMatchers = this._createTransformMatchers(text)
-    const parameters = []
+    const parameterTypeMatchers = this._createParameterTypeMatchers(text)
+    const parameterTypes = []
     const usageByTypeName = {}
 
     let expression = ""
     let pos = 0
 
     while (true) { // eslint-disable-line no-constant-condition
-      let matchingTransformMatchers = []
-      for (const parameterMatcher of parameterMatchers) {
-        const advancedTransformMatcher = parameterMatcher.advanceTo(pos)
-        if (advancedTransformMatcher.find) {
-          matchingTransformMatchers.push(advancedTransformMatcher)
+      let matchingParameterTypeMatchers = []
+      for (const parameterTypeMatcher of parameterTypeMatchers) {
+        const advancedParameterTypeMatcher = parameterTypeMatcher.advanceTo(pos)
+        if (advancedParameterTypeMatcher.find) {
+          matchingParameterTypeMatchers.push(advancedParameterTypeMatcher)
         }
       }
 
-      if (matchingTransformMatchers.length > 0) {
-        matchingTransformMatchers = matchingTransformMatchers.sort(TransformMatcher.compare)
-        const bestTransformMatcher = matchingTransformMatchers[0]
-        const parameter = bestTransformMatcher.parameter
-        parameters.push(parameter)
+      if (matchingParameterTypeMatchers.length > 0) {
+        matchingParameterTypeMatchers = matchingParameterTypeMatchers.sort(ParameterTypeMatcher.compare)
+        const bestParameterTypeMatcher = matchingParameterTypeMatchers[0]
+        const parameter = bestParameterTypeMatcher.parameterType
+        parameterTypes.push(parameter)
 
-        const parameterName = this._getParameterName(parameter.typeName, usageByTypeName)
+        const parameterName = this._getParameterName(parameter.name, usageByTypeName)
         parameterNames.push(parameterName)
 
-        expression += text.slice(pos, bestTransformMatcher.start)
-        expression += `{${parameter.typeName}}`
+        expression += text.slice(pos, bestParameterTypeMatcher.start)
+        expression += `{${parameter.name}}`
 
-        pos = bestTransformMatcher.start + bestTransformMatcher.group.length
+        pos = bestParameterTypeMatcher.start + bestParameterTypeMatcher.group.length
       } else {
         break
       }
@@ -47,7 +47,7 @@ class CucumberExpressionGenerator {
     }
 
     expression += text.slice(pos)
-    return new GeneratedExpression(expression, parameterNames, parameters)
+    return new GeneratedExpression(expression, parameterNames, parameterTypes)
   }
 
   _getParameterName(typeName, usageByTypeName) {
@@ -58,18 +58,18 @@ class CucumberExpressionGenerator {
       return count == 1 ? typeName : `${typeName}${count}`
   }
 
-  _createTransformMatchers(text) {
+  _createParameterTypeMatchers(text) {
     let parameterMatchers = []
-    for (let parameter of this._parameterRegistry.parameters) {
-      parameterMatchers = parameterMatchers.concat(this._createTransformMatchers2(parameter, text))
+    for (const parameter of this._parameterTypeRegistry.parameterTypes) {
+      parameterMatchers = parameterMatchers.concat(this._createParameterTypeMatchers2(parameter, text))
     }
     return parameterMatchers
   }
 
-  _createTransformMatchers2(parameter, text) {
+  _createParameterTypeMatchers2(parameter, text) {
     const result = []
-    for (let captureGroupRegexp of parameter.captureGroupRegexps) {
-      result.push(new TransformMatcher(parameter, captureGroupRegexp, text))
+    for (const regexp of parameter.regexps) {
+      result.push(new ParameterTypeMatcher(parameter, regexp, text))
     }
     return result
   }

@@ -1,6 +1,6 @@
 module Cucumber
   module CucumberExpressions
-    class ParameterMatcher
+    class ParameterTypeMatcher
       attr_reader :parameter
 
       def initialize(parameter, regexp, text, match_position=0)

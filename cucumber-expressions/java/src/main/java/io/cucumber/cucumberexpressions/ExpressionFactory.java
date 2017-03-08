@@ -16,35 +16,35 @@ public class ExpressionFactory {
     private static final Pattern BEGIN_ANCHOR = Pattern.compile("^\\^.*");
     private static final Pattern END_ANCHOR = Pattern.compile(".*\\$$");
     private static final Pattern SCRIPT_STYLE_REGEXP = Pattern.compile("^/(.*)/$");
-    private static final Pattern PARENS = Pattern.compile("\\(([^\\)]+)\\)");
+    private static final Pattern PARENS = Pattern.compile("\\(([^)]+)\\)");
     private static final Pattern ALPHA = Pattern.compile("[a-zA-Z]+");
-    private final ParameterRegistry parameterRegistry;
+    private final ParameterTypeRegistry parameterTypeRegistry;
 
-    public ExpressionFactory(ParameterRegistry parameterRegistry) {
-        this.parameterRegistry = parameterRegistry;
+    public ExpressionFactory(ParameterTypeRegistry parameterTypeRegistry) {
+        this.parameterTypeRegistry = parameterTypeRegistry;
     }
 
     public Expression createExpression(String expressionString, List<Type> types) {
         Matcher m = BEGIN_ANCHOR.matcher(expressionString);
         if (m.find()) {
-            return new RegularExpression(Pattern.compile(expressionString), types, parameterRegistry);
+            return new RegularExpression(Pattern.compile(expressionString), types, parameterTypeRegistry);
         }
         m = END_ANCHOR.matcher(expressionString);
         if (m.find()) {
-            return new RegularExpression(Pattern.compile(expressionString), types, parameterRegistry);
+            return new RegularExpression(Pattern.compile(expressionString), types, parameterTypeRegistry);
         }
         m = SCRIPT_STYLE_REGEXP.matcher(expressionString);
         if (m.find()) {
-            return new RegularExpression(Pattern.compile(m.group(1)), types, parameterRegistry);
+            return new RegularExpression(Pattern.compile(m.group(1)), types, parameterTypeRegistry);
         }
         m = PARENS.matcher(expressionString);
         if (m.find()) {
             String insideParens = m.group(1);
             if (ALPHA.matcher(insideParens).lookingAt()) {
-                return new CucumberExpression(expressionString, types, parameterRegistry);
+                return new CucumberExpression(expressionString, types, parameterTypeRegistry);
             }
-            return new RegularExpression(Pattern.compile(expressionString), types, parameterRegistry);
+            return new RegularExpression(Pattern.compile(expressionString), types, parameterTypeRegistry);
         }
-        return new CucumberExpression(expressionString, types, parameterRegistry);
+        return new CucumberExpression(expressionString, types, parameterTypeRegistry);
     }
 }

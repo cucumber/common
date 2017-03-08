@@ -1,21 +1,21 @@
-class ParameterMatcher {
+class ParameterTypeMatcher {
 
-  constructor(parameter, captureGroupRegexp, text, matchPosition) {
-    this._parameter = parameter
-    this._captureGroupRegexp = captureGroupRegexp
+  constructor(parameter, regexp, text, matchPosition) {
+    this._parameterType = parameter
+    this._regexp = regexp
     this._text = text
     this._matchPosition = matchPosition || 0
 
-    const regexp = new RegExp(`(${captureGroupRegexp})`)
-    this._match = regexp.exec(text.slice(this._matchPosition))
+    const captureGroupRegexp = new RegExp(`(${regexp})`)
+    this._match = captureGroupRegexp.exec(text.slice(this._matchPosition))
   }
 
-  get parameter() {
-    return this._parameter
+  get parameterType() {
+    return this._parameterType
   }
 
   advanceTo(newMatchPosition) {
-    return new ParameterMatcher(this._parameter, this._captureGroupRegexp, this._text, newMatchPosition)
+    return new ParameterTypeMatcher(this._parameterType, this._regexp, this._text, newMatchPosition)
   }
 
   get find() {
@@ -39,4 +39,4 @@ class ParameterMatcher {
   }
 }
 
-module.exports = ParameterMatcher
+module.exports = ParameterTypeMatcher

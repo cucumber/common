@@ -1,11 +1,11 @@
 require 'cucumber/cucumber_expressions/cucumber_expression'
-require 'cucumber/cucumber_expressions/parameter_registry'
+require 'cucumber/cucumber_expressions/parameter_type_registry'
 
 module Cucumber
   module CucumberExpressions
     describe CucumberExpression do
       it "documents match arguments" do
-        parameter_registry = ParameterRegistry.new
+        parameter_registry = ParameterTypeRegistry.new
 
         ### [capture-match-arguments]
         expr = "I have {n} cuke(s) in my {bodypart} now"
@@ -58,12 +58,12 @@ module Cucumber
 
       it "exposes source" do
         expr = "I have {int} cuke(s) in my {bodypart} now"
-        expect(CucumberExpression.new(expr, [], ParameterRegistry.new).source).to eq(expr)
+        expect(CucumberExpression.new(expr, [], ParameterTypeRegistry.new).source).to eq(expr)
       end
 
       it "exposes offset and value" do
         expr = "I have {int} cuke(s) in my {bodypart} now"
-        expression = CucumberExpression.new(expr, [], ParameterRegistry.new)
+        expression = CucumberExpression.new(expr, [], ParameterTypeRegistry.new)
         arg1 = expression.match("I have 800 cukes in my brain now")[0]
         expect(arg1.offset).to eq(7)
         expect(arg1.value).to eq("800")
@@ -73,7 +73,7 @@ module Cucumber
         %w(\\ [ ] ^ $ . | ? * +).each do |character|
           it "escapes #{character}" do
             expr = "I have {int} cuke(s) and #{character}"
-            expression = CucumberExpression.new(expr, [], ParameterRegistry.new)
+            expression = CucumberExpression.new(expr, [], ParameterTypeRegistry.new)
             arg1 = expression.match("I have 800 cukes and #{character}")[0]
             expect(arg1.offset).to eq(7)
             expect(arg1.value).to eq("800")
@@ -82,7 +82,7 @@ module Cucumber
       end
 
       def match(expression, text, types = [])
-        cucumber_expression = CucumberExpression.new(expression, types, ParameterRegistry.new)
+        cucumber_expression = CucumberExpression.new(expression, types, ParameterTypeRegistry.new)
         args = cucumber_expression.match(text)
         return nil if args.nil?
         args.map { |arg| arg.transformed_value }

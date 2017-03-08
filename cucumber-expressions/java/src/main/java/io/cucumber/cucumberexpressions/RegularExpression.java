@@ -10,7 +10,7 @@ public class RegularExpression implements Expression {
     private static final Pattern CAPTURE_GROUP_PATTERN = Pattern.compile("\\(([^(]+)\\)");
 
     private final Pattern pattern;
-    private final List<Parameter<?>> parameters;
+    private final List<ParameterType<?>> parameterTypes;
 
     /**
      * Creates a new instance. Use this when the transform types are not known in advance,
@@ -19,11 +19,11 @@ public class RegularExpression implements Expression {
      *
      * @param pattern         the regular expression to use
      * @param types           types to convert capture groups to
-     * @param parameterRegistry transform lookup
+     * @param parameterTypeRegistry transform lookup
      */
-    public RegularExpression(Pattern pattern, List<? extends Type> types, ParameterRegistry parameterRegistry) {
+    public RegularExpression(Pattern pattern, List<? extends Type> types, ParameterTypeRegistry parameterTypeRegistry) {
         this.pattern = pattern;
-        this.parameters = new ArrayList<>();
+        this.parameterTypes = new ArrayList<>();
 
         Matcher matcher = CAPTURE_GROUP_PATTERN.matcher(pattern.pattern());
         int typeIndex = 0;
@@ -31,26 +31,26 @@ public class RegularExpression implements Expression {
             Type type = types.size() <= typeIndex ? null : types.get(typeIndex++);
             String captureGroupPattern = matcher.group(1);
 
-            Parameter<?> parameter = null;
+            ParameterType<?> parameterType = null;
             if (type != null) {
-                parameter = parameterRegistry.lookupByType(type);
+                parameterType = parameterTypeRegistry.lookupByType(type);
             }
-            if (parameter == null) {
-                parameter = parameterRegistry.lookupByCaptureGroupRegexp(captureGroupPattern);
+            if (parameterType == null) {
+                parameterType = parameterTypeRegistry.lookupByRegexp(captureGroupPattern);
             }
-            if (parameter == null && type != null && type instanceof Class) {
-                parameter = new ClassParameter<>((Class) type);
+            if (parameterType == null && type != null && type instanceof Class) {
+                parameterType = new ClassParameterType<>((Class) type);
             }
-            if (parameter == null) {
-                parameter = new ConstructorParameter<>(String.class);
+            if (parameterType == null) {
+                parameterType = new ConstructorParameterType<>(String.class);
             }
-            parameters.add(parameter);
+            parameterTypes.add(parameterType);
         }
     }
 
     @Override
     public List<Argument> match(String text) {
-        return ArgumentBuilder.buildArguments(pattern, text, parameters);
+        return ArgumentBuilder.buildArguments(pattern, text, parameterTypes);
     }
 
     @Override

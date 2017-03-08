@@ -15,6 +15,11 @@ N/A
   (by [aslakhellesoy])
 
 ### Changed
+* Renamed API:
+  * `Parameter         -> ParameterType`
+  * `ParameterRegistry -> ParameterTypeRegistry`
+  * `addParameter      -> defineParameterType`
+
 * Stricter conflict checks when defining parameters
   ([#121](https://github.com/cucumber/cucumber/pull/121)
    by [aslakhellesoy])

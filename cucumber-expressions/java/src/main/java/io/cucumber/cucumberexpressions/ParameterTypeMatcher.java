@@ -2,19 +2,19 @@ package io.cucumber.cucumberexpressions;
 
 import java.util.regex.Matcher;
 
-class ParameterMatcher implements Comparable<ParameterMatcher> {
-    private final Parameter<?> parameter;
+class ParameterTypeMatcher implements Comparable<ParameterTypeMatcher> {
+    private final ParameterType<?> parameterType;
     private final Matcher matcher;
     private final int textLength;
 
-    public ParameterMatcher(Parameter<?> parameter, Matcher matcher, int textLength) {
-        this.parameter = parameter;
+    public ParameterTypeMatcher(ParameterType<?> parameterType, Matcher matcher, int textLength) {
+        this.parameterType = parameterType;
         this.matcher = matcher;
         this.textLength = textLength;
     }
 
-    public ParameterMatcher advanceTo(int newMatchPos) {
-        return new ParameterMatcher(parameter, matcher.region(newMatchPos, textLength), textLength);
+    public ParameterTypeMatcher advanceTo(int newMatchPos) {
+        return new ParameterTypeMatcher(parameterType, matcher.region(newMatchPos, textLength), textLength);
     }
 
     public boolean find() {
@@ -30,7 +30,7 @@ class ParameterMatcher implements Comparable<ParameterMatcher> {
     }
 
     @Override
-    public int compareTo(ParameterMatcher o) {
+    public int compareTo(ParameterTypeMatcher o) {
         int posComparison = Integer.compare(start(), o.start());
         if (posComparison != 0) return posComparison;
         int lengthComparison = Integer.compare(o.group().length(), group().length());
@@ -38,16 +38,16 @@ class ParameterMatcher implements Comparable<ParameterMatcher> {
         // int and double are more commonly used than other number types.
         // We give special priority to those types so that the generated expression
         // will use those types.
-        if (parameter.getType().equals(int.class)) {
+        if (parameterType.getType().equals(int.class)) {
             return -1;
         }
-        if (parameter.getType().equals(double.class)) {
+        if (parameterType.getType().equals(double.class)) {
             return -1;
         }
         return 0;
     }
 
-    public Parameter<?> getParameter() {
-        return parameter;
+    public ParameterType<?> getParameterType() {
+        return parameterType;
     }
 }

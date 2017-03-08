@@ -1,8 +1,8 @@
 class GeneratedExpression {
-  constructor(expression, parameterNames, parameters) {
+  constructor(expression, parameterNames, parameterTypes) {
     this._expression = expression
     this._parameterNames = parameterNames
-    this._parameters = parameters
+    this._parameterTypes = parameterTypes
   }
 
   get source() {
@@ -19,10 +19,10 @@ class GeneratedExpression {
   }
 
   /**
-   * @returns {Array.<Parameter>}
+   * @returns {Array.<ParameterType>}
    */
-  get parameters() {
-    return this._parameters
+  get parameterTypes() {
+    return this._parameterTypes
   }
 }
 

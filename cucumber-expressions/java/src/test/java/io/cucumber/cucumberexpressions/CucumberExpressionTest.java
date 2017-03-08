@@ -17,12 +17,12 @@ import static org.junit.Assert.assertEquals;
 public class CucumberExpressionTest {
     @Test
     public void documents_match_arguments() {
-        ParameterRegistry parameterRegistry = new ParameterRegistry(Locale.ENGLISH);
+        ParameterTypeRegistry parameterTypeRegistry = new ParameterTypeRegistry(Locale.ENGLISH);
 
         /// [capture-buildArguments-arguments]
         String expr = "I have {n} cuke(s) in my {bodypart} now";
         List<? extends Class<?>> types = asList(Integer.class, String.class);
-        Expression expression = new CucumberExpression(expr, types, parameterRegistry);
+        Expression expression = new CucumberExpression(expr, types, parameterTypeRegistry);
         List<Argument> args = expression.match("I have 7 cukes in my belly now");
         assertEquals(7, args.get(0).getTransformedValue());
         assertEquals("belly", args.get(1).getTransformedValue());
@@ -74,13 +74,13 @@ public class CucumberExpressionTest {
     @Test
     public void exposes_source() {
         String expr = "I have {int} cuke(s) in my {bodypart} now";
-        assertEquals(expr, new CucumberExpression(expr, Collections.<Type>emptyList(), new ParameterRegistry(Locale.ENGLISH)).getSource());
+        assertEquals(expr, new CucumberExpression(expr, Collections.<Type>emptyList(), new ParameterTypeRegistry(Locale.ENGLISH)).getSource());
     }
 
     @Test
     public void exposes_offset_and_value() {
         String expr = "I have {int} cuke(s) in my {bodypart} now";
-        Expression expression = new CucumberExpression(expr, Collections.<Type>emptyList(), new ParameterRegistry(Locale.ENGLISH));
+        Expression expression = new CucumberExpression(expr, Collections.<Type>emptyList(), new ParameterTypeRegistry(Locale.ENGLISH));
         Argument arg1 = expression.match("I have 800 cukes in my brain now").get(0);
         assertEquals(7, arg1.getOffset());
         assertEquals("800", arg1.getValue());
@@ -89,7 +89,7 @@ public class CucumberExpressionTest {
     @Test
     public void escapes_special_characters() {
         String expr = "I have {int} cuke(s) and ^";
-        Expression expression = new CucumberExpression(expr, Collections.<Type>emptyList(), new ParameterRegistry(Locale.ENGLISH));
+        Expression expression = new CucumberExpression(expr, Collections.<Type>emptyList(), new ParameterTypeRegistry(Locale.ENGLISH));
         Argument arg1 = expression.match("I have 800 cukes and ^").get(0);
         assertEquals(7, arg1.getOffset());
         assertEquals("800", arg1.getValue());
@@ -137,7 +137,7 @@ public class CucumberExpressionTest {
     }
 
     private List<Object> match(String expr, String text, List<Type> explicitTypes, Locale locale) {
-        CucumberExpression expression = new CucumberExpression(expr, explicitTypes, new ParameterRegistry(locale));
+        CucumberExpression expression = new CucumberExpression(expr, explicitTypes, new ParameterTypeRegistry(locale));
         List<Argument> args = expression.match(text);
         if (args == null) return null;
         List<Object> transformedValues = new ArrayList<>();
