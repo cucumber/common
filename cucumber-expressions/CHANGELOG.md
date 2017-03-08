@@ -15,6 +15,7 @@ N/A
   (by [aslakhellesoy])
 * `ParameterType` can be constructed with `null`/`nil` arguments for
   * `type` / `constructorFunction`: Makes it simpler to use in languages without static types
+  * `transform`: Leave arguments unchanged, return as string 
   (by [aslakhellesoy])
 
 ### Changed

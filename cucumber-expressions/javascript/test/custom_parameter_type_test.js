@@ -32,13 +32,13 @@ describe('Custom parameter type', () => {
   })
 
   describe(CucumberExpression.name, () => {
-    it("matches typed parameters", () => {
+    it("matches parameters with custom parameter type", () => {
       const expression = new CucumberExpression("I have a {color} ball", [], parameterTypeRegistry)
       const transformedValue = expression.match("I have a red ball")[0].transformedValue
       assert.equal(transformedValue.name, "red")
     })
 
-    it("matches typed parameters with optional group", () => {
+    it("matches parameters with custom parameter type using optional capture group", () => {
       parameterTypeRegistry = new ParameterTypeRegistry()
       parameterTypeRegistry.defineParameterType(new ParameterType(
         'color',
@@ -51,14 +51,21 @@ describe('Custom parameter type', () => {
       assert.equal(transformedValue.name, "dark red")
     })
 
-    it("matches untyped parameters with explicit type", () => {
-      const expression = new CucumberExpression("I have a {color} ball", [Color], parameterTypeRegistry)
+    it("matches parameters with custom parameter type without constructor function and transform", () => {
+      parameterTypeRegistry = new ParameterTypeRegistry()
+      parameterTypeRegistry.defineParameterType(new ParameterType(
+        'color',
+        null,
+        /red|blue|yellow/,
+        null
+      ))
+      const expression = new CucumberExpression("I have a {color} ball", [], parameterTypeRegistry)
       const transformedValue = expression.match("I have a red ball")[0].transformedValue
-      assert.equal(transformedValue.name, "red")
+      assert.equal(transformedValue, "red")
     })
 
-    it("matches untyped parameters with same name as type", () => {
-      const expression = new CucumberExpression("I have a {color} ball", [], parameterTypeRegistry)
+    it("matches parameters with explicit type", () => {
+      const expression = new CucumberExpression("I have a {color} ball", [Color], parameterTypeRegistry)
       const transformedValue = expression.match("I have a red ball")[0].transformedValue
       assert.equal(transformedValue.name, "red")
     })

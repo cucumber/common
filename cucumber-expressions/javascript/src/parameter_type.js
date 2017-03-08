@@ -3,7 +3,6 @@ class ParameterType {
     this._name = name
     this._constructorFunction = constructorFunction
     this._regexps = stringArray(regexps)
-    // TODO: Check for null transform, don't use Identity elsewhere
     this._transform = transform
   }
 
@@ -20,7 +19,7 @@ class ParameterType {
   }
 
   transform(string) {
-    return this._transform(string)
+    return this._transform ? this._transform(string) : string
   }
 }
 

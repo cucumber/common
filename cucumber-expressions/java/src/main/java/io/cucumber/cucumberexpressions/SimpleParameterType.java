@@ -5,6 +5,14 @@ import java.util.List;
 public class SimpleParameterType<T> extends AbstractParameterType<T> {
     private final Function<String, T> transformer;
 
+    public SimpleParameterType(String name, String regexp) {
+        this(name, null, regexp, null);
+    }
+
+    public SimpleParameterType(String name, List<String> regexps) {
+        this(name, null, regexps, null);
+    }
+
     public SimpleParameterType(String name, Class<T> type, String regexp, Function<String, T> transformer) {
         super(name, type, regexp);
         this.transformer = transformer;
@@ -17,7 +25,7 @@ public class SimpleParameterType<T> extends AbstractParameterType<T> {
 
     @Override
     public T transform(String value) {
-        return transformer.apply(value);
+        return transformer != null ? transformer.apply(value) : (T) value;
     }
 
 }

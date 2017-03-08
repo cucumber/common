@@ -9,19 +9,19 @@ module Cucumber
       # @param regexps [Array] list of regexps for capture groups. A single regexp can also be used.
       # @param transformer lambda that transforms a String to (possibly) another type
       #
-      def initialize(name, type, regexps, transformer)
+      def initialize(name, type, regexp, transformer)
         @name, @type, @transformer = name, type, transformer
-        @regexps = string_array(regexps)
+        @regexps = string_array(regexp)
       end
 
       def transform(value)
-        @transformer.call(value)
+        @transformer ? @transformer.call(value) : value
       end
 
       private
 
-      def string_array(regexps)
-        array = regexps.is_a?(Array) ? regexps : [regexps]
+      def string_array(regexp)
+        array = regexp.is_a?(Array) ? regexp : [regexp]
         array.map { |r| r.is_a?(String) ? r : r.source }
       end
     end

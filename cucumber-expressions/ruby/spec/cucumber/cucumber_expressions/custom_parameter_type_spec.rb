@@ -33,13 +33,13 @@ module Cucumber
       end
 
       describe CucumberExpression do
-        it "matches typed parameters" do
+        it "matches parameters with custom parameter type" do
           expression = CucumberExpression.new("I have a {color} ball", [], @parameter_type_registry)
           transformed_argument_value = expression.match("I have a red ball")[0].transformed_value
           expect( transformed_argument_value ).to eq(Color.new('red'))
         end
 
-        it "matches typed parameters with optional group" do
+        it "matches parameters with custom parameter type using optional capture group" do
           parameter_registry = ParameterTypeRegistry.new
           parameter_registry.define_parameter_type(ParameterType.new(
               'color',
@@ -52,14 +52,21 @@ module Cucumber
           expect( transformed_argument_value ).to eq(Color.new('dark red'))
         end
 
-        it "matches untyped parameters with explicit type" do
-          expression = CucumberExpression.new("I have a {color} ball", [Color], @parameter_type_registry)
+        it "matches parameters with custom parameter type without constructor function and transform" do
+          parameter_registry = ParameterTypeRegistry.new
+          parameter_registry.define_parameter_type(ParameterType.new(
+              'color',
+              nil,
+              /red|blue|yellow/,
+              nil
+          ))
+          expression = CucumberExpression.new("I have a {color} ball", [], parameter_registry)
           transformed_argument_value = expression.match("I have a red ball")[0].transformed_value
-          expect( transformed_argument_value ).to eq(Color.new('red'))
+          expect( transformed_argument_value ).to eq('red')
         end
 
-        it "matches untyped parameters with same name as type" do
-          expression = CucumberExpression.new("I have a {color} ball", [], @parameter_type_registry)
+        it "matches parameters with explicit type" do
+          expression = CucumberExpression.new("I have a {color} ball", [Color], @parameter_type_registry)
           transformed_argument_value = expression.match("I have a red ball")[0].transformed_value
           expect( transformed_argument_value ).to eq(Color.new('red'))
         end
