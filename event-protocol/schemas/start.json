@@ -6,14 +6,10 @@
   "properties": {
     "type": {
       "type": "string"
-    },
-    "timestamp": { "$ref": "defs.json#/timestamp" },
-    "series": { "$ref": "defs.json#/series" }
+    }
   },
   "required": [
-    "type",
-    "timestamp",
-    "series"
+    "type"
   ],
   "additionalProperties": false
 }

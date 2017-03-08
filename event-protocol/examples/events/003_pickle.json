@@ -1,7 +1,5 @@
 {
   "type": "pickle",
-  "timestamp": 1471420027078,
-  "series": "df1d3970-644e-11e6-8b77-86f30ca893d3",
   "uri": "../testdata/good/several_examples.feature",
   "pickle": {
     "name": "minimalistic",
