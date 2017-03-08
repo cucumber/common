@@ -129,7 +129,13 @@ If a type  used in a step definition has a constructor that accepts a single
 Registering a parameter is still beneficial, because it will allow Cucumber
 to generate Cucumber Expression snippets for undefined steps using the correct type.
 
-## Step Definition Snippets (Expression generation)
+## Defining Parameter types without a transformer
+
+If you don't specify a `transformer`, the matched arguments are returned as strings.
+This is useful if you only want to use custom parameter types to match certain
+patterns, but still want a string.
+
+## Step Definition Snippets (Cucumber Expression generation)
 
 When Cucumber encounters a [Gherkin step](../docs/gherkin.md#steps) without a
 matching [Step Definition](../docs/step-definitions.md), it will print a step
