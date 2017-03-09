@@ -7,8 +7,6 @@
     "type": {
       "type": "string"
     },
-    "timestamp": { "$ref": "defs.json#/timestamp" },
-    "series": { "$ref": "defs.json#/series" },
     "uri": {
       "type": "string"
     },
@@ -39,8 +37,6 @@
   },
   "required": [
     "type",
-    "timestamp",
-    "series",
     "uri",
     "data",
     "media"
