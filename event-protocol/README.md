@@ -33,10 +33,7 @@ Examples of consumers are:
 
 ### start {#event-start}
 
-A `start` event marks the start of a stream of events. This allows multiple logical
-event streams to be sent over the same transport without collision. The `series`
-property specified in the `start` event must be repeated by other events in the same
-logical stream.
+A `start` event marks the start of a stream of events. 
 
 Example:
 
