@@ -22,7 +22,7 @@ N/A
 ## [3.0.0] - 2017-03-08
 
 ### Removed
-N/A
+* java: Drop support for Java 7 (Java 8 or higher is required)
 
 ### Added
 * Alternative text: `I have a cat/dog/fish`
