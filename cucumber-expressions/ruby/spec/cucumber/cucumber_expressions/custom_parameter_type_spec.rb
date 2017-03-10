@@ -21,14 +21,14 @@ module Cucumber
     describe "Custom parameter" do
       before do
         parameter_registry = ParameterTypeRegistry.new
-        ### [add-color-parameter]
+        ### [add-color-parameter-type]
         parameter_registry.define_parameter_type(ParameterType.new(
           'color',
           Color,
           /red|blue|yellow/,
           lambda { |s| Color.new(s) }
         ))
-        ### [add-color-parameter]
+        ### [add-color-parameter-type]
         @parameter_type_registry = parameter_registry
       end
 

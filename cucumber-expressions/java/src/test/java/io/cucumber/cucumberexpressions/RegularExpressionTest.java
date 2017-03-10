@@ -19,14 +19,14 @@ public class RegularExpressionTest {
     public void document_match_arguments() {
         ParameterTypeRegistry parameterTypeRegistry = new ParameterTypeRegistry(Locale.ENGLISH);
 
-        /// [capture-buildArguments-arguments]
+        /// [capture-match-arguments]
         Pattern expr = Pattern.compile("I have (\\d+) cukes? in my (\\w+) now");
         List<? extends Class<?>> types = asList(Integer.class, String.class);
         Expression expression = new RegularExpression(expr, types, parameterTypeRegistry);
         List<Argument> match = expression.match("I have 7 cukes in my belly now");
         assertEquals(7, match.get(0).getTransformedValue());
         assertEquals("belly", match.get(1).getTransformedValue());
-        /// [capture-buildArguments-arguments]
+        /// [capture-match-arguments]
     }
 
     @Test

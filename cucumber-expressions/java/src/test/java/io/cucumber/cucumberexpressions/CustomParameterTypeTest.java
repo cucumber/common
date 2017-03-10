@@ -38,7 +38,7 @@ public class CustomParameterTypeTest {
 
     @Before
     public void create_parameter() {
-        /// [add-color-parameter]
+        /// [add-color-parameter-type]
         parameterTypeRegistry.defineParameterType(new SimpleParameterType<>(
                 "color",
                 Color.class,
@@ -50,7 +50,7 @@ public class CustomParameterTypeTest {
                     }
                 }
         ));
-        /// [add-color-parameter]
+        /// [add-color-parameter-type]
     }
 
     @Test

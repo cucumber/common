@@ -19,14 +19,14 @@ public class CucumberExpressionTest {
     public void documents_match_arguments() {
         ParameterTypeRegistry parameterTypeRegistry = new ParameterTypeRegistry(Locale.ENGLISH);
 
-        /// [capture-buildArguments-arguments]
+        /// [capture-match-arguments]
         String expr = "I have {n} cuke(s) in my {bodypart} now";
         List<? extends Class<?>> types = asList(Integer.class, String.class);
         Expression expression = new CucumberExpression(expr, types, parameterTypeRegistry);
         List<Argument> args = expression.match("I have 7 cukes in my belly now");
         assertEquals(7, args.get(0).getTransformedValue());
         assertEquals("belly", args.get(1).getTransformedValue());
-        /// [capture-buildArguments-arguments]
+        /// [capture-match-arguments]
     }
 
     @Test

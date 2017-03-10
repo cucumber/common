@@ -81,21 +81,21 @@ This is how we would define a custom `color` parameter:
 {% method %}
 {% sample lang="java" %}
 ```java
-[snippet](java/src/test/java/io/cucumber/cucumberexpressions/CustomParameterTest.java#add-color-parameter)
+[snippet](java/src/test/java/io/cucumber/cucumberexpressions/CustomParameterTypeTest.java#add-color-parameter-type)
 ```
 {% sample lang="js" %}
 ```javascript
-[snippet](javascript/test/custom_parameter_test.js#add-color-parameter)
+[snippet](javascript/test/custom_parameter_type_test.js#add-color-parameter-type)
 ```
 
 The `transform` function can also return a `Promise`:
 ```javascript
-[snippet](javascript/test/custom_parameter_test.js#add-async-parameter)
+[snippet](javascript/test/custom_parameter_type_test.js#add-async-parameter-type)
 ```
 
 {% sample lang="rb" %}
 ```ruby
-[snippet](ruby/spec/cucumber/cucumber_expressions/custom_parameter_spec.rb#add-color-parameter)
+[snippet](ruby/spec/cucumber/cucumber_expressions/custom_parameter_type_spec.rb#add-color-parameter-type)
 ```
 {% endmethod %}
 
@@ -122,7 +122,7 @@ If a type  used in a step definition has a constructor that accepts a single
 {% method %}
 {% sample lang="java" %}
 ```java
-[snippet](java/src/test/java/io/cucumber/cucumberexpressions/CustomParameterTest.java#color-constructor)
+[snippet](java/src/test/java/io/cucumber/cucumberexpressions/CustomParameterTypeTest.java#color-constructor)
 ```
 {% endmethod %}
 
