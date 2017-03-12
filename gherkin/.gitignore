@@ -2,3 +2,4 @@
 .idea/
 
 dotnet/.vs/*
+dotnet/output

@@ -47,6 +47,7 @@ See [SO](http://stackoverflow.com/questions/13756055/git-subtree-subtree-up-to-d
 Prerequisites:
 
 * .NET or Mono (needed to run `berp` to generate parsers)
+* .NET Core 1.0.1
 * JDK
   * Maven
 * Node.js or IO.js

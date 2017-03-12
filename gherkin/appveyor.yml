@@ -1,7 +1,11 @@
-version: build{build}
+image: Visual Studio 2017 RC
 
+configuration:
+- Release
 
 environment:
+  # Don't report back to the mothership
+  DOTNET_CLI_TELEMETRY_OPTOUT: 1
   GherkinVersion: "4.0.1"
   GherkinPackageVersion: "$(GherkinVersion)-ci$(APPVEYOR_BUILD_NUMBER)"
 
@@ -10,22 +14,24 @@ nuget:
   project_feed: true
   disable_publish_on_pr: true
 
-configuration: Release
-
+init:
+- ps: $Env:LABEL = "CI" + $Env:APPVEYOR_BUILD_NUMBER.PadLeft(5, "0")
 
 before_build:
-  - appveyor DownloadFile https://dist.nuget.org/win-x86-commandline/latest/nuget.exe
-  - appveyor DownloadFile https://raw.githubusercontent.com/appveyor/ci/master/scripts/nuget-restore.cmd
-  - nuget-restore dotnet\Gherkin.CSharp.sln
-  
-build:
-  publish_nuget: true  
+- appveyor-retry dotnet restore -v Minimal dotnet/Gherkin.CSharp.sln
+
+build_script:
+- dotnet build -c %CONFIGURATION% dotnet/Gherkin --version-suffix %LABEL%
+- dotnet build -c %CONFIGURATION% dotnet/Gherkin.CLI --version-suffix %LABEL%
+- dotnet build -c %CONFIGURATION% dotnet/Gherkin.TokensGenerator --version-suffix %LABEL%
+- dotnet build -c %CONFIGURATION% dotnet/Gherkin.Specs --version-suffix %LABEL%
 
 after_build:
-  - set paddedVersion=000%APPVEYOR_BUILD_NUMBER%
-  - set paddedVersion=%paddedVersion:~-3%
-  - set GherkinPaddedPackageVersion=%GherkinVersion%-ci%paddedVersion%
-  - nuget pack dotnet/Gherkin.NuGetPackages/Gherkin.nuspec -Version %GherkinPaddedPackageVersion%
+- dotnet pack -c %CONFIGURATION% dotnet/Gherkin -o artifacts --version-suffix %LABEL%
+
+test_script:
+- dotnet test dotnet/Gherkin.Specs/Gherkin.Specs.csproj -c %CONFIGURATION%
+  
   
 artifacts:
-- path: 'Gherkin.*.nupkg'
+- path: artifacts\Gherkin.*.nupkg

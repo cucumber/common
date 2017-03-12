@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Web.Script.Serialization;
+using System.Linq;
 using Gherkin.Ast;
+using Newtonsoft.Json;
+using System.Reflection;
 
 namespace Gherkin
 {
@@ -53,7 +55,17 @@ namespace Gherkin
         protected virtual Dictionary<string, GherkinLanguageSetting> LoadLanguageSettings()
         {
             const string languageFileName = "gherkin-languages.json";
-            var resourceStream = typeof(GherkinDialectProvider).Assembly.GetManifestResourceStream(typeof(GherkinDialectProvider), languageFileName);
+            
+            #if NET45            
+            var assembly = typeof(GherkinDialectProvider).Assembly;
+            var resourceStream = assembly.GetManifestResourceStream(typeof(GherkinDialectProvider), languageFileName);                        
+            #endif
+            
+            #if (NETSTANDARD1_5 || NETCOREAPP1_0 || NETCOREAPP1_1)
+            var assembly = typeof(GherkinDialectProvider).GetTypeInfo().Assembly;            
+            var resourceStream = assembly.GetManifestResourceStream("Gherkin." + languageFileName);            
+            #endif
+                                    
             if (resourceStream == null)
                 throw new InvalidOperationException("Gherkin language resource not found: " + languageFileName);
             var languagesFileContent = new StreamReader(resourceStream).ReadToEnd();
@@ -63,8 +75,7 @@ namespace Gherkin
 
         protected Dictionary<string, GherkinLanguageSetting> ParseJsonContent(string languagesFileContent)
         {
-            var jsonSerializer = new JavaScriptSerializer();
-            return jsonSerializer.Deserialize<Dictionary<string, GherkinLanguageSetting>>(languagesFileContent);
+            return JsonConvert.DeserializeObject<Dictionary<string, GherkinLanguageSetting>>(languagesFileContent);
         }
 
         protected virtual GherkinDialect GetDialect(string language, Dictionary<string, GherkinLanguageSetting> gherkinLanguageSettings, Location location)

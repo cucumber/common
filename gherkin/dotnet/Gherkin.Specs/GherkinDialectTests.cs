@@ -4,32 +4,34 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Gherkin.Ast;
-using NUnit.Framework;
+using Xunit;
+using Xunit.Sdk;
 
 namespace Gherkin.Specs
 {
-    [TestFixture]
     public class GherkinDialectTests
     {
-        [Test, ExpectedException(typeof(NoSuchLanguageException))]
+        [Fact]
         public void ShouldThrowNoSuchLanguageExceptionForInvalidLanguage()
         {
             var x = new GherkinDialectProvider();
-            x.GetDialect("nosuchlang", new Location(1, 2));
+            
+            Assert.Throws<NoSuchLanguageException>(() => x.GetDialect("nosuchlang", new Location(1, 2)));            
         }
 
-        [Test, ExpectedException(typeof(NoSuchLanguageException))]
+        [Fact]
         public void ShouldThrowNoSuchLanguageExceptionForInvalidDefaultLanguage()
         {
             var x = new GherkinDialectProvider("nosuchlang");
-            var defaultDialect = x.DefaultDialect;
+            
+            Assert.Throws<NoSuchLanguageException>(() => { var dialect =  x.DefaultDialect;});
         }
 
-        [Test, ExpectedException(typeof(NoSuchLanguageException))]
+        [Fact]
         public void ShouldThrowNoSuchLanguageExceptionForInvalidLanguageWithoutLocation()
         {
             var x = new GherkinDialectProvider();
-            x.GetDialect("nosuchlang", null);
+            Assert.Throws<NoSuchLanguageException>(() => x.GetDialect("nosuchlang", null));            
         }
     }
 }

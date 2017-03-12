@@ -156,9 +156,14 @@ $RECYCLE.BIN/
 
 packages/
 acceptance/
+output/
 .built
 .compared
 .sln_built_debug
 *.userprefs
 *.nupkg
 Gherkin.NuGetPackages/bin/
+.build*
+.built*
+.vscode
+.run_tests

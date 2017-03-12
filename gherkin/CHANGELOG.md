@@ -14,6 +14,15 @@ This document is formatted according to the principles of [Keep A CHANGELOG](htt
 ### Added
 * (.NET, Java, JavaScript, Ruby, Python) Streaming API and command line client.
   ([#240](https://github.com/cucumber/gherkin/pull/240))
+* (Java): Add accessors for languages and dialect keywords.
+  ([#248](https://github.com/cucumber/gherkin/pull/248)
+   by [brasmusson])
+* (All): Add the language to the Pickles
+  ([#251](https://github.com/cucumber/gherkin/pull/251)
+   by [brasmusson])
+* (C): New parser and compiler in C
+  ([#187](https://github.com/cucumber/gherkin/pull/187)
+   by [brasmusson])
 * (I18n) mk-Cyrl/mk-Latn: Added Macedonian language
   ([#249](https://github.com/cucumber/gherkin/pull/249)
    by [nikolovski])
@@ -43,6 +52,12 @@ This document is formatted according to the principles of [Keep A CHANGELOG](htt
    by [nalekberov])
 
 ### Changed
+* (.NET) Migrated code to .NET Core
+  ([#215](https://github.com/cucumber/gherkin/pull/215)
+   by [SabotageAndi])
+* (I18n) Russian translation fix
+  ([#255](https://github.com/cucumber/gherkin/pull/255)
+   by [ehpc])
 
 ### Fixed
 * (Java) Add a getter for the tags of a pickle
@@ -271,6 +286,7 @@ to Gherkin 2.
 [brasmusson]:       https://github.com/brasmusson
 [charlierudolph]:   https://github.com/charlierudolph
 [dobiedad]:         https://github.com/dobiedad
+[ehpc]:             https://github.com/ehpc
 [enkessler]:        https://github.com/enkessler
 [gabanz]:           https://github.com/gabanz
 [jargalan]:         https://github.com/jargalan
@@ -288,5 +304,6 @@ to Gherkin 2.
 [paigehf]:          https://github.com/paigehf
 [pjlsergeant]:      https://github.com/pjlsergeant
 [Pr-Mex]:           https://github.com/Pr-Mex
+[SabotageAndi]:     https://github.com/SabotageAndi
 [zbmott]:           https://github.com/zbmott
 [Zearin]:           https://github.com/Zearin

@@ -1,14 +1,13 @@
 ﻿using System.Diagnostics;
 using System.IO;
 using Gherkin.CLI;
-using NUnit.Framework;
+using Xunit;
 
 namespace Gherkin.Specs
 {
-    [TestFixture]
     public class TokenizationTests
     {
-        [Test, TestCaseSource(typeof(TestFileProvider), "GetValidTestFiles")]
+        [Theory, MemberData("GetValidTestFiles", MemberType = typeof(TestFileProvider))]
         public void TestSuccessfulTokenMatching(string testFeatureFile)
         {
             var featureFileFolder = Path.GetDirectoryName(testFeatureFile);
@@ -18,7 +17,7 @@ namespace Gherkin.Specs
             var tokensText = TokensGenerator.TokensGenerator.GenerateTokens(testFeatureFile);
             var expectedTokensText = LineEndingHelper.NormalizeLineEndings(File.ReadAllText(expectedTokensFile));
 
-            Assert.AreEqual(expectedTokensText, tokensText);
+            Assert.Equal(expectedTokensText, tokensText);
         }
     }
 }

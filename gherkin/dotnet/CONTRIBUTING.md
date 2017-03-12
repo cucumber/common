@@ -15,7 +15,7 @@ Just run `make` from this directory.
 
 ### Windows
 
-Open `Gherkin.CSharp.sln` from this directory in Visual Studio 2013 and build.
+Open `Gherkin.CSharp.sln` from this directory in Visual Studio 2015 and build.
 
 Alternatively, run `msbuild` from this directory.
 
@@ -28,12 +28,10 @@ If this is your first time, read through NuGet's guidelines for
 [Creating and Publishing a Package](https://docs.nuget.org/create/creating-and-publishing-a-package).
 
     # Replace X.Y.Z with the version
-    # Change version in `Gherkin.NuGetPackages\Gherkin.nuspec`
+    # Change version in `Gherkin\project.json`
     git clean -dfx
-    mono .nuget/NuGet.exe restore Gherkin.CSharp.sln
-    xbuild /p:Configuration=Release
-    mono .nuget/NuGet.exe pack Gherkin.NuGetPackages/Gherkin.nuspec
-    mono .nuget/NuGet.exe push Gherkin.X.Y.Z.nupkg
+    dotnet pack -c Release Gherkin
+    mono .nuget/NuGet.exe push Gherkin/bin/Release/Gherkin.X.Y.Z.nupkg
     git commit -am "Release X.Y.Z"
     git tag -a -m "Version X.Y.Z" vX.Y.Z
     git push

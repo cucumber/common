@@ -10,7 +10,7 @@ namespace Gherkin
         }
 
         public Parser(IAstBuilder<GherkinDocument> astBuilder)
-            : base (astBuilder)
+            : base(astBuilder)
         {
         }
 
@@ -21,9 +21,12 @@ namespace Gherkin
 
         public GherkinDocument Parse(string sourceFile)
         {
-            using (var reader = new StreamReader(sourceFile))
+            using (var stream = new FileStream(sourceFile, FileMode.Open))
             {
-                return Parse(new TokenScanner(reader));
+                using (var reader = new StreamReader(stream))
+                {
+                    return Parse(new TokenScanner(reader));
+                }
             }
         }
     }

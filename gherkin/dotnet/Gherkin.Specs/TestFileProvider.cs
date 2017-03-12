@@ -9,22 +9,23 @@ namespace Gherkin.Specs
 {
     public class TestFileProvider
     {
-        public IEnumerable<string> GetValidTestFiles()
+        public static IEnumerable<object[]> GetValidTestFiles()
         {
             return GetTestFiles("good");
         }
 
-        public IEnumerable<string> GetInvalidTestFiles()
+        public static IEnumerable<object[]> GetInvalidTestFiles()
         {
             return GetTestFiles("bad");
         }
 
-        private static IEnumerable<string> GetTestFiles(string category)
+        private static IEnumerable<object[]> GetTestFiles(string category)
         {
             string testFileFolder =
                 Path.GetFullPath(Path.Combine(TestFolders.InputFolder, "..", "..", "..", "..", @"testdata", category));
 
-            return Directory.GetFiles(testFileFolder, "*.feature");
+            return Directory.GetFiles(testFileFolder, "*.feature")
+                            .Select(f => new object[]{f});
         }
     }
 }
