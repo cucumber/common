@@ -32,6 +32,17 @@ function echo_blue
   echo -e "${BLUE}$@${NC}"
 }
 
+function rsync_files()
+{
+  git ls-files "${root_dir}/**/.rsync" | while read rsync_file; do
+    pushd "$( dirname "${rsync_file}" )"
+    cat .rsync | while read line; do
+      rsync -ah --delete ${line}
+    done
+    popd
+  done
+}
+
 # Prints all subrepos. Optionally specify a parent dir.
 function subrepos()
 {
