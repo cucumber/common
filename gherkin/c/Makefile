@@ -37,20 +37,20 @@ libs: ./include/rule_type.h src/parser.c src/dialect.c $(SRC_FILES) src/Makefile
 	bin/gherkin --no-source --no-ast --no-pickles $(GOOD_FEATURE_FILES)
 	touch .run
 
-./include/rule_type.h: ../gherkin.berp gherkin-c-rule-type.razor ../bin/berp.exe
-	mono ../bin/berp.exe -g ../gherkin.berp -t gherkin-c-rule-type.razor -o $@
+./include/rule_type.h: gherkin.berp gherkin-c-rule-type.razor
+	mono berp/berp.exe -g gherkin.berp -t gherkin-c-rule-type.razor -o $@
 	# Remove BOM
 	tail -c +4 $@ > $@.nobom
 	mv $@.nobom $@
 
-src/parser.c: ../gherkin.berp gherkin-c-parser.razor ../bin/berp.exe
-	mono ../bin/berp.exe -g ../gherkin.berp -t gherkin-c-parser.razor -o $@
+src/parser.c: gherkin.berp gherkin-c-parser.razor
+	mono berp/berp.exe -g gherkin.berp -t gherkin-c-parser.razor -o $@
 	# Remove BOM
 	tail -c +4 $@ > $@.nobom
 	mv $@.nobom $@
 
-src/dialect.c: ../gherkin-languages.json dialect.c.jq
-	$(MAKE) update-gherkin-languages
+src/dialect.c: gherkin-languages.json dialect.c.jq
+	cat $< | jq -f dialect.c.jq -r -c > $@
 
 acceptance/testdata/%.feature.tokens: testdata/%.feature testdata/%.feature.tokens bin/gherkin_generate_tokens
 	mkdir -p `dirname $@`
@@ -81,14 +81,3 @@ acceptance/testdata/%.feature.source.ndjson: testdata/%.feature testdata/%.featu
 	bin/gherkin --no-ast --no-pickles $< | jq --sort-keys --compact-output "." > $@
 	diff --unified <(jq "." $<.source.ndjson) <(jq "." $@)
 .DELETE_ON_ERROR: acceptance/testdata/%.feature.source.ndjson
-
-update-gherkin-languages: src/dialect.c.tmp
-	diff -q src/dialect.c.tmp src/dialect.c || mv src/dialect.c.tmp src/dialect.c
-.PHONY: update-gherkin-languages
-
-src/dialect.c.tmp: ../gherkin-languages.json dialect.c.jq
-	cat $< | jq -f dialect.c.jq -r -c > $@
-.INTERMEDIATE: src/dialect.c.tmp
-
-LICENSE: ../LICENSE
-	cp $< $@
