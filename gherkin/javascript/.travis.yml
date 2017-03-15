@@ -1,2 +1,13 @@
 language: node_js
-sudo: false
+node_js:
+  - 7.5.0
+
+script: make
+
+notifications:
+  webhooks:
+    urls:
+      - https://webhooks.gitter.im/e/5373e574ed4e88026838
+    on_success: change
+    on_failure: always
+    on_start: never

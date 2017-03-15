@@ -6,6 +6,8 @@ rvm:
   - 2.2.6
   - jruby-9.1.7.0
 
+script: make
+
 notifications:
   webhooks:
     urls:
