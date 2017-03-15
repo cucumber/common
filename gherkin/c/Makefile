@@ -10,6 +10,18 @@ ERRORS   = $(patsubst testdata/%.feature,acceptance/testdata/%.feature.errors.nd
 
 SRC_FILES= $(shell find src -name "*.[ch]*")
 
+ifeq ($(CC),i686-w64-mingw32-gcc)
+	GHERKIN=bin/gherkin.exe
+	RUN_GHERKIN=wine $(GHERKIN)
+	GHERKIN_GENERATE_TOKENS=bin/gherkin_generate_tokens.exe
+	RUN_GHERKIN_GENERATE_TOKENS=wine $(GHERKIN_GENERATE_TOKENS)
+else
+	GHERKIN=bin/gherkin
+	RUN_GHERKIN=$(GHERKIN)
+	GHERKIN_GENERATE_TOKENS=bin/gherkin_generate_tokens
+	RUN_GHERKIN_GENERATE_TOKENS=$(GHERKIN_GENERATE_TOKENS)
+endif
+
 all: .compared
 .PHONY: all
 
@@ -17,6 +29,7 @@ all: .compared
 	touch $@
 
 .built: ./include/rule_type.h src/parser.c src/dialect.c $(SRC_FILES) src/Makefile LICENSE
+	$(CC) --version
 	cd src; $(MAKE)
 	touch $@
 
@@ -26,15 +39,15 @@ clean:
 .PHONY: clean
 
 cli: ./include/rule_type.h src/parser.c src/dialect.c $(SRC_FILES) src/Makefile
-	cd src; $(MAKE) $@
+	cd src; $(MAKE) CC=$(CC) $@
 .PHONY: libs
 
 libs: ./include/rule_type.h src/parser.c src/dialect.c $(SRC_FILES) src/Makefile
-	cd src; $(MAKE) $@
+	cd src; $(MAKE) CC=$(CC) $@
 .PHONY: libs
 
-.run: bin/gherkin $(GOOD_FEATURE_FILES)
-	bin/gherkin --no-source --no-ast --no-pickles $(GOOD_FEATURE_FILES)
+.run: $(GHERKIN) $(GOOD_FEATURE_FILES)
+	$(RUN_GHERKIN) --no-source --no-ast --no-pickles $(GOOD_FEATURE_FILES)
 	touch .run
 
 ./include/rule_type.h: gherkin.berp gherkin-c-rule-type.razor
@@ -52,32 +65,33 @@ src/parser.c: gherkin.berp gherkin-c-parser.razor
 src/dialect.c: gherkin-languages.json dialect.c.jq
 	cat $< | jq -f dialect.c.jq -r -c > $@
 
-acceptance/testdata/%.feature.tokens: testdata/%.feature testdata/%.feature.tokens bin/gherkin_generate_tokens
+acceptance/testdata/%.feature.tokens: testdata/%.feature testdata/%.feature.tokens $(GHERKIN_GENERATE_TOKENS)
 	mkdir -p `dirname $@`
-	bin/gherkin_generate_tokens $< > $@
-	diff --unified $<.tokens $@
+	echo $(RUN_GHERKIN_GENERATE_TOKENS)
+	$(RUN_GHERKIN_GENERATE_TOKENS) $< > $@
+	diff --strip-trailing-cr --unified $<.tokens $@
 .DELETE_ON_ERROR: acceptance/testdata/%.feature.tokens
 
-acceptance/testdata/%.feature.ast.ndjson: testdata/%.feature testdata/%.feature.ast.ndjson bin/gherkin
+acceptance/testdata/%.feature.ast.ndjson: testdata/%.feature testdata/%.feature.ast.ndjson $(GHERKIN)
 	mkdir -p `dirname $@`
-	bin/gherkin --no-source --no-pickles $< | jq --sort-keys --compact-output "." > $@
+	$(RUN_GHERKIN) --no-source --no-pickles $< | jq --sort-keys --compact-output "." > $@
 	diff --unified <(jq "." $<.ast.ndjson) <(jq "." $@)
 .DELETE_ON_ERROR: acceptance/testdata/%.feature.ast.ndjson
 
-acceptance/testdata/%.feature.errors.ndjson: testdata/%.feature testdata/%.feature.errors.ndjson bin/gherkin
+acceptance/testdata/%.feature.errors.ndjson: testdata/%.feature testdata/%.feature.errors.ndjson $(GHERKIN)
 	mkdir -p `dirname $@`
-	bin/gherkin --no-source --no-pickles $< | jq --sort-keys --compact-output "." > $@
+	$(RUN_GHERKIN) --no-source --no-pickles $< | jq --sort-keys --compact-output "." > $@
 	diff --unified <(jq "." $<.errors.ndjson) <(jq "." $@)
 .DELETE_ON_ERROR: acceptance/testdata/%.feature.errors.ndjson
 
-acceptance/testdata/%.feature.pickles.ndjson: testdata/%.feature testdata/%.feature.pickles.ndjson bin/gherkin
+acceptance/testdata/%.feature.pickles.ndjson: testdata/%.feature testdata/%.feature.pickles.ndjson $(GHERKIN)
 	mkdir -p `dirname $@`
-	bin/gherkin --no-source --no-ast $< | jq --sort-keys --compact-output "." > $@
+	$(RUN_GHERKIN) --no-source --no-ast $< | jq --sort-keys --compact-output "." > $@
 	diff --unified <(jq "." $<.pickles.ndjson) <(jq "." $@)
 .DELETE_ON_ERROR: acceptance/testdata/%.feature.pickles.ndjson
 
 acceptance/testdata/%.feature.source.ndjson: testdata/%.feature testdata/%.feature.source.ndjson .built
 	mkdir -p `dirname $@`
-	bin/gherkin --no-ast --no-pickles $< | jq --sort-keys --compact-output "." > $@
+	$(RUN_GHERKIN) --no-ast --no-pickles $< | jq --sort-keys --compact-output "." > $@
 	diff --unified <(jq "." $<.source.ndjson) <(jq "." $@)
 .DELETE_ON_ERROR: acceptance/testdata/%.feature.source.ndjson

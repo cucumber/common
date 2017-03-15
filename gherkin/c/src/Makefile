@@ -1,17 +1,24 @@
 GCC_FLAGS=-c -Wall -Werror -g
 CLANG_FLAGS=-c -Wall -Wno-typedef-redefinition -Werror -g
 
-ifeq ($(CC),clang)
-  CC=clang
-  LD=clang
-  CC_FLAGS=$(CLANG_FLAGS)
+ifeq ($(CC),i686-w64-mingw32-gcc)
+	CC=i686-w64-mingw32-gcc
+	LD=i686-w64-mingw32-gcc
+	CC_FLAGS=$(GCC_FLAGS)
+	AR=i686-w64-mingw32-ar
+	EXT=.exe
+else ifeq ($(CC),clang)
+	CC=clang
+	LD=clang
+	CC_FLAGS=$(CLANG_FLAGS)
+	AR=ar
 else
-  CC=gcc
-  LD=gcc
-  CC_FLAGS=$(GCC_FLAGS)
+	CC=gcc
+	LD=gcc
+	CC_FLAGS=$(GCC_FLAGS)
+	AR=ar
 endif
 GENERATE_DEPS_FLAGS=-MMD -MP -MF $(basename $@).d
-AR=ar
 AR_FLAGS=cr
 LD_FLAGS=
 LD_LIBS=
@@ -20,9 +27,9 @@ MKDIR_CMD=mkdir -p
 
 all: \
     cli \
-	../bin/gherkin_generate_tokens
+	../bin/gherkin_generate_tokens$(EXT)
 
-cli: ../bin/gherkin
+cli: ../bin/gherkin$(EXT)
 
 libs: ../libs/libgherkin.a
 
@@ -67,7 +74,7 @@ AST_OBJS= \
 	../objs/step.o \
 	../objs/table_cell.o \
 	../objs/table_row.o \
-	../objs/tag.o 
+	../objs/tag.o
 -include $(AST_OBJS:.o=.d)
 
 COMPILER_OBJS= \
@@ -112,10 +119,10 @@ GHERKIN_CLI_OBJS= \
 	$(MKDIR_CMD) $(dir $@)
 	$(AR) $(AR_FLAGS) $@ $(UTILITIES_OBJS) $(PARSER_OBJS) $(AST_OBJS) $(COMPILER_OBJS) $(PICKLES_OBJS) $(EVENT_OBJS)
 
-../bin/gherkin_generate_tokens: ../libs/libgherkin.a $(GENERATE_TOKEN_OBJS) Makefile
+../bin/gherkin_generate_tokens$(EXT): ../libs/libgherkin.a $(GENERATE_TOKEN_OBJS) Makefile
 	$(MKDIR_CMD) $(dir $@)
 	$(LD) $(LD_FLAGS) $(GENERATE_TOKEN_OBJS) -L../libs/ -lgherkin $(LD_LIBS) -o $@
 
-../bin/gherkin: ../libs/libgherkin.a $(GHERKIN_CLI_OBJS) Makefile
+../bin/gherkin$(EXT): ../libs/libgherkin.a $(GHERKIN_CLI_OBJS) Makefile
 	$(MKDIR_CMD) $(dir $@)
 	$(LD) $(LD_FLAGS) $(GHERKIN_CLI_OBJS) -L../libs/ -lgherkin $(LD_LIBS) -o $@
