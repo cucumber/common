@@ -35,14 +35,3 @@ format-gherkin-languages: gherkin-languages.json.tmp
 gherkin-languages.json.tmp:
 	cat gherkin-languages.json | jq "." --sort-keys > gherkin-languages.json.tmp
 .INTERMEDIATE: gherkin-languages.json.tmp
-
-update-gherkin-languages: format-gherkin-languages $(patsubst %/Makefile,update-gherkin-languages-%,$(MAKEFILES))
-.PHONY: update-gherkin-languages
-update-gherkin-languages-%: %
-	cd $< && make update-gherkin-languages
-
-update-version: $(patsubst %/Makefile,update-version-%,$(MAKEFILES))
-.PHONY: update-version
-
-update-version-%: %
-	cd $< && make update-version

@@ -1,12 +1,12 @@
 SHELL := /usr/bin/env bash
-GOOD_FEATURE_FILES = $(shell find ../testdata/good -name "*.feature")
-BAD_FEATURE_FILES  = $(shell find ../testdata/bad -name "*.feature")
+GOOD_FEATURE_FILES = $(shell find testdata/good -name "*.feature")
+BAD_FEATURE_FILES  = $(shell find testdata/bad -name "*.feature")
 
-TOKENS   = $(patsubst ../testdata/%.feature,acceptance/testdata/%.feature.tokens,$(GOOD_FEATURE_FILES))
-ASTS     = $(patsubst ../testdata/%.feature,acceptance/testdata/%.feature.ast.ndjson,$(GOOD_FEATURE_FILES))
-PICKLES  = $(patsubst ../testdata/%.feature,acceptance/testdata/%.feature.pickles.ndjson,$(GOOD_FEATURE_FILES))
-SOURCES  = $(patsubst ../testdata/%.feature,acceptance/testdata/%.feature.source.ndjson,$(GOOD_FEATURE_FILES))
-ERRORS   = $(patsubst ../testdata/%.feature,acceptance/testdata/%.feature.errors.ndjson,$(BAD_FEATURE_FILES))
+TOKENS   = $(patsubst testdata/%.feature,acceptance/testdata/%.feature.tokens,$(GOOD_FEATURE_FILES))
+ASTS     = $(patsubst testdata/%.feature,acceptance/testdata/%.feature.ast.ndjson,$(GOOD_FEATURE_FILES))
+PICKLES  = $(patsubst testdata/%.feature,acceptance/testdata/%.feature.pickles.ndjson,$(GOOD_FEATURE_FILES))
+SOURCES  = $(patsubst testdata/%.feature,acceptance/testdata/%.feature.source.ndjson,$(GOOD_FEATURE_FILES))
+ERRORS   = $(patsubst testdata/%.feature,acceptance/testdata/%.feature.errors.ndjson,$(BAD_FEATURE_FILES))
 
 PYTHON_FILES = $(shell find . -name "*.py")
 
@@ -16,63 +16,46 @@ all: .compared
 .compared: .built $(TOKENS) $(ASTS) $(PICKLES) $(ERRORS) $(SOURCES)
 	touch $@
 
-.built: gherkin/parser.py gherkin/gherkin-languages.json $(PYTHON_FILES) bin/gherkin LICENSE.txt
+.built: gherkin/parser.py gherkin/gherkin-languages.json $(PYTHON_FILES) bin/gherkin
 	nosetests
 	touch $@
 
-acceptance/testdata/%.feature.tokens: ../testdata/%.feature ../testdata/%.feature.tokens .built
+acceptance/testdata/%.feature.tokens: testdata/%.feature testdata/%.feature.tokens .built
 	mkdir -p `dirname $@`
 	bin/gherkin-generate-tokens $< > $@
 	diff --unified $<.tokens $@
 .DELETE_ON_ERROR: acceptance/testdata/%.feature.tokens
 
-acceptance/testdata/%.feature.ast.ndjson: ../testdata/%.feature ../testdata/%.feature.ast.ndjson .built
+acceptance/testdata/%.feature.ast.ndjson: testdata/%.feature testdata/%.feature.ast.ndjson .built
 	mkdir -p `dirname $@`
 	bin/gherkin --no-source --no-pickles $< | jq --sort-keys --compact-output "." > $@
 	diff --unified <(jq "." $<.ast.ndjson) <(jq "." $@)
 .DELETE_ON_ERROR: acceptance/testdata/%.feature.ast.ndjson
 
-acceptance/testdata/%.feature.pickles.ndjson: ../testdata/%.feature ../testdata/%.feature.pickles.ndjson .built
+acceptance/testdata/%.feature.pickles.ndjson: testdata/%.feature testdata/%.feature.pickles.ndjson .built
 	mkdir -p `dirname $@`
 	bin/gherkin --no-source --no-ast $< | jq --sort-keys --compact-output "." > $@
 	diff --unified <(jq "." $<.pickles.ndjson) <(jq "." $@)
 .DELETE_ON_ERROR: acceptance/testdata/%.feature.pickles.ndjson
 
-acceptance/testdata/%.feature.source.ndjson: ../testdata/%.feature ../testdata/%.feature.source.ndjson .built
+acceptance/testdata/%.feature.source.ndjson: testdata/%.feature testdata/%.feature.source.ndjson .built
 	mkdir -p `dirname $@`
 	bin/gherkin --no-ast --no-pickles $< | jq --sort-keys --compact-output "." > $@
 	diff --unified <(jq "." $<.source.ndjson) <(jq "." $@)
 .DELETE_ON_ERROR: acceptance/testdata/%.feature.source.ndjson
 
-acceptance/testdata/%.feature.errors.ndjson: ../testdata/%.feature ../testdata/%.feature.errors.ndjson .built
+acceptance/testdata/%.feature.errors.ndjson: testdata/%.feature testdata/%.feature.errors.ndjson .built
 	mkdir -p `dirname $@`
 	bin/gherkin $< | jq --sort-keys --compact-output "." > $@
 	diff --unified <(jq "." $<.errors.ndjson) <(jq "." $@)
 .DELETE_ON_ERROR: acceptance/testdata/%.feature.errors.ndjson
 
-gherkin/gherkin-languages.json: ../gherkin-languages.json
-	cp $^ $@
-
 clean:
-	rm -rf .compared .built acceptance gherkin/parser.py gherkin/gherkin-languages.json
+	rm -rf .compared .built acceptance gherkin/parser.py
 .PHONY: clean
 
-gherkin/parser.py: ../gherkin.berp gherkin-python.razor ../bin/berp.exe
-	mono ../bin/berp.exe -g ../gherkin.berp -t gherkin-python.razor -o $@
+gherkin/parser.py: gherkin.berp gherkin-python.razor berp/berp.exe
+	mono berp/berp.exe -g gherkin.berp -t gherkin-python.razor -o $@
 	# Remove BOM
 	tail -c +4 $@ > $@.nobom
 	mv $@.nobom $@
-
-LICENSE.txt: ../LICENSE
-	cp $< $@
-
-update-gherkin-languages: gherkin/gherkin-languages.json
-.PHONY: update-gherkin-languages
-
-update-version: setup.py.tmp setup.py
-	diff -q $< setup.py || mv $< setup.py
-.PHONY: update-version
-
-setup.py.tmp: setup.py ../VERSION
-	sed "s/\(version='\)[0-9]*\.[0-9]*\.[0-9]*\('\)/\1`cat ../VERSION`\2/" $< > $@
-.INTERMEDIATE: setup.py.tmp

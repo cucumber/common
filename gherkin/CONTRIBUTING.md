@@ -83,7 +83,10 @@ to import Mozilla certificates & solve the problem
 2) Distribute the changes to the different parser implementations, this requires `make`, `jq`, `diff`, but no compiler/interpreters:
 
 ```
-make update-gherkin-languages
+source ../scripts/functions.sh
+rsync_files
+make clean
+make
 ```
 
 3) Make a pull request with the changed files.
