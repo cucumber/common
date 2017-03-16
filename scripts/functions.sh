@@ -189,8 +189,10 @@ function project_type()
     echo "go"
   elif [ -d "$(find_path ${dir} "*.xcodeproj")" ]; then
     echo "xcode"
+  elif [ -f "$(find_path ${dir} "*.c")" ]; then
+    echo "c"
   else
-    echo_err "ERROR: Unrecognised platform: ${subrepo}"
+    echo_err "ERROR: Unrecognised platform: ${dir}"
   fi
 }
 
@@ -297,6 +299,12 @@ function python_update_version()
   echo_green "Updated ${subrepo} to ${version}"
 }
 
+function python_release_karma()
+{
+  echo_green "Checking PyPi release karma..."
+  ls ~/.pypirc && echo_green "PyPi ok" || echo_red "\nYou need to create a ~/.pypirc file. See http://peterdowns.com/posts/first-time-with-pypi.html"
+}
+
 function python_release() {
   dir=$1
   version=$2
@@ -320,7 +328,8 @@ function perl_update_version()
 function perl_release_karma()
 {
   echo_green "Checking Perl release karma..."
-  ls ~/.pause && echo_green "Perl ok" || echo_red "\nYou need a PAUSE (CPAN) account"
+  ls ~/pause.conf && echo_green "Perl ok" || echo_red "\nYou need a PAUSE (https://pause.perl.org/) account and a ~/pause.conf file. See http://search.cpan.org/~perlancar/App-pause-0.59/bin/pause"
+  which dzil && echo_green "Dist::Zilla ok" || echo_red "\nYou need dzil on your PATH. On OS X it's in something like /usr/local/Cellar/perl/5.24.1/bin/dzil"
 }
 
 function perl_release() {
@@ -329,7 +338,9 @@ function perl_release() {
   next_version=$3
 
   pushd "${dir}"
-  echo "TODO: RELEASE PERL ${dir}"
+  dzil test --release
+  dzil build
+  dzil release
   popd
 }
 
@@ -380,6 +391,11 @@ function go_update_version()
   echo_blue "No need to update to ${version} in ${subrepo} (currently not using a go package manager)"
 }
 
+function go_release_karma()
+{
+  echo_blue "No release karma needed for ${subrepo} (currently not using a Go package manager)"
+}
+
 ################ xcode ################
 
 function xcode_update_version()
@@ -392,4 +408,11 @@ function xcode_update_version()
 function xcode_release_karma()
 {
   echo_blue "No release karma needed for ${subrepo} (currently not using an xcode package manager)"
+}
+
+################ c ################
+
+function c_release_karma()
+{
+  echo_blue "No release karma needed for ${subrepo} (currently not using a c package manager)"
 }
