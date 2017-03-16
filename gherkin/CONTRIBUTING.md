@@ -15,33 +15,6 @@ you a copy of the files in the various `gherkin-*` repositories.
 
 When you're done, just create a pull request against *this* repository.
 
-## Gherkin team
-
-Before you do anything, make sure you set up remotes for the subtrees:
-
-    make add-remotes
-
-When you have made a change (or merged a PR from a contributor) you can sync them
-to the individual `gherkin-*` repos:
-
-    make push-subtrees
-
-Or if someone has made changes to a `gherkin-*` repo independently:
-
-    make pull-subtrees
-
-This should only be done on rare occasions - it's always better to make changes against
-this *master* repo.
-
-### Troubleshooting
-
-Occasionally, `make push-subtrees` might fail if you have merged changes from a subtree.
-In that case, you can force push a particular subtree. Example:
-
-    git push gherkin-python `git subtree split --prefix=python master`:master --force
-
-See [SO](http://stackoverflow.com/questions/13756055/git-subtree-subtree-up-to-date-but-cant-push) for details.
-
 ## Building
 
 Prerequisites:
