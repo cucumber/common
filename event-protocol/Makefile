@@ -4,12 +4,12 @@ SCHEMAS = $(wildcard schemas/*.json)
 .PHONY: default
 default: .valid
 
-.valid: examples/events.ndjson ./validate.js $(SCHEMAS)
-	cat $< | node ./validate.js
-	touch $@
+.valid: examples/events.ndjson ./bin/cucumber-event-validator.js $(SCHEMAS)
+	@cat $< | node ./bin/cucumber-event-validator.js
+	@touch $@
 
 examples/events.ndjson: $(EXAMPLES)
-	cat $(EXAMPLES) | jq --compact-output "." > $@
+	@cat $(EXAMPLES) | jq --compact-output "." > $@
 
 .PHONY: clean
 clean:
