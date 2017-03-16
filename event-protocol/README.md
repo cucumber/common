@@ -31,16 +31,6 @@ Examples of consumers are:
 
 ## Events {#events}
 
-### start {#event-start}
-
-A `start` event marks the start of a stream of events. 
-
-Example:
-
-```json
-[snippet](examples/events/001_start.json)
-```
-
 ### source {#event-source}
 
 A `source` event indicates that a Gherkin document has been loaded. (The event is
