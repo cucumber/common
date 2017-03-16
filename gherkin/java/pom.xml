@@ -1,5 +1,6 @@
 <?xml version="1.0"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>io.cucumber</groupId>
@@ -26,8 +27,8 @@
         <connection>scm:git:git://github.com/cucumber/gherkin-java.git</connection>
         <developerConnection>scm:git:git@github.com:cucumber/gherkin-java.git</developerConnection>
         <url>git://github.com/cucumber/gherkin-java.git</url>
-      <tag>HEAD</tag>
-  </scm>
+        <tag>HEAD</tag>
+    </scm>
 
     <dependencies>
         <dependency>
@@ -128,6 +129,10 @@
                         <version>1.6</version>
                         <configuration>
                             <useAgent>true</useAgent>
+                            <gpgArguments>
+                                <arg>--local-user</arg>
+                                <arg>devs@cucumber.io</arg>
+                            </gpgArguments>
                         </configuration>
                         <executions>
                             <execution>
