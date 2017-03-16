@@ -4,6 +4,10 @@
   "description": "Validator for the Cucumber Event Protocol",
   "author": "Cucumber Limited <cukes@googlegroups.com>",
   "license": "MIT",
+  "main": "lib/validateEvent.js",
+  "scripts": {
+    "test": "make"
+  },
   "devDependencies": {
     "ajv": "^4.6.1",
     "mz": "^2.4.0"
