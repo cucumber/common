@@ -7,5 +7,5 @@
 	remote = https://github.com/cucumber/gherkin-ruby.git
 	branch = master
 	commit = b1e4180cb98424919e3da9e9671cf291c363c9bc
-	parent = 8636c45ac88774e1d31bbcf7c1c093c32c318244
-	cmdver = 0.4.0
+	parent = ea15d3880e35b6f976843ee0a8c2566f416f6714
+	cmdver = 0.3.1
