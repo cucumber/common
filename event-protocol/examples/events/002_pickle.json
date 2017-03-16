@@ -3,6 +3,7 @@
   "uri": "../testdata/good/several_examples.feature",
   "pickle": {
     "name": "minimalistic",
+    "language": "en",
     "steps": [
       {
         "text": "the foo",
