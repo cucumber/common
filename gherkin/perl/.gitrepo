@@ -7,5 +7,5 @@
 	remote = https://github.com/cucumber/gherkin-perl.git
 	branch = master
 	commit = 448ab65d30396218111fb6afaeea8082cd2f45a8
-	parent = 09c2b799b58584905aad742e98c5747b2726c6da
-	cmdver = 0.4.0
+	parent = 9a78f0fa5c367415e6877c50701c3b69533b372c
+	cmdver = 0.3.1
