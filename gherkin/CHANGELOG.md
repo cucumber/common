@@ -17,6 +17,18 @@ This document is formatted according to the principles of [Keep A CHANGELOG](htt
 
 ### Fixed
 
+## [4.1.1] - 2017-03-16
+
+### Removed
+
+### Added
+* (JavaScript, Ruby, Python) Packages include executabled.
+  ([#155](https://github.com/cucumber/cucumber/pull/155))
+
+### Changed
+
+### Fixed
+
 ## [4.1.0] - 2017-03-16
 
 ### Removed
