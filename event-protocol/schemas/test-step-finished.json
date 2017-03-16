@@ -1,0 +1,29 @@
+{
+  "id": "https://raw.github.com/cucumber/cucumber/master/event-protocol/schemas/test-step-finished.json#",
+  "title": "test-step-finished",
+  "description": "A step of a test case has finished executing",
+  "type": "object",
+  "properties": {
+    "type": {
+      "type": "string"
+    },
+    "testCase": {
+      "type": "object",
+      "properties": {
+        "sourceLocation": { 
+          "$ref": "defs.json#/location"
+        }
+      },
+      "required": [ "sourceLocation" ],
+      "additionalProperties": false
+    },
+    "index": {
+      "type": "number"
+    },
+    "result": {
+      "$ref": "defs.json#/result"
+    }
+  },
+  "required": [ "testCase", "index", "result" ],
+  "additionalProperties": false
+}

@@ -1,0 +1,10 @@
+{
+  "type": "test-step-started",
+  "testCase": {
+    "sourceLocation": {
+      "uri": "features/passing.feature",
+      "line": 2
+    }
+  },
+  "index": 0
+}

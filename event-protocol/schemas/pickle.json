@@ -26,7 +26,7 @@
         "locations": {
           "type": "array",
           "minLength": 1,
-          "items": { "$ref": "defs.json#/location" }
+          "items": { "$ref": "defs.json#/gherkin-node-location" }
         },
         "steps": {
           "type": "array",
@@ -43,7 +43,7 @@
               "locations": {
                 "type": "array",
                 "minLength": 1,
-                "items": { "$ref": "defs.json#/location" }
+                "items": { "$ref": "defs.json#/gherkin-node-location" }
               }
             },
             "required": [

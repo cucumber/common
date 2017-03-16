@@ -1,0 +1,16 @@
+{
+  "id": "https://raw.github.com/cucumber/cucumber/master/event-protocol/schemas/test-case-started.json#",
+  "title": "test-case-started",
+  "description": "Signals the start of executing a test case",
+  "type": "object",
+  "properties": {
+    "type": {
+      "type": "string"
+    },
+    "sourceLocation": { 
+      "$ref": "defs.json#/location"
+    }
+  },
+  "required": [ "sourceLocation" ],
+  "additionalProperties": false
+}

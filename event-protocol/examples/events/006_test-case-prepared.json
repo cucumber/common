@@ -1,0 +1,29 @@
+{
+  "type": "test-case-prepared",
+  "sourceLocation": {
+    "uri": "features/passing.feature",
+    "line": 2
+  },
+  "steps": [
+    {
+      "actionLocation": {
+        "uri": "/Users/matt/projects/cucumber-ruby/lib/cucumber/filters/prepare_world.rb",
+        "line": 28
+      },
+      "sourceLocation": {
+        "uri": "/Users/matt/projects/cucumber-ruby/lib/cucumber/filters/prepare_world.rb",
+        "line": 28
+      }
+    },
+    {
+      "actionLocation": {
+        "uri": "features/passing.feature",
+        "line": 3
+      },
+      "sourceLocation": {
+        "uri": "features/passing.feature",
+        "line": 3
+      }
+    }
+  ]
+}
