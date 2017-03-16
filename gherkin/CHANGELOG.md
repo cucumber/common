@@ -7,7 +7,17 @@ This project adheres to [Semantic Versioning](http://semver.org).
 This document is formatted according to the principles of [Keep A CHANGELOG](http://keepachangelog.com).
 
 ----
-## [Unreleased] - TBD
+## [Unreleased] - In Git
+
+### Removed
+
+### Added
+
+### Changed
+
+### Fixed
+
+## [4.1.0] - 2017-03-16
 
 ### Removed
 
@@ -50,8 +60,11 @@ This document is formatted according to the principles of [Keep A CHANGELOG](htt
 * (I18n) az: Add Azerbaijani translation
   ([#218](https://github.com/cucumber/gherkin/pull/218)
    by [nalekberov])
+* (Java) Add a getter for the tags of a pickle
+   by [brasmusson])
 
 ### Changed
+* Gherkin has moved from [cucumber/gherkin](https://github.com/cucumber/gherkin) to the [cucumber/cucumber](https://github.com/cucumber/cucumber) monorepo
 * (.NET) Migrated code to .NET Core
   ([#215](https://github.com/cucumber/gherkin/pull/215)
    by [SabotageAndi])
@@ -60,8 +73,6 @@ This document is formatted according to the principles of [Keep A CHANGELOG](htt
    by [ehpc])
 
 ### Fixed
-* (Java) Add a getter for the tags of a pickle
-   by [brasmusson])
 * (Javascript) Check for module before window
   ([#204](https://github.com/cucumber/gherkin/pull/204)
    by [charlierudolph])
@@ -272,7 +283,8 @@ to Gherkin 2.
 * First release
 
 <!-- Releases -->
-[Unreleased]: https://github.com/cucumber/gherkin/compare/v4.0.0...HEAD
+[Unreleased]: https://github.com/cucumber/cucumber/compare/gherkin-v4.1.0...HEAD
+[4.1.0]:      https://github.com/cucumber/cucumber/tree/gherkin-v4.1.0
 [4.0.0]:      https://github.com/cucumber/gherkin/compare/v3.2.0...v4.0.0
 [3.2.0]:      https://github.com/cucumber/gherkin/compare/v3.1.2...v3.2.0
 [3.1.2]:      https://github.com/cucumber/gherkin/compare/v3.1.1...v3.1.2
