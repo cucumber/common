@@ -1,4 +1,4 @@
-<!-- NAMING YOUR PULL ISSUE: Please prefix your issue with the name of the sub-project -->
+<!-- NAMING YOUR ISSUE: Please prefix your issue with the name of the sub-project -->
 <!-- e.g. `event-protocol: Schemas out of date` -->
 <!-- This makes it easier to get some context when reading the names of issues -->
 
