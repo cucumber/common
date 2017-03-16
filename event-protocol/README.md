@@ -85,6 +85,15 @@ Example (Java stack trace):
 [snippet](examples/events/004_attachment-stacktrace.json)
 ```
 
+### test-run-started {#test-run-started}
+
+Signals the start of a test run. Contains details of the context of the run, like the working directory, start time etc.
+
+Example:
+
+```json
+[snippet](examples/events/005_test-run-started.json)
+
 ## Implementation
 
 * Cucumber events are formatted as [Newline Delimited JSON](http://ndjson.org)
