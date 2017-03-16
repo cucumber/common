@@ -288,17 +288,6 @@ function rubygem_release() {
 
 ################ PYTHON ################
 
-function python_update_version()
-{
-  subrepo=$1
-  version=$2
-  sed -i "" \
-    -e "s/\(version *= *'\)[0-9]*\.[0-9]*\.[0-9]*\('\)/\1${version}\2/" \
-    -e "s/\(archive\/v\)[0-9]*\.[0-9]*\.[0-9]*\(\.tar\)/\1${version}\2/" \
-    "${subrepo}/setup.py"
-  echo_green "Updated ${subrepo} to ${version}"
-}
-
 function python_release_karma()
 {
   echo_green "Checking PyPi release karma..."
@@ -311,8 +300,23 @@ function python_release() {
   next_version=$3
 
   pushd "${dir}"
-  echo "TODO: RELEASE PYTHON ${dir}"
+  python_update_version "${version}"
+  python setup.py sdist upload -r pypi
+  git add .
+  git commit -m "Release ${version}"
+  git tag "v${version}"
+  git push
+  git push --tags
   popd
+}
+
+function python_update_version()
+{
+  version=$1
+  sed -i "" \
+    -e "s/\(version *= *'\)[0-9]*\.[0-9]*\.[0-9]*\('\)/\1${version}\2/" \
+    -e "s/\(archive\/v\)[0-9]*\.[0-9]*\.[0-9]*\(\.tar\)/\1${version}\2/" \
+    "setup.py"
 }
 
 ################ PERL ################
