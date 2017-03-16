@@ -14,5 +14,4 @@ setup(name='gherkin-official',
                    'Programming Language :: Python :: 2',
                    'Programming Language :: Python :: 3',
                    ],
-      package_data={'gherkin': ['gherkin-languages.json']},
       )
