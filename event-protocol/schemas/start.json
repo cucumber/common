@@ -6,6 +6,12 @@
   "properties": {
     "type": {
       "type": "string"
+    },
+    "workingDirectory": {
+      "type": "string"
+    },
+    "timestamp": {
+      "type": "number"
     }
   },
   "required": [
