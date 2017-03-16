@@ -1,6 +1,6 @@
 {
   "name": "cucumber-event-validator",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "description": "Validator for the Cucumber Event Protocol",
   "author": "Cucumber Limited <cukes@googlegroups.com>",
   "license": "MIT",
@@ -8,5 +8,8 @@
     "ajv": "^4.6.1",
     "event-stream": "^3.3.4",
     "mz": "^2.4.0"
+  },
+  "bin": {
+    "cucumber-event-validator": "bin/cucumber-event-validator.js"
   }
 }
