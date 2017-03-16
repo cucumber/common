@@ -1,5 +1,5 @@
 {
-  "name": "cucumber-event-protocol",
+  "name": "cucumber-event-validator",
   "version": "1.0.0",
   "description": "Validator for the Cucumber Event Protocol",
   "author": "Cucumber Limited <cukes@googlegroups.com>",
