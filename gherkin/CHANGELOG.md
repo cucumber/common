@@ -23,11 +23,16 @@ This document is formatted according to the principles of [Keep A CHANGELOG](htt
 
 ### Added
 * (JavaScript, Ruby, Python) Packages include executabled.
-  ([#155](https://github.com/cucumber/cucumber/pull/155))
+  ([#155](https://github.com/cucumber/cucumber/pull/155)
+   by [aslakhellesoy])
 
 ### Changed
 
 ### Fixed
+* (Python) Python package 4.1.0 broken
+  ([#153](https://github.com/cucumber/cucumber/issues/153)
+   [#156](https://github.com/cucumber/cucumber/pull/156)
+   by [aslakhellesoy])
 
 ## [4.1.0] - 2017-03-16
 
