@@ -6,7 +6,6 @@
   "license": "MIT",
   "devDependencies": {
     "ajv": "^4.6.1",
-    "event-stream": "^3.3.4",
     "mz": "^2.4.0"
   },
   "bin": {
