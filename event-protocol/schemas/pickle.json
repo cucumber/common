@@ -20,6 +20,9 @@
         "name": {
           "type": "string"
         },
+        "language": {
+          "type": "string"
+        },
         "locations": {
           "type": "array",
           "minLength": 1,
@@ -53,6 +56,7 @@
       "required": [
         "tags",
         "name",
+        "language",
         "locations",
         "steps"
       ],

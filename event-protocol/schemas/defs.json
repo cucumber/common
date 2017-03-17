@@ -7,11 +7,11 @@
     "properties": {
       "line": {
         "type": "integer",
-        "minimum": 1
+        "minimum": 0
       },
       "column": {
         "type": "integer",
-        "minimum": 1
+        "minimum": 0
       },
       "uri": {
         "type": "string"

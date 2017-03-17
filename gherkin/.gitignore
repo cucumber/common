@@ -1,5 +1,6 @@
 .DS_Store
 .idea/
+.valid-events
 
 dotnet/.vs/*
 dotnet/output
