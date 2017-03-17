@@ -3,6 +3,9 @@
   "version": "4.1.0",
   "description": "Gherkin parser",
   "main": "index.js",
+  "bin": {
+    "gherkin-javascript": "bin/gherkin"
+  },
   "scripts": {
     "test": "mocha"
   },
