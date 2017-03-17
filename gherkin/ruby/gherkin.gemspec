@@ -18,7 +18,7 @@ Gem::Specification.new do |s|
   # For coverage reports
   s.add_development_dependency 'coveralls'
 
-  s.executables      = ["bin/gherkin-ruby"]
+  s.executables      = ["gherkin-ruby"]
   s.rubygems_version = ">= 1.6.1"
   s.files            = `git ls-files`.split("\n").reject {|path| path =~ /\.gitignore$/ }
   s.test_files       = `git ls-files -- spec/*`.split("\n")
