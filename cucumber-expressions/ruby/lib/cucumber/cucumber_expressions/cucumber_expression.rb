@@ -1,5 +1,5 @@
 require 'cucumber/cucumber_expressions/argument_builder'
-require 'cucumber/cucumber_expressions/parameter'
+require 'cucumber/cucumber_expressions/parameter_type'
 
 module Cucumber
   module CucumberExpressions
@@ -10,9 +10,9 @@ module Cucumber
 
       attr_reader :source
 
-      def initialize(expression, types, parameter_registry)
+      def initialize(expression, types, parameter_type_registry)
         @source = expression
-        @parameters = []
+        @parameter_types = []
         regexp = "^"
         type_index = 0
         match_offset = 0
@@ -32,31 +32,31 @@ module Cucumber
           break if match.nil?
 
           parameter_name = match[1]
-          type_name = match[3]
-          if type_name
-            $stderr.puts("Cucumber expression parameter syntax {#{parameter_name}:#{type_name}} is deprecated. Please use {#{type_name}} instead.")
+          parameter_type_name = match[3]
+          if parameter_type_name
+            $stderr.puts("Cucumber expression parameter syntax {#{parameter_name}:#{parameter_type_name}} is deprecated. Please use {#{parameter_type_name}} instead.")
           end
 
           type = types.length <= type_index ? nil : types[type_index]
           type_index += 1
 
-          parameter = nil
+          parameter_type = nil
           if type
-            parameter = parameter_registry.lookup_by_type(type)
+            parameter_type = parameter_type_registry.lookup_by_type(type)
           end
-          if parameter.nil? && type_name
-            parameter = parameter_registry.lookup_by_type_name(type_name)
+          if parameter_type.nil? && parameter_type_name
+            parameter_type = parameter_type_registry.lookup_by_name(parameter_type_name)
           end
-          if parameter.nil?
-            parameter = parameter_registry.lookup_by_type_name(parameter_name)
+          if parameter_type.nil?
+            parameter_type = parameter_type_registry.lookup_by_name(parameter_name)
           end
-          if parameter.nil?
-            parameter = parameter_registry.create_anonymous_lookup(lambda {|s| s})
+          if parameter_type.nil?
+            parameter_type = parameter_type_registry.create_anonymous_lookup(lambda {|s| s})
           end
-          @parameters.push(parameter)
+          @parameter_types.push(parameter_type)
 
           text = expression.slice(match_offset...match.offset(0)[0])
-          capture_regexp = capture_group_regexp(parameter.capture_group_regexps)
+          capture_regexp = regexp(parameter_type.regexps)
           match_offset = match.offset(0)[1]
           regexp += text
           regexp += capture_regexp
@@ -67,14 +67,14 @@ module Cucumber
       end
 
       def match(text)
-        ArgumentBuilder.build_arguments(@regexp, text, @parameters)
+        ArgumentBuilder.build_arguments(@regexp, text, @parameter_types)
       end
 
       private
 
-      def capture_group_regexp(capture_group_regexps)
-        return "(#{capture_group_regexps[0]})" if capture_group_regexps.size == 1
-        capture_groups = capture_group_regexps.map { |group| "(?:#{group})" }
+      def regexp(regexps)
+        return "(#{regexps[0]})" if regexps.size == 1
+        capture_groups = regexps.map { |group| "(?:#{group})" }
         "(#{capture_groups.join('|')})"
       end
     end

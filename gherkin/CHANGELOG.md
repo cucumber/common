@@ -7,13 +7,49 @@ This project adheres to [Semantic Versioning](http://semver.org).
 This document is formatted according to the principles of [Keep A CHANGELOG](http://keepachangelog.com).
 
 ----
-## [Unreleased] - TBD
+## [Unreleased] - In Git
+
+### Removed
+
+### Added
+
+### Changed
+
+### Fixed
+
+## [4.1.1] - 2017-03-16
+
+### Removed
+
+### Added
+* (JavaScript, Ruby, Python) Packages include executabled.
+  ([#155](https://github.com/cucumber/cucumber/pull/155)
+   by [aslakhellesoy])
+
+### Changed
+
+### Fixed
+* (Python) Python package 4.1.0 broken
+  ([#153](https://github.com/cucumber/cucumber/issues/153)
+   [#156](https://github.com/cucumber/cucumber/pull/156)
+   by [aslakhellesoy])
+
+## [4.1.0] - 2017-03-16
 
 ### Removed
 
 ### Added
 * (.NET, Java, JavaScript, Ruby, Python) Streaming API and command line client.
   ([#240](https://github.com/cucumber/gherkin/pull/240))
+* (Java): Add accessors for languages and dialect keywords.
+  ([#248](https://github.com/cucumber/gherkin/pull/248)
+   by [brasmusson])
+* (All): Add the language to the Pickles
+  ([#251](https://github.com/cucumber/gherkin/pull/251)
+   by [brasmusson])
+* (C): New parser and compiler in C
+  ([#187](https://github.com/cucumber/gherkin/pull/187)
+   by [brasmusson])
 * (I18n) mk-Cyrl/mk-Latn: Added Macedonian language
   ([#249](https://github.com/cucumber/gherkin/pull/249)
    by [nikolovski])
@@ -41,12 +77,19 @@ This document is formatted according to the principles of [Keep A CHANGELOG](htt
 * (I18n) az: Add Azerbaijani translation
   ([#218](https://github.com/cucumber/gherkin/pull/218)
    by [nalekberov])
-
-### Changed
-
-### Fixed
 * (Java) Add a getter for the tags of a pickle
    by [brasmusson])
+
+### Changed
+* Gherkin has moved from [cucumber/gherkin](https://github.com/cucumber/gherkin) to the [cucumber/cucumber](https://github.com/cucumber/cucumber) monorepo
+* (.NET) Migrated code to .NET Core
+  ([#215](https://github.com/cucumber/gherkin/pull/215)
+   by [SabotageAndi])
+* (I18n) Russian translation fix
+  ([#255](https://github.com/cucumber/gherkin/pull/255)
+   by [ehpc])
+
+### Fixed
 * (Javascript) Check for module before window
   ([#204](https://github.com/cucumber/gherkin/pull/204)
    by [charlierudolph])
@@ -257,7 +300,8 @@ to Gherkin 2.
 * First release
 
 <!-- Releases -->
-[Unreleased]: https://github.com/cucumber/gherkin/compare/v4.0.0...HEAD
+[Unreleased]: https://github.com/cucumber/cucumber/compare/gherkin-v4.1.0...HEAD
+[4.1.0]:      https://github.com/cucumber/cucumber/tree/gherkin-v4.1.0
 [4.0.0]:      https://github.com/cucumber/gherkin/compare/v3.2.0...v4.0.0
 [3.2.0]:      https://github.com/cucumber/gherkin/compare/v3.1.2...v3.2.0
 [3.1.2]:      https://github.com/cucumber/gherkin/compare/v3.1.1...v3.1.2
@@ -271,6 +315,7 @@ to Gherkin 2.
 [brasmusson]:       https://github.com/brasmusson
 [charlierudolph]:   https://github.com/charlierudolph
 [dobiedad]:         https://github.com/dobiedad
+[ehpc]:             https://github.com/ehpc
 [enkessler]:        https://github.com/enkessler
 [gabanz]:           https://github.com/gabanz
 [jargalan]:         https://github.com/jargalan
@@ -288,5 +333,6 @@ to Gherkin 2.
 [paigehf]:          https://github.com/paigehf
 [pjlsergeant]:      https://github.com/pjlsergeant
 [Pr-Mex]:           https://github.com/Pr-Mex
+[SabotageAndi]:     https://github.com/SabotageAndi
 [zbmott]:           https://github.com/zbmott
 [Zearin]:           https://github.com/Zearin

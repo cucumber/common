@@ -1,0 +1,5 @@
+../LICENSE LICENSE.txt
+../testdata/ testdata/
+../gherkin.berp gherkin.berp
+../bin/ berp/
+../gherkin-languages.json src/main/resources/gherkin/gherkin-languages.json

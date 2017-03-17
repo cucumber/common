@@ -25,14 +25,20 @@ First of all, make sure you have the right release karma:
 
     release_karma_all ${group_path}
 
+### Java
 If the library has a Java implementation, make sure the `pom.xml` version the version
-you are about to release, with the `-SNAPSHOT` suffix. Add and commit.
+you are about to release, with the `-SNAPSHOT` suffix. Add and commit. Leave the
+version numbers of other libraries unchanged - they will be changed further down.
+Also, run `mvn javadoc:javadoc` in the subrepo folder to make sure JavaDoc is good. It
+sometimes fails if there are bad tags.
 
 Update `CHANGELOG.md` of the library in the following places:
 * Change `Unreleased` to `[X.Y.Z] - yyyy-MM-DD`
 * Add a new empty `Unreleased` section at the top of the page
 * Update the `Unreleased` link at the bottom of the page
 * Add a new `[X.Y.Z]` link at the bottom of the page
+
+Then `git commit -m "library-name: Prepare for release vX.Y.Z"`
 
 Make sure the main `cucumber/cucumber` repo has the most recent commits from
 all of the subrepos:

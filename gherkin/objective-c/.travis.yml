@@ -1,9 +1,13 @@
 language: objective-c
 os: osx
 osx_image: xcode7
-script: 
- - xcodebuild -version
- - xcodebuild -scheme "GherkinOSX" -configuration Debug CONFIGURATION_BUILD_DIR=build/
- - xcodebuild -scheme "AstGenerator" CONFIGURATION_BUILD_DIR=build/
- - xcodebuild -scheme "TokensGenerator" CONFIGURATION_BUILD_DIR=build/
- # - xcodebuild test -scheme "GherkinTestsOSX"
+
+script: make
+
+notifications:
+  webhooks:
+    urls:
+      - https://webhooks.gitter.im/e/5373e574ed4e88026838
+    on_success: change
+    on_failure: always
+    on_start: never

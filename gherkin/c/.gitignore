@@ -1,0 +1,7 @@
+bin/
+objs/
+libs/
+acceptance/
+.built
+.compared
+.run

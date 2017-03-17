@@ -6,6 +6,6 @@
 [subrepo]
 	remote = https://github.com/cucumber/gherkin-perl.git
 	branch = master
-	commit = f0b234ecc1ec7e644b3f51a3aa352ec5b1b7e4d6
-	parent = 7c0a3755f79a1803bcb37db7851d7a62a8bd3ab7
-	cmdver = 0.4.0
+	commit = 448ab65d30396218111fb6afaeea8082cd2f45a8
+	parent = 9a78f0fa5c367415e6877c50701c3b69533b372c
+	cmdver = 0.3.1

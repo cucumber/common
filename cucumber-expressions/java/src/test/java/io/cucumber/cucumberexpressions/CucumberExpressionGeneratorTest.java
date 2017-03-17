@@ -14,17 +14,17 @@ import static org.junit.Assert.assertEquals;
 
 public class CucumberExpressionGeneratorTest {
 
-    private final ParameterRegistry parameterRegistry = new ParameterRegistry(Locale.ENGLISH);
-    private final CucumberExpressionGenerator generator = new CucumberExpressionGenerator(parameterRegistry);
+    private final ParameterTypeRegistry parameterTypeRegistry = new ParameterTypeRegistry(Locale.ENGLISH);
+    private final CucumberExpressionGenerator generator = new CucumberExpressionGenerator(parameterTypeRegistry);
 
     @Test
     public void documents_expression_generation() {
         /// [generate-expression]
-        CucumberExpressionGenerator generator = new CucumberExpressionGenerator(parameterRegistry);
+        CucumberExpressionGenerator generator = new CucumberExpressionGenerator(parameterTypeRegistry);
         String undefinedStepText = "I have 2 cucumbers and 1.5 tomato";
         GeneratedExpression generatedExpression = generator.generateExpression(undefinedStepText);
         assertEquals("I have {int} cucumbers and {double} tomato", generatedExpression.getSource());
-        assertEquals(Double.TYPE, generatedExpression.getParameters().get(1).getType());
+        assertEquals(Double.TYPE, generatedExpression.getParameterTypes().get(1).getType());
         /// [generate-expression]
     }
 
@@ -56,7 +56,7 @@ public class CucumberExpressionGeneratorTest {
 
     @Test
     public void numbers_only_second_argument_when_type_is_not_reserved_keyword() {
-        parameterRegistry.addParameter(new SimpleParameter<>(
+        parameterTypeRegistry.defineParameterType(new SimpleParameterType<>(
                 "currency",
                 Currency.class,
                 "[A-Z]{3}",
@@ -69,13 +69,13 @@ public class CucumberExpressionGeneratorTest {
 
     @Test
     public void prefers_leftmost_match_when_there_is_overlap() {
-        parameterRegistry.addParameter(new SimpleParameter<>(
+        parameterTypeRegistry.defineParameterType(new SimpleParameterType<>(
                 "currency",
                 Currency.class,
                 "cd",
                 null
         ));
-        parameterRegistry.addParameter(new SimpleParameter<>(
+        parameterTypeRegistry.defineParameterType(new SimpleParameterType<>(
                 "date",
                 Date.class,
                 "bc",
@@ -88,13 +88,13 @@ public class CucumberExpressionGeneratorTest {
 
     @Test
     public void prefers_widest_match_when_pos_is_same() {
-        parameterRegistry.addParameter(new SimpleParameter<>(
+        parameterTypeRegistry.defineParameterType(new SimpleParameterType<>(
                 "currency",
                 Currency.class,
                 "cd",
                 null
         ));
-        parameterRegistry.addParameter(new SimpleParameter<>(
+        parameterTypeRegistry.defineParameterType(new SimpleParameterType<>(
                 "date",
                 Date.class,
                 "cde",
@@ -108,8 +108,8 @@ public class CucumberExpressionGeneratorTest {
     @Test
     public void exposes_transforms_in_generated_expression() {
         GeneratedExpression generatedExpression = generator.generateExpression("I have 2 cukes and 1.5 euro");
-        assertEquals(int.class, generatedExpression.getParameters().get(0).getType());
-        assertEquals(double.class, generatedExpression.getParameters().get(1).getType());
+        assertEquals(int.class, generatedExpression.getParameterTypes().get(0).getType());
+        assertEquals(double.class, generatedExpression.getParameterTypes().get(1).getType());
     }
 
     private void assertExpression(String expectedExpression, List<String> expectedArgumentNames, String text) {

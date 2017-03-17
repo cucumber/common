@@ -81,21 +81,21 @@ This is how we would define a custom `color` parameter:
 {% method %}
 {% sample lang="java" %}
 ```java
-[snippet](java/src/test/java/io/cucumber/cucumberexpressions/CustomParameterTest.java#add-color-parameter)
+[snippet](java/src/test/java/io/cucumber/cucumberexpressions/CustomParameterTypeTest.java#add-color-parameter-type)
 ```
 {% sample lang="js" %}
 ```javascript
-[snippet](javascript/test/custom_parameter_test.js#add-color-parameter)
+[snippet](javascript/test/custom_parameter_type_test.js#add-color-parameter-type)
 ```
 
 The `transform` function can also return a `Promise`:
 ```javascript
-[snippet](javascript/test/custom_parameter_test.js#add-async-parameter)
+[snippet](javascript/test/custom_parameter_type_test.js#add-async-parameter-type)
 ```
 
 {% sample lang="rb" %}
 ```ruby
-[snippet](ruby/spec/cucumber/cucumber_expressions/custom_parameter_spec.rb#add-color-parameter)
+[snippet](ruby/spec/cucumber/cucumber_expressions/custom_parameter_type_spec.rb#add-color-parameter-type)
 ```
 {% endmethod %}
 
@@ -122,14 +122,20 @@ If a type  used in a step definition has a constructor that accepts a single
 {% method %}
 {% sample lang="java" %}
 ```java
-[snippet](java/src/test/java/io/cucumber/cucumberexpressions/CustomParameterTest.java#color-constructor)
+[snippet](java/src/test/java/io/cucumber/cucumberexpressions/CustomParameterTypeTest.java#color-constructor)
 ```
 {% endmethod %}
 
 Registering a parameter is still beneficial, because it will allow Cucumber
 to generate Cucumber Expression snippets for undefined steps using the correct type.
 
-## Step Definition Snippets (Expression generation)
+## Defining Parameter types without a transformer
+
+If you don't specify a `transformer`, the matched arguments are returned as strings.
+This is useful if you only want to use custom parameter types to match certain
+patterns, but still want a string.
+
+## Step Definition Snippets (Cucumber Expression generation)
 
 When Cucumber encounters a [Gherkin step](../docs/gherkin.md#steps) without a
 matching [Step Definition](../docs/step-definitions.md), it will print a step

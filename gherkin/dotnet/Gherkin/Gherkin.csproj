@@ -1,109 +1,14 @@
-<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{370982B4-9938-4533-8EA1-6F9044B84130}</ProjectGuid>
-    <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Gherkin</RootNamespace>
-    <AssemblyName>Gherkin</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
-    <FileAlignment>512</FileAlignment>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
-  <PropertyGroup>
-    <SignAssembly>true</SignAssembly>
-  </PropertyGroup>
-  <PropertyGroup>
-    <AssemblyOriginatorKeyFile>..\gherkin.snk</AssemblyOriginatorKeyFile>
+    <TargetFrameworks>netstandard1.5;netcoreapp1.1;net45</TargetFrameworks>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="System" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Web.Extensions" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Xml" />
+    <None Remove="gherkin-languages.json" />
   </ItemGroup>
-  <ItemGroup>
-    <Compile Include="AstBuilder.cs" />
-    <Compile Include="AstNode.cs" />
-    <Compile Include="Ast\Background.cs" />
-    <Compile Include="Ast\Comment.cs" />
-    <Compile Include="Ast\DataTable.cs" />
-    <Compile Include="Ast\DocString.cs" />
-    <Compile Include="Ast\Examples.cs" />
-    <Compile Include="Ast\GherkinDocument.cs" />
-    <Compile Include="Ast\Feature.cs" />
-    <Compile Include="Ast\IHasDescription.cs" />
-    <Compile Include="Ast\IHasLocation.cs" />
-    <Compile Include="Ast\IHasRows.cs" />
-    <Compile Include="Ast\IHasSteps.cs" />
-    <Compile Include="Ast\IHasTags.cs" />
-    <Compile Include="Ast\Location.cs" />
-    <Compile Include="Ast\Scenario.cs" />
-    <Compile Include="Ast\ScenarioDefinition.cs" />
-    <Compile Include="Ast\ScenarioOutline.cs" />
-    <Compile Include="Ast\Step.cs" />
-    <Compile Include="Ast\StepArgument.cs" />
-    <Compile Include="Ast\TableCell.cs" />
-    <Compile Include="Ast\TableRow.cs" />
-    <Compile Include="Ast\Tag.cs" />
-    <Compile Include="GherkinDialect.cs" />
-    <Compile Include="GherkinDialectProvider.cs" />
-    <Compile Include="GherkinLanguageConstants.cs" />
-    <Compile Include="GherkinLine.cs" />
-    <Compile Include="GherkinLineSpan.cs" />
-    <Compile Include="IGherkinLine.cs" />
-    <Compile Include="Parser.cs" />
-    <Compile Include="ParserException.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Token.cs" />
-    <Compile Include="TokenMatcher.cs" />
-    <Compile Include="TokenScanner.cs" />
-    <Compile Include="StringUtils.cs" />
-    <Compile Include="Events\AttachmentEvent.cs" />
-    <Compile Include="Events\IEvent.cs" />
-    <Compile Include="Events\SourceEvent.cs" />
-    <Compile Include="Stream\SourceEvents.cs" />
-    <Compile Include="Stream\GherkinEvents.cs" />
-    <Compile Include="Events\GherkinDocumentEvent.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="Parser.Extensions.cs" />
-  </ItemGroup>
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <PropertyGroup>
-    <PreBuildEvent Condition=" '$(OS)' == 'Windows_NT'">$(SolutionDir)generate_parser.cmd</PreBuildEvent>
-  </PropertyGroup>
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
-       Other similar extension points exist, see Microsoft.Common.targets.
-  <Target Name="BeforeBuild">
-  </Target>
-  <Target Name="AfterBuild">
-  </Target>
-  -->
   <ItemGroup>
     <EmbeddedResource Include="gherkin-languages.json" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="9.0.1" />
   </ItemGroup>
 </Project>

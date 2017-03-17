@@ -5,9 +5,9 @@ module Cucumber
     class RegularExpression
       CAPTURE_GROUP_PATTERN = /\(([^(]+)\)/
 
-      def initialize(regexp, types, parameter_registry)
+      def initialize(regexp, types, parameter_type_registry)
         @regexp = regexp
-        @parameters = []
+        @parameter_types = []
 
         type_index = 0
         match = nil
@@ -21,24 +21,24 @@ module Cucumber
           type = types.length <= type_index ? nil : types[type_index]
           type_index += 1
 
-          parameter = nil
+          parameter_type = nil
           if (type)
-            parameter = parameter_registry.lookup_by_type(type)
+            parameter_type = parameter_type_registry.lookup_by_type(type)
           end
-          if (parameter.nil?)
-            parameter = parameter_registry.lookup_by_capture_group_regexp(capture_group_pattern)
+          if (parameter_type.nil?)
+            parameter_type = parameter_type_registry.lookup_by_regexp(capture_group_pattern)
           end
-          if (parameter.nil?)
-            parameter = parameter_registry.create_anonymous_lookup(lambda {|s| s})
+          if (parameter_type.nil?)
+            parameter_type = parameter_type_registry.create_anonymous_lookup(lambda {|s| s})
           end
 
-          @parameters.push(parameter)
+          @parameter_types.push(parameter_type)
           match_offset = match.offset(0)[1]
         end
       end
 
       def match(text)
-        ArgumentBuilder.build_arguments(@regexp, text, @parameters)
+        ArgumentBuilder.build_arguments(@regexp, text, @parameter_types)
       end
 
       def source

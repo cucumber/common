@@ -1,8 +1,17 @@
 
 MAKEFILES=$(wildcard */Makefile)
+EVENT_FILES = $(wildcard testdata/**/*.ndjson)
+SCHEMAS = $(wildcard ../event-protocol/schemas/*.json)
 
-all: $(patsubst %/Makefile,%/.compared,$(MAKEFILES))
+all: validate-events $(patsubst %/Makefile,%/.compared,$(MAKEFILES))
 .PHONY: all
+
+validate-events: .valid-events
+
+.valid-events: $(EVENT_FILES) $(SCHEMAS)
+	@cat $(EVENT_FILES) | node ../event-protocol/bin/cucumber-event-validator.js
+	touch $@
+.PHONY: validate-events
 
 %/.compared: % gherkin-languages.json gherkin.berp
 	cd $< && make
@@ -11,38 +20,3 @@ clean: $(patsubst %/Makefile,clean-%,$(MAKEFILES))
 .PHONY: clean
 clean-%: %
 	cd $< && make clean
-
-add-remotes: $(patsubst %/Makefile,add-remote-%,$(MAKEFILES))
-.PHONY: add-remotes
-add-remote-%: %
-	git remote -v | grep -E 'gherkin-$<\s' 2>/dev/null >/dev/null || \
-	git remote add gherkin-$< git@github.com:cucumber/gherkin-$<.git
-
-push-subtrees: $(patsubst %/Makefile,push-subtree-%,$(MAKEFILES))
-.PHONY: push-subtrees
-push-subtree-%: % add-remote-%
-	git subtree push --prefix=$< gherkin-$< master
-
-pull-subtrees: $(patsubst %/Makefile,pull-subtree-%,$(MAKEFILES))
-.PHONY: pull-subtrees
-pull-subtree-%: % add-remote-%
-	git subtree pull --prefix=$< gherkin-$< master
-
-format-gherkin-languages: gherkin-languages.json.tmp
-	diff -q gherkin-languages.json.tmp gherkin-languages.json || mv gherkin-languages.json.tmp gherkin-languages.json
-.PHONY: format-gherkin-languages
-
-gherkin-languages.json.tmp:
-	cat gherkin-languages.json | jq "." --sort-keys > gherkin-languages.json.tmp
-.INTERMEDIATE: gherkin-languages.json.tmp
-
-update-gherkin-languages: format-gherkin-languages $(patsubst %/Makefile,update-gherkin-languages-%,$(MAKEFILES))
-.PHONY: update-gherkin-languages
-update-gherkin-languages-%: %
-	cd $< && make update-gherkin-languages
-
-update-version: $(patsubst %/Makefile,update-version-%,$(MAKEFILES))
-.PHONY: update-version
-
-update-version-%: %
-	cd $< && make update-version

@@ -3,12 +3,12 @@ module Cucumber
     class Argument
       attr_reader :offset, :value
 
-      def initialize(offset, value, parameter)
-        @offset, @value, @parameter = offset, value, parameter
+      def initialize(offset, value, parameter_type)
+        @offset, @value, @parameter_type = offset, value, parameter_type
       end
 
       def transformed_value
-        @parameter.transform(@value)
+        @parameter_type.transform(@value)
       end
     end
   end

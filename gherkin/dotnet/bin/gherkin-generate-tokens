@@ -1,4 +1,17 @@
 #!/usr/bin/env bash
-DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
+set -euf -o pipefail
 
-mono --runtime=v4.0 $DIR/../Gherkin.TokensGenerator/bin/Debug/Gherkin.TokensGenerator.exe $*
+arch=$1
+
+if [ $arch = "net45" ]; then
+    starter="mono"
+    ext="exe"
+elif [ $1 = "netcoreapp1.1" ]; then
+    starter="dotnet"
+    ext="dll"
+else
+    echo "Unsupported architecture"
+    exit 1
+fi
+
+$starter "Gherkin.TokensGenerator/bin/Debug/$arch/Gherkin.TokensGenerator.$ext" "${@:2}"

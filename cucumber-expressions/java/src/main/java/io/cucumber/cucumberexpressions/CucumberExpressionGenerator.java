@@ -32,45 +32,45 @@ public class CucumberExpressionGenerator {
         return (Arrays.binarySearch(JAVA_KEYWORDS, keyword, ENGLISH_COLLATOR) >= 0);
     }
 
-    private final ParameterRegistry parameterRegistry;
+    private final ParameterTypeRegistry parameterTypeRegistry;
 
-    public CucumberExpressionGenerator(ParameterRegistry parameterRegistry) {
-        this.parameterRegistry = parameterRegistry;
+    public CucumberExpressionGenerator(ParameterTypeRegistry parameterTypeRegistry) {
+        this.parameterTypeRegistry = parameterTypeRegistry;
     }
 
     public GeneratedExpression generateExpression(String text) {
         List<String> parameterNames = new ArrayList<>();
-        List<ParameterMatcher> parameterMatchers = createTransformMatchers(text);
-        List<Parameter<?>> parameters = new ArrayList<>();
+        List<ParameterTypeMatcher> parameterTypeMatchers = createParameterTypeMatchers(text);
+        List<ParameterType<?>> parameterTypes = new ArrayList<>();
         Map<String, Integer> usageByTypeName = new HashMap<>();
 
         StringBuilder expression = new StringBuilder();
         int pos = 0;
         while (true) {
-            List<ParameterMatcher> matchingParameterMatchers = new ArrayList<>();
+            List<ParameterTypeMatcher> matchingParameterTypeMatchers = new ArrayList<>();
 
-            for (ParameterMatcher parameterMatcher : parameterMatchers) {
-                ParameterMatcher advancedParameterMatcher = parameterMatcher.advanceTo(pos);
-                if (advancedParameterMatcher.find()) {
-                    matchingParameterMatchers.add(advancedParameterMatcher);
+            for (ParameterTypeMatcher parameterTypeMatcher : parameterTypeMatchers) {
+                ParameterTypeMatcher advancedParameterTypeMatcher = parameterTypeMatcher.advanceTo(pos);
+                if (advancedParameterTypeMatcher.find()) {
+                    matchingParameterTypeMatchers.add(advancedParameterTypeMatcher);
                 }
             }
 
-            if (!matchingParameterMatchers.isEmpty()) {
-                Collections.sort(matchingParameterMatchers);
-                ParameterMatcher bestParameterMatcher = matchingParameterMatchers.get(0);
-                Parameter<?> parameter = bestParameterMatcher.getParameter();
-                parameters.add(parameter);
+            if (!matchingParameterTypeMatchers.isEmpty()) {
+                Collections.sort(matchingParameterTypeMatchers);
+                ParameterTypeMatcher bestParameterTypeMatcher = matchingParameterTypeMatchers.get(0);
+                ParameterType<?> parameterType = bestParameterTypeMatcher.getParameterType();
+                parameterTypes.add(parameterType);
 
-                String parameterName = getParameterName(parameter.getTypeName(), usageByTypeName);
+                String parameterName = getParameterName(parameterType.getName(), usageByTypeName);
                 parameterNames.add(parameterName);
 
                 expression
-                        .append(text.substring(pos, bestParameterMatcher.start()))
+                        .append(text.substring(pos, bestParameterTypeMatcher.start()))
                         .append("{")
-                        .append(parameter.getTypeName())
+                        .append(parameterType.getName())
                         .append("}");
-                pos = bestParameterMatcher.start() + bestParameterMatcher.group().length();
+                pos = bestParameterTypeMatcher.start() + bestParameterTypeMatcher.group().length();
             } else {
                 break;
             }
@@ -80,7 +80,7 @@ public class CucumberExpressionGenerator {
             }
         }
         expression.append(text.substring(pos));
-        return new GeneratedExpression(expression.toString(), parameterNames, parameters);
+        return new GeneratedExpression(expression.toString(), parameterNames, parameterTypes);
     }
 
     private String getParameterName(String typeName, Map<String, Integer> usageByTypeName) {
@@ -91,22 +91,22 @@ public class CucumberExpressionGenerator {
         return count == 1 && !isJavaKeyword(typeName) ? typeName : typeName + count;
     }
 
-    private List<ParameterMatcher> createTransformMatchers(String text) {
-        Collection<Parameter<?>> parameters = parameterRegistry.getParameters();
-        List<ParameterMatcher> parameterMatchers = new ArrayList<>();
-        for (Parameter<?> parameter : parameters) {
-            parameterMatchers.addAll(createTransformMatchers(parameter, text));
+    private List<ParameterTypeMatcher> createParameterTypeMatchers(String text) {
+        Collection<ParameterType<?>> parameterTypes = parameterTypeRegistry.getParameters();
+        List<ParameterTypeMatcher> parameterTypeMatchers = new ArrayList<>();
+        for (ParameterType<?> parameterType : parameterTypes) {
+            parameterTypeMatchers.addAll(createParameterTypeMatchers(parameterType, text));
         }
-        return parameterMatchers;
+        return parameterTypeMatchers;
     }
 
-    private List<ParameterMatcher> createTransformMatchers(Parameter<?> parameter, String text) {
-        List<ParameterMatcher> result = new ArrayList<>();
-        List<String> captureGroupRegexps = parameter.getCaptureGroupRegexps();
+    private List<ParameterTypeMatcher> createParameterTypeMatchers(ParameterType<?> parameterType, String text) {
+        List<ParameterTypeMatcher> result = new ArrayList<>();
+        List<String> captureGroupRegexps = parameterType.getRegexps();
         for (String captureGroupRegexp : captureGroupRegexps) {
             Pattern regexp = Pattern.compile("(" + captureGroupRegexp + ")");
             Matcher matcher = regexp.matcher(text);
-            result.add(new ParameterMatcher(parameter, matcher, text.length()));
+            result.add(new ParameterTypeMatcher(parameterType, matcher, text.length()));
         }
         return result;
     }

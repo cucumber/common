@@ -1,7 +1,7 @@
 /* eslint-env mocha */
 const assert = require('assert')
 const CucumberExpression = require('../src/cucumber_expression')
-const TransformLookup = require('../src/parameter_registry')
+const ParameterTypeRegistry = require('../src/parameter_type_registry')
 
 describe(CucumberExpression.name, () => {
   describe('RegExp translation', () => {
@@ -43,6 +43,6 @@ describe(CucumberExpression.name, () => {
 })
 
 const assertRegexp = (expression, expectedRegexp) => {
-  const cucumberExpression = new CucumberExpression(expression, [], new TransformLookup())
+  const cucumberExpression = new CucumberExpression(expression, [], new ParameterTypeRegistry())
   assert.deepEqual(cucumberExpression._regexp, expectedRegexp)
 }

@@ -9,8 +9,8 @@ gherkin/count_symbols_py2.py
 gherkin/count_symbols_py3_plus.py
 gherkin/dialect.py
 gherkin/errors.py
-gherkin/gherkin-languages.json
 gherkin/gherkin_line.py
+gherkin/inout.py
 gherkin/parser.py
 gherkin/token.py
 gherkin/token_formatter_builder.py

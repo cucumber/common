@@ -31,19 +31,6 @@ Examples of consumers are:
 
 ## Events {#events}
 
-### start {#event-start}
-
-A `start` event marks the start of a stream of events. This allows multiple logical
-event streams to be sent over the same transport without collision. The `series`
-property specified in the `start` event must be repeated by other events in the same
-logical stream.
-
-Example:
-
-```json
-[snippet](examples/events/001_start.json)
-```
-
 ### source {#event-source}
 
 A `source` event indicates that a Gherkin document has been loaded. (The event is
@@ -54,12 +41,23 @@ A `source` event must arrive before any `attachment` events linking to that same
 Example:
 
 ```json
-[snippet](examples/events/002_source.json)
+[snippet](examples/events/001_source.json)
+```
+
+### gherkin-document
+
+A `gherkin-document` event contains the AST of a source.
+
+Example:
+
+```json
+[snippet](examples/events/002_gherkin-document.json)
 ```
 
 ### pickle
 
-A `pickle' event contains details of a compiled test case.
+A `pickle` event contains preprocessed details of a `gherkin-document`,
+with `Background` inlined and `Scenario Outline`/`Examples` rows expanded. It is a structure optimised for execution by Cucumber.
 
 Example:
 
@@ -84,7 +82,7 @@ Example (PNG image):
 Example (Java stack trace):
 
 ```json
-[snippet](examples/events/005_attachment-stacktrace.json)
+[snippet](examples/events/004_attachment-stacktrace.json)
 ```
 
 ### Cucumber-specific attachments

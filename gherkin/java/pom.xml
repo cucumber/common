@@ -4,7 +4,7 @@
 
     <groupId>io.cucumber</groupId>
     <artifactId>gherkin</artifactId>
-    <version>4.1.0</version>
+    <version>4.1.1-SNAPSHOT</version>
     <packaging>bundle</packaging>
     <name>Gherkin</name>
     <description>Gherkin parser</description>
@@ -26,8 +26,8 @@
         <connection>scm:git:git://github.com/cucumber/gherkin-java.git</connection>
         <developerConnection>scm:git:git@github.com:cucumber/gherkin-java.git</developerConnection>
         <url>git://github.com/cucumber/gherkin-java.git</url>
-      <tag>HEAD</tag>
-  </scm>
+        <tag>HEAD</tag>
+    </scm>
 
     <dependencies>
         <dependency>
@@ -128,6 +128,10 @@
                         <version>1.6</version>
                         <configuration>
                             <useAgent>true</useAgent>
+                            <gpgArguments>
+                                <arg>--local-user</arg>
+                                <arg>devs@cucumber.io</arg>
+                            </gpgArguments>
                         </configuration>
                         <executions>
                             <execution>

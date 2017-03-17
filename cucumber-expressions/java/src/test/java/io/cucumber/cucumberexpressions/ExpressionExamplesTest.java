@@ -56,11 +56,11 @@ public class ExpressionExamplesTest {
     private List<Object> match(String expressionString, String text) {
         Expression expression;
         Matcher matcher = REGEX_PATTERN.matcher(expressionString);
-        ParameterRegistry parameterRegistry = new ParameterRegistry(Locale.ENGLISH);
+        ParameterTypeRegistry parameterTypeRegistry = new ParameterTypeRegistry(Locale.ENGLISH);
         if (matcher.matches()) {
-            expression = new RegularExpression(Pattern.compile(matcher.group(1)), Collections.<Type>emptyList(), parameterRegistry);
+            expression = new RegularExpression(Pattern.compile(matcher.group(1)), Collections.<Type>emptyList(), parameterTypeRegistry);
         } else {
-            expression = new CucumberExpression(expressionString, Collections.<Type>emptyList(), parameterRegistry);
+            expression = new CucumberExpression(expressionString, Collections.<Type>emptyList(), parameterTypeRegistry);
         }
         List<Argument> arguments = expression.match(text);
         if (arguments == null) return null;

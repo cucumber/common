@@ -2,25 +2,16 @@
   "id": "https://raw.github.com/cucumber/cucumber/master/event-protocol/schemas/defs.json#",
   "title": "definitions",
   "description": "Re-usable parts of the schema, referenced by others",
-  "timestamp": {
-    "description": "Milliseconds since epoch",
-    "type": "integer",
-    "minimum": 0
-  },
-  "series": {
-    "type": "string",
-    "pattern": "^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$"
-  },
   "location": {
     "type": "object",
     "properties": {
       "line": {
         "type": "integer",
-        "minimum": 1
+        "minimum": 0
       },
       "column": {
         "type": "integer",
-        "minimum": 1
+        "minimum": 0
       },
       "uri": {
         "type": "string"

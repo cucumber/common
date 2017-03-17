@@ -7,8 +7,6 @@
     "type": {
       "type": "string"
     },
-    "timestamp": { "$ref": "defs.json#/timestamp" },
-    "series": { "$ref": "defs.json#/series" },
     "uri": {
       "type": "string"
     },
@@ -20,6 +18,9 @@
           "items": { "$ref": "defs.json#/tag" }
         },
         "name": {
+          "type": "string"
+        },
+        "language": {
           "type": "string"
         },
         "locations": {
@@ -55,6 +56,7 @@
       "required": [
         "tags",
         "name",
+        "language",
         "locations",
         "steps"
       ],
@@ -63,8 +65,6 @@
   },
   "required": [
     "type",
-    "timestamp",
-    "series",
     "uri",
     "pickle"
   ],

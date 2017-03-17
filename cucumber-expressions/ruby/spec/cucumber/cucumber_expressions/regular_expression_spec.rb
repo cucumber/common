@@ -1,16 +1,16 @@
 require 'cucumber/cucumber_expressions/regular_expression'
-require 'cucumber/cucumber_expressions/parameter_registry'
+require 'cucumber/cucumber_expressions/parameter_type_registry'
 
 module Cucumber
   module CucumberExpressions
     describe RegularExpression do
       it "documents match arguments" do
-        parameter_registry = ParameterRegistry.new
+        parameter_type_registry = ParameterTypeRegistry.new
 
         ### [capture-match-arguments]
         expr = /I have (\d+) cukes? in my (\w*) now/
         types = ['int', nil]
-        expression = RegularExpression.new(expr, types, parameter_registry)
+        expression = RegularExpression.new(expr, types, parameter_type_registry)
         args = expression.match("I have 7 cukes in my belly now")
         expect( args[0].transformed_value ).to eq(7)
         expect( args[1].transformed_value ).to eq("belly")
@@ -57,11 +57,11 @@ module Cucumber
 
       it "exposes source" do
         expr = /I have (\d+) cukes? in my (\+) now/
-        expect(RegularExpression.new(expr, [], ParameterRegistry.new).source).to eq(expr)
+        expect(RegularExpression.new(expr, [], ParameterTypeRegistry.new).source).to eq(expr)
       end
 
       def match(expression, text, types = [])
-        regular_expression = RegularExpression.new(expression, types, ParameterRegistry.new)
+        regular_expression = RegularExpression.new(expression, types, ParameterTypeRegistry.new)
         arguments = regular_expression.match(text)
         return nil if arguments.nil?
         arguments.map { |arg| arg.transformed_value }

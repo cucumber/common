@@ -1,44 +1,27 @@
 {
-  "type": "pickle",
-  "timestamp": 1471420027078,
-  "series": "df1d3970-644e-11e6-8b77-86f30ca893d3",
-  "uri": "../testdata/good/several_examples.feature",
   "pickle": {
-    "name": "minimalistic",
+    "language": "en",
+    "locations": [
+      {
+        "column": 3,
+        "line": 2
+      }
+    ],
+    "name": "World",
     "steps": [
       {
-        "text": "the foo",
         "arguments": [],
         "locations": [
           {
-            "line": 9,
-            "column": 7
-          },
-          {
-            "line": 4,
-            "column": 11
+            "column": 11,
+            "line": 3
           }
-        ]
+        ],
+        "text": "a step"
       }
     ],
-    "tags": [
-      {
-        "name": "@foo",
-        "location": {
-          "line": 6,
-          "column": 5
-        }
-      }
-    ],
-    "locations": [
-      {
-        "line": 9,
-        "column": 7
-      },
-      {
-        "line": 3,
-        "column": 3
-      }
-    ]
-  }
+    "tags": []
+  },
+  "type": "pickle",
+  "uri": "features/hello.feature"
 }

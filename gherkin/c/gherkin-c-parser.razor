@@ -1,0 +1,263 @@
+@using Berp;
+@helper CallProduction(ProductionRule production)
+{
+  switch(production.Type)
+  {
+    case ProductionRuleType.Start:
+      @:  start_rule(context, Rule_@production.RuleName);
+      break;
+    case ProductionRuleType.End:
+      @:  end_rule(context, Rule_@production.RuleName);
+      break;
+    case ProductionRuleType.Process:
+      @:  build(context, token);
+      break;
+  }
+}
+@helper HandleParserError(IEnumerable<string> expectedTokens, State state)
+{<text>
+    /* "State: @state.Id - @Raw(state.Comment)" */
+    const wchar_t* const expected_tokens = L"@Raw(string.Join(", ", expectedTokens))";
+    Token_is_eof(token) ? ErrorList_add_unexpected_eof_error(context->errors, token, expected_tokens) : ErrorList_add_unexpected_token_error(context->errors, token, expected_tokens);
+    Token_delete(token);
+    if (context->stop_at_first_error) {
+        ErrorList_jump_to_global_rescue_env(context->errors);
+    }
+    return @state.Id;</text>}
+@helper MatchToken(TokenType tokenType)
+{<text>match_@(tokenType)(context, token)</text>}
+/* This file is generated. Do not edit! Edit gherkin-c-parser.razor instead. */
+#include "parser.h"
+#include "rule_type.h"
+#include "token_scanner.h"
+#include "token_matcher.h"
+#include "token_queue.h"
+#include "builder.h"
+#include "error_list.h"
+#include <stdlib.h>
+#include <setjmp.h>
+
+typedef struct ParserContext {
+    bool stop_at_first_error;
+    TokenScanner* token_scanner;
+    TokenMatcher* token_matcher;
+    Builder* builder;
+    TokenQueue* token_queue;
+    ErrorList* errors;
+} ParserContext;
+
+typedef struct @Model.ParserClassName {
+    ParserContext* parser_context;
+    Builder* builder;
+    ErrorList* errors;
+} @Model.ParserClassName;
+
+static Token* read_token(ParserContext* context);
+
+static void start_rule(ParserContext* context, RuleType rule_type);
+
+static void end_rule(ParserContext* context, RuleType rule_type);
+
+static int match_token(int state, Token* token, ParserContext* context);
+
+ParserContext* ParserContext_new(TokenScanner* token_scanner, TokenMatcher* token_matcher, Builder* builder, TokenQueue* token_queue, ErrorList* errors) {
+    ParserContext* parser_context = (ParserContext*)malloc(sizeof(ParserContext));
+    parser_context->stop_at_first_error = false;
+    parser_context->token_scanner = token_scanner;
+    parser_context->token_matcher = token_matcher;
+    parser_context->builder = builder;
+    parser_context->token_queue = token_queue;
+    parser_context->errors = errors;
+    return parser_context;
+}
+
+void ParserContext_delete(ParserContext* parser_context) {
+    free((void*)parser_context);
+}
+
+@Model.ParserClassName* @(Model.ParserClassName)_new(Builder* builder) {
+    @Model.ParserClassName* parser = (Parser*)malloc(sizeof(@Model.ParserClassName));
+    parser->parser_context = 0;
+    parser->builder = builder;
+    parser->errors = ErrorList_new();
+    return parser;
+}
+
+void @(Model.ParserClassName)_delete(@Model.ParserClassName* parser) {
+    if (parser->errors) {
+        ErrorList_delete(parser->errors);
+    }
+    if (parser->parser_context) {
+        ParserContext_delete(parser->parser_context);
+    }
+    free((void*)parser);
+}
+
+int @(Model.ParserClassName)_parse(@Model.ParserClassName* parser, TokenMatcher* token_matcher, TokenScanner* token_scanner) {
+    parser->builder->reset(parser->builder);
+    parser->builder->set_error_context(parser->builder, parser->errors);
+    token_matcher->reset(token_matcher);
+    token_matcher->errors = parser->errors;
+    TokenQueue* token_queue = TokenQueue_new();
+    ParserContext* context = ParserContext_new(token_scanner, token_matcher, parser->builder, token_queue, parser->errors);
+
+    int val = 0;
+    jmp_buf env;
+    val = setjmp(env);
+    ErrorList_set_global_rescue_env(parser->errors, &env);
+
+    if (val == 0) {
+        start_rule(context, Rule_@Model.RuleSet.StartRule.Name);
+        int state = 0;
+        bool token_is_eof;
+        Token* token = 0;
+        do {
+            token = read_token(context);
+            token_is_eof = Token_is_eof(token);
+            state = match_token(state, token, context);
+        } while (!token_is_eof);
+
+        end_rule(context, Rule_@Model.RuleSet.StartRule.Name);
+    }
+
+    int result_code = ErrorList_is_empty(context->errors) ? 0 : 1;
+    
+    ParserContext_delete(context);
+    TokenQueue_delete(token_queue);
+    return result_code;
+}
+bool Parser_has_more_errors(Parser* parser) {
+    return ErrorList_has_more_errors(parser->errors);
+}
+
+Error* Parser_next_error(Parser* parser) {
+    return ErrorList_next_error(parser->errors);
+}
+
+static Token* read_token(ParserContext* context) {
+    if (!TokenQueue_is_empty(context->token_queue))
+        return TokenQueue_remove(context->token_queue);
+    else
+        return context->token_scanner->read(context->token_scanner);
+}
+
+static void build(ParserContext* context, Token* token) {
+    context->builder->build(context->builder, token);
+}
+
+static void handle_ast_error(ParserContext* context, RuleType rule_type, rule_function action) {
+    if (context->stop_at_first_error) {
+        action(context->builder, rule_type);
+        return;
+    }
+
+    jmp_buf env;
+    int val = setjmp(env);
+    ErrorList_set_local_rescue_env(context->errors, &env);
+    if (val == 0) {    
+        action(context->builder, rule_type);
+    }
+}
+
+static void start_rule(ParserContext* context, RuleType rule_type) {
+    handle_ast_error(context, rule_type, context->builder->start_rule);
+}
+
+static void end_rule(ParserContext* context, RuleType rule_type) {
+    handle_ast_error(context, rule_type, context->builder->end_rule);
+}
+
+static bool handle_external_error(ParserContext* context, Token* token, match_function action) {
+    if (context->stop_at_first_error) {
+        return action(context->token_matcher, token);
+    }
+
+    jmp_buf env;
+    int val = setjmp(env);
+    ErrorList_set_local_rescue_env(context->errors, &env);
+    if (val == 0) {    
+        return action(context->token_matcher, token);
+    }
+    return false;
+}
+
+@foreach(var rule in Model.RuleSet.TokenRules)
+{<text>
+static bool match_@(rule.Name.Replace("#", ""))(ParserContext* context, Token* token) {
+    @if (rule.Name != "#EOF")
+    {
+    @:if (token->matched_type == Token_EOF) {
+    @:    return false;
+    @:};
+    }
+    return handle_external_error(context, token, context->token_matcher->match_@(rule.Name.Replace("#", "")));
+}</text>
+}
+
+@foreach(var lookAheadHint in Model.RuleSet.LookAheadHints)
+{
+<text>
+static bool lookahead_@(lookAheadHint.Id)(ParserContext* context) {
+    Token* token = 0;
+    TokenQueue* queue = TokenQueue_new();
+    bool match = false;
+    while (true) {
+        token = read_token(context);
+        TokenQueue_add(queue, token);
+
+        if (@foreach(var tokenType in lookAheadHint.ExpectedTokens) {<text>@MatchToken(tokenType) || </text>}false) {
+            match = true;
+            break;
+        }
+
+        if (!(@foreach(var tokenType in lookAheadHint.Skip) {<text>@MatchToken(tokenType) || </text>}false)) {
+            break;
+        } 
+    }
+
+    TokenQueue_extend(context->token_queue, queue);
+
+    return match;
+}
+</text>
+}
+
+@foreach(var state in Model.States.Values.Where(s => !s.IsEndState))
+{<text>
+/* @Raw(state.Comment) */
+static int match_token_at_@(state.Id)(Token* token, ParserContext* context) {
+    @foreach(var transition in state.Transitions)
+    {
+    @:if (@MatchToken(transition.TokenType)) {
+      if (transition.LookAheadHint != null)
+      {
+      @:if (lookahead_@(transition.LookAheadHint.Id)(context)) {
+      }
+      foreach(var production in transition.Productions)
+      {
+          @CallProduction(production)
+      }
+        @:return @transition.TargetState;
+      if (transition.LookAheadHint != null)
+      {
+      @:}
+      }
+    @:}
+    }
+    @HandleParserError(state.Transitions.Select(t => "#" + t.TokenType.ToString()).Distinct(), state)
+}</text>
+}
+
+static int match_token(int state, Token* token, ParserContext* context) {
+    switch (state) {
+    @foreach(var state in Model.States.Values.Where(s => !s.IsEndState))
+    {
+    @:case @state.Id:
+        @:return match_token_at_@(state.Id)(token, context);
+    }
+    default:
+        ErrorList_add_invalid_operation_error(context->errors, state);
+        ErrorList_jump_to_global_rescue_env(context->errors);
+        return -1;
+    }
+}
