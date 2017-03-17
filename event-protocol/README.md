@@ -41,17 +41,28 @@ A `source` event must arrive before any `attachment` events linking to that same
 Example:
 
 ```json
-[snippet](examples/events/002_source.json)
+[snippet](examples/events/001_source.json)
 ```
 
-### pickle
+### gherkin-document
 
-A `pickle' event contains details of a compiled test case.
+A `gherkin-document` event contains the AST of a source.
 
 Example:
 
 ```json
-[snippet](examples/events/003_pickle.json)
+[snippet](examples/events/002_pickle.json)
+```
+
+### pickle
+
+A `pickle` event contains preprocessed details of a `gherkin-document`,
+with `Background` inlined and `Scenario Outline`/`Examples` rows expanded. It is a structure optimised for execution by Cucumber.
+
+Example:
+
+```json
+[snippet](examples/events/003_gherkin-document.json)
 ```
 
 ### attachment {#event-attachment}
@@ -71,7 +82,7 @@ Example (PNG image):
 Example (Java stack trace):
 
 ```json
-[snippet](examples/events/005_attachment-stacktrace.json)
+[snippet](examples/events/004_attachment-stacktrace.json)
 ```
 
 ### Cucumber-specific attachments
