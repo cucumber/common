@@ -51,7 +51,7 @@ A `gherkin-document` event contains the AST of a source.
 Example:
 
 ```json
-[snippet](examples/events/002_pickle.json)
+[snippet](examples/events/002_gherkin-document.json)
 ```
 
 ### pickle
@@ -62,7 +62,7 @@ with `Background` inlined and `Scenario Outline`/`Examples` rows expanded. It is
 Example:
 
 ```json
-[snippet](examples/events/003_gherkin-document.json)
+[snippet](examples/events/003_pickle.json)
 ```
 
 ### attachment {#event-attachment}
