@@ -47,6 +47,7 @@
     "webpack": "^1.13.2"
   },
   "dependencies": {
-    "gherkin": "^4.0.0"
+    "gherkin": "^4.0.0",
+    "immutable": "^3.8.1"
   }
 }
