@@ -99,9 +99,9 @@ Example (Java stack trace):
 As this event protocol specification evolves to support a richer set of events there are some
 key principles to consider:
 
-#### Extend, don't ammend
+#### Extend, don't amend
 
-Any consumer of the event protocol that also emits the protocol must faithfully emit all events it receives as input. It can, of course, add extra events to the output stream.
+Any consumer of the event protocol that also emits events must faithfully emit all events it receives as input. It can, of course, add extra events to the output stream.
 
 #### Small, specialised events
 
