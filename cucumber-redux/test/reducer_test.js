@@ -2,7 +2,11 @@
 const Stream = require('stream')
 const assert = require('assert')
 const Gherkin = require('gherkin')
-const reducer = require('../src')
+const {
+  reducer,
+  lineAttachments,
+  featureNames
+} = require('../src')
 
 function sourceEvent(uri, data) {
   return {
@@ -57,8 +61,7 @@ describe(reducer.name, () => {
       sourceEvent("features/hello.feature", "Feature: Hello\n"),
       sourceEvent("features/world.feature", "Feature: World\n")
     ])
-    const featureNames = Array.from(state.get('sources').values()).map(gherkinDocument => gherkinDocument.getIn(['feature', 'name']))
-    assert.deepEqual(featureNames, ['Hello', 'World'])
+    assert.deepEqual(featureNames(state), ['Hello', 'World'])
   })
 
   it("links attachments to line number", async function() {
@@ -92,7 +95,7 @@ describe(reducer.name, () => {
       }
     ])
 
-    const attachments = state.getIn(['sources', 'features/hello.feature', 'attachments', 22])
+    const attachments = lineAttachments(state, 'features/hello.feature', 22)
     assert.deepEqual(attachments.toJS(), [
       { uri: 'build/screenshots/hello.png', data: undefined, media: undefined },
       { uri: 'build/screenshots/world.png', data: undefined, media: undefined }

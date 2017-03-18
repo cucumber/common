@@ -21,4 +21,11 @@ const reducer = (state, action) => {
   }
 }
 
-module.exports = reducer
+const lineAttachments = (state, uri, lineNumber) => state.getIn(['sources', uri, 'attachments', lineNumber])
+const featureNames = (state) => Array.from(state.get('sources').values()).map(gherkinDocument => gherkinDocument.getIn(['feature', 'name']))
+
+module.exports = {
+  reducer,
+  lineAttachments,
+  featureNames
+}
