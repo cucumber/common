@@ -1,19 +1,10 @@
-const Gherkin = require('gherkin')
 const {Map, OrderedMap, List, fromJS} = require('immutable')
 
-const parser = new Gherkin.Parser()
-
 const reducer = (state, action) => {
-  if (!state) return new Map({sources: new Map()})
-
+  if (!state) return new Map({sources: new OrderedMap()})
   switch (action.type) {
-    case 'start': {
-      return state.set('sources', OrderedMap())
-    }
-    case 'source': {
-      // TODO: just listen for gherkin-document events
-      const gherkinDocument = parser.parse(action.data)
-      return state.setIn(['sources', action.uri], fromJS(gherkinDocument))
+    case 'gherkin-document': {
+      return state.setIn(['sources', action.uri], fromJS(action.document))
     }
     case 'attachment': {
       return state.updateIn(['sources', action.source.uri, 'attachments', action.source.start.line], list => {
@@ -25,7 +16,7 @@ const reducer = (state, action) => {
       })
     }
     default: {
-      throw new Error("Unsupported action: " + JSON.stringify(action))
+      return state
     }
   }
 }
