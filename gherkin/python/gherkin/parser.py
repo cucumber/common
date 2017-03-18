@@ -1,4 +1,5 @@
 # This file is generated. Do not edit! Edit gherkin-python.razor instead.
+import sys
 from collections import deque
 from .ast_builder import AstBuilder
 from .token_matcher import TokenMatcher
@@ -62,7 +63,10 @@ class Parser(object):
         self.stop_at_first_error = False
 
     def parse(self, token_scanner_or_str, token_matcher=TokenMatcher()):
-        token_scanner = TokenScanner(token_scanner_or_str) if isinstance(token_scanner_or_str, str) else token_scanner_or_str
+        if sys.version_info < (3, 0):
+            token_scanner = TokenScanner(token_scanner_or_str) if isinstance(token_scanner_or_str, basestring) else token_scanner_or_str
+        else:
+            token_scanner = TokenScanner(token_scanner_or_str) if isinstance(token_scanner_or_str, str) else token_scanner_or_str
         self.ast_builder.reset()
         token_matcher.reset()
         context = ParserContext(
