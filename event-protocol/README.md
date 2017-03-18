@@ -85,18 +85,6 @@ Example (Java stack trace):
 [snippet](examples/events/004_attachment-stacktrace.json)
 ```
 
-### Cucumber-specific attachments
-
-Cucumber-specific events such as "a step definition was found for this step" or
-"a step failed" could be represented as attachments with special media types, for example:
-
-* `application/vnd.cucumber.step.match+json`, information about the match such as arguments, stepdef line number etc.
-* `text/vnd.cucumber.step.status+plain`, status of a failing step (passed, undefined, pending, failed, skipped)
-
-They could also be represented as distinct events with a separate type. The Cucumber team
-is currently undecided on this. Once consumers evolve we will have more information about
-the tradeoffs of each design. See the [contributing](#contributing) section for details.
-
 ## Implementation
 
 * Cucumber events are formatted as [Newline Delimited JSON](http://ndjson.org)
@@ -108,8 +96,16 @@ the tradeoffs of each design. See the [contributing](#contributing) section for 
 
 ### Philosophy
 
-As the event specification evolves to support a richer set of events there are some
+As this event protocol specification evolves to support a richer set of events there are some
 key principles to consider:
+
+#### Extend, don't ammend
+
+Any consumer of the event protocol that also emits the protocol must faithfully emit all events it receives as input. It can, of course, add extra events to the output stream.
+
+#### Small, specialised events
+
+To keep the protocol flexible, we encourage having many different specialised events, rather than trying to use generic messages for broad purposes.
 
 #### File format agnostic
 
@@ -117,17 +113,20 @@ While Gherkin is currently the only file format that will be used in `source`
 events, no events should assume that all files will be Gherkin documents. This
 allows for alternative document formats in the future.
 
-#### Errors are attachments
+#### Versioning will be per-event
 
-When an error occurs, that's just an attachment to a `source` file, with a [special
-media type](#event-attachment). This goes for parse errors, execution errors/exceptions, linting
-errors etc.
+When we need to revise the protocol, this will take one of three forms:
+
+1) Changing the schema for an existing event
+2) Adding a new event
+3) Deprecating an event we no longer want to support
+
+We'll manage this by adding a version to a specific event, where needed. For now there will be no version numbers. The overall protocol will not be versioned.
 
 ## Event order {#order}
 
 There are a few constraints about the order of events:
 
-* The first event must be [start](#start)
 * A [source](#event-source) event must be received before any
   [attachment](#event-attachment) events referring to it
 
