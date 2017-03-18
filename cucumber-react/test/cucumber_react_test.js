@@ -1,9 +1,9 @@
 /* eslint-env mocha */
-import assert from "assert"
-import React from "react"
-import {shallow} from "enzyme"
-import {CucumberReact, reducer} from "../src"
-const {GherkinDocument, Feature, Scenario, Step, Attachment} = CucumberReact
+const assert = require('assert')
+const React = require('react') // eslint-disable-line node/no-unpublished-require
+const {shallow} = require('enzyme') // eslint-disable-line node/no-unpublished-require
+const reducer = require('cucumber-redux') // eslint-disable-line node/no-unpublished-require
+const {GherkinDocument, Feature, Scenario, Step, Attachment} = require('../src/index.jsx')
 
 const events = [
   {"type": "start", "timestamp": 1471614838649, "series": "df1d3970-644e-11e6-8b77-86f30ca893d3"},

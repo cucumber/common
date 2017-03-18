@@ -1,5 +1,5 @@
-import React from "react"
-import Immutable from "immutable"
+const React = require('react')
+const Immutable = require('immutable')
 
 const EMPTY_LIST = new Immutable.List()
 const EMPTY_MAP = new Immutable.Map()
@@ -106,4 +106,4 @@ Attachment.propTypes = {
   attachment: React.PropTypes.instanceOf(Immutable.Map).isRequired
 }
 
-export {Cucumber, GherkinDocument, Feature, Scenario, Step, Attachment}
+module.exports = {Cucumber, GherkinDocument, Feature, Scenario, Step, Attachment}

@@ -1,5 +1,5 @@
-import Gherkin from "gherkin"
-import {Map, OrderedMap, List, fromJS} from "immutable"
+const Gherkin = require('gherkin')
+const {Map, OrderedMap, List, fromJS} = require('immutable')
 
 const parser = new Gherkin.Parser()
 
@@ -11,6 +11,7 @@ const reducer = (state, action) => {
       return state.set('sources', OrderedMap())
     }
     case 'source': {
+      // TODO: just listen for gherkin-document events
       const gherkinDocument = parser.parse(action.data)
       return state.setIn(['sources', action.uri], fromJS(gherkinDocument))
     }
@@ -29,4 +30,4 @@ const reducer = (state, action) => {
   }
 }
 
-export default reducer
+module.exports = reducer
