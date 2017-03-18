@@ -13,7 +13,7 @@ def add_errors(events, errors, uri):
                     'column': error.location['column']
                 }
             },
-            'data': error.message,
+            'data': str(error),
             'media': {
                 'encoding': 'utf-8',
                 'type': 'text/vnd.cucumber.stacktrace+plain'
