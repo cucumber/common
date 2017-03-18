@@ -2,6 +2,7 @@
 const Stream = require('stream')
 const assert = require('assert')
 const Gherkin = require('gherkin')
+const eventValidator = require('cucumber-event-validator')
 const {
   reducer,
   lineAttachments,
@@ -20,16 +21,43 @@ function sourceEvent(uri, data) {
   }
 }
 
+const media = {
+  "encoding": "utf-8",
+  "type": "text/vnd.cucumber.stacktrace.java+plain"
+}
+
+function attachmentEvent(uri, line, data) {
+  return {
+    "type": "attachment",
+    "source": {
+      "uri": uri,
+      "start": {
+        "line": line,
+        "column": 1
+      }
+    },
+    "data": data,
+    "media": media
+  }
+}
+
 class ReducerStream extends Stream.Writable {
   constructor(reducer) {
     super({
       objectMode: true,
       write: (event, _, callback) => {
         try {
-          this.state = reducer(this.state, event)
-          callback()
+          eventValidator(event)
         } catch(err) {
-          callback(err)
+          err.message += `\nEvent:\n${JSON.stringify(event, null, 2)}`
+          return callback(err)
+        }
+
+        try {
+          this.state = reducer(this.state, event)
+          return callback()
+        } catch(err) {
+          return callback(err)
         }
       }
     })
@@ -65,40 +93,18 @@ describe(reducer.name, () => {
   })
 
   it("links attachments to line number", async function() {
+    const data1 = "Exception in thread \"main\" java.lang.NullPointerException\n"
+    const data2 = "Exception in thread \"main\" java.lang.RuntimeException\n"
     const state = await write([
       sourceEvent("features/hello.feature", "Feature: Hello\n"),
-      {
-        "type": "attachment",
-        "timestamp": 1471420027078,
-        "series": "df1d3970-644e-11e6-8b77-86f30ca893d3",
-        "source": {
-          "uri": "features/hello.feature",
-          "start": {
-            "line": 22,
-            "column": 7
-          }
-        },
-        "uri": "build/screenshots/hello.png"
-      },
-      {
-        "type": "attachment",
-        "timestamp": 1471420027078,
-        "series": "df1d3970-644e-11e6-8b77-86f30ca893d3",
-        "source": {
-          "uri": "features/hello.feature",
-          "start": {
-            "line": 22,
-            "column": 7
-          }
-        },
-        "uri": "build/screenshots/world.png"
-      }
+      attachmentEvent("features/hello.feature", 22, data1),
+      attachmentEvent("features/hello.feature", 22, data2)
     ])
 
     const attachments = lineAttachments(state, 'features/hello.feature', 22)
     assert.deepEqual(attachments.toJS(), [
-      { uri: 'build/screenshots/hello.png', data: undefined, media: undefined },
-      { uri: 'build/screenshots/world.png', data: undefined, media: undefined }
+      { data: data1, media },
+      { data: data2, media }
     ])
   })
 })
