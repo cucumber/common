@@ -10,6 +10,10 @@ ERRORS   = $(patsubst testdata/%.feature,acceptance/testdata/%.feature.errors.nd
 
 JAVASCRIPT_FILES = $(shell find lib -name "*.js") index.js
 
+install: all
+	yarn link
+.PHONY: install
+
 all: .compared
 .PHONY: all
 
@@ -21,7 +25,7 @@ all: .compared
 	touch $@
 
 node_modules/.fetched: package.json
-	npm install
+	yarn install
 	touch $@
 
 acceptance/testdata/%.feature.tokens: testdata/%.feature testdata/%.feature.tokens .built

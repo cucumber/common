@@ -15,6 +15,9 @@ ERRORS   = $(patsubst testdata/%.feature,acceptance/testdata/%.feature.errors.nd
 
 CS_FILES = $(shell find . -type f \( -iname "*.cs" ! -iname "*.NETFramework*" \))
 
+install: all
+.PHONY: install
+
 all: .compared
 .PHONY: all
 

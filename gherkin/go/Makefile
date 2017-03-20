@@ -12,6 +12,9 @@ GO_SOURCE_FILES = $(shell find . -name "*.go") parser.go dialects_builtin.go
 
 export GOPATH = $(realpath ./)
 
+install: all
+.PHONY: install
+
 all: .compared
 
 .compared: .built $(TOKENS) $(ASTS) $(PICKLES) $(SOURCES) $(ERRORS)

@@ -8,6 +8,9 @@ ERRORS   = $(patsubst testdata/%.feature,acceptance/testdata/%.feature.errors.nd
 
 M_FILES = $(shell find . -type f \( -iname "*.m" \))
 
+install: all
+.PHONY: install
+
 all: .compared
 .PHONY: all
 

@@ -22,6 +22,9 @@ else
 	RUN_GHERKIN_GENERATE_TOKENS=$(GHERKIN_GENERATE_TOKENS)
 endif
 
+install: all
+.PHONY: install
+
 all: .compared
 .PHONY: all
 

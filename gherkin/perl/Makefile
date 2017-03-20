@@ -9,6 +9,9 @@ ERRORS   = $(patsubst testdata/%.feature,acceptance/testdata/%.feature.errors.nd
 
 PERL_FILES = $(shell find . -name "*.pm")
 
+install: all
+.PHONY: install
+
 all: .compared
 .PHONY: all
 
