@@ -33,11 +33,11 @@
 {<text>ctxt.isMatch_@(tokenType)(line)</text>}
 @helper TokenConst(Rule rule)
 {<text>@Raw("rule" + rule.Name.Replace("#", "Int"))</text>}
-// 
+//
 // This file is generated. Do not edit! Edit gherkin-golang.razor instead.
 
-// 
-package gherkin;
+//
+package gherkin
 
 import (
   "fmt"
@@ -79,7 +79,7 @@ func (t TokenType) RuleType() RuleType {
 type RuleType int
 
 const (
-  RuleType_None RuleType = iota 
+  RuleType_None RuleType = iota
 
   @foreach(var rule in Model.RuleSet.Where(r => !r.TempRule))
   {<text>  @Raw("RuleType_" + rule.Name.Replace("#", "_"))
@@ -214,7 +214,6 @@ func (ctxt *parseContext) match(state int, line *Line) (newState int, err error)
   default:
     return state, fmt.Errorf("Unknown state: %+v", state);
   }
-  return state, nil
 }
 
 @foreach(var state in Model.States.Values.Where(s => !s.IsEndState))
@@ -249,7 +248,7 @@ type Matcher interface {
   @foreach(var rule in Model.RuleSet.TokenRules)
   {<text>  Match@(rule.Name.Replace("#", ""))(line *Line) (bool,*Token,error)
 </text>}
-  Reset()  
+  Reset()
 }
 @foreach(var rule in Model.RuleSet.TokenRules)
 {

@@ -5,10 +5,10 @@ import (
 	"strings"
 )
 
-func ExampleGenerateAst() {
+func ExampleGenerateTokens() {
 
 	input := `Feature: Minimal
- 
+
   Scenario: minimalistic
     Given the minimalism
 `
@@ -18,7 +18,7 @@ func ExampleGenerateAst() {
 
 	// Output:
 	// (1:1)FeatureLine:Feature/Minimal/
-	// (2:2)Empty://
+	// (2:1)Empty://
 	// (3:3)ScenarioLine:Scenario/minimalistic/
 	// (4:5)StepLine:Given /the minimalism/
 	// EOF

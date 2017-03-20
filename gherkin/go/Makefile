@@ -52,6 +52,7 @@ parser.go: gherkin.berp parser.go.razor berp/berp.exe
 	# Remove BOM
 	tail -c +4 $@ > $@.nobom
 	mv $@.nobom $@
+	gofmt -w $@
 
 dialects_builtin.go: gherkin-languages.json dialects_builtin.go.jq
 	cat $< | jq --sort-keys --from-file dialects_builtin.go.jq --raw-output --compact-output > $@

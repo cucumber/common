@@ -7,7 +7,7 @@ import (
 	"os"
 	"time"
 
-	gherkin "../"
+	gherkin ".."
 )
 
 func main() {
@@ -39,7 +39,7 @@ func main() {
 	}
 	endTime := time.Now().UnixNano() / 1e6
 	if os.Getenv("GHERKIN_PERF") != "" {
-		fmt.Fprintf(os.Stderr, "%d\n", endTime - startTime)
+		fmt.Fprintf(os.Stderr, "%d\n", endTime-startTime)
 	}
 }
 
