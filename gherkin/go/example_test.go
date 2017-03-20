@@ -108,7 +108,6 @@ func ExampleParseMultipleFeatures() {
 	fmt.Fprintf(os.Stdout, "Name: %+v\n", feature2.Name)
 	fmt.Fprintf(os.Stdout, "Children: length: %+v\n", len(feature2.Children))
 
-
 	// Output:
 	//
 	// Location: &{Line:1 Column:1}
@@ -158,7 +157,7 @@ Feature: Foo
 		return
 	}
 	doc2 := builder.GetGherkinDocument()
-        fmt.Fprintf(os.Stdout, "Comments: length: %+v\n", len(doc2.Comments))
+	fmt.Fprintf(os.Stdout, "Comments: length: %+v\n", len(doc2.Comments))
 
 	feature2 := doc2.Feature
 	fmt.Fprintf(os.Stdout, "Location: %+v\n", feature2.Location)
@@ -171,11 +170,10 @@ Feature: Foo
 	fmt.Fprintf(os.Stdout, "    Name: %+v\n", scenario1.Name)
 	fmt.Fprintf(os.Stdout, "    Steps: length: %+v\n", len(scenario1.Steps))
 
-
 	// Output:
 	//
 	// Parser errors:
-        // (7:0): unexpected end of file, expected: #DocStringSeparator, #Other
+	// (7:0): unexpected end of file, expected: #DocStringSeparator, #Other
 	//
 	// Comments: length: 0
 	// Location: &{Line:1 Column:1}

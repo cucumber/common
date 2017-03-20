@@ -18,7 +18,8 @@ all: .compared
 	touch $@
 
 .built: show-version-info $(GO_SOURCE_FILES) bin/gherkin-generate-tokens bin/gherkin
-	go test -v
+	go test -race
+	go vet
 	touch $@
 
 show-version-info:
@@ -69,6 +70,7 @@ parser.go: gherkin.berp parser.go.razor berp/berp.exe
 
 dialects_builtin.go: gherkin-languages.json dialects_builtin.go.jq
 	cat $< | jq --sort-keys --from-file dialects_builtin.go.jq --raw-output --compact-output > $@
+	gofmt -w $@
 
 clean:
 	rm -rf .compared .built acceptance bin/ parser.go dialects_builtin.go

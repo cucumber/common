@@ -6,16 +6,16 @@ func GherkinDialectsBuildin() GherkinDialectProvider {
 }
 
 const (
-	feature = "feature"
-	background = "background"
-	scenario = "scenario"
+	feature         = "feature"
+	background      = "background"
+	scenario        = "scenario"
 	scenarioOutline = "scenarioOutline"
-	examples = "examples"
-	given = "given"
-	when = "when"
-	then = "then"
-	and = "and"
-	but = "but"
+	examples        = "examples"
+	given           = "given"
+	when            = "when"
+	then            = "then"
+	and             = "and"
+	but             = "but"
 )
 
 var buildinDialects = gherkinDialectMap{
@@ -3209,4 +3209,3 @@ var buildinDialects = gherkinDialectMap{
 		},
 	},
 }
-
