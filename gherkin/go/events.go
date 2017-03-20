@@ -36,6 +36,11 @@ type (
 		Data   string
 		Media  MediaType
 	}
+
+	PickleEvent struct {
+		URI    string
+		Pickle *Pickle
+	}
 )
 
 var (
@@ -54,6 +59,18 @@ func (se *SourceEvent) MarshalJSON() ([]byte, error) {
 		URI:   se.URI,
 		Data:  se.Data,
 		Media: gherkinMedia,
+	})
+}
+
+func (pe *PickleEvent) MarshalJSON() ([]byte, error) {
+	return json.Marshal(&struct {
+		Type   string  `json:"type"`
+		URI    string  `json:"uri"`
+		Pickle *Pickle `json:"pickle"`
+	}{
+		Type:   "pickle",
+		URI:    pe.URI,
+		Pickle: pe.Pickle,
 	})
 }
 
@@ -124,6 +141,13 @@ func GherkinEvents(paths ...string) <-chan CucumberEvent {
 			ch <- &GherkinDocumentEvent{
 				URI:      p,
 				Document: doc,
+			}
+
+			for _, pickle := range doc.Pickles() {
+				ch <- &PickleEvent{
+					URI:    p,
+					Pickle: pickle,
+				}
 			}
 
 			in.Close()

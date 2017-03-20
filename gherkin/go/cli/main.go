@@ -33,10 +33,9 @@ func main() {
 			continue
 		}
 
-		// @TODO: implement pickles
-		// if _, ok := ev.(*gherkin.PickleEvent); ok && *noPickles {
-		// 	continue
-		// }
+		if _, ok := ev.(*gherkin.PickleEvent); ok && *noPickles {
+			continue
+		}
 
 		data, err := json.Marshal(ev)
 		if err != nil {
