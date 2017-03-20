@@ -6,7 +6,7 @@ import (
 	"os"
 	"strings"
 
-	gherkin "../"
+	gherkin ".."
 )
 
 func main() {

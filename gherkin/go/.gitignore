@@ -1,6 +1,5 @@
-bin/gherkin-generate-ast
+bin/gherkin
 bin/gherkin-generate-tokens
 .built
 .compared
 acceptance/
-pkg/
