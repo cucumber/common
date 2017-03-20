@@ -19,10 +19,15 @@
     // var stateComment = "State: @state.Id - @Raw(state.Comment)"
     var expectedTokens = []string{"@Raw(string.Join("\", \"", expectedTokens))"}
     if line.IsEof() {
-      err = fmt.Errorf("(%d:0): unexpected end of file, expected: %s", line.LineNumber, strings.Join(expectedTokens,", "))
+      err = &parseError{
+        msg: fmt.Sprintf("unexpected end of file, expected: %s", strings.Join(expectedTokens,", ")),
+        loc: &Location{Line: line.LineNumber, Column: 0},
+      }
     } else {
-      err = fmt.Errorf("(%d:%d): expected: %s, got '%s'",line.LineNumber, line.Indent() + 1, strings.Join(expectedTokens,", "), line.LineText,
-      )
+      err = &parseError{
+        msg: fmt.Sprintf("expected: %s, got '%s'", strings.Join(expectedTokens,", "), line.LineText),
+        loc: &Location{Line: line.LineNumber, Column: line.Indent() + 1},
+      }
     }
     // if (ctxt.p.stopAtFirstError) throw error;
     //ctxt.addError(err)

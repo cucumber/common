@@ -6,7 +6,6 @@ import (
 	"fmt"
 	"io"
 	"os"
-	"runtime"
 )
 
 type (
@@ -16,8 +15,8 @@ type (
 	}
 
 	SourceReference struct {
-		URI      string   `json:"uri"`
-		Location Location `json:"location"` // from gherkin AST
+		URI   string   `json:"uri"`
+		Start Location `json:"start"` // from gherkin AST
 	}
 
 	CucumberEvent interface{}
@@ -91,15 +90,29 @@ func GherkinEvents(paths ...string) <-chan CucumberEvent {
 		for _, p := range paths {
 			in, err := os.Open(p)
 			if err != nil {
-				ch <- newErrorEvent(fmt.Errorf("open feature file: %v", err), p)
+				fmt.Fprintln(os.Stderr, "open feature file:", p, "-", err)
 				continue
 			}
 
 			var buf bytes.Buffer
 			doc, err := ParseGherkinDocument(io.TeeReader(in, &buf))
-			if err != nil {
+			if errs, ok := err.(parseErrors); ok {
+				// expected parse errors
+				for _, err := range errs {
+					if pe, ok := err.(*parseError); ok {
+						ch <- pe.asAttachment(p)
+					} else {
+						fmt.Fprintf(os.Stderr, "parse feature file: %s, error type: %T - %+v\n", p, err, err)
+					}
+				}
 				in.Close()
-				ch <- newErrorEvent(fmt.Errorf("parse feature file: %v", err), p)
+				continue
+			}
+
+			if err != nil {
+				// non parse error, unexpected
+				fmt.Fprintf(os.Stderr, "parse feature file: %s, error type: %T - %+v\n", p, err, err)
+				in.Close()
 				continue
 			}
 
@@ -120,16 +133,13 @@ func GherkinEvents(paths ...string) <-chan CucumberEvent {
 	return ch
 }
 
-func newErrorEvent(err error, uri string) *AttachmentEvent {
-	_, _, ln, _ := runtime.Caller(1)
+func (a *parseError) asAttachment(uri string) *AttachmentEvent {
 	return &AttachmentEvent{
-		Data:  fmt.Sprintf("%+v", err), // @TODO: may implement rules to format with stacktrace
+		Data:  a.Error(),
 		Media: errorMedia,
 		Source: SourceReference{
-			URI: uri,
-			Location: Location{
-				Line: ln,
-			},
+			URI:   uri,
+			Start: *a.loc,
 		},
 	}
 }

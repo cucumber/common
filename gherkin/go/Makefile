@@ -12,7 +12,7 @@ export GOPATH = $(realpath ./)
 
 all: .compared
 
-.compared: .built $(TOKENS) $(ASTS)
+.compared: .built $(TOKENS) $(ASTS) $(ERRORS)
 	touch $@
 
 .built: show-version-info $(GO_SOURCE_FILES) bin/gherkin-generate-tokens bin/gherkin
