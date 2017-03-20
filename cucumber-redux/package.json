@@ -10,7 +10,7 @@
     "prepublish": "npm run build",
     "postinstall": "node scripts/postinstall.js",
     "mocha": "mocha",
-    "coverage": "node --harmony ./node_modules/.bin/istanbul cover ./node_modules/.bin/_mocha -- test"
+    "coverage": "node ./node_modules/.bin/istanbul cover ./node_modules/.bin/_mocha -- test"
   },
   "repository": "git://github.com/cucumber/cucumber-redux.git",
   "author": "Cucumber Limited <cukes@googlegroups.com>",
