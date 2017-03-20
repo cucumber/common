@@ -14,6 +14,10 @@ This document is formatted according to the principles of [Keep A CHANGELOG](htt
 ### Added
 
 ### Changed
+* (Python) Fix build on python 3.4.
+  ([#138](https://github.com/cucumber/cucumber/issues/138)
+   [#158](https://github.com/cucumber/cucumber/pull/158)
+   by [brasmusson])
 
 ### Fixed
 
