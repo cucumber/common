@@ -12,12 +12,11 @@ export GOPATH = $(realpath ./)
 
 all: .compared
 
-.compared: .built $(TOKENS)
-#.compared: .built $(TOKENS) $(ASTS) $(ERRORS)
+.compared: .built $(TOKENS) $(ASTS)
 	touch $@
 
-.built: show-version-info $(GO_SOURCE_FILES) bin/gherkin-generate-tokens bin/gherkin-generate-ast
-	go test -v ./...
+.built: show-version-info $(GO_SOURCE_FILES) bin/gherkin-generate-tokens bin/gherkin
+	go test -v
 	touch $@
 
 show-version-info:
@@ -26,8 +25,8 @@ show-version-info:
 bin/gherkin-generate-tokens: $(GO_SOURCE_FILES)
 	go build -o $@ ./gherkin-generate-tokens
 
-bin/gherkin-generate-ast: $(GO_SOURCE_FILES)
-	go build -o $@ ./gherkin-generate-ast
+bin/gherkin: $(GO_SOURCE_FILES)
+	go build -o $@ ./cli
 
 acceptance/testdata/%.feature.tokens: testdata/%.feature testdata/%.feature.tokens bin/gherkin-generate-tokens
 	mkdir -p `dirname $@`
@@ -35,9 +34,9 @@ acceptance/testdata/%.feature.tokens: testdata/%.feature testdata/%.feature.toke
 	diff --unified $<.tokens $@
 .DELETE_ON_ERROR: acceptance/testdata/%.feature.tokens
 
-acceptance/testdata/%.feature.ast.ndjson: testdata/%.feature testdata/%.feature.ast.ndjson bin/gherkin-generate-ast
+acceptance/testdata/%.feature.ast.ndjson: testdata/%.feature testdata/%.feature.ast.ndjson bin/gherkin
 	mkdir -p `dirname $@`
-	bin/gherkin-generate-ast $< | jq --sort-keys "." > $@
+	bin/gherkin --no-source --no-pickles $< | jq --sort-keys "." > $@
 	diff --unified <(jq "." $<.ast.ndjson) <(jq "." $@)
 .DELETE_ON_ERROR: acceptance/testdata/%.feature.ast.ndjson
 
