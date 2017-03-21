@@ -10,12 +10,12 @@ ERRORS   = $(patsubst testdata/%.feature,acceptance/testdata/%.feature.errors.nd
 
 JAVASCRIPT_FILES = $(shell find lib -name "*.js") index.js
 
+all: .compared
+.PHONY: all
+
 install: all
 	yarn link
 .PHONY: install
-
-all: .compared
-.PHONY: all
 
 .compared: .built $(TOKENS) $(ASTS) $(PICKLES) $(ERRORS) $(SOURCES)
 	touch $@

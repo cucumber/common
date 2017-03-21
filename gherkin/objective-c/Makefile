@@ -8,11 +8,12 @@ ERRORS   = $(patsubst testdata/%.feature,acceptance/testdata/%.feature.errors.nd
 
 M_FILES = $(shell find . -type f \( -iname "*.m" \))
 
-install: all
-.PHONY: install
-
 all: .compared
 .PHONY: all
+
+install:
+	@echo -e "\x1b[31;01mSKIPPING GHERKIN OBJECTIVE-C BUILD\x1b[0m"
+.PHONY: install
 
 .compared: .built $(TOKENS)
 #.compared: .built $(TOKENS) $(ASTS) $(ERRORS)

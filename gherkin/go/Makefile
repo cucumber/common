@@ -12,10 +12,11 @@ GO_SOURCE_FILES = $(shell find . -name "*.go") parser.go dialects_builtin.go
 
 export GOPATH = $(realpath ./)
 
-install: all
-.PHONY: install
-
 all: .compared
+
+install:
+	@echo -e "\x1b[31;01mSKIPPING GHERKIN GO BUILD\x1b[0m"
+.PHONY: install
 
 .compared: .built $(TOKENS) $(ASTS) $(PICKLES) $(SOURCES) $(ERRORS)
 	touch $@

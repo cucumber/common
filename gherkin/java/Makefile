@@ -10,12 +10,12 @@ ERRORS     = $(patsubst testdata/%.feature,acceptance/testdata/%.feature.errors.
 
 JAVA_FILES = $(shell find . -name "*.java")
 
+all: .compared
+.PHONY: all
+
 install: all
 	mvn install
 .PHONY: install
-
-all: .compared
-.PHONY: all
 
 .compared: $(TOKENS) $(ASTS) $(PICKLES) $(ERRORS) $(SOURCES)
 	touch $@

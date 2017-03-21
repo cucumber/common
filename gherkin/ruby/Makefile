@@ -10,12 +10,12 @@ ERRORS   = $(patsubst testdata/%.feature,acceptance/testdata/%.feature.errors.nd
 
 RUBY_FILES = $(shell find . -name "*.rb")
 
+all: .compared
+.PHONY: all
+
 install: all
 	bundle exec rake install
 .PHONY: install
-
-all: .compared
-.PHONY: all
 
 .compared: .built $(TOKENS) $(ASTS) $(PICKLES) $(ERRORS) $(SOURCES)
 	touch $@

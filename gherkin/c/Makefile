@@ -22,11 +22,14 @@ else
 	RUN_GHERKIN_GENERATE_TOKENS=$(GHERKIN_GENERATE_TOKENS)
 endif
 
-install: all
-.PHONY: install
-
+# TODO: change to default
 all: .compared
 .PHONY: all
+
+# TODO: conditionally skip (on alpine only)
+install:
+	@echo -e "\x1b[31;01mSKIPPING GHERKIN C BUILD\x1b[0m"
+.PHONY: install
 
 .compared: .built $(TOKENS) $(ASTS) $(PICKLES) $(ERRORS) $(SOURCES) .run
 	touch $@

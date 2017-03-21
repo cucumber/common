@@ -2,10 +2,13 @@ MAKEFILES=$(wildcard */Makefile)
 EVENT_FILES = $(wildcard testdata/**/*.ndjson)
 SCHEMAS = $(wildcard ../event-protocol/schemas/*.json)
 
-all: validate-events install
+all: $(patsubst %/Makefile,all-%,$(MAKEFILES))
 .PHONY: all
 
-install: $(patsubst %/Makefile,install-%,$(MAKEFILES))
+all-%: %
+	cd $< && make all
+
+install: validate-events $(patsubst %/Makefile,install-%,$(MAKEFILES))
 .PHONY: install
 
 install-%: %

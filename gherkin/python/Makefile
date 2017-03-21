@@ -10,11 +10,11 @@ ERRORS   = $(patsubst testdata/%.feature,acceptance/testdata/%.feature.errors.nd
 
 PYTHON_FILES = $(shell find . -name "*.py")
 
-install: all
-.PHONY: install
-
 all: .compared
 .PHONY: all
+
+install: all
+.PHONY: install
 
 .compared: .built $(TOKENS) $(ASTS) $(PICKLES) $(ERRORS) $(SOURCES)
 	touch $@
