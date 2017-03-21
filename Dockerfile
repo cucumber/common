@@ -8,4 +8,4 @@ RUN apk add --no-cache --update --upgrade alpine-sdk make bash maven openjdk8 di
 RUN npm install --global yarn
 RUN echo "gem: --no-document" > ~/.gemrc
 RUN gem install bundler io-console
-RUN curl --fail -L http://xrl.us/cpanm > /usr/local/bin/cpanm && chmod +x /usr/local/bin/cpanm
+RUN curl --fail -L http://cpanmin.us/ > /usr/local/bin/cpanm && chmod +x /usr/local/bin/cpanm
