@@ -32,6 +32,19 @@ function echo_blue
   echo -e "${BLUE}$@${NC}"
 }
 
+function docker_image() {
+  tag=$(cat Dockerfile | md5sum | cut -d ' ' -f 1)
+  echo "cucumber/cucumber-build:${tag}"
+}
+
+function docker_build() {
+  docker build --rm --tag $(docker_image) .
+}
+
+function docker_push() {
+  docker push $(docker_image)
+}
+
 function rsync_files()
 {
   git ls-files "${root_dir}/**/.rsync" | while read rsync_file; do
