@@ -1,13 +1,10 @@
-MAKEFILES=gherkin/Makefile cucumber-expressions/Makefile tag-expressions/Makefile
+MAKEFILES=event-protocol/Makefile gherkin/Makefile cucumber-expressions/Makefile tag-expressions/Makefile
 
-all: install
-.PHONY: all
+default: $(patsubst %/Makefile,default-%,$(MAKEFILES))
+.PHONY: default
 
-install: $(patsubst %/Makefile,install-%,$(MAKEFILES))
-.PHONY: install
-
-install-%: %
-	cd $< && make install
+default-%: %
+	cd $< && make default
 
 clean: $(patsubst %/Makefile,clean-%,$(MAKEFILES))
 .PHONY: clean

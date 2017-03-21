@@ -1,9 +1,11 @@
+# docker build . --tag cucumber-build
+# docker run -v $(pwd):/app -it cucumber-build make
 FROM alpine:3.5
 
 WORKDIR /app
-ADD . .
 
-RUN apk add --no-cache --update --upgrade alpine-sdk make bash maven openjdk8 diffutils jq nodejs python py-pip ruby wget
+RUN apk add --no-cache --update --upgrade alpine-sdk make bash maven openjdk8 diffutils jq nodejs python py-pip ruby ruby-dev perl perl-dev wget
 RUN npm install --global yarn
-RUN gem install io-console
-RUN curl -L http://xrl.us/cpanm > /bin/cpanm && chmod +x /bin/cpanm
+RUN echo "gem: --no-document" > ~/.gemrc
+RUN gem install bundler io-console
+RUN curl -L http://xrl.us/cpanm > /usr/local/bin/cpanm && chmod +x /usr/local/bin/cpanm

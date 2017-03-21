@@ -1,4 +1,5 @@
 SHELL := /usr/bin/env bash
+ALPINE := $(shell which apk 2> /dev/null)
 GOOD_FEATURE_FILES = $(shell find testdata/good -name "*.feature")
 BAD_FEATURE_FILES  = $(shell find testdata/bad -name "*.feature")
 
@@ -12,11 +13,18 @@ GO_SOURCE_FILES = $(shell find . -name "*.go") parser.go dialects_builtin.go
 
 export GOPATH = $(realpath ./)
 
-all: .compared
+ifdef ALPINE
+	DEFAULT_TARGET=skip_build
+else
+	DEFAULT_TARGET=.compared
+endif
 
-install:
-	@echo -e "\x1b[31;01mSKIPPING GHERKIN GO BUILD\x1b[0m"
-.PHONY: install
+default: $(DEFAULT_TARGET)
+.PHONY: default
+
+skip_build:
+	@echo -e "\x1b[31;01mSKIPPING GHERKIN GO BUILD ON ALPINE\x1b[0m"
+.PHONY: skip_build
 
 .compared: .built $(TOKENS) $(ASTS) $(PICKLES) $(SOURCES) $(ERRORS)
 	touch $@

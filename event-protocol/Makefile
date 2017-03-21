@@ -3,18 +3,15 @@ SCHEMAS = $(wildcard schemas/*.json)
 SRC = $(wildcard bin/* lib/*)
 
 default: .valid
-.PHONY: default
-
-install: .valid
 	yarn link
-.PHONY: install
-
-yarn.lock: package.json
-	yarn install
+.PHONY: default
 
 .built: yarn.lock $(SRC)
 	yarn test
 	touch $@
+
+yarn.lock: package.json
+	yarn install
 
 clean:
 	rm -rf yarn.lock node_modules coverage dist .built .valid examples/events.ndjson

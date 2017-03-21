@@ -1,8 +1,8 @@
-install:
+default:
 	yarn install
 	yarn test
 	yarn link
-.PHONY: install
+.PHONY: default
 
 clean:
 	rm -rf node_modules coverage dist

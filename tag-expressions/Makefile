@@ -1,12 +1,10 @@
 MAKEFILES=$(wildcard */Makefile)
 
-all: install
+default: $(patsubst %/Makefile,default-%,$(MAKEFILES))
+.PHONY: default
 
-install: $(patsubst %/Makefile,install-%,$(MAKEFILES))
-.PHONY: all
-
-install-%: %
-	cd $< && make install
+default-%: %
+	cd $< && make default
 
 clean: $(patsubst %/Makefile,clean-%,$(MAKEFILES))
 .PHONY: clean

@@ -1,4 +1,5 @@
 SHELL := /usr/bin/env bash
+ALPINE := $(shell which apk 2> /dev/null)
 GOOD_FEATURE_FILES = $(shell find testdata/good -name "*.feature")
 BAD_FEATURE_FILES  = $(shell find testdata/bad -name "*.feature")
 
@@ -8,12 +9,18 @@ ERRORS   = $(patsubst testdata/%.feature,acceptance/testdata/%.feature.errors.nd
 
 M_FILES = $(shell find . -type f \( -iname "*.m" \))
 
-all: .compared
-.PHONY: all
+ifdef ALPINE
+	DEFAULT_TARGET=skip_build
+else
+	DEFAULT_TARGET=.compared
+endif
 
-install:
-	@echo -e "\x1b[31;01mSKIPPING GHERKIN OBJECTIVE-C BUILD\x1b[0m"
-.PHONY: install
+default: $(DEFAULT_TARGET)
+.PHONY: default
+
+skip_build:
+	@echo -e "\x1b[31;01mSKIPPING GHERKIN OBJECTIVE-C BUILD ON ALPINE\x1b[0m"
+.PHONY: skip_build
 
 .compared: .built $(TOKENS)
 #.compared: .built $(TOKENS) $(ASTS) $(ERRORS)

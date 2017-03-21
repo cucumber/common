@@ -9,12 +9,8 @@ ERRORS   = $(patsubst testdata/%.feature,acceptance/testdata/%.feature.errors.nd
 
 PERL_FILES = $(shell find . -name "*.pm")
 
-all: .compared
+default: .compared
 .PHONY: all
-
-install:
-	@echo -e "\x1b[31;01mSKIPPING GHERKIN PERL BUILD\x1b[0m"
-.PHONY: install
 
 #.compared: .built $(TOKENS) $(ASTS) $(PICKLES) $(ERRORS)
 .compared: .built $(TOKENS) $(ASTS) $(PICKLES)

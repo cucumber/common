@@ -10,17 +10,14 @@ ERRORS   = $(patsubst testdata/%.feature,acceptance/testdata/%.feature.errors.nd
 
 JAVASCRIPT_FILES = $(shell find lib -name "*.js") index.js
 
-all: .compared
-.PHONY: all
-
-install: all
+default: .compared
 	yarn link
-.PHONY: install
+.PHONY: all
 
 .compared: .built $(TOKENS) $(ASTS) $(PICKLES) $(ERRORS) $(SOURCES)
 	touch $@
 
-.built: lib/gherkin/parser.js lib/gherkin/gherkin-languages.json $(JAVASCRIPT_FILES) dist/gherkin.js dist/gherkin.min.js node_modules/.fetched LICENSE
+.built: lib/gherkin/parser.js lib/gherkin/gherkin-languages.json $(JAVASCRIPT_FILES) dist/gherkin.js dist/gherkin.min.js node_modules/.fetched
 	./node_modules/.bin/mocha
 	touch $@
 

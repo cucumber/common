@@ -1,6 +1,6 @@
-install:
+default:
 	mvn install
-.PHONY: install
+.PHONY: default
 
 clean:
 	mvn clean
