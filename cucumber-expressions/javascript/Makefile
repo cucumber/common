@@ -1,12 +1,9 @@
-.PHONY: build
-build:
-	npm install
-	npm test
+default:
+	yarn install
+	yarn test
+	yarn link
+.PHONY: default
 
-.PHONY: release
-release:
-	npm install
-	npm publish
-	version=$$(jq -r ".version" package.json); \
-	git tag --annotate v$$version --message "Release $$version"
-	git push --tags
+clean:
+	rm -rf node_modules coverage dist
+.PHONY: clean

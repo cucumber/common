@@ -1,4 +1,5 @@
 SHELL := /usr/bin/env bash
+ALPINE := $(shell which apk 2> /dev/null)
 UNAME := $(shell uname)
 ifeq ($(UNAME), Darwin)
 	dotnet_build_opts := --framework netcoreapp1.1
@@ -15,8 +16,18 @@ ERRORS   = $(patsubst testdata/%.feature,acceptance/testdata/%.feature.errors.nd
 
 CS_FILES = $(shell find . -type f \( -iname "*.cs" ! -iname "*.NETFramework*" \))
 
-all: .compared
-.PHONY: all
+ifdef ALPINE
+	DEFAULT_TARGET=skip_build
+else
+	DEFAULT_TARGET=.compared
+endif
+
+default: $(DEFAULT_TARGET)
+.PHONY: default
+
+skip_build:
+	@echo -e "\x1b[31;01mSKIPPING GHERKIN .NET BUILD ON ALPINE\x1b[0m"
+.PHONY: skip_build
 
 .compared: .sln_built_debug $(TOKENS) $(ASTS) $(PICKLES) $(SOURCES) $(ERRORS)
 	touch $@

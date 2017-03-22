@@ -1,4 +1,7 @@
-language: ruby
+sudo: required
 
-install: "echo 'Nothing to install'"
-script: echo "Pushing to the monorepo currently doesn't push to subrepos - that's manual for now"
+services:
+  - docker
+
+script:
+  - docker run -v $(pwd):/app -it cucumber/cucumber-build:1919bbc16bcd230522be530efc885b29 make

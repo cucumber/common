@@ -10,14 +10,18 @@ ERRORS   = $(patsubst testdata/%.feature,acceptance/testdata/%.feature.errors.nd
 
 PYTHON_FILES = $(shell find . -name "*.py")
 
-all: .compared
+default: .compared
 .PHONY: all
 
 .compared: .built $(TOKENS) $(ASTS) $(PICKLES) $(ERRORS) $(SOURCES)
 	touch $@
 
-.built: gherkin/parser.py gherkin/gherkin-languages.json $(PYTHON_FILES) bin/gherkin
+.built: gherkin/parser.py gherkin/gherkin-languages.json $(PYTHON_FILES) bin/gherkin .pipped
 	nosetests
+	touch $@
+
+.pipped:
+	pip install -r requirements.txt
 	touch $@
 
 acceptance/testdata/%.feature.tokens: testdata/%.feature testdata/%.feature.tokens .built
@@ -51,7 +55,7 @@ acceptance/testdata/%.feature.errors.ndjson: testdata/%.feature testdata/%.featu
 .DELETE_ON_ERROR: acceptance/testdata/%.feature.errors.ndjson
 
 clean:
-	rm -rf .compared .built acceptance gherkin/parser.py
+	rm -rf .compared .built .pipped acceptance gherkin/parser.py
 .PHONY: clean
 
 gherkin/parser.py: gherkin.berp gherkin-python.razor berp/berp.exe
