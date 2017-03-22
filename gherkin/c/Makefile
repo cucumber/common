@@ -1,4 +1,5 @@
 SHELL := /usr/bin/env bash
+ALPINE := $(shell which apk 2> /dev/null)
 GOOD_FEATURE_FILES = $(shell find testdata/good -name "*.feature")
 BAD_FEATURE_FILES  = $(shell find testdata/bad -name "*.feature")
 
@@ -22,8 +23,18 @@ else
 	RUN_GHERKIN_GENERATE_TOKENS=$(GHERKIN_GENERATE_TOKENS)
 endif
 
-all: .compared
-.PHONY: all
+ifdef ALPINE
+	DEFAULT_TARGET=.built skip_compare
+else
+	DEFAULT_TARGET=.compared
+endif
+
+default: $(DEFAULT_TARGET)
+.PHONY: default
+
+skip_compare:
+	@echo -e "\x1b[31;01mSKIPPING GHERKIN C TESTS ON ALPINE\x1b[0m"
+.PHONY: skip_compare
 
 .compared: .built $(TOKENS) $(ASTS) $(PICKLES) $(ERRORS) $(SOURCES) .run
 	touch $@

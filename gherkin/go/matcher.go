@@ -20,7 +20,7 @@ const (
 
 type matcher struct {
 	gdp                      GherkinDialectProvider
-        default_lang             string
+	default_lang             string
 	lang                     string
 	dialect                  *GherkinDialect
 	activeDocStringSeparator string

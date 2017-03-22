@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 const readline = require('readline')
 const validateEvent = require('../lib/validateEvent')
 const RED = '\033[0;31m'

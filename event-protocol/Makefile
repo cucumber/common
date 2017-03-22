@@ -1,16 +1,25 @@
 EXAMPLES = $(wildcard examples/events/*.json)
 SCHEMAS = $(wildcard schemas/*.json)
+SRC = $(wildcard bin/* lib/*)
 
-.PHONY: default
 default: .valid
+	yarn link
+.PHONY: default
 
-.valid: examples/events.ndjson ./bin/cucumber-event-validator.js $(SCHEMAS)
+.built: yarn.lock $(SRC)
+	yarn test
+	touch $@
+
+yarn.lock: package.json
+	yarn install
+
+clean:
+	rm -rf yarn.lock node_modules coverage dist .built .valid examples/events.ndjson
+.PHONY: clean
+
+.valid: examples/events.ndjson yarn.lock ./bin/cucumber-event-validator.js $(SCHEMAS) $(SRC)
 	@cat $< | node ./bin/cucumber-event-validator.js
 	@touch $@
 
 examples/events.ndjson: $(EXAMPLES)
 	@cat $(EXAMPLES) | jq --compact-output "." > $@
-
-.PHONY: clean
-clean:
-	rm -rf .valid examples/events.ndjson

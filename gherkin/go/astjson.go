@@ -13,14 +13,14 @@ func (ex *Examples) MarshalJSON() ([]byte, error) {
 		return json.Marshal(&struct {
 			*ExamplesAlias
 		}{
-			ExamplesAlias:     (*ExamplesAlias)(ex),
+			ExamplesAlias: (*ExamplesAlias)(ex),
 		})
 	} else {
 		return json.Marshal(&struct {
-			TableBody   []*TableRow `json:"tableBody,omitempty"`
+			TableBody []*TableRow `json:"tableBody,omitempty"`
 			*ExamplesAlias
 		}{
-			ExamplesAlias:     (*ExamplesAlias)(ex),
+			ExamplesAlias: (*ExamplesAlias)(ex),
 		})
 	}
 }

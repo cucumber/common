@@ -12,14 +12,22 @@ This document is formatted according to the principles of [Keep A CHANGELOG](htt
 ### Removed
 
 ### Added
+* (Go) Implement CLI
+  ([#145](https://github.com/cucumber/cucumber/issues/145)
+   [#162](https://github.com/cucumber/cucumber/pull/162)
+   by [l3pp4rd])
 
 ### Changed
-* (Python) Fix build on python 3.4.
+
+### Fixed
+* (Go) Fix build on go 1.8
+  ([#137](https://github.com/cucumber/cucumber/issues/137)
+   [#162](https://github.com/cucumber/cucumber/pull/162)
+   by [l3pp4rd])
+* (Python) Fix build on python 3.4
   ([#138](https://github.com/cucumber/cucumber/issues/138)
    [#158](https://github.com/cucumber/cucumber/pull/158)
    by [brasmusson])
-
-### Fixed
 
 ## [4.1.1] - 2017-03-16
 
@@ -325,6 +333,7 @@ to Gherkin 2.
 [jargalan]:         https://github.com/jargalan
 [jmezach]:          https://github.com/jmezach
 [koterpillar]:      https://github.com/koterpillar
+[l3pp4rd]:          https://github.com/l3pp4rd
 [LiohAu]:           https://github.com/LiohAu
 [mauriciotogneri]:  https://github.com/mauriciotogneri
 [maximeg]:          https://github.com/maximeg

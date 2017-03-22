@@ -9,7 +9,7 @@ ERRORS   = $(patsubst testdata/%.feature,acceptance/testdata/%.feature.errors.nd
 
 PERL_FILES = $(shell find . -name "*.pm")
 
-all: .compared
+default: .compared
 .PHONY: all
 
 #.compared: .built $(TOKENS) $(ASTS) $(PICKLES) $(ERRORS)

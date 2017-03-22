@@ -1,4 +1,4 @@
-../LICENSE LICENSE.txt
+../LICENSE LICENSE
 ../testdata/ testdata/
 ../gherkin.berp gherkin.berp
 ../bin/ berp/

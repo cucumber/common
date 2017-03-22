@@ -11,19 +11,19 @@ type Node struct {
 }
 
 type GherkinDocument struct {
-	Type                string        `json:"type"`
-	Feature             *Feature      `json:"feature,omitempty"`
-	Comments            []*Comment    `json:"comments"`
+	Type     string     `json:"type"`
+	Feature  *Feature   `json:"feature,omitempty"`
+	Comments []*Comment `json:"comments"`
 }
 
 type Feature struct {
 	Node
-	Tags                []*Tag        `json:"tags"`
-	Language            string        `json:"language,omitempty"`
-	Keyword             string        `json:"keyword"`
-	Name                string        `json:"name"`
-	Description         string        `json:"description,omitempty"`
-	Children            []interface{} `json:"children"`
+	Tags        []*Tag        `json:"tags"`
+	Language    string        `json:"language,omitempty"`
+	Keyword     string        `json:"keyword"`
+	Name        string        `json:"name"`
+	Description string        `json:"description,omitempty"`
+	Children    []interface{} `json:"children"`
 }
 
 type Comment struct {
