@@ -1,5 +1,6 @@
 default:
-	yarn install
+	yarn link gherkin cucumber-event-validator
+	yarn install --prefer-offline
 	yarn test
 	yarn link
 .PHONY: default
