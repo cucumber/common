@@ -1,7 +1,6 @@
 /* eslint-env mocha */
 const assert = require('assert')
 const gherkinEvents = require('./gherkinEvents')
-const eventValidator = require('cucumber-event-validator')
 const {
   reducer,
   lineAttachments,
