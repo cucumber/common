@@ -23,8 +23,13 @@ func main() {
 	flag.Parse()
 
 	paths := flag.Args()
+	events, err := gherkin.GherkinEvents(paths...)
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "failed to produce events: %+v\n", err)
+		os.Exit(1)
+	}
 
-	for ev := range gherkin.GherkinEvents(paths...) {
+	for _, ev := range events {
 		if _, ok := ev.(*gherkin.SourceEvent); ok && *noSource {
 			continue
 		}
@@ -40,7 +45,7 @@ func main() {
 		data, err := json.Marshal(ev)
 		if err != nil {
 			fmt.Fprintf(os.Stderr, "failed to marshal event: %+v\n", err)
-			continue
+			os.Exit(1)
 		}
 
 		fmt.Fprintln(os.Stdout, string(data))
