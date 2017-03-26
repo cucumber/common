@@ -1,0 +1,9 @@
+{"type":"source","uri":"features/undefined.feature","data":"Feature: Undefined feature\n  Scenario: Undefined scenario\n    Given this step is undefined\n","media":{"encoding":"utf-8","type":"text/vnd.cucumber.gherkin+plain"}}
+{"type":"test-run-started","workingDirectory":"{{Dir.pwd}}/examples/an-undefined-step","timestamp":1490444711}
+{"type":"test-case-prepared","sourceLocation":{"uri":"features/undefined.feature","line":2},"steps":[{"actionLocation":{"uri":"{{Cucumber::LIBDIR}}/cucumber/filters/prepare_world.rb","line":28}},{"sourceLocation":{"uri":"features/undefined.feature","line":3}}]}
+{"type":"test-case-started","sourceLocation":{"uri":"features/undefined.feature","line":2}}
+{"type":"test-step-started","testCase":{"sourceLocation":{"uri":"features/undefined.feature","line":2}},"index":0}
+{"type":"test-step-finished","testCase":{"sourceLocation":{"uri":"features/undefined.feature","line":2}},"index":0,"result":{"status":"passed","duration":3000}}
+{"type":"test-step-started","testCase":{"sourceLocation":{"uri":"features/undefined.feature","line":2}},"index":1}
+{"type":"test-step-finished","testCase":{"sourceLocation":{"uri":"features/undefined.feature","line":2}},"index":1,"result":{"status":"undefined","exception":{"message":"Undefined step: \"this step is undefined\"","type":"Cucumber::Core::Test::Result::Undefined","stackTrace":["features/undefined.feature:3:in `Given this step is undefined'"]}}}
+{"type":"test-case-finished","sourceLocation":{"uri":"features/undefined.feature","line":2},"result":{"status":"undefined","duration":12811000,"exception":{"message":"Undefined step: \"this step is undefined\"","type":"Cucumber::Core::Test::Result::Undefined","stackTrace":["features/undefined.feature:3:in `Given this step is undefined'"]}}}

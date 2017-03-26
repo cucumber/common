@@ -1,0 +1,4 @@
+source 'https://rubygems.org'
+gemspec
+
+gem 'cucumber', git: 'https://github.com/cucumber/cucumber-ruby.git', branch: 'event-stream-3'
