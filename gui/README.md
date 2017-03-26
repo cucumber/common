@@ -45,8 +45,9 @@ Stream events using the `event-stream-3` branch of Cucumber-Ruby, using this com
 
 Here are some thoughts about the plan for moving this project from a prototype into prodution use.
 
-- [ ] add tests
-- [ ] rewrite using react / redux for rendering
+- [ ] Reimagine the UX/UI fron scatch
+- [ ] rewrite with tests, using using react / redux for rendering
+- [ ] extract re-usable components into [cucumber-react](https://github.com/cucumber/cucumber/tree/master/cucumber-react)
 - [ ] replace bootstrap / jquery with something lighter
 - [ ] display image / video attachments
 - [ ] display unused step definitions (needs a new event)
