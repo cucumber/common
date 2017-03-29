@@ -35,11 +35,6 @@ skip_build:
 acceptance/testdata/%.feature.tokens: testdata/%.feature testdata/%.feature.tokens .sln_built_debug
 	mkdir -p `dirname $@`
 
-	# bin/gherkin-generate-tokens net45 $< > $@
-	# diff --unified $<.tokens $@
-
-	rm -f $@
-
 	bin/gherkin-generate-tokens netcoreapp1.1 $< > $@
 	diff --unified $<.tokens $@
 .DELETE_ON_ERROR: acceptance/testdata/%.feature.tokens
@@ -59,22 +54,12 @@ acceptance/testdata/%.feature.source.ndjson: testdata/%.feature testdata/%.featu
 acceptance/testdata/%.feature.ast.ndjson: testdata/%.feature testdata/%.feature.ast.ndjson .sln_built_debug
 	mkdir -p `dirname $@`
 
-	# bin/gherkin net45 --no-source --no-pickles $< | jq --sort-keys --compact-output "." > $@
-	# diff --unified <(jq "." $<.ast.ndjson) <(jq "." $@)
-
-	rm -f $@
-
 	bin/gherkin netcoreapp1.1 --no-source --no-pickles $< | jq --sort-keys --compact-output "." > $@
 	diff --unified <(jq "." $<.ast.ndjson) <(jq "." $@)
 .DELETE_ON_ERROR: acceptance/testdata/%.feature.ast.ndjson
 
 acceptance/testdata/%.feature.errors.ndjson: testdata/%.feature testdata/%.feature.errors.ndjson .sln_built_debug
 	mkdir -p `dirname $@`
-
-	# bin/gherkin net45 --no-pickles $< | jq --sort-keys --compact-output "." > $@
-	# diff --unified $<.errors.ndjson $@
-
-	rm -f $@
 
 	bin/gherkin netcoreapp1.1 --no-pickles $< | jq --sort-keys --compact-output "." > $@
 	diff --unified $<.errors.ndjson $@
@@ -94,16 +79,7 @@ Gherkin/Parser.cs: gherkin.berp gherkin-csharp.razor berp/berp.exe
 .sln_built_debug: Gherkin/Parser.cs $(CS_FILES) Gherkin/gherkin-languages.json
 	echo "Building on $(UNAME)"
 
-	dotnet --version
 	dotnet restore
-	dotnet build $(dotnet_build_opts)
-
-	# dotnet publish --output output/netstandard1.5  --framework netstandard1.5 Gherkin.CLI/
-	# dotnet publish --output output/net45           --framework net45          Gherkin.CLI/
-	# dotnet publish --output output/netcoreapp1.1   --framework netcoreapp1.1  Gherkin.CLI/
-
-	# dotnet publish --output output/netstandard1.5  --framework netstandard1.5 Gherkin.TokensGenerator/
-	# dotnet publish --output output/net45           --framework net45          Gherkin.TokensGenerator/
-	# dotnet publish --output output/netcoreapp1.1   --framework netcoreapp1.1  Gherkin.TokensGenerator/
+	dotnet build 
 
 	touch $@
