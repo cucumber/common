@@ -1,4 +1,4 @@
-image: Visual Studio 2017 RC
+image: Visual Studio 2017
 
 configuration:
 - Release
@@ -18,7 +18,7 @@ init:
 - ps: $Env:LABEL = "CI" + $Env:APPVEYOR_BUILD_NUMBER.PadLeft(5, "0")
 
 before_build:
-- appveyor-retry dotnet restore -v Minimal Gherkin.CSharp.sln
+- appveyor-retry dotnet restore -v Minimal
 
 build_script:
 - dotnet build -c %CONFIGURATION% Gherkin --version-suffix %LABEL%
