@@ -1,5 +1,5 @@
 #include "attachment_event.h"
-
+#include "string_utilities.h"
 #include <string.h>
 #include <stdlib.h>
 
@@ -14,10 +14,7 @@ AttachmentEvent* AttachmentEvent_new(const char* uri, const Location location) {
     attachment_event->event.event_type = Gherkin_AttachmentEvent;
     attachment_event->uri = 0;
     if (uri) {
-        int uri_length = strlen(uri);
-        attachment_event->uri = (wchar_t*)malloc((uri_length + 1) * sizeof(wchar_t));
-        swprintf(attachment_event->uri, uri_length + 1, L"%hs", uri);
-        attachment_event->uri[uri_length] = L'\0';
+        attachment_event->uri = StringUtilities_copy_to_wide_string(uri);
     }
     attachment_event->location.line = location.line;
     attachment_event->location.column = location.column;
