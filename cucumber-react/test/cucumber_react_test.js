@@ -3,14 +3,14 @@ const assert = require('assert')
 const React = require('react') // eslint-disable-line node/no-unpublished-require
 const { shallow } = require('enzyme') // eslint-disable-line node/no-unpublished-require
 const { reducer } = require('cucumber-redux') // eslint-disable-line node/no-unpublished-require
-const gherkinEvents = require('./gherkinEvents')
+const generateEvents = require('gherkin').generateEvents
 const { javaStacktraceAttachmentEvent, pngAttachmentEvent } = require('./attachmentEvent')
 const { GherkinDocument, Feature, Scenario, Step, Attachment } = require('../src/index.jsx')
 
-async function someEvents() {
+function someEvents() {
   return []
-    .concat(await gherkinEvents("features/hello.feature", "Feature: Hello F\nScenario: Hello S\nGiven hello g"))
-    .concat(await gherkinEvents("features/world.feature", "Feature: World F\nScenario: World S\nGiven world g"))
+    .concat(generateEvents("Feature: Hello F\nScenario: Hello S\nGiven hello g", "features/hello.feature"))
+    .concat(generateEvents("Feature: World F\nScenario: World S\nGiven world g", "features/world.feature"))
     .concat([
       javaStacktraceAttachmentEvent("features/hello.feature", 3),
       pngAttachmentEvent("features/hello.feature", 3)
@@ -20,8 +20,8 @@ async function someEvents() {
 describe('Cucumber React', () => {
   let state
 
-  before(async () => {
-    const events = await someEvents()
+  before(() => {
+    const events = someEvents()
     state = events.reduce(reducer, reducer())
   })
 
