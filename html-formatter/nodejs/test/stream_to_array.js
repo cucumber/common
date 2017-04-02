@@ -1,4 +1,4 @@
-export default (readableStream) => {
+module.exports = (readableStream) => {
   return new Promise((resolve, reject) => {
     const items = []
     readableStream.on('data', items.push.bind(items))

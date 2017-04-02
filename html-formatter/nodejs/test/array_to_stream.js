@@ -1,6 +1,6 @@
-import Stream from 'stream'
+const Stream = require('stream')
 
-export default (array) => {
+module.exports = (array) => {
   let cursor = 0
   return new Stream.Readable({
     objectMode: true,

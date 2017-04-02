@@ -1,4 +1,4 @@
-import Stream from "stream"
+const Stream = require('stream')
 
 class StateOutput extends Stream.Writable {
   constructor() {
@@ -17,4 +17,4 @@ class StateOutput extends Stream.Writable {
   }
 }
 
-export default StateOutput
+module.exports = StateOutput
