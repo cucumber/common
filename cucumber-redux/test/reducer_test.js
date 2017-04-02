@@ -1,6 +1,6 @@
 /* eslint-env mocha */
 const assert = require('assert')
-const gherkinEvents = require('./gherkinEvents')
+const generateEvents = require('gherkin').generateEvents
 const {
   reducer,
   lineAttachments,
@@ -28,22 +28,22 @@ function attachmentEvent(uri, line, data) {
 }
 
 describe(reducer.name, () => {
-  it("keeps a map of parsed gherkin AST documents", async function() {
+  it("keeps a map of parsed gherkin AST documents", () => {
     const events = []
-      .concat(await gherkinEvents("features/hello.feature", "Feature: Hello F\nScenario: Hello S\nGiven hello g"))
-      .concat(await gherkinEvents("features/world.feature", "Feature: World F\nScenario: World S\nGiven world g"))
+      .concat(generateEvents("Feature: Hello F\nScenario: Hello S\nGiven hello g", "features/hello.feature"))
+      .concat(generateEvents("Feature: World F\nScenario: World S\nGiven world g", "features/world.feature"))
 
     const state = events.reduce(reducer, reducer())
     assert.deepEqual(featureNames(state), ['Hello F', 'World F'])
   })
 
-  it("links attachments to line number", async function() {
+  it("links attachments to line number", () => {
     const data1 = "Exception in thread \"main\" java.lang.NullPointerException\n"
     const data2 = "Exception in thread \"main\" java.lang.RuntimeException\n"
 
     const events = []
-      .concat(await gherkinEvents("features/hello.feature", "Feature: Hello F\nScenario: Hello S\nGiven hello g"))
-      .concat(await gherkinEvents("features/world.feature", "Feature: World F\nScenario: World S\nGiven world g"))
+      .concat(generateEvents("Feature: Hello F\nScenario: Hello S\nGiven hello g", "features/hello.feature"))
+      .concat(generateEvents("Feature: World F\nScenario: World S\nGiven world g", "features/world.feature"))
       .concat([
         attachmentEvent("features/hello.feature", 22, data1),
         attachmentEvent("features/hello.feature", 22, data2)
