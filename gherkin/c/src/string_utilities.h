@@ -11,6 +11,8 @@ wchar_t* StringUtilities_copy_string(const wchar_t* string);
 
 wchar_t* StringUtilities_copy_string_part(const wchar_t* string, const int length);
 
+wchar_t* StringUtilities_copy_to_wide_string(const char* string);
+
 #ifdef __cplusplus
 }
 #endif

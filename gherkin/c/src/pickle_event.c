@@ -1,5 +1,6 @@
 #include "pickle_event.h"
 #include "pickle_printer.h"
+#include "string_utilities.h"
 #include <string.h>
 #include <stdlib.h>
 
@@ -14,10 +15,7 @@ const PickleEvent* PickleEvent_new(const char* uri, const Pickle* pickle) {
     pickle_event->event.event_type = Gherkin_PickleEvent;
     pickle_event->uri = 0;
     if (uri) {
-        int uri_length = strlen(uri);
-        pickle_event->uri = (wchar_t*)malloc((uri_length + 1) * sizeof(wchar_t));
-        swprintf(pickle_event->uri, uri_length + 1, L"%hs", uri);
-        pickle_event->uri[uri_length] = L'\0';
+        pickle_event->uri = StringUtilities_copy_to_wide_string(uri);
     }
     pickle_event->pickle = pickle;
     return pickle_event;
