@@ -24,6 +24,9 @@ This document is formatted according to the principles of [Keep A CHANGELOG](htt
   ([#176](https://github.com/cucumber/cucumber/pull/176)
    [#165](https://github.com/cucumber/cucumber/issues/165)
    by [brasmusson])
+* (Go) Add missing error handling
+  ([#170](https://github.com/cucumber/cucumber/pull/170)
+   by [l3pp4rd])
 * (Go) Fix build on go 1.8
   ([#137](https://github.com/cucumber/cucumber/issues/137)
    [#162](https://github.com/cucumber/cucumber/pull/162)
