@@ -1,5 +1,6 @@
 #include "file_reader.h"
-#include "file_utilities.h"
+#include "file_utf8_source.h"
+#include "utf8_utilities.h"
 #include <stdlib.h>
 
 typedef struct FileReader {
@@ -18,8 +19,9 @@ const wchar_t* FileReader_read(FileReader* file_reader) {
     int pos = 0;
     wchar_t c;
     FILE* file = fopen(file_reader->file_name, "r");
+    Utf8Source* utf8_source = FileUtf8Source_new(file);
     do {
-        c = FileUtilities_read_wchar_from_file(file);
+        c = Utf8Utilities_read_wchar_from_utf8_source(utf8_source);
         if (c != WEOF) {
             buffer[pos++] = c;
             if (pos >= buffer_size - 1) {
@@ -29,6 +31,7 @@ const wchar_t* FileReader_read(FileReader* file_reader) {
         }
     } while (c != WEOF);
     buffer[pos] = L'\0';
+    Utf8Source_delete(utf8_source);
     fclose(file);
     return buffer;
 }

@@ -20,6 +20,10 @@ This document is formatted according to the principles of [Keep A CHANGELOG](htt
 ### Changed
 
 ### Fixed
+* (C) Fix `uri` in pickles on C command line
+  ([#176](https://github.com/cucumber/cucumber/pull/176)
+   [#165](https://github.com/cucumber/cucumber/issues/165)
+   by [brasmusson])
 * (Go) Fix build on go 1.8
   ([#137](https://github.com/cucumber/cucumber/issues/137)
    [#162](https://github.com/cucumber/cucumber/pull/162)

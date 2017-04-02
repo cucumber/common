@@ -1,5 +1,6 @@
 #include "gherkin_document_event.h"
 #include "ast_printer.h"
+#include "string_utilities.h"
 #include <string.h>
 #include <stdlib.h>
 
@@ -14,10 +15,7 @@ const GherkinDocumentEvent* GherkinDocumentEvent_new(const char* uri, const Gher
     gherkin_document_event->event.event_type = Gherkin_GherkinDocumentEvent;
     gherkin_document_event->uri = 0;
     if (uri) {
-        int uri_length = strlen(uri);
-        gherkin_document_event->uri = (wchar_t*)malloc((uri_length + 1) * sizeof(wchar_t));
-        swprintf(gherkin_document_event->uri, uri_length + 1, L"%hs", uri);
-        gherkin_document_event->uri[uri_length] = L'\0';
+        gherkin_document_event->uri = StringUtilities_copy_to_wide_string(uri);
     }
     gherkin_document_event->gherkin_document = gherkin_document;
     return gherkin_document_event;

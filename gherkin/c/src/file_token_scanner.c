@@ -1,13 +1,15 @@
 #include "file_token_scanner.h"
+#include "file_utf8_source.h"
 #include "gherkin_line.h"
-#include "file_utilities.h"
 #include "string_utilities.h"
+#include "utf8_utilities.h"
 #include <stdlib.h>
 
 typedef struct FileTokenScanner {
     TokenScanner token_scanner;
     int line;
     FILE* file;
+    Utf8Source* utf8_source;
     int buffer_size;
     wchar_t* buffer;
 } FileTokenScanner;
@@ -23,6 +25,7 @@ TokenScanner* FileTokenScanner_new(const char* const file_name) {
     token_scanner->line = 0;
     token_scanner->file = 0;
     token_scanner->file = fopen(file_name, "r");
+    token_scanner->utf8_source = FileUtf8Source_new(token_scanner->file);
     token_scanner->buffer_size = 128;
     token_scanner->buffer = (wchar_t*)malloc(token_scanner->buffer_size * sizeof(wchar_t));
     return (TokenScanner*) token_scanner;
@@ -35,6 +38,7 @@ static void FileTokenScanner_delete(TokenScanner* token_scanner) {
     FileTokenScanner* file_token_scanner = (FileTokenScanner*)token_scanner;
     if (file_token_scanner->file)
         fclose(file_token_scanner->file);
+    Utf8Source_delete(file_token_scanner->utf8_source);
     free((void*)file_token_scanner->buffer);
     free((void*)file_token_scanner);
 }
@@ -49,7 +53,7 @@ static Token* FileTokenScanner_read(TokenScanner* token_scanner) {
     int pos = 0;
     wchar_t c;
     do {
-        c = FileUtilities_read_wchar_from_file(file_token_scanner->file);
+        c = Utf8Utilities_read_wchar_from_utf8_source(file_token_scanner->utf8_source);
         if (c != WEOF && c != L'\r' && c != L'\n') {
             file_token_scanner->buffer[pos++] = c;
             if (pos >= file_token_scanner->buffer_size - 1) {
