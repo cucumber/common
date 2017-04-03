@@ -8,14 +8,13 @@ to contribute.
 
 Install dependencies:
 
-    brew cask install mono-mdk
-    brew install xamarin-studio
-
+    install .NET Core - https://www.microsoft.com/net/download/core
+    
 Just run `make` from this directory.
 
 ### Windows
 
-Open `Gherkin.CSharp.sln` from this directory in Visual Studio 2015 and build.
+Open `Gherkin.CSharp.sln` from this directory in Visual Studio 2017 and build.
 
 Alternatively, run `msbuild` from this directory.
 
