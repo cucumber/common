@@ -7,7 +7,7 @@ class CucumberExpression {
    * @param parameterTypeRegistry
    */
   constructor (expression, types, parameterTypeRegistry) {
-    const PARAMETER_REGEXP = /\{([^}:]+)(:([^}]+))?}/g
+      var PARAMETER_REGEXP = /[{\[]([^}\]:]+)(:([^}\]]+))?[}\]]/g;
     const OPTIONAL_REGEXP = /\(([^)]+)\)/g
     const ALTERNATIVE_WORD_REGEXP = /(\w+)((\/\w+)+)/g
 
@@ -18,8 +18,8 @@ class CucumberExpression {
     let match
     let matchOffset = 0
 
-    // Does not include (){} because they have special meaning
-    expression = expression.replace(/([\\\^\[$.|?*+])/g, "\\$1")
+    // Does not include (){}[] because they have special meaning
+      expression = expression.replace(/([\\\^$.|?*+])/g, "\\$1");
 
     // Create non-capturing, optional capture groups from parenthesis
     expression = expression.replace(OPTIONAL_REGEXP, '(?:$1)?')
@@ -50,10 +50,11 @@ class CucumberExpression {
       if (!parameter) {
         parameter = parameterTypeRegistry.createAnonymousLookup(s => s)
       }
-      this._parameterTypes.push(parameter)
+        parameter.matchType = match[0].split("")[0] === "{" ? "capture" : "non-capture";
+        this._parameterTypes.push(parameter)
 
       const text = expression.slice(matchOffset, match.index)
-      const captureRegexp = getCaptureRegexp(parameter.regexps)
+      const captureRegexp = getCaptureRegexp(parameter.regexps, parameter.matchType)
       matchOffset = PARAMETER_REGEXP.lastIndex
       regexp += text
       regexp += captureRegexp
@@ -72,9 +73,9 @@ class CucumberExpression {
   }
 }
 
-function getCaptureRegexp (regexps) {
+function getCaptureRegexp (regexps, matchType) {
   if (regexps.length === 1) {
-    return `(${regexps[0]})`
+      return matchType === "capture" ? "(" + regexps[0] + ")" : "(?:" + regexps[0] + ")";
   }
 
   const captureGroups = regexps.map(group => {
