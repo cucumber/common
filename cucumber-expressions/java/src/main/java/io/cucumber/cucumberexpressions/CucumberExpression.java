@@ -8,7 +8,7 @@ import java.util.regex.Pattern;
 
 public class CucumberExpression implements Expression {
     private static final Pattern ESCAPE_PATTERN = Pattern.compile("([\\\\\\^\\[$.|?*+\\]])");
-    private static final Pattern PARAMETER_PATTERN = Pattern.compile("\\{([^}:]+)(:([^}]+))?}");
+    private static final Pattern PARAMETER_PATTERN = Pattern.compile("\\{([^}]+)}");
     private static final Pattern OPTIONAL_PATTERN = Pattern.compile("\\(([^)]+)\\)");
     private static final Pattern ALTERNATIVE_WORD_REGEXP = Pattern.compile("([\\p{IsAlphabetic}]+)((/[\\p{IsAlphabetic}]+)+)");
 
@@ -35,19 +35,12 @@ public class CucumberExpression implements Expression {
         int typeIndex = 0;
         while (matcher.find()) {
             String parameterName = matcher.group(1);
-            String parameterTypeName = matcher.group(3);
-            if (parameterTypeName != null) {
-                System.err.println(String.format("Cucumber expression parameter type syntax {%s:%s} is deprecated. Please use {%s} instead.", parameterName, parameterTypeName, parameterTypeName));
-            }
 
             Type type = types.size() <= typeIndex ? null : types.get(typeIndex++);
 
             ParameterType<?> parameterType = null;
             if (type != null) {
                 parameterType = parameterTypeRegistry.lookupByType(type);
-            }
-            if (parameterType == null && parameterTypeName != null) {
-                parameterType = parameterTypeRegistry.lookupByTypeName(parameterTypeName);
             }
             if (parameterType == null) {
                 parameterType = parameterTypeRegistry.lookupByTypeName(parameterName);

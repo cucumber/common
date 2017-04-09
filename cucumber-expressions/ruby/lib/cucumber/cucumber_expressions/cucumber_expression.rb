@@ -4,7 +4,7 @@ require 'cucumber/cucumber_expressions/parameter_type'
 module Cucumber
   module CucumberExpressions
     class CucumberExpression
-      PARAMETER_REGEXP = /\{([^}:]+)(:([^}]+))?}/
+      PARAMETER_REGEXP = /\{([^}]+)}/
       OPTIONAL_REGEXP = /\(([^)]+)\)/
       ALTERNATIVE_WORD_REGEXP = /([[:alpha:]]+)((\/[[:alpha:]]+)+)/
 
@@ -32,10 +32,6 @@ module Cucumber
           break if match.nil?
 
           parameter_name = match[1]
-          parameter_type_name = match[3]
-          if parameter_type_name
-            $stderr.puts("Cucumber expression parameter syntax {#{parameter_name}:#{parameter_type_name}} is deprecated. Please use {#{parameter_type_name}} instead.")
-          end
 
           type = types.length <= type_index ? nil : types[type_index]
           type_index += 1
@@ -43,9 +39,6 @@ module Cucumber
           parameter_type = nil
           if type
             parameter_type = parameter_type_registry.lookup_by_type(type)
-          end
-          if parameter_type.nil? && parameter_type_name
-            parameter_type = parameter_type_registry.lookup_by_name(parameter_type_name)
           end
           if parameter_type.nil?
             parameter_type = parameter_type_registry.lookup_by_name(parameter_name)

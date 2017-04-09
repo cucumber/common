@@ -7,7 +7,7 @@ class CucumberExpression {
    * @param parameterTypeRegistry
    */
   constructor (expression, types, parameterTypeRegistry) {
-    const PARAMETER_REGEXP = /\{([^}:]+)(:([^}]+))?}/g
+    const PARAMETER_REGEXP = /\{([^}]+)}/g
     const OPTIONAL_REGEXP = /\(([^)]+)\)/g
     const ALTERNATIVE_WORD_REGEXP = /(\w+)((\/\w+)+)/g
 
@@ -28,21 +28,11 @@ class CucumberExpression {
 
     while ((match = PARAMETER_REGEXP.exec(expression)) !== null) {
       const parameterName = match[1]
-      const parameterTypeName = match[3]
-      // eslint-disable-next-line no-console
-      if (parameterTypeName && (typeof console !== 'undefined') && (typeof console.error == 'function')) {
-        // eslint-disable-next-line no-console
-        console.error(`Cucumber expression parameter syntax {${parameterName}:${parameterTypeName}} is deprecated. Please use {${parameterTypeName}} instead.`)
-      }
-
       const type = types.length <= typeIndex ? null : types[typeIndex++]
 
       let parameterType
       if (type) {
         parameterType = parameterTypeRegistry.lookupByType(type)
-      }
-      if (!parameterType && parameterTypeName) {
-        parameterType = parameterTypeRegistry.lookupByTypeName(parameterTypeName)
       }
       if (!parameterType) {
         parameterType = parameterTypeRegistry.lookupByTypeName(parameterName)
