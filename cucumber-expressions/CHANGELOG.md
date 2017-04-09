@@ -8,7 +8,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ## [Unreleased]
 
 ### Removed
-N/A
+* Remove support for `{name:type}` syntax which was deprecated in
+  [#117](https://github.com/cucumber/cucumber/pull/117) and released in 2.0.0.
+  ([#180](https://github.com/cucumber/cucumber/pull/180)
+   by [aslakhellesoy])
 
 ### Added
 N/A
