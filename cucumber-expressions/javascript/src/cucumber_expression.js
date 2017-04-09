@@ -53,7 +53,7 @@ class CucumberExpression {
       this._parameterTypes.push(parameterType)
 
       const text = expression.slice(matchOffset, match.index)
-      const captureRegexp = getCaptureRegexp(parameter.regexps)
+      const captureRegexp = getCaptureRegexp(parameterType.regexps)
       matchOffset = PARAMETER_REGEXP.lastIndex
       regexp += text
       regexp += captureRegexp
