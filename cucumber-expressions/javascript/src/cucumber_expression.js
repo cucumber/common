@@ -37,20 +37,20 @@ class CucumberExpression {
 
       const type = types.length <= typeIndex ? null : types[typeIndex++]
 
-      let parameter
+      let parameterType
       if (type) {
-        parameter = parameterTypeRegistry.lookupByType(type)
+        parameterType = parameterTypeRegistry.lookupByType(type)
       }
-      if (!parameter && parameterTypeName) {
-        parameter = parameterTypeRegistry.lookupByTypeName(parameterTypeName)
+      if (!parameterType && parameterTypeName) {
+        parameterType = parameterTypeRegistry.lookupByTypeName(parameterTypeName)
       }
-      if (!parameter) {
-        parameter = parameterTypeRegistry.lookupByTypeName(parameterName)
+      if (!parameterType) {
+        parameterType = parameterTypeRegistry.lookupByTypeName(parameterName)
       }
-      if (!parameter) {
-        parameter = parameterTypeRegistry.createAnonymousLookup(s => s)
+      if (!parameterType) {
+        parameterType = parameterTypeRegistry.createAnonymousLookup(s => s)
       }
-      this._parameterTypes.push(parameter)
+      this._parameterTypes.push(parameterType)
 
       const text = expression.slice(matchOffset, match.index)
       const captureRegexp = getCaptureRegexp(parameter.regexps)
