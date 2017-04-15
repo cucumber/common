@@ -1,11 +1,13 @@
 #include "file_reader.h"
 #include "file_utf8_source.h"
-#include "utf8_utilities.h"
+#include "unicode_utilities.h"
 #include <stdlib.h>
 
 typedef struct FileReader {
     const char* file_name;
 } FileReader;
+
+static void extend_buffer_if_needed(wchar_t** buffer, int* buffer_size, int pos);
 
 FileReader* FileReader_new(const char* const file_name) {
     FileReader* file_reader = (FileReader*)malloc(sizeof(FileReader));
@@ -17,19 +19,24 @@ const wchar_t* FileReader_read(FileReader* file_reader) {
     int buffer_size = 256;
     wchar_t* buffer = (wchar_t*)malloc(buffer_size * sizeof(wchar_t));
     int pos = 0;
-    wchar_t c;
-    FILE* file = fopen(file_reader->file_name, "r");
+    long code_point;
+    FILE* file = fopen(file_reader->file_name, "rb");
     Utf8Source* utf8_source = FileUtf8Source_new(file);
     do {
-        c = Utf8Utilities_read_wchar_from_utf8_source(utf8_source);
-        if (c != WEOF) {
-            buffer[pos++] = c;
-            if (pos >= buffer_size - 1) {
-                buffer_size *= 2;
-                buffer = (wchar_t*)realloc(buffer, buffer_size * sizeof(wchar_t));
+        code_point = UnicodeUtilities_read_code_point_from_utf8_source(utf8_source);
+        if (code_point != WEOF) {
+            if (code_point <= 0xFFFF || sizeof(wchar_t) > 2) {
+                buffer[pos++] = (wchar_t)code_point;
+                extend_buffer_if_needed(&buffer, &buffer_size, pos);
+            } else {
+                Utf16Surrogates surrogates = UnicodeUtilities_get_utf16_surrogates(code_point);
+                buffer[pos++] = surrogates.leading;
+                extend_buffer_if_needed(&buffer, &buffer_size, pos);
+                buffer[pos++] = surrogates.trailing;
+                extend_buffer_if_needed(&buffer, &buffer_size, pos);
             }
         }
-    } while (c != WEOF);
+    } while (code_point != WEOF);
     buffer[pos] = L'\0';
     Utf8Source_delete(utf8_source);
     fclose(file);
@@ -41,4 +48,11 @@ void FileReader_delete(FileReader* file_reader) {
         return;
     }
     free((void*)file_reader);
+}
+
+static void extend_buffer_if_needed(wchar_t** buffer, int* buffer_size, int pos) {
+    if (pos >= *buffer_size - 1) {
+        *buffer_size *= 2;
+        *buffer = (wchar_t*)realloc(*buffer, *buffer_size * sizeof(wchar_t));
+    }
 }

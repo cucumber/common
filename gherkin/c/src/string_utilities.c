@@ -1,5 +1,5 @@
 #include "string_utilities.h"
-#include "utf8_utilities.h"
+#include "unicode_utilities.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -32,18 +32,47 @@ wchar_t* StringUtilities_copy_to_wide_string(const char* string) {
     int length = strlen(string);
     wchar_t* copy = (wchar_t*)malloc((length + 1) * sizeof(wchar_t));
     Utf8Source* utf8_source = StringUtf8Source_new(string);
+    int to_index = 0;
     int i;
     for (i = 0; i < length; ++i) {
-        wchar_t c = Utf8Utilities_read_wchar_from_utf8_source(utf8_source);
-        if (c == WEOF) {
+        long code_point = UnicodeUtilities_read_code_point_from_utf8_source(utf8_source);
+        if (code_point == WEOF) {
             break;
         }
-        copy[i] = c;
+        if (code_point <= 0xFFFF || sizeof(wchar_t) > 2) {
+            copy[to_index++] = (wchar_t)code_point;
+        } else {
+            Utf16Surrogates surrogates = UnicodeUtilities_get_utf16_surrogates(code_point);
+            copy[to_index++] = surrogates.leading;
+            copy[to_index++] = surrogates.trailing;
+        }
     }
-    copy[i] = L'\0';
+    copy[to_index] = L'\0';
     Utf8Source_delete(utf8_source);
     return copy;
 }
+
+size_t StringUtilities_code_point_length(const wchar_t* string) {
+    if (sizeof(wchar_t) > 2) {
+        return wcslen(string);
+    } else {
+        return StringUtilities_code_point_length_for_part(string, wcslen(string));
+    }
+}
+
+size_t StringUtilities_code_point_length_for_part(const wchar_t* string, const int length) {
+    int code_points = 0;
+    int i;
+    for (i = 0; i < length; ++i) {
+        ++code_points;
+        if (UnicodeUtilities_is_utf16_surrogate(string[i])) {
+            ++i;
+        }
+
+    }
+    return code_points;
+}
+
 
 Utf8Source* StringUtf8Source_new(const char* string) {
     StringUtf8Source* string_utf8_source = (StringUtf8Source*)malloc(sizeof(StringUtf8Source));

@@ -13,6 +13,10 @@ wchar_t* StringUtilities_copy_string_part(const wchar_t* string, const int lengt
 
 wchar_t* StringUtilities_copy_to_wide_string(const char* string);
 
+size_t StringUtilities_code_point_length(const wchar_t* string);
+
+size_t StringUtilities_code_point_length_for_part(const wchar_t* string, const int length);
+
 #ifdef __cplusplus
 }
 #endif

@@ -1,6 +1,7 @@
 #ifndef GHERKIN_TOKEN_QUEUE_H_
 #define GHERKIN_TOKEN_QUEUE_H_
 
+#include <stdbool.h>
 #include "token.h"
 
 #ifdef __cplusplus

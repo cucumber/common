@@ -42,8 +42,8 @@ UTILITIES_OBJS= \
 	../objs/file_utf8_source.o \
 	../objs/print_utilities.o \
 	../objs/string_utilities.o \
-	../objs/utf8_source.o \
-	../objs/utf8_utilities.o
+	../objs/unicode_utilities.o \
+	../objs/utf8_source.o
 -include $(UTILITIES_OBJS:.o=.d)
 
 PARSER_OBJS= \
