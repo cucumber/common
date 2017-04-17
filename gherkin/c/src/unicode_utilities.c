@@ -1,5 +1,7 @@
 #include "unicode_utilities.h"
 
+static void print_code_point_to_utf8_file(FILE* file, long code_point);
+
 long UnicodeUtilities_read_code_point_from_utf8_source(Utf8Source* utf8_source) {
     unsigned char c = Utf8Source_read(utf8_source);
     if (c < 0x80) {

@@ -1,5 +1,6 @@
 #include "gherkin_document_event.h"
 #include "ast_printer.h"
+#include "print_utilities.h"
 #include "string_utilities.h"
 #include <string.h>
 #include <stdlib.h>
@@ -42,8 +43,9 @@ static void GherkinDocumentEvent_print(const Event* event, FILE* file) {
     const GherkinDocumentEvent* gherkin_document_event = (const GherkinDocumentEvent*)event;
     fprintf(file, "{");
     fprintf(file, "\"type\":\"gherkin-document\",");
-    fprintf(file, "\"uri\":\"%ls\",", gherkin_document_event->uri);
-    fprintf(file, "\"document\":");
+    fprintf(file, "\"uri\":\"");
+    PrintUtilities_print_json_string(file, gherkin_document_event->uri);
+    fprintf(file, "\",\"document\":");
     AstPrinter_print_gherkin_document(file, gherkin_document_event->gherkin_document);
     fprintf(file, "}\n");
 }

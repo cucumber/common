@@ -1,4 +1,5 @@
 #include "attachment_event.h"
+#include "print_utilities.h"
 #include "string_utilities.h"
 #include <string.h>
 #include <stdlib.h>
@@ -46,12 +47,14 @@ static void AttachmentEvent_print(const Event* event, FILE* file) {
     }
     const AttachmentEvent* attachment_event = (const AttachmentEvent*)event;
     fprintf(file, "{");
-    fprintf(file, "\"data\":\"%ls\",", attachment_event->data);
-    fprintf(file, "\"media\":{\"encoding\":\"utf-8\",\"type\":\"text/vnd.cucumber.stacktrace+plain\"},");
+    fprintf(file, "\"data\":\"");
+    PrintUtilities_print_json_string(file, attachment_event->data);
+    fprintf(file, "\",\"media\":{\"encoding\":\"utf-8\",\"type\":\"text/vnd.cucumber.stacktrace+plain\"},");
     fprintf(file, "\"source\":{\"start\":");
     fprintf(file, "{\"line\":%d,", attachment_event->location.line);
     fprintf(file, "\"column\":%d},", attachment_event->location.column);
-    fprintf(file, "\"uri\":\"%ls\"},", attachment_event->uri);
-    fprintf(file, "\"type\":\"attachment\"");
+    fprintf(file, "\"uri\":\"");
+    PrintUtilities_print_json_string(file, attachment_event->uri);
+    fprintf(file, "\"},\"type\":\"attachment\"");
     fprintf(file, "}\n");
 }
