@@ -30,7 +30,7 @@ And finally - there is always the friendly [Cucumber Google group](mailto:cukes-
 
 ## What to contribute
 
-The [SUMMARY.md](../SUMMARY.md) file is the table of contents. As you see,
+The [NEW-SUMMARY.md](../SUMMARY.md) file is the table of contents. As you see,
 several of the links point to non-existent files. This is what we need help with.
 
 Documentation that isn't [reference](#reference-style) documentation for a particular library (the
