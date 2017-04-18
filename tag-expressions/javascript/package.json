@@ -2,6 +2,7 @@
   "name": "cucumber-tag-expressions",
   "version": "1.0.0",
   "description": "Cucumber Tag Expression parser",
+  "main": "./lib/tag_expression_parser.js",
   "scripts": {
     "test": "ISTANBUL=true istanbul cover _mocha -- --recursive",
     "posttest": "istanbul check-coverage --statements 100 --branches 94",
