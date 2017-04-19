@@ -6,23 +6,24 @@ import java.util.List;
 import static java.util.Collections.singletonList;
 
 public abstract class AbstractParameterType<T> implements ParameterType<T> {
-    private final String typeName;
+    private final String name;
     private final Type type;
     private final List<String> regexps;
 
     public AbstractParameterType(String name, Type type, List<String> regexps) {
-        this.regexps = regexps;
-        this.typeName = name;
+        if(name == null) throw new RuntimeException("name can't be null");
+        this.name = name;
         this.type = type;
+        this.regexps = regexps;
     }
 
-    public AbstractParameterType(String typeName, Type type, String regexp) {
-        this(typeName, type, singletonList(regexp));
+    public AbstractParameterType(String name, Type type, String regexp) {
+        this(name, type, singletonList(regexp));
     }
 
     @Override
     public String getName() {
-        return typeName;
+        return name;
     }
 
     @Override

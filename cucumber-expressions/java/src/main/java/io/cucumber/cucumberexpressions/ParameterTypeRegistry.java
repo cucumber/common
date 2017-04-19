@@ -4,6 +4,7 @@ import java.lang.reflect.Type;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.text.NumberFormat;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
@@ -19,7 +20,7 @@ public class ParameterTypeRegistry {
 
     private final Map<Type, ParameterType<?>> parameterTypesByType = new HashMap<>();
     private final Map<String, ParameterType<?>> parameterTypesByTypeName = new HashMap<>();
-    private final Map<String, ParameterType<?>> parameterTypesByRegexp = new HashMap<>();
+    private final Map<String, List<ParameterType<?>>> parameterTypesByRegexp = new HashMap<>();
 
     public ParameterTypeRegistry(Locale locale) {
         NumberFormat numberFormat = NumberFormat.getNumberInstance(locale);
@@ -126,7 +127,11 @@ public class ParameterTypeRegistry {
         put(parameterTypesByTypeName, parameterType.getName(), parameterType, "type name", parameterType.getName(), checkConflicts);
 
         for (String captureGroupRegexp : parameterType.getRegexps()) {
-            put(parameterTypesByRegexp, captureGroupRegexp, parameterType, "regexp", captureGroupRegexp, checkConflicts);
+            if (!parameterTypesByRegexp.containsKey(captureGroupRegexp)) {
+                parameterTypesByRegexp.put(captureGroupRegexp, new ArrayList<>());
+            }
+            List<ParameterType<?>> parameterTypes = parameterTypesByRegexp.get(captureGroupRegexp);
+            parameterTypes.add(parameterType);
         }
     }
 
@@ -145,7 +150,9 @@ public class ParameterTypeRegistry {
     }
 
     public <T> ParameterType<T> lookupByRegexp(String regexp) {
-        return (ParameterType<T>) parameterTypesByRegexp.get(regexp);
+        List<ParameterType<?>> parameterTypes = parameterTypesByRegexp.get(regexp);
+        if (parameterTypes == null) return null;
+        return (ParameterType<T>) parameterTypes.get(parameterTypes.size() - 1);
     }
 
     public Collection<ParameterType<?>> getParameters() {
