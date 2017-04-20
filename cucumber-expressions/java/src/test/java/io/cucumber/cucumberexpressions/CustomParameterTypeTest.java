@@ -247,22 +247,4 @@ public class CustomParameterTypeTest {
         Color transformedArgumentValue = (Color) expression.match("I have a red ball").get(0).getTransformedValue();
         assertEquals("red", transformedArgumentValue.name);
     }
-
-    @Test
-    public void xxx_conflicting_parameter_type_is_not_detected_for_regexp() {
-        parameterTypeRegistry.defineParameterType(new SimpleParameterType<>(
-                "css-color",
-                CssColor.class,
-                "red|blue|yellow",
-                new Function<String, CssColor>() {
-                    @Override
-                    public CssColor apply(String s) {
-                        return new CssColor(s);
-                    }
-                }));
-
-        assertEquals(new CssColor("blue"), new RegularExpression(compile("I have a (red|blue|yellow) ball"), emptyList(), parameterTypeRegistry).match("I have a blue ball").get(0).getTransformedValue());
-        assertEquals(new CssColor("blue"), new RegularExpression(compile("I have a (red|blue|yellow) ball"), singletonList(CssColor.class), parameterTypeRegistry).match("I have a blue ball").get(0).getTransformedValue());
-        assertEquals(new Color("blue"), new RegularExpression(compile("I have a (red|blue|yellow) ball"), singletonList(Color.class), parameterTypeRegistry).match("I have a blue ball").get(0).getTransformedValue());
-    }
 }
