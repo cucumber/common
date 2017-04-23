@@ -21,7 +21,7 @@ endif
 GENERATE_DEPS_FLAGS=-MMD -MP -MF $(basename $@).d
 AR_FLAGS=cr
 LD_FLAGS=
-LD_LIBS=
+LD_LIBS=-lm
 RM_CMD=rm -rf
 MKDIR_CMD=mkdir -p
 
