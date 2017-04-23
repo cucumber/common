@@ -1,7 +1,10 @@
 #ifndef GHERKIN_PARSER_H_
 #define GHERKIN_PARSER_H_
 
+#include "builder.h"
 #include "error.h"
+#include "token_matcher.h"
+#include "token_scanner.h"
 #include <stdbool.h>
 #include <wchar.h>
 
@@ -10,14 +13,6 @@ extern "C" {
 #endif
 
 typedef struct Parser Parser;
-
-typedef struct Builder Builder;
-
-typedef struct TokenMatcher TokenMatcher;
-
-typedef struct TokenScanner TokenScanner;
-
-typedef struct Feature Feature;
 
 Parser* Parser_new(Builder* builder);
 

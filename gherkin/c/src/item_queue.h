@@ -10,10 +10,10 @@ extern "C" {
 
 typedef struct QueueItem QueueItem;
 
-typedef struct QueueItem {
+struct QueueItem {
     Item* item;
     QueueItem* next;
-} QueueItem;
+};
 
 typedef struct ItemQueue {
     QueueItem* first;

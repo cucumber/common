@@ -20,11 +20,11 @@ typedef enum EventType {
     Gherkin_PickleEvent
 } EventType;
 
-typedef struct Event {
+struct Event {
     event_delete_function event_delete;
     event_print_function event_print;
     EventType event_type;
-} Event;
+};
 
 void Event_delete(const Event* event);
 

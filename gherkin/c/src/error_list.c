@@ -6,12 +6,12 @@
 #include <stdlib.h>
 #include <setjmp.h>
 
-typedef struct ErrorList {
+struct ErrorList {
     ItemQueue* errors;
     QueueItem* current_error;
     jmp_buf* global_env;
     jmp_buf* local_env;
-} ErrorList;
+};
 
 static int calculate_string_length_for_location(int line_width, int column_width);
 

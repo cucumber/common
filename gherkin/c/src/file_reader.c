@@ -3,9 +3,9 @@
 #include "unicode_utilities.h"
 #include <stdlib.h>
 
-typedef struct FileReader {
+struct FileReader {
     const char* file_name;
-} FileReader;
+};
 
 static void extend_buffer_if_needed(wchar_t** buffer, int* buffer_size, int pos);
 

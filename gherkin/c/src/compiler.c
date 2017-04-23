@@ -12,9 +12,9 @@
 #include "string_utilities.h"
 #include <stdlib.h>
 
-typedef struct Compiler {
+struct Compiler {
     ItemQueue* pickle_list;
-} Compiler;
+};
 
 typedef struct ReplacementItem {
     item_delete_function item_delete;
