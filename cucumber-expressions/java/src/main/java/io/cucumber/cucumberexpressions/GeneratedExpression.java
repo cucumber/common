@@ -23,17 +23,15 @@ public class GeneratedExpression {
             "transient", "true", "try", "void", "volatile",
             "while"
     };
-
-    private static boolean isJavaKeyword(String keyword) {
-        return (Arrays.binarySearch(JAVA_KEYWORDS, keyword, ENGLISH_COLLATOR) >= 0);
-    }
-
     private final String expressionTemplate;
     private final List<ParameterType<?>> parameterTypes;
-
     public GeneratedExpression(String expressionTemplate, List<ParameterType<?>> parameterTypes) {
         this.expressionTemplate = expressionTemplate;
         this.parameterTypes = parameterTypes;
+    }
+
+    private static boolean isJavaKeyword(String keyword) {
+        return (Arrays.binarySearch(JAVA_KEYWORDS, keyword, ENGLISH_COLLATOR) >= 0);
     }
 
     public String getSource() {

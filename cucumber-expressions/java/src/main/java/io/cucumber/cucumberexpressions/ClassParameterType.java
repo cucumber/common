@@ -33,4 +33,9 @@ public class ClassParameterType<T> implements ParameterType<T> {
     public T transform(String value) {
         return delegate.transform(value);
     }
+
+    @Override
+    public boolean isPreferential() {
+        return delegate.isPreferential();
+    }
 }

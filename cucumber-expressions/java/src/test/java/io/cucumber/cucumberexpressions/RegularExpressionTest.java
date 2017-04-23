@@ -40,9 +40,9 @@ public class RegularExpressionTest {
     }
 
     @Test
-    public void transforms_to_long_using_capture_group_pattern() {
+    public void transforms_to_int_using_capture_group_pattern() {
         List<?> match = match(compile("(\\d+)"), "22");
-        assertEquals(singletonList(22L), match);
+        assertEquals(singletonList(22), match);
     }
 
     @Test

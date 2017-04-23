@@ -52,10 +52,6 @@ public class CucumberExpression implements Expression {
                 parameterType = new ConstructorParameterType<>(String.class);
             }
 
-            if (type != null && type != parameterType.getType()) {
-                throw new RuntimeException(String.format("Parameter type %s does not match type %s", parameterType.getType(), type));
-            }
-
             parameterTypes.add(parameterType);
 
             matcher.appendReplacement(regexp, Matcher.quoteReplacement(getCaptureGroupRegexp(parameterType.getRegexps())));

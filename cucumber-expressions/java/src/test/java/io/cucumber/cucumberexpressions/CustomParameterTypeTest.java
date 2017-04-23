@@ -16,46 +16,6 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 
 public class CustomParameterTypeTest {
-    public static class Color {
-        public final String name;
-
-        /// [color-constructor]
-        public Color(String name) {
-            this.name = name;
-        }
-        /// [color-constructor]
-
-        @Override
-        public int hashCode() {
-            return name.hashCode();
-        }
-
-        @Override
-        public boolean equals(Object obj) {
-            return obj instanceof Color && ((Color) obj).name.equals(name);
-        }
-    }
-
-    public static class CssColor {
-        public final String name;
-
-        /// [color-constructor]
-        public CssColor(String name) {
-            this.name = name;
-        }
-        /// [color-constructor]
-
-        @Override
-        public int hashCode() {
-            return name.hashCode();
-        }
-
-        @Override
-        public boolean equals(Object obj) {
-            return obj instanceof CssColor && ((CssColor) obj).name.equals(name);
-        }
-    }
-
     private ParameterTypeRegistry parameterTypeRegistry = new ParameterTypeRegistry(Locale.ENGLISH);
 
     @Before
@@ -142,8 +102,6 @@ public class CustomParameterTypeTest {
         }
     }
 
-    ///// Conflicting parameter types
-
     @Test
     public void conflicting_parameter_type_is_detected_for_type() {
         try {
@@ -181,6 +139,8 @@ public class CustomParameterTypeTest {
             assertEquals("There is already a parameter type with type io.cucumber.cucumberexpressions.CustomParameterTypeTest$Color", expected.getMessage());
         }
     }
+
+    ///// Conflicting parameter types
 
     @Test
     public void conflicting_parameter_type_is_not_detected_for_regexp() {
@@ -225,8 +185,6 @@ public class CustomParameterTypeTest {
                 }));
     }
 
-    ///// RegularExpression
-
     @Test
     public void matches_RegularExpression_arguments_with_explicit_type() {
         Expression expression = new RegularExpression(compile("I have a (red|blue|yellow) ball"), Collections.<Type>singletonList(Color.class), parameterTypeRegistry);
@@ -241,10 +199,52 @@ public class CustomParameterTypeTest {
         assertEquals(new Color("red"), transformedArgumentValue);
     }
 
+    ///// RegularExpression
+
     @Test
     public void matches_RegularExpression_arguments_with_explicit_type_using_constructor_directly() {
         Expression expression = new RegularExpression(compile("I have a (red|blue|yellow) ball"), Collections.<Type>singletonList(Color.class), new ParameterTypeRegistry(Locale.ENGLISH));
         Color transformedArgumentValue = (Color) expression.match("I have a red ball").get(0).getTransformedValue();
         assertEquals("red", transformedArgumentValue.name);
+    }
+
+    public static class Color {
+        public final String name;
+
+        /// [color-constructor]
+        public Color(String name) {
+            this.name = name;
+        }
+        /// [color-constructor]
+
+        @Override
+        public int hashCode() {
+            return name.hashCode();
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            return obj instanceof Color && ((Color) obj).name.equals(name);
+        }
+    }
+
+    public static class CssColor {
+        public final String name;
+
+        /// [color-constructor]
+        public CssColor(String name) {
+            this.name = name;
+        }
+        /// [color-constructor]
+
+        @Override
+        public int hashCode() {
+            return name.hashCode();
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            return obj instanceof CssColor && ((CssColor) obj).name.equals(name);
+        }
     }
 }

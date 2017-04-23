@@ -10,7 +10,7 @@ public class ConstructorParameterType<T> extends AbstractParameterType<T> {
     private final Constructor<T> constructor;
 
     public ConstructorParameterType(Class<T> clazz) {
-        super(clazz.getSimpleName().toLowerCase(), clazz, ANYTHING_GOES);
+        super(clazz.getSimpleName().toLowerCase(), clazz, false, ANYTHING_GOES);
         try {
             this.constructor = clazz.getConstructor(String.class);
         } catch (NoSuchMethodException e) {
