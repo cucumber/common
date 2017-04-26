@@ -33,7 +33,7 @@ describe('ParameterTypeRegistry', () => {
     registry.defineParameterType(new ParameterType("color", null, /red|blue|green/, true, null))
     assertThrow(
       () => registry.defineParameterType(new ParameterType("cssColor", null, /red|blue|green/, true, null)),
-      "There can only be one preferential parameter type per regexp. The regexp /red|blue|green/ is used for two preferential parameter types, {color} and {cssColor}"
+      "There can only be one preferential parameter type per regexp. The regexp red|blue|green is used for two preferential parameter types, {color} and {cssColor}"
     )
   })
 

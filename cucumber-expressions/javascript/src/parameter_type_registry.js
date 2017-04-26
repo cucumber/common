@@ -89,40 +89,35 @@ class ParameterTypeRegistry {
     set(this._parameterTypeByTypeName, parameterType.name, parameterType, 'type name')
 
     if (looksLikeConstructor(parameterType.constructorFunction)) {
-      const constructorName = parameterType.constructorFunction.name
-      if (!this._parameterTypesByConstructorName.has(constructorName)) {
-        this._parameterTypesByConstructorName.set(constructorName, [])
-      }
-      const parameterTypes = this._parameterTypesByConstructorName.get(constructorName)
-      if (parameterTypes.length > 0 && parameterTypes[0].isPreferential && parameterType.isPreferential) {
-        throw new CucumberExpressionError(
-          "There can only be one preferential parameter type per constructor. " +
-          `The constructor ${constructorName} is used for two preferential parameter types, {${parameterTypes[0].name}} and {${parameterType.name}}`
-        )
-      }
-      if (!parameterTypes.includes(parameterType)) {
-        parameterTypes.push(parameterType)
-        this._parameterTypesByConstructorName.set(constructorName, parameterTypes.sort(ParameterType.compare))
-      }
+      setUnlessPreferentialClash(
+        this._parameterTypesByConstructorName,
+        parameterType.constructorFunction.name,
+        parameterType,
+        (key, existingParameterType) => {
+          return "There can only be one preferential parameter type per constructor. " +
+            `The constructor ${key} is used for two preferential parameter types, {${existingParameterType.name}} and {${parameterType.name}}`
+        })
     }
 
     for (const parameterTypeRegexp of parameterType.regexps) {
-      if (!this._parameterTypesByRegexp.has(parameterTypeRegexp)) {
-        this._parameterTypesByRegexp.set(parameterTypeRegexp, [])
-      }
-      const parameterTypes = this._parameterTypesByRegexp.get(parameterTypeRegexp)
-      if (parameterTypes.length > 0 && parameterTypes[0].isPreferential && parameterType.isPreferential) {
-        throw new CucumberExpressionError(
-          "There can only be one preferential parameter type per regexp. " +
-          `The regexp /${parameterTypeRegexp}/ is used for two preferential parameter types, {${parameterTypes[0].name}} and {${parameterType.name}}`
-        )
-      }
-      if (!parameterTypes.includes(parameterType)) {
-        parameterTypes.push(parameterType)
-        this._parameterTypesByRegexp.set(parameterTypeRegexp, parameterTypes.sort(ParameterType.compare))
-      }
+      setUnlessPreferentialClash(
+        this._parameterTypesByRegexp,
+        parameterTypeRegexp,
+        parameterType,
+        (key, existingParameterType) => {
+          return "There can only be one preferential parameter type per regexp. " +
+            `The regexp ${key} is used for two preferential parameter types, {${existingParameterType.name}} and {${parameterType.name}}`
+        }
+      )
     }
   }
+}
+
+function looksLikeConstructor(fn) {
+  if (typeof fn !== 'function') return false
+  if (!fn.name) return false
+  const prefix = fn.name[0]
+  return prefix.toUpperCase() === prefix
 }
 
 function set(map, key, value, prop) {
@@ -131,11 +126,19 @@ function set(map, key, value, prop) {
   map.set(key, value)
 }
 
-function looksLikeConstructor(fn) {
-  if (typeof fn !== 'function') return false
-  if (!fn.name) return false
-  const prefix = fn.name[0]
-  return prefix.toUpperCase() === prefix
+function setUnlessPreferentialClash(map, key, parameterType, errorMessage) {
+  if (!map.has(key)) {
+    map.set(key, [])
+  }
+  const parameterTypes = map.get(key)
+  const existingParameterType = parameterTypes[0]
+  if (parameterTypes.length > 0 && existingParameterType.isPreferential && parameterType.isPreferential) {
+    throw new CucumberExpressionError(errorMessage(key, existingParameterType))
+  }
+  if (!parameterTypes.includes(parameterType)) {
+    parameterTypes.push(parameterType)
+    map.set(key, parameterTypes.sort(ParameterType.compare))
+  }
 }
 
 module.exports = ParameterTypeRegistry
