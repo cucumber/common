@@ -8,7 +8,7 @@ class ParameterType {
   /**
    * @param name {String} the name of the type
    * @param constructorFunction {Function} the prototype (constructor) of the type. May be null.
-   * @param regexps {Array.<RegExp>} that matches the type
+   * @param regexps {Array.<RegExp>,RegExp,Array.<String>,String} that matches the type
    * @param isPreferential {boolean} true if this is a preferential type.
    * @param transform {Function} function transforming string to another type. May be null.
    */

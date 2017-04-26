@@ -59,14 +59,14 @@ public class ParameterTypeRegistry {
         }
         put(parameterTypeByTypeName, parameterType.getName(), parameterType, "type name", parameterType.getName());
 
-        for (String captureGroupRegexp : parameterType.getRegexps()) {
+        for (String parameterTypeRegexp : parameterType.getRegexps()) {
             SortedSet<ParameterType<?>> parameterTypes = parameterTypesByRegexp
-                    .computeIfAbsent(captureGroupRegexp, r -> new TreeSet<>(new ParameterTypeComparator()));
+                    .computeIfAbsent(parameterTypeRegexp, r -> new TreeSet<>(new ParameterTypeComparator()));
             if (!parameterTypes.isEmpty() && parameterTypes.first().isPreferential() && parameterType.isPreferential()) {
                 throw new CucumberExpressionException(String.format(
                         "There can only be one preferential parameter type per regexp. " +
                                 "The regexp /%s/ is used for two preferential parameter types, {%s} and {%s}",
-                        captureGroupRegexp, parameterTypes.first().getName(), parameterType.getName()
+                        parameterTypeRegexp, parameterTypes.first().getName(), parameterType.getName()
                 ));
             }
             parameterTypes.add(parameterType);
