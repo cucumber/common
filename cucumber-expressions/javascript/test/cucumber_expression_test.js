@@ -2,7 +2,7 @@
 const assert = require('assert')
 const { CucumberExpression, ParameterTypeRegistry } = require('../src/index')
 
-describe(CucumberExpression.name, () => {
+describe('CucumberExpression', () => {
   it("documents match arguments", () => {
     const parameterTypeRegistry = new ParameterTypeRegistry()
 

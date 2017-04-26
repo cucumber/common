@@ -4,7 +4,7 @@ const assertThrows = require('./assert_throws')
 const RegularExpression = require('../src/regular_expression')
 const ParameterTypeRegistry = require('../src/parameter_type_registry')
 
-describe(RegularExpression.name, () => {
+describe('RegularExpression', () => {
   it("documents match arguments", () => {
     const parameterRegistry = new ParameterTypeRegistry()
 

@@ -29,8 +29,14 @@ public class ParameterTypeRegistry {
         // Not dealing with boolean, char, void
     }};
 
-    private final Map<Type, ParameterType<?>> parameterTypesByType = new HashMap<>();
-    private final Map<String, ParameterType<?>> parameterTypesByTypeName = new HashMap<>();
+    private final Map<Type, ParameterType<?>> parameterTypeByType = new HashMap<>();
+    private final Map<String, ParameterType<?>> parameterTypeByTypeName = new HashMap<>();
+    // TODO: Do we even need a multimap? Maybe just check on insertion:
+    // preferential + nonpreferential is OK
+    // preferential + preferential KO
+    // nonpreferential + nonpreferential KO
+    //
+    // Need to think about what preferential is used for other than lookup. Sorting...
     private final Map<String, SortedSet<ParameterType<?>>> parameterTypesByRegexp = new HashMap<>();
 
     public ParameterTypeRegistry(Locale locale) {
@@ -49,15 +55,13 @@ public class ParameterTypeRegistry {
 
     public void defineParameterType(ParameterType<?> parameterType) {
         if (parameterType.getType() != null) {
-            put(parameterTypesByType, parameterType.getType(), parameterType, "type", parameterType.getType().getTypeName());
+            put(parameterTypeByType, parameterType.getType(), parameterType, "type", parameterType.getType().getTypeName());
         }
-        put(parameterTypesByTypeName, parameterType.getName(), parameterType, "type name", parameterType.getName());
+        put(parameterTypeByTypeName, parameterType.getName(), parameterType, "type name", parameterType.getName());
 
         for (String captureGroupRegexp : parameterType.getRegexps()) {
-            if (!parameterTypesByRegexp.containsKey(captureGroupRegexp)) {
-                parameterTypesByRegexp.put(captureGroupRegexp, new TreeSet<>(new ParameterTypeComparator()));
-            }
-            SortedSet<ParameterType<?>> parameterTypes = parameterTypesByRegexp.get(captureGroupRegexp);
+            SortedSet<ParameterType<?>> parameterTypes = parameterTypesByRegexp
+                    .computeIfAbsent(captureGroupRegexp, r -> new TreeSet<>(new ParameterTypeComparator()));
             if (!parameterTypes.isEmpty() && parameterTypes.first().isPreferential() && parameterType.isPreferential()) {
                 throw new CucumberExpressionException(String.format(
                         "There can only be one preferential parameter type per regexp. " +
@@ -79,24 +83,27 @@ public class ParameterTypeRegistry {
         if (type instanceof Class && ((Class) type).isPrimitive()) {
             type = BOXED.get(type);
         }
-        return (ParameterType<T>) parameterTypesByType.get(type);
+        return (ParameterType<T>) parameterTypeByType.get(type);
     }
 
     public <T> ParameterType<T> lookupByTypeName(String typeName) {
-        return (ParameterType<T>) parameterTypesByTypeName.get(typeName);
+        return (ParameterType<T>) parameterTypeByTypeName.get(typeName);
     }
 
     public <T> ParameterType<T> lookupByRegexp(String parameterTypeRegexp, Pattern regexp, String text) {
         SortedSet<ParameterType<?>> parameterTypes = parameterTypesByRegexp.get(parameterTypeRegexp);
         if (parameterTypes == null) return null;
         if (parameterTypes.size() > 1 && !parameterTypes.first().isPreferential()) {
+            // We don't do this check on insertion because we only want to restrict
+            // ambiguiuty when we look up by Regexp. Users of CucumberExpression should
+            // not be restricted.
             List<GeneratedExpression> generatedExpressions = new CucumberExpressionGenerator(this).generateExpressions(text);
-            throw new AmbiguousParameterTypeException(regexp, parameterTypeRegexp, parameterTypes, generatedExpressions);
+            throw new AmbiguousParameterTypeException(parameterTypeRegexp, regexp, parameterTypes, generatedExpressions);
         }
         return (ParameterType<T>) parameterTypes.first();
     }
 
     public Collection<ParameterType<?>> getParameterTypes() {
-        return parameterTypesByTypeName.values();
+        return parameterTypeByTypeName.values();
     }
 }

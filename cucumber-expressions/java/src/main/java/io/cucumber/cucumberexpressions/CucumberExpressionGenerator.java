@@ -36,27 +36,28 @@ public class CucumberExpressionGenerator {
                 Collections.sort(matchingParameterTypeMatchers);
 
                 // Find all the best parameter type matchers, they are all candidates.
-                ParameterTypeMatcher matchingParameterTypeMatcher = matchingParameterTypeMatchers.get(0);
+                ParameterTypeMatcher bestParameterTypeMatcher = matchingParameterTypeMatchers.get(0);
                 List<ParameterTypeMatcher> bestParameterTypeMatchers = matchingParameterTypeMatchers.stream()
-                        .filter(m -> m.compareTo(matchingParameterTypeMatcher) == 0)
+                        .filter(m -> m.compareTo(bestParameterTypeMatcher) == 0)
                         .collect(Collectors.toList());
 
-                // Extract just the parameter types, and remove duplications. The reason there
-                // might be duplications is that some parameter types have more than one regexp.
+                // Build a list of parameter types without duplicates. The reason there
+                // might be duplicates is that some parameter types have more than one regexp,
+                // which means multiple ParameterTypeMatcher objects will have a reference to the
+                // same ParameterType.
+                // We're sorting the list so preferential parameter types are listed first.
+                // Users are most likely to want these, so they should be listed at the top.
                 SortedSet<ParameterType<?>> parameterTypes = new TreeSet<>(new ParameterTypeComparator());
                 parameterTypes.addAll(bestParameterTypeMatchers.stream()
                         .map(ParameterTypeMatcher::getParameterType)
                         .collect(Collectors.toSet()));
-//                for (ParameterTypeMatcher bestParameterTypeMatcher : bestParameterTypeMatchers) {
-//                    parameterTypes.add(bestParameterTypeMatcher.getParameterType());
-//                }
 
                 parameterTypeCombinations.add(new ArrayList<>(parameterTypes));
 
                 expressionTemplate
-                        .append(text.substring(pos, matchingParameterTypeMatcher.start()))
+                        .append(text.substring(pos, bestParameterTypeMatcher.start()))
                         .append("{%s}");
-                pos = matchingParameterTypeMatcher.start() + matchingParameterTypeMatcher.group().length();
+                pos = bestParameterTypeMatcher.start() + bestParameterTypeMatcher.group().length();
             } else {
                 break;
             }
@@ -86,7 +87,7 @@ public class CucumberExpressionGenerator {
         return parameterTypeMatchers;
     }
 
-    private List<ParameterTypeMatcher> createParameterTypeMatchers(ParameterType<?> parameterType, String text) {
+    private static List<ParameterTypeMatcher> createParameterTypeMatchers(ParameterType<?> parameterType, String text) {
         List<ParameterTypeMatcher> result = new ArrayList<>();
         List<String> captureGroupRegexps = parameterType.getRegexps();
         for (String captureGroupRegexp : captureGroupRegexps) {

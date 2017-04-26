@@ -36,14 +36,14 @@ public class RegularExpression implements Expression {
         int typeIndex = 0;
         while (matcher.find()) {
             Type type = types.size() <= typeIndex ? null : types.get(typeIndex++);
-            String captureGroupPattern = matcher.group(1);
+            String parameterTypeRegexp = matcher.group(1);
 
             ParameterType<?> parameterType = null;
             if (type != null) {
                 parameterType = parameterTypeRegistry.lookupByType(type);
             }
             if (parameterType == null) {
-                parameterType = parameterTypeRegistry.lookupByRegexp(captureGroupPattern, pattern, text);
+                parameterType = parameterTypeRegistry.lookupByRegexp(parameterTypeRegexp, pattern, text);
             }
             if (parameterType == null && type != null && type instanceof Class) {
                 parameterType = new ClassParameterType<>((Class) type);

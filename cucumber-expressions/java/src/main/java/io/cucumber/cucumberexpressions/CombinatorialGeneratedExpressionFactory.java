@@ -17,12 +17,11 @@ class CombinatorialGeneratedExpressionFactory {
 
     List<GeneratedExpression> generateExpressions() {
         List<GeneratedExpression> generatedExpressions = new ArrayList<>();
-        generatePermutations(parameterTypeCombinations, generatedExpressions, 0, new ArrayList<>());
+        generatePermutations(generatedExpressions, 0, new ArrayList<>());
         return generatedExpressions;
     }
 
     private void generatePermutations(
-            List<List<ParameterType<?>>> parameterTypeCombinations,
             List<GeneratedExpression> generatedExpressions,
             int depth,
             List<ParameterType<?>> currentParameterTypes
@@ -37,7 +36,6 @@ class CombinatorialGeneratedExpressionFactory {
             newCurrentParameterTypes.add(parameterTypeCombinations.get(depth).get(i));
 
             generatePermutations(
-                    parameterTypeCombinations,
                     generatedExpressions,
                     depth + 1,
                     newCurrentParameterTypes

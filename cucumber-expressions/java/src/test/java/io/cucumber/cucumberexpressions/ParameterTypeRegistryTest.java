@@ -14,7 +14,7 @@ public class ParameterTypeRegistryTest {
     private final ParameterTypeRegistry registry = new ParameterTypeRegistry(Locale.ENGLISH);
 
     @Test
-    public void looks_up_transform_by_type() {
+    public void looks_up_parameter_type_by_type() {
         ParameterType<Integer> parameterType = registry.lookupByType(Integer.class);
         assertEquals(new Integer(22), parameterType.transform("22"));
     }
@@ -53,7 +53,7 @@ public class ParameterTypeRegistryTest {
             registry.lookupByRegexp("[A-Z]+\\w+", Pattern.compile("([A-Z]+\\w+) and ([A-Z]+\\w+)"), "Lisa and Bob");
             fail("Expected an exception");
         } catch (AmbiguousParameterTypeException e) {
-            String expexted = "" +
+            String expected = "" +
                     "Your Regular Expression /([A-Z]+\\w+) and ([A-Z]+\\w+)/\n" +
                     "matches multiple parameter types with regexp /[A-Z]+\\w+/:\n" +
                     "   {name}\n" +
@@ -75,7 +75,7 @@ public class ParameterTypeRegistryTest {
                     "\n" +
                     "2) Make one of the parameter types preferential and continue to use a Regular Expression.\n" +
                     "\n";
-            assertEquals(expexted, e.getMessage());
+            assertEquals(expected, e.getMessage());
         }
     }
 }

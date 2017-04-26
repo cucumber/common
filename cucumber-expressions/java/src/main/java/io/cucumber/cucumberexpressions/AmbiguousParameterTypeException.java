@@ -11,7 +11,7 @@ public class AmbiguousParameterTypeException extends CucumberExpressionException
     private final SortedSet<ParameterType<?>> parameterTypes;
     private final List<GeneratedExpression> generatedExpressions;
 
-    public AmbiguousParameterTypeException(Pattern regexp, String parameterTypeRegexp, SortedSet<ParameterType<?>> parameterTypes, List<GeneratedExpression> generatedExpressions) {
+    public AmbiguousParameterTypeException(String parameterTypeRegexp, Pattern regexp, SortedSet<ParameterType<?>> parameterTypes, List<GeneratedExpression> generatedExpressions) {
         super(String.format("Your Regular Expression /%s/\n" +
                         "matches multiple parameter types with regexp /%s/:\n" +
                         "   %s\n" +

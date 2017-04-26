@@ -11,7 +11,6 @@ public abstract class AbstractParameterType<T> implements ParameterType<T> {
 
     public AbstractParameterType(String name, Type type, boolean isPreferential, List<String> regexps) {
         this.isPreferential = isPreferential;
-        if (name == null) throw new RuntimeException("name can't be null");
         this.name = name;
         this.type = type;
         this.regexps = regexps;
