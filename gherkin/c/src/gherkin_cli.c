@@ -7,7 +7,6 @@
 
 #include "file_reader.h"
 #include "string_token_scanner.h"
-//#include "file_token_scanner.h"
 #include "token_matcher.h"
 #include "parser.h"
 #include "ast_builder.h"
@@ -75,7 +74,6 @@ int main(int argc, char** argv) {
             Event_print((const Event*)source_event, stdout);
         }
         TokenScanner* token_scanner = StringTokenScanner_new(source_event->source);
-        //TokenScanner* token_scanner = FileTokenScanner_new(argv[i]);
         result_code = Parser_parse(parser, token_matcher, token_scanner);
         Event_delete((const Event*)source_event);
         if (result_code == 0) {

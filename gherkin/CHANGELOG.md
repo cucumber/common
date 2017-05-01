@@ -20,6 +20,21 @@ This document is formatted according to the principles of [Keep A CHANGELOG](htt
 ### Changed
 
 ### Fixed
+* (Python) Fix executable
+  ([#194](https://github.com/cucumber/cucumber/pull/194)
+   [#157](https://github.com/cucumber/cucumber/issues/157)
+   by [aslakhellesoy])
+* (C) Fix Windows related issues
+  ([#193](https://github.com/cucumber/cucumber/pull/193)
+   [#168](https://github.com/cucumber/cucumber/issues/168)
+   by [brasmusson])
+* (C) Fix `uri` in pickles on C command line
+  ([#176](https://github.com/cucumber/cucumber/pull/176)
+   [#165](https://github.com/cucumber/cucumber/issues/165)
+   by [brasmusson])
+* (Go) Add missing error handling
+  ([#170](https://github.com/cucumber/cucumber/pull/170)
+   by [l3pp4rd])
 * (Go) Fix build on go 1.8
   ([#137](https://github.com/cucumber/cucumber/issues/137)
    [#162](https://github.com/cucumber/cucumber/pull/162)

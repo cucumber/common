@@ -15,10 +15,10 @@ typedef Token* (*read_function) (TokenScanner*);
 
 typedef void (*delete_function) (TokenScanner*);
 
-typedef struct TokenScanner {
+struct TokenScanner {
     read_function read;
     delete_function delete;
-} TokenScanner;
+};
 
 void TokenScanner_delete(TokenScanner* token_scanner);
 

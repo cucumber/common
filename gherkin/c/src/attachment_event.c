@@ -1,5 +1,6 @@
 #include "attachment_event.h"
-
+#include "print_utilities.h"
+#include "string_utilities.h"
 #include <string.h>
 #include <stdlib.h>
 
@@ -14,10 +15,7 @@ AttachmentEvent* AttachmentEvent_new(const char* uri, const Location location) {
     attachment_event->event.event_type = Gherkin_AttachmentEvent;
     attachment_event->uri = 0;
     if (uri) {
-        int uri_length = strlen(uri);
-        attachment_event->uri = (wchar_t*)malloc((uri_length + 1) * sizeof(wchar_t));
-        swprintf(attachment_event->uri, uri_length + 1, L"%hs", uri);
-        attachment_event->uri[uri_length] = L'\0';
+        attachment_event->uri = StringUtilities_copy_to_wide_string(uri);
     }
     attachment_event->location.line = location.line;
     attachment_event->location.column = location.column;
@@ -49,12 +47,14 @@ static void AttachmentEvent_print(const Event* event, FILE* file) {
     }
     const AttachmentEvent* attachment_event = (const AttachmentEvent*)event;
     fprintf(file, "{");
-    fprintf(file, "\"data\":\"%ls\",", attachment_event->data);
-    fprintf(file, "\"media\":{\"encoding\":\"utf-8\",\"type\":\"text/vnd.cucumber.stacktrace+plain\"},");
+    fprintf(file, "\"data\":\"");
+    PrintUtilities_print_json_string(file, attachment_event->data);
+    fprintf(file, "\",\"media\":{\"encoding\":\"utf-8\",\"type\":\"text/vnd.cucumber.stacktrace+plain\"},");
     fprintf(file, "\"source\":{\"start\":");
     fprintf(file, "{\"line\":%d,", attachment_event->location.line);
     fprintf(file, "\"column\":%d},", attachment_event->location.column);
-    fprintf(file, "\"uri\":\"%ls\"},", attachment_event->uri);
-    fprintf(file, "\"type\":\"attachment\"");
+    fprintf(file, "\"uri\":\"");
+    PrintUtilities_print_json_string(file, attachment_event->uri);
+    fprintf(file, "\"},\"type\":\"attachment\"");
     fprintf(file, "}\n");
 }

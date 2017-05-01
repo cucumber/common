@@ -100,61 +100,52 @@ func (ae *AttachmentEvent) MarshalJSON() ([]byte, error) {
 	})
 }
 
-func GherkinEvents(paths ...string) <-chan CucumberEvent {
-	ch := make(chan CucumberEvent)
-	go func() {
-		// @TODO can be run concurrently if supported, by consumer
-		for _, p := range paths {
-			in, err := os.Open(p)
-			if err != nil {
-				fmt.Fprintln(os.Stderr, "open feature file:", p, "-", err)
-				continue
-			}
-
-			var buf bytes.Buffer
-			doc, err := ParseGherkinDocument(io.TeeReader(in, &buf))
-			if errs, ok := err.(parseErrors); ok {
-				// expected parse errors
-				for _, err := range errs {
-					if pe, ok := err.(*parseError); ok {
-						ch <- pe.asAttachment(p)
-					} else {
-						fmt.Fprintf(os.Stderr, "parse feature file: %s, error type: %T - %+v\n", p, err, err)
-					}
-				}
-				in.Close()
-				continue
-			}
-
-			if err != nil {
-				// non parse error, unexpected
-				fmt.Fprintf(os.Stderr, "parse feature file: %s, error type: %T - %+v\n", p, err, err)
-				in.Close()
-				continue
-			}
-
-			ch <- &SourceEvent{
-				URI:  p,
-				Data: buf.String(),
-			}
-
-			ch <- &GherkinDocumentEvent{
-				URI:      p,
-				Document: doc,
-			}
-
-			for _, pickle := range doc.Pickles() {
-				ch <- &PickleEvent{
-					URI:    p,
-					Pickle: pickle,
-				}
-			}
-
-			in.Close()
+func GherkinEvents(paths ...string) ([]CucumberEvent, error) {
+	var events []CucumberEvent
+	for _, p := range paths {
+		in, err := os.Open(p)
+		if err != nil {
+			return events, fmt.Errorf("read feature file: %s - %+v", p, err)
 		}
-		close(ch)
-	}()
-	return ch
+		defer in.Close()
+
+		var buf bytes.Buffer
+		doc, err := ParseGherkinDocument(io.TeeReader(in, &buf))
+		if errs, ok := err.(parseErrors); ok {
+			// expected parse errors
+			for _, err := range errs {
+				if pe, ok := err.(*parseError); ok {
+					events = append(events, pe.asAttachment(p))
+				} else {
+					return events, fmt.Errorf("parse feature file: %s, unexpected error: %+v\n", p, err)
+				}
+			}
+			continue
+		}
+
+		if err != nil {
+			// non parse error, unexpected
+			return events, fmt.Errorf("parse feature file: %s, unexpected error: %+v\n", p, err)
+		}
+
+		events = append(events, &SourceEvent{
+			URI:  p,
+			Data: buf.String(),
+		})
+
+		events = append(events, &GherkinDocumentEvent{
+			URI:      p,
+			Document: doc,
+		})
+
+		for _, pickle := range doc.Pickles() {
+			events = append(events, &PickleEvent{
+				URI:    p,
+				Pickle: pickle,
+			})
+		}
+	}
+	return events, nil
 }
 
 func (a *parseError) asAttachment(uri string) *AttachmentEvent {

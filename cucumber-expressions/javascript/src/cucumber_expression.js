@@ -7,7 +7,7 @@ class CucumberExpression {
    * @param parameterTypeRegistry
    */
   constructor (expression, types, parameterTypeRegistry) {
-    const PARAMETER_REGEXP = /\{([^}:]+)(:([^}]+))?}/g
+    const PARAMETER_REGEXP = /\{([^}]+)}/g
     const OPTIONAL_REGEXP = /\(([^)]+)\)/g
     const ALTERNATIVE_WORD_REGEXP = /(\w+)((\/\w+)+)/g
 
@@ -28,32 +28,22 @@ class CucumberExpression {
 
     while ((match = PARAMETER_REGEXP.exec(expression)) !== null) {
       const parameterName = match[1]
-      const parameterTypeName = match[3]
-      // eslint-disable-next-line no-console
-      if (parameterTypeName && (typeof console !== 'undefined') && (typeof console.error == 'function')) {
-        // eslint-disable-next-line no-console
-        console.error(`Cucumber expression parameter syntax {${parameterName}:${parameterTypeName}} is deprecated. Please use {${parameterTypeName}} instead.`)
-      }
-
       const type = types.length <= typeIndex ? null : types[typeIndex++]
 
-      let parameter
+      let parameterType
       if (type) {
-        parameter = parameterTypeRegistry.lookupByType(type)
+        parameterType = parameterTypeRegistry.lookupByType(type)
       }
-      if (!parameter && parameterTypeName) {
-        parameter = parameterTypeRegistry.lookupByTypeName(parameterTypeName)
+      if (!parameterType) {
+        parameterType = parameterTypeRegistry.lookupByTypeName(parameterName)
       }
-      if (!parameter) {
-        parameter = parameterTypeRegistry.lookupByTypeName(parameterName)
+      if (!parameterType) {
+        parameterType = parameterTypeRegistry.createAnonymousLookup(s => s)
       }
-      if (!parameter) {
-        parameter = parameterTypeRegistry.createAnonymousLookup(s => s)
-      }
-      this._parameterTypes.push(parameter)
+      this._parameterTypes.push(parameterType)
 
       const text = expression.slice(matchOffset, match.index)
-      const captureRegexp = getCaptureRegexp(parameter.regexps)
+      const captureRegexp = getCaptureRegexp(parameterType.regexps)
       matchOffset = PARAMETER_REGEXP.lastIndex
       regexp += text
       regexp += captureRegexp

@@ -2,8 +2,6 @@
 #include "item_queue.h"
 #include <stdlib.h>
 
-typedef struct QueueItem QueueItem;
-
 TokenQueue* TokenQueue_new() {
     return (TokenQueue*)ItemQueue_new();
 }
