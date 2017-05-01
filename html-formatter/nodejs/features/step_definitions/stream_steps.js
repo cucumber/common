@@ -3,7 +3,7 @@ import Gherkin from 'gherkin'
 
 module.exports = function () {
   this.When(/^a new feature at (.*) is streamed:$/, function (uri, gherkinSource, callback) {
-    const events = Gherkin.events(gherkinSource, uri, { source: true, gherkinDocument: true, pickles: true })
+    const events = Gherkin.generateEvents(gherkinSource, uri)
     events.forEach(event => this._inputStream.write(event))
     callback()
   })

@@ -1,5 +1,6 @@
 MAKEFILES=event-protocol/Makefile \
           gherkin/Makefile \
+					event-protocol/Makefile \
 					cucumber-expressions/Makefile \
 					tag-expressions/Makefile \
 					cucumber-redux/Makefile \

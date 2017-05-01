@@ -10,7 +10,7 @@ describe(HtmlStream.name, () => {
   it("writes HTML from state", () => {
     const data = "Feature: Hello\n  Scenario: World\n    Given hello"
     const uri = "features/hello.feature"
-    const events = Gherkin.events(data, uri, { source: true, gherkinDocument: true, pickles: true })
+    const events = Gherkin.generateEvents(data, uri)
     const reducerStream = new ReducerStream()
     const htmlStream = new HtmlStream()
     arrayToStream(events)
