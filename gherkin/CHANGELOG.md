@@ -20,6 +20,10 @@ This document is formatted according to the principles of [Keep A CHANGELOG](htt
 ### Changed
 
 ### Fixed
+* (Python) Fix executable
+  ([#194](https://github.com/cucumber/cucumber/pull/194)
+   [#157](https://github.com/cucumber/cucumber/issues/157)
+   by [aslakhellesoy])
 * (C) Fix Windows related issues
   ([#193](https://github.com/cucumber/cucumber/pull/193)
    [#168](https://github.com/cucumber/cucumber/issues/168)
