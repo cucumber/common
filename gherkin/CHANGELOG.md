@@ -20,6 +20,10 @@ This document is formatted according to the principles of [Keep A CHANGELOG](htt
 ### Changed
 
 ### Fixed
+* (C) Fix Windows related issues
+  ([#193](https://github.com/cucumber/cucumber/pull/193)
+   [#168](https://github.com/cucumber/cucumber/issues/168)
+   by [brasmusson])
 * (C) Fix `uri` in pickles on C command line
   ([#176](https://github.com/cucumber/cucumber/pull/176)
    [#165](https://github.com/cucumber/cucumber/issues/165)
