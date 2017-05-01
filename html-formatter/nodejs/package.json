@@ -50,13 +50,11 @@
     "webpack": "^2.3.0"
   },
   "dependencies": {
-    "cucumber-react": "file:../../cucumber-react",
-    "cucumber-redux": "file:../../cucumber-redux",
     "debug": "^2.2.0",
     "event-stream": "^3.3.4",
     "eventsource": "^0.2.1",
     "express": "^4.14.0",
-    "gherkin": "file:../../gherkin/javascript",
+    "gherkin": "^4.1.1",
     "immutable": "^3.8.1",
     "react": "^15.3.1",
     "react-dom": "^15.3.1",
