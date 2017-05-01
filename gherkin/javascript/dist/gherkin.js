@@ -428,7 +428,7 @@ var compiler = new Compiler()
 var parser = new Parser()
 parser.stopAtFirstError = false
 
-function events(data, uri) {
+function generateEvents(data, uri) {
   result = []
 
   try {
@@ -478,7 +478,7 @@ function events(data, uri) {
   return result
 }
 
-module.exports = events
+module.exports = generateEvents
 
 },{"./parser":10,"./pickles/compiler":11}],8:[function(require,module,exports){
 module.exports={

@@ -73,7 +73,7 @@ dist/gherkin.min.js: dist/gherkin.js yarn.lock
 	echo '/*' > $@
 	cat LICENSE >> $@
 	echo '*/' >> $@
-	./node_modules/.bin/uglifyjs $^ >> $@
+	./node_modules/.bin/uglifyjs $< >> $@
 
 clean:
 	rm -rf .compared .built acceptance lib/gherkin/parser.js dist
