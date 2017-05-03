@@ -1,15 +1,17 @@
-(function (root, factory) {
+(function (factory) {
   if (typeof define === 'function' && define.amd) {
-    // AMD. Register as an anonymous module.
-    define([], factory);
-  } else if (typeof module !== 'undefined' && module.exports) {
-    // Node.js/IO.js/RequireJS
-    module.exports = factory();
-  } else {
-    // Browser globals (root is window)
-    root.Gherkin = factory();
+    // AMD. Register as an anonymous module
+    define([], factory)
   }
-}(this, function () {
+  if (typeof module !== 'undefined' && module.exports) {
+    // Node.js/RequireJS
+    module.exports = factory();
+  }
+  if (typeof window === 'object'){
+    // Browser globals
+    window.Gherkin = factory();
+  }
+}(function () {
   return {
     Parser: require('./lib/gherkin/parser'),
     TokenScanner: require('./lib/gherkin/token_scanner'),

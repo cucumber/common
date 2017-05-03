@@ -61,7 +61,7 @@ lib/gherkin/parser.js: gherkin.berp gherkin-javascript.razor berp/berp.exe
 	tail -c +4 $@ > $@.nobom
 	mv $@.nobom $@
 
-dist/gherkin.js: lib/gherkin/parser.js LICENSE yarn.lock
+dist/gherkin.js: lib/gherkin/parser.js $(JAVASCRIPT_FILES) LICENSE yarn.lock
 	mkdir -p `dirname $@`
 	echo '/*' > $@
 	cat LICENSE >> $@
