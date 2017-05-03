@@ -1,3 +1,6 @@
 {
-  "*.js": ["eslint --fix", "git add"]
+  "gitDir": "../..",
+  "linters": {
+    "*.js": ["eslint --fix", "git add"]
+  }
 }

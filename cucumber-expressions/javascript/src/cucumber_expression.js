@@ -12,6 +12,7 @@ class CucumberExpression {
     const ALTERNATIVE_WORD_REGEXP = /(\w+)((\/\w+)+)/g
 
     this._expression = expression
+    // comment
     this._parameterTypes = []
     let regexp = '^'
     let typeIndex = 0

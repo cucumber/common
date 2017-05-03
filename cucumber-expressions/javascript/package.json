@@ -10,7 +10,8 @@
     "prepublish": "npm run build",
     "postinstall": "node scripts/postinstall.js",
     "mocha": "mocha",
-    "coverage": "node --harmony ./node_modules/.bin/istanbul cover ./node_modules/.bin/_mocha -- test"
+    "coverage": "node --harmony ./node_modules/.bin/istanbul cover ./node_modules/.bin/_mocha -- test",
+    "precommit": "lint-staged"
   },
   "repository": {
     "type": "git",
