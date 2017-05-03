@@ -1,8 +1,11 @@
 # Cucumber-React
 
 React components for rendering Gherkin documents and Cucumber results.
+The React components defined by this module depend on Cucumber-Redux.
 
-This library also contains a [Redux](http://redux.js.org/) reducer that
-builds an [Immutable.js](https://facebook.github.io/immutable-js/) state using
-[Event Protocol](../event-protocol) events as
-[Redux actions](http://redux.js.org/docs/basics/Actions.html)
+## TODO
+
+* Implement tables
+* Reconsider using classes, use `data-content` instead to define types
+* Define a default stylesheet
+* Render all Gherkin testdata docs as part of tests 

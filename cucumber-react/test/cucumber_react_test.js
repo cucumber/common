@@ -5,12 +5,21 @@ const { shallow } = require('enzyme') // eslint-disable-line node/no-unpublished
 const { reducer } = require('cucumber-redux') // eslint-disable-line node/no-unpublished-require
 const generateEvents = require('gherkin').generateEvents
 const { javaStacktraceAttachmentEvent, pngAttachmentEvent } = require('./attachmentEvent')
-const { GherkinDocument, Feature, Scenario, Step, Attachment } = require('../src/index.jsx')
+const {
+  GherkinDocument,
+  Feature,
+  Scenario,
+  Step,
+  DataTable,
+  TableRow,
+  TableCell,
+  Attachment
+} = require('../src/index.jsx')
 
 function someEvents() {
   return []
     .concat(generateEvents("Feature: Hello F\nScenario: Hello S\nGiven hello g", "features/hello.feature"))
-    .concat(generateEvents("Feature: World F\nScenario: World S\nGiven world g", "features/world.feature"))
+    .concat(generateEvents("Feature: World F\nScenario: World S\nGiven world g\n|a|b|\n|c|d|", "features/world.feature"))
     .concat([
       javaStacktraceAttachmentEvent("features/hello.feature", 3),
       pngAttachmentEvent("features/hello.feature", 3)
@@ -25,7 +34,7 @@ describe('Cucumber React', () => {
     state = events.reduce(reducer, reducer())
   })
 
-  describe(GherkinDocument.name, () => {
+  describe('GherkinDocument', () => {
     it("renders the feature", () => {
       const uri = 'features/hello.feature'
       const node = state.getIn(['sources', uri])
@@ -35,7 +44,7 @@ describe('Cucumber React', () => {
     })
   })
 
-  describe(Feature.name, () => {
+  describe('Feature', () => {
     it("renders the name", () => {
       const uri = 'features/hello.feature'
       const node = state.getIn(['sources', uri, 'feature'])
@@ -55,7 +64,7 @@ describe('Cucumber React', () => {
     })
   })
 
-  describe(Scenario.name, () => {
+  describe('Scenario', () => {
     it("renders the name", () => {
       const uri = 'features/hello.feature'
       const node = state.getIn(['sources', uri, 'feature', 'children', 0])
@@ -75,10 +84,19 @@ describe('Cucumber React', () => {
     })
   })
 
-  describe(Step.name, () => {
+  describe('Step', () => {
+    it("renders data tables", () => {
+      const uri = 'features/world.feature'
+      const node = state.getIn(['sources', uri, 'feature', 'children', 0, 'steps', 0])
+      const attachments = state.getIn(['sources', uri, 'attachments', 3])
+
+      const component = shallow(<Step node={node} uri={uri} attachments={attachments}/>)
+      assert.equal(component.find(DataTable).length, 1)
+    })
+
     it("renders attachments", () => {
       const uri = 'features/hello.feature'
-      const node = state.getIn(['sources', uri, 'feature', 'children', 0])
+      const node = state.getIn(['sources', uri, 'feature', 'children', 0, 'steps', 0])
       const attachments = state.getIn(['sources', uri, 'attachments', 3])
 
       const component = shallow(<Step node={node} uri={uri} attachments={attachments}/>)
@@ -86,7 +104,29 @@ describe('Cucumber React', () => {
     })
   })
 
-  describe(Attachment.name, () => {
+  describe('DataTable', () => {
+    it("renders rows", () => {
+      const uri = 'features/world.feature'
+      const node = state.getIn(['sources', uri, 'feature', 'children', 0, 'steps', 0, 'argument'])
+      const component = shallow(<DataTable node={node} />)
+      assert.equal(component.find(TableRow).length, 2)
+    })
+  })
+
+  describe('TableRow', () => {
+    it("renders cells", () => {
+      const uri = 'features/world.feature'
+      const node = state.getIn([
+        'sources', uri, 'feature', 'children',
+        0, 'steps', 0, 'argument',
+        'rows', 0
+      ])
+      const component = shallow(<TableRow node={node} />)
+      assert.equal(component.find(TableCell).length, 2)
+    })
+  })
+
+  describe('Attachment', () => {
     it("renders stack trace", () => {
       const uri = 'features/hello.feature'
       const attachment = state.getIn(['sources', uri, 'attachments', 3, 0])
