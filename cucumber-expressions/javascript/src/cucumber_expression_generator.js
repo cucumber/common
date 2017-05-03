@@ -12,10 +12,11 @@ class CucumberExpressionGenerator {
     const parameterTypes = []
     const usageByTypeName = {}
 
-    let expression = ""
+    let expression = ''
     let pos = 0
 
-    while (true) { // eslint-disable-line no-constant-condition
+    // eslint-disable-next-line no-constant-condition
+    while (true) {
       let matchingParameterTypeMatchers = []
       for (const parameterTypeMatcher of parameterTypeMatchers) {
         const advancedParameterTypeMatcher = parameterTypeMatcher.advanceTo(pos)
@@ -25,18 +26,24 @@ class CucumberExpressionGenerator {
       }
 
       if (matchingParameterTypeMatchers.length > 0) {
-        matchingParameterTypeMatchers = matchingParameterTypeMatchers.sort(ParameterTypeMatcher.compare)
+        matchingParameterTypeMatchers = matchingParameterTypeMatchers.sort(
+          ParameterTypeMatcher.compare
+        )
         const bestParameterTypeMatcher = matchingParameterTypeMatchers[0]
         const parameter = bestParameterTypeMatcher.parameterType
         parameterTypes.push(parameter)
 
-        const parameterName = this._getParameterName(parameter.name, usageByTypeName)
+        const parameterName = this._getParameterName(
+          parameter.name,
+          usageByTypeName
+        )
         parameterNames.push(parameterName)
 
         expression += text.slice(pos, bestParameterTypeMatcher.start)
         expression += `{${parameter.name}}`
 
-        pos = bestParameterTypeMatcher.start + bestParameterTypeMatcher.group.length
+        pos =
+          bestParameterTypeMatcher.start + bestParameterTypeMatcher.group.length
       } else {
         break
       }
@@ -51,17 +58,19 @@ class CucumberExpressionGenerator {
   }
 
   _getParameterName(typeName, usageByTypeName) {
-      let count = usageByTypeName[typeName]
-      count = count ? count + 1 : 1
-      usageByTypeName[typeName] = count
+    let count = usageByTypeName[typeName]
+    count = count ? count + 1 : 1
+    usageByTypeName[typeName] = count
 
-      return count == 1 ? typeName : `${typeName}${count}`
+    return count == 1 ? typeName : `${typeName}${count}`
   }
 
   _createParameterTypeMatchers(text) {
     let parameterMatchers = []
     for (const parameter of this._parameterTypeRegistry.parameterTypes) {
-      parameterMatchers = parameterMatchers.concat(this._createParameterTypeMatchers2(parameter, text))
+      parameterMatchers = parameterMatchers.concat(
+        this._createParameterTypeMatchers2(parameter, text)
+      )
     }
     return parameterMatchers
   }

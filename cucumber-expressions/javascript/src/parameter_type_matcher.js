@@ -1,5 +1,4 @@
 class ParameterTypeMatcher {
-
   constructor(parameter, regexp, text, matchPosition) {
     this._parameterType = parameter
     this._regexp = regexp
@@ -15,7 +14,12 @@ class ParameterTypeMatcher {
   }
 
   advanceTo(newMatchPosition) {
-    return new ParameterTypeMatcher(this._parameterType, this._regexp, this._text, newMatchPosition)
+    return new ParameterTypeMatcher(
+      this._parameterType,
+      this._regexp,
+      this._text,
+      newMatchPosition
+    )
   }
 
   get find() {

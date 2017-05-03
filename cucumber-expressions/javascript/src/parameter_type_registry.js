@@ -9,8 +9,12 @@ class ParameterTypeRegistry {
     const INTEGER_REGEXPS = [/-?\d+/, /\d+/]
     const FLOAT_REGEXP = /-?\d*\.?\d+/
 
-    this._definePredefinedParameterType(new Parameter('int', Number, INTEGER_REGEXPS, parseInt))
-    this._definePredefinedParameterType(new Parameter('float', Number, FLOAT_REGEXP, parseFloat))
+    this._definePredefinedParameterType(
+      new Parameter('int', Number, INTEGER_REGEXPS, parseInt)
+    )
+    this._definePredefinedParameterType(
+      new Parameter('float', Number, FLOAT_REGEXP, parseFloat)
+    )
   }
 
   get parameterTypes() {
@@ -23,7 +27,9 @@ class ParameterTypeRegistry {
     } else if (typeof type === 'string') {
       return this.lookupByTypeName(type)
     } else {
-      throw new Error(`Type must be string or function, but was ${type} of type ${typeof type}`)
+      throw new Error(
+        `Type must be string or function, but was ${type} of type ${typeof type}`
+      )
     }
   }
 
@@ -61,7 +67,7 @@ class ParameterTypeRegistry {
   }
 
   createAnonymousLookup(fn) {
-    return new Parameter(null, null, [".+"], fn)
+    return new Parameter(null, null, ['.+'], fn)
   }
 
   defineParameterType(parameterType) {
@@ -73,29 +79,46 @@ class ParameterTypeRegistry {
   }
 
   _defineParameterType(parameterType, checkConflicts) {
-    if(looksLikeConstructor(parameterType.constructorFunction)) {
-      set(this._parameterTypesByConstructorName, parameterType.constructorFunction.name, parameterType, 'constructor', checkConflicts)
+    if (looksLikeConstructor(parameterType.constructorFunction)) {
+      set(
+        this._parameterTypesByConstructorName,
+        parameterType.constructorFunction.name,
+        parameterType,
+        'constructor',
+        checkConflicts
+      )
     }
-    set(this._parameterTypesByTypeName, parameterType.name, parameterType, 'type name', checkConflicts)
+    set(
+      this._parameterTypesByTypeName,
+      parameterType.name,
+      parameterType,
+      'type name',
+      checkConflicts
+    )
 
     for (const regexp of parameterType.regexps) {
-      set(this._parameterTypesByRegexp, regexp, parameterType, 'regexp', checkConflicts)
+      set(
+        this._parameterTypesByRegexp,
+        regexp,
+        parameterType,
+        'regexp',
+        checkConflicts
+      )
     }
   }
 }
 
 function set(map, key, value, prop, checkConflicts) {
-  if(checkConflicts && map.has(key))
+  if (checkConflicts && map.has(key))
     throw new Error(`There is already a parameter with ${prop} ${key}`)
   map.set(key, value)
 }
 
-function looksLikeConstructor (fn) {
-  if(typeof fn !== 'function') return false
-  if(!fn.name) return false
+function looksLikeConstructor(fn) {
+  if (typeof fn !== 'function') return false
+  if (!fn.name) return false
   const prefix = fn.name[0]
   return prefix.toUpperCase() === prefix
 }
-
 
 module.exports = ParameterTypeRegistry

@@ -18,7 +18,9 @@ class RegularExpression {
         parameterType = parameterTypeRegistry.lookupByType(type)
       }
       if (!parameterType) {
-        parameterType = parameterTypeRegistry.lookupByRegexp(captureGroupPattern)
+        parameterType = parameterTypeRegistry.lookupByRegexp(
+          captureGroupPattern
+        )
       }
       if (!parameterType) {
         parameterType = parameterTypeRegistry.createAnonymousLookup(s => s)
