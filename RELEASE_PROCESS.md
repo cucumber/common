@@ -34,6 +34,7 @@ sometimes fails if there are bad tags.
 
 Update `CHANGELOG.md` of the library in the following places:
 * Change `Unreleased` to `[X.Y.Z] - yyyy-MM-DD`
+* Remove any Removed/Added/Changed/Fixed sections without entries
 * Add a new empty `Unreleased` section at the top of the page
 * Update the `Unreleased` link at the bottom of the page
 * Add a new `[X.Y.Z]` link at the bottom of the page

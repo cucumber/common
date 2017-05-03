@@ -12,12 +12,18 @@ This document is formatted according to the principles of [Keep A CHANGELOG](htt
 ### Removed
 
 ### Added
+
+### Changed
+
+### Fixed
+
+## [4.1.2] - 2017-05-03
+
+### Added
 * (Go) Implement CLI
   ([#145](https://github.com/cucumber/cucumber/issues/145)
    [#162](https://github.com/cucumber/cucumber/pull/162)
    by [l3pp4rd])
-
-### Changed
 
 ### Fixed
 * (JavaScript) Fix gherkin/javascript/examples so Gherkin loads in browser
@@ -52,14 +58,10 @@ This document is formatted according to the principles of [Keep A CHANGELOG](htt
 
 ## [4.1.1] - 2017-03-16
 
-### Removed
-
 ### Added
 * (JavaScript, Ruby, Python) Packages include executabled.
   ([#155](https://github.com/cucumber/cucumber/pull/155)
    by [aslakhellesoy])
-
-### Changed
 
 ### Fixed
 * (Python) Python package 4.1.0 broken
@@ -68,8 +70,6 @@ This document is formatted according to the principles of [Keep A CHANGELOG](htt
    by [aslakhellesoy])
 
 ## [4.1.0] - 2017-03-16
-
-### Removed
 
 ### Added
 * (.NET, Java, JavaScript, Ruby, Python) Streaming API and command line client.
@@ -198,8 +198,6 @@ to Gherkin 2.
 
 ## [3.2.0] - 2016-01-12
 
-### Removed
-
 ### Added
 * (I18n) Mongolian translation of Gherkin
   ([#140](https://github.com/cucumber/gherkin/pull/140)
@@ -296,7 +294,6 @@ to Gherkin 2.
 * (Python) It's now possible to pass a string directly to `Parser.parse()`
   (by [aslakhellesoy])
 
-
 ### Changed
 * (Java) Improved build process
 * (Python) Use new-style classes
@@ -333,7 +330,9 @@ to Gherkin 2.
 * First release
 
 <!-- Releases -->
-[Unreleased]: https://github.com/cucumber/cucumber/compare/gherkin-v4.1.0...HEAD
+[Unreleased]: https://github.com/cucumber/cucumber/compare/gherkin-v4.1.2...HEAD
+[4.1.2]:      https://github.com/cucumber/cucumber/compare/gherkin-v4.1.1...gherkin-v4.1.2
+[4.1.1]:      https://github.com/cucumber/cucumber/compare/gherkin-v4.1.0...gherkin-v4.1.1
 [4.1.0]:      https://github.com/cucumber/cucumber/tree/gherkin-v4.1.0
 [4.0.0]:      https://github.com/cucumber/gherkin/compare/v3.2.0...v4.0.0
 [3.2.0]:      https://github.com/cucumber/gherkin/compare/v3.1.2...v3.2.0
