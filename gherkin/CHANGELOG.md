@@ -20,8 +20,12 @@ This document is formatted according to the principles of [Keep A CHANGELOG](htt
 ### Changed
 
 ### Fixed
+* (JavaScript) Fix gherkin/javascript/examples so Gherkin loads in browser
+  ([#197](https://github.com/cucumber/cucumber/pull/197)
+   by [aslakhellesoy])
 * (JavaScript) Don't depend on fs in the library
-  ([#196](https://github.com/cucumber/cucumber/pull/196))
+  ([#196](https://github.com/cucumber/cucumber/pull/196)
+   by [aslakhellesoy])
 * (Python) Fix executable
   ([#194](https://github.com/cucumber/cucumber/pull/194)
    [#157](https://github.com/cucumber/cucumber/issues/157)
