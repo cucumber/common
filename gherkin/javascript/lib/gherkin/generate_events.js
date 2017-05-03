@@ -5,32 +5,50 @@ var compiler = new Compiler()
 var parser = new Parser()
 parser.stopAtFirstError = false
 
-function generateEvents(data, uri) {
+function generateEvents(data, uri, types) {
+  types = Object.assign({
+    'source': true,
+    'gherkin-document': true,
+    'pickle': true
+  }, types || {})
+
   result = []
 
   try {
-    result.push({
-      type: 'source',
-      uri: uri,
-      data: data,
-      media: {
-        encoding: 'utf-8',
-        type: 'text/vnd.cucumber.gherkin+plain'
-      }
-    })
-    var gherkinDocument = parser.parse(data)
-    result.push({
-      type: 'gherkin-document',
-      uri: uri,
-      document: gherkinDocument
-    })
-    var pickles = compiler.compile(gherkinDocument)
-    for (var p in pickles) {
+    if (types['source']) {
       result.push({
-        type: 'pickle',
+        type: 'source',
         uri: uri,
-        pickle: pickles[p]
+        data: data,
+        media: {
+          encoding: 'utf-8',
+          type: 'text/vnd.cucumber.gherkin+plain'
+        }
       })
+    }
+
+    if (!types['gherkin-document'] && !types['pickle'])
+      return result
+
+    var gherkinDocument = parser.parse(data)
+
+    if (types['gherkin-document']) {
+      result.push({
+        type: 'gherkin-document',
+        uri: uri,
+        document: gherkinDocument
+      })
+    }
+
+    if (types['pickle']) {
+      var pickles = compiler.compile(gherkinDocument)
+      for (var p in pickles) {
+        result.push({
+          type: 'pickle',
+          uri: uri,
+          pickle: pickles[p]
+        })
+      }
     }
   } catch (err) {
     var errors = err.errors || [err]

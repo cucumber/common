@@ -17,11 +17,6 @@
     AstBuilder: require('./lib/gherkin/ast_builder'),
     Compiler: require('./lib/gherkin/pickles/compiler'),
     DIALECTS: require('./lib/gherkin/dialects'),
-    generateEvents: require('./lib/gherkin/generate_events'),
-    Stream: {
-      createGherkinStream: require('./lib/gherkin/stream/gherkin_stream'),
-      createSourceEventStream: require('./lib/gherkin/stream/source_event_stream'),
-      createNdjsonStream: require('./lib/gherkin/stream/ndjson_stream')
-    }
+    generateEvents: require('./lib/gherkin/generate_events')
   };
 }));
