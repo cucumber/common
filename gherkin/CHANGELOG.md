@@ -20,6 +20,8 @@ This document is formatted according to the principles of [Keep A CHANGELOG](htt
 ### Changed
 
 ### Fixed
+* (JavaScript) Don't depend on fs in the library
+  ([#196](https://github.com/cucumber/cucumber/pull/196))
 * (Python) Fix executable
   ([#194](https://github.com/cucumber/cucumber/pull/194)
    [#157](https://github.com/cucumber/cucumber/issues/157)
