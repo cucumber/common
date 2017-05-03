@@ -7,7 +7,8 @@
     "posttest": "istanbul check-coverage --statements 100 --branches 94",
     "test-fast": "mocha --recursive",
     "sloc": "sloc lib",
-    "sloccheck": "sloc --format csv lib | grep Total | cut -f3 -d',' | ruby -e 'sloc=STDIN.read.to_i; max=500; puts \"#{sloc} SLOC\"; raise \"#{sloc}>#{max}\" if sloc>max'"
+    "sloccheck": "sloc --format csv lib | grep Total | cut -f3 -d',' | ruby -e 'sloc=STDIN.read.to_i; max=500; puts \"#{sloc} SLOC\"; raise \"#{sloc}>#{max}\" if sloc>max'",
+    "precommit": "lint-staged"
   },
   "repository": {
     "type": "git",
@@ -28,8 +29,14 @@
   },
   "homepage": "https://github.com/cucumber/tag-expressions-javascript",
   "devDependencies": {
+    "eslint": "^3.19.0",
+    "eslint-config-prettier": "^1.7.0",
+    "eslint-plugin-prettier": "^2.0.1",
+    "husky": "^0.13.3",
     "istanbul": "^0.4.0",
+    "lint-staged": "^3.4.1",
     "mocha": "^2.3.3",
+    "prettier": "^1.3.1",
     "sloc": "^0.1.9"
   }
 }
