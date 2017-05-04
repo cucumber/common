@@ -441,3 +441,17 @@ function c_release_karma()
 {
   echo_blue "No release karma needed for ${subrepo} (currently not using a c package manager)"
 }
+
+function c_release() {
+  dir=$1
+  version=$2
+  next_version=$3
+
+  pushd "${dir}"
+  git add .
+  git commit -m "Release ${version}"
+  git tag "v${version}"
+  git push
+  git push --tags
+  popd
+}
