@@ -17,7 +17,7 @@ This document is formatted according to the principles of [Keep A CHANGELOG](htt
 
 ### Fixed
 
-## [4.1.2] - 2017-05-03
+## [4.1.3] - 2017-05-04
 
 ### Added
 * (Go) Implement CLI
@@ -55,6 +55,9 @@ This document is formatted according to the principles of [Keep A CHANGELOG](htt
   ([#138](https://github.com/cucumber/cucumber/issues/138)
    [#158](https://github.com/cucumber/cucumber/pull/158)
    by [brasmusson])
+
+## [4.1.2] - 2017-05-03
+Something went wrong during this release - do not use
 
 ## [4.1.1] - 2017-03-16
 
@@ -330,7 +333,8 @@ to Gherkin 2.
 * First release
 
 <!-- Releases -->
-[Unreleased]: https://github.com/cucumber/cucumber/compare/gherkin-v4.1.2...HEAD
+[Unreleased]: https://github.com/cucumber/cucumber/compare/gherkin-v4.1.3...HEAD
+[4.1.3]:      https://github.com/cucumber/cucumber/compare/gherkin-v4.1.2...gherkin-v4.1.3
 [4.1.2]:      https://github.com/cucumber/cucumber/compare/gherkin-v4.1.1...gherkin-v4.1.2
 [4.1.1]:      https://github.com/cucumber/cucumber/compare/gherkin-v4.1.0...gherkin-v4.1.1
 [4.1.0]:      https://github.com/cucumber/cucumber/tree/gherkin-v4.1.0
