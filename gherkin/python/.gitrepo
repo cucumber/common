@@ -7,5 +7,5 @@
 	remote = https://github.com/cucumber/gherkin-python.git
 	branch = master
 	commit = df09bbc3c26bc87b9d482bd97954ed1340f2efd7
-	parent = 5b246f3b9df5170e2db7dd7a6cd54e2bca2661e1
+	parent = c5dfebe9d8388151205dbff566863ebf2bac65de
 	cmdver = 0.3.1
