@@ -7,5 +7,5 @@
 	remote = https://github.com/cucumber/gherkin-objective-c.git
 	branch = master
 	commit = 47a89db483c604d796ebd33b0b55dbc9a31019e7
-	parent = b7a716a7fe696eeb18cd4b678f93a2e8039382ce
+	parent = cc318af9982fb3cbc033e13b33872f268744c112
 	cmdver = 0.3.1
