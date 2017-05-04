@@ -7,5 +7,5 @@
 	remote = https://github.com/cucumber/gherkin-dotnet.git
 	branch = master
 	commit = 626fc016bf3885a49a233a630da6cc761ce92963
-	parent = 6b597ebc2a60dd754f37692d7948e9650038739c
+	parent = 29fe779159d942d00ad89d66c2cb7891d8004a7a
 	cmdver = 0.3.1
