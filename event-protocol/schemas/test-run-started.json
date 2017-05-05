@@ -12,7 +12,27 @@
     },
     "timestamp": {
       "type": "number"
+    },
+    "vcs": {
+      "type": "object",
+      "properties": {
+        "git": {
+          "type": "object",
+          "properties": {
+            "head": {
+              "type": "string"
+            },
+            "diff": {
+              "type": "string"
+            }
+          }
+        }
+      }
     }
   },
+  "required": [
+    "type",
+    "timestamp"
+  ],
   "additionalProperties": false
 }

@@ -1,5 +1,11 @@
 {
   "type":"test-run-started",
   "workingDirectory":"/Users/matt/projects/cucumber-ruby",
-  "timestamp":1489683458
+  "timestamp":1489683458,
+  "vcs": {
+    "git": {
+      "head": "be6683b9004a5785ca9b51776b98694dfe406fb6",
+      "diff": "diff --git a/event-protocol/schemas/test-run-started.json b/event-protocol/schemas/test-run-started.json\nindex 6fa0e39..48efe9a 100644\n--- a/event-protocol/schemas/test-run-started.json\n+++ b/event-protocol/schemas/test-run-started.json\n@@ -12,7 +12,27 @@\n     },\n     \"timestamp\": {\n       \"type\": \"number\"\n+    },\n+    \"vcs\": {\n+      \"type\": \"object\",\n+      \"properties\": {\n+        \"git\": {\n+          \"type\": \"object\",\n+          \"properties\": {\n+            \"head\": {\n+              \"type\": \"string\"\n+            },\n+            \"diff\": {\n+              \"type\": \"string\"\n+            }\n+          }\n+        }\n+      }\n     }\n   },\n+  \"required\": [\n+    \"type\",\n+    \"timestamp\"\n+  ],\n   \"additionalProperties\": false\n }\""
+    }
+  }
 }
