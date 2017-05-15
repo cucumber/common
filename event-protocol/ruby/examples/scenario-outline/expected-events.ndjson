@@ -1,0 +1,9 @@
+{"type":"source","uri":"features/passing_outline.feature","data":"Feature:\n  Scenario Outline:\n    Given this step is <status>\n\n    Examples:\n      | status  |\n      | passing |\n","media":{"encoding":"utf-8","type":"text/vnd.cucumber.gherkin+plain"}}
+{"type":"test-run-started","workingDirectory":"{{Dir.pwd}}/examples/scenario-outline","timestamp":1494880725}
+{"type":"test-case-prepared","sourceLocation":{"uri":"features/passing_outline.feature","line":7},"steps":[{"actionLocation":{"uri":"{{Cucumber::LIBDIR}}/cucumber/filters/prepare_world.rb","line":28}},{"actionLocation":{"uri":"features/step_definitions/steps.rb","line":1},"sourceLocation":{"uri":"features/passing_outline.feature","line":7}}]}
+{"type":"test-case-started","sourceLocation":{"uri":"features/passing_outline.feature","line":7}}
+{"type":"test-step-started","testCase":{"sourceLocation":{"uri":"features/passing_outline.feature","line":7}},"index":0}
+{"type":"test-step-finished","testCase":{"sourceLocation":{"uri":"features/passing_outline.feature","line":7}},"index":0,"result":{"status":"passed","duration":5000}}
+{"type":"test-step-started","testCase":{"sourceLocation":{"uri":"features/passing_outline.feature","line":7}},"index":1}
+{"type":"test-step-finished","testCase":{"sourceLocation":{"uri":"features/passing_outline.feature","line":7}},"index":1,"result":{"status":"passed","duration":200000}}
+{"type":"test-case-finished","sourceLocation":{"uri":"features/passing_outline.feature","line":7},"result":{"status":"passed","duration":38645000}}

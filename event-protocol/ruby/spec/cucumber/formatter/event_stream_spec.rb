@@ -58,7 +58,9 @@ describe Cucumber::Formatter::EventStream do
   describe "examples" do
 
     path = File.dirname(__FILE__) + "/../../../examples/*"
-    examples = Dir[path].map { |path| File.expand_path(path) }
+    examples = Dir[path].
+      map { |path| File.expand_path(path) }.
+      select { |path| File.directory?(path) }
 
     examples.each do |example_dir|
 
