@@ -2,6 +2,7 @@ require 'cucumber/formatter/event_stream/plugin'
 require 'cucumber/configuration'
 require 'cucumber/core/test/case'
 require 'cucumber/hooks'
+require 'cucumber/core/gherkin/document'
 
 describe Cucumber::Formatter::EventStream::Plugin do
   describe "when the test run starts" do
@@ -80,6 +81,45 @@ describe Cucumber::Formatter::EventStream::Plugin do
       message = output.find { |message| message['type'] == 'test-case-prepared' }
       expect(message['steps'][0]['actionLocation']).to eq({ 'uri' => 'features/step_definitions/steps.rb', 'line' => 1 })
       expect(message['steps'][0]['sourceLocation']).to eq({ 'uri' => 'features/test.feature', 'line' => 4 })
+    end
+
+    it "emits a source location with two lines for a Gherkin Scenario Outline step" do
+      test_cases = compile('features/test.feature', %{Feature:
+  Scenario Outline:
+    Given this step is <status>
+
+    Examples:
+      | status  |
+      | passing |
+ })
+
+      passing_test_case = test_cases[0].
+        with_steps(test_cases[0].test_steps.map { |test_step| test_step.with_action { } })
+      output = run_test_cases([ passing_test_case ])
+      message = output.find { |message| message['type'] == 'test-case-prepared' }
+      expect(message['steps'][0]['sourceLocation']).to eq({ 'uri' => 'features/test.feature', 'lines' => [ 7, 3 ]})
+    end
+
+    def compile(file, gherkin)
+      core = Object.new.extend(Cucumber::Core)
+      receiver = Receiver.new
+      core.compile([Cucumber::Core::Gherkin::Document.new(file, gherkin)], receiver)
+      receiver.test_cases
+    end
+
+    class Receiver
+      attr_reader :test_cases
+
+      def initialize
+        @test_cases = []
+      end
+
+      def test_case(test_case)
+        @test_cases << test_case
+      end
+
+      def done
+      end
     end
   end
 
