@@ -1,5 +1,6 @@
 #include "pickle_event.h"
 #include "pickle_printer.h"
+#include "print_utilities.h"
 #include "string_utilities.h"
 #include <string.h>
 #include <stdlib.h>
@@ -43,8 +44,9 @@ static void PickleEvent_print(const Event* event, FILE* file) {
     if (pickle_event) {
         fprintf(file, "{");
         fprintf(file, "\"type\":\"pickle\",");
-        fprintf(file, "\"uri\":\"%ls\",", pickle_event->uri);
-        fprintf(file, "\"pickle\":");
+        fprintf(file, "\"uri\":\"");
+        PrintUtilities_print_json_string(file, pickle_event->uri);
+        fprintf(file, "\",\"pickle\":");
         PicklePrinter_print_pickle(file, pickle_event->pickle);
         fprintf(file, "}\n");
     }

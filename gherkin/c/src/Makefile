@@ -1,5 +1,5 @@
 GCC_FLAGS=-c -Wall -Werror -g
-CLANG_FLAGS=-c -Wall -Wno-typedef-redefinition -Werror -g
+CLANG_FLAGS=-c -Wall -Werror -g
 
 ifeq ($(CC),i686-w64-mingw32-gcc)
 	CC=i686-w64-mingw32-gcc
@@ -21,7 +21,7 @@ endif
 GENERATE_DEPS_FLAGS=-MMD -MP -MF $(basename $@).d
 AR_FLAGS=cr
 LD_FLAGS=
-LD_LIBS=
+LD_LIBS=-lm
 RM_CMD=rm -rf
 MKDIR_CMD=mkdir -p
 
@@ -42,8 +42,8 @@ UTILITIES_OBJS= \
 	../objs/file_utf8_source.o \
 	../objs/print_utilities.o \
 	../objs/string_utilities.o \
-	../objs/utf8_source.o \
-	../objs/utf8_utilities.o
+	../objs/unicode_utilities.o \
+	../objs/utf8_source.o
 -include $(UTILITIES_OBJS:.o=.d)
 
 PARSER_OBJS= \

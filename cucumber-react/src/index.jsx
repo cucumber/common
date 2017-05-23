@@ -1,5 +1,5 @@
-import React from "react"
-import Immutable from "immutable"
+const React = require('react')
+const Immutable = require('immutable')
 
 const EMPTY_LIST = new Immutable.List()
 const EMPTY_MAP = new Immutable.Map()
@@ -67,18 +67,52 @@ Scenario.propTypes = {
   attachmentsByLine: React.PropTypes.instanceOf(Immutable.Map).isRequired
 }
 
-const Step = ({node, uri, attachments}) =>
-  <li>
+const Step = ({node, uri, attachments}) => {
+  const dataTable = argumentNode => {
+    if (!argumentNode) return null
+    if (argumentNode.get('type') === 'DataTable') {
+      return <DataTable node={argumentNode} />
+    }
+    return null
+  }
+
+  return <li>
     <span className="step"><span>{node.get('keyword')}</span><span className="text">{node.get('text')}</span></span>
-    {Array.from(attachments).map((attachment, n) => <Attachment
+    {Array.from(attachments || []).map((attachment, n) => <Attachment
       attachment={attachment}
       key={`${uri}:${node.getIn(['location', 'line'])}@${n}`}/>)}
+    {dataTable(node.get('argument'))}
   </li>
+}
 
 Step.propTypes = {
   node: React.PropTypes.instanceOf(Immutable.Map).isRequired,
   uri: React.PropTypes.string.isRequired,
   attachments: React.PropTypes.instanceOf(Immutable.List).isRequired
+}
+
+const DataTable = ({node}) => <table>
+  {node.get('rows').map(row => <TableRow node={row} />)}
+</table>
+
+DataTable.propTypes = {
+  node: React.PropTypes.instanceOf(Immutable.Map).isRequired
+}
+
+const TableRow = ({node}) => <tr>
+  {node.get('cells').map(cell => <TableCell node={cell} />)}
+</tr>
+
+TableRow.propTypes = {
+  node: React.PropTypes.instanceOf(Immutable.Map).isRequired
+}
+
+const TableCell = ({node}) => {
+  return <td>{node.get('value')}</td>
+}
+
+TableCell.propTypes = {
+  node: React.PropTypes.instanceOf(Immutable.Map).isRequired
 }
 
 const Attachment = ({attachment}) => {
@@ -106,4 +140,14 @@ Attachment.propTypes = {
   attachment: React.PropTypes.instanceOf(Immutable.Map).isRequired
 }
 
-export {Cucumber, GherkinDocument, Feature, Scenario, Step, Attachment}
+module.exports = {
+  Cucumber,
+  GherkinDocument,
+  Feature,
+  Scenario,
+  Step,
+  DataTable,
+  TableRow,
+  TableCell,
+  Attachment
+}

@@ -3,16 +3,14 @@
 
 #include <stdbool.h>
 #include <wchar.h>
+#include "gherkin_document.h"
+#include "pickle.h"
 
 #ifdef __cplusplus
 extern "C" {
 #endif
 
 typedef struct Compiler Compiler;
-
-typedef struct GherkinDocument GherkinDocument;
-
-typedef struct Pickle Pickle;
 
 Compiler* Compiler_new();
 

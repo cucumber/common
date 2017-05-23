@@ -1,9 +1,9 @@
 /* eslint-env browser */
-import React from "react"
-import {createStore} from "redux"
-import {connect, Provider} from "react-redux"
-import {render} from "react-dom"
-import {CucumberReact, reducer} from "cucumber-react"
+const React = require('react')
+const {createStore} = require('redux')
+const {connect, Provider} = require('react-redux')
+const {render} = require('react-dom')
+const {CucumberReact, reducer} = require('cucumber-react')
 const {Cucumber} = CucumberReact
 
 const store = createStore(reducer)

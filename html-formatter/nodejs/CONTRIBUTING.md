@@ -33,6 +33,10 @@ to write events and capture output.
 
     cat ../../event-protocol/examples/events.ndjson | bin/cucumber-html-formatter
 
+or more documents (but no results obviously):
+
+    ../../gherkin/javascript/bin/gherkin ../../gherkin/testdata/good/*.feature | bin/cucumber-html-formatter
+
 This should print a HTML report to `STDOUT`. You probably want to direct it to a file, then
 open it in a browser:
 

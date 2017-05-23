@@ -15,10 +15,10 @@ typedef unsigned char (*utf8_source_read_function) (Utf8Source*);
 
 typedef void (*utf8_source_delete_function) (Utf8Source*);
 
-typedef struct Utf8Source {
+struct Utf8Source {
     utf8_source_read_function read;
     utf8_source_delete_function delete;
-} Utf8Source;
+};
 
 unsigned char Utf8Source_read(Utf8Source* utf8_source);
 

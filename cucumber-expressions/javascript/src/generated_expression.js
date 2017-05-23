@@ -7,7 +7,10 @@ class GeneratedExpression {
   }
 
   get source() {
-    return util.format(this._expressionTemplate, ...this._parameterTypes.map(t => t.name))
+    return util.format(
+      this._expressionTemplate,
+      ...this._parameterTypes.map(t => t.name)
+    )
   }
 
   /**
@@ -17,7 +20,9 @@ class GeneratedExpression {
    */
   get parameterNames() {
     const usageByTypeName = {}
-    return this._parameterTypes.map(t => getParameterName(t.name, usageByTypeName))
+    return this._parameterTypes.map(t =>
+      getParameterName(t.name, usageByTypeName)
+    )
   }
 
   /**
@@ -35,6 +40,5 @@ function getParameterName(typeName, usageByTypeName) {
 
   return count === 1 ? typeName : `${typeName}${count}`
 }
-
 
 module.exports = GeneratedExpression

@@ -2,15 +2,13 @@
 #define GHERKIN_TOKEN_MATCHER_H_
 
 #include <stdbool.h>
+#include "dialect.h"
+#include "error_list.h"
 #include "token.h"
 
 #ifdef __cplusplus
 extern "C" {
 #endif
-
-typedef struct Dialect Dialect;
-
-typedef struct ErrorList ErrorList;
 
 typedef struct TokenMatcher TokenMatcher;
 
@@ -18,7 +16,7 @@ typedef void (*matcher_reset_function) (TokenMatcher*);
 
 typedef bool (*match_function) (TokenMatcher*, Token*);
 
-typedef struct TokenMatcher {
+struct TokenMatcher {
     const wchar_t* default_language;
     const wchar_t* language;
     const Dialect* dialect;
@@ -40,7 +38,7 @@ typedef struct TokenMatcher {
     match_function match_Language;
     match_function match_Other;
     match_function match_EOF;
-} TokenMatcher;
+};
 
 TokenMatcher* TokenMatcher_new(const wchar_t* default_language);
 

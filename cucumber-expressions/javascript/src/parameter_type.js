@@ -43,7 +43,7 @@ class ParameterType {
 
 function stringArray(regexps) {
   const array = Array.isArray(regexps) ? regexps : [regexps]
-  return array.map(r => typeof r === 'string' ? r : r.source)
+  return array.map(r => (typeof r === 'string' ? r : r.source))
 }
 
 module.exports = ParameterType

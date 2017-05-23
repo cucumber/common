@@ -1,6 +1,9 @@
 const ParameterType = require('./parameter_type')
 const CucumberExpressionGenerator = require('./cucumber_expression_generator.js')
-const { CucumberExpressionError, AmbiguousParameterTypeError } = require('./errors')
+const {
+  CucumberExpressionError,
+  AmbiguousParameterTypeError,
+} = require('./errors')
 
 const INTEGER_REGEXPS = [/-?\d+/, /\d+/]
 const FLOAT_REGEXP = /-?\d*\.?\d+/
@@ -11,8 +14,12 @@ class ParameterTypeRegistry {
     this._parameterTypesByConstructorName = new Map()
     this._parameterTypesByRegexp = new Map()
 
-    this.defineParameterType(new ParameterType('int', Number, INTEGER_REGEXPS, true, parseInt))
-    this.defineParameterType(new ParameterType('float', Number, FLOAT_REGEXP, false, parseFloat))
+    this.defineParameterType(
+      new ParameterType('int', Number, INTEGER_REGEXPS, true, parseInt)
+    )
+    this.defineParameterType(
+      new ParameterType('float', Number, FLOAT_REGEXP, false, parseFloat)
+    )
   }
 
   get parameterTypes() {
@@ -25,7 +32,9 @@ class ParameterTypeRegistry {
     } else if (typeof type === 'string') {
       return this.lookupByTypeName(type)
     } else {
-      throw new Error(`Type must be string or function, but was ${type} of type ${typeof type}`)
+      throw new Error(
+        `Type must be string or function, but was ${type} of type ${typeof type}`
+      )
     }
   }
 
@@ -58,8 +67,14 @@ class ParameterTypeRegistry {
     const parameterTypes = this._parameterTypesByConstructorName.get(fn.name)
     if (!parameterTypes) return null
     if (parameterTypes.length > 1 && !parameterTypes[0].isPreferential) {
-      const generatedExpressions = new CucumberExpressionGenerator(this).generateExpressions(text)
-      throw new AmbiguousParameterTypeError.forConstructor(fn.name, parameterTypes, generatedExpressions)
+      const generatedExpressions = new CucumberExpressionGenerator(
+        this
+      ).generateExpressions(text)
+      throw new AmbiguousParameterTypeError.forConstructor(
+        fn.name,
+        parameterTypes,
+        generatedExpressions
+      )
     }
     return parameterTypes[0]
   }
@@ -75,18 +90,30 @@ class ParameterTypeRegistry {
       // We don't do this check on insertion because we only want to restrict
       // ambiguiuty when we look up by Regexp. Users of CucumberExpression should
       // not be restricted.
-      const generatedExpressions = new CucumberExpressionGenerator(this).generateExpressions(text)
-      throw new AmbiguousParameterTypeError.forRegExp(parameterTypeRegexp, regexp, parameterTypes, generatedExpressions);
+      const generatedExpressions = new CucumberExpressionGenerator(
+        this
+      ).generateExpressions(text)
+      throw new AmbiguousParameterTypeError.forRegExp(
+        parameterTypeRegexp,
+        regexp,
+        parameterTypes,
+        generatedExpressions
+      )
     }
     return parameterTypes[0]
   }
 
   createAnonymousLookup(fn) {
-    return new ParameterType(null, null, [".+"], false, fn)
+    return new ParameterType(null, null, ['.+'], false, fn)
   }
 
   defineParameterType(parameterType) {
-    set(this._parameterTypeByTypeName, parameterType.name, parameterType, 'type name')
+    set(
+      this._parameterTypeByTypeName,
+      parameterType.name,
+      parameterType,
+      'type name'
+    )
 
     if (looksLikeConstructor(parameterType.constructorFunction)) {
       setUnlessPreferentialClash(
@@ -94,9 +121,12 @@ class ParameterTypeRegistry {
         parameterType.constructorFunction.name,
         parameterType,
         (key, existingParameterType) => {
-          return "There can only be one preferential parameter type per constructor. " +
+          return (
+            'There can only be one preferential parameter type per constructor. ' +
             `The constructor ${key} is used for two preferential parameter types, {${existingParameterType.name}} and {${parameterType.name}}`
-        })
+          )
+        }
+      )
     }
 
     for (const parameterTypeRegexp of parameterType.regexps) {
@@ -105,8 +135,10 @@ class ParameterTypeRegistry {
         parameterTypeRegexp,
         parameterType,
         (key, existingParameterType) => {
-          return "There can only be one preferential parameter type per regexp. " +
+          return (
+            'There can only be one preferential parameter type per regexp. ' +
             `The regexp ${key} is used for two preferential parameter types, {${existingParameterType.name}} and {${parameterType.name}}`
+          )
         }
       )
     }
@@ -132,7 +164,11 @@ function setUnlessPreferentialClash(map, key, parameterType, errorMessage) {
   }
   const parameterTypes = map.get(key)
   const existingParameterType = parameterTypes[0]
-  if (parameterTypes.length > 0 && existingParameterType.isPreferential && parameterType.isPreferential) {
+  if (
+    parameterTypes.length > 0 &&
+    existingParameterType.isPreferential &&
+    parameterType.isPreferential
+  ) {
     throw new CucumberExpressionError(errorMessage(key, existingParameterType))
   }
   if (!parameterTypes.includes(parameterType)) {

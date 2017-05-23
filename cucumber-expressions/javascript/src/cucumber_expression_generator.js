@@ -10,10 +10,11 @@ class CucumberExpressionGenerator {
   generateExpressions(text) {
     const parameterTypeCombinations = []
     const parameterTypeMatchers = this._createParameterTypeMatchers(text)
-    let expressionTemplate = ""
+    let expressionTemplate = ''
     let pos = 0
 
-    while (true) { // eslint-disable-line no-constant-condition
+    // eslint-disable-next-line no-constant-condition
+    while (true) {
       let matchingParameterTypeMatchers = []
 
       for (const parameterTypeMatcher of parameterTypeMatchers) {
@@ -24,12 +25,15 @@ class CucumberExpressionGenerator {
       }
 
       if (matchingParameterTypeMatchers.length > 0) {
-        matchingParameterTypeMatchers = matchingParameterTypeMatchers.sort(ParameterTypeMatcher.compare)
+        matchingParameterTypeMatchers = matchingParameterTypeMatchers.sort(
+          ParameterTypeMatcher.compare
+        )
 
         // Find all the best parameter type matchers, they are all candidates.
         const bestParameterTypeMatcher = matchingParameterTypeMatchers[0]
-        const bestParameterTypeMatchers = matchingParameterTypeMatchers
-          .filter(m => ParameterTypeMatcher.compare(m, bestParameterTypeMatcher) === 0)
+        const bestParameterTypeMatchers = matchingParameterTypeMatchers.filter(
+          m => ParameterTypeMatcher.compare(m, bestParameterTypeMatcher) === 0
+        )
 
         // Build a list of parameter types without duplicates. The reason there
         // might be duplicates is that some parameter types have more than one regexp,
@@ -50,7 +54,8 @@ class CucumberExpressionGenerator {
         expressionTemplate += text.slice(pos, bestParameterTypeMatcher.start)
         expressionTemplate += '{%s}'
 
-        pos = bestParameterTypeMatcher.start + bestParameterTypeMatcher.group.length
+        pos =
+          bestParameterTypeMatcher.start + bestParameterTypeMatcher.group.length
       } else {
         break
       }
@@ -61,7 +66,10 @@ class CucumberExpressionGenerator {
     }
 
     expressionTemplate += text.slice(pos)
-    return new CombinatorialGeneratedExpressionFactory(expressionTemplate, parameterTypeCombinations).generateExpressions()
+    return new CombinatorialGeneratedExpressionFactory(
+      expressionTemplate,
+      parameterTypeCombinations
+    ).generateExpressions()
   }
 
   /**
@@ -74,7 +82,9 @@ class CucumberExpressionGenerator {
   _createParameterTypeMatchers(text) {
     let parameterMatchers = []
     for (const parameterType of this._parameterTypeRegistry.parameterTypes) {
-      parameterMatchers = parameterMatchers.concat(this._createParameterTypeMatchers2(parameterType, text))
+      parameterMatchers = parameterMatchers.concat(
+        this._createParameterTypeMatchers2(parameterType, text)
+      )
     }
     return parameterMatchers
   }

@@ -14,7 +14,9 @@ class CombinatorialGeneratedExpressionFactory {
 
   _generatePermutations(generatedExpressions, depth, currentParameterTypes) {
     if (depth === this._parameterTypeCombinations.length) {
-      generatedExpressions.push(new GeneratedExpression(this._expressionTemplate, currentParameterTypes))
+      generatedExpressions.push(
+        new GeneratedExpression(this._expressionTemplate, currentParameterTypes)
+      )
       return
     }
 

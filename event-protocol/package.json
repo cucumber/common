@@ -8,7 +8,7 @@
   "scripts": {
     "test": "make"
   },
-  "devDependencies": {
+  "dependencies": {
     "ajv": "^4.6.1",
     "mz": "^2.4.0"
   },

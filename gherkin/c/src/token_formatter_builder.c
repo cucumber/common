@@ -1,4 +1,5 @@
 #include "token_formatter_builder.h"
+#include "print_utilities.h"
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -40,31 +41,41 @@ void TokenFormatterBuilder_build(Builder* builder, Token* token) {
         fprintf(((TokenFormatterBuilder*)builder)->file, "%s\n", token_type_to_string(token->matched_type));
     else if (token->matched_type == Token_TableRow || token->matched_type == Token_TagLine) {
         fprintf(((TokenFormatterBuilder*)builder)->file,
-                "(%d:%d)%s:%ls/%ls/",
+                "(%d:%d)%s:",
                 token->location.line,
                 token->location.column,
-                token_type_to_string(token->matched_type),
-                token->matched_keyword ? token->matched_keyword : L"",
-                token->matched_text ? token->matched_text : L"");
+                token_type_to_string(token->matched_type));
+        PrintUtilities_print_wide_string(((TokenFormatterBuilder*)builder)->file,
+                                   token->matched_keyword ? token->matched_keyword : L"");
+        fprintf(((TokenFormatterBuilder*)builder)->file, "/");
+        PrintUtilities_print_wide_string(((TokenFormatterBuilder*)builder)->file,
+                                   token->matched_text ? token->matched_text : L"");
+        fprintf(((TokenFormatterBuilder*)builder)->file, "/");
         int i;
         for (i = 0; i < token->matched_items->count; ++i) {
             if (i != 0)
                 fprintf(((TokenFormatterBuilder*)builder)->file, ",");
             fprintf(((TokenFormatterBuilder*)builder)->file,
-                    "%d:%ls",
-                    token->matched_items->items[i].column,
-                    token->matched_items->items[i].text);
+                    "%d:",
+                    token->matched_items->items[i].column);
+            PrintUtilities_print_wide_string(((TokenFormatterBuilder*)builder)->file,
+                                       token->matched_items->items[i].text);
         }
         fprintf(((TokenFormatterBuilder*)builder)->file, "\n");
     }
-    else
+    else {
         fprintf(((TokenFormatterBuilder*)builder)->file,
-                "(%d:%d)%s:%ls/%ls/\n",
+                "(%d:%d)%s:",
                 token->location.line,
                 token->location.column,
-                token_type_to_string(token->matched_type),
-                token->matched_keyword ? token->matched_keyword : L"",
-                token->matched_text ? token->matched_text : L"");
+                token_type_to_string(token->matched_type));
+        PrintUtilities_print_wide_string(((TokenFormatterBuilder*)builder)->file,
+                                   token->matched_keyword ? token->matched_keyword : L"");
+        fprintf(((TokenFormatterBuilder*)builder)->file, "/");
+        PrintUtilities_print_wide_string(((TokenFormatterBuilder*)builder)->file,
+                                   token->matched_text ? token->matched_text : L"");
+        fprintf(((TokenFormatterBuilder*)builder)->file, "/\n");
+    }
     Token_delete(token);
 }
 

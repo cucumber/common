@@ -11,41 +11,55 @@ describe('ParameterTypeRegistry', () => {
     registry = new ParameterTypeRegistry()
   })
 
-  it("does not allow more than one preferential parameter type for each constructor", () => {
-    class MyType {
+  it('does not allow more than one preferential parameter type for each constructor', () => {
+    class MyType {}
 
-    }
-
-    registry.defineParameterType(new ParameterType("why", MyType, /why/, true, null))
+    registry.defineParameterType(
+      new ParameterType('why', MyType, /why/, true, null)
+    )
     assertThrow(
-      () => registry.defineParameterType(new ParameterType("whynot", MyType, /whynot/, true, null)),
-      "There can only be one preferential parameter type per constructor. The constructor MyType is used for two preferential parameter types, {why} and {whynot}"
+      () =>
+        registry.defineParameterType(
+          new ParameterType('whynot', MyType, /whynot/, true, null)
+        ),
+      'There can only be one preferential parameter type per constructor. The constructor MyType is used for two preferential parameter types, {why} and {whynot}'
     )
   })
 
-
-  it("looks up preferential parameter type by constructor", () => {
+  it('looks up preferential parameter type by constructor', () => {
     const parameterType = registry.lookupByType(Number)
     assert.equal(parameterType.name, 'int')
   })
 
-  it("does not allow more than one preferential parameter type for each regexp", () => {
-    registry.defineParameterType(new ParameterType("color", null, /red|blue|green/, true, null))
+  it('does not allow more than one preferential parameter type for each regexp', () => {
+    registry.defineParameterType(
+      new ParameterType('color', null, /red|blue|green/, true, null)
+    )
     assertThrow(
-      () => registry.defineParameterType(new ParameterType("cssColor", null, /red|blue|green/, true, null)),
-      "There can only be one preferential parameter type per regexp. The regexp red|blue|green is used for two preferential parameter types, {color} and {cssColor}"
+      () =>
+        registry.defineParameterType(
+          new ParameterType('cssColor', null, /red|blue|green/, true, null)
+        ),
+      'There can only be one preferential parameter type per regexp. The regexp red|blue|green is used for two preferential parameter types, {color} and {cssColor}'
     )
   })
 
-  it("looks up preferential parameter type by regexp", () => {
-    const name = new ParameterType("name", null, /[A-Z]+\w+/, false, null)
-    const person = new ParameterType("person", null, /[A-Z]+\w+/, true, null)
-    const place = new ParameterType("place", null, /[A-Z]+\w+/, false, null)
+  it('looks up preferential parameter type by regexp', () => {
+    const name = new ParameterType('name', null, /[A-Z]+\w+/, false, null)
+    const person = new ParameterType('person', null, /[A-Z]+\w+/, true, null)
+    const place = new ParameterType('place', null, /[A-Z]+\w+/, false, null)
 
     registry.defineParameterType(name)
     registry.defineParameterType(person)
     registry.defineParameterType(place)
 
-    assert.equal(registry.lookupByRegexp("[A-Z]+\\w+", /([A-Z]+\w+) and ([A-Z]+\w+)/, "Lisa and Bob"), person);
+    assert.equal(
+      registry.lookupByRegexp(
+        '[A-Z]+\\w+',
+        /([A-Z]+\w+) and ([A-Z]+\w+)/,
+        'Lisa and Bob'
+      ),
+      person
+    )
   })
 })

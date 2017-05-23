@@ -1,7 +1,7 @@
-import stream from "stream"
-import buildWebApp from "./build_web_app"
-import WebServer from "./web_server"
-import SocketServer from "./socket_server"
+const stream = require('stream')
+const buildWebApp = require('./build_web_app')
+const WebServer = require('./web_server')
+const SocketServer = require('./socket_server')
 
 class App {
   constructor(components) {
@@ -15,7 +15,7 @@ class App {
   }
 }
 
-export default () => {
+module.exports = () => {
   const eventBus = new stream.PassThrough({objectMode: true})
   const webApp = buildWebApp()
   const webServer = new WebServer(webApp, eventBus)

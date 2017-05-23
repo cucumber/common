@@ -6,25 +6,28 @@ class CucumberExpression {
    * @param types Array of type name (String) or types (function). Functions can be a regular function or a constructor
    * @param parameterTypeRegistry
    */
-  constructor (expression, types, parameterTypeRegistry) {
+  constructor(expression, types, parameterTypeRegistry) {
     const PARAMETER_REGEXP = /\{([^}]+)}/g
     const OPTIONAL_REGEXP = /\(([^)]+)\)/g
     const ALTERNATIVE_WORD_REGEXP = /(\w+)((\/\w+)+)/g
 
     this._expression = expression
     this._parameterTypes = []
-    let regexp = "^"
+    let regexp = '^'
     let typeIndex = 0
     let match
     let matchOffset = 0
 
     // Does not include (){} because they have special meaning
-    expression = expression.replace(/([\\\^\[$.|?*+])/g, "\\$1")
+    expression = expression.replace(/([\\\^\[$.|?*+])/g, '\\$1')
 
     // Create non-capturing, optional capture groups from parenthesis
     expression = expression.replace(OPTIONAL_REGEXP, '(?:$1)?')
 
-    expression = expression.replace(ALTERNATIVE_WORD_REGEXP, (_, p1, p2) => `(?:${p1}${p2.replace(/\//g, '|')})`)
+    expression = expression.replace(
+      ALTERNATIVE_WORD_REGEXP,
+      (_, p1, p2) => `(?:${p1}${p2.replace(/\//g, '|')})`
+    )
 
     while ((match = PARAMETER_REGEXP.exec(expression)) !== null) {
       const parameterName = match[1]
@@ -49,20 +52,20 @@ class CucumberExpression {
       regexp += captureRegexp
     }
     regexp += expression.slice(matchOffset)
-    regexp += "$"
+    regexp += '$'
     this._regexp = new RegExp(regexp)
   }
 
-  match (text) {
+  match(text) {
     return matchPattern(this._regexp, text, this._parameterTypes)
   }
 
-  get source () {
+  get source() {
     return this._expression
   }
 }
 
-function getCaptureRegexp (regexps) {
+function getCaptureRegexp(regexps) {
   if (regexps.length === 1) {
     return `(${regexps[0]})`
   }
