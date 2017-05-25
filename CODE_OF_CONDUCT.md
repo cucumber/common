@@ -17,7 +17,7 @@ As a member of the community, you are also encouraged to help others act accordi
 * **We are tolerant**. A diverse group of people has a diverse set of boundaries about what is OK. Sometimes one of us may make a mistake, and do something that inadvertently causes offence. When we observe this happen, we try to give the offender feedback quickly, clearly and constructively. We try to offer them the opportunity to maintain their dignity in the situation, to learn from and rectify their mistake.
 * **We do not tolerate unpleasant behaviour**. If someone repeatedly or deliberately acts in an offensive way, we will take decisive action to prevent any further harm.
 
-## What is not OK
+## What is not OK
 
 This isn’t an exhaustive list of things that you can’t do. Rather, take it in the spirit in which it’s intended - a guide to make all of our daily interactions more straightforward and enriching.
 
