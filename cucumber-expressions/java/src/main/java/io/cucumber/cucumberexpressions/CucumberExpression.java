@@ -7,7 +7,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class CucumberExpression implements Expression {
-    private static final Pattern ESCAPE_PATTERN = Pattern.compile("([\\\\\\^\\[$.|?*+\\]])");
+    private static final Pattern ESCAPE_PATTERN = Pattern.compile("([\\\\^\\[$.|?*+\\]])");
     private static final Pattern PARAMETER_PATTERN = Pattern.compile("\\{([^}]+)}");
     private static final Pattern OPTIONAL_PATTERN = Pattern.compile("\\(([^)]+)\\)");
     private static final Pattern ALTERNATIVE_WORD_REGEXP = Pattern.compile("([\\p{IsAlphabetic}]+)((/[\\p{IsAlphabetic}]+)+)");
