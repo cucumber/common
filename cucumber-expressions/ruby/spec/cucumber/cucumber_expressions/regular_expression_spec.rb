@@ -55,6 +55,13 @@ module Cucumber
           /Type must be string or class, but was 99 of type (?:Fixnum)|(?:Integer)/)
       end
 
+      it "ignores non capturing groups" do
+        expect( match(
+          /(\S+) ?(can|cannot)? (?:delete|cancel) the (\d+)(?:st|nd|rd|th) (attachment|slide) ?(?:upload)?/,
+          "I can cancel the 1st slide upload")
+        ).to eq(["I", "can", 1, "slide"])
+      end
+
       it "exposes source" do
         expr = /I have (\d+) cukes? in my (\+) now/
         expect(RegularExpression.new(expr, [], ParameterTypeRegistry.new).source).to eq(expr)

@@ -16,8 +16,11 @@ module Cucumber
         loop do
           match = CAPTURE_GROUP_PATTERN.match(regexp.source, match_offset)
           break if match.nil?
+          match_offset = match.offset(0)[1]
 
           capture_group_pattern = match[1]
+          next if capture_group_pattern.start_with?('?:')
+
           type = types.length <= type_index ? nil : types[type_index]
           type_index += 1
 
@@ -33,7 +36,6 @@ module Cucumber
           end
 
           @parameter_types.push(parameter_type)
-          match_offset = match.offset(0)[1]
         end
       end
 
