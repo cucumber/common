@@ -11,6 +11,7 @@ class RegularExpression {
     let match
     while ((match = CAPTURE_GROUP_PATTERN.exec(regexp.source)) !== null) {
       const captureGroupPattern = match[1]
+      if(captureGroupPattern.startsWith("?:")) continue
       const type = types.length <= typeIndex ? null : types[typeIndex++]
 
       let parameterType

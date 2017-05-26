@@ -65,6 +65,14 @@ describe(RegularExpression.name, () => {
     )
   })
 
+  it('ignores non capturing groups', () => {
+    assert.deepEqual(match(
+      /(\S+) ?(can|cannot)? (?:delete|cancel) the (\d+)(?:st|nd|rd|th) (attachment|slide) ?(?:upload)?/,
+      "I can cancel the 1st slide upload"
+    ),
+    ["I", "can", 1, "slide"])
+  })
+
   it('exposes source', () => {
     const expr = /I have (\d+) cukes? in my (.+) now/
     assert.deepEqual(
