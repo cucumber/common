@@ -30,6 +30,7 @@ public class RegularExpression implements Expression {
         while (matcher.find()) {
             Type type = types.size() <= typeIndex ? null : types.get(typeIndex++);
             String captureGroupPattern = matcher.group(1);
+            if(captureGroupPattern.startsWith("?:")) continue;
 
             ParameterType<?> parameterType = null;
             if (type != null) {

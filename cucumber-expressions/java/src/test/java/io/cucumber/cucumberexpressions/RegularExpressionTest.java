@@ -10,6 +10,7 @@ import java.util.Locale;
 import java.util.regex.Pattern;
 
 import static java.util.Arrays.asList;
+import static java.util.Collections.emptyList;
 import static java.util.Collections.singletonList;
 import static java.util.regex.Pattern.compile;
 import static org.junit.Assert.assertEquals;
@@ -58,6 +59,14 @@ public class RegularExpressionTest {
     @Test
     public void transforms_double_with_sign() {
         assertEquals(singletonList(-1.22), match(compile("(.*)"), "-1.22", Collections.<Type>singletonList(Double.class)));
+    }
+
+    @Test
+    public void ignores_non_capturing_groups() {
+        String expr = "(\\S+) ?(can|cannot)? (?:delete|cancel) the (\\d+)(?:st|nd|rd|th) (attachment|slide) ?(?:upload)?";
+        String step = "I can cancel the 1st slide upload";
+        List<?> match = match(compile(expr), step, emptyList());
+        assertEquals(asList("I", "can", 1L, "slide"), match);
     }
 
     @Test
