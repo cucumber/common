@@ -25,7 +25,8 @@
         <connection>scm:git:git://github.com/cucumber/tag-expressions-java.git</connection>
         <developerConnection>scm:git:git@github.com:cucumber/tag-expressions-java.git</developerConnection>
         <url>git://github.com/cucumber/tag-expressions-java.git</url>
-    </scm>
+      <tag>HEAD</tag>
+  </scm>
 
     <dependencies>
         <dependency>
