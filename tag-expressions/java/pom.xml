@@ -98,6 +98,10 @@
                         <version>1.6</version>
                         <configuration>
                             <useAgent>true</useAgent>
+                            <gpgArguments>
+                              <arg>--local-user</arg>
+                              <arg>devs@cucumber.io</arg>
+                            </gpgArguments>
                         </configuration>
                         <executions>
                             <execution>
