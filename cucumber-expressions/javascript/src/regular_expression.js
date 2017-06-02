@@ -5,7 +5,7 @@ class RegularExpression {
     this._regexp = regexp
     this._parameterTypes = []
 
-    const CAPTURE_GROUP_PATTERN = /\(([^(]+)\)/g
+    const CAPTURE_GROUP_PATTERN = /\((?!\?:)([^(]+)\)/g
 
     let typeIndex = 0
     let match

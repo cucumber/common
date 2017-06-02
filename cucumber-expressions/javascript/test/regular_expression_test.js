@@ -54,6 +54,13 @@ describe(RegularExpression.name, () => {
     assert.deepEqual(match(/(.*)/, '-1.22', [s => parseFloat(s)]), [-1.22])
   })
 
+  it('take into account non-capturing group', () => {
+    assert.deepEqual(match(/(?:head) (\d+) (tail)/, 'head 22 tail'), [
+      22,
+      'tail',
+    ])
+  })
+
   it('returns null when there is no match', () => {
     assert.equal(match(/hello/, 'world'), null)
   })
