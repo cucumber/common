@@ -1,0 +1,18 @@
+{
+  "id": "https://raw.github.com/cucumber/cucumber/master/event-protocol/schemas/test-run-started.json#",
+  "title": "test-run-started",
+  "description": "Signals the start of a test run",
+  "type": "object",
+  "properties": {
+    "type": {
+      "type": "string"
+    },
+    "workingDirectory": {
+      "type": "string"
+    },
+    "timestamp": {
+      "type": "number"
+    }
+  },
+  "additionalProperties": false
+}
