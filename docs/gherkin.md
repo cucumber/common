@@ -39,7 +39,7 @@ Given <I'm a placeholder and I'm ok>
 
 The placeholders indicate that when the Examples row is run they should be substituted with real values from the `Examples` table. If a placeholder name is the same as a column title in the `Examples` table then this is the value that will replace it.
 
-You can also use placeholders in [Multiline Step Arguments](docs/gherkin.md#doc-strings).
+You can also use placeholders in [Multiline Step Arguments](gherkin.md#doc-strings).
 
 **IMPORTANT:** *Your step definitions will never have to match a placeholder. They will need to match the values that will replace the placeholder*
 

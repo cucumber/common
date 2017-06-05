@@ -18,7 +18,7 @@ Let's get started!
 
 ## Gherkin
 
-Before you start you should make sure you have a working [Gherkin](#)
+Before you start you should make sure you have a working [Gherkin](../gherkin.md)
 parser that can parse and compile `.feature` files.
 
 It isn't the first thing you'll use when you write a new Cucumber
