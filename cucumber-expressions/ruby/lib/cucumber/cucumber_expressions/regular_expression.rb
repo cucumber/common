@@ -3,7 +3,7 @@ require 'cucumber/cucumber_expressions/argument_builder'
 module Cucumber
   module CucumberExpressions
     class RegularExpression
-      CAPTURE_GROUP_PATTERN = /\(([^(]+)\)/
+      CAPTURE_GROUP_PATTERN = /\((?!\?:)([^(]+)\)/
 
       def initialize(regexp, types, parameter_type_registry)
         @regexp = regexp
@@ -19,7 +19,6 @@ module Cucumber
           match_offset = match.offset(0)[1]
 
           capture_group_pattern = match[1]
-          next if capture_group_pattern.start_with?('?:')
 
           type = types.length <= type_index ? nil : types[type_index]
           type_index += 1

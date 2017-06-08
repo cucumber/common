@@ -7,7 +7,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class RegularExpression implements Expression {
-    private static final Pattern CAPTURE_GROUP_PATTERN = Pattern.compile("\\(([^(]+)\\)");
+    private static final Pattern CAPTURE_GROUP_PATTERN = Pattern.compile("\\((?!\\?:)([^(]+)\\)");
 
     private final Pattern pattern;
     private final List<? extends Type> types;
@@ -37,7 +37,6 @@ public class RegularExpression implements Expression {
         while (matcher.find()) {
             Type type = types.size() <= typeIndex ? null : types.get(typeIndex++);
             String parameterTypeRegexp = matcher.group(1);
-            if(parameterTypeRegexp.startsWith("?:")) continue;
 
             ParameterType<?> parameterType = null;
             if (type != null) {

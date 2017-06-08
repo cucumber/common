@@ -10,13 +10,12 @@ class RegularExpression {
   match(text) {
     const parameterTypes = []
 
-    const CAPTURE_GROUP_PATTERN = /\(([^(]+)\)/g
+    const CAPTURE_GROUP_PATTERN = /\((?!\?:)([^(]+)\)/g
 
     let typeIndex = 0
     let match
     while ((match = CAPTURE_GROUP_PATTERN.exec(this._regexp.source)) !== null) {
       const parameterTypeRegexp = match[1]
-      if (parameterTypeRegexp.startsWith('?:')) continue
       const type = this._types.length <= typeIndex
         ? null
         : this._types[typeIndex++]
