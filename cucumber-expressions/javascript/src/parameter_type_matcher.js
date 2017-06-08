@@ -36,9 +36,9 @@ class ParameterTypeMatcher {
 
   static compare(a, b) {
     const posComparison = a.start - b.start
-    if (posComparison != 0) return posComparison
+    if (posComparison !== 0) return posComparison
     const lengthComparison = b.group.length - a.group.length
-    if (lengthComparison != 0) return lengthComparison
+    if (lengthComparison !== 0) return lengthComparison
     return 0
   }
 }

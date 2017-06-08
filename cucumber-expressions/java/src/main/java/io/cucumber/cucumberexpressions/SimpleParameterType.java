@@ -2,24 +2,41 @@ package io.cucumber.cucumberexpressions;
 
 import java.util.List;
 
+import static java.util.Collections.singletonList;
+
 public class SimpleParameterType<T> extends AbstractParameterType<T> {
     private final Function<String, T> transformer;
 
     public SimpleParameterType(String name, String regexp) {
-        this(name, null, regexp, null);
+        this(name, regexp, false);
+    }
+
+    public SimpleParameterType(String name, String regexp, boolean isPreferential) {
+        this(name, null, isPreferential, regexp, null);
     }
 
     public SimpleParameterType(String name, List<String> regexps) {
-        this(name, null, regexps, null);
+        this(name, regexps, false);
+    }
+
+    public SimpleParameterType(String name, List<String> regexps, boolean isPreferential) {
+        this(name, null, isPreferential, regexps, null);
     }
 
     public SimpleParameterType(String name, Class<T> type, String regexp, Function<String, T> transformer) {
-        super(name, type, regexp);
-        this.transformer = transformer;
+        this(name, type, false, regexp, transformer);
+    }
+
+    public SimpleParameterType(String name, Class<T> type, boolean isPreferential, String regexp, Function<String, T> transformer) {
+        this(name, type, isPreferential, singletonList(regexp), transformer);
     }
 
     public SimpleParameterType(String name, Class<T> type, List<String> regexps, Function<String, T> transformer) {
-        super(name, type, regexps);
+        this(name, type, false, regexps, transformer);
+    }
+
+    public SimpleParameterType(String name, Class<T> type, boolean isPreferential, List<String> regexps, Function<String, T> transformer) {
+        super(name, type, isPreferential, regexps);
         this.transformer = transformer;
     }
 

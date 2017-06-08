@@ -3,7 +3,7 @@ const assert = require('assert')
 const CucumberExpression = require('../src/cucumber_expression')
 const ParameterTypeRegistry = require('../src/parameter_type_registry')
 
-describe(CucumberExpression.name, () => {
+describe('CucumberExpression', () => {
   describe('RegExp translation', () => {
     it('translates no arguments', () => {
       assertRegexp(

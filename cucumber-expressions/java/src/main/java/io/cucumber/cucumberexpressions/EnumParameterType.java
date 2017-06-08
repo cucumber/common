@@ -7,7 +7,7 @@ public class EnumParameterType<T extends Enum<T>> extends AbstractParameterType<
     private static final List<String> ANYTHING_GOES = Collections.singletonList(".+");
 
     public EnumParameterType(Class<T> enumClass) {
-        super(null, enumClass, ANYTHING_GOES);
+        super(enumClass.getSimpleName().toLowerCase(), enumClass, false, ANYTHING_GOES);
     }
 
     @Override

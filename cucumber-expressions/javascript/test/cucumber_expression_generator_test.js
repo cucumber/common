@@ -6,7 +6,7 @@ const ParameterTypeRegistry = require('../src/parameter_type_registry')
 
 class Currency {}
 
-describe(CucumberExpressionGenerator.name, () => {
+describe('CucumberExpressionGenerator', () => {
   let parameterTypeRegistry, generator
 
   function assertExpression(expectedExpression, expectedArgumentNames, text) {
@@ -61,7 +61,7 @@ describe(CucumberExpressionGenerator.name, () => {
 
   it('generates expression for custom type', () => {
     parameterTypeRegistry.defineParameterType(
-      new ParameterType('currency', Currency, '[A-Z]{3}', null)
+      new ParameterType('currency', Currency, '[A-Z]{3}', false, null)
     )
 
     assertExpression(
@@ -73,13 +73,39 @@ describe(CucumberExpressionGenerator.name, () => {
 
   it('prefers leftmost match when there is overlap', () => {
     parameterTypeRegistry.defineParameterType(
-      new ParameterType('currency', Currency, 'cd', null)
+      new ParameterType('currency', Currency, 'cd', false, null)
     )
     parameterTypeRegistry.defineParameterType(
-      new ParameterType('date', Date, 'bc', null)
+      new ParameterType('date', Date, 'bc', false, null)
     )
 
     assertExpression('a{date}defg', ['date'], 'abcdefg')
+  })
+
+  // TODO: prefers widest match
+
+  it('generates all combinations of expressions when several parameter types match', () => {
+    parameterTypeRegistry.defineParameterType(
+      new ParameterType('currency', null, 'x', false, null)
+    )
+    parameterTypeRegistry.defineParameterType(
+      new ParameterType('date', null, 'x', false, null)
+    )
+
+    const generatedExpressions = generator.generateExpressions(
+      'I have x and x and another x'
+    )
+    const expressions = generatedExpressions.map(e => e.source)
+    assert.deepEqual(expressions, [
+      'I have {currency} and {currency} and another {currency}',
+      'I have {currency} and {currency} and another {date}',
+      'I have {currency} and {date} and another {currency}',
+      'I have {currency} and {date} and another {date}',
+      'I have {date} and {currency} and another {currency}',
+      'I have {date} and {currency} and another {date}',
+      'I have {date} and {date} and another {currency}',
+      'I have {date} and {date} and another {date}',
+    ])
   })
 
   it('exposes parameter type names in generated expression', () => {

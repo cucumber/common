@@ -10,33 +10,40 @@ public class RegularExpression implements Expression {
     private static final Pattern CAPTURE_GROUP_PATTERN = Pattern.compile("\\(([^(]+)\\)");
 
     private final Pattern pattern;
-    private final List<ParameterType<?>> parameterTypes;
+    private final List<? extends Type> types;
+    private final ParameterTypeRegistry parameterTypeRegistry;
 
     /**
      * Creates a new instance. Use this when the transform types are not known in advance,
      * and should be determined by the regular expression's capture groups. Use this with
      * dynamically typed languages.
      *
-     * @param pattern         the regular expression to use
-     * @param types           types to convert capture groups to
-     * @param parameterTypeRegistry transform lookup
+     * @param pattern               the regular expression to use
+     * @param types                 types to convert capture groups to
+     * @param parameterTypeRegistry used to look up parameter types
      */
     public RegularExpression(Pattern pattern, List<? extends Type> types, ParameterTypeRegistry parameterTypeRegistry) {
         this.pattern = pattern;
-        this.parameterTypes = new ArrayList<>();
+        this.types = types;
+        this.parameterTypeRegistry = parameterTypeRegistry;
+    }
+
+    @Override
+    public List<Argument> match(String text) {
+        List<ParameterType<?>> parameterTypes = new ArrayList<>();
 
         Matcher matcher = CAPTURE_GROUP_PATTERN.matcher(pattern.pattern());
         int typeIndex = 0;
         while (matcher.find()) {
             Type type = types.size() <= typeIndex ? null : types.get(typeIndex++);
-            String captureGroupPattern = matcher.group(1);
+            String parameterTypeRegexp = matcher.group(1);
 
             ParameterType<?> parameterType = null;
             if (type != null) {
                 parameterType = parameterTypeRegistry.lookupByType(type);
             }
             if (parameterType == null) {
-                parameterType = parameterTypeRegistry.lookupByRegexp(captureGroupPattern);
+                parameterType = parameterTypeRegistry.lookupByRegexp(parameterTypeRegexp, pattern, text);
             }
             if (parameterType == null && type != null && type instanceof Class) {
                 parameterType = new ClassParameterType<>((Class) type);
@@ -46,10 +53,7 @@ public class RegularExpression implements Expression {
             }
             parameterTypes.add(parameterType);
         }
-    }
 
-    @Override
-    public List<Argument> match(String text) {
         return ArgumentBuilder.buildArguments(pattern, text, parameterTypes);
     }
 

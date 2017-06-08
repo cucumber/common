@@ -34,7 +34,7 @@ public class CucumberExpression implements Expression {
         regexp.append("^");
         int typeIndex = 0;
         while (matcher.find()) {
-            String parameterName = matcher.group(1);
+            String typeName = matcher.group(1);
 
             Type type = types.size() <= typeIndex ? null : types.get(typeIndex++);
 
@@ -43,7 +43,7 @@ public class CucumberExpression implements Expression {
                 parameterType = parameterTypeRegistry.lookupByType(type);
             }
             if (parameterType == null) {
-                parameterType = parameterTypeRegistry.lookupByTypeName(parameterName);
+                parameterType = parameterTypeRegistry.lookupByTypeName(typeName);
             }
             if (parameterType == null && type != null && type instanceof Class) {
                 parameterType = new ClassParameterType<>((Class) type);
@@ -51,6 +51,7 @@ public class CucumberExpression implements Expression {
             if (parameterType == null) {
                 parameterType = new ConstructorParameterType<>(String.class);
             }
+
             parameterTypes.add(parameterType);
 
             matcher.appendReplacement(regexp, Matcher.quoteReplacement(getCaptureGroupRegexp(parameterType.getRegexps())));

@@ -63,7 +63,7 @@ This would match either of those texts:
     I have 42 cucumbers in my belly
     I have 42 cucumbers in my stomach
 
-## Custom Parameters {#custom-parameters}
+## Custom parameter types {#custom-parameters}
 
 Cucumber Expressions have built-in support for `int` and `float` parameter types
 as well as other numeric types available in your programming language.
@@ -114,7 +114,27 @@ of the parameter definition.
 
     I have a green ball
 
-## Implicit parameters (statically typed languages only)
+## Preferential parameter types
+
+In some cases you might want to define two or more parameter types with the same
+regular expression, but different name and transform. For example, you may want
+to define `name` and `person` parameter types with the regexp `[A-Z]+\w+`, which
+would match `Joe`, `Amy` and so on.
+
+This is fine, but if you use [Regular Expressions](#regular-expressions), Cucumber
+will not know what parameter type to use to match (and transform) e.g. `Amy`.
+
+In that case you can switch to using Cucumber Expressions, where parameters are
+named, so there is no ambiguity.
+
+Alternatively, you can continue to use Regular Expressions if you prefer, and
+make one of the parameter types *preferential*. A preferential parameter type
+will always be chosen over a non-preferential one.
+
+When several parameter types share the same regexp, only one of them can be preferential.
+If you try to make more than one preferential you will get an error.
+
+## Implicit parameter types (statically typed languages only)
 
 If a type  used in a step definition has a constructor that accepts a single
 `String` argument, then there is no need to register a custom parameter for that type.
@@ -161,7 +181,7 @@ If you register your own domain-specific parameters, Cucumber will generate
 better snippets for you, and you'll also end up with a more consistent domain
 language in your Gherkin scenarios.
 
-## Regular Expressions
+## Regular Expressions {#regular-expressions}
 
 Cucumber has a long relationship with Regular Expressions, and they are still
 fully supported.

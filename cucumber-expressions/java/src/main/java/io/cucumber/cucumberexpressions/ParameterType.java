@@ -7,6 +7,7 @@ public interface ParameterType<T> {
 
     /**
      * This is used in the type name in typed expressions
+     *
      * @return human readable type name
      */
     String getName();
@@ -16,4 +17,6 @@ public interface ParameterType<T> {
     List<String> getRegexps();
 
     T transform(String value);
+
+    boolean isPreferential();
 }
