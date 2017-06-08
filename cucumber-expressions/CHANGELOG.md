@@ -23,7 +23,12 @@ N/A
    by [aslakhellesoy])
 
 ### Fixed
-N/A
+* RegularExpression constructor is not filtering non-capturing groups
+  ([#211](https://github.com/cucumber/cucumber/issues/211)
+   [#179](https://github.com/cucumber/cucumber/pull/179)
+   [#216](https://github.com/cucumber/cucumber/pull/216)
+   [#220](https://github.com/cucumber/cucumber/pull/220)
+   by [kAworu], [aslakhellesoy])
 
 ## [3.0.0] - 2017-03-08
 
@@ -171,8 +176,9 @@ N/A
 [1.0.2]:      https://github.com/cucumber/cucumber/compare/cucumber-expressions-v1.0.1...cucumber-expressions-v1.0.2
 [1.0.1]:      https://github.com/cucumber/cucumber/releases/tag/cucumber-expressions-v1.0.1
 
-<!-- Contributors -->
+<!-- Contributors in alphabetical order -->
 [aslakhellesoy]:    https://github.com/aslakhellesoy
 [brasmusson]:       https://github.com/brasmusson
 [charlierudolph]:   https://github.com/charlierudolph
 [gpichot]:          https://github.com/charlierudolph
+[kAworu]:           https://github.com/kAworu
