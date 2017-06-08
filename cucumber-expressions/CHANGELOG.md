@@ -17,7 +17,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 N/A
 
 ### Changed
-N/A
+* Allow duplicate regexps in parameter types
+  ([#186](https://github.com/cucumber/cucumber/pull/186)
+   [#132](https://github.com/cucumber/cucumber/issues/132)
+   by [aslakhellesoy])
 
 ### Fixed
 N/A
