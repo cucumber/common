@@ -23,12 +23,18 @@ describe('Custom parameter type', () => {
     parameterTypeRegistry = new ParameterTypeRegistry()
     /// [add-color-parameter-type]
     parameterTypeRegistry.defineParameterType(
-      new ParameterType('color', Color, /red|blue|yellow/, s => new Color(s))
+      new ParameterType(
+        'color',
+        Color,
+        /red|blue|yellow/,
+        false,
+        s => new Color(s)
+      )
     )
     /// [add-color-parameter-type]
   })
 
-  describe(CucumberExpression.name, () => {
+  describe('CucumberExpression', () => {
     it('matches parameters with custom parameter type', () => {
       const expression = new CucumberExpression(
         'I have a {color} ball',
@@ -47,6 +53,7 @@ describe('Custom parameter type', () => {
           'color',
           Color,
           [/red|blue|yellow/, /(?:dark|light) (?:red|blue|yellow)/],
+          false,
           s => new Color(s)
         )
       )
@@ -63,7 +70,7 @@ describe('Custom parameter type', () => {
     it('matches parameters with custom parameter type without constructor function and transform', () => {
       parameterTypeRegistry = new ParameterTypeRegistry()
       parameterTypeRegistry.defineParameterType(
-        new ParameterType('color', null, /red|blue|yellow/, null)
+        new ParameterType('color', null, /red|blue|yellow/, false, null)
       )
       const expression = new CucumberExpression(
         'I have a {color} ball',
@@ -88,7 +95,7 @@ describe('Custom parameter type', () => {
 
     it('defers transformation until queried from argument', () => {
       parameterTypeRegistry.defineParameterType(
-        new ParameterType('throwing', () => null, /bad/, s => {
+        new ParameterType('throwing', () => null, /bad/, false, s => {
           throw new Error(`Can't transform [${s}]`)
         })
       )
@@ -107,49 +114,41 @@ describe('Custom parameter type', () => {
         assertThrows(
           () =>
             parameterTypeRegistry.defineParameterType(
-              new ParameterType('color', String, /.*/, s => s)
+              new ParameterType('color', String, /.*/, false, s => s)
             ),
           'There is already a parameter with type name color'
         )
       })
 
-      it('is detected for constructor', () => {
-        assertThrows(
-          () =>
-            parameterTypeRegistry.defineParameterType(
-              new ParameterType('color2', Color, /.*/, s => new Color(s))
-            ),
-          'There is already a parameter with constructor Color'
+      it('is not detected for constructor', () => {
+        parameterTypeRegistry.defineParameterType(
+          new ParameterType('color2', Color, /.*/, false, s => new Color(s))
         )
       })
 
-      it('is detected for regexp', () => {
-        assertThrows(
-          () =>
-            parameterTypeRegistry.defineParameterType(
-              new ParameterType('color2', String, /red|blue|yellow/, s => s)
-            ),
-          'There is already a parameter with regexp red|blue|yellow'
+      it('is not detected for regexp', () => {
+        parameterTypeRegistry.defineParameterType(
+          new ParameterType('color2', String, /red|blue|yellow/, false, s => s)
         )
       })
 
       it('is not detected when constructor function is anonymous', () => {
         parameterTypeRegistry = new ParameterTypeRegistry()
         parameterTypeRegistry.defineParameterType(
-          new ParameterType('foo', () => null, /foo/, s => s)
+          new ParameterType('foo', () => null, /foo/, false, s => s)
         )
         parameterTypeRegistry.defineParameterType(
-          new ParameterType('bar', () => null, /bar/, s => s)
+          new ParameterType('bar', () => null, /bar/, false, s => s)
         )
       })
 
       it('is not detected when constructor function is null', () => {
         parameterTypeRegistry = new ParameterTypeRegistry()
         parameterTypeRegistry.defineParameterType(
-          new ParameterType('foo', null, /foo/, s => s)
+          new ParameterType('foo', null, /foo/, false, s => s)
         )
         parameterTypeRegistry.defineParameterType(
-          new ParameterType('bar', null, /bar/, s => s)
+          new ParameterType('bar', null, /bar/, false, s => s)
         )
       })
     })
@@ -175,6 +174,7 @@ describe('Custom parameter type', () => {
           'asyncColor',
           Color,
           /red|blue|yellow/,
+          false,
           async s => new Color(s)
         )
       )
@@ -191,7 +191,7 @@ describe('Custom parameter type', () => {
     })
   })
 
-  describe(RegularExpression.name, () => {
+  describe('RegularExpression', () => {
     it('matches parameters with explicit constructor', () => {
       const expression = new RegularExpression(
         /I have a (red|blue|yellow) ball/,

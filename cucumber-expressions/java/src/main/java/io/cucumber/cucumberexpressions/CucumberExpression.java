@@ -7,7 +7,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class CucumberExpression implements Expression {
-    private static final Pattern ESCAPE_PATTERN = Pattern.compile("([\\\\\\^\\[$.|?*+\\]])");
+    private static final Pattern ESCAPE_PATTERN = Pattern.compile("([\\\\^\\[$.|?*+\\]])");
     private static final Pattern PARAMETER_PATTERN = Pattern.compile("\\{([^}]+)}");
     private static final Pattern OPTIONAL_PATTERN = Pattern.compile("\\(([^)]+)\\)");
     private static final Pattern ALTERNATIVE_WORD_REGEXP = Pattern.compile("([\\p{IsAlphabetic}]+)((/[\\p{IsAlphabetic}]+)+)");
@@ -34,7 +34,7 @@ public class CucumberExpression implements Expression {
         regexp.append("^");
         int typeIndex = 0;
         while (matcher.find()) {
-            String parameterName = matcher.group(1);
+            String typeName = matcher.group(1);
 
             Type type = types.size() <= typeIndex ? null : types.get(typeIndex++);
 
@@ -43,7 +43,7 @@ public class CucumberExpression implements Expression {
                 parameterType = parameterTypeRegistry.lookupByType(type);
             }
             if (parameterType == null) {
-                parameterType = parameterTypeRegistry.lookupByTypeName(parameterName);
+                parameterType = parameterTypeRegistry.lookupByTypeName(typeName);
             }
             if (parameterType == null && type != null && type instanceof Class) {
                 parameterType = new ClassParameterType<>((Class) type);
@@ -51,6 +51,7 @@ public class CucumberExpression implements Expression {
             if (parameterType == null) {
                 parameterType = new ConstructorParameterType<>(String.class);
             }
+
             parameterTypes.add(parameterType);
 
             matcher.appendReplacement(regexp, Matcher.quoteReplacement(getCaptureGroupRegexp(parameterType.getRegexps())));

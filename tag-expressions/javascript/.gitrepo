@@ -1,0 +1,11 @@
+; DO NOT EDIT (unless you know what you are doing)
+;
+; This subdirectory is a git "subrepo", and this file is maintained by the
+; git-subrepo command. See https://github.com/git-commands/git-subrepo#readme
+;
+[subrepo]
+	remote = https://github.com/cucumber/tag-expressions-javascript.git
+	branch = master
+	commit = e20581b46e0989fe46f9a3879f7c2a37032d32b0
+	parent = 2e0936da55514f42a72ff5bd256b3002af637c63
+	cmdver = 0.3.1

@@ -1,23 +1,22 @@
 const ParameterTypeMatcher = require('./parameter_type_matcher')
-const GeneratedExpression = require('./generated_expression')
+const ParameterType = require('./parameter_type')
+const CombinatorialGeneratedExpressionFactory = require('./combinatorial_generated_expression_factory')
 
 class CucumberExpressionGenerator {
   constructor(parameterTypeRegistry) {
     this._parameterTypeRegistry = parameterTypeRegistry
   }
 
-  generateExpression(text) {
-    const parameterNames = []
+  generateExpressions(text) {
+    const parameterTypeCombinations = []
     const parameterTypeMatchers = this._createParameterTypeMatchers(text)
-    const parameterTypes = []
-    const usageByTypeName = {}
-
-    let expression = ''
+    let expressionTemplate = ''
     let pos = 0
 
     // eslint-disable-next-line no-constant-condition
     while (true) {
       let matchingParameterTypeMatchers = []
+
       for (const parameterTypeMatcher of parameterTypeMatchers) {
         const advancedParameterTypeMatcher = parameterTypeMatcher.advanceTo(pos)
         if (advancedParameterTypeMatcher.find) {
@@ -29,18 +28,31 @@ class CucumberExpressionGenerator {
         matchingParameterTypeMatchers = matchingParameterTypeMatchers.sort(
           ParameterTypeMatcher.compare
         )
+
+        // Find all the best parameter type matchers, they are all candidates.
         const bestParameterTypeMatcher = matchingParameterTypeMatchers[0]
-        const parameter = bestParameterTypeMatcher.parameterType
-        parameterTypes.push(parameter)
-
-        const parameterName = this._getParameterName(
-          parameter.name,
-          usageByTypeName
+        const bestParameterTypeMatchers = matchingParameterTypeMatchers.filter(
+          m => ParameterTypeMatcher.compare(m, bestParameterTypeMatcher) === 0
         )
-        parameterNames.push(parameterName)
 
-        expression += text.slice(pos, bestParameterTypeMatcher.start)
-        expression += `{${parameter.name}}`
+        // Build a list of parameter types without duplicates. The reason there
+        // might be duplicates is that some parameter types have more than one regexp,
+        // which means multiple ParameterTypeMatcher objects will have a reference to the
+        // same ParameterType.
+        // We're sorting the list so preferential parameter types are listed first.
+        // Users are most likely to want these, so they should be listed at the top.
+        let parameterTypes = []
+        for (const parameterTypeMatcher of bestParameterTypeMatchers) {
+          if (!parameterTypes.includes(parameterTypeMatcher.parameterType)) {
+            parameterTypes.push(parameterTypeMatcher.parameterType)
+          }
+        }
+        parameterTypes = parameterTypes.sort(ParameterType.compare)
+
+        parameterTypeCombinations.push(parameterTypes)
+
+        expressionTemplate += text.slice(pos, bestParameterTypeMatcher.start)
+        expressionTemplate += '{%s}'
 
         pos =
           bestParameterTypeMatcher.start + bestParameterTypeMatcher.group.length
@@ -53,32 +65,35 @@ class CucumberExpressionGenerator {
       }
     }
 
-    expression += text.slice(pos)
-    return new GeneratedExpression(expression, parameterNames, parameterTypes)
+    expressionTemplate += text.slice(pos)
+    return new CombinatorialGeneratedExpressionFactory(
+      expressionTemplate,
+      parameterTypeCombinations
+    ).generateExpressions()
   }
 
-  _getParameterName(typeName, usageByTypeName) {
-    let count = usageByTypeName[typeName]
-    count = count ? count + 1 : 1
-    usageByTypeName[typeName] = count
-
-    return count == 1 ? typeName : `${typeName}${count}`
+  /**
+   * @deprecated
+   */
+  generateExpression(text) {
+    return this.generateExpressions(text)[0]
   }
 
   _createParameterTypeMatchers(text) {
     let parameterMatchers = []
-    for (const parameter of this._parameterTypeRegistry.parameterTypes) {
+    for (const parameterType of this._parameterTypeRegistry.parameterTypes) {
       parameterMatchers = parameterMatchers.concat(
-        this._createParameterTypeMatchers2(parameter, text)
+        this._createParameterTypeMatchers2(parameterType, text)
       )
     }
     return parameterMatchers
   }
 
-  _createParameterTypeMatchers2(parameter, text) {
+  _createParameterTypeMatchers2(parameterType, text) {
+    // TODO: [].map
     const result = []
-    for (const regexp of parameter.regexps) {
-      result.push(new ParameterTypeMatcher(parameter, regexp, text))
+    for (const regexp of parameterType.regexps) {
+      result.push(new ParameterTypeMatcher(parameterType, regexp, text))
     }
     return result
   }

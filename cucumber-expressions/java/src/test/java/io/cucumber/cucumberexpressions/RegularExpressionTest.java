@@ -41,9 +41,9 @@ public class RegularExpressionTest {
     }
 
     @Test
-    public void transforms_to_long_using_capture_group_pattern() {
+    public void transforms_to_int_using_capture_group_pattern() {
         List<?> match = match(compile("(\\d+)"), "22");
-        assertEquals(singletonList(22L), match);
+        assertEquals(singletonList(22), match);
     }
 
     @Test
@@ -66,7 +66,7 @@ public class RegularExpressionTest {
         String expr = "(\\S+) ?(can|cannot)? (?:delete|cancel) the (\\d+)(?:st|nd|rd|th) (attachment|slide) ?(?:upload)?";
         String step = "I can cancel the 1st slide upload";
         List<?> match = match(compile(expr), step, emptyList());
-        assertEquals(asList("I", "can", 1L, "slide"), match);
+        assertEquals(asList("I", "can", 1, "slide"), match);
     }
 
     @Test

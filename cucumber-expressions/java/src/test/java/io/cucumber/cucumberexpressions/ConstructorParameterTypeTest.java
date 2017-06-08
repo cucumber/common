@@ -7,20 +7,6 @@ import static org.junit.Assert.assertNull;
 import static org.junit.Assert.fail;
 
 public class ConstructorParameterTypeTest {
-    public static class NoStringCtor {
-    }
-
-    public static class FailingCtor {
-        public FailingCtor(String s) throws Exception {
-            throw new Exception("Boo");
-        }
-    }
-
-    public static abstract class Abstract {
-        public Abstract(String s) throws Exception {
-        }
-    }
-
     @Test
     public void requires_string_ctor() {
         try {
@@ -56,5 +42,19 @@ public class ConstructorParameterTypeTest {
     @Test
     public void returns_null_for_value_null() {
         assertNull(new ConstructorParameterType<>(Abstract.class).transform(null));
+    }
+
+    public static class NoStringCtor {
+    }
+
+    public static class FailingCtor {
+        public FailingCtor(String s) throws Exception {
+            throw new Exception("Boo");
+        }
+    }
+
+    public static abstract class Abstract {
+        public Abstract(String s) throws Exception {
+        }
     }
 }

@@ -3,8 +3,8 @@
 
     <groupId>io.cucumber</groupId>
     <artifactId>tag-expressions</artifactId>
-    <version>1.0.0</version>
-    <packaging>jar</packaging>
+    <version>1.0.2-SNAPSHOT</version>
+    <packaging>bundle</packaging>
     <name>Cucumber Tag Expressions</name>
     <description>Parses boolean infix expressions</description>
     <url>https://github.com/cucumber/tag-expressions-java</url>
@@ -25,7 +25,8 @@
         <connection>scm:git:git://github.com/cucumber/tag-expressions-java.git</connection>
         <developerConnection>scm:git:git@github.com:cucumber/tag-expressions-java.git</developerConnection>
         <url>git://github.com/cucumber/tag-expressions-java.git</url>
-    </scm>
+      <tag>HEAD</tag>
+  </scm>
 
     <dependencies>
         <dependency>
@@ -72,6 +73,17 @@
                     <tagNameFormat>v@{project.version}</tagNameFormat>
                 </configuration>
             </plugin>
+            <plugin>
+                <groupId>org.apache.felix</groupId>
+                <artifactId>maven-bundle-plugin</artifactId>
+                <version>3.2.0</version>
+                <extensions>true</extensions>
+                <configuration>
+                    <instructions>
+                        <Export-Package>io.cucumber.tagexpressions.*</Export-Package>
+                    </instructions>
+                </configuration>
+            </plugin>
         </plugins>
     </build>
 
@@ -86,6 +98,10 @@
                         <version>1.6</version>
                         <configuration>
                             <useAgent>true</useAgent>
+                            <gpgArguments>
+                              <arg>--local-user</arg>
+                              <arg>devs@cucumber.io</arg>
+                            </gpgArguments>
                         </configuration>
                         <executions>
                             <execution>

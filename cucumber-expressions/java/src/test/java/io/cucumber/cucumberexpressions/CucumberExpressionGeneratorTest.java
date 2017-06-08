@@ -7,6 +7,7 @@ import java.util.Currency;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.stream.Collectors;
 
 import static java.util.Arrays.asList;
 import static java.util.Collections.singletonList;
@@ -24,7 +25,7 @@ public class CucumberExpressionGeneratorTest {
         String undefinedStepText = "I have 2 cucumbers and 1.5 tomato";
         GeneratedExpression generatedExpression = generator.generateExpression(undefinedStepText);
         assertEquals("I have {int} cucumbers and {double} tomato", generatedExpression.getSource());
-        assertEquals(Double.TYPE, generatedExpression.getParameterTypes().get(1).getType());
+        assertEquals(Double.class, generatedExpression.getParameterTypes().get(1).getType());
         /// [generate-expression]
     }
 
@@ -106,10 +107,39 @@ public class CucumberExpressionGeneratorTest {
     }
 
     @Test
+    public void generates_all_combinations_of_expressions_when_several_parameter_types_match() {
+        parameterTypeRegistry.defineParameterType(new SimpleParameterType<>(
+                "currency",
+                Currency.class,
+                "x",
+                null
+        ));
+        parameterTypeRegistry.defineParameterType(new SimpleParameterType<>(
+                "date",
+                Date.class,
+                "x",
+                null
+        ));
+
+        List<GeneratedExpression> generatedExpressions = generator.generateExpressions("I have x and x and another x");
+        List<String> expressions = generatedExpressions.stream().map(e -> e.getSource()).collect(Collectors.toList());
+        assertEquals(asList(
+                "I have {currency} and {currency} and another {currency}",
+                "I have {currency} and {currency} and another {date}",
+                "I have {currency} and {date} and another {currency}",
+                "I have {currency} and {date} and another {date}",
+                "I have {date} and {currency} and another {currency}",
+                "I have {date} and {currency} and another {date}",
+                "I have {date} and {date} and another {currency}",
+                "I have {date} and {date} and another {date}"
+        ), expressions);
+    }
+
+    @Test
     public void exposes_transforms_in_generated_expression() {
         GeneratedExpression generatedExpression = generator.generateExpression("I have 2 cukes and 1.5 euro");
-        assertEquals(int.class, generatedExpression.getParameterTypes().get(0).getType());
-        assertEquals(double.class, generatedExpression.getParameterTypes().get(1).getType());
+        assertEquals(Integer.class, generatedExpression.getParameterTypes().get(0).getType());
+        assertEquals(Double.class, generatedExpression.getParameterTypes().get(1).getType());
     }
 
     private void assertExpression(String expectedExpression, List<String> expectedArgumentNames, String text) {

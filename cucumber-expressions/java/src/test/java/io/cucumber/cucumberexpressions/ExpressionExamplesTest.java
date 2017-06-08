@@ -28,6 +28,12 @@ public class ExpressionExamplesTest {
     private final String text;
     private final String expectedArgs;
 
+    public ExpressionExamplesTest(String expressionString, String text, String expectedArgs) {
+        this.expressionString = expressionString;
+        this.text = text;
+        this.expectedArgs = expectedArgs;
+    }
+
     @Parameters
     public static Collection<Object[]> data() throws IOException {
         Collection<Object[]> data = new ArrayList<>();
@@ -39,12 +45,6 @@ public class ExpressionExamplesTest {
             data.add(chunk.split("\n"));
         }
         return data;
-    }
-
-    public ExpressionExamplesTest(String expressionString, String text, String expectedArgs) {
-        this.expressionString = expressionString;
-        this.text = text;
-        this.expectedArgs = expectedArgs;
     }
 
     @Test

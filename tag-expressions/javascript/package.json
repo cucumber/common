@@ -1,6 +1,6 @@
 {
   "name": "cucumber-tag-expressions",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Cucumber Tag Expression parser",
   "scripts": {
     "test": "ISTANBUL=true istanbul cover _mocha -- --recursive",
@@ -30,13 +30,13 @@
   "homepage": "https://github.com/cucumber/tag-expressions-javascript",
   "devDependencies": {
     "eslint": "^3.19.0",
-    "eslint-config-prettier": "^1.7.0",
-    "eslint-plugin-prettier": "^2.0.1",
-    "husky": "^0.13.3",
+    "eslint-config-prettier": "^2.1.1",
+    "eslint-plugin-prettier": "^2.1.1",
+    "husky": "^0.13.4",
     "istanbul": "^0.4.0",
-    "lint-staged": "^3.4.1",
-    "mocha": "^2.3.3",
+    "lint-staged": "^3.5.0",
+    "mocha": "^3.3.0",
     "prettier": "^1.3.1",
-    "sloc": "^0.1.9"
+    "sloc": "^0.2.0"
   }
 }
