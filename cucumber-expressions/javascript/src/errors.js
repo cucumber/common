@@ -14,12 +14,12 @@ class AmbiguousParameterTypeError extends CucumberExpressionError {
 
   static forRegExp(
     parameterTypeRegexp,
-    regexp,
+    expressionRegexp,
     parameterTypes,
     generatedExpressions
   ) {
     return new this(
-      `Your Regular Expression ${regexp}
+      `Your Regular Expression ${expressionRegexp}
 matches multiple parameter types with regexp ${parameterTypeRegexp}:
    ${this._parameterTypeNames(parameterTypes)}
 
@@ -42,7 +42,14 @@ I couldn't decide which one to use. You have two options:
   }
 }
 
+class UndefinedParameterTypeError extends CucumberExpressionError {
+  constructor(typeName) {
+    super(`Undefined parameter type {${typeName}}`)
+  }
+}
+
 module.exports = {
   AmbiguousParameterTypeError,
+  UndefinedParameterTypeError,
   CucumberExpressionError,
 }

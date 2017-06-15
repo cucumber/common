@@ -2,8 +2,6 @@ package io.cucumber.cucumberexpressions;
 
 import org.junit.Test;
 
-import java.lang.reflect.Type;
-import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 
@@ -16,7 +14,7 @@ public class GenericParameterTypeTest {
     public void transforms_to_a_list_of_string() {
         ParameterTypeRegistry parameterTypeRegistry = new ParameterTypeRegistry(Locale.ENGLISH);
         parameterTypeRegistry.defineParameterType(new ListOfStringParameterType());
-        Expression expression = new CucumberExpression("I have {stringlist} yay", Collections.<Type>emptyList(), parameterTypeRegistry);
+        Expression expression = new CucumberExpression("I have {stringlist} yay", parameterTypeRegistry);
         List<Argument> args = expression.match("I have three,blind,mice yay");
         assertEquals(asList("three", "blind", "mice"), args.get(0).getTransformedValue());
     }

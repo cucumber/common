@@ -1,12 +1,12 @@
 const matchPattern = require('./build_arguments')
+const { UndefinedParameterTypeError } = require('./errors')
 
 class CucumberExpression {
   /**
    * @param expression
-   * @param types Array of type name (String) or types (function). Functions can be a regular function or a constructor
    * @param parameterTypeRegistry
    */
-  constructor(expression, types, parameterTypeRegistry) {
+  constructor(expression, parameterTypeRegistry) {
     const PARAMETER_REGEXP = /\{([^}]+)}/g
     const OPTIONAL_REGEXP = /\(([^)]+)\)/g
     const ALTERNATIVE_WORD_REGEXP = /(\w+)((\/\w+)+)/g
@@ -14,7 +14,6 @@ class CucumberExpression {
     this._expression = expression
     this._parameterTypes = []
     let regexp = '^'
-    let typeIndex = 0
     let match
     let matchOffset = 0
 
@@ -30,19 +29,10 @@ class CucumberExpression {
     )
 
     while ((match = PARAMETER_REGEXP.exec(expression)) !== null) {
-      const parameterName = match[1]
-      const type = types.length <= typeIndex ? null : types[typeIndex++]
+      const typeName = match[1]
 
-      let parameterType
-      if (type) {
-        parameterType = parameterTypeRegistry.lookupByType(type)
-      }
-      if (!parameterType) {
-        parameterType = parameterTypeRegistry.lookupByTypeName(parameterName)
-      }
-      if (!parameterType) {
-        parameterType = parameterTypeRegistry.createAnonymousLookup(s => s)
-      }
+      const parameterType = parameterTypeRegistry.lookupByTypeName(typeName)
+      if (!parameterType) throw new UndefinedParameterTypeError(typeName)
       this._parameterTypes.push(parameterType)
 
       const text = expression.slice(matchOffset, match.index)

@@ -1,47 +1,66 @@
 /* eslint-env mocha */
 
 const assert = require('assert')
-const assertThrow = require('./assert_throws')
 const ParameterTypeRegistry = require('../src/parameter_type_registry')
 const ParameterType = require('../src/parameter_type')
 
+class Color {}
+class Name {}
+class Person {}
+class Place {}
+
+const CAPITALISED_WORD = /[A-Z]+\w+/
+
 describe('ParameterTypeRegistry', () => {
   let registry
-  before(() => {
+  beforeEach(() => {
     registry = new ParameterTypeRegistry()
   })
 
-  it('does not allow more than one preferential parameter type for each constructor', () => {
-    class MyType {}
-
-    registry.defineParameterType(
-      new ParameterType('why', MyType, /why/, true, null)
-    )
-    assertThrow(
-      () =>
-        registry.defineParameterType(
-          new ParameterType('whynot', MyType, /whynot/, true, null)
-        ),
-      'There can only be one preferential parameter type per constructor. The constructor MyType is used for two preferential parameter types, {why} and {whynot}'
-    )
-  })
-
   it('looks up preferential parameter type by constructor', () => {
-    const parameterType = registry.lookupByType(Number)
-    assert.equal(parameterType.name, 'int')
+    registry.defineParameterType(
+      new ParameterType(
+        'color',
+        Color,
+        /red|blue|green/,
+        true,
+        s => new Color(s)
+      )
+    )
+    const parameterType = registry.lookupByType(Color)
+    assert.equal(parameterType.name, 'color')
   })
 
   it('does not allow more than one preferential parameter type for each regexp', () => {
     registry.defineParameterType(
-      new ParameterType('color', null, /red|blue|green/, true, null)
+      new ParameterType('name', Name, CAPITALISED_WORD, true, s => new Name(s))
     )
-    assertThrow(
-      () =>
-        registry.defineParameterType(
-          new ParameterType('cssColor', null, /red|blue|green/, true, null)
-        ),
-      'There can only be one preferential parameter type per regexp. The regexp red|blue|green is used for two preferential parameter types, {color} and {cssColor}'
+    registry.defineParameterType(
+      new ParameterType(
+        'person',
+        Person,
+        CAPITALISED_WORD,
+        false,
+        s => new Person(s)
+      )
     )
+    try {
+      registry.defineParameterType(
+        new ParameterType(
+          'place',
+          Place,
+          CAPITALISED_WORD,
+          true,
+          s => new Place(s)
+        )
+      )
+      throw new Error('Should have failed')
+    } catch (err) {
+      assert.equal(
+        err.message,
+        `There can only be one preferential parameter type per regexp. The regexp ${CAPITALISED_WORD} is used for two preferential parameter types, {name} and {place}`
+      )
+    }
   })
 
   it('looks up preferential parameter type by regexp', () => {

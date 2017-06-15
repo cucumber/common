@@ -1,9 +1,9 @@
 const buildArguments = require('./build_arguments')
+const ParameterType = require('./parameter_type')
 
 class RegularExpression {
-  constructor(regexp, types, parameterTypeRegistry) {
+  constructor(regexp, parameterTypeRegistry) {
     this._regexp = regexp
-    this._types = types
     this._parameterTypeRegistry = parameterTypeRegistry
   }
 
@@ -12,27 +12,21 @@ class RegularExpression {
 
     const CAPTURE_GROUP_PATTERN = /\((?!\?:)([^(]+)\)/g
 
-    let typeIndex = 0
     let match
     while ((match = CAPTURE_GROUP_PATTERN.exec(this._regexp.source)) !== null) {
       const parameterTypeRegexp = match[1]
-      const type = this._types.length <= typeIndex
-        ? null
-        : this._types[typeIndex++]
 
-      let parameterType
-      if (type) {
-        parameterType = this._parameterTypeRegistry.lookupByType(type)
-      }
+      let parameterType = this._parameterTypeRegistry.lookupByRegexp(
+        parameterTypeRegexp,
+        this._regexp,
+        text
+      )
       if (!parameterType) {
-        parameterType = this._parameterTypeRegistry.lookupByRegexp(
+        parameterType = new ParameterType(
+          '*',
+          String,
           parameterTypeRegexp,
-          this._regexp,
-          text
-        )
-      }
-      if (!parameterType) {
-        parameterType = this._parameterTypeRegistry.createAnonymousLookup(
+          false,
           s => s
         )
       }

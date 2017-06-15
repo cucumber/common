@@ -1,6 +1,5 @@
 package io.cucumber.cucumberexpressions;
 
-import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -16,7 +15,7 @@ public class CucumberExpression implements Expression {
     private final List<ParameterType<?>> parameterTypes = new ArrayList<>();
     private final String expression;
 
-    public CucumberExpression(String expression, List<? extends Type> types, ParameterTypeRegistry parameterTypeRegistry) {
+    public CucumberExpression(String expression, ParameterTypeRegistry parameterTypeRegistry) {
         this.expression = expression;
         expression = ESCAPE_PATTERN.matcher(expression).replaceAll("\\\\$1");
         expression = OPTIONAL_PATTERN.matcher(expression).replaceAll("(?:$1)?");
@@ -32,26 +31,12 @@ public class CucumberExpression implements Expression {
 
         StringBuffer regexp = new StringBuffer();
         regexp.append("^");
-        int typeIndex = 0;
         while (matcher.find()) {
             String typeName = matcher.group(1);
-
-            Type type = types.size() <= typeIndex ? null : types.get(typeIndex++);
-
-            ParameterType<?> parameterType = null;
-            if (type != null) {
-                parameterType = parameterTypeRegistry.lookupByType(type);
-            }
+            ParameterType<?> parameterType = parameterTypeRegistry.lookupByTypeName(typeName);
             if (parameterType == null) {
-                parameterType = parameterTypeRegistry.lookupByTypeName(typeName);
+                throw new UndefinedParameterTypeException(typeName);
             }
-            if (parameterType == null && type != null && type instanceof Class) {
-                parameterType = new ClassParameterType<>((Class) type);
-            }
-            if (parameterType == null) {
-                parameterType = new ConstructorParameterType<>(String.class);
-            }
-
             parameterTypes.add(parameterType);
 
             matcher.appendReplacement(regexp, Matcher.quoteReplacement(getCaptureGroupRegexp(parameterType.getRegexps())));

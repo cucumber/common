@@ -8,82 +8,36 @@ const {
 const INTEGER_REGEXPS = [/-?\d+/, /\d+/]
 const FLOAT_REGEXP = /-?\d*\.?\d+/
 
+class Integer extends Number {}
+class Float extends Number {}
+
 class ParameterTypeRegistry {
   constructor() {
-    this._parameterTypeByTypeName = new Map()
-    this._parameterTypesByConstructorName = new Map()
+    this._parameterTypeByName = new Map()
+    this._parameterTypeByConstructorName = new Map()
     this._parameterTypesByRegexp = new Map()
 
     this.defineParameterType(
-      new ParameterType('int', Number, INTEGER_REGEXPS, true, parseInt)
+      new ParameterType('int', Integer, INTEGER_REGEXPS, true, parseInt)
     )
     this.defineParameterType(
-      new ParameterType('float', Number, FLOAT_REGEXP, false, parseFloat)
+      new ParameterType('float', Float, FLOAT_REGEXP, false, parseFloat)
     )
   }
 
   get parameterTypes() {
-    return this._parameterTypeByTypeName.values()
+    return this._parameterTypeByName.values()
   }
 
   lookupByType(type) {
-    if (typeof type === 'function') {
-      return this._lookupByFunction(type)
-    } else if (typeof type === 'string') {
-      return this.lookupByTypeName(type)
-    } else {
-      throw new Error(
-        `Type must be string or function, but was ${type} of type ${typeof type}`
-      )
-    }
-  }
-
-  _lookupByFunction(fn) {
-    if (fn.name) {
-      const looksLikeCtor = looksLikeConstructor(fn)
-
-      let parameterType
-      if (looksLikeCtor) {
-        parameterType = this.lookupByConstructorName(fn)
-      }
-      if (!parameterType) {
-        const factory = s => {
-          if (looksLikeCtor) {
-            return new fn(s)
-          } else {
-            return fn(s)
-          }
-        }
-        return this.createAnonymousLookup(factory)
-      } else {
-        return parameterType
-      }
-    } else {
-      return this.createAnonymousLookup(fn)
-    }
-  }
-
-  lookupByConstructorName(fn, text) {
-    const parameterTypes = this._parameterTypesByConstructorName.get(fn.name)
-    if (!parameterTypes) return null
-    if (parameterTypes.length > 1 && !parameterTypes[0].isPreferential) {
-      const generatedExpressions = new CucumberExpressionGenerator(
-        this
-      ).generateExpressions(text)
-      throw new AmbiguousParameterTypeError.forConstructor(
-        fn.name,
-        parameterTypes,
-        generatedExpressions
-      )
-    }
-    return parameterTypes[0]
+    return this._parameterTypeByConstructorName.get(type.name)
   }
 
   lookupByTypeName(typeName) {
-    return this._parameterTypeByTypeName.get(typeName)
+    return this._parameterTypeByName.get(typeName)
   }
 
-  lookupByRegexp(parameterTypeRegexp, regexp, text) {
+  lookupByRegexp(parameterTypeRegexp, expressionRegexp, text) {
     const parameterTypes = this._parameterTypesByRegexp.get(parameterTypeRegexp)
     if (!parameterTypes) return null
     if (parameterTypes.length > 1 && !parameterTypes[0].isPreferential) {
@@ -95,7 +49,7 @@ class ParameterTypeRegistry {
       ).generateExpressions(text)
       throw new AmbiguousParameterTypeError.forRegExp(
         parameterTypeRegexp,
-        regexp,
+        expressionRegexp,
         parameterTypes,
         generatedExpressions
       )
@@ -103,44 +57,43 @@ class ParameterTypeRegistry {
     return parameterTypes[0]
   }
 
-  createAnonymousLookup(fn) {
-    return new ParameterType(null, null, ['.+'], false, fn)
-  }
-
   defineParameterType(parameterType) {
-    set(
-      this._parameterTypeByTypeName,
-      parameterType.name,
-      parameterType,
-      'type name'
-    )
+    set(this._parameterTypeByName, parameterType.name, parameterType, 'name')
 
     if (looksLikeConstructor(parameterType.constructorFunction)) {
-      setUnlessPreferentialClash(
-        this._parameterTypesByConstructorName,
+      set(
+        this._parameterTypeByConstructorName,
         parameterType.constructorFunction.name,
         parameterType,
-        (key, existingParameterType) => {
-          return (
-            'There can only be one preferential parameter type per constructor. ' +
-            `The constructor ${key} is used for two preferential parameter types, {${existingParameterType.name}} and {${parameterType.name}}`
-          )
-        }
+        'type'
       )
     }
 
     for (const parameterTypeRegexp of parameterType.regexps) {
-      setUnlessPreferentialClash(
-        this._parameterTypesByRegexp,
-        parameterTypeRegexp,
-        parameterType,
-        (key, existingParameterType) => {
-          return (
-            'There can only be one preferential parameter type per regexp. ' +
-            `The regexp ${key} is used for two preferential parameter types, {${existingParameterType.name}} and {${parameterType.name}}`
-          )
-        }
+      if (!this._parameterTypesByRegexp.has(parameterTypeRegexp)) {
+        this._parameterTypesByRegexp.set(parameterTypeRegexp, [])
+      }
+      const parameterTypes = this._parameterTypesByRegexp.get(
+        parameterTypeRegexp
       )
+      const existingParameterType = parameterTypes[0]
+      if (
+        parameterTypes.length > 0 &&
+        existingParameterType.isPreferential &&
+        parameterType.isPreferential
+      ) {
+        throw new CucumberExpressionError(
+          'There can only be one preferential parameter type per regexp. ' +
+            `The regexp /${parameterTypeRegexp}/ is used for two preferential parameter types, {${existingParameterType.name}} and {${parameterType.name}}`
+        )
+      }
+      if (!parameterTypes.includes(parameterType)) {
+        parameterTypes.push(parameterType)
+        this._parameterTypesByRegexp.set(
+          parameterTypeRegexp,
+          parameterTypes.sort(ParameterType.compare)
+        )
+      }
     }
   }
 }
@@ -154,27 +107,8 @@ function looksLikeConstructor(fn) {
 
 function set(map, key, value, prop) {
   if (map.has(key))
-    throw new Error(`There is already a parameter with ${prop} ${key}`)
+    throw new Error(`There is already a parameter type with ${prop} ${key}`)
   map.set(key, value)
-}
-
-function setUnlessPreferentialClash(map, key, parameterType, errorMessage) {
-  if (!map.has(key)) {
-    map.set(key, [])
-  }
-  const parameterTypes = map.get(key)
-  const existingParameterType = parameterTypes[0]
-  if (
-    parameterTypes.length > 0 &&
-    existingParameterType.isPreferential &&
-    parameterType.isPreferential
-  ) {
-    throw new CucumberExpressionError(errorMessage(key, existingParameterType))
-  }
-  if (!parameterTypes.includes(parameterType)) {
-    parameterTypes.push(parameterType)
-    map.set(key, parameterTypes.sort(ParameterType.compare))
-  }
 }
 
 module.exports = ParameterTypeRegistry

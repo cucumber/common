@@ -51,7 +51,8 @@ module Cucumber
           'currency',
           Currency,
           '[A-Z]{3}',
-          nil
+          true,
+          lambda {|s| Currency.new(s)}
         ))
 
         assert_expression(
