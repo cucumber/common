@@ -2,11 +2,7 @@ package io.cucumber.cucumberexpressions;
 
 import org.junit.Test;
 
-import java.util.Collections;
-import java.util.Currency;
-import java.util.Date;
-import java.util.List;
-import java.util.Locale;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import static java.util.Arrays.asList;
@@ -61,7 +57,7 @@ public class CucumberExpressionGeneratorTest {
                 "currency",
                 Currency.class,
                 "[A-Z]{3}",
-                null
+                Currency::getInstance
         ));
         assertExpression(
                 "I have a {currency} account and a {currency} account", asList("currency", "currency2"),
@@ -74,13 +70,13 @@ public class CucumberExpressionGeneratorTest {
                 "currency",
                 Currency.class,
                 "cd",
-                null
+                Currency::getInstance
         ));
         parameterTypeRegistry.defineParameterType(new SimpleParameterType<>(
                 "date",
                 Date.class,
                 "bc",
-                null
+                Date::new
         ));
         assertExpression(
                 "a{date}defg", singletonList("date"),
@@ -93,13 +89,13 @@ public class CucumberExpressionGeneratorTest {
                 "currency",
                 Currency.class,
                 "cd",
-                null
+                Currency::getInstance
         ));
         parameterTypeRegistry.defineParameterType(new SimpleParameterType<>(
                 "date",
                 Date.class,
                 "cde",
-                null
+                Date::new
         ));
         assertExpression(
                 "ab{date}fg", singletonList("date"),
@@ -112,17 +108,17 @@ public class CucumberExpressionGeneratorTest {
                 "currency",
                 Currency.class,
                 "x",
-                null
+                Currency::getInstance
         ));
         parameterTypeRegistry.defineParameterType(new SimpleParameterType<>(
                 "date",
                 Date.class,
                 "x",
-                null
+                Date::new
         ));
 
         List<GeneratedExpression> generatedExpressions = generator.generateExpressions("I have x and x and another x");
-        List<String> expressions = generatedExpressions.stream().map(e -> e.getSource()).collect(Collectors.toList());
+        List<String> expressions = generatedExpressions.stream().map(GeneratedExpression::getSource).collect(Collectors.toList());
         assertEquals(asList(
                 "I have {currency} and {currency} and another {currency}",
                 "I have {currency} and {currency} and another {date}",

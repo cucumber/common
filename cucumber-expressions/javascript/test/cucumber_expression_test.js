@@ -7,80 +7,56 @@ describe('CucumberExpression', () => {
     const parameterTypeRegistry = new ParameterTypeRegistry()
 
     /// [capture-match-arguments]
-    const expr = 'I have {n} cuke(s) in my {bodypart} now'
-    const types = ['int', null]
-    const expression = new CucumberExpression(
-      expr,
-      types,
-      parameterTypeRegistry
-    )
-    const args = expression.match('I have 7 cukes in my belly now')
+    const expr = 'I have {int} cuke(s)'
+    const expression = new CucumberExpression(expr, parameterTypeRegistry)
+    const args = expression.match('I have 7 cukes')
     assert.equal(7, args[0].transformedValue)
-    assert.equal('belly', args[1].transformedValue)
     /// [capture-match-arguments]
   })
 
-  it('does no transform by default', () => {
-    assert.deepEqual(match('{what}', '22'), ['22'])
-  })
-
-  it('transforms to int by parameterType type', () => {
+  it('matches int', () => {
     assert.deepEqual(match('{int}', '22'), [22])
   })
 
-  it('transforms to int by explicit type', () => {
-    assert.deepEqual(match('{what}', '22', ['int']), [22])
-  })
-
-  it("doesn't match a float with an int parameterType", () => {
+  it("doesn't match float as int", () => {
     assert.deepEqual(match('{int}', '1.22'), null)
   })
 
-  it('transforms to float by parameterType type', () => {
+  it('matches float', () => {
     assert.deepEqual(match('{float}', '0.22'), [0.22])
     assert.deepEqual(match('{float}', '.22'), [0.22])
   })
 
-  it('transforms to float by explicit type', () => {
-    assert.deepEqual(match('{what}', '0.22', ['float']), [0.22])
-    assert.deepEqual(match('{what}', '.22', ['float']), [0.22])
-  })
-
-  it('leaves unknown type untransformed', () => {
-    assert.deepEqual(match('{unknown}', 'something'), ['something'])
-  })
-
-  it('supports deprecated {name:type} syntax for now', () => {
-    assert.deepEqual(match('{param:unknown}', 'something'), ['something'])
+  it('throws unknown parameter type', () => {
+    try {
+      match('{unknown}', 'something')
+      assert.fail()
+    } catch (expected) {
+      assert.equal(expected.message, 'Undefined parameter type {unknown}')
+    }
   })
 
   it('exposes source', () => {
-    const expr = 'I have {int} cuke(s) in my {bodypart} now'
+    const expr = 'I have {int} cuke(s)'
     assert.equal(
-      new CucumberExpression(expr, [], new ParameterTypeRegistry()).source,
+      new CucumberExpression(expr, new ParameterTypeRegistry()).source,
       expr
     )
   })
 
   it('exposes offset and value', () => {
-    const expr = 'I have {int} cuke(s) in my {bodypart} now'
-    const expression = new CucumberExpression(
-      expr,
-      [],
-      new ParameterTypeRegistry()
-    )
-    const arg1 = expression.match('I have 800 cukes in my brain now')[0]
+    const expr = 'I have {int} cuke(s)'
+    const expression = new CucumberExpression(expr, new ParameterTypeRegistry())
+    const arg1 = expression.match('I have 800 cukes')[0]
     assert.equal(arg1.offset, 7)
-    assert.equal(arg1.value, '800')
   })
 
-  describe('RegExp special characters', () => {
+  describe('escapes special characters', () => {
     ;['\\', '[', ']', '^', '$', '.', '|', '?', '*', '+'].forEach(character => {
       it(`escapes ${character}`, () => {
         const expr = `I have {int} cuke(s) and ${character}`
         const expression = new CucumberExpression(
           expr,
-          [],
           new ParameterTypeRegistry()
         )
         const arg1 = expression.match(`I have 800 cukes and ${character}`)[0]
@@ -93,7 +69,6 @@ describe('CucumberExpression', () => {
       const expr = `I have {int} cuke(s) and .`
       const expression = new CucumberExpression(
         expr,
-        [],
         new ParameterTypeRegistry()
       )
       assert.equal(expression.match(`I have 800 cukes and 3`), null)
@@ -106,7 +81,6 @@ describe('CucumberExpression', () => {
       const expr = `I have {int} cuke(s) and a|b`
       const expression = new CucumberExpression(
         expr,
-        [],
         new ParameterTypeRegistry()
       )
       assert.equal(expression.match(`I have 800 cukes and a`), null)
@@ -118,10 +92,9 @@ describe('CucumberExpression', () => {
   })
 })
 
-const match = (expression, text, types) => {
+const match = (expression, text) => {
   const cucumberExpression = new CucumberExpression(
     expression,
-    types || [],
     new ParameterTypeRegistry()
   )
   const args = cucumberExpression.match(text)

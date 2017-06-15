@@ -10,6 +10,7 @@ public abstract class AbstractParameterType<T> implements ParameterType<T> {
     private final boolean isPreferential;
 
     public AbstractParameterType(String name, Type type, boolean isPreferential, List<String> regexps) {
+        if (type == null) throw new CucumberExpressionException("type cannot be null");
         this.isPreferential = isPreferential;
         this.name = name;
         this.type = type;

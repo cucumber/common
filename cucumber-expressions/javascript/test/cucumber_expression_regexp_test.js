@@ -19,17 +19,10 @@ describe('CucumberExpression', () => {
       )
     })
 
-    it('translates two untyped arguments', () => {
+    it('translates parameters', () => {
       assertRegexp(
-        'I have {n} cukes in my {bodypart} now',
-        /^I have (.+) cukes in my (.+) now$/
-      )
-    })
-
-    it('translates three typed arguments', () => {
-      assertRegexp(
-        "I have {float} cukes in my {bodypart} at {int} o'clock",
-        /^I have (-?\d*\.?\d+) cukes in my (.+) at ((?:-?\d+)|(?:\d+)) o'clock$/
+        "I have {float} cukes at {int} o'clock",
+        /^I have (-?\d*\.?\d+) cukes at ((?:-?\d+)|(?:\d+)) o'clock$/
       )
     })
 
@@ -45,7 +38,6 @@ describe('CucumberExpression', () => {
 const assertRegexp = (expression, expectedRegexp) => {
   const cucumberExpression = new CucumberExpression(
     expression,
-    [],
     new ParameterTypeRegistry()
   )
   assert.deepEqual(cucumberExpression._regexp, expectedRegexp)

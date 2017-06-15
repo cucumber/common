@@ -16,6 +16,12 @@ class Color {
   /// [color-constructor]
 }
 
+class CssColor {
+  constructor(name) {
+    this.name = name
+  }
+}
+
 describe('Custom parameter type', () => {
   let parameterTypeRegistry
 
@@ -38,7 +44,6 @@ describe('Custom parameter type', () => {
     it('matches parameters with custom parameter type', () => {
       const expression = new CucumberExpression(
         'I have a {color} ball',
-        [],
         parameterTypeRegistry
       )
       const transformedValue = expression.match('I have a red ball')[0]
@@ -59,7 +64,6 @@ describe('Custom parameter type', () => {
       )
       const expression = new CucumberExpression(
         'I have a {color} ball',
-        [],
         parameterTypeRegistry
       )
       const transformedValue = expression.match('I have a dark red ball')[0]
@@ -74,23 +78,11 @@ describe('Custom parameter type', () => {
       )
       const expression = new CucumberExpression(
         'I have a {color} ball',
-        [],
         parameterTypeRegistry
       )
       const transformedValue = expression.match('I have a red ball')[0]
         .transformedValue
       assert.equal(transformedValue, 'red')
-    })
-
-    it('matches parameters with explicit type', () => {
-      const expression = new CucumberExpression(
-        'I have a {color} ball',
-        [Color],
-        parameterTypeRegistry
-      )
-      const transformedValue = expression.match('I have a red ball')[0]
-        .transformedValue
-      assert.equal(transformedValue.name, 'red')
     })
 
     it('defers transformation until queried from argument', () => {
@@ -102,7 +94,6 @@ describe('Custom parameter type', () => {
 
       const expression = new CucumberExpression(
         'I have a {throwing} parameter',
-        [],
         parameterTypeRegistry
       )
       const args = expression.match('I have a bad parameter')
@@ -114,21 +105,72 @@ describe('Custom parameter type', () => {
         assertThrows(
           () =>
             parameterTypeRegistry.defineParameterType(
-              new ParameterType('color', String, /.*/, false, s => s)
+              new ParameterType(
+                'color',
+                CssColor,
+                /.*/,
+                false,
+                s => new CssColor(s)
+              )
             ),
-          'There is already a parameter with type name color'
+          'There is already a parameter type with name color'
         )
       })
 
-      it('is not detected for constructor', () => {
-        parameterTypeRegistry.defineParameterType(
-          new ParameterType('color2', Color, /.*/, false, s => new Color(s))
+      it('is detected for type', () => {
+        assertThrows(
+          () =>
+            parameterTypeRegistry.defineParameterType(
+              new ParameterType(
+                'whatever',
+                Color,
+                /.*/,
+                false,
+                s => new Color(s)
+              )
+            ),
+          'There is already a parameter type with type Color'
         )
       })
 
       it('is not detected for regexp', () => {
         parameterTypeRegistry.defineParameterType(
-          new ParameterType('color2', String, /red|blue|yellow/, false, s => s)
+          new ParameterType(
+            'css-color',
+            CssColor,
+            /red|blue|yellow/,
+            false,
+            s => new CssColor(s)
+          )
+        )
+
+        assert.equal(
+          new CucumberExpression(
+            'I have a {css-color} ball',
+            parameterTypeRegistry
+          ).match('I have a blue ball')[0].transformedValue.constructor,
+          CssColor
+        )
+        assert.equal(
+          new CucumberExpression(
+            'I have a {css-color} ball',
+            parameterTypeRegistry
+          ).match('I have a blue ball')[0].transformedValue.name,
+          'blue'
+        )
+        assert.equal(
+          new CucumberExpression(
+            'I have a {color} ball',
+            parameterTypeRegistry
+          ).match('I have a blue ball')[0].transformedValue.constructor,
+          Color
+        )
+        assert.equal(
+          new CucumberExpression(
+            'I have a {color} ball',
+            parameterTypeRegistry
+          ).match('I have a blue ball')[0].transformedValue.name,
+          'blue'
         )
       })
 
@@ -154,18 +196,6 @@ describe('Custom parameter type', () => {
     })
 
     // JavaScript-specific
-    it('matches untyped parameters with explicit type name', () => {
-      const expression = new CucumberExpression(
-        'I have a {color} ball',
-        ['color'],
-        parameterTypeRegistry
-      )
-      const transformedValue = expression.match('I have a red ball')[0]
-        .transformedValue
-      assert.equal(transformedValue.name, 'red')
-    })
-
-    // JavaScript-specific
     it('creates arguments using async transform', async () => {
       parameterTypeRegistry = new ParameterTypeRegistry()
       /// [add-async-parameter-type]
@@ -182,7 +212,6 @@ describe('Custom parameter type', () => {
 
       const expression = new CucumberExpression(
         'I have a {asyncColor} ball',
-        ['asyncColor'],
         parameterTypeRegistry
       )
       const args = await expression.match('I have a red ball')
@@ -192,48 +221,14 @@ describe('Custom parameter type', () => {
   })
 
   describe('RegularExpression', () => {
-    it('matches parameters with explicit constructor', () => {
+    it('matches arguments with custom parameter type', () => {
       const expression = new RegularExpression(
         /I have a (red|blue|yellow) ball/,
-        [Color],
         parameterTypeRegistry
       )
       const transformedValue = expression.match('I have a red ball')[0]
         .transformedValue
-      assert.equal(transformedValue.name, 'red')
-    })
-
-    it('matches parameters without explicit constructor', () => {
-      const expression = new RegularExpression(
-        /I have a (red|blue|yellow) ball/,
-        [],
-        parameterTypeRegistry
-      )
-      const transformedValue = expression.match('I have a red ball')[0]
-        .transformedValue
-      assert.equal(transformedValue.name, 'red')
-    })
-
-    it("matches parameters with explicit type that isn't registered", () => {
-      const expression = new RegularExpression(
-        /I have a (red|blue|yellow) ball/,
-        [Color],
-        new ParameterTypeRegistry()
-      )
-      const transformedValue = expression.match('I have a red ball')[0]
-        .transformedValue
-      assert.equal(transformedValue.name, 'red')
-    })
-
-    // JavaScript-specific (specifying type as string)
-    it('matches parameters without explicit type name', () => {
-      const expression = new RegularExpression(
-        /I have a (red|blue|yellow) ball/,
-        ['color'],
-        parameterTypeRegistry
-      )
-      const transformedValue = expression.match('I have a red ball')[0]
-        .transformedValue
+      assert.equal(transformedValue.constructor, Color)
       assert.equal(transformedValue.name, 'red')
     })
   })

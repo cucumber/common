@@ -1,11 +1,7 @@
 package io.cucumber.cucumberexpressions;
 
 import java.text.Collator;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class GeneratedExpression {
@@ -25,6 +21,7 @@ public class GeneratedExpression {
     };
     private final String expressionTemplate;
     private final List<ParameterType<?>> parameterTypes;
+
     public GeneratedExpression(String expressionTemplate, List<ParameterType<?>> parameterTypes) {
         this.expressionTemplate = expressionTemplate;
         this.parameterTypes = parameterTypes;

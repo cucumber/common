@@ -1,5 +1,6 @@
 require 'cucumber/cucumber_expressions/parameter_type_matcher'
 require 'cucumber/cucumber_expressions/generated_expression'
+require 'cucumber/cucumber_expressions/combinatorial_generated_expression_factory'
 
 module Cucumber
   module CucumberExpressions
@@ -9,12 +10,13 @@ module Cucumber
       end
 
       def generate_expression(text)
-        parameter_names = []
-        parameter_type_matchers = create_parameter_type_matchers(text)
-        parameter_types = []
-        usage_by_name = Hash.new(0)
+        generate_expressions(text)[0]
+      end
 
-        expression = ""
+      def generate_expressions(text)
+        parameter_type_combinations = []
+        parameter_type_matchers = create_parameter_type_matchers(text)
+        expression_template = ""
         pos = 0
 
         loop do
@@ -29,14 +31,28 @@ module Cucumber
           if matching_parameter_type_matchers.any?
             matching_parameter_type_matchers = matching_parameter_type_matchers.sort
             best_parameter_type_matcher = matching_parameter_type_matchers[0]
-            parameter_type = best_parameter_type_matcher.parameter
-            parameter_types.push(parameter_type)
+            best_parameter_type_matchers = matching_parameter_type_matchers.select do |m|
+              (m <=> best_parameter_type_matcher).zero?
+            end
 
-            parameter_name = get_parameter_name(parameter_type.name, usage_by_name)
-            parameter_names.push(parameter_name)
+            # Build a list of parameter types without duplicates. The reason there
+            # might be duplicates is that some parameter types have more than one regexp,
+            # which means multiple ParameterTypeMatcher objects will have a reference to the
+            # same ParameterType.
+            # We're sorting the list so preferential parameter types are listed first.
+            # Users are most likely to want these, so they should be listed at the top.
+            parameter_types = []
+            best_parameter_type_matchers.each do |parameter_type_matcher|
+              unless parameter_types.include?(parameter_type_matcher.parameter_type)
+                parameter_types.push(parameter_type_matcher.parameter_type)
+              end
+            end
+            parameter_types.sort!
 
-            expression += text.slice(pos...best_parameter_type_matcher.start)
-            expression += "{#{parameter_type.name}}"
+            parameter_type_combinations.push(parameter_types)
+
+            expression_template += text.slice(pos...best_parameter_type_matcher.start)
+            expression_template += "{%s}"
 
             pos = best_parameter_type_matcher.start + best_parameter_type_matcher.group.length
           else
@@ -48,16 +64,15 @@ module Cucumber
           end
         end
 
-        expression += text.slice(pos..-1)
-        GeneratedExpression.new(expression, parameter_names, parameter_types)
+        expression_template += text.slice(pos..-1)
+
+        CombinatorialGeneratedExpressionFactory.new(
+          expression_template,
+          parameter_type_combinations
+        ).generate_expressions
       end
 
     private
-
-      def get_parameter_name(name, usage_by_name)
-        count = (usage_by_name[name] += 1)
-        count == 1 ? name : "#{name}#{count}"
-      end
 
       def create_parameter_type_matchers(text)
         parameter_matchers = []

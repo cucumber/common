@@ -4,6 +4,7 @@ module Cucumber
       attr_reader :offset, :value
 
       def initialize(offset, value, parameter_type)
+        raise "WAT" if Array === parameter_type
         @offset, @value, @parameter_type = offset, value, parameter_type
       end
 
