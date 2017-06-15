@@ -1,14 +1,12 @@
 MAKEFILES=event-protocol/Makefile \
-          gherkin/Makefile \
-					event-protocol/Makefile \
-					cucumber-expressions/Makefile \
-					tag-expressions/Makefile \
-					cucumber-redux/Makefile \
-					cucumber-react/Makefile
+	gherkin/Makefile \
+	event-protocol/Makefile \
+	cucumber-expressions/Makefile \
+	tag-expressions/Makefile \
+	cucumber-redux/Makefile \
+	cucumber-react/Makefile
 
-RSYNC_FILES=$(shell find . -type f -name '*.rsync')
-
-default: .rsynced $(patsubst %/Makefile,default-%,$(MAKEFILES))
+default: $(patsubst %/Makefile,default-%,$(MAKEFILES))
 .PHONY: default
 
 default-%: %
@@ -20,6 +18,10 @@ clean: $(patsubst %/Makefile,clean-%,$(MAKEFILES))
 clean-%: %
 	cd $< && make clean
 
-.rsynced: $(RSYNC_FILES)
+.rsynced:
 	source scripts/functions.sh && rsync_files
 	touch $@
+
+rm-release:
+	find . -type d -name '.release' | xargs rm -rf
+.PHONY: rm-release

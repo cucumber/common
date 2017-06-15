@@ -1,3 +1,12 @@
+# Builds a docker image used for building all projects in this repo. It's
+# used both by contributors and CI.
+#
+# To rebuild and republish this image, do the following:
+#
+#   source ./scripts/functions.sh
+#   docker_build
+#   docker_push
+#
 # Extend alpine-node, because alpine doesn't have node 8 yet, and we need
 # it to build certain packages
 FROM mhart/alpine-node:8.1.0

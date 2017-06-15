@@ -28,8 +28,8 @@ To simplify the maintenance of these duplicated files we use `rsync` to copy a
 master to the subrepos. What files to copy are listed in various `.rsync` files,
 and files are synchronised by doing:
 
-    source ./scripts/functions.sh
-    rsync_files
+    rm .rsynced
+    make .rsynced
 
 ## Releasing a library
 
