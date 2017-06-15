@@ -14,7 +14,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
    by [aslakhellesoy])
 
 ### Added
-N/A
+* Add `{word}` built-in parameter type
+  ([#191](https://github.com/cucumber/cucumber/issues/191)
+   [#226](https://github.com/cucumber/cucumber/pull/226)
+   by [aslakhellesoy])
 
 ### Changed
 * Allow duplicate regexps in parameter types
