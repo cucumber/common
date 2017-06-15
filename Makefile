@@ -6,7 +6,9 @@ MAKEFILES=event-protocol/Makefile \
 					cucumber-redux/Makefile \
 					cucumber-react/Makefile
 
-default: $(patsubst %/Makefile,default-%,$(MAKEFILES))
+RSYNC_FILES=$(wildcard **/*.rsync)
+
+default: .rsynced $(patsubst %/Makefile,default-%,$(MAKEFILES))
 .PHONY: default
 
 default-%: %
@@ -17,3 +19,7 @@ clean: $(patsubst %/Makefile,clean-%,$(MAKEFILES))
 
 clean-%: %
 	cd $< && make clean
+
+.rsynced: $(RSYNC_FILES)
+	source scripts/functions.sh && rsync_files
+	touch $@
