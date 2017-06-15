@@ -6,7 +6,7 @@ MAKEFILES=event-protocol/Makefile \
 					cucumber-redux/Makefile \
 					cucumber-react/Makefile
 
-RSYNC_FILES=$(wildcard **/*.rsync)
+RSYNC_FILES=$(shell find . -type f -name '*.rsync')
 
 default: .rsynced $(patsubst %/Makefile,default-%,$(MAKEFILES))
 .PHONY: default
