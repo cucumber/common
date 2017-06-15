@@ -7,6 +7,7 @@ const {
 
 const INTEGER_REGEXPS = [/-?\d+/, /\d+/]
 const FLOAT_REGEXP = /-?\d*\.?\d+/
+const WORD_REGEXP = /\w+/
 
 class Integer extends Number {}
 class Float extends Number {}
@@ -18,10 +19,13 @@ class ParameterTypeRegistry {
     this._parameterTypesByRegexp = new Map()
 
     this.defineParameterType(
-      new ParameterType('int', Integer, INTEGER_REGEXPS, true, parseInt)
+      new ParameterType('int', INTEGER_REGEXPS, Integer, parseInt, true, true)
     )
     this.defineParameterType(
-      new ParameterType('float', Float, FLOAT_REGEXP, false, parseFloat)
+      new ParameterType('float', FLOAT_REGEXP, Float, parseFloat, false, true)
+    )
+    this.defineParameterType(
+      new ParameterType('word', WORD_REGEXP, String, s => s, false, false)
     )
   }
 
@@ -40,7 +44,7 @@ class ParameterTypeRegistry {
   lookupByRegexp(parameterTypeRegexp, expressionRegexp, text) {
     const parameterTypes = this._parameterTypesByRegexp.get(parameterTypeRegexp)
     if (!parameterTypes) return null
-    if (parameterTypes.length > 1 && !parameterTypes[0].isPreferential) {
+    if (parameterTypes.length > 1 && !parameterTypes[0].preferForRegexpMatch) {
       // We don't do this check on insertion because we only want to restrict
       // ambiguiuty when we look up by Regexp. Users of CucumberExpression should
       // not be restricted.
@@ -79,8 +83,8 @@ class ParameterTypeRegistry {
       const existingParameterType = parameterTypes[0]
       if (
         parameterTypes.length > 0 &&
-        existingParameterType.isPreferential &&
-        parameterType.isPreferential
+        existingParameterType.preferForRegexpMatch &&
+        parameterType.preferForRegexpMatch
       ) {
         throw new CucumberExpressionError(
           'There can only be one preferential parameter type per regexp. ' +

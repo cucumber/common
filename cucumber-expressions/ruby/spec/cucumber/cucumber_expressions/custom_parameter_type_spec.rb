@@ -36,10 +36,11 @@ module Cucumber
         ### [add-color-parameter-type]
         parameter_registry.define_parameter_type(ParameterType.new(
           'color',
-          Color,
           /red|blue|yellow/,
+          Color,
+          lambda { |s| Color.new(s) },
           false,
-          lambda { |s| Color.new(s) }
+          true
         ))
         ### [add-color-parameter-type]
         @parameter_type_registry = parameter_registry
@@ -56,10 +57,11 @@ module Cucumber
           parameter_type_registry = ParameterTypeRegistry.new
           parameter_type_registry.define_parameter_type(ParameterType.new(
               'color',
-              Color,
               [/red|blue|yellow/, /(?:dark|light) (?:red|blue|yellow)/],
+              Color,
+              lambda { |s| Color.new(s) },
               false,
-              lambda { |s| Color.new(s) }
+              true
           ))
           expression = CucumberExpression.new("I have a {color} ball", parameter_type_registry)
           transformed_argument_value = expression.match("I have a dark red ball")[0].transformed_value
@@ -69,10 +71,11 @@ module Cucumber
         it "defers transformation until queried from argument" do
           @parameter_type_registry.define_parameter_type(ParameterType.new(
               'throwing',
-              String,
               /bad/,
+              CssColor,
+              lambda { |s| raise "Can't transform [#{s}]" },
               false,
-              lambda { |s| raise "Can't transform [#{s}]" }
+              true
           ))
           expression = CucumberExpression.new("I have a {throwing} parameter", @parameter_type_registry)
           args = expression.match("I have a bad parameter")
@@ -84,10 +87,11 @@ module Cucumber
             expect {
               @parameter_type_registry.define_parameter_type(ParameterType.new(
                   'color',
-                  CssColor,
                   /.*/,
+                  CssColor,
+                  lambda { |s| CssColor.new(s) },
                   false,
-                  lambda { |s| CssColor.new(s) }
+                  true
               ))
             }.to raise_error("There is already a parameter with name color")
           end
@@ -96,10 +100,11 @@ module Cucumber
             expect {
               @parameter_type_registry.define_parameter_type(ParameterType.new(
                   'whatever',
-                  Color,
                   /.*/,
+                  Color,
+                  lambda { |s| Color.new(s) },
                   false,
-                  lambda { |s| Color.new(s) }
+                  true
               ))
             }.to raise_error("There is already a parameter with type Cucumber::CucumberExpressions::Color")
           end
@@ -107,10 +112,11 @@ module Cucumber
           it "is not detected for regexp" do
             @parameter_type_registry.define_parameter_type(ParameterType.new(
                 'css-color',
-                CssColor,
                 /red|blue|yellow/,
+                CssColor,
+                lambda { |s| CssColor.new(s) },
                 false,
-                lambda { |s| CssColor.new(s) }
+                true
             ))
 
             css_color = CucumberExpression.new("I have a {css-color} ball",@parameter_type_registry)

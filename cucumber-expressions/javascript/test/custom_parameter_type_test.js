@@ -31,10 +31,11 @@ describe('Custom parameter type', () => {
     parameterTypeRegistry.defineParameterType(
       new ParameterType(
         'color',
-        Color,
         /red|blue|yellow/,
+        Color,
+        s => new Color(s),
         false,
-        s => new Color(s)
+        true
       )
     )
     /// [add-color-parameter-type]
@@ -56,10 +57,11 @@ describe('Custom parameter type', () => {
       parameterTypeRegistry.defineParameterType(
         new ParameterType(
           'color',
-          Color,
           [/red|blue|yellow/, /(?:dark|light) (?:red|blue|yellow)/],
+          Color,
+          s => new Color(s),
           false,
-          s => new Color(s)
+          true
         )
       )
       const expression = new CucumberExpression(
@@ -74,7 +76,7 @@ describe('Custom parameter type', () => {
     it('matches parameters with custom parameter type without constructor function and transform', () => {
       parameterTypeRegistry = new ParameterTypeRegistry()
       parameterTypeRegistry.defineParameterType(
-        new ParameterType('color', null, /red|blue|yellow/, false, null)
+        new ParameterType('color', /red|blue|yellow/, null, null, false, true)
       )
       const expression = new CucumberExpression(
         'I have a {color} ball',
@@ -87,9 +89,16 @@ describe('Custom parameter type', () => {
 
     it('defers transformation until queried from argument', () => {
       parameterTypeRegistry.defineParameterType(
-        new ParameterType('throwing', () => null, /bad/, false, s => {
-          throw new Error(`Can't transform [${s}]`)
-        })
+        new ParameterType(
+          'throwing',
+          /bad/,
+          null,
+          s => {
+            throw new Error(`Can't transform [${s}]`)
+          },
+          false,
+          true
+        )
       )
 
       const expression = new CucumberExpression(
@@ -107,10 +116,11 @@ describe('Custom parameter type', () => {
             parameterTypeRegistry.defineParameterType(
               new ParameterType(
                 'color',
-                CssColor,
                 /.*/,
+                CssColor,
+                s => new CssColor(s),
                 false,
-                s => new CssColor(s)
+                true
               )
             ),
           'There is already a parameter type with name color'
@@ -123,10 +133,11 @@ describe('Custom parameter type', () => {
             parameterTypeRegistry.defineParameterType(
               new ParameterType(
                 'whatever',
-                Color,
                 /.*/,
+                Color,
+                s => new Color(s),
                 false,
-                s => new Color(s)
+                true
               )
             ),
           'There is already a parameter type with type Color'
@@ -137,10 +148,11 @@ describe('Custom parameter type', () => {
         parameterTypeRegistry.defineParameterType(
           new ParameterType(
             'css-color',
-            CssColor,
             /red|blue|yellow/,
+            CssColor,
+            s => new CssColor(s),
             false,
-            s => new CssColor(s)
+            true
           )
         )
 
@@ -173,26 +185,6 @@ describe('Custom parameter type', () => {
           'blue'
         )
       })
-
-      it('is not detected when constructor function is anonymous', () => {
-        parameterTypeRegistry = new ParameterTypeRegistry()
-        parameterTypeRegistry.defineParameterType(
-          new ParameterType('foo', () => null, /foo/, false, s => s)
-        )
-        parameterTypeRegistry.defineParameterType(
-          new ParameterType('bar', () => null, /bar/, false, s => s)
-        )
-      })
-
-      it('is not detected when constructor function is null', () => {
-        parameterTypeRegistry = new ParameterTypeRegistry()
-        parameterTypeRegistry.defineParameterType(
-          new ParameterType('foo', null, /foo/, false, s => s)
-        )
-        parameterTypeRegistry.defineParameterType(
-          new ParameterType('bar', null, /bar/, false, s => s)
-        )
-      })
     })
 
     // JavaScript-specific
@@ -202,10 +194,11 @@ describe('Custom parameter type', () => {
       parameterTypeRegistry.defineParameterType(
         new ParameterType(
           'asyncColor',
-          Color,
           /red|blue|yellow/,
+          Color,
+          async s => new Color(s),
           false,
-          async s => new Color(s)
+          true
         )
       )
       /// [add-async-parameter-type]

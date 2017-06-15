@@ -27,10 +27,11 @@ module Cucumber
           if parameter_type.nil?
             parameter_type = ParameterType.new(
                 '*',
-                String,
                 parameter_type_regexp,
+                String,
+                lambda {|s| s},
                 false,
-                lambda {|s| s}
+                false
             )
           end
 

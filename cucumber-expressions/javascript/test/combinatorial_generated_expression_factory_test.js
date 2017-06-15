@@ -7,13 +7,34 @@ describe('CucumberExpressionGenerator', () => {
   it('generates multiple expressions', () => {
     const parameterTypeCombinations = [
       [
-        new ParameterType('color', null, /red|blue|yellow/, false, null),
-        new ParameterType('csscolor', null, /red|blue|yellow/, false, null),
+        new ParameterType('color', /red|blue|yellow/, null, null, false, true),
+        new ParameterType(
+          'csscolor',
+          /red|blue|yellow/,
+          null,
+          null,
+          false,
+          true
+        ),
       ],
       [
-        new ParameterType('date', null, /\d{4}-\d{2}-\d{2}/, false, null),
-        new ParameterType('datetime', null, /\d{4}-\d{2}-\d{2}/, false, null),
-        new ParameterType('timestamp', null, /\d{4}-\d{2}-\d{2}/, false, null),
+        new ParameterType('date', /\d{4}-\d{2}-\d{2}/, null, null, false, true),
+        new ParameterType(
+          'datetime',
+          /\d{4}-\d{2}-\d{2}/,
+          null,
+          null,
+          false,
+          true
+        ),
+        new ParameterType(
+          'timestamp',
+          /\d{4}-\d{2}-\d{2}/,
+          null,
+          null,
+          false,
+          true
+        ),
       ],
     ]
 

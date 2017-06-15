@@ -14,13 +14,13 @@ module Cucumber
       it 'generates multiple expressions' do
         parameter_type_combinations = [
           [
-            ParameterType.new('color', Color, /red|blue|yellow/, false, lambda {|s| Color.new}),
-            ParameterType.new('csscolor', CssColor, /red|blue|yellow/, false, lambda {|s| CssColor.new})
+            ParameterType.new('color', /red|blue|yellow/, Color, lambda {|s| Color.new}, false, true),
+            ParameterType.new('csscolor', /red|blue|yellow/, CssColor, lambda {|s| CssColor.new}, false, true)
           ],
           [
-            ParameterType.new('date', Date, /\d{4}-\d{2}-\d{2}/, false, lambda {|s| Date.new}),
-            ParameterType.new('datetime', DateTime, /\d{4}-\d{2}-\d{2}/, false, lambda {|s| DateTime.new}),
-            ParameterType.new('timestamp', Timestamp, /\d{4}-\d{2}-\d{2}/, false, lambda {|s| Timestamp.new})
+            ParameterType.new('date', /\d{4}-\d{2}-\d{2}/, Date, lambda {|s| Date.new}, false, true),
+            ParameterType.new('datetime', /\d{4}-\d{2}-\d{2}/, DateTime, lambda {|s| DateTime.new}, false, true),
+            ParameterType.new('timestamp', /\d{4}-\d{2}-\d{2}/, Timestamp, lambda {|s| Timestamp.new}, false, true)
           ]
         ]
 

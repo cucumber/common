@@ -6,11 +6,11 @@ import java.util.List;
 public class ClassParameterType<T> implements ParameterType<T> {
     private final ParameterType<T> delegate;
 
-    public ClassParameterType(Class<T> type) {
+    public ClassParameterType(Class<T> type, List<String> regexps) {
         if (type.isEnum()) {
-            delegate = (ParameterType<T>) new EnumParameterType<>((Class<? extends Enum>) type);
+            delegate = (ParameterType<T>) new EnumParameterType<>((Class<? extends Enum>) type, regexps);
         } else {
-            delegate = new ConstructorParameterType<>(type);
+            delegate = new ConstructorParameterType<>(type, regexps);
         }
     }
 
@@ -35,7 +35,12 @@ public class ClassParameterType<T> implements ParameterType<T> {
     }
 
     @Override
-    public boolean isPreferential() {
-        return delegate.isPreferential();
+    public boolean preferForRegexpMatch() {
+        return delegate.preferForRegexpMatch();
+    }
+
+    @Override
+    public boolean useForSnippets() {
+        return delegate.useForSnippets();
     }
 }

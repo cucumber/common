@@ -26,21 +26,21 @@ module Cucumber
         expect(parameter_type.transform("22")).to eq(22)
       end
 
-      it 'does not allow more than one preferential parameter type for each regexp' do
-        @registry.define_parameter_type(ParameterType.new("name", Name, CAPITALISED_WORD, true, lambda {|s| Name.new}))
-        @registry.define_parameter_type(ParameterType.new("person", Person, CAPITALISED_WORD, false, lambda {|s| Person.new}))
+      it 'does not allow more than one prefer_for_regexp_match parameter type for each regexp' do
+        @registry.define_parameter_type(ParameterType.new("name", CAPITALISED_WORD, Name, lambda {|s| Name.new}, true, true))
+        @registry.define_parameter_type(ParameterType.new("person", CAPITALISED_WORD, Person, lambda {|s| Person.new}, false, true))
         expect do
-          @registry.define_parameter_type(ParameterType.new("place", Place, CAPITALISED_WORD, true, lambda {|s| Place.new}))
+          @registry.define_parameter_type(ParameterType.new("place", CAPITALISED_WORD, Place, lambda {|s| Place.new}, true, true))
         end.to raise_error(
                    CucumberExpressionError,
-                   "There can only be one preferential parameter type per regexp. The regexp /[A-Z]+\\w+/ is used for two preferential parameter types, {name} and {place}"
+                   "There can only be one prefer_for_regexp_match parameter type per regexp. The regexp /[A-Z]+\\w+/ is used for two prefer_for_regexp_match parameter types, {name} and {place}"
                )
       end
 
-      it 'looks up preferential parameter type by regexp' do
-        name = ParameterType.new("name", Name, CAPITALISED_WORD, false, lambda {|s| Name.new})
-        person = ParameterType.new("person", Person, CAPITALISED_WORD, true, lambda {|s| Person.new})
-        place = ParameterType.new("place", Place, CAPITALISED_WORD, false, lambda {|s| Place.new})
+      it 'looks up prefer_for_regexp_match parameter type by regexp' do
+        name = ParameterType.new("name", CAPITALISED_WORD, Name, lambda {|s| Name.new}, false, true)
+        person = ParameterType.new("person", CAPITALISED_WORD, Person, lambda {|s| Person.new}, true, true)
+        place = ParameterType.new("place", CAPITALISED_WORD, Place, lambda {|s| Place.new}, false, true)
 
         @registry.define_parameter_type(name)
         @registry.define_parameter_type(person)
@@ -49,10 +49,10 @@ module Cucumber
         expect(@registry.lookup_by_regexp(CAPITALISED_WORD.source, /([A-Z]+\w+) and ([A-Z]+\w+)/, "Lisa and Bob")).to eq(person)
       end
 
-      it 'throws ambiguous exception when no parameter types are preferential' do
-        name = ParameterType.new("name", Name, CAPITALISED_WORD, false, lambda {|s| Name.new})
-        person = ParameterType.new("person", Person, CAPITALISED_WORD, false, lambda {|s| Person.new})
-        place = ParameterType.new("place", Place, CAPITALISED_WORD, false, lambda {|s| Place.new})
+      it 'throws ambiguous exception when no parameter types are prefer_for_regexp_match' do
+        name = ParameterType.new("name", CAPITALISED_WORD, Name, lambda {|s| Name.new}, false, true)
+        person = ParameterType.new("person", CAPITALISED_WORD, Person, lambda {|s| Person.new}, false, true)
+        place = ParameterType.new("place", CAPITALISED_WORD, Place, lambda {|s| Place.new}, false, true)
 
         @registry.define_parameter_type(name)
         @registry.define_parameter_type(person)
@@ -81,7 +81,7 @@ module Cucumber
                        "   {place} and {person}\n" +
                        "   {place} and {place}\n" +
                        "\n" +
-                       "2) Make one of the parameter types preferential and continue to use a Regular Expression.\n" +
+                       "2) Make one of the parameter types prefer_for_regexp_match and continue to use a Regular Expression.\n" +
                        "\n"
                )
       end

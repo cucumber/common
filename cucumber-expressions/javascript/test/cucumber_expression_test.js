@@ -14,6 +14,10 @@ describe('CucumberExpression', () => {
     /// [capture-match-arguments]
   })
 
+  it('matches word', () => {
+    assert.deepEqual(match('three {word} mice', 'three blind mice'), ['blind'])
+  })
+
   it('matches int', () => {
     assert.deepEqual(match('{int}', '22'), [22])
   })

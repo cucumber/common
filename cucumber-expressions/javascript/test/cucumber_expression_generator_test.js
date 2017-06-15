@@ -61,7 +61,7 @@ describe('CucumberExpressionGenerator', () => {
 
   it('generates expression for custom type', () => {
     parameterTypeRegistry.defineParameterType(
-      new ParameterType('currency', Currency, '[A-Z]{3}', false, null)
+      new ParameterType('currency', /[A-Z]{3}/, Currency, null, false, true)
     )
 
     assertExpression(
@@ -73,10 +73,10 @@ describe('CucumberExpressionGenerator', () => {
 
   it('prefers leftmost match when there is overlap', () => {
     parameterTypeRegistry.defineParameterType(
-      new ParameterType('currency', Currency, 'cd', false, null)
+      new ParameterType('currency', /cd/, Currency, null, false, true)
     )
     parameterTypeRegistry.defineParameterType(
-      new ParameterType('date', Date, 'bc', false, null)
+      new ParameterType('date', /bc/, Date, null, false, true)
     )
 
     assertExpression('a{date}defg', ['date'], 'abcdefg')
@@ -86,10 +86,10 @@ describe('CucumberExpressionGenerator', () => {
 
   it('generates all combinations of expressions when several parameter types match', () => {
     parameterTypeRegistry.defineParameterType(
-      new ParameterType('currency', null, 'x', false, null)
+      new ParameterType('currency', /x/, null, null, false, true)
     )
     parameterTypeRegistry.defineParameterType(
-      new ParameterType('date', null, 'x', false, null)
+      new ParameterType('date', /x/, null, null, false, true)
     )
 
     const generatedExpressions = generator.generateExpressions(

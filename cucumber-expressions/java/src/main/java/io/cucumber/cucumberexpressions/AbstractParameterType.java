@@ -7,13 +7,17 @@ public abstract class AbstractParameterType<T> implements ParameterType<T> {
     private final String name;
     private final Type type;
     private final List<String> regexps;
-    private final boolean isPreferential;
+    private final boolean preferForRegexpMatch;
+    private final boolean useForSnippets;
 
-    public AbstractParameterType(String name, Type type, boolean isPreferential, List<String> regexps) {
+    public AbstractParameterType(String name, List<String> regexps, Type type, boolean useForSnippets, boolean preferForRegexpMatch) {
+        if (name == null) throw new CucumberExpressionException("name cannot be null");
         if (type == null) throw new CucumberExpressionException("type cannot be null");
-        this.isPreferential = isPreferential;
+        if (regexps == null) throw new CucumberExpressionException("regexps cannot be null");
         this.name = name;
         this.type = type;
+        this.preferForRegexpMatch = preferForRegexpMatch;
+        this.useForSnippets = useForSnippets;
         this.regexps = regexps;
     }
 
@@ -33,7 +37,12 @@ public abstract class AbstractParameterType<T> implements ParameterType<T> {
     }
 
     @Override
-    public boolean isPreferential() {
-        return isPreferential;
+    public boolean preferForRegexpMatch() {
+        return preferForRegexpMatch;
+    }
+
+    @Override
+    public boolean useForSnippets() {
+        return useForSnippets;
     }
 }

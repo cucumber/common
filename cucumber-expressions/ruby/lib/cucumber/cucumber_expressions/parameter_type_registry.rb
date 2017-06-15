@@ -7,14 +7,16 @@ module Cucumber
     class ParameterTypeRegistry
       INTEGER_REGEXPS = [/-?\d+/, /\d+/]
       FLOAT_REGEXP = /-?\d*\.?\d+/
+      WORD_REGEXP = /\w+/
 
       def initialize
         @parameter_type_by_name = {}
         @parameter_type_by_class = {}
         @parameter_types_by_regexp = Hash.new {|hash, regexp| hash[regexp] = []}
 
-        define_parameter_type(ParameterType.new('int', Integer, INTEGER_REGEXPS, true, lambda {|s| s.to_i}))
-        define_parameter_type(ParameterType.new('float', Float, FLOAT_REGEXP, false, lambda {|s| s.to_f}))
+        define_parameter_type(ParameterType.new('int', INTEGER_REGEXPS, Integer, lambda {|s| s.to_i}, true, true))
+        define_parameter_type(ParameterType.new('float', FLOAT_REGEXP, Float, lambda {|s| s.to_f}, false, true))
+        define_parameter_type(ParameterType.new('word', WORD_REGEXP, String, lambda {|s| s}, false, false))
       end
 
       def lookup_by_type(clazz)
@@ -28,7 +30,7 @@ module Cucumber
       def lookup_by_regexp(parameter_type_regexp, expression_regexp, text)
         parameter_types = @parameter_types_by_regexp[parameter_type_regexp]
         return nil if parameter_types.nil?
-        if parameter_types.length > 1 && !parameter_types[0].preferential?
+        if parameter_types.length > 1 && !parameter_types[0].prefer_for_regexp_match?
           # We don't do this check on insertion because we only want to restrict
           # ambiguity when we look up by Regexp. Users of CucumberExpression should
           # not be restricted.
@@ -48,8 +50,8 @@ module Cucumber
 
         parameter_type.regexps.each do |parameter_type_regexp|
           parameter_types = @parameter_types_by_regexp[parameter_type_regexp]
-          if parameter_types.any? && parameter_types[0].preferential? && parameter_type.preferential?
-            raise CucumberExpressionError.new("There can only be one preferential parameter type per regexp. The regexp /#{parameter_type_regexp}/ is used for two preferential parameter types, {#{parameter_types[0].name}} and {#{parameter_type.name}}")
+          if parameter_types.any? && parameter_types[0].prefer_for_regexp_match? && parameter_type.prefer_for_regexp_match?
+            raise CucumberExpressionError.new("There can only be one prefer_for_regexp_match parameter type per regexp. The regexp /#{parameter_type_regexp}/ is used for two prefer_for_regexp_match parameter types, {#{parameter_types[0].name}} and {#{parameter_type.name}}")
           end
           parameter_types.push(parameter_type)
           parameter_types.sort!

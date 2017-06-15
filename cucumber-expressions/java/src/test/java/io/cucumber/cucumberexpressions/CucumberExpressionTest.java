@@ -26,6 +26,11 @@ public class CucumberExpressionTest {
     }
 
     @Test
+    public void matches_word() {
+        assertEquals(singletonList("blind"), match("three {word} mice", "three blind mice"));
+    }
+
+    @Test
     public void matches_int() {
         assertEquals(singletonList(22), match("{int}", "22"));
     }

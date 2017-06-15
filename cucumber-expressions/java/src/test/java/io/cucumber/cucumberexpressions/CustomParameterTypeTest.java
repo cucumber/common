@@ -3,10 +3,12 @@ package io.cucumber.cucumberexpressions;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 
 import static java.util.Arrays.asList;
+import static java.util.Collections.singletonList;
 import static java.util.regex.Pattern.compile;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
@@ -19,8 +21,7 @@ public class CustomParameterTypeTest {
         /// [add-color-parameter-type]
         parameterTypeRegistry.defineParameterType(new SimpleParameterType<>(
                 "color",
-                Color.class,
-                "red|blue|yellow",
+                "red|blue|yellow", Color.class,
                 Color::new
         ));
         /// [add-color-parameter-type]
@@ -38,8 +39,7 @@ public class CustomParameterTypeTest {
         parameterTypeRegistry = new ParameterTypeRegistry(Locale.ENGLISH);
         parameterTypeRegistry.defineParameterType(new SimpleParameterType<>(
                 "color",
-                Color.class,
-                asList("red|blue|yellow", "(?:dark|light) (?:red|blue|yellow)"),
+                asList("red|blue|yellow", "(?:dark|light) (?:red|blue|yellow)"), Color.class,
                 Color::new
         ));
         Expression expression = new CucumberExpression("I have a {color} ball", parameterTypeRegistry);
@@ -51,8 +51,7 @@ public class CustomParameterTypeTest {
     public void defers_transformation_until_queried_from_argument() {
         parameterTypeRegistry.defineParameterType(new SimpleParameterType<>(
                 "throwing",
-                String.class,
-                "bad",
+                "bad", CssColor.class,
                 name -> {
                     throw new RuntimeException(String.format("Can't transform [%s]", name));
                 }));
@@ -71,8 +70,7 @@ public class CustomParameterTypeTest {
         try {
             parameterTypeRegistry.defineParameterType(new SimpleParameterType<>(
                     "color",
-                    CssColor.class,
-                    ".*",
+                    ".*", CssColor.class,
                     CssColor::new));
             fail("should have failed");
         } catch (DuplicateTypeNameException expected) {
@@ -85,8 +83,7 @@ public class CustomParameterTypeTest {
         try {
             parameterTypeRegistry.defineParameterType(new SimpleParameterType<>(
                     "whatever",
-                    Color.class,
-                    ".*",
+                    ".*", Color.class,
                     Color::new));
             fail("should have failed");
         } catch (CucumberExpressionException expected) {
@@ -100,9 +97,12 @@ public class CustomParameterTypeTest {
     public void conflicting_parameter_type_is_not_detected_for_regexp() {
         parameterTypeRegistry.defineParameterType(new SimpleParameterType<>(
                 "css-color",
+                singletonList("red|blue|yellow"),
                 CssColor.class,
-                "red|blue|yellow",
-                CssColor::new));
+                CssColor::new,
+                false,
+                false
+        ));
 
         assertEquals(new CssColor("blue"), new CucumberExpression("I have a {css-color} ball", parameterTypeRegistry).match("I have a blue ball").get(0).getTransformedValue());
         assertEquals(new Color("blue"), new CucumberExpression("I have a {color} ball", parameterTypeRegistry).match("I have a blue ball").get(0).getTransformedValue());

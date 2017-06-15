@@ -55,8 +55,7 @@ public class CucumberExpressionGeneratorTest {
     public void numbers_only_second_argument_when_type_is_not_reserved_keyword() {
         parameterTypeRegistry.defineParameterType(new SimpleParameterType<>(
                 "currency",
-                Currency.class,
-                "[A-Z]{3}",
+                "[A-Z]{3}", Currency.class,
                 Currency::getInstance
         ));
         assertExpression(
@@ -68,14 +67,12 @@ public class CucumberExpressionGeneratorTest {
     public void prefers_leftmost_match_when_there_is_overlap() {
         parameterTypeRegistry.defineParameterType(new SimpleParameterType<>(
                 "currency",
-                Currency.class,
-                "cd",
+                "cd", Currency.class,
                 Currency::getInstance
         ));
         parameterTypeRegistry.defineParameterType(new SimpleParameterType<>(
                 "date",
-                Date.class,
-                "bc",
+                "bc", Date.class,
                 Date::new
         ));
         assertExpression(
@@ -87,14 +84,12 @@ public class CucumberExpressionGeneratorTest {
     public void prefers_widest_match_when_pos_is_same() {
         parameterTypeRegistry.defineParameterType(new SimpleParameterType<>(
                 "currency",
-                Currency.class,
-                "cd",
+                "cd", Currency.class,
                 Currency::getInstance
         ));
         parameterTypeRegistry.defineParameterType(new SimpleParameterType<>(
                 "date",
-                Date.class,
-                "cde",
+                "cde", Date.class,
                 Date::new
         ));
         assertExpression(
@@ -106,15 +101,16 @@ public class CucumberExpressionGeneratorTest {
     public void generates_all_combinations_of_expressions_when_several_parameter_types_match() {
         parameterTypeRegistry.defineParameterType(new SimpleParameterType<>(
                 "currency",
-                Currency.class,
                 "x",
-                Currency::getInstance
+                Currency.class,
+                Currency::getInstance,
+                true, true
         ));
         parameterTypeRegistry.defineParameterType(new SimpleParameterType<>(
                 "date",
-                Date.class,
-                "x",
-                Date::new
+                "x", Date.class,
+                Date::new,
+                true, false
         ));
 
         List<GeneratedExpression> generatedExpressions = generator.generateExpressions("I have x and x and another x");

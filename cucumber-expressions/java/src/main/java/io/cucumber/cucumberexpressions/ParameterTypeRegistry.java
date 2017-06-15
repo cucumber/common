@@ -14,6 +14,7 @@ public class ParameterTypeRegistry {
     private static final List<String> INTEGER_REGEXPS = asList("-?\\d+", "\\d+");
     private static final List<String> FLOAT_REGEXPS = singletonList("-?\\d*[\\.,]\\d+");
     private static final List<String> HEX_REGEXPS = singletonList("0[xX][0-9a-fA-F]{2}");
+    private static final List<String> WORD_REGEXPS = singletonList("\\w+");
     private static final Map<Class, Class> BOXED = new HashMap<Class, Class>() {{
         put(byte.class, Byte.class);
         put(short.class, Short.class);
@@ -32,14 +33,15 @@ public class ParameterTypeRegistry {
         NumberFormat numberFormat = NumberFormat.getNumberInstance(locale);
         NumberParser numberParser = new NumberParser(numberFormat);
 
-        defineParameterType(new SimpleParameterType<>("bigint", BigInteger.class, false, INTEGER_REGEXPS, BigInteger::new));
-        defineParameterType(new SimpleParameterType<>("bigdecimal", BigDecimal.class, false, INTEGER_REGEXPS, BigDecimal::new));
-        defineParameterType(new SimpleParameterType<>("byte", Byte.class, false, HEX_REGEXPS, Byte::decode));
-        defineParameterType(new SimpleParameterType<>("short", Short.class, false, INTEGER_REGEXPS, Short::decode));
-        defineParameterType(new SimpleParameterType<>("int", Integer.class, true, INTEGER_REGEXPS, Integer::decode));
-        defineParameterType(new SimpleParameterType<>("long", Long.class, false, INTEGER_REGEXPS, Long::decode));
-        defineParameterType(new SimpleParameterType<>("float", Float.class, false, FLOAT_REGEXPS, numberParser::parseFloat));
-        defineParameterType(new SimpleParameterType<>("double", Double.class, true, FLOAT_REGEXPS, numberParser::parseDouble));
+        defineParameterType(new SimpleParameterType<>("bigint", INTEGER_REGEXPS, BigInteger.class, BigInteger::new, false, false));
+        defineParameterType(new SimpleParameterType<>("bigdecimal", INTEGER_REGEXPS, BigDecimal.class, BigDecimal::new, false, false));
+        defineParameterType(new SimpleParameterType<>("byte", HEX_REGEXPS, Byte.class, Byte::decode, false, false));
+        defineParameterType(new SimpleParameterType<>("short", INTEGER_REGEXPS, Short.class, Short::decode, false, false));
+        defineParameterType(new SimpleParameterType<>("int", INTEGER_REGEXPS, Integer.class, Integer::decode, true, true));
+        defineParameterType(new SimpleParameterType<>("long", INTEGER_REGEXPS, Long.class, Long::decode, false, false));
+        defineParameterType(new SimpleParameterType<>("float", FLOAT_REGEXPS, Float.class, numberParser::parseFloat, false, false));
+        defineParameterType(new SimpleParameterType<>("double", FLOAT_REGEXPS, Double.class, numberParser::parseDouble, true, true));
+        defineParameterType(new SimpleParameterType<>("word", WORD_REGEXPS, String.class, s -> s, false, false));
     }
 
     public void defineParameterType(ParameterType<?> parameterType) {
@@ -49,7 +51,7 @@ public class ParameterTypeRegistry {
         for (String parameterTypeRegexp : parameterType.getRegexps()) {
             SortedSet<ParameterType<?>> parameterTypes = parameterTypesByRegexp
                     .computeIfAbsent(parameterTypeRegexp, r -> new TreeSet<>(new ParameterTypeComparator()));
-            if (!parameterTypes.isEmpty() && parameterTypes.first().isPreferential() && parameterType.isPreferential()) {
+            if (!parameterTypes.isEmpty() && parameterTypes.first().preferForRegexpMatch() && parameterType.preferForRegexpMatch()) {
                 throw new CucumberExpressionException(String.format(
                         "There can only be one preferential parameter type per regexp. " +
                                 "The regexp /%s/ is used for two preferential parameter types, {%s} and {%s}",
@@ -80,7 +82,7 @@ public class ParameterTypeRegistry {
     public <T> ParameterType<T> lookupByRegexp(String parameterTypeRegexp, Pattern expressionRegexp, String text) {
         SortedSet<ParameterType<?>> parameterTypes = parameterTypesByRegexp.get(parameterTypeRegexp);
         if (parameterTypes == null) return null;
-        if (parameterTypes.size() > 1 && !parameterTypes.first().isPreferential()) {
+        if (parameterTypes.size() > 1 && !parameterTypes.first().preferForRegexpMatch()) {
             // We don't do this check on insertion because we only want to restrict
             // ambiguity when we look up by Regexp. Users of CucumberExpression should
             // not be restricted.

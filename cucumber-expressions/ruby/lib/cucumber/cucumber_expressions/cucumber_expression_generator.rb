@@ -39,7 +39,7 @@ module Cucumber
             # might be duplicates is that some parameter types have more than one regexp,
             # which means multiple ParameterTypeMatcher objects will have a reference to the
             # same ParameterType.
-            # We're sorting the list so preferential parameter types are listed first.
+            # We're sorting the list so prefer_for_regexp_match parameter types are listed first.
             # Users are most likely to want these, so they should be listed at the top.
             parameter_types = []
             best_parameter_type_matchers.each do |parameter_type_matcher|
@@ -77,7 +77,9 @@ module Cucumber
       def create_parameter_type_matchers(text)
         parameter_matchers = []
         @parameter_type_registry.parameter_types.each do |parameter_type|
-          parameter_matchers += create_parameter_type_matchers2(parameter_type, text)
+          if parameter_type.use_for_snippets?
+            parameter_matchers += create_parameter_type_matchers2(parameter_type, text)
+          end
         end
         parameter_matchers
       end

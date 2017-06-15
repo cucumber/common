@@ -6,14 +6,24 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import static java.util.Arrays.asList;
+import static java.util.Collections.singletonList;
 import static org.junit.Assert.assertEquals;
 
 public class CombinatorialGeneratedExpressionFactoryTest {
+    private static final List<String> WORDS = singletonList("\\w+");
+
     @Test
     public void generates_multiple_expressions() {
         List<List<ParameterType<?>>> parameterTypeCombinations = asList(
-                asList(new ClassParameterType<>(Color.class), new ClassParameterType<>(CssColor.class)),
-                asList(new ClassParameterType<>(Date.class), new ClassParameterType<>(DateTime.class), new ClassParameterType<>(Timestamp.class))
+                asList(
+                        new ClassParameterType<>(Color.class, WORDS),
+                        new ClassParameterType<>(CssColor.class, WORDS)
+                ),
+                asList(
+                        new ClassParameterType<>(Date.class, WORDS),
+                        new ClassParameterType<>(DateTime.class, WORDS),
+                        new ClassParameterType<>(Timestamp.class, WORDS)
+                )
         );
         CombinatorialGeneratedExpressionFactory factory = new CombinatorialGeneratedExpressionFactory(
                 "I bought a {%s} ball on {%s}",
