@@ -24,10 +24,11 @@ class RegularExpression {
       if (!parameterType) {
         parameterType = new ParameterType(
           '*',
-          String,
           parameterTypeRegexp,
+          String,
+          s => s,
           false,
-          s => s
+          false
         )
       }
       parameterTypes.push(parameterType)

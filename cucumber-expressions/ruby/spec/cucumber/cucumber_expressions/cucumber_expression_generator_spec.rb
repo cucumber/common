@@ -49,10 +49,11 @@ module Cucumber
       it "numbers only second argument when type is not reserved keyword" do
         @parameter_type_registry.define_parameter_type(ParameterType.new(
           'currency',
-          Currency,
           '[A-Z]{3}',
+          Currency,
+          lambda {|s| Currency.new(s)},
           true,
-          lambda {|s| Currency.new(s)}
+          true
         ))
 
         assert_expression(

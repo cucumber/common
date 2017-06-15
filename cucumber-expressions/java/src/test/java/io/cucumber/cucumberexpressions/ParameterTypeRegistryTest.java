@@ -42,10 +42,10 @@ public class ParameterTypeRegistryTest {
 
     @Test
     public void does_not_allow_more_than_one_preferential_parameter_type_for_each_regexp() {
-        registry.defineParameterType(new SimpleParameterType<>("name", Name.class, true, CAPITALISED_WORD, Name::new));
-        registry.defineParameterType(new SimpleParameterType<>("person", Person.class, false, CAPITALISED_WORD, Person::new));
+        registry.defineParameterType(new SimpleParameterType<>("name", CAPITALISED_WORD, Name.class, Name::new, false, true));
+        registry.defineParameterType(new SimpleParameterType<>("person", CAPITALISED_WORD, Person.class, Person::new, false, false));
         try {
-            registry.defineParameterType(new SimpleParameterType<>("place", Place.class, true, CAPITALISED_WORD, Place::new));
+            registry.defineParameterType(new SimpleParameterType<>("place", CAPITALISED_WORD, Place.class, Place::new, false, true));
             fail("Expected an exception");
         } catch (CucumberExpressionException e) {
             assertEquals("There can only be one preferential parameter type per regexp. The regexp /[A-Z]+\\w+/ is used for two preferential parameter types, {name} and {place}", e.getMessage());
@@ -54,9 +54,9 @@ public class ParameterTypeRegistryTest {
 
     @Test
     public void looks_up_preferential_parameter_type_by_regexp() {
-        SimpleParameterType<Name> name = new SimpleParameterType<>("name", Name.class, false, CAPITALISED_WORD, Name::new);
-        SimpleParameterType<Person> person = new SimpleParameterType<>("person", Person.class, true, CAPITALISED_WORD, Person::new);
-        SimpleParameterType<Place> place = new SimpleParameterType<>("place", Place.class, false, CAPITALISED_WORD, Place::new);
+        SimpleParameterType<Name> name = new SimpleParameterType<>("name", CAPITALISED_WORD, Name.class, Name::new, false, false);
+        SimpleParameterType<Person> person = new SimpleParameterType<>("person", CAPITALISED_WORD, Person.class, Person::new, false, true);
+        SimpleParameterType<Place> place = new SimpleParameterType<>("place", CAPITALISED_WORD, Place.class, Place::new, false, false);
         registry.defineParameterType(name);
         registry.defineParameterType(person);
         registry.defineParameterType(place);
@@ -65,9 +65,9 @@ public class ParameterTypeRegistryTest {
 
     @Test
     public void throws_ambiguous_exception_on_lookup_when_no_parameter_types_are_preferential() {
-        SimpleParameterType<Name> name = new SimpleParameterType<>("name", Name.class, false, CAPITALISED_WORD, Name::new);
-        SimpleParameterType<Person> person = new SimpleParameterType<>("person", Person.class, false, CAPITALISED_WORD, Person::new);
-        SimpleParameterType<Place> place = new SimpleParameterType<>("place", Place.class, false, CAPITALISED_WORD, Place::new);
+        SimpleParameterType<Name> name = new SimpleParameterType<>("name", CAPITALISED_WORD, Name.class, Name::new, true, false);
+        SimpleParameterType<Person> person = new SimpleParameterType<>("person", CAPITALISED_WORD, Person.class, Person::new, true, false);
+        SimpleParameterType<Place> place = new SimpleParameterType<>("place", CAPITALISED_WORD, Place.class, Place::new, true, false);
         registry.defineParameterType(name);
         registry.defineParameterType(person);
         registry.defineParameterType(place);

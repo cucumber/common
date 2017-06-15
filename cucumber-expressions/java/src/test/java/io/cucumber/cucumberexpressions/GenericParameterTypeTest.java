@@ -21,8 +21,8 @@ public class GenericParameterTypeTest {
 
     class ListOfStringParameterType extends AbstractParameterType<List<String>> {
         public ListOfStringParameterType() {
-            super("stringlist", new TypeReference<List<String>>() {
-            }.getType(), false, singletonList(".*"));
+            super("stringlist", singletonList(".*"), new TypeReference<List<String>>() {
+            }.getType(), true, false);
         }
 
         @Override

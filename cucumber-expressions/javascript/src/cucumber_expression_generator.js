@@ -82,9 +82,11 @@ class CucumberExpressionGenerator {
   _createParameterTypeMatchers(text) {
     let parameterMatchers = []
     for (const parameterType of this._parameterTypeRegistry.parameterTypes) {
-      parameterMatchers = parameterMatchers.concat(
-        this._createParameterTypeMatchers2(parameterType, text)
-      )
+      if (parameterType.useForSnippets) {
+        parameterMatchers = parameterMatchers.concat(
+          this._createParameterTypeMatchers2(parameterType, text)
+        )
+      }
     }
     return parameterMatchers
   }

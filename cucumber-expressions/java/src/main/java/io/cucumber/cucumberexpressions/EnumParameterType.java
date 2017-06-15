@@ -1,14 +1,12 @@
 package io.cucumber.cucumberexpressions;
 
-import java.util.Collections;
 import java.util.List;
 
 public class EnumParameterType<T extends Enum<T>> extends AbstractParameterType<T> {
-    private static final List<String> ANYTHING_GOES = Collections.singletonList(".+");
     private final Class<T> enumClass;
 
-    public EnumParameterType(Class<T> enumClass) {
-        super(enumClass.getSimpleName().toLowerCase(), enumClass, false, ANYTHING_GOES);
+    public EnumParameterType(Class<T> enumClass, List<String> regexps) {
+        super(enumClass.getSimpleName().toLowerCase(), regexps, enumClass, true, false);
         this.enumClass = enumClass;
     }
 

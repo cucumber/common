@@ -77,7 +77,9 @@ public class CucumberExpressionGenerator {
         Collection<ParameterType<?>> parameterTypes = parameterTypeRegistry.getParameterTypes();
         List<ParameterTypeMatcher> parameterTypeMatchers = new ArrayList<>();
         for (ParameterType<?> parameterType : parameterTypes) {
-            parameterTypeMatchers.addAll(createParameterTypeMatchers(parameterType, text));
+            if(parameterType.useForSnippets()) {
+                parameterTypeMatchers.addAll(createParameterTypeMatchers(parameterType, text));
+            }
         }
         return parameterTypeMatchers;
     }

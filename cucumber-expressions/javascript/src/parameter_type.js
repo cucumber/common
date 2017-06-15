@@ -1,23 +1,34 @@
 class ParameterType {
   static compare(pt1, pt2) {
-    if (pt1.isPreferential && !pt2.isPreferential) return -1
-    if (pt2.isPreferential && !pt1.isPreferential) return 1
+    if (pt1.preferForRegexpMatch && !pt2.preferForRegexpMatch) return -1
+    if (pt2.preferForRegexpMatch && !pt1.preferForRegexpMatch) return 1
     return pt1.name.localeCompare(pt2.name)
   }
 
   /**
    * @param name {String} the name of the type
-   * @param constructorFunction {Function} the prototype (constructor) of the type. May be null.
    * @param regexps {Array.<RegExp>,RegExp,Array.<String>,String} that matches the type
-   * @param isPreferential {boolean} true if this is a preferential type.
+   * @param constructorFunction {Function} the prototype (constructor) of the type. May be null.
    * @param transform {Function} function transforming string to another type. May be null.
+   * @param preferForRegexpMatch {boolean} true if this is a preferential type.
+   * @param useForSnippets {boolean} true if this should be used for snippets.
    */
-  constructor(name, constructorFunction, regexps, isPreferential, transform) {
+  constructor(
+    name,
+    regexps,
+    constructorFunction,
+    transform,
+    preferForRegexpMatch,
+    useForSnippets
+  ) {
+    if (useForSnippets === undefined)
+      throw new Error('useForSnippets must be specified')
     this._name = name
-    this._constructorFunction = constructorFunction
     this._regexps = stringArray(regexps)
-    this._isPreferential = isPreferential
+    this._constructorFunction = constructorFunction
     this._transform = transform
+    this._preferForRegexpMatch = preferForRegexpMatch
+    this._useForSnippets = useForSnippets
   }
 
   get name() {
@@ -32,8 +43,12 @@ class ParameterType {
     return this._regexps
   }
 
-  get isPreferential() {
-    return this._isPreferential
+  get preferForRegexpMatch() {
+    return this._preferForRegexpMatch
+  }
+
+  get useForSnippets() {
+    return this._useForSnippets
   }
 
   transform(string) {

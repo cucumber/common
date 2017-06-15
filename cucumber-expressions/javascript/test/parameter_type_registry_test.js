@@ -21,10 +21,11 @@ describe('ParameterTypeRegistry', () => {
     registry.defineParameterType(
       new ParameterType(
         'color',
-        Color,
         /red|blue|green/,
+        Color,
+        s => new Color(s),
         true,
-        s => new Color(s)
+        true
       )
     )
     const parameterType = registry.lookupByType(Color)
@@ -33,25 +34,34 @@ describe('ParameterTypeRegistry', () => {
 
   it('does not allow more than one preferential parameter type for each regexp', () => {
     registry.defineParameterType(
-      new ParameterType('name', Name, CAPITALISED_WORD, true, s => new Name(s))
+      new ParameterType(
+        'name',
+        CAPITALISED_WORD,
+        Name,
+        s => new Name(s),
+        true,
+        true
+      )
     )
     registry.defineParameterType(
       new ParameterType(
         'person',
-        Person,
         CAPITALISED_WORD,
+        Person,
+        s => new Person(s),
         false,
-        s => new Person(s)
+        true
       )
     )
     try {
       registry.defineParameterType(
         new ParameterType(
           'place',
-          Place,
           CAPITALISED_WORD,
+          Place,
+          s => new Place(s),
           true,
-          s => new Place(s)
+          true
         )
       )
       throw new Error('Should have failed')
@@ -64,9 +74,23 @@ describe('ParameterTypeRegistry', () => {
   })
 
   it('looks up preferential parameter type by regexp', () => {
-    const name = new ParameterType('name', null, /[A-Z]+\w+/, false, null)
-    const person = new ParameterType('person', null, /[A-Z]+\w+/, true, null)
-    const place = new ParameterType('place', null, /[A-Z]+\w+/, false, null)
+    const name = new ParameterType('name', /[A-Z]+\w+/, null, null, false, true)
+    const person = new ParameterType(
+      'person',
+      /[A-Z]+\w+/,
+      null,
+      null,
+      true,
+      true
+    )
+    const place = new ParameterType(
+      'place',
+      /[A-Z]+\w+/,
+      null,
+      null,
+      false,
+      true
+    )
 
     registry.defineParameterType(name)
     registry.defineParameterType(person)

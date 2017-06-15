@@ -15,6 +15,10 @@ module Cucumber
         ### [capture-match-arguments]
       end
 
+      it "matches word" do
+        expect( match("three {word} mice", "three blind mice") ).to eq(['blind'])
+      end
+
       it "matches int" do
         expect( match("{int}", "22") ).to eq([22])
       end

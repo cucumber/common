@@ -2,13 +2,14 @@ package io.cucumber.cucumberexpressions;
 
 import org.junit.Test;
 
+import static java.util.Collections.singletonList;
 import static org.junit.Assert.*;
 
 public class ConstructorParameterTypeTest {
     @Test
     public void requires_string_ctor() {
         try {
-            new ConstructorParameterType<>(NoStringCtor.class);
+            new ConstructorParameterType<>(NoStringCtor.class, singletonList("whatevs"));
             fail();
         } catch (CucumberExpressionException expected) {
             assertEquals("Missing constructor: `public NoStringCtor(String)`", expected.getMessage());
@@ -18,7 +19,7 @@ public class ConstructorParameterTypeTest {
     @Test
     public void reports_ctor_exceptions() {
         try {
-            new ConstructorParameterType<>(FailingCtor.class).transform("hello");
+            new ConstructorParameterType<>(FailingCtor.class, singletonList("whatevs")).transform("hello");
             fail();
         } catch (CucumberExpressionException expected) {
             assertEquals("Failed to invoke `new FailingCtor(\"hello\")`", expected.getMessage());
@@ -29,7 +30,7 @@ public class ConstructorParameterTypeTest {
     @Test
     public void reports_abstract_exceptions() {
         try {
-            new ConstructorParameterType<>(Abstract.class).transform("hello");
+            new ConstructorParameterType<>(Abstract.class, singletonList("whatevs")).transform("hello");
             fail();
         } catch (CucumberExpressionException expected) {
             assertEquals("Failed to invoke `new Abstract(\"hello\")`", expected.getMessage());
@@ -39,7 +40,7 @@ public class ConstructorParameterTypeTest {
 
     @Test
     public void returns_null_for_value_null() {
-        assertNull(new ConstructorParameterType<>(Abstract.class).transform(null));
+        assertNull(new ConstructorParameterType<>(Abstract.class, singletonList("whatevs")).transform(null));
     }
 
     public static class NoStringCtor {
