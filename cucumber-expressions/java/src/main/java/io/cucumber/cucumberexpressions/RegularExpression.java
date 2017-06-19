@@ -5,8 +5,6 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import static java.util.Collections.singletonList;
-
 public class RegularExpression implements Expression {
     private static final Pattern CAPTURE_GROUP_PATTERN = Pattern.compile("\\((?!\\?:)([^(]+)\\)");
 
@@ -18,7 +16,7 @@ public class RegularExpression implements Expression {
      * and should be determined by the regular expression's capture groups. Use this with
      * dynamically typed languages.
      *
-     * @param expressionRegexp               the regular expression to use
+     * @param expressionRegexp      the regular expression to use
      * @param parameterTypeRegistry used to look up parameter types
      */
     public RegularExpression(Pattern expressionRegexp, ParameterTypeRegistry parameterTypeRegistry) {
@@ -36,7 +34,12 @@ public class RegularExpression implements Expression {
 
             ParameterType<?> parameterType = parameterTypeRegistry.lookupByRegexp(parameterTypeRegexp, expressionRegexp, text);
             if (parameterType == null) {
-                parameterType = new ConstructorParameterType<>(String.class, singletonList(parameterTypeRegexp));
+                parameterType = new ParameterType<>(
+                        "*",
+                        parameterTypeRegexp,
+                        String.class,
+                        new SingleTransformer<>(String::new)
+                );
             }
             parameterTypes.add(parameterType);
         }

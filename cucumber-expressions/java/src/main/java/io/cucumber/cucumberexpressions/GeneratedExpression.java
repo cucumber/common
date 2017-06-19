@@ -32,7 +32,7 @@ public class GeneratedExpression {
     }
 
     public String getSource() {
-        List<String> parameterTypeNames = parameterTypes.stream().map(parameterType -> parameterType.getName()).collect(Collectors.toList());
+        List<String> parameterTypeNames = parameterTypes.stream().map(ParameterType::getName).collect(Collectors.toList());
         return String.format(expressionTemplate, parameterTypeNames.toArray());
     }
 

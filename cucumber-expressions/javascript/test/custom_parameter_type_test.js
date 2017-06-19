@@ -52,6 +52,33 @@ describe('Custom parameter type', () => {
       assert.equal(transformedValue.name, 'red')
     })
 
+    it.only('matches parameters with two capture groups', () => {
+      class Coordinate {
+        constructor(x, y) {
+          this.x = x
+          this.y = y
+        }
+      }
+
+      parameterTypeRegistry.defineParameterType(
+        new ParameterType(
+          'coordinate',
+          /(\d+),\s*(\d+)/,
+          Coordinate,
+          (x, y) => new Coordinate(parseInt(x), parseInt(y)),
+          true,
+          true
+        )
+      )
+      const expression = new CucumberExpression(
+        'I am at {coordinate}',
+        parameterTypeRegistry
+      )
+      const coordinate = expression.match('I am at 10,20')[0].transformedValue
+      assert.equal(coordinate.x, 10)
+      assert.equal(coordinate.y, 20)
+    })
+
     it('matches parameters with custom parameter type using optional capture group', () => {
       parameterTypeRegistry = new ParameterTypeRegistry()
       parameterTypeRegistry.defineParameterType(

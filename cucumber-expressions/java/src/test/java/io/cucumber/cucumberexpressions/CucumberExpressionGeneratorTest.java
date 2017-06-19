@@ -53,10 +53,11 @@ public class CucumberExpressionGeneratorTest {
 
     @Test
     public void numbers_only_second_argument_when_type_is_not_reserved_keyword() {
-        parameterTypeRegistry.defineParameterType(new SimpleParameterType<>(
+        parameterTypeRegistry.defineParameterType(new ParameterType<>(
                 "currency",
-                "[A-Z]{3}", Currency.class,
-                Currency::getInstance
+                "[A-Z]{3}",
+                Currency.class,
+                new SingleTransformer<>(Currency::getInstance)
         ));
         assertExpression(
                 "I have a {currency} account and a {currency} account", asList("currency", "currency2"),
@@ -65,15 +66,17 @@ public class CucumberExpressionGeneratorTest {
 
     @Test
     public void prefers_leftmost_match_when_there_is_overlap() {
-        parameterTypeRegistry.defineParameterType(new SimpleParameterType<>(
+        parameterTypeRegistry.defineParameterType(new ParameterType<>(
                 "currency",
-                "cd", Currency.class,
-                Currency::getInstance
+                "cd",
+                Currency.class,
+                new SingleTransformer<>(Currency::getInstance)
         ));
-        parameterTypeRegistry.defineParameterType(new SimpleParameterType<>(
+        parameterTypeRegistry.defineParameterType(new ParameterType<>(
                 "date",
-                "bc", Date.class,
-                Date::new
+                "bc",
+                Date.class,
+                new SingleTransformer<>(Date::new)
         ));
         assertExpression(
                 "a{date}defg", singletonList("date"),
@@ -82,15 +85,17 @@ public class CucumberExpressionGeneratorTest {
 
     @Test
     public void prefers_widest_match_when_pos_is_same() {
-        parameterTypeRegistry.defineParameterType(new SimpleParameterType<>(
+        parameterTypeRegistry.defineParameterType(new ParameterType<>(
                 "currency",
-                "cd", Currency.class,
-                Currency::getInstance
+                "cd",
+                Currency.class,
+                new SingleTransformer<>(Currency::getInstance)
         ));
-        parameterTypeRegistry.defineParameterType(new SimpleParameterType<>(
+        parameterTypeRegistry.defineParameterType(new ParameterType<>(
                 "date",
-                "cde", Date.class,
-                Date::new
+                "cde",
+                Date.class,
+                new SingleTransformer<>(Date::new)
         ));
         assertExpression(
                 "ab{date}fg", singletonList("date"),
@@ -99,18 +104,21 @@ public class CucumberExpressionGeneratorTest {
 
     @Test
     public void generates_all_combinations_of_expressions_when_several_parameter_types_match() {
-        parameterTypeRegistry.defineParameterType(new SimpleParameterType<>(
+        parameterTypeRegistry.defineParameterType(new ParameterType<>(
                 "currency",
                 "x",
                 Currency.class,
-                Currency::getInstance,
-                true, true
+                new SingleTransformer<>(Currency::getInstance),
+                true,
+                true
         ));
-        parameterTypeRegistry.defineParameterType(new SimpleParameterType<>(
+        parameterTypeRegistry.defineParameterType(new ParameterType<>(
                 "date",
-                "x", Date.class,
-                Date::new,
-                true, false
+                "x",
+                Date.class,
+                new SingleTransformer<>(Date::new),
+                true,
+                false
         ));
 
         List<GeneratedExpression> generatedExpressions = generator.generateExpressions("I have x and x and another x");

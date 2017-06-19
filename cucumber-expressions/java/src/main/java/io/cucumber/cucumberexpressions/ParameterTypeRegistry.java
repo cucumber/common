@@ -33,15 +33,15 @@ public class ParameterTypeRegistry {
         NumberFormat numberFormat = NumberFormat.getNumberInstance(locale);
         NumberParser numberParser = new NumberParser(numberFormat);
 
-        defineParameterType(new SimpleParameterType<>("bigint", INTEGER_REGEXPS, BigInteger.class, BigInteger::new, false, false));
-        defineParameterType(new SimpleParameterType<>("bigdecimal", INTEGER_REGEXPS, BigDecimal.class, BigDecimal::new, false, false));
-        defineParameterType(new SimpleParameterType<>("byte", HEX_REGEXPS, Byte.class, Byte::decode, false, false));
-        defineParameterType(new SimpleParameterType<>("short", INTEGER_REGEXPS, Short.class, Short::decode, false, false));
-        defineParameterType(new SimpleParameterType<>("int", INTEGER_REGEXPS, Integer.class, Integer::decode, true, true));
-        defineParameterType(new SimpleParameterType<>("long", INTEGER_REGEXPS, Long.class, Long::decode, false, false));
-        defineParameterType(new SimpleParameterType<>("float", FLOAT_REGEXPS, Float.class, numberParser::parseFloat, false, false));
-        defineParameterType(new SimpleParameterType<>("double", FLOAT_REGEXPS, Double.class, numberParser::parseDouble, true, true));
-        defineParameterType(new SimpleParameterType<>("word", WORD_REGEXPS, String.class, s -> s, false, false));
+        defineParameterType(new ParameterType<>("bigint", INTEGER_REGEXPS, BigInteger.class, new SingleTransformer<BigInteger>(BigInteger::new), false, false));
+        defineParameterType(new ParameterType<>("bigdecimal", INTEGER_REGEXPS, BigDecimal.class, new SingleTransformer<BigDecimal>(BigDecimal::new), false, false));
+        defineParameterType(new ParameterType<>("byte", HEX_REGEXPS, Byte.class, new SingleTransformer<Byte>(Byte::decode), false, false));
+        defineParameterType(new ParameterType<>("short", INTEGER_REGEXPS, Short.class, new SingleTransformer<Short>(Short::decode), false, false));
+        defineParameterType(new ParameterType<>("int", INTEGER_REGEXPS, Integer.class, new SingleTransformer<Integer>(Integer::decode), true, true));
+        defineParameterType(new ParameterType<>("long", INTEGER_REGEXPS, Long.class, new SingleTransformer<Long>(Long::decode), false, false));
+        defineParameterType(new ParameterType<>("float", FLOAT_REGEXPS, Float.class, new SingleTransformer<Float>(numberParser::parseFloat), false, false));
+        defineParameterType(new ParameterType<>("double", FLOAT_REGEXPS, Double.class, new SingleTransformer<Double>(numberParser::parseDouble), true, true));
+        defineParameterType(new ParameterType<>("word", WORD_REGEXPS, String.class, new SingleTransformer<>(s -> s), false, false));
     }
 
     public void defineParameterType(ParameterType<?> parameterType) {

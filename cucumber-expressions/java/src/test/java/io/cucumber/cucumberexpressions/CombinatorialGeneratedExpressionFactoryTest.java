@@ -6,23 +6,22 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import static java.util.Arrays.asList;
-import static java.util.Collections.singletonList;
 import static org.junit.Assert.assertEquals;
 
 public class CombinatorialGeneratedExpressionFactoryTest {
-    private static final List<String> WORDS = singletonList("\\w+");
+    private static final String WORD = "\\w+";
 
     @Test
     public void generates_multiple_expressions() {
         List<List<ParameterType<?>>> parameterTypeCombinations = asList(
                 asList(
-                        new ClassParameterType<>(Color.class, WORDS),
-                        new ClassParameterType<>(CssColor.class, WORDS)
+                        new ParameterType<>("color", WORD, Color.class, new SingleTransformer<Color>(Color::new)),
+                        new ParameterType<>("csscolor", WORD, CssColor.class, new SingleTransformer<CssColor>(CssColor::new))
                 ),
                 asList(
-                        new ClassParameterType<>(Date.class, WORDS),
-                        new ClassParameterType<>(DateTime.class, WORDS),
-                        new ClassParameterType<>(Timestamp.class, WORDS)
+                        new ParameterType<>("date", WORD, Date.class, new SingleTransformer<Date>(Date::new)),
+                        new ParameterType<>("datetime", WORD, DateTime.class, new SingleTransformer<DateTime>(DateTime::new)),
+                        new ParameterType<>("timestamp", WORD, Timestamp.class, new SingleTransformer<Timestamp>(Timestamp::new))
                 )
         );
         CombinatorialGeneratedExpressionFactory factory = new CombinatorialGeneratedExpressionFactory(

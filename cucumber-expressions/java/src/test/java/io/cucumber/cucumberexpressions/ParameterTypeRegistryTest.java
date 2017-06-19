@@ -31,21 +31,21 @@ public class ParameterTypeRegistryTest {
     @Test
     public void looks_up_parameter_type_by_type() {
         ParameterType<Integer> parameterType = registry.lookupByType(Integer.class);
-        assertEquals(new Integer(22), parameterType.transform("22"));
+        assertEquals(new Integer(22), parameterType.transform(ArgumentPartHelper.parts("22")));
     }
 
     @Test
     public void looks_up_parameter_type_by_primitive_type() {
         ParameterType<Integer> parameterType = registry.lookupByType(int.class);
-        assertEquals(new Integer(22), parameterType.transform("22"));
+        assertEquals(new Integer(22), parameterType.transform(ArgumentPartHelper.parts("22")));
     }
 
     @Test
     public void does_not_allow_more_than_one_preferential_parameter_type_for_each_regexp() {
-        registry.defineParameterType(new SimpleParameterType<>("name", CAPITALISED_WORD, Name.class, Name::new, false, true));
-        registry.defineParameterType(new SimpleParameterType<>("person", CAPITALISED_WORD, Person.class, Person::new, false, false));
+        registry.defineParameterType(new ParameterType<>("name", CAPITALISED_WORD, Name.class, new SingleTransformer<Name>(Name::new), false, true));
+        registry.defineParameterType(new ParameterType<>("person", CAPITALISED_WORD, Person.class, new SingleTransformer<Person>(Person::new), false, false));
         try {
-            registry.defineParameterType(new SimpleParameterType<>("place", CAPITALISED_WORD, Place.class, Place::new, false, true));
+            registry.defineParameterType(new ParameterType<>("place", CAPITALISED_WORD, Place.class, new SingleTransformer<Place>(Place::new), false, true));
             fail("Expected an exception");
         } catch (CucumberExpressionException e) {
             assertEquals("There can only be one preferential parameter type per regexp. The regexp /[A-Z]+\\w+/ is used for two preferential parameter types, {name} and {place}", e.getMessage());
@@ -54,9 +54,9 @@ public class ParameterTypeRegistryTest {
 
     @Test
     public void looks_up_preferential_parameter_type_by_regexp() {
-        SimpleParameterType<Name> name = new SimpleParameterType<>("name", CAPITALISED_WORD, Name.class, Name::new, false, false);
-        SimpleParameterType<Person> person = new SimpleParameterType<>("person", CAPITALISED_WORD, Person.class, Person::new, false, true);
-        SimpleParameterType<Place> place = new SimpleParameterType<>("place", CAPITALISED_WORD, Place.class, Place::new, false, false);
+        ParameterType<Name> name = new ParameterType<>("name", CAPITALISED_WORD, Name.class, new SingleTransformer<>(Name::new), false, false);
+        ParameterType<Person> person = new ParameterType<>("person", CAPITALISED_WORD, Person.class, new SingleTransformer<>(Person::new), false, true);
+        ParameterType<Place> place = new ParameterType<>("place", CAPITALISED_WORD, Place.class, new SingleTransformer<>(Place::new), false, false);
         registry.defineParameterType(name);
         registry.defineParameterType(person);
         registry.defineParameterType(place);
@@ -65,9 +65,9 @@ public class ParameterTypeRegistryTest {
 
     @Test
     public void throws_ambiguous_exception_on_lookup_when_no_parameter_types_are_preferential() {
-        SimpleParameterType<Name> name = new SimpleParameterType<>("name", CAPITALISED_WORD, Name.class, Name::new, true, false);
-        SimpleParameterType<Person> person = new SimpleParameterType<>("person", CAPITALISED_WORD, Person.class, Person::new, true, false);
-        SimpleParameterType<Place> place = new SimpleParameterType<>("place", CAPITALISED_WORD, Place.class, Place::new, true, false);
+        ParameterType<Name> name = new ParameterType<>("name", CAPITALISED_WORD, Name.class, new SingleTransformer<>(Name::new), true, false);
+        ParameterType<Person> person = new ParameterType<>("person", CAPITALISED_WORD, Person.class, new SingleTransformer<>(Person::new), true, false);
+        ParameterType<Place> place = new ParameterType<>("place", CAPITALISED_WORD, Place.class, new SingleTransformer<>(Place::new), true, false);
         registry.defineParameterType(name);
         registry.defineParameterType(person);
         registry.defineParameterType(place);

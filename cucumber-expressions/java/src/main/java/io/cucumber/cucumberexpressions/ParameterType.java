@@ -3,20 +3,57 @@ package io.cucumber.cucumberexpressions;
 import java.lang.reflect.Type;
 import java.util.List;
 
-public interface ParameterType<T> {
+import static java.util.Collections.singletonList;
+
+public final class ParameterType<T> {
+    private final String name;
+    private final Type type;
+    private final List<String> regexps;
+    private final boolean preferForRegexpMatch;
+    private final boolean useForSnippets;
+    private final Transformer<T> transformer;
+
+    public ParameterType(String name, List<String> regexps, Type type, Transformer<T> transformer, boolean useForSnippets, boolean preferForRegexpMatch) {
+        if (name == null) throw new CucumberExpressionException("name cannot be null");
+        if (type == null) throw new CucumberExpressionException("type cannot be null");
+        if (transformer == null) throw new CucumberExpressionException("transformer cannot be null");
+        if (regexps == null) throw new CucumberExpressionException("regexps cannot be null");
+        this.name = name;
+        this.type = type;
+        this.transformer = transformer;
+        this.preferForRegexpMatch = preferForRegexpMatch;
+        this.useForSnippets = useForSnippets;
+        this.regexps = regexps;
+    }
+
+    public ParameterType(String name, String regexp, Class<T> type, Transformer<T> transformer, boolean useForSnippets, boolean preferForRegexpMatch) {
+        this(name, singletonList(regexp), type, transformer, useForSnippets, preferForRegexpMatch);
+    }
+
+    public ParameterType(String name, String regexp, Class<T> type, Transformer<T> transformer) {
+        this(name, singletonList(regexp), type, transformer, true, false);
+    }
+
+    public ParameterType(String name, List<String> regexps, Class<T> type, Transformer<T> transformer) {
+        this(name, regexps, type, transformer, true, false);
+    }
 
     /**
      * This is used in the type name in typed expressions
      *
      * @return human readable type name
      */
-    String getName();
+    public String getName() {
+        return name;
+    }
 
-    Type getType();
+    public Type getType() {
+        return type;
+    }
 
-    List<String> getRegexps();
-
-    T transform(String value);
+    public List<String> getRegexps() {
+        return regexps;
+    }
 
     /**
      * Indicates whether or not this is a preferential parameter type when matching text
@@ -26,7 +63,9 @@ public interface ParameterType<T> {
      *
      * @return true if this is a preferential type
      */
-    boolean preferForRegexpMatch();
+    public boolean preferForRegexpMatch() {
+        return preferForRegexpMatch;
+    }
 
     /**
      * Indicates whether or not this is a parameter type that should be used for generating
@@ -35,5 +74,11 @@ public interface ParameterType<T> {
      *
      * @return true is this parameter type is used for expression generation
      */
-    boolean useForSnippets();
+    public boolean useForSnippets() {
+        return useForSnippets;
+    }
+
+    public T transform(List<Group> groups) {
+        return transformer.transform(groups);
+    }
 }

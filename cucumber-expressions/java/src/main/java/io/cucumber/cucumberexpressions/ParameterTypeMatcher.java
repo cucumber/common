@@ -31,8 +31,6 @@ class ParameterTypeMatcher implements Comparable<ParameterTypeMatcher> {
 
     @Override
     public int compareTo(ParameterTypeMatcher o) {
-//        int parameterTypeComparison = new ParameterTypeComparator().compare(parameterType, o.getParameterType());
-//        if (parameterTypeComparison != 0) return parameterTypeComparison;
         int posComparison = Integer.compare(start(), o.start());
         if (posComparison != 0) return posComparison;
         int lengthComparison = Integer.compare(o.group().length(), group().length());

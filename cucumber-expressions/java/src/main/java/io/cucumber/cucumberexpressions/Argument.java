@@ -1,25 +1,21 @@
 package io.cucumber.cucumberexpressions;
 
-public class Argument {
-    private final int offset;
-    private final String value;
-    private final ParameterType parameterType;
+import java.util.List;
 
-    public Argument(Integer offset, String value, ParameterType parameterType) {
-        this.offset = offset;
-        this.value = value;
+public class Argument<T> {
+    private final List<Group> groups;
+    private final ParameterType<T> parameterType;
+
+    public Argument(List<Group> groups, ParameterType<T> parameterType) {
+        this.groups = groups;
         this.parameterType = parameterType;
     }
 
-    public int getOffset() {
-        return offset;
+    public T getTransformedValue() {
+        return parameterType.transform(groups);
     }
 
-    public String getValue() {
-        return value;
-    }
-
-    public Object getTransformedValue() {
-        return parameterType.transform(value);
+    public List<Group> getGroups() {
+        return groups;
     }
 }
