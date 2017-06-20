@@ -5,6 +5,7 @@ import org.junit.Test;
 import java.util.Locale;
 import java.util.regex.Pattern;
 
+import static java.util.Collections.singletonList;
 import static org.junit.Assert.*;
 
 public class ParameterTypeRegistryTest {
@@ -31,13 +32,13 @@ public class ParameterTypeRegistryTest {
     @Test
     public void looks_up_parameter_type_by_type() {
         ParameterType<Integer> parameterType = registry.lookupByType(Integer.class);
-        assertEquals(new Integer(22), parameterType.transform(ArgumentPartHelper.parts("22")));
+        assertEquals(new Integer(22), parameterType.transform("22"));
     }
 
     @Test
     public void looks_up_parameter_type_by_primitive_type() {
         ParameterType<Integer> parameterType = registry.lookupByType(int.class);
-        assertEquals(new Integer(22), parameterType.transform(ArgumentPartHelper.parts("22")));
+        assertEquals(new Integer(22), parameterType.transform("22"));
     }
 
     @Test

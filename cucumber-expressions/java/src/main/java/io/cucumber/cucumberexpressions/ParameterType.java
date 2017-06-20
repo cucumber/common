@@ -78,7 +78,7 @@ public final class ParameterType<T> {
         return useForSnippets;
     }
 
-    public T transform(List<Group> groups) {
+    public T transform(String... groups) {
         return transformer.transform(groups);
     }
 }

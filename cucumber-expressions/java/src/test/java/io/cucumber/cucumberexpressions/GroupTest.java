@@ -16,4 +16,22 @@ public class GroupTest {
         Group g = new Group(matcher);
         assertEquals(null, g.getChildren().get(0).getValue());
     }
+
+    public void matches_nested_groups() {
+        String regexp = "^A (\\d+) thick line from ((\\d+),\\s*(\\d+),\\s*(\\d+)) to ((\\d+),\\s*(\\d+),\\s*(\\d+))?";
+        String string = "A 5 thick line from 10,20,30 to 40,50,60";
+        Matcher matcher = Pattern.compile(regexp).matcher(string);
+        assertTrue(matcher.lookingAt());
+        Group group = new Group(matcher);
+
+        assertEquals("5", group.getChildren().get(0).getValue());
+        assertEquals("10,20,30", group.getChildren().get(1).getValue());
+        assertEquals("10", group.getChildren().get(1).getChildren().get(0).getValue());
+        assertEquals("20", group.getChildren().get(1).getChildren().get(1).getValue());
+        assertEquals("30", group.getChildren().get(1).getChildren().get(2).getValue());
+        assertEquals("40,50,60", group.getChildren().get(2).getValue());
+        assertEquals("40", group.getChildren().get(2).getChildren().get(0).getValue());
+        assertEquals("50", group.getChildren().get(2).getChildren().get(1).getValue());
+        assertEquals("60", group.getChildren().get(2).getChildren().get(2).getValue());
+    }
 }

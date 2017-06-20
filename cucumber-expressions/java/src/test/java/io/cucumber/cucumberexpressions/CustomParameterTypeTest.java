@@ -73,10 +73,10 @@ public class CustomParameterTypeTest {
                 "coordinate",
                 singletonList("(\\d+),\\s*(\\d+),\\s*(\\d+)"),
                 Coordinate.class,
-                parts -> new Coordinate(
-                        parseInt(parts.get(0).getValue()),
-                        parseInt(parts.get(1).getValue()),
-                        parseInt(parts.get(2).getValue())
+                xyz -> new Coordinate(
+                        parseInt(xyz[0]),
+                        parseInt(xyz[1]),
+                        parseInt(xyz[2])
                 ),
                 false,
                 false
@@ -113,8 +113,8 @@ public class CustomParameterTypeTest {
                 "throwing",
                 singletonList("bad"),
                 CssColor.class,
-                groups -> {
-                    throw new RuntimeException(String.format("Can't transform [%s]", groups.get(0).getValue()));
+                color -> {
+                    throw new RuntimeException(String.format("Can't transform [%s]", color[0]));
                 },
                 false,
                 false
@@ -136,7 +136,7 @@ public class CustomParameterTypeTest {
                     "color",
                     singletonList(".*"),
                     CssColor.class,
-                    new SingleTransformer<>(CssColor::new),
+                    new SingleTransformer<CssColor>(CssColor::new),
                     false,
                     false
             ));
@@ -153,7 +153,7 @@ public class CustomParameterTypeTest {
                     "whatever",
                     singletonList(".*"),
                     Color.class,
-                    new SingleTransformer<>(Color::new),
+                    new SingleTransformer<Color>(Color::new),
                     false,
                     false
             ));
@@ -171,7 +171,7 @@ public class CustomParameterTypeTest {
                 "css-color",
                 singletonList("red|blue|yellow"),
                 CssColor.class,
-                new SingleTransformer<>(CssColor::new),
+                new SingleTransformer<CssColor>(CssColor::new),
                 false,
                 false
         ));

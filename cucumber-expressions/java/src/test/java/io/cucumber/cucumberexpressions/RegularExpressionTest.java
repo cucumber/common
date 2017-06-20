@@ -33,6 +33,18 @@ public class RegularExpressionTest {
     }
 
     @Test
+    public void matches_nested_capture_group_withotu_match() {
+        List<?> match = match(compile("^a user( named \"([^\"]*)\")?$"), "a user");
+        assertEquals(singletonList(null), match);
+    }
+
+    @Test
+    public void matches_nested_capture_group_with_match() {
+        List<?> match = match(compile("^a user( named \"([^\"]*)\")?$"), "a user named \"Charlie\"");
+        assertEquals(singletonList("Charlie"), match);
+    }
+
+    @Test
     public void ignores_non_capturing_groups() {
         String expr = "(\\S+) ?(can|cannot)? (?:delete|cancel) the (\\d+)(?:st|nd|rd|th) (attachment|slide) ?(?:upload)?";
         String step = "I can cancel the 1st slide upload";

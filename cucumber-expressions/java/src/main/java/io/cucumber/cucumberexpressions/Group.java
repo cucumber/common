@@ -52,7 +52,7 @@ class Group {
     }
 
     public boolean contains(Group group) {
-        return group.isNull() ? true : group.start >= start && group.end <= end;
+        return group.isNull() || group.start >= start && group.end <= end;
     }
 
     public void add(Group group) {
