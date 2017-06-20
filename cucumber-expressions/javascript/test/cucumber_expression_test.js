@@ -48,13 +48,6 @@ describe('CucumberExpression', () => {
     )
   })
 
-  it('exposes offset and value', () => {
-    const expr = 'I have {int} cuke(s)'
-    const expression = new CucumberExpression(expr, new ParameterTypeRegistry())
-    const arg1 = expression.match('I have 800 cukes')[0]
-    assert.equal(arg1.offset, 7)
-  })
-
   describe('escapes special characters', () => {
     ;['\\', '[', ']', '^', '$', '.', '|', '?', '*', '+'].forEach(character => {
       it(`escapes ${character}`, () => {
@@ -64,8 +57,7 @@ describe('CucumberExpression', () => {
           new ParameterTypeRegistry()
         )
         const arg1 = expression.match(`I have 800 cukes and ${character}`)[0]
-        assert.equal(arg1.offset, 7)
-        assert.equal(arg1.value, '800')
+        assert.equal(arg1.transformedValue, 800)
       })
     })
 
@@ -77,8 +69,7 @@ describe('CucumberExpression', () => {
       )
       assert.equal(expression.match(`I have 800 cukes and 3`), null)
       const arg1 = expression.match(`I have 800 cukes and .`)[0]
-      assert.equal(arg1.offset, 7)
-      assert.equal(arg1.value, '800')
+      assert.equal(arg1.transformedValue, 800)
     })
 
     it(`escapes |`, () => {
@@ -90,8 +81,7 @@ describe('CucumberExpression', () => {
       assert.equal(expression.match(`I have 800 cukes and a`), null)
       assert.equal(expression.match(`I have 800 cukes and b`), null)
       const arg1 = expression.match(`I have 800 cukes and a|b`)[0]
-      assert.equal(arg1.offset, 7)
-      assert.equal(arg1.value, '800')
+      assert.equal(arg1.transformedValue, 800)
     })
   })
 })

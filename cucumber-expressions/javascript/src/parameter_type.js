@@ -21,6 +21,8 @@ class ParameterType {
     preferForRegexpMatch,
     useForSnippets
   ) {
+    if (typeof transform !== 'function')
+      throw new Error('transform must be a function')
     if (useForSnippets === undefined)
       throw new Error('useForSnippets must be specified')
     this._name = name
@@ -51,8 +53,8 @@ class ParameterType {
     return this._useForSnippets
   }
 
-  transform(string) {
-    return this._transform ? this._transform(string) : string
+  transform(groups) {
+    return this._transform.apply(null, groups)
   }
 }
 

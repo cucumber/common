@@ -52,31 +52,43 @@ describe('Custom parameter type', () => {
       assert.equal(transformedValue.name, 'red')
     })
 
-    it.only('matches parameters with two capture groups', () => {
+    it('matches parameters with two capture groups', () => {
       class Coordinate {
-        constructor(x, y) {
+        constructor(x, y, z) {
           this.x = x
           this.y = y
+          this.z = z
         }
       }
 
       parameterTypeRegistry.defineParameterType(
         new ParameterType(
           'coordinate',
-          /(\d+),\s*(\d+)/,
+          /(\d+),\s*(\d+),\s*(\d+)/,
           Coordinate,
-          (x, y) => new Coordinate(parseInt(x), parseInt(y)),
+          (x, y, z) => new Coordinate(parseInt(x), parseInt(y), parseInt(z)),
           true,
           true
         )
       )
       const expression = new CucumberExpression(
-        'I am at {coordinate}',
+        'A {int} thick line from {coordinate} to {coordinate}',
         parameterTypeRegistry
       )
-      const coordinate = expression.match('I am at 10,20')[0].transformedValue
-      assert.equal(coordinate.x, 10)
-      assert.equal(coordinate.y, 20)
+      const args = expression.match('A 5 thick line from 10,20,30 to 40,50,60')
+
+      const thick = args[0].transformedValue
+      assert.equal(thick, 5)
+
+      const from = args[1].transformedValue
+      assert.equal(from.x, 10)
+      assert.equal(from.y, 20)
+      assert.equal(from.z, 30)
+
+      const to = args[2].transformedValue
+      assert.equal(to.x, 40)
+      assert.equal(to.y, 50)
+      assert.equal(to.z, 60)
     })
 
     it('matches parameters with custom parameter type using optional capture group', () => {
@@ -98,20 +110,6 @@ describe('Custom parameter type', () => {
       const transformedValue = expression.match('I have a dark red ball')[0]
         .transformedValue
       assert.equal(transformedValue.name, 'dark red')
-    })
-
-    it('matches parameters with custom parameter type without constructor function and transform', () => {
-      parameterTypeRegistry = new ParameterTypeRegistry()
-      parameterTypeRegistry.defineParameterType(
-        new ParameterType('color', /red|blue|yellow/, null, null, false, true)
-      )
-      const expression = new CucumberExpression(
-        'I have a {color} ball',
-        parameterTypeRegistry
-      )
-      const transformedValue = expression.match('I have a red ball')[0]
-        .transformedValue
-      assert.equal(transformedValue, 'red')
     })
 
     it('defers transformation until queried from argument', () => {

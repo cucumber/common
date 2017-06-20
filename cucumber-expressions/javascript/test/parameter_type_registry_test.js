@@ -74,12 +74,19 @@ describe('ParameterTypeRegistry', () => {
   })
 
   it('looks up preferential parameter type by regexp', () => {
-    const name = new ParameterType('name', /[A-Z]+\w+/, null, null, false, true)
+    const name = new ParameterType(
+      'name',
+      /[A-Z]+\w+/,
+      null,
+      s => new Name(s),
+      false,
+      true
+    )
     const person = new ParameterType(
       'person',
       /[A-Z]+\w+/,
       null,
-      null,
+      s => new Person(s),
       true,
       true
     )
@@ -87,7 +94,7 @@ describe('ParameterTypeRegistry', () => {
       'place',
       /[A-Z]+\w+/,
       null,
-      null,
+      s => new Place(s),
       false,
       true
     )
