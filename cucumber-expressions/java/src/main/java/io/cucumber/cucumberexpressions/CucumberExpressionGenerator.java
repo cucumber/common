@@ -66,8 +66,9 @@ public class CucumberExpressionGenerator {
     }
 
     /**
-     * @deprecated
+     * @deprecated use {@link #generateExpressions(String)}
      */
+    @Deprecated
     public GeneratedExpression generateExpression(String text) {
         List<GeneratedExpression> generatedExpressions = generateExpressions(text);
         return generatedExpressions.get(0);

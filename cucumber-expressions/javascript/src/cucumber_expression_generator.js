@@ -1,3 +1,4 @@
+const util = require('util')
 const ParameterTypeMatcher = require('./parameter_type_matcher')
 const ParameterType = require('./parameter_type')
 const CombinatorialGeneratedExpressionFactory = require('./combinatorial_generated_expression_factory')
@@ -76,7 +77,10 @@ class CucumberExpressionGenerator {
    * @deprecated
    */
   generateExpression(text) {
-    return this.generateExpressions(text)[0]
+    return util.deprecate(
+      () => this.generateExpressions(text)[0],
+      'CucumberExpressionGenerator.generateExpression: Use CucumberExpressionGenerator.generateExpressions instead'
+    )()
   }
 
   _createParameterTypeMatchers(text) {

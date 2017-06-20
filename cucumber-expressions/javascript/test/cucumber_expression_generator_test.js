@@ -10,7 +10,7 @@ describe('CucumberExpressionGenerator', () => {
   let parameterTypeRegistry, generator
 
   function assertExpression(expectedExpression, expectedArgumentNames, text) {
-    const generatedExpression = generator.generateExpression(text)
+    const generatedExpression = generator.generateExpressions(text)[0]
     assert.deepEqual(generatedExpression.parameterNames, expectedArgumentNames)
     assert.equal(generatedExpression.source, expectedExpression)
   }
@@ -25,7 +25,9 @@ describe('CucumberExpressionGenerator', () => {
     /// [generate-expression]
     const generator = new CucumberExpressionGenerator(parameterRegistry)
     const undefinedStepText = 'I have 2 cucumbers and 1.5 tomato'
-    const generatedExpression = generator.generateExpression(undefinedStepText)
+    const generatedExpression = generator.generateExpressions(
+      undefinedStepText
+    )[0]
     assert.equal(
       generatedExpression.source,
       'I have {int} cucumbers and {float} tomato'
@@ -130,9 +132,9 @@ describe('CucumberExpressionGenerator', () => {
   })
 
   it('exposes parameter type names in generated expression', () => {
-    const expression = generator.generateExpression(
+    const expression = generator.generateExpressions(
       'I have 2 cukes and 1.5 euro'
-    )
+    )[0]
     const typeNames = expression.parameterTypes.map(parameter => parameter.name)
     assert.deepEqual(typeNames, ['int', 'float'])
   })
