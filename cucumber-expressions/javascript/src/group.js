@@ -4,8 +4,8 @@ class Group {
 
     if (Array.isArray(a)) {
       const matches = a
-      const string = b
-      this._parse(matches, string)
+      const text = b
+      this._parse(matches, text)
     } else {
       this.start = a
       this.end = b
@@ -27,11 +27,11 @@ class Group {
     return this.value === null
   }
 
-  _parse(matches, string) {
-    const groups = Group._groups(matches, string)
+  _parse(matches, text) {
+    const groups = Group._groups(matches, text)
 
     if (groups.length === 0) {
-      this.start = this.end = 0
+      this.start = this.end = -1
       this.value = null
       return
     }
@@ -58,12 +58,12 @@ class Group {
     }
   }
 
-  static _groups(matches, string) {
+  static _groups(matches, text) {
     let index = matches.index
     const groups = []
     for (let i = 0; i < matches.length; i++) {
       const value = matches[i] === undefined ? null : matches[i]
-      const start = value === null ? -1 : string.indexOf(value, index)
+      const start = value === null ? -1 : text.indexOf(value, index)
       const end = value === null ? -1 : start + value.length
       groups.push({
         value,

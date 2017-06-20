@@ -31,8 +31,8 @@ module Cucumber
         @regexps = string_array(regexp)
       end
 
-      def transform(value)
-        @transformer ? @transformer.call(value) : value
+      def transform(group_values)
+        @transformer.call(*group_values)
       end
 
       def <=>(other)

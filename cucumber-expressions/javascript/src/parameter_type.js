@@ -53,8 +53,8 @@ class ParameterType {
     return this._useForSnippets
   }
 
-  transform(groups) {
-    return this._transform.apply(null, groups)
+  transform(groupValues) {
+    return this._transform.apply(null, groupValues)
   }
 }
 

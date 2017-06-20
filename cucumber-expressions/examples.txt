@@ -6,7 +6,7 @@ I have {int} cuke(s) and some \[]^$.|?*+
 I have 1 cuke and some \[]^$.|?*+
 [1]
 ---
-/I have (\d+) cukes? in my (.+) now/
+/I have (\d+) cukes? in my (\w+) now/
 I have 22 cukes in my belly now
 [22,"belly"]
 ---

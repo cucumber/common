@@ -52,7 +52,7 @@ describe('Custom parameter type', () => {
       assert.equal(transformedValue.name, 'red')
     })
 
-    it('matches parameters with two capture groups', () => {
+    it('matches parameters with multiple capture groups', () => {
       class Coordinate {
         constructor(x, y, z) {
           this.x = x

@@ -19,7 +19,7 @@ class Group {
 
     public Group(Matcher matcher) {
         if (matcher.groupCount() == 0) {
-            start = end = 0;
+            start = end = -1;
             value = null;
             return;
         }

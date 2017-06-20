@@ -11,18 +11,16 @@ const buildArguments = (regexp, text, parameterTypes) => {
   const args = []
   for (let i = 0; i < parameterTypes.length; i++) {
     const argGroup = i < argGroups.length ? argGroups[i] : null
-    let groups
+    let groupValues = null
     if (argGroup !== null) {
       if (argGroup.children.length === 0) {
-        groups = [argGroup.value]
+        groupValues = [argGroup.value]
       } else {
-        groups = argGroup.children.map(g => g.value)
+        groupValues = argGroup.children.map(g => g.value)
       }
-    } else {
-      groups = null
     }
     const parameterType = parameterTypes[i]
-    const argument = new Argument(groups, parameterType)
+    const argument = new Argument(groupValues, parameterType)
     args.push(argument)
   }
   return args

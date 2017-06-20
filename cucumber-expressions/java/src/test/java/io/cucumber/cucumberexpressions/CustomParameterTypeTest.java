@@ -67,7 +67,7 @@ public class CustomParameterTypeTest {
     }
 
     @Test
-    public void matches_CucumberExpression_parameters_with_multiple_groups() {
+    public void matches_CucumberExpression_parameters_with_multiple_capture_groups() {
         parameterTypeRegistry = new ParameterTypeRegistry(Locale.ENGLISH);
         parameterTypeRegistry.defineParameterType(new ParameterType<>(
                 "coordinate",

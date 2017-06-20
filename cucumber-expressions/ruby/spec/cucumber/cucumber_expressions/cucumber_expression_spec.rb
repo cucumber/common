@@ -41,22 +41,13 @@ module Cucumber
         expect(CucumberExpression.new(expr, ParameterTypeRegistry.new).source).to eq(expr)
       end
 
-      it "exposes offset and value" do
-        expr = "I have {int} cuke(s)"
-        expression = CucumberExpression.new(expr, ParameterTypeRegistry.new)
-        arg1 = expression.match("I have 800 cukes")[0]
-        expect(arg1.offset).to eq(7)
-        expect(arg1.value).to eq("800")
-      end
-
       describe "escapes special characters" do
         %w(\\ [ ] ^ $ . | ? * +).each do |character|
           it "escapes #{character}" do
             expr = "I have {int} cuke(s) and #{character}"
             expression = CucumberExpression.new(expr, ParameterTypeRegistry.new)
             arg1 = expression.match("I have 800 cukes and #{character}")[0]
-            expect(arg1.offset).to eq(7)
-            expect(arg1.value).to eq("800")
+            expect(arg1.transformed_value).to eq(800)
           end
         end
       end

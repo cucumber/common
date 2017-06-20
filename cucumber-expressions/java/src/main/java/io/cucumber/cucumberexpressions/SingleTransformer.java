@@ -8,14 +8,14 @@ public class SingleTransformer<T> implements Transformer<T> {
     }
 
     @Override
-    public T transform(String... groups) {
+    public T transform(String... groupValues) {
         String arg;
-        if (groups == null) {
+        if (groupValues == null) {
             arg = null;
-        } else if (groups.length == 1) {
-            arg = groups[0];
+        } else if (groupValues.length == 1) {
+            arg = groupValues[0];
         } else {
-            throw new CucumberExpressionException(String.format("Expected 1 group, but got %d", groups.length));
+            throw new CucumberExpressionException(String.format("Expected 1 group, but got %d", groupValues.length));
         }
         return arg == null ? null : function.apply(arg);
     }
