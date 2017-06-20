@@ -14,6 +14,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
    by [aslakhellesoy])
 
 ### Added
+* Support capture groups in parameter types
+  ([#227](https://github.com/cucumber/cucumber/pull/227)
+   [#57](https://github.com/cucumber/cucumber/issues/57)
+   [#204](https://github.com/cucumber/cucumber/issues/204)
+   [#224](https://github.com/cucumber/cucumber/issues/224)
+   by [aslakhellesoy])
 * Add `{word}` built-in parameter type
   ([#191](https://github.com/cucumber/cucumber/issues/191)
    [#226](https://github.com/cucumber/cucumber/pull/226)
