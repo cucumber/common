@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ----
 ## [Unreleased]
 
+## [4.0.0] - 2017-06-27
+
 ### Removed
 * Remove support for `{name:type}` syntax which was deprecated in
   [#117](https://github.com/cucumber/cucumber/pull/117) and released in 2.0.0.
@@ -182,7 +184,8 @@ N/A
 * First stable release!
 
 <!-- Releases -->
-[Unreleased]: https://github.com/cucumber/cucumber/compare/cucumber-expressions-v3.0.0...master
+[Unreleased]: https://github.com/cucumber/cucumber/compare/cucumber-expressions-v4.0.0...master
+[4.0.0]:      https://github.com/cucumber/cucumber/compare/cucumber-expressions-v3.0.0...cucumber-expressions-v4.0.0
 [3.0.0]:      https://github.com/cucumber/cucumber/compare/cucumber-expressions-v2.0.1...cucumber-expressions-v3.0.0
 [2.0.1]:      https://github.com/cucumber/cucumber/compare/cucumber-expressions-v2.0.0...cucumber-expressions-v2.0.1
 [2.0.0]:      https://github.com/cucumber/cucumber/compare/cucumber-expressions-v1.0.4...cucumber-expressions-v2.0.0
