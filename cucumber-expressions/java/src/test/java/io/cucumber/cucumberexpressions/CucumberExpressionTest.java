@@ -4,9 +4,9 @@ import org.junit.Test;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import java.util.stream.Collectors;
 
 import static java.util.Collections.singletonList;
 import static org.junit.Assert.assertEquals;
@@ -20,14 +20,49 @@ public class CucumberExpressionTest {
         /// [capture-match-arguments]
         String expr = "I have {int} cuke(s)";
         Expression expression = new CucumberExpression(expr, parameterTypeRegistry);
-        List<Argument> args = expression.match("I have 7 cukes");
-        assertEquals(7, args.get(0).getTransformedValue());
+        List<Argument<?>> args = expression.match("I have 7 cukes");
+        assertEquals(7, args.get(0).getValue());
         /// [capture-match-arguments]
     }
 
     @Test
     public void matches_word() {
         assertEquals(singletonList("blind"), match("three {word} mice", "three blind mice"));
+    }
+
+    @Test
+    public void matches_double_quoted_string() {
+        assertEquals(singletonList("blind"), match("three {string} mice", "three \"blind\" mice"));
+    }
+
+    @Test
+    public void matches_single_quoted_string() {
+        assertEquals(singletonList("blind"), match("three {string} mice", "three 'blind' mice"));
+    }
+
+    @Test
+    public void does_not_match_misquoted_string() {
+        assertEquals(null, match("three {string} mice", "three \"blind' mice"));
+    }
+
+    @Test
+    public void matches_single_quoted_string_with_double_quotes() {
+        assertEquals(singletonList("\"blind\""), match("three {string} mice", "three '\"blind\"' mice"));
+    }
+
+    @Test
+    public void matches_double_quoted_string_with_single_quotes() {
+        assertEquals(singletonList("'blind'"), match("three {string} mice", "three \"'blind'\" mice"));
+    }
+
+    @Test
+    public void matches_double_quoted_string_with_escaped_double_quote() {
+        assertEquals(singletonList("bl\"nd"), match("three {string} mice", "three \"bl\\\"nd\" mice"));
+    }
+
+    @Test
+    public void matches_single_quoted_string_with_escaped_single_quote() {
+        assertEquals(singletonList("bl'nd"), match("three {string} mice", "three 'bl\\'nd' mice"));
     }
 
     @Test
@@ -101,12 +136,7 @@ public class CucumberExpressionTest {
 
     private List<Object> match(String expr, String text, Locale locale) {
         CucumberExpression expression = new CucumberExpression(expr, new ParameterTypeRegistry(locale));
-        List<Argument> args = expression.match(text);
-        if (args == null) return null;
-        List<Object> transformedValues = new ArrayList<>();
-        for (Argument argument : args) {
-            transformedValues.add(argument.getTransformedValue());
-        }
-        return transformedValues;
+        List<Argument<?>> args = expression.match(text);
+        return args == null ? null : args.stream().map(Argument::getValue).collect(Collectors.toList());
     }
 }

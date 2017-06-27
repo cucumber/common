@@ -8,11 +8,10 @@ module Cucumber
 
         if MatchData === args[0]
           match_data = args[0]
-          text = args[1]
-          parse(match_data, text)
+          parse(match_data)
         else
-          @start = args[0]
-          @end = args[1]
+          @start = args[0] || -1
+          @end = args[1] || -1
           @value = args[2]
         end
       end
@@ -29,9 +28,13 @@ module Cucumber
         @value.nil?
       end
 
+      def values
+        (children.empty? ? [self] : children).map(&:value)
+      end
+
       private
 
-      def parse(match_data, text)
+      def parse(match_data)
         if match_data.length == 1
           @start = @end = -1
           @value = nil

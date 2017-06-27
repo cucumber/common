@@ -27,6 +27,12 @@ class Group {
     return this.value === null
   }
 
+  get values() {
+    return (this.children.length === 0 ? [this] : this.children).map(
+      g => g.value
+    )
+  }
+
   _parse(matches, text) {
     const groups = Group._groups(matches, text)
 

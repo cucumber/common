@@ -34,7 +34,7 @@ public class ParameterTypeComparatorTest {
 
     @Test
     public void sorts_parameter_types_by_preferential_then_name() {
-        SortedSet<ParameterType<?>> set = new TreeSet<>(new ParameterTypeComparator());
+        SortedSet<ParameterType<?>> set = new TreeSet<>();
         set.add(new ParameterType<>("c", "c", C.class, new SingleTransformer<>(C::new), false, true));
         set.add(new ParameterType<>("a", "a", A.class, new SingleTransformer<>(A::new), false, false));
         set.add(new ParameterType<>("d", "d", D.class, new SingleTransformer<>(D::new), false, false));

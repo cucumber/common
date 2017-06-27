@@ -19,7 +19,7 @@ public class CucumberExpressionGeneratorTest {
         /// [generate-expression]
         CucumberExpressionGenerator generator = new CucumberExpressionGenerator(parameterTypeRegistry);
         String undefinedStepText = "I have 2 cucumbers and 1.5 tomato";
-        GeneratedExpression generatedExpression = generator.generateExpression(undefinedStepText);
+        GeneratedExpression generatedExpression = generator.generateExpressions(undefinedStepText).get(0);
         assertEquals("I have {int} cucumbers and {double} tomato", generatedExpression.getSource());
         assertEquals(Double.class, generatedExpression.getParameterTypes().get(1).getType());
         /// [generate-expression]
@@ -35,6 +35,13 @@ public class CucumberExpressionGeneratorTest {
         assertExpression(
                 "I have {int} cukes and {double} euro", asList("int1", "double1"),
                 "I have 2 cukes and 1.5 euro");
+    }
+
+    @Test
+    public void generates_expression_for_strings() {
+        assertExpression(
+                "I like {string} and {string}", asList("string", "string2"),
+                "I like \"bangers\" and 'mash'");
     }
 
     @Test
@@ -57,7 +64,7 @@ public class CucumberExpressionGeneratorTest {
                 "currency",
                 "[A-Z]{3}",
                 Currency.class,
-                new SingleTransformer<>(Currency::getInstance)
+                new SingleTransformer<Currency>(Currency::getInstance)
         ));
         assertExpression(
                 "I have a {currency} account and a {currency} account", asList("currency", "currency2"),
@@ -70,13 +77,13 @@ public class CucumberExpressionGeneratorTest {
                 "currency",
                 "cd",
                 Currency.class,
-                new SingleTransformer<>(Currency::getInstance)
+                new SingleTransformer<Currency>(Currency::getInstance)
         ));
         parameterTypeRegistry.defineParameterType(new ParameterType<>(
                 "date",
                 "bc",
                 Date.class,
-                new SingleTransformer<>(Date::new)
+                new SingleTransformer<Date>(Date::new)
         ));
         assertExpression(
                 "a{date}defg", singletonList("date"),
@@ -89,13 +96,13 @@ public class CucumberExpressionGeneratorTest {
                 "currency",
                 "cd",
                 Currency.class,
-                new SingleTransformer<>(Currency::getInstance)
+                new SingleTransformer<Currency>(Currency::getInstance)
         ));
         parameterTypeRegistry.defineParameterType(new ParameterType<>(
                 "date",
                 "cde",
                 Date.class,
-                new SingleTransformer<>(Date::new)
+                new SingleTransformer<Date>(Date::new)
         ));
         assertExpression(
                 "ab{date}fg", singletonList("date"),
@@ -108,7 +115,7 @@ public class CucumberExpressionGeneratorTest {
                 "currency",
                 "x",
                 Currency.class,
-                new SingleTransformer<>(Currency::getInstance),
+                new SingleTransformer<Currency>(Currency::getInstance),
                 true,
                 true
         ));
@@ -116,7 +123,7 @@ public class CucumberExpressionGeneratorTest {
                 "date",
                 "x",
                 Date.class,
-                new SingleTransformer<>(Date::new),
+                new SingleTransformer<Date>(Date::new),
                 true,
                 false
         ));
@@ -137,13 +144,13 @@ public class CucumberExpressionGeneratorTest {
 
     @Test
     public void exposes_transforms_in_generated_expression() {
-        GeneratedExpression generatedExpression = generator.generateExpression("I have 2 cukes and 1.5 euro");
+        GeneratedExpression generatedExpression = generator.generateExpressions("I have 2 cukes and 1.5 euro").get(0);
         assertEquals(Integer.class, generatedExpression.getParameterTypes().get(0).getType());
         assertEquals(Double.class, generatedExpression.getParameterTypes().get(1).getType());
     }
 
     private void assertExpression(String expectedExpression, List<String> expectedArgumentNames, String text) {
-        GeneratedExpression generatedExpression = generator.generateExpression(text);
+        GeneratedExpression generatedExpression = generator.generateExpressions(text).get(0);
         assertEquals(expectedArgumentNames, generatedExpression.getParameterNames());
         assertEquals(expectedExpression, generatedExpression.getSource());
     }

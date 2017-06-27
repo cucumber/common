@@ -66,8 +66,8 @@ public class CucumberExpression implements Expression {
     }
 
     @Override
-    public List<Argument> match(String text) {
-        return ArgumentBuilder.buildArguments(pattern, text, parameterTypes);
+    public List<Argument<?>> match(String text) {
+        return Argument.build(pattern, text, parameterTypes);
     }
 
     @Override

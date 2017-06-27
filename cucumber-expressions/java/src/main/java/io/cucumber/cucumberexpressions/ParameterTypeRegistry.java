@@ -1,6 +1,5 @@
 package io.cucumber.cucumberexpressions;
 
-import java.lang.reflect.Type;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.text.NumberFormat;
@@ -15,17 +14,8 @@ public class ParameterTypeRegistry {
     private static final List<String> FLOAT_REGEXPS = singletonList("-?\\d*[\\.,]\\d+");
     private static final List<String> HEX_REGEXPS = singletonList("0[xX][0-9a-fA-F]{2}");
     private static final List<String> WORD_REGEXPS = singletonList("\\w+");
-    private static final Map<Class, Class> BOXED = new HashMap<Class, Class>() {{
-        put(byte.class, Byte.class);
-        put(short.class, Short.class);
-        put(int.class, Integer.class);
-        put(long.class, Long.class);
-        put(float.class, Float.class);
-        put(double.class, Double.class);
-        // Not dealing with boolean, char, void
-    }};
+    private static final List<String> STRING_REGEXPS = singletonList("\"([^\"\\\\]*(\\\\.[^\"\\\\]*)*)\"|\\'([^\\'\\\\]*(\\\\.[^\\'\\\\]*)*)\\'");
 
-    private final Map<Type, ParameterType<?>> parameterTypeByType = new HashMap<>();
     private final Map<String, ParameterType<?>> parameterTypeByName = new HashMap<>();
     private final Map<String, SortedSet<ParameterType<?>>> parameterTypesByRegexp = new HashMap<>();
 
@@ -41,16 +31,18 @@ public class ParameterTypeRegistry {
         defineParameterType(new ParameterType<>("long", INTEGER_REGEXPS, Long.class, new SingleTransformer<Long>(Long::decode), false, false));
         defineParameterType(new ParameterType<>("float", FLOAT_REGEXPS, Float.class, new SingleTransformer<Float>(numberParser::parseFloat), false, false));
         defineParameterType(new ParameterType<>("double", FLOAT_REGEXPS, Double.class, new SingleTransformer<Double>(numberParser::parseDouble), true, true));
-        defineParameterType(new ParameterType<>("word", WORD_REGEXPS, String.class, new SingleTransformer<>(s -> s), false, false));
+        defineParameterType(new ParameterType<>("word", WORD_REGEXPS, String.class, new SingleTransformer<String>(s -> s), false, false));
+        defineParameterType(new ParameterType<>("string", STRING_REGEXPS, String.class, new SingleTransformer<String>(s -> s.replaceAll("\\\\\"", "\"").replaceAll("\\\\'", "'")), true, false));
     }
 
     public void defineParameterType(ParameterType<?> parameterType) {
-        put(parameterTypeByName, parameterType.getName(), parameterType, "name", parameterType.getName());
-        put(parameterTypeByType, parameterType.getType(), parameterType, "type", parameterType.getType().getTypeName());
+        if (parameterTypeByName.containsKey(parameterType.getName()))
+            throw new DuplicateTypeNameException(String.format("There is already a parameter type with name %s", parameterType.getName()));
+        parameterTypeByName.put(parameterType.getName(), parameterType);
 
         for (String parameterTypeRegexp : parameterType.getRegexps()) {
             SortedSet<ParameterType<?>> parameterTypes = parameterTypesByRegexp
-                    .computeIfAbsent(parameterTypeRegexp, r -> new TreeSet<>(new ParameterTypeComparator()));
+                    .computeIfAbsent(parameterTypeRegexp, r -> new TreeSet<>());
             if (!parameterTypes.isEmpty() && parameterTypes.first().preferForRegexpMatch() && parameterType.preferForRegexpMatch()) {
                 throw new CucumberExpressionException(String.format(
                         "There can only be one preferential parameter type per regexp. " +
@@ -60,19 +52,6 @@ public class ParameterTypeRegistry {
             }
             parameterTypes.add(parameterType);
         }
-    }
-
-    private <K> void put(Map<K, ParameterType<?>> map, K key, ParameterType<?> parameterType, String prop, String keyName) {
-        if (map.containsKey(key))
-            throw new DuplicateTypeNameException(String.format("There is already a parameter type with %s %s", prop, keyName));
-        map.put(key, parameterType);
-    }
-
-    public <T> ParameterType<T> lookupByType(Type type) {
-        if (type instanceof Class && ((Class) type).isPrimitive()) {
-            type = BOXED.get(type);
-        }
-        return (ParameterType<T>) parameterTypeByType.get(type);
     }
 
     public <T> ParameterType<T> lookupByTypeName(String typeName) {

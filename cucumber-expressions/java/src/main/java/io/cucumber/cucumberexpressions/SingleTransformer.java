@@ -1,5 +1,7 @@
 package io.cucumber.cucumberexpressions;
 
+import java.util.function.Function;
+
 public class SingleTransformer<T> implements Transformer<T> {
     private final Function<String, T> function;
 
@@ -9,14 +11,14 @@ public class SingleTransformer<T> implements Transformer<T> {
 
     @Override
     public T transform(String... groupValues) {
-        String arg;
-        if (groupValues == null) {
-            arg = null;
-        } else if (groupValues.length == 1) {
-            arg = groupValues[0];
-        } else {
-            throw new CucumberExpressionException(String.format("Expected 1 group, but got %d", groupValues.length));
+        if (groupValues == null) return null;
+        String arg = null;
+        for (String groupValue : groupValues) {
+            if (groupValue != null && arg != null)
+                throw new CucumberExpressionException(String.format("Single transformer unexpectedly matched 2 values - \"%s\" and \"%s\"", arg, groupValue));
+            arg = groupValue;
         }
-        return arg == null ? null : function.apply(arg);
+        if (arg == null) return null; // optional group
+        return function.apply(arg);
     }
 }

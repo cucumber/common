@@ -47,9 +47,8 @@ describe('Custom parameter type', () => {
         'I have a {color} ball',
         parameterTypeRegistry
       )
-      const transformedValue = expression.match('I have a red ball')[0]
-        .transformedValue
-      assert.equal(transformedValue.name, 'red')
+      const value = expression.match('I have a red ball')[0].value
+      assert.equal(value.name, 'red')
     })
 
     it('matches parameters with multiple capture groups', () => {
@@ -77,15 +76,15 @@ describe('Custom parameter type', () => {
       )
       const args = expression.match('A 5 thick line from 10,20,30 to 40,50,60')
 
-      const thick = args[0].transformedValue
+      const thick = args[0].value
       assert.equal(thick, 5)
 
-      const from = args[1].transformedValue
+      const from = args[1].value
       assert.equal(from.x, 10)
       assert.equal(from.y, 20)
       assert.equal(from.z, 30)
 
-      const to = args[2].transformedValue
+      const to = args[2].value
       assert.equal(to.x, 40)
       assert.equal(to.y, 50)
       assert.equal(to.z, 60)
@@ -107,9 +106,8 @@ describe('Custom parameter type', () => {
         'I have a {color} ball',
         parameterTypeRegistry
       )
-      const transformedValue = expression.match('I have a dark red ball')[0]
-        .transformedValue
-      assert.equal(transformedValue.name, 'dark red')
+      const value = expression.match('I have a dark red ball')[0].value
+      assert.equal(value.name, 'dark red')
     })
 
     it('defers transformation until queried from argument', () => {
@@ -131,7 +129,7 @@ describe('Custom parameter type', () => {
         parameterTypeRegistry
       )
       const args = expression.match('I have a bad parameter')
-      assertThrows(() => args[0].transformedValue, "Can't transform [bad]")
+      assertThrows(() => args[0].value, "Can't transform [bad]")
     })
 
     describe('conflicting parameter type', () => {
@@ -152,20 +150,16 @@ describe('Custom parameter type', () => {
         )
       })
 
-      it('is detected for type', () => {
-        assertThrows(
-          () =>
-            parameterTypeRegistry.defineParameterType(
-              new ParameterType(
-                'whatever',
-                /.*/,
-                Color,
-                s => new Color(s),
-                false,
-                true
-              )
-            ),
-          'There is already a parameter type with type Color'
+      it('is not detected for type', () => {
+        parameterTypeRegistry.defineParameterType(
+          new ParameterType(
+            'whatever',
+            /.*/,
+            Color,
+            s => new Color(s),
+            false,
+            true
+          )
         )
       })
 
@@ -176,8 +170,8 @@ describe('Custom parameter type', () => {
             /red|blue|yellow/,
             CssColor,
             s => new CssColor(s),
-            false,
-            true
+            true,
+            false
           )
         )
 
@@ -185,28 +179,28 @@ describe('Custom parameter type', () => {
           new CucumberExpression(
             'I have a {css-color} ball',
             parameterTypeRegistry
-          ).match('I have a blue ball')[0].transformedValue.constructor,
+          ).match('I have a blue ball')[0].value.constructor,
           CssColor
         )
         assert.equal(
           new CucumberExpression(
             'I have a {css-color} ball',
             parameterTypeRegistry
-          ).match('I have a blue ball')[0].transformedValue.name,
+          ).match('I have a blue ball')[0].value.name,
           'blue'
         )
         assert.equal(
           new CucumberExpression(
             'I have a {color} ball',
             parameterTypeRegistry
-          ).match('I have a blue ball')[0].transformedValue.constructor,
+          ).match('I have a blue ball')[0].value.constructor,
           Color
         )
         assert.equal(
           new CucumberExpression(
             'I have a {color} ball',
             parameterTypeRegistry
-          ).match('I have a blue ball')[0].transformedValue.name,
+          ).match('I have a blue ball')[0].value.name,
           'blue'
         )
       })
@@ -233,8 +227,8 @@ describe('Custom parameter type', () => {
         parameterTypeRegistry
       )
       const args = await expression.match('I have a red ball')
-      const transformedValue = await args[0].transformedValue
-      assert.equal(transformedValue.name, 'red')
+      const value = await args[0].value
+      assert.equal(value.name, 'red')
     })
   })
 
@@ -244,10 +238,9 @@ describe('Custom parameter type', () => {
         /I have a (red|blue|yellow) ball/,
         parameterTypeRegistry
       )
-      const transformedValue = expression.match('I have a red ball')[0]
-        .transformedValue
-      assert.equal(transformedValue.constructor, Color)
-      assert.equal(transformedValue.name, 'red')
+      const value = expression.match('I have a red ball')[0].value
+      assert.equal(value.constructor, Color)
+      assert.equal(value.name, 'red')
     })
   })
 })

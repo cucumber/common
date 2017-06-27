@@ -25,7 +25,7 @@ public class RegularExpression implements Expression {
     }
 
     @Override
-    public List<Argument> match(String text) {
+    public List<Argument<?>> match(String text) {
         List<ParameterType<?>> parameterTypes = new ArrayList<>();
 
         Matcher matcher = CAPTURE_GROUP_PATTERN.matcher(expressionRegexp.pattern());
@@ -44,7 +44,7 @@ public class RegularExpression implements Expression {
             parameterTypes.add(parameterType);
         }
 
-        return ArgumentBuilder.buildArguments(expressionRegexp, text, parameterTypes);
+        return Argument.build(expressionRegexp, text, parameterTypes);
     }
 
     @Override

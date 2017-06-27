@@ -11,29 +11,57 @@ module Cucumber
         expr = "I have {int} cuke(s)"
         expression = CucumberExpression.new(expr, parameter_registry)
         args = expression.match("I have 7 cukes")
-        expect( args[0].transformed_value ).to eq(7)
+        expect(args[0].value).to eq(7)
         ### [capture-match-arguments]
       end
 
       it "matches word" do
-        expect( match("three {word} mice", "three blind mice") ).to eq(['blind'])
+        expect(match("three {word} mice", "three blind mice")).to eq(['blind'])
+      end
+
+      it('matches double quoted string') do
+        expect(match('three {string} mice', 'three "blind" mice')).to eq(['blind'])
+      end
+
+      it('matches single quoted string') do
+        expect(match('three {string} mice', "three 'blind' mice")).to eq(['blind'])
+      end
+
+      it('does not match misquoted string') do
+        expect(match('three {string} mice', 'three "blind\' mice')).to eq(nil)
+      end
+
+      it('matches single quoted string with double quotes') do
+        expect(match('three {string} mice', 'three \'"blind"\' mice')).to eq(['"blind"'])
+      end
+
+      it('matches double quoted string with single quotes') do
+        expect(match('three {string} mice', 'three "\'blind\'" mice')).to eq(["'blind'"])
+      end
+
+      it('matches double quoted string with escaped double quote') do
+        expect(match('three {string} mice', 'three "bl\\"nd" mice')).to eq(['bl"nd'])
+      end
+
+      it('matches single quoted string with escaped single quote') do
+        expect(match('three {string} mice', "three 'bl\\'nd' mice")).to eq(["bl'nd"])
       end
 
       it "matches int" do
-        expect( match("{int}", "22") ).to eq([22])
+        expect(match("{int}", "22")).to eq([22])
       end
 
       it "doesn't match float as int" do
-        expect( match("{int}", "1.22") ).to be_nil
+        expect(match("{int}", "1.22")).to be_nil
       end
 
       it "matches float" do
-        expect( match("{float}", "0.22") ).to eq([0.22])
-        expect( match("{float}",  ".22") ).to eq([0.22])
+        expect(match("{float}", "0.22")).to eq([0.22])
+        expect(match("{float}", ".22")).to eq([0.22])
       end
 
       it "throws unknown parameter type" do
-        expect { match("{unknown}", "something") }.to raise_error('Undefined parameter type {unknown}')
+        expect {match("{unknown}", "something")}.to raise_error('Undefined parameter type {unknown}')
       end
 
       it "exposes source" do
@@ -47,7 +75,7 @@ module Cucumber
             expr = "I have {int} cuke(s) and #{character}"
             expression = CucumberExpression.new(expr, ParameterTypeRegistry.new)
             arg1 = expression.match("I have 800 cukes and #{character}")[0]
-            expect(arg1.transformed_value).to eq(800)
+            expect(arg1.value).to eq(800)
           end
         end
       end
@@ -56,7 +84,7 @@ module Cucumber
         cucumber_expression = CucumberExpression.new(expression, ParameterTypeRegistry.new)
         args = cucumber_expression.match(text)
         return nil if args.nil?
-        args.map { |arg| arg.transformed_value }
+        args.map {|arg| arg.value}
       end
     end
   end

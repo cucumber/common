@@ -8,7 +8,6 @@ import java.util.Locale;
 
 import static java.lang.Integer.parseInt;
 import static java.util.Arrays.asList;
-import static java.util.Collections.singletonList;
 import static java.util.regex.Pattern.compile;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
@@ -50,7 +49,7 @@ public class CustomParameterTypeTest {
         /// [add-color-parameter-type]
         parameterTypeRegistry.defineParameterType(new ParameterType<>(
                 "color",
-                singletonList("red|blue|yellow"),
+                "red|blue|yellow",
                 Color.class,
                 new SingleTransformer<Color>(Color::new),
                 false,
@@ -62,8 +61,8 @@ public class CustomParameterTypeTest {
     @Test
     public void matches_CucumberExpression_parameters_with_custom_parameter_type() {
         Expression expression = new CucumberExpression("I have a {color} ball", parameterTypeRegistry);
-        Object transformedArgumentValue = expression.match("I have a red ball").get(0).getTransformedValue();
-        assertEquals(new Color("red"), transformedArgumentValue);
+        Object argumentValue = expression.match("I have a red ball").get(0).getValue();
+        assertEquals(new Color("red"), argumentValue);
     }
 
     @Test
@@ -71,7 +70,7 @@ public class CustomParameterTypeTest {
         parameterTypeRegistry = new ParameterTypeRegistry(Locale.ENGLISH);
         parameterTypeRegistry.defineParameterType(new ParameterType<>(
                 "coordinate",
-                singletonList("(\\d+),\\s*(\\d+),\\s*(\\d+)"),
+                "(\\d+),\\s*(\\d+),\\s*(\\d+)",
                 Coordinate.class,
                 xyz -> new Coordinate(
                         parseInt(xyz[0]),
@@ -82,10 +81,10 @@ public class CustomParameterTypeTest {
                 false
         ));
         Expression expression = new CucumberExpression("A {int} thick line from {coordinate} to {coordinate}", parameterTypeRegistry);
-        List<Argument> arguments = expression.match("A 5 thick line from 10,20,30 to 40,50,60");
-        Integer thick = (Integer) arguments.get(0).getTransformedValue();
-        Coordinate from = (Coordinate) arguments.get(1).getTransformedValue();
-        Coordinate to = (Coordinate) arguments.get(2).getTransformedValue();
+        List<Argument<?>> arguments = expression.match("A 5 thick line from 10,20,30 to 40,50,60");
+        Integer thick = (Integer) arguments.get(0).getValue();
+        Coordinate from = (Coordinate) arguments.get(1).getValue();
+        Coordinate to = (Coordinate) arguments.get(2).getValue();
         assertEquals(new Integer(5), thick);
         assertEquals(new Coordinate(10, 20, 30), from);
         assertEquals(new Coordinate(40, 50, 60), to);
@@ -103,15 +102,15 @@ public class CustomParameterTypeTest {
                 false
         ));
         Expression expression = new CucumberExpression("I have a {color} ball", parameterTypeRegistry);
-        Object transformedArgumentValue = expression.match("I have a dark red ball").get(0).getTransformedValue();
-        assertEquals(new Color("dark red"), transformedArgumentValue);
+        Object argumentValue = expression.match("I have a dark red ball").get(0).getValue();
+        assertEquals(new Color("dark red"), argumentValue);
     }
 
     @Test
     public void defers_transformation_until_queried_from_argument() {
         parameterTypeRegistry.defineParameterType(new ParameterType<CssColor>(
                 "throwing",
-                singletonList("bad"),
+                "bad",
                 CssColor.class,
                 color -> {
                     throw new RuntimeException(String.format("Can't transform [%s]", color[0]));
@@ -120,9 +119,9 @@ public class CustomParameterTypeTest {
                 false
         ));
         Expression expression = new CucumberExpression("I have a {throwing} parameter", parameterTypeRegistry);
-        List<Argument> arguments = expression.match("I have a bad parameter");
+        List<Argument<?>> arguments = expression.match("I have a bad parameter");
         try {
-            arguments.get(0).getTransformedValue();
+            arguments.get(0).getValue();
             fail("should have failed");
         } catch (RuntimeException expected) {
             assertEquals("Can't transform [bad]", expected.getMessage());
@@ -134,7 +133,7 @@ public class CustomParameterTypeTest {
         try {
             parameterTypeRegistry.defineParameterType(new ParameterType<>(
                     "color",
-                    singletonList(".*"),
+                    ".*",
                     CssColor.class,
                     new SingleTransformer<CssColor>(CssColor::new),
                     false,
@@ -147,20 +146,15 @@ public class CustomParameterTypeTest {
     }
 
     @Test
-    public void conflicting_parameter_type_is_detected_for_type() {
-        try {
-            parameterTypeRegistry.defineParameterType(new ParameterType<>(
-                    "whatever",
-                    singletonList(".*"),
-                    Color.class,
-                    new SingleTransformer<Color>(Color::new),
-                    false,
-                    false
-            ));
-            fail("should have failed");
-        } catch (CucumberExpressionException expected) {
-            assertEquals("There is already a parameter type with type io.cucumber.cucumberexpressions.CustomParameterTypeTest$Color", expected.getMessage());
-        }
+    public void conflicting_parameter_type_is_not_detected_for_type() {
+        parameterTypeRegistry.defineParameterType(new ParameterType<>(
+                "whatever",
+                ".*",
+                Color.class,
+                new SingleTransformer<Color>(Color::new),
+                false,
+                false
+        ));
     }
 
     ///// Conflicting parameter types
@@ -169,22 +163,22 @@ public class CustomParameterTypeTest {
     public void conflicting_parameter_type_is_not_detected_for_regexp() {
         parameterTypeRegistry.defineParameterType(new ParameterType<>(
                 "css-color",
-                singletonList("red|blue|yellow"),
+                "red|blue|yellow",
                 CssColor.class,
                 new SingleTransformer<CssColor>(CssColor::new),
                 false,
                 false
         ));
 
-        assertEquals(new CssColor("blue"), new CucumberExpression("I have a {css-color} ball", parameterTypeRegistry).match("I have a blue ball").get(0).getTransformedValue());
-        assertEquals(new Color("blue"), new CucumberExpression("I have a {color} ball", parameterTypeRegistry).match("I have a blue ball").get(0).getTransformedValue());
+        assertEquals(new CssColor("blue"), new CucumberExpression("I have a {css-color} ball", parameterTypeRegistry).match("I have a blue ball").get(0).getValue());
+        assertEquals(new Color("blue"), new CucumberExpression("I have a {color} ball", parameterTypeRegistry).match("I have a blue ball").get(0).getValue());
     }
 
     @Test
     public void matches_RegularExpression_arguments_with_custom_parameter_type() {
         Expression expression = new RegularExpression(compile("I have a (red|blue|yellow) ball"), parameterTypeRegistry);
-        Object transformedArgumentValue = expression.match("I have a red ball").get(0).getTransformedValue();
-        assertEquals(new Color("red"), transformedArgumentValue);
+        Object argumentValue = expression.match("I have a red ball").get(0).getValue();
+        assertEquals(new Color("red"), argumentValue);
     }
 
     ///// RegularExpression
@@ -192,11 +186,9 @@ public class CustomParameterTypeTest {
     public static class Color {
         public final String name;
 
-        /// [color-constructor]
         public Color(String name) {
             this.name = name;
         }
-        /// [color-constructor]
 
         @Override
         public int hashCode() {

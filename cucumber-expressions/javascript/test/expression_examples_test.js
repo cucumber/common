@@ -13,7 +13,7 @@ describe('examples.txt', () => {
       : new CucumberExpression(expression_text, new ParameterTypeRegistry())
     const args = expression.match(text)
     if (!args) return null
-    return args.map(arg => arg.transformedValue)
+    return args.map(arg => arg.value)
   }
 
   const examples = fs.readFileSync('examples.txt', 'utf-8')

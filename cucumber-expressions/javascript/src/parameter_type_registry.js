@@ -8,33 +8,36 @@ const {
 const INTEGER_REGEXPS = [/-?\d+/, /\d+/]
 const FLOAT_REGEXP = /-?\d*\.?\d+/
 const WORD_REGEXP = /\w+/
-
-class Integer extends Number {}
-class Float extends Number {}
+const STRING_REGEXP = /"([^"\\]*(\\.[^"\\]*)*)"|'([^'\\]*(\\.[^'\\]*)*)'/
 
 class ParameterTypeRegistry {
   constructor() {
     this._parameterTypeByName = new Map()
-    this._parameterTypeByConstructorName = new Map()
     this._parameterTypesByRegexp = new Map()
 
     this.defineParameterType(
-      new ParameterType('int', INTEGER_REGEXPS, Integer, parseInt, true, true)
+      new ParameterType('int', INTEGER_REGEXPS, Number, parseInt, true, true)
     )
     this.defineParameterType(
-      new ParameterType('float', FLOAT_REGEXP, Float, parseFloat, false, true)
+      new ParameterType('float', FLOAT_REGEXP, Number, parseFloat, true, false)
     )
     this.defineParameterType(
       new ParameterType('word', WORD_REGEXP, String, s => s, false, false)
+    )
+    this.defineParameterType(
+      new ParameterType(
+        'string',
+        STRING_REGEXP,
+        String,
+        s => s.replace(/\\"/g, '"').replace(/\\'/g, "'"),
+        true,
+        false
+      )
     )
   }
 
   get parameterTypes() {
     return this._parameterTypeByName.values()
-  }
-
-  lookupByType(type) {
-    return this._parameterTypeByConstructorName.get(type.name)
   }
 
   lookupByTypeName(typeName) {
@@ -62,16 +65,11 @@ class ParameterTypeRegistry {
   }
 
   defineParameterType(parameterType) {
-    set(this._parameterTypeByName, parameterType.name, parameterType, 'name')
-
-    if (looksLikeConstructor(parameterType.constructorFunction)) {
-      set(
-        this._parameterTypeByConstructorName,
-        parameterType.constructorFunction.name,
-        parameterType,
-        'type'
+    if (this._parameterTypeByName.has(parameterType.name))
+      throw new Error(
+        `There is already a parameter type with name ${parameterType.name}`
       )
-    }
+    this._parameterTypeByName.set(parameterType.name, parameterType)
 
     for (const parameterTypeRegexp of parameterType.regexps) {
       if (!this._parameterTypesByRegexp.has(parameterTypeRegexp)) {
@@ -100,19 +98,6 @@ class ParameterTypeRegistry {
       }
     }
   }
-}
-
-function looksLikeConstructor(fn) {
-  if (typeof fn !== 'function') return false
-  if (!fn.name) return false
-  const prefix = fn.name[0]
-  return prefix.toUpperCase() === prefix
-}
-
-function set(map, key, value, prop) {
-  if (map.has(key))
-    throw new Error(`There is already a parameter type with ${prop} ${key}`)
-  map.set(key, value)
 }
 
 module.exports = ParameterTypeRegistry

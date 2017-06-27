@@ -10,12 +10,52 @@ describe('CucumberExpression', () => {
     const expr = 'I have {int} cuke(s)'
     const expression = new CucumberExpression(expr, parameterTypeRegistry)
     const args = expression.match('I have 7 cukes')
-    assert.equal(7, args[0].transformedValue)
+    assert.equal(7, args[0].value)
     /// [capture-match-arguments]
   })
 
   it('matches word', () => {
     assert.deepEqual(match('three {word} mice', 'three blind mice'), ['blind'])
+  })
+
+  it('matches double quoted string', () => {
+    assert.deepEqual(match('three {string} mice', 'three "blind" mice'), [
+      'blind',
+    ])
+  })
+
+  it('matches single quoted string', () => {
+    assert.deepEqual(match('three {string} mice', "three 'blind' mice"), [
+      'blind',
+    ])
+  })
+
+  it('does not match misquoted string', () => {
+    assert.deepEqual(match('three {string} mice', 'three "blind\' mice'), null)
+  })
+
+  it('matches single quoted string with double quotes', () => {
+    assert.deepEqual(match('three {string} mice', 'three \'"blind"\' mice'), [
+      '"blind"',
+    ])
+  })
+
+  it('matches double quoted string with single quotes', () => {
+    assert.deepEqual(match('three {string} mice', 'three "\'blind\'" mice'), [
+      "'blind'",
+    ])
+  })
+
+  it('matches double quoted string with escaped double quote', () => {
+    assert.deepEqual(match('three {string} mice', 'three "bl\\"nd" mice'), [
+      'bl"nd',
+    ])
+  })
+
+  it('matches single quoted string with escaped single quote', () => {
+    assert.deepEqual(match('three {string} mice', "three 'bl\\'nd' mice"), [
+      "bl'nd",
+    ])
   })
 
   it('matches int', () => {
@@ -57,7 +97,7 @@ describe('CucumberExpression', () => {
           new ParameterTypeRegistry()
         )
         const arg1 = expression.match(`I have 800 cukes and ${character}`)[0]
-        assert.equal(arg1.transformedValue, 800)
+        assert.equal(arg1.value, 800)
       })
     })
 
@@ -69,7 +109,7 @@ describe('CucumberExpression', () => {
       )
       assert.equal(expression.match(`I have 800 cukes and 3`), null)
       const arg1 = expression.match(`I have 800 cukes and .`)[0]
-      assert.equal(arg1.transformedValue, 800)
+      assert.equal(arg1.value, 800)
     })
 
     it(`escapes |`, () => {
@@ -81,7 +121,7 @@ describe('CucumberExpression', () => {
       assert.equal(expression.match(`I have 800 cukes and a`), null)
       assert.equal(expression.match(`I have 800 cukes and b`), null)
       const arg1 = expression.match(`I have 800 cukes and a|b`)[0]
-      assert.equal(arg1.transformedValue, 800)
+      assert.equal(arg1.value, 800)
     })
   })
 })
@@ -93,5 +133,5 @@ const match = (expression, text) => {
   )
   const args = cucumberExpression.match(text)
   if (!args) return null
-  return args.map(arg => arg.transformedValue)
+  return args.map(arg => arg.value)
 }

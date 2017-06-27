@@ -1,3 +1,5 @@
+const { CucumberExpressionError } = require('./errors')
+
 class ParameterType {
   static compare(pt1, pt2) {
     if (pt1.preferForRegexpMatch && !pt2.preferForRegexpMatch) return -1
@@ -18,8 +20,8 @@ class ParameterType {
     regexps,
     constructorFunction,
     transform,
-    preferForRegexpMatch,
-    useForSnippets
+    useForSnippets,
+    preferForRegexpMatch
   ) {
     if (typeof transform !== 'function')
       throw new Error('transform must be a function')
@@ -29,16 +31,12 @@ class ParameterType {
     this._regexps = stringArray(regexps)
     this._constructorFunction = constructorFunction
     this._transform = transform
-    this._preferForRegexpMatch = preferForRegexpMatch
     this._useForSnippets = useForSnippets
+    this._preferForRegexpMatch = preferForRegexpMatch
   }
 
   get name() {
     return this._name
-  }
-
-  get constructorFunction() {
-    return this._constructorFunction
   }
 
   get regexps() {
@@ -54,6 +52,18 @@ class ParameterType {
   }
 
   transform(groupValues) {
+    if (this._transform.length === 1) {
+      // transform function with arity 1.
+      const nonNullGroupValues = groupValues.filter(
+        v => v !== null && v !== undefined
+      )
+      if (nonNullGroupValues.length >= 2)
+        throw new CucumberExpressionError(
+          `Single transformer unexpectedly matched 2 values - "${nonNullGroupValues[0]}" and "${nonNullGroupValues[1]}"`
+        )
+      return this._transform(nonNullGroupValues[0])
+    }
+
     return this._transform.apply(null, groupValues)
   }
 }

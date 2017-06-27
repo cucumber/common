@@ -20,9 +20,9 @@ public class RegularExpressionTest {
         /// [capture-match-arguments]
         Pattern expr = Pattern.compile("I have (\\d+) cukes? in my (\\w+) now");
         Expression expression = new RegularExpression(expr, parameterTypeRegistry);
-        List<Argument> match = expression.match("I have 7 cukes in my belly now");
-        assertEquals(7, match.get(0).getTransformedValue());
-        assertEquals("belly", match.get(1).getTransformedValue());
+        List<Argument<?>> match = expression.match("I have 7 cukes in my belly now");
+        assertEquals(7, match.get(0).getValue());
+        assertEquals("belly", match.get(1).getValue());
         /// [capture-match-arguments]
     }
 
@@ -33,7 +33,7 @@ public class RegularExpressionTest {
     }
 
     @Test
-    public void matches_nested_capture_group_withotu_match() {
+    public void matches_nested_capture_group_without_match() {
         List<?> match = match(compile("^a user( named \"([^\"]*)\")?$"), "a user");
         assertEquals(singletonList(null), match);
     }
@@ -66,11 +66,11 @@ public class RegularExpressionTest {
         ParameterTypeRegistry parameterTypeRegistry = new ParameterTypeRegistry(locale);
         RegularExpression regularExpression;
         regularExpression = new RegularExpression(pattern, parameterTypeRegistry);
-        List<Argument> arguments = regularExpression.match(text);
-        List<Object> transformedValues = new ArrayList<>();
-        for (Argument argument : arguments) {
-            transformedValues.add(argument.getTransformedValue());
+        List<Argument<?>> arguments = regularExpression.match(text);
+        List<Object> values = new ArrayList<>();
+        for (Argument<?> argument : arguments) {
+            values.add(argument.getValue());
         }
-        return transformedValues;
+        return values;
     }
 }

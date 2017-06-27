@@ -21,14 +21,9 @@ module Cucumber
         @registry = ParameterTypeRegistry.new
       end
 
-      it 'looks up parameter type by type' do
-        parameter_type = @registry.lookup_by_type(Integer)
-        expect(parameter_type.transform("22")).to eq(22)
-      end
-
       it 'does not allow more than one prefer_for_regexp_match parameter type for each regexp' do
         @registry.define_parameter_type(ParameterType.new("name", CAPITALISED_WORD, Name, lambda {|s| Name.new}, true, true))
-        @registry.define_parameter_type(ParameterType.new("person", CAPITALISED_WORD, Person, lambda {|s| Person.new}, false, true))
+        @registry.define_parameter_type(ParameterType.new("person", CAPITALISED_WORD, Person, lambda {|s| Person.new}, true, false))
         expect do
           @registry.define_parameter_type(ParameterType.new("place", CAPITALISED_WORD, Place, lambda {|s| Place.new}, true, true))
         end.to raise_error(
@@ -38,9 +33,9 @@ module Cucumber
       end
 
       it 'looks up prefer_for_regexp_match parameter type by regexp' do
-        name = ParameterType.new("name", CAPITALISED_WORD, Name, lambda {|s| Name.new}, false, true)
+        name = ParameterType.new("name", CAPITALISED_WORD, Name, lambda {|s| Name.new}, true, false)
         person = ParameterType.new("person", CAPITALISED_WORD, Person, lambda {|s| Person.new}, true, true)
-        place = ParameterType.new("place", CAPITALISED_WORD, Place, lambda {|s| Place.new}, false, true)
+        place = ParameterType.new("place", CAPITALISED_WORD, Place, lambda {|s| Place.new}, true, false)
 
         @registry.define_parameter_type(name)
         @registry.define_parameter_type(person)
@@ -50,9 +45,9 @@ module Cucumber
       end
 
       it 'throws ambiguous exception when no parameter types are prefer_for_regexp_match' do
-        name = ParameterType.new("name", CAPITALISED_WORD, Name, lambda {|s| Name.new}, false, true)
-        person = ParameterType.new("person", CAPITALISED_WORD, Person, lambda {|s| Person.new}, false, true)
-        place = ParameterType.new("place", CAPITALISED_WORD, Place, lambda {|s| Place.new}, false, true)
+        name = ParameterType.new("name", CAPITALISED_WORD, Name, lambda {|s| Name.new}, true, false)
+        person = ParameterType.new("person", CAPITALISED_WORD, Person, lambda {|s| Person.new}, true, false)
+        place = ParameterType.new("place", CAPITALISED_WORD, Place, lambda {|s| Place.new}, true, false)
 
         @registry.define_parameter_type(name)
         @registry.define_parameter_type(person)

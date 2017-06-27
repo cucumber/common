@@ -1,4 +1,4 @@
-require 'cucumber/cucumber_expressions/argument_builder'
+require 'cucumber/cucumber_expressions/argument'
 require 'cucumber/cucumber_expressions/parameter_type'
 
 module Cucumber
@@ -38,7 +38,7 @@ module Cucumber
           parameter_types.push(parameter_type)
         end
 
-        ArgumentBuilder.build_arguments(@expression_regexp, text, parameter_types)
+        Argument.build(@expression_regexp, text, parameter_types)
       end
 
       def source

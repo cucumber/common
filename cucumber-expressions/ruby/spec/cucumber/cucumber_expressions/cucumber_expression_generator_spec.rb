@@ -34,6 +34,12 @@ module Cucumber
           "I have 2 cukes and 1.5 euro")
       end
 
+      it "generates expression for strings" do
+        assert_expression(
+            "I like {string} and {string}", ["string", "string2"],
+            'I like "bangers" and \'mash\'')
+      end
+
       it "generates expression for just int" do
         assert_expression(
           "{int}", ["int"],

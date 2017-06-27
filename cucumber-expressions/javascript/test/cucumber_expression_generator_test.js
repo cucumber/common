@@ -49,6 +49,14 @@ describe('CucumberExpressionGenerator', () => {
     )
   })
 
+  it('generates expression for strings', () => {
+    assertExpression(
+      'I like {string} and {string}',
+      ['string', 'string2'],
+      'I like "bangers" and \'mash\''
+    )
+  })
+
   it('generates expression for just int', () => {
     assertExpression('{int}', ['int'], '99999')
   })
@@ -68,8 +76,8 @@ describe('CucumberExpressionGenerator', () => {
         /[A-Z]{3}/,
         Currency,
         s => new Currency(s),
-        false,
-        true
+        true,
+        false
       )
     )
 
@@ -87,12 +95,12 @@ describe('CucumberExpressionGenerator', () => {
         /cd/,
         Currency,
         s => new Currency(s),
-        false,
-        true
+        true,
+        false
       )
     )
     parameterTypeRegistry.defineParameterType(
-      new ParameterType('date', /bc/, Date, s => new Date(s), false, true)
+      new ParameterType('date', /bc/, Date, s => new Date(s), true, false)
     )
 
     assertExpression('a{date}defg', ['date'], 'abcdefg')
@@ -107,12 +115,12 @@ describe('CucumberExpressionGenerator', () => {
         /x/,
         null,
         s => new Currency(s),
-        false,
-        true
+        true,
+        false
       )
     )
     parameterTypeRegistry.defineParameterType(
-      new ParameterType('date', /x/, null, s => new Date(s), false, true)
+      new ParameterType('date', /x/, null, s => new Date(s), true, false)
     )
 
     const generatedExpressions = generator.generateExpressions(
