@@ -1,4 +1,4 @@
-const matchPattern = require('./build_arguments')
+const Argument = require('./argument')
 const { UndefinedParameterTypeError } = require('./errors')
 
 class CucumberExpression {
@@ -47,7 +47,7 @@ class CucumberExpression {
   }
 
   match(text) {
-    return matchPattern(this._regexp, text, this._parameterTypes)
+    return Argument.build(this._regexp, text, this._parameterTypes)
   }
 
   get source() {

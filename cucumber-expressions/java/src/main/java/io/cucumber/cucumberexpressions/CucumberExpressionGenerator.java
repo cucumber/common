@@ -42,7 +42,7 @@ public class CucumberExpressionGenerator {
                 // same ParameterType.
                 // We're sorting the list so preferential parameter types are listed first.
                 // Users are most likely to want these, so they should be listed at the top.
-                SortedSet<ParameterType<?>> parameterTypes = new TreeSet<>(new ParameterTypeComparator());
+                SortedSet<ParameterType<?>> parameterTypes = new TreeSet<>();
                 parameterTypes.addAll(bestParameterTypeMatchers.stream()
                         .map(ParameterTypeMatcher::getParameterType)
                         .collect(Collectors.toSet()));

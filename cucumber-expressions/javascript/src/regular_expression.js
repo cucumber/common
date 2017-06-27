@@ -1,4 +1,4 @@
-const buildArguments = require('./build_arguments')
+const Argument = require('./argument')
 const ParameterType = require('./parameter_type')
 
 class RegularExpression {
@@ -34,7 +34,7 @@ class RegularExpression {
       parameterTypes.push(parameterType)
     }
 
-    return buildArguments(this._regexp, text, parameterTypes)
+    return Argument.build(this._regexp, text, parameterTypes)
   }
 
   getSource() {

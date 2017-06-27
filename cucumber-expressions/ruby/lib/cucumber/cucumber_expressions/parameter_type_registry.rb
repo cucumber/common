@@ -8,19 +8,16 @@ module Cucumber
       INTEGER_REGEXPS = [/-?\d+/, /\d+/]
       FLOAT_REGEXP = /-?\d*\.?\d+/
       WORD_REGEXP = /\w+/
+      STRING_REGEXP = /"([^"\\]*(\\.[^"\\]*)*)"|'([^'\\]*(\\.[^'\\]*)*)'/
 
       def initialize
         @parameter_type_by_name = {}
-        @parameter_type_by_class = {}
         @parameter_types_by_regexp = Hash.new {|hash, regexp| hash[regexp] = []}
 
         define_parameter_type(ParameterType.new('int', INTEGER_REGEXPS, Integer, lambda {|s| s.to_i}, true, true))
-        define_parameter_type(ParameterType.new('float', FLOAT_REGEXP, Float, lambda {|s| s.to_f}, false, true))
+        define_parameter_type(ParameterType.new('float', FLOAT_REGEXP, Float, lambda {|s| s.to_f}, true, false))
         define_parameter_type(ParameterType.new('word', WORD_REGEXP, String, lambda {|s| s}, false, false))
-      end
-
-      def lookup_by_type(clazz)
-        @parameter_type_by_class[clazz]
+        define_parameter_type(ParameterType.new('string', STRING_REGEXP, String, lambda {|s| s.gsub(/\\"/, '"').gsub(/\\'/, "'")}, true, false))
       end
 
       def lookup_by_type_name(name)
@@ -45,8 +42,10 @@ module Cucumber
       end
 
       def define_parameter_type(parameter_type)
-        put(@parameter_type_by_class, parameter_type.type, parameter_type, "type")
-        put(@parameter_type_by_name, parameter_type.name, parameter_type, "name")
+        if @parameter_type_by_name.has_key?(parameter_type.name)
+          raise CucumberExpressionError.new("There is already a parameter with name #{parameter_type.name}")
+        end
+        @parameter_type_by_name[parameter_type.name] = parameter_type
 
         parameter_type.regexps.each do |parameter_type_regexp|
           parameter_types = @parameter_types_by_regexp[parameter_type_regexp]
@@ -58,12 +57,6 @@ module Cucumber
         end
       end
 
-      def put(map, key, parameter, prop)
-        if map.has_key?(key)
-          raise CucumberExpressionError.new("There is already a parameter with #{prop} #{key}")
-        end
-        map[key] = parameter
-      end
     end
   end
 end

@@ -1,4 +1,4 @@
-require 'cucumber/cucumber_expressions/argument_builder'
+require 'cucumber/cucumber_expressions/argument'
 require 'cucumber/cucumber_expressions/parameter_type'
 require 'cucumber/cucumber_expressions/errors'
 
@@ -49,7 +49,7 @@ module Cucumber
       end
 
       def match(text)
-        ArgumentBuilder.build_arguments(@regexp, text, @parameter_types)
+        Argument.build(@regexp, text, @parameter_types)
       end
 
       private

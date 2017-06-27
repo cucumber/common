@@ -4,7 +4,6 @@ const assert = require('assert')
 const ParameterTypeRegistry = require('../src/parameter_type_registry')
 const ParameterType = require('../src/parameter_type')
 
-class Color {}
 class Name {}
 class Person {}
 class Place {}
@@ -15,21 +14,6 @@ describe('ParameterTypeRegistry', () => {
   let registry
   beforeEach(() => {
     registry = new ParameterTypeRegistry()
-  })
-
-  it('looks up preferential parameter type by constructor', () => {
-    registry.defineParameterType(
-      new ParameterType(
-        'color',
-        /red|blue|green/,
-        Color,
-        s => new Color(s),
-        true,
-        true
-      )
-    )
-    const parameterType = registry.lookupByType(Color)
-    assert.equal(parameterType.name, 'color')
   })
 
   it('does not allow more than one preferential parameter type for each regexp', () => {
@@ -49,8 +33,8 @@ describe('ParameterTypeRegistry', () => {
         CAPITALISED_WORD,
         Person,
         s => new Person(s),
-        false,
-        true
+        true,
+        false
       )
     )
     try {
@@ -79,8 +63,8 @@ describe('ParameterTypeRegistry', () => {
       /[A-Z]+\w+/,
       null,
       s => new Name(s),
-      false,
-      true
+      true,
+      false
     )
     const person = new ParameterType(
       'person',
@@ -95,8 +79,8 @@ describe('ParameterTypeRegistry', () => {
       /[A-Z]+\w+/,
       null,
       s => new Place(s),
-      false,
-      true
+      true,
+      false
     )
 
     registry.defineParameterType(name)

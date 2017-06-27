@@ -3,6 +3,9 @@ package io.cucumber.cucumberexpressions;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
+import java.util.stream.Collectors;
+
+import static java.util.Collections.singletonList;
 
 /**
  * Converts a {@link Matcher} into a tree of {@link Group}
@@ -69,5 +72,10 @@ class Group {
 
     public boolean isNull() {
         return value == null;
+    }
+
+    public List<String> getValues() {
+        return (getChildren().isEmpty() ? singletonList(this) : getChildren())
+                .stream().map(Group::getValue).collect(Collectors.toList());
     }
 }

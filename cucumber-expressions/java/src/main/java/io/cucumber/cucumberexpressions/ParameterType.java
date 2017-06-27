@@ -5,7 +5,7 @@ import java.util.List;
 
 import static java.util.Collections.singletonList;
 
-public final class ParameterType<T> {
+public final class ParameterType<T> implements Comparable<ParameterType<?>> {
     private final String name;
     private final Type type;
     private final List<String> regexps;
@@ -15,15 +15,15 @@ public final class ParameterType<T> {
 
     public ParameterType(String name, List<String> regexps, Type type, Transformer<T> transformer, boolean useForSnippets, boolean preferForRegexpMatch) {
         if (name == null) throw new CucumberExpressionException("name cannot be null");
+        if (regexps == null) throw new CucumberExpressionException("regexps cannot be null");
         if (type == null) throw new CucumberExpressionException("type cannot be null");
         if (transformer == null) throw new CucumberExpressionException("transformer cannot be null");
-        if (regexps == null) throw new CucumberExpressionException("regexps cannot be null");
         this.name = name;
+        this.regexps = regexps;
         this.type = type;
         this.transformer = transformer;
-        this.preferForRegexpMatch = preferForRegexpMatch;
         this.useForSnippets = useForSnippets;
-        this.regexps = regexps;
+        this.preferForRegexpMatch = preferForRegexpMatch;
     }
 
     public ParameterType(String name, String regexp, Class<T> type, Transformer<T> transformer, boolean useForSnippets, boolean preferForRegexpMatch) {
@@ -47,6 +47,14 @@ public final class ParameterType<T> {
         return name;
     }
 
+    /**
+     * Returns the type of the parameter type - typically the type
+     * the transform transforms to. This can be used in conjunction with
+     * GeneratedExpression (snippets) to generate snippets for statically typed
+     * languages. Not used for anything else.
+     *
+     * @return the type of the parameter type
+     */
     public Type getType() {
         return type;
     }
@@ -78,7 +86,15 @@ public final class ParameterType<T> {
         return useForSnippets;
     }
 
-    public T transform(String... groups) {
-        return transformer.transform(groups);
+    public T transform(List<String> groupValues) {
+        String[] groupValueArray = groupValues.toArray(new String[groupValues.size()]);
+        return transformer.transform(groupValueArray);
+    }
+
+    @Override
+    public int compareTo(ParameterType<?> o) {
+        if (preferForRegexpMatch() && !o.preferForRegexpMatch()) return -1;
+        if (o.preferForRegexpMatch() && !preferForRegexpMatch()) return 1;
+        return getName().compareTo(o.getName());
     }
 }
