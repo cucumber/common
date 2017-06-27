@@ -52,7 +52,7 @@ public class ExpressionExamplesTest {
         assertEquals(String.format("\nExpression: %s\n      Text: %s", expressionString, text), expectedArgs, args);
     }
 
-    private List<Object> match(String expressionString, String text) {
+    private List<?> match(String expressionString, String text) {
         Expression expression;
         Matcher matcher = REGEX_PATTERN.matcher(expressionString);
         ParameterTypeRegistry parameterTypeRegistry = new ParameterTypeRegistry(Locale.ENGLISH);

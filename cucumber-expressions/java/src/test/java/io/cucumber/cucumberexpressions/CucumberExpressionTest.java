@@ -126,15 +126,15 @@ public class CucumberExpressionTest {
 
     @Test
     public void matches_double_with_comma_for_locale_using_comma() {
-        List<Object> values = match("{double}", "1,22", Locale.FRANCE);
+        List<?> values = match("{double}", "1,22", Locale.FRANCE);
         assertEquals(singletonList(1.22), values);
     }
 
-    private List<Object> match(String expr, String text) {
+    private List<?> match(String expr, String text) {
         return match(expr, text, Locale.ENGLISH);
     }
 
-    private List<Object> match(String expr, String text, Locale locale) {
+    private List<?> match(String expr, String text, Locale locale) {
         CucumberExpression expression = new CucumberExpression(expr, new ParameterTypeRegistry(locale));
         List<Argument<?>> args = expression.match(text);
         return args == null ? null : args.stream().map(Argument::getValue).collect(Collectors.toList());
