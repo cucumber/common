@@ -12,6 +12,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
   [#117](https://github.com/cucumber/cucumber/pull/117) and released in 2.0.0.
   ([#180](https://github.com/cucumber/cucumber/pull/180)
    by [aslakhellesoy])
+* Removed support for `{undefined}` parameter types. If a parameter type is not
+  defined, and error will be raised.
 
 ### Added
 * Support capture groups in parameter types
@@ -23,6 +25,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 * Add `{word}` built-in parameter type
   ([#191](https://github.com/cucumber/cucumber/issues/191)
    [#226](https://github.com/cucumber/cucumber/pull/226)
+   by [aslakhellesoy])
+* Add `{string}` built-in parameter type
+  ([#190](https://github.com/cucumber/cucumber/issues/190)
+   [#231](https://github.com/cucumber/cucumber/pull/231)
    by [aslakhellesoy])
 
 ### Changed
