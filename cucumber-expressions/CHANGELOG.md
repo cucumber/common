@@ -7,7 +7,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ----
 ## [Unreleased]
 
-## [4.0.0] - 2017-06-27
+## [4.0.0] - 2017-06-28
 
 ### Removed
 * Remove support for `{name:type}` syntax which was deprecated in
