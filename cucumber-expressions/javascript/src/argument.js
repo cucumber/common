@@ -1,17 +1,22 @@
+const Regex = require('becke-ch--regex--s0-0-v1--base--pl--lib')
 const Group = require('./group')
-const { CucumberExpressionException } = require('./errors')
+const { CucumberExpressionError } = require('./errors')
 
 class Argument {
   static build(regexp, text, parameterTypes) {
-    const m = regexp.exec(text)
+    const m = new Regex(regexp).exec(text)
     if (!m) return null
 
-    const matchGroup = new Group(m, text)
+    const matchGroup = new Group(m)
     const argGroups = matchGroup.children
 
     if (argGroups.length !== parameterTypes.length) {
-      throw new CucumberExpressionException(
-        `Expression has ${argGroups.length} arguments, but there were ${parameterTypes.length} parameter types`
+      throw new CucumberExpressionError(
+        `Expression ${regexp} has ${argGroups.length} arguments (${argGroups.map(
+          g => g.value
+        )}), but there were ${parameterTypes.length} parameter types (${parameterTypes.map(
+          p => p.name
+        )})`
       )
     }
 

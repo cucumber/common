@@ -3,9 +3,7 @@ class Group {
     this.children = []
 
     if (Array.isArray(a)) {
-      const matches = a
-      const text = b
-      this._parse(matches, text)
+      this._parse(a)
     } else {
       this.start = a
       this.end = b
@@ -33,28 +31,25 @@ class Group {
     )
   }
 
-  _parse(matches, text) {
-    const groups = Group._groups(matches, text)
-
-    if (groups.length === 0) {
+  _parse(matches) {
+    if (matches.length === 0) {
       this.start = this.end = -1
       this.value = null
       return
     }
 
-    this.start = groups[0].start
-    this.end = groups[0].end
-    this.value = groups[0].value
+    this.start = matches.index[0]
+    this.end = matches.index[0] + matches[0].length
+    this.value = matches[0]
 
     const stack = []
     stack.push(this)
 
-    for (let groupIndex = 1; groupIndex < groups.length; groupIndex++) {
-      const group = new Group(
-        groups[groupIndex].start,
-        groups[groupIndex].end,
-        groups[groupIndex].value
-      )
+    for (let groupIndex = 1; groupIndex < matches.length; groupIndex++) {
+      const value = matches[groupIndex] || null
+      const start = matches.index[groupIndex]
+      const end = value !== null && start >= 0 ? start + value.length : -1
+      const group = new Group(start, end, value)
 
       while (!stack[stack.length - 1].contains(group)) {
         stack.pop()
@@ -62,23 +57,6 @@ class Group {
       stack[stack.length - 1].add(group)
       stack.push(group)
     }
-  }
-
-  static _groups(matches, text) {
-    let index = matches.index
-    const groups = []
-    for (let i = 0; i < matches.length; i++) {
-      const value = matches[i] === undefined ? null : matches[i]
-      const start = value === null ? -1 : text.indexOf(value, index)
-      const end = value === null ? -1 : start + value.length
-      groups.push({
-        value,
-        start,
-        end,
-      })
-      index = start
-    }
-    return groups
   }
 }
 

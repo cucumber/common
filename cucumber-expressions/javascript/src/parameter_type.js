@@ -10,26 +10,25 @@ class ParameterType {
   /**
    * @param name {String} the name of the type
    * @param regexps {Array.<RegExp>,RegExp,Array.<String>,String} that matches the type
-   * @param constructorFunction {Function} the prototype (constructor) of the type. May be null.
+   * @param type {Function} the prototype (constructor) of the type. May be null.
    * @param transform {Function} function transforming string to another type. May be null.
-   * @param preferForRegexpMatch {boolean} true if this is a preferential type.
-   * @param useForSnippets {boolean} true if this should be used for snippets.
+   * @param useForSnippets {boolean} true if this should be used for snippets. Defaults to true.
+   * @param preferForRegexpMatch {boolean} true if this is a preferential type. Defaults to false.
    */
   constructor(
     name,
     regexps,
-    constructorFunction,
+    type,
     transform,
     useForSnippets,
     preferForRegexpMatch
   ) {
-    if (typeof transform !== 'function')
-      throw new Error('transform must be a function')
-    if (useForSnippets === undefined)
-      throw new Error('useForSnippets must be specified')
+    if (transform === undefined) transform = s => s
+    if (useForSnippets === undefined) useForSnippets = true
+    if (preferForRegexpMatch === undefined) preferForRegexpMatch = false
     this._name = name
     this._regexps = stringArray(regexps)
-    this._constructorFunction = constructorFunction
+    this._type = type
     this._transform = transform
     this._useForSnippets = useForSnippets
     this._preferForRegexpMatch = preferForRegexpMatch
@@ -41,6 +40,10 @@ class ParameterType {
 
   get regexps() {
     return this._regexps
+  }
+
+  get type() {
+    return this._type
   }
 
   get preferForRegexpMatch() {

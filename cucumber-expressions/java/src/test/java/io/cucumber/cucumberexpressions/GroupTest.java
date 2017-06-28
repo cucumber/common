@@ -17,6 +17,16 @@ public class GroupTest {
         assertEquals(null, g.getChildren().get(0).getValue());
     }
 
+    @Test
+    public void matches_two_groups() {
+        Matcher matcher = Pattern.compile("^the step \"([^\"]*)\" has status \"([^\"]*)\"$").matcher("the step \"a pending step\" has status \"pending\"");
+        assertTrue(matcher.lookingAt());
+        Group g = new Group(matcher);
+        assertEquals("a pending step", g.getChildren().get(0).getValue());
+        assertEquals("pending", g.getChildren().get(1).getValue());
+    }
+
+    @Test
     public void matches_nested_groups() {
         String regexp = "^A (\\d+) thick line from ((\\d+),\\s*(\\d+),\\s*(\\d+)) to ((\\d+),\\s*(\\d+),\\s*(\\d+))?";
         String string = "A 5 thick line from 10,20,30 to 40,50,60";

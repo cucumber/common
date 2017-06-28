@@ -34,10 +34,6 @@ public final class ParameterType<T> implements Comparable<ParameterType<?>> {
         this(name, singletonList(regexp), type, transformer, true, false);
     }
 
-    public ParameterType(String name, List<String> regexps, Class<T> type, Transformer<T> transformer) {
-        this(name, regexps, type, transformer, true, false);
-    }
-
     /**
      * This is used in the type name in typed expressions
      *

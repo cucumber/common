@@ -44,5 +44,8 @@
   },
   "files": [
     "*"
-  ]
+  ],
+  "dependencies": {
+    "becke-ch--regex--s0-0-v1--base--pl--lib": "^1.2.0"
+  }
 }
