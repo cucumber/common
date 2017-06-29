@@ -34,6 +34,12 @@ module Cucumber
           "I have 2 cukes and 1.5 euro")
       end
 
+      it "generates expression for strings" do
+        assert_expression(
+            "I like {string} and {string}", ["string", "string2"],
+            'I like "bangers" and \'mash\'')
+      end
+
       it "generates expression for just int" do
         assert_expression(
           "{int}", ["int"],
@@ -49,9 +55,11 @@ module Cucumber
       it "numbers only second argument when type is not reserved keyword" do
         @parameter_type_registry.define_parameter_type(ParameterType.new(
           'currency',
-          Currency,
           '[A-Z]{3}',
-          nil
+          Currency,
+          lambda {|s| Currency.new(s)},
+          true,
+          true
         ))
 
         assert_expression(

@@ -1,4 +1,4 @@
-import webdriver from "selenium-webdriver"
+const webdriver = require('selenium-webdriver')
 
 class SeleniumOutput {
   constructor(port) {
@@ -14,4 +14,4 @@ class SeleniumOutput {
   }
 }
 
-export default SeleniumOutput
+module.exports = SeleniumOutput

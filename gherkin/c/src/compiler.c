@@ -9,11 +9,12 @@
 #include "pickle_table.h"
 #include "pickle_tag.h"
 #include "pickle_string.h"
+#include "string_utilities.h"
 #include <stdlib.h>
 
-typedef struct Compiler {
+struct Compiler {
     ItemQueue* pickle_list;
-} Compiler;
+};
 
 typedef struct ReplacementItem {
     item_delete_function item_delete;
@@ -103,7 +104,7 @@ int Compiler_compile(Compiler* compiler, const GherkinDocument* gherkin_document
                     }
                     int j;
                     for (j = 0; j < scenario_outline->steps->step_count; ++j) {
-                        int column_offset = scenario_outline->steps->steps[j].keyword ? wcslen(scenario_outline->steps->steps[j].keyword) : 0;
+                        int column_offset = scenario_outline->steps->steps[j].keyword ? StringUtilities_code_point_length(scenario_outline->steps->steps[j].keyword) : 0;
                         const PickleLocations* step_locations = PickleLocations_new_double(table_row->location.line, table_row->location.column, scenario_outline->steps->steps[j].location.line, scenario_outline->steps->steps[j].location.column + column_offset);
                         const PickleStep* step = expand_outline_step(&scenario_outline->steps->steps[j], example_table->table_header, table_row, step_locations);
                         PickleStep_transfer(&steps->steps[background_step_count + j], (PickleStep*)step);
@@ -225,7 +226,7 @@ static void copy_tags(PickleTag* destination_array, const Tags* source) {
 static void copy_steps(PickleStep* destination_array, const Steps* source) {
     int i;
     for (i = 0; i < source->step_count; ++i) {
-        int column_offset = source->steps[i].keyword ? wcslen(source->steps[i].keyword) : 0;
+        int column_offset = source->steps[i].keyword ? StringUtilities_code_point_length(source->steps[i].keyword) : 0;
         const PickleLocations* step_locations = PickleLocations_new_single(source->steps[i].location.line, source->steps[i].location.column + column_offset);
         const PickleArgument* argument = create_pickle_argument(source->steps[i].argument, 0, 0);
         const PickleStep* step = PickleStep_new(step_locations, source->steps[i].text, argument);

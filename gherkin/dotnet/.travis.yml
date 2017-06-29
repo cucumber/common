@@ -9,7 +9,3 @@ branches:
 
 script:
   - make
-
-notifications:
-  email:
-    - cukes-devs@googlegroups.com

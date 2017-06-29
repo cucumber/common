@@ -70,7 +70,9 @@ static void print_pickle_string(FILE* file, const PickleString* pickle_string) {
 static void print_tag(FILE* file, const PickleTag* tag) {
     fprintf(file, "{\"location\":");
     print_location(file, &tag->location);
-    fprintf(file, ",\"name\":\"%ls\"}", tag->name);
+    fprintf(file, ",\"name\":\"");
+    PrintUtilities_print_json_string(file, tag->name);
+    fprintf(file, "\"}");
 }
 
 static void print_pickle_step(FILE* file, const PickleStep* step) {
@@ -86,8 +88,9 @@ static void print_pickle_step(FILE* file, const PickleStep* step) {
         }
     }
     fprintf(file, "],");
-    fprintf(file, "\"text\":\"%ls\"", step->text);
-    fprintf(file, "}");
+    fprintf(file, "\"text\":\"");
+    PrintUtilities_print_json_string(file, step->text);
+    fprintf(file, "\"}");
 }
 
 void PicklePrinter_print_pickle(FILE* file, const Pickle* pickle) {

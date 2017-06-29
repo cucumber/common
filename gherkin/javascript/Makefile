@@ -17,11 +17,11 @@ default: .compared
 .compared: .built $(TOKENS) $(ASTS) $(PICKLES) $(ERRORS) $(SOURCES)
 	touch $@
 
-.built: lib/gherkin/parser.js lib/gherkin/gherkin-languages.json $(JAVASCRIPT_FILES) dist/gherkin.js dist/gherkin.min.js node_modules/.fetched
+.built: lib/gherkin/parser.js lib/gherkin/gherkin-languages.json $(JAVASCRIPT_FILES) dist/gherkin.js dist/gherkin.min.js yarn.lock
 	./node_modules/.bin/mocha
 	touch $@
 
-node_modules/.fetched: package.json
+yarn.lock: package.json
 	yarn install
 	touch $@
 
@@ -51,7 +51,7 @@ acceptance/testdata/%.feature.source.ndjson: testdata/%.feature testdata/%.featu
 
 acceptance/testdata/%.feature.errors.ndjson: testdata/%.feature testdata/%.feature.errors.ndjson .built
 	mkdir -p `dirname $@`
-	bin/gherkin $< | jq --sort-keys --compact-output "." > $@
+	bin/gherkin --no-source $< | jq --sort-keys --compact-output "." > $@
 	diff --unified <(jq "." $<.errors.ndjson) <(jq "." $@)
 .DELETE_ON_ERROR: acceptance/testdata/%.feature.errors.ndjson
 
@@ -61,19 +61,19 @@ lib/gherkin/parser.js: gherkin.berp gherkin-javascript.razor berp/berp.exe
 	tail -c +4 $@ > $@.nobom
 	mv $@.nobom $@
 
-dist/gherkin.js: lib/gherkin/parser.js LICENSE node_modules/.fetched
+dist/gherkin.js: lib/gherkin/parser.js $(JAVASCRIPT_FILES) LICENSE yarn.lock
 	mkdir -p `dirname $@`
 	echo '/*' > $@
 	cat LICENSE >> $@
 	echo '*/' >> $@
 	./node_modules/.bin/browserify index.js >> $@
 
-dist/gherkin.min.js: dist/gherkin.js node_modules/.fetched
+dist/gherkin.min.js: dist/gherkin.js yarn.lock
 	mkdir -p `dirname $@`
 	echo '/*' > $@
 	cat LICENSE >> $@
 	echo '*/' >> $@
-	./node_modules/.bin/uglifyjs $^ >> $@
+	./node_modules/.bin/uglifyjs $< >> $@
 
 clean:
 	rm -rf .compared .built acceptance lib/gherkin/parser.js dist

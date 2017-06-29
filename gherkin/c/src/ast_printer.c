@@ -93,7 +93,9 @@ static void print_doc_string(FILE* file, const DocString* doc_string) {
     fprintf(file, "{\"type\":\"%ls\",", ast_item_type_to_string(doc_string->type));
     print_location(file, &doc_string->location);
     if (doc_string->content_type) {
-        fprintf(file, "\"contentType\":\"%ls\",", doc_string->content_type);
+        fprintf(file, "\"contentType\":\"");
+        PrintUtilities_print_json_string(file, doc_string->content_type);
+        fprintf(file, "\",");
     }
     fprintf(file, "\"content\":\"");
     if (doc_string->content) {
@@ -102,11 +104,23 @@ static void print_doc_string(FILE* file, const DocString* doc_string) {
     fprintf(file, "\"}");
 }
 
+static void print_keyword(FILE* file, const wchar_t* keyword) {
+    fprintf(file, "\"keyword\":\"");
+    PrintUtilities_print_json_string(file, keyword);
+    fprintf(file, "\",");
+}
+
+static void print_text(FILE* file, const wchar_t* text) {
+    fprintf(file, "\"text\":\"");
+    PrintUtilities_print_json_string(file, text);
+    fprintf(file, "\"");
+}
+
 static void print_step(FILE* file, const Step* step) {
     fprintf(file, "{\"type\":\"%ls\",", ast_item_type_to_string(step->type));
     print_location(file, &step->location);
-    fprintf(file, "\"keyword\":\"%ls\",", step->keyword);
-    fprintf(file, "\"text\":\"%ls\"", step->text);
+    print_keyword(file, step->keyword);
+    print_text(file, step->text);
     if (step->argument) {
         fprintf(file, ",\"argument\":");
         if (step->argument->type == Gherkin_DataTable) {
@@ -136,7 +150,7 @@ static void print_description(FILE* file, const wchar_t* description) {
 static void print_background(FILE* file, const Background* background) {
     fprintf(file, "{\"type\":\"%ls\",", ast_item_type_to_string(background->type));
     print_location(file, &background->location);
-    fprintf(file, "\"keyword\":\"%ls\",", background->keyword);
+    print_keyword(file, background->keyword);
     print_name(file, background->name);
     print_description(file, background->description);
     fprintf(file, "\"steps\":[");
@@ -153,7 +167,9 @@ static void print_background(FILE* file, const Background* background) {
 static void print_tag(FILE* file, const Tag* tag) {
     fprintf(file, "{\"type\":\"%ls\",", ast_item_type_to_string(tag->type));
     print_location(file, &tag->location);
-    fprintf(file, "\"name\":\"%ls\"}", tag->name);
+    fprintf(file, "\"name\":\"");
+    PrintUtilities_print_json_string(file, tag->name);
+    fprintf(file, "\"}");
 }
 
 static void print_scenario(FILE* file, const Scenario* scenario) {
@@ -168,7 +184,7 @@ static void print_scenario(FILE* file, const Scenario* scenario) {
     }
     fprintf(file, "],");
     print_location(file, &scenario->location);
-    fprintf(file, "\"keyword\":\"%ls\",", scenario->keyword);
+    print_keyword(file, scenario->keyword);
     print_name(file, scenario->name);
     print_description(file, scenario->description);
     fprintf(file, "\"steps\":[");
@@ -185,7 +201,7 @@ static void print_example_table(FILE* file, const ExampleTable* example_table) {
     fprintf(file, "{\"type\":\"%ls\",", ast_item_type_to_string(example_table->type));
     print_location(file, &example_table->location);
     print_description(file, example_table->description);
-    fprintf(file, "\"keyword\":\"%ls\",", example_table->keyword);
+    print_keyword(file, example_table->keyword);
     print_name(file, example_table->name);
     fprintf(file, "\"tags\":[");
     int i;
@@ -227,7 +243,7 @@ static void print_scenario_outline(FILE* file, const ScenarioOutline* scenario_o
     }
     fprintf(file, "],");
     print_location(file, &scenario_outline->location);
-    fprintf(file, "\"keyword\":\"%ls\",", scenario_outline->keyword);
+    print_keyword(file, scenario_outline->keyword);
     print_name(file, scenario_outline->name);
     print_description(file, scenario_outline->description);
     fprintf(file, "\"steps\":[");
@@ -251,7 +267,8 @@ static void print_scenario_outline(FILE* file, const ScenarioOutline* scenario_o
 static void print_comment(FILE* file, const Comment* comment) {
     fprintf(file, "{\"type\":\"%ls\",", ast_item_type_to_string(comment->type));
     print_location(file, &comment->location);
-    fprintf(file, "\"text\":\"%ls\"}", comment->text);
+    print_text(file, comment->text);
+    fprintf(file, "}");
 }
 
 void print_feature(FILE* file, const Feature* feature) {
@@ -267,8 +284,10 @@ void print_feature(FILE* file, const Feature* feature) {
     }
     fprintf(file, "],");
     print_location(file, &feature->location);
-    fprintf(file, "\"language\":\"%ls\",", feature->language);
-    fprintf(file, "\"keyword\":\"%ls\",", feature->keyword);
+    fprintf(file, "\"language\":\"");
+    PrintUtilities_print_json_string(file, feature->language);
+    fprintf(file, "\",");
+    print_keyword(file, feature->keyword);
     print_name(file, feature->name);
     print_description(file, feature->description);
     fprintf(file, "\"children\":[");

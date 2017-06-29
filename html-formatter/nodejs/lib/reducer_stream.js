@@ -1,5 +1,5 @@
-import Stream from 'stream'
-import { reducer } from 'cucumber-react'
+const Stream = require('stream')
+const { reducer } = require('cucumber-redux')
 
 class ReducerStream extends Stream.Transform {
   constructor() {
@@ -18,4 +18,4 @@ class ReducerStream extends Stream.Transform {
   }
 }
 
-export default ReducerStream
+module.exports = ReducerStream

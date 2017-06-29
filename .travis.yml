@@ -4,4 +4,4 @@ services:
   - docker
 
 script:
-  - docker run -v $(pwd):/app -it cucumber/cucumber-build:1919bbc16bcd230522be530efc885b29 make
+  - ./scripts/docker-run make

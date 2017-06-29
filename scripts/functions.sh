@@ -315,6 +315,7 @@ function python_release() {
   pushd "${dir}"
   python_update_version "${version}"
   python setup.py sdist upload -r pypi
+
   git add .
   git commit -m "Release ${version}"
   git tag "v${version}"
@@ -334,14 +335,6 @@ function python_update_version()
 
 ################ PERL ################
 
-function perl_update_version()
-{
-  subrepo=$1
-  version=$2
-  echo "${version}" > "${subrepo}/VERSION"
-  echo_green "Updated ${subrepo} to ${version}"
-}
-
 function perl_release_karma()
 {
   echo_green "Checking Perl release karma..."
@@ -355,10 +348,25 @@ function perl_release() {
   next_version=$3
 
   pushd "${dir}"
+  perl_update_version "${version}"
   dzil test --release
   dzil build
   dzil release
+
+  git add .
+  git commit -m "Release ${version}"
+  git tag "v${version}"
+  git push
+  git push --tags
   popd
+}
+
+function perl_update_version()
+{
+  subrepo=$1
+  version=$2
+  echo "${version}" > "${subrepo}/VERSION"
+  echo_green "Updated ${subrepo} to ${version}"
 }
 
 ################ .NET ################
@@ -399,7 +407,7 @@ function dotnet_release()
   popd
 }
 
-################ .NET ################
+################ Go ################
 
 function go_update_version()
 {
@@ -432,4 +440,18 @@ function xcode_release_karma()
 function c_release_karma()
 {
   echo_blue "No release karma needed for ${subrepo} (currently not using a c package manager)"
+}
+
+function c_release() {
+  dir=$1
+  version=$2
+  next_version=$3
+
+  pushd "${dir}"
+  git add .
+  git commit -m "Release ${version}"
+  git tag "v${version}"
+  git push
+  git push --tags
+  popd
 }

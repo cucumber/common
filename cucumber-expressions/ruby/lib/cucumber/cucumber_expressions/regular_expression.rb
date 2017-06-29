@@ -1,48 +1,48 @@
-require 'cucumber/cucumber_expressions/argument_builder'
+require 'cucumber/cucumber_expressions/argument'
+require 'cucumber/cucumber_expressions/parameter_type'
 
 module Cucumber
   module CucumberExpressions
     class RegularExpression
-      CAPTURE_GROUP_PATTERN = /\(([^(]+)\)/
+      CAPTURE_GROUP_PATTERN = /\((?!\?:)([^(]+)\)/
 
-      def initialize(regexp, types, parameter_type_registry)
-        @regexp = regexp
-        @parameter_types = []
-
-        type_index = 0
-        match = nil
-        match_offset = 0
-
-        loop do
-          match = CAPTURE_GROUP_PATTERN.match(regexp.source, match_offset)
-          break if match.nil?
-
-          capture_group_pattern = match[1]
-          type = types.length <= type_index ? nil : types[type_index]
-          type_index += 1
-
-          parameter_type = nil
-          if (type)
-            parameter_type = parameter_type_registry.lookup_by_type(type)
-          end
-          if (parameter_type.nil?)
-            parameter_type = parameter_type_registry.lookup_by_regexp(capture_group_pattern)
-          end
-          if (parameter_type.nil?)
-            parameter_type = parameter_type_registry.create_anonymous_lookup(lambda {|s| s})
-          end
-
-          @parameter_types.push(parameter_type)
-          match_offset = match.offset(0)[1]
-        end
+      def initialize(expression_regexp, parameter_type_registry)
+        @expression_regexp = expression_regexp
+        @parameter_type_registry = parameter_type_registry
       end
 
       def match(text)
-        ArgumentBuilder.build_arguments(@regexp, text, @parameter_types)
+        parameter_types = []
+
+        match_offset = 0
+
+        loop do
+          match = CAPTURE_GROUP_PATTERN.match(@expression_regexp.source, match_offset)
+          break if match.nil?
+          match_offset = match.offset(0)[1]
+
+          parameter_type_regexp = match[1]
+
+          parameter_type = @parameter_type_registry.lookup_by_regexp(parameter_type_regexp, @expression_regexp, text)
+          if parameter_type.nil?
+            parameter_type = ParameterType.new(
+                '*',
+                parameter_type_regexp,
+                String,
+                lambda {|s| s},
+                false,
+                false
+            )
+          end
+
+          parameter_types.push(parameter_type)
+        end
+
+        Argument.build(@expression_regexp, text, parameter_types)
       end
 
       def source
-        @regexp
+        @expression_regexp
       end
     end
   end

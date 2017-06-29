@@ -1,5 +1,4 @@
 class ParameterTypeMatcher {
-
   constructor(parameter, regexp, text, matchPosition) {
     this._parameterType = parameter
     this._regexp = regexp
@@ -15,7 +14,12 @@ class ParameterTypeMatcher {
   }
 
   advanceTo(newMatchPosition) {
-    return new ParameterTypeMatcher(this._parameterType, this._regexp, this._text, newMatchPosition)
+    return new ParameterTypeMatcher(
+      this._parameterType,
+      this._regexp,
+      this._text,
+      newMatchPosition
+    )
   }
 
   get find() {
@@ -32,9 +36,9 @@ class ParameterTypeMatcher {
 
   static compare(a, b) {
     const posComparison = a.start - b.start
-    if (posComparison != 0) return posComparison
+    if (posComparison !== 0) return posComparison
     const lengthComparison = b.group.length - a.group.length
-    if (lengthComparison != 0) return lengthComparison
+    if (lengthComparison !== 0) return lengthComparison
     return 0
   }
 }

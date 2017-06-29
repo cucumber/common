@@ -215,7 +215,7 @@ static const wchar_t* populate_cell_data(Span* item, const wchar_t* start_pos, i
         ++current_pos;
     while (end_text > current_pos && *(end_text - 1) == L' ')
         --end_text;
-    item->column = start_indent + (current_pos - start_pos) + 1;
+    item->column = start_indent + StringUtilities_code_point_length_for_part(start_pos, current_pos - start_pos) + 1;
     int text_length = end_text - current_pos;
     wchar_t* text = StringUtilities_copy_string_part(current_pos, text_length);
     const wchar_t* from = text;
@@ -251,7 +251,7 @@ static const wchar_t* populate_tag_data(Span* item, const wchar_t* start_pos, in
     const wchar_t* end_text = end_pos;
     while (end_text > current_pos && *(end_text - 1) == L' ')
         --end_text;
-    item->column = start_indent + (current_pos - start_pos) + 1;
+    item->column = start_indent + StringUtilities_code_point_length_for_part(start_pos, current_pos - start_pos) + 1;
     int text_length = end_text - current_pos;
     if (text_length > 0) {
         item->text = StringUtilities_copy_string_part(current_pos, text_length);

@@ -4,7 +4,6 @@
 #include "token_scanner.h"
 #include "token_matcher.h"
 #include "token_queue.h"
-#include "builder.h"
 #include "error_list.h"
 #include <stdlib.h>
 #include <setjmp.h>
@@ -18,11 +17,11 @@ typedef struct ParserContext {
     ErrorList* errors;
 } ParserContext;
 
-typedef struct Parser {
+struct Parser {
     ParserContext* parser_context;
     Builder* builder;
     ErrorList* errors;
-} Parser;
+};
 
 static Token* read_token(ParserContext* context);
 

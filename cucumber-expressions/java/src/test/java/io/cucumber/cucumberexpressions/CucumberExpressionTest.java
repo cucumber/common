@@ -2,17 +2,15 @@ package io.cucumber.cucumberexpressions;
 
 import org.junit.Test;
 
-import java.lang.reflect.Type;
 import java.math.BigDecimal;
 import java.math.BigInteger;
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
+import java.util.stream.Collectors;
 
-import static java.util.Arrays.asList;
 import static java.util.Collections.singletonList;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
 
 public class CucumberExpressionTest {
     @Test
@@ -20,130 +18,125 @@ public class CucumberExpressionTest {
         ParameterTypeRegistry parameterTypeRegistry = new ParameterTypeRegistry(Locale.ENGLISH);
 
         /// [capture-match-arguments]
-        String expr = "I have {n} cuke(s) in my {bodypart} now";
-        List<? extends Class<?>> types = asList(Integer.class, String.class);
-        Expression expression = new CucumberExpression(expr, types, parameterTypeRegistry);
-        List<Argument> args = expression.match("I have 7 cukes in my belly now");
-        assertEquals(7, args.get(0).getTransformedValue());
-        assertEquals("belly", args.get(1).getTransformedValue());
+        String expr = "I have {int} cuke(s)";
+        Expression expression = new CucumberExpression(expr, parameterTypeRegistry);
+        List<Argument<?>> args = expression.match("I have 7 cukes");
+        assertEquals(7, args.get(0).getValue());
         /// [capture-match-arguments]
     }
 
     @Test
-    public void transforms_nothing_by_default() {
-        assertEquals(singletonList("22"), match("{what}", "22"));
+    public void matches_word() {
+        assertEquals(singletonList("blind"), match("three {word} mice", "three blind mice"));
     }
 
     @Test
-    public void transforms_to_int_by_expression_type() {
+    public void matches_double_quoted_string() {
+        assertEquals(singletonList("blind"), match("three {string} mice", "three \"blind\" mice"));
+    }
+
+    @Test
+    public void matches_single_quoted_string() {
+        assertEquals(singletonList("blind"), match("three {string} mice", "three 'blind' mice"));
+    }
+
+    @Test
+    public void does_not_match_misquoted_string() {
+        assertEquals(null, match("three {string} mice", "three \"blind' mice"));
+    }
+
+    @Test
+    public void matches_single_quoted_string_with_double_quotes() {
+        assertEquals(singletonList("\"blind\""), match("three {string} mice", "three '\"blind\"' mice"));
+    }
+
+    @Test
+    public void matches_double_quoted_string_with_single_quotes() {
+        assertEquals(singletonList("'blind'"), match("three {string} mice", "three \"'blind'\" mice"));
+    }
+
+    @Test
+    public void matches_double_quoted_string_with_escaped_double_quote() {
+        assertEquals(singletonList("bl\"nd"), match("three {string} mice", "three \"bl\\\"nd\" mice"));
+    }
+
+    @Test
+    public void matches_single_quoted_string_with_escaped_single_quote() {
+        assertEquals(singletonList("bl'nd"), match("three {string} mice", "three 'bl\\'nd' mice"));
+    }
+
+    @Test
+    public void matches_int() {
         assertEquals(singletonList(22), match("{int}", "22"));
     }
 
     @Test
-    public void transforms_to_int_by_explicit_type() {
-        assertEquals(singletonList(22), match("{what}", "22", Integer.class));
-    }
-
-    @Test
-    public void doesnt_match_a_float_to_an_int() {
+    public void doesnt_match_float_as_int() {
         assertEquals(null, match("{int}", "1.22"));
     }
 
     @Test
-    public void transforms_to_float_by_expression_type() {
+    public void matches_float() {
         assertEquals(singletonList(0.22f), match("{float}", "0.22"));
         assertEquals(singletonList(0.22f), match("{float}", ".22"));
     }
 
     @Test
-    public void transforms_to_float_by_explicit_type() {
-        assertEquals(singletonList(0.22f), match("{what}", "0.22", Float.class));
-        assertEquals(singletonList(0.22f), match("{what}", ".22", Float.class));
-    }
-
-    @Test
-    public void leaves_unknown_type_untransformed() {
-        assertEquals(singletonList("something"), match("{unknown}", "something"));
-    }
-
-    @Test
-    public void supports_deprecated_name_colon_type_syntax_for_now() {
-        assertEquals(singletonList("something"), match("{param:unknown}", "something"));
+    public void throws_unknown_parameter_type() {
+        try {
+            match("{unknown}", "something");
+            fail();
+        } catch (UndefinedParameterTypeException expected) {
+            assertEquals("Undefined parameter type {unknown}", expected.getMessage());
+        }
     }
 
     @Test
     public void exposes_source() {
-        String expr = "I have {int} cuke(s) in my {bodypart} now";
-        assertEquals(expr, new CucumberExpression(expr, Collections.<Type>emptyList(), new ParameterTypeRegistry(Locale.ENGLISH)).getSource());
-    }
-
-    @Test
-    public void exposes_offset_and_value() {
-        String expr = "I have {int} cuke(s) in my {bodypart} now";
-        Expression expression = new CucumberExpression(expr, Collections.<Type>emptyList(), new ParameterTypeRegistry(Locale.ENGLISH));
-        Argument arg1 = expression.match("I have 800 cukes in my brain now").get(0);
-        assertEquals(7, arg1.getOffset());
-        assertEquals("800", arg1.getValue());
-    }
-
-    @Test
-    public void escapes_special_characters() {
-        String expr = "I have {int} cuke(s) and ^";
-        Expression expression = new CucumberExpression(expr, Collections.<Type>emptyList(), new ParameterTypeRegistry(Locale.ENGLISH));
-        Argument arg1 = expression.match("I have 800 cukes and ^").get(0);
-        assertEquals(7, arg1.getOffset());
-        assertEquals("800", arg1.getValue());
+        String expr = "I have {int} cuke(s)";
+        assertEquals(expr, new CucumberExpression(expr, new ParameterTypeRegistry(Locale.ENGLISH)).getSource());
     }
 
     // Java-specific
 
     @Test
-    public void transforms_to_byte_by_expression_type() {
+    public void matches_byte() {
         assertEquals(singletonList((byte) 15), match("{byte}", "0x0F"));
     }
 
     @Test
-    public void transforms_to_short_by_expression_type() {
+    public void matches_short() {
         assertEquals(singletonList(Short.MAX_VALUE), match("{short}", String.valueOf(Short.MAX_VALUE)));
     }
 
     @Test
-    public void transforms_to_long_by_expression_type() {
+    public void matches_long() {
         assertEquals(singletonList(Long.MAX_VALUE), match("{long}", String.valueOf(Long.MAX_VALUE)));
     }
 
     @Test
-    public void transforms_to_bigint_by_expression_type() {
+    public void matches_bigint() {
         assertEquals(singletonList(BigInteger.ONE), match("{bigint}", BigInteger.ONE.toString()));
     }
 
     @Test
-    public void transforms_to_bigdecimal_by_expression_type() {
+    public void matches_bigdecimal() {
         assertEquals(singletonList(BigDecimal.ONE), match("{bigdecimal}", BigDecimal.ONE.toString()));
     }
 
     @Test
-    public void transforms_to_double_with_comma_for_locale_using_comma() {
-        List<Object> values = match("{what}", "1,22", Collections.<Type>singletonList(Double.class), Locale.FRANCE);
+    public void matches_double_with_comma_for_locale_using_comma() {
+        List<?> values = match("{double}", "1,22", Locale.FRANCE);
         assertEquals(singletonList(1.22), values);
     }
 
-    private List<Object> match(String expr, String text) {
-        return match(expr, text, Collections.<Type>emptyList(), Locale.ENGLISH);
+    private List<?> match(String expr, String text) {
+        return match(expr, text, Locale.ENGLISH);
     }
 
-    private List<Object> match(String expr, String text, Type type) {
-        return match(expr, text, Collections.singletonList(type), Locale.ENGLISH);
-    }
-
-    private List<Object> match(String expr, String text, List<Type> explicitTypes, Locale locale) {
-        CucumberExpression expression = new CucumberExpression(expr, explicitTypes, new ParameterTypeRegistry(locale));
-        List<Argument> args = expression.match(text);
-        if (args == null) return null;
-        List<Object> transformedValues = new ArrayList<>();
-        for (Argument argument : args) {
-            transformedValues.add(argument.getTransformedValue());
-        }
-        return transformedValues;
+    private List<?> match(String expr, String text, Locale locale) {
+        CucumberExpression expression = new CucumberExpression(expr, new ParameterTypeRegistry(locale));
+        List<Argument<?>> args = expression.match(text);
+        return args == null ? null : args.stream().map(Argument::getValue).collect(Collectors.toList());
     }
 }

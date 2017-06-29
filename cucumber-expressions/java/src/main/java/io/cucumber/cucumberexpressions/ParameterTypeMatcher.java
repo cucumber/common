@@ -35,15 +35,6 @@ class ParameterTypeMatcher implements Comparable<ParameterTypeMatcher> {
         if (posComparison != 0) return posComparison;
         int lengthComparison = Integer.compare(o.group().length(), group().length());
         if (lengthComparison != 0) return lengthComparison;
-        // int and double are more commonly used than other number types.
-        // We give special priority to those types so that the generated expression
-        // will use those types.
-        if (parameterType.getType().equals(int.class)) {
-            return -1;
-        }
-        if (parameterType.getType().equals(double.class)) {
-            return -1;
-        }
         return 0;
     }
 

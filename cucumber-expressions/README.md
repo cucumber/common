@@ -37,46 +37,31 @@ Let's change the parameter to a `float` instead:
 
 Now the expression will match the text, and the number `42.5` is extracted.
 
-## Optional text
+## Parameter types
 
-It's grammatically incorrect to say *1 cucumbers*, so we should make that `s`
-optional. That can be done by surrounding the optional text with parenthesis:
+The text between the curly braces is the name of a *parameter type*. The built-in
+parameter types are:
 
-    I have {int} cucumber(s) in my belly
+* `{int}`, for example `71` or `-19`
+* `{float}`, for example `3.6`, `.8` or `-9.2`
+* `{word}`, for example `banana` (but not `banana split`)
+* `{string}`, for example `"bangers"` or `'mash'`. The single/double quotes themselves are removed.
 
-That expression would match this text:
+On the JVM, there are additional parameter types for `bigint`, `bigdecimal`,
+`byte`, `short`, `long` and `double`.
 
-    I have 1 cucumber in my belly
+### Custom parameter types {custom-parameter-types}
 
-It would also match this text:
+You can define custom parameter types to represent types from your own domain.
+Doing this has the following benefits:
 
-    I have 42 cucumbers in my belly
-
-## Alternative text
-
-Sometimes you want to relax your language, to make it flow better. For example:
-
-    I have {int} cucumber(s) in my belly/stomach
-
-This would match either of those texts:
-
-    I have 42 cucumbers in my belly
-    I have 42 cucumbers in my stomach
-
-## Custom Parameters {#custom-parameters}
-
-Cucumber Expressions have built-in support for `int` and `float` parameter types
-as well as other numeric types available in your programming language.
-
-Defining your own parameter types is useful for several reasons:
-
-1. Enforce certain patterns
-1. Convert to custom types
+1. Automatic conversion to custom types
 1. Document and evolve your ubiquitous domain language
+1. Enforce certain patterns
 
-Imagine we want our parameter to match the colors `red`, `blue` or `yellow`
+Imagine we want a parameter to match the colors `red`, `blue` or `yellow`
 (but nothing else). Let's assume a `Color` class is already defined.
-This is how we would define a custom `color` parameter:
+This is how we would define a custom `color` parameter type:
 
 {% method %}
 {% sample lang="java" %}
@@ -114,26 +99,31 @@ of the parameter definition.
 
     I have a green ball
 
-## Implicit parameters (statically typed languages only)
+## Optional text
 
-If a type  used in a step definition has a constructor that accepts a single
-`String` argument, then there is no need to register a custom parameter for that type.
+It's grammatically incorrect to say *1 cucumbers*, so we should make that `s`
+optional. That can be done by surrounding the optional text with parenthesis:
 
-{% method %}
-{% sample lang="java" %}
-```java
-[snippet](java/src/test/java/io/cucumber/cucumberexpressions/CustomParameterTypeTest.java#color-constructor)
-```
-{% endmethod %}
+    I have {int} cucumber(s) in my belly
 
-Registering a parameter is still beneficial, because it will allow Cucumber
-to generate Cucumber Expression snippets for undefined steps using the correct type.
+That expression would match this text:
 
-## Defining Parameter types without a transformer
+    I have 1 cucumber in my belly
 
-If you don't specify a `transformer`, the matched arguments are returned as strings.
-This is useful if you only want to use custom parameter types to match certain
-patterns, but still want a string.
+It would also match this text:
+
+    I have 42 cucumbers in my belly
+
+## Alternative text
+
+Sometimes you want to relax your language, to make it flow better. For example:
+
+    I have {int} cucumber(s) in my belly/stomach
+
+This would match either of those texts:
+
+    I have 42 cucumbers in my belly
+    I have 42 cucumbers in my stomach
 
 ## Step Definition Snippets (Cucumber Expression generation)
 
@@ -146,30 +136,30 @@ Consider this Gherkin step:
 
     Given I have 3 red balls
 
-If you had registered the [color](#custom-parameters) parameter above,
+If you had registered the [color](custom-parameter-types) parameter type above,
 Cucumber would suggest a Step Definition with the following Cucumber Expression:
 
     I have {int} {color} balls
 
-If you hadn't registered the `color` parameter, Cucumber would have suggested
+If you hadn't registered the `color` parameter type, Cucumber would have suggested
 the following Cucumber Expression (only the built-in `int` parameter would be
 recognised):
 
     I have {int} red balls
 
-If you register your own domain-specific parameters, Cucumber will generate
-better snippets for you, and you'll also end up with a more consistent domain
+As you can see, Cucumber will generate better snippets for you if you define
+your own parameter types, and you'll also end up with a more consistent domain
 language in your Gherkin scenarios.
 
-## Regular Expressions
+## Regular Expressions {#regular-expressions}
 
 Cucumber has a long relationship with Regular Expressions, and they are still
-fully supported.
+fully supported, just better.
 
-The Cucumber Expression library's Regular Expression support has automatic parameter
-conversion just like Cucumber Expressions.
+The Cucumber Expression library's Regular Expression support passes capture groups
+through parameter types' transformers, just like Cucumber Expressions.
 
-Imagine you have registered the (Color parameter above)[#custom-parameters],
+Imagine you have registered the [Color parameter above](#custom-parameter-types),
 and have a step definition with the following Regular Expression:
 
     I have a (red|blue|yellow) ball
@@ -182,6 +172,38 @@ Built-in parameters for `int` and `float` also apply. The following
 Regular Expression would automatically convert arguments to `int`:
 
     I have (\d+) cukes in my belly
+
+### Preferential parameter types
+
+In some cases you might want to define two or more parameter types with the same
+regular expression, but different name and transform. For example, you may want
+to define `name` and `person` parameter types with the regexp `[A-Z]+\w+`, which
+would match `Joe`, `Amy` and so on.
+
+If you are using a [Regular Expressions](#regular-expressions) like the following
+
+    ([A-Z]+\w+) has invited ([A-Z]+\w+)
+
+And try to match that against the following text:
+
+    Joe has invited Amy
+
+Cucumber will not know whether to use the `name` or `person` parameter types,
+because they both match.
+
+In that case you can switch to using Cucumber Expressions, where parameters are
+named, so there is no ambiguity:
+
+    {person} has invited {name}
+
+Alternatively, you can continue to use Regular Expressions if you prefer, and
+make one of the parameter types *preferential* when you define it.
+A preferential parameter type will always be chosen over a non-preferential one.
+
+When several parameter types share the same regular expression, only one of the
+parameter types can be preferential. If you define two parameter types with the
+same regular expression that are both preferential you will get an error during
+matching.
 
 ## For contributors
 
@@ -198,7 +220,7 @@ This API is similar to most regexp APIs, but the `Argument` type has additional
 information:
 
 * `value` - the string value of the match against the expression.
-* `transformedValue` - the transformed value of the match (transformed by the parameter)
+* `value` - the transformed value of the match (transformed by the parameter)
 * `offset` - the offset from the start of the text where the value was found
 
 Arguments are captured by creating an *expression*, and invoking `match` with a
@@ -246,7 +268,7 @@ signature with the appropriate type(s).
 
 This information is in a `GeneratedExpression` object, which is generated by a
 `CucumberExpressionGenerator`. The `CucumberExpressionGenerator` is aware of any
-registered [parameters](#custom-parameters).
+registered [parameters](#custom-parameter-types).
 
 {% method %}
 {% sample lang="java" %}

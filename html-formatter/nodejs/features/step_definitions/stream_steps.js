@@ -1,23 +1,11 @@
 import assert from "assert"
+import Gherkin from 'gherkin'
 
 module.exports = function () {
-  const series = "df1d3970-644e-11e6-8b77-86f30ca893d3" // some arbitrary uuid
-
   this.When(/^a new feature at (.*) is streamed:$/, function (uri, gherkinSource, callback) {
-    this._inputStream.write({
-      type: "start",
-      timestamp: Date.now(),
-      series
-    })
-    this._inputStream.write({
-      type: "source",
-      timestamp: Date.now(),
-      series,
-      contentType: "text/plain+gherkin",
-      uri,
-      data: gherkinSource,
-      dataEncoding: "utf-8"
-    }, callback)
+    const events = Gherkin.generateEvents(gherkinSource, uri)
+    events.forEach(event => this._inputStream.write(event))
+    callback()
   })
 
   this.When(/^the stream is closed$/, function (callback) {

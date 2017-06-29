@@ -1,154 +1,77 @@
 package io.cucumber.cucumberexpressions;
 
-import java.lang.reflect.Type;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.text.NumberFormat;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
+import java.util.*;
+import java.util.regex.Pattern;
 
 import static java.util.Arrays.asList;
+import static java.util.Collections.singletonList;
 
 public class ParameterTypeRegistry {
     private static final List<String> INTEGER_REGEXPS = asList("-?\\d+", "\\d+");
-    private static final String FLOAT_REGEXP = "-?\\d*[\\.,]\\d+";
-    private static final String HEX_REGEXP = "0[xX][0-9a-fA-F]{2}";
+    private static final List<String> FLOAT_REGEXPS = singletonList("-?\\d*[\\.,]\\d+");
+    private static final List<String> HEX_REGEXPS = singletonList("0[xX][0-9a-fA-F]{2}");
+    private static final List<String> WORD_REGEXPS = singletonList("\\w+");
+    private static final List<String> STRING_REGEXPS = singletonList("\"([^\"\\\\]*(\\\\.[^\"\\\\]*)*)\"|\\'([^\\'\\\\]*(\\\\.[^\\'\\\\]*)*)\\'");
 
-    private final Map<Type, ParameterType<?>> parameterTypesByType = new HashMap<>();
-    private final Map<String, ParameterType<?>> parameterTypesByTypeName = new HashMap<>();
-    private final Map<String, ParameterType<?>> parameterTypesByRegexp = new HashMap<>();
+    private final Map<String, ParameterType<?>> parameterTypeByName = new HashMap<>();
+    private final Map<String, SortedSet<ParameterType<?>>> parameterTypesByRegexp = new HashMap<>();
 
     public ParameterTypeRegistry(Locale locale) {
         NumberFormat numberFormat = NumberFormat.getNumberInstance(locale);
-        final NumberParser numberParser = new NumberParser(numberFormat);
+        NumberParser numberParser = new NumberParser(numberFormat);
 
-        definePredefinedParameterType(new SimpleParameterType<>("bigint", BigInteger.class, INTEGER_REGEXPS, new Function<String, BigInteger>() {
-            @Override
-            public BigInteger apply(String s) {
-                return new BigInteger(s);
-            }
-        }));
-        definePredefinedParameterType(new SimpleParameterType<>("bigdecimal", BigDecimal.class, INTEGER_REGEXPS, new Function<String, BigDecimal>() {
-            @Override
-            public BigDecimal apply(String s) {
-                return new BigDecimal(s);
-            }
-        }));
-        definePredefinedParameterType(new SimpleParameterType<>("byte", byte.class, HEX_REGEXP, new Function<String, Byte>() {
-            @Override
-            public Byte apply(String s) {
-                return Byte.decode(s);
-            }
-        }));
-        definePredefinedParameterType(new SimpleParameterType<>("byte", Byte.class, HEX_REGEXP, new Function<String, Byte>() {
-            @Override
-            public Byte apply(String s) {
-                return Byte.decode(s);
-            }
-        }));
-        definePredefinedParameterType(new SimpleParameterType<>("short", short.class, INTEGER_REGEXPS, new Function<String, Short>() {
-            @Override
-            public Short apply(String s) {
-                return Short.decode(s);
-            }
-        }));
-        definePredefinedParameterType(new SimpleParameterType<>("short", Short.class, INTEGER_REGEXPS, new Function<String, Short>() {
-            @Override
-            public Short apply(String s) {
-                return Short.decode(s);
-            }
-        }));
-        definePredefinedParameterType(new SimpleParameterType<>("int", int.class, INTEGER_REGEXPS, new Function<String, Integer>() {
-            @Override
-            public Integer apply(String s) {
-                return Integer.decode(s);
-            }
-        }));
-        definePredefinedParameterType(new SimpleParameterType<>("int", Integer.class, INTEGER_REGEXPS, new Function<String, Integer>() {
-            @Override
-            public Integer apply(String s) {
-                return Integer.decode(s);
-            }
-        }));
-        definePredefinedParameterType(new SimpleParameterType<>("long", long.class, INTEGER_REGEXPS, new Function<String, Long>() {
-            @Override
-            public Long apply(String s) {
-                return Long.decode(s);
-            }
-        }));
-        definePredefinedParameterType(new SimpleParameterType<>("long", Long.class, INTEGER_REGEXPS, new Function<String, Long>() {
-            @Override
-            public Long apply(String s) {
-                return Long.decode(s);
-            }
-        }));
-        definePredefinedParameterType(new SimpleParameterType<>("float", float.class, FLOAT_REGEXP, new Function<String, Float>() {
-            @Override
-            public Float apply(String s) {
-                return numberParser.parseFloat(s);
-            }
-        }));
-        definePredefinedParameterType(new SimpleParameterType<>("float", Float.class, FLOAT_REGEXP, new Function<String, Float>() {
-            @Override
-            public Float apply(String s) {
-                return numberParser.parseFloat(s);
-            }
-        }));
-        definePredefinedParameterType(new SimpleParameterType<>("double", double.class, FLOAT_REGEXP, new Function<String, Double>() {
-            @Override
-            public Double apply(String s) {
-                return numberParser.parseDouble(s);
-            }
-        }));
-        definePredefinedParameterType(new SimpleParameterType<>("double", Double.class, FLOAT_REGEXP, new Function<String, Double>() {
-            @Override
-            public Double apply(String s) {
-                return numberParser.parseDouble(s);
-            }
-        }));
+        defineParameterType(new ParameterType<>("bigint", INTEGER_REGEXPS, BigInteger.class, new SingleTransformer<BigInteger>(BigInteger::new), false, false));
+        defineParameterType(new ParameterType<>("bigdecimal", INTEGER_REGEXPS, BigDecimal.class, new SingleTransformer<BigDecimal>(BigDecimal::new), false, false));
+        defineParameterType(new ParameterType<>("byte", HEX_REGEXPS, Byte.class, new SingleTransformer<Byte>(Byte::decode), false, false));
+        defineParameterType(new ParameterType<>("short", INTEGER_REGEXPS, Short.class, new SingleTransformer<Short>(Short::decode), false, false));
+        defineParameterType(new ParameterType<>("int", INTEGER_REGEXPS, Integer.class, new SingleTransformer<Integer>(Integer::decode), true, true));
+        defineParameterType(new ParameterType<>("long", INTEGER_REGEXPS, Long.class, new SingleTransformer<Long>(Long::decode), false, false));
+        defineParameterType(new ParameterType<>("float", FLOAT_REGEXPS, Float.class, new SingleTransformer<Float>(numberParser::parseFloat), false, false));
+        defineParameterType(new ParameterType<>("double", FLOAT_REGEXPS, Double.class, new SingleTransformer<Double>(numberParser::parseDouble), true, true));
+        defineParameterType(new ParameterType<>("word", WORD_REGEXPS, String.class, new SingleTransformer<String>(s -> s), false, false));
+        defineParameterType(new ParameterType<>("string", STRING_REGEXPS, String.class, new SingleTransformer<String>(s -> s.replaceAll("\\\\\"", "\"").replaceAll("\\\\'", "'")), true, false));
     }
 
     public void defineParameterType(ParameterType<?> parameterType) {
-        defineParameterType0(parameterType, true);
-    }
+        if (parameterTypeByName.containsKey(parameterType.getName()))
+            throw new DuplicateTypeNameException(String.format("There is already a parameter type with name %s", parameterType.getName()));
+        parameterTypeByName.put(parameterType.getName(), parameterType);
 
-    private void definePredefinedParameterType(ParameterType<?> parameterType) {
-        defineParameterType0(parameterType, false);
-    }
-
-    private void defineParameterType0(ParameterType<?> parameterType, boolean checkConflicts) {
-        if (parameterType.getType() != null) {
-            put(parameterTypesByType, parameterType.getType(), parameterType, "type", parameterType.getType().getTypeName(), checkConflicts);
+        for (String parameterTypeRegexp : parameterType.getRegexps()) {
+            SortedSet<ParameterType<?>> parameterTypes = parameterTypesByRegexp
+                    .computeIfAbsent(parameterTypeRegexp, r -> new TreeSet<>());
+            if (!parameterTypes.isEmpty() && parameterTypes.first().preferForRegexpMatch() && parameterType.preferForRegexpMatch()) {
+                throw new CucumberExpressionException(String.format(
+                        "There can only be one preferential parameter type per regexp. " +
+                                "The regexp /%s/ is used for two preferential parameter types, {%s} and {%s}",
+                        parameterTypeRegexp, parameterTypes.first().getName(), parameterType.getName()
+                ));
+            }
+            parameterTypes.add(parameterType);
         }
-        put(parameterTypesByTypeName, parameterType.getName(), parameterType, "type name", parameterType.getName(), checkConflicts);
-
-        for (String captureGroupRegexp : parameterType.getRegexps()) {
-            put(parameterTypesByRegexp, captureGroupRegexp, parameterType, "regexp", captureGroupRegexp, checkConflicts);
-        }
-    }
-
-    private <K> void put(Map<K, ParameterType<?>> map, K key, ParameterType<?> parameterType, String prop, String keyName, boolean checkConflicts) {
-        if (checkConflicts && map.containsKey(key))
-            throw new RuntimeException(String.format("There is already a parameter type with %s %s", prop, keyName));
-        map.put(key, parameterType);
-    }
-
-    public <T> ParameterType<T> lookupByType(Type type) {
-        return (ParameterType<T>) parameterTypesByType.get(type);
     }
 
     public <T> ParameterType<T> lookupByTypeName(String typeName) {
-        return (ParameterType<T>) parameterTypesByTypeName.get(typeName);
+        return (ParameterType<T>) parameterTypeByName.get(typeName);
     }
 
-    public <T> ParameterType<T> lookupByRegexp(String regexp) {
-        return (ParameterType<T>) parameterTypesByRegexp.get(regexp);
+    public <T> ParameterType<T> lookupByRegexp(String parameterTypeRegexp, Pattern expressionRegexp, String text) {
+        SortedSet<ParameterType<?>> parameterTypes = parameterTypesByRegexp.get(parameterTypeRegexp);
+        if (parameterTypes == null) return null;
+        if (parameterTypes.size() > 1 && !parameterTypes.first().preferForRegexpMatch()) {
+            // We don't do this check on insertion because we only want to restrict
+            // ambiguity when we look up by Regexp. Users of CucumberExpression should
+            // not be restricted.
+            List<GeneratedExpression> generatedExpressions = new CucumberExpressionGenerator(this).generateExpressions(text);
+            throw new AmbiguousParameterTypeException(parameterTypeRegexp, expressionRegexp, parameterTypes, generatedExpressions);
+        }
+        return (ParameterType<T>) parameterTypes.first();
     }
 
-    public Collection<ParameterType<?>> getParameters() {
-        return parameterTypesByType.values();
+    public Collection<ParameterType<?>> getParameterTypes() {
+        return parameterTypeByName.values();
     }
 }

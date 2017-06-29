@@ -1,12 +1,16 @@
+const util = require('util')
+
 class GeneratedExpression {
-  constructor(expression, parameterNames, parameterTypes) {
-    this._expression = expression
-    this._parameterNames = parameterNames
+  constructor(expression, parameterTypes) {
+    this._expressionTemplate = expression
     this._parameterTypes = parameterTypes
   }
 
   get source() {
-    return this._expression
+    return util.format(
+      this._expressionTemplate,
+      ...this._parameterTypes.map(t => t.name)
+    )
   }
 
   /**
@@ -15,7 +19,10 @@ class GeneratedExpression {
    * @returns {Array.<String>}
    */
   get parameterNames() {
-    return this._parameterNames
+    const usageByTypeName = {}
+    return this._parameterTypes.map(t =>
+      getParameterName(t.name, usageByTypeName)
+    )
   }
 
   /**
@@ -24,6 +31,14 @@ class GeneratedExpression {
   get parameterTypes() {
     return this._parameterTypes
   }
+}
+
+function getParameterName(typeName, usageByTypeName) {
+  let count = usageByTypeName[typeName]
+  count = count ? count + 1 : 1
+  usageByTypeName[typeName] = count
+
+  return count === 1 ? typeName : `${typeName}${count}`
 }
 
 module.exports = GeneratedExpression
