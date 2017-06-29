@@ -1,4 +1,7 @@
-language: ruby
+sudo: required
 
-install: "echo 'Nothing to install'"
-script: echo "Pushing to the monorepo currently doesn't push to subrepos - that's manual for now"
+services:
+  - docker
+
+script:
+  - ./scripts/docker-run make

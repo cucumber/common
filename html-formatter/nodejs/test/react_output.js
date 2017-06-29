@@ -1,8 +1,7 @@
-import Stream from "stream"
-import React from "react"
-import {render} from "enzyme"
-import {CucumberReact} from "cucumber-react"
-const {Cucumber} = CucumberReact
+const Stream = require('stream')
+const React = require('react')
+const { render } = require('enzyme')
+const { Cucumber } = require('cucumber-react')
 
 class ReactOutput extends Stream.Writable {
   constructor() {
@@ -20,4 +19,4 @@ class ReactOutput extends Stream.Writable {
   }
 }
 
-export default ReactOutput
+module.exports = ReactOutput

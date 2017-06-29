@@ -1,0 +1,77 @@
+{
+  "id": "https://raw.github.com/cucumber/cucumber/master/event-protocol/schemas/defs.json#",
+  "title": "definitions",
+  "description": "Re-usable parts of the schema, referenced by others",
+  "location": {
+    "type": "object",
+    "properties": {
+      "line": {
+        "type": "integer",
+        "minimum": 0
+      },
+      "column": {
+        "type": "integer",
+        "minimum": 0
+      },
+      "uri": {
+        "type": "string"
+      }
+    },
+    "required": [
+      "line"
+    ],
+    "additionalProperties": false
+  },
+  "tag": {
+    "type": "object",
+    "properties": {
+      "name": {
+        "type": "string"
+      },
+      "location": { "$ref": "defs.json#/location" }
+    },
+    "required": [
+      "name",
+      "location"
+    ],
+    "additionalProperties": false
+  },
+  "ast-location": {
+    "type": "object",
+    "properties": {
+      "line": {
+        "type": "integer",
+        "minimum": 1
+      },
+      "column": {
+        "type": "integer",
+        "minimum": 1
+      }
+    },
+    "required": [
+      "line",
+      "column"
+    ],
+    "additionalProperties": false
+  },
+  "ast-tag": {
+    "type": "object",
+    "properties": {
+      "type": {
+        "enum": [
+          "Tag"
+        ]
+      },
+      "name": {
+        "type": "string"
+      },
+      "location": { "$ref": "defs.json#/location" }
+    },
+    "required": [
+      "type",
+      "name",
+      "location"
+    ],
+    "additionalProperties": false
+  }
+}

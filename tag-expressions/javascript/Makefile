@@ -1,6 +1,9 @@
-.PHONY: release
-release:
-	npm publish
-	version=$$(jq -r ".version" package.json); \
-	git tag --annotate v$$version --message "Release $$version"
-	git push --tags
+default:
+	yarn install
+	yarn test
+	yarn link
+.PHONY: default
+
+clean:
+	rm -rf node_modules coverage dist
+.PHONY: clean

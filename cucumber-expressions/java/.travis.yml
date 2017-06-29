@@ -1,5 +1,14 @@
 language: java
-jdk:
-  - oraclejdk8
-  - oraclejdk7
-  - openjdk7
+jdk: oraclejdk8
+addons:
+  apt:
+    packages:
+      - oracle-java8-installer
+
+notifications:
+  webhooks:
+    urls:
+      - https://webhooks.gitter.im/e/5373e574ed4e88026838
+    on_success: change
+    on_failure: always
+    on_start: never

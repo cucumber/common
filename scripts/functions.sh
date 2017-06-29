@@ -32,6 +32,30 @@ function echo_blue
   echo -e "${BLUE}$@${NC}"
 }
 
+function docker_image() {
+  tag=$(cat Dockerfile | md5sum | cut -d ' ' -f 1)
+  echo "cucumber/cucumber-build:${tag}"
+}
+
+function docker_build() {
+  docker build --rm --tag $(docker_image) .
+}
+
+function docker_push() {
+  docker push $(docker_image)
+}
+
+function rsync_files()
+{
+  git ls-files "${root_dir}/**/.rsync" | while read rsync_file; do
+    pushd "$( dirname "${rsync_file}" )"
+    cat .rsync | while read line; do
+      rsync -ah --delete ${line}
+    done
+    popd
+  done
+}
+
 # Prints all subrepos. Optionally specify a parent dir.
 function subrepos()
 {
@@ -178,8 +202,10 @@ function project_type()
     echo "go"
   elif [ -d "$(find_path ${dir} "*.xcodeproj")" ]; then
     echo "xcode"
+  elif [ -f "$(find_path ${dir} "*.c")" ]; then
+    echo "c"
   else
-    echo_err "ERROR: Unrecognised platform: ${subrepo}"
+    echo_err "ERROR: Unrecognised platform: ${dir}"
   fi
 }
 
@@ -275,15 +301,10 @@ function rubygem_release() {
 
 ################ PYTHON ################
 
-function python_update_version()
+function python_release_karma()
 {
-  subrepo=$1
-  version=$2
-  sed -i "" \
-    -e "s/\(version *= *'\)[0-9]*\.[0-9]*\.[0-9]*\('\)/\1${version}\2/" \
-    -e "s/\(archive\/v\)[0-9]*\.[0-9]*\.[0-9]*\(\.tar\)/\1${version}\2/" \
-    "${subrepo}/setup.py"
-  echo_green "Updated ${subrepo} to ${version}"
+  echo_green "Checking PyPi release karma..."
+  ls ~/.pypirc && echo_green "PyPi ok" || echo_red "\nYou need to create a ~/.pypirc file. See http://peterdowns.com/posts/first-time-with-pypi.html"
 }
 
 function python_release() {
@@ -292,24 +313,33 @@ function python_release() {
   next_version=$3
 
   pushd "${dir}"
-  echo "TODO: RELEASE PYTHON ${dir}"
+  python_update_version "${version}"
+  python setup.py sdist upload -r pypi
+
+  git add .
+  git commit -m "Release ${version}"
+  git tag "v${version}"
+  git push
+  git push --tags
   popd
+}
+
+function python_update_version()
+{
+  version=$1
+  sed -i "" \
+    -e "s/\(version *= *'\)[0-9]*\.[0-9]*\.[0-9]*\('\)/\1${version}\2/" \
+    -e "s/\(archive\/v\)[0-9]*\.[0-9]*\.[0-9]*\(\.tar\)/\1${version}\2/" \
+    "setup.py"
 }
 
 ################ PERL ################
 
-function perl_update_version()
-{
-  subrepo=$1
-  version=$2
-  echo "${version}" > "${subrepo}/VERSION"
-  echo_green "Updated ${subrepo} to ${version}"
-}
-
 function perl_release_karma()
 {
   echo_green "Checking Perl release karma..."
-  ls ~/.pause && echo_green "Perl ok" || echo_red "\nYou need a PAUSE (CPAN) account"
+  ls ~/pause.conf && echo_green "Perl ok" || echo_red "\nYou need a PAUSE (https://pause.perl.org/) account and a ~/pause.conf file. See http://search.cpan.org/~perlancar/App-pause-0.59/bin/pause"
+  which dzil && echo_green "Dist::Zilla ok" || echo_red "\nYou need dzil on your PATH. On OS X it's in something like /usr/local/Cellar/perl/5.24.1/bin/dzil"
 }
 
 function perl_release() {
@@ -318,8 +348,25 @@ function perl_release() {
   next_version=$3
 
   pushd "${dir}"
-  echo "TODO: RELEASE PERL ${dir}"
+  perl_update_version "${version}"
+  dzil test --release
+  dzil build
+  dzil release
+
+  git add .
+  git commit -m "Release ${version}"
+  git tag "v${version}"
+  git push
+  git push --tags
   popd
+}
+
+function perl_update_version()
+{
+  subrepo=$1
+  version=$2
+  echo "${version}" > "${subrepo}/VERSION"
+  echo_green "Updated ${subrepo} to ${version}"
 }
 
 ################ .NET ################
@@ -360,13 +407,18 @@ function dotnet_release()
   popd
 }
 
-################ .NET ################
+################ Go ################
 
 function go_update_version()
 {
   subrepo=$1
   version=$2
   echo_blue "No need to update to ${version} in ${subrepo} (currently not using a go package manager)"
+}
+
+function go_release_karma()
+{
+  echo_blue "No release karma needed for ${subrepo} (currently not using a Go package manager)"
 }
 
 ################ xcode ################
@@ -381,4 +433,25 @@ function xcode_update_version()
 function xcode_release_karma()
 {
   echo_blue "No release karma needed for ${subrepo} (currently not using an xcode package manager)"
+}
+
+################ c ################
+
+function c_release_karma()
+{
+  echo_blue "No release karma needed for ${subrepo} (currently not using a c package manager)"
+}
+
+function c_release() {
+  dir=$1
+  version=$2
+  next_version=$3
+
+  pushd "${dir}"
+  git add .
+  git commit -m "Release ${version}"
+  git tag "v${version}"
+  git push
+  git push --tags
+  popd
 }

@@ -1,0 +1,30 @@
+{
+  "name": "cucumber-redux",
+  "version": "0.0.1",
+  "description": "Redux reducer for Cucumber Event Protocol",
+  "main": "dist/index.js",
+  "scripts": {
+    "test": "npm run eslint && npm run coverage",
+    "eslint": "eslint src test",
+    "build": "babel src --out-dir dist",
+    "prepublish": "npm run build",
+    "postinstall": "node scripts/postinstall.js",
+    "mocha": "mocha",
+    "coverage": "node ./node_modules/.bin/istanbul cover ./node_modules/.bin/_mocha -- test"
+  },
+  "repository": "git://github.com/cucumber/cucumber-redux.git",
+  "author": "Cucumber Limited <cukes@googlegroups.com>",
+  "license": "MIT",
+  "devDependencies": {
+    "babel-cli": "^6.24.0",
+    "babel-preset-es2015": "^6.24.0",
+    "eslint": "^3.18.0",
+    "eslint-config-eslint": "^4.0.0",
+    "gherkin": "^4.1.1",
+    "istanbul": "1.0.0-alpha.2",
+    "mocha": "^3.2.0"
+  },
+  "dependencies": {
+    "immutable": "^3.8.1"
+  }
+}

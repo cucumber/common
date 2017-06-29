@@ -1,6 +1,6 @@
 require 'cucumber/cucumber_expressions/cucumber_expression_generator'
-require 'cucumber/cucumber_expressions/parameter'
-require 'cucumber/cucumber_expressions/parameter_registry'
+require 'cucumber/cucumber_expressions/parameter_type'
+require 'cucumber/cucumber_expressions/parameter_type_registry'
 
 module Cucumber
   module CucumberExpressions
@@ -9,18 +9,18 @@ module Cucumber
       end
 
       before do
-        @parameter_registry = ParameterRegistry.new
-        @generator = CucumberExpressionGenerator.new(@parameter_registry)
+        @parameter_type_registry = ParameterTypeRegistry.new
+        @generator = CucumberExpressionGenerator.new(@parameter_type_registry)
       end
 
       it "documents expression generation" do
-        parameter_registry = ParameterRegistry.new
+        parameter_registry = ParameterTypeRegistry.new
         ### [generate-expression]
         generator = CucumberExpressionGenerator.new(parameter_registry)
         undefined_step_text = "I have 2 cucumbers and 1.5 tomato"
         generated_expression = generator.generate_expression(undefined_step_text)
         expect(generated_expression.source).to eq("I have {int} cucumbers and {float} tomato")
-        expect(generated_expression.parameters[1].type).to eq(Float)
+        expect(generated_expression.parameter_types[1].type).to eq(Float)
         ### [generate-expression]
       end
 
@@ -32,6 +32,12 @@ module Cucumber
         assert_expression(
           "I have {int} cukes and {float} euro", ["int", "float"],
           "I have 2 cukes and 1.5 euro")
+      end
+
+      it "generates expression for strings" do
+        assert_expression(
+            "I like {string} and {string}", ["string", "string2"],
+            'I like "bangers" and \'mash\'')
       end
 
       it "generates expression for just int" do
@@ -47,11 +53,13 @@ module Cucumber
       end
 
       it "numbers only second argument when type is not reserved keyword" do
-        @parameter_registry.add_parameter(Parameter.new(
+        @parameter_type_registry.define_parameter_type(ParameterType.new(
           'currency',
-          Currency,
           '[A-Z]{3}',
-          nil
+          Currency,
+          lambda {|s| Currency.new(s)},
+          true,
+          true
         ))
 
         assert_expression(
@@ -61,7 +69,7 @@ module Cucumber
 
       it "exposes parameters in generated expression" do
         expression = @generator.generate_expression("I have 2 cukes and 1.5 euro")
-        types = expression.parameters.map(&:type)
+        types = expression.parameter_types.map(&:type)
         expect(types).to eq([Integer, Float])
       end
 

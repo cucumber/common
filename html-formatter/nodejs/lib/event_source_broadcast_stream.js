@@ -1,5 +1,5 @@
-import Stream from "stream"
-import SSE from "sse"
+const Stream = require('stream')
+const SSE = require('sse')
 
 class ConnectionStream extends Stream.Writable {
   constructor(eventSourceConnection, pingIntervalMs) {
@@ -38,4 +38,4 @@ class EventSourceBroadcastStream extends Stream.PassThrough {
   }
 }
 
-export default EventSourceBroadcastStream
+module.exports = EventSourceBroadcastStream

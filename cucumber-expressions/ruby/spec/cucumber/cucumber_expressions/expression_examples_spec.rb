@@ -1,6 +1,6 @@
 require 'cucumber/cucumber_expressions/cucumber_expression'
 require 'cucumber/cucumber_expressions/regular_expression'
-require 'cucumber/cucumber_expressions/parameter_registry'
+require 'cucumber/cucumber_expressions/parameter_type_registry'
 require 'json'
 
 module Cucumber
@@ -8,12 +8,12 @@ module Cucumber
     describe 'examples.txt' do
       def match(expression_text, text)
         expression = expression_text =~ /\/(.*)\// ?
-          RegularExpression.new(Regexp.new($1), [], ParameterRegistry.new) :
-          CucumberExpression.new(expression_text, [], ParameterRegistry.new)
+          RegularExpression.new(Regexp.new($1), ParameterTypeRegistry.new) :
+          CucumberExpression.new(expression_text, ParameterTypeRegistry.new)
 
         arguments = expression.match(text)
         return nil if arguments.nil?
-        arguments.map { |arg| arg.transformed_value }
+        arguments.map { |arg| arg.value }
       end
 
       File.open(File.expand_path("../../../../examples.txt", __FILE__), "r:utf-8") do |io|

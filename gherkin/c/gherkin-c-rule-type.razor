@@ -1,0 +1,13 @@
+/* This file is generated. Do not edit! Edit gherkin-c-rule-type.razor instead. */
+#ifndef GHERKIN_RULE_TYPE_H_
+#define GHERKIN_RULE_TYPE_H_
+
+typedef enum RuleType {
+    Rule_None = 0,
+    @foreach(var rule in Model.RuleSet.Where(r => !r.TempRule))
+    {<text>    Rule_@rule.Name.Replace("#", ""), /* @rule.ToString(true) */
+</text>}
+    Rule_Count
+} RuleType;
+
+#endif /* GHERKIN_RULE_TYPE_H_ */

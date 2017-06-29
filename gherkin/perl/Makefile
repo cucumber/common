@@ -1,15 +1,15 @@
 SHELL := /usr/bin/env bash
-GOOD_FEATURE_FILES = $(shell find ../testdata/good -name "*.feature")
-BAD_FEATURE_FILES  = $(shell find ../testdata/bad -name "*.feature")
+GOOD_FEATURE_FILES = $(shell find testdata/good -name "*.feature")
+BAD_FEATURE_FILES  = $(shell find testdata/bad -name "*.feature")
 
-TOKENS   = $(patsubst ../testdata/%.feature,acceptance/testdata/%.feature.tokens,$(GOOD_FEATURE_FILES))
-ASTS     = $(patsubst ../testdata/%.feature,acceptance/testdata/%.feature.ast.ndjson,$(GOOD_FEATURE_FILES))
-PICKLES  = $(patsubst ../testdata/%.feature,acceptance/testdata/%.feature.pickles.ndjson,$(GOOD_FEATURE_FILES))
-ERRORS   = $(patsubst ../testdata/%.feature,acceptance/testdata/%.feature.errors.ndjson,$(BAD_FEATURE_FILES))
+TOKENS   = $(patsubst testdata/%.feature,acceptance/testdata/%.feature.tokens,$(GOOD_FEATURE_FILES))
+ASTS     = $(patsubst testdata/%.feature,acceptance/testdata/%.feature.ast.ndjson,$(GOOD_FEATURE_FILES))
+PICKLES  = $(patsubst testdata/%.feature,acceptance/testdata/%.feature.pickles.ndjson,$(GOOD_FEATURE_FILES))
+ERRORS   = $(patsubst testdata/%.feature,acceptance/testdata/%.feature.errors.ndjson,$(BAD_FEATURE_FILES))
 
 PERL_FILES = $(shell find . -name "*.pm")
 
-all: .compared
+default: .compared
 .PHONY: all
 
 #.compared: .built $(TOKENS) $(ASTS) $(PICKLES) $(ERRORS)
@@ -29,25 +29,25 @@ show-version-info:
 	perl --version
 .PHONY: show-version-info
 
-acceptance/testdata/%.feature.tokens: ../testdata/%.feature ../testdata/%.feature.tokens .built
+acceptance/testdata/%.feature.tokens: testdata/%.feature testdata/%.feature.tokens .built
 	mkdir -p `dirname $@`
 	bin/gherkin-generate-tokens $< > $@
 	diff --unified $<.tokens $@
 .DELETE_ON_ERROR: acceptance/testdata/%.feature.tokens
 
-acceptance/testdata/%.feature.ast.ndjson: ../testdata/%.feature ../testdata/%.feature.ast.ndjson .built
+acceptance/testdata/%.feature.ast.ndjson: testdata/%.feature testdata/%.feature.ast.ndjson .built
 	mkdir -p `dirname $@`
 	bin/gherkin-generate-ast $< > $@
 	diff --unified <(jq "." $<.ast.ndjson) <(jq "." $@)
 .DELETE_ON_ERROR: acceptance/testdata/%.feature.ast.ndjson
 
-acceptance/testdata/%.feature.pickles.ndjson: ../testdata/%.feature ../testdata/%.feature.pickles.ndjson .built
+acceptance/testdata/%.feature.pickles.ndjson: testdata/%.feature testdata/%.feature.pickles.ndjson .built
 	mkdir -p `dirname $@`
 	bin/gherkin-generate-pickles $< > $@
 	diff --unified <(jq "." $<.pickles.ndjson) <(jq "." $@)
 .DELETE_ON_ERROR: acceptance/testdata/%.feature.pickles.ndjson
 
-acceptance/testdata/%.feature.errors.ndjson: ../testdata/%.feature ../testdata/%.feature.errors.ndjson .built
+acceptance/testdata/%.feature.errors.ndjson: testdata/%.feature testdata/%.feature.errors.ndjson .built
 	mkdir -p `dirname $@`
 	bin/gherkin-generate-ast $< > $@
 	diff --unified <(jq "." $<.errors.ndjson) <(jq "." $@)
@@ -55,8 +55,6 @@ acceptance/testdata/%.feature.errors.ndjson: ../testdata/%.feature ../testdata/%
 
 # Get to a point where dzil can be run
 predistribution: .compared CHANGES
-	cp ../testdata/good/*.feature acceptance/testdata/good/
-	cp ../testdata/bad/*.feature acceptance/testdata/bad/
 	cpanm --installdeps --with-develop .
 	dzil clean
 	@(git status --porcelain 2>/dev/null | grep "^??" | perl -ne\
@@ -69,14 +67,8 @@ release: predistribution
 	dzil release
 
 clean:
-	rm -rf CHANGES Gherkin-* .compared .cpanfile_dependencies .built acceptance lib/Gherkin/Generated/Languages.pm lib/Gherkin/Generated/Parser.pm gherkin-languages.json
+	rm -rf Gherkin-* .compared .cpanfile_dependencies .built acceptance lib/Gherkin/Generated/Languages.pm lib/Gherkin/Generated/Parser.pm
 .PHONY: clean
-
-gherkin-languages.json: ../gherkin-languages.json
-	cp $< $@
-
-CHANGES: ../CHANGELOG.md
-	cp $< $@
 
 lib/Gherkin/Generated:
 	mkdir -p $@
@@ -84,18 +76,8 @@ lib/Gherkin/Generated:
 lib/Gherkin/Generated/Languages.pm: gherkin-languages.json
 	perl helper-scripts/build_languages.pl < $< > $@
 
-lib/Gherkin/Generated/Parser.pm: ../gherkin.berp gherkin-perl.razor ../bin/berp.exe
-	mono ../bin/berp.exe -g ../gherkin.berp -t gherkin-perl.razor -o $@
+lib/Gherkin/Generated/Parser.pm: gherkin.berp gherkin-perl.razor berp/berp.exe
+	mono berp/berp.exe -g gherkin.berp -t gherkin-perl.razor -o $@
 	# Remove BOM
 	tail -c +4 $@ > $@.nobom
 	mv $@.nobom $@
-
-LICENSE.txt: ../LICENSE
-	cp $< $@
-
-update-gherkin-languages: lib/Gherkin/Generated/Languages.pm
-.PHONY: update-gherkin-languages
-
-update-version: ../VERSION VERSION
-	diff -q $< VERSION || cp $< VERSION
-.PHONY: update-version

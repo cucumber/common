@@ -9,15 +9,14 @@ import org.junit.runners.Parameterized.Parameters;
 
 import java.io.File;
 import java.io.IOException;
-import java.lang.reflect.Type;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 import static org.junit.Assert.assertEquals;
 
@@ -27,6 +26,12 @@ public class ExpressionExamplesTest {
     private final String expressionString;
     private final String text;
     private final String expectedArgs;
+
+    public ExpressionExamplesTest(String expressionString, String text, String expectedArgs) {
+        this.expressionString = expressionString;
+        this.text = text;
+        this.expectedArgs = expectedArgs;
+    }
 
     @Parameters
     public static Collection<Object[]> data() throws IOException {
@@ -41,33 +46,22 @@ public class ExpressionExamplesTest {
         return data;
     }
 
-    public ExpressionExamplesTest(String expressionString, String text, String expectedArgs) {
-        this.expressionString = expressionString;
-        this.text = text;
-        this.expectedArgs = expectedArgs;
-    }
-
     @Test
     public void works_with_expression() {
         String args = new Gson().toJson(match(expressionString, text));
         assertEquals(String.format("\nExpression: %s\n      Text: %s", expressionString, text), expectedArgs, args);
     }
 
-    private List<Object> match(String expressionString, String text) {
+    private List<?> match(String expressionString, String text) {
         Expression expression;
         Matcher matcher = REGEX_PATTERN.matcher(expressionString);
-        ParameterRegistry parameterRegistry = new ParameterRegistry(Locale.ENGLISH);
+        ParameterTypeRegistry parameterTypeRegistry = new ParameterTypeRegistry(Locale.ENGLISH);
         if (matcher.matches()) {
-            expression = new RegularExpression(Pattern.compile(matcher.group(1)), Collections.<Type>emptyList(), parameterRegistry);
+            expression = new RegularExpression(Pattern.compile(matcher.group(1)), parameterTypeRegistry);
         } else {
-            expression = new CucumberExpression(expressionString, Collections.<Type>emptyList(), parameterRegistry);
+            expression = new CucumberExpression(expressionString, parameterTypeRegistry);
         }
-        List<Argument> arguments = expression.match(text);
-        if (arguments == null) return null;
-        List<Object> transformedValues = new ArrayList<>();
-        for (Argument argument : arguments) {
-            transformedValues.add(argument.getTransformedValue());
-        }
-        return transformedValues;
+        List<Argument<?>> args = expression.match(text);
+        return args == null ? null : args.stream().map(Argument::getValue).collect(Collectors.toList());
     }
 }

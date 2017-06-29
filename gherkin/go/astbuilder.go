@@ -15,7 +15,7 @@ type astBuilder struct {
 }
 
 func (t *astBuilder) Reset() {
-     	t.comments = []*Comment{}
+	t.comments = []*Comment{}
 	t.stack = []*astNode{}
 	t.push(newAstNode(RuleType_None))
 }

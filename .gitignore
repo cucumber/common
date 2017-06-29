@@ -5,3 +5,4 @@ _book/
 **/*/.release/
 cucumber_manyrepo_id_rsa
 cucumber_manyrepo_id_rsa.pub
+.rsynced

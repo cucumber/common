@@ -12,7 +12,3 @@ after_success: "mono .nuget/NuGet.exe pack Gherkin.NuGetPackages/Gherkin.nuspec"
 branches:
   only:
     - master
-
-notifications:
-  email:
-    - cukes-devs@googlegroups.com

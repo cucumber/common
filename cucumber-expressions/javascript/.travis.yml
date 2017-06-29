@@ -1,3 +1,11 @@
 language: node_js
 node_js:
-  - 7.5.0
+  - 7.10.0
+
+notifications:
+  webhooks:
+    urls:
+      - https://webhooks.gitter.im/e/5373e574ed4e88026838
+    on_success: change
+    on_failure: always
+    on_start: never

@@ -27,7 +27,7 @@ type Builder interface {
 	Build(*Token) (bool, error)
 	StartRule(RuleType) (bool, error)
 	EndRule(RuleType) (bool, error)
-        Reset()
+	Reset()
 }
 
 type Token struct {
@@ -44,7 +44,7 @@ func (t *Token) IsEOF() bool {
 	return t.Type == TokenType_EOF
 }
 func (t *Token) String() string {
-	return fmt.Sprintf("%s: %s/%s", t.Type, t.Keyword, t.Text)
+	return fmt.Sprintf("%v: %s/%s", t.Type, t.Keyword, t.Text)
 }
 
 type LineSpan struct {

@@ -1,8 +1,7 @@
-import Stream from "stream"
-import React from "react"
-import ReactDOMServer from "react-dom/server"
-import {CucumberReact} from "cucumber-react"
-const {Cucumber} = CucumberReact
+const Stream = require('stream')
+const React = require('react')
+const ReactDOMServer = require('react-dom/server')
+const { Cucumber } = require('cucumber-react')
 
 class HtmlStream extends Stream.Transform {
   constructor() {
@@ -17,4 +16,4 @@ class HtmlStream extends Stream.Transform {
   }
 }
 
-export default HtmlStream
+module.exports = HtmlStream

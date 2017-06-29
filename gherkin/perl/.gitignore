@@ -3,5 +3,4 @@ acceptance/
 .built
 .cpanfile_dependencies
 .compared
-CHANGES
 Gherkin-*

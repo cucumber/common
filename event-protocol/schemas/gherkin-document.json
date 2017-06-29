@@ -1,0 +1,59 @@
+{
+  "id": "https://raw.github.com/cucumber/cucumber/master/event-protocol/schemas/gherkin-document.json#",
+  "title": "gherkin-document",
+  "description": "Describes the Abstract Syntax Tree of a Gherkin Document",
+  "type": "object",
+  "properties": {
+    "type": {
+      "type": "string"
+    },
+    "uri": {
+      "type": "string"
+    },
+    "document": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string"
+        },
+        "feature": {
+          "type": "object",
+          "properties": {
+            "type": {
+              "type": "string"
+            },
+            "tags": {
+              "type": "array",
+              "items": { "$ref": "defs.json#/ast-tag" }
+            },
+            "location": {
+              "type": "object",
+              "items": { "$ref": "defs.json#/ast-location" }
+            },
+            "language": {
+              "type": "string"
+            },
+            "keyword": {
+              "type": "string"
+            },
+            "name": {
+              "type": "string"
+            },
+            "children": {
+              "type": "array"
+            }
+          }
+        },
+        "comments": {
+          "type": "array"
+        }
+      }
+    }
+  },
+  "required": [
+    "type",
+    "uri",
+    "document"
+  ],
+  "additionalProperties": false
+}

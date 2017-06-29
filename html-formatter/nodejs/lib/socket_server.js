@@ -1,7 +1,7 @@
-import net from "net"
-import es from "event-stream"
-import FromJsonStream from "./from_json_stream"
-import dbg from "debug"
+const net = require('net')
+const es = require('event-stream')
+const FromJsonStream = require('./from_json_stream')
+const dbg = require('debug')
 const debug = dbg('cucumber-html:SocketServer')
 
 class SocketServer {
@@ -28,4 +28,4 @@ class SocketServer {
   }
 }
 
-export default SocketServer
+module.exports = SocketServer

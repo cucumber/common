@@ -1,5 +1,5 @@
-import Stream from "stream"
-import EventSource from "eventsource"
+const Stream = require('stream')
+const EventSource = require('eventsource')
 
 class EventSourceStream extends Stream.Readable {
   constructor(url) {
@@ -35,4 +35,4 @@ class EventSourceStream extends Stream.Readable {
   }
 }
 
-export default EventSourceStream
+module.exports = EventSourceStream

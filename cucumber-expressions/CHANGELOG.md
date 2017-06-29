@@ -7,14 +7,66 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ----
 ## [Unreleased]
 
+## [4.0.0] - 2017-06-28
+
 ### Removed
-N/A
+* Remove support for `{name:type}` syntax which was deprecated in
+  [#117](https://github.com/cucumber/cucumber/pull/117) and released in 2.0.0.
+  ([#180](https://github.com/cucumber/cucumber/pull/180)
+   by [aslakhellesoy])
+* Removed support for `{undefined}` parameter types. If a parameter type is not
+  defined, and error will be raised.
 
 ### Added
-N/A
+* Support capture groups in parameter types
+  ([#227](https://github.com/cucumber/cucumber/pull/227)
+   [#57](https://github.com/cucumber/cucumber/issues/57)
+   [#204](https://github.com/cucumber/cucumber/issues/204)
+   [#224](https://github.com/cucumber/cucumber/issues/224)
+   by [aslakhellesoy])
+* Add `{word}` built-in parameter type
+  ([#191](https://github.com/cucumber/cucumber/issues/191)
+   [#226](https://github.com/cucumber/cucumber/pull/226)
+   by [aslakhellesoy])
+* Add `{string}` built-in parameter type
+  ([#190](https://github.com/cucumber/cucumber/issues/190)
+   [#231](https://github.com/cucumber/cucumber/pull/231)
+   by [aslakhellesoy])
 
 ### Changed
-* Stricter conflict checks when defining parameters.
+* Allow duplicate regexps in parameter types
+  ([#186](https://github.com/cucumber/cucumber/pull/186)
+   [#132](https://github.com/cucumber/cucumber/issues/132)
+   by [aslakhellesoy])
+
+### Fixed
+* RegularExpression constructor is not filtering non-capturing groups
+  ([#211](https://github.com/cucumber/cucumber/issues/211)
+   [#179](https://github.com/cucumber/cucumber/pull/179)
+   [#216](https://github.com/cucumber/cucumber/pull/216)
+   [#220](https://github.com/cucumber/cucumber/pull/220)
+   by [kAworu], [aslakhellesoy])
+
+## [3.0.0] - 2017-03-08
+
+### Removed
+* java: Drop support for Java 7 (Java 8 or higher is required)
+
+### Added
+* Alternative text: `I have a cat/dog/fish`
+  (by [aslakhellesoy])
+* `ParameterType` can be constructed with `null`/`nil` arguments for
+  * `type` / `constructorFunction`: Makes it simpler to use in languages without static types
+  * `transform`: Leave arguments unchanged, return as string
+  (by [aslakhellesoy])
+
+### Changed
+* Renamed API:
+  * `Parameter         -> ParameterType`
+  * `ParameterRegistry -> ParameterTypeRegistry`
+  * `addParameter      -> defineParameterType`
+
+* Stricter conflict checks when defining parameters
   ([#121](https://github.com/cucumber/cucumber/pull/121)
    by [aslakhellesoy])
 
@@ -132,16 +184,19 @@ N/A
 * First stable release!
 
 <!-- Releases -->
-[Unreleased]: https://github.com/cucumber/cucumber/compare/cucumber-expressions-v2.0.1...master
-[2.0.1]:      https://github.com/cucumber/cucumber/compare/cucumber-expressions-v2.0.0...v2.0.1
-[2.0.0]:      https://github.com/cucumber/cucumber/compare/cucumber-expressions-v1.0.4...v2.0.0
+[Unreleased]: https://github.com/cucumber/cucumber/compare/cucumber-expressions-v4.0.0...master
+[4.0.0]:      https://github.com/cucumber/cucumber/compare/cucumber-expressions-v3.0.0...cucumber-expressions-v4.0.0
+[3.0.0]:      https://github.com/cucumber/cucumber/compare/cucumber-expressions-v2.0.1...cucumber-expressions-v3.0.0
+[2.0.1]:      https://github.com/cucumber/cucumber/compare/cucumber-expressions-v2.0.0...cucumber-expressions-v2.0.1
+[2.0.0]:      https://github.com/cucumber/cucumber/compare/cucumber-expressions-v1.0.4...cucumber-expressions-v2.0.0
 [1.0.4]:      https://github.com/cucumber/cucumber/compare/cucumber-expressions-v1.0.3...cucumber-expressions-v1.0.4
 [1.0.3]:      https://github.com/cucumber/cucumber/compare/cucumber-expressions-v1.0.2...cucumber-expressions-v1.0.3
 [1.0.2]:      https://github.com/cucumber/cucumber/compare/cucumber-expressions-v1.0.1...cucumber-expressions-v1.0.2
 [1.0.1]:      https://github.com/cucumber/cucumber/releases/tag/cucumber-expressions-v1.0.1
 
-<!-- Contributors -->
+<!-- Contributors in alphabetical order -->
 [aslakhellesoy]:    https://github.com/aslakhellesoy
 [brasmusson]:       https://github.com/brasmusson
 [charlierudolph]:   https://github.com/charlierudolph
 [gpichot]:          https://github.com/charlierudolph
+[kAworu]:           https://github.com/kAworu

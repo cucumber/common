@@ -1,5 +1,5 @@
-import path from 'path'
-import express from 'express'
+const path = require('path')
+const express = require('express')
 
 const buildWebApp = () => {
   const app = express()
@@ -12,4 +12,4 @@ const buildWebApp = () => {
   return app
 }
 
-export default buildWebApp
+module.exports = buildWebApp

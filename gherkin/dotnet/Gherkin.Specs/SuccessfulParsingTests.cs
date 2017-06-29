@@ -1,23 +1,22 @@
 ﻿using System.IO;
 using Gherkin.Ast;
-using NUnit.Framework;
 using Newtonsoft.Json;
 using Gherkin.CLI;
+using Xunit;
 
 namespace Gherkin.Specs
 {
-    [TestFixture]
     public class SuccessfulParsingTests
     {
-        [Test, TestCaseSource(typeof(TestFileProvider), "GetValidTestFiles")]
+        [Theory, MemberData("GetValidTestFiles", MemberType = typeof(TestFileProvider))]
         public void TestSuccessfulParsing(string testFeatureFile)
         {
             var parser = new Parser();
             var parsingResult = parser.Parse(testFeatureFile);
-            Assert.IsNotNull(parsingResult);
+            Assert.NotNull(parsingResult);
         }
 
-        [Test]
+        [Fact]
         public void TestMultipleFeatures()
         {
             var tokenMatcher = new TokenMatcher();
@@ -59,11 +58,11 @@ namespace Gherkin.Specs
   },
   ""Comments"": []
 }");
-            Assert.AreEqual(expected1, astText1);
-            Assert.AreEqual(expected2, astText2);
+            Assert.Equal(expected1, astText1);
+            Assert.Equal(expected2, astText2);
         }
 
-        [Test]
+        [Fact]
         public void TestChangeDefaultLanguage()
         {
             var tokenMatcher = new TokenMatcher("no");
@@ -89,7 +88,7 @@ namespace Gherkin.Specs
   },
   ""Comments"": []
 }");
-            Assert.AreEqual(expected, astText);
+            Assert.Equal(expected, astText);
         }
     }
 }

@@ -1,4 +1,5 @@
 using System;
+using System.Reflection;
 using Gherkin.Ast;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
@@ -11,8 +12,8 @@ namespace Gherkin.CLI
         {
             var contract = base.ResolveContract(type);
 
-            //TODO: introduce Node base type and filter for that here
-            if (typeof(IHasLocation).IsAssignableFrom(type))
+            //TODO: introfuce Node base type and filter for that here
+            if (typeof(IHasLocation).GetTypeInfo().IsAssignableFrom(type))
             {
                 var objContract = (JsonObjectContract) contract;
                 if (!objContract.Properties.Contains("type"))
@@ -24,7 +25,8 @@ namespace Gherkin.CLI
                         Readable = true
                     });
             }
-            if (typeof(GherkinDocument).IsAssignableFrom(type))
+
+            if (typeof(GherkinDocument).GetTypeInfo().IsAssignableFrom(type))
             {
                 var objContract = (JsonObjectContract) contract;
                 if (!objContract.Properties.Contains("type"))

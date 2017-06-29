@@ -15,38 +15,12 @@ you a copy of the files in the various `gherkin-*` repositories.
 
 When you're done, just create a pull request against *this* repository.
 
-## Gherkin team
-
-Before you do anything, make sure you set up remotes for the subtrees:
-
-    make add-remotes
-
-When you have made a change (or merged a PR from a contributor) you can sync them
-to the individual `gherkin-*` repos:
-
-    make push-subtrees
-
-Or if someone has made changes to a `gherkin-*` repo independently:
-
-    make pull-subtrees
-
-This should only be done on rare occasions - it's always better to make changes against
-this *master* repo.
-
-### Troubleshooting
-
-Occasionally, `make push-subtrees` might fail if you have merged changes from a subtree.
-In that case, you can force push a particular subtree. Example:
-
-    git push gherkin-python `git subtree split --prefix=python master`:master --force
-
-See [SO](http://stackoverflow.com/questions/13756055/git-subtree-subtree-up-to-date-but-cant-push) for details.
-
 ## Building
 
 Prerequisites:
 
 * .NET or Mono (needed to run `berp` to generate parsers)
+* .NET Core 1.0.1
 * JDK
   * Maven
 * Node.js or IO.js
@@ -82,7 +56,10 @@ to import Mozilla certificates & solve the problem
 2) Distribute the changes to the different parser implementations, this requires `make`, `jq`, `diff`, but no compiler/interpreters:
 
 ```
-make update-gherkin-languages
+source ../scripts/functions.sh
+rsync_files
+make clean
+make
 ```
 
 3) Make a pull request with the changed files.

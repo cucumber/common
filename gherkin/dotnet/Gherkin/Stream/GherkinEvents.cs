@@ -2,12 +2,14 @@
 using System.Collections.Generic;
 using System.IO;
 using Gherkin.Ast;
+using Gherkin.Pickles;
 
 namespace Gherkin
 {
     public class GherkinEvents
     {
-        Parser parser = new Parser ();
+        private readonly Parser parser = new Parser ();
+        private readonly Compiler compiler = new Compiler();
 
         bool printAst;
         bool printPickles;
@@ -34,7 +36,10 @@ namespace Gherkin
                     events.Add (new GherkinDocumentEvent(sourceEvent.uri, gherkinDocument));
                 }
                 if (printPickles) {
-                    throw new NotSupportedException ("Gherkin.NET doesn't have a pickle compiler yet");
+                    List<Pickle> pickles = compiler.Compile(gherkinDocument);
+                    foreach(Pickle pickle in pickles) {
+                        events.Add(new PickleEvent(sourceEvent.uri, pickle));
+                    }
                 }
             } catch (CompositeParserException e) {
                 foreach (ParserException error in e.Errors) {

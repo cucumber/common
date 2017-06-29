@@ -1,34 +1,40 @@
-const matchPattern = require('./build_arguments')
+const Argument = require('./argument')
+const ParameterType = require('./parameter_type')
 
 class RegularExpression {
-  constructor(regexp, types, parameterRegistry) {
+  constructor(regexp, parameterTypeRegistry) {
     this._regexp = regexp
-    this._parameters = []
-
-    const CAPTURE_GROUP_PATTERN = /\(([^(]+)\)/g
-
-    let typeIndex = 0
-    let match
-    while ((match = CAPTURE_GROUP_PATTERN.exec(regexp.source)) !== null) {
-      const captureGroupPattern = match[1]
-      const type = types.length <= typeIndex ? null : types[typeIndex++]
-
-      let parameter
-      if (type) {
-        parameter = parameterRegistry.lookupByType(type)
-      }
-      if (!parameter) {
-        parameter = parameterRegistry.lookupByCaptureGroupRegexp(captureGroupPattern)
-      }
-      if (!parameter) {
-        parameter = parameterRegistry.createAnonymousLookup(s => s)
-      }
-      this._parameters.push(parameter)
-    }
+    this._parameterTypeRegistry = parameterTypeRegistry
   }
 
   match(text) {
-    return matchPattern(this._regexp, text, this._parameters)
+    const parameterTypes = []
+
+    const CAPTURE_GROUP_PATTERN = /\((?!\?:)([^(]+)\)/g
+
+    let match
+    while ((match = CAPTURE_GROUP_PATTERN.exec(this._regexp.source)) !== null) {
+      const parameterTypeRegexp = match[1]
+
+      let parameterType = this._parameterTypeRegistry.lookupByRegexp(
+        parameterTypeRegexp,
+        this._regexp,
+        text
+      )
+      if (!parameterType) {
+        parameterType = new ParameterType(
+          '*',
+          parameterTypeRegexp,
+          String,
+          s => s,
+          false,
+          false
+        )
+      }
+      parameterTypes.push(parameterType)
+    }
+
+    return Argument.build(this._regexp, text, parameterTypes)
   }
 
   getSource() {

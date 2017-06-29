@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+#
+# Runs the docker image
+#
+# Usage:
+#   docker-run make # Run make in the container
+#   docker-run bash # Interactive bash session
+#
+set -euf -o pipefail
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+source "${DIR}/functions.sh"
+docker run --volume $(pwd):/app -it $(docker_image) $@

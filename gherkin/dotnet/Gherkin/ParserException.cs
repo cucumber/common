@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.Serialization;
 using Gherkin.Ast;
 
 namespace Gherkin
@@ -23,31 +22,16 @@ namespace Gherkin
             return string.Format("({0}:{1}): {2}", location.Line, location.Column, message);
         }
 
-        protected ParserException(SerializationInfo info, StreamingContext context) : base(info, context)
-        {
-            Location = (Location)info.GetValue("Location", typeof(Location));
-        }
-
-        public override void GetObjectData(SerializationInfo info, StreamingContext context)
-        {
-            base.GetObjectData(info, context);
-            info.AddValue("Location", Location);
-        }
     }
 
-    [Serializable]
     public class AstBuilderException : ParserException
     {
         public AstBuilderException(string message, Location location) : base(message, location)
         {
         }
 
-        protected AstBuilderException(SerializationInfo info, StreamingContext context) : base(info, context)
-        {
-        }
     }
 
-    [Serializable]
     public class NoSuchLanguageException : ParserException
     {
         public NoSuchLanguageException(string language, Location location = null) :
@@ -56,9 +40,6 @@ namespace Gherkin
             if (language == null) throw new ArgumentNullException("language");
         }
 
-        protected NoSuchLanguageException(SerializationInfo info, StreamingContext context) : base(info, context)
-        {
-        }
     }
 
     public abstract class TokenParserException : ParserException
@@ -76,12 +57,8 @@ namespace Gherkin
                 : new Location(receivedToken.Location.Line, receivedToken.Line.Indent + 1);
         }
 
-        protected TokenParserException(SerializationInfo info, StreamingContext context) : base(info, context)
-        {
-        }
     }
 
-    [Serializable]
     public class UnexpectedTokenException : TokenParserException
     {
         public string StateComment { get; private set; }
@@ -107,12 +84,8 @@ namespace Gherkin
                 receivedToken.GetTokenValue().Trim());
         }
 
-        protected UnexpectedTokenException(SerializationInfo info, StreamingContext context) : base(info, context)
-        {
-        }
     }
 
-    [Serializable]
     public class UnexpectedEOFException : TokenParserException
     {
         public string StateComment { get; private set; }
@@ -132,13 +105,8 @@ namespace Gherkin
             return string.Format("unexpected end of file, expected: {0}",
                 string.Join(", ", expectedTokenTypes));
         }
-
-        protected UnexpectedEOFException(SerializationInfo info, StreamingContext context) : base(info, context)
-        {
-        }
     }
 
-    [Serializable]
     public class CompositeParserException : ParserException
     {
         public IEnumerable<ParserException> Errors { get; private set; }
@@ -154,17 +122,6 @@ namespace Gherkin
         private static string GetMessage(ParserException[] errors)
         {
             return "Parser errors:" + Environment.NewLine + string.Join(Environment.NewLine, errors.Select(e => e.Message));
-        }
-
-        protected CompositeParserException(SerializationInfo info, StreamingContext context) : base(info, context)
-        {
-            Errors = (ParserException[])info.GetValue("Errors", typeof (ParserException[]));
-        }
-
-        public override void GetObjectData(SerializationInfo info, StreamingContext context)
-        {
-            base.GetObjectData(info, context);
-            info.AddValue("Errors", Errors.ToArray());
         }
     }
 }

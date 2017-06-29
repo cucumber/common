@@ -1,6 +1,6 @@
 {
   "name": "cucumber-html-formatter",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "description": "HTML formatter for Cucumber",
   "main": "lib/index.js",
   "engines": {
@@ -40,27 +40,25 @@
     "cucumber": "^1.3.0",
     "enzyme": "^2.4.1",
     "eslint": "^3.5.0",
-    "eslint-config-eslint": "^3.0.0",
-    "eslint-plugin-node": "^2.0.0",
+    "eslint-config-eslint": "^4.0.0",
+    "eslint-plugin-node": "^4.2.1",
     "eslint-plugin-react": "^6.2.1",
-    "gherkin": "^4.0.0",
     "json-loader": "^0.5.4",
     "mocha": "^3.0.2",
     "react-addons-test-utils": "^15.3.1",
     "selenium-webdriver": "^2.53.3",
-    "webpack": "^1.13.2"
+    "webpack": "^2.3.0"
   },
   "dependencies": {
-    "cucumber-react": "cucumber/cucumber-react",
     "debug": "^2.2.0",
     "event-stream": "^3.3.4",
     "eventsource": "^0.2.1",
     "express": "^4.14.0",
-    "gherkin": "^4.0.0",
+    "gherkin": "^4.1.1",
     "immutable": "^3.8.1",
     "react": "^15.3.1",
     "react-dom": "^15.3.1",
-    "react-redux": "^4.4.5",
+    "react-redux": "^5.0.3",
     "redux": "^3.6.0",
     "server-destroy": "^1.0.1",
     "sse": "0.0.6"
