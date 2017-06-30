@@ -85,6 +85,74 @@ Example (Java stack trace):
 [snippet](examples/events/004_attachment-stacktrace.json)
 ```
 
+### test-run-started {#test-run-started}
+
+Signals the start of a test run. Contains details of the context of the run, like the working directory, start time etc.
+
+Example:
+
+```json
+[snippet](examples/events/005_test-run-started.json)
+```
+
+### test-case-prepared {#test-case-prepared}
+
+Contains the details of a test case that's ready to be executed. The `sourceLocation` should match the `uri` of preceeding `source` and `gherkin-document` events.
+
+Each `step` has an `actionLocation` pointing to the source of the glue code that will be invoked when the step is executed. The `sourceLocation` points to the source of the step in a Gherkin document.
+
+Example:
+
+```json
+[snippet](examples/events/006_test-case-prepared.json)
+```
+
+### test-case-started
+
+Signals the start of executing a test case
+
+Example:
+
+```json
+[snippet](examples/events/007_test-case-started.json)
+```
+
+### test-step-started
+
+Signals the start of executing a test step within a test case. The `index` locates the step within the array of steps sent in the preceeding `test-case-prepared` event.
+
+Example:
+
+```json
+[snippet](examples/events/008_test-step-started.json)
+```
+
+### test-step-finished
+
+Signals the end of executing a test step. The result
+
+Example of a passing step:
+
+```json
+[snippet](examples/events/009_test-step-finished.json)
+```
+
+Example of failing step:
+
+```json
+[snippet](examples/events/011_test-step-finished.json)
+```
+
+Note that undefined is just a special case of failure. The `result` will always have an `exception` when the step has not passed.
+
+### test-case-finished
+
+Signals the end of executing a whole test case (scenario or example row).
+
+```json
+[snippet](examples/events/012_test-case-finished.json)
+```
+
 ## Implementation
 
 * Cucumber events are formatted as [Newline Delimited JSON](http://ndjson.org)
@@ -128,7 +196,9 @@ We'll manage this by adding a version to a specific event, where needed. For now
 There are a few constraints about the order of events:
 
 * A [source](#event-source) event must be received before any
-  [attachment](#event-attachment) events referring to it
+  [attachment](#event-attachment), `test-case-*` or `test-step-*` events referring to it
+* [test-case-started](#test-case-started), [test-step-started](#test-step-started), [test-step-finished](#test-step-finished), [test-case-finished](#test-case-finished) events are expected to be received in that order. They should be preceeded by the relevant [test-case-prepared](#test-case-prepared) event describing the test case and its steps.
+* `test-*-started` events are optional
 
 ## Event validation {#validation}
 

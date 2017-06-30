@@ -1,0 +1,14 @@
+{
+  "type": "test-step-finished",
+  "testCase": {
+    "sourceLocation": {
+      "uri": "features/passing.feature",
+      "line": 2
+    }
+  },
+  "index": 0,
+  "result": {
+    "status": "passed",
+    "duration": 3000
+  }
+}

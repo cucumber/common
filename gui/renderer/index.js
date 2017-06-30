@@ -6,7 +6,7 @@ const path = require('path')
 // const Options = require('../cli/options')
 // const options = new Options(electron.remote.process.argv)
 
-const $ = window.jQuery = require('jquery')
+const $ = (window.jQuery = require('jquery'))
 require('bootstrap')
 
 process.on('unhandledRejection', function (reason) {
@@ -15,7 +15,7 @@ process.on('unhandledRejection', function (reason) {
 })
 
 const setProgress = (bar, states) => {
-  Object.keys(states).forEach((status) => {
+  Object.keys(states).forEach(status => {
     bar.getElementsByClassName(status)[0].style.width = `${states[status]}%`
   })
 }
@@ -27,15 +27,22 @@ class State {
   }
 
   getTestCase(sourceLocation) {
-    return this.testCases.find(testCase => (
-      testCase.sourceLocation.uri == sourceLocation.uri &&
-      testCase.sourceLocation.line == sourceLocation.line
-    ))
+    const result = this.testCases.find(
+      testCase =>
+        testCase.sourceLocation.uri == sourceLocation.uri &&
+        testCase.sourceLocation.line == sourceLocation.line
+    )
+    if (!result)
+      throw new Error(
+        `Unable to find test case\n${JSON.stringify(sourceLocation, null, 2)}\nin ${JSON.stringify(this.testCases, null, 2)}`
+      )
+    return result
   }
 }
+
 let state = new State()
 
-const render = (state) => {
+const render = state => {
   const projectName = path.basename(state.pwd)
   const startTime = moment(state.startTime).format('h:mm:ss a on MMMM Do YYYY')
   document.title = `Cucumber - ${projectName} (${startTime})`
@@ -54,29 +61,38 @@ const render = (state) => {
     $('.status-running').show()
   }
 
-  console.log(state.currentTestCase)
   document.getElementById('current-test-case').innerHTML =
-    state.currentTestCase && locationToString(state.currentTestCase.sourceLocation)
+    state.currentTestCase &&
+    locationToString(state.currentTestCase.sourceLocation)
 
   document.getElementById('current-test-step').innerHTML =
-    state.currentTestStep && locationToString(state.currentTestStep.actionLocation)
+    state.currentTestStep &&
+    locationToString(state.currentTestStep.actionLocation)
 
   const completedTestCases = state.testCases.filter(testCase => testCase.result)
   $('.test-cases-finished-count').text(completedTestCases.length)
-  const completedTestCasesWithResult = (status) => {
-    return completedTestCases.filter(testCase => testCase.result.status == status)
+  const completedTestCasesWithResult = status => {
+    return completedTestCases.filter(
+      testCase => testCase.result.status == status
+    )
   }
 
-  setProgress(
-    document.getElementById('progressOfTestRun'),
-    {
-      passed: completedTestCasesWithResult('passed').length / state.testCases.length * 100,
-      failed: completedTestCasesWithResult('failed').length / state.testCases.length * 100,
-      pending: completedTestCasesWithResult('pending').length / state.testCases.length * 100,
-    }
-  )
+  setProgress(document.getElementById('progressOfTestRun'), {
+    passed: completedTestCasesWithResult('passed').length /
+      state.testCases.length *
+      100,
+    failed: completedTestCasesWithResult('failed').length /
+      state.testCases.length *
+      100,
+    pending: completedTestCasesWithResult('pending').length /
+      state.testCases.length *
+      100
+  })
 
-  const allTestSteps = state.testCases.reduce((result, testCase) => result.concat(testCase.steps), [])
+  const allTestSteps = state.testCases.reduce(
+    (result, testCase) => result.concat(testCase.steps),
+    []
+  )
   const completedTestSteps = allTestSteps.filter(step => step.result)
   $('.test-steps-finished-count').text(completedTestSteps.length)
 }
@@ -92,11 +108,11 @@ events.on('test-run-started', (event, message) => {
 
 events.on('source', (event, message) => {
   state.gherkinDocs[message.uri] = {
-    body: message.data,
+    body: message.data
   }
 })
 
-events.on('test-case-compiled', (event, testCase) => {
+events.on('test-case-prepared', (event, testCase) => {
   state.testCases.push(testCase)
   const div = document.createElement('div')
 
@@ -110,7 +126,7 @@ events.on('test-case-compiled', (event, testCase) => {
   div.appendChild(p)
 
   const ul = document.createElement('ul')
-  testCase.steps.forEach((step) => {
+  testCase.steps.forEach(step => {
     const li = document.createElement('li')
     step.element = li
     li.innerHTML = getStepHtml(step)
@@ -127,16 +143,17 @@ events.on('test-case-started', (event, message) => {
 })
 
 events.on('test-step-started', (event, message) => {
-  state.currentTestStep = state
-    .getTestCase(message.testCase.sourceLocation)
-    .steps[message.index]
+  state.currentTestStep = state.getTestCase(
+    message.testCase.sourceLocation
+  ).steps[message.index]
   render(state)
 })
 
 events.on('test-step-finished', (event, message) => {
-  const testStep = state
-    .getTestCase(message.testCase.sourceLocation)
-    .steps[message.index]
+  console.log(message)
+  const testStep = state.getTestCase(message.testCase.sourceLocation).steps[
+    message.index
+  ]
   testStep.result = message.result
   render(state)
 
@@ -147,7 +164,8 @@ events.on('test-step-finished', (event, message) => {
   if (message.result.exception) {
     const error = document.createElement('pre')
     error.className = 'alert alert-danger'
-    error.innerHTML = message.result.exception.message || 'No error message was reported'
+    error.innerHTML =
+      message.result.exception.message || 'No error message was reported'
     li.appendChild(error)
     const stackTrace = document.createElement('pre')
     stackTrace.innerText = message.result.exception.stackTrace.join('\n')
@@ -171,33 +189,36 @@ events.on('end', () => {
   render(state)
 })
 
-const createResultBadge = (result) => {
+const createResultBadge = result => {
   const badge = document.createElement('span')
   badge.className = `badge ${result.status}`
   badge.innerText = result.status
   return badge
 }
 
-const createDurationBadge = (result) => {
+const createDurationBadge = result => {
   const badge = document.createElement('span')
   badge.className = 'badge'
   badge.innerText = `${Math.ceil(result.duration / 1000000)}ms`
   return badge
 }
 
-const getStepHtml = (step) => {
-  if (isHook(step))
-    return locationToString(step.actionLocation)
+const getStepHtml = step => {
+  if (isHook(step)) return locationToString(step.actionLocation)
 
   const line = step.sourceLocation.line
-  const text = state.gherkinDocs[step.sourceLocation.uri].body.split('\n')[line - 1]
+  const text = state.gherkinDocs[step.sourceLocation.uri].body.split('\n')[
+    line - 1
+  ]
   return `<span title="${locationToString(step.sourceLocation)}" data-toggle="tooltip" data-placement="right">${text}</span>`
+
+  function isHook(step) {
+    return !step.sourceLocation
+  }
 }
 
-const locationToString = (location) => `${location.uri}:${location.line}`
+const locationToString = location => `${location.uri}:${location.line}`
 
-const isHook = (step) => !state.gherkinDocs[step.sourceLocation.uri]
-
-const getTestCaseDiv = (sourceLocation) => {
+const getTestCaseDiv = sourceLocation => {
   return state.getTestCase(sourceLocation).div
 }

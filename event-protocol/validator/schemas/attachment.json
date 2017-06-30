@@ -13,7 +13,7 @@
         "uri": {
           "type": "string"
         },
-        "start": { "$ref": "defs.json#/location" }
+        "start": { "$ref": "defs.json#/ast-location" }
       },
       "required": [
         "uri",

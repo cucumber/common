@@ -1,0 +1,7 @@
+{
+  "type": "test-case-started",
+  "sourceLocation": {
+    "uri": "features/passing.feature",
+    "line": 2
+  }
+}

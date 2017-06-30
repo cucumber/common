@@ -1,0 +1,20 @@
+{
+  "type": "test-step-finished",
+  "testCase": {
+    "sourceLocation": {
+      "uri": "features/passing.feature",
+      "line": 2
+    }
+  },
+  "index": 1,
+  "result": {
+    "status": "undefined",
+    "exception": {
+      "message": "Undefined step: \"this step passes\"",
+      "type": "Cucumber::Core::Test::Result::Undefined",
+      "stackTrace": [
+        "features/passing.feature:3:in `Given this step passes'"
+      ]
+    }
+  }
+}

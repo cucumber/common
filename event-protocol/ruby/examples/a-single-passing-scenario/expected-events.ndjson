@@ -1,0 +1,9 @@
+{"type":"source","uri":"features/passing.feature","data":"Feature: Passing feature\n  Scenario: Passing scenario\n    Given this step passes\n","media":{"encoding":"utf-8","type":"text/vnd.cucumber.gherkin+plain"}}
+{"type":"test-run-started","workingDirectory":"{{Dir.pwd}}/examples/a-single-passing-scenario","timestamp":1490444711}
+{"type":"test-case-prepared","sourceLocation":{"uri":"features/passing.feature","line":2},"steps":[{"actionLocation":{"uri":"{{Cucumber::LIBDIR}}/cucumber/filters/prepare_world.rb","line":28}},{"actionLocation":{"uri":"step_definitions/steps.rb","line":1},"sourceLocation":{"uri":"features/passing.feature","line":3}}]}
+{"type":"test-case-started","sourceLocation":{"uri":"features/passing.feature","line":2}}
+{"type":"test-step-started","testCase":{"sourceLocation":{"uri":"features/passing.feature","line":2}},"index":0}
+{"type":"test-step-finished","testCase":{"sourceLocation":{"uri":"features/passing.feature","line":2}},"index":0,"result":{"status":"passed","duration":3000}}
+{"type":"test-step-started","testCase":{"sourceLocation":{"uri":"features/passing.feature","line":2}},"index":1}
+{"type":"test-step-finished","testCase":{"sourceLocation":{"uri":"features/passing.feature","line":2}},"index":1,"result":{"status":"passed","duration":381000}}
+{"type":"test-case-finished","sourceLocation":{"uri":"features/passing.feature","line":2},"result":{"status":"passed","duration":24008000}}

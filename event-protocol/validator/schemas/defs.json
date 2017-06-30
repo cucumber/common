@@ -7,14 +7,28 @@
     "properties": {
       "line": {
         "type": "integer",
+        "minimum": 1
+      },
+      "uri": {
+        "type": "string"
+      }
+    },
+    "required": [
+      "line",
+      "uri"
+    ],
+    "additionalProperties": false
+  },
+  "gherkin-node-location": {
+    "type": "object",
+    "properties": {
+      "line": {
+        "type": "integer",
         "minimum": 0
       },
       "column": {
         "type": "integer",
         "minimum": 0
-      },
-      "uri": {
-        "type": "string"
       }
     },
     "required": [
@@ -72,6 +86,45 @@
       "name",
       "location"
     ],
+    "additionalProperties": false
+  },
+  "result": {
+    "type": "object",
+    "properties": {
+      "status": {
+        "enum": [
+          "passed",
+          "failed",
+          "pending",
+          "skipped",
+          "undefined"
+        ]
+      },
+      "duration": {
+        "type": "integer"
+      },
+      "exception": { "$ref": "defs.json#/exception" }
+    },
+    "required": [ "status" ],
+    "additionalProperties": false
+  },
+  "exception": {
+    "type": "object",
+    "properties": {
+      "message": {
+        "type": "string"
+      },
+      "stackTrace": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        }
+      },
+      "type": {
+        "type": "string"
+      }
+    },
+    "required": [ "message", "stackTrace" ],
     "additionalProperties": false
   }
 }

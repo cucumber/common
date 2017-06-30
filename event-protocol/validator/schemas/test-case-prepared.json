@@ -1,0 +1,32 @@
+{
+  "id": "https://raw.github.com/cucumber/cucumber/master/event-protocol/schemas/test-case-prepared.json#",
+  "title": "test-case-prepared",
+  "description": "Describes a test case that is about to be run",
+  "type": "object",
+  "properties": {
+    "type": {
+      "type": "string"
+    },
+    "sourceLocation": { 
+      "$ref": "defs.json#/location"
+    },
+    "steps": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "sourceLocation": { 
+            "$ref": "defs.json#/location"
+          },
+          "actionLocation": { 
+            "$ref": "defs.json#/location"
+          }
+        }
+      },
+      "required": [ "sourceLocation", "actionLocation" ],
+      "additionalProperties": false
+    }
+  },
+  "required": [ "sourceLocation", "steps" ],
+  "additionalProperties": false
+}
