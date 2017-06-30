@@ -1,16 +1,16 @@
 # coding: utf-8
 lib = File.expand_path('../lib', __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
-require 'cucumber/formatter/event_stream/version'
+require 'cucumber/events/version'
 
 Gem::Specification.new do |spec|
-  spec.name          = "cucumber-formatter-event_stream"
-  spec.version       = Cucumber::Formatter::EventStream::VERSION
+  spec.name          = "cucumber-events"
+  spec.version       = Cucumber::Events::VERSION
   spec.authors       = ["Matt Wynne"]
   spec.email         = ["matt@cucumber.io"]
 
-  spec.summary       = %q{NDJSON event stream output of Cucumber events}
-  spec.description   = %q{Streams events that describe your test run, as they happen, live, in real-time.}
+  spec.summary       = %q{Library for events emitted by cucumber-ruby}
+  spec.description   = %q{Streams events that describe your test run in real-time.}
   spec.homepage      = "https://cucumber.io"
   spec.license       = "MIT"
 

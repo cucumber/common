@@ -1,10 +1,10 @@
-require 'cucumber/formatter/event_stream/plugin'
+require 'cucumber/events/plugin'
 require 'cucumber/configuration'
 require 'cucumber/core/test/case'
 require 'cucumber/hooks'
 require 'cucumber/core/gherkin/document'
 
-describe Cucumber::Formatter::EventStream::Plugin do
+describe Cucumber::Events::Plugin do
   describe "when the test run starts" do
 
     it "emits one `test-case-prepared` event per test case" do
@@ -135,7 +135,7 @@ describe Cucumber::Formatter::EventStream::Plugin do
     io = StringIO.new
     config = Cucumber::Configuration.new(out_stream: io)
     options = {}
-    plugin = Cucumber::Formatter::EventStream::Plugin.new(config, options)
+    plugin = Cucumber::Events::Plugin.new(config, options)
     config.notify :test_run_starting, test_cases
     io.string.lines.map { |line| JSON.parse(line) }
   end

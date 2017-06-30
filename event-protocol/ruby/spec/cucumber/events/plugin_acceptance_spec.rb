@@ -3,7 +3,7 @@ require "open3"
 require "cucumber/platform"
 require "cucumber/core/ast/location"
 
-cucumber = "cucumber -r . --format Cucumber::Formatter::EventStream::Plugin"
+cucumber = "bundle exec cucumber -r ../../lib --format Cucumber::Events::Plugin"
 validator = "../validator/bin/cucumber-event-validator.js"
 
 ## Acceptance Tests
@@ -54,7 +54,7 @@ end
 # Now we dynamically build a set of RSpec example groups for each of the examples,
 # and an RSpec example for each of the expected events
 
-describe Cucumber::Formatter::EventStream do
+describe "cucumber-events" do
   describe "examples" do
 
     path = File.dirname(__FILE__) + "/../../../examples/*"
