@@ -6,19 +6,11 @@ module Cucumber
 
       class Plugin
         def initialize(config, options)
-          io = create_io(config, options)
+          io = config.out_stream
 
           EventEmitter.new(config).call do |event|
             io.puts event.to_json
           end
-        end
-
-        def create_io(config, options)
-          return config.out_stream if !options.key?('port')
-
-          io = TCPSocket.new(options['host'] || 'localhost', options['port'].to_i)
-          config.on_event :test_run_finished, -> (event) { io.close }
-          io
         end
       end
 
