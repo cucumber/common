@@ -1,0 +1,6 @@
+(1:1)Language:/zh-CN/
+(2:1)FeatureLine:功能/汉语解析/
+(3:1)Empty://
+(4:3)ScenarioLine:场景/冒号可以用在功能和场景中/
+(5:5)StepLine:* /冒号/
+EOF

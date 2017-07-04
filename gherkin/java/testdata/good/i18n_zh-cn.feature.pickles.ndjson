@@ -1,0 +1,27 @@
+{
+  "pickle": {
+    "language": "zh-CN",
+    "locations": [
+      {
+        "column": 3,
+        "line": 4
+      }
+    ],
+    "name": "冒号可以用在功能和场景中",
+    "steps": [
+      {
+        "arguments": [],
+        "locations": [
+          {
+            "column": 7,
+            "line": 5
+          }
+        ],
+        "text": "冒号"
+      }
+    ],
+    "tags": []
+  },
+  "type": "pickle",
+  "uri": "testdata/good/i18n_zh-cn.feature"
+}

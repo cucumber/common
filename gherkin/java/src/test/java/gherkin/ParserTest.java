@@ -72,7 +72,7 @@ public class ParserTest {
         TokenMatcher matcher = new TokenMatcher("no");
         Parser<GherkinDocument> parser = new Parser<>(new AstBuilder());
 
-        GherkinDocument gherkinDocument = parser.parse("Egenskap: i18n support\n", matcher);
+	    GherkinDocument gherkinDocument = parser.parse("Egenskap: i18n support\n", matcher);
 
         assertEquals(jsonParser.parse("" +
                 "{\"feature\":{\"tags\":[]," +
@@ -84,40 +84,6 @@ public class ParserTest {
                 "    \"location\":{\"line\":1,\"column\":1}}," +
                 "\"comments\":[]," +
                 "\"type\":\"GherkinDocument\"}"),
-                jsonParser.parse(gson.toJson(gherkinDocument)));
-    }
-
-    @Test
-    public void cjk_title() throws Exception {
-        Gson gson = new Gson();
-        JsonParser jsonParser = new JsonParser();
-        TokenMatcher matcher = new TokenMatcher("zh-CN");
-        Parser<GherkinDocument> parser = new Parser<>(new AstBuilder());
-
-        String source = "功能：全角冒号\n" +
-                "场景：全角标点\n"+
-                "假如能成";
-        GherkinDocument gherkinDocument = parser.parse(source, matcher);
-
-        assertEquals(jsonParser.parse("" +
-                        "{\"feature\":{\"tags\":[]," +
-                        "    \"language\":\"zh-CN\"," +
-                        "    \"keyword\":\"功能\"," +
-                        "    \"name\":\"全角冒号\"," +
-                        "    \"children\":[" +
-                        "       {\"tags\":[],\"keyword\":\"场景\",\"name\":\"全角标点\"," +
-                        "       \"steps\":[" +
-                        "           {\"keyword\":\"假如\"," +
-                        "            \"text\":\"能成\"," +
-                        "            \"type\":\"Step\"," +
-                        "           \"location\":{\"line\":3,\"column\":1}}" +
-                        "           ]," +
-                        "       \"type\":\"Scenario\"," +
-                        "       \"location\":{\"line\":2,\"column\":1}}]," +
-                        "    \"type\":\"Feature\"," +
-                        "    \"location\":{\"line\":1,\"column\":1}}," +
-                        "\"comments\":[]," +
-                        "\"type\":\"GherkinDocument\"}"),
                 jsonParser.parse(gson.toJson(gherkinDocument)));
     }
 
