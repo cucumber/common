@@ -4,7 +4,8 @@ A web page where people can try Cucumber in their browser.
 
 ## Try Try Cucumber
 
-    npm install # or yarn
+    yarn install
+    yarn build
     open public/index.html (there is no server, all happens in browser)
 
 It currently consists of 4 fields:

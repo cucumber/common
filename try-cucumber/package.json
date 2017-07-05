@@ -9,7 +9,8 @@
     "build": "webpack"
   },
   "dependencies": {
-    "codemirror": "^5.24.2"
+    "codemirror": "^5.24.2",
+    "cucumber-expressions": "^4.0.0"
   },
   "devDependencies": {
     "css-loader": "^0.26.2",

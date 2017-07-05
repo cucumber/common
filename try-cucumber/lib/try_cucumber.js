@@ -27,14 +27,13 @@ CodeMirror.defineSimpleMode("cucumber-expression", {
 })
 
 const cukexpMirror = CodeMirror(document.getElementById('cukexp'), {
-  value: "I have {int} cuke(s) in {whose} stomach/belly/bag",
+  value: "I have {int} cuke(s) in {word} stomach/belly/bag",
   theme: "vibrant-ink"
 })
 //cukexpMirror.setMode('cucumber-expression')
 makeOneLine(cukexpMirror)
 
-const types = []
-const parameterRegistry = new CucumberExpressions.ParameterRegistry()
+const parameterTypeRegistry = new CucumberExpressions.ParameterTypeRegistry()
 let cucumberExpression
 
 // Wire up so cukexpMirror edits update the readonly regexpMirror
@@ -51,12 +50,13 @@ matchStepWithExpression()
 
 function updateExpressions() {
   try {
+    console.log('HELLO', cukexpMirror.getValue(), parameterTypeRegistry)
     cucumberExpression = new CucumberExpressions.CucumberExpression(
       cukexpMirror.getValue(),
-      types,
-      parameterRegistry)
+      parameterTypeRegistry)
     regexpMirror.setValue(cucumberExpression._regexp.source)
   } catch(err) {
+    console.error(err)
     // Failed to parse the Cucumber Expression
     regexpMirror.setValue('')
   }
