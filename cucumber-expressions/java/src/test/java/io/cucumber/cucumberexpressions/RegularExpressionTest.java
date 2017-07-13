@@ -64,8 +64,7 @@ public class RegularExpressionTest {
 
     private List<?> match(Pattern pattern, String text, Locale locale) {
         ParameterTypeRegistry parameterTypeRegistry = new ParameterTypeRegistry(locale);
-        RegularExpression regularExpression;
-        regularExpression = new RegularExpression(pattern, parameterTypeRegistry);
+        RegularExpression regularExpression = new RegularExpression(pattern, parameterTypeRegistry);
         List<Argument<?>> arguments = regularExpression.match(text);
         List<Object> values = new ArrayList<>();
         for (Argument<?> argument : arguments) {

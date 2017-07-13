@@ -1,5 +1,6 @@
 require 'cucumber/cucumber_expressions/argument'
 require 'cucumber/cucumber_expressions/parameter_type'
+require 'cucumber/cucumber_expressions/tree_regexp'
 
 module Cucumber
   module CucumberExpressions
@@ -38,11 +39,20 @@ module Cucumber
           parameter_types.push(parameter_type)
         end
 
-        Argument.build(@expression_regexp, text, parameter_types)
+        tree_regexp = TreeRegexp.new(@expression_regexp)
+        Argument.build(tree_regexp, text, parameter_types)
       end
 
       def source
+        @expression_regexp.source
+      end
+
+      def regexp
         @expression_regexp
+      end
+
+      def to_s
+        regexp.inspect
       end
     end
   end

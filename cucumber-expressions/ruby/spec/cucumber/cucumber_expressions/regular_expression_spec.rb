@@ -42,14 +42,14 @@ module Cucumber
 
       it "ignores non capturing groups" do
         expect( match(
-          /(\S+) ?(can|cannot)? (?:delete|cancel) the (\d+)(?:st|nd|rd|th) (attachment|slide) ?(?:upload)?/,
+          /(\S+) ?(can|cannot) (?:delete|cancel) the (\d+)(?:st|nd|rd|th) (attachment|slide) ?(?:upload)?/,
           "I can cancel the 1st slide upload")
         ).to eq(["I", "can", 1, "slide"])
       end
 
       it "exposes source" do
         expr = /I have (\d+) cukes? in my (\+) now/
-        expect(RegularExpression.new(expr, ParameterTypeRegistry.new).source).to eq(expr)
+        expect(RegularExpression.new(expr, ParameterTypeRegistry.new).regexp).to eq(expr)
       end
 
       def match(expression, text)

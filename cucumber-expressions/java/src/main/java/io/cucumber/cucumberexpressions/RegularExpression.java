@@ -43,12 +43,17 @@ public class RegularExpression implements Expression {
             }
             parameterTypes.add(parameterType);
         }
-
-        return Argument.build(expressionRegexp, text, parameterTypes);
+        TreeRegexp treeRegexp = new TreeRegexp(expressionRegexp);
+        return Argument.build(treeRegexp, parameterTypes, text);
     }
 
     @Override
     public String getSource() {
         return expressionRegexp.pattern();
+    }
+
+    @Override
+    public Pattern getRegexp() {
+        return expressionRegexp;
     }
 }

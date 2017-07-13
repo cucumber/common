@@ -14,11 +14,13 @@ public class SingleTransformer<T> implements Transformer<T> {
         if (groupValues == null) return null;
         String arg = null;
         for (String groupValue : groupValues) {
-            if (groupValue != null && arg != null)
-                throw new CucumberExpressionException(String.format("Single transformer unexpectedly matched 2 values - \"%s\" and \"%s\"", arg, groupValue));
-            arg = groupValue;
+            if (groupValue != null) {
+                if (arg != null)
+                    throw new CucumberExpressionException(String.format("Single transformer unexpectedly matched 2 values - \"%s\" and \"%s\"", arg, groupValue));
+                arg = groupValue;
+            }
         }
-        if (arg == null) return null; // optional group
+        if (arg == null) return null;
         return function.apply(arg);
     }
 }

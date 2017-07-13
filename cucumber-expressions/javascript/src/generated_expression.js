@@ -1,8 +1,8 @@
 const util = require('util')
 
 class GeneratedExpression {
-  constructor(expression, parameterTypes) {
-    this._expressionTemplate = expression
+  constructor(expressionTemplate, parameterTypes) {
+    this._expressionTemplate = expressionTemplate
     this._parameterTypes = parameterTypes
   }
 

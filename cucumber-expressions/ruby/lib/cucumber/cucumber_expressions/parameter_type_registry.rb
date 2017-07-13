@@ -50,7 +50,7 @@ module Cucumber
         parameter_type.regexps.each do |parameter_type_regexp|
           parameter_types = @parameter_types_by_regexp[parameter_type_regexp]
           if parameter_types.any? && parameter_types[0].prefer_for_regexp_match? && parameter_type.prefer_for_regexp_match?
-            raise CucumberExpressionError.new("There can only be one prefer_for_regexp_match parameter type per regexp. The regexp /#{parameter_type_regexp}/ is used for two prefer_for_regexp_match parameter types, {#{parameter_types[0].name}} and {#{parameter_type.name}}")
+            raise CucumberExpressionError.new("There can only be one preferential parameter type per regexp. The regexp /#{parameter_type_regexp}/ is used for two preferential parameter types, {#{parameter_types[0].name}} and {#{parameter_type.name}}")
           end
           parameter_types.push(parameter_type)
           parameter_types.sort!

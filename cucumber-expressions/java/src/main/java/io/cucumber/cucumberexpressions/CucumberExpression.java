@@ -11,9 +11,9 @@ public class CucumberExpression implements Expression {
     private static final Pattern OPTIONAL_PATTERN = Pattern.compile("\\(([^)]+)\\)");
     private static final Pattern ALTERNATIVE_WORD_REGEXP = Pattern.compile("([\\p{IsAlphabetic}]+)((/[\\p{IsAlphabetic}]+)+)");
 
-    private final Pattern pattern;
     private final List<ParameterType<?>> parameterTypes = new ArrayList<>();
     private final String expression;
+    private final TreeRegexp treeRegexp;
 
     public CucumberExpression(String expression, ParameterTypeRegistry parameterTypeRegistry) {
         this.expression = expression;
@@ -44,7 +44,7 @@ public class CucumberExpression implements Expression {
         matcher.appendTail(regexp);
         regexp.append("$");
 
-        pattern = Pattern.compile(regexp.toString());
+        treeRegexp = new TreeRegexp(regexp.toString());
     }
 
     private String getCaptureGroupRegexp(List<String> regexps) {
@@ -67,7 +67,7 @@ public class CucumberExpression implements Expression {
 
     @Override
     public List<Argument<?>> match(String text) {
-        return Argument.build(pattern, text, parameterTypes);
+        return Argument.build(treeRegexp, parameterTypes, text);
     }
 
     @Override
@@ -75,7 +75,8 @@ public class CucumberExpression implements Expression {
         return expression;
     }
 
-    Pattern getPattern() {
-        return pattern;
+    @Override
+    public Pattern getRegexp() {
+        return treeRegexp.pattern();
     }
 }

@@ -4,6 +4,9 @@ const { CucumberExpressionError } = require('./errors')
 
 class Argument {
   static build(regexp, text, parameterTypes) {
+    if (/\?\)(?!(\\))/.exec(regexp.source.split('').reverse().join(''))) {
+      throw new Error(`Optional groups not allowed: ${regexp.source}`)
+    }
     const m = new Regex(regexp).exec(text)
     if (!m) return null
 

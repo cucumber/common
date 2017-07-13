@@ -7,7 +7,7 @@ module Cucumber
       context "Regexp translation" do
         def assert_regexp(expression, regexp)
           cucumber_expression = CucumberExpression.new(expression, ParameterTypeRegistry.new)
-          expect(regexp).to eq(cucumber_expression.instance_variable_get('@regexp'))
+          expect(regexp).to eq(cucumber_expression.regexp)
         end
 
         it "translates no arguments" do

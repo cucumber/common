@@ -13,6 +13,30 @@ describe('Group', () => {
     assert.equal(group.children[0].value, null)
   })
 
+  xit('matches optional group following required group', () => {
+    const regex = new Regex(/(a)(b)?/)
+    const string = 'a'
+    const matches = regex.exec(string)
+    const group = new Group(matches)
+
+    assert.equal(group.value, 'a')
+    assert.equal(group.children[0].value, 'a')
+    assert.equal(group.children[1].value, null)
+  })
+
+  xit('matches nested optional group', () => {
+    const regex = new Regex(/(a(b)?)/)
+    const string = 'a'
+    const matches = regex.exec(string)
+    const group = new Group(matches)
+
+    assert.equal(group.value, 'a')
+    assert.equal(group.children[0].value, 'a')
+    assert.equal(group.children[1], undefined)
+    assert.equal(group.children[0].children[0].value, null)
+    assert.equal(group.children[0].children[1], undefined)
+  })
+
   it('matches two groups', () => {
     const regex = new Regex(/^the step "([^"]*)" has status "([^"]*)"$/)
     const string = 'the step "a pending step" has status "pending"'
@@ -35,7 +59,7 @@ describe('Group', () => {
 
   it('matches nested groups', () => {
     const regex = new Regex(
-      /^A (\d+) thick line from ((\d+),\s*(\d+),\s*(\d+)) to ((\d+),\s*(\d+),\s*(\d+))?/
+      /^A (\d+) thick line from ((\d+),\s*(\d+),\s*(\d+)) to ((\d+),\s*(\d+),\s*(\d+))/
     )
     const string = 'A 5 thick line from 10,20,30 to 40,50,60'
 

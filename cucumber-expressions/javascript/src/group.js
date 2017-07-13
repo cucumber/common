@@ -46,8 +46,10 @@ class Group {
     stack.push(this)
 
     for (let groupIndex = 1; groupIndex < matches.length; groupIndex++) {
-      const value = matches[groupIndex] || null
-      const start = matches.index[groupIndex]
+      const value =
+        matches[groupIndex] === undefined ? null : matches[groupIndex]
+      const start =
+        matches.index[groupIndex] === undefined ? -1 : matches.index[groupIndex]
       const end = value !== null && start >= 0 ? start + value.length : -1
       const group = new Group(start, end, value)
 
