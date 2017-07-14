@@ -5,7 +5,6 @@
   "main": "dist/index.js",
   "scripts": {
     "test": "npm run eslint && npm run coverage",
-    "babel-test": "babel test --out-dir build/test && babel src --out-dir build/src && mocha --require babel-polyfill build/test",
     "eslint": "eslint src test",
     "build": "babel src --out-dir dist",
     "prepublish": "npm run build",

@@ -5,6 +5,13 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ----
+## [4.0.2] - 2017-07-14
+
+### Fixed
+* javascript: Make it work on Node 4 and browser (Use `Array.indexOf` instead of `Array.includes`)
+  ([#237](https://github.com/cucumber/cucumber/pull/237)
+   by [aslakhellesoy])
+
 ## [4.0.1] - 2017-07-14
 
 ### Fixed
@@ -189,7 +196,8 @@ N/A
 * First stable release!
 
 <!-- Releases -->
-[Unreleased]: https://github.com/cucumber/cucumber/compare/cucumber-expressions-v4.0.1...master
+[Unreleased]: https://github.com/cucumber/cucumber/compare/cucumber-expressions-v4.0.2...master
+[4.0.2]:      https://github.com/cucumber/cucumber/compare/cucumber-expressions-v4.0.1...cucumber-expressions-v4.0.2
 [4.0.1]:      https://github.com/cucumber/cucumber/compare/cucumber-expressions-v4.0.0...cucumber-expressions-v4.0.1
 [4.0.0]:      https://github.com/cucumber/cucumber/compare/cucumber-expressions-v3.0.0...cucumber-expressions-v4.0.0
 [3.0.0]:      https://github.com/cucumber/cucumber/compare/cucumber-expressions-v2.0.1...cucumber-expressions-v3.0.0
