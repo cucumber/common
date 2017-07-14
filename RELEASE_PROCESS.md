@@ -71,9 +71,7 @@ Make sure anything modified in the monorepo is pushed to subrepos:
 Wait for the CI of each subrepo to build successfully.
 Release all the subrepos in the group:
 
-    release_subrepos ${group_path} ${version} ${next_version}
-
-Alternatively, release each language independently:
+Release each language independently:
 
     release_subrepo ${subrepo_path} ${version} ${next_version}
 
