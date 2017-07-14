@@ -1,7 +1,7 @@
 class ParameterTypeMatcher {
   constructor(parameter, regexp, text, matchPosition) {
     this._parameterType = parameter
-    this._regexp = regexp
+    this._treeRegexp = regexp
     this._text = text
     this._matchPosition = matchPosition || 0
 
@@ -16,7 +16,7 @@ class ParameterTypeMatcher {
   advanceTo(newMatchPosition) {
     return new ParameterTypeMatcher(
       this._parameterType,
-      this._regexp,
+      this._treeRegexp,
       this._text,
       newMatchPosition
     )

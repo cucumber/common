@@ -66,9 +66,9 @@ public class CucumberExpressionGenerator {
     }
 
     /**
-     * @deprecated use {@link #generateExpressions(String)}
      * @param text the text (step) to generate an expression for
      * @return the first of the generated expressions
+     * @deprecated use {@link #generateExpressions(String)}
      */
     @Deprecated
     public GeneratedExpression generateExpression(String text) {

@@ -7,7 +7,7 @@ module Cucumber
       context "Regexp translation" do
         def assert_regexp(expression, regexp)
           cucumber_expression = CucumberExpression.new(expression, ParameterTypeRegistry.new)
-          expect(regexp).to eq(cucumber_expression.instance_variable_get('@regexp'))
+          expect(regexp).to eq(cucumber_expression.regexp)
         end
 
         it "translates no arguments" do
@@ -27,7 +27,7 @@ module Cucumber
         it "translates parameters" do
           assert_regexp(
             "I have {float} cukes at {int} o'clock",
-            /^I have (-?\d*\.?\d+) cukes at ((?:-?\d+)|(?:\d+)) o'clock$/
+            /^I have (-?\d*\.\d+) cukes at ((?:-?\d+)|(?:\d+)) o'clock$/
           )
         end
 

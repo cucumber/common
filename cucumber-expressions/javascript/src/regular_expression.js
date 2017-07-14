@@ -1,10 +1,12 @@
 const Argument = require('./argument')
+const TreeRegexp = require('./tree_regexp')
 const ParameterType = require('./parameter_type')
 
 class RegularExpression {
-  constructor(regexp, parameterTypeRegistry) {
-    this._regexp = regexp
+  constructor(expressionRegexp, parameterTypeRegistry) {
+    this._expressionRegexp = expressionRegexp
     this._parameterTypeRegistry = parameterTypeRegistry
+    this._treeRegexp = new TreeRegexp(expressionRegexp)
   }
 
   match(text) {
@@ -13,17 +15,20 @@ class RegularExpression {
     const CAPTURE_GROUP_PATTERN = /\((?!\?:)([^(]+)\)/g
 
     let match
-    while ((match = CAPTURE_GROUP_PATTERN.exec(this._regexp.source)) !== null) {
+    while (
+      (match = CAPTURE_GROUP_PATTERN.exec(this._treeRegexp.regexp.source)) !==
+      null
+    ) {
       const parameterTypeRegexp = match[1]
 
       let parameterType = this._parameterTypeRegistry.lookupByRegexp(
         parameterTypeRegexp,
-        this._regexp,
+        this._treeRegexp,
         text
       )
       if (!parameterType) {
         parameterType = new ParameterType(
-          '*',
+          parameterTypeRegexp,
           parameterTypeRegexp,
           String,
           s => s,
@@ -34,11 +39,15 @@ class RegularExpression {
       parameterTypes.push(parameterType)
     }
 
-    return Argument.build(this._regexp, text, parameterTypes)
+    return Argument.build(this._treeRegexp, text, parameterTypes)
   }
 
-  getSource() {
-    return this._regexp.toString()
+  get regexp() {
+    return this._expressionRegexp
+  }
+
+  get source() {
+    return this._expressionRegexp.source
   }
 }
 

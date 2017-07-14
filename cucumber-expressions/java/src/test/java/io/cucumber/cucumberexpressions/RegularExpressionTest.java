@@ -53,9 +53,11 @@ public class RegularExpressionTest {
     }
 
     @Test
-    public void exposes_source() {
-        String expr = "I have (\\d+) cukes? in my (.+) now";
-        assertEquals(expr, new RegularExpression(Pattern.compile(expr), new ParameterTypeRegistry(Locale.ENGLISH)).getSource());
+    public void exposes_source_and_regexp() {
+        String regexp = "I have (\\d+) cukes? in my (.+) now";
+        RegularExpression expression = new RegularExpression(Pattern.compile(regexp), new ParameterTypeRegistry(Locale.ENGLISH));
+        assertEquals(regexp, expression.getSource());
+        assertEquals(regexp, expression.getRegexp().pattern());
     }
 
     private List<?> match(Pattern pattern, String text) {
@@ -64,8 +66,7 @@ public class RegularExpressionTest {
 
     private List<?> match(Pattern pattern, String text, Locale locale) {
         ParameterTypeRegistry parameterTypeRegistry = new ParameterTypeRegistry(locale);
-        RegularExpression regularExpression;
-        regularExpression = new RegularExpression(pattern, parameterTypeRegistry);
+        RegularExpression regularExpression = new RegularExpression(pattern, parameterTypeRegistry);
         List<Argument<?>> arguments = regularExpression.match(text);
         List<Object> values = new ArrayList<>();
         for (Argument<?> argument : arguments) {

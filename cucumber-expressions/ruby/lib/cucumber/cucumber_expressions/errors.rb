@@ -21,7 +21,7 @@ I couldn't decide which one to use. You have two options:
 1) Use a Cucumber Expression instead of a Regular Expression. Try one of these:
    #{expressions(generated_expressions)}
 
-2) Make one of the parameter types prefer_for_regexp_match and continue to use a Regular Expression.
+2) Make one of the parameter types preferential and continue to use a Regular Expression.
 
         EOM
       end

@@ -1,4 +1,5 @@
 const Argument = require('./argument')
+const TreeRegexp = require('./tree_regexp')
 const { UndefinedParameterTypeError } = require('./errors')
 
 class CucumberExpression {
@@ -36,18 +37,22 @@ class CucumberExpression {
       this._parameterTypes.push(parameterType)
 
       const text = expression.slice(matchOffset, match.index)
-      const captureRegexp = getCaptureRegexp(parameterType.regexps)
+      const captureRegexp = buildCaptureRegexp(parameterType.regexps)
       matchOffset = PARAMETER_REGEXP.lastIndex
       regexp += text
       regexp += captureRegexp
     }
     regexp += expression.slice(matchOffset)
     regexp += '$'
-    this._regexp = new RegExp(regexp)
+    this._treeRegexp = new TreeRegexp(regexp)
   }
 
   match(text) {
-    return Argument.build(this._regexp, text, this._parameterTypes)
+    return Argument.build(this._treeRegexp, text, this._parameterTypes)
+  }
+
+  get regexp() {
+    return this._treeRegexp.regexp
   }
 
   get source() {
@@ -55,7 +60,7 @@ class CucumberExpression {
   }
 }
 
-function getCaptureRegexp(regexps) {
+function buildCaptureRegexp(regexps) {
   if (regexps.length === 1) {
     return `(${regexps[0]})`
   }

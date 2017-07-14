@@ -1,62 +1,31 @@
 class Group {
-  constructor(a, b, c) {
-    this.children = []
-
-    if (Array.isArray(a)) {
-      this._parse(a)
-    } else {
-      this.start = a
-      this.end = b
-      this.value = c
-    }
+  constructor(value, start, end, children) {
+    this._value = value
+    this._start = start
+    this._end = end
+    this._children = children
   }
 
-  contains(group) {
-    return (
-      group.isNull() || (group.start >= this.start && group.end <= this.end)
-    )
+  get value() {
+    return this._value
   }
 
-  add(group) {
-    this.children.push(group)
+  get start() {
+    return this._value
   }
 
-  isNull() {
-    return this.value === null
+  get end() {
+    return this._value
+  }
+
+  get children() {
+    return this._children
   }
 
   get values() {
     return (this.children.length === 0 ? [this] : this.children).map(
       g => g.value
     )
-  }
-
-  _parse(matches) {
-    if (matches.length === 0) {
-      this.start = this.end = -1
-      this.value = null
-      return
-    }
-
-    this.start = matches.index[0]
-    this.end = matches.index[0] + matches[0].length
-    this.value = matches[0]
-
-    const stack = []
-    stack.push(this)
-
-    for (let groupIndex = 1; groupIndex < matches.length; groupIndex++) {
-      const value = matches[groupIndex] || null
-      const start = matches.index[groupIndex]
-      const end = value !== null && start >= 0 ? start + value.length : -1
-      const group = new Group(start, end, value)
-
-      while (!stack[stack.length - 1].contains(group)) {
-        stack.pop()
-      }
-      stack[stack.length - 1].add(group)
-      stack.push(group)
-    }
   }
 }
 

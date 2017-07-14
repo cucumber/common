@@ -22,7 +22,7 @@ describe('CucumberExpression', () => {
     it('translates parameters', () => {
       assertRegexp(
         "I have {float} cukes at {int} o'clock",
-        /^I have (-?\d*\.?\d+) cukes at ((?:-?\d+)|(?:\d+)) o'clock$/
+        /^I have (-?\d*\.\d+) cukes at ((?:-?\d+)|(?:\d+)) o'clock$/
       )
     })
 
@@ -40,5 +40,5 @@ const assertRegexp = (expression, expectedRegexp) => {
     expression,
     new ParameterTypeRegistry()
   )
-  assert.deepEqual(cucumberExpression._regexp, expectedRegexp)
+  assert.deepEqual(cucumberExpression.regexp, expectedRegexp)
 }
