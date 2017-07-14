@@ -5,7 +5,12 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ----
-## [Unreleased]
+## [4.0.1] - 2017-07-14
+
+### Fixed
+* Fix bugs with nested and optional capture groups
+  ([#237](https://github.com/cucumber/cucumber/pull/237)
+   by [aslakhellesoy])
 
 ## [4.0.0] - 2017-06-28
 
@@ -184,7 +189,8 @@ N/A
 * First stable release!
 
 <!-- Releases -->
-[Unreleased]: https://github.com/cucumber/cucumber/compare/cucumber-expressions-v4.0.0...master
+[Unreleased]: https://github.com/cucumber/cucumber/compare/cucumber-expressions-v4.0.1...master
+[4.0.1]:      https://github.com/cucumber/cucumber/compare/cucumber-expressions-v4.0.0...cucumber-expressions-v4.0.1
 [4.0.0]:      https://github.com/cucumber/cucumber/compare/cucumber-expressions-v3.0.0...cucumber-expressions-v4.0.0
 [3.0.0]:      https://github.com/cucumber/cucumber/compare/cucumber-expressions-v2.0.1...cucumber-expressions-v3.0.0
 [2.0.1]:      https://github.com/cucumber/cucumber/compare/cucumber-expressions-v2.0.0...cucumber-expressions-v2.0.1
