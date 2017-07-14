@@ -2,7 +2,25 @@ require 'cucumber/cucumber_expressions/tree_regexp'
 
 module Cucumber
   module CucumberExpressions
-    describe Group do
+    describe TreeRegexp do
+      it 'builds tree' do
+        tr = TreeRegexp.new(/(a(?:b)?)(c)/)
+        group = tr.match('ac')
+        expect(group.value).to eq('ac')
+        expect(group.children[0].value).to eq('a')
+        expect(group.children[0].children).to eq([])
+        expect(group.children[1].value).to eq('c')
+      end
+
+      it 'ignores non-capturing groups' do
+        tr = TreeRegexp.new(/(a(?:b)?)(c)/)
+        group = tr.match('ac')
+        expect(group.value).to eq('ac')
+        expect(group.children[0].value).to eq('a')
+        expect(group.children[0].children).to eq([])
+        expect(group.children[1].value).to eq('c')
+      end
+
       it 'matches optional group' do
         tr = TreeRegexp.new(/^Something( with an optional argument)?/)
         group = tr.match('Something')
@@ -22,6 +40,12 @@ module Cucumber
         expect(group.children[2].children[0].value).to eq('40')
         expect(group.children[2].children[1].value).to eq('50')
         expect(group.children[2].children[2].value).to eq('60')
+      end
+
+      it 'detects multiple non capturing groups' do
+        tr = TreeRegexp.new(/(?:a)(:b)(\?c)(d)/)
+        group = tr.match("a:b?cd")
+        expect(group.children.length).to eq(3)
       end
 
       it 'captures non capturing groups with capturing groups inside' do

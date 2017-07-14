@@ -7,10 +7,9 @@ import java.util.regex.Pattern;
 import java.util.stream.IntStream;
 
 /**
- * Hierarchical Regexp. Matches are represented as a tree of {@link Group}
- * where the nodes reflect the structure of the capture groups in the original
- * regexp, as opposed to the flat list of groups provided by standard {@link Pattern}
- * matches.
+ * TreeRegexp represents matches as a tree of {@link Group}
+ * reflecting the nested structure of capture groups in the original
+ * regexp.
  */
 class TreeRegexp {
     private final Pattern pattern;
@@ -31,6 +30,7 @@ class TreeRegexp {
         for (char c : chars) {
             if (c == '(' && last != '\\') {
                 stack.push(new GroupBuilder());
+                nonCapturingMaybe = false;
             } else if (c == ')' && last != '\\') {
                 GroupBuilder gb = stack.pop();
                 if (gb.isCapturing()) {
@@ -38,10 +38,12 @@ class TreeRegexp {
                 } else {
                     gb.moveChildrenTo(stack.peek());
                 }
+                nonCapturingMaybe = false;
             } else if (c == '?' && last == '(') {
                 nonCapturingMaybe = true;
             } else if (c == ':' && nonCapturingMaybe) {
                 stack.peek().setNonCapturing();
+                nonCapturingMaybe = false;
             }
             last = c;
         }

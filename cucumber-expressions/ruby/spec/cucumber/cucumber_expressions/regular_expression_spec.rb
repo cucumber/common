@@ -47,9 +47,11 @@ module Cucumber
         ).to eq(["I", "can", 1, "slide"])
       end
 
-      it "exposes source" do
-        expr = /I have (\d+) cukes? in my (\+) now/
-        expect(RegularExpression.new(expr, ParameterTypeRegistry.new).regexp).to eq(expr)
+      it "exposes source and regexp" do
+        regexp = /I have (\d+) cukes? in my (\+) now/
+        expression = RegularExpression.new(regexp, ParameterTypeRegistry.new)
+        expect(expression.regexp).to eq(regexp)
+        expect(expression.source).to eq(regexp.source)
       end
 
       def match(expression, text)

@@ -8,12 +8,12 @@ import static org.junit.Assert.assertEquals;
 public class TreeRegexpTest {
     @Test
     public void builds_tree() {
-        TreeRegexp tr = new TreeRegexp("(a(b)?)(c)");
-        Group g = tr.match("ac");
-        assertEquals("ac", g.getValue());
-        assertEquals("a", g.getChildren().get(0).getValue());
-        assertEquals(null, g.getChildren().get(0).getChildren().get(0).getValue());
-        assertEquals("c", g.getChildren().get(1).getValue());
+        TreeRegexp tr = new TreeRegexp("(a(b(c))(d))");
+        Group g = tr.match("abcd");
+        assertEquals("abcd", g.getChildren().get(0).getValue());
+        assertEquals("bc", g.getChildren().get(0).getChildren().get(0).getValue());
+        assertEquals("c", g.getChildren().get(0).getChildren().get(0).getChildren().get(0).getValue());
+        assertEquals("d", g.getChildren().get(0).getChildren().get(1).getValue());
     }
 
     @Test
@@ -31,14 +31,6 @@ public class TreeRegexpTest {
         TreeRegexp tr = new TreeRegexp("^Something( with an optional argument)?");
         Group g = tr.match("Something");
         assertEquals(null, g.getChildren().get(0).getValue());
-    }
-
-    @Test
-    public void matches_two_groups() {
-        TreeRegexp tr = new TreeRegexp("^the step \"([^\"]*)\" has status \"([^\"]*)\"$");
-        Group g = tr.match("the step \"a pending step\" has status \"pending\"");
-        assertEquals("a pending step", g.getChildren().get(0).getValue());
-        assertEquals("pending", g.getChildren().get(1).getValue());
     }
 
     @Test
@@ -64,5 +56,22 @@ public class TreeRegexpTest {
         assertEquals("the stdout", g.getValue());
         assertEquals(null, g.getChildren().get(0).getValue());
         assertEquals(1, g.getChildren().size());
+    }
+
+    @Test
+    public void detects_multiple_non_capturing_groups() {
+        TreeRegexp tr = new TreeRegexp("(?:a)(:b)(\\?c)(d)");
+        Group g = tr.match("a:b?cd");
+        assertEquals(3, g.getChildren().size());
+    }
+
+    @Test
+    public void captures_start_and_end() {
+        TreeRegexp tr = new TreeRegexp("^the step \"([^\"]*)\" has status \"([^\"]*)\"$");
+        Group g = tr.match("the step \"a pending step\" has status \"pending\"");
+        assertEquals(10, g.getChildren().get(0).getStart());
+        assertEquals(24, g.getChildren().get(0).getEnd());
+        assertEquals(38, g.getChildren().get(1).getStart());
+        assertEquals(45, g.getChildren().get(1).getEnd());
     }
 }

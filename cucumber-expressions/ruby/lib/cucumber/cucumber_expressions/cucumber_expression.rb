@@ -1,12 +1,11 @@
 require 'cucumber/cucumber_expressions/argument'
-require 'cucumber/cucumber_expressions/parameter_type'
 require 'cucumber/cucumber_expressions/tree_regexp'
 require 'cucumber/cucumber_expressions/errors'
 
 module Cucumber
   module CucumberExpressions
     class CucumberExpression
-      PARAMETER_REGEXP = /\{([^}]+)}/
+      PARAMETER_REGEXP = /{([^}]+)}/
       OPTIONAL_REGEXP = /\(([^)]+)\)/
       ALTERNATIVE_WORD_REGEXP = /([[:alpha:]]+)((\/[[:alpha:]]+)+)/
 
@@ -15,7 +14,7 @@ module Cucumber
       def initialize(expression, parameter_type_registry)
         @source = expression
         @parameter_types = []
-        regexp = "^"
+        regexp = '^'
         match_offset = 0
 
         # Escape Does not include (){} because they have special meaning
@@ -39,13 +38,13 @@ module Cucumber
           @parameter_types.push(parameter_type)
 
           text = expression.slice(match_offset...match.offset(0)[0])
-          capture_regexp = build_regexp(parameter_type.regexps)
+          capture_regexp = build_capture_regexp(parameter_type.regexps)
           match_offset = match.offset(0)[1]
           regexp += text
           regexp += capture_regexp
         end
         regexp += expression.slice(match_offset..-1)
-        regexp += "$"
+        regexp += '$'
         @tree_regexp = TreeRegexp.new(regexp)
       end
 
@@ -63,7 +62,7 @@ module Cucumber
 
       private
 
-      def build_regexp(regexps)
+      def build_capture_regexp(regexps)
         return "(#{regexps[0]})" if regexps.size == 1
         capture_groups = regexps.map { |group| "(?:#{group})" }
         "(#{capture_groups.join('|')})"

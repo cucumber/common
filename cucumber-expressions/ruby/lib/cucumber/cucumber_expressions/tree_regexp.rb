@@ -14,6 +14,7 @@ module Cucumber
         @regexp.source.split('').each do |c|
           if c == '(' && last != '\\'
             stack.push(GroupBuilder.new)
+            non_capturing_maybe = false
           elsif c == ')' && last != '\\'
             gb = stack.pop
             if gb.capturing?
@@ -21,10 +22,12 @@ module Cucumber
             else
               gb.move_children_to(stack.last)
             end
+            non_capturing_maybe = false
           elsif c == '?' && last == '('
             non_capturing_maybe = true
           elsif c == ':' && non_capturing_maybe
             stack.last.set_non_capturing!
+            non_capturing_maybe = false
           end
           last = c
         end

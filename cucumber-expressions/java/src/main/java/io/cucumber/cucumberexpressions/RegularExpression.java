@@ -10,6 +10,7 @@ public class RegularExpression implements Expression {
 
     private final Pattern expressionRegexp;
     private final ParameterTypeRegistry parameterTypeRegistry;
+    private TreeRegexp treeRegexp;
 
     /**
      * Creates a new instance. Use this when the transform types are not known in advance,
@@ -22,6 +23,7 @@ public class RegularExpression implements Expression {
     public RegularExpression(Pattern expressionRegexp, ParameterTypeRegistry parameterTypeRegistry) {
         this.expressionRegexp = expressionRegexp;
         this.parameterTypeRegistry = parameterTypeRegistry;
+        treeRegexp = new TreeRegexp(expressionRegexp);
     }
 
     @Override
@@ -35,7 +37,7 @@ public class RegularExpression implements Expression {
             ParameterType<?> parameterType = parameterTypeRegistry.lookupByRegexp(parameterTypeRegexp, expressionRegexp, text);
             if (parameterType == null) {
                 parameterType = new ParameterType<>(
-                        "*",
+                        parameterTypeRegexp,
                         parameterTypeRegexp,
                         String.class,
                         new SingleTransformer<>(String::new)
@@ -43,17 +45,17 @@ public class RegularExpression implements Expression {
             }
             parameterTypes.add(parameterType);
         }
-        TreeRegexp treeRegexp = new TreeRegexp(expressionRegexp);
         return Argument.build(treeRegexp, parameterTypes, text);
+    }
+
+
+    @Override
+    public Pattern getRegexp() {
+        return expressionRegexp;
     }
 
     @Override
     public String getSource() {
         return expressionRegexp.pattern();
-    }
-
-    @Override
-    public Pattern getRegexp() {
-        return expressionRegexp;
     }
 }

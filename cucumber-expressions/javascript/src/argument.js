@@ -1,21 +1,15 @@
-const Regex = require('becke-ch--regex--s0-0-v1--base--pl--lib')
-const Group = require('./group')
 const { CucumberExpressionError } = require('./errors')
 
 class Argument {
-  static build(regexp, text, parameterTypes) {
-    if (/\?\)(?!(\\))/.exec(regexp.source.split('').reverse().join(''))) {
-      throw new Error(`Optional groups not allowed: ${regexp.source}`)
-    }
-    const m = new Regex(regexp).exec(text)
-    if (!m) return null
+  static build(treeRegexp, text, parameterTypes) {
+    const group = treeRegexp.match(text)
+    if (!group) return null
 
-    const matchGroup = new Group(m)
-    const argGroups = matchGroup.children
+    const argGroups = group.children
 
     if (argGroups.length !== parameterTypes.length) {
       throw new CucumberExpressionError(
-        `Expression ${regexp} has ${argGroups.length} arguments (${argGroups.map(
+        `Expression ${treeRegexp.regexp} has ${argGroups.length} capture groups (${argGroups.map(
           g => g.value
         )}), but there were ${parameterTypes.length} parameter types (${parameterTypes.map(
           p => p.name

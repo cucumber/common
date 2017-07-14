@@ -39,7 +39,7 @@ public class CucumberExpression implements Expression {
             }
             parameterTypes.add(parameterType);
 
-            matcher.appendReplacement(regexp, Matcher.quoteReplacement(getCaptureGroupRegexp(parameterType.getRegexps())));
+            matcher.appendReplacement(regexp, Matcher.quoteReplacement(buildCaptureRegexp(parameterType.getRegexps())));
         }
         matcher.appendTail(regexp);
         regexp.append("$");
@@ -47,7 +47,7 @@ public class CucumberExpression implements Expression {
         treeRegexp = new TreeRegexp(regexp.toString());
     }
 
-    private String getCaptureGroupRegexp(List<String> regexps) {
+    private String buildCaptureRegexp(List<String> regexps) {
         StringBuilder sb = new StringBuilder("(");
 
         if (regexps.size() == 1) {

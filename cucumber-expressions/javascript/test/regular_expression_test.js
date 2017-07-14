@@ -50,12 +50,11 @@ describe('RegularExpression', () => {
     )
   })
 
-  it('exposes source', () => {
-    const expr = /I have (\d+) cukes? in my (.+) now/
-    assert.deepEqual(
-      new RegularExpression(expr, new ParameterTypeRegistry()).getSource(),
-      expr.toString()
-    )
+  it('exposes regexp and source', () => {
+    const regexp = /I have (\d+) cukes? in my (.+) now/
+    let expression = new RegularExpression(regexp, new ParameterTypeRegistry())
+    assert.deepEqual(expression.regexp, regexp)
+    assert.deepEqual(expression.source, regexp.source)
   })
 })
 
