@@ -89,7 +89,7 @@ class ParameterTypeRegistry {
             `The regexp /${parameterTypeRegexp}/ is used for two preferential parameter types, {${existingParameterType.name}} and {${parameterType.name}}`
         )
       }
-      if (!parameterTypes.includes(parameterType)) {
+      if (parameterTypes.indexOf(parameterType) === -1) {
         parameterTypes.push(parameterType)
         this._parameterTypesByRegexp.set(
           parameterTypeRegexp,
