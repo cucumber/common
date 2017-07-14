@@ -44,7 +44,9 @@ class CucumberExpressionGenerator {
         // Users are most likely to want these, so they should be listed at the top.
         let parameterTypes = []
         for (const parameterTypeMatcher of bestParameterTypeMatchers) {
-          if (!parameterTypes.includes(parameterTypeMatcher.parameterType)) {
+          if (
+            parameterTypes.indexOf(parameterTypeMatcher.parameterType) === -1
+          ) {
             parameterTypes.push(parameterTypeMatcher.parameterType)
           }
         }
