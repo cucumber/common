@@ -27,6 +27,10 @@ class Argument {
     this._parameterType = parameterType
   }
 
+  get group() {
+    return this._group
+  }
+
   get value() {
     return this._parameterType.transform(
       this._group ? this._group.values : null

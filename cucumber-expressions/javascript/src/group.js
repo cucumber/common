@@ -11,11 +11,11 @@ class Group {
   }
 
   get start() {
-    return this._value
+    return this._start
   }
 
   get end() {
-    return this._value
+    return this._end
   }
 
   get children() {

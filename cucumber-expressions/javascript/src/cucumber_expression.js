@@ -8,7 +8,7 @@ class CucumberExpression {
    * @param parameterTypeRegistry
    */
   constructor(expression, parameterTypeRegistry) {
-    const PARAMETER_REGEXP = /\{([^}]+)}/g
+    const PARAMETER_REGEXP = /{([^}]+)}/g
     const OPTIONAL_REGEXP = /\(([^)]+)\)/g
     const ALTERNATIVE_WORD_REGEXP = /(\w+)((\/\w+)+)/g
 

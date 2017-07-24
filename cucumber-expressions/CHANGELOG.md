@@ -5,6 +5,18 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ----
+## [Unreleased]
+
+### Removed
+### Added
+### Changed
+### Fixed
+
+## [4.0.3] - 2017-07-24
+
+### Fixed
+* javascript: Expose `Argument.group` and fix `start` and `end` accessors in `Group`
+
 ## [4.0.2] - 2017-07-14
 
 ### Fixed
@@ -196,7 +208,8 @@ N/A
 * First stable release!
 
 <!-- Releases -->
-[Unreleased]: https://github.com/cucumber/cucumber/compare/cucumber-expressions-v4.0.2...master
+[Unreleased]: https://github.com/cucumber/cucumber/compare/cucumber-expressions-v4.0.3...master
+[4.0.3]:      https://github.com/cucumber/cucumber/compare/cucumber-expressions-v4.0.2...cucumber-expressions-v4.0.3
 [4.0.2]:      https://github.com/cucumber/cucumber/compare/cucumber-expressions-v4.0.1...cucumber-expressions-v4.0.2
 [4.0.1]:      https://github.com/cucumber/cucumber/compare/cucumber-expressions-v4.0.0...cucumber-expressions-v4.0.1
 [4.0.0]:      https://github.com/cucumber/cucumber/compare/cucumber-expressions-v3.0.0...cucumber-expressions-v4.0.0
