@@ -50,7 +50,7 @@ parameter types are:
 On the JVM, there are additional parameter types for `bigint`, `bigdecimal`,
 `byte`, `short`, `long` and `double`.
 
-### Custom parameter types {custom-parameter-types}
+### Custom parameter types {#custom-parameter-types}
 
 You can define custom parameter types to represent types from your own domain.
 Doing this has the following benefits:
