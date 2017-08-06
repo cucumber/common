@@ -1,18 +1,21 @@
 # Writing a new cucumber
 
-If you plan to write a new Cucumber implementation for a new language - start here. Please give us a heads up on the [Cucumber mailing list](cukes@googlegroups.com) before you start. We might want to join you,
-and we'd love to include your implementation in the growing family
-of official implementations!
+If you plan to write a new Cucumber implementation for a new language: start here! 
 
-This guide takes you through a series of baby steps to write a new Cucumber
+Please give us a heads up on the [Cucumber mailing list](cukes@googlegroups.com) 
+before you start. We might want to join you, and we'd love to include your 
+implementation in the growing family of official implementations!
+
+This guide takes you through a series of baby steps to write a new Cucumber 
 implementation from scratch.
 
 We'll build a functional prototype in less than an hour - a
-[skateboard](http://www.cantabilesoftware.com/blog/posts/12/Minimally-Viable-Cantabile-3). Then we'll gradually improve it to be more functional and
-follow the architecture specification more closely.
+[skateboard](http://www.cantabilesoftware.com/blog/posts/12/Minimally-Viable-Cantabile-3). 
+Then we'll gradually improve it to be more functional and follow the 
+architecture specification more closely.
 
-You'll be able to follow the incremental development by looking at
-a JavaScript implementation we're writing from scratch.
+You'll be able to follow the incremental development by looking at a JavaScript 
+implementation we're writing from scratch.
 
 Let's get started!
 
@@ -21,10 +24,10 @@ Let's get started!
 Before you start you should make sure you have a working [Gherkin](#)
 parser that can parse and compile `.feature` files.
 
-It isn't the first thing you'll use when you write a new Cucumber
-implementation, but you'll need it pretty soon. An experienced
-programmer should be able to port Gherkin3 to a new language in
-about a week, so get started!
+It isn't the first thing you'll use when you write a new Cucumber 
+implementation,  but you'll need it pretty soon. An experienced programmer 
+should be able to port Gherkin3 to a new language in about a week, so get 
+started!
 
 ## Design your Step Definition API
 
@@ -54,7 +57,8 @@ public void i_have_n_cukes(int n) {
 }
 ```
 
-*TRANSLATE IT TO YOUR LANGUAGE*
+
+*TRANSLATE IT TO YOUR LANGUAGE!*
 
 Here is how it's done:
 
@@ -63,11 +67,11 @@ Here is how it's done:
 ## Load and run your step definition
 
 Now it's time to write the part of Cucumber that will load it and run it.
-To do this you need to implement the step definition API, and write a simple
+To do this, you need to implement the step definition API, and write a simple
 command-line program that will load the step definition.
 
 In order to get some instant gratification, we'll invoke the step definition
-immediately (with the value 100) and manually verify that an error is thrown.
+immediately (with the value `100`) and manually verify that an error is thrown.
 
 *WRITE THE STEPDEF API AND SIMPLE RUNNER*
 
@@ -80,7 +84,7 @@ Here is how it's done:
 Now that you have the early beginning of a Step Definition API,
 let's store the Step Definition in memory instead of running it
 immediately. What we want to do next is to write a simple
-Gherkin feature with a single scenario and a singgle step, parse it,
+Gherkin feature with a single scenario and a single step, parse it,
 match it against our step definition and print the argument.
 
 Here is how it's done:
