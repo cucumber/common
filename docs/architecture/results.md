@@ -19,30 +19,33 @@ Cucumber can be instructed to write results in a particular format using the
 ### Destination
 
 The `DESTINATION` can be a file path or a URL. Every Cucumber implementation
-MUST be able to write results to a File. If the parent directory does not
-exist, Cucumber MUST fail with an error message saying "Directory X does not
-exist. Please create it first."
+MUST be able to write results to a file. If the parent directory does not
+exist, Cucumber MUST fail with the error message: 
 
-A Cucumber implementation SHOULD be able to write results to a http or https URL
-using `POST`. The body of the post MUST be an array of metadata. It is possible to
-stream/batch metadata in multiple requests, and if this is done, the `X-Cucumber-Run`
-header must be set to the same value for each request.
+    Directory X does not exist. Please create it first.
+
+A Cucumber implementation SHOULD be able to write results to a `http` or `https` URL
+using `POST`. The body of the post MUST be an array of metadata. 
+
+It is possible to stream/batch metadata in multiple requests, and if this is done, 
+the `X-Cucumber-Run` header must be set to the same value for each request.
 
 ### Omitting destination
 
 If no `DESTINATION` is specified, output will be written to `STDOUT`.
 
-Cucumber MUST fail immediately (with the message "Only one plugin can write to
-STDOUT") if more than one plugin is using `STDOUT`.
+If more than one plugin is using `STDOUT`, Cucumber MUST fail immediately with the message: 
+
+    Only one plugin can write to STDOUT
 
 ### File names for parallel execution
 
 When Cucumber is run in parallel (either in multithreaded mode, or by forking
 multiple Cucumber processes), it is essential that each thread/process write
-results to a different file instead of clobbering each others' results.
+results to a different file, to prevent clobbering one another's results.
 
 In order to avoid this, make sure to include a `%` sign in the `DESTINATION`
-path. Cucumber MUST replace this token with a unique id for each thread/process.
+path. Cucumber MUST replace this token with a unique ID for each thread/process.
 
 ## Summary of Results
 
@@ -66,8 +69,8 @@ CUCUMBER PATH:LINE # SCENARIO TITLE
 
 ```
 
-This may repeat some of the information printed by formatter plugins (such as
-the pretty formatter), but it should be printed nevertheless since it is much
+This may repeat some information printed by formatter plugins (such as
+the `pretty` formatter). Nevertheless, it should be re-printed anyway, since it is much
 easier for users to rerun failed scenarios when they are printed at the bottom
 of the screen.
 
