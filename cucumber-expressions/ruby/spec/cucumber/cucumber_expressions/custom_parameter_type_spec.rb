@@ -48,12 +48,12 @@ module Cucumber
         parameter_registry = ParameterTypeRegistry.new
         ### [add-color-parameter-type]
         parameter_registry.define_parameter_type(ParameterType.new(
-            'color',
-            /red|blue|yellow/,
-            Color,
-            lambda {|s| Color.new(s)},
-            true,
-            false
+            'color',                   # name
+            /red|blue|yellow/,         # regexp
+            Color,                     # type
+            lambda {|s| Color.new(s)}, # transform
+            true,                      # use_for_snippets
+            false                      # prefer_for_regexp_match
         ))
         ### [add-color-parameter-type]
         @parameter_type_registry = parameter_registry

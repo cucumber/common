@@ -48,12 +48,12 @@ public class CustomParameterTypeTest {
     public void create_parameter() {
         /// [add-color-parameter-type]
         parameterTypeRegistry.defineParameterType(new ParameterType<>(
-                "color",
-                "red|blue|yellow",
-                Color.class,
-                new SingleTransformer<Color>(Color::new),
-                false,
-                false
+                "color",                                  // name
+                "red|blue|yellow",                        // regexp
+                Color.class,                              // type
+                new SingleTransformer<Color>(Color::new), // transform
+                false,                                    // useForSnippets
+                false                                     // preferForRegexpMatch
         ));
         /// [add-color-parameter-type]
     }

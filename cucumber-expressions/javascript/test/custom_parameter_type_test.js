@@ -30,12 +30,12 @@ describe('Custom parameter type', () => {
     /// [add-color-parameter-type]
     parameterTypeRegistry.defineParameterType(
       new ParameterType(
-        'color',
-        /red|blue|yellow/,
-        Color,
-        s => new Color(s),
-        false,
-        true
+        'color',           // name
+        /red|blue|yellow/, // regexp
+        Color,             // type
+        s => new Color(s), // transform
+        false,             // useForSnippets
+        true               // preferForRegexpMatch
       )
     )
     /// [add-color-parameter-type]

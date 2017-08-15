@@ -17,12 +17,12 @@ Let's write a Cucumber Expression that matches the following text:
     I have 42 cucumbers in my belly
 
 The simplest Cucumber Expression that matches that text would be the text itself,
-but we can also write a slightly more generic one, with an `int` *parameter*:
+but we can also write a slightly more generic one, with an `int` *output parameter*:
 
     I have {int} cucumbers in my belly
 
 When the text is matched against that expression, the number `42` is extracted
-from the first (and only) parameter.
+from the `{int}` output parameter.
 
 (Cucumber passes the extracted values as arguments to your [Step Definitions](../docs/step-definitions.md)).
 
@@ -31,11 +31,11 @@ The following text would not match the expression:
     I have 42.5 cucumbers in my belly
 
 This is because `42.5` does not look like an `int` (integers don't have a decimal part).
-Let's change the parameter to a `float` instead:
+Let's change the output parameter to `float` instead:
 
     I have {float} cucumbers in my belly
 
-Now the expression will match the text, and the number `42.5` is extracted.
+Now the expression will match the text, and the float `42.5` is extracted.
 
 ## Parameter types
 
@@ -45,7 +45,7 @@ parameter types are:
 * `{int}`, for example `71` or `-19`
 * `{float}`, for example `3.6`, `.8` or `-9.2`
 * `{word}`, for example `banana` (but not `banana split`)
-* `{string}`, for example `"bangers"` or `'mash'`. The single/double quotes themselves are removed.
+* `{string}`, for example `"bangers"` or `'mash'`. The single/double quotes themselves are removed from the match.
 
 On the JVM, there are additional parameter types for `bigint`, `bigdecimal`,
 `byte`, `short`, `long` and `double`.
@@ -83,6 +83,20 @@ The `transform` function can also return a `Promise`:
 [snippet](ruby/spec/cucumber/cucumber_expressions/custom_parameter_type_spec.rb#add-color-parameter-type)
 ```
 {% endmethod %}
+
+The parameters are as follows:
+
+* `name` - the name the parameter type will be recognised by in output parameters.
+* `regexp` - a regexp that will match the parameter. May include capture groups.
+* `type`
+* `transform` - a function that transforms the match from the regexp. Must have arity 1 if the regexp doesn't have
+  any capture groups. Otherwise the arity must match the number of capture groups.
+* `useForSnippets` (Ruby: `use_for_snippets`) - Try leaving this to `true`. That means this parameter type will be used to generate
+  snippets for undefined steps. If the `regexp` frequently matches text you don't intend to be
+  used as arguments, disable its use un snippets with `false`.
+* `preferForRegexpMatch` (Ruby: `prefer_for_regexp_match`) - set this to `false` unless you have step definitions using regular expressions.
+  You may want to set it to true if you use regular expressions and you want this parameter type's regexp
+  take precedence over others during a match.
 
 Now assume we have a Gherkin step with the following text following the step keyword:
 
