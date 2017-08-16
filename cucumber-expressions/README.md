@@ -91,11 +91,11 @@ The parameters are as follows:
 * `type`
 * `transform` - a function that transforms the match from the regexp. Must have arity 1 if the regexp doesn't have
   any capture groups. Otherwise the arity must match the number of capture groups.
-* `useForSnippets` (Ruby: `use_for_snippets`) - Try leaving this to `true`. That means this parameter type will be used to generate
+* `useForSnippets` (Ruby: `use_for_snippets`) - Defaults to `true`. That means this parameter type will be used to generate
   snippets for undefined steps. If the `regexp` frequently matches text you don't intend to be
-  used as arguments, disable its use un snippets with `false`.
-* `preferForRegexpMatch` (Ruby: `prefer_for_regexp_match`) - set this to `false` unless you have step definitions using regular expressions.
-  You may want to set it to true if you use regular expressions and you want this parameter type's regexp
+  used as arguments, disable its use for snippets with `false`.
+* `preferForRegexpMatch` (Ruby: `prefer_for_regexp_match`) - Defaults to `false`.
+  Set to `true` if you use regular expressions and you want this parameter type's regexp
   take precedence over others during a match.
 
 Now assume we have a Gherkin step with the following text following the step keyword:
