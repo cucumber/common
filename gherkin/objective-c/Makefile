@@ -15,6 +15,8 @@ else
 	DEFAULT_TARGET=.compared
 endif
 
+.DELETE_ON_ERROR:
+
 default: $(DEFAULT_TARGET)
 .PHONY: default
 
@@ -33,19 +35,16 @@ acceptance/testdata/%.feature.tokens: testdata/%.feature testdata/%.feature.toke
 	mkdir -p `dirname $@`
 	bin/gherkin-generate-tokens $< > $@
 	diff --unified $<.tokens $@
-.DELETE_ON_ERROR: acceptance/testdata/%.feature.tokens
 
 acceptance/testdata/%.feature.ast.ndjson: testdata/%.feature testdata/%.feature.ast.ndjson .built
 	mkdir -p `dirname $@`
 	bin/gherkin-generate-ast $< | jq --sort-keys "." > $@
 	diff --unified <(jq "." $<.ast.ndjson) <(jq "." $@)
-.DELETE_ON_ERROR: acceptance/testdata/%.feature.ast.ndjson
 
 acceptance/testdata/%.feature.errors.ndjson: testdata/%.feature testdata/%.feature.errors.ndjson .built
 	mkdir -p `dirname $@`
 	bin/gherkin $< | jq --sort-keys --compact-output "." > $@
 	diff --unified <(jq "." $<.errors.ndjson) <(jq "." $@)
-.DELETE_ON_ERROR: acceptance/testdata/%.feature.errors.ndjson
 
 clean:
 	rm -rf .compared .built acceptance Gherkin/GHParser.m Gherkin/GHParser.h

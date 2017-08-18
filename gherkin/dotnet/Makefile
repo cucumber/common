@@ -22,6 +22,8 @@ else
 	DEFAULT_TARGET=.compared
 endif
 
+.DELETE_ON_ERROR:
+
 default: $(DEFAULT_TARGET)
 .PHONY: default
 
@@ -42,19 +44,16 @@ acceptance/testdata/%.feature.tokens: testdata/%.feature testdata/%.feature.toke
 
 	bin/gherkin-generate-tokens netcoreapp1.1 $< > $@
 	diff --unified $<.tokens $@
-.DELETE_ON_ERROR: acceptance/testdata/%.feature.tokens
 
 acceptance/testdata/%.feature.pickles.ndjson: testdata/%.feature testdata/%.feature.pickles.ndjson .sln_built_debug
 	mkdir -p `dirname $@`
 	bin/gherkin netcoreapp1.1 --no-source --no-ast $< | jq --sort-keys --compact-output "." > $@
 	diff --unified <(jq "." $<.pickles.ndjson) <(jq "." $@)
-.DELETE_ON_ERROR: acceptance/testdata/%.feature.pickles.ndjson
 
 acceptance/testdata/%.feature.source.ndjson: testdata/%.feature testdata/%.feature.source.ndjson .sln_built_debug
 	mkdir -p `dirname $@`
 	bin/gherkin netcoreapp1.1 --no-pickles --no-ast $< | jq --sort-keys --compact-output "." > $@
 	diff --unified <(jq "." $<.source.ndjson) <(jq "." $@)
-.DELETE_ON_ERROR: acceptance/testdata/%.feature.source.ndjson
 
 acceptance/testdata/%.feature.ast.ndjson: testdata/%.feature testdata/%.feature.ast.ndjson .sln_built_debug
 	mkdir -p `dirname $@`
@@ -66,7 +65,6 @@ acceptance/testdata/%.feature.ast.ndjson: testdata/%.feature testdata/%.feature.
 
 	bin/gherkin netcoreapp1.1 --no-source --no-pickles $< | jq --sort-keys --compact-output "." > $@
 	diff --unified <(jq "." $<.ast.ndjson) <(jq "." $@)
-.DELETE_ON_ERROR: acceptance/testdata/%.feature.ast.ndjson
 
 acceptance/testdata/%.feature.errors.ndjson: testdata/%.feature testdata/%.feature.errors.ndjson .sln_built_debug
 	mkdir -p `dirname $@`
@@ -78,7 +76,6 @@ acceptance/testdata/%.feature.errors.ndjson: testdata/%.feature testdata/%.featu
 
 	bin/gherkin netcoreapp1.1 --no-pickles $< | jq --sort-keys --compact-output "." > $@
 	diff --unified $<.errors.ndjson $@
-.DELETE_ON_ERROR: acceptance/testdata/%.feature.errors.ndjson
 
 clean:
 	rm -rf .compared .built acceptance Gherkin/Parser.cs

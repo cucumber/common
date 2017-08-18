@@ -22,6 +22,8 @@ else
 	RUN_GHERKIN_GENERATE_TOKENS=$(GHERKIN_GENERATE_TOKENS)
 endif
 
+.DELETE_ON_ERROR:
+
 default: .compared
 .PHONY: default
 
@@ -70,28 +72,23 @@ acceptance/testdata/%.feature.tokens: testdata/%.feature testdata/%.feature.toke
 	echo $(RUN_GHERKIN_GENERATE_TOKENS)
 	$(RUN_GHERKIN_GENERATE_TOKENS) $< > $@
 	diff --strip-trailing-cr --unified $<.tokens $@
-.DELETE_ON_ERROR: acceptance/testdata/%.feature.tokens
 
 acceptance/testdata/%.feature.ast.ndjson: testdata/%.feature testdata/%.feature.ast.ndjson $(GHERKIN)
 	mkdir -p `dirname $@`
 	$(RUN_GHERKIN) --no-source --no-pickles $< | jq --sort-keys --compact-output "." > $@
 	diff --unified <(jq "." $<.ast.ndjson) <(jq "." $@)
-.DELETE_ON_ERROR: acceptance/testdata/%.feature.ast.ndjson
 
 acceptance/testdata/%.feature.errors.ndjson: testdata/%.feature testdata/%.feature.errors.ndjson $(GHERKIN)
 	mkdir -p `dirname $@`
 	$(RUN_GHERKIN) --no-source --no-pickles $< | jq --sort-keys --compact-output "." > $@
 	diff --unified <(jq "." $<.errors.ndjson) <(jq "." $@)
-.DELETE_ON_ERROR: acceptance/testdata/%.feature.errors.ndjson
 
 acceptance/testdata/%.feature.pickles.ndjson: testdata/%.feature testdata/%.feature.pickles.ndjson $(GHERKIN)
 	mkdir -p `dirname $@`
 	$(RUN_GHERKIN) --no-source --no-ast $< | jq --sort-keys --compact-output "." > $@
 	diff --unified <(jq "." $<.pickles.ndjson) <(jq "." $@)
-.DELETE_ON_ERROR: acceptance/testdata/%.feature.pickles.ndjson
 
 acceptance/testdata/%.feature.source.ndjson: testdata/%.feature testdata/%.feature.source.ndjson .built
 	mkdir -p `dirname $@`
 	$(RUN_GHERKIN) --no-ast --no-pickles $< | jq --sort-keys --compact-output "." > $@
 	diff --unified <(jq "." $<.source.ndjson) <(jq "." $@)
-.DELETE_ON_ERROR: acceptance/testdata/%.feature.source.ndjson
