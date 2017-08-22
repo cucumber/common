@@ -46,6 +46,10 @@ module Cucumber
           "I can cancel the 1st slide upload")
         ).to eq(["I", "can", 1, "slide"])
       end
+      
+      it "ignores escaped 2.x parenthesis" do
+        expect( match(/Across the line\(s\)/, 'Across the line\(s\)') ).to be_nil
+      end
 
       it "exposes source and regexp" do
         regexp = /I have (\d+) cukes? in my (\+) now/
