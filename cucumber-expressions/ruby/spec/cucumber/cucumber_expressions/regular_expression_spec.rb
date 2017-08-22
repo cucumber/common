@@ -48,7 +48,7 @@ module Cucumber
       end
       
       it "ignores escaped 2.x parenthesis" do
-        expect( match(/Across the line\(s\)/, 'Across the line\(s\)') ).to be_nil
+        expect( match(/Across the line\(s\)/, 'Across the line(s)') ).to eq([])
       end
 
       it "exposes source and regexp" do
