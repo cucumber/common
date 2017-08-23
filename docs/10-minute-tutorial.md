@@ -41,7 +41,7 @@ group :test do
 end
 {% endcodetabs %}
 
-Download Cucumber
+Download Cucumber:
 
 {% codetabs name="Maven", type="bash" %}
 # Nothing to do at this step
@@ -51,7 +51,7 @@ npm install
 bundle install
 {% endcodetabs %}
 
-Well done - you're ready to create some files
+Well done - you're ready to create some files!
 
 ## Create a simple directory structure
 
