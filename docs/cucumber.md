@@ -3,7 +3,7 @@
 The first questions for a beginner are usually something like:
  
   *1. What is Cucumber?*
-  *2. How Cucumber works with BDD?*
+  *2. How does Cucumber work with BDD?*
   
 Here are the answers.
 
