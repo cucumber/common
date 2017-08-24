@@ -47,7 +47,7 @@ module Cucumber
         ).to eq(["I", "can", 1, "slide"])
       end
 
-      it "ignores escaped 2.x parenthesis" do
+      it "works with escaped parenthesis" do
         expect( match(/Across the line\(s\)/, 'Across the line(s)') ).to eq([])
       end
 

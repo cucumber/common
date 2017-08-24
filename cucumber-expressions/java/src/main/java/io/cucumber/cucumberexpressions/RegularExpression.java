@@ -4,10 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 public class RegularExpression implements Expression {
-    private static final Pattern CAPTURE_GROUP_PATTERN = Pattern.compile("\\((?!\\?:)([^(]+)\\)");
-
     private final Pattern expressionRegexp;
     private final ParameterTypeRegistry parameterTypeRegistry;
     private TreeRegexp treeRegexp;
@@ -28,23 +27,19 @@ public class RegularExpression implements Expression {
 
     @Override
     public List<Argument<?>> match(String text) {
-        List<ParameterType<?>> parameterTypes = new ArrayList<>();
-
-        Matcher matcher = CAPTURE_GROUP_PATTERN.matcher(expressionRegexp.pattern());
-        while (matcher.find()) {
-            String parameterTypeRegexp = matcher.group(1);
+        List<ParameterType<?>> parameterTypes = treeRegexp.getGroupBuilder().getChildren().stream().map(groupBuilder -> {
+            String parameterTypeRegexp = groupBuilder.getSource();
 
             ParameterType<?> parameterType = parameterTypeRegistry.lookupByRegexp(parameterTypeRegexp, expressionRegexp, text);
-            if (parameterType == null) {
-                parameterType = new ParameterType<>(
-                        parameterTypeRegexp,
-                        parameterTypeRegexp,
-                        String.class,
-                        new SingleTransformer<>(String::new)
-                );
-            }
-            parameterTypes.add(parameterType);
-        }
+            if (parameterType == null) parameterType = new ParameterType<>(
+                    parameterTypeRegexp,
+                    parameterTypeRegexp,
+                    String.class,
+                    new SingleTransformer<>(String::new)
+            );
+            return parameterType;
+        }).collect(Collectors.toList());
+
         return Argument.build(treeRegexp, parameterTypes, text);
     }
 

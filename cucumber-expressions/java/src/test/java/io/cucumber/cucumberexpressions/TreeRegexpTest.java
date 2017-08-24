@@ -2,10 +2,19 @@ package io.cucumber.cucumberexpressions;
 
 import org.junit.Test;
 
+import java.util.stream.Collectors;
+
+import static java.util.Arrays.asList;
 import static java.util.Collections.emptyList;
 import static org.junit.Assert.assertEquals;
 
 public class TreeRegexpTest {
+    @Test
+    public void exposes_group_source() {
+        TreeRegexp tr = new TreeRegexp("(a(?:b)?)(c)");
+        assertEquals(asList("a(?:b)?", "c"), tr.getGroupBuilder().getChildren().stream().map(gb -> gb.getSource()).collect(Collectors.toList()));
+    }
+
     @Test
     public void builds_tree() {
         TreeRegexp tr = new TreeRegexp("(a(b(c))(d))");
