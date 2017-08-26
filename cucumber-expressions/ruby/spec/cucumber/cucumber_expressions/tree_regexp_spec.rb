@@ -3,6 +3,11 @@ require 'cucumber/cucumber_expressions/tree_regexp'
 module Cucumber
   module CucumberExpressions
     describe TreeRegexp do
+      it 'exposes group source' do
+        tr = TreeRegexp.new(/(a(?:b)?)(c)/)
+        expect(tr.group_builder.children.map{|gb| gb.source}).to eq(['a(?:b)?', 'c'])
+      end
+
       it 'builds tree' do
         tr = TreeRegexp.new(/(a(?:b)?)(c)/)
         group = tr.match('ac')

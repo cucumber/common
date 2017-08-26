@@ -7,15 +7,20 @@ class TreeRegexp {
     this._regex = new Regex(this._re)
 
     const stack = [new GroupBuilder()]
+    const groupStartStack = []
+
     let last = null
     let nonCapturingMaybe = false
-    this._re.source.split('').forEach(c => {
+    this._re.source.split('').forEach((c, n) => {
       if (c === '(' && last !== '\\') {
         stack.push(new GroupBuilder())
+        groupStartStack.push(n + 1)
         nonCapturingMaybe = false
       } else if (c === ')' && last !== '\\') {
         const gb = stack.pop()
+        const groupStart = groupStartStack.pop()
         if (gb.capturing) {
+          gb.source = this._re.source.substring(groupStart, n)
           stack[stack.length - 1].add(gb)
         } else {
           gb.moveChildrenTo(stack[stack.length - 1])
@@ -34,6 +39,10 @@ class TreeRegexp {
 
   get regexp() {
     return this._re
+  }
+
+  get groupBuilder() {
+    return this._groupBuilder
   }
 
   match(s) {

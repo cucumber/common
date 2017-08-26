@@ -3,6 +3,8 @@ require 'cucumber/cucumber_expressions/group'
 module Cucumber
   module CucumberExpressions
     class GroupBuilder
+      attr_accessor :source
+
       def initialize
         @group_builders = []
         @capturing = true
@@ -30,6 +32,10 @@ module Cucumber
         @group_builders.each do |child|
           group_builder.add(child)
         end
+      end
+
+      def children
+        @group_builders
       end
     end
   end

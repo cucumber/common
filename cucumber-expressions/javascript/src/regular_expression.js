@@ -10,34 +10,27 @@ class RegularExpression {
   }
 
   match(text) {
-    const parameterTypes = []
+    const parameterTypes = this._treeRegexp.groupBuilder.children.map(
+      groupBuilder => {
+        const parameterTypeRegexp = groupBuilder.source
 
-    const CAPTURE_GROUP_PATTERN = /\((?!\?:)([^(]+)\)/g
-
-    let match
-    while (
-      (match = CAPTURE_GROUP_PATTERN.exec(this._treeRegexp.regexp.source)) !==
-      null
-    ) {
-      const parameterTypeRegexp = match[1]
-
-      let parameterType = this._parameterTypeRegistry.lookupByRegexp(
-        parameterTypeRegexp,
-        this._treeRegexp,
-        text
-      )
-      if (!parameterType) {
-        parameterType = new ParameterType(
-          parameterTypeRegexp,
-          parameterTypeRegexp,
-          String,
-          s => s,
-          false,
-          false
+        return (
+          this._parameterTypeRegistry.lookupByRegexp(
+            parameterTypeRegexp,
+            this._treeRegexp,
+            text
+          ) ||
+          new ParameterType(
+            parameterTypeRegexp,
+            parameterTypeRegexp,
+            String,
+            s => s,
+            false,
+            false
+          )
         )
       }
-      parameterTypes.push(parameterType)
-    }
+    )
 
     return Argument.build(this._treeRegexp, text, parameterTypes)
   }

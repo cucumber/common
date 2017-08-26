@@ -8,6 +8,7 @@ import java.util.regex.Matcher;
 class GroupBuilder {
     private List<GroupBuilder> groupBuilders = new ArrayList<>();
     private boolean capturing = true;
+    private String source;
 
     void add(GroupBuilder groupBuilder) {
         groupBuilders.add(groupBuilder);
@@ -34,5 +35,17 @@ class GroupBuilder {
         for (GroupBuilder child : groupBuilders) {
             groupBuilder.add(child);
         }
+    }
+
+    public List<GroupBuilder> getChildren() {
+        return groupBuilders;
+    }
+
+    public String getSource() {
+        return source;
+    }
+
+    void setSource(String source) {
+        this.source = source;
     }
 }

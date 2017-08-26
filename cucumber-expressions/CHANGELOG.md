@@ -12,6 +12,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Changed
 ### Fixed
 
+* Support escaped parenthesis in Regular expressions ([#254](https://github.com/cucumber/cucumber/pull/254) by [jaysonesmith], [aslakhellesoy])
+
 ## [4.0.3] - 2017-07-24
 
 ### Fixed
@@ -226,4 +228,5 @@ N/A
 [brasmusson]:       https://github.com/brasmusson
 [charlierudolph]:   https://github.com/charlierudolph
 [gpichot]:          https://github.com/charlierudolph
+[jaysonesmith]:     https://github.com/jaysonesmith
 [kAworu]:           https://github.com/kAworu

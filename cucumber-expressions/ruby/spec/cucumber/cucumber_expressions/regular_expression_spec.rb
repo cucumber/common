@@ -47,6 +47,10 @@ module Cucumber
         ).to eq(["I", "can", 1, "slide"])
       end
 
+      it "works with escaped parenthesis" do
+        expect( match(/Across the line\(s\)/, 'Across the line(s)') ).to eq([])
+      end
+
       it "exposes source and regexp" do
         regexp = /I have (\d+) cukes? in my (\+) now/
         expression = RegularExpression.new(regexp, ParameterTypeRegistry.new)

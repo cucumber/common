@@ -8,6 +8,7 @@ import java.util.Locale;
 import java.util.regex.Pattern;
 
 import static java.util.Arrays.asList;
+import static java.util.Collections.emptyList;
 import static java.util.Collections.singletonList;
 import static java.util.regex.Pattern.compile;
 import static org.junit.Assert.assertEquals;
@@ -50,6 +51,14 @@ public class RegularExpressionTest {
         String step = "I can cancel the 1st slide upload";
         List<?> match = match(compile(expr), step);
         assertEquals(asList("I", "can", 1, "slide"), match);
+    }
+
+    @Test
+    public void works_with_escaped_parenthesis() {
+        String expr = "Across the line\\(s\\)";
+        String step = "Across the line(s)";
+        List<?> match = match(compile(expr), step);
+        assertEquals(emptyList (), match);
     }
 
     @Test
