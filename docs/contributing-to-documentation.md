@@ -2,6 +2,9 @@
 
 The Cucumber documentation is open source and anyone is welcome to contribute.
 
+> **Note:** Do not update documentation in *this* repo. We are busy adding old documentation to a new repository [docs.cucumber.io](https://github.com/cucumber/docs.cucumber.io) to replace the current documentation on cucumber.io.
+Please make **ALL** contributions to the documentation [here](https://github.com/cucumber/docs.cucumber.io).
+
 ## Process
 
 First-time **contributors** will have to send a pull request.
