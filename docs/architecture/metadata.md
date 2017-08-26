@@ -1,8 +1,8 @@
 # Metadata
 
 Cucumber metadata is a mechanism and format for enriching executable
-specification documents (in Gherkin, Markdown or other format) with extra
-information.
+specification documents (written in Gherkin, Markdown, or another format) 
+with extra information.
 
 Typical consumers of Cucumber metadata are reporting and analysis tools that
 render the original specification documents enriched with the extra information
@@ -10,7 +10,7 @@ from the metadata.
 
 Metadata information may originate from Cucumber (RESULTS, STACK_TRACES,
 STEP_DEFINITIONS, SCREEN_SHOTS etc), but it may also originate from other
-sources such as linting tools or other 3rd-party tools.
+sources (such as linting tools or other 3rd-party tools).
 
 The format defines a minimal set of properties that must be present (in order to
 locate where in the document it belongs), and can be extended by adding custom
@@ -22,22 +22,22 @@ properties:
 * `path` (Path to the document)
 * `line` (1-indexed)
 * `column` (1-indexed, optional)
-* `timestamp` (When was the metadata created. Milliseconds since Epoch)
+* `timestamp` (When was the metadata created, in milliseconds since epoch)
 * `mimetype` (What kind of metadata is this)
 
 Additional `mimetype`-specific properties MUST be added in order to provide the actual
 metadata.
 
-## Mime types
+## MIME types
 
-All metadata MUST have a Mime type associated with it so that consumers can
+All metadata MUST have a MIME type associated with it so that consumers can
 process them accordingly.
 
-Cucumber defines the following Mime types:
+Cucumber defines the following MIME types:
 
-* application/json+cucumber-step-definition
-* text/plain+cucumber-stack-trace
-* text/plain+cucumber-logging
+* `application/json+cucumber-step-definition`
+* `text/plain+cucumber-stack-trace`
+* `text/plain+cucumber-logging`
 
 ## Format
 
