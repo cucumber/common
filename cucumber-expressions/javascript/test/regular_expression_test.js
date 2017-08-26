@@ -50,6 +50,10 @@ describe('RegularExpression', () => {
     )
   })
 
+  it('works with escaped parenthesis', () => {
+    assert.deepEqual(match(/Across the line\(s\)/, 'Across the line(s)'), [])
+  })
+
   it('exposes regexp and source', () => {
     const regexp = /I have (\d+) cukes? in my (.+) now/
     let expression = new RegularExpression(regexp, new ParameterTypeRegistry())

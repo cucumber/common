@@ -31,6 +31,10 @@ class GroupBuilder {
     return this._capturing
   }
 
+  get children() {
+    return this._groupBuilders
+  }
+
   moveChildrenTo(groupBuilder) {
     this._groupBuilders.forEach(child => groupBuilder.add(child))
   }

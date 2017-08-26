@@ -3,6 +3,13 @@ const assert = require('assert')
 const TreeRegexp = require('../src/tree_regexp')
 
 describe('TreeRegexp', () => {
+  it('exposes group source', () => {
+    const tr = new TreeRegexp(/(a(?:b)?)(c)/)
+    assert.deepEqual(
+      tr.groupBuilder.children.map(gb => gb.source)[('a(?:b)?', 'c')]
+    )
+  })
+
   it('builds tree', () => {
     const tr = new TreeRegexp(/(a(?:b)?)(c)/)
     const group = tr.match('ac')
