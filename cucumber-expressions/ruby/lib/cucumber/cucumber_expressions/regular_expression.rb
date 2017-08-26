@@ -5,7 +5,7 @@ require 'cucumber/cucumber_expressions/tree_regexp'
 module Cucumber
   module CucumberExpressions
     class RegularExpression
-      CAPTURE_GROUP_PATTERN = /\((?!\?:)([^(]+)\)/
+      CAPTURE_GROUP_PATTERN = /(?<!\\)\((?!\?:)([^(]+)\)/
 
       def initialize(expression_regexp, parameter_type_registry)
         @expression_regexp = expression_regexp
