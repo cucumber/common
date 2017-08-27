@@ -1,7 +1,24 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFrameworks>netstandard1.5;netcoreapp1.1;net45</TargetFrameworks>
+    <TargetFrameworks Condition="'$(OS)' == 'Windows'">netstandard1.5;net45</TargetFrameworks>
+    <TargetFrameworks Condition="'$(OS)' == 'Unix'">netstandard1.5</TargetFrameworks>
+    
   </PropertyGroup>
+
+  <PropertyGroup>
+     <PackageId>Gherkin</PackageId>
+     <PackageVersion>4.0.0</PackageVersion>
+     <Authors>Cucumber Ltd, Gaspar Nagy</Authors>
+     <Title>Gherkin Parser</Title>
+     <Description>Cross-platform parser for the Gherkin language, used by Cucumber, SpecFlow and other Cucumber-based tools to parse feature files.</Description>
+     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
+     <Copyright>Copyright © Cucumber Ltd, Gaspar Nagy</Copyright>
+     <PackageTags>specflow gherkin cucumber</PackageTags>
+     <PackageProjectUrl>https://github.com/cucumber/gherkin</PackageProjectUrl>
+     <PackageIconUrl>https://cucumber.io/images/cucumber-mark-32x32.png</PackageIconUrl>
+     <PackageLicenseUrl>https://github.com/cucumber/gherkin/blob/master/LICENSE</PackageLicenseUrl>     
+  </PropertyGroup>
+
   <ItemGroup>
     <None Remove="gherkin-languages.json" />
   </ItemGroup>

@@ -31,54 +31,39 @@ skip_build:
 	@echo -e "\x1b[31;01mSKIPPING GHERKIN .NET BUILD ON ALPINE\x1b[0m"
 .PHONY: skip_build
 
-.compared: .sln_built_debug $(TOKENS) $(ASTS) $(PICKLES) $(SOURCES) $(ERRORS)
+.compared: .sln_built_debug .run_tests $(TOKENS) $(ASTS) $(PICKLES) $(SOURCES) $(ERRORS)
 	touch $@
 
-acceptance/testdata/%.feature.tokens: testdata/%.feature testdata/%.feature.tokens .sln_built_debug
+acceptance/testdata/%.feature.tokens: testdata/%.feature testdata/%.feature.tokens .sln_built_debug .run_tests
 	mkdir -p `dirname $@`
-
-	# bin/gherkin-generate-tokens net45 $< > $@
-	# diff --unified $<.tokens $@
-
-	rm -f $@
 
 	bin/gherkin-generate-tokens netcoreapp1.1 $< > $@
 	diff --unified $<.tokens $@
 
-acceptance/testdata/%.feature.pickles.ndjson: testdata/%.feature testdata/%.feature.pickles.ndjson .sln_built_debug
+acceptance/testdata/%.feature.pickles.ndjson: testdata/%.feature testdata/%.feature.pickles.ndjson .sln_built_debug .run_tests
 	mkdir -p `dirname $@`
 	bin/gherkin netcoreapp1.1 --no-source --no-ast $< | jq --sort-keys --compact-output "." > $@
 	diff --unified <(jq "." $<.pickles.ndjson) <(jq "." $@)
 
-acceptance/testdata/%.feature.source.ndjson: testdata/%.feature testdata/%.feature.source.ndjson .sln_built_debug
+acceptance/testdata/%.feature.source.ndjson: testdata/%.feature testdata/%.feature.source.ndjson .sln_built_debug .run_tests
 	mkdir -p `dirname $@`
 	bin/gherkin netcoreapp1.1 --no-pickles --no-ast $< | jq --sort-keys --compact-output "." > $@
 	diff --unified <(jq "." $<.source.ndjson) <(jq "." $@)
 
-acceptance/testdata/%.feature.ast.ndjson: testdata/%.feature testdata/%.feature.ast.ndjson .sln_built_debug
+acceptance/testdata/%.feature.ast.ndjson: testdata/%.feature testdata/%.feature.ast.ndjson .sln_built_debug .run_tests
 	mkdir -p `dirname $@`
-
-	# bin/gherkin net45 --no-source --no-pickles $< | jq --sort-keys --compact-output "." > $@
-	# diff --unified <(jq "." $<.ast.ndjson) <(jq "." $@)
-
-	rm -f $@
 
 	bin/gherkin netcoreapp1.1 --no-source --no-pickles $< | jq --sort-keys --compact-output "." > $@
 	diff --unified <(jq "." $<.ast.ndjson) <(jq "." $@)
 
-acceptance/testdata/%.feature.errors.ndjson: testdata/%.feature testdata/%.feature.errors.ndjson .sln_built_debug
+acceptance/testdata/%.feature.errors.ndjson: testdata/%.feature testdata/%.feature.errors.ndjson .sln_built_debug .run_tests
 	mkdir -p `dirname $@`
-
-	# bin/gherkin net45 --no-pickles $< | jq --sort-keys --compact-output "." > $@
-	# diff --unified $<.errors.ndjson $@
-
-	rm -f $@
 
 	bin/gherkin netcoreapp1.1 --no-pickles $< | jq --sort-keys --compact-output "." > $@
 	diff --unified $<.errors.ndjson $@
 
 clean:
-	rm -rf .compared .built acceptance Gherkin/Parser.cs
+	rm -rf .compared .built .run_tests acceptance Gherkin/Parser.cs
 	rm -rf */bin
 	rm -rf */obj
 	rm -rf */packages
@@ -91,16 +76,11 @@ Gherkin/Parser.cs: gherkin.berp gherkin-csharp.razor berp/berp.exe
 .sln_built_debug: Gherkin/Parser.cs $(CS_FILES) Gherkin/gherkin-languages.json
 	echo "Building on $(UNAME)"
 
-	dotnet --version
 	dotnet restore
-	dotnet build $(dotnet_build_opts)
+	dotnet build 
 
-	# dotnet publish --output output/netstandard1.5  --framework netstandard1.5 Gherkin.CLI/
-	# dotnet publish --output output/net45           --framework net45          Gherkin.CLI/
-	# dotnet publish --output output/netcoreapp1.1   --framework netcoreapp1.1  Gherkin.CLI/
+	touch $@
 
-	# dotnet publish --output output/netstandard1.5  --framework netstandard1.5 Gherkin.TokensGenerator/
-	# dotnet publish --output output/net45           --framework net45          Gherkin.TokensGenerator/
-	# dotnet publish --output output/netcoreapp1.1   --framework netcoreapp1.1  Gherkin.TokensGenerator/
-
+.run_tests:
+	dotnet test ./Gherkin.Specs/Gherkin.Specs.csproj
 	touch $@
