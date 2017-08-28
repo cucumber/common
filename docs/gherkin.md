@@ -1,4 +1,4 @@
-#Gherkin
+# Gherkin
 
 ## Scenario Outline {#scenario-outline}
 Copying and pasting scenarios to use different values quickly becomes tedious and repetitive:
