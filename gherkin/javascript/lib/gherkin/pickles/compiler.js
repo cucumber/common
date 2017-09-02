@@ -24,9 +24,7 @@ function Compiler() {
   };
 
   function compileScenario(featureTags, backgroundSteps, scenario, language, pickles) {
-    if (scenario.steps.length == 0) return;
-
-    var steps = [].concat(backgroundSteps);
+    var steps = scenario.steps.length == 0 ? [] : [].concat(backgroundSteps);
 
     var tags = [].concat(featureTags).concat(scenario.tags);
 
@@ -45,13 +43,11 @@ function Compiler() {
   }
 
   function compileScenarioOutline(featureTags, backgroundSteps, scenarioOutline, language, pickles) {
-    if (scenarioOutline.steps.length == 0) return;
-
     scenarioOutline.examples.filter(function(e) { return e.tableHeader != undefined; }).forEach(function (examples) {
       var variableCells = examples.tableHeader.cells;
       examples.tableBody.forEach(function (values) {
         var valueCells = values.cells;
-        var steps = [].concat(backgroundSteps);
+        var steps = scenarioOutline.steps.length == 0 ? [] : [].concat(backgroundSteps);
         var tags = [].concat(featureTags).concat(scenarioOutline.tags).concat(examples.tags);
 
         scenarioOutline.steps.forEach(function (scenarioOutlineStep) {
