@@ -66,25 +66,24 @@ int Compiler_compile(Compiler* compiler, const GherkinDocument* gherkin_document
         }
         else if (feature->scenario_definitions->scenario_definitions[i]->type == Gherkin_Scenario) {
             const Scenario* scenario = (const Scenario*)feature->scenario_definitions->scenario_definitions[i];
-            if (scenario->steps->step_count == 0) {
-                continue;
-            }
             const PickleLocations* locations = PickleLocations_new_single(scenario->location.line, scenario->location.column);
             const PickleTags* tags = create_pickle_tags(feature->tags, scenario->tags, 0);
             PickleSteps* steps = (PickleSteps*)malloc(sizeof(PickleSteps));
-            steps->step_count = scenario->steps->step_count + background_step_count;
-            steps->steps = (PickleStep*)malloc(steps->step_count * sizeof(PickleStep));
-            if (background_steps) {
-                copy_steps(steps->steps, background_steps);
+            if (scenario->steps->step_count == 0) {
+                steps->step_count = 0;
+                steps->steps = 0;
+            } else {
+                steps->step_count = scenario->steps->step_count + background_step_count;
+                steps->steps = (PickleStep*)malloc(steps->step_count * sizeof(PickleStep));
+                if (background_steps) {
+                    copy_steps(steps->steps, background_steps);
+                }
+                copy_steps(steps->steps + background_step_count, scenario->steps);
             }
-            copy_steps(steps->steps + background_step_count, scenario->steps);
             ItemQueue_add(compiler->pickle_list, (Item*)Pickle_new(feature->language, locations, tags, scenario->name, steps));
         }
         else if (feature->scenario_definitions->scenario_definitions[i]->type == Gherkin_ScenarioOutline) {
             const ScenarioOutline* scenario_outline = (const ScenarioOutline*)feature->scenario_definitions->scenario_definitions[i];
-            if (scenario_outline->steps->step_count == 0) {
-                continue;
-            }
             int k;
             for (k = 0; k < scenario_outline->examples->example_count; ++k) {
                 ExampleTable* example_table = &scenario_outline->examples->example_table[k];
@@ -97,17 +96,22 @@ int Compiler_compile(Compiler* compiler, const GherkinDocument* gherkin_document
                     const TableRow* table_row = &example_table->table_body->table_rows[l];
                     const PickleLocations* locations = PickleLocations_new_double(table_row->location.line, table_row->location.column, scenario_outline->location.line, scenario_outline->location.column);
                     PickleSteps* steps = (PickleSteps*)malloc(sizeof(PickleSteps));
-                    steps->step_count = scenario_outline->steps->step_count +  + background_step_count;
-                    steps->steps = (PickleStep*)malloc(steps->step_count * sizeof(PickleStep));
-                    if (background_steps) {
-                        copy_steps(steps->steps, background_steps);
-                    }
-                    int j;
-                    for (j = 0; j < scenario_outline->steps->step_count; ++j) {
-                        int column_offset = scenario_outline->steps->steps[j].keyword ? StringUtilities_code_point_length(scenario_outline->steps->steps[j].keyword) : 0;
-                        const PickleLocations* step_locations = PickleLocations_new_double(table_row->location.line, table_row->location.column, scenario_outline->steps->steps[j].location.line, scenario_outline->steps->steps[j].location.column + column_offset);
-                        const PickleStep* step = expand_outline_step(&scenario_outline->steps->steps[j], example_table->table_header, table_row, step_locations);
-                        PickleStep_transfer(&steps->steps[background_step_count + j], (PickleStep*)step);
+                    if (scenario_outline->steps->step_count == 0) {
+                        steps->step_count = 0;
+                        steps->steps = 0;
+                    } else {
+                        steps->step_count = scenario_outline->steps->step_count +  + background_step_count;
+                        steps->steps = (PickleStep*)malloc(steps->step_count * sizeof(PickleStep));
+                        if (background_steps) {
+                            copy_steps(steps->steps, background_steps);
+                        }
+                        int j;
+                        for (j = 0; j < scenario_outline->steps->step_count; ++j) {
+                            int column_offset = scenario_outline->steps->steps[j].keyword ? StringUtilities_code_point_length(scenario_outline->steps->steps[j].keyword) : 0;
+                            const PickleLocations* step_locations = PickleLocations_new_double(table_row->location.line, table_row->location.column, scenario_outline->steps->steps[j].location.line, scenario_outline->steps->steps[j].location.column + column_offset);
+                            const PickleStep* step = expand_outline_step(&scenario_outline->steps->steps[j], example_table->table_header, table_row, step_locations);
+                            PickleStep_transfer(&steps->steps[background_step_count + j], (PickleStep*)step);
+                        }
                     }
                     const wchar_t* new_name = create_expanded_text(scenario_outline->name, example_table->table_header, table_row);
                     ItemQueue_add(compiler->pickle_list, (Item*)Pickle_new(feature->language, locations, tags, new_name, steps));
