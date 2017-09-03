@@ -40,11 +40,9 @@ namespace Gherkin.Pickles
 
         protected virtual void CompileScenario(List<Pickle> pickles, IEnumerable<PickleStep> backgroundSteps, Scenario scenario, IEnumerable<Tag> featureTags, string language)
         {
-            if (!scenario.Steps.Any())
-                return;
-
             var steps = new List<PickleStep>();
-            steps.AddRange(backgroundSteps);
+            if (scenario.Steps.Any())
+                steps.AddRange(backgroundSteps);
 
             var scenarioTags = new List<Tag>();
             scenarioTags.AddRange(featureTags);
@@ -69,9 +67,6 @@ namespace Gherkin.Pickles
 
         protected virtual void CompileScenarioOutline(List<Pickle> pickles, IEnumerable<PickleStep> backgroundSteps, ScenarioOutline scenarioOutline, IEnumerable<Tag> featureTags, string language)
         {
-            if (!scenarioOutline.Steps.Any())
-                return;
-
             foreach (var examples in scenarioOutline.Examples)
             {
                 if (examples.TableHeader == null) continue;
@@ -81,7 +76,8 @@ namespace Gherkin.Pickles
                     var valueCells = values.Cells;
 
                     var steps = new List<PickleStep>();
-                    steps.AddRange(backgroundSteps);
+                    if (scenarioOutline.Steps.Any())
+                        steps.AddRange(backgroundSteps);
 
                     var tags = new List<Tag>();
                     tags.AddRange(featureTags);
