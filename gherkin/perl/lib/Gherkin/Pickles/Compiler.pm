@@ -42,15 +42,17 @@ sub _compile_scenario {
     my $array_reference = $scenario->{'steps'};
     my @actual_array = @$array_reference;
     my $array_size = @actual_array;
-    if ($array_size == 0) { return; }
 
     my @tags = ( @$feature_tags, @{ $scenario->{'tags'} || [] } );
 
-    my @steps = (
-        @$background_steps,
-        map { $class->_pickle_step( $_ ) }
-          @{ $scenario->{'steps'} || [] }
-    );
+    my @steps;
+    if ($array_size > 0) {
+        @steps = (
+            @$background_steps,
+            map { $class->_pickle_step( $_ ) }
+            @{ $scenario->{'steps'} || [] }
+        );
+    }
 
     push(
         @$pickles,
@@ -72,19 +74,21 @@ sub _compile_scenario_outline {
     my $array_reference = $scenario_outline->{'steps'};
     my @actual_array = @$array_reference;
     my $array_size = @actual_array;
-    if ($array_size == 0) { return; }
 
     for my $examples ( @{ $scenario_outline->{'examples'} || [] } ) {
         my $variable_cells = $examples->{'tableHeader'}->{'cells'};
 
         for my $values ( @{ $examples->{'tableBody'} || [] } ) {
             my $value_cells = $values->{'cells'};
-            my @steps       = @$background_steps;
             my @tags        = (
                 @$feature_tags,
                 @{ $scenario_outline->{'tags'} || [] },
                 @{ $examples->{'tags'} || [] }
             );
+            my @steps;
+            if ($array_size > 0) {
+                @steps = @$background_steps;
+            }
 
             for my $scenario_outline_step ( @{ $scenario_outline->{'steps'} } )
             {
