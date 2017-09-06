@@ -2,9 +2,10 @@ package io.cucumber.cucumberexpressions;
 
 import java.util.ArrayDeque;
 import java.util.Deque;
+import java.util.Iterator;
+import java.util.NoSuchElementException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import java.util.stream.IntStream;
 
 /**
  * TreeRegexp represents matches as a tree of {@link Group}
@@ -39,7 +40,7 @@ class TreeRegexp {
                 GroupBuilder gb = stack.pop();
                 int groupStart = groupStartStack.pop();
                 if (gb.isCapturing()) {
-                    gb.setSource(source.substring(groupStart, n-1));
+                    gb.setSource(source.substring(groupStart, n - 1));
                     stack.peek().add(gb);
                 } else {
                     gb.moveChildrenTo(stack.peek());
@@ -62,12 +63,41 @@ class TreeRegexp {
     }
 
     Group match(CharSequence s) {
-        Matcher matcher = pattern.matcher(s);
+        final Matcher matcher = pattern.matcher(s);
         if (!matcher.matches()) return null;
-        return groupBuilder.build(matcher, IntStream.range(0, matcher.groupCount() + 1).iterator());
+        // IntStream.range(0, matcher.groupCount() + 1).iterator()
+        return groupBuilder.build(matcher, new IntRange(0, matcher.groupCount() + 1));
     }
 
     public GroupBuilder getGroupBuilder() {
         return groupBuilder;
+    }
+
+    private static class IntRange implements Iterator<Integer> {
+        private final int endExclusive;
+        private int n;
+
+        public IntRange(int startInclusive, int endExclusive) {
+            this.endExclusive = endExclusive;
+            n = startInclusive;
+        }
+
+        @Override
+        public boolean hasNext() {
+            return n < endExclusive;
+        }
+
+        @Override
+        public Integer next() {
+            if (!hasNext()) {
+                throw new NoSuchElementException();
+            }
+            return n++;
+        }
+
+        @Override
+        public void remove() {
+            throw new UnsupportedOperationException();
+        }
     }
 }

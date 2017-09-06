@@ -1,8 +1,13 @@
 package io.cucumber.cucumberexpressions;
 
 import java.text.Collator;
-import java.util.*;
-import java.util.stream.Collectors;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+
 
 public class GeneratedExpression {
     private static final Collator ENGLISH_COLLATOR = Collator.getInstance(Locale.ENGLISH);
@@ -32,7 +37,11 @@ public class GeneratedExpression {
     }
 
     public String getSource() {
-        List<String> parameterTypeNames = parameterTypes.stream().map(ParameterType::getName).collect(Collectors.toList());
+        List<String> parameterTypeNames = new ArrayList<>();
+        for (ParameterType<?> parameterType : parameterTypes) {
+            String name = parameterType.getName();
+            parameterTypeNames.add(name);
+        }
         return String.format(expressionTemplate, parameterTypeNames.toArray());
     }
 
@@ -46,7 +55,12 @@ public class GeneratedExpression {
 
     public List<String> getParameterNames() {
         HashMap<String, Integer> usageByTypeName = new HashMap<>();
-        return parameterTypes.stream().map(parameterType -> getParameterName(parameterType.getName(), usageByTypeName)).collect(Collectors.toList());
+        List<String> list = new ArrayList<>();
+        for (ParameterType<?> parameterType : parameterTypes) {
+            String parameterName = getParameterName(parameterType.getName(), usageByTypeName);
+            list.add(parameterName);
+        }
+        return list;
     }
 
     public List<ParameterType<?>> getParameterTypes() {

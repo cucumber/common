@@ -1,7 +1,7 @@
 package io.cucumber.cucumberexpressions;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import static java.util.Collections.singletonList;
 
@@ -35,7 +35,11 @@ public class Group {
     }
 
     public List<String> getValues() {
-        return (getChildren().isEmpty() ? singletonList(this) : getChildren())
-                .stream().map(Group::getValue).collect(Collectors.toList());
+        List<String> list = new ArrayList<>();
+        for (Group group : (getChildren().isEmpty() ? singletonList(this) : getChildren())) {
+            String groupValue = group.getValue();
+            list.add(groupValue);
+        }
+        return list;
     }
 }

@@ -2,7 +2,8 @@ package io.cucumber.cucumberexpressions;
 
 import org.junit.Test;
 
-import java.util.stream.Collectors;
+import java.util.ArrayList;
+import java.util.List;
 
 import static java.util.Arrays.asList;
 import static java.util.Collections.emptyList;
@@ -12,7 +13,12 @@ public class TreeRegexpTest {
     @Test
     public void exposes_group_source() {
         TreeRegexp tr = new TreeRegexp("(a(?:b)?)(c)");
-        assertEquals(asList("a(?:b)?", "c"), tr.getGroupBuilder().getChildren().stream().map(gb -> gb.getSource()).collect(Collectors.toList()));
+        List<String> list = new ArrayList<>();
+        for (GroupBuilder gb : tr.getGroupBuilder().getChildren()) {
+            String source = gb.getSource();
+            list.add(source);
+        }
+        assertEquals(asList("a(?:b)?", "c"), list);
     }
 
     @Test

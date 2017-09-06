@@ -16,7 +16,6 @@ import java.util.List;
 import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import java.util.stream.Collectors;
 
 import static org.junit.Assert.assertEquals;
 
@@ -62,6 +61,15 @@ public class ExpressionExamplesTest {
             expression = new CucumberExpression(expressionString, parameterTypeRegistry);
         }
         List<Argument<?>> args = expression.match(text);
-        return args == null ? null : args.stream().map(Argument::getValue).collect(Collectors.toList());
+        if (args == null) {
+            return null;
+        } else {
+            List<Object> list = new ArrayList<>();
+            for (Argument<?> arg : args) {
+                Object value = arg.getValue();
+                list.add(value);
+            }
+            return list;
+        }
     }
 }

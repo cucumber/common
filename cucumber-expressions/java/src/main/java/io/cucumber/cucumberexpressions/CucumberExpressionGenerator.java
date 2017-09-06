@@ -1,9 +1,15 @@
 package io.cucumber.cucumberexpressions;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+import java.util.SortedSet;
+import java.util.TreeSet;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import java.util.stream.Collectors;
 
 public class CucumberExpressionGenerator {
     private final ParameterTypeRegistry parameterTypeRegistry;
@@ -32,9 +38,12 @@ public class CucumberExpressionGenerator {
 
                 // Find all the best parameter type matchers, they are all candidates.
                 ParameterTypeMatcher bestParameterTypeMatcher = matchingParameterTypeMatchers.get(0);
-                List<ParameterTypeMatcher> bestParameterTypeMatchers = matchingParameterTypeMatchers.stream()
-                        .filter(m -> m.compareTo(bestParameterTypeMatcher) == 0)
-                        .collect(Collectors.toList());
+                List<ParameterTypeMatcher> bestParameterTypeMatchers = new ArrayList<>();
+                for (ParameterTypeMatcher m : matchingParameterTypeMatchers) {
+                    if (m.compareTo(bestParameterTypeMatcher) == 0) {
+                        bestParameterTypeMatchers.add(m);
+                    }
+                }
 
                 // Build a list of parameter types without duplicates. The reason there
                 // might be duplicates is that some parameter types have more than one regexp,
@@ -43,9 +52,12 @@ public class CucumberExpressionGenerator {
                 // We're sorting the list so preferential parameter types are listed first.
                 // Users are most likely to want these, so they should be listed at the top.
                 SortedSet<ParameterType<?>> parameterTypes = new TreeSet<>();
-                parameterTypes.addAll(bestParameterTypeMatchers.stream()
-                        .map(ParameterTypeMatcher::getParameterType)
-                        .collect(Collectors.toSet()));
+                Set<ParameterType<?>> set = new HashSet<>();
+                for (ParameterTypeMatcher parameterTypeMatcher : bestParameterTypeMatchers) {
+                    ParameterType<?> parameterType = parameterTypeMatcher.getParameterType();
+                    set.add(parameterType);
+                }
+                parameterTypes.addAll(set);
 
                 parameterTypeCombinations.add(new ArrayList<>(parameterTypes));
 

@@ -2,8 +2,8 @@ package io.cucumber.cucumberexpressions;
 
 import org.junit.Test;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import static java.util.Arrays.asList;
 import static org.junit.Assert.assertEquals;
@@ -15,13 +15,38 @@ public class CombinatorialGeneratedExpressionFactoryTest {
     public void generates_multiple_expressions() {
         List<List<ParameterType<?>>> parameterTypeCombinations = asList(
                 asList(
-                        new ParameterType<>("color", WORD, Color.class, new SingleTransformer<Color>(Color::new)),
-                        new ParameterType<>("csscolor", WORD, CssColor.class, new SingleTransformer<CssColor>(CssColor::new))
+                        new ParameterType<>("color", WORD, Color.class, new SingleTransformer<>(new Function<String, Color>() {
+                            @Override
+                            public Color apply(String s) {
+                                return new Color(s);
+                            }
+                        })),
+                        new ParameterType<>("csscolor", WORD, CssColor.class, new SingleTransformer<>(new Function<String, CssColor>() {
+                            @Override
+                            public CssColor apply(String s) {
+                                return new CssColor(s);
+                            }
+                        }))
                 ),
                 asList(
-                        new ParameterType<>("date", WORD, Date.class, new SingleTransformer<Date>(Date::new)),
-                        new ParameterType<>("datetime", WORD, DateTime.class, new SingleTransformer<DateTime>(DateTime::new)),
-                        new ParameterType<>("timestamp", WORD, Timestamp.class, new SingleTransformer<Timestamp>(Timestamp::new))
+                        new ParameterType<>("date", WORD, Date.class, new SingleTransformer<>(new Function<String, Date>() {
+                            @Override
+                            public Date apply(String s) {
+                                return new Date(s);
+                            }
+                        })),
+                        new ParameterType<>("datetime", WORD, DateTime.class, new SingleTransformer<>(new Function<String, DateTime>() {
+                            @Override
+                            public DateTime apply(String s) {
+                                return new DateTime(s);
+                            }
+                        })),
+                        new ParameterType<>("timestamp", WORD, Timestamp.class, new SingleTransformer<>(new Function<String, Timestamp>() {
+                            @Override
+                            public Timestamp apply(String s) {
+                                return new Timestamp(s);
+                            }
+                        }))
                 )
         );
         CombinatorialGeneratedExpressionFactory factory = new CombinatorialGeneratedExpressionFactory(
@@ -29,7 +54,11 @@ public class CombinatorialGeneratedExpressionFactoryTest {
                 parameterTypeCombinations
         );
         List<GeneratedExpression> generatedExpressions = factory.generateExpressions();
-        List<String> expressions = generatedExpressions.stream().map(GeneratedExpression::getSource).collect(Collectors.toList());
+        List<String> expressions = new ArrayList<>();
+        for (GeneratedExpression generatedExpression : generatedExpressions) {
+            String source = generatedExpression.getSource();
+            expressions.add(source);
+        }
         assertEquals(asList(
                 "I bought a {color} ball on {date}",
                 "I bought a {color} ball on {datetime}",
