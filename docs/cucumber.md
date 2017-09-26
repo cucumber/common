@@ -11,9 +11,9 @@ For these two typical questions here are the answers
 
 Cucumber is a [command-line tool](https://en.wikipedia.org/wiki/Command-line_interface). When you run it, it reads in your specifications from plain-language text files called features, examines them for scenarios to test, and runs the scenarios against your system. Each scenario is a list of steps for Cucumber to work through. So that Cucumber can understand these feature files, they must follow some basic syntax rules. The name for this set of rules is [Gherkin](docs/gherkin.md).
      
-Along with the features, you give Cucumber a set of step definitions. These files map each business-readable language step into programming code to carry out what action shoule be performed by the step. In a mature test suite, the step definition itself will probably just be one or two lines of code that delegate to a library of support code, specific to the domain of your application.
+Along with the features, you give Cucumber a set of step definitions. These files map each business-readable language step into programming code to carry out what action should be performed by the step. In a mature test suite, the step definition itself will probably just be one or two lines of code that delegate to a library of support code, specific to the domain of your application.
 
-Software teams work best when the developers and business stakeholdersare communicating clearly with one another. A great way to do that is to collaboratively specify the work that’s about to be done using automated acceptance tests.
+Software teams work best when the developers and business stakeholders are communicating clearly with one another. A great way to do that is to collaboratively specify the work that’s about to be done using automated acceptance tests.
 
 When the acceptance tests are written as examples, they stimulate people’s imaginations and help them see other scenarios they hadn’t previously considered.
 
