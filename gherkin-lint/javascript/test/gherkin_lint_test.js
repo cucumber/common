@@ -1,9 +1,9 @@
 /* eslint-env mocha */
-import assert from 'assert'
-import GherkinLint from '..'
+const assert = require('assert')
+const GherkinLint = require('..')
 
-describe(GherkinLint.name, () => {
+describe('GherkinLint', () => {
   it("has a basic mocha test suite", () => {
-    assert(true)
+    assert(GherkinLint)
   })
 })
