@@ -71,13 +71,14 @@ clean:
 .PHONY: clean
 
 Gherkin/Parser.cs: gherkin.berp gherkin-csharp.razor berp/berp.exe
+	rm -f $@
 	mono berp/berp.exe -g gherkin.berp -t gherkin-csharp.razor -o $@
 
 .sln_built_debug: Gherkin/Parser.cs $(CS_FILES) Gherkin/gherkin-languages.json
 	echo "Building on $(UNAME)"
 
 	dotnet restore
-	dotnet build 
+	dotnet build
 
 	touch $@
 
