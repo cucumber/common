@@ -50,14 +50,14 @@ Add these dependencies to your project:
     <dependency>
         <groupId>info.cukes</groupId>
         <artifactId>cucumber-java</artifactId>
-        <version>1.2.4</version>
+        <version>1.2.5</version>
         <scope>test</scope>
     </dependency>
     
     <dependency>
         <groupId>info.cukes</groupId>
         <artifactId>cucumber-junit</artifactId>
-        <version>1.2.4</version>
+        <version>1.2.5</version>
         <scope>test</scope>
     </dependency>
 ```
