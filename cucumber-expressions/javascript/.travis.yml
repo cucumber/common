@@ -5,8 +5,8 @@
 #
 language: node_js
 node_js:
-  - 6.11.2
-  - 8.4.0
+  - 6.11.3
+  - 8.6.0
 
 before_install:
   # Repo for Yarn

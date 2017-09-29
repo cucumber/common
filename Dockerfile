@@ -9,7 +9,7 @@
 #
 # Extend alpine-node, because alpine doesn't have node 8 yet, and we need
 # it to build certain packages
-FROM mhart/alpine-node:8.4.0
+FROM mhart/alpine-node:8.6.0
 
 WORKDIR /app
 
