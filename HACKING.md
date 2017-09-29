@@ -35,3 +35,14 @@ Second, install it:
     ./scripts/install_splitsh-lite
 
 Now you should have a new file called `bin/splitsh-lite`
+
+### Docker and CI
+
+Our CI build uses Docker. We have our own docker images defined in `Dockerfile.*`
+files. These need to be rebuilt and published manually whenever they change:
+
+   source ./scripts/functions.sh
+   docker_build Dockerfile.cucumber-build
+   docker_push
+
+The images are published [here](https://hub.docker.com/r/cucumber/)
