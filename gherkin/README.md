@@ -203,7 +203,7 @@ Each node in the JSON representation also has a `type` property with the name
 of the node type.
 
 You can see some examples in the
-[testdata/good](https://github.com/cucumber/gherkin/tree/master/testdata/good)
+[testdata/good](https://github.com/cucumber/cucumber/tree/master/gherkin/testdata/good)
 directory.
 
 ### Pickles
