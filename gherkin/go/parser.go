@@ -130,18 +130,11 @@ const (
 	RuleType_Examples_Definition
 	RuleType_Examples
 	RuleType_Examples_Table
-	RuleType_Scenario_Step
-	RuleType_ScenarioOutline_Step
 	RuleType_Step
 	RuleType_Step_Arg
 	RuleType_DataTable
 	RuleType_DocString
 	RuleType_Tags
-	RuleType_Feature_Description
-	RuleType_Background_Description
-	RuleType_Scenario_Description
-	RuleType_ScenarioOutline_Description
-	RuleType_Examples_Description
 	RuleType_Description_Helper
 	RuleType_Description
 )
@@ -199,10 +192,6 @@ func (t RuleType) Name() string {
 		return "Examples"
 	case RuleType_Examples_Table:
 		return "Examples_Table"
-	case RuleType_Scenario_Step:
-		return "Scenario_Step"
-	case RuleType_ScenarioOutline_Step:
-		return "ScenarioOutline_Step"
 	case RuleType_Step:
 		return "Step"
 	case RuleType_Step_Arg:
@@ -213,16 +202,6 @@ func (t RuleType) Name() string {
 		return "DocString"
 	case RuleType_Tags:
 		return "Tags"
-	case RuleType_Feature_Description:
-		return "Feature_Description"
-	case RuleType_Background_Description:
-		return "Background_Description"
-	case RuleType_Scenario_Description:
-		return "Scenario_Description"
-	case RuleType_ScenarioOutline_Description:
-		return "ScenarioOutline_Description"
-	case RuleType_Examples_Description:
-		return "Examples_Description"
 	case RuleType_Description_Helper:
 		return "Description_Helper"
 	case RuleType_Description:
@@ -606,7 +585,7 @@ func (ctxt *parseContext) matchAt_3(line *Line) (newState int, err error) {
 	return 3, err
 }
 
-// GherkinDocument:0>Feature:0>Feature_Header:3>Feature_Description:0>Description_Helper:1>Description:0>#Other:0
+// GherkinDocument:0>Feature:0>Feature_Header:3>Description_Helper:1>Description:0>#Other:0
 func (ctxt *parseContext) matchAt_4(line *Line) (newState int, err error) {
 	if ok, token, err := ctxt.match_EOF(line); ok {
 		ctxt.endRule(RuleType_Description)
@@ -656,7 +635,7 @@ func (ctxt *parseContext) matchAt_4(line *Line) (newState int, err error) {
 		return 4, err
 	}
 
-	// var stateComment = "State: 4 - GherkinDocument:0>Feature:0>Feature_Header:3>Feature_Description:0>Description_Helper:1>Description:0>#Other:0"
+	// var stateComment = "State: 4 - GherkinDocument:0>Feature:0>Feature_Header:3>Description_Helper:1>Description:0>#Other:0"
 	var expectedTokens = []string{"#EOF", "#Comment", "#BackgroundLine", "#TagLine", "#ScenarioLine", "#ScenarioOutlineLine", "#Other"}
 	if line.IsEof() {
 		err = &parseError{
@@ -674,7 +653,7 @@ func (ctxt *parseContext) matchAt_4(line *Line) (newState int, err error) {
 	return 4, err
 }
 
-// GherkinDocument:0>Feature:0>Feature_Header:3>Feature_Description:0>Description_Helper:2>#Comment:0
+// GherkinDocument:0>Feature:0>Feature_Header:3>Description_Helper:2>#Comment:0
 func (ctxt *parseContext) matchAt_5(line *Line) (newState int, err error) {
 	if ok, token, err := ctxt.match_EOF(line); ok {
 		ctxt.endRule(RuleType_Feature_Header)
@@ -718,7 +697,7 @@ func (ctxt *parseContext) matchAt_5(line *Line) (newState int, err error) {
 		return 5, err
 	}
 
-	// var stateComment = "State: 5 - GherkinDocument:0>Feature:0>Feature_Header:3>Feature_Description:0>Description_Helper:2>#Comment:0"
+	// var stateComment = "State: 5 - GherkinDocument:0>Feature:0>Feature_Header:3>Description_Helper:2>#Comment:0"
 	var expectedTokens = []string{"#EOF", "#Comment", "#BackgroundLine", "#TagLine", "#ScenarioLine", "#ScenarioOutlineLine", "#Empty"}
 	if line.IsEof() {
 		err = &parseError{
@@ -802,7 +781,7 @@ func (ctxt *parseContext) matchAt_6(line *Line) (newState int, err error) {
 	return 6, err
 }
 
-// GherkinDocument:0>Feature:1>Background:1>Background_Description:0>Description_Helper:1>Description:0>#Other:0
+// GherkinDocument:0>Feature:1>Background:1>Description_Helper:1>Description:0>#Other:0
 func (ctxt *parseContext) matchAt_7(line *Line) (newState int, err error) {
 	if ok, token, err := ctxt.match_EOF(line); ok {
 		ctxt.endRule(RuleType_Description)
@@ -851,7 +830,7 @@ func (ctxt *parseContext) matchAt_7(line *Line) (newState int, err error) {
 		return 7, err
 	}
 
-	// var stateComment = "State: 7 - GherkinDocument:0>Feature:1>Background:1>Background_Description:0>Description_Helper:1>Description:0>#Other:0"
+	// var stateComment = "State: 7 - GherkinDocument:0>Feature:1>Background:1>Description_Helper:1>Description:0>#Other:0"
 	var expectedTokens = []string{"#EOF", "#Comment", "#StepLine", "#TagLine", "#ScenarioLine", "#ScenarioOutlineLine", "#Other"}
 	if line.IsEof() {
 		err = &parseError{
@@ -869,7 +848,7 @@ func (ctxt *parseContext) matchAt_7(line *Line) (newState int, err error) {
 	return 7, err
 }
 
-// GherkinDocument:0>Feature:1>Background:1>Background_Description:0>Description_Helper:2>#Comment:0
+// GherkinDocument:0>Feature:1>Background:1>Description_Helper:2>#Comment:0
 func (ctxt *parseContext) matchAt_8(line *Line) (newState int, err error) {
 	if ok, token, err := ctxt.match_EOF(line); ok {
 		ctxt.endRule(RuleType_Background)
@@ -912,7 +891,7 @@ func (ctxt *parseContext) matchAt_8(line *Line) (newState int, err error) {
 		return 8, err
 	}
 
-	// var stateComment = "State: 8 - GherkinDocument:0>Feature:1>Background:1>Background_Description:0>Description_Helper:2>#Comment:0"
+	// var stateComment = "State: 8 - GherkinDocument:0>Feature:1>Background:1>Description_Helper:2>#Comment:0"
 	var expectedTokens = []string{"#EOF", "#Comment", "#StepLine", "#TagLine", "#ScenarioLine", "#ScenarioOutlineLine", "#Empty"}
 	if line.IsEof() {
 		err = &parseError{
@@ -930,7 +909,7 @@ func (ctxt *parseContext) matchAt_8(line *Line) (newState int, err error) {
 	return 8, err
 }
 
-// GherkinDocument:0>Feature:1>Background:2>Scenario_Step:0>Step:0>#StepLine:0
+// GherkinDocument:0>Feature:1>Background:2>Step:0>#StepLine:0
 func (ctxt *parseContext) matchAt_9(line *Line) (newState int, err error) {
 	if ok, token, err := ctxt.match_EOF(line); ok {
 		ctxt.endRule(RuleType_Step)
@@ -988,7 +967,7 @@ func (ctxt *parseContext) matchAt_9(line *Line) (newState int, err error) {
 		return 9, err
 	}
 
-	// var stateComment = "State: 9 - GherkinDocument:0>Feature:1>Background:2>Scenario_Step:0>Step:0>#StepLine:0"
+	// var stateComment = "State: 9 - GherkinDocument:0>Feature:1>Background:2>Step:0>#StepLine:0"
 	var expectedTokens = []string{"#EOF", "#TableRow", "#DocStringSeparator", "#StepLine", "#TagLine", "#ScenarioLine", "#ScenarioOutlineLine", "#Comment", "#Empty"}
 	if line.IsEof() {
 		err = &parseError{
@@ -1006,7 +985,7 @@ func (ctxt *parseContext) matchAt_9(line *Line) (newState int, err error) {
 	return 9, err
 }
 
-// GherkinDocument:0>Feature:1>Background:2>Scenario_Step:0>Step:1>Step_Arg:0>__alt1:0>DataTable:0>#TableRow:0
+// GherkinDocument:0>Feature:1>Background:2>Step:1>Step_Arg:0>__alt1:0>DataTable:0>#TableRow:0
 func (ctxt *parseContext) matchAt_10(line *Line) (newState int, err error) {
 	if ok, token, err := ctxt.match_EOF(line); ok {
 		ctxt.endRule(RuleType_DataTable)
@@ -1063,7 +1042,7 @@ func (ctxt *parseContext) matchAt_10(line *Line) (newState int, err error) {
 		return 10, err
 	}
 
-	// var stateComment = "State: 10 - GherkinDocument:0>Feature:1>Background:2>Scenario_Step:0>Step:1>Step_Arg:0>__alt1:0>DataTable:0>#TableRow:0"
+	// var stateComment = "State: 10 - GherkinDocument:0>Feature:1>Background:2>Step:1>Step_Arg:0>__alt1:0>DataTable:0>#TableRow:0"
 	var expectedTokens = []string{"#EOF", "#TableRow", "#StepLine", "#TagLine", "#ScenarioLine", "#ScenarioOutlineLine", "#Comment", "#Empty"}
 	if line.IsEof() {
 		err = &parseError{
@@ -1196,7 +1175,7 @@ func (ctxt *parseContext) matchAt_12(line *Line) (newState int, err error) {
 	return 12, err
 }
 
-// GherkinDocument:0>Feature:2>Scenario_Definition:1>__alt0:0>Scenario:1>Scenario_Description:0>Description_Helper:1>Description:0>#Other:0
+// GherkinDocument:0>Feature:2>Scenario_Definition:1>__alt0:0>Scenario:1>Description_Helper:1>Description:0>#Other:0
 func (ctxt *parseContext) matchAt_13(line *Line) (newState int, err error) {
 	if ok, token, err := ctxt.match_EOF(line); ok {
 		ctxt.endRule(RuleType_Description)
@@ -1249,7 +1228,7 @@ func (ctxt *parseContext) matchAt_13(line *Line) (newState int, err error) {
 		return 13, err
 	}
 
-	// var stateComment = "State: 13 - GherkinDocument:0>Feature:2>Scenario_Definition:1>__alt0:0>Scenario:1>Scenario_Description:0>Description_Helper:1>Description:0>#Other:0"
+	// var stateComment = "State: 13 - GherkinDocument:0>Feature:2>Scenario_Definition:1>__alt0:0>Scenario:1>Description_Helper:1>Description:0>#Other:0"
 	var expectedTokens = []string{"#EOF", "#Comment", "#StepLine", "#TagLine", "#ScenarioLine", "#ScenarioOutlineLine", "#Other"}
 	if line.IsEof() {
 		err = &parseError{
@@ -1267,7 +1246,7 @@ func (ctxt *parseContext) matchAt_13(line *Line) (newState int, err error) {
 	return 13, err
 }
 
-// GherkinDocument:0>Feature:2>Scenario_Definition:1>__alt0:0>Scenario:1>Scenario_Description:0>Description_Helper:2>#Comment:0
+// GherkinDocument:0>Feature:2>Scenario_Definition:1>__alt0:0>Scenario:1>Description_Helper:2>#Comment:0
 func (ctxt *parseContext) matchAt_14(line *Line) (newState int, err error) {
 	if ok, token, err := ctxt.match_EOF(line); ok {
 		ctxt.endRule(RuleType_Scenario)
@@ -1314,7 +1293,7 @@ func (ctxt *parseContext) matchAt_14(line *Line) (newState int, err error) {
 		return 14, err
 	}
 
-	// var stateComment = "State: 14 - GherkinDocument:0>Feature:2>Scenario_Definition:1>__alt0:0>Scenario:1>Scenario_Description:0>Description_Helper:2>#Comment:0"
+	// var stateComment = "State: 14 - GherkinDocument:0>Feature:2>Scenario_Definition:1>__alt0:0>Scenario:1>Description_Helper:2>#Comment:0"
 	var expectedTokens = []string{"#EOF", "#Comment", "#StepLine", "#TagLine", "#ScenarioLine", "#ScenarioOutlineLine", "#Empty"}
 	if line.IsEof() {
 		err = &parseError{
@@ -1332,7 +1311,7 @@ func (ctxt *parseContext) matchAt_14(line *Line) (newState int, err error) {
 	return 14, err
 }
 
-// GherkinDocument:0>Feature:2>Scenario_Definition:1>__alt0:0>Scenario:2>Scenario_Step:0>Step:0>#StepLine:0
+// GherkinDocument:0>Feature:2>Scenario_Definition:1>__alt0:0>Scenario:2>Step:0>#StepLine:0
 func (ctxt *parseContext) matchAt_15(line *Line) (newState int, err error) {
 	if ok, token, err := ctxt.match_EOF(line); ok {
 		ctxt.endRule(RuleType_Step)
@@ -1394,7 +1373,7 @@ func (ctxt *parseContext) matchAt_15(line *Line) (newState int, err error) {
 		return 15, err
 	}
 
-	// var stateComment = "State: 15 - GherkinDocument:0>Feature:2>Scenario_Definition:1>__alt0:0>Scenario:2>Scenario_Step:0>Step:0>#StepLine:0"
+	// var stateComment = "State: 15 - GherkinDocument:0>Feature:2>Scenario_Definition:1>__alt0:0>Scenario:2>Step:0>#StepLine:0"
 	var expectedTokens = []string{"#EOF", "#TableRow", "#DocStringSeparator", "#StepLine", "#TagLine", "#ScenarioLine", "#ScenarioOutlineLine", "#Comment", "#Empty"}
 	if line.IsEof() {
 		err = &parseError{
@@ -1412,7 +1391,7 @@ func (ctxt *parseContext) matchAt_15(line *Line) (newState int, err error) {
 	return 15, err
 }
 
-// GherkinDocument:0>Feature:2>Scenario_Definition:1>__alt0:0>Scenario:2>Scenario_Step:0>Step:1>Step_Arg:0>__alt1:0>DataTable:0>#TableRow:0
+// GherkinDocument:0>Feature:2>Scenario_Definition:1>__alt0:0>Scenario:2>Step:1>Step_Arg:0>__alt1:0>DataTable:0>#TableRow:0
 func (ctxt *parseContext) matchAt_16(line *Line) (newState int, err error) {
 	if ok, token, err := ctxt.match_EOF(line); ok {
 		ctxt.endRule(RuleType_DataTable)
@@ -1473,7 +1452,7 @@ func (ctxt *parseContext) matchAt_16(line *Line) (newState int, err error) {
 		return 16, err
 	}
 
-	// var stateComment = "State: 16 - GherkinDocument:0>Feature:2>Scenario_Definition:1>__alt0:0>Scenario:2>Scenario_Step:0>Step:1>Step_Arg:0>__alt1:0>DataTable:0>#TableRow:0"
+	// var stateComment = "State: 16 - GherkinDocument:0>Feature:2>Scenario_Definition:1>__alt0:0>Scenario:2>Step:1>Step_Arg:0>__alt1:0>DataTable:0>#TableRow:0"
 	var expectedTokens = []string{"#EOF", "#TableRow", "#StepLine", "#TagLine", "#ScenarioLine", "#ScenarioOutlineLine", "#Comment", "#Empty"}
 	if line.IsEof() {
 		err = &parseError{
@@ -1575,7 +1554,7 @@ func (ctxt *parseContext) matchAt_17(line *Line) (newState int, err error) {
 	return 17, err
 }
 
-// GherkinDocument:0>Feature:2>Scenario_Definition:1>__alt0:1>ScenarioOutline:1>ScenarioOutline_Description:0>Description_Helper:1>Description:0>#Other:0
+// GherkinDocument:0>Feature:2>Scenario_Definition:1>__alt0:1>ScenarioOutline:1>Description_Helper:1>Description:0>#Other:0
 func (ctxt *parseContext) matchAt_18(line *Line) (newState int, err error) {
 	if ok, token, err := ctxt.match_EOF(line); ok {
 		ctxt.endRule(RuleType_Description)
@@ -1644,7 +1623,7 @@ func (ctxt *parseContext) matchAt_18(line *Line) (newState int, err error) {
 		return 18, err
 	}
 
-	// var stateComment = "State: 18 - GherkinDocument:0>Feature:2>Scenario_Definition:1>__alt0:1>ScenarioOutline:1>ScenarioOutline_Description:0>Description_Helper:1>Description:0>#Other:0"
+	// var stateComment = "State: 18 - GherkinDocument:0>Feature:2>Scenario_Definition:1>__alt0:1>ScenarioOutline:1>Description_Helper:1>Description:0>#Other:0"
 	var expectedTokens = []string{"#EOF", "#Comment", "#StepLine", "#TagLine", "#ExamplesLine", "#ScenarioLine", "#ScenarioOutlineLine", "#Other"}
 	if line.IsEof() {
 		err = &parseError{
@@ -1662,7 +1641,7 @@ func (ctxt *parseContext) matchAt_18(line *Line) (newState int, err error) {
 	return 18, err
 }
 
-// GherkinDocument:0>Feature:2>Scenario_Definition:1>__alt0:1>ScenarioOutline:1>ScenarioOutline_Description:0>Description_Helper:2>#Comment:0
+// GherkinDocument:0>Feature:2>Scenario_Definition:1>__alt0:1>ScenarioOutline:1>Description_Helper:2>#Comment:0
 func (ctxt *parseContext) matchAt_19(line *Line) (newState int, err error) {
 	if ok, token, err := ctxt.match_EOF(line); ok {
 		ctxt.endRule(RuleType_ScenarioOutline)
@@ -1723,7 +1702,7 @@ func (ctxt *parseContext) matchAt_19(line *Line) (newState int, err error) {
 		return 19, err
 	}
 
-	// var stateComment = "State: 19 - GherkinDocument:0>Feature:2>Scenario_Definition:1>__alt0:1>ScenarioOutline:1>ScenarioOutline_Description:0>Description_Helper:2>#Comment:0"
+	// var stateComment = "State: 19 - GherkinDocument:0>Feature:2>Scenario_Definition:1>__alt0:1>ScenarioOutline:1>Description_Helper:2>#Comment:0"
 	var expectedTokens = []string{"#EOF", "#Comment", "#StepLine", "#TagLine", "#ExamplesLine", "#ScenarioLine", "#ScenarioOutlineLine", "#Empty"}
 	if line.IsEof() {
 		err = &parseError{
@@ -1741,7 +1720,7 @@ func (ctxt *parseContext) matchAt_19(line *Line) (newState int, err error) {
 	return 19, err
 }
 
-// GherkinDocument:0>Feature:2>Scenario_Definition:1>__alt0:1>ScenarioOutline:2>ScenarioOutline_Step:0>Step:0>#StepLine:0
+// GherkinDocument:0>Feature:2>Scenario_Definition:1>__alt0:1>ScenarioOutline:2>Step:0>#StepLine:0
 func (ctxt *parseContext) matchAt_20(line *Line) (newState int, err error) {
 	if ok, token, err := ctxt.match_EOF(line); ok {
 		ctxt.endRule(RuleType_Step)
@@ -1819,7 +1798,7 @@ func (ctxt *parseContext) matchAt_20(line *Line) (newState int, err error) {
 		return 20, err
 	}
 
-	// var stateComment = "State: 20 - GherkinDocument:0>Feature:2>Scenario_Definition:1>__alt0:1>ScenarioOutline:2>ScenarioOutline_Step:0>Step:0>#StepLine:0"
+	// var stateComment = "State: 20 - GherkinDocument:0>Feature:2>Scenario_Definition:1>__alt0:1>ScenarioOutline:2>Step:0>#StepLine:0"
 	var expectedTokens = []string{"#EOF", "#TableRow", "#DocStringSeparator", "#StepLine", "#TagLine", "#ExamplesLine", "#ScenarioLine", "#ScenarioOutlineLine", "#Comment", "#Empty"}
 	if line.IsEof() {
 		err = &parseError{
@@ -1837,7 +1816,7 @@ func (ctxt *parseContext) matchAt_20(line *Line) (newState int, err error) {
 	return 20, err
 }
 
-// GherkinDocument:0>Feature:2>Scenario_Definition:1>__alt0:1>ScenarioOutline:2>ScenarioOutline_Step:0>Step:1>Step_Arg:0>__alt1:0>DataTable:0>#TableRow:0
+// GherkinDocument:0>Feature:2>Scenario_Definition:1>__alt0:1>ScenarioOutline:2>Step:1>Step_Arg:0>__alt1:0>DataTable:0>#TableRow:0
 func (ctxt *parseContext) matchAt_21(line *Line) (newState int, err error) {
 	if ok, token, err := ctxt.match_EOF(line); ok {
 		ctxt.endRule(RuleType_DataTable)
@@ -1916,7 +1895,7 @@ func (ctxt *parseContext) matchAt_21(line *Line) (newState int, err error) {
 		return 21, err
 	}
 
-	// var stateComment = "State: 21 - GherkinDocument:0>Feature:2>Scenario_Definition:1>__alt0:1>ScenarioOutline:2>ScenarioOutline_Step:0>Step:1>Step_Arg:0>__alt1:0>DataTable:0>#TableRow:0"
+	// var stateComment = "State: 21 - GherkinDocument:0>Feature:2>Scenario_Definition:1>__alt0:1>ScenarioOutline:2>Step:1>Step_Arg:0>__alt1:0>DataTable:0>#TableRow:0"
 	var expectedTokens = []string{"#EOF", "#TableRow", "#StepLine", "#TagLine", "#ExamplesLine", "#ScenarioLine", "#ScenarioOutlineLine", "#Comment", "#Empty"}
 	if line.IsEof() {
 		err = &parseError{
@@ -2069,7 +2048,7 @@ func (ctxt *parseContext) matchAt_23(line *Line) (newState int, err error) {
 	return 23, err
 }
 
-// GherkinDocument:0>Feature:2>Scenario_Definition:1>__alt0:1>ScenarioOutline:3>Examples_Definition:1>Examples:1>Examples_Description:0>Description_Helper:1>Description:0>#Other:0
+// GherkinDocument:0>Feature:2>Scenario_Definition:1>__alt0:1>ScenarioOutline:3>Examples_Definition:1>Examples:1>Description_Helper:1>Description:0>#Other:0
 func (ctxt *parseContext) matchAt_24(line *Line) (newState int, err error) {
 	if ok, token, err := ctxt.match_EOF(line); ok {
 		ctxt.endRule(RuleType_Description)
@@ -2150,7 +2129,7 @@ func (ctxt *parseContext) matchAt_24(line *Line) (newState int, err error) {
 		return 24, err
 	}
 
-	// var stateComment = "State: 24 - GherkinDocument:0>Feature:2>Scenario_Definition:1>__alt0:1>ScenarioOutline:3>Examples_Definition:1>Examples:1>Examples_Description:0>Description_Helper:1>Description:0>#Other:0"
+	// var stateComment = "State: 24 - GherkinDocument:0>Feature:2>Scenario_Definition:1>__alt0:1>ScenarioOutline:3>Examples_Definition:1>Examples:1>Description_Helper:1>Description:0>#Other:0"
 	var expectedTokens = []string{"#EOF", "#Comment", "#TableRow", "#TagLine", "#ExamplesLine", "#ScenarioLine", "#ScenarioOutlineLine", "#Other"}
 	if line.IsEof() {
 		err = &parseError{
@@ -2168,7 +2147,7 @@ func (ctxt *parseContext) matchAt_24(line *Line) (newState int, err error) {
 	return 24, err
 }
 
-// GherkinDocument:0>Feature:2>Scenario_Definition:1>__alt0:1>ScenarioOutline:3>Examples_Definition:1>Examples:1>Examples_Description:0>Description_Helper:2>#Comment:0
+// GherkinDocument:0>Feature:2>Scenario_Definition:1>__alt0:1>ScenarioOutline:3>Examples_Definition:1>Examples:1>Description_Helper:2>#Comment:0
 func (ctxt *parseContext) matchAt_25(line *Line) (newState int, err error) {
 	if ok, token, err := ctxt.match_EOF(line); ok {
 		ctxt.endRule(RuleType_Examples)
@@ -2241,7 +2220,7 @@ func (ctxt *parseContext) matchAt_25(line *Line) (newState int, err error) {
 		return 25, err
 	}
 
-	// var stateComment = "State: 25 - GherkinDocument:0>Feature:2>Scenario_Definition:1>__alt0:1>ScenarioOutline:3>Examples_Definition:1>Examples:1>Examples_Description:0>Description_Helper:2>#Comment:0"
+	// var stateComment = "State: 25 - GherkinDocument:0>Feature:2>Scenario_Definition:1>__alt0:1>ScenarioOutline:3>Examples_Definition:1>Examples:1>Description_Helper:2>#Comment:0"
 	var expectedTokens = []string{"#EOF", "#Comment", "#TableRow", "#TagLine", "#ExamplesLine", "#ScenarioLine", "#ScenarioOutlineLine", "#Empty"}
 	if line.IsEof() {
 		err = &parseError{
@@ -2355,7 +2334,7 @@ func (ctxt *parseContext) matchAt_26(line *Line) (newState int, err error) {
 	return 26, err
 }
 
-// GherkinDocument:0>Feature:2>Scenario_Definition:1>__alt0:1>ScenarioOutline:2>ScenarioOutline_Step:0>Step:1>Step_Arg:0>__alt1:1>DocString:0>#DocStringSeparator:0
+// GherkinDocument:0>Feature:2>Scenario_Definition:1>__alt0:1>ScenarioOutline:2>Step:1>Step_Arg:0>__alt1:1>DocString:0>#DocStringSeparator:0
 func (ctxt *parseContext) matchAt_28(line *Line) (newState int, err error) {
 	if ok, token, err := ctxt.match_DocStringSeparator(line); ok {
 		ctxt.build(token)
@@ -2366,7 +2345,7 @@ func (ctxt *parseContext) matchAt_28(line *Line) (newState int, err error) {
 		return 28, err
 	}
 
-	// var stateComment = "State: 28 - GherkinDocument:0>Feature:2>Scenario_Definition:1>__alt0:1>ScenarioOutline:2>ScenarioOutline_Step:0>Step:1>Step_Arg:0>__alt1:1>DocString:0>#DocStringSeparator:0"
+	// var stateComment = "State: 28 - GherkinDocument:0>Feature:2>Scenario_Definition:1>__alt0:1>ScenarioOutline:2>Step:1>Step_Arg:0>__alt1:1>DocString:0>#DocStringSeparator:0"
 	var expectedTokens = []string{"#DocStringSeparator", "#Other"}
 	if line.IsEof() {
 		err = &parseError{
@@ -2384,7 +2363,7 @@ func (ctxt *parseContext) matchAt_28(line *Line) (newState int, err error) {
 	return 28, err
 }
 
-// GherkinDocument:0>Feature:2>Scenario_Definition:1>__alt0:1>ScenarioOutline:2>ScenarioOutline_Step:0>Step:1>Step_Arg:0>__alt1:1>DocString:2>#DocStringSeparator:0
+// GherkinDocument:0>Feature:2>Scenario_Definition:1>__alt0:1>ScenarioOutline:2>Step:1>Step_Arg:0>__alt1:1>DocString:2>#DocStringSeparator:0
 func (ctxt *parseContext) matchAt_29(line *Line) (newState int, err error) {
 	if ok, token, err := ctxt.match_EOF(line); ok {
 		ctxt.endRule(RuleType_DocString)
@@ -2459,7 +2438,7 @@ func (ctxt *parseContext) matchAt_29(line *Line) (newState int, err error) {
 		return 29, err
 	}
 
-	// var stateComment = "State: 29 - GherkinDocument:0>Feature:2>Scenario_Definition:1>__alt0:1>ScenarioOutline:2>ScenarioOutline_Step:0>Step:1>Step_Arg:0>__alt1:1>DocString:2>#DocStringSeparator:0"
+	// var stateComment = "State: 29 - GherkinDocument:0>Feature:2>Scenario_Definition:1>__alt0:1>ScenarioOutline:2>Step:1>Step_Arg:0>__alt1:1>DocString:2>#DocStringSeparator:0"
 	var expectedTokens = []string{"#EOF", "#StepLine", "#TagLine", "#ExamplesLine", "#ScenarioLine", "#ScenarioOutlineLine", "#Comment", "#Empty"}
 	if line.IsEof() {
 		err = &parseError{
@@ -2477,7 +2456,7 @@ func (ctxt *parseContext) matchAt_29(line *Line) (newState int, err error) {
 	return 29, err
 }
 
-// GherkinDocument:0>Feature:2>Scenario_Definition:1>__alt0:0>Scenario:2>Scenario_Step:0>Step:1>Step_Arg:0>__alt1:1>DocString:0>#DocStringSeparator:0
+// GherkinDocument:0>Feature:2>Scenario_Definition:1>__alt0:0>Scenario:2>Step:1>Step_Arg:0>__alt1:1>DocString:0>#DocStringSeparator:0
 func (ctxt *parseContext) matchAt_30(line *Line) (newState int, err error) {
 	if ok, token, err := ctxt.match_DocStringSeparator(line); ok {
 		ctxt.build(token)
@@ -2488,7 +2467,7 @@ func (ctxt *parseContext) matchAt_30(line *Line) (newState int, err error) {
 		return 30, err
 	}
 
-	// var stateComment = "State: 30 - GherkinDocument:0>Feature:2>Scenario_Definition:1>__alt0:0>Scenario:2>Scenario_Step:0>Step:1>Step_Arg:0>__alt1:1>DocString:0>#DocStringSeparator:0"
+	// var stateComment = "State: 30 - GherkinDocument:0>Feature:2>Scenario_Definition:1>__alt0:0>Scenario:2>Step:1>Step_Arg:0>__alt1:1>DocString:0>#DocStringSeparator:0"
 	var expectedTokens = []string{"#DocStringSeparator", "#Other"}
 	if line.IsEof() {
 		err = &parseError{
@@ -2506,7 +2485,7 @@ func (ctxt *parseContext) matchAt_30(line *Line) (newState int, err error) {
 	return 30, err
 }
 
-// GherkinDocument:0>Feature:2>Scenario_Definition:1>__alt0:0>Scenario:2>Scenario_Step:0>Step:1>Step_Arg:0>__alt1:1>DocString:2>#DocStringSeparator:0
+// GherkinDocument:0>Feature:2>Scenario_Definition:1>__alt0:0>Scenario:2>Step:1>Step_Arg:0>__alt1:1>DocString:2>#DocStringSeparator:0
 func (ctxt *parseContext) matchAt_31(line *Line) (newState int, err error) {
 	if ok, token, err := ctxt.match_EOF(line); ok {
 		ctxt.endRule(RuleType_DocString)
@@ -2563,7 +2542,7 @@ func (ctxt *parseContext) matchAt_31(line *Line) (newState int, err error) {
 		return 31, err
 	}
 
-	// var stateComment = "State: 31 - GherkinDocument:0>Feature:2>Scenario_Definition:1>__alt0:0>Scenario:2>Scenario_Step:0>Step:1>Step_Arg:0>__alt1:1>DocString:2>#DocStringSeparator:0"
+	// var stateComment = "State: 31 - GherkinDocument:0>Feature:2>Scenario_Definition:1>__alt0:0>Scenario:2>Step:1>Step_Arg:0>__alt1:1>DocString:2>#DocStringSeparator:0"
 	var expectedTokens = []string{"#EOF", "#StepLine", "#TagLine", "#ScenarioLine", "#ScenarioOutlineLine", "#Comment", "#Empty"}
 	if line.IsEof() {
 		err = &parseError{
@@ -2581,7 +2560,7 @@ func (ctxt *parseContext) matchAt_31(line *Line) (newState int, err error) {
 	return 31, err
 }
 
-// GherkinDocument:0>Feature:1>Background:2>Scenario_Step:0>Step:1>Step_Arg:0>__alt1:1>DocString:0>#DocStringSeparator:0
+// GherkinDocument:0>Feature:1>Background:2>Step:1>Step_Arg:0>__alt1:1>DocString:0>#DocStringSeparator:0
 func (ctxt *parseContext) matchAt_32(line *Line) (newState int, err error) {
 	if ok, token, err := ctxt.match_DocStringSeparator(line); ok {
 		ctxt.build(token)
@@ -2592,7 +2571,7 @@ func (ctxt *parseContext) matchAt_32(line *Line) (newState int, err error) {
 		return 32, err
 	}
 
-	// var stateComment = "State: 32 - GherkinDocument:0>Feature:1>Background:2>Scenario_Step:0>Step:1>Step_Arg:0>__alt1:1>DocString:0>#DocStringSeparator:0"
+	// var stateComment = "State: 32 - GherkinDocument:0>Feature:1>Background:2>Step:1>Step_Arg:0>__alt1:1>DocString:0>#DocStringSeparator:0"
 	var expectedTokens = []string{"#DocStringSeparator", "#Other"}
 	if line.IsEof() {
 		err = &parseError{
@@ -2610,7 +2589,7 @@ func (ctxt *parseContext) matchAt_32(line *Line) (newState int, err error) {
 	return 32, err
 }
 
-// GherkinDocument:0>Feature:1>Background:2>Scenario_Step:0>Step:1>Step_Arg:0>__alt1:1>DocString:2>#DocStringSeparator:0
+// GherkinDocument:0>Feature:1>Background:2>Step:1>Step_Arg:0>__alt1:1>DocString:2>#DocStringSeparator:0
 func (ctxt *parseContext) matchAt_33(line *Line) (newState int, err error) {
 	if ok, token, err := ctxt.match_EOF(line); ok {
 		ctxt.endRule(RuleType_DocString)
@@ -2663,7 +2642,7 @@ func (ctxt *parseContext) matchAt_33(line *Line) (newState int, err error) {
 		return 33, err
 	}
 
-	// var stateComment = "State: 33 - GherkinDocument:0>Feature:1>Background:2>Scenario_Step:0>Step:1>Step_Arg:0>__alt1:1>DocString:2>#DocStringSeparator:0"
+	// var stateComment = "State: 33 - GherkinDocument:0>Feature:1>Background:2>Step:1>Step_Arg:0>__alt1:1>DocString:2>#DocStringSeparator:0"
 	var expectedTokens = []string{"#EOF", "#StepLine", "#TagLine", "#ScenarioLine", "#ScenarioOutlineLine", "#Comment", "#Empty"}
 	if line.IsEof() {
 		err = &parseError{

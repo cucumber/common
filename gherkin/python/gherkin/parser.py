@@ -24,26 +24,19 @@ RULE_TYPE = [
     '_Other',  # #Other
     'GherkinDocument',  # GherkinDocument! := Feature?
     'Feature',  # Feature! := Feature_Header Background? Scenario_Definition*
-    'Feature_Header',  # Feature_Header! := #Language? Tags? #FeatureLine Feature_Description
-    'Background',  # Background! := #BackgroundLine Background_Description Scenario_Step*
+    'Feature_Header',  # Feature_Header! := #Language? Tags? #FeatureLine Description_Helper
+    'Background',  # Background! := #BackgroundLine Description_Helper Step*
     'Scenario_Definition',  # Scenario_Definition! := Tags? (Scenario | ScenarioOutline)
-    'Scenario',  # Scenario! := #ScenarioLine Scenario_Description Scenario_Step*
-    'ScenarioOutline',  # ScenarioOutline! := #ScenarioOutlineLine ScenarioOutline_Description ScenarioOutline_Step* Examples_Definition*
+    'Scenario',  # Scenario! := #ScenarioLine Description_Helper Step*
+    'ScenarioOutline',  # ScenarioOutline! := #ScenarioOutlineLine Description_Helper Step* Examples_Definition*
     'Examples_Definition',  # Examples_Definition! [#Empty|#Comment|#TagLine-&gt;#ExamplesLine] := Tags? Examples
-    'Examples',  # Examples! := #ExamplesLine Examples_Description Examples_Table?
+    'Examples',  # Examples! := #ExamplesLine Description_Helper Examples_Table?
     'Examples_Table',  # Examples_Table! := #TableRow #TableRow*
-    'Scenario_Step',  # Scenario_Step := Step
-    'ScenarioOutline_Step',  # ScenarioOutline_Step := Step
     'Step',  # Step! := #StepLine Step_Arg?
     'Step_Arg',  # Step_Arg := (DataTable | DocString)
     'DataTable',  # DataTable! := #TableRow+
     'DocString',  # DocString! := #DocStringSeparator #Other* #DocStringSeparator
     'Tags',  # Tags! := #TagLine+
-    'Feature_Description',  # Feature_Description := Description_Helper
-    'Background_Description',  # Background_Description := Description_Helper
-    'Scenario_Description',  # Scenario_Description := Description_Helper
-    'ScenarioOutline_Description',  # ScenarioOutline_Description := Description_Helper
-    'Examples_Description',  # Examples_Description := Description_Helper
     'Description_Helper',  # Description_Helper := #Empty* Description? #Comment*
     'Description',  # Description! := #Other+
 ]
@@ -360,7 +353,7 @@ class Parser(object):
         self.add_error(context, error)
         return 3
 
-    # GherkinDocument:0>Feature:0>Feature_Header:3>Feature_Description:0>Description_Helper:1>Description:0>#Other:0
+    # GherkinDocument:0>Feature:0>Feature_Header:3>Description_Helper:1>Description:0>#Other:0
     def match_token_at_4(self, token, context):
         if self.match_EOF(context, token):
                 self.end_rule(context, 'Description')
@@ -403,7 +396,7 @@ class Parser(object):
                 self.build(context, token)
                 return 4
 
-        state_comment = "State: 4 - GherkinDocument:0>Feature:0>Feature_Header:3>Feature_Description:0>Description_Helper:1>Description:0>#Other:0"
+        state_comment = "State: 4 - GherkinDocument:0>Feature:0>Feature_Header:3>Description_Helper:1>Description:0>#Other:0"
         token.detach
         expected_tokens = ["#EOF", "#Comment", "#BackgroundLine", "#TagLine", "#ScenarioLine", "#ScenarioOutlineLine", "#Other"]
         error = UnexpectedEOFException(token, expected_tokens, state_comment) if token.eof() else UnexpectedTokenException(token, expected_tokens, state_comment)
@@ -412,7 +405,7 @@ class Parser(object):
         self.add_error(context, error)
         return 4
 
-    # GherkinDocument:0>Feature:0>Feature_Header:3>Feature_Description:0>Description_Helper:2>#Comment:0
+    # GherkinDocument:0>Feature:0>Feature_Header:3>Description_Helper:2>#Comment:0
     def match_token_at_5(self, token, context):
         if self.match_EOF(context, token):
                 self.end_rule(context, 'Feature_Header')
@@ -449,7 +442,7 @@ class Parser(object):
                 self.build(context, token)
                 return 5
 
-        state_comment = "State: 5 - GherkinDocument:0>Feature:0>Feature_Header:3>Feature_Description:0>Description_Helper:2>#Comment:0"
+        state_comment = "State: 5 - GherkinDocument:0>Feature:0>Feature_Header:3>Description_Helper:2>#Comment:0"
         token.detach
         expected_tokens = ["#EOF", "#Comment", "#BackgroundLine", "#TagLine", "#ScenarioLine", "#ScenarioOutlineLine", "#Empty"]
         error = UnexpectedEOFException(token, expected_tokens, state_comment) if token.eof() else UnexpectedTokenException(token, expected_tokens, state_comment)
@@ -507,7 +500,7 @@ class Parser(object):
         self.add_error(context, error)
         return 6
 
-    # GherkinDocument:0>Feature:1>Background:1>Background_Description:0>Description_Helper:1>Description:0>#Other:0
+    # GherkinDocument:0>Feature:1>Background:1>Description_Helper:1>Description:0>#Other:0
     def match_token_at_7(self, token, context):
         if self.match_EOF(context, token):
                 self.end_rule(context, 'Description')
@@ -549,7 +542,7 @@ class Parser(object):
                 self.build(context, token)
                 return 7
 
-        state_comment = "State: 7 - GherkinDocument:0>Feature:1>Background:1>Background_Description:0>Description_Helper:1>Description:0>#Other:0"
+        state_comment = "State: 7 - GherkinDocument:0>Feature:1>Background:1>Description_Helper:1>Description:0>#Other:0"
         token.detach
         expected_tokens = ["#EOF", "#Comment", "#StepLine", "#TagLine", "#ScenarioLine", "#ScenarioOutlineLine", "#Other"]
         error = UnexpectedEOFException(token, expected_tokens, state_comment) if token.eof() else UnexpectedTokenException(token, expected_tokens, state_comment)
@@ -558,7 +551,7 @@ class Parser(object):
         self.add_error(context, error)
         return 7
 
-    # GherkinDocument:0>Feature:1>Background:1>Background_Description:0>Description_Helper:2>#Comment:0
+    # GherkinDocument:0>Feature:1>Background:1>Description_Helper:2>#Comment:0
     def match_token_at_8(self, token, context):
         if self.match_EOF(context, token):
                 self.end_rule(context, 'Background')
@@ -594,7 +587,7 @@ class Parser(object):
                 self.build(context, token)
                 return 8
 
-        state_comment = "State: 8 - GherkinDocument:0>Feature:1>Background:1>Background_Description:0>Description_Helper:2>#Comment:0"
+        state_comment = "State: 8 - GherkinDocument:0>Feature:1>Background:1>Description_Helper:2>#Comment:0"
         token.detach
         expected_tokens = ["#EOF", "#Comment", "#StepLine", "#TagLine", "#ScenarioLine", "#ScenarioOutlineLine", "#Empty"]
         error = UnexpectedEOFException(token, expected_tokens, state_comment) if token.eof() else UnexpectedTokenException(token, expected_tokens, state_comment)
@@ -603,7 +596,7 @@ class Parser(object):
         self.add_error(context, error)
         return 8
 
-    # GherkinDocument:0>Feature:1>Background:2>Scenario_Step:0>Step:0>#StepLine:0
+    # GherkinDocument:0>Feature:1>Background:2>Step:0>#StepLine:0
     def match_token_at_9(self, token, context):
         if self.match_EOF(context, token):
                 self.end_rule(context, 'Step')
@@ -652,7 +645,7 @@ class Parser(object):
                 self.build(context, token)
                 return 9
 
-        state_comment = "State: 9 - GherkinDocument:0>Feature:1>Background:2>Scenario_Step:0>Step:0>#StepLine:0"
+        state_comment = "State: 9 - GherkinDocument:0>Feature:1>Background:2>Step:0>#StepLine:0"
         token.detach
         expected_tokens = ["#EOF", "#TableRow", "#DocStringSeparator", "#StepLine", "#TagLine", "#ScenarioLine", "#ScenarioOutlineLine", "#Comment", "#Empty"]
         error = UnexpectedEOFException(token, expected_tokens, state_comment) if token.eof() else UnexpectedTokenException(token, expected_tokens, state_comment)
@@ -661,7 +654,7 @@ class Parser(object):
         self.add_error(context, error)
         return 9
 
-    # GherkinDocument:0>Feature:1>Background:2>Scenario_Step:0>Step:1>Step_Arg:0>__alt1:0>DataTable:0>#TableRow:0
+    # GherkinDocument:0>Feature:1>Background:2>Step:1>Step_Arg:0>__alt1:0>DataTable:0>#TableRow:0
     def match_token_at_10(self, token, context):
         if self.match_EOF(context, token):
                 self.end_rule(context, 'DataTable')
@@ -710,7 +703,7 @@ class Parser(object):
                 self.build(context, token)
                 return 10
 
-        state_comment = "State: 10 - GherkinDocument:0>Feature:1>Background:2>Scenario_Step:0>Step:1>Step_Arg:0>__alt1:0>DataTable:0>#TableRow:0"
+        state_comment = "State: 10 - GherkinDocument:0>Feature:1>Background:2>Step:1>Step_Arg:0>__alt1:0>DataTable:0>#TableRow:0"
         token.detach
         expected_tokens = ["#EOF", "#TableRow", "#StepLine", "#TagLine", "#ScenarioLine", "#ScenarioOutlineLine", "#Comment", "#Empty"]
         error = UnexpectedEOFException(token, expected_tokens, state_comment) if token.eof() else UnexpectedTokenException(token, expected_tokens, state_comment)
@@ -803,7 +796,7 @@ class Parser(object):
         self.add_error(context, error)
         return 12
 
-    # GherkinDocument:0>Feature:2>Scenario_Definition:1>__alt0:0>Scenario:1>Scenario_Description:0>Description_Helper:1>Description:0>#Other:0
+    # GherkinDocument:0>Feature:2>Scenario_Definition:1>__alt0:0>Scenario:1>Description_Helper:1>Description:0>#Other:0
     def match_token_at_13(self, token, context):
         if self.match_EOF(context, token):
                 self.end_rule(context, 'Description')
@@ -849,7 +842,7 @@ class Parser(object):
                 self.build(context, token)
                 return 13
 
-        state_comment = "State: 13 - GherkinDocument:0>Feature:2>Scenario_Definition:1>__alt0:0>Scenario:1>Scenario_Description:0>Description_Helper:1>Description:0>#Other:0"
+        state_comment = "State: 13 - GherkinDocument:0>Feature:2>Scenario_Definition:1>__alt0:0>Scenario:1>Description_Helper:1>Description:0>#Other:0"
         token.detach
         expected_tokens = ["#EOF", "#Comment", "#StepLine", "#TagLine", "#ScenarioLine", "#ScenarioOutlineLine", "#Other"]
         error = UnexpectedEOFException(token, expected_tokens, state_comment) if token.eof() else UnexpectedTokenException(token, expected_tokens, state_comment)
@@ -858,7 +851,7 @@ class Parser(object):
         self.add_error(context, error)
         return 13
 
-    # GherkinDocument:0>Feature:2>Scenario_Definition:1>__alt0:0>Scenario:1>Scenario_Description:0>Description_Helper:2>#Comment:0
+    # GherkinDocument:0>Feature:2>Scenario_Definition:1>__alt0:0>Scenario:1>Description_Helper:2>#Comment:0
     def match_token_at_14(self, token, context):
         if self.match_EOF(context, token):
                 self.end_rule(context, 'Scenario')
@@ -898,7 +891,7 @@ class Parser(object):
                 self.build(context, token)
                 return 14
 
-        state_comment = "State: 14 - GherkinDocument:0>Feature:2>Scenario_Definition:1>__alt0:0>Scenario:1>Scenario_Description:0>Description_Helper:2>#Comment:0"
+        state_comment = "State: 14 - GherkinDocument:0>Feature:2>Scenario_Definition:1>__alt0:0>Scenario:1>Description_Helper:2>#Comment:0"
         token.detach
         expected_tokens = ["#EOF", "#Comment", "#StepLine", "#TagLine", "#ScenarioLine", "#ScenarioOutlineLine", "#Empty"]
         error = UnexpectedEOFException(token, expected_tokens, state_comment) if token.eof() else UnexpectedTokenException(token, expected_tokens, state_comment)
@@ -907,7 +900,7 @@ class Parser(object):
         self.add_error(context, error)
         return 14
 
-    # GherkinDocument:0>Feature:2>Scenario_Definition:1>__alt0:0>Scenario:2>Scenario_Step:0>Step:0>#StepLine:0
+    # GherkinDocument:0>Feature:2>Scenario_Definition:1>__alt0:0>Scenario:2>Step:0>#StepLine:0
     def match_token_at_15(self, token, context):
         if self.match_EOF(context, token):
                 self.end_rule(context, 'Step')
@@ -960,7 +953,7 @@ class Parser(object):
                 self.build(context, token)
                 return 15
 
-        state_comment = "State: 15 - GherkinDocument:0>Feature:2>Scenario_Definition:1>__alt0:0>Scenario:2>Scenario_Step:0>Step:0>#StepLine:0"
+        state_comment = "State: 15 - GherkinDocument:0>Feature:2>Scenario_Definition:1>__alt0:0>Scenario:2>Step:0>#StepLine:0"
         token.detach
         expected_tokens = ["#EOF", "#TableRow", "#DocStringSeparator", "#StepLine", "#TagLine", "#ScenarioLine", "#ScenarioOutlineLine", "#Comment", "#Empty"]
         error = UnexpectedEOFException(token, expected_tokens, state_comment) if token.eof() else UnexpectedTokenException(token, expected_tokens, state_comment)
@@ -969,7 +962,7 @@ class Parser(object):
         self.add_error(context, error)
         return 15
 
-    # GherkinDocument:0>Feature:2>Scenario_Definition:1>__alt0:0>Scenario:2>Scenario_Step:0>Step:1>Step_Arg:0>__alt1:0>DataTable:0>#TableRow:0
+    # GherkinDocument:0>Feature:2>Scenario_Definition:1>__alt0:0>Scenario:2>Step:1>Step_Arg:0>__alt1:0>DataTable:0>#TableRow:0
     def match_token_at_16(self, token, context):
         if self.match_EOF(context, token):
                 self.end_rule(context, 'DataTable')
@@ -1022,7 +1015,7 @@ class Parser(object):
                 self.build(context, token)
                 return 16
 
-        state_comment = "State: 16 - GherkinDocument:0>Feature:2>Scenario_Definition:1>__alt0:0>Scenario:2>Scenario_Step:0>Step:1>Step_Arg:0>__alt1:0>DataTable:0>#TableRow:0"
+        state_comment = "State: 16 - GherkinDocument:0>Feature:2>Scenario_Definition:1>__alt0:0>Scenario:2>Step:1>Step_Arg:0>__alt1:0>DataTable:0>#TableRow:0"
         token.detach
         expected_tokens = ["#EOF", "#TableRow", "#StepLine", "#TagLine", "#ScenarioLine", "#ScenarioOutlineLine", "#Comment", "#Empty"]
         error = UnexpectedEOFException(token, expected_tokens, state_comment) if token.eof() else UnexpectedTokenException(token, expected_tokens, state_comment)
@@ -1095,7 +1088,7 @@ class Parser(object):
         self.add_error(context, error)
         return 17
 
-    # GherkinDocument:0>Feature:2>Scenario_Definition:1>__alt0:1>ScenarioOutline:1>ScenarioOutline_Description:0>Description_Helper:1>Description:0>#Other:0
+    # GherkinDocument:0>Feature:2>Scenario_Definition:1>__alt0:1>ScenarioOutline:1>Description_Helper:1>Description:0>#Other:0
     def match_token_at_18(self, token, context):
         if self.match_EOF(context, token):
                 self.end_rule(context, 'Description')
@@ -1154,7 +1147,7 @@ class Parser(object):
                 self.build(context, token)
                 return 18
 
-        state_comment = "State: 18 - GherkinDocument:0>Feature:2>Scenario_Definition:1>__alt0:1>ScenarioOutline:1>ScenarioOutline_Description:0>Description_Helper:1>Description:0>#Other:0"
+        state_comment = "State: 18 - GherkinDocument:0>Feature:2>Scenario_Definition:1>__alt0:1>ScenarioOutline:1>Description_Helper:1>Description:0>#Other:0"
         token.detach
         expected_tokens = ["#EOF", "#Comment", "#StepLine", "#TagLine", "#ExamplesLine", "#ScenarioLine", "#ScenarioOutlineLine", "#Other"]
         error = UnexpectedEOFException(token, expected_tokens, state_comment) if token.eof() else UnexpectedTokenException(token, expected_tokens, state_comment)
@@ -1163,7 +1156,7 @@ class Parser(object):
         self.add_error(context, error)
         return 18
 
-    # GherkinDocument:0>Feature:2>Scenario_Definition:1>__alt0:1>ScenarioOutline:1>ScenarioOutline_Description:0>Description_Helper:2>#Comment:0
+    # GherkinDocument:0>Feature:2>Scenario_Definition:1>__alt0:1>ScenarioOutline:1>Description_Helper:2>#Comment:0
     def match_token_at_19(self, token, context):
         if self.match_EOF(context, token):
                 self.end_rule(context, 'ScenarioOutline')
@@ -1214,7 +1207,7 @@ class Parser(object):
                 self.build(context, token)
                 return 19
 
-        state_comment = "State: 19 - GherkinDocument:0>Feature:2>Scenario_Definition:1>__alt0:1>ScenarioOutline:1>ScenarioOutline_Description:0>Description_Helper:2>#Comment:0"
+        state_comment = "State: 19 - GherkinDocument:0>Feature:2>Scenario_Definition:1>__alt0:1>ScenarioOutline:1>Description_Helper:2>#Comment:0"
         token.detach
         expected_tokens = ["#EOF", "#Comment", "#StepLine", "#TagLine", "#ExamplesLine", "#ScenarioLine", "#ScenarioOutlineLine", "#Empty"]
         error = UnexpectedEOFException(token, expected_tokens, state_comment) if token.eof() else UnexpectedTokenException(token, expected_tokens, state_comment)
@@ -1223,7 +1216,7 @@ class Parser(object):
         self.add_error(context, error)
         return 19
 
-    # GherkinDocument:0>Feature:2>Scenario_Definition:1>__alt0:1>ScenarioOutline:2>ScenarioOutline_Step:0>Step:0>#StepLine:0
+    # GherkinDocument:0>Feature:2>Scenario_Definition:1>__alt0:1>ScenarioOutline:2>Step:0>#StepLine:0
     def match_token_at_20(self, token, context):
         if self.match_EOF(context, token):
                 self.end_rule(context, 'Step')
@@ -1289,7 +1282,7 @@ class Parser(object):
                 self.build(context, token)
                 return 20
 
-        state_comment = "State: 20 - GherkinDocument:0>Feature:2>Scenario_Definition:1>__alt0:1>ScenarioOutline:2>ScenarioOutline_Step:0>Step:0>#StepLine:0"
+        state_comment = "State: 20 - GherkinDocument:0>Feature:2>Scenario_Definition:1>__alt0:1>ScenarioOutline:2>Step:0>#StepLine:0"
         token.detach
         expected_tokens = ["#EOF", "#TableRow", "#DocStringSeparator", "#StepLine", "#TagLine", "#ExamplesLine", "#ScenarioLine", "#ScenarioOutlineLine", "#Comment", "#Empty"]
         error = UnexpectedEOFException(token, expected_tokens, state_comment) if token.eof() else UnexpectedTokenException(token, expected_tokens, state_comment)
@@ -1298,7 +1291,7 @@ class Parser(object):
         self.add_error(context, error)
         return 20
 
-    # GherkinDocument:0>Feature:2>Scenario_Definition:1>__alt0:1>ScenarioOutline:2>ScenarioOutline_Step:0>Step:1>Step_Arg:0>__alt1:0>DataTable:0>#TableRow:0
+    # GherkinDocument:0>Feature:2>Scenario_Definition:1>__alt0:1>ScenarioOutline:2>Step:1>Step_Arg:0>__alt1:0>DataTable:0>#TableRow:0
     def match_token_at_21(self, token, context):
         if self.match_EOF(context, token):
                 self.end_rule(context, 'DataTable')
@@ -1366,7 +1359,7 @@ class Parser(object):
                 self.build(context, token)
                 return 21
 
-        state_comment = "State: 21 - GherkinDocument:0>Feature:2>Scenario_Definition:1>__alt0:1>ScenarioOutline:2>ScenarioOutline_Step:0>Step:1>Step_Arg:0>__alt1:0>DataTable:0>#TableRow:0"
+        state_comment = "State: 21 - GherkinDocument:0>Feature:2>Scenario_Definition:1>__alt0:1>ScenarioOutline:2>Step:1>Step_Arg:0>__alt1:0>DataTable:0>#TableRow:0"
         token.detach
         expected_tokens = ["#EOF", "#TableRow", "#StepLine", "#TagLine", "#ExamplesLine", "#ScenarioLine", "#ScenarioOutlineLine", "#Comment", "#Empty"]
         error = UnexpectedEOFException(token, expected_tokens, state_comment) if token.eof() else UnexpectedTokenException(token, expected_tokens, state_comment)
@@ -1477,7 +1470,7 @@ class Parser(object):
         self.add_error(context, error)
         return 23
 
-    # GherkinDocument:0>Feature:2>Scenario_Definition:1>__alt0:1>ScenarioOutline:3>Examples_Definition:1>Examples:1>Examples_Description:0>Description_Helper:1>Description:0>#Other:0
+    # GherkinDocument:0>Feature:2>Scenario_Definition:1>__alt0:1>ScenarioOutline:3>Examples_Definition:1>Examples:1>Description_Helper:1>Description:0>#Other:0
     def match_token_at_24(self, token, context):
         if self.match_EOF(context, token):
                 self.end_rule(context, 'Description')
@@ -1548,7 +1541,7 @@ class Parser(object):
                 self.build(context, token)
                 return 24
 
-        state_comment = "State: 24 - GherkinDocument:0>Feature:2>Scenario_Definition:1>__alt0:1>ScenarioOutline:3>Examples_Definition:1>Examples:1>Examples_Description:0>Description_Helper:1>Description:0>#Other:0"
+        state_comment = "State: 24 - GherkinDocument:0>Feature:2>Scenario_Definition:1>__alt0:1>ScenarioOutline:3>Examples_Definition:1>Examples:1>Description_Helper:1>Description:0>#Other:0"
         token.detach
         expected_tokens = ["#EOF", "#Comment", "#TableRow", "#TagLine", "#ExamplesLine", "#ScenarioLine", "#ScenarioOutlineLine", "#Other"]
         error = UnexpectedEOFException(token, expected_tokens, state_comment) if token.eof() else UnexpectedTokenException(token, expected_tokens, state_comment)
@@ -1557,7 +1550,7 @@ class Parser(object):
         self.add_error(context, error)
         return 24
 
-    # GherkinDocument:0>Feature:2>Scenario_Definition:1>__alt0:1>ScenarioOutline:3>Examples_Definition:1>Examples:1>Examples_Description:0>Description_Helper:2>#Comment:0
+    # GherkinDocument:0>Feature:2>Scenario_Definition:1>__alt0:1>ScenarioOutline:3>Examples_Definition:1>Examples:1>Description_Helper:2>#Comment:0
     def match_token_at_25(self, token, context):
         if self.match_EOF(context, token):
                 self.end_rule(context, 'Examples')
@@ -1620,7 +1613,7 @@ class Parser(object):
                 self.build(context, token)
                 return 25
 
-        state_comment = "State: 25 - GherkinDocument:0>Feature:2>Scenario_Definition:1>__alt0:1>ScenarioOutline:3>Examples_Definition:1>Examples:1>Examples_Description:0>Description_Helper:2>#Comment:0"
+        state_comment = "State: 25 - GherkinDocument:0>Feature:2>Scenario_Definition:1>__alt0:1>ScenarioOutline:3>Examples_Definition:1>Examples:1>Description_Helper:2>#Comment:0"
         token.detach
         expected_tokens = ["#EOF", "#Comment", "#TableRow", "#TagLine", "#ExamplesLine", "#ScenarioLine", "#ScenarioOutlineLine", "#Empty"]
         error = UnexpectedEOFException(token, expected_tokens, state_comment) if token.eof() else UnexpectedTokenException(token, expected_tokens, state_comment)
@@ -1706,7 +1699,7 @@ class Parser(object):
         self.add_error(context, error)
         return 26
 
-    # GherkinDocument:0>Feature:2>Scenario_Definition:1>__alt0:1>ScenarioOutline:2>ScenarioOutline_Step:0>Step:1>Step_Arg:0>__alt1:1>DocString:0>#DocStringSeparator:0
+    # GherkinDocument:0>Feature:2>Scenario_Definition:1>__alt0:1>ScenarioOutline:2>Step:1>Step_Arg:0>__alt1:1>DocString:0>#DocStringSeparator:0
     def match_token_at_28(self, token, context):
         if self.match_DocStringSeparator(context, token):
                 self.build(context, token)
@@ -1715,7 +1708,7 @@ class Parser(object):
                 self.build(context, token)
                 return 28
 
-        state_comment = "State: 28 - GherkinDocument:0>Feature:2>Scenario_Definition:1>__alt0:1>ScenarioOutline:2>ScenarioOutline_Step:0>Step:1>Step_Arg:0>__alt1:1>DocString:0>#DocStringSeparator:0"
+        state_comment = "State: 28 - GherkinDocument:0>Feature:2>Scenario_Definition:1>__alt0:1>ScenarioOutline:2>Step:1>Step_Arg:0>__alt1:1>DocString:0>#DocStringSeparator:0"
         token.detach
         expected_tokens = ["#DocStringSeparator", "#Other"]
         error = UnexpectedEOFException(token, expected_tokens, state_comment) if token.eof() else UnexpectedTokenException(token, expected_tokens, state_comment)
@@ -1724,7 +1717,7 @@ class Parser(object):
         self.add_error(context, error)
         return 28
 
-    # GherkinDocument:0>Feature:2>Scenario_Definition:1>__alt0:1>ScenarioOutline:2>ScenarioOutline_Step:0>Step:1>Step_Arg:0>__alt1:1>DocString:2>#DocStringSeparator:0
+    # GherkinDocument:0>Feature:2>Scenario_Definition:1>__alt0:1>ScenarioOutline:2>Step:1>Step_Arg:0>__alt1:1>DocString:2>#DocStringSeparator:0
     def match_token_at_29(self, token, context):
         if self.match_EOF(context, token):
                 self.end_rule(context, 'DocString')
@@ -1789,7 +1782,7 @@ class Parser(object):
                 self.build(context, token)
                 return 29
 
-        state_comment = "State: 29 - GherkinDocument:0>Feature:2>Scenario_Definition:1>__alt0:1>ScenarioOutline:2>ScenarioOutline_Step:0>Step:1>Step_Arg:0>__alt1:1>DocString:2>#DocStringSeparator:0"
+        state_comment = "State: 29 - GherkinDocument:0>Feature:2>Scenario_Definition:1>__alt0:1>ScenarioOutline:2>Step:1>Step_Arg:0>__alt1:1>DocString:2>#DocStringSeparator:0"
         token.detach
         expected_tokens = ["#EOF", "#StepLine", "#TagLine", "#ExamplesLine", "#ScenarioLine", "#ScenarioOutlineLine", "#Comment", "#Empty"]
         error = UnexpectedEOFException(token, expected_tokens, state_comment) if token.eof() else UnexpectedTokenException(token, expected_tokens, state_comment)
@@ -1798,7 +1791,7 @@ class Parser(object):
         self.add_error(context, error)
         return 29
 
-    # GherkinDocument:0>Feature:2>Scenario_Definition:1>__alt0:0>Scenario:2>Scenario_Step:0>Step:1>Step_Arg:0>__alt1:1>DocString:0>#DocStringSeparator:0
+    # GherkinDocument:0>Feature:2>Scenario_Definition:1>__alt0:0>Scenario:2>Step:1>Step_Arg:0>__alt1:1>DocString:0>#DocStringSeparator:0
     def match_token_at_30(self, token, context):
         if self.match_DocStringSeparator(context, token):
                 self.build(context, token)
@@ -1807,7 +1800,7 @@ class Parser(object):
                 self.build(context, token)
                 return 30
 
-        state_comment = "State: 30 - GherkinDocument:0>Feature:2>Scenario_Definition:1>__alt0:0>Scenario:2>Scenario_Step:0>Step:1>Step_Arg:0>__alt1:1>DocString:0>#DocStringSeparator:0"
+        state_comment = "State: 30 - GherkinDocument:0>Feature:2>Scenario_Definition:1>__alt0:0>Scenario:2>Step:1>Step_Arg:0>__alt1:1>DocString:0>#DocStringSeparator:0"
         token.detach
         expected_tokens = ["#DocStringSeparator", "#Other"]
         error = UnexpectedEOFException(token, expected_tokens, state_comment) if token.eof() else UnexpectedTokenException(token, expected_tokens, state_comment)
@@ -1816,7 +1809,7 @@ class Parser(object):
         self.add_error(context, error)
         return 30
 
-    # GherkinDocument:0>Feature:2>Scenario_Definition:1>__alt0:0>Scenario:2>Scenario_Step:0>Step:1>Step_Arg:0>__alt1:1>DocString:2>#DocStringSeparator:0
+    # GherkinDocument:0>Feature:2>Scenario_Definition:1>__alt0:0>Scenario:2>Step:1>Step_Arg:0>__alt1:1>DocString:2>#DocStringSeparator:0
     def match_token_at_31(self, token, context):
         if self.match_EOF(context, token):
                 self.end_rule(context, 'DocString')
@@ -1866,7 +1859,7 @@ class Parser(object):
                 self.build(context, token)
                 return 31
 
-        state_comment = "State: 31 - GherkinDocument:0>Feature:2>Scenario_Definition:1>__alt0:0>Scenario:2>Scenario_Step:0>Step:1>Step_Arg:0>__alt1:1>DocString:2>#DocStringSeparator:0"
+        state_comment = "State: 31 - GherkinDocument:0>Feature:2>Scenario_Definition:1>__alt0:0>Scenario:2>Step:1>Step_Arg:0>__alt1:1>DocString:2>#DocStringSeparator:0"
         token.detach
         expected_tokens = ["#EOF", "#StepLine", "#TagLine", "#ScenarioLine", "#ScenarioOutlineLine", "#Comment", "#Empty"]
         error = UnexpectedEOFException(token, expected_tokens, state_comment) if token.eof() else UnexpectedTokenException(token, expected_tokens, state_comment)
@@ -1875,7 +1868,7 @@ class Parser(object):
         self.add_error(context, error)
         return 31
 
-    # GherkinDocument:0>Feature:1>Background:2>Scenario_Step:0>Step:1>Step_Arg:0>__alt1:1>DocString:0>#DocStringSeparator:0
+    # GherkinDocument:0>Feature:1>Background:2>Step:1>Step_Arg:0>__alt1:1>DocString:0>#DocStringSeparator:0
     def match_token_at_32(self, token, context):
         if self.match_DocStringSeparator(context, token):
                 self.build(context, token)
@@ -1884,7 +1877,7 @@ class Parser(object):
                 self.build(context, token)
                 return 32
 
-        state_comment = "State: 32 - GherkinDocument:0>Feature:1>Background:2>Scenario_Step:0>Step:1>Step_Arg:0>__alt1:1>DocString:0>#DocStringSeparator:0"
+        state_comment = "State: 32 - GherkinDocument:0>Feature:1>Background:2>Step:1>Step_Arg:0>__alt1:1>DocString:0>#DocStringSeparator:0"
         token.detach
         expected_tokens = ["#DocStringSeparator", "#Other"]
         error = UnexpectedEOFException(token, expected_tokens, state_comment) if token.eof() else UnexpectedTokenException(token, expected_tokens, state_comment)
@@ -1893,7 +1886,7 @@ class Parser(object):
         self.add_error(context, error)
         return 32
 
-    # GherkinDocument:0>Feature:1>Background:2>Scenario_Step:0>Step:1>Step_Arg:0>__alt1:1>DocString:2>#DocStringSeparator:0
+    # GherkinDocument:0>Feature:1>Background:2>Step:1>Step_Arg:0>__alt1:1>DocString:2>#DocStringSeparator:0
     def match_token_at_33(self, token, context):
         if self.match_EOF(context, token):
                 self.end_rule(context, 'DocString')
@@ -1939,7 +1932,7 @@ class Parser(object):
                 self.build(context, token)
                 return 33
 
-        state_comment = "State: 33 - GherkinDocument:0>Feature:1>Background:2>Scenario_Step:0>Step:1>Step_Arg:0>__alt1:1>DocString:2>#DocStringSeparator:0"
+        state_comment = "State: 33 - GherkinDocument:0>Feature:1>Background:2>Step:1>Step_Arg:0>__alt1:1>DocString:2>#DocStringSeparator:0"
         token.detach
         expected_tokens = ["#EOF", "#StepLine", "#TagLine", "#ScenarioLine", "#ScenarioOutlineLine", "#Comment", "#Empty"]
         error = UnexpectedEOFException(token, expected_tokens, state_comment) if token.eof() else UnexpectedTokenException(token, expected_tokens, state_comment)
