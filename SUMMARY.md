@@ -9,6 +9,7 @@
     * [Java](docs/installation.md#java)
     * [JavaScript](docs/installation.md#javascript)
     * [PHP](docs/installation.md#php)
+    * [.NET](docs/installation.md#dotnet)
     * [Unofficial Cucumbers](./docs/404.md)
 * [10 minute tutorial](docs/10-minute-tutorial.md)
 
