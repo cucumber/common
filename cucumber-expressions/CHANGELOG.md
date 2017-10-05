@@ -8,7 +8,15 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ## [Unreleased]
 
 ### Removed
+
 ### Added
+
+### Changed
+
+### Fixed
+
+## [4.0.4] - 2017-10-05
+
 ### Changed
 
 * java: Backport to Java 7 ([#1](https://github.com/cucumber/cucumber-expressions-java/pull/1) by [mpkorstanje])
@@ -214,7 +222,8 @@ N/A
 * First stable release!
 
 <!-- Releases -->
-[Unreleased]: https://github.com/cucumber/cucumber/compare/cucumber-expressions-v4.0.3...master
+[Unreleased]: https://github.com/cucumber/cucumber/compare/cucumber-expressions-v4.0.4...master
+[4.0.4]:      https://github.com/cucumber/cucumber/compare/cucumber-expressions-v4.0.3...cucumber-expressions-v4.0.4
 [4.0.3]:      https://github.com/cucumber/cucumber/compare/cucumber-expressions-v4.0.2...cucumber-expressions-v4.0.3
 [4.0.2]:      https://github.com/cucumber/cucumber/compare/cucumber-expressions-v4.0.1...cucumber-expressions-v4.0.2
 [4.0.1]:      https://github.com/cucumber/cucumber/compare/cucumber-expressions-v4.0.0...cucumber-expressions-v4.0.1
