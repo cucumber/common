@@ -16,8 +16,8 @@
      <PackageProjectUrl>https://github.com/cucumber/cucumber/tree/master/gherkin</PackageProjectUrl>
      <PackageIconUrl>https://cucumber.io/images/cucumber-mark-32x32.png</PackageIconUrl>
      <PackageLicenseUrl>https://github.com/cucumber/cucumber/blob/master/gherkin/LICENSE</PackageLicenseUrl>
-     <SignAssembly>true</SignAssembly>
-     <AssemblyOriginatorKeyFile>..\gherkin.snk</AssemblyOriginatorKeyFile>
+     <SignAssembly Condition="'$(OS)' == 'Windows_NT'">true</SignAssembly>
+     <AssemblyOriginatorKeyFile Condition="'$(OS)' == 'Windows_NT'">..\gherkin.snk</AssemblyOriginatorKeyFile>
      <DelaySign>false</DelaySign>
      <Version>4.1.4-rc1</Version>     
   </PropertyGroup>
