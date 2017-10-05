@@ -50,6 +50,10 @@ describe('CucumberExpressionGenerator', () => {
   })
 
   it('generates expression for strings', () => {
+    assertExpression('I am {int}%% foobar', ['int'], 'I am 20%% foobar')
+  })
+
+  it('generates expression for strings with % sign', () => {
     assertExpression(
       'I like {string} and {string}',
       ['string', 'string2'],
