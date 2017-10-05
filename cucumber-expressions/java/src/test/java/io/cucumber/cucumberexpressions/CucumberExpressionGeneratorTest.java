@@ -49,6 +49,13 @@ public class CucumberExpressionGeneratorTest {
     }
 
     @Test
+    public void generates_expression_for_strings_with_percent_sign() {
+        assertExpression(
+                "I am {int}% foobar", singletonList("int1"),
+                "I am 20% foobar");
+    }
+
+    @Test
     public void generates_expression_for_just_int() {
         assertExpression(
                 "{int}", singletonList("int1"),

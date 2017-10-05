@@ -62,7 +62,7 @@ public class CucumberExpressionGenerator {
                 parameterTypeCombinations.add(new ArrayList<>(parameterTypes));
 
                 expressionTemplate
-                        .append(text.substring(pos, bestParameterTypeMatcher.start()))
+                        .append(escapeForStringFormat(text.substring(pos, bestParameterTypeMatcher.start())))
                         .append("{%s}");
                 pos = bestParameterTypeMatcher.start() + bestParameterTypeMatcher.group().length();
             } else {
@@ -73,8 +73,12 @@ public class CucumberExpressionGenerator {
                 break;
             }
         }
-        expressionTemplate.append(text.substring(pos));
+        expressionTemplate.append(escapeForStringFormat(text.substring(pos)));
         return new CombinatorialGeneratedExpressionFactory(expressionTemplate.toString(), parameterTypeCombinations).generateExpressions();
+    }
+
+    private String escapeForStringFormat(String s) {
+        return s.replaceAll("%", "%%");
     }
 
     /**
