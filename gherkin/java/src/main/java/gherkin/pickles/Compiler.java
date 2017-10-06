@@ -51,11 +51,9 @@ public class Compiler {
     }
 
     private void compileScenario(List<Pickle> pickles, List<PickleStep> backgroundSteps, Scenario scenario, List<Tag> featureTags, String language) {
-        if (scenario.getSteps().isEmpty())
-            return;
-
         List<PickleStep> steps = new ArrayList<>();
-        steps.addAll(backgroundSteps);
+        if (!scenario.getSteps().isEmpty())
+            steps.addAll(backgroundSteps);
 
         List<Tag> scenarioTags = new ArrayList<>();
         scenarioTags.addAll(featureTags);
@@ -74,9 +72,6 @@ public class Compiler {
     }
 
     private void compileScenarioOutline(List<Pickle> pickles, List<PickleStep> backgroundSteps, ScenarioOutline scenarioOutline, List<Tag> featureTags, String language) {
-        if (scenarioOutline.getSteps().isEmpty())
-            return;
-
         for (final Examples examples : scenarioOutline.getExamples()) {
             if (examples.getTableHeader() == null) continue;
             List<TableCell> variableCells = examples.getTableHeader().getCells();
@@ -84,7 +79,8 @@ public class Compiler {
                 List<TableCell> valueCells = values.getCells();
 
                 List<PickleStep> steps = new ArrayList<>();
-                steps.addAll(backgroundSteps);
+                if (!scenarioOutline.getSteps().isEmpty())
+                    steps.addAll(backgroundSteps);
 
                 List<Tag> tags = new ArrayList<>();
                 tags.addAll(featureTags);
