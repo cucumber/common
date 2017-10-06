@@ -59,7 +59,7 @@ public class GherkinLine implements IGherkinLine {
         int textLength = text.length();
         if (trimmedLineText.length() > textLength && trimmedLineText.startsWith(text)) {
             String rest = trimmedLineText.substring(textLength);
-            Matcher matcher = GherkinLanguageConstants.TITLE_KEYWORD_SEPARATOR2.matcher(rest);
+            Matcher matcher = GherkinLanguageConstants.TITLE_KEYWORD_SEPARATOR.matcher(rest);
             if(matcher.find() && matcher.start() == 0){
                 return  true;
             }
