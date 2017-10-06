@@ -18,6 +18,10 @@ This document is formatted according to the principles of [Keep A CHANGELOG](htt
    by [Pwera])
 
 ### Changed
+* Compile epty scenarios to empty pickles
+  ([#249](https://github.com/cucumber/cucumber/issues/249)
+   [#264](https://github.com/cucumber/cucumber/pull/264)
+   by [brasmusson])
 
 ### Fixed
 
