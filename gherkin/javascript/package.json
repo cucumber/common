@@ -7,7 +7,7 @@
     "gherkin-javascript": "bin/gherkin"
   },
   "scripts": {
-    "test": "mocha"
+    "test": "make && mocha"
   },
   "repository": {
     "type": "git",

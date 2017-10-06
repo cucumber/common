@@ -27,24 +27,24 @@ public class ExpressionFactory {
     public Expression createExpression(String expressionString, List<Type> types) {
         Matcher m = BEGIN_ANCHOR.matcher(expressionString);
         if (m.find()) {
-            return new RegularExpression(Pattern.compile(expressionString), types, parameterTypeRegistry);
+            return new RegularExpression(Pattern.compile(expressionString), parameterTypeRegistry);
         }
         m = END_ANCHOR.matcher(expressionString);
         if (m.find()) {
-            return new RegularExpression(Pattern.compile(expressionString), types, parameterTypeRegistry);
+            return new RegularExpression(Pattern.compile(expressionString), parameterTypeRegistry);
         }
         m = SCRIPT_STYLE_REGEXP.matcher(expressionString);
         if (m.find()) {
-            return new RegularExpression(Pattern.compile(m.group(1)), types, parameterTypeRegistry);
+            return new RegularExpression(Pattern.compile(m.group(1)), parameterTypeRegistry);
         }
         m = PARENS.matcher(expressionString);
         if (m.find()) {
             String insideParens = m.group(1);
             if (ALPHA.matcher(insideParens).lookingAt()) {
-                return new CucumberExpression(expressionString, types, parameterTypeRegistry);
+                return new CucumberExpression(expressionString, parameterTypeRegistry);
             }
-            return new RegularExpression(Pattern.compile(expressionString), types, parameterTypeRegistry);
+            return new RegularExpression(Pattern.compile(expressionString), parameterTypeRegistry);
         }
-        return new CucumberExpression(expressionString, types, parameterTypeRegistry);
+        return new CucumberExpression(expressionString, parameterTypeRegistry);
     }
 }

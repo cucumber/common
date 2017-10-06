@@ -24,10 +24,10 @@ def compile(gherkin_document):
 
 
 def _compile_scenario(feature_tags, background_steps, scenario, language, pickles):
-    if len(scenario['steps']) == 0:
-        return
+    steps = list()
+    if len(scenario['steps']) > 0:
+        steps.extend(background_steps)
 
-    steps = list(background_steps)
     tags = list(feature_tags) + list(scenario['tags'])
 
     for step in scenario['steps']:
@@ -44,15 +44,14 @@ def _compile_scenario(feature_tags, background_steps, scenario, language, pickle
 
 
 def _compile_scenario_outline(feature_tags, background_steps, scenario_outline, language, pickles):
-    if len(scenario_outline['steps']) == 0:
-        return
-
     for examples in (e for e in scenario_outline['examples'] if 'tableHeader' in e):
         variable_cells = examples['tableHeader']['cells']
 
         for values in examples['tableBody']:
             value_cells = values['cells']
-            steps = list(background_steps)
+            steps = list()
+            if len(scenario_outline['steps']) > 0:
+                steps.extend(background_steps)
             tags = list(feature_tags) \
                 + list(scenario_outline['tags']) \
                 + list(examples['tags'])

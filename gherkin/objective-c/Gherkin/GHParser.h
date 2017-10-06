@@ -46,26 +46,19 @@ typedef enum    GHRuleType
             GHRuleType_Other, // #Other
             GHRuleTypeGherkinDocument, // GherkinDocument! := Feature?
             GHRuleTypeFeature, // Feature! := Feature_Header Background? Scenario_Definition*
-            GHRuleTypeFeature_Header, // Feature_Header! := #Language? Tags? #FeatureLine Feature_Description
-            GHRuleTypeBackground, // Background! := #BackgroundLine Background_Description Scenario_Step*
+            GHRuleTypeFeature_Header, // Feature_Header! := #Language? Tags? #FeatureLine Description_Helper
+            GHRuleTypeBackground, // Background! := #BackgroundLine Description_Helper Step*
             GHRuleTypeScenario_Definition, // Scenario_Definition! := Tags? (Scenario | ScenarioOutline)
-            GHRuleTypeScenario, // Scenario! := #ScenarioLine Scenario_Description Scenario_Step*
-            GHRuleTypeScenarioOutline, // ScenarioOutline! := #ScenarioOutlineLine ScenarioOutline_Description ScenarioOutline_Step* Examples_Definition*
+            GHRuleTypeScenario, // Scenario! := #ScenarioLine Description_Helper Step*
+            GHRuleTypeScenarioOutline, // ScenarioOutline! := #ScenarioOutlineLine Description_Helper Step* Examples_Definition*
             GHRuleTypeExamples_Definition, // Examples_Definition! [#Empty|#Comment|#TagLine-&gt;#ExamplesLine] := Tags? Examples
-            GHRuleTypeExamples, // Examples! := #ExamplesLine Examples_Description Examples_Table?
+            GHRuleTypeExamples, // Examples! := #ExamplesLine Description_Helper Examples_Table?
             GHRuleTypeExamples_Table, // Examples_Table! := #TableRow #TableRow*
-            GHRuleTypeScenario_Step, // Scenario_Step := Step
-            GHRuleTypeScenarioOutline_Step, // ScenarioOutline_Step := Step
             GHRuleTypeStep, // Step! := #StepLine Step_Arg?
             GHRuleTypeStep_Arg, // Step_Arg := (DataTable | DocString)
             GHRuleTypeDataTable, // DataTable! := #TableRow+
             GHRuleTypeDocString, // DocString! := #DocStringSeparator #Other* #DocStringSeparator
             GHRuleTypeTags, // Tags! := #TagLine+
-            GHRuleTypeFeature_Description, // Feature_Description := Description_Helper
-            GHRuleTypeBackground_Description, // Background_Description := Description_Helper
-            GHRuleTypeScenario_Description, // Scenario_Description := Description_Helper
-            GHRuleTypeScenarioOutline_Description, // ScenarioOutline_Description := Description_Helper
-            GHRuleTypeExamples_Description, // Examples_Description := Description_Helper
             GHRuleTypeDescription_Helper, // Description_Helper := #Empty* Description? #Comment*
             GHRuleTypeDescription, // Description! := #Other+
     }               GHRuleType;

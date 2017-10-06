@@ -1,5 +1,6 @@
 ../LICENSE LICENSE
+../../.travis/ruby/.travis.yml .travis.yml
 ../testdata/ testdata/
 ../gherkin.berp gherkin.berp
 ../bin/ berp/
-../gherkin-languages.json gherkin-languages.json
+../gherkin-languages.json lib/gherkin/gherkin-languages.json

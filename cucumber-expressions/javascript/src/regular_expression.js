@@ -1,40 +1,46 @@
-const buildArguments = require('./build_arguments')
+const Argument = require('./argument')
+const TreeRegexp = require('./tree_regexp')
+const ParameterType = require('./parameter_type')
 
 class RegularExpression {
-  constructor(regexp, types, parameterTypeRegistry) {
-    this._regexp = regexp
-    this._parameterTypes = []
-
-    const CAPTURE_GROUP_PATTERN = /\(([^(]+)\)/g
-
-    let typeIndex = 0
-    let match
-    while ((match = CAPTURE_GROUP_PATTERN.exec(regexp.source)) !== null) {
-      const captureGroupPattern = match[1]
-      const type = types.length <= typeIndex ? null : types[typeIndex++]
-
-      let parameterType
-      if (type) {
-        parameterType = parameterTypeRegistry.lookupByType(type)
-      }
-      if (!parameterType) {
-        parameterType = parameterTypeRegistry.lookupByRegexp(
-          captureGroupPattern
-        )
-      }
-      if (!parameterType) {
-        parameterType = parameterTypeRegistry.createAnonymousLookup(s => s)
-      }
-      this._parameterTypes.push(parameterType)
-    }
+  constructor(expressionRegexp, parameterTypeRegistry) {
+    this._expressionRegexp = expressionRegexp
+    this._parameterTypeRegistry = parameterTypeRegistry
+    this._treeRegexp = new TreeRegexp(expressionRegexp)
   }
 
   match(text) {
-    return buildArguments(this._regexp, text, this._parameterTypes)
+    const parameterTypes = this._treeRegexp.groupBuilder.children.map(
+      groupBuilder => {
+        const parameterTypeRegexp = groupBuilder.source
+
+        return (
+          this._parameterTypeRegistry.lookupByRegexp(
+            parameterTypeRegexp,
+            this._treeRegexp,
+            text
+          ) ||
+          new ParameterType(
+            parameterTypeRegexp,
+            parameterTypeRegexp,
+            String,
+            s => s,
+            false,
+            false
+          )
+        )
+      }
+    )
+
+    return Argument.build(this._treeRegexp, text, parameterTypes)
   }
 
-  getSource() {
-    return this._regexp.toString()
+  get regexp() {
+    return this._expressionRegexp
+  }
+
+  get source() {
+    return this._expressionRegexp.source
   }
 }
 

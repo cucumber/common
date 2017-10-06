@@ -1,22 +1,21 @@
 package io.cucumber.cucumberexpressions;
 
-import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class CucumberExpression implements Expression {
-    private static final Pattern ESCAPE_PATTERN = Pattern.compile("([\\\\\\^\\[$.|?*+\\]])");
+    private static final Pattern ESCAPE_PATTERN = Pattern.compile("([\\\\^\\[$.|?*+\\]])");
     private static final Pattern PARAMETER_PATTERN = Pattern.compile("\\{([^}]+)}");
     private static final Pattern OPTIONAL_PATTERN = Pattern.compile("\\(([^)]+)\\)");
     private static final Pattern ALTERNATIVE_WORD_REGEXP = Pattern.compile("([\\p{IsAlphabetic}]+)((/[\\p{IsAlphabetic}]+)+)");
 
-    private final Pattern pattern;
     private final List<ParameterType<?>> parameterTypes = new ArrayList<>();
     private final String expression;
+    private final TreeRegexp treeRegexp;
 
-    public CucumberExpression(String expression, List<? extends Type> types, ParameterTypeRegistry parameterTypeRegistry) {
+    public CucumberExpression(String expression, ParameterTypeRegistry parameterTypeRegistry) {
         this.expression = expression;
         expression = ESCAPE_PATTERN.matcher(expression).replaceAll("\\\\$1");
         expression = OPTIONAL_PATTERN.matcher(expression).replaceAll("(?:$1)?");
@@ -32,36 +31,23 @@ public class CucumberExpression implements Expression {
 
         StringBuffer regexp = new StringBuffer();
         regexp.append("^");
-        int typeIndex = 0;
         while (matcher.find()) {
-            String parameterName = matcher.group(1);
-
-            Type type = types.size() <= typeIndex ? null : types.get(typeIndex++);
-
-            ParameterType<?> parameterType = null;
-            if (type != null) {
-                parameterType = parameterTypeRegistry.lookupByType(type);
-            }
+            String typeName = matcher.group(1);
+            ParameterType<?> parameterType = parameterTypeRegistry.lookupByTypeName(typeName);
             if (parameterType == null) {
-                parameterType = parameterTypeRegistry.lookupByTypeName(parameterName);
-            }
-            if (parameterType == null && type != null && type instanceof Class) {
-                parameterType = new ClassParameterType<>((Class) type);
-            }
-            if (parameterType == null) {
-                parameterType = new ConstructorParameterType<>(String.class);
+                throw new UndefinedParameterTypeException(typeName);
             }
             parameterTypes.add(parameterType);
 
-            matcher.appendReplacement(regexp, Matcher.quoteReplacement(getCaptureGroupRegexp(parameterType.getRegexps())));
+            matcher.appendReplacement(regexp, Matcher.quoteReplacement(buildCaptureRegexp(parameterType.getRegexps())));
         }
         matcher.appendTail(regexp);
         regexp.append("$");
 
-        pattern = Pattern.compile(regexp.toString());
+        treeRegexp = new TreeRegexp(regexp.toString());
     }
 
-    private String getCaptureGroupRegexp(List<String> regexps) {
+    private String buildCaptureRegexp(List<String> regexps) {
         StringBuilder sb = new StringBuilder("(");
 
         if (regexps.size() == 1) {
@@ -80,8 +66,8 @@ public class CucumberExpression implements Expression {
     }
 
     @Override
-    public List<Argument> match(String text) {
-        return ArgumentBuilder.buildArguments(pattern, text, parameterTypes);
+    public List<Argument<?>> match(String text) {
+        return Argument.build(treeRegexp, parameterTypes, text);
     }
 
     @Override
@@ -89,7 +75,8 @@ public class CucumberExpression implements Expression {
         return expression;
     }
 
-    Pattern getPattern() {
-        return pattern;
+    @Override
+    public Pattern getRegexp() {
+        return treeRegexp.pattern();
     }
 }

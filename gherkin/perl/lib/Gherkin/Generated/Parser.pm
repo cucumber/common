@@ -24,26 +24,19 @@ our @RULE_TYPES = [
     '_Other',  # #Other
     'GherkinDocument',  # GherkinDocument! := Feature?
     'Feature',  # Feature! := Feature_Header Background? Scenario_Definition*
-    'Feature_Header',  # Feature_Header! := #Language? Tags? #FeatureLine Feature_Description
-    'Background',  # Background! := #BackgroundLine Background_Description Scenario_Step*
+    'Feature_Header',  # Feature_Header! := #Language? Tags? #FeatureLine Description_Helper
+    'Background',  # Background! := #BackgroundLine Description_Helper Step*
     'Scenario_Definition',  # Scenario_Definition! := Tags? (Scenario | ScenarioOutline)
-    'Scenario',  # Scenario! := #ScenarioLine Scenario_Description Scenario_Step*
-    'ScenarioOutline',  # ScenarioOutline! := #ScenarioOutlineLine ScenarioOutline_Description ScenarioOutline_Step* Examples_Definition*
+    'Scenario',  # Scenario! := #ScenarioLine Description_Helper Step*
+    'ScenarioOutline',  # ScenarioOutline! := #ScenarioOutlineLine Description_Helper Step* Examples_Definition*
     'Examples_Definition',  # Examples_Definition! [#Empty|#Comment|#TagLine-&gt;#ExamplesLine] := Tags? Examples
-    'Examples',  # Examples! := #ExamplesLine Examples_Description Examples_Table?
+    'Examples',  # Examples! := #ExamplesLine Description_Helper Examples_Table?
     'Examples_Table',  # Examples_Table! := #TableRow #TableRow*
-    'Scenario_Step',  # Scenario_Step := Step
-    'ScenarioOutline_Step',  # ScenarioOutline_Step := Step
     'Step',  # Step! := #StepLine Step_Arg?
     'Step_Arg',  # Step_Arg := (DataTable | DocString)
     'DataTable',  # DataTable! := #TableRow+
     'DocString',  # DocString! := #DocStringSeparator #Other* #DocStringSeparator
     'Tags',  # Tags! := #TagLine+
-    'Feature_Description',  # Feature_Description := Description_Helper
-    'Background_Description',  # Background_Description := Description_Helper
-    'Scenario_Description',  # Scenario_Description := Description_Helper
-    'ScenarioOutline_Description',  # ScenarioOutline_Description := Description_Helper
-    'Examples_Description',  # Examples_Description := Description_Helper
     'Description_Helper',  # Description_Helper := #Empty* Description? #Comment*
     'Description',  # Description! := #Other+
 ];
@@ -491,7 +484,7 @@ sub match_token_at_3 {
     return 3;
 } 
 
-# GherkinDocument:0>Feature:0>Feature_Header:3>Feature_Description:0>Description_Helper:1>Description:0>#Other:0
+# GherkinDocument:0>Feature:0>Feature_Header:3>Description_Helper:1>Description:0>#Other:0
 sub match_token_at_4 {
     my ( $self, $token, $context ) = @_;
     if ($self->match_EOF($context, $token)) {
@@ -551,7 +544,7 @@ sub match_token_at_4 {
     my @args = (
         $token,
         ["#EOF", "#Comment", "#BackgroundLine", "#TagLine", "#ScenarioLine", "#ScenarioOutlineLine", "#Other"], #"
-        "State: 4 - GherkinDocument:0>Feature:0>Feature_Header:3>Feature_Description:0>Description_Helper:1>Description:0>#Other:0",
+        "State: 4 - GherkinDocument:0>Feature:0>Feature_Header:3>Description_Helper:1>Description:0>#Other:0",
     );
 
     $error_class->throw( @args ) if $self->stop_at_first_error;
@@ -562,7 +555,7 @@ sub match_token_at_4 {
     return 4;
 } 
 
-# GherkinDocument:0>Feature:0>Feature_Header:3>Feature_Description:0>Description_Helper:2>#Comment:0
+# GherkinDocument:0>Feature:0>Feature_Header:3>Description_Helper:2>#Comment:0
 sub match_token_at_5 {
     my ( $self, $token, $context ) = @_;
     if ($self->match_EOF($context, $token)) {
@@ -616,7 +609,7 @@ sub match_token_at_5 {
     my @args = (
         $token,
         ["#EOF", "#Comment", "#BackgroundLine", "#TagLine", "#ScenarioLine", "#ScenarioOutlineLine", "#Empty"], #"
-        "State: 5 - GherkinDocument:0>Feature:0>Feature_Header:3>Feature_Description:0>Description_Helper:2>#Comment:0",
+        "State: 5 - GherkinDocument:0>Feature:0>Feature_Header:3>Description_Helper:2>#Comment:0",
     );
 
     $error_class->throw( @args ) if $self->stop_at_first_error;
@@ -696,7 +689,7 @@ sub match_token_at_6 {
     return 6;
 } 
 
-# GherkinDocument:0>Feature:1>Background:1>Background_Description:0>Description_Helper:1>Description:0>#Other:0
+# GherkinDocument:0>Feature:1>Background:1>Description_Helper:1>Description:0>#Other:0
 sub match_token_at_7 {
     my ( $self, $token, $context ) = @_;
     if ($self->match_EOF($context, $token)) {
@@ -755,7 +748,7 @@ sub match_token_at_7 {
     my @args = (
         $token,
         ["#EOF", "#Comment", "#StepLine", "#TagLine", "#ScenarioLine", "#ScenarioOutlineLine", "#Other"], #"
-        "State: 7 - GherkinDocument:0>Feature:1>Background:1>Background_Description:0>Description_Helper:1>Description:0>#Other:0",
+        "State: 7 - GherkinDocument:0>Feature:1>Background:1>Description_Helper:1>Description:0>#Other:0",
     );
 
     $error_class->throw( @args ) if $self->stop_at_first_error;
@@ -766,7 +759,7 @@ sub match_token_at_7 {
     return 7;
 } 
 
-# GherkinDocument:0>Feature:1>Background:1>Background_Description:0>Description_Helper:2>#Comment:0
+# GherkinDocument:0>Feature:1>Background:1>Description_Helper:2>#Comment:0
 sub match_token_at_8 {
     my ( $self, $token, $context ) = @_;
     if ($self->match_EOF($context, $token)) {
@@ -819,7 +812,7 @@ sub match_token_at_8 {
     my @args = (
         $token,
         ["#EOF", "#Comment", "#StepLine", "#TagLine", "#ScenarioLine", "#ScenarioOutlineLine", "#Empty"], #"
-        "State: 8 - GherkinDocument:0>Feature:1>Background:1>Background_Description:0>Description_Helper:2>#Comment:0",
+        "State: 8 - GherkinDocument:0>Feature:1>Background:1>Description_Helper:2>#Comment:0",
     );
 
     $error_class->throw( @args ) if $self->stop_at_first_error;
@@ -830,7 +823,7 @@ sub match_token_at_8 {
     return 8;
 } 
 
-# GherkinDocument:0>Feature:1>Background:2>Scenario_Step:0>Step:0>#StepLine:0
+# GherkinDocument:0>Feature:1>Background:2>Step:0>#StepLine:0
 sub match_token_at_9 {
     my ( $self, $token, $context ) = @_;
     if ($self->match_EOF($context, $token)) {
@@ -898,7 +891,7 @@ sub match_token_at_9 {
     my @args = (
         $token,
         ["#EOF", "#TableRow", "#DocStringSeparator", "#StepLine", "#TagLine", "#ScenarioLine", "#ScenarioOutlineLine", "#Comment", "#Empty"], #"
-        "State: 9 - GherkinDocument:0>Feature:1>Background:2>Scenario_Step:0>Step:0>#StepLine:0",
+        "State: 9 - GherkinDocument:0>Feature:1>Background:2>Step:0>#StepLine:0",
     );
 
     $error_class->throw( @args ) if $self->stop_at_first_error;
@@ -909,7 +902,7 @@ sub match_token_at_9 {
     return 9;
 } 
 
-# GherkinDocument:0>Feature:1>Background:2>Scenario_Step:0>Step:1>Step_Arg:0>__alt1:0>DataTable:0>#TableRow:0
+# GherkinDocument:0>Feature:1>Background:2>Step:1>Step_Arg:0>__alt1:0>DataTable:0>#TableRow:0
 sub match_token_at_10 {
     my ( $self, $token, $context ) = @_;
     if ($self->match_EOF($context, $token)) {
@@ -976,7 +969,7 @@ sub match_token_at_10 {
     my @args = (
         $token,
         ["#EOF", "#TableRow", "#StepLine", "#TagLine", "#ScenarioLine", "#ScenarioOutlineLine", "#Comment", "#Empty"], #"
-        "State: 10 - GherkinDocument:0>Feature:1>Background:2>Scenario_Step:0>Step:1>Step_Arg:0>__alt1:0>DataTable:0>#TableRow:0",
+        "State: 10 - GherkinDocument:0>Feature:1>Background:2>Step:1>Step_Arg:0>__alt1:0>DataTable:0>#TableRow:0",
     );
 
     $error_class->throw( @args ) if $self->stop_at_first_error;
@@ -1108,7 +1101,7 @@ sub match_token_at_12 {
     return 12;
 } 
 
-# GherkinDocument:0>Feature:2>Scenario_Definition:1>__alt0:0>Scenario:1>Scenario_Description:0>Description_Helper:1>Description:0>#Other:0
+# GherkinDocument:0>Feature:2>Scenario_Definition:1>__alt0:0>Scenario:1>Description_Helper:1>Description:0>#Other:0
 sub match_token_at_13 {
     my ( $self, $token, $context ) = @_;
     if ($self->match_EOF($context, $token)) {
@@ -1171,7 +1164,7 @@ sub match_token_at_13 {
     my @args = (
         $token,
         ["#EOF", "#Comment", "#StepLine", "#TagLine", "#ScenarioLine", "#ScenarioOutlineLine", "#Other"], #"
-        "State: 13 - GherkinDocument:0>Feature:2>Scenario_Definition:1>__alt0:0>Scenario:1>Scenario_Description:0>Description_Helper:1>Description:0>#Other:0",
+        "State: 13 - GherkinDocument:0>Feature:2>Scenario_Definition:1>__alt0:0>Scenario:1>Description_Helper:1>Description:0>#Other:0",
     );
 
     $error_class->throw( @args ) if $self->stop_at_first_error;
@@ -1182,7 +1175,7 @@ sub match_token_at_13 {
     return 13;
 } 
 
-# GherkinDocument:0>Feature:2>Scenario_Definition:1>__alt0:0>Scenario:1>Scenario_Description:0>Description_Helper:2>#Comment:0
+# GherkinDocument:0>Feature:2>Scenario_Definition:1>__alt0:0>Scenario:1>Description_Helper:2>#Comment:0
 sub match_token_at_14 {
     my ( $self, $token, $context ) = @_;
     if ($self->match_EOF($context, $token)) {
@@ -1239,7 +1232,7 @@ sub match_token_at_14 {
     my @args = (
         $token,
         ["#EOF", "#Comment", "#StepLine", "#TagLine", "#ScenarioLine", "#ScenarioOutlineLine", "#Empty"], #"
-        "State: 14 - GherkinDocument:0>Feature:2>Scenario_Definition:1>__alt0:0>Scenario:1>Scenario_Description:0>Description_Helper:2>#Comment:0",
+        "State: 14 - GherkinDocument:0>Feature:2>Scenario_Definition:1>__alt0:0>Scenario:1>Description_Helper:2>#Comment:0",
     );
 
     $error_class->throw( @args ) if $self->stop_at_first_error;
@@ -1250,7 +1243,7 @@ sub match_token_at_14 {
     return 14;
 } 
 
-# GherkinDocument:0>Feature:2>Scenario_Definition:1>__alt0:0>Scenario:2>Scenario_Step:0>Step:0>#StepLine:0
+# GherkinDocument:0>Feature:2>Scenario_Definition:1>__alt0:0>Scenario:2>Step:0>#StepLine:0
 sub match_token_at_15 {
     my ( $self, $token, $context ) = @_;
     if ($self->match_EOF($context, $token)) {
@@ -1322,7 +1315,7 @@ sub match_token_at_15 {
     my @args = (
         $token,
         ["#EOF", "#TableRow", "#DocStringSeparator", "#StepLine", "#TagLine", "#ScenarioLine", "#ScenarioOutlineLine", "#Comment", "#Empty"], #"
-        "State: 15 - GherkinDocument:0>Feature:2>Scenario_Definition:1>__alt0:0>Scenario:2>Scenario_Step:0>Step:0>#StepLine:0",
+        "State: 15 - GherkinDocument:0>Feature:2>Scenario_Definition:1>__alt0:0>Scenario:2>Step:0>#StepLine:0",
     );
 
     $error_class->throw( @args ) if $self->stop_at_first_error;
@@ -1333,7 +1326,7 @@ sub match_token_at_15 {
     return 15;
 } 
 
-# GherkinDocument:0>Feature:2>Scenario_Definition:1>__alt0:0>Scenario:2>Scenario_Step:0>Step:1>Step_Arg:0>__alt1:0>DataTable:0>#TableRow:0
+# GherkinDocument:0>Feature:2>Scenario_Definition:1>__alt0:0>Scenario:2>Step:1>Step_Arg:0>__alt1:0>DataTable:0>#TableRow:0
 sub match_token_at_16 {
     my ( $self, $token, $context ) = @_;
     if ($self->match_EOF($context, $token)) {
@@ -1404,7 +1397,7 @@ sub match_token_at_16 {
     my @args = (
         $token,
         ["#EOF", "#TableRow", "#StepLine", "#TagLine", "#ScenarioLine", "#ScenarioOutlineLine", "#Comment", "#Empty"], #"
-        "State: 16 - GherkinDocument:0>Feature:2>Scenario_Definition:1>__alt0:0>Scenario:2>Scenario_Step:0>Step:1>Step_Arg:0>__alt1:0>DataTable:0>#TableRow:0",
+        "State: 16 - GherkinDocument:0>Feature:2>Scenario_Definition:1>__alt0:0>Scenario:2>Step:1>Step_Arg:0>__alt1:0>DataTable:0>#TableRow:0",
     );
 
     $error_class->throw( @args ) if $self->stop_at_first_error;
@@ -1502,7 +1495,7 @@ sub match_token_at_17 {
     return 17;
 } 
 
-# GherkinDocument:0>Feature:2>Scenario_Definition:1>__alt0:1>ScenarioOutline:1>ScenarioOutline_Description:0>Description_Helper:1>Description:0>#Other:0
+# GherkinDocument:0>Feature:2>Scenario_Definition:1>__alt0:1>ScenarioOutline:1>Description_Helper:1>Description:0>#Other:0
 sub match_token_at_18 {
     my ( $self, $token, $context ) = @_;
     if ($self->match_EOF($context, $token)) {
@@ -1581,7 +1574,7 @@ sub match_token_at_18 {
     my @args = (
         $token,
         ["#EOF", "#Comment", "#StepLine", "#TagLine", "#ExamplesLine", "#ScenarioLine", "#ScenarioOutlineLine", "#Other"], #"
-        "State: 18 - GherkinDocument:0>Feature:2>Scenario_Definition:1>__alt0:1>ScenarioOutline:1>ScenarioOutline_Description:0>Description_Helper:1>Description:0>#Other:0",
+        "State: 18 - GherkinDocument:0>Feature:2>Scenario_Definition:1>__alt0:1>ScenarioOutline:1>Description_Helper:1>Description:0>#Other:0",
     );
 
     $error_class->throw( @args ) if $self->stop_at_first_error;
@@ -1592,7 +1585,7 @@ sub match_token_at_18 {
     return 18;
 } 
 
-# GherkinDocument:0>Feature:2>Scenario_Definition:1>__alt0:1>ScenarioOutline:1>ScenarioOutline_Description:0>Description_Helper:2>#Comment:0
+# GherkinDocument:0>Feature:2>Scenario_Definition:1>__alt0:1>ScenarioOutline:1>Description_Helper:2>#Comment:0
 sub match_token_at_19 {
     my ( $self, $token, $context ) = @_;
     if ($self->match_EOF($context, $token)) {
@@ -1663,7 +1656,7 @@ sub match_token_at_19 {
     my @args = (
         $token,
         ["#EOF", "#Comment", "#StepLine", "#TagLine", "#ExamplesLine", "#ScenarioLine", "#ScenarioOutlineLine", "#Empty"], #"
-        "State: 19 - GherkinDocument:0>Feature:2>Scenario_Definition:1>__alt0:1>ScenarioOutline:1>ScenarioOutline_Description:0>Description_Helper:2>#Comment:0",
+        "State: 19 - GherkinDocument:0>Feature:2>Scenario_Definition:1>__alt0:1>ScenarioOutline:1>Description_Helper:2>#Comment:0",
     );
 
     $error_class->throw( @args ) if $self->stop_at_first_error;
@@ -1674,7 +1667,7 @@ sub match_token_at_19 {
     return 19;
 } 
 
-# GherkinDocument:0>Feature:2>Scenario_Definition:1>__alt0:1>ScenarioOutline:2>ScenarioOutline_Step:0>Step:0>#StepLine:0
+# GherkinDocument:0>Feature:2>Scenario_Definition:1>__alt0:1>ScenarioOutline:2>Step:0>#StepLine:0
 sub match_token_at_20 {
     my ( $self, $token, $context ) = @_;
     if ($self->match_EOF($context, $token)) {
@@ -1762,7 +1755,7 @@ sub match_token_at_20 {
     my @args = (
         $token,
         ["#EOF", "#TableRow", "#DocStringSeparator", "#StepLine", "#TagLine", "#ExamplesLine", "#ScenarioLine", "#ScenarioOutlineLine", "#Comment", "#Empty"], #"
-        "State: 20 - GherkinDocument:0>Feature:2>Scenario_Definition:1>__alt0:1>ScenarioOutline:2>ScenarioOutline_Step:0>Step:0>#StepLine:0",
+        "State: 20 - GherkinDocument:0>Feature:2>Scenario_Definition:1>__alt0:1>ScenarioOutline:2>Step:0>#StepLine:0",
     );
 
     $error_class->throw( @args ) if $self->stop_at_first_error;
@@ -1773,7 +1766,7 @@ sub match_token_at_20 {
     return 20;
 } 
 
-# GherkinDocument:0>Feature:2>Scenario_Definition:1>__alt0:1>ScenarioOutline:2>ScenarioOutline_Step:0>Step:1>Step_Arg:0>__alt1:0>DataTable:0>#TableRow:0
+# GherkinDocument:0>Feature:2>Scenario_Definition:1>__alt0:1>ScenarioOutline:2>Step:1>Step_Arg:0>__alt1:0>DataTable:0>#TableRow:0
 sub match_token_at_21 {
     my ( $self, $token, $context ) = @_;
     if ($self->match_EOF($context, $token)) {
@@ -1862,7 +1855,7 @@ sub match_token_at_21 {
     my @args = (
         $token,
         ["#EOF", "#TableRow", "#StepLine", "#TagLine", "#ExamplesLine", "#ScenarioLine", "#ScenarioOutlineLine", "#Comment", "#Empty"], #"
-        "State: 21 - GherkinDocument:0>Feature:2>Scenario_Definition:1>__alt0:1>ScenarioOutline:2>ScenarioOutline_Step:0>Step:1>Step_Arg:0>__alt1:0>DataTable:0>#TableRow:0",
+        "State: 21 - GherkinDocument:0>Feature:2>Scenario_Definition:1>__alt0:1>ScenarioOutline:2>Step:1>Step_Arg:0>__alt1:0>DataTable:0>#TableRow:0",
     );
 
     $error_class->throw( @args ) if $self->stop_at_first_error;
@@ -2014,7 +2007,7 @@ sub match_token_at_23 {
     return 23;
 } 
 
-# GherkinDocument:0>Feature:2>Scenario_Definition:1>__alt0:1>ScenarioOutline:3>Examples_Definition:1>Examples:1>Examples_Description:0>Description_Helper:1>Description:0>#Other:0
+# GherkinDocument:0>Feature:2>Scenario_Definition:1>__alt0:1>ScenarioOutline:3>Examples_Definition:1>Examples:1>Description_Helper:1>Description:0>#Other:0
 sub match_token_at_24 {
     my ( $self, $token, $context ) = @_;
     if ($self->match_EOF($context, $token)) {
@@ -2105,7 +2098,7 @@ sub match_token_at_24 {
     my @args = (
         $token,
         ["#EOF", "#Comment", "#TableRow", "#TagLine", "#ExamplesLine", "#ScenarioLine", "#ScenarioOutlineLine", "#Other"], #"
-        "State: 24 - GherkinDocument:0>Feature:2>Scenario_Definition:1>__alt0:1>ScenarioOutline:3>Examples_Definition:1>Examples:1>Examples_Description:0>Description_Helper:1>Description:0>#Other:0",
+        "State: 24 - GherkinDocument:0>Feature:2>Scenario_Definition:1>__alt0:1>ScenarioOutline:3>Examples_Definition:1>Examples:1>Description_Helper:1>Description:0>#Other:0",
     );
 
     $error_class->throw( @args ) if $self->stop_at_first_error;
@@ -2116,7 +2109,7 @@ sub match_token_at_24 {
     return 24;
 } 
 
-# GherkinDocument:0>Feature:2>Scenario_Definition:1>__alt0:1>ScenarioOutline:3>Examples_Definition:1>Examples:1>Examples_Description:0>Description_Helper:2>#Comment:0
+# GherkinDocument:0>Feature:2>Scenario_Definition:1>__alt0:1>ScenarioOutline:3>Examples_Definition:1>Examples:1>Description_Helper:2>#Comment:0
 sub match_token_at_25 {
     my ( $self, $token, $context ) = @_;
     if ($self->match_EOF($context, $token)) {
@@ -2199,7 +2192,7 @@ sub match_token_at_25 {
     my @args = (
         $token,
         ["#EOF", "#Comment", "#TableRow", "#TagLine", "#ExamplesLine", "#ScenarioLine", "#ScenarioOutlineLine", "#Empty"], #"
-        "State: 25 - GherkinDocument:0>Feature:2>Scenario_Definition:1>__alt0:1>ScenarioOutline:3>Examples_Definition:1>Examples:1>Examples_Description:0>Description_Helper:2>#Comment:0",
+        "State: 25 - GherkinDocument:0>Feature:2>Scenario_Definition:1>__alt0:1>ScenarioOutline:3>Examples_Definition:1>Examples:1>Description_Helper:2>#Comment:0",
     );
 
     $error_class->throw( @args ) if $self->stop_at_first_error;
@@ -2309,7 +2302,7 @@ sub match_token_at_26 {
     return 26;
 } 
 
-# GherkinDocument:0>Feature:2>Scenario_Definition:1>__alt0:1>ScenarioOutline:2>ScenarioOutline_Step:0>Step:1>Step_Arg:0>__alt1:1>DocString:0>#DocStringSeparator:0
+# GherkinDocument:0>Feature:2>Scenario_Definition:1>__alt0:1>ScenarioOutline:2>Step:1>Step_Arg:0>__alt1:1>DocString:0>#DocStringSeparator:0
 sub match_token_at_28 {
     my ( $self, $token, $context ) = @_;
     if ($self->match_DocStringSeparator($context, $token)) {
@@ -2330,7 +2323,7 @@ sub match_token_at_28 {
     my @args = (
         $token,
         ["#DocStringSeparator", "#Other"], #"
-        "State: 28 - GherkinDocument:0>Feature:2>Scenario_Definition:1>__alt0:1>ScenarioOutline:2>ScenarioOutline_Step:0>Step:1>Step_Arg:0>__alt1:1>DocString:0>#DocStringSeparator:0",
+        "State: 28 - GherkinDocument:0>Feature:2>Scenario_Definition:1>__alt0:1>ScenarioOutline:2>Step:1>Step_Arg:0>__alt1:1>DocString:0>#DocStringSeparator:0",
     );
 
     $error_class->throw( @args ) if $self->stop_at_first_error;
@@ -2341,7 +2334,7 @@ sub match_token_at_28 {
     return 28;
 } 
 
-# GherkinDocument:0>Feature:2>Scenario_Definition:1>__alt0:1>ScenarioOutline:2>ScenarioOutline_Step:0>Step:1>Step_Arg:0>__alt1:1>DocString:2>#DocStringSeparator:0
+# GherkinDocument:0>Feature:2>Scenario_Definition:1>__alt0:1>ScenarioOutline:2>Step:1>Step_Arg:0>__alt1:1>DocString:2>#DocStringSeparator:0
 sub match_token_at_29 {
     my ( $self, $token, $context ) = @_;
     if ($self->match_EOF($context, $token)) {
@@ -2426,7 +2419,7 @@ sub match_token_at_29 {
     my @args = (
         $token,
         ["#EOF", "#StepLine", "#TagLine", "#ExamplesLine", "#ScenarioLine", "#ScenarioOutlineLine", "#Comment", "#Empty"], #"
-        "State: 29 - GherkinDocument:0>Feature:2>Scenario_Definition:1>__alt0:1>ScenarioOutline:2>ScenarioOutline_Step:0>Step:1>Step_Arg:0>__alt1:1>DocString:2>#DocStringSeparator:0",
+        "State: 29 - GherkinDocument:0>Feature:2>Scenario_Definition:1>__alt0:1>ScenarioOutline:2>Step:1>Step_Arg:0>__alt1:1>DocString:2>#DocStringSeparator:0",
     );
 
     $error_class->throw( @args ) if $self->stop_at_first_error;
@@ -2437,7 +2430,7 @@ sub match_token_at_29 {
     return 29;
 } 
 
-# GherkinDocument:0>Feature:2>Scenario_Definition:1>__alt0:0>Scenario:2>Scenario_Step:0>Step:1>Step_Arg:0>__alt1:1>DocString:0>#DocStringSeparator:0
+# GherkinDocument:0>Feature:2>Scenario_Definition:1>__alt0:0>Scenario:2>Step:1>Step_Arg:0>__alt1:1>DocString:0>#DocStringSeparator:0
 sub match_token_at_30 {
     my ( $self, $token, $context ) = @_;
     if ($self->match_DocStringSeparator($context, $token)) {
@@ -2458,7 +2451,7 @@ sub match_token_at_30 {
     my @args = (
         $token,
         ["#DocStringSeparator", "#Other"], #"
-        "State: 30 - GherkinDocument:0>Feature:2>Scenario_Definition:1>__alt0:0>Scenario:2>Scenario_Step:0>Step:1>Step_Arg:0>__alt1:1>DocString:0>#DocStringSeparator:0",
+        "State: 30 - GherkinDocument:0>Feature:2>Scenario_Definition:1>__alt0:0>Scenario:2>Step:1>Step_Arg:0>__alt1:1>DocString:0>#DocStringSeparator:0",
     );
 
     $error_class->throw( @args ) if $self->stop_at_first_error;
@@ -2469,7 +2462,7 @@ sub match_token_at_30 {
     return 30;
 } 
 
-# GherkinDocument:0>Feature:2>Scenario_Definition:1>__alt0:0>Scenario:2>Scenario_Step:0>Step:1>Step_Arg:0>__alt1:1>DocString:2>#DocStringSeparator:0
+# GherkinDocument:0>Feature:2>Scenario_Definition:1>__alt0:0>Scenario:2>Step:1>Step_Arg:0>__alt1:1>DocString:2>#DocStringSeparator:0
 sub match_token_at_31 {
     my ( $self, $token, $context ) = @_;
     if ($self->match_EOF($context, $token)) {
@@ -2536,7 +2529,7 @@ sub match_token_at_31 {
     my @args = (
         $token,
         ["#EOF", "#StepLine", "#TagLine", "#ScenarioLine", "#ScenarioOutlineLine", "#Comment", "#Empty"], #"
-        "State: 31 - GherkinDocument:0>Feature:2>Scenario_Definition:1>__alt0:0>Scenario:2>Scenario_Step:0>Step:1>Step_Arg:0>__alt1:1>DocString:2>#DocStringSeparator:0",
+        "State: 31 - GherkinDocument:0>Feature:2>Scenario_Definition:1>__alt0:0>Scenario:2>Step:1>Step_Arg:0>__alt1:1>DocString:2>#DocStringSeparator:0",
     );
 
     $error_class->throw( @args ) if $self->stop_at_first_error;
@@ -2547,7 +2540,7 @@ sub match_token_at_31 {
     return 31;
 } 
 
-# GherkinDocument:0>Feature:1>Background:2>Scenario_Step:0>Step:1>Step_Arg:0>__alt1:1>DocString:0>#DocStringSeparator:0
+# GherkinDocument:0>Feature:1>Background:2>Step:1>Step_Arg:0>__alt1:1>DocString:0>#DocStringSeparator:0
 sub match_token_at_32 {
     my ( $self, $token, $context ) = @_;
     if ($self->match_DocStringSeparator($context, $token)) {
@@ -2568,7 +2561,7 @@ sub match_token_at_32 {
     my @args = (
         $token,
         ["#DocStringSeparator", "#Other"], #"
-        "State: 32 - GherkinDocument:0>Feature:1>Background:2>Scenario_Step:0>Step:1>Step_Arg:0>__alt1:1>DocString:0>#DocStringSeparator:0",
+        "State: 32 - GherkinDocument:0>Feature:1>Background:2>Step:1>Step_Arg:0>__alt1:1>DocString:0>#DocStringSeparator:0",
     );
 
     $error_class->throw( @args ) if $self->stop_at_first_error;
@@ -2579,7 +2572,7 @@ sub match_token_at_32 {
     return 32;
 } 
 
-# GherkinDocument:0>Feature:1>Background:2>Scenario_Step:0>Step:1>Step_Arg:0>__alt1:1>DocString:2>#DocStringSeparator:0
+# GherkinDocument:0>Feature:1>Background:2>Step:1>Step_Arg:0>__alt1:1>DocString:2>#DocStringSeparator:0
 sub match_token_at_33 {
     my ( $self, $token, $context ) = @_;
     if ($self->match_EOF($context, $token)) {
@@ -2642,7 +2635,7 @@ sub match_token_at_33 {
     my @args = (
         $token,
         ["#EOF", "#StepLine", "#TagLine", "#ScenarioLine", "#ScenarioOutlineLine", "#Comment", "#Empty"], #"
-        "State: 33 - GherkinDocument:0>Feature:1>Background:2>Scenario_Step:0>Step:1>Step_Arg:0>__alt1:1>DocString:2>#DocStringSeparator:0",
+        "State: 33 - GherkinDocument:0>Feature:1>Background:2>Step:1>Step_Arg:0>__alt1:1>DocString:2>#DocStringSeparator:0",
     );
 
     $error_class->throw( @args ) if $self->stop_at_first_error;

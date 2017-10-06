@@ -1,16 +1,18 @@
 {
   "name": "cucumber-expressions",
-  "version": "4.0.0",
+  "version": "4.0.4",
   "description": "Cucumber Expressions - a simpler alternative to Regular Expressions",
-  "main": "dist/index.js",
+  "main": "dist/src/index.js",
   "scripts": {
     "test": "npm run eslint && npm run coverage",
     "eslint": "eslint src test",
-    "build": "babel src --out-dir dist",
+    "build": "babel src --out-dir dist/src",
+    "build-test": "babel test --out-dir dist/test",
     "prepublish": "npm run build",
     "postinstall": "node scripts/postinstall.js",
     "mocha": "mocha",
-    "coverage": "node --harmony ./node_modules/.bin/istanbul cover ./node_modules/.bin/_mocha -- test",
+    "mocha-built": "mocha dist/test",
+    "coverage": "nyc --reporter=html --reporter=text mocha",
     "precommit": "lint-staged"
   },
   "repository": {
@@ -31,18 +33,20 @@
   "homepage": "https://github.com/cucumber/cucumber-expressions-javascript#readme",
   "devDependencies": {
     "babel-cli": "^6.23.0",
-    "babel-preset-es2015": "^6.22.0",
-    "eslint": "^3.19.0",
+    "babel-polyfill": "^6.26.0",
+    "babel-preset-env": "^1.6.0",
+    "eslint": "^4.0.0",
     "eslint-config-eslint": "^4.0.0",
-    "eslint-config-prettier": "^1.7.0",
+    "eslint-config-prettier": "^2.1.1",
     "eslint-plugin-prettier": "^2.0.1",
-    "husky": "^0.13.3",
-    "istanbul": "1.0.0-alpha.2",
-    "lint-staged": "^3.4.1",
-    "mocha": "^3.2.0",
-    "prettier": "^1.3.1"
+    "mocha": "^4.0.0",
+    "nyc": "^11.2.1",
+    "prettier": "^1.7.4"
   },
   "files": [
     "*"
-  ]
+  ],
+  "dependencies": {
+    "becke-ch--regex--s0-0-v1--base--pl--lib": "^1.2.0"
+  }
 }

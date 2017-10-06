@@ -4,10 +4,8 @@
 # eslint-config-prettier - overrides default eslint rules so disable formatting rules
 # eslint-plugin-prettier - configures eslint --fix to format code with prettier
 # prettier               - prettifies code
-# lint-staged            - only runs eslint --fix on files that have been staged with `git add`
-# husky                  - automatically installs a precommit hook that runs lint-staged
 #
-yarn add --dev eslint eslint-config-prettier eslint-plugin-prettier prettier lint-staged husky
+yarn add --dev eslint eslint-config-prettier eslint-plugin-prettier prettier
 
 # Remove old eslint configuration
 rm -f .eslintrc*
@@ -36,21 +34,6 @@ cat > .eslintrc <<- ESLINTRC
   ]
 }
 ESLINTRC
-
-
-# Tell lint-staged to prettify all *.js files
-# Remove the "gitDir" property unless package.json is below the git repo root.
-cat > .lintstagedrc << LINTSTAGEDRC
-{
-  "gitDir": "../..",
-  "linters": {
-    "*.js": ["eslint --fix", "git add"]
-  }
-}
-LINTSTAGEDRC
-
-# Declare the precommit hook. Gets installed on yarn|npm install.
-cat package.json | jq '.scripts.precommit = "lint-staged"' > package.json.tmp && mv package.json.tmp package.json
 
 # Reformat all the files once before committing
 ./node_modules/.bin/eslint --fix **/*.js

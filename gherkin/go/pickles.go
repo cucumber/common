@@ -59,10 +59,10 @@ func (gd *GherkinDocument) Pickles() []*Pickle {
 		case *Background:
 			bgSteps = append(bgSteps, pickleSteps(t.Steps)...)
 		case *Scenario:
-			if len(t.Steps) == 0 {
-				continue
+			steps := make([]*PickleStep, 0)
+			if len(t.Steps) > 0 {
+				steps = append(bgSteps, pickleSteps(t.Steps)...)
 			}
-			steps := append(bgSteps, pickleSteps(t.Steps)...)
 			tags := pickleTags(append(gd.Feature.Tags, t.Tags...))
 			pickles = append(pickles, &Pickle{
 				Steps:     steps,
@@ -72,10 +72,6 @@ func (gd *GherkinDocument) Pickles() []*Pickle {
 				Locations: []Location{*t.Location},
 			})
 		case *ScenarioOutline:
-			if len(t.Steps) == 0 {
-				continue
-			}
-
 			for _, examples := range t.Examples {
 				if examples.TableHeader == nil {
 					continue
@@ -85,7 +81,7 @@ func (gd *GherkinDocument) Pickles() []*Pickle {
 					vals := example.Cells
 					tags := pickleTags(append(gd.Feature.Tags, append(t.Tags, examples.Tags...)...))
 
-					var steps []*PickleStep
+					steps := make([]*PickleStep, 0)
 
 					// translate steps based on example
 					for _, step := range t.Steps {
@@ -112,8 +108,11 @@ func (gd *GherkinDocument) Pickles() []*Pickle {
 						name = strings.Replace(name, "<"+key.Value+">", vals[i].Value, -1)
 					}
 
+					if len(steps) > 0 {
+						steps = append(bgSteps, steps...)
+					}
 					pickles = append(pickles, &Pickle{
-						Steps:     append(bgSteps, steps...),
+						Steps:     steps,
 						Tags:      tags,
 						Name:      name,
 						Language:  gd.Feature.Language,

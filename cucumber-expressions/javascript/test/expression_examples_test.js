@@ -9,11 +9,11 @@ describe('examples.txt', () => {
   const match = (expression_text, text) => {
     const m = /\/(.*)\//.exec(expression_text)
     const expression = m
-      ? new RegularExpression(new RegExp(m[1]), [], new ParameterTypeRegistry())
-      : new CucumberExpression(expression_text, [], new ParameterTypeRegistry())
+      ? new RegularExpression(new RegExp(m[1]), new ParameterTypeRegistry())
+      : new CucumberExpression(expression_text, new ParameterTypeRegistry())
     const args = expression.match(text)
     if (!args) return null
-    return args.map(arg => arg.transformedValue)
+    return args.map(arg => arg.value)
   }
 
   const examples = fs.readFileSync('examples.txt', 'utf-8')
