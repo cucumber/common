@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+set -e
+
+if [[ $(node --version) =~ ^v6 ]]; then
+  yarn build
+  yarn build-test
+  yarn mocha-built
+else
+  yarn test
+fi
