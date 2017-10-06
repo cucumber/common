@@ -1,8 +1,8 @@
 #!/usr/bin/env ruby
 #
 # This script reads NDJSON-encoded Cucumber events from STDIN and prints
-# the location of each pickle (scenario) matching a tag expression, If
-# no tag expression is specified, all pickle location is printed.
+# the location of each pickle (scenario) matching a tag expression. If
+# no tag expression is specified, all pickle locations are printed.
 #
 # Example:
 #
