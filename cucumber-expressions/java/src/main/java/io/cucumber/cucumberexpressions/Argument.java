@@ -2,7 +2,6 @@ package io.cucumber.cucumberexpressions;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class Argument<T> {
     private final ParameterType<T> parameterType;
@@ -18,9 +17,9 @@ public class Argument<T> {
             throw new CucumberExpressionException(String.format("Expression /%s/ has %s capture groups (%s), but there were %s parameter types (%s)",
                     treeRegexp.pattern().pattern(),
                     argGroups.size(),
-                    argGroups.stream().map(Group::getValue).collect(Collectors.toList()),
+                    getGroupValues(argGroups),
                     parameterTypes.size(),
-                    parameterTypes.stream().map(ParameterType::getName).collect(Collectors.toList())
+                    getParameterTypeNames(parameterTypes)
             ));
         }
         List<Argument<?>> args = new ArrayList<>(argGroups.size());
@@ -31,6 +30,24 @@ public class Argument<T> {
         }
 
         return args;
+    }
+
+    private static List<String> getParameterTypeNames(List<ParameterType<?>> parameterTypes) {
+        List<String> list = new ArrayList<>();
+        for (ParameterType<?> type : parameterTypes) {
+            String name = type.getName();
+            list.add(name);
+        }
+        return list;
+    }
+
+    private static List<Object> getGroupValues(List<Group> argGroups) {
+        List<Object> list = new ArrayList<>();
+        for (Group argGroup : argGroups) {
+            String value = argGroup.getValue();
+            list.add(value);
+        }
+        return list;
     }
 
     public Argument(Group group, ParameterType<T> parameterType) {

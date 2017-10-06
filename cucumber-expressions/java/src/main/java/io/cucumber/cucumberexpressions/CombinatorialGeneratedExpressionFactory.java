@@ -17,7 +17,7 @@ class CombinatorialGeneratedExpressionFactory {
 
     List<GeneratedExpression> generateExpressions() {
         List<GeneratedExpression> generatedExpressions = new ArrayList<>();
-        generatePermutations(generatedExpressions, 0, new ArrayList<>());
+        generatePermutations(generatedExpressions, 0, new ArrayList<ParameterType<?>>());
         return generatedExpressions;
     }
 

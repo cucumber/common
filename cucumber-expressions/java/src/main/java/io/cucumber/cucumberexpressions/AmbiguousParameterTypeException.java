@@ -1,9 +1,9 @@
 package io.cucumber.cucumberexpressions;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.SortedSet;
 import java.util.regex.Pattern;
-import java.util.stream.Collectors;
 
 public class AmbiguousParameterTypeException extends CucumberExpressionException {
     private final Pattern regexp;
@@ -35,11 +35,37 @@ public class AmbiguousParameterTypeException extends CucumberExpressionException
     }
 
     private static String parameterTypeNames(SortedSet<ParameterType<?>> parameterTypes) {
-        return parameterTypes.stream().map(p -> "{" + p.getName() + "}").collect(Collectors.joining("\n   "));
+
+        List<String> parameterNames = new ArrayList<>();
+        for (ParameterType<?> p : parameterTypes) {
+            String s = "{" + p.getName() + "}";
+            parameterNames.add(s);
+        }
+        return join(parameterNames);
     }
 
     private static String expressions(List<GeneratedExpression> generatedExpressions) {
-        return generatedExpressions.stream().map(GeneratedExpression::getSource).collect(Collectors.joining("\n   "));
+        List<String> sources = new ArrayList<>();
+        for (GeneratedExpression generatedExpression : generatedExpressions) {
+            String source = generatedExpression.getSource();
+            sources.add(source);
+        }
+        return join(sources);
+    }
+
+    private static String join(List<String> strings){
+        StringBuilder builder = new StringBuilder();
+        boolean first = true;
+        for(String element : strings){
+            if(first){
+                first = false;
+            } else {
+                builder.append("\n   ");
+            }
+            builder.append(element);
+        }
+
+        return builder.toString();
     }
 
     public Pattern getRegexp() {

@@ -3,10 +3,18 @@
 # Runs the docker image
 #
 # Usage:
-#   docker-run make # Run make in the container
-#   docker-run bash # Interactive bash session
+#   # Run `make` in the cucumber-build container
+#   docker-run Dockerfile.cucumber-build make
+#
+#   # Run `make` in the cucumber-build-dotnet container
+#   docker-run Dockerfile.cucumber-build-dotnet make
+#
+#   # Interactive bash session
+#   docker-run Dockerfile.cucumber-build bash
 #
 set -euf -o pipefail
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 source "${DIR}/functions.sh"
-docker run --volume $(pwd):/app -it $(docker_image) $@
+dockerfile=$1
+shift
+docker run --volume $(pwd):/app -it $(docker_image ${dockerfile}) $@

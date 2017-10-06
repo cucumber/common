@@ -51,7 +51,12 @@ public class CustomParameterTypeTest {
                 "color",                                  // name
                 "red|blue|yellow",                        // regexp
                 Color.class,                              // type
-                new SingleTransformer<Color>(Color::new), // transform
+                new SingleTransformer<>(new Function<String, Color>() {
+                    @Override
+                    public Color apply(String s) {
+                        return new Color(s);
+                    }
+                }), // transform
                 false,                                    // useForSnippets
                 false                                     // preferForRegexpMatch
         ));
@@ -71,12 +76,15 @@ public class CustomParameterTypeTest {
         parameterTypeRegistry.defineParameterType(new ParameterType<>(
                 "coordinate",
                 "(\\d+),\\s*(\\d+),\\s*(\\d+)",
-                Coordinate.class,
-                xyz -> new Coordinate(
+                Coordinate.class, new Transformer<Coordinate>() {
+            @Override
+            public Coordinate transform(String... xyz) {
+                return new Coordinate(
                         parseInt(xyz[0]),
                         parseInt(xyz[1]),
-                        parseInt(xyz[2])
-                ),
+                        parseInt(xyz[2]));
+            }
+        },
                 false,
                 false
         ));
@@ -97,7 +105,12 @@ public class CustomParameterTypeTest {
                 "color",
                 asList("red|blue|yellow", "(?:dark|light) (?:red|blue|yellow)"),
                 Color.class,
-                new SingleTransformer<Color>(Color::new),
+                new SingleTransformer<>(new Function<String, Color>() {
+                    @Override
+                    public Color apply(String s) {
+                        return new Color(s);
+                    }
+                }),
                 false,
                 false
         ));
@@ -112,8 +125,11 @@ public class CustomParameterTypeTest {
                 "throwing",
                 "bad",
                 CssColor.class,
-                color -> {
-                    throw new RuntimeException(String.format("Can't transform [%s]", color[0]));
+                new Transformer<CssColor>() {
+                    @Override
+                    public CssColor transform(String... color) {
+                        throw new RuntimeException(String.format("Can't transform [%s]", color[0]));
+                    }
                 },
                 false,
                 false
@@ -135,7 +151,12 @@ public class CustomParameterTypeTest {
                     "color",
                     ".*",
                     CssColor.class,
-                    new SingleTransformer<CssColor>(CssColor::new),
+                    new SingleTransformer<>(new Function<String, CssColor>() {
+                        @Override
+                        public CssColor apply(String s) {
+                            return new CssColor(s);
+                        }
+                    }),
                     false,
                     false
             ));
@@ -151,7 +172,12 @@ public class CustomParameterTypeTest {
                 "whatever",
                 ".*",
                 Color.class,
-                new SingleTransformer<Color>(Color::new),
+                new SingleTransformer<>(new Function<String, Color>() {
+                    @Override
+                    public Color apply(String s) {
+                        return new Color(s);
+                    }
+                }),
                 false,
                 false
         ));
@@ -165,7 +191,12 @@ public class CustomParameterTypeTest {
                 "css-color",
                 "red|blue|yellow",
                 CssColor.class,
-                new SingleTransformer<CssColor>(CssColor::new),
+                new SingleTransformer<>(new Function<String, CssColor>() {
+                    @Override
+                    public CssColor apply(String s) {
+                        return new CssColor(s);
+                    }
+                }),
                 false,
                 false
         ));

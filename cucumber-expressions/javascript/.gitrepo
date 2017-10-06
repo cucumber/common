@@ -6,6 +6,6 @@
 [subrepo]
 	remote = https://github.com/cucumber/cucumber-expressions-javascript.git
 	branch = master
-	commit = d7774076c7dc04f4a782c4086e1937b3215d19e4
-	parent = 5b9c2c7046e364ea4c672048b0c5a412024b2e9d
+	commit = 4b8aa76f86c7eaf24df869214a9d93e32ebfe46b
+	parent = 862d19894e76b4d653fc026cf6e5ce08da115ca9
 	cmdver = 0.4.0

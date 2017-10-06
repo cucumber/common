@@ -2,9 +2,7 @@ package io.cucumber.cucumberexpressions;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import java.util.stream.Collectors;
 
 public class RegularExpression implements Expression {
     private final Pattern expressionRegexp;
@@ -27,7 +25,8 @@ public class RegularExpression implements Expression {
 
     @Override
     public List<Argument<?>> match(String text) {
-        List<ParameterType<?>> parameterTypes = treeRegexp.getGroupBuilder().getChildren().stream().map(groupBuilder -> {
+        List<ParameterType<?>> parameterTypes = new ArrayList<>();
+        for(GroupBuilder groupBuilder : treeRegexp.getGroupBuilder().getChildren()){
             String parameterTypeRegexp = groupBuilder.getSource();
 
             ParameterType<?> parameterType = parameterTypeRegistry.lookupByRegexp(parameterTypeRegexp, expressionRegexp, text);
@@ -35,10 +34,15 @@ public class RegularExpression implements Expression {
                     parameterTypeRegexp,
                     parameterTypeRegexp,
                     String.class,
-                    new SingleTransformer<>(String::new)
+                    new SingleTransformer<>(new Function<String, String>() {
+                        @Override
+                        public String apply(String s) {
+                            return s;
+                        }
+                    })
             );
-            return parameterType;
-        }).collect(Collectors.toList());
+            parameterTypes.add(parameterType);
+        }
 
         return Argument.build(treeRegexp, parameterTypes, text);
     }

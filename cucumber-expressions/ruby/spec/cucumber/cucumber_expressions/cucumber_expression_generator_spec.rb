@@ -40,6 +40,12 @@ module Cucumber
             'I like "bangers" and \'mash\'')
       end
 
+      it "generates expression for strings with % sign" do
+        assert_expression(
+            "I am {int}% foobar", ["int"],
+            'I am 20% foobar')
+      end
+
       it "generates expression for just int" do
         assert_expression(
           "{int}", ["int"],

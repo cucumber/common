@@ -8,7 +8,7 @@ to contribute.
 
 Install dependencies:
 
-    install .NET Core - https://www.microsoft.com/net/download/core
+    install .NET Core 1.1.2 - https://github.com/dotnet/core/blob/master/release-notes/download-archives/1.1.2-download.md
     
 Just run `make` from this directory.
 

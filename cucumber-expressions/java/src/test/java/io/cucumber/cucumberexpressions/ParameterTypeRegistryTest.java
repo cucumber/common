@@ -30,10 +30,25 @@ public class ParameterTypeRegistryTest {
 
     @Test
     public void does_not_allow_more_than_one_preferential_parameter_type_for_each_regexp() {
-        registry.defineParameterType(new ParameterType<>("name", CAPITALISED_WORD, Name.class, new SingleTransformer<Name>(Name::new), false, true));
-        registry.defineParameterType(new ParameterType<>("person", CAPITALISED_WORD, Person.class, new SingleTransformer<Person>(Person::new), false, false));
+        registry.defineParameterType(new ParameterType<>("name", CAPITALISED_WORD, Name.class, new SingleTransformer<>(new Function<String, Name>() {
+            @Override
+            public Name apply(String s) {
+                return new Name(s);
+            }
+        }), false, true));
+        registry.defineParameterType(new ParameterType<>("person", CAPITALISED_WORD, Person.class, new SingleTransformer<>(new Function<String, Person>() {
+            @Override
+            public Person apply(String s) {
+                return new Person(s);
+            }
+        }), false, false));
         try {
-            registry.defineParameterType(new ParameterType<>("place", CAPITALISED_WORD, Place.class, new SingleTransformer<Place>(Place::new), false, true));
+            registry.defineParameterType(new ParameterType<>("place", CAPITALISED_WORD, Place.class, new SingleTransformer<>(new Function<String, Place>() {
+                @Override
+                public Place apply(String s) {
+                    return new Place(s);
+                }
+            }), false, true));
             fail("Expected an exception");
         } catch (CucumberExpressionException e) {
             assertEquals("There can only be one preferential parameter type per regexp. The regexp /[A-Z]+\\w+/ is used for two preferential parameter types, {name} and {place}", e.getMessage());
@@ -42,9 +57,24 @@ public class ParameterTypeRegistryTest {
 
     @Test
     public void looks_up_preferential_parameter_type_by_regexp() {
-        ParameterType<Name> name = new ParameterType<>("name", CAPITALISED_WORD, Name.class, new SingleTransformer<>(Name::new), false, false);
-        ParameterType<Person> person = new ParameterType<>("person", CAPITALISED_WORD, Person.class, new SingleTransformer<>(Person::new), false, true);
-        ParameterType<Place> place = new ParameterType<>("place", CAPITALISED_WORD, Place.class, new SingleTransformer<>(Place::new), false, false);
+        ParameterType<Name> name = new ParameterType<>("name", CAPITALISED_WORD, Name.class, new SingleTransformer<>(new Function<String, Name>() {
+            @Override
+            public Name apply(String s) {
+                return new Name(s);
+            }
+        }), false, false);
+        ParameterType<Person> person = new ParameterType<>("person", CAPITALISED_WORD, Person.class, new SingleTransformer<>(new Function<String, Person>() {
+            @Override
+            public Person apply(String s) {
+                return new Person(s);
+            }
+        }), false, true);
+        ParameterType<Place> place = new ParameterType<>("place", CAPITALISED_WORD, Place.class, new SingleTransformer<>(new Function<String, Place>() {
+            @Override
+            public Place apply(String s) {
+                return new Place(s);
+            }
+        }), false, false);
         registry.defineParameterType(name);
         registry.defineParameterType(person);
         registry.defineParameterType(place);
@@ -53,9 +83,24 @@ public class ParameterTypeRegistryTest {
 
     @Test
     public void throws_ambiguous_exception_on_lookup_when_no_parameter_types_are_preferential() {
-        ParameterType<Name> name = new ParameterType<>("name", CAPITALISED_WORD, Name.class, new SingleTransformer<>(Name::new), true, false);
-        ParameterType<Person> person = new ParameterType<>("person", CAPITALISED_WORD, Person.class, new SingleTransformer<>(Person::new), true, false);
-        ParameterType<Place> place = new ParameterType<>("place", CAPITALISED_WORD, Place.class, new SingleTransformer<>(Place::new), true, false);
+        ParameterType<Name> name = new ParameterType<>("name", CAPITALISED_WORD, Name.class, new SingleTransformer<>(new Function<String, Name>() {
+            @Override
+            public Name apply(String s) {
+                return new Name(s);
+            }
+        }), true, false);
+        ParameterType<Person> person = new ParameterType<>("person", CAPITALISED_WORD, Person.class, new SingleTransformer<>(new Function<String, Person>() {
+            @Override
+            public Person apply(String s) {
+                return new Person(s);
+            }
+        }), true, false);
+        ParameterType<Place> place = new ParameterType<>("place", CAPITALISED_WORD, Place.class, new SingleTransformer<>(new Function<String, Place>() {
+            @Override
+            public Place apply(String s) {
+                return new Place(s);
+            }
+        }), true, false);
         registry.defineParameterType(name);
         registry.defineParameterType(person);
         registry.defineParameterType(place);

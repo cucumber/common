@@ -1,7 +1,5 @@
 package io.cucumber.cucumberexpressions;
 
-import java.util.function.Function;
-
 public class SingleTransformer<T> implements Transformer<T> {
     private final Function<String, T> function;
 

@@ -18,7 +18,12 @@ public class GenericParameterTypeTest {
                 singletonList(".*"),
                 new TypeReference<List<String>>() {
                 }.getType(),
-                new SingleTransformer<List<String>>(s -> asList(s.split(","))),
+                new SingleTransformer<>(new Function<String, List<String>>() {
+                    @Override
+                    public List<String> apply(String s) {
+                        return asList(s.split(","));
+                    }
+                }),
                 false,
                 false));
         Expression expression = new CucumberExpression("I have {stringlist} yay", parameterTypeRegistry);

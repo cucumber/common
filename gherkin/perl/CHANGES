@@ -12,6 +12,10 @@ This document is formatted according to the principles of [Keep A CHANGELOG](htt
 ### Removed
 
 ### Added
+* (C) CMake support
+  ([#2](https://github.com/cucumber/gherkin-c/issues/2)
+   [#3](https://github.com/cucumber/gherkin-c/pull/3)
+   by [Pwera])
 
 ### Changed
 
@@ -370,6 +374,7 @@ to Gherkin 2.
 [paigehf]:          https://github.com/paigehf
 [pjlsergeant]:      https://github.com/pjlsergeant
 [Pr-Mex]:           https://github.com/Pr-Mex
+[Pwera]:            https://github.com/Pwera
 [SabotageAndi]:     https://github.com/SabotageAndi
 [zbmott]:           https://github.com/zbmott
 [Zearin]:           https://github.com/Zearin

@@ -6,7 +6,7 @@ As a community, we expect any participant to act according to the following grou
 
 ## Enforcing this code of conduct
 
-If you experience or observe a violation of this code of conduct, or have any other concerns, please contact [the moderators](#who-are-the-moderators) at [mods@cucumber.io](mailto:mods@cucumber.io). We are there to help you. Your reports will be taken seriously, treated in confidence and will not be dismissed or argued with.
+If you experience or observe a violation of this code of conduct, or have any other concerns, please contact [the moderators](#who-are-the-moderators) at [mods@cucumber.io](mailto:mods@cucumber.io). We are here to help you. Your reports will be taken seriously, treated in confidence and will not be dismissed or argued with.
 
 As a member of the community, you are also encouraged to help others act according to the following principles.
 
@@ -41,7 +41,7 @@ These rules apply to anyone involved in the Cucumber community, including but no
 
 ## Where does this apply?
 
-The rules listed above apply to all official Cucumber venues; including the CukeUp conferences, public training courses, official gitter.im/cucumber chat channels; GitHub repositories under cucumber, cucumber-ltd); and the cukes@googlegroups.com community mailing list.
+The rules listed above apply to all official Cucumber venues; including the CukeUp conferences, public training courses, official gitter.im/cucumber chat channels; GitHub repositories under cucumber, cucumber-ltd, and the cukes@googlegroups.com community mailing list.
 
 ## Consequences
 

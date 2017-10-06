@@ -21,18 +21,68 @@ public class ParameterTypeRegistry {
 
     public ParameterTypeRegistry(Locale locale) {
         NumberFormat numberFormat = NumberFormat.getNumberInstance(locale);
-        NumberParser numberParser = new NumberParser(numberFormat);
+        final NumberParser numberParser = new NumberParser(numberFormat);
 
-        defineParameterType(new ParameterType<>("bigint", INTEGER_REGEXPS, BigInteger.class, new SingleTransformer<BigInteger>(BigInteger::new), false, false));
-        defineParameterType(new ParameterType<>("bigdecimal", INTEGER_REGEXPS, BigDecimal.class, new SingleTransformer<BigDecimal>(BigDecimal::new), false, false));
-        defineParameterType(new ParameterType<>("byte", HEX_REGEXPS, Byte.class, new SingleTransformer<Byte>(Byte::decode), false, false));
-        defineParameterType(new ParameterType<>("short", INTEGER_REGEXPS, Short.class, new SingleTransformer<Short>(Short::decode), false, false));
-        defineParameterType(new ParameterType<>("int", INTEGER_REGEXPS, Integer.class, new SingleTransformer<Integer>(Integer::decode), true, true));
-        defineParameterType(new ParameterType<>("long", INTEGER_REGEXPS, Long.class, new SingleTransformer<Long>(Long::decode), false, false));
-        defineParameterType(new ParameterType<>("float", FLOAT_REGEXPS, Float.class, new SingleTransformer<Float>(numberParser::parseFloat), false, false));
-        defineParameterType(new ParameterType<>("double", FLOAT_REGEXPS, Double.class, new SingleTransformer<Double>(numberParser::parseDouble), true, true));
-        defineParameterType(new ParameterType<>("word", WORD_REGEXPS, String.class, new SingleTransformer<String>(s -> s), false, false));
-        defineParameterType(new ParameterType<>("string", STRING_REGEXPS, String.class, new SingleTransformer<String>(s -> s.replaceAll("\\\\\"", "\"").replaceAll("\\\\'", "'")), true, false));
+        defineParameterType(new ParameterType<>("bigint", INTEGER_REGEXPS, BigInteger.class, new SingleTransformer<>(new Function<String, BigInteger>() {
+            @Override
+            public BigInteger apply(String s) {
+                return new BigInteger(s);
+            }
+        }), false, false));
+        defineParameterType(new ParameterType<>("bigdecimal", INTEGER_REGEXPS, BigDecimal.class, new SingleTransformer<>(new Function<String, BigDecimal>() {
+            @Override
+            public BigDecimal apply(String s) {
+                return new BigDecimal(s);
+            }
+        }), false, false));
+        defineParameterType(new ParameterType<>("byte", HEX_REGEXPS, Byte.class, new SingleTransformer<>(new Function<String, Byte>() {
+            @Override
+            public Byte apply(String s) {
+                return Byte.decode(s);
+            }
+        }), false, false));
+        defineParameterType(new ParameterType<>("short", INTEGER_REGEXPS, Short.class, new SingleTransformer<>(new Function<String, Short>() {
+            @Override
+            public Short apply(String s) {
+                return Short.decode(s);
+            }
+        }), false, false));
+        defineParameterType(new ParameterType<>("int", INTEGER_REGEXPS, Integer.class, new SingleTransformer<>(new Function<String, Integer>() {
+            @Override
+            public Integer apply(String s) {
+                return Integer.decode(s);
+            }
+        }), true, true));
+        defineParameterType(new ParameterType<>("long", INTEGER_REGEXPS, Long.class, new SingleTransformer<>(new Function<String, Long>() {
+            @Override
+            public Long apply(String s) {
+                return Long.decode(s);
+            }
+        }), false, false));
+        defineParameterType(new ParameterType<>("float", FLOAT_REGEXPS, Float.class, new SingleTransformer<>(new Function<String, Float>() {
+            @Override
+            public Float apply(String s) {
+                return numberParser.parseFloat(s);
+            }
+        }), false, false));
+        defineParameterType(new ParameterType<>("double", FLOAT_REGEXPS, Double.class, new SingleTransformer<>(new Function<String, Double>() {
+            @Override
+            public Double apply(String s) {
+                return numberParser.parseDouble(s);
+            }
+        }), true, true));
+        defineParameterType(new ParameterType<>("word", WORD_REGEXPS, String.class, new SingleTransformer<>(new Function<String, String>() {
+            @Override
+            public String apply(String s) {
+                return s;
+            }
+        }), false, false));
+        defineParameterType(new ParameterType<>("string", STRING_REGEXPS, String.class, new SingleTransformer<>(new Function<String, String>() {
+            @Override
+            public String apply(String s) {
+                return s.replaceAll("\\\\\"", "\"").replaceAll("\\\\'", "'");
+            }
+        }), true, false));
     }
 
     public void defineParameterType(ParameterType<?> parameterType) {
@@ -41,8 +91,10 @@ public class ParameterTypeRegistry {
         parameterTypeByName.put(parameterType.getName(), parameterType);
 
         for (String parameterTypeRegexp : parameterType.getRegexps()) {
-            SortedSet<ParameterType<?>> parameterTypes = parameterTypesByRegexp
-                    .computeIfAbsent(parameterTypeRegexp, r -> new TreeSet<>());
+            if(parameterTypesByRegexp.get(parameterTypeRegexp) == null){
+                parameterTypesByRegexp.put(parameterTypeRegexp, new TreeSet<ParameterType<?>>());
+            }
+            SortedSet<ParameterType<?>> parameterTypes = parameterTypesByRegexp.get(parameterTypeRegexp);
             if (!parameterTypes.isEmpty() && parameterTypes.first().preferForRegexpMatch() && parameterType.preferForRegexpMatch()) {
                 throw new CucumberExpressionException(String.format(
                         "There can only be one preferential parameter type per regexp. " +

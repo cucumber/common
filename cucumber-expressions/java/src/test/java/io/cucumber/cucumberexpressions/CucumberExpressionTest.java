@@ -4,9 +4,9 @@ import org.junit.Test;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
-import java.util.stream.Collectors;
 
 import static java.util.Collections.singletonList;
 import static org.junit.Assert.assertEquals;
@@ -137,6 +137,15 @@ public class CucumberExpressionTest {
     private List<?> match(String expr, String text, Locale locale) {
         CucumberExpression expression = new CucumberExpression(expr, new ParameterTypeRegistry(locale));
         List<Argument<?>> args = expression.match(text);
-        return args == null ? null : args.stream().map(Argument::getValue).collect(Collectors.toList());
+        if (args == null) {
+            return null;
+        } else {
+            List<Object> list = new ArrayList<>();
+            for (Argument<?> arg : args) {
+                Object value = arg.getValue();
+                list.add(value);
+            }
+            return list;
+        }
     }
 }

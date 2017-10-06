@@ -6,10 +6,10 @@
 language: ruby
 
 rvm:
-  - 2.4.1
-  - 2.3.4
-  - 2.2.7
-  - jruby-9.1.12.0
+  - 2.4.2
+  - 2.3.5
+  - 2.2.8
+  - jruby-9.1.13.0
 
 notifications:
   webhooks:

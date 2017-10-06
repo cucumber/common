@@ -1,6 +1,6 @@
 # Writing a new cucumber
 
-If you plan to write a new Cucumber implementation for a new language - start here. Please give us a heads up on the [Cucumber mailing list](cukes@googlegroups.com) before you start. We might want to join you,
+If you plan to write a new Cucumber implementation for a new language - start here. Please give us a heads up on the [Cucumber mailing list](https://groups.google.com/forum/#!forum/cukes) before you start. We might want to join you,
 and we'd love to include your implementation in the growing family
 of official implementations!
 
@@ -18,7 +18,7 @@ Let's get started!
 
 ## Gherkin
 
-Before you start you should make sure you have a working [Gherkin](#)
+Before you start you should make sure you have a working [Gherkin](#https://docs.cucumber.io/docs/gherkin.html)
 parser that can parse and compile `.feature` files.
 
 It isn't the first thing you'll use when you write a new Cucumber
@@ -58,7 +58,7 @@ public void i_have_n_cukes(int n) {
 
 Here is how it's done:
 
-* [JavaScript](1d75ca2123ae44154e9e80f40b4746c87bfc0486)
+* [JavaScript](https://github.com/cucumber/cucumber-js) - commit 1d75ca2123ae44154e9e80f40b4746c87bfc0486
 
 ## Load and run your step definition
 
@@ -73,7 +73,7 @@ immediately (with the value 100) and manually verify that an error is thrown.
 
 Here is how it's done:
 
-* [JavaScript](8b296ef98d0a6b90beb7e2b23cab7802fd4f6df4): `node lib/cucumber/cli/main.js`
+* [JavaScript](https://github.com/cucumber/cucumber-js)- commit 8b296ef98d0a6b90beb7e2b23cab7802fd4f6df4: `node lib/cucumber/cli/main.js`
 
 ## Print arguments from a Gherkin scenario
 
@@ -85,4 +85,4 @@ match it against our step definition and print the argument.
 
 Here is how it's done:
 
-* [JavaScript](a183114b026fd30db22aaf7f73421f32e169a0cd)
+* [JavaScript](https://github.com/cucumber/cucumber-js) - commit a183114b026fd30db22aaf7f73421f32e169a0cd

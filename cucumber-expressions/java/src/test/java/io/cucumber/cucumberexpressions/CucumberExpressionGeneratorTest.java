@@ -2,8 +2,12 @@ package io.cucumber.cucumberexpressions;
 
 import org.junit.Test;
 
-import java.util.*;
-import java.util.stream.Collectors;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Currency;
+import java.util.Date;
+import java.util.List;
+import java.util.Locale;
 
 import static java.util.Arrays.asList;
 import static java.util.Collections.singletonList;
@@ -45,6 +49,13 @@ public class CucumberExpressionGeneratorTest {
     }
 
     @Test
+    public void generates_expression_for_strings_with_percent_sign() {
+        assertExpression(
+                "I am {int}% foobar", singletonList("int1"),
+                "I am 20% foobar");
+    }
+
+    @Test
     public void generates_expression_for_just_int() {
         assertExpression(
                 "{int}", singletonList("int1"),
@@ -64,7 +75,12 @@ public class CucumberExpressionGeneratorTest {
                 "currency",
                 "[A-Z]{3}",
                 Currency.class,
-                new SingleTransformer<Currency>(Currency::getInstance)
+                new SingleTransformer<>(new Function<String, Currency>() {
+                    @Override
+                    public Currency apply(String s) {
+                        return Currency.getInstance(s);
+                    }
+                })
         ));
         assertExpression(
                 "I have a {currency} account and a {currency} account", asList("currency", "currency2"),
@@ -77,13 +93,23 @@ public class CucumberExpressionGeneratorTest {
                 "currency",
                 "cd",
                 Currency.class,
-                new SingleTransformer<Currency>(Currency::getInstance)
+                new SingleTransformer<>(new Function<String, Currency>() {
+                    @Override
+                    public Currency apply(String s) {
+                        return Currency.getInstance(s);
+                    }
+                })
         ));
         parameterTypeRegistry.defineParameterType(new ParameterType<>(
                 "date",
                 "bc",
                 Date.class,
-                new SingleTransformer<Date>(Date::new)
+                new SingleTransformer<>(new Function<String, Date>() {
+                    @Override
+                    public Date apply(String s) {
+                        return new Date(s);
+                    }
+                })
         ));
         assertExpression(
                 "a{date}defg", singletonList("date"),
@@ -96,13 +122,23 @@ public class CucumberExpressionGeneratorTest {
                 "currency",
                 "cd",
                 Currency.class,
-                new SingleTransformer<Currency>(Currency::getInstance)
+                new SingleTransformer<>(new Function<String, Currency>() {
+                    @Override
+                    public Currency apply(String s) {
+                        return Currency.getInstance(s);
+                    }
+                })
         ));
         parameterTypeRegistry.defineParameterType(new ParameterType<>(
                 "date",
                 "cde",
                 Date.class,
-                new SingleTransformer<Date>(Date::new)
+                new SingleTransformer<>(new Function<String, Date>() {
+                    @Override
+                    public Date apply(String s) {
+                        return new Date(s);
+                    }
+                })
         ));
         assertExpression(
                 "ab{date}fg", singletonList("date"),
@@ -115,7 +151,12 @@ public class CucumberExpressionGeneratorTest {
                 "currency",
                 "x",
                 Currency.class,
-                new SingleTransformer<Currency>(Currency::getInstance),
+                new SingleTransformer<>(new Function<String, Currency>() {
+                    @Override
+                    public Currency apply(String s) {
+                        return Currency.getInstance(s);
+                    }
+                }),
                 true,
                 true
         ));
@@ -123,13 +164,22 @@ public class CucumberExpressionGeneratorTest {
                 "date",
                 "x",
                 Date.class,
-                new SingleTransformer<Date>(Date::new),
+                new SingleTransformer<>(new Function<String, Date>() {
+                    @Override
+                    public Date apply(String s) {
+                        return new Date(s);
+                    }
+                }),
                 true,
                 false
         ));
 
         List<GeneratedExpression> generatedExpressions = generator.generateExpressions("I have x and x and another x");
-        List<String> expressions = generatedExpressions.stream().map(GeneratedExpression::getSource).collect(Collectors.toList());
+        List<String> expressions = new ArrayList<>();
+        for (GeneratedExpression generatedExpression : generatedExpressions) {
+            String source = generatedExpression.getSource();
+            expressions.add(source);
+        }
         assertEquals(asList(
                 "I have {currency} and {currency} and another {currency}",
                 "I have {currency} and {currency} and another {date}",
