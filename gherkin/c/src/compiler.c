@@ -100,7 +100,7 @@ int Compiler_compile(Compiler* compiler, const GherkinDocument* gherkin_document
                         steps->step_count = 0;
                         steps->steps = 0;
                     } else {
-                        steps->step_count = scenario_outline->steps->step_count +  + background_step_count;
+                        steps->step_count = scenario_outline->steps->step_count + background_step_count;
                         steps->steps = (PickleStep*)malloc(steps->step_count * sizeof(PickleStep));
                         if (background_steps) {
                             copy_steps(steps->steps, background_steps);
