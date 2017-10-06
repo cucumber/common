@@ -12,6 +12,8 @@ This document is formatted according to the principles of [Keep A CHANGELOG](htt
 ### Removed
 
 ### Added
+* A better wording for the Greek translation of `Scenario Outline` (`Περίγραμμα Σεναρίου`)
+  ([#185](https://github.com/cucumber/cucumber/pull/185) by [pmatsinopoulos])
 * Added female, singular `Given` in Romanian (`Dată fiind`)
   ([#202](https://github.com/cucumber/cucumber/pull/202) by [tsundberg])
 * (C) CMake support
@@ -379,6 +381,7 @@ to Gherkin 2.
 [nikolovski]:       https://github.com/nikolovski
 [paigehf]:          https://github.com/paigehf
 [pjlsergeant]:      https://github.com/pjlsergeant
+[pmatsinopoulos]:   https://github.com/pmatsinopoulos
 [Pr-Mex]:           https://github.com/Pr-Mex
 [Pwera]:            https://github.com/Pwera
 [SabotageAndi]:     https://github.com/SabotageAndi
