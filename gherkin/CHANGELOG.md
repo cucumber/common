@@ -12,6 +12,8 @@ This document is formatted according to the principles of [Keep A CHANGELOG](htt
 ### Removed
 
 ### Added
+* Added female, singular `Given` in Romanian (`Dată fiind`)
+  ([#202](https://github.com/cucumber/cucumber/pull/202) by [tsundberg])
 * (C) CMake support
   ([#2](https://github.com/cucumber/gherkin-c/issues/2)
    [#3](https://github.com/cucumber/gherkin-c/pull/3)
@@ -380,5 +382,6 @@ to Gherkin 2.
 [Pr-Mex]:           https://github.com/Pr-Mex
 [Pwera]:            https://github.com/Pwera
 [SabotageAndi]:     https://github.com/SabotageAndi
+[tsundberg]:        https://github.com/tsundberg
 [zbmott]:           https://github.com/zbmott
 [Zearin]:           https://github.com/Zearin
