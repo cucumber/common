@@ -578,6 +578,7 @@ var buildinDialects = gherkinDialectMap{
 			},
 			scenarioOutline: []string{
 				"Περιγραφή Σεναρίου",
+				"Περίγραμμα Σεναρίου",
 			},
 			examples: []string{
 				"Παραδείγματα",
@@ -2364,6 +2365,7 @@ var buildinDialects = gherkinDialectMap{
 				"* ",
 				"Date fiind ",
 				"Dat fiind ",
+				"Dată fiind",
 				"Dati fiind ",
 				"Dați fiind ",
 				"Daţi fiind ",

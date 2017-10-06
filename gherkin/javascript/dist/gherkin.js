@@ -1072,7 +1072,8 @@ module.exports={
       "Σενάριο"
     ],
     "scenarioOutline": [
-      "Περιγραφή Σεναρίου"
+      "Περιγραφή Σεναρίου",
+      "Περίγραμμα Σεναρίου"
     ],
     "then": [
       "* ",
@@ -2844,6 +2845,7 @@ module.exports={
       "* ",
       "Date fiind ",
       "Dat fiind ",
+      "Dată fiind",
       "Dati fiind ",
       "Dați fiind ",
       "Daţi fiind "

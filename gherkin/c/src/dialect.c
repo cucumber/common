@@ -580,8 +580,8 @@ static const Keywords el_given_keywords = { 2, el_given_KEYWORDS };
 static const wchar_t* const el_scenario_KEYWORDS[] = { L"Σενάριο" };
 static const Keywords el_scenario_keywords = { 1, el_scenario_KEYWORDS };
 
-static const wchar_t* const el_scenarioOutline_KEYWORDS[] = { L"Περιγραφή Σεναρίου" };
-static const Keywords el_scenarioOutline_keywords = { 1, el_scenarioOutline_KEYWORDS };
+static const wchar_t* const el_scenarioOutline_KEYWORDS[] = { L"Περιγραφή Σεναρίου", L"Περίγραμμα Σεναρίου" };
+static const Keywords el_scenarioOutline_keywords = { 2, el_scenarioOutline_KEYWORDS };
 
 static const wchar_t* const el_then_KEYWORDS[] = { L"* ", L"Τότε " };
 static const Keywords el_then_keywords = { 2, el_then_KEYWORDS };
@@ -2337,8 +2337,8 @@ static const Keywords ro_examples_keywords = { 1, ro_examples_KEYWORDS };
 static const wchar_t* const ro_feature_KEYWORDS[] = { L"Functionalitate", L"Funcționalitate", L"Funcţionalitate" };
 static const Keywords ro_feature_keywords = { 3, ro_feature_KEYWORDS };
 
-static const wchar_t* const ro_given_KEYWORDS[] = { L"* ", L"Date fiind ", L"Dat fiind ", L"Dati fiind ", L"Dați fiind ", L"Daţi fiind " };
-static const Keywords ro_given_keywords = { 6, ro_given_KEYWORDS };
+static const wchar_t* const ro_given_KEYWORDS[] = { L"* ", L"Date fiind ", L"Dat fiind ", L"Dată fiind", L"Dati fiind ", L"Dați fiind ", L"Daţi fiind " };
+static const Keywords ro_given_keywords = { 7, ro_given_KEYWORDS };
 
 static const wchar_t* const ro_scenario_KEYWORDS[] = { L"Scenariu" };
 static const Keywords ro_scenario_keywords = { 1, ro_scenario_KEYWORDS };
