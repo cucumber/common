@@ -5,8 +5,10 @@
 
 [![Build Status](https://secure.travis-ci.org/cucumber/cucumber.svg)](http://travis-ci.org/cucumber/cucumber)
 
-Cucumber is a tool that supports [Behaviour-Driven Development (BDD)](#) - a software
-development process that aims to enhance software quality and reduce maintenance costs.
+Cucumber is a tool that supports [Behaviour-Driven Development
+(BDD)](https://en.wikipedia.org/wiki/Behavior-driven_development) - a software
+development process that aims to enhance software quality and reduce
+maintenance costs.
 
 Cucumber executes *executable specifications* written in [plain language](docs/gherkin.md)
 and produces reports indicating whether the software behaves according to the
