@@ -1,6 +1,10 @@
 /* eslint-env mocha */
 const assert = require('assert')
-const { CucumberExpression, ParameterTypeRegistry } = require('../src/index')
+const {
+  CucumberExpression,
+  ParameterTypeRegistry,
+  ParameterType,
+} = require('../src/index')
 
 describe('CucumberExpression', () => {
   it('documents match arguments', () => {
@@ -10,7 +14,7 @@ describe('CucumberExpression', () => {
     const expr = 'I have {int} cuke(s)'
     const expression = new CucumberExpression(expr, parameterTypeRegistry)
     const args = expression.match('I have 7 cukes')
-    assert.equal(7, args[0].value)
+    assert.equal(7, args[0].getValue(null))
     /// [capture-match-arguments]
   })
 
@@ -88,6 +92,35 @@ describe('CucumberExpression', () => {
     )
   })
 
+  it('delegates transform to custom object', () => {
+    const parameterTypeRegistry = new ParameterTypeRegistry()
+    parameterTypeRegistry.defineParameterType(
+      new ParameterType(
+        'widget',
+        /\w+/,
+        null,
+        function(s) {
+          return this.createWidget(s)
+        },
+        false,
+        true
+      )
+    )
+    const expression = new CucumberExpression(
+      'I have a {widget}',
+      parameterTypeRegistry
+    )
+
+    const world = {
+      createWidget(s) {
+        return `widget:${s}`
+      },
+    }
+
+    const args = expression.match(`I have a bolt`)
+    assert.equal(args[0].getValue(world), 'widget:bolt')
+  })
+
   describe('escapes special characters', () => {
     ;['\\', '[', ']', '^', '$', '.', '|', '?', '*', '+'].forEach(character => {
       it(`escapes ${character}`, () => {
@@ -97,7 +130,7 @@ describe('CucumberExpression', () => {
           new ParameterTypeRegistry()
         )
         const arg1 = expression.match(`I have 800 cukes and ${character}`)[0]
-        assert.equal(arg1.value, 800)
+        assert.equal(arg1.getValue(null), 800)
       })
     })
 
@@ -109,7 +142,7 @@ describe('CucumberExpression', () => {
       )
       assert.equal(expression.match(`I have 800 cukes and 3`), null)
       const arg1 = expression.match(`I have 800 cukes and .`)[0]
-      assert.equal(arg1.value, 800)
+      assert.equal(arg1.getValue(null), 800)
     })
 
     it(`escapes |`, () => {
@@ -121,7 +154,7 @@ describe('CucumberExpression', () => {
       assert.equal(expression.match(`I have 800 cukes and a`), null)
       assert.equal(expression.match(`I have 800 cukes and b`), null)
       const arg1 = expression.match(`I have 800 cukes and a|b`)[0]
-      assert.equal(arg1.value, 800)
+      assert.equal(arg1.getValue(null), 800)
     })
   })
 })
@@ -133,5 +166,5 @@ const match = (expression, text) => {
   )
   const args = cucumberExpression.match(text)
   if (!args) return null
-  return args.map(arg => arg.value)
+  return args.map(arg => arg.getValue(null))
 }

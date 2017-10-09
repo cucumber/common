@@ -11,7 +11,7 @@ module Cucumber
         expr = "I have {int} cuke(s)"
         expression = CucumberExpression.new(expr, parameter_registry)
         args = expression.match("I have 7 cukes")
-        expect(args[0].value).to eq(7)
+        expect(args[0].value(nil)).to eq(7)
         ### [capture-match-arguments]
       end
 
@@ -69,13 +69,42 @@ module Cucumber
         expect(CucumberExpression.new(expr, ParameterTypeRegistry.new).source).to eq(expr)
       end
 
+      it "delegates transform to custom object" do
+        parameter_type_registry = ParameterTypeRegistry.new
+        parameter_type_registry.define_parameter_type(
+          ParameterType.new(
+                  'widget',
+                  /\w+/,
+                  Object,
+                  -> (s) {
+                    self.create_widget(s)
+                  },
+                  false,
+                  true
+              )
+        )
+        expression = CucumberExpression.new(
+          'I have a {widget}',
+          parameter_type_registry
+        )
+
+        class World
+          def create_widget(s)
+            "widget:#{s}"
+          end
+        end
+
+        args = expression.match("I have a bolt")
+        expect(args[0].value(World.new)).to eq('widget:bolt')
+      end
+
       describe "escapes special characters" do
         %w(\\ [ ] ^ $ . | ? * +).each do |character|
           it "escapes #{character}" do
             expr = "I have {int} cuke(s) and #{character}"
             expression = CucumberExpression.new(expr, ParameterTypeRegistry.new)
             arg1 = expression.match("I have 800 cukes and #{character}")[0]
-            expect(arg1.value).to eq(800)
+            expect(arg1.value(nil)).to eq(800)
           end
         end
       end
@@ -84,7 +113,7 @@ module Cucumber
         cucumber_expression = CucumberExpression.new(expression, ParameterTypeRegistry.new)
         args = cucumber_expression.match(text)
         return nil if args.nil?
-        args.map {|arg| arg.value}
+        args.map {|arg| arg.value(nil)}
       end
     end
   end
