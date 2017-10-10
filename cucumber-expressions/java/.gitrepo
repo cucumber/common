@@ -6,6 +6,6 @@
 [subrepo]
 	remote = https://github.com/cucumber/cucumber-expressions-java.git
 	branch = master
-	commit = 6f5bdc14e4b10105efc157b9a5122ee88fbc7d55
+	commit = a133e0d68c8e6601955273d10c1d8d08b55235ba
 	parent = 9487ec20b923466cda329ad9a46c8ae91c76a07e
 	cmdver = 0.4.0
