@@ -13,9 +13,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Changed
 
-* ruby, javascript: A `transformer` function can run in the context of a world object. `Argument#value` now takes an object as argument (renamed to `Argument#getValue` in js) ([#284](https://github.com/cucumber/cucumber/pull/284) by [aslakhellesoy])
-
 ### Fixed
+
+## [5.0.0] - 2017-10-10
+
+### Changed
+
+* ruby, javascript: A `transformer` function can run in the context of a world object. `Argument#value` now takes an object as argument (renamed to `Argument#getValue` in js) ([#284](https://github.com/cucumber/cucumber/pull/284) by [aslakhellesoy])
 
 ## [4.0.4] - 2017-10-05
 
@@ -224,7 +228,8 @@ N/A
 * First stable release!
 
 <!-- Releases -->
-[Unreleased]: https://github.com/cucumber/cucumber/compare/cucumber-expressions-v4.0.4...master
+[Unreleased]: https://github.com/cucumber/cucumber/compare/cucumber-expressions-v5.0.0...master
+[5.0.0]:      https://github.com/cucumber/cucumber/compare/cucumber-expressions-v4.0.4...cucumber-expressions-v5.0.0
 [4.0.4]:      https://github.com/cucumber/cucumber/compare/cucumber-expressions-v4.0.3...cucumber-expressions-v4.0.4
 [4.0.3]:      https://github.com/cucumber/cucumber/compare/cucumber-expressions-v4.0.2...cucumber-expressions-v4.0.3
 [4.0.2]:      https://github.com/cucumber/cucumber/compare/cucumber-expressions-v4.0.1...cucumber-expressions-v4.0.2
