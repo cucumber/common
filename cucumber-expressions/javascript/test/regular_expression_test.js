@@ -11,8 +11,8 @@ describe('RegularExpression', () => {
     const expr = /I have (\d+) cukes? in my (\w+) now/
     const expression = new RegularExpression(expr, parameterRegistry)
     const args = expression.match('I have 7 cukes in my belly now')
-    assert.equal(7, args[0].value)
-    assert.equal('belly', args[1].value)
+    assert.equal(7, args[0].getValue(null))
+    assert.equal('belly', args[1].getValue(null))
     /// [capture-match-arguments]
   })
 
@@ -67,5 +67,5 @@ const match = (regexp, text) => {
   const regularExpression = new RegularExpression(regexp, parameterRegistry)
   const args = regularExpression.match(text)
   if (!args) return null
-  return args.map(arg => arg.value)
+  return args.map(arg => arg.getValue(null))
 }

@@ -73,7 +73,7 @@ This is how we would define a custom `color` parameter type:
 [snippet](javascript/test/custom_parameter_type_test.js#add-color-parameter-type)
 ```
 
-The `transform` function can also return a `Promise`:
+The `transformer` function can also return a `Promise`:
 ```javascript
 [snippet](javascript/test/custom_parameter_type_test.js#add-async-parameter-type)
 ```
@@ -89,7 +89,7 @@ The parameters are as follows:
 * `name` - the name the parameter type will be recognised by in output parameters.
 * `regexp` - a regexp that will match the parameter. May include capture groups.
 * `type`
-* `transform` - a function that transforms the match from the regexp. Must have arity 1 if the regexp doesn't have
+* `transformer` - a function that transforms the match from the regexp. Must have arity 1 if the regexp doesn't have
   any capture groups. Otherwise the arity must match the number of capture groups.
 * `useForSnippets` (Ruby: `use_for_snippets`) - Defaults to `true`. That means this parameter type will be used to generate
   snippets for undefined steps. If the `regexp` frequently matches text you don't intend to be
@@ -190,7 +190,7 @@ Regular Expression would automatically convert arguments to `int`:
 ### Preferential parameter types
 
 In some cases you might want to define two or more parameter types with the same
-regular expression, but different name and transform. For example, you may want
+regular expression, but different name and transformer. For example, you may want
 to define `name` and `person` parameter types with the regexp `[A-Z]+\w+`, which
 would match `Joe`, `Amy` and so on.
 
@@ -233,8 +233,7 @@ of `Argument` (or `null`/`nil` if there was no match).
 This API is similar to most regexp APIs, but the `Argument` type has additional
 information:
 
-* `value` - the string value of the match against the expression.
-* `value` - the transformed value of the match (transformed by the parameter)
+* `value` - the transformed value of the match (transformed by the `transformer` function)
 * `offset` - the offset from the start of the text where the value was found
 
 Arguments are captured by creating an *expression*, and invoking `match` with a

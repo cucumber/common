@@ -13,7 +13,7 @@ module Cucumber
 
         arguments = expression.match(text)
         return nil if arguments.nil?
-        arguments.map { |arg| arg.value }
+        arguments.map { |arg| arg.value(nil) }
       end
 
       File.open(File.expand_path("../../../../examples.txt", __FILE__), "r:utf-8") do |io|

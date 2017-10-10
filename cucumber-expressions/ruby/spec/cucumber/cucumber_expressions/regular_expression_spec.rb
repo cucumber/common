@@ -11,8 +11,8 @@ module Cucumber
         expr = /I have (\d+) cukes? in my (\w*) now/
         expression = RegularExpression.new(expr, parameter_type_registry)
         args = expression.match("I have 7 cukes in my belly now")
-        expect( args[0].value ).to eq(7)
-        expect( args[1].value ).to eq("belly")
+        expect( args[0].value(nil) ).to eq(7)
+        expect( args[1].value(nil) ).to eq("belly")
         ### [capture-match-arguments]
       end
 
@@ -62,7 +62,7 @@ module Cucumber
         regular_expression = RegularExpression.new(expression, ParameterTypeRegistry.new)
         arguments = regular_expression.match(text)
         return nil if arguments.nil?
-        arguments.map { |arg| arg.value }
+        arguments.map { |arg| arg.value(nil) }
       end
     end
   end

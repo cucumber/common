@@ -31,10 +31,14 @@ class Argument {
     return this._group
   }
 
-  get value() {
-    return this._parameterType.transform(
-      this._group ? this._group.values : null
-    )
+  /**
+   * Get the value returned by the parameter type's transformer function.
+   *
+   * @param thisObj the object in which the transformer function is applied.
+   */
+  getValue(thisObj) {
+    let groupValues = this._group ? this._group.values : null
+    return this._parameterType.transform(thisObj, groupValues)
   }
 }
 
