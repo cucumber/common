@@ -8,7 +8,7 @@
     "eslint": "eslint src test",
     "build": "babel src --out-dir dist/src",
     "build-test": "babel test --out-dir dist/test",
-    "prepublish": "npm run build",
+    "prepare": "yarn build",
     "postinstall": "node scripts/postinstall.js",
     "mocha": "mocha",
     "mocha-built": "mocha dist/test",
