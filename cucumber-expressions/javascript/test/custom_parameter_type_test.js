@@ -35,7 +35,7 @@ describe('Custom parameter type', () => {
         'color',           // name
         /red|blue|yellow/, // regexp
         Color,             // type
-        s => new Color(s), // transform
+        s => new Color(s), // transformer
         false,             // useForSnippets
         true               // preferForRegexpMatch
       )
