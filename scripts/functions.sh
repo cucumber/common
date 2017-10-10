@@ -277,7 +277,7 @@ function npm_release() {
 
   pushd "${dir}"
   yarn install
-  yarn version "${version}"
+  yarn version --new-version "${version}"
   yarn publish
   git push
   git push --tags
