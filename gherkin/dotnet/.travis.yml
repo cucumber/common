@@ -1,14 +1,12 @@
 language: csharp
-mono: latest
+dist: trusty
+mono: none
+dotnet: 1.0.4
 sudo: false
-
-before_install:
-  - export EnableNuGetPackageRestore=true
-
-before_script: "mono .nuget/NuGet.exe restore Gherkin.CSharp.sln"
-script: "xbuild /p:Configuration=Release"
-after_success: "mono .nuget/NuGet.exe pack Gherkin.NuGetPackages/Gherkin.nuspec"
 
 branches:
   only:
     - master
+
+script:
+  - make

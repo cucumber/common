@@ -1,15 +1,15 @@
 module Cucumber
   module CucumberExpressions
     class ParameterTypeMatcher
-      attr_reader :parameter
+      attr_reader :parameter_type
 
-      def initialize(parameter, regexp, text, match_position=0)
-        @parameter, @regexp, @text = parameter, regexp, text
+      def initialize(parameter_type, regexp, text, match_position=0)
+        @parameter_type, @regexp, @text = parameter_type, regexp, text
         @match = @regexp.match(@text, match_position)
       end
 
       def advance_to(new_match_position)
-        self.class.new(parameter, @regexp, @text, new_match_position)
+        self.class.new(parameter_type, @regexp, @text, new_match_position)
       end
 
       def find

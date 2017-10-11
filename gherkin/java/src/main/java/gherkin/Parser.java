@@ -54,26 +54,19 @@ public class Parser<T> {
         _Other, // #Other
         GherkinDocument, // GherkinDocument! := Feature?
         Feature, // Feature! := Feature_Header Background? Scenario_Definition*
-        Feature_Header, // Feature_Header! := #Language? Tags? #FeatureLine Feature_Description
-        Background, // Background! := #BackgroundLine Background_Description Scenario_Step*
+        Feature_Header, // Feature_Header! := #Language? Tags? #FeatureLine Description_Helper
+        Background, // Background! := #BackgroundLine Description_Helper Step*
         Scenario_Definition, // Scenario_Definition! := Tags? (Scenario | ScenarioOutline)
-        Scenario, // Scenario! := #ScenarioLine Scenario_Description Scenario_Step*
-        ScenarioOutline, // ScenarioOutline! := #ScenarioOutlineLine ScenarioOutline_Description ScenarioOutline_Step* Examples_Definition*
+        Scenario, // Scenario! := #ScenarioLine Description_Helper Step*
+        ScenarioOutline, // ScenarioOutline! := #ScenarioOutlineLine Description_Helper Step* Examples_Definition*
         Examples_Definition, // Examples_Definition! [#Empty|#Comment|#TagLine-&gt;#ExamplesLine] := Tags? Examples
-        Examples, // Examples! := #ExamplesLine Examples_Description Examples_Table?
+        Examples, // Examples! := #ExamplesLine Description_Helper Examples_Table?
         Examples_Table, // Examples_Table! := #TableRow #TableRow*
-        Scenario_Step, // Scenario_Step := Step
-        ScenarioOutline_Step, // ScenarioOutline_Step := Step
         Step, // Step! := #StepLine Step_Arg?
         Step_Arg, // Step_Arg := (DataTable | DocString)
         DataTable, // DataTable! := #TableRow+
         DocString, // DocString! := #DocStringSeparator #Other* #DocStringSeparator
         Tags, // Tags! := #TagLine+
-        Feature_Description, // Feature_Description := Description_Helper
-        Background_Description, // Background_Description := Description_Helper
-        Scenario_Description, // Scenario_Description := Description_Helper
-        ScenarioOutline_Description, // ScenarioOutline_Description := Description_Helper
-        Examples_Description, // Examples_Description := Description_Helper
         Description_Helper, // Description_Helper := #Empty* Description? #Comment*
         Description, // Description! := #Other+
         ;
@@ -651,7 +644,7 @@ public class Parser<T> {
     }
 
 
-    // GherkinDocument:0>Feature:0>Feature_Header:3>Feature_Description:0>Description_Helper:1>Description:0>#Other:0
+    // GherkinDocument:0>Feature:0>Feature_Header:3>Description_Helper:1>Description:0>#Other:0
     private int matchTokenAt_4(Token token, ParserContext context) {
         if (match_EOF(context, token))
         {
@@ -708,7 +701,7 @@ public class Parser<T> {
             return 4;
         }
         
-        final String stateComment = "State: 4 - GherkinDocument:0>Feature:0>Feature_Header:3>Feature_Description:0>Description_Helper:1>Description:0>#Other:0";
+        final String stateComment = "State: 4 - GherkinDocument:0>Feature:0>Feature_Header:3>Description_Helper:1>Description:0>#Other:0";
         token.detach();
         List<String> expectedTokens = asList("#EOF", "#Comment", "#BackgroundLine", "#TagLine", "#ScenarioLine", "#ScenarioOutlineLine", "#Other");
         ParserException error = token.isEOF()
@@ -723,7 +716,7 @@ public class Parser<T> {
     }
 
 
-    // GherkinDocument:0>Feature:0>Feature_Header:3>Feature_Description:0>Description_Helper:2>#Comment:0
+    // GherkinDocument:0>Feature:0>Feature_Header:3>Description_Helper:2>#Comment:0
     private int matchTokenAt_5(Token token, ParserContext context) {
         if (match_EOF(context, token))
         {
@@ -774,7 +767,7 @@ public class Parser<T> {
             return 5;
         }
         
-        final String stateComment = "State: 5 - GherkinDocument:0>Feature:0>Feature_Header:3>Feature_Description:0>Description_Helper:2>#Comment:0";
+        final String stateComment = "State: 5 - GherkinDocument:0>Feature:0>Feature_Header:3>Description_Helper:2>#Comment:0";
         token.detach();
         List<String> expectedTokens = asList("#EOF", "#Comment", "#BackgroundLine", "#TagLine", "#ScenarioLine", "#ScenarioOutlineLine", "#Empty");
         ParserException error = token.isEOF()
@@ -860,7 +853,7 @@ public class Parser<T> {
     }
 
 
-    // GherkinDocument:0>Feature:1>Background:1>Background_Description:0>Description_Helper:1>Description:0>#Other:0
+    // GherkinDocument:0>Feature:1>Background:1>Description_Helper:1>Description:0>#Other:0
     private int matchTokenAt_7(Token token, ParserContext context) {
         if (match_EOF(context, token))
         {
@@ -916,7 +909,7 @@ public class Parser<T> {
             return 7;
         }
         
-        final String stateComment = "State: 7 - GherkinDocument:0>Feature:1>Background:1>Background_Description:0>Description_Helper:1>Description:0>#Other:0";
+        final String stateComment = "State: 7 - GherkinDocument:0>Feature:1>Background:1>Description_Helper:1>Description:0>#Other:0";
         token.detach();
         List<String> expectedTokens = asList("#EOF", "#Comment", "#StepLine", "#TagLine", "#ScenarioLine", "#ScenarioOutlineLine", "#Other");
         ParserException error = token.isEOF()
@@ -931,7 +924,7 @@ public class Parser<T> {
     }
 
 
-    // GherkinDocument:0>Feature:1>Background:1>Background_Description:0>Description_Helper:2>#Comment:0
+    // GherkinDocument:0>Feature:1>Background:1>Description_Helper:2>#Comment:0
     private int matchTokenAt_8(Token token, ParserContext context) {
         if (match_EOF(context, token))
         {
@@ -981,7 +974,7 @@ public class Parser<T> {
             return 8;
         }
         
-        final String stateComment = "State: 8 - GherkinDocument:0>Feature:1>Background:1>Background_Description:0>Description_Helper:2>#Comment:0";
+        final String stateComment = "State: 8 - GherkinDocument:0>Feature:1>Background:1>Description_Helper:2>#Comment:0";
         token.detach();
         List<String> expectedTokens = asList("#EOF", "#Comment", "#StepLine", "#TagLine", "#ScenarioLine", "#ScenarioOutlineLine", "#Empty");
         ParserException error = token.isEOF()
@@ -996,7 +989,7 @@ public class Parser<T> {
     }
 
 
-    // GherkinDocument:0>Feature:1>Background:2>Scenario_Step:0>Step:0>#StepLine:0
+    // GherkinDocument:0>Feature:1>Background:2>Step:0>#StepLine:0
     private int matchTokenAt_9(Token token, ParserContext context) {
         if (match_EOF(context, token))
         {
@@ -1063,7 +1056,7 @@ public class Parser<T> {
             return 9;
         }
         
-        final String stateComment = "State: 9 - GherkinDocument:0>Feature:1>Background:2>Scenario_Step:0>Step:0>#StepLine:0";
+        final String stateComment = "State: 9 - GherkinDocument:0>Feature:1>Background:2>Step:0>#StepLine:0";
         token.detach();
         List<String> expectedTokens = asList("#EOF", "#TableRow", "#DocStringSeparator", "#StepLine", "#TagLine", "#ScenarioLine", "#ScenarioOutlineLine", "#Comment", "#Empty");
         ParserException error = token.isEOF()
@@ -1078,7 +1071,7 @@ public class Parser<T> {
     }
 
 
-    // GherkinDocument:0>Feature:1>Background:2>Scenario_Step:0>Step:1>Step_Arg:0>__alt1:0>DataTable:0>#TableRow:0
+    // GherkinDocument:0>Feature:1>Background:2>Step:1>Step_Arg:0>__alt1:0>DataTable:0>#TableRow:0
     private int matchTokenAt_10(Token token, ParserContext context) {
         if (match_EOF(context, token))
         {
@@ -1143,7 +1136,7 @@ public class Parser<T> {
             return 10;
         }
         
-        final String stateComment = "State: 10 - GherkinDocument:0>Feature:1>Background:2>Scenario_Step:0>Step:1>Step_Arg:0>__alt1:0>DataTable:0>#TableRow:0";
+        final String stateComment = "State: 10 - GherkinDocument:0>Feature:1>Background:2>Step:1>Step_Arg:0>__alt1:0>DataTable:0>#TableRow:0";
         token.detach();
         List<String> expectedTokens = asList("#EOF", "#TableRow", "#StepLine", "#TagLine", "#ScenarioLine", "#ScenarioOutlineLine", "#Comment", "#Empty");
         ParserException error = token.isEOF()
@@ -1280,7 +1273,7 @@ public class Parser<T> {
     }
 
 
-    // GherkinDocument:0>Feature:2>Scenario_Definition:1>__alt0:0>Scenario:1>Scenario_Description:0>Description_Helper:1>Description:0>#Other:0
+    // GherkinDocument:0>Feature:2>Scenario_Definition:1>__alt0:0>Scenario:1>Description_Helper:1>Description:0>#Other:0
     private int matchTokenAt_13(Token token, ParserContext context) {
         if (match_EOF(context, token))
         {
@@ -1340,7 +1333,7 @@ public class Parser<T> {
             return 13;
         }
         
-        final String stateComment = "State: 13 - GherkinDocument:0>Feature:2>Scenario_Definition:1>__alt0:0>Scenario:1>Scenario_Description:0>Description_Helper:1>Description:0>#Other:0";
+        final String stateComment = "State: 13 - GherkinDocument:0>Feature:2>Scenario_Definition:1>__alt0:0>Scenario:1>Description_Helper:1>Description:0>#Other:0";
         token.detach();
         List<String> expectedTokens = asList("#EOF", "#Comment", "#StepLine", "#TagLine", "#ScenarioLine", "#ScenarioOutlineLine", "#Other");
         ParserException error = token.isEOF()
@@ -1355,7 +1348,7 @@ public class Parser<T> {
     }
 
 
-    // GherkinDocument:0>Feature:2>Scenario_Definition:1>__alt0:0>Scenario:1>Scenario_Description:0>Description_Helper:2>#Comment:0
+    // GherkinDocument:0>Feature:2>Scenario_Definition:1>__alt0:0>Scenario:1>Description_Helper:2>#Comment:0
     private int matchTokenAt_14(Token token, ParserContext context) {
         if (match_EOF(context, token))
         {
@@ -1409,7 +1402,7 @@ public class Parser<T> {
             return 14;
         }
         
-        final String stateComment = "State: 14 - GherkinDocument:0>Feature:2>Scenario_Definition:1>__alt0:0>Scenario:1>Scenario_Description:0>Description_Helper:2>#Comment:0";
+        final String stateComment = "State: 14 - GherkinDocument:0>Feature:2>Scenario_Definition:1>__alt0:0>Scenario:1>Description_Helper:2>#Comment:0";
         token.detach();
         List<String> expectedTokens = asList("#EOF", "#Comment", "#StepLine", "#TagLine", "#ScenarioLine", "#ScenarioOutlineLine", "#Empty");
         ParserException error = token.isEOF()
@@ -1424,7 +1417,7 @@ public class Parser<T> {
     }
 
 
-    // GherkinDocument:0>Feature:2>Scenario_Definition:1>__alt0:0>Scenario:2>Scenario_Step:0>Step:0>#StepLine:0
+    // GherkinDocument:0>Feature:2>Scenario_Definition:1>__alt0:0>Scenario:2>Step:0>#StepLine:0
     private int matchTokenAt_15(Token token, ParserContext context) {
         if (match_EOF(context, token))
         {
@@ -1495,7 +1488,7 @@ public class Parser<T> {
             return 15;
         }
         
-        final String stateComment = "State: 15 - GherkinDocument:0>Feature:2>Scenario_Definition:1>__alt0:0>Scenario:2>Scenario_Step:0>Step:0>#StepLine:0";
+        final String stateComment = "State: 15 - GherkinDocument:0>Feature:2>Scenario_Definition:1>__alt0:0>Scenario:2>Step:0>#StepLine:0";
         token.detach();
         List<String> expectedTokens = asList("#EOF", "#TableRow", "#DocStringSeparator", "#StepLine", "#TagLine", "#ScenarioLine", "#ScenarioOutlineLine", "#Comment", "#Empty");
         ParserException error = token.isEOF()
@@ -1510,7 +1503,7 @@ public class Parser<T> {
     }
 
 
-    // GherkinDocument:0>Feature:2>Scenario_Definition:1>__alt0:0>Scenario:2>Scenario_Step:0>Step:1>Step_Arg:0>__alt1:0>DataTable:0>#TableRow:0
+    // GherkinDocument:0>Feature:2>Scenario_Definition:1>__alt0:0>Scenario:2>Step:1>Step_Arg:0>__alt1:0>DataTable:0>#TableRow:0
     private int matchTokenAt_16(Token token, ParserContext context) {
         if (match_EOF(context, token))
         {
@@ -1579,7 +1572,7 @@ public class Parser<T> {
             return 16;
         }
         
-        final String stateComment = "State: 16 - GherkinDocument:0>Feature:2>Scenario_Definition:1>__alt0:0>Scenario:2>Scenario_Step:0>Step:1>Step_Arg:0>__alt1:0>DataTable:0>#TableRow:0";
+        final String stateComment = "State: 16 - GherkinDocument:0>Feature:2>Scenario_Definition:1>__alt0:0>Scenario:2>Step:1>Step_Arg:0>__alt1:0>DataTable:0>#TableRow:0";
         token.detach();
         List<String> expectedTokens = asList("#EOF", "#TableRow", "#StepLine", "#TagLine", "#ScenarioLine", "#ScenarioOutlineLine", "#Comment", "#Empty");
         ParserException error = token.isEOF()
@@ -1686,7 +1679,7 @@ public class Parser<T> {
     }
 
 
-    // GherkinDocument:0>Feature:2>Scenario_Definition:1>__alt0:1>ScenarioOutline:1>ScenarioOutline_Description:0>Description_Helper:1>Description:0>#Other:0
+    // GherkinDocument:0>Feature:2>Scenario_Definition:1>__alt0:1>ScenarioOutline:1>Description_Helper:1>Description:0>#Other:0
     private int matchTokenAt_18(Token token, ParserContext context) {
         if (match_EOF(context, token))
         {
@@ -1765,7 +1758,7 @@ public class Parser<T> {
             return 18;
         }
         
-        final String stateComment = "State: 18 - GherkinDocument:0>Feature:2>Scenario_Definition:1>__alt0:1>ScenarioOutline:1>ScenarioOutline_Description:0>Description_Helper:1>Description:0>#Other:0";
+        final String stateComment = "State: 18 - GherkinDocument:0>Feature:2>Scenario_Definition:1>__alt0:1>ScenarioOutline:1>Description_Helper:1>Description:0>#Other:0";
         token.detach();
         List<String> expectedTokens = asList("#EOF", "#Comment", "#StepLine", "#TagLine", "#ExamplesLine", "#ScenarioLine", "#ScenarioOutlineLine", "#Other");
         ParserException error = token.isEOF()
@@ -1780,7 +1773,7 @@ public class Parser<T> {
     }
 
 
-    // GherkinDocument:0>Feature:2>Scenario_Definition:1>__alt0:1>ScenarioOutline:1>ScenarioOutline_Description:0>Description_Helper:2>#Comment:0
+    // GherkinDocument:0>Feature:2>Scenario_Definition:1>__alt0:1>ScenarioOutline:1>Description_Helper:2>#Comment:0
     private int matchTokenAt_19(Token token, ParserContext context) {
         if (match_EOF(context, token))
         {
@@ -1851,7 +1844,7 @@ public class Parser<T> {
             return 19;
         }
         
-        final String stateComment = "State: 19 - GherkinDocument:0>Feature:2>Scenario_Definition:1>__alt0:1>ScenarioOutline:1>ScenarioOutline_Description:0>Description_Helper:2>#Comment:0";
+        final String stateComment = "State: 19 - GherkinDocument:0>Feature:2>Scenario_Definition:1>__alt0:1>ScenarioOutline:1>Description_Helper:2>#Comment:0";
         token.detach();
         List<String> expectedTokens = asList("#EOF", "#Comment", "#StepLine", "#TagLine", "#ExamplesLine", "#ScenarioLine", "#ScenarioOutlineLine", "#Empty");
         ParserException error = token.isEOF()
@@ -1866,7 +1859,7 @@ public class Parser<T> {
     }
 
 
-    // GherkinDocument:0>Feature:2>Scenario_Definition:1>__alt0:1>ScenarioOutline:2>ScenarioOutline_Step:0>Step:0>#StepLine:0
+    // GherkinDocument:0>Feature:2>Scenario_Definition:1>__alt0:1>ScenarioOutline:2>Step:0>#StepLine:0
     private int matchTokenAt_20(Token token, ParserContext context) {
         if (match_EOF(context, token))
         {
@@ -1956,7 +1949,7 @@ public class Parser<T> {
             return 20;
         }
         
-        final String stateComment = "State: 20 - GherkinDocument:0>Feature:2>Scenario_Definition:1>__alt0:1>ScenarioOutline:2>ScenarioOutline_Step:0>Step:0>#StepLine:0";
+        final String stateComment = "State: 20 - GherkinDocument:0>Feature:2>Scenario_Definition:1>__alt0:1>ScenarioOutline:2>Step:0>#StepLine:0";
         token.detach();
         List<String> expectedTokens = asList("#EOF", "#TableRow", "#DocStringSeparator", "#StepLine", "#TagLine", "#ExamplesLine", "#ScenarioLine", "#ScenarioOutlineLine", "#Comment", "#Empty");
         ParserException error = token.isEOF()
@@ -1971,7 +1964,7 @@ public class Parser<T> {
     }
 
 
-    // GherkinDocument:0>Feature:2>Scenario_Definition:1>__alt0:1>ScenarioOutline:2>ScenarioOutline_Step:0>Step:1>Step_Arg:0>__alt1:0>DataTable:0>#TableRow:0
+    // GherkinDocument:0>Feature:2>Scenario_Definition:1>__alt0:1>ScenarioOutline:2>Step:1>Step_Arg:0>__alt1:0>DataTable:0>#TableRow:0
     private int matchTokenAt_21(Token token, ParserContext context) {
         if (match_EOF(context, token))
         {
@@ -2061,7 +2054,7 @@ public class Parser<T> {
             return 21;
         }
         
-        final String stateComment = "State: 21 - GherkinDocument:0>Feature:2>Scenario_Definition:1>__alt0:1>ScenarioOutline:2>ScenarioOutline_Step:0>Step:1>Step_Arg:0>__alt1:0>DataTable:0>#TableRow:0";
+        final String stateComment = "State: 21 - GherkinDocument:0>Feature:2>Scenario_Definition:1>__alt0:1>ScenarioOutline:2>Step:1>Step_Arg:0>__alt1:0>DataTable:0>#TableRow:0";
         token.detach();
         List<String> expectedTokens = asList("#EOF", "#TableRow", "#StepLine", "#TagLine", "#ExamplesLine", "#ScenarioLine", "#ScenarioOutlineLine", "#Comment", "#Empty");
         ParserException error = token.isEOF()
@@ -2220,7 +2213,7 @@ public class Parser<T> {
     }
 
 
-    // GherkinDocument:0>Feature:2>Scenario_Definition:1>__alt0:1>ScenarioOutline:3>Examples_Definition:1>Examples:1>Examples_Description:0>Description_Helper:1>Description:0>#Other:0
+    // GherkinDocument:0>Feature:2>Scenario_Definition:1>__alt0:1>ScenarioOutline:3>Examples_Definition:1>Examples:1>Description_Helper:1>Description:0>#Other:0
     private int matchTokenAt_24(Token token, ParserContext context) {
         if (match_EOF(context, token))
         {
@@ -2311,7 +2304,7 @@ public class Parser<T> {
             return 24;
         }
         
-        final String stateComment = "State: 24 - GherkinDocument:0>Feature:2>Scenario_Definition:1>__alt0:1>ScenarioOutline:3>Examples_Definition:1>Examples:1>Examples_Description:0>Description_Helper:1>Description:0>#Other:0";
+        final String stateComment = "State: 24 - GherkinDocument:0>Feature:2>Scenario_Definition:1>__alt0:1>ScenarioOutline:3>Examples_Definition:1>Examples:1>Description_Helper:1>Description:0>#Other:0";
         token.detach();
         List<String> expectedTokens = asList("#EOF", "#Comment", "#TableRow", "#TagLine", "#ExamplesLine", "#ScenarioLine", "#ScenarioOutlineLine", "#Other");
         ParserException error = token.isEOF()
@@ -2326,7 +2319,7 @@ public class Parser<T> {
     }
 
 
-    // GherkinDocument:0>Feature:2>Scenario_Definition:1>__alt0:1>ScenarioOutline:3>Examples_Definition:1>Examples:1>Examples_Description:0>Description_Helper:2>#Comment:0
+    // GherkinDocument:0>Feature:2>Scenario_Definition:1>__alt0:1>ScenarioOutline:3>Examples_Definition:1>Examples:1>Description_Helper:2>#Comment:0
     private int matchTokenAt_25(Token token, ParserContext context) {
         if (match_EOF(context, token))
         {
@@ -2409,7 +2402,7 @@ public class Parser<T> {
             return 25;
         }
         
-        final String stateComment = "State: 25 - GherkinDocument:0>Feature:2>Scenario_Definition:1>__alt0:1>ScenarioOutline:3>Examples_Definition:1>Examples:1>Examples_Description:0>Description_Helper:2>#Comment:0";
+        final String stateComment = "State: 25 - GherkinDocument:0>Feature:2>Scenario_Definition:1>__alt0:1>ScenarioOutline:3>Examples_Definition:1>Examples:1>Description_Helper:2>#Comment:0";
         token.detach();
         List<String> expectedTokens = asList("#EOF", "#Comment", "#TableRow", "#TagLine", "#ExamplesLine", "#ScenarioLine", "#ScenarioOutlineLine", "#Empty");
         ParserException error = token.isEOF()
@@ -2527,7 +2520,7 @@ public class Parser<T> {
     }
 
 
-    // GherkinDocument:0>Feature:2>Scenario_Definition:1>__alt0:1>ScenarioOutline:2>ScenarioOutline_Step:0>Step:1>Step_Arg:0>__alt1:1>DocString:0>#DocStringSeparator:0
+    // GherkinDocument:0>Feature:2>Scenario_Definition:1>__alt0:1>ScenarioOutline:2>Step:1>Step_Arg:0>__alt1:1>DocString:0>#DocStringSeparator:0
     private int matchTokenAt_28(Token token, ParserContext context) {
         if (match_DocStringSeparator(context, token))
         {
@@ -2540,7 +2533,7 @@ public class Parser<T> {
             return 28;
         }
         
-        final String stateComment = "State: 28 - GherkinDocument:0>Feature:2>Scenario_Definition:1>__alt0:1>ScenarioOutline:2>ScenarioOutline_Step:0>Step:1>Step_Arg:0>__alt1:1>DocString:0>#DocStringSeparator:0";
+        final String stateComment = "State: 28 - GherkinDocument:0>Feature:2>Scenario_Definition:1>__alt0:1>ScenarioOutline:2>Step:1>Step_Arg:0>__alt1:1>DocString:0>#DocStringSeparator:0";
         token.detach();
         List<String> expectedTokens = asList("#DocStringSeparator", "#Other");
         ParserException error = token.isEOF()
@@ -2555,7 +2548,7 @@ public class Parser<T> {
     }
 
 
-    // GherkinDocument:0>Feature:2>Scenario_Definition:1>__alt0:1>ScenarioOutline:2>ScenarioOutline_Step:0>Step:1>Step_Arg:0>__alt1:1>DocString:2>#DocStringSeparator:0
+    // GherkinDocument:0>Feature:2>Scenario_Definition:1>__alt0:1>ScenarioOutline:2>Step:1>Step_Arg:0>__alt1:1>DocString:2>#DocStringSeparator:0
     private int matchTokenAt_29(Token token, ParserContext context) {
         if (match_EOF(context, token))
         {
@@ -2640,7 +2633,7 @@ public class Parser<T> {
             return 29;
         }
         
-        final String stateComment = "State: 29 - GherkinDocument:0>Feature:2>Scenario_Definition:1>__alt0:1>ScenarioOutline:2>ScenarioOutline_Step:0>Step:1>Step_Arg:0>__alt1:1>DocString:2>#DocStringSeparator:0";
+        final String stateComment = "State: 29 - GherkinDocument:0>Feature:2>Scenario_Definition:1>__alt0:1>ScenarioOutline:2>Step:1>Step_Arg:0>__alt1:1>DocString:2>#DocStringSeparator:0";
         token.detach();
         List<String> expectedTokens = asList("#EOF", "#StepLine", "#TagLine", "#ExamplesLine", "#ScenarioLine", "#ScenarioOutlineLine", "#Comment", "#Empty");
         ParserException error = token.isEOF()
@@ -2655,7 +2648,7 @@ public class Parser<T> {
     }
 
 
-    // GherkinDocument:0>Feature:2>Scenario_Definition:1>__alt0:0>Scenario:2>Scenario_Step:0>Step:1>Step_Arg:0>__alt1:1>DocString:0>#DocStringSeparator:0
+    // GherkinDocument:0>Feature:2>Scenario_Definition:1>__alt0:0>Scenario:2>Step:1>Step_Arg:0>__alt1:1>DocString:0>#DocStringSeparator:0
     private int matchTokenAt_30(Token token, ParserContext context) {
         if (match_DocStringSeparator(context, token))
         {
@@ -2668,7 +2661,7 @@ public class Parser<T> {
             return 30;
         }
         
-        final String stateComment = "State: 30 - GherkinDocument:0>Feature:2>Scenario_Definition:1>__alt0:0>Scenario:2>Scenario_Step:0>Step:1>Step_Arg:0>__alt1:1>DocString:0>#DocStringSeparator:0";
+        final String stateComment = "State: 30 - GherkinDocument:0>Feature:2>Scenario_Definition:1>__alt0:0>Scenario:2>Step:1>Step_Arg:0>__alt1:1>DocString:0>#DocStringSeparator:0";
         token.detach();
         List<String> expectedTokens = asList("#DocStringSeparator", "#Other");
         ParserException error = token.isEOF()
@@ -2683,7 +2676,7 @@ public class Parser<T> {
     }
 
 
-    // GherkinDocument:0>Feature:2>Scenario_Definition:1>__alt0:0>Scenario:2>Scenario_Step:0>Step:1>Step_Arg:0>__alt1:1>DocString:2>#DocStringSeparator:0
+    // GherkinDocument:0>Feature:2>Scenario_Definition:1>__alt0:0>Scenario:2>Step:1>Step_Arg:0>__alt1:1>DocString:2>#DocStringSeparator:0
     private int matchTokenAt_31(Token token, ParserContext context) {
         if (match_EOF(context, token))
         {
@@ -2747,7 +2740,7 @@ public class Parser<T> {
             return 31;
         }
         
-        final String stateComment = "State: 31 - GherkinDocument:0>Feature:2>Scenario_Definition:1>__alt0:0>Scenario:2>Scenario_Step:0>Step:1>Step_Arg:0>__alt1:1>DocString:2>#DocStringSeparator:0";
+        final String stateComment = "State: 31 - GherkinDocument:0>Feature:2>Scenario_Definition:1>__alt0:0>Scenario:2>Step:1>Step_Arg:0>__alt1:1>DocString:2>#DocStringSeparator:0";
         token.detach();
         List<String> expectedTokens = asList("#EOF", "#StepLine", "#TagLine", "#ScenarioLine", "#ScenarioOutlineLine", "#Comment", "#Empty");
         ParserException error = token.isEOF()
@@ -2762,7 +2755,7 @@ public class Parser<T> {
     }
 
 
-    // GherkinDocument:0>Feature:1>Background:2>Scenario_Step:0>Step:1>Step_Arg:0>__alt1:1>DocString:0>#DocStringSeparator:0
+    // GherkinDocument:0>Feature:1>Background:2>Step:1>Step_Arg:0>__alt1:1>DocString:0>#DocStringSeparator:0
     private int matchTokenAt_32(Token token, ParserContext context) {
         if (match_DocStringSeparator(context, token))
         {
@@ -2775,7 +2768,7 @@ public class Parser<T> {
             return 32;
         }
         
-        final String stateComment = "State: 32 - GherkinDocument:0>Feature:1>Background:2>Scenario_Step:0>Step:1>Step_Arg:0>__alt1:1>DocString:0>#DocStringSeparator:0";
+        final String stateComment = "State: 32 - GherkinDocument:0>Feature:1>Background:2>Step:1>Step_Arg:0>__alt1:1>DocString:0>#DocStringSeparator:0";
         token.detach();
         List<String> expectedTokens = asList("#DocStringSeparator", "#Other");
         ParserException error = token.isEOF()
@@ -2790,7 +2783,7 @@ public class Parser<T> {
     }
 
 
-    // GherkinDocument:0>Feature:1>Background:2>Scenario_Step:0>Step:1>Step_Arg:0>__alt1:1>DocString:2>#DocStringSeparator:0
+    // GherkinDocument:0>Feature:1>Background:2>Step:1>Step_Arg:0>__alt1:1>DocString:2>#DocStringSeparator:0
     private int matchTokenAt_33(Token token, ParserContext context) {
         if (match_EOF(context, token))
         {
@@ -2850,7 +2843,7 @@ public class Parser<T> {
             return 33;
         }
         
-        final String stateComment = "State: 33 - GherkinDocument:0>Feature:1>Background:2>Scenario_Step:0>Step:1>Step_Arg:0>__alt1:1>DocString:2>#DocStringSeparator:0";
+        final String stateComment = "State: 33 - GherkinDocument:0>Feature:1>Background:2>Step:1>Step_Arg:0>__alt1:1>DocString:2>#DocStringSeparator:0";
         token.detach();
         List<String> expectedTokens = asList("#EOF", "#StepLine", "#TagLine", "#ScenarioLine", "#ScenarioOutlineLine", "#Comment", "#Empty");
         ParserException error = token.isEOF()

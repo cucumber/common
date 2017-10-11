@@ -1,7 +1,7 @@
 # -*- encoding: utf-8 -*-
 Gem::Specification.new do |s|
   s.name        = 'cucumber-expressions'
-  s.version     = '4.0.0'
+  s.version     = '4.0.4'
   s.authors     = ["Aslak Hellesøy"]
   s.description = 'Cucumber Expressions - a simpler alternative to Regular Expressions'
   s.summary     = "cucumber-expressions-#{s.version}"

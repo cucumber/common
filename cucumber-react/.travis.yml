@@ -1,4 +1,0 @@
-# manyrepo: cucumber/cucumber-react
-language: node_js
-node_js:
-  - "6"

@@ -7,7 +7,9 @@
   * [Pick your Flavour](./docs/404.md)
     * [Ruby](docs/installation.md#ruby)
     * [Java](docs/installation.md#java)
-    * [Javascript](docs/installation.md#javascript)
+    * [JavaScript](docs/installation.md#javascript)
+    * [PHP](docs/installation.md#php)
+    * [.NET](docs/installation.md#dotnet)
     * [Unofficial Cucumbers](./docs/404.md)
 * [10 minute tutorial](docs/10-minute-tutorial.md)
 

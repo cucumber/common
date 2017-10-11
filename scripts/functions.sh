@@ -33,16 +33,22 @@ function echo_blue
 }
 
 function docker_image() {
-  tag=$(cat Dockerfile | md5sum | cut -d ' ' -f 1)
-  echo "cucumber/cucumber-build:${tag}"
+  dockerfile=$1
+  image_name=$(basename ${dockerfile} | cut -d '.' -f 2)
+  tag=$(cat ${dockerfile} | md5sum | cut -d ' ' -f 1)
+  echo "cucumber/${image_name}:${tag}"
 }
 
 function docker_build() {
-  docker build --rm --tag $(docker_image) .
+  dockerfile=$1
+  docker build --rm --file ${dockerfile} --tag $(docker_image ${dockerfile}) .
 }
 
+# You have to `docker login` as a user with access to the "cucumber" docker hub
+# team. Contact somebody on the core team if you think you should have access.
 function docker_push() {
-  docker push $(docker_image)
+  dockerfile=$1
+  docker push $(docker_image ${dockerfile})
 }
 
 function rsync_files()
@@ -270,9 +276,9 @@ function npm_release() {
   next_version=$3
 
   pushd "${dir}"
-  npm install
-  npm version "${version}"
-  npm publish
+  yarn install
+  yarn version --new-version "${version}"
+  yarn publish
   git push
   git push --tags
   popd

@@ -10,7 +10,7 @@ public abstract class TypeReference<T> {
     protected TypeReference() {
         Type superclass = getClass().getGenericSuperclass();
         if (superclass instanceof Class) {
-            throw new RuntimeException("Missing type parameter: " + superclass);
+            throw new CucumberExpressionException("Missing type parameter: " + superclass);
         }
         this.type = ((ParameterizedType) superclass).getActualTypeArguments()[0];
     }

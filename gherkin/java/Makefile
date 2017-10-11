@@ -10,6 +10,8 @@ ERRORS     = $(patsubst testdata/%.feature,acceptance/testdata/%.feature.errors.
 
 JAVA_FILES = $(shell find . -name "*.java")
 
+.DELETE_ON_ERROR:
+
 default: .compared
 	mvn install
 .PHONY: default
@@ -37,7 +39,6 @@ acceptance/testdata/%.feature.ast.ndjson: testdata/%.feature testdata/%.feature.
 	mkdir -p `dirname $@`
 	bin/gherkin --no-source --no-pickles $< | jq --sort-keys --compact-output "." > $@
 	diff --unified <(jq "." $<.ast.ndjson) <(jq "." $@)
-.DELETE_ON_ERROR: acceptance/testdata/%.feature.ast.ndjson
 
 # Generate
 # acceptance/testdata/%.feature.pickles.ndjson: testdata/%.feature .built
@@ -49,7 +50,6 @@ acceptance/testdata/%.feature.pickles.ndjson: testdata/%.feature testdata/%.feat
 	mkdir -p `dirname $@`
 	bin/gherkin --no-source --no-ast $< | jq --sort-keys --compact-output "." > $@
 	diff --unified <(jq "." $<.pickles.ndjson) <(jq "." $@)
-.DELETE_ON_ERROR: acceptance/testdata/%.feature.pickles.ndjson
 
 # Generate
 # acceptance/testdata/%.feature.source.ndjson: testdata/%.feature .built
@@ -61,7 +61,6 @@ acceptance/testdata/%.feature.source.ndjson: testdata/%.feature testdata/%.featu
 	mkdir -p `dirname $@`
 	bin/gherkin --no-ast --no-pickles $< | jq --sort-keys --compact-output "." > $@
 	diff --unified <(jq "." $<.source.ndjson) <(jq "." $@)
-.DELETE_ON_ERROR: acceptance/testdata/%.feature.source.ndjson
 
 # Generate
 # acceptance/testdata/%.feature.errors.ndjson: testdata/%.feature .built
@@ -73,7 +72,6 @@ acceptance/testdata/%.feature.errors.ndjson: testdata/%.feature testdata/%.featu
 	mkdir -p `dirname $@`
 	bin/gherkin $< | jq --sort-keys --compact-output "." > $@
 	diff --unified <(jq "." $<.errors.ndjson) <(jq "." $@)
-.DELETE_ON_ERROR: acceptance/testdata/%.feature.ndjson
 
 src/main/java/gherkin/Parser.java: gherkin.berp gherkin-java.razor berp/berp.exe
 	mono berp/berp.exe -g gherkin.berp -t gherkin-java.razor -o $@

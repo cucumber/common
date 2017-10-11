@@ -1,0 +1,11 @@
+; DO NOT EDIT (unless you know what you are doing)
+;
+; This subdirectory is a git "subrepo", and this file is maintained by the
+; git-subrepo command. See https://github.com/git-commands/git-subrepo#readme
+;
+[subrepo]
+	remote = https://github.com/cucumber/tag-expressions-ruby.git
+	branch = master
+	commit = 87525cf15a1f8ecb9d89a784da33c71e9f3e93a1
+	parent = 4c607baf089e487e47ec076b179f99bbbecbf9f4
+	cmdver = 0.4.0

@@ -1,7 +1,7 @@
 class ParameterTypeMatcher {
   constructor(parameter, regexp, text, matchPosition) {
     this._parameterType = parameter
-    this._regexp = regexp
+    this._treeRegexp = regexp
     this._text = text
     this._matchPosition = matchPosition || 0
 
@@ -16,7 +16,7 @@ class ParameterTypeMatcher {
   advanceTo(newMatchPosition) {
     return new ParameterTypeMatcher(
       this._parameterType,
-      this._regexp,
+      this._treeRegexp,
       this._text,
       newMatchPosition
     )
@@ -36,9 +36,9 @@ class ParameterTypeMatcher {
 
   static compare(a, b) {
     const posComparison = a.start - b.start
-    if (posComparison != 0) return posComparison
+    if (posComparison !== 0) return posComparison
     const lengthComparison = b.group.length - a.group.length
-    if (lengthComparison != 0) return lengthComparison
+    if (lengthComparison !== 0) return lengthComparison
     return 0
   }
 }

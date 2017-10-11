@@ -19,9 +19,23 @@ If a library has multiple implementations, they should always be released at the
 same time, even if only one of them has been modified. The reason for this is
 that they all follow the same versioning scheme ([semver](http://semver.org/)).
 
+## Syncing files with rsync
+
+Some of the subrepos need to have a copy of the same file. Examples of this is
+`LICENSE` and expected results for approval tests such as `gherkin/testdata/*`.
+
+To simplify the maintenance of these duplicated files we use `rsync` to copy a
+master to the subrepos. What files to copy are listed in various `.rsync` files,
+and files are synchronised by doing:
+
+    rm .rsynced
+    make .rsynced
+
 ## Releasing a library
 
-First of all, make sure you have the right release karma:
+First of all, make sure all files are rsynced (see above).
+
+Then, make sure you have the right release karma:
 
     release_karma_all ${group_path}
 
@@ -57,9 +71,7 @@ Make sure anything modified in the monorepo is pushed to subrepos:
 Wait for the CI of each subrepo to build successfully.
 Release all the subrepos in the group:
 
-    release_subrepos ${group_path} ${version} ${next_version}
-
-Alternatively, release each language independently:
+Release each language independently:
 
     release_subrepo ${subrepo_path} ${version} ${next_version}
 

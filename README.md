@@ -1,4 +1,5 @@
-# ![Cucumber Logo](docs/images/cucumber.png) 
+# ![Cucumber Logo](docs/images/cucumber.png)
+
 [![Build Status](https://secure.travis-ci.org/cucumber/cucumber.svg)](http://travis-ci.org/cucumber/cucumber)
 [![OpenCollective](https://opencollective.com/cucumber/backers/badge.svg)](#backers) [![OpenCollective](https://opencollective.com/cucumber/sponsors/badge.svg)](#sponsors)
 

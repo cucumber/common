@@ -1,10 +1,15 @@
+# Please update /.travis/ruby/.travis.yml in the cucumber/cucumber monorepo
+# and sync:
+#
+#     source scripts/functions.sh && rsync_files
+#
 language: ruby
 
 rvm:
-  - 2.4.0
-  - 2.3.3
-  - 2.2.6
-  - jruby-9.1.7.0
+  - 2.4.2
+  - 2.3.5
+  - 2.2.8
+  - jruby-9.1.13.0
 
 notifications:
   webhooks:

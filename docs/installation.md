@@ -79,3 +79,13 @@ $ npm install cucumber
 ``` shell
 $ composer require behat/behat
 ```
+
+## .NET {#dotnet}
+
+[SpecFlow](http://specflow.org/) is an official Cucumber implementation available as a [NuGet package](https://www.nuget.org/packages/specflow). A Visual Studio Extension is also available for your convinience. 
+
+SpecFlow uses a test runner to run the tests. Currently NUnit, xUnit, MsTest, mbUnit and the SpecFlow+ Runner (aka SpecRun) are the supported runners. For each runner there is a configuration package on NuGet that installs and configures the core package (e.g. [SpecFlow.NUnit](https://www.nuget.org/packages/specflow.nunit)).
+
+``` shell
+PM> Install-Package SpecFlow.NUnit
+```

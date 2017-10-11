@@ -577,7 +577,8 @@ our $data = {
                                     "\x{3a3}\x{3b5}\x{3bd}\x{3ac}\x{3c1}\x{3b9}\x{3bf}"
                                   ],
                     'scenarioOutline' => [
-                                           "\x{3a0}\x{3b5}\x{3c1}\x{3b9}\x{3b3}\x{3c1}\x{3b1}\x{3c6}\x{3ae} \x{3a3}\x{3b5}\x{3bd}\x{3b1}\x{3c1}\x{3af}\x{3bf}\x{3c5}"
+                                           "\x{3a0}\x{3b5}\x{3c1}\x{3b9}\x{3b3}\x{3c1}\x{3b1}\x{3c6}\x{3ae} \x{3a3}\x{3b5}\x{3bd}\x{3b1}\x{3c1}\x{3af}\x{3bf}\x{3c5}",
+                                           "\x{3a0}\x{3b5}\x{3c1}\x{3af}\x{3b3}\x{3c1}\x{3b1}\x{3bc}\x{3bc}\x{3b1} \x{3a3}\x{3b5}\x{3bd}\x{3b1}\x{3c1}\x{3af}\x{3bf}\x{3c5}"
                                          ],
                     'then' => [
                                 '* ',
@@ -2349,6 +2350,7 @@ our $data = {
                                  '* ',
                                  'Date fiind ',
                                  'Dat fiind ',
+                                 "Dat\x{103} fiind",
                                  'Dati fiind ',
                                  "Da\x{21b}i fiind ",
                                  "Da\x{163}i fiind "

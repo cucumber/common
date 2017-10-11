@@ -9,6 +9,8 @@ ERRORS   = $(patsubst testdata/%.feature,acceptance/testdata/%.feature.errors.nd
 
 PERL_FILES = $(shell find . -name "*.pm")
 
+.DELETE_ON_ERROR:
+
 default: .compared
 .PHONY: all
 
@@ -33,25 +35,21 @@ acceptance/testdata/%.feature.tokens: testdata/%.feature testdata/%.feature.toke
 	mkdir -p `dirname $@`
 	bin/gherkin-generate-tokens $< > $@
 	diff --unified $<.tokens $@
-.DELETE_ON_ERROR: acceptance/testdata/%.feature.tokens
 
 acceptance/testdata/%.feature.ast.ndjson: testdata/%.feature testdata/%.feature.ast.ndjson .built
 	mkdir -p `dirname $@`
 	bin/gherkin-generate-ast $< > $@
 	diff --unified <(jq "." $<.ast.ndjson) <(jq "." $@)
-.DELETE_ON_ERROR: acceptance/testdata/%.feature.ast.ndjson
 
 acceptance/testdata/%.feature.pickles.ndjson: testdata/%.feature testdata/%.feature.pickles.ndjson .built
 	mkdir -p `dirname $@`
 	bin/gherkin-generate-pickles $< > $@
 	diff --unified <(jq "." $<.pickles.ndjson) <(jq "." $@)
-.DELETE_ON_ERROR: acceptance/testdata/%.feature.pickles.ndjson
 
 acceptance/testdata/%.feature.errors.ndjson: testdata/%.feature testdata/%.feature.errors.ndjson .built
 	mkdir -p `dirname $@`
 	bin/gherkin-generate-ast $< > $@
 	diff --unified <(jq "." $<.errors.ndjson) <(jq "." $@)
-.DELETE_ON_ERROR: acceptance/testdata/%.feature.errors.ndjson
 
 # Get to a point where dzil can be run
 predistribution: .compared CHANGES

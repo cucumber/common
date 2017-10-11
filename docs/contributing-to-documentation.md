@@ -2,6 +2,9 @@
 
 The Cucumber documentation is open source and anyone is welcome to contribute.
 
+> **Note:** Do not update documentation in *this* repo. We are busy adding old documentation to a new repository [docs.cucumber.io](https://github.com/cucumber/docs.cucumber.io) to replace the current documentation on cucumber.io.
+Please make **ALL** contributions to the documentation [here](https://github.com/cucumber/docs.cucumber.io).
+
 ## Process
 
 First-time **contributors** will have to send a pull request.
@@ -24,7 +27,7 @@ It's great to get feedback on your writing. Start out with small changes, then w
 
 Discussions about docs that are already published can be done in [GitBook comments](https://www.gitbook.com/blog/features/discussions) - check the [discussion page](https://www.gitbook.com/book/cucumber/cucumber/discussions) regularly to see if there are open discussions.
 
-Sometimes it might be quicker to hop into the [gitter chat room](https://gitter.im/cucumber/docs) to discuss in real time, if the people you want to talk to are online.
+Sometimes it might be quicker to hop into the Cucumber [Slack](https://cucumber.io/support#slack) or [Gitter](https://cucumber.io/support#gitter) chat rooms to discuss in real time, if the people you want to talk to are online. 
 
 And finally - there is always the friendly [Cucumber Google group](mailto:cukes-devs@googlegroups.com)
 
@@ -55,7 +58,7 @@ you want to contribute you should sign up for a GitBook account and link your Gi
 The documentation is written in [Markdown](http://toolchain.gitbook.com/syntax/markdown.html)
 (simple markup) and [AsciiDoc](http://toolchain.gitbook.com/syntax/asciidoc.html) (richer markup).
 
-The documentation is stored on [GitHub](https://github.com/cucumber/cucumber)
+The documentation is stored in [the cucumber/cucumber GitHub repository](https://github.com/cucumber/cucumber).
 
 Install the [GitBook command-line](https://toolchain.gitbook.com/setup.html) tool:
 

@@ -24,9 +24,7 @@ module Gherkin
     private
 
       def compile_scenario(feature_tags, background_steps, scenario, language, pickles)
-        return if scenario[:steps].empty?
-
-        steps = [].concat(background_steps)
+        steps = scenario[:steps].empty? ? [] : [].concat(background_steps)
 
         tags = [].concat(feature_tags).concat(scenario[:tags])
 
@@ -45,13 +43,11 @@ module Gherkin
       end
 
       def compile_scenario_outline(feature_tags, background_steps, scenario_outline, language, pickles)
-        return if scenario_outline[:steps].empty?
-
         scenario_outline[:examples].reject { |examples| examples[:tableHeader].nil? }.each do |examples|
           variable_cells = examples[:tableHeader][:cells]
           examples[:tableBody].each do |values|
             value_cells = values[:cells]
-            steps = [].concat(background_steps)
+            steps = scenario_outline[:steps].empty? ? [] : [].concat(background_steps)
             tags = [].concat(feature_tags).concat(scenario_outline[:tags]).concat(examples[:tags])
 
             scenario_outline[:steps].each do |scenario_outline_step|

@@ -1,4 +1,4 @@
-image: Visual Studio 2017 RC
+image: Visual Studio 2017
 
 configuration:
 - Release
@@ -6,7 +6,7 @@ configuration:
 environment:
   # Don't report back to the mothership
   DOTNET_CLI_TELEMETRY_OPTOUT: 1
-  GherkinVersion: "4.0.1"
+  GherkinVersion: "4.1.4"
   GherkinPackageVersion: "$(GherkinVersion)-ci$(APPVEYOR_BUILD_NUMBER)"
 
 
@@ -17,8 +17,8 @@ nuget:
 init:
 - ps: $Env:LABEL = "CI" + $Env:APPVEYOR_BUILD_NUMBER.PadLeft(5, "0")
 
-before_build:
-- appveyor-retry dotnet restore -v Minimal Gherkin.CSharp.sln
+#before_build:
+#- appveyor-retry dotnet restore
 
 build_script:
 - dotnet build -c %CONFIGURATION% Gherkin --version-suffix %LABEL%
@@ -27,11 +27,11 @@ build_script:
 - dotnet build -c %CONFIGURATION% Gherkin.Specs --version-suffix %LABEL%
 
 after_build:
-- dotnet pack -c %CONFIGURATION% Gherkin -o artifacts --version-suffix %LABEL%
+- dotnet pack -c %CONFIGURATION% Gherkin -o artifacts /p:PackageVersion=%GherkinPackageVersion%
 
 test_script:
 - dotnet test Gherkin.Specs/Gherkin.Specs.csproj -c %CONFIGURATION%
 
 
 artifacts:
-- path: artifacts\Gherkin.*.nupkg
+- path: '**\Gherkin*.nupkg'

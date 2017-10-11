@@ -1,50 +1,27 @@
 package io.cucumber.cucumberexpressions;
 
-import java.text.Collator;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
-import java.util.Locale;
-import java.util.Map;
+import java.util.Set;
+import java.util.SortedSet;
+import java.util.TreeSet;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class CucumberExpressionGenerator {
-    private static final Collator ENGLISH_COLLATOR = Collator.getInstance(Locale.ENGLISH);
-    private static final String JAVA_KEYWORDS[] = {
-            "abstract", "assert", "boolean", "break", "byte", "case",
-            "catch", "char", "class", "const", "continue",
-            "default", "do", "double", "else", "extends",
-            "false", "final", "finally", "float", "for",
-            "goto", "if", "implements", "import", "instanceof",
-            "int", "interface", "long", "native", "new",
-            "null", "package", "private", "protected", "public",
-            "return", "short", "static", "strictfp", "super",
-            "switch", "synchronized", "this", "throw", "throws",
-            "transient", "true", "try", "void", "volatile",
-            "while"
-    };
-
-    private static boolean isJavaKeyword(String keyword) {
-        return (Arrays.binarySearch(JAVA_KEYWORDS, keyword, ENGLISH_COLLATOR) >= 0);
-    }
-
     private final ParameterTypeRegistry parameterTypeRegistry;
 
     public CucumberExpressionGenerator(ParameterTypeRegistry parameterTypeRegistry) {
         this.parameterTypeRegistry = parameterTypeRegistry;
     }
 
-    public GeneratedExpression generateExpression(String text) {
-        List<String> parameterNames = new ArrayList<>();
+    public List<GeneratedExpression> generateExpressions(String text) {
+        List<List<ParameterType<?>>> parameterTypeCombinations = new ArrayList<>();
         List<ParameterTypeMatcher> parameterTypeMatchers = createParameterTypeMatchers(text);
-        List<ParameterType<?>> parameterTypes = new ArrayList<>();
-        Map<String, Integer> usageByTypeName = new HashMap<>();
-
-        StringBuilder expression = new StringBuilder();
+        StringBuilder expressionTemplate = new StringBuilder();
         int pos = 0;
         while (true) {
             List<ParameterTypeMatcher> matchingParameterTypeMatchers = new ArrayList<>();
@@ -58,18 +35,35 @@ public class CucumberExpressionGenerator {
 
             if (!matchingParameterTypeMatchers.isEmpty()) {
                 Collections.sort(matchingParameterTypeMatchers);
+
+                // Find all the best parameter type matchers, they are all candidates.
                 ParameterTypeMatcher bestParameterTypeMatcher = matchingParameterTypeMatchers.get(0);
-                ParameterType<?> parameterType = bestParameterTypeMatcher.getParameterType();
-                parameterTypes.add(parameterType);
+                List<ParameterTypeMatcher> bestParameterTypeMatchers = new ArrayList<>();
+                for (ParameterTypeMatcher m : matchingParameterTypeMatchers) {
+                    if (m.compareTo(bestParameterTypeMatcher) == 0) {
+                        bestParameterTypeMatchers.add(m);
+                    }
+                }
 
-                String parameterName = getParameterName(parameterType.getName(), usageByTypeName);
-                parameterNames.add(parameterName);
+                // Build a list of parameter types without duplicates. The reason there
+                // might be duplicates is that some parameter types have more than one regexp,
+                // which means multiple ParameterTypeMatcher objects will have a reference to the
+                // same ParameterType.
+                // We're sorting the list so preferential parameter types are listed first.
+                // Users are most likely to want these, so they should be listed at the top.
+                SortedSet<ParameterType<?>> parameterTypes = new TreeSet<>();
+                Set<ParameterType<?>> set = new HashSet<>();
+                for (ParameterTypeMatcher parameterTypeMatcher : bestParameterTypeMatchers) {
+                    ParameterType<?> parameterType = parameterTypeMatcher.getParameterType();
+                    set.add(parameterType);
+                }
+                parameterTypes.addAll(set);
 
-                expression
-                        .append(text.substring(pos, bestParameterTypeMatcher.start()))
-                        .append("{")
-                        .append(parameterType.getName())
-                        .append("}");
+                parameterTypeCombinations.add(new ArrayList<>(parameterTypes));
+
+                expressionTemplate
+                        .append(escapeForStringFormat(text.substring(pos, bestParameterTypeMatcher.start())))
+                        .append("{%s}");
                 pos = bestParameterTypeMatcher.start() + bestParameterTypeMatcher.group().length();
             } else {
                 break;
@@ -79,28 +73,37 @@ public class CucumberExpressionGenerator {
                 break;
             }
         }
-        expression.append(text.substring(pos));
-        return new GeneratedExpression(expression.toString(), parameterNames, parameterTypes);
+        expressionTemplate.append(escapeForStringFormat(text.substring(pos)));
+        return new CombinatorialGeneratedExpressionFactory(expressionTemplate.toString(), parameterTypeCombinations).generateExpressions();
     }
 
-    private String getParameterName(String typeName, Map<String, Integer> usageByTypeName) {
-        Integer count = usageByTypeName.get(typeName);
-        count = count != null ? count + 1 : 1;
-        usageByTypeName.put(typeName, count);
+    private String escapeForStringFormat(String s) {
+        return s.replaceAll("%", "%%");
+    }
 
-        return count == 1 && !isJavaKeyword(typeName) ? typeName : typeName + count;
+    /**
+     * @param text the text (step) to generate an expression for
+     * @return the first of the generated expressions
+     * @deprecated use {@link #generateExpressions(String)}
+     */
+    @Deprecated
+    public GeneratedExpression generateExpression(String text) {
+        List<GeneratedExpression> generatedExpressions = generateExpressions(text);
+        return generatedExpressions.get(0);
     }
 
     private List<ParameterTypeMatcher> createParameterTypeMatchers(String text) {
-        Collection<ParameterType<?>> parameterTypes = parameterTypeRegistry.getParameters();
+        Collection<ParameterType<?>> parameterTypes = parameterTypeRegistry.getParameterTypes();
         List<ParameterTypeMatcher> parameterTypeMatchers = new ArrayList<>();
         for (ParameterType<?> parameterType : parameterTypes) {
-            parameterTypeMatchers.addAll(createParameterTypeMatchers(parameterType, text));
+            if (parameterType.useForSnippets()) {
+                parameterTypeMatchers.addAll(createParameterTypeMatchers(parameterType, text));
+            }
         }
         return parameterTypeMatchers;
     }
 
-    private List<ParameterTypeMatcher> createParameterTypeMatchers(ParameterType<?> parameterType, String text) {
+    private static List<ParameterTypeMatcher> createParameterTypeMatchers(ParameterType<?> parameterType, String text) {
         List<ParameterTypeMatcher> result = new ArrayList<>();
         List<String> captureGroupRegexps = parameterType.getRegexps();
         for (String captureGroupRegexp : captureGroupRegexps) {
@@ -110,4 +113,5 @@ public class CucumberExpressionGenerator {
         }
         return result;
     }
+
 }
