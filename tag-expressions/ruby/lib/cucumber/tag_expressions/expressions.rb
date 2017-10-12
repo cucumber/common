@@ -3,7 +3,7 @@ module Cucumber
     # Literal expression node
     class Literal
       def initialize(value)
-        @value = value
+        @value = value.gsub(/\\\(/, '(').gsub(/\\\)/, ')')
       end
 
       def evaluate(variables)
@@ -11,7 +11,7 @@ module Cucumber
       end
 
       def to_s
-        @value
+        @value.gsub(/\(/, '\\(').gsub(/\)/, '\\)')
       end
     end
 
