@@ -24,7 +24,8 @@ public class TagExpressionParserParameterizedTest {
                 {"a or b", "( a or b )"},
                 {"not a", "not ( a )"},
                 {"( a and b ) or ( c and d )", "( ( a and b ) or ( c and d ) )"},
-                {"not a or b and not c or not d or e and f", "( ( ( not ( a ) or ( b and not ( c ) ) ) or not ( d ) ) or ( e and f ) )"}
+                {"not a or b and not c or not d or e and f", "( ( ( not ( a ) or ( b and not ( c ) ) ) or not ( d ) ) or ( e and f ) )"},
+                {"not a\\(1\\) or b and not c or not d or e and f", "( ( ( not ( a\\(1\\) ) or ( b and not ( c ) ) ) or not ( d ) ) or ( e and f ) )"}
         });
     }
 

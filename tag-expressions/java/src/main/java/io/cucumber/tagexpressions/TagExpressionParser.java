@@ -158,7 +158,7 @@ public class TagExpressionParser {
 
         @Override
         public String toString() {
-            return value;
+            return value.replaceAll("\\(", "\\\\(").replaceAll("\\)", "\\\\)");
         }
     }
 
