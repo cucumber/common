@@ -53,6 +53,15 @@ describe('TagExpressionParser', function() {
       assert.equal(expr.evaluate(['x']), true)
     })
 
+    it('evaluates expressions with escaped chars', function() {
+      var expr = parser.parse('  x\\(1\\) or(y\\(2\\)) ')
+      assert.equal(expr.evaluate([]), false)
+      assert.equal(expr.evaluate(['y(2)']), true)
+      assert.equal(expr.evaluate(['x(1)']), true)
+      assert.equal(expr.evaluate(['y']), false)
+      assert.equal(expr.evaluate(['x']), false)
+    })
+
     // errors
 
     it('errors on extra close paren', function() {
