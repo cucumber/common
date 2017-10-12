@@ -4,8 +4,10 @@
 [![OpenCollective](https://opencollective.com/cucumber/backers/badge.svg)](#backers) [![OpenCollective](https://opencollective.com/cucumber/sponsors/badge.svg)](#sponsors)
 
 
-Cucumber is a tool that supports [Behaviour-Driven Development (BDD)](#) - a software
-development process that aims to enhance software quality and reduce maintenance costs.
+Cucumber is a tool that supports [Behaviour-Driven Development
+(BDD)](https://cucumber.io/blog/2017/05/15/intro-to-bdd-and-tdd) - a software
+development process that aims to enhance software quality and reduce
+maintenance costs.
 
 Cucumber executes *executable specifications* written in [plain language](docs/gherkin.md)
 and produces reports indicating whether the software behaves according to the
