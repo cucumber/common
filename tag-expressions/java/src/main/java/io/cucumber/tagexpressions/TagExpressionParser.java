@@ -1,10 +1,6 @@
 package io.cucumber.tagexpressions;
 
-import java.util.ArrayDeque;
-import java.util.Deque;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class TagExpressionParser {
     private enum Assoc {
@@ -26,8 +22,55 @@ public class TagExpressionParser {
         put("not", 2);
     }};
 
+    private static char ESCAPING_CHAR = '\\';
+
+
+    private static String[] tokenize(String expr) {
+        List<String> tokens = new ArrayList<String>();
+
+        boolean isEscaped = false;
+        StringBuilder token = null;
+        for (int i = 0; i < expr.length(); i++) {
+            char c = expr.charAt(i);
+            if (ESCAPING_CHAR == c) {
+                isEscaped = true;
+            } else {
+                if (Character.isWhitespace(c)) { // skip
+                    if (null != token) { // end of token
+                        tokens.add(token.toString());
+                        token = null;
+                    }
+                } else {
+                    switch (c) {
+                        case '(':
+                        case ')':
+                            if (!isEscaped) {
+                                if (null != token) { // end of token
+                                    tokens.add(token.toString());
+                                    token = null;
+                                }
+                                tokens.add(String.valueOf(c));
+                                break;
+                            }
+                        default:
+                            if (null == token) { // start of token
+                                token = new StringBuilder();
+                            }
+                            token.append(c);
+                            break;
+                    }
+                }
+                isEscaped = false;
+            }
+        }
+        if (null != token) { // end of token
+            tokens.add(token.toString());
+        }
+        return tokens.toArray(new String[0]);
+    }
+
     public Expression parse(String infix) {
-        String[] tokens = infix.replaceAll("\\(", " ( ").replaceAll("\\)", " ) ").trim().split("\\s+");
+        String[] tokens = tokenize(infix);
         Deque<String> ops = new ArrayDeque<>();
         Deque<Expression> exprs = new ArrayDeque<>();
 
@@ -71,6 +114,7 @@ public class TagExpressionParser {
         }
         return expr;
     }
+
 
     private <T> T pop(Deque<T> stack) {
         if (stack.isEmpty()) throw new TagExpressionException("empty stack");
