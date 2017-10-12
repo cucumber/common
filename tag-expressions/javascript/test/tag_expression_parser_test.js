@@ -14,6 +14,10 @@ describe('TagExpressionParser', function() {
         'not a or b and not c or not d or e and f',
         '( ( ( not ( a ) or ( b and not ( c ) ) ) or not ( d ) ) or ( e and f ) )',
       ],
+      [
+        'not a\\(\\) or b and not c or not d or e and f',
+        '( ( ( not ( a\\(\\) ) or ( b and not ( c ) ) ) or not ( d ) ) or ( e and f ) )',
+      ],
       // a or not b
     ].forEach(function(inOut) {
       it(inOut[0], function() {
