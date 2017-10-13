@@ -355,12 +355,13 @@ function perl_release() {
 
   pushd "${dir}"
   perl_update_version "${version}"
+  git add .
+  git commit -m "Release ${version}"
+
   dzil test --release
   dzil build
   dzil release
 
-  git add .
-  git commit -m "Release ${version}"
   git tag "v${version}"
   git push
   git push --tags
