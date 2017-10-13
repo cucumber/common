@@ -19,7 +19,7 @@ describe('EventStream', () => {
     fs.createReadStream(__dirname + '/test.feature', { encoding: 'utf-8' }).pipe(eventStream)
   })
 
-  it("accepts an options langauge parameter", (callback) => {
+  it("accepts a language parameter", (callback) => {
     const events = []
     const eventStream = new EventStream('test_fr.feature', {
       'source': true,
