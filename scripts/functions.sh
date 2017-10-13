@@ -202,7 +202,7 @@ function project_type()
     echo "perl"
   elif [ -f "$(find_path ${dir} "*.gemspec")" ]; then
     echo "rubygem"
-  elif [ -f "$(find_path ${dir} "*.nuspec")" ]; then
+  elif [ -f "$(find_path ${dir} "*.sln")" ]; then
     echo "dotnet"
   elif [ -f "$(find_path ${dir} "*.go")" ]; then
     echo "go"
