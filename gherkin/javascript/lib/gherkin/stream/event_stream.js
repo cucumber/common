@@ -11,10 +11,11 @@ class EventStream extends Stream.Transform {
    * @param types {object} with keys source,gherkin-document and pickle,
    *   indicating what kinds of events to emit
    */
-  constructor(uri, types) {
+  constructor(uri, types, language) {
     super({ objectMode: true })
     this._uri = uri
     this._types = types
+    this._language = language
     this._gherkin = ""
   }
 
@@ -24,7 +25,7 @@ class EventStream extends Stream.Transform {
   }
 
   _flush(callback) {
-    const events = generateEvents(this._gherkin, this._uri, this._types)
+    const events = generateEvents(this._gherkin, this._uri, this._types, this._language)
     for (const event of events) {
       this.push(event)
     }

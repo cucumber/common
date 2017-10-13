@@ -88,24 +88,24 @@ public class @Model.ParserClassName<T> {
         this.builder = builder;
     }
 
-    public T parse(String sourceEvent) {
-        return parse(new StringReader(sourceEvent));
+    public T parse(String source) {
+        return parse(new StringReader(source));
     }
 
-    public T parse(Reader sourceEvent) {
-        return parse(new TokenScanner(sourceEvent));
+    public T parse(Reader source) {
+        return parse(new TokenScanner(source));
     }
 
     public T parse(ITokenScanner tokenScanner) {
         return parse(tokenScanner, new TokenMatcher());
     }
 
-    public T parse(String sourceEvent, ITokenMatcher tokenMatcher) {
-        return parse(new StringReader(sourceEvent), tokenMatcher);
+    public T parse(String source, ITokenMatcher tokenMatcher) {
+        return parse(new StringReader(source), tokenMatcher);
     }
 
-    public T parse(Reader sourceEvent, ITokenMatcher tokenMatcher) {
-        return parse(new TokenScanner(sourceEvent), tokenMatcher);
+    public T parse(Reader source, ITokenMatcher tokenMatcher) {
+        return parse(new TokenScanner(source), tokenMatcher);
     }
 
     public T parse(ITokenScanner tokenScanner, ITokenMatcher tokenMatcher) {
