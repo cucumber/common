@@ -15,6 +15,7 @@ class EventStream extends Stream.Transform {
     super({ objectMode: true })
     this._uri = uri
     this._types = types
+    this._language = language
     this._gherkin = ""
   }
 
@@ -24,7 +25,7 @@ class EventStream extends Stream.Transform {
   }
 
   _flush(callback) {
-    const events = generateEvents(this._gherkin, this._uri, this._types, language)
+    const events = generateEvents(this._gherkin, this._uri, this._types, this._language)
     for (const event of events) {
       this.push(event)
     }
