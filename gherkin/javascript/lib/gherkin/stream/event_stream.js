@@ -24,7 +24,11 @@ class EventStream extends Stream.Transform {
   }
 
   _flush(callback) {
-    const events = generateEvents(this._gherkin, this._uri, this._types)
+    const events = generateEvents({
+      data: this._gherkin,
+      uri: this._uri,
+      types: this._types
+    })
     for (const event of events) {
       this.push(event)
     }

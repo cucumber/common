@@ -48,7 +48,9 @@ module.exports = function Parser(builder) {
     if(typeof tokenScanner == 'string') {
       tokenScanner = new TokenScanner(tokenScanner);
     }
-    tokenMatcher = tokenMatcher || new TokenMatcher();
+    if(typeof tokenMatcher == 'string') {
+      tokenMatcher = new TokenMatcher(tokenMatcher);
+    }
     builder.reset();
     tokenMatcher.reset();
     context = {
