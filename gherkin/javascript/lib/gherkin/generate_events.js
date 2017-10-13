@@ -5,7 +5,7 @@ var compiler = new Compiler()
 var parser = new Parser()
 parser.stopAtFirstError = false
 
-function generateEvents({data, language, uri, types}) {
+function generateEvents({data, uri, types, language, types}) {
   types = Object.assign({
     'source': true,
     'gherkin-document': true,
