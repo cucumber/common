@@ -24,7 +24,7 @@
         },
         "type": {
           "enum": [
-            "text/vnd.cucumber.gherkin+plain"
+            "text/x.cucumber.gherkin+plain"
           ]
         }
       },

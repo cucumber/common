@@ -9,7 +9,7 @@ const {
 
 const media = {
   "encoding": "utf-8",
-  "type": "text/vnd.cucumber.stacktrace.java+plain"
+  "type": "text/x.cucumber.stacktrace.java+plain"
 }
 
 function attachmentEvent(uri, line, data) {

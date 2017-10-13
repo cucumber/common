@@ -42,7 +42,7 @@ static void SourceEvent_print(const Event* event, FILE* file) {
     const SourceEvent* source_event = (const SourceEvent*)event;
     fprintf(file, "{");
     fprintf(file, "\"type\":\"source\",");
-    fprintf(file, "\"media\":{\"encoding\":\"utf-8\",\"type\":\"text/vnd.cucumber.gherkin+plain\"},");
+    fprintf(file, "\"media\":{\"encoding\":\"utf-8\",\"type\":\"text/x.cucumber.gherkin+plain\"},");
     fprintf(file, "\"uri\":\"");
     PrintUtilities_print_json_string(file, source_event->uri);
     fprintf(file, "\",\"data\":\"");

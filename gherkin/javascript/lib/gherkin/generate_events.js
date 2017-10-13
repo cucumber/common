@@ -22,7 +22,7 @@ function generateEvents(data, uri, types, language) {
         data: data,
         media: {
           encoding: 'utf-8',
-          type: 'text/vnd.cucumber.gherkin+plain'
+          type: 'text/x.cucumber.gherkin+plain'
         }
       })
     }
@@ -65,7 +65,7 @@ function generateEvents(data, uri, types, language) {
         data: errors[e].message,
         media: {
           encoding: "utf-8",
-          type: "text/vnd.cucumber.stacktrace+plain"
+          type: "text/x.cucumber.stacktrace+plain"
         }
       })
     }

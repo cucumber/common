@@ -127,7 +127,7 @@ const Attachment = ({attachment}) => {
     </div>
   }
 
-  if (mediaType && mediaType.match(/^text\/vnd\.cucumber\.stacktrace\.\w+\+plain/) && mediaEncoding == 'utf-8') {
+  if (mediaType && mediaType.match(/^text\/x\.cucumber\.stacktrace\.\w+\+plain/) && mediaEncoding == 'utf-8') {
     return <div className="attachment">
       <pre>{data}</pre>
     </div>

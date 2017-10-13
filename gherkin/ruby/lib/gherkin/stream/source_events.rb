@@ -14,7 +14,7 @@ module Gherkin
               data: File.open(path, 'r:UTF-8', &:read),
               media: {
                 encoding: 'utf-8',
-                type: 'text/vnd.cucumber.gherkin+plain'
+                type: 'text/x.cucumber.gherkin+plain'
               }
             }
             y.yield(event)

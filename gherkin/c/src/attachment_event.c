@@ -49,7 +49,7 @@ static void AttachmentEvent_print(const Event* event, FILE* file) {
     fprintf(file, "{");
     fprintf(file, "\"data\":\"");
     PrintUtilities_print_json_string(file, attachment_event->data);
-    fprintf(file, "\",\"media\":{\"encoding\":\"utf-8\",\"type\":\"text/vnd.cucumber.stacktrace+plain\"},");
+    fprintf(file, "\",\"media\":{\"encoding\":\"utf-8\",\"type\":\"text/x.cucumber.stacktrace+plain\"},");
     fprintf(file, "\"source\":{\"start\":");
     fprintf(file, "{\"line\":%d,", attachment_event->location.line);
     fprintf(file, "\"column\":%d},", attachment_event->location.column);
