@@ -51,6 +51,7 @@ module.exports = function Parser(builder) {
     if(typeof tokenMatcher == 'string') {
       tokenMatcher = new TokenMatcher(tokenMatcher);
     }
+    tokenMatcher = tokenMatcher || new TokenMatcher();
     builder.reset();
     tokenMatcher.reset();
     context = {
@@ -245,7 +246,7 @@ module.exports = function Parser(builder) {
       build(context, token);
       return 0;
     }
-    
+
     var stateComment = "State: 0 - Start";
     token.detach();
     var expectedTokens = ["#EOF", "#Language", "#TagLine", "#FeatureLine", "#Comment", "#Empty"];
@@ -277,7 +278,7 @@ module.exports = function Parser(builder) {
       build(context, token);
       return 1;
     }
-    
+
     var stateComment = "State: 1 - GherkinDocument:0>Feature:0>Feature_Header:0>#Language:0";
     token.detach();
     var expectedTokens = ["#TagLine", "#FeatureLine", "#Comment", "#Empty"];
@@ -309,7 +310,7 @@ module.exports = function Parser(builder) {
       build(context, token);
       return 2;
     }
-    
+
     var stateComment = "State: 2 - GherkinDocument:0>Feature:0>Feature_Header:1>Tags:0>#TagLine:0";
     token.detach();
     var expectedTokens = ["#TagLine", "#FeatureLine", "#Comment", "#Empty"];
@@ -370,7 +371,7 @@ module.exports = function Parser(builder) {
       build(context, token);
       return 4;
     }
-    
+
     var stateComment = "State: 3 - GherkinDocument:0>Feature:0>Feature_Header:2>#FeatureLine:0";
     token.detach();
     var expectedTokens = ["#EOF", "#Empty", "#Comment", "#BackgroundLine", "#TagLine", "#ScenarioLine", "#ScenarioOutlineLine", "#Other"];
@@ -432,7 +433,7 @@ module.exports = function Parser(builder) {
       build(context, token);
       return 4;
     }
-    
+
     var stateComment = "State: 4 - GherkinDocument:0>Feature:0>Feature_Header:3>Description_Helper:1>Description:0>#Other:0";
     token.detach();
     var expectedTokens = ["#EOF", "#Comment", "#BackgroundLine", "#TagLine", "#ScenarioLine", "#ScenarioOutlineLine", "#Other"];
@@ -488,7 +489,7 @@ module.exports = function Parser(builder) {
       build(context, token);
       return 5;
     }
-    
+
     var stateComment = "State: 5 - GherkinDocument:0>Feature:0>Feature_Header:3>Description_Helper:2>#Comment:0";
     token.detach();
     var expectedTokens = ["#EOF", "#Comment", "#BackgroundLine", "#TagLine", "#ScenarioLine", "#ScenarioOutlineLine", "#Empty"];
@@ -548,7 +549,7 @@ module.exports = function Parser(builder) {
       build(context, token);
       return 7;
     }
-    
+
     var stateComment = "State: 6 - GherkinDocument:0>Feature:1>Background:0>#BackgroundLine:0";
     token.detach();
     var expectedTokens = ["#EOF", "#Empty", "#Comment", "#StepLine", "#TagLine", "#ScenarioLine", "#ScenarioOutlineLine", "#Other"];
@@ -609,7 +610,7 @@ module.exports = function Parser(builder) {
       build(context, token);
       return 7;
     }
-    
+
     var stateComment = "State: 7 - GherkinDocument:0>Feature:1>Background:1>Description_Helper:1>Description:0>#Other:0";
     token.detach();
     var expectedTokens = ["#EOF", "#Comment", "#StepLine", "#TagLine", "#ScenarioLine", "#ScenarioOutlineLine", "#Other"];
@@ -664,7 +665,7 @@ module.exports = function Parser(builder) {
       build(context, token);
       return 8;
     }
-    
+
     var stateComment = "State: 8 - GherkinDocument:0>Feature:1>Background:1>Description_Helper:2>#Comment:0";
     token.detach();
     var expectedTokens = ["#EOF", "#Comment", "#StepLine", "#TagLine", "#ScenarioLine", "#ScenarioOutlineLine", "#Empty"];
@@ -734,7 +735,7 @@ module.exports = function Parser(builder) {
       build(context, token);
       return 9;
     }
-    
+
     var stateComment = "State: 9 - GherkinDocument:0>Feature:1>Background:2>Step:0>#StepLine:0";
     token.detach();
     var expectedTokens = ["#EOF", "#TableRow", "#DocStringSeparator", "#StepLine", "#TagLine", "#ScenarioLine", "#ScenarioOutlineLine", "#Comment", "#Empty"];
@@ -803,7 +804,7 @@ module.exports = function Parser(builder) {
       build(context, token);
       return 10;
     }
-    
+
     var stateComment = "State: 10 - GherkinDocument:0>Feature:1>Background:2>Step:1>Step_Arg:0>__alt1:0>DataTable:0>#TableRow:0";
     token.detach();
     var expectedTokens = ["#EOF", "#TableRow", "#StepLine", "#TagLine", "#ScenarioLine", "#ScenarioOutlineLine", "#Comment", "#Empty"];
@@ -842,7 +843,7 @@ module.exports = function Parser(builder) {
       build(context, token);
       return 11;
     }
-    
+
     var stateComment = "State: 11 - GherkinDocument:0>Feature:2>Scenario_Definition:0>Tags:0>#TagLine:0";
     token.detach();
     var expectedTokens = ["#TagLine", "#ScenarioLine", "#ScenarioOutlineLine", "#Comment", "#Empty"];
@@ -906,7 +907,7 @@ module.exports = function Parser(builder) {
       build(context, token);
       return 13;
     }
-    
+
     var stateComment = "State: 12 - GherkinDocument:0>Feature:2>Scenario_Definition:1>__alt0:0>Scenario:0>#ScenarioLine:0";
     token.detach();
     var expectedTokens = ["#EOF", "#Empty", "#Comment", "#StepLine", "#TagLine", "#ScenarioLine", "#ScenarioOutlineLine", "#Other"];
@@ -971,7 +972,7 @@ module.exports = function Parser(builder) {
       build(context, token);
       return 13;
     }
-    
+
     var stateComment = "State: 13 - GherkinDocument:0>Feature:2>Scenario_Definition:1>__alt0:0>Scenario:1>Description_Helper:1>Description:0>#Other:0";
     token.detach();
     var expectedTokens = ["#EOF", "#Comment", "#StepLine", "#TagLine", "#ScenarioLine", "#ScenarioOutlineLine", "#Other"];
@@ -1030,7 +1031,7 @@ module.exports = function Parser(builder) {
       build(context, token);
       return 14;
     }
-    
+
     var stateComment = "State: 14 - GherkinDocument:0>Feature:2>Scenario_Definition:1>__alt0:0>Scenario:1>Description_Helper:2>#Comment:0";
     token.detach();
     var expectedTokens = ["#EOF", "#Comment", "#StepLine", "#TagLine", "#ScenarioLine", "#ScenarioOutlineLine", "#Empty"];
@@ -1104,7 +1105,7 @@ module.exports = function Parser(builder) {
       build(context, token);
       return 15;
     }
-    
+
     var stateComment = "State: 15 - GherkinDocument:0>Feature:2>Scenario_Definition:1>__alt0:0>Scenario:2>Step:0>#StepLine:0";
     token.detach();
     var expectedTokens = ["#EOF", "#TableRow", "#DocStringSeparator", "#StepLine", "#TagLine", "#ScenarioLine", "#ScenarioOutlineLine", "#Comment", "#Empty"];
@@ -1177,7 +1178,7 @@ module.exports = function Parser(builder) {
       build(context, token);
       return 16;
     }
-    
+
     var stateComment = "State: 16 - GherkinDocument:0>Feature:2>Scenario_Definition:1>__alt0:0>Scenario:2>Step:1>Step_Arg:0>__alt1:0>DataTable:0>#TableRow:0";
     token.detach();
     var expectedTokens = ["#EOF", "#TableRow", "#StepLine", "#TagLine", "#ScenarioLine", "#ScenarioOutlineLine", "#Comment", "#Empty"];
@@ -1255,7 +1256,7 @@ module.exports = function Parser(builder) {
       build(context, token);
       return 18;
     }
-    
+
     var stateComment = "State: 17 - GherkinDocument:0>Feature:2>Scenario_Definition:1>__alt0:1>ScenarioOutline:0>#ScenarioOutlineLine:0";
     token.detach();
     var expectedTokens = ["#EOF", "#Empty", "#Comment", "#StepLine", "#TagLine", "#ExamplesLine", "#ScenarioLine", "#ScenarioOutlineLine", "#Other"];
@@ -1336,7 +1337,7 @@ module.exports = function Parser(builder) {
       build(context, token);
       return 18;
     }
-    
+
     var stateComment = "State: 18 - GherkinDocument:0>Feature:2>Scenario_Definition:1>__alt0:1>ScenarioOutline:1>Description_Helper:1>Description:0>#Other:0";
     token.detach();
     var expectedTokens = ["#EOF", "#Comment", "#StepLine", "#TagLine", "#ExamplesLine", "#ScenarioLine", "#ScenarioOutlineLine", "#Other"];
@@ -1409,7 +1410,7 @@ module.exports = function Parser(builder) {
       build(context, token);
       return 19;
     }
-    
+
     var stateComment = "State: 19 - GherkinDocument:0>Feature:2>Scenario_Definition:1>__alt0:1>ScenarioOutline:1>Description_Helper:2>#Comment:0";
     token.detach();
     var expectedTokens = ["#EOF", "#Comment", "#StepLine", "#TagLine", "#ExamplesLine", "#ScenarioLine", "#ScenarioOutlineLine", "#Empty"];
@@ -1499,7 +1500,7 @@ module.exports = function Parser(builder) {
       build(context, token);
       return 20;
     }
-    
+
     var stateComment = "State: 20 - GherkinDocument:0>Feature:2>Scenario_Definition:1>__alt0:1>ScenarioOutline:2>Step:0>#StepLine:0";
     token.detach();
     var expectedTokens = ["#EOF", "#TableRow", "#DocStringSeparator", "#StepLine", "#TagLine", "#ExamplesLine", "#ScenarioLine", "#ScenarioOutlineLine", "#Comment", "#Empty"];
@@ -1590,7 +1591,7 @@ module.exports = function Parser(builder) {
       build(context, token);
       return 21;
     }
-    
+
     var stateComment = "State: 21 - GherkinDocument:0>Feature:2>Scenario_Definition:1>__alt0:1>ScenarioOutline:2>Step:1>Step_Arg:0>__alt1:0>DataTable:0>#TableRow:0";
     token.detach();
     var expectedTokens = ["#EOF", "#TableRow", "#StepLine", "#TagLine", "#ExamplesLine", "#ScenarioLine", "#ScenarioOutlineLine", "#Comment", "#Empty"];
@@ -1623,7 +1624,7 @@ module.exports = function Parser(builder) {
       build(context, token);
       return 22;
     }
-    
+
     var stateComment = "State: 22 - GherkinDocument:0>Feature:2>Scenario_Definition:1>__alt0:1>ScenarioOutline:3>Examples_Definition:0>Tags:0>#TagLine:0";
     token.detach();
     var expectedTokens = ["#TagLine", "#ExamplesLine", "#Comment", "#Empty"];
@@ -1713,7 +1714,7 @@ module.exports = function Parser(builder) {
       build(context, token);
       return 24;
     }
-    
+
     var stateComment = "State: 23 - GherkinDocument:0>Feature:2>Scenario_Definition:1>__alt0:1>ScenarioOutline:3>Examples_Definition:1>Examples:0>#ExamplesLine:0";
     token.detach();
     var expectedTokens = ["#EOF", "#Empty", "#Comment", "#TableRow", "#TagLine", "#ExamplesLine", "#ScenarioLine", "#ScenarioOutlineLine", "#Other"];
@@ -1806,7 +1807,7 @@ module.exports = function Parser(builder) {
       build(context, token);
       return 24;
     }
-    
+
     var stateComment = "State: 24 - GherkinDocument:0>Feature:2>Scenario_Definition:1>__alt0:1>ScenarioOutline:3>Examples_Definition:1>Examples:1>Description_Helper:1>Description:0>#Other:0";
     token.detach();
     var expectedTokens = ["#EOF", "#Comment", "#TableRow", "#TagLine", "#ExamplesLine", "#ScenarioLine", "#ScenarioOutlineLine", "#Other"];
@@ -1891,7 +1892,7 @@ module.exports = function Parser(builder) {
       build(context, token);
       return 25;
     }
-    
+
     var stateComment = "State: 25 - GherkinDocument:0>Feature:2>Scenario_Definition:1>__alt0:1>ScenarioOutline:3>Examples_Definition:1>Examples:1>Description_Helper:2>#Comment:0";
     token.detach();
     var expectedTokens = ["#EOF", "#Comment", "#TableRow", "#TagLine", "#ExamplesLine", "#ScenarioLine", "#ScenarioOutlineLine", "#Empty"];
@@ -1981,7 +1982,7 @@ module.exports = function Parser(builder) {
       build(context, token);
       return 26;
     }
-    
+
     var stateComment = "State: 26 - GherkinDocument:0>Feature:2>Scenario_Definition:1>__alt0:1>ScenarioOutline:3>Examples_Definition:1>Examples:2>Examples_Table:0>#TableRow:0";
     token.detach();
     var expectedTokens = ["#EOF", "#TableRow", "#TagLine", "#ExamplesLine", "#ScenarioLine", "#ScenarioOutlineLine", "#Comment", "#Empty"];
@@ -2004,7 +2005,7 @@ module.exports = function Parser(builder) {
       build(context, token);
       return 28;
     }
-    
+
     var stateComment = "State: 28 - GherkinDocument:0>Feature:2>Scenario_Definition:1>__alt0:1>ScenarioOutline:2>Step:1>Step_Arg:0>__alt1:1>DocString:0>#DocStringSeparator:0";
     token.detach();
     var expectedTokens = ["#DocStringSeparator", "#Other"];
@@ -2091,7 +2092,7 @@ module.exports = function Parser(builder) {
       build(context, token);
       return 29;
     }
-    
+
     var stateComment = "State: 29 - GherkinDocument:0>Feature:2>Scenario_Definition:1>__alt0:1>ScenarioOutline:2>Step:1>Step_Arg:0>__alt1:1>DocString:2>#DocStringSeparator:0";
     token.detach();
     var expectedTokens = ["#EOF", "#StepLine", "#TagLine", "#ExamplesLine", "#ScenarioLine", "#ScenarioOutlineLine", "#Comment", "#Empty"];
@@ -2114,7 +2115,7 @@ module.exports = function Parser(builder) {
       build(context, token);
       return 30;
     }
-    
+
     var stateComment = "State: 30 - GherkinDocument:0>Feature:2>Scenario_Definition:1>__alt0:0>Scenario:2>Step:1>Step_Arg:0>__alt1:1>DocString:0>#DocStringSeparator:0";
     token.detach();
     var expectedTokens = ["#DocStringSeparator", "#Other"];
@@ -2183,7 +2184,7 @@ module.exports = function Parser(builder) {
       build(context, token);
       return 31;
     }
-    
+
     var stateComment = "State: 31 - GherkinDocument:0>Feature:2>Scenario_Definition:1>__alt0:0>Scenario:2>Step:1>Step_Arg:0>__alt1:1>DocString:2>#DocStringSeparator:0";
     token.detach();
     var expectedTokens = ["#EOF", "#StepLine", "#TagLine", "#ScenarioLine", "#ScenarioOutlineLine", "#Comment", "#Empty"];
@@ -2206,7 +2207,7 @@ module.exports = function Parser(builder) {
       build(context, token);
       return 32;
     }
-    
+
     var stateComment = "State: 32 - GherkinDocument:0>Feature:1>Background:2>Step:1>Step_Arg:0>__alt1:1>DocString:0>#DocStringSeparator:0";
     token.detach();
     var expectedTokens = ["#DocStringSeparator", "#Other"];
@@ -2271,7 +2272,7 @@ module.exports = function Parser(builder) {
       build(context, token);
       return 33;
     }
-    
+
     var stateComment = "State: 33 - GherkinDocument:0>Feature:1>Background:2>Step:1>Step_Arg:0>__alt1:1>DocString:2>#DocStringSeparator:0";
     token.detach();
     var expectedTokens = ["#EOF", "#StepLine", "#TagLine", "#ScenarioLine", "#ScenarioOutlineLine", "#Comment", "#Empty"];
