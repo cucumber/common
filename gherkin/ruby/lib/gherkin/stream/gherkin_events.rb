@@ -1,21 +1,23 @@
 require 'gherkin/parser'
+require 'gherkin/token_matcher'
 require 'gherkin/pickles/compiler'
 
 module Gherkin
   module Stream
     class GherkinEvents
-      def initialize(options)
+      def initialize(options, language='en')
         @options = options
         @parser = Gherkin::Parser.new
         @compiler = Gherkin::Pickles::Compiler.new
+        @language = language
       end
 
       def enum(source_event)
         Enumerator.new do |y|
-          uri = source_event['uri']
-          source = source_event['data']
+          uri = source_event[:uri]
+          source = source_event[:data]
           begin
-            gherkin_document = @parser.parse(source)
+            gherkin_document = @parser.parse(source, TokenMatcher.new(@language))
 
             if (@options[:print_source])
               y.yield source_event
