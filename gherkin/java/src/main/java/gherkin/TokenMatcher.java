@@ -25,8 +25,8 @@ public class TokenMatcher implements ITokenMatcher {
         this(new GherkinDialectProvider());
     }
 
-    public TokenMatcher(String default_dialect_name) {
-        this(new GherkinDialectProvider(default_dialect_name));
+    public TokenMatcher(String defaultDialectName) {
+        this(new GherkinDialectProvider(defaultDialectName));
     }
 
     @Override
