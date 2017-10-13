@@ -383,10 +383,10 @@ function dotnet_update_version()
   subrepo=$1
   version=$2
 
-  xmlstarlet ed --inplace --ps -N nuspec="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd" \
-    --update "/package/nuspec:metadata/nuspec:version" \
+  xmlstarlet ed --inplace --ps \
+    --update "/Project/PropertyGroup/PackageVersion" \
     --value "${version}" \
-    "$(find_path "${subrepo}" "*.nuspec")"
+    "$(find_path "${subrepo}" "*.csproj")"
   echo_green "Updated ${subrepo} to ${version}"
 }
 
