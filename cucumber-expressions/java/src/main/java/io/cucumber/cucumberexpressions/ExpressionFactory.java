@@ -1,7 +1,5 @@
 package io.cucumber.cucumberexpressions;
 
-import java.lang.reflect.Type;
-import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -24,7 +22,7 @@ public class ExpressionFactory {
         this.parameterTypeRegistry = parameterTypeRegistry;
     }
 
-    public Expression createExpression(String expressionString, List<Type> types) {
+    public Expression createExpression(String expressionString) {
         Matcher m = BEGIN_ANCHOR.matcher(expressionString);
         if (m.find()) {
             return new RegularExpression(Pattern.compile(expressionString), parameterTypeRegistry);
