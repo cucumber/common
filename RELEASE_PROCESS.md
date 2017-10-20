@@ -73,6 +73,15 @@ Release each language independently:
 
     release_subrepo ${subrepo_path} ${version} ${next_version}
 
+Occasionally, Java releases will fail. In that case, redeploy is possible:
+
+    cd ${subrepo_path}/.release
+    git checkout v${version}
+    mvn -P release-sign-artifacts clean package javadoc:jar deploy
+
+JavaScript releases may ask you for a new version. Just hit enter (or enter)
+the version of the release you're making now (not the post-release version!)
+
 Pull back all the changes to the monorepo:
 
     pull_subrepos ${group_path}
