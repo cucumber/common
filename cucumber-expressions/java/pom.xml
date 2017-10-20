@@ -5,7 +5,7 @@
     <groupId>io.cucumber</groupId>
     <artifactId>cucumber-expressions</artifactId>
     <version>5.0.1-SNAPSHOT</version>
-    <packaging>jar</packaging>
+    <packaging>bundle</packaging>
     <name>cucumber-expressions</name>
     <description>Cucumber Expressions</description>
     <url>https://github.com/cucumber/cucumber-expressions-java</url>
@@ -73,6 +73,19 @@
                 <configuration>
                     <argLine>${surefireArgLine}</argLine>
                     <useFile>false</useFile>
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.felix</groupId>
+                <artifactId>maven-bundle-plugin</artifactId>
+                <extensions>true</extensions>
+                <version>3.2.0</version>
+                <configuration>
+                    <instructions>
+                        <Bundle-Description/>
+                        <Export-Package>io.cucumber.cucumberexpressions.*</Export-Package>
+                    </instructions>
                 </configuration>
             </plugin>
 
