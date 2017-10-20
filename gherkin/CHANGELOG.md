@@ -19,6 +19,8 @@ This document is formatted according to the principles of [Keep A CHANGELOG](htt
 
 ### Fixed
 
+* (Ruby) removed unneeded files from the gem
+
 ## [5.0.0] - 2017-10-13
 
 ### Added
