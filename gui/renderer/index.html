@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Cucumber</title>
+    <link href="../node_modules/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+      body { 
+        background-color: #fff; 
+        color: #333;
+        font-family: Roboto,sans-serif;
+      }
+      span {
+        display: inline;
+      }
+      .failed {
+        color: #fff;
+        background-color: #FF1245;
+      }
+      .passed {
+        color: #fff;
+        background-color: #00A818;
+      }
+      .pending {
+        color: #fff;
+        background-color: #f0ad4e;
+      }
+      .badge {
+        margin: 5px;
+        position: relative;
+        top: -1px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container-fluid status-waiting">
+      <h1>Cucumber Results</h1>
+      <p class="lead">Waiting for test results to stream in...</p>
+    </div>
+    <div class="container-fluid status-started" style="display:none;">
+      <h1>Cucumber Results</h1>
+      <p class="lead">
+        These are the results for the <code class="pwd"></code> project, tested 
+        at <span class="start-time"></span>.
+      </p>
+      <p class="status-running">
+        Currently running <code id="current-test-step">features/step_definitions/step.rb:1</code>
+        from scenario <code id="current-test-case">features/foo.feature:2</code>.
+      </p>
+      <p class="status-done">
+        The test run has finished. A total of <span class="test-steps-finished-count"></span>
+        steps were run in 
+        <span class="test-cases-finished-count"></span> scenarios.
+      </p>
+      <div class="progress" id="progressOfTestRun">
+        <div class="passed progress-bar progress-bar-passed" style="width: 0%;">
+        </div>
+        <div class="skipped progress-bar progress-bar-info" style="width: 0%">
+        </div>
+        <div class="pending progress-bar progress-bar-warning" style="width: 0%">
+        </div>
+        <div class="failed progress-bar progress-bar-danger" style="width: 0%">
+        </div>
+      </div>
+      <div id="main">
+      </div>
+    </div>
+  </body>
+</html>
+<script src="index.js"></script>
