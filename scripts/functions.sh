@@ -224,18 +224,6 @@ function find_path()
 
 ################ MAVEN ################
 
-function maven_update_version()
-{
-  subrepo=$1
-  version=$2
-
-  xmlstarlet ed --inplace --ps -N pom="http://maven.apache.org/POM/4.0.0" \
-    --update "/pom:project/pom:version" \
-    --value "${version}" \
-    "${subrepo}/pom.xml"
-  echo_green "Updated ${subrepo} to ${version}"
-}
-
 function maven_release_karma()
 {
   echo_green "Checking maven release karma..."
@@ -243,6 +231,9 @@ function maven_release_karma()
 
   echo_green "Checking gpg..."
   ls ~/.gnupg/secring.gpg && echo_green "gpg ok" || echo_red "\nFollow these instructions: http://blog.sonatype.com/2010/01/how-to-generate-pgp-signatures-with-maven/"
+
+  echo_green "Checking xmlstarlet..."
+  which xmlstarlet || echo_red "\nYou need to brew install xmlstarlet (or similar if you're not on OS X)"
 
   echo_red "Try this manually: gpg --use-agent --local-user devs@cucumber.io -ab README.md"
   echo_red "The first time you should be asked for a passphrase, the next time not."
@@ -255,6 +246,14 @@ function maven_release()
   next_version=$3
 
   pushd "${dir}"
+
+  xmlstarlet ed --inplace --ps -N pom="http://maven.apache.org/POM/4.0.0" \
+    --update "/pom:project/pom:version" \
+    --value "${version}-SNAPSHOT" \
+    "pom.xml"
+  git add .
+  git commit -m "Update to ${version}-SNAPSHOT"
+
   mvn release:clean
   mvn --batch-mode -P release-sign-artifacts release:prepare -DdevelopmentVersion=${next_version}-SNAPSHOT
   mvn --batch-mode -P release-sign-artifacts release:perform
