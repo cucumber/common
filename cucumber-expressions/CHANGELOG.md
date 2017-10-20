@@ -14,6 +14,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Changed
 
 ### Fixed
+* java: Make the jar a bundle to support osgi. ([#287](https://github.com/cucumber/cucumber/pull/287)
+  by [mpkorstanje])
 
 ## [5.0.0] - 2017-10-10
 
