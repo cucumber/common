@@ -16,7 +16,7 @@
         public class Media
         {
             public readonly string encoding = "utf-8";
-            public readonly string type = "text/vnd.cucumber.gherkin+plain";
+            public readonly string type = "text/x.cucumber.gherkin+plain";
         }
     }
 }

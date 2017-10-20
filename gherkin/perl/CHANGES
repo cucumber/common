@@ -12,6 +12,9 @@ This document is formatted according to the principles of [Keep A CHANGELOG](htt
 ### Removed
 
 ### Added
+* Ability to specify an initial language for the parser, so that the `# language` header isn't required
+  ([#288](https://github.com/cucumber/cucumber/pull/288)
+   by [charlierudolph] and [aslakhellesoy])
 * A better wording for the Greek translation of `Scenario Outline` (`Περίγραμμα Σεναρίου`)
   ([#185](https://github.com/cucumber/cucumber/pull/185) by [pmatsinopoulos])
 * Added female, singular `Given` in Romanian (`Dată fiind`)

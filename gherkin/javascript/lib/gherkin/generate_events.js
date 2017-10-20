@@ -5,7 +5,7 @@ var compiler = new Compiler()
 var parser = new Parser()
 parser.stopAtFirstError = false
 
-function generateEvents(data, uri, types) {
+function generateEvents(data, uri, types, language) {
   types = Object.assign({
     'source': true,
     'gherkin-document': true,
@@ -22,7 +22,7 @@ function generateEvents(data, uri, types) {
         data: data,
         media: {
           encoding: 'utf-8',
-          type: 'text/vnd.cucumber.gherkin+plain'
+          type: 'text/x.cucumber.gherkin+plain'
         }
       })
     }
@@ -30,7 +30,7 @@ function generateEvents(data, uri, types) {
     if (!types['gherkin-document'] && !types['pickle'])
       return result
 
-    var gherkinDocument = parser.parse(data)
+    var gherkinDocument = parser.parse(data, language)
 
     if (types['gherkin-document']) {
       result.push({
@@ -65,7 +65,7 @@ function generateEvents(data, uri, types) {
         data: errors[e].message,
         media: {
           encoding: "utf-8",
-          type: "text/vnd.cucumber.stacktrace+plain"
+          type: "text/x.cucumber.stacktrace+plain"
         }
       })
     }

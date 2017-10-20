@@ -44,8 +44,8 @@ type (
 )
 
 var (
-	gherkinMedia = MediaType{"utf-8", "text/vnd.cucumber.gherkin+plain"}
-	errorMedia   = MediaType{"utf-8", "text/vnd.cucumber.stacktrace+plain"}
+	gherkinMedia = MediaType{"utf-8", "text/x.cucumber.gherkin+plain"}
+	errorMedia   = MediaType{"utf-8", "text/x.cucumber.stacktrace+plain"}
 )
 
 func (se *SourceEvent) MarshalJSON() ([]byte, error) {

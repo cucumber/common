@@ -1,7 +1,7 @@
 # encoding: utf-8
 Gem::Specification.new do |s|
   s.name        = 'gherkin'
-  s.version     = '4.1.3'
+  s.version     = '5.0.0'
   s.authors     = ["Gáspár Nagy", "Aslak Hellesøy", "Steve Tooke"]
   s.description = 'Gherkin parser'
   s.summary     = "gherkin-#{s.version}"
@@ -13,15 +13,19 @@ Gem::Specification.new do |s|
 
   s.add_development_dependency 'bundler'
   s.add_development_dependency 'rake',      '~> 10.5'
-  s.add_development_dependency 'rspec',     '~> 3.5'
+  s.add_development_dependency 'rspec',     '~> 3.7'
 
   # For coverage reports
   s.add_development_dependency 'coveralls'
 
-  s.executables      = ["gherkin-ruby"]
+  s.executables      = ["gherkin-ruby", "gherkin"]
   s.rubygems_version = ">= 1.6.1"
-  s.files            = `git ls-files`.split("\n").reject {|path| path =~ /\.gitignore$/ }
-  s.test_files       = `git ls-files -- spec/*`.split("\n")
+  s.files            = Dir[
+    'README.md',
+    'LICENSE',
+    'lib/**/*'
+  ]
+  s.test_files       = Dir['spec/**/*']
   s.rdoc_options     = ["--charset=UTF-8"]
   s.require_path     = "lib"
 end

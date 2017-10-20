@@ -16,7 +16,7 @@ def add_errors(events, errors, uri):
             'data': str(error),
             'media': {
                 'encoding': 'utf-8',
-                'type': 'text/vnd.cucumber.stacktrace+plain'
+                'type': 'text/x.cucumber.stacktrace+plain'
             }
         })
 

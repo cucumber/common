@@ -13,6 +13,6 @@ public class SourceEvent implements CucumberEvent {
 
     public static class Media {
         private final String encoding = "utf-8";
-        private final String type = "text/vnd.cucumber.gherkin+plain";
+        private final String type = "text/x.cucumber.gherkin+plain";
     }
 }

@@ -12,7 +12,7 @@ use Gherkin::TokenScanner;
 # Three different ways we can pass content to the parser, try each and check
 # we get the same thing back each time.
 
-my $file = file(qw/acceptance testdata good background.feature/);
+my $file = file(qw/testdata good background.feature/);
 my $content = $file->slurp;
 my %results;
 

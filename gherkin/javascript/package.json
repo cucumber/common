@@ -1,6 +1,6 @@
 {
   "name": "gherkin",
-  "version": "4.1.3",
+  "version": "5.0.1",
   "description": "Gherkin parser",
   "main": "index.js",
   "bin": {

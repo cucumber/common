@@ -6,6 +6,6 @@
 [subrepo]
 	remote = https://github.com/cucumber/gherkin-objective-c.git
 	branch = master
-	commit = aa302bc45b120e00ffe73c5e4260899fb58287bb
-	parent = 7dbde67c2cc90c3c4ff95ebfd4fa517280944f5f
+	commit = e6e23ea5ff242e7168d8b7a97c2b367e9fd83b3a
+	parent = 38847dc799877e5a9fa006d64946878efc5d84bf
 	cmdver = 0.4.0

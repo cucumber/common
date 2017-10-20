@@ -7,7 +7,7 @@ def source_event(path):
         'data': io.open(path, 'rU', encoding='utf8', newline='').read(),
         'media': {
             'encoding': 'utf-8',
-            'type': 'text/vnd.cucumber.gherkin+plain'
+            'type': 'text/x.cucumber.gherkin+plain'
         }
     }
     return event

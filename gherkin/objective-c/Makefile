@@ -53,10 +53,10 @@ clean:
 .PHONY: clean
 
 Gherkin/GHParser.h: gherkin.berp gherkin-objective-c-header.razor berp/berp.exe
-	mono berp/berp.exe -g gherkin.berp -t gherkin-objective-c-header.razor -o $@
+	-mono berp/berp.exe -g gherkin.berp -t gherkin-objective-c-header.razor -o $@
 
 Gherkin/GHParser.m: gherkin.berp gherkin-objective-c-implementation.razor berp/berp.exe
-	mono berp/berp.exe -g gherkin.berp -t gherkin-objective-c-implementation.razor -o $@
+	-mono berp/berp.exe -g gherkin.berp -t gherkin-objective-c-implementation.razor -o $@
 
 build/AstGenerator: Gherkin/GHParser.h Gherkin/GHParser.m $(M_FILES) GherkinLanguages/gherkin-languages.json
 	xcodebuild -scheme "AstGenerator" CONFIGURATION_BUILD_DIR=build/

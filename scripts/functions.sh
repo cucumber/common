@@ -202,7 +202,7 @@ function project_type()
     echo "perl"
   elif [ -f "$(find_path ${dir} "*.gemspec")" ]; then
     echo "rubygem"
-  elif [ -f "$(find_path ${dir} "*.nuspec")" ]; then
+  elif [ -f "$(find_path ${dir} "*.sln")" ]; then
     echo "dotnet"
   elif [ -f "$(find_path ${dir} "*.go")" ]; then
     echo "go"
@@ -355,12 +355,13 @@ function perl_release() {
 
   pushd "${dir}"
   perl_update_version "${version}"
+  git add .
+  git commit -m "Release ${version}"
+
   dzil test --release
   dzil build
   dzil release
 
-  git add .
-  git commit -m "Release ${version}"
   git tag "v${version}"
   git push
   git push --tags
@@ -382,10 +383,10 @@ function dotnet_update_version()
   subrepo=$1
   version=$2
 
-  xmlstarlet ed --inplace --ps -N nuspec="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd" \
-    --update "/package/nuspec:metadata/nuspec:version" \
+  xmlstarlet ed --inplace --ps \
+    --update "/Project/PropertyGroup/PackageVersion" \
     --value "${version}" \
-    "$(find_path "${subrepo}" "*.nuspec")"
+    "$(find_path "${subrepo}" "*.csproj")"
   echo_green "Updated ${subrepo} to ${version}"
 }
 
@@ -425,6 +426,20 @@ function go_update_version()
 function go_release_karma()
 {
   echo_blue "No release karma needed for ${subrepo} (currently not using a Go package manager)"
+}
+
+function go_release() {
+  dir=$1
+  version=$2
+  next_version=$3
+
+  pushd "${dir}"
+  git add .
+  git commit -m "Release ${version}"
+  git tag "v${version}"
+  git push
+  git push --tags
+  popd
 }
 
 ################ xcode ################

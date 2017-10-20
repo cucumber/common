@@ -50,7 +50,7 @@ class Inout(object):
                 'data': error.message,
                 'media': {
                     'encoding': "utf-8",
-                    'type': "text/vnd.cucumber.stacktrace+plain"
+                    'type': "text/x.cucumber.stacktrace+plain"
                 }
             }
             print(json.dumps(attachment), file=output)

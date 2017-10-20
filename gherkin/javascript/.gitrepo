@@ -6,6 +6,6 @@
 [subrepo]
 	remote = https://github.com/cucumber/gherkin-javascript.git
 	branch = master
-	commit = 778be5b3fe40aeb343d0692b32b487fb78495b30
-	parent = 6a3453fb47fd9b54224830063f04b40442aa4317
+	commit = 8fdf1e70a70311c401fafa0a6a71ebdc2ef4cc6d
+	parent = eb9baae6f6f65e48fa4cabfb8f0eb436f92fda1c
 	cmdver = 0.4.0

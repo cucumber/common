@@ -41,7 +41,7 @@ namespace Gherkin
         internal class Media
         {
             public readonly string encoding = "utf-8";
-            public readonly string type = "text/vnd.cucumber.stacktrace+plain";
+            public readonly string type = "text/x.cucumber.stacktrace+plain";
         }
     }
 }

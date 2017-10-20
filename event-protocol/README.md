@@ -70,7 +70,7 @@ Example:
 An `attachment` attaches a piece of metadata to a particular line in a `source` file.
 Attachments can have many types (specified by a media type), and are typically used for:
 
-* `text/vnd.cucumber.stacktrace.java+plain`, stack trace of a failing step (from java in this case)
+* `text/x.cucumber.stacktrace.java+plain`, stack trace of a failing step (from java in this case)
 * `image/png`, `image/jpg`, `image/gif` - screenshots
 
 Example (PNG image):
