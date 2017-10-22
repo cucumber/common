@@ -15,8 +15,9 @@ type (
 	}
 
 	PickleString struct {
-		Location Location `json:"location"`
-		Content  string   `json:"content"`
+		Location    Location `json:"location"`
+		ContentType string   `json:"contentType,omitempty"`
+		Content     string   `json:"content"`
 	}
 
 	PickleCell struct {
@@ -171,8 +172,9 @@ func pickleArgument(arg interface{}, keys, vals []*TableCell) []Argument {
 	switch t := arg.(type) {
 	case *DocString:
 		args = append(args, &PickleString{
-			Location: *t.Location,
-			Content:  trans(t.Content),
+			Location:    *t.Location,
+			ContentType: trans(t.ContentType),
+			Content:     trans(t.Content),
 		})
 	case *DataTable:
 		rows := make([]*PickleRow, len(t.Rows))

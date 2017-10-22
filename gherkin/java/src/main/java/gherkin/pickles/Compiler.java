@@ -153,7 +153,7 @@ public class Compiler {
                     new PickleString(
                             pickleLocation(ds.getLocation()),
                             interpolate(ds.getContent(), variableCells, valueCells),
-                            ds.getContentType()
+                            ds.getContentType() == null ? null : interpolate(ds.getContentType(), variableCells, valueCells)
                     )
             );
         } else {

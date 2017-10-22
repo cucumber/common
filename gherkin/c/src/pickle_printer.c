@@ -64,7 +64,13 @@ static void print_pickle_string(FILE* file, const PickleString* pickle_string) {
     if (pickle_string->content) {
         PrintUtilities_print_json_string(file, pickle_string->content);
     }
-    fprintf(file, "\"}");
+    fprintf(file, "\"");
+    if(pickle_string->content_type) {
+        fprintf(file, ",\"contentType\":\"");
+        PrintUtilities_print_json_string(file, pickle_string->content_type);
+        fprintf(file, "\"");
+    }
+    fprintf(file, "}");
 }
 
 static void print_tag(FILE* file, const PickleTag* tag) {
