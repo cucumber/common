@@ -145,7 +145,7 @@ public class ParserTest {
                         "        \"text\":\"x\"," +
                         "        \"arguments\": [{" +
                         "            \"location\":{\"line\":4,\"column\":7}," +
-                        "            \"content\":\"{}\",\"contentType\":\"json\"}]," +
+                        "            \"content\":\"{}\",\"content_type\":\"json\"}]," +
                         "        \"locations\":[{\"line\":3,\"column\":11}]}]," +
                         "  \"tags\":[],\"locations\":[{\"line\":2,\"column\":3}]}]" ),
                 jsonParser.parse(gson.toJson(pickles))
