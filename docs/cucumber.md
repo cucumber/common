@@ -61,4 +61,4 @@ And I should be offered the option to recover my password
       
 In this way, we say that the story functions as a living document. As the behavior of the system evolves over time, the team is forced to evolve the documentation in parallel.
    
-Acceptance tests written in this style become more than just tests,they are executable specifications along with [living documentation](docs/living-documentation).
+Acceptance tests written in this style become more than just tests,they are executable specifications along with [living documentation](living-documentation.md).
