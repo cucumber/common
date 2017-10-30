@@ -81,6 +81,51 @@
       "Երբ "
     ]
   },
+  "an": {
+    "and": [
+      "* ",
+      "Y ",
+      "E "
+    ],
+    "background": [
+      "Antecedents"
+    ],
+    "but": [
+      "* ",
+      "Pero "
+    ],
+    "examples": [
+      "Eixemplos"
+    ],
+    "feature": [
+      "Caracteristica"
+    ],
+    "given": [
+      "* ",
+      "Dau ",
+      "Dada ",
+      "Daus ",
+      "Dadas "
+    ],
+    "name": "Aragonese",
+    "native": "Aragonés",
+    "scenario": [
+      "Caso"
+    ],
+    "scenarioOutline": [
+      "Esquema del caso"
+    ],
+    "then": [
+      "* ",
+      "Alavez ",
+      "Allora ",
+      "Antonces "
+    ],
+    "when": [
+      "* ",
+      "Cuan "
+    ]
+  },
   "ar": {
     "and": [
       "* ",
