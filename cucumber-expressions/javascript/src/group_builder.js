@@ -6,8 +6,8 @@ class GroupBuilder {
     this._capturing = true
   }
 
-  add(group_builder) {
-    this._groupBuilders.push(group_builder)
+  add(groupBuilder) {
+    this._groupBuilders.push(groupBuilder)
   }
 
   build(match, nextGroupIndex) {
