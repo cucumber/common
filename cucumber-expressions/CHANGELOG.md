@@ -15,6 +15,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Fixed
 
+* javascript: Support RegExp flags
+  ([#300](https://github.com/cucumber/cucumber/issues/300)
+   by [aslakhellesoy] and [dmeehan1968])
+
 ## [5.0.2] - 2017-10-20
 
 (There was no 5.0.1 release)
@@ -256,7 +260,8 @@ N/A
 [aslakhellesoy]:    https://github.com/aslakhellesoy
 [brasmusson]:       https://github.com/brasmusson
 [charlierudolph]:   https://github.com/charlierudolph
-[gpichot]:          https://github.com/charlierudolph
+[dmeehan1968]:      https://github.com/dmeehan1968
+[gpichot]:          https://github.com/gpichot
 [jaysonesmith]:     https://github.com/jaysonesmith
 [mpkorstanje]:      https://github.com/mpkorstanje
 [kAworu]:           https://github.com/kAworu

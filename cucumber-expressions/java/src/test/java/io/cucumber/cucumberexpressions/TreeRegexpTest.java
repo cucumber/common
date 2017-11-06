@@ -4,6 +4,7 @@ import org.junit.Test;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Pattern;
 
 import static java.util.Arrays.asList;
 import static java.util.Collections.emptyList;
@@ -88,5 +89,12 @@ public class TreeRegexpTest {
         assertEquals(24, g.getChildren().get(0).getEnd());
         assertEquals(38, g.getChildren().get(1).getStart());
         assertEquals(45, g.getChildren().get(1).getEnd());
+    }
+
+    @Test
+    public void works_with_flags() {
+        TreeRegexp tr = new TreeRegexp(Pattern.compile("HELLO", Pattern.CASE_INSENSITIVE));
+        Group g = tr.match("hello");
+        assertEquals("hello", g.getValue());
     }
 }

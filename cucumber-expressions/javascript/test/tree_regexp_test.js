@@ -65,4 +65,10 @@ describe('TreeRegexp', () => {
     assert.equal(group.children[0].value, null)
     assert.equal(group.children.length, 1)
   })
+
+  it('works with flags', () => {
+    const tr = new TreeRegexp(/HELLO/i)
+    const group = tr.match('hello')
+    assert.equal(group.value, 'hello')
+  })
 })

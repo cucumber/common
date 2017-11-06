@@ -4,7 +4,7 @@ const GroupBuilder = require('./group_builder')
 class TreeRegexp {
   constructor(regexp) {
     this._re = 'string' === typeof regexp ? new RegExp(regexp) : regexp
-    this._regex = new Regex(this._re)
+    this._regex = new Regex(this._re.source, this._re.flags)
 
     const stack = [new GroupBuilder()]
     const groupStartStack = []
