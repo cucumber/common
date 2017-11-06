@@ -4,7 +4,7 @@
 
     <groupId>io.cucumber</groupId>
     <artifactId>cucumber-expressions</artifactId>
-    <version>5.0.3-SNAPSHOT</version>
+    <version>5.0.4-SNAPSHOT</version>
     <packaging>bundle</packaging>
     <name>cucumber-expressions</name>
     <description>Cucumber Expressions</description>
