@@ -71,7 +71,7 @@
 * [Gherkin](docs/gherkin.md)
   * [Feature](docs/gherkin.md#feature)
   * [Scenario](docs/gherkin.md#feature)
-  * [Given/When/Then (Steps)](docs/gherkin.md#steps)
+  * [Given/When/Then (Steps)](docs/step_definitions.md#steps)
   * [Tags](docs/tags.md)
   * [Tag Expressions](tag-expressions/README.md)
   * [Background](docs/gherkin.md#background)
