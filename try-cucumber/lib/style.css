@@ -1,0 +1,28 @@
+.editor {
+  padding: 4px;
+}
+
+.no-match {
+  background-color: #832323 !important;
+}
+
+.not-used {
+  background-color: #626262 !important;
+}
+
+.step-arg {
+  background-color: yellow;
+}
+
+[data-label] {
+  position: relative;
+  display: inline-block;
+  z-index: 2;
+}
+
+[data-label]:before {
+  position: absolute;
+  top: 100%;
+  content: attr(data-label);
+  text-align: center;
+}
