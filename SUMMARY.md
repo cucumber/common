@@ -107,7 +107,7 @@
   * [Gherkin-Lint](gherkin-lint/README.md)
   * [Cucumber-React](cucumber-react/README.md)
   * [CLI automation - Aruba](./docs/404.md)
-  * [Ruby on Rails](./docs/404.md)
+  * [Ruby on Rails](./docs/extensions/cucumber-rails.md)
   * [Spring Framework](./docs/404.md)
   * [PicoContainer](./docs/404.md)
 * [3rd Party Extensions](./docs/404.md)
