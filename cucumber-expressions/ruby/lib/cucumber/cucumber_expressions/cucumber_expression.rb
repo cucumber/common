@@ -7,7 +7,7 @@ module Cucumber
     class CucumberExpression
       PARAMETER_REGEXP = /{([^}]+)}/
       OPTIONAL_REGEXP = /\(([^)]+)\)/
-      ALTERNATIVE_WORD_REGEXP = /([[:alpha:]]+)((\/[[:alpha:]]+)+)/
+      ALTERNATIVE_NON_WHITESPACE_TEXT_REGEXP = /([^\s^\/]+)((\/[^\s^\/]+)+)/
 
       attr_reader :source
 
@@ -23,7 +23,7 @@ module Cucumber
         # Create non-capturing, optional capture groups from parenthesis
         expression = expression.gsub(OPTIONAL_REGEXP, '(?:\1)?')
 
-        expression = expression.gsub(ALTERNATIVE_WORD_REGEXP) do |_|
+        expression = expression.gsub(ALTERNATIVE_NON_WHITESPACE_TEXT_REGEXP) do |_|
           "(?:#{$1}#{$2.tr('/', '|')})"
         end
 

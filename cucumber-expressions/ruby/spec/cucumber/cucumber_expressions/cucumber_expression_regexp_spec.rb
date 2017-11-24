@@ -24,6 +24,13 @@ module Cucumber
           )
         end
 
+        it "translates alternation with non-alpha" do
+          assert_regexp(
+            "I said Alpha1/Beta1",
+            /^I said (?:Alpha1|Beta1)$/
+          )
+        end
+
         it "translates parameters" do
           assert_regexp(
             "I have {float} cukes at {int} o'clock",

@@ -19,6 +19,10 @@ describe('CucumberExpression', () => {
       )
     })
 
+    it('translates alternation with non-alpha', () => {
+      assertRegexp('I said Alpha1/Beta1', /^I said (?:Alpha1|Beta1)$/)
+    })
+
     it('translates parameters', () => {
       assertRegexp(
         "I have {float} cukes at {int} o'clock",

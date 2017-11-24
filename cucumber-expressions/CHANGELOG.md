@@ -10,6 +10,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Removed
 
 ### Added
+* Cucumber Expressions with alternation (`I said Alpha1/Beta1`) now works with
+  more than just letters - it works with anything that isn't a space.
+  ([#303](https://github.com/cucumber/cucumber/issues/303)
+   by [aslakhellesoy])
 
 ### Changed
 

@@ -10,7 +10,7 @@ class CucumberExpression {
   constructor(expression, parameterTypeRegistry) {
     const PARAMETER_REGEXP = /{([^}]+)}/g
     const OPTIONAL_REGEXP = /\(([^)]+)\)/g
-    const ALTERNATIVE_WORD_REGEXP = /(\w+)((\/\w+)+)/g
+    const ALTERNATIVE_NON_WHITESPACE_TEXT_REGEXP = /([^\s^/]+)((\/[^\s^/]+)+)/g
 
     this._expression = expression
     this._parameterTypes = []
@@ -25,7 +25,7 @@ class CucumberExpression {
     expression = expression.replace(OPTIONAL_REGEXP, '(?:$1)?')
 
     expression = expression.replace(
-      ALTERNATIVE_WORD_REGEXP,
+      ALTERNATIVE_NON_WHITESPACE_TEXT_REGEXP,
       (_, p1, p2) => `(?:${p1}${p2.replace(/\//g, '|')})`
     )
 

@@ -28,6 +28,14 @@ public class CucumberExpressionPatternTest {
     }
 
     @Test
+    public void translates_alternation_with_non_alpha() {
+        assertPattern(
+                "I said Alpha1/Beta1",
+                "^I said (?:Alpha1|Beta1)$"
+        );
+    }
+
+    @Test
     public void translates_parameters() {
         assertPattern(
                 "I have {float} cukes at {int} o'clock",

@@ -9,7 +9,7 @@ public class CucumberExpression implements Expression {
     private static final Pattern ESCAPE_PATTERN = Pattern.compile("([\\\\^\\[$.|?*+\\]])");
     private static final Pattern PARAMETER_PATTERN = Pattern.compile("\\{([^}]+)}");
     private static final Pattern OPTIONAL_PATTERN = Pattern.compile("\\(([^)]+)\\)");
-    private static final Pattern ALTERNATIVE_WORD_REGEXP = Pattern.compile("([\\p{IsAlphabetic}]+)((/[\\p{IsAlphabetic}]+)+)");
+    private static final Pattern ALTERNATIVE_NON_WHITESPACE_TEXT_REGEXP = Pattern.compile("([^\\s^/]+)((/[^\\s^/]+)+)");
 
     private final List<ParameterType<?>> parameterTypes = new ArrayList<>();
     private final String expression;
@@ -20,14 +20,14 @@ public class CucumberExpression implements Expression {
         expression = ESCAPE_PATTERN.matcher(expression).replaceAll("\\\\$1");
         expression = OPTIONAL_PATTERN.matcher(expression).replaceAll("(?:$1)?");
 
-        Matcher m = ALTERNATIVE_WORD_REGEXP.matcher(expression);
+        Matcher matcher = ALTERNATIVE_NON_WHITESPACE_TEXT_REGEXP.matcher(expression);
         StringBuffer sb = new StringBuffer();
-        while (m.find()) {
-            m.appendReplacement(sb, "(?:" + m.group(1) + m.group(2).replace('/', '|') + ")");
+        while (matcher.find()) {
+            matcher.appendReplacement(sb, "(?:" + matcher.group(1) + matcher.group(2).replace('/', '|') + ")");
         }
-        m.appendTail(sb);
+        matcher.appendTail(sb);
 
-        Matcher matcher = PARAMETER_PATTERN.matcher(sb.toString());
+        matcher = PARAMETER_PATTERN.matcher(sb.toString());
 
         StringBuffer regexp = new StringBuffer();
         regexp.append("^");
