@@ -12,7 +12,7 @@ Gem::Specification.new do |s|
   s.required_ruby_version = ">= 1.9.3"
 
   s.add_development_dependency 'bundler'
-  s.add_development_dependency 'rake',      '~> 10.5'
+  s.add_development_dependency 'rake',      '~> 12.3'
   s.add_development_dependency 'rspec',     '~> 3.5'
 
   # For coverage reports
