@@ -41,7 +41,7 @@ These rules apply to anyone involved in the Cucumber community, including but no
 
 ## Where does this apply?
 
-The rules listed above apply to all official Cucumber venues; including the CukeUp conferences, public training courses, official gitter.im/cucumber chat channels; GitHub repositories under cucumber, cucumber-ltd, and the cukes@googlegroups.com community mailing list.
+The rules listed above apply to all official Cucumber venues; including the CukeUp conferences, public training courses, official Slack chat channels; GitHub repositories under cucumber, cucumber-ltd, and the cukes@googlegroups.com community mailing list.
 
 ## Consequences
 

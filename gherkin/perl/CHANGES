@@ -9,7 +9,19 @@ This document is formatted according to the principles of [Keep A CHANGELOG](htt
 ----
 ## [Unreleased] - In Git
 
+### Added
+
+### Changed
+
+### Deprecated
+
 ### Removed
+
+### Fixed
+
+* (Ruby) removed unneeded files from the gem
+
+## [5.0.0] - 2017-10-13
 
 ### Added
 * Ability to specify an initial language for the parser, so that the `# language` header isn't required
@@ -25,12 +37,10 @@ This document is formatted according to the principles of [Keep A CHANGELOG](htt
    by [Pwera])
 
 ### Changed
-* Compile epty scenarios to empty pickles
+* Compile empty scenarios to empty pickles
   ([#249](https://github.com/cucumber/cucumber/issues/249)
    [#264](https://github.com/cucumber/cucumber/pull/264)
    by [brasmusson])
-
-### Fixed
 
 ## [4.1.3] - 2017-05-04
 
@@ -348,7 +358,8 @@ to Gherkin 2.
 * First release
 
 <!-- Releases -->
-[Unreleased]: https://github.com/cucumber/cucumber/compare/gherkin-v4.1.3...HEAD
+[Unreleased]: https://github.com/cucumber/cucumber/compare/gherkin-v5.0.0...HEAD
+[4.1.3]:      https://github.com/cucumber/cucumber/compare/gherkin-v4.1.3...gherkin-v5.0.0
 [4.1.3]:      https://github.com/cucumber/cucumber/compare/gherkin-v4.1.2...gherkin-v4.1.3
 [4.1.2]:      https://github.com/cucumber/cucumber/compare/gherkin-v4.1.1...gherkin-v4.1.2
 [4.1.1]:      https://github.com/cucumber/cucumber/compare/gherkin-v4.1.0...gherkin-v4.1.1

@@ -5,7 +5,9 @@
 #
 language: node_js
 node_js:
-  - 8.6.0
+  - 9.2.0
+  - 8.9.1
+  - 6.12.0
 
 before_install:
   # Repo for Yarn
@@ -13,11 +15,3 @@ before_install:
   - echo "deb http://dl.yarnpkg.com/debian/ stable main" | sudo tee /etc/apt/sources.list.d/yarn.list
   - sudo apt-get update -qq
   - sudo apt-get install -y -qq yarn
-
-notifications:
-  webhooks:
-    urls:
-      - https://webhooks.gitter.im/e/5373e574ed4e88026838
-    on_success: change
-    on_failure: always
-    on_start: never
