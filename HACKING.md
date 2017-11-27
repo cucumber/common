@@ -30,6 +30,6 @@ files. These need to be rebuilt and published manually whenever they change:
 
    source ./scripts/functions.sh
    docker_build Dockerfile.cucumber-build
-   docker_push
+   docker_push Dockerfile.cucumber-build
 
 The images are published [here](https://hub.docker.com/r/cucumber/)

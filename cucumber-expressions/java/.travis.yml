@@ -1,3 +1,8 @@
+# Please update /.travis/javascript/.travis.yml in the cucumber/cucumber monorepo
+# and sync:
+#
+#     source scripts/functions.sh && rsync_files
+#
 language: java
 jdk: oraclejdk8
 addons:
