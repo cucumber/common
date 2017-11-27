@@ -6,11 +6,7 @@ module.exports = function TagExpressionParser() {
    * This expression can be evaluated by passing in an array of literals that resolve to true
    */
   this.parse = function(infix) {
-    var tokens = infix
-      .replace(/\(/g, ' ( ')
-      .replace(/\)/g, ' ) ')
-      .trim()
-      .split(/\s+/)
+    var tokens = tokenize(infix)
     var exprs = []
     var ops = []
 
@@ -70,6 +66,47 @@ module.exports = function TagExpressionParser() {
     not: 2,
   }
 
+  function tokenize(expr) {
+    var tokens = []
+    var isEscaped = false
+    var token = undefined
+    for (var i = 0; i < expr.length; i++) {
+        var c = expr.charAt(i);
+        if ("\\" == c) {
+          isEscaped = true
+        } else {
+          if (/\s/.test(c)) {  // skip
+            if (token) {  // end of token
+              tokens.push(token.join(""))
+              token = undefined
+            }
+          } else {
+            switch(c) {
+              case "(":
+              case ")":
+                if (!isEscaped) {
+                  if (token) {  // end of token
+                    tokens.push(token.join(""))
+                    token = undefined
+                  }
+                  tokens.push(c)
+                  break;
+                }
+              default:
+                token = token ? token : [] // start of token
+                token.push(c)
+                break;
+            }
+          }
+          isEscaped = false;
+        }
+    }
+    if (token) {
+      tokens.push(token.join(""))
+    }
+    return tokens
+  }
+
   function isOp(token) {
     return ASSOC[token] !== undefined
   }
@@ -103,7 +140,7 @@ module.exports = function TagExpressionParser() {
     }
 
     this.toString = function() {
-      return value
+      return value.replace(/\(/g, '\\(').replace(/\)/g, '\\)')
     }
   }
 

@@ -52,7 +52,7 @@ module Cucumber
       end
 
       def tokens(infix_expression)
-        infix_expression.gsub(/\(/, ' ( ').gsub(/\)/, ' ) ').strip.split(/\s+/)
+        infix_expression.gsub(/(?<!\\)\(/, ' ( ').gsub(/(?<!\\)\)/, ' ) ').strip.split(/\s+/)
       end
 
       def process_tokens!(infix_expression)
