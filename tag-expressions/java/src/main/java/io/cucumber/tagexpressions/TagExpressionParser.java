@@ -7,6 +7,11 @@ import java.util.List;
 import java.util.Map;
 
 public class TagExpressionParser {
+    private enum TokenType {
+        OPERAND,
+        OPERATOR
+    }
+
     private enum Assoc {
         LEFT,
         RIGHT
@@ -30,9 +35,15 @@ public class TagExpressionParser {
         String[] tokens = infix.replaceAll("\\(", " ( ").replaceAll("\\)", " ) ").trim().split("\\s+");
         Deque<String> ops = new ArrayDeque<>();
         Deque<Expression> exprs = new ArrayDeque<>();
+        TokenType tokenType = TokenType.OPERAND;
 
         for (String token : tokens) {
-            if (isOp(token)) {
+            if ("not".equals(token)) {
+                check(TokenType.OPERAND, tokenType);
+                ops.push(token);
+                tokenType = TokenType.OPERAND;
+            } else if (isOp(token)) {
+                check(TokenType.OPERATOR, tokenType);
                 while (ops.size() > 0 && isOp(ops.peek()) && (
                         (ASSOC.get(token) == Assoc.LEFT && PREC.get(token) <= PREC.get(ops.peek()))
                                 ||
@@ -41,35 +52,48 @@ public class TagExpressionParser {
                     pushExpr(pop(ops), exprs);
                 }
                 ops.push(token);
+                tokenType = TokenType.OPERAND;
             } else if ("(".equals(token)) {
+                check(TokenType.OPERAND, tokenType);
                 ops.push(token);
+                tokenType = TokenType.OPERAND;
             } else if (")".equals(token)) {
+                check(TokenType.OPERATOR, tokenType);
                 while (ops.size() > 0 && !"(".equals(ops.peek())) {
                     pushExpr(pop(ops), exprs);
                 }
                 if (ops.size() == 0) {
-                    throw new RuntimeException("Unclosed (");
+                    throw new TagExpressionException("Unclosed (");
                 }
                 if ("(".equals(ops.peek())) {
                     pop(ops);
                 }
+                tokenType = TokenType.OPERATOR;
             } else {
+                check(TokenType.OPERAND, tokenType);
                 pushExpr(token, exprs);
+                tokenType = TokenType.OPERATOR;
             }
         }
 
         while (ops.size() > 0) {
             if ("(".equals(ops.peek())) {
-                throw new Error("Unclosed (");
+                throw new TagExpressionException("Unclosed (");
             }
             pushExpr(pop(ops), exprs);
         }
 
         Expression expr = exprs.pop();
         if (exprs.size() > 0) {
-            throw new Error("Not empty");
+            throw new TagExpressionException("Not empty");
         }
         return expr;
+    }
+
+    private void check(TokenType expectedTokenType, TokenType tokenType) {
+        if (tokenType != expectedTokenType) {
+            throw new TagExpressionException("Syntax error. Expected %s", tokenType.toString().toLowerCase());
+        }
     }
 
     private <T> T pop(Deque<T> stack) {

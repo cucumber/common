@@ -15,7 +15,7 @@ public class TagExpressionParserParameterizedTest {
 
     private final String infix;
     private final String expected;
-    private TagExpressionParser parser = new TagExpressionParser();
+    private final TagExpressionParser parser = new TagExpressionParser();
 
     @Parameters
     public static Collection<Object[]> data() {
