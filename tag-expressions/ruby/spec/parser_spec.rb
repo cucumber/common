@@ -13,11 +13,14 @@ describe Cucumber::TagExpressions::Parser do
   ]
 
   error_test_data = [
-    ['( a and b ))', RuntimeError, 'Unclosed ('],
-    ['a not ( and )', RuntimeError, 'Empty stack'],
-    ['( ( a and b )', RuntimeError, 'Unclosed ('],
-    ['a b', RuntimeError, 'Not empty'],
-    ['or or', RuntimeError, 'Empty stack']
+    ['@a @b or', 'Syntax error. Expected operator'],
+    ['@a and (@b not)', 'Syntax error. Expected operator'],
+    ['@a and (@b @c) or', 'Syntax error. Expected operator'],
+    ['@a and or', 'Syntax error. Expected operand'],
+    ['or or', 'Syntax error. Expected operand'],
+    ['a b', 'Syntax error. Expected operator'],
+    ['( a and b ) )', 'Syntax error. Unmatched )'],
+    ['( ( a and b )', 'Syntax error. Unmatched ('],
   ]
 
   context '#parse' do
@@ -31,11 +34,11 @@ describe Cucumber::TagExpressions::Parser do
     end
 
     context 'with error test data' do
-      error_test_data.each do |infix_expression, error_type, message|
+      error_test_data.each do |infix_expression, message|
         parser = Cucumber::TagExpressions::Parser.new
         it "raises an error parsing #{infix_expression.inspect}" do
           expect { parser.parse(infix_expression) }
-            .to raise_error(error_type, message)
+            .to raise_error(RuntimeError, message)
         end
       end
     end

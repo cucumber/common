@@ -9,18 +9,18 @@ module Cucumber
         @operators = []
 
         @operator_types = {
-          'or'  => { type: :operation,   precedence: 0, assoc: :left },
-          'and' => { type: :operation,   precedence: 1, assoc: :left },
-          'not' => { type: :operation,   precedence: 2, assoc: :right },
-          ')'   => { type: :close_paren, precedence: -1 },
-          '('   => { type: :open_paren,  precedence: 1 }
+          'or'  => { type: :binary_operator,    precedence: 0, assoc: :left },
+          'and' => { type: :binary_operator,   precedence: 1, assoc: :left },
+          'not' => { type: :unary_operator,   precedence: 2, assoc: :right },
+          ')'   => { type: :close_paren,       precedence: -1 },
+          '('   => { type: :open_paren,        precedence: 1 }
         }
       end
 
       def parse(infix_expression)
         process_tokens!(infix_expression)
         while @operators.any?
-          raise 'Unclosed (' if @operators.last == '('
+          raise 'Syntax error. Unmatched (' if @operators.last == '('
           push_expression(pop(@operators))
         end
         expression = pop(@expressions)
@@ -44,7 +44,8 @@ module Cucumber
       end
 
       def operator?(token)
-        @operator_types[token][:type] == :operation
+        @operator_types[token][:type] == :unary_operator ||
+            @operator_types[token][:type] == :binary_operator
       end
 
       def precedence(token)
@@ -56,11 +57,12 @@ module Cucumber
       end
 
       def process_tokens!(infix_expression)
+        expected_token_type = :operand
         tokens(infix_expression).each do |token|
           if @operator_types[token]
-            send("handle_#{@operator_types[token][:type]}", token)
+            expected_token_type = send("handle_#{@operator_types[token][:type]}", token, expected_token_type)
           else
-            handle_literal(token)
+            expected_token_type = handle_literal(token, expected_token_type)
           end
         end
       end
@@ -81,28 +83,48 @@ module Cucumber
       ############################################################################
       # Handlers
       #
-      def handle_literal(token)
-        push_expression(token)
+      def handle_unary_operator(token, expected_token_type)
+        check(expected_token_type, :operand)
+        @operators.push(token)
+        :operand
       end
 
-      def handle_operation(token)
+      def handle_binary_operator(token, expected_token_type)
+        check(expected_token_type, :operator)
         while @operators.any? && operator?(@operators.last) &&
               lower_precedence?(token)
           push_expression(pop(@operators))
         end
         @operators.push(token)
+        :operand
       end
 
-      def handle_close_paren(_token)
+      def handle_open_paren(token, expected_token_type)
+        check(expected_token_type, :operand)
+        @operators.push(token)
+        :operand
+      end
+
+      def handle_close_paren(_token, expected_token_type)
+        check(expected_token_type, :operator)
         while @operators.any? && @operators.last != '('
           push_expression(pop(@operators))
         end
-        raise 'Unclosed (' if @operators.empty?
+        raise 'Syntax error. Unmatched )' if @operators.empty?
         pop(@operators) if @operators.last == '('
+        :operator
       end
 
-      def handle_open_paren(token)
-        @operators.push(token)
+      def handle_literal(token, expected_token_type)
+        check(expected_token_type, :operand)
+        push_expression(token)
+        :operator
+      end
+
+      def check(expected_token_type, token_type)
+        if expected_token_type != token_type
+          raise "Syntax error. Expected #{expected_token_type}"
+        end
       end
 
       def pop(array, n = 1)

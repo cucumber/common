@@ -3,8 +3,8 @@ require 'cucumber/tag_expressions/parser'
 describe 'Expression node' do
   shared_examples 'expression node' do |infix_expression, data|
     data.each do |tags, result|
-      expression = Cucumber::TagExpressions::Parser.new.parse(infix_expression)
       it "#{infix_expression.inspect} with variables: #{tags.inspect}'" do
+        expression = Cucumber::TagExpressions::Parser.new.parse(infix_expression)
         expect(expression.evaluate(tags)).to eq(result)
       end
     end
