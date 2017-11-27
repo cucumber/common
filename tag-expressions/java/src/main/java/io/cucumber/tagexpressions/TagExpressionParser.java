@@ -1,28 +1,18 @@
 package io.cucumber.tagexpressions;
 
 import java.util.ArrayDeque;
+import java.util.ArrayList;
 import java.util.Deque;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 public class TagExpressionParser {
-    private enum TokenType {
-        OPERAND,
-        OPERATOR
-    }
-
-    private enum Assoc {
-        LEFT,
-        RIGHT
-    }
-
     private static Map<String, Assoc> ASSOC = new HashMap<String, Assoc>() {{
         put("or", Assoc.LEFT);
         put("and", Assoc.LEFT);
         put("not", Assoc.RIGHT);
     }};
-
     private static Map<String, Integer> PREC = new HashMap<String, Integer>() {{
         put("(", -2);
         put(")", -1);
@@ -30,9 +20,54 @@ public class TagExpressionParser {
         put("and", 1);
         put("not", 2);
     }};
+    private static char ESCAPING_CHAR = '\\';
+
+    private static String[] tokenize(String expr) {
+        List<String> tokens = new ArrayList<String>();
+
+        boolean isEscaped = false;
+        StringBuilder token = null;
+        for (int i = 0; i < expr.length(); i++) {
+            char c = expr.charAt(i);
+            if (ESCAPING_CHAR == c) {
+                isEscaped = true;
+            } else {
+                if (Character.isWhitespace(c)) { // skip
+                    if (null != token) { // end of token
+                        tokens.add(token.toString());
+                        token = null;
+                    }
+                } else {
+                    switch (c) {
+                        case '(':
+                        case ')':
+                            if (!isEscaped) {
+                                if (null != token) { // end of token
+                                    tokens.add(token.toString());
+                                    token = null;
+                                }
+                                tokens.add(String.valueOf(c));
+                                break;
+                            }
+                        default:
+                            if (null == token) { // start of token
+                                token = new StringBuilder();
+                            }
+                            token.append(c);
+                            break;
+                    }
+                }
+                isEscaped = false;
+            }
+        }
+        if (null != token) { // end of token
+            tokens.add(token.toString());
+        }
+        return tokens.toArray(new String[0]);
+    }
 
     public Expression parse(String infix) {
-        String[] tokens = infix.replaceAll("\\(", " ( ").replaceAll("\\)", " ) ").trim().split("\\s+");
+        String[] tokens = tokenize(infix);
         Deque<String> ops = new ArrayDeque<>();
         Deque<Expression> exprs = new ArrayDeque<>();
         TokenType tokenType = TokenType.OPERAND;
@@ -124,6 +159,16 @@ public class TagExpressionParser {
         return ASSOC.get(token) != null;
     }
 
+    private enum TokenType {
+        OPERAND,
+        OPERATOR
+    }
+
+    private enum Assoc {
+        LEFT,
+        RIGHT
+    }
+
     private class Literal implements Expression {
         private final String value;
 
@@ -138,7 +183,7 @@ public class TagExpressionParser {
 
         @Override
         public String toString() {
-            return value;
+            return value.replaceAll("\\(", "\\\\(").replaceAll("\\)", "\\\\)");
         }
     }
 

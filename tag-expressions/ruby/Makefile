@@ -1,7 +1,7 @@
 default:
 	bundle install
-	bundle exec rake
-	bundle exec rake install
+	rake
+	rake install
 .PHONY: default
 
 clean:

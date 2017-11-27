@@ -8,7 +8,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ## [Unreleased]
 
 ### Added
-N/A
+* Escape special chars in tags
+  ([]()
+   by [link89])
 
 ### Changed
 N/A
@@ -51,3 +53,4 @@ N/A
 [aslakhellesoy]:    https://github.com/aslakhellesoy
 [brasmusson]:       https://github.com/brasmusson
 [charlierudolph]:   https://github.com/charlierudolph
+[link89]:           https://github.com/link89

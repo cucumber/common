@@ -18,6 +18,11 @@ public class TagExpressionParserSyntaxErrorTest {
     private final String expectedError;
     private final TagExpressionParser parser = new TagExpressionParser();
 
+    public TagExpressionParserSyntaxErrorTest(String infix, String expectedError) {
+        this.infix = infix;
+        this.expectedError = expectedError;
+    }
+
     @Parameters
     public static Collection<Object[]> data() {
         return Arrays.asList(new Object[][]{
@@ -28,17 +33,12 @@ public class TagExpressionParserSyntaxErrorTest {
         });
     }
 
-    public TagExpressionParserSyntaxErrorTest(String infix, String expectedError) {
-        this.infix = infix;
-        this.expectedError = expectedError;
-    }
-
     @Test
     public void parser_expression() {
         try {
             parser.parse(infix);
             fail();
-        } catch(TagExpressionException e) {
+        } catch (TagExpressionException e) {
             assertEquals(expectedError, e.getMessage());
         }
     }
