@@ -6,9 +6,9 @@ module Cucumber
     class Parser
       def initialize
         @expressions = []
-        @operations = []
+        @operators = []
 
-        @components = {
+        @operator_types = {
           'or'  => { type: :operation,   precedence: 0, assoc: :left },
           'and' => { type: :operation,   precedence: 1, assoc: :left },
           'not' => { type: :operation,   precedence: 2, assoc: :right },
@@ -19,9 +19,9 @@ module Cucumber
 
       def parse(infix_expression)
         process_tokens!(infix_expression)
-        while @operations.any?
-          raise 'Unclosed (' if @operations.last == '('
-          push_expression(pop(@operations))
+        while @operators.any?
+          raise 'Unclosed (' if @operators.last == '('
+          push_expression(pop(@operators))
         end
         expression = pop(@expressions)
         @expressions.empty? ? expression : raise('Not empty')
@@ -33,22 +33,22 @@ module Cucumber
       # Helpers
       #
       def assoc_of(token, value)
-        @components[token][:assoc] == value
+        @operator_types[token][:assoc] == value
       end
 
       def lower_precedence?(operation)
         (assoc_of(operation, :left) &&
-         prec(operation) <= prec(@operations.last)) ||
+         precedence(operation) <= precedence(@operators.last)) ||
           (assoc_of(operation, :right) &&
-           prec(operation) < prec(@operations.last))
+           precedence(operation) < precedence(@operators.last))
       end
 
-      def operation?(token)
-        @components[token][:type] == :operation
+      def operator?(token)
+        @operator_types[token][:type] == :operation
       end
 
-      def prec(token)
-        @components[token][:precedence]
+      def precedence(token)
+        @operator_types[token][:precedence]
       end
 
       def tokens(infix_expression)
@@ -57,8 +57,8 @@ module Cucumber
 
       def process_tokens!(infix_expression)
         tokens(infix_expression).each do |token|
-          if @components[token]
-            send("handle_#{@components[token][:type]}", token)
+          if @operator_types[token]
+            send("handle_#{@operator_types[token][:type]}", token)
           else
             handle_literal(token)
           end
@@ -86,23 +86,23 @@ module Cucumber
       end
 
       def handle_operation(token)
-        while @operations.any? && operation?(@operations.last) &&
+        while @operators.any? && operator?(@operators.last) &&
               lower_precedence?(token)
-          push_expression(pop(@operations))
+          push_expression(pop(@operators))
         end
-        @operations.push(token)
+        @operators.push(token)
       end
 
       def handle_close_paren(_token)
-        while @operations.any? && @operations.last != '('
-          push_expression(pop(@operations))
+        while @operators.any? && @operators.last != '('
+          push_expression(pop(@operators))
         end
-        raise 'Unclosed (' if @operations.empty?
-        pop(@operations) if @operations.last == '('
+        raise 'Unclosed (' if @operators.empty?
+        pop(@operators) if @operators.last == '('
       end
 
       def handle_open_paren(token)
-        @operations.push(token)
+        @operators.push(token)
       end
 
       def pop(array, n = 1)
