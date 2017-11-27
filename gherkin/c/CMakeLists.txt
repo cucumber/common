@@ -1,5 +1,8 @@
-PROJECT(gherkin-c C)
+PROJECT(gherkin C)
 cmake_minimum_required(VERSION 3.0)
+# Install library & headers in your directory
+#SET(CMAKE_INSTALL_PREFIX  "")
+list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
 LIST(APPEND GHERKIN_SRS
         src/file_reader.c
         src/file_utf8_source.c
@@ -60,15 +63,17 @@ LIST(APPEND GHERKIN_CLI
         src/gherkin_cli.c
         )
 
-add_library(gherkin-c-lib SHARED ${GHERKIN_SRS})
-target_include_directories(gherkin-c-lib PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include ${CMAKE_CURRENT_SOURCE_DIR}/src)
 
-add_executable(gherkin-c ${GHERKIN_CLI})
-target_link_libraries(gherkin-c gherkin-c-lib)
-target_include_directories(gherkin-c PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include ${CMAKE_CURRENT_SOURCE_DIR}/src)
+add_library(gherkin SHARED ${GHERKIN_SRS})
+target_include_directories(gherkin PUBLIC
+    "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include;${CMAKE_CURRENT_SOURCE_DIR}/src>")
+
+add_executable(gherkinexe ${GHERKIN_CLI})
+target_link_libraries(gherkinexe gherkin)
+target_include_directories(gherkinexe PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include ${CMAKE_CURRENT_SOURCE_DIR}/src)
 
 add_executable(gherkin_generate_tokens ${GENERATE_TOKEN})
-target_link_libraries(gherkin_generate_tokens gherkin-c-lib)
+target_link_libraries(gherkin_generate_tokens gherkin)
 
 file(GLOB GOOD_FEATURE_FILES
         ${CMAKE_CURRENT_SOURCE_DIR}/testdata/good/*.feature
@@ -77,23 +82,52 @@ file(GLOB BAD_FEATURE_FILES
         ${CMAKE_CURRENT_SOURCE_DIR}/testdata/bad/*.feature
         )
 add_custom_target(invo DEPENDS invo)
-add_dependencies(invo gherkin-c)
+add_dependencies(invo gherkinexe)
 FOREACH(ENTITY ${GOOD_FEATURE_FILES})
     add_custom_command(
-            TARGET gherkin-c
+            TARGET gherkinexe
             POST_BUILD
-            COMMAND gherkin-c  ${ENTITY}
+            COMMAND gherkinexe  ${ENTITY}
             DEPENDS invo
     )
 ENDFOREACH()
-#FOREACH(ENTITY ${BAD_FEATURE_FILES})
-#    MESSAGE(INFO " <<${ENTITY}>>")
-#    add_custom_command(
-#            TARGET gherkin-c
-#            POST_BUILD
-#            COMMAND gherkin-c  ${ENTITY}
-#            DEPENDS invo
-#    )
-#ENDFOREACH()
+############ Installation section ############
+set(include_install_dir "include")
+set(lib_install_dir "lib/")
+set(bin_install_dir "bin/")
+set(config_install_dir "lib/cmake/")
 
+set(project_config "${CMAKE_CURRENT_BINARY_DIR}/generated/${PROJECT_NAME}Config.cmake")
+set(targets_export_name "${PROJECT_NAME}Targets")
 
+set(namespace "${PROJECT_NAME}::")
+
+configure_file("${PROJECT_SOURCE_DIR}/cmake/Config.cmake.in" "${project_config}" @ONLY)
+
+# Install target (will install the library to specified CMAKE_INSTALL_PREFIX variable)
+install(
+  TARGETS gherkin
+  EXPORT ${targets_export_name}
+  ARCHIVE DESTINATION ${lib_install_dir}
+  LIBRARY DESTINATION ${lib_install_dir}
+  RUNTIME DESTINATION ${lib_install_dir}
+  INCLUDES DESTINATION ${include_install_dir})
+
+install(
+  DIRECTORY "${PROJECT_SOURCE_DIR}/include/"
+  DESTINATION ${include_install_dir}
+  FILES_MATCHING PATTERN "*.*h")
+
+install(
+    FILES "${project_config}"
+    DESTINATION "${config_install_dir}")
+
+install(
+    EXPORT "${targets_export_name}"
+    NAMESPACE "${namespace}"
+    DESTINATION "${config_install_dir}")
+
+add_custom_target(install_${PROJECT_NAME}
+        $(MAKE) install
+        DEPENDS gherkin
+        COMMENT "Installing ${PROJECT_NAME}")
