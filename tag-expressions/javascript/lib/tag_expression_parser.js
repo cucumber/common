@@ -1,3 +1,6 @@
+const OPERAND = 'operand'
+const OPERATOR = 'operator'
+
 module.exports = function TagExpressionParser() {
   /**
    * Parses infix boolean expression (using Dijkstra's Shunting Yard algorithm)
@@ -7,49 +10,59 @@ module.exports = function TagExpressionParser() {
    */
   this.parse = function(infix) {
     var tokens = tokenize(infix)
-    var exprs = []
-    var ops = []
+    if (tokens.length === 0) return new True()
+    var expressions = []
+    var operators = []
+    var expectedTokenType = OPERAND
 
     tokens.forEach(function(token) {
-      if (isOp(token)) {
+      if (isUnary(token)) {
+        check(expectedTokenType, OPERAND)
+        operators.push(token)
+        expectedTokenType = OPERAND
+      } else if (isBinary(token)) {
+        check(expectedTokenType, OPERATOR)
         while (
-          ops.length > 0 &&
-          isOp(peek(ops)) &&
-          ((ASSOC[token] === 'left' && PREC[token] <= PREC[peek(ops)]) ||
-            (ASSOC[token] === 'right' && PREC[token] < PREC[peek(ops)]))
+          operators.length > 0 &&
+          isOp(peek(operators)) &&
+          ((ASSOC[token] === 'left' && PREC[token] <= PREC[peek(operators)]) ||
+            (ASSOC[token] === 'right' && PREC[token] < PREC[peek(operators)]))
         ) {
-          pushExpr(pop(ops), exprs)
+          pushExpr(pop(operators), expressions)
         }
-        ops.push(token)
+        operators.push(token)
+        expectedTokenType = OPERAND
       } else if ('(' === token) {
-        ops.push(token)
+        check(expectedTokenType, OPERAND)
+        operators.push(token)
+        expectedTokenType = OPERAND
       } else if (')' === token) {
-        while (ops.length > 0 && peek(ops) !== '(') {
-          pushExpr(pop(ops), exprs)
+        check(expectedTokenType, OPERATOR)
+        while (operators.length > 0 && peek(operators) !== '(') {
+          pushExpr(pop(operators), expressions)
         }
-        if (ops.length === 0) {
-          throw Error('Unclosed (')
+        if (operators.length === 0) {
+          throw Error('Syntax error. Unmatched )')
         }
-        if (peek(ops) === '(') {
-          pop(ops)
+        if (peek(operators) === '(') {
+          pop(operators)
         }
+        expectedTokenType = OPERATOR
       } else {
-        pushExpr(token, exprs)
+        check(expectedTokenType, OPERAND)
+        pushExpr(token, expressions)
+        expectedTokenType = OPERATOR
       }
     })
 
-    while (ops.length > 0) {
-      if (peek(ops) === '(') {
-        throw Error('Unclosed (')
+    while (operators.length > 0) {
+      if (peek(operators) === '(') {
+        throw Error('Syntax error. Unmatched (')
       }
-      pushExpr(pop(ops), exprs)
+      pushExpr(pop(operators), expressions)
     }
 
-    var expr = pop(exprs)
-    if (exprs.length > 0) {
-      throw new Error('Not empty')
-    }
-    return expr
+    return pop(expressions)
   }
 
   var ASSOC = {
@@ -71,44 +84,61 @@ module.exports = function TagExpressionParser() {
     var isEscaped = false
     var token = undefined
     for (var i = 0; i < expr.length; i++) {
-        var c = expr.charAt(i);
-        if ("\\" == c) {
-          isEscaped = true
-        } else {
-          if (/\s/.test(c)) {  // skip
-            if (token) {  // end of token
-              tokens.push(token.join(""))
-              token = undefined
-            }
-          } else {
-            switch(c) {
-              case "(":
-              case ")":
-                if (!isEscaped) {
-                  if (token) {  // end of token
-                    tokens.push(token.join(""))
-                    token = undefined
-                  }
-                  tokens.push(c)
-                  break;
-                }
-              default:
-                token = token ? token : [] // start of token
-                token.push(c)
-                break;
-            }
+      var c = expr.charAt(i)
+      if ('\\' === c) {
+        isEscaped = true
+      } else {
+        if (/\s/.test(c)) {
+          // skip
+          if (token) {
+            // end of token
+            tokens.push(token.join(''))
+            token = undefined
           }
-          isEscaped = false;
+        } else {
+          switch (c) {
+            case '(':
+            case ')':
+              if (!isEscaped) {
+                if (token) {
+                  // end of token
+                  tokens.push(token.join(''))
+                  token = undefined
+                }
+                tokens.push(c)
+                break
+              }
+            default:
+              token = token ? token : [] // start of token
+              token.push(c)
+              break
+          }
         }
+        isEscaped = false
+      }
     }
     if (token) {
-      tokens.push(token.join(""))
+      tokens.push(token.join(''))
     }
     return tokens
   }
 
+  function isUnary(token) {
+    return 'not' === token
+  }
+
+  function isBinary(token) {
+    return 'or' === token || 'and' === token
+  }
+
   function isOp(token) {
     return ASSOC[token] !== undefined
+  }
+
+  function check(expectedTokenType, tokenType) {
+    if (expectedTokenType !== tokenType) {
+      throw new Error('Syntax error. Expected ' + expectedTokenType)
+    }
   }
 
   function peek(stack) {
@@ -171,6 +201,16 @@ module.exports = function TagExpressionParser() {
 
     this.toString = function() {
       return 'not ( ' + expr.toString() + ' )'
+    }
+  }
+
+  function True() {
+    this.evaluate = function() {
+      return true
+    }
+
+    this.toString = function() {
+      return 'true'
     }
   }
 }

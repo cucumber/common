@@ -31,6 +31,28 @@ describe('TagExpressionParser', function() {
       })
     })
 
+    ;[
+      ['@a @b or', 'Syntax error. Expected operator'],
+      ['@a and (@b not)', 'Syntax error. Expected operator'],
+      ['@a and (@b @c) or', 'Syntax error. Expected operator'],
+      ['@a and or', 'Syntax error. Expected operand'],
+      ['or or', 'Syntax error. Expected operand'],
+      ['a b', 'Syntax error. Expected operator'],
+      ['( a and b ) )', 'Syntax error. Unmatched )'],
+      ['( ( a and b )', 'Syntax error. Unmatched ('],
+      // a or not b
+    ].forEach(function(inOut) {
+      it(inOut[0] + ' fails', function() {
+        var infix = inOut[0]
+        try {
+          parser.parse(infix)
+          throw new Error('Expected syntax error')
+        } catch (expected) {
+          assert.equal(expected.message, inOut[1])
+        }
+      })
+    })
+
     // evaluation
 
     it('evaluates not', function() {
@@ -62,46 +84,11 @@ describe('TagExpressionParser', function() {
       assert.equal(expr.evaluate(['x']), false)
     })
 
-    // errors
-
-    it('errors on extra close paren', function() {
-      try {
-        parser.parse('( a and b ) )')
-        throw new Error('expected error')
-      } catch (expected) {
-        assert.equal(expected.message, 'Unclosed (')
-      }
-    })
-
-    it('errors on extra close paren', function() {
-      try {
-        parser.parse('a not ( and )')
-        throw new Error('expected error')
-      } catch (expected) {
-        assert.equal(expected.message, 'empty stack')
-      }
-    })
-
-    it('errors on unclosed paren', function() {
-      try {
-        parser.parse('( ( a and b )')
-        throw new Error('expected error')
-      } catch (expected) {
-        assert.equal(expected.message, 'Unclosed (')
-      }
-    })
-
-    it('errors when there are several expressions', function() {
-      try {
-        parser.parse('a b')
-        throw new Error('expected error')
-      } catch (expected) {
-        assert.equal(expected.message, 'Not empty')
-      }
-    })
-
-    it('errors when there are only operators', function() {
-      assert.throws(() => parser.parse('or or'), 'empty stack')
+    it('evaluates empty expressions to true', function() {
+      var expr = parser.parse('')
+      assert.equal(expr.evaluate([]), true)
+      assert.equal(expr.evaluate(['y']), true)
+      assert.equal(expr.evaluate(['x']), true)
     })
   })
 })
