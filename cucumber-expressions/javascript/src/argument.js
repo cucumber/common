@@ -9,11 +9,11 @@ class Argument {
 
     if (argGroups.length !== parameterTypes.length) {
       throw new CucumberExpressionError(
-        `Expression ${treeRegexp.regexp} has ${argGroups.length} capture groups (${argGroups.map(
-          g => g.value
-        )}), but there were ${parameterTypes.length} parameter types (${parameterTypes.map(
-          p => p.name
-        )})`
+        `Expression ${treeRegexp.regexp} has ${
+          argGroups.length
+        } capture groups (${argGroups.map(g => g.value)}), but there were ${
+          parameterTypes.length
+        } parameter types (${parameterTypes.map(p => p.name)})`
       )
     }
 
