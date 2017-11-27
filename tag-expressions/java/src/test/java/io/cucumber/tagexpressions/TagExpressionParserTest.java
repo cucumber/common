@@ -17,6 +17,12 @@ public class TagExpressionParserTest {
     private TagExpressionParser parser = new TagExpressionParser();
 
     @Test
+    public void evaluates_empty_expression_to_true() {
+        Expression expr = parser.parse("");
+        assertTrue(expr.evaluate(asList("@a @c @d".split(" "))));
+    }
+
+    @Test
     public void evaluates_not() {
         Expression expr = parser.parse("not   x");
         assertEquals(false, expr.evaluate(singletonList("x")));

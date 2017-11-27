@@ -9,7 +9,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Added
 * Escape special chars in tags
-  ([]()
+  ([#286](https://github.com/cucumber/cucumber/pull/286)
+   [#285](https://github.com/cucumber/cucumber/issues/285)
    by [link89])
 
 ### Changed
@@ -22,7 +23,12 @@ N/A
 N/A
 
 ### Fixed
-N/A
+* Don't support RPN
+  ([#304](https://github.com/cucumber/cucumber/issues/304)
+   by [aslakhellesoy])
+* Parse empty tag expressions (always evaluates to true)
+  ([#296](https://github.com/cucumber/cucumber/issues/296)
+   by [aslakhellesoy])
 
 ## [1.0.1] - 2017-05-28
 

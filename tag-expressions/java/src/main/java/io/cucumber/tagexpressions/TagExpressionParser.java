@@ -24,61 +24,58 @@ public class TagExpressionParser {
 
     public Expression parse(String infix) {
         final List<String> tokens = tokenize(infix);
-        final Deque<String> ops = new ArrayDeque<>();
-        final Deque<Expression> exprs = new ArrayDeque<>();
-        TokenType expectedTokenType = TokenType.OPERAND;
+        if(tokens.isEmpty()) return new True();
 
+        final Deque<String> operators = new ArrayDeque<>();
+        final Deque<Expression> expressions = new ArrayDeque<>();
+        TokenType expectedTokenType = TokenType.OPERAND;
         for (String token : tokens) {
             if (isUnary(token)) {
                 check(expectedTokenType, TokenType.OPERAND);
-                ops.push(token);
+                operators.push(token);
                 expectedTokenType = TokenType.OPERAND;
             } else if (isBinary(token)) {
                 check(expectedTokenType, TokenType.OPERATOR);
-                while (ops.size() > 0 && isOperator(ops.peek()) && (
-                        (ASSOC.get(token) == Assoc.LEFT && PREC.get(token) <= PREC.get(ops.peek()))
+                while (operators.size() > 0 && isOperator(operators.peek()) && (
+                        (ASSOC.get(token) == Assoc.LEFT && PREC.get(token) <= PREC.get(operators.peek()))
                                 ||
-                                (ASSOC.get(token) == Assoc.RIGHT && PREC.get(token) < PREC.get(ops.peek())))
+                                (ASSOC.get(token) == Assoc.RIGHT && PREC.get(token) < PREC.get(operators.peek())))
                         ) {
-                    pushExpr(pop(ops), exprs);
+                    pushExpr(pop(operators), expressions);
                 }
-                ops.push(token);
+                operators.push(token);
                 expectedTokenType = TokenType.OPERAND;
             } else if ("(".equals(token)) {
                 check(expectedTokenType, TokenType.OPERAND);
-                ops.push(token);
+                operators.push(token);
                 expectedTokenType = TokenType.OPERAND;
             } else if (")".equals(token)) {
                 check(expectedTokenType, TokenType.OPERATOR);
-                while (ops.size() > 0 && !"(".equals(ops.peek())) {
-                    pushExpr(pop(ops), exprs);
+                while (operators.size() > 0 && !"(".equals(operators.peek())) {
+                    pushExpr(pop(operators), expressions);
                 }
-                if (ops.size() == 0) {
+                if (operators.size() == 0) {
                     throw new TagExpressionException("Unclosed (");
                 }
-                if ("(".equals(ops.peek())) {
-                    pop(ops);
+                if ("(".equals(operators.peek())) {
+                    pop(operators);
                 }
                 expectedTokenType = TokenType.OPERATOR;
             } else {
                 check(expectedTokenType, TokenType.OPERAND);
-                pushExpr(token, exprs);
+                pushExpr(token, expressions);
                 expectedTokenType = TokenType.OPERATOR;
             }
         }
 
-        while (ops.size() > 0) {
-            if ("(".equals(ops.peek())) {
+        while (operators.size() > 0) {
+            if ("(".equals(operators.peek())) {
                 throw new TagExpressionException("Unclosed (");
             }
-            pushExpr(pop(ops), exprs);
+            pushExpr(pop(operators), expressions);
         }
 
-        Expression expr = exprs.pop();
-        if (exprs.size() > 0) {
-            throw new TagExpressionException("Not empty");
-        }
-        return expr;
+        return expressions.pop();
     }
 
     private static List<String> tokenize(String expr) {
@@ -250,6 +247,13 @@ public class TagExpressionParser {
         @Override
         public String toString() {
             return "not ( " + expr.toString() + " )";
+        }
+    }
+
+    private class True implements Expression {
+        @Override
+        public boolean evaluate(List<String> variables) {
+            return true;
         }
     }
 }
