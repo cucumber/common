@@ -20,9 +20,9 @@ public class TagExpressionParser {
         put("and", 1);
         put("not", 2);
     }};
-    private static char ESCAPING_CHAR = '\\';
+    private static final char ESCAPING_CHAR = '\\';
 
-    private static String[] tokenize(String expr) {
+    private static List<String> tokenize(String expr) {
         List<String> tokens = new ArrayList<String>();
 
         boolean isEscaped = false;
@@ -63,11 +63,11 @@ public class TagExpressionParser {
         if (null != token) { // end of token
             tokens.add(token.toString());
         }
-        return tokens.toArray(new String[0]);
+        return tokens;
     }
 
     public Expression parse(String infix) {
-        String[] tokens = tokenize(infix);
+        List<String> tokens = tokenize(infix);
         Deque<String> ops = new ArrayDeque<>();
         Deque<Expression> exprs = new ArrayDeque<>();
         TokenType tokenType = TokenType.OPERAND;
