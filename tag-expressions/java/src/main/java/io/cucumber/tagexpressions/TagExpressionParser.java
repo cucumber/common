@@ -22,8 +22,67 @@ public class TagExpressionParser {
     }};
     private static final char ESCAPING_CHAR = '\\';
 
+    public Expression parse(String infix) {
+        final List<String> tokens = tokenize(infix);
+        final Deque<String> ops = new ArrayDeque<>();
+        final Deque<Expression> exprs = new ArrayDeque<>();
+        TokenType expectedTokenType = TokenType.OPERAND;
+
+        for (String token : tokens) {
+            if (isUnary(token)) {
+                check(expectedTokenType, TokenType.OPERAND);
+                ops.push(token);
+                expectedTokenType = TokenType.OPERAND;
+            } else if (isBinary(token)) {
+                check(expectedTokenType, TokenType.OPERATOR);
+                while (ops.size() > 0 && isOperator(ops.peek()) && (
+                        (ASSOC.get(token) == Assoc.LEFT && PREC.get(token) <= PREC.get(ops.peek()))
+                                ||
+                                (ASSOC.get(token) == Assoc.RIGHT && PREC.get(token) < PREC.get(ops.peek())))
+                        ) {
+                    pushExpr(pop(ops), exprs);
+                }
+                ops.push(token);
+                expectedTokenType = TokenType.OPERAND;
+            } else if ("(".equals(token)) {
+                check(expectedTokenType, TokenType.OPERAND);
+                ops.push(token);
+                expectedTokenType = TokenType.OPERAND;
+            } else if (")".equals(token)) {
+                check(expectedTokenType, TokenType.OPERATOR);
+                while (ops.size() > 0 && !"(".equals(ops.peek())) {
+                    pushExpr(pop(ops), exprs);
+                }
+                if (ops.size() == 0) {
+                    throw new TagExpressionException("Unclosed (");
+                }
+                if ("(".equals(ops.peek())) {
+                    pop(ops);
+                }
+                expectedTokenType = TokenType.OPERATOR;
+            } else {
+                check(expectedTokenType, TokenType.OPERAND);
+                pushExpr(token, exprs);
+                expectedTokenType = TokenType.OPERATOR;
+            }
+        }
+
+        while (ops.size() > 0) {
+            if ("(".equals(ops.peek())) {
+                throw new TagExpressionException("Unclosed (");
+            }
+            pushExpr(pop(ops), exprs);
+        }
+
+        Expression expr = exprs.pop();
+        if (exprs.size() > 0) {
+            throw new TagExpressionException("Not empty");
+        }
+        return expr;
+    }
+
     private static List<String> tokenize(String expr) {
-        List<String> tokens = new ArrayList<String>();
+        List<String> tokens = new ArrayList<>();
 
         boolean isEscaped = false;
         StringBuilder token = null;
@@ -66,68 +125,9 @@ public class TagExpressionParser {
         return tokens;
     }
 
-    public Expression parse(String infix) {
-        List<String> tokens = tokenize(infix);
-        Deque<String> ops = new ArrayDeque<>();
-        Deque<Expression> exprs = new ArrayDeque<>();
-        TokenType tokenType = TokenType.OPERAND;
-
-        for (String token : tokens) {
-            if ("not".equals(token)) {
-                check(TokenType.OPERAND, tokenType);
-                ops.push(token);
-                tokenType = TokenType.OPERAND;
-            } else if (isOp(token)) {
-                check(TokenType.OPERATOR, tokenType);
-                while (ops.size() > 0 && isOp(ops.peek()) && (
-                        (ASSOC.get(token) == Assoc.LEFT && PREC.get(token) <= PREC.get(ops.peek()))
-                                ||
-                                (ASSOC.get(token) == Assoc.RIGHT && PREC.get(token) < PREC.get(ops.peek())))
-                        ) {
-                    pushExpr(pop(ops), exprs);
-                }
-                ops.push(token);
-                tokenType = TokenType.OPERAND;
-            } else if ("(".equals(token)) {
-                check(TokenType.OPERAND, tokenType);
-                ops.push(token);
-                tokenType = TokenType.OPERAND;
-            } else if (")".equals(token)) {
-                check(TokenType.OPERATOR, tokenType);
-                while (ops.size() > 0 && !"(".equals(ops.peek())) {
-                    pushExpr(pop(ops), exprs);
-                }
-                if (ops.size() == 0) {
-                    throw new TagExpressionException("Unclosed (");
-                }
-                if ("(".equals(ops.peek())) {
-                    pop(ops);
-                }
-                tokenType = TokenType.OPERATOR;
-            } else {
-                check(TokenType.OPERAND, tokenType);
-                pushExpr(token, exprs);
-                tokenType = TokenType.OPERATOR;
-            }
-        }
-
-        while (ops.size() > 0) {
-            if ("(".equals(ops.peek())) {
-                throw new TagExpressionException("Unclosed (");
-            }
-            pushExpr(pop(ops), exprs);
-        }
-
-        Expression expr = exprs.pop();
-        if (exprs.size() > 0) {
-            throw new TagExpressionException("Not empty");
-        }
-        return expr;
-    }
-
     private void check(TokenType expectedTokenType, TokenType tokenType) {
-        if (tokenType != expectedTokenType) {
-            throw new TagExpressionException("Syntax error. Expected %s", tokenType.toString().toLowerCase());
+        if (expectedTokenType != tokenType) {
+            throw new TagExpressionException("Syntax error. Expected %s", expectedTokenType.toString().toLowerCase());
         }
     }
 
@@ -155,7 +155,15 @@ public class TagExpressionParser {
         }
     }
 
-    private boolean isOp(String token) {
+    private boolean isUnary(String token) {
+        return "not".equals(token);
+    }
+
+    private boolean isBinary(String token) {
+        return "or".equals(token) || "and".equals(token);
+    }
+
+    private boolean isOperator(String token) {
         return ASSOC.get(token) != null;
     }
 
