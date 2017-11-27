@@ -55,7 +55,7 @@ public class TagExpressionParser {
                     pushExpr(pop(operators), expressions);
                 }
                 if (operators.size() == 0) {
-                    throw new TagExpressionException("Unclosed (");
+                    throw new TagExpressionException("Syntax error. Unmatched )");
                 }
                 if ("(".equals(operators.peek())) {
                     pop(operators);
@@ -70,7 +70,7 @@ public class TagExpressionParser {
 
         while (operators.size() > 0) {
             if ("(".equals(operators.peek())) {
-                throw new TagExpressionException("Unclosed (");
+                throw new TagExpressionException("Syntax error. Unmatched (");
             }
             pushExpr(pop(operators), expressions);
         }

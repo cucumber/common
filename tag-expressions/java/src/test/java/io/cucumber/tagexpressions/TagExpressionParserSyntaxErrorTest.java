@@ -30,6 +30,10 @@ public class TagExpressionParserSyntaxErrorTest {
                 {"@a and (@b not)", "Syntax error. Expected operator"},
                 {"@a and (@b @c) or", "Syntax error. Expected operator"},
                 {"@a and or", "Syntax error. Expected operand"},
+                {"or or", "Syntax error. Expected operand"},
+                {"a b", "Syntax error. Expected operator"},
+                {"( a and b ) )", "Syntax error. Unmatched )"},
+                {"( ( a and b )", "Syntax error. Unmatched ("},
         });
     }
 
