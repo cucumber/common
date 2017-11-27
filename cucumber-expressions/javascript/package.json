@@ -35,13 +35,13 @@
     "babel-cli": "^6.23.0",
     "babel-polyfill": "^6.26.0",
     "babel-preset-env": "^1.6.1",
-    "eslint": "^4.10.0",
+    "eslint": "^4.12.0",
     "eslint-config-eslint": "^4.0.0",
-    "eslint-config-prettier": "^2.7.0",
+    "eslint-config-prettier": "^2.9.0",
     "eslint-plugin-prettier": "^2.0.1",
     "mocha": "^4.0.1",
     "nyc": "^11.3.0",
-    "prettier": "^1.7.4"
+    "prettier": "^1.8.2"
   },
   "files": [
     "*"

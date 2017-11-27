@@ -63,7 +63,9 @@ class ParameterType {
       )
       if (nonNullGroupValues.length >= 2)
         throw new CucumberExpressionError(
-          `Single transformer unexpectedly matched 2 values - "${nonNullGroupValues[0]}" and "${nonNullGroupValues[1]}"`
+          `Single transformer unexpectedly matched 2 values - "${
+            nonNullGroupValues[0]
+          }" and "${nonNullGroupValues[1]}"`
         )
       args = [nonNullGroupValues[0]]
     } else {
