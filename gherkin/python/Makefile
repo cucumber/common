@@ -52,8 +52,12 @@ acceptance/testdata/%.feature.errors.ndjson: testdata/%.feature testdata/%.featu
 	diff --unified <(jq "." $<.errors.ndjson) <(jq "." $@)
 
 clean:
-	rm -rf .compared .built .pipped acceptance gherkin/parser.py
+	rm -rf .compared .built .pipped acceptance
 .PHONY: clean
+
+clobber: clean
+	rm -rf gherkin/parser.py
+.PHONY: clobber
 
 gherkin/parser.py: gherkin.berp gherkin-python.razor berp/berp.exe
 	mono berp/berp.exe -g gherkin.berp -t gherkin-python.razor -o $@

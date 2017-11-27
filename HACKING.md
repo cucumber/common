@@ -23,19 +23,6 @@ You can learn more about monrepos here:
 * http://danluu.com/monorepo/
 * https://medium.com/@bebraw/the-case-for-monorepos-907c1361708a
 
-### Splitsh Lite
-
-We're using a tool called [splitsh-lite](https://github.com/splitsh/lite) to push
-the monorepo to the manyrepos. This is done by the CI server, but if you wish
-to do it locally, here is how to install it:
-
-First, make sure you have set [GOPATH](https://golang.org/doc/code.html#GOPATH).
-Second, install it:
-
-    ./scripts/install_splitsh-lite
-
-Now you should have a new file called `bin/splitsh-lite`
-
 ### Docker and CI
 
 Our CI build uses Docker. We have our own docker images defined in `Dockerfile.*`

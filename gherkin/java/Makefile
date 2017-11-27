@@ -13,14 +13,13 @@ JAVA_FILES = $(shell find . -name "*.java")
 .DELETE_ON_ERROR:
 
 default: .compared
-	mvn install
 .PHONY: default
 
 .compared: $(TOKENS) $(ASTS) $(PICKLES) $(ERRORS) $(SOURCES)
 	touch $@
 
-.built: src/main/java/gherkin/Parser.java src/main/resources/gherkin/gherkin-languages.json $(JAVA_FILES) LICENSE
-	mvn test
+.built: src/main/java/gherkin/Parser.java src/main/resources/gherkin/gherkin-languages.json $(JAVA_FILES) LICENSE pom.xml
+	mvn install
 	touch $@
 
 acceptance/testdata/%.feature.tokens: testdata/%.feature testdata/%.feature.tokens .built
@@ -80,5 +79,9 @@ src/main/java/gherkin/Parser.java: gherkin.berp gherkin-java.razor berp/berp.exe
 	mv $@.nobom $@
 
 clean:
-	rm -rf .compared .built acceptance target src/main/java/gherkin/Parser.java
+	rm -rf .compared .built acceptance target
 .PHONY: clean
+
+clobber: clean
+	rm -rf src/main/java/gherkin/Parser.java
+.PHONY: clobber

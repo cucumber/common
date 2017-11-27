@@ -3826,9 +3826,6 @@ module.exports = function Parser(builder) {
     if(typeof tokenScanner == 'string') {
       tokenScanner = new TokenScanner(tokenScanner);
     }
-    if(typeof tokenMatcher == 'string') {
-      tokenMatcher = new TokenMatcher(tokenMatcher);
-    }
     tokenMatcher = tokenMatcher || new TokenMatcher();
     builder.reset();
     tokenMatcher.reset();

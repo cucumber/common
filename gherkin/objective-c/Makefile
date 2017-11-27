@@ -47,10 +47,14 @@ acceptance/testdata/%.feature.errors.ndjson: testdata/%.feature testdata/%.featu
 	diff --unified <(jq "." $<.errors.ndjson) <(jq "." $@)
 
 clean:
-	rm -rf .compared .built acceptance Gherkin/GHParser.m Gherkin/GHParser.h
+	rm -rf .compared .built acceptance
 	rm -rf build/
 	rm -rf *~
 .PHONY: clean
+
+clobber: clean
+	rm -rf Gherkin/GHParser.m Gherkin/GHParser.h
+.PHONY: clobber
 
 Gherkin/GHParser.h: gherkin.berp gherkin-objective-c-header.razor berp/berp.exe
 	-mono berp/berp.exe -g gherkin.berp -t gherkin-objective-c-header.razor -o $@

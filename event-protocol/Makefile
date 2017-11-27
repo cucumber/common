@@ -11,7 +11,7 @@ default: .valid
 	touch $@
 
 yarn.lock: package.json
-	yarn install
+	yarn install --network-concurrency 1
 
 clean:
 	rm -rf yarn.lock node_modules coverage dist .built .valid examples/events.ndjson

@@ -1,7 +1,10 @@
-default:
-	mvn install
+default: .built
 .PHONY: default
 
+.built: pom.xml
+	mvn install
+	touch $@
+
 clean:
-	mvn clean
+	rm -rf target
 .PHONY: clean

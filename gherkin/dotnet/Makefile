@@ -63,12 +63,16 @@ acceptance/testdata/%.feature.errors.ndjson: testdata/%.feature testdata/%.featu
 	diff --unified $<.errors.ndjson $@
 
 clean:
-	rm -rf .compared .built .run_tests acceptance Gherkin/Parser.cs
+	rm -rf .compared .built .run_tests acceptance
 	rm -rf */bin
 	rm -rf */obj
 	rm -rf */packages
 	rm -rf ./output
 .PHONY: clean
+
+clobber: clean
+	rm -rf Gherkin/Parser.cs
+.PHONY: clobber
 
 Gherkin/Parser.cs: gherkin.berp gherkin-csharp.razor berp/berp.exe
 	# Some build environments (Travis) mess up timestamps

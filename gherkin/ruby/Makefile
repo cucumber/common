@@ -49,8 +49,12 @@ acceptance/testdata/%.feature.errors.ndjson: testdata/%.feature testdata/%.featu
 	diff --unified <(jq "." $<.errors.ndjson) <(jq "." $@)
 
 clean:
-	rm -rf .compared .built acceptance lib/gherkin/parser.rb coverage
+	rm -rf .compared .built acceptance coverage
 .PHONY: clean
+
+clobber: clean
+	rm -rf lib/gherkin/parser.rb
+.PHONY: clobber
 
 lib/gherkin/parser.rb: gherkin.berp gherkin-ruby.razor berp/berp.exe
 	mono berp/berp.exe -g gherkin.berp -t gherkin-ruby.razor -o $@

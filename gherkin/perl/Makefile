@@ -65,8 +65,12 @@ release: predistribution
 	dzil release
 
 clean:
-	rm -rf Gherkin-* .compared .cpanfile_dependencies .built acceptance lib/Gherkin/Generated/Languages.pm lib/Gherkin/Generated/Parser.pm
+	rm -rf Gherkin-* .compared .cpanfile_dependencies .built acceptance
 .PHONY: clean
+
+clobber: clean
+	rm -rf lib/Gherkin/Generated/Languages.pm lib/Gherkin/Generated/Parser.pm
+.PHONY: clobber
 
 lib/Gherkin/Generated:
 	mkdir -p $@

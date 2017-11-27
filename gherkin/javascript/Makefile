@@ -24,7 +24,7 @@ default: .compared
 	touch $@
 
 yarn.lock: package.json
-	yarn install
+	yarn install --network-concurrency 1
 	touch $@
 
 acceptance/testdata/%.feature.tokens: testdata/%.feature testdata/%.feature.tokens .built
@@ -73,5 +73,9 @@ dist/gherkin.min.js: dist/gherkin.js yarn.lock
 	./node_modules/.bin/uglifyjs $< >> $@
 
 clean:
-	rm -rf .compared .built acceptance lib/gherkin/parser.js dist
+	rm -rf .compared .built acceptance dist
 .PHONY: clean
+
+clobber: clean
+	rm -rf lib/gherkin/parser.js
+.PHONY: clobber

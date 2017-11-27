@@ -36,9 +36,13 @@ default: .compared
 	touch $@
 
 clean:
-	rm -rf .compared .built .run acceptance ./include/rule_type.h src/parser.c src/dialect.c
+	rm -rf .compared .built .run acceptance
 	cd src; $(MAKE) $@
 .PHONY: clean
+
+clobber: clean
+	rm -rf ./include/rule_type.h src/parser.c src/dialect.c
+.PHONY: clobber
 
 cli: ./include/rule_type.h src/parser.c src/dialect.c $(SRC_FILES) src/Makefile
 	cd src; $(MAKE) CC=$(CC) $@

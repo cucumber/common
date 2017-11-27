@@ -38,6 +38,7 @@ skip_build:
 
 show-version-info:
 	go version
+PHONY: show-version-info
 
 bin/gherkin-generate-tokens: $(GO_SOURCE_FILES)
 	go build -o $@ ./gherkin-generate-tokens
@@ -82,5 +83,9 @@ dialects_builtin.go: gherkin-languages.json dialects_builtin.go.jq
 	gofmt -w $@
 
 clean:
-	rm -rf .compared .built acceptance bin/ parser.go dialects_builtin.go
-.PHONY: clean show-version-info
+	rm -rf .compared .built acceptance bin/
+.PHONY: clean
+
+clobber: clean
+	rm -rf parser.go dialects_builtin.go
+.PHONY: clobber
