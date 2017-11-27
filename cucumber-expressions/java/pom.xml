@@ -1,5 +1,6 @@
 <?xml version="1.0"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>io.cucumber</groupId>
@@ -26,8 +27,8 @@
         <connection>scm:git:git://github.com/cucumber/cucumber-expressions-java.git</connection>
         <developerConnection>scm:git:git@github.com:cucumber/cucumber-expressions-java.git</developerConnection>
         <url>git://github.com/cucumber/cucumber-expressions-java.git</url>
-      <tag>HEAD</tag>
-  </scm>
+        <tag>HEAD</tag>
+    </scm>
 
     <dependencies>
         <dependency>
@@ -77,19 +78,6 @@
             </plugin>
 
             <plugin>
-                <groupId>org.apache.felix</groupId>
-                <artifactId>maven-bundle-plugin</artifactId>
-                <extensions>true</extensions>
-                <version>3.2.0</version>
-                <configuration>
-                    <instructions>
-                        <Bundle-Description />
-                        <Export-Package>io.cucumber.cucumberexpressions.*</Export-Package>
-                    </instructions>
-                </configuration>
-            </plugin>
-
-            <plugin>
                 <groupId>org.jacoco</groupId>
                 <artifactId>jacoco-maven-plugin</artifactId>
                 <version>${jacoco-maven-plugin.version}</version>
@@ -134,6 +122,19 @@
             </plugin>
 
             <plugin>
+                <groupId>org.apache.felix</groupId>
+                <artifactId>maven-bundle-plugin</artifactId>
+                <extensions>true</extensions>
+                <version>3.2.0</version>
+                <configuration>
+                    <instructions>
+                        <Bundle-Description/>
+                        <Export-Package>io.cucumber.cucumberexpressions.*</Export-Package>
+                    </instructions>
+                </configuration>
+            </plugin>
+
+            <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-release-plugin</artifactId>
                 <version>2.5.3</version>
@@ -166,8 +167,8 @@
                         <configuration>
                             <useAgent>true</useAgent>
                             <gpgArguments>
-                              <arg>--local-user</arg>
-                              <arg>devs@cucumber.io</arg>
+                                <arg>--local-user</arg>
+                                <arg>devs@cucumber.io</arg>
                             </gpgArguments>
                         </configuration>
                         <executions>
