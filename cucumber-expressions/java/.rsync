@@ -1,2 +1,3 @@
 ../../LICENSE LICENSE
+../../.travis/java/.travis.yml .travis.yml
 ../examples.txt examples.txt

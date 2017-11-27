@@ -25,7 +25,6 @@ default: .compared
 
 yarn.lock: package.json
 	yarn install --network-concurrency 1
-	touch $@
 
 acceptance/testdata/%.feature.tokens: testdata/%.feature testdata/%.feature.tokens .built
 	mkdir -p `dirname $@`
