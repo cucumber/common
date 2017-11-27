@@ -6,14 +6,14 @@
   "scripts": {
     "test": "npm run eslint && npm run coverage",
     "eslint": "eslint src test",
+    "eslint-fix": "eslint --fix src test",
+    "mocha": "mocha",
+    "coverage": "nyc --reporter=html --reporter=text mocha",
     "build": "babel src --out-dir dist/src",
     "build-test": "babel test --out-dir dist/test",
     "prepare": "yarn build",
     "postinstall": "node scripts/postinstall.js",
-    "mocha": "mocha",
-    "mocha-built": "mocha dist/test",
-    "coverage": "nyc --reporter=html --reporter=text mocha",
-    "precommit": "lint-staged"
+    "mocha-built": "mocha dist/test"
   },
   "repository": {
     "type": "git",

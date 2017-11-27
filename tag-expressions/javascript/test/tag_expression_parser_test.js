@@ -30,7 +30,6 @@ describe('TagExpressionParser', function() {
         assert.equal(roundtripExpr.toString(), inOut[1])
       })
     })
-
     ;[
       ['@a @b or', 'Syntax error. Expected operator'],
       ['@a and (@b not)', 'Syntax error. Expected operator'],
