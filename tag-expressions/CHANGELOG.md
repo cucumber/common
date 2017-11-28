@@ -8,13 +8,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ## [Unreleased]
 
 ### Added
-* Ruby: Added `cucumber-tag-expressions` command-line tool for tag expressions
-  ([#282](https://github.com/cucumber/cucumber/pull/282)
-   by [aslakhellesoy])
-* Escape special chars in tags
-  ([#286](https://github.com/cucumber/cucumber/pull/286)
-   [#285](https://github.com/cucumber/cucumber/issues/285)
-   by [link89])
+N/A
 
 ### Changed
 N/A
@@ -24,6 +18,20 @@ N/A
 
 ### Removed
 N/A
+
+### Fixed
+N/A
+
+## [1.1.0] - 2017-11-28
+
+### Added
+* Ruby: Added `cucumber-tag-expressions` command-line tool for tag expressions
+  ([#282](https://github.com/cucumber/cucumber/pull/282)
+   by [aslakhellesoy])
+* Escape special chars in tags
+  ([#286](https://github.com/cucumber/cucumber/pull/286)
+   [#285](https://github.com/cucumber/cucumber/issues/285)
+   by [link89])
 
 ### Fixed
 * Don't support RPN
@@ -55,7 +63,8 @@ N/A
 * First stable release!
 
 <!-- Releases -->
-[Unreleased]: https://github.com/cucumber/cucumber/compare/tag-expressions-v1.0.1...master
+[Unreleased]: https://github.com/cucumber/cucumber/compare/tag-expressions-v1.1.0...master
+[1.1.0]: https://github.com/cucumber/cucumber/compare/tag-expressions-v1.0.1...v1.1.0
 [1.0.1]:      https://github.com/cucumber/cucumber/releases/tag/tag-expressions-v1.0.1
 
 <!-- Contributors -->
