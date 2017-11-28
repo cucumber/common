@@ -28,7 +28,7 @@ To simplify the maintenance of these duplicated files we use `rsync` to copy a
 master to the subrepos. What files to copy are listed in various `.rsync` files,
 and files are synchronised by doing:
 
-    rm .rsynced
+    rm -f .rsynced
     make .rsynced
 
 ## Releasing a library
