@@ -150,4 +150,35 @@ describe('CucumberExpressionGenerator', () => {
     const typeNames = expression.parameterTypes.map(parameter => parameter.name)
     assert.deepEqual(typeNames, ['int', 'float'])
   })
+
+  it('ignores parameter types with optional capture groups', () => {
+    parameterTypeRegistry.defineParameterType(
+      new ParameterType(
+        'optional-flight',
+        /(1st flight)?/,
+        null,
+        s => s,
+        true,
+        false
+      )
+    )
+    parameterTypeRegistry.defineParameterType(
+      new ParameterType(
+        'optional-hotel',
+        /(1st hotel)?/,
+        null,
+        s => s,
+        true,
+        false
+      )
+    )
+
+    const expression = generator.generateExpressions(
+      'I reach Stage4: 1st flight-1st hotl'
+    )[0]
+    assert.equal(
+      expression.source,
+      'I reach Stage{int}: {int}st flight{int}st hotl'
+    )
+  })
 })

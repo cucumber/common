@@ -20,6 +20,10 @@ N/A
 N/A
 
 ### Fixed
+* Ignore `ParameterType`s with optional capture groups when generating snippets. Trying to do so
+  caused an infinite loop.
+  ([#307](https://github.com/cucumber/cucumber/issues/307)
+   [aslakhellesoy])
 * Throw an error when `ParameterType` regexps have flags. Flags are not allowed because only the source
   of the regexp is used to build a new regexp for the entire Cucumber Expression. See
   [#308](https://github.com/cucumber/cucumber/issues/308). ([aslakhellesoy])

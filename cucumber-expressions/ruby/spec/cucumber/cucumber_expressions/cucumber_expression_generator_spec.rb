@@ -79,6 +79,28 @@ module Cucumber
         expect(types).to eq([Integer, Float])
       end
 
+      it "ignores parameter types with optional capture groups" do
+        @parameter_type_registry.define_parameter_type(ParameterType.new(
+            'optional-flight',
+            /(1st flight)?/,
+            String,
+            lambda {|s| s},
+            true,
+            false
+        ))
+        @parameter_type_registry.define_parameter_type(ParameterType.new(
+            'optional-hotel',
+            /(1st hotel)?/,
+            String,
+            lambda {|s| s},
+            true,
+            false
+        ))
+
+        expression = @generator.generate_expressions("I reach Stage4: 1st flight-1st hotl")[0]
+        expect(expression.source).to eq("I reach Stage{int}: {int}st flight{int}st hotl")
+      end
+
       def assert_expression(expected_expression, expected_argument_names, text)
         generated_expression = @generator.generate_expression(text)
         expect(generated_expression.parameter_names).to eq(expected_argument_names)

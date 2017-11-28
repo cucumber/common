@@ -23,7 +23,7 @@ class ParameterTypeMatcher {
   }
 
   get find() {
-    return this._match
+    return this._match && this.group !== ''
   }
 
   get start() {
@@ -31,7 +31,7 @@ class ParameterTypeMatcher {
   }
 
   get group() {
-    return this._match[1]
+    return this._match[0]
   }
 
   static compare(a, b) {

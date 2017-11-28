@@ -18,7 +18,7 @@ class ParameterTypeMatcher implements Comparable<ParameterTypeMatcher> {
     }
 
     public boolean find() {
-        return matcher.find();
+        return matcher.find() && !group().isEmpty();
     }
 
     public int start() {

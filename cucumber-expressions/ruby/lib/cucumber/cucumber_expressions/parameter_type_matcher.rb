@@ -13,7 +13,7 @@ module Cucumber
       end
 
       def find
-        !@match.nil?
+        !@match.nil? && !group.empty?
       end
 
       def start

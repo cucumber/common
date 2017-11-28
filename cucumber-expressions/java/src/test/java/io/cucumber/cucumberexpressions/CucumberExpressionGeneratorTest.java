@@ -199,6 +199,45 @@ public class CucumberExpressionGeneratorTest {
         assertEquals(Double.class, generatedExpression.getParameterTypes().get(1).getType());
     }
 
+    @Test
+    public void ignores_parameter_types_with_optional_capture_groups() {
+        ParameterType<String> optionalFlight = new ParameterType<>(
+                "optional-flight",
+                "(1st flight)?",
+                String.class,
+                new SingleTransformer<>(new Function<String, String>() {
+                    @Override
+                    public String apply(String s) {
+                        return s;
+                    }
+                }),
+                true,
+                false
+        );
+        ParameterType<String> optionalHotel = new ParameterType<>(
+                "optional-hotel",
+                "(1st hotel)?",
+                String.class,
+                new SingleTransformer<>(new Function<String, String>() {
+                    @Override
+                    public String apply(String s) {
+                        return s;
+                    }
+                }),
+                true,
+                false
+        );
+
+        parameterTypeRegistry.defineParameterType(optionalFlight);
+        parameterTypeRegistry.defineParameterType(optionalHotel);
+        // Notice the hotl typo
+        List<GeneratedExpression> generatedExpressions = generator.generateExpressions("I reach Stage4: 1st flight-1st hotl");
+        // Because the parameter's regexp has an optional capture group, its value is "" when we match it against the
+        // undefined step. For that reason we ignore it when we generate the snippets.
+        // It would be nice if we could get a value out of the group, but I haven't figured out how.
+        assertEquals("I reach Stage{int}: {int}st flight{int}st hotl", generatedExpressions.get(0).getSource());
+    }
+
     private void assertExpression(String expectedExpression, List<String> expectedArgumentNames, String text) {
         GeneratedExpression generatedExpression = generator.generateExpressions(text).get(0);
         assertEquals(expectedArgumentNames, generatedExpression.getParameterNames());
