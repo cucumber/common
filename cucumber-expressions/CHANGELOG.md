@@ -7,17 +7,28 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ----
 ## [Unreleased]
 
-### Removed
-
 ### Added
+N/A
+
+### Changed
+N/A
+
+### Deprecated
+N/A
+
+### Removed
+N/A
+
+### Fixed
+N/A
+
+## [5.0.4]
+
+### Fixed
 * Cucumber Expressions with alternation (`I said Alpha1/Beta1`) now works with
   more than just letters - it works with anything that isn't a space.
   ([#303](https://github.com/cucumber/cucumber/issues/303)
    by [aslakhellesoy])
-
-### Changed
-
-### Fixed
 
 ## [5.0.3] - 2017-11-06
 
@@ -248,7 +259,8 @@ N/A
 * First stable release!
 
 <!-- Releases -->
-[Unreleased]: https://github.com/cucumber/cucumber/compare/cucumber-expressions-v5.0.3...master
+[Unreleased]: https://github.com/cucumber/cucumber/compare/cucumber-expressions-v5.0.4...master
+[5.0.4]:      https://github.com/cucumber/cucumber/compare/cucumber-expressions-v5.0.3...cucumber-expressions-v5.0.4
 [5.0.3]:      https://github.com/cucumber/cucumber/compare/cucumber-expressions-v5.0.2...cucumber-expressions-v5.0.3
 [5.0.2]:      https://github.com/cucumber/cucumber/compare/cucumber-expressions-v5.0.0...cucumber-expressions-v5.0.2
 [5.0.0]:      https://github.com/cucumber/cucumber/compare/cucumber-expressions-v4.0.4...cucumber-expressions-v5.0.0
