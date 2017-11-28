@@ -1,10 +1,10 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<?xml version="1.0"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>io.cucumber</groupId>
     <artifactId>tag-expressions</artifactId>
-    <version>1.0.2-SNAPSHOT</version>
+    <version>1.1.1-SNAPSHOT</version>
     <packaging>bundle</packaging>
     <name>Cucumber Tag Expressions</name>
     <description>Parses boolean infix expressions</description>
@@ -112,7 +112,7 @@
                 <version>3.2.0</version>
                 <configuration>
                     <instructions>
-                        <Bundle-Description/>
+                        <Bundle-Description />
                         <Export-Package>io.cucumber.cucumberexpressions.*</Export-Package>
                     </instructions>
                 </configuration>
