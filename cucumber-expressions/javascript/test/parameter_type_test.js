@@ -3,7 +3,7 @@ const assertThrows = require('./assert_throws')
 const ParameterType = require('../src/parameter_type')
 
 describe('ParameterType', () => {
-  it('exposes group source', () => {
+  it('does not allow ignore flag on regexp', () => {
     assertThrows(
       () =>
         new ParameterType(
