@@ -8,6 +8,7 @@ node_js:
   - 9.2.0
   - 8.9.1
   - 6.12.0
+  - 4.8.6
 
 before_install:
   # Repo for Yarn
