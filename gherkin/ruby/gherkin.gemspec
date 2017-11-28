@@ -4,7 +4,7 @@ Gem::Specification.new do |s|
   s.version     = '5.0.0'
   s.authors     = ["Gáspár Nagy", "Aslak Hellesøy", "Steve Tooke"]
   s.description = 'Gherkin parser'
-  s.summary     = "gherkin-#{s.version}"
+  s.summary     = "#{s.name}-#{s.version}"
   s.email       = 'cukes@googlegroups.com'
   s.homepage    = "https://github.com/cucumber/gherkin-ruby"
   s.platform    = Gem::Platform::RUBY
