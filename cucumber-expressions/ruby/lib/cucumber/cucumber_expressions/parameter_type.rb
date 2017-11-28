@@ -49,15 +49,31 @@ module Cucumber
 
       def <=>(other)
         return -1 if prefer_for_regexp_match? && !other.prefer_for_regexp_match?
-        return 1  if other.prefer_for_regexp_match? && !prefer_for_regexp_match?
+        return 1 if other.prefer_for_regexp_match? && !prefer_for_regexp_match?
         name <=> other.name
       end
 
       private
 
-      def string_array(regexp)
-        array = regexp.is_a?(Array) ? regexp : [regexp]
-        array.map { |r| r.is_a?(String) ? r : r.source }
+      def string_array(regexps)
+        array = regexps.is_a?(Array) ? regexps : [regexps]
+        array.map {|regexp| regexp.is_a?(String) ? regexp : regexp_source(regexp)}
+      end
+
+      def regexp_source(regexp)
+        [
+          'EXTENDED',
+          'FIXEDENCODING',
+          'IGNORECASE',
+          'MULTILINE',
+          'NOENCODING'
+        ].each do |option_name|
+          option = Regexp.const_get(option_name)
+          if regexp.options & option != 0
+            raise CucumberExpressionError.new("ParameterType Regexps can't use option Regexp::#{option_name}")
+          end
+        end
+        regexp.source
       end
     end
   end

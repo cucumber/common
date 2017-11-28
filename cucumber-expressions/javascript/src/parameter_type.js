@@ -78,7 +78,17 @@ class ParameterType {
 
 function stringArray(regexps) {
   const array = Array.isArray(regexps) ? regexps : [regexps]
-  return array.map(r => (typeof r === 'string' ? r : r.source))
+  return array.map(r => (typeof r === 'string' ? r : regexpSource(r)))
+}
+
+function regexpSource(regexp) {
+  for (const flag of ['g', 'i', 'm', 'y']) {
+    if (regexp.flags.indexOf(flag) !== -1)
+      throw new CucumberExpressionError(
+        `ParameterType Regexps can't use flag '${flag}'`
+      )
+  }
+  return regexp.source
 }
 
 module.exports = ParameterType
