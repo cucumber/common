@@ -8,6 +8,8 @@ class CucumberExpression {
    * @param parameterTypeRegistry
    */
   constructor(expression, parameterTypeRegistry) {
+    // Does not include (){} characters because they have special meaning
+    const ESCAPE_REGEXP = /([\\^[$.|?*+])/g
     const PARAMETER_REGEXP = /{([^}]+)}/g
     const OPTIONAL_REGEXP = /\(([^)]+)\)/g
     const ALTERNATIVE_NON_WHITESPACE_TEXT_REGEXP = /([^\s^/]+)((\/[^\s^/]+)+)/g
@@ -19,7 +21,8 @@ class CucumberExpression {
     let matchOffset = 0
 
     // Does not include (){} because they have special meaning
-    expression = expression.replace(/([\\^[$.|?*+])/g, '\\$1')
+
+    expression = expression.replace(ESCAPE_REGEXP, '\\$1')
 
     // Create non-capturing, optional capture groups from parenthesis
     expression = expression.replace(OPTIONAL_REGEXP, '(?:$1)?')

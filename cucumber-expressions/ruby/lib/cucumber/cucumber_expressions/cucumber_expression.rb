@@ -5,6 +5,8 @@ require 'cucumber/cucumber_expressions/errors'
 module Cucumber
   module CucumberExpressions
     class CucumberExpression
+      # Does not include (){} characters because they have special meaning
+      ESCAPE_REGEXP = /([\\^\[$.|?*+\]])/
       PARAMETER_REGEXP = /{([^}]+)}/
       OPTIONAL_REGEXP = /\(([^)]+)\)/
       ALTERNATIVE_NON_WHITESPACE_TEXT_REGEXP = /([^\s^\/]+)((\/[^\s^\/]+)+)/
@@ -17,8 +19,7 @@ module Cucumber
         regexp = '^'
         match_offset = 0
 
-        # Escape Does not include (){} because they have special meaning
-        expression = expression.gsub(/([\\\^\[$.|?*+\]])/, '\\\\\1')
+        expression = expression.gsub(ESCAPE_REGEXP, '\\\\\1')
 
         # Create non-capturing, optional capture groups from parenthesis
         expression = expression.gsub(OPTIONAL_REGEXP, '(?:\1)?')
