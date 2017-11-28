@@ -20,6 +20,9 @@ N/A
 N/A
 
 ### Fixed
+* ruby: Fix typo in `ParameterType` error message.
+  ([#306](https://github.com/cucumber/cucumber/issues/306)
+   [aslakhellesoy], [luke-hill])
 * Ignore `ParameterType`s with optional capture groups when generating snippets. Trying to do so
   caused an infinite loop.
   ([#307](https://github.com/cucumber/cucumber/issues/307)
@@ -290,5 +293,6 @@ N/A
 [dmeehan1968]:      https://github.com/dmeehan1968
 [gpichot]:          https://github.com/gpichot
 [jaysonesmith]:     https://github.com/jaysonesmith
+[luke-hill]:        https://github.com/luke-hill
 [mpkorstanje]:      https://github.com/mpkorstanje
 [kAworu]:           https://github.com/kAworu
