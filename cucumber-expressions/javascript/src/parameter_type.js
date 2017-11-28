@@ -82,13 +82,32 @@ function stringArray(regexps) {
 }
 
 function regexpSource(regexp) {
+  const flags = regexpFlags(regexp)
+
   for (const flag of ['g', 'i', 'm', 'y']) {
-    if (regexp.flags.indexOf(flag) !== -1)
+    if (flags.indexOf(flag) !== -1)
       throw new CucumberExpressionError(
         `ParameterType Regexps can't use flag '${flag}'`
       )
   }
   return regexp.source
+}
+
+// Backport RegExp.flags for Node 4.x
+// https://github.com/nodejs/node/issues/8390
+//
+// For some strange reason this is not needed for
+// `./mocha dist/test`, but it is needed for
+// `./mocha dist/test/parameter_type_test.js`
+function regexpFlags(regexp) {
+  let flags = regexp.flags
+  if (flags === undefined) {
+    flags = ''
+    if (regexp.ignoreCase) flags += 'i'
+    if (regexp.global) flags += 'g'
+    if (regexp.multiline) flags += 'm'
+  }
+  return flags
 }
 
 module.exports = ParameterType

@@ -22,6 +22,11 @@ N/A
 ### Fixed
 N/A
 
+## [5.0.6] - 2017-11-28
+
+### Fixed
+* javascript: Backport `RegExp#flags` for Node 4.x
+
 ## [5.0.5] - 2017-11-28
 
 ### Fixed
@@ -273,7 +278,8 @@ N/A
 * First stable release!
 
 <!-- Releases -->
-[Unreleased]: https://github.com/cucumber/cucumber/compare/cucumber-expressions-v5.0.5...master
+[Unreleased]: https://github.com/cucumber/cucumber/compare/cucumber-expressions-v5.0.6...master
+[5.0.6]:      https://github.com/cucumber/cucumber/compare/cucumber-expressions-v5.0.5...cucumber-expressions-v5.0.6
 [5.0.5]:      https://github.com/cucumber/cucumber/compare/cucumber-expressions-v5.0.4...cucumber-expressions-v5.0.5
 [5.0.4]:      https://github.com/cucumber/cucumber/compare/cucumber-expressions-v5.0.3...cucumber-expressions-v5.0.4
 [5.0.3]:      https://github.com/cucumber/cucumber/compare/cucumber-expressions-v5.0.2...cucumber-expressions-v5.0.3
