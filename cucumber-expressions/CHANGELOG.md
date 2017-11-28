@@ -20,6 +20,11 @@ N/A
 N/A
 
 ### Fixed
+N/A
+
+## [5.0.5] - 2017-11-28
+
+### Fixed
 * ruby: Fix typo in `ParameterType` error message.
   ([#306](https://github.com/cucumber/cucumber/issues/306)
    [aslakhellesoy], [luke-hill])
@@ -31,7 +36,7 @@ N/A
   of the regexp is used to build a new regexp for the entire Cucumber Expression. See
   [#308](https://github.com/cucumber/cucumber/issues/308). ([aslakhellesoy])
 
-## [5.0.4]
+## [5.0.4] - 2017-11-28
 
 ### Fixed
 * Cucumber Expressions with alternation (`I said Alpha1/Beta1`) now works with
@@ -268,7 +273,8 @@ N/A
 * First stable release!
 
 <!-- Releases -->
-[Unreleased]: https://github.com/cucumber/cucumber/compare/cucumber-expressions-v5.0.4...master
+[Unreleased]: https://github.com/cucumber/cucumber/compare/cucumber-expressions-v5.0.5...master
+[5.0.5]:      https://github.com/cucumber/cucumber/compare/cucumber-expressions-v5.0.4...cucumber-expressions-v5.0.5
 [5.0.4]:      https://github.com/cucumber/cucumber/compare/cucumber-expressions-v5.0.3...cucumber-expressions-v5.0.4
 [5.0.3]:      https://github.com/cucumber/cucumber/compare/cucumber-expressions-v5.0.2...cucumber-expressions-v5.0.3
 [5.0.2]:      https://github.com/cucumber/cucumber/compare/cucumber-expressions-v5.0.0...cucumber-expressions-v5.0.2
