@@ -8,6 +8,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ## [Unreleased]
 
 ### Added
+* Ruby: Added `cucumber-tag-expressions` command-line tool for tag expressions
+  ([#282](https://github.com/cucumber/cucumber/pull/282)
+   by [aslakhellesoy])
 * Escape special chars in tags
   ([#286](https://github.com/cucumber/cucumber/pull/286)
    [#285](https://github.com/cucumber/cucumber/issues/285)
