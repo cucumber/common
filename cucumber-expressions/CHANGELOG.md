@@ -20,6 +20,11 @@ N/A
 N/A
 
 ### Fixed
+N/A
+
+## [5.0.7] - 2017-11-29
+
+### Fixed
 * ruby: Only disallow `Regexp::EXTENDED`, `Regexp::EXTENDED` and `Regexp::EXTENDED` in `ParameterType` regexps. Other flags such as `Regexp::NOENCODING` and `Regexp::FIXEDENCODING` are OK.
 
 ## [5.0.6] - 2017-11-28
@@ -278,7 +283,8 @@ N/A
 * First stable release!
 
 <!-- Releases -->
-[Unreleased]: https://github.com/cucumber/cucumber/compare/cucumber-expressions-v5.0.6...master
+[Unreleased]: https://github.com/cucumber/cucumber/compare/cucumber-expressions-v5.0.7...master
+[5.0.7]:      https://github.com/cucumber/cucumber/compare/cucumber-expressions-v5.0.6...cucumber-expressions-v5.0.7
 [5.0.6]:      https://github.com/cucumber/cucumber/compare/cucumber-expressions-v5.0.5...cucumber-expressions-v5.0.6
 [5.0.5]:      https://github.com/cucumber/cucumber/compare/cucumber-expressions-v5.0.4...cucumber-expressions-v5.0.5
 [5.0.4]:      https://github.com/cucumber/cucumber/compare/cucumber-expressions-v5.0.3...cucumber-expressions-v5.0.4
