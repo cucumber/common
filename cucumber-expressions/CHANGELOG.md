@@ -20,7 +20,7 @@ N/A
 N/A
 
 ### Fixed
-N/A
+* ruby: Only disallow `Regexp::EXTENDED`, `Regexp::EXTENDED` and `Regexp::EXTENDED` in `ParameterType` regexps. Other flags such as `Regexp::NOENCODING` and `Regexp::FIXEDENCODING` are OK.
 
 ## [5.0.6] - 2017-11-28
 

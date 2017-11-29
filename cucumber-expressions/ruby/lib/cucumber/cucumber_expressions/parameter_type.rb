@@ -63,10 +63,8 @@ module Cucumber
       def regexp_source(regexp)
         [
           'EXTENDED',
-          'FIXEDENCODING',
           'IGNORECASE',
-          'MULTILINE',
-          'NOENCODING'
+          'MULTILINE'
         ].each do |option_name|
           option = Regexp.const_get(option_name)
           if regexp.options & option != 0
