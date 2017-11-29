@@ -1,3 +1,5 @@
+'use strict'
+
 const Stream = require('stream')
 const generateEvents = require('../generate_events')
 
