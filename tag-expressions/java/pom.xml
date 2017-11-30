@@ -113,7 +113,7 @@
                 <configuration>
                     <instructions>
                         <Bundle-Description />
-                        <Export-Package>io.cucumber.cucumberexpressions.*</Export-Package>
+                        <Export-Package>io.cucumber.tagexpressions.*</Export-Package>
                     </instructions>
                 </configuration>
             </plugin>
