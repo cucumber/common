@@ -20,6 +20,11 @@ N/A
 N/A
 
 ### Fixed
+N/A
+
+## [1.1.1] - 2017-12-01
+
+### Fixed
 * Java: Fix OSGI exported package
   ([#309](https://github.com/cucumber/cucumber/pull/309)
    by [mpkorstanje])
@@ -65,7 +70,8 @@ N/A
 * First stable release!
 
 <!-- Releases -->
-[Unreleased]: https://github.com/cucumber/cucumber/compare/tag-expressions-v1.1.0...master
+[Unreleased]: https://github.com/cucumber/cucumber/compare/tag-expressions-v1.1.1...master
+[1.1.1]: https://github.com/cucumber/cucumber/compare/tag-expressions-v1.1.0...v1.1.1
 [1.1.0]: https://github.com/cucumber/cucumber/compare/tag-expressions-v1.0.1...v1.1.0
 [1.0.1]:      https://github.com/cucumber/cucumber/releases/tag/tag-expressions-v1.0.1
 
