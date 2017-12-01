@@ -1,7 +1,7 @@
 # -*- encoding: utf-8 -*-
 Gem::Specification.new do |s|
   s.name        = 'cucumber-tag_expressions'
-  s.version     = '1.1.0'
+  s.version     = '1.1.1'
   s.authors     = ['Andrea Nodari', "Aslak Hellesøy"]
   s.description = 'Cucumber tag expressions for ruby'
   s.summary     = "#{s.name}-#{s.version}"
