@@ -1,6 +1,6 @@
 {
   "name": "cucumber-tag-expressions",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "Cucumber Tag Expression parser",
   "scripts": {
     "test": "npm run eslint && npm run coverage",
