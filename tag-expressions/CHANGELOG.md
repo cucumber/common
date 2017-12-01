@@ -20,7 +20,9 @@ N/A
 N/A
 
 ### Fixed
-N/A
+* Java: Fix OSGI exported package
+  ([#309](https://github.com/cucumber/cucumber/pull/309)
+   by [mpkorstanje])
 
 ## [1.1.0] - 2017-11-28
 
