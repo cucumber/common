@@ -1,0 +1,20 @@
+# Please update /.travis/python/.travis.yml in the cucumber/cucumber monorepo
+# and sync:
+#
+#     source scripts/functions.sh && rsync_files
+#
+sudo: false
+language: python
+python:
+  - "3.6"
+  - "2.7"
+  - "3.5"
+  - "pypy"
+  - "pypy3"
+
+matrix:
+  allow_failures:
+    - python: "pypy3"
+
+install: pip install tox-travis
+script:  tox
