@@ -1,5 +1,5 @@
-Please read [CONTRIBUTING](https://github.com/cucumber/gherkin/blob/master/CONTRIBUTING.md) first.
-You should clone the [cucumber/gherkin](https://github.com/cucumber/gherkin) repo if you want
+Please read [CONTRIBUTING](https://github.com/cucumber/cucumber/blob/master/CONTRIBUTING.md) first.
+You should clone the [cucumber/cucumber](https://github.com/cucumber/cucumber) repo if you want
 to contribute.
 
 ## Run tests
