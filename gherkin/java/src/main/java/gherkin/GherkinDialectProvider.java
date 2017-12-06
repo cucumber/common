@@ -16,6 +16,7 @@ import static java.util.Collections.unmodifiableList;
 public class GherkinDialectProvider implements IGherkinDialectProvider {
     private static Map<String, Map<String, List<String>>> DIALECTS;
     private final String default_dialect_name;
+    final int separation = 5;
 
     static {
         Gson gson = new Gson();
@@ -53,6 +54,62 @@ public class GherkinDialectProvider implements IGherkinDialectProvider {
     public List<String> getLanguages() {
         List<String> languages = new ArrayList<String>(DIALECTS.keySet());
         sort(languages);
-        return unmodifiableList(languages);
+
+        int maxKeyLength = getMaxKeyLength();
+        int maxNameLength = getMaxNameLength();
+
+        List<String> languagesWithExplanation = new ArrayList<String>();
+        for (String key : languages) {
+            Map<String, List<String>> values = DIALECTS.get(key);
+
+            String name = (String) (Object) values.get("name");
+            String nativeName = (String) (Object) values.get("native");
+
+            String languageWithExplanation = formatLanguage(key, maxKeyLength, name, maxNameLength, nativeName);
+            languagesWithExplanation.add(languageWithExplanation);
+        }
+
+        return unmodifiableList(languagesWithExplanation);
+    }
+
+    int getMaxKeyLength() {
+        int max = 0;
+        List<String> languages = new ArrayList<String>(DIALECTS.keySet());
+
+        for (String key : languages) {
+            if (max < key.length()) {
+                max = key.length();
+            }
+        }
+
+        return max;
+    }
+
+    int getMaxNameLength() {
+        int max = 0;
+        List<String> languages = new ArrayList<String>(DIALECTS.keySet());
+
+        for (String key : languages) {
+            Map<String, List<String>> values = DIALECTS.get(key);
+            String name = (String) (Object) values.get("name");
+
+            if (max < name.length()) {
+                max = name.length();
+            }
+        }
+
+        return max;
+    }
+
+    private String formatLanguage(String key, int maxKeyLength, String name, int maxNameLength, String nativeName) {
+        int keyNameSeparation = maxKeyLength + separation;
+        String result = String.format("%1$-" + keyNameSeparation + "s", key);
+        result += name;
+
+        int nameNativeSeparation = keyNameSeparation + maxNameLength + separation;
+        result = String.format("%1$-" + nameNativeSeparation + "s", result);
+        result += nativeName;
+
+        return result;
     }
 }
