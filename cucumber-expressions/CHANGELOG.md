@@ -25,7 +25,7 @@ N/A
 ## [5.0.7] - 2017-11-29
 
 ### Fixed
-* ruby: Only disallow `Regexp::EXTENDED`, `Regexp::EXTENDED` and `Regexp::EXTENDED` in `ParameterType` regexps. Other flags such as `Regexp::NOENCODING` and `Regexp::FIXEDENCODING` are OK.
+* ruby: Only disallow `Regexp::EXTENDED`, `Regexp::IGNORECASE` and `Regexp::MULTILINE` in `ParameterType` regexps. Other flags such as `Regexp::NOENCODING` and `Regexp::FIXEDENCODING` are OK.
 
 ## [5.0.6] - 2017-11-28
 
