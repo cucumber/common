@@ -9,5 +9,7 @@ public interface IGherkinDialectProvider {
 
     GherkinDialect getDialect(String language, Location location);
 
+    List<GherkinDialect> getDialects();
+
     List<String> getLanguages();
 }

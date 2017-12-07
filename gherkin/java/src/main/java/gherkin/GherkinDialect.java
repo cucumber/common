@@ -3,6 +3,7 @@ package gherkin;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 public class GherkinDialect {
     private final Map<String, List<String>> keywords;
@@ -65,5 +66,27 @@ public class GherkinDialect {
 
     public String getLanguage() {
         return language;
+    }
+
+    public String getName() {
+        return (String) (Object) keywords.get("name");
+    }
+
+    public String getNativeName() {
+        return (String) (Object) keywords.get("native");
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        GherkinDialect that = (GherkinDialect) o;
+        return Objects.equals(keywords, that.keywords) &&
+                Objects.equals(language, that.language);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(keywords, language);
     }
 }
