@@ -52,6 +52,10 @@ libs: ./include/rule_type.h src/parser.c src/dialect.c $(SRC_FILES) src/Makefile
 	cd src; $(MAKE) CC=$(CC) $@
 .PHONY: libs
 
+libs_so: ./include/rule_type.h src/parser.c src/dialect.c $(SRC_FILES) src/Makefile
+	cd src; $(MAKE) CC=$(CC) $@
+.PHONY: libs_so
+
 .run: cli $(GHERKIN) $(GOOD_FEATURE_FILES)
 	$(RUN_GHERKIN) $(GOOD_FEATURE_FILES) | jq . > /dev/null
 	touch .run

@@ -1,5 +1,6 @@
-GCC_FLAGS=-c -Wall -Werror -g
-CLANG_FLAGS=-c -Wall -Werror -g
+GCC_FLAGS=-c -Wall -Werror -g -fPIC  -lm
+CLANG_FLAGS=-c -Wall -Werror -g -fPIC 
+GCC_SO_FLAGS= -lm -shared -Wl,-soname,libgherkin.so.1
 
 ifeq ($(CC),i686-w64-mingw32-gcc)
 	CC=i686-w64-mingw32-gcc
@@ -32,6 +33,8 @@ all: \
 cli: ../bin/gherkin$(EXT)
 
 libs: ../libs/libgherkin.a
+
+libs_so: ../libs/libgherkin.so
 
 clean:
 	$(RM_CMD) ../bin ../objs ../libs
@@ -120,6 +123,10 @@ GHERKIN_CLI_OBJS= \
 ../libs/libgherkin.a: $(UTILITIES_OBJS) $(PARSER_OBJS) $(AST_OBJS) $(COMPILER_OBJS) $(PICKLES_OBJS) $(EVENT_OBJS) Makefile
 	$(MKDIR_CMD) $(dir $@)
 	$(AR) $(AR_FLAGS) $@ $(UTILITIES_OBJS) $(PARSER_OBJS) $(AST_OBJS) $(COMPILER_OBJS) $(PICKLES_OBJS) $(EVENT_OBJS)
+
+../libs/libgherkin.so: $(UTILITIES_OBJS) $(PARSER_OBJS) $(AST_OBJS) $(COMPILER_OBJS) $(PICKLES_OBJS) $(EVENT_OBJS)
+	$(MKDIR_CMD) $(dir $@)
+	$(CC) $(GCC_SO_FLAGS) -o ../libs/libgherkin.so.1.0 $(UTILITIES_OBJS) $(PARSER_OBJS) $(AST_OBJS) $(COMPILER_OBJS) $(PICKLES_OBJS) $(EVENT_OBJS)
 
 ../bin/gherkin_generate_tokens$(EXT): ../libs/libgherkin.a $(GENERATE_TOKEN_OBJS) Makefile
 	$(MKDIR_CMD) $(dir $@)
