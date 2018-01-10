@@ -1,11 +1,11 @@
-#Cucumber:
+# Cucumber
  
- The first question that would rise for a beginner would be 
+ The first question that would rise for a beginner would be:
  
-  *1. What is Cucumber?*
-  *2. How Cucumber works with BDD?*
+  1. What is Cucumber?
+  2. How Cucumber works with BDD?
   
-For these two typical questions here are the answers
+For these two typical questions here are the answers.
 
 ## What is Cucumber?
 
@@ -19,7 +19,7 @@ When the acceptance tests are written as examples, they stimulate people’s ima
 
 When the team write their acceptance tests collaboratively, they can develop their own ubiquitous language for talking about their problem domain. This helps them avoid misunderstandings.
     
-##How Cucumber works with BDD?
+## How Cucumber works with BDD?
 
 This is the most typical question for every enthusiastic personality would get.
 What makes Cucumber to stand out from the crowd of other communication and collaboration tools ?
@@ -29,10 +29,10 @@ Cucumber has designed specifically to ensure the acceptance tests can easily be 
 Cucumber was designed specifically to help business stakeholders get involved in writing acceptance tests.
 
 Each test case in Cucumber is called a scenario, and scenarios are grouped into features. Each scenario contains several steps.
-The business-facing parts of a Cucumber test suite, stored in feature files, must be written according to syntax rules—known as Gherkin—so that Cucumber can read them.
+The business-facing parts of a Cucumber test suite, stored in feature files, must be written according to syntax rules — known as Gherkin — so that Cucumber can read them.
 Under the hood, step definitions translate from the business-facing language of steps into programming code.
 
- ![Cucumber-stack](docs/images/Cucumber_Stack.png)
+![Cucumber-stack](docs/images/Cucumber_Stack.png)
    
 Here is an example of a Cucumber Feature:
  
@@ -57,7 +57,7 @@ And I should be offered the option to recover my password
 
  ``` 
   
- Anyone from the team can go through the Feature file an can understand what is the system for, And how it works(functionality).This helps in analyzing the functionality of the system and come up with more scenarios where the system/software can be tested thoroughly.
+Anyone from the team can go through the Feature file an can understand what is the system for, And how it works(functionality).This helps in analyzing the functionality of the system and come up with more scenarios where the system/software can be tested thoroughly.
       
 In this way, we say that the story functions as a living document. As the behavior of the system evolves over time, the team is forced to evolve the documentation in parallel.
    
