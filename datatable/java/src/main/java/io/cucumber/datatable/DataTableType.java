@@ -165,7 +165,7 @@ public final class DataTableType implements Comparable<DataTableType> {
         }
 
         @Override
-        public List<T> transform(List<List<String>> raw) {
+        public List<T> transform(List<List<String>> raw) throws Throwable {
             DataTable table = DataTable.create(raw, CONVERSION_REQUIRED);
             List<T> list = new ArrayList<T>();
             for (Map<String, String> entry : table.asMaps()) {
