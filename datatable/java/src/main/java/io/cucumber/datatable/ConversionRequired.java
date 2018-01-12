@@ -9,6 +9,11 @@ import java.util.Map;
 final class ConversionRequired implements TableConverter {
 
     @Override
+    public <T> T convert(DataTable dataTable, Type type) {
+        return convert(dataTable, type, false);
+    }
+
+    @Override
     public <T> T convert(DataTable dataTable, Type type, boolean transposed) {
         throw new CucumberDataTableException(String.format("Can't convert DataTable to %s. You have to write the conversion for it in this method", type));
     }

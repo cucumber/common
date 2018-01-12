@@ -158,6 +158,11 @@ public final class DataTable {
         return tableConverter.toMap(this, keyType, valueType);
     }
 
+
+    public List<String> asList() {
+        return new ListView();
+    }
+
     /**
      * Converts the table to a list of list of string.
      *
@@ -200,7 +205,10 @@ public final class DataTable {
         return raw;
     }
 
-    public DataTable subTable(final int fromRow, final int fromColumn, final int toRow, final int toColumn) {
+    public DataTable subTable(int fromRow, int fromColumn) {
+        return subTable(fromRow, fromColumn, height(), width());
+    }
+    public DataTable subTable(int fromRow, int fromColumn, int toRow, int toColumn) {
         return new DataTable(new RawDataTableView(fromRow, fromColumn, toColumn, toRow), tableConverter);
     }
 
@@ -336,6 +344,11 @@ public final class DataTable {
         }
 
         @Override
+        public <T> T convert(DataTable dataTable, Type type) {
+            return convert(dataTable, type, false);
+        }
+
+        @Override
         public <T> T convert(DataTable dataTable, Type type, boolean transposed) {
             throw new CucumberDataTableException(String.format("Can't convert DataTable to %s. DataTable was created without a converter", type));
         }
@@ -380,6 +393,20 @@ public final class DataTable {
      * </ol>
      */
     public interface TableConverter {
+
+        /**
+         * Converts a {@link DataTable} to another type.
+         * <p>
+         * Delegates to <code>toList</code>, <code>toLists</code>, <code>toMap</code> and <code>toMaps</code>
+         * for <code>List&lt;T&gt;</code>, <code>List&lt;List&lt;T&gt;&gt;</code>, <code>Map&lt;K,V&gt;</code> and
+         * <code>List&lt;Map&lt;K,V&gt;&gt;</code> respectively.
+         *
+         * @param dataTable  the table to convert
+         * @param type       the type to convert to
+         * @return an object of type
+         */
+        <T> T convert(DataTable dataTable, Type type);
+
 
         /**
          * Converts a {@link DataTable} to another type.
@@ -607,6 +634,22 @@ public final class DataTable {
         }
     }
 
+    private final class ListView extends AbstractList<String> {
+        int width = width();
+        int height = height();
+
+        @Override
+        public String get(int index) {
+            rangeCheck(index, size());
+            return raw.get(index % width).get(index / width);
+        }
+
+        @Override
+        public int size() {
+            return height * width;
+        }
+    }
+
     private final class ColumnView extends AbstractList<String> implements RandomAccess {
         private final int column;
 
@@ -655,6 +698,13 @@ public final class DataTable {
             return DataTable.this;
         }
     }
+
+
+    private static void rangeCheck(int index, int size) {
+        if (index < 0 || index >= size)
+            throw new IndexOutOfBoundsException("index: " + index + ", Size: " + size);
+    }
+
 
     private static void rangeCheckRow(int row, int height) {
         if (row < 0 || row >= height)
