@@ -31,6 +31,11 @@ public final class DataTableTypeRegistryTableConverter extends AbstractTableConv
     }
 
     @Override
+    public <T> T convert(DataTable dataTable, Type type) {
+        return convert(dataTable, type, false);
+    }
+
+    @Override
     public <T> T convert(DataTable dataTable, Type type, boolean transposed) {
         if (dataTable == null) throw new NullPointerException("dataTable may not be null");
         if (type == null) throw new NullPointerException("type may not be null");
@@ -52,11 +57,19 @@ public final class DataTableTypeRegistryTableConverter extends AbstractTableConv
         if (mapKeyType != null) {
             Type mapValueType = mapValueType(type);
             return (T) toMap(dataTable, mapKeyType, mapValueType);
+        } else if(Map.class.equals(type)){
+            // Non-generic map
+            return (T) toMap(dataTable, String.class, String.class);
         }
 
         Type itemType = listItemType(type);
         if (itemType == null) {
-            return toSingleton(dataTable, type);
+            if (List.class.equals(type)){
+                // Non-generic list
+                return (T) toList(dataTable, String.class);
+            } else {
+                return toSingleton(dataTable, type);
+            }
         }
 
         Type mapKeyItemType = mapKeyType(itemType);
@@ -91,15 +104,11 @@ public final class DataTableTypeRegistryTableConverter extends AbstractTableConv
                     "TableTransformer, TableEntryTransformer or TableRowTransformer for %s", type));
         }
 
-        if (singletonList.isEmpty()) {
-            throw cantConvertTo(type, "The transform yielded no results");
-        }
-
         if (singletonList.size() == 1) {
             return singletonList.get(0);
         }
 
-        throw cantConvertTo(type, "The table contained more then one item");
+        throw cantConvertTo(type, "The table contained more then one item: " + singletonList);
     }
 
     @Override
@@ -156,7 +165,7 @@ public final class DataTableTypeRegistryTableConverter extends AbstractTableConv
             return unmodifiableList((List<List<T>>) tableType.transform(dataTable.cells()));
         }
         throw cantConvertToLists(itemType,
-            format("Please register a TableCellTransformer for %s", itemType));
+            format("Please register a DataTableType with a TableCellTransformer for %s", itemType));
     }
 
     @Override
@@ -257,7 +266,7 @@ public final class DataTableTypeRegistryTableConverter extends AbstractTableConv
         if (valueMapKeyType != null) {
             Type valueMapValueType = mapValueType(valueType);
             return (List<V>) toMaps(dataTable, valueMapKeyType, valueMapValueType);
-        } else if (valueType instanceof Map) {
+        } else if (Map.class.equals(valueType)) {
             return (List<V>) toMaps(dataTable, String.class, String.class);
         }
 
@@ -269,7 +278,15 @@ public final class DataTableTypeRegistryTableConverter extends AbstractTableConv
 
         if (keysImplyTableEntryTransformer) {
             throw cantConvertToMap(keyType, valueType,
-                format("Please register a DataTableType with a TableEntryTransformer for %s", valueType));
+                format("The first cell was either blank or you have registered a TableEntryTransformer for the key type.\n" +
+                        "\n" +
+                        "This requires that there is a TableEntryTransformer for the value type but I couldn't find any.\n" +
+                        "\n" +
+                        "You can either:\n" +
+                        "\n" +
+                        "  1) Use a DataTableType that uses a TableEntryTransformer for %s\n" +
+                        "\n" +
+                        "  2) Add a key to the first cell and use a DataTableType that uses a TableEntryTransformer for %s", valueType, keyType));
         }
 
         // Try to handle case #1. This may result in multiple values per key if the table is too wide.
@@ -347,7 +364,7 @@ public final class DataTableTypeRegistryTableConverter extends AbstractTableConv
         if (valueSize % keySize == 0) {
             return cantConvertToMap(keyType, valueType,
                 format(
-                    "There is more then one values per key. " +
+                    "There is more then one value per key. " +
                         "Did you mean to transform to Map<%s,List<%s>> instead?",
                     keyType, valueType));
         }
