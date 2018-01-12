@@ -61,6 +61,8 @@ public class DataTableTypeRegistryTableConverterTest {
     }.getType();
     private static final Type LIST_OF_DOUBLE = new TypeReference<List<Double>>() {
     }.getType();
+    private static final Type MAP_OF_STRING_TO_MAP_OF_INTEGER_TO_PIECE = new TypeReference<Map<String, Map<Integer, Piece>>>() {
+    }.getType();
     private static final TableTransformer<ChessBoard> CHESS_BOARD_TABLE_TRANSFORMER = new TableTransformer<ChessBoard>() {
         @Override
         public ChessBoard transform(DataTable table) throws Throwable {
@@ -396,6 +398,38 @@ public class DataTableTypeRegistryTableConverterTest {
         }};
 
         assertEquals(expected, converter.convert(table, MAP_OF_STRING_TO_LIST_OF_DOUBLE));
+    }
+
+    @Test
+    public void convert_to_map_of_primitive_to_map_of_primitive_to_object() {
+        DataTable table = parse("",
+                "  |   | 1 | 2 | 3 |",
+                "  | A | ♘ |   | ♝ |",
+                "  | B |   |   |   |",
+                "  | C |   | ♝ |   |"
+        );
+
+        registry.defineDataTableType(new DataTableType("piece", Piece.class, PIECE_TABLE_CELL_TRANSFORMER));
+
+        Map<String, Map<Integer, Piece>> expected = new HashMap<String, Map<Integer, Piece>>() {{
+            put("A", new HashMap<Integer, Piece>() {{
+                put(1, Piece.WHITE_KNIGHT);
+                put(2, null);
+                put(3, Piece.BLACK_BISHOP);
+            }});
+            put("B", new HashMap<Integer, Piece>() {{
+                put(1, null);
+                put(2, null);
+                put(3, null);
+            }});
+            put("C", new HashMap<Integer, Piece>() {{
+                put(1, null);
+                put(2, Piece.BLACK_BISHOP);
+                put(3, null);
+            }});
+        }};
+
+        assertEquals(expected, converter.convert(table, MAP_OF_STRING_TO_MAP_OF_INTEGER_TO_PIECE));
     }
 
     @Test
