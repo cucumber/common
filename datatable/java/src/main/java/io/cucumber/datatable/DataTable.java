@@ -641,7 +641,7 @@ public final class DataTable {
         @Override
         public String get(int index) {
             rangeCheck(index, size());
-            return raw.get(index % width).get(index / width);
+            return raw.get(index / width).get(index % width);
         }
 
         @Override

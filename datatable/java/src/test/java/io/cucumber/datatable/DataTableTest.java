@@ -11,6 +11,7 @@ import java.io.IOException;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static io.cucumber.datatable.DataTable.emptyDataTable;
 import static java.util.Arrays.asList;
@@ -18,6 +19,7 @@ import static java.util.Collections.emptyList;
 import static java.util.Collections.singletonList;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotSame;
 import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertTrue;
@@ -32,7 +34,7 @@ public class DataTableTest {
     private TableConverter tableConverter;
 
     @Test
-    public void emptyTableIsEmpty() {
+    public void empty_table_is_empty() {
         DataTable table = emptyDataTable();
         assertTrue(table.isEmpty());
         assertTrue(table.cells().isEmpty());
@@ -40,21 +42,21 @@ public class DataTableTest {
 
 
     @Test
-    public void rawShouldEqualRaw() {
+    public void raw_should_equal_raw() {
         List<List<String>> raw = asList(asList("hundred", "100"), asList("thousand", "1000"));
         DataTable table = DataTable.create(raw);
         assertEquals(raw, table.cells());
     }
 
     @Test
-    public void cellsShouldEqualRaw() {
+    public void cells_should_equal_raw() {
         List<List<String>> raw = asList(asList("hundred", "100"), asList("thousand", "1000"));
         DataTable table = DataTable.create(raw);
         assertEquals(raw, table.cells());
     }
 
     @Test
-    public void cellShouldGetFromRaw() {
+    public void cell_should_get_from__raw() {
         List<List<String>> raw = asList(asList("hundred", "100"), asList("thousand", "1000"));
         DataTable table = DataTable.create(raw);
         assertEquals(raw.get(0).get(0), table.cell(0, 0));
@@ -65,103 +67,99 @@ public class DataTableTest {
 
 
     @Test
-    public void subTableShouldViewSubSetOfCells() {
+    public void subTable_should_view_sub_set_of_cells() {
         List<List<String>> raw = asList(
-            asList("ten", "10", "1"),
-            asList("hundred", "100", "2"),
-            asList("thousand", "1000", "3"));
+                asList("ten", "10", "1"),
+                asList("hundred", "100", "2"),
+                asList("thousand", "1000", "3"));
 
         DataTable table = DataTable.create(raw);
 
         assertEquals(
-            asList(
-                asList("ten", "10"),
-                asList("hundred", "100")),
-            table.subTable(0, 0, 2, 2).cells());
+                asList(
+                        asList("ten", "10"),
+                        asList("hundred", "100")),
+                table.subTable(0, 0, 2, 2).cells());
 
         assertEquals(
-            asList(
-                asList("100", "2"),
-                asList("1000", "3")),
-            table.subTable(1, 1, 3, 3).cells());
+                asList(
+                        asList("100", "2"),
+                        asList("1000", "3")),
+                table.subTable(1, 1).cells());
 
         assertEquals(table.cells(),
-            table.subTable(0, 0, 3, 3).cells());
+                table.subTable(0, 0).cells());
 
         assertEquals("ten", table.subTable(0, 0, 3, 3).cell(0, 0));
-        assertEquals("1", table.subTable(0, 0, 3, 3).cell(0, 2));
+        assertEquals("1", table.subTable(0, 0).cell(0, 2));
         assertEquals("thousand", table.subTable(0, 0, 3, 3).cell(2, 0));
-        assertEquals("3", table.subTable(0, 0, 3, 3).cell(2, 2));
+        assertEquals("3", table.subTable(0, 0).cell(2, 2));
     }
 
     @Test(expected = IndexOutOfBoundsException.class)
-    public void subTableThrowsForNegativeFromRow() {
+    public void subTable_throws_for_negative_from_row() {
         DataTable table = createSimpleTable();
         table.subTable(-1, 0, 1, 1);
     }
 
     @Test(expected = IndexOutOfBoundsException.class)
-    public void subTableThrowsForNegativeFromColumn() {
+    public void subTable_throws_for_negative_from_column() {
         DataTable table = createSimpleTable();
         table.subTable(0, -1, 1, 1);
     }
 
     @Test(expected = IndexOutOfBoundsException.class)
-    public void subTableThrowsForLargeToRow() {
+    public void subTable_throws_for_large_to_row() {
         DataTable table = createSimpleTable();
         table.subTable(0, 0, 4, 1);
     }
 
     @Test(expected = IndexOutOfBoundsException.class)
-    public void subTableThrowsForLargeToColumn() {
+    public void subTable_throws_for_large_to_column() {
         DataTable table = createSimpleTable();
         table.subTable(0, 0, 1, 4);
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void subTableThrowsForInvalidFromToRow() {
+    public void subTable_throws_for_invalid_from_to_row() {
         DataTable table = createSimpleTable();
         table.subTable(2, 0, 1, 1);
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void subTableThrowsForInvalidFromToColumn() {
+    public void subTable_throws_for_invalid_from_to_column() {
         DataTable table = createSimpleTable();
         table.subTable(0, 2, 1, 1);
     }
 
     @Test(expected = IndexOutOfBoundsException.class)
-    public void subTableThrowsForNegativeRow() {
+    public void subTable_throws_for_negative_row() {
         DataTable table = createSimpleTable();
-        table.subTable(0, 0, 1, 1).cell(-1,0);
+        table.subTable(0, 0, 1, 1).cell(-1, 0);
     }
 
     @Test(expected = IndexOutOfBoundsException.class)
-    public void subTableThrowsForNegativeColumn() {
+    public void subTable_throws_for_negative_column() {
         DataTable table = createSimpleTable();
-        table.subTable(0, 0, 1, 1).cell(0,-1);
+        table.subTable(0, 0, 1, 1).cell(0, -1);
     }
 
 
     @Test(expected = IndexOutOfBoundsException.class)
-    public void subTableThrowsForLargeRow() {
+    public void subTable_throws_for_large_row() {
         DataTable table = createSimpleTable();
-        table.subTable(0, 0, 1, 1).cell(1,0);
+        table.subTable(0, 0, 1, 1).cell(1, 0);
     }
 
     @Test(expected = IndexOutOfBoundsException.class)
-    public void subTableThrowsForLargeColumn() {
+    public void subTable_throws_for_large_column() {
         DataTable table = createSimpleTable();
-        table.subTable(0, 0, 1, 1).cell(0,1);
+        table.subTable(0, 0, 1, 1).cell(0, 1);
     }
 
     @Test
-    public void emptySubTableIsEmpty() {
-        List<List<String>> raw = asList(
-            asList("ten", "10", "1"),
-            asList("hundred", "100", "2"),
-            asList("thousand", "1000", "3"));
-        DataTable table = DataTable.create(raw);
+    public void empty_subTable_is_empty() {
+        DataTable table = getSimpleTable();
 
         DataTable subTable = table.subTable(0, 3, 1, 3);
 
@@ -172,117 +170,136 @@ public class DataTableTest {
         assertEquals(emptyList(), subTable.cells());
     }
 
+    private DataTable getSimpleTable() {
+        List<List<String>> raw = asList(
+                asList("ten", "10", "1"),
+                asList("hundred", "100", "2"),
+                asList("thousand", "1000", "3"));
+        return DataTable.create(raw);
+    }
 
     @Test
-    public void rowsShouldViewSubSetOfRows() {
+    public void row_gets_a_row() {
         List<List<String>> raw = asList(
-            asList("ten", "10"),
-            asList("hundred", "100"),
-            asList("thousand", "1000")
+                asList("ten", "10", "1"),
+                asList("hundred", "100", "2"),
+                asList("thousand", "1000", "3"));
+        DataTable table = DataTable.create(raw);
+        assertEquals(raw.get(2), table.row(2));
+    }
+
+
+    @Test
+    public void rows_should_view_sub_set_of_rows() {
+        List<List<String>> raw = asList(
+                asList("ten", "10"),
+                asList("hundred", "100"),
+                asList("thousand", "1000")
         );
 
         DataTable table = DataTable.create(raw);
 
         assertEquals(
-            asList(
-                asList("hundred", "100"),
-                asList("thousand", "1000")),
-            table.rows(1).cells());
+                asList(
+                        asList("hundred", "100"),
+                        asList("thousand", "1000")),
+                table.rows(1).cells());
 
         assertEquals(
-            DataTable.create(
-                singletonList(
-                    asList("hundred", "100"))),
-            table.rows(1, 2));
+                DataTable.create(
+                        singletonList(
+                                asList("hundred", "100"))),
+                table.rows(1, 2));
     }
 
 
     @Test
-    public void columnShouldViewSingleColumn() {
+    public void column_should_view_single_column() {
         List<List<String>> raw = asList(
-            asList("hundred", "100", "2"),
-            asList("thousand", "1000", "3"));
+                asList("hundred", "100", "2"),
+                asList("thousand", "1000", "3"));
 
         DataTable table = DataTable.create(raw);
 
         assertEquals(
-            asList("100", "1000"),
-            table.column(1));
+                asList("100", "1000"),
+                table.column(1));
     }
 
     @Test(expected = IndexOutOfBoundsException.class)
-    public void columnShouldThrowForNegativeColumnValue() {
+    public void column_should_throw_for_negative_column_value() {
         createSimpleTable().column(-1);
     }
 
 
     @Test(expected = IndexOutOfBoundsException.class)
-    public void columnShouldThrowForNegativeRowValue() {
+    public void column_should_throw_for_negative_row_value() {
         createSimpleTable().column(0).get(-1);
     }
 
     @Test(expected = IndexOutOfBoundsException.class)
-    public void columnShouldThrowForLargeColumnValue() {
+    public void column_should_throw_for_large_column_value() {
         createSimpleTable().column(4);
     }
 
     @Test(expected = IndexOutOfBoundsException.class)
-    public void columnShouldThrowForLargeRowValue() {
+    public void column_should_throw_for_large_row_value() {
         createSimpleTable().column(0).get(4);
     }
 
 
     @Test
-    public void transposedColumnShouldViewSingleRow() {
+    public void transposedColumn_should_view_single_row() {
         List<List<String>> raw = asList(
-            asList("hundred", "100", "2"),
-            asList("thousand", "1000", "3"));
+                asList("hundred", "100", "2"),
+                asList("thousand", "1000", "3"));
 
         DataTable table = DataTable.create(raw).transpose();
 
         assertEquals(
-            asList("thousand", "1000", "3"),
-            table.column(1));
+                asList("thousand", "1000", "3"),
+                table.column(1));
     }
 
     @Test
-    public void columnsShouldViewSubTable() {
+    public void columns_should_view_sub_table() {
         List<List<String>> raw = asList(
-            asList("hundred", "100", "2"),
-            asList("thousand", "1000", "3"));
+                asList("hundred", "100", "2"),
+                asList("thousand", "1000", "3"));
 
         DataTable table = DataTable.create(raw);
 
         assertEquals(
-            asList(
-                asList("100", "2"),
-                asList("1000", "3")),
-            table.columns(1).cells());
+                asList(
+                        asList("100", "2"),
+                        asList("1000", "3")),
+                table.columns(1).cells());
 
         assertEquals(
-            DataTable.create(
-                asList(
-                    singletonList("100"),
-                    singletonList("1000"))),
-            table.columns(1, 2));
+                DataTable.create(
+                        asList(
+                                singletonList("100"),
+                                singletonList("1000"))),
+                table.columns(1, 2));
     }
 
     @Test
-    public void asListsShouldEqualRaw() {
+    public void as_lists_should_equal_raw() {
         List<List<String>> raw = asList(asList("hundred", "100"), asList("thousand", "1000"));
         DataTable table = DataTable.create(raw);
         assertEquals(raw, table.asLists());
     }
 
     @Test
-    public void emptyRowsAreIgnored() {
-        DataTable table = createTable(Collections.<String>emptyList(), Collections.<String>emptyList());
+    public void empty_rows_are_ignored() {
+        List<List<String>> table1 = asList(Collections.<String>emptyList(), Collections.<String>emptyList());
+        DataTable table = DataTable.create(table1, tableConverter);
         assertTrue(table.isEmpty());
         assertTrue(table.cells().isEmpty());
     }
 
     @Test
-    public void cellsShouldHaveThreeColumnsAndTwoRows() {
+    public void cells_should_have_three_columns_and_two_rows() {
         List<List<String>> raw = createSimpleTable().cells();
         assertEquals("Rows size", 2, raw.size());
         for (List<String> list : raw) {
@@ -291,7 +308,7 @@ public class DataTableTest {
     }
 
     @Test
-    public void transposedRawShouldHaveTwoColumnsAndThreeRows() {
+    public void transposed_raw_should_have_two_columns_and_three_rows() {
         List<List<String>> raw = createSimpleTable().transpose().cells();
         assertEquals("Rows size", 3, raw.size());
         for (List<String> list : raw) {
@@ -300,27 +317,33 @@ public class DataTableTest {
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void canNotSupportNonRectangularTablesMissingColumn() {
-        createTable(asList("one", "four", "seven"),
-            asList("a1", "a4444"),
-            asList("b1"));
+    public void can_not_support_non_rectangular_tables_missing_column() {
+        List<List<String>> raw = asList(
+                asList("one", "four", "seven"),
+                asList("a1", "a4444"),
+                asList("b1")
+        );
+        DataTable.create(raw, tableConverter);
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void canNotSupportNonRectangularTablesExceedingColumn() {
-        createTable(asList("one", "four", "seven"),
-            asList("a1", "a4444", "b7777777", "zero"));
+    public void can_not_support_non_rectangular_tables_exceeding_column() {
+        List<List<String>> table = asList(
+                asList("one", "four", "seven"),
+                asList("a1", "a4444", "b7777777", "zero")
+        );
+        DataTable.create(table, tableConverter);
     }
 
     @Test
-    public void canCreateTableFromListOfListOfString() {
+    public void can_create_tablefrom_list_of_list_of_string() {
         DataTable dataTable = createSimpleTable();
         List<List<String>> listOfListOfString = dataTable.cells();
         DataTable other = DataTable.create(listOfListOfString);
         assertEquals("" +
-                "      | one  | four  | seven  |\n" +
-                "      | 4444 | 55555 | 666666 |\n",
-            other.toString());
+                        "      | one  | four  | seven  |\n" +
+                        "      | 4444 | 55555 | 666666 |\n",
+                other.toString());
     }
 
     @Test(expected = UnsupportedOperationException.class)
@@ -336,55 +359,88 @@ public class DataTableTest {
 
     @Test
     public void convert_delegates_to_converter() {
-        DataTable table = createTable(asList("1", "100"), asList("2", "1000"));
+        DataTable table = createSimpleNumberTable();
         table.convert(Long.class, false);
         verify(tableConverter).convert(table, Long.class, false);
     }
 
     @Test
+    public void asLists_returns_raw_rows_in_order() {
+        List<List<String>> raw = asList(
+                asList("1", "100"),
+                asList("2", "1000")
+        );
+        DataTable table = DataTable.create(raw);
+        assertEquals(asList("1", "100", "2", "1000"), table.asList());
+    }
+
+    @Test(expected = IndexOutOfBoundsException.class)
+    public void asLists_throws_for_large_index() {
+        List<List<String>> raw = asList(
+                asList("1", "100"),
+                asList("2", "1000")
+        );
+        DataTable table = DataTable.create(raw);
+        table.asList().get(5);
+    }
+
+    @Test(expected = IndexOutOfBoundsException.class)
+    public void asLists_throws_for_negative_index() {
+        List<List<String>> raw = asList(
+                asList("1", "100"),
+                asList("2", "1000")
+        );
+        DataTable table = DataTable.create(raw);
+        table.asList().get(-1);
+    }
+
+    @Test
     public void asList_delegates_to_converter() {
-        DataTable table = createTable(asList("1", "100"), asList("2", "1000"));
+        DataTable table = createSimpleNumberTable();
         table.asList(Long.class);
         verify(tableConverter).toList(table, Long.class);
     }
 
     @Test
     public void asLists_delegates_to_converter() {
-        DataTable table = createTable(asList("1", "100"), asList("2", "1000"));
+        DataTable table = createSimpleNumberTable();
         table.asLists(Long.class);
         verify(tableConverter).toLists(table, Long.class);
     }
 
     @Test
     public void asLists_returns_raw() {
-        List<List<String>> raw = asList(asList("1", "100"), asList("2", "1000"));
+        List<List<String>> raw = asList(
+                asList("1", "100"),
+                asList("2", "1000")
+        );
         DataTable table = DataTable.create(raw);
         assertEquals(raw, table.asLists());
     }
 
     @Test
     public void asMaps_delegates_to_converter() {
-        DataTable table = createTable(asList("hundred", "100"), asList("thousand", "1000"));
+        List<List<String>> table1 = asList(asList("hundred", "100"), asList("thousand", "1000"));
+        DataTable table = DataTable.create(table1, tableConverter);
         table.asMaps(String.class, Long.class);
         verify(tableConverter).toMaps(table, String.class, Long.class);
     }
 
     @Test
     public void asMaps_returns_maps_of_raw() {
-        List<List<String>> raw = asList(asList("1", "100"), asList("2", "1000"));
-        DataTable table = DataTable.create(raw);
-        assertEquals(
-            singletonList(
-                new HashMap<String, String>() {{
-                    put("1", "2");
-                    put("100", "1000");
-                }}
-            ), table.asMaps());
+        DataTable table = createSimpleNumberTable();
+        Map<String, String> expected = new HashMap<String, String>() {{
+            put("1", "2");
+            put("100", "1000");
+        }};
+
+        assertEquals(singletonList(expected), table.asMaps());
     }
 
     @Test
     public void asMap_delegates_to_converter() {
-        DataTable table = createTable(asList("hundred", "100"), asList("thousand", "1000"));
+        List<List<String>> table1 = asList(asList("hundred", "100"), asList("thousand", "1000"));
+        DataTable table = DataTable.create(table1, tableConverter);
         table.asMap(String.class, Long.class);
         verify(tableConverter).toMap(table, String.class, Long.class);
     }
@@ -403,14 +459,14 @@ public class DataTableTest {
 
     @Test
     public void two_different_tables_are_considered_non_equal() {
-        assertFalse(createSimpleTable().equals(createTable(asList("one"))));
-        assertNotSame(createSimpleTable().hashCode(), createTable(asList("one")).hashCode());
+        assertNotEquals(createSimpleTable(), createSimpleNumberTable());
+        assertNotEquals(createSimpleTable().hashCode(), createSimpleNumberTable().hashCode());
     }
 
     @Test
     public void two_different_transposed_tables_are_considered_non_equal() {
-        assertFalse(createSimpleTable().transpose().equals(createTable(asList("one")).transpose()));
-        assertNotSame(createSimpleTable().transpose().hashCode(), createTable(asList("one")).transpose().hashCode());
+        assertNotEquals(createSimpleTable().transpose(), createSimpleNumberTable().transpose());
+        assertNotEquals(createSimpleTable().transpose().hashCode(), createSimpleNumberTable().transpose().hashCode());
     }
 
     @Test
@@ -419,8 +475,8 @@ public class DataTableTest {
         Appendable appendable = new StringBuilder();
         table.print(appendable);
         String expected = "" +
-            "      | one  | four  | seven  |\n" +
-            "      | 4444 | 55555 | 666666 |\n";
+                "      | one  | four  | seven  |\n" +
+                "      | 4444 | 55555 | 666666 |\n";
         assertEquals(expected, appendable.toString());
     }
 
@@ -430,8 +486,8 @@ public class DataTableTest {
         StringBuilder appendable = new StringBuilder();
         table.print(appendable);
         String expected = "" +
-            "      | one  | four  | seven  |\n" +
-            "      | 4444 | 55555 | 666666 |\n";
+                "      | one  | four  | seven  |\n" +
+                "      | 4444 | 55555 | 666666 |\n";
         assertEquals(expected, appendable.toString());
     }
 
@@ -442,11 +498,20 @@ public class DataTableTest {
     }
 
     private DataTable createSimpleTable() {
-        return createTable(asList("one", "four", "seven"), asList("4444", "55555", "666666"));
+        List<List<String>> raw = asList(
+                asList("one", "four", "seven"),
+                asList("4444", "55555", "666666")
+        );
+        return DataTable.create(raw, tableConverter);
     }
 
-    private DataTable createTable(List<String>... rows) {
-        List<List<String>> table = asList(rows);
-        return DataTable.create(table, tableConverter);
+    private DataTable createSimpleNumberTable() {
+        List<List<String>> raw = asList(
+                asList("1", "100"),
+                asList("2", "1000")
+        );
+        return DataTable.create(raw, tableConverter);
     }
+
+
 }
