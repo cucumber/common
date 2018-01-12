@@ -18,8 +18,8 @@ import static java.lang.String.format;
 public final class DataTableTypeRegistry {
 
 
-    private final Map<String, DataTableType> tableTypeByName = new HashMap<String, DataTableType>();
-    private final HashMap<JavaType, SortedSet<DataTableType>> tableTypeByType = new HashMap<JavaType, SortedSet<DataTableType>>();
+    private final Map<String, DataTableType> tableTypeByName = new HashMap<>();
+    private final HashMap<JavaType, SortedSet<DataTableType>> tableTypeByType = new HashMap<>();
 
     public DataTableTypeRegistry(Locale locale) {
         NumberFormat numberFormat = NumberFormat.getNumberInstance(locale);

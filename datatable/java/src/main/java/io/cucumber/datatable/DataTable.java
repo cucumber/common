@@ -83,13 +83,13 @@ public final class DataTable {
     }
 
     private static List<List<String>> copy(List<List<String>> balanced) {
-        List<List<String>> rawCopy = new ArrayList<List<String>>(balanced.size());
+        List<List<String>> rawCopy = new ArrayList<>(balanced.size());
         for (List<String> row : balanced) {
             // A table without columns is an empty table and has no rows.
             if (row.isEmpty()) {
                 return emptyList();
             }
-            List<String> rowCopy = new ArrayList<String>(row.size());
+            List<String> rowCopy = new ArrayList<>(row.size());
             rowCopy.addAll(row);
             rawCopy.add(unmodifiableList(rowCopy));
         }
@@ -116,11 +116,11 @@ public final class DataTable {
         if (raw.isEmpty()) return emptyList();
 
         List<String> headers = raw.get(0);
-        List<Map<String, String>> headersAndRows = new ArrayList<Map<String, String>>();
+        List<Map<String, String>> headersAndRows = new ArrayList<>();
 
         for (int i = 1; i < raw.size(); i++) {
             List<String> row = raw.get(i);
-            LinkedHashMap<String, String> headersAndRow = new LinkedHashMap<String, String>();
+            LinkedHashMap<String, String> headersAndRow = new LinkedHashMap<>();
             for (int j = 0; j < headers.size(); j++) {
                 headersAndRow.put(headers.get(j), row.get(j));
             }

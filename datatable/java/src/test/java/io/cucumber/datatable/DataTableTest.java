@@ -18,9 +18,7 @@ import static java.util.Arrays.asList;
 import static java.util.Collections.emptyList;
 import static java.util.Collections.singletonList;
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotEquals;
-import static org.junit.Assert.assertNotSame;
 import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.verify;
@@ -336,7 +334,7 @@ public class DataTableTest {
     }
 
     @Test
-    public void can_create_tablefrom_list_of_list_of_string() {
+    public void can_create_table_from_list_of_list_of_string() {
         DataTable dataTable = createSimpleTable();
         List<List<String>> listOfListOfString = dataTable.cells();
         DataTable other = DataTable.create(listOfListOfString);

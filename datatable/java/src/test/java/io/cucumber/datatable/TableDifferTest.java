@@ -172,7 +172,7 @@ public class TableDifferTest {
     public void should_not_fail_with_out_of_memory() {
         DataTable expected = TableParser.parse("" +
             "| I'm going to work |\n");
-        List<List<String>> actual = new ArrayList<List<String>>();
+        List<List<String>> actual = new ArrayList<>();
         actual.add(asList("I just woke up"));
         actual.add(asList("I'm going to work"));
         diff(expected, DataTable.create(actual));
@@ -192,7 +192,7 @@ public class TableDifferTest {
 
     @Test
     public void should_diff_with_empty_list() {
-        List<List<String>> other = new ArrayList<List<String>>();
+        List<List<String>> other = new ArrayList<>();
         String expected = "" +
             
             "    - | Aslak | aslak@email.com | 123 |\n" +
@@ -216,7 +216,7 @@ public class TableDifferTest {
 
     @Test
     public void empty_list_should_not_diff_with_empty_table() {
-        List<List<String>> emptyList = new ArrayList<List<String>>();
+        List<List<String>> emptyList = new ArrayList<>();
         DataTable emptyTable = DataTable.emptyDataTable();
         assertEquals(emptyTable.cells(), emptyList);
     }

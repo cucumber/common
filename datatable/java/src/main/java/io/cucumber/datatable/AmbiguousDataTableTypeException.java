@@ -27,7 +27,7 @@ class AmbiguousDataTableTypeException extends CucumberDataTableException {
     }
 
     private static String dataTableTypeNames(SortedSet<DataTableType> dataTableTypes) {
-        List<String> parameterNames = new ArrayList<String>();
+        List<String> parameterNames = new ArrayList<>();
         for (DataTableType dataTableType : dataTableTypes) {
             parameterNames.add("{" + dataTableType.getName() + "}");
         }

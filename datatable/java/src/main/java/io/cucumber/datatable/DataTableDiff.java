@@ -10,8 +10,8 @@ public class DataTableDiff {
     private final List<DiffType> diffTypes;
 
     static DataTableDiff create(List<SimpleEntry<List<String>, DiffType>> diffTableRows) {
-        List<DiffType> diffTypes = new ArrayList<DiffType>(diffTableRows.size());
-        List<List<String>> table = new ArrayList<List<String>>();
+        List<DiffType> diffTypes = new ArrayList<>(diffTableRows.size());
+        List<List<String>> table = new ArrayList<>();
 
         for (SimpleEntry<List<String>, DiffType> row : diffTableRows) {
             table.add(row.getKey());

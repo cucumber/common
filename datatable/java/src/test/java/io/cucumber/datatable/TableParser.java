@@ -19,10 +19,10 @@ class TableParser {
 
 
     static DataTable parse(String... source) {
-        return parse(Joiner.on('\n').join(source), null);
+        return parse(Joiner.on('\n').join(source));
     }
 
-    static DataTable parse(String source, DataTable.TableConverter tableConverter) {
+    static DataTable parse(String source) {
         String feature = "" +
                 "Feature:\n" +
                 "  Scenario:\n" +
@@ -33,11 +33,8 @@ class TableParser {
         List<Pickle> pickles = compiler.compile(parser.parse(feature));
         PickleTable pickleTable = (PickleTable) pickles.get(0).getSteps().get(0).getArgument().get(0);
 
-        if (tableConverter == null) {
-            return DataTable.create(toTable(pickleTable));
-        }
+        return DataTable.create(toTable(pickleTable));
 
-        return DataTable.create(toTable(pickleTable), tableConverter);
     }
 
 }

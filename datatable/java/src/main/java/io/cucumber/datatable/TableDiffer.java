@@ -28,15 +28,13 @@ public final class TableDiffer {
     }
 
     public DataTableDiff calculateDiffs() {
-        Patch patch = DiffUtils.diff(getDiffableRows(from), getDiffableRows(to));
-        List<Delta> deltas = patch.getDeltas();
-        Map<Integer, Delta> deltasByLine = createDeltasByLine(deltas);
+        Map<Integer, Delta> deltasByLine = createDeltasByLine();
         return createTableDiff(deltasByLine);
     }
 
 
     private static List<DiffableRow> getDiffableRows(DataTable raw) {
-        List<DiffableRow> result = new ArrayList<DiffableRow>();
+        List<DiffableRow> result = new ArrayList<>();
         for (List<String> row : raw.cells()) {
             result.add(new DiffableRow(row, row));
         }
@@ -44,9 +42,9 @@ public final class TableDiffer {
     }
 
     public DataTableDiff calculateUnorderedDiffs() {
-        List<SimpleEntry<List<String>, DiffType>> diffTableRows = new ArrayList<SimpleEntry<List<String>, DiffType>>();
+        List<SimpleEntry<List<String>, DiffType>> diffTableRows = new ArrayList<>();
 
-        ArrayList<List<String>> extraRows = new ArrayList<List<String>>();
+        ArrayList<List<String>> extraRows = new ArrayList<>();
 
         // 1. add all "to" row in extra table
         // 2. iterate over "from", when a common row occurs, remove it from extraRows
@@ -56,24 +54,28 @@ public final class TableDiffer {
         for (List<String> row : from.cells()) {
             if (!to.cells().contains(row)) {
                 diffTableRows.add(
-                    new SimpleEntry<List<String>, DiffType>(row, DiffType.DELETE));
+                        new SimpleEntry<>(row, DiffType.DELETE));
             } else {
                 diffTableRows.add(
-                    new SimpleEntry<List<String>, DiffType>(row, DiffType.NONE));
+                        new SimpleEntry<>(row, DiffType.NONE));
                 extraRows.remove(row);
             }
         }
 
         for (List<String> cells : extraRows) {
             diffTableRows.add(
-                new SimpleEntry<List<String>, DiffType>(cells, DiffType.INSERT));
+                    new SimpleEntry<>(cells, DiffType.INSERT));
         }
 
         return DataTableDiff.create(diffTableRows);
     }
 
-    private Map<Integer, Delta> createDeltasByLine(List<Delta> deltas) {
-        Map<Integer, Delta> deltasByLine = new HashMap<Integer, Delta>();
+    @SuppressWarnings("unchecked")
+    private Map<Integer, Delta> createDeltasByLine() {
+        Patch patch = DiffUtils.diff(getDiffableRows(from), getDiffableRows(to));
+        List<Delta> deltas = patch.getDeltas();
+
+        Map<Integer, Delta> deltasByLine = new HashMap<>();
         for (Delta delta : deltas) {
             deltasByLine.put(delta.getOriginal().getPosition(), delta);
         }
@@ -81,19 +83,19 @@ public final class TableDiffer {
     }
 
     private DataTableDiff createTableDiff(Map<Integer, Delta> deltasByLine) {
-        List<SimpleEntry<List<String>, DiffType>> diffTableRows = new ArrayList<SimpleEntry<List<String>, DiffType>>();
+        List<SimpleEntry<List<String>, DiffType>> diffTableRows = new ArrayList<>();
         List<List<String>> rows = from.cells();
         for (int i = 0; i < rows.size(); i++) {
             Delta delta = deltasByLine.get(i);
             if (delta == null) {
-                diffTableRows.add(new SimpleEntry<List<String>, DiffType>(from.row(i), DiffType.NONE));
+                diffTableRows.add(new SimpleEntry<>(from.row(i), DiffType.NONE));
             } else {
                 addRowsToTableDiff(diffTableRows, delta);
                 // skipping lines involved in a delta
                 if (delta.getType() == Delta.TYPE.CHANGE || delta.getType() == Delta.TYPE.DELETE) {
                     i += delta.getOriginal().getLines().size() - 1;
                 } else {
-                    diffTableRows.add(new SimpleEntry<List<String>, DiffType>(from.row(i), DiffType.NONE));
+                    diffTableRows.add(new SimpleEntry<>(from.row(i), DiffType.NONE));
                 }
             }
         }
@@ -110,17 +112,19 @@ public final class TableDiffer {
         markChangedAndInsertedRowsInRevisedAsNew(diffTableRows, delta);
     }
 
+    @SuppressWarnings("unchecked")
     private void markChangedAndDeletedRowsInOriginalAsMissing(List<SimpleEntry<List<String>, DiffType>> diffTableRows, Delta delta) {
         List<DiffableRow> deletedLines = (List<DiffableRow>) delta.getOriginal().getLines();
         for (DiffableRow row : deletedLines) {
-            diffTableRows.add(new SimpleEntry<List<String>, DiffType>(row.row, DiffType.DELETE));
+            diffTableRows.add(new SimpleEntry<>(row.row, DiffType.DELETE));
         }
     }
 
+    @SuppressWarnings("unchecked")
     private void markChangedAndInsertedRowsInRevisedAsNew(List<SimpleEntry<List<String>, DiffType>> diffTableRows, Delta delta) {
         List<DiffableRow> insertedLines = (List<DiffableRow>) delta.getRevised().getLines();
         for (DiffableRow row : insertedLines) {
-            diffTableRows.add(new SimpleEntry<List<String>, DiffType>(row.row, DiffType.INSERT));
+            diffTableRows.add(new SimpleEntry<>(row.row, DiffType.INSERT));
         }
     }
 }

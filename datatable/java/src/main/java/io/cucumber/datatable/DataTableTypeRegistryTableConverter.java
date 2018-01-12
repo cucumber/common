@@ -36,6 +36,7 @@ public final class DataTableTypeRegistryTableConverter extends AbstractTableConv
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public <T> T convert(DataTable dataTable, Type type, boolean transposed) {
         if (dataTable == null) throw new NullPointerException("dataTable may not be null");
         if (type == null) throw new NullPointerException("type may not be null");
@@ -138,6 +139,7 @@ public final class DataTableTypeRegistryTableConverter extends AbstractTableConv
         return toListOrNull(dataTable.cells(), itemType);
     }
 
+    @SuppressWarnings("unchecked")
     private <T> List<T> toListOrNull(List<List<String>> cells, Type itemType) {
         DataTableType tableType = registry.lookupTableTypeByType(aListOf(itemType));
         if (tableType != null) {
@@ -152,6 +154,7 @@ public final class DataTableTypeRegistryTableConverter extends AbstractTableConv
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public <T> List<List<T>> toLists(DataTable dataTable, Type itemType) {
         if (dataTable == null) throw new NullPointerException("dataTable may not be null");
         if (itemType == null) throw new NullPointerException("itemType may not be null");
@@ -201,7 +204,7 @@ public final class DataTableTypeRegistryTableConverter extends AbstractTableConv
     private static <K, V> Map<K, V> createMap(Type keyType, List<K> keys, Type valueType, List<V> values) {
         Iterator<K> keyIterator = keys.iterator();
         Iterator<V> valueIterator = values.iterator();
-        Map<K, V> result = new LinkedHashMap<K, V>();
+        Map<K, V> result = new LinkedHashMap<>();
         while (keyIterator.hasNext() && valueIterator.hasNext()) {
             K key = keyIterator.next();
             V value = valueIterator.next();
@@ -215,6 +218,7 @@ public final class DataTableTypeRegistryTableConverter extends AbstractTableConv
         return unmodifiableMap(result);
     }
 
+    @SuppressWarnings("unchecked")
     private <K> List<K> convertEntryKeys(Type keyType, List<List<String>> keyColumn, Type valueType, boolean firstHeaderCellIsBlank) {
         if (firstHeaderCellIsBlank) {
             DataTableType keyConverter;
@@ -235,6 +239,7 @@ public final class DataTableTypeRegistryTableConverter extends AbstractTableConv
             format("Please register a DataTableType with a TableEntryTransformer or TableCellTransformer for %s", keyType));
     }
 
+    @SuppressWarnings("unchecked")
     private <V> List<V> convertEntryValues(DataTable dataTable, Type keyType, Type valueType, boolean keysImplyTableEntryTransformer) {
         // When converting a table to a Map we split the table into two sub tables. The left column
         // contains the keys and remaining columns values.
@@ -300,6 +305,7 @@ public final class DataTableTypeRegistryTableConverter extends AbstractTableConv
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public <K, V> List<Map<K, V>> toMaps(DataTable dataTable, Type keyType, Type valueType) {
         if (dataTable == null) throw new NullPointerException("dataTable may not be null");
         if (keyType == null) throw new NullPointerException("keyType may not be null");
@@ -324,7 +330,7 @@ public final class DataTableTypeRegistryTableConverter extends AbstractTableConv
 
         DataTable header = dataTable.rows(0, 1);
 
-        List<Map<K, V>> result = new ArrayList<Map<K, V>>();
+        List<Map<K, V>> result = new ArrayList<>();
         List<K> keys = unpack((List<List<K>>) keyConverter.transform(header.cells()));
 
         DataTable rows = dataTable.rows(1);
@@ -342,7 +348,7 @@ public final class DataTableTypeRegistryTableConverter extends AbstractTableConv
     }
 
     private static <T> List<T> unpack(List<List<T>> cells) {
-        List<T> unpacked = new ArrayList<T>(cells.size());
+        List<T> unpacked = new ArrayList<>(cells.size());
         for (List<T> row : cells) {
             unpacked.addAll(row);
         }

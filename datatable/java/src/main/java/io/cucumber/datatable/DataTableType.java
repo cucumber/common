@@ -34,7 +34,7 @@ public final class DataTableType implements Comparable<DataTableType> {
     }
 
     public <T> DataTableType(String name, Type type, final TableTransformer<T> transformer, boolean preferForTypeMatch) {
-        this(name, type, new TableTransformerAdaptor<T>(transformer), preferForTypeMatch);
+        this(name, type, new TableTransformerAdaptor<>(transformer), preferForTypeMatch);
     }
 
     public <T> DataTableType(String name, Class<T> type, final TableTransformer<T> transformer) {
@@ -42,7 +42,7 @@ public final class DataTableType implements Comparable<DataTableType> {
     }
 
     public <T> DataTableType(String name, Class<T> type, final TableTransformer<T> transformer, boolean preferForTypeMatch) {
-        this(name, type, new TableTransformerAdaptor<T>(transformer), preferForTypeMatch);
+        this(name, type, new TableTransformerAdaptor<>(transformer), preferForTypeMatch);
     }
 
     public <T> DataTableType(String name, final Class<T> type, final TableEntryTransformer<T> transformer) {
@@ -50,7 +50,7 @@ public final class DataTableType implements Comparable<DataTableType> {
     }
 
     public <T> DataTableType(String name, final Class<T> type, final TableEntryTransformer<T> transformer, boolean preferForTypeMatch) {
-        this(name, aListOf(type), new TableEntryTransformerAdaptor<T>(transformer), preferForTypeMatch);
+        this(name, aListOf(type), new TableEntryTransformerAdaptor<>(transformer), preferForTypeMatch);
     }
 
     public <T> DataTableType(String name, final Class<T> type, final TableRowTransformer<T> transformer) {
@@ -58,7 +58,7 @@ public final class DataTableType implements Comparable<DataTableType> {
     }
 
     public <T> DataTableType(String name, final Class<T> type, final TableRowTransformer<T> transformer, boolean preferForTypeMatch) {
-        this(name, aListOf(type), new TableRowTransformerAdaptor<T>(transformer), preferForTypeMatch);
+        this(name, aListOf(type), new TableRowTransformerAdaptor<>(transformer), preferForTypeMatch);
     }
 
     public <T> DataTableType(String name, final Class<T> type, final TableCellTransformer<T> transformer) {
@@ -66,7 +66,7 @@ public final class DataTableType implements Comparable<DataTableType> {
     }
 
     public <T> DataTableType(String name, final Class<T> type, final TableCellTransformer<T> transformer, boolean preferForTypeMatch) {
-        this(name, aListOf(aListOf(type)), new TableCellTransformerAdaptor<T>(transformer), preferForTypeMatch);
+        this(name, aListOf(aListOf(type)), new TableCellTransformerAdaptor<>(transformer), preferForTypeMatch);
     }
 
     public Object transform(List<List<String>> raw) {
@@ -127,9 +127,9 @@ public final class DataTableType implements Comparable<DataTableType> {
 
         @Override
         public List<List<T>> transform(List<List<String>> raw) throws Throwable {
-            List<List<T>> list = new ArrayList<List<T>>(raw.size());
+            List<List<T>> list = new ArrayList<>(raw.size());
             for (List<String> tableRow : raw) {
-                List<T> row = new ArrayList<T>(tableRow.size());
+                List<T> row = new ArrayList<>(tableRow.size());
                 for (String entry : tableRow) {
                     row.add(transformer.transform(entry));
                 }
@@ -148,7 +148,7 @@ public final class DataTableType implements Comparable<DataTableType> {
 
         @Override
         public List<T> transform(List<List<String>> raw) throws Throwable {
-            List<T> list = new ArrayList<T>();
+            List<T> list = new ArrayList<>();
             for (List<String> tableRow : raw) {
                 list.add(transformer.transform(tableRow));
             }
@@ -167,7 +167,7 @@ public final class DataTableType implements Comparable<DataTableType> {
         @Override
         public List<T> transform(List<List<String>> raw) throws Throwable {
             DataTable table = DataTable.create(raw, CONVERSION_REQUIRED);
-            List<T> list = new ArrayList<T>();
+            List<T> list = new ArrayList<>();
             for (Map<String, String> entry : table.asMaps()) {
                 list.add(transformer.transform(entry));
             }
