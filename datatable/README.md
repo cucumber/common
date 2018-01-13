@@ -1,7 +1,7 @@
 # DataTable
 
 DataTable is a simple data structure that allows the use and transformation 
-of Gherkin data tables in in cucumber.
+of Gherkin data tables in cucumber.
 
 This intended to support:
  * manual conversion in step definitions
@@ -9,7 +9,7 @@ This intended to support:
 
 ## Introduction
 
-The introduction will describe how data tables are mapped to certain data 
+The introduction will describe how data tables are mapped to certain data
 structures. It will not describe how to do this.
 
 Let's write a simple data table and see how we might use it. 
@@ -36,8 +36,8 @@ list of strings.
 ```  
 
 This representation is not very useful. The fields are no longer labeled and
-the first row has to be discarded. So instead we can transform we transform 
-this table into a list of maps.
+the first row has to be discarded. So instead we can convert this table 
+into a list of maps.
 
 `java type: List<Map<String, String>`
 
@@ -49,7 +49,7 @@ this table into a list of maps.
 ]
 ```  
 
-Sometimes a data table has its the keys are in the first column. 
+Sometimes a table has its the keys are in the first column. 
 
 ```gherkin
 | KMSY | Louis Armstrong New Orleans International Airport |
@@ -58,7 +58,7 @@ Sometimes a data table has its the keys are in the first column.
 | KJFK | John F. Kennedy International Airport             |
 ```
 
-We can transform the data table into a single map.
+We can convert the table into a single map.
 
 `java type: Map<String, String>`
 ```json
@@ -70,7 +70,11 @@ We can transform the data table into a single map.
 }
 ```
 
-However sometimes a data table has multiple columns values per key. 
+In the previous example the table only had a single column value for each key. A 
+table might have multiple column values per key.
+
+For example a table of airport codes and their coordinates expressed in 
+latitude and longitude.
 
 ```gherkin
 | KMSY | 29.993333 | -90.258056  |
@@ -79,7 +83,7 @@ However sometimes a data table has multiple columns values per key.
 | KJFK | 40.639722 | -73.778889  |
 ```
 
-This can be represented by a map that uses a lists as its value.
+These can be represented by a map that uses a lists as its value. 
 
 `java type: Map<String, List<String>>`
 ```json
@@ -91,8 +95,9 @@ This can be represented by a map that uses a lists as its value.
 }
 ```
 
-However representing latitude and longitude as an array might lead to 
-confusion. This can be avoided by adding a header to the table.
+
+Storing latitude and longitude as a list might lead to confusion if the columns
+are swapped. This can be avoided by adding a header to the table. 
 
 ```gherkin
 |      | latt      | long        |
@@ -102,10 +107,12 @@ confusion. This can be avoided by adding a header to the table.
 | KJFK | 40.639722 | -73.778889  |
 ```
 
-The first cell has been left blank. This tells the data table that this is
-a map with primitive keys and maps as values.
+Note that the first cell has been left blank. This tells the table that the key 
+values should be created using only the cell values of the left column rather 
+then the value value and its header. 
 
-`java type: Map<String, Map<String, String>>`
+
+`java type: Map<String, Map<String, Double>>`
 ```json
 {
   "KMSY": { "latt": "29.993333", "long": "-90.258056" },
@@ -115,8 +122,11 @@ a map with primitive keys and maps as values.
 }
 ```
 
-Using a string representation for a number is not very useful. Fortunately
-type conversions are build in.
+## Table Types
+
+So far we have transformed a table to various collections of strings. As a
+string representation for a number is not very useful a data table can
+transform individual cells to a different type. 
 
 `java type: Map<String, Map<String, Double>>`
 ```json
@@ -128,7 +138,111 @@ type conversions are build in.
 }
 ```
 
-It is also possible to define custom type transformations.
+The build transformations support:   
+* Integers, for example `71` or `-19`
+* Floats, for example `3.6`, `.8` or `-9.2`
+* Strings, for example `bangers` or `mash`.
+
+On the JVM, there is additional support for `BigInteger`, `BigDecimal`,
+`Byte`, `Short`, `Long` and `Double`.
+
+### Custom Table Types
+
+You can define custom data table types to represent tables from your own 
+domain. Doing this has the following benefits:
+
+1. Automatic conversion to custom types
+2. Document and evolve your ubiquitous domain language
+3. Enforce certain patterns
+
+A custom table type can be registered as follows:
+
+```java
+registry.defineDataTableType(
+  new DataTableType(
+    "date",                                     // name
+    LocalDate.class,                            // type
+    new TableCellTransformer<LocalDate>() {     // transformer
+  
+      @Override
+      public LocalDate transform(String cell) {
+          return new LocalDate.parse(cell);
+      }
+    }, 
+    true                                        // preferForTypeMatch
+  )
+```
+The parameters are as follows:
+
+* `name` - the name of the table type. To be used when type information is not
+   available. 
+* `type`
+* `transformer` - a function that transforms either a cell, table entry, table
+   row or table.  
+* `preferForTypeMatch` - Defaults to `false`.
+  Set to `true` if you use automatic conversion and you want this table type's
+  type to take precedence over others during a match.
+
+There are four ways to transform a table: 
+1. Transform the cells. Each cell represents a object.
+2. Transform the rows. Each row represents an object.
+3. Transform the entries. The entries of row paired with its corresponding
+   header represent an object.
+4. Transform the table. The table as a whole is transformed into a single
+   object.  
+
+When combined these four transforms are sufficient to convert a table to any
+other reasonable type. 
+
+#### Example
+
+Previously we transformed the coordinates the airport to map of doubles. The
+domain however uses a `Coordinate(latitude:Double, longitude:Double)` object to
+represent locations. Airports are represented by `Airport(code:String)`.
+
+```gherkin
+|      | latt      | long        |
+| KMSY | 29.993333 | -90.258056  |
+| KSFO | 37.618889 | -122.375    |
+| KSEA | 47.448889 | -122.309444 |
+| KJFK | 40.639722 | -73.778889  |
+```
+
+By registering two table types:
+
+```java
+registry.defineDataTableType(
+  new DataTableType(
+    "airport",
+    Airport.class,
+    new TableCellTransformer<Airport>() {
+      @Override
+      public Airport transform(String cell) {
+          return new Airport(cell);
+      }
+    }
+  )
+);
+
+registry.defineDataTableType(
+  new DataTableType(
+    "coordinate",
+    Coordinate.class,
+    new TableEntryTransformer<Coordinate>() {
+      @Override
+      public Coordinate transform(Map<String, String> tableEntry) {
+        return new Coordinate(
+          parseDouble(entry.get("latt")),
+          parseDouble(entry.get("long"))
+        );
+      }
+    }
+  )
+);
+```
+
+The table can be transformed to a map of air ports to locations. 
+
 
 `java type: Map<AirPort, Coordinate>`
 ```js
@@ -138,9 +252,38 @@ It is also possible to define custom type transformations.
   KSEA: Coordinate(latt = 47.448889, long = -122.309444 ),
   KJFK: Coordinate(latt = 40.639722, long = -73.778889 )
 }
-``````
+```
 
-Custom type conversions can transform a table into a single object. 
+If the table does not include a header a table row transformer must be used.
+As both the the table row and entry transformer create a list of `Coordinates`
+it is recommended that you pick one representation only.
+
+```gherkin
+| KMSY | 29.993333 | -90.258056  |
+| KSFO | 37.618889 | -122.375    |
+| KSEA | 47.448889 | -122.309444 |
+| KJFK | 40.639722 | -73.778889  |
+```
+
+```java
+registry.defineDataTableType(
+  new DataTableType(
+    "coordinate",
+    Coordinate.class,
+    new TableRowTransformer<Coordinate>() {
+        @Override
+        public Coordinate transform(List<String> tableRow) throws Throwable {
+            return new Coordinate(
+                Double.parseDouble(tableRow.get(0)),
+                Double.parseDouble(tableRow.get(1))
+            );
+      }
+    }
+  )
+);
+```
+
+Custom transformation can also transform a table into a single object.
 
 ```gherkin
 |   | A | B | C | 
@@ -149,18 +292,98 @@ Custom type conversions can transform a table into a single object.
 | 3 |   | ♝ |   | 
 ```
 
+```java
+registry.defineDataTableType(new DataTableType(
+  "chessboard",
+  ChessBoard.class,
+  new TableTransformer<ChessBoard>() {
+    @Override
+    public ChessBoard transform(DataTable table1) throws Throwable {
+        return new ChessBoard(table1.subTable(1, 1).asList());
+    }
+  })
+);
+
+```
+
 `java type: ChessBoard`
 ```
 [A chess board with one white knight and two black bishops]
 ```
 
-## Parameter types
+### Preferential table types
 
-### Custom parameter types {#custom-parameter-types}
-
-### Preferential parameter types
 
 ## For contributors
 
-## Acknowledgements
+If you're contributing to Cucumber, you might be interested in how to use
+DataTable programmatically. Here are some pointers:
 
+
+### Transformation in detail.
+
+As described earlier there are four primitive table types. These can be used to transform a table into a 
+list of lists, a list of maps, a map a list or a single object. These transformations follow a number of 
+simple algorithms.
+
+**TableCellTransformer => list of lists of objects**
+
+1. Determine the type the object.  
+2. If no type could be determined assume it to be string.
+3. Lookup the TableCellTransformer for that type. 
+4. Apply the transformer to each cell. 
+
+**TableEntryTransformer => a list of maps of keys to values**
+
+1. Split the header from the body of the table. Both are still tables.  
+
+```gherkin
+Header: 
+| firstName   | lastName | birthDate  |  
+
+Body:
+| Annie M. G. | Schmidt  | 1911-03-20 |
+| Roald       | Dahl     | 1916-09-13 |
+| Astrid      | Lindgren | 1907-11-14 |
+```
+   
+2. Transform the header to a list of lists take the first element
+3. Transform the body to a list of lists.
+4. For each row pair the elements of header with the elements of that row.
+
+**TableRowTransformer => a list of objects**
+
+1. Determine the type the object.  
+2. If no type could be determined assume it to be string.
+3. Lookup the TableRowTransformer for that type. 
+4. Apply the transformer to each row.
+ 
+**TableTransformer => an object**
+
+1. Determine the type the object.  
+2. Lookup the TableTransformer for that type. 
+4. Apply the transformer to the table.
+
+**Combined  => a map of keys and values**
+
+Maps can be created combining the previous transformers.
+
+1. Split the keys from the body of the table. Both are still tables.  
+
+```gherkin
+         Keys:               Values:
+Header: | firstName   |    | lastName | birthDate  |  
+
+  Body: | Annie M. G. |    | Schmidt  | 1911-03-20 |
+        | Roald       | => | Dahl     | 1916-09-13 |
+        | Astrid      |    | Lindgren | 1907-11-14 
+```
+
+   
+2a. If the first table cell is blank use the TableCellTransformer to convert the column   
+2b. Otherwise use the TableEntryTransformer.
+
+3a. If the first table cell is blank use the TableEntryTransformer to convert the body values.
+3b. Otherwise use the TableRowTransformer on all values.
+
+4. Pair up the keys and values from steps 2 and 3. 
