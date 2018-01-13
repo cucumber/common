@@ -482,15 +482,7 @@ public class DataTableTypeRegistryTableConverterTest {
             put("KJFK", new Coordinate(40.639722, -73.778889));
         }};
 
-        registry.defineDataTableType(new DataTableType("coordinate", Coordinate.class, new TableEntryTransformer<Coordinate>() {
-            @Override
-            public Coordinate transform(Map<String, String> tableEntry) {
-                return new Coordinate(
-                        parseDouble(tableEntry.get("latt")),
-                        parseDouble(tableEntry.get("long"))
-                );
-            }
-        }));
+        registry.defineDataTableType(new DataTableType("coordinate", Coordinate.class, COORDINATE_TABLE_ENTRY_TRANSFORMER));
 
         assertEquals(expected, converter.toMap(table, String.class, Coordinate.class));
         assertEquals(expected, converter.convert(table, MAP_OF_STRING_TO_COORDINATE));
