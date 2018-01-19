@@ -14,8 +14,7 @@ public class ParameterTypeRegistry {
     private static final List<String> FLOAT_REGEXPS = singletonList("-?\\d*[\\.,]\\d+");
     private static final List<String> HEX_REGEXPS = singletonList("0[xX][0-9a-fA-F]{2}");
     private static final List<String> WORD_REGEXPS = singletonList("\\w+");
-    private static final List<String> STRING_REGEXPS = singletonList("\"([^\"\\\\]*(\\\\.[^\"\\\\]*)*)\"|\\'([^\\'\\\\]*(\\\\.[^\\'\\\\]*)*)\\'");
-
+    private static final List<String> STRING_REGEXPS = singletonList("\"([^\"\\\\]*(\\\\.[^\"\\\\]*)*)\"|'([^'\\\\]*(\\\\.[^'\\\\]*)*)'");
     private final Map<String, ParameterType<?>> parameterTypeByName = new HashMap<>();
     private final Map<String, SortedSet<ParameterType<?>>> parameterTypesByRegexp = new HashMap<>();
 
