@@ -59,6 +59,12 @@ module Cucumber
         expect(group.children.length).to eq(1)
       end
 
+      it 'works with escaped slash' do
+        tr = TreeRegexp.new(/^I go to '\/(.+)'$/)
+        group = tr.match("I go to '/hello'")
+        expect(group.children.length).to eq(1)
+      end
+
       it 'captures non capturing groups with capturing groups inside' do
         tr = TreeRegexp.new(/the stdout(?: from "(.*?)")?/)
         group = tr.match("the stdout")

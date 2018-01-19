@@ -64,6 +64,12 @@ describe('TreeRegexp', () => {
     assert.equal(group.children.length, 1)
   })
 
+  it('works with escaped slash', () => {
+    const tr = new TreeRegexp(/^I go to '\/(.+)'$/)
+    const group = tr.match("I go to '/hello'")
+    assert.equal(group.children.value, 1)
+  })
+
   it('captures non capturing groups with capturing groups inside', () => {
     const tr = new TreeRegexp('the stdout(?: from "(.*?)")?')
     const group = tr.match('the stdout')
