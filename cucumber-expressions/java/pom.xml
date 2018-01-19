@@ -1,14 +1,24 @@
+<?xml version="1.0"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>io.cucumber</groupId>
     <artifactId>cucumber-expressions</artifactId>
-    <version>5.0.8-SNAPSHOT</version>
+    <version>5.0.11-SNAPSHOT</version>
     <packaging>jar</packaging>
     <name>cucumber-expressions</name>
     <description>Cucumber Expressions</description>
     <url>https://github.com/cucumber/cucumber-expressions-java</url>
 
+    <developers>
+        <developer>
+            <id>cucumber</id>
+            <name>Cucumber Developers</name>
+            <email>devs@cucumber.io</email>
+            <organization>Cucumber</organization>
+            <organizationUrl>https://github.com/cucumber</organizationUrl>
+        </developer>
+    </developers>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
