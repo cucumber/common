@@ -25,6 +25,11 @@ class CucumberDataTableException extends RuntimeException {
         );
     }
 
+    static <K, V> CucumberDataTableException duplicateKeyException(Type keyType, Type valueType, K key, V value, V replaced) {
+        return cantConvertToMap(keyType, valueType,
+                format("Encountered duplicate key %s with values %s and %s", key, replaced, value));
+    }
+
     static CucumberDataTableException cantConvertToMaps(Type keyType, Type valueType, String message) {
         return new CucumberDataTableException(
             format("Can't convert DataTable to List<Map<%s,%s>>. %s", keyType, valueType, message)

@@ -210,8 +210,7 @@ public final class DataTableTypeRegistryTableConverter extends AbstractTableConv
             V value = valueIterator.next();
             V replaced = result.put(key, value);
             if (replaced != null) {
-                throw cantConvertToMap(keyType, valueType,
-                    format("Encountered duplicate key %s with values %s and %s", key, replaced, value));
+                throw CucumberDataTableException.duplicateKeyException(keyType, valueType, key, value, replaced);
             }
         }
 
