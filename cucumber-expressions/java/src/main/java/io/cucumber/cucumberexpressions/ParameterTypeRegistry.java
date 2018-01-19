@@ -3,18 +3,26 @@ package io.cucumber.cucumberexpressions;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.text.NumberFormat;
-import java.util.*;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+import java.util.SortedSet;
+import java.util.TreeSet;
 import java.util.regex.Pattern;
 
 import static java.util.Arrays.asList;
 import static java.util.Collections.singletonList;
 
 public class ParameterTypeRegistry {
-    private static final List<String> INTEGER_REGEXPS = asList("-?\\d+", "\\d+");
-    private static final List<String> FLOAT_REGEXPS = singletonList("-?\\d*[\\.,]\\d+");
-    private static final List<String> HEX_REGEXPS = singletonList("0[xX][0-9a-fA-F]{2}");
-    private static final List<String> WORD_REGEXPS = singletonList("\\w+");
-    private static final List<String> STRING_REGEXPS = singletonList("\"([^\"\\\\]*(\\\\.[^\"\\\\]*)*)\"|'([^'\\\\]*(\\\\.[^'\\\\]*)*)'");
+    // Pattern.compile(...).pattern() is not necessary, but it helps us take advantage of the IntelliJ's regexp validation,
+    // which detects unneeded escapes.
+    private static final List<String> INTEGER_REGEXPS = asList(Pattern.compile("-?\\d+").pattern(), Pattern.compile("\\d+").pattern());
+    private static final List<String> FLOAT_REGEXPS = singletonList(Pattern.compile("-?\\d*[.,]\\d+").pattern());
+    private static final List<String> HEX_REGEXPS = singletonList(Pattern.compile("0[xX][0-9a-fA-F]{2}").pattern());
+    private static final List<String> WORD_REGEXPS = singletonList(Pattern.compile("\\w+").pattern());
+    private static final List<String> STRING_REGEXPS = singletonList(Pattern.compile("\"([^\"\\\\]*(\\\\.[^\"\\\\]*)*)\"|'([^'\\\\]*(\\\\.[^'\\\\]*)*)'").pattern());
     private final Map<String, ParameterType<?>> parameterTypeByName = new HashMap<>();
     private final Map<String, SortedSet<ParameterType<?>>> parameterTypesByRegexp = new HashMap<>();
 
@@ -90,7 +98,7 @@ public class ParameterTypeRegistry {
         parameterTypeByName.put(parameterType.getName(), parameterType);
 
         for (String parameterTypeRegexp : parameterType.getRegexps()) {
-            if(parameterTypesByRegexp.get(parameterTypeRegexp) == null){
+            if (parameterTypesByRegexp.get(parameterTypeRegexp) == null) {
                 parameterTypesByRegexp.put(parameterTypeRegexp, new TreeSet<ParameterType<?>>());
             }
             SortedSet<ParameterType<?>> parameterTypes = parameterTypesByRegexp.get(parameterTypeRegexp);
