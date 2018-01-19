@@ -8,15 +8,19 @@ class TreeRegexp {
 
     const stack = [new GroupBuilder()]
     const groupStartStack = []
-
     let last = null
+    let escaping = false
     let nonCapturingMaybe = false
     this._re.source.split('').forEach((c, n) => {
-      if (c === '(' && last !== '\\') {
+      if (escaping && isRegexpChar(c)) {
+        escaping = false
+      } else if (c === '\\') {
+        escaping = true
+      } else if (c === '(' && !escaping) {
         stack.push(new GroupBuilder())
         groupStartStack.push(n + 1)
         nonCapturingMaybe = false
-      } else if (c === ')' && last !== '\\') {
+      } else if (c === ')' && !escaping) {
         const gb = stack.pop()
         const groupStart = groupStartStack.pop()
         if (gb.capturing) {
@@ -52,6 +56,25 @@ class TreeRegexp {
     const nextGroupIndex = () => groupIndex++
     return this._groupBuilder.build(match, nextGroupIndex)
   }
+}
+
+const REGEXP_CHARS = [
+  '#',
+  '$',
+  '(',
+  ')',
+  '*',
+  '+',
+  '.',
+  '?',
+  '[',
+  '\\',
+  '^',
+  '{',
+  '|',
+]
+function isRegexpChar(c) {
+  return REGEXP_CHARS.indexOf(c) !== -1
 }
 
 module.exports = TreeRegexp
