@@ -28,10 +28,30 @@ describe('CucumberExpression', () => {
     ])
   })
 
+  it('matches multiple double quoted strings', () => {
+    assert.deepEqual(
+      match(
+        'three {string} and {string} mice',
+        'three "blind" and "crippled" mice'
+      ),
+      ['blind', 'crippled']
+    )
+  })
+
   it('matches single quoted string', () => {
     assert.deepEqual(match('three {string} mice', "three 'blind' mice"), [
       'blind',
     ])
+  })
+
+  it('matches multiple single quoted strings', () => {
+    assert.deepEqual(
+      match(
+        'three {string} and {string} mice',
+        "three 'blind' and 'crippled' mice"
+      ),
+      ['blind', 'crippled']
+    )
   })
 
   it('does not match misquoted string', () => {
