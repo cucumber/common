@@ -331,7 +331,7 @@ vise versa.
 The first row of the the table may be referred to as the table header. The 
 remaining cells as the table body.
 
-A table provides these utility methods:
+A table provides these operations:
 
 * **isEmpty** returns true if the table has no cells. 
 * **transpose** returns a transposed table
@@ -373,13 +373,11 @@ simple algorithms.
 1. Split the header from the body of the table. Both are still tables.  
 
 ```gherkin
-Header: 
-| firstName   | lastName | birthDate  |  
+Header: | firstName   | lastName | birthDate  |
 
-Body:
-| Annie M. G. | Schmidt  | 1911-03-20 |
-| Roald       | Dahl     | 1916-09-13 |
-| Astrid      | Lindgren | 1907-11-14 |
+  Body: | Annie M. G. | Schmidt  | 1911-03-20 |
+        | Roald       | Dahl     | 1916-09-13 |
+        | Astrid      | Lindgren | 1907-11-14 |
 ```
    
 2. Transform the header to a list of lists take the first element
@@ -403,10 +401,10 @@ Body:
 
 Maps can be created combining the previous transformers.
 
-1. Split the keys from the body of the table. Both are still tables.  
+1. Split the keys from the values in the table. Both are still tables.  
 
 ```gherkin
-         Keys:               Values:
+         Keys:              Values:
 Header: | firstName   |    | lastName | birthDate  |  
 
   Body: | Annie M. G. |    | Schmidt  | 1911-03-20 |
@@ -415,7 +413,7 @@ Header: | firstName   |    | lastName | birthDate  |
 ```
 
    
-2a. If the first table cell is blank use the TableCellTransformer to convert the column.  
+2a. If the first table cell is blank use the TableCellTransformer to convert the other cells in the column.  
 2b. Otherwise use the TableEntryTransformer.
 
 3a. If the first table cell is blank use the TableEntryTransformer to convert the body values.  
