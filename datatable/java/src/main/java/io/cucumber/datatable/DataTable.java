@@ -143,7 +143,7 @@ public final class DataTable {
      * Returns a list view on the table. Contains the cells ordered from
      * left to right, top to bottom starting at the top left.
      *
-     * @return
+     * @return the cells of the table
      */
     public List<String> asList() {
         return new ListView();
@@ -161,18 +161,18 @@ public final class DataTable {
     }
 
     /**
-     * Converts the table to a list of list of string.
+     * Returns the cells of the table.
      *
-     * @return a list of list of string objects
+     * @return the cells of the table
      */
     public List<List<String>> asLists() {
         return cells();
     }
 
     /**
-     * Converts the table to a list of list of string.
+     * Returns the cells of the table.
      *
-     * @return a list of list of string objects
+     * @return the cells of the table
      */
     public List<List<String>> cells() {
         return raw;
@@ -201,7 +201,6 @@ public final class DataTable {
      * @param keyType   key type
      * @param valueType value type
      * @return a map
-     * @throws CucumberDataTableException when the table contains duplicate keys
      */
     public <K, V> Map<K, V> asMap(Type keyType, Type valueType) {
         return tableConverter.toMap(this, keyType, valueType);
@@ -213,7 +212,6 @@ public final class DataTable {
      * the column cell of that row.
      *
      * @return a list of maps
-     * @throws CucumberDataTableException when the table contains duplicate keys
      */
     public List<Map<String, String>> asMaps() {
         if (raw.isEmpty()) return emptyList();
@@ -246,7 +244,6 @@ public final class DataTable {
      * @param keyType   key type
      * @param valueType value type
      * @return a list of maps
-     * @throws CucumberDataTableException when the table contains duplicate keys
      */
     public <K, V> List<Map<K, V>> asMaps(Type keyType, Type valueType) {
         return tableConverter.toMaps(this, keyType, valueType);
@@ -334,8 +331,6 @@ public final class DataTable {
      * @param transposed transpose the table before transformation
      * @param <T>        the desired type
      * @return an instance of {@code type}
-     * @throws CucumberDataTableException if the table could not be
-     *                                    transformed to {@code type}.
      */
     public <T> T convert(Type type, boolean transposed) {
         return tableConverter.convert(this, type, transposed);
