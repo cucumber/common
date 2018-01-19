@@ -8,11 +8,7 @@ class AmbiguousParameterTypeError extends CucumberExpressionError {
     generatedExpressions
   ) {
     return new this(
-      `parameter type with ${keyName}=${
-        keyValue
-      } is used by several parameter types: ${parameterTypes}, ${
-        generatedExpressions
-      }`
+      `parameter type with ${keyName}=${keyValue} is used by several parameter types: ${parameterTypes}, ${generatedExpressions}`
     )
   }
 
