@@ -22,6 +22,14 @@ N/A
 ### Fixed
 N/A
 
+## [5.0.12] - 2018-01-19
+
+### Fixed
+* javascript: Fixed another regression introduced by [#324](https://github.com/cucumber/cucumber/pull/324)
+  ([#326](https://github.com/cucumber/cucumber/issues/326)
+   [#327](https://github.com/cucumber/cucumber/pull/327)
+   [mpkorstanje] [aslakhellesoy])
+
 ## [5.0.11] - 2018-01-19
 
 ### Fixed
