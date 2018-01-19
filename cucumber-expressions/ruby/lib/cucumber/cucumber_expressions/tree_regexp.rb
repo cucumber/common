@@ -3,6 +3,8 @@ require 'cucumber/cucumber_expressions/group_builder'
 module Cucumber
   module CucumberExpressions
     class TreeRegexp
+      REGEXP_CHARS = ['#', '$', '(', ')', '*', '+', '.', '?', '[', '\\', '^', '{', '|']
+
       attr_reader :regexp, :group_builder
 
       def initialize(regexp)
@@ -11,13 +13,18 @@ module Cucumber
         stack = [GroupBuilder.new]
         group_start_stack = []
         last = nil
+        escaping = false
         non_capturing_maybe = false
         @regexp.source.split('').each_with_index do |c, n|
-          if c == '(' && last != '\\'
+          if escaping && regexp_char?(c)
+            escaping = false
+          elsif c == '\\'
+            escaping = true
+          elsif c == '(' && !escaping
             stack.push(GroupBuilder.new)
             group_start_stack.push(n+1)
             non_capturing_maybe = false
-          elsif c == ')' && last != '\\'
+          elsif c == ')' && !escaping
             gb = stack.pop
             group_start = group_start_stack.pop
             if gb.capturing?
@@ -36,6 +43,10 @@ module Cucumber
           last = c
         end
         @group_builder = stack.pop
+      end
+
+      def regexp_char?(c)
+        REGEXP_CHARS.include?(c)
       end
 
       def match(s)

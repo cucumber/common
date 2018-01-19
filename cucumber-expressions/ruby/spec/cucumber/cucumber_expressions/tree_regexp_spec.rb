@@ -53,6 +53,12 @@ module Cucumber
         expect(group.children.length).to eq(3)
       end
 
+      it 'works with escaped backslash' do
+        tr = TreeRegexp.new(/foo\\(bar|baz)/)
+        group = tr.match("foo\\bar")
+        expect(group.children.length).to eq(1)
+      end
+
       it 'captures non capturing groups with capturing groups inside' do
         tr = TreeRegexp.new(/the stdout(?: from "(.*?)")?/)
         group = tr.match("the stdout")
