@@ -12,12 +12,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.RandomAccess;
 
+import static io.cucumber.datatable.CucumberDataTableException.duplicateKeyException;
 import static java.util.Collections.emptyList;
 import static java.util.Collections.unmodifiableList;
 import static java.util.Collections.unmodifiableMap;
 
 /**
- * A DataTable is an m-by-n table that contains string values. For example:
+ * A m-by-n table of string values. For example:
  * <p>
  * <pre>
  * |     | firstName   | lastName | birthDate  |
@@ -25,14 +26,109 @@ import static java.util.Collections.unmodifiableMap;
  * | c92 | Roald       | Dahl     | 1916-09-13 |
  * </pre>
  * <p>
- * A table can be converted into an objects of an arbitrary type by a {@link TableConverter}.
+ * A table is either empty or  contains one or more cells. As
+ * such if a table has zero height it must have zero width and
+ * vise versa.
  * <p>
- * A DataTable is immutable.
+ * The first row of the the table may be referred to as the
+ * table header. The remaining cells as the table body.
+ * <p>
+ * A table can be converted into an objects of an arbitrary
+ * type by a {@link TableConverter}. A table created without
+ * a table converter will throw a {@link NoConverterDefined}
+ * exception when doing so.
+ * <p>
+ * A DataTable is immutable and thread safe.
  */
 public final class DataTable {
 
     private final List<List<String>> raw;
     private final TableConverter tableConverter;
+
+    /**
+     * Creates a new DataTable.
+     * <p>
+     * To improve performance this constructor assumes the provided raw table
+     * is rectangular, free of null values, immutable and a safe copy.
+     *
+     * @param raw            the underlying table
+     * @param tableConverter to transform the table
+     * @throws NullPointerException if either raw or tableConverter is null
+     */
+    private DataTable(List<List<String>> raw, TableConverter tableConverter) {
+        if (raw == null) throw new NullPointerException("cells can not be null");
+        if (tableConverter == null) throw new NullPointerException("tableConverter can not be null");
+        this.raw = raw;
+        this.tableConverter = tableConverter;
+    }
+
+    /**
+     * Creates a new DataTable.
+     * <p>
+     *
+     * @param raw the underlying table
+     * @return an new data table containing the raw values
+     * @throws NullPointerException     if raw is null
+     * @throws IllegalArgumentException when the table is not rectangular or contains null values.
+     */
+    public static DataTable create(List<List<String>> raw) {
+        return create(raw, new NoConverterDefined());
+    }
+
+    /**
+     * Creates a new DataTable with a table converter.
+     *
+     * @param raw            the underlying table
+     * @param tableConverter to transform the table
+     * @return an new data table containing the raw values
+     * @throws NullPointerException     if either raw or tableConverter is null
+     * @throws IllegalArgumentException when the table is not rectangular or contains null values
+     */
+    public static DataTable create(List<List<String>> raw, TableConverter tableConverter) {
+        return new DataTable(copy(requireNonNullEntries(requireRectangularTable(raw))), tableConverter);
+    }
+
+
+    private static List<List<String>> copy(List<List<String>> balanced) {
+        List<List<String>> rawCopy = new ArrayList<>(balanced.size());
+        for (List<String> row : balanced) {
+            // A table without columns is an empty table and has no rows.
+            if (row.isEmpty()) {
+                return emptyList();
+            }
+
+            List<String> rowCopy = new ArrayList<>(row.size());
+            rowCopy.addAll(row);
+            rawCopy.add(unmodifiableList(rowCopy));
+        }
+        return unmodifiableList(rawCopy);
+    }
+
+
+    private static List<List<String>> requireNonNullEntries(List<List<String>> raw) {
+        // Iterate in case of linked list.
+        int rowIndex = 0;
+        for (List<String> row : raw) {
+            int columnIndex = row.indexOf(null);
+            if (columnIndex >= 0) {
+                throw new IllegalArgumentException(
+                        "raw contained null at row: " + rowIndex + " column: " + columnIndex);
+            }
+            rowIndex++;
+        }
+
+        return raw;
+    }
+
+    private static List<List<String>> requireRectangularTable(List<List<String>> table) {
+        int columns = table.isEmpty() ? 0 : table.get(0).size();
+        for (List<String> row : table) {
+            if (columns != row.size()) {
+                throw new IllegalArgumentException(String.format("Table is not rectangular: expected %s column(s) but found %s.", columns, row.size()));
+            }
+        }
+        return table;
+    }
 
     /**
      * Creates an empty DataTable.
@@ -44,73 +140,80 @@ public final class DataTable {
     }
 
     /**
-     * Creates a new DataTable.
+     * Returns a list view on the table. Contains the cells ordered from
+     * left to right, top to bottom starting at the top left.
      *
-     * @param raw the underlying table
-     * @return an new data table containing the raw values
-     * @throws IllegalArgumentException when the table is not balanced
+     * @return
      */
-    public static DataTable create(List<List<String>> raw) {
-        return create(raw, new NoConverterDefined());
+    public List<String> asList() {
+        return new ListView();
     }
 
     /**
-     * Creates a new DataTable.
+     * Converts the table to a list of {@code itemType}.
      *
-     * @param raw            the underlying table
-     * @param tableConverter to transform the table
-     * @return an new data table containing the raw values
-     * @throws IllegalArgumentException when the table is not balanced
+     * @param itemType the type of the list items
+     * @param <T>      the type of the list items
+     * @return a List of objects
      */
-    public static DataTable create(List<List<String>> raw, TableConverter tableConverter) {
-        return new DataTable(copy(requireBalancedTable(raw)), tableConverter);
+    public <T> List<T> asList(Type itemType) {
+        return tableConverter.toList(this, itemType);
     }
 
     /**
-     * Creates a new DataTable.
+     * Converts the table to a list of list of string.
+     *
+     * @return a list of list of string objects
+     */
+    public List<List<String>> asLists() {
+        return cells();
+    }
+
+    /**
+     * Converts the table to a list of list of string.
+     *
+     * @return a list of list of string objects
+     */
+    public List<List<String>> cells() {
+        return raw;
+    }
+
+    /**
+     * Converts the table to a list of lists of {@code itemType}.
+     *
+     * @param itemType the type of the list items
+     * @param <T>      the type of the list items
+     * @return a list of list of objects
+     */
+    public <T> List<List<T>> asLists(Type itemType) {
+        return tableConverter.toLists(this, itemType);
+    }
+
+    /**
+     * Converts the table to a single map of {@code keyType} to {@code valueType}.
      * <p>
-     * To improve performance this constructor assumes the provided raw table
-     * is balanced, immutable and a safe copy.
+     * For each row the first cell is used to create the key value. The
+     * remaining cells are used to create the value. If the table only has a single
+     * column that value is null.
      *
-     * @param raw            the underlying table
-     * @param tableConverter to transform the table
+     * @param <K>       key type
+     * @param <V>       value type
+     * @param keyType   key type
+     * @param valueType value type
+     * @return a map
+     * @throws CucumberDataTableException when the table contains duplicate keys
      */
-    private DataTable(List<List<String>> raw, TableConverter tableConverter) {
-        if (raw == null) throw new CucumberDataTableException("cells can not be null");
-        if (tableConverter == null) throw new CucumberDataTableException("tableConverter can not be null");
-        this.raw = raw;
-        this.tableConverter = tableConverter;
-    }
-
-    private static List<List<String>> copy(List<List<String>> balanced) {
-        List<List<String>> rawCopy = new ArrayList<>(balanced.size());
-        for (List<String> row : balanced) {
-            // A table without columns is an empty table and has no rows.
-            if (row.isEmpty()) {
-                return emptyList();
-            }
-            List<String> rowCopy = new ArrayList<>(row.size());
-            rowCopy.addAll(row);
-            rawCopy.add(unmodifiableList(rowCopy));
-        }
-        return unmodifiableList(rawCopy);
-    }
-
-    private static List<List<String>> requireBalancedTable(List<List<String>> table) {
-        int columns = table.isEmpty() ? 0 : table.get(0).size();
-        for (List<String> row : table) {
-            if (columns != row.size()) {
-                throw new IllegalArgumentException(String.format("Table is unbalanced: expected %s column(s) but found %s.", columns, row.size()));
-            }
-        }
-        return table;
+    public <K, V> Map<K, V> asMap(Type keyType, Type valueType) {
+        return tableConverter.toMap(this, keyType, valueType);
     }
 
     /**
-     * Converts the table to a list of maps of strings. The top row is used as keys in the maps,
-     * and the rows below are used as values.
+     * Converts the table to a list of maps of strings. For each row in the body
+     * of the table a map is created containing a mapping of column headers to
+     * the column cell of that row.
      *
-     * @return a list of maps.
+     * @return a list of maps
+     * @throws CucumberDataTableException when the table contains duplicate keys
      */
     public List<Map<String, String>> asMaps() {
         if (raw.isEmpty()) return emptyList();
@@ -122,7 +225,10 @@ public final class DataTable {
             List<String> row = raw.get(i);
             LinkedHashMap<String, String> headersAndRow = new LinkedHashMap<>();
             for (int j = 0; j < headers.size(); j++) {
-                headersAndRow.put(headers.get(j), row.get(j));
+                String replaced = headersAndRow.put(headers.get(j), row.get(j));
+                if (replaced != null) {
+                    throw duplicateKeyException(String.class, String.class, headers.get(j), row.get(j), replaced);
+                }
             }
             headersAndRows.add(unmodifiableMap(headersAndRow));
         }
@@ -130,144 +236,107 @@ public final class DataTable {
         return unmodifiableList(headersAndRows);
     }
 
-
     /**
-     * Converts the table to a list of maps. The top row is used as keys in the maps,
-     * and the rows below are used as values.
+     * Converts the table to a list of maps of {@code keyType} to {@code valueType}.
+     * For each row in the body of the table a map is created containing a mapping
+     * of column headers to the column cell of that row.
      *
      * @param <K>       key type
      * @param <V>       value type
      * @param keyType   key type
      * @param valueType value type
-     * @return a list of maps.
+     * @return a list of maps
+     * @throws CucumberDataTableException when the table contains duplicate keys
      */
     public <K, V> List<Map<K, V>> asMaps(Type keyType, Type valueType) {
         return tableConverter.toMaps(this, keyType, valueType);
     }
 
     /**
-     * Converts the table to a single map. The left column is used as keys, the right column as values.
+     * Returns a single table cell.
      *
-     * @param <K>       key type
-     * @param <V>       value type
-     * @param keyType   key type
-     * @param valueType value type
-     * @return a Map.
+     * @param row    row index of the cell
+     * @param column column index of the cell
+     * @return a single table cell
+     * @throws IndexOutOfBoundsException when either {@code row} or {@code column}
+     *                                   is outside the table.
      */
-    public <K, V> Map<K, V> asMap(Type keyType, Type valueType) {
-        return tableConverter.toMap(this, keyType, valueType);
-    }
-
-
-    public List<String> asList() {
-        return new ListView();
-    }
-
-    /**
-     * Converts the table to a list of list of string.
-     *
-     * @return a List of List of objects
-     */
-    public List<List<String>> asLists() {
-        return cells();
-    }
-
-    /**
-     * Converts the table to a List of List of scalar.
-     *
-     * @param itemType the type of the list items
-     * @param <T>      the type of the list items
-     * @return a List of List of objects
-     */
-    public <T> List<List<T>> asLists(Type itemType) {
-        return tableConverter.toLists(this, itemType);
-    }
-
-
-    /**
-     * Converts the table to a List.
-     * <p>
-     * If {@code itemType} is a scalar type the table is flattened.
-     * <p>
-     * Otherwise, the top row is used to name the fields/properties and the remaining
-     * rows are turned into list items.
-     *
-     * @param itemType the type of the list items
-     * @param <T>      the type of the list items
-     * @return a List of objects
-     */
-    public <T> List<T> asList(Type itemType) {
-        return tableConverter.toList(this, itemType);
-    }
-
-
-    public List<List<String>> cells() {
-        return raw;
-    }
-
-    public DataTable subTable(int fromRow, int fromColumn) {
-        return subTable(fromRow, fromColumn, height(), width());
-    }
-    public DataTable subTable(int fromRow, int fromColumn, int toRow, int toColumn) {
-        return new DataTable(new RawDataTableView(fromRow, fromColumn, toColumn, toRow), tableConverter);
-    }
-
     public String cell(int row, int column) {
         rangeCheckRow(row, height());
         rangeCheckColumn(column, width());
         return raw.get(row).get(column);
     }
 
-    public List<String> row(int row) {
-        rangeCheckRow(row, height());
-        return raw.get(row);
+    private static void rangeCheck(int index, int size) {
+        if (index < 0 || index >= size)
+            throw new IndexOutOfBoundsException("index: " + index + ", Size: " + size);
     }
 
-    public DataTable rows(int fromRow) {
-        return rows(fromRow, height());
+    private static void rangeCheckRow(int row, int height) {
+        if (row < 0 || row >= height)
+            throw new IndexOutOfBoundsException("row: " + row + ", Height: " + height);
     }
 
-    public DataTable rows(int fromRow, int toRow) {
-        return subTable(fromRow, 0, toRow, width());
+    private static void rangeCheckColumn(int column, int width) {
+        if (column < 0 || column >= width)
+            throw new IndexOutOfBoundsException("column: " + column + ", Width: " + width);
     }
 
+    /**
+     * Returns a single column.
+     *
+     * @param column column index the column
+     * @return a single column
+     * @throws IndexOutOfBoundsException when {@code column}
+     *                                   is outside the table.
+     */
     public List<String> column(final int column) {
         return new ColumnView(column);
     }
 
+    /**
+     * Returns a table that is a view on a portion of this
+     * table. The sub table begins at {@code fromColumn} inclusive
+     * and extends to the end of that table.
+     *
+     * @param fromColumn the beginning column index, inclusive
+     * @return the specified sub table
+     * @throws IndexOutOfBoundsException when any endpoint is
+     *                                   outside the table.
+     * @throws IllegalArgumentException  when a from endpoint
+     *                                   comes after an to endpoint
+     */
     public DataTable columns(final int fromColumn) {
         return columns(fromColumn, width());
     }
 
+    /**
+     * Returns a table that is a view on a portion of this
+     * table. The sub table begins at {@code fromColumn} inclusive
+     * and extends to {@code toColumn} exclusive.
+     *
+     * @param fromColumn the beginning column index, inclusive
+     * @param toColumn   the end column index, exclusive
+     * @return the specified sub table
+     * @throws IndexOutOfBoundsException when any endpoint is outside
+     *                                   the table.
+     * @throws IllegalArgumentException  when a from endpoint comes
+     *                                   after an to endpoint
+     */
     public DataTable columns(final int fromColumn, final int toColumn) {
         return subTable(0, fromColumn, height(), toColumn);
     }
 
-    @Override
-    public String toString() {
-        StringBuilder result = new StringBuilder();
-        print(result);
-        return result.toString();
-    }
-
-    public void print(StringBuilder appendable) {
-        TablePrinter printer = new TablePrinter();
-        printer.printTable(raw, appendable);
-    }
-
-    public void print(Appendable appendable) throws IOException {
-        TablePrinter printer = new TablePrinter();
-        printer.printTable(raw, appendable);
-    }
-
-    public DataTable transpose() {
-        if (raw instanceof TransposedRawDataTableView) {
-            TransposedRawDataTableView tranposed = (TransposedRawDataTableView) this.raw;
-            return tranposed.dataTable();
-        }
-        return new DataTable(new TransposedRawDataTableView(), tableConverter);
-    }
-
+    /**
+     * Converts a table to {@code type}.
+     *
+     * @param type       the desired type
+     * @param transposed transpose the table before transformation
+     * @param <T>        the desired type
+     * @return an instance of {@code type}
+     * @throws CucumberDataTableException if the table could not be
+     *                                    transformed to {@code type}.
+     */
     public <T> T convert(Type type, boolean transposed) {
         return tableConverter.convert(this, type, transposed);
     }
@@ -282,97 +351,179 @@ public final class DataTable {
         return raw.equals(dataTable.raw);
     }
 
-    public boolean isEmpty() {
-        return raw.isEmpty();
-    }
-
-    public int width() {
-        return raw.isEmpty() ? 0 : raw.get(0).size();
-    }
-
-    public int height() {
-        return raw.size();
-    }
-
-
     @Override
     public int hashCode() {
         return raw.hashCode();
     }
 
-    static abstract class AbstractTableConverter implements TableConverter {
-
-        AbstractTableConverter() {
-
-        }
-
-        static Type listItemType(Type type) {
-            return typeArg(type, List.class, 0);
-        }
-
-        static Type mapKeyType(Type type) {
-            return typeArg(type, Map.class, 0);
-        }
-
-        static Type mapValueType(Type type) {
-            return typeArg(type, Map.class, 1);
-        }
-
-        static Type typeArg(Type type, Class<?> wantedRawType, int index) {
-            if (type instanceof ParameterizedType) {
-                ParameterizedType parameterizedType = (ParameterizedType) type;
-                Type rawType = parameterizedType.getRawType();
-                if (rawType instanceof Class && wantedRawType.isAssignableFrom((Class) rawType)) {
-                    Type result = parameterizedType.getActualTypeArguments()[index];
-                    if (result instanceof TypeVariable) {
-                        throw new CucumberDataTableException("Generic types must be explicit");
-                    }
-                    return result;
-                } else {
-                    return null;
-                }
-            }
-
-            return null;
-        }
+    /**
+     * Returns true iff this table has no cells.
+     *
+     * @return true iff this table has no cells
+     */
+    public boolean isEmpty() {
+        return raw.isEmpty();
     }
 
-    static final class NoConverterDefined implements TableConverter {
+    /**
+     * Returns a single row.
+     *
+     * @param row row index the column
+     * @return a single row
+     * @throws IndexOutOfBoundsException when {@code row}
+     *                                   is outside the table.
+     */
+    public List<String> row(int row) {
+        rangeCheckRow(row, height());
+        return raw.get(row);
+    }
 
-        NoConverterDefined() {
+    /**
+     * Returns a table that is a view on a portion of this
+     * table. The sub table begins at {@code fromRow} inclusive
+     * and extends to the end of that table.
+     *
+     * @param fromRow the beginning row index, inclusive
+     * @return the specified sub table
+     * @throws IndexOutOfBoundsException when any endpoint is
+     *                                   outside the table.
+     * @throws IllegalArgumentException  when a from endpoint
+     *                                   comes after an to endpoint
+     */
+    public DataTable rows(int fromRow) {
+        return rows(fromRow, height());
+    }
 
+    /**
+     * Returns a table that is a view on a portion of this
+     * table. The sub table begins at {@code fromRow} inclusive
+     * and extends to {@code toRow} exclusive.
+     *
+     * @param fromRow the beginning row index, inclusive
+     * @param toRow   the end row index, exclusive
+     * @return the specified sub table
+     * @throws IndexOutOfBoundsException when any endpoint is outside
+     *                                   the table.
+     * @throws IllegalArgumentException  when a from endpoint comes
+     *                                   after an to endpoint
+     */
+    public DataTable rows(int fromRow, int toRow) {
+        return subTable(fromRow, 0, toRow, width());
+    }
+
+    /**
+     * Returns a table that is a view on a portion of this
+     * table. The sub table begins at {@code fromRow} inclusive and
+     * {@code fromColumn} inclusive and extends to the last column
+     * and row.
+     *
+     * @param fromRow    the beginning row index, inclusive
+     * @param fromColumn the beginning column index, inclusive
+     * @return the specified sub table
+     * @throws IndexOutOfBoundsException when any endpoint is outside
+     *                                   the table.
+     */
+    public DataTable subTable(int fromRow, int fromColumn) {
+        return subTable(fromRow, fromColumn, height(), width());
+    }
+
+    /**
+     * Returns a table that is a view on a portion of this
+     * table. The sub table begins at {@code fromRow} inclusive and
+     * {@code fromColumn} inclusive and extends to {@code toRow}
+     * exclusive and {@code toColumn} exclusive.
+     *
+     * @param fromRow    the beginning row index, inclusive
+     * @param fromColumn the beginning column index, inclusive
+     * @param toRow      the end row index, exclusive
+     * @param toColumn   the end column index, exclusive
+     * @return the specified sub table
+     * @throws IndexOutOfBoundsException when any endpoint is outside
+     *                                   the table.
+     * @throws IllegalArgumentException  when a from endpoint comes
+     *                                   after an to endpoint
+     */
+    public DataTable subTable(int fromRow, int fromColumn, int toRow, int toColumn) {
+        return new DataTable(new RawDataTableView(fromRow, fromColumn, toColumn, toRow), tableConverter);
+    }
+
+    /**
+     * Returns the number of rows in the table.
+     *
+     * @return the number of rows in the table
+     */
+    public int height() {
+        return raw.size();
+    }
+
+    /**
+     * Returns the number of columns in the table.
+     *
+     * @return the number of columns in the table
+     */
+    public int width() {
+        return raw.isEmpty() ? 0 : raw.get(0).size();
+    }
+
+    /**
+     * Returns a string representation of the this
+     * table.
+     */
+    @Override
+    public String toString() {
+        StringBuilder result = new StringBuilder();
+        print(result);
+        return result.toString();
+    }
+
+    /**
+     * Prints a string representation of this
+     * table to the {@code appendable}.
+     *
+     * @param appendable to append the string representation
+     *                   of this table to.
+     * @throws IOException If an I/O error occurs
+     */
+    public void print(Appendable appendable) throws IOException {
+        TablePrinter printer = new TablePrinter();
+        printer.printTable(raw, appendable);
+    }
+
+    /**
+     * Prints a string representation of this
+     * table to the {@code appendable}.
+     *
+     * @param appendable to append the string representation
+     *                   of this table to.
+     */
+    public void print(StringBuilder appendable) {
+        TablePrinter printer = new TablePrinter();
+        printer.printTable(raw, appendable);
+    }
+
+    /**
+     * Returns a transposed view on this table. Example:
+     * <p>
+     * <pre>
+     *    | a | 7 | 4 |
+     *    | b | 9 | 2 |
+     * </pre>
+     * <p>
+     * becomes:
+     * <pre>
+     * | a | b |
+     * | 7 | 9 |
+     * | 4 | 2 |
+     * </pre>
+     *
+     * @return a transposed view of the table
+     */
+    public DataTable transpose() {
+        if (raw instanceof TransposedRawDataTableView) {
+            TransposedRawDataTableView transposed = (TransposedRawDataTableView) this.raw;
+            return transposed.dataTable();
         }
-
-        @Override
-        public <T> T convert(DataTable dataTable, Type type) {
-            return convert(dataTable, type, false);
-        }
-
-        @Override
-        public <T> T convert(DataTable dataTable, Type type, boolean transposed) {
-            throw new CucumberDataTableException(String.format("Can't convert DataTable to %s. DataTable was created without a converter", type));
-        }
-
-        @Override
-        public <T> List<T> toList(DataTable dataTable, Type itemType) {
-            throw new CucumberDataTableException(String.format("Can't convert DataTable to List<%s>. DataTable was created without a converter", itemType));
-        }
-
-        @Override
-        public <T> List<List<T>> toLists(DataTable dataTable, Type itemType) {
-            throw new CucumberDataTableException(String.format("Can't convert DataTable to List<List<%s>>. DataTable was created without a converter", itemType));
-        }
-
-        @Override
-        public <K, V> Map<K, V> toMap(DataTable dataTable, Type keyType, Type valueType) {
-            throw new CucumberDataTableException(String.format("Can't convert DataTable to Map<%s,%s>. DataTable was created without a converter", keyType, valueType));
-        }
-
-        @Override
-        public <K, V> List<Map<K, V>> toMaps(DataTable dataTable, Type keyType, Type valueType) {
-            throw new CucumberDataTableException(String.format("Can't convert DataTable to List<Map<%s,%s>>. DataTable was created without a converter", keyType, valueType));
-        }
-
+        return new DataTable(new TransposedRawDataTableView(), tableConverter);
     }
 
     /**
@@ -401,8 +552,8 @@ public final class DataTable {
          * for <code>List&lt;T&gt;</code>, <code>List&lt;List&lt;T&gt;&gt;</code>, <code>Map&lt;K,V&gt;</code> and
          * <code>List&lt;Map&lt;K,V&gt;&gt;</code> respectively.
          *
-         * @param dataTable  the table to convert
-         * @param type       the type to convert to
+         * @param dataTable the table to convert
+         * @param type      the type to convert to
          * @return an object of type
          */
         <T> T convert(DataTable dataTable, Type type);
@@ -584,6 +735,81 @@ public final class DataTable {
 
     }
 
+    static abstract class AbstractTableConverter implements TableConverter {
+
+        AbstractTableConverter() {
+
+        }
+
+        static Type listItemType(Type type) {
+            return typeArg(type, List.class, 0);
+        }
+
+        static Type typeArg(Type type, Class<?> wantedRawType, int index) {
+            if (type instanceof ParameterizedType) {
+                ParameterizedType parameterizedType = (ParameterizedType) type;
+                Type rawType = parameterizedType.getRawType();
+                if (rawType instanceof Class && wantedRawType.isAssignableFrom((Class) rawType)) {
+                    Type result = parameterizedType.getActualTypeArguments()[index];
+                    if (result instanceof TypeVariable) {
+                        throw new CucumberDataTableException("Generic types must be explicit");
+                    }
+                    return result;
+                } else {
+                    return null;
+                }
+            }
+
+            return null;
+        }
+
+        static Type mapKeyType(Type type) {
+            return typeArg(type, Map.class, 0);
+        }
+
+        static Type mapValueType(Type type) {
+            return typeArg(type, Map.class, 1);
+        }
+    }
+
+    static final class NoConverterDefined implements TableConverter {
+
+        NoConverterDefined() {
+
+        }
+
+        @Override
+        public <T> T convert(DataTable dataTable, Type type) {
+            return convert(dataTable, type, false);
+        }
+
+        @Override
+        public <T> T convert(DataTable dataTable, Type type, boolean transposed) {
+            throw new CucumberDataTableException(String.format("Can't convert DataTable to %s. DataTable was created without a converter", type));
+        }
+
+        @Override
+        public <T> List<T> toList(DataTable dataTable, Type itemType) {
+            throw new CucumberDataTableException(String.format("Can't convert DataTable to List<%s>. DataTable was created without a converter", itemType));
+        }
+
+        @Override
+        public <T> List<List<T>> toLists(DataTable dataTable, Type itemType) {
+            throw new CucumberDataTableException(String.format("Can't convert DataTable to List<List<%s>>. DataTable was created without a converter", itemType));
+        }
+
+        @Override
+        public <K, V> Map<K, V> toMap(DataTable dataTable, Type keyType, Type valueType) {
+            throw new CucumberDataTableException(String.format("Can't convert DataTable to Map<%s,%s>. DataTable was created without a converter", keyType, valueType));
+        }
+
+        @Override
+        public <K, V> List<Map<K, V>> toMaps(DataTable dataTable, Type keyType, Type valueType) {
+            throw new CucumberDataTableException(String.format("Can't convert DataTable to List<Map<%s,%s>>. DataTable was created without a converter", keyType, valueType));
+        }
+
+    }
+
     private final class RawDataTableView extends AbstractList<List<String>> implements RandomAccess {
         private final int fromRow;
         private final int fromColumn;
@@ -672,6 +898,10 @@ public final class DataTable {
 
     private final class TransposedRawDataTableView extends AbstractList<List<String>> implements RandomAccess {
 
+        DataTable dataTable() {
+            return DataTable.this;
+        }
+
         @Override
         public List<String> get(final int row) {
             rangeCheckRow(row, size());
@@ -693,26 +923,5 @@ public final class DataTable {
         public int size() {
             return width();
         }
-
-        DataTable dataTable() {
-            return DataTable.this;
-        }
-    }
-
-
-    private static void rangeCheck(int index, int size) {
-        if (index < 0 || index >= size)
-            throw new IndexOutOfBoundsException("index: " + index + ", Size: " + size);
-    }
-
-
-    private static void rangeCheckRow(int row, int height) {
-        if (row < 0 || row >= height)
-            throw new IndexOutOfBoundsException("row: " + row + ", Height: " + height);
-    }
-
-    private static void rangeCheckColumn(int column, int width) {
-        if (column < 0 || column >= width)
-            throw new IndexOutOfBoundsException("column: " + column + ", Width: " + width);
     }
 }
