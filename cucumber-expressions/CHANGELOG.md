@@ -22,6 +22,14 @@ N/A
 ### Fixed
 N/A
 
+## [5.0.8] - 2018-01-19
+
+### Fixed
+* Support escaped backslashes (`\\`) in Regular expressions.
+  ([#323](https://github.com/cucumber/cucumber/issues/323)
+   [#324](https://github.com/cucumber/cucumber/pull/324)
+   [aslakhellesoy])
+
 ## [5.0.7] - 2017-11-29
 
 ### Fixed
@@ -283,7 +291,8 @@ N/A
 * First stable release!
 
 <!-- Releases -->
-[Unreleased]: https://github.com/cucumber/cucumber/compare/cucumber-expressions-v5.0.7...master
+[Unreleased]: https://github.com/cucumber/cucumber/compare/cucumber-expressions-v5.0.8...master
+[5.0.8]:      https://github.com/cucumber/cucumber/compare/cucumber-expressions-v5.0.7...cucumber-expressions-v5.0.8
 [5.0.7]:      https://github.com/cucumber/cucumber/compare/cucumber-expressions-v5.0.6...cucumber-expressions-v5.0.7
 [5.0.6]:      https://github.com/cucumber/cucumber/compare/cucumber-expressions-v5.0.5...cucumber-expressions-v5.0.6
 [5.0.5]:      https://github.com/cucumber/cucumber/compare/cucumber-expressions-v5.0.4...cucumber-expressions-v5.0.5
