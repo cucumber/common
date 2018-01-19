@@ -1,6 +1,6 @@
 package io.cucumber.datatable;
 
-import com.fasterxml.jackson.databind.JavaType;
+import io.cucumber.datatable.internal.com.fasterxml.jackson.databind.JavaType;
 
 import java.lang.reflect.Type;
 import java.math.BigDecimal;

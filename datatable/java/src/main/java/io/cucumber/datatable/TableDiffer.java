@@ -1,8 +1,8 @@
 package io.cucumber.datatable;
 
-import difflib.Delta;
-import difflib.DiffUtils;
-import difflib.Patch;
+import io.cucumber.datatable.internal.difflib.Delta;
+import io.cucumber.datatable.internal.difflib.DiffUtils;
+import io.cucumber.datatable.internal.difflib.Patch;
 
 import java.util.AbstractMap.SimpleEntry;
 import java.util.ArrayList;
