@@ -82,6 +82,13 @@ public class TreeRegexpTest {
     }
 
     @Test
+    public void works_with_escaped_backslash() {
+        TreeRegexp tr = new TreeRegexp("foo\\\\(bar|baz)");
+        Group g = tr.match("foo\\bar");
+        assertEquals(1, g.getChildren().size());
+    }
+
+    @Test
     public void captures_start_and_end() {
         TreeRegexp tr = new TreeRegexp("^the step \"([^\"]*)\" has status \"([^\"]*)\"$");
         Group g = tr.match("the step \"a pending step\" has status \"pending\"");
