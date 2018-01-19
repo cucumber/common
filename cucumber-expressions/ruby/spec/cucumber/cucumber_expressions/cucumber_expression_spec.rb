@@ -23,8 +23,16 @@ module Cucumber
         expect(match('three {string} mice', 'three "blind" mice')).to eq(['blind'])
       end
 
+      it('matches multiple double quoted strings') do
+        expect(match('three {string} and {string} mice', 'three "blind" and "crippled" mice')).to eq(['blind', 'crippled'])
+      end
+      
       it('matches single quoted string') do
         expect(match('three {string} mice', "three 'blind' mice")).to eq(['blind'])
+      end
+
+      it('matches multiple single quoted strings') do
+        expect(match('three {string} and {string} mice', "three 'blind' and 'crippled' mice")).to eq(['blind', 'crippled'])
       end
 
       it('does not match misquoted string') do
