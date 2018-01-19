@@ -46,7 +46,9 @@ class TreeRegexp {
                 escaping = false;
             } else if (c == '\\') {
                 escaping = true;
-            } else if (c == '(' && !escaping) {
+            }
+
+            if (c == '(' && !escaping) {
                 stack.push(new GroupBuilder());
                 groupStartStack.push(n);
                 nonCapturingMaybe = false;
