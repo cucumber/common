@@ -10,7 +10,7 @@ This intended to support:
 ## Introduction
 
 The introduction will describe how data tables are mapped to certain data
-structures. It will not describe how to do this.
+structures. This conversion can be done either by cucumber or manually.
 
 Let's write a simple data table and see how we might use it. 
 
@@ -138,7 +138,7 @@ transform individual cells to a different type.
 }
 ```
 
-The build transformations support:   
+The build in transformations support:   
 * Integers, for example `71` or `-19`
 * Floats, for example `3.6`, `.8` or `-9.2`
 * Strings, for example `bangers` or `mash`.
@@ -313,6 +313,41 @@ registry.defineDataTableType(new DataTableType(
 
 ### Preferential table types
 
+In some cases you might want to define two or more table types with the same
+type, but a different name and transformer. To avoid ambiguity you can make
+one of the types *preferential* when you define it. A preferential table type 
+will always be chosen over a non-preferential one.
+
+When several table types share the same type, only one of the table types can
+be preferential. If you define two table types with the same type that are 
+both preferential you will get an error during matching.
+
+## DataTable object
+
+A m-by-n immutable table of string values. A table is either empty or contains 
+one or more cells. As such if a table has zero height it must have zero width and
+vise versa.
+
+The first row of the the table may be referred to as the table header. The 
+remaining cells as the table body.
+
+A table provides these utility methods:
+
+* **isEmpty** returns true if the table has no cells. 
+* **transpose** returns a transposed table
+* **height** returns the height of the table
+* **width** returns the width of the table
+* **cells** returns the cells of the table
+* **row(index)** returns a single row
+* **rows(fromRow, toRow)** returns table containing the rows between `fromRow`
+  (inclusive) to `toRow` (exclusive).
+* **column(index)** returns a single column
+* **columns(fromColumn, toColumn)** returns table containing the columns 
+  between `fromColumn` (inclusive) to `toColumn` (exclusive).
+* **subTable(fromRow, fromColumn, toRow, toColumn)** returns a containing the 
+  columns between `fromRow` and `fromColumn` (inclusive) to `toRow` and `toColumn` (exclusive).
+
+Additionally it should provide methods to conveniently convert the table into other data structures.
 
 ## For contributors
 
@@ -380,10 +415,10 @@ Header: | firstName   |    | lastName | birthDate  |
 ```
 
    
-2a. If the first table cell is blank use the TableCellTransformer to convert the column   
+2a. If the first table cell is blank use the TableCellTransformer to convert the column.  
 2b. Otherwise use the TableEntryTransformer.
 
-3a. If the first table cell is blank use the TableEntryTransformer to convert the body values.
+3a. If the first table cell is blank use the TableEntryTransformer to convert the body values.  
 3b. Otherwise use the TableRowTransformer on all values.
 
 4. Pair up the keys and values from steps 2 and 3. 
