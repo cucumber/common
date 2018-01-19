@@ -306,9 +306,10 @@ N/A
 * First stable release!
 
 <!-- Releases -->
-[Unreleased]: https://github.com/cucumber/cucumber/compare/cucumber-expressions-v5.0.11...master
-[5.0.10]:     https://github.com/cucumber/cucumber/compare/cucumber-expressions-v5.0.10...cucumber-expressions-v5.0.11
-[5.0.8]:      https://github.com/cucumber/cucumber/compare/cucumber-expressions-v5.0.7...cucumber-expressions-v5.0.10
+[Unreleased]: https://github.com/cucumber/cucumber/compare/cucumber-expressions-v5.0.12...master
+[5.0.12]:     https://github.com/cucumber/cucumber/compare/cucumber-expressions-v5.0.11...cucumber-expressions-v5.0.12
+[5.0.11]:     https://github.com/cucumber/cucumber/compare/cucumber-expressions-v5.0.10...cucumber-expressions-v5.0.11
+[5.0.10]:     https://github.com/cucumber/cucumber/compare/cucumber-expressions-v5.0.7...cucumber-expressions-v5.0.10
 [5.0.7]:      https://github.com/cucumber/cucumber/compare/cucumber-expressions-v5.0.6...cucumber-expressions-v5.0.7
 [5.0.6]:      https://github.com/cucumber/cucumber/compare/cucumber-expressions-v5.0.5...cucumber-expressions-v5.0.6
 [5.0.5]:      https://github.com/cucumber/cucumber/compare/cucumber-expressions-v5.0.4...cucumber-expressions-v5.0.5
