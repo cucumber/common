@@ -22,6 +22,12 @@ N/A
 ### Fixed
 N/A
 
+## [5.0.13] - 2018-01-21
+
+### Fixed
+* Fixed *yet* another regression introduced by [#324](https://github.com/cucumber/cucumber/pull/324)
+  and simplified capture group parsing in `TreeRegexp` to reduce likelihood of more bugs.
+
 ## [5.0.12] - 2018-01-19
 
 ### Fixed
@@ -306,7 +312,8 @@ N/A
 * First stable release!
 
 <!-- Releases -->
-[Unreleased]: https://github.com/cucumber/cucumber/compare/cucumber-expressions-v5.0.12...master
+[Unreleased]: https://github.com/cucumber/cucumber/compare/cucumber-expressions-v5.0.13...master
+[5.0.13]:     https://github.com/cucumber/cucumber/compare/cucumber-expressions-v5.0.12...cucumber-expressions-v5.0.13
 [5.0.12]:     https://github.com/cucumber/cucumber/compare/cucumber-expressions-v5.0.11...cucumber-expressions-v5.0.12
 [5.0.11]:     https://github.com/cucumber/cucumber/compare/cucumber-expressions-v5.0.10...cucumber-expressions-v5.0.11
 [5.0.10]:     https://github.com/cucumber/cucumber/compare/cucumber-expressions-v5.0.7...cucumber-expressions-v5.0.10

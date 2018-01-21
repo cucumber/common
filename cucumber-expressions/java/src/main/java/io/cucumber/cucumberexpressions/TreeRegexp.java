@@ -1,7 +1,6 @@
 package io.cucumber.cucumberexpressions;
 
 import java.util.ArrayDeque;
-import java.util.Arrays;
 import java.util.Deque;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
@@ -14,16 +13,8 @@ import java.util.regex.Pattern;
  * regexp.
  */
 class TreeRegexp {
-    private static final Character[] REGEXP_CHARS = new Character[]{
-            // Must be alphabetically sorted in order for binarySearch to work
-            '#', '$', '(', ')', '*', '+', '.', '?', '[', '\\', '^', '{', '|'
-    };
     private final Pattern pattern;
     private final GroupBuilder groupBuilder;
-
-    private static boolean isRegexpChar(char c) {
-        return Arrays.binarySearch(REGEXP_CHARS, c) >= 0;
-    }
 
     TreeRegexp(String regexp) {
         this(Pattern.compile(regexp));
@@ -42,11 +33,7 @@ class TreeRegexp {
         boolean nonCapturingMaybe = false;
         int n = 1;
         for (char c : chars) {
-            if (escaping && isRegexpChar(c)) {
-                escaping = false;
-            } else if (c == '\\') {
-                escaping = true;
-            } else if (c == '(' && !escaping) {
+            if (c == '(' && !escaping) {
                 stack.push(new GroupBuilder());
                 groupStartStack.push(n);
                 nonCapturingMaybe = false;
@@ -66,6 +53,8 @@ class TreeRegexp {
                 stack.peek().setNonCapturing();
                 nonCapturingMaybe = false;
             }
+
+            escaping = c == '\\' && !escaping;
             last = c;
             n++;
         }

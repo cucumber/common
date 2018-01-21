@@ -70,6 +70,12 @@ describe('TreeRegexp', () => {
     assert.equal(group.children.length, 1)
   })
 
+  it('works with digit and word', () => {
+    const tr = new TreeRegexp(/^(\d) (\w+)$/)
+    const group = tr.match('2 you')
+    assert.equal(group.children.length, 2)
+  })
+
   it('captures non capturing groups with capturing groups inside', () => {
     const tr = new TreeRegexp('the stdout(?: from "(.*?)")?')
     const group = tr.match('the stdout')

@@ -65,6 +65,12 @@ module Cucumber
         expect(group.children.length).to eq(1)
       end
 
+      it 'works with digit and word' do
+        tr = TreeRegexp.new(/^(\d) (\w+)$/)
+        group = tr.match("2 you")
+        expect(group.children.length).to eq(2)
+      end
+
       it 'captures non capturing groups with capturing groups inside' do
         tr = TreeRegexp.new(/the stdout(?: from "(.*?)")?/)
         group = tr.match("the stdout")
