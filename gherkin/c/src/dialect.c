@@ -2371,8 +2371,8 @@ static const Keywords ru_and_keywords = { 4, ru_and_KEYWORDS };
 static const wchar_t* const ru_background_KEYWORDS[] = { L"Предыстория", L"Контекст" };
 static const Keywords ru_background_keywords = { 2, ru_background_KEYWORDS };
 
-static const wchar_t* const ru_but_KEYWORDS[] = { L"* ", L"Но ", L"А " };
-static const Keywords ru_but_keywords = { 3, ru_but_KEYWORDS };
+static const wchar_t* const ru_but_KEYWORDS[] = { L"* ", L"Но ", L"А ", L"Иначе " };
+static const Keywords ru_but_keywords = { 4, ru_but_KEYWORDS };
 
 static const wchar_t* const ru_examples_KEYWORDS[] = { L"Примеры" };
 static const Keywords ru_examples_keywords = { 1, ru_examples_KEYWORDS };
