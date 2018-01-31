@@ -10,6 +10,9 @@ This document is formatted according to the principles of [Keep A CHANGELOG](htt
 ## [Unreleased] - In Git
 
 ### Added
+* Support for Aragonese
+  ([#298](https://github.com/cucumber/cucumber/pull/298)
+   [danilat])
 
 ### Changed
 
@@ -376,6 +379,7 @@ to Gherkin 2.
 [aslakhellesoy]:    https://github.com/aslakhellesoy
 [brasmusson]:       https://github.com/brasmusson
 [charlierudolph]:   https://github.com/charlierudolph
+[danilat]:          https://github.com/danilat
 [dobiedad]:         https://github.com/dobiedad
 [ehpc]:             https://github.com/ehpc
 [enkessler]:        https://github.com/enkessler

@@ -86,6 +86,49 @@ static const Dialect am_dialect = {
         &am_then_keywords,
         &am_when_keywords };
 
+static const wchar_t* const an_and_KEYWORDS[] = { L"* ", L"Y ", L"E " };
+static const Keywords an_and_keywords = { 3, an_and_KEYWORDS };
+
+static const wchar_t* const an_background_KEYWORDS[] = { L"Antecedents" };
+static const Keywords an_background_keywords = { 1, an_background_KEYWORDS };
+
+static const wchar_t* const an_but_KEYWORDS[] = { L"* ", L"Pero " };
+static const Keywords an_but_keywords = { 2, an_but_KEYWORDS };
+
+static const wchar_t* const an_examples_KEYWORDS[] = { L"Eixemplos" };
+static const Keywords an_examples_keywords = { 1, an_examples_KEYWORDS };
+
+static const wchar_t* const an_feature_KEYWORDS[] = { L"Caracteristica" };
+static const Keywords an_feature_keywords = { 1, an_feature_KEYWORDS };
+
+static const wchar_t* const an_given_KEYWORDS[] = { L"* ", L"Dau ", L"Dada ", L"Daus ", L"Dadas " };
+static const Keywords an_given_keywords = { 5, an_given_KEYWORDS };
+
+static const wchar_t* const an_scenario_KEYWORDS[] = { L"Caso" };
+static const Keywords an_scenario_keywords = { 1, an_scenario_KEYWORDS };
+
+static const wchar_t* const an_scenarioOutline_KEYWORDS[] = { L"Esquema del caso" };
+static const Keywords an_scenarioOutline_keywords = { 1, an_scenarioOutline_KEYWORDS };
+
+static const wchar_t* const an_then_KEYWORDS[] = { L"* ", L"Alavez ", L"Allora ", L"Antonces " };
+static const Keywords an_then_keywords = { 4, an_then_KEYWORDS };
+
+static const wchar_t* const an_when_KEYWORDS[] = { L"* ", L"Cuan " };
+static const Keywords an_when_keywords = { 2, an_when_KEYWORDS };
+
+static const Dialect an_dialect = {
+        L"an",
+        &an_and_keywords,
+        &an_background_keywords,
+        &an_but_keywords,
+        &an_examples_keywords,
+        &an_feature_keywords,
+        &an_given_keywords,
+        &an_scenario_keywords,
+        &an_scenarioOutline_keywords,
+        &an_then_keywords,
+        &an_when_keywords };
+
 static const wchar_t* const ar_and_KEYWORDS[] = { L"* ", L"و " };
 static const Keywords ar_and_keywords = { 2, ar_and_KEYWORDS };
 
@@ -3144,6 +3187,8 @@ const Dialect* Dialect_for(const wchar_t* language) {
         return &af_dialect;
     if (wcscmp(am_dialect.language_name, language) == 0)
         return &am_dialect;
+    if (wcscmp(an_dialect.language_name, language) == 0)
+        return &an_dialect;
     if (wcscmp(ar_dialect.language_name, language) == 0)
         return &ar_dialect;
     if (wcscmp(ast_dialect.language_name, language) == 0)
