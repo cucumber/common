@@ -17,7 +17,9 @@ N/A
 N/A
 
 ### Removed
-N/A
+* ruby: Support for named capture group in `Regexp`
+  ([#329](https://github.com/cucumber/cucumber/issues/329)
+   [aslakhellesoy])
 
 ### Fixed
 N/A

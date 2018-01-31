@@ -1,4 +1,5 @@
 require 'cucumber/cucumber_expressions/group_builder'
+require 'cucumber/cucumber_expressions/errors'
 
 module Cucumber
   module CucumberExpressions
@@ -33,6 +34,8 @@ module Cucumber
           elsif c == ':' && non_capturing_maybe
             stack.last.set_non_capturing!
             non_capturing_maybe = false
+          elsif c == '<' && non_capturing_maybe
+            raise CucumberExpressionError.new("Named capture groups are not supported. See https://github.com/cucumber/cucumber/issues/329")
           end
 
           escaping = c == '\\' && !escaping
