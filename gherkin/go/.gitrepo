@@ -6,6 +6,6 @@
 [subrepo]
 	remote = https://github.com/cucumber/gherkin-go.git
 	branch = master
-	commit = f9b1b106079f75e3bf79ff8d869006cc6d8d8942
-	parent = aef27d91cbe91cc34051d85a3771aa47eed75f1e
+	commit = 55f31878cb939247dca001897d45c97f5f87fece
+	parent = 1b7d2542588fe7ae91ba5678499955b790cbe15b
 	cmdver = 0.4.0
