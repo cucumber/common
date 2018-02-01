@@ -1,14 +1,12 @@
-package gherkin_test
+package gherkin
 
 import (
 	"fmt"
 	"os"
 	"strings"
-
-	gherkin "."
 )
 
-func ExampleParseFeature() {
+func ExampleParseGherkinDocument() {
 
 	input := `Feature: Tagged Examples
 
@@ -30,7 +28,7 @@ func ExampleParseFeature() {
 `
 	r := strings.NewReader(input)
 
-	gherkinDocument, err := gherkin.ParseGherkinDocument(r)
+	gherkinDocument, err := ParseGherkinDocument(r)
 	if err != nil {
 		fmt.Fprintf(os.Stdout, "%s\n", err)
 		return
@@ -41,13 +39,13 @@ func ExampleParseFeature() {
 	fmt.Fprintf(os.Stdout, "Name: %+v\n", feature.Name)
 	fmt.Fprintf(os.Stdout, "Children: length: %+v\n", len(feature.Children))
 
-	scenario1, _ := feature.Children[0].(*gherkin.ScenarioOutline)
+	scenario1, _ := feature.Children[0].(*ScenarioOutline)
 	fmt.Fprintf(os.Stdout, " 1: Location: %+v\n", scenario1.Location)
 	fmt.Fprintf(os.Stdout, "    Keyword: %+v\n", scenario1.Keyword)
 	fmt.Fprintf(os.Stdout, "    Name: %+v\n", scenario1.Name)
 	fmt.Fprintf(os.Stdout, "    Steps: length: %+v\n", len(scenario1.Steps))
 
-	scenario2, _ := feature.Children[1].(*gherkin.Scenario)
+	scenario2, _ := feature.Children[1].(*Scenario)
 	fmt.Fprintf(os.Stdout, " 2: Location: %+v\n", scenario2.Location)
 	fmt.Fprintf(os.Stdout, "    Keyword: %+v\n", scenario2.Keyword)
 	fmt.Fprintf(os.Stdout, "    Name: %+v\n", scenario2.Name)
@@ -70,17 +68,17 @@ func ExampleParseFeature() {
 	//
 }
 
-func ExampleParseMultipleFeatures() {
+func ExampleParseGherkinDocument_multiple() {
 
-	builder := gherkin.NewAstBuilder()
-	parser := gherkin.NewParser(builder)
+	builder := NewAstBuilder()
+	parser := NewParser(builder)
 	parser.StopAtFirstError(false)
-	matcher := gherkin.NewMatcher(gherkin.GherkinDialectsBuildin())
+	matcher := NewMatcher(GherkinDialectsBuildin())
 
 	input1 := `Feature: Test`
 	r1 := strings.NewReader(input1)
 
-	err1 := parser.Parse(gherkin.NewScanner(r1), matcher)
+	err1 := parser.Parse(NewScanner(r1), matcher)
 	if err1 != nil {
 		fmt.Fprintf(os.Stdout, "%s\n", err1)
 		return
@@ -96,7 +94,7 @@ func ExampleParseMultipleFeatures() {
 	input2 := `Feature: Test2`
 	r2 := strings.NewReader(input2)
 
-	err2 := parser.Parse(gherkin.NewScanner(r2), matcher)
+	err2 := parser.Parse(NewScanner(r2), matcher)
 	if err2 != nil {
 		fmt.Fprintf(os.Stdout, "%s\n", err2)
 		return
@@ -122,12 +120,12 @@ func ExampleParseMultipleFeatures() {
 	//
 }
 
-func ExampleParseFeatureAfterParseError() {
+func ExampleParseGherkinDocument_error() {
 
-	builder := gherkin.NewAstBuilder()
-	parser := gherkin.NewParser(builder)
+	builder := NewAstBuilder()
+	parser := NewParser(builder)
 	parser.StopAtFirstError(false)
-	matcher := gherkin.NewMatcher(gherkin.GherkinDialectsBuildin())
+	matcher := NewMatcher(GherkinDialectsBuildin())
 
 	input1 := `# a comment
 Feature: Foo
@@ -137,7 +135,7 @@ Feature: Foo
       unclosed docstring`
 	r1 := strings.NewReader(input1)
 
-	err1 := parser.Parse(gherkin.NewScanner(r1), matcher)
+	err1 := parser.Parse(NewScanner(r1), matcher)
 	if err1 != nil {
 		fmt.Fprintf(os.Stdout, "%s\n", err1)
 	}
@@ -151,7 +149,7 @@ Feature: Foo
       """`
 	r2 := strings.NewReader(input2)
 
-	err2 := parser.Parse(gherkin.NewScanner(r2), matcher)
+	err2 := parser.Parse(NewScanner(r2), matcher)
 	if err2 != nil {
 		fmt.Fprintf(os.Stdout, "%s\n", err2)
 		return
@@ -164,7 +162,7 @@ Feature: Foo
 	fmt.Fprintf(os.Stdout, "Keyword: %+v\n", feature2.Keyword)
 	fmt.Fprintf(os.Stdout, "Name: %+v\n", feature2.Name)
 	fmt.Fprintf(os.Stdout, "Children: length: %+v\n", len(feature2.Children))
-	scenario1, _ := feature2.Children[0].(*gherkin.Scenario)
+	scenario1, _ := feature2.Children[0].(*Scenario)
 	fmt.Fprintf(os.Stdout, " 1: Location: %+v\n", scenario1.Location)
 	fmt.Fprintf(os.Stdout, "    Keyword: %+v\n", scenario1.Keyword)
 	fmt.Fprintf(os.Stdout, "    Name: %+v\n", scenario1.Name)
@@ -187,16 +185,16 @@ Feature: Foo
 	//
 }
 
-func ExampleChangeDefaultDialect() {
+func ExampleParseGherkinDocument_dialect() {
 
-	builder := gherkin.NewAstBuilder()
-	parser := gherkin.NewParser(builder)
+	builder := NewAstBuilder()
+	parser := NewParser(builder)
 	parser.StopAtFirstError(false)
-	matcher := gherkin.NewLanguageMatcher(gherkin.GherkinDialectsBuildin(), "no")
+	matcher := NewLanguageMatcher(GherkinDialectsBuildin(), "no")
 	input := "Egenskap: i18n support"
 	reader := strings.NewReader(input)
 
-	err := parser.Parse(gherkin.NewScanner(reader), matcher)
+	err := parser.Parse(NewScanner(reader), matcher)
 	if err != nil {
 		fmt.Fprintf(os.Stdout, "%s\n", err)
 		return
