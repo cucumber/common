@@ -26,7 +26,7 @@ module Cucumber
       it('matches multiple double quoted strings') do
         expect(match('three {string} and {string} mice', 'three "blind" and "crippled" mice')).to eq(['blind', 'crippled'])
       end
-      
+
       it('matches single quoted string') do
         expect(match('three {string} mice', "three 'blind' mice")).to eq(['blind'])
       end
@@ -53,6 +53,10 @@ module Cucumber
 
       it('matches single quoted string with escaped single quote') do
         expect(match('three {string} mice', "three 'bl\\'nd' mice")).to eq(["bl'nd"])
+      end
+
+      it 'matches escaped parentheses' do
+        expect(match('three \\(exceptionally) {string} mice', 'three (exceptionally) "blind" mice')).to eq(['blind'])
       end
 
       it "matches int" do
