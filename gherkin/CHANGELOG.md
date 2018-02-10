@@ -29,6 +29,9 @@ This document is formatted according to the principles of [Keep A CHANGELOG](htt
 
 ### Fixed
 
+* (Go) fixes validation for go vet tool on latest versions
+  ([#330](https://github.com/cucumber/cucumber/pull/330)
+   [l3pp4rd])
 * (Ruby) removed unneeded files from the gem
 
 ## [5.0.0] - 2017-10-13
