@@ -100,8 +100,11 @@ function Compiler() {
     } else if (argument.type === 'DocString') {
       var docString = {
         location: pickleLocation(argument.location),
-        content: interpolate(argument.content, variableCells, valueCells)
+        content: interpolate(argument.content, variableCells, valueCells),
       };
+      if(argument.contentType) {
+        docString.contentType = interpolate(argument.contentType, variableCells, valueCells);
+      }
       result.push(docString);
     } else {
       throw Error('Internal error');

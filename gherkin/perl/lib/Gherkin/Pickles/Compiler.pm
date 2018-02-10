@@ -163,16 +163,16 @@ sub _create_pickle_arguments {
         }
         push( @$result, $table );
     } elsif ( $argument->{'type'} eq 'DocString' ) {
+        my $docstring = {
+            location => $class->_pickle_location( $argument->{'location'} ),
+            content => $class->_interpolate($argument->{'content'}, $variables, $values),
+        };
+        if(defined $argument->{'contentType'}){
+            $docstring->{'contentType'} = $class->_interpolate($argument->{'contentType'}, $variables, $values)
+        }
         push(
             @$result,
-            {
-                location =>
-                  $class->_pickle_location( $argument->{'location'} ),
-                content => $class->_interpolate(
-                    $argument->{'content'},
-                    $variables, $values
-                ),
-            }
+            $docstring
         );
     } else {
         die "Internal error";

@@ -13,8 +13,15 @@ This document is formatted according to the principles of [Keep A CHANGELOG](htt
 * Support for Aragonese
   ([#298](https://github.com/cucumber/cucumber/pull/298)
    [danilat])
+* (C) build a shared `libgherkin.so` library which allows Gherkin to be used
+  as a library. (Cucumber.ml currently uses this.)
+  ([cucumber/gherkin-c#6](https://github.com/cucumber/gherkin-c/pull/6)
+   [cyocum])
 
 ### Changed
+* Pass the content type of a docstring down into its pickle string form
+  ([#292](https://github.com/cucumber/cucumber/pull/292)
+   [rjwittams])
 
 ### Deprecated
 
@@ -379,6 +386,7 @@ to Gherkin 2.
 [aslakhellesoy]:    https://github.com/aslakhellesoy
 [brasmusson]:       https://github.com/brasmusson
 [charlierudolph]:   https://github.com/charlierudolph
+[cyocum]:           https://github.com/cyocum
 [danilat]:          https://github.com/danilat
 [dobiedad]:         https://github.com/dobiedad
 [ehpc]:             https://github.com/ehpc
@@ -400,6 +408,7 @@ to Gherkin 2.
 [paigehf]:          https://github.com/paigehf
 [pjlsergeant]:      https://github.com/pjlsergeant
 [pmatsinopoulos]:   https://github.com/pmatsinopoulos
+[rjwittams]:        https://github.com/rjwittams
 [Pr-Mex]:           https://github.com/Pr-Mex
 [Pwera]:            https://github.com/Pwera
 [SabotageAndi]:     https://github.com/SabotageAndi
