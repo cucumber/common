@@ -19,6 +19,9 @@ This document is formatted according to the principles of [Keep A CHANGELOG](htt
    [cyocum])
 
 ### Changed
+* Pass the content type of a docstring down into its pickle string form
+  ([#292](https://github.com/cucumber/cucumber/pull/292)
+   [rjwittams])
 
 ### Deprecated
 
@@ -405,6 +408,7 @@ to Gherkin 2.
 [paigehf]:          https://github.com/paigehf
 [pjlsergeant]:      https://github.com/pjlsergeant
 [pmatsinopoulos]:   https://github.com/pmatsinopoulos
+[rjwittams]:        https://github.com/rjwittams
 [Pr-Mex]:           https://github.com/Pr-Mex
 [Pwera]:            https://github.com/Pwera
 [SabotageAndi]:     https://github.com/SabotageAndi
