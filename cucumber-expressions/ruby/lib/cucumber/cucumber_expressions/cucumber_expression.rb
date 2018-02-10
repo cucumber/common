@@ -24,16 +24,12 @@ module Cucumber
         expression = expression.gsub(ESCAPE_REGEXP, '\\\\\1')
 
         # Create non-capturing, optional capture groups from parenthesis
-        expression = expression.gsub(OPTIONAL_REGEXP) do |match|
+        expression = expression.gsub(OPTIONAL_REGEXP) do
           # look for double-escaped parentheses
-          if $1 == '\\\\'
-            "\\(#{$2}\\)"
-          else
-            "(?:#{$2})?"
-          end
+          $1 == '\\\\' ? "\\(#{$2}\\)" : "(?:#{$2})?"
         end
 
-        expression = expression.gsub(ALTERNATIVE_NON_WHITESPACE_TEXT_REGEXP) do |_|
+        expression = expression.gsub(ALTERNATIVE_NON_WHITESPACE_TEXT_REGEXP) do
           "(?:#{$1}#{$2.tr('/', '|')})"
         end
 
