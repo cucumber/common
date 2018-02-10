@@ -11,7 +11,7 @@ class CucumberExpression {
     // Does not include (){} characters because they have special meaning
     const ESCAPE_REGEXP = /([\\^[$.|?*+])/g
     const PARAMETER_REGEXP = /{([^}]+)}/g
-    const OPTIONAL_REGEXP = /\(([^)]+)\)/g
+    const OPTIONAL_REGEXP = /(\\\\)?\(([^)]+)\)/g
     const ALTERNATIVE_NON_WHITESPACE_TEXT_REGEXP = /([^\s^/]+)((\/[^\s^/]+)+)/g
 
     this._expression = expression
@@ -25,7 +25,10 @@ class CucumberExpression {
     expression = expression.replace(ESCAPE_REGEXP, '\\$1')
 
     // Create non-capturing, optional capture groups from parenthesis
-    expression = expression.replace(OPTIONAL_REGEXP, '(?:$1)?')
+    expression = expression.replace(
+      OPTIONAL_REGEXP,
+      (match, p1, p2) => (p1 === '\\\\' ? `\\(${p2}\\)` : `(?:${p2})?`)
+    )
 
     expression = expression.replace(
       ALTERNATIVE_NON_WHITESPACE_TEXT_REGEXP,

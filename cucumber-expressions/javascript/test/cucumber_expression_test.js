@@ -82,8 +82,20 @@ describe('CucumberExpression', () => {
     ])
   })
 
-  it('matches int', () => {
-    assert.deepEqual(match('{int}', '22'), [22])
+  it('matches single quoted string with escaped single quote', () => {
+    assert.deepEqual(match('three {string} mice', "three 'bl\\'nd' mice"), [
+      "bl'nd",
+    ])
+  })
+
+  it('matches escaped parenthesis', () => {
+    assert.deepEqual(
+      match(
+        'three \\(exceptionally) {string} mice',
+        'three (exceptionally) "blind" mice'
+      ),
+      ['blind']
+    )
   })
 
   it("doesn't match float as int", () => {
