@@ -9,7 +9,7 @@ module Cucumber
       ESCAPE_REGEXP = /([\\^\[$.|?*+\]])/
       PARAMETER_REGEXP = /{([^}]+)}/
       # Parentheses will be double-escaped due to ESCAPE_REGEXP
-      OPTIONAL_REGEXP = /([\\][\\])?\(([^)]+)\)/
+      OPTIONAL_REGEXP = /(\\\\)?\(([^)]+)\)/
       ALTERNATIVE_NON_WHITESPACE_TEXT_REGEXP = /([^\s^\/]+)((\/[^\s^\/]+)+)/
 
       attr_reader :source
