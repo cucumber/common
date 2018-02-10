@@ -140,12 +140,19 @@ static const PickleArgument* create_pickle_argument(const StepArgument* step_arg
         else if (step_argument->type == Gherkin_DocString) {
             const DocString* doc_string = (DocString*)step_argument;
             if (!example_header) {
-                argument = (const PickleArgument*)PickleString_new(doc_string->content, doc_string->location.line, doc_string->location.column);
+                argument = (const PickleArgument*)PickleString_new(doc_string->content, doc_string->location.line, doc_string->location.column, doc_string->content_type);
             }
             else {
                 const wchar_t* expanded_text = create_expanded_text(doc_string->content, example_header, body_row);
-                argument = (const PickleArgument*)PickleString_new(expanded_text, doc_string->location.line, doc_string->location.column);
+                const wchar_t* expanded_content_type = 0;
+                if(doc_string->content_type){
+                    expanded_content_type = create_expanded_text(doc_string->content_type, example_header, body_row);
+                }
+                argument = (const PickleArgument*)PickleString_new(expanded_text, doc_string->location.line, doc_string->location.column, expanded_content_type);
                 free((void*)expanded_text);
+                if(expanded_content_type != 0){
+                    free((void*)expanded_content_type);
+                }
             }
         }
     }
