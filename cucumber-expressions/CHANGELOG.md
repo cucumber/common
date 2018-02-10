@@ -8,7 +8,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ## [Unreleased]
 
 ### Added
-N/A
+* Matching a literal open-parenthesis
+  ([#107](https://github.com/cucumber/cucumber/issues/107)
+   [#333](https://github.com/cucumber/cucumber/issues/333)
+   [#334](https://github.com/cucumber/cucumber/pull/334)
+   [jamis])
 
 ### Changed
 N/A
@@ -345,6 +349,7 @@ N/A
 [charlierudolph]:   https://github.com/charlierudolph
 [dmeehan1968]:      https://github.com/dmeehan1968
 [gpichot]:          https://github.com/gpichot
+[jamis]:            https://github.com/jamis
 [jaysonesmith]:     https://github.com/jaysonesmith
 [luke-hill]:        https://github.com/luke-hill
 [mpkorstanje]:      https://github.com/mpkorstanje
