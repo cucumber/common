@@ -4,6 +4,7 @@ import (
 	"testing"
 
 	tagexpressions "github.com/cucumber/cucumber/tag-expressions/go"
+	"github.com/stretchr/testify/require"
 )
 
 func TestParse(t *testing.T) {
@@ -21,112 +22,85 @@ func TestParse(t *testing.T) {
 				"not a\\(\\) or b and not c or not d or e and f",
 				"( ( ( not ( a\\(\\) ) or ( b and not ( c ) ) ) or not ( d ) ) or ( e and f ) )",
 			},
+			// a or not b
 		}
 		for _, example := range examples {
 			infix := example[0]
-			expected := example[1]
-			actual := tagexpressions.Parse(infix).ToString()
-			if expected != actual {
-				t.Errorf("Expected %s to equal %s", actual, expected)
-			}
-			roundTripActual := tagexpressions.Parse(actual).ToString()
-			if expected != roundTripActual {
-				t.Errorf("Expected %s to equal %s", roundTripActual, expected)
-			}
+			expectedStr := example[1]
+			actual, err := tagexpressions.Parse(infix)
+			require.NoError(t, err)
+			actualStr := actual.ToString()
+			require.Equal(t, expectedStr, actualStr)
+
+			roundTripActual, err := tagexpressions.Parse(actualStr)
+			require.NoError(t, err)
+			roundTripActualStr := roundTripActual.ToString()
+			require.Equal(t, expectedStr, roundTripActualStr)
 		}
 	})
-}
 
-// /* eslint-env mocha */
-// var assert = require('assert')
-// var TagExpressionParser = require('../lib/tag_expression_parser')
-// var parser = new TagExpressionParser()
-//
-// describe('TagExpressionParser', function() {
-//   describe('#parse', function() {
-//     ;[
-//       ['a and b', '( a and b )'],
-//       ['a or b', '( a or b )'],
-//       ['not a', 'not ( a )'],
-//       ['( a and b ) or ( c and d )', '( ( a and b ) or ( c and d ) )'],
-//       [
-//         'not a or b and not c or not d or e and f',
-//         '( ( ( not ( a ) or ( b and not ( c ) ) ) or not ( d ) ) or ( e and f ) )',
-//       ],
-//       [
-//         'not a\\(\\) or b and not c or not d or e and f',
-//         '( ( ( not ( a\\(\\) ) or ( b and not ( c ) ) ) or not ( d ) ) or ( e and f ) )',
-//       ],
-//       // a or not b
-//     ].forEach(function(inOut) {
-//       it(inOut[0], function() {
-//         var infix = inOut[0]
-//         var expr = parser.parse(infix)
-//         assert.equal(expr.toString(), inOut[1])
-//
-//         var roundtripTokens = expr.toString()
-//         var roundtripExpr = parser.parse(roundtripTokens)
-//         assert.equal(roundtripExpr.toString(), inOut[1])
-//       })
-//     })
-//     ;[
-//       ['@a @b or', 'Syntax error. Expected operator'],
-//       ['@a and (@b not)', 'Syntax error. Expected operator'],
-//       ['@a and (@b @c) or', 'Syntax error. Expected operator'],
-//       ['@a and or', 'Syntax error. Expected operand'],
-//       ['or or', 'Syntax error. Expected operand'],
-//       ['a b', 'Syntax error. Expected operator'],
-//       ['( a and b ) )', 'Syntax error. Unmatched )'],
-//       ['( ( a and b )', 'Syntax error. Unmatched ('],
-//       // a or not b
-//     ].forEach(function(inOut) {
-//       it(inOut[0] + ' fails', function() {
-//         var infix = inOut[0]
-//         try {
-//           parser.parse(infix)
-//           throw new Error('Expected syntax error')
-//         } catch (expected) {
-//           assert.equal(expected.message, inOut[1])
-//         }
-//       })
-//     })
-//
-//     // evaluation
-//
-//     it('evaluates not', function() {
-//       var expr = parser.parse('not   x')
-//       assert.equal(expr.evaluate(['x']), false)
-//       assert.equal(expr.evaluate(['y']), true)
-//     })
-//
-//     it('evaluates and', function() {
-//       var expr = parser.parse('x and y')
-//       assert.equal(expr.evaluate(['x', 'y']), true)
-//       assert.equal(expr.evaluate(['y']), false)
-//       assert.equal(expr.evaluate(['x']), false)
-//     })
-//
-//     it('evaluates or', function() {
-//       var expr = parser.parse('  x or(y) ')
-//       assert.equal(expr.evaluate([]), false)
-//       assert.equal(expr.evaluate(['y']), true)
-//       assert.equal(expr.evaluate(['x']), true)
-//     })
-//
-//     it('evaluates expressions with escaped chars', function() {
-//       var expr = parser.parse('  x\\(1\\) or(y\\(2\\)) ')
-//       assert.equal(expr.evaluate([]), false)
-//       assert.equal(expr.evaluate(['y(2)']), true)
-//       assert.equal(expr.evaluate(['x(1)']), true)
-//       assert.equal(expr.evaluate(['y']), false)
-//       assert.equal(expr.evaluate(['x']), false)
-//     })
-//
-//     it('evaluates empty expressions to true', function() {
-//       var expr = parser.parse('')
-//       assert.equal(expr.evaluate([]), true)
-//       assert.equal(expr.evaluate(['y']), true)
-//       assert.equal(expr.evaluate(['x']), true)
-//     })
-//   })
-// })
+	t.Run("syntax errors", func(t *testing.T) {
+		examples := [][]string{
+			{"@a @b or", "Syntax error. Expected operator"},
+			{"@a and (@b not)", "Syntax error. Expected operator"},
+			{"@a and (@b @c) or", "Syntax error. Expected operator"},
+			{"@a and or", "Syntax error. Expected operand"},
+			{"or or", "Syntax error. Expected operand"},
+			{"a b", "Syntax error. Expected operator"},
+			{"( a and b ) )", "Syntax error. Unmatched )"},
+			{"( ( a and b )", "Syntax error. Unmatched ("},
+			// a or not b
+		}
+		for _, example := range examples {
+			infix := example[0]
+			expectedErrMessage := example[1]
+			_, err := tagexpressions.Parse(infix)
+			require.Error(t, err)
+			require.Equal(t, expectedErrMessage, err.Error())
+		}
+	})
+
+	t.Run("evalutation errors", func(t *testing.T) {
+
+		t.Run("evaluates not", func(t *testing.T) {
+			expr, err := tagexpressions.Parse("not   x")
+			require.NoError(t, err)
+			require.False(t, expr.Evaluate([]string{"x"}))
+			require.True(t, expr.Evaluate([]string{"y"}))
+		})
+
+		t.Run("evaluates and", func(t *testing.T) {
+			expr, err := tagexpressions.Parse("x and y")
+			require.NoError(t, err)
+			require.True(t, expr.Evaluate([]string{"x", "y"}))
+			require.False(t, expr.Evaluate([]string{"y"}))
+			require.False(t, expr.Evaluate([]string{"x"}))
+		})
+
+		t.Run("evaluates or", func(t *testing.T) {
+			expr, err := tagexpressions.Parse("  x or(y) ")
+			require.NoError(t, err)
+			require.False(t, expr.Evaluate([]string{}))
+			require.True(t, expr.Evaluate([]string{"y"}))
+			require.True(t, expr.Evaluate([]string{"x"}))
+		})
+
+		t.Run("evaluates expressions with escaped chars", func(t *testing.T) {
+			expr, err := tagexpressions.Parse("  x\\(1\\) or(y\\(2\\)) ")
+			require.NoError(t, err)
+			require.False(t, expr.Evaluate([]string{}))
+			require.True(t, expr.Evaluate([]string{"y(2)"}))
+			require.True(t, expr.Evaluate([]string{"x(1)"}))
+			require.False(t, expr.Evaluate([]string{"y"}))
+			require.False(t, expr.Evaluate([]string{"x"}))
+		})
+
+		t.Run("evaluates empty expressions to true", func(t *testing.T) {
+			expr, err := tagexpressions.Parse("")
+			require.NoError(t, err)
+			require.True(t, expr.Evaluate([]string{}))
+			require.True(t, expr.Evaluate([]string{"y"}))
+			require.True(t, expr.Evaluate([]string{"x"}))
+		})
+	})
+}

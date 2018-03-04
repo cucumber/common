@@ -1,32 +1,69 @@
 package tagexpressions
 
-type Stack struct {
-	elements []Evaluatble
+type InterfaceStack struct {
+	elements []interface{}
 }
 
-// Return the number of items in the stack
-func (s *Stack) Len() int {
-	return len(t.elements)
+func (i *InterfaceStack) Len() int {
+	return len(i.elements)
 }
 
-// View the top item on the stack
-func (s *Stack) Peek() interface{} {
-	if s.Len() == 0 {
-		return nil
+func (i *InterfaceStack) Peek() interface{} {
+	if i.Len() == 0 {
+		panic("cannot peek")
 	}
-	return s.elements[s.Len()-1]
+	return i.elements[i.Len()-1]
 }
 
-// Pop the top item of the stack and return it
-func (s *Stack) Pop() interface{} {
-	if s.Len() == 0 {
-		return nil
+func (i *InterfaceStack) Pop() interface{} {
+	if i.Len() == 0 {
+		panic("cannot pop")
 	}
-	value, s.elements := s.elements[s.Len()-1], s.elements[:s.Len()-1]
+	value := i.elements[i.Len()-1]
+	i.elements = i.elements[:i.Len()-1]
 	return value
 }
 
-// Push a value onto the top of the stack
-func (s *Stack) Push(value Evaluatble) {
-	s.elements = appen(s.elements, value)
+func (i *InterfaceStack) Push(value interface{}) {
+	i.elements = append(i.elements, value)
+}
+
+type StringStack struct {
+	interfaceStack InterfaceStack
+}
+
+func (s *StringStack) Len() int {
+	return s.interfaceStack.Len()
+}
+
+func (s *StringStack) Peek() string {
+	return s.interfaceStack.Peek().(string)
+}
+
+func (s *StringStack) Pop() string {
+	return s.interfaceStack.Pop().(string)
+}
+
+func (s *StringStack) Push(value string) {
+	s.interfaceStack.Push(value)
+}
+
+type EvaluatableStack struct {
+	interfaceStack InterfaceStack
+}
+
+func (e *EvaluatableStack) Len() int {
+	return e.interfaceStack.Len()
+}
+
+func (e *EvaluatableStack) Peek() Evaluatable {
+	return e.interfaceStack.Peek().(Evaluatable)
+}
+
+func (e *EvaluatableStack) Pop() Evaluatable {
+	return e.interfaceStack.Pop().(Evaluatable)
+}
+
+func (e *EvaluatableStack) Push(value Evaluatable) {
+	e.interfaceStack.Push(value)
 }
