@@ -96,7 +96,7 @@ var PREC = map[string]int{
 	"not": 2,
 }
 
-var whitespaceRegex = regexp.MustCompile("\\s")
+var whitespaceRegex = regexp.MustCompile(`\s`)
 
 func tokenize(expr string) []string {
 	tokens := []string{}
@@ -128,7 +128,6 @@ func tokenize(expr string) []string {
 					fallthrough
 				default:
 					token = append(token, c)
-					break
 				}
 			}
 			isEscaped = false

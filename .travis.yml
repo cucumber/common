@@ -6,3 +6,4 @@ services:
 script:
   - ./scripts/docker-run Dockerfile.cucumber-build make
   - cd gherkin/dotnet && ../../scripts/docker-run ../../Dockerfile.cucumber-build-dotnet make
+  - ./scripts/docker-run Dockerfile.cucumber-build-go make --directory ./tag-expressions/go

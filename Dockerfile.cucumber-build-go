@@ -5,10 +5,7 @@
 # it to build certain packages
 FROM golang:1.10.0-alpine3.7
 
-WORKDIR /app
+WORKDIR /go/src/github.com/cucumber/cucumber
 
-RUN apk add --no-cache --update --upgrade alpine-sdk make bash maven openjdk8 diffutils jq python py-pip ruby ruby-dev perl perl-dev wget rsync
-RUN npm install --global yarn
-RUN echo "gem: --no-document" > ~/.gemrc
-RUN gem install bundler io-console
-RUN curl --fail -L http://cpanmin.us/ > /usr/local/bin/cpanm && chmod +x /usr/local/bin/cpanm
+RUN apk add --no-cache --update --upgrade git make
+RUN go get github.com/stretchr/testify

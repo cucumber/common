@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+#
+# Runs the docker image
+#
+# Usage:
+#   # Run `make` in the cucumber-build container
+#   docker-run-go make --directory ./tag-expressions/go
+#
+set -euf -o pipefail
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+source "${DIR}/functions.sh"
+ROOT_DIR="$(dirname "${DIR}")"
+dockerfile=$1
+shift
+# docker run --volume "$ROOT_DIR:/go/src/github.com/cucumber/cucumber" -it $(docker_image ${dockerfile}) $@
+docker run --volume "$ROOT_DIR:/go/src/github.com/cucumber/cucumber" -it cucumber-go $@
