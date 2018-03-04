@@ -2,6 +2,7 @@ package tagexpressions
 
 import (
 	"fmt"
+	"regexp"
 	"strings"
 )
 
@@ -14,13 +15,13 @@ func Parse(infix string) Evaluatable {
 	return &literalExpr{value: "a"}
 }
 
-var assoc = map[string]string{
+var ASSOC = map[string]string{
 	"or":  "left",
 	"and": "left",
 	"not": "right",
 }
 
-var prec = map[string]int{
+var PREC = map[string]int{
 	"(":   -2,
 	")":   -1,
 	"or":  0,
@@ -28,50 +29,49 @@ var prec = map[string]int{
 	"not": 2,
 }
 
-// function tokenize(expr) {
-// 	var tokens = []
-// 	var isEscaped = false
-// 	var token = undefined
-// 	for (var i = 0; i < expr.length; i++) {
-// 		var c = expr.charAt(i)
-// 		if ('\\' === c) {
-// 			isEscaped = true
-// 		} else {
-// 			if (/\s/.test(c)) {
-// 				// skip
-// 				if (token) {
-// 					// end of token
-// 					tokens.push(token.join(''))
-// 					token = undefined
-// 				}
-// 			} else {
-// 				switch (c) {
-// 					case '(':
-// 					case ')':
-// 						if (!isEscaped) {
-// 							if (token) {
-// 								// end of token
-// 								tokens.push(token.join(''))
-// 								token = undefined
-// 							}
-// 							tokens.push(c)
-// 							break
-// 						}
-// 					default:
-// 						token = token ? token : [] // start of token
-// 						token.push(c)
-// 						break
-// 				}
-// 			}
-// 			isEscaped = false
-// 		}
-// 	}
-// 	if (token) {
-// 		tokens.push(token.join(''))
-// 	}
-// 	return tokens
-// }
-//
+var whitespaceRegex = regexp.MustCompile("\\s")
+
+func tokenize(expr string) []string {
+	tokens := []string{}
+	isEscaped := false
+	token := []rune{}
+	for _, c := range expr {
+		if '\\' == c {
+			isEscaped = true
+		} else {
+			if whitespaceRegex.MatchString(string(c)) {
+				// skip
+				if len(token) > 0 {
+					// end of token
+					tokens = append(tokens, string(token))
+					token = []rune{}
+				}
+			} else {
+				switch c {
+				case '(', ')':
+					if !isEscaped {
+						if len(token) > 0 {
+							// end of token
+							tokens = append(tokens, string(token))
+							token = []rune{}
+						}
+						tokens = append(tokens, string(c))
+						break
+					}
+				default:
+					token = append(token, c)
+					break
+				}
+			}
+			isEscaped = false
+		}
+	}
+	if len(token) > 0 {
+		tokens = append(tokens, string(token))
+	}
+	return tokens
+}
+
 func isUnary(token string) bool {
 	return "not" == token
 }
@@ -91,23 +91,23 @@ func check(expectedTokenType, tokenType string) error {
 	}
 }
 
-func pushExpr(token string, stack Stack) {
+func pushExpr(token string, stack EvaluatableStack) {
 	if token == "and" {
 		rightAndExpr := stack.Pop()
-		stack.Push(&and{
+		stack.Push(&andExpr{
 			leftExpr:  stack.Pop(),
 			rightExpr: rightAndExpr,
 		})
 	} else if token == "or" {
 		rightOrExpr := stack.Pop()
-		stack.Push(&or{
+		stack.Push(&orExpr{
 			leftExpr:  stack.Pop(),
 			rightExpr: rightOrExpr,
 		})
 	} else if token == "not" {
-		stack.Push(&Not{expr: stack.Pop()})
+		stack.Push(&notExpr{expr: stack.Pop()})
 	} else {
-		stack.push(&Literal{value: token})
+		stack.Push(&literalExpr{value: token})
 	}
 }
 
