@@ -1,18 +1,85 @@
 package tagexpressions
 
 import (
+	"errors"
 	"fmt"
 	"regexp"
 	"strings"
 )
+
+const OPERAND = "operand"
+const OPERATOR = "operator"
 
 type Evaluatable interface {
 	Evaluate(variables []string) bool
 	ToString() string
 }
 
-func Parse(infix string) Evaluatable {
-	return &literalExpr{value: "a"}
+func Parse(infix string) (Evaluatable, error) {
+	tokens := tokenize(infix)
+	if len(tokens) == 0 {
+		return &trueExpr{}, nil
+	}
+	expressions := &EvaluatableStack{}
+	operators := &StringStack{}
+	expectedTokenType := OPERAND
+
+	for _, token := range tokens {
+		if isUnary(token) {
+			if err := check(expectedTokenType, OPERAND); err != nil {
+				return nil, err
+			}
+			operators.Push(token)
+			expectedTokenType = OPERAND
+		} else if isBinary(token) {
+			if err := check(expectedTokenType, OPERATOR); err != nil {
+				return nil, err
+			}
+			for operators.Len() > 0 &&
+				isOp(operators.Peek()) &&
+				((ASSOC[token] == "left" && PREC[token] <= PREC[operators.Peek()]) ||
+					(ASSOC[token] == "right" && PREC[token] < PREC[operators.Peek()])) {
+				pushExpr(operators.Pop(), expressions)
+			}
+			operators.Push(token)
+			expectedTokenType = OPERAND
+		} else if "(" == token {
+			if err := check(expectedTokenType, OPERAND); err != nil {
+				return nil, err
+			}
+			operators.Push(token)
+			expectedTokenType = OPERAND
+		} else if ")" == token {
+			if err := check(expectedTokenType, OPERATOR); err != nil {
+				return nil, err
+			}
+			for operators.Len() > 0 && operators.Peek() != "(" {
+				pushExpr(operators.Pop(), expressions)
+			}
+			if operators.Len() == 0 {
+				return nil, errors.New("Syntax error. Unmatched )")
+			}
+			if operators.Peek() == "(" {
+				operators.Pop()
+			}
+			expectedTokenType = OPERATOR
+		} else {
+			if err := check(expectedTokenType, OPERAND); err != nil {
+				return nil, err
+			}
+			pushExpr(token, expressions)
+			expectedTokenType = OPERATOR
+		}
+	}
+
+	for operators.Len() > 0 {
+		if operators.Peek() == "(" {
+			return nil, errors.New("Syntax error. Unmatched (")
+		}
+		pushExpr(operators.Pop(), expressions)
+	}
+
+	return expressions.Pop(), nil
 }
 
 var ASSOC = map[string]string{
@@ -58,6 +125,7 @@ func tokenize(expr string) []string {
 						tokens = append(tokens, string(c))
 						break
 					}
+					fallthrough
 				default:
 					token = append(token, c)
 					break
@@ -87,11 +155,12 @@ func isOp(token string) bool {
 
 func check(expectedTokenType, tokenType string) error {
 	if expectedTokenType != tokenType {
-		return fmt.Errorf("Syntax error. Expected %s, but received %s", expectedTokenType, tokenType)
+		return fmt.Errorf("Syntax error. Expected %s", expectedTokenType)
 	}
+	return nil
 }
 
-func pushExpr(token string, stack EvaluatableStack) {
+func pushExpr(token string, stack *EvaluatableStack) {
 	if token == "and" {
 		rightAndExpr := stack.Pop()
 		stack.Push(&andExpr{
