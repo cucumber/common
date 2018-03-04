@@ -11,7 +11,7 @@ import pytest
 # -----------------------------------------------------------------------------
 # TEST SUITE: TagExpressionParser.parse() and Expression.evaluate(tags) chain
 # -----------------------------------------------------------------------------
-class TestParseAndEvaluate(object):
+class TestTagExpression(object):
     # correct_test_data = [
     #     ("a and b", "( a and b )"),
     #     ("a or (b)", "( a or b )"),
@@ -24,10 +24,10 @@ class TestParseAndEvaluate(object):
     @pytest.mark.parametrize("tag_expression_text, expected, tags, case", [
         ("a and b",  True, ["a", "b"],          "both tags"),
         ("a and b",  True, ["a", "b", "other"], "both tags and more"),
-        ("a and b", False, ["a"],       "one tag: a"),
-        ("a and b", False, ["b"],       "one tag: b"),
-        ("a and b", False, ["other"],   "one tag: other"),
-        ("a and b", False, [],          "no_tags"),
+        ("a and b", False, ["a"],               "one tag: a"),
+        ("a and b", False, ["b"],               "one tag: b"),
+        ("a and b", False, ["other"],           "one tag: other"),
+        ("a and b", False, [],                  "no_tags"),
     ])
     def test_and_operation(self, tag_expression_text, expected, tags, case):
         tag_expression = TagExpressionParser.parse(tag_expression_text)

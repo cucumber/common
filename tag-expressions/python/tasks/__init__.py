@@ -29,7 +29,7 @@ import sys
 from invoke import Collection
 
 # -- TASK-LIBRARY:
-from . import clean
+from . import _tasklet_cleanup as clean
 from . import test
 from . import release
 

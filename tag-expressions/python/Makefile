@@ -1,9 +1,18 @@
 # =============================================================================
-# GNU MAKEFILE:
+# GNU MAKEFILE: cucumber-tag-expressions for Python
 # =============================================================================
 # NOTE: bootstrap requires ON-LINE access.
 # REQUIRES: Python >= 2.7 is installed
 # REQUIRES: pip is installed (normally w/ newer python versions)
+# DESCRIPTION:
+#    This makefile uses "pipenv" to automatically setup a virtual environment
+#    (for Python) in the HOME directory of the user (for this directory).
+#
+# SEE ALSO:
+#  * https://pypi.python.org/pypi/pipenv/
+#  * https://docs.pipenv.org
+#  * https://github.com/pypa/pipenv
+# =============================================================================
 
 .PHONY: clean clean-all default test test.coverage tox
 

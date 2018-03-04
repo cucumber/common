@@ -22,7 +22,8 @@ DEBUG_SYSPATH = False
 # -----------------------------------------------------------------------------
 # EXCEPTIONS:
 # -----------------------------------------------------------------------------
-class VersionRequirementError(SystemExit): pass
+class VersionRequirementError(SystemExit):
+    pass
 
 # -----------------------------------------------------------------------------
 # FUNCTIONS:
@@ -79,6 +80,7 @@ def require_invoke_minversion(min_version, verbose=False):
         message += "\nUSE: pip install invoke>=%s" % min_version
         raise VersionRequirementError(message)
 
+    # pylint: disable=invalid-name
     INVOKE_VERSION = os.environ.get("INVOKE_VERSION", None)
     if verbose and not INVOKE_VERSION:
         os.environ["INVOKE_VERSION"] = invoke_version
@@ -112,7 +114,7 @@ def need_vendor_bundle_invoke(invoke_minversion="0.0.0"):
             del invoke
     except ImportError:
         need_bundle = True
-    except Exception:
+    except Exception:   # pylint: disable=broad-except
         need_bundle = True
     return need_bundle
 

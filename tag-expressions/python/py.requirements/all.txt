@@ -11,3 +11,4 @@
 
 -r basic.txt
 -r develop.txt
+-r ../tasks/py.requirements.txt
