@@ -8,15 +8,15 @@ class TreeRegexp {
 
     const stack = [new GroupBuilder()]
     const groupStartStack = []
-
     let last = null
+    let escaping = false
     let nonCapturingMaybe = false
     this._re.source.split('').forEach((c, n) => {
-      if (c === '(' && last !== '\\') {
+      if (c === '(' && !escaping) {
         stack.push(new GroupBuilder())
         groupStartStack.push(n + 1)
         nonCapturingMaybe = false
-      } else if (c === ')' && last !== '\\') {
+      } else if (c === ')' && !escaping) {
         const gb = stack.pop()
         const groupStart = groupStartStack.pop()
         if (gb.capturing) {
@@ -32,6 +32,7 @@ class TreeRegexp {
         stack[stack.length - 1].setNonCapturing()
         nonCapturingMaybe = false
       }
+      escaping = c === '\\' && !escaping
       last = c
     })
     this._groupBuilder = stack.pop()

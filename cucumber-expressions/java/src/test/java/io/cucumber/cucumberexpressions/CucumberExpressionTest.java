@@ -5,9 +5,11 @@ import org.junit.Test;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 
+import static java.util.Arrays.asList;
 import static java.util.Collections.singletonList;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
@@ -36,8 +38,18 @@ public class CucumberExpressionTest {
     }
 
     @Test
+    public void matches_multiple_double_quoted_strings() {
+        assertEquals(asList("blind", "crippled"), match("three {string} and {string} mice", "three \"blind\" and \"crippled\" mice"));
+    }
+
+    @Test
     public void matches_single_quoted_string() {
         assertEquals(singletonList("blind"), match("three {string} mice", "three 'blind' mice"));
+    }
+
+    @Test
+    public void matches_multiple_single_quoted_strings() {
+        assertEquals(asList("blind", "crippled"), match("three {string} and {string} mice", "three 'blind' and 'crippled' mice"));
     }
 
     @Test
@@ -63,6 +75,11 @@ public class CucumberExpressionTest {
     @Test
     public void matches_single_quoted_string_with_escaped_single_quote() {
         assertEquals(singletonList("bl'nd"), match("three {string} mice", "three 'bl\\'nd' mice"));
+    }
+
+    @Test
+    public void matches_escaped_parenthesis() {
+        assertEquals(singletonList("blind"), match("three \\(exceptionally) {string} mice", "three (exceptionally) \"blind\" mice"));
     }
 
     @Test

@@ -29,14 +29,15 @@ class TreeRegexp {
 
         stack.push(new GroupBuilder());
         char last = 0;
+        boolean escaping = false;
         boolean nonCapturingMaybe = false;
         int n = 1;
         for (char c : chars) {
-            if (c == '(' && last != '\\') {
+            if (c == '(' && !escaping) {
                 stack.push(new GroupBuilder());
                 groupStartStack.push(n);
                 nonCapturingMaybe = false;
-            } else if (c == ')' && last != '\\') {
+            } else if (c == ')' && !escaping) {
                 GroupBuilder gb = stack.pop();
                 int groupStart = groupStartStack.pop();
                 if (gb.isCapturing()) {
@@ -52,6 +53,8 @@ class TreeRegexp {
                 stack.peek().setNonCapturing();
                 nonCapturingMaybe = false;
             }
+
+            escaping = c == '\\' && !escaping;
             last = c;
             n++;
         }
@@ -65,7 +68,6 @@ class TreeRegexp {
     Group match(CharSequence s) {
         final Matcher matcher = pattern.matcher(s);
         if (!matcher.matches()) return null;
-        // IntStream.range(0, matcher.groupCount() + 1).iterator()
         return groupBuilder.build(matcher, new IntRange(0, matcher.groupCount() + 1));
     }
 

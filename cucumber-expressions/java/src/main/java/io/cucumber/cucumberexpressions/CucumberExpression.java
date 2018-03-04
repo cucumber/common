@@ -9,8 +9,10 @@ public class CucumberExpression implements Expression {
     // Does not include (){} characters because they have special meaning
     private static final Pattern ESCAPE_PATTERN = Pattern.compile("([\\\\^\\[$.|?*+\\]])");
     private static final Pattern PARAMETER_PATTERN = Pattern.compile("\\{([^}]+)}");
-    private static final Pattern OPTIONAL_PATTERN = Pattern.compile("\\(([^)]+)\\)");
+    // Parentheses will be double-escaped due to ESCAPE_REGEXP
+    private static final Pattern OPTIONAL_PATTERN = Pattern.compile("(\\\\\\\\)?\\(([^)]+)\\)");
     private static final Pattern ALTERNATIVE_NON_WHITESPACE_TEXT_REGEXP = Pattern.compile("([^\\s^/]+)((/[^\\s^/]+)+)");
+    private static final String DOUBLE_ESCAPE = "\\\\";
 
     private final List<ParameterType<?>> parameterTypes = new ArrayList<>();
     private final String expression;
@@ -18,11 +20,24 @@ public class CucumberExpression implements Expression {
 
     public CucumberExpression(String expression, ParameterTypeRegistry parameterTypeRegistry) {
         this.expression = expression;
-        expression = ESCAPE_PATTERN.matcher(expression).replaceAll("\\\\$1");
-        expression = OPTIONAL_PATTERN.matcher(expression).replaceAll("(?:$1)?");
 
-        Matcher matcher = ALTERNATIVE_NON_WHITESPACE_TEXT_REGEXP.matcher(expression);
+        // This will cause explicitly-escaped parentheses to be double-escaped
+        expression = ESCAPE_PATTERN.matcher(expression).replaceAll("\\\\$1");
+
+        Matcher matcher = OPTIONAL_PATTERN.matcher(expression);
         StringBuffer sb = new StringBuffer();
+        while (matcher.find()) {
+            // look for double-escaped parentheses
+            if (DOUBLE_ESCAPE.equals(matcher.group(1))) {
+                matcher.appendReplacement(sb, "\\\\(" + matcher.group(2) + "\\\\)");
+            } else {
+                matcher.appendReplacement(sb, "(?:" + matcher.group(2) + ")?");
+            }
+        }
+        matcher.appendTail(sb);
+
+        matcher = ALTERNATIVE_NON_WHITESPACE_TEXT_REGEXP.matcher(sb.toString());
+        sb = new StringBuffer();
         while (matcher.find()) {
             matcher.appendReplacement(sb, "(?:" + matcher.group(1) + matcher.group(2).replace('/', '|') + ")");
         }

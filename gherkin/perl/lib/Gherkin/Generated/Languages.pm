@@ -84,6 +84,51 @@ our $data = {
                                 "\x{535}\x{580}\x{562} "
                               ]
                   },
+          'an' => {
+                    'and' => [
+                               '* ',
+                               'Y ',
+                               'E '
+                             ],
+                    'background' => [
+                                      'Antecedents'
+                                    ],
+                    'but' => [
+                               '* ',
+                               'Pero '
+                             ],
+                    'examples' => [
+                                    'Eixemplos'
+                                  ],
+                    'feature' => [
+                                   'Caracteristica'
+                                 ],
+                    'given' => [
+                                 '* ',
+                                 'Dau ',
+                                 'Dada ',
+                                 'Daus ',
+                                 'Dadas '
+                               ],
+                    'name' => 'Aragonese',
+                    'native' => "Aragon\x{e9}s",
+                    'scenario' => [
+                                    'Caso'
+                                  ],
+                    'scenarioOutline' => [
+                                           'Esquema del caso'
+                                         ],
+                    'then' => [
+                                '* ',
+                                'Alavez ',
+                                'Allora ',
+                                'Antonces '
+                              ],
+                    'when' => [
+                                '* ',
+                                'Cuan '
+                              ]
+                  },
           'ar' => {
                     'and' => [
                                '* ',
@@ -2388,7 +2433,8 @@ our $data = {
                     'but' => [
                                '* ',
                                "\x{41d}\x{43e} ",
-                               "\x{410} "
+                               "\x{410} ",
+                               "\x{418}\x{43d}\x{430}\x{447}\x{435} "
                              ],
                     'examples' => [
                                     "\x{41f}\x{440}\x{438}\x{43c}\x{435}\x{440}\x{44b}"

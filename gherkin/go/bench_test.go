@@ -1,10 +1,8 @@
-package gherkin_test
+package gherkin
 
 import (
 	"strings"
 	"testing"
-
-	gherkin "."
 )
 
 const benchmarkGherkinText = `
@@ -52,16 +50,16 @@ Feature: Dead Simple Calculator
 func Benchmark_NewParserMatcherScanner(b *testing.B) { //benchmark function starts with "Benchmark" and takes a pointer to type testing.B
 	for i := 0; i < b.N; i++ { // use b.N for looping
 		noopbuilder := new(noopBuilder)
-		_ = gherkin.NewParser(noopbuilder)
-		_ = gherkin.NewMatcher(gherkin.GherkinDialectsBuildin())
-		_ = gherkin.NewScanner(strings.NewReader(benchmarkGherkinText))
+		_ = NewParser(noopbuilder)
+		_ = NewMatcher(GherkinDialectsBuildin())
+		_ = NewScanner(strings.NewReader(benchmarkGherkinText))
 	}
 }
 
 func Benchmark_ParseGherkinDocument(b *testing.B) { //benchmark function starts with "Benchmark" and takes a pointer to type testing.B
 	for i := 0; i < b.N; i++ { // use b.N for looping
 		r := strings.NewReader(benchmarkGherkinText)
-		_, err := gherkin.ParseGherkinDocument(r)
+		_, err := ParseGherkinDocument(r)
 		if err != nil {
 			b.FailNow()
 		}
@@ -70,13 +68,13 @@ func Benchmark_ParseGherkinDocument(b *testing.B) { //benchmark function starts 
 
 type noopBuilder struct{}
 
-func (n *noopBuilder) Build(*gherkin.Token) (bool, error) {
+func (n *noopBuilder) Build(*Token) (bool, error) {
 	return true, nil
 }
-func (n *noopBuilder) StartRule(gherkin.RuleType) (bool, error) {
+func (n *noopBuilder) StartRule(RuleType) (bool, error) {
 	return true, nil
 }
-func (n *noopBuilder) EndRule(gherkin.RuleType) (bool, error) {
+func (n *noopBuilder) EndRule(RuleType) (bool, error) {
 	return true, nil
 }
 func (n *noopBuilder) Reset() {
@@ -86,14 +84,14 @@ func Benchmark_ParseWithoutBuilder(b *testing.B) { //benchmark function starts w
 	b.StopTimer()
 
 	noopbuilder := new(noopBuilder)
-	parser := gherkin.NewParser(noopbuilder)
+	parser := NewParser(noopbuilder)
 	parser.StopAtFirstError(true)
-	matcher := gherkin.NewMatcher(gherkin.GherkinDialectsBuildin())
+	matcher := NewMatcher(GherkinDialectsBuildin())
 
 	b.StartTimer()
 	for i := 0; i < b.N; i++ { // use b.N for looping
 		in := strings.NewReader(benchmarkGherkinText)
-		scanner := gherkin.NewScanner(in)
+		scanner := NewScanner(in)
 		err := parser.Parse(scanner, matcher)
 		if err != nil {
 			b.FailNow()

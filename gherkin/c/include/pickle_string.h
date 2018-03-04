@@ -13,10 +13,11 @@ extern "C" {
 typedef struct PickleString {
     PickleArgumentType type;
     PickleLocation location;
+    wchar_t* content_type;
     wchar_t* content;
 } PickleString;
 
-const PickleString* PickleString_new(const wchar_t* content, int line, int column);
+const PickleString* PickleString_new(const wchar_t* content, int line, int column, const wchar_t* content_type);
 
 void PickleString_delete(const PickleString* pickle_string);
 

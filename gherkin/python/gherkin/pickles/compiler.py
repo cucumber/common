@@ -114,6 +114,8 @@ def _create_pickle_arguments(argument, variables, values):
             'location': _pickle_location(argument['location']),
             'content': _interpolate(argument['content'], variables, values)
         }
+        if 'contentType' in argument:
+            docstring['contentType'] = _interpolate(argument['contentType'], variables, values)
         result.append(docstring)
 
     else:

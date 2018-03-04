@@ -6,13 +6,14 @@ MAKEFILES=event-protocol/Makefile \
 	cucumber-redux/Makefile \
 	cucumber-react/Makefile
 
-default: $(patsubst %/Makefile,default-%,$(MAKEFILES))
+default: .rsynced $(patsubst %/Makefile,default-%,$(MAKEFILES))
 .PHONY: default
 
 default-%: %
 	cd $< && make default
 
-clean: $(patsubst %/Makefile,clean-%,$(MAKEFILES))
+clean: $(patsubst %/Makefile,clean-%,$(MAKEFILES)) rm-release
+	rm -f .rsynced
 .PHONY: clean
 
 clean-%: %

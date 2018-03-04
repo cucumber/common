@@ -52,9 +52,7 @@ describe('ParameterTypeRegistry', () => {
     } catch (err) {
       assert.equal(
         err.message,
-        `There can only be one preferential parameter type per regexp. The regexp ${
-          CAPITALISED_WORD
-        } is used for two preferential parameter types, {name} and {place}`
+        `There can only be one preferential parameter type per regexp. The regexp ${CAPITALISED_WORD} is used for two preferential parameter types, {name} and {place}`
       )
     }
   })

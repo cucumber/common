@@ -160,7 +160,8 @@ namespace Gherkin.Pickles
                 result.Add(
                         new PickleString(
                                 PickleLocation(ds.Location),
-                                Interpolate(ds.Content, variableCells, valueCells)
+                                Interpolate(ds.Content, variableCells, valueCells),
+                                ds.ContentType == null ? null : Interpolate(ds.ContentType, variableCells, valueCells)
                         )
                 );
             } else {

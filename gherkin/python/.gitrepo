@@ -6,6 +6,6 @@
 [subrepo]
 	remote = https://github.com/cucumber/gherkin-python.git
 	branch = master
-	commit = cbf72161eb8e15a515822b2b0c533b555b521884
-	parent = c8ec0a01762f4bf6e14a77b80ca37e224467ac78
+	commit = 531ea06c10d7ef0357f1e63f5bed3876190969b1
+	parent = 03e8dd67cfa4c20ee6d992e330019b7470842560
 	cmdver = 0.4.0

@@ -66,10 +66,7 @@ function rsync_files()
 function subrepos()
 {
   dir=$1
-  if [ -n "${dir}" ]; then
-    dir="${dir}/"
-  fi
-  git ls-files "${dir}**/.gitrepo" | xargs -n 1 dirname
+  git ls-files "${dir}" | grep .gitrepo | xargs -n 1 dirname
 }
 
 # Prints the remote (git URL) of a subrepo
@@ -254,10 +251,8 @@ function maven_release()
   git add .
   git commit -m "Update to ${version}-SNAPSHOT"
 
-  mvn release:clean
-  mvn --batch-mode -P release-sign-artifacts release:prepare -DdevelopmentVersion=${next_version}-SNAPSHOT
-  mvn --batch-mode -P release-sign-artifacts release:perform
-  echo_green "Log in to https://oss.sonatype.org/, close and release the project."
+  mvn --batch-mode release:clean release:prepare -Darguments="-DskipTests=true"  
+  mvn --batch-mode release:perform -Psign-source-javadoc -DskipTests=true
   popd
 }
 

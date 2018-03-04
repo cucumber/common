@@ -52,9 +52,13 @@ libs: ./include/rule_type.h src/parser.c src/dialect.c $(SRC_FILES) src/Makefile
 	cd src; $(MAKE) CC=$(CC) $@
 .PHONY: libs
 
+libs_so: ./include/rule_type.h src/parser.c src/dialect.c $(SRC_FILES) src/Makefile
+	cd src; $(MAKE) CC=$(CC) $@
+.PHONY: libs_so
+
 .run: cli $(GHERKIN) $(GOOD_FEATURE_FILES)
 	$(RUN_GHERKIN) $(GOOD_FEATURE_FILES) | jq . > /dev/null
-	touch .run
+	touch $@
 
 ./include/rule_type.h: gherkin.berp gherkin-c-rule-type.razor
 	mono berp/berp.exe -g gherkin.berp -t gherkin-c-rule-type.razor -o $@
@@ -96,3 +100,4 @@ acceptance/testdata/%.feature.source.ndjson: testdata/%.feature testdata/%.featu
 	mkdir -p `dirname $@`
 	$(RUN_GHERKIN) --no-ast --no-pickles $< | jq --sort-keys --compact-output "." > $@
 	diff --unified <(jq "." $<.source.ndjson) <(jq "." $@)
+

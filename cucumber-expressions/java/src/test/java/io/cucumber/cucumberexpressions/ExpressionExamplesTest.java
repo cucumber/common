@@ -1,13 +1,11 @@
 package io.cucumber.cucumberexpressions;
 
-import com.google.common.io.Files;
 import com.google.gson.Gson;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.junit.runners.Parameterized.Parameters;
 
-import java.io.File;
 import java.io.IOException;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
@@ -17,6 +15,8 @@ import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import static java.nio.file.Files.readAllBytes;
+import static java.nio.file.Paths.get;
 import static org.junit.Assert.assertEquals;
 
 @RunWith(Parameterized.class)
@@ -36,7 +36,7 @@ public class ExpressionExamplesTest {
     public static Collection<Object[]> data() throws IOException {
         Collection<Object[]> data = new ArrayList<>();
 
-        String s = Files.toString(new File("examples.txt"), Charset.forName("UTF-8"));
+        String s = new String(readAllBytes(get("examples.txt")), Charset.forName("UTF-8"));
         String[] chunks = s.split("---");
         for (String chunk : chunks) {
             chunk = chunk.trim();

@@ -86,9 +86,7 @@ class ParameterTypeRegistry {
       ) {
         throw new CucumberExpressionError(
           'There can only be one preferential parameter type per regexp. ' +
-            `The regexp /${
-              parameterTypeRegexp
-            }/ is used for two preferential parameter types, {${
+            `The regexp /${parameterTypeRegexp}/ is used for two preferential parameter types, {${
               existingParameterType.name
             }} and {${parameterType.name}}`
         )

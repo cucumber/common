@@ -1,4 +1,5 @@
 require 'cucumber/cucumber_expressions/group_builder'
+require 'cucumber/cucumber_expressions/errors'
 
 module Cucumber
   module CucumberExpressions
@@ -7,17 +8,18 @@ module Cucumber
 
       def initialize(regexp)
         @regexp = regexp.is_a?(Regexp) ? regexp : Regexp.new(regexp)
-
         stack = [GroupBuilder.new]
         group_start_stack = []
         last = nil
+        escaping = false
         non_capturing_maybe = false
+
         @regexp.source.split('').each_with_index do |c, n|
-          if c == '(' && last != '\\'
+          if c == '(' && !escaping
             stack.push(GroupBuilder.new)
             group_start_stack.push(n+1)
             non_capturing_maybe = false
-          elsif c == ')' && last != '\\'
+          elsif c == ')' && !escaping
             gb = stack.pop
             group_start = group_start_stack.pop
             if gb.capturing?
@@ -32,7 +34,11 @@ module Cucumber
           elsif c == ':' && non_capturing_maybe
             stack.last.set_non_capturing!
             non_capturing_maybe = false
+          elsif c == '<' && non_capturing_maybe
+            raise CucumberExpressionError.new("Named capture groups are not supported. See https://github.com/cucumber/cucumber/issues/329")
           end
+
+          escaping = c == '\\' && !escaping
           last = c
         end
         @group_builder = stack.pop

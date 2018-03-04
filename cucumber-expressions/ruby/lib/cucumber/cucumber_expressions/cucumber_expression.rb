@@ -8,7 +8,8 @@ module Cucumber
       # Does not include (){} characters because they have special meaning
       ESCAPE_REGEXP = /([\\^\[$.|?*+\]])/
       PARAMETER_REGEXP = /{([^}]+)}/
-      OPTIONAL_REGEXP = /\(([^)]+)\)/
+      # Parentheses will be double-escaped due to ESCAPE_REGEXP
+      OPTIONAL_REGEXP = /(\\\\)?\(([^)]+)\)/
       ALTERNATIVE_NON_WHITESPACE_TEXT_REGEXP = /([^\s^\/]+)((\/[^\s^\/]+)+)/
 
       attr_reader :source
@@ -19,12 +20,16 @@ module Cucumber
         regexp = '^'
         match_offset = 0
 
+        # This will cause explicitly-escaped parentheses to be double-escaped
         expression = expression.gsub(ESCAPE_REGEXP, '\\\\\1')
 
         # Create non-capturing, optional capture groups from parenthesis
-        expression = expression.gsub(OPTIONAL_REGEXP, '(?:\1)?')
+        expression = expression.gsub(OPTIONAL_REGEXP) do
+          # look for double-escaped parentheses
+          $1 == '\\\\' ? "\\(#{$2}\\)" : "(?:#{$2})?"
+        end
 
-        expression = expression.gsub(ALTERNATIVE_NON_WHITESPACE_TEXT_REGEXP) do |_|
+        expression = expression.gsub(ALTERNATIVE_NON_WHITESPACE_TEXT_REGEXP) do
           "(?:#{$1}#{$2.tr('/', '|')})"
         end
 
