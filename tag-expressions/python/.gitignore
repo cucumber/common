@@ -16,3 +16,4 @@ __*/
 .venv*/
 .DS_Store
 .coverage
+Pipfile.lock
