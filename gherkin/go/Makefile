@@ -8,7 +8,7 @@ PICKLES  = $(patsubst testdata/%.feature,acceptance/testdata/%.feature.pickles.n
 SOURCES  = $(patsubst testdata/%.feature,acceptance/testdata/%.feature.source.ndjson,$(GOOD_FEATURE_FILES))
 ERRORS   = $(patsubst testdata/%.feature,acceptance/testdata/%.feature.errors.ndjson,$(BAD_FEATURE_FILES))
 
-GO_SOURCE_FILES = $(shell find . -name "*.go") parser.go dialects_builtin.go
+GO_SOURCE_FILES = $(shell find . -name "*.go")
 
 export GOPATH = $(realpath ./)
 
@@ -32,10 +32,10 @@ show-version-info:
 	go version
 PHONY: show-version-info
 
-bin/gherkin-generate-tokens: $(GO_SOURCE_FILES)
+bin/gherkin-generate-tokens: $(GO_SOURCE_FILES) parser.go dialects_builtin.go
 	go build -o $@ ./gherkin-generate-tokens
 
-bin/gherkin: $(GO_SOURCE_FILES)
+bin/gherkin: $(GO_SOURCE_FILES) parser.go dialects_builtin.go
 	go build -o $@ ./cli
 
 acceptance/testdata/%.feature.tokens: testdata/%.feature testdata/%.feature.tokens bin/gherkin-generate-tokens
