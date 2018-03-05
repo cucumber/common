@@ -76,5 +76,5 @@ clean:
 .PHONY: clean
 
 clobber: clean
-	rm -rf lib/gherkin/parser.js
+	rm -rf lib/gherkin/parser.js yarn.lock
 .PHONY: clobber

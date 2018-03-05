@@ -18,11 +18,11 @@ static const Keywords af_feature_keywords = { 3, af_feature_KEYWORDS };
 static const wchar_t* const af_given_KEYWORDS[] = { L"* ", L"Gegewe " };
 static const Keywords af_given_keywords = { 2, af_given_KEYWORDS };
 
-static const wchar_t* const af_scenario_KEYWORDS[] = { L"Situasie" };
-static const Keywords af_scenario_keywords = { 1, af_scenario_KEYWORDS };
+static const wchar_t* const af_scenario_KEYWORDS[] = { L"Voorbeeld", L"Situasie" };
+static const Keywords af_scenario_keywords = { 2, af_scenario_KEYWORDS };
 
-static const wchar_t* const af_scenarioOutline_KEYWORDS[] = { L"Situasie Uiteensetting" };
-static const Keywords af_scenarioOutline_keywords = { 1, af_scenarioOutline_KEYWORDS };
+static const wchar_t* const af_scenarioOutline_KEYWORDS[] = { L"Voorbeeld Uiteensetting", L"Situasie Uiteensetting" };
+static const Keywords af_scenarioOutline_keywords = { 2, af_scenarioOutline_KEYWORDS };
 
 static const wchar_t* const af_then_KEYWORDS[] = { L"* ", L"Dan " };
 static const Keywords af_then_keywords = { 2, af_then_KEYWORDS };
@@ -61,11 +61,11 @@ static const Keywords am_feature_keywords = { 2, am_feature_KEYWORDS };
 static const wchar_t* const am_given_KEYWORDS[] = { L"* ", L"Դիցուք " };
 static const Keywords am_given_keywords = { 2, am_given_KEYWORDS };
 
-static const wchar_t* const am_scenario_KEYWORDS[] = { L"Սցենար" };
-static const Keywords am_scenario_keywords = { 1, am_scenario_KEYWORDS };
+static const wchar_t* const am_scenario_KEYWORDS[] = { L"Օրինակ", L"Սցենար" };
+static const Keywords am_scenario_keywords = { 2, am_scenario_KEYWORDS };
 
-static const wchar_t* const am_scenarioOutline_KEYWORDS[] = { L"Սցենարի կառուցվացքը" };
-static const Keywords am_scenarioOutline_keywords = { 1, am_scenarioOutline_KEYWORDS };
+static const wchar_t* const am_scenarioOutline_KEYWORDS[] = { L"Օրինակ կառուցվացքը", L"Սցենարի կառուցվացքը" };
+static const Keywords am_scenarioOutline_keywords = { 2, am_scenarioOutline_KEYWORDS };
 
 static const wchar_t* const am_then_KEYWORDS[] = { L"* ", L"Ապա " };
 static const Keywords am_then_keywords = { 2, am_then_KEYWORDS };
@@ -104,11 +104,11 @@ static const Keywords an_feature_keywords = { 1, an_feature_KEYWORDS };
 static const wchar_t* const an_given_KEYWORDS[] = { L"* ", L"Dau ", L"Dada ", L"Daus ", L"Dadas " };
 static const Keywords an_given_keywords = { 5, an_given_KEYWORDS };
 
-static const wchar_t* const an_scenario_KEYWORDS[] = { L"Caso" };
-static const Keywords an_scenario_keywords = { 1, an_scenario_KEYWORDS };
+static const wchar_t* const an_scenario_KEYWORDS[] = { L"Eixemplo", L"Caso" };
+static const Keywords an_scenario_keywords = { 2, an_scenario_KEYWORDS };
 
-static const wchar_t* const an_scenarioOutline_KEYWORDS[] = { L"Esquema del caso" };
-static const Keywords an_scenarioOutline_keywords = { 1, an_scenarioOutline_KEYWORDS };
+static const wchar_t* const an_scenarioOutline_KEYWORDS[] = { L"Esquema del eixemplo", L"Esquema del caso" };
+static const Keywords an_scenarioOutline_keywords = { 2, an_scenarioOutline_KEYWORDS };
 
 static const wchar_t* const an_then_KEYWORDS[] = { L"* ", L"Alavez ", L"Allora ", L"Antonces " };
 static const Keywords an_then_keywords = { 4, an_then_KEYWORDS };
@@ -147,8 +147,8 @@ static const Keywords ar_feature_keywords = { 1, ar_feature_KEYWORDS };
 static const wchar_t* const ar_given_KEYWORDS[] = { L"* ", L"بفرض " };
 static const Keywords ar_given_keywords = { 2, ar_given_KEYWORDS };
 
-static const wchar_t* const ar_scenario_KEYWORDS[] = { L"سيناريو" };
-static const Keywords ar_scenario_keywords = { 1, ar_scenario_KEYWORDS };
+static const wchar_t* const ar_scenario_KEYWORDS[] = { L"مثال", L"سيناريو" };
+static const Keywords ar_scenario_keywords = { 2, ar_scenario_KEYWORDS };
 
 static const wchar_t* const ar_scenarioOutline_KEYWORDS[] = { L"سيناريو مخطط" };
 static const Keywords ar_scenarioOutline_keywords = { 1, ar_scenarioOutline_KEYWORDS };
@@ -190,11 +190,11 @@ static const Keywords ast_feature_keywords = { 1, ast_feature_KEYWORDS };
 static const wchar_t* const ast_given_KEYWORDS[] = { L"* ", L"Dáu ", L"Dada ", L"Daos ", L"Daes " };
 static const Keywords ast_given_keywords = { 5, ast_given_KEYWORDS };
 
-static const wchar_t* const ast_scenario_KEYWORDS[] = { L"Casu" };
-static const Keywords ast_scenario_keywords = { 1, ast_scenario_KEYWORDS };
+static const wchar_t* const ast_scenario_KEYWORDS[] = { L"Exemplo", L"Casu" };
+static const Keywords ast_scenario_keywords = { 2, ast_scenario_KEYWORDS };
 
-static const wchar_t* const ast_scenarioOutline_KEYWORDS[] = { L"Esbozu del casu" };
-static const Keywords ast_scenarioOutline_keywords = { 1, ast_scenarioOutline_KEYWORDS };
+static const wchar_t* const ast_scenarioOutline_KEYWORDS[] = { L"Esbozu del exemplo", L"Esbozu del casu" };
+static const Keywords ast_scenarioOutline_keywords = { 2, ast_scenarioOutline_KEYWORDS };
 
 static const wchar_t* const ast_then_KEYWORDS[] = { L"* ", L"Entós " };
 static const Keywords ast_then_keywords = { 2, ast_then_KEYWORDS };
@@ -233,8 +233,8 @@ static const Keywords az_feature_keywords = { 1, az_feature_KEYWORDS };
 static const wchar_t* const az_given_KEYWORDS[] = { L"* ", L"Tutaq ki ", L"Verilir " };
 static const Keywords az_given_keywords = { 3, az_given_KEYWORDS };
 
-static const wchar_t* const az_scenario_KEYWORDS[] = { L"Ssenari" };
-static const Keywords az_scenario_keywords = { 1, az_scenario_KEYWORDS };
+static const wchar_t* const az_scenario_KEYWORDS[] = { L"Nümunələr", L"Ssenari" };
+static const Keywords az_scenario_keywords = { 2, az_scenario_KEYWORDS };
 
 static const wchar_t* const az_scenarioOutline_KEYWORDS[] = { L"Ssenarinin strukturu" };
 static const Keywords az_scenarioOutline_keywords = { 1, az_scenarioOutline_KEYWORDS };
@@ -276,11 +276,11 @@ static const Keywords bg_feature_keywords = { 1, bg_feature_KEYWORDS };
 static const wchar_t* const bg_given_KEYWORDS[] = { L"* ", L"Дадено " };
 static const Keywords bg_given_keywords = { 2, bg_given_KEYWORDS };
 
-static const wchar_t* const bg_scenario_KEYWORDS[] = { L"Сценарий" };
-static const Keywords bg_scenario_keywords = { 1, bg_scenario_KEYWORDS };
+static const wchar_t* const bg_scenario_KEYWORDS[] = { L"Пример", L"Сценарий" };
+static const Keywords bg_scenario_keywords = { 2, bg_scenario_KEYWORDS };
 
-static const wchar_t* const bg_scenarioOutline_KEYWORDS[] = { L"Рамка на сценарий" };
-static const Keywords bg_scenarioOutline_keywords = { 1, bg_scenarioOutline_KEYWORDS };
+static const wchar_t* const bg_scenarioOutline_KEYWORDS[] = { L"Рамка на пример", L"Рамка на сценарий" };
+static const Keywords bg_scenarioOutline_keywords = { 2, bg_scenarioOutline_KEYWORDS };
 
 static const wchar_t* const bg_then_KEYWORDS[] = { L"* ", L"То " };
 static const Keywords bg_then_keywords = { 2, bg_then_KEYWORDS };
@@ -362,11 +362,11 @@ static const Keywords bs_feature_keywords = { 1, bs_feature_KEYWORDS };
 static const wchar_t* const bs_given_KEYWORDS[] = { L"* ", L"Dato " };
 static const Keywords bs_given_keywords = { 2, bs_given_KEYWORDS };
 
-static const wchar_t* const bs_scenario_KEYWORDS[] = { L"Scenariju", L"Scenario" };
-static const Keywords bs_scenario_keywords = { 2, bs_scenario_KEYWORDS };
+static const wchar_t* const bs_scenario_KEYWORDS[] = { L"Primjer", L"Scenariju", L"Scenario" };
+static const Keywords bs_scenario_keywords = { 3, bs_scenario_KEYWORDS };
 
-static const wchar_t* const bs_scenarioOutline_KEYWORDS[] = { L"Scenariju-obris", L"Scenario-outline" };
-static const Keywords bs_scenarioOutline_keywords = { 2, bs_scenarioOutline_KEYWORDS };
+static const wchar_t* const bs_scenarioOutline_KEYWORDS[] = { L"Primjer-obris", L"Scenariju-obris", L"Scenario-outline" };
+static const Keywords bs_scenarioOutline_keywords = { 3, bs_scenarioOutline_KEYWORDS };
 
 static const wchar_t* const bs_then_KEYWORDS[] = { L"* ", L"Zatim " };
 static const Keywords bs_then_keywords = { 2, bs_then_KEYWORDS };
@@ -405,11 +405,11 @@ static const Keywords ca_feature_keywords = { 2, ca_feature_KEYWORDS };
 static const wchar_t* const ca_given_KEYWORDS[] = { L"* ", L"Donat ", L"Donada ", L"Atès ", L"Atesa " };
 static const Keywords ca_given_keywords = { 5, ca_given_KEYWORDS };
 
-static const wchar_t* const ca_scenario_KEYWORDS[] = { L"Escenari" };
-static const Keywords ca_scenario_keywords = { 1, ca_scenario_KEYWORDS };
+static const wchar_t* const ca_scenario_KEYWORDS[] = { L"Exemple", L"Escenari" };
+static const Keywords ca_scenario_keywords = { 2, ca_scenario_KEYWORDS };
 
-static const wchar_t* const ca_scenarioOutline_KEYWORDS[] = { L"Esquema de l'escenari" };
-static const Keywords ca_scenarioOutline_keywords = { 1, ca_scenarioOutline_KEYWORDS };
+static const wchar_t* const ca_scenarioOutline_KEYWORDS[] = { L"Esquema de l'exemple", L"Esquema de l'escenari" };
+static const Keywords ca_scenarioOutline_keywords = { 2, ca_scenarioOutline_KEYWORDS };
 
 static const wchar_t* const ca_then_KEYWORDS[] = { L"* ", L"Aleshores ", L"Cal " };
 static const Keywords ca_then_keywords = { 3, ca_then_KEYWORDS };
@@ -448,8 +448,8 @@ static const Keywords cs_feature_keywords = { 1, cs_feature_KEYWORDS };
 static const wchar_t* const cs_given_KEYWORDS[] = { L"* ", L"Pokud ", L"Za předpokladu " };
 static const Keywords cs_given_keywords = { 3, cs_given_KEYWORDS };
 
-static const wchar_t* const cs_scenario_KEYWORDS[] = { L"Scénář" };
-static const Keywords cs_scenario_keywords = { 1, cs_scenario_KEYWORDS };
+static const wchar_t* const cs_scenario_KEYWORDS[] = { L"Příklad", L"Scénář" };
+static const Keywords cs_scenario_keywords = { 2, cs_scenario_KEYWORDS };
 
 static const wchar_t* const cs_scenarioOutline_KEYWORDS[] = { L"Náčrt Scénáře", L"Osnova scénáře" };
 static const Keywords cs_scenarioOutline_keywords = { 2, cs_scenarioOutline_KEYWORDS };
@@ -491,8 +491,8 @@ static const Keywords cy_GB_feature_keywords = { 1, cy_GB_feature_KEYWORDS };
 static const wchar_t* const cy_GB_given_KEYWORDS[] = { L"* ", L"Anrhegedig a " };
 static const Keywords cy_GB_given_keywords = { 2, cy_GB_given_KEYWORDS };
 
-static const wchar_t* const cy_GB_scenario_KEYWORDS[] = { L"Scenario" };
-static const Keywords cy_GB_scenario_keywords = { 1, cy_GB_scenario_KEYWORDS };
+static const wchar_t* const cy_GB_scenario_KEYWORDS[] = { L"Enghraifft", L"Scenario" };
+static const Keywords cy_GB_scenario_keywords = { 2, cy_GB_scenario_KEYWORDS };
 
 static const wchar_t* const cy_GB_scenarioOutline_KEYWORDS[] = { L"Scenario Amlinellol" };
 static const Keywords cy_GB_scenarioOutline_keywords = { 1, cy_GB_scenarioOutline_KEYWORDS };
@@ -534,11 +534,11 @@ static const Keywords da_feature_keywords = { 1, da_feature_KEYWORDS };
 static const wchar_t* const da_given_KEYWORDS[] = { L"* ", L"Givet " };
 static const Keywords da_given_keywords = { 2, da_given_KEYWORDS };
 
-static const wchar_t* const da_scenario_KEYWORDS[] = { L"Scenarie" };
-static const Keywords da_scenario_keywords = { 1, da_scenario_KEYWORDS };
+static const wchar_t* const da_scenario_KEYWORDS[] = { L"Eksempel", L"Scenarie" };
+static const Keywords da_scenario_keywords = { 2, da_scenario_KEYWORDS };
 
-static const wchar_t* const da_scenarioOutline_KEYWORDS[] = { L"Abstrakt Scenario" };
-static const Keywords da_scenarioOutline_keywords = { 1, da_scenarioOutline_KEYWORDS };
+static const wchar_t* const da_scenarioOutline_KEYWORDS[] = { L"Abstrakt Eksempel", L"Abstrakt Scenario" };
+static const Keywords da_scenarioOutline_keywords = { 2, da_scenarioOutline_KEYWORDS };
 
 static const wchar_t* const da_then_KEYWORDS[] = { L"* ", L"Så " };
 static const Keywords da_then_keywords = { 2, da_then_KEYWORDS };
@@ -577,11 +577,11 @@ static const Keywords de_feature_keywords = { 1, de_feature_KEYWORDS };
 static const wchar_t* const de_given_KEYWORDS[] = { L"* ", L"Angenommen ", L"Gegeben sei ", L"Gegeben seien " };
 static const Keywords de_given_keywords = { 4, de_given_KEYWORDS };
 
-static const wchar_t* const de_scenario_KEYWORDS[] = { L"Szenario" };
-static const Keywords de_scenario_keywords = { 1, de_scenario_KEYWORDS };
+static const wchar_t* const de_scenario_KEYWORDS[] = { L"Beispiel", L"Szenario" };
+static const Keywords de_scenario_keywords = { 2, de_scenario_KEYWORDS };
 
-static const wchar_t* const de_scenarioOutline_KEYWORDS[] = { L"Szenariogrundriss" };
-static const Keywords de_scenarioOutline_keywords = { 1, de_scenarioOutline_KEYWORDS };
+static const wchar_t* const de_scenarioOutline_KEYWORDS[] = { L"Beispielrundriss", L"Szenariogrundriss" };
+static const Keywords de_scenarioOutline_keywords = { 2, de_scenarioOutline_KEYWORDS };
 
 static const wchar_t* const de_then_KEYWORDS[] = { L"* ", L"Dann " };
 static const Keywords de_then_keywords = { 2, de_then_KEYWORDS };
@@ -620,8 +620,8 @@ static const Keywords el_feature_keywords = { 2, el_feature_KEYWORDS };
 static const wchar_t* const el_given_KEYWORDS[] = { L"* ", L"Δεδομένου " };
 static const Keywords el_given_keywords = { 2, el_given_KEYWORDS };
 
-static const wchar_t* const el_scenario_KEYWORDS[] = { L"Σενάριο" };
-static const Keywords el_scenario_keywords = { 1, el_scenario_KEYWORDS };
+static const wchar_t* const el_scenario_KEYWORDS[] = { L"Παράδειγμα", L"Σενάριο" };
+static const Keywords el_scenario_keywords = { 2, el_scenario_KEYWORDS };
 
 static const wchar_t* const el_scenarioOutline_KEYWORDS[] = { L"Περιγραφή Σεναρίου", L"Περίγραμμα Σεναρίου" };
 static const Keywords el_scenarioOutline_keywords = { 2, el_scenarioOutline_KEYWORDS };
@@ -663,8 +663,8 @@ static const Keywords em_feature_keywords = { 1, em_feature_KEYWORDS };
 static const wchar_t* const em_given_KEYWORDS[] = { L"* ", L"😐" };
 static const Keywords em_given_keywords = { 2, em_given_KEYWORDS };
 
-static const wchar_t* const em_scenario_KEYWORDS[] = { L"📕" };
-static const Keywords em_scenario_keywords = { 1, em_scenario_KEYWORDS };
+static const wchar_t* const em_scenario_KEYWORDS[] = { L"🥒", L"📕" };
+static const Keywords em_scenario_keywords = { 2, em_scenario_KEYWORDS };
 
 static const wchar_t* const em_scenarioOutline_KEYWORDS[] = { L"📖" };
 static const Keywords em_scenarioOutline_keywords = { 1, em_scenarioOutline_KEYWORDS };
@@ -706,11 +706,11 @@ static const Keywords en_feature_keywords = { 3, en_feature_KEYWORDS };
 static const wchar_t* const en_given_KEYWORDS[] = { L"* ", L"Given " };
 static const Keywords en_given_keywords = { 2, en_given_KEYWORDS };
 
-static const wchar_t* const en_scenario_KEYWORDS[] = { L"Scenario" };
-static const Keywords en_scenario_keywords = { 1, en_scenario_KEYWORDS };
+static const wchar_t* const en_scenario_KEYWORDS[] = { L"Example", L"Scenario" };
+static const Keywords en_scenario_keywords = { 2, en_scenario_KEYWORDS };
 
-static const wchar_t* const en_scenarioOutline_KEYWORDS[] = { L"Scenario Outline", L"Scenario Template" };
-static const Keywords en_scenarioOutline_keywords = { 2, en_scenarioOutline_KEYWORDS };
+static const wchar_t* const en_scenarioOutline_KEYWORDS[] = { L"Example Outline", L"Scenario Outline", L"Scenario Template" };
+static const Keywords en_scenarioOutline_keywords = { 3, en_scenarioOutline_KEYWORDS };
 
 static const wchar_t* const en_then_KEYWORDS[] = { L"* ", L"Then " };
 static const Keywords en_then_keywords = { 2, en_then_KEYWORDS };
@@ -964,11 +964,11 @@ static const Keywords eo_feature_keywords = { 1, eo_feature_KEYWORDS };
 static const wchar_t* const eo_given_KEYWORDS[] = { L"* ", L"Donitaĵo ", L"Komence " };
 static const Keywords eo_given_keywords = { 3, eo_given_KEYWORDS };
 
-static const wchar_t* const eo_scenario_KEYWORDS[] = { L"Scenaro", L"Kazo" };
-static const Keywords eo_scenario_keywords = { 2, eo_scenario_KEYWORDS };
+static const wchar_t* const eo_scenario_KEYWORDS[] = { L"Ekzemplo", L"Scenaro", L"Kazo" };
+static const Keywords eo_scenario_keywords = { 3, eo_scenario_KEYWORDS };
 
-static const wchar_t* const eo_scenarioOutline_KEYWORDS[] = { L"Konturo de la scenaro", L"Skizo", L"Kazo-skizo" };
-static const Keywords eo_scenarioOutline_keywords = { 3, eo_scenarioOutline_KEYWORDS };
+static const wchar_t* const eo_scenarioOutline_KEYWORDS[] = { L"Konturo de la ekzemplo", L"Konturo de la scenaro", L"Skizo", L"Kazo-skizo" };
+static const Keywords eo_scenarioOutline_keywords = { 4, eo_scenarioOutline_KEYWORDS };
 
 static const wchar_t* const eo_then_KEYWORDS[] = { L"* ", L"Do " };
 static const Keywords eo_then_keywords = { 2, eo_then_KEYWORDS };
@@ -1007,11 +1007,11 @@ static const Keywords es_feature_keywords = { 1, es_feature_KEYWORDS };
 static const wchar_t* const es_given_KEYWORDS[] = { L"* ", L"Dado ", L"Dada ", L"Dados ", L"Dadas " };
 static const Keywords es_given_keywords = { 5, es_given_KEYWORDS };
 
-static const wchar_t* const es_scenario_KEYWORDS[] = { L"Escenario" };
-static const Keywords es_scenario_keywords = { 1, es_scenario_KEYWORDS };
+static const wchar_t* const es_scenario_KEYWORDS[] = { L"Ejemplo", L"Escenario" };
+static const Keywords es_scenario_keywords = { 2, es_scenario_KEYWORDS };
 
-static const wchar_t* const es_scenarioOutline_KEYWORDS[] = { L"Esquema del escenario" };
-static const Keywords es_scenarioOutline_keywords = { 1, es_scenarioOutline_KEYWORDS };
+static const wchar_t* const es_scenarioOutline_KEYWORDS[] = { L"Esquema del ejemplo", L"Esquema del escenario" };
+static const Keywords es_scenarioOutline_keywords = { 2, es_scenarioOutline_KEYWORDS };
 
 static const wchar_t* const es_then_KEYWORDS[] = { L"* ", L"Entonces " };
 static const Keywords es_then_keywords = { 2, es_then_KEYWORDS };
@@ -1050,11 +1050,11 @@ static const Keywords et_feature_keywords = { 1, et_feature_KEYWORDS };
 static const wchar_t* const et_given_KEYWORDS[] = { L"* ", L"Eeldades " };
 static const Keywords et_given_keywords = { 2, et_given_KEYWORDS };
 
-static const wchar_t* const et_scenario_KEYWORDS[] = { L"Stsenaarium" };
-static const Keywords et_scenario_keywords = { 1, et_scenario_KEYWORDS };
+static const wchar_t* const et_scenario_KEYWORDS[] = { L"Juhtum", L"Stsenaarium" };
+static const Keywords et_scenario_keywords = { 2, et_scenario_KEYWORDS };
 
-static const wchar_t* const et_scenarioOutline_KEYWORDS[] = { L"Raamstsenaarium" };
-static const Keywords et_scenarioOutline_keywords = { 1, et_scenarioOutline_KEYWORDS };
+static const wchar_t* const et_scenarioOutline_KEYWORDS[] = { L"Raamstjuhtum", L"Raamstsenaarium" };
+static const Keywords et_scenarioOutline_keywords = { 2, et_scenarioOutline_KEYWORDS };
 
 static const wchar_t* const et_then_KEYWORDS[] = { L"* ", L"Siis " };
 static const Keywords et_then_keywords = { 2, et_then_KEYWORDS };
@@ -1093,8 +1093,8 @@ static const Keywords fa_feature_keywords = { 1, fa_feature_KEYWORDS };
 static const wchar_t* const fa_given_KEYWORDS[] = { L"* ", L"با فرض " };
 static const Keywords fa_given_keywords = { 2, fa_given_KEYWORDS };
 
-static const wchar_t* const fa_scenario_KEYWORDS[] = { L"سناریو" };
-static const Keywords fa_scenario_keywords = { 1, fa_scenario_KEYWORDS };
+static const wchar_t* const fa_scenario_KEYWORDS[] = { L"مثال", L"سناریو" };
+static const Keywords fa_scenario_keywords = { 2, fa_scenario_KEYWORDS };
 
 static const wchar_t* const fa_scenarioOutline_KEYWORDS[] = { L"الگوی سناریو" };
 static const Keywords fa_scenarioOutline_keywords = { 1, fa_scenarioOutline_KEYWORDS };
@@ -1179,11 +1179,11 @@ static const Keywords fr_feature_keywords = { 1, fr_feature_KEYWORDS };
 static const wchar_t* const fr_given_KEYWORDS[] = { L"* ", L"Soit ", L"Etant donné que ", L"Etant donné qu'", L"Etant donné ", L"Etant donnée ", L"Etant donnés ", L"Etant données ", L"Étant donné que ", L"Étant donné qu'", L"Étant donné ", L"Étant donnée ", L"Étant donnés ", L"Étant données " };
 static const Keywords fr_given_keywords = { 14, fr_given_KEYWORDS };
 
-static const wchar_t* const fr_scenario_KEYWORDS[] = { L"Scénario" };
-static const Keywords fr_scenario_keywords = { 1, fr_scenario_KEYWORDS };
+static const wchar_t* const fr_scenario_KEYWORDS[] = { L"Exemple", L"Scénario" };
+static const Keywords fr_scenario_keywords = { 2, fr_scenario_KEYWORDS };
 
-static const wchar_t* const fr_scenarioOutline_KEYWORDS[] = { L"Plan du scénario", L"Plan du Scénario" };
-static const Keywords fr_scenarioOutline_keywords = { 2, fr_scenarioOutline_KEYWORDS };
+static const wchar_t* const fr_scenarioOutline_KEYWORDS[] = { L"Plan de l'exemple", L"Plan du scénario", L"Plan du Scénario" };
+static const Keywords fr_scenarioOutline_keywords = { 3, fr_scenarioOutline_KEYWORDS };
 
 static const wchar_t* const fr_then_KEYWORDS[] = { L"* ", L"Alors " };
 static const Keywords fr_then_keywords = { 2, fr_then_KEYWORDS };
@@ -1222,11 +1222,11 @@ static const Keywords ga_feature_keywords = { 1, ga_feature_KEYWORDS };
 static const wchar_t* const ga_given_KEYWORDS[] = { L"* ", L"Cuir i gcás go", L"Cuir i gcás nach", L"Cuir i gcás gur", L"Cuir i gcás nár" };
 static const Keywords ga_given_keywords = { 5, ga_given_KEYWORDS };
 
-static const wchar_t* const ga_scenario_KEYWORDS[] = { L"Cás" };
-static const Keywords ga_scenario_keywords = { 1, ga_scenario_KEYWORDS };
+static const wchar_t* const ga_scenario_KEYWORDS[] = { L"Sampla", L"Cás" };
+static const Keywords ga_scenario_keywords = { 2, ga_scenario_KEYWORDS };
 
-static const wchar_t* const ga_scenarioOutline_KEYWORDS[] = { L"Cás Achomair" };
-static const Keywords ga_scenarioOutline_keywords = { 1, ga_scenarioOutline_KEYWORDS };
+static const wchar_t* const ga_scenarioOutline_KEYWORDS[] = { L"Sampla Achomair", L"Cás Achomair" };
+static const Keywords ga_scenarioOutline_keywords = { 2, ga_scenarioOutline_KEYWORDS };
 
 static const wchar_t* const ga_then_KEYWORDS[] = { L"* ", L"Ansin" };
 static const Keywords ga_then_keywords = { 2, ga_then_KEYWORDS };
@@ -1265,8 +1265,8 @@ static const Keywords gj_feature_keywords = { 3, gj_feature_KEYWORDS };
 static const wchar_t* const gj_given_KEYWORDS[] = { L"* ", L"આપેલ છે " };
 static const Keywords gj_given_keywords = { 2, gj_given_KEYWORDS };
 
-static const wchar_t* const gj_scenario_KEYWORDS[] = { L"સ્થિતિ" };
-static const Keywords gj_scenario_keywords = { 1, gj_scenario_KEYWORDS };
+static const wchar_t* const gj_scenario_KEYWORDS[] = { L"ઉદાહરણ", L"સ્થિતિ" };
+static const Keywords gj_scenario_keywords = { 2, gj_scenario_KEYWORDS };
 
 static const wchar_t* const gj_scenarioOutline_KEYWORDS[] = { L"પરિદ્દશ્ય રૂપરેખા", L"પરિદ્દશ્ય ઢાંચો" };
 static const Keywords gj_scenarioOutline_keywords = { 2, gj_scenarioOutline_KEYWORDS };
@@ -1308,11 +1308,11 @@ static const Keywords gl_feature_keywords = { 1, gl_feature_KEYWORDS };
 static const wchar_t* const gl_given_KEYWORDS[] = { L"* ", L"Dado ", L"Dada ", L"Dados ", L"Dadas " };
 static const Keywords gl_given_keywords = { 5, gl_given_KEYWORDS };
 
-static const wchar_t* const gl_scenario_KEYWORDS[] = { L"Escenario" };
-static const Keywords gl_scenario_keywords = { 1, gl_scenario_KEYWORDS };
+static const wchar_t* const gl_scenario_KEYWORDS[] = { L"Exemplo", L"Escenario" };
+static const Keywords gl_scenario_keywords = { 2, gl_scenario_KEYWORDS };
 
-static const wchar_t* const gl_scenarioOutline_KEYWORDS[] = { L"Esbozo do escenario" };
-static const Keywords gl_scenarioOutline_keywords = { 1, gl_scenarioOutline_KEYWORDS };
+static const wchar_t* const gl_scenarioOutline_KEYWORDS[] = { L"Esbozo do exemplo", L"Esbozo do escenario" };
+static const Keywords gl_scenarioOutline_keywords = { 2, gl_scenarioOutline_KEYWORDS };
 
 static const wchar_t* const gl_then_KEYWORDS[] = { L"* ", L"Entón ", L"Logo " };
 static const Keywords gl_then_keywords = { 3, gl_then_KEYWORDS };
@@ -1351,8 +1351,8 @@ static const Keywords he_feature_keywords = { 1, he_feature_KEYWORDS };
 static const wchar_t* const he_given_KEYWORDS[] = { L"* ", L"בהינתן " };
 static const Keywords he_given_keywords = { 2, he_given_KEYWORDS };
 
-static const wchar_t* const he_scenario_KEYWORDS[] = { L"תרחיש" };
-static const Keywords he_scenario_keywords = { 1, he_scenario_KEYWORDS };
+static const wchar_t* const he_scenario_KEYWORDS[] = { L"דוגמא", L"תרחיש" };
+static const Keywords he_scenario_keywords = { 2, he_scenario_KEYWORDS };
 
 static const wchar_t* const he_scenarioOutline_KEYWORDS[] = { L"תבנית תרחיש" };
 static const Keywords he_scenarioOutline_keywords = { 1, he_scenarioOutline_KEYWORDS };
@@ -1437,8 +1437,8 @@ static const Keywords hr_feature_keywords = { 3, hr_feature_KEYWORDS };
 static const wchar_t* const hr_given_KEYWORDS[] = { L"* ", L"Zadan ", L"Zadani ", L"Zadano " };
 static const Keywords hr_given_keywords = { 4, hr_given_KEYWORDS };
 
-static const wchar_t* const hr_scenario_KEYWORDS[] = { L"Scenarij" };
-static const Keywords hr_scenario_keywords = { 1, hr_scenario_KEYWORDS };
+static const wchar_t* const hr_scenario_KEYWORDS[] = { L"Primjer", L"Scenarij" };
+static const Keywords hr_scenario_keywords = { 2, hr_scenario_KEYWORDS };
 
 static const wchar_t* const hr_scenarioOutline_KEYWORDS[] = { L"Skica", L"Koncept" };
 static const Keywords hr_scenarioOutline_keywords = { 2, hr_scenarioOutline_KEYWORDS };
@@ -1523,8 +1523,8 @@ static const Keywords hu_feature_keywords = { 1, hu_feature_KEYWORDS };
 static const wchar_t* const hu_given_KEYWORDS[] = { L"* ", L"Amennyiben ", L"Adott " };
 static const Keywords hu_given_keywords = { 3, hu_given_KEYWORDS };
 
-static const wchar_t* const hu_scenario_KEYWORDS[] = { L"Forgatókönyv" };
-static const Keywords hu_scenario_keywords = { 1, hu_scenario_KEYWORDS };
+static const wchar_t* const hu_scenario_KEYWORDS[] = { L"Példa", L"Forgatókönyv" };
+static const Keywords hu_scenario_keywords = { 2, hu_scenario_KEYWORDS };
 
 static const wchar_t* const hu_scenarioOutline_KEYWORDS[] = { L"Forgatókönyv vázlat" };
 static const Keywords hu_scenarioOutline_keywords = { 1, hu_scenarioOutline_KEYWORDS };
@@ -1652,11 +1652,11 @@ static const Keywords it_feature_keywords = { 1, it_feature_KEYWORDS };
 static const wchar_t* const it_given_KEYWORDS[] = { L"* ", L"Dato ", L"Data ", L"Dati ", L"Date " };
 static const Keywords it_given_keywords = { 5, it_given_KEYWORDS };
 
-static const wchar_t* const it_scenario_KEYWORDS[] = { L"Scenario" };
-static const Keywords it_scenario_keywords = { 1, it_scenario_KEYWORDS };
+static const wchar_t* const it_scenario_KEYWORDS[] = { L"Esempio", L"Scenario" };
+static const Keywords it_scenario_keywords = { 2, it_scenario_KEYWORDS };
 
-static const wchar_t* const it_scenarioOutline_KEYWORDS[] = { L"Schema dello scenario" };
-static const Keywords it_scenarioOutline_keywords = { 1, it_scenarioOutline_KEYWORDS };
+static const wchar_t* const it_scenarioOutline_KEYWORDS[] = { L"Schema dello esempio", L"Schema dello scenario" };
+static const Keywords it_scenarioOutline_keywords = { 2, it_scenarioOutline_KEYWORDS };
 
 static const wchar_t* const it_then_KEYWORDS[] = { L"* ", L"Allora " };
 static const Keywords it_then_keywords = { 2, it_then_KEYWORDS };
@@ -1781,11 +1781,11 @@ static const Keywords ka_feature_keywords = { 1, ka_feature_KEYWORDS };
 static const wchar_t* const ka_given_KEYWORDS[] = { L"* ", L"მოცემული" };
 static const Keywords ka_given_keywords = { 2, ka_given_KEYWORDS };
 
-static const wchar_t* const ka_scenario_KEYWORDS[] = { L"სცენარის" };
-static const Keywords ka_scenario_keywords = { 1, ka_scenario_KEYWORDS };
+static const wchar_t* const ka_scenario_KEYWORDS[] = { L"მაგალითად", L"სცენარის" };
+static const Keywords ka_scenario_keywords = { 2, ka_scenario_KEYWORDS };
 
-static const wchar_t* const ka_scenarioOutline_KEYWORDS[] = { L"სცენარის ნიმუში" };
-static const Keywords ka_scenarioOutline_keywords = { 1, ka_scenarioOutline_KEYWORDS };
+static const wchar_t* const ka_scenarioOutline_KEYWORDS[] = { L"მაგალითად ნიმუში", L"სცენარის ნიმუში" };
+static const Keywords ka_scenarioOutline_keywords = { 2, ka_scenarioOutline_KEYWORDS };
 
 static const wchar_t* const ka_then_KEYWORDS[] = { L"* ", L"მაშინ" };
 static const Keywords ka_then_keywords = { 2, ka_then_KEYWORDS };
@@ -1824,8 +1824,8 @@ static const Keywords kn_feature_keywords = { 1, kn_feature_KEYWORDS };
 static const wchar_t* const kn_given_KEYWORDS[] = { L"* ", L"ನೀಡಿದ " };
 static const Keywords kn_given_keywords = { 2, kn_given_KEYWORDS };
 
-static const wchar_t* const kn_scenario_KEYWORDS[] = { L"ಕಥಾಸಾರಾಂಶ" };
-static const Keywords kn_scenario_keywords = { 1, kn_scenario_KEYWORDS };
+static const wchar_t* const kn_scenario_KEYWORDS[] = { L"ಉದಾಹರಣೆ", L"ಕಥಾಸಾರಾಂಶ" };
+static const Keywords kn_scenario_keywords = { 2, kn_scenario_KEYWORDS };
 
 static const wchar_t* const kn_scenarioOutline_KEYWORDS[] = { L"ವಿವರಣೆ" };
 static const Keywords kn_scenarioOutline_keywords = { 1, kn_scenarioOutline_KEYWORDS };
@@ -1910,8 +1910,8 @@ static const Keywords lt_feature_keywords = { 1, lt_feature_KEYWORDS };
 static const wchar_t* const lt_given_KEYWORDS[] = { L"* ", L"Duota " };
 static const Keywords lt_given_keywords = { 2, lt_given_KEYWORDS };
 
-static const wchar_t* const lt_scenario_KEYWORDS[] = { L"Scenarijus" };
-static const Keywords lt_scenario_keywords = { 1, lt_scenario_KEYWORDS };
+static const wchar_t* const lt_scenario_KEYWORDS[] = { L"Pavyzdys", L"Scenarijus" };
+static const Keywords lt_scenario_keywords = { 2, lt_scenario_KEYWORDS };
 
 static const wchar_t* const lt_scenarioOutline_KEYWORDS[] = { L"Scenarijaus šablonas" };
 static const Keywords lt_scenarioOutline_keywords = { 1, lt_scenarioOutline_KEYWORDS };
@@ -1953,11 +1953,11 @@ static const Keywords lu_feature_keywords = { 1, lu_feature_KEYWORDS };
 static const wchar_t* const lu_given_KEYWORDS[] = { L"* ", L"ugeholl " };
 static const Keywords lu_given_keywords = { 2, lu_given_KEYWORDS };
 
-static const wchar_t* const lu_scenario_KEYWORDS[] = { L"Szenario" };
-static const Keywords lu_scenario_keywords = { 1, lu_scenario_KEYWORDS };
+static const wchar_t* const lu_scenario_KEYWORDS[] = { L"Beispill", L"Szenario" };
+static const Keywords lu_scenario_keywords = { 2, lu_scenario_KEYWORDS };
 
-static const wchar_t* const lu_scenarioOutline_KEYWORDS[] = { L"Plang vum Szenario" };
-static const Keywords lu_scenarioOutline_keywords = { 1, lu_scenarioOutline_KEYWORDS };
+static const wchar_t* const lu_scenarioOutline_KEYWORDS[] = { L"Plang vum Beispill", L"Plang vum Szenario" };
+static const Keywords lu_scenarioOutline_keywords = { 2, lu_scenarioOutline_KEYWORDS };
 
 static const wchar_t* const lu_then_KEYWORDS[] = { L"* ", L"dann " };
 static const Keywords lu_then_keywords = { 2, lu_then_KEYWORDS };
@@ -1996,11 +1996,11 @@ static const Keywords lv_feature_keywords = { 2, lv_feature_KEYWORDS };
 static const wchar_t* const lv_given_KEYWORDS[] = { L"* ", L"Kad " };
 static const Keywords lv_given_keywords = { 2, lv_given_KEYWORDS };
 
-static const wchar_t* const lv_scenario_KEYWORDS[] = { L"Scenārijs" };
-static const Keywords lv_scenario_keywords = { 1, lv_scenario_KEYWORDS };
+static const wchar_t* const lv_scenario_KEYWORDS[] = { L"Piemērs", L"Scenārijs" };
+static const Keywords lv_scenario_keywords = { 2, lv_scenario_KEYWORDS };
 
-static const wchar_t* const lv_scenarioOutline_KEYWORDS[] = { L"Scenārijs pēc parauga" };
-static const Keywords lv_scenarioOutline_keywords = { 1, lv_scenarioOutline_KEYWORDS };
+static const wchar_t* const lv_scenarioOutline_KEYWORDS[] = { L"Piemērs pēc parauga", L"Scenārijs pēc parauga" };
+static const Keywords lv_scenarioOutline_keywords = { 2, lv_scenarioOutline_KEYWORDS };
 
 static const wchar_t* const lv_then_KEYWORDS[] = { L"* ", L"Tad " };
 static const Keywords lv_then_keywords = { 2, lv_then_KEYWORDS };
@@ -2039,8 +2039,8 @@ static const Keywords mk_Cyrl_feature_keywords = { 3, mk_Cyrl_feature_KEYWORDS }
 static const wchar_t* const mk_Cyrl_given_KEYWORDS[] = { L"* ", L"Дадено ", L"Дадена " };
 static const Keywords mk_Cyrl_given_keywords = { 3, mk_Cyrl_given_KEYWORDS };
 
-static const wchar_t* const mk_Cyrl_scenario_KEYWORDS[] = { L"Сценарио", L"На пример" };
-static const Keywords mk_Cyrl_scenario_keywords = { 2, mk_Cyrl_scenario_KEYWORDS };
+static const wchar_t* const mk_Cyrl_scenario_KEYWORDS[] = { L"Пример", L"Сценарио", L"На пример" };
+static const Keywords mk_Cyrl_scenario_keywords = { 3, mk_Cyrl_scenario_KEYWORDS };
 
 static const wchar_t* const mk_Cyrl_scenarioOutline_KEYWORDS[] = { L"Преглед на сценарија", L"Скица", L"Концепт" };
 static const Keywords mk_Cyrl_scenarioOutline_keywords = { 3, mk_Cyrl_scenarioOutline_KEYWORDS };
@@ -2168,11 +2168,11 @@ static const Keywords nl_feature_keywords = { 1, nl_feature_KEYWORDS };
 static const wchar_t* const nl_given_KEYWORDS[] = { L"* ", L"Gegeven ", L"Stel " };
 static const Keywords nl_given_keywords = { 3, nl_given_KEYWORDS };
 
-static const wchar_t* const nl_scenario_KEYWORDS[] = { L"Scenario" };
-static const Keywords nl_scenario_keywords = { 1, nl_scenario_KEYWORDS };
+static const wchar_t* const nl_scenario_KEYWORDS[] = { L"Voorbeeld", L"Scenario" };
+static const Keywords nl_scenario_keywords = { 2, nl_scenario_KEYWORDS };
 
-static const wchar_t* const nl_scenarioOutline_KEYWORDS[] = { L"Abstract Scenario" };
-static const Keywords nl_scenarioOutline_keywords = { 1, nl_scenarioOutline_KEYWORDS };
+static const wchar_t* const nl_scenarioOutline_KEYWORDS[] = { L"Abstract Voorbeeld", L"Abstract Scenario" };
+static const Keywords nl_scenarioOutline_keywords = { 2, nl_scenarioOutline_KEYWORDS };
 
 static const wchar_t* const nl_then_KEYWORDS[] = { L"* ", L"Dan " };
 static const Keywords nl_then_keywords = { 2, nl_then_KEYWORDS };
@@ -2211,11 +2211,11 @@ static const Keywords no_feature_keywords = { 1, no_feature_KEYWORDS };
 static const wchar_t* const no_given_KEYWORDS[] = { L"* ", L"Gitt " };
 static const Keywords no_given_keywords = { 2, no_given_KEYWORDS };
 
-static const wchar_t* const no_scenario_KEYWORDS[] = { L"Scenario" };
-static const Keywords no_scenario_keywords = { 1, no_scenario_KEYWORDS };
+static const wchar_t* const no_scenario_KEYWORDS[] = { L"Eksempel", L"Scenario" };
+static const Keywords no_scenario_keywords = { 2, no_scenario_KEYWORDS };
 
-static const wchar_t* const no_scenarioOutline_KEYWORDS[] = { L"Scenariomal", L"Abstrakt Scenario" };
-static const Keywords no_scenarioOutline_keywords = { 2, no_scenarioOutline_KEYWORDS };
+static const wchar_t* const no_scenarioOutline_KEYWORDS[] = { L"Eksempelmal", L"Abstrakt Eksempel", L"Scenariomal", L"Abstrakt Scenario" };
+static const Keywords no_scenarioOutline_keywords = { 4, no_scenarioOutline_KEYWORDS };
 
 static const wchar_t* const no_then_KEYWORDS[] = { L"* ", L"Så " };
 static const Keywords no_then_keywords = { 2, no_then_KEYWORDS };
@@ -2254,8 +2254,8 @@ static const Keywords pa_feature_keywords = { 3, pa_feature_KEYWORDS };
 static const wchar_t* const pa_given_KEYWORDS[] = { L"* ", L"ਜੇਕਰ ", L"ਜਿਵੇਂ ਕਿ " };
 static const Keywords pa_given_keywords = { 3, pa_given_KEYWORDS };
 
-static const wchar_t* const pa_scenario_KEYWORDS[] = { L"ਪਟਕਥਾ" };
-static const Keywords pa_scenario_keywords = { 1, pa_scenario_KEYWORDS };
+static const wchar_t* const pa_scenario_KEYWORDS[] = { L"ਉਦਾਹਰਨ", L"ਪਟਕਥਾ" };
+static const Keywords pa_scenario_keywords = { 2, pa_scenario_KEYWORDS };
 
 static const wchar_t* const pa_scenarioOutline_KEYWORDS[] = { L"ਪਟਕਥਾ ਢਾਂਚਾ", L"ਪਟਕਥਾ ਰੂਪ ਰੇਖਾ" };
 static const Keywords pa_scenarioOutline_keywords = { 2, pa_scenarioOutline_KEYWORDS };
@@ -2297,8 +2297,8 @@ static const Keywords pl_feature_keywords = { 4, pl_feature_KEYWORDS };
 static const wchar_t* const pl_given_KEYWORDS[] = { L"* ", L"Zakładając ", L"Mając ", L"Zakładając, że " };
 static const Keywords pl_given_keywords = { 4, pl_given_KEYWORDS };
 
-static const wchar_t* const pl_scenario_KEYWORDS[] = { L"Scenariusz" };
-static const Keywords pl_scenario_keywords = { 1, pl_scenario_KEYWORDS };
+static const wchar_t* const pl_scenario_KEYWORDS[] = { L"Przykład", L"Scenariusz" };
+static const Keywords pl_scenario_keywords = { 2, pl_scenario_KEYWORDS };
 
 static const wchar_t* const pl_scenarioOutline_KEYWORDS[] = { L"Szablon scenariusza" };
 static const Keywords pl_scenarioOutline_keywords = { 1, pl_scenarioOutline_KEYWORDS };
@@ -2340,11 +2340,11 @@ static const Keywords pt_feature_keywords = { 3, pt_feature_KEYWORDS };
 static const wchar_t* const pt_given_KEYWORDS[] = { L"* ", L"Dado ", L"Dada ", L"Dados ", L"Dadas " };
 static const Keywords pt_given_keywords = { 5, pt_given_KEYWORDS };
 
-static const wchar_t* const pt_scenario_KEYWORDS[] = { L"Cenário", L"Cenario" };
-static const Keywords pt_scenario_keywords = { 2, pt_scenario_KEYWORDS };
+static const wchar_t* const pt_scenario_KEYWORDS[] = { L"Exemplo", L"Cenário", L"Cenario" };
+static const Keywords pt_scenario_keywords = { 3, pt_scenario_KEYWORDS };
 
-static const wchar_t* const pt_scenarioOutline_KEYWORDS[] = { L"Esquema do Cenário", L"Esquema do Cenario", L"Delineação do Cenário", L"Delineacao do Cenario" };
-static const Keywords pt_scenarioOutline_keywords = { 4, pt_scenarioOutline_KEYWORDS };
+static const wchar_t* const pt_scenarioOutline_KEYWORDS[] = { L"Esquema do Exemplo", L"Delineação do Exemplo", L"Esquema do Cenário", L"Esquema do Cenario", L"Delineação do Cenário", L"Delineacao do Cenario" };
+static const Keywords pt_scenarioOutline_keywords = { 6, pt_scenarioOutline_KEYWORDS };
 
 static const wchar_t* const pt_then_KEYWORDS[] = { L"* ", L"Então ", L"Entao " };
 static const Keywords pt_then_keywords = { 3, pt_then_KEYWORDS };
@@ -2383,11 +2383,11 @@ static const Keywords ro_feature_keywords = { 3, ro_feature_KEYWORDS };
 static const wchar_t* const ro_given_KEYWORDS[] = { L"* ", L"Date fiind ", L"Dat fiind ", L"Dată fiind", L"Dati fiind ", L"Dați fiind ", L"Daţi fiind " };
 static const Keywords ro_given_keywords = { 7, ro_given_KEYWORDS };
 
-static const wchar_t* const ro_scenario_KEYWORDS[] = { L"Scenariu" };
-static const Keywords ro_scenario_keywords = { 1, ro_scenario_KEYWORDS };
+static const wchar_t* const ro_scenario_KEYWORDS[] = { L"Exemplu", L"Scenariu" };
+static const Keywords ro_scenario_keywords = { 2, ro_scenario_KEYWORDS };
 
-static const wchar_t* const ro_scenarioOutline_KEYWORDS[] = { L"Structura scenariu", L"Structură scenariu" };
-static const Keywords ro_scenarioOutline_keywords = { 2, ro_scenarioOutline_KEYWORDS };
+static const wchar_t* const ro_scenarioOutline_KEYWORDS[] = { L"Structura exemplu", L"Structură exemplu", L"Structura scenariu", L"Structură scenariu" };
+static const Keywords ro_scenarioOutline_keywords = { 4, ro_scenarioOutline_KEYWORDS };
 
 static const wchar_t* const ro_then_KEYWORDS[] = { L"* ", L"Atunci " };
 static const Keywords ro_then_keywords = { 2, ro_then_KEYWORDS };
@@ -2426,8 +2426,8 @@ static const Keywords ru_feature_keywords = { 4, ru_feature_KEYWORDS };
 static const wchar_t* const ru_given_KEYWORDS[] = { L"* ", L"Допустим ", L"Дано ", L"Пусть ", L"Если " };
 static const Keywords ru_given_keywords = { 5, ru_given_KEYWORDS };
 
-static const wchar_t* const ru_scenario_KEYWORDS[] = { L"Сценарий" };
-static const Keywords ru_scenario_keywords = { 1, ru_scenario_KEYWORDS };
+static const wchar_t* const ru_scenario_KEYWORDS[] = { L"Пример", L"Сценарий" };
+static const Keywords ru_scenario_keywords = { 2, ru_scenario_KEYWORDS };
 
 static const wchar_t* const ru_scenarioOutline_KEYWORDS[] = { L"Структура сценария" };
 static const Keywords ru_scenarioOutline_keywords = { 1, ru_scenarioOutline_KEYWORDS };
@@ -2469,8 +2469,8 @@ static const Keywords sk_feature_keywords = { 3, sk_feature_KEYWORDS };
 static const wchar_t* const sk_given_KEYWORDS[] = { L"* ", L"Pokiaľ ", L"Za predpokladu " };
 static const Keywords sk_given_keywords = { 3, sk_given_KEYWORDS };
 
-static const wchar_t* const sk_scenario_KEYWORDS[] = { L"Scenár" };
-static const Keywords sk_scenario_keywords = { 1, sk_scenario_KEYWORDS };
+static const wchar_t* const sk_scenario_KEYWORDS[] = { L"Príklad", L"Scenár" };
+static const Keywords sk_scenario_keywords = { 2, sk_scenario_KEYWORDS };
 
 static const wchar_t* const sk_scenarioOutline_KEYWORDS[] = { L"Náčrt Scenáru", L"Náčrt Scenára", L"Osnova Scenára" };
 static const Keywords sk_scenarioOutline_keywords = { 3, sk_scenarioOutline_KEYWORDS };
@@ -2512,7 +2512,7 @@ static const Keywords sl_feature_keywords = { 6, sl_feature_KEYWORDS };
 static const wchar_t* const sl_given_KEYWORDS[] = { L"Dano ", L"Podano ", L"Zaradi ", L"Privzeto " };
 static const Keywords sl_given_keywords = { 4, sl_given_KEYWORDS };
 
-static const wchar_t* const sl_scenario_KEYWORDS[] = { L"Scenarij", L"Primer" };
+static const wchar_t* const sl_scenario_KEYWORDS[] = { L"Primer", L"Scenarij" };
 static const Keywords sl_scenario_keywords = { 2, sl_scenario_KEYWORDS };
 
 static const wchar_t* const sl_scenarioOutline_KEYWORDS[] = { L"Struktura scenarija", L"Skica", L"Koncept", L"Oris scenarija", L"Osnutek" };
@@ -2555,8 +2555,8 @@ static const Keywords sr_Cyrl_feature_keywords = { 3, sr_Cyrl_feature_KEYWORDS }
 static const wchar_t* const sr_Cyrl_given_KEYWORDS[] = { L"* ", L"За дато ", L"За дате ", L"За дати " };
 static const Keywords sr_Cyrl_given_keywords = { 4, sr_Cyrl_given_KEYWORDS };
 
-static const wchar_t* const sr_Cyrl_scenario_KEYWORDS[] = { L"Сценарио", L"Пример" };
-static const Keywords sr_Cyrl_scenario_keywords = { 2, sr_Cyrl_scenario_KEYWORDS };
+static const wchar_t* const sr_Cyrl_scenario_KEYWORDS[] = { L"Пример", L"Сценарио", L"Пример" };
+static const Keywords sr_Cyrl_scenario_keywords = { 3, sr_Cyrl_scenario_KEYWORDS };
 
 static const wchar_t* const sr_Cyrl_scenarioOutline_KEYWORDS[] = { L"Структура сценарија", L"Скица", L"Концепт" };
 static const Keywords sr_Cyrl_scenarioOutline_keywords = { 3, sr_Cyrl_scenarioOutline_KEYWORDS };
@@ -2675,7 +2675,7 @@ static const Keywords ta_background_keywords = { 1, ta_background_KEYWORDS };
 static const wchar_t* const ta_but_KEYWORDS[] = { L"* ", L"ஆனால்  " };
 static const Keywords ta_but_keywords = { 2, ta_but_KEYWORDS };
 
-static const wchar_t* const ta_examples_KEYWORDS[] = { L"எடுத்துக்காட்டுகள்", L"காட்சிகள்", L" நிலைமைகளில்" };
+static const wchar_t* const ta_examples_KEYWORDS[] = { L"எடுத்துக்காட்டுகள்", L"காட்சிகள்", L"நிலைமைகளில்" };
 static const Keywords ta_examples_keywords = { 3, ta_examples_KEYWORDS };
 
 static const wchar_t* const ta_feature_KEYWORDS[] = { L"அம்சம்", L"வணிக தேவை", L"திறன்" };
@@ -2684,8 +2684,8 @@ static const Keywords ta_feature_keywords = { 3, ta_feature_KEYWORDS };
 static const wchar_t* const ta_given_KEYWORDS[] = { L"* ", L"கொடுக்கப்பட்ட " };
 static const Keywords ta_given_keywords = { 2, ta_given_KEYWORDS };
 
-static const wchar_t* const ta_scenario_KEYWORDS[] = { L"காட்சி" };
-static const Keywords ta_scenario_keywords = { 1, ta_scenario_KEYWORDS };
+static const wchar_t* const ta_scenario_KEYWORDS[] = { L"உதாரணமாக", L"காட்சி" };
+static const Keywords ta_scenario_keywords = { 2, ta_scenario_KEYWORDS };
 
 static const wchar_t* const ta_scenarioOutline_KEYWORDS[] = { L"காட்சி சுருக்கம்", L"காட்சி வார்ப்புரு" };
 static const Keywords ta_scenarioOutline_keywords = { 2, ta_scenarioOutline_KEYWORDS };
@@ -2770,8 +2770,8 @@ static const Keywords tl_feature_keywords = { 1, tl_feature_KEYWORDS };
 static const wchar_t* const tl_given_KEYWORDS[] = { L"* ", L"చెప్పబడినది " };
 static const Keywords tl_given_keywords = { 2, tl_given_KEYWORDS };
 
-static const wchar_t* const tl_scenario_KEYWORDS[] = { L"సన్నివేశం" };
-static const Keywords tl_scenario_keywords = { 1, tl_scenario_KEYWORDS };
+static const wchar_t* const tl_scenario_KEYWORDS[] = { L"ఉదాహరణ", L"సన్నివేశం" };
+static const Keywords tl_scenario_keywords = { 2, tl_scenario_KEYWORDS };
 
 static const wchar_t* const tl_scenarioOutline_KEYWORDS[] = { L"కథనం" };
 static const Keywords tl_scenarioOutline_keywords = { 1, tl_scenarioOutline_KEYWORDS };
@@ -2856,11 +2856,11 @@ static const Keywords tr_feature_keywords = { 1, tr_feature_KEYWORDS };
 static const wchar_t* const tr_given_KEYWORDS[] = { L"* ", L"Diyelim ki " };
 static const Keywords tr_given_keywords = { 2, tr_given_KEYWORDS };
 
-static const wchar_t* const tr_scenario_KEYWORDS[] = { L"Senaryo" };
-static const Keywords tr_scenario_keywords = { 1, tr_scenario_KEYWORDS };
+static const wchar_t* const tr_scenario_KEYWORDS[] = { L"Örnek", L"Senaryo" };
+static const Keywords tr_scenario_keywords = { 2, tr_scenario_KEYWORDS };
 
-static const wchar_t* const tr_scenarioOutline_KEYWORDS[] = { L"Senaryo taslağı" };
-static const Keywords tr_scenarioOutline_keywords = { 1, tr_scenarioOutline_KEYWORDS };
+static const wchar_t* const tr_scenarioOutline_KEYWORDS[] = { L"Örnek taslağı", L"Senaryo taslağı" };
+static const Keywords tr_scenarioOutline_keywords = { 2, tr_scenarioOutline_KEYWORDS };
 
 static const wchar_t* const tr_then_KEYWORDS[] = { L"* ", L"O zaman " };
 static const Keywords tr_then_keywords = { 2, tr_then_KEYWORDS };
@@ -2942,8 +2942,8 @@ static const Keywords uk_feature_keywords = { 1, uk_feature_KEYWORDS };
 static const wchar_t* const uk_given_KEYWORDS[] = { L"* ", L"Припустимо ", L"Припустимо, що ", L"Нехай ", L"Дано " };
 static const Keywords uk_given_keywords = { 5, uk_given_KEYWORDS };
 
-static const wchar_t* const uk_scenario_KEYWORDS[] = { L"Сценарій" };
-static const Keywords uk_scenario_keywords = { 1, uk_scenario_KEYWORDS };
+static const wchar_t* const uk_scenario_KEYWORDS[] = { L"Приклад", L"Сценарій" };
+static const Keywords uk_scenario_keywords = { 2, uk_scenario_KEYWORDS };
 
 static const wchar_t* const uk_scenarioOutline_KEYWORDS[] = { L"Структура сценарію" };
 static const Keywords uk_scenarioOutline_keywords = { 1, uk_scenarioOutline_KEYWORDS };

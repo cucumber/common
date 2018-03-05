@@ -524,9 +524,11 @@ module.exports={
     "name": "Afrikaans",
     "native": "Afrikaans",
     "scenario": [
+      "Voorbeeld",
       "Situasie"
     ],
     "scenarioOutline": [
+      "Voorbeeld Uiteensetting",
       "Situasie Uiteensetting"
     ],
     "then": [
@@ -564,9 +566,11 @@ module.exports={
     "name": "Armenian",
     "native": "հայերեն",
     "scenario": [
+      "Օրինակ",
       "Սցենար"
     ],
     "scenarioOutline": [
+      "Օրինակ կառուցվացքը",
       "Սցենարի կառուցվացքը"
     ],
     "then": [
@@ -608,9 +612,11 @@ module.exports={
     "name": "Aragonese",
     "native": "Aragonés",
     "scenario": [
+      "Eixemplo",
       "Caso"
     ],
     "scenarioOutline": [
+      "Esquema del eixemplo",
       "Esquema del caso"
     ],
     "then": [
@@ -649,6 +655,7 @@ module.exports={
     "name": "Arabic",
     "native": "العربية",
     "scenario": [
+      "مثال",
       "سيناريو"
     ],
     "scenarioOutline": [
@@ -694,9 +701,11 @@ module.exports={
     "name": "Asturian",
     "native": "asturianu",
     "scenario": [
+      "Exemplo",
       "Casu"
     ],
     "scenarioOutline": [
+      "Esbozu del exemplo",
       "Esbozu del casu"
     ],
     "then": [
@@ -737,6 +746,7 @@ module.exports={
     "name": "Azerbaijani",
     "native": "Azərbaycanca",
     "scenario": [
+      "Nümunələr",
       "Ssenari"
     ],
     "scenarioOutline": [
@@ -777,9 +787,11 @@ module.exports={
     "name": "Bulgarian",
     "native": "български",
     "scenario": [
+      "Пример",
       "Сценарий"
     ],
     "scenarioOutline": [
+      "Рамка на пример",
       "Рамка на сценарий"
     ],
     "then": [
@@ -864,10 +876,12 @@ module.exports={
     "name": "Bosnian",
     "native": "Bosanski",
     "scenario": [
+      "Primjer",
       "Scenariju",
       "Scenario"
     ],
     "scenarioOutline": [
+      "Primjer-obris",
       "Scenariju-obris",
       "Scenario-outline"
     ],
@@ -910,9 +924,11 @@ module.exports={
     "name": "Catalan",
     "native": "català",
     "scenario": [
+      "Exemple",
       "Escenari"
     ],
     "scenarioOutline": [
+      "Esquema de l'exemple",
       "Esquema de l'escenari"
     ],
     "then": [
@@ -953,6 +969,7 @@ module.exports={
     "name": "Czech",
     "native": "Česky",
     "scenario": [
+      "Příklad",
       "Scénář"
     ],
     "scenarioOutline": [
@@ -993,6 +1010,7 @@ module.exports={
     "name": "Welsh",
     "native": "Cymraeg",
     "scenario": [
+      "Enghraifft",
       "Scenario"
     ],
     "scenarioOutline": [
@@ -1032,9 +1050,11 @@ module.exports={
     "name": "Danish",
     "native": "dansk",
     "scenario": [
+      "Eksempel",
       "Scenarie"
     ],
     "scenarioOutline": [
+      "Abstrakt Eksempel",
       "Abstrakt Scenario"
     ],
     "then": [
@@ -1073,9 +1093,11 @@ module.exports={
     "name": "German",
     "native": "Deutsch",
     "scenario": [
+      "Beispiel",
       "Szenario"
     ],
     "scenarioOutline": [
+      "Beispielrundriss",
       "Szenariogrundriss"
     ],
     "then": [
@@ -1114,6 +1136,7 @@ module.exports={
     "name": "Greek",
     "native": "Ελληνικά",
     "scenario": [
+      "Παράδειγμα",
       "Σενάριο"
     ],
     "scenarioOutline": [
@@ -1154,6 +1177,7 @@ module.exports={
     "name": "Emoji",
     "native": "😀",
     "scenario": [
+      "🥒",
       "📕"
     ],
     "scenarioOutline": [
@@ -1196,9 +1220,11 @@ module.exports={
     "name": "English",
     "native": "English",
     "scenario": [
+      "Example",
       "Scenario"
     ],
     "scenarioOutline": [
+      "Example Outline",
       "Scenario Outline",
       "Scenario Template"
     ],
@@ -1450,10 +1476,12 @@ module.exports={
     "name": "Esperanto",
     "native": "Esperanto",
     "scenario": [
+      "Ekzemplo",
       "Scenaro",
       "Kazo"
     ],
     "scenarioOutline": [
+      "Konturo de la ekzemplo",
       "Konturo de la scenaro",
       "Skizo",
       "Kazo-skizo"
@@ -1496,9 +1524,11 @@ module.exports={
     "name": "Spanish",
     "native": "español",
     "scenario": [
+      "Ejemplo",
       "Escenario"
     ],
     "scenarioOutline": [
+      "Esquema del ejemplo",
       "Esquema del escenario"
     ],
     "then": [
@@ -1535,9 +1565,11 @@ module.exports={
     "name": "Estonian",
     "native": "eesti keel",
     "scenario": [
+      "Juhtum",
       "Stsenaarium"
     ],
     "scenarioOutline": [
+      "Raamstjuhtum",
       "Raamstsenaarium"
     ],
     "then": [
@@ -1574,6 +1606,7 @@ module.exports={
     "name": "Persian",
     "native": "فارسی",
     "scenario": [
+      "مثال",
       "سناریو"
     ],
     "scenarioOutline": [
@@ -1668,9 +1701,11 @@ module.exports={
     "name": "French",
     "native": "français",
     "scenario": [
+      "Exemple",
       "Scénario"
     ],
     "scenarioOutline": [
+      "Plan de l'exemple",
       "Plan du scénario",
       "Plan du Scénario"
     ],
@@ -1713,9 +1748,11 @@ module.exports={
     "name": "Irish",
     "native": "Gaeilge",
     "scenario": [
+      "Sampla",
       "Cás"
     ],
     "scenarioOutline": [
+      "Sampla Achomair",
       "Cás Achomair"
     ],
     "then": [
@@ -1757,6 +1794,7 @@ module.exports={
     "name": "Gujarati",
     "native": "ગુજરાતી",
     "scenario": [
+      "ઉદાહરણ",
       "સ્થિતિ"
     ],
     "scenarioOutline": [
@@ -1801,9 +1839,11 @@ module.exports={
     "name": "Galician",
     "native": "galego",
     "scenario": [
+      "Exemplo",
       "Escenario"
     ],
     "scenarioOutline": [
+      "Esbozo do exemplo",
       "Esbozo do escenario"
     ],
     "then": [
@@ -1841,6 +1881,7 @@ module.exports={
     "name": "Hebrew",
     "native": "עברית",
     "scenario": [
+      "דוגמא",
       "תרחיש"
     ],
     "scenarioOutline": [
@@ -1932,6 +1973,7 @@ module.exports={
     "name": "Croatian",
     "native": "hrvatski",
     "scenario": [
+      "Primjer",
       "Scenarij"
     ],
     "scenarioOutline": [
@@ -2027,6 +2069,7 @@ module.exports={
     "name": "Hungarian",
     "native": "magyar",
     "scenario": [
+      "Példa",
       "Forgatókönyv"
     ],
     "scenarioOutline": [
@@ -2151,9 +2194,11 @@ module.exports={
     "name": "Italian",
     "native": "italiano",
     "scenario": [
+      "Esempio",
       "Scenario"
     ],
     "scenarioOutline": [
+      "Schema dello esempio",
       "Schema dello scenario"
     ],
     "then": [
@@ -2281,9 +2326,11 @@ module.exports={
     "name": "Georgian",
     "native": "ქართველი",
     "scenario": [
+      "მაგალითად",
       "სცენარის"
     ],
     "scenarioOutline": [
+      "მაგალითად ნიმუში",
       "სცენარის ნიმუში"
     ],
     "then": [
@@ -2320,6 +2367,7 @@ module.exports={
     "name": "Kannada",
     "native": "ಕನ್ನಡ",
     "scenario": [
+      "ಉದಾಹರಣೆ",
       "ಕಥಾಸಾರಾಂಶ"
     ],
     "scenarioOutline": [
@@ -2403,6 +2451,7 @@ module.exports={
     "name": "Lithuanian",
     "native": "lietuvių kalba",
     "scenario": [
+      "Pavyzdys",
       "Scenarijus"
     ],
     "scenarioOutline": [
@@ -2444,9 +2493,11 @@ module.exports={
     "name": "Luxemburgish",
     "native": "Lëtzebuergesch",
     "scenario": [
+      "Beispill",
       "Szenario"
     ],
     "scenarioOutline": [
+      "Plang vum Beispill",
       "Plang vum Szenario"
     ],
     "then": [
@@ -2486,9 +2537,11 @@ module.exports={
     "name": "Latvian",
     "native": "latviešu",
     "scenario": [
+      "Piemērs",
       "Scenārijs"
     ],
     "scenarioOutline": [
+      "Piemērs pēc parauga",
       "Scenārijs pēc parauga"
     ],
     "then": [
@@ -2530,6 +2583,7 @@ module.exports={
     "name": "Macedonian",
     "native": "Македонски",
     "scenario": [
+      "Пример",
       "Сценарио",
       "На пример"
     ],
@@ -2664,9 +2718,11 @@ module.exports={
     "name": "Dutch",
     "native": "Nederlands",
     "scenario": [
+      "Voorbeeld",
       "Scenario"
     ],
     "scenarioOutline": [
+      "Abstract Voorbeeld",
       "Abstract Scenario"
     ],
     "then": [
@@ -2704,9 +2760,12 @@ module.exports={
     "name": "Norwegian",
     "native": "norsk",
     "scenario": [
+      "Eksempel",
       "Scenario"
     ],
     "scenarioOutline": [
+      "Eksempelmal",
+      "Abstrakt Eksempel",
       "Scenariomal",
       "Abstrakt Scenario"
     ],
@@ -2747,6 +2806,7 @@ module.exports={
     "name": "Panjabi",
     "native": "ਪੰਜਾਬੀ",
     "scenario": [
+      "ਉਦਾਹਰਨ",
       "ਪਟਕਥਾ"
     ],
     "scenarioOutline": [
@@ -2793,6 +2853,7 @@ module.exports={
     "name": "Polish",
     "native": "polski",
     "scenario": [
+      "Przykład",
       "Scenariusz"
     ],
     "scenarioOutline": [
@@ -2845,10 +2906,13 @@ module.exports={
     "name": "Portuguese",
     "native": "português",
     "scenario": [
+      "Exemplo",
       "Cenário",
       "Cenario"
     ],
     "scenarioOutline": [
+      "Esquema do Exemplo",
+      "Delineação do Exemplo",
       "Esquema do Cenário",
       "Esquema do Cenario",
       "Delineação do Cenário",
@@ -2898,9 +2962,12 @@ module.exports={
     "name": "Romanian",
     "native": "română",
     "scenario": [
+      "Exemplu",
       "Scenariu"
     ],
     "scenarioOutline": [
+      "Structura exemplu",
+      "Structură exemplu",
       "Structura scenariu",
       "Structură scenariu"
     ],
@@ -2950,6 +3017,7 @@ module.exports={
     "name": "Russian",
     "native": "русский",
     "scenario": [
+      "Пример",
       "Сценарий"
     ],
     "scenarioOutline": [
@@ -2997,6 +3065,7 @@ module.exports={
     "name": "Slovak",
     "native": "Slovensky",
     "scenario": [
+      "Príklad",
       "Scenár"
     ],
     "scenarioOutline": [
@@ -3051,8 +3120,8 @@ module.exports={
     "name": "Slovenian",
     "native": "Slovenski",
     "scenario": [
-      "Scenarij",
-      "Primer"
+      "Primer",
+      "Scenarij"
     ],
     "scenarioOutline": [
       "Struktura scenarija",
@@ -3105,6 +3174,7 @@ module.exports={
     "name": "Serbian",
     "native": "Српски",
     "scenario": [
+      "Пример",
       "Сценарио",
       "Пример"
     ],
@@ -3230,7 +3300,7 @@ module.exports={
     "examples": [
       "எடுத்துக்காட்டுகள்",
       "காட்சிகள்",
-      " நிலைமைகளில்"
+      "நிலைமைகளில்"
     ],
     "feature": [
       "அம்சம்",
@@ -3244,6 +3314,7 @@ module.exports={
     "name": "Tamil",
     "native": "தமிழ்",
     "scenario": [
+      "உதாரணமாக",
       "காட்சி"
     ],
     "scenarioOutline": [
@@ -3327,6 +3398,7 @@ module.exports={
     "name": "Telugu",
     "native": "తెలుగు",
     "scenario": [
+      "ఉదాహరణ",
       "సన్నివేశం"
     ],
     "scenarioOutline": [
@@ -3414,9 +3486,11 @@ module.exports={
     "name": "Turkish",
     "native": "Türkçe",
     "scenario": [
+      "Örnek",
       "Senaryo"
     ],
     "scenarioOutline": [
+      "Örnek taslağı",
       "Senaryo taslağı"
     ],
     "then": [
@@ -3501,6 +3575,7 @@ module.exports={
     "name": "Ukrainian",
     "native": "Українська",
     "scenario": [
+      "Приклад",
       "Сценарій"
     ],
     "scenarioOutline": [

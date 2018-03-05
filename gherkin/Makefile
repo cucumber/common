@@ -1,3 +1,4 @@
+SHELL := /usr/bin/env bash
 MAKEFILES=$(wildcard */Makefile)
 EVENT_FILES = $(wildcard testdata/**/*.ndjson)
 SCHEMAS = $(wildcard ../event-protocol/schemas/*.json)

@@ -53,7 +53,7 @@ clean:
 .PHONY: clean
 
 clobber: clean
-	rm -rf lib/gherkin/parser.rb
+	rm -rf lib/gherkin/parser.rb Gemfile.lock
 .PHONY: clobber
 
 lib/gherkin/parser.rb: gherkin.berp gherkin-ruby.razor berp/berp.exe
@@ -64,3 +64,4 @@ lib/gherkin/parser.rb: gherkin.berp gherkin-ruby.razor berp/berp.exe
 
 Gemfile.lock: Gemfile
 	bundle install
+	touch $@

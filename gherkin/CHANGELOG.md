@@ -10,6 +10,10 @@ This document is formatted according to the principles of [Keep A CHANGELOG](htt
 ## [Unreleased] - In Git
 
 ### Added
+* Added `Example` as synonym for `Scenario` and `Example Outline` as 
+  synonym for `Scenario Outline` in English and many other languages.
+  This is to align Gherkin with BDD and Example Mapping terminology.
+  ([aslakhellesoy])
 * Support for Aragonese
   ([#298](https://github.com/cucumber/cucumber/pull/298)
    [danilat])
