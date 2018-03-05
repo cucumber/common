@@ -3,7 +3,7 @@
 #
 FROM alpine:3.7
 
-WORKDIR /app
+WORKDIR /go/src/github.com/cucumber/cucumber
 
 RUN apk add --no-cache --update --upgrade alpine-sdk make bash maven openjdk8 diffutils jq python py-pip ruby ruby-dev perl perl-dev wget rsync go nodejs
 RUN npm install --global yarn

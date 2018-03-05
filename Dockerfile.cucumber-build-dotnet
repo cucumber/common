@@ -1,4 +1,4 @@
 FROM microsoft/dotnet:1.1.2-sdk-jessie
-WORKDIR /app
+WORKDIR /go/src/github.com/cucumber/cucumber
 RUN apt-get update
 RUN apt-get install build-essential jq -y
