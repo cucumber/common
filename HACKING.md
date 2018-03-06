@@ -27,10 +27,26 @@ You can learn more about monrepos here:
 
 Occasionally, a sub directory is promoted to a separate subrepo. The process for doing this is:
 
-    # Create a new, empty subrepo at GitHub.
+Create a new, empty subrepo at GitHub.
     
-    # Initialise the subrepo, for example:
+Initialise the subrepo, for example:
+
     git subrepo init tag-expressions/go --remote https://github.com/cucumber/tag-expressions-go.git
+
+Create an .rsync file, for example:
+
+    ../LICENSE LICENSE
+    ../../.travis/go/.travis.yml .travis.yml
+
+Sync files:
+
+    source scripts/functions.sh && rsync_files
+
+Push to the subrepo:
+
+    git subrepo push tag-expressions/go
+
+Log into Travis and set up build for the new subrepo
 
 ### Docker and CI
 
