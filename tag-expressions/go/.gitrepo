@@ -6,6 +6,6 @@
 [subrepo]
 	remote = https://github.com/cucumber/tag-expressions-go.git
 	branch = master
-	commit = 92e4c2bead3f8f88a1c144b011efbca91bd8599e
+	commit = 88f370f86e24f302b77902545982d408e608ddde
 	cmdver = 0.4.0
-	parent = e8c7b8b95c802aafea0600b5d56bbbb67e687827
+	parent = 16b7d94c84df19df970f5264dbda7604e240771c
