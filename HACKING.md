@@ -29,6 +29,10 @@ Our CI build uses Docker. We have our own docker images defined in `Dockerfile.*
 files. These need to be rebuilt and published manually whenever they change:
 
    source ./scripts/functions.sh
+   # Standard image (for all builds except .NET)
+   docker_build Dockerfile.cucumber-build
+   docker_push Dockerfile.cucumber-build
+   # .NET image (for .NET builds only)
    docker_build Dockerfile.cucumber-build
    docker_push Dockerfile.cucumber-build
 
