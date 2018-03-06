@@ -3,7 +3,7 @@ package tagexpressions_test
 import (
 	"testing"
 
-	tagexpressions "github.com/cucumber/cucumber/tag-expressions/go"
+	tagexpressions "."
 	"github.com/stretchr/testify/require"
 )
 
