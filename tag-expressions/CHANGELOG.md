@@ -8,7 +8,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ## [Unreleased]
 
 ### Added
-N/A
+* Go: New implementation.
+  ([#339](https://github.com/cucumber/cucumber/pull/339)
+   [charlierudolph])
 
 ### Changed
 N/A
