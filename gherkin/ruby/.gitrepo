@@ -6,6 +6,6 @@
 [subrepo]
 	remote = https://github.com/cucumber/gherkin-ruby.git
 	branch = master
-	commit = 427750752aae854b7a51f478170ea670e9a1a19f
-	parent = a1ad3e1a79d65c068f0bb4028b593da1ac4587f7
+	commit = 810913afeaab671e3aa9e16a1960ffe60ca3e3e3
+	parent = aceed2965e6490a317c62f0385bae35a7871d47b
 	cmdver = 0.4.0
