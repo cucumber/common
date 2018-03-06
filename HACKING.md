@@ -35,8 +35,10 @@ Initialise the subrepo, for example:
 
 Create an .rsync file, for example:
 
-    ../LICENSE LICENSE
+    ../../LICENSE LICENSE
     ../../.travis/go/.travis.yml .travis.yml
+
+Update README.md with a build badge for the new subrepo.
 
 Sync files:
 
