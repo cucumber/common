@@ -23,6 +23,15 @@ You can learn more about monrepos here:
 * http://danluu.com/monorepo/
 * https://medium.com/@bebraw/the-case-for-monorepos-907c1361708a
 
+### Adding a new subrepo
+
+Occasionally, a sub directory is promoted to a separate subrepo. The process for doing this is:
+
+    # Create a new, empty subrepo at GitHub.
+    
+    # Initialise the subrepo, for example:
+    git subrepo init tag-expressions/go --remote https://github.com/cucumber/tag-expressions-go.git
+
 ### Docker and CI
 
 Our CI build uses Docker. We have our own docker images defined in `Dockerfile.*`
