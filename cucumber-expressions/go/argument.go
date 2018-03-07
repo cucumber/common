@@ -1,53 +1,39 @@
 package cucumberexpressions
 
+import "fmt"
+
 type Argument struct {
-	group         string
-	parameterType string
+	group         *Group
+	parameterType *ParameterType
 }
 
-//
-// const { CucumberExpressionError } = require('./errors')
-//
-// class Argument {
-//   static build(treeRegexp, text, parameterTypes) {
-//     const group = treeRegexp.match(text)
-//     if (!group) return null
-//
-//     const argGroups = group.children
-//
-//     if (argGroups.length !== parameterTypes.length) {
-//       throw new CucumberExpressionError(
-//         `Expression ${treeRegexp.regexp} has ${
-//           argGroups.length
-//         } capture groups (${argGroups.map(g => g.value)}), but there were ${
-//           parameterTypes.length
-//         } parameter types (${parameterTypes.map(p => p.name)})`
-//       )
-//     }
-//
-//     return parameterTypes.map(
-//       (parameterType, i) => new Argument(argGroups[i], parameterType)
-//     )
-//   }
-//
-//   constructor(group, parameterType) {
-//     this._group = group
-//     this._parameterType = parameterType
-//   }
-//
-//   get group() {
-//     return this._group
-//   }
-//
-//   /**
-//    * Get the value returned by the parameter type's transformer function.
-//    *
-//    * @param thisObj the object in which the transformer function is applied.
-//    */
-//   getValue(thisObj) {
-//     let groupValues = this._group ? this._group.values : null
-//     return this._parameterType.transform(thisObj, groupValues)
-//   }
-// }
-//
-// module.exports = Argument
+func BuildArguments(treeRegexp *TreeRegexp, text string, parameterTypes []*ParameterType) []*Argument {
+	group := treeRegexp.Match(text)
+	if group == nil {
+		return nil
+	}
+	argGroups := group.Children()
+	if len(argGroups) != len(parameterTypes) {
+		panic(fmt.Errorf("%s has %d capture groups (%v), but there were %d parameter types (%v)", treeRegexp.Regexp().String(), len(argGroups), argGroups, len(parameterTypes), parameterTypes))
+	}
+	arguments := make([]*Argument, len(parameterTypes))
+	for i, parameterType := range parameterTypes {
+		arguments[i] = NewArgument(argGroups[i], parameterType)
+	}
+	return arguments
+}
+
+func NewArgument(group *Group, parameterType *ParameterType) *Argument {
+	return &Argument{
+		group:         group,
+		parameterType: parameterType,
+	}
+}
+
+func (a *Argument) Group() *Group {
+	return a.group
+}
+
+func (a *Argument) GetValue() interface{} {
+	return a.parameterType.Transform(a.group.Values())
+}
