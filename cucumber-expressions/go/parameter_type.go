@@ -4,14 +4,14 @@ import "regexp"
 
 type ParameterType struct {
 	name                 string
-	regexps              []regexp.Regexp
+	regexps              []*regexp.Regexp
 	type1                string // Cannot have a field named type as hit a compile error
 	transform            func(...string) interface{}
 	useForSnippets       bool
 	preferForRegexpMatch bool
 }
 
-func NewParameterType(name string, regexps []regexp.Regexp, type1 string, transform func(...string) interface{}, useForSnippets bool, preferForRegexpMatch bool) (*ParameterType, error) {
+func NewParameterType(name string, regexps []*regexp.Regexp, type1 string, transform func(...string) interface{}, useForSnippets bool, preferForRegexpMatch bool) (*ParameterType, error) {
 	if transform == nil {
 		transform = func(s ...string) interface{} {
 			return s
@@ -32,7 +32,7 @@ func (p *ParameterType) Name() string {
 	return p.name
 }
 
-func (p *ParameterType) Regexps() []regexp.Regexp {
+func (p *ParameterType) Regexps() []*regexp.Regexp {
 	return p.regexps
 }
 

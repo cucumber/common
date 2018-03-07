@@ -15,11 +15,11 @@ func NewGeneratedExpression(expressionTemplate string, parameterTypes []*Paramet
 }
 
 func (g *GeneratedExpression) Source() string {
-	names := make([]string, len(g.parameterTypes))
+	names := make([]interface{}, len(g.parameterTypes))
 	for i, p := range g.parameterTypes {
 		names[i] = p.Name()
 	}
-	return fmt.Sprintf(g.expressionTemplate, names)
+	return fmt.Sprintf(g.expressionTemplate, names...)
 }
 
 func (g *GeneratedExpression) ParameterNames() []string {
