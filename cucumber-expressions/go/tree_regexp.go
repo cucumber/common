@@ -89,13 +89,3 @@ func isFlagCharacter(c rune) bool {
 		return false
 	}
 }
-
-//
-//   match(s) {
-//     const match = this._regex.exec(s)
-//     if (!match) return null
-//     let groupIndex = 0
-//     const nextGroupIndex = () => groupIndex++
-//     return this._groupBuilder.build(match, nextGroupIndex)
-//   }
-// }
