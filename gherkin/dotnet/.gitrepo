@@ -6,6 +6,6 @@
 [subrepo]
 	remote = https://github.com/cucumber/gherkin-dotnet.git
 	branch = master
-	commit = 055331b2c337536bb340336e10b20a3c18a16bb7
-	parent = 59297bc2645ae35ea0f59abaf57c4818f208ecc7
+	commit = eae704e84ca3892f20be4be19c0a91c7b3e5b88a
+	parent = 8ee25e7cd3f8ec8d65823589dc21c2e8986aeb67
 	cmdver = 0.4.0
