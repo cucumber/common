@@ -4,7 +4,9 @@
 Functional tests for ``TagExpressionParser.parse()`` and ``Expression.evaluate()``.
 """
 
-from cucumber_tag_expressions.parser import TagExpressionParser
+from __future__ import absolute_import, print_function
+from cucumber_tag_expressions.parser import \
+    TagExpressionParser, TagExpressionError
 import pytest
 
 
@@ -20,6 +22,57 @@ class TestTagExpression(object):
     #     ("not a or b and not c or not d or e and f",
     #         "( ( ( not ( a ) or ( b and not ( c ) ) ) or not ( d ) ) or ( e and f ) )"),
     # ]
+    # -- FROM: Java
+    # {"a and b", "( a and b )"},
+    # {"a or b", "( a or b )"},
+    # {"not a", "not ( a )"},
+    # {"( a and b ) or ( c and d )", "( ( a and b ) or ( c and d ) )"},
+    # {"not a or b and not c or not d or e and f",
+    #  "( ( ( not ( a ) or ( b and not ( c ) ) ) or not ( d ) ) or ( e and f ) )"},
+    # {"not a\\(1\\) or b and not c or not d or e and f",
+    #  "( ( ( not ( a\\(1\\) ) or ( b and not ( c ) ) ) or not ( d ) ) or ( e and f ) )"}
+
+    @pytest.mark.parametrize("tag_expression_text, expected, tags, case", [
+        ("",  True, [],            "no_tags"),
+        ("",  True, ["a"],         "one tag: a"),
+        ("",  True, ["other"],     "one tag: other"),
+    ])
+    def test_empty_expression_is_true(self, tag_expression_text, expected, tags, case):
+        tag_expression = TagExpressionParser.parse(tag_expression_text)
+        assert expected == tag_expression.evaluate(tags)
+
+
+    @pytest.mark.parametrize("tag_expression_text, expected, tags, case", [
+        ("not a", False, ["a", "other"], "two tags: a, other"),
+        ("not a", False, ["a"],     "one tag: a"),
+        ("not a",  True, ["other"], "one tag: other"),
+        ("not a",  True, [],        "no_tags"),
+    ])
+    def test_not_operation(self, tag_expression_text, expected, tags, case):
+        tag_expression = TagExpressionParser.parse(tag_expression_text)
+        assert expected == tag_expression.evaluate(tags)
+
+
+    def test_complex_example(self):
+        tag_expression_text = "not @a or @b and not @c or not @d or @e and @f"
+        tag_expression = TagExpressionParser.parse(tag_expression_text)
+        assert False == tag_expression.evaluate("@a @c @d".split())
+
+    def test_with_escaped_chars(self):
+        # -- SOURCE: TagExpressionParserTest.java
+        # Expression expr = parser.parse("((not @a\\(1\\) or @b\\(2\\)) and not @c\\(3\\) or not @d\\(4\\) or @e\\(5\\) and @f\\(6\\))");
+        # assertFalse(expr.evaluate(asList("@a(1) @c(3) @d(4)".split(" "))));
+        # assertTrue(expr.evaluate(asList("@b(2) @e(5) @f(6)".split(" "))));
+        print("NOT-SUPPORTED-YET")
+
+    @pytest.mark.parametrize("tag_part", ["not", "and", "or"])
+    def test_fails_when_only_operators_are_used(self, tag_part):
+        with pytest.raises(TagExpressionError):
+            # -- EXAMPLE: text = "or or"
+            text = "{part} {part}".format(part=tag_part)
+            TagExpressionParser.parse(text)
+    # -- JAVA-TESTS-END-HERE: TagExpressionParserTest.java
+
 
     @pytest.mark.parametrize("tag_expression_text, expected, tags, case", [
         ("a and b",  True, ["a", "b"],          "both tags"),
@@ -46,31 +99,12 @@ class TestTagExpression(object):
         assert expected == tag_expression.evaluate(tags)
 
     @pytest.mark.parametrize("tag_expression_text, expected, tags, case", [
-        ("not a", False, ["a", "other"], "two tags: a, other"),
-        ("not a", False, ["a"],     "one tag: a"),
-        ("not a",  True, ["other"], "one tag: other"),
-        ("not a",  True, [],        "no_tags"),
-    ])
-    def test_not_operation(self, tag_expression_text, expected, tags, case):
-        tag_expression = TagExpressionParser.parse(tag_expression_text)
-        assert expected == tag_expression.evaluate(tags)
-
-    @pytest.mark.parametrize("tag_expression_text, expected, tags, case", [
         ("a",  True, ["a", "other"], "two tags: a, other"),
         ("a",  True, ["a"],         "one tag: a"),
         ("a", False, ["other"],     "one tag: other"),
         ("a", False, [],            "no_tags"),
     ])
     def test_literal(self, tag_expression_text, expected, tags, case):
-        tag_expression = TagExpressionParser.parse(tag_expression_text)
-        assert expected == tag_expression.evaluate(tags)
-
-    @pytest.mark.parametrize("tag_expression_text, expected, tags, case", [
-        ("",  True, [],            "no_tags"),
-        ("",  True, ["a"],         "one tag: a"),
-        ("",  True, ["other"],     "one tag: other"),
-    ])
-    def test_empty_expression_is_true(self, tag_expression_text, expected, tags, case):
         tag_expression = TagExpressionParser.parse(tag_expression_text)
         assert expected == tag_expression.evaluate(tags)
 
