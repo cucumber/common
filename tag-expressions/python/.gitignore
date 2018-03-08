@@ -12,6 +12,7 @@ __*/
 .eggs/
 .hypothesis/
 .idea/
+.pytest_cache
 .tox/
 .venv*/
 .DS_Store
