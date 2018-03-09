@@ -23,12 +23,14 @@ BOOTSTRAP_DONE_MARKER_FILE := build/.bootstrap.DONE
 BOOTSTRAP_DONE_MARKER_DIR  := $(dir $(BOOTSTRAP_DONE_MARKER_FILE))
 PIPENV := pipenv
 PIPENV_RUN := pipenv run
+PIPENV_VERSION := 8.3.2
 USE_PIPENV := yes
 SUDO := sudo
 
 PY_REQUIREMENT_FILES := \
-	py.requirements/basic.txt \
-	py.requirements/testing.txt \
+	py.requirements/basic_and_testing.txt
+
+PY_REQUIREMENT_OPTIONAL_FILES := \
 	tasks/py.requirements.txt
 
 # -----------------------------------------------------------------------------
@@ -60,7 +62,7 @@ _bootstrap $(BOOTSTRAP_DONE_MARKER_FILE):
 	test -d $(BOOTSTRAP_DONE_MARKER_DIR) || mkdir -p $(BOOTSTRAP_DONE_MARKER_DIR)
 ifeq ($(_PIPENV_RESOLVED),)
 	@echo "INSTALL-REQUIRED: pipenv"
-	$(SUDO) pip install pipenv
+	$(SUDO) pip install pipenv==$(PIPENV_VERSION)
 endif
 	$(PIPENV) install $(addprefix -r ,$(PY_REQUIREMENT_FILES))
 	touch $(BOOTSTRAP_DONE_MARKER_FILE)
