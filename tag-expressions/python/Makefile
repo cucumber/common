@@ -50,12 +50,10 @@ endif
 # MAKE RULES:
 # -----------------------------------------------------------------------------
 $(info USING: $(PIPENV))
-_PIPENV_RESOLVED :=
 
 all: default
 default: bootstrap test
 
-# DISABLED: $(SUDO) pip install $(BOOTSTRAP_PIP_INSTALL_PIPENV_OPTION) pipenv
 bootstrap: $(BOOTSTRAP_DONE_MARKER_FILE)
 _bootstrap $(BOOTSTRAP_DONE_MARKER_FILE):
 	@echo "bootstrap: Python environment ..."
