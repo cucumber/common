@@ -27,11 +27,8 @@ PIPENV_VERSION := 8.3.2
 USE_PIPENV := yes
 SUDO := sudo
 
-PY_REQUIREMENT_FILES := \
-	py.requirements/basic_and_testing.txt
-
-PY_REQUIREMENT_OPTIONAL_FILES := \
-	tasks/py.requirements.txt
+PY_REQUIREMENT_FILES := py.requirements/basic_and_testing.txt
+PY_REQUIREMENT_OPTIONAL_FILES := tasks/py.requirements.txt
 
 # -----------------------------------------------------------------------------
 # MAKE VARIATION LOGIC:
@@ -39,6 +36,10 @@ PY_REQUIREMENT_OPTIONAL_FILES := \
 ifeq ($(CI),true)
   # -- USE: pip (instead of pipenv) in CI environment.
   USE_PIPENV := no
+else
+ifeq ($(TRAVIS),true)
+  USE_PIPENV := no
+endif
 endif
 
 _PIPENV_RESOLVED = $(shell which pipenv)
