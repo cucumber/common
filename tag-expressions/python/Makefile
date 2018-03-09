@@ -30,6 +30,9 @@ SUDO := sudo
 PY_REQUIREMENT_FILES := py.requirements/basic_and_testing.txt
 PY_REQUIREMENT_OPTIONAL_FILES := tasks/py.requirements.txt
 
+PYTHONPATH ?= .
+export PYTHONPATH
+
 # -----------------------------------------------------------------------------
 # MAKE VARIATION LOGIC:
 # -----------------------------------------------------------------------------
