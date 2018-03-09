@@ -16,22 +16,59 @@
 
 .PHONY: clean clean-all default test test.coverage tox
 
+# -----------------------------------------------------------------------------
+# PROJECT CONFIGURATION:
+# -----------------------------------------------------------------------------
 BOOTSTRAP_DONE_MARKER_FILE := build/.bootstrap.DONE
 BOOTSTRAP_DONE_MARKER_DIR  := $(dir $(BOOTSTRAP_DONE_MARKER_FILE))
-PIPENV_OPTIONS :=
+PIPENV := pipenv
+PIPENV_RUN := pipenv run
+USE_PIPENV := yes
+SUDO := sudo
+
+PY_REQUIREMENT_FILES := \
+	py.requirements/basic.txt \
+	py.requirements/testing.txt \
+	tasks/py.requirements.txt
+
+# -----------------------------------------------------------------------------
+# MAKE VARIATION LOGIC:
+# -----------------------------------------------------------------------------
+ifeq ($(CI),true)
+  # -- USE: pip (instead of pipenv) in CI environment.
+  USE_PIPENV := no
+endif
+
+_PIPENV_RESOLVED = $(shell which pipenv)
+ifneq ($(USE_PIPENV),yes)
+    PIPENV := pip
+    PIPENV_RUN :=
+    _PIPENV_RESOLVED := pip
+endif
+
+# -----------------------------------------------------------------------------
+# MAKE RULES:
+# -----------------------------------------------------------------------------
+$(info USING: $(PIPENV))
+_PIPENV_RESOLVED :=
 
 all: default
 default: bootstrap test
 
+# DISABLED: $(SUDO) pip install $(BOOTSTRAP_PIP_INSTALL_PIPENV_OPTION) pipenv
 bootstrap: $(BOOTSTRAP_DONE_MARKER_FILE)
 _bootstrap $(BOOTSTRAP_DONE_MARKER_FILE):
 	@echo "bootstrap: Python environment ..."
 	test -d $(BOOTSTRAP_DONE_MARKER_DIR) || mkdir -p $(BOOTSTRAP_DONE_MARKER_DIR)
-	pip install --user pipenv
-	pipenv $(PIPENV_OPTIONS) install -r py.requirements/basic.txt
-	pipenv install -r py.requirements/testing.txt
-	pipenv install -r tasks/py.requirements.txt
+ifeq ($(_PIPENV_RESOLVED),)
+	@echo "INSTALL-REQUIRED: pipenv"
+	$(SUDO) pip install pipenv
+endif
+	$(PIPENV) install $(addprefix -r ,$(PY_REQUIREMENT_FILES))
 	touch $(BOOTSTRAP_DONE_MARKER_FILE)
+
+#	$(PIPENV) install -r py.requirements/testing.txt
+#	$(PIPENV) install -r tasks/py.requirements.txt
 
 clean:
 	-rm -f $(BOOTSTRAP_DONE_MARKER_FILE)
@@ -42,10 +79,10 @@ clean:
 	-pipenv --rm
 
 test: $(BOOTSTRAP_DONE_MARKER_FILE)
-	pipenv run pytest $(PYTEST_ARGS)
+	$(PIPENV_RUN) pytest $(PYTEST_ARGS)
 
 test.coverage: $(BOOTSTRAP_DONE_MARKER_FILE)
-	pipenv run invoke test.coverage
+	$(PIPENV_RUN) invoke test.coverage
 
 tox: $(BOOTSTRAP_DONE_MARKER_FILE)
-	pipenv run tox $(TOX_ARGS)
+	$(PIPENV_RUN) tox $(TOX_ARGS)
