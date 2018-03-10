@@ -8,7 +8,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ## [Unreleased]
 
 ### Added
-N/A
+* Matching a literal open-parenthesis
+  ([#107](https://github.com/cucumber/cucumber/issues/107)
+   [#333](https://github.com/cucumber/cucumber/issues/333)
+   [#334](https://github.com/cucumber/cucumber/pull/334)
+   [jamis])
 
 ### Changed
 N/A
@@ -17,10 +21,18 @@ N/A
 N/A
 
 ### Removed
-N/A
+* ruby: Support for named capture group in `Regexp`
+  ([#329](https://github.com/cucumber/cucumber/issues/329)
+   [aslakhellesoy])
 
 ### Fixed
 N/A
+
+## [5.0.13] - 2018-01-21
+
+### Fixed
+* Fixed *yet* another regression introduced by [#324](https://github.com/cucumber/cucumber/pull/324)
+  and simplified capture group parsing in `TreeRegexp` to reduce likelihood of more bugs.
 
 ## [5.0.12] - 2018-01-19
 
@@ -306,7 +318,8 @@ N/A
 * First stable release!
 
 <!-- Releases -->
-[Unreleased]: https://github.com/cucumber/cucumber/compare/cucumber-expressions-v5.0.12...master
+[Unreleased]: https://github.com/cucumber/cucumber/compare/cucumber-expressions-v5.0.13...master
+[5.0.13]:     https://github.com/cucumber/cucumber/compare/cucumber-expressions-v5.0.12...cucumber-expressions-v5.0.13
 [5.0.12]:     https://github.com/cucumber/cucumber/compare/cucumber-expressions-v5.0.11...cucumber-expressions-v5.0.12
 [5.0.11]:     https://github.com/cucumber/cucumber/compare/cucumber-expressions-v5.0.10...cucumber-expressions-v5.0.11
 [5.0.10]:     https://github.com/cucumber/cucumber/compare/cucumber-expressions-v5.0.7...cucumber-expressions-v5.0.10
@@ -336,6 +349,7 @@ N/A
 [charlierudolph]:   https://github.com/charlierudolph
 [dmeehan1968]:      https://github.com/dmeehan1968
 [gpichot]:          https://github.com/gpichot
+[jamis]:            https://github.com/jamis
 [jaysonesmith]:     https://github.com/jaysonesmith
 [luke-hill]:        https://github.com/luke-hill
 [mpkorstanje]:      https://github.com/mpkorstanje

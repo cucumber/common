@@ -23,12 +23,43 @@ You can learn more about monrepos here:
 * http://danluu.com/monorepo/
 * https://medium.com/@bebraw/the-case-for-monorepos-907c1361708a
 
+### Adding a new subrepo
+
+Occasionally, a sub directory is promoted to a separate subrepo. The process for doing this is:
+
+Create a new, empty subrepo at GitHub.
+    
+Initialise the subrepo, for example:
+
+    git subrepo init tag-expressions/go --remote https://github.com/cucumber/tag-expressions-go.git
+
+Create an .rsync file, for example:
+
+    ../../LICENSE LICENSE
+    ../../.travis/go/.travis.yml .travis.yml
+
+Update README.md with a build badge for the new subrepo.
+
+Sync files:
+
+    source scripts/functions.sh && rsync_files
+
+Push to the subrepo:
+
+    git subrepo push tag-expressions/go
+
+Log into Travis and set up build for the new subrepo
+
 ### Docker and CI
 
 Our CI build uses Docker. We have our own docker images defined in `Dockerfile.*`
 files. These need to be rebuilt and published manually whenever they change:
 
    source ./scripts/functions.sh
+   # Standard image (for all builds except .NET)
+   docker_build Dockerfile.cucumber-build
+   docker_push Dockerfile.cucumber-build
+   # .NET image (for .NET builds only)
    docker_build Dockerfile.cucumber-build
    docker_push Dockerfile.cucumber-build
 

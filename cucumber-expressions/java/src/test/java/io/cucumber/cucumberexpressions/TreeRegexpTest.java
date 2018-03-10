@@ -96,6 +96,13 @@ public class TreeRegexpTest {
     }
 
     @Test
+    public void works_digit_and_word() {
+        TreeRegexp tr = new TreeRegexp("^(\\d) (\\w+)$");
+        Group g = tr.match("2 you");
+        assertEquals(2, g.getChildren().size());
+    }
+
+    @Test
     public void captures_start_and_end() {
         TreeRegexp tr = new TreeRegexp("^the step \"([^\"]*)\" has status \"([^\"]*)\"$");
         Group g = tr.match("the step \"a pending step\" has status \"pending\"");

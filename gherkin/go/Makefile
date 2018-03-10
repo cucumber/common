@@ -1,5 +1,4 @@
 SHELL := /usr/bin/env bash
-ALPINE := $(shell which apk 2> /dev/null)
 GOOD_FEATURE_FILES = $(shell find testdata/good -name "*.feature")
 BAD_FEATURE_FILES  = $(shell find testdata/bad -name "*.feature")
 
@@ -9,19 +8,13 @@ PICKLES  = $(patsubst testdata/%.feature,acceptance/testdata/%.feature.pickles.n
 SOURCES  = $(patsubst testdata/%.feature,acceptance/testdata/%.feature.source.ndjson,$(GOOD_FEATURE_FILES))
 ERRORS   = $(patsubst testdata/%.feature,acceptance/testdata/%.feature.errors.ndjson,$(BAD_FEATURE_FILES))
 
-GO_SOURCE_FILES = $(shell find . -name "*.go") parser.go dialects_builtin.go
+GO_SOURCE_FILES = $(shell find . -name "*.go")
 
 export GOPATH = $(realpath ./)
 
-ifdef ALPINE
-	DEFAULT_TARGET=skip_build
-else
-	DEFAULT_TARGET=.compared
-endif
-
 .DELETE_ON_ERROR:
 
-default: $(DEFAULT_TARGET)
+default: .compared
 .PHONY: default
 
 skip_build:
@@ -32,7 +25,6 @@ skip_build:
 	touch $@
 
 .built: show-version-info $(GO_SOURCE_FILES) bin/gherkin-generate-tokens bin/gherkin
-	go test -race
 	go vet
 	touch $@
 
@@ -40,10 +32,10 @@ show-version-info:
 	go version
 PHONY: show-version-info
 
-bin/gherkin-generate-tokens: $(GO_SOURCE_FILES)
+bin/gherkin-generate-tokens: $(GO_SOURCE_FILES) parser.go dialects_builtin.go
 	go build -o $@ ./gherkin-generate-tokens
 
-bin/gherkin: $(GO_SOURCE_FILES)
+bin/gherkin: $(GO_SOURCE_FILES) parser.go dialects_builtin.go
 	go build -o $@ ./cli
 
 acceptance/testdata/%.feature.tokens: testdata/%.feature testdata/%.feature.tokens bin/gherkin-generate-tokens

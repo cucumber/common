@@ -66,10 +66,7 @@ function rsync_files()
 function subrepos()
 {
   dir=$1
-  if [ -n "${dir}" ]; then
-    dir="${dir}/"
-  fi
-  git ls-files "${dir}**/.gitrepo" | xargs -n 1 dirname
+  git ls-files "${dir}" | grep .gitrepo | xargs -n 1 dirname
 }
 
 # Prints the remote (git URL) of a subrepo

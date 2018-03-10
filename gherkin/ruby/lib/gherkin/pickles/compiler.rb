@@ -102,6 +102,9 @@ module Gherkin
             location: pickle_location(argument[:location]),
             content: interpolate(argument[:content], variable_cells, value_cells)
           }
+          if argument.key?(:contentType)
+            doc_string[:contentType] = interpolate(argument[:contentType], variable_cells, value_cells)
+          end
           result.push(doc_string)
         else
           raise 'Internal error'

@@ -11,11 +11,14 @@ namespace Gherkin.Pickles
         }
 
         public string Content { get; private set; }
+        
+        public string ContentType { get; private set; }
 
-        public PickleString(PickleLocation location, string content)
+        public PickleString(PickleLocation location, string content, string contentType = null)
         {
             this.location = location;
             Content = content;
+            ContentType = contentType;
         }
     }
 }

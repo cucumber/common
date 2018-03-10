@@ -1,26 +1,21 @@
 require 'cucumber/cucumber_expressions/group_builder'
+require 'cucumber/cucumber_expressions/errors'
 
 module Cucumber
   module CucumberExpressions
     class TreeRegexp
-      REGEXP_CHARS = ['#', '$', '(', ')', '*', '+', '.', '?', '[', '\\', '^', '{', '|']
-
       attr_reader :regexp, :group_builder
 
       def initialize(regexp)
         @regexp = regexp.is_a?(Regexp) ? regexp : Regexp.new(regexp)
-
         stack = [GroupBuilder.new]
         group_start_stack = []
         last = nil
         escaping = false
         non_capturing_maybe = false
+
         @regexp.source.split('').each_with_index do |c, n|
-          if escaping && regexp_char?(c)
-            escaping = false
-          elsif c == '\\'
-            escaping = true
-          elsif c == '(' && !escaping
+          if c == '(' && !escaping
             stack.push(GroupBuilder.new)
             group_start_stack.push(n+1)
             non_capturing_maybe = false
@@ -39,14 +34,14 @@ module Cucumber
           elsif c == ':' && non_capturing_maybe
             stack.last.set_non_capturing!
             non_capturing_maybe = false
+          elsif c == '<' && non_capturing_maybe
+            raise CucumberExpressionError.new("Named capture groups are not supported. See https://github.com/cucumber/cucumber/issues/329")
           end
+
+          escaping = c == '\\' && !escaping
           last = c
         end
         @group_builder = stack.pop
-      end
-
-      def regexp_char?(c)
-        REGEXP_CHARS.include?(c)
       end
 
       def match(s)

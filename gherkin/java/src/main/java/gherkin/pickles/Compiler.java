@@ -152,7 +152,8 @@ public class Compiler {
             result.add(
                     new PickleString(
                             pickleLocation(ds.getLocation()),
-                            interpolate(ds.getContent(), variableCells, valueCells)
+                            interpolate(ds.getContent(), variableCells, valueCells),
+                            ds.getContentType() == null ? null : interpolate(ds.getContentType(), variableCells, valueCells)
                     )
             );
         } else {

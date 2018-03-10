@@ -65,6 +65,12 @@ module Cucumber
         expect(group.children.length).to eq(1)
       end
 
+      it 'works with digit and word' do
+        tr = TreeRegexp.new(/^(\d) (\w+)$/)
+        group = tr.match("2 you")
+        expect(group.children.length).to eq(2)
+      end
+
       it 'captures non capturing groups with capturing groups inside' do
         tr = TreeRegexp.new(/the stdout(?: from "(.*?)")?/)
         group = tr.match("the stdout")
@@ -77,6 +83,13 @@ module Cucumber
         tr = TreeRegexp.new(/HELLO/i)
         group = tr.match("hello")
         expect(group.value).to eq("hello")
+      end
+
+      it 'throws an error when there are named capture groups because they are buggy in Ruby' do
+        # https://github.com/cucumber/cucumber/issues/329
+        expect {
+          TreeRegexp.new(/^I am a person( named "(?<first_name>.+) (?<last_name>.+)")?$/)
+        }.to raise_error(/Named capture groups are not supported/)
       end
     end
   end

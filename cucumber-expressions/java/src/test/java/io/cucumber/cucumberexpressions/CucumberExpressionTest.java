@@ -52,7 +52,6 @@ public class CucumberExpressionTest {
         assertEquals(asList("blind", "crippled"), match("three {string} and {string} mice", "three 'blind' and 'crippled' mice"));
     }
 
-
     @Test
     public void does_not_match_misquoted_string() {
         assertEquals(null, match("three {string} mice", "three \"blind' mice"));
@@ -76,6 +75,11 @@ public class CucumberExpressionTest {
     @Test
     public void matches_single_quoted_string_with_escaped_single_quote() {
         assertEquals(singletonList("bl'nd"), match("three {string} mice", "three 'bl\\'nd' mice"));
+    }
+
+    @Test
+    public void matches_escaped_parenthesis() {
+        assertEquals(singletonList("blind"), match("three \\(exceptionally) {string} mice", "three (exceptionally) \"blind\" mice"));
     }
 
     @Test

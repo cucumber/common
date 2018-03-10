@@ -579,6 +579,51 @@ module.exports={
       "Երբ "
     ]
   },
+  "an": {
+    "and": [
+      "* ",
+      "Y ",
+      "E "
+    ],
+    "background": [
+      "Antecedents"
+    ],
+    "but": [
+      "* ",
+      "Pero "
+    ],
+    "examples": [
+      "Eixemplos"
+    ],
+    "feature": [
+      "Caracteristica"
+    ],
+    "given": [
+      "* ",
+      "Dau ",
+      "Dada ",
+      "Daus ",
+      "Dadas "
+    ],
+    "name": "Aragonese",
+    "native": "Aragonés",
+    "scenario": [
+      "Caso"
+    ],
+    "scenarioOutline": [
+      "Esquema del caso"
+    ],
+    "then": [
+      "* ",
+      "Alavez ",
+      "Allora ",
+      "Antonces "
+    ],
+    "when": [
+      "* ",
+      "Cuan "
+    ]
+  },
   "ar": {
     "and": [
       "* ",
@@ -6301,8 +6346,11 @@ function Compiler() {
     } else if (argument.type === 'DocString') {
       var docString = {
         location: pickleLocation(argument.location),
-        content: interpolate(argument.content, variableCells, valueCells)
+        content: interpolate(argument.content, variableCells, valueCells),
       };
+      if(argument.contentType) {
+        docString.contentType = interpolate(argument.contentType, variableCells, valueCells);
+      }
       result.push(docString);
     } else {
       throw Error('Internal error');
