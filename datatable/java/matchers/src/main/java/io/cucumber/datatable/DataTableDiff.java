@@ -4,7 +4,7 @@ import java.util.AbstractMap.SimpleEntry;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DataTableDiff {
+class DataTableDiff {
 
     private final List<List<String>> table;
     private final List<DiffType> diffTypes;
@@ -25,7 +25,7 @@ public class DataTableDiff {
         this.diffTypes = diffTypes;
     }
 
-    public boolean isEmpty() {
+    boolean isEmpty() {
         return !diffTypes.contains(DiffType.DELETE) && !diffTypes.contains(DiffType.INSERT);
     }
 

@@ -3,8 +3,8 @@ package io.cucumber.datatable;
 import java.util.List;
 
 class DiffableRow {
-    public final List<String> row;
-    public final List<String> convertedRow;
+    final List<String> row;
+    private final List<String> convertedRow;
 
     DiffableRow(List<String> row, List<String> convertedRow) {
         this.row = row;

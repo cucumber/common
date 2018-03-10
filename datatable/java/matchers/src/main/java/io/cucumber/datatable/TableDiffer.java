@@ -10,12 +10,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public final class TableDiffer {
+final class TableDiffer {
 
     private final DataTable from;
     private final DataTable to;
 
-    public TableDiffer(DataTable fromTable, DataTable toTable) {
+    TableDiffer(DataTable fromTable, DataTable toTable) {
         checkColumns(fromTable, toTable);
         this.from = fromTable;
         this.to = toTable;
@@ -27,7 +27,7 @@ public final class TableDiffer {
         }
     }
 
-    public DataTableDiff calculateDiffs() {
+    DataTableDiff calculateDiffs() {
         Map<Integer, Delta> deltasByLine = createDeltasByLine();
         return createTableDiff(deltasByLine);
     }
@@ -41,7 +41,7 @@ public final class TableDiffer {
         return result;
     }
 
-    public DataTableDiff calculateUnorderedDiffs() {
+    DataTableDiff calculateUnorderedDiffs() {
         List<SimpleEntry<List<String>, DiffType>> diffTableRows = new ArrayList<>();
 
         ArrayList<List<String>> extraRows = new ArrayList<>();

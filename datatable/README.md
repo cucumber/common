@@ -337,7 +337,7 @@ A table provides these operations:
 * **transpose** returns a transposed table
 * **height** returns the height of the table
 * **width** returns the width of the table
-* **cells** returns the cells of the table
+* **cells** returns the cells of the table as a list of lists
 * **row(index)** returns a single row
 * **rows(fromRow, toRow)** returns table containing the rows between `fromRow`
   (inclusive) to `toRow` (exclusive).
@@ -347,7 +347,12 @@ A table provides these operations:
 * **subTable(fromRow, fromColumn, toRow, toColumn)** returns a containing the 
   columns between `fromRow` and `fromColumn` (inclusive) to `toRow` and `toColumn` (exclusive).
 
-Additionally it should provide methods to conveniently convert the table into other data structures.
+Additionally it should provide methods to conveniently convert the table into
+other data structures using the the transformers from the previous section.
+
+* **asList|Lists(type)** converts a table to list or list of a given type.
+* **asMap|Maps(keyType, valueType)** converts a table to map of key to value types.
+* **convert(type)** converts a table to an object of an arbitrary type.    
 
 ## For contributors
 
