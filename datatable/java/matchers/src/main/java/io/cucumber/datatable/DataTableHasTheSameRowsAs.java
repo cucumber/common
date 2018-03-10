@@ -4,6 +4,16 @@ import org.hamcrest.Description;
 import org.hamcrest.Factory;
 import org.hamcrest.TypeSafeDiagnosingMatcher;
 
+/**
+ * Matches two data tables by their rows. By default the matcher
+ * does not take row order into account. This can be fluently
+ * enabled.
+ *
+ * <pre>
+ *   assertThat(identical, hasTheSameRowsAs(table).inOrder());
+ *   assertThat(shuffled, hasTheSameRowsAs(table));
+ * </pre>
+ */
 public class DataTableHasTheSameRowsAs extends TypeSafeDiagnosingMatcher<DataTable> {
     private final DataTable expectedValue;
     private final boolean unordered;
@@ -35,6 +45,11 @@ public class DataTableHasTheSameRowsAs extends TypeSafeDiagnosingMatcher<DataTab
         return false;
     }
 
+    /**
+     * Compare the rows of the data table in order.
+     *
+     * @return a new matcher that compares the rows of the data table in order.
+     */
     public DataTableHasTheSameRowsAs inOrder() {
         return new DataTableHasTheSameRowsAs(expectedValue, false);
     }
