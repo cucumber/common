@@ -54,21 +54,6 @@ public class GherkinDialectProvider implements IGherkinDialectProvider {
     }
 
     @Override
-    public List<GherkinDialect> getDialects() {
-        List<String> languages = new ArrayList<>(DIALECTS.keySet());
-        sort(languages);
-
-        List<GherkinDialect> dialects = new LinkedList<>();
-
-        for (String language : languages) {
-            GherkinDialect dialect = getDialect(language, null);
-            dialects.add(dialect);
-        }
-
-        return dialects;
-    }
-
-    @Override
     public List<String> getLanguages() {
         List<String> languages = new ArrayList<>(DIALECTS.keySet());
         sort(languages);

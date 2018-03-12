@@ -24,16 +24,6 @@ public class GherkinDialectProviderTest {
     }
 
     @Test
-    public void should_include_swedish_in_dialects() {
-        GherkinDialectProvider gherkinDialectProvider = new GherkinDialectProvider();
-        GherkinDialect expected = gherkinDialectProvider.getDialect("sv", null);
-
-        List<GherkinDialect> actual = gherkinDialectProvider.getDialects();
-
-        assertTrue("Swedish with explanation should be available", actual.contains(expected));
-    }
-
-    @Test
     public void should_find_Swedish_in_sv_dialect() {
         GherkinDialectProvider gherkinDialectProvider = new GherkinDialectProvider();
         GherkinDialect actual = gherkinDialectProvider.getDialect("sv", null);
