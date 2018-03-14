@@ -10,7 +10,12 @@ import static org.junit.Assert.assertEquals;
 public class OptparseConfigLoaderTest extends ConfigLoaderContract {
     @Override
     protected ConfigLoader makeConfigLoader() {
-        return new OptparseConfigLoader("testing.", asList("--somebool", "--meaning", "42"));
+        return new OptparseConfigLoader("testing.", asList(
+                "--somebool",
+                "--meaning", "42",
+                "--list", "one",
+                "--list", "two"
+        ));
     }
 
     @Test

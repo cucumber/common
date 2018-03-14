@@ -8,6 +8,7 @@ public class EnvironmentVariablesConfigLoaderTest extends ConfigLoaderContract {
         return new EnvironmentVariablesConfigLoader(new HashMap<String, String>() {{
             put("TESTING_SOMEBOOL", "true");
             put("TESTING_MEANING", "42");
+            put("TESTING_LIST", "one,two");
         }});
     }
 }

@@ -8,6 +8,7 @@ public class SystemPropertiesConfigLoaderTest extends ConfigLoaderContract {
         return new SystemPropertiesConfigLoader(new HashMap<Object, Object>() {{
             put("testing.somebool", "true");
             put("testing.meaning", "42");
+            put("testing.list", "one,two");
         }});
     }
 }

@@ -19,7 +19,10 @@ public class EnvironmentVariablesConfigLoader implements ConfigLoader {
     public void load(Config config) {
         for (Map.Entry<String, String> entry : env.entrySet()) {
             String key = entry.getKey();
-            config.set(key, entry.getValue());
+            String[] values = entry.getValue().split(",");
+            for (String value : values) {
+                config.set(key, value);
+            }
         }
     }
 }

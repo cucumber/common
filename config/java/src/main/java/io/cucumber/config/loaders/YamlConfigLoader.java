@@ -1,11 +1,12 @@
 package io.cucumber.config.loaders;
 
-import io.cucumber.config.Property;
 import io.cucumber.config.Config;
+import io.cucumber.config.Property;
 import io.cucumber.config.Value;
 import org.yaml.snakeyaml.Yaml;
 
 import java.io.Reader;
+import java.util.List;
 import java.util.Map;
 
 public class YamlConfigLoader implements ConfigLoader {
@@ -37,6 +38,11 @@ public class YamlConfigLoader implements ConfigLoader {
             } else if (value instanceof Map) {
                 Value childConfig = config.getChild(property);
                 populate(childConfig, (Map<String, Object>) value);
+            } else if (value instanceof List) {
+                List<String> values = (List<String>) value;
+                for (String v : values) {
+                    config.setValue(property, Property.fromString(v));
+                }
             } else {
                 throw new RuntimeException(String.format("Unsupported YAML type: %s (%s)", value, value.getClass()));
             }

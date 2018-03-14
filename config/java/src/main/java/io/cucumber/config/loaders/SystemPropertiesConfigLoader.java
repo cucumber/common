@@ -21,7 +21,9 @@ public class SystemPropertiesConfigLoader implements ConfigLoader {
             Object key = entry.getKey();
             Object value = entry.getValue();
             if (key instanceof String && value instanceof String) {
-                config.set((String) key, (String) value);
+                for (String v: ((String) value).split(",")) {
+                    config.set((String) key, v);
+                }
             }
         }
     }

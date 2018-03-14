@@ -13,7 +13,11 @@ public class YamlConfigLoaderTest extends ConfigLoaderContract {
         return new YamlConfigLoader(new StringReader("" +
                 "testing:\n" +
                 "  somebool: true\n" +
-                "  meaning: 42\n"));
+                "  meaning: 42\n" +
+                "  list:\n" +
+                "  - one\n" +
+                "  - two\n"
+        ));
     }
 
     @Test
