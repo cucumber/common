@@ -11,38 +11,37 @@ public class YamlConfigLoaderTest extends ConfigLoaderContract {
     @Override
     protected ConfigLoader makeConfigLoader() {
         return new YamlConfigLoader(new StringReader("" +
-                "cucumber:\n" +
-                "  help: true\n"));
+                "testing:\n" +
+                "  somebool: true\n"));
     }
 
     @Test
     public void removes_underscores_from_keys() {
         Config config = new Config();
         ConfigLoader configLoader = new YamlConfigLoader(new StringReader("" +
-                "cucumber:\n" +
+                "testing:\n" +
                 "  f_or_mat_: progress\n"));
         configLoader.load(config);
 
-        assertEquals("progress", config.getString("cucumber.format"));
+        assertEquals("progress", config.getString("testing.format"));
     }
 
     @Test
     public void merges() {
         Config config = new Config();
         new YamlConfigLoader(new StringReader("" +
-                "cucumberpro:\n" +
+                "testing:\n" +
                 "  one: un\n")).load(config);
 
         new YamlConfigLoader(new StringReader("" +
-                "cucumberpro:\n" +
+                "testing:\n" +
                 "  two: deux\n")).load(config);
 
         String yaml = "" +
-                "cucumberpro:\n" +
+                "testing:\n" +
                 "  one: un\n" +
                 "  two: deux\n";
-        assertEquals(yaml, config.toYaml("cucumberpro"));
-
+        assertEquals(yaml, config.toYaml("testing"));
     }
 
     @Test

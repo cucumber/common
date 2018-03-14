@@ -6,7 +6,7 @@ public class EnvironmentVariablesConfigLoaderTest extends ConfigLoaderContract {
     @Override
     protected ConfigLoader makeConfigLoader() {
         return new EnvironmentVariablesConfigLoader(new HashMap<String, String>() {{
-            put("CUCUMBER_HELP", "true");
+            put("TESTING_SOMEBOOL", "true");
         }});
     }
 }

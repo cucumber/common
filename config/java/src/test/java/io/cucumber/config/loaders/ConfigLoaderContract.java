@@ -7,13 +7,15 @@ import static org.junit.Assert.assertEquals;
 
 public abstract class ConfigLoaderContract {
     @Test
-    public void creates_map_with_env() {
+    public void configures_boolean() {
+        assertEquals(true, loadConfig().getBoolean("testing.somebool"));
+    }
+
+    private Config loadConfig() {
         Config config = new Config();
         ConfigLoader configLoader = makeConfigLoader();
         configLoader.load(config);
-
-        assertEquals(true, config.getBoolean("cucumber.help"));
-        assertEquals(true, config.getBoolean("CUCUMBER_HELP"));
+        return config;
     }
 
     protected abstract ConfigLoader makeConfigLoader();
