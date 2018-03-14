@@ -3,6 +3,7 @@
 #
 #     source scripts/functions.sh && rsync_files
 #
+sudo: false
 language: node_js
 node_js:
   - "9"
