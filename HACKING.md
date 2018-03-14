@@ -27,22 +27,39 @@ You can learn more about monrepos here:
 
 Occasionally, a sub directory is promoted to a separate subrepo. The process for doing this is:
 
-Create a new, empty subrepo at GitHub.
-    
-Initialise the subrepo, for example:
+#### Create a new directory in the monorepo    
 
-    git subrepo init tag-expressions/go --remote https://github.com/cucumber/tag-expressions-go.git
+    mkdir -p tag-expressions/go
 
-Create an .rsync file, for example:
+#### Add initial files
+
+In the new directory, create the following files:
+
+`.rsync` ,with the following sample contents (adapt to the programming language):
 
     ../../LICENSE LICENSE
     ../../.travis/go/.travis.yml .travis.yml
 
-Update README.md with a build badge for the new subrepo.
+`README.md` with a build badge for the new subrepo. For example:
 
-Sync files:
+    # Tag Expressions for Go
 
+    [![Build Status](https://travis-ci.org/cucumber/tag-expressions-go.svg?branch=master)](https://travis-ci.org/cucumber/tag-expressions-go)
+
+    [The docs are here](http://docs.cucumber.io/tag-expressions/).
+
+#### Sync files
+
+    git add .
     source scripts/functions.sh && rsync_files
+    git add .
+    git commit -m "New project"
+
+#### Create a new, empty subrepo at GitHub.
+
+Initialise the subrepo, for example:
+    
+    git subrepo init tag-expressions/go --remote https://github.com/cucumber/tag-expressions-go.git
 
 Push to the subrepo:
 
