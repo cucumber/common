@@ -12,7 +12,7 @@ public class YamlConfigLoaderTest extends ConfigLoaderContract {
     protected ConfigLoader makeConfigLoader() {
         return new YamlConfigLoader(new StringReader("" +
                 "cucumber:\n" +
-                "  format: progress\n"));
+                "  help: true\n"));
     }
 
     @Test

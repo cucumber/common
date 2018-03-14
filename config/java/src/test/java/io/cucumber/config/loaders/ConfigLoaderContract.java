@@ -12,8 +12,8 @@ public abstract class ConfigLoaderContract {
         ConfigLoader configLoader = makeConfigLoader();
         configLoader.load(config);
 
-        assertEquals("progress", config.getString("cucumber.format"));
-        assertEquals("progress", config.getString("CUCUMBER_FORMAT"));
+        assertEquals(true, config.getBoolean("cucumber.help"));
+        assertEquals(true, config.getBoolean("CUCUMBER_HELP"));
     }
 
     protected abstract ConfigLoader makeConfigLoader();
