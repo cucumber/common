@@ -55,7 +55,11 @@ In the new directory, create the following files:
     git add .
     git commit -m "New project"
 
-#### Create a new, empty subrepo at GitHub.
+#### Create new subrepo.
+
+Create a new, empty subrepo at GitHub
+
+Log into Travis and set up build for the new (empty) subrepo
 
 Initialise the subrepo, for example:
     
@@ -65,7 +69,9 @@ Push to the subrepo:
 
     git subrepo push tag-expressions/go
 
-Log into Travis and set up build for the new subrepo
+Wait for Travis to build.
+
+Write some code in the monorepo, and push whenever you want to sync to the subrepo.
 
 ### Docker and CI
 
