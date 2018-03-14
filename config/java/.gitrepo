@@ -6,5 +6,6 @@
 [subrepo]
 	remote = https://github.com/cucumber/config-java.git
 	branch = master
-	commit = 
+	commit = fd5aec46da82877684950fe60df3285a963f8371
 	cmdver = 0.4.0
+	parent = 9e9286cf7585bf7352d8e1ec1c96f5db2450b344
