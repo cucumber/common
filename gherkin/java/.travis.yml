@@ -1,4 +1,4 @@
-# Please update /.travis/javas/.travis.yml in the cucumber/cucumber monorepo
+# Please update /.travis/java/.travis.yml in the cucumber/cucumber monorepo
 # and sync:
 #
 #     source scripts/functions.sh && rsync_files
