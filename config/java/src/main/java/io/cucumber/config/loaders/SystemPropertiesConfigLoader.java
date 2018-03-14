@@ -1,6 +1,7 @@
 package io.cucumber.config.loaders;
 
 import io.cucumber.config.Config;
+import io.cucumber.config.Property;
 
 import java.util.Map;
 
@@ -22,7 +23,7 @@ public class SystemPropertiesConfigLoader implements ConfigLoader {
             Object value = entry.getValue();
             if (key instanceof String && value instanceof String) {
                 for (String v: ((String) value).split(",")) {
-                    config.set((String) key, v);
+                    config.set((String) key, new Property(v));
                 }
             }
         }

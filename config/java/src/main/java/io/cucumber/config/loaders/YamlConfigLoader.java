@@ -30,7 +30,7 @@ public class YamlConfigLoader implements ConfigLoader {
             if (value == null) {
                 config.setNull(property);
             } else if (value instanceof String) {
-                config.setValue(property, Property.fromString((String) value));
+                config.setValue(property, new Property((String) value));
             } else if (value instanceof Boolean) {
                 config.setValue(property, Property.fromBoolean((Boolean) value));
             } else if (value instanceof Integer) {
@@ -41,7 +41,7 @@ public class YamlConfigLoader implements ConfigLoader {
             } else if (value instanceof List) {
                 List<String> values = (List<String>) value;
                 for (String v : values) {
-                    config.setValue(property, Property.fromString(v));
+                    config.setValue(property, new Property(v));
                 }
             } else {
                 throw new RuntimeException(String.format("Unsupported YAML type: %s (%s)", value, value.getClass()));

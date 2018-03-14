@@ -1,6 +1,7 @@
 package io.cucumber.config.loaders;
 
 import io.cucumber.config.Config;
+import io.cucumber.config.Property;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,9 +35,9 @@ public class OptparseConfigLoader implements ConfigLoader {
         void update(Config config) {
             String key = prefix + name;
             if (value == null) {
-                config.set(key, true);
+                config.set(key, new Property("true"));
             } else {
-                config.set(key, value);
+                config.set(key, new Property(value));
             }
         }
 

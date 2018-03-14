@@ -48,16 +48,8 @@ public class Config implements Value {
         throw new RuntimeException("Can't override config as property");
     }
 
-    public void set(String key, String value) {
-        setIn(normalize(key), Property.fromString(value));
-    }
-
-    public void set(String key, int value) {
-        setIn(normalize(key), Property.fromInteger(value));
-    }
-
-    public void set(String key, boolean value) {
-        setIn(normalize(key), Property.fromBoolean(value));
+    public void set(String key, Value value) {
+        setIn(normalize(key), value);
     }
 
     @Override

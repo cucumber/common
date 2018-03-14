@@ -13,15 +13,15 @@ public class ConfigTest {
     @Test
     public void gets_and_sets_value() {
         Config config = new Config();
-        config.set("name", "progress");
+        config.set("name", new Property("progress"));
         assertEquals("progress", config.getString("name"));
     }
 
     @Test
     public void gets_boolean() {
         Config config = new Config();
-        config.set("a", true);
-        config.set("b", false);
+        config.set("a", new Property("true"));
+        config.set("b", new Property("false"));
 
         assertTrue(config.getBoolean("a"));
         assertFalse(config.getBoolean("b"));
@@ -32,7 +32,7 @@ public class ConfigTest {
         Config config = new Config();
         config.getChild("sub");
         try {
-            config.set("sub", 3);
+            config.set("sub", new Property("3"));
             fail();
         } catch (RuntimeException expected) {
             assertEquals("Can't override config as property", expected.getMessage());
@@ -43,8 +43,8 @@ public class ConfigTest {
     public void appends_to_list() {
         Config config = new Config();
         config.setValue("list", new PropertyList());
-        config.setValue("list", Property.fromString("one"));
-        config.setValue("list", Property.fromString("two"));
+        config.setValue("list", new Property("one"));
+        config.setValue("list", new Property("two"));
         Value l = config.getValue("list");
         List<Value> list = l.asList();
         assertEquals("one", list.get(0).asString());
@@ -58,7 +58,7 @@ public class ConfigTest {
         Value one = root.getChild("one");
         Value two = one.getChild("two");
 
-        two.setValue("hello", Property.fromString("world"));
+        two.setValue("hello", new Property("world"));
         assertEquals("world", root.getString("one.two.hello"));
     }
 
@@ -82,8 +82,8 @@ public class ConfigTest {
     @Test
     public void set_value_is_not_null() {
         Config config = new Config();
-        config.set("booya.kasha", "wat");
-        config.set("ninky", "nonk");
+        config.set("booya.kasha", new Property("wat"));
+        config.set("ninky", new Property("nonk"));
         assertFalse(config.isNull("booya.kasha"));
         assertFalse(config.isNull("ninky"));
     }
@@ -91,10 +91,10 @@ public class ConfigTest {
     @Test
     public void has_yaml_representation() {
         Config config = new Config();
-        config.set("a.b.c.d.e", "1");
-        config.set("aa.x.y.z", "X");
-        config.set("a.c.d.e", "3");
-        config.set("a.d.e", "4");
+        config.set("a.b.c.d.e", new Property("1"));
+        config.set("aa.x.y.z", new Property("X"));
+        config.set("a.c.d.e", new Property("3"));
+        config.set("a.d.e", new Property("4"));
 
         String expected = "" +
                 "a:\n" +

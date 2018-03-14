@@ -13,10 +13,6 @@ public class Property implements Value {
         this.value = value;
     }
 
-    public static Value fromString(String value) {
-        return new Property(value);
-    }
-
     public static Value fromInteger(int value) {
         return new Property(Integer.toString(value));
     }
