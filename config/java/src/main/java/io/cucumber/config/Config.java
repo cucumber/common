@@ -38,6 +38,16 @@ public class Config implements Value {
         return false;
     }
 
+    @Override
+    public List<Value> asList() {
+        throw new UnsupportedOperationException("TODO");
+    }
+
+    @Override
+    public void update(Value value) {
+        throw new RuntimeException("Can't override config as property");
+    }
+
     public void set(String key, String value) {
         setIn(normalize(key), Property.fromString(value));
     }
@@ -53,28 +63,25 @@ public class Config implements Value {
     @Override
     public void setValue(String property, Value value) {
         String p = property.toLowerCase();
-        if (this.valueByProperty.containsKey(p)) {
-            String existingType = this.valueByProperty.get(p).isProperty() ? "property" : "config";
-            String newType = value.isProperty() ? "property" : "config";
-            if (!existingType.equals(newType)) {
-                throw new RuntimeException(String.format(
-                        "Can't override %s as %s, it's already a %s", p, newType, existingType));
-            }
+        if (valueByProperty.containsKey(p)) {
+            Value existing = valueByProperty.get(p);
+            existing.update(value);
+        } else {
+            valueByProperty.put(p, value);
         }
-        this.valueByProperty.put(p, value);
     }
 
     @Override
     public Value getChild(String property) {
-        if (!this.valueByProperty.containsKey(property.toLowerCase())) {
-            this.valueByProperty.put(property.toLowerCase(), new Config());
+        if (!valueByProperty.containsKey(property.toLowerCase())) {
+            valueByProperty.put(property.toLowerCase(), new Config());
         }
-        return this.valueByProperty.get(property.toLowerCase());
+        return valueByProperty.get(property.toLowerCase());
     }
 
     @Override
     public Value getValue(String property) {
-        return this.valueByProperty.get(property.toLowerCase());
+        return valueByProperty.get(property.toLowerCase());
     }
 
     private Value getIn(String normalizedKey, boolean allowNull) {

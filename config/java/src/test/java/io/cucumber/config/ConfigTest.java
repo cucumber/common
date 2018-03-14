@@ -2,6 +2,8 @@ package io.cucumber.config;
 
 import org.junit.Test;
 
+import java.util.List;
+
 import static junit.framework.TestCase.assertFalse;
 import static junit.framework.TestCase.assertTrue;
 import static org.junit.Assert.assertEquals;
@@ -33,8 +35,20 @@ public class ConfigTest {
             config.set("sub", 3);
             fail();
         } catch (RuntimeException expected) {
-            assertEquals("Can't override sub as property, it's already a config", expected.getMessage());
+            assertEquals("Can't override config as property", expected.getMessage());
         }
+    }
+
+    @Test
+    public void appends_to_list() {
+        Config config = new Config();
+        config.setValue("list", new PropertyList());
+        config.setValue("list", Property.fromString("one"));
+        config.setValue("list", Property.fromString("two"));
+        Value l = config.getValue("list");
+        List<Value> list = l.asList();
+        assertEquals("one", list.get(0).asString());
+        assertEquals("two", list.get(1).asString());
     }
 
     @Test

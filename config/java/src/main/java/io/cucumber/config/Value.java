@@ -1,6 +1,7 @@
 package io.cucumber.config;
 
 import java.io.IOException;
+import java.util.List;
 
 public interface Value {
     void print(int depth, String rootKey, Appendable out) throws IOException;
@@ -22,4 +23,8 @@ public interface Value {
     void setNull(String property);
 
     boolean isProperty();
+
+    List<Value> asList();
+
+    void update(Value value);
 }

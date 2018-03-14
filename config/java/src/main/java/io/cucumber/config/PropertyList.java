@@ -1,53 +1,34 @@
 package io.cucumber.config;
 
-import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
-import static java.lang.Integer.parseInt;
-
-public class Property implements Value {
-    private String value;
-
-    public Property(String value) {
-        if (value == null) throw new NullPointerException("value cannot be null");
-        this.value = value;
-    }
-
-    public static Value fromString(String value) {
-        return new Property(value);
-    }
-
-    public static Value fromInteger(int value) {
-        return new Property(Integer.toString(value));
-    }
-
-    public static Value fromBoolean(boolean value) {
-        return new Property(Boolean.toString(value));
-    }
+public class PropertyList implements Value {
+    private final List<Value> values = new ArrayList<>();
 
     @Override
-    public void print(int depth, String rootKey, Appendable out) throws IOException {
+    public void print(int depth, String rootKey, Appendable out) {
         throw new UnsupportedOperationException("TODO");
     }
 
     @Override
     public String asString() {
-        return value;
+        throw new UnsupportedOperationException("TODO");
     }
 
     @Override
     public Boolean asBoolean() {
-        return !value.matches("false|no|off");
+        throw new UnsupportedOperationException("TODO");
     }
 
     @Override
     public Integer asInt() {
-        return parseInt(value);
+        throw new UnsupportedOperationException("TODO");
     }
 
     @Override
     public boolean isNull() {
-        return false;
+        throw new UnsupportedOperationException("TODO");
     }
 
     @Override
@@ -72,16 +53,16 @@ public class Property implements Value {
 
     @Override
     public boolean isProperty() {
-        return true;
-    }
-
-    @Override
-    public List<Value> asList() {
         throw new UnsupportedOperationException("TODO");
     }
 
     @Override
+    public List<Value> asList() {
+        return values;
+    }
+
+    @Override
     public void update(Value value) {
-        this.value = value.asString();
+        values.add(value);
     }
 }

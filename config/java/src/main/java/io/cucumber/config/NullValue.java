@@ -1,5 +1,7 @@
 package io.cucumber.config;
 
+import java.util.List;
+
 public class NullValue implements Value {
     @Override
     public void print(int depth, String rootKey, Appendable out) {
@@ -50,5 +52,15 @@ public class NullValue implements Value {
     @Override
     public boolean isProperty() {
         return true;
+    }
+
+    @Override
+    public List<Value> asList() {
+        throw new UnsupportedOperationException("TODO");
+    }
+
+    @Override
+    public void update(Value value) {
+        throw new UnsupportedOperationException("TODO");
     }
 }
