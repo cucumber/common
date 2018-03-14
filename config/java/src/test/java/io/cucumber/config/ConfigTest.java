@@ -26,13 +26,20 @@ public class ConfigTest {
     }
 
     @Test
+    public void throws_exception_when_trying_to_set_value_at_subconfig() {
+        Config config = new Config();
+        config.getChild("sub");
+        config.set("sub", 3);
+    }
+
+    @Test
     public void gets_deep_value() {
         Config root = new Config();
 
-        Config one = root.getChild("one");
-        Config two = one.getChild("two");
+        Value one = root.getChild("one");
+        Value two = one.getChild("two");
 
-        two.set("hello", "world");
+        two.setValue("hello", Property.fromString("world"));
         assertEquals("world", root.getString("one.two.hello"));
     }
 
@@ -51,7 +58,6 @@ public class ConfigTest {
     public void unset_value_is_null() {
         Config config = new Config();
         assertTrue(config.isNull("booya.kasha"));
-        assertTrue(config.isNull("booya"));
     }
 
     @Test

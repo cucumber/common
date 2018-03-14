@@ -1,30 +1,52 @@
 package io.cucumber.config;
 
-public class NullValue implements Value {
+import java.io.IOException;
+
+import static java.lang.Integer.parseInt;
+
+public class Property implements Value {
+    private String value;
+
+    public Property(String value) {
+        if (value == null) throw new NullPointerException("value cannot be null");
+        this.value = value;
+    }
+
+    public static Value fromString(String value) {
+        return new Property(value);
+    }
+
+    public static Value fromInteger(int value) {
+        return new Property(Integer.toString(value));
+    }
+
+    public static Value fromBoolean(boolean value) {
+        return new Property(Boolean.toString(value));
+    }
+
     @Override
-    public void print(int depth, String rootKey, Appendable out) {
+    public void print(int depth, String rootKey, Appendable out) throws IOException {
         throw new UnsupportedOperationException("TODO");
     }
 
     @Override
     public String asString() {
-        return null;
+        return value;
     }
 
     @Override
     public Boolean asBoolean() {
-        return false;
+        return !value.matches("false|no|off");
     }
 
     @Override
     public Integer asInt() {
-        // TODO: Return null?
-        return 0;
+        return parseInt(value);
     }
 
     @Override
     public boolean isNull() {
-        return true;
+        return false;
     }
 
     @Override

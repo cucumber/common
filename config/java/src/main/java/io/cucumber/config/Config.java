@@ -10,20 +10,19 @@ import java.util.TreeMap;
 /**
  * Nested configuration. Keys are hierarchical.
  */
-public class Config {
+public class Config implements Value {
     private final Map<String, Value> valueByProperty = new TreeMap<>();
-    private final Map<String, Config> configByProperty = new TreeMap<>();
 
     public String getString(String key) {
-        return getIn(normalize(key), false).getString();
+        return getIn(normalize(key), false).asString();
     }
 
     public Boolean getBoolean(String key) {
-        return getIn(normalize(key), false).getBoolean();
+        return getIn(normalize(key), false).asBoolean();
     }
 
     public Integer getInteger(String key) {
-        return getIn(normalize(key), false).getInt();
+        return getIn(normalize(key), false).asInt();
     }
 
     public boolean isNull(String key) {
@@ -34,37 +33,44 @@ public class Config {
         setIn(normalize(key), new NullValue());
     }
 
+    @Override
+    public boolean isProperty() {
+        return false;
+    }
+
     public void set(String key, String value) {
-        setIn(normalize(key), RealValue.fromString(value));
+        setIn(normalize(key), Property.fromString(value));
     }
 
     public void set(String key, int value) {
-        setIn(normalize(key), RealValue.fromInteger(value));
+        setIn(normalize(key), Property.fromInteger(value));
     }
 
     public void set(String key, boolean value) {
-        setIn(normalize(key), RealValue.fromBoolean(value));
+        setIn(normalize(key), Property.fromBoolean(value));
     }
 
-    // Use by loaders
+    @Override
     public void setValue(String property, Value value) {
         this.valueByProperty.put(property.toLowerCase(), value);
     }
 
-    public Config getChild(String property) {
-        if (!this.configByProperty.containsKey(property.toLowerCase())) {
-            this.configByProperty.put(property.toLowerCase(), new Config());
+    @Override
+    public Value getChild(String property) {
+        if (!this.valueByProperty.containsKey(property.toLowerCase())) {
+            this.valueByProperty.put(property.toLowerCase(), new Config());
         }
-        return this.configByProperty.get(property.toLowerCase());
+        return this.valueByProperty.get(property.toLowerCase());
     }
 
-    private Value getValue(String property) {
+    @Override
+    public Value getValue(String property) {
         return this.valueByProperty.get(property.toLowerCase());
     }
 
     private Value getIn(String normalizedKey, boolean allowNull) {
         List<String> path = toPath(normalizedKey);
-        Config config = this;
+        Value config = this;
         for (int i = 0; i < path.size(); i++) {
             String property = path.get(i);
             if (i == path.size() - 1) {
@@ -85,7 +91,7 @@ public class Config {
 
     private void setIn(String normalizedKey, Value value) {
         List<String> path = toPath(normalizedKey);
-        Config config = this;
+        Value config = this;
         for (int i = 0; i < path.size(); i++) {
             String property = path.get(i);
             if (i == path.size() - 1) {
@@ -107,25 +113,28 @@ public class Config {
         }
     }
 
-    private void print(int depth, String rootKey, Appendable out) throws IOException {
+    @Override
+    public void print(int depth, String rootKey, Appendable out) throws IOException {
+        // Print properties
         for (Map.Entry<String, Value> entry : valueByProperty.entrySet()) {
-            if (rootKey == null || rootKey.equals(entry.getKey())) {
-                String key = entry.getKey();
-
-                // Print the key/value
+            boolean print = rootKey == null || rootKey.equals(entry.getKey());
+            boolean isProperty = entry.getValue().isProperty();
+            if (print && isProperty) {
                 indent(depth, out);
                 out.append(entry.getKey()).append(":");
                 if (!entry.getValue().isNull()) {
-                    out.append(" ").append(entry.getValue().getString());
+                    out.append(" ").append(entry.getValue().asString());
                 }
                 out.append("\n");
             }
         }
-        for (Map.Entry<String, Config> entry : configByProperty.entrySet()) {
-            if (rootKey == null || rootKey.equals(entry.getKey())) {
+        for (Map.Entry<String, Value> entry : valueByProperty.entrySet()) {
+            boolean print = rootKey == null || rootKey.equals(entry.getKey());
+            boolean isProperty = entry.getValue().isProperty();
+            if (print && !isProperty) {
                 indent(depth, out);
                 out.append(entry.getKey()).append(":\n");
-                Config config = entry.getValue();
+                Value config = entry.getValue();
                 config.print(depth + 1, null, out);
             }
         }
@@ -143,5 +152,25 @@ public class Config {
 
     private String normalize(String key) {
         return key.replace('_', '.').toLowerCase(Locale.ENGLISH);
+    }
+
+    @Override
+    public String asString() {
+        throw new UnsupportedOperationException("TODO");
+    }
+
+    @Override
+    public Boolean asBoolean() {
+        throw new UnsupportedOperationException("TODO");
+    }
+
+    @Override
+    public Integer asInt() {
+        throw new UnsupportedOperationException("TODO");
+    }
+
+    @Override
+    public boolean isNull() {
+        return false;
     }
 }

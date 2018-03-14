@@ -1,7 +1,8 @@
 package io.cucumber.config.loaders;
 
-import io.cucumber.config.RealValue;
+import io.cucumber.config.Property;
 import io.cucumber.config.Config;
+import io.cucumber.config.Value;
 import org.yaml.snakeyaml.Yaml;
 
 import java.io.Reader;
@@ -20,7 +21,7 @@ public class YamlConfigLoader implements ConfigLoader {
         populate(config, map);
     }
 
-    private void populate(Config config, Map<String, Object> map) {
+    private void populate(Value config, Map<String, Object> map) {
         for (Map.Entry<String, Object> entry : map.entrySet()) {
             String property = entry.getKey();
             property = property.replaceAll("_", "");
@@ -28,13 +29,13 @@ public class YamlConfigLoader implements ConfigLoader {
             if (value == null) {
                 config.setNull(property);
             } else if (value instanceof String) {
-                config.setValue(property, RealValue.fromString((String) value));
+                config.setValue(property, Property.fromString((String) value));
             } else if (value instanceof Boolean) {
-                config.setValue(property, RealValue.fromBoolean((Boolean) value));
+                config.setValue(property, Property.fromBoolean((Boolean) value));
             } else if (value instanceof Integer) {
-                config.setValue(property, RealValue.fromInteger((Integer) value));
+                config.setValue(property, Property.fromInteger((Integer) value));
             } else if (value instanceof Map) {
-                Config childConfig = config.getChild(property);
+                Value childConfig = config.getChild(property);
                 populate(childConfig, (Map<String, Object>) value);
             } else {
                 throw new RuntimeException(String.format("Unsupported YAML type: %s (%s)", value, value.getClass()));
