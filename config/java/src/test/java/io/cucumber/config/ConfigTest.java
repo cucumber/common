@@ -29,7 +29,12 @@ public class ConfigTest {
     public void throws_exception_when_trying_to_set_value_at_subconfig() {
         Config config = new Config();
         config.getChild("sub");
-        config.set("sub", 3);
+        try {
+            config.set("sub", 3);
+            fail();
+        } catch (RuntimeException expected) {
+            assertEquals("Can't override sub as property, it's already a config", expected.getMessage());
+        }
     }
 
     @Test

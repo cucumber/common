@@ -52,7 +52,16 @@ public class Config implements Value {
 
     @Override
     public void setValue(String property, Value value) {
-        this.valueByProperty.put(property.toLowerCase(), value);
+        String p = property.toLowerCase();
+        if (this.valueByProperty.containsKey(p)) {
+            String existingType = this.valueByProperty.get(p).isProperty() ? "property" : "config";
+            String newType = value.isProperty() ? "property" : "config";
+            if (!existingType.equals(newType)) {
+                throw new RuntimeException(String.format(
+                        "Can't override %s as %s, it's already a %s", p, newType, existingType));
+            }
+        }
+        this.valueByProperty.put(p, value);
     }
 
     @Override
