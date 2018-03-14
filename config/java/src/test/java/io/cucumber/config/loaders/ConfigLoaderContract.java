@@ -11,6 +11,11 @@ public abstract class ConfigLoaderContract {
         assertEquals(true, loadConfig().getBoolean("testing.somebool"));
     }
 
+    @Test
+    public void configures_integer() {
+        assertEquals(Integer.valueOf(42), loadConfig().getInteger("testing.meaning"));
+    }
+
     private Config loadConfig() {
         Config config = new Config();
         ConfigLoader configLoader = makeConfigLoader();

@@ -25,6 +25,15 @@ public class OptparseConfigLoader implements ConfigLoader {
             } else {
                 value = arg;
             }
+
+            if (option != null) {
+                String key = prefix + option;
+                if (value == null) {
+                    config.set(key, true);
+                } else {
+                    config.set(key, value);
+                }
+            }
         }
         if (option != null) {
             String key = prefix + option;

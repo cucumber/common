@@ -12,7 +12,8 @@ public class YamlConfigLoaderTest extends ConfigLoaderContract {
     protected ConfigLoader makeConfigLoader() {
         return new YamlConfigLoader(new StringReader("" +
                 "testing:\n" +
-                "  somebool: true\n"));
+                "  somebool: true\n" +
+                "  meaning: 42\n"));
     }
 
     @Test
