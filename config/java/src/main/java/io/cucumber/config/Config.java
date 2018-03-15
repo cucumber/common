@@ -28,10 +28,6 @@ public class Config implements Value {
         throw new RuntimeException("Can't override config as property");
     }
 
-    public void set(String key, Value value) {
-        setIn(normalize(key), value);
-    }
-
     @Override
     public void setValue(String property, Value value) {
         String p = property.toLowerCase();
@@ -76,7 +72,9 @@ public class Config implements Value {
         throw new RuntimeException("path cannot be empty");
     }
 
-    private void setIn(String normalizedKey, Value value) {
+    @Override
+    public void setIn(String key, Value value) {
+        String normalizedKey = normalize(key);
         List<String> path = toPath(normalizedKey);
         Value config = this;
         for (int i = 0; i < path.size(); i++) {

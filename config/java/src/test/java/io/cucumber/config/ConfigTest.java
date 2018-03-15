@@ -13,15 +13,15 @@ public class ConfigTest {
     @Test
     public void gets_and_sets_value() {
         Config config = new Config();
-        config.set("name", new Property("progress"));
+        config.setIn("name", new Property("progress"));
         assertEquals("progress", config.getIn("name").asString());
     }
 
     @Test
     public void gets_boolean() {
         Config config = new Config();
-        config.set("a", new Property("true"));
-        config.set("b", new Property("false"));
+        config.setIn("a", new Property("true"));
+        config.setIn("b", new Property("false"));
 
         assertTrue(config.getIn("a").asBoolean());
         assertFalse(config.getIn("b").asBoolean());
@@ -32,7 +32,7 @@ public class ConfigTest {
         Config config = new Config();
         config.getChild("sub");
         try {
-            config.set("sub", new Property("3"));
+            config.setIn("sub", new Property("3"));
             fail();
         } catch (RuntimeException expected) {
             assertEquals("Can't override config as property", expected.getMessage());
@@ -77,8 +77,8 @@ public class ConfigTest {
     @Test
     public void set_value_is_not_null() {
         Config config = new Config();
-        config.set("booya.kasha", new Property("wat"));
-        config.set("ninky", new Property("nonk"));
+        config.setIn("booya.kasha", new Property("wat"));
+        config.setIn("ninky", new Property("nonk"));
         assertFalse(config.getIn("booya.kasha").isNull());
         assertFalse(config.getIn("ninky").isNull());
     }
@@ -86,10 +86,10 @@ public class ConfigTest {
     @Test
     public void has_yaml_representation() {
         Config config = new Config();
-        config.set("a.b.c.d.e", new Property("1"));
-        config.set("aa.x.y.z", new Property("X"));
-        config.set("a.c.d.e", new Property("3"));
-        config.set("a.d.e", new Property("4"));
+        config.setIn("a.b.c.d.e", new Property("1"));
+        config.setIn("aa.x.y.z", new Property("X"));
+        config.setIn("a.c.d.e", new Property("3"));
+        config.setIn("a.d.e", new Property("4"));
 
         String expected = "" +
                 "a:\n" +

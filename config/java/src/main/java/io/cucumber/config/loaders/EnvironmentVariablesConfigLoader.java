@@ -2,7 +2,6 @@ package io.cucumber.config.loaders;
 
 import io.cucumber.config.Config;
 import io.cucumber.config.Property;
-import io.cucumber.config.PropertyList;
 
 import java.util.Map;
 
@@ -23,7 +22,7 @@ public class EnvironmentVariablesConfigLoader implements ConfigLoader {
             String key = entry.getKey();
             String[] values = entry.getValue().split(",");
             for (String value : values) {
-                config.set(key, new Property(value));
+                config.setIn(key, new Property(value));
             }
         }
     }

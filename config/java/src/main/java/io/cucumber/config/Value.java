@@ -6,6 +6,8 @@ import java.util.List;
 public interface Value {
     Value getIn(String key);
 
+    void setIn(String key, Value value);
+
     void print(int depth, String rootKey, Appendable out) throws IOException;
 
     String asString();

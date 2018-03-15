@@ -12,6 +12,11 @@ public class PropertyList implements Value {
     }
 
     @Override
+    public void setIn(String key, Value value) {
+        throw new UnsupportedOperationException("TODO");
+    }
+
+    @Override
     public void print(int depth, String rootKey, Appendable out) {
         throw new UnsupportedOperationException("TODO");
     }

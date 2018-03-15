@@ -23,7 +23,7 @@ public class SystemPropertiesConfigLoader implements ConfigLoader {
             Object value = entry.getValue();
             if (key instanceof String && value instanceof String) {
                 for (String v: ((String) value).split(",")) {
-                    config.set((String) key, new Property(v));
+                    config.setIn((String) key, new Property(v));
                 }
             }
         }
