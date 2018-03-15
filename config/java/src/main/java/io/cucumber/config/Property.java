@@ -20,18 +20,18 @@ public class Property implements Value {
     }
 
     @Override
-    public Value getIn(String key) {
-        throw new UnsupportedOperationException("TODO");
+    public Value get(String key) {
+        throw new UnsupportedOperationException();
     }
 
     @Override
-    public void setIn(String key, Value value) {
-        throw new UnsupportedOperationException("TODO");
+    public void set(String key, Value value) {
+        throw new UnsupportedOperationException();
     }
 
     @Override
     public void print(int depth, String rootKey, Appendable out) {
-        throw new UnsupportedOperationException("TODO");
+        throw new UnsupportedOperationException();
     }
 
     @Override
@@ -56,17 +56,17 @@ public class Property implements Value {
 
     @Override
     public Value getValue(String property) {
-        throw new UnsupportedOperationException("TODO");
+        throw new UnsupportedOperationException();
     }
 
     @Override
     public Value getChild(String property) {
-        throw new UnsupportedOperationException("TODO");
+        throw new UnsupportedOperationException();
     }
 
     @Override
     public void setValue(String property, Value value) {
-        throw new UnsupportedOperationException("TODO");
+        throw new UnsupportedOperationException();
     }
 
     @Override
@@ -76,7 +76,7 @@ public class Property implements Value {
 
     @Override
     public List<Value> asList() {
-        throw new UnsupportedOperationException("TODO");
+        throw new UnsupportedOperationException();
     }
 
     @Override

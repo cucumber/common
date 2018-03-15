@@ -4,11 +4,9 @@ import java.io.IOException;
 import java.util.List;
 
 public interface Value {
-    Value getIn(String key);
+    Value get(String key);
 
-    void setIn(String key, Value value);
-
-    void print(int depth, String rootKey, Appendable out) throws IOException;
+    void set(String key, Value value);
 
     String asString();
 
@@ -16,7 +14,11 @@ public interface Value {
 
     Integer asInt();
 
+    List<Value> asList();
+
     boolean isNull();
+
+    void print(int depth, String rootKey, Appendable out) throws IOException;
 
     Value getValue(String property);
 
@@ -24,9 +26,7 @@ public interface Value {
 
     void setValue(String property, Value value);
 
-    boolean isProperty();
-
-    List<Value> asList();
-
     void update(Value value);
+
+    boolean isProperty();
 }

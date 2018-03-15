@@ -20,7 +20,7 @@ public class Config implements Value {
 
     @Override
     public List<Value> asList() {
-        throw new UnsupportedOperationException("TODO");
+        throw new UnsupportedOperationException();
     }
 
     @Override
@@ -49,12 +49,11 @@ public class Config implements Value {
 
     @Override
     public Value getValue(String property) {
-        Value value = valueByProperty.get(property.toLowerCase());
-        return value != null ? value : new Property(null);
+        return valueByProperty.get(property.toLowerCase());
     }
 
     @Override
-    public Value getIn(String key) {
+    public Value get(String key) {
         String normalizedKey = normalize(key);
         List<String> path = toPath(normalizedKey);
         Value config = this;
@@ -65,7 +64,7 @@ public class Config implements Value {
             } else {
                 config = config.getChild(property.toLowerCase());
                 if (config == null) {
-                    return new Property(null);
+                    return null;
                 }
             }
         }
@@ -73,7 +72,7 @@ public class Config implements Value {
     }
 
     @Override
-    public void setIn(String key, Value value) {
+    public void set(String key, Value value) {
         String normalizedKey = normalize(key);
         List<String> path = toPath(normalizedKey);
         Value config = this;
@@ -141,17 +140,17 @@ public class Config implements Value {
 
     @Override
     public String asString() {
-        throw new UnsupportedOperationException("TODO");
+        throw new UnsupportedOperationException();
     }
 
     @Override
     public Boolean asBoolean() {
-        throw new UnsupportedOperationException("TODO");
+        throw new UnsupportedOperationException();
     }
 
     @Override
     public Integer asInt() {
-        throw new UnsupportedOperationException("TODO");
+        throw new UnsupportedOperationException();
     }
 
     @Override

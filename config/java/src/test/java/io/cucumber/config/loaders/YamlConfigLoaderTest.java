@@ -28,7 +28,7 @@ public class YamlConfigLoaderTest extends ConfigLoaderContract {
                 "  f_or_mat_: progress\n"));
         configLoader.load(config);
 
-        assertEquals("progress", config.getIn("testing.format").asString());
+        assertEquals("progress", config.get("testing.format").asString());
     }
 
     @Test

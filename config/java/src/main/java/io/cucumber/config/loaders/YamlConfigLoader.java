@@ -28,20 +28,24 @@ public class YamlConfigLoader implements ConfigLoader {
             property = property.replaceAll("_", "");
             Object value = entry.getValue();
             if (value == null) {
-                config.setValue(property, new Property(null));
+                config.set(property, new Property(null));
             } else if (value instanceof String) {
-                config.setValue(property, new Property((String) value));
+                config.set(property, new Property((String) value));
             } else if (value instanceof Boolean) {
-                config.setValue(property, Property.fromBoolean((Boolean) value));
+                config.set(property, Property.fromBoolean((Boolean) value));
             } else if (value instanceof Integer) {
-                config.setValue(property, Property.fromInteger((Integer) value));
+                config.set(property, Property.fromInteger((Integer) value));
             } else if (value instanceof Map) {
-                Value childConfig = config.getChild(property);
+                Value childConfig = config.get(property);
+                if(childConfig == null) {
+                    childConfig = new Config();
+                    config.set(property, childConfig);
+                }
                 populate(childConfig, (Map<String, Object>) value);
             } else if (value instanceof List) {
                 List<String> values = (List<String>) value;
                 for (String v : values) {
-                    config.setValue(property, new Property(v));
+                    config.set(property, new Property(v));
                 }
             } else {
                 throw new RuntimeException(String.format("Unsupported YAML type: %s (%s)", value, value.getClass()));

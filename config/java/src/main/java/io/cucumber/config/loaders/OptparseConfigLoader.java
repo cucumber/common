@@ -35,9 +35,9 @@ public class OptparseConfigLoader implements ConfigLoader {
         void update(Config config) {
             String key = prefix + name;
             if (value == null) {
-                config.setIn(key, new Property("true"));
+                config.set(key, new Property("true"));
             } else {
-                config.setIn(key, new Property(value));
+                config.set(key, new Property(value));
             }
         }
 

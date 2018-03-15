@@ -24,9 +24,9 @@ public class OptparseConfigLoaderTest extends ConfigLoaderContract {
                 asList("--one", "--two", "three", "four", "--five"));
         Config config = new Config();
         optparseConfigLoader.load(config);
-        assertEquals("true", config.getIn("testing.one").asString());
-        assertEquals("three", config.getIn("testing.two").asString());
-        assertEquals("true", config.getIn("testing.five").asString());
+        assertEquals("true", config.get("testing.one").asString());
+        assertEquals("three", config.get("testing.two").asString());
+        assertEquals("true", config.get("testing.five").asString());
         assertEquals(singletonList("four"), optparseConfigLoader.getSurplus());
     }
 }

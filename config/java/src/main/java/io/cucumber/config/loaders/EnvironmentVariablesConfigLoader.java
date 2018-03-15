@@ -22,7 +22,7 @@ public class EnvironmentVariablesConfigLoader implements ConfigLoader {
             String key = entry.getKey();
             String[] values = entry.getValue().split(",");
             for (String value : values) {
-                config.setIn(key, new Property(value));
+                config.set(key, new Property(value));
             }
         }
     }
