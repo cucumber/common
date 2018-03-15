@@ -65,12 +65,7 @@ public class ConfigTest {
     @Test
     public void throws_exception_when_no_value_set() {
         Config config = new Config();
-        try {
-            config.getString("not.set");
-            fail();
-        } catch (UndefinedKeyException expected) {
-            assertEquals("No such key: not.set", expected.getMessage());
-        }
+        assertTrue(config.getIn("not.set").isNull());
     }
 
     @Test

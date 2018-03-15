@@ -20,8 +20,6 @@ public interface Value {
 
     void setValue(String property, Value value);
 
-    void setNull(String property);
-
     boolean isProperty();
 
     List<Value> asList();

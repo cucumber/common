@@ -28,7 +28,7 @@ public class YamlConfigLoader implements ConfigLoader {
             property = property.replaceAll("_", "");
             Object value = entry.getValue();
             if (value == null) {
-                config.setNull(property);
+                config.setValue(property, new Property(null));
             } else if (value instanceof String) {
                 config.setValue(property, new Property((String) value));
             } else if (value instanceof Boolean) {

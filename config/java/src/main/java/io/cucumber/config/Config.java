@@ -14,23 +14,19 @@ public class Config implements Value {
     private final Map<String, Value> valueByProperty = new TreeMap<>();
 
     public String getString(String key) {
-        return getIn(normalize(key), false).asString();
+        return getIn(normalize(key)).asString();
     }
 
     public Boolean getBoolean(String key) {
-        return getIn(normalize(key), false).asBoolean();
+        return getIn(normalize(key)).asBoolean();
     }
 
     public Integer getInteger(String key) {
-        return getIn(normalize(key), false).asInt();
+        return getIn(normalize(key)).asInt();
     }
 
     public boolean isNull(String key) {
-        return getIn(normalize(key), true).isNull();
-    }
-
-    public void setNull(String key) {
-        setIn(normalize(key), new NullValue());
+        return getIn(normalize(key)).isNull();
     }
 
     @Override
@@ -73,24 +69,21 @@ public class Config implements Value {
 
     @Override
     public Value getValue(String property) {
-        return valueByProperty.get(property.toLowerCase());
+        Value value = valueByProperty.get(property.toLowerCase());
+        return value != null ? value : new Property(null);
     }
 
-    private Value getIn(String normalizedKey, boolean allowNull) {
+    public Value getIn(String normalizedKey) {
         List<String> path = toPath(normalizedKey);
         Value config = this;
         for (int i = 0; i < path.size(); i++) {
             String property = path.get(i);
             if (i == path.size() - 1) {
-                Value value = config.getValue(property);
-                if (value != null) return value;
-                if (allowNull) return new NullValue();
-                throw new UndefinedKeyException(normalizedKey);
+                return config.getValue(property);
             } else {
                 config = config.getChild(property.toLowerCase());
                 if (config == null) {
-                    if (allowNull) return new NullValue();
-                    throw new UndefinedKeyException(normalizedKey);
+                    return new Property(null);
                 }
             }
         }

@@ -47,11 +47,6 @@ public class PropertyList implements Value {
     }
 
     @Override
-    public void setNull(String property) {
-        throw new UnsupportedOperationException("TODO");
-    }
-
-    @Override
     public boolean isProperty() {
         throw new UnsupportedOperationException("TODO");
     }

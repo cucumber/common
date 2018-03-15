@@ -1,6 +1,5 @@
 package io.cucumber.config;
 
-import java.io.IOException;
 import java.util.List;
 
 import static java.lang.Integer.parseInt;
@@ -9,7 +8,6 @@ public class Property implements Value {
     private String value;
 
     public Property(String value) {
-        if (value == null) throw new NullPointerException("value cannot be null");
         this.value = value;
     }
 
@@ -22,7 +20,7 @@ public class Property implements Value {
     }
 
     @Override
-    public void print(int depth, String rootKey, Appendable out) throws IOException {
+    public void print(int depth, String rootKey, Appendable out) {
         throw new UnsupportedOperationException("TODO");
     }
 
@@ -43,7 +41,7 @@ public class Property implements Value {
 
     @Override
     public boolean isNull() {
-        return false;
+        return value == null;
     }
 
     @Override
@@ -58,11 +56,6 @@ public class Property implements Value {
 
     @Override
     public void setValue(String property, Value value) {
-        throw new UnsupportedOperationException("TODO");
-    }
-
-    @Override
-    public void setNull(String property) {
         throw new UnsupportedOperationException("TODO");
     }
 
