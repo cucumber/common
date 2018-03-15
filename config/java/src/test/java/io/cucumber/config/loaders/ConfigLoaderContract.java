@@ -12,12 +12,12 @@ import static org.junit.Assert.assertEquals;
 public abstract class ConfigLoaderContract {
     @Test
     public void configures_boolean() {
-        assertEquals(true, loadConfig().getBoolean("testing.somebool"));
+        assertEquals(true, loadConfig().getIn("testing.somebool").asBoolean());
     }
 
     @Test
     public void configures_integer() {
-        assertEquals(Integer.valueOf(42), loadConfig().getInteger("testing.meaning"));
+        assertEquals(Integer.valueOf(42), loadConfig().getIn("testing.meaning").asInt());
     }
 
     @Test

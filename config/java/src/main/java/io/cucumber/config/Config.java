@@ -13,18 +13,6 @@ import java.util.TreeMap;
 public class Config implements Value {
     private final Map<String, Value> valueByProperty = new TreeMap<>();
 
-    public Boolean getBoolean(String key) {
-        return getIn(normalize(key)).asBoolean();
-    }
-
-    public Integer getInteger(String key) {
-        return getIn(normalize(key)).asInt();
-    }
-
-    public boolean isNull(String key) {
-        return getIn(normalize(key)).isNull();
-    }
-
     @Override
     public boolean isProperty() {
         return false;

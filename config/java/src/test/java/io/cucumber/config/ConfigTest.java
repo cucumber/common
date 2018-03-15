@@ -23,8 +23,8 @@ public class ConfigTest {
         config.set("a", new Property("true"));
         config.set("b", new Property("false"));
 
-        assertTrue(config.getBoolean("a"));
-        assertFalse(config.getBoolean("b"));
+        assertTrue(config.getIn("a").asBoolean());
+        assertFalse(config.getIn("b").asBoolean());
     }
 
     @Test
@@ -71,7 +71,7 @@ public class ConfigTest {
     @Test
     public void unset_value_is_null() {
         Config config = new Config();
-        assertTrue(config.isNull("booya.kasha"));
+        assertTrue(config.getIn("booya.kasha").isNull());
     }
 
     @Test
@@ -79,8 +79,8 @@ public class ConfigTest {
         Config config = new Config();
         config.set("booya.kasha", new Property("wat"));
         config.set("ninky", new Property("nonk"));
-        assertFalse(config.isNull("booya.kasha"));
-        assertFalse(config.isNull("ninky"));
+        assertFalse(config.getIn("booya.kasha").isNull());
+        assertFalse(config.getIn("ninky").isNull());
     }
 
     @Test
