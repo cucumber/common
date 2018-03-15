@@ -2,7 +2,8 @@
 
 Cucumber can be configured in several different ways:
 
-* Command line options
 * `cucumber.yml` file
+* Command line options
 * Environment variables
 * Java System properties (JVM only)
+* Java Annotations (JVM only)
