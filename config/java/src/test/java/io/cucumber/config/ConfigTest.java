@@ -14,7 +14,7 @@ public class ConfigTest {
     public void gets_and_sets_value() {
         Config config = new Config();
         config.set("name", new Property("progress"));
-        assertEquals("progress", config.getString("name"));
+        assertEquals("progress", config.getIn("name").asString());
     }
 
     @Test
@@ -59,7 +59,7 @@ public class ConfigTest {
         Value two = one.getChild("two");
 
         two.setValue("hello", new Property("world"));
-        assertEquals("world", root.getString("one.two.hello"));
+        assertEquals("world", root.getIn("one.two.hello").asString());
     }
 
     @Test

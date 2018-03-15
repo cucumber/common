@@ -20,6 +20,11 @@ public class Property implements Value {
     }
 
     @Override
+    public Value getIn(String key) {
+        throw new UnsupportedOperationException("TODO");
+    }
+
+    @Override
     public void print(int depth, String rootKey, Appendable out) {
         throw new UnsupportedOperationException("TODO");
     }

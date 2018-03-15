@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.util.List;
 
 public interface Value {
+    Value getIn(String key);
+
     void print(int depth, String rootKey, Appendable out) throws IOException;
 
     String asString();

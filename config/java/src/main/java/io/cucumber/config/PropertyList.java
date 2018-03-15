@@ -7,6 +7,11 @@ public class PropertyList implements Value {
     private final List<Value> values = new ArrayList<>();
 
     @Override
+    public Value getIn(String key) {
+        throw new UnsupportedOperationException("TODO");
+    }
+
+    @Override
     public void print(int depth, String rootKey, Appendable out) {
         throw new UnsupportedOperationException("TODO");
     }

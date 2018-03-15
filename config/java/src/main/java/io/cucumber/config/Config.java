@@ -13,10 +13,6 @@ import java.util.TreeMap;
 public class Config implements Value {
     private final Map<String, Value> valueByProperty = new TreeMap<>();
 
-    public String getString(String key) {
-        return getIn(normalize(key)).asString();
-    }
-
     public Boolean getBoolean(String key) {
         return getIn(normalize(key)).asBoolean();
     }
@@ -73,7 +69,9 @@ public class Config implements Value {
         return value != null ? value : new Property(null);
     }
 
-    public Value getIn(String normalizedKey) {
+    @Override
+    public Value getIn(String key) {
+        String normalizedKey = normalize(key);
         List<String> path = toPath(normalizedKey);
         Value config = this;
         for (int i = 0; i < path.size(); i++) {
