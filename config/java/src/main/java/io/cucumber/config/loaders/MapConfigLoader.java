@@ -9,9 +9,11 @@ import java.util.Map;
 
 public class MapConfigLoader implements ConfigLoader {
     private final Map<String, Object> map;
+    private final String comment;
 
-    protected MapConfigLoader(Map<String, Object> map) {
+    protected MapConfigLoader(Map<String, Object> map, String comment) {
         this.map = map;
+        this.comment = comment;
     }
 
     @Override
@@ -25,17 +27,17 @@ public class MapConfigLoader implements ConfigLoader {
             property = property.replaceAll("_", "");
             Object value = entry.getValue();
             if (value == null) {
-                config.set(property, new Property(null));
+                config.set(property, new Property(null, comment));
             } else if (value instanceof String) {
-                config.set(property, new Property((String) value));
+                config.set(property, new Property((String) value, comment));
             } else if (value instanceof Boolean) {
-                config.set(property, Property.fromBoolean((Boolean) value));
+                config.set(property, Property.fromBoolean((Boolean) value, comment));
             } else if (value instanceof Integer) {
-                config.set(property, Property.fromInteger((Integer) value));
+                config.set(property, Property.fromInteger((Integer) value, comment));
             } else if (value instanceof Double) {
                 // GSON turns numbers into Double
                 Double d = (Double) value;
-                config.set(property, Property.fromInteger(d.intValue()));
+                config.set(property, Property.fromInteger(d.intValue(), comment));
             } else if (value instanceof Map) {
                 Value childConfig = config.get(property);
                 if (childConfig == null) {
@@ -46,7 +48,7 @@ public class MapConfigLoader implements ConfigLoader {
             } else if (value instanceof List) {
                 List<String> values = (List<String>) value;
                 for (String v : values) {
-                    config.set(property, new Property(v));
+                    config.set(property, new Property(v, comment));
                 }
             } else {
                 throw new RuntimeException(String.format("Unsupported type: %s (%s)", value, value.getClass()));

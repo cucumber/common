@@ -1,6 +1,7 @@
 package io.cucumber.config.loaders;
 
 import io.cucumber.config.Config;
+import io.cucumber.config.PropertyList;
 import org.junit.Test;
 
 import java.io.StringReader;
@@ -13,7 +14,7 @@ public class MapConfigLoaderTest {
         Config config = new Config();
         ConfigLoader configLoader = new YamlConfigLoader(new StringReader("" +
                 "testing:\n" +
-                "  f_or_mat_: progress\n"));
+                "  f_or_mat_: progress\n"), "test.yml");
         configLoader.load(config);
 
         assertEquals("progress", config.get("testing.format").asString());
@@ -24,15 +25,17 @@ public class MapConfigLoaderTest {
         Config config = new Config();
         new YamlConfigLoader(new StringReader("" +
                 "testing:\n" +
-                "  one: un\n")).load(config);
+                "  one: un\n"), "one.yml").load(config);
 
         new YamlConfigLoader(new StringReader("" +
                 "testing:\n" +
-                "  two: deux\n")).load(config);
+                "  two: deux\n"), "two.yml").load(config);
 
         String yaml = "" +
                 "testing:\n" +
+                "  # one.yml\n" +
                 "  one: un\n" +
+                "  # two.yml\n" +
                 "  two: deux\n";
         assertEquals(yaml, config.toYaml("testing"));
     }
@@ -60,10 +63,15 @@ public class MapConfigLoaderTest {
                 "    name:\n" +
                 "  results:\n" +
                 "    publish:\n" +
-                "    token:\n";
+                "    token:\n" +
+                "  xlist:\n" +
+                "    - one\n" +
+                "    - two\n" +
+                "    - three\n";
 
         Config config = new Config();
-        ConfigLoader configLoader = new YamlConfigLoader(new StringReader(yaml));
+        config.set("cucumberpro.xlist", new PropertyList());
+        ConfigLoader configLoader = new YamlConfigLoader(new StringReader(yaml), null);
         configLoader.load(config);
 
         assertEquals(yaml, config.toYaml("cucumberpro"));

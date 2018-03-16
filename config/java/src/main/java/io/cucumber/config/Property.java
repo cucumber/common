@@ -8,17 +8,19 @@ import static java.lang.Integer.parseInt;
 
 public class Property implements Value {
     private String value;
+    private final String comment;
 
-    public Property(String value) {
+    public Property(String value, String comment) {
         this.value = value;
+        this.comment = comment;
     }
 
-    public static Value fromInteger(int value) {
-        return new Property(Integer.toString(value));
+    public static Value fromInteger(int value, String comment) {
+        return new Property(Integer.toString(value), comment);
     }
 
-    public static Value fromBoolean(boolean value) {
-        return new Property(Boolean.toString(value));
+    public static Value fromBoolean(boolean value, String comment) {
+        return new Property(Boolean.toString(value), comment);
     }
 
     @Override
@@ -32,10 +34,17 @@ public class Property implements Value {
     }
 
     @Override
-    public void print(int depth, String key, Appendable out) throws IOException {
+    public void print(int depth, String key, boolean list, Appendable out) throws IOException {
+        if (comment != null) {
+            indent(depth, out);
+            out.append("# ").append(comment).append("\n");
+        }
         indent(depth, out);
-        if(key != null) {
+        if (key != null) {
             out.append(key).append(":");
+        }
+        if (list) {
+            out.append("-");
         }
         if (!isEmpty()) {
             out.append(" ").append(asString());

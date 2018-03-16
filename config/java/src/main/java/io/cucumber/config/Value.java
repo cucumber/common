@@ -18,7 +18,7 @@ public interface Value {
 
     boolean isEmpty();
 
-    void print(int depth, String rootKey, Appendable out) throws IOException;
+    void print(int depth, String key, boolean list, Appendable out) throws IOException;
 
     Value getValue(String property);
 

@@ -20,12 +20,9 @@ public class PropertyList implements Value {
     }
 
     @Override
-    public void print(int depth, String rootKey, Appendable out) throws IOException {
-        List<Value> values = asList();
-        for (Value value : values) {
-            indent(depth, out);
-            out.append("-");
-            value.print(0, null, out);
+    public void print(int depth, String key, boolean list, Appendable out) throws IOException {
+        for (Value value : asList()) {
+            value.print(depth, null, true, out);
         }
     }
 

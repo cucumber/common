@@ -4,6 +4,8 @@ import io.cucumber.config.Config;
 import io.cucumber.config.Property;
 import org.junit.Test;
 
+import java.util.HashMap;
+
 import static java.util.Arrays.asList;
 import static java.util.Collections.singletonList;
 import static org.junit.Assert.assertEquals;
@@ -24,10 +26,23 @@ public class OptparseConfigLoaderTest extends ConfigLoaderContract {
     @Test
     public void supports_no_boolean_option() {
         Config config = new Config();
-        config.set("testing.somebool", Property.fromBoolean(true));
+        config.set("testing.somebool", Property.fromBoolean(true, null));
         assertTrue(config.get("testing.somebool").asBoolean());
         new OptparseConfigLoader("testing.", singletonList("--no-somebool")).load(config);
         assertFalse(config.get("testing.somebool").asBoolean());
+    }
+
+    @Test
+    public void aliases_options() {
+        OptparseConfigLoader optparseConfigLoader = new OptparseConfigLoader(
+                "testing.",
+                asList("-t", "three"),
+                new HashMap<String,String>() {{
+                    put("-t", "--two");
+                }});
+        Config config = new Config();
+        optparseConfigLoader.load(config);
+        assertEquals("three", config.get("testing.two").asString());
     }
 
     @Test

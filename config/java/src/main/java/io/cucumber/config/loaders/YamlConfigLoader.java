@@ -8,7 +8,7 @@ import java.util.Map;
 public class YamlConfigLoader extends MapConfigLoader {
     private static final Yaml YAML = new Yaml();
 
-    public YamlConfigLoader(Reader reader) {
-        super((Map<String, Object>) YAML.load(reader));
+    public YamlConfigLoader(Reader reader, String comment) {
+        super((Map<String, Object>) YAML.load(reader), comment);
     }
 }

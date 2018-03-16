@@ -12,6 +12,6 @@ public class YamlConfigLoaderTest extends ConfigLoaderContract {
                 "  list:\n" +
                 "  - one\n" +
                 "  - two\n"
-        ));
+        ), "test.yml");
     }
 }

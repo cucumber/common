@@ -8,7 +8,7 @@ import java.util.Map;
 public class JsonConfigLoader extends MapConfigLoader {
     private static final Gson GSON = new Gson();
 
-    public JsonConfigLoader(Reader json) {
-        super(GSON.fromJson(json, Map.class));
+    public JsonConfigLoader(Reader json, String comment) {
+        super(GSON.fromJson(json, Map.class), comment);
     }
 }

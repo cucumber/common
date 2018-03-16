@@ -90,7 +90,7 @@ public class Config implements Value {
     public String toYaml(String rootKey) {
         try {
             StringBuilder out = new StringBuilder();
-            this.print(0, rootKey, out);
+            this.print(0, rootKey, false, out);
             return out.toString();
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -98,7 +98,7 @@ public class Config implements Value {
     }
 
     @Override
-    public void print(int depth, String rootKey, Appendable out) throws IOException {
+    public void print(int depth, String rootKey, boolean list, Appendable out) throws IOException {
         // Print properties
         for (Map.Entry<String, Value> entry : valueByProperty.entrySet()) {
             String key = entry.getKey();
@@ -107,7 +107,7 @@ public class Config implements Value {
             boolean isProperty = value.isProperty();
 
             if (print && isProperty) {
-                value.print(depth, key, out);
+                value.print(depth, key, false, out);
             }
         }
         for (Map.Entry<String, Value> entry : valueByProperty.entrySet()) {
@@ -119,7 +119,7 @@ public class Config implements Value {
             if (print && !isProperty) {
                 indent(depth, out);
                 out.append(key).append(":\n");
-                value.print(depth + 1, null, out);
+                value.print(depth + 1, null, false, out);
             }
         }
     }

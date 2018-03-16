@@ -16,6 +16,6 @@ public class JsonConfigLoaderTest extends ConfigLoaderContract {
                 "    ]\n" +
                 "  }\n" +
                 "}\n"
-        ));
+        ), "test.json");
     }
 }

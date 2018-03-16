@@ -10,10 +10,12 @@ import java.lang.reflect.Method;
 public class AnnotationConfigLoader implements ConfigLoader {
     private final String prefix;
     private final Annotation annotation;
+    private final String comment;
 
     public AnnotationConfigLoader(String prefix, Annotation annotation) {
         this.prefix = prefix;
         this.annotation = annotation;
+        this.comment = annotation.toString();
     }
 
     @Override
@@ -24,15 +26,15 @@ public class AnnotationConfigLoader implements ConfigLoader {
                 String key = prefix + declaredMethod.getName();
                 Object result = declaredMethod.invoke(annotation);
                 if (result instanceof String) {
-                    config.set(key, new Property((String) result));
+                    config.set(key, new Property((String) result, comment));
                 } else if (result instanceof Integer) {
-                    config.set(key, Property.fromInteger((Integer) result));
+                    config.set(key, Property.fromInteger((Integer) result, comment));
                 } else if (result instanceof Boolean) {
-                    config.set(key, Property.fromBoolean((Boolean) result));
+                    config.set(key, Property.fromBoolean((Boolean) result, comment));
                 } else if (result instanceof String[]) {
                     String[] values = (String[]) result;
                     for (String value : values) {
-                        config.set(key, new Property(value));
+                        config.set(key, new Property(value, comment));
                     }
                 } else {
                     throw new RuntimeException("Unsupported type: " + result.getClass().getName());

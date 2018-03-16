@@ -1,31 +1,35 @@
 # Cucumber Config
 
-Cucumber can be configured in several different ways.
+Cucumber has several configuration options. Each option has a default value
+which can be overridden in different ways.
+
+## Overriding configuration options
+
 We'll illustrate with an example:
 
 * Tell Cucumber to run with tags `@smoke`
 * Tell Cucumber to be verbose
 * Specify two formatter plugins, `pretty` and `rerun`
 
-## YAML (`cucumber.yml`)
+### YAML (`cucumber.yml`)
 
 ```yaml
 cucumber:
   tags: @smoke
   verbose: true
-  plugins:
+  plugin:
     - pretty
     - rerun
 ```
 
-## JSON (`cucumber.json`)
+### JSON (`cucumber.json`)
 
 ```json
 {
   "cucumber": {
     "tags": "@smoke",
     "verbose": true,
-    "plugins": [
+    "plugin": [
       "pretty",
       "rerun"
     ]
@@ -33,7 +37,7 @@ cucumber:
 }
 ```
 
-## Command line options
+### Command line options
 
 ```shell
 --tags @smoke --verbose --plugin pretty --plugin rerun
@@ -48,7 +52,13 @@ by prepending `--no-`:
 
 This is useful for overriding options that default to true.
 
-## Environment variables
+Some command line options also have a short option:
+
+```shell
+-t @smoke -p pretty -p rerun
+```
+
+### Environment variables
 
 ```shell
 # Linux / OS X
@@ -64,7 +74,7 @@ SET CUCUMBER_VERBOSE=true
 SET CUCUMBER_PLUGIN=pretty,rerun
 ```
 
-## Java System properties (JVM only)
+### Java System properties (JVM only)
 
 ```shell
 -Dcucumber.tags=@smoke
@@ -76,6 +86,27 @@ SET CUCUMBER_PLUGIN=pretty,rerun
 
 ```java
 @CucumberOptions(tags="@smoke", verbose=true, plugin={"pretty", "rerun"})
+```
+
+## Displaying configuration options
+
+Because configuration options can be specified in different ways, Cucumber can print out
+the current configuration along with the source of each configuration. To do this,
+specify the `--verbose` option (in any of the ways explained above).
+
+This will print something like the following:
+
+```yaml
+cucumber:
+  # --tags (command line option)
+  tags: @smoke
+  # cucumber.yml (YAML file)
+  verbose: true
+  plugin:
+    # CUCUMBER_PLUGIN (environment variable)
+    - pretty
+    # --plugin (command line option)
+    - rerun
 ```
 
 
