@@ -12,20 +12,17 @@ public class OptparseConfigLoader implements ConfigLoader {
     private final String prefix;
     private final List<String> args;
     private final Map<String, String> aliases;
-    private final List<String> surplus = new ArrayList<>();
+    private final String surplusKey;
 
-    public OptparseConfigLoader(String prefix, List<String> args) {
-        this(prefix, args, Collections.<String, String>emptyMap());
+    public OptparseConfigLoader(String prefix, String surplusKey, List<String> args) {
+        this(prefix, surplusKey, args, Collections.<String, String>emptyMap());
     }
 
-    public OptparseConfigLoader(String prefix, List<String> args, Map<String, String> aliases) {
+    public OptparseConfigLoader(String prefix, String surplusKey, List<String> args, Map<String, String> aliases) {
         this.prefix = prefix;
+        this.surplusKey = surplusKey;
         this.args = new ArrayList<>(args);
         this.aliases = aliases;
-    }
-
-    public List<String> getSurplus() {
-        return surplus;
     }
 
     private class Option {
@@ -63,6 +60,7 @@ public class OptparseConfigLoader implements ConfigLoader {
 
     @Override
     public void load(Config config) {
+        List<String> surplus = new ArrayList<>();
         Option option = null;
         while (!args.isEmpty()) {
             String arg = args.remove(0).trim();
@@ -84,6 +82,9 @@ public class OptparseConfigLoader implements ConfigLoader {
         }
         if (option != null) {
             option.update(config);
+        }
+        for (String s : surplus) {
+            config.set(surplusKey, new Property(s, "command line arguments"));
         }
     }
 

@@ -7,9 +7,10 @@ which can be overridden in different ways.
 
 We'll illustrate with an example:
 
-* Tell Cucumber to run with tags `@smoke`
-* Tell Cucumber to be verbose
-* Specify two formatter plugins, `pretty` and `rerun`
+* Feature files in `features/billing`
+* Run only tags `@smoke`
+* Be verbose
+* Use `pretty` and `rerun` formatter plugins
 
 ### YAML (`cucumber.yml`)
 
@@ -20,6 +21,8 @@ cucumber:
   plugin:
     - pretty
     - rerun
+  features:
+    - features/billing
 ```
 
 ### JSON (`cucumber.json`)
@@ -32,6 +35,9 @@ cucumber:
     "plugin": [
       "pretty",
       "rerun"
+    ],
+    "features": [
+      "features/billing"
     ]
   }
 }
@@ -40,14 +46,17 @@ cucumber:
 ### Command line options
 
 ```shell
---tags @smoke --verbose --plugin pretty --plugin rerun
+--tags @smoke --verbose --plugin pretty --plugin rerun features/billing
 ```
+
+The last argument (`features/billing`) is an *argument* and not an option,
+but it gets assigned to the `cucumber.features` list.
 
 Boolean options (options that don't take an argument) can be set to `false`
 by prepending `--no-`:
 
 ```shell
---tags @smoke --no-verbose --plugin pretty --plugin rerun
+--tags @smoke --no-verbose --plugin pretty --plugin rerun features/billing
 ```
 
 This is useful for overriding options that default to true.
@@ -55,7 +64,7 @@ This is useful for overriding options that default to true.
 Some command line options also have a short option:
 
 ```shell
--t @smoke -p pretty -p rerun
+-t @smoke -p pretty -p rerun features/billing
 ```
 
 ### Environment variables
@@ -65,6 +74,7 @@ Some command line options also have a short option:
 export CUCUMBER_TAGS=@smoke
 export CUCUMBER_VERBOSE=true
 export CUCUMBER_PLUGIN=pretty,rerun
+export CUCUMBER_FEATURES=features/billing
 ```
 
 ```shell
@@ -72,6 +82,7 @@ export CUCUMBER_PLUGIN=pretty,rerun
 SET CUCUMBER_TAGS=@smoke
 SET CUCUMBER_VERBOSE=true
 SET CUCUMBER_PLUGIN=pretty,rerun
+SET CUCUMBER_FEATURES=features/billing
 ```
 
 ### Java System properties (JVM only)
@@ -80,12 +91,18 @@ SET CUCUMBER_PLUGIN=pretty,rerun
 -Dcucumber.tags=@smoke
 -Dcucumber.verbose=true
 -Dcucumber.plugin=pretty,rerun
+-Dcucumber.features=features/billing
 ```
 
 ### Java Annotations (JVM only)
 
 ```java
-@CucumberOptions(tags="@smoke", verbose=true, plugin={"pretty", "rerun"})
+@CucumberOptions(
+  tags="@smoke", 
+  verbose=true, 
+  plugin={"pretty", "rerun"},
+  features={"features/billing"}
+})
 ```
 
 ## Displaying configuration options
@@ -107,6 +124,9 @@ cucumber:
     - pretty
     # --plugin (command line option)
     - rerun
+  features:
+    # command line argument
+    - features/billing
 ```
 
 
