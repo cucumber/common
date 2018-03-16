@@ -1,7 +1,10 @@
 package io.cucumber.config;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+
+import static io.cucumber.config.Config.indent;
 
 public class PropertyList implements Value {
     private final List<Value> values = new ArrayList<>();
@@ -17,8 +20,13 @@ public class PropertyList implements Value {
     }
 
     @Override
-    public void print(int depth, String rootKey, Appendable out) {
-        throw new UnsupportedOperationException();
+    public void print(int depth, String rootKey, Appendable out) throws IOException {
+        List<Value> values = asList();
+        for (Value value : values) {
+            indent(depth, out);
+            out.append("-");
+            value.print(0, null, out);
+        }
     }
 
     @Override
@@ -37,8 +45,8 @@ public class PropertyList implements Value {
     }
 
     @Override
-    public boolean isNull() {
-        throw new UnsupportedOperationException();
+    public boolean isEmpty() {
+        return values.isEmpty();
     }
 
     @Override
@@ -58,7 +66,7 @@ public class PropertyList implements Value {
 
     @Override
     public boolean isProperty() {
-        throw new UnsupportedOperationException();
+        return false;
     }
 
     @Override

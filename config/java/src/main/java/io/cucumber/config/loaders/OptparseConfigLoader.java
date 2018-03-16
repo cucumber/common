@@ -28,6 +28,11 @@ public class OptparseConfigLoader implements ConfigLoader {
             this.name = name;
         }
 
+        Option(String name, boolean bool) {
+            this.name = name;
+            this.value = bool ? "true" : "false";
+        }
+
         void setValue(String value) {
             this.value = value;
         }
@@ -49,15 +54,21 @@ public class OptparseConfigLoader implements ConfigLoader {
     @Override
     public void load(Config config) {
         Option option = null;
+        String value = null;
         while (!args.isEmpty()) {
             String arg = args.remove(0).trim();
             if (arg.startsWith("-")) {
                 if (option != null) {
                     option.update(config);
                 }
-                option = new Option(arg.replaceAll("-", ""));
+                if (arg.startsWith("--no-")) {
+                    arg = arg.substring(4);
+                    option = new Option(arg.replaceAll("-", ""), false);
+                } else {
+                    option = new Option(arg.replaceAll("-", ""));
+                }
             } else {
-                if(option != null && !option.hasValue()) {
+                if (option != null && !option.hasValue()) {
                     option.setValue(arg);
                 } else {
                     surplus.add(arg);

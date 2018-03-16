@@ -70,8 +70,8 @@ public class ConfigTest {
         Config config = new Config();
         config.set("booya.kasha", new Property("wat"));
         config.set("ninky", new Property("nonk"));
-        assertFalse(config.get("booya.kasha").isNull());
-        assertFalse(config.get("ninky").isNull());
+        assertFalse(config.get("booya.kasha").isEmpty());
+        assertFalse(config.get("ninky").isEmpty());
     }
 
     @Test
@@ -81,6 +81,9 @@ public class ConfigTest {
         config.set("aa.x.y.z", new Property("X"));
         config.set("a.c.d.e", new Property("3"));
         config.set("a.d.e", new Property("4"));
+        config.set("a.l", new PropertyList());
+        config.set("a.l", new Property("one"));
+        config.set("a.l", new Property("two"));
 
         String expected = "" +
                 "a:\n" +
@@ -93,6 +96,9 @@ public class ConfigTest {
                 "      e: 3\n" +
                 "  d:\n" +
                 "    e: 4\n" +
+                "  l:\n" +
+                "    - one\n" +
+                "    - two\n" +
                 "";
         assertEquals(expected, config.toYaml("a"));
     }

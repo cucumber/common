@@ -101,30 +101,30 @@ public class Config implements Value {
     public void print(int depth, String rootKey, Appendable out) throws IOException {
         // Print properties
         for (Map.Entry<String, Value> entry : valueByProperty.entrySet()) {
-            boolean print = rootKey == null || rootKey.equals(entry.getKey());
-            boolean isProperty = entry.getValue().isProperty();
+            String key = entry.getKey();
+            Value value = entry.getValue();
+            boolean print = rootKey == null || rootKey.equals(key);
+            boolean isProperty = value.isProperty();
+
             if (print && isProperty) {
-                indent(depth, out);
-                out.append(entry.getKey()).append(":");
-                if (!entry.getValue().isNull()) {
-                    out.append(" ").append(entry.getValue().asString());
-                }
-                out.append("\n");
+                value.print(depth, key, out);
             }
         }
         for (Map.Entry<String, Value> entry : valueByProperty.entrySet()) {
+            String key = entry.getKey();
+            Value value = entry.getValue();
             boolean print = rootKey == null || rootKey.equals(entry.getKey());
-            boolean isProperty = entry.getValue().isProperty();
+            boolean isProperty = value.isProperty();
+
             if (print && !isProperty) {
                 indent(depth, out);
-                out.append(entry.getKey()).append(":\n");
-                Value config = entry.getValue();
-                config.print(depth + 1, null, out);
+                out.append(key).append(":\n");
+                value.print(depth + 1, null, out);
             }
         }
     }
 
-    private void indent(int depth, Appendable out) throws IOException {
+    static void indent(int depth, Appendable out) throws IOException {
         for (int i = 0; i < depth; i++) {
             out.append("  ");
         }
@@ -154,7 +154,7 @@ public class Config implements Value {
     }
 
     @Override
-    public boolean isNull() {
-        return false;
+    public boolean isEmpty() {
+        return valueByProperty.isEmpty();
     }
 }

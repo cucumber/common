@@ -16,7 +16,7 @@ public interface Value {
 
     List<Value> asList();
 
-    boolean isNull();
+    boolean isEmpty();
 
     void print(int depth, String rootKey, Appendable out) throws IOException;
 

@@ -39,6 +39,15 @@ cucumber:
 --tags @smoke --verbose --plugin pretty --plugin rerun
 ```
 
+Boolean options (options that don't take an argument) can be set to `false`
+by prepending `--no-`:
+
+```shell
+--tags @smoke --no-verbose --plugin pretty --plugin rerun
+```
+
+This is useful for overriding options that default to true.
+
 ## Environment variables
 
 ```shell

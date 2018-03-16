@@ -1,7 +1,9 @@
 package io.cucumber.config;
 
+import java.io.IOException;
 import java.util.List;
 
+import static io.cucumber.config.Config.indent;
 import static java.lang.Integer.parseInt;
 
 public class Property implements Value {
@@ -30,8 +32,15 @@ public class Property implements Value {
     }
 
     @Override
-    public void print(int depth, String rootKey, Appendable out) {
-        throw new UnsupportedOperationException();
+    public void print(int depth, String key, Appendable out) throws IOException {
+        indent(depth, out);
+        if(key != null) {
+            out.append(key).append(":");
+        }
+        if (!isEmpty()) {
+            out.append(" ").append(asString());
+        }
+        out.append("\n");
     }
 
     @Override
@@ -50,7 +59,7 @@ public class Property implements Value {
     }
 
     @Override
-    public boolean isNull() {
+    public boolean isEmpty() {
         return value == null;
     }
 
