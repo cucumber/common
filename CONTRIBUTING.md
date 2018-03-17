@@ -47,7 +47,7 @@ Any change to resources in this repository must be through pull requests. This a
 to documentation, code, binary files, etc. Even long term committers and TC members must use
 pull requests, except for trivial changes.
 
-GitHub pull requests should usually be submitted agains subrepos. When the subrepo PR build
+GitHub pull requests should usually be submitted against subrepos. When the subrepo PR build
 is green, it can be merged to master and pulled into the monorepo. It can optionally be pulled
 into a feature branch, in case completing the work requires changes to other subrepos (typically
 other language ports of the same library/component).
