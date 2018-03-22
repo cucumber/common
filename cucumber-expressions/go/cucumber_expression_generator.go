@@ -1,5 +1,19 @@
 package cucumberexpressions
 
+type CucumberExpressionGenerator struct {
+	parameterTypeRegistry *ParameterTypeRegistry
+}
+
+func NewCucumberExpressionGenerator(parameterTypeRegistry *ParameterTypeRegistry) *CucumberExpressionGenerator {
+	return &CucumberExpressionGenerator{
+		parameterTypeRegistry: parameterTypeRegistry,
+	}
+}
+
+func (c *CucumberExpressionGenerator) GenerateExpressions(text string) []*GeneratedExpression {
+	return []*GeneratedExpression{}
+}
+
 // const util = require('util')
 // const ParameterTypeMatcher = require('./parameter_type_matcher')
 // const ParameterType = require('./parameter_type')
