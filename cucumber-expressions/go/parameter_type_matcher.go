@@ -44,21 +44,6 @@ func (p *ParameterTypeMatcher) Group() string {
 	return p.text[p.matchPosition:][p.match[0]:p.match[1]]
 }
 
-type ParameterTypeSlice []*ParameterType
-
-func (p ParameterTypeSlice) Len() int           {
-	return len(p)
-}
-func (p ParameterTypeSlice) Less(i, j int) bool {
-	posComparison := p[i].UseForSnippets()
-	return p[i] < p[j]
-}
-func (p ParameterTypeSlice) Swap(i, j int)      {
-	p[i], p[j] = p[j], p[i]
- }
-
-func []ParameterType(a, b)
-
 //   static compare(a, b) {
 //     const posComparison = a.start - b.start
 //     if (posComparison !== 0) return posComparison
