@@ -44,6 +44,18 @@ func (p *ParameterTypeMatcher) Group() string {
 	return p.text[p.matchPosition:][p.match[0]:p.match[1]]
 }
 
+func CompareParameterTypeMatchers(a, b *ParameterTypeMatcher) int {
+	posComparison := a.Start() - b.Start()
+	if posComparison != 0 {
+		return posComparison
+	}
+	lengthComparison := len(b.Group()) - len(a.Group())
+	if lengthComparison != 0 {
+		return lengthComparison
+	}
+	return 0
+}
+
 //   static compare(a, b) {
 //     const posComparison = a.start - b.start
 //     if (posComparison !== 0) return posComparison

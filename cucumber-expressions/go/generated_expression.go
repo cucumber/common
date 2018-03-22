@@ -38,9 +38,11 @@ func (g *GeneratedExpression) ParameterTypes() []*ParameterType {
 func getParameterName(typeName string, usageByTypeName map[string]int) string {
 	count, ok := usageByTypeName[typeName]
 	if !ok {
-		count = 0
+		count = 1
+	} else {
+		count++
 	}
-	usageByTypeName[typeName] = count + 1
+	usageByTypeName[typeName] = count
 	if count == 1 {
 		return typeName
 	}

@@ -1,7 +1,6 @@
 package cucumberexpressions
 
 import (
-	"fmt"
 	"regexp"
 )
 
@@ -44,9 +43,7 @@ func (r *RegularExpression) Match(text string) ([]*Argument, error) {
 		}
 		parameterTypes = append(parameterTypes, parameterType)
 	}
-	args := BuildArguments(r.treeRegexp, text, parameterTypes)
-	fmt.Printf("%#v\n", args)
-	return args, nil
+	return BuildArguments(r.treeRegexp, text, parameterTypes), nil
 }
 
 func (r *RegularExpression) Regexp() *regexp.Regexp {

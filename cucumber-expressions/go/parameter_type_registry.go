@@ -98,7 +98,7 @@ func NewParameterTypeRegistry() (*ParameterTypeRegistry, error) {
 	return result, nil
 }
 
-func (p *ParameterTypeRegistry) GetParamaterTypes() []*ParameterType {
+func (p *ParameterTypeRegistry) ParamaterTypes() []*ParameterType {
 	result := make([]*ParameterType, len(p.parameterTypeByName))
 	index := 0
 	for _, parameterType := range p.parameterTypeByName {
@@ -149,13 +149,7 @@ func (p *ParameterTypeRegistry) DefineParameterType(parameterType *ParameterType
 		}
 		parameterTypes = append(parameterTypes, parameterType)
 		sort.Slice(parameterTypes, func(i int, j int) bool {
-			if parameterTypes[i].PreferForRegexpMatch() && !parameterTypes[j].PreferForRegexpMatch() {
-				return true
-			}
-			if parameterTypes[j].PreferForRegexpMatch() && !parameterTypes[i].PreferForRegexpMatch() {
-				return false
-			}
-			return parameterTypes[i].Name() < parameterTypes[j].Name()
+			return CompareParameterTypes(parameterTypes[i], parameterTypes[j]) <= 0
 		})
 		p.parameterTypesByRegexp[parameterTypeRegexp.String()] = parameterTypes
 	}

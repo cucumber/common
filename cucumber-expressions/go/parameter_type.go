@@ -51,3 +51,19 @@ func (p *ParameterType) PreferForRegexpMatch() bool {
 func (p *ParameterType) Transform(groupValues []string) interface{} {
 	return p.transform(groupValues...)
 }
+
+func CompareParameterTypes(pt1, pt2 *ParameterType) int {
+	if pt1.PreferForRegexpMatch() && pt2.PreferForRegexpMatch() {
+		return -1
+	}
+	if pt2.PreferForRegexpMatch() && !pt1.PreferForRegexpMatch() {
+		return 1
+	}
+	if pt1.Name() < pt2.Name() {
+		return -1
+	}
+	if pt1.Name() > pt2.Name() {
+		return 1
+	}
+	return 0
+}
