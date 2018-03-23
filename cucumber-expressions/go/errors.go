@@ -2,16 +2,20 @@ package cucumberexpressions
 
 import "fmt"
 
-func NewCucumberExpressionError(text string) error {
-	return &CucumberExpressionError{s: text}
-}
-
 type CucumberExpressionError struct {
 	s string
 }
 
+func NewCucumberExpressionError(text string) error {
+	return &CucumberExpressionError{s: text}
+}
+
 func (e *CucumberExpressionError) Error() string {
 	return e.s
+}
+
+type AmbiguousParameterTypeError struct {
+	s string
 }
 
 func NewAmbiguousParameterTypeErrorForConstructor(keyName, keyValue string, parameterTypes []*ParameterType, generatedExpressions []string) error {
@@ -26,11 +30,19 @@ func NewAmbiguousParameterTypeErrorForConstructor(keyName, keyValue string, para
 	}
 }
 
-type AmbiguousParameterTypeError struct {
+func (e *AmbiguousParameterTypeError) Error() string {
+	return e.s
+}
+
+type UndefinedParameterTypeError struct {
 	s string
 }
 
-func (e *AmbiguousParameterTypeError) Error() string {
+func NewUndefinedParameterTypeError(typeName string) error {
+	return &UndefinedParameterTypeError{s: fmt.Sprintf("Undefined parameter type {%s}", typeName)}
+}
+
+func (e *UndefinedParameterTypeError) Error() string {
 	return e.s
 }
 

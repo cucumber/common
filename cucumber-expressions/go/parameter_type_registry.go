@@ -35,8 +35,8 @@ func NewParameterTypeRegistry() (*ParameterTypeRegistry, error) {
 		"int",
 		INTEGER_REGEXPS,
 		"int",
-		func(arg3 ...string) interface{} {
-			i, err := strconv.Atoi(arg3[0])
+		func(args ...string) interface{} {
+			i, err := strconv.Atoi(args[0])
 			if err != nil {
 				panic(err)
 			}
@@ -53,8 +53,8 @@ func NewParameterTypeRegistry() (*ParameterTypeRegistry, error) {
 		"float",
 		FLOAT_REGEXPS,
 		"float",
-		func(arg3 ...string) interface{} {
-			f, err := strconv.ParseFloat(arg3[0], 64)
+		func(args ...string) interface{} {
+			f, err := strconv.ParseFloat(args[0], 64)
 			if err != nil {
 				panic(err)
 			}
@@ -71,8 +71,8 @@ func NewParameterTypeRegistry() (*ParameterTypeRegistry, error) {
 		"word",
 		WORD_REGEXPS,
 		"string",
-		func(arg3 ...string) interface{} {
-			return arg3[0]
+		func(args ...string) interface{} {
+			return args[0]
 		},
 		false,
 		false,
@@ -85,8 +85,11 @@ func NewParameterTypeRegistry() (*ParameterTypeRegistry, error) {
 		"string",
 		STRING_REGEXPS,
 		"string",
-		func(arg3 ...string) interface{} {
-			return arg3[0]
+		func(args ...string) interface{} {
+			if args[0] == "" && args[1] != "" {
+				return args[1]
+			}
+			return args[0]
 		},
 		true,
 		false,

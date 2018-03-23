@@ -10,7 +10,7 @@ type Argument struct {
 func BuildArguments(treeRegexp *TreeRegexp, text string, parameterTypes []*ParameterType) []*Argument {
 	group := treeRegexp.Match(text)
 	if group == nil {
-		return []*Argument{}
+		return nil
 	}
 	argGroups := group.Children()
 	if len(argGroups) != len(parameterTypes) {
