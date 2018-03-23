@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"testing"
 
-	cucumberexpressions "github.com/cucumber/cucumber/cucumber-expressions/go"
+	cucumberexpressions "."
 	"github.com/stretchr/testify/require"
 )
 

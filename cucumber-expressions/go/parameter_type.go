@@ -1,6 +1,11 @@
 package cucumberexpressions
 
-import "regexp"
+import (
+	"errors"
+	"regexp"
+)
+
+var HAS_FLAG_REGEKP = regexp.MustCompile(`\(\?[imsU-]+(\:.*)?\)`)
 
 type ParameterType struct {
 	name                 string
@@ -14,7 +19,12 @@ type ParameterType struct {
 func NewParameterType(name string, regexps []*regexp.Regexp, type1 string, transform func(...string) interface{}, useForSnippets bool, preferForRegexpMatch bool) (*ParameterType, error) {
 	if transform == nil {
 		transform = func(s ...string) interface{} {
-			return s
+			return s[0]
+		}
+	}
+	for _, r := range regexps {
+		if HAS_FLAG_REGEKP.MatchString(r.String()) {
+			return nil, errors.New("ParameterType Regexps can't use flags")
 		}
 	}
 	// TODO error if uses flags
