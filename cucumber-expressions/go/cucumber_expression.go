@@ -15,7 +15,7 @@ type CucumberExpression struct {
 func NewCucumberExpression(expression string, parameterTypeRegistry *ParameterTypeRegistry) (*CucumberExpression, error) {
 	ESCAPE_REGEXP := regexp.MustCompile(`([\\^[$.|?*+])`)
 	PARAMETER_REGEXP := regexp.MustCompile("{([^}]+)}")
-	OPTIONAL_REGEXP := regexp.MustCompile(`(\\\\)?\([^)]+\)`)
+	OPTIONAL_REGEXP := regexp.MustCompile(`(\\\\\\\\)?\([^)]+\)`)
 	ALTERNATIVE_NON_WHITESPACE_TEXT_REGEXP := regexp.MustCompile(`([^\s^/]+)((\/[^\s^/]+)+)`)
 
 	result := &CucumberExpression{expression: expression}
@@ -24,14 +24,12 @@ func NewCucumberExpression(expression string, parameterTypeRegistry *ParameterTy
 	matchOffset := 0
 
 	// Does not include (){} because they have special meaning
-	fmt.Println(expression)
 	expression = ESCAPE_REGEXP.ReplaceAllString(expression, "\\$1")
-	fmt.Println(expression)
 
 	// Create non-capturing, optional capture groups from parenthesis
 	expression = OPTIONAL_REGEXP.ReplaceAllStringFunc(expression, func(match string) string {
-		if strings.HasPrefix(match, "\\\\") {
-			return fmt.Sprintf(`\(%s\)`, match[3:len(match)-1])
+		if strings.HasPrefix(match, "\\\\\\\\") {
+			return fmt.Sprintf(`\(%s\)`, match[5:len(match)-1])
 		}
 		return fmt.Sprintf("(?:%s", match[1:])
 	})
