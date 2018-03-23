@@ -31,7 +31,7 @@ func NewCucumberExpression(expression string, parameterTypeRegistry *ParameterTy
 		if strings.HasPrefix(match, "\\\\\\\\") {
 			return fmt.Sprintf(`\(%s\)`, match[5:len(match)-1])
 		}
-		return fmt.Sprintf("(?:%s", match[1:])
+		return fmt.Sprintf("(?:%s)?", match[1:len(match)-1])
 	})
 
 	expression = ALTERNATIVE_NON_WHITESPACE_TEXT_REGEXP.ReplaceAllStringFunc(expression, func(match string) string {
