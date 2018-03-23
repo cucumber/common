@@ -10,8 +10,7 @@ import (
 
 func TestRegularExpression(t *testing.T) {
 	t.Run("documents match arguments", func(t *testing.T) {
-		parameterTypeRegistry, err := cucumberexpressions.NewParameterTypeRegistry()
-		require.NoError(t, err)
+		parameterTypeRegistry := cucumberexpressions.NewParameterTypeRegistry()
 
 		/// [capture-match-arguments]
 		expr := regexp.MustCompile(`I have (\d+) cukes? in my (\w+) now`)
@@ -64,8 +63,7 @@ func TestRegularExpression(t *testing.T) {
 	})
 
 	t.Run("exposes regexp and source", func(t *testing.T) {
-		parameterTypeRegistry, err := cucumberexpressions.NewParameterTypeRegistry()
-		require.NoError(t, err)
+		parameterTypeRegistry := cucumberexpressions.NewParameterTypeRegistry()
 		expr := regexp.MustCompile(`I have (\d+) cukes? in my (\w+) now`)
 		expression := cucumberexpressions.NewRegularExpression(expr, parameterTypeRegistry)
 		require.Equal(t, expression.Regexp(), expr)
@@ -75,8 +73,7 @@ func TestRegularExpression(t *testing.T) {
 }
 
 func Match(t *testing.T, expr, text string) []interface{} {
-	parameterTypeRegistry, err := cucumberexpressions.NewParameterTypeRegistry()
-	require.NoError(t, err)
+	parameterTypeRegistry := cucumberexpressions.NewParameterTypeRegistry()
 	expression := cucumberexpressions.NewRegularExpression(regexp.MustCompile(expr), parameterTypeRegistry)
 	args, err := expression.Match(text)
 	require.NoError(t, err)

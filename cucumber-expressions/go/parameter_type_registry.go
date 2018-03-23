@@ -26,7 +26,7 @@ type ParameterTypeRegistry struct {
 	parameterTypesByRegexp map[string][]*ParameterType
 }
 
-func NewParameterTypeRegistry() (*ParameterTypeRegistry, error) {
+func NewParameterTypeRegistry() *ParameterTypeRegistry {
 	result := &ParameterTypeRegistry{
 		parameterTypeByName:    map[string]*ParameterType{},
 		parameterTypesByRegexp: map[string][]*ParameterType{},
@@ -46,7 +46,7 @@ func NewParameterTypeRegistry() (*ParameterTypeRegistry, error) {
 		true,
 	)
 	if err != nil {
-		return nil, err
+		panic(err)
 	}
 	result.DefineParameterType(intParameterType)
 	floatParameterType, err := NewParameterType(
@@ -64,7 +64,7 @@ func NewParameterTypeRegistry() (*ParameterTypeRegistry, error) {
 		false,
 	)
 	if err != nil {
-		return nil, err
+		panic(err)
 	}
 	result.DefineParameterType(floatParameterType)
 	wordParameterType, err := NewParameterType(
@@ -78,7 +78,7 @@ func NewParameterTypeRegistry() (*ParameterTypeRegistry, error) {
 		false,
 	)
 	if err != nil {
-		return nil, err
+		panic(err)
 	}
 	result.DefineParameterType(wordParameterType)
 	stringParameterType, err := NewParameterType(
@@ -95,10 +95,10 @@ func NewParameterTypeRegistry() (*ParameterTypeRegistry, error) {
 		false,
 	)
 	if err != nil {
-		return nil, err
+		panic(err)
 	}
 	result.DefineParameterType(stringParameterType)
-	return result, nil
+	return result
 }
 
 func (p *ParameterTypeRegistry) ParamaterTypes() []*ParameterType {
@@ -115,7 +115,7 @@ func (p *ParameterTypeRegistry) LookupByTypeName(name string) *ParameterType {
 	return p.parameterTypeByName[name]
 }
 
-func (p *ParameterTypeRegistry) LookupByRegexp(parameterTypeRegexp string) (*ParameterType, error) {
+func (p *ParameterTypeRegistry) LookupByRegexp(parameterTypeRegexp string, expressionRegexp string, text string) (*ParameterType, error) {
 	parameterTypes, ok := p.parameterTypesByRegexp[parameterTypeRegexp]
 	if !ok {
 		return nil, nil

@@ -63,7 +63,7 @@ func (p *ParameterType) Transform(groupValues []string) interface{} {
 }
 
 func CompareParameterTypes(pt1, pt2 *ParameterType) int {
-	if pt1.PreferForRegexpMatch() && pt2.PreferForRegexpMatch() {
+	if pt1.PreferForRegexpMatch() && !pt2.PreferForRegexpMatch() {
 		return -1
 	}
 	if pt2.PreferForRegexpMatch() && !pt1.PreferForRegexpMatch() {

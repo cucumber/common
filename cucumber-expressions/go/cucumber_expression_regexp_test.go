@@ -50,8 +50,7 @@ func TestCucumberExpressionRegExpTranslation(t *testing.T) {
 }
 
 func assertRegexp(t *testing.T, expression string, expectedRegexp string) {
-	parameterTypeRegistry, err := cucumberexpressions.NewParameterTypeRegistry()
-	require.NoError(t, err)
+	parameterTypeRegistry := cucumberexpressions.NewParameterTypeRegistry()
 	generator, err := cucumberexpressions.NewCucumberExpression(expression, parameterTypeRegistry)
 	require.NoError(t, err)
 	require.Equal(t, generator.Regexp().String(), expectedRegexp)

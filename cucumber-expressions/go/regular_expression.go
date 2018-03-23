@@ -22,7 +22,7 @@ func (r *RegularExpression) Match(text string) ([]*Argument, error) {
 	parameterTypes := []*ParameterType{}
 	for _, groupBuilder := range r.treeRegexp.GroupBuilder().Children() {
 		parameterTypeRegexp := groupBuilder.Source()
-		parameterType, err := r.parameterTypeRegistry.LookupByRegexp(parameterTypeRegexp)
+		parameterType, err := r.parameterTypeRegistry.LookupByRegexp(parameterTypeRegexp, r.expressionRegexp.String(), text)
 		if err != nil {
 			return nil, err
 		}

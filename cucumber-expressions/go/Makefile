@@ -5,7 +5,7 @@ default: test
 .PHONY: default
 
 test: lib/src/github.com/stretchr/testify
-	go test
+	go test ${ARGS}
 .PHONY: clean
 
 lib/src/github.com/stretchr/testify:

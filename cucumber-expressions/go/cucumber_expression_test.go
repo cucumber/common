@@ -10,8 +10,7 @@ import (
 
 func TestCucumberExpression(t *testing.T) {
 	t.Run("documents expression generation", func(t *testing.T) {
-		parameterTypeRegistry, err := cucumberexpressions.NewParameterTypeRegistry()
-		require.NoError(t, err)
+		parameterTypeRegistry := cucumberexpressions.NewParameterTypeRegistry()
 
 		/// [capture-match-arguments]
 		expr := "I have {int} cuke(s)"
@@ -130,17 +129,15 @@ func TestCucumberExpression(t *testing.T) {
 	})
 
 	t.Run("returns error for unknown parameter float", func(t *testing.T) {
-		parameterTypeRegistry, err := cucumberexpressions.NewParameterTypeRegistry()
-		require.NoError(t, err)
-		_, err = cucumberexpressions.NewCucumberExpression("{unknown}", parameterTypeRegistry)
+		parameterTypeRegistry := cucumberexpressions.NewParameterTypeRegistry()
+		_, err := cucumberexpressions.NewCucumberExpression("{unknown}", parameterTypeRegistry)
 		require.Error(t, err)
 		require.Equal(t, err.Error(), "Undefined parameter type {unknown}")
 	})
 
 	t.Run("exposes source", func(t *testing.T) {
 		expr := "I have {int} cuke(s)"
-		parameterTypeRegistry, err := cucumberexpressions.NewParameterTypeRegistry()
-		require.NoError(t, err)
+		parameterTypeRegistry := cucumberexpressions.NewParameterTypeRegistry()
 		expression, err := cucumberexpressions.NewCucumberExpression(expr, parameterTypeRegistry)
 		require.NoError(t, err)
 		require.Equal(t, expression.Source(), expr)
@@ -163,8 +160,7 @@ func TestCucumberExpression(t *testing.T) {
 
 		t.Run("escapes .", func(t *testing.T) {
 			expr := "I have {int} cuke(s) and ."
-			parameterTypeRegistry, err := cucumberexpressions.NewParameterTypeRegistry()
-			require.NoError(t, err)
+			parameterTypeRegistry := cucumberexpressions.NewParameterTypeRegistry()
 			expression, err := cucumberexpressions.NewCucumberExpression(expr, parameterTypeRegistry)
 			require.NoError(t, err)
 			require.Nil(t, expression.Match("I have 800 cukes and 3"))
@@ -173,8 +169,7 @@ func TestCucumberExpression(t *testing.T) {
 
 		t.Run("escapes |", func(t *testing.T) {
 			expr := "I have {int} cuke(s) and a|b"
-			parameterTypeRegistry, err := cucumberexpressions.NewParameterTypeRegistry()
-			require.NoError(t, err)
+			parameterTypeRegistry := cucumberexpressions.NewParameterTypeRegistry()
 			expression, err := cucumberexpressions.NewCucumberExpression(expr, parameterTypeRegistry)
 			require.NoError(t, err)
 			require.Nil(t, expression.Match("I have 800 cukes and a"))
@@ -185,8 +180,7 @@ func TestCucumberExpression(t *testing.T) {
 }
 
 func MatchCucumberExpression(t *testing.T, expr string, text string) []interface{} {
-	parameterTypeRegistry, err := cucumberexpressions.NewParameterTypeRegistry()
-	require.NoError(t, err)
+	parameterTypeRegistry := cucumberexpressions.NewParameterTypeRegistry()
 	expression, err := cucumberexpressions.NewCucumberExpression(expr, parameterTypeRegistry)
 	require.NoError(t, err)
 	args := expression.Match(text)

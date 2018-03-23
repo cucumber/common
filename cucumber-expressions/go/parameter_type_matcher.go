@@ -55,11 +55,3 @@ func CompareParameterTypeMatchers(a, b *ParameterTypeMatcher) int {
 	}
 	return 0
 }
-
-//   static compare(a, b) {
-//     const posComparison = a.start - b.start
-//     if (posComparison !== 0) return posComparison
-//     const lengthComparison = b.group.length - a.group.length
-//     if (lengthComparison !== 0) return lengthComparison
-//     return 0
-//   }
