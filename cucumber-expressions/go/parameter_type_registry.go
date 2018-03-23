@@ -121,18 +121,8 @@ func (p *ParameterTypeRegistry) LookupByRegexp(parameterTypeRegexp string, expre
 		return nil, nil
 	}
 	if len(parameterTypes) > 1 && !parameterTypes[0].PreferForRegexpMatch() {
-		// We don't do this check on insertion because we only want to restrict
-		// ambiguiuty when we look up by Regexp. Users of CucumberExpression should
-		// not be restricted.
-		// const generatedExpressions = new CucumberExpressionGenerator(
-		//   this
-		// ).generateExpressions(text)
-		// throw new AmbiguousParameterTypeError.forRegExp(
-		//   parameterTypeRegexp,
-		//   expressionRegexp,
-		//   parameterTypes,
-		//   generatedExpressions
-		// )
+		generatedExpressions := NewCucumberExpressionGenerator(p).GenerateExpressions(text)
+		return nil, NewAmbiguousParameterTypeError(parameterTypeRegexp, expressionRegexp, parameterTypes, generatedExpressions)
 	}
 	return parameterTypes[0], nil
 }
