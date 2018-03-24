@@ -1,16 +1,14 @@
-package io.cucumber.config.builders;
+package io.cucumber.config;
 
 import io.cucumber.config.FieldSetter;
 import io.cucumber.config.MapBuilder;
+import io.cucumber.config.builders.Testing;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import static org.junit.Assert.assertEquals;
 
-public abstract class MapBuilderContract {
+public abstract class FieldSetterContract {
     private final Testing testing = new Testing();
     private final FieldSetter fieldSetter = new FieldSetter(testing);
 
@@ -42,11 +40,4 @@ public abstract class MapBuilderContract {
 
     protected abstract MapBuilder makeMapBuilder();
 
-    public static class Testing {
-        public boolean somebool;
-        public int meaning;
-        public String message;
-        public List<String> stringlist = new ArrayList<>();
-        public List<String> extra = new ArrayList<>();
-    }
 }

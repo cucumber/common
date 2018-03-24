@@ -8,16 +8,16 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class OptparseMapBuilder implements MapBuilder {
+public class OptparseBuilder implements MapBuilder {
     private final List<String> args;
     private final Map<String, String> aliases;
     private final String surplusKey;
 
-    public OptparseMapBuilder(String surplusKey, List<String> args) {
+    public OptparseBuilder(String surplusKey, List<String> args) {
         this(surplusKey, args, Collections.<String, String>emptyMap());
     }
 
-    public OptparseMapBuilder(String surplusKey, List<String> args, Map<String, String> aliases) {
+    public OptparseBuilder(String surplusKey, List<String> args, Map<String, String> aliases) {
         this.surplusKey = surplusKey;
         this.args = new ArrayList<>(args);
         this.aliases = aliases;
@@ -50,7 +50,9 @@ public class OptparseMapBuilder implements MapBuilder {
         if (option != null) {
             option.updateMap(result);
         }
-        result.put(surplusKey, surplus);
+        if (!surplus.isEmpty()) {
+            result.put(surplusKey, surplus);
+        }
 
         return result;
     }

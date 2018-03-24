@@ -1,13 +1,11 @@
 package io.cucumber.config.builders;
 
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 import io.cucumber.config.MapBuilder;
+import io.cucumber.config.FieldSetterContract;
 
 import java.io.StringReader;
-import java.util.Map;
 
-public class JsonMapBuilderTest extends MapBuilderContract {
+public class JsonTest extends FieldSetterContract {
     @Override
     protected MapBuilder makeMapBuilder() {
         StringReader jsonReader = new StringReader("" +
@@ -23,6 +21,6 @@ public class JsonMapBuilderTest extends MapBuilderContract {
                 "  }\n" +
                 "}\n"
         );
-        return new JsonMapBuilder(new String[]{"testing"}, jsonReader);
+        return new JsonBuilder(new String[]{"testing"}, jsonReader);
     }
 }

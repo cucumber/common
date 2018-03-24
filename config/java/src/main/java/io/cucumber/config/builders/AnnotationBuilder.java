@@ -8,11 +8,11 @@ import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Map;
 
-public class AnnotationMapBuilder implements MapBuilder {
+public class AnnotationBuilder implements MapBuilder {
     private final Annotation annotation;
     private final String comment;
 
-    public AnnotationMapBuilder(Annotation annotation) {
+    public AnnotationBuilder(Annotation annotation) {
         this.annotation = annotation;
         this.comment = annotation.toString();
     }

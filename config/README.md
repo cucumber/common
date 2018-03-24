@@ -1,43 +1,55 @@
 # Cucumber Config
 
-Cucumber has several configuration options. Each option has a default value
-which can be overridden in different ways.
+This library can create configuration objects from several sources:
 
-## Overriding configuration options
+* YAML file
+* JSON file
+* Environment variables
+* System properties (JVM only)
+* Java Annotations (Java only)
 
+The purpose is to provide a consistent way to configure Cucumber.
+(The library is independent of Cucumber and can be used by other programs).
+
+## How it works
+
+The library sets fields on an object. This object should have default values set.
 We'll illustrate with an example:
 
-* Feature files in `features/billing`
-* Run only tags `@smoke`
-* Be verbose
-* Use `pretty` and `rerun` formatter plugins
+```java
+public class Testing {
+    public boolean somebool = false;
+    public int meaning = 12;
+    public String message = "nothing";
+    public List<String> stringlist = new ArrayList<>();
+    public List<String> extra = new ArrayList<>();
+}
+```
 
-### YAML (`cucumber.yml`)
+These fields can be modified from several sources.
+
+### YAML file
 
 ```yaml
-cucumber:
-  tags: @smoke
-  verbose: true
-  plugin:
-    - pretty
-    - rerun
-  features:
-    - features/billing
+testing:
+  somebool: true
+  meaning: 42
+  message: hello
+  stringlist:
+    - one
+    - two
 ```
 
 ### JSON (`cucumber.json`)
 
 ```json
 {
-  "cucumber": {
-    "tags": "@smoke",
-    "verbose": true,
-    "plugin": [
-      "pretty",
-      "rerun"
-    ],
-    "features": [
-      "features/billing"
+  "testing": {
+    "somebool": true,
+    "meaning": 42,
+    "stringlist": [
+      "one",
+      "two"
     ]
   }
 }
@@ -46,87 +58,60 @@ cucumber:
 ### Command line options
 
 ```shell
---tags @smoke --verbose --plugin pretty --plugin rerun features/billing
+--somebool --meaning 42 --message hello --stringlist one --stringlist one
 ```
 
-The last argument (`features/billing`) is an *argument* and not an option,
-but it gets assigned to the `cucumber.features` list.
+Or, if we specify that *surplus* arguments should be assigned to `stringlist`
+
+```shell
+--somebool --meaning 42 --message hello one one
+```
 
 Boolean options (options that don't take an argument) can be set to `false`
 by prepending `--no-`:
 
 ```shell
---tags @smoke --no-verbose --plugin pretty --plugin rerun features/billing
+--no-somebool
 ```
 
 This is useful for overriding options that default to true.
 
-Some command line options also have a short option:
+It's also possible to define *shortopt* aliases for the *longopt* options, making
+the following equivalent:
 
 ```shell
--t @smoke -p pretty -p rerun features/billing
+--somebool --meaning 42 --message hello --stringlist one --stringlist one
+-s -m 42 -e hello -l one -l one
 ```
 
 ### Environment variables
 
 ```shell
 # Linux / OS X
-export CUCUMBER_TAGS=@smoke
-export CUCUMBER_VERBOSE=true
-export CUCUMBER_PLUGIN=pretty,rerun
-export CUCUMBER_FEATURES=features/billing
+export TESTING_SOMEBOOL=true
+export TESTING_MEANING=42
+export TESTING_MESSAGE=hello
+export TESTING_STRINGLIST=one,two
 ```
 
-```shell
-# Windows
-SET CUCUMBER_TAGS=@smoke
-SET CUCUMBER_VERBOSE=true
-SET CUCUMBER_PLUGIN=pretty,rerun
-SET CUCUMBER_FEATURES=features/billing
-```
+(On Windows, use `SET` instead of `export`).
 
 ### Java System properties (JVM only)
 
 ```shell
--Dcucumber.tags=@smoke
--Dcucumber.verbose=true
--Dcucumber.plugin=pretty,rerun
--Dcucumber.features=features/billing
+-Dtesting.somebool=true
+-Dtesting.meaning=42
+-Dtesting.message=hello
+-Dtesting.stringlist=one,two
 ```
 
 ### Java Annotations (JVM only)
 
 ```java
-@CucumberOptions(
-  tags="@smoke", 
-  verbose=true, 
-  plugin={"pretty", "rerun"},
-  features={"features/billing"}
-})
+@TestingOptions(
+  somebool=true, 
+  meaning=42,
+  message="pretty",
+  stringlist={"one", "two"}
+)
 ```
-
-## Displaying configuration options
-
-Because configuration options can be specified in different ways, Cucumber can print out
-the current configuration along with the source of each configuration. To do this,
-specify the `--verbose` option (in any of the ways explained above).
-
-This will print something like the following:
-
-```yaml
-cucumber:
-  # --tags (command line option)
-  tags: @smoke
-  # cucumber.yml (YAML file)
-  verbose: true
-  plugin:
-    # CUCUMBER_PLUGIN (environment variable)
-    - pretty
-    # --plugin (command line option)
-    - rerun
-  features:
-    # command line argument
-    - features/billing
-```
-
-

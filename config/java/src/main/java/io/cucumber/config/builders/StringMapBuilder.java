@@ -10,11 +10,11 @@ import java.util.regex.Pattern;
 /**
  * Builds a map from another map, such as environment variables or system properties.
  */
-public class PrefixMapBuilder implements MapBuilder {
+public class StringMapBuilder implements MapBuilder {
     private final String prefix;
     private final Map<Object, Object> map;
 
-    public PrefixMapBuilder(String prefix, Map<Object, Object> map) {
+    public StringMapBuilder(String prefix, Map<Object, Object> map) {
         this.prefix = prefix;
         this.map = map;
     }
@@ -24,7 +24,7 @@ public class PrefixMapBuilder implements MapBuilder {
         Map<String, Object> result = new HashMap<>();
         Pattern pattern = Pattern.compile("^" + prefix + "(.*)", Pattern.CASE_INSENSITIVE);
         for (Map.Entry<Object, Object> entry : map.entrySet()) {
-            if(entry.getKey() instanceof String) {
+            if (entry.getKey() instanceof String) {
                 String key = (String) entry.getKey();
                 Matcher matcher = pattern.matcher(key);
                 if (matcher.matches()) {

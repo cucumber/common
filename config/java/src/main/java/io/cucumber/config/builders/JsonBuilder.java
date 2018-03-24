@@ -7,11 +7,13 @@ import io.cucumber.config.MapBuilder;
 import java.io.Reader;
 import java.util.Map;
 
-public class JsonMapBuilder implements MapBuilder {
+import static io.cucumber.config.builders.DeepMap.getMap;
+
+public class JsonBuilder implements MapBuilder {
     private final String[] keys;
     private Map<String, Object> map;
 
-    public JsonMapBuilder(String[] keys, Reader jsonReader) {
+    public JsonBuilder(String[] keys, Reader jsonReader) {
         this.keys = keys;
         this.map = new Gson().fromJson(jsonReader, new TypeToken<Map<String, Object>>() {
         }.getType());
@@ -19,9 +21,6 @@ public class JsonMapBuilder implements MapBuilder {
 
     @Override
     public Map<String, ?> buildMap() {
-        for (String key : keys) {
-            map = (Map<String, Object>) map.get(key);
-        }
-        return map;
+        return getMap(keys, map);
     }
 }
