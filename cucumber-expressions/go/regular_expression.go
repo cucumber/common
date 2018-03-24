@@ -38,7 +38,7 @@ func (r *RegularExpression) Match(text string) ([]*Argument, error) {
 				false,
 			)
 			if err != nil {
-				return nil, err
+				panic(err)
 			}
 		}
 		parameterTypes = append(parameterTypes, parameterType)
