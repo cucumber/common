@@ -13,6 +13,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
    [#333](https://github.com/cucumber/cucumber/issues/333)
    [#334](https://github.com/cucumber/cucumber/pull/334)
    [jamis])
+* Matching a literal left curly brace [aslakhellesoy]
 
 ### Changed
 N/A
@@ -26,7 +27,9 @@ N/A
    [aslakhellesoy])
 
 ### Fixed
-N/A
+* Generated expressions escape `(` and `{` if they were present in the text.
+  ([#345](https://github.com/cucumber/cucumber/issues/345)
+  [aslakhellesoy])
 
 ## [5.0.13] - 2018-01-21
 

@@ -8,8 +8,7 @@ import java.util.regex.Pattern;
 public class CucumberExpression implements Expression {
     // Does not include (){} characters because they have special meaning
     private static final Pattern ESCAPE_PATTERN = Pattern.compile("([\\\\^\\[$.|?*+\\]])");
-    private static final Pattern PARAMETER_PATTERN = Pattern.compile("\\{([^}]+)}");
-    // Parentheses will be double-escaped due to ESCAPE_REGEXP
+    private static final Pattern PARAMETER_PATTERN = Pattern.compile("(\\\\\\\\)?\\{([^}]+)}");
     private static final Pattern OPTIONAL_PATTERN = Pattern.compile("(\\\\\\\\)?\\(([^)]+)\\)");
     private static final Pattern ALTERNATIVE_NON_WHITESPACE_TEXT_REGEXP = Pattern.compile("([^\\s^/]+)((/[^\\s^/]+)+)");
     private static final String DOUBLE_ESCAPE = "\\\\";
@@ -28,10 +27,12 @@ public class CucumberExpression implements Expression {
         StringBuffer sb = new StringBuffer();
         while (matcher.find()) {
             // look for double-escaped parentheses
-            if (DOUBLE_ESCAPE.equals(matcher.group(1))) {
-                matcher.appendReplacement(sb, "\\\\(" + matcher.group(2) + "\\\\)");
+            String g1 = matcher.group(1);
+            String g2 = matcher.group(2);
+            if (DOUBLE_ESCAPE.equals(g1)) {
+                matcher.appendReplacement(sb, "\\\\(" + g2 + "\\\\)");
             } else {
-                matcher.appendReplacement(sb, "(?:" + matcher.group(2) + ")?");
+                matcher.appendReplacement(sb, "(?:" + g2 + ")?");
             }
         }
         matcher.appendTail(sb);
@@ -48,14 +49,18 @@ public class CucumberExpression implements Expression {
         StringBuffer regexp = new StringBuffer();
         regexp.append("^");
         while (matcher.find()) {
-            String typeName = matcher.group(1);
-            ParameterType<?> parameterType = parameterTypeRegistry.lookupByTypeName(typeName);
-            if (parameterType == null) {
-                throw new UndefinedParameterTypeException(typeName);
+            String g1 = matcher.group(1);
+            if (DOUBLE_ESCAPE.equals(g1)) {
+                matcher.appendReplacement(regexp, "\\\\{" + matcher.group(2) + "\\\\}");
+            } else {
+                String typeName = matcher.group(2);
+                ParameterType<?> parameterType = parameterTypeRegistry.lookupByTypeName(typeName);
+                if (parameterType == null) {
+                    throw new UndefinedParameterTypeException(typeName);
+                }
+                parameterTypes.add(parameterType);
+                matcher.appendReplacement(regexp, Matcher.quoteReplacement(buildCaptureRegexp(parameterType.getRegexps())));
             }
-            parameterTypes.add(parameterType);
-
-            matcher.appendReplacement(regexp, Matcher.quoteReplacement(buildCaptureRegexp(parameterType.getRegexps())));
         }
         matcher.appendTail(regexp);
         regexp.append("$");
