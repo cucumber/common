@@ -1,4 +1,4 @@
-##Living Documnetation
+##Living Documentation
 
 Cucumber tests share the benefit of traditional specification documents in that they can be written and read by business stakeholders, but they have a distinct advantage in that you can give them to a computer at any time to tell you how accurate they are. In practice, this means that your documentation, rather than being something that's written once and then gradually goes out of date, becomes a [living document](https://en.wikipedia.org/wiki/Living_document) that reflects the true state of the project.
 
