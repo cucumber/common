@@ -8,7 +8,8 @@ to contribute.
 
 Install dependencies:
 
-    install .NET Core 1.1.2 - https://github.com/dotnet/core/blob/master/release-notes/download-archives/1.1.2-download.md
+    install latest Mono
+    install .NET Core 1.1.6 - https://github.com/dotnet/core/blob/master/release-notes/download-archives/1.1.6-download.md
     
 Just run `make` from this directory.
 
@@ -27,7 +28,7 @@ If this is your first time, read through NuGet's guidelines for
 [Creating and Publishing a Package](https://docs.nuget.org/create/creating-and-publishing-a-package).
 
     # Replace X.Y.Z with the version
-    # Change version in `Gherkin\project.json`
+    # Change version in `Gherkin\Gherkin.csproj`
     git clean -dfx
     dotnet pack -c Release Gherkin
     mono .nuget/NuGet.exe push Gherkin/bin/Release/Gherkin.X.Y.Z.nupkg
