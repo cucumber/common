@@ -1,6 +1,7 @@
 package cucumberexpressions_test
 
 import (
+	"fmt"
 	"regexp"
 	"strconv"
 	"testing"
@@ -79,170 +80,128 @@ func TestCustomParameterTypes(t *testing.T) {
 			)
 			require.NoError(t, err)
 			err = parameterTypeRegistry.DefineParameterType(coordinateParameterType)
+			require.NoError(t, err)
 			expression, err := cucumberexpressions.NewCucumberExpression("A {int} thick line from {coordinate} to {coordinate}", parameterTypeRegistry)
+			require.NoError(t, err)
 			args := expression.Match("A 5 thick line from 10,20,30 to 40,50,60")
 			require.Equal(t, 5, args[0].GetValue())
 			require.Equal(t, &Coordinate{x: 10, y: 20, z: 30}, args[1].GetValue())
 			require.Equal(t, &Coordinate{x: 40, y: 50, z: 60}, args[2].GetValue())
 		})
+
+		t.Run("matches parameters with custom parameter type using optional capture group", func(t *testing.T) {
+			parameterTypeRegistry := cucumberexpressions.NewParameterTypeRegistry()
+			colorParameterType, err := cucumberexpressions.NewParameterType(
+				"color",
+				[]*regexp.Regexp{
+					regexp.MustCompile("red|blue|yellow"),
+					regexp.MustCompile("(?:dark|light) (?:red|blue|yellow)"),
+				},
+				"color",
+				func(args ...string) interface{} { return &Color{name: args[0]} },
+				false,
+				true,
+			)
+			require.NoError(t, err)
+			err = parameterTypeRegistry.DefineParameterType(colorParameterType)
+			require.NoError(t, err)
+			expression, err := cucumberexpressions.NewCucumberExpression("I have a {color} ball", parameterTypeRegistry)
+			require.NoError(t, err)
+			args := expression.Match("I have a dark red ball")
+			require.Equal(t, &Color{name: "dark red"}, args[0].GetValue())
+		})
+
+		t.Run("defers transformation until queried from argument", func(t *testing.T) {
+			parameterTypeRegistry := cucumberexpressions.NewParameterTypeRegistry()
+			colorParameterType, err := cucumberexpressions.NewParameterType(
+				"throwing",
+				[]*regexp.Regexp{regexp.MustCompile("bad")},
+				"throwing",
+				func(args ...string) interface{} { panic(fmt.Sprintf("Can't transform [%s]", args[0])) },
+				false,
+				true,
+			)
+			require.NoError(t, err)
+			err = parameterTypeRegistry.DefineParameterType(colorParameterType)
+			require.NoError(t, err)
+			expression, err := cucumberexpressions.NewCucumberExpression("I have a {throwing} parameter", parameterTypeRegistry)
+			require.NoError(t, err)
+			args := expression.Match("I have a bad parameter")
+			require.NotNil(t, args)
+			require.PanicsWithValue(t, "Can't transform [bad]", func() {
+				args[0].GetValue()
+			})
+		})
+
+		t.Run("conflicting parameter type", func(t *testing.T) {
+			t.Run("is detected for type name", func(t *testing.T) {
+				parameterTypeRegistry := CreateParameterTypeRegistry(t)
+				colorParameterType, err := cucumberexpressions.NewParameterType(
+					"color",
+					[]*regexp.Regexp{regexp.MustCompile(".*")},
+					"CSSColor",
+					func(args ...string) interface{} { return &CSSColor{name: args[0]} },
+					false,
+					true,
+				)
+				require.NoError(t, err)
+				err = parameterTypeRegistry.DefineParameterType(colorParameterType)
+				require.Error(t, err)
+				require.Equal(t, "There is already a parameter type with name color", err.Error())
+			})
+
+			t.Run("is not detected for type", func(t *testing.T) {
+				parameterTypeRegistry := CreateParameterTypeRegistry(t)
+				colorParameterType, err := cucumberexpressions.NewParameterType(
+					"whatever",
+					[]*regexp.Regexp{regexp.MustCompile(".*")},
+					"Color",
+					func(args ...string) interface{} { return &Color{name: args[0]} },
+					false,
+					true,
+				)
+				require.NoError(t, err)
+				err = parameterTypeRegistry.DefineParameterType(colorParameterType)
+				require.NoError(t, err)
+			})
+
+			t.Run("is not detected for regexp", func(t *testing.T) {
+				parameterTypeRegistry := CreateParameterTypeRegistry(t)
+				colorParameterType, err := cucumberexpressions.NewParameterType(
+					"css-color",
+					[]*regexp.Regexp{regexp.MustCompile("red|blue|yellow")},
+					"CSSColor",
+					func(args ...string) interface{} { return &CSSColor{name: args[0]} },
+					true,
+					false,
+				)
+				require.NoError(t, err)
+				err = parameterTypeRegistry.DefineParameterType(colorParameterType)
+				require.NoError(t, err)
+
+				cssColorExpression, err := cucumberexpressions.NewCucumberExpression("I have a {css-color} ball", parameterTypeRegistry)
+				require.NoError(t, err)
+				cssColorArgs := cssColorExpression.Match("I have a blue ball")
+				require.NotNil(t, cssColorArgs)
+				require.Equal(t, &CSSColor{name: "blue"}, cssColorArgs[0].GetValue())
+
+				colorExpression, err := cucumberexpressions.NewCucumberExpression("I have a {color} ball", parameterTypeRegistry)
+				require.NoError(t, err)
+				colorArgs := colorExpression.Match("I have a blue ball")
+				require.NotNil(t, colorArgs)
+				require.Equal(t, &Color{name: "blue"}, colorArgs[0].GetValue())
+			})
+		})
+
+		t.Run("RegularExpression", func(t *testing.T) {
+			t.Run("matches arguments with custom parameter type", func(t *testing.T) {
+				parameterTypeRegistry := CreateParameterTypeRegistry(t)
+				expression := cucumberexpressions.NewRegularExpression(regexp.MustCompile("I have a (red|blue|yellow) ball"), parameterTypeRegistry)
+				args, err := expression.Match("I have a red ball")
+				require.NoError(t, err)
+				require.NotNil(t, args)
+				require.Equal(t, &Color{name: "red"}, args[0].GetValue())
+			})
+		})
 	})
 }
-
-//
-//   describe('CucumberExpression', () => {
-//     it('matches parameters with custom parameter type using optional capture group', () => {
-//       parameterTypeRegistry = new ParameterTypeRegistry()
-//       parameterTypeRegistry.defineParameterType(
-//         new ParameterType(
-//           'color',
-//           [/red|blue|yellow/, /(?:dark|light) (?:red|blue|yellow)/],
-//           Color,
-//           s => new Color(s),
-//           false,
-//           true
-//         )
-//       )
-//       const expression = new CucumberExpression(
-//         'I have a {color} ball',
-//         parameterTypeRegistry
-//       )
-//       const value = expression.match('I have a dark red ball')[0].getValue(null)
-//       assert.equal(value.name, 'dark red')
-//     })
-//
-//     it('defers transformation until queried from argument', () => {
-//       parameterTypeRegistry.defineParameterType(
-//         new ParameterType(
-//           'throwing',
-//           /bad/,
-//           null,
-//           s => {
-//             throw new Error(`Can't transform [${s}]`)
-//           },
-//           false,
-//           true
-//         )
-//       )
-//
-//       const expression = new CucumberExpression(
-//         'I have a {throwing} parameter',
-//         parameterTypeRegistry
-//       )
-//       const args = expression.match('I have a bad parameter')
-//       assertThrows(() => args[0].getValue(null), "Can't transform [bad]")
-//     })
-//
-//     describe('conflicting parameter type', () => {
-//       it('is detected for type name', () => {
-//         assertThrows(
-//           () =>
-//             parameterTypeRegistry.defineParameterType(
-//               new ParameterType(
-//                 'color',
-//                 /.*/,
-//                 CssColor,
-//                 s => new CssColor(s),
-//                 false,
-//                 true
-//               )
-//             ),
-//           'There is already a parameter type with name color'
-//         )
-//       })
-//
-//       it('is not detected for type', () => {
-//         parameterTypeRegistry.defineParameterType(
-//           new ParameterType(
-//             'whatever',
-//             /.*/,
-//             Color,
-//             s => new Color(s),
-//             false,
-//             true
-//           )
-//         )
-//       })
-//
-//       it('is not detected for regexp', () => {
-//         parameterTypeRegistry.defineParameterType(
-//           new ParameterType(
-//             'css-color',
-//             /red|blue|yellow/,
-//             CssColor,
-//             s => new CssColor(s),
-//             true,
-//             false
-//           )
-//         )
-//
-//         assert.equal(
-//           new CucumberExpression(
-//             'I have a {css-color} ball',
-//             parameterTypeRegistry
-//           )
-//             .match('I have a blue ball')[0]
-//             .getValue(null).constructor,
-//           CssColor
-//         )
-//         assert.equal(
-//           new CucumberExpression(
-//             'I have a {css-color} ball',
-//             parameterTypeRegistry
-//           )
-//             .match('I have a blue ball')[0]
-//             .getValue(null).name,
-//           'blue'
-//         )
-//         assert.equal(
-//           new CucumberExpression('I have a {color} ball', parameterTypeRegistry)
-//             .match('I have a blue ball')[0]
-//             .getValue(null).constructor,
-//           Color
-//         )
-//         assert.equal(
-//           new CucumberExpression('I have a {color} ball', parameterTypeRegistry)
-//             .match('I have a blue ball')[0]
-//             .getValue(null).name,
-//           'blue'
-//         )
-//       })
-//     })
-//
-//     // JavaScript-specific
-//     it('creates arguments using async transform', async () => {
-//       parameterTypeRegistry = new ParameterTypeRegistry()
-//       /// [add-async-parameter-type]
-//       parameterTypeRegistry.defineParameterType(
-//         new ParameterType(
-//           'asyncColor',
-//           /red|blue|yellow/,
-//           Color,
-//           async s => new Color(s),
-//           false,
-//           true
-//         )
-//       )
-//       /// [add-async-parameter-type]
-//
-//       const expression = new CucumberExpression(
-//         'I have a {asyncColor} ball',
-//         parameterTypeRegistry
-//       )
-//       const args = await expression.match('I have a red ball')
-//       const value = await args[0].getValue(null)
-//       assert.equal(value.name, 'red')
-//     })
-//   })
-//
-//   describe('RegularExpression', () => {
-//     it('matches arguments with custom parameter type', () => {
-//       const expression = new RegularExpression(
-//         /I have a (red|blue|yellow) ball/,
-//         parameterTypeRegistry
-//       )
-//       const value = expression.match('I have a red ball')[0].getValue(null)
-//       assert.equal(value.constructor, Color)
-//       assert.equal(value.name, 'red')
-//     })
-//   })
-// })
