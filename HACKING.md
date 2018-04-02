@@ -27,7 +27,9 @@ You can learn more about monorepos here:
 
 Occasionally, a sub directory is promoted to a separate subrepo. The process for doing this is:
 
-#### Create a new directory in the monorepo    
+#### Create a new directory in the monorepo
+
+For example:
 
     mkdir -p tag-expressions/go
 
@@ -35,7 +37,7 @@ Occasionally, a sub directory is promoted to a separate subrepo. The process for
 
 In the new directory, create the following files:
 
-`.rsync` ,with the following sample contents (adapt to the programming language):
+`.rsync`, with the following sample contents (adapt to the programming language):
 
     ../../LICENSE LICENSE
     ../../.travis/go/.travis.yml .travis.yml
@@ -57,9 +59,9 @@ In the new directory, create the following files:
 
 #### Create new subrepo.
 
-Create a new, empty subrepo at GitHub
+Create a new, empty subrepo at GitHub.
 
-Log into Travis and set up build for the new (empty) subrepo
+Log into Travis and set up build for the new (empty) subrepo.
 
 Initialise the subrepo, for example:
     
