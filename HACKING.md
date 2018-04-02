@@ -17,7 +17,7 @@ This git repository is a monorepo. It contains several libraries that Cucumber
 is built on, in many programming languages. The goal is to migrate all of the
 Cucumber codebase into this repository.
 
-You can learn more about monrepos here:
+You can learn more about monorepos here:
 * http://www.thedotpost.com/2016/05/fabien-potencier-monolithic-repositories-vs-many-repositories
 * https://developer.atlassian.com/blog/2015/10/monorepos-in-git/
 * http://danluu.com/monorepo/
