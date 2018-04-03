@@ -44,7 +44,7 @@ The Gherkin CLI `gherkin` reads Gherkin source files (`.feature` files) and outp
 [ASTs](#ast) and [Pickles](#pickles).
 
 The `gherkin` program takes any number of files as arguments and prints the results
-to `STDOUT` as [Newline Delimted JSON](http://ndjson.org/).
+to `STDOUT` as [Newline Delimited JSON](http://ndjson.org/).
 
 Each line is a JSON document that conforms to the [Cucumber Event Protocol](https://docs.cucumber.io/event-protocol/).
 
