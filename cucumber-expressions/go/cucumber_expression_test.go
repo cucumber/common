@@ -16,7 +16,8 @@ func TestCucumberExpression(t *testing.T) {
 		expr := "I have {int} cuke(s)"
 		expression, err := cucumberexpressions.NewCucumberExpression(expr, parameterTypeRegistry)
 		require.NoError(t, err)
-		args := expression.Match("I have 7 cukes")
+		args, err := expression.Match("I have 7 cukes")
+		require.NoError(t, err)
 		require.Equal(t, args[0].GetValue(), 7)
 		/// [capture-match-arguments]
 	})
@@ -163,8 +164,12 @@ func TestCucumberExpression(t *testing.T) {
 			parameterTypeRegistry := cucumberexpressions.NewParameterTypeRegistry()
 			expression, err := cucumberexpressions.NewCucumberExpression(expr, parameterTypeRegistry)
 			require.NoError(t, err)
-			require.Nil(t, expression.Match("I have 800 cukes and 3"))
-			require.NotNil(t, expression.Match("I have 800 cukes and ."))
+			args, err := expression.Match("I have 800 cukes and 3")
+			require.NoError(t, err)
+			require.Nil(t, args)
+			args, err = expression.Match("I have 800 cukes and .")
+			require.NoError(t, err)
+			require.NotNil(t, args)
 		})
 
 		t.Run("escapes |", func(t *testing.T) {
@@ -172,9 +177,15 @@ func TestCucumberExpression(t *testing.T) {
 			parameterTypeRegistry := cucumberexpressions.NewParameterTypeRegistry()
 			expression, err := cucumberexpressions.NewCucumberExpression(expr, parameterTypeRegistry)
 			require.NoError(t, err)
-			require.Nil(t, expression.Match("I have 800 cukes and a"))
-			require.Nil(t, expression.Match("I have 800 cukes and b"))
-			require.NotNil(t, expression.Match("I have 800 cukes and a|b"))
+			args, err := expression.Match("I have 800 cukes and a")
+			require.NoError(t, err)
+			require.Nil(t, args)
+			args, err = expression.Match("I have 800 cukes and b")
+			require.NoError(t, err)
+			require.Nil(t, args)
+			args, err = expression.Match("I have 800 cukes and a|b")
+			require.NoError(t, err)
+			require.NotNil(t, args)
 		})
 	})
 }
@@ -183,7 +194,7 @@ func MatchCucumberExpression(t *testing.T, expr string, text string) []interface
 	parameterTypeRegistry := cucumberexpressions.NewParameterTypeRegistry()
 	expression, err := cucumberexpressions.NewCucumberExpression(expr, parameterTypeRegistry)
 	require.NoError(t, err)
-	args := expression.Match(text)
+	args, err := expression.Match(text)
 	require.NoError(t, err)
 	if args == nil {
 		return nil

@@ -59,8 +59,8 @@ func NewCucumberExpression(expression string, parameterTypeRegistry *ParameterTy
 	return result, nil
 }
 
-func (c *CucumberExpression) Match(text string) []*Argument {
-	return BuildArguments(c.treeRegexp, text, c.parameterTypes)
+func (c *CucumberExpression) Match(text string) ([]*Argument, error) {
+	return BuildArguments(c.treeRegexp, text, c.parameterTypes), nil
 }
 
 func (c *CucumberExpression) Regexp() *regexp.Regexp {
