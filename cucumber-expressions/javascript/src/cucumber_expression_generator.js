@@ -54,7 +54,7 @@ class CucumberExpressionGenerator {
 
         parameterTypeCombinations.push(parameterTypes)
 
-        expressionTemplate += escapeForUtilFormat(
+        expressionTemplate += escape(
           text.slice(pos, bestParameterTypeMatcher.start)
         )
         expressionTemplate += '{%s}'
@@ -70,7 +70,7 @@ class CucumberExpressionGenerator {
       }
     }
 
-    expressionTemplate += escapeForUtilFormat(text.slice(pos))
+    expressionTemplate += escape(text.slice(pos))
     return new CombinatorialGeneratedExpressionFactory(
       expressionTemplate,
       parameterTypeCombinations
@@ -109,8 +109,11 @@ class CucumberExpressionGenerator {
   }
 }
 
-function escapeForUtilFormat(s) {
-  return s.replace(/%/g, '%%')
+function escape(s) {
+  return s
+    .replace(/%/g, '%%') // for util.format
+    .replace(/\(/g, '\\(')
+    .replace(/{/g, '\\{')
 }
 
 module.exports = CucumberExpressionGenerator

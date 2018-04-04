@@ -37,15 +37,15 @@ public class CucumberExpressionGeneratorTest {
     @Test
     public void generates_expression_with_escaped_left_parenthesis() {
         assertExpression(
-                "I have \\(a) {int} cukes", singletonList("int1"),
-                "I have (a) 2 cukes");
+                "\\(iii)", Collections.<String>emptyList(),
+                "(iii)");
     }
 
     @Test
     public void generates_expression_with_escaped_left_curly_brace() {
         assertExpression(
-                "I have \\{a} {int} cukes", singletonList("int1"),
-                "I have {a} 2 cukes");
+                "\\{iii}", Collections.<String>emptyList(),
+                "{iii}");
     }
 
     @Test
