@@ -51,7 +51,7 @@ module Cucumber
 
             parameter_type_combinations.push(parameter_types)
 
-            expression_template += escape_for_sprintf(text.slice(pos...best_parameter_type_matcher.start))
+            expression_template += escape(text.slice(pos...best_parameter_type_matcher.start))
             expression_template += "{%s}"
 
             pos = best_parameter_type_matcher.start + best_parameter_type_matcher.group.length
@@ -64,7 +64,7 @@ module Cucumber
           end
         end
 
-        expression_template += escape_for_sprintf(text.slice(pos..-1))
+        expression_template += escape(text.slice(pos..-1))
 
         CombinatorialGeneratedExpressionFactory.new(
           expression_template,
@@ -94,8 +94,10 @@ module Cucumber
         result
       end
 
-      def escape_for_sprintf(s)
+      def escape(s)
         s.gsub(/%/, '%%')
+        .gsub(/\(/, '\\(')
+        .gsub(/\{/, '\\{')
       end
     end
   end

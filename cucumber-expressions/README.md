@@ -128,16 +128,6 @@ It would also match this text:
 
     I have 42 cucumbers in my belly
 
-If you ever need to match those parentheses literally, you can escape the
-first opening parenthesis with a backslash:
-
-    I have {int} cucumber(s) in my belly \(amazing!)
-
-This expression would match the following examples:
-
-    I have 1 cucumber in my belly (amazing!)
-    I have 42 cucumbers in my belly (amazing!)
-
 ## Alternative text
 
 Sometimes you want to relax your language, to make it flow better. For example:
@@ -148,6 +138,20 @@ This would match either of those texts:
 
     I have 42 cucumbers in my belly
     I have 42 cucumbers in my stomach
+
+## Escaping
+
+If you ever need to match `()` or `{}` literally, you can escape the
+opening `(` or `{` with a backslash:
+
+    I have 42 \{what} cucumber(s) in my belly \(amazing!)
+
+This expression would match the following examples:
+
+    I have 42 {what} cucumber in my belly (amazing!)
+    I have 42 {what} cucumbers in my belly (amazing!)
+
+There is currently no way to escape the `/` character.
 
 ## Step Definition Snippets (Cucumber Expression generation)
 
