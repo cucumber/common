@@ -37,3 +37,7 @@ func (a *Argument) Group() *Group {
 func (a *Argument) GetValue() interface{} {
 	return a.parameterType.Transform(a.group.Values())
 }
+
+func (a *Argument) ParameterType() *ParameterType {
+	return a.parameterType
+}
