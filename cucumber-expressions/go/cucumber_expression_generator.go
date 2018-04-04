@@ -62,7 +62,7 @@ func (c *CucumberExpressionGenerator) GenerateExpressions(text string) []*Genera
 			})
 
 			parameterTypeCombinations = append(parameterTypeCombinations, parameterTypes)
-			expressionTemplate += escapeForUtilFormat(text[pos:bestParameterTypeMatcher.Start()]) + "{%s}"
+			expressionTemplate += escape(text[pos:bestParameterTypeMatcher.Start()]) + "{%s}"
 			pos = bestParameterTypeMatcher.Start() + len(bestParameterTypeMatcher.Group())
 		} else {
 			break
@@ -72,7 +72,7 @@ func (c *CucumberExpressionGenerator) GenerateExpressions(text string) []*Genera
 			break
 		}
 	}
-	expressionTemplate += escapeForUtilFormat(text[pos:])
+	expressionTemplate += escape(text[pos:])
 	return NewCombinatorialGeneratedExpressionFactory(expressionTemplate, parameterTypeCombinations).GenerateExpressions()
 }
 
@@ -94,6 +94,8 @@ func (c *CucumberExpressionGenerator) createParameterTypeMatchers2(parameterType
 	return result
 }
 
-func escapeForUtilFormat(s string) string {
-	return strings.Replace(s, "%", "%%", -1)
+func escape(s string) string {
+	result := strings.Replace(s, "%", "%%", -1)
+	result = strings.Replace(result, `(`, `\(`, -1)
+	return strings.Replace(result, `{`, `\{`, -1)
 }

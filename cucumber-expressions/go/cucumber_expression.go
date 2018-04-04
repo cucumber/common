@@ -6,56 +6,31 @@ import (
 	"strings"
 )
 
+var ESCAPE_REGEXP = regexp.MustCompile(`([\\^[$.|?*+])`)
+var PARAMETER_REGEXP = regexp.MustCompile(`(\\\\\\\\)?{([^}]+)}`)
+var OPTIONAL_REGEXP = regexp.MustCompile(`(\\\\\\\\)?\([^)]+\)`)
+var ALTERNATIVE_NON_WHITESPACE_TEXT_REGEXP = regexp.MustCompile(`([^\s^/]+)((\/[^\s^/]+)+)`)
+var DOUBLE_ESCAPE = `\\\\`
+
 type CucumberExpression struct {
-	expression     string
+	source         string
 	parameterTypes []*ParameterType
 	treeRegexp     *TreeRegexp
 }
 
 func NewCucumberExpression(expression string, parameterTypeRegistry *ParameterTypeRegistry) (*CucumberExpression, error) {
-	ESCAPE_REGEXP := regexp.MustCompile(`([\\^[$.|?*+])`)
-	PARAMETER_REGEXP := regexp.MustCompile("{([^}]+)}")
-	OPTIONAL_REGEXP := regexp.MustCompile(`(\\\\\\\\)?\([^)]+\)`)
-	ALTERNATIVE_NON_WHITESPACE_TEXT_REGEXP := regexp.MustCompile(`([^\s^/]+)((\/[^\s^/]+)+)`)
+	result := &CucumberExpression{source: expression}
 
-	result := &CucumberExpression{expression: expression}
-	parameterTypes := []*ParameterType{}
-	r := "^"
-	matchOffset := 0
-
-	// Does not include (){} because they have special meaning
-	expression = ESCAPE_REGEXP.ReplaceAllString(expression, "\\$1")
-
-	// Create non-capturing, optional capture groups from parenthesis
-	expression = OPTIONAL_REGEXP.ReplaceAllStringFunc(expression, func(match string) string {
-		if strings.HasPrefix(match, "\\\\\\\\") {
-			return fmt.Sprintf(`\(%s\)`, match[5:len(match)-1])
-		}
-		return fmt.Sprintf("(?:%s)?", match[1:len(match)-1])
-	})
-
-	expression = ALTERNATIVE_NON_WHITESPACE_TEXT_REGEXP.ReplaceAllStringFunc(expression, func(match string) string {
-		return fmt.Sprintf("(?:%s)", strings.Replace(match, "/", "|", -1))
-	})
-
-	matches := PARAMETER_REGEXP.FindAllStringSubmatchIndex(expression[matchOffset:], -1)
-	for _, indicies := range matches {
-		typeName := expression[indicies[2]:indicies[3]]
-		parameterType := parameterTypeRegistry.LookupByTypeName(typeName)
-		if parameterType == nil {
-			return nil, NewUndefinedParameterTypeError(typeName)
-		}
-		parameterTypes = append(parameterTypes, parameterType)
-		text := expression[matchOffset:indicies[0]]
-		captureRegexp := buildCaptureRegexp(parameterType.regexps)
-		matchOffset = indicies[1]
-		r += text
-		r += captureRegexp
+	expression = result.processEscapes(expression)
+	expression = result.processOptional(expression)
+	expression = result.processAlteration(expression)
+	expression, err := result.processParameters(expression, parameterTypeRegistry)
+	if err != nil {
+		return nil, err
 	}
+	expression = "^" + expression + "$"
 
-	r += expression[matchOffset:] + "$"
-	result.parameterTypes = parameterTypes
-	result.treeRegexp = NewTreeRegexp(regexp.MustCompile(r))
+	result.treeRegexp = NewTreeRegexp(regexp.MustCompile(expression))
 	return result, nil
 }
 
@@ -68,7 +43,45 @@ func (c *CucumberExpression) Regexp() *regexp.Regexp {
 }
 
 func (c *CucumberExpression) Source() string {
-	return c.expression
+	return c.source
+}
+
+func (c *CucumberExpression) processEscapes(expression string) string {
+	return ESCAPE_REGEXP.ReplaceAllString(expression, `\$1`)
+}
+
+func (c *CucumberExpression) processOptional(expression string) string {
+	return OPTIONAL_REGEXP.ReplaceAllStringFunc(expression, func(match string) string {
+		if strings.HasPrefix(match, DOUBLE_ESCAPE) {
+			return fmt.Sprintf(`\(%s\)`, match[5:len(match)-1])
+		}
+		return fmt.Sprintf("(?:%s)?", match[1:len(match)-1])
+	})
+}
+
+func (c *CucumberExpression) processAlteration(expression string) string {
+	return ALTERNATIVE_NON_WHITESPACE_TEXT_REGEXP.ReplaceAllStringFunc(expression, func(match string) string {
+		return fmt.Sprintf("(?:%s)", strings.Replace(match, "/", "|", -1))
+	})
+}
+
+func (c *CucumberExpression) processParameters(expression string, parameterTypeRegistry *ParameterTypeRegistry) (string, error) {
+	var err error
+	result := PARAMETER_REGEXP.ReplaceAllStringFunc(expression, func(match string) string {
+		if strings.HasPrefix(match, DOUBLE_ESCAPE) {
+			return fmt.Sprintf(`\{%s\}`, match[5:len(match)-1])
+		}
+
+		typeName := match[1 : len(match)-1]
+		parameterType := parameterTypeRegistry.LookupByTypeName(typeName)
+		if parameterType == nil {
+			err = NewUndefinedParameterTypeError(typeName)
+			return match
+		}
+		c.parameterTypes = append(c.parameterTypes, parameterType)
+		return buildCaptureRegexp(parameterType.regexps)
+	})
+	return result, err
 }
 
 func buildCaptureRegexp(regexps []*regexp.Regexp) string {

@@ -30,6 +30,14 @@ func TestCucumberExpressionGeneratory(t *testing.T) {
 		assertExpression(t, "hello", []string{}, "hello")
 	})
 
+	t.Run("generates expression with escaped left parenthesis", func(t *testing.T) {
+		assertExpression(t, `\(iii)`, []string{}, "(iii)")
+	})
+
+	t.Run("generates expression with escaped left curly brace", func(t *testing.T) {
+		assertExpression(t, `\{iii}`, []string{}, "{iii}")
+	})
+
 	t.Run("generates expression for int float arg", func(t *testing.T) {
 		assertExpression(
 			t,
