@@ -1,6 +1,7 @@
 /* eslint-env mocha */
 const assert = require('assert')
 const CucumberExpressionGenerator = require('../src/cucumber_expression_generator')
+const CucumberExpression = require('../src/cucumber_expression')
 const ParameterType = require('../src/parameter_type')
 const ParameterTypeRegistry = require('../src/parameter_type_registry')
 
@@ -13,6 +14,13 @@ describe('CucumberExpressionGenerator', () => {
     const generatedExpression = generator.generateExpressions(text)[0]
     assert.deepEqual(generatedExpression.parameterNames, expectedArgumentNames)
     assert.equal(generatedExpression.source, expectedExpression)
+
+    const cucumberExpression = new CucumberExpression(
+      generatedExpression.source,
+      parameterTypeRegistry
+    )
+    const match = cucumberExpression.match(text)
+    assert.equal(match.length, expectedArgumentNames.length)
   }
 
   beforeEach(() => {
@@ -39,6 +47,14 @@ describe('CucumberExpressionGenerator', () => {
 
   it('generates expression for no args', () => {
     assertExpression('hello', [], 'hello')
+  })
+
+  it('generates expression with escaped left parenthesis', () => {
+    assertExpression('\\(iii)', [], '(iii)')
+  })
+
+  it('generates expression with escaped left curly brace', () => {
+    assertExpression('\\{iii}', [], '{iii}')
   })
 
   it('generates expression for int float arg', () => {

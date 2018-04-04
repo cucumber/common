@@ -8,17 +8,24 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ## [Unreleased]
 
 ### Added
+
+### Changed
+
+### Deprecated
+
+### Removed
+
+### Fixed
+
+## [5.0.14] - 2018-04-04
+
+### Added
 * Matching a literal open-parenthesis
   ([#107](https://github.com/cucumber/cucumber/issues/107)
    [#333](https://github.com/cucumber/cucumber/issues/333)
    [#334](https://github.com/cucumber/cucumber/pull/334)
    [jamis])
-
-### Changed
-N/A
-
-### Deprecated
-N/A
+* Matching a literal left curly brace [aslakhellesoy]
 
 ### Removed
 * ruby: Support for named capture group in `Regexp`
@@ -26,7 +33,9 @@ N/A
    [aslakhellesoy])
 
 ### Fixed
-N/A
+* Generated expressions escape `(` and `{` if they were present in the text.
+  ([#345](https://github.com/cucumber/cucumber/issues/345)
+  [aslakhellesoy])
 
 ## [5.0.13] - 2018-01-21
 
@@ -318,7 +327,8 @@ N/A
 * First stable release!
 
 <!-- Releases -->
-[Unreleased]: https://github.com/cucumber/cucumber/compare/cucumber-expressions-v5.0.13...master
+[Unreleased]: https://github.com/cucumber/cucumber/compare/cucumber-expressions-v5.0.14...master
+[5.0.14]:     https://github.com/cucumber/cucumber/compare/cucumber-expressions-v5.0.13...cucumber-expressions-v5.0.14
 [5.0.13]:     https://github.com/cucumber/cucumber/compare/cucumber-expressions-v5.0.12...cucumber-expressions-v5.0.13
 [5.0.12]:     https://github.com/cucumber/cucumber/compare/cucumber-expressions-v5.0.11...cucumber-expressions-v5.0.12
 [5.0.11]:     https://github.com/cucumber/cucumber/compare/cucumber-expressions-v5.0.10...cucumber-expressions-v5.0.11
