@@ -63,7 +63,7 @@ acceptance/testdata/%.feature.errors.ndjson: testdata/%.feature testdata/%.featu
 	diff --unified $<.errors.ndjson $@
 
 clean:
-	rm -rf .compared .built .run_tests acceptance
+	rm -rf .compared .built .run_tests acceptance .sln_built_debug
 	rm -rf */bin
 	rm -rf */obj
 	rm -rf */packages
