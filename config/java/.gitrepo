@@ -1,0 +1,11 @@
+; DO NOT EDIT (unless you know what you are doing)
+;
+; This subdirectory is a git "subrepo", and this file is maintained by the
+; git-subrepo command. See https://github.com/git-commands/git-subrepo#readme
+;
+[subrepo]
+	remote = https://github.com/cucumber/config-java.git
+	branch = master
+	commit = 60877ad0400f887e55c60919b4d770ef087da094
+	cmdver = 0.4.0
+	parent = 652eb76a304df5a4235c00cb3f2f2b13c2c6ec5c

@@ -8,22 +8,42 @@ import java.util.regex.Pattern;
 public class CucumberExpression implements Expression {
     // Does not include (){} characters because they have special meaning
     private static final Pattern ESCAPE_PATTERN = Pattern.compile("([\\\\^\\[$.|?*+\\]])");
-    private static final Pattern PARAMETER_PATTERN = Pattern.compile("\\{([^}]+)}");
-    // Parentheses will be double-escaped due to ESCAPE_REGEXP
+    private static final Pattern PARAMETER_PATTERN = Pattern.compile("(\\\\\\\\)?\\{([^}]+)}");
     private static final Pattern OPTIONAL_PATTERN = Pattern.compile("(\\\\\\\\)?\\(([^)]+)\\)");
     private static final Pattern ALTERNATIVE_NON_WHITESPACE_TEXT_REGEXP = Pattern.compile("([^\\s^/]+)((/[^\\s^/]+)+)");
     private static final String DOUBLE_ESCAPE = "\\\\";
 
     private final List<ParameterType<?>> parameterTypes = new ArrayList<>();
-    private final String expression;
+    private final String source;
     private final TreeRegexp treeRegexp;
 
     public CucumberExpression(String expression, ParameterTypeRegistry parameterTypeRegistry) {
-        this.expression = expression;
+        this.source = expression;
 
+        expression = processEscapes(expression);
+        expression = processOptional(expression);
+        expression = processAlternation(expression);
+        expression = processParameters(expression, parameterTypeRegistry);
+        expression = "^" + expression + "$";
+        treeRegexp = new TreeRegexp(expression);
+    }
+
+    private String processEscapes(String expression) {
         // This will cause explicitly-escaped parentheses to be double-escaped
-        expression = ESCAPE_PATTERN.matcher(expression).replaceAll("\\\\$1");
+        return ESCAPE_PATTERN.matcher(expression).replaceAll("\\\\$1");
+    }
 
+    private String processAlternation(String expression) {
+        Matcher matcher = ALTERNATIVE_NON_WHITESPACE_TEXT_REGEXP.matcher(expression);
+        StringBuffer sb = new StringBuffer();
+        while (matcher.find()) {
+            matcher.appendReplacement(sb, "(?:" + matcher.group(1) + matcher.group(2).replace('/', '|') + ")");
+        }
+        matcher.appendTail(sb);
+        return sb.toString();
+    }
+
+    private String processOptional(String expression) {
         Matcher matcher = OPTIONAL_PATTERN.matcher(expression);
         StringBuffer sb = new StringBuffer();
         while (matcher.find()) {
@@ -35,32 +55,27 @@ public class CucumberExpression implements Expression {
             }
         }
         matcher.appendTail(sb);
+        return sb.toString();
+    }
 
-        matcher = ALTERNATIVE_NON_WHITESPACE_TEXT_REGEXP.matcher(sb.toString());
-        sb = new StringBuffer();
+    private String processParameters(String expression, ParameterTypeRegistry parameterTypeRegistry) {
+        Matcher matcher = PARAMETER_PATTERN.matcher(expression);
+        StringBuffer sb = new StringBuffer();
         while (matcher.find()) {
-            matcher.appendReplacement(sb, "(?:" + matcher.group(1) + matcher.group(2).replace('/', '|') + ")");
+            if (DOUBLE_ESCAPE.equals(matcher.group(1))) {
+                matcher.appendReplacement(sb, "\\\\{" + matcher.group(2) + "\\\\}");
+            } else {
+                String typeName = matcher.group(2);
+                ParameterType<?> parameterType = parameterTypeRegistry.lookupByTypeName(typeName);
+                if (parameterType == null) {
+                    throw new UndefinedParameterTypeException(typeName);
+                }
+                parameterTypes.add(parameterType);
+                matcher.appendReplacement(sb, Matcher.quoteReplacement(buildCaptureRegexp(parameterType.getRegexps())));
+            }
         }
         matcher.appendTail(sb);
-
-        matcher = PARAMETER_PATTERN.matcher(sb.toString());
-
-        StringBuffer regexp = new StringBuffer();
-        regexp.append("^");
-        while (matcher.find()) {
-            String typeName = matcher.group(1);
-            ParameterType<?> parameterType = parameterTypeRegistry.lookupByTypeName(typeName);
-            if (parameterType == null) {
-                throw new UndefinedParameterTypeException(typeName);
-            }
-            parameterTypes.add(parameterType);
-
-            matcher.appendReplacement(regexp, Matcher.quoteReplacement(buildCaptureRegexp(parameterType.getRegexps())));
-        }
-        matcher.appendTail(regexp);
-        regexp.append("$");
-
-        treeRegexp = new TreeRegexp(regexp.toString());
+        return sb.toString();
     }
 
     private String buildCaptureRegexp(List<String> regexps) {
@@ -88,7 +103,7 @@ public class CucumberExpression implements Expression {
 
     @Override
     public String getSource() {
-        return expression;
+        return source;
     }
 
     @Override
