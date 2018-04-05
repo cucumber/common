@@ -27,7 +27,6 @@ func NewParameterType(name string, regexps []*regexp.Regexp, type1 string, trans
 			return nil, errors.New("ParameterType Regexps can't use flags")
 		}
 	}
-	// TODO error if uses flags
 	return &ParameterType{
 		name:                 name,
 		regexps:              regexps,
