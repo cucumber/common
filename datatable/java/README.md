@@ -7,7 +7,7 @@ for specific information the [DataTable javadoc](datatable/src/main/java/io/cucu
 
 The matchers module contains [Hamcrest matchers](http://hamcrest.org/) 
 to compare data tables. These can be used in most common test frameworks and
-produce pretty error messages.
+produces pretty error messages.
 
 
 Add the `datatable-matchers` dependency to your pom.
