@@ -54,7 +54,7 @@ acceptance/testdata/%.feature.errors.ndjson: testdata/%.feature testdata/%.featu
 lib/gherkin/parser.js: gherkin.berp gherkin-javascript.razor berp/berp.exe
 	-mono berp/berp.exe -g gherkin.berp -t gherkin-javascript.razor -o $@
 	# Remove BOM
-	sed '1s/^\xEF\xBB\xBF//' < $@ > $@.nobom
+	awk 'NR==1{sub(/^\xef\xbb\xbf/,"")}{print}' < $@ > $@.nobom
 	mv $@.nobom $@
 
 dist/gherkin.js: lib/gherkin/parser.js $(JAVASCRIPT_FILES) lib/gherkin/gherkin-languages.json LICENSE yarn.lock

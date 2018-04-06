@@ -81,5 +81,5 @@ lib/Gherkin/Generated/Languages.pm: gherkin-languages.json
 lib/Gherkin/Generated/Parser.pm: gherkin.berp gherkin-perl.razor berp/berp.exe
 	-mono berp/berp.exe -g gherkin.berp -t gherkin-perl.razor -o $@
 	# Remove BOM
-	sed '1s/^\xEF\xBB\xBF//' < $@ > $@.nobom
+	awk 'NR==1{sub(/^\xef\xbb\xbf/,"")}{print}' < $@ > $@.nobom
 	mv $@.nobom $@

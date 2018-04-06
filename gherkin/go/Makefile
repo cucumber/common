@@ -66,7 +66,7 @@ acceptance/testdata/%.feature.pickles.ndjson: testdata/%.feature testdata/%.feat
 parser.go: gherkin.berp parser.go.razor berp/berp.exe
 	-mono berp/berp.exe -g gherkin.berp -t parser.go.razor -o $@
 	# Remove BOM
-	sed '1s/^\xEF\xBB\xBF//' < $@ > $@.nobom
+	awk 'NR==1{sub(/^\xef\xbb\xbf/,"")}{print}' < $@ > $@.nobom
 	mv $@.nobom $@
 	gofmt -w $@
 

@@ -75,7 +75,7 @@ acceptance/testdata/%.feature.errors.ndjson: testdata/%.feature testdata/%.featu
 src/main/java/gherkin/Parser.java: gherkin.berp gherkin-java.razor berp/berp.exe
 	-mono berp/berp.exe -g gherkin.berp -t gherkin-java.razor -o $@
 	# Remove BOM
-	sed '1s/^\xEF\xBB\xBF//' < $@ > $@.nobom
+	awk 'NR==1{sub(/^\xef\xbb\xbf/,"")}{print}' < $@ > $@.nobom
 	mv $@.nobom $@
 
 clean:

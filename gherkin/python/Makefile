@@ -62,5 +62,5 @@ clobber: clean
 gherkin/parser.py: gherkin.berp gherkin-python.razor berp/berp.exe
 	-mono berp/berp.exe -g gherkin.berp -t gherkin-python.razor -o $@
 	# Remove BOM
-	sed '1s/^\xEF\xBB\xBF//' < $@ > $@.nobom
+	awk 'NR==1{sub(/^\xef\xbb\xbf/,"")}{print}' < $@ > $@.nobom
 	mv $@.nobom $@
