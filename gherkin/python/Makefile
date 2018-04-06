@@ -60,7 +60,7 @@ clobber: clean
 .PHONY: clobber
 
 gherkin/parser.py: gherkin.berp gherkin-python.razor berp/berp.exe
-	mono berp/berp.exe -g gherkin.berp -t gherkin-python.razor -o $@
+	-mono berp/berp.exe -g gherkin.berp -t gherkin-python.razor -o $@
 	# Remove BOM
-	tail -c +4 $@ > $@.nobom
+	sed '1s/^\xEF\xBB\xBF//' < $@ > $@.nobom
 	mv $@.nobom $@
