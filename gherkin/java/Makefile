@@ -73,9 +73,9 @@ acceptance/testdata/%.feature.errors.ndjson: testdata/%.feature testdata/%.featu
 	diff --unified <(jq "." $<.errors.ndjson) <(jq "." $@)
 
 src/main/java/gherkin/Parser.java: gherkin.berp gherkin-java.razor berp/berp.exe
-	mono berp/berp.exe -g gherkin.berp -t gherkin-java.razor -o $@
+	-mono berp/berp.exe -g gherkin.berp -t gherkin-java.razor -o $@
 	# Remove BOM
-	tail -c +4 $@ > $@.nobom
+	sed '1s/^\xEF\xBB\xBF//' < $@ > $@.nobom
 	mv $@.nobom $@
 
 clean:

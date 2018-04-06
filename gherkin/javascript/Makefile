@@ -52,9 +52,9 @@ acceptance/testdata/%.feature.errors.ndjson: testdata/%.feature testdata/%.featu
 	diff --unified <(jq "." $<.errors.ndjson) <(jq "." $@)
 
 lib/gherkin/parser.js: gherkin.berp gherkin-javascript.razor berp/berp.exe
-	mono berp/berp.exe -g gherkin.berp -t gherkin-javascript.razor -o $@
+	-mono berp/berp.exe -g gherkin.berp -t gherkin-javascript.razor -o $@
 	# Remove BOM
-	tail -c +4 $@ > $@.nobom
+	sed '1s/^\xEF\xBB\xBF//' < $@ > $@.nobom
 	mv $@.nobom $@
 
 dist/gherkin.js: lib/gherkin/parser.js $(JAVASCRIPT_FILES) lib/gherkin/gherkin-languages.json LICENSE yarn.lock
