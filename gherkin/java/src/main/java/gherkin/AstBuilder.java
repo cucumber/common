@@ -106,26 +106,15 @@ public class AstBuilder implements Builder<GherkinDocument> {
                 List<Tag> tags = getTags(node);
                 AstNode scenarioNode = node.getSingle(RuleType.Scenario, null);
 
-                if (scenarioNode != null) {
-                    Token scenarioLine = scenarioNode.getToken(TokenType.ScenarioLine);
-                    String description = getDescription(scenarioNode);
-                    List<Step> steps = getSteps(scenarioNode);
+                Token scenarioLine = scenarioNode.getToken(TokenType.ScenarioLine);
+                String description = getDescription(scenarioNode);
+                List<Step> steps = getSteps(scenarioNode);
+                List<Examples> examplesList = scenarioNode.getItems(RuleType.Examples_Definition);
 
+                if (examplesList.isEmpty())
                     return new Scenario(tags, getLocation(scenarioLine, 0), scenarioLine.matchedKeyword, scenarioLine.matchedText, description, steps);
-                } else {
-                    AstNode scenarioOutlineNode = node.getSingle(RuleType.ScenarioOutline, null);
-                    if (scenarioOutlineNode == null) {
-                        throw new RuntimeException("Internal grammar error");
-                    }
-                    Token scenarioOutlineLine = scenarioOutlineNode.getToken(TokenType.ScenarioOutlineLine);
-                    String description = getDescription(scenarioOutlineNode);
-                    List<Step> steps = getSteps(scenarioOutlineNode);
-
-                    List<Examples> examplesList = scenarioOutlineNode.getItems(RuleType.Examples_Definition);
-
-                    return new ScenarioOutline(tags, getLocation(scenarioOutlineLine, 0), scenarioOutlineLine.matchedKeyword, scenarioOutlineLine.matchedText, description, steps, examplesList);
-
-                }
+                else
+                    return new ScenarioOutline(tags, getLocation(scenarioLine, 0), scenarioLine.matchedKeyword, scenarioLine.matchedText, description, steps, examplesList);
             }
             case Examples_Definition: {
                 List<Tag> tags = getTags(node);
