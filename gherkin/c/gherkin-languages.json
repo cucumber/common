@@ -574,7 +574,8 @@
       "Und "
     ],
     "background": [
-      "Grundlage"
+      "Grundlage",
+      "Hintergrund"
     ],
     "but": [
       "* ",
@@ -599,8 +600,10 @@
       "Szenario"
     ],
     "scenarioOutline": [
-      "Beispielrundriss",
-      "Szenariogrundriss"
+      "Beispielvorlage",
+      "Szenariovorlage",
+      "Beispielgrundlage",
+      "Szenariogrundlage"
     ],
     "then": [
       "* ",
