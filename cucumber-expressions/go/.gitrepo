@@ -6,6 +6,6 @@
 [subrepo]
 	remote = https://github.com/cucumber/cucumber-expressions-go.git
 	branch = master
-	commit = d914202c9babc1860a93fe1a50084e6a408d65a9
+	commit = f04f91badbf1a11bc935bea4db254e7163c75f6e
 	cmdver = 0.4.0
-	parent = fb039346e1d6166217b27b4074eca76d41416b70
+	parent = fe5d6509aa9148f62c34c35e7a0d32b4b23a3411
