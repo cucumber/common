@@ -46,7 +46,7 @@
 (46:1)Other:/This is a scenario outline description/
 (47:5)StepLine:Given /the minimalism/
 (48:1)Empty://
-(49:3)ExamplesLine:Examples/examples with description/
+(49:3)ScenarioDataLine:Examples/examples with description/
 (50:1)Other:/This is an examples description/
 (51:5)TableRow://7:foo
 (52:5)TableRow://7:bar

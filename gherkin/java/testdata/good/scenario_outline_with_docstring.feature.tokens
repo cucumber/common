@@ -6,7 +6,7 @@
 (6:1)Other:/Greeting:<content>/
 (7:5)DocStringSeparator://
 (8:1)Empty://
-(9:1)ExamplesLine:Examples//
+(9:1)ScenarioDataLine:Examples//
 (10:3)TableRow://5:type,13:content
 (11:3)TableRow://5:en,13:Hello
 (12:3)TableRow://5:fr,13:Bonjour

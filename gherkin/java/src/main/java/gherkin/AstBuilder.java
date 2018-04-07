@@ -109,24 +109,24 @@ public class AstBuilder implements Builder<GherkinDocument> {
                 Token scenarioLine = scenarioNode.getToken(TokenType.ScenarioLine);
                 String description = getDescription(scenarioNode);
                 List<Step> steps = getSteps(scenarioNode);
-                List<Examples> examplesList = scenarioNode.getItems(RuleType.Examples_Definition);
+                List<Examples> examplesList = scenarioNode.getItems(RuleType.ScenarioDataDefinition);
 
                 if (examplesList.isEmpty())
                     return new Scenario(tags, getLocation(scenarioLine, 0), scenarioLine.matchedKeyword, scenarioLine.matchedText, description, steps);
                 else
                     return new ScenarioOutline(tags, getLocation(scenarioLine, 0), scenarioLine.matchedKeyword, scenarioLine.matchedText, description, steps, examplesList);
             }
-            case Examples_Definition: {
+            case ScenarioDataDefinition: {
                 List<Tag> tags = getTags(node);
-                AstNode examplesNode = node.getSingle(RuleType.Examples, null);
-                Token examplesLine = examplesNode.getToken(TokenType.ExamplesLine);
+                AstNode examplesNode = node.getSingle(RuleType.ScenarioData, null);
+                Token examplesLine = examplesNode.getToken(TokenType.ScenarioDataLine);
                 String description = getDescription(examplesNode);
-                List<TableRow> rows = examplesNode.getSingle(RuleType.Examples_Table, null);
+                List<TableRow> rows = examplesNode.getSingle(RuleType.ScenarioDataTable, null);
                 TableRow tableHeader = rows != null && !rows.isEmpty() ? rows.get(0) : null;
                 List<TableRow> tableBody = rows != null && !rows.isEmpty() ? rows.subList(1, rows.size()) : null;
                 return new Examples(getLocation(examplesLine, 0), tags, examplesLine.matchedKeyword, examplesLine.matchedText, description, tableHeader, tableBody);
             }
-            case Examples_Table: {
+            case ScenarioDataTable: {
                 return getTableRows(node);
             }
             case Description: {

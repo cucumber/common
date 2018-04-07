@@ -4,12 +4,12 @@
 (4:5)StepLine:Given /the <what>/
 (5:1)Empty://
 (6:5)TagLine://5:@foo
-(7:5)ExamplesLine:Examples//
+(7:5)ScenarioDataLine:Examples//
 (8:7)TableRow://9:what
 (9:7)TableRow://9:foo
 (10:1)Empty://
 (11:5)TagLine://5:@bar
-(12:5)ExamplesLine:Examples//
+(12:5)ScenarioDataLine:Examples//
 (13:7)TableRow://9:what
 (14:7)TableRow://9:bar
 (15:1)Empty://

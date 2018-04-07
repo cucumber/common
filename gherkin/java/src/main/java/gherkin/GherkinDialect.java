@@ -1,6 +1,7 @@
 package gherkin;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -41,6 +42,12 @@ public class GherkinDialect {
 
     public List<String> getExamplesKeywords() {
         return keywords.get("examples");
+    }
+
+    public List<String> getScenarioDataKeywords() {
+        List<String> scenarioData = keywords.get("scenarioData");
+        // Some translations don't have a scenarioData section yet
+        return scenarioData == null ? Collections.<String>emptyList() : scenarioData;
     }
 
     public List<String> getGivenKeywords() {
