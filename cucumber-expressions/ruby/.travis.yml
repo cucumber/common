@@ -12,3 +12,5 @@ rvm:
   - "2.3.6"
   - "2.2.9"
   - "jruby-9.1.13.0"
+
+script: make default

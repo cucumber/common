@@ -12,6 +12,8 @@ go:
   - "1.10"
   - "tip"
 
-script:
-  - "export GOPATH=" # fixes 'local import "../" in non-local package' error
-  - "make"
+env:
+  # fixes 'local import "../" in non-local package' error
+  - GOPATH=
+
+script: make default
