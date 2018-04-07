@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/cucumber/datatable-java.svg?branch=master)](https://travis-ci.org/cucumber/datatable-java)
+
 # Data Table for Java
 
 For general information about data tables please refer to the [polyglot project](../) 
