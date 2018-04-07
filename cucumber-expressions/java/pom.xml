@@ -4,7 +4,7 @@
 
     <groupId>io.cucumber</groupId>
     <artifactId>cucumber-expressions</artifactId>
-    <version>5.0.14-SNAPSHOT</version>
+    <version>5.0.15-SNAPSHOT</version>
     <packaging>bundle</packaging>
     <name>Cucumber Expressions</name>
     <description>Cucumber Expressions are simple patterns for matching Step Definitions with Gherkin steps</description>

@@ -17,7 +17,7 @@ This git repository is a monorepo. It contains several libraries that Cucumber
 is built on, in many programming languages. The goal is to migrate all of the
 Cucumber codebase into this repository.
 
-You can learn more about monrepos here:
+You can learn more about monorepos here:
 * http://www.thedotpost.com/2016/05/fabien-potencier-monolithic-repositories-vs-many-repositories
 * https://developer.atlassian.com/blog/2015/10/monorepos-in-git/
 * http://danluu.com/monorepo/
@@ -27,28 +27,53 @@ You can learn more about monrepos here:
 
 Occasionally, a sub directory is promoted to a separate subrepo. The process for doing this is:
 
-Create a new, empty subrepo at GitHub.
-    
-Initialise the subrepo, for example:
+#### Create a new directory in the monorepo
 
-    git subrepo init tag-expressions/go --remote https://github.com/cucumber/tag-expressions-go.git
+For example:
 
-Create an .rsync file, for example:
+    mkdir -p tag-expressions/go
+
+#### Add initial files
+
+In the new directory, create the following files:
+
+`.rsync`, with the following sample contents (adapt to the programming language):
 
     ../../LICENSE LICENSE
     ../../.travis/go/.travis.yml .travis.yml
 
-Update README.md with a build badge for the new subrepo.
+`README.md` with a build badge for the new subrepo. For example:
 
-Sync files:
+    # Tag Expressions for Go
 
+    [![Build Status](https://travis-ci.org/cucumber/tag-expressions-go.svg?branch=master)](https://travis-ci.org/cucumber/tag-expressions-go)
+
+    [The docs are here](http://docs.cucumber.io/tag-expressions/).
+
+#### Sync files
+
+    git add .
     source scripts/functions.sh && rsync_files
+    git add .
+    git commit -m "New project"
+
+#### Create new subrepo.
+
+Create a new, empty subrepo at GitHub.
+
+Log into Travis and set up build for the new (empty) subrepo.
+
+Initialise the subrepo, for example:
+    
+    git subrepo init tag-expressions/go --remote https://github.com/cucumber/tag-expressions-go.git
 
 Push to the subrepo:
 
     git subrepo push tag-expressions/go
 
-Log into Travis and set up build for the new subrepo
+Wait for Travis to build.
+
+Write some code in the monorepo, and push whenever you want to sync to the subrepo.
 
 ### Docker and CI
 

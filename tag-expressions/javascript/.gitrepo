@@ -6,6 +6,6 @@
 [subrepo]
 	remote = https://github.com/cucumber/tag-expressions-javascript.git
 	branch = master
-	commit = e178e1d84dddbddaf17c4d9e2fdfab814aa42162
-	parent = 7fd0157eeb2dd3a0a628d9acf640575c5aa20157
+	commit = d3313c7c1383a2267697dcb1afbd8655f093429f
+	parent = 6e8d79b93f3afb49b02fbcae134a6058646bc3d1
 	cmdver = 0.4.0

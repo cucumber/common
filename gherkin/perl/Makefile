@@ -79,7 +79,7 @@ lib/Gherkin/Generated/Languages.pm: gherkin-languages.json
 	perl helper-scripts/build_languages.pl < $< > $@
 
 lib/Gherkin/Generated/Parser.pm: gherkin.berp gherkin-perl.razor berp/berp.exe
-	mono berp/berp.exe -g gherkin.berp -t gherkin-perl.razor -o $@
+	-mono berp/berp.exe -g gherkin.berp -t gherkin-perl.razor -o $@
 	# Remove BOM
-	tail -c +4 $@ > $@.nobom
+	awk 'NR==1{sub(/^\xef\xbb\xbf/,"")}{print}' < $@ > $@.nobom
 	mv $@.nobom $@
