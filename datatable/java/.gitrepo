@@ -6,5 +6,6 @@
 [subrepo]
 	remote = https://github.com/cucumber/datatable-java.git
 	branch = master
-	commit = 
+	commit = 3c6aba4ef22b73741f63685fc2e46ddbf6d20784
 	cmdver = 0.4.0
+	parent = 13c6ab02e8e2c0543e33d6687a4b31bf431f1f0f
