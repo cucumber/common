@@ -1,3 +1,8 @@
+# Please update /.templates/Makefile in the cucumber/cucumber monorepo
+# and sync:
+#
+#     source scripts/functions.sh && rsync_files
+#
 MAKEFILES=$(wildcard */Makefile)
 
 default: $(patsubst %/Makefile,default-%,$(MAKEFILES))

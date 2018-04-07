@@ -1,5 +1,5 @@
 ../LICENSE LICENSE
-../../.travis/javascript/.travis.yml .travis.yml
+../../.templates/javascript/.travis.yml .travis.yml
 ../testdata/ testdata/
 ../gherkin.berp gherkin.berp
 ../bin/ berp/
