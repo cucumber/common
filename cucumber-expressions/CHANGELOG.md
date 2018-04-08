@@ -11,15 +11,35 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Changed
 
+* java: Renamed `{bigint}` to `{biginteger}` ([mpkorstanje, aslakhellesoy])
+
 ### Deprecated
 
 ### Removed
 
 ### Fixed
 
+* java: `{bigdecimal}` would only match integers ([mpkorstanje, aslakhellesoy])
+* java: `{byte}` is suggested in snippets ([mpkorstanje])
+
+## [5.0.15] - 2018-04-08
+
+### Added
+
+* go: Added Go implementation
+  ([#350](https://github.com/cucumber/cucumber/pull/350)
+   [charlierudolph])
+
+### Changed
+
+* java: Change the Java API
+  ([e246e7c76045f9a379cebe46e40a0f2705c9d82c](https://github.com/cucumber/cucumber-expressions-java/commit/e246e7c76045f9a379cebe46e40a0f2705c9d82c)
+   [mpkorstanje])
+
 ## [5.0.14] - 2018-04-04
 
 ### Added
+
 * Matching a literal open-parenthesis
   ([#107](https://github.com/cucumber/cucumber/issues/107)
    [#333](https://github.com/cucumber/cucumber/issues/333)
@@ -327,7 +347,8 @@ N/A
 * First stable release!
 
 <!-- Releases -->
-[Unreleased]: https://github.com/cucumber/cucumber/compare/cucumber-expressions-v5.0.14...master
+[Unreleased]: https://github.com/cucumber/cucumber/compare/cucumber-expressions-v5.0.15...master
+[5.0.15]:     https://github.com/cucumber/cucumber/compare/cucumber-expressions-v5.0.14...cucumber-expressions-v5.0.15
 [5.0.14]:     https://github.com/cucumber/cucumber/compare/cucumber-expressions-v5.0.13...cucumber-expressions-v5.0.14
 [5.0.13]:     https://github.com/cucumber/cucumber/compare/cucumber-expressions-v5.0.12...cucumber-expressions-v5.0.13
 [5.0.12]:     https://github.com/cucumber/cucumber/compare/cucumber-expressions-v5.0.11...cucumber-expressions-v5.0.12

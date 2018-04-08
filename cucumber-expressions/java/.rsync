@@ -1,3 +1,4 @@
 ../../LICENSE LICENSE
-../../.travis/java/.travis.yml .travis.yml
+../../.templates/java/.travis.yml .travis.yml
+../../.templates/java/Makefile Makefile
 ../examples.txt examples.txt

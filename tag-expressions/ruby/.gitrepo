@@ -6,6 +6,6 @@
 [subrepo]
 	remote = https://github.com/cucumber/tag-expressions-ruby.git
 	branch = master
-	commit = a0e67b90e3c87f21ca19084a4c332429e1e2a120
-	parent = 804bef32d3a88e4ca9b2109f588760e2fc8588fa
+	commit = e0281202c4ccf844e4987cc1a367989423dbd96c
+	parent = 18b91e7e3afb9f281b07efa1013340c54027ad8b
 	cmdver = 0.4.0

@@ -1,4 +1,4 @@
-# Please update /.travis/ruby/.travis.yml in the cucumber/cucumber monorepo
+# Please update /.templates/ruby/.travis.yml in the cucumber/cucumber monorepo
 # and sync:
 #
 #     source scripts/functions.sh && rsync_files
@@ -12,3 +12,5 @@ rvm:
   - "2.3.6"
   - "2.2.9"
   - "jruby-9.1.13.0"
+
+script: make default

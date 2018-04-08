@@ -40,7 +40,7 @@ In the new directory, create the following files:
 `.rsync`, with the following sample contents (adapt to the programming language):
 
     ../../LICENSE LICENSE
-    ../../.travis/go/.travis.yml .travis.yml
+    ../../.templates/go/.travis.yml .travis.yml
 
 `README.md` with a build badge for the new subrepo. For example:
 

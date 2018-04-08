@@ -1,2 +1,2 @@
 ../../LICENSE LICENSE
-../../.travis/go/.travis.yml .travis.yml
+../../.templates/go/.travis.yml .travis.yml
