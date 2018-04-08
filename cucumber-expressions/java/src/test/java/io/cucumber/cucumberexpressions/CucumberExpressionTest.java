@@ -132,8 +132,8 @@ public class CucumberExpressionTest {
     }
 
     @Test
-    public void matches_bigint() {
-        assertEquals(singletonList(BigInteger.ONE), match("{bigint}", BigInteger.ONE.toString()));
+    public void matches_biginteger() {
+        assertEquals(singletonList(BigInteger.ONE), match("{biginteger}", BigInteger.ONE.toString()));
     }
 
     @Test

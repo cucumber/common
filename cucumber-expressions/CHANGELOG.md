@@ -11,6 +11,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Changed
 
+* java: Renamed `{bigint}` to `{biginteger}` ([aslakhellesoy])
+
 ### Deprecated
 
 ### Removed

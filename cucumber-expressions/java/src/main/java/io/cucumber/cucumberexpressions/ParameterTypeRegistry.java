@@ -30,7 +30,7 @@ public class ParameterTypeRegistry {
         NumberFormat numberFormat = NumberFormat.getNumberInstance(locale);
         final NumberParser numberParser = new NumberParser(numberFormat);
 
-        defineParameterType(new ParameterType<>("bigint", INTEGER_REGEXPS, BigInteger.class, new SingleTransformer<>(new Function<String, BigInteger>() {
+        defineParameterType(new ParameterType<>("biginteger", INTEGER_REGEXPS, BigInteger.class, new SingleTransformer<>(new Function<String, BigInteger>() {
             @Override
             public BigInteger apply(String s) {
                 return new BigInteger(s);
