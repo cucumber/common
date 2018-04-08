@@ -11,11 +11,16 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Changed
 
+* java: Renamed `{bigint}` to `{biginteger}` ([mpkorstanje, aslakhellesoy])
+
 ### Deprecated
 
 ### Removed
 
 ### Fixed
+
+* java: `{bigdecimal}` would only match integers ([mpkorstanje, aslakhellesoy])
+* java: `{byte}` is suggested in snippets ([mpkorstanje])
 
 ## [5.0.15] - 2018-04-08
 

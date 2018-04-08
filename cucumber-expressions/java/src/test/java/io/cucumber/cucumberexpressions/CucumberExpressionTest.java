@@ -5,7 +5,6 @@ import org.junit.Test;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 
@@ -15,8 +14,6 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 
 public class CucumberExpressionTest {
-
-    public static final BigDecimal BIG_DECIMAL_PI = BigDecimal.valueOf(31415926535L, 10);
 
     @Test
     public void documents_match_arguments() {
@@ -135,13 +132,16 @@ public class CucumberExpressionTest {
     }
 
     @Test
-    public void matches_bigint() {
-        assertEquals(singletonList(BigInteger.TEN), match("{biginteger}", BigInteger.TEN.toString()));
+    public void matches_biginteger() {
+        BigInteger bigInteger = BigInteger.valueOf(Long.MAX_VALUE);
+        bigInteger = bigInteger.pow(10);
+        assertEquals(singletonList(bigInteger), match("{biginteger}", bigInteger.toString()));
     }
 
     @Test
     public void matches_bigdecimal() {
-        assertEquals(singletonList(BIG_DECIMAL_PI), match("{bigdecimal}", BIG_DECIMAL_PI.toString()));
+        BigDecimal bigDecimal = BigDecimal.valueOf(Math.PI);
+        assertEquals(singletonList(bigDecimal), match("{bigdecimal}", bigDecimal.toString()));
     }
 
     @Test
