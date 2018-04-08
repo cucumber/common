@@ -36,7 +36,7 @@ public class ParameterTypeRegistry {
                 return new BigInteger(s);
             }
         }), false, false));
-        defineParameterType(new ParameterType<>("bigdecimal", INTEGER_REGEXPS, BigDecimal.class, new SingleTransformer<>(new Function<String, BigDecimal>() {
+        defineParameterType(new ParameterType<>("bigdecimal", FLOAT_REGEXPS, BigDecimal.class, new SingleTransformer<>(new Function<String, BigDecimal>() {
             @Override
             public BigDecimal apply(String s) {
                 return new BigDecimal(s);

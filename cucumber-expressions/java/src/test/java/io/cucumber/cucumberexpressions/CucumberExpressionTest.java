@@ -133,12 +133,15 @@ public class CucumberExpressionTest {
 
     @Test
     public void matches_biginteger() {
-        assertEquals(singletonList(BigInteger.ONE), match("{biginteger}", BigInteger.ONE.toString()));
+        BigInteger bigint = BigInteger.valueOf(Long.MAX_VALUE);
+        bigint = bigint.pow(10);
+        assertEquals(singletonList(bigint), match("{biginteger}", bigint.toString()));
     }
 
     @Test
     public void matches_bigdecimal() {
-        assertEquals(singletonList(BigDecimal.ONE), match("{bigdecimal}", BigDecimal.ONE.toString()));
+        BigDecimal bigDecimal = BigDecimal.valueOf(Math.PI);
+        assertEquals(singletonList(bigDecimal), match("{bigdecimal}", bigDecimal.toString()));
     }
 
     @Test

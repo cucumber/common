@@ -19,6 +19,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Fixed
 
+* java: `{bigdecimal}` would only match integers  ([aslakhellesoy])
+
 ## [5.0.15] - 2018-04-08
 
 ### Added
