@@ -47,7 +47,7 @@ parameter types are:
 * `{word}`, for example `banana` (but not `banana split`)
 * `{string}`, for example `"bangers"` or `'mash'`. The single/double quotes themselves are removed from the match.
 
-On the JVM, there are additional parameter types for `bigint`, `bigdecimal`,
+On the JVM, there are additional parameter types for `biginteger`, `bigdecimal`,
 `byte`, `short`, `long` and `double`.
 
 ### Custom parameter types {#custom-parameter-types}

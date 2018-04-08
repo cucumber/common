@@ -15,6 +15,9 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 
 public class CucumberExpressionTest {
+
+    public static final BigDecimal BIG_DECIMAL_PI = BigDecimal.valueOf(31415926535L, 10);
+
     @Test
     public void documents_match_arguments() {
         ParameterTypeRegistry parameterTypeRegistry = new ParameterTypeRegistry(Locale.ENGLISH);
@@ -133,12 +136,12 @@ public class CucumberExpressionTest {
 
     @Test
     public void matches_bigint() {
-        assertEquals(singletonList(BigInteger.ONE), match("{bigint}", BigInteger.ONE.toString()));
+        assertEquals(singletonList(BigInteger.TEN), match("{biginteger}", BigInteger.TEN.toString()));
     }
 
     @Test
     public void matches_bigdecimal() {
-        assertEquals(singletonList(BigDecimal.ONE), match("{bigdecimal}", BigDecimal.ONE.toString()));
+        assertEquals(singletonList(BIG_DECIMAL_PI), match("{bigdecimal}", BIG_DECIMAL_PI.toString()));
     }
 
     @Test

@@ -25,7 +25,7 @@ public final class DataTableTypeRegistry {
         NumberFormat numberFormat = NumberFormat.getNumberInstance(locale);
         final NumberParser numberParser = new NumberParser(numberFormat);
 
-        defineDataTableType(new DataTableType("bigint", BigInteger.class, new TableCellTransformer<BigInteger>() {
+        defineDataTableType(new DataTableType("biginteger", BigInteger.class, new TableCellTransformer<BigInteger>() {
             @Override
             public BigInteger transform(String cell) {
                 return new BigInteger(cell);
