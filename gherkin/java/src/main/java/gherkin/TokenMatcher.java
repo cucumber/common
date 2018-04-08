@@ -109,33 +109,29 @@ public class TokenMatcher implements ITokenMatcher {
 
     @Override
     public boolean match_FeatureLine(Token token) {
-        return matchTitleLine(token, TokenType.FeatureLine, currentDialect.getFeatureKeywords(), false);
+        return matchTitleLine(token, TokenType.FeatureLine, currentDialect.getFeatureKeywords());
     }
 
     @Override
     public boolean match_BackgroundLine(Token token) {
-        return matchTitleLine(token, TokenType.BackgroundLine, currentDialect.getBackgroundKeywords(), false);
+        return matchTitleLine(token, TokenType.BackgroundLine, currentDialect.getBackgroundKeywords());
     }
 
     @Override
     public boolean match_ScenarioLine(Token token) {
-        return matchTitleLine(token, TokenType.ScenarioLine, currentDialect.getScenarioKeywords(), false) ||
-                matchTitleLine(token, TokenType.ScenarioLine, currentDialect.getScenarioOutlineKeywords(), true);
+        return matchTitleLine(token, TokenType.ScenarioLine, currentDialect.getScenarioKeywords()) ||
+                matchTitleLine(token, TokenType.ScenarioLine, currentDialect.getScenarioOutlineKeywords());
     }
 
     @Override
     public boolean match_ScenarioDataLine(Token token) {
-        return matchTitleLine(token, TokenType.ScenarioDataLine, currentDialect.getScenarioDataKeywords(), false) ||
-                matchTitleLine(token, TokenType.ScenarioDataLine, currentDialect.getExamplesKeywords(), true);
+        return matchTitleLine(token, TokenType.ScenarioDataLine, currentDialect.getScenarioDataKeywords()) ||
+                matchTitleLine(token, TokenType.ScenarioDataLine, currentDialect.getExamplesKeywords());
     }
 
-    private boolean matchTitleLine(Token token, TokenType tokenType, List<String> keywords, boolean deprecated) {
+    private boolean matchTitleLine(Token token, TokenType tokenType, List<String> keywords) {
         for (String keyword : keywords) {
             if (token.line.startsWithTitleKeyword(keyword)) {
-                if (deprecated) {
-                    // TODO: point user to a URL where they can learn more
-                    System.err.format("CUCUMBER WARNING: The keyword '%s' is deprecated and will be removed in a future release.\n", keyword);
-                }
                 String title = token.line.getRestTrimmed(keyword.length() + GherkinLanguageConstants.TITLE_KEYWORD_SEPARATOR.length());
                 setTokenMatched(token, tokenType, title, keyword, null, null);
                 return true;
