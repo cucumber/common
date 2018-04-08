@@ -19,6 +19,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [5.0.15] - 2018-04-08
 
+### Added
+
+* go: Added Go implementation
+  ([#350](https://github.com/cucumber/cucumber/pull/350)
+   [charlierudolph])
+
 ### Changed
 
 * java: Change the Java API
@@ -28,6 +34,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ## [5.0.14] - 2018-04-04
 
 ### Added
+
 * Matching a literal open-parenthesis
   ([#107](https://github.com/cucumber/cucumber/issues/107)
    [#333](https://github.com/cucumber/cucumber/issues/333)
