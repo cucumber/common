@@ -61,15 +61,23 @@ libs_so: ./include/rule_type.h src/parser.c src/dialect.c $(SRC_FILES) src/Makef
 	touch $@
 
 ./include/rule_type.h: gherkin.berp gherkin-c-rule-type.razor
-	mono berp/berp.exe -g gherkin.berp -t gherkin-c-rule-type.razor -o $@
+	# Some build environments (Travis) mess up timestamps
+	# so that all files have the same timestamp, causing make to think this
+	# file needs to be rebuilt when it's actually uptodate. Our travis build doesn't
+	# have mono, so we'll allow this line to fail.
+	-mono berp/berp.exe -g gherkin.berp -t gherkin-c-rule-type.razor -o $@
 	# Remove BOM
-	tail -c +4 $@ > $@.nobom
+	awk 'NR==1{sub(/^\xef\xbb\xbf/,"")}{print}' < $@ > $@.nobom
 	mv $@.nobom $@
 
 src/parser.c: gherkin.berp gherkin-c-parser.razor
-	mono berp/berp.exe -g gherkin.berp -t gherkin-c-parser.razor -o $@
+	# Some build environments (Travis) mess up timestamps
+	# so that all files have the same timestamp, causing make to think this
+	# file needs to be rebuilt when it's actually uptodate. Our travis build doesn't
+	# have mono, so we'll allow this line to fail.
+	-mono berp/berp.exe -g gherkin.berp -t gherkin-c-parser.razor -o $@
 	# Remove BOM
-	tail -c +4 $@ > $@.nobom
+	awk 'NR==1{sub(/^\xef\xbb\xbf/,"")}{print}' < $@ > $@.nobom
 	mv $@.nobom $@
 
 src/dialect.c: gherkin-languages.json dialect.c.jq

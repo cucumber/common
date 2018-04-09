@@ -30,6 +30,14 @@ public final class ParameterType<T> implements Comparable<ParameterType<?>> {
         this(name, singletonList(regexp), type, transformer, useForSnippets, preferForRegexpMatch);
     }
 
+    public ParameterType(String name, String regexp, Class<T> type, Function<String, T> transformer, boolean useForSnippets, boolean preferForRegexpMatch) {
+        this(name, singletonList(regexp), type, new SingleTransformer<>(transformer), useForSnippets, preferForRegexpMatch);
+    }
+
+    public ParameterType(String name, String regexp, Class<T> type, Function<String, T> transformer) {
+        this(name, regexp, type, new SingleTransformer<>(transformer));
+    }
+
     public ParameterType(String name, String regexp, Class<T> type, Transformer<T> transformer) {
         this(name, singletonList(regexp), type, transformer, true, false);
     }
@@ -84,7 +92,11 @@ public final class ParameterType<T> implements Comparable<ParameterType<?>> {
 
     public T transform(List<String> groupValues) {
         String[] groupValueArray = groupValues.toArray(new String[groupValues.size()]);
-        return transformer.transform(groupValueArray);
+        try {
+            return transformer.transform(groupValueArray);
+        } catch (Throwable throwable) {
+            throw new CucumberExpressionException(String.format("ParameterType {%s} failed to transform %s to %s", name, groupValues, type), throwable);
+        }
     }
 
     @Override

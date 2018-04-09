@@ -140,7 +140,7 @@ public class CustomParameterTypeTest {
             arguments.get(0).getValue();
             fail("should have failed");
         } catch (RuntimeException expected) {
-            assertEquals("Can't transform [bad]", expected.getMessage());
+            assertEquals("ParameterType {throwing} failed to transform [bad] to " + CssColor.class, expected.getMessage());
         }
     }
 

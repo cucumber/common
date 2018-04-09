@@ -1,4 +1,5 @@
 require 'cucumber/cucumber_expressions/cucumber_expression_generator'
+require 'cucumber/cucumber_expressions/cucumber_expression'
 require 'cucumber/cucumber_expressions/parameter_type'
 require 'cucumber/cucumber_expressions/parameter_type_registry'
 
@@ -26,6 +27,18 @@ module Cucumber
 
       it "generates expression for no args" do
         assert_expression("hello", [], "hello")
+      end
+
+      it "generates expression with escaped left parenthesis" do
+        assert_expression(
+          "\\(iii)", [],
+          "(iii)")
+      end
+
+      it "generates expression with escaped left curly brace" do
+        assert_expression(
+          "\\{iii}", [],
+          "{iii}")
       end
 
       it "generates expression for int float arg" do
@@ -105,6 +118,10 @@ module Cucumber
         generated_expression = @generator.generate_expression(text)
         expect(generated_expression.parameter_names).to eq(expected_argument_names)
         expect(generated_expression.source).to eq(expected_expression)
+        
+        cucumber_expression = CucumberExpression.new(generated_expression.source, @parameter_type_registry)
+        match = cucumber_expression.match(text)
+        expect(match.length).to eq(expected_argument_names.length)
       end
     end
   end

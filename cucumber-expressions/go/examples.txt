@@ -1,0 +1,19 @@
+I have {int} cuke(s)
+I have 22 cukes
+[22]
+---
+I have {int} cuke(s) and some \[]^$.|?*+
+I have 1 cuke and some \[]^$.|?*+
+[1]
+---
+/I have (\d+) cukes? in my (\w+) now/
+I have 22 cukes in my belly now
+[22,"belly"]
+---
+/I have (-?\d+) cukes? in my (.*) now/
+I have 1 cuke in my belly now
+[1,"belly"]
+---
+/^Something( with an optional argument)?$/
+Something
+[""]

@@ -30,13 +30,13 @@ public class ParameterTypeRegistry {
         NumberFormat numberFormat = NumberFormat.getNumberInstance(locale);
         final NumberParser numberParser = new NumberParser(numberFormat);
 
-        defineParameterType(new ParameterType<>("bigint", INTEGER_REGEXPS, BigInteger.class, new SingleTransformer<>(new Function<String, BigInteger>() {
+        defineParameterType(new ParameterType<>("biginteger", INTEGER_REGEXPS, BigInteger.class, new SingleTransformer<>(new Function<String, BigInteger>() {
             @Override
             public BigInteger apply(String s) {
                 return new BigInteger(s);
             }
         }), false, false));
-        defineParameterType(new ParameterType<>("bigdecimal", INTEGER_REGEXPS, BigDecimal.class, new SingleTransformer<>(new Function<String, BigDecimal>() {
+        defineParameterType(new ParameterType<>("bigdecimal", FLOAT_REGEXPS, BigDecimal.class, new SingleTransformer<>(new Function<String, BigDecimal>() {
             @Override
             public BigDecimal apply(String s) {
                 return new BigDecimal(s);
@@ -47,7 +47,7 @@ public class ParameterTypeRegistry {
             public Byte apply(String s) {
                 return Byte.decode(s);
             }
-        }), false, false));
+        }), true, false));
         defineParameterType(new ParameterType<>("short", INTEGER_REGEXPS, Short.class, new SingleTransformer<>(new Function<String, Short>() {
             @Override
             public Short apply(String s) {

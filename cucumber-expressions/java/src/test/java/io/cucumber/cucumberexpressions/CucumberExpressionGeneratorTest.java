@@ -35,6 +35,20 @@ public class CucumberExpressionGeneratorTest {
     }
 
     @Test
+    public void generates_expression_with_escaped_left_parenthesis() {
+        assertExpression(
+                "\\(iii)", Collections.<String>emptyList(),
+                "(iii)");
+    }
+
+    @Test
+    public void generates_expression_with_escaped_left_curly_brace() {
+        assertExpression(
+                "\\{iii}", Collections.<String>emptyList(),
+                "{iii}");
+    }
+
+    @Test
     public void generates_expression_for_int_double_arg() {
         assertExpression(
                 "I have {int} cukes and {double} euro", asList("int1", "double1"),
@@ -240,7 +254,12 @@ public class CucumberExpressionGeneratorTest {
 
     private void assertExpression(String expectedExpression, List<String> expectedArgumentNames, String text) {
         GeneratedExpression generatedExpression = generator.generateExpressions(text).get(0);
-        assertEquals(expectedArgumentNames, generatedExpression.getParameterNames());
         assertEquals(expectedExpression, generatedExpression.getSource());
+        assertEquals(expectedArgumentNames, generatedExpression.getParameterNames());
+
+        // Check that the generated expression matches the text
+        CucumberExpression cucumberExpression = new CucumberExpression(generatedExpression.getSource(), parameterTypeRegistry);
+        List<Argument<?>> match = cucumberExpression.match(text);
+        assertEquals(expectedArgumentNames.size(), match.size());
     }
 }

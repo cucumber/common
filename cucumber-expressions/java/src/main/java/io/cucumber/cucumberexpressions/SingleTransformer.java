@@ -8,7 +8,7 @@ public class SingleTransformer<T> implements Transformer<T> {
     }
 
     @Override
-    public T transform(String... groupValues) {
+    public T transform(String... groupValues) throws Throwable {
         if (groupValues == null) return null;
         String arg = null;
         for (String groupValue : groupValues) {

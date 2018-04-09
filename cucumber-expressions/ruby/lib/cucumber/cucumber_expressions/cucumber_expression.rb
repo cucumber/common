@@ -7,51 +7,24 @@ module Cucumber
     class CucumberExpression
       # Does not include (){} characters because they have special meaning
       ESCAPE_REGEXP = /([\\^\[$.|?*+\]])/
-      PARAMETER_REGEXP = /{([^}]+)}/
-      # Parentheses will be double-escaped due to ESCAPE_REGEXP
+      PARAMETER_REGEXP = /(\\\\)?{([^}]+)}/
       OPTIONAL_REGEXP = /(\\\\)?\(([^)]+)\)/
       ALTERNATIVE_NON_WHITESPACE_TEXT_REGEXP = /([^\s^\/]+)((\/[^\s^\/]+)+)/
+      DOUBLE_ESCAPE = '\\\\'
 
       attr_reader :source
 
       def initialize(expression, parameter_type_registry)
         @source = expression
         @parameter_types = []
-        regexp = '^'
-        match_offset = 0
+        
+        expression = process_escapes(expression)
+        expression = process_optional(expression)
+        expression = process_alternation(expression)
+        expression = process_parameters(expression, parameter_type_registry)
+        expression = "^#{expression}$"
 
-        # This will cause explicitly-escaped parentheses to be double-escaped
-        expression = expression.gsub(ESCAPE_REGEXP, '\\\\\1')
-
-        # Create non-capturing, optional capture groups from parenthesis
-        expression = expression.gsub(OPTIONAL_REGEXP) do
-          # look for double-escaped parentheses
-          $1 == '\\\\' ? "\\(#{$2}\\)" : "(?:#{$2})?"
-        end
-
-        expression = expression.gsub(ALTERNATIVE_NON_WHITESPACE_TEXT_REGEXP) do
-          "(?:#{$1}#{$2.tr('/', '|')})"
-        end
-
-        loop do
-          match = PARAMETER_REGEXP.match(expression, match_offset)
-          break if match.nil?
-
-          type_name = match[1]
-
-          parameter_type = parameter_type_registry.lookup_by_type_name(type_name)
-          raise UndefinedParameterTypeError.new(type_name) if parameter_type.nil?
-          @parameter_types.push(parameter_type)
-
-          text = expression.slice(match_offset...match.offset(0)[0])
-          capture_regexp = build_capture_regexp(parameter_type.regexps)
-          match_offset = match.offset(0)[1]
-          regexp += text
-          regexp += capture_regexp
-        end
-        regexp += expression.slice(match_offset..-1)
-        regexp += '$'
-        @tree_regexp = TreeRegexp.new(regexp)
+        @tree_regexp = TreeRegexp.new(expression)
       end
 
       def match(text)
@@ -67,6 +40,40 @@ module Cucumber
       end
 
       private
+
+      def process_escapes(expression)
+        expression.gsub(ESCAPE_REGEXP, '\\\\\1')
+      end
+
+      def process_optional(expression)
+        # Create non-capturing, optional capture groups from parenthesis
+        expression.gsub(OPTIONAL_REGEXP) do
+          # look for double-escaped parentheses
+          $1 == DOUBLE_ESCAPE ? "\\(#{$2}\\)" : "(?:#{$2})?"
+        end
+      end
+
+      def process_alternation(expression)
+        expression.gsub(ALTERNATIVE_NON_WHITESPACE_TEXT_REGEXP) do
+          "(?:#{$1}#{$2.tr('/', '|')})"
+        end
+      end
+
+      def process_parameters(expression, parameter_type_registry)
+        # Create non-capturing, optional capture groups from parenthesis
+        expression.gsub(PARAMETER_REGEXP) do
+          if ($1 == DOUBLE_ESCAPE)
+            "\\{#{$2}\\}"
+          else
+            type_name = $2
+            parameter_type = parameter_type_registry.lookup_by_type_name(type_name)
+            raise UndefinedParameterTypeError.new(type_name) if parameter_type.nil?
+            @parameter_types.push(parameter_type)
+
+            build_capture_regexp(parameter_type.regexps)
+          end
+        end
+      end
 
       def build_capture_regexp(regexps)
         return "(#{regexps[0]})" if regexps.size == 1

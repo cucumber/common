@@ -1,0 +1,11 @@
+; DO NOT EDIT (unless you know what you are doing)
+;
+; This subdirectory is a git "subrepo", and this file is maintained by the
+; git-subrepo command. See https://github.com/git-commands/git-subrepo#readme
+;
+[subrepo]
+	remote = https://github.com/cucumber/datatable-java.git
+	branch = master
+	commit = 56b11b5fa23d9445436a3a1fb1b80ddc2eb987bc
+	cmdver = 0.4.0
+	parent = 96cd27b164ab89dc40234f90b3c98718bf6e3562

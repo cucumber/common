@@ -17,7 +17,7 @@ This git repository is a monorepo. It contains several libraries that Cucumber
 is built on, in many programming languages. The goal is to migrate all of the
 Cucumber codebase into this repository.
 
-You can learn more about monrepos here:
+You can learn more about monorepos here:
 * http://www.thedotpost.com/2016/05/fabien-potencier-monolithic-repositories-vs-many-repositories
 * https://developer.atlassian.com/blog/2015/10/monorepos-in-git/
 * http://danluu.com/monorepo/
@@ -27,7 +27,9 @@ You can learn more about monrepos here:
 
 Occasionally, a sub directory is promoted to a separate subrepo. The process for doing this is:
 
-#### Create a new directory in the monorepo    
+#### Create a new directory in the monorepo
+
+For example:
 
     mkdir -p tag-expressions/go
 
@@ -35,10 +37,10 @@ Occasionally, a sub directory is promoted to a separate subrepo. The process for
 
 In the new directory, create the following files:
 
-`.rsync` ,with the following sample contents (adapt to the programming language):
+`.rsync`, with the following sample contents (adapt to the programming language):
 
     ../../LICENSE LICENSE
-    ../../.travis/go/.travis.yml .travis.yml
+    ../../.templates/go/.travis.yml .travis.yml
 
 `README.md` with a build badge for the new subrepo. For example:
 
@@ -57,9 +59,9 @@ In the new directory, create the following files:
 
 #### Create new subrepo.
 
-Create a new, empty subrepo at GitHub
+Create a new, empty subrepo at GitHub.
 
-Log into Travis and set up build for the new (empty) subrepo
+Log into Travis and set up build for the new (empty) subrepo.
 
 Initialise the subrepo, for example:
     

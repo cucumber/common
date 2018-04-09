@@ -64,9 +64,9 @@ acceptance/testdata/%.feature.pickles.ndjson: testdata/%.feature testdata/%.feat
 	diff --unified <(jq "." $<.pickles.ndjson) <(jq "." $@)
 
 parser.go: gherkin.berp parser.go.razor berp/berp.exe
-	mono berp/berp.exe -g gherkin.berp -t parser.go.razor -o $@
+	-mono berp/berp.exe -g gherkin.berp -t parser.go.razor -o $@
 	# Remove BOM
-	tail -c +4 $@ > $@.nobom
+	awk 'NR==1{sub(/^\xef\xbb\xbf/,"")}{print}' < $@ > $@.nobom
 	mv $@.nobom $@
 	gofmt -w $@
 
