@@ -85,7 +85,7 @@ files. These need to be rebuilt and published manually whenever they change:
    docker_build Dockerfile.cucumber-build
    docker_push Dockerfile.cucumber-build
    # .NET image (for .NET builds only)
-   docker_build Dockerfile.cucumber-build
-   docker_push Dockerfile.cucumber-build
+   docker_build Dockerfile.cucumber-build-dotnet
+   docker_push Dockerfile.cucumber-build-dotnet
 
 The images are published [here](https://hub.docker.com/r/cucumber/)
