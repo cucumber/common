@@ -30,7 +30,7 @@ If this is your first time, read through NuGet's guidelines for
     # Replace X.Y.Z with the version
     # Change version in `Gherkin\Gherkin.csproj`
     git clean -dfx
-    dotnet pack -c Release Gherkin
+    msbuild /t:Pack /p:Configuration=Release Gherkin
     mono .nuget/NuGet.exe push Gherkin/bin/Release/Gherkin.X.Y.Z.nupkg
     git commit -am "Release X.Y.Z"
     git tag -a -m "Version X.Y.Z" vX.Y.Z
