@@ -126,11 +126,12 @@ func ParseGherkinDocument(in io.Reader) (gherkinDocument *GherkinDocument, err e
 	return ParseGherkinDocumentForLanguage(in, DEFAULT_DIALECT)
 }
 
-func ParseGherkinDocumentForLanguage(in io.Reader, default_lang string) (gherkinDocument *GherkinDocument, err error) {
+func ParseGherkinDocumentForLanguage(in io.Reader, language string) (gherkinDocument *GherkinDocument, err error) {
+
 	builder := NewAstBuilder()
 	parser := NewParser(builder)
 	parser.StopAtFirstError(false)
-	matcher := NewLanguageMatcher(GherkinDialectsBuildin(), default_lang)
+	matcher := NewLanguageMatcher(GherkinDialectsBuildin(), language)
 
 	scanner := NewScanner(in)
 
