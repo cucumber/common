@@ -10,7 +10,7 @@ public class RegularExpression implements Expression {
     private TreeRegexp treeRegexp;
 
     /**
-     * Creates a new instance. Use this when the apply types are not known in advance,
+     * Creates a new instance. Use this when the transform types are not known in advance,
      * and should be determined by the regular expression's capture groups. Use this with
      * dynamically typed languages.
      *
@@ -36,7 +36,7 @@ public class RegularExpression implements Expression {
                     String.class,
                     new Transformer<String>() {
                         @Override
-                        public String apply(String... args) {
+                        public String transform(String... args) {
                             return args.length == 0 ? null : args[0];
                         }
                     }

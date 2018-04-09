@@ -54,7 +54,7 @@ public class CustomParameterTypeTest {
                 Color.class,                              // type
                 new Transformer<Color>() {
                     @Override
-                    public Color apply(String... args) {
+                    public Color transform(String... args) {
                         return new Color(args[0]);
                     }
                 },                                        // transform
@@ -79,7 +79,7 @@ public class CustomParameterTypeTest {
                 "(\\d+),\\s*(\\d+),\\s*(\\d+)",
                 Coordinate.class, new Transformer<Coordinate>() {
             @Override
-            public Coordinate apply(String... args) {
+            public Coordinate transform(String... args) {
                 return new Coordinate(
                         parseInt(args[0]),
                         parseInt(args[1]),
@@ -108,7 +108,7 @@ public class CustomParameterTypeTest {
                 Color.class,
                 new Transformer<Color>() {
                     @Override
-                    public Color apply(String... args) {
+                    public Color transform(String... args) {
                         return new Color(args[0]);
                     }
                 },
@@ -128,8 +128,8 @@ public class CustomParameterTypeTest {
                 CssColor.class,
                 new Transformer<CssColor>() {
                     @Override
-                    public CssColor apply(String... args) {
-                        throw new RuntimeException(String.format("Can't apply [%s]", args[0]));
+                    public CssColor transform(String... args) {
+                        throw new RuntimeException(String.format("Can't transform [%s]", args[0]));
                     }
                 },
                 false,
@@ -141,7 +141,7 @@ public class CustomParameterTypeTest {
             arguments.get(0).getValue();
             fail("should have failed");
         } catch (RuntimeException expected) {
-            assertEquals("ParameterType {throwing} failed to apply [bad] to " + CssColor.class, expected.getMessage());
+            assertEquals("ParameterType {throwing} failed to transform [bad] to " + CssColor.class, expected.getMessage());
         }
     }
 
@@ -154,7 +154,7 @@ public class CustomParameterTypeTest {
                     CssColor.class,
                     new Transformer<CssColor>() {
                         @Override
-                        public CssColor apply(String... args) {
+                        public CssColor transform(String... args) {
                             return new CssColor(args[0]);
                         }
                     },
@@ -175,7 +175,7 @@ public class CustomParameterTypeTest {
                 Color.class,
                 new Transformer<Color>() {
                     @Override
-                    public Color apply(String... args) {
+                    public Color transform(String... args) {
                         return new Color(args[0]);
                     }
                 },
@@ -194,7 +194,7 @@ public class CustomParameterTypeTest {
                 CssColor.class,
                 new Transformer<CssColor>() {
                     @Override
-                    public CssColor apply(String... args) {
+                    public CssColor transform(String... args) {
                         return new CssColor(args[0]);
                     }
                 },

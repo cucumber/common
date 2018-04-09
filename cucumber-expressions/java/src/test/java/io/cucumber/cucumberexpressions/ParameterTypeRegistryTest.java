@@ -34,20 +34,20 @@ public class ParameterTypeRegistryTest {
     public void does_not_allow_more_than_one_preferential_parameter_type_for_each_regexp() {
         registry.defineParameterType(new ParameterType<>("name", CAPITALISED_WORD, Name.class, new Transformer<Name>() {
             @Override
-            public Name apply(String... args) {
+            public Name transform(String... args) {
                 return new Name(args[0]);
             }
         }, false, true));
         registry.defineParameterType(new ParameterType<>("person", CAPITALISED_WORD, Person.class, new Transformer<Person>() {
             @Override
-            public Person apply(String... args) {
+            public Person transform(String... args) {
                 return new Person(args[0]);
             }
         }, false, false));
         try {
             registry.defineParameterType(new ParameterType<>("place", CAPITALISED_WORD, Place.class, new Transformer<Place>() {
                 @Override
-                public Place apply(String... args) {
+                public Place transform(String... args) {
                     return new Place(args[0]);
                 }
             }, false, true));
@@ -61,19 +61,19 @@ public class ParameterTypeRegistryTest {
     public void looks_up_preferential_parameter_type_by_regexp() {
         ParameterType<Name> name = new ParameterType<>("name", CAPITALISED_WORD, Name.class, new Transformer<Name>() {
             @Override
-            public Name apply(String... args) {
+            public Name transform(String... args) {
                 return new Name(args[0]);
             }
         }, false, false);
         ParameterType<Person> person = new ParameterType<>("person", CAPITALISED_WORD, Person.class, new Transformer<Person>() {
             @Override
-            public Person apply(String... args) {
+            public Person transform(String... args) {
                 return new Person(args[0]);
             }
         }, false, true);
         ParameterType<Place> place = new ParameterType<>("place", CAPITALISED_WORD, Place.class, new Transformer<Place>() {
             @Override
-            public Place apply(String... args) {
+            public Place transform(String... args) {
                 return new Place(args[0]);
             }
         }, false, false);
@@ -87,19 +87,19 @@ public class ParameterTypeRegistryTest {
     public void throws_ambiguous_exception_on_lookup_when_no_parameter_types_are_preferential() {
         ParameterType<Name> name = new ParameterType<>("name", CAPITALISED_WORD, Name.class, new Transformer<Name>() {
             @Override
-            public Name apply(String... args) {
+            public Name transform(String... args) {
                 return new Name(args[0]);
             }
         }, true, false);
         ParameterType<Person> person = new ParameterType<>("person", CAPITALISED_WORD, Person.class, new Transformer<Person>() {
             @Override
-            public Person apply(String... args) {
+            public Person transform(String... args) {
                 return new Person(args[0]);
             }
         }, true, false);
         ParameterType<Place> place = new ParameterType<>("place", CAPITALISED_WORD, Place.class, new Transformer<Place>() {
             @Override
-            public Place apply(String... args) {
+            public Place transform(String... args) {
                 return new Place(args[0]);
             }
         }, true, false);

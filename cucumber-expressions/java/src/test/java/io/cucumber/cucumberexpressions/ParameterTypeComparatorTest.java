@@ -38,25 +38,25 @@ public class ParameterTypeComparatorTest {
         set.add(new ParameterType<>("c", "c", C.class,
                 new Transformer<C>() {
                     @Override
-                    public C apply(String... args) {
+                    public C transform(String... args) {
                         return new C(args[0]);
                     }
                 }, false, true));
         set.add(new ParameterType<>("a", "a", A.class, new Transformer<A>() {
             @Override
-            public A apply(String... args) {
+            public A transform(String... args) {
                 return new A(args[0]);
             }
         }, false, false));
         set.add(new ParameterType<>("d", "d", D.class, new Transformer<D>() {
             @Override
-            public D apply(String... args) {
+            public D transform(String... args) {
                 return new D(args[0]);
             }
         }, false, false));
         set.add(new ParameterType<>("b", "b", B.class, new Transformer<B>() {
             @Override
-            public B apply(String... args) {
+            public B transform(String... args) {
                 return new B(args[0]);
             }
         }, false, true));

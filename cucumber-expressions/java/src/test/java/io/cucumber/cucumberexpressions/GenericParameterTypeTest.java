@@ -20,7 +20,7 @@ public class GenericParameterTypeTest {
                 }.getType(),
                 new Transformer<List<String>>() {
                     @Override
-                    public List<String> apply(String... args) {
+                    public List<String> transform(String... args) {
                         return asList(args[0].split(","));
                     }
                 },

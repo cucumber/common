@@ -32,61 +32,61 @@ public class ParameterTypeRegistry {
 
         defineParameterType(new ParameterType<>("biginteger", INTEGER_REGEXPS, BigInteger.class, new Transformer<BigInteger>() {
             @Override
-            public BigInteger apply(String... args) {
+            public BigInteger transform(String... args) {
                 return new BigInteger(args[0]);
             }
         }, false, false));
         defineParameterType(new ParameterType<>("bigdecimal", FLOAT_REGEXPS, BigDecimal.class, new Transformer<BigDecimal>() {
             @Override
-            public BigDecimal apply(String... args) {
+            public BigDecimal transform(String... args) {
                 return new BigDecimal(args[0]);
             }
         }, false, false));
         defineParameterType(new ParameterType<>("byte", HEX_REGEXPS, Byte.class, new Transformer<Byte>() {
             @Override
-            public Byte apply(String... args) {
+            public Byte transform(String... args) {
                 return Byte.decode(args[0]);
             }
         }, true, false));
         defineParameterType(new ParameterType<>("short", INTEGER_REGEXPS, Short.class, new Transformer<Short>() {
             @Override
-            public Short apply(String... args) {
+            public Short transform(String... args) {
                 return Short.decode(args[0]);
             }
         }, false, false));
         defineParameterType(new ParameterType<>("int", INTEGER_REGEXPS, Integer.class, new Transformer<Integer>() {
             @Override
-            public Integer apply(String... args) {
+            public Integer transform(String... args) {
                 return Integer.decode(args[0]);
             }
         }, true, true));
         defineParameterType(new ParameterType<>("long", INTEGER_REGEXPS, Long.class, new Transformer<Long>() {
             @Override
-            public Long apply(String... args) {
+            public Long transform(String... args) {
                 return Long.decode(args[0]);
             }
         }, false, false));
         defineParameterType(new ParameterType<>("float", FLOAT_REGEXPS, Float.class, new Transformer<Float>() {
             @Override
-            public Float apply(String... args) {
+            public Float transform(String... args) {
                 return numberParser.parseFloat(args[0]);
             }
         }, false, false));
         defineParameterType(new ParameterType<>("double", FLOAT_REGEXPS, Double.class, new Transformer<Double>() {
             @Override
-            public Double apply(String... args) {
+            public Double transform(String... args) {
                 return numberParser.parseDouble(args[0]);
             }
         }, true, true));
         defineParameterType(new ParameterType<>("word", WORD_REGEXPS, String.class, new Transformer<String>() {
             @Override
-            public String apply(String... args) {
+            public String transform(String... args) {
                 return args[0];
             }
         }, false, false));
         defineParameterType(new ParameterType<>("string", STRING_REGEXPS, String.class, new Transformer<String>() {
             @Override
-            public String apply(String... args) {
+            public String transform(String... args) {
                 return args[0].replaceAll("\\\\\"", "\"").replaceAll("\\\\'", "'");
             }
         }, true, false));

@@ -91,7 +91,7 @@ public class CucumberExpressionGeneratorTest {
                 Currency.class,
                 new Transformer<Currency>() {
                     @Override
-                    public Currency apply(String... args) {
+                    public Currency transform(String... args) {
                         return Currency.getInstance(args[0]);
                     }
                 }
@@ -109,7 +109,7 @@ public class CucumberExpressionGeneratorTest {
                 Currency.class,
                 new Transformer<Currency>() {
                     @Override
-                    public Currency apply(String... args) {
+                    public Currency transform(String... args) {
                         return Currency.getInstance(args[0]);
                     }
                 }
@@ -120,7 +120,7 @@ public class CucumberExpressionGeneratorTest {
                 Date.class,
                 new Transformer<Date>() {
                     @Override
-                    public Date apply(String... args) {
+                    public Date transform(String... args) {
                         return new Date(args[0]);
                     }
                 }
@@ -138,7 +138,7 @@ public class CucumberExpressionGeneratorTest {
                 Currency.class,
                 new Transformer<Currency>() {
                     @Override
-                    public Currency apply(String... args) {
+                    public Currency transform(String... args) {
                         return Currency.getInstance(args[0]);
                     }
                 }
@@ -149,7 +149,7 @@ public class CucumberExpressionGeneratorTest {
                 Date.class,
                 new Transformer<Date>() {
                     @Override
-                    public Date apply(String... args) {
+                    public Date transform(String... args) {
                         return new Date(args[0]);
                     }
                 }
@@ -167,7 +167,7 @@ public class CucumberExpressionGeneratorTest {
                 Currency.class,
                 new Transformer<Currency>() {
                     @Override
-                    public Currency apply(String... args) {
+                    public Currency transform(String... args) {
                         return Currency.getInstance(args[0]);
                     }
                 },
@@ -180,7 +180,7 @@ public class CucumberExpressionGeneratorTest {
                 Date.class,
                 new Transformer<Date>() {
                     @Override
-                    public Date apply(String... args) {
+                    public Date transform(String... args) {
                         return new Date(args[0]);
                     }
                 },
@@ -221,7 +221,7 @@ public class CucumberExpressionGeneratorTest {
                 String.class,
                 new Transformer<String>() {
                     @Override
-                    public String apply(String... args) {
+                    public String transform(String... args) {
                         return args[0];
                     }
                 },
@@ -234,7 +234,7 @@ public class CucumberExpressionGeneratorTest {
                 String.class,
                 new Transformer<String>() {
                     @Override
-                    public String apply(String... args) {
+                    public String transform(String... args) {
                         return args[0];
                     }
                 },

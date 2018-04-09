@@ -10,7 +10,7 @@ public class EnumParameterTypeTest {
     public void constructs_enum() {
         ParameterType<Color> t = new ParameterType<>("color", "\\w+", Color.class, new Transformer<Color>() {
             @Override
-            public Color apply(String... args) {
+            public Color transform(String... args) {
                 return Color.valueOf(args[0]);
             }
         });

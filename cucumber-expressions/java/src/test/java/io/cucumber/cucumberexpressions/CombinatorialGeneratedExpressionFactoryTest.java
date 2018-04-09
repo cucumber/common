@@ -17,13 +17,13 @@ public class CombinatorialGeneratedExpressionFactoryTest {
                 asList(
                         new ParameterType<>("color", WORD, Color.class, new Transformer<Color>() {
                             @Override
-                            public Color apply(String... args) {
+                            public Color transform(String... args) {
                                 return new Color(args[0]);
                             }
                         }),
                         new ParameterType<>("csscolor", WORD, CssColor.class, new Transformer<CssColor>() {
                             @Override
-                            public CssColor apply(String... args) {
+                            public CssColor transform(String... args) {
                                 return new CssColor(args[0]);
                             }
                         })
@@ -31,19 +31,19 @@ public class CombinatorialGeneratedExpressionFactoryTest {
                 asList(
                         new ParameterType<>("date", WORD, Date.class, new Transformer<Date>() {
                             @Override
-                            public Date apply(String... args) {
+                            public Date transform(String... args) {
                                 return new Date(args[0]);
                             }
                         }),
                         new ParameterType<>("datetime", WORD, DateTime.class, new Transformer<DateTime>() {
                             @Override
-                            public DateTime apply(String... args) {
+                            public DateTime transform(String... args) {
                                 return new DateTime(args[0]);
                             }
                         }),
                         new ParameterType<>("timestamp", WORD, Timestamp.class, new Transformer<Timestamp>() {
                             @Override
-                            public Timestamp apply(String... args) {
+                            public Timestamp transform(String... args) {
                                 return new Timestamp(args[0]);
                             }
                         })
