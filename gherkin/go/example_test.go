@@ -190,7 +190,7 @@ func ExampleParseGherkinDocument_dialect() {
 	input := "Egenskap: i18n support"
 	r := strings.NewReader(input)
 
-	gherkinDocument, err := ParseGherkinDocument(r)
+	gherkinDocument, err := ParseGherkinDocumentForLanguage(r, "no")
 	if err != nil {
 		fmt.Fprintf(os.Stdout, "%s\n", err)
 		return
