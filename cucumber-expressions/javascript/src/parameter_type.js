@@ -55,24 +55,7 @@ class ParameterType {
   }
 
   transform(thisObj, groupValues) {
-    let args
-    if (this._transform.length === 1) {
-      // transform function with arity 1.
-      const nonNullGroupValues = groupValues.filter(
-        v => v !== null && v !== undefined
-      )
-      if (nonNullGroupValues.length >= 2)
-        throw new CucumberExpressionError(
-          `Single transformer unexpectedly matched 2 values - "${
-            nonNullGroupValues[0]
-          }" and "${nonNullGroupValues[1]}"`
-        )
-      args = [nonNullGroupValues[0]]
-    } else {
-      args = groupValues
-    }
-
-    return this._transform.apply(thisObj, args)
+    return this._transform.apply(thisObj, groupValues)
   }
 }
 
