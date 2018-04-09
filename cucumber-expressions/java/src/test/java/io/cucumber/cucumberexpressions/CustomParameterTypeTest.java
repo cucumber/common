@@ -3,6 +3,7 @@ package io.cucumber.cucumberexpressions;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
@@ -51,12 +52,12 @@ public class CustomParameterTypeTest {
                 "color",                                  // name
                 "red|blue|yellow",                        // regexp
                 Color.class,                              // type
-                new SingleTransformer<>(new Function<String, Color>() {
+                new Transformer<Color>() {
                     @Override
-                    public Color apply(String s) {
-                        return new Color(s);
+                    public Color apply(String... args) {
+                        return new Color(args[0]);
                     }
-                }), // transform
+                },                                        // transform
                 false,                                    // useForSnippets
                 false                                     // preferForRegexpMatch
         ));
@@ -78,11 +79,11 @@ public class CustomParameterTypeTest {
                 "(\\d+),\\s*(\\d+),\\s*(\\d+)",
                 Coordinate.class, new Transformer<Coordinate>() {
             @Override
-            public Coordinate transform(String... xyz) {
+            public Coordinate apply(String... args) {
                 return new Coordinate(
-                        parseInt(xyz[0]),
-                        parseInt(xyz[1]),
-                        parseInt(xyz[2]));
+                        parseInt(args[0]),
+                        parseInt(args[1]),
+                        parseInt(args[2]));
             }
         },
                 false,
@@ -105,12 +106,12 @@ public class CustomParameterTypeTest {
                 "color",
                 asList("red|blue|yellow", "(?:dark|light) (?:red|blue|yellow)"),
                 Color.class,
-                new SingleTransformer<>(new Function<String, Color>() {
+                new Transformer<Color>() {
                     @Override
-                    public Color apply(String s) {
-                        return new Color(s);
+                    public Color apply(String... args) {
+                        return new Color(args[0]);
                     }
-                }),
+                },
                 false,
                 false
         ));
@@ -127,8 +128,8 @@ public class CustomParameterTypeTest {
                 CssColor.class,
                 new Transformer<CssColor>() {
                     @Override
-                    public CssColor transform(String... color) {
-                        throw new RuntimeException(String.format("Can't transform [%s]", color[0]));
+                    public CssColor apply(String... args) {
+                        throw new RuntimeException(String.format("Can't apply [%s]", args[0]));
                     }
                 },
                 false,
@@ -140,7 +141,7 @@ public class CustomParameterTypeTest {
             arguments.get(0).getValue();
             fail("should have failed");
         } catch (RuntimeException expected) {
-            assertEquals("ParameterType {throwing} failed to transform [bad] to " + CssColor.class, expected.getMessage());
+            assertEquals("ParameterType {throwing} failed to apply [bad] to " + CssColor.class, expected.getMessage());
         }
     }
 
@@ -151,12 +152,12 @@ public class CustomParameterTypeTest {
                     "color",
                     ".*",
                     CssColor.class,
-                    new SingleTransformer<>(new Function<String, CssColor>() {
+                    new Transformer<CssColor>() {
                         @Override
-                        public CssColor apply(String s) {
-                            return new CssColor(s);
+                        public CssColor apply(String... args) {
+                            return new CssColor(args[0]);
                         }
-                    }),
+                    },
                     false,
                     false
             ));
@@ -172,12 +173,12 @@ public class CustomParameterTypeTest {
                 "whatever",
                 ".*",
                 Color.class,
-                new SingleTransformer<>(new Function<String, Color>() {
+                new Transformer<Color>() {
                     @Override
-                    public Color apply(String s) {
-                        return new Color(s);
+                    public Color apply(String... args) {
+                        return new Color(args[0]);
                     }
-                }),
+                },
                 false,
                 false
         ));
@@ -191,12 +192,12 @@ public class CustomParameterTypeTest {
                 "css-color",
                 "red|blue|yellow",
                 CssColor.class,
-                new SingleTransformer<>(new Function<String, CssColor>() {
+                new Transformer<CssColor>() {
                     @Override
-                    public CssColor apply(String s) {
-                        return new CssColor(s);
+                    public CssColor apply(String... args) {
+                        return new CssColor(args[0]);
                     }
-                }),
+                },
                 false,
                 false
         ));

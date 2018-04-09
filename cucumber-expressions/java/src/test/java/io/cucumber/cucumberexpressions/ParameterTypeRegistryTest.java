@@ -5,7 +5,9 @@ import org.junit.Test;
 import java.util.Locale;
 import java.util.regex.Pattern;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertSame;
+import static org.junit.Assert.fail;
 
 public class ParameterTypeRegistryTest {
 
@@ -30,25 +32,25 @@ public class ParameterTypeRegistryTest {
 
     @Test
     public void does_not_allow_more_than_one_preferential_parameter_type_for_each_regexp() {
-        registry.defineParameterType(new ParameterType<>("name", CAPITALISED_WORD, Name.class, new SingleTransformer<>(new Function<String, Name>() {
+        registry.defineParameterType(new ParameterType<>("name", CAPITALISED_WORD, Name.class, new Transformer<Name>() {
             @Override
-            public Name apply(String s) {
-                return new Name(s);
+            public Name apply(String... args) {
+                return new Name(args[0]);
             }
-        }), false, true));
-        registry.defineParameterType(new ParameterType<>("person", CAPITALISED_WORD, Person.class, new SingleTransformer<>(new Function<String, Person>() {
+        }, false, true));
+        registry.defineParameterType(new ParameterType<>("person", CAPITALISED_WORD, Person.class, new Transformer<Person>() {
             @Override
-            public Person apply(String s) {
-                return new Person(s);
+            public Person apply(String... args) {
+                return new Person(args[0]);
             }
-        }), false, false));
+        }, false, false));
         try {
-            registry.defineParameterType(new ParameterType<>("place", CAPITALISED_WORD, Place.class, new SingleTransformer<>(new Function<String, Place>() {
+            registry.defineParameterType(new ParameterType<>("place", CAPITALISED_WORD, Place.class, new Transformer<Place>() {
                 @Override
-                public Place apply(String s) {
-                    return new Place(s);
+                public Place apply(String... args) {
+                    return new Place(args[0]);
                 }
-            }), false, true));
+            }, false, true));
             fail("Expected an exception");
         } catch (CucumberExpressionException e) {
             assertEquals("There can only be one preferential parameter type per regexp. The regexp /[A-Z]+\\w+/ is used for two preferential parameter types, {name} and {place}", e.getMessage());
@@ -57,24 +59,24 @@ public class ParameterTypeRegistryTest {
 
     @Test
     public void looks_up_preferential_parameter_type_by_regexp() {
-        ParameterType<Name> name = new ParameterType<>("name", CAPITALISED_WORD, Name.class, new SingleTransformer<>(new Function<String, Name>() {
+        ParameterType<Name> name = new ParameterType<>("name", CAPITALISED_WORD, Name.class, new Transformer<Name>() {
             @Override
-            public Name apply(String s) {
-                return new Name(s);
+            public Name apply(String... args) {
+                return new Name(args[0]);
             }
-        }), false, false);
-        ParameterType<Person> person = new ParameterType<>("person", CAPITALISED_WORD, Person.class, new SingleTransformer<>(new Function<String, Person>() {
+        }, false, false);
+        ParameterType<Person> person = new ParameterType<>("person", CAPITALISED_WORD, Person.class, new Transformer<Person>() {
             @Override
-            public Person apply(String s) {
-                return new Person(s);
+            public Person apply(String... args) {
+                return new Person(args[0]);
             }
-        }), false, true);
-        ParameterType<Place> place = new ParameterType<>("place", CAPITALISED_WORD, Place.class, new SingleTransformer<>(new Function<String, Place>() {
+        }, false, true);
+        ParameterType<Place> place = new ParameterType<>("place", CAPITALISED_WORD, Place.class, new Transformer<Place>() {
             @Override
-            public Place apply(String s) {
-                return new Place(s);
+            public Place apply(String... args) {
+                return new Place(args[0]);
             }
-        }), false, false);
+        }, false, false);
         registry.defineParameterType(name);
         registry.defineParameterType(person);
         registry.defineParameterType(place);
@@ -83,24 +85,24 @@ public class ParameterTypeRegistryTest {
 
     @Test
     public void throws_ambiguous_exception_on_lookup_when_no_parameter_types_are_preferential() {
-        ParameterType<Name> name = new ParameterType<>("name", CAPITALISED_WORD, Name.class, new SingleTransformer<>(new Function<String, Name>() {
+        ParameterType<Name> name = new ParameterType<>("name", CAPITALISED_WORD, Name.class, new Transformer<Name>() {
             @Override
-            public Name apply(String s) {
-                return new Name(s);
+            public Name apply(String... args) {
+                return new Name(args[0]);
             }
-        }), true, false);
-        ParameterType<Person> person = new ParameterType<>("person", CAPITALISED_WORD, Person.class, new SingleTransformer<>(new Function<String, Person>() {
+        }, true, false);
+        ParameterType<Person> person = new ParameterType<>("person", CAPITALISED_WORD, Person.class, new Transformer<Person>() {
             @Override
-            public Person apply(String s) {
-                return new Person(s);
+            public Person apply(String... args) {
+                return new Person(args[0]);
             }
-        }), true, false);
-        ParameterType<Place> place = new ParameterType<>("place", CAPITALISED_WORD, Place.class, new SingleTransformer<>(new Function<String, Place>() {
+        }, true, false);
+        ParameterType<Place> place = new ParameterType<>("place", CAPITALISED_WORD, Place.class, new Transformer<Place>() {
             @Override
-            public Place apply(String s) {
-                return new Place(s);
+            public Place apply(String... args) {
+                return new Place(args[0]);
             }
-        }), true, false);
+        }, true, false);
         registry.defineParameterType(name);
         registry.defineParameterType(person);
         registry.defineParameterType(place);

@@ -8,12 +8,12 @@ import static org.junit.Assert.assertEquals;
 public class EnumParameterTypeTest {
     @Test
     public void constructs_enum() {
-        ParameterType<Color> t = new ParameterType<>("color", "\\w+", Color.class, new SingleTransformer<>(new Function<String, Color>() {
+        ParameterType<Color> t = new ParameterType<>("color", "\\w+", Color.class, new Transformer<Color>() {
             @Override
-            public Color apply(String s) {
-                return Color.valueOf(s);
+            public Color apply(String... args) {
+                return Color.valueOf(args[0]);
             }
-        }));
+        });
         assertEquals(Color.BLUE, t.transform(singletonList("BLUE")));
     }
 

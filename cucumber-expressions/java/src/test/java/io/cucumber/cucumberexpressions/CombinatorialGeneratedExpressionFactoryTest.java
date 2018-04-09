@@ -15,38 +15,38 @@ public class CombinatorialGeneratedExpressionFactoryTest {
     public void generates_multiple_expressions() {
         List<List<ParameterType<?>>> parameterTypeCombinations = asList(
                 asList(
-                        new ParameterType<>("color", WORD, Color.class, new SingleTransformer<>(new Function<String, Color>() {
+                        new ParameterType<>("color", WORD, Color.class, new Transformer<Color>() {
                             @Override
-                            public Color apply(String s) {
-                                return new Color(s);
+                            public Color apply(String... args) {
+                                return new Color(args[0]);
                             }
-                        })),
-                        new ParameterType<>("csscolor", WORD, CssColor.class, new SingleTransformer<>(new Function<String, CssColor>() {
+                        }),
+                        new ParameterType<>("csscolor", WORD, CssColor.class, new Transformer<CssColor>() {
                             @Override
-                            public CssColor apply(String s) {
-                                return new CssColor(s);
+                            public CssColor apply(String... args) {
+                                return new CssColor(args[0]);
                             }
-                        }))
+                        })
                 ),
                 asList(
-                        new ParameterType<>("date", WORD, Date.class, new SingleTransformer<>(new Function<String, Date>() {
+                        new ParameterType<>("date", WORD, Date.class, new Transformer<Date>() {
                             @Override
-                            public Date apply(String s) {
-                                return new Date(s);
+                            public Date apply(String... args) {
+                                return new Date(args[0]);
                             }
-                        })),
-                        new ParameterType<>("datetime", WORD, DateTime.class, new SingleTransformer<>(new Function<String, DateTime>() {
+                        }),
+                        new ParameterType<>("datetime", WORD, DateTime.class, new Transformer<DateTime>() {
                             @Override
-                            public DateTime apply(String s) {
-                                return new DateTime(s);
+                            public DateTime apply(String... args) {
+                                return new DateTime(args[0]);
                             }
-                        })),
-                        new ParameterType<>("timestamp", WORD, Timestamp.class, new SingleTransformer<>(new Function<String, Timestamp>() {
+                        }),
+                        new ParameterType<>("timestamp", WORD, Timestamp.class, new Transformer<Timestamp>() {
                             @Override
-                            public Timestamp apply(String s) {
-                                return new Timestamp(s);
+                            public Timestamp apply(String... args) {
+                                return new Timestamp(args[0]);
                             }
-                        }))
+                        })
                 )
         );
         CombinatorialGeneratedExpressionFactory factory = new CombinatorialGeneratedExpressionFactory(
@@ -70,17 +70,17 @@ public class CombinatorialGeneratedExpressionFactoryTest {
     }
 
     public static class Color {
-        public Color(String s) {
+        Color(String s) {
         }
     }
 
     public static class CssColor {
-        public CssColor(String s) {
+        CssColor(String s) {
         }
     }
 
     public static class Date {
-        public Date(String s) {
+        Date(String s) {
         }
     }
 

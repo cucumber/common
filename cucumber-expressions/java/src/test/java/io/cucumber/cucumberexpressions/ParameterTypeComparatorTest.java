@@ -35,30 +35,31 @@ public class ParameterTypeComparatorTest {
     @Test
     public void sorts_parameter_types_by_preferential_then_name() {
         SortedSet<ParameterType<?>> set = new TreeSet<>();
-        set.add(new ParameterType<>("c", "c", C.class, new SingleTransformer<>(new Function<String, C>() {
+        set.add(new ParameterType<>("c", "c", C.class,
+                new Transformer<C>() {
+                    @Override
+                    public C apply(String... args) {
+                        return new C(args[0]);
+                    }
+                }, false, true));
+        set.add(new ParameterType<>("a", "a", A.class, new Transformer<A>() {
             @Override
-            public C apply(String s) {
-                return new C(s);
+            public A apply(String... args) {
+                return new A(args[0]);
             }
-        }), false, true));
-        set.add(new ParameterType<>("a", "a", A.class, new SingleTransformer<>(new Function<String, A>() {
+        }, false, false));
+        set.add(new ParameterType<>("d", "d", D.class, new Transformer<D>() {
             @Override
-            public A apply(String s) {
-                return new A(s);
+            public D apply(String... args) {
+                return new D(args[0]);
             }
-        }), false, false));
-        set.add(new ParameterType<>("d", "d", D.class, new SingleTransformer<>(new Function<String, D>() {
+        }, false, false));
+        set.add(new ParameterType<>("b", "b", B.class, new Transformer<B>() {
             @Override
-            public D apply(String s) {
-                return new D(s);
+            public B apply(String... args) {
+                return new B(args[0]);
             }
-        }), false, false));
-        set.add(new ParameterType<>("b", "b", B.class, new SingleTransformer<>(new Function<String, B>() {
-            @Override
-            public B apply(String s) {
-                return new B(s);
-            }
-        }), false, true));
+        }, false, true));
 
         List<String> names = new ArrayList<>();
         for (ParameterType parameterType : set) {
