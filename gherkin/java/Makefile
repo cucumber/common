@@ -27,7 +27,7 @@ acceptance/testdata/%.feature.tokens: testdata/%.feature testdata/%.feature.toke
 	bin/gherkin-generate-tokens $< > $@
 	diff --unified $<.tokens $@
 
-# Generate
+# # Generate
 # acceptance/testdata/%.feature.ast.ndjson: testdata/%.feature .built
 # 	mkdir -p `dirname $@`
 # 	bin/gherkin --no-source --no-pickles $< | jq --sort-keys --compact-output "." > $<.ast.ndjson
@@ -37,7 +37,7 @@ acceptance/testdata/%.feature.ast.ndjson: testdata/%.feature testdata/%.feature.
 	bin/gherkin --no-source --no-pickles $< | jq --sort-keys --compact-output "." > $@
 	diff --unified <(jq "." $<.ast.ndjson) <(jq "." $@)
 
-# Generate
+# # Generate
 # acceptance/testdata/%.feature.pickles.ndjson: testdata/%.feature .built
 # 	mkdir -p `dirname $@`
 # 	bin/gherkin --no-source --no-ast $< | jq --sort-keys --compact-output "." > $<.pickles.ndjson
@@ -47,7 +47,7 @@ acceptance/testdata/%.feature.pickles.ndjson: testdata/%.feature testdata/%.feat
 	bin/gherkin --no-source --no-ast $< | jq --sort-keys --compact-output "." > $@
 	diff --unified <(jq "." $<.pickles.ndjson) <(jq "." $@)
 
-# Generate
+# # Generate
 # acceptance/testdata/%.feature.source.ndjson: testdata/%.feature .built
 # 	mkdir -p `dirname $@`
 # 	bin/gherkin --no-ast --no-pickles $< | jq --sort-keys --compact-output "." > $<.source.ndjson
@@ -57,7 +57,7 @@ acceptance/testdata/%.feature.source.ndjson: testdata/%.feature testdata/%.featu
 	bin/gherkin --no-ast --no-pickles $< | jq --sort-keys --compact-output "." > $@
 	diff --unified <(jq "." $<.source.ndjson) <(jq "." $@)
 
-# Generate
+# # Generate
 # acceptance/testdata/%.feature.errors.ndjson: testdata/%.feature .built
 # 	mkdir -p `dirname $@`
 # 	bin/gherkin $< | jq --sort-keys --compact-output "." > $<.errors.ndjson

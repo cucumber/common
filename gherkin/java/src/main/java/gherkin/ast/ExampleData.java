@@ -3,7 +3,7 @@ package gherkin.ast;
 import java.util.Collections;
 import java.util.List;
 
-public class ScenarioData extends Node {
+public class ExampleData extends Node {
     private final List<Tag> tags;
     private final String keyword;
     private final String name;
@@ -11,7 +11,7 @@ public class ScenarioData extends Node {
     private final TableRow tableHeader;
     private final List<TableRow> tableBody;
 
-    public ScenarioData(Location location, List<Tag> tags, String keyword, String name, String description, TableRow tableHeader, List<TableRow> tableBody) {
+    public ExampleData(Location location, List<Tag> tags, String keyword, String name, String description, TableRow tableHeader, List<TableRow> tableBody) {
         super(location);
         this.tags = Collections.unmodifiableList(tags);
         this.keyword = keyword;

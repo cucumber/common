@@ -4,12 +4,12 @@ import gherkin.ast.Background;
 import gherkin.ast.Comment;
 import gherkin.ast.DataTable;
 import gherkin.ast.DocString;
-import gherkin.ast.ScenarioData;
+import gherkin.ast.ExampleData;
 import gherkin.ast.Feature;
 import gherkin.ast.GherkinDocument;
 import gherkin.ast.Location;
 import gherkin.ast.Node;
-import gherkin.ast.Scenario;
+import gherkin.ast.Example;
 import gherkin.ast.StepsContainer;
 import gherkin.ast.Step;
 import gherkin.ast.TableCell;
@@ -108,8 +108,8 @@ public class AstBuilder implements Builder<GherkinDocument> {
                 Token scenarioLine = scenarioNode.getToken(TokenType.ScenarioLine);
                 String description = getDescription(scenarioNode);
                 List<Step> steps = getSteps(scenarioNode);
-                List<ScenarioData> examplesList = scenarioNode.getItems(RuleType.ScenarioDataDefinition);
-                return new Scenario(tags, getLocation(scenarioLine, 0), scenarioLine.matchedKeyword, scenarioLine.matchedText, description, steps, examplesList);
+                List<ExampleData> examplesList = scenarioNode.getItems(RuleType.ScenarioDataDefinition);
+                return new Example(tags, getLocation(scenarioLine, 0), scenarioLine.matchedKeyword, scenarioLine.matchedText, description, steps, examplesList);
             }
             case ScenarioDataDefinition: {
                 List<Tag> tags = getTags(node);
@@ -119,7 +119,7 @@ public class AstBuilder implements Builder<GherkinDocument> {
                 List<TableRow> rows = examplesNode.getSingle(RuleType.ScenarioDataTable, null);
                 TableRow tableHeader = rows != null && !rows.isEmpty() ? rows.get(0) : null;
                 List<TableRow> tableBody = rows != null && !rows.isEmpty() ? rows.subList(1, rows.size()) : null;
-                return new ScenarioData(getLocation(examplesLine, 0), tags, examplesLine.matchedKeyword, examplesLine.matchedText, description, tableHeader, tableBody);
+                return new ExampleData(getLocation(examplesLine, 0), tags, examplesLine.matchedKeyword, examplesLine.matchedText, description, tableHeader, tableBody);
             }
             case ScenarioDataTable: {
                 return getTableRows(node);
