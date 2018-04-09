@@ -28,12 +28,12 @@ type matcher struct {
 	languagePattern          *regexp.Regexp
 }
 
-func NewMatcher(gdp GherkinDialectProvider) Matcher {
+func NewMatcher(gdp GherkinDialectProvider, default_lang string) Matcher {
 	return &matcher{
 		gdp:             gdp,
-		default_lang:    DEFAULT_DIALECT,
-		lang:            DEFAULT_DIALECT,
-		dialect:         gdp.GetDialect(DEFAULT_DIALECT),
+		default_lang:    default_lang,
+		lang:            default_lang,
+		dialect:         gdp.GetDialect(default_lang),
 		languagePattern: regexp.MustCompile("^\\s*#\\s*language\\s*:\\s*([a-zA-Z\\-_]+)\\s*$"),
 	}
 }
