@@ -100,7 +100,11 @@ func (ae *AttachmentEvent) MarshalJSON() ([]byte, error) {
 	})
 }
 
-func GherkinEvents(paths []string, default_lang string) ([]CucumberEvent, error) {
+func GherkinEvents(paths ...string) ([]CucumberEvent, error) {
+	return GherkinEventsForLanguage(paths, DEFAULT_DIALECT)
+}
+
+func GherkinEventsForLanguage(paths []string, default_lang string) ([]CucumberEvent, error) {
 	var events []CucumberEvent
 	for _, p := range paths {
 		in, err := os.Open(p)
@@ -110,7 +114,7 @@ func GherkinEvents(paths []string, default_lang string) ([]CucumberEvent, error)
 		defer in.Close()
 
 		var buf bytes.Buffer
-		doc, err := ParseGherkinDocument(io.TeeReader(in, &buf), default_lang)
+		doc, err := ParseGherkinDocumentForLanguage(io.TeeReader(in, &buf), default_lang)
 		if errs, ok := err.(parseErrors); ok {
 			// expected parse errors
 			for _, err := range errs {

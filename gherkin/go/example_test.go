@@ -28,7 +28,7 @@ func ExampleParseGherkinDocument() {
 `
 	r := strings.NewReader(input)
 
-	gherkinDocument, err := ParseGherkinDocument(r, DEFAULT_DIALECT)
+	gherkinDocument, err := ParseGherkinDocument(r)
 	if err != nil {
 		fmt.Fprintf(os.Stdout, "%s\n", err)
 		return
@@ -73,7 +73,7 @@ func ExampleParseGherkinDocument_multiple() {
 	builder := NewAstBuilder()
 	parser := NewParser(builder)
 	parser.StopAtFirstError(false)
-	matcher := NewMatcher(GherkinDialectsBuildin(), DEFAULT_DIALECT)
+	matcher := NewMatcher(GherkinDialectsBuildin())
 
 	input1 := `Feature: Test`
 	r1 := strings.NewReader(input1)
@@ -125,7 +125,7 @@ func ExampleParseGherkinDocument_error() {
 	builder := NewAstBuilder()
 	parser := NewParser(builder)
 	parser.StopAtFirstError(false)
-	matcher := NewMatcher(GherkinDialectsBuildin(), DEFAULT_DIALECT)
+	matcher := NewMatcher(GherkinDialectsBuildin())
 
 	input1 := `# a comment
 Feature: Foo

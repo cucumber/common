@@ -122,12 +122,26 @@ func (g *Line) StartsWith(prefix string) bool {
 	return strings.HasPrefix(g.TrimmedLineText, prefix)
 }
 
-func ParseGherkinDocument(in io.Reader, default_lang string) (gherkinDocument *GherkinDocument, err error) {
+func ParseGherkinDocument(in io.Reader) (gherkinDocument *GherkinDocument, err error) {
 
 	builder := NewAstBuilder()
 	parser := NewParser(builder)
 	parser.StopAtFirstError(false)
-	matcher := NewMatcher(GherkinDialectsBuildin(), default_lang)
+	matcher := NewMatcher(GherkinDialectsBuildin())
+
+	scanner := NewScanner(in)
+
+	err = parser.Parse(scanner, matcher)
+
+	return builder.GetGherkinDocument(), err
+}
+
+func ParseGherkinDocumentForLanguage(in io.Reader, default_lang string) (gherkinDocument *GherkinDocument, err error) {
+
+	builder := NewAstBuilder()
+	parser := NewParser(builder)
+	parser.StopAtFirstError(false)
+	matcher := NewLanguageMatcher(GherkinDialectsBuildin(), default_lang)
 
 	scanner := NewScanner(in)
 
