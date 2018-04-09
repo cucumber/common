@@ -4,14 +4,13 @@ import gherkin.SymbolCounter;
 import gherkin.ast.Background;
 import gherkin.ast.DataTable;
 import gherkin.ast.DocString;
-import gherkin.ast.Examples;
+import gherkin.ast.ScenarioData;
 import gherkin.ast.Feature;
 import gherkin.ast.GherkinDocument;
 import gherkin.ast.Location;
 import gherkin.ast.Node;
 import gherkin.ast.Scenario;
-import gherkin.ast.ScenarioDefinition;
-import gherkin.ast.ScenarioOutline;
+import gherkin.ast.StepsContainer;
 import gherkin.ast.Step;
 import gherkin.ast.TableCell;
 import gherkin.ast.TableRow;
@@ -38,13 +37,16 @@ public class Compiler {
         List<Tag> featureTags = feature.getTags();
         List<PickleStep> backgroundSteps = new ArrayList<>();
 
-        for (ScenarioDefinition scenarioDefinition : feature.getChildren()) {
+        for (StepsContainer scenarioDefinition : feature.getChildren()) {
             if (scenarioDefinition instanceof Background) {
                 backgroundSteps = pickleSteps(scenarioDefinition);
-            } else if (scenarioDefinition instanceof Scenario) {
-                compileScenario(pickles, backgroundSteps, (Scenario) scenarioDefinition, featureTags, language);
             } else {
-                compileScenarioOutline(pickles, backgroundSteps, (ScenarioOutline) scenarioDefinition, featureTags, language);
+                Scenario scenario = (Scenario) scenarioDefinition;
+                if (scenario.getExamples().isEmpty()) {
+                    compileScenario(pickles, backgroundSteps, (Scenario) scenarioDefinition, featureTags, language);
+                } else {
+                    compileScenarioOutline(pickles, backgroundSteps, (Scenario) scenarioDefinition, featureTags, language);
+                }
             }
         }
         return pickles;
@@ -71,8 +73,8 @@ public class Compiler {
         pickles.add(pickle);
     }
 
-    private void compileScenarioOutline(List<Pickle> pickles, List<PickleStep> backgroundSteps, ScenarioOutline scenarioOutline, List<Tag> featureTags, String language) {
-        for (final Examples examples : scenarioOutline.getExamples()) {
+    private void compileScenarioOutline(List<Pickle> pickles, List<PickleStep> backgroundSteps, Scenario scenarioOutline, List<Tag> featureTags, String language) {
+        for (final ScenarioData examples : scenarioOutline.getExamples()) {
             if (examples.getTableHeader() == null) continue;
             List<TableCell> variableCells = examples.getTableHeader().getCells();
             for (final TableRow values : examples.getTableBody()) {
@@ -162,7 +164,7 @@ public class Compiler {
         return result;
     }
 
-    private List<PickleStep> pickleSteps(ScenarioDefinition scenarioDefinition) {
+    private List<PickleStep> pickleSteps(StepsContainer scenarioDefinition) {
         List<PickleStep> result = new ArrayList<>();
         for (Step step : scenarioDefinition.getSteps()) {
             result.add(pickleStep(step));
