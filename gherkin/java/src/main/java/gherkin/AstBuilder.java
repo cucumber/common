@@ -101,27 +101,27 @@ public class AstBuilder implements Builder<GherkinDocument> {
                 List<Step> steps = getSteps(node);
                 return new Background(getLocation(backgroundLine, 0), backgroundLine.matchedKeyword, backgroundLine.matchedText, description, steps);
             }
-            case Scenario_Definition: {
+            case ExampleDefinition: {
                 List<Tag> tags = getTags(node);
-                AstNode scenarioNode = node.getSingle(RuleType.Scenario, null);
+                AstNode scenarioNode = node.getSingle(RuleType.Example, null);
 
-                Token scenarioLine = scenarioNode.getToken(TokenType.ScenarioLine);
+                Token scenarioLine = scenarioNode.getToken(TokenType.ExampleLine);
                 String description = getDescription(scenarioNode);
                 List<Step> steps = getSteps(scenarioNode);
-                List<ExampleData> examplesList = scenarioNode.getItems(RuleType.ScenarioDataDefinition);
+                List<ExampleData> examplesList = scenarioNode.getItems(RuleType.ExampleDataDefinition);
                 return new Example(tags, getLocation(scenarioLine, 0), scenarioLine.matchedKeyword, scenarioLine.matchedText, description, steps, examplesList);
             }
-            case ScenarioDataDefinition: {
+            case ExampleDataDefinition: {
                 List<Tag> tags = getTags(node);
-                AstNode examplesNode = node.getSingle(RuleType.ScenarioData, null);
-                Token examplesLine = examplesNode.getToken(TokenType.ScenarioDataLine);
+                AstNode examplesNode = node.getSingle(RuleType.ExampleData, null);
+                Token examplesLine = examplesNode.getToken(TokenType.ExampleDataLine);
                 String description = getDescription(examplesNode);
-                List<TableRow> rows = examplesNode.getSingle(RuleType.ScenarioDataTable, null);
+                List<TableRow> rows = examplesNode.getSingle(RuleType.ExampleDataTable, null);
                 TableRow tableHeader = rows != null && !rows.isEmpty() ? rows.get(0) : null;
                 List<TableRow> tableBody = rows != null && !rows.isEmpty() ? rows.subList(1, rows.size()) : null;
                 return new ExampleData(getLocation(examplesLine, 0), tags, examplesLine.matchedKeyword, examplesLine.matchedText, description, tableHeader, tableBody);
             }
-            case ScenarioDataTable: {
+            case ExampleDataTable: {
                 return getTableRows(node);
             }
             case Description: {
@@ -141,7 +141,7 @@ public class AstBuilder implements Builder<GherkinDocument> {
                 }, "\n", lineTokens);
             }
             case Feature: {
-                AstNode header = node.getSingle(RuleType.Feature_Header, new AstNode(RuleType.Feature_Header));
+                AstNode header = node.getSingle(RuleType.FeatureHeader, new AstNode(RuleType.FeatureHeader));
                 if (header == null) return null;
                 List<Tag> tags = getTags(header);
                 Token featureLine = header.getToken(TokenType.FeatureLine);
@@ -149,7 +149,7 @@ public class AstBuilder implements Builder<GherkinDocument> {
                 List<StepsContainer> scenarioDefinitions = new ArrayList<>();
                 Background background = node.getSingle(RuleType.Background, null);
                 if (background != null) scenarioDefinitions.add(background);
-                scenarioDefinitions.addAll(node.<StepsContainer>getItems(RuleType.Scenario_Definition));
+                scenarioDefinitions.addAll(node.<StepsContainer>getItems(RuleType.ExampleDefinition));
                 String description = getDescription(header);
                 if (featureLine.matchedGherkinDialect == null) return null;
                 String language = featureLine.matchedGherkinDialect.getLanguage();

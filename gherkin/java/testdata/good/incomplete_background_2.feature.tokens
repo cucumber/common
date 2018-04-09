@@ -3,6 +3,6 @@
 (3:3)BackgroundLine:Background/just a description/
 (4:1)Other:/    A short description/
 (5:1)Other://
-(6:3)ScenarioLine:Scenario/still pickles up/
+(6:3)ExampleLine:Scenario/still pickles up/
 (7:5)StepLine:* /a step/
 EOF

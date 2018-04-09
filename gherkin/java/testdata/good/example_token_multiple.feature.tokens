@@ -1,9 +1,9 @@
 (1:1)FeatureLine:Feature/Example token used multiple times/
 (2:1)Empty://
-(3:3)ScenarioLine:Scenario Outline/Token used twice in a single step/
+(3:3)ExampleLine:Scenario Outline/Token used twice in a single step/
 (4:5)StepLine:Given /<what> <what>/
 (5:1)Empty://
-(6:5)ScenarioDataLine:Examples//
+(6:5)ExampleDataLine:Examples//
 (7:7)TableRow://9:what
 (8:7)TableRow://9:usage
 EOF

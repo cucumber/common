@@ -3,5 +3,5 @@
 (3:3)BackgroundLine:Background/Adding a background won't make a pickle/
 (4:5)StepLine:* /a step/
 (5:1)Empty://
-(6:3)ScenarioLine:Scenario/no steps/
+(6:3)ExampleLine:Scenario/no steps/
 EOF

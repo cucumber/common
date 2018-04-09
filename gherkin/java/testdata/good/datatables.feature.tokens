@@ -1,6 +1,6 @@
 (1:1)FeatureLine:Feature/DataTables/
 (2:1)Empty://
-(3:3)ScenarioLine:Scenario/minimalistic/
+(3:3)ExampleLine:Scenario/minimalistic/
 (4:5)StepLine:Given /a simple data table/
 (5:7)TableRow://9:foo,15:bar
 (6:7)TableRow://9:boz,15:boo

@@ -1,28 +1,28 @@
 [
-	Tokens -> #Empty,#Comment,#TagLine,#FeatureLine,#BackgroundLine,#ScenarioLine,#ScenarioDataLine,#StepLine,#DocStringSeparator,#TableRow,#Language
+	Tokens -> #Empty,#Comment,#TagLine,#FeatureLine,#BackgroundLine,#ExampleLine,#ExampleDataLine,#StepLine,#DocStringSeparator,#TableRow,#Language
 	IgnoredTokens -> #Comment,#Empty
 	ClassName -> Parser
 	Namespace -> Gherkin
 ]
 
 GherkinDocument! := Feature?
-Feature! := Feature_Header Background? Scenario_Definition*
-Feature_Header! := #Language? Tags? #FeatureLine Description_Helper
+Feature! := FeatureHeader Background? ExampleDefinition*
+FeatureHeader! := #Language? Tags? #FeatureLine DescriptionHelper
 
-Background! := #BackgroundLine Description_Helper Step*
+Background! := #BackgroundLine DescriptionHelper Step*
 
-// we could avoid defining Scenario_Definition, but that would require regular look-aheads, so worse performance
-Scenario_Definition! := Tags? Scenario
+// we could avoid defining ExampleDefinition, but that would require regular look-aheads, so worse performance
+ExampleDefinition! := Tags? Example
 
-Scenario! := #ScenarioLine Description_Helper Step* ScenarioDataDefinition*
+Example! := #ExampleLine DescriptionHelper Step* ExampleDataDefinition*
 // after the first "Data" block, interpreting a tag line is ambiguous (tagline of next examples or of next scenario)
 // because of this, we need a lookahead hint, that connects the tag line to the next examples, if there is an examples block ahead
-ScenarioDataDefinition! [#Empty|#Comment|#TagLine->#ScenarioDataLine]:= Tags? ScenarioData
-ScenarioData! := #ScenarioDataLine Description_Helper ScenarioDataTable?
-ScenarioDataTable! := #TableRow #TableRow*
+ExampleDataDefinition! [#Empty|#Comment|#TagLine->#ExampleDataLine]:= Tags? ExampleData
+ExampleData! := #ExampleDataLine DescriptionHelper ExampleDataTable?
+ExampleDataTable! := #TableRow #TableRow*
 
-Step! := #StepLine Step_Arg?
-Step_Arg := (DataTable | DocString)
+Step! := #StepLine StepArg?
+StepArg := (DataTable | DocString)
 
 DataTable! := #TableRow+
 DocString! := #DocStringSeparator #Other* #DocStringSeparator
@@ -31,5 +31,5 @@ Tags! := #TagLine+
 
 // we need to explicitly mention comment, to avoid merging it into the description line's #Other token
 // we also eat the leading empty lines, the tailing lines are not removed by the parser to avoid lookahead, this has to be done by the AST builder
-Description_Helper := #Empty* Description? #Comment*
+DescriptionHelper := #Empty* Description? #Comment*
 Description! := #Other+

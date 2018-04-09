@@ -4,23 +4,23 @@
 (4:1)Empty://
 (5:1)TagLine://1:@scenario_tag1,16:@scenario_tag2
 (6:3)TagLine://3:@scenario_tag3
-(7:1)ScenarioLine:Scenario/minimalistic/
+(7:1)ExampleLine:Scenario/minimalistic/
 (8:5)StepLine:Given /the minimalism/
 (9:1)Empty://
 (10:1)TagLine://1:@so_tag1,11:@so_tag2
 (11:3)TagLine://3:@so_tag3
-(12:1)ScenarioLine:Scenario Outline/minimalistic outline/
+(12:1)ExampleLine:Scenario Outline/minimalistic outline/
 (13:5)StepLine:Given /the <what>/
 (14:1)Empty://
 (15:1)TagLine://1:@ex_tag1,10:@ex_tag2
 (16:3)TagLine://3:@ex_tag3
-(17:1)ScenarioDataLine:Examples//
+(17:1)ExampleDataLine:Examples//
 (18:3)TableRow://5:what
 (19:3)TableRow://5:minimalism
 (20:1)Empty://
 (21:1)TagLine://1:@ex_tag4,10:@ex_tag5
 (22:3)TagLine://3:@ex_tag6
-(23:1)ScenarioDataLine:Examples//
+(23:1)ExampleDataLine:Examples//
 (24:3)TableRow://5:what
 (25:3)TableRow://5:more minimalism
 EOF

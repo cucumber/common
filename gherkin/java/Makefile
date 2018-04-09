@@ -22,6 +22,11 @@ default: .compared
 	mvn install
 	touch $@
 
+# # Generate
+# acceptance/testdata/%.feature.tokens: testdata/%.feature .built
+# 	mkdir -p `dirname $@`
+# 	bin/gherkin-generate-tokens $< > $<.tokens
+
 acceptance/testdata/%.feature.tokens: testdata/%.feature testdata/%.feature.tokens .built
 	mkdir -p `dirname $@`
 	bin/gherkin-generate-tokens $< > $@
