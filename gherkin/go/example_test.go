@@ -187,20 +187,15 @@ Feature: Foo
 
 func ExampleParseGherkinDocument_dialect() {
 
-	builder := NewAstBuilder()
-	parser := NewParser(builder)
-	parser.StopAtFirstError(false)
-	matcher := NewLanguageMatcher(GherkinDialectsBuildin(), "no")
 	input := "Egenskap: i18n support"
-	reader := strings.NewReader(input)
+	r := strings.NewReader(input)
 
-	err := parser.Parse(NewScanner(reader), matcher)
+	gherkinDocument, err := ParseGherkinDocument(r)
 	if err != nil {
 		fmt.Fprintf(os.Stdout, "%s\n", err)
 		return
 	}
-	doc := builder.GetGherkinDocument()
-	feature := doc.Feature
+	feature := gherkinDocument.Feature
 	fmt.Fprintf(os.Stdout, "Location: %+v\n", feature.Location)
 	fmt.Fprintf(os.Stdout, "Keyword: %+v\n", feature.Keyword)
 	fmt.Fprintf(os.Stdout, "Name: %+v\n", feature.Name)
