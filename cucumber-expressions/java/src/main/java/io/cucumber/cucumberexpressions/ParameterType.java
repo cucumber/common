@@ -11,9 +11,9 @@ public final class ParameterType<T> implements Comparable<ParameterType<?>> {
     private final List<String> regexps;
     private final boolean preferForRegexpMatch;
     private final boolean useForSnippets;
-    private final Object transformer;
+    private final MultiTransformer<T> transformer;
 
-    private ParameterType(String name, List<String> regexps, Type type, Object transformer, boolean useForSnippets, boolean preferForRegexpMatch) {
+    public ParameterType(String name, List<String> regexps, Type type, MultiTransformer<T> transformer, boolean useForSnippets, boolean preferForRegexpMatch) {
         if (name == null) throw new CucumberExpressionException("name cannot be null");
         if (regexps == null) throw new CucumberExpressionException("regexps cannot be null");
         if (type == null) throw new CucumberExpressionException("type cannot be null");
@@ -27,15 +27,11 @@ public final class ParameterType<T> implements Comparable<ParameterType<?>> {
     }
 
     public ParameterType(String name, List<String> regexps, Type type, Transformer<T> transformer, boolean useForSnippets, boolean preferForRegexpMatch) {
-        this(name, regexps, type, (Object) transformer, useForSnippets, preferForRegexpMatch);
-    }
-
-    public ParameterType(String name, List<String> regexps, Type type, MultiTransformer<T> transformer, boolean useForSnippets, boolean preferForRegexpMatch) {
-        this(name, regexps, type, (Object) transformer, useForSnippets, preferForRegexpMatch);
+        this(name, regexps, type, new TransformerAdaptor<>(transformer), useForSnippets, preferForRegexpMatch);
     }
 
     public ParameterType(String name, List<String> regexps, Class<T> type, Transformer<T> transformer, boolean useForSnippets, boolean preferForRegexpMatch) {
-        this(name, regexps, type, (Object) transformer, useForSnippets, preferForRegexpMatch);
+        this(name, regexps, (Type) type, new TransformerAdaptor<>(transformer), useForSnippets, preferForRegexpMatch);
     }
 
     public ParameterType(String name, String regexp, Class<T> type, Transformer<T> transformer, boolean useForSnippets, boolean preferForRegexpMatch) {
@@ -51,7 +47,7 @@ public final class ParameterType<T> implements Comparable<ParameterType<?>> {
     }
 
     public ParameterType(String name, List<String> regexps, Class<T> type, MultiTransformer<T> transformer, boolean useForSnippets, boolean preferForRegexpMatch) {
-        this(name, regexps, type, (Object) transformer, useForSnippets, preferForRegexpMatch);
+        this(name, regexps, (Type) type, transformer, useForSnippets, preferForRegexpMatch);
     }
 
     public ParameterType(String name, String regexp, Class<T> type, MultiTransformer<T> transformer, boolean useForSnippets, boolean preferForRegexpMatch) {
@@ -116,15 +112,8 @@ public final class ParameterType<T> implements Comparable<ParameterType<?>> {
 
     T transform(List<String> groupValues) {
         try {
-            if (transformer instanceof Transformer) {
-                String arg = groupValues.isEmpty() ? null : groupValues.get(0);
-                Transformer<?> t = (Transformer<?>) transformer;
-                return (T) t.transform(arg);
-            } else {
-                MultiTransformer<?> t = (MultiTransformer) transformer;
-                String[] groupValueArray = groupValues.toArray(new String[groupValues.size()]);
-                return (T) t.transform(groupValueArray);
-            }
+            String[] groupValueArray = groupValues.toArray(new String[groupValues.size()]);
+            return transformer.transform(groupValueArray);
         } catch (Throwable throwable) {
             throw new CucumberExpressionException(String.format("ParameterType {%s} failed to transform %s to %s", name, groupValues, type), throwable);
         }
@@ -135,5 +124,19 @@ public final class ParameterType<T> implements Comparable<ParameterType<?>> {
         if (preferForRegexpMatch() && !o.preferForRegexpMatch()) return -1;
         if (o.preferForRegexpMatch() && !preferForRegexpMatch()) return 1;
         return getName().compareTo(o.getName());
+    }
+
+    private static final class TransformerAdaptor<T> implements MultiTransformer<T> {
+
+        private final Transformer<T> transformer;
+
+        private TransformerAdaptor(Transformer<T> transformer) {
+            this.transformer = transformer;
+        }
+
+        @Override
+        public T transform(String[] args) throws Throwable {
+            return transformer.transform(args.length == 0 ? null : args[0]);
+        }
     }
 }
