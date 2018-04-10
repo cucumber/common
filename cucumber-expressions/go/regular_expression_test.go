@@ -42,8 +42,18 @@ func TestRegularExpression(t *testing.T) {
 		require.Equal(t, Match(t, `(-?\d*\.\d+)`, "-1.22")[0], -1.22)
 	})
 
-	t.Run("returns empty array when no match float with sign", func(t *testing.T) {
+	t.Run("returns empty array when there is no match", func(t *testing.T) {
+		// TODO: How do we distinguish between no match and a match with no capture groups?
 		require.Empty(t, Match(t, "hello", "world"))
+	})
+
+	t.Run("matches nested capture group without match", func(t *testing.T) {
+		// TODO: Other implementations expect null/nil here
+		require.Equal(t, Match(t, `^a user( named "([^"]*)")?$`, "a user")[0], "")
+	})
+
+	t.Run("matches nested capture group with match", func(t *testing.T) {
+		require.Equal(t, Match(t, `^a user( named "([^"]*)")?$`, "a user named \"Charlie\"")[0], "Charlie")
 	})
 
 	t.Run("ignores non capturing groups", func(t *testing.T) {

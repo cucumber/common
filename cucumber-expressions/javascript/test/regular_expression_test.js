@@ -40,6 +40,14 @@ describe('RegularExpression', () => {
     assert.equal(match(/hello/, 'world'), null)
   })
 
+  it('matches nested capture group without match', () => {
+    assert.deepEqual(match(/^a user( named "([^"]*)")?$/, 'a user'), [null])
+  })
+
+  it('matches nested capture group with match', () => {
+    assert.deepEqual(match(/^a user( named "([^"]*)")?$/, 'a user named "Charlie"'), ['Charlie'])
+  })
+
   it('ignores non capturing groups', () => {
     assert.deepEqual(
       match(

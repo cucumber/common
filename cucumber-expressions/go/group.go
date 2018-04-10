@@ -36,9 +36,10 @@ func (g *Group) Values() []string {
 	if len(g.children) == 0 {
 		return []string{g.value}
 	}
-	result := make([]string, len(g.children))
-	for i, child := range g.children {
-		result[i] = child.Value()
+	var result []string
+	for _, child := range g.children {
+		result = append(result, child.Value())
+		// result[i] = child.Value()
 	}
 	return result
 }
