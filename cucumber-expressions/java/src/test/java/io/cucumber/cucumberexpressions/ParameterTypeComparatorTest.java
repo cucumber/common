@@ -39,7 +39,7 @@ public class ParameterTypeComparatorTest {
 
     @Test
     public void sorts_parameter_types_by_preferential_then_name() {
-        SortedSet<ParameterType<?, ?>> set = new TreeSet<>();
+        SortedSet<ParameterType<?>> set = new TreeSet<>();
         set.add(new ParameterType<>("c", "c", C.class,
                 new Transformer<C>() {
                     @Override

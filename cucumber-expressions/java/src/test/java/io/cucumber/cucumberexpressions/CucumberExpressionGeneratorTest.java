@@ -215,7 +215,7 @@ public class CucumberExpressionGeneratorTest {
 
     @Test
     public void ignores_parameter_types_with_optional_capture_groups() {
-        ParameterType<String, String> optionalFlight = new ParameterType<>(
+        ParameterType<String> optionalFlight = new ParameterType<>(
                 "optional-flight",
                 "(1st flight)?",
                 String.class,
@@ -228,7 +228,7 @@ public class CucumberExpressionGeneratorTest {
                 true,
                 false
         );
-        ParameterType<String, String> optionalHotel = new ParameterType<>(
+        ParameterType<String> optionalHotel = new ParameterType<>(
                 "optional-hotel",
                 "(1st hotel)?",
                 String.class,

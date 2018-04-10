@@ -4,10 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Argument<T> {
-    private final ParameterType<?, T> parameterType;
+    private final ParameterType<T> parameterType;
     private final Group group;
 
-    static List<Argument<?>> build(TreeRegexp treeRegexp, List<ParameterType<?, ?>> parameterTypes, String text) {
+    static List<Argument<?>> build(TreeRegexp treeRegexp, List<ParameterType<?>> parameterTypes, String text) {
         Group group = treeRegexp.match(text);
         if (group == null) return null;
 
@@ -25,16 +25,16 @@ public class Argument<T> {
         List<Argument<?>> args = new ArrayList<>(argGroups.size());
         for (int i = 0; i < parameterTypes.size(); i++) {
             Group argGroup = argGroups.get(i);
-            ParameterType<?, ?> parameterType = parameterTypes.get(i);
+            ParameterType<?> parameterType = parameterTypes.get(i);
             args.add(new Argument<>(argGroup, parameterType));
         }
 
         return args;
     }
 
-    private static List<String> getParameterTypeNames(List<ParameterType<?, ?>> parameterTypes) {
+    private static List<String> getParameterTypeNames(List<ParameterType<?>> parameterTypes) {
         List<String> list = new ArrayList<>();
-        for (ParameterType<?, ?> type : parameterTypes) {
+        for (ParameterType<?> type : parameterTypes) {
             String name = type.getName();
             list.add(name);
         }
@@ -50,7 +50,7 @@ public class Argument<T> {
         return list;
     }
 
-    public Argument(Group group, ParameterType<?, T> parameterType) {
+    public Argument(Group group, ParameterType<T> parameterType) {
         this.group = group;
         this.parameterType = parameterType;
     }

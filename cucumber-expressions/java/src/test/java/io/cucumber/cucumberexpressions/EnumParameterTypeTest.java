@@ -8,7 +8,7 @@ import static org.junit.Assert.assertEquals;
 public class EnumParameterTypeTest {
     @Test
     public void constructs_enum() {
-        ParameterType<String, Color> t = new ParameterType<>("color", "\\w+", Color.class, new Transformer<Color>() {
+        ParameterType<Color> t = new ParameterType<>("color", "\\w+", Color.class, new Transformer<Color>() {
             @Override
             public Color transform(String arg) {
                 return Color.valueOf(arg);

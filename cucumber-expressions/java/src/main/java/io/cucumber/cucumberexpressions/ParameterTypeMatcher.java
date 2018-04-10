@@ -3,11 +3,11 @@ package io.cucumber.cucumberexpressions;
 import java.util.regex.Matcher;
 
 class ParameterTypeMatcher implements Comparable<ParameterTypeMatcher> {
-    private final ParameterType<?, ?> parameterType;
+    private final ParameterType<?> parameterType;
     private final Matcher matcher;
     private final int textLength;
 
-    public ParameterTypeMatcher(ParameterType<?, ?> parameterType, Matcher matcher, int textLength) {
+    public ParameterTypeMatcher(ParameterType<?> parameterType, Matcher matcher, int textLength) {
         this.parameterType = parameterType;
         this.matcher = matcher;
         this.textLength = textLength;
@@ -38,7 +38,7 @@ class ParameterTypeMatcher implements Comparable<ParameterTypeMatcher> {
         return 0;
     }
 
-    public ParameterType<?, ?> getParameterType() {
+    public ParameterType<?> getParameterType() {
         return parameterType;
     }
 }

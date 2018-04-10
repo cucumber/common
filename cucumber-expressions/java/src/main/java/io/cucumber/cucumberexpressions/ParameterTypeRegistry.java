@@ -23,8 +23,8 @@ public class ParameterTypeRegistry {
     private static final List<String> HEX_REGEXPS = singletonList(Pattern.compile("0[xX][0-9a-fA-F]{2}").pattern());
     private static final List<String> WORD_REGEXPS = singletonList(Pattern.compile("\\w+").pattern());
     private static final List<String> STRING_REGEXPS = singletonList(Pattern.compile("\"([^\"\\\\]*(\\\\.[^\"\\\\]*)*)\"|'([^'\\\\]*(\\\\.[^'\\\\]*)*)'").pattern());
-    private final Map<String, ParameterType<?, ?>> parameterTypeByName = new HashMap<>();
-    private final Map<String, SortedSet<ParameterType<?, ?>>> parameterTypesByRegexp = new HashMap<>();
+    private final Map<String, ParameterType<?>> parameterTypeByName = new HashMap<>();
+    private final Map<String, SortedSet<ParameterType<?>>> parameterTypesByRegexp = new HashMap<>();
 
     public ParameterTypeRegistry(Locale locale) {
         NumberFormat numberFormat = NumberFormat.getNumberInstance(locale);
@@ -92,16 +92,16 @@ public class ParameterTypeRegistry {
         }, true, false));
     }
 
-    public void defineParameterType(ParameterType<?, ?> parameterType) {
+    public void defineParameterType(ParameterType<?> parameterType) {
         if (parameterTypeByName.containsKey(parameterType.getName()))
             throw new DuplicateTypeNameException(String.format("There is already a parameter type with name %s", parameterType.getName()));
         parameterTypeByName.put(parameterType.getName(), parameterType);
 
         for (String parameterTypeRegexp : parameterType.getRegexps()) {
             if (parameterTypesByRegexp.get(parameterTypeRegexp) == null) {
-                parameterTypesByRegexp.put(parameterTypeRegexp, new TreeSet<ParameterType<?, ?>>());
+                parameterTypesByRegexp.put(parameterTypeRegexp, new TreeSet<ParameterType<?>>());
             }
-            SortedSet<ParameterType<?, ?>> parameterTypes = parameterTypesByRegexp.get(parameterTypeRegexp);
+            SortedSet<ParameterType<?>> parameterTypes = parameterTypesByRegexp.get(parameterTypeRegexp);
             if (!parameterTypes.isEmpty() && parameterTypes.first().preferForRegexpMatch() && parameterType.preferForRegexpMatch()) {
                 throw new CucumberExpressionException(String.format(
                         "There can only be one preferential parameter type per regexp. " +
@@ -113,12 +113,12 @@ public class ParameterTypeRegistry {
         }
     }
 
-    public <A, T> ParameterType<A, T> lookupByTypeName(String typeName) {
-        return (ParameterType<A, T>) parameterTypeByName.get(typeName);
+    public <T> ParameterType<T> lookupByTypeName(String typeName) {
+        return (ParameterType<T>) parameterTypeByName.get(typeName);
     }
 
-    public <A, T> ParameterType<A, T> lookupByRegexp(String parameterTypeRegexp, Pattern expressionRegexp, String text) {
-        SortedSet<ParameterType<?, ?>> parameterTypes = parameterTypesByRegexp.get(parameterTypeRegexp);
+    public <T> ParameterType<T> lookupByRegexp(String parameterTypeRegexp, Pattern expressionRegexp, String text) {
+        SortedSet<ParameterType<?>> parameterTypes = parameterTypesByRegexp.get(parameterTypeRegexp);
         if (parameterTypes == null) return null;
         if (parameterTypes.size() > 1 && !parameterTypes.first().preferForRegexpMatch()) {
             // We don't do this check on insertion because we only want to restrict
@@ -127,10 +127,10 @@ public class ParameterTypeRegistry {
             List<GeneratedExpression> generatedExpressions = new CucumberExpressionGenerator(this).generateExpressions(text);
             throw new AmbiguousParameterTypeException(parameterTypeRegexp, expressionRegexp, parameterTypes, generatedExpressions);
         }
-        return (ParameterType<A, T>) parameterTypes.first();
+        return (ParameterType<T>) parameterTypes.first();
     }
 
-    public Collection<ParameterType<?, ?>> getParameterTypes() {
+    public Collection<ParameterType<?>> getParameterTypes() {
         return parameterTypeByName.values();
     }
 }

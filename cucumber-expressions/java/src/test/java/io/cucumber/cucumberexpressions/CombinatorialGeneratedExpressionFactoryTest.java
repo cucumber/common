@@ -14,7 +14,7 @@ public class CombinatorialGeneratedExpressionFactoryTest {
 
     @Test
     public void generates_multiple_expressions() {
-        List<ParameterType<?, ?>> first = new ArrayList<>();
+        List<ParameterType<?>> first = new ArrayList<>();
         first.add(new ParameterType<>("color", WORD, Color.class, new Transformer<Color>() {
             @Override
             public Color transform(String arg) {
@@ -28,7 +28,7 @@ public class CombinatorialGeneratedExpressionFactoryTest {
             }
         }));
 
-        List<ParameterType<?, ?>> second = new ArrayList<>();
+        List<ParameterType<?>> second = new ArrayList<>();
         second.add(new ParameterType<>("date", WORD, Date.class, new Transformer<Date>() {
             @Override
             public Date transform(String arg) {
@@ -47,7 +47,7 @@ public class CombinatorialGeneratedExpressionFactoryTest {
                 return new Timestamp(arg);
             }
         }));
-        List<List<ParameterType<?, ?>>> parameterTypeCombinations = asList(first, second);
+        List<List<ParameterType<?>>> parameterTypeCombinations = asList(first, second);
 
         CombinatorialGeneratedExpressionFactory factory = new CombinatorialGeneratedExpressionFactory(
                 "I bought a {%s} ball on {%s}",

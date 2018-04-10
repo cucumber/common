@@ -639,7 +639,7 @@ public class DataTableTypeRegistryTableConverterTest {
     @Test
     public void convert_to_primitive__single_cell() {
         DataTable table = parse("| 3 |");
-        assertEquals(3, converter.convert(table, Integer.class));
+        assertEquals(Integer.valueOf(3), converter.convert(table, Integer.class));
     }
 
     @Test

@@ -25,9 +25,9 @@ public class GeneratedExpression {
             "while"
     };
     private final String expressionTemplate;
-    private final List<ParameterType<?, ?>> parameterTypes;
+    private final List<ParameterType<?>> parameterTypes;
 
-    public GeneratedExpression(String expressionTemplate, List<ParameterType<?, ?>> parameterTypes) {
+    public GeneratedExpression(String expressionTemplate, List<ParameterType<?>> parameterTypes) {
         this.expressionTemplate = expressionTemplate;
         this.parameterTypes = parameterTypes;
     }
@@ -38,7 +38,7 @@ public class GeneratedExpression {
 
     public String getSource() {
         List<String> parameterTypeNames = new ArrayList<>();
-        for (ParameterType<?, ?> parameterType : parameterTypes) {
+        for (ParameterType<?> parameterType : parameterTypes) {
             String name = parameterType.getName();
             parameterTypeNames.add(name);
         }
@@ -56,14 +56,14 @@ public class GeneratedExpression {
     public List<String> getParameterNames() {
         HashMap<String, Integer> usageByTypeName = new HashMap<>();
         List<String> list = new ArrayList<>();
-        for (ParameterType<?, ?> parameterType : parameterTypes) {
+        for (ParameterType<?> parameterType : parameterTypes) {
             String parameterName = getParameterName(parameterType.getName(), usageByTypeName);
             list.add(parameterName);
         }
         return list;
     }
 
-    public List<ParameterType<?, ?>> getParameterTypes() {
+    public List<ParameterType<?>> getParameterTypes() {
         return parameterTypes;
     }
 }

@@ -25,11 +25,11 @@ public class RegularExpression implements Expression {
 
     @Override
     public List<Argument<?>> match(String text) {
-        List<ParameterType<?, ?>> parameterTypes = new ArrayList<>();
+        List<ParameterType<?>> parameterTypes = new ArrayList<>();
         for (GroupBuilder groupBuilder : treeRegexp.getGroupBuilder().getChildren()) {
             String parameterTypeRegexp = groupBuilder.getSource();
 
-            ParameterType<?, ?> parameterType = parameterTypeRegistry.lookupByRegexp(parameterTypeRegexp, expressionRegexp, text);
+            ParameterType<?> parameterType = parameterTypeRegistry.lookupByRegexp(parameterTypeRegexp, expressionRegexp, text);
             if (parameterType == null) parameterType = new ParameterType<>(
                     parameterTypeRegexp,
                     parameterTypeRegexp,
