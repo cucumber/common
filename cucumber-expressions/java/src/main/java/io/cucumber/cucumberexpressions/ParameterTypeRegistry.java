@@ -30,61 +30,61 @@ public class ParameterTypeRegistry {
         NumberFormat numberFormat = NumberFormat.getNumberInstance(locale);
         final NumberParser numberParser = new NumberParser(numberFormat);
 
-        defineParameterType(ParameterType.single("biginteger", INTEGER_REGEXPS, BigInteger.class, new Transformer<String, BigInteger>() {
+        defineParameterType(new ParameterType<>("biginteger", INTEGER_REGEXPS, BigInteger.class, new Transformer<BigInteger>() {
             @Override
             public BigInteger transform(String arg) {
                 return new BigInteger(arg);
             }
         }, false, false));
-        defineParameterType(ParameterType.single("bigdecimal", FLOAT_REGEXPS, BigDecimal.class, new Transformer<String, BigDecimal>() {
+        defineParameterType(new ParameterType<>("bigdecimal", FLOAT_REGEXPS, BigDecimal.class, new Transformer<BigDecimal>() {
             @Override
             public BigDecimal transform(String arg) {
                 return new BigDecimal(arg);
             }
         }, false, false));
-        defineParameterType(ParameterType.single("byte", HEX_REGEXPS, Byte.class, new Transformer<String, Byte>() {
+        defineParameterType(new ParameterType<>("byte", HEX_REGEXPS, Byte.class, new Transformer<Byte>() {
             @Override
             public Byte transform(String arg) {
                 return Byte.decode(arg);
             }
         }, true, false));
-        defineParameterType(ParameterType.single("short", INTEGER_REGEXPS, Short.class, new Transformer<String, Short>() {
+        defineParameterType(new ParameterType<>("short", INTEGER_REGEXPS, Short.class, new Transformer<Short>() {
             @Override
             public Short transform(String arg) {
                 return Short.decode(arg);
             }
         }, false, false));
-        defineParameterType(ParameterType.single("int", INTEGER_REGEXPS, Integer.class, new Transformer<String, Integer>() {
+        defineParameterType(new ParameterType<>("int", INTEGER_REGEXPS, Integer.class, new Transformer<Integer>() {
             @Override
             public Integer transform(String arg) {
                 return Integer.decode(arg);
             }
         }, true, true));
-        defineParameterType(ParameterType.single("long", INTEGER_REGEXPS, Long.class, new Transformer<String, Long>() {
+        defineParameterType(new ParameterType<>("long", INTEGER_REGEXPS, Long.class, new Transformer<Long>() {
             @Override
             public Long transform(String arg) {
                 return Long.decode(arg);
             }
         }, false, false));
-        defineParameterType(ParameterType.single("float", FLOAT_REGEXPS, Float.class, new Transformer<String, Float>() {
+        defineParameterType(new ParameterType<>("float", FLOAT_REGEXPS, Float.class, new Transformer<Float>() {
             @Override
             public Float transform(String arg) {
                 return numberParser.parseFloat(arg);
             }
         }, false, false));
-        defineParameterType(ParameterType.single("double", FLOAT_REGEXPS, Double.class, new Transformer<String, Double>() {
+        defineParameterType(new ParameterType<>("double", FLOAT_REGEXPS, Double.class, new Transformer<Double>() {
             @Override
             public Double transform(String arg) {
                 return numberParser.parseDouble(arg);
             }
         }, true, true));
-        defineParameterType(ParameterType.single("word", WORD_REGEXPS, String.class, new Transformer<String, String>() {
+        defineParameterType(new ParameterType<>("word", WORD_REGEXPS, String.class, new Transformer<String>() {
             @Override
             public String transform(String arg) {
                 return arg;
             }
         }, false, false));
-        defineParameterType(ParameterType.single("string", STRING_REGEXPS, String.class, new Transformer<String, String>() {
+        defineParameterType(new ParameterType<>("string", STRING_REGEXPS, String.class, new Transformer<String>() {
             @Override
             public String transform(String arg) {
                 return arg.replaceAll("\\\\\"", "\"").replaceAll("\\\\'", "'");

@@ -15,13 +15,13 @@ public class CombinatorialGeneratedExpressionFactoryTest {
     @Test
     public void generates_multiple_expressions() {
         List<ParameterType<?, ?>> first = new ArrayList<>();
-        first.add(ParameterType.single("color", WORD, Color.class, new Transformer<String, Color>() {
+        first.add(new ParameterType<>("color", WORD, Color.class, new Transformer<Color>() {
             @Override
             public Color transform(String arg) {
                 return new Color(arg);
             }
         }));
-        first.add(ParameterType.single("csscolor", WORD, CssColor.class, new Transformer<String, CssColor>() {
+        first.add(new ParameterType<>("csscolor", WORD, CssColor.class, new Transformer<CssColor>() {
             @Override
             public CssColor transform(String arg) {
                 return new CssColor(arg);
@@ -29,19 +29,19 @@ public class CombinatorialGeneratedExpressionFactoryTest {
         }));
 
         List<ParameterType<?, ?>> second = new ArrayList<>();
-        second.add(ParameterType.single("date", WORD, Date.class, new Transformer<String, Date>() {
+        second.add(new ParameterType<>("date", WORD, Date.class, new Transformer<Date>() {
             @Override
             public Date transform(String arg) {
                 return new Date(arg);
             }
         }));
-        second.add(ParameterType.single("datetime", WORD, DateTime.class, new Transformer<String, DateTime>() {
+        second.add(new ParameterType<>("datetime", WORD, DateTime.class, new Transformer<DateTime>() {
             @Override
             public DateTime transform(String arg) {
                 return new DateTime(arg);
             }
         }));
-        second.add(ParameterType.single("timestamp", WORD, Timestamp.class, new Transformer<String, Timestamp>() {
+        second.add(new ParameterType<>("timestamp", WORD, Timestamp.class, new Transformer<Timestamp>() {
             @Override
             public Timestamp transform(String arg) {
                 return new Timestamp(arg);

@@ -7,57 +7,60 @@ import static java.util.Collections.singletonList;
 
 public final class ParameterType<A, T> implements Comparable<ParameterType<?, ?>> {
     private final String name;
-    private final Class<A> argsType;
     private final Type type;
     private final List<String> regexps;
     private final boolean preferForRegexpMatch;
     private final boolean useForSnippets;
-    private final Transformer<A, T> transformer;
+    private final Function<A, T> transformer;
 
-    public ParameterType(String name, List<String> regexps, Class<A> argsType, Type type, Transformer<A, T> transformer, boolean useForSnippets, boolean preferForRegexpMatch) {
+    public ParameterType(String name, List<String> regexps, Type type, Function<A, T> transformer, boolean useForSnippets, boolean preferForRegexpMatch) {
         if (name == null) throw new CucumberExpressionException("name cannot be null");
         if (regexps == null) throw new CucumberExpressionException("regexps cannot be null");
         if (type == null) throw new CucumberExpressionException("type cannot be null");
         if (transformer == null) throw new CucumberExpressionException("transformer cannot be null");
         this.name = name;
         this.regexps = regexps;
-        this.argsType = argsType;
         this.type = type;
         this.transformer = transformer;
         this.useForSnippets = useForSnippets;
         this.preferForRegexpMatch = preferForRegexpMatch;
     }
 
-    public static <T> ParameterType<String, T> single(String name, List<String> regexps, Class<T> type, Transformer<String, T> transformer, boolean useForSnippets, boolean preferForRegexpMatch) {
-        return new ParameterType<>(name, regexps, String.class, type, transformer, useForSnippets, preferForRegexpMatch);
+    private ParameterType(String name, List<String> regexps, Class<T> type, Function<A, T> transformer, boolean useForSnippets, boolean preferForRegexpMatch) {
+        this(name, regexps, (Type) type, transformer, useForSnippets, preferForRegexpMatch);
     }
 
-    public static <T> ParameterType<String, T> single(String name, String regexp, Class<T> type, Transformer<String, T> transformer, boolean useForSnippets, boolean preferForRegexpMatch) {
-        return single(name, singletonList(regexp), type, transformer, useForSnippets, preferForRegexpMatch);
+    public ParameterType(String name, List<String> regexps, Class<T> type, Transformer<T> transformer, boolean useForSnippets, boolean preferForRegexpMatch) {
+        this(name, regexps, type, (Function) transformer, useForSnippets, preferForRegexpMatch);
     }
 
-    public static <T> ParameterType<String, T> single(String name, List<String> regexps, Class<T> type, Transformer<String, T> transformer) {
-        return single(name, regexps, type, transformer, true, false);
+    public ParameterType(String name, String regexp, Class<T> type, Transformer<T> transformer, boolean useForSnippets, boolean preferForRegexpMatch) {
+        this(name, singletonList(regexp), (Type) type, (Function) transformer, useForSnippets, preferForRegexpMatch);
     }
 
-    public static <T> ParameterType<String, T> single(String name, String regexp, Class<T> type, Transformer<String, T> transformer) {
-        return single(name, singletonList(regexp), type, transformer, true, false);
+    public ParameterType(String name, List<String> regexps, Class<T> type, Transformer<T> transformer) {
+        this(name, regexps, type, transformer, true, false);
     }
 
-    public static <T> ParameterType<String[], T> multi(String name, List<String> regexps, Class<T> type, Transformer<String[], T> transformer, boolean useForSnippets, boolean preferForRegexpMatch) {
-        return new ParameterType<>(name, regexps, String[].class, type, transformer, useForSnippets, preferForRegexpMatch);
+    public ParameterType(String name, String regexp, Class<T> type, Transformer<T> transformer) {
+        this(name, singletonList(regexp), type, transformer, true, false);
     }
 
-    public static <T> ParameterType<String[], T> multi(String name, String regexp, Class<T> type, Transformer<String[], T> transformer, boolean useForSnippets, boolean preferForRegexpMatch) {
-        return multi(name, singletonList(regexp), type, transformer, useForSnippets, preferForRegexpMatch);
+
+    public ParameterType(String name, List<String> regexps, Class<T> type, MultiTransformer<T> transformer, boolean useForSnippets, boolean preferForRegexpMatch) {
+        this(name, regexps, type, (Function) transformer, useForSnippets, preferForRegexpMatch);
     }
 
-    public static <T> ParameterType<String[], T> multi(String name, List<String> regexps, Class<T> type, Transformer<String[], T> transformer) {
-        return multi(name, regexps, type, transformer, true, false);
+    public ParameterType(String name, String regexp, Class<T> type, MultiTransformer<T> transformer, boolean useForSnippets, boolean preferForRegexpMatch) {
+        this(name, singletonList(regexp), (Type) type, (Function) transformer, useForSnippets, preferForRegexpMatch);
     }
 
-    public static <T> ParameterType<String[], T> multi(String name, String regexp, Class<T> type, Transformer<String[], T> transformer) {
-        return multi(name, singletonList(regexp), type, transformer, true, false);
+    public ParameterType(String name, List<String> regexps, Class<T> type, MultiTransformer<T> transformer) {
+        this(name, regexps, type, transformer, true, false);
+    }
+
+    public ParameterType(String name, String regexp, Class<T> type, MultiTransformer<T> transformer) {
+        this(name, singletonList(regexp), type, transformer, true, false);
     }
 
     /**
@@ -109,13 +112,15 @@ public final class ParameterType<A, T> implements Comparable<ParameterType<?, ?>
     }
 
     public T transform(List<String> groupValues) {
-        String[] groupValueArray = groupValues.toArray(new String[groupValues.size()]);
         try {
-            if (argsType == String.class) {
-                String arg = groupValueArray.length == 0 ? null : groupValueArray[0];
-                return transformer.transform(argsType.cast(arg));
+            if (transformer instanceof Transformer) {
+                String arg = groupValues.isEmpty() ? null : groupValues.get(0);
+                Transformer<T> t = (Transformer<T>) transformer;
+                return t.transform(arg);
             } else {
-                return transformer.transform(argsType.cast(groupValueArray));
+                MultiTransformer<T> t = (MultiTransformer<T>) transformer;
+                String[] groupValueArray = groupValues.toArray(new String[groupValues.size()]);
+                return t.transform(groupValueArray);
             }
         } catch (Throwable throwable) {
             throw new CucumberExpressionException(String.format("ParameterType {%s} failed to transform %s to %s", name, groupValues, type), throwable);

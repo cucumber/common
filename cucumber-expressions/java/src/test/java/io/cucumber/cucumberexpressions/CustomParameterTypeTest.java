@@ -47,11 +47,11 @@ public class CustomParameterTypeTest {
     @Before
     public void create_parameter() {
         /// [add-color-parameter-type]
-        parameterTypeRegistry.defineParameterType(ParameterType.single(
+        parameterTypeRegistry.defineParameterType(new ParameterType<>(
                 "color",                                  // name
                 "red|blue|yellow",                        // regexp
                 Color.class,                              // type
-                new Transformer<String, Color>() {
+                new Transformer<Color>() {
                     @Override
                     public Color transform(String arg) {
                         return new Color(arg);
@@ -73,10 +73,10 @@ public class CustomParameterTypeTest {
     @Test
     public void matches_CucumberExpression_parameters_with_multiple_capture_groups() {
         parameterTypeRegistry = new ParameterTypeRegistry(Locale.ENGLISH);
-        parameterTypeRegistry.defineParameterType(ParameterType.multi(
+        parameterTypeRegistry.defineParameterType(new ParameterType<>(
                 "coordinate",
                 "(\\d+),\\s*(\\d+),\\s*(\\d+)",
-                Coordinate.class, new Transformer<String[], Coordinate>() {
+                Coordinate.class, new MultiTransformer<Coordinate>() {
             @Override
             public Coordinate transform(String[] args) {
                 return new Coordinate(
@@ -101,11 +101,11 @@ public class CustomParameterTypeTest {
     @Test
     public void matches_CucumberExpression_parameters_with_custom_parameter_type_using_optional_group() {
         parameterTypeRegistry = new ParameterTypeRegistry(Locale.ENGLISH);
-        parameterTypeRegistry.defineParameterType(ParameterType.single(
+        parameterTypeRegistry.defineParameterType(new ParameterType<>(
                 "color",
                 asList("red|blue|yellow", "(?:dark|light) (?:red|blue|yellow)"),
                 Color.class,
-                new Transformer<String, Color>() {
+                new Transformer<Color>() {
                     @Override
                     public Color transform(String arg) {
                         return new Color(arg);
@@ -121,11 +121,11 @@ public class CustomParameterTypeTest {
 
     @Test
     public void defers_transformation_until_queried_from_argument() {
-        parameterTypeRegistry.defineParameterType(ParameterType.single(
+        parameterTypeRegistry.defineParameterType(new ParameterType<>(
                 "throwing",
                 "bad",
                 CssColor.class,
-                new Transformer<String, CssColor>() {
+                new Transformer<CssColor>() {
                     @Override
                     public CssColor transform(String arg) {
                         throw new RuntimeException(String.format("Can't transform [%s]", arg));
@@ -147,11 +147,11 @@ public class CustomParameterTypeTest {
     @Test
     public void conflicting_parameter_type_is_detected_for_type_name() {
         try {
-            parameterTypeRegistry.defineParameterType(ParameterType.single(
+            parameterTypeRegistry.defineParameterType(new ParameterType<>(
                     "color",
                     ".*",
                     CssColor.class,
-                    new Transformer<String, CssColor>() {
+                    new Transformer<CssColor>() {
                         @Override
                         public CssColor transform(String arg) {
                             return new CssColor(arg);
@@ -168,11 +168,11 @@ public class CustomParameterTypeTest {
 
     @Test
     public void conflicting_parameter_type_is_not_detected_for_type() {
-        parameterTypeRegistry.defineParameterType(ParameterType.single(
+        parameterTypeRegistry.defineParameterType(new ParameterType<>(
                 "whatever",
                 ".*",
                 Color.class,
-                new Transformer<String, Color>() {
+                new Transformer<Color>() {
                     @Override
                     public Color transform(String arg) {
                         return new Color(arg);
@@ -187,11 +187,11 @@ public class CustomParameterTypeTest {
 
     @Test
     public void conflicting_parameter_type_is_not_detected_for_regexp() {
-        parameterTypeRegistry.defineParameterType(ParameterType.single(
+        parameterTypeRegistry.defineParameterType(new ParameterType<>(
                 "css-color",
                 "red|blue|yellow",
                 CssColor.class,
-                new Transformer<String, CssColor>() {
+                new Transformer<CssColor>() {
                     @Override
                     public CssColor transform(String arg) {
                         return new CssColor(arg);

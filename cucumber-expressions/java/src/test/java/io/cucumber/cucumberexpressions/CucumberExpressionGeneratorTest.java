@@ -85,11 +85,11 @@ public class CucumberExpressionGeneratorTest {
 
     @Test
     public void numbers_only_second_argument_when_type_is_not_reserved_keyword() {
-        parameterTypeRegistry.defineParameterType(ParameterType.single(
+        parameterTypeRegistry.defineParameterType(new ParameterType<>(
                 "currency",
                 "[A-Z]{3}",
                 Currency.class,
-                new Transformer<String, Currency>() {
+                new Transformer<Currency>() {
                     @Override
                     public Currency transform(String arg) {
                         return Currency.getInstance(arg);
@@ -103,22 +103,22 @@ public class CucumberExpressionGeneratorTest {
 
     @Test
     public void prefers_leftmost_match_when_there_is_overlap() {
-        parameterTypeRegistry.defineParameterType(ParameterType.single(
+        parameterTypeRegistry.defineParameterType(new ParameterType<>(
                 "currency",
                 "cd",
                 Currency.class,
-                new Transformer<String, Currency>() {
+                new Transformer<Currency>() {
                     @Override
                     public Currency transform(String arg) {
                         return Currency.getInstance(arg);
                     }
                 }
         ));
-        parameterTypeRegistry.defineParameterType(ParameterType.single(
+        parameterTypeRegistry.defineParameterType(new ParameterType<>(
                 "date",
                 "bc",
                 Date.class,
-                new Transformer<String, Date>() {
+                new Transformer<Date>() {
                     @Override
                     public Date transform(String arg) {
                         return new Date(arg);
@@ -132,22 +132,22 @@ public class CucumberExpressionGeneratorTest {
 
     @Test
     public void prefers_widest_match_when_pos_is_same() {
-        parameterTypeRegistry.defineParameterType(ParameterType.single(
+        parameterTypeRegistry.defineParameterType(new ParameterType<>(
                 "currency",
                 "cd",
                 Currency.class,
-                new Transformer<String, Currency>() {
+                new Transformer<Currency>() {
                     @Override
                     public Currency transform(String arg) {
                         return Currency.getInstance(arg);
                     }
                 }
         ));
-        parameterTypeRegistry.defineParameterType(ParameterType.single(
+        parameterTypeRegistry.defineParameterType(new ParameterType<>(
                 "date",
                 "cde",
                 Date.class,
-                new Transformer<String, Date>() {
+                new Transformer<Date>() {
                     @Override
                     public Date transform(String arg) {
                         return new Date(arg);
@@ -161,11 +161,11 @@ public class CucumberExpressionGeneratorTest {
 
     @Test
     public void generates_all_combinations_of_expressions_when_several_parameter_types_match() {
-        parameterTypeRegistry.defineParameterType(ParameterType.single(
+        parameterTypeRegistry.defineParameterType(new ParameterType<>(
                 "currency",
                 "x",
                 Currency.class,
-                new Transformer<String, Currency>() {
+                new Transformer<Currency>() {
                     @Override
                     public Currency transform(String arg) {
                         return Currency.getInstance(arg);
@@ -174,11 +174,11 @@ public class CucumberExpressionGeneratorTest {
                 true,
                 true
         ));
-        parameterTypeRegistry.defineParameterType(ParameterType.single(
+        parameterTypeRegistry.defineParameterType(new ParameterType<>(
                 "date",
                 "x",
                 Date.class,
-                new Transformer<String, Date>() {
+                new Transformer<Date>() {
                     @Override
                     public Date transform(String arg) {
                         return new Date(arg);
@@ -215,11 +215,11 @@ public class CucumberExpressionGeneratorTest {
 
     @Test
     public void ignores_parameter_types_with_optional_capture_groups() {
-        ParameterType<String, String> optionalFlight = ParameterType.single(
+        ParameterType<String, String> optionalFlight = new ParameterType<>(
                 "optional-flight",
                 "(1st flight)?",
                 String.class,
-                new Transformer<String,String>() {
+                new Transformer<String>() {
                     @Override
                     public String transform(String arg) {
                         return arg;
@@ -228,11 +228,11 @@ public class CucumberExpressionGeneratorTest {
                 true,
                 false
         );
-        ParameterType<String, String> optionalHotel = ParameterType.single(
+        ParameterType<String, String> optionalHotel = new ParameterType<>(
                 "optional-hotel",
                 "(1st hotel)?",
                 String.class,
-                new Transformer<String,String>() {
+                new Transformer<String>() {
                     @Override
                     public String transform(String arg) {
                         return arg;

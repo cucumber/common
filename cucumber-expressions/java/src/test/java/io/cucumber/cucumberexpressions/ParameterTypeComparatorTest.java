@@ -40,26 +40,26 @@ public class ParameterTypeComparatorTest {
     @Test
     public void sorts_parameter_types_by_preferential_then_name() {
         SortedSet<ParameterType<?, ?>> set = new TreeSet<>();
-        set.add(ParameterType.single("c", "c", C.class,
-                new Transformer<String,C>() {
+        set.add(new ParameterType<>("c", "c", C.class,
+                new Transformer<C>() {
                     @Override
                     public C transform(String arg) {
                         return new C(arg);
                     }
                 }, false, true));
-        set.add(ParameterType.single("a", "a", A.class, new Transformer<String,A>() {
+        set.add(new ParameterType<>("a", "a", A.class, new Transformer<A>() {
             @Override
             public A transform(String arg) {
                 return new A(arg);
             }
         }, false, false));
-        set.add(ParameterType.single("d", "d", D.class, new Transformer<String,D>() {
+        set.add(new ParameterType<>("d", "d", D.class, new Transformer<D>() {
             @Override
             public D transform(String arg) {
                 return new D(arg);
             }
         }, false, false));
-        set.add(ParameterType.single("b", "b", B.class, new Transformer<String,B>() {
+        set.add(new ParameterType<>("b", "b", B.class, new Transformer<B>() {
             @Override
             public B transform(String arg) {
                 return new B(arg);

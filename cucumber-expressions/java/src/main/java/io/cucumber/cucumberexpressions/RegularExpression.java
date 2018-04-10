@@ -30,11 +30,11 @@ public class RegularExpression implements Expression {
             String parameterTypeRegexp = groupBuilder.getSource();
 
             ParameterType<?, ?> parameterType = parameterTypeRegistry.lookupByRegexp(parameterTypeRegexp, expressionRegexp, text);
-            if (parameterType == null) parameterType = ParameterType.single(
+            if (parameterType == null) parameterType = new ParameterType<>(
                     parameterTypeRegexp,
                     parameterTypeRegexp,
                     String.class,
-                    new Transformer<String,String>() {
+                    new Transformer<String>() {
                         @Override
                         public String transform(String arg) {
                             return arg;

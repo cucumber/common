@@ -36,20 +36,20 @@ public class ParameterTypeRegistryTest {
 
     @Test
     public void does_not_allow_more_than_one_preferential_parameter_type_for_each_regexp() {
-        registry.defineParameterType(ParameterType.single("name", CAPITALISED_WORD, Name.class, new Transformer<String, Name>() {
+        registry.defineParameterType(new ParameterType<>("name", CAPITALISED_WORD, Name.class, new Transformer<Name>() {
             @Override
             public Name transform(String arg) {
                 return new Name(arg);
             }
         }, false, true));
-        registry.defineParameterType(ParameterType.single("person", CAPITALISED_WORD, Person.class, new Transformer<String, Person>() {
+        registry.defineParameterType(new ParameterType<>("person", CAPITALISED_WORD, Person.class, new Transformer<Person>() {
             @Override
             public Person transform(String arg) {
                 return new Person(arg);
             }
         }, false, false));
         try {
-            registry.defineParameterType(ParameterType.single("place", CAPITALISED_WORD, Place.class, new Transformer<String, Place>() {
+            registry.defineParameterType(new ParameterType<>("place", CAPITALISED_WORD, Place.class, new Transformer<Place>() {
                 @Override
                 public Place transform(String arg) {
                     return new Place(arg);
@@ -63,19 +63,19 @@ public class ParameterTypeRegistryTest {
 
     @Test
     public void looks_up_preferential_parameter_type_by_regexp() {
-        ParameterType<String, Name> name = ParameterType.single("name", CAPITALISED_WORD, Name.class, new Transformer<String, Name>() {
+        ParameterType<String, Name> name = new ParameterType<>("name", CAPITALISED_WORD, Name.class, new Transformer<Name>() {
             @Override
             public Name transform(String arg) {
                 return new Name(arg);
             }
         }, false, false);
-        ParameterType<String, Person> person = ParameterType.single("person", CAPITALISED_WORD, Person.class, new Transformer<String, Person>() {
+        ParameterType<String, Person> person = new ParameterType<>("person", CAPITALISED_WORD, Person.class, new Transformer<Person>() {
             @Override
             public Person transform(String arg) {
                 return new Person(arg);
             }
         }, false, true);
-        ParameterType<String, Place> place = ParameterType.single("place", CAPITALISED_WORD, Place.class, new Transformer<String, Place>() {
+        ParameterType<String, Place> place = new ParameterType<>("place", CAPITALISED_WORD, Place.class, new Transformer<Place>() {
             @Override
             public Place transform(String arg) {
                 return new Place(arg);
@@ -89,19 +89,19 @@ public class ParameterTypeRegistryTest {
 
     @Test
     public void throws_ambiguous_exception_on_lookup_when_no_parameter_types_are_preferential() {
-        ParameterType<String, Name> name = ParameterType.single("name", CAPITALISED_WORD, Name.class, new Transformer<String, Name>() {
+        ParameterType<String, Name> name = new ParameterType<>("name", CAPITALISED_WORD, Name.class, new Transformer<Name>() {
             @Override
             public Name transform(String arg) {
                 return new Name(arg);
             }
         }, true, false);
-        ParameterType<String, Person> person = ParameterType.single("person", CAPITALISED_WORD, Person.class, new Transformer<String, Person>() {
+        ParameterType<String, Person> person = new ParameterType<>("person", CAPITALISED_WORD, Person.class, new Transformer<Person>() {
             @Override
             public Person transform(String arg) {
                 return new Person(arg);
             }
         }, true, false);
-        ParameterType<String, Place> place = ParameterType.single("place", CAPITALISED_WORD, Place.class, new Transformer<String, Place>() {
+        ParameterType<String, Place> place = new ParameterType<>("place", CAPITALISED_WORD, Place.class, new Transformer<Place>() {
             @Override
             public Place transform(String arg) {
                 return new Place(arg);
