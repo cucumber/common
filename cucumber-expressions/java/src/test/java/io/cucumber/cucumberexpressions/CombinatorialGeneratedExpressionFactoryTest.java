@@ -7,48 +7,48 @@ import java.util.List;
 
 import static java.util.Arrays.asList;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 public class CombinatorialGeneratedExpressionFactoryTest {
     private static final String WORD = "\\w+";
 
     @Test
     public void generates_multiple_expressions() {
-        List<List<ParameterType<?>>> parameterTypeCombinations = asList(
-                asList(
-                        new ParameterType<>("color", WORD, Color.class, new Transformer<Color>() {
-                            @Override
-                            public Color transform(String... args) {
-                                return new Color(args[0]);
-                            }
-                        }),
-                        new ParameterType<>("csscolor", WORD, CssColor.class, new Transformer<CssColor>() {
-                            @Override
-                            public CssColor transform(String... args) {
-                                return new CssColor(args[0]);
-                            }
-                        })
-                ),
-                asList(
-                        new ParameterType<>("date", WORD, Date.class, new Transformer<Date>() {
-                            @Override
-                            public Date transform(String... args) {
-                                return new Date(args[0]);
-                            }
-                        }),
-                        new ParameterType<>("datetime", WORD, DateTime.class, new Transformer<DateTime>() {
-                            @Override
-                            public DateTime transform(String... args) {
-                                return new DateTime(args[0]);
-                            }
-                        }),
-                        new ParameterType<>("timestamp", WORD, Timestamp.class, new Transformer<Timestamp>() {
-                            @Override
-                            public Timestamp transform(String... args) {
-                                return new Timestamp(args[0]);
-                            }
-                        })
-                )
-        );
+        List<ParameterType<?, ?>> first = new ArrayList<>();
+        first.add(ParameterType.single("color", WORD, Color.class, new Transformer<String, Color>() {
+            @Override
+            public Color transform(String arg) {
+                return new Color(arg);
+            }
+        }));
+        first.add(ParameterType.single("csscolor", WORD, CssColor.class, new Transformer<String, CssColor>() {
+            @Override
+            public CssColor transform(String arg) {
+                return new CssColor(arg);
+            }
+        }));
+
+        List<ParameterType<?, ?>> second = new ArrayList<>();
+        second.add(ParameterType.single("date", WORD, Date.class, new Transformer<String, Date>() {
+            @Override
+            public Date transform(String arg) {
+                return new Date(arg);
+            }
+        }));
+        second.add(ParameterType.single("datetime", WORD, DateTime.class, new Transformer<String, DateTime>() {
+            @Override
+            public DateTime transform(String arg) {
+                return new DateTime(arg);
+            }
+        }));
+        second.add(ParameterType.single("timestamp", WORD, Timestamp.class, new Transformer<String, Timestamp>() {
+            @Override
+            public Timestamp transform(String arg) {
+                return new Timestamp(arg);
+            }
+        }));
+        List<List<ParameterType<?, ?>>> parameterTypeCombinations = asList(first, second);
+
         CombinatorialGeneratedExpressionFactory factory = new CombinatorialGeneratedExpressionFactory(
                 "I bought a {%s} ball on {%s}",
                 parameterTypeCombinations
@@ -71,26 +71,31 @@ public class CombinatorialGeneratedExpressionFactoryTest {
 
     public static class Color {
         Color(String s) {
+            assertNotNull(s);
         }
     }
 
     public static class CssColor {
         CssColor(String s) {
+            assertNotNull(s);
         }
     }
 
     public static class Date {
         Date(String s) {
+            assertNotNull(s);
         }
     }
 
     public static class DateTime {
-        public DateTime(String s) {
+        DateTime(String s) {
+            assertNotNull(s);
         }
     }
 
     public static class Timestamp {
-        public Timestamp(String s) {
+        Timestamp(String s) {
+            assertNotNull(s);
         }
     }
 }

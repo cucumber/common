@@ -16,9 +16,10 @@ public class GenericParameterTypeTest {
         parameterTypeRegistry.defineParameterType(new ParameterType<>(
                 "stringlist",
                 singletonList(".*"),
+                String[].class,
                 new TypeReference<List<String>>() {
                 }.getType(),
-                new Transformer<List<String>>() {
+                new Transformer<String[], List<String>>() {
                     @Override
                     public List<String> transform(String... args) {
                         return asList(args[0].split(","));

@@ -9,55 +9,60 @@ import java.util.TreeSet;
 
 import static java.util.Arrays.asList;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 public class ParameterTypeComparatorTest {
 
     public static class A {
-        public A(String s) {
+        A(String s) {
+            assertNotNull(s);
         }
     }
 
     public static class B {
-        public B(String s) {
+        B(String s) {
+            assertNotNull(s);
         }
     }
 
     public static class C {
-        public C(String s) {
+        C(String s) {
+            assertNotNull(s);
         }
     }
 
     public static class D {
-        public D(String s) {
+        D(String s) {
+            assertNotNull(s);
         }
     }
 
     @Test
     public void sorts_parameter_types_by_preferential_then_name() {
-        SortedSet<ParameterType<?>> set = new TreeSet<>();
-        set.add(new ParameterType<>("c", "c", C.class,
-                new Transformer<C>() {
+        SortedSet<ParameterType<?, ?>> set = new TreeSet<>();
+        set.add(ParameterType.single("c", "c", C.class,
+                new Transformer<String,C>() {
                     @Override
-                    public C transform(String... args) {
-                        return new C(args[0]);
+                    public C transform(String arg) {
+                        return new C(arg);
                     }
                 }, false, true));
-        set.add(new ParameterType<>("a", "a", A.class, new Transformer<A>() {
+        set.add(ParameterType.single("a", "a", A.class, new Transformer<String,A>() {
             @Override
-            public A transform(String... args) {
-                return new A(args[0]);
+            public A transform(String arg) {
+                return new A(arg);
             }
         }, false, false));
-        set.add(new ParameterType<>("d", "d", D.class, new Transformer<D>() {
+        set.add(ParameterType.single("d", "d", D.class, new Transformer<String,D>() {
             @Override
-            public D transform(String... args) {
-                return new D(args[0]);
+            public D transform(String arg) {
+                return new D(arg);
             }
         }, false, false));
-        set.add(new ParameterType<>("b", "b", B.class, new Transformer<B>() {
+        set.add(ParameterType.single("b", "b", B.class, new Transformer<String,B>() {
             @Override
-            public B transform(String... args) {
-                return new B(args[0]);
+            public B transform(String arg) {
+                return new B(arg);
             }
         }, false, true));
 

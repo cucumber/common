@@ -6,25 +6,29 @@ import java.util.Locale;
 import java.util.regex.Pattern;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertSame;
 import static org.junit.Assert.fail;
 
 public class ParameterTypeRegistryTest {
 
-    public static final String CAPITALISED_WORD = "[A-Z]+\\w+";
+    private static final String CAPITALISED_WORD = "[A-Z]+\\w+";
 
     public static class Name {
-        public Name(String s) {
+        Name(String s) {
+            assertNotNull(s);
         }
     }
 
     public static class Person {
-        public Person(String s) {
+        Person(String s) {
+            assertNotNull(s);
         }
     }
 
     public static class Place {
-        public Place(String s) {
+        Place(String s) {
+            assertNotNull(s);
         }
     }
 
@@ -32,23 +36,23 @@ public class ParameterTypeRegistryTest {
 
     @Test
     public void does_not_allow_more_than_one_preferential_parameter_type_for_each_regexp() {
-        registry.defineParameterType(new ParameterType<>("name", CAPITALISED_WORD, Name.class, new Transformer<Name>() {
+        registry.defineParameterType(ParameterType.single("name", CAPITALISED_WORD, Name.class, new Transformer<String, Name>() {
             @Override
-            public Name transform(String... args) {
-                return new Name(args[0]);
+            public Name transform(String arg) {
+                return new Name(arg);
             }
         }, false, true));
-        registry.defineParameterType(new ParameterType<>("person", CAPITALISED_WORD, Person.class, new Transformer<Person>() {
+        registry.defineParameterType(ParameterType.single("person", CAPITALISED_WORD, Person.class, new Transformer<String, Person>() {
             @Override
-            public Person transform(String... args) {
-                return new Person(args[0]);
+            public Person transform(String arg) {
+                return new Person(arg);
             }
         }, false, false));
         try {
-            registry.defineParameterType(new ParameterType<>("place", CAPITALISED_WORD, Place.class, new Transformer<Place>() {
+            registry.defineParameterType(ParameterType.single("place", CAPITALISED_WORD, Place.class, new Transformer<String, Place>() {
                 @Override
-                public Place transform(String... args) {
-                    return new Place(args[0]);
+                public Place transform(String arg) {
+                    return new Place(arg);
                 }
             }, false, true));
             fail("Expected an exception");
@@ -59,22 +63,22 @@ public class ParameterTypeRegistryTest {
 
     @Test
     public void looks_up_preferential_parameter_type_by_regexp() {
-        ParameterType<Name> name = new ParameterType<>("name", CAPITALISED_WORD, Name.class, new Transformer<Name>() {
+        ParameterType<String, Name> name = ParameterType.single("name", CAPITALISED_WORD, Name.class, new Transformer<String, Name>() {
             @Override
-            public Name transform(String... args) {
-                return new Name(args[0]);
+            public Name transform(String arg) {
+                return new Name(arg);
             }
         }, false, false);
-        ParameterType<Person> person = new ParameterType<>("person", CAPITALISED_WORD, Person.class, new Transformer<Person>() {
+        ParameterType<String, Person> person = ParameterType.single("person", CAPITALISED_WORD, Person.class, new Transformer<String, Person>() {
             @Override
-            public Person transform(String... args) {
-                return new Person(args[0]);
+            public Person transform(String arg) {
+                return new Person(arg);
             }
         }, false, true);
-        ParameterType<Place> place = new ParameterType<>("place", CAPITALISED_WORD, Place.class, new Transformer<Place>() {
+        ParameterType<String, Place> place = ParameterType.single("place", CAPITALISED_WORD, Place.class, new Transformer<String, Place>() {
             @Override
-            public Place transform(String... args) {
-                return new Place(args[0]);
+            public Place transform(String arg) {
+                return new Place(arg);
             }
         }, false, false);
         registry.defineParameterType(name);
@@ -85,22 +89,22 @@ public class ParameterTypeRegistryTest {
 
     @Test
     public void throws_ambiguous_exception_on_lookup_when_no_parameter_types_are_preferential() {
-        ParameterType<Name> name = new ParameterType<>("name", CAPITALISED_WORD, Name.class, new Transformer<Name>() {
+        ParameterType<String, Name> name = ParameterType.single("name", CAPITALISED_WORD, Name.class, new Transformer<String, Name>() {
             @Override
-            public Name transform(String... args) {
-                return new Name(args[0]);
+            public Name transform(String arg) {
+                return new Name(arg);
             }
         }, true, false);
-        ParameterType<Person> person = new ParameterType<>("person", CAPITALISED_WORD, Person.class, new Transformer<Person>() {
+        ParameterType<String, Person> person = ParameterType.single("person", CAPITALISED_WORD, Person.class, new Transformer<String, Person>() {
             @Override
-            public Person transform(String... args) {
-                return new Person(args[0]);
+            public Person transform(String arg) {
+                return new Person(arg);
             }
         }, true, false);
-        ParameterType<Place> place = new ParameterType<>("place", CAPITALISED_WORD, Place.class, new Transformer<Place>() {
+        ParameterType<String, Place> place = ParameterType.single("place", CAPITALISED_WORD, Place.class, new Transformer<String, Place>() {
             @Override
-            public Place transform(String... args) {
-                return new Place(args[0]);
+            public Place transform(String arg) {
+                return new Place(arg);
             }
         }, true, false);
         registry.defineParameterType(name);

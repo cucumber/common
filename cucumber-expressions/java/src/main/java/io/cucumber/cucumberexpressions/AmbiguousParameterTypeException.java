@@ -8,10 +8,10 @@ import java.util.regex.Pattern;
 public class AmbiguousParameterTypeException extends CucumberExpressionException {
     private final Pattern regexp;
     private final String parameterTypeRegexp;
-    private final SortedSet<ParameterType<?>> parameterTypes;
+    private final SortedSet<ParameterType<?, ?>> parameterTypes;
     private final List<GeneratedExpression> generatedExpressions;
 
-    public AmbiguousParameterTypeException(String parameterTypeRegexp, Pattern expressionRegexp, SortedSet<ParameterType<?>> parameterTypes, List<GeneratedExpression> generatedExpressions) {
+    public AmbiguousParameterTypeException(String parameterTypeRegexp, Pattern expressionRegexp, SortedSet<ParameterType<?, ?>> parameterTypes, List<GeneratedExpression> generatedExpressions) {
         super(String.format("Your Regular Expression /%s/\n" +
                         "matches multiple parameter types with regexp /%s/:\n" +
                         "   %s\n" +
@@ -34,10 +34,10 @@ public class AmbiguousParameterTypeException extends CucumberExpressionException
         this.generatedExpressions = generatedExpressions;
     }
 
-    private static String parameterTypeNames(SortedSet<ParameterType<?>> parameterTypes) {
+    private static String parameterTypeNames(SortedSet<ParameterType<?, ?>> parameterTypes) {
 
         List<String> parameterNames = new ArrayList<>();
-        for (ParameterType<?> p : parameterTypes) {
+        for (ParameterType<?, ?> p : parameterTypes) {
             String s = "{" + p.getName() + "}";
             parameterNames.add(s);
         }
@@ -53,11 +53,11 @@ public class AmbiguousParameterTypeException extends CucumberExpressionException
         return join(sources);
     }
 
-    private static String join(List<String> strings){
+    private static String join(List<String> strings) {
         StringBuilder builder = new StringBuilder();
         boolean first = true;
-        for(String element : strings){
-            if(first){
+        for (String element : strings) {
+            if (first) {
                 first = false;
             } else {
                 builder.append("\n   ");
@@ -76,7 +76,7 @@ public class AmbiguousParameterTypeException extends CucumberExpressionException
         return parameterTypeRegexp;
     }
 
-    public SortedSet<ParameterType<?>> getParameterTypes() {
+    public SortedSet<ParameterType<?, ?>> getParameterTypes() {
         return parameterTypes;
     }
 

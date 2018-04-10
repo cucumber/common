@@ -13,7 +13,7 @@ public class CucumberExpression implements Expression {
     private static final Pattern ALTERNATIVE_NON_WHITESPACE_TEXT_REGEXP = Pattern.compile("([^\\s^/]+)((/[^\\s^/]+)+)");
     private static final String DOUBLE_ESCAPE = "\\\\";
 
-    private final List<ParameterType<?>> parameterTypes = new ArrayList<>();
+    private final List<ParameterType<?, ?>> parameterTypes = new ArrayList<>();
     private final String source;
     private final TreeRegexp treeRegexp;
 
@@ -66,7 +66,7 @@ public class CucumberExpression implements Expression {
                 matcher.appendReplacement(sb, "\\\\{" + matcher.group(2) + "\\\\}");
             } else {
                 String typeName = matcher.group(2);
-                ParameterType<?> parameterType = parameterTypeRegistry.lookupByTypeName(typeName);
+                ParameterType<?, ?> parameterType = parameterTypeRegistry.lookupByTypeName(typeName);
                 if (parameterType == null) {
                     throw new UndefinedParameterTypeException(typeName);
                 }

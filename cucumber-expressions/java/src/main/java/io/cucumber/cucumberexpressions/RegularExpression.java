@@ -25,19 +25,19 @@ public class RegularExpression implements Expression {
 
     @Override
     public List<Argument<?>> match(String text) {
-        List<ParameterType<?>> parameterTypes = new ArrayList<>();
-        for(GroupBuilder groupBuilder : treeRegexp.getGroupBuilder().getChildren()){
+        List<ParameterType<?, ?>> parameterTypes = new ArrayList<>();
+        for (GroupBuilder groupBuilder : treeRegexp.getGroupBuilder().getChildren()) {
             String parameterTypeRegexp = groupBuilder.getSource();
 
-            ParameterType<?> parameterType = parameterTypeRegistry.lookupByRegexp(parameterTypeRegexp, expressionRegexp, text);
-            if (parameterType == null) parameterType = new ParameterType<>(
+            ParameterType<?, ?> parameterType = parameterTypeRegistry.lookupByRegexp(parameterTypeRegexp, expressionRegexp, text);
+            if (parameterType == null) parameterType = ParameterType.single(
                     parameterTypeRegexp,
                     parameterTypeRegexp,
                     String.class,
-                    new Transformer<String>() {
+                    new Transformer<String,String>() {
                         @Override
-                        public String transform(String... args) {
-                            return args.length == 0 ? null : args[0];
+                        public String transform(String arg) {
+                            return arg;
                         }
                     }
             );
