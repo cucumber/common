@@ -122,6 +122,7 @@ public final class DataTableType implements Comparable<DataTableType> {
         private final TableCellTransformer<T> transformer;
 
         TableCellTransformerAdaptor(TableCellTransformer<T> transformer) {
+            if (transformer == null) throw new CucumberDataTableException("transformer cannot be null");
             this.transformer = transformer;
         }
 
@@ -143,6 +144,7 @@ public final class DataTableType implements Comparable<DataTableType> {
         private final TableRowTransformer<T> transformer;
 
         TableRowTransformerAdaptor(TableRowTransformer<T> transformer) {
+            if (transformer == null) throw new CucumberDataTableException("transformer cannot be null");
             this.transformer = transformer;
         }
 
@@ -161,6 +163,7 @@ public final class DataTableType implements Comparable<DataTableType> {
         private final TableEntryTransformer<T> transformer;
 
         TableEntryTransformerAdaptor(TableEntryTransformer<T> transformer) {
+            if (transformer == null) throw new CucumberDataTableException("transformer cannot be null");
             this.transformer = transformer;
         }
 
@@ -180,6 +183,7 @@ public final class DataTableType implements Comparable<DataTableType> {
         private final TableTransformer<T> transformer;
 
         TableTransformerAdaptor(TableTransformer<T> transformer) {
+            if (transformer == null) throw new CucumberDataTableException("transformer cannot be null");
             this.transformer = transformer;
         }
 

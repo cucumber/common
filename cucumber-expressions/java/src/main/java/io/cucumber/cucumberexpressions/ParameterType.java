@@ -131,6 +131,7 @@ public final class ParameterType<T> implements Comparable<ParameterType<?>> {
         private final Transformer<T> transformer;
 
         private TransformerAdaptor(Transformer<T> transformer) {
+            if (transformer == null) throw new CucumberExpressionException("transformer cannot be null");
             this.transformer = transformer;
         }
 
