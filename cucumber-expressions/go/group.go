@@ -38,7 +38,7 @@ func (g *Group) Values() []string {
 	}
 	result := make([]string, len(g.children))
 	for i, child := range g.children {
-	  result[i] = child.Value()
+		result[i] = child.Value()
 	}
 	return result
 }
