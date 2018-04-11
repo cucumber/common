@@ -104,7 +104,7 @@ public class CucumberExpressionTest {
             match("{unknown}", "something");
             fail();
         } catch (UndefinedParameterTypeException expected) {
-            assertEquals("Undefined parameter type {unknown}", expected.getMessage());
+            assertEquals("Undefined parameter type {unknown}. Please register a ParameterType for {unknown}.", expected.getMessage());
         }
     }
 
