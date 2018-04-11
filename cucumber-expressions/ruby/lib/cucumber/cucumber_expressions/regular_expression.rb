@@ -23,7 +23,7 @@ module Cucumber
             parameter_type_regexp,
             parameter_type_regexp,
             String,
-            lambda {|s| s},
+            lambda {|*s| s[0]},
             false,
             false
           )

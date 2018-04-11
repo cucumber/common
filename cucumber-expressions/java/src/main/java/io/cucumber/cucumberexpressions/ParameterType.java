@@ -115,7 +115,7 @@ public final class ParameterType<T> implements Comparable<ParameterType<?>> {
             if (groupValues.size() > 1)
                 throw new CucumberExpressionException(String.format("" +
                         "ParameterType {%s} was registered with a Transformer but has multiple capture groups %s. " +
-                        "Did you mean to use a CaptureGroupTransformer?", name, groupValues, type));
+                        "Did you mean to use a CaptureGroupTransformer?", name, regexps));
         }
 
         try {

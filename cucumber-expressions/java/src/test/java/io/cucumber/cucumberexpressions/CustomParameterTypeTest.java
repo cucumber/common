@@ -76,15 +76,16 @@ public class CustomParameterTypeTest {
         parameterTypeRegistry.defineParameterType(new ParameterType<>(
                 "coordinate",
                 "(\\d+),\\s*(\\d+),\\s*(\\d+)",
+                Coordinate.class,
                 new CaptureGroupTransformer<Coordinate>() {
-            @Override
-            public Coordinate transform(String[] args) {
-                return new Coordinate(
-                        parseInt(args[0]),
-                        parseInt(args[1]),
-                        parseInt(args[2]));
-            }
-        }, Coordinate.class,
+                    @Override
+                    public Coordinate transform(String[] args) {
+                        return new Coordinate(
+                                parseInt(args[0]),
+                                parseInt(args[1]),
+                                parseInt(args[2]));
+                    }
+                },
                 false,
                 false
         ));
