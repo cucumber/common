@@ -16,7 +16,7 @@ public class GenericParameterTypeTest {
         parameterTypeRegistry.defineParameterType(new ParameterType<>(
                 "stringlist",
                 singletonList(".*"),
-                new MultiTransformer<List<String>>() {
+                new CaptureGroupTransformer<List<String>>() {
                     @Override
                     public List<String> transform(String... args) {
                         return asList(args[0].split(","));
