@@ -16,14 +16,13 @@ public class GenericParameterTypeTest {
         parameterTypeRegistry.defineParameterType(new ParameterType<>(
                 "stringlist",
                 singletonList(".*"),
-                new TypeReference<List<String>>() {
-                }.getType(),
                 new MultiTransformer<List<String>>() {
                     @Override
                     public List<String> transform(String... args) {
                         return asList(args[0].split(","));
                     }
-                },
+                }, new TypeReference<List<String>>() {
+                }.getType(),
                 false,
                 false));
         Expression expression = new CucumberExpression("I have {stringlist} yay", parameterTypeRegistry);

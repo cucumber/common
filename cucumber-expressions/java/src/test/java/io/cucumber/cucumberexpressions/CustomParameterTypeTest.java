@@ -76,7 +76,7 @@ public class CustomParameterTypeTest {
         parameterTypeRegistry.defineParameterType(new ParameterType<>(
                 "coordinate",
                 "(\\d+),\\s*(\\d+),\\s*(\\d+)",
-                Coordinate.class, new MultiTransformer<Coordinate>() {
+                new MultiTransformer<Coordinate>() {
             @Override
             public Coordinate transform(String[] args) {
                 return new Coordinate(
@@ -84,7 +84,7 @@ public class CustomParameterTypeTest {
                         parseInt(args[1]),
                         parseInt(args[2]));
             }
-        },
+        }, Coordinate.class,
                 false,
                 false
         ));
