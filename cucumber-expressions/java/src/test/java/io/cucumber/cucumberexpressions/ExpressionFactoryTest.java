@@ -5,6 +5,7 @@ import org.junit.Test;
 import java.util.Locale;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
 
 public class ExpressionFactoryTest {
     @Test
@@ -47,6 +48,16 @@ public class ExpressionFactoryTest {
         assertRegularExpression("^please remove slashes$", "/^please remove slashes$/");
     }
 
+    @Test
+    public void explains_cukexp_regexp_mix() {
+        try {
+            createExpression("^the seller has {int} strike(s)$");
+            fail();
+        } catch (CucumberExpressionException expected) {
+            assertEquals("You cannot use anchors (^ or $) in Cucumber Expressions. Please remove them from ^the seller has {int} strike(s)$", expected.getMessage());
+        }
+    }
+
     private void assertRegularExpression(String expressionString) {
         assertRegularExpression(expressionString, expressionString);
     }
@@ -60,10 +71,14 @@ public class ExpressionFactoryTest {
     }
 
     private void assertExpression(Class<? extends Expression> expectedClass, String expectedSource, String expressionSource) {
-        Expression expression = new ExpressionFactory(new ParameterTypeRegistry(Locale.ENGLISH)).createExpression(expressionSource);
+        Expression expression = createExpression(expressionSource);
         assertEquals(expectedClass, expression.getClass());
         if (expectedSource != null) {
             assertEquals(expectedSource, expression.getSource());
         }
+    }
+
+    private Expression createExpression(String expressionSource) {
+        return new ExpressionFactory(new ParameterTypeRegistry(Locale.ENGLISH)).createExpression(expressionSource);
     }
 }

@@ -19,6 +19,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Fixed
 
+* java: Better error message when users leave anchors (^ and $) in their regular expressions ([aslakhellesoy])
 * java: `{bigdecimal}` would only match integers ([mpkorstanje, aslakhellesoy])
 * java: `{byte}` is suggested in snippets ([mpkorstanje])
 

@@ -15,6 +15,7 @@ import java.util.Map;
 
 import static io.cucumber.datatable.DataTable.emptyDataTable;
 import static io.cucumber.datatable.TableParser.parse;
+import static io.cucumber.datatable.TypeFactory.typeName;
 import static java.lang.Double.parseDouble;
 import static java.lang.String.format;
 import static java.util.Arrays.asList;
@@ -269,7 +270,7 @@ public class DataTableTypeRegistryTableConverterTest {
         expectedException.expectMessage(format("" +
                         "Can't convert DataTable to List<%s>. " +
                         "Please register a DataTableType with a TableEntryTransformer or TableRowTransformer for %s",
-                Author.class, Author.class));
+                typeName(Author.class), Author.class));
 
         DataTable table = parse("",
                 " | firstName   | lastName | birthDate  |",
@@ -316,7 +317,7 @@ public class DataTableTypeRegistryTableConverterTest {
         expectedException.expectMessage(format("" +
                         "Can't convert DataTable to List<List<%s>>. " +
                         "Please register a DataTableType with a TableCellTransformer for %s",
-                Date.class, Date.class));
+                typeName(Date.class), Date.class));
 
         DataTable table = parse("",
                 " | birthDate  |",
@@ -541,11 +542,11 @@ public class DataTableTypeRegistryTableConverterTest {
     @Test
     public void convert_to_map_of_string_to_string__throws_exception__blank_space() {
         expectedException.expectMessage(format("" +
-                        "Can't convert DataTable to Map<%s,%s>. " +
+                        "Can't convert DataTable to Map<%s, %s>. " +
                         "There are more values then keys. " +
                         "The first header cell was left blank. " +
                         "You can add a value there",
-                String.class, LIST_OF_DOUBLE));
+                typeName(String.class), LIST_OF_DOUBLE));
 
         DataTable table = parse("",
                 "|           | -90.258056  |",
@@ -560,10 +561,10 @@ public class DataTableTypeRegistryTableConverterTest {
     @Test
     public void convert_to_map_of_string_to_string__throws_exception__more_then_one_value_per_key() {
         expectedException.expectMessage(format("" +
-                        "Can't convert DataTable to Map<%s,%s>. " +
+                        "Can't convert DataTable to Map<%s, %s>. " +
                         "There is more then one value per key. " +
-                        "Did you mean to transform to Map<%s,List<%s>> instead?",
-                String.class, String.class, String.class, String.class));
+                        "Did you mean to transform to Map<%s, List<%s>> instead?",
+                typeName(String.class), typeName(String.class), typeName(String.class), typeName(String.class)));
 
         DataTable table = parse("",
                 "| KMSY | 29.993333 | -90.258056  |",
@@ -620,7 +621,7 @@ public class DataTableTypeRegistryTableConverterTest {
         expectedException.expectMessage(format("" +
                         "Can't convert DataTable to %s. " +
                         "The table contained more then one item: [♘, ♝]",
-                Piece.class));
+                typeName(Piece.class)));
 
         DataTable table = parse("",
                 "| ♘ | ♝ |"
@@ -684,7 +685,9 @@ public class DataTableTypeRegistryTableConverterTest {
 
     @Test
     public void convert_to_unknown_type__throws_exception() {
-        expectedException.expectMessage(format("Can't convert DataTable to %s", Piece.class));
+        expectedException.expectMessage(format("Can't convert DataTable to %s. " +
+                "Please register a DataTableType with a TableTransformer, TableEntryTransformer or TableRowTransformer " +
+                "for %s", typeName(Piece.class), Piece.class));
 
         DataTable table = parse("",
                 "| ♘ |"
@@ -698,7 +701,7 @@ public class DataTableTypeRegistryTableConverterTest {
                         "Can't convert DataTable to List<%s>. " +
                         "Please register a DataTableType with a " +
                         "TableEntryTransformer, TableRowTransformer or TableCellTransformer for %s",
-                Piece.class, Piece.class));
+                typeName(Piece.class), Piece.class));
 
         DataTable table = parse("",
                 "| ♘ |",
@@ -713,7 +716,7 @@ public class DataTableTypeRegistryTableConverterTest {
         expectedException.expectMessage(format("" +
                         "Can't convert DataTable to List<%s>. " +
                         "Please register a DataTableType with a TableEntryTransformer or TableRowTransformer for %s",
-                Author.class, Author.class));
+                typeName(Author.class), Author.class));
 
         final DataTable table = parse("",
                 " | firstName   | lastName | birthDate  |",
@@ -730,7 +733,7 @@ public class DataTableTypeRegistryTableConverterTest {
         expectedException.expectMessage(format("" +
                         "Can't convert DataTable to List<List<%s>>. " +
                         "Please register a DataTableType with a TableCellTransformer for %s",
-                Author.class, Author.class));
+                typeName(Author.class), Author.class));
 
         final DataTable table = parse("",
                 " | firstName   | lastName | birthDate  |",
@@ -745,8 +748,8 @@ public class DataTableTypeRegistryTableConverterTest {
     @Test
     public void to_map__duplicate_keys__throws_exception() {
         expectedException.expectMessage(format("" +
-                "Can't convert DataTable to Map<%s,%s>. " +
-                "Encountered duplicate key", AirPortCode.class, Coordinate.class));
+                "Can't convert DataTable to Map<%s, %s>. " +
+                "Encountered duplicate key", typeName(AirPortCode.class), typeName(Coordinate.class)));
 
         DataTable table = parse("",
                 "|      | latt      | long        |",
@@ -766,9 +769,9 @@ public class DataTableTypeRegistryTableConverterTest {
     @Test
     public void to_map_of_entry_to_primitive__blank_first_cell__throws_exception__key_type_was_entry() {
         expectedException.expectMessage(format("" +
-                        "Can't convert DataTable to Map<%s,%s>. " +
+                        "Can't convert DataTable to Map<%s, %s>. " +
                         "The first cell was either blank or you have registered a TableEntryTransformer for the key type.",
-                AirPortCode.class, String.class));
+                typeName(AirPortCode.class), typeName(String.class)));
 
 
         DataTable table = parse("",
@@ -787,11 +790,11 @@ public class DataTableTypeRegistryTableConverterTest {
     @Test
     public void to_map_of_entry_to_row__throws_exception__more_values_then_keys() {
         expectedException.expectMessage(format("" +
-                        "Can't convert DataTable to Map<%s,%s>. " +
+                        "Can't convert DataTable to Map<%s, %s>. " +
                         "There are more values then keys. " +
                         "Did you use a TableEntryTransformer for the key " +
                         "while using a TableRow or TableCellTransformer for the value?",
-                AirPortCode.class, Coordinate.class));
+                typeName(AirPortCode.class), typeName(Coordinate.class)));
 
         final DataTable table = parse("",
                 "| code | 29.993333 | -90.258056  |",
@@ -809,9 +812,9 @@ public class DataTableTypeRegistryTableConverterTest {
     @Test
     public void to_map_of_object_to_unknown_type__throws_exception__register_table_entry_transformer() {
         expectedException.expectMessage(format("" +
-                        "Can't convert DataTable to Map<%s,%s>. " +
+                        "Can't convert DataTable to Map<%s, %s>. " +
                         "The first cell was either blank or you have registered a TableEntryTransformer for the key type.",
-                AirPortCode.class, Coordinate.class));
+                typeName(AirPortCode.class), typeName(Coordinate.class)));
 
         DataTable table = parse("",
                 "| code | latt      | long        |",
@@ -828,10 +831,10 @@ public class DataTableTypeRegistryTableConverterTest {
     @Test
     public void to_map_of_primitive_to_entry__throws_exception__more_keys_then_values() {
         expectedException.expectMessage(format("" +
-                "Can't convert DataTable to Map<%s,%s>. " +
+                "Can't convert DataTable to Map<%s, %s>. " +
                 "There are more keys then values. " +
                 "Did you use a TableEntryTransformer for the value " +
-                "while using a TableRow or TableCellTransformer for the keys?", String.class, Coordinate.class));
+                "while using a TableRow or TableCellTransformer for the keys?", typeName(String.class), typeName(Coordinate.class)));
 
         DataTable table = parse("",
                 "| code | latt      | long        |",
@@ -849,9 +852,9 @@ public class DataTableTypeRegistryTableConverterTest {
     @Test
     public void to_map_of_primitive_to_primitive__blank_first_cell__throws_exception__first_cell_was_blank() {
         expectedException.expectMessage(format("" +
-                        "Can't convert DataTable to Map<%s,%s>. " +
+                        "Can't convert DataTable to Map<%s, %s>. " +
                         "The first cell was either blank or you have registered a TableEntryTransformer for the key type.",
-                String.class, String.class));
+                typeName(String.class), typeName(String.class)));
 
         final DataTable table = parse("",
                 " |                     | birthDate  |",
@@ -866,9 +869,9 @@ public class DataTableTypeRegistryTableConverterTest {
     @Test
     public void to_map_of_unknown_key_type__throws_exception() {
         expectedException.expectMessage(format("" +
-                        "Can't convert DataTable to Map<%s,%s>. " +
+                        "Can't convert DataTable to Map<%s, %s>. " +
                         "Please register a DataTableType with a TableEntryTransformer or TableCellTransformer for %s",
-                Author.class, String.class, Author.class));
+                typeName(Author.class), typeName(String.class), Author.class));
 
         final DataTable table = parse("",
                 " | name                | birthDate  |",
@@ -883,9 +886,9 @@ public class DataTableTypeRegistryTableConverterTest {
     @Test
     public void to_map_of_unknown_type_to_object__throws_exception__register_table_cell_transformer() {
         expectedException.expectMessage(format("" +
-                        "Can't convert DataTable to Map<%s,%s>. " +
+                        "Can't convert DataTable to Map<%s, %s>. " +
                         "Please register a DataTableType with a TableCellTransformer for %s",
-                AirPortCode.class, Coordinate.class, AirPortCode.class));
+                typeName(AirPortCode.class), typeName(Coordinate.class), AirPortCode.class));
 
 
         DataTable table = parse("",
@@ -903,9 +906,9 @@ public class DataTableTypeRegistryTableConverterTest {
     @Test
     public void to_map_of_unknown_value_type__throws_exception() {
         expectedException.expectMessage(format("" +
-                        "Can't convert DataTable to Map<%s,%s>. " +
+                        "Can't convert DataTable to Map<%s, %s>. " +
                         "Please register a DataTableType with a TableEntryTransformer or TableCellTransformer for %s",
-                String.class, Date.class, Date.class));
+                typeName(String.class), typeName(Date.class), Date.class));
 
         final DataTable table = parse("",
                 " | Annie M. G. Schmidt | 1911-03-20 |",
@@ -920,9 +923,9 @@ public class DataTableTypeRegistryTableConverterTest {
     @Test
     public void to_maps_cant_convert_table_with_duplicate_keys() {
         expectedException.expectMessage(format("" +
-                        "Can't convert DataTable to Map<%s,%s>. " +
+                        "Can't convert DataTable to Map<%s, %s>. " +
                         "Encountered duplicate key 1 with values 4 and 5",
-                Integer.class, Integer.class));
+                typeName(Integer.class), typeName(Integer.class)));
 
         final DataTable table = parse("",
                 "| 1 | 1 | 1 |",
@@ -936,9 +939,9 @@ public class DataTableTypeRegistryTableConverterTest {
     @Test
     public void to_maps_of_unknown_key_type__throws_exception__register_table_cell_transformer() {
         expectedException.expectMessage(format(
-                "Can't convert DataTable to List<Map<%s,%s>>. " +
+                "Can't convert DataTable to List<Map<%s, %s>>. " +
                         "Please register a DataTableType with a TableCellTransformer for %s",
-                String.class, Coordinate.class, Coordinate.class));
+                typeName(String.class), typeName(Coordinate.class), Coordinate.class));
 
         DataTable table = parse("",
                 "| latt      | long        |",
@@ -954,9 +957,9 @@ public class DataTableTypeRegistryTableConverterTest {
     @Test
     public void to_maps_of_unknown_value_type__throws_exception__register_table_cell_transformer() {
         expectedException.expectMessage(format(
-                "Can't convert DataTable to List<Map<%s,%s>>. " +
+                "Can't convert DataTable to List<Map<%s, %s>>. " +
                         "Please register a DataTableType with a TableCellTransformer for %s",
-                Piece.class, String.class, Piece.class));
+                typeName(Piece.class), typeName(String.class), Piece.class));
 
         DataTable table = parse("",
                 "| ♙  | ♟  |",
