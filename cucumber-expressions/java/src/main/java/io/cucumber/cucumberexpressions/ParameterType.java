@@ -26,6 +26,11 @@ public final class ParameterType<T> implements Comparable<ParameterType<?>> {
         this.preferForRegexpMatch = preferForRegexpMatch;
     }
 
+    public ParameterType(String name, String regexps, Type type, Transform transform, boolean useForSnippets, boolean preferForRegexpMatch) {
+        // Fakeout the transform.
+        this(name, singletonList(regexps), type, (MultiTransformer<T>) null, useForSnippets, preferForRegexpMatch);
+    }
+
     public ParameterType(String name, List<String> regexps, Type type, Transformer<T> transformer, boolean useForSnippets, boolean preferForRegexpMatch) {
         this(name, regexps, type, new TransformerAdaptor<>(transformer), useForSnippets, preferForRegexpMatch);
     }
@@ -140,4 +145,31 @@ public final class ParameterType<T> implements Comparable<ParameterType<?>> {
             return transformer.transform(args.length == 0 ? null : args[0]);
         }
     }
+
+    public interface Function<T, R> {
+        R apply(T t);
+    }
+
+    public static final class Transform<T> {
+
+        public static <T> Transform<T> transform(Function<String, T> function) {
+            return transformCaptureGroups(args -> function.apply(args.length == 0 ? null : args[0]));
+        }
+
+        public static <T> Transform<T> transformCaptureGroups(Function<String[], T> function) {
+            return new Transform<>(function);
+        }
+
+        private final Function<String[], T> function;
+
+        private Transform(Function<String[], T> function) {
+            this.function = function;
+        }
+
+        private T transform(String[] args) throws Throwable {
+            return function.apply(args);
+        }
+    }
+
+
 }
