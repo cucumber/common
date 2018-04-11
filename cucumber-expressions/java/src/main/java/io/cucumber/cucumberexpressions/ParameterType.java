@@ -31,7 +31,7 @@ public final class ParameterType<T> implements Comparable<ParameterType<?>> {
     }
 
     public ParameterType(String name, List<String> regexps, Class<T> type, Transformer<T> transformer, boolean useForSnippets, boolean preferForRegexpMatch) {
-        this(name, regexps, (Type) type, new TransformerAdaptor<>(transformer), useForSnippets, preferForRegexpMatch);
+        this(name, regexps, (Type) type, transformer, useForSnippets, preferForRegexpMatch);
     }
 
     public ParameterType(String name, String regexp, Class<T> type, Transformer<T> transformer, boolean useForSnippets, boolean preferForRegexpMatch) {
