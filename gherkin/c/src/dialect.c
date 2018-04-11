@@ -1655,7 +1655,7 @@ static const Keywords it_given_keywords = { 5, it_given_KEYWORDS };
 static const wchar_t* const it_scenario_KEYWORDS[] = { L"Esempio", L"Scenario" };
 static const Keywords it_scenario_keywords = { 2, it_scenario_KEYWORDS };
 
-static const wchar_t* const it_scenarioOutline_KEYWORDS[] = { L"Schema dello esempio", L"Schema dello scenario" };
+static const wchar_t* const it_scenarioOutline_KEYWORDS[] = { L"Schema dell'esempio", L"Schema dello scenario" };
 static const Keywords it_scenarioOutline_keywords = { 2, it_scenarioOutline_KEYWORDS };
 
 static const wchar_t* const it_then_KEYWORDS[] = { L"* ", L"Allora " };

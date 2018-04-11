@@ -1701,7 +1701,7 @@ var buildinDialects = gherkinDialectMap{
 				"Scenario",
 			},
 			scenarioOutline: []string{
-				"Schema dello esempio",
+				"Schema dell'esempio",
 				"Schema dello scenario",
 			},
 			examples: []string{

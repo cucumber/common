@@ -1703,7 +1703,7 @@ our $data = {
                                     'Scenario'
                                   ],
                     'scenarioOutline' => [
-                                           'Schema dello esempio',
+                                           'Schema dell\'esempio',
                                            'Schema dello scenario'
                                          ],
                     'then' => [
