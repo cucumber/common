@@ -20,4 +20,15 @@ final class TypeFactory {
     static JavaType constructType(Type type) {
         return typeFactory.constructType(type);
     }
+
+    static String typeName(Type type) {
+        // Stub for Class.getTypeName(), not available until java 8
+        if (type instanceof Class) {
+            Class clazz = (Class) type;
+            return clazz.getName();
+
+        }
+
+        return type.toString();
+    }
 }

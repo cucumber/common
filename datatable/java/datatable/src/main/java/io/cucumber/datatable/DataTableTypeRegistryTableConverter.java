@@ -14,6 +14,7 @@ import static io.cucumber.datatable.CucumberDataTableException.cantConvertToList
 import static io.cucumber.datatable.CucumberDataTableException.cantConvertToLists;
 import static io.cucumber.datatable.CucumberDataTableException.cantConvertToMap;
 import static io.cucumber.datatable.CucumberDataTableException.cantConvertToMaps;
+import static io.cucumber.datatable.CucumberDataTableException.keyValueMismatchException;
 import static io.cucumber.datatable.TypeFactory.aListOf;
 import static java.lang.String.format;
 import static java.util.Collections.emptyList;
@@ -195,7 +196,7 @@ public final class DataTableTypeRegistryTableConverter extends AbstractTableConv
         List<V> values = convertEntryValues(valueColumns, keyType, valueType, keysImplyTableRowTransformer);
 
         if (keys.size() != values.size()) {
-            throw createKeyValueMismatchException(firstHeaderCellIsBlank, keys.size(), keyType, values.size(), valueType);
+            throw keyValueMismatchException(firstHeaderCellIsBlank, keys.size(), keyType, values.size(), valueType);
         }
 
         return createMap(keyType, keys, valueType, values);
@@ -354,29 +355,4 @@ public final class DataTableTypeRegistryTableConverter extends AbstractTableConv
         return unpacked;
     }
 
-    private static CucumberDataTableException createKeyValueMismatchException(boolean firstHeaderCellIsBlank, int keySize, Type keyType, int valueSize, Type valueType) {
-        if (firstHeaderCellIsBlank) {
-            return cantConvertToMap(keyType, valueType,
-                "There are more values then keys. The first header cell was left blank. You can add a value there");
-        }
-
-        if (keySize > valueSize) {
-            return cantConvertToMap(keyType, valueType,
-                "There are more keys then values. " +
-                    "Did you use a TableEntryTransformer for the value while using a TableRow or TableCellTransformer for the keys?");
-        }
-
-        if (valueSize % keySize == 0) {
-            return cantConvertToMap(keyType, valueType,
-                format(
-                    "There is more then one value per key. " +
-                        "Did you mean to transform to Map<%s,List<%s>> instead?",
-                    keyType, valueType));
-        }
-
-        return cantConvertToMap(keyType, valueType,
-            "There are more values then keys. " +
-                "Did you use a TableEntryTransformer for the key while using a TableRow or TableCellTransformer for the value?");
-
-    }
 }
