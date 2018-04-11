@@ -2,6 +2,7 @@ package io.cucumber.cucumberexpressions;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.regex.PatternSyntaxException;
 
 /**
  * Creates a {@link CucumberExpression} or {@link RegularExpression} from a {@link String}
@@ -23,11 +24,10 @@ public class ExpressionFactory {
     }
 
     public Expression createExpression(String expressionString) {
-        Matcher m = BEGIN_ANCHOR.matcher(expressionString);
-        if (m.find()) {
-            return new RegularExpression(Pattern.compile(expressionString), parameterTypeRegistry);
+        if (BEGIN_ANCHOR.matcher(expressionString).find() || END_ANCHOR.matcher(expressionString).find()) {
+            return createRegularExpressionWithAnchors(expressionString);
         }
-        m = END_ANCHOR.matcher(expressionString);
+        Matcher m = END_ANCHOR.matcher(expressionString);
         if (m.find()) {
             return new RegularExpression(Pattern.compile(expressionString), parameterTypeRegistry);
         }
@@ -44,5 +44,16 @@ public class ExpressionFactory {
             return new RegularExpression(Pattern.compile(expressionString), parameterTypeRegistry);
         }
         return new CucumberExpression(expressionString, parameterTypeRegistry);
+    }
+
+    private RegularExpression createRegularExpressionWithAnchors(String expressionString) {
+        try {
+            return new RegularExpression(Pattern.compile(expressionString), parameterTypeRegistry);
+        } catch (PatternSyntaxException e) {
+            if (CucumberExpression.PARAMETER_PATTERN.matcher(expressionString).find()) {
+                throw new CucumberExpressionException("You cannot use anchors (^ or $) in Cucumber Expressions. Please remove them from " + expressionString, e);
+            }
+            throw e;
+        }
     }
 }
