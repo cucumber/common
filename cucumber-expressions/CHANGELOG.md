@@ -11,11 +11,23 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Changed
 
-* java: Renamed `{bigint}` to `{biginteger}` ([mpkorstanje, aslakhellesoy])
-
 ### Deprecated
 
 ### Removed
+
+### Fixed
+
+## [5.0.16] - 2018-04-12
+
+There are backwards incompatible changes in the Java implementation, but we're
+not bumping the minor version number because no released libraries are using
+it yet.
+
+### Changed
+
+* java: Renamed `{bigint}` to `{biginteger}` ([mpkorstanje, aslakhellesoy])
+* java: The API uses `Transformer` for transforms with 0-1 capture groups,
+  and `CaptureGroupTransformer` for 2+ capture groups.
 
 ### Fixed
 
@@ -348,7 +360,8 @@ N/A
 * First stable release!
 
 <!-- Releases -->
-[Unreleased]: https://github.com/cucumber/cucumber/compare/cucumber-expressions-v5.0.15...master
+[Unreleased]: https://github.com/cucumber/cucumber/compare/cucumber-expressions-v5.0.16...master
+[5.0.16]:     https://github.com/cucumber/cucumber/compare/cucumber-expressions-v5.0.15...cucumber-expressions-v5.0.16
 [5.0.15]:     https://github.com/cucumber/cucumber/compare/cucumber-expressions-v5.0.14...cucumber-expressions-v5.0.15
 [5.0.14]:     https://github.com/cucumber/cucumber/compare/cucumber-expressions-v5.0.13...cucumber-expressions-v5.0.14
 [5.0.13]:     https://github.com/cucumber/cucumber/compare/cucumber-expressions-v5.0.12...cucumber-expressions-v5.0.13
