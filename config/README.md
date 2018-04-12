@@ -40,7 +40,7 @@ testing:
     - two
 ```
 
-### JSON (`cucumber.json`)
+### JSON
 
 ```json
 {
