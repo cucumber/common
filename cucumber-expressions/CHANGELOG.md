@@ -17,6 +17,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Fixed
 
+## [5.0.17] - 2018-04-12
+
+### Changed
+
+* java: Swapped 2 parameters in a `ParameterType` constructor to make it consistent with
+  overloaded constructors.
+
 ## [5.0.16] - 2018-04-12
 
 There are backwards incompatible changes in the Java implementation, but we're
@@ -361,6 +368,7 @@ N/A
 
 <!-- Releases -->
 [Unreleased]: https://github.com/cucumber/cucumber/compare/cucumber-expressions-v5.0.16...master
+[5.0.17]:     https://github.com/cucumber/cucumber/compare/cucumber-expressions-v5.0.16...cucumber-expressions-v5.0.17
 [5.0.16]:     https://github.com/cucumber/cucumber/compare/cucumber-expressions-v5.0.15...cucumber-expressions-v5.0.16
 [5.0.15]:     https://github.com/cucumber/cucumber/compare/cucumber-expressions-v5.0.14...cucumber-expressions-v5.0.15
 [5.0.14]:     https://github.com/cucumber/cucumber/compare/cucumber-expressions-v5.0.13...cucumber-expressions-v5.0.14
