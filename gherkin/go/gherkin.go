@@ -123,11 +123,15 @@ func (g *Line) StartsWith(prefix string) bool {
 }
 
 func ParseGherkinDocument(in io.Reader) (gherkinDocument *GherkinDocument, err error) {
+	return ParseGherkinDocumentForLanguage(in, DEFAULT_DIALECT)
+}
+
+func ParseGherkinDocumentForLanguage(in io.Reader, language string) (gherkinDocument *GherkinDocument, err error) {
 
 	builder := NewAstBuilder()
 	parser := NewParser(builder)
 	parser.StopAtFirstError(false)
-	matcher := NewMatcher(GherkinDialectsBuildin())
+	matcher := NewLanguageMatcher(GherkinDialectsBuildin(), language)
 
 	scanner := NewScanner(in)
 
