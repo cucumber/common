@@ -1,4 +1,4 @@
-package io.cucumber.config.builders;
+package io.cucumber.config;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -8,7 +8,7 @@ import java.util.List;
  */
 public class Testing {
     public boolean somebool = false;
-    public int meaning = 12;
+    public int meaning = 42;
     public String message = "nothing";
     public List<String> stringlist = new ArrayList<>();
 }

@@ -1,18 +1,17 @@
-package io.cucumber.config.builders;
+package io.cucumber.config;
 
-import io.cucumber.config.MapBuilder;
 import org.yaml.snakeyaml.Yaml;
 
 import java.io.Reader;
 import java.util.Map;
 
-import static io.cucumber.config.builders.DeepMap.getMap;
+import static io.cucumber.config.DeepMap.getMap;
 
-public class YamlBuilder implements MapBuilder {
+class YamlBuilder implements MapBuilder {
     private final String[] keys;
     private Map<String, ?> map;
 
-    public YamlBuilder(String[] keys, Reader yamlReader) {
+    YamlBuilder(String[] keys, Reader yamlReader) {
         this.keys = keys;
         this.map = new Yaml().load(yamlReader);
     }

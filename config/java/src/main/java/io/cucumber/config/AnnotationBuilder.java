@@ -1,6 +1,4 @@
-package io.cucumber.config.builders;
-
-import io.cucumber.config.MapBuilder;
+package io.cucumber.config;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.InvocationTargetException;
@@ -8,18 +6,17 @@ import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Map;
 
-public class AnnotationBuilder implements MapBuilder {
+class AnnotationBuilder implements MapBuilder {
     private final Annotation annotation;
-    private final String comment;
 
-    public AnnotationBuilder(Annotation annotation) {
+    AnnotationBuilder(Annotation annotation) {
         this.annotation = annotation;
-        this.comment = annotation.toString();
     }
 
     @Override
     public Map<String, ?> buildMap() {
         Map<String, Object> result = new HashMap<>();
+        if (annotation == null) return result;
         Method[] declaredMethods = annotation.annotationType().getDeclaredMethods();
         for (Method declaredMethod : declaredMethods) {
             try {

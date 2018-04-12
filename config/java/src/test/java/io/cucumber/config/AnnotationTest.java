@@ -1,5 +1,6 @@
-package io.cucumber.config.builders;
+package io.cucumber.config;
 
+import io.cucumber.config.AnnotationBuilder;
 import io.cucumber.config.FieldSetterContract;
 import io.cucumber.config.MapBuilder;
 

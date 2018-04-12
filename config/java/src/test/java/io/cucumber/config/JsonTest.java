@@ -1,6 +1,7 @@
-package io.cucumber.config.builders;
+package io.cucumber.config;
 
 import io.cucumber.config.FieldSetterContract;
+import io.cucumber.config.JsonBuilder;
 import io.cucumber.config.MapBuilder;
 
 import java.io.StringReader;

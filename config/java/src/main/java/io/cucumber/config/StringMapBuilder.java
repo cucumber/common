@@ -1,6 +1,4 @@
-package io.cucumber.config.builders;
-
-import io.cucumber.config.MapBuilder;
+package io.cucumber.config;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -10,11 +8,11 @@ import java.util.regex.Pattern;
 /**
  * Builds a map from another map, such as environment variables or system properties.
  */
-public class StringMapBuilder implements MapBuilder {
+class StringMapBuilder implements MapBuilder {
     private final String prefix;
     private final Map<Object, Object> map;
 
-    public StringMapBuilder(String prefix, Map<Object, Object> map) {
+    StringMapBuilder(String prefix, Map<Object, Object> map) {
         this.prefix = prefix;
         this.map = map;
     }

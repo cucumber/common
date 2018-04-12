@@ -1,4 +1,4 @@
-package io.cucumber.config.builders;
+package io.cucumber.config;
 
 import io.cucumber.config.MapBuilder;
 
@@ -8,16 +8,16 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class OptparseBuilder implements MapBuilder {
+class OptparseBuilder implements MapBuilder {
     private final List<String> args;
     private final Map<String, String> aliases;
     private final String surplusKey;
 
-    public OptparseBuilder(String surplusKey, List<String> args) {
+    OptparseBuilder(String surplusKey, List<String> args) {
         this(surplusKey, args, Collections.<String, String>emptyMap());
     }
 
-    public OptparseBuilder(String surplusKey, List<String> args, Map<String, String> aliases) {
+    OptparseBuilder(String surplusKey, List<String> args, Map<String, String> aliases) {
         this.surplusKey = surplusKey;
         this.args = new ArrayList<>(args);
         this.aliases = aliases;

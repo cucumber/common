@@ -1,11 +1,9 @@
-package io.cucumber.config.builders;
+package io.cucumber.config;
 
-import io.cucumber.config.FieldSetter;
-import io.cucumber.config.FieldSetterContract;
-import io.cucumber.config.MapBuilder;
 import org.junit.Test;
 
 import java.util.HashMap;
+import java.util.Map;
 
 import static java.util.Arrays.asList;
 import static java.util.Collections.singletonList;
@@ -26,6 +24,19 @@ public class OptparseTest extends FieldSetterContract {
                         "two"
                 ));
     }
+
+//    @Test
+//    public void ignores_arg_after_boolean_option() {
+//        OptparseBuilder builder = new OptparseBuilder(
+//                "stringlist",
+//                asList("--somebool", "one", "two"));
+//        Testing testing = new Testing();
+//        Map<String, ?> map = builder.buildMap();
+//        System.out.println("map = " + map);
+//        new FieldSetter(testing).setFields(map);
+//        assertTrue(testing.somebool);
+//        assertEquals(asList("one", "two"), testing.stringlist);
+//    }
 
     @Test
     public void supports_no_boolean_option() {

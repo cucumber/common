@@ -1,6 +1,5 @@
 package io.cucumber.config;
 
-import io.cucumber.config.builders.Testing;
 import org.junit.Before;
 import org.junit.Test;
 

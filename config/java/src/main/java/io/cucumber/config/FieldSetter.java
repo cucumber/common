@@ -6,10 +6,10 @@ import java.util.Map;
 
 import static java.util.Arrays.asList;
 
-public class FieldSetter {
+class FieldSetter {
     private final Object o;
 
-    public FieldSetter(Object o) {
+    FieldSetter(Object o) {
         this.o = o;
     }
 

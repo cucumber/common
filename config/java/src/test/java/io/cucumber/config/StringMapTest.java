@@ -1,7 +1,8 @@
-package io.cucumber.config.builders;
+package io.cucumber.config;
 
 import io.cucumber.config.FieldSetterContract;
 import io.cucumber.config.MapBuilder;
+import io.cucumber.config.StringMapBuilder;
 
 import java.util.HashMap;
 
