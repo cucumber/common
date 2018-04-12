@@ -1,7 +1,9 @@
 package io.cucumber.cucumberexpressions;
 
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 
 import java.util.List;
 import java.util.Locale;
@@ -13,6 +15,10 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 
 public class CustomParameterTypeTest {
+
+    @Rule
+    public ExpectedException expectedException = ExpectedException.none();
+
     private ParameterTypeRegistry parameterTypeRegistry = new ParameterTypeRegistry(Locale.ENGLISH);
 
     public static class Coordinate {
@@ -77,7 +83,7 @@ public class CustomParameterTypeTest {
                 "coordinate",
                 "(\\d+),\\s*(\\d+),\\s*(\\d+)",
                 Coordinate.class,
-                new MultiTransformer<Coordinate>() {
+                new CaptureGroupTransformer<Coordinate>() {
                     @Override
                     public Coordinate transform(String[] args) {
                         return new Coordinate(
@@ -98,6 +104,34 @@ public class CustomParameterTypeTest {
         assertEquals(new Coordinate(10, 20, 30), from);
         assertEquals(new Coordinate(40, 50, 60), to);
     }
+
+    @Test
+    public void warns_when_CucumberExpression_parameters_with_multiple_capture_groups_has_a_transformer() {
+        parameterTypeRegistry = new ParameterTypeRegistry(Locale.ENGLISH);
+        parameterTypeRegistry.defineParameterType(new ParameterType<>(
+                "coordinate",
+                "(\\d+),\\s*(\\d+),\\s*(\\d+)",
+                Coordinate.class,
+                new Transformer<Coordinate>() {
+                    @Override
+                    public Coordinate transform(String args) {
+                        throw new IllegalStateException();
+                    }
+                },
+                false,
+                false
+        ));
+        Expression expression = new CucumberExpression("A {int} thick line from {coordinate} to {coordinate}", parameterTypeRegistry);
+        List<Argument<?>> arguments = expression.match("A 5 thick line from 10,20,30 to 40,50,60");
+
+        arguments.get(0).getValue();
+
+        expectedException.expectMessage(
+                "ParameterType {coordinate} was registered with a Transformer but has multiple capture groups [(\\d+),\\s*(\\d+),\\s*(\\d+)]. " +
+                        "Did you mean to use a CaptureGroupTransformer?");
+        arguments.get(1).getValue();
+    }
+
 
     @Test
     public void matches_CucumberExpression_parameters_with_custom_parameter_type_using_optional_group() {
