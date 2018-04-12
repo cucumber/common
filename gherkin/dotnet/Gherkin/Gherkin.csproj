@@ -19,6 +19,7 @@
      <PackageLicenseUrl>https://github.com/cucumber/cucumber/blob/master/gherkin/LICENSE</PackageLicenseUrl>
      <SignAssembly>true</SignAssembly>
      <AssemblyOriginatorKeyFile>..\gherkin.snk</AssemblyOriginatorKeyFile>
+     <PublicSign Condition=" '$(OS)' != 'Windows_NT' ">true</PublicSign>
      <DelaySign>false</DelaySign>
      <Version>5.0.0</Version>     
   </PropertyGroup>
