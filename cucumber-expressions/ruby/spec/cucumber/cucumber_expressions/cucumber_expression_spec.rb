@@ -76,6 +76,18 @@ module Cucumber
         expect {match("{unknown}", "something")}.to raise_error('Undefined parameter type {unknown}')
       end
 
+      it "does not allow optional parameter types" do
+        expect {match("({int})", "3")}.to raise_error('Parameter types cannot be optional: ({int})')
+      end
+
+      it "does not allow text/parameter type alternation" do
+        expect {match("x/{int}", "3")}.to raise_error('Parameter types cannot be alternative: x/{int}')
+      end
+
+      it "does not allow parameter type/text alternation" do
+        expect {match("{int}/x", "3")}.to raise_error('Parameter types cannot be alternative: {int}/x')
+      end
+
       it "exposes source" do
         expr = "I have {int} cuke(s)"
         expect(CucumberExpression.new(expr, ParameterTypeRegistry.new).source).to eq(expr)

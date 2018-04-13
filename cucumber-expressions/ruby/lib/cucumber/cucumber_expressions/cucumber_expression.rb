@@ -11,6 +11,8 @@ module Cucumber
       OPTIONAL_REGEXP = /(\\\\)?\(([^)]+)\)/
       ALTERNATIVE_NON_WHITESPACE_TEXT_REGEXP = /([^\s^\/]+)((\/[^\s^\/]+)+)/
       DOUBLE_ESCAPE = '\\\\'
+      PARAMETER_TYPES_CANNOT_BE_ALTERNATIVE = 'Parameter types cannot be alternative: '
+      PARAMETER_TYPES_CANNOT_BE_OPTIONAL = 'Parameter types cannot be optional: '
 
       attr_reader :source
 
@@ -48,14 +50,20 @@ module Cucumber
       def process_optional(expression)
         # Create non-capturing, optional capture groups from parenthesis
         expression.gsub(OPTIONAL_REGEXP) do
+          g2 = $2
+          check_no_parameter_type(g2, PARAMETER_TYPES_CANNOT_BE_OPTIONAL)
           # look for double-escaped parentheses
-          $1 == DOUBLE_ESCAPE ? "\\(#{$2}\\)" : "(?:#{$2})?"
+          $1 == DOUBLE_ESCAPE ? "\\(#{g2}\\)" : "(?:#{g2})?"
         end
       end
 
       def process_alternation(expression)
         expression.gsub(ALTERNATIVE_NON_WHITESPACE_TEXT_REGEXP) do
-          "(?:#{$1}#{$2.tr('/', '|')})"
+          g1 = $1
+          g2 = $2
+          check_no_parameter_type(g1, PARAMETER_TYPES_CANNOT_BE_ALTERNATIVE)
+          check_no_parameter_type(g2, PARAMETER_TYPES_CANNOT_BE_ALTERNATIVE)
+          "(?:#{g1}#{g2.tr('/', '|')})"
         end
       end
 
@@ -79,6 +87,12 @@ module Cucumber
         return "(#{regexps[0]})" if regexps.size == 1
         capture_groups = regexps.map { |group| "(?:#{group})" }
         "(#{capture_groups.join('|')})"
+      end
+
+      def check_no_parameter_type(s, message)
+        if PARAMETER_REGEXP =~ s
+          raise CucumberExpressionError.new("#{message}#{source}")
+        end
       end
     end
   end
