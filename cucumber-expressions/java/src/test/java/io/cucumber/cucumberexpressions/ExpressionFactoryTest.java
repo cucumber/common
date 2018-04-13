@@ -1,13 +1,18 @@
 package io.cucumber.cucumberexpressions;
 
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 
 import java.util.Locale;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.fail;
 
 public class ExpressionFactoryTest {
+
+    @Rule
+    public ExpectedException expectedException = ExpectedException.none();
+
     @Test
     public void creates_cucumber_expression_by_default() {
         assertCucumberExpression("strings are cukexp by default");
@@ -50,12 +55,8 @@ public class ExpressionFactoryTest {
 
     @Test
     public void explains_cukexp_regexp_mix() {
-        try {
-            createExpression("^the seller has {int} strike(s)$");
-            fail();
-        } catch (CucumberExpressionException expected) {
-            assertEquals("You cannot use anchors (^ or $) in Cucumber Expressions. Please remove them from ^the seller has {int} strike(s)$", expected.getMessage());
-        }
+        expectedException.expectMessage("You cannot use anchors (^ or $) in Cucumber Expressions. Please remove them from ^the seller has {int} strike(s)$");
+        createExpression("^the seller has {int} strike(s)$");
     }
 
     private void assertRegularExpression(String expressionString) {
