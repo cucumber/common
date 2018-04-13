@@ -116,6 +116,42 @@ describe('CucumberExpression', () => {
     }
   })
 
+  it('does not allow optional parameter types', () => {
+    try {
+      match('({int})', '3')
+      assert.fail()
+    } catch (expected) {
+      assert.equal(
+        expected.message,
+        'Parameter types cannot be optional: ({int})'
+      )
+    }
+  })
+
+  it('does not allow text/parameter type alternation', () => {
+    try {
+      match('x/{int}', '3')
+      assert.fail()
+    } catch (expected) {
+      assert.equal(
+        expected.message,
+        'Parameter types cannot be alternative: x/{int}'
+      )
+    }
+  })
+
+  it('does not allow parameter type/text alternation', () => {
+    try {
+      match('{int}/x', '3')
+      assert.fail()
+    } catch (expected) {
+      assert.equal(
+        expected.message,
+        'Parameter types cannot be alternative: {int}/x'
+      )
+    }
+  })
+
   it('exposes source', () => {
     const expr = 'I have {int} cuke(s)'
     assert.equal(

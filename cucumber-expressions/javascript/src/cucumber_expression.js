@@ -1,13 +1,25 @@
 const Argument = require('./argument')
 const TreeRegexp = require('./tree_regexp')
-const { UndefinedParameterTypeError } = require('./errors')
+const {
+  UndefinedParameterTypeError,
+  CucumberExpressionError,
+} = require('./errors')
+
+// RegExps with the g flag are stateful in JavaScript. In order to be able
+// to reuse them we have to wrap them in a function.
+// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/RegExp/test
 
 // Does not include (){} characters because they have special meaning
-const ESCAPE_REGEXP = /([\\^[$.|?*+])/g
-const PARAMETER_REGEXP = /(\\\\)?{([^}]+)}/g
-const OPTIONAL_REGEXP = /(\\\\)?\(([^)]+)\)/g
-const ALTERNATIVE_NON_WHITESPACE_TEXT_REGEXP = /([^\s^/]+)((\/[^\s^/]+)+)/g
+const ESCAPE_REGEXP = () => /([\\^[$.|?*+])/g
+const PARAMETER_REGEXP = () => /(\\\\)?{([^}]+)}/g
+const OPTIONAL_REGEXP = () => /(\\\\)?\(([^)]+)\)/g
+const ALTERNATIVE_NON_WHITESPACE_TEXT_REGEXP = () =>
+  /([^\s^/]+)((\/[^\s^/]+)+)/g
 const DOUBLE_ESCAPE = '\\\\'
+const PARAMETER_TYPES_CANNOT_BE_ALTERNATIVE =
+  'Parameter types cannot be alternative: '
+const PARAMETER_TYPES_CANNOT_BE_OPTIONAL =
+  'Parameter types cannot be optional: '
 
 class CucumberExpression {
   /**
@@ -28,25 +40,29 @@ class CucumberExpression {
   }
 
   processEscapes(expression) {
-    return expression.replace(ESCAPE_REGEXP, '\\$1')
+    return expression.replace(ESCAPE_REGEXP(), '\\$1')
   }
 
   processOptional(expression) {
-    return expression.replace(
-      OPTIONAL_REGEXP,
-      (match, p1, p2) => (p1 === DOUBLE_ESCAPE ? `\\(${p2}\\)` : `(?:${p2})?`)
-    )
+    return expression.replace(OPTIONAL_REGEXP(), (match, p1, p2) => {
+      this._checkNoParameterType(p2, PARAMETER_TYPES_CANNOT_BE_OPTIONAL)
+      return p1 === DOUBLE_ESCAPE ? `\\(${p2}\\)` : `(?:${p2})?`
+    })
   }
 
   processAlternation(expression) {
     return expression.replace(
-      ALTERNATIVE_NON_WHITESPACE_TEXT_REGEXP,
-      (_, p1, p2) => `(?:${p1}${p2.replace(/\//g, '|')})`
+      ALTERNATIVE_NON_WHITESPACE_TEXT_REGEXP(),
+      (_, p1, p2) => {
+        this._checkNoParameterType(p1, PARAMETER_TYPES_CANNOT_BE_ALTERNATIVE)
+        this._checkNoParameterType(p2, PARAMETER_TYPES_CANNOT_BE_ALTERNATIVE)
+        return `(?:${p1}${p2.replace(/\//g, '|')})`
+      }
     )
   }
 
   processParameters(expression, parameterTypeRegistry) {
-    return expression.replace(PARAMETER_REGEXP, (match, p1, p2) => {
+    return expression.replace(PARAMETER_REGEXP(), (match, p1, p2) => {
       if (p1 === DOUBLE_ESCAPE) return `\\{${p2}\\}`
 
       const typeName = p2
@@ -68,6 +84,12 @@ class CucumberExpression {
   get source() {
     return this._expression
   }
+
+  _checkNoParameterType(s, message) {
+    if (s.match(PARAMETER_REGEXP())) {
+      throw new CucumberExpressionError(message + this.source)
+    }
+  }
 }
 
 function buildCaptureRegexp(regexps) {
@@ -81,5 +103,4 @@ function buildCaptureRegexp(regexps) {
 
   return `(${captureGroups.join('|')})`
 }
-
 module.exports = CucumberExpression
