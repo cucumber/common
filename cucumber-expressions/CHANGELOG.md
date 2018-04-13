@@ -11,6 +11,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Changed
 
+* Throw an error if a parameter type is used inside optional text parenthesis,
+  or with alternative text. ([aslakhellesoy])
+
 ### Deprecated
 
 ### Removed
