@@ -1,14 +1,10 @@
 package io.cucumber.config;
 
-import io.cucumber.config.FieldSetterContract;
-import io.cucumber.config.JsonBuilder;
-import io.cucumber.config.MapBuilder;
-
 import java.io.StringReader;
 
 public class JsonTest extends FieldSetterContract {
     @Override
-    protected MapBuilder makeMapBuilder() {
+    protected MapBuilder makeMapBuilder(Object config) {
         StringReader jsonReader = new StringReader("" +
                 "{\n" +
                 "  \"testing\": {\n" +

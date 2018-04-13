@@ -6,12 +6,12 @@ import org.junit.Test;
 import static org.junit.Assert.assertEquals;
 
 public abstract class FieldSetterContract {
-    private final Testing testing = new Testing();
+    private final MyConfig testing = new MyConfig();
     private final FieldSetter fieldSetter = new FieldSetter(testing);
 
     @Before
     public void setFields() {
-        fieldSetter.setFields(makeMapBuilder().buildMap());
+        fieldSetter.setFields(makeMapBuilder(testing).buildMap());
     }
 
     @Test
@@ -35,6 +35,6 @@ public abstract class FieldSetterContract {
         assertEquals("two", testing.stringlist.get(1));
     }
 
-    protected abstract MapBuilder makeMapBuilder();
+    protected abstract MapBuilder makeMapBuilder(Object config);
 
 }

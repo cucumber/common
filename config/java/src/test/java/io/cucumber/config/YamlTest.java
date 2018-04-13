@@ -1,14 +1,10 @@
 package io.cucumber.config;
 
-import io.cucumber.config.FieldSetterContract;
-import io.cucumber.config.MapBuilder;
-import io.cucumber.config.YamlBuilder;
-
 import java.io.StringReader;
 
 public class YamlTest extends FieldSetterContract {
     @Override
-    protected MapBuilder makeMapBuilder() {
+    protected MapBuilder makeMapBuilder(Object config) {
         StringReader yamlReader = new StringReader("" +
                 "testing:\n" +
                 "  somebool: true\n" +

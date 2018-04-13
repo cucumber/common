@@ -10,9 +10,9 @@ import java.util.regex.Pattern;
  */
 class StringMapBuilder implements MapBuilder {
     private final String prefix;
-    private final Map<Object, Object> map;
+    private final Map<?, ?> map;
 
-    StringMapBuilder(String prefix, Map<Object, Object> map) {
+    StringMapBuilder(String prefix, Map<?, ?> map) {
         this.prefix = prefix;
         this.map = map;
     }
@@ -21,7 +21,7 @@ class StringMapBuilder implements MapBuilder {
     public Map<String, ?> buildMap() {
         Map<String, Object> result = new HashMap<>();
         Pattern pattern = Pattern.compile("^" + prefix + "(.*)", Pattern.CASE_INSENSITIVE);
-        for (Map.Entry<Object, Object> entry : map.entrySet()) {
+        for (Map.Entry<?, ?> entry : map.entrySet()) {
             if (entry.getKey() instanceof String) {
                 String key = (String) entry.getKey();
                 Matcher matcher = pattern.matcher(key);
