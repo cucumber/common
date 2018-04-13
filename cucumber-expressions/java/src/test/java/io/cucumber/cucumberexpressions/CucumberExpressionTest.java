@@ -109,6 +109,36 @@ public class CucumberExpressionTest {
     }
 
     @Test
+    public void does_not_allow_optional_parameter_types() {
+        try {
+            match("({int})", "3");
+            fail();
+        } catch (CucumberExpressionException e) {
+            assertEquals("Parameter types cannot be optional: ({int})", e.getMessage());
+        }
+    }
+
+    @Test
+    public void does_not_allow_text_parameter_type_alternation() {
+        try {
+            match("x/{int}", "3");
+            fail();
+        } catch (CucumberExpressionException e) {
+            assertEquals("Parameter types cannot be alternative: x/{int}", e.getMessage());
+        }
+    }
+
+    @Test
+    public void does_not_allow_parameter_type_text_alternation() {
+        try {
+            match("{int}/x", "3");
+            fail();
+        } catch (CucumberExpressionException e) {
+            assertEquals("Parameter types cannot be alternative: {int}/x", e.getMessage());
+        }
+    }
+
+    @Test
     public void exposes_source() {
         String expr = "I have {int} cuke(s)";
         assertEquals(expr, new CucumberExpression(expr, new ParameterTypeRegistry(Locale.ENGLISH)).getSource());

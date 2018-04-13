@@ -12,6 +12,8 @@ public class CucumberExpression implements Expression {
     private static final Pattern OPTIONAL_PATTERN = Pattern.compile("(\\\\\\\\)?\\(([^)]+)\\)");
     private static final Pattern ALTERNATIVE_NON_WHITESPACE_TEXT_REGEXP = Pattern.compile("([^\\s^/]+)((/[^\\s^/]+)+)");
     private static final String DOUBLE_ESCAPE = "\\\\";
+    private static final String PARAMETER_TYPES_CANNOT_BE_ALTERNATIVE = "Parameter types cannot be alternative: ";
+    private static final String PARAMETER_TYPES_CANNOT_BE_OPTIONAL = "Parameter types cannot be optional: ";
 
     private final List<ParameterType<?>> parameterTypes = new ArrayList<>();
     private final String source;
@@ -37,10 +39,21 @@ public class CucumberExpression implements Expression {
         Matcher matcher = ALTERNATIVE_NON_WHITESPACE_TEXT_REGEXP.matcher(expression);
         StringBuffer sb = new StringBuffer();
         while (matcher.find()) {
-            matcher.appendReplacement(sb, "(?:" + matcher.group(1) + matcher.group(2).replace('/', '|') + ")");
+            String g1 = matcher.group(1);
+            checkNotParameterType(g1, PARAMETER_TYPES_CANNOT_BE_ALTERNATIVE);
+            String g2 = matcher.group(2);
+            checkNotParameterType(g2, PARAMETER_TYPES_CANNOT_BE_ALTERNATIVE);
+            matcher.appendReplacement(sb, "(?:" + g1 + g2.replace('/', '|') + ")");
         }
         matcher.appendTail(sb);
         return sb.toString();
+    }
+
+    private void checkNotParameterType(String s, String message) {
+        Matcher matcher = PARAMETER_PATTERN.matcher(s);
+        if (matcher.find()) {
+            throw new CucumberExpressionException(message + source);
+        }
     }
 
     private String processOptional(String expression) {
@@ -48,10 +61,12 @@ public class CucumberExpression implements Expression {
         StringBuffer sb = new StringBuffer();
         while (matcher.find()) {
             // look for double-escaped parentheses
+            String parameterPart = matcher.group(2);
             if (DOUBLE_ESCAPE.equals(matcher.group(1))) {
-                matcher.appendReplacement(sb, "\\\\(" + matcher.group(2) + "\\\\)");
+                matcher.appendReplacement(sb, "\\\\(" + parameterPart + "\\\\)");
             } else {
-                matcher.appendReplacement(sb, "(?:" + matcher.group(2) + ")?");
+                checkNotParameterType(parameterPart, PARAMETER_TYPES_CANNOT_BE_OPTIONAL);
+                matcher.appendReplacement(sb, "(?:" + parameterPart + ")?");
             }
         }
         matcher.appendTail(sb);
@@ -59,8 +74,8 @@ public class CucumberExpression implements Expression {
     }
 
     private String processParameters(String expression, ParameterTypeRegistry parameterTypeRegistry) {
-        Matcher matcher = PARAMETER_PATTERN.matcher(expression);
         StringBuffer sb = new StringBuffer();
+        Matcher matcher = PARAMETER_PATTERN.matcher(expression);
         while (matcher.find()) {
             if (DOUBLE_ESCAPE.equals(matcher.group(1))) {
                 matcher.appendReplacement(sb, "\\\\{" + matcher.group(2) + "\\\\}");

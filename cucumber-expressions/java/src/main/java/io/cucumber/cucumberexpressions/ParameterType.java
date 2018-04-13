@@ -121,6 +121,8 @@ public final class ParameterType<T> implements Comparable<ParameterType<?>> {
         try {
             String[] groupValueArray = groupValues.toArray(new String[groupValues.size()]);
             return transformer.transform(groupValueArray);
+        } catch (CucumberExpressionException e) {
+            throw e;
         } catch (Throwable throwable) {
             throw new CucumberExpressionException(String.format("ParameterType {%s} failed to transform %s to %s", name, groupValues, type), throwable);
         }
