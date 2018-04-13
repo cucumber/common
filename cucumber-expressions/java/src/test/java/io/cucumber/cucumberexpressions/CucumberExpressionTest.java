@@ -118,7 +118,7 @@ public class CucumberExpressionTest {
 
     @Test
     public void matches_byte() {
-        assertEquals(singletonList((byte) 15), match("{byte}", "0x0F"));
+        assertEquals(singletonList(Byte.MAX_VALUE), match("{byte}", "127"));
     }
 
     @Test

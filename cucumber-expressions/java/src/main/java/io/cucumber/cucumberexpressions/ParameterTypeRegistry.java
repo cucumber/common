@@ -20,7 +20,6 @@ public class ParameterTypeRegistry {
     // which detects unneeded escapes.
     private static final List<String> INTEGER_REGEXPS = asList(Pattern.compile("-?\\d+").pattern(), Pattern.compile("\\d+").pattern());
     private static final List<String> FLOAT_REGEXPS = singletonList(Pattern.compile("-?\\d*[.,]\\d+").pattern());
-    private static final List<String> HEX_REGEXPS = singletonList(Pattern.compile("0[xX][0-9a-fA-F]{2}").pattern());
     private static final List<String> WORD_REGEXPS = singletonList(Pattern.compile("\\w+").pattern());
     private static final List<String> STRING_REGEXPS = singletonList(Pattern.compile("\"([^\"\\\\]*(\\\\.[^\"\\\\]*)*)\"|'([^'\\\\]*(\\\\.[^'\\\\]*)*)'").pattern());
     private final Map<String, ParameterType<?>> parameterTypeByName = new HashMap<>();
@@ -42,12 +41,12 @@ public class ParameterTypeRegistry {
                 return new BigDecimal(arg);
             }
         }, false, false));
-        defineParameterType(new ParameterType<>("byte", HEX_REGEXPS, Byte.class, new Transformer<Byte>() {
+        defineParameterType(new ParameterType<>("byte", INTEGER_REGEXPS, Byte.class, new Transformer<Byte>() {
             @Override
             public Byte transform(String arg) {
                 return Byte.decode(arg);
             }
-        }, true, false));
+        }, false, false));
         defineParameterType(new ParameterType<>("short", INTEGER_REGEXPS, Short.class, new Transformer<Short>() {
             @Override
             public Short transform(String arg) {

@@ -11,6 +11,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Changed
 
+* java: The `{byte}` parameter type no longer uses hexadecimal, but uses the same pattern as `{short}`, `{int}` and `{long}`.
+
 ### Deprecated
 
 ### Removed
