@@ -20,27 +20,9 @@ public class CucumberDataTableException extends RuntimeException {
         );
     }
 
-    static CucumberDataTableException cantConvertToMap(Type keyType, Type valueType, String message) {
+    private static CucumberDataTableException cantConvertToMap(Type keyType, Type valueType, String message) {
         return new CucumberDataTableException(
                 format("Can't convert DataTable to Map<%s, %s>. %s", typeName(keyType), typeName(valueType), message)
-        );
-    }
-
-    static CucumberDataTableException cantConvertToMaps(Type keyType, Type valueType, String message) {
-        return new CucumberDataTableException(
-                format("Can't convert DataTable to List<Map<%s, %s>>. %s", typeName(keyType), typeName(valueType), message)
-        );
-    }
-
-    static CucumberDataTableException cantConvertToList(Type itemType, String message) {
-        return new CucumberDataTableException(
-                format("Can't convert DataTable to List<%s>. %s", typeName(itemType), message)
-        );
-    }
-
-    static CucumberDataTableException cantConvertToLists(Type itemType, String message) {
-        return new CucumberDataTableException(
-                format("Can't convert DataTable to List<List<%s>>. %s", typeName(itemType), message)
         );
     }
 
@@ -72,7 +54,19 @@ public class CucumberDataTableException extends RuntimeException {
         return cantConvertToMap(keyType, valueType,
                 "There are more values then keys. " +
                         "Did you use a TableEntryTransformer for the key while using a TableRow or TableCellTransformer for the value?");
+    }
 
+    static CucumberDataTableException keysImplyTableEntryTransformer(Type keyType, Type valueType) {
+        return cantConvertToMap(keyType, valueType,
+                format("The first cell was either blank or you have registered a TableEntryTransformer for the key type.\n" +
+                        "\n" +
+                        "This requires that there is a TableEntryTransformer for the value type but I couldn't find any.\n" +
+                        "\n" +
+                        "You can either:\n" +
+                        "\n" +
+                        "  1) Use a DataTableType that uses a TableEntryTransformer for %s\n" +
+                        "\n" +
+                        "  2) Add a key to the first cell and use a DataTableType that uses a TableEntryTransformer for %s", valueType, keyType));
     }
 
 }

@@ -23,8 +23,8 @@ public final class DataTableType {
     private final RawTableTransformer<?> transformer;
 
     private DataTableType(Type type, RawTableTransformer<?> transformer) {
-        if (type == null) throw new CucumberDataTableException("type cannot be null");
-        if (transformer == null) throw new CucumberDataTableException("transformer cannot be null");
+        if (type == null) throw new NullPointerException("type cannot be null");
+        if (transformer == null) throw new NullPointerException("transformer cannot be null");
         this.type = constructType(type);
         this.transformer = transformer;
     }
@@ -111,7 +111,7 @@ public final class DataTableType {
         private final TableCellTransformer<T> transformer;
 
         TableCellTransformerAdaptor(TableCellTransformer<T> transformer) {
-            if (transformer == null) throw new CucumberDataTableException("transformer cannot be null");
+            if (transformer == null) throw new NullPointerException("transformer cannot be null");
             this.transformer = transformer;
         }
 
@@ -133,7 +133,7 @@ public final class DataTableType {
         private final TableRowTransformer<T> transformer;
 
         TableRowTransformerAdaptor(TableRowTransformer<T> transformer) {
-            if (transformer == null) throw new CucumberDataTableException("transformer cannot be null");
+            if (transformer == null) throw new NullPointerException("transformer cannot be null");
             this.transformer = transformer;
         }
 
@@ -152,7 +152,7 @@ public final class DataTableType {
         private final TableEntryTransformer<T> transformer;
 
         TableEntryTransformerAdaptor(TableEntryTransformer<T> transformer) {
-            if (transformer == null) throw new CucumberDataTableException("transformer cannot be null");
+            if (transformer == null) throw new NullPointerException("transformer cannot be null");
             this.transformer = transformer;
         }
 
@@ -172,7 +172,7 @@ public final class DataTableType {
         private final TableTransformer<T> transformer;
 
         TableTransformerAdaptor(TableTransformer<T> transformer) {
-            if (transformer == null) throw new CucumberDataTableException("transformer cannot be null");
+            if (transformer == null) throw new NullPointerException("transformer cannot be null");
             this.transformer = transformer;
         }
 
