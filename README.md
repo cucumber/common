@@ -1,8 +1,7 @@
-# ![Cucumber Logo](https://github.com/cucumber-ltd/brand/raw/master/images/png/notm/cucumber-black/cucumber-black-256.png)
-
 [![Build Status](https://secure.travis-ci.org/cucumber/cucumber.svg)](http://travis-ci.org/cucumber/cucumber)
 [![OpenCollective](https://opencollective.com/cucumber/backers/badge.svg)](#backers) [![OpenCollective](https://opencollective.com/cucumber/sponsors/badge.svg)](#sponsors)
 
+# ![Cucumber Logo](https://github.com/cucumber-ltd/brand/raw/master/images/png/notm/cucumber-black/cucumber-black-128.png)
 
 Cucumber is a tool that supports [Behaviour-Driven Development
 (BDD)](https://cucumber.io/blog/2017/05/15/intro-to-bdd-and-tdd) - a software
