@@ -1,4 +1,4 @@
-# ![Cucumber Logo](docs/images/cucumber.png)
+# ![Cucumber Logo](https://github.com/cucumber-ltd/brand/raw/master/images/png/notm/cucumber-black/cucumber-black-256.png)
 
 [![Build Status](https://secure.travis-ci.org/cucumber/cucumber.svg)](http://travis-ci.org/cucumber/cucumber)
 [![OpenCollective](https://opencollective.com/cucumber/backers/badge.svg)](#backers) [![OpenCollective](https://opencollective.com/cucumber/sponsors/badge.svg)](#sponsors)
@@ -16,8 +16,6 @@ specification or not.
 Cucumber reduces the effort to keep requirements specifications, tests and documentation
 in sync - with Cucumber they are all the same documents - a single source of truth
 for everyone on the team.
-
-![Single Source of Truth](docs/images/single-source-of-truth-256x256.png)
 
 Cucumber is compatible with all the major software platforms.
 
