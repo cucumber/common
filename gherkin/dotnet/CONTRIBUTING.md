@@ -8,8 +8,9 @@ to contribute.
 
 Install dependencies:
 
-* [.NET Core Runtime 1.1.7 / .NET Core SDK 1.1.8](https://github.com/dotnet/core/blob/master/release-notes/download-archives/1.1.7-download.md)
-
+    install latest Mono
+    install .NET Core 1.1.6 - https://github.com/dotnet/core/blob/master/release-notes/download-archives/1.1.6-download.md
+    
 Just run `make` from this directory.
 
 ### Windows
