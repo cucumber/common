@@ -21,6 +21,7 @@ init:
 #- appveyor-retry dotnet restore
 
 build_script:
+- dotnet restore
 - dotnet build -c %CONFIGURATION% Gherkin --version-suffix %LABEL%
 - dotnet build -c %CONFIGURATION% Gherkin.CLI --version-suffix %LABEL%
 - dotnet build -c %CONFIGURATION% Gherkin.TokensGenerator --version-suffix %LABEL%
@@ -30,7 +31,7 @@ after_build:
 - dotnet pack -c %CONFIGURATION% Gherkin -o artifacts /p:PackageVersion=%GherkinPackageVersion%
 
 test_script:
-- dotnet test Gherkin.Specs/Gherkin.Specs.csproj -c %CONFIGURATION%
+- dotnet xunit -nobuild Gherkin.Specs/Gherkin.Specs.csproj -c %CONFIGURATION%
 
 
 artifacts:
