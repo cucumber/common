@@ -80,6 +80,7 @@ Write some code in the monorepo, and push whenever you want to sync to the subre
 Our CI build uses Docker. We have our own docker images defined in `Dockerfile.*`
 files. These need to be rebuilt and published manually whenever they change:
 
+```
    source ./scripts/functions.sh
    # Standard image (for all builds except .NET)
    docker_build Dockerfile.cucumber-build
@@ -87,5 +88,7 @@ files. These need to be rebuilt and published manually whenever they change:
    # .NET image (for .NET builds only)
    docker_build Dockerfile.cucumber-build-dotnet
    docker_push Dockerfile.cucumber-build-dotnet
+```
 
-The images are published [here](https://hub.docker.com/r/cucumber/)
+The images are published [in the cucumber repository section at
+Docker Hub](https://hub.docker.com/r/cucumber/).
