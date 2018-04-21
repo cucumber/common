@@ -1,0 +1,19 @@
+# =====================================================
+# INVOKE CONFIGURATION:
+# =====================================================
+# -- ON WINDOWS:
+# run:
+#   echo: true
+#   pty:  false
+#   shell: C:\Windows\System32\cmd.exe
+# =====================================================
+# MAYBE: tasks: auto_dash_names: false
+
+project:
+    name: cucumber_tag_expressions
+
+run:
+    echo: true
+    pty:  true
+
+
