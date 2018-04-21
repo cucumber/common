@@ -1,3 +1,8 @@
+# Please update /.templates/python/.travis.yml in the cucumber/cucumber monorepo
+# and sync:
+#
+#     source scripts/functions.sh && rsync_files
+#
 sudo: false
 language: python
 python:

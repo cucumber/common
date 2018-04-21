@@ -1,2 +1,2 @@
 ../../LICENSE LICENSE
-../../.travis/python/.travis.yml .travis.yml
+../../.templates/python/.travis.yml .travis.yml
