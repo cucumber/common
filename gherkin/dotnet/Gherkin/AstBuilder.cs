@@ -257,11 +257,11 @@ namespace Gherkin
         private TableRow[] GetTableRows(AstNode node)
         {
             var rows = node.GetTokens(TokenType.TableRow).Select(token => CreateTableRow(GetLocation(token), GetCells(token), node)).ToArray();
-            EnsureCellCount(rows);
+            CheckCellCountConsistency(rows);
             return rows;
         }
 
-        private void EnsureCellCount(TableRow[] rows)
+        protected virtual void CheckCellCountConsistency(TableRow[] rows)
         {
             if (rows.Length == 0)
                 return;
@@ -271,9 +271,14 @@ namespace Gherkin
             {
                 if (row.Cells.Count() != cellCount)
                 {
-                    throw new AstBuilderException("inconsistent cell count within the table", row.Location);
+                    HandleAstError("inconsistent cell count within the table", row.Location);
                 }
             }
+        }
+
+        protected virtual void HandleAstError(string message, Location location)
+        {
+            throw new AstBuilderException(message, location);
         }
 
         private TableCell[] GetCells(Token tableRowToken)
