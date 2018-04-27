@@ -1,0 +1,7 @@
+syntax = "proto3";
+package gherkin;
+
+message Location {
+  uint64 line = 1;
+  uint64 column = 2;
+}

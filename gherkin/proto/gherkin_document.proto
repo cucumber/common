@@ -1,0 +1,111 @@
+syntax = "proto3";
+import "google/protobuf/any.proto";
+import "location.proto";
+package gherkin;
+
+message Background {
+  Location location = 1;
+  string type = 2;
+  string keyword = 3;
+  string name = 4;
+  string description = 5;
+  repeated Step steps = 6;
+}
+
+message Comment {
+  Location location = 1;
+  string type = 2;
+  string text = 3;
+}
+
+message DataTable {
+  Location location = 1;
+  string type = 2;
+  repeated TableRow rows = 3;
+}
+
+message DocString {
+  Location location = 1;
+  string type = 2;
+  string content_type = 3;
+  string content = 4;
+  string delimiter = 5;
+}
+
+message Example {
+  Location location = 1;
+  string type = 2;
+  repeated Tag tags = 3;
+  string keyword = 4;
+  string name = 5;
+  string description = 6;
+  TableRow table_header = 7;
+  repeated TableRow table_body = 8;
+}
+
+message Feature {
+  Location location = 1;
+  string type = 2;
+  repeated Tag tags = 3;
+  string language = 4;
+  string keyword = 5;
+  string name = 6;
+  string description = 7;
+  repeated google.protobuf.Any children = 8;
+}
+
+message GherkinDocument {
+  string type = 1;
+  Feature feature = 2;
+  repeated Comment comments = 3;
+}
+
+message Scenario {
+  Location location = 1;
+  string type = 2;
+  repeated Tag tags = 3;
+  string keyword = 4;
+  string name = 5;
+  string description = 6;
+  repeated Step steps = 7;
+}
+
+message ScenarioOutline {
+  Location location = 1;
+  string type = 2;
+  repeated Tag tags = 3;
+  string keyword = 4;
+  string name = 5;
+  string description = 6;
+  repeated Step steps = 7;
+  repeated Example examples = 8;
+}
+
+message Step {
+  Location location = 1;
+  string type = 2;
+  string keyword = 3;
+  string text = 4;
+  oneof argument {
+    DocString doc_string = 5;
+    DataTable data_table = 6;
+  }
+}
+
+message TableCell {
+  Location location = 1;
+  string type = 2;
+  string value = 3;
+}
+
+message TableRow {
+  Location location = 1;
+  string type = 2;
+  repeated TableCell cells = 3;
+}
+
+message Tag {
+  Location location = 1;
+  string type = 2;
+  string name = 3;
+}
