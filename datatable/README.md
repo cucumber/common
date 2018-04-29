@@ -1,16 +1,16 @@
 # DataTable
 
 DataTable is a simple data structure that allows the use and transformation 
-of Gherkin data tables in cucumber.
+of Gherkin data tables in Cucumber.
 
 This intended to support:
  * manual conversion in step definitions
- * automatic conversion by cucumber
+ * automatic conversion by Cucumber
 
 ## Introduction
 
 The introduction will describe how data tables are mapped to certain data
-structures. This conversion can be done either by cucumber or manually.
+structures. This conversion can be done either by Cucumber or manually.
 
 Let's write a simple data table and see how we might use it. 
 
@@ -115,10 +115,10 @@ then the value value and its header.
 `java type: Map<String, Map<String, Double>>`
 ```json
 {
-  "KMSY": { "latt": "29.993333", "long": "-90.258056" },
-  "KSFO": { "latt": "37.618889", "long": "-122.375" },
-  "KSEA": { "latt": "47.448889", "long": "-122.309444" },
-  "KJFK": { "latt": "40.639722", "long": "-73.778889" }
+  "KMSY": { "latt": 29.993333, "long": -90.258056 },
+  "KSFO": { "latt": 37.618889, "long": -122.375 },
+  "KSEA": { "latt": 47.448889, "long": -122.309444 },
+  "KJFK": { "latt": 40.639722, "long": -73.778889 }
 }
 ```
 
