@@ -27,8 +27,9 @@ public class DataTableTypeRegistryTest {
             }
 
         }));
-        expectedException.expectMessage(
-                "There is already a data table type with type io.cucumber.datatable.DataTableTypeRegistryTest$Place"
+        expectedException.expectMessage("" +
+                "There is already a data table type registered for class io.cucumber.datatable.DataTableTypeRegistryTest$Place.\n" +
+                "It registered an TableTransformer. You are trying to add a TableTransformer"
         );
         registry.defineDataTableType(new DataTableType(Place.class, new TableTransformer<Place>() {
             @Override

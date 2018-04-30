@@ -86,11 +86,17 @@ public final class DataTableTypeRegistry {
     }
 
     public void defineDataTableType(DataTableType dataTableType) {
-        if (tableTypeByType.containsKey(dataTableType.getType())) {
+        DataTableType existing = tableTypeByType.get(dataTableType.getTargetType());
+        if (existing != null) {
             throw new DuplicateTypeException(format(
-                    "There is already a data table type with type %s", dataTableType.toCanonical()));
+                    "There is already a data table type registered for %s.\n" +
+                            "It registered an %s. You are trying to add a %s",
+                    dataTableType.getElementType(),
+                    dataTableType.getTransformerType().getSimpleName(),
+                    existing.getTransformerType().getSimpleName()
+            ));
         }
-        tableTypeByType.put(dataTableType.getType(), dataTableType);
+        tableTypeByType.put(dataTableType.getTargetType(), dataTableType);
 
     }
 
