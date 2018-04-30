@@ -1,20 +1,7 @@
 package gherkin;
 
-import gherkin.ast.Background;
-import gherkin.ast.Comment;
-import gherkin.ast.DataTable;
-import gherkin.ast.DocString;
-import gherkin.ast.Examples;
-import gherkin.ast.Feature;
-import gherkin.ast.GherkinDocument;
-import gherkin.ast.Location;
-import gherkin.ast.Node;
-import gherkin.ast.Example;
-import gherkin.ast.StepsContainer;
-import gherkin.ast.Step;
-import gherkin.ast.TableCell;
-import gherkin.ast.TableRow;
-import gherkin.ast.Tag;
+import gherkin.ast.*;
+import gherkin.ast.Scenario;
 
 import java.util.ArrayDeque;
 import java.util.ArrayList;
@@ -109,7 +96,7 @@ public class AstBuilder implements Builder<GherkinDocument> {
                 String description = getDescription(scenarioNode);
                 List<Step> steps = getSteps(scenarioNode);
                 List<Examples> examplesList = scenarioNode.getItems(RuleType.ExamplesDefinition);
-                return new Example(tags, getLocation(scenarioLine, 0), scenarioLine.matchedKeyword, scenarioLine.matchedText, description, steps, examplesList);
+                return new Scenario(tags, getLocation(scenarioLine, 0), scenarioLine.matchedKeyword, scenarioLine.matchedText, description, steps, examplesList);
             }
             case ExamplesDefinition: {
                 List<Tag> tags = getTags(node);
