@@ -44,12 +44,6 @@ public class GherkinDialect {
         return keywords.get("examples");
     }
 
-    public List<String> getScenarioDataKeywords() {
-        List<String> scenarioData = keywords.get("scenarioData");
-        // Some translations don't have a scenarioData section yet
-        return scenarioData == null ? Collections.<String>emptyList() : scenarioData;
-    }
-
     public List<String> getGivenKeywords() {
         return keywords.get("given");
     }

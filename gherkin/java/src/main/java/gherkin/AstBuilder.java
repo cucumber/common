@@ -4,7 +4,7 @@ import gherkin.ast.Background;
 import gherkin.ast.Comment;
 import gherkin.ast.DataTable;
 import gherkin.ast.DocString;
-import gherkin.ast.ExampleData;
+import gherkin.ast.Examples;
 import gherkin.ast.Feature;
 import gherkin.ast.GherkinDocument;
 import gherkin.ast.Location;
@@ -101,27 +101,27 @@ public class AstBuilder implements Builder<GherkinDocument> {
                 List<Step> steps = getSteps(node);
                 return new Background(getLocation(backgroundLine, 0), backgroundLine.matchedKeyword, backgroundLine.matchedText, description, steps);
             }
-            case ExampleDefinition: {
+            case ScenarioDefinition: {
                 List<Tag> tags = getTags(node);
                 AstNode scenarioNode = node.getSingle(RuleType.Example, null);
 
-                Token scenarioLine = scenarioNode.getToken(TokenType.ExampleLine);
+                Token scenarioLine = scenarioNode.getToken(TokenType.ScenarioLine);
                 String description = getDescription(scenarioNode);
                 List<Step> steps = getSteps(scenarioNode);
-                List<ExampleData> examplesList = scenarioNode.getItems(RuleType.ExampleDataDefinition);
+                List<Examples> examplesList = scenarioNode.getItems(RuleType.ExamplesDefinition);
                 return new Example(tags, getLocation(scenarioLine, 0), scenarioLine.matchedKeyword, scenarioLine.matchedText, description, steps, examplesList);
             }
-            case ExampleDataDefinition: {
+            case ExamplesDefinition: {
                 List<Tag> tags = getTags(node);
-                AstNode examplesNode = node.getSingle(RuleType.ExampleData, null);
-                Token examplesLine = examplesNode.getToken(TokenType.ExampleDataLine);
+                AstNode examplesNode = node.getSingle(RuleType.Examples, null);
+                Token examplesLine = examplesNode.getToken(TokenType.ExamplesDataLine);
                 String description = getDescription(examplesNode);
-                List<TableRow> rows = examplesNode.getSingle(RuleType.ExampleDataTable, null);
+                List<TableRow> rows = examplesNode.getSingle(RuleType.ExamplesTable, null);
                 TableRow tableHeader = rows != null && !rows.isEmpty() ? rows.get(0) : null;
                 List<TableRow> tableBody = rows != null && !rows.isEmpty() ? rows.subList(1, rows.size()) : null;
-                return new ExampleData(getLocation(examplesLine, 0), tags, examplesLine.matchedKeyword, examplesLine.matchedText, description, tableHeader, tableBody);
+                return new Examples(getLocation(examplesLine, 0), tags, examplesLine.matchedKeyword, examplesLine.matchedText, description, tableHeader, tableBody);
             }
-            case ExampleDataTable: {
+            case ExamplesTable: {
                 return getTableRows(node);
             }
             case Description: {
@@ -149,7 +149,7 @@ public class AstBuilder implements Builder<GherkinDocument> {
                 List<StepsContainer> scenarioDefinitions = new ArrayList<>();
                 Background background = node.getSingle(RuleType.Background, null);
                 if (background != null) scenarioDefinitions.add(background);
-                scenarioDefinitions.addAll(node.<StepsContainer>getItems(RuleType.ExampleDefinition));
+                scenarioDefinitions.addAll(node.<StepsContainer>getItems(RuleType.ScenarioDefinition));
                 String description = getDescription(header);
                 if (featureLine.matchedGherkinDialect == null) return null;
                 String language = featureLine.matchedGherkinDialect.getLanguage();

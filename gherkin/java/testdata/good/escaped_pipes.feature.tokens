@@ -2,7 +2,7 @@
 (2:1)Other:/    The \-character will be considered as an escape in table cell/
 (3:1)Other:/    iff it is followed by a |-character, a \-character or an n./
 (4:1)Other://
-(5:3)ExampleLine:Scenario/They are the future/
+(5:3)ScenarioLine:Scenario/They are the future/
 (6:5)StepLine:Given /they have arrived/
 (7:7)TableRow://9:æ,13:o
 (8:7)TableRow://9:a,13:ø

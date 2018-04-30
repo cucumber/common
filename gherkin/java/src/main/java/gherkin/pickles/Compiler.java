@@ -4,7 +4,7 @@ import gherkin.SymbolCounter;
 import gherkin.ast.Background;
 import gherkin.ast.DataTable;
 import gherkin.ast.DocString;
-import gherkin.ast.ExampleData;
+import gherkin.ast.Examples;
 import gherkin.ast.Feature;
 import gherkin.ast.GherkinDocument;
 import gherkin.ast.Location;
@@ -42,7 +42,7 @@ public class Compiler {
                 backgroundSteps = pickleSteps(scenarioDefinition);
             } else {
                 Example scenario = (Example) scenarioDefinition;
-                if (scenario.getExampleData().isEmpty()) {
+                if (scenario.getExamples().isEmpty()) {
                     compileScenario(pickles, backgroundSteps, (Example) scenarioDefinition, featureTags, language);
                 } else {
                     compileScenarioOutline(pickles, backgroundSteps, (Example) scenarioDefinition, featureTags, language);
@@ -74,7 +74,7 @@ public class Compiler {
     }
 
     private void compileScenarioOutline(List<Pickle> pickles, List<PickleStep> backgroundSteps, Example scenarioOutline, List<Tag> featureTags, String language) {
-        for (final ExampleData examples : scenarioOutline.getExampleData()) {
+        for (final Examples examples : scenarioOutline.getExamples()) {
             if (examples.getTableHeader() == null) continue;
             List<TableCell> variableCells = examples.getTableHeader().getCells();
             for (final TableRow values : examples.getTableBody()) {

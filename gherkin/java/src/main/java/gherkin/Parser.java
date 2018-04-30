@@ -25,8 +25,8 @@ public class Parser<T> {
         TagLine,
         FeatureLine,
         BackgroundLine,
-        ExampleLine,
-        ExampleDataLine,
+        ScenarioLine,
+        ExamplesDataLine,
         StepLine,
         DocStringSeparator,
         TableRow,
@@ -43,22 +43,22 @@ public class Parser<T> {
         _TagLine, // #TagLine
         _FeatureLine, // #FeatureLine
         _BackgroundLine, // #BackgroundLine
-        _ExampleLine, // #ExampleLine
-        _ExampleDataLine, // #ExampleDataLine
+        _ScenarioLine, // #ScenarioLine
+        _ExamplesDataLine, // #ExamplesDataLine
         _StepLine, // #StepLine
         _DocStringSeparator, // #DocStringSeparator
         _TableRow, // #TableRow
         _Language, // #Language
         _Other, // #Other
         GherkinDocument, // GherkinDocument! := Feature?
-        Feature, // Feature! := FeatureHeader Background? ExampleDefinition*
+        Feature, // Feature! := FeatureHeader Background? ScenarioDefinition*
         FeatureHeader, // FeatureHeader! := #Language? Tags? #FeatureLine DescriptionHelper
         Background, // Background! := #BackgroundLine DescriptionHelper Step*
-        ExampleDefinition, // ExampleDefinition! := Tags? Example
-        Example, // Example! := #ExampleLine DescriptionHelper Step* ExampleDataDefinition*
-        ExampleDataDefinition, // ExampleDataDefinition! [#Empty|#Comment|#TagLine-&gt;#ExampleDataLine] := Tags? ExampleData
-        ExampleData, // ExampleData! := #ExampleDataLine DescriptionHelper ExampleDataTable?
-        ExampleDataTable, // ExampleDataTable! := #TableRow #TableRow*
+        ScenarioDefinition, // ScenarioDefinition! := Tags? Example
+        Example, // Example! := #ScenarioLine DescriptionHelper Step* ExamplesDefinition*
+        ExamplesDefinition, // ExamplesDefinition! [#Empty|#Comment|#TagLine-&gt;#ExamplesDataLine] := Tags? Examples
+        Examples, // Examples! := #ExamplesDataLine DescriptionHelper ExamplesTable?
+        ExamplesTable, // ExamplesTable! := #TableRow #TableRow*
         Step, // Step! := #StepLine StepArg?
         StepArg, // StepArg := (DataTable | DocString)
         DataTable, // DataTable! := #TableRow+
@@ -255,20 +255,20 @@ public class Parser<T> {
         }, false);
     }
 
-    private boolean match_ExampleLine(final ParserContext context, final Token token) {
+    private boolean match_ScenarioLine(final ParserContext context, final Token token) {
         if (token.isEOF()) return false;
         return handleExternalError(context, new Func<Boolean>() {
             public Boolean call() {
-                return context.tokenMatcher.match_ExampleLine(token);
+                return context.tokenMatcher.match_ScenarioLine(token);
             }
         }, false);
     }
 
-    private boolean match_ExampleDataLine(final ParserContext context, final Token token) {
+    private boolean match_ExamplesDataLine(final ParserContext context, final Token token) {
         if (token.isEOF()) return false;
         return handleExternalError(context, new Func<Boolean>() {
             public Boolean call() {
-                return context.tokenMatcher.match_ExampleDataLine(token);
+                return context.tokenMatcher.match_ExamplesDataLine(token);
             }
         }, false);
     }
@@ -568,15 +568,15 @@ public class Parser<T> {
         if (match_TagLine(context, token))
         {
                 endRule(context, RuleType.FeatureHeader);
-                startRule(context, RuleType.ExampleDefinition);
+                startRule(context, RuleType.ScenarioDefinition);
                 startRule(context, RuleType.Tags);
                 build(context, token);
             return 11;
         }
-        if (match_ExampleLine(context, token))
+        if (match_ScenarioLine(context, token))
         {
                 endRule(context, RuleType.FeatureHeader);
-                startRule(context, RuleType.ExampleDefinition);
+                startRule(context, RuleType.ScenarioDefinition);
                 startRule(context, RuleType.Example);
                 build(context, token);
             return 12;
@@ -590,7 +590,7 @@ public class Parser<T> {
         
         final String stateComment = "State: 3 - GherkinDocument:0>Feature:0>FeatureHeader:2>#FeatureLine:0";
         token.detach();
-        List<String> expectedTokens = asList("#EOF", "#Empty", "#Comment", "#BackgroundLine", "#TagLine", "#ExampleLine", "#Other");
+        List<String> expectedTokens = asList("#EOF", "#Empty", "#Comment", "#BackgroundLine", "#TagLine", "#ScenarioLine", "#Other");
         ParserException error = token.isEOF()
                 ? new ParserException.UnexpectedEOFException(token, expectedTokens, stateComment)
                 : new ParserException.UnexpectedTokenException(token, expectedTokens, stateComment);
@@ -631,16 +631,16 @@ public class Parser<T> {
         {
                 endRule(context, RuleType.Description);
                 endRule(context, RuleType.FeatureHeader);
-                startRule(context, RuleType.ExampleDefinition);
+                startRule(context, RuleType.ScenarioDefinition);
                 startRule(context, RuleType.Tags);
                 build(context, token);
             return 11;
         }
-        if (match_ExampleLine(context, token))
+        if (match_ScenarioLine(context, token))
         {
                 endRule(context, RuleType.Description);
                 endRule(context, RuleType.FeatureHeader);
-                startRule(context, RuleType.ExampleDefinition);
+                startRule(context, RuleType.ScenarioDefinition);
                 startRule(context, RuleType.Example);
                 build(context, token);
             return 12;
@@ -653,7 +653,7 @@ public class Parser<T> {
         
         final String stateComment = "State: 4 - GherkinDocument:0>Feature:0>FeatureHeader:3>DescriptionHelper:1>Description:0>#Other:0";
         token.detach();
-        List<String> expectedTokens = asList("#EOF", "#Comment", "#BackgroundLine", "#TagLine", "#ExampleLine", "#Other");
+        List<String> expectedTokens = asList("#EOF", "#Comment", "#BackgroundLine", "#TagLine", "#ScenarioLine", "#Other");
         ParserException error = token.isEOF()
                 ? new ParserException.UnexpectedEOFException(token, expectedTokens, stateComment)
                 : new ParserException.UnexpectedTokenException(token, expectedTokens, stateComment);
@@ -690,15 +690,15 @@ public class Parser<T> {
         if (match_TagLine(context, token))
         {
                 endRule(context, RuleType.FeatureHeader);
-                startRule(context, RuleType.ExampleDefinition);
+                startRule(context, RuleType.ScenarioDefinition);
                 startRule(context, RuleType.Tags);
                 build(context, token);
             return 11;
         }
-        if (match_ExampleLine(context, token))
+        if (match_ScenarioLine(context, token))
         {
                 endRule(context, RuleType.FeatureHeader);
-                startRule(context, RuleType.ExampleDefinition);
+                startRule(context, RuleType.ScenarioDefinition);
                 startRule(context, RuleType.Example);
                 build(context, token);
             return 12;
@@ -711,7 +711,7 @@ public class Parser<T> {
         
         final String stateComment = "State: 5 - GherkinDocument:0>Feature:0>FeatureHeader:3>DescriptionHelper:2>#Comment:0";
         token.detach();
-        List<String> expectedTokens = asList("#EOF", "#Comment", "#BackgroundLine", "#TagLine", "#ExampleLine", "#Empty");
+        List<String> expectedTokens = asList("#EOF", "#Comment", "#BackgroundLine", "#TagLine", "#ScenarioLine", "#Empty");
         ParserException error = token.isEOF()
                 ? new ParserException.UnexpectedEOFException(token, expectedTokens, stateComment)
                 : new ParserException.UnexpectedTokenException(token, expectedTokens, stateComment);
@@ -752,15 +752,15 @@ public class Parser<T> {
         if (match_TagLine(context, token))
         {
                 endRule(context, RuleType.Background);
-                startRule(context, RuleType.ExampleDefinition);
+                startRule(context, RuleType.ScenarioDefinition);
                 startRule(context, RuleType.Tags);
                 build(context, token);
             return 11;
         }
-        if (match_ExampleLine(context, token))
+        if (match_ScenarioLine(context, token))
         {
                 endRule(context, RuleType.Background);
-                startRule(context, RuleType.ExampleDefinition);
+                startRule(context, RuleType.ScenarioDefinition);
                 startRule(context, RuleType.Example);
                 build(context, token);
             return 12;
@@ -774,7 +774,7 @@ public class Parser<T> {
         
         final String stateComment = "State: 6 - GherkinDocument:0>Feature:1>Background:0>#BackgroundLine:0";
         token.detach();
-        List<String> expectedTokens = asList("#EOF", "#Empty", "#Comment", "#StepLine", "#TagLine", "#ExampleLine", "#Other");
+        List<String> expectedTokens = asList("#EOF", "#Empty", "#Comment", "#StepLine", "#TagLine", "#ScenarioLine", "#Other");
         ParserException error = token.isEOF()
                 ? new ParserException.UnexpectedEOFException(token, expectedTokens, stateComment)
                 : new ParserException.UnexpectedTokenException(token, expectedTokens, stateComment);
@@ -814,16 +814,16 @@ public class Parser<T> {
         {
                 endRule(context, RuleType.Description);
                 endRule(context, RuleType.Background);
-                startRule(context, RuleType.ExampleDefinition);
+                startRule(context, RuleType.ScenarioDefinition);
                 startRule(context, RuleType.Tags);
                 build(context, token);
             return 11;
         }
-        if (match_ExampleLine(context, token))
+        if (match_ScenarioLine(context, token))
         {
                 endRule(context, RuleType.Description);
                 endRule(context, RuleType.Background);
-                startRule(context, RuleType.ExampleDefinition);
+                startRule(context, RuleType.ScenarioDefinition);
                 startRule(context, RuleType.Example);
                 build(context, token);
             return 12;
@@ -836,7 +836,7 @@ public class Parser<T> {
         
         final String stateComment = "State: 7 - GherkinDocument:0>Feature:1>Background:1>DescriptionHelper:1>Description:0>#Other:0";
         token.detach();
-        List<String> expectedTokens = asList("#EOF", "#Comment", "#StepLine", "#TagLine", "#ExampleLine", "#Other");
+        List<String> expectedTokens = asList("#EOF", "#Comment", "#StepLine", "#TagLine", "#ScenarioLine", "#Other");
         ParserException error = token.isEOF()
                 ? new ParserException.UnexpectedEOFException(token, expectedTokens, stateComment)
                 : new ParserException.UnexpectedTokenException(token, expectedTokens, stateComment);
@@ -872,15 +872,15 @@ public class Parser<T> {
         if (match_TagLine(context, token))
         {
                 endRule(context, RuleType.Background);
-                startRule(context, RuleType.ExampleDefinition);
+                startRule(context, RuleType.ScenarioDefinition);
                 startRule(context, RuleType.Tags);
                 build(context, token);
             return 11;
         }
-        if (match_ExampleLine(context, token))
+        if (match_ScenarioLine(context, token))
         {
                 endRule(context, RuleType.Background);
-                startRule(context, RuleType.ExampleDefinition);
+                startRule(context, RuleType.ScenarioDefinition);
                 startRule(context, RuleType.Example);
                 build(context, token);
             return 12;
@@ -893,7 +893,7 @@ public class Parser<T> {
         
         final String stateComment = "State: 8 - GherkinDocument:0>Feature:1>Background:1>DescriptionHelper:2>#Comment:0";
         token.detach();
-        List<String> expectedTokens = asList("#EOF", "#Comment", "#StepLine", "#TagLine", "#ExampleLine", "#Empty");
+        List<String> expectedTokens = asList("#EOF", "#Comment", "#StepLine", "#TagLine", "#ScenarioLine", "#Empty");
         ParserException error = token.isEOF()
                 ? new ParserException.UnexpectedEOFException(token, expectedTokens, stateComment)
                 : new ParserException.UnexpectedTokenException(token, expectedTokens, stateComment);
@@ -939,16 +939,16 @@ public class Parser<T> {
         {
                 endRule(context, RuleType.Step);
                 endRule(context, RuleType.Background);
-                startRule(context, RuleType.ExampleDefinition);
+                startRule(context, RuleType.ScenarioDefinition);
                 startRule(context, RuleType.Tags);
                 build(context, token);
             return 11;
         }
-        if (match_ExampleLine(context, token))
+        if (match_ScenarioLine(context, token))
         {
                 endRule(context, RuleType.Step);
                 endRule(context, RuleType.Background);
-                startRule(context, RuleType.ExampleDefinition);
+                startRule(context, RuleType.ScenarioDefinition);
                 startRule(context, RuleType.Example);
                 build(context, token);
             return 12;
@@ -966,7 +966,7 @@ public class Parser<T> {
         
         final String stateComment = "State: 9 - GherkinDocument:0>Feature:1>Background:2>Step:0>#StepLine:0";
         token.detach();
-        List<String> expectedTokens = asList("#EOF", "#TableRow", "#DocStringSeparator", "#StepLine", "#TagLine", "#ExampleLine", "#Comment", "#Empty");
+        List<String> expectedTokens = asList("#EOF", "#TableRow", "#DocStringSeparator", "#StepLine", "#TagLine", "#ScenarioLine", "#Comment", "#Empty");
         ParserException error = token.isEOF()
                 ? new ParserException.UnexpectedEOFException(token, expectedTokens, stateComment)
                 : new ParserException.UnexpectedTokenException(token, expectedTokens, stateComment);
@@ -1008,17 +1008,17 @@ public class Parser<T> {
                 endRule(context, RuleType.DataTable);
                 endRule(context, RuleType.Step);
                 endRule(context, RuleType.Background);
-                startRule(context, RuleType.ExampleDefinition);
+                startRule(context, RuleType.ScenarioDefinition);
                 startRule(context, RuleType.Tags);
                 build(context, token);
             return 11;
         }
-        if (match_ExampleLine(context, token))
+        if (match_ScenarioLine(context, token))
         {
                 endRule(context, RuleType.DataTable);
                 endRule(context, RuleType.Step);
                 endRule(context, RuleType.Background);
-                startRule(context, RuleType.ExampleDefinition);
+                startRule(context, RuleType.ScenarioDefinition);
                 startRule(context, RuleType.Example);
                 build(context, token);
             return 12;
@@ -1036,7 +1036,7 @@ public class Parser<T> {
         
         final String stateComment = "State: 10 - GherkinDocument:0>Feature:1>Background:2>Step:1>StepArg:0>__alt0:0>DataTable:0>#TableRow:0";
         token.detach();
-        List<String> expectedTokens = asList("#EOF", "#TableRow", "#StepLine", "#TagLine", "#ExampleLine", "#Comment", "#Empty");
+        List<String> expectedTokens = asList("#EOF", "#TableRow", "#StepLine", "#TagLine", "#ScenarioLine", "#Comment", "#Empty");
         ParserException error = token.isEOF()
                 ? new ParserException.UnexpectedEOFException(token, expectedTokens, stateComment)
                 : new ParserException.UnexpectedTokenException(token, expectedTokens, stateComment);
@@ -1049,14 +1049,14 @@ public class Parser<T> {
     }
 
 
-    // GherkinDocument:0>Feature:2>ExampleDefinition:0>Tags:0>#TagLine:0
+    // GherkinDocument:0>Feature:2>ScenarioDefinition:0>Tags:0>#TagLine:0
     private int matchTokenAt_11(Token token, ParserContext context) {
         if (match_TagLine(context, token))
         {
                 build(context, token);
             return 11;
         }
-        if (match_ExampleLine(context, token))
+        if (match_ScenarioLine(context, token))
         {
                 endRule(context, RuleType.Tags);
                 startRule(context, RuleType.Example);
@@ -1074,9 +1074,9 @@ public class Parser<T> {
             return 11;
         }
         
-        final String stateComment = "State: 11 - GherkinDocument:0>Feature:2>ExampleDefinition:0>Tags:0>#TagLine:0";
+        final String stateComment = "State: 11 - GherkinDocument:0>Feature:2>ScenarioDefinition:0>Tags:0>#TagLine:0";
         token.detach();
-        List<String> expectedTokens = asList("#TagLine", "#ExampleLine", "#Comment", "#Empty");
+        List<String> expectedTokens = asList("#TagLine", "#ScenarioLine", "#Comment", "#Empty");
         ParserException error = token.isEOF()
                 ? new ParserException.UnexpectedEOFException(token, expectedTokens, stateComment)
                 : new ParserException.UnexpectedTokenException(token, expectedTokens, stateComment);
@@ -1089,12 +1089,12 @@ public class Parser<T> {
     }
 
 
-    // GherkinDocument:0>Feature:2>ExampleDefinition:1>Example:0>#ExampleLine:0
+    // GherkinDocument:0>Feature:2>ScenarioDefinition:1>Example:0>#ScenarioLine:0
     private int matchTokenAt_12(Token token, ParserContext context) {
         if (match_EOF(context, token))
         {
                 endRule(context, RuleType.Example);
-                endRule(context, RuleType.ExampleDefinition);
+                endRule(context, RuleType.ScenarioDefinition);
                 endRule(context, RuleType.Feature);
                 build(context, token);
             return 22;
@@ -1119,7 +1119,7 @@ public class Parser<T> {
         {
             if (lookahead_0(context, token))
             {
-                startRule(context, RuleType.ExampleDataDefinition);
+                startRule(context, RuleType.ExamplesDefinition);
                 startRule(context, RuleType.Tags);
                 build(context, token);
             return 17;
@@ -1128,24 +1128,24 @@ public class Parser<T> {
         if (match_TagLine(context, token))
         {
                 endRule(context, RuleType.Example);
-                endRule(context, RuleType.ExampleDefinition);
-                startRule(context, RuleType.ExampleDefinition);
+                endRule(context, RuleType.ScenarioDefinition);
+                startRule(context, RuleType.ScenarioDefinition);
                 startRule(context, RuleType.Tags);
                 build(context, token);
             return 11;
         }
-        if (match_ExampleDataLine(context, token))
+        if (match_ExamplesDataLine(context, token))
         {
-                startRule(context, RuleType.ExampleDataDefinition);
-                startRule(context, RuleType.ExampleData);
+                startRule(context, RuleType.ExamplesDefinition);
+                startRule(context, RuleType.Examples);
                 build(context, token);
             return 18;
         }
-        if (match_ExampleLine(context, token))
+        if (match_ScenarioLine(context, token))
         {
                 endRule(context, RuleType.Example);
-                endRule(context, RuleType.ExampleDefinition);
-                startRule(context, RuleType.ExampleDefinition);
+                endRule(context, RuleType.ScenarioDefinition);
+                startRule(context, RuleType.ScenarioDefinition);
                 startRule(context, RuleType.Example);
                 build(context, token);
             return 12;
@@ -1157,9 +1157,9 @@ public class Parser<T> {
             return 13;
         }
         
-        final String stateComment = "State: 12 - GherkinDocument:0>Feature:2>ExampleDefinition:1>Example:0>#ExampleLine:0";
+        final String stateComment = "State: 12 - GherkinDocument:0>Feature:2>ScenarioDefinition:1>Example:0>#ScenarioLine:0";
         token.detach();
-        List<String> expectedTokens = asList("#EOF", "#Empty", "#Comment", "#StepLine", "#TagLine", "#ExampleDataLine", "#ExampleLine", "#Other");
+        List<String> expectedTokens = asList("#EOF", "#Empty", "#Comment", "#StepLine", "#TagLine", "#ExamplesDataLine", "#ScenarioLine", "#Other");
         ParserException error = token.isEOF()
                 ? new ParserException.UnexpectedEOFException(token, expectedTokens, stateComment)
                 : new ParserException.UnexpectedTokenException(token, expectedTokens, stateComment);
@@ -1172,13 +1172,13 @@ public class Parser<T> {
     }
 
 
-    // GherkinDocument:0>Feature:2>ExampleDefinition:1>Example:1>DescriptionHelper:1>Description:0>#Other:0
+    // GherkinDocument:0>Feature:2>ScenarioDefinition:1>Example:1>DescriptionHelper:1>Description:0>#Other:0
     private int matchTokenAt_13(Token token, ParserContext context) {
         if (match_EOF(context, token))
         {
                 endRule(context, RuleType.Description);
                 endRule(context, RuleType.Example);
-                endRule(context, RuleType.ExampleDefinition);
+                endRule(context, RuleType.ScenarioDefinition);
                 endRule(context, RuleType.Feature);
                 build(context, token);
             return 22;
@@ -1201,7 +1201,7 @@ public class Parser<T> {
             if (lookahead_0(context, token))
             {
                 endRule(context, RuleType.Description);
-                startRule(context, RuleType.ExampleDataDefinition);
+                startRule(context, RuleType.ExamplesDefinition);
                 startRule(context, RuleType.Tags);
                 build(context, token);
             return 17;
@@ -1211,26 +1211,26 @@ public class Parser<T> {
         {
                 endRule(context, RuleType.Description);
                 endRule(context, RuleType.Example);
-                endRule(context, RuleType.ExampleDefinition);
-                startRule(context, RuleType.ExampleDefinition);
+                endRule(context, RuleType.ScenarioDefinition);
+                startRule(context, RuleType.ScenarioDefinition);
                 startRule(context, RuleType.Tags);
                 build(context, token);
             return 11;
         }
-        if (match_ExampleDataLine(context, token))
+        if (match_ExamplesDataLine(context, token))
         {
                 endRule(context, RuleType.Description);
-                startRule(context, RuleType.ExampleDataDefinition);
-                startRule(context, RuleType.ExampleData);
+                startRule(context, RuleType.ExamplesDefinition);
+                startRule(context, RuleType.Examples);
                 build(context, token);
             return 18;
         }
-        if (match_ExampleLine(context, token))
+        if (match_ScenarioLine(context, token))
         {
                 endRule(context, RuleType.Description);
                 endRule(context, RuleType.Example);
-                endRule(context, RuleType.ExampleDefinition);
-                startRule(context, RuleType.ExampleDefinition);
+                endRule(context, RuleType.ScenarioDefinition);
+                startRule(context, RuleType.ScenarioDefinition);
                 startRule(context, RuleType.Example);
                 build(context, token);
             return 12;
@@ -1241,9 +1241,9 @@ public class Parser<T> {
             return 13;
         }
         
-        final String stateComment = "State: 13 - GherkinDocument:0>Feature:2>ExampleDefinition:1>Example:1>DescriptionHelper:1>Description:0>#Other:0";
+        final String stateComment = "State: 13 - GherkinDocument:0>Feature:2>ScenarioDefinition:1>Example:1>DescriptionHelper:1>Description:0>#Other:0";
         token.detach();
-        List<String> expectedTokens = asList("#EOF", "#Comment", "#StepLine", "#TagLine", "#ExampleDataLine", "#ExampleLine", "#Other");
+        List<String> expectedTokens = asList("#EOF", "#Comment", "#StepLine", "#TagLine", "#ExamplesDataLine", "#ScenarioLine", "#Other");
         ParserException error = token.isEOF()
                 ? new ParserException.UnexpectedEOFException(token, expectedTokens, stateComment)
                 : new ParserException.UnexpectedTokenException(token, expectedTokens, stateComment);
@@ -1256,12 +1256,12 @@ public class Parser<T> {
     }
 
 
-    // GherkinDocument:0>Feature:2>ExampleDefinition:1>Example:1>DescriptionHelper:2>#Comment:0
+    // GherkinDocument:0>Feature:2>ScenarioDefinition:1>Example:1>DescriptionHelper:2>#Comment:0
     private int matchTokenAt_14(Token token, ParserContext context) {
         if (match_EOF(context, token))
         {
                 endRule(context, RuleType.Example);
-                endRule(context, RuleType.ExampleDefinition);
+                endRule(context, RuleType.ScenarioDefinition);
                 endRule(context, RuleType.Feature);
                 build(context, token);
             return 22;
@@ -1281,7 +1281,7 @@ public class Parser<T> {
         {
             if (lookahead_0(context, token))
             {
-                startRule(context, RuleType.ExampleDataDefinition);
+                startRule(context, RuleType.ExamplesDefinition);
                 startRule(context, RuleType.Tags);
                 build(context, token);
             return 17;
@@ -1290,24 +1290,24 @@ public class Parser<T> {
         if (match_TagLine(context, token))
         {
                 endRule(context, RuleType.Example);
-                endRule(context, RuleType.ExampleDefinition);
-                startRule(context, RuleType.ExampleDefinition);
+                endRule(context, RuleType.ScenarioDefinition);
+                startRule(context, RuleType.ScenarioDefinition);
                 startRule(context, RuleType.Tags);
                 build(context, token);
             return 11;
         }
-        if (match_ExampleDataLine(context, token))
+        if (match_ExamplesDataLine(context, token))
         {
-                startRule(context, RuleType.ExampleDataDefinition);
-                startRule(context, RuleType.ExampleData);
+                startRule(context, RuleType.ExamplesDefinition);
+                startRule(context, RuleType.Examples);
                 build(context, token);
             return 18;
         }
-        if (match_ExampleLine(context, token))
+        if (match_ScenarioLine(context, token))
         {
                 endRule(context, RuleType.Example);
-                endRule(context, RuleType.ExampleDefinition);
-                startRule(context, RuleType.ExampleDefinition);
+                endRule(context, RuleType.ScenarioDefinition);
+                startRule(context, RuleType.ScenarioDefinition);
                 startRule(context, RuleType.Example);
                 build(context, token);
             return 12;
@@ -1318,9 +1318,9 @@ public class Parser<T> {
             return 14;
         }
         
-        final String stateComment = "State: 14 - GherkinDocument:0>Feature:2>ExampleDefinition:1>Example:1>DescriptionHelper:2>#Comment:0";
+        final String stateComment = "State: 14 - GherkinDocument:0>Feature:2>ScenarioDefinition:1>Example:1>DescriptionHelper:2>#Comment:0";
         token.detach();
-        List<String> expectedTokens = asList("#EOF", "#Comment", "#StepLine", "#TagLine", "#ExampleDataLine", "#ExampleLine", "#Empty");
+        List<String> expectedTokens = asList("#EOF", "#Comment", "#StepLine", "#TagLine", "#ExamplesDataLine", "#ScenarioLine", "#Empty");
         ParserException error = token.isEOF()
                 ? new ParserException.UnexpectedEOFException(token, expectedTokens, stateComment)
                 : new ParserException.UnexpectedTokenException(token, expectedTokens, stateComment);
@@ -1333,13 +1333,13 @@ public class Parser<T> {
     }
 
 
-    // GherkinDocument:0>Feature:2>ExampleDefinition:1>Example:2>Step:0>#StepLine:0
+    // GherkinDocument:0>Feature:2>ScenarioDefinition:1>Example:2>Step:0>#StepLine:0
     private int matchTokenAt_15(Token token, ParserContext context) {
         if (match_EOF(context, token))
         {
                 endRule(context, RuleType.Step);
                 endRule(context, RuleType.Example);
-                endRule(context, RuleType.ExampleDefinition);
+                endRule(context, RuleType.ScenarioDefinition);
                 endRule(context, RuleType.Feature);
                 build(context, token);
             return 22;
@@ -1368,7 +1368,7 @@ public class Parser<T> {
             if (lookahead_0(context, token))
             {
                 endRule(context, RuleType.Step);
-                startRule(context, RuleType.ExampleDataDefinition);
+                startRule(context, RuleType.ExamplesDefinition);
                 startRule(context, RuleType.Tags);
                 build(context, token);
             return 17;
@@ -1378,26 +1378,26 @@ public class Parser<T> {
         {
                 endRule(context, RuleType.Step);
                 endRule(context, RuleType.Example);
-                endRule(context, RuleType.ExampleDefinition);
-                startRule(context, RuleType.ExampleDefinition);
+                endRule(context, RuleType.ScenarioDefinition);
+                startRule(context, RuleType.ScenarioDefinition);
                 startRule(context, RuleType.Tags);
                 build(context, token);
             return 11;
         }
-        if (match_ExampleDataLine(context, token))
+        if (match_ExamplesDataLine(context, token))
         {
                 endRule(context, RuleType.Step);
-                startRule(context, RuleType.ExampleDataDefinition);
-                startRule(context, RuleType.ExampleData);
+                startRule(context, RuleType.ExamplesDefinition);
+                startRule(context, RuleType.Examples);
                 build(context, token);
             return 18;
         }
-        if (match_ExampleLine(context, token))
+        if (match_ScenarioLine(context, token))
         {
                 endRule(context, RuleType.Step);
                 endRule(context, RuleType.Example);
-                endRule(context, RuleType.ExampleDefinition);
-                startRule(context, RuleType.ExampleDefinition);
+                endRule(context, RuleType.ScenarioDefinition);
+                startRule(context, RuleType.ScenarioDefinition);
                 startRule(context, RuleType.Example);
                 build(context, token);
             return 12;
@@ -1413,9 +1413,9 @@ public class Parser<T> {
             return 15;
         }
         
-        final String stateComment = "State: 15 - GherkinDocument:0>Feature:2>ExampleDefinition:1>Example:2>Step:0>#StepLine:0";
+        final String stateComment = "State: 15 - GherkinDocument:0>Feature:2>ScenarioDefinition:1>Example:2>Step:0>#StepLine:0";
         token.detach();
-        List<String> expectedTokens = asList("#EOF", "#TableRow", "#DocStringSeparator", "#StepLine", "#TagLine", "#ExampleDataLine", "#ExampleLine", "#Comment", "#Empty");
+        List<String> expectedTokens = asList("#EOF", "#TableRow", "#DocStringSeparator", "#StepLine", "#TagLine", "#ExamplesDataLine", "#ScenarioLine", "#Comment", "#Empty");
         ParserException error = token.isEOF()
                 ? new ParserException.UnexpectedEOFException(token, expectedTokens, stateComment)
                 : new ParserException.UnexpectedTokenException(token, expectedTokens, stateComment);
@@ -1428,14 +1428,14 @@ public class Parser<T> {
     }
 
 
-    // GherkinDocument:0>Feature:2>ExampleDefinition:1>Example:2>Step:1>StepArg:0>__alt0:0>DataTable:0>#TableRow:0
+    // GherkinDocument:0>Feature:2>ScenarioDefinition:1>Example:2>Step:1>StepArg:0>__alt0:0>DataTable:0>#TableRow:0
     private int matchTokenAt_16(Token token, ParserContext context) {
         if (match_EOF(context, token))
         {
                 endRule(context, RuleType.DataTable);
                 endRule(context, RuleType.Step);
                 endRule(context, RuleType.Example);
-                endRule(context, RuleType.ExampleDefinition);
+                endRule(context, RuleType.ScenarioDefinition);
                 endRule(context, RuleType.Feature);
                 build(context, token);
             return 22;
@@ -1459,7 +1459,7 @@ public class Parser<T> {
             {
                 endRule(context, RuleType.DataTable);
                 endRule(context, RuleType.Step);
-                startRule(context, RuleType.ExampleDataDefinition);
+                startRule(context, RuleType.ExamplesDefinition);
                 startRule(context, RuleType.Tags);
                 build(context, token);
             return 17;
@@ -1470,28 +1470,28 @@ public class Parser<T> {
                 endRule(context, RuleType.DataTable);
                 endRule(context, RuleType.Step);
                 endRule(context, RuleType.Example);
-                endRule(context, RuleType.ExampleDefinition);
-                startRule(context, RuleType.ExampleDefinition);
+                endRule(context, RuleType.ScenarioDefinition);
+                startRule(context, RuleType.ScenarioDefinition);
                 startRule(context, RuleType.Tags);
                 build(context, token);
             return 11;
         }
-        if (match_ExampleDataLine(context, token))
+        if (match_ExamplesDataLine(context, token))
         {
                 endRule(context, RuleType.DataTable);
                 endRule(context, RuleType.Step);
-                startRule(context, RuleType.ExampleDataDefinition);
-                startRule(context, RuleType.ExampleData);
+                startRule(context, RuleType.ExamplesDefinition);
+                startRule(context, RuleType.Examples);
                 build(context, token);
             return 18;
         }
-        if (match_ExampleLine(context, token))
+        if (match_ScenarioLine(context, token))
         {
                 endRule(context, RuleType.DataTable);
                 endRule(context, RuleType.Step);
                 endRule(context, RuleType.Example);
-                endRule(context, RuleType.ExampleDefinition);
-                startRule(context, RuleType.ExampleDefinition);
+                endRule(context, RuleType.ScenarioDefinition);
+                startRule(context, RuleType.ScenarioDefinition);
                 startRule(context, RuleType.Example);
                 build(context, token);
             return 12;
@@ -1507,9 +1507,9 @@ public class Parser<T> {
             return 16;
         }
         
-        final String stateComment = "State: 16 - GherkinDocument:0>Feature:2>ExampleDefinition:1>Example:2>Step:1>StepArg:0>__alt0:0>DataTable:0>#TableRow:0";
+        final String stateComment = "State: 16 - GherkinDocument:0>Feature:2>ScenarioDefinition:1>Example:2>Step:1>StepArg:0>__alt0:0>DataTable:0>#TableRow:0";
         token.detach();
-        List<String> expectedTokens = asList("#EOF", "#TableRow", "#StepLine", "#TagLine", "#ExampleDataLine", "#ExampleLine", "#Comment", "#Empty");
+        List<String> expectedTokens = asList("#EOF", "#TableRow", "#StepLine", "#TagLine", "#ExamplesDataLine", "#ScenarioLine", "#Comment", "#Empty");
         ParserException error = token.isEOF()
                 ? new ParserException.UnexpectedEOFException(token, expectedTokens, stateComment)
                 : new ParserException.UnexpectedTokenException(token, expectedTokens, stateComment);
@@ -1522,17 +1522,17 @@ public class Parser<T> {
     }
 
 
-    // GherkinDocument:0>Feature:2>ExampleDefinition:1>Example:3>ExampleDataDefinition:0>Tags:0>#TagLine:0
+    // GherkinDocument:0>Feature:2>ScenarioDefinition:1>Example:3>ExamplesDefinition:0>Tags:0>#TagLine:0
     private int matchTokenAt_17(Token token, ParserContext context) {
         if (match_TagLine(context, token))
         {
                 build(context, token);
             return 17;
         }
-        if (match_ExampleDataLine(context, token))
+        if (match_ExamplesDataLine(context, token))
         {
                 endRule(context, RuleType.Tags);
-                startRule(context, RuleType.ExampleData);
+                startRule(context, RuleType.Examples);
                 build(context, token);
             return 18;
         }
@@ -1547,9 +1547,9 @@ public class Parser<T> {
             return 17;
         }
         
-        final String stateComment = "State: 17 - GherkinDocument:0>Feature:2>ExampleDefinition:1>Example:3>ExampleDataDefinition:0>Tags:0>#TagLine:0";
+        final String stateComment = "State: 17 - GherkinDocument:0>Feature:2>ScenarioDefinition:1>Example:3>ExamplesDefinition:0>Tags:0>#TagLine:0";
         token.detach();
-        List<String> expectedTokens = asList("#TagLine", "#ExampleDataLine", "#Comment", "#Empty");
+        List<String> expectedTokens = asList("#TagLine", "#ExamplesDataLine", "#Comment", "#Empty");
         ParserException error = token.isEOF()
                 ? new ParserException.UnexpectedEOFException(token, expectedTokens, stateComment)
                 : new ParserException.UnexpectedTokenException(token, expectedTokens, stateComment);
@@ -1562,14 +1562,14 @@ public class Parser<T> {
     }
 
 
-    // GherkinDocument:0>Feature:2>ExampleDefinition:1>Example:3>ExampleDataDefinition:1>ExampleData:0>#ExampleDataLine:0
+    // GherkinDocument:0>Feature:2>ScenarioDefinition:1>Example:3>ExamplesDefinition:1>Examples:0>#ExamplesDataLine:0
     private int matchTokenAt_18(Token token, ParserContext context) {
         if (match_EOF(context, token))
         {
-                endRule(context, RuleType.ExampleData);
-                endRule(context, RuleType.ExampleDataDefinition);
+                endRule(context, RuleType.Examples);
+                endRule(context, RuleType.ExamplesDefinition);
                 endRule(context, RuleType.Example);
-                endRule(context, RuleType.ExampleDefinition);
+                endRule(context, RuleType.ScenarioDefinition);
                 endRule(context, RuleType.Feature);
                 build(context, token);
             return 22;
@@ -1586,7 +1586,7 @@ public class Parser<T> {
         }
         if (match_TableRow(context, token))
         {
-                startRule(context, RuleType.ExampleDataTable);
+                startRule(context, RuleType.ExamplesTable);
                 build(context, token);
             return 21;
         }
@@ -1594,9 +1594,9 @@ public class Parser<T> {
         {
             if (lookahead_0(context, token))
             {
-                endRule(context, RuleType.ExampleData);
-                endRule(context, RuleType.ExampleDataDefinition);
-                startRule(context, RuleType.ExampleDataDefinition);
+                endRule(context, RuleType.Examples);
+                endRule(context, RuleType.ExamplesDefinition);
+                startRule(context, RuleType.ExamplesDefinition);
                 startRule(context, RuleType.Tags);
                 build(context, token);
             return 17;
@@ -1604,31 +1604,31 @@ public class Parser<T> {
         }
         if (match_TagLine(context, token))
         {
-                endRule(context, RuleType.ExampleData);
-                endRule(context, RuleType.ExampleDataDefinition);
+                endRule(context, RuleType.Examples);
+                endRule(context, RuleType.ExamplesDefinition);
                 endRule(context, RuleType.Example);
-                endRule(context, RuleType.ExampleDefinition);
-                startRule(context, RuleType.ExampleDefinition);
+                endRule(context, RuleType.ScenarioDefinition);
+                startRule(context, RuleType.ScenarioDefinition);
                 startRule(context, RuleType.Tags);
                 build(context, token);
             return 11;
         }
-        if (match_ExampleDataLine(context, token))
+        if (match_ExamplesDataLine(context, token))
         {
-                endRule(context, RuleType.ExampleData);
-                endRule(context, RuleType.ExampleDataDefinition);
-                startRule(context, RuleType.ExampleDataDefinition);
-                startRule(context, RuleType.ExampleData);
+                endRule(context, RuleType.Examples);
+                endRule(context, RuleType.ExamplesDefinition);
+                startRule(context, RuleType.ExamplesDefinition);
+                startRule(context, RuleType.Examples);
                 build(context, token);
             return 18;
         }
-        if (match_ExampleLine(context, token))
+        if (match_ScenarioLine(context, token))
         {
-                endRule(context, RuleType.ExampleData);
-                endRule(context, RuleType.ExampleDataDefinition);
+                endRule(context, RuleType.Examples);
+                endRule(context, RuleType.ExamplesDefinition);
                 endRule(context, RuleType.Example);
-                endRule(context, RuleType.ExampleDefinition);
-                startRule(context, RuleType.ExampleDefinition);
+                endRule(context, RuleType.ScenarioDefinition);
+                startRule(context, RuleType.ScenarioDefinition);
                 startRule(context, RuleType.Example);
                 build(context, token);
             return 12;
@@ -1640,9 +1640,9 @@ public class Parser<T> {
             return 19;
         }
         
-        final String stateComment = "State: 18 - GherkinDocument:0>Feature:2>ExampleDefinition:1>Example:3>ExampleDataDefinition:1>ExampleData:0>#ExampleDataLine:0";
+        final String stateComment = "State: 18 - GherkinDocument:0>Feature:2>ScenarioDefinition:1>Example:3>ExamplesDefinition:1>Examples:0>#ExamplesDataLine:0";
         token.detach();
-        List<String> expectedTokens = asList("#EOF", "#Empty", "#Comment", "#TableRow", "#TagLine", "#ExampleDataLine", "#ExampleLine", "#Other");
+        List<String> expectedTokens = asList("#EOF", "#Empty", "#Comment", "#TableRow", "#TagLine", "#ExamplesDataLine", "#ScenarioLine", "#Other");
         ParserException error = token.isEOF()
                 ? new ParserException.UnexpectedEOFException(token, expectedTokens, stateComment)
                 : new ParserException.UnexpectedTokenException(token, expectedTokens, stateComment);
@@ -1655,15 +1655,15 @@ public class Parser<T> {
     }
 
 
-    // GherkinDocument:0>Feature:2>ExampleDefinition:1>Example:3>ExampleDataDefinition:1>ExampleData:1>DescriptionHelper:1>Description:0>#Other:0
+    // GherkinDocument:0>Feature:2>ScenarioDefinition:1>Example:3>ExamplesDefinition:1>Examples:1>DescriptionHelper:1>Description:0>#Other:0
     private int matchTokenAt_19(Token token, ParserContext context) {
         if (match_EOF(context, token))
         {
                 endRule(context, RuleType.Description);
-                endRule(context, RuleType.ExampleData);
-                endRule(context, RuleType.ExampleDataDefinition);
+                endRule(context, RuleType.Examples);
+                endRule(context, RuleType.ExamplesDefinition);
                 endRule(context, RuleType.Example);
-                endRule(context, RuleType.ExampleDefinition);
+                endRule(context, RuleType.ScenarioDefinition);
                 endRule(context, RuleType.Feature);
                 build(context, token);
             return 22;
@@ -1677,7 +1677,7 @@ public class Parser<T> {
         if (match_TableRow(context, token))
         {
                 endRule(context, RuleType.Description);
-                startRule(context, RuleType.ExampleDataTable);
+                startRule(context, RuleType.ExamplesTable);
                 build(context, token);
             return 21;
         }
@@ -1686,9 +1686,9 @@ public class Parser<T> {
             if (lookahead_0(context, token))
             {
                 endRule(context, RuleType.Description);
-                endRule(context, RuleType.ExampleData);
-                endRule(context, RuleType.ExampleDataDefinition);
-                startRule(context, RuleType.ExampleDataDefinition);
+                endRule(context, RuleType.Examples);
+                endRule(context, RuleType.ExamplesDefinition);
+                startRule(context, RuleType.ExamplesDefinition);
                 startRule(context, RuleType.Tags);
                 build(context, token);
             return 17;
@@ -1697,33 +1697,33 @@ public class Parser<T> {
         if (match_TagLine(context, token))
         {
                 endRule(context, RuleType.Description);
-                endRule(context, RuleType.ExampleData);
-                endRule(context, RuleType.ExampleDataDefinition);
+                endRule(context, RuleType.Examples);
+                endRule(context, RuleType.ExamplesDefinition);
                 endRule(context, RuleType.Example);
-                endRule(context, RuleType.ExampleDefinition);
-                startRule(context, RuleType.ExampleDefinition);
+                endRule(context, RuleType.ScenarioDefinition);
+                startRule(context, RuleType.ScenarioDefinition);
                 startRule(context, RuleType.Tags);
                 build(context, token);
             return 11;
         }
-        if (match_ExampleDataLine(context, token))
+        if (match_ExamplesDataLine(context, token))
         {
                 endRule(context, RuleType.Description);
-                endRule(context, RuleType.ExampleData);
-                endRule(context, RuleType.ExampleDataDefinition);
-                startRule(context, RuleType.ExampleDataDefinition);
-                startRule(context, RuleType.ExampleData);
+                endRule(context, RuleType.Examples);
+                endRule(context, RuleType.ExamplesDefinition);
+                startRule(context, RuleType.ExamplesDefinition);
+                startRule(context, RuleType.Examples);
                 build(context, token);
             return 18;
         }
-        if (match_ExampleLine(context, token))
+        if (match_ScenarioLine(context, token))
         {
                 endRule(context, RuleType.Description);
-                endRule(context, RuleType.ExampleData);
-                endRule(context, RuleType.ExampleDataDefinition);
+                endRule(context, RuleType.Examples);
+                endRule(context, RuleType.ExamplesDefinition);
                 endRule(context, RuleType.Example);
-                endRule(context, RuleType.ExampleDefinition);
-                startRule(context, RuleType.ExampleDefinition);
+                endRule(context, RuleType.ScenarioDefinition);
+                startRule(context, RuleType.ScenarioDefinition);
                 startRule(context, RuleType.Example);
                 build(context, token);
             return 12;
@@ -1734,9 +1734,9 @@ public class Parser<T> {
             return 19;
         }
         
-        final String stateComment = "State: 19 - GherkinDocument:0>Feature:2>ExampleDefinition:1>Example:3>ExampleDataDefinition:1>ExampleData:1>DescriptionHelper:1>Description:0>#Other:0";
+        final String stateComment = "State: 19 - GherkinDocument:0>Feature:2>ScenarioDefinition:1>Example:3>ExamplesDefinition:1>Examples:1>DescriptionHelper:1>Description:0>#Other:0";
         token.detach();
-        List<String> expectedTokens = asList("#EOF", "#Comment", "#TableRow", "#TagLine", "#ExampleDataLine", "#ExampleLine", "#Other");
+        List<String> expectedTokens = asList("#EOF", "#Comment", "#TableRow", "#TagLine", "#ExamplesDataLine", "#ScenarioLine", "#Other");
         ParserException error = token.isEOF()
                 ? new ParserException.UnexpectedEOFException(token, expectedTokens, stateComment)
                 : new ParserException.UnexpectedTokenException(token, expectedTokens, stateComment);
@@ -1749,14 +1749,14 @@ public class Parser<T> {
     }
 
 
-    // GherkinDocument:0>Feature:2>ExampleDefinition:1>Example:3>ExampleDataDefinition:1>ExampleData:1>DescriptionHelper:2>#Comment:0
+    // GherkinDocument:0>Feature:2>ScenarioDefinition:1>Example:3>ExamplesDefinition:1>Examples:1>DescriptionHelper:2>#Comment:0
     private int matchTokenAt_20(Token token, ParserContext context) {
         if (match_EOF(context, token))
         {
-                endRule(context, RuleType.ExampleData);
-                endRule(context, RuleType.ExampleDataDefinition);
+                endRule(context, RuleType.Examples);
+                endRule(context, RuleType.ExamplesDefinition);
                 endRule(context, RuleType.Example);
-                endRule(context, RuleType.ExampleDefinition);
+                endRule(context, RuleType.ScenarioDefinition);
                 endRule(context, RuleType.Feature);
                 build(context, token);
             return 22;
@@ -1768,7 +1768,7 @@ public class Parser<T> {
         }
         if (match_TableRow(context, token))
         {
-                startRule(context, RuleType.ExampleDataTable);
+                startRule(context, RuleType.ExamplesTable);
                 build(context, token);
             return 21;
         }
@@ -1776,9 +1776,9 @@ public class Parser<T> {
         {
             if (lookahead_0(context, token))
             {
-                endRule(context, RuleType.ExampleData);
-                endRule(context, RuleType.ExampleDataDefinition);
-                startRule(context, RuleType.ExampleDataDefinition);
+                endRule(context, RuleType.Examples);
+                endRule(context, RuleType.ExamplesDefinition);
+                startRule(context, RuleType.ExamplesDefinition);
                 startRule(context, RuleType.Tags);
                 build(context, token);
             return 17;
@@ -1786,31 +1786,31 @@ public class Parser<T> {
         }
         if (match_TagLine(context, token))
         {
-                endRule(context, RuleType.ExampleData);
-                endRule(context, RuleType.ExampleDataDefinition);
+                endRule(context, RuleType.Examples);
+                endRule(context, RuleType.ExamplesDefinition);
                 endRule(context, RuleType.Example);
-                endRule(context, RuleType.ExampleDefinition);
-                startRule(context, RuleType.ExampleDefinition);
+                endRule(context, RuleType.ScenarioDefinition);
+                startRule(context, RuleType.ScenarioDefinition);
                 startRule(context, RuleType.Tags);
                 build(context, token);
             return 11;
         }
-        if (match_ExampleDataLine(context, token))
+        if (match_ExamplesDataLine(context, token))
         {
-                endRule(context, RuleType.ExampleData);
-                endRule(context, RuleType.ExampleDataDefinition);
-                startRule(context, RuleType.ExampleDataDefinition);
-                startRule(context, RuleType.ExampleData);
+                endRule(context, RuleType.Examples);
+                endRule(context, RuleType.ExamplesDefinition);
+                startRule(context, RuleType.ExamplesDefinition);
+                startRule(context, RuleType.Examples);
                 build(context, token);
             return 18;
         }
-        if (match_ExampleLine(context, token))
+        if (match_ScenarioLine(context, token))
         {
-                endRule(context, RuleType.ExampleData);
-                endRule(context, RuleType.ExampleDataDefinition);
+                endRule(context, RuleType.Examples);
+                endRule(context, RuleType.ExamplesDefinition);
                 endRule(context, RuleType.Example);
-                endRule(context, RuleType.ExampleDefinition);
-                startRule(context, RuleType.ExampleDefinition);
+                endRule(context, RuleType.ScenarioDefinition);
+                startRule(context, RuleType.ScenarioDefinition);
                 startRule(context, RuleType.Example);
                 build(context, token);
             return 12;
@@ -1821,9 +1821,9 @@ public class Parser<T> {
             return 20;
         }
         
-        final String stateComment = "State: 20 - GherkinDocument:0>Feature:2>ExampleDefinition:1>Example:3>ExampleDataDefinition:1>ExampleData:1>DescriptionHelper:2>#Comment:0";
+        final String stateComment = "State: 20 - GherkinDocument:0>Feature:2>ScenarioDefinition:1>Example:3>ExamplesDefinition:1>Examples:1>DescriptionHelper:2>#Comment:0";
         token.detach();
-        List<String> expectedTokens = asList("#EOF", "#Comment", "#TableRow", "#TagLine", "#ExampleDataLine", "#ExampleLine", "#Empty");
+        List<String> expectedTokens = asList("#EOF", "#Comment", "#TableRow", "#TagLine", "#ExamplesDataLine", "#ScenarioLine", "#Empty");
         ParserException error = token.isEOF()
                 ? new ParserException.UnexpectedEOFException(token, expectedTokens, stateComment)
                 : new ParserException.UnexpectedTokenException(token, expectedTokens, stateComment);
@@ -1836,15 +1836,15 @@ public class Parser<T> {
     }
 
 
-    // GherkinDocument:0>Feature:2>ExampleDefinition:1>Example:3>ExampleDataDefinition:1>ExampleData:2>ExampleDataTable:0>#TableRow:0
+    // GherkinDocument:0>Feature:2>ScenarioDefinition:1>Example:3>ExamplesDefinition:1>Examples:2>ExamplesTable:0>#TableRow:0
     private int matchTokenAt_21(Token token, ParserContext context) {
         if (match_EOF(context, token))
         {
-                endRule(context, RuleType.ExampleDataTable);
-                endRule(context, RuleType.ExampleData);
-                endRule(context, RuleType.ExampleDataDefinition);
+                endRule(context, RuleType.ExamplesTable);
+                endRule(context, RuleType.Examples);
+                endRule(context, RuleType.ExamplesDefinition);
                 endRule(context, RuleType.Example);
-                endRule(context, RuleType.ExampleDefinition);
+                endRule(context, RuleType.ScenarioDefinition);
                 endRule(context, RuleType.Feature);
                 build(context, token);
             return 22;
@@ -1858,10 +1858,10 @@ public class Parser<T> {
         {
             if (lookahead_0(context, token))
             {
-                endRule(context, RuleType.ExampleDataTable);
-                endRule(context, RuleType.ExampleData);
-                endRule(context, RuleType.ExampleDataDefinition);
-                startRule(context, RuleType.ExampleDataDefinition);
+                endRule(context, RuleType.ExamplesTable);
+                endRule(context, RuleType.Examples);
+                endRule(context, RuleType.ExamplesDefinition);
+                startRule(context, RuleType.ExamplesDefinition);
                 startRule(context, RuleType.Tags);
                 build(context, token);
             return 17;
@@ -1869,34 +1869,34 @@ public class Parser<T> {
         }
         if (match_TagLine(context, token))
         {
-                endRule(context, RuleType.ExampleDataTable);
-                endRule(context, RuleType.ExampleData);
-                endRule(context, RuleType.ExampleDataDefinition);
+                endRule(context, RuleType.ExamplesTable);
+                endRule(context, RuleType.Examples);
+                endRule(context, RuleType.ExamplesDefinition);
                 endRule(context, RuleType.Example);
-                endRule(context, RuleType.ExampleDefinition);
-                startRule(context, RuleType.ExampleDefinition);
+                endRule(context, RuleType.ScenarioDefinition);
+                startRule(context, RuleType.ScenarioDefinition);
                 startRule(context, RuleType.Tags);
                 build(context, token);
             return 11;
         }
-        if (match_ExampleDataLine(context, token))
+        if (match_ExamplesDataLine(context, token))
         {
-                endRule(context, RuleType.ExampleDataTable);
-                endRule(context, RuleType.ExampleData);
-                endRule(context, RuleType.ExampleDataDefinition);
-                startRule(context, RuleType.ExampleDataDefinition);
-                startRule(context, RuleType.ExampleData);
+                endRule(context, RuleType.ExamplesTable);
+                endRule(context, RuleType.Examples);
+                endRule(context, RuleType.ExamplesDefinition);
+                startRule(context, RuleType.ExamplesDefinition);
+                startRule(context, RuleType.Examples);
                 build(context, token);
             return 18;
         }
-        if (match_ExampleLine(context, token))
+        if (match_ScenarioLine(context, token))
         {
-                endRule(context, RuleType.ExampleDataTable);
-                endRule(context, RuleType.ExampleData);
-                endRule(context, RuleType.ExampleDataDefinition);
+                endRule(context, RuleType.ExamplesTable);
+                endRule(context, RuleType.Examples);
+                endRule(context, RuleType.ExamplesDefinition);
                 endRule(context, RuleType.Example);
-                endRule(context, RuleType.ExampleDefinition);
-                startRule(context, RuleType.ExampleDefinition);
+                endRule(context, RuleType.ScenarioDefinition);
+                startRule(context, RuleType.ScenarioDefinition);
                 startRule(context, RuleType.Example);
                 build(context, token);
             return 12;
@@ -1912,9 +1912,9 @@ public class Parser<T> {
             return 21;
         }
         
-        final String stateComment = "State: 21 - GherkinDocument:0>Feature:2>ExampleDefinition:1>Example:3>ExampleDataDefinition:1>ExampleData:2>ExampleDataTable:0>#TableRow:0";
+        final String stateComment = "State: 21 - GherkinDocument:0>Feature:2>ScenarioDefinition:1>Example:3>ExamplesDefinition:1>Examples:2>ExamplesTable:0>#TableRow:0";
         token.detach();
-        List<String> expectedTokens = asList("#EOF", "#TableRow", "#TagLine", "#ExampleDataLine", "#ExampleLine", "#Comment", "#Empty");
+        List<String> expectedTokens = asList("#EOF", "#TableRow", "#TagLine", "#ExamplesDataLine", "#ScenarioLine", "#Comment", "#Empty");
         ParserException error = token.isEOF()
                 ? new ParserException.UnexpectedEOFException(token, expectedTokens, stateComment)
                 : new ParserException.UnexpectedTokenException(token, expectedTokens, stateComment);
@@ -1927,7 +1927,7 @@ public class Parser<T> {
     }
 
 
-    // GherkinDocument:0>Feature:2>ExampleDefinition:1>Example:2>Step:1>StepArg:0>__alt0:1>DocString:0>#DocStringSeparator:0
+    // GherkinDocument:0>Feature:2>ScenarioDefinition:1>Example:2>Step:1>StepArg:0>__alt0:1>DocString:0>#DocStringSeparator:0
     private int matchTokenAt_23(Token token, ParserContext context) {
         if (match_DocStringSeparator(context, token))
         {
@@ -1940,7 +1940,7 @@ public class Parser<T> {
             return 23;
         }
         
-        final String stateComment = "State: 23 - GherkinDocument:0>Feature:2>ExampleDefinition:1>Example:2>Step:1>StepArg:0>__alt0:1>DocString:0>#DocStringSeparator:0";
+        final String stateComment = "State: 23 - GherkinDocument:0>Feature:2>ScenarioDefinition:1>Example:2>Step:1>StepArg:0>__alt0:1>DocString:0>#DocStringSeparator:0";
         token.detach();
         List<String> expectedTokens = asList("#DocStringSeparator", "#Other");
         ParserException error = token.isEOF()
@@ -1955,14 +1955,14 @@ public class Parser<T> {
     }
 
 
-    // GherkinDocument:0>Feature:2>ExampleDefinition:1>Example:2>Step:1>StepArg:0>__alt0:1>DocString:2>#DocStringSeparator:0
+    // GherkinDocument:0>Feature:2>ScenarioDefinition:1>Example:2>Step:1>StepArg:0>__alt0:1>DocString:2>#DocStringSeparator:0
     private int matchTokenAt_24(Token token, ParserContext context) {
         if (match_EOF(context, token))
         {
                 endRule(context, RuleType.DocString);
                 endRule(context, RuleType.Step);
                 endRule(context, RuleType.Example);
-                endRule(context, RuleType.ExampleDefinition);
+                endRule(context, RuleType.ScenarioDefinition);
                 endRule(context, RuleType.Feature);
                 build(context, token);
             return 22;
@@ -1981,7 +1981,7 @@ public class Parser<T> {
             {
                 endRule(context, RuleType.DocString);
                 endRule(context, RuleType.Step);
-                startRule(context, RuleType.ExampleDataDefinition);
+                startRule(context, RuleType.ExamplesDefinition);
                 startRule(context, RuleType.Tags);
                 build(context, token);
             return 17;
@@ -1992,28 +1992,28 @@ public class Parser<T> {
                 endRule(context, RuleType.DocString);
                 endRule(context, RuleType.Step);
                 endRule(context, RuleType.Example);
-                endRule(context, RuleType.ExampleDefinition);
-                startRule(context, RuleType.ExampleDefinition);
+                endRule(context, RuleType.ScenarioDefinition);
+                startRule(context, RuleType.ScenarioDefinition);
                 startRule(context, RuleType.Tags);
                 build(context, token);
             return 11;
         }
-        if (match_ExampleDataLine(context, token))
+        if (match_ExamplesDataLine(context, token))
         {
                 endRule(context, RuleType.DocString);
                 endRule(context, RuleType.Step);
-                startRule(context, RuleType.ExampleDataDefinition);
-                startRule(context, RuleType.ExampleData);
+                startRule(context, RuleType.ExamplesDefinition);
+                startRule(context, RuleType.Examples);
                 build(context, token);
             return 18;
         }
-        if (match_ExampleLine(context, token))
+        if (match_ScenarioLine(context, token))
         {
                 endRule(context, RuleType.DocString);
                 endRule(context, RuleType.Step);
                 endRule(context, RuleType.Example);
-                endRule(context, RuleType.ExampleDefinition);
-                startRule(context, RuleType.ExampleDefinition);
+                endRule(context, RuleType.ScenarioDefinition);
+                startRule(context, RuleType.ScenarioDefinition);
                 startRule(context, RuleType.Example);
                 build(context, token);
             return 12;
@@ -2029,9 +2029,9 @@ public class Parser<T> {
             return 24;
         }
         
-        final String stateComment = "State: 24 - GherkinDocument:0>Feature:2>ExampleDefinition:1>Example:2>Step:1>StepArg:0>__alt0:1>DocString:2>#DocStringSeparator:0";
+        final String stateComment = "State: 24 - GherkinDocument:0>Feature:2>ScenarioDefinition:1>Example:2>Step:1>StepArg:0>__alt0:1>DocString:2>#DocStringSeparator:0";
         token.detach();
-        List<String> expectedTokens = asList("#EOF", "#StepLine", "#TagLine", "#ExampleDataLine", "#ExampleLine", "#Comment", "#Empty");
+        List<String> expectedTokens = asList("#EOF", "#StepLine", "#TagLine", "#ExamplesDataLine", "#ScenarioLine", "#Comment", "#Empty");
         ParserException error = token.isEOF()
                 ? new ParserException.UnexpectedEOFException(token, expectedTokens, stateComment)
                 : new ParserException.UnexpectedTokenException(token, expectedTokens, stateComment);
@@ -2096,17 +2096,17 @@ public class Parser<T> {
                 endRule(context, RuleType.DocString);
                 endRule(context, RuleType.Step);
                 endRule(context, RuleType.Background);
-                startRule(context, RuleType.ExampleDefinition);
+                startRule(context, RuleType.ScenarioDefinition);
                 startRule(context, RuleType.Tags);
                 build(context, token);
             return 11;
         }
-        if (match_ExampleLine(context, token))
+        if (match_ScenarioLine(context, token))
         {
                 endRule(context, RuleType.DocString);
                 endRule(context, RuleType.Step);
                 endRule(context, RuleType.Background);
-                startRule(context, RuleType.ExampleDefinition);
+                startRule(context, RuleType.ScenarioDefinition);
                 startRule(context, RuleType.Example);
                 build(context, token);
             return 12;
@@ -2124,7 +2124,7 @@ public class Parser<T> {
         
         final String stateComment = "State: 26 - GherkinDocument:0>Feature:1>Background:2>Step:1>StepArg:0>__alt0:1>DocString:2>#DocStringSeparator:0";
         token.detach();
-        List<String> expectedTokens = asList("#EOF", "#StepLine", "#TagLine", "#ExampleLine", "#Comment", "#Empty");
+        List<String> expectedTokens = asList("#EOF", "#StepLine", "#TagLine", "#ScenarioLine", "#Comment", "#Empty");
         ParserException error = token.isEOF()
                 ? new ParserException.UnexpectedEOFException(token, expectedTokens, stateComment)
                 : new ParserException.UnexpectedTokenException(token, expectedTokens, stateComment);
@@ -2150,7 +2150,7 @@ public class Parser<T> {
             queue.add(token);
 
             if (false
-                || match_ExampleDataLine(context, token)
+                || match_ExamplesDataLine(context, token)
             )
             {
                 match = true;
@@ -2187,8 +2187,8 @@ public class Parser<T> {
         boolean match_TagLine(Token token);
         boolean match_FeatureLine(Token token);
         boolean match_BackgroundLine(Token token);
-        boolean match_ExampleLine(Token token);
-        boolean match_ExampleDataLine(Token token);
+        boolean match_ScenarioLine(Token token);
+        boolean match_ExamplesDataLine(Token token);
         boolean match_StepLine(Token token);
         boolean match_DocStringSeparator(Token token);
         boolean match_TableRow(Token token);

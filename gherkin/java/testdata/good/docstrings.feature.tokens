@@ -1,6 +1,6 @@
 (1:1)FeatureLine:Feature/DocString variations/
 (2:1)Empty://
-(3:3)ExampleLine:Scenario/minimalistic/
+(3:3)ScenarioLine:Scenario/minimalistic/
 (4:5)StepLine:Given /a simple DocString/
 (5:7)DocStringSeparator://
 (6:1)Other:/first line (no indent)/

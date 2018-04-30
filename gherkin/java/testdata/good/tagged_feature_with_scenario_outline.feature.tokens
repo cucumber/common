@@ -1,10 +1,10 @@
 (1:1)TagLine://1:@sometag
 (2:1)FeatureLine:Feature/Foo/
 (3:1)Empty://
-(4:3)ExampleLine:Scenario Outline/Bar/
+(4:3)ScenarioLine:Scenario Outline/Bar/
 (5:5)StepLine:Then /Baz/
 (6:1)Empty://
-(7:5)ExampleDataLine:Examples//
+(7:5)ExamplesDataLine:Examples//
 (8:5)TableRow://7:name
 (9:5)TableRow://7:X
 (10:5)TableRow://7:Y

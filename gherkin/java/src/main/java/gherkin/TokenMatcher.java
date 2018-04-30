@@ -118,15 +118,15 @@ public class TokenMatcher implements ITokenMatcher {
     }
 
     @Override
-    public boolean match_ExampleLine(Token token) {
-        return matchTitleLine(token, TokenType.ExampleLine, currentDialect.getScenarioKeywords()) ||
-                matchTitleLine(token, TokenType.ExampleLine, currentDialect.getScenarioOutlineKeywords());
+    public boolean match_ScenarioLine(Token token) {
+        return matchTitleLine(token, TokenType.ScenarioLine, currentDialect.getScenarioKeywords()) ||
+                matchTitleLine(token, TokenType.ScenarioLine, currentDialect.getScenarioOutlineKeywords());
     }
 
     @Override
-    public boolean match_ExampleDataLine(Token token) {
-        return matchTitleLine(token, TokenType.ExampleDataLine, currentDialect.getScenarioDataKeywords()) ||
-                matchTitleLine(token, TokenType.ExampleDataLine, currentDialect.getExamplesKeywords());
+    public boolean match_ExamplesDataLine(Token token) {
+        return matchTitleLine(token, TokenType.ExamplesDataLine, currentDialect.getExamplesKeywords()) ||
+                matchTitleLine(token, TokenType.ExamplesDataLine, currentDialect.getExamplesKeywords());
     }
 
     private boolean matchTitleLine(Token token, TokenType tokenType, List<String> keywords) {

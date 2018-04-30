@@ -3,6 +3,6 @@ Feature: Minimal Scenario Outline
   Scenario: minimalistic
     Given the <what>
 
-    Data:
+    Examples:
       | what       |
       | minimalism |

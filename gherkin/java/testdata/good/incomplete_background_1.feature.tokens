@@ -2,6 +2,6 @@
 (2:1)Empty://
 (3:3)BackgroundLine:Background/no steps/
 (4:1)Empty://
-(5:3)ExampleLine:Scenario/still pickles up/
+(5:3)ScenarioLine:Scenario/still pickles up/
 (6:5)StepLine:* /a step/
 EOF

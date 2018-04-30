@@ -1,25 +1,25 @@
 [
-	Tokens -> #Empty,#Comment,#TagLine,#FeatureLine,#BackgroundLine,#ExampleLine,#ExampleDataLine,#StepLine,#DocStringSeparator,#TableRow,#Language
+	Tokens -> #Empty,#Comment,#TagLine,#FeatureLine,#BackgroundLine,#ScenarioLine,#ExamplesDataLine,#StepLine,#DocStringSeparator,#TableRow,#Language
 	IgnoredTokens -> #Comment,#Empty
 	ClassName -> Parser
 	Namespace -> Gherkin
 ]
 
 GherkinDocument! := Feature?
-Feature! := FeatureHeader Background? ExampleDefinition*
+Feature! := FeatureHeader Background? ScenarioDefinition*
 FeatureHeader! := #Language? Tags? #FeatureLine DescriptionHelper
 
 Background! := #BackgroundLine DescriptionHelper Step*
 
-// we could avoid defining ExampleDefinition, but that would require regular look-aheads, so worse performance
-ExampleDefinition! := Tags? Example
+// we could avoid defining ScenarioDefinition, but that would require regular look-aheads, so worse performance
+ScenarioDefinition! := Tags? Scenario
 
-Example! := #ExampleLine DescriptionHelper Step* ExampleDataDefinition*
+Scenario! := #ScenarioLine DescriptionHelper Step* ExamplesDefinition*
 // after the first "Data" block, interpreting a tag line is ambiguous (tagline of next examples or of next scenario)
 // because of this, we need a lookahead hint, that connects the tag line to the next examples, if there is an examples block ahead
-ExampleDataDefinition! [#Empty|#Comment|#TagLine->#ExampleDataLine]:= Tags? ExampleData
-ExampleData! := #ExampleDataLine DescriptionHelper ExampleDataTable?
-ExampleDataTable! := #TableRow #TableRow*
+ExamplesDefinition! [#Empty|#Comment|#TagLine->#ExamplesDataLine]:= Tags? Examples
+Examples! := #ExamplesDataLine DescriptionHelper ExamplesTable?
+ExamplesTable! := #TableRow #TableRow*
 
 Step! := #StepLine StepArg?
 StepArg := (DataTable | DocString)

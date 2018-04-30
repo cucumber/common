@@ -700,9 +700,6 @@
     "scenario": [
       "Scenario"
     ],
-    "scenarioData": [
-      "Data"
-    ],
     "scenarioOutline": [
       "Scenario Outline",
       "Scenario Template"
