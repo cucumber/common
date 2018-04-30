@@ -20,7 +20,6 @@ public class ParameterTypeRegistry {
     // which detects unneeded escapes.
     private static final List<String> INTEGER_REGEXPS = asList(Pattern.compile("-?\\d+").pattern(), Pattern.compile("\\d+").pattern());
     private static final List<String> FLOAT_REGEXPS = singletonList(Pattern.compile("-?\\d*[.,]\\d+").pattern());
-    private static final List<String> HEX_REGEXPS = singletonList(Pattern.compile("0[xX][0-9a-fA-F]{2}").pattern());
     private static final List<String> WORD_REGEXPS = singletonList(Pattern.compile("\\w+").pattern());
     private static final List<String> STRING_REGEXPS = singletonList(Pattern.compile("\"([^\"\\\\]*(\\\\.[^\"\\\\]*)*)\"|'([^'\\\\]*(\\\\.[^'\\\\]*)*)'").pattern());
     private final Map<String, ParameterType<?>> parameterTypeByName = new HashMap<>();
@@ -30,66 +29,66 @@ public class ParameterTypeRegistry {
         NumberFormat numberFormat = NumberFormat.getNumberInstance(locale);
         final NumberParser numberParser = new NumberParser(numberFormat);
 
-        defineParameterType(new ParameterType<>("biginteger", INTEGER_REGEXPS, BigInteger.class, new SingleTransformer<>(new Function<String, BigInteger>() {
+        defineParameterType(new ParameterType<>("biginteger", INTEGER_REGEXPS, BigInteger.class, new Transformer<BigInteger>() {
             @Override
-            public BigInteger apply(String s) {
-                return new BigInteger(s);
+            public BigInteger transform(String arg) {
+                return new BigInteger(arg);
             }
-        }), false, false));
-        defineParameterType(new ParameterType<>("bigdecimal", FLOAT_REGEXPS, BigDecimal.class, new SingleTransformer<>(new Function<String, BigDecimal>() {
+        }, false, false));
+        defineParameterType(new ParameterType<>("bigdecimal", FLOAT_REGEXPS, BigDecimal.class, new Transformer<BigDecimal>() {
             @Override
-            public BigDecimal apply(String s) {
-                return new BigDecimal(s);
+            public BigDecimal transform(String arg) {
+                return new BigDecimal(arg);
             }
-        }), false, false));
-        defineParameterType(new ParameterType<>("byte", HEX_REGEXPS, Byte.class, new SingleTransformer<>(new Function<String, Byte>() {
+        }, false, false));
+        defineParameterType(new ParameterType<>("byte", INTEGER_REGEXPS, Byte.class, new Transformer<Byte>() {
             @Override
-            public Byte apply(String s) {
-                return Byte.decode(s);
+            public Byte transform(String arg) {
+                return Byte.decode(arg);
             }
-        }), true, false));
-        defineParameterType(new ParameterType<>("short", INTEGER_REGEXPS, Short.class, new SingleTransformer<>(new Function<String, Short>() {
+        }, false, false));
+        defineParameterType(new ParameterType<>("short", INTEGER_REGEXPS, Short.class, new Transformer<Short>() {
             @Override
-            public Short apply(String s) {
-                return Short.decode(s);
+            public Short transform(String arg) {
+                return Short.decode(arg);
             }
-        }), false, false));
-        defineParameterType(new ParameterType<>("int", INTEGER_REGEXPS, Integer.class, new SingleTransformer<>(new Function<String, Integer>() {
+        }, false, false));
+        defineParameterType(new ParameterType<>("int", INTEGER_REGEXPS, Integer.class, new Transformer<Integer>() {
             @Override
-            public Integer apply(String s) {
-                return Integer.decode(s);
+            public Integer transform(String arg) {
+                return Integer.decode(arg);
             }
-        }), true, true));
-        defineParameterType(new ParameterType<>("long", INTEGER_REGEXPS, Long.class, new SingleTransformer<>(new Function<String, Long>() {
+        }, true, true));
+        defineParameterType(new ParameterType<>("long", INTEGER_REGEXPS, Long.class, new Transformer<Long>() {
             @Override
-            public Long apply(String s) {
-                return Long.decode(s);
+            public Long transform(String arg) {
+                return Long.decode(arg);
             }
-        }), false, false));
-        defineParameterType(new ParameterType<>("float", FLOAT_REGEXPS, Float.class, new SingleTransformer<>(new Function<String, Float>() {
+        }, false, false));
+        defineParameterType(new ParameterType<>("float", FLOAT_REGEXPS, Float.class, new Transformer<Float>() {
             @Override
-            public Float apply(String s) {
-                return numberParser.parseFloat(s);
+            public Float transform(String arg) {
+                return numberParser.parseFloat(arg);
             }
-        }), false, false));
-        defineParameterType(new ParameterType<>("double", FLOAT_REGEXPS, Double.class, new SingleTransformer<>(new Function<String, Double>() {
+        }, false, false));
+        defineParameterType(new ParameterType<>("double", FLOAT_REGEXPS, Double.class, new Transformer<Double>() {
             @Override
-            public Double apply(String s) {
-                return numberParser.parseDouble(s);
+            public Double transform(String arg) {
+                return numberParser.parseDouble(arg);
             }
-        }), true, true));
-        defineParameterType(new ParameterType<>("word", WORD_REGEXPS, String.class, new SingleTransformer<>(new Function<String, String>() {
+        }, true, true));
+        defineParameterType(new ParameterType<>("word", WORD_REGEXPS, String.class, new Transformer<String>() {
             @Override
-            public String apply(String s) {
-                return s;
+            public String transform(String arg) {
+                return arg;
             }
-        }), false, false));
-        defineParameterType(new ParameterType<>("string", STRING_REGEXPS, String.class, new SingleTransformer<>(new Function<String, String>() {
+        }, false, false));
+        defineParameterType(new ParameterType<>("string", STRING_REGEXPS, String.class, new Transformer<String>() {
             @Override
-            public String apply(String s) {
-                return s.replaceAll("\\\\\"", "\"").replaceAll("\\\\'", "'");
+            public String transform(String arg) {
+                return arg.replaceAll("\\\\\"", "\"").replaceAll("\\\\'", "'");
             }
-        }), true, false));
+        }, true, false));
     }
 
     public void defineParameterType(ParameterType<?> parameterType) {

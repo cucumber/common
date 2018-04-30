@@ -1,0 +1,26 @@
+# ============================================================================
+# PYTHON PACKAGE REQUIREMENTS FOR: For development only
+# ============================================================================
+
+# -- BASIC DEVELOPMENT ENVIRONMENT:
+pip >= 9.0.1
+virtualenv >= 15.0.1
+pipenv
+
+# -- CONFIGURATION MANAGEMENT (helpers):
+# FORMER: bumpversion >= 0.4.0
+bump2version >= 0.5.6
+
+# -- PYTHON2/3 COMPATIBILITY: pypa/modernize
+# python-futurize
+modernize >= 0.5
+
+# -- STATIC CODE ANALYSIS:
+pylint >= 1.7
+bandit >= 1.4
+# PREPARED: prospector >= 0.12.7
+
+# -- REQUIRES: testing, docs, invoke-task requirements
+# PREPARED: -r docs.txt
+-r testing.txt
+-r ../tasks/py.requirements.txt

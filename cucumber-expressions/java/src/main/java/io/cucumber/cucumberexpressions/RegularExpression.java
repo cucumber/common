@@ -26,7 +26,7 @@ public class RegularExpression implements Expression {
     @Override
     public List<Argument<?>> match(String text) {
         List<ParameterType<?>> parameterTypes = new ArrayList<>();
-        for(GroupBuilder groupBuilder : treeRegexp.getGroupBuilder().getChildren()){
+        for (GroupBuilder groupBuilder : treeRegexp.getGroupBuilder().getChildren()) {
             String parameterTypeRegexp = groupBuilder.getSource();
 
             ParameterType<?> parameterType = parameterTypeRegistry.lookupByRegexp(parameterTypeRegexp, expressionRegexp, text);
@@ -34,12 +34,12 @@ public class RegularExpression implements Expression {
                     parameterTypeRegexp,
                     parameterTypeRegexp,
                     String.class,
-                    new SingleTransformer<>(new Function<String, String>() {
+                    new Transformer<String>() {
                         @Override
-                        public String apply(String s) {
-                            return s;
+                        public String transform(String arg) {
+                            return arg;
                         }
-                    })
+                    }
             );
             parameterTypes.add(parameterType);
         }

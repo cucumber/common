@@ -35,16 +35,7 @@ module Cucumber
       end
 
       def transform(self_obj, group_values)
-        if @transformer.arity == 1
-          non_nil_group_values = group_values.compact
-          raise CucumberExpressionError.new(
-              "Single transformer unexpectedly matched 2 values - \"#{non_nil_group_values[0]}\" and \"#{non_nil_group_values[1]}\""
-          ) if non_nil_group_values.length >= 2
-          args = [non_nil_group_values[0]]
-        else
-          args = group_values
-        end
-        self_obj.instance_exec(*args, &@transformer)
+        self_obj.instance_exec(*group_values, &@transformer)
       end
 
       def <=>(other)

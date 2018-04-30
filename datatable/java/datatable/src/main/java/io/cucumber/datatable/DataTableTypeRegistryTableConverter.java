@@ -10,12 +10,15 @@ import java.util.List;
 import java.util.Map;
 
 import static io.cucumber.datatable.CucumberDataTableException.cantConvertTo;
-import static io.cucumber.datatable.CucumberDataTableException.cantConvertToList;
-import static io.cucumber.datatable.CucumberDataTableException.cantConvertToLists;
-import static io.cucumber.datatable.CucumberDataTableException.cantConvertToMap;
-import static io.cucumber.datatable.CucumberDataTableException.cantConvertToMaps;
+import static io.cucumber.datatable.CucumberDataTableException.duplicateKeyException;
+import static io.cucumber.datatable.CucumberDataTableException.keyValueMismatchException;
+import static io.cucumber.datatable.CucumberDataTableException.keysImplyTableEntryTransformer;
 import static io.cucumber.datatable.TypeFactory.aListOf;
-import static java.lang.String.format;
+import static io.cucumber.datatable.UndefinedDataTableTypeException.singletonNoConverterDefined;
+import static io.cucumber.datatable.UndefinedDataTableTypeException.mapNoConverterDefined;
+import static io.cucumber.datatable.UndefinedDataTableTypeException.mapsNoConverterDefined;
+import static io.cucumber.datatable.UndefinedDataTableTypeException.listNoConverterDefined;
+import static io.cucumber.datatable.UndefinedDataTableTypeException.listsNoConverterDefined;
 import static java.util.Collections.emptyList;
 import static java.util.Collections.emptyMap;
 import static java.util.Collections.nCopies;
@@ -58,14 +61,14 @@ public final class DataTableTypeRegistryTableConverter extends AbstractTableConv
         if (mapKeyType != null) {
             Type mapValueType = mapValueType(type);
             return (T) toMap(dataTable, mapKeyType, mapValueType);
-        } else if(Map.class.equals(type)){
+        } else if (Map.class.equals(type)) {
             // Non-generic map
             return (T) toMap(dataTable, String.class, String.class);
         }
 
         Type itemType = listItemType(type);
         if (itemType == null) {
-            if (List.class.equals(type)){
+            if (List.class.equals(type)) {
                 // Non-generic list
                 return (T) toList(dataTable, String.class);
             } else {
@@ -100,9 +103,7 @@ public final class DataTableTypeRegistryTableConverter extends AbstractTableConv
 
         List<T> singletonList = toListOrNull(dataTable, type);
         if (singletonList == null) {
-            throw cantConvertTo(type, format(
-                "Please register a DataTableType with a " +
-                    "TableTransformer, TableEntryTransformer or TableRowTransformer for %s", type));
+            throw singletonNoConverterDefined(type);
         }
 
         if (singletonList.size() == 1) {
@@ -127,12 +128,10 @@ public final class DataTableTypeRegistryTableConverter extends AbstractTableConv
         }
 
         if (dataTable.width() > 1) {
-            throw cantConvertToList(itemType,
-                format("Please register a DataTableType with a TableEntryTransformer or TableRowTransformer for %s", itemType));
+            throw listNoConverterDefined(itemType, "TableEntryTransformer or TableRowTransformer", itemType);
         }
 
-        throw cantConvertToList(itemType,
-            format("Please register a DataTableType with a TableEntryTransformer, TableRowTransformer or TableCellTransformer for %s", itemType));
+        throw listNoConverterDefined(itemType, "TableEntryTransformer, TableRowTransformer or TableCellTransformer", itemType);
     }
 
     private <T> List<T> toListOrNull(DataTable dataTable, Type itemType) {
@@ -167,8 +166,7 @@ public final class DataTableTypeRegistryTableConverter extends AbstractTableConv
         if (tableType != null) {
             return unmodifiableList((List<List<T>>) tableType.transform(dataTable.cells()));
         }
-        throw cantConvertToLists(itemType,
-            format("Please register a DataTableType with a TableCellTransformer for %s", itemType));
+        throw listsNoConverterDefined(itemType);
     }
 
     @Override
@@ -183,7 +181,7 @@ public final class DataTableTypeRegistryTableConverter extends AbstractTableConv
         DataTable keyColumn = dataTable.columns(0, 1);
         DataTable valueColumns = dataTable.columns(1);
 
-        String firstHeaderCell = keyColumn.cell(0,0);
+        String firstHeaderCell = keyColumn.cell(0, 0);
         boolean firstHeaderCellIsBlank = firstHeaderCell == null || firstHeaderCell.isEmpty();
         List<K> keys = convertEntryKeys(keyType, keyColumn.cells(), valueType, firstHeaderCellIsBlank);
 
@@ -195,7 +193,7 @@ public final class DataTableTypeRegistryTableConverter extends AbstractTableConv
         List<V> values = convertEntryValues(valueColumns, keyType, valueType, keysImplyTableRowTransformer);
 
         if (keys.size() != values.size()) {
-            throw createKeyValueMismatchException(firstHeaderCellIsBlank, keys.size(), keyType, values.size(), valueType);
+            throw keyValueMismatchException(firstHeaderCellIsBlank, keys.size(), keyType, values.size(), valueType);
         }
 
         return createMap(keyType, keys, valueType, values);
@@ -210,7 +208,7 @@ public final class DataTableTypeRegistryTableConverter extends AbstractTableConv
             V value = valueIterator.next();
             V replaced = result.put(key, value);
             if (replaced != null) {
-                throw CucumberDataTableException.duplicateKeyException(keyType, valueType, key, value, replaced);
+                throw duplicateKeyException(keyType, valueType, key, value, replaced);
             }
         }
 
@@ -223,8 +221,7 @@ public final class DataTableTypeRegistryTableConverter extends AbstractTableConv
             DataTableType keyConverter;
             keyConverter = registry.lookupTableTypeByType(aListOf(aListOf(keyType)));
             if (keyConverter == null) {
-                throw cantConvertToMap(keyType, valueType,
-                    format("Please register a DataTableType with a TableCellTransformer for %s", keyType));
+                throw mapNoConverterDefined(keyType, valueType, "TableCellTransformer", keyType);
             }
             return unpack((List<List<K>>) keyConverter.transform(keyColumn.subList(1, keyColumn.size())));
         }
@@ -234,8 +231,7 @@ public final class DataTableTypeRegistryTableConverter extends AbstractTableConv
             return list;
         }
 
-        throw cantConvertToMap(keyType, valueType,
-            format("Please register a DataTableType with a TableEntryTransformer or TableCellTransformer for %s", keyType));
+        throw mapNoConverterDefined(keyType, valueType, "TableEntryTransformer or TableCellTransformer", keyType);
     }
 
     @SuppressWarnings("unchecked")
@@ -281,16 +277,7 @@ public final class DataTableTypeRegistryTableConverter extends AbstractTableConv
         }
 
         if (keysImplyTableEntryTransformer) {
-            throw cantConvertToMap(keyType, valueType,
-                format("The first cell was either blank or you have registered a TableEntryTransformer for the key type.\n" +
-                        "\n" +
-                        "This requires that there is a TableEntryTransformer for the value type but I couldn't find any.\n" +
-                        "\n" +
-                        "You can either:\n" +
-                        "\n" +
-                        "  1) Use a DataTableType that uses a TableEntryTransformer for %s\n" +
-                        "\n" +
-                        "  2) Add a key to the first cell and use a DataTableType that uses a TableEntryTransformer for %s", valueType, keyType));
+            throw keysImplyTableEntryTransformer(keyType, valueType);
         }
 
         // Try to handle case #1. This may result in multiple values per key if the table is too wide.
@@ -299,8 +286,7 @@ public final class DataTableTypeRegistryTableConverter extends AbstractTableConv
             return unpack((List<List<V>>) cellValueConverter.transform(dataTable.cells()));
         }
 
-        throw cantConvertToMap(keyType, valueType,
-            format("Please register a DataTableType with a TableEntryTransformer or TableCellTransformer for %s", valueType));
+        throw mapNoConverterDefined(keyType, valueType, "TableEntryTransformer or TableCellTransformer", valueType);
     }
 
     @Override
@@ -318,13 +304,11 @@ public final class DataTableTypeRegistryTableConverter extends AbstractTableConv
         DataTableType valueConverter = registry.lookupTableTypeByType(aListOf(aListOf(valueType)));
 
         if (keyConverter == null) {
-            throw cantConvertToMaps(keyType, valueType,
-                format("Please register a DataTableType with a TableCellTransformer for %s", keyType));
+            throw mapsNoConverterDefined(keyType, valueType, keyType);
         }
 
         if (valueConverter == null) {
-            throw cantConvertToMaps(keyType, valueType,
-                format("Please register a DataTableType with a TableCellTransformer for %s", valueType));
+            throw mapsNoConverterDefined(keyType, valueType, valueType);
         }
 
         DataTable header = dataTable.rows(0, 1);
@@ -354,29 +338,4 @@ public final class DataTableTypeRegistryTableConverter extends AbstractTableConv
         return unpacked;
     }
 
-    private static CucumberDataTableException createKeyValueMismatchException(boolean firstHeaderCellIsBlank, int keySize, Type keyType, int valueSize, Type valueType) {
-        if (firstHeaderCellIsBlank) {
-            return cantConvertToMap(keyType, valueType,
-                "There are more values then keys. The first header cell was left blank. You can add a value there");
-        }
-
-        if (keySize > valueSize) {
-            return cantConvertToMap(keyType, valueType,
-                "There are more keys then values. " +
-                    "Did you use a TableEntryTransformer for the value while using a TableRow or TableCellTransformer for the keys?");
-        }
-
-        if (valueSize % keySize == 0) {
-            return cantConvertToMap(keyType, valueType,
-                format(
-                    "There is more then one value per key. " +
-                        "Did you mean to transform to Map<%s,List<%s>> instead?",
-                    keyType, valueType));
-        }
-
-        return cantConvertToMap(keyType, valueType,
-            "There are more values then keys. " +
-                "Did you use a TableEntryTransformer for the key while using a TableRow or TableCellTransformer for the value?");
-
-    }
 }

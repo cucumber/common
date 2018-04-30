@@ -53,11 +53,11 @@ public class AmbiguousParameterTypeException extends CucumberExpressionException
         return join(sources);
     }
 
-    private static String join(List<String> strings){
+    private static String join(List<String> strings) {
         StringBuilder builder = new StringBuilder();
         boolean first = true;
-        for(String element : strings){
-            if(first){
+        for (String element : strings) {
+            if (first) {
                 first = false;
             } else {
                 builder.append("\n   ");

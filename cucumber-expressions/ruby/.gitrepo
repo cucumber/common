@@ -6,6 +6,6 @@
 [subrepo]
 	remote = https://github.com/cucumber/cucumber-expressions-ruby.git
 	branch = master
-	commit = 677c63bec0cb4d692088e61f5a8999ff4b167025
-	parent = cafe4bf563bc1ac168b89552bbeaffe43af21636
+	commit = be08187b0998e8162d74f9d88b44067b81b92b80
+	parent = 9e1dde128639d7010c4b8aa95a787181348855bd
 	cmdver = 0.4.0

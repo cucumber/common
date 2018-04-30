@@ -1,7 +1,9 @@
 package io.cucumber.cucumberexpressions;
 
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 
 import java.util.List;
 import java.util.Locale;
@@ -13,6 +15,10 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 
 public class CustomParameterTypeTest {
+
+    @Rule
+    public ExpectedException expectedException = ExpectedException.none();
+
     private ParameterTypeRegistry parameterTypeRegistry = new ParameterTypeRegistry(Locale.ENGLISH);
 
     public static class Coordinate {
@@ -20,7 +26,7 @@ public class CustomParameterTypeTest {
         private final int y;
         private final int z;
 
-        public Coordinate(int x, int y, int z) {
+        Coordinate(int x, int y, int z) {
             this.x = x;
             this.y = y;
             this.z = z;
@@ -51,12 +57,12 @@ public class CustomParameterTypeTest {
                 "color",                                  // name
                 "red|blue|yellow",                        // regexp
                 Color.class,                              // type
-                new SingleTransformer<>(new Function<String, Color>() {
+                new Transformer<Color>() {
                     @Override
-                    public Color apply(String s) {
-                        return new Color(s);
+                    public Color transform(String arg) {
+                        return new Color(arg);
                     }
-                }), // transform
+                },                                        // transform
                 false,                                    // useForSnippets
                 false                                     // preferForRegexpMatch
         ));
@@ -76,15 +82,16 @@ public class CustomParameterTypeTest {
         parameterTypeRegistry.defineParameterType(new ParameterType<>(
                 "coordinate",
                 "(\\d+),\\s*(\\d+),\\s*(\\d+)",
-                Coordinate.class, new Transformer<Coordinate>() {
-            @Override
-            public Coordinate transform(String... xyz) {
-                return new Coordinate(
-                        parseInt(xyz[0]),
-                        parseInt(xyz[1]),
-                        parseInt(xyz[2]));
-            }
-        },
+                Coordinate.class,
+                new CaptureGroupTransformer<Coordinate>() {
+                    @Override
+                    public Coordinate transform(String[] args) {
+                        return new Coordinate(
+                                parseInt(args[0]),
+                                parseInt(args[1]),
+                                parseInt(args[2]));
+                    }
+                },
                 false,
                 false
         ));
@@ -99,18 +106,46 @@ public class CustomParameterTypeTest {
     }
 
     @Test
+    public void warns_when_CucumberExpression_parameters_with_multiple_capture_groups_has_a_transformer() {
+        parameterTypeRegistry = new ParameterTypeRegistry(Locale.ENGLISH);
+        parameterTypeRegistry.defineParameterType(new ParameterType<>(
+                "coordinate",
+                "(\\d+),\\s*(\\d+),\\s*(\\d+)",
+                Coordinate.class,
+                new Transformer<Coordinate>() {
+                    @Override
+                    public Coordinate transform(String args) {
+                        throw new IllegalStateException();
+                    }
+                },
+                false,
+                false
+        ));
+        Expression expression = new CucumberExpression("A {int} thick line from {coordinate} to {coordinate}", parameterTypeRegistry);
+        List<Argument<?>> arguments = expression.match("A 5 thick line from 10,20,30 to 40,50,60");
+
+        arguments.get(0).getValue();
+
+        expectedException.expectMessage(
+                "ParameterType {coordinate} was registered with a Transformer but has multiple capture groups [(\\d+),\\s*(\\d+),\\s*(\\d+)]. " +
+                        "Did you mean to use a CaptureGroupTransformer?");
+        arguments.get(1).getValue();
+    }
+
+
+    @Test
     public void matches_CucumberExpression_parameters_with_custom_parameter_type_using_optional_group() {
         parameterTypeRegistry = new ParameterTypeRegistry(Locale.ENGLISH);
         parameterTypeRegistry.defineParameterType(new ParameterType<>(
                 "color",
                 asList("red|blue|yellow", "(?:dark|light) (?:red|blue|yellow)"),
                 Color.class,
-                new SingleTransformer<>(new Function<String, Color>() {
+                new Transformer<Color>() {
                     @Override
-                    public Color apply(String s) {
-                        return new Color(s);
+                    public Color transform(String arg) {
+                        return new Color(arg);
                     }
-                }),
+                },
                 false,
                 false
         ));
@@ -121,14 +156,14 @@ public class CustomParameterTypeTest {
 
     @Test
     public void defers_transformation_until_queried_from_argument() {
-        parameterTypeRegistry.defineParameterType(new ParameterType<CssColor>(
+        parameterTypeRegistry.defineParameterType(new ParameterType<>(
                 "throwing",
                 "bad",
                 CssColor.class,
                 new Transformer<CssColor>() {
                     @Override
-                    public CssColor transform(String... color) {
-                        throw new RuntimeException(String.format("Can't transform [%s]", color[0]));
+                    public CssColor transform(String arg) {
+                        throw new RuntimeException(String.format("Can't transform [%s]", arg));
                     }
                 },
                 false,
@@ -151,12 +186,12 @@ public class CustomParameterTypeTest {
                     "color",
                     ".*",
                     CssColor.class,
-                    new SingleTransformer<>(new Function<String, CssColor>() {
+                    new Transformer<CssColor>() {
                         @Override
-                        public CssColor apply(String s) {
-                            return new CssColor(s);
+                        public CssColor transform(String arg) {
+                            return new CssColor(arg);
                         }
-                    }),
+                    },
                     false,
                     false
             ));
@@ -172,12 +207,12 @@ public class CustomParameterTypeTest {
                 "whatever",
                 ".*",
                 Color.class,
-                new SingleTransformer<>(new Function<String, Color>() {
+                new Transformer<Color>() {
                     @Override
-                    public Color apply(String s) {
-                        return new Color(s);
+                    public Color transform(String arg) {
+                        return new Color(arg);
                     }
-                }),
+                },
                 false,
                 false
         ));
@@ -191,12 +226,12 @@ public class CustomParameterTypeTest {
                 "css-color",
                 "red|blue|yellow",
                 CssColor.class,
-                new SingleTransformer<>(new Function<String, CssColor>() {
+                new Transformer<CssColor>() {
                     @Override
-                    public CssColor apply(String s) {
-                        return new CssColor(s);
+                    public CssColor transform(String arg) {
+                        return new CssColor(arg);
                     }
-                }),
+                },
                 false,
                 false
         ));
@@ -215,9 +250,9 @@ public class CustomParameterTypeTest {
     ///// RegularExpression
 
     public static class Color {
-        public final String name;
+        final String name;
 
-        public Color(String name) {
+        Color(String name) {
             this.name = name;
         }
 
@@ -233,10 +268,10 @@ public class CustomParameterTypeTest {
     }
 
     public static class CssColor {
-        public final String name;
+        final String name;
 
         /// [color-constructor]
-        public CssColor(String name) {
+        CssColor(String name) {
             this.name = name;
         }
         /// [color-constructor]

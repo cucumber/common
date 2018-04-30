@@ -7,5 +7,5 @@
 	remote = https://github.com/cucumber/gherkin-c.git
 	branch = master
 	commit = 43f47a04eff1498ade0c79388616655dafe16090
-	parent = 2edd1d14fef575de4fab1e9a98a8dbd2bb6b8c6e
-	cmdver = 0.4.0
+	parent = b3ad1ab00ad56b1a65e18807464da255a36ac42b
+	cmdver = 0.3.1

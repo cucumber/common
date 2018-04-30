@@ -9,56 +9,62 @@ import java.util.TreeSet;
 
 import static java.util.Arrays.asList;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 public class ParameterTypeComparatorTest {
 
     public static class A {
-        public A(String s) {
+        A(String s) {
+            assertNotNull(s);
         }
     }
 
     public static class B {
-        public B(String s) {
+        B(String s) {
+            assertNotNull(s);
         }
     }
 
     public static class C {
-        public C(String s) {
+        C(String s) {
+            assertNotNull(s);
         }
     }
 
     public static class D {
-        public D(String s) {
+        D(String s) {
+            assertNotNull(s);
         }
     }
 
     @Test
     public void sorts_parameter_types_by_preferential_then_name() {
         SortedSet<ParameterType<?>> set = new TreeSet<>();
-        set.add(new ParameterType<>("c", "c", C.class, new SingleTransformer<>(new Function<String, C>() {
+        set.add(new ParameterType<>("c", "c", C.class,
+                new Transformer<C>() {
+                    @Override
+                    public C transform(String arg) {
+                        return new C(arg);
+                    }
+                }, false, true));
+        set.add(new ParameterType<>("a", "a", A.class, new Transformer<A>() {
             @Override
-            public C apply(String s) {
-                return new C(s);
+            public A transform(String arg) {
+                return new A(arg);
             }
-        }), false, true));
-        set.add(new ParameterType<>("a", "a", A.class, new SingleTransformer<>(new Function<String, A>() {
+        }, false, false));
+        set.add(new ParameterType<>("d", "d", D.class, new Transformer<D>() {
             @Override
-            public A apply(String s) {
-                return new A(s);
+            public D transform(String arg) {
+                return new D(arg);
             }
-        }), false, false));
-        set.add(new ParameterType<>("d", "d", D.class, new SingleTransformer<>(new Function<String, D>() {
+        }, false, false));
+        set.add(new ParameterType<>("b", "b", B.class, new Transformer<B>() {
             @Override
-            public D apply(String s) {
-                return new D(s);
+            public B transform(String arg) {
+                return new B(arg);
             }
-        }), false, false));
-        set.add(new ParameterType<>("b", "b", B.class, new SingleTransformer<>(new Function<String, B>() {
-            @Override
-            public B apply(String s) {
-                return new B(s);
-            }
-        }), false, true));
+        }, false, true));
 
         List<String> names = new ArrayList<>();
         for (ParameterType parameterType : set) {

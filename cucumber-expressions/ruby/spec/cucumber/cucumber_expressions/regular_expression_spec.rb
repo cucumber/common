@@ -40,6 +40,14 @@ module Cucumber
         expect( match(/hello/, "world") ).to be_nil
       end
 
+      it "matches nested capture group without match" do
+        expect( match(/^a user( named "([^"]*)")?$/, 'a user') ).to eq([nil])
+      end
+
+      it "matches nested capture group with match" do
+        expect( match(/^a user( named "([^"]*)")?$/, 'a user named "Charlie"') ).to eq(['Charlie'])
+      end
+
       it "ignores non capturing groups" do
         expect( match(
           /(\S+) ?(can|cannot) (?:delete|cancel) the (\d+)(?:st|nd|rd|th) (attachment|slide) ?(?:upload)?/,

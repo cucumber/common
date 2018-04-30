@@ -38,7 +38,9 @@ public class Group {
         List<String> list = new ArrayList<>();
         for (Group group : (getChildren().isEmpty() ? singletonList(this) : getChildren())) {
             String groupValue = group.getValue();
-            list.add(groupValue);
+            if (groupValue != null) {
+                list.add(groupValue);
+            }
         }
         return list;
     }

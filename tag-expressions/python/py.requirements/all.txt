@@ -1,0 +1,14 @@
+# ============================================================================
+# BEHAVE: PYTHON PACKAGE REQUIREMENTS: All requirements
+# ============================================================================
+# DESCRIPTION:
+#    pip install -r <THIS_FILE>
+#
+# SEE ALSO:
+# * https://pip.pypa.io/
+# * https://packaging.python.org
+# ============================================================================
+
+-r basic.txt
+-r develop.txt
+-r ../tasks/py.requirements.txt

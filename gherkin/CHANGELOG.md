@@ -22,6 +22,7 @@ This document is formatted according to the principles of [Keep A CHANGELOG](htt
 * Pass the content type of a docstring down into its pickle string form
   ([#292](https://github.com/cucumber/cucumber/pull/292)
    [rjwittams])
+* Fixed Russian equivalents of `Given` and `Then`. ([#369](https://github.com/cucumber/cucumber/pull/369) [cerebellum13](https://github.com/cerebellum13))
 
 ### Deprecated
 

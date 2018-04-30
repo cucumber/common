@@ -42,8 +42,17 @@ func TestRegularExpression(t *testing.T) {
 		require.Equal(t, Match(t, `(-?\d*\.\d+)`, "-1.22")[0], -1.22)
 	})
 
-	t.Run("returns empty array when no match float with sign", func(t *testing.T) {
-		require.Empty(t, Match(t, "hello", "world"))
+	t.Run("returns nil when there is no match", func(t *testing.T) {
+		require.Nil(t, Match(t, "hello", "world"))
+	})
+
+	t.Run("matches nested capture group without match", func(t *testing.T) {
+		// TODO: Other implementations expect null/nil here
+		require.Equal(t, Match(t, `^a user( named "([^"]*)")?$`, "a user")[0], "")
+	})
+
+	t.Run("matches nested capture group with match", func(t *testing.T) {
+		require.Equal(t, Match(t, `^a user( named "([^"]*)")?$`, "a user named \"Charlie\"")[0], "Charlie")
 	})
 
 	t.Run("ignores non capturing groups", func(t *testing.T) {
@@ -59,7 +68,11 @@ func TestRegularExpression(t *testing.T) {
 	})
 
 	t.Run("works with escaped parenthesis", func(t *testing.T) {
-		require.Empty(t, Match(t, `Across the line\(s\)`, "Across the line(s)"))
+		require.Equal(
+			t,
+			Match(t, `Across the line\(s\)`, "Across the line(s)"),
+			[]interface{}{},
+		)
 	})
 
 	t.Run("exposes regexp and source", func(t *testing.T) {
@@ -77,8 +90,8 @@ func Match(t *testing.T, expr, text string) []interface{} {
 	expression := cucumberexpressions.NewRegularExpression(regexp.MustCompile(expr), parameterTypeRegistry)
 	args, err := expression.Match(text)
 	require.NoError(t, err)
-	if len(args) == 0 {
-		return []interface{}{}
+	if args == nil {
+		return nil
 	}
 	result := make([]interface{}, len(args))
 	for i, arg := range args {

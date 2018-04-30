@@ -11,7 +11,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Changed
 
-* java: Renamed `{bigint}` to `{biginteger}` ([mpkorstanje, aslakhellesoy])
+* java: The `{byte}` parameter type no longer uses hexadecimal, but uses the same pattern as `{short}`, `{int}` and `{long}`.
 
 ### Deprecated
 
@@ -19,6 +19,28 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Fixed
 
+## [5.0.17] - 2018-04-12
+
+### Changed
+
+* java: Swapped 2 parameters in a `ParameterType` constructor to make it consistent with
+  overloaded constructors.
+
+## [5.0.16] - 2018-04-12
+
+There are backwards incompatible changes in the Java implementation, but we're
+not bumping the minor version number because no released libraries are using
+it yet.
+
+### Changed
+
+* java: Renamed `{bigint}` to `{biginteger}` ([mpkorstanje, aslakhellesoy])
+* java: The API uses `Transformer` for transforms with 0-1 capture groups,
+  and `CaptureGroupTransformer` for 2+ capture groups.
+
+### Fixed
+
+* java: Better error message when users leave anchors (^ and $) in their regular expressions ([aslakhellesoy])
 * java: `{bigdecimal}` would only match integers ([mpkorstanje, aslakhellesoy])
 * java: `{byte}` is suggested in snippets ([mpkorstanje])
 
@@ -347,7 +369,9 @@ N/A
 * First stable release!
 
 <!-- Releases -->
-[Unreleased]: https://github.com/cucumber/cucumber/compare/cucumber-expressions-v5.0.15...master
+[Unreleased]: https://github.com/cucumber/cucumber/compare/cucumber-expressions-v5.0.16...master
+[5.0.17]:     https://github.com/cucumber/cucumber/compare/cucumber-expressions-v5.0.16...cucumber-expressions-v5.0.17
+[5.0.16]:     https://github.com/cucumber/cucumber/compare/cucumber-expressions-v5.0.15...cucumber-expressions-v5.0.16
 [5.0.15]:     https://github.com/cucumber/cucumber/compare/cucumber-expressions-v5.0.14...cucumber-expressions-v5.0.15
 [5.0.14]:     https://github.com/cucumber/cucumber/compare/cucumber-expressions-v5.0.13...cucumber-expressions-v5.0.14
 [5.0.13]:     https://github.com/cucumber/cucumber/compare/cucumber-expressions-v5.0.12...cucumber-expressions-v5.0.13

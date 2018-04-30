@@ -8,7 +8,7 @@ namespace Gherkin.Specs
 {
     public class SuccessfulParsingTests
     {
-        [Theory, MemberData("GetValidTestFiles", MemberType = typeof(TestFileProvider))]
+        [Theory, MemberData(nameof(TestFileProvider.GetValidTestFiles), MemberType = typeof(TestFileProvider))]
         public void TestSuccessfulParsing(string testFeatureFile)
         {
             var parser = new Parser();

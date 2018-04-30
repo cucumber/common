@@ -89,12 +89,12 @@ public class CucumberExpressionGeneratorTest {
                 "currency",
                 "[A-Z]{3}",
                 Currency.class,
-                new SingleTransformer<>(new Function<String, Currency>() {
+                new Transformer<Currency>() {
                     @Override
-                    public Currency apply(String s) {
-                        return Currency.getInstance(s);
+                    public Currency transform(String arg) {
+                        return Currency.getInstance(arg);
                     }
-                })
+                }
         ));
         assertExpression(
                 "I have a {currency} account and a {currency} account", asList("currency", "currency2"),
@@ -107,23 +107,23 @@ public class CucumberExpressionGeneratorTest {
                 "currency",
                 "cd",
                 Currency.class,
-                new SingleTransformer<>(new Function<String, Currency>() {
+                new Transformer<Currency>() {
                     @Override
-                    public Currency apply(String s) {
-                        return Currency.getInstance(s);
+                    public Currency transform(String arg) {
+                        return Currency.getInstance(arg);
                     }
-                })
+                }
         ));
         parameterTypeRegistry.defineParameterType(new ParameterType<>(
                 "date",
                 "bc",
                 Date.class,
-                new SingleTransformer<>(new Function<String, Date>() {
+                new Transformer<Date>() {
                     @Override
-                    public Date apply(String s) {
-                        return new Date(s);
+                    public Date transform(String arg) {
+                        return new Date(arg);
                     }
-                })
+                }
         ));
         assertExpression(
                 "a{date}defg", singletonList("date"),
@@ -136,23 +136,23 @@ public class CucumberExpressionGeneratorTest {
                 "currency",
                 "cd",
                 Currency.class,
-                new SingleTransformer<>(new Function<String, Currency>() {
+                new Transformer<Currency>() {
                     @Override
-                    public Currency apply(String s) {
-                        return Currency.getInstance(s);
+                    public Currency transform(String arg) {
+                        return Currency.getInstance(arg);
                     }
-                })
+                }
         ));
         parameterTypeRegistry.defineParameterType(new ParameterType<>(
                 "date",
                 "cde",
                 Date.class,
-                new SingleTransformer<>(new Function<String, Date>() {
+                new Transformer<Date>() {
                     @Override
-                    public Date apply(String s) {
-                        return new Date(s);
+                    public Date transform(String arg) {
+                        return new Date(arg);
                     }
-                })
+                }
         ));
         assertExpression(
                 "ab{date}fg", singletonList("date"),
@@ -165,12 +165,12 @@ public class CucumberExpressionGeneratorTest {
                 "currency",
                 "x",
                 Currency.class,
-                new SingleTransformer<>(new Function<String, Currency>() {
+                new Transformer<Currency>() {
                     @Override
-                    public Currency apply(String s) {
-                        return Currency.getInstance(s);
+                    public Currency transform(String arg) {
+                        return Currency.getInstance(arg);
                     }
-                }),
+                },
                 true,
                 true
         ));
@@ -178,12 +178,12 @@ public class CucumberExpressionGeneratorTest {
                 "date",
                 "x",
                 Date.class,
-                new SingleTransformer<>(new Function<String, Date>() {
+                new Transformer<Date>() {
                     @Override
-                    public Date apply(String s) {
-                        return new Date(s);
+                    public Date transform(String arg) {
+                        return new Date(arg);
                     }
-                }),
+                },
                 true,
                 false
         ));
@@ -219,12 +219,12 @@ public class CucumberExpressionGeneratorTest {
                 "optional-flight",
                 "(1st flight)?",
                 String.class,
-                new SingleTransformer<>(new Function<String, String>() {
+                new Transformer<String>() {
                     @Override
-                    public String apply(String s) {
-                        return s;
+                    public String transform(String arg) {
+                        return arg;
                     }
-                }),
+                },
                 true,
                 false
         );
@@ -232,12 +232,12 @@ public class CucumberExpressionGeneratorTest {
                 "optional-hotel",
                 "(1st hotel)?",
                 String.class,
-                new SingleTransformer<>(new Function<String, String>() {
+                new Transformer<String>() {
                     @Override
-                    public String apply(String s) {
-                        return s;
+                    public String transform(String arg) {
+                        return arg;
                     }
-                }),
+                },
                 true,
                 false
         );
