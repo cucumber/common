@@ -14,13 +14,13 @@
 (14:1)Empty://
 (15:1)TagLine://1:@ex_tag1,10:@ex_tag2
 (16:3)TagLine://3:@ex_tag3
-(17:1)ExamplesDataLine:Examples//
+(17:1)ExamplesLine:Examples//
 (18:3)TableRow://5:what
 (19:3)TableRow://5:minimalism
 (20:1)Empty://
 (21:1)TagLine://1:@ex_tag4,10:@ex_tag5
 (22:3)TagLine://3:@ex_tag6
-(23:1)ExamplesDataLine:Examples//
+(23:1)ExamplesLine:Examples//
 (24:3)TableRow://5:what
 (25:3)TableRow://5:more minimalism
 EOF

@@ -4,7 +4,7 @@
 (4:3)ScenarioLine:Scenario Outline/Bar/
 (5:5)StepLine:Then /Baz/
 (6:1)Empty://
-(7:5)ExamplesDataLine:Examples//
+(7:5)ExamplesLine:Examples//
 (8:5)TableRow://7:name
 (9:5)TableRow://7:X
 (10:5)TableRow://7:Y

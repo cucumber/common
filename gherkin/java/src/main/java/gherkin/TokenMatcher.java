@@ -124,9 +124,9 @@ public class TokenMatcher implements ITokenMatcher {
     }
 
     @Override
-    public boolean match_ExamplesDataLine(Token token) {
-        return matchTitleLine(token, TokenType.ExamplesDataLine, currentDialect.getExamplesKeywords()) ||
-                matchTitleLine(token, TokenType.ExamplesDataLine, currentDialect.getExamplesKeywords());
+    public boolean match_ExamplesLine(Token token) {
+        return matchTitleLine(token, TokenType.ExamplesLine, currentDialect.getExamplesKeywords()) ||
+                matchTitleLine(token, TokenType.ExamplesLine, currentDialect.getExamplesKeywords());
     }
 
     private boolean matchTitleLine(Token token, TokenType tokenType, List<String> keywords) {

@@ -114,7 +114,7 @@ public class AstBuilder implements Builder<GherkinDocument> {
             case ExamplesDefinition: {
                 List<Tag> tags = getTags(node);
                 AstNode examplesNode = node.getSingle(RuleType.Examples, null);
-                Token examplesLine = examplesNode.getToken(TokenType.ExamplesDataLine);
+                Token examplesLine = examplesNode.getToken(TokenType.ExamplesLine);
                 String description = getDescription(examplesNode);
                 List<TableRow> rows = examplesNode.getSingle(RuleType.ExamplesTable, null);
                 TableRow tableHeader = rows != null && !rows.isEmpty() ? rows.get(0) : null;
