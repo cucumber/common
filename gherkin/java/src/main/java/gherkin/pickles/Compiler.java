@@ -1,8 +1,20 @@
 package gherkin.pickles;
 
 import gherkin.SymbolCounter;
-import gherkin.ast.*;
+import gherkin.ast.Background;
+import gherkin.ast.DataTable;
+import gherkin.ast.DocString;
+import gherkin.ast.Examples;
+import gherkin.ast.Feature;
+import gherkin.ast.GherkinDocument;
+import gherkin.ast.Location;
+import gherkin.ast.Node;
 import gherkin.ast.Scenario;
+import gherkin.ast.Step;
+import gherkin.ast.StepsContainer;
+import gherkin.ast.TableCell;
+import gherkin.ast.TableRow;
+import gherkin.ast.Tag;
 
 import java.util.ArrayList;
 import java.util.List;
