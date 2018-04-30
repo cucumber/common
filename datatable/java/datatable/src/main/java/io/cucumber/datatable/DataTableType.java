@@ -10,63 +10,69 @@ import java.util.Map;
 import static io.cucumber.datatable.TypeFactory.aListOf;
 import static io.cucumber.datatable.TypeFactory.constructType;
 
-
-public final class DataTableType implements Comparable<DataTableType> {
+/**
+ * A data table type describes how a data table should be represented as an object.
+ *
+ * @see <a href="https://github.com/cucumber/cucumber/tree/master/datatable">DataTable - README.md</a>
+ *
+ */
+public final class DataTableType {
 
     private static final ConversionRequired CONVERSION_REQUIRED = new ConversionRequired();
-    private final String name;
     private final JavaType type;
     private final RawTableTransformer<?> transformer;
-    private final boolean preferForTypeMatch;
 
-    private DataTableType(String name, Type type, RawTableTransformer<?> transformer, boolean preferForTypeMatch) {
-        if (name == null) throw new CucumberDataTableException("name cannot be null");
+    private DataTableType(Type type, RawTableTransformer<?> transformer) {
         if (type == null) throw new CucumberDataTableException("type cannot be null");
         if (transformer == null) throw new CucumberDataTableException("transformer cannot be null");
-        this.name = name;
         this.type = constructType(type);
         this.transformer = transformer;
-        this.preferForTypeMatch = preferForTypeMatch;
     }
 
-    public <T> DataTableType(String name, Type type, final TableTransformer<T> transformer) {
-        this(name, type, transformer, false);
+    /**
+     * Creates a data table type that transforms the whole table to a single object.
+     *
+     * @param type        the type of the object
+     * @param transformer a function that creates an instance of <code>type</code> from the data table
+     * @param <T>         see <code>type</code>
+     */
+    public <T> DataTableType(Class<T> type, TableTransformer<T> transformer) {
+        this(type, new TableTransformerAdaptor<>(transformer));
     }
 
-    public <T> DataTableType(String name, Type type, final TableTransformer<T> transformer, boolean preferForTypeMatch) {
-        this(name, type, new TableTransformerAdaptor<>(transformer), preferForTypeMatch);
+    /**
+     * Creates a data table type that transforms the rows of the table into a list of objects.
+     *
+     * @param type        the type of the list items
+     * @param transformer a function that creates an instance of <code>type</code> from the data table row
+     * @param <T>         see <code>type</code>
+     */
+    public <T> DataTableType(Class<T> type, TableRowTransformer<T> transformer) {
+        this(aListOf(type), new TableRowTransformerAdaptor<>(transformer));
     }
 
-    public <T> DataTableType(String name, Class<T> type, final TableTransformer<T> transformer) {
-        this(name, type, transformer, false);
+
+    /**
+     * Creates a data table type that transforms the entries of the table into a list of objects. An entry consists
+     * of the elements of the table header paired with the values of each subsequent row.
+     *
+     * @param type        the type of the list items
+     * @param transformer a function that creates an instance of <code>type</code> from the data table entry
+     * @param <T>         see <code>type</code>
+     */
+    public <T> DataTableType(Class<T> type, TableEntryTransformer<T> transformer) {
+        this(aListOf(type), new TableEntryTransformerAdaptor<>(transformer));
     }
 
-    public <T> DataTableType(String name, Class<T> type, final TableTransformer<T> transformer, boolean preferForTypeMatch) {
-        this(name, type, new TableTransformerAdaptor<>(transformer), preferForTypeMatch);
-    }
-
-    public <T> DataTableType(String name, final Class<T> type, final TableEntryTransformer<T> transformer) {
-        this(name, type, transformer, false);
-    }
-
-    public <T> DataTableType(String name, final Class<T> type, final TableEntryTransformer<T> transformer, boolean preferForTypeMatch) {
-        this(name, aListOf(type), new TableEntryTransformerAdaptor<>(transformer), preferForTypeMatch);
-    }
-
-    public <T> DataTableType(String name, final Class<T> type, final TableRowTransformer<T> transformer) {
-        this(name, type, transformer, false);
-    }
-
-    public <T> DataTableType(String name, final Class<T> type, final TableRowTransformer<T> transformer, boolean preferForTypeMatch) {
-        this(name, aListOf(type), new TableRowTransformerAdaptor<>(transformer), preferForTypeMatch);
-    }
-
-    public <T> DataTableType(String name, final Class<T> type, final TableCellTransformer<T> transformer) {
-        this(name, type, transformer, false);
-    }
-
-    public <T> DataTableType(String name, final Class<T> type, final TableCellTransformer<T> transformer, boolean preferForTypeMatch) {
-        this(name, aListOf(aListOf(type)), new TableCellTransformerAdaptor<>(transformer), preferForTypeMatch);
+    /**
+     * Creates a data table type that transforms the cells of the table into a list of lists of objects.
+     *
+     * @param type        the type of the list of lists items
+     * @param transformer a function that creates an instance of <code>type</code> from the data table cell
+     * @param <T>         see <code>type</code>
+     */
+    public <T> DataTableType(Class<T> type, TableCellTransformer<T> transformer) {
+        this(aListOf(aListOf(type)), new TableCellTransformerAdaptor<>(transformer));
     }
 
     public Object transform(List<List<String>> raw) {
@@ -74,33 +80,16 @@ public final class DataTableType implements Comparable<DataTableType> {
             return transformer.transform(raw);
         } catch (Throwable throwable) {
             throw new CucumberDataTableException(
-                String.format("'%s' could not transform%n%s", name, DataTable.create(raw)), throwable);
+                    String.format("'%s' could not transform%n%s", toCanonical(), DataTable.create(raw)), throwable);
         }
-    }
-
-    @Override
-    public int compareTo(DataTableType o) {
-        if (preferForTypeMatch() && !o.preferForTypeMatch()) return -1;
-        if (o.preferForTypeMatch() && !preferForTypeMatch()) return 1;
-        return getName().compareTo(o.getName());
-    }
-
-
-    String getName() {
-        return name;
     }
 
     JavaType getType() {
         return type;
     }
 
-    boolean preferForTypeMatch() {
-        return preferForTypeMatch;
-    }
-
-    @Override
-    public String toString() {
-        return "{" + name + "}";
+    String toCanonical(){
+        return type.toCanonical();
     }
 
     @Override
@@ -110,12 +99,12 @@ public final class DataTableType implements Comparable<DataTableType> {
 
         DataTableType that = (DataTableType) o;
 
-        return name.equals(that.name);
+        return type.equals(that.type);
     }
 
     @Override
     public int hashCode() {
-        return name.hashCode();
+        return type.hashCode();
     }
 
     private static class TableCellTransformerAdaptor<T> implements RawTableTransformer<List<List<T>>> {

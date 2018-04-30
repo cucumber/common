@@ -55,7 +55,11 @@ public void these_authors_have_registered(DataTable registeredAuthors){
 
 ## Build ##
 
-Not building? IntelliJ IDEA doesn't know how to handle the shaded pom
+Not building?
+
+We're using shaded dependencies in a reactor build so make sure you run `mvn clean install` the first time.
+ 
+IntelliJ IDEA also doesn't know how to handle the shaded pom
 
 0. `mvn install`
 1. Open the 'Maven Projects' tool window. 
