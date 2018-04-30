@@ -55,7 +55,9 @@ class ParameterType {
   }
 
   transform(thisObj, groupValues) {
-    return this._transform.apply(thisObj, groupValues)
+    return groupValues.length === 0
+      ? null
+      : this._transform.apply(thisObj, groupValues)
   }
 }
 
