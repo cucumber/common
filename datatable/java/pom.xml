@@ -272,7 +272,7 @@
                     <artifactId>maven-release-plugin</artifactId>
                     <version>2.5.3</version>
                     <configuration>
-                        <tagNameFormat>v@{project.version}</tagNameFormat>
+                        <tagNameFormat>datatable-v@{project.version}</tagNameFormat>
                     </configuration>
                 </plugin>
 
