@@ -9,6 +9,7 @@
     <packaging>pom</packaging>
     <name>Data Table Parent</name>
     <url>https://github.com/cucumber/datatable-java</url>
+    <description>Parent POM for data tables</description>
 
     <developers>
         <developer>
