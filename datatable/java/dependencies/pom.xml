@@ -68,8 +68,8 @@
                                         <Bundle-Name>${project.name}</Bundle-Name>
                                         <Bundle-License>http://www.apache.org/licenses/LICENSE-2.0</Bundle-License>
                                         <Export-Package>
-                                            io.cucumber.datatable.dependency.com.fasterxml;version=${used.osgi.version},
-                                            io.cucumber.datatable.dependency.deps.difflib;version=${used.osgi.version}
+                                            io.cucumber.datatable.dependency.com.fasterxml.*;version=${used.osgi.version},
+                                            io.cucumber.datatable.dependency.difflib.*;version=${used.osgi.version}
                                         </Export-Package>
                                         <DynamicImport-Package>*</DynamicImport-Package>
                                     </manifestEntries>
