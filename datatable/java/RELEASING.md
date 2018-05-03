@@ -54,7 +54,9 @@ for example:
 
 ```
 mvn release:clean release:prepare -DautoVersionSubmodules=true -DpushChanges=false -Darguments="-DskipTests=true" 
-mvn release:perform -Psign-source-javadoc -DskipTests=true
+mvn release:perform -Psign-source-javadoc -DskipTests=true -DlocalCheckout=true 
 git push
 git push --tags
 ```
+
+Then go into Sonatype OSSRH Nexus and release the repository.
