@@ -1,0 +1,8 @@
+<Project>
+    <PropertyGroup>
+        <SignAssembly>true</SignAssembly>
+        <AssemblyOriginatorKeyFile>..\gherkin.snk</AssemblyOriginatorKeyFile>
+        <DelaySign>false</DelaySign>
+        <PublicSign>false</PublicSign>
+    </PropertyGroup>
+</Project>
