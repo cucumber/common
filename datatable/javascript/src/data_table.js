@@ -22,15 +22,11 @@ class DataTable {
     return this.height <= 1 && this.width === 0
   }
 
-  static create(rawTable) {
-    return new DataTable(rawTable)
-  }
-
   transpose() {
     let transposedRaw = this.cells[0].map((col, i) =>
       this.cells.map(row => row[i])
     )
-    return DataTable.create(transposedRaw)
+    return new DataTable(transposedRaw)
   }
 
   row(index) {
@@ -41,7 +37,7 @@ class DataTable {
     let rows = this.cells.filter((row, rowIndex) => {
       return rowIndex >= fromRow && (!toRow || rowIndex < toRow)
     })
-    return DataTable.create(rows)
+    return new DataTable(rows)
   }
 
   column(index) {
@@ -58,7 +54,7 @@ class DataTable {
         )
       })
     })
-    return DataTable.create(columns)
+    return new DataTable(columns)
   }
 
   subTable(fromRow, fromColumn, toRow, toColumn) {
