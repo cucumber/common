@@ -1,16 +1,16 @@
 const DataTableType = require('./data_table_type')
-const Transformer = require('./transformer')
+const DataTableTransformer = require('./data_table_transformer')
 
 class DataTableRegistry {
   constructor() {
     this._registry = {}
 
-    let listTransformer = Transformer.list(item => {
+    let listTransformer = DataTableTransformer.list(item => {
       return item
     })
     this.defineDataTableType(new DataTableType('[string]', listTransformer))
 
-    let intlistTransformer = Transformer.list(item => {
+    let intlistTransformer = DataTableTransformer.list(item => {
       return parseInt(item)
     })
     this.defineDataTableType(new DataTableType('[int]', intlistTransformer))

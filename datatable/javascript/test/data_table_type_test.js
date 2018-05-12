@@ -2,7 +2,7 @@
 
 const assert = require('assert')
 const DataTableType = require('../src/data_table_type')
-const Transformer = require('../src/transformer')
+const DataTableTransformer = require('../src/data_table_transformer')
 
 describe('DataTableType', () => {
   let dataTableType
@@ -19,7 +19,7 @@ describe('DataTableType', () => {
   describe('transform', () => {
     it('calls the transformer with the DataTable of the given raw data to transform', () => {
       const data = [['A0', 'A1', 'A2'], ['B0', 'B1', 'B2']]
-      let transformer = Transformer.table(dataTable => {
+      let transformer = DataTableTransformer.table(dataTable => {
         return dataTable.transpose().cells
       })
 

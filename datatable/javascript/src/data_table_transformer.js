@@ -1,4 +1,4 @@
-class Transformer {
+class DataTableTransformer {
   constructor(transformFn) {
     this._transformFn = transformFn
   }
@@ -8,13 +8,13 @@ class Transformer {
   }
 
   static table(transformFn) {
-    return new Transformer(dataTable => {
+    return new DataTableTransformer(dataTable => {
       return transformFn(dataTable)
     })
   }
 
   static cell(transformFn) {
-    return new Transformer(dataTable => {
+    return new DataTableTransformer(dataTable => {
       return dataTable.raw().map(row => {
         return row.map(transformFn)
       })
@@ -22,19 +22,19 @@ class Transformer {
   }
 
   static row(transformFn) {
-    return new Transformer(dataTable => {
+    return new DataTableTransformer(dataTable => {
       return dataTable.raw().map(transformFn)
     })
   }
 
   static entry(transformFn) {
-    return new Transformer(dataTable => {
+    return new DataTableTransformer(dataTable => {
       return dataTable.hashes().map(transformFn)
     })
   }
 
   static list(transformFn) {
-    return new Transformer(dataTable => {
+    return new DataTableTransformer(dataTable => {
       return dataTable.flat().map(cell => {
         return transformFn(cell)
       })
@@ -42,4 +42,4 @@ class Transformer {
   }
 }
 
-module.exports = Transformer
+module.exports = DataTableTransformer

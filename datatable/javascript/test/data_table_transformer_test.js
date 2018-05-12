@@ -1,7 +1,7 @@
 /* eslint-env mocha */
 
 const assert = require('assert')
-const Transformer = require('../src/transformer')
+const DataTableTransformer = require('../src/data_table_transformer')
 const DataTable = require('../src/data_table')
 
 describe('Transformer', () => {
@@ -9,7 +9,7 @@ describe('Transformer', () => {
 
   describe('Cell Transformer', () => {
     it('applies the given transform function on each cell individually', () => {
-      let transformer = Transformer.cell(cell => {
+      let transformer = DataTableTransformer.cell(cell => {
         return cell.toLowerCase()
       })
       let transformed = transformer.transform(datatable)
@@ -19,7 +19,7 @@ describe('Transformer', () => {
 
   describe('Row Transformer', () => {
     it('applies the given transform function on each row individually', () => {
-      let transformer = Transformer.row(row => {
+      let transformer = DataTableTransformer.row(row => {
         return row.join(',')
       })
       let transformed = transformer.transform(datatable)
@@ -29,7 +29,7 @@ describe('Transformer', () => {
 
   describe('Table Transformer', () => {
     it('applies the given transform function on the entire table', () => {
-      let transformer = Transformer.table(table => {
+      let transformer = DataTableTransformer.table(table => {
         return table.transpose().raw()
       })
       let transformed = transformer.transform(datatable)
@@ -39,7 +39,7 @@ describe('Transformer', () => {
 
   describe('Entry Transformer', () => {
     it('applies the given transform function on each entry (header value) pair', () => {
-      let transformer = Transformer.entry(entry => {
+      let transformer = DataTableTransformer.entry(entry => {
         return entry['A0'] + entry['A1']
       })
       let transformed = transformer.transform(datatable)
@@ -52,7 +52,7 @@ describe('Transformer', () => {
       const xList = [['1', '2', '3']]
       const yList = [['1'], ['2'], ['3']]
 
-      let transformer = Transformer.list(parseInt)
+      let transformer = DataTableTransformer.list(parseInt)
       let transformedX = transformer.transform(new DataTable(xList))
       assert.deepEqual(transformedX, [1, 2, 3])
 
