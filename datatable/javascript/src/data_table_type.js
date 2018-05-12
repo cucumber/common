@@ -11,7 +11,7 @@ class DataTableType {
   }
 
   transform(rawTable) {
-    return this._transformer(new DataTable(rawTable))
+    return this._transformer.transform(new DataTable(rawTable))
   }
 }
 
