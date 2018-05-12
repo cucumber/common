@@ -109,6 +109,15 @@ class DataTable {
       return Object.assign(acc, { [target[0]]: target[1] })
     }, {})
   }
+
+  /**
+   * @returns a flattened array of all cells
+   */
+  flat() {
+    return this.cells.reduce((accumulator, row) => {
+      return accumulator.concat(row)
+    }, [])
+  }
 }
 
 module.exports = DataTable

@@ -164,5 +164,16 @@ describe('DataTable', () => {
         })
       })
     })
+
+    describe('flat', () => {
+      it('returns an flattened, 1D array', () => {
+        assert.deepEqual(new DataTable(table2x2).flat(), [
+          table2x2[0][0],
+          table2x2[0][1],
+          table2x2[1][0],
+          table2x2[1][1],
+        ])
+      })
+    })
   })
 })

@@ -32,6 +32,14 @@ class Transformer {
       return dataTable.hashes().map(transformFn)
     })
   }
+
+  static list(transformFn) {
+    return new Transformer(dataTable => {
+      return dataTable.flat().map(cell => {
+        return transformFn(cell)
+      })
+    })
+  }
 }
 
 module.exports = Transformer

@@ -46,4 +46,18 @@ describe('Transformer', () => {
       assert.deepEqual(transformed, ['B0B1'])
     })
   })
+
+  describe('List Transformer', () => {
+    it('applies the given transform function on then entire, but flattened table', () => {
+      const xList = [['1', '2', '3']]
+      const yList = [['1'], ['2'], ['3']]
+
+      let transformer = Transformer.list(parseInt)
+      let transformedX = transformer.transform(new DataTable(xList))
+      assert.deepEqual(transformedX, [1, 2, 3])
+
+      let transformedY = transformer.transform(new DataTable(yList))
+      assert.deepEqual(transformedY, [1, 2, 3])
+    })
+  })
 })

@@ -31,5 +31,30 @@ describe('DataTypeRegistry', () => {
 
   it('looks up preferential data table type by identifier', () => {})
 
-  describe('built-in types', () => {})
+  describe('built-in types', () => {
+    describe('[string]', () => {
+      it('returns a string[] of all cells', () => {
+        const type = registry.lookupTableTypeByName('[string]')
+
+        const xList = [['foo', 'bar', 'baz']]
+        assert.deepEqual(type.transform(xList), ['foo', 'bar', 'baz'])
+
+        const yList = [['foo'], ['bar'], ['baz']]
+        assert.deepEqual(type.transform(yList), ['foo', 'bar', 'baz'])
+      })
+    })
+
+    describe('[int]', () => {
+      it('returns a int[] of all cells', () => {
+        const type = registry.lookupTableTypeByName('[int]')
+
+        const intList = [['0', '1', '2']]
+        assert.deepEqual(type.transform(intList), [0, 1, 2])
+
+        // in NaN == NaN fails, so check it separately
+        const invalidIntList = [['This is not a number']]
+        assert.equal(isNaN(type.transform(invalidIntList)[0]), true)
+      })
+    })
+  })
 })
