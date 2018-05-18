@@ -246,7 +246,7 @@ public class DataTableTypeRegistryTableConverterTest {
                 new Author("Astrid", "Lindgren", "1907-11-14")
         );
 
-        registry.defineDataTableType(new DataTableType("author", Author.class, AUTHOR_TABLE_ENTRY_TRANSFORMER));
+        registry.defineDataTableType(new DataTableType(Author.class, AUTHOR_TABLE_ENTRY_TRANSFORMER));
 
         assertEquals(expected, converter.toList(table, Author.class));
         assertEquals(expected, converter.convert(table, LIST_OF_AUTHOR));
@@ -374,8 +374,8 @@ public class DataTableTypeRegistryTableConverterTest {
             put(new AirPortCode("KJFK"), new Coordinate(40.639722, -73.778889));
         }};
 
-        registry.defineDataTableType(new DataTableType("coordinate", Coordinate.class, COORDINATE_TABLE_ENTRY_TRANSFORMER));
-        registry.defineDataTableType(new DataTableType("airport", AirPortCode.class, AIR_PORT_CODE_TABLE_CELL_TRANSFORMER));
+        registry.defineDataTableType(new DataTableType(Coordinate.class, COORDINATE_TABLE_ENTRY_TRANSFORMER));
+        registry.defineDataTableType(new DataTableType(AirPortCode.class, AIR_PORT_CODE_TABLE_CELL_TRANSFORMER));
 
         assertEquals(expected, converter.toMap(table, AirPortCode.class, Coordinate.class));
         assertEquals(expected, converter.convert(table, MAP_OF_AIR_PORT_CODE_TO_COORDINATE));
@@ -410,7 +410,7 @@ public class DataTableTypeRegistryTableConverterTest {
                 "  | C |   | ♝ |   |"
         );
 
-        registry.defineDataTableType(new DataTableType("piece", Piece.class, PIECE_TABLE_CELL_TRANSFORMER));
+        registry.defineDataTableType(new DataTableType(Piece.class, PIECE_TABLE_CELL_TRANSFORMER));
 
         Map<String, Map<Integer, Piece>> expected = new HashMap<String, Map<Integer, Piece>>() {{
             put("A", new HashMap<Integer, Piece>() {{
@@ -483,7 +483,7 @@ public class DataTableTypeRegistryTableConverterTest {
             put("KJFK", new Coordinate(40.639722, -73.778889));
         }};
 
-        registry.defineDataTableType(new DataTableType("coordinate", Coordinate.class, COORDINATE_TABLE_ENTRY_TRANSFORMER));
+        registry.defineDataTableType(new DataTableType(Coordinate.class, COORDINATE_TABLE_ENTRY_TRANSFORMER));
 
         assertEquals(expected, converter.toMap(table, String.class, Coordinate.class));
         assertEquals(expected, converter.convert(table, MAP_OF_STRING_TO_COORDINATE));
@@ -610,7 +610,7 @@ public class DataTableTypeRegistryTableConverterTest {
                 "  | C |   | ♝ |   |"
         );
 
-        registry.defineDataTableType(new DataTableType("chessboard", ChessBoard.class, CHESS_BOARD_TABLE_TRANSFORMER));
+        registry.defineDataTableType(new DataTableType(ChessBoard.class, CHESS_BOARD_TABLE_TRANSFORMER));
         ChessBoard expected = new ChessBoard(asList("♘", "♝", "♝"));
 
         assertEquals(expected, converter.convert(table, ChessBoard.class));
@@ -627,7 +627,7 @@ public class DataTableTypeRegistryTableConverterTest {
                 "| ♘ | ♝ |"
         );
 
-        registry.defineDataTableType(new DataTableType("piece", Piece.class, PIECE_TABLE_CELL_TRANSFORMER));
+        registry.defineDataTableType(new DataTableType(Piece.class, PIECE_TABLE_CELL_TRANSFORMER));
         converter.convert(table, Piece.class);
     }
 
@@ -646,7 +646,7 @@ public class DataTableTypeRegistryTableConverterTest {
     @Test
     public void convert_to_single_object__single_cell() {
         DataTable table = parse("| ♝ |");
-        registry.defineDataTableType(new DataTableType("piece", Piece.class, PIECE_TABLE_CELL_TRANSFORMER));
+        registry.defineDataTableType(new DataTableType(Piece.class, PIECE_TABLE_CELL_TRANSFORMER));
 
         assertEquals(Piece.BLACK_BISHOP, converter.convert(table, Piece.class));
     }
@@ -661,7 +661,7 @@ public class DataTableTypeRegistryTableConverterTest {
         );
 
         final DataTable expected = emptyDataTable();
-        registry.defineDataTableType(new DataTableType("table", DataTable.class, new TableTransformer<DataTable>() {
+        registry.defineDataTableType(new DataTableType(DataTable.class, new TableTransformer<DataTable>() {
             @Override
             public DataTable transform(DataTable raw) {
                 return expected;
@@ -760,8 +760,8 @@ public class DataTableTypeRegistryTableConverterTest {
                 "| KJFK | 40.639722 | -73.778889  |"
         );
 
-        registry.defineDataTableType(new DataTableType("airport", AirPortCode.class, AIR_PORT_CODE_TABLE_CELL_TRANSFORMER));
-        registry.defineDataTableType(new DataTableType("coordinate", Coordinate.class, COORDINATE_TABLE_ENTRY_TRANSFORMER));
+        registry.defineDataTableType(new DataTableType(AirPortCode.class, AIR_PORT_CODE_TABLE_CELL_TRANSFORMER));
+        registry.defineDataTableType(new DataTableType(Coordinate.class, COORDINATE_TABLE_ENTRY_TRANSFORMER));
 
         converter.toMap(table, AirPortCode.class, Coordinate.class);
     }
@@ -782,7 +782,7 @@ public class DataTableTypeRegistryTableConverterTest {
                 "| KJFK | John F. Kennedy International Airport             |"
         );
 
-        registry.defineDataTableType(new DataTableType("airport", AirPortCode.class, AIR_PORT_CODE_TABLE_ENTRY_TRANSFORMER));
+        registry.defineDataTableType(new DataTableType(AirPortCode.class, AIR_PORT_CODE_TABLE_ENTRY_TRANSFORMER));
 
         converter.toMap(table, AirPortCode.class, String.class);
     }
@@ -803,8 +803,8 @@ public class DataTableTypeRegistryTableConverterTest {
                 "| KJFK | 40.639722 | -73.778889  |"
         );
 
-        registry.defineDataTableType(new DataTableType("airport", AirPortCode.class, AIR_PORT_CODE_TABLE_ENTRY_TRANSFORMER));
-        registry.defineDataTableType(new DataTableType("coordinate", Coordinate.class, COORDINATE_TABLE_ROW_TRANSFORMER));
+        registry.defineDataTableType(new DataTableType(AirPortCode.class, AIR_PORT_CODE_TABLE_ENTRY_TRANSFORMER));
+        registry.defineDataTableType(new DataTableType(Coordinate.class, COORDINATE_TABLE_ROW_TRANSFORMER));
 
         converter.toMap(table, AirPortCode.class, Coordinate.class);
     }
@@ -824,7 +824,7 @@ public class DataTableTypeRegistryTableConverterTest {
                 "| KJFK | 40.639722 | -73.778889  |"
         );
 
-        registry.defineDataTableType(new DataTableType("airport", AirPortCode.class, AIR_PORT_CODE_TABLE_ENTRY_TRANSFORMER));
+        registry.defineDataTableType(new DataTableType(AirPortCode.class, AIR_PORT_CODE_TABLE_ENTRY_TRANSFORMER));
         converter.toMap(table, AirPortCode.class, Coordinate.class);
     }
 
@@ -844,7 +844,7 @@ public class DataTableTypeRegistryTableConverterTest {
                 "| KJFK | 40.639722 | -73.778889  |"
         );
 
-        registry.defineDataTableType(new DataTableType("coordinate", Coordinate.class, COORDINATE_TABLE_ENTRY_TRANSFORMER));
+        registry.defineDataTableType(new DataTableType(Coordinate.class, COORDINATE_TABLE_ENTRY_TRANSFORMER));
 
         converter.toMap(table, String.class, Coordinate.class);
     }
@@ -899,7 +899,7 @@ public class DataTableTypeRegistryTableConverterTest {
                 "| KJFK | 40.639722 | -73.778889  |"
         );
 
-        registry.defineDataTableType(new DataTableType("coordinate", Coordinate.class, COORDINATE_TABLE_ENTRY_TRANSFORMER));
+        registry.defineDataTableType(new DataTableType(Coordinate.class, COORDINATE_TABLE_ENTRY_TRANSFORMER));
         converter.toMap(table, AirPortCode.class, Coordinate.class);
     }
 
