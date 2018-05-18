@@ -4,7 +4,7 @@
 ; git-subrepo command. See https://github.com/git-commands/git-subrepo#readme
 ;
 [subrepo]
-	remote = https://github.com/cucumber/cucumber-expressions-java.git
+	remote = git@github.com:cucumber/cucumber-expressions-java.git
 	branch = master
 	commit = 6ea5ecc0abdc9d35176c3e61562bff1f52353f55
 	parent = 663df25dd38d3b7ad5476da082312ab039d34bbf

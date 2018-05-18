@@ -4,7 +4,7 @@
 ; git-subrepo command. See https://github.com/git-commands/git-subrepo#readme
 ;
 [subrepo]
-	remote = https://github.com/cucumber/tag-expressions-ruby.git
+	remote = git@github.com:cucumber/tag-expressions-ruby.git
 	branch = master
 	commit = e0281202c4ccf844e4987cc1a367989423dbd96c
 	parent = 18b91e7e3afb9f281b07efa1013340c54027ad8b

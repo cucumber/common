@@ -4,7 +4,7 @@
 ; git-subrepo command. See https://github.com/git-commands/git-subrepo#readme
 ;
 [subrepo]
-	remote = https://github.com/cucumber/tag-expressions-javascript.git
+	remote = git@github.com:cucumber/tag-expressions-javascript.git
 	branch = master
 	commit = eecfc02d7d7322ec84eb710d284eebaee80e2b10
 	parent = daa1c5d78bf8bdc861cb0cded1474c759e38851f

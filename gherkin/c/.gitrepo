@@ -4,7 +4,7 @@
 ; git-subrepo command. See https://github.com/git-commands/git-subrepo#readme
 ;
 [subrepo]
-	remote = https://github.com/cucumber/gherkin-c.git
+	remote = git@github.com:cucumber/gherkin-c.git
 	branch = master
 	commit = 43f47a04eff1498ade0c79388616655dafe16090
 	parent = b3ad1ab00ad56b1a65e18807464da255a36ac42b

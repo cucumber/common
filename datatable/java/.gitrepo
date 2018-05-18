@@ -4,7 +4,7 @@
 ; git-subrepo command. See https://github.com/git-commands/git-subrepo#readme
 ;
 [subrepo]
-	remote = https://github.com/cucumber/datatable-java.git
+	remote = git@github.com:cucumber/datatable-java.git
 	branch = master
 	commit = e729a9ce5cc3f6b91fae40e5000fb46c6f6ed175
 	cmdver = 0.4.0
