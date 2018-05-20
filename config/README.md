@@ -76,6 +76,7 @@ testing:
   "testing": {
     "somebool": true,
     "meaning": 42,
+    "message": "hello",
     "stringlist": [
       "one",
       "two"
