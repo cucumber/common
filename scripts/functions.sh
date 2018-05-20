@@ -103,6 +103,15 @@ function build_subrepos()
   done
 }
 
+function clone_subrepos()
+{
+  subrepos $1 | while read subrepo; do
+    remote=$(subrepo_remote "${subrepo}")
+    git clone "${remote}" "${subrepo}/.subrepo"
+  done
+}
+
+
 # Releases all implementations of a group.
 #
 # Before running this function you should make sure you are authenticated
