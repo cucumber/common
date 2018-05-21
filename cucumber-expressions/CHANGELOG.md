@@ -11,20 +11,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Changed
 
-* java: The `{byte}` parameter type no longer uses hexadecimal, but uses the same pattern as `{short}`, `{int}` and `{long}`.
-
 ### Deprecated
 
 ### Removed
 
 ### Fixed
-
-* The `/` character can be escaped with `\/` in order to keep a literal `/` rather
-  than interpreting it as alternation character. Generated expressions will use
-  `\/` if the original text contains `/`.
-  ([#391](https://github.com/cucumber/cucumber/issues/391)
-   [#392](https://github.com/cucumber/cucumber/pull/392)
-   [aslakhellesoy])
 
 ## [5.0.18] - 2018-05-21
 

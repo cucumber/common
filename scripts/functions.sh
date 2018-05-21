@@ -253,6 +253,8 @@ function maven_release()
 
   mvn --batch-mode release:clean release:prepare -Darguments="-DskipTests=true"  
   mvn --batch-mode release:perform -Psign-source-javadoc -DskipTests=true
+  
+  cp pom.xml ../pom.xml
   popd
 }
 
@@ -275,6 +277,8 @@ function npm_release() {
   yarn publish
   git push
   git push --tags
+
+  cp package.json ../package.json
   popd
 }
 
@@ -296,6 +300,9 @@ function rubygem_release() {
   git add .
   git commit -m "Release ${version}"
   bundle exec rake build release
+  git show > .release.patch
+  cd ..
+  patch -p1 < .release/.release.patch
   popd
 }
 
