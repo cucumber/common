@@ -39,10 +39,12 @@ class CucumberExpression {
   }
 
   processAlternation(expression) {
-    return expression.replace(
-      ALTERNATIVE_NON_WHITESPACE_TEXT_REGEXP,
-      (_, p1, p2) => `(?:${p1}${p2.replace(/\//g, '|')})`
-    )
+    return expression.replace(ALTERNATIVE_NON_WHITESPACE_TEXT_REGEXP, match => {
+      // replace \/ with /
+      // replace / with |
+      const replacement = match.replace(/\//g, '|').replace(/\\\|/g, '/')
+      return `(?:${replacement})`
+    })
   }
 
   processParameters(expression, parameterTypeRegistry) {

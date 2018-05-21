@@ -19,6 +19,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Fixed
 
+* The `/` character can be escaped with `\/` in order to keep a literal `/` rather
+  than interpreting it as alternation character. Generated expressions will use
+  `\/` if the original text contains `/`.
+  ([#391](https://github.com/cucumber/cucumber/issues/391)
+   [aslakhellesoy])
+
 ## [5.0.17] - 2018-04-12
 
 ### Changed

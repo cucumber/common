@@ -61,7 +61,11 @@ func (c *CucumberExpression) processOptional(expression string) string {
 
 func (c *CucumberExpression) processAlteration(expression string) string {
 	return ALTERNATIVE_NON_WHITESPACE_TEXT_REGEXP.ReplaceAllStringFunc(expression, func(match string) string {
-		return fmt.Sprintf("(?:%s)", strings.Replace(match, "/", "|", -1))
+		// replace \/ with /
+		// replace / with |
+		replacement := strings.Replace(match, "/", "|", -1)
+		replacement = strings.Replace(replacement, `\\\\|`, "/", -1)
+		return fmt.Sprintf("(?:%s)", replacement)
 	})
 }
 

@@ -114,6 +114,7 @@ function escape(s) {
     .replace(/%/g, '%%') // for util.format
     .replace(/\(/g, '\\(')
     .replace(/{/g, '\\{')
+    .replace(/\//g, '\\/')
 }
 
 module.exports = CucumberExpressionGenerator
