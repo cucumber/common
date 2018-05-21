@@ -72,7 +72,12 @@ function subrepos()
 # Prints the remote (git URL) of a subrepo
 function subrepo_remote()
 {
-  cat ${subrepo}/.subrepo
+  suffix=$(cat ${subrepo}/.subrepo)
+  if [ -z "${GITHUB_TOKEN}" ]; then
+    echo "git@github.com:${suffix}"
+  else
+    echo "https://${GITHUB_TOKEN}@github.com/${suffix}"
+  fi
 }
 
 function push_subrepos()
