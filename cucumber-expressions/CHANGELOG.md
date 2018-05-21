@@ -23,6 +23,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
   than interpreting it as alternation character. Generated expressions will use
   `\/` if the original text contains `/`.
   ([#391](https://github.com/cucumber/cucumber/issues/391)
+   [#392](https://github.com/cucumber/cucumber/pull/392)
    [aslakhellesoy])
 
 ## [5.0.17] - 2018-04-12
