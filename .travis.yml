@@ -1,6 +1,8 @@
 sudo: required
 services:
 - docker
+before_script:
+- export PATH=$PATH:$PWD/bin/linux/amd64
 script:
 - git fetch --unshallow
 - source scripts/functions.sh && push_subrepos .
