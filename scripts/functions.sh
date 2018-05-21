@@ -91,7 +91,7 @@ function push_subrepo()
 {
   subrepo=$1
   remote=$(subrepo_remote "${subrepo}")
-  git push "${remote}" $(splitsh-lite --prefix=${subrepo}):master
+  git push --force "${remote}" $(splitsh-lite --prefix=${subrepo}):master
 }
 
 function build_subrepos()
