@@ -53,12 +53,7 @@ Update `CHANGELOG.md` of the library in the following places:
 
 Then `git commit -m "library-name: Prepare for release vX.Y.Z"`
 
-Make sure the main `cucumber/cucumber` repo has the most recent commits from
-all of the subrepos:
-
-    pull_subrepos ${group_path}
-
-Make sure they all build successfully:
+Make sure all subrepos build successfully:
 
     build_subrepos ${group_path}
 

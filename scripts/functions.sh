@@ -66,32 +66,27 @@ function rsync_files()
 function subrepos()
 {
   dir=$1
-  git ls-files "${dir}" | grep .gitrepo | xargs -n 1 dirname
+  git ls-files "${dir}" | grep .subrepo | xargs -n 1 dirname
 }
 
 # Prints the remote (git URL) of a subrepo
 function subrepo_remote()
 {
-  subrepo=$1
-  git subrepo status "${subrepo}" | grep "Remote URL:" | sed -e 's/[ \t][ \t]*Remote URL:[ \t][ \t]*//g'
-}
-
-function pull_subrepos()
-{
-  subrepos $1 | while read subrepo; do
-    remote=$(subrepo_remote "${subrepo}")
-    echo "pulling ${subrepo} from ${remote}"
-    git subrepo pull "${subrepo}"
-  done
+  cat ${subrepo}/.subrepo
 }
 
 function push_subrepos()
 {
   subrepos $1 | while read subrepo; do
-    remote=$(subrepo_remote "${subrepo}")
-    echo "pushing ${subrepo} to ${remote}"
-    git subrepo push "${subrepo}"
+    push_subrepo "${subrepo}"
   done
+}
+
+function push_subrepo()
+{
+  subrepo=$1
+  remote=$(subrepo_remote "${subrepo}")
+  git push "${remote}" $(splitsh-lite --prefix=${subrepo}):master
 }
 
 function build_subrepos()
@@ -102,15 +97,6 @@ function build_subrepos()
     popd
   done
 }
-
-function clone_subrepos()
-{
-  subrepos $1 | while read subrepo; do
-    remote=$(subrepo_remote "${subrepo}")
-    git clone "${remote}" "${subrepo}/.subrepo"
-  done
-}
-
 
 # Releases all implementations of a group.
 #
