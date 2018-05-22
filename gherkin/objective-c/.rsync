@@ -1,4 +1,5 @@
 ../LICENSE LICENSE
+../../.templates/github/ .github/
 ../testdata/ testdata/
 ../gherkin.berp gherkin.berp
 ../bin/ berp/

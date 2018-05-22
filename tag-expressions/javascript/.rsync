@@ -1,3 +1,4 @@
 ../../LICENSE LICENSE
+../../.templates/github/ .github/
 ../../.templates/javascript/.travis.yml .travis.yml
 ../../scripts/prettier-all scripts/prettier-all

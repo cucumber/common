@@ -14,10 +14,10 @@ public final class ParameterType<T> implements Comparable<ParameterType<?>> {
     private final CaptureGroupTransformer<T> transformer;
 
     public ParameterType(String name, List<String> regexps, Type type, CaptureGroupTransformer<T> transformer, boolean useForSnippets, boolean preferForRegexpMatch) {
-        if (name == null) throw new CucumberExpressionException("name cannot be null");
-        if (regexps == null) throw new CucumberExpressionException("regexps cannot be null");
-        if (type == null) throw new CucumberExpressionException("type cannot be null");
-        if (transformer == null) throw new CucumberExpressionException("transformer cannot be null");
+        if (name == null) throw new NullPointerException("name cannot be null");
+        if (regexps == null) throw new NullPointerException("regexps cannot be null");
+        if (type == null) throw new NullPointerException("type cannot be null");
+        if (transformer == null) throw new NullPointerException("transformer cannot be null");
         this.name = name;
         this.regexps = regexps;
         this.type = type;
@@ -138,7 +138,7 @@ public final class ParameterType<T> implements Comparable<ParameterType<?>> {
         private final Transformer<T> transformer;
 
         private TransformerAdaptor(Transformer<T> transformer) {
-            if (transformer == null) throw new CucumberExpressionException("transformer cannot be null");
+            if (transformer == null) throw new NullPointerException("transformer cannot be null");
             this.transformer = transformer;
         }
 

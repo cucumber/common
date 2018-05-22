@@ -6362,7 +6362,10 @@ function Compiler() {
     variableCells.forEach(function (variableCell, n) {
       var valueCell = valueCells[n];
       var search = new RegExp('<' + variableCell.value + '>', 'g');
-      name = name.replace(search, valueCell.value);
+      // JS Specific - dollar sign needs to be escaped with another dollar sign
+      // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/replace#Specifying_a_string_as_a_parameter
+      var replacement = valueCell.value.replace(new RegExp('\\$', 'g'), '$$$$')
+      name = name.replace(search, replacement);
     });
     return name;
   }

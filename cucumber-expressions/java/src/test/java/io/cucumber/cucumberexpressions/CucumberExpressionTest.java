@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Locale;
 
 import static java.util.Arrays.asList;
+import static java.util.Collections.emptyList;
 import static java.util.Collections.singletonList;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
@@ -80,6 +81,11 @@ public class CucumberExpressionTest {
     @Test
     public void matches_escaped_parenthesis() {
         assertEquals(singletonList("blind"), match("three \\(exceptionally) {string} mice", "three (exceptionally) \"blind\" mice"));
+    }
+
+    @Test
+    public void matches_escaped_slash() {
+        assertEquals(emptyList(), match("12\\/2020", "12/2020"));
     }
 
     @Test

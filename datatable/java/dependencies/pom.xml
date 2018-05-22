@@ -5,7 +5,7 @@
     <parent>
         <groupId>io.cucumber</groupId>
         <artifactId>datatable-parent</artifactId>
-        <version>0.0.1-SNAPSHOT</version>
+        <version>1.0.2-SNAPSHOT</version>
     </parent>
 
     <artifactId>datatable-dependencies</artifactId>
@@ -59,8 +59,7 @@
                                 </relocation>
                             </relocations>
                             <transformers>
-                                <transformer
-                                        implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+                                <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
                                     <manifestEntries>
                                         <Bundle-ManifestVersion>2</Bundle-ManifestVersion>
                                         <Bundle-SymbolicName>${project.groupId}.${project.artifactId}
@@ -69,13 +68,31 @@
                                         <Bundle-Name>${project.name}</Bundle-Name>
                                         <Bundle-License>http://www.apache.org/licenses/LICENSE-2.0</Bundle-License>
                                         <Export-Package>
-                                            io.cucumber.datatable.dependency.com.fasterxml;version=${used.osgi.version},
-                                            io.cucumber.datatable.dependency.deps.difflib;version=${used.osgi.version}
+                                            io.cucumber.datatable.dependency.com.fasterxml.*;version=${used.osgi.version},
+                                            io.cucumber.datatable.dependency.difflib.*;version=${used.osgi.version}
                                         </Export-Package>
                                         <DynamicImport-Package>*</DynamicImport-Package>
                                     </manifestEntries>
                                 </transformer>
                             </transformers>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>attach-javadocs</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                        <configuration>
+                            <includeDependencySources>true</includeDependencySources>
+                            <additionalparam>-Xdoclint:none</additionalparam>
+                            <failOnError>false</failOnError>
                         </configuration>
                     </execution>
                 </executions>

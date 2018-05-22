@@ -98,6 +98,7 @@ module Cucumber
         s.gsub(/%/, '%%')
         .gsub(/\(/, '\\(')
         .gsub(/\{/, '\\{')
+        .gsub(/\//, '\\/')
       end
     end
   end

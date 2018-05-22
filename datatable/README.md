@@ -160,7 +160,6 @@ A custom table type can be registered as follows:
 ```java
 registry.defineDataTableType(
   new DataTableType(
-    "date",                                     // name
     LocalDate.class,                            // type
     new TableCellTransformer<LocalDate>() {     // transformer
   
@@ -169,19 +168,13 @@ registry.defineDataTableType(
           return new LocalDate.parse(cell);
       }
     }, 
-    true                                        // preferForTypeMatch
   )
 ```
 The parameters are as follows:
 
-* `name` - the name of the table type. To be used when type information is not
-   available. 
 * `type`
 * `transformer` - a function that transforms either a cell, table entry, table
    row or table.  
-* `preferForTypeMatch` - Defaults to `false`.
-  Set to `true` if you use automatic conversion and you want this table type's
-  type to take precedence over others during a match.
 
 There are four ways to transform a table: 
 1. Transform the cells. Each cell represents a object.
@@ -226,7 +219,6 @@ registry.defineDataTableType(
 
 registry.defineDataTableType(
   new DataTableType(
-    "coordinate",
     Coordinate.class,
     new TableEntryTransformer<Coordinate>() {
       @Override
@@ -268,7 +260,6 @@ it is recommended that you pick one representation only.
 ```java
 registry.defineDataTableType(
   new DataTableType(
-    "coordinate",
     Coordinate.class,
     new TableRowTransformer<Coordinate>() {
         @Override
@@ -294,7 +285,6 @@ Custom transformation can also transform a table into a single object.
 
 ```java
 registry.defineDataTableType(new DataTableType(
-  "chessboard",
   ChessBoard.class,
   new TableTransformer<ChessBoard>() {
     @Override
@@ -310,17 +300,6 @@ registry.defineDataTableType(new DataTableType(
 ```
 [A chess board with one white knight and two black bishops]
 ```
-
-### Preferential table types
-
-In some cases you might want to define two or more table types with the same
-type, but a different name and transformer. To avoid ambiguity you can make
-one of the types *preferential* when you define it. A preferential table type 
-will always be chosen over a non-preferential one.
-
-When several table types share the same type, only one of the table types can
-be preferential. If you define two table types with the same type that are 
-both preferential you will get an error during matching.
 
 ## DataTable object
 

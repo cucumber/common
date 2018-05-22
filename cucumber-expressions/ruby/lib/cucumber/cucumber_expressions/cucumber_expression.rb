@@ -55,7 +55,10 @@ module Cucumber
 
       def process_alternation(expression)
         expression.gsub(ALTERNATIVE_NON_WHITESPACE_TEXT_REGEXP) do
-          "(?:#{$1}#{$2.tr('/', '|')})"
+          # replace \/ with /
+          # replace / with |
+          replacement = $&.tr('/', '|').gsub(/\\\|/, '/')
+          "(?:#{replacement})"
         end
       end
 
