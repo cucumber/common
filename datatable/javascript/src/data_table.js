@@ -3,15 +3,22 @@ class DataTable {
   // TODO: fail on unequal rows?
 
   constructor(rawTable) {
-    this._rawTable = rawTable
+    const raw = ignoreEmptyRows(rawTable)
+    this._rawTable = raw
   }
 
-  get cells() {
-    return this._rawTable.slice(0)
+  static emptyDataTable() {
+    return new DataTable([[]])
   }
 
   get height() {
-    return this._rawTable.length
+    // Since javascript doesnt know 2d arrays, its really an array with an array in it
+    // If there are no rows with content ( `[[]]` ), we consider height === 0
+    const length = this._rawTable.length
+    if (length === 1 && this.width === 0) {
+      return 0
+    }
+    return length
   }
 
   get width() {
@@ -19,18 +26,29 @@ class DataTable {
   }
 
   get isEmpty() {
-    return this.height <= 1 && this.width === 0
+    return this.height === 0 || this.width === 0
+  }
+
+  cells() {
+    return this._rawTable
+  }
+
+  cell(row, column) {
+    rangeCheckRow(row, this.height)
+    rangeCheckColumn(column, this.width)
+    return this.cells()[row][column]
   }
 
   transpose() {
-    let transposedRaw = this.cells[0].map((col, i) =>
-      this.cells.map(row => row[i])
+    let transposedRaw = this.cells()[0].map((col, i) =>
+      this.cells().map(row => row[i])
     )
     return new DataTable(transposedRaw)
   }
 
   row(index) {
-    return this.cells[index]
+    rangeCheckRow(index, this.height)
+    return this.cells()[index]
   }
 
   /**
@@ -42,14 +60,15 @@ class DataTable {
     if (typeof fromRow === 'undefined') {
       fromRow = 1
     }
-    let rows = this.cells.filter((row, rowIndex) => {
+    let rows = this.cells().filter((row, rowIndex) => {
       return rowIndex >= fromRow && (!toRow || rowIndex < toRow)
     })
     return new DataTable(rows)
   }
 
   column(index) {
-    return this.cells.map(row => {
+    rangeCheckColumn(index, this.width)
+    return this.cells().map(row => {
       return row[index]
     })
   }
@@ -63,7 +82,7 @@ class DataTable {
     if (typeof fromColumn === 'undefined') {
       fromColumn = 1
     }
-    let columns = this.cells.map(row => {
+    let columns = this.cells().map(row => {
       return row.filter((cell, columnIndex) => {
         return (
           columnIndex >= fromColumn && (!toColumn || columnIndex < toColumn)
@@ -74,6 +93,29 @@ class DataTable {
   }
 
   subTable(fromRow, fromColumn, toRow, toColumn) {
+    if (fromRow < 0) {
+      throw new IndexOutOfBoundsException(`fromRow: ${fromRow}`)
+    }
+    if (fromColumn < 0) {
+      throw new IndexOutOfBoundsException(`fromColumn: ${fromColumn}`)
+    }
+    if (toRow > this.height) {
+      throw new IndexOutOfBoundsException(`toRow: ${toRow}`)
+    }
+    if (toColumn > this.width) {
+      throw new IndexOutOfBoundsException(`toColumn: ${toColumn}`)
+    }
+    if (fromRow > toRow) {
+      throw new IndexOutOfBoundsException(
+        `fromRow (${fromRow}) > toRow(${toRow})`
+      )
+    }
+    if (fromColumn > toColumn) {
+      throw new IndexOutOfBoundsException(
+        `fromColumn (${fromRow}) > toColumn(${toRow})`
+      )
+    }
+
     return this.rows(fromRow, toRow).columns(fromColumn, toColumn)
   }
 
@@ -81,7 +123,7 @@ class DataTable {
    * @returns  returns an array of objects where each row is converted to an object (column header is the key)
    */
   hashes() {
-    const copy = this.cells
+    const copy = this.cells()
     const keys = copy[0]
     const values = copy.slice(1)
 
@@ -98,14 +140,14 @@ class DataTable {
    * @returns the table as a 2-D array
    */
   raw() {
-    return this.cells
+    return this.cells()
   }
 
   /**
    * @returns returns an object where each row corresponds to an entry (first column is the key, second column is the value)
    */
   rowHash() {
-    return this.cells.reduce((acc, target) => {
+    return this.cells().reduce((acc, target) => {
       return Object.assign(acc, { [target[0]]: target[1] })
     }, {})
   }
@@ -114,9 +156,42 @@ class DataTable {
    * @returns a flattened array of all cells
    */
   flat() {
-    return this.cells.reduce((accumulator, row) => {
+    return this.cells().reduce((accumulator, row) => {
       return accumulator.concat(row)
     }, [])
+  }
+
+  asLists() {
+    return this.cells()
+  }
+}
+
+function ignoreEmptyRows(rawTable) {
+  rawTable = rawTable.filter(row => {
+    return row.length > 0
+  })
+  if (rawTable.length === 0) {
+    return [[]]
+  }
+  return rawTable
+}
+
+function rangeCheckRow(row, height) {
+  if (row < 0 || row >= height) {
+    throw new IndexOutOfBoundsException(`row: ${row}, Height: ${height}`)
+  }
+}
+
+function rangeCheckColumn(column, width) {
+  if (column < 0 || column >= width) {
+    throw new IndexOutOfBoundsException(`column: ${column}, Width: ${width}`)
+  }
+}
+
+class IndexOutOfBoundsException extends TypeError {
+  constructor() {
+    super(...arguments)
+    this.name = 'IndexOutOfBounds'
   }
 }
 

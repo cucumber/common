@@ -20,7 +20,7 @@ describe('DataTableType', () => {
     it('calls the transformer with the DataTable of the given raw data to transform', () => {
       const data = [['A0', 'A1', 'A2'], ['B0', 'B1', 'B2']]
       let transformer = DataTableTransformer.table(dataTable => {
-        return dataTable.transpose().cells
+        return dataTable.transpose().cells()
       })
 
       dataTableType = new DataTableType('mytype', transformer)

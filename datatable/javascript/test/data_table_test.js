@@ -3,177 +3,280 @@
 const assert = require('assert')
 const DataTable = require('../src/data_table')
 
-const table2x2 = [['A0', 'A1'], ['B0', 'B1']]
-const table2x3 = [['A0', 'A1', 'A2'], ['B0', 'B1', 'B2']]
-const table3x2 = [['A0', 'A1'], ['B0', 'B1'], ['C0', 'C1']]
-const table3x3 = [['A0', 'A1', 'A2'], ['B0', 'B1', 'B2'], ['C0', 'C1', 'C2']]
-
 describe('DataTable', () => {
-  describe('constructor(2dArray)', () => {
-    it('returns a DataTable instance', () => {
-      assert.equal(new DataTable([[]]).constructor, DataTable)
+  describe('empty table', () => {
+    it('is empty', () => {
+      let table = DataTable.emptyDataTable()
+      assert.equal(table.isEmpty, true)
+      // Since javascript doesnt know 2d arrays, its really an array with an empty array in it
+      assert.equal(table.cells().length, 1)
+      assert.equal(table.cells()[0].length, 0)
     })
   })
 
-  describe('properties', () => {
-    describe('cells', () => {
-      it('returns the 2d array', () => {
-        assert.deepEqual(new DataTable(table2x2).cells, table2x2)
-      })
-      it('returns a copy, not the original array', () => {
-        const datatable = new DataTable(table2x2)
-        datatable.cells = 'mutated'
-        assert.deepEqual(datatable.cells, new DataTable(table2x2).cells)
-      })
+  describe('raw', () => {
+    it('should equal raw', () => {
+      const raw = [['hundred', '100'], ['thousand', '1000']]
+      let table = new DataTable(raw)
+      assert.deepEqual(raw, table.cells())
+    })
+  })
+
+  describe('cells', () => {
+    it('should equal raw', () => {
+      const raw = [['hundred', 100], ['thousand', 1000]]
+      let table = new DataTable(raw)
+      assert.deepEqual(raw, table.cells())
+    })
+  })
+
+  describe('cell', () => {
+    it('should get from raw', () => {
+      const raw = [['hundred', 100], ['thousand', 1000]]
+      let table = new DataTable(raw)
+      assert.equal(raw[0][0], table.cell(0, 0))
+      assert.equal(raw[0][1], table.cell(0, 1))
+      assert.equal(raw[1][0], table.cell(1, 0))
+      assert.equal(raw[1][1], table.cell(1, 1))
+    })
+  })
+
+  describe('subtable', () => {
+    it('should view subset of cells', () => {
+      let raw = [
+        ['ten', '10', '1'],
+        ['hundred', '100', '2'],
+        ['thousand', '1000', '3'],
+      ]
+      let table = new DataTable(raw)
+
+      assert.deepEqual(
+        [['ten', '10'], ['hundred', '100']],
+        table.subTable(0, 0, 2, 2).cells()
+      )
+
+      assert.deepEqual(
+        [['100', '2'], ['1000', '3']],
+        table.subTable(1, 1).cells()
+      )
+
+      assert.deepEqual(table.cells(), table.subTable(0, 0).cells())
+
+      assert.deepEqual('ten', table.subTable(0, 0, 3, 3).cell(0, 0))
+      assert.deepEqual('1', table.subTable(0, 0).cell(0, 2))
+      assert.deepEqual('thousand', table.subTable(0, 0, 3, 3).cell(2, 0))
+      assert.deepEqual('3', table.subTable(0, 0).cell(2, 2))
     })
 
-    describe('isEmpty', () => {
-      it('returns true if the table is empty', () => {
-        assert.equal(new DataTable([[]]).isEmpty, true)
-      })
+    it('throws for negative from row', () => {
+      let table = createSimpleTable()
 
-      it('returns false if the table has rows and columns', () => {
-        assert.equal(new DataTable(table2x2).isEmpty, false)
-      })
+      assert.throws(() => {
+        table.subTable(-1, 0, 1, 1)
+      }, 'IndexOutOfBoundsException')
     })
 
-    describe('height', () => {
-      it('returns the number of rows', () => {
-        assert.equal(new DataTable(table2x3).height, 2)
-      })
+    it('throws for negative from column', () => {
+      let table = createSimpleTable()
+
+      assert.throws(() => {
+        table.subTable(0, -1, 1, 1)
+      }, 'IndexOutOfBoundsException')
     })
 
-    describe('width', () => {
-      it('returns the number of columns', () => {
-        assert.equal(new DataTable(table2x3).width, 3)
+    it('throws for large to row', () => {
+      let table = createSimpleTable()
+
+      assert.throws(() => {
+        table.subTable(0, 0, 4, 1)
+      }, 'IndexOutOfBoundsException')
+    })
+
+    it('throws for large to column', () => {
+      let table = createSimpleTable()
+
+      assert.throws(() => {
+        table.subTable(0, 0, 1, 4)
+      }, 'IndexOutOfBoundsException')
+    })
+
+    it('throws for invalid from to row', () => {
+      let table = createSimpleTable()
+
+      assert.throws(() => {
+        table.subTable(2, 0, 1, 1)
+      }, 'IndexOutOfBoundsException')
+    })
+
+    it('throws for invalid from to column', () => {
+      let table = createSimpleTable()
+
+      assert.throws(() => {
+        table.subTable(0, 2, 1, 1)
+      }, 'IndexOutOfBoundsException')
+    })
+
+    it('throws for negative row', () => {
+      let table = createSimpleTable()
+
+      assert.throws(() => {
+        table.subTable(0, 0, 1, 1).cell(-1, 0)
+      }, 'IndexOutOfBoundsException')
+    })
+
+    it('throws for negative column', () => {
+      let table = createSimpleTable()
+
+      assert.throws(() => {
+        table.subTable(0, 0, 1, 1).cell(0, -1)
+      }, 'IndexOutOfBoundsException')
+    })
+
+    it('throws for large row', () => {
+      let table = createSimpleTable()
+
+      assert.throws(() => {
+        table.subTable(0, 0, 1, 1).cell(1, 0)
+      }, 'IndexOutOfBoundsException')
+    })
+
+    it('throws for large column', () => {
+      let table = createSimpleTable()
+
+      assert.throws(() => {
+        table.subTable(0, 0, 1, 1).cell(0, 1)
+      }, 'IndexOutOfBoundsException')
+    })
+
+    it('is empty when empty', () => {
+      const raw = [
+        ['ten', '10', '1'],
+        ['hundred', '100', '2'],
+        ['thousand', '1000', '3'],
+      ]
+      let table = new DataTable(raw)
+
+      let subTable = table.subTable(0, 3, 1, 3)
+
+      assert.deepEqual(DataTable.emptyDataTable(), subTable)
+      assert.equal(subTable.isEmpty, true)
+      assert.equal(subTable.height, 0)
+      assert.equal(subTable.width, 0)
+      assert.deepEqual([[]], subTable.cells())
+    })
+  })
+
+  describe('row', () => {
+    it('gets a row', () => {
+      const raw = [
+        ['ten', '10', '1'],
+        ['hundred', '100', '2'],
+        ['thousand', '1000', '3'],
+      ]
+      let table = new DataTable(raw)
+      assert.deepEqual(raw[2], table.row(2))
+    })
+  })
+
+  describe('rows', () => {
+    it('should view subset of rows', () => {
+      const raw = [['ten', '10'], ['hundred', '100'], ['thousand', '1000']]
+
+      let table = new DataTable(raw)
+
+      assert.deepEqual(
+        [['hundred', '100'], ['thousand', '1000']],
+        table.rows(1).cells()
+      )
+
+      assert.deepEqual([['hundred', '100']], table.rows(1, 2).cells())
+    })
+  })
+
+  function createSimpleTable() {
+    return new DataTable([
+      ['one', 'four', 'seven'],
+      ['4444', '55555', '666666'],
+    ])
+  }
+
+  describe('column', () => {
+    it('should view single column', () => {
+      const raw = [['hundred', '100', '2'], ['thousand', '1000', '3']]
+
+      let table = new DataTable(raw)
+
+      assert.deepEqual(['100', '1000'], table.column(1))
+    })
+
+    it('should throw for negative column value', () => {
+      assert.throws(() => {
+        createSimpleTable().column(-1)
+      }, 'IndexOutOfBoundsException')
+    })
+
+    it('should throw for large column value', () => {
+      assert.throws(() => {
+        createSimpleTable().column(4)
+      }, 'IndexOutOfBoundsException')
+    })
+
+    describe('when transposed', () => {
+      it('should view single row', () => {
+        const raw = [['hundred', '100', '2'], ['thousand', '1000', '3']]
+
+        let table = new DataTable(raw).transpose()
+
+        assert.deepEqual(['thousand', '1000', '3'], table.column(1))
       })
     })
   })
 
-  describe('operations', () => {
-    describe('transpose', () => {
-      it('returns the transposed table, as a DataTable', () => {
-        const datatable = new DataTable([
-          ['A0', 'A1', 'A2'],
-          ['B0', 'B1', 'B2'],
-        ])
-        const transposed = datatable.transpose()
-        assert.deepEqual(transposed.cells, [
-          ['A0', 'B0'],
-          ['A1', 'B1'],
-          ['A2', 'B2'],
-        ])
-      })
-    })
+  describe('columns', () => {
+    it('should view sub table', () => {
+      const raw = [['hundred', '100', '2'], ['thousand', '1000', '3']]
 
-    describe('row(index)', () => {
-      it('returns a single row at the given index', () => {
-        assert.deepEqual(new DataTable(table3x3).row(1), table3x3[1])
-      })
-    })
-    describe('rows(fromRow, toRow)', () => {
-      it('returns table containing the rows between fromRow (inclusive) to toRow (exclusive)', () => {
-        assert.deepEqual(new DataTable(table3x3).rows(1, 2).cells, [
-          table3x3[1],
-        ])
-      })
-      it('returns all rows from fromRow if no toRow is specified', () => {
-        assert.deepEqual(new DataTable(table3x3).rows(1).cells, [
-          table3x3[1],
-          table3x3[2],
-        ])
-      })
-      it('returns all rows without the first one if no fromRow is specified', () => {
-        assert.deepEqual(new DataTable(table3x3).rows().cells, [
-          table3x3[1],
-          table3x3[2],
-        ])
-      })
-    })
+      let table = new DataTable(raw)
 
-    describe('column(index)', () => {
-      it('returns a single column at the given index', () => {
-        assert.deepEqual(new DataTable(table3x3).column(1), [
-          table3x3[0][1],
-          table3x3[1][1],
-          table3x3[2][1],
-        ])
-      })
-    })
-    describe('columns(fromColumn, toColumn)', () => {
-      it('returns table containing the columns between fromColumn (inclusive) to toColumn (exclusive)', () => {
-        assert.deepEqual(new DataTable(table3x3).columns(1, 2).cells, [
-          [table3x3[0][1]],
-          [table3x3[1][1]],
-          [table3x3[2][1]],
-        ])
-      })
-      it('returns all columns from fromRow if no toColumn is specified', () => {
-        assert.deepEqual(new DataTable(table3x3).columns(1).cells, [
-          [table3x3[0][1], table3x3[0][2]],
-          [table3x3[1][1], table3x3[1][2]],
-          [table3x3[2][1], table3x3[2][2]],
-        ])
-      })
-      it('returns all columns without the first one if no fromColumn is specified', () => {
-        assert.deepEqual(new DataTable(table3x3).columns().cells, [
-          [table3x3[0][1], table3x3[0][2]],
-          [table3x3[1][1], table3x3[1][2]],
-          [table3x3[2][1], table3x3[2][2]],
-        ])
-      })
-    })
+      assert.deepEqual([['100', '2'], ['1000', '3']], table.columns(1).cells())
 
-    describe('subTable(fromRow, fromColumn, toRow, toColumn)', () => {
-      it('returns a containing the columns between fromRow and fromColumn (inclusive) to toRow and toColumn (exclusive)', () => {
-        assert.deepEqual(new DataTable(table3x3).subTable(1, 0, 3, 2).cells, [
-          [table3x3[1][0], table3x3[1][1]],
-          [table3x3[2][0], table3x3[2][1]],
-        ])
-      })
+      assert.deepEqual([['100'], ['1000']], table.columns(1, 2).cells())
     })
+  })
 
-    describe('raw', () => {
-      it('returns the cells', () => {
-        const datatable = new DataTable(table3x3)
-        assert.deepEqual(datatable.raw(), datatable.cells)
-      })
+  describe('asLists', () => {
+    it('should equal raw', () => {
+      const raw = [['hundred', 100], ['thousand', 1000]]
+      let table = new DataTable(raw)
+      assert.deepEqual(raw, table.asLists())
     })
+  })
 
-    describe('hashes', () => {
-      it('returns an array of objects where the keys are the headers', () => {
-        assert.deepEqual(new DataTable(table3x2).hashes(), [
-          {
-            [table3x2[0][0]]: table3x2[1][0],
-            [table3x2[0][1]]: table3x2[1][1],
-          },
-          {
-            [table3x2[0][0]]: table3x2[2][0],
-            [table3x2[0][1]]: table3x2[2][1],
-          },
-        ])
-      })
-    })
+  it('empty rows are ignored', () => {
+    const raw = [[], []]
+    let table = new DataTable(raw)
+    assert.equal(table.isEmpty, true)
+    assert.equal(table.height, 0)
+    assert.equal(table.width, 0)
+  })
 
-    describe('rowHash', () => {
-      it('returns an object where the keys are the first column', () => {
-        assert.deepEqual(new DataTable(table3x2).rowHash(), {
-          [table3x2[0][0]]: table3x2[0][1],
-          [table3x2[1][0]]: table3x2[1][1],
-          [table3x2[2][0]]: table3x2[2][1],
-        })
-      })
-    })
+  it('cells should have three columns and two rows', () => {
+    const raw = createSimpleTable().cells()
+    assert.equal(2, raw.length)
+    for (let i = 0; i < raw.length; i++) {
+      assert.equal(3, raw[i].length)
+    }
+  })
 
-    describe('flat', () => {
-      it('returns an flattened, 1D array', () => {
-        assert.deepEqual(new DataTable(table2x2).flat(), [
-          table2x2[0][0],
-          table2x2[0][1],
-          table2x2[1][0],
-          table2x2[1][1],
-        ])
-      })
+  describe('transposed raw', () => {
+    it('should have two columns and three rows', () => {
+      const raw = createSimpleTable()
+        .transpose()
+        .cells()
+      assert.equal(3, raw.length)
+      for (let i = 0; i < raw.length; i++) {
+        assert.equal(2, raw[i].length)
+      }
     })
   })
 })
