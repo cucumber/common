@@ -157,7 +157,11 @@ public class DataTableTest {
 
     @Test
     public void empty_subTable_is_empty() {
-        DataTable table = getSimpleTable();
+        List<List<String>> raw = asList(
+                asList("ten", "10", "1"),
+                asList("hundred", "100", "2"),
+                asList("thousand", "1000", "3"));
+        DataTable table = DataTable.create(raw);
 
         DataTable subTable = table.subTable(0, 3, 1, 3);
 
@@ -166,14 +170,6 @@ public class DataTableTest {
         assertEquals(0, subTable.height());
         assertEquals(0, subTable.width());
         assertEquals(emptyList(), subTable.cells());
-    }
-
-    private DataTable getSimpleTable() {
-        List<List<String>> raw = asList(
-                asList("ten", "10", "1"),
-                asList("hundred", "100", "2"),
-                asList("thousand", "1000", "3"));
-        return DataTable.create(raw);
     }
 
     @Test
@@ -229,20 +225,9 @@ public class DataTableTest {
         createSimpleTable().column(-1);
     }
 
-
-    @Test(expected = IndexOutOfBoundsException.class)
-    public void column_should_throw_for_negative_row_value() {
-        createSimpleTable().column(0).get(-1);
-    }
-
     @Test(expected = IndexOutOfBoundsException.class)
     public void column_should_throw_for_large_column_value() {
         createSimpleTable().column(4);
-    }
-
-    @Test(expected = IndexOutOfBoundsException.class)
-    public void column_should_throw_for_large_row_value() {
-        createSimpleTable().column(0).get(4);
     }
 
 
