@@ -80,10 +80,19 @@ function subrepo_remote()
   fi
 }
 
+function git_branch() {
+  if [ -z "${TRAVIS_BRANCH}" ]; then
+    git rev-parse --abbrev-ref HEAD
+  else
+    echo "${TRAVIS_BRANCH}"
+  fi
+}
+
 function push_subrepos()
 {
   subrepos $1 | while read subrepo; do
     push_subrepo "${subrepo}"
+    push_subrepo_tags_maybe "${subrepo}"
   done
 }
 
@@ -91,7 +100,19 @@ function push_subrepo()
 {
   subrepo=$1
   remote=$(subrepo_remote "${subrepo}")
-  git push --force "${remote}" $(splitsh-lite --prefix=${subrepo}):master
+  branch=$(git_branch)
+  git push --force "${remote}" $(splitsh-lite --prefix=${subrepo}):${branch}
+}
+
+function push_subrepo_tags_maybe()
+{
+  subrepo=$1
+  remote=$(subrepo_remote "${subrepo}")
+  if [ -z "${TRAVIS_TAG}" ]; then
+    echo "No tags to push"
+  else
+    git push --force "${remote}" $(splitsh-lite --prefix=${subrepo} --origin=refs/tags/${TRAVIS_TAG}):refs/tags/${TRAVIS_TAG}
+  fi
 }
 
 function build_subrepos()
