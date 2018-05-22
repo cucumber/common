@@ -31,8 +31,8 @@ func (r *RegularExpression) Match(text string) ([]*Argument, error) {
 				parameterTypeRegexp,
 				[]*regexp.Regexp{regexp.MustCompile(parameterTypeRegexp)},
 				"string",
-				func(arg3 ...string) interface{} {
-					return arg3[0]
+				func(arg3 ...*string) interface{} {
+					return *arg3[0]
 				},
 				false,
 				false,

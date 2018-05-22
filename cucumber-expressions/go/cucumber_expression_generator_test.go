@@ -79,8 +79,8 @@ func TestCucumberExpressionGeneratory(t *testing.T) {
 			"currency",
 			[]*regexp.Regexp{regexp.MustCompile("[A-Z]{3}")},
 			"Currency",
-			func(arg3 ...string) interface{} {
-				return Currency{ISO4217: arg3[0]}
+			func(arg3 ...*string) interface{} {
+				return Currency{ISO4217: *arg3[0]}
 			},
 			true,
 			false,
