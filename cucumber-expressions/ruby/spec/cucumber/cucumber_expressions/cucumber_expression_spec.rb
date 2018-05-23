@@ -59,6 +59,10 @@ module Cucumber
         expect(match('three \\(exceptionally) {string} mice', 'three (exceptionally) "blind" mice')).to eq(['blind'])
       end
 
+      it "matches escaped slash" do
+        expect(match("12\\/2020", "12/2020")).to eq([])
+      end
+
       it "matches int" do
         expect(match("{int}", "22")).to eq([22])
       end

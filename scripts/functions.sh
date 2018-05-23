@@ -66,32 +66,53 @@ function rsync_files()
 function subrepos()
 {
   dir=$1
-  git ls-files "${dir}" | grep .gitrepo | xargs -n 1 dirname
+  git ls-files "${dir}" | grep .subrepo | xargs -n 1 dirname
 }
 
 # Prints the remote (git URL) of a subrepo
 function subrepo_remote()
 {
-  subrepo=$1
-  git subrepo status "${subrepo}" | grep "Remote URL:" | sed -e 's/[ \t][ \t]*Remote URL:[ \t][ \t]*//g'
+  suffix=$(cat ${subrepo}/.subrepo)
+  if [ -z "${GITHUB_TOKEN}" ]; then
+    echo "git@github.com:${suffix}"
+  else
+    echo "https://${GITHUB_TOKEN}@github.com/${suffix}"
+  fi
 }
 
-function pull_subrepos()
-{
-  subrepos $1 | while read subrepo; do
-    remote=$(subrepo_remote "${subrepo}")
-    echo "pulling ${subrepo} from ${remote}"
-    git subrepo pull "${subrepo}"
-  done
+function git_branch() {
+  if [ -z "${TRAVIS_BRANCH}" ]; then
+    git rev-parse --abbrev-ref HEAD
+  else
+    echo "${TRAVIS_BRANCH}"
+  fi
 }
 
 function push_subrepos()
 {
   subrepos $1 | while read subrepo; do
-    remote=$(subrepo_remote "${subrepo}")
-    echo "pushing ${subrepo} to ${remote}"
-    git subrepo push "${subrepo}"
+    push_subrepo "${subrepo}"
+    push_subrepo_tags_maybe "${subrepo}"
   done
+}
+
+function push_subrepo()
+{
+  subrepo=$1
+  remote=$(subrepo_remote "${subrepo}")
+  branch=$(git_branch)
+  git push --force "${remote}" $(splitsh-lite --prefix=${subrepo}):${branch}
+}
+
+function push_subrepo_tags_maybe()
+{
+  subrepo=$1
+  remote=$(subrepo_remote "${subrepo}")
+  if [ -z "${TRAVIS_TAG}" ]; then
+    echo "No tags to push"
+  else
+    git push --force "${remote}" $(splitsh-lite --prefix=${subrepo} --origin=refs/tags/${TRAVIS_TAG}):refs/tags/${TRAVIS_TAG}
+  fi
 }
 
 function build_subrepos()
@@ -253,6 +274,8 @@ function maven_release()
 
   mvn --batch-mode release:clean release:prepare -Darguments="-DskipTests=true"  
   mvn --batch-mode release:perform -Psign-source-javadoc -DskipTests=true
+  
+  cp pom.xml ../pom.xml
   popd
 }
 
@@ -275,6 +298,8 @@ function npm_release() {
   yarn publish
   git push
   git push --tags
+
+  cp package.json ../package.json
   popd
 }
 
@@ -296,6 +321,9 @@ function rubygem_release() {
   git add .
   git commit -m "Release ${version}"
   bundle exec rake build release
+  git show > .release.patch
+  cd ..
+  patch -p1 < .release/.release.patch
   popd
 }
 

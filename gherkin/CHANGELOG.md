@@ -30,6 +30,13 @@ This document is formatted according to the principles of [Keep A CHANGELOG](htt
 
 ### Fixed
 
+* (JavaScript)
+  ([#374](https://github.com/cucumber/cucumber/issues/374)
+   [#377](https://github.com/cucumber/cucumber/pull/377)
+   [charlierudolph])
+* (Ruby, JavaScript) Remove berp.exe from packages
+  ([#289](https://github.com/cucumber/cucumber/issues/289)
+   [aslakhellesoy])
 * (Go) fixes validation for go vet tool on latest versions
   ([#330](https://github.com/cucumber/cucumber/pull/330)
    [l3pp4rd])

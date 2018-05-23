@@ -37,7 +37,10 @@ public class CucumberExpression implements Expression {
         Matcher matcher = ALTERNATIVE_NON_WHITESPACE_TEXT_REGEXP.matcher(expression);
         StringBuffer sb = new StringBuffer();
         while (matcher.find()) {
-            matcher.appendReplacement(sb, "(?:" + matcher.group(1) + matcher.group(2).replace('/', '|') + ")");
+            // replace \/ with /
+            // replace / with |
+            String replacement = matcher.group(0).replace('/', '|').replaceAll("\\\\\\|", "/");
+            matcher.appendReplacement(sb, "(?:" + replacement + ")");
         }
         matcher.appendTail(sb);
         return sb.toString();

@@ -98,6 +98,14 @@ describe('CucumberExpression', () => {
     )
   })
 
+  it('matches escaped slash', () => {
+    assert.deepEqual(match('12\\/2020', '12/2020'), [])
+  })
+
+  it('matches int', () => {
+    assert.deepEqual(match('{int}', '22'), [22])
+  })
+
   it("doesn't match float as int", () => {
     assert.deepEqual(match('{int}', '1.22'), null)
   })
@@ -123,6 +131,8 @@ describe('CucumberExpression', () => {
       expr
     )
   })
+
+  // JavaScript-specific
 
   it('delegates transform to custom object', () => {
     const parameterTypeRegistry = new ParameterTypeRegistry()
