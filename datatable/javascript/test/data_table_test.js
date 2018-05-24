@@ -279,4 +279,31 @@ describe('DataTable', () => {
       }
     })
   })
+
+  it('can not_support non rectangular tables missing column', () => {
+    assert.throws(() => {
+      var table = [['one', 'four', 'seven'], ['a1', 'a4444'], ['b1']]
+      new DataTable(table)
+    }, 'IndexOutOfBoundsException')
+  })
+
+  it('can not_support non rectangular tables exceeding column', () => {
+    assert.throws(() => {
+      var table = [
+        ['one', 'four', 'seven'],
+        ['a1', 'a4444', 'b7777777', 'zero'],
+      ]
+      DataTable.create(table)
+    }, 'IndexOutOfBoundsException')
+  })
+
+  describe('toString', () => {
+    it('can create table from list of list of string', () => {
+      const table = createSimpleTable()
+      assert.equal(
+        '| one  | four  | seven  |\n| 4444 | 55555 | 666666 |',
+        table.toString()
+      )
+    })
+  })
 })

@@ -3,7 +3,7 @@ class DataTable {
   // TODO: fail on unequal rows?
 
   constructor(rawTable) {
-    const raw = ignoreEmptyRows(rawTable)
+    const raw = ignoreEmptyRows(requireRectangular(rawTable))
     this._rawTable = raw
   }
 
@@ -164,6 +164,45 @@ class DataTable {
   asLists() {
     return this.cells()
   }
+
+  toString() {
+    function getColumnWidth(table, columnIndex) {
+      return table.column(columnIndex).sort((a, b) => {
+        return b.toString().length - a.toString().length
+      })[0].length
+    }
+
+    function formatCell(cell, columnWidth) {
+      return ` ${cell.toString()}${' '.repeat(
+        columnWidth - cell.toString().length
+      )} |`
+    }
+
+    let table = this
+    return this._rawTable
+      .map(row => {
+        return `|${row
+          .map((cell, colIndex) => {
+            return formatCell(cell, getColumnWidth(table, colIndex))
+          })
+          .join('')}`
+      })
+      .join('\n')
+  }
+}
+
+function requireRectangular(rawTable) {
+  var columns = rawTable[0].length
+  for (var i = 1; i < rawTable.length; i++) {
+    if (columns !== rawTable[i].length) {
+      throw new IllegalArgumentException(
+        `Table is not rectangular: expected ${columns} column(s) but found ${
+          rawTable[i].length
+        }.`
+      )
+    }
+  }
+  return rawTable
 }
 
 function ignoreEmptyRows(rawTable) {
@@ -192,6 +231,13 @@ class IndexOutOfBoundsException extends TypeError {
   constructor() {
     super(...arguments)
     this.name = 'IndexOutOfBounds'
+  }
+}
+
+class IllegalArgumentException extends TypeError {
+  constructor() {
+    super(...arguments)
+    this.name = 'IllegalArgumentException'
   }
 }
 
