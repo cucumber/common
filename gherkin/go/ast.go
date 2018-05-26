@@ -1,5 +1,10 @@
 package gherkin
 
+import (
+	"strings"
+	"regexp"
+)
+
 type Location struct {
 	Line   int `json:"line"`
 	Column int `json:"column"`
@@ -18,8 +23,13 @@ type GherkinDocument struct {
 
 type Description string
 
+var reWhitespace = regexp.MustCompile("\n *")
+
 func (d Description) String() string {
-	return string(d)
+	s := string(d)
+	s = strings.Trim(s, " ")
+	s = reWhitespace.ReplaceAllString(s, "\n" + TwoSpaces)
+	return TwoSpaces + s
 }
 
 type Feature struct {
@@ -68,7 +78,7 @@ type Examples struct {
 	Tags        []*Tag      `json:"tags"`
 	Keyword     string      `json:"keyword"`
 	Name        string      `json:"name"`
-	Description string      `json:"description,omitempty"`
+	Description Description `json:"description,omitempty"`
 	TableHeader *TableRow   `json:"tableHeader,omitempty"`
 	TableBody   []*TableRow `json:"tableBody"`
 }
@@ -82,6 +92,18 @@ type TableRow struct {
 	Cells []*TableCell `json:"cells"`
 }
 
+func (tr *TableRow) String() string {
+	b := strings.Builder{}
+	b.WriteString(SixSpaces)
+	b.WriteString("|")
+	for _, td := range tr.Cells {
+		b.WriteString(" ")
+		b.WriteString(td.Value)
+		b.WriteString(" |")
+	}
+	return b.String()
+}
+
 type TableCell struct {
 	Node
 	Value string `json:"value"`
@@ -89,10 +111,10 @@ type TableCell struct {
 
 type ScenarioDefinition struct {
 	Node
-	Keyword     string  `json:"keyword"`
-	Name        string  `json:"name"`
-	Description string  `json:"description,omitempty"`
-	Steps       []*Step `json:"steps"`
+	Keyword     string      `json:"keyword"`
+	Name        string      `json:"name"`
+	Description Description `json:"description,omitempty"`
+	Steps       []*Step     `json:"steps"`
 }
 
 func (s *ScenarioDefinition) String() string {

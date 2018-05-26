@@ -179,7 +179,7 @@ func (t *astBuilder) transformNode(node *astNode) (interface{}, error) {
 		bg.Location = astLocation(backgroundLine)
 		bg.Keyword = backgroundLine.Keyword
 		bg.Name = backgroundLine.Text
-		bg.Description = description
+		bg.Description = Description(description)
 		bg.Steps = astSteps(node)
 		return bg, nil
 
@@ -195,7 +195,7 @@ func (t *astBuilder) transformNode(node *astNode) (interface{}, error) {
 			sc.Location = astLocation(scenarioLine)
 			sc.Keyword = scenarioLine.Keyword
 			sc.Name = scenarioLine.Text
-			sc.Description = description
+			sc.Description = Description(description)
 			sc.Steps = astSteps(scenarioNode)
 			return sc, nil
 		} else {
@@ -211,7 +211,7 @@ func (t *astBuilder) transformNode(node *astNode) (interface{}, error) {
 			sc.Location = astLocation(scenarioOutlineLine)
 			sc.Keyword = scenarioOutlineLine.Keyword
 			sc.Name = scenarioOutlineLine.Text
-			sc.Description = description
+			sc.Description = Description(description)
 			sc.Steps = astSteps(scenarioOutlineNode)
 			sc.Examples = astExamples(scenarioOutlineNode)
 			return sc, nil
@@ -230,7 +230,7 @@ func (t *astBuilder) transformNode(node *astNode) (interface{}, error) {
 		ex.Location = astLocation(examplesLine)
 		ex.Keyword = examplesLine.Keyword
 		ex.Name = examplesLine.Text
-		ex.Description = description
+		ex.Description = Description(description)
 		ex.TableHeader = nil
 		ex.TableBody = nil
 		if examplesTable != nil {
@@ -282,7 +282,7 @@ func (t *astBuilder) transformNode(node *astNode) (interface{}, error) {
 		feat.Language = featureLine.GherkinDialect
 		feat.Keyword = featureLine.Keyword
 		feat.Name = featureLine.Text
-		feat.Description = description
+		feat.Description = Description(description)
 		feat.Children = children
 		return feat, nil
 

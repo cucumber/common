@@ -7,46 +7,31 @@ import (
 	"github.com/cucumber/cucumber/gherkin/go"
 )
 
-func Test_ltr_line_identation(t *testing.T) {
+func Test_line_indentation(t *testing.T) {
 	td := []struct {
-		s fmt.Stringer
+		fmt.Stringer
 		expected string
 		desc string
 	}{
-		{feature("Feature", "Example token used multiple times"), "Feature", "feature line should not be indented"},
-		{step("Given ", "the minimalism inside a background"), "    Given", "step should have 4 space indent"},
-		{example("Examples"), "  Examples", "examples line should have 2 spaces of indent"},
 		{background("Background"), "  Background", "background line should have 2 spaces of indent"},
+		{feature("Feature", "Example token used multiple times"), "Feature", "feature line should not be indented"},
+		{description("Hello world"), "  Hello world", "1 line description should have 2 spaces of indent"},
+		{description("Hello\nworld"), "  Hello\n  world", "multi-line description should have 2 spaces of indent on each line"},
+		{description(" Hello\n world"), "  Hello\n  world", "multi-line description with existing indent should have 2 spaces of indent on each line"},
+		{example("Examples"), "  Examples", "examples line should have 2 spaces of indent"},
 		{scenario("Scenario"), "  Scenario", "scenario line should have 2 spaces of indent"},
 		{scenarioOutline("Scenario Outline"), "  Scenario Outline", "scenario outline line should have 2 spaces of indent"},
+		{step("Given ", "the minimalism inside a background"), "    Given", "step should have 4 spaces indent"},
+		{tableRow("hello", "world"), "      | hello | world |", "table row should have 6 spaces indent"},
 	}
 
 	for _, tt := range td {
 		t.Run(tt.desc, func(t *testing.T) {
-			actual := tt.s.String()
+			actual := tt.String()
 			if !strings.HasPrefix(actual, tt.expected) {
 				pos := len(tt.expected)
-				if pos > len(actual) {
-					pos = len(actual)
-				}
-				t.Errorf("got prefix='%s', want '%v'", actual[:pos], tt.expected)
+				t.Errorf("got prefix='%s', want '%v'", truncate(actual, pos), tt.expected)
 			}
-		})
-	}
-}
-
-func Test_ltr_block_indentation(t *testing.T) {
-	t.Skip("WIP")
-	td := []struct {
-		s fmt.Stringer
-		expected string
-		desc string
-	}{
-		{},
-	}
-
-	for _, tt := range td {
-		t.Run(tt.desc, func(t *testing.T){
 		})
 	}
 }
@@ -56,6 +41,10 @@ func background(keyword string) *gherkin.Background {
 	b.Keyword = keyword
 	b.Type = "Background"
 	return b
+}
+
+func description(desc string) gherkin.Description {
+	return gherkin.Description(desc)
 }
 
 func feature(keyword, name string) *gherkin.Feature {
@@ -100,5 +89,32 @@ func step(keyword, text string) *gherkin.Step{
 	s.Type = "Step"
 
 	return s
+}
+
+func tableCell(v string) *gherkin.TableCell {
+	td := &gherkin.TableCell{
+		Value: v,
+	}
+	td.Type = "TableCell"
+	return td
+}
+
+func tableRow(vals ...string) *gherkin.TableRow {
+	r := &gherkin.TableRow{}
+	r.Type = "TableRow"
+	for _, v := range vals {
+		r.Cells = append(r.Cells, tableCell(v))
+	}
+
+	return r
+}
+
+func truncate(s string, pos int) string {
+	l := len(s)
+	if pos > l {
+		pos = l
+	}
+
+	return s[:pos]
 }
 
