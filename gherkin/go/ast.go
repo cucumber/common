@@ -16,14 +16,24 @@ type GherkinDocument struct {
 	Comments []*Comment `json:"comments"`
 }
 
+type Description string
+
+func (d Description) String() string {
+	return string(d)
+}
+
 type Feature struct {
 	Node
 	Tags        []*Tag        `json:"tags"`
 	Language    string        `json:"language,omitempty"`
 	Keyword     string        `json:"keyword"`
 	Name        string        `json:"name"`
-	Description string        `json:"description,omitempty"`
+	Description Description   `json:"description,omitempty"`
 	Children    []interface{} `json:"children"`
+}
+
+func (f *Feature) String() string {
+	return f.Keyword
 }
 
 type Comment struct {
@@ -63,6 +73,10 @@ type Examples struct {
 	TableBody   []*TableRow `json:"tableBody"`
 }
 
+func (e *Examples) String() string {
+	return TwoSpaces + e.Keyword
+}
+
 type TableRow struct {
 	Node
 	Cells []*TableCell `json:"cells"`
@@ -81,11 +95,19 @@ type ScenarioDefinition struct {
 	Steps       []*Step `json:"steps"`
 }
 
+func (s *ScenarioDefinition) String() string {
+	return TwoSpaces + s.Keyword
+}
+
 type Step struct {
 	Node
 	Keyword  string      `json:"keyword"`
 	Text     string      `json:"text"`
 	Argument interface{} `json:"argument,omitempty"`
+}
+
+func (s *Step) String() string {
+	return FourSpaces + s.Keyword + s.Text
 }
 
 type DocString struct {
@@ -99,3 +121,7 @@ type DataTable struct {
 	Node
 	Rows []*TableRow `json:"rows"`
 }
+
+const TwoSpaces = "  "
+const FourSpaces = "    "
+const SixSpaces = TwoSpaces + FourSpaces
