@@ -4,7 +4,7 @@ import java.util.AbstractMap.SimpleEntry;
 import java.util.ArrayList;
 import java.util.List;
 
-class DataTableDiff {
+public class DataTableDiff {
 
     private final List<List<String>> table;
     private final List<DiffType> diffTypes;

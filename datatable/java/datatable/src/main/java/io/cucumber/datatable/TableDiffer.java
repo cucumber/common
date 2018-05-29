@@ -10,12 +10,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-final class TableDiffer {
+public class TableDiffer {
 
     private final DataTable from;
     private final DataTable to;
 
-    TableDiffer(DataTable fromTable, DataTable toTable) {
+    public TableDiffer(DataTable fromTable, DataTable toTable) {
         checkColumns(fromTable, toTable);
         this.from = fromTable;
         this.to = toTable;
@@ -27,21 +27,13 @@ final class TableDiffer {
         }
     }
 
-    DataTableDiff calculateDiffs() {
+    public DataTableDiff calculateDiffs() {
         Map<Integer, Delta> deltasByLine = createDeltasByLine();
         return createTableDiff(deltasByLine);
     }
 
 
-    private static List<DiffableRow> getDiffableRows(DataTable raw) {
-        List<DiffableRow> result = new ArrayList<>();
-        for (List<String> row : raw.cells()) {
-            result.add(new DiffableRow(row, row));
-        }
-        return result;
-    }
-
-    DataTableDiff calculateUnorderedDiffs() {
+    public DataTableDiff calculateUnorderedDiffs() {
         List<SimpleEntry<List<String>, DiffType>> diffTableRows = new ArrayList<>();
 
         ArrayList<List<String>> extraRows = new ArrayList<>();
@@ -69,6 +61,15 @@ final class TableDiffer {
 
         return DataTableDiff.create(diffTableRows);
     }
+
+    private static List<DiffableRow> getDiffableRows(DataTable raw) {
+        List<DiffableRow> result = new ArrayList<>();
+        for (List<String> row : raw.cells()) {
+            result.add(new DiffableRow(row, row));
+        }
+        return result;
+    }
+
 
     @SuppressWarnings("unchecked")
     private Map<Integer, Delta> createDeltasByLine() {

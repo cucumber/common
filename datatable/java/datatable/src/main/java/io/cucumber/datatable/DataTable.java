@@ -140,6 +140,34 @@ public final class DataTable {
     }
 
     /**
+     * Performs a diff against an other instance.
+     *
+     * @param actual the other table to diff with
+     * @throws DiffException if the tables are different
+     */
+    public void diff(DataTable actual) throws DiffException {
+        TableDiffer tableDiffer = new TableDiffer(this, actual);
+        DataTableDiff dataTableDiff = tableDiffer.calculateDiffs();
+        if(!dataTableDiff.isEmpty()) {
+            throw DiffException.diff(dataTableDiff);
+        }
+    }
+
+    /**
+     * Performs an unordered diff against an other instance.
+     *
+     * @param actual the other table to diff with
+     * @throws DiffException if the tables are different
+     */
+    public void unorderedDiff(DataTable actual) throws DiffException {
+        TableDiffer tableDiffer = new TableDiffer(this, actual);
+        DataTableDiff dataTableDiff = tableDiffer.calculateUnorderedDiffs();
+        if(!dataTableDiff.isEmpty()) {
+            throw DiffException.diff(dataTableDiff);
+        }
+    }
+
+    /**
      * Returns a list view on the table. Contains the cells ordered from
      * left to right, top to bottom starting at the top left.
      *
