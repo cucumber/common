@@ -35,7 +35,11 @@ func (a *Argument) Group() *Group {
 }
 
 func (a *Argument) GetValue() interface{} {
-	return a.parameterType.Transform(a.group.Values())
+	values := a.group.Values()
+	if values == nil {
+		return nil
+	}
+	return a.parameterType.Transform(values)
 }
 
 func (a *Argument) ParameterType() *ParameterType {

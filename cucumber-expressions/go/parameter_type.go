@@ -11,15 +11,15 @@ type ParameterType struct {
 	name                 string
 	regexps              []*regexp.Regexp
 	type1                string // Cannot have a field named type as hit a compile error
-	transform            func(...string) interface{}
+	transform            func(...*string) interface{}
 	useForSnippets       bool
 	preferForRegexpMatch bool
 }
 
-func NewParameterType(name string, regexps []*regexp.Regexp, type1 string, transform func(...string) interface{}, useForSnippets bool, preferForRegexpMatch bool) (*ParameterType, error) {
+func NewParameterType(name string, regexps []*regexp.Regexp, type1 string, transform func(...*string) interface{}, useForSnippets bool, preferForRegexpMatch bool) (*ParameterType, error) {
 	if transform == nil {
-		transform = func(s ...string) interface{} {
-			return s[0]
+		transform = func(s ...*string) interface{} {
+			return *s[0]
 		}
 	}
 	for _, r := range regexps {
@@ -57,7 +57,7 @@ func (p *ParameterType) PreferForRegexpMatch() bool {
 	return p.preferForRegexpMatch
 }
 
-func (p *ParameterType) Transform(groupValues []string) interface{} {
+func (p *ParameterType) Transform(groupValues []*string) interface{} {
 	return p.transform(groupValues...)
 }
 
