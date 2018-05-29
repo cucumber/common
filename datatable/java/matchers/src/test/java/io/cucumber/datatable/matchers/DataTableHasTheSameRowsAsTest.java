@@ -1,8 +1,9 @@
-package io.cucumber.datatable;
+package io.cucumber.datatable.matchers;
 
+import io.cucumber.datatable.DataTable;
 import org.junit.Test;
 
-import static io.cucumber.datatable.DataTableHasTheSameRowsAs.hasTheSameRowsAs;
+import static io.cucumber.datatable.matchers.DataTableHasTheSameRowsAs.hasTheSameRowsAs;
 import static java.util.Arrays.asList;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertThat;
