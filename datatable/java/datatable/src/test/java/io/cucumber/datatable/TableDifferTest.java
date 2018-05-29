@@ -342,8 +342,8 @@ public class TableDifferTest {
         try {
             table.unorderedDiff(other);
             fail("Expected exception");
-        } catch(DiffException e) {
-            assertEquals(expected, e.getMessage());
+        } catch(TableDiffException e) {
+            assertEquals("tables were different:\n" + expected, e.getMessage());
         }
     }
 
@@ -351,8 +351,8 @@ public class TableDifferTest {
         try {
             table.diff(other);
             fail("Expected exception");
-        } catch(DiffException e) {
-            assertEquals(expected, e.getMessage());
+        } catch(TableDiffException e) {
+            assertEquals("tables were different:\n" + expected, e.getMessage());
         }
     }
 }

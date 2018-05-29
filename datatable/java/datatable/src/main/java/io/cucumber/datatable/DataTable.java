@@ -143,13 +143,13 @@ public final class DataTable {
      * Performs a diff against an other instance.
      *
      * @param actual the other table to diff with
-     * @throws DiffException if the tables are different
+     * @throws TableDiffException if the tables are different
      */
-    public void diff(DataTable actual) throws DiffException {
+    public void diff(DataTable actual) throws TableDiffException {
         TableDiffer tableDiffer = new TableDiffer(this, actual);
         DataTableDiff dataTableDiff = tableDiffer.calculateDiffs();
         if(!dataTableDiff.isEmpty()) {
-            throw DiffException.diff(dataTableDiff);
+            throw TableDiffException.diff(dataTableDiff);
         }
     }
 
@@ -157,13 +157,13 @@ public final class DataTable {
      * Performs an unordered diff against an other instance.
      *
      * @param actual the other table to diff with
-     * @throws DiffException if the tables are different
+     * @throws TableDiffException if the tables are different
      */
-    public void unorderedDiff(DataTable actual) throws DiffException {
+    public void unorderedDiff(DataTable actual) throws TableDiffException {
         TableDiffer tableDiffer = new TableDiffer(this, actual);
         DataTableDiff dataTableDiff = tableDiffer.calculateUnorderedDiffs();
         if(!dataTableDiff.isEmpty()) {
-            throw DiffException.diff(dataTableDiff);
+            throw TableDiffException.diff(dataTableDiff);
         }
     }
 
