@@ -17,6 +17,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Fixed
 
+* Bugfix for nested capture groups.
+  ([#375](https://github.com/cucumber/cucumber/issues/375)
+   [#380](https://github.com/cucumber/cucumber/pull/380)
+   [aslakhellesoy]
+   [charlierudolph])
+
 ## [5.0.19] - 2018-05-24
 
 ### Fixed
