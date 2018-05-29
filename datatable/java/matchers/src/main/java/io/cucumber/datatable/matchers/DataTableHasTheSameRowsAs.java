@@ -21,7 +21,7 @@ public class DataTableHasTheSameRowsAs extends TypeSafeDiagnosingMatcher<DataTab
     private final DataTable expectedValue;
     private final boolean unordered;
 
-    private DataTableHasTheSameRowsAs(DataTable expectedValue, boolean unordered) {
+    protected DataTableHasTheSameRowsAs(DataTable expectedValue, boolean unordered) {
         this.expectedValue = expectedValue;
         this.unordered = unordered;
     }
