@@ -5,6 +5,18 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ----
+## [Unreleased]
+
+### Added
+
+### Changed
+
+### Deprecated
+
+### Removed
+
+### Fixed
+
 ## [1.1.0] - 2018-05-29
 
 ### Added
@@ -33,6 +45,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 * java: OSGI fixes
 
 <!-- Releases -->
+[Unrelease]:  https://github.com/cucumber/cucumber/compare/datatable-v1.1.0...master
+[1.1.0]:      https://github.com/cucumber/cucumber/compare/datatable-v1.0.3...datatable-v1.1.0
 [1.0.3]:      https://github.com/cucumber/cucumber/compare/datatable-v1.0.2...datatable-v1.0.3
 [1.0.2]:      https://github.com/cucumber/cucumber/compare/datatable-v1.0.1...datatable-v1.0.2
 [1.0.1]:      https://github.com/cucumber/cucumber/compare/datatable-v1.0.0...datatable-v1.0.1
