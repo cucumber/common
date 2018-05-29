@@ -17,6 +17,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Fixed
 
+## [1.1.1] - 2018-05-29
+
+1.1.0 release failed, this is a new attempt.
+
 ## [1.1.0] - 2018-05-29
 
 ### Added
@@ -45,7 +49,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 * java: OSGI fixes
 
 <!-- Releases -->
-[Unrelease]:  https://github.com/cucumber/cucumber/compare/datatable-v1.1.0...master
+[Unreleased]: https://github.com/cucumber/cucumber/compare/datatable-v1.1.1...master
+[1.1.1]:      https://github.com/cucumber/cucumber/compare/datatable-v1.1.0...datatable-v1.1.1
 [1.1.0]:      https://github.com/cucumber/cucumber/compare/datatable-v1.0.3...datatable-v1.1.0
 [1.0.3]:      https://github.com/cucumber/cucumber/compare/datatable-v1.0.2...datatable-v1.0.3
 [1.0.2]:      https://github.com/cucumber/cucumber/compare/datatable-v1.0.1...datatable-v1.0.2
