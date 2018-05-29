@@ -304,6 +304,24 @@ registry.defineDataTableType(new DataTableType(
 [A chess board with one black knight and two white bishops]
 ```
 
+## Diffing
+
+Two tables can be compared using the `diff` or `unorderedDiff` methods.
+This is useful for comparing a table with data from another system,
+such as a UI or a database:
+
+```java
+DataTable actualTable = DataTable.create(listOfListOfString) // From DOM, DB or other source
+expectedTable.diff(actualTable) // Throws an exception if they are not equal
+```
+
+You can also use [Hamcrest](http://hamcrest.org/) matchers from the `io.cucumber:datatable-matchers` module:
+
+```java
+assertThat(actualTable, hasTheSameRowsAs(expectedTable).inOrder());
+assertThat(actualTable, hasTheSameRowsAs(expectedTable));
+```
+
 ## DataTable object
 
 An m-by-n immutable table of string values. A table is either empty or contains 
@@ -313,8 +331,10 @@ vice versa.
 The first row of the the table may be referred to as the table header. The 
 remaining cells as the table body.
 
-A table provides these operations:
+A table provides the following operations:
 
+* `diff` throws an exception if the two tables are different. 
+* `unorderedDiff` throws an exception if the two tables are different, allowing a difference in ordering. 
 * `isEmpty` returns true if the table has no cells. 
 * `transpose` returns a transposed table
 * `height` returns the height of the table

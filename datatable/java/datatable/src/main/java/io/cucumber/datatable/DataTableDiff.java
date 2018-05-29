@@ -25,7 +25,7 @@ public class DataTableDiff {
         this.diffTypes = diffTypes;
     }
 
-    boolean isEmpty() {
+    public boolean isEmpty() {
         return !diffTypes.contains(DiffType.DELETE) && !diffTypes.contains(DiffType.INSERT);
     }
 
