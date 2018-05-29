@@ -30,6 +30,10 @@ This document is formatted according to the principles of [Keep A CHANGELOG](htt
 
 ### Fixed
 
+* (C) Segfault when file does not exist
+  ([#394](https://github.com/cucumber/cucumber/issues/394)
+   [#395](https://github.com/cucumber/cucumber/pull/395)
+   [cyocum])
 * (JavaScript)
   ([#374](https://github.com/cucumber/cucumber/issues/374)
    [#377](https://github.com/cucumber/cucumber/pull/377)

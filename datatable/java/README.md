@@ -30,7 +30,7 @@ Add the `datatable-matchers` dependency to your pom.
 Use the matcher in your step definition.
 
 ```java
-import static io.cucumber.datatable.DataTableHasTheSameRowsAs.hasTheSameRowsAs;
+import static io.cucumber.datatable.matchers.DataTableHasTheSameRowsAs.hasTheSameRowsAs;
 
 [...]
 

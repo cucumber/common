@@ -4,8 +4,7 @@ services:
 before_script:
 - export PATH=$PATH:$PWD/bin/linux/amd64
 script:
-- git fetch --unshallow
-- source scripts/functions.sh && push_subrepos .
+- scripts/push_subrepos.sh
 - "./scripts/docker-run Dockerfile.cucumber-build make"
 - cd gherkin/dotnet && ../../scripts/docker-run ../../Dockerfile.cucumber-build-dotnet
   make

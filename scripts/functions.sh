@@ -66,7 +66,7 @@ function rsync_files()
 function subrepos()
 {
   dir=$1
-  git ls-files "${dir}" | grep .subrepo | xargs -n 1 dirname
+  git ls-files "${dir}" | grep "\.subrepo" | xargs -n 1 dirname
 }
 
 # Prints the remote (git URL) of a subrepo
@@ -80,18 +80,60 @@ function subrepo_remote()
   fi
 }
 
+# Checks whether a branch (or tag) is for a subrepo.
+# Used to determine whether or not to push it to the subrepo.
+#
+# branch:  cucumber-expressions-fix-bug
+# subrepo: cucumber-expressions/go)
+# result: 1
+# 
+# branch:  tag-expressions-fix-bug
+# subrepo: cucumber-expressions/go)
+# result: (empty)
+# 
+function is_branch_or_tag_for_subrepo() {
+  branch_or_tag=$1
+  subrepo=$2
+  library=$(echo ${subrepo} | cut -d/ -f1)
+  [[ ${branch_or_tag} == ${library}* ]] || [[ ${branch_or_tag} == "master" ]] && echo 'yes'
+}
+
+function git_branch() {
+  if [ -z "${TRAVIS_BRANCH}" ]; then
+    git rev-parse --abbrev-ref HEAD
+  else
+    echo "${TRAVIS_BRANCH}"
+  fi
+}
+
 function push_subrepos()
 {
   subrepos $1 | while read subrepo; do
-    push_subrepo "${subrepo}"
+    push_subrepo_branch_maybe "${subrepo}"
+    push_subrepo_tag_maybe "${subrepo}"
   done
 }
 
-function push_subrepo()
+function push_subrepo_branch_maybe()
 {
   subrepo=$1
   remote=$(subrepo_remote "${subrepo}")
-  git push --force "${remote}" $(splitsh-lite --prefix=${subrepo}):master
+  branch=$(git_branch)
+  
+  if is_branch_or_tag_for_subrepo "${branch}" "${subrepo}"; then
+    git push --force "${remote}" $(splitsh-lite --prefix=${subrepo}):refs/heads/${branch}
+  fi
+}
+
+function push_subrepo_tag_maybe()
+{
+  subrepo=$1
+  remote=$(subrepo_remote "${subrepo}")
+  if [ -z "${TRAVIS_TAG}" ]; then
+    echo "No tags to push"
+  elif is_branch_or_tag_for_subrepo "${TRAVIS_TAG}" "${subrepo}"; then
+    git push --force "${remote}" $(splitsh-lite --prefix=${subrepo} --origin=refs/tags/${TRAVIS_TAG}):refs/tags/${TRAVIS_TAG}
+  fi
 }
 
 function build_subrepos()

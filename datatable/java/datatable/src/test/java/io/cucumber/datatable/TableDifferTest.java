@@ -5,9 +5,10 @@ import org.junit.Test;
 import java.util.ArrayList;
 import java.util.List;
 
-import static java.util.Arrays.asList;
+import static java.util.Collections.singletonList;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 public class TableDifferTest {
 
@@ -124,48 +125,48 @@ public class TableDifferTest {
 
     @Test
     public void shouldFindDifferences() {
-        DataTable otherTable = otherTableWithDeletedAndInserted();
         String expected = "" +
-            
+
             "      | Aslak | aslak@email.com      | 123 |\n" +
             "    - | Joe   | joe@email.com        | 234 |\n" +
             "    + | Doe   | joe@email.com        | 234 |\n" +
             "    + | Foo   | schnickens@email.net | 789 |\n" +
             "      | Bryan | bryan@email.org      | 456 |\n" +
             "    - | Ni    | ni@email.com         | 654 |\n";
-        assertEquals(expected, diff(table(), otherTable).toString());
+        assertDiff(table(), otherTableWithDeletedAndInserted(), expected);
     }
 
     @Test
     public void shouldFindNewLinesAtEnd() {
         String expected = "" +
-            
+
             "      | Aslak | aslak@email.com      | 123 |\n" +
             "      | Joe   | joe@email.com        | 234 |\n" +
             "      | Bryan | bryan@email.org      | 456 |\n" +
             "      | Ni    | ni@email.com         | 654 |\n" +
             "    + | Doe   | joe@email.com        | 234 |\n" +
             "    + | Foo   | schnickens@email.net | 789 |\n";
-        assertEquals(expected, diff(table(), otherTableWithInsertedAtEnd()).toString());
+
+        assertDiff(table(), otherTableWithInsertedAtEnd(), expected);
     }
 
     @Test
     public void considers_same_table_as_equal() {
-        assertTrue(diff(table(), table()).isEmpty());
+        assertTrue(new TableDiffer(table(), table()).calculateDiffs().isEmpty());
     }
 
     @Test
     public void should_find_new_lines_at_end_when_using_diff() {
-        DataTable other = otherTableWithInsertedAtEnd();
         String expected = "" +
-            
+
             "      | Aslak | aslak@email.com      | 123 |\n" +
             "      | Joe   | joe@email.com        | 234 |\n" +
             "      | Bryan | bryan@email.org      | 456 |\n" +
             "      | Ni    | ni@email.com         | 654 |\n" +
             "    + | Doe   | joe@email.com        | 234 |\n" +
             "    + | Foo   | schnickens@email.net | 789 |\n";
-        assertEquals(expected, diff(table(), other).toString());
+
+        assertDiff(table(), otherTableWithInsertedAtEnd(), expected);
     }
 
     @Test
@@ -173,45 +174,44 @@ public class TableDifferTest {
         DataTable expected = TableParser.parse("" +
             "| I'm going to work |\n");
         List<List<String>> actual = new ArrayList<>();
-        actual.add(asList("I just woke up"));
-        actual.add(asList("I'm going to work"));
-        diff(expected, DataTable.create(actual));
+        actual.add(singletonList("I just woke up"));
+        actual.add(singletonList("I'm going to work"));
+
+        new TableDiffer(expected, DataTable.create(actual)).calculateDiffs();
     }
 
     @Test
     public void should_diff_when_consecutive_deleted_lines() {
-        DataTable other = otherTableWithTwoConsecutiveRowsDeleted();
         String expected = "" +
-            
+
             "      | Aslak | aslak@email.com | 123 |\n" +
             "    - | Joe   | joe@email.com   | 234 |\n" +
             "    - | Bryan | bryan@email.org | 456 |\n" +
             "      | Ni    | ni@email.com    | 654 |\n";
-        assertEquals(expected, diff(table(), other).toString());
+        assertDiff(table(), otherTableWithTwoConsecutiveRowsDeleted(), expected);
     }
 
     @Test
     public void should_diff_with_empty_list() {
-        List<List<String>> other = new ArrayList<>();
         String expected = "" +
-            
+
             "    - | Aslak | aslak@email.com | 123 |\n" +
             "    - | Joe   | joe@email.com   | 234 |\n" +
             "    - | Bryan | bryan@email.org | 456 |\n" +
             "    - | Ni    | ni@email.com    | 654 |\n";
-        assertEquals(expected, diff(table(), DataTable.create(other)).toString());
+        assertDiff(table(), DataTable.create(new ArrayList<List<String>>()), expected);
     }
 
     @Test
     public void should_diff_with_empty_table() {
-        DataTable emptyTable = DataTable.emptyDataTable();
         String expected = "" +
-            
+
             "    - | Aslak | aslak@email.com | 123 |\n" +
             "    - | Joe   | joe@email.com   | 234 |\n" +
             "    - | Bryan | bryan@email.org | 456 |\n" +
             "    - | Ni    | ni@email.com    | 654 |\n";
-        assertEquals(expected, diff(table(), emptyTable).toString());
+
+        assertDiff(table(), DataTable.emptyDataTable(), expected);
     }
 
     @Test
@@ -223,36 +223,33 @@ public class TableDifferTest {
 
     @Test
     public void should_diff_when_consecutive_changed_lines() {
-        DataTable other = otherTableWithTwoConsecutiveRowsChanged();
         String expected = "" +
-            
+
             "      | Aslak | aslak@email.com  | 123 |\n" +
             "    - | Joe   | joe@email.com    | 234 |\n" +
             "    - | Bryan | bryan@email.org  | 456 |\n" +
             "    + | Joe   | joe@NOSPAM.com   | 234 |\n" +
             "    + | Bryan | bryan@NOSPAM.org | 456 |\n" +
             "      | Ni    | ni@email.com     | 654 |\n";
-        assertEquals(expected, diff(table(), other).toString());
+
+        assertDiff(table(), otherTableWithTwoConsecutiveRowsChanged(), expected);
     }
 
     @Test
     public void should_diff_when_consecutive_inserted_lines() {
-        DataTable other = otherTableWithTwoConsecutiveRowsInserted();
         String expected = "" +
-            
+
             "      | Aslak | aslak@email.com      | 123 |\n" +
             "      | Joe   | joe@email.com        | 234 |\n" +
             "    + | Doe   | joe@email.com        | 234 |\n" +
             "    + | Foo   | schnickens@email.net | 789 |\n" +
             "      | Bryan | bryan@email.org      | 456 |\n" +
             "      | Ni    | ni@email.com         | 654 |\n";
-        assertEquals(expected, diff(table(), other).toString());
+        assertDiff(table(), otherTableWithTwoConsecutiveRowsInserted(), expected);
     }
 
     @Test
     public void should_return_tables() {
-        DataTable table = table();
-        DataTable other = otherTableWithTwoConsecutiveRowsInserted();
         String expected = "" +
             "      | Aslak | aslak@email.com      | 123 |\n" +
             "      | Joe   | joe@email.com        | 234 |\n" +
@@ -260,80 +257,74 @@ public class TableDifferTest {
             "    + | Foo   | schnickens@email.net | 789 |\n" +
             "      | Bryan | bryan@email.org      | 456 |\n" +
             "      | Ni    | ni@email.com         | 654 |\n";
-        assertEquals(expected, diff(table, other).toString());
+
+        assertDiff(table(), otherTableWithTwoConsecutiveRowsInserted(), expected);
     }
 
     @Test
     public void diff_set_with_itself() {
-        assertTrue(unorderedDiff(table(), table()).isEmpty());
+        assertTrue(new TableDiffer(table(), table()).calculateUnorderedDiffs().isEmpty());
     }
 
     @Test
     public void diff_set_with_itself_in_different_order() {
-        DataTable other = otherTableWithDifferentOrder();
-        assertTrue(unorderedDiff(table(), other).isEmpty());
+        assertTrue(new TableDiffer(table(), otherTableWithDifferentOrder()).calculateUnorderedDiffs().isEmpty());
     }
 
     @Test
     public void diff_set_with_less_lines_in_other() {
-        DataTable other = otherTableWithTwoConsecutiveRowsDeleted();
         String expected = "" +
-            
+
             "      | Aslak | aslak@email.com | 123 |\n" +
             "    - | Joe   | joe@email.com   | 234 |\n" +
             "    - | Bryan | bryan@email.org | 456 |\n" +
             "      | Ni    | ni@email.com    | 654 |\n";
-        assertEquals(expected, unorderedDiff(table(), other).toString());
+        assertUnorderedDiff(table(), otherTableWithTwoConsecutiveRowsDeleted(), expected);
     }
 
     @Test
     public void unordered_diff_with_more_lines_in_other() {
-        DataTable other = otherTableWithTwoConsecutiveRowsInserted();
         String expected = "" +
-            
+
             "      | Aslak | aslak@email.com      | 123 |\n" +
             "      | Joe   | joe@email.com        | 234 |\n" +
             "      | Bryan | bryan@email.org      | 456 |\n" +
             "      | Ni    | ni@email.com         | 654 |\n" +
             "    + | Doe   | joe@email.com        | 234 |\n" +
             "    + | Foo   | schnickens@email.net | 789 |\n";
-        assertEquals(expected, unorderedDiff(table(), other).toString());
+        assertUnorderedDiff(table(), otherTableWithTwoConsecutiveRowsInserted(), expected);
     }
 
     @Test
     public void unordered_diff_with_added_and_deleted_rows_in_other() {
-        DataTable other = otherTableWithDeletedAndInsertedDifferentOrder();
         String expected = "" +
-            
+
             "      | Aslak | aslak@email.com      | 123 |\n" +
             "    - | Joe   | joe@email.com        | 234 |\n" +
             "      | Bryan | bryan@email.org      | 456 |\n" +
             "    - | Ni    | ni@email.com         | 654 |\n" +
             "    + | Doe   | joe@email.com        | 234 |\n" +
             "    + | Foo   | schnickens@email.net | 789 |\n";
-        assertEquals(expected, unorderedDiff(table(), other).toString());
+        assertUnorderedDiff(table(), otherTableWithDeletedAndInsertedDifferentOrder(), expected);
     }
 
     @Test
     public void unordered_diff_with_added_duplicate_in_other() {
-        DataTable other = otherTableWithDifferentOrderAndDuplicate();
-        unorderedDiff(table(), other);
         String expected = "" +
-            
+
             "      | Aslak | aslak@email.com | 123 |\n" +
             "      | Joe   | joe@email.com   | 234 |\n" +
             "      | Bryan | bryan@email.org | 456 |\n" +
             "      | Ni    | ni@email.com    | 654 |\n" +
             "    + | Ni    | ni@email.com    | 654 |\n" +
             "    + | Joe   | joe@email.com   | 234 |\n";
-        assertEquals(expected, unorderedDiff(table(), other).toString());
+        assertUnorderedDiff(table(), otherTableWithDifferentOrderAndDuplicate(), expected);
     }
 
     @Test
     public void unordered_diff_with_added_duplicate_and_deleted_in_other() {
-        DataTable other = otherTableWithDifferentOrderDuplicateAndDeleted();
         String expected = "" +
-            
+
             "    - | Aslak | aslak@email.com | 123 |\n" +
             "      | Joe   | joe@email.com   | 234 |\n" +
             "      | Bryan | bryan@email.org | 456 |\n" +
@@ -343,15 +334,25 @@ public class TableDifferTest {
             "    + | Bryan | bryan@email.org | 456 |\n" +
             "    + | Bob   | bob.email.com   | 555 |\n" +
             "    + | Bryan | bryan@email.org | 456 |\n";
-        assertEquals(expected, unorderedDiff(tableWithDuplicate(), other).toString());
+
+        assertUnorderedDiff(tableWithDuplicate(), otherTableWithDifferentOrderDuplicateAndDeleted(), expected);
     }
 
-    private DataTableDiff unorderedDiff(DataTable table, DataTable other) {
-        return new TableDiffer(table, other).calculateUnorderedDiffs();
+    private void assertUnorderedDiff(DataTable table, DataTable other, String expected) {
+        try {
+            table.unorderedDiff(other);
+            fail("Expected exception");
+        } catch(TableDiffException e) {
+            assertEquals("tables were different:\n" + expected, e.getMessage());
+        }
     }
 
-    private static DataTableDiff diff(DataTable table, DataTable other) {
-        return new TableDiffer(table, other).calculateDiffs();
+    private void assertDiff(DataTable table, DataTable other, String expected) {
+        try {
+            table.diff(other);
+            fail("Expected exception");
+        } catch(TableDiffException e) {
+            assertEquals("tables were different:\n" + expected, e.getMessage());
+        }
     }
-
 }

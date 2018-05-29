@@ -17,6 +17,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Fixed
 
+## [5.0.19] - 2018-05-24
+
+### Fixed
+
+* java: Escape closing braces to avoid PatternSyntaxException on Android
+
 ## [5.0.18] - 2018-05-21
 
 ### Changed
