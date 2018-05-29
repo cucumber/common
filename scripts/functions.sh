@@ -101,7 +101,7 @@ function push_subrepo()
   subrepo=$1
   remote=$(subrepo_remote "${subrepo}")
   branch=$(git_branch)
-  git push --force "${remote}" $(splitsh-lite --prefix=${subrepo}):${branch}
+  git push --force "${remote}" $(splitsh-lite --prefix=${subrepo}):refs/heads/${branch}
 }
 
 function push_subrepo_tags_maybe()
