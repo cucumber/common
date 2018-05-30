@@ -1,13 +1,13 @@
 <?xml version="1.0"?>
 <Project Sdk="Microsoft.NET.Sdk">
-  <Import Project="../netfx.props" />
+  <Import Project="../netfx.props"/>
   <PropertyGroup>
     <TargetFrameworks>netstandard1.5;net45</TargetFrameworks>
   </PropertyGroup>
 
   <PropertyGroup>
      <PackageId>Gherkin</PackageId>
-     <PackageVersion>5.0.0</PackageVersion>
+     <PackageVersion>5.1.0</PackageVersion>
      <Authors>Cucumber Ltd, Gaspar Nagy</Authors>
      <Title>Gherkin Parser</Title>
      <Description>Cross-platform parser for the Gherkin language, used by Cucumber, SpecFlow and other Cucumber-based tools to parse feature files.</Description>

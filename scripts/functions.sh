@@ -421,18 +421,6 @@ function perl_update_version()
 
 ################ .NET ################
 
-function dotnet_update_version()
-{
-  subrepo=$1
-  version=$2
-
-  xmlstarlet ed --inplace --ps \
-    --update "/Project/PropertyGroup/PackageVersion" \
-    --value "${version}" \
-    "$(find_path "${subrepo}" "*.csproj")"
-  echo_green "Updated ${subrepo} to ${version}"
-}
-
 function dotnet_release_karma()
 {
   echo_green "Checking .NET release karma..."
@@ -446,10 +434,32 @@ function dotnet_release()
   next_version=$3
 
   pushd "${dir}"
+  dotnet_update_version "${version}"
   dotnet pack --configuration Release
   nupkg_dir=$(cat .nuget-push | head -1) 
-  dotnet nuget} push "$(find_path "${nupkg_dir}" "*.nupkg")"
+  nupkg=$(find_path "${nupkg_dir}" "*.nupkg")
+  
+  echo_green "Log into nuget.org and manually upload ${nupkg}"
+
+  git add .
+  git commit -m "Release ${version}"
+  git show > .release.patch
+  cd ..
+  patch -p1 < .release/.release.patch
   popd
+}
+
+function dotnet_update_version()
+{
+  version=$1
+  nupkg_dir=$(cat .nuget-push | head -1)
+  csproj=$(find_path "${nupkg_dir}" "*.csproj")
+
+  xmlstarlet ed --inplace --ps \
+    --update "/Project/PropertyGroup/PackageVersion" \
+    --value "${version}" \
+    "${csproj}"
+  echo_green "Updated ${csproj} to ${version}"
 }
 
 ################ Go ################
