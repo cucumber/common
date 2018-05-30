@@ -40,9 +40,9 @@ func TestCucumberExpressionGeneratory(t *testing.T) {
 
 	t.Run("generates expression with escaped slashes", func(t *testing.T) {
 		assertExpression(
-			t, 
-			`The {int}\/{int}\/{int} hey`, 
-			[]string{"int", "int2", "int3"}, 
+			t,
+			`The {int}\/{int}\/{int} hey`,
+			[]string{"int", "int2", "int3"},
 			"The 1814/05/17 hey",
 		)
 	})

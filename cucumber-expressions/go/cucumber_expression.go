@@ -84,7 +84,7 @@ func (c *CucumberExpression) processAlteration(expression string) (string, error
 		replacement := strings.Replace(match, "/", "|", -1)
 		replacement = strings.Replace(replacement, `\\\\|`, "/", -1)
 
-		if(strings.Contains(replacement, "|")) {
+		if strings.Contains(replacement, "|") {
 			parts := strings.Split(replacement, ":")
 			for _, part := range parts {
 				if PARAMETER_REGEXP.MatchString(part) {
