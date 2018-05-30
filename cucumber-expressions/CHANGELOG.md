@@ -11,12 +11,20 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Changed
 
-* Throw an error if a parameter type is used inside optional text parenthesis,
-  or with alternative text. ([aslakhellesoy])
-
 ### Deprecated
 
 ### Removed
+
+### Fixed
+
+## [6.0.0] - 2018-05-30
+
+### Changed
+
+* Throw an error if a parameter type is used inside optional text parenthesis,
+  or with alternative text. 
+  ([#360](https://github.com/cucumber/cucumber/pull/360)
+   [aslakhellesoy])
 
 ### Fixed
 
@@ -397,7 +405,8 @@ N/A
 * First stable release!
 
 <!-- Releases -->
-[Unreleased]: https://github.com/cucumber/cucumber/compare/cucumber-expressions-v5.0.18...master
+[Unreleased]: https://github.com/cucumber/cucumber/compare/cucumber-expressions-v6.0.0...master
+[6.0.0]:      https://github.com/cucumber/cucumber/compare/cucumber-expressions-v5.0.18...cucumber-expressions-v6.0.0
 [5.0.18]:     https://github.com/cucumber/cucumber/compare/cucumber-expressions-v5.0.17...cucumber-expressions-v5.0.18
 [5.0.17]:     https://github.com/cucumber/cucumber/compare/cucumber-expressions-v5.0.16...cucumber-expressions-v5.0.17
 [5.0.16]:     https://github.com/cucumber/cucumber/compare/cucumber-expressions-v5.0.15...cucumber-expressions-v5.0.16
