@@ -445,15 +445,10 @@ function dotnet_release()
   version=$2
   next_version=$3
 
-  nuget=${root_dir}/bin/NuGet.exe
-  sln=$(find_path "${dir}" "*.sln")
-  nuspec=$(find_path "${dir}" "*.nuspec")
-
   pushd "${dir}"
-  mono "${nuget}" restore "${sln}"
-  xbuild /p:Configuration=Release
-  mono "${nuget}" pack "${nuspec}"
-  mono "${nuget}" push "$(find_path "${dir}" "*.nupkg")"
+  dotnet pack --configuration Release
+  nupkg_dir=$(cat .nuget-push | head -1) 
+  dotnet nuget} push "$(find_path "${nupkg_dir}" "*.nupkg")"
   popd
 }
 
