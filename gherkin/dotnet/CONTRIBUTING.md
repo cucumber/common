@@ -4,12 +4,9 @@ to contribute.
 
 ## Run tests
 
-### OS X/Linux
+### MacOS/Linux
 
-Install dependencies:
-
-    install latest Mono
-    install .NET Core 1.1.6 - https://github.com/dotnet/core/blob/master/release-notes/download-archives/1.1.6-download.md
+Install [.NET Core 2.0.7](https://github.com/dotnet/core/blob/master/release-notes/download-archives/2.0.7-download.md)
     
 Just run `make` from this directory.
 

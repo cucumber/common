@@ -59,11 +59,17 @@ module Cucumber
 
       def process_alternation(expression)
         expression.gsub(ALTERNATIVE_NON_WHITESPACE_TEXT_REGEXP) do
-          g1 = $1
-          g2 = $2
-          check_no_parameter_type(g1, PARAMETER_TYPES_CANNOT_BE_ALTERNATIVE)
-          check_no_parameter_type(g2, PARAMETER_TYPES_CANNOT_BE_ALTERNATIVE)
-          "(?:#{g1}#{g2.tr('/', '|')})"
+          # replace \/ with /
+          # replace / with |
+          replacement = $&.tr('/', '|').gsub(/\\\|/, '/')
+          if replacement.include?('|')
+            replacement.split(/\|/).each do |part|
+              check_no_parameter_type(part, PARAMETER_TYPES_CANNOT_BE_ALTERNATIVE)
+            end
+            "(?:#{replacement})"
+          else
+            replacement
+          end
         end
       end
 

@@ -38,6 +38,15 @@ func TestCucumberExpressionGeneratory(t *testing.T) {
 		assertExpression(t, `\{iii}`, []string{}, "{iii}")
 	})
 
+	t.Run("generates expression with escaped slashes", func(t *testing.T) {
+		assertExpression(
+			t, 
+			`The {int}\/{int}\/{int} hey`, 
+			[]string{"int", "int2", "int3"}, 
+			"The 1814/05/17 hey",
+		)
+	})
+
 	t.Run("generates expression for int float arg", func(t *testing.T) {
 		assertExpression(
 			t,
@@ -47,17 +56,17 @@ func TestCucumberExpressionGeneratory(t *testing.T) {
 		)
 	})
 
-	t.Run("generates expression for strings with % sign", func(t *testing.T) {
-		assertExpression(t, "I am {int}%% foobar", []string{"int"}, "I am 20%% foobar")
-	})
-
-	t.Run("generates expression for int float arg", func(t *testing.T) {
+	t.Run("generates expression for strings", func(t *testing.T) {
 		assertExpression(
 			t,
 			"I like {string} and {string}",
 			[]string{"string", "string2"},
 			`I like "bangers" and 'mash'`,
 		)
+	})
+
+	t.Run("generates expression with % sign", func(t *testing.T) {
+		assertExpression(t, "I am {int}%% foobar", []string{"int"}, "I am 20%% foobar")
 	})
 
 	t.Run("generates expression for just int", func(t *testing.T) {
@@ -79,8 +88,8 @@ func TestCucumberExpressionGeneratory(t *testing.T) {
 			"currency",
 			[]*regexp.Regexp{regexp.MustCompile("[A-Z]{3}")},
 			"Currency",
-			func(arg3 ...string) interface{} {
-				return Currency{ISO4217: arg3[0]}
+			func(arg3 ...*string) interface{} {
+				return Currency{ISO4217: *arg3[0]}
 			},
 			true,
 			false,

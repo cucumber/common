@@ -8,7 +8,8 @@ import java.util.regex.Pattern;
 public class CucumberExpression implements Expression {
     // Does not include (){} characters because they have special meaning
     private static final Pattern ESCAPE_PATTERN = Pattern.compile("([\\\\^\\[$.|?*+\\]])");
-    static final Pattern PARAMETER_PATTERN = Pattern.compile("(\\\\\\\\)?\\{([^}]+)}");
+    @SuppressWarnings("RegExpRedundantEscape") // Android can't parse unescaped braces
+    static final Pattern PARAMETER_PATTERN = Pattern.compile("(\\\\\\\\)?\\{([^}]+)\\}");
     private static final Pattern OPTIONAL_PATTERN = Pattern.compile("(\\\\\\\\)?\\(([^)]+)\\)");
     private static final Pattern ALTERNATIVE_NON_WHITESPACE_TEXT_REGEXP = Pattern.compile("([^\\s^/]+)((/[^\\s^/]+)+)");
     private static final String DOUBLE_ESCAPE = "\\\\";
@@ -39,11 +40,20 @@ public class CucumberExpression implements Expression {
         Matcher matcher = ALTERNATIVE_NON_WHITESPACE_TEXT_REGEXP.matcher(expression);
         StringBuffer sb = new StringBuffer();
         while (matcher.find()) {
-            String g1 = matcher.group(1);
-            checkNotParameterType(g1, PARAMETER_TYPES_CANNOT_BE_ALTERNATIVE);
-            String g2 = matcher.group(2);
-            checkNotParameterType(g2, PARAMETER_TYPES_CANNOT_BE_ALTERNATIVE);
-            matcher.appendReplacement(sb, "(?:" + g1 + g2.replace('/', '|') + ")");
+            // replace \/ with /
+            // replace / with |
+            String replacement = matcher.group(0).replace('/', '|').replaceAll("\\\\\\|", "/");
+
+            if (replacement.contains("|")) {
+                // Make sure the alternative parts don't contain parameter types
+                for (String part : replacement.split("\\|")) {
+                    checkNotParameterType(part, PARAMETER_TYPES_CANNOT_BE_ALTERNATIVE);
+                }
+                matcher.appendReplacement(sb, "(?:" + replacement + ")");
+            } else {
+                // All / were escaped
+                matcher.appendReplacement(sb, replacement);
+            }
         }
         matcher.appendTail(sb);
         return sb.toString();

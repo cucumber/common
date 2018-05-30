@@ -8,6 +8,7 @@ environment:
   DOTNET_CLI_TELEMETRY_OPTOUT: 1
   GherkinVersion: "5.0.0"
   GherkinPackageVersion: "$(GherkinVersion)-ci$(APPVEYOR_BUILD_NUMBER)"
+  CLI_VERSION: 2.1.105
 
 
 nuget:
@@ -20,6 +21,14 @@ init:
 #before_build:
 #- appveyor-retry dotnet restore
 
+install:
+  - ps: $env:DOTNET_INSTALL_DIR = "$pwd\.dotnetsdk"
+  - ps: mkdir $env:DOTNET_INSTALL_DIR -Force | Out-Null
+  - ps: Invoke-WebRequest -Uri "https://raw.githubusercontent.com/dotnet/cli/master/scripts/obtain/dotnet-install.ps1" -OutFile "$($env:DOTNET_INSTALL_DIR)/dotnet-install.ps1"
+  - ps: '& "$($env:DOTNET_INSTALL_DIR)/dotnet-install.ps1" -Version $env:CLI_VERSION -InstallDir $env:DOTNET_INSTALL_DIR'
+  - ps: $env:Path = "$env:DOTNET_INSTALL_DIR;$env:Path"
+  - cmd: dotnet --info
+
 build_script:
 - dotnet build -c %CONFIGURATION% Gherkin --version-suffix %LABEL%
 - dotnet build -c %CONFIGURATION% Gherkin.CLI --version-suffix %LABEL%
@@ -30,7 +39,8 @@ after_build:
 - dotnet pack -c %CONFIGURATION% Gherkin -o artifacts /p:PackageVersion=%GherkinPackageVersion%
 
 test_script:
-- dotnet test Gherkin.Specs/Gherkin.Specs.csproj -c %CONFIGURATION%
+- cd Gherkin.Specs
+- dotnet xunit -nobuild -c %CONFIGURATION% -fxversion 2.0.7
 
 
 artifacts:

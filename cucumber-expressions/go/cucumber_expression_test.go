@@ -109,6 +109,22 @@ func TestCucumberExpression(t *testing.T) {
 		)
 	})
 
+	t.Run("matches escaped slash", func(t *testing.T) {
+		require.Equal(
+			t,
+			MatchCucumberExpression(t, "12\\\\/2020", `12/2020`),
+			[]interface{}{},
+		)
+	})
+
+	t.Run("matches int", func(t *testing.T) {
+		require.Equal(
+			t,
+			MatchCucumberExpression(t, "{int}", "22"),
+			[]interface{}{22},
+		)
+	})
+
 	t.Run("doesn't match float as int", func(t *testing.T) {
 		require.Nil(
 			t,

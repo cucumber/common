@@ -1,8 +1,13 @@
 sudo: required
-
 services:
-  - docker
-
+- docker
+before_script:
+- export PATH=$PATH:$PWD/bin/linux/amd64
 script:
-  - ./scripts/docker-run Dockerfile.cucumber-build make
-  - cd gherkin/dotnet && ../../scripts/docker-run ../../Dockerfile.cucumber-build-dotnet make
+- scripts/push_subrepos.sh
+- "./scripts/docker-run Dockerfile.cucumber-build make"
+- cd gherkin/dotnet && ../../scripts/docker-run ../../Dockerfile.cucumber-build-dotnet
+  make
+env:
+  global:
+    secure: VjDLkqUkJz6N13YExt6zGll83LneH7p6zzpCrzNYwzXDRjIDtc7mQs371O6L76EFYgfOib+E6mi5kLchWm87o5vnz0q2cK3xfwiJa27XENpLWJ7os7JXwhKUZTyg0n/bkvj6eUeLEGtYccZYihpjmgWZqf2fYLqedGfYB7X28IDV5ZqKuN0m8LgX8a+5pHwMt9j+BfN9JK8lZtggbAAjrEtb/myi5vhTc90GE/afliipIjQoc1/MZ8Mc4X/+Navfgl+uYtXUxNxB3ae2oQ8/75Pl4BAlBFTuXfUaooKNb9GXOL8zFKRp0AM4I66Xe0LrzJ+6XuuD4hh/BrG5cyFvTxNBJZYXPSzt4j8WwB8nSG0a9VwzDXWYLKoTwhA0Ey+lz55JkxlyWazXpgA8Itk8R1SocALT9qQ5I1Sltm17s8DAr4iTbGncIqjN0A4S2nezKHINKvsLanFEgooWOatLRcCPd3gZ9dsGt6b1v5MYV1kmv8HUXB1xLsU4VWPZoo+a8l+42DXr3pBHJdD7z/hBzSJnhAiPZO1ZeDFheqXPRs0YpECl6kDZYut632g5xdE3XlamUCiEkKLyUP5CdW8KoXvU2Lba8Cc6LfrPctflXde6ayutt9MFR4zKvGuTvZz8wZf1bggVWIflXTutP003YEhjhNXDUggpIlWwwYnIWfY=

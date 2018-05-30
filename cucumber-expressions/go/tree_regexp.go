@@ -68,9 +68,10 @@ func (t *TreeRegexp) Match(s string) *Group {
 			continue
 		}
 		start, end := indicies[0][i-1], indicies[0][i]
-		value := ""
+		var value *string
 		if start != -1 {
-			value = s[start:end]
+			valueStr := s[start:end]
+			value = &valueStr
 		}
 		submatches = append(submatches, &Submatch{
 			value: value,

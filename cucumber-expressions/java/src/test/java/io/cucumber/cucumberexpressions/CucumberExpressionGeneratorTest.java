@@ -12,6 +12,7 @@ import java.util.Locale;
 import static java.util.Arrays.asList;
 import static java.util.Collections.singletonList;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
 
 public class CucumberExpressionGeneratorTest {
 
@@ -49,6 +50,13 @@ public class CucumberExpressionGeneratorTest {
     }
 
     @Test
+    public void generates_expression_with_escaped_slashes() {
+        assertExpression(
+                "The {int}\\/{int}\\/{int} hey", asList("int1", "int2", "int3"),
+                "The 1814/05/17 hey");
+    }
+
+    @Test
     public void generates_expression_for_int_double_arg() {
         assertExpression(
                 "I have {int} cukes and {double} euro", asList("int1", "double1"),
@@ -63,7 +71,7 @@ public class CucumberExpressionGeneratorTest {
     }
 
     @Test
-    public void generates_expression_for_strings_with_percent_sign() {
+    public void generates_expression_with_percent_sign() {
         assertExpression(
                 "I am {int}% foobar", singletonList("int1"),
                 "I am 20% foobar");
@@ -260,6 +268,9 @@ public class CucumberExpressionGeneratorTest {
         // Check that the generated expression matches the text
         CucumberExpression cucumberExpression = new CucumberExpression(generatedExpression.getSource(), parameterTypeRegistry);
         List<Argument<?>> match = cucumberExpression.match(text);
+        if (match == null) {
+            fail(String.format("Expected text '%s' to match generated expression '%s'", text, generatedExpression.getSource()));
+        }
         assertEquals(expectedArgumentNames.size(), match.size());
     }
 }

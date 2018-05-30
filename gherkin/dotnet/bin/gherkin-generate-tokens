@@ -6,7 +6,7 @@ arch=$1
 if [ $arch = "net45" ]; then
     starter="mono"
     ext="exe"
-elif [ $1 = "netcoreapp1.1" ]; then
+elif [ $1 = "netcoreapp2.0" ]; then
     starter="dotnet"
     ext="dll"
 else

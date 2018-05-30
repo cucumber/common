@@ -53,10 +53,21 @@ class CucumberExpression {
   processAlternation(expression) {
     return expression.replace(
       ALTERNATIVE_NON_WHITESPACE_TEXT_REGEXP(),
-      (_, p1, p2) => {
-        this._checkNoParameterType(p1, PARAMETER_TYPES_CANNOT_BE_ALTERNATIVE)
-        this._checkNoParameterType(p2, PARAMETER_TYPES_CANNOT_BE_ALTERNATIVE)
-        return `(?:${p1}${p2.replace(/\//g, '|')})`
+      match => {
+        // replace \/ with /
+        // replace / with |
+        const replacement = match.replace(/\//g, '|').replace(/\\\|/g, '/')
+        if (replacement.indexOf('|') !== -1) {
+          for (const part of replacement.split(/\|/)) {
+            this._checkNoParameterType(
+              part,
+              PARAMETER_TYPES_CANNOT_BE_ALTERNATIVE
+            )
+          }
+          return `(?:${replacement})`
+        } else {
+          return replacement
+        }
       }
     )
   }

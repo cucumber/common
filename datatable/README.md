@@ -1,16 +1,16 @@
 # DataTable
 
 DataTable is a simple data structure that allows the use and transformation 
-of Gherkin data tables in cucumber.
+of Gherkin data tables in Cucumber.
 
 This intended to support:
  * manual conversion in step definitions
- * automatic conversion by cucumber
+ * automatic conversion by Cucumber
 
 ## Introduction
 
 The introduction will describe how data tables are mapped to certain data
-structures. This conversion can be done either by cucumber or manually.
+structures. This conversion can be done either by Cucumber or manually.
 
 Let's write a simple data table and see how we might use it. 
 
@@ -43,13 +43,13 @@ into a list of maps.
 
 ```json
 [
-  { "firstName": "Annie M.G", "lastName": "Schmidt", "birthDate": "1911-03-20" }, 
-  { "firstName": "Roald", "lastName": "Dahl", "birthDate": "1916-09-13" }, 
-  { "firstName": "Astrid", "lastName": "Lindgren", "birthDate": "1907-11-14" } 
+  { "firstName": "Annie M.G", "lastName": "Schmidt",  "birthDate": "1911-03-20" }, 
+  { "firstName": "Roald",     "lastName": "Dahl",     "birthDate": "1916-09-13" }, 
+  { "firstName": "Astrid",    "lastName": "Lindgren", "birthDate": "1907-11-14" } 
 ]
 ```  
 
-Sometimes a table has its the keys are in the first column. 
+Sometimes a table's keys are in the first column:
 
 ```gherkin
 | KMSY | Louis Armstrong New Orleans International Airport |
@@ -66,7 +66,7 @@ We can convert the table into a single map.
   "KMSY": "Louis Armstrong New Orleans International Airport",
   "KSFO": "San Francisco International Airport",
   "KSEA": "Seattle–Tacoma International Airport",
-  "KJFK":  "John F. Kennedy International Airport"
+  "KJFK": "John F. Kennedy International Airport"
 }
 ```
 
@@ -77,68 +77,68 @@ For example a table of airport codes and their coordinates expressed in
 latitude and longitude.
 
 ```gherkin
-| KMSY | 29.993333 | -90.258056  |
-| KSFO | 37.618889 | -122.375    |
+| KMSY | 29.993333 |  -90.258056 |
+| KSFO | 37.618889 | -122.375000 |
 | KSEA | 47.448889 | -122.309444 |
-| KJFK | 40.639722 | -73.778889  |
+| KJFK | 40.639722 |  -73.778889 |
 ```
 
-These can be represented by a map that uses a lists as its value. 
+These can be represented by a map that uses a list as its value. 
 
 `java type: Map<String, List<String>>`
 ```json
 {
   "KMSY": ["29.993333", "-90.258056"],
-  "KSFO": ["37.618889", "-122.375"],
+  "KSFO": ["37.618889", "-122.375000"],
   "KSEA": ["47.448889", "-122.309444"],
   "KJFK": ["40.639722", "-73.778889"]
 }
 ```
 
-
 Storing latitude and longitude as a list might lead to confusion if the columns
-are swapped. This can be avoided by adding a header to the table. 
+are swapped. This can be avoided by adding a header to the table:
 
 ```gherkin
-|      | latt      | long        |
-| KMSY | 29.993333 | -90.258056  |
-| KSFO | 37.618889 | -122.375    |
+|      |       lat |         lon |
+| KMSY | 29.993333 |  -90.258056 |
+| KSFO | 37.618889 | -122.375000 |
 | KSEA | 47.448889 | -122.309444 |
-| KJFK | 40.639722 | -73.778889  |
+| KJFK | 40.639722 |  -73.778889 |
 ```
 
-Note that the first cell has been left blank. This tells the table that the key 
-values should be created using only the cell values of the left column rather 
-then the value value and its header. 
-
+Note that the first cell has been left blank. This tells the table that the
+map's keys should be created from the first column rather than the header.
 
 `java type: Map<String, Map<String, Double>>`
+
 ```json
 {
-  "KMSY": { "latt": "29.993333", "long": "-90.258056" },
-  "KSFO": { "latt": "37.618889", "long": "-122.375" },
-  "KSEA": { "latt": "47.448889", "long": "-122.309444" },
-  "KJFK": { "latt": "40.639722", "long": "-73.778889" }
+  "KMSY": { "lat": "29.993333", "lon": "-90.258056" },
+  "KSFO": { "lat": "37.618889", "lon": "-122.375000" },
+  "KSEA": { "lat": "47.448889", "lon": "-122.309444" },
+  "KJFK": { "lat": "40.639722", "lon": "-73.778889" }
 }
 ```
 
 ## Table Types
 
 So far we have transformed a table to various collections of strings. As a
-string representation for a number is not very useful a data table can
+string representation for a number is not very useful. A data table can
 transform individual cells to a different type. 
 
 `java type: Map<String, Map<String, Double>>`
+
 ```json
 {
-  "KMSY": { "latt": 29.993333, "long": -90.258056 },
-  "KSFO": { "latt": 37.618889, "long": -122.375 },
-  "KSEA": { "latt": 47.448889, "long": -122.309444 },
-  "KJFK": { "latt": 40.639722, "long": -73.778889 }
+  "KMSY": { "lat": 29.993333, "lon": -90.258056 },
+  "KSFO": { "lat": 37.618889, "lon": -122.375 },
+  "KSEA": { "lat": 47.448889, "lon": -122.309444 },
+  "KJFK": { "lat": 40.639722, "lon": -73.778889 }
 }
 ```
 
-The build in transformations support:   
+The built-in transformations support:
+
 * Integers, for example `71` or `-19`
 * Floats, for example `3.6`, `.8` or `-9.2`
 * Strings, for example `bangers` or `mash`.
@@ -160,7 +160,6 @@ A custom table type can be registered as follows:
 ```java
 registry.defineDataTableType(
   new DataTableType(
-    "date",                                     // name
     LocalDate.class,                            // type
     new TableCellTransformer<LocalDate>() {     // transformer
   
@@ -169,22 +168,18 @@ registry.defineDataTableType(
           return new LocalDate.parse(cell);
       }
     }, 
-    true                                        // preferForTypeMatch
   )
 ```
+
 The parameters are as follows:
 
-* `name` - the name of the table type. To be used when type information is not
-   available. 
 * `type`
 * `transformer` - a function that transforms either a cell, table entry, table
    row or table.  
-* `preferForTypeMatch` - Defaults to `false`.
-  Set to `true` if you use automatic conversion and you want this table type's
-  type to take precedence over others during a match.
 
-There are four ways to transform a table: 
-1. Transform the cells. Each cell represents a object.
+There are four ways to transform a table:
+
+1. Transform the cells. Each cell represents an object.
 2. Transform the rows. Each row represents an object.
 3. Transform the entries. The entries of row paired with its corresponding
    header represent an object.
@@ -196,66 +191,65 @@ other reasonable type.
 
 #### Example
 
-Previously we transformed the coordinates the airport to map of doubles. The
-domain however uses a `Coordinate(latitude:Double, longitude:Double)` object to
-represent locations. Airports are represented by `Airport(code:String)`.
+Previously we transformed the geolocation of airports to a map of Doubles. The
+domain however uses a `Geolocation(latitude:Double, longitude:Double)` object to
+represent geolocations. Airports are represented by `Airport(code:String)`.
 
 ```gherkin
-|      | latt      | long        |
-| KMSY | 29.993333 | -90.258056  |
-| KSFO | 37.618889 | -122.375    |
+|      |       lat |         lon |
+| KMSY | 29.993333 |  -90.258056 |
+| KSFO | 37.618889 | -122.375000 |
 | KSEA | 47.448889 | -122.309444 |
-| KJFK | 40.639722 | -73.778889  |
+| KJFK | 40.639722 |  -73.778889 |
 ```
 
 By registering two table types:
 
 ```java
 registry.defineDataTableType(
-  new DataTableType(
-    "airport",
-    Airport.class,
-    new TableCellTransformer<Airport>() {
-      @Override
-      public Airport transform(String cell) {
-          return new Airport(cell);
-      }
-    }
-  )
+    new DataTableType(
+        "airport",
+        Airport.class,
+        new TableCellTransformer<Airport>() {
+            @Override
+            public Airport transform(String cell) {
+                return new Airport(cell);
+            }
+        }
+    )
 );
 
 registry.defineDataTableType(
-  new DataTableType(
-    "coordinate",
-    Coordinate.class,
-    new TableEntryTransformer<Coordinate>() {
-      @Override
-      public Coordinate transform(Map<String, String> tableEntry) {
-        return new Coordinate(
-          parseDouble(entry.get("latt")),
-          parseDouble(entry.get("long"))
-        );
-      }
-    }
-  )
+    new DataTableType(
+        Geolocation.class,
+        new TableEntryTransformer<Geolocation>() {
+            @Override
+            public Geolocation transform(Map<String, String> entry) {
+                return new Geolocation(
+                    parseDouble(entry.get("lat")),
+                    parseDouble(entry.get("lon"))
+                );
+            }
+        }
+    )
 );
 ```
 
-The table can be transformed to a map of air ports to locations. 
+The table can be transformed to a map of airports to geolocations. 
 
+`java type: Map<Airport, Geolocation>`
 
-`java type: Map<AirPort, Coordinate>`
 ```js
 {
-  KMSY: Coordinate(latt = 29.993333, long = -90.258056 ),
-  KSFO: Coordinate(latt = 37.618889, long = -122.375 ),
-  KSEA: Coordinate(latt = 47.448889, long = -122.309444 ),
-  KJFK: Coordinate(latt = 40.639722, long = -73.778889 )
+  Airport(code = "KMSY"): Geolocation(lat = 29.993333, lon = -90.258056 ),
+  Airport(code = "KSFO"): Geolocation(lat = 37.618889, lon = -122.375 ),
+  Airport(code = "KSEA"): Geolocation(lat = 47.448889, lon = -122.309444 ),
+  Airport(code = "KJFK"): Geolocation(lat = 40.639722, lon = -73.778889 )
 }
 ```
 
-If the table does not include a header a table row transformer must be used.
-As both the the table row and entry transformer create a list of `Coordinates`
+If the table does not include a header row, then a `TableRowTransformer` must be used.
+As both the the table row and entry transformer create a list of `Geolocation`
 it is recommended that you pick one representation only.
 
 ```gherkin
@@ -267,19 +261,18 @@ it is recommended that you pick one representation only.
 
 ```java
 registry.defineDataTableType(
-  new DataTableType(
-    "coordinate",
-    Coordinate.class,
-    new TableRowTransformer<Coordinate>() {
-        @Override
-        public Coordinate transform(List<String> tableRow) throws Throwable {
-            return new Coordinate(
-                Double.parseDouble(tableRow.get(0)),
-                Double.parseDouble(tableRow.get(1))
-            );
-      }
-    }
-  )
+    new DataTableType(
+        Geolocation.class,
+        new TableRowTransformer<Geolocation>() {
+            @Override
+            public Geolocation transform(List<String> tableRow) {
+                return new Geolocation(
+                    Double.parseDouble(tableRow.get(0)),
+                    Double.parseDouble(tableRow.get(1))
+                );
+            }
+        }
+    )
 );
 ```
 
@@ -287,19 +280,18 @@ Custom transformation can also transform a table into a single object.
 
 ```gherkin
 |   | A | B | C | 
-| 1 | ♘ |   | ♝ | 
+| 3 | ♘ |   | ♝ | 
 | 2 |   |   |   | 
-| 3 |   | ♝ |   | 
+| 1 |   | ♝ |   | 
 ```
 
 ```java
 registry.defineDataTableType(new DataTableType(
-  "chessboard",
   ChessBoard.class,
   new TableTransformer<ChessBoard>() {
     @Override
-    public ChessBoard transform(DataTable table1) throws Throwable {
-        return new ChessBoard(table1.subTable(1, 1).asList());
+    public ChessBoard transform(DataTable table) {
+        return new ChessBoard(table.subTable(1, 1).asList());
     }
   })
 );
@@ -307,58 +299,67 @@ registry.defineDataTableType(new DataTableType(
 ```
 
 `java type: ChessBoard`
+
 ```
-[A chess board with one white knight and two black bishops]
+[A chess board with one black knight and two white bishops]
 ```
 
-### Preferential table types
+## Diffing
 
-In some cases you might want to define two or more table types with the same
-type, but a different name and transformer. To avoid ambiguity you can make
-one of the types *preferential* when you define it. A preferential table type 
-will always be chosen over a non-preferential one.
+Two tables can be compared using the `diff` or `unorderedDiff` methods.
+This is useful for comparing a table with data from another system,
+such as a UI or a database:
 
-When several table types share the same type, only one of the table types can
-be preferential. If you define two table types with the same type that are 
-both preferential you will get an error during matching.
+```java
+DataTable actualTable = DataTable.create(listOfListOfString) // From DOM, DB or other source
+expectedTable.diff(actualTable) // Throws an exception if they are not equal
+```
+
+You can also use [Hamcrest](http://hamcrest.org/) matchers from the `io.cucumber:datatable-matchers` module:
+
+```java
+assertThat(actualTable, hasTheSameRowsAs(expectedTable).inOrder());
+assertThat(actualTable, hasTheSameRowsAs(expectedTable));
+```
 
 ## DataTable object
 
-A m-by-n immutable table of string values. A table is either empty or contains 
+An m-by-n immutable table of string values. A table is either empty or contains 
 one or more cells. As such if a table has zero height it must have zero width and
-vise versa.
+vice versa.
 
 The first row of the the table may be referred to as the table header. The 
 remaining cells as the table body.
 
-A table provides these operations:
+A table provides the following operations:
 
-* **isEmpty** returns true if the table has no cells. 
-* **transpose** returns a transposed table
-* **height** returns the height of the table
-* **width** returns the width of the table
-* **cells** returns the cells of the table as a list of lists
-* **row(index)** returns a single row
-* **rows(fromRow, toRow)** returns table containing the rows between `fromRow`
+* `diff` throws an exception if the two tables are different. 
+* `unorderedDiff` throws an exception if the two tables are different, allowing a difference in ordering. 
+* `isEmpty` returns true if the table has no cells. 
+* `transpose` returns a transposed table
+* `height` returns the height of the table
+* `width` returns the width of the table
+* `cells` returns the cells of the table as a list of lists of strings
+* `row(index)` returns a single row
+* `rows(fromRow, toRow)`` returns table containing the rows between `fromRow`
   (inclusive) to `toRow` (exclusive).
-* **column(index)** returns a single column
-* **columns(fromColumn, toColumn)** returns table containing the columns 
+* `column(index)` returns a single column
+* `columns(fromColumn, toColumn)`` returns table containing the columns 
   between `fromColumn` (inclusive) to `toColumn` (exclusive).
-* **subTable(fromRow, fromColumn, toRow, toColumn)** returns a containing the 
-  columns between `fromRow` and `fromColumn` (inclusive) to `toRow` and `toColumn` (exclusive).
+* `subTable(fromRow, fromColumn, toRow, toColumn)` returns a tablw containing the 
+  cells between `fromRow` and `fromColumn` (inclusive) to `toRow` and `toColumn` (exclusive).
 
-Additionally it should provide methods to conveniently convert the table into
+Additionally it provides methods to conveniently convert the table into
 other data structures using the the transformers from the previous section.
 
-* **asList|Lists(type)** converts a table to list or list of a given type.
-* **asMap|Maps(keyType, valueType)** converts a table to map of key to value types.
-* **convert(type)** converts a table to an object of an arbitrary type.    
+* `asList|Lists(type)` converts a table to list or list of a given type.
+* `asMap|Maps(keyType, valueType)` converts a table to map of key to value types.
+* `convert(type)` converts a table to an object of an arbitrary type.    
 
 ## For contributors
 
 If you're contributing to Cucumber, you might be interested in how to use
 DataTable programmatically. Here are some pointers:
-
 
 ### Transformation in detail.
 

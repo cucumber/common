@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.Locale;
 
 import static java.util.Arrays.asList;
+import static java.util.Collections.emptyList;
 import static java.util.Collections.singletonList;
 import static org.junit.Assert.assertEquals;
 
@@ -87,6 +88,11 @@ public class CucumberExpressionTest {
     }
 
     @Test
+    public void matches_escaped_slash() {
+        assertEquals(emptyList(), match("12\\/2020", "12/2020"));
+    }
+
+    @Test
     public void matches_int() {
         assertEquals(singletonList(22), match("{int}", "22"));
     }
@@ -136,7 +142,7 @@ public class CucumberExpressionTest {
 
     @Test
     public void matches_byte() {
-        assertEquals(singletonList((byte) 15), match("{byte}", "0x0F"));
+        assertEquals(singletonList(Byte.MAX_VALUE), match("{byte}", "127"));
     }
 
     @Test

@@ -79,11 +79,23 @@ func (c *CucumberExpression) processOptional(expression string) (string, error) 
 func (c *CucumberExpression) processAlteration(expression string) (string, error) {
 	var err error
 	result := ALTERNATIVE_NON_WHITESPACE_TEXT_REGEXP.ReplaceAllStringFunc(expression, func(match string) string {
-		if PARAMETER_REGEXP.MatchString(match) {
-			err = NewCucumberExpressionError(fmt.Sprintf("Parameter types cannot be alternative: %s", c.source))
-			return match
+		// replace \/ with /
+		// replace / with |
+		replacement := strings.Replace(match, "/", "|", -1)
+		replacement = strings.Replace(replacement, `\\\\|`, "/", -1)
+
+		if(strings.Contains(replacement, "|")) {
+			parts := strings.Split(replacement, ":")
+			for _, part := range parts {
+				if PARAMETER_REGEXP.MatchString(part) {
+					err = NewCucumberExpressionError(fmt.Sprintf("Parameter types cannot be alternative: %s", c.source))
+					return match
+				}
+			}
+			return fmt.Sprintf("(?:%s)", replacement)
+		} else {
+			return replacement
 		}
-		return fmt.Sprintf("(?:%s)", strings.Replace(match, "/", "|", -1))
 	})
 	return result, err
 }
