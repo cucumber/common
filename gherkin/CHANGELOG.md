@@ -10,6 +10,19 @@ This document is formatted according to the principles of [Keep A CHANGELOG](htt
 ## [Unreleased] - In Git
 
 ### Added
+
+### Changed
+
+### Deprecated
+
+### Removed
+
+### Fixed
+
+## [5.1.0] - 2018-05-30
+
+### Added
+* (.NET) - Better .NET Core support
 * Support for Aragonese
   ([#298](https://github.com/cucumber/cucumber/pull/298)
    [danilat])
@@ -23,10 +36,6 @@ This document is formatted according to the principles of [Keep A CHANGELOG](htt
   ([#292](https://github.com/cucumber/cucumber/pull/292)
    [rjwittams])
 * Fixed Russian equivalents of `Given` and `Then`. ([#369](https://github.com/cucumber/cucumber/pull/369) [cerebellum13](https://github.com/cerebellum13))
-
-### Deprecated
-
-### Removed
 
 ### Fixed
 
@@ -383,8 +392,9 @@ to Gherkin 2.
 * First release
 
 <!-- Releases -->
-[Unreleased]: https://github.com/cucumber/cucumber/compare/gherkin-v5.0.0...HEAD
-[4.1.3]:      https://github.com/cucumber/cucumber/compare/gherkin-v4.1.3...gherkin-v5.0.0
+[Unreleased]: https://github.com/cucumber/cucumber/compare/gherkin-v5.1.0...HEAD
+[5.1.0]:      https://github.com/cucumber/cucumber/compare/gherkin-v5.0.0...gherkin-v5.1.0
+[5.0.0]:      https://github.com/cucumber/cucumber/compare/gherkin-v4.1.3...gherkin-v5.0.0
 [4.1.3]:      https://github.com/cucumber/cucumber/compare/gherkin-v4.1.2...gherkin-v4.1.3
 [4.1.2]:      https://github.com/cucumber/cucumber/compare/gherkin-v4.1.1...gherkin-v4.1.2
 [4.1.1]:      https://github.com/cucumber/cucumber/compare/gherkin-v4.1.0...gherkin-v4.1.1
