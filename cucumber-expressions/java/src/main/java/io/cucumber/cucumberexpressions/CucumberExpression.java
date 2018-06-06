@@ -91,6 +91,7 @@ public class CucumberExpression implements Expression {
                 matcher.appendReplacement(sb, "\\\\{" + matcher.group(2) + "\\\\}");
             } else {
                 String typeName = matcher.group(2);
+                ParameterType.checkParameterTypeName(typeName);
                 ParameterType<?> parameterType = parameterTypeRegistry.lookupByTypeName(typeName);
                 if (parameterType == null) {
                     throw new UndefinedParameterTypeException(typeName);

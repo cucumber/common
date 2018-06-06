@@ -70,6 +70,24 @@ public class CustomParameterTypeTest {
     }
 
     @Test
+    public void throws_exception_for_illegal_character() {
+        expectedException.expectMessage("Illegal character '[' in parameter name {[string]}");
+        parameterTypeRegistry.defineParameterType(new ParameterType<>(
+                "[string]",
+                ".*",
+                String.class, new Transformer<String>() {
+                    @Override
+                    public String transform(String s) {
+                        return s;
+                    }
+                },
+                false,
+                false
+        ));
+
+    }
+
+    @Test
     public void matches_CucumberExpression_parameters_with_custom_parameter_type() {
         Expression expression = new CucumberExpression("I have a {color} ball", parameterTypeRegistry);
         Object argumentValue = expression.match("I have a red ball").get(0).getValue();

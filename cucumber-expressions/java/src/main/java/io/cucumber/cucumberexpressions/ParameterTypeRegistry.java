@@ -92,9 +92,11 @@ public class ParameterTypeRegistry {
     }
 
     public void defineParameterType(ParameterType<?> parameterType) {
-        if (parameterTypeByName.containsKey(parameterType.getName()))
-            throw new DuplicateTypeNameException(String.format("There is already a parameter type with name %s", parameterType.getName()));
-        parameterTypeByName.put(parameterType.getName(), parameterType);
+        if (parameterType.getName() != null) {
+            if (parameterTypeByName.containsKey(parameterType.getName()))
+                throw new DuplicateTypeNameException(String.format("There is already a parameter type with name %s", parameterType.getName()));
+            parameterTypeByName.put(parameterType.getName(), parameterType);
+        }
 
         for (String parameterTypeRegexp : parameterType.getRegexps()) {
             if (parameterTypesByRegexp.get(parameterTypeRegexp) == null) {

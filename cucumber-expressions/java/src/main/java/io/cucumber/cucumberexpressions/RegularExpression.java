@@ -31,7 +31,7 @@ public class RegularExpression implements Expression {
 
             ParameterType<?> parameterType = parameterTypeRegistry.lookupByRegexp(parameterTypeRegexp, expressionRegexp, text);
             if (parameterType == null) parameterType = new ParameterType<>(
-                    parameterTypeRegexp,
+                    null,
                     parameterTypeRegexp,
                     String.class,
                     new Transformer<String>() {
