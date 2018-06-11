@@ -1,3 +1,6 @@
+import string
+
+
 class GherkinLine(object):
     def __init__(self, line_text, line_number):
         self._line_text = line_text
@@ -26,9 +29,10 @@ class GherkinLine(object):
     @property
     def table_cells(self):
         cells = []
+        whitespace_except_newline = string.whitespace.replace('\n', '')
         for cell, col in self.split_table_cells(self._trimmed_line_text.strip()):
-            cell_indent = len(cell) - len(cell.lstrip())
-            cells.append({'column': col + self.indent + cell_indent, 'text': cell.strip()})
+            cell_indent = len(cell) - len(cell.lstrip(whitespace_except_newline))
+            cells.append({'column': col + self.indent + cell_indent, 'text': cell.strip(whitespace_except_newline)})
         return cells
 
     def split_table_cells(self, row):
