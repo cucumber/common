@@ -17,6 +17,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Fixed
 
+* java: Use jackson-databind 2.9.6.
+  ([#405](https://github.com/cucumber/cucumber/issues/405)
+   [aslakhellesoy]
+   [kuehl])
+
 ## [1.1.2] - 2018-05-29
 
 There are no (1.1.0 and 1.1.1 releases).
@@ -56,4 +61,5 @@ There are no (1.1.0 and 1.1.1 releases).
 
 <!-- Contributors in alphabetical order -->
 [aslakhellesoy]:    https://github.com/aslakhellesoy
+[kuehl]:            https://github.com/kuehl
 [mpkorstanje]:      https://github.com/mpkorstanje
