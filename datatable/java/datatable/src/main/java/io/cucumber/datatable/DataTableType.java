@@ -82,8 +82,7 @@ public final class DataTableType {
     }
 
     /**
-     * Creates a data table type that transforms the cells of the table into a list of objects,
-     * using table headers to set field/property names on the objects.
+     * Creates a data table type that transforms an entry into an object, using reflection.
      * <p>
      * The class needs an empty constructor, and fields must have public setters (or the fields themselves must be public).
      *
@@ -105,7 +104,7 @@ public final class DataTableType {
      * String constructor.
      *
      * @param type the type of the cell
-     * @param <T> see <code>type</code>
+     * @param <T>  see <code>type</code>
      * @throws CucumberDataTableException if <code>type</code> does not has a public String constructor.
      */
     public static <T> DataTableType cell(final Class<T> type) {

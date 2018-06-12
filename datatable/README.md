@@ -158,7 +158,7 @@ domain. Doing this has the following benefits:
 There are two helpers for defining custom table types:
 
 ```java
-// Defines a DataTableType` that converts an entry (map of header name to row value) 
+// Defines a DataTableType that converts an entry (map of header name to row value) 
 // to an object, using reflection.
 registry.defineDataTableType(DataTableType#entry(Class))
 
