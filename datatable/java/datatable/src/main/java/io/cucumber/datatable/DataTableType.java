@@ -64,7 +64,7 @@ public final class DataTableType {
      * @param type        the type of the list items
      * @param transformer a function that creates an instance of <code>type</code> from the data table entry
      * @param <T>         see <code>type</code>
-     * @see DataTableType#listOf(Class)
+     * @see DataTableType#entry(Class)
      */
     public <T> DataTableType(Class<T> type, TableEntryTransformer<T> transformer) {
         this(type, aListOf(type), new TableEntryTransformerAdaptor<>(transformer));
@@ -87,10 +87,10 @@ public final class DataTableType {
      * <p>
      * The class needs an empty constructor, and fields must have public setters (or the fields themselves must be public).
      *
-     * @param type the type of the list of lists items
+     * @param type the type of the entry
      * @param <T>  see <code>type</code>
      */
-    public static <T> DataTableType listOf(final Class<T> type) {
+    public static <T> DataTableType entry(final Class<T> type) {
         return new DataTableType(type, new TableEntryTransformer<T>() {
             @Override
             public T transform(Map<String, String> entry) {
@@ -100,7 +100,15 @@ public final class DataTableType {
         });
     }
 
-    public static <T> DataTableType stringWrapper(final Class<T> type) {
+    /**
+     * Creates a data table type that transforms individual cells to another type, calling the type's
+     * String constructor.
+     *
+     * @param type the type of the cell
+     * @param <T> see <code>type</code>
+     * @throws CucumberDataTableException if <code>type</code> does not has a public String constructor.
+     */
+    public static <T> DataTableType cell(final Class<T> type) {
         try {
             final Constructor<T> constructor = type.getConstructor(String.class);
             return new DataTableType(type, new TableCellTransformer<T>() {
@@ -109,7 +117,7 @@ public final class DataTableType {
                     try {
                         return constructor.newInstance(cell);
                     } catch (InstantiationException | IllegalAccessException | InvocationTargetException e) {
-                        throw new CucumberDataTableException(String.format("DataTable#stringWrapper could not transform \"%s\"to %s", cell, typeName(type)));
+                        throw new CucumberDataTableException(String.format("DataTable#cell could not transform \"%s\"to %s", cell, typeName(type)));
                     }
                 }
             });

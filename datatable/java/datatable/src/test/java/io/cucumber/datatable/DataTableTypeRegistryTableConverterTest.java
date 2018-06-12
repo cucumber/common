@@ -259,7 +259,7 @@ public class DataTableTypeRegistryTableConverterTest {
 
     @Test
     public void convert_to_list_of_object_using_object_mapper() {
-        registry.defineDataTableType(DataTableType.listOf(Author.class));
+        registry.defineDataTableType(DataTableType.entry(Author.class));
 
         DataTable table = parse("",
                 " | firstName   | lastName | birthDate  |",
@@ -419,8 +419,8 @@ public class DataTableTypeRegistryTableConverterTest {
             put(new AirPortCode("KJFK"), new Coordinate(40.639722, -73.778889));
         }};
 
-        registry.defineDataTableType(DataTableType.listOf(Coordinate.class));
-        registry.defineDataTableType(DataTableType.stringWrapper(AirPortCode.class));
+        registry.defineDataTableType(DataTableType.entry(Coordinate.class));
+        registry.defineDataTableType(DataTableType.cell(AirPortCode.class));
 
         assertEquals(expected, converter.toMap(table, AirPortCode.class, Coordinate.class));
         assertEquals(expected, converter.convert(table, MAP_OF_AIR_PORT_CODE_TO_COORDINATE));

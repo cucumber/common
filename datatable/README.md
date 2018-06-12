@@ -155,7 +155,20 @@ domain. Doing this has the following benefits:
 2. Document and evolve your ubiquitous domain language
 3. Enforce certain patterns
 
-A custom table type can be registered as follows:
+There are two helpers for defining custom table types:
+
+```java
+// Defines a DataTableType` that converts an entry (map of header name to row value) 
+// to an object, using reflection.
+registry.defineDataTableType(DataTableType#entry(Class))
+
+// Defines a DataTableType that converts a single cell
+// to an object, by calling its `String` constructor (if it exists).
+registry.defineDataTableType(DataTableType#cell(Class))
+```
+
+In cases where these two reflection based helpers are insufficient,
+a custom table type can be registered as follows:
 
 ```java
 registry.defineDataTableType(
@@ -204,6 +217,13 @@ represent geolocations. Airports are represented by `Airport(code:String)`.
 ```
 
 By registering two table types:
+
+```java
+registry.defineDataTableType(DataTableType.cell(Airport.class));
+registry.defineDataTableType(DataTableType.entry(Geolocation.class));
+```
+
+Alternatively, you can implement your own types if you need more control:
 
 ```java
 registry.defineDataTableType(
