@@ -83,7 +83,7 @@ public class DataTableTypeRegistryTableConverterTest {
     };
     private static final TableCellTransformer<AirPortCode> AIR_PORT_CODE_TABLE_CELL_TRANSFORMER = new TableCellTransformer<AirPortCode>() {
         @Override
-        public AirPortCode transform(String cell) throws Throwable {
+        public AirPortCode transform(String cell) {
             return new AirPortCode(cell);
         }
     };
@@ -91,8 +91,8 @@ public class DataTableTypeRegistryTableConverterTest {
         @Override
         public Coordinate transform(Map<String, String> tableEntry) {
             return new Coordinate(
-                    parseDouble(tableEntry.get("latt")),
-                    parseDouble(tableEntry.get("long"))
+                    parseDouble(tableEntry.get("lat")),
+                    parseDouble(tableEntry.get("lon"))
             );
         }
     };
@@ -381,7 +381,7 @@ public class DataTableTypeRegistryTableConverterTest {
     @Test
     public void convert_to_map_of_object_to_object() {
         DataTable table = parse("",
-                "|      | latt      | long        |",
+                "|      | lat       | lon         |",
                 "| KMSY | 29.993333 | -90.258056  |",
                 "| KSFO | 37.618889 | -122.375    |",
                 "| KSEA | 47.448889 | -122.309444 |",
@@ -397,6 +397,30 @@ public class DataTableTypeRegistryTableConverterTest {
 
         registry.defineDataTableType(new DataTableType(Coordinate.class, COORDINATE_TABLE_ENTRY_TRANSFORMER));
         registry.defineDataTableType(new DataTableType(AirPortCode.class, AIR_PORT_CODE_TABLE_CELL_TRANSFORMER));
+
+        assertEquals(expected, converter.toMap(table, AirPortCode.class, Coordinate.class));
+        assertEquals(expected, converter.convert(table, MAP_OF_AIR_PORT_CODE_TO_COORDINATE));
+    }
+
+    @Test
+    public void convert_to_map_of_object_to_object_using_list_of_and_string_wrapper() {
+        DataTable table = parse("",
+                "|      | lat       | lon         |",
+                "| KMSY | 29.993333 | -90.258056  |",
+                "| KSFO | 37.618889 | -122.375    |",
+                "| KSEA | 47.448889 | -122.309444 |",
+                "| KJFK | 40.639722 | -73.778889  |"
+        );
+
+        Map<AirPortCode, Coordinate> expected = new HashMap<AirPortCode, Coordinate>() {{
+            put(new AirPortCode("KMSY"), new Coordinate(29.993333, -90.258056));
+            put(new AirPortCode("KSFO"), new Coordinate(37.618889, -122.375));
+            put(new AirPortCode("KSEA"), new Coordinate(47.448889, -122.309444));
+            put(new AirPortCode("KJFK"), new Coordinate(40.639722, -73.778889));
+        }};
+
+        registry.defineDataTableType(DataTableType.listOf(Coordinate.class));
+        registry.defineDataTableType(DataTableType.stringWrapper(AirPortCode.class));
 
         assertEquals(expected, converter.toMap(table, AirPortCode.class, Coordinate.class));
         assertEquals(expected, converter.convert(table, MAP_OF_AIR_PORT_CODE_TO_COORDINATE));
@@ -457,7 +481,7 @@ public class DataTableTypeRegistryTableConverterTest {
     @Test
     public void convert_to_map_of_primitive_to_map_of_primitive_to_primitive() {
         DataTable table = parse("",
-                "|      | latt      | long        |",
+                "|      | lat       | lon         |",
                 "| KMSY | 29.993333 | -90.258056  |",
                 "| KSFO | 37.618889 | -122.375    |",
                 "| KSEA | 47.448889 | -122.309444 |",
@@ -467,20 +491,20 @@ public class DataTableTypeRegistryTableConverterTest {
 
         Map<String, Map<String, Double>> expected = new HashMap<String, Map<String, Double>>() {{
             put("KMSY", new HashMap<String, Double>() {{
-                put("latt", 29.993333);
-                put("long", -90.258056);
+                put("lat", 29.993333);
+                put("lon", -90.258056);
             }});
             put("KSFO", new HashMap<String, Double>() {{
-                put("latt", 37.618889);
-                put("long", -122.375);
+                put("lat", 37.618889);
+                put("lon", -122.375);
             }});
             put("KSEA", new HashMap<String, Double>() {{
-                put("latt", 47.448889);
-                put("long", -122.309444);
+                put("lat", 47.448889);
+                put("lon", -122.309444);
             }});
             put("KJFK", new HashMap<String, Double>() {{
-                put("latt", 40.639722);
-                put("long", -73.778889);
+                put("lat", 40.639722);
+                put("lon", -73.778889);
             }});
         }};
 
@@ -490,7 +514,7 @@ public class DataTableTypeRegistryTableConverterTest {
     @Test
     public void convert_to_map_of_primitive_to_object__blank_first_cell() {
         DataTable table = parse("",
-                "|      | latt      | long        |",
+                "|      | lat       | lon         |",
                 "| KMSY | 29.993333 | -90.258056  |",
                 "| KSFO | 37.618889 | -122.375    |",
                 "| KSEA | 47.448889 | -122.309444 |",
@@ -530,7 +554,7 @@ public class DataTableTypeRegistryTableConverterTest {
     @Test
     public void convert_to_map_of_string_to_map() {
         DataTable table = parse("",
-                "|      | latt      | long        |",
+                "|      | lat       | lon         |",
                 "| KMSY | 29.993333 | -90.258056  |",
                 "| KSFO | 37.618889 | -122.375    |",
                 "| KSEA | 47.448889 | -122.309444 |",
@@ -539,20 +563,20 @@ public class DataTableTypeRegistryTableConverterTest {
 
         Map<String, Map<String, String>> expected = new HashMap<String, Map<String, String>>() {{
             put("KMSY", new HashMap<String, String>() {{
-                put("latt", "29.993333");
-                put("long", "-90.258056");
+                put("lat", "29.993333");
+                put("lon", "-90.258056");
             }});
             put("KSFO", new HashMap<String, String>() {{
-                put("latt", "37.618889");
-                put("long", "-122.375");
+                put("lat", "37.618889");
+                put("lon", "-122.375");
             }});
             put("KSEA", new HashMap<String, String>() {{
-                put("latt", "47.448889");
-                put("long", "-122.309444");
+                put("lat", "47.448889");
+                put("lon", "-122.309444");
             }});
             put("KJFK", new HashMap<String, String>() {{
-                put("latt", "40.639722");
-                put("long", "-73.778889");
+                put("lat", "40.639722");
+                put("lon", "-73.778889");
             }});
         }};
 
@@ -761,7 +785,7 @@ public class DataTableTypeRegistryTableConverterTest {
                 "Encountered duplicate key", typeName(AirPortCode.class), typeName(Coordinate.class)));
 
         DataTable table = parse("",
-                "|      | latt      | long        |",
+                "|      | lat       | lon         |",
                 "| KMSY | 29.993333 | -90.258056  |",
                 "| KSEA | 47.448889 | -122.309444 |",
                 "| KSFO | 37.618889 | -122.375    |",
@@ -826,7 +850,7 @@ public class DataTableTypeRegistryTableConverterTest {
                 typeName(AirPortCode.class), typeName(Coordinate.class)));
 
         DataTable table = parse("",
-                "| code | latt      | long        |",
+                "| code | lat       | lon         |",
                 "| KMSY | 29.993333 | -90.258056  |",
                 "| KSFO | 37.618889 | -122.375    |",
                 "| KSEA | 47.448889 | -122.309444 |",
@@ -846,7 +870,7 @@ public class DataTableTypeRegistryTableConverterTest {
                 "while using a TableRow or TableCellTransformer for the keys?", typeName(String.class), typeName(Coordinate.class)));
 
         DataTable table = parse("",
-                "| code | latt      | long        |",
+                "| code | lat       | lon         |",
                 "| KMSY | 29.993333 | -90.258056  |",
                 "| KSFO | 37.618889 | -122.375    |",
                 "| KSEA | 47.448889 | -122.309444 |",
@@ -894,7 +918,7 @@ public class DataTableTypeRegistryTableConverterTest {
         expectedException.expectMessage(mapNoConverterDefined(AirPortCode.class, Coordinate.class, "TableCellTransformer", AirPortCode.class).getMessage());
 
         DataTable table = parse("",
-                "|      | latt      | long        |",
+                "|      | lat       | lon         |",
                 "| KMSY | 29.993333 | -90.258056  |",
                 "| KSFO | 37.618889 | -122.375    |",
                 "| KSEA | 47.448889 | -122.309444 |",
@@ -940,7 +964,7 @@ public class DataTableTypeRegistryTableConverterTest {
         expectedException.expectMessage(mapsNoConverterDefined(String.class, Coordinate.class, Coordinate.class).getMessage());
 
         DataTable table = parse("",
-                "| latt      | long        |",
+                "| lat       | lon         |",
                 "| 29.993333 | -90.258056  |",
                 "| 37.618889 | -122.375    |",
                 "| 47.448889 | -122.309444 |",
@@ -999,7 +1023,7 @@ public class DataTableTypeRegistryTableConverterTest {
     private static final class AirPortCode {
         private final String code;
 
-        private AirPortCode(String code) {
+        public AirPortCode(String code) {
             this.code = code;
         }
 
@@ -1077,12 +1101,15 @@ public class DataTableTypeRegistryTableConverterTest {
 
     private static final class Coordinate {
 
-        private final double longitude;
-        private final double latitude;
+        public double lat;
+        public double lon;
 
-        private Coordinate(double longitude, double latitude) {
-            this.longitude = longitude;
-            this.latitude = latitude;
+        public Coordinate() {
+        }
+
+        private Coordinate(double lat, double lon) {
+            this.lat = lat;
+            this.lon = lon;
         }
 
         @Override
@@ -1092,17 +1119,17 @@ public class DataTableTypeRegistryTableConverterTest {
 
             Coordinate that = (Coordinate) o;
 
-            if (Double.compare(that.longitude, longitude) != 0) return false;
-            return Double.compare(that.latitude, latitude) == 0;
+            if (Double.compare(that.lat, lat) != 0) return false;
+            return Double.compare(that.lon, lon) == 0;
         }
 
         @Override
         public int hashCode() {
             int result;
             long temp;
-            temp = Double.doubleToLongBits(longitude);
+            temp = Double.doubleToLongBits(lat);
             result = (int) (temp ^ (temp >>> 32));
-            temp = Double.doubleToLongBits(latitude);
+            temp = Double.doubleToLongBits(lon);
             result = 31 * result + (int) (temp ^ (temp >>> 32));
             return result;
         }
@@ -1110,8 +1137,8 @@ public class DataTableTypeRegistryTableConverterTest {
         @Override
         public String toString() {
             return "Coordinate{" +
-                    "longitude=" + longitude +
-                    ", latitude=" + latitude +
+                    "lat=" + lat +
+                    ", lon=" + lon +
                     '}';
         }
     }
