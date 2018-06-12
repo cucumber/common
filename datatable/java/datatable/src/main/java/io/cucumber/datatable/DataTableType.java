@@ -3,8 +3,6 @@ package io.cucumber.datatable;
 import io.cucumber.datatable.dependency.com.fasterxml.jackson.databind.JavaType;
 import io.cucumber.datatable.dependency.com.fasterxml.jackson.databind.ObjectMapper;
 
-import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
@@ -12,7 +10,6 @@ import java.util.Map;
 
 import static io.cucumber.datatable.TypeFactory.aListOf;
 import static io.cucumber.datatable.TypeFactory.constructType;
-import static io.cucumber.datatable.TypeFactory.typeName;
 
 /**
  * A data table type describes how a data table should be represented as an object.
@@ -108,21 +105,13 @@ public final class DataTableType {
      * @throws CucumberDataTableException if <code>type</code> does not has a public String constructor.
      */
     public static <T> DataTableType cell(final Class<T> type) {
-        try {
-            final Constructor<T> constructor = type.getConstructor(String.class);
-            return new DataTableType(type, new TableCellTransformer<T>() {
-                @Override
-                public T transform(String cell) {
-                    try {
-                        return constructor.newInstance(cell);
-                    } catch (InstantiationException | IllegalAccessException | InvocationTargetException e) {
-                        throw new CucumberDataTableException(String.format("DataTable#cell could not transform \"%s\"to %s", cell, typeName(type)));
-                    }
-                }
-            });
-        } catch (NoSuchMethodException e) {
-            throw new CucumberDataTableException(String.format("%s must have a public constructor that accepts a single String", typeName(type)));
-        }
+        return new DataTableType(type, new TableCellTransformer<T>() {
+            @Override
+            public T transform(String cell) {
+                ObjectMapper objectMapper = new ObjectMapper();
+                return objectMapper.convertValue(cell, type);
+            }
+        });
     }
 
     public Object transform(List<List<String>> raw) {
