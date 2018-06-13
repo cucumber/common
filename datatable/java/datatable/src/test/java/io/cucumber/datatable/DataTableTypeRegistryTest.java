@@ -6,8 +6,6 @@ import org.junit.rules.ExpectedException;
 
 import java.util.Locale;
 
-import static org.junit.Assert.assertSame;
-
 
 public class DataTableTypeRegistryTest {
 

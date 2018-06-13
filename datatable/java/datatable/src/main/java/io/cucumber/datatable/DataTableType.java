@@ -68,7 +68,7 @@ public final class DataTableType {
     }
 
     /**
-     * Creates a data table type that transforms the cells of the table into a list of lists of objects.
+     * Creates a data table type that transforms the cells of the table into a list of list of objects.
      *
      * @param type        the type of the list of lists items
      * @param transformer a function that creates an instance of <code>type</code> from the data table cell
@@ -79,9 +79,10 @@ public final class DataTableType {
     }
 
     /**
-     * Creates a data table type that transforms an entry into an object, using reflection.
+     * Creates a data table type that transforms an entry into an object, using Jackson Databind internally.
+     * The class must have an empty constructor. There must be public fields or setters matching the table headers.
      * <p>
-     * The class needs an empty constructor, and fields must have public setters (or the fields themselves must be public).
+     * Jackson annotations will be ignored. If you need those, write your own transformer.
      *
      * @param type the type of the entry
      * @param <T>  see <code>type</code>
@@ -97,12 +98,17 @@ public final class DataTableType {
     }
 
     /**
-     * Creates a data table type that transforms individual cells to another type, calling the type's
-     * String constructor.
+     * Creates a data table type that transforms individual cells to another type, using Jackson Databind internally.
+     * <p>
+     * The class must satisfy one of the following:
+     * <ul>
+     * <li>String constructor</li>
+     * <li>static <code>fromString</code> method</li>
+     * <li>static <code>valueOf</code> method</li>
+     * </ul>
      *
      * @param type the type of the cell
      * @param <T>  see <code>type</code>
-     * @throws CucumberDataTableException if <code>type</code> does not has a public String constructor.
      */
     public static <T> DataTableType cell(final Class<T> type) {
         return new DataTableType(type, new TableCellTransformer<T>() {
