@@ -3,6 +3,7 @@ package cucumberexpressions
 import (
 	"errors"
 	"regexp"
+	"fmt"
 )
 
 var HAS_FLAG_REGEKP = regexp.MustCompile(`\(\?[imsU-]+(\:.*)?\)`)
@@ -19,8 +20,10 @@ type ParameterType struct {
 }
 
 func CheckParameterTypeName(typeName string) (error) {
+	unescapedTypeName := UNESCAPE_REGEXP.ReplaceAllString(typeName, "$2");
 	if ILLEGAL_PARAMETER_NAME_REGEXP.MatchString(typeName) {
-		return errors.New("Illegal character '[' in parameter name {[string]}")
+		c := ILLEGAL_PARAMETER_NAME_REGEXP.FindStringSubmatch(typeName)[0]
+		return errors.New(fmt.Sprintf("Illegal character '%s' in parameter name {%s}", c, unescapedTypeName))
 	}
 	return nil
 }
