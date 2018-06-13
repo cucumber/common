@@ -28,7 +28,7 @@ func (r *RegularExpression) Match(text string) ([]*Argument, error) {
 		}
 		if parameterType == nil {
 			parameterType, err = NewParameterType(
-				parameterTypeRegexp,
+				"",
 				[]*regexp.Regexp{regexp.MustCompile(parameterTypeRegexp)},
 				"string",
 				func(arg3 ...*string) interface{} {

@@ -72,7 +72,7 @@ public class CustomParameterTypeTest {
     @Test
     public void throws_exception_for_illegal_character() {
         expectedException.expectMessage("Illegal character '[' in parameter name {[string]}");
-        parameterTypeRegistry.defineParameterType(new ParameterType<>(
+        new ParameterType<>(
                 "[string]",
                 ".*",
                 String.class, new Transformer<String>() {
@@ -83,7 +83,7 @@ public class CustomParameterTypeTest {
                 },
                 false,
                 false
-        ));
+        );
     }
 
     @Test

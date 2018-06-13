@@ -166,6 +166,13 @@ func TestCucumberExpression(t *testing.T) {
 		require.Equal(t, "Parameter types cannot be alternative: {int}/x", err.Error())
 	})
 
+	t.Run("returns error for parameter type with left bracket", func(t *testing.T) {
+		parameterTypeRegistry := cucumberexpressions.NewParameterTypeRegistry()
+		_, err := cucumberexpressions.NewCucumberExpression("{[string]}", parameterTypeRegistry)
+		require.Error(t, err)
+		require.Equal(t, err.Error(), "Illegal character '[' in parameter name {[string]}")
+	})
+
 	t.Run("returns error for unknown parameter", func(t *testing.T) {
 		parameterTypeRegistry := cucumberexpressions.NewParameterTypeRegistry()
 		_, err := cucumberexpressions.NewCucumberExpression("{unknown}", parameterTypeRegistry)

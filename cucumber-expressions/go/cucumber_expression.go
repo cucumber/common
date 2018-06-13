@@ -108,6 +108,10 @@ func (c *CucumberExpression) processParameters(expression string, parameterTypeR
 		}
 
 		typeName := match[1 : len(match)-1]
+		err = CheckParameterTypeName(typeName)
+		if err != nil {
+			return ""
+		}
 		parameterType := parameterTypeRegistry.LookupByTypeName(typeName)
 		if parameterType == nil {
 			err = NewUndefinedParameterTypeError(typeName)

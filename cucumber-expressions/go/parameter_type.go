@@ -6,6 +6,8 @@ import (
 )
 
 var HAS_FLAG_REGEKP = regexp.MustCompile(`\(\?[imsU-]+(\:.*)?\)`)
+var UNESCAPE_REGEXP = regexp.MustCompile(`(\\([\[$.|?*+\]]))`)
+var ILLEGAL_PARAMETER_NAME_REGEXP = regexp.MustCompile(`([\[\]()$.|?*+])`)
 
 type ParameterType struct {
 	name                 string
@@ -14,6 +16,13 @@ type ParameterType struct {
 	transform            func(...*string) interface{}
 	useForSnippets       bool
 	preferForRegexpMatch bool
+}
+
+func CheckParameterTypeName(typeName string) (error) {
+	if ILLEGAL_PARAMETER_NAME_REGEXP.MatchString(typeName) {
+		return errors.New("Illegal character '[' in parameter name {[string]}")
+	}
+	return nil
 }
 
 func NewParameterType(name string, regexps []*regexp.Regexp, type1 string, transform func(...*string) interface{}, useForSnippets bool, preferForRegexpMatch bool) (*ParameterType, error) {
@@ -26,6 +35,10 @@ func NewParameterType(name string, regexps []*regexp.Regexp, type1 string, trans
 		if HAS_FLAG_REGEKP.MatchString(r.String()) {
 			return nil, errors.New("ParameterType Regexps can't use flags")
 		}
+	}
+	err := CheckParameterTypeName(name)
+	if err != nil {
+		return nil, err
 	}
 	return &ParameterType{
 		name:                 name,

@@ -40,6 +40,22 @@ func CreateParameterTypeRegistry(t *testing.T) *cucumberexpressions.ParameterTyp
 }
 
 func TestCustomParameterTypes(t *testing.T) {
+	t.Run("throws exception for illegal character", func(t *testing.T) {
+		_, err := cucumberexpressions.NewParameterType(
+			"[string]",
+			[]*regexp.Regexp{regexp.MustCompile(`.*`)},
+			"x",
+			func(args ...*string) interface{} {
+				return *args[0]
+			},
+			true,
+			true,
+		)
+		require.Error(t, err)
+		require.Equal(t, "Illegal character '[' in parameter name {[string]}", err.Error())
+	})
+
+
 	t.Run("CucumberExpression", func(t *testing.T) {
 		t.Run("matches parameters with custom parameter type", func(t *testing.T) {
 			parameterTypeRegistry := CreateParameterTypeRegistry(t)
@@ -201,7 +217,20 @@ func TestCustomParameterTypes(t *testing.T) {
 
 		t.Run("RegularExpression", func(t *testing.T) {
 			t.Run("matches arguments with custom parameter type", func(t *testing.T) {
-				parameterTypeRegistry := CreateParameterTypeRegistry(t)
+				parameterTypeRegistry := cucumberexpressions.NewParameterTypeRegistry()
+				colorParameterType, err := cucumberexpressions.NewParameterType(
+					"",
+					[]*regexp.Regexp{regexp.MustCompile("red|blue|yellow")},
+					"color",
+					func(args ...*string) interface{} { return &Color{name: *args[0]} },
+					false,
+					true,
+				)
+				require.NoError(t, err)
+				err = parameterTypeRegistry.DefineParameterType(colorParameterType)
+				/// [add-color-parameter-type]
+				require.NoError(t, err)
+
 				expression := cucumberexpressions.NewRegularExpression(regexp.MustCompile("I have a (red|blue|yellow) ball"), parameterTypeRegistry)
 				args, err := expression.Match("I have a red ball")
 				require.NoError(t, err)

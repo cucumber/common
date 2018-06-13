@@ -61,14 +61,14 @@ module Cucumber
 
       it "throws exception for illegal character" do
         expect do
-          @parameter_type_registry.define_parameter_type(ParameterType.new(
+          ParameterType.new(
               '[string]',
               /.*/,
               String,
               lambda {|s| s},
               true,
               false
-          ))
+          )
         end.to raise_error("Illegal character '[' in parameter name {[string]}")
       end
 
