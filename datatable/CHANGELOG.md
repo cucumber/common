@@ -9,6 +9,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Added
 
+* Add `DataTableType#entry(Class)` to easily map tables to `List<SomeClass>`
+  ([#408](https://github.com/cucumber/cucumber/pull/408)
+   [aslakhellesoy])
+* Add `DataTableType#cell(Class)` to easily map cells to `SomeOtherClass`
+  ([#408](https://github.com/cucumber/cucumber/pull/408)
+   [aslakhellesoy])
+
 ### Changed
 
 ### Deprecated
