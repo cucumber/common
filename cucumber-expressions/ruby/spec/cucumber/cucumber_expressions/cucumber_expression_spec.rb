@@ -77,7 +77,7 @@ module Cucumber
       end
 
       '[]()$.|?*+'.split('').each do |char|
-        it "throws illegal parameter type for left bracket" do
+        it "does not allow parameter type with #{char}" do
           expect {match("{#{char}string}", "something")}.to raise_error("Illegal character '#{char}' in parameter name {#{char}string}")
         end
       end

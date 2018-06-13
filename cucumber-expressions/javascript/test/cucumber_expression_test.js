@@ -160,6 +160,20 @@ describe('CucumberExpression', () => {
     }
   })
 
+  for (const c of '[]()$.|?*+'.split('')) {
+    it(`does not allow parameter type with ${c}`, () => {
+      try {
+        match(`{${c}string}`, 'something')
+        assert.fail()
+      } catch (expected) {
+        assert.equal(
+          expected.message,
+          `Illegal character '${c}' in parameter name {${c}string}`
+        )
+      }
+    })
+  }
+
   it('exposes source', () => {
     const expr = 'I have {int} cuke(s)'
     assert.equal(

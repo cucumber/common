@@ -40,7 +40,7 @@ func CreateParameterTypeRegistry(t *testing.T) *cucumberexpressions.ParameterTyp
 }
 
 func TestCustomParameterTypes(t *testing.T) {
-	t.Run("throws exception for illegal character", func(t *testing.T) {
+	t.Run("throws exception for illegal character in parameter type name", func(t *testing.T) {
 		_, err := cucumberexpressions.NewParameterType(
 			"[string]",
 			[]*regexp.Regexp{regexp.MustCompile(`.*`)},

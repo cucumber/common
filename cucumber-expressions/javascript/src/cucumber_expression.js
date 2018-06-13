@@ -1,5 +1,6 @@
 const Argument = require('./argument')
 const TreeRegexp = require('./tree_regexp')
+const ParameterType = require('./parameter_type')
 const {
   UndefinedParameterTypeError,
   CucumberExpressionError,
@@ -77,6 +78,7 @@ class CucumberExpression {
       if (p1 === DOUBLE_ESCAPE) return `\\{${p2}\\}`
 
       const typeName = p2
+      ParameterType.checkParameterTypeName(typeName)
       const parameterType = parameterTypeRegistry.lookupByTypeName(typeName)
       if (!parameterType) throw new UndefinedParameterTypeError(typeName)
       this._parameterTypes.push(parameterType)

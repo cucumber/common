@@ -59,7 +59,7 @@ module Cucumber
         @parameter_type_registry = parameter_type_registry
       end
 
-      it "throws exception for illegal character" do
+      it "throws exception for illegal character in parameter name" do
         expect do
           ParameterType.new(
               '[string]',

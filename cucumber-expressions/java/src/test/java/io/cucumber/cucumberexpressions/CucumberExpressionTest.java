@@ -110,7 +110,7 @@ public class CucumberExpressionTest {
     }
 
     @Test
-    public void throws_illegal_parameter_type_for_left_bracket() {
+    public void does_not_allow_parameter_type_with_left_bracket() {
         expectedException.expectMessage("Illegal character '[' in parameter name {[string]}");
         match("{[string]}", "something");
     }
