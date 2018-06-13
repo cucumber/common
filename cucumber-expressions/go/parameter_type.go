@@ -6,7 +6,7 @@ import (
 	"fmt"
 )
 
-var HAS_FLAG_REGEKP = regexp.MustCompile(`\(\?[imsU-]+(\:.*)?\)`)
+var HAS_FLAG_REGEXP = regexp.MustCompile(`\(\?[imsU-]+(:.*)?\)`)
 var UNESCAPE_REGEXP = regexp.MustCompile(`(\\([\[$.|?*+\]]))`)
 var ILLEGAL_PARAMETER_NAME_REGEXP = regexp.MustCompile(`([\[\]()$.|?*+])`)
 
@@ -35,7 +35,7 @@ func NewParameterType(name string, regexps []*regexp.Regexp, type1 string, trans
 		}
 	}
 	for _, r := range regexps {
-		if HAS_FLAG_REGEKP.MatchString(r.String()) {
+		if HAS_FLAG_REGEXP.MatchString(r.String()) {
 			return nil, errors.New("ParameterType Regexps can't use flags")
 		}
 	}
