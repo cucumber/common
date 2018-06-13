@@ -128,10 +128,12 @@ func (p *ParameterTypeRegistry) LookupByRegexp(parameterTypeRegexp string, expre
 }
 
 func (p *ParameterTypeRegistry) DefineParameterType(parameterType *ParameterType) error {
-	if _, ok := p.parameterTypeByName[parameterType.Name()]; ok {
-		return fmt.Errorf("There is already a parameter type with name %s", parameterType.Name())
+	if len(parameterType.Name()) > 0 {
+		if _, ok := p.parameterTypeByName[parameterType.Name()]; ok {
+			return fmt.Errorf("There is already a parameter type with name %s", parameterType.Name())
+		}
+		p.parameterTypeByName[parameterType.Name()] = parameterType
 	}
-	p.parameterTypeByName[parameterType.Name()] = parameterType
 	for _, parameterTypeRegexp := range parameterType.Regexps() {
 		if _, ok := p.parameterTypesByRegexp[parameterTypeRegexp.String()]; !ok {
 			p.parameterTypesByRegexp[parameterTypeRegexp.String()] = []*ParameterType{}

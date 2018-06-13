@@ -42,10 +42,12 @@ module Cucumber
       end
 
       def define_parameter_type(parameter_type)
-        if @parameter_type_by_name.has_key?(parameter_type.name)
-          raise CucumberExpressionError.new("There is already a parameter with name #{parameter_type.name}")
+        if parameter_type.name
+          if @parameter_type_by_name.has_key?(parameter_type.name)
+            raise CucumberExpressionError.new("There is already a parameter with name #{parameter_type.name}")
+          end
+          @parameter_type_by_name[parameter_type.name] = parameter_type
         end
-        @parameter_type_by_name[parameter_type.name] = parameter_type
 
         parameter_type.regexps.each do |parameter_type_regexp|
           parameter_types = @parameter_types_by_regexp[parameter_type_regexp]

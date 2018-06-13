@@ -8,6 +8,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ## [Unreleased]
 
 ### Added
+* Allow `ParameterType` with no name (`nil`, `null`, `""`). Useful when the
+  Parameter Type is only used in conjunction with Regular Expressions.
+  ([#387](https://github.com/cucumber/cucumber/issues/387)
+   [#410](https://github.com/cucumber/cucumber/pull/410)
+   [aslakhellesoy])
 
 ### Changed
 
@@ -16,6 +21,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Removed
 
 ### Fixed
+
+* Better error message if a parameter type has a name with one of the characters `()[]$.|?*+`.
+  ([#387](https://github.com/cucumber/cucumber/issues/387)
+   [#410](https://github.com/cucumber/cucumber/pull/410)
+   [aslakhellesoy])
 
 ## [6.0.0] - 2018-05-30
 

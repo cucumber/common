@@ -65,11 +65,13 @@ class ParameterTypeRegistry {
   }
 
   defineParameterType(parameterType) {
-    if (this._parameterTypeByName.has(parameterType.name))
-      throw new Error(
-        `There is already a parameter type with name ${parameterType.name}`
-      )
-    this._parameterTypeByName.set(parameterType.name, parameterType)
+    if (parameterType.name) {
+      if (this._parameterTypeByName.has(parameterType.name))
+        throw new Error(
+          `There is already a parameter type with name ${parameterType.name}`
+        )
+      this._parameterTypeByName.set(parameterType.name, parameterType)
+    }
 
     for (const parameterTypeRegexp of parameterType.regexps) {
       if (!this._parameterTypesByRegexp.has(parameterTypeRegexp)) {
