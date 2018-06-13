@@ -14,6 +14,7 @@ import static java.util.Arrays.asList;
 import static java.util.Collections.emptyList;
 import static java.util.Collections.singletonList;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 
 public class CucumberExpressionTest {
 
@@ -59,7 +60,7 @@ public class CucumberExpressionTest {
 
     @Test
     public void does_not_match_misquoted_string() {
-        assertEquals(null, match("three {string} mice", "three \"blind' mice"));
+        assertNull(match("three {string} mice", "three \"blind' mice"));
     }
 
     @Test
@@ -99,7 +100,7 @@ public class CucumberExpressionTest {
 
     @Test
     public void doesnt_match_float_as_int() {
-        assertEquals(null, match("{int}", "1.22"));
+        assertNull(match("{int}", "1.22"));
     }
 
     @Test
