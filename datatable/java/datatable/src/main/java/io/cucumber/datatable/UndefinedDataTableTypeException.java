@@ -12,45 +12,46 @@ public class UndefinedDataTableTypeException extends CucumberDataTableException 
 
     static UndefinedDataTableTypeException singletonNoConverterDefined(Type type) {
         return new UndefinedDataTableTypeException(
-                format("Can't convert DataTable to %s. " +
+                format("Can't convert DataTable to %s.\n" +
                                 "Please register a DataTableType with a " +
-                                "TableTransformer, TableEntryTransformer or TableRowTransformer for %s",
-                        typeName(type), type)
+                                "TableTransformer, TableEntryTransformer or TableRowTransformer for %s.",
+                        typeName(type), typeName(type))
         );
     }
 
     static UndefinedDataTableTypeException mapNoConverterDefined(Type keyType, Type valueType, String missingConverter, Type typeToRegister) {
         return new UndefinedDataTableTypeException(
-                format("Can't convert DataTable to Map<%s, %s>. " +
-                                "Please register a DataTableType with a %s for %s",
-                        typeName(keyType), typeName(valueType), missingConverter, typeToRegister)
+                format("Can't convert DataTable to Map<%s, %s>.\n" +
+                                "Please register a DataTableType with a %s for %s.",
+                        typeName(keyType), typeName(valueType), missingConverter, typeName(typeToRegister))
         );
     }
 
 
     static UndefinedDataTableTypeException mapsNoConverterDefined(Type keyType, Type valueType, Type typeToRegister) {
         return new UndefinedDataTableTypeException(
-                format("Can't convert DataTable to List<Map<%s, %s>>. " +
-                                "Please register a DataTableType with a TableCellTransformer for %s",
-                        typeName(keyType), typeName(valueType), typeToRegister)
+                format("Can't convert DataTable to List<Map<%s, %s>>.\n" +
+                                "Please register a DataTableType with a TableCellTransformer for %s.",
+                        typeName(keyType), typeName(valueType), typeName(typeToRegister))
         );
     }
 
 
     static CucumberDataTableException listNoConverterDefined(Type itemType, String missingConverter, Type typeToRegister) {
         return new UndefinedDataTableTypeException(
-                format("Can't convert DataTable to List<%s>. " +
-                                "Please register a DataTableType with a %s for %s",
-                        typeName(itemType), missingConverter, typeToRegister)
+                format("Can't convert DataTable to List<%s>.\n" +
+                                "You can register a DataTableType using DataTableType.entry(%s.class).\n" +
+                                "For more control you can define your own DataTableType with a %s for %s.\n",
+                        typeName(itemType), typeName(typeToRegister), missingConverter, typeName(typeToRegister))
         );
     }
 
 
     static CucumberDataTableException listsNoConverterDefined(Type itemType) {
         return new UndefinedDataTableTypeException(
-                format("Can't convert DataTable to List<List<%s>>. " +
-                                "Please register a DataTableType with a TableCellTransformer for %s",
-                        typeName(itemType), itemType)
+                format("Can't convert DataTable to List<List<%s>>.\n" +
+                                "Please register a DataTableType with a TableCellTransformer for %s.",
+                        typeName(itemType), typeName(itemType))
         );
     }
 

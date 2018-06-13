@@ -9,6 +9,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Added
 
+* Add `DataTableType#entry(Class)` to easily map tables to `List<SomeClass>`
+  ([#408](https://github.com/cucumber/cucumber/pull/408)
+   [aslakhellesoy])
+* Add `DataTableType#cell(Class)` to easily map cells to `SomeOtherClass`
+  ([#408](https://github.com/cucumber/cucumber/pull/408)
+   [aslakhellesoy])
+
 ### Changed
 
 ### Deprecated
@@ -16,6 +23,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Removed
 
 ### Fixed
+
+* java: Use jackson-databind 2.9.6.
+  ([#405](https://github.com/cucumber/cucumber/issues/405)
+   [aslakhellesoy]
+   [kuehl])
 
 ## [1.1.2] - 2018-05-29
 
@@ -56,4 +68,5 @@ There are no (1.1.0 and 1.1.1 releases).
 
 <!-- Contributors in alphabetical order -->
 [aslakhellesoy]:    https://github.com/aslakhellesoy
+[kuehl]:            https://github.com/kuehl
 [mpkorstanje]:      https://github.com/mpkorstanje

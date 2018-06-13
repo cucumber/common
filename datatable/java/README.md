@@ -63,5 +63,6 @@ IntelliJ IDEA also doesn't know how to handle the shaded pom
 
 0. `mvn install`
 1. Open the 'Maven Projects' tool window. 
-2. Choose "Shaded DataTable Dependencies" -> "Ignore Project". 
-3. Select the top level `pom.xml` and choose "Maven" -> "Reimport".
+2. Choose "Shaded DataTable Dependencies" -> "Ignore Projects". 
+3. Open Project Structure, choose the "DataTable" module, add jars, select dependencies/datatable-dependencies-....jar
+4. Select the top level `pom.xml` and choose "Maven" -> "Reimport".

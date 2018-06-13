@@ -1,6 +1,7 @@
 package io.cucumber.datatable;
 
 import io.cucumber.datatable.dependency.com.fasterxml.jackson.databind.JavaType;
+import io.cucumber.datatable.dependency.com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
@@ -11,10 +12,9 @@ import static io.cucumber.datatable.TypeFactory.aListOf;
 import static io.cucumber.datatable.TypeFactory.constructType;
 
 /**
- * A data table targetType describes how a data table should be represented as an object.
+ * A data table type describes how a data table should be represented as an object.
  *
  * @see <a href="https://github.com/cucumber/cucumber/tree/master/datatable">DataTable - README.md</a>
- *
  */
 public final class DataTableType {
 
@@ -54,7 +54,6 @@ public final class DataTableType {
         this(type, aListOf(type), new TableRowTransformerAdaptor<>(transformer));
     }
 
-
     /**
      * Creates a data table type that transforms the entries of the table into a list of objects. An entry consists
      * of the elements of the table header paired with the values of each subsequent row.
@@ -62,13 +61,14 @@ public final class DataTableType {
      * @param type        the type of the list items
      * @param transformer a function that creates an instance of <code>type</code> from the data table entry
      * @param <T>         see <code>type</code>
+     * @see DataTableType#entry(Class)
      */
     public <T> DataTableType(Class<T> type, TableEntryTransformer<T> transformer) {
         this(type, aListOf(type), new TableEntryTransformerAdaptor<>(transformer));
     }
 
     /**
-     * Creates a data table type that transforms the cells of the table into a list of lists of objects.
+     * Creates a data table type that transforms the cells of the table into a list of list of objects.
      *
      * @param type        the type of the list of lists items
      * @param transformer a function that creates an instance of <code>type</code> from the data table cell
@@ -76,6 +76,48 @@ public final class DataTableType {
      */
     public <T> DataTableType(Class<T> type, TableCellTransformer<T> transformer) {
         this(type, aListOf(aListOf(type)), new TableCellTransformerAdaptor<>(transformer));
+    }
+
+    /**
+     * Creates a data table type that transforms an entry into an object, using Jackson Databind internally.
+     * The class must have an empty constructor. There must be public fields or setters matching the table headers.
+     * <p>
+     * Jackson annotations will be ignored. If you need those, write your own transformer.
+     *
+     * @param type the type of the entry
+     * @param <T>  see <code>type</code>
+     */
+    public static <T> DataTableType entry(final Class<T> type) {
+        return new DataTableType(type, new TableEntryTransformer<T>() {
+            @Override
+            public T transform(Map<String, String> entry) {
+                ObjectMapper objectMapper = new ObjectMapper();
+                return objectMapper.convertValue(entry, type);
+            }
+        });
+    }
+
+    /**
+     * Creates a data table type that transforms individual cells to another type, using Jackson Databind internally.
+     * <p>
+     * The class must satisfy one of the following:
+     * <ul>
+     * <li>String constructor</li>
+     * <li>static <code>fromString</code> method</li>
+     * <li>static <code>valueOf</code> method</li>
+     * </ul>
+     *
+     * @param type the type of the cell
+     * @param <T>  see <code>type</code>
+     */
+    public static <T> DataTableType cell(final Class<T> type) {
+        return new DataTableType(type, new TableCellTransformer<T>() {
+            @Override
+            public T transform(String cell) {
+                ObjectMapper objectMapper = new ObjectMapper();
+                return objectMapper.convertValue(cell, type);
+            }
+        });
     }
 
     public Object transform(List<List<String>> raw) {
@@ -91,7 +133,7 @@ public final class DataTableType {
         return targetType;
     }
 
-    String toCanonical(){
+    String toCanonical() {
         return targetType.toCanonical();
     }
 
@@ -123,7 +165,6 @@ public final class DataTableType {
 
         T transform(List<List<String>> raw) throws Throwable;
     }
-
 
     private static class TableCellTransformerAdaptor<T> implements RawTableTransformer<List<List<T>>> {
         private final TableCellTransformer<T> transformer;
