@@ -76,6 +76,12 @@ module Cucumber
         expect(match("{float}", ".22")).to eq([0.22])
       end
 
+      '[]()$.|?*+'.split('').each do |char|
+        it "throws illegal parameter type for left bracket" do
+          expect {match("{#{char}string}", "something")}.to raise_error("Illegal character '#{char}' in parameter name {#{char}string}")
+        end
+      end
+
       it "throws unknown parameter type" do
         expect {match("{unknown}", "something")}.to raise_error('Undefined parameter type {unknown}')
       end

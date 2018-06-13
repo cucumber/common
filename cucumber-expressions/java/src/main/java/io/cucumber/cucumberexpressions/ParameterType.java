@@ -9,8 +9,8 @@ import static java.util.Collections.singletonList;
 
 public final class ParameterType<T> implements Comparable<ParameterType<?>> {
     @SuppressWarnings("RegExpRedundantEscape") // Android can't parse unescaped braces
-    private static final Pattern ILLEGAL_PARAMETER_NAME_PATTERN = Pattern.compile("([\\[$.|?*+\\]\\(\\)\\{\\}])");
-    private static final Pattern UNESCAPE_PATTERN = Pattern.compile("([\\\\^]([\\[$.|?*+\\]]))");
+    private static final Pattern ILLEGAL_PARAMETER_NAME_PATTERN = Pattern.compile("([\\[\\]()$.|?*+])");
+    private static final Pattern UNESCAPE_PATTERN = Pattern.compile("(\\\\([\\[$.|?*+\\]]))");
 
     private final String name;
     private final Type type;
@@ -19,7 +19,7 @@ public final class ParameterType<T> implements Comparable<ParameterType<?>> {
     private final boolean useForSnippets;
     private final CaptureGroupTransformer<T> transformer;
 
-    public static void checkParameterTypeName(String name) {
+    static void checkParameterTypeName(String name) {
         String unescapedTypeName = UNESCAPE_PATTERN.matcher(name).replaceAll("$2");
         Matcher matcher = ILLEGAL_PARAMETER_NAME_PATTERN.matcher(unescapedTypeName);
         if (matcher.find()) {
@@ -146,7 +146,9 @@ public final class ParameterType<T> implements Comparable<ParameterType<?>> {
     public int compareTo(ParameterType<?> o) {
         if (preferForRegexpMatch() && !o.preferForRegexpMatch()) return -1;
         if (o.preferForRegexpMatch() && !preferForRegexpMatch()) return 1;
-        return getName().compareTo(o.getName());
+        String name = getName() != null ? getName() : "";
+        String otherName = o.getName() != null ? o.getName() : "";
+        return name.compareTo(otherName);
     }
 
     private static final class TransformerAdaptor<T> implements CaptureGroupTransformer<T> {

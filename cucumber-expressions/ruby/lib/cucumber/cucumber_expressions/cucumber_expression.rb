@@ -80,6 +80,7 @@ module Cucumber
             "\\{#{$2}\\}"
           else
             type_name = $2
+            ParameterType.check_parameter_type_name(type_name)
             parameter_type = parameter_type_registry.lookup_by_type_name(type_name)
             raise UndefinedParameterTypeError.new(type_name) if parameter_type.nil?
             @parameter_types.push(parameter_type)

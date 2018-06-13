@@ -43,11 +43,11 @@ module Cucumber
       end
     end
 
-    describe "Custom parameter" do
+    describe "Custom parameter type" do
       before do
-        parameter_registry = ParameterTypeRegistry.new
+        parameter_type_registry = ParameterTypeRegistry.new
         ### [add-color-parameter-type]
-        parameter_registry.define_parameter_type(ParameterType.new(
+        parameter_type_registry.define_parameter_type(ParameterType.new(
             'color',                   # name
             /red|blue|yellow/,         # regexp
             Color,                     # type
@@ -56,7 +56,20 @@ module Cucumber
             false                      # prefer_for_regexp_match
         ))
         ### [add-color-parameter-type]
-        @parameter_type_registry = parameter_registry
+        @parameter_type_registry = parameter_type_registry
+      end
+
+      it "throws exception for illegal character" do
+        expect do
+          @parameter_type_registry.define_parameter_type(ParameterType.new(
+              '[string]',
+              /.*/,
+              String,
+              lambda {|s| s},
+              true,
+              false
+          ))
+        end.to raise_error("Illegal character '[' in parameter name {[string]}")
       end
 
       describe CucumberExpression do
@@ -168,8 +181,18 @@ module Cucumber
       end
 
       describe RegularExpression do
-        it "matches arguments with custom parameter type" do
-          expression = RegularExpression.new(/I have a (red|blue|yellow) ball/, @parameter_type_registry)
+        it "matches arguments with custom parameter type without name" do
+          parameter_type_registry = ParameterTypeRegistry.new
+          parameter_type_registry.define_parameter_type(ParameterType.new(
+              nil,
+              /red|blue|yellow/,
+              Color,
+              lambda {|s| Color.new(s)},
+              true,
+              false
+          ))
+
+          expression = RegularExpression.new(/I have a (red|blue|yellow) ball/, parameter_type_registry)
           value = expression.match("I have a red ball")[0].value(nil)
           expect(value).to eq(Color.new('red'))
         end

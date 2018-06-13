@@ -20,7 +20,7 @@ module Cucumber
             @expression_regexp,
             text
           ) || ParameterType.new(
-            parameter_type_regexp,
+            nil,
             parameter_type_regexp,
             String,
             lambda {|*s| s[0]},
