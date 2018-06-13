@@ -162,7 +162,8 @@ public final class ParameterType<T> implements Comparable<ParameterType<?>> {
 
         @Override
         public T transform(String[] args) throws Throwable {
-            return args.length == 0 ? null : transformer.transform(args[0]);
+            String arg = args.length == 0 ? null : args[0];
+            return transformer.transform(arg);
         }
     }
 }
