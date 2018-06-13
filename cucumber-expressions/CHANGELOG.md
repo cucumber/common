@@ -22,6 +22,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Fixed
 
+* Support empty capture groups.
+  ([#404](https://github.com/cucumber/cucumber/issues/404)
+   [#411](https://github.com/cucumber/cucumber/pull/411)
+   [aslakhellesoy])
 * Better error message if a parameter type has a name with one of the characters `()[]$.|?*+`.
   ([#387](https://github.com/cucumber/cucumber/issues/387)
    [#410](https://github.com/cucumber/cucumber/pull/410)
