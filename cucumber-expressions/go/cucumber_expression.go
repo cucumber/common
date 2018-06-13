@@ -9,7 +9,7 @@ import (
 var ESCAPE_REGEXP = regexp.MustCompile(`([\\^[$.|?*+])`)
 var PARAMETER_REGEXP = regexp.MustCompile(`(\\\\\\\\)?{([^}]+)}`)
 var OPTIONAL_REGEXP = regexp.MustCompile(`(\\\\\\\\)?\([^)]+\)`)
-var ALTERNATIVE_NON_WHITESPACE_TEXT_REGEXP = regexp.MustCompile(`([^\s^/]+)((\/[^\s^/]+)+)`)
+var ALTERNATIVE_NON_WHITESPACE_TEXT_REGEXP = regexp.MustCompile(`([^\s^/]+)((/[^\s^/]+)+)`)
 var DOUBLE_ESCAPE = `\\\\`
 
 type CucumberExpression struct {
