@@ -16,10 +16,24 @@ class ParameterTypeRegistry {
     this._parameterTypesByRegexp = new Map()
 
     this.defineParameterType(
-      new ParameterType('int', INTEGER_REGEXPS, Number, parseInt, true, true)
+      new ParameterType(
+        'int',
+        INTEGER_REGEXPS,
+        Number,
+        s => s && parseInt(s),
+        true,
+        true
+      )
     )
     this.defineParameterType(
-      new ParameterType('float', FLOAT_REGEXP, Number, parseFloat, true, false)
+      new ParameterType(
+        'float',
+        FLOAT_REGEXP,
+        Number,
+        s => s && parseFloat(s),
+        true,
+        false
+      )
     )
     this.defineParameterType(
       new ParameterType('word', WORD_REGEXP, String, s => s, false, false)

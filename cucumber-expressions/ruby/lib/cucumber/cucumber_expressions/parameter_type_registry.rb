@@ -14,10 +14,10 @@ module Cucumber
         @parameter_type_by_name = {}
         @parameter_types_by_regexp = Hash.new {|hash, regexp| hash[regexp] = []}
 
-        define_parameter_type(ParameterType.new('int', INTEGER_REGEXPS, Integer, lambda {|s| s.to_i}, true, true))
-        define_parameter_type(ParameterType.new('float', FLOAT_REGEXP, Float, lambda {|s| s.to_f}, true, false))
-        define_parameter_type(ParameterType.new('word', WORD_REGEXP, String, lambda {|s| s}, false, false))
-        define_parameter_type(ParameterType.new('string', STRING_REGEXP, String, lambda {|s| s.gsub(/\\"/, '"').gsub(/\\'/, "'")}, true, false))
+        define_parameter_type(ParameterType.new('int', INTEGER_REGEXPS, Integer, lambda {|s=nil| s && s.to_i}, true, true))
+        define_parameter_type(ParameterType.new('float', FLOAT_REGEXP, Float, lambda {|s=nil| s && s.to_f}, true, false))
+        define_parameter_type(ParameterType.new('word', WORD_REGEXP, String, lambda {|s=nil| s}, false, false))
+        define_parameter_type(ParameterType.new('string', STRING_REGEXP, String, lambda {|s=nil| s && s.gsub(/\\"/, '"').gsub(/\\'/, "'")}, true, false))
       end
 
       def lookup_by_type_name(name)

@@ -47,7 +47,7 @@ module Cucumber
       end
 
       def transform(self_obj, group_values)
-        group_values.empty? ? nil : self_obj.instance_exec(*group_values, &@transformer)
+        self_obj.instance_exec(*group_values, &@transformer)
       end
 
       def <=>(other)
