@@ -1,5 +1,10 @@
 package gherkin
 
+import (
+	"strings"
+	"regexp"
+)
+
 type Location struct {
 	Line   int `json:"line"`
 	Column int `json:"column"`
@@ -16,14 +21,29 @@ type GherkinDocument struct {
 	Comments []*Comment `json:"comments"`
 }
 
+type Description string
+
+var reWhitespace = regexp.MustCompile("\n *")
+
+func (d Description) String() string {
+	s := string(d)
+	s = strings.Trim(s, " ")
+	s = reWhitespace.ReplaceAllString(s, "\n" + TwoSpaces)
+	return TwoSpaces + s
+}
+
 type Feature struct {
 	Node
 	Tags        []*Tag        `json:"tags"`
 	Language    string        `json:"language,omitempty"`
 	Keyword     string        `json:"keyword"`
 	Name        string        `json:"name"`
-	Description string        `json:"description,omitempty"`
+	Description Description   `json:"description,omitempty"`
 	Children    []interface{} `json:"children"`
+}
+
+func (f *Feature) String() string {
+	return f.Keyword
 }
 
 type Comment struct {
@@ -58,14 +78,30 @@ type Examples struct {
 	Tags        []*Tag      `json:"tags"`
 	Keyword     string      `json:"keyword"`
 	Name        string      `json:"name"`
-	Description string      `json:"description,omitempty"`
+	Description Description `json:"description,omitempty"`
 	TableHeader *TableRow   `json:"tableHeader,omitempty"`
 	TableBody   []*TableRow `json:"tableBody"`
+}
+
+func (e *Examples) String() string {
+	return TwoSpaces + e.Keyword
 }
 
 type TableRow struct {
 	Node
 	Cells []*TableCell `json:"cells"`
+}
+
+func (tr *TableRow) String() string {
+	b := strings.Builder{}
+	b.WriteString(SixSpaces)
+	b.WriteString("|")
+	for _, td := range tr.Cells {
+		b.WriteString(" ")
+		b.WriteString(td.Value)
+		b.WriteString(" |")
+	}
+	return b.String()
 }
 
 type TableCell struct {
@@ -75,10 +111,14 @@ type TableCell struct {
 
 type ScenarioDefinition struct {
 	Node
-	Keyword     string  `json:"keyword"`
-	Name        string  `json:"name"`
-	Description string  `json:"description,omitempty"`
-	Steps       []*Step `json:"steps"`
+	Keyword     string      `json:"keyword"`
+	Name        string      `json:"name"`
+	Description Description `json:"description,omitempty"`
+	Steps       []*Step     `json:"steps"`
+}
+
+func (s *ScenarioDefinition) String() string {
+	return TwoSpaces + s.Keyword
 }
 
 type Step struct {
@@ -86,6 +126,10 @@ type Step struct {
 	Keyword  string      `json:"keyword"`
 	Text     string      `json:"text"`
 	Argument interface{} `json:"argument,omitempty"`
+}
+
+func (s *Step) String() string {
+	return FourSpaces + s.Keyword + s.Text
 }
 
 type DocString struct {
@@ -99,3 +143,7 @@ type DataTable struct {
 	Node
 	Rows []*TableRow `json:"rows"`
 }
+
+const TwoSpaces = "  "
+const FourSpaces = "    "
+const SixSpaces = TwoSpaces + FourSpaces
