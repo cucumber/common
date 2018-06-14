@@ -18,7 +18,7 @@ This document is based on the [Node.js Community Contributing Guide](https://git
 ## Newcomers
 
 Committers are maintaining a list of
-[newcomer friendly issues](https://github.com/issues?utf8=%E2%9C%93&q=is%3Aopen+is%3Aissue+user%3Acucumber+label%3Anewcomers+no%3Aassignee+)
+[newcomer friendly issues](https://github.com/cucumber/cucumber/issues?q=is%3Aissue+is%3Aopen+label%3A%22good+first+issue%22+no%3Aassignee+)
 that are suitable for aspiring contributors.
 
 ## Vocabulary {#vocabulary}
