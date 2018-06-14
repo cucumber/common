@@ -8,17 +8,23 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ## [Unreleased]
 
 ### Added
-* Allow `ParameterType` with no name (`nil`, `null`, `""`). Useful when the
-  Parameter Type is only used in conjunction with Regular Expressions.
-  ([#387](https://github.com/cucumber/cucumber/issues/387)
-   [#410](https://github.com/cucumber/cucumber/pull/410)
-   [aslakhellesoy])
 
 ### Changed
 
 ### Deprecated
 
 ### Removed
+
+### Fixed
+   
+## [6.0.1] - 2018-06-14
+
+### Added
+* Allow `ParameterType` with no name (`nil`, `null`, `""`). Useful when the
+  Parameter Type is only used in conjunction with Regular Expressions.
+  ([#387](https://github.com/cucumber/cucumber/issues/387)
+   [#410](https://github.com/cucumber/cucumber/pull/410)
+   [aslakhellesoy])
 
 ### Fixed
 
@@ -419,7 +425,8 @@ N/A
 * First stable release!
 
 <!-- Releases -->
-[Unreleased]: https://github.com/cucumber/cucumber/compare/cucumber-expressions-v6.0.0...master
+[Unreleased]: https://github.com/cucumber/cucumber/compare/cucumber-expressions-v6.0.1...master
+[6.0.1]:      https://github.com/cucumber/cucumber/compare/cucumber-expressions-v6.0.0...cucumber-expressions-v6.0.1
 [6.0.0]:      https://github.com/cucumber/cucumber/compare/cucumber-expressions-v5.0.18...cucumber-expressions-v6.0.0
 [5.0.18]:     https://github.com/cucumber/cucumber/compare/cucumber-expressions-v5.0.17...cucumber-expressions-v5.0.18
 [5.0.17]:     https://github.com/cucumber/cucumber/compare/cucumber-expressions-v5.0.16...cucumber-expressions-v5.0.17
