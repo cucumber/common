@@ -1,7 +1,13 @@
 Feature: Some rules
 
+  Background:
+    Given fb
+
   Rule: A
     The rule A description
+
+    Background:
+      Given ab
 
     Example: Example A
       Given a

@@ -165,6 +165,8 @@ public class AstBuilder implements Builder<GherkinDocument> {
                 if (ruleLine == null) return null;
                 String description = getDescription(node);
                 List<Node> ruleChildren = new ArrayList<>();
+                Background background = node.getSingle(RuleType.Background, null);
+                if (background != null) ruleChildren.add(background);
                 List<Node> stepsContainers = node.getItems(RuleType.ScenarioDefinition);
                 ruleChildren.addAll(stepsContainers);
                 return new Rule(getLocation(ruleLine, 0), ruleLine.matchedKeyword, ruleLine.matchedText, description, ruleChildren);

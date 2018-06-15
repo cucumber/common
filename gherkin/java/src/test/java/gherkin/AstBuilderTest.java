@@ -29,22 +29,34 @@ public class AstBuilderTest {
         GherkinDocument doc = parser.parse("" +
                 "Feature: Some rules\n" +
                 "\n" +
+                "  Background:\n" +
+                "    Given fb\n" +
+                "\n" +
                 "  Rule: A\n" +
+                "    The rule A description\n" +
+                "\n" +
+                "    Background:\n" +
+                "      Given ab\n" +
                 "\n" +
                 "    Example: Example A\n" +
                 "      Given a\n" +
                 "\n" +
                 "  Rule: B\n" +
+                "    The rule B description\n" +
                 "\n" +
                 "    Example: Example B\n" +
                 "      Given b");
 
         List<Node> children = doc.getFeature().getChildren();
-        assertEquals(2, children.size());
+        assertEquals(3, children.size());
 
         Compiler compiler = new Compiler();
         List<Pickle> pickles = compiler.compile(doc);
         assertEquals(2, pickles.size());
+
+        assertEquals(3, pickles.get(0).getSteps().size());
+
+        assertEquals(2, pickles.get(1).getSteps().size());
     }
 
 }

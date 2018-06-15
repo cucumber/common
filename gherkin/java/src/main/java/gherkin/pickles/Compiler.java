@@ -42,10 +42,11 @@ public class Compiler {
         return pickles;
     }
 
-    private void build(List<Pickle> pickles, String language, List<Tag> tags, List<PickleStep> backgroundSteps, Node parent) {
+    private void build(List<Pickle> pickles, String language, List<Tag> tags, List<PickleStep> parentBackgroundSteps, Node parent) {
+        List<PickleStep> backgroundSteps = new ArrayList<>(parentBackgroundSteps);
         for (Node child : parent.getChildren()) {
             if (child instanceof Background) {
-                backgroundSteps = pickleSteps((Background) child);
+                backgroundSteps.addAll(pickleSteps((Background) child));
             } else if (child instanceof Rule) {
                 build(pickles, language, tags, backgroundSteps, child);
             } else {
