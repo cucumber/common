@@ -1,12 +1,12 @@
 package gherkin.cli;
 
-import gherkin.stream.Stdio;
 import gherkin.deps.com.google.gson.Gson;
 import gherkin.deps.com.google.gson.GsonBuilder;
 import gherkin.events.CucumberEvent;
 import gherkin.events.SourceEvent;
 import gherkin.stream.GherkinEvents;
 import gherkin.stream.SourceEvents;
+import gherkin.stream.Stdio;
 
 import java.io.IOException;
 import java.util.ArrayList;

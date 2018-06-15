@@ -23,9 +23,9 @@ class Group {
   }
 
   get values() {
-    return (this.children.length === 0 ? [this] : this.children).map(
-      g => g.value
-    )
+    return (this.children.length === 0 ? [this] : this.children)
+      .map(g => g.value)
+      .filter(v => v !== undefined)
   }
 }
 

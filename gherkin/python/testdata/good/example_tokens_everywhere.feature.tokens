@@ -1,6 +1,6 @@
 (1:1)FeatureLine:Feature/Example tokens everywhere/
 (2:1)Empty://
-(3:3)ScenarioOutlineLine:Scenario Outline/the <one>/
+(3:3)ScenarioLine:Scenario Outline/the <one>/
 (4:5)StepLine:Given /the <two>:/
 (5:7)DocStringSeparator://
 (6:1)Other:/<three>/

@@ -574,8 +574,7 @@
       "Und "
     ],
     "background": [
-      "Grundlage",
-      "Hintergrund"
+      "Grundlage"
     ],
     "but": [
       "* ",
@@ -600,10 +599,8 @@
       "Szenario"
     ],
     "scenarioOutline": [
-      "Beispielvorlage",
-      "Szenariovorlage",
-      "Beispielgrundlage",
-      "Szenariogrundlage"
+      "Beispielrundriss",
+      "Szenariogrundriss"
     ],
     "then": [
       "* ",
@@ -2516,8 +2513,7 @@
       "* ",
       "Допустим ",
       "Дано ",
-      "Пусть ",
-      "Если "
+      "Пусть "
     ],
     "name": "Russian",
     "native": "русский",
@@ -2536,7 +2532,8 @@
     ],
     "when": [
       "* ",
-      "Когда "
+      "Когда ",
+      "Если "
     ]
   },
   "sk": {

@@ -1,32 +1,61 @@
 # Cucumber Config
 
-This library can create configuration objects from several sources:
+This is a general purpose library for building simple configuration objects from 
+several sources:
 
 * YAML file
 * JSON file
-* Environment variables
-* System properties (JVM only)
 * Java Annotations (Java only)
+* System properties (JVM only)
+* Environment variables
+* Command line arguments
 
-The purpose is to provide a consistent way to configure Cucumber.
-(The library is independent of Cucumber and can be used by other programs).
+You provide a configuration object, which is a simple object with default
+field values. The library overrides those values from the sources above.
+
+Field values can be of three types:
+
+* boolean
+* string
+* array of strings
+
+Field values are overridden in the order of the sources above.
+Fields of string array type are either appended to or replaced, depending on the source.
+
+* Appending sources: YAML, JSON, Java Annotations, System properties
+* Replacing sources: Command line arguments and Environment variables
 
 ## How it works
 
-The library sets fields on an object. This object should have default values set.
-We'll illustrate with an example:
+First you define your own configuration object with default values: 
 
 ```java
-public class Testing {
+public class MyConfig {
     public boolean somebool = false;
     public int meaning = 12;
     public String message = "nothing";
     public List<String> stringlist = new ArrayList<>();
-    public List<String> extra = new ArrayList<>();
 }
 ```
 
-These fields can be modified from several sources.
+Then you create a `ConfigBuilder` object. Its constructor takes 
+several arguments where you can specify the base name of the YAML/JSON file, a 
+pattern for environment variables, the command line arguments etc.
+
+```java
+ConfigBuilder configBuilder = new ConfigBuilder(...);
+```
+
+Next, you ask the `configBuilder` to `configure` your configuration object:
+
+```java
+MyConfig config = configBuilder.build(new MyConfig());
+```
+
+The fields of the returned `config` object contain values from the various 
+configuration sources.
+
+Below are some examples of how to define configuration:
 
 ### YAML file
 
@@ -40,13 +69,14 @@ testing:
     - two
 ```
 
-### JSON (`cucumber.json`)
+### JSON
 
 ```json
 {
   "testing": {
     "somebool": true,
     "meaning": 42,
+    "message": "hello",
     "stringlist": [
       "one",
       "two"
@@ -58,13 +88,14 @@ testing:
 ### Command line options
 
 ```shell
---somebool --meaning 42 --message hello --stringlist one --stringlist one
+--somebool --meaning 42 --message hello --stringlist one --stringlist two
 ```
 
-Or, if we specify that *surplus* arguments should be assigned to `stringlist`
+The *surplus* arguments can be assigned to `stringlist` (see the `ConfigBuilder`
+constructor for details on how to do this).
 
 ```shell
---somebool --meaning 42 --message hello one one
+--somebool --meaning 42 --message hello one two
 ```
 
 Boolean options (options that don't take an argument) can be set to `false`
@@ -80,8 +111,8 @@ It's also possible to define *shortopt* aliases for the *longopt* options, makin
 the following equivalent:
 
 ```shell
---somebool --meaning 42 --message hello --stringlist one --stringlist one
--s -m 42 -e hello -l one -l one
+--somebool --meaning 42 --message hello --stringlist one --stringlist two
+-s -m 42 -e hello -l one -l two
 ```
 
 ### Environment variables

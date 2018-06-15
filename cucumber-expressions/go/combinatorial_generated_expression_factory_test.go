@@ -14,7 +14,7 @@ func TestCombinatorialGeneratedExpressionFactory(t *testing.T) {
 			"color",
 			[]*regexp.Regexp{regexp.MustCompile("red|blue|yellow")},
 			"",
-			func(arg3 ...string) interface{} { return arg3[0] },
+			func(arg3 ...*string) interface{} { return *arg3[0] },
 			false,
 			true,
 		)
@@ -23,7 +23,7 @@ func TestCombinatorialGeneratedExpressionFactory(t *testing.T) {
 			"csscolor",
 			[]*regexp.Regexp{regexp.MustCompile("red|blue|yellow")},
 			"",
-			func(arg3 ...string) interface{} { return arg3[0] },
+			func(arg3 ...*string) interface{} { return *arg3[0] },
 			false,
 			true,
 		)
@@ -32,7 +32,7 @@ func TestCombinatorialGeneratedExpressionFactory(t *testing.T) {
 			"date",
 			[]*regexp.Regexp{regexp.MustCompile(`\d{4}-\d{2}-\d{2}`)},
 			"",
-			func(arg3 ...string) interface{} { return arg3[0] },
+			func(arg3 ...*string) interface{} { return *arg3[0] },
 			false,
 			true,
 		)
@@ -41,7 +41,7 @@ func TestCombinatorialGeneratedExpressionFactory(t *testing.T) {
 			"datetime",
 			[]*regexp.Regexp{regexp.MustCompile(`\d{4}-\d{2}-\d{2}`)},
 			"",
-			func(arg3 ...string) interface{} { return arg3[0] },
+			func(arg3 ...*string) interface{} { return *arg3[0] },
 			false,
 			true,
 		)
@@ -50,7 +50,7 @@ func TestCombinatorialGeneratedExpressionFactory(t *testing.T) {
 			"timestamp",
 			[]*regexp.Regexp{regexp.MustCompile(`\d{4}-\d{2}-\d{2}`)},
 			"",
-			func(arg3 ...string) interface{} { return arg3[0] },
+			func(arg3 ...*string) interface{} { return *arg3[0] },
 			false,
 			true,
 		)

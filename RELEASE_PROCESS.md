@@ -39,10 +39,8 @@ Then, make sure you have the right release karma:
 
     release_karma_all ${group_path}
 
-### Java
-
-Run `mvn javadoc:javadoc` in the subrepo folder to make sure JavaDoc is good. It
-sometimes fails if there are bad tags.
+If there is a Java library to release, run `mvn javadoc:javadoc` in the subrepo 
+folder to make sure JavaDoc is good. It sometimes fails if there are bad tags.
 
 Update `CHANGELOG.md` of the library in the following places:
 * Change `Unreleased` to `[X.Y.Z] - yyyy-MM-DD`
@@ -51,14 +49,11 @@ Update `CHANGELOG.md` of the library in the following places:
 * Update the `Unreleased` link at the bottom of the page
 * Add a new `[X.Y.Z]` link at the bottom of the page
 
-Then `git commit -m "library-name: Prepare for release vX.Y.Z"`
+Then commit:
 
-Make sure the main `cucumber/cucumber` repo has the most recent commits from
-all of the subrepos:
+    git commit -m "library-name: Prepare for release vX.Y.Z"
 
-    pull_subrepos ${group_path}
-
-Make sure they all build successfully:
+Make sure all subrepos build successfully:
 
     build_subrepos ${group_path}
 
@@ -77,17 +72,21 @@ Occasionally, Java releases will fail. In that case, redeploy is possible:
 
     cd ${subrepo_path}/.release
     git checkout v${version}
-    mvn -P release-sign-artifacts clean package javadoc:jar deploy
+    mvn --batch-mode release:perform -Psign-source-javadoc -DskipTests=true
 
 JavaScript releases may ask you for a new version. Just hit enter (or enter)
 the version of the release you're making now (not the post-release version!)
 
-Pull back all the changes to the monorepo:
+After the release is done, you'll have a dirty working copy with minor changes
+updating to the version you released. Commit these changes:
 
-    pull_subrepos ${group_path}
+    git add .
+    git commit -m "library-name: Release vX.Y.Z"
 
 Tag the monorepo:
 
     # group_name is typically the same as group_path, e.g. "cucumber-expressions"
     git tag "${group_name}-v${version}"
-    git push --tags
+    git push && git push --tags
+
+Pushing the tags to the monorepo will push the same tags to the subrepos.

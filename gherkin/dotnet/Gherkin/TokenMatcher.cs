@@ -138,12 +138,8 @@ namespace Gherkin
 
         public bool Match_ScenarioLine(Token token)
         {
-            return MatchTitleLine(token, TokenType.ScenarioLine, CurrentDialect.ScenarioKeywords);
-        }
-
-        public bool Match_ScenarioOutlineLine(Token token)
-        {
-            return MatchTitleLine(token, TokenType.ScenarioOutlineLine, CurrentDialect.ScenarioOutlineKeywords);
+            return MatchTitleLine(token, TokenType.ScenarioLine, CurrentDialect.ScenarioKeywords)
+                || MatchTitleLine(token, TokenType.ScenarioLine, CurrentDialect.ScenarioOutlineKeywords);
         }
 
         public bool Match_ExamplesLine(Token token)

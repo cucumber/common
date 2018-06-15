@@ -1,0 +1,103 @@
+<?xml version="1.0"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>io.cucumber</groupId>
+        <artifactId>datatable-parent</artifactId>
+        <version>1.1.3-SNAPSHOT</version>
+    </parent>
+
+    <artifactId>datatable-dependencies</artifactId>
+    <packaging>jar</packaging>
+    <name>Shaded DataTable Dependencies</name>
+
+    <licenses>
+        <license>
+            <name>The Apache Software License, Version 2.0</name>
+            <url>http://www.apache.org/licenses/LICENSE-2.0</url>
+            <distribution>repo</distribution>
+            <comments>The License used by Diffutils and Jackson Databind</comments>
+        </license>
+    </licenses>
+
+    <dependencies>
+        <dependency>
+            <groupId>com.googlecode.java-diff-utils</groupId>
+            <artifactId>diffutils</artifactId>
+            <version>1.3.0</version>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            <version>2.9.6</version>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-shade-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>shade</goal>
+                        </goals>
+                        <configuration>
+                            <createSourcesJar>true</createSourcesJar>
+                            <shadeSourcesContent>true</shadeSourcesContent>
+                            <relocations>
+                                <relocation>
+                                    <pattern>com.fasterxml</pattern>
+                                    <shadedPattern>io.cucumber.datatable.dependency.com.fasterxml</shadedPattern>
+                                </relocation>
+                                <relocation>
+                                    <pattern>difflib</pattern>
+                                    <shadedPattern>io.cucumber.datatable.dependency.difflib</shadedPattern>
+                                </relocation>
+                            </relocations>
+                            <transformers>
+                                <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+                                    <manifestEntries>
+                                        <Bundle-ManifestVersion>2</Bundle-ManifestVersion>
+                                        <Bundle-SymbolicName>${project.groupId}.${project.artifactId}
+                                        </Bundle-SymbolicName>
+                                        <Bundle-Version>${used.osgi.version}</Bundle-Version>
+                                        <Bundle-Name>${project.name}</Bundle-Name>
+                                        <Bundle-License>http://www.apache.org/licenses/LICENSE-2.0</Bundle-License>
+                                        <!--Extract the shaded archive: Then use: `find -type d -printf '%d\t%P\n' | sort -r -nk1 | cut -f2` and add the version string -->
+                                        <Export-Package>
+                                            io.cucumber.datatable.dependency.com.fasterxml.jackson.databind.ser.std;version=${used.osgi.version},io.cucumber.datatable.dependency.com.fasterxml.jackson.databind.ser.impl;version=${used.osgi.version},io.cucumber.datatable.dependency.com.fasterxml.jackson.databind.jsontype.impl;version=${used.osgi.version},io.cucumber.datatable.dependency.com.fasterxml.jackson.databind.deser.std;version=${used.osgi.version},io.cucumber.datatable.dependency.com.fasterxml.jackson.databind.deser.impl;version=${used.osgi.version},io.cucumber.datatable.dependency.com.fasterxml.jackson.core.json.async;version=${used.osgi.version},io.cucumber.datatable.dependency.com.fasterxml.jackson.databind.util;version=${used.osgi.version},io.cucumber.datatable.dependency.com.fasterxml.jackson.databind.type;version=${used.osgi.version},io.cucumber.datatable.dependency.com.fasterxml.jackson.databind.ser;version=${used.osgi.version},io.cucumber.datatable.dependency.com.fasterxml.jackson.databind.node;version=${used.osgi.version},io.cucumber.datatable.dependency.com.fasterxml.jackson.databind.module;version=${used.osgi.version},io.cucumber.datatable.dependency.com.fasterxml.jackson.databind.jsontype;version=${used.osgi.version},io.cucumber.datatable.dependency.com.fasterxml.jackson.databind.jsonschema;version=${used.osgi.version},io.cucumber.datatable.dependency.com.fasterxml.jackson.databind.jsonFormatVisitors;version=${used.osgi.version},io.cucumber.datatable.dependency.com.fasterxml.jackson.databind.introspect;version=${used.osgi.version},io.cucumber.datatable.dependency.com.fasterxml.jackson.databind.ext;version=${used.osgi.version},io.cucumber.datatable.dependency.com.fasterxml.jackson.databind.exc;version=${used.osgi.version},io.cucumber.datatable.dependency.com.fasterxml.jackson.databind.deser;version=${used.osgi.version},io.cucumber.datatable.dependency.com.fasterxml.jackson.databind.cfg;version=${used.osgi.version},io.cucumber.datatable.dependency.com.fasterxml.jackson.databind.annotation;version=${used.osgi.version},io.cucumber.datatable.dependency.com.fasterxml.jackson.core.util;version=${used.osgi.version},io.cucumber.datatable.dependency.com.fasterxml.jackson.core.type;version=${used.osgi.version},io.cucumber.datatable.dependency.com.fasterxml.jackson.core.sym;version=${used.osgi.version},io.cucumber.datatable.dependency.com.fasterxml.jackson.core.json;version=${used.osgi.version},io.cucumber.datatable.dependency.com.fasterxml.jackson.core.io;version=${used.osgi.version},io.cucumber.datatable.dependency.com.fasterxml.jackson.core.format;version=${used.osgi.version},io.cucumber.datatable.dependency.com.fasterxml.jackson.core.filter;version=${used.osgi.version},io.cucumber.datatable.dependency.com.fasterxml.jackson.core.base;version=${used.osgi.version},io.cucumber.datatable.dependency.com.fasterxml.jackson.core.async;version=${used.osgi.version},io.cucumber.datatable.dependency.com.fasterxml.jackson.databind;version=${used.osgi.version},io.cucumber.datatable.dependency.com.fasterxml.jackson.core;version=${used.osgi.version},io.cucumber.datatable.dependency.com.fasterxml.jackson.annotation;version=${used.osgi.version},io.cucumber.datatable.dependency.com.fasterxml.jackson;version=${used.osgi.version},io.cucumber.datatable.dependency.difflib.myers;version=${used.osgi.version},io.cucumber.datatable.dependency.difflib;version=${used.osgi.version}
+                                        </Export-Package>
+                                        <DynamicImport-Package>*</DynamicImport-Package>
+                                    </manifestEntries>
+                                </transformer>
+                            </transformers>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>attach-javadocs</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                        <configuration>
+                            <includeDependencySources>true</includeDependencySources>
+                            <additionalparam>-Xdoclint:none</additionalparam>
+                            <failOnError>false</failOnError>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>

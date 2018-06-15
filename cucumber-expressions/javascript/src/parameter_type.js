@@ -1,10 +1,24 @@
 const { CucumberExpressionError } = require('./errors')
 
+const ILLEGAL_PARAMETER_NAME_PATTERN = /([[\]()$.|?*+])/
+const UNESCAPE_PATTERN = () => /(\\([[$.|?*+\]]))/g
+
 class ParameterType {
   static compare(pt1, pt2) {
     if (pt1.preferForRegexpMatch && !pt2.preferForRegexpMatch) return -1
     if (pt2.preferForRegexpMatch && !pt1.preferForRegexpMatch) return 1
     return pt1.name.localeCompare(pt2.name)
+  }
+
+  static checkParameterTypeName(typeName) {
+    const unescapedTypeName = typeName.replace(UNESCAPE_PATTERN(), '$2')
+    const match = unescapedTypeName.match(ILLEGAL_PARAMETER_NAME_PATTERN)
+    if (match)
+      throw new CucumberExpressionError(
+        `Illegal character '${
+          match[1]
+        }' in parameter name {${unescapedTypeName}}`
+      )
   }
 
   /**
@@ -26,6 +40,9 @@ class ParameterType {
     if (transform === undefined) transform = s => s
     if (useForSnippets === undefined) useForSnippets = true
     if (preferForRegexpMatch === undefined) preferForRegexpMatch = false
+
+    if (name) ParameterType.checkParameterTypeName(name)
+
     this._name = name
     this._regexps = stringArray(regexps)
     this._type = type
@@ -55,24 +72,7 @@ class ParameterType {
   }
 
   transform(thisObj, groupValues) {
-    let args
-    if (this._transform.length === 1) {
-      // transform function with arity 1.
-      const nonNullGroupValues = groupValues.filter(
-        v => v !== null && v !== undefined
-      )
-      if (nonNullGroupValues.length >= 2)
-        throw new CucumberExpressionError(
-          `Single transformer unexpectedly matched 2 values - "${
-            nonNullGroupValues[0]
-          }" and "${nonNullGroupValues[1]}"`
-        )
-      args = [nonNullGroupValues[0]]
-    } else {
-      args = groupValues
-    }
-
-    return this._transform.apply(thisObj, args)
+    return this._transform.apply(thisObj, groupValues)
   }
 }
 

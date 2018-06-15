@@ -1,0 +1,12 @@
+# ============================================================================
+# BEHAVE: PYTHON PACKAGE REQUIREMENTS: Normal usage/installation (minimal)
+# ============================================================================
+# DESCRIPTION:
+#    pip install -r <THIS_FILE>
+#
+# SEE ALSO:
+#  * http://www.pip-installer.org/
+# ============================================================================
+
+enum34; python_version < '3.4'
+six >= 1.11.0

@@ -4,11 +4,9 @@ to contribute.
 
 ## Run tests
 
-### OS X/Linux
+### MacOS/Linux
 
-Install dependencies:
-
-    install .NET Core 1.1.2 - https://github.com/dotnet/core/blob/master/release-notes/download-archives/1.1.2-download.md
+Install [.NET Core 2.0.7](https://github.com/dotnet/core/blob/master/release-notes/download-archives/2.0.7-download.md)
     
 Just run `make` from this directory.
 
@@ -27,9 +25,9 @@ If this is your first time, read through NuGet's guidelines for
 [Creating and Publishing a Package](https://docs.nuget.org/create/creating-and-publishing-a-package).
 
     # Replace X.Y.Z with the version
-    # Change version in `Gherkin\project.json`
+    # Change version in `Gherkin\Gherkin.csproj`
     git clean -dfx
-    dotnet pack -c Release Gherkin
+    msbuild /t:Pack /p:Configuration=Release Gherkin
     mono .nuget/NuGet.exe push Gherkin/bin/Release/Gherkin.X.Y.Z.nupkg
     git commit -am "Release X.Y.Z"
     git tag -a -m "Version X.Y.Z" vX.Y.Z

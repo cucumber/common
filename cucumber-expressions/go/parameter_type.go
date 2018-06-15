@@ -3,29 +3,45 @@ package cucumberexpressions
 import (
 	"errors"
 	"regexp"
+	"fmt"
 )
 
-var HAS_FLAG_REGEKP = regexp.MustCompile(`\(\?[imsU-]+(\:.*)?\)`)
+var HAS_FLAG_REGEXP = regexp.MustCompile(`\(\?[imsU-]+(:.*)?\)`)
+var UNESCAPE_REGEXP = regexp.MustCompile(`(\\([\[$.|?*+\]]))`)
+var ILLEGAL_PARAMETER_NAME_REGEXP = regexp.MustCompile(`([\[\]()$.|?*+])`)
 
 type ParameterType struct {
 	name                 string
 	regexps              []*regexp.Regexp
 	type1                string // Cannot have a field named type as hit a compile error
-	transform            func(...string) interface{}
+	transform            func(...*string) interface{}
 	useForSnippets       bool
 	preferForRegexpMatch bool
 }
 
-func NewParameterType(name string, regexps []*regexp.Regexp, type1 string, transform func(...string) interface{}, useForSnippets bool, preferForRegexpMatch bool) (*ParameterType, error) {
+func CheckParameterTypeName(typeName string) (error) {
+	unescapedTypeName := UNESCAPE_REGEXP.ReplaceAllString(typeName, "$2");
+	if ILLEGAL_PARAMETER_NAME_REGEXP.MatchString(typeName) {
+		c := ILLEGAL_PARAMETER_NAME_REGEXP.FindStringSubmatch(typeName)[0]
+		return errors.New(fmt.Sprintf("Illegal character '%s' in parameter name {%s}", c, unescapedTypeName))
+	}
+	return nil
+}
+
+func NewParameterType(name string, regexps []*regexp.Regexp, type1 string, transform func(...*string) interface{}, useForSnippets bool, preferForRegexpMatch bool) (*ParameterType, error) {
 	if transform == nil {
-		transform = func(s ...string) interface{} {
-			return s[0]
+		transform = func(s ...*string) interface{} {
+			return *s[0]
 		}
 	}
 	for _, r := range regexps {
-		if HAS_FLAG_REGEKP.MatchString(r.String()) {
+		if HAS_FLAG_REGEXP.MatchString(r.String()) {
 			return nil, errors.New("ParameterType Regexps can't use flags")
 		}
+	}
+	err := CheckParameterTypeName(name)
+	if err != nil {
+		return nil, err
 	}
 	return &ParameterType{
 		name:                 name,
@@ -57,7 +73,7 @@ func (p *ParameterType) PreferForRegexpMatch() bool {
 	return p.preferForRegexpMatch
 }
 
-func (p *ParameterType) Transform(groupValues []string) interface{} {
+func (p *ParameterType) Transform(groupValues []*string) interface{} {
 	return p.transform(groupValues...)
 }
 

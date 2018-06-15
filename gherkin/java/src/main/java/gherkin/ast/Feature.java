@@ -9,7 +9,7 @@ public class Feature extends Node {
     private final String keyword;
     private final String name;
     private final String description;
-    private final List<ScenarioDefinition> children;
+    private final List<StepsContainer> children;
 
     public Feature(
             List<Tag> tags,
@@ -18,7 +18,7 @@ public class Feature extends Node {
             String keyword,
             String name,
             String description,
-            List<ScenarioDefinition> children) {
+            List<StepsContainer> children) {
         super(location);
         this.tags = Collections.unmodifiableList(tags);
         this.language = language;
@@ -28,7 +28,7 @@ public class Feature extends Node {
         this.children = Collections.unmodifiableList(children);
     }
 
-    public List<ScenarioDefinition> getChildren() {
+    public List<StepsContainer> getChildren() {
         return children;
     }
 

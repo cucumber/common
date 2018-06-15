@@ -40,6 +40,27 @@ describe('RegularExpression', () => {
     assert.equal(match(/hello/, 'world'), null)
   })
 
+  it('matches nested capture group without match', () => {
+    assert.deepEqual(match(/^a user( named "([^"]*)")?$/, 'a user'), [null])
+  })
+
+  it('matches nested capture group with match', () => {
+    assert.deepEqual(
+      match(/^a user( named "([^"]*)")?$/, 'a user named "Charlie"'),
+      ['Charlie']
+    )
+  })
+
+  it('matches capture group nested in optional one', () => {
+    const regexp = /^a (pre-commercial transaction |pre buyer fee model )?purchase(?: for \$(\d+))?$/
+    assert.deepEqual(match(regexp, 'a purchase'), [null, null])
+    assert.deepEqual(match(regexp, 'a purchase for $33'), [null, 33])
+    assert.deepEqual(match(regexp, 'a pre buyer fee model purchase'), [
+      'pre buyer fee model ',
+      null,
+    ])
+  })
+
   it('ignores non capturing groups', () => {
     assert.deepEqual(
       match(

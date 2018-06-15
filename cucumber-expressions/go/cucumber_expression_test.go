@@ -109,6 +109,22 @@ func TestCucumberExpression(t *testing.T) {
 		)
 	})
 
+	t.Run("matches escaped slash", func(t *testing.T) {
+		require.Equal(
+			t,
+			MatchCucumberExpression(t, "12\\\\/2020", `12/2020`),
+			[]interface{}{},
+		)
+	})
+
+	t.Run("matches int", func(t *testing.T) {
+		require.Equal(
+			t,
+			MatchCucumberExpression(t, "{int}", "22"),
+			[]interface{}{22},
+		)
+	})
+
 	t.Run("doesn't match float as int", func(t *testing.T) {
 		require.Nil(
 			t,
@@ -129,7 +145,35 @@ func TestCucumberExpression(t *testing.T) {
 		)
 	})
 
-	t.Run("returns error for unknown parameter float", func(t *testing.T) {
+	t.Run("does not allow parameter type with left bracket", func(t *testing.T) {
+		parameterTypeRegistry := cucumberexpressions.NewParameterTypeRegistry()
+		_, err := cucumberexpressions.NewCucumberExpression("{[string]}", parameterTypeRegistry)
+		require.Error(t, err)
+		require.Equal(t, err.Error(), "Illegal character '[' in parameter name {[string]}")
+	})
+
+	t.Run("does not allow optional parameter types", func(t *testing.T) {
+		parameterTypeRegistry := cucumberexpressions.NewParameterTypeRegistry()
+		_, err := cucumberexpressions.NewCucumberExpression("({int})", parameterTypeRegistry)
+		require.Error(t, err)
+		require.Equal(t, "Parameter types cannot be optional: ({int})", err.Error())
+	})
+
+	t.Run("does not allow text/parameter type alternation", func(t *testing.T) {
+		parameterTypeRegistry := cucumberexpressions.NewParameterTypeRegistry()
+		_, err := cucumberexpressions.NewCucumberExpression("x/{int}", parameterTypeRegistry)
+		require.Error(t, err)
+		require.Equal(t, "Parameter types cannot be alternative: x/{int}", err.Error())
+	})
+
+	t.Run("does not allow parameter type/text alternation", func(t *testing.T) {
+		parameterTypeRegistry := cucumberexpressions.NewParameterTypeRegistry()
+		_, err := cucumberexpressions.NewCucumberExpression("{int}/x", parameterTypeRegistry)
+		require.Error(t, err)
+		require.Equal(t, "Parameter types cannot be alternative: {int}/x", err.Error())
+	})
+
+	t.Run("returns error for unknown parameter", func(t *testing.T) {
 		parameterTypeRegistry := cucumberexpressions.NewParameterTypeRegistry()
 		_, err := cucumberexpressions.NewCucumberExpression("{unknown}", parameterTypeRegistry)
 		require.Error(t, err)

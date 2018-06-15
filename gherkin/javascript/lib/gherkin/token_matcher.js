@@ -41,11 +41,8 @@ module.exports = function TokenMatcher(defaultDialectName) {
   };
 
   this.match_ScenarioLine = function match_ScenarioLine(token) {
-    return matchTitleLine(token, 'ScenarioLine', dialect.scenario);
-  };
-
-  this.match_ScenarioOutlineLine = function match_ScenarioOutlineLine(token) {
-    return matchTitleLine(token, 'ScenarioOutlineLine', dialect.scenarioOutline);
+    return matchTitleLine(token, 'ScenarioLine', dialect.scenario) ||
+      matchTitleLine(token, 'ScenarioLine', dialect.scenarioOutline);
   };
 
   this.match_BackgroundLine = function match_BackgroundLine(token) {

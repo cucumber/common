@@ -1,0 +1,23 @@
+include README.rst
+# -- PREPARED: include LICENSE
+include .bumpversion.cfg
+include .coveragerc
+include .editorconfig
+include .pylintrc
+include *.py
+include *.rst
+include *.md
+include *.txt
+include *.ini
+include *.cfg
+include *.yaml
+
+recursive-include py.requirements  *.txt
+recursive-include tasks         *.py *.txt *.rst
+recursive-include tests         *.py *.txt
+recursive-include bin           *.sh *.py *.cmd
+# -- PREPARED:
+#  recursive-include docs          *.rst *.txt *.py
+
+prune .tox
+prune .venv*

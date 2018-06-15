@@ -9,7 +9,7 @@ import (
 var ESCAPE_REGEXP = regexp.MustCompile(`([\\^[$.|?*+])`)
 var PARAMETER_REGEXP = regexp.MustCompile(`(\\\\\\\\)?{([^}]+)}`)
 var OPTIONAL_REGEXP = regexp.MustCompile(`(\\\\\\\\)?\([^)]+\)`)
-var ALTERNATIVE_NON_WHITESPACE_TEXT_REGEXP = regexp.MustCompile(`([^\s^/]+)((\/[^\s^/]+)+)`)
+var ALTERNATIVE_NON_WHITESPACE_TEXT_REGEXP = regexp.MustCompile(`([^\s^/]+)((/[^\s^/]+)+)`)
 var DOUBLE_ESCAPE = `\\\\`
 
 type CucumberExpression struct {
@@ -22,12 +22,22 @@ func NewCucumberExpression(expression string, parameterTypeRegistry *ParameterTy
 	result := &CucumberExpression{source: expression}
 
 	expression = result.processEscapes(expression)
-	expression = result.processOptional(expression)
-	expression = result.processAlteration(expression)
-	expression, err := result.processParameters(expression, parameterTypeRegistry)
+
+	expression, err := result.processOptional(expression)
 	if err != nil {
 		return nil, err
 	}
+
+	expression, err = result.processAlteration(expression)
+	if err != nil {
+		return nil, err
+	}
+
+	expression, err = result.processParameters(expression, parameterTypeRegistry)
+	if err != nil {
+		return nil, err
+	}
+
 	expression = "^" + expression + "$"
 
 	result.treeRegexp = NewTreeRegexp(regexp.MustCompile(expression))
@@ -50,19 +60,44 @@ func (c *CucumberExpression) processEscapes(expression string) string {
 	return ESCAPE_REGEXP.ReplaceAllString(expression, `\$1`)
 }
 
-func (c *CucumberExpression) processOptional(expression string) string {
-	return OPTIONAL_REGEXP.ReplaceAllStringFunc(expression, func(match string) string {
+func (c *CucumberExpression) processOptional(expression string) (string, error) {
+	var err error
+	result := OPTIONAL_REGEXP.ReplaceAllStringFunc(expression, func(match string) string {
+		if PARAMETER_REGEXP.MatchString(match) {
+			err = NewCucumberExpressionError(fmt.Sprintf("Parameter types cannot be optional: %s", c.source))
+			return match
+		}
+
 		if strings.HasPrefix(match, DOUBLE_ESCAPE) {
 			return fmt.Sprintf(`\(%s\)`, match[5:len(match)-1])
 		}
 		return fmt.Sprintf("(?:%s)?", match[1:len(match)-1])
 	})
+	return result, err
 }
 
-func (c *CucumberExpression) processAlteration(expression string) string {
-	return ALTERNATIVE_NON_WHITESPACE_TEXT_REGEXP.ReplaceAllStringFunc(expression, func(match string) string {
-		return fmt.Sprintf("(?:%s)", strings.Replace(match, "/", "|", -1))
+func (c *CucumberExpression) processAlteration(expression string) (string, error) {
+	var err error
+	result := ALTERNATIVE_NON_WHITESPACE_TEXT_REGEXP.ReplaceAllStringFunc(expression, func(match string) string {
+		// replace \/ with /
+		// replace / with |
+		replacement := strings.Replace(match, "/", "|", -1)
+		replacement = strings.Replace(replacement, `\\\\|`, "/", -1)
+
+		if strings.Contains(replacement, "|") {
+			parts := strings.Split(replacement, ":")
+			for _, part := range parts {
+				if PARAMETER_REGEXP.MatchString(part) {
+					err = NewCucumberExpressionError(fmt.Sprintf("Parameter types cannot be alternative: %s", c.source))
+					return match
+				}
+			}
+			return fmt.Sprintf("(?:%s)", replacement)
+		} else {
+			return replacement
+		}
 	})
+	return result, err
 }
 
 func (c *CucumberExpression) processParameters(expression string, parameterTypeRegistry *ParameterTypeRegistry) (string, error) {
@@ -73,6 +108,10 @@ func (c *CucumberExpression) processParameters(expression string, parameterTypeR
 		}
 
 		typeName := match[1 : len(match)-1]
+		err = CheckParameterTypeName(typeName)
+		if err != nil {
+			return ""
+		}
 		parameterType := parameterTypeRegistry.LookupByTypeName(typeName)
 		if parameterType == nil {
 			err = NewUndefinedParameterTypeError(typeName)

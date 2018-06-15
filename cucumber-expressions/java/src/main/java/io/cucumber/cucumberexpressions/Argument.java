@@ -60,6 +60,6 @@ public class Argument<T> {
     }
 
     public T getValue() {
-        return parameterType.transform(group == null ? null : group.getValues());
+        return parameterType.transform(group.getValues());
     }
 }

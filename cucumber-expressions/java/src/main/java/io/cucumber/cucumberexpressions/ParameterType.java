@@ -2,22 +2,36 @@ package io.cucumber.cucumberexpressions;
 
 import java.lang.reflect.Type;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import static java.util.Collections.singletonList;
 
 public final class ParameterType<T> implements Comparable<ParameterType<?>> {
+    @SuppressWarnings("RegExpRedundantEscape") // Android can't parse unescaped braces
+    private static final Pattern ILLEGAL_PARAMETER_NAME_PATTERN = Pattern.compile("([\\[\\]()$.|?*+])");
+    private static final Pattern UNESCAPE_PATTERN = Pattern.compile("(\\\\([\\[$.|?*+\\]]))");
+
     private final String name;
     private final Type type;
     private final List<String> regexps;
     private final boolean preferForRegexpMatch;
     private final boolean useForSnippets;
-    private final Transformer<T> transformer;
+    private final CaptureGroupTransformer<T> transformer;
 
-    public ParameterType(String name, List<String> regexps, Type type, Transformer<T> transformer, boolean useForSnippets, boolean preferForRegexpMatch) {
-        if (name == null) throw new CucumberExpressionException("name cannot be null");
-        if (regexps == null) throw new CucumberExpressionException("regexps cannot be null");
-        if (type == null) throw new CucumberExpressionException("type cannot be null");
-        if (transformer == null) throw new CucumberExpressionException("transformer cannot be null");
+    static void checkParameterTypeName(String name) {
+        String unescapedTypeName = UNESCAPE_PATTERN.matcher(name).replaceAll("$2");
+        Matcher matcher = ILLEGAL_PARAMETER_NAME_PATTERN.matcher(unescapedTypeName);
+        if (matcher.find()) {
+            throw new CucumberExpressionException(String.format("Illegal character '%s' in parameter name {%s}.", matcher.group(1), unescapedTypeName));
+        }
+    }
+
+    public ParameterType(String name, List<String> regexps, Type type, CaptureGroupTransformer<T> transformer, boolean useForSnippets, boolean preferForRegexpMatch) {
+        if (regexps == null) throw new NullPointerException("regexps cannot be null");
+        if (type == null) throw new NullPointerException("type cannot be null");
+        if (transformer == null) throw new NullPointerException("transformer cannot be null");
+        if (name != null) checkParameterTypeName(name);
         this.name = name;
         this.regexps = regexps;
         this.type = type;
@@ -26,8 +40,36 @@ public final class ParameterType<T> implements Comparable<ParameterType<?>> {
         this.preferForRegexpMatch = preferForRegexpMatch;
     }
 
+    public ParameterType(String name, List<String> regexps, Class<T> type, CaptureGroupTransformer<T> transformer, boolean useForSnippets, boolean preferForRegexpMatch) {
+        this(name, regexps, (Type) type, transformer, useForSnippets, preferForRegexpMatch);
+    }
+
+    public ParameterType(String name, String regexp, Class<T> type, CaptureGroupTransformer<T> transformer, boolean useForSnippets, boolean preferForRegexpMatch) {
+        this(name, singletonList(regexp), type, transformer, useForSnippets, preferForRegexpMatch);
+    }
+
+    public ParameterType(String name, List<String> regexps, Class<T> type, CaptureGroupTransformer<T> transformer) {
+        this(name, regexps, type, transformer, true, false);
+    }
+
+    public ParameterType(String name, String regexp, Class<T> type, CaptureGroupTransformer<T> transformer) {
+        this(name, singletonList(regexp), type, transformer, true, false);
+    }
+
+    public ParameterType(String name, List<String> regexps, Type type, Transformer<T> transformer, boolean useForSnippets, boolean preferForRegexpMatch) {
+        this(name, regexps, type, new TransformerAdaptor<>(transformer), useForSnippets, preferForRegexpMatch);
+    }
+
+    public ParameterType(String name, List<String> regexps, Class<T> type, Transformer<T> transformer, boolean useForSnippets, boolean preferForRegexpMatch) {
+        this(name, regexps, (Type) type, transformer, useForSnippets, preferForRegexpMatch);
+    }
+
     public ParameterType(String name, String regexp, Class<T> type, Transformer<T> transformer, boolean useForSnippets, boolean preferForRegexpMatch) {
         this(name, singletonList(regexp), type, transformer, useForSnippets, preferForRegexpMatch);
+    }
+
+    public ParameterType(String name, List<String> regexps, Class<T> type, Transformer<T> transformer) {
+        this(name, regexps, type, transformer, true, false);
     }
 
     public ParameterType(String name, String regexp, Class<T> type, Transformer<T> transformer) {
@@ -82,15 +124,46 @@ public final class ParameterType<T> implements Comparable<ParameterType<?>> {
         return useForSnippets;
     }
 
-    public T transform(List<String> groupValues) {
-        String[] groupValueArray = groupValues.toArray(new String[groupValues.size()]);
-        return transformer.transform(groupValueArray);
+    T transform(List<String> groupValues) {
+        if (transformer instanceof TransformerAdaptor) {
+            if (groupValues.size() > 1)
+                throw new CucumberExpressionException(String.format("" +
+                        "ParameterType {%s} was registered with a Transformer but has multiple capture groups %s. " +
+                        "Did you mean to use a CaptureGroupTransformer?", name, regexps));
+        }
+
+        try {
+            String[] groupValueArray = groupValues.toArray(new String[0]);
+            return transformer.transform(groupValueArray);
+        } catch (CucumberExpressionException e) {
+            throw e;
+        } catch (Throwable throwable) {
+            throw new CucumberExpressionException(String.format("ParameterType {%s} failed to transform %s to %s", name, groupValues, type), throwable);
+        }
     }
 
     @Override
     public int compareTo(ParameterType<?> o) {
         if (preferForRegexpMatch() && !o.preferForRegexpMatch()) return -1;
         if (o.preferForRegexpMatch() && !preferForRegexpMatch()) return 1;
-        return getName().compareTo(o.getName());
+        String name = getName() != null ? getName() : "";
+        String otherName = o.getName() != null ? o.getName() : "";
+        return name.compareTo(otherName);
+    }
+
+    private static final class TransformerAdaptor<T> implements CaptureGroupTransformer<T> {
+
+        private final Transformer<T> transformer;
+
+        private TransformerAdaptor(Transformer<T> transformer) {
+            if (transformer == null) throw new NullPointerException("transformer cannot be null");
+            this.transformer = transformer;
+        }
+
+        @Override
+        public T transform(String[] args) throws Throwable {
+            String arg = args.length == 0 ? null : args[0];
+            return transformer.transform(arg);
+        }
     }
 }

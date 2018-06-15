@@ -20,7 +20,6 @@ const (
 	TokenType_FeatureLine
 	TokenType_BackgroundLine
 	TokenType_ScenarioLine
-	TokenType_ScenarioOutlineLine
 	TokenType_ExamplesLine
 	TokenType_StepLine
 	TokenType_DocStringSeparator
@@ -49,8 +48,6 @@ func (t TokenType) Name() string {
 		return "BackgroundLine"
 	case TokenType_ScenarioLine:
 		return "ScenarioLine"
-	case TokenType_ScenarioOutlineLine:
-		return "ScenarioOutlineLine"
 	case TokenType_ExamplesLine:
 		return "ExamplesLine"
 	case TokenType_StepLine:
@@ -83,8 +80,6 @@ func (t TokenType) RuleType() RuleType {
 		return RuleType__BackgroundLine
 	case TokenType_ScenarioLine:
 		return RuleType__ScenarioLine
-	case TokenType_ScenarioOutlineLine:
-		return RuleType__ScenarioOutlineLine
 	case TokenType_ExamplesLine:
 		return RuleType__ExamplesLine
 	case TokenType_StepLine:
@@ -113,7 +108,6 @@ const (
 	RuleType__FeatureLine
 	RuleType__BackgroundLine
 	RuleType__ScenarioLine
-	RuleType__ScenarioOutlineLine
 	RuleType__ExamplesLine
 	RuleType__StepLine
 	RuleType__DocStringSeparator
@@ -122,20 +116,19 @@ const (
 	RuleType__Other
 	RuleType_GherkinDocument
 	RuleType_Feature
-	RuleType_Feature_Header
+	RuleType_FeatureHeader
 	RuleType_Background
-	RuleType_Scenario_Definition
+	RuleType_ScenarioDefinition
 	RuleType_Scenario
-	RuleType_ScenarioOutline
-	RuleType_Examples_Definition
+	RuleType_ExamplesDefinition
 	RuleType_Examples
-	RuleType_Examples_Table
+	RuleType_ExamplesTable
 	RuleType_Step
-	RuleType_Step_Arg
+	RuleType_StepArg
 	RuleType_DataTable
 	RuleType_DocString
 	RuleType_Tags
-	RuleType_Description_Helper
+	RuleType_DescriptionHelper
 	RuleType_Description
 )
 
@@ -158,8 +151,6 @@ func (t RuleType) Name() string {
 		return "#BackgroundLine"
 	case RuleType__ScenarioLine:
 		return "#ScenarioLine"
-	case RuleType__ScenarioOutlineLine:
-		return "#ScenarioOutlineLine"
 	case RuleType__ExamplesLine:
 		return "#ExamplesLine"
 	case RuleType__StepLine:
@@ -176,34 +167,32 @@ func (t RuleType) Name() string {
 		return "GherkinDocument"
 	case RuleType_Feature:
 		return "Feature"
-	case RuleType_Feature_Header:
-		return "Feature_Header"
+	case RuleType_FeatureHeader:
+		return "FeatureHeader"
 	case RuleType_Background:
 		return "Background"
-	case RuleType_Scenario_Definition:
-		return "Scenario_Definition"
+	case RuleType_ScenarioDefinition:
+		return "ScenarioDefinition"
 	case RuleType_Scenario:
 		return "Scenario"
-	case RuleType_ScenarioOutline:
-		return "ScenarioOutline"
-	case RuleType_Examples_Definition:
-		return "Examples_Definition"
+	case RuleType_ExamplesDefinition:
+		return "ExamplesDefinition"
 	case RuleType_Examples:
 		return "Examples"
-	case RuleType_Examples_Table:
-		return "Examples_Table"
+	case RuleType_ExamplesTable:
+		return "ExamplesTable"
 	case RuleType_Step:
 		return "Step"
-	case RuleType_Step_Arg:
-		return "Step_Arg"
+	case RuleType_StepArg:
+		return "StepArg"
 	case RuleType_DataTable:
 		return "DataTable"
 	case RuleType_DocString:
 		return "DocString"
 	case RuleType_Tags:
 		return "Tags"
-	case RuleType_Description_Helper:
-		return "Description_Helper"
+	case RuleType_DescriptionHelper:
+		return "DescriptionHelper"
 	case RuleType_Description:
 		return "Description"
 	}
@@ -363,8 +352,6 @@ func (ctxt *parseContext) match(state int, line *Line) (newState int, err error)
 		return ctxt.matchAt_20(line)
 	case 21:
 		return ctxt.matchAt_21(line)
-	case 22:
-		return ctxt.matchAt_22(line)
 	case 23:
 		return ctxt.matchAt_23(line)
 	case 24:
@@ -373,18 +360,6 @@ func (ctxt *parseContext) match(state int, line *Line) (newState int, err error)
 		return ctxt.matchAt_25(line)
 	case 26:
 		return ctxt.matchAt_26(line)
-	case 28:
-		return ctxt.matchAt_28(line)
-	case 29:
-		return ctxt.matchAt_29(line)
-	case 30:
-		return ctxt.matchAt_30(line)
-	case 31:
-		return ctxt.matchAt_31(line)
-	case 32:
-		return ctxt.matchAt_32(line)
-	case 33:
-		return ctxt.matchAt_33(line)
 	default:
 		return state, fmt.Errorf("Unknown state: %+v", state)
 	}
@@ -394,24 +369,24 @@ func (ctxt *parseContext) match(state int, line *Line) (newState int, err error)
 func (ctxt *parseContext) matchAt_0(line *Line) (newState int, err error) {
 	if ok, token, err := ctxt.match_EOF(line); ok {
 		ctxt.build(token)
-		return 27, err
+		return 22, err
 	}
 	if ok, token, err := ctxt.match_Language(line); ok {
 		ctxt.startRule(RuleType_Feature)
-		ctxt.startRule(RuleType_Feature_Header)
+		ctxt.startRule(RuleType_FeatureHeader)
 		ctxt.build(token)
 		return 1, err
 	}
 	if ok, token, err := ctxt.match_TagLine(line); ok {
 		ctxt.startRule(RuleType_Feature)
-		ctxt.startRule(RuleType_Feature_Header)
+		ctxt.startRule(RuleType_FeatureHeader)
 		ctxt.startRule(RuleType_Tags)
 		ctxt.build(token)
 		return 2, err
 	}
 	if ok, token, err := ctxt.match_FeatureLine(line); ok {
 		ctxt.startRule(RuleType_Feature)
-		ctxt.startRule(RuleType_Feature_Header)
+		ctxt.startRule(RuleType_FeatureHeader)
 		ctxt.build(token)
 		return 3, err
 	}
@@ -442,7 +417,7 @@ func (ctxt *parseContext) matchAt_0(line *Line) (newState int, err error) {
 	return 0, err
 }
 
-// GherkinDocument:0>Feature:0>Feature_Header:0>#Language:0
+// GherkinDocument:0>Feature:0>FeatureHeader:0>#Language:0
 func (ctxt *parseContext) matchAt_1(line *Line) (newState int, err error) {
 	if ok, token, err := ctxt.match_TagLine(line); ok {
 		ctxt.startRule(RuleType_Tags)
@@ -462,7 +437,7 @@ func (ctxt *parseContext) matchAt_1(line *Line) (newState int, err error) {
 		return 1, err
 	}
 
-	// var stateComment = "State: 1 - GherkinDocument:0>Feature:0>Feature_Header:0>#Language:0"
+	// var stateComment = "State: 1 - GherkinDocument:0>Feature:0>FeatureHeader:0>#Language:0"
 	var expectedTokens = []string{"#TagLine", "#FeatureLine", "#Comment", "#Empty"}
 	if line.IsEof() {
 		err = &parseError{
@@ -480,7 +455,7 @@ func (ctxt *parseContext) matchAt_1(line *Line) (newState int, err error) {
 	return 1, err
 }
 
-// GherkinDocument:0>Feature:0>Feature_Header:1>Tags:0>#TagLine:0
+// GherkinDocument:0>Feature:0>FeatureHeader:1>Tags:0>#TagLine:0
 func (ctxt *parseContext) matchAt_2(line *Line) (newState int, err error) {
 	if ok, token, err := ctxt.match_TagLine(line); ok {
 		ctxt.build(token)
@@ -500,7 +475,7 @@ func (ctxt *parseContext) matchAt_2(line *Line) (newState int, err error) {
 		return 2, err
 	}
 
-	// var stateComment = "State: 2 - GherkinDocument:0>Feature:0>Feature_Header:1>Tags:0>#TagLine:0"
+	// var stateComment = "State: 2 - GherkinDocument:0>Feature:0>FeatureHeader:1>Tags:0>#TagLine:0"
 	var expectedTokens = []string{"#TagLine", "#FeatureLine", "#Comment", "#Empty"}
 	if line.IsEof() {
 		err = &parseError{
@@ -518,13 +493,13 @@ func (ctxt *parseContext) matchAt_2(line *Line) (newState int, err error) {
 	return 2, err
 }
 
-// GherkinDocument:0>Feature:0>Feature_Header:2>#FeatureLine:0
+// GherkinDocument:0>Feature:0>FeatureHeader:2>#FeatureLine:0
 func (ctxt *parseContext) matchAt_3(line *Line) (newState int, err error) {
 	if ok, token, err := ctxt.match_EOF(line); ok {
-		ctxt.endRule(RuleType_Feature_Header)
+		ctxt.endRule(RuleType_FeatureHeader)
 		ctxt.endRule(RuleType_Feature)
 		ctxt.build(token)
-		return 27, err
+		return 22, err
 	}
 	if ok, token, err := ctxt.match_Empty(line); ok {
 		ctxt.build(token)
@@ -535,31 +510,24 @@ func (ctxt *parseContext) matchAt_3(line *Line) (newState int, err error) {
 		return 5, err
 	}
 	if ok, token, err := ctxt.match_BackgroundLine(line); ok {
-		ctxt.endRule(RuleType_Feature_Header)
+		ctxt.endRule(RuleType_FeatureHeader)
 		ctxt.startRule(RuleType_Background)
 		ctxt.build(token)
 		return 6, err
 	}
 	if ok, token, err := ctxt.match_TagLine(line); ok {
-		ctxt.endRule(RuleType_Feature_Header)
-		ctxt.startRule(RuleType_Scenario_Definition)
+		ctxt.endRule(RuleType_FeatureHeader)
+		ctxt.startRule(RuleType_ScenarioDefinition)
 		ctxt.startRule(RuleType_Tags)
 		ctxt.build(token)
 		return 11, err
 	}
 	if ok, token, err := ctxt.match_ScenarioLine(line); ok {
-		ctxt.endRule(RuleType_Feature_Header)
-		ctxt.startRule(RuleType_Scenario_Definition)
+		ctxt.endRule(RuleType_FeatureHeader)
+		ctxt.startRule(RuleType_ScenarioDefinition)
 		ctxt.startRule(RuleType_Scenario)
 		ctxt.build(token)
 		return 12, err
-	}
-	if ok, token, err := ctxt.match_ScenarioOutlineLine(line); ok {
-		ctxt.endRule(RuleType_Feature_Header)
-		ctxt.startRule(RuleType_Scenario_Definition)
-		ctxt.startRule(RuleType_ScenarioOutline)
-		ctxt.build(token)
-		return 17, err
 	}
 	if ok, token, err := ctxt.match_Other(line); ok {
 		ctxt.startRule(RuleType_Description)
@@ -567,8 +535,8 @@ func (ctxt *parseContext) matchAt_3(line *Line) (newState int, err error) {
 		return 4, err
 	}
 
-	// var stateComment = "State: 3 - GherkinDocument:0>Feature:0>Feature_Header:2>#FeatureLine:0"
-	var expectedTokens = []string{"#EOF", "#Empty", "#Comment", "#BackgroundLine", "#TagLine", "#ScenarioLine", "#ScenarioOutlineLine", "#Other"}
+	// var stateComment = "State: 3 - GherkinDocument:0>Feature:0>FeatureHeader:2>#FeatureLine:0"
+	var expectedTokens = []string{"#EOF", "#Empty", "#Comment", "#BackgroundLine", "#TagLine", "#ScenarioLine", "#Other"}
 	if line.IsEof() {
 		err = &parseError{
 			msg: fmt.Sprintf("unexpected end of file, expected: %s", strings.Join(expectedTokens, ", ")),
@@ -585,14 +553,14 @@ func (ctxt *parseContext) matchAt_3(line *Line) (newState int, err error) {
 	return 3, err
 }
 
-// GherkinDocument:0>Feature:0>Feature_Header:3>Description_Helper:1>Description:0>#Other:0
+// GherkinDocument:0>Feature:0>FeatureHeader:3>DescriptionHelper:1>Description:0>#Other:0
 func (ctxt *parseContext) matchAt_4(line *Line) (newState int, err error) {
 	if ok, token, err := ctxt.match_EOF(line); ok {
 		ctxt.endRule(RuleType_Description)
-		ctxt.endRule(RuleType_Feature_Header)
+		ctxt.endRule(RuleType_FeatureHeader)
 		ctxt.endRule(RuleType_Feature)
 		ctxt.build(token)
-		return 27, err
+		return 22, err
 	}
 	if ok, token, err := ctxt.match_Comment(line); ok {
 		ctxt.endRule(RuleType_Description)
@@ -601,42 +569,34 @@ func (ctxt *parseContext) matchAt_4(line *Line) (newState int, err error) {
 	}
 	if ok, token, err := ctxt.match_BackgroundLine(line); ok {
 		ctxt.endRule(RuleType_Description)
-		ctxt.endRule(RuleType_Feature_Header)
+		ctxt.endRule(RuleType_FeatureHeader)
 		ctxt.startRule(RuleType_Background)
 		ctxt.build(token)
 		return 6, err
 	}
 	if ok, token, err := ctxt.match_TagLine(line); ok {
 		ctxt.endRule(RuleType_Description)
-		ctxt.endRule(RuleType_Feature_Header)
-		ctxt.startRule(RuleType_Scenario_Definition)
+		ctxt.endRule(RuleType_FeatureHeader)
+		ctxt.startRule(RuleType_ScenarioDefinition)
 		ctxt.startRule(RuleType_Tags)
 		ctxt.build(token)
 		return 11, err
 	}
 	if ok, token, err := ctxt.match_ScenarioLine(line); ok {
 		ctxt.endRule(RuleType_Description)
-		ctxt.endRule(RuleType_Feature_Header)
-		ctxt.startRule(RuleType_Scenario_Definition)
+		ctxt.endRule(RuleType_FeatureHeader)
+		ctxt.startRule(RuleType_ScenarioDefinition)
 		ctxt.startRule(RuleType_Scenario)
 		ctxt.build(token)
 		return 12, err
-	}
-	if ok, token, err := ctxt.match_ScenarioOutlineLine(line); ok {
-		ctxt.endRule(RuleType_Description)
-		ctxt.endRule(RuleType_Feature_Header)
-		ctxt.startRule(RuleType_Scenario_Definition)
-		ctxt.startRule(RuleType_ScenarioOutline)
-		ctxt.build(token)
-		return 17, err
 	}
 	if ok, token, err := ctxt.match_Other(line); ok {
 		ctxt.build(token)
 		return 4, err
 	}
 
-	// var stateComment = "State: 4 - GherkinDocument:0>Feature:0>Feature_Header:3>Description_Helper:1>Description:0>#Other:0"
-	var expectedTokens = []string{"#EOF", "#Comment", "#BackgroundLine", "#TagLine", "#ScenarioLine", "#ScenarioOutlineLine", "#Other"}
+	// var stateComment = "State: 4 - GherkinDocument:0>Feature:0>FeatureHeader:3>DescriptionHelper:1>Description:0>#Other:0"
+	var expectedTokens = []string{"#EOF", "#Comment", "#BackgroundLine", "#TagLine", "#ScenarioLine", "#Other"}
 	if line.IsEof() {
 		err = &parseError{
 			msg: fmt.Sprintf("unexpected end of file, expected: %s", strings.Join(expectedTokens, ", ")),
@@ -653,52 +613,45 @@ func (ctxt *parseContext) matchAt_4(line *Line) (newState int, err error) {
 	return 4, err
 }
 
-// GherkinDocument:0>Feature:0>Feature_Header:3>Description_Helper:2>#Comment:0
+// GherkinDocument:0>Feature:0>FeatureHeader:3>DescriptionHelper:2>#Comment:0
 func (ctxt *parseContext) matchAt_5(line *Line) (newState int, err error) {
 	if ok, token, err := ctxt.match_EOF(line); ok {
-		ctxt.endRule(RuleType_Feature_Header)
+		ctxt.endRule(RuleType_FeatureHeader)
 		ctxt.endRule(RuleType_Feature)
 		ctxt.build(token)
-		return 27, err
+		return 22, err
 	}
 	if ok, token, err := ctxt.match_Comment(line); ok {
 		ctxt.build(token)
 		return 5, err
 	}
 	if ok, token, err := ctxt.match_BackgroundLine(line); ok {
-		ctxt.endRule(RuleType_Feature_Header)
+		ctxt.endRule(RuleType_FeatureHeader)
 		ctxt.startRule(RuleType_Background)
 		ctxt.build(token)
 		return 6, err
 	}
 	if ok, token, err := ctxt.match_TagLine(line); ok {
-		ctxt.endRule(RuleType_Feature_Header)
-		ctxt.startRule(RuleType_Scenario_Definition)
+		ctxt.endRule(RuleType_FeatureHeader)
+		ctxt.startRule(RuleType_ScenarioDefinition)
 		ctxt.startRule(RuleType_Tags)
 		ctxt.build(token)
 		return 11, err
 	}
 	if ok, token, err := ctxt.match_ScenarioLine(line); ok {
-		ctxt.endRule(RuleType_Feature_Header)
-		ctxt.startRule(RuleType_Scenario_Definition)
+		ctxt.endRule(RuleType_FeatureHeader)
+		ctxt.startRule(RuleType_ScenarioDefinition)
 		ctxt.startRule(RuleType_Scenario)
 		ctxt.build(token)
 		return 12, err
-	}
-	if ok, token, err := ctxt.match_ScenarioOutlineLine(line); ok {
-		ctxt.endRule(RuleType_Feature_Header)
-		ctxt.startRule(RuleType_Scenario_Definition)
-		ctxt.startRule(RuleType_ScenarioOutline)
-		ctxt.build(token)
-		return 17, err
 	}
 	if ok, token, err := ctxt.match_Empty(line); ok {
 		ctxt.build(token)
 		return 5, err
 	}
 
-	// var stateComment = "State: 5 - GherkinDocument:0>Feature:0>Feature_Header:3>Description_Helper:2>#Comment:0"
-	var expectedTokens = []string{"#EOF", "#Comment", "#BackgroundLine", "#TagLine", "#ScenarioLine", "#ScenarioOutlineLine", "#Empty"}
+	// var stateComment = "State: 5 - GherkinDocument:0>Feature:0>FeatureHeader:3>DescriptionHelper:2>#Comment:0"
+	var expectedTokens = []string{"#EOF", "#Comment", "#BackgroundLine", "#TagLine", "#ScenarioLine", "#Empty"}
 	if line.IsEof() {
 		err = &parseError{
 			msg: fmt.Sprintf("unexpected end of file, expected: %s", strings.Join(expectedTokens, ", ")),
@@ -721,7 +674,7 @@ func (ctxt *parseContext) matchAt_6(line *Line) (newState int, err error) {
 		ctxt.endRule(RuleType_Background)
 		ctxt.endRule(RuleType_Feature)
 		ctxt.build(token)
-		return 27, err
+		return 22, err
 	}
 	if ok, token, err := ctxt.match_Empty(line); ok {
 		ctxt.build(token)
@@ -738,24 +691,17 @@ func (ctxt *parseContext) matchAt_6(line *Line) (newState int, err error) {
 	}
 	if ok, token, err := ctxt.match_TagLine(line); ok {
 		ctxt.endRule(RuleType_Background)
-		ctxt.startRule(RuleType_Scenario_Definition)
+		ctxt.startRule(RuleType_ScenarioDefinition)
 		ctxt.startRule(RuleType_Tags)
 		ctxt.build(token)
 		return 11, err
 	}
 	if ok, token, err := ctxt.match_ScenarioLine(line); ok {
 		ctxt.endRule(RuleType_Background)
-		ctxt.startRule(RuleType_Scenario_Definition)
+		ctxt.startRule(RuleType_ScenarioDefinition)
 		ctxt.startRule(RuleType_Scenario)
 		ctxt.build(token)
 		return 12, err
-	}
-	if ok, token, err := ctxt.match_ScenarioOutlineLine(line); ok {
-		ctxt.endRule(RuleType_Background)
-		ctxt.startRule(RuleType_Scenario_Definition)
-		ctxt.startRule(RuleType_ScenarioOutline)
-		ctxt.build(token)
-		return 17, err
 	}
 	if ok, token, err := ctxt.match_Other(line); ok {
 		ctxt.startRule(RuleType_Description)
@@ -764,7 +710,7 @@ func (ctxt *parseContext) matchAt_6(line *Line) (newState int, err error) {
 	}
 
 	// var stateComment = "State: 6 - GherkinDocument:0>Feature:1>Background:0>#BackgroundLine:0"
-	var expectedTokens = []string{"#EOF", "#Empty", "#Comment", "#StepLine", "#TagLine", "#ScenarioLine", "#ScenarioOutlineLine", "#Other"}
+	var expectedTokens = []string{"#EOF", "#Empty", "#Comment", "#StepLine", "#TagLine", "#ScenarioLine", "#Other"}
 	if line.IsEof() {
 		err = &parseError{
 			msg: fmt.Sprintf("unexpected end of file, expected: %s", strings.Join(expectedTokens, ", ")),
@@ -781,14 +727,14 @@ func (ctxt *parseContext) matchAt_6(line *Line) (newState int, err error) {
 	return 6, err
 }
 
-// GherkinDocument:0>Feature:1>Background:1>Description_Helper:1>Description:0>#Other:0
+// GherkinDocument:0>Feature:1>Background:1>DescriptionHelper:1>Description:0>#Other:0
 func (ctxt *parseContext) matchAt_7(line *Line) (newState int, err error) {
 	if ok, token, err := ctxt.match_EOF(line); ok {
 		ctxt.endRule(RuleType_Description)
 		ctxt.endRule(RuleType_Background)
 		ctxt.endRule(RuleType_Feature)
 		ctxt.build(token)
-		return 27, err
+		return 22, err
 	}
 	if ok, token, err := ctxt.match_Comment(line); ok {
 		ctxt.endRule(RuleType_Description)
@@ -804,7 +750,7 @@ func (ctxt *parseContext) matchAt_7(line *Line) (newState int, err error) {
 	if ok, token, err := ctxt.match_TagLine(line); ok {
 		ctxt.endRule(RuleType_Description)
 		ctxt.endRule(RuleType_Background)
-		ctxt.startRule(RuleType_Scenario_Definition)
+		ctxt.startRule(RuleType_ScenarioDefinition)
 		ctxt.startRule(RuleType_Tags)
 		ctxt.build(token)
 		return 11, err
@@ -812,26 +758,18 @@ func (ctxt *parseContext) matchAt_7(line *Line) (newState int, err error) {
 	if ok, token, err := ctxt.match_ScenarioLine(line); ok {
 		ctxt.endRule(RuleType_Description)
 		ctxt.endRule(RuleType_Background)
-		ctxt.startRule(RuleType_Scenario_Definition)
+		ctxt.startRule(RuleType_ScenarioDefinition)
 		ctxt.startRule(RuleType_Scenario)
 		ctxt.build(token)
 		return 12, err
-	}
-	if ok, token, err := ctxt.match_ScenarioOutlineLine(line); ok {
-		ctxt.endRule(RuleType_Description)
-		ctxt.endRule(RuleType_Background)
-		ctxt.startRule(RuleType_Scenario_Definition)
-		ctxt.startRule(RuleType_ScenarioOutline)
-		ctxt.build(token)
-		return 17, err
 	}
 	if ok, token, err := ctxt.match_Other(line); ok {
 		ctxt.build(token)
 		return 7, err
 	}
 
-	// var stateComment = "State: 7 - GherkinDocument:0>Feature:1>Background:1>Description_Helper:1>Description:0>#Other:0"
-	var expectedTokens = []string{"#EOF", "#Comment", "#StepLine", "#TagLine", "#ScenarioLine", "#ScenarioOutlineLine", "#Other"}
+	// var stateComment = "State: 7 - GherkinDocument:0>Feature:1>Background:1>DescriptionHelper:1>Description:0>#Other:0"
+	var expectedTokens = []string{"#EOF", "#Comment", "#StepLine", "#TagLine", "#ScenarioLine", "#Other"}
 	if line.IsEof() {
 		err = &parseError{
 			msg: fmt.Sprintf("unexpected end of file, expected: %s", strings.Join(expectedTokens, ", ")),
@@ -848,13 +786,13 @@ func (ctxt *parseContext) matchAt_7(line *Line) (newState int, err error) {
 	return 7, err
 }
 
-// GherkinDocument:0>Feature:1>Background:1>Description_Helper:2>#Comment:0
+// GherkinDocument:0>Feature:1>Background:1>DescriptionHelper:2>#Comment:0
 func (ctxt *parseContext) matchAt_8(line *Line) (newState int, err error) {
 	if ok, token, err := ctxt.match_EOF(line); ok {
 		ctxt.endRule(RuleType_Background)
 		ctxt.endRule(RuleType_Feature)
 		ctxt.build(token)
-		return 27, err
+		return 22, err
 	}
 	if ok, token, err := ctxt.match_Comment(line); ok {
 		ctxt.build(token)
@@ -867,32 +805,25 @@ func (ctxt *parseContext) matchAt_8(line *Line) (newState int, err error) {
 	}
 	if ok, token, err := ctxt.match_TagLine(line); ok {
 		ctxt.endRule(RuleType_Background)
-		ctxt.startRule(RuleType_Scenario_Definition)
+		ctxt.startRule(RuleType_ScenarioDefinition)
 		ctxt.startRule(RuleType_Tags)
 		ctxt.build(token)
 		return 11, err
 	}
 	if ok, token, err := ctxt.match_ScenarioLine(line); ok {
 		ctxt.endRule(RuleType_Background)
-		ctxt.startRule(RuleType_Scenario_Definition)
+		ctxt.startRule(RuleType_ScenarioDefinition)
 		ctxt.startRule(RuleType_Scenario)
 		ctxt.build(token)
 		return 12, err
-	}
-	if ok, token, err := ctxt.match_ScenarioOutlineLine(line); ok {
-		ctxt.endRule(RuleType_Background)
-		ctxt.startRule(RuleType_Scenario_Definition)
-		ctxt.startRule(RuleType_ScenarioOutline)
-		ctxt.build(token)
-		return 17, err
 	}
 	if ok, token, err := ctxt.match_Empty(line); ok {
 		ctxt.build(token)
 		return 8, err
 	}
 
-	// var stateComment = "State: 8 - GherkinDocument:0>Feature:1>Background:1>Description_Helper:2>#Comment:0"
-	var expectedTokens = []string{"#EOF", "#Comment", "#StepLine", "#TagLine", "#ScenarioLine", "#ScenarioOutlineLine", "#Empty"}
+	// var stateComment = "State: 8 - GherkinDocument:0>Feature:1>Background:1>DescriptionHelper:2>#Comment:0"
+	var expectedTokens = []string{"#EOF", "#Comment", "#StepLine", "#TagLine", "#ScenarioLine", "#Empty"}
 	if line.IsEof() {
 		err = &parseError{
 			msg: fmt.Sprintf("unexpected end of file, expected: %s", strings.Join(expectedTokens, ", ")),
@@ -916,7 +847,7 @@ func (ctxt *parseContext) matchAt_9(line *Line) (newState int, err error) {
 		ctxt.endRule(RuleType_Background)
 		ctxt.endRule(RuleType_Feature)
 		ctxt.build(token)
-		return 27, err
+		return 22, err
 	}
 	if ok, token, err := ctxt.match_TableRow(line); ok {
 		ctxt.startRule(RuleType_DataTable)
@@ -926,7 +857,7 @@ func (ctxt *parseContext) matchAt_9(line *Line) (newState int, err error) {
 	if ok, token, err := ctxt.match_DocStringSeparator(line); ok {
 		ctxt.startRule(RuleType_DocString)
 		ctxt.build(token)
-		return 32, err
+		return 25, err
 	}
 	if ok, token, err := ctxt.match_StepLine(line); ok {
 		ctxt.endRule(RuleType_Step)
@@ -937,7 +868,7 @@ func (ctxt *parseContext) matchAt_9(line *Line) (newState int, err error) {
 	if ok, token, err := ctxt.match_TagLine(line); ok {
 		ctxt.endRule(RuleType_Step)
 		ctxt.endRule(RuleType_Background)
-		ctxt.startRule(RuleType_Scenario_Definition)
+		ctxt.startRule(RuleType_ScenarioDefinition)
 		ctxt.startRule(RuleType_Tags)
 		ctxt.build(token)
 		return 11, err
@@ -945,18 +876,10 @@ func (ctxt *parseContext) matchAt_9(line *Line) (newState int, err error) {
 	if ok, token, err := ctxt.match_ScenarioLine(line); ok {
 		ctxt.endRule(RuleType_Step)
 		ctxt.endRule(RuleType_Background)
-		ctxt.startRule(RuleType_Scenario_Definition)
+		ctxt.startRule(RuleType_ScenarioDefinition)
 		ctxt.startRule(RuleType_Scenario)
 		ctxt.build(token)
 		return 12, err
-	}
-	if ok, token, err := ctxt.match_ScenarioOutlineLine(line); ok {
-		ctxt.endRule(RuleType_Step)
-		ctxt.endRule(RuleType_Background)
-		ctxt.startRule(RuleType_Scenario_Definition)
-		ctxt.startRule(RuleType_ScenarioOutline)
-		ctxt.build(token)
-		return 17, err
 	}
 	if ok, token, err := ctxt.match_Comment(line); ok {
 		ctxt.build(token)
@@ -968,7 +891,7 @@ func (ctxt *parseContext) matchAt_9(line *Line) (newState int, err error) {
 	}
 
 	// var stateComment = "State: 9 - GherkinDocument:0>Feature:1>Background:2>Step:0>#StepLine:0"
-	var expectedTokens = []string{"#EOF", "#TableRow", "#DocStringSeparator", "#StepLine", "#TagLine", "#ScenarioLine", "#ScenarioOutlineLine", "#Comment", "#Empty"}
+	var expectedTokens = []string{"#EOF", "#TableRow", "#DocStringSeparator", "#StepLine", "#TagLine", "#ScenarioLine", "#Comment", "#Empty"}
 	if line.IsEof() {
 		err = &parseError{
 			msg: fmt.Sprintf("unexpected end of file, expected: %s", strings.Join(expectedTokens, ", ")),
@@ -985,7 +908,7 @@ func (ctxt *parseContext) matchAt_9(line *Line) (newState int, err error) {
 	return 9, err
 }
 
-// GherkinDocument:0>Feature:1>Background:2>Step:1>Step_Arg:0>__alt1:0>DataTable:0>#TableRow:0
+// GherkinDocument:0>Feature:1>Background:2>Step:1>StepArg:0>__alt0:0>DataTable:0>#TableRow:0
 func (ctxt *parseContext) matchAt_10(line *Line) (newState int, err error) {
 	if ok, token, err := ctxt.match_EOF(line); ok {
 		ctxt.endRule(RuleType_DataTable)
@@ -993,7 +916,7 @@ func (ctxt *parseContext) matchAt_10(line *Line) (newState int, err error) {
 		ctxt.endRule(RuleType_Background)
 		ctxt.endRule(RuleType_Feature)
 		ctxt.build(token)
-		return 27, err
+		return 22, err
 	}
 	if ok, token, err := ctxt.match_TableRow(line); ok {
 		ctxt.build(token)
@@ -1010,7 +933,7 @@ func (ctxt *parseContext) matchAt_10(line *Line) (newState int, err error) {
 		ctxt.endRule(RuleType_DataTable)
 		ctxt.endRule(RuleType_Step)
 		ctxt.endRule(RuleType_Background)
-		ctxt.startRule(RuleType_Scenario_Definition)
+		ctxt.startRule(RuleType_ScenarioDefinition)
 		ctxt.startRule(RuleType_Tags)
 		ctxt.build(token)
 		return 11, err
@@ -1019,19 +942,10 @@ func (ctxt *parseContext) matchAt_10(line *Line) (newState int, err error) {
 		ctxt.endRule(RuleType_DataTable)
 		ctxt.endRule(RuleType_Step)
 		ctxt.endRule(RuleType_Background)
-		ctxt.startRule(RuleType_Scenario_Definition)
+		ctxt.startRule(RuleType_ScenarioDefinition)
 		ctxt.startRule(RuleType_Scenario)
 		ctxt.build(token)
 		return 12, err
-	}
-	if ok, token, err := ctxt.match_ScenarioOutlineLine(line); ok {
-		ctxt.endRule(RuleType_DataTable)
-		ctxt.endRule(RuleType_Step)
-		ctxt.endRule(RuleType_Background)
-		ctxt.startRule(RuleType_Scenario_Definition)
-		ctxt.startRule(RuleType_ScenarioOutline)
-		ctxt.build(token)
-		return 17, err
 	}
 	if ok, token, err := ctxt.match_Comment(line); ok {
 		ctxt.build(token)
@@ -1042,8 +956,8 @@ func (ctxt *parseContext) matchAt_10(line *Line) (newState int, err error) {
 		return 10, err
 	}
 
-	// var stateComment = "State: 10 - GherkinDocument:0>Feature:1>Background:2>Step:1>Step_Arg:0>__alt1:0>DataTable:0>#TableRow:0"
-	var expectedTokens = []string{"#EOF", "#TableRow", "#StepLine", "#TagLine", "#ScenarioLine", "#ScenarioOutlineLine", "#Comment", "#Empty"}
+	// var stateComment = "State: 10 - GherkinDocument:0>Feature:1>Background:2>Step:1>StepArg:0>__alt0:0>DataTable:0>#TableRow:0"
+	var expectedTokens = []string{"#EOF", "#TableRow", "#StepLine", "#TagLine", "#ScenarioLine", "#Comment", "#Empty"}
 	if line.IsEof() {
 		err = &parseError{
 			msg: fmt.Sprintf("unexpected end of file, expected: %s", strings.Join(expectedTokens, ", ")),
@@ -1060,7 +974,7 @@ func (ctxt *parseContext) matchAt_10(line *Line) (newState int, err error) {
 	return 10, err
 }
 
-// GherkinDocument:0>Feature:2>Scenario_Definition:0>Tags:0>#TagLine:0
+// GherkinDocument:0>Feature:2>ScenarioDefinition:0>Tags:0>#TagLine:0
 func (ctxt *parseContext) matchAt_11(line *Line) (newState int, err error) {
 	if ok, token, err := ctxt.match_TagLine(line); ok {
 		ctxt.build(token)
@@ -1072,12 +986,6 @@ func (ctxt *parseContext) matchAt_11(line *Line) (newState int, err error) {
 		ctxt.build(token)
 		return 12, err
 	}
-	if ok, token, err := ctxt.match_ScenarioOutlineLine(line); ok {
-		ctxt.endRule(RuleType_Tags)
-		ctxt.startRule(RuleType_ScenarioOutline)
-		ctxt.build(token)
-		return 17, err
-	}
 	if ok, token, err := ctxt.match_Comment(line); ok {
 		ctxt.build(token)
 		return 11, err
@@ -1087,8 +995,8 @@ func (ctxt *parseContext) matchAt_11(line *Line) (newState int, err error) {
 		return 11, err
 	}
 
-	// var stateComment = "State: 11 - GherkinDocument:0>Feature:2>Scenario_Definition:0>Tags:0>#TagLine:0"
-	var expectedTokens = []string{"#TagLine", "#ScenarioLine", "#ScenarioOutlineLine", "#Comment", "#Empty"}
+	// var stateComment = "State: 11 - GherkinDocument:0>Feature:2>ScenarioDefinition:0>Tags:0>#TagLine:0"
+	var expectedTokens = []string{"#TagLine", "#ScenarioLine", "#Comment", "#Empty"}
 	if line.IsEof() {
 		err = &parseError{
 			msg: fmt.Sprintf("unexpected end of file, expected: %s", strings.Join(expectedTokens, ", ")),
@@ -1105,14 +1013,14 @@ func (ctxt *parseContext) matchAt_11(line *Line) (newState int, err error) {
 	return 11, err
 }
 
-// GherkinDocument:0>Feature:2>Scenario_Definition:1>__alt0:0>Scenario:0>#ScenarioLine:0
+// GherkinDocument:0>Feature:2>ScenarioDefinition:1>Scenario:0>#ScenarioLine:0
 func (ctxt *parseContext) matchAt_12(line *Line) (newState int, err error) {
 	if ok, token, err := ctxt.match_EOF(line); ok {
 		ctxt.endRule(RuleType_Scenario)
-		ctxt.endRule(RuleType_Scenario_Definition)
+		ctxt.endRule(RuleType_ScenarioDefinition)
 		ctxt.endRule(RuleType_Feature)
 		ctxt.build(token)
-		return 27, err
+		return 22, err
 	}
 	if ok, token, err := ctxt.match_Empty(line); ok {
 		ctxt.build(token)
@@ -1128,28 +1036,34 @@ func (ctxt *parseContext) matchAt_12(line *Line) (newState int, err error) {
 		return 15, err
 	}
 	if ok, token, err := ctxt.match_TagLine(line); ok {
+		if ctxt.lookahead_0(line) {
+			ctxt.startRule(RuleType_ExamplesDefinition)
+			ctxt.startRule(RuleType_Tags)
+			ctxt.build(token)
+			return 17, err
+		}
+	}
+	if ok, token, err := ctxt.match_TagLine(line); ok {
 		ctxt.endRule(RuleType_Scenario)
-		ctxt.endRule(RuleType_Scenario_Definition)
-		ctxt.startRule(RuleType_Scenario_Definition)
+		ctxt.endRule(RuleType_ScenarioDefinition)
+		ctxt.startRule(RuleType_ScenarioDefinition)
 		ctxt.startRule(RuleType_Tags)
 		ctxt.build(token)
 		return 11, err
 	}
+	if ok, token, err := ctxt.match_ExamplesLine(line); ok {
+		ctxt.startRule(RuleType_ExamplesDefinition)
+		ctxt.startRule(RuleType_Examples)
+		ctxt.build(token)
+		return 18, err
+	}
 	if ok, token, err := ctxt.match_ScenarioLine(line); ok {
 		ctxt.endRule(RuleType_Scenario)
-		ctxt.endRule(RuleType_Scenario_Definition)
-		ctxt.startRule(RuleType_Scenario_Definition)
+		ctxt.endRule(RuleType_ScenarioDefinition)
+		ctxt.startRule(RuleType_ScenarioDefinition)
 		ctxt.startRule(RuleType_Scenario)
 		ctxt.build(token)
 		return 12, err
-	}
-	if ok, token, err := ctxt.match_ScenarioOutlineLine(line); ok {
-		ctxt.endRule(RuleType_Scenario)
-		ctxt.endRule(RuleType_Scenario_Definition)
-		ctxt.startRule(RuleType_Scenario_Definition)
-		ctxt.startRule(RuleType_ScenarioOutline)
-		ctxt.build(token)
-		return 17, err
 	}
 	if ok, token, err := ctxt.match_Other(line); ok {
 		ctxt.startRule(RuleType_Description)
@@ -1157,8 +1071,8 @@ func (ctxt *parseContext) matchAt_12(line *Line) (newState int, err error) {
 		return 13, err
 	}
 
-	// var stateComment = "State: 12 - GherkinDocument:0>Feature:2>Scenario_Definition:1>__alt0:0>Scenario:0>#ScenarioLine:0"
-	var expectedTokens = []string{"#EOF", "#Empty", "#Comment", "#StepLine", "#TagLine", "#ScenarioLine", "#ScenarioOutlineLine", "#Other"}
+	// var stateComment = "State: 12 - GherkinDocument:0>Feature:2>ScenarioDefinition:1>Scenario:0>#ScenarioLine:0"
+	var expectedTokens = []string{"#EOF", "#Empty", "#Comment", "#StepLine", "#TagLine", "#ExamplesLine", "#ScenarioLine", "#Other"}
 	if line.IsEof() {
 		err = &parseError{
 			msg: fmt.Sprintf("unexpected end of file, expected: %s", strings.Join(expectedTokens, ", ")),
@@ -1175,15 +1089,15 @@ func (ctxt *parseContext) matchAt_12(line *Line) (newState int, err error) {
 	return 12, err
 }
 
-// GherkinDocument:0>Feature:2>Scenario_Definition:1>__alt0:0>Scenario:1>Description_Helper:1>Description:0>#Other:0
+// GherkinDocument:0>Feature:2>ScenarioDefinition:1>Scenario:1>DescriptionHelper:1>Description:0>#Other:0
 func (ctxt *parseContext) matchAt_13(line *Line) (newState int, err error) {
 	if ok, token, err := ctxt.match_EOF(line); ok {
 		ctxt.endRule(RuleType_Description)
 		ctxt.endRule(RuleType_Scenario)
-		ctxt.endRule(RuleType_Scenario_Definition)
+		ctxt.endRule(RuleType_ScenarioDefinition)
 		ctxt.endRule(RuleType_Feature)
 		ctxt.build(token)
-		return 27, err
+		return 22, err
 	}
 	if ok, token, err := ctxt.match_Comment(line); ok {
 		ctxt.endRule(RuleType_Description)
@@ -1197,39 +1111,46 @@ func (ctxt *parseContext) matchAt_13(line *Line) (newState int, err error) {
 		return 15, err
 	}
 	if ok, token, err := ctxt.match_TagLine(line); ok {
+		if ctxt.lookahead_0(line) {
+			ctxt.endRule(RuleType_Description)
+			ctxt.startRule(RuleType_ExamplesDefinition)
+			ctxt.startRule(RuleType_Tags)
+			ctxt.build(token)
+			return 17, err
+		}
+	}
+	if ok, token, err := ctxt.match_TagLine(line); ok {
 		ctxt.endRule(RuleType_Description)
 		ctxt.endRule(RuleType_Scenario)
-		ctxt.endRule(RuleType_Scenario_Definition)
-		ctxt.startRule(RuleType_Scenario_Definition)
+		ctxt.endRule(RuleType_ScenarioDefinition)
+		ctxt.startRule(RuleType_ScenarioDefinition)
 		ctxt.startRule(RuleType_Tags)
 		ctxt.build(token)
 		return 11, err
 	}
+	if ok, token, err := ctxt.match_ExamplesLine(line); ok {
+		ctxt.endRule(RuleType_Description)
+		ctxt.startRule(RuleType_ExamplesDefinition)
+		ctxt.startRule(RuleType_Examples)
+		ctxt.build(token)
+		return 18, err
+	}
 	if ok, token, err := ctxt.match_ScenarioLine(line); ok {
 		ctxt.endRule(RuleType_Description)
 		ctxt.endRule(RuleType_Scenario)
-		ctxt.endRule(RuleType_Scenario_Definition)
-		ctxt.startRule(RuleType_Scenario_Definition)
+		ctxt.endRule(RuleType_ScenarioDefinition)
+		ctxt.startRule(RuleType_ScenarioDefinition)
 		ctxt.startRule(RuleType_Scenario)
 		ctxt.build(token)
 		return 12, err
-	}
-	if ok, token, err := ctxt.match_ScenarioOutlineLine(line); ok {
-		ctxt.endRule(RuleType_Description)
-		ctxt.endRule(RuleType_Scenario)
-		ctxt.endRule(RuleType_Scenario_Definition)
-		ctxt.startRule(RuleType_Scenario_Definition)
-		ctxt.startRule(RuleType_ScenarioOutline)
-		ctxt.build(token)
-		return 17, err
 	}
 	if ok, token, err := ctxt.match_Other(line); ok {
 		ctxt.build(token)
 		return 13, err
 	}
 
-	// var stateComment = "State: 13 - GherkinDocument:0>Feature:2>Scenario_Definition:1>__alt0:0>Scenario:1>Description_Helper:1>Description:0>#Other:0"
-	var expectedTokens = []string{"#EOF", "#Comment", "#StepLine", "#TagLine", "#ScenarioLine", "#ScenarioOutlineLine", "#Other"}
+	// var stateComment = "State: 13 - GherkinDocument:0>Feature:2>ScenarioDefinition:1>Scenario:1>DescriptionHelper:1>Description:0>#Other:0"
+	var expectedTokens = []string{"#EOF", "#Comment", "#StepLine", "#TagLine", "#ExamplesLine", "#ScenarioLine", "#Other"}
 	if line.IsEof() {
 		err = &parseError{
 			msg: fmt.Sprintf("unexpected end of file, expected: %s", strings.Join(expectedTokens, ", ")),
@@ -1246,14 +1167,14 @@ func (ctxt *parseContext) matchAt_13(line *Line) (newState int, err error) {
 	return 13, err
 }
 
-// GherkinDocument:0>Feature:2>Scenario_Definition:1>__alt0:0>Scenario:1>Description_Helper:2>#Comment:0
+// GherkinDocument:0>Feature:2>ScenarioDefinition:1>Scenario:1>DescriptionHelper:2>#Comment:0
 func (ctxt *parseContext) matchAt_14(line *Line) (newState int, err error) {
 	if ok, token, err := ctxt.match_EOF(line); ok {
 		ctxt.endRule(RuleType_Scenario)
-		ctxt.endRule(RuleType_Scenario_Definition)
+		ctxt.endRule(RuleType_ScenarioDefinition)
 		ctxt.endRule(RuleType_Feature)
 		ctxt.build(token)
-		return 27, err
+		return 22, err
 	}
 	if ok, token, err := ctxt.match_Comment(line); ok {
 		ctxt.build(token)
@@ -1265,36 +1186,42 @@ func (ctxt *parseContext) matchAt_14(line *Line) (newState int, err error) {
 		return 15, err
 	}
 	if ok, token, err := ctxt.match_TagLine(line); ok {
+		if ctxt.lookahead_0(line) {
+			ctxt.startRule(RuleType_ExamplesDefinition)
+			ctxt.startRule(RuleType_Tags)
+			ctxt.build(token)
+			return 17, err
+		}
+	}
+	if ok, token, err := ctxt.match_TagLine(line); ok {
 		ctxt.endRule(RuleType_Scenario)
-		ctxt.endRule(RuleType_Scenario_Definition)
-		ctxt.startRule(RuleType_Scenario_Definition)
+		ctxt.endRule(RuleType_ScenarioDefinition)
+		ctxt.startRule(RuleType_ScenarioDefinition)
 		ctxt.startRule(RuleType_Tags)
 		ctxt.build(token)
 		return 11, err
 	}
+	if ok, token, err := ctxt.match_ExamplesLine(line); ok {
+		ctxt.startRule(RuleType_ExamplesDefinition)
+		ctxt.startRule(RuleType_Examples)
+		ctxt.build(token)
+		return 18, err
+	}
 	if ok, token, err := ctxt.match_ScenarioLine(line); ok {
 		ctxt.endRule(RuleType_Scenario)
-		ctxt.endRule(RuleType_Scenario_Definition)
-		ctxt.startRule(RuleType_Scenario_Definition)
+		ctxt.endRule(RuleType_ScenarioDefinition)
+		ctxt.startRule(RuleType_ScenarioDefinition)
 		ctxt.startRule(RuleType_Scenario)
 		ctxt.build(token)
 		return 12, err
-	}
-	if ok, token, err := ctxt.match_ScenarioOutlineLine(line); ok {
-		ctxt.endRule(RuleType_Scenario)
-		ctxt.endRule(RuleType_Scenario_Definition)
-		ctxt.startRule(RuleType_Scenario_Definition)
-		ctxt.startRule(RuleType_ScenarioOutline)
-		ctxt.build(token)
-		return 17, err
 	}
 	if ok, token, err := ctxt.match_Empty(line); ok {
 		ctxt.build(token)
 		return 14, err
 	}
 
-	// var stateComment = "State: 14 - GherkinDocument:0>Feature:2>Scenario_Definition:1>__alt0:0>Scenario:1>Description_Helper:2>#Comment:0"
-	var expectedTokens = []string{"#EOF", "#Comment", "#StepLine", "#TagLine", "#ScenarioLine", "#ScenarioOutlineLine", "#Empty"}
+	// var stateComment = "State: 14 - GherkinDocument:0>Feature:2>ScenarioDefinition:1>Scenario:1>DescriptionHelper:2>#Comment:0"
+	var expectedTokens = []string{"#EOF", "#Comment", "#StepLine", "#TagLine", "#ExamplesLine", "#ScenarioLine", "#Empty"}
 	if line.IsEof() {
 		err = &parseError{
 			msg: fmt.Sprintf("unexpected end of file, expected: %s", strings.Join(expectedTokens, ", ")),
@@ -1311,15 +1238,15 @@ func (ctxt *parseContext) matchAt_14(line *Line) (newState int, err error) {
 	return 14, err
 }
 
-// GherkinDocument:0>Feature:2>Scenario_Definition:1>__alt0:0>Scenario:2>Step:0>#StepLine:0
+// GherkinDocument:0>Feature:2>ScenarioDefinition:1>Scenario:2>Step:0>#StepLine:0
 func (ctxt *parseContext) matchAt_15(line *Line) (newState int, err error) {
 	if ok, token, err := ctxt.match_EOF(line); ok {
 		ctxt.endRule(RuleType_Step)
 		ctxt.endRule(RuleType_Scenario)
-		ctxt.endRule(RuleType_Scenario_Definition)
+		ctxt.endRule(RuleType_ScenarioDefinition)
 		ctxt.endRule(RuleType_Feature)
 		ctxt.build(token)
-		return 27, err
+		return 22, err
 	}
 	if ok, token, err := ctxt.match_TableRow(line); ok {
 		ctxt.startRule(RuleType_DataTable)
@@ -1329,7 +1256,7 @@ func (ctxt *parseContext) matchAt_15(line *Line) (newState int, err error) {
 	if ok, token, err := ctxt.match_DocStringSeparator(line); ok {
 		ctxt.startRule(RuleType_DocString)
 		ctxt.build(token)
-		return 30, err
+		return 23, err
 	}
 	if ok, token, err := ctxt.match_StepLine(line); ok {
 		ctxt.endRule(RuleType_Step)
@@ -1338,31 +1265,38 @@ func (ctxt *parseContext) matchAt_15(line *Line) (newState int, err error) {
 		return 15, err
 	}
 	if ok, token, err := ctxt.match_TagLine(line); ok {
+		if ctxt.lookahead_0(line) {
+			ctxt.endRule(RuleType_Step)
+			ctxt.startRule(RuleType_ExamplesDefinition)
+			ctxt.startRule(RuleType_Tags)
+			ctxt.build(token)
+			return 17, err
+		}
+	}
+	if ok, token, err := ctxt.match_TagLine(line); ok {
 		ctxt.endRule(RuleType_Step)
 		ctxt.endRule(RuleType_Scenario)
-		ctxt.endRule(RuleType_Scenario_Definition)
-		ctxt.startRule(RuleType_Scenario_Definition)
+		ctxt.endRule(RuleType_ScenarioDefinition)
+		ctxt.startRule(RuleType_ScenarioDefinition)
 		ctxt.startRule(RuleType_Tags)
 		ctxt.build(token)
 		return 11, err
 	}
+	if ok, token, err := ctxt.match_ExamplesLine(line); ok {
+		ctxt.endRule(RuleType_Step)
+		ctxt.startRule(RuleType_ExamplesDefinition)
+		ctxt.startRule(RuleType_Examples)
+		ctxt.build(token)
+		return 18, err
+	}
 	if ok, token, err := ctxt.match_ScenarioLine(line); ok {
 		ctxt.endRule(RuleType_Step)
 		ctxt.endRule(RuleType_Scenario)
-		ctxt.endRule(RuleType_Scenario_Definition)
-		ctxt.startRule(RuleType_Scenario_Definition)
+		ctxt.endRule(RuleType_ScenarioDefinition)
+		ctxt.startRule(RuleType_ScenarioDefinition)
 		ctxt.startRule(RuleType_Scenario)
 		ctxt.build(token)
 		return 12, err
-	}
-	if ok, token, err := ctxt.match_ScenarioOutlineLine(line); ok {
-		ctxt.endRule(RuleType_Step)
-		ctxt.endRule(RuleType_Scenario)
-		ctxt.endRule(RuleType_Scenario_Definition)
-		ctxt.startRule(RuleType_Scenario_Definition)
-		ctxt.startRule(RuleType_ScenarioOutline)
-		ctxt.build(token)
-		return 17, err
 	}
 	if ok, token, err := ctxt.match_Comment(line); ok {
 		ctxt.build(token)
@@ -1373,8 +1307,8 @@ func (ctxt *parseContext) matchAt_15(line *Line) (newState int, err error) {
 		return 15, err
 	}
 
-	// var stateComment = "State: 15 - GherkinDocument:0>Feature:2>Scenario_Definition:1>__alt0:0>Scenario:2>Step:0>#StepLine:0"
-	var expectedTokens = []string{"#EOF", "#TableRow", "#DocStringSeparator", "#StepLine", "#TagLine", "#ScenarioLine", "#ScenarioOutlineLine", "#Comment", "#Empty"}
+	// var stateComment = "State: 15 - GherkinDocument:0>Feature:2>ScenarioDefinition:1>Scenario:2>Step:0>#StepLine:0"
+	var expectedTokens = []string{"#EOF", "#TableRow", "#DocStringSeparator", "#StepLine", "#TagLine", "#ExamplesLine", "#ScenarioLine", "#Comment", "#Empty"}
 	if line.IsEof() {
 		err = &parseError{
 			msg: fmt.Sprintf("unexpected end of file, expected: %s", strings.Join(expectedTokens, ", ")),
@@ -1391,16 +1325,16 @@ func (ctxt *parseContext) matchAt_15(line *Line) (newState int, err error) {
 	return 15, err
 }
 
-// GherkinDocument:0>Feature:2>Scenario_Definition:1>__alt0:0>Scenario:2>Step:1>Step_Arg:0>__alt1:0>DataTable:0>#TableRow:0
+// GherkinDocument:0>Feature:2>ScenarioDefinition:1>Scenario:2>Step:1>StepArg:0>__alt0:0>DataTable:0>#TableRow:0
 func (ctxt *parseContext) matchAt_16(line *Line) (newState int, err error) {
 	if ok, token, err := ctxt.match_EOF(line); ok {
 		ctxt.endRule(RuleType_DataTable)
 		ctxt.endRule(RuleType_Step)
 		ctxt.endRule(RuleType_Scenario)
-		ctxt.endRule(RuleType_Scenario_Definition)
+		ctxt.endRule(RuleType_ScenarioDefinition)
 		ctxt.endRule(RuleType_Feature)
 		ctxt.build(token)
-		return 27, err
+		return 22, err
 	}
 	if ok, token, err := ctxt.match_TableRow(line); ok {
 		ctxt.build(token)
@@ -1414,34 +1348,42 @@ func (ctxt *parseContext) matchAt_16(line *Line) (newState int, err error) {
 		return 15, err
 	}
 	if ok, token, err := ctxt.match_TagLine(line); ok {
+		if ctxt.lookahead_0(line) {
+			ctxt.endRule(RuleType_DataTable)
+			ctxt.endRule(RuleType_Step)
+			ctxt.startRule(RuleType_ExamplesDefinition)
+			ctxt.startRule(RuleType_Tags)
+			ctxt.build(token)
+			return 17, err
+		}
+	}
+	if ok, token, err := ctxt.match_TagLine(line); ok {
 		ctxt.endRule(RuleType_DataTable)
 		ctxt.endRule(RuleType_Step)
 		ctxt.endRule(RuleType_Scenario)
-		ctxt.endRule(RuleType_Scenario_Definition)
-		ctxt.startRule(RuleType_Scenario_Definition)
+		ctxt.endRule(RuleType_ScenarioDefinition)
+		ctxt.startRule(RuleType_ScenarioDefinition)
 		ctxt.startRule(RuleType_Tags)
 		ctxt.build(token)
 		return 11, err
+	}
+	if ok, token, err := ctxt.match_ExamplesLine(line); ok {
+		ctxt.endRule(RuleType_DataTable)
+		ctxt.endRule(RuleType_Step)
+		ctxt.startRule(RuleType_ExamplesDefinition)
+		ctxt.startRule(RuleType_Examples)
+		ctxt.build(token)
+		return 18, err
 	}
 	if ok, token, err := ctxt.match_ScenarioLine(line); ok {
 		ctxt.endRule(RuleType_DataTable)
 		ctxt.endRule(RuleType_Step)
 		ctxt.endRule(RuleType_Scenario)
-		ctxt.endRule(RuleType_Scenario_Definition)
-		ctxt.startRule(RuleType_Scenario_Definition)
+		ctxt.endRule(RuleType_ScenarioDefinition)
+		ctxt.startRule(RuleType_ScenarioDefinition)
 		ctxt.startRule(RuleType_Scenario)
 		ctxt.build(token)
 		return 12, err
-	}
-	if ok, token, err := ctxt.match_ScenarioOutlineLine(line); ok {
-		ctxt.endRule(RuleType_DataTable)
-		ctxt.endRule(RuleType_Step)
-		ctxt.endRule(RuleType_Scenario)
-		ctxt.endRule(RuleType_Scenario_Definition)
-		ctxt.startRule(RuleType_Scenario_Definition)
-		ctxt.startRule(RuleType_ScenarioOutline)
-		ctxt.build(token)
-		return 17, err
 	}
 	if ok, token, err := ctxt.match_Comment(line); ok {
 		ctxt.build(token)
@@ -1452,8 +1394,8 @@ func (ctxt *parseContext) matchAt_16(line *Line) (newState int, err error) {
 		return 16, err
 	}
 
-	// var stateComment = "State: 16 - GherkinDocument:0>Feature:2>Scenario_Definition:1>__alt0:0>Scenario:2>Step:1>Step_Arg:0>__alt1:0>DataTable:0>#TableRow:0"
-	var expectedTokens = []string{"#EOF", "#TableRow", "#StepLine", "#TagLine", "#ScenarioLine", "#ScenarioOutlineLine", "#Comment", "#Empty"}
+	// var stateComment = "State: 16 - GherkinDocument:0>Feature:2>ScenarioDefinition:1>Scenario:2>Step:1>StepArg:0>__alt0:0>DataTable:0>#TableRow:0"
+	var expectedTokens = []string{"#EOF", "#TableRow", "#StepLine", "#TagLine", "#ExamplesLine", "#ScenarioLine", "#Comment", "#Empty"}
 	if line.IsEof() {
 		err = &parseError{
 			msg: fmt.Sprintf("unexpected end of file, expected: %s", strings.Join(expectedTokens, ", ")),
@@ -1470,74 +1412,29 @@ func (ctxt *parseContext) matchAt_16(line *Line) (newState int, err error) {
 	return 16, err
 }
 
-// GherkinDocument:0>Feature:2>Scenario_Definition:1>__alt0:1>ScenarioOutline:0>#ScenarioOutlineLine:0
+// GherkinDocument:0>Feature:2>ScenarioDefinition:1>Scenario:3>ExamplesDefinition:0>Tags:0>#TagLine:0
 func (ctxt *parseContext) matchAt_17(line *Line) (newState int, err error) {
-	if ok, token, err := ctxt.match_EOF(line); ok {
-		ctxt.endRule(RuleType_ScenarioOutline)
-		ctxt.endRule(RuleType_Scenario_Definition)
-		ctxt.endRule(RuleType_Feature)
+	if ok, token, err := ctxt.match_TagLine(line); ok {
 		ctxt.build(token)
-		return 27, err
+		return 17, err
+	}
+	if ok, token, err := ctxt.match_ExamplesLine(line); ok {
+		ctxt.endRule(RuleType_Tags)
+		ctxt.startRule(RuleType_Examples)
+		ctxt.build(token)
+		return 18, err
+	}
+	if ok, token, err := ctxt.match_Comment(line); ok {
+		ctxt.build(token)
+		return 17, err
 	}
 	if ok, token, err := ctxt.match_Empty(line); ok {
 		ctxt.build(token)
 		return 17, err
 	}
-	if ok, token, err := ctxt.match_Comment(line); ok {
-		ctxt.build(token)
-		return 19, err
-	}
-	if ok, token, err := ctxt.match_StepLine(line); ok {
-		ctxt.startRule(RuleType_Step)
-		ctxt.build(token)
-		return 20, err
-	}
-	if ok, token, err := ctxt.match_TagLine(line); ok {
-		if ctxt.lookahead_0(line) {
-			ctxt.startRule(RuleType_Examples_Definition)
-			ctxt.startRule(RuleType_Tags)
-			ctxt.build(token)
-			return 22, err
-		}
-	}
-	if ok, token, err := ctxt.match_TagLine(line); ok {
-		ctxt.endRule(RuleType_ScenarioOutline)
-		ctxt.endRule(RuleType_Scenario_Definition)
-		ctxt.startRule(RuleType_Scenario_Definition)
-		ctxt.startRule(RuleType_Tags)
-		ctxt.build(token)
-		return 11, err
-	}
-	if ok, token, err := ctxt.match_ExamplesLine(line); ok {
-		ctxt.startRule(RuleType_Examples_Definition)
-		ctxt.startRule(RuleType_Examples)
-		ctxt.build(token)
-		return 23, err
-	}
-	if ok, token, err := ctxt.match_ScenarioLine(line); ok {
-		ctxt.endRule(RuleType_ScenarioOutline)
-		ctxt.endRule(RuleType_Scenario_Definition)
-		ctxt.startRule(RuleType_Scenario_Definition)
-		ctxt.startRule(RuleType_Scenario)
-		ctxt.build(token)
-		return 12, err
-	}
-	if ok, token, err := ctxt.match_ScenarioOutlineLine(line); ok {
-		ctxt.endRule(RuleType_ScenarioOutline)
-		ctxt.endRule(RuleType_Scenario_Definition)
-		ctxt.startRule(RuleType_Scenario_Definition)
-		ctxt.startRule(RuleType_ScenarioOutline)
-		ctxt.build(token)
-		return 17, err
-	}
-	if ok, token, err := ctxt.match_Other(line); ok {
-		ctxt.startRule(RuleType_Description)
-		ctxt.build(token)
-		return 18, err
-	}
 
-	// var stateComment = "State: 17 - GherkinDocument:0>Feature:2>Scenario_Definition:1>__alt0:1>ScenarioOutline:0>#ScenarioOutlineLine:0"
-	var expectedTokens = []string{"#EOF", "#Empty", "#Comment", "#StepLine", "#TagLine", "#ExamplesLine", "#ScenarioLine", "#ScenarioOutlineLine", "#Other"}
+	// var stateComment = "State: 17 - GherkinDocument:0>Feature:2>ScenarioDefinition:1>Scenario:3>ExamplesDefinition:0>Tags:0>#TagLine:0"
+	var expectedTokens = []string{"#TagLine", "#ExamplesLine", "#Comment", "#Empty"}
 	if line.IsEof() {
 		err = &parseError{
 			msg: fmt.Sprintf("unexpected end of file, expected: %s", strings.Join(expectedTokens, ", ")),
@@ -1554,77 +1451,76 @@ func (ctxt *parseContext) matchAt_17(line *Line) (newState int, err error) {
 	return 17, err
 }
 
-// GherkinDocument:0>Feature:2>Scenario_Definition:1>__alt0:1>ScenarioOutline:1>Description_Helper:1>Description:0>#Other:0
+// GherkinDocument:0>Feature:2>ScenarioDefinition:1>Scenario:3>ExamplesDefinition:1>Examples:0>#ExamplesLine:0
 func (ctxt *parseContext) matchAt_18(line *Line) (newState int, err error) {
 	if ok, token, err := ctxt.match_EOF(line); ok {
-		ctxt.endRule(RuleType_Description)
-		ctxt.endRule(RuleType_ScenarioOutline)
-		ctxt.endRule(RuleType_Scenario_Definition)
+		ctxt.endRule(RuleType_Examples)
+		ctxt.endRule(RuleType_ExamplesDefinition)
+		ctxt.endRule(RuleType_Scenario)
+		ctxt.endRule(RuleType_ScenarioDefinition)
 		ctxt.endRule(RuleType_Feature)
 		ctxt.build(token)
-		return 27, err
+		return 22, err
+	}
+	if ok, token, err := ctxt.match_Empty(line); ok {
+		ctxt.build(token)
+		return 18, err
 	}
 	if ok, token, err := ctxt.match_Comment(line); ok {
-		ctxt.endRule(RuleType_Description)
-		ctxt.build(token)
-		return 19, err
-	}
-	if ok, token, err := ctxt.match_StepLine(line); ok {
-		ctxt.endRule(RuleType_Description)
-		ctxt.startRule(RuleType_Step)
 		ctxt.build(token)
 		return 20, err
 	}
+	if ok, token, err := ctxt.match_TableRow(line); ok {
+		ctxt.startRule(RuleType_ExamplesTable)
+		ctxt.build(token)
+		return 21, err
+	}
 	if ok, token, err := ctxt.match_TagLine(line); ok {
 		if ctxt.lookahead_0(line) {
-			ctxt.endRule(RuleType_Description)
-			ctxt.startRule(RuleType_Examples_Definition)
+			ctxt.endRule(RuleType_Examples)
+			ctxt.endRule(RuleType_ExamplesDefinition)
+			ctxt.startRule(RuleType_ExamplesDefinition)
 			ctxt.startRule(RuleType_Tags)
 			ctxt.build(token)
-			return 22, err
+			return 17, err
 		}
 	}
 	if ok, token, err := ctxt.match_TagLine(line); ok {
-		ctxt.endRule(RuleType_Description)
-		ctxt.endRule(RuleType_ScenarioOutline)
-		ctxt.endRule(RuleType_Scenario_Definition)
-		ctxt.startRule(RuleType_Scenario_Definition)
+		ctxt.endRule(RuleType_Examples)
+		ctxt.endRule(RuleType_ExamplesDefinition)
+		ctxt.endRule(RuleType_Scenario)
+		ctxt.endRule(RuleType_ScenarioDefinition)
+		ctxt.startRule(RuleType_ScenarioDefinition)
 		ctxt.startRule(RuleType_Tags)
 		ctxt.build(token)
 		return 11, err
 	}
 	if ok, token, err := ctxt.match_ExamplesLine(line); ok {
-		ctxt.endRule(RuleType_Description)
-		ctxt.startRule(RuleType_Examples_Definition)
+		ctxt.endRule(RuleType_Examples)
+		ctxt.endRule(RuleType_ExamplesDefinition)
+		ctxt.startRule(RuleType_ExamplesDefinition)
 		ctxt.startRule(RuleType_Examples)
 		ctxt.build(token)
-		return 23, err
+		return 18, err
 	}
 	if ok, token, err := ctxt.match_ScenarioLine(line); ok {
-		ctxt.endRule(RuleType_Description)
-		ctxt.endRule(RuleType_ScenarioOutline)
-		ctxt.endRule(RuleType_Scenario_Definition)
-		ctxt.startRule(RuleType_Scenario_Definition)
+		ctxt.endRule(RuleType_Examples)
+		ctxt.endRule(RuleType_ExamplesDefinition)
+		ctxt.endRule(RuleType_Scenario)
+		ctxt.endRule(RuleType_ScenarioDefinition)
+		ctxt.startRule(RuleType_ScenarioDefinition)
 		ctxt.startRule(RuleType_Scenario)
 		ctxt.build(token)
 		return 12, err
 	}
-	if ok, token, err := ctxt.match_ScenarioOutlineLine(line); ok {
-		ctxt.endRule(RuleType_Description)
-		ctxt.endRule(RuleType_ScenarioOutline)
-		ctxt.endRule(RuleType_Scenario_Definition)
-		ctxt.startRule(RuleType_Scenario_Definition)
-		ctxt.startRule(RuleType_ScenarioOutline)
-		ctxt.build(token)
-		return 17, err
-	}
 	if ok, token, err := ctxt.match_Other(line); ok {
+		ctxt.startRule(RuleType_Description)
 		ctxt.build(token)
-		return 18, err
+		return 19, err
 	}
 
-	// var stateComment = "State: 18 - GherkinDocument:0>Feature:2>Scenario_Definition:1>__alt0:1>ScenarioOutline:1>Description_Helper:1>Description:0>#Other:0"
-	var expectedTokens = []string{"#EOF", "#Comment", "#StepLine", "#TagLine", "#ExamplesLine", "#ScenarioLine", "#ScenarioOutlineLine", "#Other"}
+	// var stateComment = "State: 18 - GherkinDocument:0>Feature:2>ScenarioDefinition:1>Scenario:3>ExamplesDefinition:1>Examples:0>#ExamplesLine:0"
+	var expectedTokens = []string{"#EOF", "#Empty", "#Comment", "#TableRow", "#TagLine", "#ExamplesLine", "#ScenarioLine", "#Other"}
 	if line.IsEof() {
 		err = &parseError{
 			msg: fmt.Sprintf("unexpected end of file, expected: %s", strings.Join(expectedTokens, ", ")),
@@ -1641,69 +1537,78 @@ func (ctxt *parseContext) matchAt_18(line *Line) (newState int, err error) {
 	return 18, err
 }
 
-// GherkinDocument:0>Feature:2>Scenario_Definition:1>__alt0:1>ScenarioOutline:1>Description_Helper:2>#Comment:0
+// GherkinDocument:0>Feature:2>ScenarioDefinition:1>Scenario:3>ExamplesDefinition:1>Examples:1>DescriptionHelper:1>Description:0>#Other:0
 func (ctxt *parseContext) matchAt_19(line *Line) (newState int, err error) {
 	if ok, token, err := ctxt.match_EOF(line); ok {
-		ctxt.endRule(RuleType_ScenarioOutline)
-		ctxt.endRule(RuleType_Scenario_Definition)
+		ctxt.endRule(RuleType_Description)
+		ctxt.endRule(RuleType_Examples)
+		ctxt.endRule(RuleType_ExamplesDefinition)
+		ctxt.endRule(RuleType_Scenario)
+		ctxt.endRule(RuleType_ScenarioDefinition)
 		ctxt.endRule(RuleType_Feature)
 		ctxt.build(token)
-		return 27, err
+		return 22, err
 	}
 	if ok, token, err := ctxt.match_Comment(line); ok {
-		ctxt.build(token)
-		return 19, err
-	}
-	if ok, token, err := ctxt.match_StepLine(line); ok {
-		ctxt.startRule(RuleType_Step)
+		ctxt.endRule(RuleType_Description)
 		ctxt.build(token)
 		return 20, err
 	}
+	if ok, token, err := ctxt.match_TableRow(line); ok {
+		ctxt.endRule(RuleType_Description)
+		ctxt.startRule(RuleType_ExamplesTable)
+		ctxt.build(token)
+		return 21, err
+	}
 	if ok, token, err := ctxt.match_TagLine(line); ok {
 		if ctxt.lookahead_0(line) {
-			ctxt.startRule(RuleType_Examples_Definition)
+			ctxt.endRule(RuleType_Description)
+			ctxt.endRule(RuleType_Examples)
+			ctxt.endRule(RuleType_ExamplesDefinition)
+			ctxt.startRule(RuleType_ExamplesDefinition)
 			ctxt.startRule(RuleType_Tags)
 			ctxt.build(token)
-			return 22, err
+			return 17, err
 		}
 	}
 	if ok, token, err := ctxt.match_TagLine(line); ok {
-		ctxt.endRule(RuleType_ScenarioOutline)
-		ctxt.endRule(RuleType_Scenario_Definition)
-		ctxt.startRule(RuleType_Scenario_Definition)
+		ctxt.endRule(RuleType_Description)
+		ctxt.endRule(RuleType_Examples)
+		ctxt.endRule(RuleType_ExamplesDefinition)
+		ctxt.endRule(RuleType_Scenario)
+		ctxt.endRule(RuleType_ScenarioDefinition)
+		ctxt.startRule(RuleType_ScenarioDefinition)
 		ctxt.startRule(RuleType_Tags)
 		ctxt.build(token)
 		return 11, err
 	}
 	if ok, token, err := ctxt.match_ExamplesLine(line); ok {
-		ctxt.startRule(RuleType_Examples_Definition)
+		ctxt.endRule(RuleType_Description)
+		ctxt.endRule(RuleType_Examples)
+		ctxt.endRule(RuleType_ExamplesDefinition)
+		ctxt.startRule(RuleType_ExamplesDefinition)
 		ctxt.startRule(RuleType_Examples)
 		ctxt.build(token)
-		return 23, err
+		return 18, err
 	}
 	if ok, token, err := ctxt.match_ScenarioLine(line); ok {
-		ctxt.endRule(RuleType_ScenarioOutline)
-		ctxt.endRule(RuleType_Scenario_Definition)
-		ctxt.startRule(RuleType_Scenario_Definition)
+		ctxt.endRule(RuleType_Description)
+		ctxt.endRule(RuleType_Examples)
+		ctxt.endRule(RuleType_ExamplesDefinition)
+		ctxt.endRule(RuleType_Scenario)
+		ctxt.endRule(RuleType_ScenarioDefinition)
+		ctxt.startRule(RuleType_ScenarioDefinition)
 		ctxt.startRule(RuleType_Scenario)
 		ctxt.build(token)
 		return 12, err
 	}
-	if ok, token, err := ctxt.match_ScenarioOutlineLine(line); ok {
-		ctxt.endRule(RuleType_ScenarioOutline)
-		ctxt.endRule(RuleType_Scenario_Definition)
-		ctxt.startRule(RuleType_Scenario_Definition)
-		ctxt.startRule(RuleType_ScenarioOutline)
-		ctxt.build(token)
-		return 17, err
-	}
-	if ok, token, err := ctxt.match_Empty(line); ok {
+	if ok, token, err := ctxt.match_Other(line); ok {
 		ctxt.build(token)
 		return 19, err
 	}
 
-	// var stateComment = "State: 19 - GherkinDocument:0>Feature:2>Scenario_Definition:1>__alt0:1>ScenarioOutline:1>Description_Helper:2>#Comment:0"
-	var expectedTokens = []string{"#EOF", "#Comment", "#StepLine", "#TagLine", "#ExamplesLine", "#ScenarioLine", "#ScenarioOutlineLine", "#Empty"}
+	// var stateComment = "State: 19 - GherkinDocument:0>Feature:2>ScenarioDefinition:1>Scenario:3>ExamplesDefinition:1>Examples:1>DescriptionHelper:1>Description:0>#Other:0"
+	var expectedTokens = []string{"#EOF", "#Comment", "#TableRow", "#TagLine", "#ExamplesLine", "#ScenarioLine", "#Other"}
 	if line.IsEof() {
 		err = &parseError{
 			msg: fmt.Sprintf("unexpected end of file, expected: %s", strings.Join(expectedTokens, ", ")),
@@ -1720,86 +1625,71 @@ func (ctxt *parseContext) matchAt_19(line *Line) (newState int, err error) {
 	return 19, err
 }
 
-// GherkinDocument:0>Feature:2>Scenario_Definition:1>__alt0:1>ScenarioOutline:2>Step:0>#StepLine:0
+// GherkinDocument:0>Feature:2>ScenarioDefinition:1>Scenario:3>ExamplesDefinition:1>Examples:1>DescriptionHelper:2>#Comment:0
 func (ctxt *parseContext) matchAt_20(line *Line) (newState int, err error) {
 	if ok, token, err := ctxt.match_EOF(line); ok {
-		ctxt.endRule(RuleType_Step)
-		ctxt.endRule(RuleType_ScenarioOutline)
-		ctxt.endRule(RuleType_Scenario_Definition)
+		ctxt.endRule(RuleType_Examples)
+		ctxt.endRule(RuleType_ExamplesDefinition)
+		ctxt.endRule(RuleType_Scenario)
+		ctxt.endRule(RuleType_ScenarioDefinition)
 		ctxt.endRule(RuleType_Feature)
 		ctxt.build(token)
-		return 27, err
+		return 22, err
 	}
-	if ok, token, err := ctxt.match_TableRow(line); ok {
-		ctxt.startRule(RuleType_DataTable)
-		ctxt.build(token)
-		return 21, err
-	}
-	if ok, token, err := ctxt.match_DocStringSeparator(line); ok {
-		ctxt.startRule(RuleType_DocString)
-		ctxt.build(token)
-		return 28, err
-	}
-	if ok, token, err := ctxt.match_StepLine(line); ok {
-		ctxt.endRule(RuleType_Step)
-		ctxt.startRule(RuleType_Step)
+	if ok, token, err := ctxt.match_Comment(line); ok {
 		ctxt.build(token)
 		return 20, err
 	}
+	if ok, token, err := ctxt.match_TableRow(line); ok {
+		ctxt.startRule(RuleType_ExamplesTable)
+		ctxt.build(token)
+		return 21, err
+	}
 	if ok, token, err := ctxt.match_TagLine(line); ok {
 		if ctxt.lookahead_0(line) {
-			ctxt.endRule(RuleType_Step)
-			ctxt.startRule(RuleType_Examples_Definition)
+			ctxt.endRule(RuleType_Examples)
+			ctxt.endRule(RuleType_ExamplesDefinition)
+			ctxt.startRule(RuleType_ExamplesDefinition)
 			ctxt.startRule(RuleType_Tags)
 			ctxt.build(token)
-			return 22, err
+			return 17, err
 		}
 	}
 	if ok, token, err := ctxt.match_TagLine(line); ok {
-		ctxt.endRule(RuleType_Step)
-		ctxt.endRule(RuleType_ScenarioOutline)
-		ctxt.endRule(RuleType_Scenario_Definition)
-		ctxt.startRule(RuleType_Scenario_Definition)
+		ctxt.endRule(RuleType_Examples)
+		ctxt.endRule(RuleType_ExamplesDefinition)
+		ctxt.endRule(RuleType_Scenario)
+		ctxt.endRule(RuleType_ScenarioDefinition)
+		ctxt.startRule(RuleType_ScenarioDefinition)
 		ctxt.startRule(RuleType_Tags)
 		ctxt.build(token)
 		return 11, err
 	}
 	if ok, token, err := ctxt.match_ExamplesLine(line); ok {
-		ctxt.endRule(RuleType_Step)
-		ctxt.startRule(RuleType_Examples_Definition)
+		ctxt.endRule(RuleType_Examples)
+		ctxt.endRule(RuleType_ExamplesDefinition)
+		ctxt.startRule(RuleType_ExamplesDefinition)
 		ctxt.startRule(RuleType_Examples)
 		ctxt.build(token)
-		return 23, err
+		return 18, err
 	}
 	if ok, token, err := ctxt.match_ScenarioLine(line); ok {
-		ctxt.endRule(RuleType_Step)
-		ctxt.endRule(RuleType_ScenarioOutline)
-		ctxt.endRule(RuleType_Scenario_Definition)
-		ctxt.startRule(RuleType_Scenario_Definition)
+		ctxt.endRule(RuleType_Examples)
+		ctxt.endRule(RuleType_ExamplesDefinition)
+		ctxt.endRule(RuleType_Scenario)
+		ctxt.endRule(RuleType_ScenarioDefinition)
+		ctxt.startRule(RuleType_ScenarioDefinition)
 		ctxt.startRule(RuleType_Scenario)
 		ctxt.build(token)
 		return 12, err
-	}
-	if ok, token, err := ctxt.match_ScenarioOutlineLine(line); ok {
-		ctxt.endRule(RuleType_Step)
-		ctxt.endRule(RuleType_ScenarioOutline)
-		ctxt.endRule(RuleType_Scenario_Definition)
-		ctxt.startRule(RuleType_Scenario_Definition)
-		ctxt.startRule(RuleType_ScenarioOutline)
-		ctxt.build(token)
-		return 17, err
-	}
-	if ok, token, err := ctxt.match_Comment(line); ok {
-		ctxt.build(token)
-		return 20, err
 	}
 	if ok, token, err := ctxt.match_Empty(line); ok {
 		ctxt.build(token)
 		return 20, err
 	}
 
-	// var stateComment = "State: 20 - GherkinDocument:0>Feature:2>Scenario_Definition:1>__alt0:1>ScenarioOutline:2>Step:0>#StepLine:0"
-	var expectedTokens = []string{"#EOF", "#TableRow", "#DocStringSeparator", "#StepLine", "#TagLine", "#ExamplesLine", "#ScenarioLine", "#ScenarioOutlineLine", "#Comment", "#Empty"}
+	// var stateComment = "State: 20 - GherkinDocument:0>Feature:2>ScenarioDefinition:1>Scenario:3>ExamplesDefinition:1>Examples:1>DescriptionHelper:2>#Comment:0"
+	var expectedTokens = []string{"#EOF", "#Comment", "#TableRow", "#TagLine", "#ExamplesLine", "#ScenarioLine", "#Empty"}
 	if line.IsEof() {
 		err = &parseError{
 			msg: fmt.Sprintf("unexpected end of file, expected: %s", strings.Join(expectedTokens, ", ")),
@@ -1816,75 +1706,63 @@ func (ctxt *parseContext) matchAt_20(line *Line) (newState int, err error) {
 	return 20, err
 }
 
-// GherkinDocument:0>Feature:2>Scenario_Definition:1>__alt0:1>ScenarioOutline:2>Step:1>Step_Arg:0>__alt1:0>DataTable:0>#TableRow:0
+// GherkinDocument:0>Feature:2>ScenarioDefinition:1>Scenario:3>ExamplesDefinition:1>Examples:2>ExamplesTable:0>#TableRow:0
 func (ctxt *parseContext) matchAt_21(line *Line) (newState int, err error) {
 	if ok, token, err := ctxt.match_EOF(line); ok {
-		ctxt.endRule(RuleType_DataTable)
-		ctxt.endRule(RuleType_Step)
-		ctxt.endRule(RuleType_ScenarioOutline)
-		ctxt.endRule(RuleType_Scenario_Definition)
+		ctxt.endRule(RuleType_ExamplesTable)
+		ctxt.endRule(RuleType_Examples)
+		ctxt.endRule(RuleType_ExamplesDefinition)
+		ctxt.endRule(RuleType_Scenario)
+		ctxt.endRule(RuleType_ScenarioDefinition)
 		ctxt.endRule(RuleType_Feature)
 		ctxt.build(token)
-		return 27, err
+		return 22, err
 	}
 	if ok, token, err := ctxt.match_TableRow(line); ok {
 		ctxt.build(token)
 		return 21, err
 	}
-	if ok, token, err := ctxt.match_StepLine(line); ok {
-		ctxt.endRule(RuleType_DataTable)
-		ctxt.endRule(RuleType_Step)
-		ctxt.startRule(RuleType_Step)
-		ctxt.build(token)
-		return 20, err
-	}
 	if ok, token, err := ctxt.match_TagLine(line); ok {
 		if ctxt.lookahead_0(line) {
-			ctxt.endRule(RuleType_DataTable)
-			ctxt.endRule(RuleType_Step)
-			ctxt.startRule(RuleType_Examples_Definition)
+			ctxt.endRule(RuleType_ExamplesTable)
+			ctxt.endRule(RuleType_Examples)
+			ctxt.endRule(RuleType_ExamplesDefinition)
+			ctxt.startRule(RuleType_ExamplesDefinition)
 			ctxt.startRule(RuleType_Tags)
 			ctxt.build(token)
-			return 22, err
+			return 17, err
 		}
 	}
 	if ok, token, err := ctxt.match_TagLine(line); ok {
-		ctxt.endRule(RuleType_DataTable)
-		ctxt.endRule(RuleType_Step)
-		ctxt.endRule(RuleType_ScenarioOutline)
-		ctxt.endRule(RuleType_Scenario_Definition)
-		ctxt.startRule(RuleType_Scenario_Definition)
+		ctxt.endRule(RuleType_ExamplesTable)
+		ctxt.endRule(RuleType_Examples)
+		ctxt.endRule(RuleType_ExamplesDefinition)
+		ctxt.endRule(RuleType_Scenario)
+		ctxt.endRule(RuleType_ScenarioDefinition)
+		ctxt.startRule(RuleType_ScenarioDefinition)
 		ctxt.startRule(RuleType_Tags)
 		ctxt.build(token)
 		return 11, err
 	}
 	if ok, token, err := ctxt.match_ExamplesLine(line); ok {
-		ctxt.endRule(RuleType_DataTable)
-		ctxt.endRule(RuleType_Step)
-		ctxt.startRule(RuleType_Examples_Definition)
+		ctxt.endRule(RuleType_ExamplesTable)
+		ctxt.endRule(RuleType_Examples)
+		ctxt.endRule(RuleType_ExamplesDefinition)
+		ctxt.startRule(RuleType_ExamplesDefinition)
 		ctxt.startRule(RuleType_Examples)
 		ctxt.build(token)
-		return 23, err
+		return 18, err
 	}
 	if ok, token, err := ctxt.match_ScenarioLine(line); ok {
-		ctxt.endRule(RuleType_DataTable)
-		ctxt.endRule(RuleType_Step)
-		ctxt.endRule(RuleType_ScenarioOutline)
-		ctxt.endRule(RuleType_Scenario_Definition)
-		ctxt.startRule(RuleType_Scenario_Definition)
+		ctxt.endRule(RuleType_ExamplesTable)
+		ctxt.endRule(RuleType_Examples)
+		ctxt.endRule(RuleType_ExamplesDefinition)
+		ctxt.endRule(RuleType_Scenario)
+		ctxt.endRule(RuleType_ScenarioDefinition)
+		ctxt.startRule(RuleType_ScenarioDefinition)
 		ctxt.startRule(RuleType_Scenario)
 		ctxt.build(token)
 		return 12, err
-	}
-	if ok, token, err := ctxt.match_ScenarioOutlineLine(line); ok {
-		ctxt.endRule(RuleType_DataTable)
-		ctxt.endRule(RuleType_Step)
-		ctxt.endRule(RuleType_ScenarioOutline)
-		ctxt.endRule(RuleType_Scenario_Definition)
-		ctxt.startRule(RuleType_Scenario_Definition)
-		ctxt.startRule(RuleType_ScenarioOutline)
-		ctxt.build(token)
-		return 17, err
 	}
 	if ok, token, err := ctxt.match_Comment(line); ok {
 		ctxt.build(token)
@@ -1895,8 +1773,8 @@ func (ctxt *parseContext) matchAt_21(line *Line) (newState int, err error) {
 		return 21, err
 	}
 
-	// var stateComment = "State: 21 - GherkinDocument:0>Feature:2>Scenario_Definition:1>__alt0:1>ScenarioOutline:2>Step:1>Step_Arg:0>__alt1:0>DataTable:0>#TableRow:0"
-	var expectedTokens = []string{"#EOF", "#TableRow", "#StepLine", "#TagLine", "#ExamplesLine", "#ScenarioLine", "#ScenarioOutlineLine", "#Comment", "#Empty"}
+	// var stateComment = "State: 21 - GherkinDocument:0>Feature:2>ScenarioDefinition:1>Scenario:3>ExamplesDefinition:1>Examples:2>ExamplesTable:0>#TableRow:0"
+	var expectedTokens = []string{"#EOF", "#TableRow", "#TagLine", "#ExamplesLine", "#ScenarioLine", "#Comment", "#Empty"}
 	if line.IsEof() {
 		err = &parseError{
 			msg: fmt.Sprintf("unexpected end of file, expected: %s", strings.Join(expectedTokens, ", ")),
@@ -1913,125 +1791,19 @@ func (ctxt *parseContext) matchAt_21(line *Line) (newState int, err error) {
 	return 21, err
 }
 
-// GherkinDocument:0>Feature:2>Scenario_Definition:1>__alt0:1>ScenarioOutline:3>Examples_Definition:0>Tags:0>#TagLine:0
-func (ctxt *parseContext) matchAt_22(line *Line) (newState int, err error) {
-	if ok, token, err := ctxt.match_TagLine(line); ok {
-		ctxt.build(token)
-		return 22, err
-	}
-	if ok, token, err := ctxt.match_ExamplesLine(line); ok {
-		ctxt.endRule(RuleType_Tags)
-		ctxt.startRule(RuleType_Examples)
-		ctxt.build(token)
-		return 23, err
-	}
-	if ok, token, err := ctxt.match_Comment(line); ok {
-		ctxt.build(token)
-		return 22, err
-	}
-	if ok, token, err := ctxt.match_Empty(line); ok {
-		ctxt.build(token)
-		return 22, err
-	}
-
-	// var stateComment = "State: 22 - GherkinDocument:0>Feature:2>Scenario_Definition:1>__alt0:1>ScenarioOutline:3>Examples_Definition:0>Tags:0>#TagLine:0"
-	var expectedTokens = []string{"#TagLine", "#ExamplesLine", "#Comment", "#Empty"}
-	if line.IsEof() {
-		err = &parseError{
-			msg: fmt.Sprintf("unexpected end of file, expected: %s", strings.Join(expectedTokens, ", ")),
-			loc: &Location{Line: line.LineNumber, Column: 0},
-		}
-	} else {
-		err = &parseError{
-			msg: fmt.Sprintf("expected: %s, got '%s'", strings.Join(expectedTokens, ", "), line.LineText),
-			loc: &Location{Line: line.LineNumber, Column: line.Indent() + 1},
-		}
-	}
-	// if (ctxt.p.stopAtFirstError) throw error;
-	//ctxt.addError(err)
-	return 22, err
-}
-
-// GherkinDocument:0>Feature:2>Scenario_Definition:1>__alt0:1>ScenarioOutline:3>Examples_Definition:1>Examples:0>#ExamplesLine:0
+// GherkinDocument:0>Feature:2>ScenarioDefinition:1>Scenario:2>Step:1>StepArg:0>__alt0:1>DocString:0>#DocStringSeparator:0
 func (ctxt *parseContext) matchAt_23(line *Line) (newState int, err error) {
-	if ok, token, err := ctxt.match_EOF(line); ok {
-		ctxt.endRule(RuleType_Examples)
-		ctxt.endRule(RuleType_Examples_Definition)
-		ctxt.endRule(RuleType_ScenarioOutline)
-		ctxt.endRule(RuleType_Scenario_Definition)
-		ctxt.endRule(RuleType_Feature)
-		ctxt.build(token)
-		return 27, err
-	}
-	if ok, token, err := ctxt.match_Empty(line); ok {
-		ctxt.build(token)
-		return 23, err
-	}
-	if ok, token, err := ctxt.match_Comment(line); ok {
-		ctxt.build(token)
-		return 25, err
-	}
-	if ok, token, err := ctxt.match_TableRow(line); ok {
-		ctxt.startRule(RuleType_Examples_Table)
-		ctxt.build(token)
-		return 26, err
-	}
-	if ok, token, err := ctxt.match_TagLine(line); ok {
-		if ctxt.lookahead_0(line) {
-			ctxt.endRule(RuleType_Examples)
-			ctxt.endRule(RuleType_Examples_Definition)
-			ctxt.startRule(RuleType_Examples_Definition)
-			ctxt.startRule(RuleType_Tags)
-			ctxt.build(token)
-			return 22, err
-		}
-	}
-	if ok, token, err := ctxt.match_TagLine(line); ok {
-		ctxt.endRule(RuleType_Examples)
-		ctxt.endRule(RuleType_Examples_Definition)
-		ctxt.endRule(RuleType_ScenarioOutline)
-		ctxt.endRule(RuleType_Scenario_Definition)
-		ctxt.startRule(RuleType_Scenario_Definition)
-		ctxt.startRule(RuleType_Tags)
-		ctxt.build(token)
-		return 11, err
-	}
-	if ok, token, err := ctxt.match_ExamplesLine(line); ok {
-		ctxt.endRule(RuleType_Examples)
-		ctxt.endRule(RuleType_Examples_Definition)
-		ctxt.startRule(RuleType_Examples_Definition)
-		ctxt.startRule(RuleType_Examples)
-		ctxt.build(token)
-		return 23, err
-	}
-	if ok, token, err := ctxt.match_ScenarioLine(line); ok {
-		ctxt.endRule(RuleType_Examples)
-		ctxt.endRule(RuleType_Examples_Definition)
-		ctxt.endRule(RuleType_ScenarioOutline)
-		ctxt.endRule(RuleType_Scenario_Definition)
-		ctxt.startRule(RuleType_Scenario_Definition)
-		ctxt.startRule(RuleType_Scenario)
-		ctxt.build(token)
-		return 12, err
-	}
-	if ok, token, err := ctxt.match_ScenarioOutlineLine(line); ok {
-		ctxt.endRule(RuleType_Examples)
-		ctxt.endRule(RuleType_Examples_Definition)
-		ctxt.endRule(RuleType_ScenarioOutline)
-		ctxt.endRule(RuleType_Scenario_Definition)
-		ctxt.startRule(RuleType_Scenario_Definition)
-		ctxt.startRule(RuleType_ScenarioOutline)
-		ctxt.build(token)
-		return 17, err
-	}
-	if ok, token, err := ctxt.match_Other(line); ok {
-		ctxt.startRule(RuleType_Description)
+	if ok, token, err := ctxt.match_DocStringSeparator(line); ok {
 		ctxt.build(token)
 		return 24, err
 	}
+	if ok, token, err := ctxt.match_Other(line); ok {
+		ctxt.build(token)
+		return 23, err
+	}
 
-	// var stateComment = "State: 23 - GherkinDocument:0>Feature:2>Scenario_Definition:1>__alt0:1>ScenarioOutline:3>Examples_Definition:1>Examples:0>#ExamplesLine:0"
-	var expectedTokens = []string{"#EOF", "#Empty", "#Comment", "#TableRow", "#TagLine", "#ExamplesLine", "#ScenarioLine", "#ScenarioOutlineLine", "#Other"}
+	// var stateComment = "State: 23 - GherkinDocument:0>Feature:2>ScenarioDefinition:1>Scenario:2>Step:1>StepArg:0>__alt0:1>DocString:0>#DocStringSeparator:0"
+	var expectedTokens = []string{"#DocStringSeparator", "#Other"}
 	if line.IsEof() {
 		err = &parseError{
 			msg: fmt.Sprintf("unexpected end of file, expected: %s", strings.Join(expectedTokens, ", ")),
@@ -2048,89 +1820,73 @@ func (ctxt *parseContext) matchAt_23(line *Line) (newState int, err error) {
 	return 23, err
 }
 
-// GherkinDocument:0>Feature:2>Scenario_Definition:1>__alt0:1>ScenarioOutline:3>Examples_Definition:1>Examples:1>Description_Helper:1>Description:0>#Other:0
+// GherkinDocument:0>Feature:2>ScenarioDefinition:1>Scenario:2>Step:1>StepArg:0>__alt0:1>DocString:2>#DocStringSeparator:0
 func (ctxt *parseContext) matchAt_24(line *Line) (newState int, err error) {
 	if ok, token, err := ctxt.match_EOF(line); ok {
-		ctxt.endRule(RuleType_Description)
-		ctxt.endRule(RuleType_Examples)
-		ctxt.endRule(RuleType_Examples_Definition)
-		ctxt.endRule(RuleType_ScenarioOutline)
-		ctxt.endRule(RuleType_Scenario_Definition)
+		ctxt.endRule(RuleType_DocString)
+		ctxt.endRule(RuleType_Step)
+		ctxt.endRule(RuleType_Scenario)
+		ctxt.endRule(RuleType_ScenarioDefinition)
 		ctxt.endRule(RuleType_Feature)
 		ctxt.build(token)
-		return 27, err
+		return 22, err
 	}
-	if ok, token, err := ctxt.match_Comment(line); ok {
-		ctxt.endRule(RuleType_Description)
+	if ok, token, err := ctxt.match_StepLine(line); ok {
+		ctxt.endRule(RuleType_DocString)
+		ctxt.endRule(RuleType_Step)
+		ctxt.startRule(RuleType_Step)
 		ctxt.build(token)
-		return 25, err
-	}
-	if ok, token, err := ctxt.match_TableRow(line); ok {
-		ctxt.endRule(RuleType_Description)
-		ctxt.startRule(RuleType_Examples_Table)
-		ctxt.build(token)
-		return 26, err
+		return 15, err
 	}
 	if ok, token, err := ctxt.match_TagLine(line); ok {
 		if ctxt.lookahead_0(line) {
-			ctxt.endRule(RuleType_Description)
-			ctxt.endRule(RuleType_Examples)
-			ctxt.endRule(RuleType_Examples_Definition)
-			ctxt.startRule(RuleType_Examples_Definition)
+			ctxt.endRule(RuleType_DocString)
+			ctxt.endRule(RuleType_Step)
+			ctxt.startRule(RuleType_ExamplesDefinition)
 			ctxt.startRule(RuleType_Tags)
 			ctxt.build(token)
-			return 22, err
+			return 17, err
 		}
 	}
 	if ok, token, err := ctxt.match_TagLine(line); ok {
-		ctxt.endRule(RuleType_Description)
-		ctxt.endRule(RuleType_Examples)
-		ctxt.endRule(RuleType_Examples_Definition)
-		ctxt.endRule(RuleType_ScenarioOutline)
-		ctxt.endRule(RuleType_Scenario_Definition)
-		ctxt.startRule(RuleType_Scenario_Definition)
+		ctxt.endRule(RuleType_DocString)
+		ctxt.endRule(RuleType_Step)
+		ctxt.endRule(RuleType_Scenario)
+		ctxt.endRule(RuleType_ScenarioDefinition)
+		ctxt.startRule(RuleType_ScenarioDefinition)
 		ctxt.startRule(RuleType_Tags)
 		ctxt.build(token)
 		return 11, err
 	}
 	if ok, token, err := ctxt.match_ExamplesLine(line); ok {
-		ctxt.endRule(RuleType_Description)
-		ctxt.endRule(RuleType_Examples)
-		ctxt.endRule(RuleType_Examples_Definition)
-		ctxt.startRule(RuleType_Examples_Definition)
+		ctxt.endRule(RuleType_DocString)
+		ctxt.endRule(RuleType_Step)
+		ctxt.startRule(RuleType_ExamplesDefinition)
 		ctxt.startRule(RuleType_Examples)
 		ctxt.build(token)
-		return 23, err
+		return 18, err
 	}
 	if ok, token, err := ctxt.match_ScenarioLine(line); ok {
-		ctxt.endRule(RuleType_Description)
-		ctxt.endRule(RuleType_Examples)
-		ctxt.endRule(RuleType_Examples_Definition)
-		ctxt.endRule(RuleType_ScenarioOutline)
-		ctxt.endRule(RuleType_Scenario_Definition)
-		ctxt.startRule(RuleType_Scenario_Definition)
+		ctxt.endRule(RuleType_DocString)
+		ctxt.endRule(RuleType_Step)
+		ctxt.endRule(RuleType_Scenario)
+		ctxt.endRule(RuleType_ScenarioDefinition)
+		ctxt.startRule(RuleType_ScenarioDefinition)
 		ctxt.startRule(RuleType_Scenario)
 		ctxt.build(token)
 		return 12, err
 	}
-	if ok, token, err := ctxt.match_ScenarioOutlineLine(line); ok {
-		ctxt.endRule(RuleType_Description)
-		ctxt.endRule(RuleType_Examples)
-		ctxt.endRule(RuleType_Examples_Definition)
-		ctxt.endRule(RuleType_ScenarioOutline)
-		ctxt.endRule(RuleType_Scenario_Definition)
-		ctxt.startRule(RuleType_Scenario_Definition)
-		ctxt.startRule(RuleType_ScenarioOutline)
+	if ok, token, err := ctxt.match_Comment(line); ok {
 		ctxt.build(token)
-		return 17, err
+		return 24, err
 	}
-	if ok, token, err := ctxt.match_Other(line); ok {
+	if ok, token, err := ctxt.match_Empty(line); ok {
 		ctxt.build(token)
 		return 24, err
 	}
 
-	// var stateComment = "State: 24 - GherkinDocument:0>Feature:2>Scenario_Definition:1>__alt0:1>ScenarioOutline:3>Examples_Definition:1>Examples:1>Description_Helper:1>Description:0>#Other:0"
-	var expectedTokens = []string{"#EOF", "#Comment", "#TableRow", "#TagLine", "#ExamplesLine", "#ScenarioLine", "#ScenarioOutlineLine", "#Other"}
+	// var stateComment = "State: 24 - GherkinDocument:0>Feature:2>ScenarioDefinition:1>Scenario:2>Step:1>StepArg:0>__alt0:1>DocString:2>#DocStringSeparator:0"
+	var expectedTokens = []string{"#EOF", "#StepLine", "#TagLine", "#ExamplesLine", "#ScenarioLine", "#Comment", "#Empty"}
 	if line.IsEof() {
 		err = &parseError{
 			msg: fmt.Sprintf("unexpected end of file, expected: %s", strings.Join(expectedTokens, ", ")),
@@ -2147,81 +1903,19 @@ func (ctxt *parseContext) matchAt_24(line *Line) (newState int, err error) {
 	return 24, err
 }
 
-// GherkinDocument:0>Feature:2>Scenario_Definition:1>__alt0:1>ScenarioOutline:3>Examples_Definition:1>Examples:1>Description_Helper:2>#Comment:0
+// GherkinDocument:0>Feature:1>Background:2>Step:1>StepArg:0>__alt0:1>DocString:0>#DocStringSeparator:0
 func (ctxt *parseContext) matchAt_25(line *Line) (newState int, err error) {
-	if ok, token, err := ctxt.match_EOF(line); ok {
-		ctxt.endRule(RuleType_Examples)
-		ctxt.endRule(RuleType_Examples_Definition)
-		ctxt.endRule(RuleType_ScenarioOutline)
-		ctxt.endRule(RuleType_Scenario_Definition)
-		ctxt.endRule(RuleType_Feature)
-		ctxt.build(token)
-		return 27, err
-	}
-	if ok, token, err := ctxt.match_Comment(line); ok {
-		ctxt.build(token)
-		return 25, err
-	}
-	if ok, token, err := ctxt.match_TableRow(line); ok {
-		ctxt.startRule(RuleType_Examples_Table)
+	if ok, token, err := ctxt.match_DocStringSeparator(line); ok {
 		ctxt.build(token)
 		return 26, err
 	}
-	if ok, token, err := ctxt.match_TagLine(line); ok {
-		if ctxt.lookahead_0(line) {
-			ctxt.endRule(RuleType_Examples)
-			ctxt.endRule(RuleType_Examples_Definition)
-			ctxt.startRule(RuleType_Examples_Definition)
-			ctxt.startRule(RuleType_Tags)
-			ctxt.build(token)
-			return 22, err
-		}
-	}
-	if ok, token, err := ctxt.match_TagLine(line); ok {
-		ctxt.endRule(RuleType_Examples)
-		ctxt.endRule(RuleType_Examples_Definition)
-		ctxt.endRule(RuleType_ScenarioOutline)
-		ctxt.endRule(RuleType_Scenario_Definition)
-		ctxt.startRule(RuleType_Scenario_Definition)
-		ctxt.startRule(RuleType_Tags)
-		ctxt.build(token)
-		return 11, err
-	}
-	if ok, token, err := ctxt.match_ExamplesLine(line); ok {
-		ctxt.endRule(RuleType_Examples)
-		ctxt.endRule(RuleType_Examples_Definition)
-		ctxt.startRule(RuleType_Examples_Definition)
-		ctxt.startRule(RuleType_Examples)
-		ctxt.build(token)
-		return 23, err
-	}
-	if ok, token, err := ctxt.match_ScenarioLine(line); ok {
-		ctxt.endRule(RuleType_Examples)
-		ctxt.endRule(RuleType_Examples_Definition)
-		ctxt.endRule(RuleType_ScenarioOutline)
-		ctxt.endRule(RuleType_Scenario_Definition)
-		ctxt.startRule(RuleType_Scenario_Definition)
-		ctxt.startRule(RuleType_Scenario)
-		ctxt.build(token)
-		return 12, err
-	}
-	if ok, token, err := ctxt.match_ScenarioOutlineLine(line); ok {
-		ctxt.endRule(RuleType_Examples)
-		ctxt.endRule(RuleType_Examples_Definition)
-		ctxt.endRule(RuleType_ScenarioOutline)
-		ctxt.endRule(RuleType_Scenario_Definition)
-		ctxt.startRule(RuleType_Scenario_Definition)
-		ctxt.startRule(RuleType_ScenarioOutline)
-		ctxt.build(token)
-		return 17, err
-	}
-	if ok, token, err := ctxt.match_Empty(line); ok {
+	if ok, token, err := ctxt.match_Other(line); ok {
 		ctxt.build(token)
 		return 25, err
 	}
 
-	// var stateComment = "State: 25 - GherkinDocument:0>Feature:2>Scenario_Definition:1>__alt0:1>ScenarioOutline:3>Examples_Definition:1>Examples:1>Description_Helper:2>#Comment:0"
-	var expectedTokens = []string{"#EOF", "#Comment", "#TableRow", "#TagLine", "#ExamplesLine", "#ScenarioLine", "#ScenarioOutlineLine", "#Empty"}
+	// var stateComment = "State: 25 - GherkinDocument:0>Feature:1>Background:2>Step:1>StepArg:0>__alt0:1>DocString:0>#DocStringSeparator:0"
+	var expectedTokens = []string{"#DocStringSeparator", "#Other"}
 	if line.IsEof() {
 		err = &parseError{
 			msg: fmt.Sprintf("unexpected end of file, expected: %s", strings.Join(expectedTokens, ", ")),
@@ -2238,74 +1932,40 @@ func (ctxt *parseContext) matchAt_25(line *Line) (newState int, err error) {
 	return 25, err
 }
 
-// GherkinDocument:0>Feature:2>Scenario_Definition:1>__alt0:1>ScenarioOutline:3>Examples_Definition:1>Examples:2>Examples_Table:0>#TableRow:0
+// GherkinDocument:0>Feature:1>Background:2>Step:1>StepArg:0>__alt0:1>DocString:2>#DocStringSeparator:0
 func (ctxt *parseContext) matchAt_26(line *Line) (newState int, err error) {
 	if ok, token, err := ctxt.match_EOF(line); ok {
-		ctxt.endRule(RuleType_Examples_Table)
-		ctxt.endRule(RuleType_Examples)
-		ctxt.endRule(RuleType_Examples_Definition)
-		ctxt.endRule(RuleType_ScenarioOutline)
-		ctxt.endRule(RuleType_Scenario_Definition)
+		ctxt.endRule(RuleType_DocString)
+		ctxt.endRule(RuleType_Step)
+		ctxt.endRule(RuleType_Background)
 		ctxt.endRule(RuleType_Feature)
 		ctxt.build(token)
-		return 27, err
+		return 22, err
 	}
-	if ok, token, err := ctxt.match_TableRow(line); ok {
+	if ok, token, err := ctxt.match_StepLine(line); ok {
+		ctxt.endRule(RuleType_DocString)
+		ctxt.endRule(RuleType_Step)
+		ctxt.startRule(RuleType_Step)
 		ctxt.build(token)
-		return 26, err
+		return 9, err
 	}
 	if ok, token, err := ctxt.match_TagLine(line); ok {
-		if ctxt.lookahead_0(line) {
-			ctxt.endRule(RuleType_Examples_Table)
-			ctxt.endRule(RuleType_Examples)
-			ctxt.endRule(RuleType_Examples_Definition)
-			ctxt.startRule(RuleType_Examples_Definition)
-			ctxt.startRule(RuleType_Tags)
-			ctxt.build(token)
-			return 22, err
-		}
-	}
-	if ok, token, err := ctxt.match_TagLine(line); ok {
-		ctxt.endRule(RuleType_Examples_Table)
-		ctxt.endRule(RuleType_Examples)
-		ctxt.endRule(RuleType_Examples_Definition)
-		ctxt.endRule(RuleType_ScenarioOutline)
-		ctxt.endRule(RuleType_Scenario_Definition)
-		ctxt.startRule(RuleType_Scenario_Definition)
+		ctxt.endRule(RuleType_DocString)
+		ctxt.endRule(RuleType_Step)
+		ctxt.endRule(RuleType_Background)
+		ctxt.startRule(RuleType_ScenarioDefinition)
 		ctxt.startRule(RuleType_Tags)
 		ctxt.build(token)
 		return 11, err
 	}
-	if ok, token, err := ctxt.match_ExamplesLine(line); ok {
-		ctxt.endRule(RuleType_Examples_Table)
-		ctxt.endRule(RuleType_Examples)
-		ctxt.endRule(RuleType_Examples_Definition)
-		ctxt.startRule(RuleType_Examples_Definition)
-		ctxt.startRule(RuleType_Examples)
-		ctxt.build(token)
-		return 23, err
-	}
 	if ok, token, err := ctxt.match_ScenarioLine(line); ok {
-		ctxt.endRule(RuleType_Examples_Table)
-		ctxt.endRule(RuleType_Examples)
-		ctxt.endRule(RuleType_Examples_Definition)
-		ctxt.endRule(RuleType_ScenarioOutline)
-		ctxt.endRule(RuleType_Scenario_Definition)
-		ctxt.startRule(RuleType_Scenario_Definition)
+		ctxt.endRule(RuleType_DocString)
+		ctxt.endRule(RuleType_Step)
+		ctxt.endRule(RuleType_Background)
+		ctxt.startRule(RuleType_ScenarioDefinition)
 		ctxt.startRule(RuleType_Scenario)
 		ctxt.build(token)
 		return 12, err
-	}
-	if ok, token, err := ctxt.match_ScenarioOutlineLine(line); ok {
-		ctxt.endRule(RuleType_Examples_Table)
-		ctxt.endRule(RuleType_Examples)
-		ctxt.endRule(RuleType_Examples_Definition)
-		ctxt.endRule(RuleType_ScenarioOutline)
-		ctxt.endRule(RuleType_Scenario_Definition)
-		ctxt.startRule(RuleType_Scenario_Definition)
-		ctxt.startRule(RuleType_ScenarioOutline)
-		ctxt.build(token)
-		return 17, err
 	}
 	if ok, token, err := ctxt.match_Comment(line); ok {
 		ctxt.build(token)
@@ -2316,8 +1976,8 @@ func (ctxt *parseContext) matchAt_26(line *Line) (newState int, err error) {
 		return 26, err
 	}
 
-	// var stateComment = "State: 26 - GherkinDocument:0>Feature:2>Scenario_Definition:1>__alt0:1>ScenarioOutline:3>Examples_Definition:1>Examples:2>Examples_Table:0>#TableRow:0"
-	var expectedTokens = []string{"#EOF", "#TableRow", "#TagLine", "#ExamplesLine", "#ScenarioLine", "#ScenarioOutlineLine", "#Comment", "#Empty"}
+	// var stateComment = "State: 26 - GherkinDocument:0>Feature:1>Background:2>Step:1>StepArg:0>__alt0:1>DocString:2>#DocStringSeparator:0"
+	var expectedTokens = []string{"#EOF", "#StepLine", "#TagLine", "#ScenarioLine", "#Comment", "#Empty"}
 	if line.IsEof() {
 		err = &parseError{
 			msg: fmt.Sprintf("unexpected end of file, expected: %s", strings.Join(expectedTokens, ", ")),
@@ -2334,332 +1994,6 @@ func (ctxt *parseContext) matchAt_26(line *Line) (newState int, err error) {
 	return 26, err
 }
 
-// GherkinDocument:0>Feature:2>Scenario_Definition:1>__alt0:1>ScenarioOutline:2>Step:1>Step_Arg:0>__alt1:1>DocString:0>#DocStringSeparator:0
-func (ctxt *parseContext) matchAt_28(line *Line) (newState int, err error) {
-	if ok, token, err := ctxt.match_DocStringSeparator(line); ok {
-		ctxt.build(token)
-		return 29, err
-	}
-	if ok, token, err := ctxt.match_Other(line); ok {
-		ctxt.build(token)
-		return 28, err
-	}
-
-	// var stateComment = "State: 28 - GherkinDocument:0>Feature:2>Scenario_Definition:1>__alt0:1>ScenarioOutline:2>Step:1>Step_Arg:0>__alt1:1>DocString:0>#DocStringSeparator:0"
-	var expectedTokens = []string{"#DocStringSeparator", "#Other"}
-	if line.IsEof() {
-		err = &parseError{
-			msg: fmt.Sprintf("unexpected end of file, expected: %s", strings.Join(expectedTokens, ", ")),
-			loc: &Location{Line: line.LineNumber, Column: 0},
-		}
-	} else {
-		err = &parseError{
-			msg: fmt.Sprintf("expected: %s, got '%s'", strings.Join(expectedTokens, ", "), line.LineText),
-			loc: &Location{Line: line.LineNumber, Column: line.Indent() + 1},
-		}
-	}
-	// if (ctxt.p.stopAtFirstError) throw error;
-	//ctxt.addError(err)
-	return 28, err
-}
-
-// GherkinDocument:0>Feature:2>Scenario_Definition:1>__alt0:1>ScenarioOutline:2>Step:1>Step_Arg:0>__alt1:1>DocString:2>#DocStringSeparator:0
-func (ctxt *parseContext) matchAt_29(line *Line) (newState int, err error) {
-	if ok, token, err := ctxt.match_EOF(line); ok {
-		ctxt.endRule(RuleType_DocString)
-		ctxt.endRule(RuleType_Step)
-		ctxt.endRule(RuleType_ScenarioOutline)
-		ctxt.endRule(RuleType_Scenario_Definition)
-		ctxt.endRule(RuleType_Feature)
-		ctxt.build(token)
-		return 27, err
-	}
-	if ok, token, err := ctxt.match_StepLine(line); ok {
-		ctxt.endRule(RuleType_DocString)
-		ctxt.endRule(RuleType_Step)
-		ctxt.startRule(RuleType_Step)
-		ctxt.build(token)
-		return 20, err
-	}
-	if ok, token, err := ctxt.match_TagLine(line); ok {
-		if ctxt.lookahead_0(line) {
-			ctxt.endRule(RuleType_DocString)
-			ctxt.endRule(RuleType_Step)
-			ctxt.startRule(RuleType_Examples_Definition)
-			ctxt.startRule(RuleType_Tags)
-			ctxt.build(token)
-			return 22, err
-		}
-	}
-	if ok, token, err := ctxt.match_TagLine(line); ok {
-		ctxt.endRule(RuleType_DocString)
-		ctxt.endRule(RuleType_Step)
-		ctxt.endRule(RuleType_ScenarioOutline)
-		ctxt.endRule(RuleType_Scenario_Definition)
-		ctxt.startRule(RuleType_Scenario_Definition)
-		ctxt.startRule(RuleType_Tags)
-		ctxt.build(token)
-		return 11, err
-	}
-	if ok, token, err := ctxt.match_ExamplesLine(line); ok {
-		ctxt.endRule(RuleType_DocString)
-		ctxt.endRule(RuleType_Step)
-		ctxt.startRule(RuleType_Examples_Definition)
-		ctxt.startRule(RuleType_Examples)
-		ctxt.build(token)
-		return 23, err
-	}
-	if ok, token, err := ctxt.match_ScenarioLine(line); ok {
-		ctxt.endRule(RuleType_DocString)
-		ctxt.endRule(RuleType_Step)
-		ctxt.endRule(RuleType_ScenarioOutline)
-		ctxt.endRule(RuleType_Scenario_Definition)
-		ctxt.startRule(RuleType_Scenario_Definition)
-		ctxt.startRule(RuleType_Scenario)
-		ctxt.build(token)
-		return 12, err
-	}
-	if ok, token, err := ctxt.match_ScenarioOutlineLine(line); ok {
-		ctxt.endRule(RuleType_DocString)
-		ctxt.endRule(RuleType_Step)
-		ctxt.endRule(RuleType_ScenarioOutline)
-		ctxt.endRule(RuleType_Scenario_Definition)
-		ctxt.startRule(RuleType_Scenario_Definition)
-		ctxt.startRule(RuleType_ScenarioOutline)
-		ctxt.build(token)
-		return 17, err
-	}
-	if ok, token, err := ctxt.match_Comment(line); ok {
-		ctxt.build(token)
-		return 29, err
-	}
-	if ok, token, err := ctxt.match_Empty(line); ok {
-		ctxt.build(token)
-		return 29, err
-	}
-
-	// var stateComment = "State: 29 - GherkinDocument:0>Feature:2>Scenario_Definition:1>__alt0:1>ScenarioOutline:2>Step:1>Step_Arg:0>__alt1:1>DocString:2>#DocStringSeparator:0"
-	var expectedTokens = []string{"#EOF", "#StepLine", "#TagLine", "#ExamplesLine", "#ScenarioLine", "#ScenarioOutlineLine", "#Comment", "#Empty"}
-	if line.IsEof() {
-		err = &parseError{
-			msg: fmt.Sprintf("unexpected end of file, expected: %s", strings.Join(expectedTokens, ", ")),
-			loc: &Location{Line: line.LineNumber, Column: 0},
-		}
-	} else {
-		err = &parseError{
-			msg: fmt.Sprintf("expected: %s, got '%s'", strings.Join(expectedTokens, ", "), line.LineText),
-			loc: &Location{Line: line.LineNumber, Column: line.Indent() + 1},
-		}
-	}
-	// if (ctxt.p.stopAtFirstError) throw error;
-	//ctxt.addError(err)
-	return 29, err
-}
-
-// GherkinDocument:0>Feature:2>Scenario_Definition:1>__alt0:0>Scenario:2>Step:1>Step_Arg:0>__alt1:1>DocString:0>#DocStringSeparator:0
-func (ctxt *parseContext) matchAt_30(line *Line) (newState int, err error) {
-	if ok, token, err := ctxt.match_DocStringSeparator(line); ok {
-		ctxt.build(token)
-		return 31, err
-	}
-	if ok, token, err := ctxt.match_Other(line); ok {
-		ctxt.build(token)
-		return 30, err
-	}
-
-	// var stateComment = "State: 30 - GherkinDocument:0>Feature:2>Scenario_Definition:1>__alt0:0>Scenario:2>Step:1>Step_Arg:0>__alt1:1>DocString:0>#DocStringSeparator:0"
-	var expectedTokens = []string{"#DocStringSeparator", "#Other"}
-	if line.IsEof() {
-		err = &parseError{
-			msg: fmt.Sprintf("unexpected end of file, expected: %s", strings.Join(expectedTokens, ", ")),
-			loc: &Location{Line: line.LineNumber, Column: 0},
-		}
-	} else {
-		err = &parseError{
-			msg: fmt.Sprintf("expected: %s, got '%s'", strings.Join(expectedTokens, ", "), line.LineText),
-			loc: &Location{Line: line.LineNumber, Column: line.Indent() + 1},
-		}
-	}
-	// if (ctxt.p.stopAtFirstError) throw error;
-	//ctxt.addError(err)
-	return 30, err
-}
-
-// GherkinDocument:0>Feature:2>Scenario_Definition:1>__alt0:0>Scenario:2>Step:1>Step_Arg:0>__alt1:1>DocString:2>#DocStringSeparator:0
-func (ctxt *parseContext) matchAt_31(line *Line) (newState int, err error) {
-	if ok, token, err := ctxt.match_EOF(line); ok {
-		ctxt.endRule(RuleType_DocString)
-		ctxt.endRule(RuleType_Step)
-		ctxt.endRule(RuleType_Scenario)
-		ctxt.endRule(RuleType_Scenario_Definition)
-		ctxt.endRule(RuleType_Feature)
-		ctxt.build(token)
-		return 27, err
-	}
-	if ok, token, err := ctxt.match_StepLine(line); ok {
-		ctxt.endRule(RuleType_DocString)
-		ctxt.endRule(RuleType_Step)
-		ctxt.startRule(RuleType_Step)
-		ctxt.build(token)
-		return 15, err
-	}
-	if ok, token, err := ctxt.match_TagLine(line); ok {
-		ctxt.endRule(RuleType_DocString)
-		ctxt.endRule(RuleType_Step)
-		ctxt.endRule(RuleType_Scenario)
-		ctxt.endRule(RuleType_Scenario_Definition)
-		ctxt.startRule(RuleType_Scenario_Definition)
-		ctxt.startRule(RuleType_Tags)
-		ctxt.build(token)
-		return 11, err
-	}
-	if ok, token, err := ctxt.match_ScenarioLine(line); ok {
-		ctxt.endRule(RuleType_DocString)
-		ctxt.endRule(RuleType_Step)
-		ctxt.endRule(RuleType_Scenario)
-		ctxt.endRule(RuleType_Scenario_Definition)
-		ctxt.startRule(RuleType_Scenario_Definition)
-		ctxt.startRule(RuleType_Scenario)
-		ctxt.build(token)
-		return 12, err
-	}
-	if ok, token, err := ctxt.match_ScenarioOutlineLine(line); ok {
-		ctxt.endRule(RuleType_DocString)
-		ctxt.endRule(RuleType_Step)
-		ctxt.endRule(RuleType_Scenario)
-		ctxt.endRule(RuleType_Scenario_Definition)
-		ctxt.startRule(RuleType_Scenario_Definition)
-		ctxt.startRule(RuleType_ScenarioOutline)
-		ctxt.build(token)
-		return 17, err
-	}
-	if ok, token, err := ctxt.match_Comment(line); ok {
-		ctxt.build(token)
-		return 31, err
-	}
-	if ok, token, err := ctxt.match_Empty(line); ok {
-		ctxt.build(token)
-		return 31, err
-	}
-
-	// var stateComment = "State: 31 - GherkinDocument:0>Feature:2>Scenario_Definition:1>__alt0:0>Scenario:2>Step:1>Step_Arg:0>__alt1:1>DocString:2>#DocStringSeparator:0"
-	var expectedTokens = []string{"#EOF", "#StepLine", "#TagLine", "#ScenarioLine", "#ScenarioOutlineLine", "#Comment", "#Empty"}
-	if line.IsEof() {
-		err = &parseError{
-			msg: fmt.Sprintf("unexpected end of file, expected: %s", strings.Join(expectedTokens, ", ")),
-			loc: &Location{Line: line.LineNumber, Column: 0},
-		}
-	} else {
-		err = &parseError{
-			msg: fmt.Sprintf("expected: %s, got '%s'", strings.Join(expectedTokens, ", "), line.LineText),
-			loc: &Location{Line: line.LineNumber, Column: line.Indent() + 1},
-		}
-	}
-	// if (ctxt.p.stopAtFirstError) throw error;
-	//ctxt.addError(err)
-	return 31, err
-}
-
-// GherkinDocument:0>Feature:1>Background:2>Step:1>Step_Arg:0>__alt1:1>DocString:0>#DocStringSeparator:0
-func (ctxt *parseContext) matchAt_32(line *Line) (newState int, err error) {
-	if ok, token, err := ctxt.match_DocStringSeparator(line); ok {
-		ctxt.build(token)
-		return 33, err
-	}
-	if ok, token, err := ctxt.match_Other(line); ok {
-		ctxt.build(token)
-		return 32, err
-	}
-
-	// var stateComment = "State: 32 - GherkinDocument:0>Feature:1>Background:2>Step:1>Step_Arg:0>__alt1:1>DocString:0>#DocStringSeparator:0"
-	var expectedTokens = []string{"#DocStringSeparator", "#Other"}
-	if line.IsEof() {
-		err = &parseError{
-			msg: fmt.Sprintf("unexpected end of file, expected: %s", strings.Join(expectedTokens, ", ")),
-			loc: &Location{Line: line.LineNumber, Column: 0},
-		}
-	} else {
-		err = &parseError{
-			msg: fmt.Sprintf("expected: %s, got '%s'", strings.Join(expectedTokens, ", "), line.LineText),
-			loc: &Location{Line: line.LineNumber, Column: line.Indent() + 1},
-		}
-	}
-	// if (ctxt.p.stopAtFirstError) throw error;
-	//ctxt.addError(err)
-	return 32, err
-}
-
-// GherkinDocument:0>Feature:1>Background:2>Step:1>Step_Arg:0>__alt1:1>DocString:2>#DocStringSeparator:0
-func (ctxt *parseContext) matchAt_33(line *Line) (newState int, err error) {
-	if ok, token, err := ctxt.match_EOF(line); ok {
-		ctxt.endRule(RuleType_DocString)
-		ctxt.endRule(RuleType_Step)
-		ctxt.endRule(RuleType_Background)
-		ctxt.endRule(RuleType_Feature)
-		ctxt.build(token)
-		return 27, err
-	}
-	if ok, token, err := ctxt.match_StepLine(line); ok {
-		ctxt.endRule(RuleType_DocString)
-		ctxt.endRule(RuleType_Step)
-		ctxt.startRule(RuleType_Step)
-		ctxt.build(token)
-		return 9, err
-	}
-	if ok, token, err := ctxt.match_TagLine(line); ok {
-		ctxt.endRule(RuleType_DocString)
-		ctxt.endRule(RuleType_Step)
-		ctxt.endRule(RuleType_Background)
-		ctxt.startRule(RuleType_Scenario_Definition)
-		ctxt.startRule(RuleType_Tags)
-		ctxt.build(token)
-		return 11, err
-	}
-	if ok, token, err := ctxt.match_ScenarioLine(line); ok {
-		ctxt.endRule(RuleType_DocString)
-		ctxt.endRule(RuleType_Step)
-		ctxt.endRule(RuleType_Background)
-		ctxt.startRule(RuleType_Scenario_Definition)
-		ctxt.startRule(RuleType_Scenario)
-		ctxt.build(token)
-		return 12, err
-	}
-	if ok, token, err := ctxt.match_ScenarioOutlineLine(line); ok {
-		ctxt.endRule(RuleType_DocString)
-		ctxt.endRule(RuleType_Step)
-		ctxt.endRule(RuleType_Background)
-		ctxt.startRule(RuleType_Scenario_Definition)
-		ctxt.startRule(RuleType_ScenarioOutline)
-		ctxt.build(token)
-		return 17, err
-	}
-	if ok, token, err := ctxt.match_Comment(line); ok {
-		ctxt.build(token)
-		return 33, err
-	}
-	if ok, token, err := ctxt.match_Empty(line); ok {
-		ctxt.build(token)
-		return 33, err
-	}
-
-	// var stateComment = "State: 33 - GherkinDocument:0>Feature:1>Background:2>Step:1>Step_Arg:0>__alt1:1>DocString:2>#DocStringSeparator:0"
-	var expectedTokens = []string{"#EOF", "#StepLine", "#TagLine", "#ScenarioLine", "#ScenarioOutlineLine", "#Comment", "#Empty"}
-	if line.IsEof() {
-		err = &parseError{
-			msg: fmt.Sprintf("unexpected end of file, expected: %s", strings.Join(expectedTokens, ", ")),
-			loc: &Location{Line: line.LineNumber, Column: 0},
-		}
-	} else {
-		err = &parseError{
-			msg: fmt.Sprintf("expected: %s, got '%s'", strings.Join(expectedTokens, ", "), line.LineText),
-			loc: &Location{Line: line.LineNumber, Column: line.Indent() + 1},
-		}
-	}
-	// if (ctxt.p.stopAtFirstError) throw error;
-	//ctxt.addError(err)
-	return 33, err
-}
-
 type Matcher interface {
 	MatchEOF(line *Line) (bool, *Token, error)
 	MatchEmpty(line *Line) (bool, *Token, error)
@@ -2668,7 +2002,6 @@ type Matcher interface {
 	MatchFeatureLine(line *Line) (bool, *Token, error)
 	MatchBackgroundLine(line *Line) (bool, *Token, error)
 	MatchScenarioLine(line *Line) (bool, *Token, error)
-	MatchScenarioOutlineLine(line *Line) (bool, *Token, error)
 	MatchExamplesLine(line *Line) (bool, *Token, error)
 	MatchStepLine(line *Line) (bool, *Token, error)
 	MatchDocStringSeparator(line *Line) (bool, *Token, error)
@@ -2750,17 +2083,6 @@ func (ctxt *parseContext) match_ScenarioLine(line *Line) (bool, *Token, error) {
 		return false, nil, nil
 	}
 	return ctxt.m.MatchScenarioLine(line)
-}
-
-func (ctxt *parseContext) isMatch_ScenarioOutlineLine(line *Line) bool {
-	ok, _, _ := ctxt.match_ScenarioOutlineLine(line)
-	return ok
-}
-func (ctxt *parseContext) match_ScenarioOutlineLine(line *Line) (bool, *Token, error) {
-	if line.IsEof() {
-		return false, nil, nil
-	}
-	return ctxt.m.MatchScenarioOutlineLine(line)
 }
 
 func (ctxt *parseContext) isMatch_ExamplesLine(line *Line) bool {

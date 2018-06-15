@@ -45,6 +45,13 @@ describe('Custom parameter type', () => {
   })
 
   describe('CucumberExpression', () => {
+    it('throws exception for illegal character in parameter name', () => {
+      assertThrows(
+        () => new ParameterType('[string]', /.*/, String, s => s, false, true),
+        "Illegal character '[' in parameter name {[string]}"
+      )
+    })
+
     it('matches parameters with custom parameter type', () => {
       const expression = new CucumberExpression(
         'I have a {color} ball',

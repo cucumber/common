@@ -45,11 +45,6 @@ type Background struct {
 type Scenario struct {
 	ScenarioDefinition
 	Tags []*Tag `json:"tags"`
-}
-
-type ScenarioOutline struct {
-	ScenarioDefinition
-	Tags     []*Tag      `json:"tags"`
 	Examples []*Examples `json:"examples"`
 }
 

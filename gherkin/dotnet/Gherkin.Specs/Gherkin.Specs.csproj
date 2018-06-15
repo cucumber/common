@@ -1,18 +1,33 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
+  <Import Project="../netfx.props" />
   <PropertyGroup>
-    <TargetFrameworks>netcoreapp1.1</TargetFrameworks>
+    <TargetFrameworks>netcoreapp2.0;net452</TargetFrameworks>
   </PropertyGroup>
-  <ItemGroup>
-    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.0.0" />
-    <PackageReference Include="xunit" Version="2.2.0" />
-    <PackageReference Include="xunit.runner.visualstudio" Version="2.2.0" />
-    
-    <PackageReference Include="Newtonsoft.Json" Version="9.0.1" />    
+
+
+  <ItemGroup Condition="'$(TargetFramework)'== 'net452'">
+    <Reference Include="System.Runtime" />
+    <Reference Include="System.Threading.Tasks" />
   </ItemGroup>
+
+  <ItemGroup Condition="'$(TargetFramework)' == 'netcoreapp2.0'">
+    <PackageReference Include="Microsoft.TestPlatform.TestHost" Version="15.7.0" />
+
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.7.0" />
+    <PackageReference Include="xunit" Version="2.3.1" />
+    <PackageReference Include="xunit.runner.visualstudio" Version="2.3.1" />
+    <PackageReference Include="Newtonsoft.Json" Version="10.0.3" />
+    <DotNetCliToolReference Include="dotnet-xunit" Version="2.3.1" />
+  </ItemGroup>
+
   <ItemGroup>
     <ProjectReference Include="..\Gherkin.TokensGeneratorLib\Gherkin.TokensGeneratorLib.csproj" />
     <ProjectReference Include="..\Gherkin\Gherkin.csproj" />
   </ItemGroup>
+
   <ItemGroup>
     <Service Include="{82a7f48d-3b50-4b1e-b82e-3ada8210c358}" />
   </ItemGroup>

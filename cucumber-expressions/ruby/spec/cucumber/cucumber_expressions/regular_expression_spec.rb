@@ -40,11 +40,26 @@ module Cucumber
         expect( match(/hello/, "world") ).to be_nil
       end
 
+      it "matches nested capture group without match" do
+        expect( match(/^a user( named "([^"]*)")?$/, 'a user') ).to eq([nil])
+      end
+
+      it "matches nested capture group with match" do
+        expect( match(/^a user( named "([^"]*)")?$/, 'a user named "Charlie"') ).to eq(['Charlie'])
+      end
+
       it "ignores non capturing groups" do
         expect( match(
           /(\S+) ?(can|cannot) (?:delete|cancel) the (\d+)(?:st|nd|rd|th) (attachment|slide) ?(?:upload)?/,
           "I can cancel the 1st slide upload")
         ).to eq(["I", "can", 1, "slide"])
+      end
+
+      it "matches capture group nested in optional one" do
+        regexp = /^a (pre-commercial transaction |pre buyer fee model )?purchase(?: for \$(\d+))?$/
+        expect( match(regexp, 'a purchase') ).to eq([nil, nil])
+        expect( match(regexp, 'a purchase for $33') ).to eq([nil, 33])
+        expect( match(regexp, 'a pre buyer fee model purchase') ).to eq(['pre buyer fee model ', nil])
       end
 
       it "works with escaped parenthesis" do

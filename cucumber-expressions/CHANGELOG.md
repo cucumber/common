@@ -16,10 +16,108 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Removed
 
 ### Fixed
+   
+## [6.0.1] - 2018-06-14
+
+### Added
+* Allow `ParameterType` with no name (`nil`, `null`, `""`). Useful when the
+  Parameter Type is only used in conjunction with Regular Expressions.
+  ([#387](https://github.com/cucumber/cucumber/issues/387)
+   [#410](https://github.com/cucumber/cucumber/pull/410)
+   [aslakhellesoy])
+
+### Fixed
+
+* Support empty capture groups.
+  ([#404](https://github.com/cucumber/cucumber/issues/404)
+   [#411](https://github.com/cucumber/cucumber/pull/411)
+   [aslakhellesoy])
+* Better error message if a parameter type has a name with one of the characters `()[]$.|?*+`.
+  ([#387](https://github.com/cucumber/cucumber/issues/387)
+   [#410](https://github.com/cucumber/cucumber/pull/410)
+   [aslakhellesoy])
+
+## [6.0.0] - 2018-05-30
+
+### Changed
+
+* Throw an error if a parameter type is used inside optional text parenthesis,
+  or with alternative text. 
+  ([#360](https://github.com/cucumber/cucumber/pull/360)
+   [aslakhellesoy])
+
+### Fixed
+
+* Bugfix for nested capture groups.
+  ([#375](https://github.com/cucumber/cucumber/issues/375)
+   [#380](https://github.com/cucumber/cucumber/pull/380)
+   [aslakhellesoy]
+   [charlierudolph])
+
+## [5.0.19] - 2018-05-24
+
+### Fixed
+
+* java: Escape closing braces to avoid PatternSyntaxException on Android
+
+## [5.0.18] - 2018-05-21
+
+### Changed
+
+* java: The `{byte}` parameter type no longer uses hexadecimal, but uses the same pattern as `{short}`, `{int}` and `{long}`.
+
+### Fixed
+
+* The `/` character can be escaped with `\/` in order to keep a literal `/` rather
+  than interpreting it as alternation character. Generated expressions will use
+  `\/` if the original text contains `/`.
+  ([#391](https://github.com/cucumber/cucumber/issues/391)
+   [#392](https://github.com/cucumber/cucumber/pull/392)
+   [aslakhellesoy])
+
+## [5.0.17] - 2018-04-12
+
+### Changed
+
+* java: Swapped 2 parameters in a `ParameterType` constructor to make it consistent with
+  overloaded constructors.
+
+## [5.0.16] - 2018-04-12
+
+There are backwards incompatible changes in the Java implementation, but we're
+not bumping the minor version number because no released libraries are using
+it yet.
+
+### Changed
+
+* java: Renamed `{bigint}` to `{biginteger}` ([mpkorstanje, aslakhellesoy])
+* java: The API uses `Transformer` for transforms with 0-1 capture groups,
+  and `CaptureGroupTransformer` for 2+ capture groups.
+
+### Fixed
+
+* java: Better error message when users leave anchors (^ and $) in their regular expressions ([aslakhellesoy])
+* java: `{bigdecimal}` would only match integers ([mpkorstanje, aslakhellesoy])
+* java: `{byte}` is suggested in snippets ([mpkorstanje])
+
+## [5.0.15] - 2018-04-08
+
+### Added
+
+* go: Added Go implementation
+  ([#350](https://github.com/cucumber/cucumber/pull/350)
+   [charlierudolph])
+
+### Changed
+
+* java: Change the Java API
+  ([e246e7c76045f9a379cebe46e40a0f2705c9d82c](https://github.com/cucumber/cucumber-expressions-java/commit/e246e7c76045f9a379cebe46e40a0f2705c9d82c)
+   [mpkorstanje])
 
 ## [5.0.14] - 2018-04-04
 
 ### Added
+
 * Matching a literal open-parenthesis
   ([#107](https://github.com/cucumber/cucumber/issues/107)
    [#333](https://github.com/cucumber/cucumber/issues/333)
@@ -327,7 +425,13 @@ N/A
 * First stable release!
 
 <!-- Releases -->
-[Unreleased]: https://github.com/cucumber/cucumber/compare/cucumber-expressions-v5.0.14...master
+[Unreleased]: https://github.com/cucumber/cucumber/compare/cucumber-expressions-v6.0.1...master
+[6.0.1]:      https://github.com/cucumber/cucumber/compare/cucumber-expressions-v6.0.0...cucumber-expressions-v6.0.1
+[6.0.0]:      https://github.com/cucumber/cucumber/compare/cucumber-expressions-v5.0.18...cucumber-expressions-v6.0.0
+[5.0.18]:     https://github.com/cucumber/cucumber/compare/cucumber-expressions-v5.0.17...cucumber-expressions-v5.0.18
+[5.0.17]:     https://github.com/cucumber/cucumber/compare/cucumber-expressions-v5.0.16...cucumber-expressions-v5.0.17
+[5.0.16]:     https://github.com/cucumber/cucumber/compare/cucumber-expressions-v5.0.15...cucumber-expressions-v5.0.16
+[5.0.15]:     https://github.com/cucumber/cucumber/compare/cucumber-expressions-v5.0.14...cucumber-expressions-v5.0.15
 [5.0.14]:     https://github.com/cucumber/cucumber/compare/cucumber-expressions-v5.0.13...cucumber-expressions-v5.0.14
 [5.0.13]:     https://github.com/cucumber/cucumber/compare/cucumber-expressions-v5.0.12...cucumber-expressions-v5.0.13
 [5.0.12]:     https://github.com/cucumber/cucumber/compare/cucumber-expressions-v5.0.11...cucumber-expressions-v5.0.12

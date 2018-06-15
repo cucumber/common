@@ -41,6 +41,12 @@ module Cucumber
           "{iii}")
       end
 
+      it "generates expression with escaped slashes" do
+        assert_expression(
+          "The {int}\\/{int}\\/{int} hey", ["int", "int2", "int3"],
+          "The 1814/05/17 hey")
+      end
+
       it "generates expression for int float arg" do
         assert_expression(
           "I have {int} cukes and {float} euro", ["int", "float"],
@@ -53,7 +59,7 @@ module Cucumber
             'I like "bangers" and \'mash\'')
       end
 
-      it "generates expression for strings with % sign" do
+      it "generates expression with % sign" do
         assert_expression(
             "I am {int}% foobar", ["int"],
             'I am 20% foobar')
@@ -121,6 +127,9 @@ module Cucumber
         
         cucumber_expression = CucumberExpression.new(generated_expression.source, @parameter_type_registry)
         match = cucumber_expression.match(text)
+        if match.nil?
+          raise "Expected text '#{text}' to match generated expression '#{generated_expression.source}'"
+        end
         expect(match.length).to eq(expected_argument_names.length)
       end
     end

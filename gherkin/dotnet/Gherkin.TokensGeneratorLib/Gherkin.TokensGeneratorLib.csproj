@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-
+  <Import Project="../netfx.props" />
   <PropertyGroup>
-    <TargetFrameworks>netstandard1.5</TargetFrameworks>
+    <TargetFrameworks>netstandard1.5;net45</TargetFrameworks>
   </PropertyGroup>
 
   <ItemGroup>

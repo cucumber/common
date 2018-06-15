@@ -40,7 +40,8 @@ In the new directory, create the following files:
 `.rsync`, with the following sample contents (adapt to the programming language):
 
     ../../LICENSE LICENSE
-    ../../.travis/go/.travis.yml .travis.yml
+    ../../.templates/github/ .github/
+    ../../.templates/go/.travis.yml .travis.yml
 
 `README.md` with a build badge for the new subrepo. For example:
 
@@ -65,11 +66,11 @@ Log into Travis and set up build for the new (empty) subrepo.
 
 Initialise the subrepo, for example:
     
-    git subrepo init tag-expressions/go --remote https://github.com/cucumber/tag-expressions-go.git
+    echo "git@github.com:cucumber/tag-expressions-go.git" > tag-expressions/go/.subrepo
 
 Push to the subrepo:
 
-    git subrepo push tag-expressions/go
+    push_subrepo tag-expressions/go
 
 Wait for Travis to build.
 
@@ -85,7 +86,8 @@ files. These need to be rebuilt and published manually whenever they change:
    docker_build Dockerfile.cucumber-build
    docker_push Dockerfile.cucumber-build
    # .NET image (for .NET builds only)
-   docker_build Dockerfile.cucumber-build
-   docker_push Dockerfile.cucumber-build
+   docker_build Dockerfile.cucumber-build-dotnet
+   docker_push Dockerfile.cucumber-build-dotnet
 
-The images are published [here](https://hub.docker.com/r/cucumber/)
+The images are published [in the cucumber repository section at
+Docker Hub](https://hub.docker.com/r/cucumber/).

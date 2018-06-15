@@ -2530,11 +2530,11 @@ var buildinDialects = gherkinDialectMap{
 				"Допустим ",
 				"Дано ",
 				"Пусть ",
-				"Если ",
 			},
 			when: []string{
 				"* ",
 				"Когда ",
+				"Если ",
 			},
 			then: []string{
 				"* ",

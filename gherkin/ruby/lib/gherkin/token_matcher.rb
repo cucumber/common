@@ -29,11 +29,8 @@ module Gherkin
     end
 
     def match_ScenarioLine(token)
-      match_title_line(token, :ScenarioLine, @dialect.scenario_keywords)
-    end
-
-    def match_ScenarioOutlineLine(token)
-      match_title_line(token, :ScenarioOutlineLine, @dialect.scenario_outline_keywords)
+      match_title_line(token, :ScenarioLine, @dialect.scenario_keywords) ||
+          match_title_line(token, :ScenarioLine, @dialect.scenario_outline_keywords)
     end
 
     def match_BackgroundLine(token)

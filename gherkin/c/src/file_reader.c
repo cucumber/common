@@ -21,7 +21,14 @@ const wchar_t* FileReader_read(FileReader* file_reader) {
     int pos = 0;
     long code_point;
     FILE* file = fopen(file_reader->file_name, "rb");
+
+    if(file == NULL) {
+      swprintf(buffer, sizeof(wchar_t), L"%c", ' ');
+      return buffer;
+    }
+
     Utf8Source* utf8_source = FileUtf8Source_new(file);
+
     do {
         code_point = UnicodeUtilities_read_code_point_from_utf8_source(utf8_source);
         if (code_point != WEOF) {

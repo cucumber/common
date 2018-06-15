@@ -59,7 +59,7 @@ clobber: clean
 lib/gherkin/parser.rb: gherkin.berp gherkin-ruby.razor berp/berp.exe
 	-mono berp/berp.exe -g gherkin.berp -t gherkin-ruby.razor -o $@
 	# Remove BOM
-	sed '1s/^\xEF\xBB\xBF//' < $@ > $@.nobom
+	awk 'NR==1{sub(/^\xef\xbb\xbf/,"")}{print}' < $@ > $@.nobom
 	mv $@.nobom $@
 
 Gemfile.lock: Gemfile

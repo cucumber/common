@@ -47,7 +47,7 @@ parameter types are:
 * `{word}`, for example `banana` (but not `banana split`)
 * `{string}`, for example `"bangers"` or `'mash'`. The single/double quotes themselves are removed from the match.
 
-On the JVM, there are additional parameter types for `bigint`, `bigdecimal`,
+On the JVM, there are additional parameter types for `biginteger`, `bigdecimal`,
 `byte`, `short`, `long` and `double`.
 
 ### Custom parameter types {#custom-parameter-types}
@@ -128,6 +128,13 @@ It would also match this text:
 
     I have 42 cucumbers in my belly
 
+Using parameter types as optional text is not allowed:
+
+    I have ({int}) cucumber(s) in my belly
+
+Instead, define your own parameter type that handles the patterns you
+want to match on.
+
 ## Alternative text
 
 Sometimes you want to relax your language, to make it flow better. For example:
@@ -138,6 +145,13 @@ This would match either of those texts:
 
     I have 42 cucumbers in my belly
     I have 42 cucumbers in my stomach
+
+Using parameter types as alternative text is not allowed:
+
+    I have {int}/a cucumber(s) in my belly
+
+Instead, define your own parameter type that handles the patterns you
+want to match on.
 
 ## Escaping
 

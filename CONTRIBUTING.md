@@ -11,14 +11,14 @@ The goal of this document is to create a contribution process that:
 * Creates a transparent decision making process which makes it clear how
 contributors can be involved in decision making.
 
-also see [guidelines for documentation contributions](docs/contributing-to-documentation.md)
+Also see [guidelines for documentation contributions](https://docs.cucumber.io/community/contributing-to-documentation/)
 
 This document is based on the [Node.js Community Contributing Guide](https://github.com/nodejs/TSC/blob/master/BasePolicies/CONTRIBUTING.md).
 
 ## Newcomers
 
 Committers are maintaining a list of
-[newcomer friendly issues](https://github.com/issues?utf8=%E2%9C%93&q=is%3Aopen+is%3Aissue+user%3Acucumber+label%3Anewcomers+no%3Aassignee+)
+[newcomer friendly issues](https://github.com/cucumber/cucumber/issues?q=is%3Aissue+is%3Aopen+label%3A%22good+first+issue%22+no%3Aassignee+)
 that are suitable for aspiring contributors.
 
 ## Vocabulary {#vocabulary}

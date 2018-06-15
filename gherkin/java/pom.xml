@@ -4,7 +4,7 @@
 
     <groupId>io.cucumber</groupId>
     <artifactId>gherkin</artifactId>
-    <version>5.0.1-SNAPSHOT</version>
+    <version>5.1.1-SNAPSHOT</version>
     <packaging>bundle</packaging>
     <name>Gherkin</name>
     <description>Gherkin parser</description>

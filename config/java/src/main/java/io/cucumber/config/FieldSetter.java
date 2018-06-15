@@ -6,10 +6,10 @@ import java.util.Map;
 
 import static java.util.Arrays.asList;
 
-public class FieldSetter {
+class FieldSetter {
     private final Object o;
 
-    public FieldSetter(Object o) {
+    FieldSetter(Object o) {
         this.o = o;
     }
 
@@ -69,7 +69,7 @@ public class FieldSetter {
         }
     }
 
-    public void setFields(Map<String, ?> map) {
+    void setFields(Map<String, ?> map) {
         for (Map.Entry<String, ?> entry : map.entrySet()) {
             String key = entry.getKey();
             Object value = entry.getValue();
@@ -79,25 +79,48 @@ public class FieldSetter {
 
     private void setField(String key, Object value) {
         try {
-            String fieldName = key.toLowerCase().replaceAll("_", "");
-            Field field = o.getClass().getDeclaredField(fieldName);
+            Field field = getField(key);
 
             Object fieldValue;
             if (field.getType().isAssignableFrom(String.class)) {
                 fieldValue = toString(value);
-            } else if (field.getType().isAssignableFrom(Boolean.class) || field.getType().isAssignableFrom(Boolean.TYPE)) {
+            } else if (isBoolean(field)) {
                 fieldValue = toBoolean(value);
-            } else if (field.getType().isAssignableFrom(Integer.class) || field.getType().isAssignableFrom(Integer.TYPE)) {
+            } else if (isInteger(field)) {
                 fieldValue = toInteger(value);
-            } else if (field.getType().isAssignableFrom(List.class)) {
+            } else if (isList(field)) {
                 fieldValue = toList(value);
             } else {
                 throw new RuntimeException(String.format("Can't convert %s to %s", value.getClass().getName(), field.getType().getName()));
             }
             field.set(o, fieldValue);
-        } catch (NoSuchFieldException | IllegalAccessException e) {
+        } catch (IllegalAccessException e) {
             throw new RuntimeException(e);
         }
     }
 
+    private boolean isList(Field field) {
+        return field.getType().isAssignableFrom(List.class);
+    }
+
+    private boolean isInteger(Field field) {
+        return field.getType().isAssignableFrom(Integer.class) || field.getType().isAssignableFrom(Integer.TYPE);
+    }
+
+    private boolean isBoolean(Field field) {
+        return field.getType().isAssignableFrom(Boolean.class) || field.getType().isAssignableFrom(Boolean.TYPE);
+    }
+
+    private Field getField(String key) {
+        String fieldName = key.toLowerCase().replaceAll("_", "");
+        try {
+            return o.getClass().getField(fieldName);
+        } catch (NoSuchFieldException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    boolean isBoolean(String key) {
+        return isBoolean(getField(key));
+    }
 }

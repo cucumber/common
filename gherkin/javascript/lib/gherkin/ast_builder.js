@@ -93,11 +93,11 @@ module.exports = function AstBuilder () {
   }
 
   function ensureCellCount(rows) {
-    if(rows.length == 0) return;
+    if(rows.length === 0) return;
     var cellCount = rows[0].cells.length;
 
     rows.forEach(function (row) {
-      if (row.cells.length != cellCount) {
+      if (row.cells.length !== cellCount) {
         throw Errors.AstBuilderException.create("inconsistent cell count within the table", row.location);
       }
     });
@@ -152,49 +152,29 @@ module.exports = function AstBuilder () {
           description: description,
           steps: steps
         };
-      case 'Scenario_Definition':
+      case 'ScenarioDefinition':
         var tags = getTags(node);
         var scenarioNode = node.getSingle('Scenario');
-        if(scenarioNode) {
-          var scenarioLine = scenarioNode.getToken('ScenarioLine');
-          var description = getDescription(scenarioNode);
-          var steps = getSteps(scenarioNode);
-
-          return {
-            type: scenarioNode.ruleType,
-            tags: tags,
-            location: getLocation(scenarioLine),
-            keyword: scenarioLine.matchedKeyword,
-            name: scenarioLine.matchedText,
-            description: description,
-            steps: steps
-          };
-        } else {
-          var scenarioOutlineNode = node.getSingle('ScenarioOutline');
-          if(!scenarioOutlineNode) throw new Error('Internal grammar error');
-
-          var scenarioOutlineLine = scenarioOutlineNode.getToken('ScenarioOutlineLine');
-          var description = getDescription(scenarioOutlineNode);
-          var steps = getSteps(scenarioOutlineNode);
-          var examples = scenarioOutlineNode.getItems('Examples_Definition');
-
-          return {
-            type: scenarioOutlineNode.ruleType,
-            tags: tags,
-            location: getLocation(scenarioOutlineLine),
-            keyword: scenarioOutlineLine.matchedKeyword,
-            name: scenarioOutlineLine.matchedText,
-            description: description,
-            steps: steps,
-            examples: examples
-          };
-        }
-      case 'Examples_Definition':
+        var scenarioLine = scenarioNode.getToken('ScenarioLine');
+        var description = getDescription(scenarioNode);
+        var steps = getSteps(scenarioNode);
+        var examples = scenarioNode.getItems('ExamplesDefinition');
+        return {
+          type: scenarioNode.ruleType,
+          tags: tags,
+          location: getLocation(scenarioLine),
+          keyword: scenarioLine.matchedKeyword,
+          name: scenarioLine.matchedText,
+          description: description,
+          steps: steps,
+          examples: examples
+        };
+      case 'ExamplesDefinition':
         var tags = getTags(node);
         var examplesNode = node.getSingle('Examples');
         var examplesLine = examplesNode.getToken('ExamplesLine');
         var description = getDescription(examplesNode);
-        var exampleTable = examplesNode.getSingle('Examples_Table')
+        var exampleTable = examplesNode.getSingle('ExamplesTable')
 
         return {
           type: examplesNode.ruleType,
@@ -206,7 +186,7 @@ module.exports = function AstBuilder () {
           tableHeader: exampleTable != undefined ? exampleTable.tableHeader : undefined,
           tableBody: exampleTable != undefined ? exampleTable.tableBody : undefined
         };
-      case 'Examples_Table':
+      case 'ExamplesTable':
         var rows = getTableRows(node)
 
         return {
@@ -226,7 +206,7 @@ module.exports = function AstBuilder () {
         return description;
 
       case 'Feature':
-        var header = node.getSingle('Feature_Header');
+        var header = node.getSingle('FeatureHeader');
         if(!header) return null;
         var tags = getTags(header);
         var featureLine = header.getToken('FeatureLine');
@@ -234,7 +214,7 @@ module.exports = function AstBuilder () {
         var children = []
         var background = node.getSingle('Background');
         if(background) children.push(background);
-        children = children.concat(node.getItems('Scenario_Definition'));
+        children = children.concat(node.getItems('ScenarioDefinition'));
         var description = getDescription(header);
         var language = featureLine.matchedGherkinDialect;
 

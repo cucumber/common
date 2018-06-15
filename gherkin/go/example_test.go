@@ -39,7 +39,7 @@ func ExampleParseGherkinDocument() {
 	fmt.Fprintf(os.Stdout, "Name: %+v\n", feature.Name)
 	fmt.Fprintf(os.Stdout, "Children: length: %+v\n", len(feature.Children))
 
-	scenario1, _ := feature.Children[0].(*ScenarioOutline)
+	scenario1, _ := feature.Children[0].(*Scenario)
 	fmt.Fprintf(os.Stdout, " 1: Location: %+v\n", scenario1.Location)
 	fmt.Fprintf(os.Stdout, "    Keyword: %+v\n", scenario1.Keyword)
 	fmt.Fprintf(os.Stdout, "    Name: %+v\n", scenario1.Name)
@@ -187,20 +187,15 @@ Feature: Foo
 
 func ExampleParseGherkinDocument_dialect() {
 
-	builder := NewAstBuilder()
-	parser := NewParser(builder)
-	parser.StopAtFirstError(false)
-	matcher := NewLanguageMatcher(GherkinDialectsBuildin(), "no")
 	input := "Egenskap: i18n support"
-	reader := strings.NewReader(input)
+	r := strings.NewReader(input)
 
-	err := parser.Parse(NewScanner(reader), matcher)
+	gherkinDocument, err := ParseGherkinDocumentForLanguage(r, "no")
 	if err != nil {
 		fmt.Fprintf(os.Stdout, "%s\n", err)
 		return
 	}
-	doc := builder.GetGherkinDocument()
-	feature := doc.Feature
+	feature := gherkinDocument.Feature
 	fmt.Fprintf(os.Stdout, "Location: %+v\n", feature.Location)
 	fmt.Fprintf(os.Stdout, "Keyword: %+v\n", feature.Keyword)
 	fmt.Fprintf(os.Stdout, "Name: %+v\n", feature.Name)

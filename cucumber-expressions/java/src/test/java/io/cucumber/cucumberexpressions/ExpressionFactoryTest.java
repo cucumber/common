@@ -1,14 +1,18 @@
 package io.cucumber.cucumberexpressions;
 
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 
-import java.lang.reflect.Type;
-import java.util.ArrayList;
 import java.util.Locale;
 
 import static org.junit.Assert.assertEquals;
 
 public class ExpressionFactoryTest {
+
+    @Rule
+    public ExpectedException expectedException = ExpectedException.none();
+
     @Test
     public void creates_cucumber_expression_by_default() {
         assertCucumberExpression("strings are cukexp by default");
@@ -49,6 +53,12 @@ public class ExpressionFactoryTest {
         assertRegularExpression("^please remove slashes$", "/^please remove slashes$/");
     }
 
+    @Test
+    public void explains_cukexp_regexp_mix() {
+        expectedException.expectMessage("You cannot use anchors (^ or $) in Cucumber Expressions. Please remove them from ^the seller has {int} strike(s)$");
+        createExpression("^the seller has {int} strike(s)$");
+    }
+
     private void assertRegularExpression(String expressionString) {
         assertRegularExpression(expressionString, expressionString);
     }
@@ -62,10 +72,14 @@ public class ExpressionFactoryTest {
     }
 
     private void assertExpression(Class<? extends Expression> expectedClass, String expectedSource, String expressionSource) {
-        Expression expression = new ExpressionFactory(new ParameterTypeRegistry(Locale.ENGLISH)).createExpression(expressionSource, new ArrayList<Type>());
+        Expression expression = createExpression(expressionSource);
         assertEquals(expectedClass, expression.getClass());
         if (expectedSource != null) {
             assertEquals(expectedSource, expression.getSource());
         }
+    }
+
+    private Expression createExpression(String expressionSource) {
+        return new ExpressionFactory(new ParameterTypeRegistry(Locale.ENGLISH)).createExpression(expressionSource);
     }
 }

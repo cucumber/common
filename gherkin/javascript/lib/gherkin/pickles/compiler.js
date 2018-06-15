@@ -11,13 +11,13 @@ function Compiler() {
     var featureTags = feature.tags;
     var backgroundSteps = [];
 
-    feature.children.forEach(function (scenarioDefinition) {
-      if(scenarioDefinition.type === 'Background') {
-        backgroundSteps = pickleSteps(scenarioDefinition);
-      } else if(scenarioDefinition.type === 'Scenario') {
-        compileScenario(featureTags, backgroundSteps, scenarioDefinition, language, pickles);
+    feature.children.forEach(function (stepsContainer) {
+      if(stepsContainer.type === 'Background') {
+        backgroundSteps = pickleSteps(stepsContainer);
+      } else if(stepsContainer.examples.length === 0) {
+        compileScenario(featureTags, backgroundSteps, stepsContainer, language, pickles);
       } else {
-        compileScenarioOutline(featureTags, backgroundSteps, scenarioDefinition, language, pickles);
+        compileScenarioOutline(featureTags, backgroundSteps, stepsContainer, language, pickles);
       }
     });
     return pickles;
@@ -42,15 +42,15 @@ function Compiler() {
     pickles.push(pickle);
   }
 
-  function compileScenarioOutline(featureTags, backgroundSteps, scenarioOutline, language, pickles) {
-    scenarioOutline.examples.filter(function(e) { return e.tableHeader != undefined; }).forEach(function (examples) {
+  function compileScenarioOutline(featureTags, backgroundSteps, scenario, language, pickles) {
+    scenario.examples.filter(function(e) { return e.tableHeader != undefined; }).forEach(function (examples) {
       var variableCells = examples.tableHeader.cells;
       examples.tableBody.forEach(function (values) {
         var valueCells = values.cells;
-        var steps = scenarioOutline.steps.length == 0 ? [] : [].concat(backgroundSteps);
-        var tags = [].concat(featureTags).concat(scenarioOutline.tags).concat(examples.tags);
+        var steps = scenario.steps.length == 0 ? [] : [].concat(backgroundSteps);
+        var tags = [].concat(featureTags).concat(scenario.tags).concat(examples.tags);
 
-        scenarioOutline.steps.forEach(function (scenarioOutlineStep) {
+        scenario.steps.forEach(function (scenarioOutlineStep) {
           var stepText = interpolate(scenarioOutlineStep.text, variableCells, valueCells);
           var args = createPickleArguments(scenarioOutlineStep.argument, variableCells, valueCells);
           var pickleStep = {
@@ -65,13 +65,13 @@ function Compiler() {
         });
 
         var pickle = {
-          name: interpolate(scenarioOutline.name, variableCells, valueCells),
+          name: interpolate(scenario.name, variableCells, valueCells),
           language: language,
           steps: steps,
           tags: pickleTags(tags),
           locations: [
             pickleLocation(values.location),
-            pickleLocation(scenarioOutline.location)
+            pickleLocation(scenario.location)
           ]
         };
         pickles.push(pickle);
@@ -116,7 +116,10 @@ function Compiler() {
     variableCells.forEach(function (variableCell, n) {
       var valueCell = valueCells[n];
       var search = new RegExp('<' + variableCell.value + '>', 'g');
-      name = name.replace(search, valueCell.value);
+      // JS Specific - dollar sign needs to be escaped with another dollar sign
+      // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/replace#Specifying_a_string_as_a_parameter
+      var replacement = valueCell.value.replace(new RegExp('\\$', 'g'), '$$$$')
+      name = name.replace(search, replacement);
     });
     return name;
   }

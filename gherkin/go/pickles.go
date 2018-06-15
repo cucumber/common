@@ -60,65 +60,68 @@ func (gd *GherkinDocument) Pickles() []*Pickle {
 		case *Background:
 			bgSteps = append(bgSteps, pickleSteps(t.Steps)...)
 		case *Scenario:
-			steps := make([]*PickleStep, 0)
-			if len(t.Steps) > 0 {
-				steps = append(bgSteps, pickleSteps(t.Steps)...)
-			}
-			tags := pickleTags(append(gd.Feature.Tags, t.Tags...))
-			pickles = append(pickles, &Pickle{
-				Steps:     steps,
-				Tags:      tags,
-				Name:      t.Name,
-				Language:  gd.Feature.Language,
-				Locations: []Location{*t.Location},
-			})
-		case *ScenarioOutline:
-			for _, examples := range t.Examples {
-				if examples.TableHeader == nil {
-					continue
+			if len(t.Examples) == 0 {
+				steps := make([]*PickleStep, 0)
+				if len(t.Steps) > 0 {
+					steps = append(bgSteps, pickleSteps(t.Steps)...)
 				}
-				keys := examples.TableHeader.Cells
-				for _, example := range examples.TableBody {
-					vals := example.Cells
-					tags := pickleTags(append(gd.Feature.Tags, append(t.Tags, examples.Tags...)...))
+				tags := pickleTags(append(gd.Feature.Tags, t.Tags...))
+				pickles = append(pickles, &Pickle{
+					Steps:     steps,
+					Tags:      tags,
+					Name:      t.Name,
+					Language:  gd.Feature.Language,
+					Locations: []Location{*t.Location},
+				})
+			} else {
+				// Scenario Outline
+				for _, examples := range t.Examples {
+					if examples.TableHeader == nil {
+						continue
+					}
+					keys := examples.TableHeader.Cells
+					for _, example := range examples.TableBody {
+						vals := example.Cells
+						tags := pickleTags(append(gd.Feature.Tags, append(t.Tags, examples.Tags...)...))
 
-					steps := make([]*PickleStep, 0)
+						steps := make([]*PickleStep, 0)
 
-					// translate steps based on example
-					for _, step := range t.Steps {
-						text := step.Text
+						// translate steps based on example
+						for _, step := range t.Steps {
+							text := step.Text
+							for i, key := range keys {
+								text = strings.Replace(text, "<"+key.Value+">", vals[i].Value, -1)
+							}
+
+							loc := Location{
+								Line:   step.Location.Line,
+								Column: step.Location.Column + utf8.RuneCountInString(step.Keyword),
+							}
+
+							steps = append(steps, &PickleStep{
+								Text:      text,
+								Arguments: pickleArgument(step.Argument, keys, vals),
+								Locations: []Location{*example.Location, loc},
+							})
+						}
+
+						// translate pickle name
+						name := t.Name
 						for i, key := range keys {
-							text = strings.Replace(text, "<"+key.Value+">", vals[i].Value, -1)
+							name = strings.Replace(name, "<"+key.Value+">", vals[i].Value, -1)
 						}
 
-						loc := Location{
-							Line:   step.Location.Line,
-							Column: step.Location.Column + utf8.RuneCountInString(step.Keyword),
+						if len(steps) > 0 {
+							steps = append(bgSteps, steps...)
 						}
-
-						steps = append(steps, &PickleStep{
-							Text:      text,
-							Arguments: pickleArgument(step.Argument, keys, vals),
-							Locations: []Location{*example.Location, loc},
+						pickles = append(pickles, &Pickle{
+							Steps:     steps,
+							Tags:      tags,
+							Name:      name,
+							Language:  gd.Feature.Language,
+							Locations: []Location{*example.Location, *t.Location},
 						})
 					}
-
-					// translate pickle name
-					name := t.Name
-					for i, key := range keys {
-						name = strings.Replace(name, "<"+key.Value+">", vals[i].Value, -1)
-					}
-
-					if len(steps) > 0 {
-						steps = append(bgSteps, steps...)
-					}
-					pickles = append(pickles, &Pickle{
-						Steps:     steps,
-						Tags:      tags,
-						Name:      name,
-						Language:  gd.Feature.Language,
-						Locations: []Location{*example.Location, *t.Location},
-					})
 				}
 			}
 		default:

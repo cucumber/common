@@ -1,0 +1,3 @@
+-r basic.txt
+-r testing.txt
+pycmd

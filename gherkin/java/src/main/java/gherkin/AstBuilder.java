@@ -10,9 +10,8 @@ import gherkin.ast.GherkinDocument;
 import gherkin.ast.Location;
 import gherkin.ast.Node;
 import gherkin.ast.Scenario;
-import gherkin.ast.ScenarioDefinition;
-import gherkin.ast.ScenarioOutline;
 import gherkin.ast.Step;
+import gherkin.ast.StepsContainer;
 import gherkin.ast.TableCell;
 import gherkin.ast.TableRow;
 import gherkin.ast.Tag;
@@ -102,42 +101,27 @@ public class AstBuilder implements Builder<GherkinDocument> {
                 List<Step> steps = getSteps(node);
                 return new Background(getLocation(backgroundLine, 0), backgroundLine.matchedKeyword, backgroundLine.matchedText, description, steps);
             }
-            case Scenario_Definition: {
+            case ScenarioDefinition: {
                 List<Tag> tags = getTags(node);
                 AstNode scenarioNode = node.getSingle(RuleType.Scenario, null);
 
-                if (scenarioNode != null) {
-                    Token scenarioLine = scenarioNode.getToken(TokenType.ScenarioLine);
-                    String description = getDescription(scenarioNode);
-                    List<Step> steps = getSteps(scenarioNode);
-
-                    return new Scenario(tags, getLocation(scenarioLine, 0), scenarioLine.matchedKeyword, scenarioLine.matchedText, description, steps);
-                } else {
-                    AstNode scenarioOutlineNode = node.getSingle(RuleType.ScenarioOutline, null);
-                    if (scenarioOutlineNode == null) {
-                        throw new RuntimeException("Internal grammar error");
-                    }
-                    Token scenarioOutlineLine = scenarioOutlineNode.getToken(TokenType.ScenarioOutlineLine);
-                    String description = getDescription(scenarioOutlineNode);
-                    List<Step> steps = getSteps(scenarioOutlineNode);
-
-                    List<Examples> examplesList = scenarioOutlineNode.getItems(RuleType.Examples_Definition);
-
-                    return new ScenarioOutline(tags, getLocation(scenarioOutlineLine, 0), scenarioOutlineLine.matchedKeyword, scenarioOutlineLine.matchedText, description, steps, examplesList);
-
-                }
+                Token scenarioLine = scenarioNode.getToken(TokenType.ScenarioLine);
+                String description = getDescription(scenarioNode);
+                List<Step> steps = getSteps(scenarioNode);
+                List<Examples> examplesList = scenarioNode.getItems(RuleType.ExamplesDefinition);
+                return new Scenario(tags, getLocation(scenarioLine, 0), scenarioLine.matchedKeyword, scenarioLine.matchedText, description, steps, examplesList);
             }
-            case Examples_Definition: {
+            case ExamplesDefinition: {
                 List<Tag> tags = getTags(node);
                 AstNode examplesNode = node.getSingle(RuleType.Examples, null);
                 Token examplesLine = examplesNode.getToken(TokenType.ExamplesLine);
                 String description = getDescription(examplesNode);
-                List<TableRow> rows = examplesNode.getSingle(RuleType.Examples_Table, null);
+                List<TableRow> rows = examplesNode.getSingle(RuleType.ExamplesTable, null);
                 TableRow tableHeader = rows != null && !rows.isEmpty() ? rows.get(0) : null;
                 List<TableRow> tableBody = rows != null && !rows.isEmpty() ? rows.subList(1, rows.size()) : null;
                 return new Examples(getLocation(examplesLine, 0), tags, examplesLine.matchedKeyword, examplesLine.matchedText, description, tableHeader, tableBody);
             }
-            case Examples_Table: {
+            case ExamplesTable: {
                 return getTableRows(node);
             }
             case Description: {
@@ -157,15 +141,15 @@ public class AstBuilder implements Builder<GherkinDocument> {
                 }, "\n", lineTokens);
             }
             case Feature: {
-                AstNode header = node.getSingle(RuleType.Feature_Header, new AstNode(RuleType.Feature_Header));
+                AstNode header = node.getSingle(RuleType.FeatureHeader, new AstNode(RuleType.FeatureHeader));
                 if (header == null) return null;
                 List<Tag> tags = getTags(header);
                 Token featureLine = header.getToken(TokenType.FeatureLine);
                 if (featureLine == null) return null;
-                List<ScenarioDefinition> scenarioDefinitions = new ArrayList<>();
+                List<StepsContainer> scenarioDefinitions = new ArrayList<>();
                 Background background = node.getSingle(RuleType.Background, null);
                 if (background != null) scenarioDefinitions.add(background);
-                scenarioDefinitions.addAll(node.<ScenarioDefinition>getItems(RuleType.Scenario_Definition));
+                scenarioDefinitions.addAll(node.<StepsContainer>getItems(RuleType.ScenarioDefinition));
                 String description = getDescription(header);
                 if (featureLine.matchedGherkinDialect == null) return null;
                 String language = featureLine.matchedGherkinDialect.getLanguage();

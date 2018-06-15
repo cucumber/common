@@ -7,7 +7,7 @@ namespace Gherkin.Specs
 {
     public class TokenizationTests
     {
-        [Theory, MemberData("GetValidTestFiles", MemberType = typeof(TestFileProvider))]
+        [Theory, MemberData(nameof(TestFileProvider.GetValidTestFiles), MemberType = typeof(TestFileProvider))]
         public void TestSuccessfulTokenMatching(string testFeatureFile)
         {
             var featureFileFolder = Path.GetDirectoryName(testFeatureFile);
