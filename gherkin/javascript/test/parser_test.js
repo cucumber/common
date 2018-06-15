@@ -104,6 +104,7 @@ describe('Parser', function () {
             text: 'x',
             type: 'Step' }],
           tags: [],
+          examples: [],
           type: 'Scenario' }]
       },
       comments: []
