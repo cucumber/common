@@ -508,7 +508,6 @@ module.exports={
       "Situasie"
     ],
     "scenarioOutline": [
-      "Voorbeeld Uiteensetting",
       "Situasie Uiteensetting"
     ],
     "then": [
@@ -550,7 +549,6 @@ module.exports={
       "Սցենար"
     ],
     "scenarioOutline": [
-      "Օրինակ կառուցվացքը",
       "Սցենարի կառուցվացքը"
     ],
     "then": [
@@ -596,7 +594,6 @@ module.exports={
       "Caso"
     ],
     "scenarioOutline": [
-      "Esquema del eixemplo",
       "Esquema del caso"
     ],
     "then": [
@@ -685,7 +682,6 @@ module.exports={
       "Casu"
     ],
     "scenarioOutline": [
-      "Esbozu del exemplo",
       "Esbozu del casu"
     ],
     "then": [
@@ -771,7 +767,6 @@ module.exports={
       "Сценарий"
     ],
     "scenarioOutline": [
-      "Рамка на пример",
       "Рамка на сценарий"
     ],
     "then": [
@@ -861,7 +856,6 @@ module.exports={
       "Scenario"
     ],
     "scenarioOutline": [
-      "Primjer-obris",
       "Scenariju-obris",
       "Scenario-outline"
     ],
@@ -908,7 +902,6 @@ module.exports={
       "Escenari"
     ],
     "scenarioOutline": [
-      "Esquema de l'exemple",
       "Esquema de l'escenari"
     ],
     "then": [
@@ -1034,7 +1027,6 @@ module.exports={
       "Scenarie"
     ],
     "scenarioOutline": [
-      "Abstrakt Eksempel",
       "Abstrakt Scenario"
     ],
     "then": [
@@ -1077,7 +1069,6 @@ module.exports={
       "Szenario"
     ],
     "scenarioOutline": [
-      "Beispielrundriss",
       "Szenariogrundriss"
     ],
     "then": [
@@ -1204,7 +1195,6 @@ module.exports={
       "Scenario"
     ],
     "scenarioOutline": [
-      "Example Outline",
       "Scenario Outline",
       "Scenario Template"
     ],
@@ -1461,7 +1451,6 @@ module.exports={
       "Kazo"
     ],
     "scenarioOutline": [
-      "Konturo de la ekzemplo",
       "Konturo de la scenaro",
       "Skizo",
       "Kazo-skizo"
@@ -1508,7 +1497,6 @@ module.exports={
       "Escenario"
     ],
     "scenarioOutline": [
-      "Esquema del ejemplo",
       "Esquema del escenario"
     ],
     "then": [
@@ -1685,7 +1673,6 @@ module.exports={
       "Scénario"
     ],
     "scenarioOutline": [
-      "Plan de l'exemple",
       "Plan du scénario",
       "Plan du Scénario"
     ],
@@ -1732,7 +1719,6 @@ module.exports={
       "Cás"
     ],
     "scenarioOutline": [
-      "Sampla Achomair",
       "Cás Achomair"
     ],
     "then": [
@@ -1823,7 +1809,6 @@ module.exports={
       "Escenario"
     ],
     "scenarioOutline": [
-      "Esbozo do exemplo",
       "Esbozo do escenario"
     ],
     "then": [
@@ -2178,7 +2163,6 @@ module.exports={
       "Scenario"
     ],
     "scenarioOutline": [
-      "Schema dell'esempio",
       "Schema dello scenario"
     ],
     "then": [
@@ -2310,7 +2294,6 @@ module.exports={
       "სცენარის"
     ],
     "scenarioOutline": [
-      "მაგალითად ნიმუში",
       "სცენარის ნიმუში"
     ],
     "then": [
@@ -2477,7 +2460,6 @@ module.exports={
       "Szenario"
     ],
     "scenarioOutline": [
-      "Plang vum Beispill",
       "Plang vum Szenario"
     ],
     "then": [
@@ -2521,7 +2503,6 @@ module.exports={
       "Scenārijs"
     ],
     "scenarioOutline": [
-      "Piemērs pēc parauga",
       "Scenārijs pēc parauga"
     ],
     "then": [
@@ -2702,7 +2683,6 @@ module.exports={
       "Scenario"
     ],
     "scenarioOutline": [
-      "Abstract Voorbeeld",
       "Abstract Scenario"
     ],
     "then": [
@@ -2744,8 +2724,6 @@ module.exports={
       "Scenario"
     ],
     "scenarioOutline": [
-      "Eksempelmal",
-      "Abstrakt Eksempel",
       "Scenariomal",
       "Abstrakt Scenario"
     ],
@@ -2891,8 +2869,6 @@ module.exports={
       "Cenario"
     ],
     "scenarioOutline": [
-      "Esquema do Exemplo",
-      "Delineação do Exemplo",
       "Esquema do Cenário",
       "Esquema do Cenario",
       "Delineação do Cenário",
@@ -2946,8 +2922,6 @@ module.exports={
       "Scenariu"
     ],
     "scenarioOutline": [
-      "Structura exemplu",
-      "Structură exemplu",
       "Structura scenariu",
       "Structură scenariu"
     ],
@@ -3470,7 +3444,6 @@ module.exports={
       "Senaryo"
     ],
     "scenarioOutline": [
-      "Örnek taslağı",
       "Senaryo taslağı"
     ],
     "then": [

@@ -17,7 +17,7 @@ This document is formatted according to the principles of [Keep A CHANGELOG](htt
 
 ### Changed
 
-* (JavaScript,Java,Ruby,Go) `Scenario` keyword can be used to create `ScenarioOutline`.
+* (JavaScript,Java,Ruby,Go) `Scenario` keyword (or `Example` keyword) can be used to create `Scenario Outline`.
 
 ### Deprecated
 

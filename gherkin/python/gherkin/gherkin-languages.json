@@ -30,7 +30,6 @@
       "Situasie"
     ],
     "scenarioOutline": [
-      "Voorbeeld Uiteensetting",
       "Situasie Uiteensetting"
     ],
     "then": [
@@ -72,7 +71,6 @@
       "Սցենար"
     ],
     "scenarioOutline": [
-      "Օրինակ կառուցվացքը",
       "Սցենարի կառուցվացքը"
     ],
     "then": [
@@ -118,7 +116,6 @@
       "Caso"
     ],
     "scenarioOutline": [
-      "Esquema del eixemplo",
       "Esquema del caso"
     ],
     "then": [
@@ -207,7 +204,6 @@
       "Casu"
     ],
     "scenarioOutline": [
-      "Esbozu del exemplo",
       "Esbozu del casu"
     ],
     "then": [
@@ -293,7 +289,6 @@
       "Сценарий"
     ],
     "scenarioOutline": [
-      "Рамка на пример",
       "Рамка на сценарий"
     ],
     "then": [
@@ -383,7 +378,6 @@
       "Scenario"
     ],
     "scenarioOutline": [
-      "Primjer-obris",
       "Scenariju-obris",
       "Scenario-outline"
     ],
@@ -430,7 +424,6 @@
       "Escenari"
     ],
     "scenarioOutline": [
-      "Esquema de l'exemple",
       "Esquema de l'escenari"
     ],
     "then": [
@@ -556,7 +549,6 @@
       "Scenarie"
     ],
     "scenarioOutline": [
-      "Abstrakt Eksempel",
       "Abstrakt Scenario"
     ],
     "then": [
@@ -599,7 +591,6 @@
       "Szenario"
     ],
     "scenarioOutline": [
-      "Beispielrundriss",
       "Szenariogrundriss"
     ],
     "then": [
@@ -726,7 +717,6 @@
       "Scenario"
     ],
     "scenarioOutline": [
-      "Example Outline",
       "Scenario Outline",
       "Scenario Template"
     ],
@@ -983,7 +973,6 @@
       "Kazo"
     ],
     "scenarioOutline": [
-      "Konturo de la ekzemplo",
       "Konturo de la scenaro",
       "Skizo",
       "Kazo-skizo"
@@ -1030,7 +1019,6 @@
       "Escenario"
     ],
     "scenarioOutline": [
-      "Esquema del ejemplo",
       "Esquema del escenario"
     ],
     "then": [
@@ -1207,7 +1195,6 @@
       "Scénario"
     ],
     "scenarioOutline": [
-      "Plan de l'exemple",
       "Plan du scénario",
       "Plan du Scénario"
     ],
@@ -1254,7 +1241,6 @@
       "Cás"
     ],
     "scenarioOutline": [
-      "Sampla Achomair",
       "Cás Achomair"
     ],
     "then": [
@@ -1345,7 +1331,6 @@
       "Escenario"
     ],
     "scenarioOutline": [
-      "Esbozo do exemplo",
       "Esbozo do escenario"
     ],
     "then": [
@@ -1700,7 +1685,6 @@
       "Scenario"
     ],
     "scenarioOutline": [
-      "Schema dell'esempio",
       "Schema dello scenario"
     ],
     "then": [
@@ -1832,7 +1816,6 @@
       "სცენარის"
     ],
     "scenarioOutline": [
-      "მაგალითად ნიმუში",
       "სცენარის ნიმუში"
     ],
     "then": [
@@ -1999,7 +1982,6 @@
       "Szenario"
     ],
     "scenarioOutline": [
-      "Plang vum Beispill",
       "Plang vum Szenario"
     ],
     "then": [
@@ -2043,7 +2025,6 @@
       "Scenārijs"
     ],
     "scenarioOutline": [
-      "Piemērs pēc parauga",
       "Scenārijs pēc parauga"
     ],
     "then": [
@@ -2224,7 +2205,6 @@
       "Scenario"
     ],
     "scenarioOutline": [
-      "Abstract Voorbeeld",
       "Abstract Scenario"
     ],
     "then": [
@@ -2266,8 +2246,6 @@
       "Scenario"
     ],
     "scenarioOutline": [
-      "Eksempelmal",
-      "Abstrakt Eksempel",
       "Scenariomal",
       "Abstrakt Scenario"
     ],
@@ -2413,8 +2391,6 @@
       "Cenario"
     ],
     "scenarioOutline": [
-      "Esquema do Exemplo",
-      "Delineação do Exemplo",
       "Esquema do Cenário",
       "Esquema do Cenario",
       "Delineação do Cenário",
@@ -2468,8 +2444,6 @@
       "Scenariu"
     ],
     "scenarioOutline": [
-      "Structura exemplu",
-      "Structură exemplu",
       "Structura scenariu",
       "Structură scenariu"
     ],
@@ -2992,7 +2966,6 @@
       "Senaryo"
     ],
     "scenarioOutline": [
-      "Örnek taslağı",
       "Senaryo taslağı"
     ],
     "then": [
