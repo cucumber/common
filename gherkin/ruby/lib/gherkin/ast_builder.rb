@@ -148,49 +148,29 @@ module Gherkin
           description: description,
           steps: steps
         )
-      when :Scenario_Definition
+      when :ScenarioDefinition
         tags = get_tags(node)
         scenario_node = node.get_single(:Scenario)
-        if(scenario_node)
-          scenario_line = scenario_node.get_token(:ScenarioLine)
-          description = get_description(scenario_node)
-          steps = get_steps(scenario_node)
-
-          reject_nils(
+        scenario_line = scenario_node.get_token(:ScenarioLine)
+        description = get_description(scenario_node)
+        steps = get_steps(scenario_node)
+        examples = scenario_node.get_items(:ExamplesDefinition)
+        reject_nils(
             type: scenario_node.rule_type,
             tags: tags,
             location: get_location(scenario_line),
             keyword: scenario_line.matched_keyword,
             name: scenario_line.matched_text,
             description: description,
-            steps: steps
-          )
-        else
-          scenario_outline_node = node.get_single(:ScenarioOutline)
-          raise 'Internal grammar error' unless scenario_outline_node
-
-          scenario_outline_line = scenario_outline_node.get_token(:ScenarioOutlineLine)
-          description = get_description(scenario_outline_node)
-          steps = get_steps(scenario_outline_node)
-          examples = scenario_outline_node.get_items(:Examples_Definition)
-
-          reject_nils(
-            type: scenario_outline_node.rule_type,
-            tags: tags,
-            location: get_location(scenario_outline_line),
-            keyword: scenario_outline_line.matched_keyword,
-            name: scenario_outline_line.matched_text,
-            description: description,
             steps: steps,
             examples: examples
-          )
-        end
-      when :Examples_Definition
+        )
+      when :ExamplesDefinition
         tags = get_tags(node)
         examples_node = node.get_single(:Examples)
         examples_line = examples_node.get_token(:ExamplesLine)
         description = get_description(examples_node)
-        examples_table = examples_node.get_single(:Examples_Table)
+        examples_table = examples_node.get_single(:ExamplesTable)
 
         reject_nils(
           type: examples_node.rule_type,
@@ -202,7 +182,7 @@ module Gherkin
           tableHeader: !examples_table.nil? ? examples_table[:tableHeader] : nil,
           tableBody: !examples_table.nil? ? examples_table[:tableBody] : nil
         )
-      when :Examples_Table
+      when :ExamplesTable
         rows = get_table_rows(node)
 
         reject_nils(
@@ -216,7 +196,7 @@ module Gherkin
         description = line_tokens[0..last_non_empty].map { |token| token.matched_text }.join("\n")
         return description
       when :Feature
-        header = node.get_single(:Feature_Header)
+        header = node.get_single(:FeatureHeader)
         return unless header
         tags = get_tags(header)
         feature_line = header.get_token(:FeatureLine)
@@ -224,7 +204,7 @@ module Gherkin
         children = []
         background = node.get_single(:Background)
         children.push(background) if background
-        children.concat(node.get_items(:Scenario_Definition))
+        children.concat(node.get_items(:ScenarioDefinition))
         description = get_description(header)
         language = feature_line.matched_gherkin_dialect
 

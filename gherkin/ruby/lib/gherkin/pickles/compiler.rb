@@ -9,13 +9,13 @@ module Gherkin
         feature_tags = feature[:tags]
         background_steps = []
 
-        feature[:children].each do |scenario_definition|
-          if(scenario_definition[:type] == :Background)
-            background_steps = pickle_steps(scenario_definition)
-          elsif(scenario_definition[:type] == :Scenario)
-            compile_scenario(feature_tags, background_steps, scenario_definition, feature[:language], pickles)
+        feature[:children].each do |steps_container|
+          if(steps_container[:type] == :Background)
+            background_steps = pickle_steps(steps_container)
+          elsif(steps_container[:examples].empty?)
+            compile_scenario(feature_tags, background_steps, steps_container, feature[:language], pickles)
           else
-            compile_scenario_outline(feature_tags, background_steps, scenario_definition, feature[:language], pickles)
+            compile_scenario_outline(feature_tags, background_steps, steps_container, feature[:language], pickles)
           end
         end
         return pickles
@@ -42,15 +42,15 @@ module Gherkin
         pickles.push(pickle)
       end
 
-      def compile_scenario_outline(feature_tags, background_steps, scenario_outline, language, pickles)
-        scenario_outline[:examples].reject { |examples| examples[:tableHeader].nil? }.each do |examples|
+      def compile_scenario_outline(feature_tags, background_steps, scenario, language, pickles)
+        scenario[:examples].reject { |examples| examples[:tableHeader].nil? }.each do |examples|
           variable_cells = examples[:tableHeader][:cells]
           examples[:tableBody].each do |values|
             value_cells = values[:cells]
-            steps = scenario_outline[:steps].empty? ? [] : [].concat(background_steps)
-            tags = [].concat(feature_tags).concat(scenario_outline[:tags]).concat(examples[:tags])
+            steps = scenario[:steps].empty? ? [] : [].concat(background_steps)
+            tags = [].concat(feature_tags).concat(scenario[:tags]).concat(examples[:tags])
 
-            scenario_outline[:steps].each do |scenario_outline_step|
+            scenario[:steps].each do |scenario_outline_step|
               step_text = interpolate(scenario_outline_step[:text], variable_cells, value_cells);
               arguments = create_pickle_arguments(scenario_outline_step[:argument], variable_cells, value_cells)
               pickle_step = {
@@ -65,13 +65,13 @@ module Gherkin
             end
 
             pickle = {
-              name: interpolate(scenario_outline[:name], variable_cells, value_cells),
+              name: interpolate(scenario[:name], variable_cells, value_cells),
               language: language,
               steps: steps,
               tags: pickle_tags(tags),
               locations: [
                 pickle_location(values[:location]),
-                pickle_location(scenario_outline[:location])
+                pickle_location(scenario[:location])
               ]
             }
             pickles.push(pickle);
