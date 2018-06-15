@@ -10,9 +10,9 @@ namespace Gherkin.Ast
         public string Keyword { get; private set; }
         public string Name { get; private set; }
         public string Description { get; private set; }
-        public IEnumerable<ScenarioDefinition> Children { get; private set; }
+        public IEnumerable<StepsContainer> Children { get; private set; }
 
-        public Feature(Tag[] tags, Location location, string language, string keyword, string name, string description, ScenarioDefinition[] children)
+        public Feature(Tag[] tags, Location location, string language, string keyword, string name, string description, StepsContainer[] children)
         {
             Tags = tags;
             Location = location;

@@ -3,15 +3,15 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.26730.12
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Gherkin", "Gherkin\Gherkin.csproj", "{2FF8C8E3-D3D1-452D-8BA7-358035FEC064}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gherkin", "Gherkin\Gherkin.csproj", "{2FF8C8E3-D3D1-452D-8BA7-358035FEC064}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Gherkin.CLI", "Gherkin.CLI\Gherkin.CLI.csproj", "{19BEC00D-448A-44BF-9E9D-4B75849C9A57}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gherkin.CLI", "Gherkin.CLI\Gherkin.CLI.csproj", "{19BEC00D-448A-44BF-9E9D-4B75849C9A57}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Gherkin.Specs", "Gherkin.Specs\Gherkin.Specs.csproj", "{A0DEA4BA-3A79-4C05-87F2-7C7C9DE8B245}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gherkin.Specs", "Gherkin.Specs\Gherkin.Specs.csproj", "{A0DEA4BA-3A79-4C05-87F2-7C7C9DE8B245}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Gherkin.TokensGenerator", "Gherkin.TokensGenerator\Gherkin.TokensGenerator.csproj", "{4725D7DF-7488-41CC-8F30-90C6A5FB463A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gherkin.TokensGenerator", "Gherkin.TokensGenerator\Gherkin.TokensGenerator.csproj", "{4725D7DF-7488-41CC-8F30-90C6A5FB463A}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Gherkin.TokensGeneratorLib", "Gherkin.TokensGeneratorLib\Gherkin.TokensGeneratorLib.csproj", "{77918F35-3CB3-4A62-95F9-438804A2BF02}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gherkin.TokensGeneratorLib", "Gherkin.TokensGeneratorLib\Gherkin.TokensGeneratorLib.csproj", "{77918F35-3CB3-4A62-95F9-438804A2BF02}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

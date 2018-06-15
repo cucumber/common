@@ -1,6 +1,6 @@
-<?xml version="1.0"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project Sdk="Microsoft.NET.Sdk">
-  <Import Project="../netfx.props"/>
+  <Import Project="../netfx.props" />
   <PropertyGroup>
     <TargetFrameworks>netstandard1.5;net45</TargetFrameworks>
   </PropertyGroup>
@@ -12,7 +12,7 @@
      <Title>Gherkin Parser</Title>
      <Description>Cross-platform parser for the Gherkin language, used by Cucumber, SpecFlow and other Cucumber-based tools to parse feature files.</Description>
      <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
-     <Copyright>Copyright &#xA9; Cucumber Ltd, Gaspar Nagy</Copyright>
+     <Copyright>Copyright © Cucumber Ltd, Gaspar Nagy</Copyright>
      <PackageTags>specflow gherkin cucumber</PackageTags>
      <PackageProjectUrl>https://github.com/cucumber/cucumber/tree/master/gherkin</PackageProjectUrl>
      <PackageIconUrl>https://cucumber.io/images/cucumber-mark-32x32.png</PackageIconUrl>
@@ -21,12 +21,12 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="gherkin-languages.json"/>
+    <None Remove="gherkin-languages.json" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="gherkin-languages.json"/>
+    <EmbeddedResource Include="gherkin-languages.json" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Newtonsoft.Json" Version="10.0.3"/>
+    <PackageReference Include="Newtonsoft.Json" Version="10.0.3" />
   </ItemGroup>
 </Project>

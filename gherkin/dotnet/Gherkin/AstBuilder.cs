@@ -85,47 +85,31 @@ namespace Gherkin
                     var steps = GetSteps(node);
                     return CreateBackground(GetLocation(backgroundLine), backgroundLine.MatchedKeyword, backgroundLine.MatchedText, description, steps, node);
                 }
-                case RuleType.Scenario_Definition:
+                case RuleType.ScenarioDefinition:
                 {
                     var tags = GetTags(node);
 
                     var scenarioNode = node.GetSingle<AstNode>(RuleType.Scenario);
-                    if (scenarioNode != null)
-                    {
-                        var scenarioLine = scenarioNode.GetToken(TokenType.ScenarioLine);
+                    var scenarioLine = scenarioNode.GetToken(TokenType.ScenarioLine);
 
-                        var description = GetDescription(scenarioNode);
-                        var steps = GetSteps(scenarioNode);
-
-                        return CreateScenario(tags, GetLocation(scenarioLine), scenarioLine.MatchedKeyword, scenarioLine.MatchedText, description, steps, node);
-                    }
-                    else
-                    {
-                        var scenarioOutlineNode = node.GetSingle<AstNode>(RuleType.ScenarioOutline);
-                        if (scenarioOutlineNode == null)
-                            throw new InvalidOperationException("Internal gramar error");
-                        var scenarioOutlineLine = scenarioOutlineNode.GetToken(TokenType.ScenarioOutlineLine);
-
-                        var description = GetDescription(scenarioOutlineNode);
-                        var steps = GetSteps(scenarioOutlineNode);
-                        var examples = scenarioOutlineNode.GetItems<Examples>(RuleType.Examples_Definition).ToArray();
-
-                        return CreateScenarioOutline(tags, GetLocation(scenarioOutlineLine), scenarioOutlineLine.MatchedKeyword, scenarioOutlineLine.MatchedText, description, steps, examples, node);
-                    }
+                    var description = GetDescription(scenarioNode);
+                    var steps = GetSteps(scenarioNode);
+                    var examples = scenarioNode.GetItems<Examples>(RuleType.ExamplesDefinition).ToArray();
+                    return CreateScenario(tags, GetLocation(scenarioLine), scenarioLine.MatchedKeyword, scenarioLine.MatchedText, description, steps, examples, node);
                 }
-                case RuleType.Examples_Definition:
+                case RuleType.ExamplesDefinition:
                 {
                     var tags = GetTags(node);
                     var examplesNode = node.GetSingle<AstNode>(RuleType.Examples);
                     var examplesLine = examplesNode.GetToken(TokenType.ExamplesLine);
                     var description = GetDescription(examplesNode);
 
-                    var allRows = examplesNode.GetSingle<TableRow[]>(RuleType.Examples_Table);
+                    var allRows = examplesNode.GetSingle<TableRow[]>(RuleType.ExamplesTable);
                     var header = allRows != null ? allRows.First() : null;
                     var rows = allRows != null ? allRows.Skip(1).ToArray() : null;
                     return CreateExamples(tags, GetLocation(examplesLine), examplesLine.MatchedKeyword, examplesLine.MatchedText, description, header, rows, node);
                 }
-                case RuleType.Examples_Table:
+                case RuleType.ExamplesTable:
                 {
                     return GetTableRows(node);
                 }
@@ -140,18 +124,18 @@ namespace Gherkin
                 }
                 case RuleType.Feature:
                 {
-                    var header = node.GetSingle<AstNode>(RuleType.Feature_Header);
+                    var header = node.GetSingle<AstNode>(RuleType.FeatureHeader);
                     if(header == null) return null;
                     var tags = GetTags(header);
                     var featureLine = header.GetToken(TokenType.FeatureLine);
                     if(featureLine == null) return null;
-                    var children = new List<ScenarioDefinition> ();
+                    var children = new List<StepsContainer> ();
                     var background = node.GetSingle<Background>(RuleType.Background);
                     if (background != null) 
                     {
                         children.Add (background);
                     }
-                    var childrenEnumerable = children.Concat(node.GetItems<ScenarioDefinition>(RuleType.Scenario_Definition));
+                    var childrenEnumerable = children.Concat(node.GetItems<StepsContainer>(RuleType.ScenarioDefinition));
                     var description = GetDescription(header);
                     if(featureLine.MatchedGherkinDialect == null) return null;
                     var language = featureLine.MatchedGherkinDialect.Language;
@@ -184,19 +168,14 @@ namespace Gherkin
             return new Comment(location, text);
         }
 
-        protected virtual ScenarioOutline CreateScenarioOutline(Tag[] tags, Location location, string keyword, string name, string description, Step[] steps, Examples[] examples, AstNode node)
-        {
-            return new ScenarioOutline(tags, location, keyword, name, description, steps, examples);
-        }
-
         protected virtual Examples CreateExamples(Tag[] tags, Location location, string keyword, string name, string description, TableRow header, TableRow[] body, AstNode node)
         {
             return new Examples(tags, location, keyword, name, description, header, body);
         }
 
-        protected virtual Scenario CreateScenario(Tag[] tags, Location location, string keyword, string name, string description, Step[] steps, AstNode node)
+        protected virtual Scenario CreateScenario(Tag[] tags, Location location, string keyword, string name, string description, Step[] steps, Examples[] examples, AstNode node)
         {
-            return new Scenario(tags, location, keyword, name, description, steps);
+            return new Scenario(tags, location, keyword, name, description, steps, examples);
         }
 
         protected virtual DocString CreateDocString(Location location, string contentType, string content, AstNode node)
@@ -213,7 +192,7 @@ namespace Gherkin
             return new GherkinDocument(feature, gherkinDocumentComments);
         }
 
-        protected virtual Feature CreateFeature(Tag[] tags, Location location, string language, string keyword, string name, string description, ScenarioDefinition[] children, AstNode node)
+        protected virtual Feature CreateFeature(Tag[] tags, Location location, string language, string keyword, string name, string description, StepsContainer[] children, AstNode node)
         {
             return new Feature(tags, location, language, keyword, name, description, children);
         }
