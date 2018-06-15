@@ -19,6 +19,10 @@ This document is formatted according to the principles of [Keep A CHANGELOG](htt
 
 ### Fixed
 
+* (JavaScript) Fix ability to pass language to parser.
+  ([#401](https://github.com/cucumber/cucumber/pull/401)
+   [charlierudolph])
+
 ## [5.1.0] - 2018-05-30
 
 ### Added

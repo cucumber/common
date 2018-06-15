@@ -13,6 +13,8 @@ This document is formatted according to the principles of [Keep A CHANGELOG](htt
 
 ### Changed
 
+* (JavaScript,Java,Ruby,Go) `Scenario` keyword can be used to create `ScenarioOutline`.
+
 ### Deprecated
 
 ### Removed

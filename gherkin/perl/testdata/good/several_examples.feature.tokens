@@ -1,6 +1,6 @@
 (1:1)FeatureLine:Feature/Tagged Examples/
 (2:1)Empty://
-(3:3)ScenarioOutlineLine:Scenario Outline/minimalistic/
+(3:3)ScenarioLine:Scenario Outline/minimalistic/
 (4:5)StepLine:Given /the <what>/
 (5:1)Empty://
 (6:5)TagLine://5:@foo
