@@ -33,7 +33,6 @@ This document is formatted according to the principles of [Keep A CHANGELOG](htt
 
 ### Added
 * (.NET) - Better .NET Core support
->>>>>>> master
 * Support for Aragonese
   ([#298](https://github.com/cucumber/cucumber/pull/298)
    [danilat])
