@@ -103,7 +103,7 @@ public class AstBuilder implements Builder<GherkinDocument> {
             }
             case ScenarioDefinition: {
                 List<Tag> tags = getTags(node);
-                AstNode scenarioNode = node.getSingle(RuleType.Example, null);
+                AstNode scenarioNode = node.getSingle(RuleType.Scenario, null);
 
                 Token scenarioLine = scenarioNode.getToken(TokenType.ScenarioLine);
                 String description = getDescription(scenarioNode);
