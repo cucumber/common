@@ -1,7 +1,7 @@
 package cucumberexpressions
 
 type Submatch struct {
-	value string
+	value *string
 	start int
 	end   int
 }

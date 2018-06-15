@@ -16,10 +16,24 @@ class ParameterTypeRegistry {
     this._parameterTypesByRegexp = new Map()
 
     this.defineParameterType(
-      new ParameterType('int', INTEGER_REGEXPS, Number, parseInt, true, true)
+      new ParameterType(
+        'int',
+        INTEGER_REGEXPS,
+        Number,
+        s => s && parseInt(s),
+        true,
+        true
+      )
     )
     this.defineParameterType(
-      new ParameterType('float', FLOAT_REGEXP, Number, parseFloat, true, false)
+      new ParameterType(
+        'float',
+        FLOAT_REGEXP,
+        Number,
+        s => s && parseFloat(s),
+        true,
+        false
+      )
     )
     this.defineParameterType(
       new ParameterType('word', WORD_REGEXP, String, s => s, false, false)
@@ -65,11 +79,13 @@ class ParameterTypeRegistry {
   }
 
   defineParameterType(parameterType) {
-    if (this._parameterTypeByName.has(parameterType.name))
-      throw new Error(
-        `There is already a parameter type with name ${parameterType.name}`
-      )
-    this._parameterTypeByName.set(parameterType.name, parameterType)
+    if (parameterType.name) {
+      if (this._parameterTypeByName.has(parameterType.name))
+        throw new Error(
+          `There is already a parameter type with name ${parameterType.name}`
+        )
+      this._parameterTypeByName.set(parameterType.name, parameterType)
+    }
 
     for (const parameterTypeRegexp of parameterType.regexps) {
       if (!this._parameterTypesByRegexp.has(parameterTypeRegexp)) {

@@ -19,7 +19,7 @@ import static java.util.Collections.unmodifiableMap;
 
 /**
  * A m-by-n table of string values. For example:
- * <p>
+ *
  * <pre>
  * |     | firstName   | lastName | birthDate  |
  * | 4a1 | Annie M. G. | Schmidt  | 1911-03-20 |
@@ -28,12 +28,12 @@ import static java.util.Collections.unmodifiableMap;
  * <p>
  * A table is either empty or  contains one or more cells. As
  * such if a table has zero height it must have zero width and
- * vise versa.
+ * vice versa.
  * <p>
  * The first row of the the table may be referred to as the
  * table header. The remaining cells as the table body.
  * <p>
- * A table can be converted into an objects of an arbitrary
+ * A table can be converted into an object of an arbitrary
  * type by a {@link TableConverter}. A table created without
  * a table converter will throw a {@link NoConverterDefined}
  * exception when doing so.
@@ -67,7 +67,7 @@ public final class DataTable {
      * <p>
      *
      * @param raw the underlying table
-     * @return an new data table containing the raw values
+     * @return a new data table containing the raw values
      * @throws NullPointerException     if raw is null
      * @throws IllegalArgumentException when the table is not rectangular or contains null values.
      */
@@ -80,14 +80,13 @@ public final class DataTable {
      *
      * @param raw            the underlying table
      * @param tableConverter to transform the table
-     * @return an new data table containing the raw values
+     * @return a new data table containing the raw values
      * @throws NullPointerException     if either raw or tableConverter is null
      * @throws IllegalArgumentException when the table is not rectangular or contains null values
      */
     public static DataTable create(List<List<String>> raw, TableConverter tableConverter) {
         return new DataTable(copy(requireNonNullEntries(requireRectangularTable(raw))), tableConverter);
     }
-
 
     private static List<List<String>> copy(List<List<String>> balanced) {
         List<List<String>> rawCopy = new ArrayList<>(balanced.size());
@@ -103,7 +102,6 @@ public final class DataTable {
         }
         return unmodifiableList(rawCopy);
     }
-
 
     private static List<List<String>> requireNonNullEntries(List<List<String>> raw) {
         // Iterate in case of linked list.
@@ -137,6 +135,34 @@ public final class DataTable {
      */
     public static DataTable emptyDataTable() {
         return new DataTable(Collections.<List<String>>emptyList(), new NoConverterDefined());
+    }
+
+    /**
+     * Performs a diff against an other instance.
+     *
+     * @param actual the other table to diff with
+     * @throws TableDiffException if the tables are different
+     */
+    public void diff(DataTable actual) throws TableDiffException {
+        TableDiffer tableDiffer = new TableDiffer(this, actual);
+        DataTableDiff dataTableDiff = tableDiffer.calculateDiffs();
+        if (!dataTableDiff.isEmpty()) {
+            throw TableDiffException.diff(dataTableDiff);
+        }
+    }
+
+    /**
+     * Performs an unordered diff against an other instance.
+     *
+     * @param actual the other table to diff with
+     * @throws TableDiffException if the tables are different
+     */
+    public void unorderedDiff(DataTable actual) throws TableDiffException {
+        TableDiffer tableDiffer = new TableDiffer(this, actual);
+        DataTableDiff dataTableDiff = tableDiffer.calculateUnorderedDiffs();
+        if (!dataTableDiff.isEmpty()) {
+            throw TableDiffException.diff(dataTableDiff);
+        }
     }
 
     /**
@@ -498,7 +524,7 @@ public final class DataTable {
 
     /**
      * Returns a transposed view on this table. Example:
-     * <p>
+     *
      * <pre>
      *    | a | 7 | 4 |
      *    | b | 9 | 2 |
@@ -574,7 +600,7 @@ public final class DataTable {
          * A table converter may either map each row or each individual cell to a list element.
          * <p>
          * For example:
-         * <p>
+         *
          * <pre>
          * | Annie M. G. Schmidt | 1911-03-20 |
          * | Roald Dahl          | 1916-09-13 |
@@ -592,7 +618,7 @@ public final class DataTable {
          * </pre>
          * <p>
          * can become:
-         * <p>
+         *
          * <pre>
          * [
          *   Author[ name: Annie M. G. Schmidt, birthDate: 1911-03-20 ],
@@ -601,7 +627,7 @@ public final class DataTable {
          * </pre>
          * <p>
          * Likewise:
-         * <p>
+         *
          * <pre>
          *  | firstName   | lastName | birthDate  |
          *  | Annie M. G. | Schmidt  | 1911-03-20 |
@@ -629,7 +655,7 @@ public final class DataTable {
          * Each row maps to a list, each table cell a list entry.
          * <p>
          * For example:
-         * <p>
+         *
          * <pre>
          * | Annie M. G. Schmidt | 1911-03-20 |
          * | Roald Dahl          | 1916-09-13 |
@@ -658,7 +684,7 @@ public final class DataTable {
          * the values.
          * <p>
          * For example:
-         * <p>
+         *
          * <pre>
          * | 4a1 | Annie M. G. Schmidt | 1911-03-20 |
          * | c92 | Roald Dahl          | 1916-09-13 |
@@ -677,7 +703,7 @@ public final class DataTable {
          * left blank.
          * <p>
          * For example:
-         * <p>
+         *
          * <pre>
          * |     | firstName   | lastName | birthDate  |
          * | 4a1 | Annie M. G. | Schmidt  | 1911-03-20 |
@@ -707,7 +733,7 @@ public final class DataTable {
          * Each map represents a row in the table. The map keys are the column headers.
          * <p>
          * For example:
-         * <p>
+         *
          * <pre>
          * | firstName   | lastName | birthDate  |
          * | Annie M. G. | Schmidt  | 1911-03-20 |

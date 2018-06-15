@@ -28,7 +28,7 @@ func CreateParameterTypeRegistry(t *testing.T) *cucumberexpressions.ParameterTyp
 		"color", // name
 		[]*regexp.Regexp{regexp.MustCompile("red|blue|yellow")}, // regexps
 		"color", // type
-		func(args ...string) interface{} { return &Color{name: args[0]} }, // transformer
+		func(args ...*string) interface{} { return &Color{name: *args[0]} }, // transformer
 		false, // useForSnippets
 		true,  // preferForRegexpMatch
 	)
@@ -40,6 +40,22 @@ func CreateParameterTypeRegistry(t *testing.T) *cucumberexpressions.ParameterTyp
 }
 
 func TestCustomParameterTypes(t *testing.T) {
+	t.Run("throws exception for illegal character in parameter type name", func(t *testing.T) {
+		_, err := cucumberexpressions.NewParameterType(
+			"[string]",
+			[]*regexp.Regexp{regexp.MustCompile(`.*`)},
+			"x",
+			func(args ...*string) interface{} {
+				return *args[0]
+			},
+			true,
+			true,
+		)
+		require.Error(t, err)
+		require.Equal(t, "Illegal character '[' in parameter name {[string]}", err.Error())
+	})
+
+
 	t.Run("CucumberExpression", func(t *testing.T) {
 		t.Run("matches parameters with custom parameter type", func(t *testing.T) {
 			parameterTypeRegistry := CreateParameterTypeRegistry(t)
@@ -61,16 +77,16 @@ func TestCustomParameterTypes(t *testing.T) {
 				"coordinate",
 				[]*regexp.Regexp{regexp.MustCompile(`(\d+),\s*(\d+),\s*(\d+)`)},
 				"coordinate",
-				func(args ...string) interface{} {
-					x, err := strconv.Atoi(args[0])
+				func(args ...*string) interface{} {
+					x, err := strconv.Atoi(*args[0])
 					if err != nil {
 						panic(err)
 					}
-					y, err := strconv.Atoi(args[1])
+					y, err := strconv.Atoi(*args[1])
 					if err != nil {
 						panic(err)
 					}
-					z, err := strconv.Atoi(args[2])
+					z, err := strconv.Atoi(*args[2])
 					if err != nil {
 						panic(err)
 					}
@@ -100,7 +116,7 @@ func TestCustomParameterTypes(t *testing.T) {
 					regexp.MustCompile("(?:dark|light) (?:red|blue|yellow)"),
 				},
 				"color",
-				func(args ...string) interface{} { return &Color{name: args[0]} },
+				func(args ...*string) interface{} { return &Color{name: *args[0]} },
 				false,
 				true,
 			)
@@ -120,7 +136,7 @@ func TestCustomParameterTypes(t *testing.T) {
 				"throwing",
 				[]*regexp.Regexp{regexp.MustCompile("bad")},
 				"throwing",
-				func(args ...string) interface{} { panic(fmt.Sprintf("Can't transform [%s]", args[0])) },
+				func(args ...*string) interface{} { panic(fmt.Sprintf("Can't transform [%s]", *args[0])) },
 				false,
 				true,
 			)
@@ -144,7 +160,7 @@ func TestCustomParameterTypes(t *testing.T) {
 					"color",
 					[]*regexp.Regexp{regexp.MustCompile(".*")},
 					"CSSColor",
-					func(args ...string) interface{} { return &CSSColor{name: args[0]} },
+					func(args ...*string) interface{} { return &CSSColor{name: *args[0]} },
 					false,
 					true,
 				)
@@ -160,7 +176,7 @@ func TestCustomParameterTypes(t *testing.T) {
 					"whatever",
 					[]*regexp.Regexp{regexp.MustCompile(".*")},
 					"Color",
-					func(args ...string) interface{} { return &Color{name: args[0]} },
+					func(args ...*string) interface{} { return &Color{name: *args[0]} },
 					false,
 					true,
 				)
@@ -175,7 +191,7 @@ func TestCustomParameterTypes(t *testing.T) {
 					"css-color",
 					[]*regexp.Regexp{regexp.MustCompile("red|blue|yellow")},
 					"CSSColor",
-					func(args ...string) interface{} { return &CSSColor{name: args[0]} },
+					func(args ...*string) interface{} { return &CSSColor{name: *args[0]} },
 					true,
 					false,
 				)
@@ -201,7 +217,20 @@ func TestCustomParameterTypes(t *testing.T) {
 
 		t.Run("RegularExpression", func(t *testing.T) {
 			t.Run("matches arguments with custom parameter type", func(t *testing.T) {
-				parameterTypeRegistry := CreateParameterTypeRegistry(t)
+				parameterTypeRegistry := cucumberexpressions.NewParameterTypeRegistry()
+				colorParameterType, err := cucumberexpressions.NewParameterType(
+					"",
+					[]*regexp.Regexp{regexp.MustCompile("red|blue|yellow")},
+					"color",
+					func(args ...*string) interface{} { return &Color{name: *args[0]} },
+					false,
+					true,
+				)
+				require.NoError(t, err)
+				err = parameterTypeRegistry.DefineParameterType(colorParameterType)
+				/// [add-color-parameter-type]
+				require.NoError(t, err)
+
 				expression := cucumberexpressions.NewRegularExpression(regexp.MustCompile("I have a (red|blue|yellow) ball"), parameterTypeRegistry)
 				args, err := expression.Match("I have a red ball")
 				require.NoError(t, err)

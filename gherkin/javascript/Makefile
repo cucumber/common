@@ -20,7 +20,7 @@ default: .compared
 	touch $@
 
 .built: lib/gherkin/parser.js lib/gherkin/gherkin-languages.json $(JAVASCRIPT_FILES) dist/gherkin.js dist/gherkin.min.js yarn.lock
-	./node_modules/.bin/mocha
+	./node_modules/.bin/mocha 'test/**/*.js'
 	touch $@
 
 yarn.lock: package.json

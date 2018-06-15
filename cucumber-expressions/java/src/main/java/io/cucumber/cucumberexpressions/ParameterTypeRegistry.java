@@ -32,49 +32,49 @@ public class ParameterTypeRegistry {
         defineParameterType(new ParameterType<>("biginteger", INTEGER_REGEXPS, BigInteger.class, new Transformer<BigInteger>() {
             @Override
             public BigInteger transform(String arg) {
-                return new BigInteger(arg);
+                return arg == null ? null : new BigInteger(arg);
             }
         }, false, false));
         defineParameterType(new ParameterType<>("bigdecimal", FLOAT_REGEXPS, BigDecimal.class, new Transformer<BigDecimal>() {
             @Override
             public BigDecimal transform(String arg) {
-                return new BigDecimal(arg);
+                return arg == null ? null : new BigDecimal(arg);
             }
         }, false, false));
         defineParameterType(new ParameterType<>("byte", INTEGER_REGEXPS, Byte.class, new Transformer<Byte>() {
             @Override
             public Byte transform(String arg) {
-                return Byte.decode(arg);
+                return arg == null ? null : Byte.decode(arg);
             }
         }, false, false));
         defineParameterType(new ParameterType<>("short", INTEGER_REGEXPS, Short.class, new Transformer<Short>() {
             @Override
             public Short transform(String arg) {
-                return Short.decode(arg);
+                return arg == null ? null : Short.decode(arg);
             }
         }, false, false));
         defineParameterType(new ParameterType<>("int", INTEGER_REGEXPS, Integer.class, new Transformer<Integer>() {
             @Override
             public Integer transform(String arg) {
-                return Integer.decode(arg);
+                return arg == null ? null : Integer.decode(arg);
             }
         }, true, true));
         defineParameterType(new ParameterType<>("long", INTEGER_REGEXPS, Long.class, new Transformer<Long>() {
             @Override
             public Long transform(String arg) {
-                return Long.decode(arg);
+                return arg == null ? null : Long.decode(arg);
             }
         }, false, false));
         defineParameterType(new ParameterType<>("float", FLOAT_REGEXPS, Float.class, new Transformer<Float>() {
             @Override
             public Float transform(String arg) {
-                return numberParser.parseFloat(arg);
+                return arg == null ? null : numberParser.parseFloat(arg);
             }
         }, false, false));
         defineParameterType(new ParameterType<>("double", FLOAT_REGEXPS, Double.class, new Transformer<Double>() {
             @Override
             public Double transform(String arg) {
-                return numberParser.parseDouble(arg);
+                return arg == null ? null : numberParser.parseDouble(arg);
             }
         }, true, true));
         defineParameterType(new ParameterType<>("word", WORD_REGEXPS, String.class, new Transformer<String>() {
@@ -86,15 +86,17 @@ public class ParameterTypeRegistry {
         defineParameterType(new ParameterType<>("string", STRING_REGEXPS, String.class, new Transformer<String>() {
             @Override
             public String transform(String arg) {
-                return arg.replaceAll("\\\\\"", "\"").replaceAll("\\\\'", "'");
+                return arg == null ? null : arg.replaceAll("\\\\\"", "\"").replaceAll("\\\\'", "'");
             }
         }, true, false));
     }
 
     public void defineParameterType(ParameterType<?> parameterType) {
-        if (parameterTypeByName.containsKey(parameterType.getName()))
-            throw new DuplicateTypeNameException(String.format("There is already a parameter type with name %s", parameterType.getName()));
-        parameterTypeByName.put(parameterType.getName(), parameterType);
+        if (parameterType.getName() != null) {
+            if (parameterTypeByName.containsKey(parameterType.getName()))
+                throw new DuplicateTypeNameException(String.format("There is already a parameter type with name %s", parameterType.getName()));
+            parameterTypeByName.put(parameterType.getName(), parameterType);
+        }
 
         for (String parameterTypeRegexp : parameterType.getRegexps()) {
             if (parameterTypesByRegexp.get(parameterTypeRegexp) == null) {

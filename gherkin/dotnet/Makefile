@@ -2,7 +2,7 @@ SHELL := /usr/bin/env bash
 ALPINE := $(shell which apk 2> /dev/null)
 UNAME := $(shell uname)
 ifeq ($(UNAME), Darwin)
-	dotnet_build_opts := --framework netcoreapp1.1
+	dotnet_build_opts := --framework netcoreapp2.0
 endif
 
 GOOD_FEATURE_FILES = $(shell find testdata/good -name "*.feature")
@@ -37,7 +37,7 @@ skip_build:
 acceptance/testdata/%.feature.tokens: testdata/%.feature testdata/%.feature.tokens .sln_built_debug .run_tests
 	mkdir -p `dirname $@`
 
-	bin/gherkin-generate-tokens netcoreapp1.1 $< > $@
+	bin/gherkin-generate-tokens netcoreapp2.0 $< > $@
 	diff --unified $<.tokens $@
 
 	bin/gherkin-generate-tokens net45 $< > $@
@@ -46,7 +46,7 @@ acceptance/testdata/%.feature.tokens: testdata/%.feature testdata/%.feature.toke
 acceptance/testdata/%.feature.pickles.ndjson: testdata/%.feature testdata/%.feature.pickles.ndjson .sln_built_debug .run_tests
 	mkdir -p `dirname $@`
 
-	bin/gherkin netcoreapp1.1 --no-source --no-ast $< | jq --sort-keys --compact-output "." > $@
+	bin/gherkin netcoreapp2.0 --no-source --no-ast $< | jq --sort-keys --compact-output "." > $@
 	diff --unified <(jq "." $<.pickles.ndjson) <(jq "." $@)
 
 	bin/gherkin net45 --no-source --no-ast $< | jq --sort-keys --compact-output "." > $@
@@ -55,7 +55,7 @@ acceptance/testdata/%.feature.pickles.ndjson: testdata/%.feature testdata/%.feat
 acceptance/testdata/%.feature.source.ndjson: testdata/%.feature testdata/%.feature.source.ndjson .sln_built_debug .run_tests
 	mkdir -p `dirname $@`
 
-	bin/gherkin netcoreapp1.1 --no-pickles --no-ast $< | jq --sort-keys --compact-output "." > $@
+	bin/gherkin netcoreapp2.0 --no-pickles --no-ast $< | jq --sort-keys --compact-output "." > $@
 	diff --unified <(jq "." $<.source.ndjson) <(jq "." $@)
 
 	bin/gherkin net45 --no-pickles --no-ast $< | jq --sort-keys --compact-output "." > $@
@@ -64,7 +64,7 @@ acceptance/testdata/%.feature.source.ndjson: testdata/%.feature testdata/%.featu
 acceptance/testdata/%.feature.ast.ndjson: testdata/%.feature testdata/%.feature.ast.ndjson .sln_built_debug .run_tests
 	mkdir -p `dirname $@`
 
-	bin/gherkin netcoreapp1.1 --no-source --no-pickles $< | jq --sort-keys --compact-output "." > $@
+	bin/gherkin netcoreapp2.0 --no-source --no-pickles $< | jq --sort-keys --compact-output "." > $@
 	diff --unified <(jq "." $<.ast.ndjson) <(jq "." $@)
 
 	bin/gherkin net45 --no-source --no-pickles $< | jq --sort-keys --compact-output "." > $@
@@ -73,7 +73,7 @@ acceptance/testdata/%.feature.ast.ndjson: testdata/%.feature testdata/%.feature.
 acceptance/testdata/%.feature.errors.ndjson: testdata/%.feature testdata/%.feature.errors.ndjson .sln_built_debug .run_tests
 	mkdir -p `dirname $@`
 
-	bin/gherkin netcoreapp1.1 --no-pickles $< | jq --sort-keys --compact-output "." > $@
+	bin/gherkin netcoreapp2.0 --no-pickles $< | jq --sort-keys --compact-output "." > $@
 	diff --unified $<.errors.ndjson $@
 
 	bin/gherkin net45 --no-pickles $< | jq --sort-keys --compact-output "." > $@
@@ -108,5 +108,5 @@ Gherkin/Parser.cs: gherkin.berp gherkin-csharp.razor berp/berp.exe
 
 .run_tests:
 
-	cd Gherkin.Specs; dotnet xunit -nobuild
+	cd Gherkin.Specs; dotnet xunit -nobuild -fxversion 2.0.7
 	touch $@

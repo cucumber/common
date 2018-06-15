@@ -7,10 +7,10 @@ sudo: false
 language: ruby
 
 rvm:
-  - "2.5.0"
-  - "2.4.3"
-  - "2.3.6"
-  - "2.2.9"
-  - "jruby-9.1.13.0"
+  - "2.5.1"
+  - "2.4.4"
+  - "2.3.7"
+  - "2.2.10"
+  - "jruby-9.1.17.0"
 
 script: make default

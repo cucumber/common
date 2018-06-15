@@ -1,13 +1,13 @@
 package cucumberexpressions
 
 type Group struct {
-	value    string
+	value    *string
 	start    int
 	end      int
 	children []*Group
 }
 
-func NewGroup(value string, start, end int, children []*Group) *Group {
+func NewGroup(value *string, start, end int, children []*Group) *Group {
 	return &Group{
 		value:    value,
 		start:    start,
@@ -16,7 +16,7 @@ func NewGroup(value string, start, end int, children []*Group) *Group {
 	}
 }
 
-func (g *Group) Value() string {
+func (g *Group) Value() *string {
 	return g.value
 }
 
@@ -32,11 +32,14 @@ func (g *Group) Children() []*Group {
 	return g.children
 }
 
-func (g *Group) Values() []string {
-	if len(g.children) == 0 {
-		return []string{g.value}
+func (g *Group) Values() []*string {
+	if g.value == nil {
+		return nil
 	}
-	result := make([]string, len(g.children))
+	if len(g.children) == 0 {
+		return []*string{g.value}
+	}
+	result := make([]*string, len(g.children))
 	for i, child := range g.children {
 		result[i] = child.Value()
 	}

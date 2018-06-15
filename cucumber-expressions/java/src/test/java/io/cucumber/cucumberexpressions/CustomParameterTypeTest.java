@@ -70,6 +70,23 @@ public class CustomParameterTypeTest {
     }
 
     @Test
+    public void throws_exception_for_illegal_character_in_parameter_name() {
+        expectedException.expectMessage("Illegal character '[' in parameter name {[string]}");
+        new ParameterType<>(
+                "[string]",
+                ".*",
+                String.class, new Transformer<String>() {
+                    @Override
+                    public String transform(String s) {
+                        return s;
+                    }
+                },
+                false,
+                false
+        );
+    }
+
+    @Test
     public void matches_CucumberExpression_parameters_with_custom_parameter_type() {
         Expression expression = new CucumberExpression("I have a {color} ball", parameterTypeRegistry);
         Object argumentValue = expression.match("I have a red ball").get(0).getValue();
@@ -241,7 +258,22 @@ public class CustomParameterTypeTest {
     }
 
     @Test
-    public void matches_RegularExpression_arguments_with_custom_parameter_type() {
+    public void matches_RegularExpression_arguments_with_custom_parameter_type_without_name() {
+        parameterTypeRegistry = new ParameterTypeRegistry(Locale.ENGLISH);
+        parameterTypeRegistry.defineParameterType(new ParameterType<>(
+                null,
+                "red|blue|yellow",
+                Color.class,
+                new Transformer<Color>() {
+                    @Override
+                    public Color transform(String arg) {
+                        return new Color(arg);
+                    }
+                },
+                false,
+                false
+        ));
+
         Expression expression = new RegularExpression(compile("I have a (red|blue|yellow) ball"), parameterTypeRegistry);
         Object argumentValue = expression.match("I have a red ball").get(0).getValue();
         assertEquals(new Color("red"), argumentValue);

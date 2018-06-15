@@ -66,32 +66,74 @@ function rsync_files()
 function subrepos()
 {
   dir=$1
-  git ls-files "${dir}" | grep .gitrepo | xargs -n 1 dirname
+  git ls-files "${dir}" | grep "\.subrepo" | xargs -n 1 dirname
 }
 
 # Prints the remote (git URL) of a subrepo
 function subrepo_remote()
 {
-  subrepo=$1
-  git subrepo status "${subrepo}" | grep "Remote URL:" | sed -e 's/[ \t][ \t]*Remote URL:[ \t][ \t]*//g'
+  suffix=$(cat ${subrepo}/.subrepo)
+  if [ -z "${GITHUB_TOKEN}" ]; then
+    echo "git@github.com:${suffix}"
+  else
+    echo "https://${GITHUB_TOKEN}@github.com/${suffix}"
+  fi
 }
 
-function pull_subrepos()
-{
-  subrepos $1 | while read subrepo; do
-    remote=$(subrepo_remote "${subrepo}")
-    echo "pulling ${subrepo} from ${remote}"
-    git subrepo pull "${subrepo}"
-  done
+# Checks whether a branch (or tag) is for a subrepo.
+# Used to determine whether or not to push it to the subrepo.
+#
+# branch:  cucumber-expressions-fix-bug
+# subrepo: cucumber-expressions/go)
+# result: 1
+# 
+# branch:  tag-expressions-fix-bug
+# subrepo: cucumber-expressions/go)
+# result: (empty)
+# 
+function is_branch_or_tag_for_subrepo() {
+  branch_or_tag=$1
+  subrepo=$2
+  library=$(echo ${subrepo} | cut -d/ -f1)
+  [[ ${branch_or_tag} == ${library}* ]] || [[ ${branch_or_tag} == "master" ]] && echo 'yes'
+}
+
+function git_branch() {
+  if [ -z "${TRAVIS_BRANCH}" ]; then
+    git rev-parse --abbrev-ref HEAD
+  else
+    echo "${TRAVIS_BRANCH}"
+  fi
 }
 
 function push_subrepos()
 {
   subrepos $1 | while read subrepo; do
-    remote=$(subrepo_remote "${subrepo}")
-    echo "pushing ${subrepo} to ${remote}"
-    git subrepo push "${subrepo}"
+    push_subrepo_branch_maybe "${subrepo}"
+    push_subrepo_tag_maybe "${subrepo}"
   done
+}
+
+function push_subrepo_branch_maybe()
+{
+  subrepo=$1
+  remote=$(subrepo_remote "${subrepo}")
+  branch=$(git_branch)
+  
+  if is_branch_or_tag_for_subrepo "${branch}" "${subrepo}"; then
+    git push --force "${remote}" $(splitsh-lite --prefix=${subrepo}):refs/heads/${branch}
+  fi
+}
+
+function push_subrepo_tag_maybe()
+{
+  subrepo=$1
+  remote=$(subrepo_remote "${subrepo}")
+  if [ -z "${TRAVIS_TAG}" ]; then
+    echo "No tags to push"
+  elif is_branch_or_tag_for_subrepo "${TRAVIS_TAG}" "${subrepo}"; then
+    git push --force "${remote}" $(splitsh-lite --prefix=${subrepo} --origin=refs/tags/${TRAVIS_TAG}):refs/tags/${TRAVIS_TAG}
+  fi
 }
 
 function build_subrepos()
@@ -253,6 +295,8 @@ function maven_release()
 
   mvn --batch-mode release:clean release:prepare -Darguments="-DskipTests=true"  
   mvn --batch-mode release:perform -Psign-source-javadoc -DskipTests=true
+  
+  cp pom.xml ../pom.xml
   popd
 }
 
@@ -275,6 +319,8 @@ function npm_release() {
   yarn publish
   git push
   git push --tags
+
+  cp package.json ../package.json
   popd
 }
 
@@ -296,6 +342,9 @@ function rubygem_release() {
   git add .
   git commit -m "Release ${version}"
   bundle exec rake build release
+  git show > .release.patch
+  cd ..
+  patch -p1 < .release/.release.patch
   popd
 }
 
@@ -372,18 +421,6 @@ function perl_update_version()
 
 ################ .NET ################
 
-function dotnet_update_version()
-{
-  subrepo=$1
-  version=$2
-
-  xmlstarlet ed --inplace --ps \
-    --update "/Project/PropertyGroup/PackageVersion" \
-    --value "${version}" \
-    "$(find_path "${subrepo}" "*.csproj")"
-  echo_green "Updated ${subrepo} to ${version}"
-}
-
 function dotnet_release_karma()
 {
   echo_green "Checking .NET release karma..."
@@ -396,16 +433,33 @@ function dotnet_release()
   version=$2
   next_version=$3
 
-  nuget=${root_dir}/bin/NuGet.exe
-  sln=$(find_path "${dir}" "*.sln")
-  nuspec=$(find_path "${dir}" "*.nuspec")
-
   pushd "${dir}"
-  mono "${nuget}" restore "${sln}"
-  xbuild /p:Configuration=Release
-  mono "${nuget}" pack "${nuspec}"
-  mono "${nuget}" push "$(find_path "${dir}" "*.nupkg")"
+  dotnet_update_version "${version}"
+  dotnet pack --configuration Release
+  nupkg_dir=$(cat .nuget-push | head -1) 
+  nupkg=$(find_path "${nupkg_dir}" "*.nupkg")
+  
+  echo_green "Log into nuget.org and manually upload ${nupkg}"
+
+  git add .
+  git commit -m "Release ${version}"
+  git show > .release.patch
+  cd ..
+  patch -p1 < .release/.release.patch
   popd
+}
+
+function dotnet_update_version()
+{
+  version=$1
+  nupkg_dir=$(cat .nuget-push | head -1)
+  csproj=$(find_path "${nupkg_dir}" "*.csproj")
+
+  xmlstarlet ed --inplace --ps \
+    --update "/Project/PropertyGroup/PackageVersion" \
+    --value "${version}" \
+    "${csproj}"
+  echo_green "Updated ${csproj} to ${version}"
 }
 
 ################ Go ################

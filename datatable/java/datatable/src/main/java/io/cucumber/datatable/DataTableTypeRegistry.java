@@ -8,13 +8,14 @@ import java.math.BigInteger;
 import java.text.NumberFormat;
 import java.util.HashMap;
 import java.util.Locale;
+import java.util.Map;
 
 import static io.cucumber.datatable.TypeFactory.constructType;
 import static java.lang.String.format;
 
 public final class DataTableTypeRegistry {
 
-    private final HashMap<JavaType, DataTableType> tableTypeByType = new HashMap<>();
+    private final Map<JavaType, DataTableType> tableTypeByType = new HashMap<>();
 
     public DataTableTypeRegistry(Locale locale) {
         NumberFormat numberFormat = NumberFormat.getNumberInstance(locale);

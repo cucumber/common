@@ -54,6 +54,14 @@ public class RegularExpressionTest {
     }
 
     @Test
+    public void matches_capture_group_nested_in_optional_one() {
+        String regex = "^a (pre-commercial transaction |pre buyer fee model )?purchase(?: for \\$(\\d+))?$";
+        assertEquals(asList(null, null), match(compile(regex), "a purchase"));
+        assertEquals(asList(null, 33), match(compile(regex), "a purchase for $33"));
+        assertEquals(asList("pre buyer fee model ", null), match(compile(regex), "a pre buyer fee model purchase"));
+    }
+
+    @Test
     public void works_with_escaped_parenthesis() {
         String expr = "Across the line\\(s\\)";
         String step = "Across the line(s)";

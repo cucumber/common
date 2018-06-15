@@ -14,10 +14,10 @@ module Cucumber
         @parameter_type_by_name = {}
         @parameter_types_by_regexp = Hash.new {|hash, regexp| hash[regexp] = []}
 
-        define_parameter_type(ParameterType.new('int', INTEGER_REGEXPS, Integer, lambda {|s| s.to_i}, true, true))
-        define_parameter_type(ParameterType.new('float', FLOAT_REGEXP, Float, lambda {|s| s.to_f}, true, false))
-        define_parameter_type(ParameterType.new('word', WORD_REGEXP, String, lambda {|s| s}, false, false))
-        define_parameter_type(ParameterType.new('string', STRING_REGEXP, String, lambda {|s| s.gsub(/\\"/, '"').gsub(/\\'/, "'")}, true, false))
+        define_parameter_type(ParameterType.new('int', INTEGER_REGEXPS, Integer, lambda {|s=nil| s && s.to_i}, true, true))
+        define_parameter_type(ParameterType.new('float', FLOAT_REGEXP, Float, lambda {|s=nil| s && s.to_f}, true, false))
+        define_parameter_type(ParameterType.new('word', WORD_REGEXP, String, lambda {|s=nil| s}, false, false))
+        define_parameter_type(ParameterType.new('string', STRING_REGEXP, String, lambda {|s=nil| s && s.gsub(/\\"/, '"').gsub(/\\'/, "'")}, true, false))
       end
 
       def lookup_by_type_name(name)
@@ -42,10 +42,12 @@ module Cucumber
       end
 
       def define_parameter_type(parameter_type)
-        if @parameter_type_by_name.has_key?(parameter_type.name)
-          raise CucumberExpressionError.new("There is already a parameter with name #{parameter_type.name}")
+        if parameter_type.name
+          if @parameter_type_by_name.has_key?(parameter_type.name)
+            raise CucumberExpressionError.new("There is already a parameter with name #{parameter_type.name}")
+          end
+          @parameter_type_by_name[parameter_type.name] = parameter_type
         end
-        @parameter_type_by_name[parameter_type.name] = parameter_type
 
         parameter_type.regexps.each do |parameter_type_regexp|
           parameter_types = @parameter_types_by_regexp[parameter_type_regexp]
