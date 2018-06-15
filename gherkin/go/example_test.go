@@ -39,7 +39,7 @@ func ExampleParseGherkinDocument() {
 	fmt.Fprintf(os.Stdout, "Name: %+v\n", feature.Name)
 	fmt.Fprintf(os.Stdout, "Children: length: %+v\n", len(feature.Children))
 
-	scenario1, _ := feature.Children[0].(*ScenarioOutline)
+	scenario1, _ := feature.Children[0].(*Scenario)
 	fmt.Fprintf(os.Stdout, " 1: Location: %+v\n", scenario1.Location)
 	fmt.Fprintf(os.Stdout, "    Keyword: %+v\n", scenario1.Keyword)
 	fmt.Fprintf(os.Stdout, "    Name: %+v\n", scenario1.Name)
