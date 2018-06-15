@@ -1,0 +1,14 @@
+(1:1)FeatureLine:Feature/Some rules/
+(2:1)Empty://
+(3:3)RuleLine:Rule/A/
+(4:1)Other:/    The rule A description/
+(5:1)Other://
+(6:5)ScenarioLine:Example/Example A/
+(7:7)StepLine:Given /a/
+(8:1)Empty://
+(9:3)RuleLine:Rule/B/
+(10:1)Other:/    The rule B description/
+(11:1)Other://
+(12:5)ScenarioLine:Example/Example B/
+(13:7)StepLine:Given /b/
+EOF

@@ -1,0 +1,2 @@
+{"pickle":{"language":"en","locations":[{"column":5,"line":6}],"name":"Example A","steps":[{"arguments":[],"locations":[{"column":13,"line":7}],"text":"a"}],"tags":[]},"type":"pickle","uri":"testdata/good/rule.feature"}
+{"pickle":{"language":"en","locations":[{"column":5,"line":12}],"name":"Example B","steps":[{"arguments":[],"locations":[{"column":13,"line":13}],"text":"b"}],"tags":[]},"type":"pickle","uri":"testdata/good/rule.feature"}

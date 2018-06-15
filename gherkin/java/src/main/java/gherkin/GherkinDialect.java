@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import static java.util.Collections.singletonList;
+
 public class GherkinDialect {
     private final Map<String, List<String>> keywords;
     private String language;
@@ -61,6 +63,10 @@ public class GherkinDialect {
 
     public List<String> getButKeywords() {
         return keywords.get("but");
+    }
+
+    public List<String> getRuleKeywords() {
+        return singletonList("Rule");
     }
 
     public String getLanguage() {

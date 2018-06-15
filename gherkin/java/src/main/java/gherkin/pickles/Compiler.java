@@ -9,6 +9,7 @@ import gherkin.ast.Feature;
 import gherkin.ast.GherkinDocument;
 import gherkin.ast.Location;
 import gherkin.ast.Node;
+import gherkin.ast.Rule;
 import gherkin.ast.Scenario;
 import gherkin.ast.Step;
 import gherkin.ast.StepsContainer;
@@ -34,27 +35,33 @@ public class Compiler {
         }
 
         String language = feature.getLanguage();
-        List<Tag> featureTags = feature.getTags();
+        List<Tag> tags = feature.getTags();
         List<PickleStep> backgroundSteps = new ArrayList<>();
 
-        for (StepsContainer stepsContainer : feature.getChildren()) {
-            if (stepsContainer instanceof Background) {
-                backgroundSteps = pickleSteps(stepsContainer);
+        build(pickles, language, tags, backgroundSteps, feature);
+        return pickles;
+    }
+
+    private void build(List<Pickle> pickles, String language, List<Tag> tags, List<PickleStep> backgroundSteps, Node parent) {
+        for (Node child : parent.getChildren()) {
+            if (child instanceof Background) {
+                backgroundSteps = pickleSteps((Background) child);
+            } else if (child instanceof Rule) {
+                build(pickles, language, tags, backgroundSteps, child);
             } else {
-                Scenario scenario = (Scenario) stepsContainer;
+                Scenario scenario = (Scenario) child;
                 if (scenario.getExamples().isEmpty()) {
-                    compileScenario(pickles, backgroundSteps, scenario, featureTags, language);
+                    compileScenario(pickles, backgroundSteps, scenario, tags, language);
                 } else {
-                    compileScenarioOutline(pickles, backgroundSteps, scenario, featureTags, language);
+                    compileScenarioOutline(pickles, backgroundSteps, scenario, tags, language);
                 }
             }
         }
-        return pickles;
     }
 
     private void compileScenario(List<Pickle> pickles, List<PickleStep> backgroundSteps, Scenario scenario, List<Tag> featureTags, String language) {
         List<PickleStep> steps = new ArrayList<>();
-        if (!scenario.getSteps().isEmpty())
+        if (!scenario.getChildren().isEmpty())
             steps.addAll(backgroundSteps);
 
         List<Tag> scenarioTags = new ArrayList<>();
@@ -81,7 +88,7 @@ public class Compiler {
                 List<TableCell> valueCells = values.getCells();
 
                 List<PickleStep> steps = new ArrayList<>();
-                if (!scenario.getSteps().isEmpty())
+                if (!scenario.getChildren().isEmpty())
                     steps.addAll(backgroundSteps);
 
                 List<Tag> tags = new ArrayList<>();
@@ -89,7 +96,7 @@ public class Compiler {
                 tags.addAll(scenario.getTags());
                 tags.addAll(examples.getTags());
 
-                for (Step scenarioOutlineStep : scenario.getSteps()) {
+                for (Step scenarioOutlineStep : scenario.getChildren()) {
                     String stepText = interpolate(scenarioOutlineStep.getText(), variableCells, valueCells);
 
                     // TODO: Use an Array of location in DataTable/DocString as well.
@@ -166,7 +173,7 @@ public class Compiler {
 
     private List<PickleStep> pickleSteps(StepsContainer scenarioDefinition) {
         List<PickleStep> result = new ArrayList<>();
-        for (Step step : scenarioDefinition.getSteps()) {
+        for (Step step : scenarioDefinition.getChildren()) {
             result.add(pickleStep(step));
         }
         return unmodifiableList(result);
