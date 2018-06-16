@@ -9,6 +9,7 @@ import gherkin.ast.Feature;
 import gherkin.ast.GherkinDocument;
 import gherkin.ast.Location;
 import gherkin.ast.Node;
+import gherkin.ast.Rule;
 import gherkin.ast.Scenario;
 import gherkin.ast.Step;
 import gherkin.ast.StepsContainer;
@@ -146,15 +147,29 @@ public class AstBuilder implements Builder<GherkinDocument> {
                 List<Tag> tags = getTags(header);
                 Token featureLine = header.getToken(TokenType.FeatureLine);
                 if (featureLine == null) return null;
-                List<StepsContainer> scenarioDefinitions = new ArrayList<>();
+                List<Node> featureChildren = new ArrayList<>();
                 Background background = node.getSingle(RuleType.Background, null);
-                if (background != null) scenarioDefinitions.add(background);
-                scenarioDefinitions.addAll(node.<StepsContainer>getItems(RuleType.ScenarioDefinition));
+                if (background != null) featureChildren.add(background);
+                featureChildren.addAll(node.<StepsContainer>getItems(RuleType.ScenarioDefinition));
+                featureChildren.addAll(node.<StepsContainer>getItems(RuleType.Rule));
                 String description = getDescription(header);
                 if (featureLine.matchedGherkinDialect == null) return null;
                 String language = featureLine.matchedGherkinDialect.getLanguage();
 
-                return new Feature(tags, getLocation(featureLine, 0), language, featureLine.matchedKeyword, featureLine.matchedText, description, scenarioDefinitions);
+                return new Feature(tags, getLocation(featureLine, 0), language, featureLine.matchedKeyword, featureLine.matchedText, description, featureChildren);
+            }
+            case Rule: {
+                AstNode header = node.getSingle(RuleType.RuleHeader, new AstNode(RuleType.RuleHeader));
+                if (header == null) return null;
+                Token ruleLine = header.getToken(TokenType.RuleLine);
+                if (ruleLine == null) return null;
+                String description = getDescription(header);
+                List<Node> ruleChildren = new ArrayList<>();
+                Background background = node.getSingle(RuleType.Background, null);
+                if (background != null) ruleChildren.add(background);
+                List<Node> stepsContainers = node.getItems(RuleType.ScenarioDefinition);
+                ruleChildren.addAll(stepsContainers);
+                return new Rule(getLocation(ruleLine, 0), ruleLine.matchedKeyword, ruleLine.matchedText, description, ruleChildren);
             }
             case GherkinDocument: {
                 Feature feature = node.getSingle(RuleType.Feature, null);

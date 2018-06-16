@@ -29,7 +29,8 @@ public abstract class StepsContainer extends Node {
         return description;
     }
 
-    public List<Step> getSteps() {
+    @Override
+    public List<Step> getChildren() {
         return steps;
     }
 }

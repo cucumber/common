@@ -1,13 +1,16 @@
 [
-	Tokens -> #Empty,#Comment,#TagLine,#FeatureLine,#BackgroundLine,#ScenarioLine,#ExamplesLine,#StepLine,#DocStringSeparator,#TableRow,#Language
+	Tokens -> #Empty,#Comment,#TagLine,#FeatureLine,#RuleLine,#BackgroundLine,#ScenarioLine,#ExamplesLine,#StepLine,#DocStringSeparator,#TableRow,#Language
 	IgnoredTokens -> #Comment,#Empty
 	ClassName -> Parser
 	Namespace -> Gherkin
 ]
 
 GherkinDocument! := Feature?
-Feature! := FeatureHeader Background? ScenarioDefinition*
+Feature! := FeatureHeader Background? ScenarioDefinition* Rule*
 FeatureHeader! := #Language? Tags? #FeatureLine DescriptionHelper
+
+Rule! := RuleHeader Background? ScenarioDefinition*
+RuleHeader! := #RuleLine DescriptionHelper
 
 Background! := #BackgroundLine DescriptionHelper Step*
 
