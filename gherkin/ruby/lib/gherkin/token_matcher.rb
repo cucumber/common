@@ -28,6 +28,10 @@ module Gherkin
       match_title_line(token, :FeatureLine, @dialect.feature_keywords)
     end
 
+    def match_RuleLine(token)
+      match_title_line(token, :RuleLine, @dialect.rule_keywords)
+    end
+
     def match_ScenarioLine(token)
       match_title_line(token, :ScenarioLine, @dialect.scenario_keywords) ||
           match_title_line(token, :ScenarioLine, @dialect.scenario_outline_keywords)

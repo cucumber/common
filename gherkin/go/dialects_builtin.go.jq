@@ -6,7 +6,7 @@
         "\t\t", (.key|@json),", ", (.value.name|@json),", ", (.value.native|@json), ", map[string][]string{\n"
       ] + (
           [ .value
-            | {"feature","background","scenario","scenarioOutline","examples","given","when","then","and","but"}
+            | {"feature","rule","background","scenario","scenarioOutline","examples","given","when","then","and","but"}
             | to_entries[]
             | "\t\t\t"+(.key), ": []string{\n",
                 ([ .value[] | "\t\t\t\t", @json, ",\n"  ]|add),
@@ -24,7 +24,7 @@
 + "}\n\n"
 + "const (\n"
 + (
-  ["feature","background","scenario","scenarioOutline","examples","given","when","then","and","but"]
+  ["feature","rule","background","scenario","scenarioOutline","examples","given","when","then","and","but"]
   | [ .[] | "\t" + . + " = " + (.|@json) + "\n" ]
   | add )
 + ")\n\n"

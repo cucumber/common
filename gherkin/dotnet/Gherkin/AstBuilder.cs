@@ -129,18 +129,38 @@ namespace Gherkin
                     var tags = GetTags(header);
                     var featureLine = header.GetToken(TokenType.FeatureLine);
                     if(featureLine == null) return null;
-                    var children = new List<StepsContainer> ();
+                    var children = new List<IHasLocation> ();
                     var background = node.GetSingle<Background>(RuleType.Background);
                     if (background != null) 
                     {
                         children.Add (background);
                     }
-                    var childrenEnumerable = children.Concat(node.GetItems<StepsContainer>(RuleType.ScenarioDefinition));
+                    var childrenEnumerable = children.Concat(node.GetItems<IHasLocation>(RuleType.ScenarioDefinition))
+                                                     .Concat(node.GetItems<IHasLocation>(RuleType.Rule));
                     var description = GetDescription(header);
                     if(featureLine.MatchedGherkinDialect == null) return null;
                     var language = featureLine.MatchedGherkinDialect.Language;
 
                     return CreateFeature(tags, GetLocation(featureLine), language, featureLine.MatchedKeyword, featureLine.MatchedText, description, childrenEnumerable.ToArray(), node);
+                }
+                case RuleType.Rule:
+                {
+                    var header = node.GetSingle<AstNode>(RuleType.RuleHeader);
+                    if (header == null) return null;
+                        var ruleLine = header.GetToken(TokenType.RuleLine);
+                    if (ruleLine == null) return null;
+                    var children = new List<IHasLocation>();
+                    var background = node.GetSingle<Background>(RuleType.Background);
+                    if (background != null)
+                    {
+                        children.Add(background);
+                    }
+                    var childrenEnumerable = children.Concat(node.GetItems<IHasLocation>(RuleType.ScenarioDefinition));
+                    var description = GetDescription(header);
+                    if (ruleLine.MatchedGherkinDialect == null) return null;
+                    var language = ruleLine.MatchedGherkinDialect.Language;
+
+                    return CreateRule(GetLocation(ruleLine), ruleLine.MatchedKeyword, ruleLine.MatchedText, description, childrenEnumerable.ToArray(), node);
                 }
                 case RuleType.GherkinDocument:
                 {
@@ -192,10 +212,16 @@ namespace Gherkin
             return new GherkinDocument(feature, gherkinDocumentComments);
         }
 
-        protected virtual Feature CreateFeature(Tag[] tags, Location location, string language, string keyword, string name, string description, StepsContainer[] children, AstNode node)
+        protected virtual Feature CreateFeature(Tag[] tags, Location location, string language, string keyword, string name, string description, IHasLocation[] children, AstNode node)
         {
             return new Feature(tags, location, language, keyword, name, description, children);
         }
+
+        protected virtual Rule CreateRule(Location location, string keyword, string name, string description, IHasLocation[] children, AstNode node)
+        {
+            return new Rule(location, keyword, name, description, children);
+        }
+
         protected virtual Tag CreateTag(Location location, string name, AstNode node)
         {
             return new Tag(location, name);

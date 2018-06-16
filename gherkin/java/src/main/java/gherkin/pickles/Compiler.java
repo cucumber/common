@@ -60,13 +60,13 @@ public class Compiler {
         }
     }
 
-    private void compileScenario(List<Pickle> pickles, List<PickleStep> backgroundSteps, Scenario scenario, List<Tag> featureTags, String language) {
+    private void compileScenario(List<Pickle> pickles, List<PickleStep> backgroundSteps, Scenario scenario, List<Tag> parentTags, String language) {
         List<PickleStep> steps = new ArrayList<>();
         if (!scenario.getChildren().isEmpty())
             steps.addAll(backgroundSteps);
 
         List<Tag> scenarioTags = new ArrayList<>();
-        scenarioTags.addAll(featureTags);
+        scenarioTags.addAll(parentTags);
         scenarioTags.addAll(scenario.getTags());
 
         steps.addAll(pickleSteps(scenario));
@@ -81,7 +81,7 @@ public class Compiler {
         pickles.add(pickle);
     }
 
-    private void compileScenarioOutline(List<Pickle> pickles, List<PickleStep> backgroundSteps, Scenario scenario, List<Tag> featureTags, String language) {
+    private void compileScenarioOutline(List<Pickle> pickles, List<PickleStep> backgroundSteps, Scenario scenario, List<Tag> parentTags, String language) {
         for (final Examples examples : scenario.getExamples()) {
             if (examples.getTableHeader() == null) continue;
             List<TableCell> variableCells = examples.getTableHeader().getCells();
@@ -93,7 +93,7 @@ public class Compiler {
                     steps.addAll(backgroundSteps);
 
                 List<Tag> tags = new ArrayList<>();
-                tags.addAll(featureTags);
+                tags.addAll(parentTags);
                 tags.addAll(scenario.getTags());
                 tags.addAll(examples.getTags());
 

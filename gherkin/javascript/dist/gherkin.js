@@ -265,6 +265,7 @@ module.exports = function AstBuilder () {
         var background = node.getSingle('Background');
         if(background) children.push(background);
         children = children.concat(node.getItems('ScenarioDefinition'));
+        children = children.concat(node.getItems('Rule'));
         var description = getDescription(header);
         var language = featureLine.matchedGherkinDialect;
 
@@ -275,6 +276,25 @@ module.exports = function AstBuilder () {
           language: language,
           keyword: featureLine.matchedKeyword,
           name: featureLine.matchedText,
+          description: description,
+          children: children,
+        };
+      case 'Rule':
+        var header = node.getSingle('RuleHeader');
+        if(!header) return null;
+        var ruleLine = header.getToken('RuleLine');
+        if(!ruleLine) return null;
+        var children = []
+        var background = node.getSingle('Background');
+        if(background) children.push(background);
+        children = children.concat(node.getItems('ScenarioDefinition'));
+        var description = getDescription(header);
+
+        return {
+          type: node.ruleType,
+          location: getLocation(ruleLine),
+          keyword: ruleLine.matchedKeyword,
+          name: ruleLine.matchedText,
           description: description,
           children: children,
         };
@@ -1190,6 +1210,9 @@ module.exports={
     ],
     "name": "English",
     "native": "English",
+    "rule": [
+      "Rule"
+    ],
     "scenario": [
       "Example",
       "Scenario"
@@ -1668,6 +1691,9 @@ module.exports={
     ],
     "name": "French",
     "native": "français",
+    "rule": [
+      "Règle"
+    ],
     "scenario": [
       "Exemple",
       "Scénario"
@@ -2719,6 +2745,9 @@ module.exports={
     ],
     "name": "Norwegian",
     "native": "norsk",
+    "rule": [
+      "Regel"
+    ],
     "scenario": [
       "Eksempel",
       "Scenario"
@@ -3863,6 +3892,7 @@ var RULE_TYPES = [
   '_Comment', // #Comment
   '_TagLine', // #TagLine
   '_FeatureLine', // #FeatureLine
+  '_RuleLine', // #RuleLine
   '_BackgroundLine', // #BackgroundLine
   '_ScenarioLine', // #ScenarioLine
   '_ExamplesLine', // #ExamplesLine
@@ -3872,8 +3902,10 @@ var RULE_TYPES = [
   '_Language', // #Language
   '_Other', // #Other
   'GherkinDocument', // GherkinDocument! := Feature?
-  'Feature', // Feature! := FeatureHeader Background? ScenarioDefinition*
+  'Feature', // Feature! := FeatureHeader Background? ScenarioDefinition* Rule*
   'FeatureHeader', // FeatureHeader! := #Language? Tags? #FeatureLine DescriptionHelper
+  'Rule', // Rule! := RuleHeader Background? ScenarioDefinition*
+  'RuleHeader', // RuleHeader! := #RuleLine DescriptionHelper
   'Background', // Background! := #BackgroundLine DescriptionHelper Step*
   'ScenarioDefinition', // ScenarioDefinition! := Tags? Scenario
   'Scenario', // Scenario! := #ScenarioLine DescriptionHelper Step* ExamplesDefinition*
@@ -4035,6 +4067,8 @@ module.exports = function Parser(builder) {
       return matchTokenAt_20(token, context);
     case 21:
       return matchTokenAt_21(token, context);
+    case 22:
+      return matchTokenAt_22(token, context);
     case 23:
       return matchTokenAt_23(token, context);
     case 24:
@@ -4043,6 +4077,50 @@ module.exports = function Parser(builder) {
       return matchTokenAt_25(token, context);
     case 26:
       return matchTokenAt_26(token, context);
+    case 27:
+      return matchTokenAt_27(token, context);
+    case 28:
+      return matchTokenAt_28(token, context);
+    case 29:
+      return matchTokenAt_29(token, context);
+    case 30:
+      return matchTokenAt_30(token, context);
+    case 31:
+      return matchTokenAt_31(token, context);
+    case 32:
+      return matchTokenAt_32(token, context);
+    case 33:
+      return matchTokenAt_33(token, context);
+    case 34:
+      return matchTokenAt_34(token, context);
+    case 35:
+      return matchTokenAt_35(token, context);
+    case 36:
+      return matchTokenAt_36(token, context);
+    case 37:
+      return matchTokenAt_37(token, context);
+    case 38:
+      return matchTokenAt_38(token, context);
+    case 39:
+      return matchTokenAt_39(token, context);
+    case 40:
+      return matchTokenAt_40(token, context);
+    case 42:
+      return matchTokenAt_42(token, context);
+    case 43:
+      return matchTokenAt_43(token, context);
+    case 44:
+      return matchTokenAt_44(token, context);
+    case 45:
+      return matchTokenAt_45(token, context);
+    case 46:
+      return matchTokenAt_46(token, context);
+    case 47:
+      return matchTokenAt_47(token, context);
+    case 48:
+      return matchTokenAt_48(token, context);
+    case 49:
+      return matchTokenAt_49(token, context);
     default:
       throw new Error("Unknown state: " + state);
     }
@@ -4053,7 +4131,7 @@ module.exports = function Parser(builder) {
   function matchTokenAt_0(token, context) {
     if(match_EOF(context, token)) {
       build(context, token);
-      return 22;
+      return 41;
     }
     if(match_Language(context, token)) {
       startRule(context, 'Feature');
@@ -4165,7 +4243,7 @@ module.exports = function Parser(builder) {
       endRule(context, 'FeatureHeader');
       endRule(context, 'Feature');
       build(context, token);
-      return 22;
+      return 41;
     }
     if(match_Empty(context, token)) {
       build(context, token);
@@ -4195,6 +4273,13 @@ module.exports = function Parser(builder) {
       build(context, token);
       return 12;
     }
+    if(match_RuleLine(context, token)) {
+      endRule(context, 'FeatureHeader');
+      startRule(context, 'Rule');
+      startRule(context, 'RuleHeader');
+      build(context, token);
+      return 22;
+    }
     if(match_Other(context, token)) {
       startRule(context, 'Description');
       build(context, token);
@@ -4203,7 +4288,7 @@ module.exports = function Parser(builder) {
     
     var stateComment = "State: 3 - GherkinDocument:0>Feature:0>FeatureHeader:2>#FeatureLine:0";
     token.detach();
-    var expectedTokens = ["#EOF", "#Empty", "#Comment", "#BackgroundLine", "#TagLine", "#ScenarioLine", "#Other"];
+    var expectedTokens = ["#EOF", "#Empty", "#Comment", "#BackgroundLine", "#TagLine", "#ScenarioLine", "#RuleLine", "#Other"];
     var error = token.isEof ?
       Errors.UnexpectedEOFException.create(token, expectedTokens, stateComment) :
       Errors.UnexpectedTokenException.create(token, expectedTokens, stateComment);
@@ -4220,7 +4305,7 @@ module.exports = function Parser(builder) {
       endRule(context, 'FeatureHeader');
       endRule(context, 'Feature');
       build(context, token);
-      return 22;
+      return 41;
     }
     if(match_Comment(context, token)) {
       endRule(context, 'Description');
@@ -4250,6 +4335,14 @@ module.exports = function Parser(builder) {
       build(context, token);
       return 12;
     }
+    if(match_RuleLine(context, token)) {
+      endRule(context, 'Description');
+      endRule(context, 'FeatureHeader');
+      startRule(context, 'Rule');
+      startRule(context, 'RuleHeader');
+      build(context, token);
+      return 22;
+    }
     if(match_Other(context, token)) {
       build(context, token);
       return 4;
@@ -4257,7 +4350,7 @@ module.exports = function Parser(builder) {
     
     var stateComment = "State: 4 - GherkinDocument:0>Feature:0>FeatureHeader:3>DescriptionHelper:1>Description:0>#Other:0";
     token.detach();
-    var expectedTokens = ["#EOF", "#Comment", "#BackgroundLine", "#TagLine", "#ScenarioLine", "#Other"];
+    var expectedTokens = ["#EOF", "#Comment", "#BackgroundLine", "#TagLine", "#ScenarioLine", "#RuleLine", "#Other"];
     var error = token.isEof ?
       Errors.UnexpectedEOFException.create(token, expectedTokens, stateComment) :
       Errors.UnexpectedTokenException.create(token, expectedTokens, stateComment);
@@ -4273,7 +4366,7 @@ module.exports = function Parser(builder) {
       endRule(context, 'FeatureHeader');
       endRule(context, 'Feature');
       build(context, token);
-      return 22;
+      return 41;
     }
     if(match_Comment(context, token)) {
       build(context, token);
@@ -4299,6 +4392,13 @@ module.exports = function Parser(builder) {
       build(context, token);
       return 12;
     }
+    if(match_RuleLine(context, token)) {
+      endRule(context, 'FeatureHeader');
+      startRule(context, 'Rule');
+      startRule(context, 'RuleHeader');
+      build(context, token);
+      return 22;
+    }
     if(match_Empty(context, token)) {
       build(context, token);
       return 5;
@@ -4306,7 +4406,7 @@ module.exports = function Parser(builder) {
     
     var stateComment = "State: 5 - GherkinDocument:0>Feature:0>FeatureHeader:3>DescriptionHelper:2>#Comment:0";
     token.detach();
-    var expectedTokens = ["#EOF", "#Comment", "#BackgroundLine", "#TagLine", "#ScenarioLine", "#Empty"];
+    var expectedTokens = ["#EOF", "#Comment", "#BackgroundLine", "#TagLine", "#ScenarioLine", "#RuleLine", "#Empty"];
     var error = token.isEof ?
       Errors.UnexpectedEOFException.create(token, expectedTokens, stateComment) :
       Errors.UnexpectedTokenException.create(token, expectedTokens, stateComment);
@@ -4322,7 +4422,7 @@ module.exports = function Parser(builder) {
       endRule(context, 'Background');
       endRule(context, 'Feature');
       build(context, token);
-      return 22;
+      return 41;
     }
     if(match_Empty(context, token)) {
       build(context, token);
@@ -4351,6 +4451,13 @@ module.exports = function Parser(builder) {
       build(context, token);
       return 12;
     }
+    if(match_RuleLine(context, token)) {
+      endRule(context, 'Background');
+      startRule(context, 'Rule');
+      startRule(context, 'RuleHeader');
+      build(context, token);
+      return 22;
+    }
     if(match_Other(context, token)) {
       startRule(context, 'Description');
       build(context, token);
@@ -4359,7 +4466,7 @@ module.exports = function Parser(builder) {
     
     var stateComment = "State: 6 - GherkinDocument:0>Feature:1>Background:0>#BackgroundLine:0";
     token.detach();
-    var expectedTokens = ["#EOF", "#Empty", "#Comment", "#StepLine", "#TagLine", "#ScenarioLine", "#Other"];
+    var expectedTokens = ["#EOF", "#Empty", "#Comment", "#StepLine", "#TagLine", "#ScenarioLine", "#RuleLine", "#Other"];
     var error = token.isEof ?
       Errors.UnexpectedEOFException.create(token, expectedTokens, stateComment) :
       Errors.UnexpectedTokenException.create(token, expectedTokens, stateComment);
@@ -4376,7 +4483,7 @@ module.exports = function Parser(builder) {
       endRule(context, 'Background');
       endRule(context, 'Feature');
       build(context, token);
-      return 22;
+      return 41;
     }
     if(match_Comment(context, token)) {
       endRule(context, 'Description');
@@ -4405,6 +4512,14 @@ module.exports = function Parser(builder) {
       build(context, token);
       return 12;
     }
+    if(match_RuleLine(context, token)) {
+      endRule(context, 'Description');
+      endRule(context, 'Background');
+      startRule(context, 'Rule');
+      startRule(context, 'RuleHeader');
+      build(context, token);
+      return 22;
+    }
     if(match_Other(context, token)) {
       build(context, token);
       return 7;
@@ -4412,7 +4527,7 @@ module.exports = function Parser(builder) {
     
     var stateComment = "State: 7 - GherkinDocument:0>Feature:1>Background:1>DescriptionHelper:1>Description:0>#Other:0";
     token.detach();
-    var expectedTokens = ["#EOF", "#Comment", "#StepLine", "#TagLine", "#ScenarioLine", "#Other"];
+    var expectedTokens = ["#EOF", "#Comment", "#StepLine", "#TagLine", "#ScenarioLine", "#RuleLine", "#Other"];
     var error = token.isEof ?
       Errors.UnexpectedEOFException.create(token, expectedTokens, stateComment) :
       Errors.UnexpectedTokenException.create(token, expectedTokens, stateComment);
@@ -4428,7 +4543,7 @@ module.exports = function Parser(builder) {
       endRule(context, 'Background');
       endRule(context, 'Feature');
       build(context, token);
-      return 22;
+      return 41;
     }
     if(match_Comment(context, token)) {
       build(context, token);
@@ -4453,6 +4568,13 @@ module.exports = function Parser(builder) {
       build(context, token);
       return 12;
     }
+    if(match_RuleLine(context, token)) {
+      endRule(context, 'Background');
+      startRule(context, 'Rule');
+      startRule(context, 'RuleHeader');
+      build(context, token);
+      return 22;
+    }
     if(match_Empty(context, token)) {
       build(context, token);
       return 8;
@@ -4460,7 +4582,7 @@ module.exports = function Parser(builder) {
     
     var stateComment = "State: 8 - GherkinDocument:0>Feature:1>Background:1>DescriptionHelper:2>#Comment:0";
     token.detach();
-    var expectedTokens = ["#EOF", "#Comment", "#StepLine", "#TagLine", "#ScenarioLine", "#Empty"];
+    var expectedTokens = ["#EOF", "#Comment", "#StepLine", "#TagLine", "#ScenarioLine", "#RuleLine", "#Empty"];
     var error = token.isEof ?
       Errors.UnexpectedEOFException.create(token, expectedTokens, stateComment) :
       Errors.UnexpectedTokenException.create(token, expectedTokens, stateComment);
@@ -4477,7 +4599,7 @@ module.exports = function Parser(builder) {
       endRule(context, 'Background');
       endRule(context, 'Feature');
       build(context, token);
-      return 22;
+      return 41;
     }
     if(match_TableRow(context, token)) {
       startRule(context, 'DataTable');
@@ -4487,7 +4609,7 @@ module.exports = function Parser(builder) {
     if(match_DocStringSeparator(context, token)) {
       startRule(context, 'DocString');
       build(context, token);
-      return 25;
+      return 48;
     }
     if(match_StepLine(context, token)) {
       endRule(context, 'Step');
@@ -4511,6 +4633,14 @@ module.exports = function Parser(builder) {
       build(context, token);
       return 12;
     }
+    if(match_RuleLine(context, token)) {
+      endRule(context, 'Step');
+      endRule(context, 'Background');
+      startRule(context, 'Rule');
+      startRule(context, 'RuleHeader');
+      build(context, token);
+      return 22;
+    }
     if(match_Comment(context, token)) {
       build(context, token);
       return 9;
@@ -4522,7 +4652,7 @@ module.exports = function Parser(builder) {
     
     var stateComment = "State: 9 - GherkinDocument:0>Feature:1>Background:2>Step:0>#StepLine:0";
     token.detach();
-    var expectedTokens = ["#EOF", "#TableRow", "#DocStringSeparator", "#StepLine", "#TagLine", "#ScenarioLine", "#Comment", "#Empty"];
+    var expectedTokens = ["#EOF", "#TableRow", "#DocStringSeparator", "#StepLine", "#TagLine", "#ScenarioLine", "#RuleLine", "#Comment", "#Empty"];
     var error = token.isEof ?
       Errors.UnexpectedEOFException.create(token, expectedTokens, stateComment) :
       Errors.UnexpectedTokenException.create(token, expectedTokens, stateComment);
@@ -4540,7 +4670,7 @@ module.exports = function Parser(builder) {
       endRule(context, 'Background');
       endRule(context, 'Feature');
       build(context, token);
-      return 22;
+      return 41;
     }
     if(match_TableRow(context, token)) {
       build(context, token);
@@ -4571,6 +4701,15 @@ module.exports = function Parser(builder) {
       build(context, token);
       return 12;
     }
+    if(match_RuleLine(context, token)) {
+      endRule(context, 'DataTable');
+      endRule(context, 'Step');
+      endRule(context, 'Background');
+      startRule(context, 'Rule');
+      startRule(context, 'RuleHeader');
+      build(context, token);
+      return 22;
+    }
     if(match_Comment(context, token)) {
       build(context, token);
       return 10;
@@ -4582,7 +4721,7 @@ module.exports = function Parser(builder) {
     
     var stateComment = "State: 10 - GherkinDocument:0>Feature:1>Background:2>Step:1>StepArg:0>__alt0:0>DataTable:0>#TableRow:0";
     token.detach();
-    var expectedTokens = ["#EOF", "#TableRow", "#StepLine", "#TagLine", "#ScenarioLine", "#Comment", "#Empty"];
+    var expectedTokens = ["#EOF", "#TableRow", "#StepLine", "#TagLine", "#ScenarioLine", "#RuleLine", "#Comment", "#Empty"];
     var error = token.isEof ?
       Errors.UnexpectedEOFException.create(token, expectedTokens, stateComment) :
       Errors.UnexpectedTokenException.create(token, expectedTokens, stateComment);
@@ -4632,7 +4771,7 @@ module.exports = function Parser(builder) {
       endRule(context, 'ScenarioDefinition');
       endRule(context, 'Feature');
       build(context, token);
-      return 22;
+      return 41;
     }
     if(match_Empty(context, token)) {
       build(context, token);
@@ -4677,6 +4816,14 @@ module.exports = function Parser(builder) {
       build(context, token);
       return 12;
     }
+    if(match_RuleLine(context, token)) {
+      endRule(context, 'Scenario');
+      endRule(context, 'ScenarioDefinition');
+      startRule(context, 'Rule');
+      startRule(context, 'RuleHeader');
+      build(context, token);
+      return 22;
+    }
     if(match_Other(context, token)) {
       startRule(context, 'Description');
       build(context, token);
@@ -4685,7 +4832,7 @@ module.exports = function Parser(builder) {
     
     var stateComment = "State: 12 - GherkinDocument:0>Feature:2>ScenarioDefinition:1>Scenario:0>#ScenarioLine:0";
     token.detach();
-    var expectedTokens = ["#EOF", "#Empty", "#Comment", "#StepLine", "#TagLine", "#ExamplesLine", "#ScenarioLine", "#Other"];
+    var expectedTokens = ["#EOF", "#Empty", "#Comment", "#StepLine", "#TagLine", "#ExamplesLine", "#ScenarioLine", "#RuleLine", "#Other"];
     var error = token.isEof ?
       Errors.UnexpectedEOFException.create(token, expectedTokens, stateComment) :
       Errors.UnexpectedTokenException.create(token, expectedTokens, stateComment);
@@ -4703,7 +4850,7 @@ module.exports = function Parser(builder) {
       endRule(context, 'ScenarioDefinition');
       endRule(context, 'Feature');
       build(context, token);
-      return 22;
+      return 41;
     }
     if(match_Comment(context, token)) {
       endRule(context, 'Description');
@@ -4750,6 +4897,15 @@ module.exports = function Parser(builder) {
       build(context, token);
       return 12;
     }
+    if(match_RuleLine(context, token)) {
+      endRule(context, 'Description');
+      endRule(context, 'Scenario');
+      endRule(context, 'ScenarioDefinition');
+      startRule(context, 'Rule');
+      startRule(context, 'RuleHeader');
+      build(context, token);
+      return 22;
+    }
     if(match_Other(context, token)) {
       build(context, token);
       return 13;
@@ -4757,7 +4913,7 @@ module.exports = function Parser(builder) {
     
     var stateComment = "State: 13 - GherkinDocument:0>Feature:2>ScenarioDefinition:1>Scenario:1>DescriptionHelper:1>Description:0>#Other:0";
     token.detach();
-    var expectedTokens = ["#EOF", "#Comment", "#StepLine", "#TagLine", "#ExamplesLine", "#ScenarioLine", "#Other"];
+    var expectedTokens = ["#EOF", "#Comment", "#StepLine", "#TagLine", "#ExamplesLine", "#ScenarioLine", "#RuleLine", "#Other"];
     var error = token.isEof ?
       Errors.UnexpectedEOFException.create(token, expectedTokens, stateComment) :
       Errors.UnexpectedTokenException.create(token, expectedTokens, stateComment);
@@ -4774,7 +4930,7 @@ module.exports = function Parser(builder) {
       endRule(context, 'ScenarioDefinition');
       endRule(context, 'Feature');
       build(context, token);
-      return 22;
+      return 41;
     }
     if(match_Comment(context, token)) {
       build(context, token);
@@ -4815,6 +4971,14 @@ module.exports = function Parser(builder) {
       build(context, token);
       return 12;
     }
+    if(match_RuleLine(context, token)) {
+      endRule(context, 'Scenario');
+      endRule(context, 'ScenarioDefinition');
+      startRule(context, 'Rule');
+      startRule(context, 'RuleHeader');
+      build(context, token);
+      return 22;
+    }
     if(match_Empty(context, token)) {
       build(context, token);
       return 14;
@@ -4822,7 +4986,7 @@ module.exports = function Parser(builder) {
     
     var stateComment = "State: 14 - GherkinDocument:0>Feature:2>ScenarioDefinition:1>Scenario:1>DescriptionHelper:2>#Comment:0";
     token.detach();
-    var expectedTokens = ["#EOF", "#Comment", "#StepLine", "#TagLine", "#ExamplesLine", "#ScenarioLine", "#Empty"];
+    var expectedTokens = ["#EOF", "#Comment", "#StepLine", "#TagLine", "#ExamplesLine", "#ScenarioLine", "#RuleLine", "#Empty"];
     var error = token.isEof ?
       Errors.UnexpectedEOFException.create(token, expectedTokens, stateComment) :
       Errors.UnexpectedTokenException.create(token, expectedTokens, stateComment);
@@ -4840,7 +5004,7 @@ module.exports = function Parser(builder) {
       endRule(context, 'ScenarioDefinition');
       endRule(context, 'Feature');
       build(context, token);
-      return 22;
+      return 41;
     }
     if(match_TableRow(context, token)) {
       startRule(context, 'DataTable');
@@ -4850,7 +5014,7 @@ module.exports = function Parser(builder) {
     if(match_DocStringSeparator(context, token)) {
       startRule(context, 'DocString');
       build(context, token);
-      return 23;
+      return 46;
     }
     if(match_StepLine(context, token)) {
       endRule(context, 'Step');
@@ -4892,6 +5056,15 @@ module.exports = function Parser(builder) {
       build(context, token);
       return 12;
     }
+    if(match_RuleLine(context, token)) {
+      endRule(context, 'Step');
+      endRule(context, 'Scenario');
+      endRule(context, 'ScenarioDefinition');
+      startRule(context, 'Rule');
+      startRule(context, 'RuleHeader');
+      build(context, token);
+      return 22;
+    }
     if(match_Comment(context, token)) {
       build(context, token);
       return 15;
@@ -4903,7 +5076,7 @@ module.exports = function Parser(builder) {
     
     var stateComment = "State: 15 - GherkinDocument:0>Feature:2>ScenarioDefinition:1>Scenario:2>Step:0>#StepLine:0";
     token.detach();
-    var expectedTokens = ["#EOF", "#TableRow", "#DocStringSeparator", "#StepLine", "#TagLine", "#ExamplesLine", "#ScenarioLine", "#Comment", "#Empty"];
+    var expectedTokens = ["#EOF", "#TableRow", "#DocStringSeparator", "#StepLine", "#TagLine", "#ExamplesLine", "#ScenarioLine", "#RuleLine", "#Comment", "#Empty"];
     var error = token.isEof ?
       Errors.UnexpectedEOFException.create(token, expectedTokens, stateComment) :
       Errors.UnexpectedTokenException.create(token, expectedTokens, stateComment);
@@ -4922,7 +5095,7 @@ module.exports = function Parser(builder) {
       endRule(context, 'ScenarioDefinition');
       endRule(context, 'Feature');
       build(context, token);
-      return 22;
+      return 41;
     }
     if(match_TableRow(context, token)) {
       build(context, token);
@@ -4973,6 +5146,16 @@ module.exports = function Parser(builder) {
       build(context, token);
       return 12;
     }
+    if(match_RuleLine(context, token)) {
+      endRule(context, 'DataTable');
+      endRule(context, 'Step');
+      endRule(context, 'Scenario');
+      endRule(context, 'ScenarioDefinition');
+      startRule(context, 'Rule');
+      startRule(context, 'RuleHeader');
+      build(context, token);
+      return 22;
+    }
     if(match_Comment(context, token)) {
       build(context, token);
       return 16;
@@ -4984,7 +5167,7 @@ module.exports = function Parser(builder) {
     
     var stateComment = "State: 16 - GherkinDocument:0>Feature:2>ScenarioDefinition:1>Scenario:2>Step:1>StepArg:0>__alt0:0>DataTable:0>#TableRow:0";
     token.detach();
-    var expectedTokens = ["#EOF", "#TableRow", "#StepLine", "#TagLine", "#ExamplesLine", "#ScenarioLine", "#Comment", "#Empty"];
+    var expectedTokens = ["#EOF", "#TableRow", "#StepLine", "#TagLine", "#ExamplesLine", "#ScenarioLine", "#RuleLine", "#Comment", "#Empty"];
     var error = token.isEof ?
       Errors.UnexpectedEOFException.create(token, expectedTokens, stateComment) :
       Errors.UnexpectedTokenException.create(token, expectedTokens, stateComment);
@@ -5036,7 +5219,7 @@ module.exports = function Parser(builder) {
       endRule(context, 'ScenarioDefinition');
       endRule(context, 'Feature');
       build(context, token);
-      return 22;
+      return 41;
     }
     if(match_Empty(context, token)) {
       build(context, token);
@@ -5089,6 +5272,16 @@ module.exports = function Parser(builder) {
       build(context, token);
       return 12;
     }
+    if(match_RuleLine(context, token)) {
+      endRule(context, 'Examples');
+      endRule(context, 'ExamplesDefinition');
+      endRule(context, 'Scenario');
+      endRule(context, 'ScenarioDefinition');
+      startRule(context, 'Rule');
+      startRule(context, 'RuleHeader');
+      build(context, token);
+      return 22;
+    }
     if(match_Other(context, token)) {
       startRule(context, 'Description');
       build(context, token);
@@ -5097,7 +5290,7 @@ module.exports = function Parser(builder) {
     
     var stateComment = "State: 18 - GherkinDocument:0>Feature:2>ScenarioDefinition:1>Scenario:3>ExamplesDefinition:1>Examples:0>#ExamplesLine:0";
     token.detach();
-    var expectedTokens = ["#EOF", "#Empty", "#Comment", "#TableRow", "#TagLine", "#ExamplesLine", "#ScenarioLine", "#Other"];
+    var expectedTokens = ["#EOF", "#Empty", "#Comment", "#TableRow", "#TagLine", "#ExamplesLine", "#ScenarioLine", "#RuleLine", "#Other"];
     var error = token.isEof ?
       Errors.UnexpectedEOFException.create(token, expectedTokens, stateComment) :
       Errors.UnexpectedTokenException.create(token, expectedTokens, stateComment);
@@ -5117,7 +5310,7 @@ module.exports = function Parser(builder) {
       endRule(context, 'ScenarioDefinition');
       endRule(context, 'Feature');
       build(context, token);
-      return 22;
+      return 41;
     }
     if(match_Comment(context, token)) {
       endRule(context, 'Description');
@@ -5172,6 +5365,17 @@ module.exports = function Parser(builder) {
       build(context, token);
       return 12;
     }
+    if(match_RuleLine(context, token)) {
+      endRule(context, 'Description');
+      endRule(context, 'Examples');
+      endRule(context, 'ExamplesDefinition');
+      endRule(context, 'Scenario');
+      endRule(context, 'ScenarioDefinition');
+      startRule(context, 'Rule');
+      startRule(context, 'RuleHeader');
+      build(context, token);
+      return 22;
+    }
     if(match_Other(context, token)) {
       build(context, token);
       return 19;
@@ -5179,7 +5383,7 @@ module.exports = function Parser(builder) {
     
     var stateComment = "State: 19 - GherkinDocument:0>Feature:2>ScenarioDefinition:1>Scenario:3>ExamplesDefinition:1>Examples:1>DescriptionHelper:1>Description:0>#Other:0";
     token.detach();
-    var expectedTokens = ["#EOF", "#Comment", "#TableRow", "#TagLine", "#ExamplesLine", "#ScenarioLine", "#Other"];
+    var expectedTokens = ["#EOF", "#Comment", "#TableRow", "#TagLine", "#ExamplesLine", "#ScenarioLine", "#RuleLine", "#Other"];
     var error = token.isEof ?
       Errors.UnexpectedEOFException.create(token, expectedTokens, stateComment) :
       Errors.UnexpectedTokenException.create(token, expectedTokens, stateComment);
@@ -5198,7 +5402,7 @@ module.exports = function Parser(builder) {
       endRule(context, 'ScenarioDefinition');
       endRule(context, 'Feature');
       build(context, token);
-      return 22;
+      return 41;
     }
     if(match_Comment(context, token)) {
       build(context, token);
@@ -5247,6 +5451,16 @@ module.exports = function Parser(builder) {
       build(context, token);
       return 12;
     }
+    if(match_RuleLine(context, token)) {
+      endRule(context, 'Examples');
+      endRule(context, 'ExamplesDefinition');
+      endRule(context, 'Scenario');
+      endRule(context, 'ScenarioDefinition');
+      startRule(context, 'Rule');
+      startRule(context, 'RuleHeader');
+      build(context, token);
+      return 22;
+    }
     if(match_Empty(context, token)) {
       build(context, token);
       return 20;
@@ -5254,7 +5468,7 @@ module.exports = function Parser(builder) {
     
     var stateComment = "State: 20 - GherkinDocument:0>Feature:2>ScenarioDefinition:1>Scenario:3>ExamplesDefinition:1>Examples:1>DescriptionHelper:2>#Comment:0";
     token.detach();
-    var expectedTokens = ["#EOF", "#Comment", "#TableRow", "#TagLine", "#ExamplesLine", "#ScenarioLine", "#Empty"];
+    var expectedTokens = ["#EOF", "#Comment", "#TableRow", "#TagLine", "#ExamplesLine", "#ScenarioLine", "#RuleLine", "#Empty"];
     var error = token.isEof ?
       Errors.UnexpectedEOFException.create(token, expectedTokens, stateComment) :
       Errors.UnexpectedTokenException.create(token, expectedTokens, stateComment);
@@ -5274,7 +5488,7 @@ module.exports = function Parser(builder) {
       endRule(context, 'ScenarioDefinition');
       endRule(context, 'Feature');
       build(context, token);
-      return 22;
+      return 41;
     }
     if(match_TableRow(context, token)) {
       build(context, token);
@@ -5322,6 +5536,17 @@ module.exports = function Parser(builder) {
       build(context, token);
       return 12;
     }
+    if(match_RuleLine(context, token)) {
+      endRule(context, 'ExamplesTable');
+      endRule(context, 'Examples');
+      endRule(context, 'ExamplesDefinition');
+      endRule(context, 'Scenario');
+      endRule(context, 'ScenarioDefinition');
+      startRule(context, 'Rule');
+      startRule(context, 'RuleHeader');
+      build(context, token);
+      return 22;
+    }
     if(match_Comment(context, token)) {
       build(context, token);
       return 21;
@@ -5333,7 +5558,7 @@ module.exports = function Parser(builder) {
     
     var stateComment = "State: 21 - GherkinDocument:0>Feature:2>ScenarioDefinition:1>Scenario:3>ExamplesDefinition:1>Examples:2>ExamplesTable:0>#TableRow:0";
     token.detach();
-    var expectedTokens = ["#EOF", "#TableRow", "#TagLine", "#ExamplesLine", "#ScenarioLine", "#Comment", "#Empty"];
+    var expectedTokens = ["#EOF", "#TableRow", "#TagLine", "#ExamplesLine", "#ScenarioLine", "#RuleLine", "#Comment", "#Empty"];
     var error = token.isEof ?
       Errors.UnexpectedEOFException.create(token, expectedTokens, stateComment) :
       Errors.UnexpectedTokenException.create(token, expectedTokens, stateComment);
@@ -5343,20 +5568,124 @@ module.exports = function Parser(builder) {
   }
 
 
-  // GherkinDocument:0>Feature:2>ScenarioDefinition:1>Scenario:2>Step:1>StepArg:0>__alt0:1>DocString:0>#DocStringSeparator:0
-  function matchTokenAt_23(token, context) {
-    if(match_DocStringSeparator(context, token)) {
+  // GherkinDocument:0>Feature:3>Rule:0>RuleHeader:0>#RuleLine:0
+  function matchTokenAt_22(token, context) {
+    if(match_EOF(context, token)) {
+      endRule(context, 'RuleHeader');
+      endRule(context, 'Rule');
+      endRule(context, 'Feature');
+      build(context, token);
+      return 41;
+    }
+    if(match_Empty(context, token)) {
+      build(context, token);
+      return 22;
+    }
+    if(match_Comment(context, token)) {
       build(context, token);
       return 24;
+    }
+    if(match_BackgroundLine(context, token)) {
+      endRule(context, 'RuleHeader');
+      startRule(context, 'Background');
+      build(context, token);
+      return 25;
+    }
+    if(match_TagLine(context, token)) {
+      endRule(context, 'RuleHeader');
+      startRule(context, 'ScenarioDefinition');
+      startRule(context, 'Tags');
+      build(context, token);
+      return 30;
+    }
+    if(match_ScenarioLine(context, token)) {
+      endRule(context, 'RuleHeader');
+      startRule(context, 'ScenarioDefinition');
+      startRule(context, 'Scenario');
+      build(context, token);
+      return 31;
+    }
+    if(match_RuleLine(context, token)) {
+      endRule(context, 'RuleHeader');
+      endRule(context, 'Rule');
+      startRule(context, 'Rule');
+      startRule(context, 'RuleHeader');
+      build(context, token);
+      return 22;
+    }
+    if(match_Other(context, token)) {
+      startRule(context, 'Description');
+      build(context, token);
+      return 23;
+    }
+    
+    var stateComment = "State: 22 - GherkinDocument:0>Feature:3>Rule:0>RuleHeader:0>#RuleLine:0";
+    token.detach();
+    var expectedTokens = ["#EOF", "#Empty", "#Comment", "#BackgroundLine", "#TagLine", "#ScenarioLine", "#RuleLine", "#Other"];
+    var error = token.isEof ?
+      Errors.UnexpectedEOFException.create(token, expectedTokens, stateComment) :
+      Errors.UnexpectedTokenException.create(token, expectedTokens, stateComment);
+    if (self.stopAtFirstError) throw error;
+    addError(context, error);
+    return 22;
+  }
+
+
+  // GherkinDocument:0>Feature:3>Rule:0>RuleHeader:1>DescriptionHelper:1>Description:0>#Other:0
+  function matchTokenAt_23(token, context) {
+    if(match_EOF(context, token)) {
+      endRule(context, 'Description');
+      endRule(context, 'RuleHeader');
+      endRule(context, 'Rule');
+      endRule(context, 'Feature');
+      build(context, token);
+      return 41;
+    }
+    if(match_Comment(context, token)) {
+      endRule(context, 'Description');
+      build(context, token);
+      return 24;
+    }
+    if(match_BackgroundLine(context, token)) {
+      endRule(context, 'Description');
+      endRule(context, 'RuleHeader');
+      startRule(context, 'Background');
+      build(context, token);
+      return 25;
+    }
+    if(match_TagLine(context, token)) {
+      endRule(context, 'Description');
+      endRule(context, 'RuleHeader');
+      startRule(context, 'ScenarioDefinition');
+      startRule(context, 'Tags');
+      build(context, token);
+      return 30;
+    }
+    if(match_ScenarioLine(context, token)) {
+      endRule(context, 'Description');
+      endRule(context, 'RuleHeader');
+      startRule(context, 'ScenarioDefinition');
+      startRule(context, 'Scenario');
+      build(context, token);
+      return 31;
+    }
+    if(match_RuleLine(context, token)) {
+      endRule(context, 'Description');
+      endRule(context, 'RuleHeader');
+      endRule(context, 'Rule');
+      startRule(context, 'Rule');
+      startRule(context, 'RuleHeader');
+      build(context, token);
+      return 22;
     }
     if(match_Other(context, token)) {
       build(context, token);
       return 23;
     }
     
-    var stateComment = "State: 23 - GherkinDocument:0>Feature:2>ScenarioDefinition:1>Scenario:2>Step:1>StepArg:0>__alt0:1>DocString:0>#DocStringSeparator:0";
+    var stateComment = "State: 23 - GherkinDocument:0>Feature:3>Rule:0>RuleHeader:1>DescriptionHelper:1>Description:0>#Other:0";
     token.detach();
-    var expectedTokens = ["#DocStringSeparator", "#Other"];
+    var expectedTokens = ["#EOF", "#Comment", "#BackgroundLine", "#TagLine", "#ScenarioLine", "#RuleLine", "#Other"];
     var error = token.isEof ?
       Errors.UnexpectedEOFException.create(token, expectedTokens, stateComment) :
       Errors.UnexpectedTokenException.create(token, expectedTokens, stateComment);
@@ -5366,8 +5695,1471 @@ module.exports = function Parser(builder) {
   }
 
 
-  // GherkinDocument:0>Feature:2>ScenarioDefinition:1>Scenario:2>Step:1>StepArg:0>__alt0:1>DocString:2>#DocStringSeparator:0
+  // GherkinDocument:0>Feature:3>Rule:0>RuleHeader:1>DescriptionHelper:2>#Comment:0
   function matchTokenAt_24(token, context) {
+    if(match_EOF(context, token)) {
+      endRule(context, 'RuleHeader');
+      endRule(context, 'Rule');
+      endRule(context, 'Feature');
+      build(context, token);
+      return 41;
+    }
+    if(match_Comment(context, token)) {
+      build(context, token);
+      return 24;
+    }
+    if(match_BackgroundLine(context, token)) {
+      endRule(context, 'RuleHeader');
+      startRule(context, 'Background');
+      build(context, token);
+      return 25;
+    }
+    if(match_TagLine(context, token)) {
+      endRule(context, 'RuleHeader');
+      startRule(context, 'ScenarioDefinition');
+      startRule(context, 'Tags');
+      build(context, token);
+      return 30;
+    }
+    if(match_ScenarioLine(context, token)) {
+      endRule(context, 'RuleHeader');
+      startRule(context, 'ScenarioDefinition');
+      startRule(context, 'Scenario');
+      build(context, token);
+      return 31;
+    }
+    if(match_RuleLine(context, token)) {
+      endRule(context, 'RuleHeader');
+      endRule(context, 'Rule');
+      startRule(context, 'Rule');
+      startRule(context, 'RuleHeader');
+      build(context, token);
+      return 22;
+    }
+    if(match_Empty(context, token)) {
+      build(context, token);
+      return 24;
+    }
+    
+    var stateComment = "State: 24 - GherkinDocument:0>Feature:3>Rule:0>RuleHeader:1>DescriptionHelper:2>#Comment:0";
+    token.detach();
+    var expectedTokens = ["#EOF", "#Comment", "#BackgroundLine", "#TagLine", "#ScenarioLine", "#RuleLine", "#Empty"];
+    var error = token.isEof ?
+      Errors.UnexpectedEOFException.create(token, expectedTokens, stateComment) :
+      Errors.UnexpectedTokenException.create(token, expectedTokens, stateComment);
+    if (self.stopAtFirstError) throw error;
+    addError(context, error);
+    return 24;
+  }
+
+
+  // GherkinDocument:0>Feature:3>Rule:1>Background:0>#BackgroundLine:0
+  function matchTokenAt_25(token, context) {
+    if(match_EOF(context, token)) {
+      endRule(context, 'Background');
+      endRule(context, 'Rule');
+      endRule(context, 'Feature');
+      build(context, token);
+      return 41;
+    }
+    if(match_Empty(context, token)) {
+      build(context, token);
+      return 25;
+    }
+    if(match_Comment(context, token)) {
+      build(context, token);
+      return 27;
+    }
+    if(match_StepLine(context, token)) {
+      startRule(context, 'Step');
+      build(context, token);
+      return 28;
+    }
+    if(match_TagLine(context, token)) {
+      endRule(context, 'Background');
+      startRule(context, 'ScenarioDefinition');
+      startRule(context, 'Tags');
+      build(context, token);
+      return 30;
+    }
+    if(match_ScenarioLine(context, token)) {
+      endRule(context, 'Background');
+      startRule(context, 'ScenarioDefinition');
+      startRule(context, 'Scenario');
+      build(context, token);
+      return 31;
+    }
+    if(match_RuleLine(context, token)) {
+      endRule(context, 'Background');
+      endRule(context, 'Rule');
+      startRule(context, 'Rule');
+      startRule(context, 'RuleHeader');
+      build(context, token);
+      return 22;
+    }
+    if(match_Other(context, token)) {
+      startRule(context, 'Description');
+      build(context, token);
+      return 26;
+    }
+    
+    var stateComment = "State: 25 - GherkinDocument:0>Feature:3>Rule:1>Background:0>#BackgroundLine:0";
+    token.detach();
+    var expectedTokens = ["#EOF", "#Empty", "#Comment", "#StepLine", "#TagLine", "#ScenarioLine", "#RuleLine", "#Other"];
+    var error = token.isEof ?
+      Errors.UnexpectedEOFException.create(token, expectedTokens, stateComment) :
+      Errors.UnexpectedTokenException.create(token, expectedTokens, stateComment);
+    if (self.stopAtFirstError) throw error;
+    addError(context, error);
+    return 25;
+  }
+
+
+  // GherkinDocument:0>Feature:3>Rule:1>Background:1>DescriptionHelper:1>Description:0>#Other:0
+  function matchTokenAt_26(token, context) {
+    if(match_EOF(context, token)) {
+      endRule(context, 'Description');
+      endRule(context, 'Background');
+      endRule(context, 'Rule');
+      endRule(context, 'Feature');
+      build(context, token);
+      return 41;
+    }
+    if(match_Comment(context, token)) {
+      endRule(context, 'Description');
+      build(context, token);
+      return 27;
+    }
+    if(match_StepLine(context, token)) {
+      endRule(context, 'Description');
+      startRule(context, 'Step');
+      build(context, token);
+      return 28;
+    }
+    if(match_TagLine(context, token)) {
+      endRule(context, 'Description');
+      endRule(context, 'Background');
+      startRule(context, 'ScenarioDefinition');
+      startRule(context, 'Tags');
+      build(context, token);
+      return 30;
+    }
+    if(match_ScenarioLine(context, token)) {
+      endRule(context, 'Description');
+      endRule(context, 'Background');
+      startRule(context, 'ScenarioDefinition');
+      startRule(context, 'Scenario');
+      build(context, token);
+      return 31;
+    }
+    if(match_RuleLine(context, token)) {
+      endRule(context, 'Description');
+      endRule(context, 'Background');
+      endRule(context, 'Rule');
+      startRule(context, 'Rule');
+      startRule(context, 'RuleHeader');
+      build(context, token);
+      return 22;
+    }
+    if(match_Other(context, token)) {
+      build(context, token);
+      return 26;
+    }
+    
+    var stateComment = "State: 26 - GherkinDocument:0>Feature:3>Rule:1>Background:1>DescriptionHelper:1>Description:0>#Other:0";
+    token.detach();
+    var expectedTokens = ["#EOF", "#Comment", "#StepLine", "#TagLine", "#ScenarioLine", "#RuleLine", "#Other"];
+    var error = token.isEof ?
+      Errors.UnexpectedEOFException.create(token, expectedTokens, stateComment) :
+      Errors.UnexpectedTokenException.create(token, expectedTokens, stateComment);
+    if (self.stopAtFirstError) throw error;
+    addError(context, error);
+    return 26;
+  }
+
+
+  // GherkinDocument:0>Feature:3>Rule:1>Background:1>DescriptionHelper:2>#Comment:0
+  function matchTokenAt_27(token, context) {
+    if(match_EOF(context, token)) {
+      endRule(context, 'Background');
+      endRule(context, 'Rule');
+      endRule(context, 'Feature');
+      build(context, token);
+      return 41;
+    }
+    if(match_Comment(context, token)) {
+      build(context, token);
+      return 27;
+    }
+    if(match_StepLine(context, token)) {
+      startRule(context, 'Step');
+      build(context, token);
+      return 28;
+    }
+    if(match_TagLine(context, token)) {
+      endRule(context, 'Background');
+      startRule(context, 'ScenarioDefinition');
+      startRule(context, 'Tags');
+      build(context, token);
+      return 30;
+    }
+    if(match_ScenarioLine(context, token)) {
+      endRule(context, 'Background');
+      startRule(context, 'ScenarioDefinition');
+      startRule(context, 'Scenario');
+      build(context, token);
+      return 31;
+    }
+    if(match_RuleLine(context, token)) {
+      endRule(context, 'Background');
+      endRule(context, 'Rule');
+      startRule(context, 'Rule');
+      startRule(context, 'RuleHeader');
+      build(context, token);
+      return 22;
+    }
+    if(match_Empty(context, token)) {
+      build(context, token);
+      return 27;
+    }
+    
+    var stateComment = "State: 27 - GherkinDocument:0>Feature:3>Rule:1>Background:1>DescriptionHelper:2>#Comment:0";
+    token.detach();
+    var expectedTokens = ["#EOF", "#Comment", "#StepLine", "#TagLine", "#ScenarioLine", "#RuleLine", "#Empty"];
+    var error = token.isEof ?
+      Errors.UnexpectedEOFException.create(token, expectedTokens, stateComment) :
+      Errors.UnexpectedTokenException.create(token, expectedTokens, stateComment);
+    if (self.stopAtFirstError) throw error;
+    addError(context, error);
+    return 27;
+  }
+
+
+  // GherkinDocument:0>Feature:3>Rule:1>Background:2>Step:0>#StepLine:0
+  function matchTokenAt_28(token, context) {
+    if(match_EOF(context, token)) {
+      endRule(context, 'Step');
+      endRule(context, 'Background');
+      endRule(context, 'Rule');
+      endRule(context, 'Feature');
+      build(context, token);
+      return 41;
+    }
+    if(match_TableRow(context, token)) {
+      startRule(context, 'DataTable');
+      build(context, token);
+      return 29;
+    }
+    if(match_DocStringSeparator(context, token)) {
+      startRule(context, 'DocString');
+      build(context, token);
+      return 44;
+    }
+    if(match_StepLine(context, token)) {
+      endRule(context, 'Step');
+      startRule(context, 'Step');
+      build(context, token);
+      return 28;
+    }
+    if(match_TagLine(context, token)) {
+      endRule(context, 'Step');
+      endRule(context, 'Background');
+      startRule(context, 'ScenarioDefinition');
+      startRule(context, 'Tags');
+      build(context, token);
+      return 30;
+    }
+    if(match_ScenarioLine(context, token)) {
+      endRule(context, 'Step');
+      endRule(context, 'Background');
+      startRule(context, 'ScenarioDefinition');
+      startRule(context, 'Scenario');
+      build(context, token);
+      return 31;
+    }
+    if(match_RuleLine(context, token)) {
+      endRule(context, 'Step');
+      endRule(context, 'Background');
+      endRule(context, 'Rule');
+      startRule(context, 'Rule');
+      startRule(context, 'RuleHeader');
+      build(context, token);
+      return 22;
+    }
+    if(match_Comment(context, token)) {
+      build(context, token);
+      return 28;
+    }
+    if(match_Empty(context, token)) {
+      build(context, token);
+      return 28;
+    }
+    
+    var stateComment = "State: 28 - GherkinDocument:0>Feature:3>Rule:1>Background:2>Step:0>#StepLine:0";
+    token.detach();
+    var expectedTokens = ["#EOF", "#TableRow", "#DocStringSeparator", "#StepLine", "#TagLine", "#ScenarioLine", "#RuleLine", "#Comment", "#Empty"];
+    var error = token.isEof ?
+      Errors.UnexpectedEOFException.create(token, expectedTokens, stateComment) :
+      Errors.UnexpectedTokenException.create(token, expectedTokens, stateComment);
+    if (self.stopAtFirstError) throw error;
+    addError(context, error);
+    return 28;
+  }
+
+
+  // GherkinDocument:0>Feature:3>Rule:1>Background:2>Step:1>StepArg:0>__alt0:0>DataTable:0>#TableRow:0
+  function matchTokenAt_29(token, context) {
+    if(match_EOF(context, token)) {
+      endRule(context, 'DataTable');
+      endRule(context, 'Step');
+      endRule(context, 'Background');
+      endRule(context, 'Rule');
+      endRule(context, 'Feature');
+      build(context, token);
+      return 41;
+    }
+    if(match_TableRow(context, token)) {
+      build(context, token);
+      return 29;
+    }
+    if(match_StepLine(context, token)) {
+      endRule(context, 'DataTable');
+      endRule(context, 'Step');
+      startRule(context, 'Step');
+      build(context, token);
+      return 28;
+    }
+    if(match_TagLine(context, token)) {
+      endRule(context, 'DataTable');
+      endRule(context, 'Step');
+      endRule(context, 'Background');
+      startRule(context, 'ScenarioDefinition');
+      startRule(context, 'Tags');
+      build(context, token);
+      return 30;
+    }
+    if(match_ScenarioLine(context, token)) {
+      endRule(context, 'DataTable');
+      endRule(context, 'Step');
+      endRule(context, 'Background');
+      startRule(context, 'ScenarioDefinition');
+      startRule(context, 'Scenario');
+      build(context, token);
+      return 31;
+    }
+    if(match_RuleLine(context, token)) {
+      endRule(context, 'DataTable');
+      endRule(context, 'Step');
+      endRule(context, 'Background');
+      endRule(context, 'Rule');
+      startRule(context, 'Rule');
+      startRule(context, 'RuleHeader');
+      build(context, token);
+      return 22;
+    }
+    if(match_Comment(context, token)) {
+      build(context, token);
+      return 29;
+    }
+    if(match_Empty(context, token)) {
+      build(context, token);
+      return 29;
+    }
+    
+    var stateComment = "State: 29 - GherkinDocument:0>Feature:3>Rule:1>Background:2>Step:1>StepArg:0>__alt0:0>DataTable:0>#TableRow:0";
+    token.detach();
+    var expectedTokens = ["#EOF", "#TableRow", "#StepLine", "#TagLine", "#ScenarioLine", "#RuleLine", "#Comment", "#Empty"];
+    var error = token.isEof ?
+      Errors.UnexpectedEOFException.create(token, expectedTokens, stateComment) :
+      Errors.UnexpectedTokenException.create(token, expectedTokens, stateComment);
+    if (self.stopAtFirstError) throw error;
+    addError(context, error);
+    return 29;
+  }
+
+
+  // GherkinDocument:0>Feature:3>Rule:2>ScenarioDefinition:0>Tags:0>#TagLine:0
+  function matchTokenAt_30(token, context) {
+    if(match_TagLine(context, token)) {
+      build(context, token);
+      return 30;
+    }
+    if(match_ScenarioLine(context, token)) {
+      endRule(context, 'Tags');
+      startRule(context, 'Scenario');
+      build(context, token);
+      return 31;
+    }
+    if(match_Comment(context, token)) {
+      build(context, token);
+      return 30;
+    }
+    if(match_Empty(context, token)) {
+      build(context, token);
+      return 30;
+    }
+    
+    var stateComment = "State: 30 - GherkinDocument:0>Feature:3>Rule:2>ScenarioDefinition:0>Tags:0>#TagLine:0";
+    token.detach();
+    var expectedTokens = ["#TagLine", "#ScenarioLine", "#Comment", "#Empty"];
+    var error = token.isEof ?
+      Errors.UnexpectedEOFException.create(token, expectedTokens, stateComment) :
+      Errors.UnexpectedTokenException.create(token, expectedTokens, stateComment);
+    if (self.stopAtFirstError) throw error;
+    addError(context, error);
+    return 30;
+  }
+
+
+  // GherkinDocument:0>Feature:3>Rule:2>ScenarioDefinition:1>Scenario:0>#ScenarioLine:0
+  function matchTokenAt_31(token, context) {
+    if(match_EOF(context, token)) {
+      endRule(context, 'Scenario');
+      endRule(context, 'ScenarioDefinition');
+      endRule(context, 'Rule');
+      endRule(context, 'Feature');
+      build(context, token);
+      return 41;
+    }
+    if(match_Empty(context, token)) {
+      build(context, token);
+      return 31;
+    }
+    if(match_Comment(context, token)) {
+      build(context, token);
+      return 33;
+    }
+    if(match_StepLine(context, token)) {
+      startRule(context, 'Step');
+      build(context, token);
+      return 34;
+    }
+    if(match_TagLine(context, token)) {
+      if(lookahead_0(context, token)) {
+      startRule(context, 'ExamplesDefinition');
+      startRule(context, 'Tags');
+      build(context, token);
+      return 36;
+      }
+    }
+    if(match_TagLine(context, token)) {
+      endRule(context, 'Scenario');
+      endRule(context, 'ScenarioDefinition');
+      startRule(context, 'ScenarioDefinition');
+      startRule(context, 'Tags');
+      build(context, token);
+      return 30;
+    }
+    if(match_ExamplesLine(context, token)) {
+      startRule(context, 'ExamplesDefinition');
+      startRule(context, 'Examples');
+      build(context, token);
+      return 37;
+    }
+    if(match_ScenarioLine(context, token)) {
+      endRule(context, 'Scenario');
+      endRule(context, 'ScenarioDefinition');
+      startRule(context, 'ScenarioDefinition');
+      startRule(context, 'Scenario');
+      build(context, token);
+      return 31;
+    }
+    if(match_RuleLine(context, token)) {
+      endRule(context, 'Scenario');
+      endRule(context, 'ScenarioDefinition');
+      endRule(context, 'Rule');
+      startRule(context, 'Rule');
+      startRule(context, 'RuleHeader');
+      build(context, token);
+      return 22;
+    }
+    if(match_Other(context, token)) {
+      startRule(context, 'Description');
+      build(context, token);
+      return 32;
+    }
+    
+    var stateComment = "State: 31 - GherkinDocument:0>Feature:3>Rule:2>ScenarioDefinition:1>Scenario:0>#ScenarioLine:0";
+    token.detach();
+    var expectedTokens = ["#EOF", "#Empty", "#Comment", "#StepLine", "#TagLine", "#ExamplesLine", "#ScenarioLine", "#RuleLine", "#Other"];
+    var error = token.isEof ?
+      Errors.UnexpectedEOFException.create(token, expectedTokens, stateComment) :
+      Errors.UnexpectedTokenException.create(token, expectedTokens, stateComment);
+    if (self.stopAtFirstError) throw error;
+    addError(context, error);
+    return 31;
+  }
+
+
+  // GherkinDocument:0>Feature:3>Rule:2>ScenarioDefinition:1>Scenario:1>DescriptionHelper:1>Description:0>#Other:0
+  function matchTokenAt_32(token, context) {
+    if(match_EOF(context, token)) {
+      endRule(context, 'Description');
+      endRule(context, 'Scenario');
+      endRule(context, 'ScenarioDefinition');
+      endRule(context, 'Rule');
+      endRule(context, 'Feature');
+      build(context, token);
+      return 41;
+    }
+    if(match_Comment(context, token)) {
+      endRule(context, 'Description');
+      build(context, token);
+      return 33;
+    }
+    if(match_StepLine(context, token)) {
+      endRule(context, 'Description');
+      startRule(context, 'Step');
+      build(context, token);
+      return 34;
+    }
+    if(match_TagLine(context, token)) {
+      if(lookahead_0(context, token)) {
+      endRule(context, 'Description');
+      startRule(context, 'ExamplesDefinition');
+      startRule(context, 'Tags');
+      build(context, token);
+      return 36;
+      }
+    }
+    if(match_TagLine(context, token)) {
+      endRule(context, 'Description');
+      endRule(context, 'Scenario');
+      endRule(context, 'ScenarioDefinition');
+      startRule(context, 'ScenarioDefinition');
+      startRule(context, 'Tags');
+      build(context, token);
+      return 30;
+    }
+    if(match_ExamplesLine(context, token)) {
+      endRule(context, 'Description');
+      startRule(context, 'ExamplesDefinition');
+      startRule(context, 'Examples');
+      build(context, token);
+      return 37;
+    }
+    if(match_ScenarioLine(context, token)) {
+      endRule(context, 'Description');
+      endRule(context, 'Scenario');
+      endRule(context, 'ScenarioDefinition');
+      startRule(context, 'ScenarioDefinition');
+      startRule(context, 'Scenario');
+      build(context, token);
+      return 31;
+    }
+    if(match_RuleLine(context, token)) {
+      endRule(context, 'Description');
+      endRule(context, 'Scenario');
+      endRule(context, 'ScenarioDefinition');
+      endRule(context, 'Rule');
+      startRule(context, 'Rule');
+      startRule(context, 'RuleHeader');
+      build(context, token);
+      return 22;
+    }
+    if(match_Other(context, token)) {
+      build(context, token);
+      return 32;
+    }
+    
+    var stateComment = "State: 32 - GherkinDocument:0>Feature:3>Rule:2>ScenarioDefinition:1>Scenario:1>DescriptionHelper:1>Description:0>#Other:0";
+    token.detach();
+    var expectedTokens = ["#EOF", "#Comment", "#StepLine", "#TagLine", "#ExamplesLine", "#ScenarioLine", "#RuleLine", "#Other"];
+    var error = token.isEof ?
+      Errors.UnexpectedEOFException.create(token, expectedTokens, stateComment) :
+      Errors.UnexpectedTokenException.create(token, expectedTokens, stateComment);
+    if (self.stopAtFirstError) throw error;
+    addError(context, error);
+    return 32;
+  }
+
+
+  // GherkinDocument:0>Feature:3>Rule:2>ScenarioDefinition:1>Scenario:1>DescriptionHelper:2>#Comment:0
+  function matchTokenAt_33(token, context) {
+    if(match_EOF(context, token)) {
+      endRule(context, 'Scenario');
+      endRule(context, 'ScenarioDefinition');
+      endRule(context, 'Rule');
+      endRule(context, 'Feature');
+      build(context, token);
+      return 41;
+    }
+    if(match_Comment(context, token)) {
+      build(context, token);
+      return 33;
+    }
+    if(match_StepLine(context, token)) {
+      startRule(context, 'Step');
+      build(context, token);
+      return 34;
+    }
+    if(match_TagLine(context, token)) {
+      if(lookahead_0(context, token)) {
+      startRule(context, 'ExamplesDefinition');
+      startRule(context, 'Tags');
+      build(context, token);
+      return 36;
+      }
+    }
+    if(match_TagLine(context, token)) {
+      endRule(context, 'Scenario');
+      endRule(context, 'ScenarioDefinition');
+      startRule(context, 'ScenarioDefinition');
+      startRule(context, 'Tags');
+      build(context, token);
+      return 30;
+    }
+    if(match_ExamplesLine(context, token)) {
+      startRule(context, 'ExamplesDefinition');
+      startRule(context, 'Examples');
+      build(context, token);
+      return 37;
+    }
+    if(match_ScenarioLine(context, token)) {
+      endRule(context, 'Scenario');
+      endRule(context, 'ScenarioDefinition');
+      startRule(context, 'ScenarioDefinition');
+      startRule(context, 'Scenario');
+      build(context, token);
+      return 31;
+    }
+    if(match_RuleLine(context, token)) {
+      endRule(context, 'Scenario');
+      endRule(context, 'ScenarioDefinition');
+      endRule(context, 'Rule');
+      startRule(context, 'Rule');
+      startRule(context, 'RuleHeader');
+      build(context, token);
+      return 22;
+    }
+    if(match_Empty(context, token)) {
+      build(context, token);
+      return 33;
+    }
+    
+    var stateComment = "State: 33 - GherkinDocument:0>Feature:3>Rule:2>ScenarioDefinition:1>Scenario:1>DescriptionHelper:2>#Comment:0";
+    token.detach();
+    var expectedTokens = ["#EOF", "#Comment", "#StepLine", "#TagLine", "#ExamplesLine", "#ScenarioLine", "#RuleLine", "#Empty"];
+    var error = token.isEof ?
+      Errors.UnexpectedEOFException.create(token, expectedTokens, stateComment) :
+      Errors.UnexpectedTokenException.create(token, expectedTokens, stateComment);
+    if (self.stopAtFirstError) throw error;
+    addError(context, error);
+    return 33;
+  }
+
+
+  // GherkinDocument:0>Feature:3>Rule:2>ScenarioDefinition:1>Scenario:2>Step:0>#StepLine:0
+  function matchTokenAt_34(token, context) {
+    if(match_EOF(context, token)) {
+      endRule(context, 'Step');
+      endRule(context, 'Scenario');
+      endRule(context, 'ScenarioDefinition');
+      endRule(context, 'Rule');
+      endRule(context, 'Feature');
+      build(context, token);
+      return 41;
+    }
+    if(match_TableRow(context, token)) {
+      startRule(context, 'DataTable');
+      build(context, token);
+      return 35;
+    }
+    if(match_DocStringSeparator(context, token)) {
+      startRule(context, 'DocString');
+      build(context, token);
+      return 42;
+    }
+    if(match_StepLine(context, token)) {
+      endRule(context, 'Step');
+      startRule(context, 'Step');
+      build(context, token);
+      return 34;
+    }
+    if(match_TagLine(context, token)) {
+      if(lookahead_0(context, token)) {
+      endRule(context, 'Step');
+      startRule(context, 'ExamplesDefinition');
+      startRule(context, 'Tags');
+      build(context, token);
+      return 36;
+      }
+    }
+    if(match_TagLine(context, token)) {
+      endRule(context, 'Step');
+      endRule(context, 'Scenario');
+      endRule(context, 'ScenarioDefinition');
+      startRule(context, 'ScenarioDefinition');
+      startRule(context, 'Tags');
+      build(context, token);
+      return 30;
+    }
+    if(match_ExamplesLine(context, token)) {
+      endRule(context, 'Step');
+      startRule(context, 'ExamplesDefinition');
+      startRule(context, 'Examples');
+      build(context, token);
+      return 37;
+    }
+    if(match_ScenarioLine(context, token)) {
+      endRule(context, 'Step');
+      endRule(context, 'Scenario');
+      endRule(context, 'ScenarioDefinition');
+      startRule(context, 'ScenarioDefinition');
+      startRule(context, 'Scenario');
+      build(context, token);
+      return 31;
+    }
+    if(match_RuleLine(context, token)) {
+      endRule(context, 'Step');
+      endRule(context, 'Scenario');
+      endRule(context, 'ScenarioDefinition');
+      endRule(context, 'Rule');
+      startRule(context, 'Rule');
+      startRule(context, 'RuleHeader');
+      build(context, token);
+      return 22;
+    }
+    if(match_Comment(context, token)) {
+      build(context, token);
+      return 34;
+    }
+    if(match_Empty(context, token)) {
+      build(context, token);
+      return 34;
+    }
+    
+    var stateComment = "State: 34 - GherkinDocument:0>Feature:3>Rule:2>ScenarioDefinition:1>Scenario:2>Step:0>#StepLine:0";
+    token.detach();
+    var expectedTokens = ["#EOF", "#TableRow", "#DocStringSeparator", "#StepLine", "#TagLine", "#ExamplesLine", "#ScenarioLine", "#RuleLine", "#Comment", "#Empty"];
+    var error = token.isEof ?
+      Errors.UnexpectedEOFException.create(token, expectedTokens, stateComment) :
+      Errors.UnexpectedTokenException.create(token, expectedTokens, stateComment);
+    if (self.stopAtFirstError) throw error;
+    addError(context, error);
+    return 34;
+  }
+
+
+  // GherkinDocument:0>Feature:3>Rule:2>ScenarioDefinition:1>Scenario:2>Step:1>StepArg:0>__alt0:0>DataTable:0>#TableRow:0
+  function matchTokenAt_35(token, context) {
+    if(match_EOF(context, token)) {
+      endRule(context, 'DataTable');
+      endRule(context, 'Step');
+      endRule(context, 'Scenario');
+      endRule(context, 'ScenarioDefinition');
+      endRule(context, 'Rule');
+      endRule(context, 'Feature');
+      build(context, token);
+      return 41;
+    }
+    if(match_TableRow(context, token)) {
+      build(context, token);
+      return 35;
+    }
+    if(match_StepLine(context, token)) {
+      endRule(context, 'DataTable');
+      endRule(context, 'Step');
+      startRule(context, 'Step');
+      build(context, token);
+      return 34;
+    }
+    if(match_TagLine(context, token)) {
+      if(lookahead_0(context, token)) {
+      endRule(context, 'DataTable');
+      endRule(context, 'Step');
+      startRule(context, 'ExamplesDefinition');
+      startRule(context, 'Tags');
+      build(context, token);
+      return 36;
+      }
+    }
+    if(match_TagLine(context, token)) {
+      endRule(context, 'DataTable');
+      endRule(context, 'Step');
+      endRule(context, 'Scenario');
+      endRule(context, 'ScenarioDefinition');
+      startRule(context, 'ScenarioDefinition');
+      startRule(context, 'Tags');
+      build(context, token);
+      return 30;
+    }
+    if(match_ExamplesLine(context, token)) {
+      endRule(context, 'DataTable');
+      endRule(context, 'Step');
+      startRule(context, 'ExamplesDefinition');
+      startRule(context, 'Examples');
+      build(context, token);
+      return 37;
+    }
+    if(match_ScenarioLine(context, token)) {
+      endRule(context, 'DataTable');
+      endRule(context, 'Step');
+      endRule(context, 'Scenario');
+      endRule(context, 'ScenarioDefinition');
+      startRule(context, 'ScenarioDefinition');
+      startRule(context, 'Scenario');
+      build(context, token);
+      return 31;
+    }
+    if(match_RuleLine(context, token)) {
+      endRule(context, 'DataTable');
+      endRule(context, 'Step');
+      endRule(context, 'Scenario');
+      endRule(context, 'ScenarioDefinition');
+      endRule(context, 'Rule');
+      startRule(context, 'Rule');
+      startRule(context, 'RuleHeader');
+      build(context, token);
+      return 22;
+    }
+    if(match_Comment(context, token)) {
+      build(context, token);
+      return 35;
+    }
+    if(match_Empty(context, token)) {
+      build(context, token);
+      return 35;
+    }
+    
+    var stateComment = "State: 35 - GherkinDocument:0>Feature:3>Rule:2>ScenarioDefinition:1>Scenario:2>Step:1>StepArg:0>__alt0:0>DataTable:0>#TableRow:0";
+    token.detach();
+    var expectedTokens = ["#EOF", "#TableRow", "#StepLine", "#TagLine", "#ExamplesLine", "#ScenarioLine", "#RuleLine", "#Comment", "#Empty"];
+    var error = token.isEof ?
+      Errors.UnexpectedEOFException.create(token, expectedTokens, stateComment) :
+      Errors.UnexpectedTokenException.create(token, expectedTokens, stateComment);
+    if (self.stopAtFirstError) throw error;
+    addError(context, error);
+    return 35;
+  }
+
+
+  // GherkinDocument:0>Feature:3>Rule:2>ScenarioDefinition:1>Scenario:3>ExamplesDefinition:0>Tags:0>#TagLine:0
+  function matchTokenAt_36(token, context) {
+    if(match_TagLine(context, token)) {
+      build(context, token);
+      return 36;
+    }
+    if(match_ExamplesLine(context, token)) {
+      endRule(context, 'Tags');
+      startRule(context, 'Examples');
+      build(context, token);
+      return 37;
+    }
+    if(match_Comment(context, token)) {
+      build(context, token);
+      return 36;
+    }
+    if(match_Empty(context, token)) {
+      build(context, token);
+      return 36;
+    }
+    
+    var stateComment = "State: 36 - GherkinDocument:0>Feature:3>Rule:2>ScenarioDefinition:1>Scenario:3>ExamplesDefinition:0>Tags:0>#TagLine:0";
+    token.detach();
+    var expectedTokens = ["#TagLine", "#ExamplesLine", "#Comment", "#Empty"];
+    var error = token.isEof ?
+      Errors.UnexpectedEOFException.create(token, expectedTokens, stateComment) :
+      Errors.UnexpectedTokenException.create(token, expectedTokens, stateComment);
+    if (self.stopAtFirstError) throw error;
+    addError(context, error);
+    return 36;
+  }
+
+
+  // GherkinDocument:0>Feature:3>Rule:2>ScenarioDefinition:1>Scenario:3>ExamplesDefinition:1>Examples:0>#ExamplesLine:0
+  function matchTokenAt_37(token, context) {
+    if(match_EOF(context, token)) {
+      endRule(context, 'Examples');
+      endRule(context, 'ExamplesDefinition');
+      endRule(context, 'Scenario');
+      endRule(context, 'ScenarioDefinition');
+      endRule(context, 'Rule');
+      endRule(context, 'Feature');
+      build(context, token);
+      return 41;
+    }
+    if(match_Empty(context, token)) {
+      build(context, token);
+      return 37;
+    }
+    if(match_Comment(context, token)) {
+      build(context, token);
+      return 39;
+    }
+    if(match_TableRow(context, token)) {
+      startRule(context, 'ExamplesTable');
+      build(context, token);
+      return 40;
+    }
+    if(match_TagLine(context, token)) {
+      if(lookahead_0(context, token)) {
+      endRule(context, 'Examples');
+      endRule(context, 'ExamplesDefinition');
+      startRule(context, 'ExamplesDefinition');
+      startRule(context, 'Tags');
+      build(context, token);
+      return 36;
+      }
+    }
+    if(match_TagLine(context, token)) {
+      endRule(context, 'Examples');
+      endRule(context, 'ExamplesDefinition');
+      endRule(context, 'Scenario');
+      endRule(context, 'ScenarioDefinition');
+      startRule(context, 'ScenarioDefinition');
+      startRule(context, 'Tags');
+      build(context, token);
+      return 30;
+    }
+    if(match_ExamplesLine(context, token)) {
+      endRule(context, 'Examples');
+      endRule(context, 'ExamplesDefinition');
+      startRule(context, 'ExamplesDefinition');
+      startRule(context, 'Examples');
+      build(context, token);
+      return 37;
+    }
+    if(match_ScenarioLine(context, token)) {
+      endRule(context, 'Examples');
+      endRule(context, 'ExamplesDefinition');
+      endRule(context, 'Scenario');
+      endRule(context, 'ScenarioDefinition');
+      startRule(context, 'ScenarioDefinition');
+      startRule(context, 'Scenario');
+      build(context, token);
+      return 31;
+    }
+    if(match_RuleLine(context, token)) {
+      endRule(context, 'Examples');
+      endRule(context, 'ExamplesDefinition');
+      endRule(context, 'Scenario');
+      endRule(context, 'ScenarioDefinition');
+      endRule(context, 'Rule');
+      startRule(context, 'Rule');
+      startRule(context, 'RuleHeader');
+      build(context, token);
+      return 22;
+    }
+    if(match_Other(context, token)) {
+      startRule(context, 'Description');
+      build(context, token);
+      return 38;
+    }
+    
+    var stateComment = "State: 37 - GherkinDocument:0>Feature:3>Rule:2>ScenarioDefinition:1>Scenario:3>ExamplesDefinition:1>Examples:0>#ExamplesLine:0";
+    token.detach();
+    var expectedTokens = ["#EOF", "#Empty", "#Comment", "#TableRow", "#TagLine", "#ExamplesLine", "#ScenarioLine", "#RuleLine", "#Other"];
+    var error = token.isEof ?
+      Errors.UnexpectedEOFException.create(token, expectedTokens, stateComment) :
+      Errors.UnexpectedTokenException.create(token, expectedTokens, stateComment);
+    if (self.stopAtFirstError) throw error;
+    addError(context, error);
+    return 37;
+  }
+
+
+  // GherkinDocument:0>Feature:3>Rule:2>ScenarioDefinition:1>Scenario:3>ExamplesDefinition:1>Examples:1>DescriptionHelper:1>Description:0>#Other:0
+  function matchTokenAt_38(token, context) {
+    if(match_EOF(context, token)) {
+      endRule(context, 'Description');
+      endRule(context, 'Examples');
+      endRule(context, 'ExamplesDefinition');
+      endRule(context, 'Scenario');
+      endRule(context, 'ScenarioDefinition');
+      endRule(context, 'Rule');
+      endRule(context, 'Feature');
+      build(context, token);
+      return 41;
+    }
+    if(match_Comment(context, token)) {
+      endRule(context, 'Description');
+      build(context, token);
+      return 39;
+    }
+    if(match_TableRow(context, token)) {
+      endRule(context, 'Description');
+      startRule(context, 'ExamplesTable');
+      build(context, token);
+      return 40;
+    }
+    if(match_TagLine(context, token)) {
+      if(lookahead_0(context, token)) {
+      endRule(context, 'Description');
+      endRule(context, 'Examples');
+      endRule(context, 'ExamplesDefinition');
+      startRule(context, 'ExamplesDefinition');
+      startRule(context, 'Tags');
+      build(context, token);
+      return 36;
+      }
+    }
+    if(match_TagLine(context, token)) {
+      endRule(context, 'Description');
+      endRule(context, 'Examples');
+      endRule(context, 'ExamplesDefinition');
+      endRule(context, 'Scenario');
+      endRule(context, 'ScenarioDefinition');
+      startRule(context, 'ScenarioDefinition');
+      startRule(context, 'Tags');
+      build(context, token);
+      return 30;
+    }
+    if(match_ExamplesLine(context, token)) {
+      endRule(context, 'Description');
+      endRule(context, 'Examples');
+      endRule(context, 'ExamplesDefinition');
+      startRule(context, 'ExamplesDefinition');
+      startRule(context, 'Examples');
+      build(context, token);
+      return 37;
+    }
+    if(match_ScenarioLine(context, token)) {
+      endRule(context, 'Description');
+      endRule(context, 'Examples');
+      endRule(context, 'ExamplesDefinition');
+      endRule(context, 'Scenario');
+      endRule(context, 'ScenarioDefinition');
+      startRule(context, 'ScenarioDefinition');
+      startRule(context, 'Scenario');
+      build(context, token);
+      return 31;
+    }
+    if(match_RuleLine(context, token)) {
+      endRule(context, 'Description');
+      endRule(context, 'Examples');
+      endRule(context, 'ExamplesDefinition');
+      endRule(context, 'Scenario');
+      endRule(context, 'ScenarioDefinition');
+      endRule(context, 'Rule');
+      startRule(context, 'Rule');
+      startRule(context, 'RuleHeader');
+      build(context, token);
+      return 22;
+    }
+    if(match_Other(context, token)) {
+      build(context, token);
+      return 38;
+    }
+    
+    var stateComment = "State: 38 - GherkinDocument:0>Feature:3>Rule:2>ScenarioDefinition:1>Scenario:3>ExamplesDefinition:1>Examples:1>DescriptionHelper:1>Description:0>#Other:0";
+    token.detach();
+    var expectedTokens = ["#EOF", "#Comment", "#TableRow", "#TagLine", "#ExamplesLine", "#ScenarioLine", "#RuleLine", "#Other"];
+    var error = token.isEof ?
+      Errors.UnexpectedEOFException.create(token, expectedTokens, stateComment) :
+      Errors.UnexpectedTokenException.create(token, expectedTokens, stateComment);
+    if (self.stopAtFirstError) throw error;
+    addError(context, error);
+    return 38;
+  }
+
+
+  // GherkinDocument:0>Feature:3>Rule:2>ScenarioDefinition:1>Scenario:3>ExamplesDefinition:1>Examples:1>DescriptionHelper:2>#Comment:0
+  function matchTokenAt_39(token, context) {
+    if(match_EOF(context, token)) {
+      endRule(context, 'Examples');
+      endRule(context, 'ExamplesDefinition');
+      endRule(context, 'Scenario');
+      endRule(context, 'ScenarioDefinition');
+      endRule(context, 'Rule');
+      endRule(context, 'Feature');
+      build(context, token);
+      return 41;
+    }
+    if(match_Comment(context, token)) {
+      build(context, token);
+      return 39;
+    }
+    if(match_TableRow(context, token)) {
+      startRule(context, 'ExamplesTable');
+      build(context, token);
+      return 40;
+    }
+    if(match_TagLine(context, token)) {
+      if(lookahead_0(context, token)) {
+      endRule(context, 'Examples');
+      endRule(context, 'ExamplesDefinition');
+      startRule(context, 'ExamplesDefinition');
+      startRule(context, 'Tags');
+      build(context, token);
+      return 36;
+      }
+    }
+    if(match_TagLine(context, token)) {
+      endRule(context, 'Examples');
+      endRule(context, 'ExamplesDefinition');
+      endRule(context, 'Scenario');
+      endRule(context, 'ScenarioDefinition');
+      startRule(context, 'ScenarioDefinition');
+      startRule(context, 'Tags');
+      build(context, token);
+      return 30;
+    }
+    if(match_ExamplesLine(context, token)) {
+      endRule(context, 'Examples');
+      endRule(context, 'ExamplesDefinition');
+      startRule(context, 'ExamplesDefinition');
+      startRule(context, 'Examples');
+      build(context, token);
+      return 37;
+    }
+    if(match_ScenarioLine(context, token)) {
+      endRule(context, 'Examples');
+      endRule(context, 'ExamplesDefinition');
+      endRule(context, 'Scenario');
+      endRule(context, 'ScenarioDefinition');
+      startRule(context, 'ScenarioDefinition');
+      startRule(context, 'Scenario');
+      build(context, token);
+      return 31;
+    }
+    if(match_RuleLine(context, token)) {
+      endRule(context, 'Examples');
+      endRule(context, 'ExamplesDefinition');
+      endRule(context, 'Scenario');
+      endRule(context, 'ScenarioDefinition');
+      endRule(context, 'Rule');
+      startRule(context, 'Rule');
+      startRule(context, 'RuleHeader');
+      build(context, token);
+      return 22;
+    }
+    if(match_Empty(context, token)) {
+      build(context, token);
+      return 39;
+    }
+    
+    var stateComment = "State: 39 - GherkinDocument:0>Feature:3>Rule:2>ScenarioDefinition:1>Scenario:3>ExamplesDefinition:1>Examples:1>DescriptionHelper:2>#Comment:0";
+    token.detach();
+    var expectedTokens = ["#EOF", "#Comment", "#TableRow", "#TagLine", "#ExamplesLine", "#ScenarioLine", "#RuleLine", "#Empty"];
+    var error = token.isEof ?
+      Errors.UnexpectedEOFException.create(token, expectedTokens, stateComment) :
+      Errors.UnexpectedTokenException.create(token, expectedTokens, stateComment);
+    if (self.stopAtFirstError) throw error;
+    addError(context, error);
+    return 39;
+  }
+
+
+  // GherkinDocument:0>Feature:3>Rule:2>ScenarioDefinition:1>Scenario:3>ExamplesDefinition:1>Examples:2>ExamplesTable:0>#TableRow:0
+  function matchTokenAt_40(token, context) {
+    if(match_EOF(context, token)) {
+      endRule(context, 'ExamplesTable');
+      endRule(context, 'Examples');
+      endRule(context, 'ExamplesDefinition');
+      endRule(context, 'Scenario');
+      endRule(context, 'ScenarioDefinition');
+      endRule(context, 'Rule');
+      endRule(context, 'Feature');
+      build(context, token);
+      return 41;
+    }
+    if(match_TableRow(context, token)) {
+      build(context, token);
+      return 40;
+    }
+    if(match_TagLine(context, token)) {
+      if(lookahead_0(context, token)) {
+      endRule(context, 'ExamplesTable');
+      endRule(context, 'Examples');
+      endRule(context, 'ExamplesDefinition');
+      startRule(context, 'ExamplesDefinition');
+      startRule(context, 'Tags');
+      build(context, token);
+      return 36;
+      }
+    }
+    if(match_TagLine(context, token)) {
+      endRule(context, 'ExamplesTable');
+      endRule(context, 'Examples');
+      endRule(context, 'ExamplesDefinition');
+      endRule(context, 'Scenario');
+      endRule(context, 'ScenarioDefinition');
+      startRule(context, 'ScenarioDefinition');
+      startRule(context, 'Tags');
+      build(context, token);
+      return 30;
+    }
+    if(match_ExamplesLine(context, token)) {
+      endRule(context, 'ExamplesTable');
+      endRule(context, 'Examples');
+      endRule(context, 'ExamplesDefinition');
+      startRule(context, 'ExamplesDefinition');
+      startRule(context, 'Examples');
+      build(context, token);
+      return 37;
+    }
+    if(match_ScenarioLine(context, token)) {
+      endRule(context, 'ExamplesTable');
+      endRule(context, 'Examples');
+      endRule(context, 'ExamplesDefinition');
+      endRule(context, 'Scenario');
+      endRule(context, 'ScenarioDefinition');
+      startRule(context, 'ScenarioDefinition');
+      startRule(context, 'Scenario');
+      build(context, token);
+      return 31;
+    }
+    if(match_RuleLine(context, token)) {
+      endRule(context, 'ExamplesTable');
+      endRule(context, 'Examples');
+      endRule(context, 'ExamplesDefinition');
+      endRule(context, 'Scenario');
+      endRule(context, 'ScenarioDefinition');
+      endRule(context, 'Rule');
+      startRule(context, 'Rule');
+      startRule(context, 'RuleHeader');
+      build(context, token);
+      return 22;
+    }
+    if(match_Comment(context, token)) {
+      build(context, token);
+      return 40;
+    }
+    if(match_Empty(context, token)) {
+      build(context, token);
+      return 40;
+    }
+    
+    var stateComment = "State: 40 - GherkinDocument:0>Feature:3>Rule:2>ScenarioDefinition:1>Scenario:3>ExamplesDefinition:1>Examples:2>ExamplesTable:0>#TableRow:0";
+    token.detach();
+    var expectedTokens = ["#EOF", "#TableRow", "#TagLine", "#ExamplesLine", "#ScenarioLine", "#RuleLine", "#Comment", "#Empty"];
+    var error = token.isEof ?
+      Errors.UnexpectedEOFException.create(token, expectedTokens, stateComment) :
+      Errors.UnexpectedTokenException.create(token, expectedTokens, stateComment);
+    if (self.stopAtFirstError) throw error;
+    addError(context, error);
+    return 40;
+  }
+
+
+  // GherkinDocument:0>Feature:3>Rule:2>ScenarioDefinition:1>Scenario:2>Step:1>StepArg:0>__alt0:1>DocString:0>#DocStringSeparator:0
+  function matchTokenAt_42(token, context) {
+    if(match_DocStringSeparator(context, token)) {
+      build(context, token);
+      return 43;
+    }
+    if(match_Other(context, token)) {
+      build(context, token);
+      return 42;
+    }
+    
+    var stateComment = "State: 42 - GherkinDocument:0>Feature:3>Rule:2>ScenarioDefinition:1>Scenario:2>Step:1>StepArg:0>__alt0:1>DocString:0>#DocStringSeparator:0";
+    token.detach();
+    var expectedTokens = ["#DocStringSeparator", "#Other"];
+    var error = token.isEof ?
+      Errors.UnexpectedEOFException.create(token, expectedTokens, stateComment) :
+      Errors.UnexpectedTokenException.create(token, expectedTokens, stateComment);
+    if (self.stopAtFirstError) throw error;
+    addError(context, error);
+    return 42;
+  }
+
+
+  // GherkinDocument:0>Feature:3>Rule:2>ScenarioDefinition:1>Scenario:2>Step:1>StepArg:0>__alt0:1>DocString:2>#DocStringSeparator:0
+  function matchTokenAt_43(token, context) {
+    if(match_EOF(context, token)) {
+      endRule(context, 'DocString');
+      endRule(context, 'Step');
+      endRule(context, 'Scenario');
+      endRule(context, 'ScenarioDefinition');
+      endRule(context, 'Rule');
+      endRule(context, 'Feature');
+      build(context, token);
+      return 41;
+    }
+    if(match_StepLine(context, token)) {
+      endRule(context, 'DocString');
+      endRule(context, 'Step');
+      startRule(context, 'Step');
+      build(context, token);
+      return 34;
+    }
+    if(match_TagLine(context, token)) {
+      if(lookahead_0(context, token)) {
+      endRule(context, 'DocString');
+      endRule(context, 'Step');
+      startRule(context, 'ExamplesDefinition');
+      startRule(context, 'Tags');
+      build(context, token);
+      return 36;
+      }
+    }
+    if(match_TagLine(context, token)) {
+      endRule(context, 'DocString');
+      endRule(context, 'Step');
+      endRule(context, 'Scenario');
+      endRule(context, 'ScenarioDefinition');
+      startRule(context, 'ScenarioDefinition');
+      startRule(context, 'Tags');
+      build(context, token);
+      return 30;
+    }
+    if(match_ExamplesLine(context, token)) {
+      endRule(context, 'DocString');
+      endRule(context, 'Step');
+      startRule(context, 'ExamplesDefinition');
+      startRule(context, 'Examples');
+      build(context, token);
+      return 37;
+    }
+    if(match_ScenarioLine(context, token)) {
+      endRule(context, 'DocString');
+      endRule(context, 'Step');
+      endRule(context, 'Scenario');
+      endRule(context, 'ScenarioDefinition');
+      startRule(context, 'ScenarioDefinition');
+      startRule(context, 'Scenario');
+      build(context, token);
+      return 31;
+    }
+    if(match_RuleLine(context, token)) {
+      endRule(context, 'DocString');
+      endRule(context, 'Step');
+      endRule(context, 'Scenario');
+      endRule(context, 'ScenarioDefinition');
+      endRule(context, 'Rule');
+      startRule(context, 'Rule');
+      startRule(context, 'RuleHeader');
+      build(context, token);
+      return 22;
+    }
+    if(match_Comment(context, token)) {
+      build(context, token);
+      return 43;
+    }
+    if(match_Empty(context, token)) {
+      build(context, token);
+      return 43;
+    }
+    
+    var stateComment = "State: 43 - GherkinDocument:0>Feature:3>Rule:2>ScenarioDefinition:1>Scenario:2>Step:1>StepArg:0>__alt0:1>DocString:2>#DocStringSeparator:0";
+    token.detach();
+    var expectedTokens = ["#EOF", "#StepLine", "#TagLine", "#ExamplesLine", "#ScenarioLine", "#RuleLine", "#Comment", "#Empty"];
+    var error = token.isEof ?
+      Errors.UnexpectedEOFException.create(token, expectedTokens, stateComment) :
+      Errors.UnexpectedTokenException.create(token, expectedTokens, stateComment);
+    if (self.stopAtFirstError) throw error;
+    addError(context, error);
+    return 43;
+  }
+
+
+  // GherkinDocument:0>Feature:3>Rule:1>Background:2>Step:1>StepArg:0>__alt0:1>DocString:0>#DocStringSeparator:0
+  function matchTokenAt_44(token, context) {
+    if(match_DocStringSeparator(context, token)) {
+      build(context, token);
+      return 45;
+    }
+    if(match_Other(context, token)) {
+      build(context, token);
+      return 44;
+    }
+    
+    var stateComment = "State: 44 - GherkinDocument:0>Feature:3>Rule:1>Background:2>Step:1>StepArg:0>__alt0:1>DocString:0>#DocStringSeparator:0";
+    token.detach();
+    var expectedTokens = ["#DocStringSeparator", "#Other"];
+    var error = token.isEof ?
+      Errors.UnexpectedEOFException.create(token, expectedTokens, stateComment) :
+      Errors.UnexpectedTokenException.create(token, expectedTokens, stateComment);
+    if (self.stopAtFirstError) throw error;
+    addError(context, error);
+    return 44;
+  }
+
+
+  // GherkinDocument:0>Feature:3>Rule:1>Background:2>Step:1>StepArg:0>__alt0:1>DocString:2>#DocStringSeparator:0
+  function matchTokenAt_45(token, context) {
+    if(match_EOF(context, token)) {
+      endRule(context, 'DocString');
+      endRule(context, 'Step');
+      endRule(context, 'Background');
+      endRule(context, 'Rule');
+      endRule(context, 'Feature');
+      build(context, token);
+      return 41;
+    }
+    if(match_StepLine(context, token)) {
+      endRule(context, 'DocString');
+      endRule(context, 'Step');
+      startRule(context, 'Step');
+      build(context, token);
+      return 28;
+    }
+    if(match_TagLine(context, token)) {
+      endRule(context, 'DocString');
+      endRule(context, 'Step');
+      endRule(context, 'Background');
+      startRule(context, 'ScenarioDefinition');
+      startRule(context, 'Tags');
+      build(context, token);
+      return 30;
+    }
+    if(match_ScenarioLine(context, token)) {
+      endRule(context, 'DocString');
+      endRule(context, 'Step');
+      endRule(context, 'Background');
+      startRule(context, 'ScenarioDefinition');
+      startRule(context, 'Scenario');
+      build(context, token);
+      return 31;
+    }
+    if(match_RuleLine(context, token)) {
+      endRule(context, 'DocString');
+      endRule(context, 'Step');
+      endRule(context, 'Background');
+      endRule(context, 'Rule');
+      startRule(context, 'Rule');
+      startRule(context, 'RuleHeader');
+      build(context, token);
+      return 22;
+    }
+    if(match_Comment(context, token)) {
+      build(context, token);
+      return 45;
+    }
+    if(match_Empty(context, token)) {
+      build(context, token);
+      return 45;
+    }
+    
+    var stateComment = "State: 45 - GherkinDocument:0>Feature:3>Rule:1>Background:2>Step:1>StepArg:0>__alt0:1>DocString:2>#DocStringSeparator:0";
+    token.detach();
+    var expectedTokens = ["#EOF", "#StepLine", "#TagLine", "#ScenarioLine", "#RuleLine", "#Comment", "#Empty"];
+    var error = token.isEof ?
+      Errors.UnexpectedEOFException.create(token, expectedTokens, stateComment) :
+      Errors.UnexpectedTokenException.create(token, expectedTokens, stateComment);
+    if (self.stopAtFirstError) throw error;
+    addError(context, error);
+    return 45;
+  }
+
+
+  // GherkinDocument:0>Feature:2>ScenarioDefinition:1>Scenario:2>Step:1>StepArg:0>__alt0:1>DocString:0>#DocStringSeparator:0
+  function matchTokenAt_46(token, context) {
+    if(match_DocStringSeparator(context, token)) {
+      build(context, token);
+      return 47;
+    }
+    if(match_Other(context, token)) {
+      build(context, token);
+      return 46;
+    }
+    
+    var stateComment = "State: 46 - GherkinDocument:0>Feature:2>ScenarioDefinition:1>Scenario:2>Step:1>StepArg:0>__alt0:1>DocString:0>#DocStringSeparator:0";
+    token.detach();
+    var expectedTokens = ["#DocStringSeparator", "#Other"];
+    var error = token.isEof ?
+      Errors.UnexpectedEOFException.create(token, expectedTokens, stateComment) :
+      Errors.UnexpectedTokenException.create(token, expectedTokens, stateComment);
+    if (self.stopAtFirstError) throw error;
+    addError(context, error);
+    return 46;
+  }
+
+
+  // GherkinDocument:0>Feature:2>ScenarioDefinition:1>Scenario:2>Step:1>StepArg:0>__alt0:1>DocString:2>#DocStringSeparator:0
+  function matchTokenAt_47(token, context) {
     if(match_EOF(context, token)) {
       endRule(context, 'DocString');
       endRule(context, 'Step');
@@ -5375,7 +7167,7 @@ module.exports = function Parser(builder) {
       endRule(context, 'ScenarioDefinition');
       endRule(context, 'Feature');
       build(context, token);
-      return 22;
+      return 41;
     }
     if(match_StepLine(context, token)) {
       endRule(context, 'DocString');
@@ -5422,39 +7214,49 @@ module.exports = function Parser(builder) {
       build(context, token);
       return 12;
     }
+    if(match_RuleLine(context, token)) {
+      endRule(context, 'DocString');
+      endRule(context, 'Step');
+      endRule(context, 'Scenario');
+      endRule(context, 'ScenarioDefinition');
+      startRule(context, 'Rule');
+      startRule(context, 'RuleHeader');
+      build(context, token);
+      return 22;
+    }
     if(match_Comment(context, token)) {
       build(context, token);
-      return 24;
+      return 47;
     }
     if(match_Empty(context, token)) {
       build(context, token);
-      return 24;
+      return 47;
     }
     
-    var stateComment = "State: 24 - GherkinDocument:0>Feature:2>ScenarioDefinition:1>Scenario:2>Step:1>StepArg:0>__alt0:1>DocString:2>#DocStringSeparator:0";
+    var stateComment = "State: 47 - GherkinDocument:0>Feature:2>ScenarioDefinition:1>Scenario:2>Step:1>StepArg:0>__alt0:1>DocString:2>#DocStringSeparator:0";
     token.detach();
-    var expectedTokens = ["#EOF", "#StepLine", "#TagLine", "#ExamplesLine", "#ScenarioLine", "#Comment", "#Empty"];
+    var expectedTokens = ["#EOF", "#StepLine", "#TagLine", "#ExamplesLine", "#ScenarioLine", "#RuleLine", "#Comment", "#Empty"];
     var error = token.isEof ?
       Errors.UnexpectedEOFException.create(token, expectedTokens, stateComment) :
       Errors.UnexpectedTokenException.create(token, expectedTokens, stateComment);
     if (self.stopAtFirstError) throw error;
     addError(context, error);
-    return 24;
+    return 47;
   }
 
 
   // GherkinDocument:0>Feature:1>Background:2>Step:1>StepArg:0>__alt0:1>DocString:0>#DocStringSeparator:0
-  function matchTokenAt_25(token, context) {
+  function matchTokenAt_48(token, context) {
     if(match_DocStringSeparator(context, token)) {
       build(context, token);
-      return 26;
+      return 49;
     }
     if(match_Other(context, token)) {
       build(context, token);
-      return 25;
+      return 48;
     }
     
-    var stateComment = "State: 25 - GherkinDocument:0>Feature:1>Background:2>Step:1>StepArg:0>__alt0:1>DocString:0>#DocStringSeparator:0";
+    var stateComment = "State: 48 - GherkinDocument:0>Feature:1>Background:2>Step:1>StepArg:0>__alt0:1>DocString:0>#DocStringSeparator:0";
     token.detach();
     var expectedTokens = ["#DocStringSeparator", "#Other"];
     var error = token.isEof ?
@@ -5462,19 +7264,19 @@ module.exports = function Parser(builder) {
       Errors.UnexpectedTokenException.create(token, expectedTokens, stateComment);
     if (self.stopAtFirstError) throw error;
     addError(context, error);
-    return 25;
+    return 48;
   }
 
 
   // GherkinDocument:0>Feature:1>Background:2>Step:1>StepArg:0>__alt0:1>DocString:2>#DocStringSeparator:0
-  function matchTokenAt_26(token, context) {
+  function matchTokenAt_49(token, context) {
     if(match_EOF(context, token)) {
       endRule(context, 'DocString');
       endRule(context, 'Step');
       endRule(context, 'Background');
       endRule(context, 'Feature');
       build(context, token);
-      return 22;
+      return 41;
     }
     if(match_StepLine(context, token)) {
       endRule(context, 'DocString');
@@ -5501,24 +7303,33 @@ module.exports = function Parser(builder) {
       build(context, token);
       return 12;
     }
+    if(match_RuleLine(context, token)) {
+      endRule(context, 'DocString');
+      endRule(context, 'Step');
+      endRule(context, 'Background');
+      startRule(context, 'Rule');
+      startRule(context, 'RuleHeader');
+      build(context, token);
+      return 22;
+    }
     if(match_Comment(context, token)) {
       build(context, token);
-      return 26;
+      return 49;
     }
     if(match_Empty(context, token)) {
       build(context, token);
-      return 26;
+      return 49;
     }
     
-    var stateComment = "State: 26 - GherkinDocument:0>Feature:1>Background:2>Step:1>StepArg:0>__alt0:1>DocString:2>#DocStringSeparator:0";
+    var stateComment = "State: 49 - GherkinDocument:0>Feature:1>Background:2>Step:1>StepArg:0>__alt0:1>DocString:2>#DocStringSeparator:0";
     token.detach();
-    var expectedTokens = ["#EOF", "#StepLine", "#TagLine", "#ScenarioLine", "#Comment", "#Empty"];
+    var expectedTokens = ["#EOF", "#StepLine", "#TagLine", "#ScenarioLine", "#RuleLine", "#Comment", "#Empty"];
     var error = token.isEof ?
       Errors.UnexpectedEOFException.create(token, expectedTokens, stateComment) :
       Errors.UnexpectedTokenException.create(token, expectedTokens, stateComment);
     if (self.stopAtFirstError) throw error;
     addError(context, error);
-    return 26;
+    return 49;
   }
 
 
@@ -5558,6 +7369,14 @@ module.exports = function Parser(builder) {
     if(token.isEof) return false;
     return handleExternalError(context, false, function () {
       return context.tokenMatcher.match_FeatureLine(token);
+    });
+  }
+
+
+  function match_RuleLine(context, token) {
+    if(token.isEof) return false;
+    return handleExternalError(context, false, function () {
+      return context.tokenMatcher.match_RuleLine(token);
     });
   }
 
@@ -5662,20 +7481,30 @@ function Compiler() {
 
     var feature = gherkin_document.feature;
     var language = feature.language;
-    var featureTags = feature.tags;
+    var tags = feature.tags;
     var backgroundSteps = [];
 
-    feature.children.forEach(function (stepsContainer) {
-      if(stepsContainer.type === 'Background') {
-        backgroundSteps = pickleSteps(stepsContainer);
-      } else if(stepsContainer.examples.length === 0) {
-        compileScenario(featureTags, backgroundSteps, stepsContainer, language, pickles);
-      } else {
-        compileScenarioOutline(featureTags, backgroundSteps, stepsContainer, language, pickles);
-      }
-    });
+    build(pickles, language, tags, backgroundSteps, feature);
     return pickles;
   };
+
+  function build(pickles, language, tags, parentBackgroundSteps, parent) {
+    var backgroundSteps = parentBackgroundSteps.slice(0); // dup
+    parent.children.forEach(function (child) {
+      if (child.type === 'Background') {
+        backgroundSteps = backgroundSteps.concat(pickleSteps(child));
+      } else if (child.type === 'Rule') {
+        build(pickles, language, tags, backgroundSteps, child)
+      } else {
+        var scenario = child
+        if (scenario.examples.length === 0) {
+          compileScenario(tags, backgroundSteps, scenario, language, pickles);
+        } else {
+          compileScenarioOutline(tags, backgroundSteps, scenario, language, pickles);
+        }
+      }
+    });
+  }
 
   function compileScenario(featureTags, backgroundSteps, scenario, language, pickles) {
     var steps = scenario.steps.length == 0 ? [] : [].concat(backgroundSteps);
@@ -5882,6 +7711,10 @@ module.exports = function TokenMatcher(defaultDialectName) {
     return matchTitleLine(token, 'FeatureLine', dialect.feature);
   };
 
+  this.match_RuleLine = function match_RuleLine(token) {
+    return matchTitleLine(token, 'RuleLine', dialect.rule);
+  };
+
   this.match_ScenarioLine = function match_ScenarioLine(token) {
     return matchTitleLine(token, 'ScenarioLine', dialect.scenario) ||
       matchTitleLine(token, 'ScenarioLine', dialect.scenarioOutline);
@@ -5999,7 +7832,7 @@ module.exports = function TokenMatcher(defaultDialectName) {
 
   function matchTitleLine(token, tokenType, keywords) {
     var length = keywords.length;
-    for(var i = 0, keyword; i < length; i++) {
+    for(var i = 0; i < length; i++) {
       var keyword = keywords[i];
 
       if (token.line.startsWithTitleKeyword(keyword)) {

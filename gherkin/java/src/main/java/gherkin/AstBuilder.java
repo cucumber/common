@@ -163,7 +163,7 @@ public class AstBuilder implements Builder<GherkinDocument> {
                 if (header == null) return null;
                 Token ruleLine = header.getToken(TokenType.RuleLine);
                 if (ruleLine == null) return null;
-                String description = getDescription(node);
+                String description = getDescription(header);
                 List<Node> ruleChildren = new ArrayList<>();
                 Background background = node.getSingle(RuleType.Background, null);
                 if (background != null) ruleChildren.add(background);

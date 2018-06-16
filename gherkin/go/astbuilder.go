@@ -257,6 +257,7 @@ func (t *astBuilder) transformNode(node *astNode) (interface{}, error) {
 			children = append(children, background)
 		}
 		children = append(children, node.getItems(RuleType_ScenarioDefinition)...)
+		children = append(children, node.getItems(RuleType_Rule)...)
 		description, _ := header.getSingle(RuleType_Description).(string)
 
 		feat := new(Feature)
@@ -269,6 +270,32 @@ func (t *astBuilder) transformNode(node *astNode) (interface{}, error) {
 		feat.Description = description
 		feat.Children = children
 		return feat, nil
+
+	case RuleType_Rule:
+		header, ok := node.getSingle(RuleType_RuleHeader).(*astNode)
+		if !ok {
+			return nil, nil
+		}
+		ruleLine := header.getToken(TokenType_RuleLine)
+		if ruleLine == nil {
+			return nil, nil
+		}
+		children := []interface{}{}
+		background, _ := node.getSingle(RuleType_Background).(*Background)
+		if background != nil {
+			children = append(children, background)
+		}
+		children = append(children, node.getItems(RuleType_ScenarioDefinition)...)
+		description, _ := header.getSingle(RuleType_Description).(string)
+
+		rule := new(Rule)
+		rule.Type = "Rule"
+		rule.Location = astLocation(ruleLine)
+		rule.Keyword = ruleLine.Keyword
+		rule.Name = ruleLine.Text
+		rule.Description = description
+		rule.Children = children
+		return rule, nil
 
 	case RuleType_GherkinDocument:
 		feature, _ := node.getSingle(RuleType_Feature).(*Feature)

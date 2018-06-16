@@ -66,7 +66,7 @@ public class GherkinDialect {
     }
 
     public List<String> getRuleKeywords() {
-        return singletonList("Rule");
+        return keywords.get("rule");
     }
 
     public String getLanguage() {

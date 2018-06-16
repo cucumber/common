@@ -11,6 +11,10 @@ func (g *GherkinDialect) FeatureKeywords() []string {
 	return g.Keywords["feature"]
 }
 
+func (g *GherkinDialect) RuleKeywords() []string {
+	return g.Keywords["rule"]
+}
+
 func (g *GherkinDialect) ScenarioKeywords() []string {
 	return g.Keywords["scenario"]
 }

@@ -40,6 +40,10 @@ module.exports = function TokenMatcher(defaultDialectName) {
     return matchTitleLine(token, 'FeatureLine', dialect.feature);
   };
 
+  this.match_RuleLine = function match_RuleLine(token) {
+    return matchTitleLine(token, 'RuleLine', dialect.rule);
+  };
+
   this.match_ScenarioLine = function match_ScenarioLine(token) {
     return matchTitleLine(token, 'ScenarioLine', dialect.scenario) ||
       matchTitleLine(token, 'ScenarioLine', dialect.scenarioOutline);
@@ -157,7 +161,7 @@ module.exports = function TokenMatcher(defaultDialectName) {
 
   function matchTitleLine(token, tokenType, keywords) {
     var length = keywords.length;
-    for(var i = 0, keyword; i < length; i++) {
+    for(var i = 0; i < length; i++) {
       var keyword = keywords[i];
 
       if (token.line.startsWithTitleKeyword(keyword)) {

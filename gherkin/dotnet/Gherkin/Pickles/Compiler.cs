@@ -18,25 +18,40 @@ namespace Gherkin.Pickles
                 return pickles;
             }
 
-            var featureTags = feature.Tags;
+            var language = feature.Language;
+            var tags = feature.Tags;
             var backgroundSteps = new PickleStep[0];
 
-            foreach (var stepsContainer in feature.Children)
+            Build(pickles, language, tags, backgroundSteps, feature);
+
+            return pickles;
+        }
+
+        protected virtual void Build(List<Pickle> pickles, string language, IEnumerable<Tag> tags, IEnumerable<PickleStep> parentBackgroundSteps, IHasChildren parent) {
+            IEnumerable<PickleStep> backgroundSteps = new List<PickleStep>(parentBackgroundSteps);
+            foreach (var child in parent.Children)
             {
-                if (stepsContainer is Background)
+                if (child is Background)
                 {
-                    backgroundSteps = PickleSteps(stepsContainer);
+                    backgroundSteps = backgroundSteps.Concat(PickleSteps((Background)child));
                 }
-                else {
-                    var scenario = (Scenario)stepsContainer;
-                    if(!scenario.Examples.Any()) {
-                        CompileScenario(pickles, backgroundSteps, scenario, featureTags, feature.Language);
-                    } else {
-                        CompileScenarioOutline(pickles, backgroundSteps, scenario, featureTags, feature.Language);
+                else if (child is Rule)
+                {
+                    Build(pickles, language, tags, backgroundSteps, (Rule)child);
+                }
+                else
+                {
+                    var scenario = (Scenario)child;
+                    if (!scenario.Examples.Any())
+                    {
+                        CompileScenario(pickles, backgroundSteps, scenario, tags, language);
+                    }
+                    else
+                    {
+                        CompileScenarioOutline(pickles, backgroundSteps, scenario, tags, language);
                     }
                 }
             }
-            return pickles;
         }
 
         protected virtual void CompileScenario(List<Pickle> pickles, IEnumerable<PickleStep> backgroundSteps, Scenario scenario, IEnumerable<Tag> featureTags, string language)

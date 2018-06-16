@@ -8,20 +8,30 @@ function Compiler() {
 
     var feature = gherkin_document.feature;
     var language = feature.language;
-    var featureTags = feature.tags;
+    var tags = feature.tags;
     var backgroundSteps = [];
 
-    feature.children.forEach(function (stepsContainer) {
-      if(stepsContainer.type === 'Background') {
-        backgroundSteps = pickleSteps(stepsContainer);
-      } else if(stepsContainer.examples.length === 0) {
-        compileScenario(featureTags, backgroundSteps, stepsContainer, language, pickles);
-      } else {
-        compileScenarioOutline(featureTags, backgroundSteps, stepsContainer, language, pickles);
-      }
-    });
+    build(pickles, language, tags, backgroundSteps, feature);
     return pickles;
   };
+
+  function build(pickles, language, tags, parentBackgroundSteps, parent) {
+    var backgroundSteps = parentBackgroundSteps.slice(0); // dup
+    parent.children.forEach(function (child) {
+      if (child.type === 'Background') {
+        backgroundSteps = backgroundSteps.concat(pickleSteps(child));
+      } else if (child.type === 'Rule') {
+        build(pickles, language, tags, backgroundSteps, child)
+      } else {
+        var scenario = child
+        if (scenario.examples.length === 0) {
+          compileScenario(tags, backgroundSteps, scenario, language, pickles);
+        } else {
+          compileScenarioOutline(tags, backgroundSteps, scenario, language, pickles);
+        }
+      }
+    });
+  }
 
   function compileScenario(featureTags, backgroundSteps, scenario, language, pickles) {
     var steps = scenario.steps.length == 0 ? [] : [].concat(backgroundSteps);
