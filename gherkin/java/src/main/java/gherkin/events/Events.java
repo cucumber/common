@@ -3,8 +3,8 @@ package gherkin.events;
 import gherkin.AstBuilder;
 import gherkin.Parser;
 import gherkin.TokenMatcher;
-import gherkin.pickles.Compiler;
 import gherkin.ast.GherkinDocument;
+import gherkin.pickles.Compiler;
 import gherkin.pickles.Pickle;
 
 import java.util.ArrayList;

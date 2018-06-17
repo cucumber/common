@@ -21,18 +21,19 @@ namespace Gherkin.Pickles
             var featureTags = feature.Tags;
             var backgroundSteps = new PickleStep[0];
 
-            foreach (var scenarioDefinition in feature.Children)
+            foreach (var stepsContainer in feature.Children)
             {
-                if (scenarioDefinition is Background)
+                if (stepsContainer is Background)
                 {
-                    backgroundSteps = PickleSteps(scenarioDefinition);
-                }
-                else if (scenarioDefinition is Scenario)
-                {
-                    CompileScenario(pickles, backgroundSteps, (Scenario)scenarioDefinition, featureTags, feature.Language);
+                    backgroundSteps = PickleSteps(stepsContainer);
                 }
                 else {
-                    CompileScenarioOutline(pickles, backgroundSteps, (ScenarioOutline)scenarioDefinition, featureTags, feature.Language);
+                    var scenario = (Scenario)stepsContainer;
+                    if(!scenario.Examples.Any()) {
+                        CompileScenario(pickles, backgroundSteps, scenario, featureTags, feature.Language);
+                    } else {
+                        CompileScenarioOutline(pickles, backgroundSteps, scenario, featureTags, feature.Language);
+                    }
                 }
             }
             return pickles;
@@ -65,7 +66,7 @@ namespace Gherkin.Pickles
             return new[] { item };
         }
 
-        protected virtual void CompileScenarioOutline(List<Pickle> pickles, IEnumerable<PickleStep> backgroundSteps, ScenarioOutline scenarioOutline, IEnumerable<Tag> featureTags, string language)
+        protected virtual void CompileScenarioOutline(List<Pickle> pickles, IEnumerable<PickleStep> backgroundSteps, Scenario scenarioOutline, IEnumerable<Tag> featureTags, string language)
         {
             foreach (var examples in scenarioOutline.Examples)
             {
@@ -170,7 +171,7 @@ namespace Gherkin.Pickles
             return result;
         }
 
-        protected virtual PickleStep[] PickleSteps(ScenarioDefinition scenarioDefinition)
+        protected virtual PickleStep[] PickleSteps(StepsContainer scenarioDefinition)
         {
             var result = new List<PickleStep>();
             foreach(var step in scenarioDefinition.Steps)

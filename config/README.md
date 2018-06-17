@@ -76,6 +76,7 @@ testing:
   "testing": {
     "somebool": true,
     "meaning": 42,
+    "message": "hello",
     "stringlist": [
       "one",
       "two"
@@ -87,14 +88,14 @@ testing:
 ### Command line options
 
 ```shell
---somebool --meaning 42 --message hello --stringlist one --stringlist one
+--somebool --meaning 42 --message hello --stringlist one --stringlist two
 ```
 
 The *surplus* arguments can be assigned to `stringlist` (see the `ConfigBuilder`
 constructor for details on how to do this).
 
 ```shell
---somebool --meaning 42 --message hello one one
+--somebool --meaning 42 --message hello one two
 ```
 
 Boolean options (options that don't take an argument) can be set to `false`
@@ -110,8 +111,8 @@ It's also possible to define *shortopt* aliases for the *longopt* options, makin
 the following equivalent:
 
 ```shell
---somebool --meaning 42 --message hello --stringlist one --stringlist one
--s -m 42 -e hello -l one -l one
+--somebool --meaning 42 --message hello --stringlist one --stringlist two
+-s -m 42 -e hello -l one -l two
 ```
 
 ### Environment variables

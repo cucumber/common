@@ -131,10 +131,10 @@ func (m *matcher) MatchBackgroundLine(line *Line) (ok bool, token *Token, err er
 	return m.matchTitleLine(line, TokenType_BackgroundLine, m.dialect.BackgroundKeywords())
 }
 func (m *matcher) MatchScenarioLine(line *Line) (ok bool, token *Token, err error) {
-	return m.matchTitleLine(line, TokenType_ScenarioLine, m.dialect.ScenarioKeywords())
-}
-func (m *matcher) MatchScenarioOutlineLine(line *Line) (ok bool, token *Token, err error) {
-	return m.matchTitleLine(line, TokenType_ScenarioOutlineLine, m.dialect.ScenarioOutlineKeywords())
+	ok, token, err = m.matchTitleLine(line, TokenType_ScenarioLine, m.dialect.ScenarioKeywords())
+	if ok || (err != nil) { return ok, token, err}
+	ok, token, err = m.matchTitleLine(line, TokenType_ScenarioLine, m.dialect.ScenarioOutlineKeywords())
+	return ok, token, err
 }
 func (m *matcher) MatchExamplesLine(line *Line) (ok bool, token *Token, err error) {
 	return m.matchTitleLine(line, TokenType_ExamplesLine, m.dialect.ExamplesKeywords())

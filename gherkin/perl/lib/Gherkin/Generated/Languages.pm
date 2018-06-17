@@ -29,9 +29,11 @@ our $data = {
                     'name' => 'Afrikaans',
                     'native' => 'Afrikaans',
                     'scenario' => [
+                                    'Voorbeeld',
                                     'Situasie'
                                   ],
                     'scenarioOutline' => [
+                                           'Voorbeeld Uiteensetting',
                                            'Situasie Uiteensetting'
                                          ],
                     'then' => [
@@ -69,9 +71,11 @@ our $data = {
                     'name' => 'Armenian',
                     'native' => "\x{570}\x{561}\x{575}\x{565}\x{580}\x{565}\x{576}",
                     'scenario' => [
+                                    "\x{555}\x{580}\x{56b}\x{576}\x{561}\x{56f}",
                                     "\x{54d}\x{581}\x{565}\x{576}\x{561}\x{580}"
                                   ],
                     'scenarioOutline' => [
+                                           "\x{555}\x{580}\x{56b}\x{576}\x{561}\x{56f} \x{56f}\x{561}\x{57c}\x{578}\x{582}\x{581}\x{57e}\x{561}\x{581}\x{584}\x{568}",
                                            "\x{54d}\x{581}\x{565}\x{576}\x{561}\x{580}\x{56b} \x{56f}\x{561}\x{57c}\x{578}\x{582}\x{581}\x{57e}\x{561}\x{581}\x{584}\x{568}"
                                          ],
                     'then' => [
@@ -113,9 +117,11 @@ our $data = {
                     'name' => 'Aragonese',
                     'native' => "Aragon\x{e9}s",
                     'scenario' => [
+                                    'Eixemplo',
                                     'Caso'
                                   ],
                     'scenarioOutline' => [
+                                           'Esquema del eixemplo',
                                            'Esquema del caso'
                                          ],
                     'then' => [
@@ -154,6 +160,7 @@ our $data = {
                     'name' => 'Arabic',
                     'native' => "\x{627}\x{644}\x{639}\x{631}\x{628}\x{64a}\x{629}",
                     'scenario' => [
+                                    "\x{645}\x{62b}\x{627}\x{644}",
                                     "\x{633}\x{64a}\x{646}\x{627}\x{631}\x{64a}\x{648}"
                                   ],
                     'scenarioOutline' => [
@@ -199,9 +206,11 @@ our $data = {
                      'name' => 'Asturian',
                      'native' => 'asturianu',
                      'scenario' => [
+                                     'Exemplo',
                                      'Casu'
                                    ],
                      'scenarioOutline' => [
+                                            'Esbozu del exemplo',
                                             'Esbozu del casu'
                                           ],
                      'then' => [
@@ -242,6 +251,7 @@ our $data = {
                     'name' => 'Azerbaijani',
                     'native' => "Az\x{259}rbaycanca",
                     'scenario' => [
+                                    "N\x{fc}mun\x{259}l\x{259}r",
                                     'Ssenari'
                                   ],
                     'scenarioOutline' => [
@@ -282,9 +292,11 @@ our $data = {
                     'name' => 'Bulgarian',
                     'native' => "\x{431}\x{44a}\x{43b}\x{433}\x{430}\x{440}\x{441}\x{43a}\x{438}",
                     'scenario' => [
+                                    "\x{41f}\x{440}\x{438}\x{43c}\x{435}\x{440}",
                                     "\x{421}\x{446}\x{435}\x{43d}\x{430}\x{440}\x{438}\x{439}"
                                   ],
                     'scenarioOutline' => [
+                                           "\x{420}\x{430}\x{43c}\x{43a}\x{430} \x{43d}\x{430} \x{43f}\x{440}\x{438}\x{43c}\x{435}\x{440}",
                                            "\x{420}\x{430}\x{43c}\x{43a}\x{430} \x{43d}\x{430} \x{441}\x{446}\x{435}\x{43d}\x{430}\x{440}\x{438}\x{439}"
                                          ],
                     'then' => [
@@ -369,10 +381,12 @@ our $data = {
                     'name' => 'Bosnian',
                     'native' => 'Bosanski',
                     'scenario' => [
+                                    'Primjer',
                                     'Scenariju',
                                     'Scenario'
                                   ],
                     'scenarioOutline' => [
+                                           'Primjer-obris',
                                            'Scenariju-obris',
                                            'Scenario-outline'
                                          ],
@@ -415,9 +429,11 @@ our $data = {
                     'name' => 'Catalan',
                     'native' => "catal\x{e0}",
                     'scenario' => [
+                                    'Exemple',
                                     'Escenari'
                                   ],
                     'scenarioOutline' => [
+                                           'Esquema de l\'exemple',
                                            'Esquema de l\'escenari'
                                          ],
                     'then' => [
@@ -458,6 +474,7 @@ our $data = {
                     'name' => 'Czech',
                     'native' => "\x{10c}esky",
                     'scenario' => [
+                                    "P\x{159}\x{ed}klad",
                                     "Sc\x{e9}n\x{e1}\x{159}"
                                   ],
                     'scenarioOutline' => [
@@ -498,6 +515,7 @@ our $data = {
                        'name' => 'Welsh',
                        'native' => 'Cymraeg',
                        'scenario' => [
+                                       'Enghraifft',
                                        'Scenario'
                                      ],
                        'scenarioOutline' => [
@@ -537,9 +555,11 @@ our $data = {
                     'name' => 'Danish',
                     'native' => 'dansk',
                     'scenario' => [
+                                    'Eksempel',
                                     'Scenarie'
                                   ],
                     'scenarioOutline' => [
+                                           'Abstrakt Eksempel',
                                            'Abstrakt Scenario'
                                          ],
                     'then' => [
@@ -578,9 +598,11 @@ our $data = {
                     'name' => 'German',
                     'native' => 'Deutsch',
                     'scenario' => [
+                                    'Beispiel',
                                     'Szenario'
                                   ],
                     'scenarioOutline' => [
+                                           'Beispielrundriss',
                                            'Szenariogrundriss'
                                          ],
                     'then' => [
@@ -619,6 +641,7 @@ our $data = {
                     'name' => 'Greek',
                     'native' => "\x{395}\x{3bb}\x{3bb}\x{3b7}\x{3bd}\x{3b9}\x{3ba}\x{3ac}",
                     'scenario' => [
+                                    "\x{3a0}\x{3b1}\x{3c1}\x{3ac}\x{3b4}\x{3b5}\x{3b9}\x{3b3}\x{3bc}\x{3b1}",
                                     "\x{3a3}\x{3b5}\x{3bd}\x{3ac}\x{3c1}\x{3b9}\x{3bf}"
                                   ],
                     'scenarioOutline' => [
@@ -659,6 +682,7 @@ our $data = {
                     'name' => 'Emoji',
                     'native' => "\x{1f600}",
                     'scenario' => [
+                                    "\x{1f952}",
                                     "\x{1f4d5}"
                                   ],
                     'scenarioOutline' => [
@@ -701,9 +725,11 @@ our $data = {
                     'name' => 'English',
                     'native' => 'English',
                     'scenario' => [
+                                    'Example',
                                     'Scenario'
                                   ],
                     'scenarioOutline' => [
+                                           'Example Outline',
                                            'Scenario Outline',
                                            'Scenario Template'
                                          ],
@@ -955,10 +981,12 @@ our $data = {
                     'name' => 'Esperanto',
                     'native' => 'Esperanto',
                     'scenario' => [
+                                    'Ekzemplo',
                                     'Scenaro',
                                     'Kazo'
                                   ],
                     'scenarioOutline' => [
+                                           'Konturo de la ekzemplo',
                                            'Konturo de la scenaro',
                                            'Skizo',
                                            'Kazo-skizo'
@@ -1001,9 +1029,11 @@ our $data = {
                     'name' => 'Spanish',
                     'native' => "espa\x{f1}ol",
                     'scenario' => [
+                                    'Ejemplo',
                                     'Escenario'
                                   ],
                     'scenarioOutline' => [
+                                           'Esquema del ejemplo',
                                            'Esquema del escenario'
                                          ],
                     'then' => [
@@ -1040,9 +1070,11 @@ our $data = {
                     'name' => 'Estonian',
                     'native' => 'eesti keel',
                     'scenario' => [
+                                    'Juhtum',
                                     'Stsenaarium'
                                   ],
                     'scenarioOutline' => [
+                                           'Raamstjuhtum',
                                            'Raamstsenaarium'
                                          ],
                     'then' => [
@@ -1079,6 +1111,7 @@ our $data = {
                     'name' => 'Persian',
                     'native' => "\x{641}\x{627}\x{631}\x{633}\x{6cc}",
                     'scenario' => [
+                                    "\x{645}\x{62b}\x{627}\x{644}",
                                     "\x{633}\x{646}\x{627}\x{631}\x{6cc}\x{648}"
                                   ],
                     'scenarioOutline' => [
@@ -1173,9 +1206,11 @@ our $data = {
                     'name' => 'French',
                     'native' => "fran\x{e7}ais",
                     'scenario' => [
+                                    'Exemple',
                                     "Sc\x{e9}nario"
                                   ],
                     'scenarioOutline' => [
+                                           'Plan de l\'exemple',
                                            "Plan du sc\x{e9}nario",
                                            "Plan du Sc\x{e9}nario"
                                          ],
@@ -1218,9 +1253,11 @@ our $data = {
                     'name' => 'Irish',
                     'native' => 'Gaeilge',
                     'scenario' => [
+                                    'Sampla',
                                     "C\x{e1}s"
                                   ],
                     'scenarioOutline' => [
+                                           'Sampla Achomair',
                                            "C\x{e1}s Achomair"
                                          ],
                     'then' => [
@@ -1262,6 +1299,7 @@ our $data = {
                     'name' => 'Gujarati',
                     'native' => "\x{a97}\x{ac1}\x{a9c}\x{ab0}\x{abe}\x{aa4}\x{ac0}",
                     'scenario' => [
+                                    "\x{a89}\x{aa6}\x{abe}\x{ab9}\x{ab0}\x{aa3}",
                                     "\x{ab8}\x{acd}\x{aa5}\x{abf}\x{aa4}\x{abf}"
                                   ],
                     'scenarioOutline' => [
@@ -1306,9 +1344,11 @@ our $data = {
                     'name' => 'Galician',
                     'native' => 'galego',
                     'scenario' => [
+                                    'Exemplo',
                                     'Escenario'
                                   ],
                     'scenarioOutline' => [
+                                           'Esbozo do exemplo',
                                            'Esbozo do escenario'
                                          ],
                     'then' => [
@@ -1346,6 +1386,7 @@ our $data = {
                     'name' => 'Hebrew',
                     'native' => "\x{5e2}\x{5d1}\x{5e8}\x{5d9}\x{5ea}",
                     'scenario' => [
+                                    "\x{5d3}\x{5d5}\x{5d2}\x{5de}\x{5d0}",
                                     "\x{5ea}\x{5e8}\x{5d7}\x{5d9}\x{5e9}"
                                   ],
                     'scenarioOutline' => [
@@ -1437,6 +1478,7 @@ our $data = {
                     'name' => 'Croatian',
                     'native' => 'hrvatski',
                     'scenario' => [
+                                    'Primjer',
                                     'Scenarij'
                                   ],
                     'scenarioOutline' => [
@@ -1532,6 +1574,7 @@ our $data = {
                     'name' => 'Hungarian',
                     'native' => 'magyar',
                     'scenario' => [
+                                    "P\x{e9}lda",
                                     "Forgat\x{f3}k\x{f6}nyv"
                                   ],
                     'scenarioOutline' => [
@@ -1656,9 +1699,11 @@ our $data = {
                     'name' => 'Italian',
                     'native' => 'italiano',
                     'scenario' => [
+                                    'Esempio',
                                     'Scenario'
                                   ],
                     'scenarioOutline' => [
+                                           'Schema dell\'esempio',
                                            'Schema dello scenario'
                                          ],
                     'then' => [
@@ -1786,9 +1831,11 @@ our $data = {
                     'name' => 'Georgian',
                     'native' => "\x{10e5}\x{10d0}\x{10e0}\x{10d7}\x{10d5}\x{10d4}\x{10da}\x{10d8}",
                     'scenario' => [
+                                    "\x{10db}\x{10d0}\x{10d2}\x{10d0}\x{10da}\x{10d8}\x{10d7}\x{10d0}\x{10d3}",
                                     "\x{10e1}\x{10ea}\x{10d4}\x{10dc}\x{10d0}\x{10e0}\x{10d8}\x{10e1}"
                                   ],
                     'scenarioOutline' => [
+                                           "\x{10db}\x{10d0}\x{10d2}\x{10d0}\x{10da}\x{10d8}\x{10d7}\x{10d0}\x{10d3} \x{10dc}\x{10d8}\x{10db}\x{10e3}\x{10e8}\x{10d8}",
                                            "\x{10e1}\x{10ea}\x{10d4}\x{10dc}\x{10d0}\x{10e0}\x{10d8}\x{10e1} \x{10dc}\x{10d8}\x{10db}\x{10e3}\x{10e8}\x{10d8}"
                                          ],
                     'then' => [
@@ -1825,6 +1872,7 @@ our $data = {
                     'name' => 'Kannada',
                     'native' => "\x{c95}\x{ca8}\x{ccd}\x{ca8}\x{ca1}",
                     'scenario' => [
+                                    "\x{c89}\x{ca6}\x{cbe}\x{cb9}\x{cb0}\x{ca3}\x{cc6}",
                                     "\x{c95}\x{ca5}\x{cbe}\x{cb8}\x{cbe}\x{cb0}\x{cbe}\x{c82}\x{cb6}"
                                   ],
                     'scenarioOutline' => [
@@ -1908,6 +1956,7 @@ our $data = {
                     'name' => 'Lithuanian',
                     'native' => "lietuvi\x{173} kalba",
                     'scenario' => [
+                                    'Pavyzdys',
                                     'Scenarijus'
                                   ],
                     'scenarioOutline' => [
@@ -1949,9 +1998,11 @@ our $data = {
                     'name' => 'Luxemburgish',
                     'native' => "L\x{eb}tzebuergesch",
                     'scenario' => [
+                                    'Beispill',
                                     'Szenario'
                                   ],
                     'scenarioOutline' => [
+                                           'Plang vum Beispill',
                                            'Plang vum Szenario'
                                          ],
                     'then' => [
@@ -1991,9 +2042,11 @@ our $data = {
                     'name' => 'Latvian',
                     'native' => "latvie\x{161}u",
                     'scenario' => [
+                                    "Piem\x{113}rs",
                                     "Scen\x{101}rijs"
                                   ],
                     'scenarioOutline' => [
+                                           "Piem\x{113}rs p\x{113}c parauga",
                                            "Scen\x{101}rijs p\x{113}c parauga"
                                          ],
                     'then' => [
@@ -2035,6 +2088,7 @@ our $data = {
                          'name' => 'Macedonian',
                          'native' => "\x{41c}\x{430}\x{43a}\x{435}\x{434}\x{43e}\x{43d}\x{441}\x{43a}\x{438}",
                          'scenario' => [
+                                         "\x{41f}\x{440}\x{438}\x{43c}\x{435}\x{440}",
                                          "\x{421}\x{446}\x{435}\x{43d}\x{430}\x{440}\x{438}\x{43e}",
                                          "\x{41d}\x{430} \x{43f}\x{440}\x{438}\x{43c}\x{435}\x{440}"
                                        ],
@@ -2169,9 +2223,11 @@ our $data = {
                     'name' => 'Dutch',
                     'native' => 'Nederlands',
                     'scenario' => [
+                                    'Voorbeeld',
                                     'Scenario'
                                   ],
                     'scenarioOutline' => [
+                                           'Abstract Voorbeeld',
                                            'Abstract Scenario'
                                          ],
                     'then' => [
@@ -2209,9 +2265,12 @@ our $data = {
                     'name' => 'Norwegian',
                     'native' => 'norsk',
                     'scenario' => [
+                                    'Eksempel',
                                     'Scenario'
                                   ],
                     'scenarioOutline' => [
+                                           'Eksempelmal',
+                                           'Abstrakt Eksempel',
                                            'Scenariomal',
                                            'Abstrakt Scenario'
                                          ],
@@ -2252,6 +2311,7 @@ our $data = {
                     'name' => 'Panjabi',
                     'native' => "\x{a2a}\x{a70}\x{a1c}\x{a3e}\x{a2c}\x{a40}",
                     'scenario' => [
+                                    "\x{a09}\x{a26}\x{a3e}\x{a39}\x{a30}\x{a28}",
                                     "\x{a2a}\x{a1f}\x{a15}\x{a25}\x{a3e}"
                                   ],
                     'scenarioOutline' => [
@@ -2298,6 +2358,7 @@ our $data = {
                     'name' => 'Polish',
                     'native' => 'polski',
                     'scenario' => [
+                                    "Przyk\x{142}ad",
                                     'Scenariusz'
                                   ],
                     'scenarioOutline' => [
@@ -2350,10 +2411,13 @@ our $data = {
                     'name' => 'Portuguese',
                     'native' => "portugu\x{ea}s",
                     'scenario' => [
+                                    'Exemplo',
                                     "Cen\x{e1}rio",
                                     'Cenario'
                                   ],
                     'scenarioOutline' => [
+                                           'Esquema do Exemplo',
+                                           "Delinea\x{e7}\x{e3}o do Exemplo",
                                            "Esquema do Cen\x{e1}rio",
                                            'Esquema do Cenario',
                                            "Delinea\x{e7}\x{e3}o do Cen\x{e1}rio",
@@ -2403,9 +2467,12 @@ our $data = {
                     'name' => 'Romanian',
                     'native' => "rom\x{e2}n\x{103}",
                     'scenario' => [
+                                    'Exemplu',
                                     'Scenariu'
                                   ],
                     'scenarioOutline' => [
+                                           'Structura exemplu',
+                                           "Structur\x{103} exemplu",
                                            'Structura scenariu',
                                            "Structur\x{103} scenariu"
                                          ],
@@ -2454,6 +2521,7 @@ our $data = {
                     'name' => 'Russian',
                     'native' => "\x{440}\x{443}\x{441}\x{441}\x{43a}\x{438}\x{439}",
                     'scenario' => [
+                                    "\x{41f}\x{440}\x{438}\x{43c}\x{435}\x{440}",
                                     "\x{421}\x{446}\x{435}\x{43d}\x{430}\x{440}\x{438}\x{439}"
                                   ],
                     'scenarioOutline' => [
@@ -2502,6 +2570,7 @@ our $data = {
                     'name' => 'Slovak',
                     'native' => 'Slovensky',
                     'scenario' => [
+                                    "Pr\x{ed}klad",
                                     "Scen\x{e1}r"
                                   ],
                     'scenarioOutline' => [
@@ -2556,8 +2625,8 @@ our $data = {
                     'name' => 'Slovenian',
                     'native' => 'Slovenski',
                     'scenario' => [
-                                    'Scenarij',
-                                    'Primer'
+                                    'Primer',
+                                    'Scenarij'
                                   ],
                     'scenarioOutline' => [
                                            'Struktura scenarija',
@@ -2610,6 +2679,7 @@ our $data = {
                          'name' => 'Serbian',
                          'native' => "\x{421}\x{440}\x{43f}\x{441}\x{43a}\x{438}",
                          'scenario' => [
+                                         "\x{41f}\x{440}\x{438}\x{43c}\x{435}\x{440}",
                                          "\x{421}\x{446}\x{435}\x{43d}\x{430}\x{440}\x{438}\x{43e}",
                                          "\x{41f}\x{440}\x{438}\x{43c}\x{435}\x{440}"
                                        ],
@@ -2735,7 +2805,7 @@ our $data = {
                     'examples' => [
                                     "\x{b8e}\x{b9f}\x{bc1}\x{ba4}\x{bcd}\x{ba4}\x{bc1}\x{b95}\x{bcd}\x{b95}\x{bbe}\x{b9f}\x{bcd}\x{b9f}\x{bc1}\x{b95}\x{bb3}\x{bcd}",
                                     "\x{b95}\x{bbe}\x{b9f}\x{bcd}\x{b9a}\x{bbf}\x{b95}\x{bb3}\x{bcd}",
-                                    " \x{ba8}\x{bbf}\x{bb2}\x{bc8}\x{bae}\x{bc8}\x{b95}\x{bb3}\x{bbf}\x{bb2}\x{bcd}"
+                                    "\x{ba8}\x{bbf}\x{bb2}\x{bc8}\x{bae}\x{bc8}\x{b95}\x{bb3}\x{bbf}\x{bb2}\x{bcd}"
                                   ],
                     'feature' => [
                                    "\x{b85}\x{bae}\x{bcd}\x{b9a}\x{bae}\x{bcd}",
@@ -2749,6 +2819,7 @@ our $data = {
                     'name' => 'Tamil',
                     'native' => "\x{ba4}\x{bae}\x{bbf}\x{bb4}\x{bcd}",
                     'scenario' => [
+                                    "\x{b89}\x{ba4}\x{bbe}\x{bb0}\x{ba3}\x{bae}\x{bbe}\x{b95}",
                                     "\x{b95}\x{bbe}\x{b9f}\x{bcd}\x{b9a}\x{bbf}"
                                   ],
                     'scenarioOutline' => [
@@ -2832,6 +2903,7 @@ our $data = {
                     'name' => 'Telugu',
                     'native' => "\x{c24}\x{c46}\x{c32}\x{c41}\x{c17}\x{c41}",
                     'scenario' => [
+                                    "\x{c09}\x{c26}\x{c3e}\x{c39}\x{c30}\x{c23}",
                                     "\x{c38}\x{c28}\x{c4d}\x{c28}\x{c3f}\x{c35}\x{c47}\x{c36}\x{c02}"
                                   ],
                     'scenarioOutline' => [
@@ -2919,9 +2991,11 @@ our $data = {
                     'name' => 'Turkish',
                     'native' => "T\x{fc}rk\x{e7}e",
                     'scenario' => [
+                                    "\x{d6}rnek",
                                     'Senaryo'
                                   ],
                     'scenarioOutline' => [
+                                           "\x{d6}rnek tasla\x{11f}\x{131}",
                                            "Senaryo tasla\x{11f}\x{131}"
                                          ],
                     'then' => [
@@ -3006,6 +3080,7 @@ our $data = {
                     'name' => 'Ukrainian',
                     'native' => "\x{423}\x{43a}\x{440}\x{430}\x{457}\x{43d}\x{441}\x{44c}\x{43a}\x{430}",
                     'scenario' => [
+                                    "\x{41f}\x{440}\x{438}\x{43a}\x{43b}\x{430}\x{434}",
                                     "\x{421}\x{446}\x{435}\x{43d}\x{430}\x{440}\x{456}\x{439}"
                                   ],
                     'scenarioOutline' => [

@@ -1,1 +1,3 @@
+{"pickle":{"language":"en","locations":[{"column":3,"line":6}],"name":"steps, no examples","steps":[{"arguments":[],"locations":[{"column":7,"line":4}],"text":"a step"},{"arguments":[],"locations":[{"column":11,"line":7}],"text":"a step"}],"tags":[]},"type":"pickle","uri":"testdata/good/incomplete_scenario_outline.feature"}
+{"pickle":{"language":"en","locations":[{"column":3,"line":9}],"name":"no steps, no examples","steps":[],"tags":[]},"type":"pickle","uri":"testdata/good/incomplete_scenario_outline.feature"}
 {"pickle":{"language":"en","locations":[{"column":5,"line":24},{"column":3,"line":20}],"name":"no steps, one example header","steps":[],"tags":[]},"type":"pickle","uri":"testdata/good/incomplete_scenario_outline.feature"}

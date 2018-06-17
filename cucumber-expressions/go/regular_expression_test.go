@@ -47,12 +47,18 @@ func TestRegularExpression(t *testing.T) {
 	})
 
 	t.Run("matches nested capture group without match", func(t *testing.T) {
-		// TODO: Other implementations expect null/nil here
-		require.Equal(t, Match(t, `^a user( named "([^"]*)")?$`, "a user")[0], "")
+		require.Nil(t, Match(t, `^a user( named "([^"]*)")?$`, "a user")[0])
 	})
 
 	t.Run("matches nested capture group with match", func(t *testing.T) {
 		require.Equal(t, Match(t, `^a user( named "([^"]*)")?$`, "a user named \"Charlie\"")[0], "Charlie")
+	})
+
+	t.Run("matches capture group nested in optional one", func(t *testing.T) {
+		regexp := `^a (pre-commercial transaction |pre buyer fee model )?purchase(?: for \$(\d+))?$`
+		require.Equal(t, Match(t, regexp, "a purchase"), []interface{}{nil, nil})
+		require.Equal(t, Match(t, regexp, "a purchase for $33"), []interface{}{nil, 33})
+		require.Equal(t, Match(t, regexp, "a pre buyer fee model purchase"), []interface{}{"pre buyer fee model ", nil})
 	})
 
 	t.Run("ignores non capturing groups", func(t *testing.T) {

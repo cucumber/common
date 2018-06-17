@@ -183,46 +183,30 @@ func (t *astBuilder) transformNode(node *astNode) (interface{}, error) {
 		bg.Steps = astSteps(node)
 		return bg, nil
 
-	case RuleType_Scenario_Definition:
+	case RuleType_ScenarioDefinition:
 		tags := astTags(node)
 		scenarioNode, _ := node.getSingle(RuleType_Scenario).(*astNode)
-		if scenarioNode != nil {
-			scenarioLine := scenarioNode.getToken(TokenType_ScenarioLine)
-			description, _ := scenarioNode.getSingle(RuleType_Description).(string)
-			sc := new(Scenario)
-			sc.Type = "Scenario"
-			sc.Tags = tags
-			sc.Location = astLocation(scenarioLine)
-			sc.Keyword = scenarioLine.Keyword
-			sc.Name = scenarioLine.Text
-			sc.Description = description
-			sc.Steps = astSteps(scenarioNode)
-			return sc, nil
-		} else {
-			scenarioOutlineNode, ok := node.getSingle(RuleType_ScenarioOutline).(*astNode)
-			if !ok {
-				panic("Internal grammar error")
-			}
-			scenarioOutlineLine := scenarioOutlineNode.getToken(TokenType_ScenarioOutlineLine)
-			description, _ := scenarioOutlineNode.getSingle(RuleType_Description).(string)
-			sc := new(ScenarioOutline)
-			sc.Type = "ScenarioOutline"
-			sc.Tags = tags
-			sc.Location = astLocation(scenarioOutlineLine)
-			sc.Keyword = scenarioOutlineLine.Keyword
-			sc.Name = scenarioOutlineLine.Text
-			sc.Description = description
-			sc.Steps = astSteps(scenarioOutlineNode)
-			sc.Examples = astExamples(scenarioOutlineNode)
-			return sc, nil
-		}
 
-	case RuleType_Examples_Definition:
+		scenarioLine := scenarioNode.getToken(TokenType_ScenarioLine)
+		description, _ := scenarioNode.getSingle(RuleType_Description).(string)
+		sc := new(Scenario)
+		sc.Type = "Scenario"
+		sc.Tags = tags
+		sc.Location = astLocation(scenarioLine)
+		sc.Keyword = scenarioLine.Keyword
+		sc.Name = scenarioLine.Text
+		sc.Description = description
+		sc.Steps = astSteps(scenarioNode)
+		sc.Examples = astExamples(scenarioNode)
+
+		return sc, nil
+
+	case RuleType_ExamplesDefinition:
 		tags := astTags(node)
 		examplesNode, _ := node.getSingle(RuleType_Examples).(*astNode)
 		examplesLine := examplesNode.getToken(TokenType_ExamplesLine)
 		description, _ := examplesNode.getSingle(RuleType_Description).(string)
-		examplesTable := examplesNode.getSingle(RuleType_Examples_Table)
+		examplesTable := examplesNode.getSingle(RuleType_ExamplesTable)
 
 		ex := new(Examples)
 		ex.Type = "Examples"
@@ -240,7 +224,7 @@ func (t *astBuilder) transformNode(node *astNode) (interface{}, error) {
 		}
 		return ex, nil
 
-	case RuleType_Examples_Table:
+	case RuleType_ExamplesTable:
 		allRows, err := astTableRows(node)
 		return allRows, err
 
@@ -258,7 +242,7 @@ func (t *astBuilder) transformNode(node *astNode) (interface{}, error) {
 		return strings.Join(desc, "\n"), nil
 
 	case RuleType_Feature:
-		header, ok := node.getSingle(RuleType_Feature_Header).(*astNode)
+		header, ok := node.getSingle(RuleType_FeatureHeader).(*astNode)
 		if !ok {
 			return nil, nil
 		}
@@ -272,7 +256,7 @@ func (t *astBuilder) transformNode(node *astNode) (interface{}, error) {
 		if background != nil {
 			children = append(children, background)
 		}
-		children = append(children, node.getItems(RuleType_Scenario_Definition)...)
+		children = append(children, node.getItems(RuleType_ScenarioDefinition)...)
 		description, _ := header.getSingle(RuleType_Description).(string)
 
 		feat := new(Feature)
@@ -363,7 +347,7 @@ func astSteps(t *astNode) (steps []*Step) {
 
 func astExamples(t *astNode) (examples []*Examples) {
 	examples = []*Examples{}
-	tokens := t.getItems(RuleType_Examples_Definition)
+	tokens := t.getItems(RuleType_ExamplesDefinition)
 	for i := range tokens {
 		example, _ := tokens[i].(*Examples)
 		examples = append(examples, example)

@@ -20,6 +20,13 @@ describe('CucumberExpressionGenerator', () => {
       parameterTypeRegistry
     )
     const match = cucumberExpression.match(text)
+    if (match === null) {
+      assert.fail(
+        `Expected text '${text}' to match generated expression '${
+          generatedExpression.source
+        }'`
+      )
+    }
     assert.equal(match.length, expectedArgumentNames.length)
   }
 
@@ -57,6 +64,14 @@ describe('CucumberExpressionGenerator', () => {
     assertExpression('\\{iii}', [], '{iii}')
   })
 
+  it('generates expression with escaped slashes', () => {
+    assertExpression(
+      'The {int}\\/{int}\\/{int} hey',
+      ['int', 'int2', 'int3'],
+      'The 1814/05/17 hey'
+    )
+  })
+
   it('generates expression for int float arg', () => {
     assertExpression(
       'I have {int} cukes and {float} euro',
@@ -66,15 +81,15 @@ describe('CucumberExpressionGenerator', () => {
   })
 
   it('generates expression for strings', () => {
-    assertExpression('I am {int}%% foobar', ['int'], 'I am 20%% foobar')
-  })
-
-  it('generates expression for strings with % sign', () => {
     assertExpression(
       'I like {string} and {string}',
       ['string', 'string2'],
       'I like "bangers" and \'mash\''
     )
+  })
+
+  it('generates expression with % sign', () => {
+    assertExpression('I am {int}%% foobar', ['int'], 'I am 20%% foobar')
   })
 
   it('generates expression for just int', () => {

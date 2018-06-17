@@ -30,6 +30,7 @@ var buildinDialects = gherkinDialectMap{
 				"Agtergrond",
 			},
 			scenario: []string{
+				"Voorbeeld",
 				"Situasie",
 			},
 			scenarioOutline: []string{
@@ -70,6 +71,7 @@ var buildinDialects = gherkinDialectMap{
 				"Կոնտեքստ",
 			},
 			scenario: []string{
+				"Օրինակ",
 				"Սցենար",
 			},
 			scenarioOutline: []string{
@@ -110,6 +112,7 @@ var buildinDialects = gherkinDialectMap{
 				"Antecedents",
 			},
 			scenario: []string{
+				"Eixemplo",
 				"Caso",
 			},
 			scenarioOutline: []string{
@@ -155,6 +158,7 @@ var buildinDialects = gherkinDialectMap{
 				"الخلفية",
 			},
 			scenario: []string{
+				"مثال",
 				"سيناريو",
 			},
 			scenarioOutline: []string{
@@ -196,6 +200,7 @@ var buildinDialects = gherkinDialectMap{
 				"Antecedentes",
 			},
 			scenario: []string{
+				"Exemplo",
 				"Casu",
 			},
 			scenarioOutline: []string{
@@ -240,6 +245,7 @@ var buildinDialects = gherkinDialectMap{
 				"Kontekst",
 			},
 			scenario: []string{
+				"Nümunələr",
 				"Ssenari",
 			},
 			scenarioOutline: []string{
@@ -283,6 +289,7 @@ var buildinDialects = gherkinDialectMap{
 				"Предистория",
 			},
 			scenario: []string{
+				"Пример",
 				"Сценарий",
 			},
 			scenarioOutline: []string{
@@ -369,6 +376,7 @@ var buildinDialects = gherkinDialectMap{
 				"Pozadina",
 			},
 			scenario: []string{
+				"Primjer",
 				"Scenariju",
 				"Scenario",
 			},
@@ -413,6 +421,7 @@ var buildinDialects = gherkinDialectMap{
 				"Antecedents",
 			},
 			scenario: []string{
+				"Exemple",
 				"Escenari",
 			},
 			scenarioOutline: []string{
@@ -457,6 +466,7 @@ var buildinDialects = gherkinDialectMap{
 				"Kontext",
 			},
 			scenario: []string{
+				"Příklad",
 				"Scénář",
 			},
 			scenarioOutline: []string{
@@ -499,6 +509,7 @@ var buildinDialects = gherkinDialectMap{
 				"Cefndir",
 			},
 			scenario: []string{
+				"Enghraifft",
 				"Scenario",
 			},
 			scenarioOutline: []string{
@@ -538,6 +549,7 @@ var buildinDialects = gherkinDialectMap{
 				"Baggrund",
 			},
 			scenario: []string{
+				"Eksempel",
 				"Scenarie",
 			},
 			scenarioOutline: []string{
@@ -577,6 +589,7 @@ var buildinDialects = gherkinDialectMap{
 				"Grundlage",
 			},
 			scenario: []string{
+				"Beispiel",
 				"Szenario",
 			},
 			scenarioOutline: []string{
@@ -619,6 +632,7 @@ var buildinDialects = gherkinDialectMap{
 				"Υπόβαθρο",
 			},
 			scenario: []string{
+				"Παράδειγμα",
 				"Σενάριο",
 			},
 			scenarioOutline: []string{
@@ -660,6 +674,7 @@ var buildinDialects = gherkinDialectMap{
 				"💤",
 			},
 			scenario: []string{
+				"🥒",
 				"📕",
 			},
 			scenarioOutline: []string{
@@ -701,6 +716,7 @@ var buildinDialects = gherkinDialectMap{
 				"Background",
 			},
 			scenario: []string{
+				"Example",
 				"Scenario",
 			},
 			scenarioOutline: []string{
@@ -955,6 +971,7 @@ var buildinDialects = gherkinDialectMap{
 				"Fono",
 			},
 			scenario: []string{
+				"Ekzemplo",
 				"Scenaro",
 				"Kazo",
 			},
@@ -998,6 +1015,7 @@ var buildinDialects = gherkinDialectMap{
 				"Antecedentes",
 			},
 			scenario: []string{
+				"Ejemplo",
 				"Escenario",
 			},
 			scenarioOutline: []string{
@@ -1041,9 +1059,11 @@ var buildinDialects = gherkinDialectMap{
 				"Taust",
 			},
 			scenario: []string{
+				"Juhtum",
 				"Stsenaarium",
 			},
 			scenarioOutline: []string{
+				"Raamstjuhtum",
 				"Raamstsenaarium",
 			},
 			examples: []string{
@@ -1080,6 +1100,7 @@ var buildinDialects = gherkinDialectMap{
 				"زمینه",
 			},
 			scenario: []string{
+				"مثال",
 				"سناریو",
 			},
 			scenarioOutline: []string{
@@ -1158,6 +1179,7 @@ var buildinDialects = gherkinDialectMap{
 				"Contexte",
 			},
 			scenario: []string{
+				"Exemple",
 				"Scénario",
 			},
 			scenarioOutline: []string{
@@ -1216,6 +1238,7 @@ var buildinDialects = gherkinDialectMap{
 				"Cúlra",
 			},
 			scenario: []string{
+				"Sampla",
 				"Cás",
 			},
 			scenarioOutline: []string{
@@ -1263,6 +1286,7 @@ var buildinDialects = gherkinDialectMap{
 				"બેકગ્રાઉન્ડ",
 			},
 			scenario: []string{
+				"ઉદાહરણ",
 				"સ્થિતિ",
 			},
 			scenarioOutline: []string{
@@ -1303,6 +1327,7 @@ var buildinDialects = gherkinDialectMap{
 				"Contexto",
 			},
 			scenario: []string{
+				"Exemplo",
 				"Escenario",
 			},
 			scenarioOutline: []string{
@@ -1347,6 +1372,7 @@ var buildinDialects = gherkinDialectMap{
 				"רקע",
 			},
 			scenario: []string{
+				"דוגמא",
 				"תרחיש",
 			},
 			scenarioOutline: []string{
@@ -1435,6 +1461,7 @@ var buildinDialects = gherkinDialectMap{
 				"Pozadina",
 			},
 			scenario: []string{
+				"Primjer",
 				"Scenarij",
 			},
 			scenarioOutline: []string{
@@ -1532,6 +1559,7 @@ var buildinDialects = gherkinDialectMap{
 				"Háttér",
 			},
 			scenario: []string{
+				"Példa",
 				"Forgatókönyv",
 			},
 			scenarioOutline: []string{
@@ -1654,6 +1682,7 @@ var buildinDialects = gherkinDialectMap{
 				"Contesto",
 			},
 			scenario: []string{
+				"Esempio",
 				"Scenario",
 			},
 			scenarioOutline: []string{
@@ -1787,6 +1816,7 @@ var buildinDialects = gherkinDialectMap{
 				"კონტექსტი",
 			},
 			scenario: []string{
+				"მაგალითად",
 				"სცენარის",
 			},
 			scenarioOutline: []string{
@@ -1826,6 +1856,7 @@ var buildinDialects = gherkinDialectMap{
 				"ಹಿನ್ನೆಲೆ",
 			},
 			scenario: []string{
+				"ಉದಾಹರಣೆ",
 				"ಕಥಾಸಾರಾಂಶ",
 			},
 			scenarioOutline: []string{
@@ -1907,6 +1938,7 @@ var buildinDialects = gherkinDialectMap{
 				"Kontekstas",
 			},
 			scenario: []string{
+				"Pavyzdys",
 				"Scenarijus",
 			},
 			scenarioOutline: []string{
@@ -1948,6 +1980,7 @@ var buildinDialects = gherkinDialectMap{
 				"Hannergrond",
 			},
 			scenario: []string{
+				"Beispill",
 				"Szenario",
 			},
 			scenarioOutline: []string{
@@ -1991,6 +2024,7 @@ var buildinDialects = gherkinDialectMap{
 				"Situācija",
 			},
 			scenario: []string{
+				"Piemērs",
 				"Scenārijs",
 			},
 			scenarioOutline: []string{
@@ -2034,6 +2068,7 @@ var buildinDialects = gherkinDialectMap{
 				"Содржина",
 			},
 			scenario: []string{
+				"Пример",
 				"Сценарио",
 				"На пример",
 			},
@@ -2169,6 +2204,7 @@ var buildinDialects = gherkinDialectMap{
 				"Achtergrond",
 			},
 			scenario: []string{
+				"Voorbeeld",
 				"Scenario",
 			},
 			scenarioOutline: []string{
@@ -2210,6 +2246,7 @@ var buildinDialects = gherkinDialectMap{
 				"Bakgrunn",
 			},
 			scenario: []string{
+				"Eksempel",
 				"Scenario",
 			},
 			scenarioOutline: []string{
@@ -2252,6 +2289,7 @@ var buildinDialects = gherkinDialectMap{
 				"ਪਿਛੋਕੜ",
 			},
 			scenario: []string{
+				"ਉਦਾਹਰਨ",
 				"ਪਟਕਥਾ",
 			},
 			scenarioOutline: []string{
@@ -2296,6 +2334,7 @@ var buildinDialects = gherkinDialectMap{
 				"Założenia",
 			},
 			scenario: []string{
+				"Przykład",
 				"Scenariusz",
 			},
 			scenarioOutline: []string{
@@ -2346,6 +2385,7 @@ var buildinDialects = gherkinDialectMap{
 				"Fundo",
 			},
 			scenario: []string{
+				"Exemplo",
 				"Cenário",
 				"Cenario",
 			},
@@ -2397,6 +2437,7 @@ var buildinDialects = gherkinDialectMap{
 				"Context",
 			},
 			scenario: []string{
+				"Exemplu",
 				"Scenariu",
 			},
 			scenarioOutline: []string{
@@ -2449,6 +2490,7 @@ var buildinDialects = gherkinDialectMap{
 				"Контекст",
 			},
 			scenario: []string{
+				"Пример",
 				"Сценарий",
 			},
 			scenarioOutline: []string{
@@ -2499,6 +2541,7 @@ var buildinDialects = gherkinDialectMap{
 				"Pozadie",
 			},
 			scenario: []string{
+				"Príklad",
 				"Scenár",
 			},
 			scenarioOutline: []string{
@@ -2553,8 +2596,8 @@ var buildinDialects = gherkinDialectMap{
 				"Ozadje",
 			},
 			scenario: []string{
-				"Scenarij",
 				"Primer",
+				"Scenarij",
 			},
 			scenarioOutline: []string{
 				"Struktura scenarija",
@@ -2608,6 +2651,7 @@ var buildinDialects = gherkinDialectMap{
 				"Позадина",
 			},
 			scenario: []string{
+				"Пример",
 				"Сценарио",
 				"Пример",
 			},
@@ -2747,6 +2791,7 @@ var buildinDialects = gherkinDialectMap{
 				"பின்னணி",
 			},
 			scenario: []string{
+				"உதாரணமாக",
 				"காட்சி",
 			},
 			scenarioOutline: []string{
@@ -2756,7 +2801,7 @@ var buildinDialects = gherkinDialectMap{
 			examples: []string{
 				"எடுத்துக்காட்டுகள்",
 				"காட்சிகள்",
-				" நிலைமைகளில்",
+				"நிலைமைகளில்",
 			},
 			given: []string{
 				"* ",
@@ -2833,6 +2878,7 @@ var buildinDialects = gherkinDialectMap{
 				"నేపథ్యం",
 			},
 			scenario: []string{
+				"ఉదాహరణ",
 				"సన్నివేశం",
 			},
 			scenarioOutline: []string{
@@ -2919,6 +2965,7 @@ var buildinDialects = gherkinDialectMap{
 				"Geçmiş",
 			},
 			scenario: []string{
+				"Örnek",
 				"Senaryo",
 			},
 			scenarioOutline: []string{
@@ -3002,6 +3049,7 @@ var buildinDialects = gherkinDialectMap{
 				"Передумова",
 			},
 			scenario: []string{
+				"Приклад",
 				"Сценарій",
 			},
 			scenarioOutline: []string{

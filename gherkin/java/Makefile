@@ -22,50 +22,50 @@ default: .compared
 	mvn install
 	touch $@
 
+# # Generate
+# acceptance/testdata/%.feature.tokens: testdata/%.feature .built
+# 	mkdir -p `dirname $@`
+# 	bin/gherkin-generate-tokens $< > $<.tokens
+
 acceptance/testdata/%.feature.tokens: testdata/%.feature testdata/%.feature.tokens .built
 	mkdir -p `dirname $@`
 	bin/gherkin-generate-tokens $< > $@
 	diff --unified $<.tokens $@
-.DELETE_ON_ERROR: acceptance/testdata/%.feature.tokens
 
-# Generate
+# # Generate
 # acceptance/testdata/%.feature.ast.ndjson: testdata/%.feature .built
 # 	mkdir -p `dirname $@`
 # 	bin/gherkin --no-source --no-pickles $< | jq --sort-keys --compact-output "." > $<.ast.ndjson
-# .DELETE_ON_ERROR: acceptance/testdata/%.feature.ast.ndjson
 
 acceptance/testdata/%.feature.ast.ndjson: testdata/%.feature testdata/%.feature.ast.ndjson .built
 	mkdir -p `dirname $@`
 	bin/gherkin --no-source --no-pickles $< | jq --sort-keys --compact-output "." > $@
 	diff --unified <(jq "." $<.ast.ndjson) <(jq "." $@)
 
-# Generate
+# # Generate
 # acceptance/testdata/%.feature.pickles.ndjson: testdata/%.feature .built
 # 	mkdir -p `dirname $@`
 # 	bin/gherkin --no-source --no-ast $< | jq --sort-keys --compact-output "." > $<.pickles.ndjson
-# .DELETE_ON_ERROR: testdata/%.feature.pickles.ndjson
 
 acceptance/testdata/%.feature.pickles.ndjson: testdata/%.feature testdata/%.feature.pickles.ndjson .built
 	mkdir -p `dirname $@`
 	bin/gherkin --no-source --no-ast $< | jq --sort-keys --compact-output "." > $@
 	diff --unified <(jq "." $<.pickles.ndjson) <(jq "." $@)
 
-# Generate
+# # Generate
 # acceptance/testdata/%.feature.source.ndjson: testdata/%.feature .built
 # 	mkdir -p `dirname $@`
 # 	bin/gherkin --no-ast --no-pickles $< | jq --sort-keys --compact-output "." > $<.source.ndjson
-# .DELETE_ON_ERROR: acceptance/testdata/%.feature.source.ndjson
 
 acceptance/testdata/%.feature.source.ndjson: testdata/%.feature testdata/%.feature.source.ndjson .built
 	mkdir -p `dirname $@`
 	bin/gherkin --no-ast --no-pickles $< | jq --sort-keys --compact-output "." > $@
 	diff --unified <(jq "." $<.source.ndjson) <(jq "." $@)
 
-# Generate
+# # Generate
 # acceptance/testdata/%.feature.errors.ndjson: testdata/%.feature .built
 # 	mkdir -p `dirname $@`
 # 	bin/gherkin $< | jq --sort-keys --compact-output "." > $<.errors.ndjson
-# .DELETE_ON_ERROR: acceptance/testdata/%.feature.ndjson
 
 acceptance/testdata/%.feature.errors.ndjson: testdata/%.feature testdata/%.feature.errors.ndjson .built
 	mkdir -p `dirname $@`

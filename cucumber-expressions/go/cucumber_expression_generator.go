@@ -97,5 +97,6 @@ func (c *CucumberExpressionGenerator) createParameterTypeMatchers2(parameterType
 func escape(s string) string {
 	result := strings.Replace(s, "%", "%%", -1)
 	result = strings.Replace(result, `(`, `\(`, -1)
-	return strings.Replace(result, `{`, `\{`, -1)
+	result = strings.Replace(result, `{`, `\{`, -1)
+	return strings.Replace(result, `/`, `\/`, -1)
 }

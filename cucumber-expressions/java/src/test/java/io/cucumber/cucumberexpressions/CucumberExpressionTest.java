@@ -1,6 +1,8 @@
 package io.cucumber.cucumberexpressions;
 
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
@@ -9,11 +11,15 @@ import java.util.List;
 import java.util.Locale;
 
 import static java.util.Arrays.asList;
+import static java.util.Collections.emptyList;
 import static java.util.Collections.singletonList;
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.fail;
+import static org.junit.Assert.assertNull;
 
 public class CucumberExpressionTest {
+
+    @Rule
+    public ExpectedException expectedException = ExpectedException.none();
 
     @Test
     public void documents_match_arguments() {
@@ -54,7 +60,7 @@ public class CucumberExpressionTest {
 
     @Test
     public void does_not_match_misquoted_string() {
-        assertEquals(null, match("three {string} mice", "three \"blind' mice"));
+        assertNull(match("three {string} mice", "three \"blind' mice"));
     }
 
     @Test
@@ -83,13 +89,18 @@ public class CucumberExpressionTest {
     }
 
     @Test
+    public void matches_escaped_slash() {
+        assertEquals(emptyList(), match("12\\/2020", "12/2020"));
+    }
+
+    @Test
     public void matches_int() {
         assertEquals(singletonList(22), match("{int}", "22"));
     }
 
     @Test
     public void doesnt_match_float_as_int() {
-        assertEquals(null, match("{int}", "1.22"));
+        assertNull(match("{int}", "1.22"));
     }
 
     @Test
@@ -99,13 +110,33 @@ public class CucumberExpressionTest {
     }
 
     @Test
+    public void does_not_allow_parameter_type_with_left_bracket() {
+        expectedException.expectMessage("Illegal character '[' in parameter name {[string]}");
+        match("{[string]}", "something");
+    }
+
+    @Test
     public void throws_unknown_parameter_type() {
-        try {
-            match("{unknown}", "something");
-            fail();
-        } catch (UndefinedParameterTypeException expected) {
-            assertEquals("Undefined parameter type {unknown}. Please register a ParameterType for {unknown}.", expected.getMessage());
-        }
+        expectedException.expectMessage("Undefined parameter type {unknown}. Please register a ParameterType for {unknown}.");
+        match("{unknown}", "something");
+    }
+
+    @Test
+    public void does_not_allow_optional_parameter_types() {
+        expectedException.expectMessage("Parameter types cannot be optional: ({int})");
+        match("({int})", "3");
+    }
+
+    @Test
+    public void does_not_allow_text_parameter_type_alternation() {
+        expectedException.expectMessage("Parameter types cannot be alternative: x/{int}");
+        match("x/{int}", "3");
+    }
+
+    @Test
+    public void does_not_allow_parameter_type_text_alternation() {
+        expectedException.expectMessage("Parameter types cannot be alternative: {int}/x");
+        match("{int}/x", "3");
     }
 
     @Test

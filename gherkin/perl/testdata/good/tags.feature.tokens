@@ -9,7 +9,7 @@
 (9:1)Empty://
 (10:1)TagLine://1:@so_tag1,11:@so_tag2
 (11:3)TagLine://3:@so_tag3
-(12:1)ScenarioOutlineLine:Scenario Outline/minimalistic outline/
+(12:1)ScenarioLine:Scenario Outline/minimalistic outline/
 (13:5)StepLine:Given /the <what>/
 (14:1)Empty://
 (15:1)TagLine://1:@ex_tag1,10:@ex_tag2

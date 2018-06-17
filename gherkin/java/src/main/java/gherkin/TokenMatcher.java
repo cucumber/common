@@ -36,11 +36,11 @@ public class TokenMatcher implements ITokenMatcher {
         currentDialect = dialectProvider.getDefaultDialect();
     }
 
-    public GherkinDialect getCurrentDialect() {
+    private GherkinDialect getCurrentDialect() {
         return currentDialect;
     }
 
-    protected void setTokenMatched(Token token, TokenType matchedType, String text, String keyword, Integer indent, List<GherkinLineSpan> items) {
+    private void setTokenMatched(Token token, TokenType matchedType, String text, String keyword, Integer indent, List<GherkinLineSpan> items) {
         token.matchedType = matchedType;
         token.matchedKeyword = keyword;
         token.matchedText = text;
@@ -119,12 +119,8 @@ public class TokenMatcher implements ITokenMatcher {
 
     @Override
     public boolean match_ScenarioLine(Token token) {
-        return matchTitleLine(token, TokenType.ScenarioLine, currentDialect.getScenarioKeywords());
-    }
-
-    @Override
-    public boolean match_ScenarioOutlineLine(Token token) {
-        return matchTitleLine(token, TokenType.ScenarioOutlineLine, currentDialect.getScenarioOutlineKeywords());
+        return matchTitleLine(token, TokenType.ScenarioLine, currentDialect.getScenarioKeywords()) ||
+                matchTitleLine(token, TokenType.ScenarioLine, currentDialect.getScenarioOutlineKeywords());
     }
 
     @Override

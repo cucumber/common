@@ -42,7 +42,7 @@
 (42:1)Other://
 (43:5)StepLine:Given /the minimalism/
 (44:1)Empty://
-(45:3)ScenarioOutlineLine:Scenario Outline/scenario outline with a description/
+(45:3)ScenarioLine:Scenario Outline/scenario outline with a description/
 (46:1)Other:/This is a scenario outline description/
 (47:5)StepLine:Given /the minimalism/
 (48:1)Empty://

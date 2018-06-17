@@ -1,6 +1,6 @@
 (1:1)FeatureLine:Feature/Scenario Outline with a docstring/
 (2:1)Empty://
-(3:1)ScenarioOutlineLine:Scenario Outline/Greetings come in many forms/
+(3:1)ScenarioLine:Scenario Outline/Greetings come in many forms/
 (4:5)StepLine:Given /this file:/
 (5:5)DocStringSeparator:/<type>/
 (6:1)Other:/Greeting:<content>/

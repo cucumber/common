@@ -55,6 +55,13 @@ module Cucumber
         ).to eq(["I", "can", 1, "slide"])
       end
 
+      it "matches capture group nested in optional one" do
+        regexp = /^a (pre-commercial transaction |pre buyer fee model )?purchase(?: for \$(\d+))?$/
+        expect( match(regexp, 'a purchase') ).to eq([nil, nil])
+        expect( match(regexp, 'a purchase for $33') ).to eq([nil, 33])
+        expect( match(regexp, 'a pre buyer fee model purchase') ).to eq(['pre buyer fee model ', nil])
+      end
+
       it "works with escaped parenthesis" do
         expect( match(/Across the line\(s\)/, 'Across the line(s)') ).to eq([])
       end

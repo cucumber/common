@@ -59,6 +59,10 @@ module Cucumber
         expect(match('three \\(exceptionally) {string} mice', 'three (exceptionally) "blind" mice')).to eq(['blind'])
       end
 
+      it "matches escaped slash" do
+        expect(match("12\\/2020", "12/2020")).to eq([])
+      end
+
       it "matches int" do
         expect(match("{int}", "22")).to eq([22])
       end
@@ -72,8 +76,26 @@ module Cucumber
         expect(match("{float}", ".22")).to eq([0.22])
       end
 
+      '[]()$.|?*+'.split('').each do |char|
+        it "does not allow parameter type with #{char}" do
+          expect {match("{#{char}string}", "something")}.to raise_error("Illegal character '#{char}' in parameter name {#{char}string}")
+        end
+      end
+
       it "throws unknown parameter type" do
         expect {match("{unknown}", "something")}.to raise_error('Undefined parameter type {unknown}')
+      end
+
+      it "does not allow optional parameter types" do
+        expect {match("({int})", "3")}.to raise_error('Parameter types cannot be optional: ({int})')
+      end
+
+      it "does not allow text/parameter type alternation" do
+        expect {match("x/{int}", "3")}.to raise_error('Parameter types cannot be alternative: x/{int}')
+      end
+
+      it "does not allow parameter type/text alternation" do
+        expect {match("{int}/x", "3")}.to raise_error('Parameter types cannot be alternative: {int}/x')
       end
 
       it "exposes source" do

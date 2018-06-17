@@ -2,10 +2,16 @@ package io.cucumber.cucumberexpressions;
 
 import java.lang.reflect.Type;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import static java.util.Collections.singletonList;
 
 public final class ParameterType<T> implements Comparable<ParameterType<?>> {
+    @SuppressWarnings("RegExpRedundantEscape") // Android can't parse unescaped braces
+    private static final Pattern ILLEGAL_PARAMETER_NAME_PATTERN = Pattern.compile("([\\[\\]()$.|?*+])");
+    private static final Pattern UNESCAPE_PATTERN = Pattern.compile("(\\\\([\\[$.|?*+\\]]))");
+
     private final String name;
     private final Type type;
     private final List<String> regexps;
@@ -13,11 +19,19 @@ public final class ParameterType<T> implements Comparable<ParameterType<?>> {
     private final boolean useForSnippets;
     private final CaptureGroupTransformer<T> transformer;
 
+    static void checkParameterTypeName(String name) {
+        String unescapedTypeName = UNESCAPE_PATTERN.matcher(name).replaceAll("$2");
+        Matcher matcher = ILLEGAL_PARAMETER_NAME_PATTERN.matcher(unescapedTypeName);
+        if (matcher.find()) {
+            throw new CucumberExpressionException(String.format("Illegal character '%s' in parameter name {%s}.", matcher.group(1), unescapedTypeName));
+        }
+    }
+
     public ParameterType(String name, List<String> regexps, Type type, CaptureGroupTransformer<T> transformer, boolean useForSnippets, boolean preferForRegexpMatch) {
-        if (name == null) throw new CucumberExpressionException("name cannot be null");
-        if (regexps == null) throw new CucumberExpressionException("regexps cannot be null");
-        if (type == null) throw new CucumberExpressionException("type cannot be null");
-        if (transformer == null) throw new CucumberExpressionException("transformer cannot be null");
+        if (regexps == null) throw new NullPointerException("regexps cannot be null");
+        if (type == null) throw new NullPointerException("type cannot be null");
+        if (transformer == null) throw new NullPointerException("transformer cannot be null");
+        if (name != null) checkParameterTypeName(name);
         this.name = name;
         this.regexps = regexps;
         this.type = type;
@@ -119,8 +133,10 @@ public final class ParameterType<T> implements Comparable<ParameterType<?>> {
         }
 
         try {
-            String[] groupValueArray = groupValues.toArray(new String[groupValues.size()]);
+            String[] groupValueArray = groupValues.toArray(new String[0]);
             return transformer.transform(groupValueArray);
+        } catch (CucumberExpressionException e) {
+            throw e;
         } catch (Throwable throwable) {
             throw new CucumberExpressionException(String.format("ParameterType {%s} failed to transform %s to %s", name, groupValues, type), throwable);
         }
@@ -130,7 +146,9 @@ public final class ParameterType<T> implements Comparable<ParameterType<?>> {
     public int compareTo(ParameterType<?> o) {
         if (preferForRegexpMatch() && !o.preferForRegexpMatch()) return -1;
         if (o.preferForRegexpMatch() && !preferForRegexpMatch()) return 1;
-        return getName().compareTo(o.getName());
+        String name = getName() != null ? getName() : "";
+        String otherName = o.getName() != null ? o.getName() : "";
+        return name.compareTo(otherName);
     }
 
     private static final class TransformerAdaptor<T> implements CaptureGroupTransformer<T> {
@@ -138,13 +156,14 @@ public final class ParameterType<T> implements Comparable<ParameterType<?>> {
         private final Transformer<T> transformer;
 
         private TransformerAdaptor(Transformer<T> transformer) {
-            if (transformer == null) throw new CucumberExpressionException("transformer cannot be null");
+            if (transformer == null) throw new NullPointerException("transformer cannot be null");
             this.transformer = transformer;
         }
 
         @Override
         public T transform(String[] args) throws Throwable {
-            return transformer.transform(args.length == 0 ? null : args[0]);
+            String arg = args.length == 0 ? null : args[0];
+            return transformer.transform(arg);
         }
     }
 }

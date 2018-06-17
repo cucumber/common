@@ -21,7 +21,7 @@ class RegularExpression {
             text
           ) ||
           new ParameterType(
-            parameterTypeRegexp,
+            null,
             parameterTypeRegexp,
             String,
             s => s,

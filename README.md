@@ -8,7 +8,7 @@ Cucumber is a tool that supports [Behaviour-Driven Development
 development process that aims to enhance software quality and reduce
 maintenance costs.
 
-Cucumber executes *executable specifications* written in [plain language](docs/gherkin.md)
+Cucumber executes *executable specifications* written in [plain language](https://docs.cucumber.io/gherkin/)
 and produces reports indicating whether the software behaves according to the
 specification or not.
 

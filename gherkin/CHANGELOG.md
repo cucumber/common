@@ -10,6 +10,28 @@ This document is formatted according to the principles of [Keep A CHANGELOG](htt
 ## [Unreleased] - In Git
 
 ### Added
+* Added `Example` as synonym for `Scenario` in English and many other languages.
+  This is to align Gherkin with BDD and Example Mapping terminology.
+  ([aslakhellesoy])
+
+### Changed
+
+* (JavaScript,Java,Ruby,Go) `Scenario` keyword (or `Example` keyword) can be used to create `Scenario Outline`.
+
+### Deprecated
+
+### Removed
+
+### Fixed
+
+* (JavaScript) Fix ability to pass language to parser.
+  ([#401](https://github.com/cucumber/cucumber/pull/401)
+   [charlierudolph])
+
+## [5.1.0] - 2018-05-30
+
+### Added
+* (.NET) - Better .NET Core support
 * Support for Aragonese
   ([#298](https://github.com/cucumber/cucumber/pull/298)
    [danilat])
@@ -24,12 +46,19 @@ This document is formatted according to the principles of [Keep A CHANGELOG](htt
    [rjwittams])
 * Fixed Russian equivalents of `Given` and `Then`. ([#369](https://github.com/cucumber/cucumber/pull/369) [cerebellum13](https://github.com/cerebellum13))
 
-### Deprecated
-
-### Removed
-
 ### Fixed
 
+* (C) Segfault when file does not exist
+  ([#394](https://github.com/cucumber/cucumber/issues/394)
+   [#395](https://github.com/cucumber/cucumber/pull/395)
+   [cyocum])
+* (JavaScript)
+  ([#374](https://github.com/cucumber/cucumber/issues/374)
+   [#377](https://github.com/cucumber/cucumber/pull/377)
+   [charlierudolph])
+* (Ruby, JavaScript) Remove berp.exe from packages
+  ([#289](https://github.com/cucumber/cucumber/issues/289)
+   [aslakhellesoy])
 * (Go) fixes validation for go vet tool on latest versions
   ([#330](https://github.com/cucumber/cucumber/pull/330)
    [l3pp4rd])
@@ -372,8 +401,9 @@ to Gherkin 2.
 * First release
 
 <!-- Releases -->
-[Unreleased]: https://github.com/cucumber/cucumber/compare/gherkin-v5.0.0...HEAD
-[4.1.3]:      https://github.com/cucumber/cucumber/compare/gherkin-v4.1.3...gherkin-v5.0.0
+[Unreleased]: https://github.com/cucumber/cucumber/compare/gherkin-v5.1.0...HEAD
+[5.1.0]:      https://github.com/cucumber/cucumber/compare/gherkin-v5.0.0...gherkin-v5.1.0
+[5.0.0]:      https://github.com/cucumber/cucumber/compare/gherkin-v4.1.3...gherkin-v5.0.0
 [4.1.3]:      https://github.com/cucumber/cucumber/compare/gherkin-v4.1.2...gherkin-v4.1.3
 [4.1.2]:      https://github.com/cucumber/cucumber/compare/gherkin-v4.1.1...gherkin-v4.1.2
 [4.1.1]:      https://github.com/cucumber/cucumber/compare/gherkin-v4.1.0...gherkin-v4.1.1

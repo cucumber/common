@@ -1,4 +1,5 @@
 ../LICENSE LICENSE
+../../.templates/github/ .github/
 ../../.templates/go/.travis.yml .travis.yml
 ../testdata/ testdata/
 ../gherkin.berp gherkin.berp

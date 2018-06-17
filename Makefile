@@ -1,3 +1,4 @@
+SHELL := /usr/bin/env bash
 MAKEFILES=event-protocol/Makefile \
   gherkin/Makefile \
 	datatable/Makefile \

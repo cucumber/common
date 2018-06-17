@@ -16,6 +16,11 @@ import java.util.Map;
 import static io.cucumber.datatable.DataTable.emptyDataTable;
 import static io.cucumber.datatable.TableParser.parse;
 import static io.cucumber.datatable.TypeFactory.typeName;
+import static io.cucumber.datatable.UndefinedDataTableTypeException.listNoConverterDefined;
+import static io.cucumber.datatable.UndefinedDataTableTypeException.listsNoConverterDefined;
+import static io.cucumber.datatable.UndefinedDataTableTypeException.mapNoConverterDefined;
+import static io.cucumber.datatable.UndefinedDataTableTypeException.mapsNoConverterDefined;
+import static io.cucumber.datatable.UndefinedDataTableTypeException.singletonNoConverterDefined;
 import static java.lang.Double.parseDouble;
 import static java.lang.String.format;
 import static java.util.Arrays.asList;
@@ -78,7 +83,7 @@ public class DataTableTypeRegistryTableConverterTest {
     };
     private static final TableCellTransformer<AirPortCode> AIR_PORT_CODE_TABLE_CELL_TRANSFORMER = new TableCellTransformer<AirPortCode>() {
         @Override
-        public AirPortCode transform(String cell) throws Throwable {
+        public AirPortCode transform(String cell) {
             return new AirPortCode(cell);
         }
     };
@@ -86,8 +91,8 @@ public class DataTableTypeRegistryTableConverterTest {
         @Override
         public Coordinate transform(Map<String, String> tableEntry) {
             return new Coordinate(
-                    parseDouble(tableEntry.get("latt")),
-                    parseDouble(tableEntry.get("long"))
+                    parseDouble(tableEntry.get("lat")),
+                    parseDouble(tableEntry.get("lon"))
             );
         }
     };
@@ -233,6 +238,8 @@ public class DataTableTypeRegistryTableConverterTest {
 
     @Test
     public void convert_to_list_of_object() {
+        registry.defineDataTableType(new DataTableType(Author.class, AUTHOR_TABLE_ENTRY_TRANSFORMER));
+
         DataTable table = parse("",
                 " | firstName   | lastName | birthDate  |",
                 " | Annie M. G. | Schmidt  | 1911-03-20 |",
@@ -246,11 +253,31 @@ public class DataTableTypeRegistryTableConverterTest {
                 new Author("Astrid", "Lindgren", "1907-11-14")
         );
 
-        registry.defineDataTableType(new DataTableType("author", Author.class, AUTHOR_TABLE_ENTRY_TRANSFORMER));
+        assertEquals(expected, converter.toList(table, Author.class));
+        assertEquals(expected, converter.convert(table, LIST_OF_AUTHOR));
+    }
+
+    @Test
+    public void convert_to_list_of_object_using_object_mapper() {
+        registry.defineDataTableType(DataTableType.entry(Author.class));
+
+        DataTable table = parse("",
+                " | firstName   | lastName | birthDate  |",
+                " | Annie M. G. | Schmidt  | 1911-03-20 |",
+                " | Roald       | Dahl     | 1916-09-13 |",
+                " | Astrid      | Lindgren | 1907-11-14 |"
+        );
+
+        List<Author> expected = asList(
+                new Author("Annie M. G.", "Schmidt", "1911-03-20"),
+                new Author("Roald", "Dahl", "1916-09-13"),
+                new Author("Astrid", "Lindgren", "1907-11-14")
+        );
 
         assertEquals(expected, converter.toList(table, Author.class));
         assertEquals(expected, converter.convert(table, LIST_OF_AUTHOR));
     }
+
 
     @Test
     public void convert_to_list_of_primitive() {
@@ -267,10 +294,7 @@ public class DataTableTypeRegistryTableConverterTest {
 
     @Test
     public void convert_to_list_of_unknown_type__throws_exception__register_transformer() {
-        expectedException.expectMessage(format("" +
-                        "Can't convert DataTable to List<%s>. " +
-                        "Please register a DataTableType with a TableEntryTransformer or TableRowTransformer for %s",
-                typeName(Author.class), Author.class));
+        expectedException.expectMessage(listNoConverterDefined(Author.class, "TableEntryTransformer or TableRowTransformer", Author.class).getMessage());
 
         DataTable table = parse("",
                 " | firstName   | lastName | birthDate  |",
@@ -314,10 +338,7 @@ public class DataTableTypeRegistryTableConverterTest {
 
     @Test
     public void convert_to_lists_of_unknown_type__throws_exception__register_transformer() {
-        expectedException.expectMessage(format("" +
-                        "Can't convert DataTable to List<List<%s>>. " +
-                        "Please register a DataTableType with a TableCellTransformer for %s",
-                typeName(Date.class), Date.class));
+        expectedException.expectMessage(listsNoConverterDefined(Date.class).getMessage());
 
         DataTable table = parse("",
                 " | birthDate  |",
@@ -360,7 +381,7 @@ public class DataTableTypeRegistryTableConverterTest {
     @Test
     public void convert_to_map_of_object_to_object() {
         DataTable table = parse("",
-                "|      | latt      | long        |",
+                "|      | lat       | lon         |",
                 "| KMSY | 29.993333 | -90.258056  |",
                 "| KSFO | 37.618889 | -122.375    |",
                 "| KSEA | 47.448889 | -122.309444 |",
@@ -374,8 +395,32 @@ public class DataTableTypeRegistryTableConverterTest {
             put(new AirPortCode("KJFK"), new Coordinate(40.639722, -73.778889));
         }};
 
-        registry.defineDataTableType(new DataTableType("coordinate", Coordinate.class, COORDINATE_TABLE_ENTRY_TRANSFORMER));
-        registry.defineDataTableType(new DataTableType("airport", AirPortCode.class, AIR_PORT_CODE_TABLE_CELL_TRANSFORMER));
+        registry.defineDataTableType(new DataTableType(Coordinate.class, COORDINATE_TABLE_ENTRY_TRANSFORMER));
+        registry.defineDataTableType(new DataTableType(AirPortCode.class, AIR_PORT_CODE_TABLE_CELL_TRANSFORMER));
+
+        assertEquals(expected, converter.toMap(table, AirPortCode.class, Coordinate.class));
+        assertEquals(expected, converter.convert(table, MAP_OF_AIR_PORT_CODE_TO_COORDINATE));
+    }
+
+    @Test
+    public void convert_to_map_of_object_to_object_using_list_of_and_string_wrapper() {
+        DataTable table = parse("",
+                "|      | lat       | lon         |",
+                "| KMSY | 29.993333 | -90.258056  |",
+                "| KSFO | 37.618889 | -122.375    |",
+                "| KSEA | 47.448889 | -122.309444 |",
+                "| KJFK | 40.639722 | -73.778889  |"
+        );
+
+        Map<AirPortCode, Coordinate> expected = new HashMap<AirPortCode, Coordinate>() {{
+            put(new AirPortCode("KMSY"), new Coordinate(29.993333, -90.258056));
+            put(new AirPortCode("KSFO"), new Coordinate(37.618889, -122.375));
+            put(new AirPortCode("KSEA"), new Coordinate(47.448889, -122.309444));
+            put(new AirPortCode("KJFK"), new Coordinate(40.639722, -73.778889));
+        }};
+
+        registry.defineDataTableType(DataTableType.entry(Coordinate.class));
+        registry.defineDataTableType(DataTableType.cell(AirPortCode.class));
 
         assertEquals(expected, converter.toMap(table, AirPortCode.class, Coordinate.class));
         assertEquals(expected, converter.convert(table, MAP_OF_AIR_PORT_CODE_TO_COORDINATE));
@@ -410,7 +455,7 @@ public class DataTableTypeRegistryTableConverterTest {
                 "  | C |   | ♝ |   |"
         );
 
-        registry.defineDataTableType(new DataTableType("piece", Piece.class, PIECE_TABLE_CELL_TRANSFORMER));
+        registry.defineDataTableType(new DataTableType(Piece.class, PIECE_TABLE_CELL_TRANSFORMER));
 
         Map<String, Map<Integer, Piece>> expected = new HashMap<String, Map<Integer, Piece>>() {{
             put("A", new HashMap<Integer, Piece>() {{
@@ -436,7 +481,7 @@ public class DataTableTypeRegistryTableConverterTest {
     @Test
     public void convert_to_map_of_primitive_to_map_of_primitive_to_primitive() {
         DataTable table = parse("",
-                "|      | latt      | long        |",
+                "|      | lat       | lon         |",
                 "| KMSY | 29.993333 | -90.258056  |",
                 "| KSFO | 37.618889 | -122.375    |",
                 "| KSEA | 47.448889 | -122.309444 |",
@@ -446,20 +491,20 @@ public class DataTableTypeRegistryTableConverterTest {
 
         Map<String, Map<String, Double>> expected = new HashMap<String, Map<String, Double>>() {{
             put("KMSY", new HashMap<String, Double>() {{
-                put("latt", 29.993333);
-                put("long", -90.258056);
+                put("lat", 29.993333);
+                put("lon", -90.258056);
             }});
             put("KSFO", new HashMap<String, Double>() {{
-                put("latt", 37.618889);
-                put("long", -122.375);
+                put("lat", 37.618889);
+                put("lon", -122.375);
             }});
             put("KSEA", new HashMap<String, Double>() {{
-                put("latt", 47.448889);
-                put("long", -122.309444);
+                put("lat", 47.448889);
+                put("lon", -122.309444);
             }});
             put("KJFK", new HashMap<String, Double>() {{
-                put("latt", 40.639722);
-                put("long", -73.778889);
+                put("lat", 40.639722);
+                put("lon", -73.778889);
             }});
         }};
 
@@ -469,7 +514,7 @@ public class DataTableTypeRegistryTableConverterTest {
     @Test
     public void convert_to_map_of_primitive_to_object__blank_first_cell() {
         DataTable table = parse("",
-                "|      | latt      | long        |",
+                "|      | lat       | lon         |",
                 "| KMSY | 29.993333 | -90.258056  |",
                 "| KSFO | 37.618889 | -122.375    |",
                 "| KSEA | 47.448889 | -122.309444 |",
@@ -483,7 +528,7 @@ public class DataTableTypeRegistryTableConverterTest {
             put("KJFK", new Coordinate(40.639722, -73.778889));
         }};
 
-        registry.defineDataTableType(new DataTableType("coordinate", Coordinate.class, COORDINATE_TABLE_ENTRY_TRANSFORMER));
+        registry.defineDataTableType(new DataTableType(Coordinate.class, COORDINATE_TABLE_ENTRY_TRANSFORMER));
 
         assertEquals(expected, converter.toMap(table, String.class, Coordinate.class));
         assertEquals(expected, converter.convert(table, MAP_OF_STRING_TO_COORDINATE));
@@ -509,7 +554,7 @@ public class DataTableTypeRegistryTableConverterTest {
     @Test
     public void convert_to_map_of_string_to_map() {
         DataTable table = parse("",
-                "|      | latt      | long        |",
+                "|      | lat       | lon         |",
                 "| KMSY | 29.993333 | -90.258056  |",
                 "| KSFO | 37.618889 | -122.375    |",
                 "| KSEA | 47.448889 | -122.309444 |",
@@ -518,20 +563,20 @@ public class DataTableTypeRegistryTableConverterTest {
 
         Map<String, Map<String, String>> expected = new HashMap<String, Map<String, String>>() {{
             put("KMSY", new HashMap<String, String>() {{
-                put("latt", "29.993333");
-                put("long", "-90.258056");
+                put("lat", "29.993333");
+                put("lon", "-90.258056");
             }});
             put("KSFO", new HashMap<String, String>() {{
-                put("latt", "37.618889");
-                put("long", "-122.375");
+                put("lat", "37.618889");
+                put("lon", "-122.375");
             }});
             put("KSEA", new HashMap<String, String>() {{
-                put("latt", "47.448889");
-                put("long", "-122.309444");
+                put("lat", "47.448889");
+                put("lon", "-122.309444");
             }});
             put("KJFK", new HashMap<String, String>() {{
-                put("latt", "40.639722");
-                put("long", "-73.778889");
+                put("lat", "40.639722");
+                put("lon", "-73.778889");
             }});
         }};
 
@@ -610,7 +655,7 @@ public class DataTableTypeRegistryTableConverterTest {
                 "  | C |   | ♝ |   |"
         );
 
-        registry.defineDataTableType(new DataTableType("chessboard", ChessBoard.class, CHESS_BOARD_TABLE_TRANSFORMER));
+        registry.defineDataTableType(new DataTableType(ChessBoard.class, CHESS_BOARD_TABLE_TRANSFORMER));
         ChessBoard expected = new ChessBoard(asList("♘", "♝", "♝"));
 
         assertEquals(expected, converter.convert(table, ChessBoard.class));
@@ -627,7 +672,7 @@ public class DataTableTypeRegistryTableConverterTest {
                 "| ♘ | ♝ |"
         );
 
-        registry.defineDataTableType(new DataTableType("piece", Piece.class, PIECE_TABLE_CELL_TRANSFORMER));
+        registry.defineDataTableType(new DataTableType(Piece.class, PIECE_TABLE_CELL_TRANSFORMER));
         converter.convert(table, Piece.class);
     }
 
@@ -646,7 +691,7 @@ public class DataTableTypeRegistryTableConverterTest {
     @Test
     public void convert_to_single_object__single_cell() {
         DataTable table = parse("| ♝ |");
-        registry.defineDataTableType(new DataTableType("piece", Piece.class, PIECE_TABLE_CELL_TRANSFORMER));
+        registry.defineDataTableType(new DataTableType(Piece.class, PIECE_TABLE_CELL_TRANSFORMER));
 
         assertEquals(Piece.BLACK_BISHOP, converter.convert(table, Piece.class));
     }
@@ -661,7 +706,7 @@ public class DataTableTypeRegistryTableConverterTest {
         );
 
         final DataTable expected = emptyDataTable();
-        registry.defineDataTableType(new DataTableType("table", DataTable.class, new TableTransformer<DataTable>() {
+        registry.defineDataTableType(new DataTableType(DataTable.class, new TableTransformer<DataTable>() {
             @Override
             public DataTable transform(DataTable raw) {
                 return expected;
@@ -685,9 +730,7 @@ public class DataTableTypeRegistryTableConverterTest {
 
     @Test
     public void convert_to_unknown_type__throws_exception() {
-        expectedException.expectMessage(format("Can't convert DataTable to %s. " +
-                "Please register a DataTableType with a TableTransformer, TableEntryTransformer or TableRowTransformer " +
-                "for %s", typeName(Piece.class), Piece.class));
+        expectedException.expectMessage(singletonNoConverterDefined(Piece.class).getMessage());
 
         DataTable table = parse("",
                 "| ♘ |"
@@ -697,11 +740,7 @@ public class DataTableTypeRegistryTableConverterTest {
 
     @Test
     public void to_list__single_column__throws_exception__register_transformer() {
-        expectedException.expectMessage(format("" +
-                        "Can't convert DataTable to List<%s>. " +
-                        "Please register a DataTableType with a " +
-                        "TableEntryTransformer, TableRowTransformer or TableCellTransformer for %s",
-                typeName(Piece.class), Piece.class));
+        expectedException.expectMessage(listNoConverterDefined(Piece.class, "TableEntryTransformer, TableRowTransformer or TableCellTransformer", Piece.class).getMessage());
 
         DataTable table = parse("",
                 "| ♘ |",
@@ -713,10 +752,7 @@ public class DataTableTypeRegistryTableConverterTest {
 
     @Test
     public void to_list_of_unknown_type__throws_exception() {
-        expectedException.expectMessage(format("" +
-                        "Can't convert DataTable to List<%s>. " +
-                        "Please register a DataTableType with a TableEntryTransformer or TableRowTransformer for %s",
-                typeName(Author.class), Author.class));
+        expectedException.expectMessage(listNoConverterDefined(Author.class, "TableEntryTransformer or TableRowTransformer", Author.class).getMessage());
 
         final DataTable table = parse("",
                 " | firstName   | lastName | birthDate  |",
@@ -730,10 +766,7 @@ public class DataTableTypeRegistryTableConverterTest {
 
     @Test
     public void to_lists_of_unknown_type__throws_exception() {
-        expectedException.expectMessage(format("" +
-                        "Can't convert DataTable to List<List<%s>>. " +
-                        "Please register a DataTableType with a TableCellTransformer for %s",
-                typeName(Author.class), Author.class));
+        expectedException.expectMessage(listsNoConverterDefined(Author.class).getMessage());
 
         final DataTable table = parse("",
                 " | firstName   | lastName | birthDate  |",
@@ -752,7 +785,7 @@ public class DataTableTypeRegistryTableConverterTest {
                 "Encountered duplicate key", typeName(AirPortCode.class), typeName(Coordinate.class)));
 
         DataTable table = parse("",
-                "|      | latt      | long        |",
+                "|      | lat       | lon         |",
                 "| KMSY | 29.993333 | -90.258056  |",
                 "| KSEA | 47.448889 | -122.309444 |",
                 "| KSFO | 37.618889 | -122.375    |",
@@ -760,8 +793,8 @@ public class DataTableTypeRegistryTableConverterTest {
                 "| KJFK | 40.639722 | -73.778889  |"
         );
 
-        registry.defineDataTableType(new DataTableType("airport", AirPortCode.class, AIR_PORT_CODE_TABLE_CELL_TRANSFORMER));
-        registry.defineDataTableType(new DataTableType("coordinate", Coordinate.class, COORDINATE_TABLE_ENTRY_TRANSFORMER));
+        registry.defineDataTableType(new DataTableType(AirPortCode.class, AIR_PORT_CODE_TABLE_CELL_TRANSFORMER));
+        registry.defineDataTableType(new DataTableType(Coordinate.class, COORDINATE_TABLE_ENTRY_TRANSFORMER));
 
         converter.toMap(table, AirPortCode.class, Coordinate.class);
     }
@@ -782,7 +815,7 @@ public class DataTableTypeRegistryTableConverterTest {
                 "| KJFK | John F. Kennedy International Airport             |"
         );
 
-        registry.defineDataTableType(new DataTableType("airport", AirPortCode.class, AIR_PORT_CODE_TABLE_ENTRY_TRANSFORMER));
+        registry.defineDataTableType(new DataTableType(AirPortCode.class, AIR_PORT_CODE_TABLE_ENTRY_TRANSFORMER));
 
         converter.toMap(table, AirPortCode.class, String.class);
     }
@@ -803,8 +836,8 @@ public class DataTableTypeRegistryTableConverterTest {
                 "| KJFK | 40.639722 | -73.778889  |"
         );
 
-        registry.defineDataTableType(new DataTableType("airport", AirPortCode.class, AIR_PORT_CODE_TABLE_ENTRY_TRANSFORMER));
-        registry.defineDataTableType(new DataTableType("coordinate", Coordinate.class, COORDINATE_TABLE_ROW_TRANSFORMER));
+        registry.defineDataTableType(new DataTableType(AirPortCode.class, AIR_PORT_CODE_TABLE_ENTRY_TRANSFORMER));
+        registry.defineDataTableType(new DataTableType(Coordinate.class, COORDINATE_TABLE_ROW_TRANSFORMER));
 
         converter.toMap(table, AirPortCode.class, Coordinate.class);
     }
@@ -817,14 +850,14 @@ public class DataTableTypeRegistryTableConverterTest {
                 typeName(AirPortCode.class), typeName(Coordinate.class)));
 
         DataTable table = parse("",
-                "| code | latt      | long        |",
+                "| code | lat       | lon         |",
                 "| KMSY | 29.993333 | -90.258056  |",
                 "| KSFO | 37.618889 | -122.375    |",
                 "| KSEA | 47.448889 | -122.309444 |",
                 "| KJFK | 40.639722 | -73.778889  |"
         );
 
-        registry.defineDataTableType(new DataTableType("airport", AirPortCode.class, AIR_PORT_CODE_TABLE_ENTRY_TRANSFORMER));
+        registry.defineDataTableType(new DataTableType(AirPortCode.class, AIR_PORT_CODE_TABLE_ENTRY_TRANSFORMER));
         converter.toMap(table, AirPortCode.class, Coordinate.class);
     }
 
@@ -837,14 +870,14 @@ public class DataTableTypeRegistryTableConverterTest {
                 "while using a TableRow or TableCellTransformer for the keys?", typeName(String.class), typeName(Coordinate.class)));
 
         DataTable table = parse("",
-                "| code | latt      | long        |",
+                "| code | lat       | lon         |",
                 "| KMSY | 29.993333 | -90.258056  |",
                 "| KSFO | 37.618889 | -122.375    |",
                 "| KSEA | 47.448889 | -122.309444 |",
                 "| KJFK | 40.639722 | -73.778889  |"
         );
 
-        registry.defineDataTableType(new DataTableType("coordinate", Coordinate.class, COORDINATE_TABLE_ENTRY_TRANSFORMER));
+        registry.defineDataTableType(new DataTableType(Coordinate.class, COORDINATE_TABLE_ENTRY_TRANSFORMER));
 
         converter.toMap(table, String.class, Coordinate.class);
     }
@@ -868,10 +901,7 @@ public class DataTableTypeRegistryTableConverterTest {
 
     @Test
     public void to_map_of_unknown_key_type__throws_exception() {
-        expectedException.expectMessage(format("" +
-                        "Can't convert DataTable to Map<%s, %s>. " +
-                        "Please register a DataTableType with a TableEntryTransformer or TableCellTransformer for %s",
-                typeName(Author.class), typeName(String.class), Author.class));
+        expectedException.expectMessage(mapNoConverterDefined(Author.class, String.class, "TableEntryTransformer or TableCellTransformer", Author.class).getMessage());
 
         final DataTable table = parse("",
                 " | name                | birthDate  |",
@@ -885,30 +915,23 @@ public class DataTableTypeRegistryTableConverterTest {
 
     @Test
     public void to_map_of_unknown_type_to_object__throws_exception__register_table_cell_transformer() {
-        expectedException.expectMessage(format("" +
-                        "Can't convert DataTable to Map<%s, %s>. " +
-                        "Please register a DataTableType with a TableCellTransformer for %s",
-                typeName(AirPortCode.class), typeName(Coordinate.class), AirPortCode.class));
-
+        expectedException.expectMessage(mapNoConverterDefined(AirPortCode.class, Coordinate.class, "TableCellTransformer", AirPortCode.class).getMessage());
 
         DataTable table = parse("",
-                "|      | latt      | long        |",
+                "|      | lat       | lon         |",
                 "| KMSY | 29.993333 | -90.258056  |",
                 "| KSFO | 37.618889 | -122.375    |",
                 "| KSEA | 47.448889 | -122.309444 |",
                 "| KJFK | 40.639722 | -73.778889  |"
         );
 
-        registry.defineDataTableType(new DataTableType("coordinate", Coordinate.class, COORDINATE_TABLE_ENTRY_TRANSFORMER));
+        registry.defineDataTableType(new DataTableType(Coordinate.class, COORDINATE_TABLE_ENTRY_TRANSFORMER));
         converter.toMap(table, AirPortCode.class, Coordinate.class);
     }
 
     @Test
     public void to_map_of_unknown_value_type__throws_exception() {
-        expectedException.expectMessage(format("" +
-                        "Can't convert DataTable to Map<%s, %s>. " +
-                        "Please register a DataTableType with a TableEntryTransformer or TableCellTransformer for %s",
-                typeName(String.class), typeName(Date.class), Date.class));
+        expectedException.expectMessage(mapNoConverterDefined(String.class, Date.class, "TableEntryTransformer or TableCellTransformer", Date.class).getMessage());
 
         final DataTable table = parse("",
                 " | Annie M. G. Schmidt | 1911-03-20 |",
@@ -938,13 +961,10 @@ public class DataTableTypeRegistryTableConverterTest {
 
     @Test
     public void to_maps_of_unknown_key_type__throws_exception__register_table_cell_transformer() {
-        expectedException.expectMessage(format(
-                "Can't convert DataTable to List<Map<%s, %s>>. " +
-                        "Please register a DataTableType with a TableCellTransformer for %s",
-                typeName(String.class), typeName(Coordinate.class), Coordinate.class));
+        expectedException.expectMessage(mapsNoConverterDefined(String.class, Coordinate.class, Coordinate.class).getMessage());
 
         DataTable table = parse("",
-                "| latt      | long        |",
+                "| lat       | lon         |",
                 "| 29.993333 | -90.258056  |",
                 "| 37.618889 | -122.375    |",
                 "| 47.448889 | -122.309444 |",
@@ -956,10 +976,7 @@ public class DataTableTypeRegistryTableConverterTest {
 
     @Test
     public void to_maps_of_unknown_value_type__throws_exception__register_table_cell_transformer() {
-        expectedException.expectMessage(format(
-                "Can't convert DataTable to List<Map<%s, %s>>. " +
-                        "Please register a DataTableType with a TableCellTransformer for %s",
-                typeName(Piece.class), typeName(String.class), Piece.class));
+        expectedException.expectMessage(mapsNoConverterDefined(Piece.class, String.class, Piece.class).getMessage());
 
         DataTable table = parse("",
                 "| ♙  | ♟  |",
@@ -1006,7 +1023,7 @@ public class DataTableTypeRegistryTableConverterTest {
     private static final class AirPortCode {
         private final String code;
 
-        private AirPortCode(String code) {
+        public AirPortCode(String code) {
             this.code = code;
         }
 
@@ -1035,14 +1052,21 @@ public class DataTableTypeRegistryTableConverterTest {
 
     private static final class Author {
 
-        private final String firstName;
-        private final String lastName;
-        private final String birthDate;
+        private String firstName;
+        public String lastName;
+        public String birthDate;
 
         private Author(String firstName, String lastName, String birthDate) {
             this.firstName = firstName;
             this.lastName = lastName;
             this.birthDate = birthDate;
+        }
+
+        public Author() {
+        }
+
+        public void setFirstName(String firstName) {
+            this.firstName = firstName;
         }
 
         @Override
@@ -1077,12 +1101,15 @@ public class DataTableTypeRegistryTableConverterTest {
 
     private static final class Coordinate {
 
-        private final double longitude;
-        private final double latitude;
+        public double lat;
+        public double lon;
 
-        private Coordinate(double longitude, double latitude) {
-            this.longitude = longitude;
-            this.latitude = latitude;
+        public Coordinate() {
+        }
+
+        private Coordinate(double lat, double lon) {
+            this.lat = lat;
+            this.lon = lon;
         }
 
         @Override
@@ -1092,17 +1119,17 @@ public class DataTableTypeRegistryTableConverterTest {
 
             Coordinate that = (Coordinate) o;
 
-            if (Double.compare(that.longitude, longitude) != 0) return false;
-            return Double.compare(that.latitude, latitude) == 0;
+            if (Double.compare(that.lat, lat) != 0) return false;
+            return Double.compare(that.lon, lon) == 0;
         }
 
         @Override
         public int hashCode() {
             int result;
             long temp;
-            temp = Double.doubleToLongBits(longitude);
+            temp = Double.doubleToLongBits(lat);
             result = (int) (temp ^ (temp >>> 32));
-            temp = Double.doubleToLongBits(latitude);
+            temp = Double.doubleToLongBits(lon);
             result = 31 * result + (int) (temp ^ (temp >>> 32));
             return result;
         }
@@ -1110,8 +1137,8 @@ public class DataTableTypeRegistryTableConverterTest {
         @Override
         public String toString() {
             return "Coordinate{" +
-                    "longitude=" + longitude +
-                    ", latitude=" + latitude +
+                    "lat=" + lat +
+                    ", lon=" + lon +
                     '}';
         }
     }
