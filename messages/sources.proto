@@ -1,0 +1,29 @@
+syntax = "proto3";
+package cucumber.messages;
+
+message Location {
+  uint32 line = 1;
+  uint32 column = 2;
+}
+
+message Attachment {
+  SourceReference source = 1;
+  string data = 2;
+  Media media = 3;
+}
+
+message Media {
+  string encoding = 1;
+  string content_type = 2;
+}
+
+message Source {
+  string uri = 1;
+  string data = 2;
+  Media media = 3;
+}
+
+message SourceReference {
+  string uri = 1;
+  Location location = 2;
+}

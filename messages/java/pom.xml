@@ -8,7 +8,7 @@
     <version>1.0.0-SNAPSHOT</version>
     <packaging>jar</packaging>
     <name>Cucumber Messages</name>
-    <description>Messages for inter-process communication</description>
+    <description>Protocol Buffer messages for Cucumber's inter-process communication</description>
     <url>https://github.com/cucumber/messages-java</url>
 
     <parent>
