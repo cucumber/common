@@ -12,4 +12,4 @@ default: .built
 
 clean:
 	rm -rf target
-.PHONY: clean
+.PHONY: clean .built

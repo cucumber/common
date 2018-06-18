@@ -1,6 +1,5 @@
 package gherkin;
 
-import gherkin.ast.Location;
 import gherkin.deps.com.google.gson.Gson;
 
 import java.io.InputStreamReader;

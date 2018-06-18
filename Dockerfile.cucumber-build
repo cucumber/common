@@ -5,9 +5,13 @@ FROM alpine:3.7
 
 WORKDIR /app
 
-RUN apk add --no-cache --update --upgrade alpine-sdk make bash maven openjdk8 diffutils jq python py-pip ruby ruby-dev perl perl-dev wget rsync go nodejs
+RUN apk add --no-cache --update --upgrade alpine-sdk make bash maven openjdk8 diffutils jq python py-pip ruby ruby-dev perl perl-dev wget rsync go nodejs unzip
 RUN npm install --global yarn
 RUN echo "gem: --no-document" > ~/.gemrc
 RUN gem install bundler io-console
 RUN pip install pipenv==8.3.2
 RUN curl --fail -L http://cpanmin.us/ > /usr/local/bin/cpanm && chmod +x /usr/local/bin/cpanm
+RUN curl --fail -L https://github.com/google/protobuf/releases/download/v3.5.1/protoc-3.5.1-linux-x86_64.zip > protoc-3.5.1-linux-x86_64.zip
+RUN unzip protoc-3.5.1-linux-x86_64.zip -d protoc-3.5.1
+RUN mv protoc-3.5.1/bin/protoc /usr/local/bin/protoc && chmod +rx /usr/local/bin/protoc
+RUN rm -rf protoc-3.5.1 protoc-3.5.1-linux-x86_64.zip

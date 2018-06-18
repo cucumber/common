@@ -1,0 +1,36 @@
+syntax = "proto3";
+import "gherkin_document.proto";
+import "pickle.proto";
+import "location.proto";
+package gherkin.protobuf;
+
+message AttachmentEvent {
+  SourceReference source = 1;
+  string data = 2;
+  Media media = 3;
+}
+
+message GherkinDocumentEvent {
+  GherkinDocument document = 1;
+  string uri = 2;
+}
+
+message Media {
+  string encoding = 1;
+  string type = 2;
+}
+
+message PickleEvent {
+  string uri = 1;
+  Pickle pickle = 2;
+}
+
+message SourceEvent {
+  string uri = 1;
+  string data = 2;
+}
+
+message SourceReference {
+  string uri = 1;
+  Location start = 2;
+}

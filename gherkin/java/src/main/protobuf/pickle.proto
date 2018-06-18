@@ -1,0 +1,42 @@
+syntax = "proto3";
+import "google/protobuf/any.proto";
+import "location.proto";
+package gherkin.protobuf;
+
+message Pickle {
+  string name = 1;
+  string language = 2;
+  repeated PickleStep steps = 3;
+  repeated PickleTag tags = 4;
+  repeated Location locations = 5;
+}
+
+message PickleDocString {
+  Location location = 1;
+  string contentType = 2;
+  string content = 3;
+}
+
+message PickleStep {
+  string text = 1;
+  repeated google.protobuf.Any arguments = 2;
+  repeated Location locations = 3;
+}
+
+message PickleTable {
+  repeated PickleTableRow rows = 1;
+}
+
+message PickleTableCell {
+  Location location = 1;
+  string value = 2;
+}
+
+message PickleTableRow {
+  repeated PickleTableCell cells = 1;
+}
+
+message PickleTag {
+  Location location = 1;
+  string name = 2;
+}

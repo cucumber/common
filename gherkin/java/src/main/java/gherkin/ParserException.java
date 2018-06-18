@@ -1,7 +1,5 @@
 package gherkin;
 
-import gherkin.ast.Location;
-
 import java.util.Collections;
 import java.util.List;
 
@@ -10,7 +8,7 @@ public class ParserException extends RuntimeException {
 
     protected ParserException(String message) {
         super(message);
-        location = null;
+        location = new Location(-1, -1);
     }
 
     protected ParserException(String message, Location location) {

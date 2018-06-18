@@ -5,3 +5,4 @@
 ../gherkin.berp gherkin.berp
 ../bin/ berp/
 ../gherkin-languages.json src/main/resources/gherkin/gherkin-languages.json
+../proto/ src/main/protobuf/
