@@ -1,4 +1,4 @@
-package gherkin.stream;
+package gherkin.cli;
 
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;

@@ -22,55 +22,55 @@ default: .compared
 	mvn install
 	touch $@
 
-# # Generate
-# acceptance/testdata/%.feature.tokens: testdata/%.feature .built
-# 	mkdir -p `dirname $@`
-# 	bin/gherkin-generate-tokens $< > $<.tokens
-
-acceptance/testdata/%.feature.tokens: testdata/%.feature testdata/%.feature.tokens .built
+# Generate
+acceptance/testdata/%.feature.tokens: testdata/%.feature .built
 	mkdir -p `dirname $@`
-	bin/gherkin-generate-tokens $< > $@
-	diff --unified $<.tokens $@
+	bin/gherkin-generate-tokens $< > $<.tokens
 
-# # Generate
-# acceptance/testdata/%.feature.ast.ndjson: testdata/%.feature .built
+# acceptance/testdata/%.feature.tokens: testdata/%.feature testdata/%.feature.tokens .built
 # 	mkdir -p `dirname $@`
-# 	bin/gherkin --no-source --no-pickles $< | jq --sort-keys --compact-output "." > $<.ast.ndjson
+# 	bin/gherkin-generate-tokens $< > $@
+# 	diff --unified $<.tokens $@
 
-acceptance/testdata/%.feature.ast.ndjson: testdata/%.feature testdata/%.feature.ast.ndjson .built
+# Generate
+acceptance/testdata/%.feature.ast.ndjson: testdata/%.feature .built
 	mkdir -p `dirname $@`
-	bin/gherkin --no-source --no-pickles $< | jq --sort-keys --compact-output "." > $@
-	diff --unified <(jq "." $<.ast.ndjson) <(jq "." $@)
+	bin/gherkin --no-source --no-pickles $< | jq --sort-keys --compact-output "." > $<.ast.ndjson
 
-# # Generate
-# acceptance/testdata/%.feature.pickles.ndjson: testdata/%.feature .built
+# acceptance/testdata/%.feature.ast.ndjson: testdata/%.feature testdata/%.feature.ast.ndjson .built
 # 	mkdir -p `dirname $@`
-# 	bin/gherkin --no-source --no-ast $< | jq --sort-keys --compact-output "." > $<.pickles.ndjson
+# 	bin/gherkin --no-source --no-pickles $< | jq --sort-keys --compact-output "." > $@
+# 	diff --unified <(jq "." $<.ast.ndjson) <(jq "." $@)
 
-acceptance/testdata/%.feature.pickles.ndjson: testdata/%.feature testdata/%.feature.pickles.ndjson .built
+# Generate
+acceptance/testdata/%.feature.pickles.ndjson: testdata/%.feature .built
 	mkdir -p `dirname $@`
-	bin/gherkin --no-source --no-ast $< | jq --sort-keys --compact-output "." > $@
-	diff --unified <(jq "." $<.pickles.ndjson) <(jq "." $@)
+	bin/gherkin --no-source --no-ast $< | jq --sort-keys --compact-output "." > $<.pickles.ndjson
 
-# # Generate
-# acceptance/testdata/%.feature.source.ndjson: testdata/%.feature .built
+# acceptance/testdata/%.feature.pickles.ndjson: testdata/%.feature testdata/%.feature.pickles.ndjson .built
 # 	mkdir -p `dirname $@`
-# 	bin/gherkin --no-ast --no-pickles $< | jq --sort-keys --compact-output "." > $<.source.ndjson
+# 	bin/gherkin --no-source --no-ast $< | jq --sort-keys --compact-output "." > $@
+# 	diff --unified <(jq "." $<.pickles.ndjson) <(jq "." $@)
 
-acceptance/testdata/%.feature.source.ndjson: testdata/%.feature testdata/%.feature.source.ndjson .built
+# Generate
+acceptance/testdata/%.feature.source.ndjson: testdata/%.feature .built
 	mkdir -p `dirname $@`
-	bin/gherkin --no-ast --no-pickles $< | jq --sort-keys --compact-output "." > $@
-	diff --unified <(jq "." $<.source.ndjson) <(jq "." $@)
+	bin/gherkin --no-ast --no-pickles $< | jq --sort-keys --compact-output "." > $<.source.ndjson
 
-# # Generate
-# acceptance/testdata/%.feature.errors.ndjson: testdata/%.feature .built
+# acceptance/testdata/%.feature.source.ndjson: testdata/%.feature testdata/%.feature.source.ndjson .built
 # 	mkdir -p `dirname $@`
-# 	bin/gherkin $< | jq --sort-keys --compact-output "." > $<.errors.ndjson
+# 	bin/gherkin --no-ast --no-pickles $< | jq --sort-keys --compact-output "." > $@
+# 	diff --unified <(jq "." $<.source.ndjson) <(jq "." $@)
 
-acceptance/testdata/%.feature.errors.ndjson: testdata/%.feature testdata/%.feature.errors.ndjson .built
+# Generate
+acceptance/testdata/%.feature.errors.ndjson: testdata/%.feature .built
 	mkdir -p `dirname $@`
-	bin/gherkin $< | jq --sort-keys --compact-output "." > $@
-	diff --unified <(jq "." $<.errors.ndjson) <(jq "." $@)
+	bin/gherkin $< | jq --sort-keys --compact-output "." > $<.errors.ndjson
+
+# acceptance/testdata/%.feature.errors.ndjson: testdata/%.feature testdata/%.feature.errors.ndjson .built
+# 	mkdir -p `dirname $@`
+# 	bin/gherkin $< | jq --sort-keys --compact-output "." > $@
+# 	diff --unified <(jq "." $<.errors.ndjson) <(jq "." $@)
 
 src/main/java/gherkin/Parser.java: gherkin.berp gherkin-java.razor berp/berp.exe
 	-mono berp/berp.exe -g gherkin.berp -t gherkin-java.razor -o $@

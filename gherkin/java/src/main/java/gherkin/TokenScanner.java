@@ -1,7 +1,5 @@
 package gherkin;
 
-import gherkin.ast.Location;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.Reader;

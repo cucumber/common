@@ -1,0 +1,44 @@
+syntax = "proto3";
+import "sources.proto";
+package cucumber.messages;
+
+message Pickle {
+  string uri = 1;
+  string name = 2;
+  string language = 3;
+  repeated PickleStep steps = 4;
+  repeated PickleTag tags = 5;
+  repeated Location locations = 6;
+}
+
+message PickleDocString {
+  Location location = 1;
+  string contentType = 2;
+  string content = 3;
+}
+
+message PickleStep {
+  string text = 1;
+  repeated Location locations = 2;
+  oneof argument {
+    PickleDocString doc_string = 3;
+    PickleTable data_table = 4;
+  }}
+
+message PickleTable {
+  repeated PickleTableRow rows = 1;
+}
+
+message PickleTableCell {
+  Location location = 1;
+  string value = 2;
+}
+
+message PickleTableRow {
+  repeated PickleTableCell cells = 1;
+}
+
+message PickleTag {
+  Location location = 1;
+  string name = 2;
+}

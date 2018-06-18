@@ -1,14 +1,14 @@
 package gherkin;
 
-import gherkin.ast.GherkinDocument;
+import cucumber.messages.Gherkin.GherkinDocument;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
 
-public class AstBuilderTest {
+public class GherkinDocumentBuilderTest {
     @Test
     public void is_reusable() {
-        Parser<GherkinDocument> parser = new Parser<>(new AstBuilder());
+        Parser<GherkinDocument> parser = new Parser<>(new GherkinDocumentBuilder());
         TokenMatcher matcher = new TokenMatcher();
 
         GherkinDocument d1 = parser.parse("Feature: 1", matcher);

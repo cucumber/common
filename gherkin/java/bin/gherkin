@@ -2,5 +2,5 @@
 DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
 
 java \
-    -classpath ~/.m2/repository/io/cucumber/gherkin-jvm-deps/1.0.4/gherkin-jvm-deps-1.0.4.jar:$DIR/../target/classes \
+    -classpath ~/.m2/repository/io/cucumber/gherkin-jvm-deps/1.0.4/gherkin-jvm-deps-1.0.4.jar:~/.m2/repository/io/cucumber/messages/1.0.0-SNAPSHOT/messages-1.0.0-SNAPSHOT.jar:~/.m2/repository/com/google/protobuf/protobuf-java/3.5.1/protobuf-java-3.5.1.jar:~/.m2/repository/com/google/protobuf/protobuf-java-util/3.5.1/protobuf-java-util-3.5.1.jar:~/.m2/repository/com/google/guava/guava/19.0/guava-19.0.jar:~/.m2/repository/com/google/code/gson/gson/2.7/gson-2.7.jar:$DIR/../target/classes \
     gherkin.cli.Main $*

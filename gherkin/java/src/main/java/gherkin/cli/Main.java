@@ -1,22 +1,20 @@
 package gherkin.cli;
 
-import gherkin.deps.com.google.gson.Gson;
-import gherkin.deps.com.google.gson.GsonBuilder;
-import gherkin.events.CucumberEvent;
-import gherkin.events.SourceEvent;
-import gherkin.stream.GherkinEvents;
-import gherkin.stream.SourceEvents;
-import gherkin.stream.Stdio;
+import com.google.protobuf.InvalidProtocolBufferException;
+import com.google.protobuf.Message;
+import com.google.protobuf.util.JsonFormat;
+import cucumber.messages.Sources.Source;
+import gherkin.messages.GherkinMessages;
+import gherkin.messages.FileSources;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 import static java.util.Arrays.asList;
 
 public class Main {
-    public static void main(String[] argv) throws IOException {
-        final Gson gson = new GsonBuilder().create();
+    public static void main(String[] argv) throws InvalidProtocolBufferException {
+        JsonFormat.Printer printer = JsonFormat.printer();
 
         List<String> args = new ArrayList<>(asList(argv));
         List<String> paths = new ArrayList<>();
@@ -43,11 +41,11 @@ public class Main {
             }
         }
 
-        SourceEvents sourceEvents = new SourceEvents(paths);
-        GherkinEvents gherkinEvents = new GherkinEvents(printSource, printAst, printPickles);
-        for (SourceEvent sourceEventEvent : sourceEvents) {
-            for (CucumberEvent cucumberEvent : gherkinEvents.iterable(sourceEventEvent)) {
-                Stdio.out.write(gson.toJson(cucumberEvent));
+        FileSources fileSources = new FileSources(paths);
+        GherkinMessages gherkinMessages = new GherkinMessages(printSource, printAst, printPickles);
+        for (Source sourceEventEvent : fileSources) {
+            for (Message message : gherkinMessages.messages(sourceEventEvent)) {
+                Stdio.out.write(printer.print(message));
                 Stdio.out.write("\n");
                 Stdio.out.flush();
             }
