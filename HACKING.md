@@ -60,13 +60,14 @@ In the new directory, create the following files:
 
 #### Create new subrepo.
 
-Create a new, empty subrepo at GitHub.
+Create a new, empty subrepo at GitHub. Check the box for initialising
+with a README - it's needed to create an initial `master` branch to push to.
 
 Log into Travis and set up build for the new (empty) subrepo.
 
 Initialise the subrepo, for example:
     
-    echo "git@github.com:cucumber/tag-expressions-go.git" > tag-expressions/go/.subrepo
+    echo "cucumber/tag-expressions-go.git" > tag-expressions/go/.subrepo
 
 Push to the subrepo:
 
