@@ -111,6 +111,11 @@ public class TokenMatcher implements ITokenMatcher {
     }
 
     @Override
+    public boolean match_RuleLine(Token token) {
+        return matchTitleLine(token, TokenType.RuleLine, currentDialect.getRuleKeywords());
+    }
+
+    @Override
     public boolean match_BackgroundLine(Token token) {
         return matchTitleLine(token, TokenType.BackgroundLine, currentDialect.getBackgroundKeywords());
     }

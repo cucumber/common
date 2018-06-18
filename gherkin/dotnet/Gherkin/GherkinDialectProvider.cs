@@ -22,6 +22,7 @@ namespace Gherkin
             public string name;
             public string native;
             public string[] feature;
+            public string[] rule;
             public string[] background;
             public string[] scenario;
             public string[] scenarioOutline;
@@ -102,6 +103,7 @@ namespace Gherkin
             return new GherkinDialect(
                 language,
                 ParseTitleKeywords(languageSettings.feature),
+                ParseTitleKeywords(languageSettings.rule),
                 ParseTitleKeywords(languageSettings.background),
                 ParseTitleKeywords(languageSettings.scenario),
                 ParseTitleKeywords(languageSettings.scenarioOutline),
@@ -129,6 +131,7 @@ namespace Gherkin
             return new GherkinDialect(
                 "en",
                 new[] {"Feature"},
+                new[] {"Rule"},
                 new[] {"Background"},
                 new[] {"Scenario"},
                 new[] {"Scenario Outline", "Scenario Template"},

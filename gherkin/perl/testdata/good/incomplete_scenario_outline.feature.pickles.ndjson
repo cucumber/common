@@ -1,0 +1,3 @@
+{"language":"en","locations":[{"column":3,"line":6}],"name":"steps, no examples","steps":[{"locations":[{"column":5,"line":4}],"text":"a step"},{"locations":[{"column":5,"line":7}],"text":"a step"}],"uri":"testdata/good/incomplete_scenario_outline.feature"}
+{"language":"en","locations":[{"column":3,"line":9}],"name":"no steps, no examples","uri":"testdata/good/incomplete_scenario_outline.feature"}
+{"language":"en","locations":[{"column":5,"line":24},{"column":3,"line":20}],"name":"no steps, one example header","uri":"testdata/good/incomplete_scenario_outline.feature"}

@@ -7,6 +7,7 @@ namespace Gherkin
         public string Language { get; private set; }
 
         public string[] FeatureKeywords { get; private set; }
+        public string[] RuleKeywords { get; private set; }
         public string[] BackgroundKeywords { get; private set; }
         public string[] ScenarioKeywords { get; private set; }
         public string[] ScenarioOutlineKeywords { get; private set; }
@@ -23,6 +24,7 @@ namespace Gherkin
         public GherkinDialect(
             string language,
             string[] featureKeywords, 
+            string[] ruleKeywords, 
             string[] backgroundKeywords, 
             string[] scenarioKeywords,
             string[] scenarioOutlineKeywords,
@@ -35,6 +37,7 @@ namespace Gherkin
         {
             Language = language;
             FeatureKeywords = featureKeywords;
+            RuleKeywords = ruleKeywords;
             BackgroundKeywords = backgroundKeywords;
             ScenarioKeywords = scenarioKeywords;
             ScenarioOutlineKeywords = scenarioOutlineKeywords;

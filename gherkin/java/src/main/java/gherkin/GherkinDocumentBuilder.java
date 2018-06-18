@@ -1,13 +1,16 @@
 package gherkin;
 
+import cucumber.messages.Gherkin;
 import cucumber.messages.Gherkin.Background;
 import cucumber.messages.Gherkin.Comment;
 import cucumber.messages.Gherkin.DataTable;
 import cucumber.messages.Gherkin.DocString;
 import cucumber.messages.Gherkin.Examples;
 import cucumber.messages.Gherkin.Feature;
+import cucumber.messages.Gherkin.Rule;
 import cucumber.messages.Gherkin.FeatureChild;
 import cucumber.messages.Gherkin.GherkinDocument;
+import cucumber.messages.Gherkin.RuleChild;
 import cucumber.messages.Gherkin.Scenario;
 import cucumber.messages.Gherkin.Step;
 import cucumber.messages.Gherkin.TableCell;
@@ -109,7 +112,7 @@ public class GherkinDocumentBuilder implements Builder<GherkinDocument> {
             }
             case DataTable: {
                 List<TableRow> rows = getTableRows(node);
-                return DataTable.newBuilder().addAllRows(rows);
+                return DataTable.newBuilder().addAllRows(rows).build();
             }
             case Background: {
                 Token backgroundLine = node.getToken(TokenType.BackgroundLine);
@@ -119,13 +122,12 @@ public class GherkinDocumentBuilder implements Builder<GherkinDocument> {
                 if (description != null)
                     builder.setDescription(description);
 
-                Background background = builder
+                return builder
                         .setLocation(getLocation(backgroundLine, 0))
                         .setKeyword(backgroundLine.matchedKeyword)
                         .setName(backgroundLine.matchedText)
                         .addAllSteps(steps)
                         .build();
-                return FeatureChild.newBuilder().setBackground(background).build();
             }
             case ScenarioDefinition: {
                 List<Tag> tags = getTags(node);
@@ -139,7 +141,7 @@ public class GherkinDocumentBuilder implements Builder<GherkinDocument> {
                 Scenario.Builder builder = Scenario.newBuilder();
                 if (description != null) builder.setDescription(description);
 
-                Scenario scenario = builder
+                return builder
                         .setLocation(getLocation(scenarioLine, 0))
                         .setKeyword(scenarioLine.matchedKeyword)
                         .setName(scenarioLine.matchedText)
@@ -147,9 +149,10 @@ public class GherkinDocumentBuilder implements Builder<GherkinDocument> {
                         .addAllSteps(steps)
                         .addAllExamples(examplesList)
                         .build();
-                return FeatureChild.newBuilder().setScenario(scenario).build();
             }
             case ExamplesDefinition: {
+                Examples.Builder builder = Examples.newBuilder();
+
                 List<Tag> tags = getTags(node);
                 AstNode examplesNode = node.getSingle(RuleType.Examples, null);
                 Token examplesLine = examplesNode.getToken(TokenType.ExamplesLine);
@@ -158,12 +161,15 @@ public class GherkinDocumentBuilder implements Builder<GherkinDocument> {
                 TableRow tableHeader = rows != null && !rows.isEmpty() ? rows.get(0) : null;
                 List<TableRow> tableBody = rows != null && !rows.isEmpty() ? rows.subList(1, rows.size()) : null;
 
-                Examples.Builder builder = Examples.newBuilder()
+                if(tableHeader != null)
+                    builder.setTableHeader(tableHeader);
+                if(tableBody != null)
+                    builder.addAllTableBody(tableBody);
+
+                builder
                         .setLocation(getLocation(examplesLine, 0))
                         .setKeyword(examplesLine.matchedKeyword)
                         .setName(examplesLine.matchedText)
-                        .setTableHeader(tableHeader)
-                        .addAllTableBody(tableBody)
                         .addAllTags(tags);
 
                 if (description != null)
@@ -197,11 +203,19 @@ public class GherkinDocumentBuilder implements Builder<GherkinDocument> {
                 List<Tag> tags = getTags(header);
                 Token featureLine = header.getToken(TokenType.FeatureLine);
                 if (featureLine == null) return null;
-                FeatureChild background = node.getSingle(RuleType.Background, null);
+
+                Background background = node.getSingle(RuleType.Background, null);
                 if (background != null) {
-                    builder.addChildren(background);
+                    builder.addChildren(FeatureChild.newBuilder().setBackground(background).build());
                 }
-                builder.addAllChildren(node.<FeatureChild>getItems(RuleType.ScenarioDefinition));
+                List<Scenario> scenarios = node.getItems(RuleType.ScenarioDefinition);
+                for (Scenario scenario : scenarios) {
+                    builder.addChildren(FeatureChild.newBuilder().setScenario(scenario).build());
+                }
+                List<Rule> rules = node.getItems(RuleType.Rule);
+                for (Rule rule : rules) {
+                    builder.addChildren(FeatureChild.newBuilder().setRule(rule).build());
+                }
                 String description = getDescription(header);
                 if (description != null) builder.setDescription(description);
                 if (featureLine.matchedGherkinDialect == null) return null;
@@ -214,6 +228,32 @@ public class GherkinDocumentBuilder implements Builder<GherkinDocument> {
                         .setKeyword(featureLine.matchedKeyword)
                         .setName(featureLine.matchedText)
                         .build();
+            }
+            case Rule: {
+                Rule.Builder builder = Rule.newBuilder();
+                AstNode header = node.getSingle(RuleType.RuleHeader, new AstNode(RuleType.RuleHeader));
+                if (header == null) return null;
+                Token ruleLine = header.getToken(TokenType.RuleLine);
+                if (ruleLine == null) return null;
+
+                String description = getDescription(header);
+                if(description != null)
+                    builder.setDescription(description);
+                Background background = node.getSingle(RuleType.Background, null);
+                if (background != null) {
+                    builder.addChildren(RuleChild.newBuilder().setBackground(background).build());
+                }
+                List<Scenario> scenarios = node.getItems(RuleType.ScenarioDefinition);
+                for (Scenario scenario : scenarios) {
+                    builder.addChildren(RuleChild.newBuilder().setScenario(scenario).build());
+                }
+
+                return builder
+                        .setLocation(getLocation(ruleLine, 0))
+                        .setKeyword(ruleLine.matchedKeyword)
+                        .setName(ruleLine.matchedText)
+                        .build();
+
             }
             case GherkinDocument: {
                 Feature feature = node.getSingle(RuleType.Feature, null);

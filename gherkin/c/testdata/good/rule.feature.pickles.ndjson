@@ -1,0 +1,2 @@
+{"language":"en","locations":[{"column":5,"line":12}],"name":"Example A","steps":[{"locations":[{"column":5,"line":4}],"text":"fb"},{"locations":[{"column":7,"line":10}],"text":"ab"},{"locations":[{"column":7,"line":13}],"text":"a"}],"uri":"testdata/good/rule.feature"}
+{"language":"en","locations":[{"column":5,"line":18}],"name":"Example B","steps":[{"locations":[{"column":5,"line":4}],"text":"fb"},{"locations":[{"column":7,"line":19}],"text":"b"}],"uri":"testdata/good/rule.feature"}

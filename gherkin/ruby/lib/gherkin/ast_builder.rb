@@ -205,6 +205,7 @@ module Gherkin
         background = node.get_single(:Background)
         children.push(background) if background
         children.concat(node.get_items(:ScenarioDefinition))
+        children.concat(node.get_items(:Rule))
         description = get_description(header)
         language = feature_line.matched_gherkin_dialect
 
@@ -215,6 +216,25 @@ module Gherkin
           language: language,
           keyword: feature_line.matched_keyword,
           name: feature_line.matched_text,
+          description: description,
+          children: children,
+        )
+      when :Rule
+        header = node.get_single(:RuleHeader)
+        return unless header
+        rule_line = header.get_token(:RuleLine)
+        return unless rule_line
+        children = []
+        background = node.get_single(:Background)
+        children.push(background) if background
+        children.concat(node.get_items(:ScenarioDefinition))
+        description = get_description(header)
+
+        reject_nils(
+          type: node.rule_type,
+          location: get_location(rule_line),
+          keyword: rule_line.matched_keyword,
+          name: rule_line.matched_text,
           description: description,
           children: children,
         )

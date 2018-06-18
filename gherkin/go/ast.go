@@ -26,6 +26,14 @@ type Feature struct {
 	Children    []interface{} `json:"children"`
 }
 
+type Rule struct {
+	Node
+	Keyword     string        `json:"keyword"`
+	Name        string        `json:"name"`
+	Description string        `json:"description,omitempty"`
+	Children    []interface{} `json:"children"`
+}
+
 type Comment struct {
 	Node
 	Location *Location `json:"location,omitempty"`

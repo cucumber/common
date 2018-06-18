@@ -215,6 +215,7 @@ module.exports = function AstBuilder () {
         var background = node.getSingle('Background');
         if(background) children.push(background);
         children = children.concat(node.getItems('ScenarioDefinition'));
+        children = children.concat(node.getItems('Rule'));
         var description = getDescription(header);
         var language = featureLine.matchedGherkinDialect;
 
@@ -225,6 +226,25 @@ module.exports = function AstBuilder () {
           language: language,
           keyword: featureLine.matchedKeyword,
           name: featureLine.matchedText,
+          description: description,
+          children: children,
+        };
+      case 'Rule':
+        var header = node.getSingle('RuleHeader');
+        if(!header) return null;
+        var ruleLine = header.getToken('RuleLine');
+        if(!ruleLine) return null;
+        var children = []
+        var background = node.getSingle('Background');
+        if(background) children.push(background);
+        children = children.concat(node.getItems('ScenarioDefinition'));
+        var description = getDescription(header);
+
+        return {
+          type: node.ruleType,
+          location: getLocation(ruleLine),
+          keyword: ruleLine.matchedKeyword,
+          name: ruleLine.matchedText,
           description: description,
           children: children,
         };

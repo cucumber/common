@@ -6,22 +6,33 @@ module Gherkin
 
         return pickles unless gherkin_document[:feature]
         feature = gherkin_document[:feature]
-        feature_tags = feature[:tags]
+        language = feature[:language]
+        tags = feature[:tags]
         background_steps = []
 
-        feature[:children].each do |steps_container|
-          if(steps_container[:type] == :Background)
-            background_steps = pickle_steps(steps_container)
-          elsif(steps_container[:examples].empty?)
-            compile_scenario(feature_tags, background_steps, steps_container, feature[:language], pickles)
-          else
-            compile_scenario_outline(feature_tags, background_steps, steps_container, feature[:language], pickles)
-          end
-        end
-        return pickles
+        build(pickles, language, tags, background_steps, feature)
+        pickles
       end
 
-    private
+      private
+
+      def build(pickles, language, tags, parent_background_steps, parent)
+        background_steps = parent_background_steps.dup
+        parent[:children].each do |child|
+          if child[:type] == :Background
+            background_steps.concat(pickle_steps(child))
+          elsif child[:type] == :Rule
+            build(pickles, language, tags, background_steps, child)
+          else
+            scenario = child
+            if scenario[:examples].empty?
+              compile_scenario(tags, background_steps, scenario, language, pickles)
+            else
+              compile_scenario_outline(tags, background_steps, scenario, language, pickles)
+            end
+          end
+        end
+      end
 
       def compile_scenario(feature_tags, background_steps, scenario, language, pickles)
         steps = scenario[:steps].empty? ? [] : [].concat(background_steps)

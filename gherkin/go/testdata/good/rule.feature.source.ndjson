@@ -1,0 +1,1 @@
+{"data":"Feature: Some rules\n\n  Background:\n    Given fb\n\n  Rule: A\n    The rule A description\n\n    Background:\n      Given ab\n\n    Example: Example A\n      Given a\n\n  Rule: B\n    The rule B description\n\n    Example: Example B\n      Given b","media":{"contentType":"text/x.cucumber.gherkin+plain","encoding":"UTF-8"},"uri":"testdata/good/rule.feature"}

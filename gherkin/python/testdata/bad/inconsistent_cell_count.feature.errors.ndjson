@@ -1,0 +1,3 @@
+{"data":"Feature: Inconsistent cell counts\n\n  Scenario: minimalistic\n    Given a data table with inconsistent cell count\n      | foo | bar |\n      | boz | \n\n\n  Scenario Outline: minimalistic\n    Given the <what>\n\n  Examples: \n    | what       |\n    | minimalism | extra |\n","media":{"contentType":"text/x.cucumber.gherkin+plain","encoding":"UTF-8"},"uri":"testdata/bad/inconsistent_cell_count.feature"}
+{"data":"(6:7): inconsistent cell count within the table","source":{"location":{"column":7,"line":6},"uri":"testdata/bad/inconsistent_cell_count.feature"}}
+{"data":"(14:5): inconsistent cell count within the table","source":{"location":{"column":5,"line":14},"uri":"testdata/bad/inconsistent_cell_count.feature"}}

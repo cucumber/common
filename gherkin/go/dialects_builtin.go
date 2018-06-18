@@ -7,6 +7,7 @@ func GherkinDialectsBuildin() GherkinDialectProvider {
 
 const (
 	feature         = "feature"
+	rule            = "rule"
 	background      = "background"
 	scenario        = "scenario"
 	scenarioOutline = "scenarioOutline"
@@ -25,6 +26,9 @@ var buildinDialects = gherkinDialectMap{
 				"Funksie",
 				"Besigheid Behoefte",
 				"Vermoë",
+			},
+			rule: []string{
+				"Rule",
 			},
 			background: []string{
 				"Agtergrond",
@@ -67,6 +71,9 @@ var buildinDialects = gherkinDialectMap{
 				"Ֆունկցիոնալություն",
 				"Հատկություն",
 			},
+			rule: []string{
+				"Rule",
+			},
 			background: []string{
 				"Կոնտեքստ",
 			},
@@ -107,6 +114,9 @@ var buildinDialects = gherkinDialectMap{
 		"an", "Aragonese", "Aragonés", map[string][]string{
 			feature: []string{
 				"Caracteristica",
+			},
+			rule: []string{
+				"Rule",
 			},
 			background: []string{
 				"Antecedents",
@@ -154,6 +164,9 @@ var buildinDialects = gherkinDialectMap{
 			feature: []string{
 				"خاصية",
 			},
+			rule: []string{
+				"Rule",
+			},
 			background: []string{
 				"الخلفية",
 			},
@@ -195,6 +208,9 @@ var buildinDialects = gherkinDialectMap{
 		"ast", "Asturian", "asturianu", map[string][]string{
 			feature: []string{
 				"Carauterística",
+			},
+			rule: []string{
+				"Rule",
 			},
 			background: []string{
 				"Antecedentes",
@@ -239,6 +255,9 @@ var buildinDialects = gherkinDialectMap{
 		"az", "Azerbaijani", "Azərbaycanca", map[string][]string{
 			feature: []string{
 				"Özəllik",
+			},
+			rule: []string{
+				"Rule",
 			},
 			background: []string{
 				"Keçmiş",
@@ -285,6 +304,9 @@ var buildinDialects = gherkinDialectMap{
 			feature: []string{
 				"Функционалност",
 			},
+			rule: []string{
+				"Rule",
+			},
 			background: []string{
 				"Предистория",
 			},
@@ -324,6 +346,9 @@ var buildinDialects = gherkinDialectMap{
 		"bm", "Malay", "Bahasa Melayu", map[string][]string{
 			feature: []string{
 				"Fungsi",
+			},
+			rule: []string{
+				"Rule",
 			},
 			background: []string{
 				"Latar Belakang",
@@ -372,6 +397,9 @@ var buildinDialects = gherkinDialectMap{
 			feature: []string{
 				"Karakteristika",
 			},
+			rule: []string{
+				"Rule",
+			},
 			background: []string{
 				"Pozadina",
 			},
@@ -415,6 +443,9 @@ var buildinDialects = gherkinDialectMap{
 			feature: []string{
 				"Característica",
 				"Funcionalitat",
+			},
+			rule: []string{
+				"Rule",
 			},
 			background: []string{
 				"Rerefons",
@@ -461,6 +492,9 @@ var buildinDialects = gherkinDialectMap{
 			feature: []string{
 				"Požadavek",
 			},
+			rule: []string{
+				"Rule",
+			},
 			background: []string{
 				"Pozadí",
 				"Kontext",
@@ -505,6 +539,9 @@ var buildinDialects = gherkinDialectMap{
 			feature: []string{
 				"Arwedd",
 			},
+			rule: []string{
+				"Rule",
+			},
 			background: []string{
 				"Cefndir",
 			},
@@ -545,6 +582,9 @@ var buildinDialects = gherkinDialectMap{
 			feature: []string{
 				"Egenskab",
 			},
+			rule: []string{
+				"Rule",
+			},
 			background: []string{
 				"Baggrund",
 			},
@@ -584,6 +624,9 @@ var buildinDialects = gherkinDialectMap{
 		"de", "German", "Deutsch", map[string][]string{
 			feature: []string{
 				"Funktionalität",
+			},
+			rule: []string{
+				"Rule",
 			},
 			background: []string{
 				"Grundlage",
@@ -628,6 +671,9 @@ var buildinDialects = gherkinDialectMap{
 				"Δυνατότητα",
 				"Λειτουργία",
 			},
+			rule: []string{
+				"Rule",
+			},
 			background: []string{
 				"Υπόβαθρο",
 			},
@@ -669,6 +715,9 @@ var buildinDialects = gherkinDialectMap{
 		"em", "Emoji", "😀", map[string][]string{
 			feature: []string{
 				"📚",
+			},
+			rule: []string{
+				"Rule",
 			},
 			background: []string{
 				"💤",
@@ -712,6 +761,9 @@ var buildinDialects = gherkinDialectMap{
 				"Business Need",
 				"Ability",
 			},
+			rule: []string{
+				"Rule",
+			},
 			background: []string{
 				"Background",
 			},
@@ -753,6 +805,9 @@ var buildinDialects = gherkinDialectMap{
 		"en-Scouse", "Scouse", "Scouse", map[string][]string{
 			feature: []string{
 				"Feature",
+			},
+			rule: []string{
+				"Rule",
 			},
 			background: []string{
 				"Dis is what went down",
@@ -796,6 +851,9 @@ var buildinDialects = gherkinDialectMap{
 			feature: []string{
 				"Pretty much",
 			},
+			rule: []string{
+				"Rule",
+			},
 			background: []string{
 				"First off",
 			},
@@ -834,6 +892,9 @@ var buildinDialects = gherkinDialectMap{
 		"en-lol", "LOLCAT", "LOLCAT", map[string][]string{
 			feature: []string{
 				"OH HAI",
+			},
+			rule: []string{
+				"Rule",
 			},
 			background: []string{
 				"B4",
@@ -874,6 +935,9 @@ var buildinDialects = gherkinDialectMap{
 			feature: []string{
 				"Hwaet",
 				"Hwæt",
+			},
+			rule: []string{
+				"Rule",
 			},
 			background: []string{
 				"Aer",
@@ -928,6 +992,9 @@ var buildinDialects = gherkinDialectMap{
 			feature: []string{
 				"Ahoy matey!",
 			},
+			rule: []string{
+				"Rule",
+			},
 			background: []string{
 				"Yo-ho-ho",
 			},
@@ -966,6 +1033,9 @@ var buildinDialects = gherkinDialectMap{
 		"eo", "Esperanto", "Esperanto", map[string][]string{
 			feature: []string{
 				"Trajto",
+			},
+			rule: []string{
+				"Rule",
 			},
 			background: []string{
 				"Fono",
@@ -1011,6 +1081,9 @@ var buildinDialects = gherkinDialectMap{
 			feature: []string{
 				"Característica",
 			},
+			rule: []string{
+				"Rule",
+			},
 			background: []string{
 				"Antecedentes",
 			},
@@ -1055,6 +1128,9 @@ var buildinDialects = gherkinDialectMap{
 			feature: []string{
 				"Omadus",
 			},
+			rule: []string{
+				"Rule",
+			},
 			background: []string{
 				"Taust",
 			},
@@ -1096,6 +1172,9 @@ var buildinDialects = gherkinDialectMap{
 			feature: []string{
 				"وِیژگی",
 			},
+			rule: []string{
+				"Rule",
+			},
 			background: []string{
 				"زمینه",
 			},
@@ -1136,6 +1215,9 @@ var buildinDialects = gherkinDialectMap{
 			feature: []string{
 				"Ominaisuus",
 			},
+			rule: []string{
+				"Rule",
+			},
 			background: []string{
 				"Tausta",
 			},
@@ -1174,6 +1256,9 @@ var buildinDialects = gherkinDialectMap{
 		"fr", "French", "français", map[string][]string{
 			feature: []string{
 				"Fonctionnalité",
+			},
+			rule: []string{
+				"Règle",
 			},
 			background: []string{
 				"Contexte",
@@ -1234,6 +1319,9 @@ var buildinDialects = gherkinDialectMap{
 			feature: []string{
 				"Gné",
 			},
+			rule: []string{
+				"Rule",
+			},
 			background: []string{
 				"Cúlra",
 			},
@@ -1282,6 +1370,9 @@ var buildinDialects = gherkinDialectMap{
 				"વ્યાપાર જરૂર",
 				"ક્ષમતા",
 			},
+			rule: []string{
+				"Rule",
+			},
 			background: []string{
 				"બેકગ્રાઉન્ડ",
 			},
@@ -1322,6 +1413,9 @@ var buildinDialects = gherkinDialectMap{
 		"gl", "Galician", "galego", map[string][]string{
 			feature: []string{
 				"Característica",
+			},
+			rule: []string{
+				"Rule",
 			},
 			background: []string{
 				"Contexto",
@@ -1368,6 +1462,9 @@ var buildinDialects = gherkinDialectMap{
 			feature: []string{
 				"תכונה",
 			},
+			rule: []string{
+				"Rule",
+			},
 			background: []string{
 				"רקע",
 			},
@@ -1408,6 +1505,9 @@ var buildinDialects = gherkinDialectMap{
 		"hi", "Hindi", "हिंदी", map[string][]string{
 			feature: []string{
 				"रूप लेख",
+			},
+			rule: []string{
+				"Rule",
 			},
 			background: []string{
 				"पृष्ठभूमि",
@@ -1457,6 +1557,9 @@ var buildinDialects = gherkinDialectMap{
 				"Mogućnost",
 				"Mogucnost",
 			},
+			rule: []string{
+				"Rule",
+			},
 			background: []string{
 				"Pozadina",
 			},
@@ -1503,6 +1606,9 @@ var buildinDialects = gherkinDialectMap{
 				"Karakteristik",
 				"Mak",
 				"Fonksyonalite",
+			},
+			rule: []string{
+				"Rule",
 			},
 			background: []string{
 				"Kontèks",
@@ -1555,6 +1661,9 @@ var buildinDialects = gherkinDialectMap{
 			feature: []string{
 				"Jellemző",
 			},
+			rule: []string{
+				"Rule",
+			},
 			background: []string{
 				"Háttér",
 			},
@@ -1598,6 +1707,9 @@ var buildinDialects = gherkinDialectMap{
 			feature: []string{
 				"Fitur",
 			},
+			rule: []string{
+				"Rule",
+			},
 			background: []string{
 				"Dasar",
 			},
@@ -1636,6 +1748,9 @@ var buildinDialects = gherkinDialectMap{
 		"is", "Icelandic", "Íslenska", map[string][]string{
 			feature: []string{
 				"Eiginleiki",
+			},
+			rule: []string{
+				"Rule",
 			},
 			background: []string{
 				"Bakgrunnur",
@@ -1677,6 +1792,9 @@ var buildinDialects = gherkinDialectMap{
 		"it", "Italian", "italiano", map[string][]string{
 			feature: []string{
 				"Funzionalità",
+			},
+			rule: []string{
+				"Rule",
 			},
 			background: []string{
 				"Contesto",
@@ -1721,6 +1839,9 @@ var buildinDialects = gherkinDialectMap{
 			feature: []string{
 				"フィーチャ",
 				"機能",
+			},
+			rule: []string{
+				"Rule",
 			},
 			background: []string{
 				"背景",
@@ -1767,6 +1888,9 @@ var buildinDialects = gherkinDialectMap{
 			feature: []string{
 				"Fitur",
 			},
+			rule: []string{
+				"Rule",
+			},
 			background: []string{
 				"Dasar",
 			},
@@ -1812,6 +1936,9 @@ var buildinDialects = gherkinDialectMap{
 			feature: []string{
 				"თვისება",
 			},
+			rule: []string{
+				"Rule",
+			},
 			background: []string{
 				"კონტექსტი",
 			},
@@ -1852,6 +1979,9 @@ var buildinDialects = gherkinDialectMap{
 			feature: []string{
 				"ಹೆಚ್ಚಳ",
 			},
+			rule: []string{
+				"Rule",
+			},
 			background: []string{
 				"ಹಿನ್ನೆಲೆ",
 			},
@@ -1891,6 +2021,9 @@ var buildinDialects = gherkinDialectMap{
 		"ko", "Korean", "한국어", map[string][]string{
 			feature: []string{
 				"기능",
+			},
+			rule: []string{
+				"Rule",
 			},
 			background: []string{
 				"배경",
@@ -1934,6 +2067,9 @@ var buildinDialects = gherkinDialectMap{
 			feature: []string{
 				"Savybė",
 			},
+			rule: []string{
+				"Rule",
+			},
 			background: []string{
 				"Kontekstas",
 			},
@@ -1975,6 +2111,9 @@ var buildinDialects = gherkinDialectMap{
 		"lu", "Luxemburgish", "Lëtzebuergesch", map[string][]string{
 			feature: []string{
 				"Funktionalitéit",
+			},
+			rule: []string{
+				"Rule",
 			},
 			background: []string{
 				"Hannergrond",
@@ -2019,6 +2158,9 @@ var buildinDialects = gherkinDialectMap{
 				"Funkcionalitāte",
 				"Fīča",
 			},
+			rule: []string{
+				"Rule",
+			},
 			background: []string{
 				"Konteksts",
 				"Situācija",
@@ -2062,6 +2204,9 @@ var buildinDialects = gherkinDialectMap{
 				"Функционалност",
 				"Бизнис потреба",
 				"Можност",
+			},
+			rule: []string{
+				"Rule",
 			},
 			background: []string{
 				"Контекст",
@@ -2111,6 +2256,9 @@ var buildinDialects = gherkinDialectMap{
 				"Biznis potreba",
 				"Mozhnost",
 			},
+			rule: []string{
+				"Rule",
+			},
 			background: []string{
 				"Kontekst",
 				"Sodrzhina",
@@ -2157,6 +2305,9 @@ var buildinDialects = gherkinDialectMap{
 				"Функц",
 				"Функционал",
 			},
+			rule: []string{
+				"Rule",
+			},
 			background: []string{
 				"Агуулга",
 			},
@@ -2200,6 +2351,9 @@ var buildinDialects = gherkinDialectMap{
 			feature: []string{
 				"Functionaliteit",
 			},
+			rule: []string{
+				"Rule",
+			},
 			background: []string{
 				"Achtergrond",
 			},
@@ -2241,6 +2395,9 @@ var buildinDialects = gherkinDialectMap{
 		"no", "Norwegian", "norsk", map[string][]string{
 			feature: []string{
 				"Egenskap",
+			},
+			rule: []string{
+				"Regel",
 			},
 			background: []string{
 				"Bakgrunn",
@@ -2284,6 +2441,9 @@ var buildinDialects = gherkinDialectMap{
 				"ਖਾਸੀਅਤ",
 				"ਮੁਹਾਂਦਰਾ",
 				"ਨਕਸ਼ ਨੁਹਾਰ",
+			},
+			rule: []string{
+				"Rule",
 			},
 			background: []string{
 				"ਪਿਛੋਕੜ",
@@ -2329,6 +2489,9 @@ var buildinDialects = gherkinDialectMap{
 				"Funkcja",
 				"Aspekt",
 				"Potrzeba biznesowa",
+			},
+			rule: []string{
+				"Rule",
 			},
 			background: []string{
 				"Założenia",
@@ -2377,6 +2540,9 @@ var buildinDialects = gherkinDialectMap{
 				"Funcionalidade",
 				"Característica",
 				"Caracteristica",
+			},
+			rule: []string{
+				"Rule",
 			},
 			background: []string{
 				"Contexto",
@@ -2433,6 +2599,9 @@ var buildinDialects = gherkinDialectMap{
 				"Funcționalitate",
 				"Funcţionalitate",
 			},
+			rule: []string{
+				"Rule",
+			},
 			background: []string{
 				"Context",
 			},
@@ -2484,6 +2653,9 @@ var buildinDialects = gherkinDialectMap{
 				"Функциональность",
 				"Функционал",
 				"Свойство",
+			},
+			rule: []string{
+				"Rule",
 			},
 			background: []string{
 				"Предыстория",
@@ -2537,6 +2709,9 @@ var buildinDialects = gherkinDialectMap{
 				"Funkcia",
 				"Vlastnosť",
 			},
+			rule: []string{
+				"Rule",
+			},
 			background: []string{
 				"Pozadie",
 			},
@@ -2589,6 +2764,9 @@ var buildinDialects = gherkinDialectMap{
 				"Moznosti",
 				"Lastnost",
 				"Značilnost",
+			},
+			rule: []string{
+				"Rule",
 			},
 			background: []string{
 				"Kontekst",
@@ -2645,6 +2823,9 @@ var buildinDialects = gherkinDialectMap{
 				"Могућност",
 				"Особина",
 			},
+			rule: []string{
+				"Rule",
+			},
 			background: []string{
 				"Контекст",
 				"Основа",
@@ -2697,6 +2878,9 @@ var buildinDialects = gherkinDialectMap{
 				"Mogucnost",
 				"Osobina",
 			},
+			rule: []string{
+				"Rule",
+			},
 			background: []string{
 				"Kontekst",
 				"Osnova",
@@ -2745,6 +2929,9 @@ var buildinDialects = gherkinDialectMap{
 			feature: []string{
 				"Egenskap",
 			},
+			rule: []string{
+				"Rule",
+			},
 			background: []string{
 				"Bakgrund",
 			},
@@ -2786,6 +2973,9 @@ var buildinDialects = gherkinDialectMap{
 				"அம்சம்",
 				"வணிக தேவை",
 				"திறன்",
+			},
+			rule: []string{
+				"Rule",
 			},
 			background: []string{
 				"பின்னணி",
@@ -2833,6 +3023,9 @@ var buildinDialects = gherkinDialectMap{
 				"ความต้องการทางธุรกิจ",
 				"ความสามารถ",
 			},
+			rule: []string{
+				"Rule",
+			},
 			background: []string{
 				"แนวคิด",
 			},
@@ -2873,6 +3066,9 @@ var buildinDialects = gherkinDialectMap{
 		"tl", "Telugu", "తెలుగు", map[string][]string{
 			feature: []string{
 				"గుణము",
+			},
+			rule: []string{
+				"Rule",
 			},
 			background: []string{
 				"నేపథ్యం",
@@ -2918,6 +3114,9 @@ var buildinDialects = gherkinDialectMap{
 				"poQbogh malja'",
 				"laH",
 			},
+			rule: []string{
+				"Rule",
+			},
 			background: []string{
 				"mo'",
 			},
@@ -2961,6 +3160,9 @@ var buildinDialects = gherkinDialectMap{
 			feature: []string{
 				"Özellik",
 			},
+			rule: []string{
+				"Rule",
+			},
 			background: []string{
 				"Geçmiş",
 			},
@@ -3003,6 +3205,9 @@ var buildinDialects = gherkinDialectMap{
 				"Мөмкинлек",
 				"Үзенчәлеклелек",
 			},
+			rule: []string{
+				"Rule",
+			},
 			background: []string{
 				"Кереш",
 			},
@@ -3044,6 +3249,9 @@ var buildinDialects = gherkinDialectMap{
 		"uk", "Ukrainian", "Українська", map[string][]string{
 			feature: []string{
 				"Функціонал",
+			},
+			rule: []string{
+				"Rule",
 			},
 			background: []string{
 				"Передумова",
@@ -3094,6 +3302,9 @@ var buildinDialects = gherkinDialectMap{
 				"کاروبار کی ضرورت",
 				"خصوصیت",
 			},
+			rule: []string{
+				"Rule",
+			},
 			background: []string{
 				"پس منظر",
 			},
@@ -3136,6 +3347,9 @@ var buildinDialects = gherkinDialectMap{
 			feature: []string{
 				"Функционал",
 			},
+			rule: []string{
+				"Rule",
+			},
 			background: []string{
 				"Тарих",
 			},
@@ -3176,6 +3390,9 @@ var buildinDialects = gherkinDialectMap{
 		"vi", "Vietnamese", "Tiếng Việt", map[string][]string{
 			feature: []string{
 				"Tính năng",
+			},
+			rule: []string{
+				"Rule",
 			},
 			background: []string{
 				"Bối cảnh",
@@ -3218,6 +3435,9 @@ var buildinDialects = gherkinDialectMap{
 		"zh-CN", "Chinese simplified", "简体中文", map[string][]string{
 			feature: []string{
 				"功能",
+			},
+			rule: []string{
+				"Rule",
 			},
 			background: []string{
 				"背景",
@@ -3263,6 +3483,9 @@ var buildinDialects = gherkinDialectMap{
 		"zh-TW", "Chinese traditional", "繁體中文", map[string][]string{
 			feature: []string{
 				"功能",
+			},
+			rule: []string{
+				"Rule",
 			},
 			background: []string{
 				"背景",
