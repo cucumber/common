@@ -96,7 +96,11 @@ function is_branch_or_tag_for_subrepo() {
   branch_or_tag=$1
   subrepo=$2
   library=$(echo ${subrepo} | cut -d/ -f1)
-  [[ ${branch_or_tag} == ${library}* ]] || [[ ${branch_or_tag} == "master" ]] && echo 'yes'
+  branch_or_tag_prefixes=${branch_or_tag//_/$'\n'}
+  for branch_or_tag_prefix in ${branch_or_tag_prefixes}
+  do
+      [[ ${branch_or_tag_prefix} == ${library}* ]] || [[ ${branch_or_tag} == "master" ]] && echo "${branch_or_tag_prefix}"
+  done
 }
 
 function git_branch() {
