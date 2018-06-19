@@ -23,6 +23,19 @@ You can learn more about monorepos here:
 * http://danluu.com/monorepo/
 * https://medium.com/@bebraw/the-case-for-monorepos-907c1361708a
 
+### Branching and CI
+
+The CI build will synchronise from the monorepo to all the subrepos for the `master` branch.
+For other branches, a naming convention is used to decide what subrepos to sync to. 
+(This is to avoid an explosion of unrelated branches in every subrepo).
+
+For example, if you're making a change to `gherkin` on a branch, prefix the branch
+with `gherkin`, for example `gherkin-upgrade-dependencies`.
+
+Occasionally you want to sync to multiple subrepos. For example, if you are making changes
+in two modules (say `messages` and `gherkin`), prefix the branch with both module names, 
+separated by an underscore. For example, `messages_gherkin-use-protobuf`.
+
 ### Adding a new subrepo
 
 Occasionally, a sub directory is promoted to a separate subrepo. The process for doing this is:
