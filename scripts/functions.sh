@@ -99,7 +99,7 @@ function is_branch_or_tag_for_subrepo() {
   branch_or_tag_prefixes=${branch_or_tag//_/$'\n'}
   for branch_or_tag_prefix in ${branch_or_tag_prefixes}
   do
-      [[ ${branch_or_tag_prefix} == ${library}* ]] || [[ ${branch_or_tag} == "master" ]] && echo "${branch_or_tag_prefix}"
+      [[ ${branch_or_tag_prefix} == ${library}* ]] || [[ ${branch_or_tag} == "master" ]] && echo "${branch_or_tag_prefix}" && break
   done
 }
 
