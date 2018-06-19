@@ -1,7 +1,7 @@
 SHELL := /usr/bin/env bash
 MAKEFILES=messages/Makefile \
 	event-protocol/Makefile \
-  gherkin/Makefile \
+	gherkin/Makefile \
 	datatable/Makefile \
 	config/Makefile \
 	event-protocol/Makefile \
