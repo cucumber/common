@@ -1,7 +1,7 @@
 'use strict'
 var m = require('cucumber-messages').cucumber.messages
 var Parser = require('../parser')
-var Compiler = require('../pickles/compiler')
+var PickleCompiler = require('../pickles/pickle_compiler')
 
 var Stream = require('stream')
 
@@ -18,7 +18,7 @@ class MessageStream extends Stream.Transform {
     this._language = language
 
     this._parser = new Parser()
-    this._compiler = new Compiler()
+    this._compiler = new PickleCompiler()
   }
 
   _transform(source, _, callback) {

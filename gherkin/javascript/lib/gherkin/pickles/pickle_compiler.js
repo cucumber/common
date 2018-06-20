@@ -1,7 +1,7 @@
 var m = require('cucumber-messages').cucumber.messages
 var countSymbols = require('../count_symbols');
 
-function Compiler() {
+function PickleCompiler() {
   this.compile = function (gherkinDocument, uri) {
     var pickles = [];
 
@@ -179,4 +179,4 @@ function Compiler() {
   }
 }
 
-module.exports = Compiler;
+module.exports = PickleCompiler;

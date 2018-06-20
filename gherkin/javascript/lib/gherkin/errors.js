@@ -5,7 +5,7 @@ var Errors = {};
   'CompositeParserException',
   'UnexpectedTokenException',
   'UnexpectedEOFException',
-  'AstBuilderException',
+  'GherkinDocumentBuilderException',
   'NoSuchLanguageException'
 ].forEach(function (name) {
 
@@ -42,8 +42,8 @@ Errors.UnexpectedEOFException.create = function(token, expectedTokenTypes, state
   return createError(Errors.UnexpectedTokenException, message, token.location);
 };
 
-Errors.AstBuilderException.create = function(message, location) {
-  return createError(Errors.AstBuilderException, message, location);
+Errors.GherkinDocumentBuilderException.create = function(message, location) {
+  return createError(Errors.GherkinDocumentBuilderException, message, location);
 };
 
 Errors.NoSuchLanguageException.create = function(language, location) {

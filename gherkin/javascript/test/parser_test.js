@@ -3,7 +3,7 @@ var Gherkin = require('..');
 
 describe('Parser', function () {
   it("parses a simple feature", function () {
-    var parser = new Gherkin.Parser(new Gherkin.AstBuilder());
+    var parser = new Gherkin.Parser(new Gherkin.GherkinDocumentBuilder());
     var scanner = new Gherkin.TokenScanner("Feature: hello");
     var matcher = new Gherkin.TokenMatcher();
     var ast = parser.parse(scanner, matcher);
@@ -21,7 +21,7 @@ describe('Parser', function () {
   });
 
   it("parses multiple features", function () {
-    var parser = new Gherkin.Parser(new Gherkin.AstBuilder());
+    var parser = new Gherkin.Parser(new Gherkin.GherkinDocumentBuilder());
     var matcher = new Gherkin.TokenMatcher();
     var ast1 = parser.parse(new Gherkin.TokenScanner("Feature: hello"), matcher);
     var ast2 = parser.parse(new Gherkin.TokenScanner("Feature: hello again"), matcher);
@@ -51,7 +51,7 @@ describe('Parser', function () {
   });
 
   it("parses feature after parse error", function () {
-    var parser = new Gherkin.Parser(new Gherkin.AstBuilder());
+    var parser = new Gherkin.Parser(new Gherkin.GherkinDocumentBuilder());
     var matcher = new Gherkin.TokenMatcher();
     assert.throws(function () {
         parser.parse(new Gherkin.TokenScanner("# a comment\n" +
@@ -104,7 +104,7 @@ describe('Parser', function () {
   });
 
   it("can change the default language", function () {
-    var parser = new Gherkin.Parser(new Gherkin.AstBuilder());
+    var parser = new Gherkin.Parser(new Gherkin.GherkinDocumentBuilder());
     var matcher = new Gherkin.TokenMatcher("no");
     var scanner = new Gherkin.TokenScanner("Egenskap: i18n support");
     var ast = parser.parse(scanner, matcher);

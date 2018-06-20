@@ -30,7 +30,7 @@ import java.util.Objects;
 
 import static java.util.Collections.unmodifiableList;
 
-public class Compiler {
+public class PickleCompiler {
 
     public List<Pickle> compile(GherkinDocument gherkinDocument, String uri) {
         List<Pickle> pickles = new ArrayList<>();

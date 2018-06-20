@@ -5,7 +5,7 @@ import cucumber.messages.Gherkin.FeatureChild;
 import cucumber.messages.Gherkin.GherkinDocument;
 import cucumber.messages.Pickles;
 import cucumber.messages.Pickles.Pickle;
-import gherkin.pickles.Compiler;
+import gherkin.pickles.PickleCompiler;
 import org.junit.Test;
 
 import java.util.List;
@@ -52,8 +52,8 @@ public class GherkinDocumentBuilderTest {
         List<FeatureChild> children = doc.getFeature().getChildrenList();
         assertEquals(3, children.size());
 
-        Compiler compiler = new Compiler();
-        List<Pickle> pickles = compiler.compile(doc, "hello.feature");
+        PickleCompiler pickleCompiler = new PickleCompiler();
+        List<Pickle> pickles = pickleCompiler.compile(doc, "hello.feature");
         assertEquals(2, pickles.size());
 
         assertEquals(3, pickles.get(0).getStepsList().size());
@@ -86,8 +86,8 @@ public class GherkinDocumentBuilderTest {
         Parser<GherkinDocument> parser = new Parser<>(new GherkinDocumentBuilder());
         GherkinDocument doc = parser.parse("" +
                 "Feature:\n  Scenario:\n    Given a step");
-        Compiler compiler = new Compiler();
-        List<Pickle> pickles = compiler.compile(doc, "hello.feature");
+        PickleCompiler pickleCompiler = new PickleCompiler();
+        List<Pickle> pickles = pickleCompiler.compile(doc, "hello.feature");
 
         Pickles.PickleStep step = pickles.get(0).getSteps(0);
         assertEquals(11, step.getLocations(0).getColumn());

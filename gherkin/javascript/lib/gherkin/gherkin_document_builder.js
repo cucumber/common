@@ -2,7 +2,7 @@ var AstNode = require('./ast_node');
 var Errors = require('./errors');
 var m = require('cucumber-messages').cucumber.messages
 
-module.exports = function AstBuilder() {
+module.exports = function GherkinDocumentBuilder() {
 
   var stack = [new AstNode('None')];
   var comments = [];
@@ -99,7 +99,7 @@ module.exports = function AstBuilder() {
 
     rows.forEach(function (row) {
       if (row.cells.length !== cellCount) {
-        throw Errors.AstBuilderException.create("inconsistent cell count within the table", row.location);
+        throw Errors.GherkinDocumentBuilderException.create("inconsistent cell count within the table", row.location);
       }
     });
   }

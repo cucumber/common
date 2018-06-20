@@ -29,7 +29,7 @@
 {<text>match_@(tokenType)(context, token)</text>}
 // This file is generated. Do not edit! Edit gherkin-javascript.razor instead.
 var Errors = require('./errors');
-var AstBuilder = require('./ast_builder');
+var GherkinDocumentBuilder = require('./gherkin_document_builder');
 var TokenScanner = require('./token_scanner');
 var TokenMatcher = require('./token_matcher');
 
@@ -41,7 +41,7 @@ var RULE_TYPES = [
 ];
 
 module.exports = function Parser(builder) {
-  builder = builder || new AstBuilder();
+  builder = builder || new GherkinDocumentBuilder();
   var self = this;
   var context;
 
@@ -122,7 +122,7 @@ module.exports = function Parser(builder) {
         });
       } else if(
         e instanceof Errors.ParserException ||
-        e instanceof Errors.AstBuilderException ||
+        e instanceof Errors.GherkinDocumentBuilderException ||
         e instanceof Errors.UnexpectedTokenException ||
         e instanceof Errors.NoSuchLanguageException
       ) {

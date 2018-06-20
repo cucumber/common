@@ -10,7 +10,7 @@ import gherkin.GherkinDocumentBuilder;
 import gherkin.Parser;
 import gherkin.ParserException;
 import gherkin.TokenMatcher;
-import gherkin.pickles.Compiler;
+import gherkin.pickles.PickleCompiler;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,7 +26,7 @@ import java.util.List;
 public class CucumberMessages {
     private final Parser<GherkinDocument> parser = new Parser<>(new GherkinDocumentBuilder());
     private final TokenMatcher matcher = new TokenMatcher();
-    private final Compiler compiler = new Compiler();
+    private final PickleCompiler pickleCompiler = new PickleCompiler();
 
     private final boolean includeSource;
     private final boolean includeGherkinDocument;
@@ -55,7 +55,7 @@ public class CucumberMessages {
                 if (gherkinDocument == null) {
                     gherkinDocument = parser.parse(source.getData(), matcher);
                 }
-                List<Pickle> pickles = compiler.compile(gherkinDocument, source.getUri());
+                List<Pickle> pickles = pickleCompiler.compile(gherkinDocument, source.getUri());
                 messages.addAll(pickles);
             }
         } catch (ParserException.CompositeParserException e) {
