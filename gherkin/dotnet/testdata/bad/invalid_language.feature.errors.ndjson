@@ -1,2 +1,1 @@
-{"data":"#language:no-such\n\nFeature: Minimal\n\n  Scenario: minimalistic\n    Given the minimalism\n","media":{"contentType":"text/x.cucumber.gherkin+plain","encoding":"UTF-8"},"uri":"testdata/bad/invalid_language.feature"}
 {"data":"(1:1): Language not supported: no-such","source":{"location":{"column":1,"line":1},"uri":"testdata/bad/invalid_language.feature"}}

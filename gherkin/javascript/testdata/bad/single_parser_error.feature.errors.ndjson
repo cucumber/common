@@ -1,2 +1,1 @@
-{"data":"\ninvalid line here\n\nFeature: Single parser error\n\n  Scenario: minimalistic\n    Given the minimalism\n","media":{"contentType":"text/x.cucumber.gherkin+plain","encoding":"UTF-8"},"uri":"testdata/bad/single_parser_error.feature"}
 {"data":"(2:1): expected: #EOF, #Language, #TagLine, #FeatureLine, #Comment, #Empty, got 'invalid line here'","source":{"location":{"column":1,"line":2},"uri":"testdata/bad/single_parser_error.feature"}}

@@ -1,30 +1,30 @@
-var Parser = require('./parser')
-var Compiler = require('./pickles/compiler')
+var m = require('cucumber-messages').cucumber.messages
+var Parser = require('../parser')
+var Compiler = require('../pickles/compiler')
 
 var compiler = new Compiler()
 var parser = new Parser()
 parser.stopAtFirstError = false
 
-function generateEvents(data, uri, types, language) {
+function cucumberMessages(gherkin, uri, types, language) {
   types = Object.assign({
     'source': true,
     'gherkin-document': true,
     'pickle': true
   }, types || {})
 
-  result = []
+  var result = []
 
   try {
     if (types['source']) {
-      result.push({
-        type: 'source',
+      result.push(m.Source.create({
         uri: uri,
         data: data,
-        media: {
+        media: m.Media.create({
           encoding: 'utf-8',
           type: 'text/x.cucumber.gherkin+plain'
-        }
-      })
+        })
+      }))
     }
 
     if (!types['gherkin-document'] && !types['pickle'])
@@ -73,4 +73,4 @@ function generateEvents(data, uri, types, language) {
   return result
 }
 
-module.exports = generateEvents
+module.exports = cucumberMessages

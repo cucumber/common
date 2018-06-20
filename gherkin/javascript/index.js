@@ -19,6 +19,7 @@
     AstBuilder: require('./lib/gherkin/ast_builder'),
     Compiler: require('./lib/gherkin/pickles/compiler'),
     DIALECTS: require('./lib/gherkin/dialects'),
-    generateEvents: require('./lib/gherkin/generate_events')
+    MessageStream: require('./lib/gherkin/messages/message_stream'),
+    SourceStream: require('./lib/gherkin/messages/source_stream')
   };
 }));

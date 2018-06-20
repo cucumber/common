@@ -1,8 +1,8 @@
 default: test
 .PHONY: default
 
-index.js:
-	./node_modules/.bin/pbjs --target static-module --wrap commonjs sources.proto gherkin.proto pickles.proto --out index.js
+index.js: sources.proto gherkin.proto pickles.proto
+	./node_modules/.bin/pbjs --target static-module --wrap commonjs $^ --out index.js
 
 test: yarn.lock index.js
 	yarn test
@@ -13,5 +13,5 @@ yarn.lock: package.json
 	yarn link
 
 clean:
-	rm -rf node_modules index.js
+	rm -rf node_modules index.js yarn.lock
 .PHONY: clean

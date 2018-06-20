@@ -1,6 +1,5 @@
 package gherkin;
 
-import cucumber.messages.Gherkin;
 import cucumber.messages.Gherkin.Background;
 import cucumber.messages.Gherkin.Comment;
 import cucumber.messages.Gherkin.DataTable;
@@ -112,7 +111,10 @@ public class GherkinDocumentBuilder implements Builder<GherkinDocument> {
             }
             case DataTable: {
                 List<TableRow> rows = getTableRows(node);
-                return DataTable.newBuilder().addAllRows(rows).build();
+                return DataTable.newBuilder()
+                        .setLocation(rows.get(0).getLocation())
+                        .addAllRows(rows)
+                        .build();
             }
             case Background: {
                 Token backgroundLine = node.getToken(TokenType.BackgroundLine);
@@ -208,12 +210,10 @@ public class GherkinDocumentBuilder implements Builder<GherkinDocument> {
                 if (background != null) {
                     builder.addChildren(FeatureChild.newBuilder().setBackground(background).build());
                 }
-                List<Scenario> scenarios = node.getItems(RuleType.ScenarioDefinition);
-                for (Scenario scenario : scenarios) {
+                for (Scenario scenario : node.<Scenario>getItems(RuleType.ScenarioDefinition)) {
                     builder.addChildren(FeatureChild.newBuilder().setScenario(scenario).build());
                 }
-                List<Rule> rules = node.getItems(RuleType.Rule);
-                for (Rule rule : rules) {
+                for (Rule rule : node.<Rule>getItems(RuleType.Rule)) {
                     builder.addChildren(FeatureChild.newBuilder().setRule(rule).build());
                 }
                 String description = getDescription(header);
@@ -258,10 +258,10 @@ public class GherkinDocumentBuilder implements Builder<GherkinDocument> {
             case GherkinDocument: {
                 Feature feature = node.getSingle(RuleType.Feature, null);
 
-                GherkinDocument.Builder builder = GherkinDocument.newBuilder();
                 if (feature != null)
-                    builder.setFeature(feature);
-                return builder.build();
+                    gherkinDocumentBuilder.setFeature(feature);
+
+                return gherkinDocumentBuilder.build();
             }
 
         }

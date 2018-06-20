@@ -73,10 +73,10 @@ acceptance/testdata/%.feature.ast.ndjson: testdata/%.feature testdata/%.feature.
 acceptance/testdata/%.feature.errors.ndjson: testdata/%.feature testdata/%.feature.errors.ndjson .sln_built_debug .run_tests
 	mkdir -p `dirname $@`
 
-	bin/gherkin netcoreapp2.0 --no-pickles $< | jq --sort-keys --compact-output "." > $@
+	bin/gherkin netcoreapp2.0 --no-source $< | jq --sort-keys --compact-output "." > $@
 	diff --unified $<.errors.ndjson $@
 
-	bin/gherkin net45 --no-pickles $< | jq --sort-keys --compact-output "." > $@
+	bin/gherkin net45 --no-source $< | jq --sort-keys --compact-output "." > $@
 	diff --unified $<.errors.ndjson $@
 
 clean:

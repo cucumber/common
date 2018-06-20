@@ -1,3 +1,2 @@
-{"data":"\ninvalid line here\n\nFeature: Multiple parser errors\n\n  Scenario: minimalistic\n    Given the minimalism\n\nanother invalid line here\n","media":{"contentType":"text/x.cucumber.gherkin+plain","encoding":"UTF-8"},"uri":"testdata/bad/multiple_parser_errors.feature"}
 {"data":"(2:1): expected: #EOF, #Language, #TagLine, #FeatureLine, #Comment, #Empty, got 'invalid line here'","source":{"location":{"column":1,"line":2},"uri":"testdata/bad/multiple_parser_errors.feature"}}
 {"data":"(9:1): expected: #EOF, #TableRow, #DocStringSeparator, #StepLine, #TagLine, #ExamplesLine, #ScenarioLine, #RuleLine, #Comment, #Empty, got 'another invalid line here'","source":{"location":{"column":1,"line":9},"uri":"testdata/bad/multiple_parser_errors.feature"}}

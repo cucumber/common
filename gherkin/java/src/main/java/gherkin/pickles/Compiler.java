@@ -42,17 +42,17 @@ public class Compiler {
         String language = feature.getLanguage();
         List<Tag> tags = feature.getTagsList();
 
-        build(pickles, language, tags, feature, uri);
+        compileFeature(pickles, language, tags, feature, uri);
         return pickles;
     }
 
-    private void build(List<Pickle> pickles, String language, List<Tag> tags, Feature parent, String uri) {
+    private void compileFeature(List<Pickle> pickles, String language, List<Tag> tags, Feature feature, String uri) {
         List<PickleStep> backgroundSteps = new ArrayList<>();
-        for (FeatureChild child : parent.getChildrenList()) {
+        for (FeatureChild child : feature.getChildrenList()) {
             if (child.hasBackground()) {
                 backgroundSteps.addAll(pickleSteps(child.getBackground().getStepsList()));
             } else if (child.hasRule()) {
-                build(pickles, language, tags, backgroundSteps, child.getRule(), uri);
+                compileRule(pickles, language, tags, backgroundSteps, child.getRule(), uri);
             } else {
                 Scenario scenario = child.getScenario();
                 if (scenario.getExamplesList().isEmpty()) {
@@ -64,9 +64,9 @@ public class Compiler {
         }
     }
 
-    private void build(List<Pickle> pickles, String language, List<Tag> tags, List<PickleStep> featureBackgroundSteps, Rule parent, String uri) {
+    private void compileRule(List<Pickle> pickles, String language, List<Tag> tags, List<PickleStep> featureBackgroundSteps, Rule rule, String uri) {
         List<PickleStep> backgroundSteps = new ArrayList<>(featureBackgroundSteps);
-        for (RuleChild child : parent.getChildrenList()) {
+        for (RuleChild child : rule.getChildrenList()) {
             if (child.hasBackground()) {
                 backgroundSteps.addAll(pickleSteps(child.getBackground().getStepsList()));
             } else {
@@ -99,7 +99,7 @@ public class Compiler {
                 .setLanguage(language)
                 .addAllSteps(steps)
                 .addAllTags(pickleTags)
-                .addLocations(pickleLocation(scenario.getLocation()))
+                .addLocations(scenario.getLocation())
                 .build();
         pickles.add(pickle);
     }
@@ -124,9 +124,7 @@ public class Compiler {
                 for (Step scenarioOutlineStep : scenario.getStepsList()) {
                     PickleStep.Builder pickleStepBuilder = pickleStepBuilder(scenarioOutlineStep, variableCells, valueCells);
 
-                    pickleStepBuilder
-                            .addLocations(pickleLocation(values.getLocation()))
-                            .addLocations(pickleStepLocation(scenarioOutlineStep));
+                    pickleStepBuilder.addLocations(values.getLocation());
 
                     steps.add(pickleStepBuilder.build());
                 }
@@ -137,8 +135,8 @@ public class Compiler {
                         .setLanguage(language)
                         .addAllSteps(steps)
                         .addAllTags(pickleTags(tags))
-                        .addLocations(pickleLocation(values.getLocation()))
-                        .addLocations(pickleLocation(scenario.getLocation()))
+                        .addLocations(scenario.getLocation())
+                        .addLocations(values.getLocation())
                         .build();
 
                 pickles.add(pickle);
@@ -177,7 +175,9 @@ public class Compiler {
         String stepText = interpolate(step.getText(), variableCells, valueCells);
 
         PickleStep.Builder pickleStepBuilder = PickleStep.newBuilder()
-                .setText(stepText);
+                .setText(stepText)
+                .addLocations(pickleStepLocation(step));
+
         if (step.hasDataTable()) {
             pickleStepBuilder.setDataTable(pickleTable(step.getDataTable(), variableCells, valueCells));
         }
@@ -192,7 +192,6 @@ public class Compiler {
         List<PickleStep> result = new ArrayList<>();
         for (Step step : steps) {
             PickleStep.Builder pickleStepBuilder = pickleStepBuilder(step, Collections.<TableCell>emptyList(), Collections.<TableCell>emptyList());
-            pickleStepBuilder.addLocations(step.getLocation());
             result.add(pickleStepBuilder.build());
         }
         return unmodifiableList(result);
@@ -216,13 +215,6 @@ public class Compiler {
                 .build();
     }
 
-    private Location pickleLocation(Location location) {
-        return Location.newBuilder()
-                .setLine(location.getLine())
-                .setColumn(location.getColumn())
-                .build();
-    }
-
     private List<PickleTag> pickleTags(List<Tag> tags) {
         List<PickleTag> result = new ArrayList<>();
         for (Tag tag : tags) {
@@ -233,7 +225,7 @@ public class Compiler {
 
     private PickleTag pickleTag(Tag tag) {
         return PickleTag.newBuilder()
-                .setLocation(pickleLocation(tag.getLocation()))
+                .setLocation(tag.getLocation())
                 .setName(tag.getName())
                 .build();
     }

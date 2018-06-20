@@ -25,6 +25,7 @@ default: .compared
 
 yarn.lock: package.json
 	yarn install --network-concurrency 1
+	yarn link cucumber-messages
 
 acceptance/testdata/%.feature.tokens: testdata/%.feature testdata/%.feature.tokens .built
 	mkdir -p `dirname $@`
@@ -62,14 +63,14 @@ dist/gherkin.js: lib/gherkin/parser.js $(JAVASCRIPT_FILES) lib/gherkin/gherkin-l
 	echo '/*' > $@
 	cat LICENSE >> $@
 	echo '*/' >> $@
-	./node_modules/.bin/browserify index.js >> $@
+	#./node_modules/.bin/browserify index.js >> $@
 
 dist/gherkin.min.js: dist/gherkin.js yarn.lock
 	mkdir -p `dirname $@`
 	echo '/*' > $@
 	cat LICENSE >> $@
 	echo '*/' >> $@
-	./node_modules/.bin/uglifyjs $< >> $@
+	#./node_modules/.bin/uglifyjs $< >> $@
 
 clean:
 	rm -rf .compared .built acceptance dist

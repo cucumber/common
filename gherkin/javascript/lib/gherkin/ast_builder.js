@@ -1,7 +1,8 @@
 var AstNode = require('./ast_node');
 var Errors = require('./errors');
+var m = require('cucumber-messages').cucumber.messages
 
-module.exports = function AstBuilder () {
+module.exports = function AstBuilder() {
 
   var stack = [new AstNode('None')];
   var comments = [];
@@ -22,7 +23,7 @@ module.exports = function AstBuilder () {
   };
 
   this.build = function (token) {
-    if(token.matchedType === 'Comment') {
+    if (token.matchedType === 'Comment') {
       comments.push({
         type: 'Comment',
         location: getLocation(token),
@@ -37,15 +38,15 @@ module.exports = function AstBuilder () {
     return currentNode().getSingle('GherkinDocument');
   };
 
-  function currentNode () {
+  function currentNode() {
     return stack[stack.length - 1];
   }
 
-  function getLocation (token, column) {
+  function getLocation(token, column) {
     return !column ? token.location : {line: token.location.line, column: column};
   }
 
-  function getTags (node) {
+  function getTags(node) {
     var tags = [];
     var tagsNode = node.getSingle('Tags');
     if (!tagsNode) return tags;
@@ -72,11 +73,11 @@ module.exports = function AstBuilder () {
     });
   }
 
-  function getDescription (node) {
+  function getDescription(node) {
     return node.getSingle('Description');
   }
 
-  function getSteps (node) {
+  function getSteps(node) {
     return node.getItems('Step');
   }
 
@@ -93,7 +94,7 @@ module.exports = function AstBuilder () {
   }
 
   function ensureCellCount(rows) {
-    if(rows.length === 0) return;
+    if (rows.length === 0) return;
     var cellCount = rows[0].cells.length;
 
     rows.forEach(function (row) {
@@ -104,54 +105,57 @@ module.exports = function AstBuilder () {
   }
 
   function transformNode(node) {
-    switch(node.ruleType) {
+    switch (node.ruleType) {
       case 'Step':
         var stepLine = node.getToken('StepLine');
-        var stepArgument = node.getSingle('DataTable') || node.getSingle('DocString') || undefined;
+        var dataTable = node.getSingle('DataTable')
+        var docString = node.getSingle('DocString')
 
-        return {
+        var step = m.Step.fromObject({
           type: node.ruleType,
           location: getLocation(stepLine),
           keyword: stepLine.matchedKeyword,
           text: stepLine.matchedText,
-          argument: stepArgument
-        }
+          dataTable: dataTable,
+          docString: docString
+        });
+
+        return step
       case 'DocString':
         var separatorToken = node.getTokens('DocStringSeparator')[0];
         var contentType = separatorToken.matchedText.length > 0 ? separatorToken.matchedText : undefined;
         var lineTokens = node.getTokens('Other');
-        var content = lineTokens.map(function (t) {return t.matchedText}).join("\n");
+        var content = lineTokens.map(function (t) {
+          return t.matchedText
+        }).join("\n");
 
         var result = {
-          type: node.ruleType,
           location: getLocation(separatorToken),
           content: content
         };
         // conditionally add this like this (needed to make tests pass on node 0.10 as well as 4.0)
-        if(contentType) {
+        if (contentType) {
           result.contentType = contentType;
         }
-        return result;
+        return m.DocString.fromObject(result);
       case 'DataTable':
         var rows = getTableRows(node);
-        return {
-          type: node.ruleType,
+        return m.DataTable.fromObject({
           location: rows[0].location,
           rows: rows,
-        }
+        })
       case 'Background':
         var backgroundLine = node.getToken('BackgroundLine');
         var description = getDescription(node);
         var steps = getSteps(node);
 
-        return {
-          type: node.ruleType,
+        return m.Background.fromObject({
           location: getLocation(backgroundLine),
           keyword: backgroundLine.matchedKeyword,
-          name: backgroundLine.matchedText,
+          name: backgroundLine.matchedText === "" ? null : backgroundLine.matchedText,
           description: description,
           steps: steps
-        };
+        });
       case 'ScenarioDefinition':
         var tags = getTags(node);
         var scenarioNode = node.getSingle('Scenario');
@@ -159,16 +163,15 @@ module.exports = function AstBuilder () {
         var description = getDescription(scenarioNode);
         var steps = getSteps(scenarioNode);
         var examples = scenarioNode.getItems('ExamplesDefinition');
-        return {
-          type: scenarioNode.ruleType,
+        return m.Scenario.fromObject({
           tags: tags,
           location: getLocation(scenarioLine),
           keyword: scenarioLine.matchedKeyword,
-          name: scenarioLine.matchedText,
+          name: scenarioLine.matchedText === "" ? null : scenarioLine.matchedText,
           description: description,
           steps: steps,
           examples: examples
-        };
+        });
       case 'ExamplesDefinition':
         var tags = getTags(node);
         var examplesNode = node.getSingle('Examples');
@@ -176,16 +179,15 @@ module.exports = function AstBuilder () {
         var description = getDescription(examplesNode);
         var exampleTable = examplesNode.getSingle('ExamplesTable')
 
-        return {
-          type: examplesNode.ruleType,
+        return m.Examples.fromObject({
           tags: tags,
           location: getLocation(examplesLine),
           keyword: examplesLine.matchedKeyword,
-          name: examplesLine.matchedText,
+          name: examplesLine.matchedText === "" ? null : examplesLine.matchedText,
           description: description,
           tableHeader: exampleTable != undefined ? exampleTable.tableHeader : undefined,
           tableBody: exampleTable != undefined ? exampleTable.tableBody : undefined
-        };
+        });
       case 'ExamplesTable':
         var rows = getTableRows(node)
 
@@ -197,68 +199,75 @@ module.exports = function AstBuilder () {
         var lineTokens = node.getTokens('Other');
         // Trim trailing empty lines
         var end = lineTokens.length;
-        while (end > 0 && lineTokens[end-1].line.trimmedLineText === '') {
-            end--;
+        while (end > 0 && lineTokens[end - 1].line.trimmedLineText === '') {
+          end--;
         }
         lineTokens = lineTokens.slice(0, end);
 
-        var description = lineTokens.map(function (token) { return token.matchedText}).join("\n");
+        var description = lineTokens.map(function (token) {
+          return token.matchedText
+        }).join("\n");
         return description;
 
       case 'Feature':
         var header = node.getSingle('FeatureHeader');
-        if(!header) return null;
+        if (!header) return null;
         var tags = getTags(header);
         var featureLine = header.getToken('FeatureLine');
-        if(!featureLine) return null;
+        if (!featureLine) return null;
         var children = []
         var background = node.getSingle('Background');
-        if(background) children.push(background);
-        children = children.concat(node.getItems('ScenarioDefinition'));
-        children = children.concat(node.getItems('Rule'));
+        if (background) children.push(m.FeatureChild.fromObject({background: background}));
+        var scenarios = node.getItems('ScenarioDefinition');
+        for (var i in scenarios) {
+          children.push(m.FeatureChild.fromObject({scenario: scenarios[i]}))
+        }
+        var rules = node.getItems('Rule');
+        for (var i in rules) {
+          children.push(m.FeatureChild.fromObject({rule: rules[i]}))
+        }
         var description = getDescription(header);
         var language = featureLine.matchedGherkinDialect;
 
-        return {
-          type: node.ruleType,
+        return m.Feature.fromObject({
           tags: tags,
           location: getLocation(featureLine),
           language: language,
           keyword: featureLine.matchedKeyword,
-          name: featureLine.matchedText,
+          name: featureLine.matchedText === "" ? null : featureLine.matchedText,
           description: description,
           children: children,
-        };
+        });
       case 'Rule':
         var header = node.getSingle('RuleHeader');
-        if(!header) return null;
+        if (!header) return null;
         var ruleLine = header.getToken('RuleLine');
-        if(!ruleLine) return null;
+        if (!ruleLine) return null;
         var children = []
         var background = node.getSingle('Background');
-        if(background) children.push(background);
-        children = children.concat(node.getItems('ScenarioDefinition'));
+        if (background) children.push(m.RuleChild.fromObject({background: background}));
+        var scenarios = node.getItems('ScenarioDefinition');
+        for (var i in scenarios) {
+          children.push(m.RuleChild.fromObject({scenario: scenarios[i]}))
+        }
         var description = getDescription(header);
 
-        return {
-          type: node.ruleType,
+        return m.Rule.fromObject({
           location: getLocation(ruleLine),
           keyword: ruleLine.matchedKeyword,
-          name: ruleLine.matchedText,
+          name: ruleLine.matchedText === "" ? null : ruleLine.matchedText,
           description: description,
           children: children,
-        };
+        });
       case 'GherkinDocument':
         var feature = node.getSingle('Feature');
 
-        return {
-          type: node.ruleType,
+        return m.GherkinDocument.fromObject({
           feature: feature,
           comments: comments
-        };
+        });
       default:
         return node;
     }
   }
-
 };

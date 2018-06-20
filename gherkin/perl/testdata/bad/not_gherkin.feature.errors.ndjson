@@ -1,2 +1,1 @@
-{"data":"not gherkin\n\n","media":{"contentType":"text/x.cucumber.gherkin+plain","encoding":"UTF-8"},"uri":"testdata/bad/not_gherkin.feature"}
 {"data":"(1:1): expected: #EOF, #Language, #TagLine, #FeatureLine, #Comment, #Empty, got 'not gherkin'","source":{"location":{"column":1,"line":1},"uri":"testdata/bad/not_gherkin.feature"}}

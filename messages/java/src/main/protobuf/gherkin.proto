@@ -19,7 +19,7 @@ message Feature {
 }
 
 message FeatureChild {
-  oneof the_value {
+  oneof value {
     Rule rule = 1;
     Background background = 2;
     Scenario scenario = 3;

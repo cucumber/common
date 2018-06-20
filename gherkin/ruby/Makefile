@@ -45,7 +45,7 @@ acceptance/testdata/%.feature.source.ndjson: testdata/%.feature testdata/%.featu
 
 acceptance/testdata/%.feature.errors.ndjson: testdata/%.feature testdata/%.feature.errors.ndjson .built
 	mkdir -p `dirname $@`
-	bin/gherkin $< | jq --sort-keys --compact-output "." > $@
+	bin/gherkin --no-source $< | jq --sort-keys --compact-output "." > $@
 	diff --unified <(jq "." $<.errors.ndjson) <(jq "." $@)
 
 clean:

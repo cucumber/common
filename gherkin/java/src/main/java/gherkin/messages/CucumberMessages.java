@@ -23,7 +23,7 @@ import java.util.List;
  * <li>{@link Pickle}</li>
  * </ul>
  */
-public class GherkinMessages {
+public class CucumberMessages {
     private final Parser<GherkinDocument> parser = new Parser<>(new GherkinDocumentBuilder());
     private final TokenMatcher matcher = new TokenMatcher();
     private final Compiler compiler = new Compiler();
@@ -32,7 +32,7 @@ public class GherkinMessages {
     private final boolean includeGherkinDocument;
     private final boolean includePickles;
 
-    public GherkinMessages(boolean includeSource, boolean includeGherkinDocument, boolean includePickles) {
+    public CucumberMessages(boolean includeSource, boolean includeGherkinDocument, boolean includePickles) {
         this.includeSource = includeSource;
         this.includeGherkinDocument = includeGherkinDocument;
         this.includePickles = includePickles;
@@ -41,12 +41,12 @@ public class GherkinMessages {
     public List<Message> messages(Source source) {
         List<Message> messages = new ArrayList<>();
 
+        if (includeSource) {
+            messages.add(source);
+        }
         try {
             GherkinDocument gherkinDocument = null;
 
-            if (includeSource) {
-                messages.add(source);
-            }
             if (includeGherkinDocument) {
                 gherkinDocument = parser.parse(source.getData(), matcher);
                 messages.add(gherkinDocument);

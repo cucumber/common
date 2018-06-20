@@ -4,7 +4,7 @@ import com.google.protobuf.InvalidProtocolBufferException;
 import com.google.protobuf.Message;
 import com.google.protobuf.util.JsonFormat;
 import cucumber.messages.Sources.Source;
-import gherkin.messages.GherkinMessages;
+import gherkin.messages.CucumberMessages;
 import gherkin.messages.FileSources;
 
 import java.util.ArrayList;
@@ -14,7 +14,7 @@ import static java.util.Arrays.asList;
 
 public class Main {
     public static void main(String[] argv) throws InvalidProtocolBufferException {
-        JsonFormat.Printer printer = JsonFormat.printer();
+        JsonFormat.Printer printer = JsonFormat.printer().includingDefaultValueFields();
 
         List<String> args = new ArrayList<>(asList(argv));
         List<String> paths = new ArrayList<>();
@@ -42,9 +42,9 @@ public class Main {
         }
 
         FileSources fileSources = new FileSources(paths);
-        GherkinMessages gherkinMessages = new GherkinMessages(printSource, printAst, printPickles);
+        CucumberMessages cucumberMessages = new CucumberMessages(printSource, printAst, printPickles);
         for (Source sourceEventEvent : fileSources) {
-            for (Message message : gherkinMessages.messages(sourceEventEvent)) {
+            for (Message message : cucumberMessages.messages(sourceEventEvent)) {
                 Stdio.out.write(printer.print(message));
                 Stdio.out.write("\n");
                 Stdio.out.flush();

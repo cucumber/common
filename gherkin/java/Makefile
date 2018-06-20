@@ -65,11 +65,11 @@ acceptance/testdata/%.feature.source.ndjson: testdata/%.feature testdata/%.featu
 # # Generate
 # acceptance/testdata/%.feature.errors.ndjson: testdata/%.feature .built
 # 	mkdir -p `dirname $@`
-# 	bin/gherkin $< | jq --sort-keys --compact-output "." > $<.errors.ndjson
+# 	bin/gherkin --no-source $< | jq --sort-keys --compact-output "." > $<.errors.ndjson
 
 acceptance/testdata/%.feature.errors.ndjson: testdata/%.feature testdata/%.feature.errors.ndjson .built
 	mkdir -p `dirname $@`
-	bin/gherkin $< | jq --sort-keys --compact-output "." > $@
+	bin/gherkin --no-source $< | jq --sort-keys --compact-output "." > $@
 	diff --unified <(jq "." $<.errors.ndjson) <(jq "." $@)
 
 src/main/java/gherkin/Parser.java: gherkin.berp gherkin-java.razor berp/berp.exe

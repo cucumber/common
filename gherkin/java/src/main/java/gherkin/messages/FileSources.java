@@ -36,8 +36,8 @@ public class FileSources implements Iterable<Source> {
                     String path = pathIterator.next();
                     String data = read(new InputStreamReader(new FileInputStream(path), "UTF-8"));
                     return Source.newBuilder()
-                            .setData(data)
                             .setUri(path)
+                            .setData(data)
                             .setMedia(
                                     Sources.Media.newBuilder()
                                             .setContentType("text/x.cucumber.gherkin+plain")
