@@ -6,9 +6,9 @@ import cucumber.messages.Gherkin.DataTable;
 import cucumber.messages.Gherkin.DocString;
 import cucumber.messages.Gherkin.Examples;
 import cucumber.messages.Gherkin.Feature;
-import cucumber.messages.Gherkin.Rule;
 import cucumber.messages.Gherkin.FeatureChild;
 import cucumber.messages.Gherkin.GherkinDocument;
+import cucumber.messages.Gherkin.Rule;
 import cucumber.messages.Gherkin.RuleChild;
 import cucumber.messages.Gherkin.Scenario;
 import cucumber.messages.Gherkin.Step;
@@ -27,7 +27,7 @@ import static gherkin.Parser.RuleType;
 import static gherkin.Parser.TokenType;
 import static gherkin.StringUtils.join;
 
-public class GherkinDocumentBuilder implements Builder<GherkinDocument> {
+public class GherkinDocumentBuilder implements Builder<GherkinDocument.Builder> {
     private Deque<AstNode> stack;
     private GherkinDocument.Builder gherkinDocumentBuilder;
 
@@ -163,9 +163,9 @@ public class GherkinDocumentBuilder implements Builder<GherkinDocument> {
                 TableRow tableHeader = rows != null && !rows.isEmpty() ? rows.get(0) : null;
                 List<TableRow> tableBody = rows != null && !rows.isEmpty() ? rows.subList(1, rows.size()) : null;
 
-                if(tableHeader != null)
+                if (tableHeader != null)
                     builder.setTableHeader(tableHeader);
-                if(tableBody != null)
+                if (tableBody != null)
                     builder.addAllTableBody(tableBody);
 
                 builder
@@ -237,7 +237,7 @@ public class GherkinDocumentBuilder implements Builder<GherkinDocument> {
                 if (ruleLine == null) return null;
 
                 String description = getDescription(header);
-                if(description != null)
+                if (description != null)
                     builder.setDescription(description);
                 Background background = node.getSingle(RuleType.Background, null);
                 if (background != null) {
@@ -261,7 +261,7 @@ public class GherkinDocumentBuilder implements Builder<GherkinDocument> {
                 if (feature != null)
                     gherkinDocumentBuilder.setFeature(feature);
 
-                return gherkinDocumentBuilder.build();
+                return gherkinDocumentBuilder;
             }
 
         }
@@ -330,7 +330,7 @@ public class GherkinDocumentBuilder implements Builder<GherkinDocument> {
     }
 
     @Override
-    public GherkinDocument getResult() {
+    public GherkinDocument.Builder getResult() {
         return currentNode().getSingle(RuleType.GherkinDocument, null);
     }
 }

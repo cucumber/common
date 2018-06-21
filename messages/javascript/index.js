@@ -1823,12 +1823,12 @@ $root.cucumber = (function() {
             var $oneOfFields;
 
             /**
-             * FeatureChild theValue.
-             * @member {"rule"|"background"|"scenario"|undefined} theValue
+             * FeatureChild value.
+             * @member {"rule"|"background"|"scenario"|undefined} value
              * @memberof cucumber.messages.FeatureChild
              * @instance
              */
-            Object.defineProperty(FeatureChild.prototype, "theValue", {
+            Object.defineProperty(FeatureChild.prototype, "value", {
                 get: $util.oneOfGetter($oneOfFields = ["rule", "background", "scenario"]),
                 set: $util.oneOfSetter($oneOfFields)
             });
@@ -1943,7 +1943,7 @@ $root.cucumber = (function() {
                     return "object expected";
                 var properties = {};
                 if (message.rule != null && message.hasOwnProperty("rule")) {
-                    properties.theValue = 1;
+                    properties.value = 1;
                     {
                         var error = $root.cucumber.messages.Rule.verify(message.rule);
                         if (error)
@@ -1951,9 +1951,9 @@ $root.cucumber = (function() {
                     }
                 }
                 if (message.background != null && message.hasOwnProperty("background")) {
-                    if (properties.theValue === 1)
-                        return "theValue: multiple values";
-                    properties.theValue = 1;
+                    if (properties.value === 1)
+                        return "value: multiple values";
+                    properties.value = 1;
                     {
                         var error = $root.cucumber.messages.Background.verify(message.background);
                         if (error)
@@ -1961,9 +1961,9 @@ $root.cucumber = (function() {
                     }
                 }
                 if (message.scenario != null && message.hasOwnProperty("scenario")) {
-                    if (properties.theValue === 1)
-                        return "theValue: multiple values";
-                    properties.theValue = 1;
+                    if (properties.value === 1)
+                        return "value: multiple values";
+                    properties.value = 1;
                     {
                         var error = $root.cucumber.messages.Scenario.verify(message.scenario);
                         if (error)
@@ -2019,17 +2019,17 @@ $root.cucumber = (function() {
                 if (message.rule != null && message.hasOwnProperty("rule")) {
                     object.rule = $root.cucumber.messages.Rule.toObject(message.rule, options);
                     if (options.oneofs)
-                        object.theValue = "rule";
+                        object.value = "rule";
                 }
                 if (message.background != null && message.hasOwnProperty("background")) {
                     object.background = $root.cucumber.messages.Background.toObject(message.background, options);
                     if (options.oneofs)
-                        object.theValue = "background";
+                        object.value = "background";
                 }
                 if (message.scenario != null && message.hasOwnProperty("scenario")) {
                     object.scenario = $root.cucumber.messages.Scenario.toObject(message.scenario, options);
                     if (options.oneofs)
-                        object.theValue = "scenario";
+                        object.value = "scenario";
                 }
                 return object;
             };

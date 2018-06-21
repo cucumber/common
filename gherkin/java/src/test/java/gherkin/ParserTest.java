@@ -15,9 +15,9 @@ public class ParserTest {
         JsonParser jsonParser = new JsonParser();
         JsonFormat.Printer printer = JsonFormat.printer();
         TokenMatcher matcher = new TokenMatcher("no");
-        Parser<GherkinDocument> parser = new Parser<>(new GherkinDocumentBuilder());
+        Parser<GherkinDocument.Builder> parser = new Parser<>(new GherkinDocumentBuilder());
 
-        GherkinDocument gherkinDocument = parser.parse("Egenskap: i18n support\n", matcher);
+        GherkinDocument gherkinDocument = parser.parse("Egenskap: i18n support\n", matcher).build();
         String json = printer.print(gherkinDocument);
 
         assertEquals(jsonParser.parse("" +

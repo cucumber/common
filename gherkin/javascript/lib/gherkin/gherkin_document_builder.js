@@ -262,10 +262,10 @@ module.exports = function GherkinDocumentBuilder() {
       case 'GherkinDocument':
         var feature = node.getSingle('Feature');
 
-        return m.GherkinDocument.fromObject({
+        return {
           feature: feature,
           comments: comments
-        });
+        };
       default:
         return node;
     }

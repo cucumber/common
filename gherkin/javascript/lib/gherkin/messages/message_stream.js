@@ -27,12 +27,12 @@ class MessageStream extends Stream.Transform {
     try {
       var gherkinDocument = null
       if (this._includeGherkinDocument) {
-        gherkinDocument = this._parser.parse(source.data, this._language)
+        gherkinDocument = this._buildGherkinDocument(source)
         this.push(gherkinDocument)
       }
       if(this._includePickles) {
         if(!gherkinDocument)
-          gherkinDocument = this._parser.parse(source.data)
+          gherkinDocument = this._buildGherkinDocument(source)
         var pickles = this._compiler.compile(gherkinDocument, source.uri)
         for (var i in pickles) {
           this.push(pickles[i])
@@ -57,6 +57,11 @@ class MessageStream extends Stream.Transform {
       }
     }
     callback()
+  }
+
+  _buildGherkinDocument(source) {
+    var gherkinDocumentProperties = this._parser.parse(source.data, this._language);
+    return m.GherkinDocument.fromObject(Object.assign(gherkinDocumentProperties, {uri: source.uri}));
   }
 }
 

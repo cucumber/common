@@ -24,7 +24,7 @@ import java.util.List;
  * </ul>
  */
 public class CucumberMessages {
-    private final Parser<GherkinDocument> parser = new Parser<>(new GherkinDocumentBuilder());
+    private final Parser<GherkinDocument.Builder> parser = new Parser<>(new GherkinDocumentBuilder());
     private final TokenMatcher matcher = new TokenMatcher();
     private final PickleCompiler pickleCompiler = new PickleCompiler();
 
@@ -48,12 +48,12 @@ public class CucumberMessages {
             GherkinDocument gherkinDocument = null;
 
             if (includeGherkinDocument) {
-                gherkinDocument = parser.parse(source.getData(), matcher);
+                gherkinDocument = buildGherkinDocument(source);
                 messages.add(gherkinDocument);
             }
             if (includePickles) {
                 if (gherkinDocument == null) {
-                    gherkinDocument = parser.parse(source.getData(), matcher);
+                    gherkinDocument = buildGherkinDocument(source);
                 }
                 List<Pickle> pickles = pickleCompiler.compile(gherkinDocument, source.getUri());
                 messages.addAll(pickles);
@@ -66,6 +66,10 @@ public class CucumberMessages {
             addErrorAttachment(messages, e, source.getUri());
         }
         return messages;
+    }
+
+    private GherkinDocument buildGherkinDocument(Source source) {
+        return parser.parse(source.getData(), matcher).setUri(source.getUri()).build();
     }
 
     private void addErrorAttachment(List<Message> cucumberEvents, ParserException e, String uri) {

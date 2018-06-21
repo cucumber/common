@@ -15,11 +15,11 @@ import static org.junit.Assert.assertEquals;
 public class GherkinDocumentBuilderTest {
     @Test
     public void is_reusable() {
-        Parser<GherkinDocument> parser = new Parser<>(new GherkinDocumentBuilder());
+        Parser<GherkinDocument.Builder> parser = new Parser<>(new GherkinDocumentBuilder());
         TokenMatcher matcher = new TokenMatcher();
 
-        GherkinDocument d1 = parser.parse("Feature: 1", matcher);
-        GherkinDocument d2 = parser.parse("Feature: 2", matcher);
+        GherkinDocument d1 = parser.parse("Feature: 1", matcher).build();
+        GherkinDocument d2 = parser.parse("Feature: 2", matcher).build();
 
         assertEquals("1", d1.getFeature().getName());
         assertEquals("2", d2.getFeature().getName());
@@ -27,7 +27,7 @@ public class GherkinDocumentBuilderTest {
 
     @Test
     public void parses_rules() {
-        Parser<GherkinDocument> parser = new Parser<>(new GherkinDocumentBuilder());
+        Parser<GherkinDocument.Builder> parser = new Parser<>(new GherkinDocumentBuilder());
         GherkinDocument doc = parser.parse("" +
                 "Feature: Some rules\n" +
                 "\n" +
@@ -47,7 +47,7 @@ public class GherkinDocumentBuilderTest {
                 "    The rule B description\n" +
                 "\n" +
                 "    Example: Example B\n" +
-                "      Given b");
+                "      Given b").build();
 
         List<FeatureChild> children = doc.getFeature().getChildrenList();
         assertEquals(3, children.size());
@@ -63,18 +63,18 @@ public class GherkinDocumentBuilderTest {
 
     @Test
     public void parses_just_comments() {
-        Parser<GherkinDocument> parser = new Parser<>(new GherkinDocumentBuilder());
+        Parser<GherkinDocument.Builder> parser = new Parser<>(new GherkinDocumentBuilder());
         GherkinDocument doc = parser.parse("" +
-                "# Just a comment");
+                "# Just a comment").build();
         List<Gherkin.Comment> children = doc.getCommentsList();
         assertEquals(1, children.size());
     }
 
     @Test
     public void sets_empty_table_cells() {
-        Parser<GherkinDocument> parser = new Parser<>(new GherkinDocumentBuilder());
+        Parser<GherkinDocument.Builder> parser = new Parser<>(new GherkinDocumentBuilder());
         GherkinDocument doc = parser.parse("" +
-                "Feature:\n  Scenario:\n    Given a table\n      |a||b|");
+                "Feature:\n  Scenario:\n    Given a table\n      |a||b|").build();
         Gherkin.TableRow row = doc.getFeature().getChildren(0).getScenario().getSteps(0).getDataTable().getRows(0);
         assertEquals("a", row.getCells(0).getValue());
         assertEquals("", row.getCells(1).getValue());
@@ -83,9 +83,9 @@ public class GherkinDocumentBuilderTest {
 
     @Test
     public void reports_step_text_column() {
-        Parser<GherkinDocument> parser = new Parser<>(new GherkinDocumentBuilder());
+        Parser<GherkinDocument.Builder> parser = new Parser<>(new GherkinDocumentBuilder());
         GherkinDocument doc = parser.parse("" +
-                "Feature:\n  Scenario:\n    Given a step");
+                "Feature:\n  Scenario:\n    Given a step").build();
         PickleCompiler pickleCompiler = new PickleCompiler();
         List<Pickle> pickles = pickleCompiler.compile(doc, "hello.feature");
 
