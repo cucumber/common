@@ -1,7 +1,7 @@
 package gherkin.messages;
 
-import cucumber.messages.Sources;
-import cucumber.messages.Sources.Source;
+import io.cucumber.messages.Sources;
+import io.cucumber.messages.Sources.Source;
 
 import java.io.FileInputStream;
 import java.io.IOException;

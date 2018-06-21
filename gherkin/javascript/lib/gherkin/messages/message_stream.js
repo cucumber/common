@@ -1,5 +1,5 @@
 'use strict'
-var m = require('cucumber-messages').cucumber.messages
+var m = require('cucumber-messages').io.cucumber.messages
 var Parser = require('../parser')
 var PickleCompiler = require('../pickles/pickle_compiler')
 

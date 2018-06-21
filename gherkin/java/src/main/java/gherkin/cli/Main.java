@@ -3,7 +3,7 @@ package gherkin.cli;
 import com.google.protobuf.InvalidProtocolBufferException;
 import com.google.protobuf.Message;
 import com.google.protobuf.util.JsonFormat;
-import cucumber.messages.Sources.Source;
+import io.cucumber.messages.Sources.Source;
 import gherkin.messages.CucumberMessages;
 import gherkin.messages.FileSources;
 

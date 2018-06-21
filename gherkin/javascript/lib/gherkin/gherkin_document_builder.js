@@ -1,6 +1,6 @@
 var AstNode = require('./ast_node');
 var Errors = require('./errors');
-var m = require('cucumber-messages').cucumber.messages
+var m = require('cucumber-messages').io.cucumber.messages
 
 module.exports = function GherkinDocumentBuilder() {
 

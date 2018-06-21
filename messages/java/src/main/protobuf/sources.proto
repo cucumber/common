@@ -1,5 +1,5 @@
 syntax = "proto3";
-package cucumber.messages;
+package io.cucumber.messages;
 
 message Location {
   uint32 line = 1;

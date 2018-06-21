@@ -1,5 +1,5 @@
 const assert = require('assert')
-const { Location, PickleDocString } = require('..').cucumber.messages
+const { Location, PickleDocString } = require('..').io.cucumber.messages
 
 describe("messages", () => {
   it("builds a pickle doc string", () => {

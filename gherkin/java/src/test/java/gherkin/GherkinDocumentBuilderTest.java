@@ -1,10 +1,10 @@
 package gherkin;
 
-import cucumber.messages.Gherkin;
-import cucumber.messages.Gherkin.FeatureChild;
-import cucumber.messages.Gherkin.GherkinDocument;
-import cucumber.messages.Pickles;
-import cucumber.messages.Pickles.Pickle;
+import io.cucumber.messages.Gherkin;
+import io.cucumber.messages.Gherkin.FeatureChild;
+import io.cucumber.messages.Gherkin.GherkinDocument;
+import io.cucumber.messages.Pickles;
+import io.cucumber.messages.Pickles.Pickle;
 import gherkin.pickles.PickleCompiler;
 import org.junit.Test;
 

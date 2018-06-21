@@ -1,21 +1,21 @@
 package gherkin;
 
-import cucumber.messages.Gherkin.Background;
-import cucumber.messages.Gherkin.Comment;
-import cucumber.messages.Gherkin.DataTable;
-import cucumber.messages.Gherkin.DocString;
-import cucumber.messages.Gherkin.Examples;
-import cucumber.messages.Gherkin.Feature;
-import cucumber.messages.Gherkin.FeatureChild;
-import cucumber.messages.Gherkin.GherkinDocument;
-import cucumber.messages.Gherkin.Rule;
-import cucumber.messages.Gherkin.RuleChild;
-import cucumber.messages.Gherkin.Scenario;
-import cucumber.messages.Gherkin.Step;
-import cucumber.messages.Gherkin.TableCell;
-import cucumber.messages.Gherkin.TableRow;
-import cucumber.messages.Gherkin.Tag;
-import cucumber.messages.Sources.Location;
+import io.cucumber.messages.Gherkin.Background;
+import io.cucumber.messages.Gherkin.Comment;
+import io.cucumber.messages.Gherkin.DataTable;
+import io.cucumber.messages.Gherkin.DocString;
+import io.cucumber.messages.Gherkin.Examples;
+import io.cucumber.messages.Gherkin.Feature;
+import io.cucumber.messages.Gherkin.FeatureChild;
+import io.cucumber.messages.Gherkin.GherkinDocument;
+import io.cucumber.messages.Gherkin.Rule;
+import io.cucumber.messages.Gherkin.RuleChild;
+import io.cucumber.messages.Gherkin.Scenario;
+import io.cucumber.messages.Gherkin.Step;
+import io.cucumber.messages.Gherkin.TableCell;
+import io.cucumber.messages.Gherkin.TableRow;
+import io.cucumber.messages.Gherkin.Tag;
+import io.cucumber.messages.Sources.Location;
 
 import java.util.ArrayDeque;
 import java.util.ArrayList;

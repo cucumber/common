@@ -1,4 +1,4 @@
-var m = require('cucumber-messages').cucumber.messages
+var m = require('cucumber-messages').io.cucumber.messages
 var countSymbols = require('../count_symbols');
 
 function PickleCompiler() {

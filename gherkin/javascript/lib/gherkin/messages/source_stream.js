@@ -1,5 +1,5 @@
 'use strict'
-var m = require('cucumber-messages').cucumber.messages
+var m = require('cucumber-messages').io.cucumber.messages
 
 const Stream = require('stream')
 

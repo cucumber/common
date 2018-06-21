@@ -2,7 +2,7 @@ package gherkin;
 
 import com.google.protobuf.InvalidProtocolBufferException;
 import com.google.protobuf.util.JsonFormat;
-import cucumber.messages.Gherkin.GherkinDocument;
+import io.cucumber.messages.Gherkin.GherkinDocument;
 import gherkin.deps.com.google.gson.JsonParser;
 import org.junit.Test;
 

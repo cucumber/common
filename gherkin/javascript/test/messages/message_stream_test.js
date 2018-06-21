@@ -1,6 +1,6 @@
 const assert = require('assert')
 const fs = require('fs')
-const m = require('cucumber-messages').cucumber.messages
+const m = require('cucumber-messages').io.cucumber.messages
 const SourceStream = require('../../lib/gherkin/messages/source_stream')
 const MessageStream = require('../../lib/gherkin/messages/message_stream')
 

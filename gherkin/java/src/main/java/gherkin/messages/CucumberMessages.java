@@ -1,11 +1,11 @@
 package gherkin.messages;
 
 import com.google.protobuf.Message;
-import cucumber.messages.Gherkin.GherkinDocument;
-import cucumber.messages.Pickles.Pickle;
-import cucumber.messages.Sources;
-import cucumber.messages.Sources.Attachment;
-import cucumber.messages.Sources.Source;
+import io.cucumber.messages.Gherkin.GherkinDocument;
+import io.cucumber.messages.Pickles.Pickle;
+import io.cucumber.messages.Sources;
+import io.cucumber.messages.Sources.Attachment;
+import io.cucumber.messages.Sources.Source;
 import gherkin.GherkinDocumentBuilder;
 import gherkin.Parser;
 import gherkin.ParserException;

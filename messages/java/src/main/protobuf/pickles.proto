@@ -1,6 +1,6 @@
 syntax = "proto3";
 import "sources.proto";
-package cucumber.messages;
+package io.cucumber.messages;
 
 message Pickle {
   string uri = 1;
