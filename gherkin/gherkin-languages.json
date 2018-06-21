@@ -688,10 +688,21 @@
   "en": {
     "and": [
       "* ",
-      "And "
+      "And ",
+      "Also ",
+      "Likewise ",
+      "Plus "
     ],
     "background": [
-      "Background"
+      "Background",
+      "Beforehand",
+      "History",
+      "Precondition",
+      "Precursor",
+      "Preliminary",
+      "Prelude",
+      "Prerequisite",
+      "Setup"
     ],
     "but": [
       "* ",
@@ -708,7 +719,11 @@
     ],
     "given": [
       "* ",
-      "Given "
+      "Given ",
+      "Assume",
+      "Assuming ",
+      "Presume",
+      "Presuming "
     ],
     "name": "English",
     "native": "English",
