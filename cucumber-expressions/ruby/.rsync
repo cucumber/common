@@ -1,4 +1,9 @@
 ../../LICENSE LICENSE
 ../../.templates/github/ .github/
+../../.templates/ruby/.gitignore .gitignore
+../../.templates/ruby/.rspec .rspec
+../../.templates/ruby/spec/capture_warnings.rb spec/capture_warnings.rb
+../../.templates/ruby/spec/coverage.rb spec/coverage.rb
 ../../.templates/ruby/.travis.yml .travis.yml
+../../.templates/ruby/Rakefile Rakefile
 ../examples.txt examples.txt
