@@ -4,7 +4,7 @@ import (
 	"encoding/json"
 	"testing"
 
-	messages "github.com/cucumber/cucumber/messages/go"
+	messages "."
 	"github.com/stretchr/testify/require"
 )
 
