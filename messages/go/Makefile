@@ -13,8 +13,10 @@ test: lib/src/github.com/stretchr/testify $(PROTO_CLASSES)
 lib/src/github.com/stretchr/testify:
 	go get github.com/stretchr/testify
 
-%_pb.go: %.proto
+lib/src/github.com/golang/protobuf/protoc-gen-go:
 	go get github.com/golang/protobuf/protoc-gen-go
+
+%_pb.go: %.proto lib/src/github.com/golang/protobuf/protoc-gen-go
 	protoc --go_out=. $<
 
 clean:

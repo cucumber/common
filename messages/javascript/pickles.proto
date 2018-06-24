@@ -2,6 +2,7 @@ syntax = "proto3";
 import "sources.proto";
 package io.cucumber.messages;
 option ruby_package = "Cucumber.Messages";
+option go_package = "messages";
 
 message Pickle {
   string uri = 1;

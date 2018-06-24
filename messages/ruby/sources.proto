@@ -1,6 +1,7 @@
 syntax = "proto3";
 package io.cucumber.messages;
 option ruby_package = "Cucumber.Messages";
+option go_package = "messages";
 
 message Location {
   uint32 line = 1;
