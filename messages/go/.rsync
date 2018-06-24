@@ -1,0 +1,6 @@
+../../LICENSE LICENSE
+../../.templates/github/ .github/
+../../.templates/go/.travis.yml .travis.yml
+../gherkin.proto gherkin.proto
+../pickles.proto pickles.proto
+../sources.proto sources.proto
