@@ -2,9 +2,11 @@
 #
 # Push all subrepos. Intendsed to be run in CI.
 #
-set -euf -o pipefail
+set -ef -o pipefail
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 source "${DIR}/functions.sh"
 
-git fetch --unshallow
+if [ -n "${TRAVIS_BRANCH}" ]; then
+  git fetch --unshallow
+fi
 push_subrepos .
