@@ -1,6 +1,7 @@
 syntax = "proto3";
 package io.cucumber.messages;
 option ruby_package = "Cucumber.Messages";
+option go_package = "messages";
 
 // All "outer" (self contained) messages that are of this type
 message Wrapper {
