@@ -1,1 +1,1 @@
-{"language":"en","locations":[{"column":3,"line":3},{"column":7,"line":8}],"name":"Token used twice in a single step","steps":[{"locations":[{"column":11,"line":4},{"column":7,"line":8}],"text":"usage usage"}],"tags":[],"uri":"testdata/good/example_token_multiple.feature"}
+{"pickle":{"language":"en","locations":[{"column":3,"line":3},{"column":7,"line":8}],"name":"Token used twice in a single step","steps":[{"locations":[{"column":11,"line":4},{"column":7,"line":8}],"text":"usage usage"}],"tags":[],"uri":"testdata/good/example_token_multiple.feature"}}

@@ -1,17 +1,19 @@
-default: test
+SHELL := /usr/bin/env bash
+
+default: mocha
 .PHONY: default
 
-index.js: sources.proto gherkin.proto pickles.proto
-	./node_modules/.bin/pbjs --target static-module --wrap commonjs $^ --out index.js
-
-test: yarn.lock index.js
+mocha: yarn.lock index.js
 	yarn test
-.PHONY: test
+.PHONY: mocha
 
-yarn.lock: package.json
-	yarn install --network-concurrency 1
-	yarn link
+index.js: messages.proto
+	./node_modules/.bin/pbjs --target static-module --wrap commonjs $< --out $@
 
 clean:
-	rm -rf node_modules index.js yarn.lock
+	rm -f index.js
 .PHONY: clean
+
+yarn.lock: package.json
+	yarn
+	touch $@

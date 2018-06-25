@@ -1,0 +1,2 @@
+{"source":{"data":"  #  language  :   en-lol\nOH HAI: STUFFING\n","media":{"contentType":"text/x.cucumber.gherkin+plain","encoding":"UTF-8"},"uri":"testdata/good/spaces_in_language.feature"}}
+{"gherkinDocument":{"comments":[],"feature":{"children":[],"description":"","keyword":"OH HAI","language":"en-lol","location":{"column":1,"line":2},"name":"STUFFING","tags":[]},"uri":"testdata/good/spaces_in_language.feature"}}

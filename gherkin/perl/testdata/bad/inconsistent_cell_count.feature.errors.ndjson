@@ -1,2 +1,2 @@
-{"data":"(6:7): inconsistent cell count within the table","source":{"location":{"column":7,"line":6},"uri":"testdata/bad/inconsistent_cell_count.feature"}}
-{"data":"(14:5): inconsistent cell count within the table","source":{"location":{"column":5,"line":14},"uri":"testdata/bad/inconsistent_cell_count.feature"}}
+{"attachment":{"data":"(6:7): inconsistent cell count within the table","source":{"location":{"column":7,"line":6},"uri":"testdata/bad/inconsistent_cell_count.feature"}}}
+{"attachment":{"data":"(14:5): inconsistent cell count within the table","source":{"location":{"column":5,"line":14},"uri":"testdata/bad/inconsistent_cell_count.feature"}}}

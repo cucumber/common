@@ -36,6 +36,319 @@ $root.io = (function() {
              */
             var messages = {};
 
+            messages.Wrapper = (function() {
+
+                /**
+                 * Properties of a Wrapper.
+                 * @memberof io.cucumber.messages
+                 * @interface IWrapper
+                 * @property {io.cucumber.messages.ISource|null} [source] Wrapper source
+                 * @property {io.cucumber.messages.IGherkinDocument|null} [gherkinDocument] Wrapper gherkinDocument
+                 * @property {io.cucumber.messages.IPickle|null} [pickle] Wrapper pickle
+                 * @property {io.cucumber.messages.IAttachment|null} [attachment] Wrapper attachment
+                 */
+
+                /**
+                 * Constructs a new Wrapper.
+                 * @memberof io.cucumber.messages
+                 * @classdesc Represents a Wrapper.
+                 * @implements IWrapper
+                 * @constructor
+                 * @param {io.cucumber.messages.IWrapper=} [properties] Properties to set
+                 */
+                function Wrapper(properties) {
+                    if (properties)
+                        for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                            if (properties[keys[i]] != null)
+                                this[keys[i]] = properties[keys[i]];
+                }
+
+                /**
+                 * Wrapper source.
+                 * @member {io.cucumber.messages.ISource|null|undefined} source
+                 * @memberof io.cucumber.messages.Wrapper
+                 * @instance
+                 */
+                Wrapper.prototype.source = null;
+
+                /**
+                 * Wrapper gherkinDocument.
+                 * @member {io.cucumber.messages.IGherkinDocument|null|undefined} gherkinDocument
+                 * @memberof io.cucumber.messages.Wrapper
+                 * @instance
+                 */
+                Wrapper.prototype.gherkinDocument = null;
+
+                /**
+                 * Wrapper pickle.
+                 * @member {io.cucumber.messages.IPickle|null|undefined} pickle
+                 * @memberof io.cucumber.messages.Wrapper
+                 * @instance
+                 */
+                Wrapper.prototype.pickle = null;
+
+                /**
+                 * Wrapper attachment.
+                 * @member {io.cucumber.messages.IAttachment|null|undefined} attachment
+                 * @memberof io.cucumber.messages.Wrapper
+                 * @instance
+                 */
+                Wrapper.prototype.attachment = null;
+
+                // OneOf field names bound to virtual getters and setters
+                var $oneOfFields;
+
+                /**
+                 * Wrapper message.
+                 * @member {"source"|"gherkinDocument"|"pickle"|"attachment"|undefined} message
+                 * @memberof io.cucumber.messages.Wrapper
+                 * @instance
+                 */
+                Object.defineProperty(Wrapper.prototype, "message", {
+                    get: $util.oneOfGetter($oneOfFields = ["source", "gherkinDocument", "pickle", "attachment"]),
+                    set: $util.oneOfSetter($oneOfFields)
+                });
+
+                /**
+                 * Creates a new Wrapper instance using the specified properties.
+                 * @function create
+                 * @memberof io.cucumber.messages.Wrapper
+                 * @static
+                 * @param {io.cucumber.messages.IWrapper=} [properties] Properties to set
+                 * @returns {io.cucumber.messages.Wrapper} Wrapper instance
+                 */
+                Wrapper.create = function create(properties) {
+                    return new Wrapper(properties);
+                };
+
+                /**
+                 * Encodes the specified Wrapper message. Does not implicitly {@link io.cucumber.messages.Wrapper.verify|verify} messages.
+                 * @function encode
+                 * @memberof io.cucumber.messages.Wrapper
+                 * @static
+                 * @param {io.cucumber.messages.IWrapper} message Wrapper message or plain object to encode
+                 * @param {$protobuf.Writer} [writer] Writer to encode to
+                 * @returns {$protobuf.Writer} Writer
+                 */
+                Wrapper.encode = function encode(message, writer) {
+                    if (!writer)
+                        writer = $Writer.create();
+                    if (message.source != null && message.hasOwnProperty("source"))
+                        $root.io.cucumber.messages.Source.encode(message.source, writer.uint32(/* id 1, wireType 2 =*/10).fork()).ldelim();
+                    if (message.gherkinDocument != null && message.hasOwnProperty("gherkinDocument"))
+                        $root.io.cucumber.messages.GherkinDocument.encode(message.gherkinDocument, writer.uint32(/* id 2, wireType 2 =*/18).fork()).ldelim();
+                    if (message.pickle != null && message.hasOwnProperty("pickle"))
+                        $root.io.cucumber.messages.Pickle.encode(message.pickle, writer.uint32(/* id 3, wireType 2 =*/26).fork()).ldelim();
+                    if (message.attachment != null && message.hasOwnProperty("attachment"))
+                        $root.io.cucumber.messages.Attachment.encode(message.attachment, writer.uint32(/* id 4, wireType 2 =*/34).fork()).ldelim();
+                    return writer;
+                };
+
+                /**
+                 * Encodes the specified Wrapper message, length delimited. Does not implicitly {@link io.cucumber.messages.Wrapper.verify|verify} messages.
+                 * @function encodeDelimited
+                 * @memberof io.cucumber.messages.Wrapper
+                 * @static
+                 * @param {io.cucumber.messages.IWrapper} message Wrapper message or plain object to encode
+                 * @param {$protobuf.Writer} [writer] Writer to encode to
+                 * @returns {$protobuf.Writer} Writer
+                 */
+                Wrapper.encodeDelimited = function encodeDelimited(message, writer) {
+                    return this.encode(message, writer).ldelim();
+                };
+
+                /**
+                 * Decodes a Wrapper message from the specified reader or buffer.
+                 * @function decode
+                 * @memberof io.cucumber.messages.Wrapper
+                 * @static
+                 * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+                 * @param {number} [length] Message length if known beforehand
+                 * @returns {io.cucumber.messages.Wrapper} Wrapper
+                 * @throws {Error} If the payload is not a reader or valid buffer
+                 * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                 */
+                Wrapper.decode = function decode(reader, length) {
+                    if (!(reader instanceof $Reader))
+                        reader = $Reader.create(reader);
+                    var end = length === undefined ? reader.len : reader.pos + length, message = new $root.io.cucumber.messages.Wrapper();
+                    while (reader.pos < end) {
+                        var tag = reader.uint32();
+                        switch (tag >>> 3) {
+                        case 1:
+                            message.source = $root.io.cucumber.messages.Source.decode(reader, reader.uint32());
+                            break;
+                        case 2:
+                            message.gherkinDocument = $root.io.cucumber.messages.GherkinDocument.decode(reader, reader.uint32());
+                            break;
+                        case 3:
+                            message.pickle = $root.io.cucumber.messages.Pickle.decode(reader, reader.uint32());
+                            break;
+                        case 4:
+                            message.attachment = $root.io.cucumber.messages.Attachment.decode(reader, reader.uint32());
+                            break;
+                        default:
+                            reader.skipType(tag & 7);
+                            break;
+                        }
+                    }
+                    return message;
+                };
+
+                /**
+                 * Decodes a Wrapper message from the specified reader or buffer, length delimited.
+                 * @function decodeDelimited
+                 * @memberof io.cucumber.messages.Wrapper
+                 * @static
+                 * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+                 * @returns {io.cucumber.messages.Wrapper} Wrapper
+                 * @throws {Error} If the payload is not a reader or valid buffer
+                 * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                 */
+                Wrapper.decodeDelimited = function decodeDelimited(reader) {
+                    if (!(reader instanceof $Reader))
+                        reader = new $Reader(reader);
+                    return this.decode(reader, reader.uint32());
+                };
+
+                /**
+                 * Verifies a Wrapper message.
+                 * @function verify
+                 * @memberof io.cucumber.messages.Wrapper
+                 * @static
+                 * @param {Object.<string,*>} message Plain object to verify
+                 * @returns {string|null} `null` if valid, otherwise the reason why it is not
+                 */
+                Wrapper.verify = function verify(message) {
+                    if (typeof message !== "object" || message === null)
+                        return "object expected";
+                    var properties = {};
+                    if (message.source != null && message.hasOwnProperty("source")) {
+                        properties.message = 1;
+                        {
+                            var error = $root.io.cucumber.messages.Source.verify(message.source);
+                            if (error)
+                                return "source." + error;
+                        }
+                    }
+                    if (message.gherkinDocument != null && message.hasOwnProperty("gherkinDocument")) {
+                        if (properties.message === 1)
+                            return "message: multiple values";
+                        properties.message = 1;
+                        {
+                            var error = $root.io.cucumber.messages.GherkinDocument.verify(message.gherkinDocument);
+                            if (error)
+                                return "gherkinDocument." + error;
+                        }
+                    }
+                    if (message.pickle != null && message.hasOwnProperty("pickle")) {
+                        if (properties.message === 1)
+                            return "message: multiple values";
+                        properties.message = 1;
+                        {
+                            var error = $root.io.cucumber.messages.Pickle.verify(message.pickle);
+                            if (error)
+                                return "pickle." + error;
+                        }
+                    }
+                    if (message.attachment != null && message.hasOwnProperty("attachment")) {
+                        if (properties.message === 1)
+                            return "message: multiple values";
+                        properties.message = 1;
+                        {
+                            var error = $root.io.cucumber.messages.Attachment.verify(message.attachment);
+                            if (error)
+                                return "attachment." + error;
+                        }
+                    }
+                    return null;
+                };
+
+                /**
+                 * Creates a Wrapper message from a plain object. Also converts values to their respective internal types.
+                 * @function fromObject
+                 * @memberof io.cucumber.messages.Wrapper
+                 * @static
+                 * @param {Object.<string,*>} object Plain object
+                 * @returns {io.cucumber.messages.Wrapper} Wrapper
+                 */
+                Wrapper.fromObject = function fromObject(object) {
+                    if (object instanceof $root.io.cucumber.messages.Wrapper)
+                        return object;
+                    var message = new $root.io.cucumber.messages.Wrapper();
+                    if (object.source != null) {
+                        if (typeof object.source !== "object")
+                            throw TypeError(".io.cucumber.messages.Wrapper.source: object expected");
+                        message.source = $root.io.cucumber.messages.Source.fromObject(object.source);
+                    }
+                    if (object.gherkinDocument != null) {
+                        if (typeof object.gherkinDocument !== "object")
+                            throw TypeError(".io.cucumber.messages.Wrapper.gherkinDocument: object expected");
+                        message.gherkinDocument = $root.io.cucumber.messages.GherkinDocument.fromObject(object.gherkinDocument);
+                    }
+                    if (object.pickle != null) {
+                        if (typeof object.pickle !== "object")
+                            throw TypeError(".io.cucumber.messages.Wrapper.pickle: object expected");
+                        message.pickle = $root.io.cucumber.messages.Pickle.fromObject(object.pickle);
+                    }
+                    if (object.attachment != null) {
+                        if (typeof object.attachment !== "object")
+                            throw TypeError(".io.cucumber.messages.Wrapper.attachment: object expected");
+                        message.attachment = $root.io.cucumber.messages.Attachment.fromObject(object.attachment);
+                    }
+                    return message;
+                };
+
+                /**
+                 * Creates a plain object from a Wrapper message. Also converts values to other types if specified.
+                 * @function toObject
+                 * @memberof io.cucumber.messages.Wrapper
+                 * @static
+                 * @param {io.cucumber.messages.Wrapper} message Wrapper
+                 * @param {$protobuf.IConversionOptions} [options] Conversion options
+                 * @returns {Object.<string,*>} Plain object
+                 */
+                Wrapper.toObject = function toObject(message, options) {
+                    if (!options)
+                        options = {};
+                    var object = {};
+                    if (message.source != null && message.hasOwnProperty("source")) {
+                        object.source = $root.io.cucumber.messages.Source.toObject(message.source, options);
+                        if (options.oneofs)
+                            object.message = "source";
+                    }
+                    if (message.gherkinDocument != null && message.hasOwnProperty("gherkinDocument")) {
+                        object.gherkinDocument = $root.io.cucumber.messages.GherkinDocument.toObject(message.gherkinDocument, options);
+                        if (options.oneofs)
+                            object.message = "gherkinDocument";
+                    }
+                    if (message.pickle != null && message.hasOwnProperty("pickle")) {
+                        object.pickle = $root.io.cucumber.messages.Pickle.toObject(message.pickle, options);
+                        if (options.oneofs)
+                            object.message = "pickle";
+                    }
+                    if (message.attachment != null && message.hasOwnProperty("attachment")) {
+                        object.attachment = $root.io.cucumber.messages.Attachment.toObject(message.attachment, options);
+                        if (options.oneofs)
+                            object.message = "attachment";
+                    }
+                    return object;
+                };
+
+                /**
+                 * Converts this Wrapper to JSON.
+                 * @function toJSON
+                 * @memberof io.cucumber.messages.Wrapper
+                 * @instance
+                 * @returns {Object.<string,*>} JSON object
+                 */
+                Wrapper.prototype.toJSON = function toJSON() {
+                    return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+                };
+
+                return Wrapper;
+            })();
+
             messages.Location = (function() {
 
                 /**

@@ -1,11 +1,12 @@
 package gherkin;
 
-import io.cucumber.messages.Gherkin;
-import io.cucumber.messages.Gherkin.FeatureChild;
-import io.cucumber.messages.Gherkin.GherkinDocument;
-import io.cucumber.messages.Pickles;
-import io.cucumber.messages.Pickles.Pickle;
 import gherkin.pickles.PickleCompiler;
+import io.cucumber.messages.Messages.Comment;
+import io.cucumber.messages.Messages.FeatureChild;
+import io.cucumber.messages.Messages.GherkinDocument;
+import io.cucumber.messages.Messages.Pickle;
+import io.cucumber.messages.Messages.PickleStep;
+import io.cucumber.messages.Messages.TableRow;
 import org.junit.Test;
 
 import java.util.List;
@@ -66,7 +67,7 @@ public class GherkinDocumentBuilderTest {
         Parser<GherkinDocument.Builder> parser = new Parser<>(new GherkinDocumentBuilder());
         GherkinDocument doc = parser.parse("" +
                 "# Just a comment").build();
-        List<Gherkin.Comment> children = doc.getCommentsList();
+        List<Comment> children = doc.getCommentsList();
         assertEquals(1, children.size());
     }
 
@@ -75,7 +76,7 @@ public class GherkinDocumentBuilderTest {
         Parser<GherkinDocument.Builder> parser = new Parser<>(new GherkinDocumentBuilder());
         GherkinDocument doc = parser.parse("" +
                 "Feature:\n  Scenario:\n    Given a table\n      |a||b|").build();
-        Gherkin.TableRow row = doc.getFeature().getChildren(0).getScenario().getSteps(0).getDataTable().getRows(0);
+        TableRow row = doc.getFeature().getChildren(0).getScenario().getSteps(0).getDataTable().getRows(0);
         assertEquals("a", row.getCells(0).getValue());
         assertEquals("", row.getCells(1).getValue());
         assertEquals("b", row.getCells(2).getValue());
@@ -89,7 +90,7 @@ public class GherkinDocumentBuilderTest {
         PickleCompiler pickleCompiler = new PickleCompiler();
         List<Pickle> pickles = pickleCompiler.compile(doc, "hello.feature");
 
-        Pickles.PickleStep step = pickles.get(0).getSteps(0);
+        PickleStep step = pickles.get(0).getSteps(0);
         assertEquals(11, step.getLocations(0).getColumn());
 
     }

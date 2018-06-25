@@ -1,6 +1,5 @@
 const assert = require('assert')
 const fs = require('fs')
-const m = require('cucumber-messages').io.cucumber.messages
 const SourceStream = require('../../lib/gherkin/messages/source_stream')
 const MessageStream = require('../../lib/gherkin/messages/message_stream')
 
@@ -15,7 +14,6 @@ describe('MessageStream', () => {
     eventStream.on('data', message => messages.push(message))
     eventStream.on('end', () => {
       assert.equal(messages.length, 3)
-      assert.deepEqual(messages.map(e => e.constructor), [m.Source, m.GherkinDocument, m.Pickle])
       callback()
     })
     fs.createReadStream(__dirname + '/test.feature', {encoding: 'UTF-8'}).pipe(new SourceStream('test.feature')).pipe(eventStream)
@@ -31,7 +29,6 @@ describe('MessageStream', () => {
     eventStream.on('data', message => messages.push(message))
     eventStream.on('end', () => {
       assert.equal(messages.length, 3)
-      assert.deepEqual(messages.map(e => e.constructor), [m.Source, m.GherkinDocument, m.Pickle])
       callback()
     })
     fs.createReadStream(__dirname + '/test_fr.feature', {encoding: 'UTF-8'}).pipe(new SourceStream('test.feature')).pipe(eventStream)

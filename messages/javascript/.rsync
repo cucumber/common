@@ -2,6 +2,4 @@
 ../../.templates/github/ .github/
 ../../.templates/javascript/.travis.yml .travis.yml
 ../../scripts/prettier-all scripts/prettier-all
-../gherkin.proto gherkin.proto
-../pickles.proto pickles.proto
-../sources.proto sources.proto
+../messages.proto messages.proto

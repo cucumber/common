@@ -1,0 +1,19 @@
+Í
+Á
+-testdata/good/incomplete_background_2.featureçFeature: Incomplete backgrounds, Part 2
+
+  Background: just a description
+    A short description
+
+  Scenario: still pickles up
+    * a step
+&
+UTF-8text/x.cucumber.gherkin+plainÂ‚
+-testdata/good/incomplete_background_2.feature∞
+en"Feature*Incomplete backgrounds, Part 2:A?
+
+Backgroundjust a description"    A short description:86
+Scenario"still pickles up2
+* a step][
+-testdata/good/incomplete_background_2.featurestill pickles upen"
+a step2

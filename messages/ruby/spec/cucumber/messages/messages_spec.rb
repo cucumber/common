@@ -1,4 +1,4 @@
-require 'cucumber/messages'
+require 'cucumber/messages_pb'
 
 module Cucumber
   module Messages

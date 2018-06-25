@@ -10,11 +10,11 @@ var Stream = require('stream')
  * events.
  */
 class MessageStream extends Stream.Transform {
-  constructor(includes, language) {
+  constructor(options, language) {
     super({objectMode: true})
-    this._includeSource = includes.includeSource
-    this._includeGherkinDocument = includes.includeGherkinDocument
-    this._includePickles = includes.includePickles
+    this._includeSource = options.includeSource
+    this._includeGherkinDocument = options.includeGherkinDocument
+    this._includePickles = options.includePickles
     this._language = language
 
     this._parser = new Parser()
@@ -23,19 +23,19 @@ class MessageStream extends Stream.Transform {
 
   _transform(source, _, callback) {
     if (this._includeSource)
-      this.push(source)
+      this.push(m.Wrapper.fromObject({source: source}))
     try {
       var gherkinDocument = null
       if (this._includeGherkinDocument) {
         gherkinDocument = this._buildGherkinDocument(source)
-        this.push(gherkinDocument)
+        this.push(m.Wrapper.fromObject({gherkinDocument: gherkinDocument}))
       }
       if(this._includePickles) {
         if(!gherkinDocument)
           gherkinDocument = this._buildGherkinDocument(source)
         var pickles = this._compiler.compile(gherkinDocument, source.uri)
         for (var i in pickles) {
-          this.push(pickles[i])
+          this.push(m.Wrapper.fromObject({pickle: pickles[i]}))
         }
       }
     } catch(err) {
@@ -43,15 +43,17 @@ class MessageStream extends Stream.Transform {
       for(var i in errors) {
         var error = errors[i]
         this.push(
-          m.Attachment.fromObject({
-            source: m.SourceReference.fromObject({
-              uri: source.uri,
-              location: m.Location.fromObject({
-                line: error.location.line,
-                column: error.location.column
-              })
-            }),
-            data: error.message
+          m.Wrapper.fromObject({
+            attachment: m.Attachment.fromObject({
+              source: m.SourceReference.fromObject({
+                uri: source.uri,
+                location: m.Location.fromObject({
+                  line: error.location.line,
+                  column: error.location.column
+                })
+              }),
+              data: error.message
+            })
           })
         )
       }

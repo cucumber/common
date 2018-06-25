@@ -2,6 +2,4 @@
 ../../.templates/github/ .github/
 ../../.templates/java/.travis.yml .travis.yml
 ../../.templates/java/Makefile Makefile
-../gherkin.proto src/main/protobuf/gherkin.proto
-../pickles.proto src/main/protobuf/pickles.proto
-../sources.proto src/main/protobuf/sources.proto
+../messages.proto src/main/protobuf/messages.proto

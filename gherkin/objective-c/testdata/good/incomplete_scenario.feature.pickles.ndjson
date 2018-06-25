@@ -1,1 +1,1 @@
-{"language":"en","locations":[{"column":3,"line":6}],"name":"no steps","steps":[],"tags":[],"uri":"testdata/good/incomplete_scenario.feature"}
+{"pickle":{"language":"en","locations":[{"column":3,"line":6}],"name":"no steps","steps":[],"tags":[],"uri":"testdata/good/incomplete_scenario.feature"}}

@@ -1,7 +1,7 @@
 package gherkin.messages;
 
-import io.cucumber.messages.Sources;
-import io.cucumber.messages.Sources.Source;
+import io.cucumber.messages.Messages.Media;
+import io.cucumber.messages.Messages.Source;
 
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -39,7 +39,7 @@ public class FileSources implements Iterable<Source> {
                             .setUri(path)
                             .setData(data)
                             .setMedia(
-                                    Sources.Media.newBuilder()
+                                    Media.newBuilder()
                                             .setContentType("text/x.cucumber.gherkin+plain")
                                             .setEncoding("UTF-8")
                             )
