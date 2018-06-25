@@ -20,5 +20,5 @@ messages.pb.go: messages.proto
 	PATH="${GOPATH}/bin:${PATH}" protoc --go_out=. $<
 
 clean:
-	rm -rf lib messages.pb.go
+	rm -rf lib/* messages.pb.go
 .PHONY: clean
