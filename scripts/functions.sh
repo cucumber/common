@@ -121,7 +121,7 @@ function push_subrepo_branch_maybe()
   branch=$(git_branch)
   
   if is_branch_or_tag_for_subrepo "${branch}" "${subrepo}"; then
-    git push --force "${remote}" $(splitsh-lite --prefix=${subrepo}):refs/heads/${branch}
+    git push "${remote}" $(splitsh-lite --prefix=${subrepo}):refs/heads/${branch}
   fi
 }
 
@@ -132,7 +132,7 @@ function push_subrepo_tag_maybe()
   if [ -z "${TRAVIS_TAG}" ]; then
     echo "No tags to push"
   elif is_branch_or_tag_for_subrepo "${TRAVIS_TAG}" "${subrepo}"; then
-    git push --force "${remote}" $(splitsh-lite --prefix=${subrepo} --origin=refs/tags/${TRAVIS_TAG}):refs/tags/${TRAVIS_TAG}
+    git push "${remote}" $(splitsh-lite --prefix=${subrepo} --origin=refs/tags/${TRAVIS_TAG}):refs/tags/${TRAVIS_TAG}
   fi
 }
 
