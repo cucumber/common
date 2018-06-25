@@ -1,5 +1,4 @@
 ../../LICENSE LICENSE
 ../../.templates/github/ .github/
 ../../.templates/java/.travis.yml .travis.yml
-../../.templates/java/Makefile Makefile
-../messages.proto src/main/protobuf/messages.proto
+../messages.proto messages.proto
