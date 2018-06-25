@@ -72,17 +72,44 @@
             </plugin>
 
             <plugin>
-                <groupId>com.github.os72</groupId>
-                <artifactId>protoc-jar-maven-plugin</artifactId>
-                <version>3.5.1.1</version>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-antrun-plugin</artifactId>
+                <version>1.8</version>
                 <executions>
                     <execution>
                         <phase>generate-sources</phase>
+                        <configuration>
+                            <tasks>
+                                <mkdir dir="target/generated-sources"/>
+                                <exec executable="protoc">
+                                    <arg value="--java_out"/>
+                                    <arg value="target/generated-sources"/>
+                                    <arg value="src/main/protobuf/messages.proto"/>
+                                </exec>
+                            </tasks>
+                          </configuration>
+                          <goals>
+                              <goal>run</goal>
+                          </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>build-helper-maven-plugin</artifactId>
+                <version>3.0.0</version>
+                <executions>
+                    <execution>
+                        <id>add-classes</id>
+                        <phase>generate-sources</phase>
                         <goals>
-                            <goal>run</goal>
+                            <goal>add-source</goal>
                         </goals>
                         <configuration>
-                            <protocArtifact>com.google.protobuf:protoc:${protobuf.version}</protocArtifact>
+                            <sources>
+                                <source>target/generated-sources</source>
+                            </sources>
                         </configuration>
                     </execution>
                 </executions>
