@@ -10,10 +10,11 @@ mocha: yarn.lock index.js
 index.js: messages.proto
 	./node_modules/.bin/pbjs --target static-module --wrap commonjs $< --out $@
 
-clean:
-	rm -f index.js
-.PHONY: clean
-
 yarn.lock: package.json
 	yarn
 	touch $@
+
+clean:
+	rm -f index.js yarn.lock node_modules
+.PHONY: clean
+
