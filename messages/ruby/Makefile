@@ -3,16 +3,16 @@ SHELL := /usr/bin/env bash
 default: rspec
 .PHONY: default
 
-rspec: Gemfile.lock lib/cucumber/messages.rb
+rspec: Gemfile.lock lib/cucumber/messages_pb.rb
 	rake
 	rake install
 .PHONY: rspec
 
-lib/cucumber/messages.rb: messages.proto
+lib/cucumber/messages_pb.rb: messages.proto
 	protoc --ruby_out lib/cucumber $<
 
 clean:
-	rm -rf lib/cucumber/messages.rb
+	rm -rf lib/cucumber/messages_pb.rb
 .PHONY: clean
 
 Gemfile.lock: Gemfile

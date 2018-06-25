@@ -4,7 +4,7 @@ export GOPATH = $(realpath ./lib)
 default: test
 .PHONY: default
 
-test: lib/src/github.com/stretchr/testify messages_pb.go
+test: lib/src/github.com/stretchr/testify lib/src/github.com/golang/protobuf/protoc-gen-go messages.pb.go
 	go test
 .PHONY: clean
 
@@ -16,9 +16,9 @@ lib/src/github.com/golang/protobuf/protoc-gen-go:
 	mkdir -p lib
 	go get github.com/golang/protobuf/protoc-gen-go
 
-messages_pb.go: messages.proto lib/src/github.com/golang/protobuf/protoc-gen-go
+messages.pb.go: messages.proto
 	PATH="${GOPATH}/bin:${PATH}" protoc --go_out=. $<
 
 clean:
-	rm -rf lib messages_pb.go
+	rm -rf lib messages.pb.go
 .PHONY: clean
