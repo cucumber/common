@@ -11,5 +11,5 @@ default: .built
 	touch $@
 
 clean:
-	rm -rf target
-.PHONY: clean .built
+	rm -rf target .built
+.PHONY: clean
