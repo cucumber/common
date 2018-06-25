@@ -93,7 +93,10 @@ Write some code in the monorepo, and push whenever you want to sync to the subre
 ### Docker and CI
 
 Our CI build uses Docker. We have our own docker images defined in `Dockerfile.*`
-files. These need to be rebuilt and published manually whenever they change:
+files. These need to be rebuilt and published manually whenever they change.
+
+In order to publish new images, log in as `cukebot`. The password is in 1Password,
+in the "Cucumber Open Source" vault.
 
    source ./scripts/functions.sh
    # Standard image (for all builds except .NET)
