@@ -4,3 +4,4 @@ target/
 acceptance/
 .built
 .compared
+dependency-reduced-pom.xml

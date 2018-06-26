@@ -6,6 +6,7 @@ import gherkin.messages.CucumberMessages;
 import gherkin.messages.FileSources;
 import gherkin.messages.ParserCucumberMessages;
 import gherkin.messages.ProtobufCucumberMessages;
+import gherkin.messages.SubprocessCucumberMessages;
 import io.cucumber.messages.Messages.Source;
 import io.cucumber.messages.Messages.Wrapper;
 
@@ -53,8 +54,12 @@ public class Main {
             }
         }
 
+        String gherkinExecutable = System.getenv("GHERKIN_EXECUTABLE");
         if (stdin) {
-            CucumberMessages cucumberMessages = new ProtobufCucumberMessages(System.in);
+            CucumberMessages cucumberMessages = new ProtobufCucumberMessages(System.in, printSource, printAst, printPickles);
+            print(printer, protobuf, cucumberMessages);
+        } else if (gherkinExecutable != null) {
+            CucumberMessages cucumberMessages = new SubprocessCucumberMessages(gherkinExecutable, paths, printSource, printAst, printPickles);
             print(printer, protobuf, cucumberMessages);
         } else {
             FileSources fileSources = new FileSources(paths);

@@ -6,7 +6,6 @@ var m = require('cucumber-messages').io.cucumber.messages
 var SourceStream = require('../lib/gherkin/messages/source_stream')
 var MessageStream = require('../lib/gherkin/messages/message_stream')
 var ProtobufMessageStream = require('../lib/gherkin/messages/protobuf_message_stream')
-
 var args = process.argv.slice(2)
 var options = {
   includeSource: true,
@@ -83,7 +82,7 @@ if (options.protobuf) {
 
 messageTransformerStream.pipe(process.stdout)
 
-if (process.stdin.isTTY) {
+if (paths.length > 0) {
   pipeMessagesTo(paths, 0, messageTransformerStream)
 } else {
   process.stdin.pipe(new ProtobufMessageStream(m.Wrapper)).pipe(messageTransformerStream)
