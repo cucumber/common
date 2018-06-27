@@ -1,4 +1,4 @@
-ASYNC_SUPPORTED := $(shell node --eval "function async foo(){}" 2> /dev/null)
+ASYNC_SUPPORTED := $(shell node --eval "async function foo(){}" 2> /dev/null)
 ifdef ASYNC_SUPPORTED
 	TEST_TARGET=test
 else
@@ -22,5 +22,5 @@ yarn.lock: package.json
 	yarn link
 
 clean:
-	rm -rf node_modules coverage dist
+	rm -rf yarn.lock node_modules coverage dist
 .PHONY: clean
