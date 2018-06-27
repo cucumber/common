@@ -1,0 +1,19 @@
+sudo: false
+language: java
+jdk:
+- oraclejdk8
+- oraclejdk9
+- oraclejdk10
+jobs:
+  include:
+  - stage: deploy
+    jdk: oraclejdk8
+    script:
+    - "./scripts/travis_decrypt_signing_key.sh"
+    - "./scripts/mvn_deploy.sh"
+    - "./scripts/mvn_upload_api_docs.sh"
+script: make default
+env:
+  global:
+  - secure: H2ylj/yTknFgyX+w7EPv9O+dFWJouRHPGrzs4/Cy5OJW5U8jJDqut5hIIChjgFktOjbh3Av/yZmBVilUurMCWnR72dmhha7PUSfOL6QOm0BlFVMEMj1mcm8ZAspItPEXPbyMLyokAFwen69dz1VX5E9G0hLk3sm2HLEszKimC4bfB9ZneXwapmhq7SZW0fujcCs/UcjCjiHMa3Xk33K4O796saVS8C4qzLOoURfCqfqTnKlkP3xOFTmdMNKiuS7BvEboOnwe3SAcXN+gRBEdDvnejyP7MxoJs7KKAy/AsVXbseveoOCPh0sl7djCS/MGQhznYfLQ7EjnCXzk0OZ7bPWmE4Sf/MkArj3HgamZv82mp0Cz4pDMmH44hUhSq7+qNmr5V3lJSm6tYgr+WCVU9e7OTp09NcFU019/53+uvUCayc7gIVJZxpndeB0pj4FFyCQ60MJ9VbznazxwcWpBL/7Qf3Vije8io1HGinr3GKQC3fSki2CQfbr1hhgPg/W8BwO+Ex5jAnPhvaOMG//iNQFFZWkoincpVc0mWGQGMPc59DraIdfp2rw2K32fyaocu9c7lZnV19IwBQRLw0ZYMHoiN5nn/q57IoPyTPkaYVKjYYfkBSOcgM5RpI7tsQ+7Eip3Z8AimIjM4suOer3Nb1E3KoITJpAeMUCOBWQk3g4=
+  - secure: Qorha1ZTaJERNOVrI3gVPcP0jZuLcbZYwvZiFzY9R5zx7xkrAGQ6P/Zl3FHwuyRwJ0dX2Br25CZZFdUWg84wS1rKLFLyqb9vJmIEBA2mXAZ36iCN7UsDL7CZM+a0nIHsBuR2YvA51R1flbCv8TBbwgJ4haFqlBcNwJWbOBfbRaFKL16LhQ8y76FJSnV93aND4JaKvWC5C9S/NedVF6RMdB+ca/cxlEdi2KJVpemkx81hTp5b2dCEwaL892lZ/oehNPGGzUlgIrt70Z9ySAa0cHQoiUQCjD4MHoni+9XzbkX4f+DpH7yo3XxhuG+NXOpMsMrs5rilZP36GT9TUXmUJLnOIyV7mtBvpzrY195PQogxfd8Sswni1JhZBEnxtmKiXcVu7h8u5+tSS1Hc7SqvigKEcWqRolpPrGJPKAggbxQ9HdQ2gZhNv3uyBVly6caRFJi9FzrMqRQqc/jIMr7gxFfdaPg2Jnp5H5xCbcrmxgUkA9IklqLAUCqPqo1e0kvZUkOFtP+RwyhGO3WAQuZn1E3TZMmYgnGLh04SYNYTcCrTukkOGiH4ELh0riLsmYVb255k6MLoZIKkgXolQTYLTpR8PtaqLcUOUzcFEmzhIzTW/naekDbaVDUp4bJEF2SsxSwN0RUt5n1TEZA9zK7bjxBPC/F6qAfBe+J2P+XimGY=

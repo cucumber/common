@@ -1,0 +1,18 @@
+{
+  "name": "cucumber-messages",
+  "version": "1.0.0",
+  "description": "Protocol Buffer messages for Cucumber's inter-process communication",
+  "main": "index.js",
+  "repository": "git://github.com/cucumber/cucumber-messages-javascript.git",
+  "author": "Cucumber Limited <cukes@googlegroups.com>",
+  "license": "MIT",
+  "scripts": {
+    "test": "mocha"
+  },
+  "dependencies": {
+    "protobufjs": "^6.8.6"
+  },
+  "devDependencies": {
+    "mocha": "^5.2.0"
+  }
+}

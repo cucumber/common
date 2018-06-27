@@ -1,0 +1,19 @@
+# Please update /.templates/javascript/.travis.yml in the cucumber/cucumber monorepo
+# and sync:
+#
+#     source scripts/functions.sh && rsync_files
+#
+language: go
+sudo: false
+
+go:
+  - "1.8"
+  - "1.9"
+  - "1.10"
+  - "tip"
+
+env:
+  # fixes 'local import "../" in non-local package' error
+  - GOPATH=
+
+script: make default
