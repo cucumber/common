@@ -12,5 +12,7 @@
             ContentType = contentType;
             Content = content;
         }
+        
+        public override string ToString() => Content;
     }
 }
