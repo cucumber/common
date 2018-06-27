@@ -9,16 +9,18 @@ test: lib/src/github.com/stretchr/testify lib/src/github.com/golang/protobuf/pro
 .PHONY: clean
 
 lib/src/github.com/stretchr/testify:
-	mkdir -p lib
 	go get github.com/stretchr/testify
 
 lib/src/github.com/golang/protobuf/protoc-gen-go:
-	mkdir -p lib
 	go get github.com/golang/protobuf/protoc-gen-go
 
 messages.pb.go: messages.proto
 	PATH="${GOPATH}/bin:${PATH}" protoc --go_out=. $<
 
 clean:
-	rm -rf lib/* messages.pb.go
+	rm -rf lib/*
 .PHONY: clean
+
+clobber: clean
+	rm -f messages.pb.go
+.PHONY: clobber
