@@ -1,7 +1,5 @@
 package gherkin.cli;
 
-import com.google.protobuf.util.JsonFormat;
-import com.google.protobuf.util.JsonFormat.Printer;
 import gherkin.messages.CucumberMessages;
 import gherkin.messages.FileSources;
 import gherkin.messages.ParserCucumberMessages;
@@ -9,6 +7,8 @@ import gherkin.messages.ProtobufCucumberMessages;
 import gherkin.messages.SubprocessCucumberMessages;
 import io.cucumber.messages.Messages.Source;
 import io.cucumber.messages.Messages.Wrapper;
+import io.cucumber.messages.com.google.protobuf.util.JsonFormat;
+import io.cucumber.messages.com.google.protobuf.util.JsonFormat.Printer;
 
 import java.io.IOException;
 import java.util.ArrayList;

@@ -1,9 +1,10 @@
 package gherkin;
 
-import com.google.protobuf.InvalidProtocolBufferException;
-import com.google.protobuf.util.JsonFormat;
-import gherkin.deps.com.google.gson.JsonParser;
 import io.cucumber.messages.Messages.GherkinDocument;
+import io.cucumber.messages.com.google.gson.JsonParser;
+import io.cucumber.messages.com.google.protobuf.InvalidProtocolBufferException;
+import io.cucumber.messages.com.google.protobuf.util.JsonFormat;
+import io.cucumber.messages.com.google.protobuf.util.JsonFormat.Printer;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
@@ -13,7 +14,7 @@ public class ParserTest {
     @Test
     public void change_default_language() throws InvalidProtocolBufferException {
         JsonParser jsonParser = new JsonParser();
-        JsonFormat.Printer printer = JsonFormat.printer();
+        Printer printer = JsonFormat.printer();
         TokenMatcher matcher = new TokenMatcher("no");
         Parser<GherkinDocument.Builder> parser = new Parser<>(new GherkinDocumentBuilder());
 
