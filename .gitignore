@@ -1,12 +1,21 @@
-.DS_Store
-node_modules/
-_book/
+# Java
 .idea/
-**/*/.release/
-cucumber_manyrepo_id_rsa
-cucumber_manyrepo_id_rsa.pub
-.rsynced
-.built
+target/
+dependency-reduced-pom.xml
+
+# Node
+node_modules/
 yarn-error.log
+yarn.lock
+
+# .NET
 /.vs
+
+# Build/Release
 codesigning.asc
+.built
+.rsynced
+.release/
+
+# OS
+.DS_Store
