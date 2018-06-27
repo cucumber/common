@@ -1,5 +1,5 @@
 ../../LICENSE LICENSE
 ../../.templates/github/ .github/
-../../.templates/java/.travis.yml .travis.yml
-../../.templates/java/Makefile Makefile
+../../.templates/java/ .
+../../.templates/gpg/ .
 ../examples.txt examples.txt

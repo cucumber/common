@@ -1,6 +1,7 @@
 ../LICENSE LICENSE
 ../../.templates/github/ .github/
-../../.templates/java/.travis.yml .travis.yml
+../../.templates/java/ .
+../../.templates/gpg/ .
 ../testdata/ testdata/
 ../gherkin.berp gherkin.berp
 ../bin/ berp/

@@ -1,8 +1,3 @@
-# Please update /.templates/java/.travis.yml in the cucumber/cucumber monorepo
-# and sync:
-#
-#     source scripts/functions.sh && rsync_files
-#
 default: .built
 .PHONY: default
 

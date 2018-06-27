@@ -9,3 +9,4 @@ cucumber_manyrepo_id_rsa.pub
 .built
 yarn-error.log
 /.vs
+codesigning.asc

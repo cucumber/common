@@ -56,7 +56,7 @@ function rsync_files()
   git ls-files "${root_dir}/**/.rsync" | while read rsync_file; do
     pushd "$( dirname "${rsync_file}" )"
     cat .rsync | while read line; do
-      rsync -ah --delete ${line}
+      rsync --archive ${line}
     done
     popd
   done
