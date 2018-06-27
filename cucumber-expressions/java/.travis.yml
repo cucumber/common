@@ -1,17 +1,19 @@
-# Please update /.templates/java/.travis.yml in the cucumber/cucumber monorepo
-# and sync:
-#
-#     source scripts/functions.sh && rsync_files
-#
 sudo: false
 language: java
 jdk:
-  - oraclejdk8
-  - oraclejdk9
-  - oraclejdk10
-
-matrix:
-  allow_failures:
-    - jdk: "oraclejdk10"
-
+- oraclejdk8
+- oraclejdk9
+- oraclejdk10
+jobs:
+  include:
+  - stage: deploy
+    jdk: oraclejdk8
+    script:
+    - "./scripts/travis_decrypt_signing_key.sh"
+    - "./scripts/mvn_deploy.sh"
+    - "./scripts/mvn_upload_api_docs.sh"
 script: make default
+env:
+  global:
+  - secure: yBVJDLWMsOKbPo2ufxjZzoh1UM6nx5WytXqRxHQwfC0f60pMegqgmdzDq2MmzIy596fmGeraGk/r7f1TFEduM7toQFSJZhhIo+oUNndkt/oL9z96nxgF9SfFUCGvz1MdEpWIR4FLfYHudCLDMVf3xHQK3N9aAC/EgYYIb4JZPQ/Nlr2D4K1HTKf78Z5j4AESiC7zZ6BWMMeXELRkiDyyraHxgho7+3GS6zdhLL+67uTwc5XzVQu27TD9s3uz3wsw/ctZx/uH6v3cTQ6ToM/C8zO5bM0TGIgOTpTXmIG/VB+AbdxjqzU9U1y5RPP6gS56T8RkHMAx8pt/wIR92+gxVptDizlyCn1xqgGWLEkqK6gbyf7Zo0ljw5haAaY0pLnj95LQ10kytDjtDMBaBRoNEmyCDqw54U/jo4P2vxdFw4Klm++nKHZrugbVQvARtLnJ9KxKDdoDe9EiLEhBNM/goW+cJJ28lPXNqaHxyGRMbdx5lOqLeFbzKZrb8TXbqAl8xywxgR9dvASbbkSHFGjO0ltHjUZdgVml5Xrz21BiIWpkgwstalEryOavsdJjQtxJf290FgPcCBdFcOOB05pG+qhykwAF40rMYD8NqHaxcYEE3hU9Q++Pedq1wGbI8FISn/SzTVMJMdavCNyVAooM/KtooOyLpJ5vWb3mTz2nngc=
+  - secure: OHWA5UZR7UUfYcacyXJijHAXa0stiE8ro1nHl3bvFrdO4l/pfe69De2ie3ZmBP5aZ1zlIFfdxvejLGCY2p7zFSuBjEht1QQNeS+vyWMVtTloyiMxBRKV3iCY8fpLGlNYKdnRvJ1AYYEqDOT52zrUSaQHIdinDy5tHt4cfToxSmfwrrRtFzRqIZ0QnoH5bPjn0WAJZhQ0+sMc3StIUqtgxHrzPoWCRrdhfoXWGf3yi9TnKtqD/9jN9Yc/RjqSTtZNsvN+mfKJkhuO3CB772voa8YsP3qofV0Mw19bMwPj2oVju0H68Nipxiz31zbCFDLsJUz6sZHlbe3bWWtWiRztaAOkt2OeqMGGNudTGyjWKGtt8Dn4zlNJenLg8s9K3kr49na/pIKT/t6zz5F/T+f/ro9FcLTl1cMbMN2Sm/fLm4dPCopSSfBqgLP2BnlfwpmEz0vbIeWqqplqOgAALyoWj6BiqObIePGFgOZfi9da4GHkUsQFM9S+5hG4eOkG9EO03RzdGx34gpcmljTxdUHAxdX6ElK5gh6vbyXiyS90TqwCN9M3M4OkbZB+htF015ux7f1vd4NMMYl05dOljd0QQI8DnpDkJvV/34OWnC1a1W8F/A53W9g5+aW6nvjMiOGTSp6wvu4VoG5ZCaL5gRCnDV7tYXxRO6JmEWEz1HBhbe8=
