@@ -12,9 +12,12 @@ Gem::Specification.new do |s|
   s.required_ruby_version = ">= 1.9.3"
 
   # As of this writing (28 June 2018), the latest version is
-  # 3.6.0, but the latest version that works with JRuby is
-  # 3.1.0. See https://github.com/google/protobuf/issues/1594 
-  s.add_dependency 'google-protobuf', '3.1.0'
+  # 3.6.0, which doesn't works with JRuby. 
+  # See https://github.com/google/protobuf/issues/1594 
+  # 3.1.0 works with JRuby, but fails with MRI 2.4.4 and above.
+  # There doesn't seem to be a version that works with all rubies,
+  # so we're picking the version that works with the most recent MRIs.
+  s.add_dependency 'google-protobuf', '3.6.0'
 
   s.add_development_dependency 'bundler'
   s.add_development_dependency 'rake',      '~> 12.3'
