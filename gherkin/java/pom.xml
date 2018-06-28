@@ -10,11 +10,23 @@
     <description>Gherkin parser</description>
     <url>https://github.com/cucumber/gherkin-java</url>
 
-    <parent>
-        <groupId>org.sonatype.oss</groupId>
-        <artifactId>oss-parent</artifactId>
-        <version>7</version>
-    </parent>
+    <developers>
+        <developer>
+            <id>cucumber</id>
+            <name>Cucumber Developers</name>
+            <email>devs@cucumber.io</email>
+            <organization>Cucumber</organization>
+            <organizationUrl>https://github.com/cucumber</organizationUrl>
+        </developer>
+    </developers>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+        <minimum.maven.version>3.3</minimum.maven.version>
+        <outputDirectory>${project.build.directory}</outputDirectory>
+    </properties>
+
     <licenses>
         <license>
             <name>MIT License</name>
@@ -22,12 +34,35 @@
             <distribution>repo</distribution>
         </license>
     </licenses>
+
     <scm>
         <connection>scm:git:git://github.com/cucumber/gherkin-java.git</connection>
         <developerConnection>scm:git:git@github.com:cucumber/gherkin-java.git</developerConnection>
         <url>git://github.com/cucumber/gherkin-java.git</url>
         <tag>HEAD</tag>
     </scm>
+
+    <!--
+     this adds a repository that the plugins will use for dependency resolution
+     Any items that we use in a plugin's <dependency> phase can be resolved from here, as well as central
+    -->
+    <pluginRepositories>
+        <pluginRepository>
+            <id>sonatype.org</id>
+            <url>https://oss.sonatype.org/content/repositories/releases</url>
+        </pluginRepository>
+    </pluginRepositories>
+
+    <distributionManagement>
+        <snapshotRepository>
+            <id>ossrh</id>
+            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+        </snapshotRepository>
+        <repository>
+            <id>ossrh</id>
+            <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+        </repository>
+    </distributionManagement>
 
     <dependencies>
         <dependency>
@@ -156,8 +191,4 @@
             </build>
         </profile>
     </profiles>
-
-    <properties>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    </properties>
 </project>
