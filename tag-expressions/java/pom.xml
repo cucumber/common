@@ -5,16 +5,27 @@
     <groupId>io.cucumber</groupId>
     <artifactId>tag-expressions</artifactId>
     <version>1.1.2-SNAPSHOT</version>
-    <packaging>bundle</packaging>
+    <packaging>jar</packaging>
     <name>Cucumber Tag Expressions</name>
     <description>Parses boolean infix expressions</description>
     <url>https://github.com/cucumber/tag-expressions-java</url>
 
-    <parent>
-        <groupId>org.sonatype.oss</groupId>
-        <artifactId>oss-parent</artifactId>
-        <version>7</version>
-    </parent>
+    <developers>
+        <developer>
+            <id>cucumber</id>
+            <name>Cucumber Developers</name>
+            <email>devs@cucumber.io</email>
+            <organization>Cucumber</organization>
+            <organizationUrl>https://github.com/cucumber</organizationUrl>
+        </developer>
+    </developers>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+        <jacoco-maven-plugin.version>0.8.1</jacoco-maven-plugin.version>
+    </properties>
+
     <licenses>
         <license>
             <name>MIT License</name>
@@ -28,6 +39,28 @@
         <url>git://github.com/cucumber/tag-expressions-java.git</url>
         <tag>HEAD</tag>
     </scm>
+
+    <!--
+     this adds a repository that the plugins will use for dependency resolution
+     Any items that we use in a plugin's <dependency> phase can be resolved from here, as well as central
+    -->
+    <pluginRepositories>
+        <pluginRepository>
+            <id>sonatype.org</id>
+            <url>https://oss.sonatype.org/content/repositories/releases</url>
+        </pluginRepository>
+    </pluginRepositories>
+
+    <distributionManagement>
+        <snapshotRepository>
+            <id>ossrh</id>
+            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+        </snapshotRepository>
+        <repository>
+            <id>ossrh</id>
+            <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+        </repository>
+    </distributionManagement>
 
     <dependencies>
         <dependency>
@@ -106,19 +139,6 @@
             </plugin>
 
             <plugin>
-                <groupId>org.apache.felix</groupId>
-                <artifactId>maven-bundle-plugin</artifactId>
-                <extensions>true</extensions>
-                <version>3.2.0</version>
-                <configuration>
-                    <instructions>
-                        <Bundle-Description />
-                        <Export-Package>io.cucumber.tagexpressions.*</Export-Package>
-                    </instructions>
-                </configuration>
-            </plugin>
-
-            <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-release-plugin</artifactId>
                 <version>2.5.3</version>
@@ -141,23 +161,38 @@
             </properties>
         </profile>
         <profile>
-            <id>release-sign-artifacts</id>
+            <id>sign-source-javadoc</id>
             <build>
                 <plugins>
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-gpg-plugin</artifactId>
-                        <version>1.6</version>
-                        <configuration>
-                            <useAgent>true</useAgent>
-                            <gpgArguments>
-                                <arg>--local-user</arg>
-                                <arg>devs@cucumber.io</arg>
-                            </gpgArguments>
-                        </configuration>
+                        <artifactId>maven-source-plugin</artifactId>
                         <executions>
                             <execution>
-                                <id>sign-artifacts</id>
+                                <id>attach-sources</id>
+                                <goals>
+                                    <goal>jar-no-fork</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-javadoc-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>attach-javadocs</id>
+                                <goals>
+                                    <goal>jar</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-gpg-plugin</artifactId>
+                        <executions>
+                            <execution>
                                 <phase>verify</phase>
                                 <goals>
                                     <goal>sign</goal>
@@ -179,9 +214,4 @@
             </plugin>
         </plugins>
     </reporting>
-
-    <properties>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <jacoco-maven-plugin.version>0.7.7.201606060606</jacoco-maven-plugin.version>
-    </properties>
 </project>

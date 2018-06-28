@@ -14,6 +14,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Deprecated
 
 ### Removed
+* java: OSGi support has been removed.
+  ([#412](https://github.com/cucumber/cucumber/issues/412)
+   [aslakhellesoy])
 
 ### Fixed
    

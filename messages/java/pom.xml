@@ -11,11 +11,24 @@
     <description>Protocol Buffer messages for Cucumber's inter-process communication</description>
     <url>https://github.com/cucumber/messages-java</url>
 
-    <parent>
-        <groupId>org.sonatype.oss</groupId>
-        <artifactId>oss-parent</artifactId>
-        <version>7</version>
-    </parent>
+    <developers>
+        <developer>
+            <id>cucumber</id>
+            <name>Cucumber Developers</name>
+            <email>devs@cucumber.io</email>
+            <organization>Cucumber</organization>
+            <organizationUrl>https://github.com/cucumber</organizationUrl>
+        </developer>
+    </developers>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+        <minimum.maven.version>3.3</minimum.maven.version>
+        <outputDirectory>${project.build.directory}</outputDirectory>
+        <protobuf.version>3.6.0</protobuf.version>
+    </properties>
+
     <licenses>
         <license>
             <name>MIT License</name>
@@ -23,12 +36,35 @@
             <distribution>repo</distribution>
         </license>
     </licenses>
+    
     <scm>
         <connection>scm:git:git://github.com/cucumber/messages-java.git</connection>
         <developerConnection>scm:git:git@github.com:cucumber/messages-java.git</developerConnection>
         <url>git://github.com/cucumber/messages-java.git</url>
         <tag>HEAD</tag>
     </scm>
+
+    <!--
+     this adds a repository that the plugins will use for dependency resolution
+     Any items that we use in a plugin's <dependency> phase can be resolved from here, as well as central
+    -->
+    <pluginRepositories>
+        <pluginRepository>
+            <id>sonatype.org</id>
+            <url>https://oss.sonatype.org/content/repositories/releases</url>
+        </pluginRepository>
+    </pluginRepositories>
+
+    <distributionManagement>
+        <snapshotRepository>
+            <id>ossrh</id>
+            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+        </snapshotRepository>
+        <repository>
+            <id>ossrh</id>
+            <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+        </repository>
+    </distributionManagement>
 
     <dependencies>
         <dependency>
@@ -113,23 +149,38 @@
 
     <profiles>
         <profile>
-            <id>release-sign-artifacts</id>
+            <id>sign-source-javadoc</id>
             <build>
                 <plugins>
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-gpg-plugin</artifactId>
-                        <version>1.6</version>
-                        <configuration>
-                            <useAgent>true</useAgent>
-                            <gpgArguments>
-                                <arg>--local-user</arg>
-                                <arg>devs@cucumber.io</arg>
-                            </gpgArguments>
-                        </configuration>
+                        <artifactId>maven-source-plugin</artifactId>
                         <executions>
                             <execution>
-                                <id>sign-artifacts</id>
+                                <id>attach-sources</id>
+                                <goals>
+                                    <goal>jar-no-fork</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-javadoc-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>attach-javadocs</id>
+                                <goals>
+                                    <goal>jar</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-gpg-plugin</artifactId>
+                        <executions>
+                            <execution>
                                 <phase>verify</phase>
                                 <goals>
                                     <goal>sign</goal>
@@ -141,9 +192,4 @@
             </build>
         </profile>
     </profiles>
-
-    <properties>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <protobuf.version>3.6.0</protobuf.version>
-    </properties>
 </project>

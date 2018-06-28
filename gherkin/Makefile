@@ -1,5 +1,5 @@
-MAKEFILES=java/Makefile javascript/Makefile ruby/Makefile go/Makefile
-# Temporarily disable build of dotnet,c,objective-c,perl,python until they
+MAKEFILES=java/Makefile javascript/Makefile ruby/Makefile
+# Disable build of go,dotnet,c,objective-c,perl,python until they
 # implement:
 # - https://github.com/cucumber/cucumber/pull/353
 # - https://github.com/cucumber/cucumber/pull/416

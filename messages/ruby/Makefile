@@ -12,7 +12,7 @@ lib/cucumber/messages_pb.rb: messages.proto
 	protoc --ruby_out lib/cucumber $<
 
 clean:
-	rm -rf lib/cucumber/messages_pb.rb
+	rm -rf lib/cucumber/messages_pb.rb Gemfile.lock
 .PHONY: clean
 
 Gemfile.lock: Gemfile
