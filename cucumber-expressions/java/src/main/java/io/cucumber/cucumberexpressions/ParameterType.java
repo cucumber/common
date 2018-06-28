@@ -27,6 +27,27 @@ public final class ParameterType<T> implements Comparable<ParameterType<?>> {
         }
     }
 
+    public static <E extends Enum> ParameterType<E> fromEnum(final Class<E> enumClass) {
+        Enum[] enumConstants = enumClass.getEnumConstants();
+        StringBuilder regexpBuilder = new StringBuilder();
+        for(int i = 0; i < enumConstants.length; i++) {
+            if(i>0) regexpBuilder.append("|");
+            regexpBuilder.append(enumConstants[i].name());
+        }
+        return new ParameterType<>(
+                enumClass.getSimpleName(),
+                regexpBuilder.toString(),
+                enumClass,
+                new Transformer<E>() {
+                    @Override
+                    public E transform(String arg) {
+                        return (E) Enum.valueOf(enumClass, arg);
+                    }
+                }
+
+        );
+    }
+
     public ParameterType(String name, List<String> regexps, Type type, CaptureGroupTransformer<T> transformer, boolean useForSnippets, boolean preferForRegexpMatch) {
         if (regexps == null) throw new NullPointerException("regexps cannot be null");
         if (type == null) throw new NullPointerException("type cannot be null");

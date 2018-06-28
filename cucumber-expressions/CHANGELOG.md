@@ -9,6 +9,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Added
 
+* (Java) Added ParameterType.fromEnum(MyEnumClass.class) to make it easier
+  to register enums.
+  ([aslakhellesoy])
+
 ### Changed
 
 ### Deprecated
