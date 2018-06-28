@@ -19,7 +19,9 @@ N/A
 N/A
 
 ### Removed
-N/A
+* Java: OSGi support has been removed.
+  ([#412](https://github.com/cucumber/cucumber/issues/412)
+   [aslakhellesoy])
 
 ### Fixed
 N/A

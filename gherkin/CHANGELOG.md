@@ -21,6 +21,9 @@ This document is formatted according to the principles of [Keep A CHANGELOG](htt
 ### Deprecated
 
 ### Removed
+* (Java) OSGi support has been removed.
+  ([#412](https://github.com/cucumber/cucumber/issues/412)
+   [aslakhellesoy])
 
 ### Fixed
 
