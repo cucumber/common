@@ -9,7 +9,7 @@
     </parent>
 
     <artifactId>datatable-matchers</artifactId>
-    <packaging>bundle</packaging>
+    <packaging>jar</packaging>
     <name>DataTable Matchers</name>
     <description>Hamcrest matchers for data tables</description>
 

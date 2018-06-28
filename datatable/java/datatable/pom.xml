@@ -9,7 +9,7 @@
     </parent>
 
     <artifactId>datatable</artifactId>
-    <packaging>bundle</packaging>
+    <packaging>jar</packaging>
     <name>DataTable</name>
     <description>Simple data tables for Java</description>
 
