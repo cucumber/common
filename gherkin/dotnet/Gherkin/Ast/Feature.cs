@@ -1,9 +1,11 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 
 namespace Gherkin.Ast
 {
     public class Feature : IHasLocation, IHasDescription, IHasTags
     {
+        public Background Background => Children.OfType<Background>().SingleOrDefault();
         public IEnumerable<Tag> Tags { get; private set; }
         public Location Location { get; private set; }
         public string Language { get; private set; }
