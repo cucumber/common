@@ -30,8 +30,8 @@ public final class ParameterType<T> implements Comparable<ParameterType<?>> {
     public static <E extends Enum> ParameterType<E> fromEnum(final Class<E> enumClass) {
         Enum[] enumConstants = enumClass.getEnumConstants();
         StringBuilder regexpBuilder = new StringBuilder();
-        for(int i = 0; i < enumConstants.length; i++) {
-            if(i>0) regexpBuilder.append("|");
+        for (int i = 0; i < enumConstants.length; i++) {
+            if (i > 0) regexpBuilder.append("|");
             regexpBuilder.append(enumConstants[i].name());
         }
         return new ParameterType<>(
@@ -44,7 +44,6 @@ public final class ParameterType<T> implements Comparable<ParameterType<?>> {
                         return (E) Enum.valueOf(enumClass, arg);
                     }
                 }
-
         );
     }
 
