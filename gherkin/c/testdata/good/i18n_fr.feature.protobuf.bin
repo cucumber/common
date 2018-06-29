@@ -1,0 +1,179 @@
+�
+�
+testdata/good/i18n_fr.feature�#language:fr
+Fonctionnalité: i18n support
+
+  Scénario: Support des caractères spéciaux
+    Soit un exemple de scénario en français
+    Quand j'ai 1 gâteau
+    Alors je suis heureux
+
+  Scénario: Support du mot-clef "Etant donné que "
+    Etant donné que j'aime les gâteaux
+    Lorsqu'on m'offre 1 gâteau
+    Alors je suis heureux
+
+  Scénario: Support du mot-clef "Etant donné qu'"
+    Etant donné qu'offrir un gâteau rend heureux
+    Lorsqu'on m'offre 1 gâteau
+    Alors je suis heureux
+
+  Scénario: Support du mot-clef "Étant donné que "
+    Étant donné que j'aime les gâteaux 
+    Lorsqu'on m'offre 1 gâteau
+    Alors je suis heureux
+
+  Scénario: Support du mot-clef "Étant donné qu'"
+    Étant donné qu'offrir un gâteau rend heureux
+    Lorsqu'on m'offre 1 gâteau
+    Alors je suis heureux
+
+  Scénario: Support du mot-clef "Et que "
+    Soit un exemple de scénario en français
+    Lorsque j'ai 2 gâteaux
+    Et que quelqu'un m'offre 1 gâteau
+    Alors j'ai 3 gâteaux
+
+  Scénario: Support du mot-clef "Et qu'"
+    Soit un exemple de scénario en français
+    Lorsque j'ai 2 gâteaux
+    Et qu'on m'offre 1 gâteau
+    Alors j'ai 3 gâteaux
+
+  Scénario: Support du mot-clef "Et "
+    Soit un exemple de scénario en français
+    Quand j'ai 2 gâteaux
+    Et quelqu'un m'offre 1 gâteau
+    Alors j'ai 3 gâteaux
+
+  Scénario: Support du mot-clef "Mais que "
+    Soit un exemple de scénario en français
+    Lorsque j'ai 2 gâteaux
+    Mais que quelqu'un me vole 1 gâteau
+    Alors j'ai 1 gâteau
+
+  Scénario: Support du mot-clef "Mais qu'"
+    Soit un exemple de scénario en français
+    Lorsque j'ai 2 gâteaux
+    Mais qu'on me vole 1 gâteau
+    Alors j'ai 1 gâteau
+
+  Scénario: Support du mot-clef "Mais "
+    Soit un exemple de scénario en français
+    Quand j'ai 2 gâteaux
+    Mais quelqu'un me vole 1 gâteau
+    Alors j'ai 1 gâteau
+&
+UTF-8text/x.cucumber.gherkin+plain��
+testdata/good/i18n_fr.feature�
+fr"Fonctionnalité*i18n support:��
+	Scénario"!Support des caractères spéciaux23
+Soit $un exemple de scénario en français2
+Quand j'ai 1 gâteau2
+Alors je suis heureux:��
+		Scénario"'Support du mot-clef "Etant donné que "2.
+
+Etant donné que j'aime les gâteaux2%
+Lorsqu'on m'offre 1 gâteau2
+Alors je suis heureux:��
+	Scénario"&Support du mot-clef "Etant donné qu'"28
+Etant donné qu'offrir un gâteau rend heureux2%
+Lorsqu'on m'offre 1 gâteau2
+Alors je suis heureux:��
+	Scénario"(Support du mot-clef "Étant donné que "2/
+Étant donné que j'aime les gâteaux2%
+Lorsqu'on m'offre 1 gâteau2
+Alors je suis heureux:��
+	Scénario"'Support du mot-clef "Étant donné qu'"29
+Étant donné qu'offrir un gâteau rend heureux2%
+Lorsqu'on m'offre 1 gâteau2
+Alors je suis heureux:��
+	Scénario"Support du mot-clef "Et que "23
+Soit $un exemple de scénario en français2!
+Lorsque j'ai 2 gâteaux2,
+ Et que quelqu'un m'offre 1 gâteau2
+!Alors j'ai 3 gâteaux:��
+#	Scénario"Support du mot-clef "Et qu'"23
+$Soit $un exemple de scénario en français2!
+%Lorsque j'ai 2 gâteaux2$
+&Et qu'on m'offre 1 gâteau2
+'Alors j'ai 3 gâteaux:��
+)	Scénario"Support du mot-clef "Et "23
+*Soit $un exemple de scénario en français2
++Quand j'ai 2 gâteaux2(
+,Et quelqu'un m'offre 1 gâteau2
+-Alors j'ai 3 gâteaux:��
+/	Scénario"Support du mot-clef "Mais que "23
+0Soit $un exemple de scénario en français2!
+1Lorsque j'ai 2 gâteaux2.
+2	Mais que quelqu'un me vole 1 gâteau2
+3Alors j'ai 1 gâteau:��
+5	Scénario"Support du mot-clef "Mais qu'"23
+6Soit $un exemple de scénario en français2!
+7Lorsque j'ai 2 gâteaux2&
+8Mais qu'on me vole 1 gâteau2
+9Alors j'ai 1 gâteau:��
+;	Scénario"Support du mot-clef "Mais "23
+<Soit $un exemple de scénario en français2
+=Quand j'ai 2 gâteaux2*
+>Mais quelqu'un me vole 1 gâteau2
+?Alors j'ai 1 gâteau��
+testdata/good/i18n_fr.feature!Support des caractères spéciauxfr",
+$un exemple de scénario en français
+"
+j'ai 1 gâteau"
+je suis heureux2��
+testdata/good/i18n_fr.feature'Support du mot-clef "Etant donné que "fr"
+j'aime les gâteaux
+"
+on m'offre 1 gâteau"
+je suis heureux2	��
+testdata/good/i18n_fr.feature&Support du mot-clef "Etant donné qu'"fr"&
+offrir un gâteau rend heureux"
+on m'offre 1 gâteau"
+je suis heureux2��
+testdata/good/i18n_fr.feature(Support du mot-clef "Étant donné que "fr"
+j'aime les gâteaux"
+on m'offre 1 gâteau"
+je suis heureux2��
+testdata/good/i18n_fr.feature'Support du mot-clef "Étant donné qu'"fr"&
+offrir un gâteau rend heureux"
+on m'offre 1 gâteau"
+je suis heureux2��
+testdata/good/i18n_fr.featureSupport du mot-clef "Et que "fr",
+$un exemple de scénario en français
+"
+j'ai 2 gâteaux"#
+quelqu'un m'offre 1 gâteau "
+j'ai 3 gâteaux!2��
+testdata/good/i18n_fr.featureSupport du mot-clef "Et qu'"fr",
+$un exemple de scénario en français$
+"
+j'ai 2 gâteaux%"
+on m'offre 1 gâteau&"
+j'ai 3 gâteaux'2#��
+testdata/good/i18n_fr.featureSupport du mot-clef "Et "fr",
+$un exemple de scénario en français*
+"
+j'ai 2 gâteaux+"#
+quelqu'un m'offre 1 gâteau,"
+j'ai 3 gâteaux-2)��
+testdata/good/i18n_fr.featureSupport du mot-clef "Mais que "fr",
+$un exemple de scénario en français0
+"
+j'ai 2 gâteaux1"#
+quelqu'un me vole 1 gâteau2"
+j'ai 1 gâteau32/��
+testdata/good/i18n_fr.featureSupport du mot-clef "Mais qu'"fr",
+$un exemple de scénario en français6
+"
+j'ai 2 gâteaux7"
+on me vole 1 gâteau8"
+j'ai 1 gâteau925��
+testdata/good/i18n_fr.featureSupport du mot-clef "Mais "fr",
+$un exemple de scénario en français<
+"
+j'ai 2 gâteaux="#
+quelqu'un me vole 1 gâteau>
+"
+j'ai 1 gâteau?2;

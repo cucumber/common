@@ -1,0 +1,24 @@
+é
+ã
+Btestdata/good/scenario_outline_with_value_with_dollar_sign.featureúFeature: Scenario Outline with a value with a dollar sign ($)
+
+Scenario Outline: minimalistic
+    Given the <what>
+
+Examples:
+  | what     |
+  | pa$$word |
+&
+UTF-8text/x.cucumber.gherkin+plainùö
+Btestdata/good/scenario_outline_with_value_with_dollar_sign.feature”
+en"Feature*4Scenario Outline with a value with a dollar sign ($):áÑ
+Scenario Outline"minimalistic2
+Given 
+the <what>:@
+Examples2
+
+what:
+
+pa$$wordÄ~
+Btestdata/good/scenario_outline_with_value_with_dollar_sign.featureminimalisticen"
+the pa$$word22

@@ -127,6 +127,9 @@ func (m *matcher) matchTitleLine(line *Line, tokenType TokenType, keywords []str
 func (m *matcher) MatchFeatureLine(line *Line) (ok bool, token *Token, err error) {
 	return m.matchTitleLine(line, TokenType_FeatureLine, m.dialect.FeatureKeywords())
 }
+func (m *matcher) MatchRuleLine(line *Line) (ok bool, token *Token, err error) {
+	return m.matchTitleLine(line, TokenType_RuleLine, m.dialect.RuleKeywords())
+}
 func (m *matcher) MatchBackgroundLine(line *Line) (ok bool, token *Token, err error) {
 	return m.matchTitleLine(line, TokenType_BackgroundLine, m.dialect.BackgroundKeywords())
 }

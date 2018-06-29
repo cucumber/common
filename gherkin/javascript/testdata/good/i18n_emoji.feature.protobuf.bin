@@ -1,0 +1,15 @@
+�
+�
+ testdata/good/i18n_emoji.feature=# language: em
+📚: 🙈🙉🙊
+
+  📕: 💃
+    😐🎸
+&
+UTF-8text/x.cucumber.gherkin+plainnl
+ testdata/good/i18n_emoji.featureH
+em"📚*🙈🙉🙊:(&
+📕"💃2
+😐🎸B@
+ testdata/good/i18n_emoji.feature💃em"
+🎸2

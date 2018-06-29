@@ -1,0 +1,22 @@
+‡
+„
+testdata/good/i18n_no.featureº#language:no
+Egenskap: i18n support
+
+  Scenario: Parsing many languages
+    Gitt Gherkin supports many languages
+    NÃ¥r Norwegian keywords are parsed
+    SÃ¥ they should be recognized
+&
+UTF-8text/x.cucumber.gherkin+plainüù
+testdata/good/i18n_no.feature×
+no"Egenskap*i18n support:²¯
+Scenario"Parsing many languages2.
+Gitt Gherkin supports many languages2,
+NÃ¥r Norwegian keywords are parsed2'
+SÃ¥ they should be recognized·´
+testdata/good/i18n_no.featureParsing many languagesno"'
+Gherkin supports many languages
+"%
+Norwegian keywords are parsed	"!
+they should be recognized2

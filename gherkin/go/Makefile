@@ -2,11 +2,12 @@ SHELL := /usr/bin/env bash
 GOOD_FEATURE_FILES = $(shell find testdata/good -name "*.feature")
 BAD_FEATURE_FILES  = $(shell find testdata/bad -name "*.feature")
 
-TOKENS   = $(patsubst testdata/%.feature,acceptance/testdata/%.feature.tokens,$(GOOD_FEATURE_FILES))
-ASTS     = $(patsubst testdata/%.feature,acceptance/testdata/%.feature.ast.ndjson,$(GOOD_FEATURE_FILES))
-PICKLES  = $(patsubst testdata/%.feature,acceptance/testdata/%.feature.pickles.ndjson,$(GOOD_FEATURE_FILES))
-SOURCES  = $(patsubst testdata/%.feature,acceptance/testdata/%.feature.source.ndjson,$(GOOD_FEATURE_FILES))
-ERRORS   = $(patsubst testdata/%.feature,acceptance/testdata/%.feature.errors.ndjson,$(BAD_FEATURE_FILES))
+TOKENS       = $(patsubst testdata/%.feature,acceptance/testdata/%.feature.tokens,$(GOOD_FEATURE_FILES))
+ASTS         = $(patsubst testdata/%.feature,acceptance/testdata/%.feature.ast.ndjson,$(GOOD_FEATURE_FILES))
+PICKLES      = $(patsubst testdata/%.feature,acceptance/testdata/%.feature.pickles.ndjson,$(GOOD_FEATURE_FILES))
+SOURCES      = $(patsubst testdata/%.feature,acceptance/testdata/%.feature.source.ndjson,$(GOOD_FEATURE_FILES))
+PROTOBUFS    = $(patsubst testdata/%.feature,acceptance/testdata/%.feature.protobuf.bin.ndjson,$(GOOD_FEATURE_FILES))
+ERRORS       = $(patsubst testdata/%.feature,acceptance/testdata/%.feature.errors.ndjson,$(BAD_FEATURE_FILES))
 
 GO_SOURCE_FILES = $(shell find . -name "*.go")
 
@@ -21,7 +22,7 @@ skip_build:
 	@echo -e "\x1b[31;01mSKIPPING GHERKIN GO BUILD ON ALPINE\x1b[0m"
 .PHONY: skip_build
 
-.compared: .built $(TOKENS) $(ASTS) $(PICKLES) $(SOURCES) $(ERRORS)
+.compared: .built $(PROTOBUFS) $(TOKENS) $(ASTS) $(PICKLES) $(SOURCES) $(ERRORS)
 	touch $@
 
 .built: show-version-info $(GO_SOURCE_FILES) bin/gherkin-generate-tokens bin/gherkin
@@ -48,9 +49,14 @@ acceptance/testdata/%.feature.ast.ndjson: testdata/%.feature testdata/%.feature.
 	bin/gherkin --no-source --no-pickles $< | jq --sort-keys "." > $@
 	diff --unified <(jq "." $<.ast.ndjson) <(jq "." $@)
 
+acceptance/testdata/%.feature.protobuf.bin.ndjson: testdata/%.feature.protobuf.bin bin/gherkin
+	mkdir -p `dirname $@`
+	cat $< | bin/gherkin | jq --sort-keys --compact-output "." > $@
+	diff --unified <(jq "." $<.ndjson) <(jq "." $@)
+
 acceptance/testdata/%.feature.errors.ndjson: testdata/%.feature testdata/%.feature.errors.ndjson bin/gherkin
 	mkdir -p `dirname $@`
-	bin/gherkin $< | jq --sort-keys --compact-output "." > $@
+	bin/gherkin --no-source $< | jq --sort-keys --compact-output "." > $@
 	diff --unified <(jq "." $<.errors.ndjson) <(jq "." $@)
 
 acceptance/testdata/%.feature.source.ndjson: testdata/%.feature testdata/%.feature.source.ndjson bin/gherkin

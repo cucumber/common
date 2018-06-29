@@ -23,6 +23,19 @@ You can learn more about monorepos here:
 * http://danluu.com/monorepo/
 * https://medium.com/@bebraw/the-case-for-monorepos-907c1361708a
 
+### Branching and CI
+
+The CI build will synchronise from the monorepo to all the subrepos for the `master` branch.
+For other branches, a naming convention is used to decide what subrepos to sync to. 
+(This is to avoid an explosion of unrelated branches in every subrepo).
+
+For example, if you're making a change to `gherkin` on a branch, prefix the branch
+with `gherkin`, for example `gherkin-upgrade-dependencies`.
+
+Occasionally you want to sync to multiple subrepos. For example, if you are making changes
+in two modules (say `messages` and `gherkin`), prefix the branch with both module names, 
+separated by an underscore. For example, `messages_gherkin-use-protobuf`.
+
 ### Adding a new subrepo
 
 Occasionally, a sub directory is promoted to a separate subrepo. The process for doing this is:
@@ -60,13 +73,14 @@ In the new directory, create the following files:
 
 #### Create new subrepo.
 
-Create a new, empty subrepo at GitHub.
+Create a new, empty subrepo at GitHub. Check the box for initialising
+with a README - it's needed to create an initial `master` branch to push to.
 
 Log into Travis and set up build for the new (empty) subrepo.
 
 Initialise the subrepo, for example:
     
-    echo "git@github.com:cucumber/tag-expressions-go.git" > tag-expressions/go/.subrepo
+    echo "cucumber/tag-expressions-go.git" > tag-expressions/go/.subrepo
 
 Push to the subrepo:
 
@@ -122,7 +136,10 @@ Add the passphrase for the GPG signing key (in 1Password)
 ### Docker and CI
 
 Our CI build uses Docker. We have our own docker images defined in `Dockerfile.*`
-files. These need to be rebuilt and published manually whenever they change:
+files. These need to be rebuilt and published manually whenever they change.
+
+In order to publish new images, log in as `cukebot`. The password is in 1Password,
+in the "Cucumber Open Source" vault.
 
    source ./scripts/functions.sh
    # Standard image (for all builds except .NET)

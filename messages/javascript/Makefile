@@ -1,6 +1,7 @@
 SHELL := /usr/bin/env bash
 
 default: mocha
+	yarn link
 .PHONY: default
 
 mocha: yarn.lock index.js
@@ -15,6 +16,6 @@ yarn.lock: package.json
 	touch $@
 
 clean:
-	rm -f index.js yarn.lock node_modules
+	rm -rf index.js yarn.lock node_modules
 .PHONY: clean
 

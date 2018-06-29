@@ -1,7 +1,5 @@
 package gherkin;
 
-import gherkin.ast.Location;
-
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -110,6 +108,11 @@ public class TokenMatcher implements ITokenMatcher {
     @Override
     public boolean match_FeatureLine(Token token) {
         return matchTitleLine(token, TokenType.FeatureLine, currentDialect.getFeatureKeywords());
+    }
+
+    @Override
+    public boolean match_RuleLine(Token token) {
+        return matchTitleLine(token, TokenType.RuleLine, currentDialect.getRuleKeywords());
     }
 
     @Override

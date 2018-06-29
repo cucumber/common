@@ -2,11 +2,12 @@ SHELL := /usr/bin/env bash
 GOOD_FEATURE_FILES = $(shell find testdata/good -name "*.feature")
 BAD_FEATURE_FILES  = $(shell find testdata/bad -name "*.feature")
 
-TOKENS   = $(patsubst testdata/%.feature,acceptance/testdata/%.feature.tokens,$(GOOD_FEATURE_FILES))
-ASTS     = $(patsubst testdata/%.feature,acceptance/testdata/%.feature.ast.ndjson,$(GOOD_FEATURE_FILES))
-PICKLES  = $(patsubst testdata/%.feature,acceptance/testdata/%.feature.pickles.ndjson,$(GOOD_FEATURE_FILES))
-SOURCES  = $(patsubst testdata/%.feature,acceptance/testdata/%.feature.source.ndjson,$(GOOD_FEATURE_FILES))
-ERRORS   = $(patsubst testdata/%.feature,acceptance/testdata/%.feature.errors.ndjson,$(BAD_FEATURE_FILES))
+TOKENS       = $(patsubst testdata/%.feature,acceptance/testdata/%.feature.tokens,$(GOOD_FEATURE_FILES))
+ASTS         = $(patsubst testdata/%.feature,acceptance/testdata/%.feature.ast.ndjson,$(GOOD_FEATURE_FILES))
+PICKLES      = $(patsubst testdata/%.feature,acceptance/testdata/%.feature.pickles.ndjson,$(GOOD_FEATURE_FILES))
+SOURCES      = $(patsubst testdata/%.feature,acceptance/testdata/%.feature.source.ndjson,$(GOOD_FEATURE_FILES))
+PROTOBUFS    = $(patsubst testdata/%.feature,acceptance/testdata/%.feature.protobuf.bin.ndjson,$(GOOD_FEATURE_FILES))
+ERRORS       = $(patsubst testdata/%.feature,acceptance/testdata/%.feature.errors.ndjson,$(BAD_FEATURE_FILES))
 
 JAVASCRIPT_FILES = $(shell find lib -name "*.js") index.js
 
@@ -16,7 +17,7 @@ default: .compared
 	yarn link
 .PHONY: all
 
-.compared: .built $(TOKENS) $(ASTS) $(PICKLES) $(ERRORS) $(SOURCES)
+.compared: .built $(PROTOBUFS) $(TOKENS) $(ASTS) $(PICKLES) $(ERRORS) $(SOURCES)
 	touch $@
 
 .built: lib/gherkin/parser.js lib/gherkin/gherkin-languages.json $(JAVASCRIPT_FILES) dist/gherkin.js dist/gherkin.min.js yarn.lock
@@ -25,6 +26,7 @@ default: .compared
 
 yarn.lock: package.json
 	yarn install --network-concurrency 1
+	yarn link cucumber-messages
 
 acceptance/testdata/%.feature.tokens: testdata/%.feature testdata/%.feature.tokens .built
 	mkdir -p `dirname $@`
@@ -35,6 +37,11 @@ acceptance/testdata/%.feature.ast.ndjson: testdata/%.feature testdata/%.feature.
 	mkdir -p `dirname $@`
 	bin/gherkin --no-source --no-pickles $< | jq --sort-keys --compact-output "." > $@
 	diff --unified <(jq "." $<.ast.ndjson) <(jq "." $@)
+
+acceptance/testdata/%.feature.protobuf.bin.ndjson: testdata/%.feature.protobuf.bin .built
+	mkdir -p `dirname $@`
+	cat $< | bin/gherkin | jq --sort-keys --compact-output "." > $@
+	diff --unified <(jq "." $<.ndjson) <(jq "." $@)
 
 acceptance/testdata/%.feature.pickles.ndjson: testdata/%.feature testdata/%.feature.pickles.ndjson .built
 	mkdir -p `dirname $@`
@@ -62,14 +69,14 @@ dist/gherkin.js: lib/gherkin/parser.js $(JAVASCRIPT_FILES) lib/gherkin/gherkin-l
 	echo '/*' > $@
 	cat LICENSE >> $@
 	echo '*/' >> $@
-	./node_modules/.bin/browserify index.js >> $@
+	#./node_modules/.bin/browserify index.js >> $@
 
 dist/gherkin.min.js: dist/gherkin.js yarn.lock
 	mkdir -p `dirname $@`
 	echo '/*' > $@
 	cat LICENSE >> $@
 	echo '*/' >> $@
-	./node_modules/.bin/uglifyjs $< >> $@
+	#./node_modules/.bin/uglifyjs $< >> $@
 
 clean:
 	rm -rf .compared .built acceptance dist

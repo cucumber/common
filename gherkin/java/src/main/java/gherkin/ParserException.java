@@ -1,16 +1,14 @@
 package gherkin;
 
-import gherkin.ast.Location;
-
 import java.util.Collections;
 import java.util.List;
 
-public class ParserException extends RuntimeException {
+public class ParserException extends GherkinException {
     public final Location location;
 
     protected ParserException(String message) {
         super(message);
-        location = null;
+        location = new Location(-1, -1);
     }
 
     protected ParserException(String message, Location location) {

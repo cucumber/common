@@ -1,34 +1,65 @@
 #!/usr/bin/env ruby
 $VERBOSE=nil # Shut up JRuby warnings on Travis
 $LOAD_PATH.unshift(File.join(File.dirname(__FILE__),"../lib"))
+
 require 'optparse'
 require 'json'
-require 'gherkin/stream/source_events'
-require 'gherkin/stream/gherkin_events'
+require 'gherkin/messages/subprocess_cucumber_messages'
+require 'gherkin/messages/protobuf_cucumber_messages'
+require 'gherkin/messages/parser_cucumber_messages'
 
 options = {
   print_source: true,
   print_ast: true,
-  print_pickles: true
+  print_pickles: true,
+  protobuf: false
 }
 
 OptionParser.new do |opts|
-  opts.on("--[no-]source", "Don't print source events") do |v|
+  opts.on("--[no-]source", "Don't print source messages") do |v|
     options[:print_source] = v
   end
-  opts.on("--[no-]ast", "Don't print ast events") do |v|
+  opts.on("--[no-]ast", "Don't print ast messages") do |v|
     options[:print_ast] = v
   end
-  opts.on("--[no-]pickles", "Don't print pickle events") do |v|
+  opts.on("--[no-]pickles", "Don't print pickle messages") do |v|
     options[:print_pickles] = v
+  end
+  opts.on("--protobuf", "Print messages as Protocol Buffers") do |v|
+    options[:protobuf] = v
   end
 end.parse!
 
-source_events = Gherkin::Stream::SourceEvents.new(ARGV)
-gherkin_events = Gherkin::Stream::GherkinEvents.new(options)
-
-source_events.enum.each do |source_event|
-  gherkin_events.enum(source_event).each do |event|
-    puts JSON.generate(event)
+def print_messages(messages)
+  messages.each do |message|
+    json = message.class.encode_json(message, {emit_defaults: true})
+    puts json
   end
+end
+
+# gherkin_executable = '../javascript/bin/gherkin'
+gherkin_executable = ENV['GHERKIN_EXECUTABLE']
+if ARGV.empty?
+  # Read protobuf from STDIN
+  messages = Gherkin::Messages::ProtobufCucumberMessages.new(STDIN).messages
+  print_messages(messages)
+elsif gherkin_executable
+  # Read protobuf from STDIN
+  STDERR.puts options
+  messages = Gherkin::Messages::SubprocessCucumberMessages.new(
+    gherkin_executable,
+    ARGV,
+    options[:print_source],
+    options[:print_ast],
+    options[:print_pickles]
+  ).messages
+  print_messages(messages)
+else
+  messages = Gherkin::Messages::ParserCucumberMessages.new(
+    ARGV,
+    options[:print_source],
+    options[:print_ast],
+    options[:print_pickles]
+  ).messages
+  print_messages(messages)
 end

@@ -19,6 +19,10 @@ module Gherkin
       @spec.fetch('feature')
     end
 
+    def rule_keywords
+      @spec.fetch('rule')
+    end
+
     def scenario_keywords
       @spec.fetch('scenario')
     end

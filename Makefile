@@ -1,14 +1,11 @@
 SHELL := /usr/bin/env bash
 MAKEFILES=messages/Makefile \
-  event-protocol/Makefile \
-  gherkin/Makefile \
+	gherkin/Makefile \
 	datatable/Makefile \
 	config/Makefile \
 	event-protocol/Makefile \
 	cucumber-expressions/Makefile \
-	tag-expressions/Makefile \
-	cucumber-redux/Makefile \
-	cucumber-react/Makefile
+	tag-expressions/Makefile
 
 default: .rsynced $(patsubst %/Makefile,default-%,$(MAKEFILES))
 .PHONY: default

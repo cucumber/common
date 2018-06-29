@@ -1,0 +1,53 @@
+Ž
+‹
+1testdata/good/incomplete_scenario_outline.feature­Feature: Incomplete scenario outlines
+
+  Background: Adding a background won't make a pickle
+    * a step
+
+  Scenario Outline: steps, no examples
+    Given a step
+
+  Scenario Outline: no steps, no examples
+
+  Scenario Outline: no steps, no table
+
+    Examples:
+
+  Scenario Outline: no steps, only table header
+
+    Examples:
+    | what |
+
+  Scenario Outline: no steps, one example header
+
+    Examples:
+    | nope |
+    | nada |
+&
+UTF-8text/x.cucumber.gherkin+plainÓÐ
+1testdata/good/incomplete_scenario_outline.featureš
+en"Feature*Incomplete scenario outlines:QO
+
+Background'Adding a background won't make a pickle*
+* a step:FD
+Scenario Outline"steps, no examples2
+Given a step:1/
+	Scenario Outline"no steps, no examples:@>
+Scenario Outline"no steps, no table:
+Examples:_]
+Scenario Outline"no steps, only table header:&
+Examples2
+
+what:vt
+Scenario Outline"no steps, one example header:<
+Examples2
+
+nope:
+
+nadasq
+1testdata/good/incomplete_scenario_outline.featuresteps, no examplesen"
+a step"
+a step2VT
+1testdata/good/incomplete_scenario_outline.featureno steps, no examplesen2	ca
+1testdata/good/incomplete_scenario_outline.featureno steps, one example headeren22

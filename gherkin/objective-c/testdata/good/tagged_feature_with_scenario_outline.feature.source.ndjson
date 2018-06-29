@@ -1,1 +1,1 @@
-{"data":"@sometag\nFeature: Foo\n\n  Scenario Outline: Bar\n    Then Baz\n\n    Examples:\n    | name |\n    | X    |\n    | Y    |\n","media":{"encoding":"utf-8","type":"text/x.cucumber.gherkin+plain"},"type":"source","uri":"testdata/good/tagged_feature_with_scenario_outline.feature"}
+{"source":{"data":"@sometag\nFeature: Foo\n\n  Scenario Outline: Bar\n    Then Baz\n\n    Examples:\n    | name |\n    | X    |\n    | Y    |\n","media":{"contentType":"text/x.cucumber.gherkin+plain","encoding":"UTF-8"},"uri":"testdata/good/tagged_feature_with_scenario_outline.feature"}}

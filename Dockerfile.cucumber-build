@@ -5,9 +5,17 @@ FROM alpine:3.7
 
 WORKDIR /app
 
-RUN apk add --no-cache --update --upgrade alpine-sdk make bash maven openjdk8 diffutils jq python py-pip ruby ruby-dev perl perl-dev wget rsync go nodejs
+RUN apk add --no-cache --update --upgrade alpine-sdk make bash maven openjdk8 diffutils jq python py-pip ruby ruby-dev perl perl-dev wget rsync go nodejs unzip automake autoconf libtool
 RUN npm install --global yarn
 RUN echo "gem: --no-document" > ~/.gemrc
 RUN gem install bundler io-console
 RUN pip install pipenv==8.3.2
 RUN curl --fail -L http://cpanmin.us/ > /usr/local/bin/cpanm && chmod +x /usr/local/bin/cpanm
+
+RUN mkdir -p /protobuf
+RUN curl -L https://github.com/google/protobuf/releases/download/v3.6.0/protobuf-all-3.6.0.tar.gz | tar xvz --strip-components=1 -C /protobuf
+RUN cd /protobuf && ./autogen.sh
+RUN cd /protobuf && ./configure
+RUN cd /protobuf && make -j2
+RUN cd /protobuf && make check
+RUN cd /protobuf && make install

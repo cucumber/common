@@ -1,0 +1,25 @@
+‡
+›
+&testdata/good/scenario_outline.featureäFeature: Minimal Scenario Outline
+
+  Scenario: minimalistic
+    Given the <what>
+
+    Examples:
+      | what       |
+      | minimalism |
+&
+UTF-8text/x.cucumber.gherkin+plainﬁ€
+&testdata/good/scenario_outline.feature∞
+en"Feature*Minimal Scenario Outline:Ä~
+Scenario"minimalistic2
+Given 
+the <what>:B
+Examples2
+
+	what:
+
+	
+minimalismfd
+&testdata/good/scenario_outline.featureminimalisticen"
+the minimalism22

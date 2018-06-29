@@ -1,0 +1,18 @@
+Ç
+Ä
+-testdata/good/incomplete_background_1.featurekFeature: Incomplete backgrounds, Part 1
+
+  Background: no steps
+
+  Scenario: still pickles up
+    * a step
+&
+UTF-8text/x.cucumber.gherkin+plainÂ¿
+-testdata/good/incomplete_background_1.feature
+en"Feature*Incomplete backgrounds, Part 1:
+
+Backgroundno steps:86
+Scenario"still pickles up2
+* a step][
+-testdata/good/incomplete_background_1.featurestill pickles upen"
+a step2

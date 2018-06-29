@@ -131,6 +131,11 @@ namespace Gherkin
             return MatchTitleLine(token, TokenType.FeatureLine, CurrentDialect.FeatureKeywords);
         }
 
+        public bool Match_RuleLine(Token token)
+        {
+            return MatchTitleLine(token, TokenType.RuleLine, CurrentDialect.RuleKeywords);
+        }
+
         public bool Match_BackgroundLine(Token token)
         {
             return MatchTitleLine(token, TokenType.BackgroundLine, CurrentDialect.BackgroundKeywords);

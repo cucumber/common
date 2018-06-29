@@ -1,0 +1,23 @@
+è
+å
+ testdata/good/background.feature˜Feature: Background
+
+  Background: a simple background
+    Given the minimalism inside a background
+
+
+  Scenario: minimalistic
+    Given the minimalism
+&
+UTF-8text/x.cucumber.gherkin+plainèå
+ testdata/good/background.featureÀ
+en"Feature*
+Background:][
+
+Backgrounda simple background*2
+Given "the minimalism inside a background:@>
+Scenario"minimalistic2
+Given the minimalism€~
+ testdata/good/background.featureminimalisticen"*
+"the minimalism inside a background"
+the minimalism2

@@ -1,7 +1,5 @@
 package gherkin;
 
-import gherkin.ast.Location;
-
 import java.util.List;
 
 public class Token {

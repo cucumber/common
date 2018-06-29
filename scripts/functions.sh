@@ -72,6 +72,7 @@ function subrepos()
 # Prints the remote (git URL) of a subrepo
 function subrepo_remote()
 {
+  subrepo=$1
   suffix=$(cat ${subrepo}/.subrepo)
   if [ -z "${GITHUB_TOKEN}" ]; then
     echo "git@github.com:${suffix}"
@@ -95,7 +96,11 @@ function is_branch_or_tag_for_subrepo() {
   branch_or_tag=$1
   subrepo=$2
   library=$(echo ${subrepo} | cut -d/ -f1)
-  [[ ${branch_or_tag} == ${library}* ]] || [[ ${branch_or_tag} == "master" ]] && echo 'yes'
+  branch_or_tag_prefixes=${branch_or_tag//_/$'\n'}
+  for branch_or_tag_prefix in ${branch_or_tag_prefixes}
+  do
+      [[ ${branch_or_tag_prefix} == ${library}* ]] || [[ ${branch_or_tag} == "master" ]] && echo "${branch_or_tag_prefix}" && break
+  done
 }
 
 function git_branch() {

@@ -1,30 +1,37 @@
 #!/usr/bin/env node
 'use strict'
-const Stream = require('stream')
-const fs = require('fs')
-const EventStream = require('../lib/gherkin/stream/event_stream')
-
-const args = process.argv.slice(2)
-const types = {
-  'source': true,
-  'gherkin-document': true,
-  'pickle': true
+var Stream = require('stream')
+var fs = require('fs')
+var m = require('cucumber-messages').io.cucumber.messages
+var SourceStream = require('../lib/gherkin/messages/source_stream')
+var MessageStream = require('../lib/gherkin/messages/message_stream')
+var ProtobufMessageStream = require('../lib/gherkin/messages/protobuf_message_stream')
+var args = process.argv.slice(2)
+var options = {
+  includeSource: true,
+  includeGherkinDocument: true,
+  includePickles: true,
+  protobuf: false
 }
 
-const paths = []
+var paths = []
 while (args.length > 0) {
-  const arg = args.shift()
+  var arg = args.shift()
   switch (arg) {
     case '--no-source':
-      types['source'] = false;
+      options.includeSource = false;
       break;
 
     case '--no-ast':
-      types['gherkin-document'] = false;
+      options.includeGherkinDocument = false;
       break;
 
     case '--no-pickles':
-      types['pickle'] = false;
+      options.includePickles = false;
+      break;
+
+    case '--protobuf':
+      options.protobuf = true;
       break;
 
     default:
@@ -32,28 +39,51 @@ while (args.length > 0) {
   }
 }
 
-const ndjsonStream = new Stream.Transform({
-  objectMode: true,
-  transform: function (event, _, callback) {
-    this.push(JSON.stringify(event) + "\n")
-    callback()
+function pipeMessagesTo(paths, i, stream) {
+  var path = paths[i++]
+  if (!path) {
+    return stream.end()
   }
-})
-ndjsonStream.pipe(process.stdout)
-
-function pipeEventsFor(paths, i, callback) {
-  const path = paths[i++]
-  if (!path) return callback()
-  const stream = eventStream(path)
-  stream.pipe(ndjsonStream, { end: false })
-  stream.on('end', () => pipeEventsFor(paths, i, callback))
+  var messageStream = createMessageStream(path)
+  messageStream.pipe(stream, {end: false})
+  messageStream.on('end', () => pipeMessagesTo(paths, i, stream))
 }
 
-function eventStream(path) {
-  const fileStream = fs.createReadStream(path, { encoding: 'utf-8' })
-  const eventStream = new EventStream(path, types)
-  fileStream.pipe(eventStream)
-  return eventStream
+function createMessageStream(path) {
+  return fs.createReadStream(path, {encoding: 'UTF-8'})
+    .pipe(new SourceStream(path))
+    .pipe(new MessageStream(options))
 }
 
-pipeEventsFor(paths, 0, () => ndjsonStream.end())
+var messageTransformerStream
+if (options.protobuf) {
+  messageTransformerStream = new Stream.Transform({
+    objectMode: true,
+    transform: function (message, _, callback) {
+      var buffer = message.constructor.encodeDelimited(message).finish()
+      this.push(buffer)
+      callback()
+    }
+  })
+} else {
+  messageTransformerStream = new Stream.Transform({
+    objectMode: true,
+    transform: function (message, _, callback) {
+      var ob = message.constructor.toObject(message, {defaults: true})
+      // This reviver omits printing fields with null values
+      var json = JSON.stringify(ob, function (key, value) {
+        return value === null ? undefined : value
+      });
+      this.push(json + "\n")
+      callback()
+    }
+  })
+}
+
+messageTransformerStream.pipe(process.stdout)
+
+if (paths.length > 0) {
+  pipeMessagesTo(paths, 0, messageTransformerStream)
+} else {
+  process.stdin.pipe(new ProtobufMessageStream(m.Wrapper)).pipe(messageTransformerStream)
+}
