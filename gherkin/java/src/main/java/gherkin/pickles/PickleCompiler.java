@@ -144,7 +144,7 @@ public class PickleCompiler {
         }
     }
 
-    private PickleTable pickleTable(DataTable dataTable, List<TableCell> variableCells, List<TableCell> valueCells) {
+    private PickleTable pickleDataTable(DataTable dataTable, List<TableCell> variableCells, List<TableCell> valueCells) {
         List<TableRow> rows = dataTable.getRowsList();
         List<PickleTableRow> newRows = new ArrayList<>(rows.size());
         for (TableRow row : rows) {
@@ -179,7 +179,7 @@ public class PickleCompiler {
                 .addLocations(pickleStepLocation(step));
 
         if (step.hasDataTable()) {
-            pickleStepBuilder.setDataTable(pickleTable(step.getDataTable(), variableCells, valueCells));
+            pickleStepBuilder.setDataTable(pickleDataTable(step.getDataTable(), variableCells, valueCells));
         }
 
         if (step.hasDocString()) {
@@ -191,10 +191,14 @@ public class PickleCompiler {
     private List<PickleStep> pickleSteps(List<Step> steps) {
         List<PickleStep> result = new ArrayList<>();
         for (Step step : steps) {
-            PickleStep.Builder pickleStepBuilder = pickleStepBuilder(step, Collections.<TableCell>emptyList(), Collections.<TableCell>emptyList());
-            result.add(pickleStepBuilder.build());
+            result.add(pickleStep(step));
         }
         return unmodifiableList(result);
+    }
+
+    private PickleStep pickleStep(Step step) {
+        PickleStep.Builder pickleStepBuilder = pickleStepBuilder(step, Collections.<TableCell>emptyList(), Collections.<TableCell>emptyList());
+        return pickleStepBuilder.build();
     }
 
     private String interpolate(String name, List<TableCell> variableCells, List<TableCell> valueCells) {

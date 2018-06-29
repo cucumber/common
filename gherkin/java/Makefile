@@ -55,11 +55,11 @@ acceptance/testdata/%.feature.ast.ndjson: testdata/%.feature testdata/%.feature.
 # # Generate
 # acceptance/testdata/%.feature.protobuf.bin.ndjson: testdata/%.feature .built
 # 	mkdir -p `dirname $@`
-# 	cat $<.protobuf.bin | bin/gherkin --stdin | jq --sort-keys --compact-output "." > $<.protobuf.bin.ndjson
+# 	cat $<.protobuf.bin | bin/gherkin | jq --sort-keys --compact-output "." > $<.protobuf.bin.ndjson
 
 acceptance/testdata/%.feature.protobuf.bin.ndjson: testdata/%.feature.protobuf.bin .built
 	mkdir -p `dirname $@`
-	cat $< | bin/gherkin --stdin | jq --sort-keys --compact-output "." > $@
+	cat $< | bin/gherkin | jq --sort-keys --compact-output "." > $@
 	diff --unified <(jq "." $<.ndjson) <(jq "." $@)
 
 # # Generate

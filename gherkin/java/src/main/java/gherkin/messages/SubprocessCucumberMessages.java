@@ -34,6 +34,9 @@ public class SubprocessCucumberMessages implements CucumberMessages {
             List<String> args = new ArrayList<>();
             args.add(cucumberExecutable);
             args.add("--protobuf");
+            if(!printSource) args.add("--no-source");
+            if(!printAst) args.add("--no-ast");
+            if(!printPickles) args.add("--no-pickles");
             args.addAll(paths);
             ProcessBuilder processBuilder = new ProcessBuilder().command(args);
             File stderrFile = File.createTempFile("gherkin-stderr-", ".log");
@@ -46,7 +49,7 @@ public class SubprocessCucumberMessages implements CucumberMessages {
                 byte[] bytes = Files.readAllBytes(stderrFile.toPath());
                 throw new GherkinException("Failed to parse Gherkin:" + new String(bytes, "UTF-8"));
             }
-            return new ProtobufCucumberMessages(gherkinStdout, printSource, printAst, printPickles).messages();
+            return new ProtobufCucumberMessages(gherkinStdout).messages();
         } catch (IOException | InterruptedException e) {
             throw new GherkinException(e);
         }

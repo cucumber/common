@@ -10,5 +10,5 @@ yarn.lock: package.json
 	yarn link
 
 clean:
-	rm -rf node_modules coverage dist
+	rm -rf yarn.lock node_modules coverage dist
 .PHONY: clean

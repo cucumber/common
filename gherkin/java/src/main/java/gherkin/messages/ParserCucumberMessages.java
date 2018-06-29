@@ -21,13 +21,13 @@ public class ParserCucumberMessages implements CucumberMessages {
     private final TokenMatcher matcher = new TokenMatcher();
     private final PickleCompiler pickleCompiler = new PickleCompiler();
 
-    private final Source source;
+    private final List<String> paths;
     private final boolean includeSource;
     private final boolean includeGherkinDocument;
     private final boolean includePickles;
 
-    public ParserCucumberMessages(Source source, boolean includeSource, boolean includeGherkinDocument, boolean includePickles) {
-        this.source = source;
+    public ParserCucumberMessages(List<String> paths, boolean includeSource, boolean includeGherkinDocument, boolean includePickles) {
+        this.paths = paths;
         this.includeSource = includeSource;
         this.includeGherkinDocument = includeGherkinDocument;
         this.includePickles = includePickles;
@@ -37,31 +37,34 @@ public class ParserCucumberMessages implements CucumberMessages {
     public List<Wrapper> messages() {
         List<Wrapper> messages = new ArrayList<>();
 
-        if (includeSource) {
-            messages.add(Wrapper.newBuilder().setSource(source).build());
-        }
-        try {
-            GherkinDocument gherkinDocument = null;
+        FileSources fileSources = new FileSources(paths);
+        for (Source source : fileSources) {
+            if (includeSource) {
+                messages.add(Wrapper.newBuilder().setSource(source).build());
+            }
+            try {
+                GherkinDocument gherkinDocument = null;
 
-            if (includeGherkinDocument) {
-                gherkinDocument = buildGherkinDocument(source);
-                messages.add(Wrapper.newBuilder().setGherkinDocument(gherkinDocument).build());
-            }
-            if (includePickles) {
-                if (gherkinDocument == null) {
+                if (includeGherkinDocument) {
                     gherkinDocument = buildGherkinDocument(source);
+                    messages.add(Wrapper.newBuilder().setGherkinDocument(gherkinDocument).build());
                 }
-                List<Pickle> pickles = pickleCompiler.compile(gherkinDocument, source.getUri());
-                for (Pickle pickle : pickles) {
-                    messages.add(Wrapper.newBuilder().setPickle(pickle).build());
+                if (includePickles) {
+                    if (gherkinDocument == null) {
+                        gherkinDocument = buildGherkinDocument(source);
+                    }
+                    List<Pickle> pickles = pickleCompiler.compile(gherkinDocument, source.getUri());
+                    for (Pickle pickle : pickles) {
+                        messages.add(Wrapper.newBuilder().setPickle(pickle).build());
+                    }
                 }
+            } catch (ParserException.CompositeParserException e) {
+                for (ParserException error : e.errors) {
+                    addErrorAttachment(messages, error, source.getUri());
+                }
+            } catch (ParserException e) {
+                addErrorAttachment(messages, e, source.getUri());
             }
-        } catch (ParserException.CompositeParserException e) {
-            for (ParserException error : e.errors) {
-                addErrorAttachment(messages, error, source.getUri());
-            }
-        } catch (ParserException e) {
-            addErrorAttachment(messages, e, source.getUri());
         }
         return messages;
     }
