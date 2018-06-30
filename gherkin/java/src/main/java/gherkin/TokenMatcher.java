@@ -134,7 +134,7 @@ public class TokenMatcher implements ITokenMatcher {
     private boolean matchTitleLine(Token token, TokenType tokenType, List<String> keywords) {
         for (String keyword : keywords) {
             if (token.line.startsWithTitleKeyword(keyword)) {
-                String title = token.line.getRestTrimmed(keyword.length() + GherkinLanguageConstants.TITLE_KEYWORD_SEPARATOR.length());
+                String title = token.line.getRestTrimmed(keyword.length() + 1);
                 setTokenMatched(token, tokenType, title, keyword, null, null);
                 return true;
             }

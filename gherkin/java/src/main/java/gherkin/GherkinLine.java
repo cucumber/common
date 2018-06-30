@@ -3,6 +3,7 @@ package gherkin;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
+import java.util.regex.Matcher;
 
 import static gherkin.StringUtils.ltrim;
 import static gherkin.SymbolCounter.countSymbols;
@@ -56,10 +57,14 @@ public class GherkinLine implements IGherkinLine {
     @Override
     public boolean startsWithTitleKeyword(String text) {
         int textLength = text.length();
-        return trimmedLineText.length() > textLength &&
-                trimmedLineText.startsWith(text) &&
-                trimmedLineText.substring(textLength, textLength + GherkinLanguageConstants.TITLE_KEYWORD_SEPARATOR.length())
-                        .equals(GherkinLanguageConstants.TITLE_KEYWORD_SEPARATOR);
+        if (trimmedLineText.length() > textLength && trimmedLineText.startsWith(text)) {
+            String rest = trimmedLineText.substring(textLength);
+            Matcher matcher = GherkinLanguageConstants.TITLE_KEYWORD_SEPARATOR.matcher(rest);
+            if(matcher.find() && matcher.start() == 0){
+                return  true;
+            }
+        }
+        return false;
         // TODO aslak: extract startsWithFrom method for clarity
     }
 

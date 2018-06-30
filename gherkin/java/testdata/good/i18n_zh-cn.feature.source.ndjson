@@ -1,0 +1,9 @@
+{
+  "data": "#language: zh-CN\n功能：汉语解析\n\n  场景：冒号可以用在功能和场景中\n    * 冒号\n",
+  "media": {
+    "encoding": "utf-8",
+    "type": "text/vnd.cucumber.gherkin+plain"
+  },
+  "type": "source",
+  "uri": "testdata/good/i18n_zh-cn.feature"
+}
