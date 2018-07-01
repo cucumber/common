@@ -163,6 +163,7 @@ func (m *matcher) MatchDocStringSeparator(line *Line) (ok bool, token *Token, er
 			// close
 			token, ok = m.newTokenAtLocation(line.LineNumber, line.Indent()), true
 			token.Type = TokenType_DocStringSeparator
+			token.Keyword = m.activeDocStringSeparator
 
 			m.indentToRemove = 0
 			m.activeDocStringSeparator = ""
@@ -180,6 +181,7 @@ func (m *matcher) MatchDocStringSeparator(line *Line) (ok bool, token *Token, er
 		m.indentToRemove = line.Indent()
 		token, ok = m.newTokenAtLocation(line.LineNumber, line.Indent()), true
 		token.Type = TokenType_DocStringSeparator
+		token.Keyword = m.activeDocStringSeparator
 		token.Text = contentType
 	}
 	return

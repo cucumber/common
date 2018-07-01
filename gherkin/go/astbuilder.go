@@ -2,27 +2,28 @@ package gherkin
 
 import (
 	"strings"
+	"github.com/cucumber/cucumber-messages-go"
 )
 
 type AstBuilder interface {
 	Builder
-	GetGherkinDocument() *GherkinDocument
+	GetGherkinDocument() *messages.GherkinDocument
 }
 
 type astBuilder struct {
 	stack    []*astNode
-	comments []*Comment
+	comments []*messages.Comment
 }
 
 func (t *astBuilder) Reset() {
-	t.comments = []*Comment{}
+	t.comments = []*messages.Comment{}
 	t.stack = []*astNode{}
 	t.push(newAstNode(RuleType_None))
 }
 
-func (t *astBuilder) GetGherkinDocument() *GherkinDocument {
+func (t *astBuilder) GetGherkinDocument() *messages.GherkinDocument {
 	res := t.currentNode().getSingle(RuleType_GherkinDocument)
-	if val, ok := res.(*GherkinDocument); ok {
+	if val, ok := res.(*messages.GherkinDocument); ok {
 		return val
 	}
 	return nil
@@ -90,7 +91,7 @@ func newAstNode(rt RuleType) *astNode {
 
 func NewAstBuilder() AstBuilder {
 	builder := new(astBuilder)
-	builder.comments = []*Comment{}
+	builder.comments = []*messages.Comment{}
 	builder.push(newAstNode(RuleType_None))
 	return builder
 }
@@ -107,10 +108,10 @@ func (t *astBuilder) pop() *astNode {
 
 func (t *astBuilder) Build(tok *Token) (bool, error) {
 	if tok.Type == TokenType_Comment {
-		comment := new(Comment)
-		comment.Type = "Comment"
-		comment.Location = astLocation(tok)
-		comment.Text = tok.Text
+		comment := &messages.Comment{
+			Location: astLocation(tok),
+			Text:     tok.Text,
+		}
 		t.comments = append(t.comments, comment)
 	} else {
 		t.currentNode().add(tok.Type.RuleType(), tok)
@@ -133,20 +134,26 @@ func (t *astBuilder) transformNode(node *astNode) (interface{}, error) {
 
 	case RuleType_Step:
 		stepLine := node.getToken(TokenType_StepLine)
-		step := new(Step)
-		step.Type = "Step"
-		step.Location = astLocation(stepLine)
-		step.Keyword = stepLine.Keyword
-		step.Text = stepLine.Text
-		step.Argument = node.getSingle(RuleType_DataTable)
-		if step.Argument == nil {
-			step.Argument = node.getSingle(RuleType_DocString)
+
+		step := &messages.Step{
+			Location: astLocation(stepLine),
+			Keyword:  stepLine.Keyword,
+			Text:     stepLine.Text,
 		}
+		dataTable := node.getSingle(RuleType_DataTable)
+		if dataTable != nil {
+			step.Argument = &messages.Step_DataTable{DataTable: dataTable.(*messages.DataTable)}
+		} else {
+			docString := node.getSingle(RuleType_DocString)
+			if docString != nil {
+				step.Argument = &messages.Step_DocString{DocString: docString.(*messages.DocString)}
+			}
+		}
+
 		return step, nil
 
 	case RuleType_DocString:
 		separatorToken := node.getToken(TokenType_DocStringSeparator)
-		contentType := separatorToken.Text
 		lineTokens := node.getTokens(TokenType_Other)
 		var text string
 		for i := range lineTokens {
@@ -155,32 +162,32 @@ func (t *astBuilder) transformNode(node *astNode) (interface{}, error) {
 			}
 			text += lineTokens[i].Text
 		}
-		ds := new(DocString)
-		ds.Type = "DocString"
-		ds.Location = astLocation(separatorToken)
-		ds.ContentType = contentType
-		ds.Content = text
-		ds.Delimitter = DOCSTRING_SEPARATOR // TODO: remember separator
+		ds := &messages.DocString{
+			Location:    astLocation(separatorToken),
+			ContentType: separatorToken.Text,
+			Content:     text,
+			Delimiter:   separatorToken.Keyword,
+		}
 		return ds, nil
 
 	case RuleType_DataTable:
 		rows, err := astTableRows(node)
-		dt := new(DataTable)
-		dt.Type = "DataTable"
-		dt.Location = rows[0].Location
-		dt.Rows = rows
+		dt := &messages.DataTable{
+			Location: rows[0].Location,
+			Rows:     rows,
+		}
 		return dt, err
 
 	case RuleType_Background:
 		backgroundLine := node.getToken(TokenType_BackgroundLine)
 		description, _ := node.getSingle(RuleType_Description).(string)
-		bg := new(Background)
-		bg.Type = "Background"
-		bg.Location = astLocation(backgroundLine)
-		bg.Keyword = backgroundLine.Keyword
-		bg.Name = backgroundLine.Text
-		bg.Description = description
-		bg.Steps = astSteps(node)
+		bg := &messages.Background{
+			Location:    astLocation(backgroundLine),
+			Keyword:     backgroundLine.Keyword,
+			Name:        backgroundLine.Text,
+			Description: description,
+			Steps:       astSteps(node),
+		}
 		return bg, nil
 
 	case RuleType_ScenarioDefinition:
@@ -189,15 +196,15 @@ func (t *astBuilder) transformNode(node *astNode) (interface{}, error) {
 
 		scenarioLine := scenarioNode.getToken(TokenType_ScenarioLine)
 		description, _ := scenarioNode.getSingle(RuleType_Description).(string)
-		sc := new(Scenario)
-		sc.Type = "Scenario"
-		sc.Tags = tags
-		sc.Location = astLocation(scenarioLine)
-		sc.Keyword = scenarioLine.Keyword
-		sc.Name = scenarioLine.Text
-		sc.Description = description
-		sc.Steps = astSteps(scenarioNode)
-		sc.Examples = astExamples(scenarioNode)
+		sc := &messages.Scenario{
+			Tags:        tags,
+			Location:    astLocation(scenarioLine),
+			Keyword:     scenarioLine.Keyword,
+			Name:        scenarioLine.Text,
+			Description: description,
+			Steps:       astSteps(scenarioNode),
+			Examples:    astExamples(scenarioNode),
+		}
 
 		return sc, nil
 
@@ -208,8 +215,8 @@ func (t *astBuilder) transformNode(node *astNode) (interface{}, error) {
 		description, _ := examplesNode.getSingle(RuleType_Description).(string)
 		examplesTable := examplesNode.getSingle(RuleType_ExamplesTable)
 
-		ex := new(Examples)
-		ex.Type = "Examples"
+		// TODO: Is this mutation style ok?
+		ex := &messages.Examples{}
 		ex.Tags = tags
 		ex.Location = astLocation(examplesLine)
 		ex.Keyword = examplesLine.Keyword
@@ -218,7 +225,7 @@ func (t *astBuilder) transformNode(node *astNode) (interface{}, error) {
 		ex.TableHeader = nil
 		ex.TableBody = nil
 		if examplesTable != nil {
-			allRows, _ := examplesTable.([]*TableRow)
+			allRows, _ := examplesTable.([]*messages.TableRow)
 			ex.TableHeader = allRows[0]
 			ex.TableBody = allRows[1:]
 		}
@@ -251,24 +258,39 @@ func (t *astBuilder) transformNode(node *astNode) (interface{}, error) {
 		if featureLine == nil {
 			return nil, nil
 		}
-		children := []interface{}{}
-		background, _ := node.getSingle(RuleType_Background).(*Background)
+
+		var children []*messages.FeatureChild
+		background, _ := node.getSingle(RuleType_Background).(*messages.Background)
 		if background != nil {
-			children = append(children, background)
+			children = append(children, &messages.FeatureChild{
+				Value: &messages.FeatureChild_Background{Background: background},
+			})
 		}
-		children = append(children, node.getItems(RuleType_ScenarioDefinition)...)
-		children = append(children, node.getItems(RuleType_Rule)...)
+		scenarios := node.getItems(RuleType_ScenarioDefinition)
+		for i := range scenarios {
+			scenario := scenarios[i].(*messages.Scenario)
+			children = append(children, &messages.FeatureChild{
+				Value: &messages.FeatureChild_Scenario{Scenario: scenario},
+			})
+		}
+		rules := node.getItems(RuleType_Rule)
+		for i := range rules {
+			rule := rules[i].(*messages.Rule)
+			children = append(children, &messages.FeatureChild{
+				Value: &messages.FeatureChild_Rule{Rule: rule},
+			})
+		}
+
 		description, _ := header.getSingle(RuleType_Description).(string)
 
-		feat := new(Feature)
-		feat.Type = "Feature"
+		feat := &messages.Feature{}
 		feat.Tags = tags
 		feat.Location = astLocation(featureLine)
 		feat.Language = featureLine.GherkinDialect
 		feat.Keyword = featureLine.Keyword
 		feat.Name = featureLine.Text
 		feat.Description = description
-		feat.Children = children
+		feat.Children = children;
 		return feat, nil
 
 	case RuleType_Rule:
@@ -280,16 +302,25 @@ func (t *astBuilder) transformNode(node *astNode) (interface{}, error) {
 		if ruleLine == nil {
 			return nil, nil
 		}
-		children := []interface{}{}
-		background, _ := node.getSingle(RuleType_Background).(*Background)
+
+		var children []*messages.RuleChild
+		background, _ := node.getSingle(RuleType_Background).(*messages.Background)
 		if background != nil {
-			children = append(children, background)
+			children = append(children, &messages.RuleChild{
+				Value: &messages.RuleChild_Background{Background: background},
+			})
 		}
-		children = append(children, node.getItems(RuleType_ScenarioDefinition)...)
+		scenarios := node.getItems(RuleType_ScenarioDefinition)
+		for i := range scenarios {
+			scenario := scenarios[i].(*messages.Scenario)
+			children = append(children, &messages.RuleChild{
+				Value: &messages.RuleChild_Scenario{Scenario: scenario},
+			})
+		}
+
 		description, _ := header.getSingle(RuleType_Description).(string)
 
-		rule := new(Rule)
-		rule.Type = "Rule"
+		rule := &messages.Rule{}
 		rule.Location = astLocation(ruleLine)
 		rule.Keyword = ruleLine.Keyword
 		rule.Name = ruleLine.Text
@@ -298,39 +329,40 @@ func (t *astBuilder) transformNode(node *astNode) (interface{}, error) {
 		return rule, nil
 
 	case RuleType_GherkinDocument:
-		feature, _ := node.getSingle(RuleType_Feature).(*Feature)
+		feature, _ := node.getSingle(RuleType_Feature).(*messages.Feature)
 
-		doc := new(GherkinDocument)
-		doc.Type = "GherkinDocument"
-		doc.Feature = feature
+		doc := &messages.GherkinDocument{}
+		if feature != nil {
+			doc.Feature = feature
+		}
 		doc.Comments = t.comments
 		return doc, nil
 	}
 	return node, nil
 }
 
-func astLocation(t *Token) *Location {
-	return &Location{
-		Line:   t.Location.Line,
-		Column: t.Location.Column,
+func astLocation(t *Token) *messages.Location {
+	return &messages.Location{
+		Line:   uint32(t.Location.Line),
+		Column: uint32(t.Location.Column),
 	}
 }
 
-func astTableRows(t *astNode) (rows []*TableRow, err error) {
-	rows = []*TableRow{}
+func astTableRows(t *astNode) (rows []*messages.TableRow, err error) {
+	rows = []*messages.TableRow{}
 	tokens := t.getTokens(TokenType_TableRow)
 	for i := range tokens {
-		row := new(TableRow)
-		row.Type = "TableRow"
-		row.Location = astLocation(tokens[i])
-		row.Cells = astTableCells(tokens[i])
+		row := &messages.TableRow{
+			Location: astLocation(tokens[i]),
+			Cells:    astTableCells(tokens[i]),
+		}
 		rows = append(rows, row)
 	}
 	err = ensureCellCount(rows)
 	return
 }
 
-func ensureCellCount(rows []*TableRow) error {
+func ensureCellCount(rows []*messages.TableRow) error {
 	if len(rows) <= 1 {
 		return nil
 	}
@@ -338,23 +370,22 @@ func ensureCellCount(rows []*TableRow) error {
 	for i := range rows {
 		if cellCount != len(rows[i].Cells) {
 			return &parseError{"inconsistent cell count within the table", &Location{
-				Line:   rows[i].Location.Line,
-				Column: rows[i].Location.Column,
+				Line:   int(rows[i].Location.Line),
+				Column: int(rows[i].Location.Column),
 			}}
 		}
 	}
 	return nil
 }
 
-func astTableCells(t *Token) (cells []*TableCell) {
-	cells = []*TableCell{}
+func astTableCells(t *Token) (cells []*messages.TableCell) {
+	cells = []*messages.TableCell{}
 	for i := range t.Items {
 		item := t.Items[i]
-		cell := new(TableCell)
-		cell.Type = "TableCell"
-		cell.Location = &Location{
-			Line:   t.Location.Line,
-			Column: item.Column,
+		cell := &messages.TableCell{}
+		cell.Location = &messages.Location{
+			Line:   uint32(t.Location.Line),
+			Column: uint32(item.Column),
 		}
 		cell.Value = item.Text
 		cells = append(cells, cell)
@@ -362,28 +393,28 @@ func astTableCells(t *Token) (cells []*TableCell) {
 	return
 }
 
-func astSteps(t *astNode) (steps []*Step) {
-	steps = []*Step{}
+func astSteps(t *astNode) (steps []*messages.Step) {
+	steps = []*messages.Step{}
 	tokens := t.getItems(RuleType_Step)
 	for i := range tokens {
-		step, _ := tokens[i].(*Step)
+		step, _ := tokens[i].(*messages.Step)
 		steps = append(steps, step)
 	}
 	return
 }
 
-func astExamples(t *astNode) (examples []*Examples) {
-	examples = []*Examples{}
+func astExamples(t *astNode) (examples []*messages.Examples) {
+	examples = []*messages.Examples{}
 	tokens := t.getItems(RuleType_ExamplesDefinition)
 	for i := range tokens {
-		example, _ := tokens[i].(*Examples)
+		example, _ := tokens[i].(*messages.Examples)
 		examples = append(examples, example)
 	}
 	return
 }
 
-func astTags(node *astNode) (tags []*Tag) {
-	tags = []*Tag{}
+func astTags(node *astNode) (tags []*messages.Tag) {
+	tags = []*messages.Tag{}
 	tagsNode, ok := node.getSingle(RuleType_Tags).(*astNode)
 	if !ok {
 		return
@@ -393,11 +424,10 @@ func astTags(node *astNode) (tags []*Tag) {
 		token := tokens[i]
 		for k := range token.Items {
 			item := token.Items[k]
-			tag := new(Tag)
-			tag.Type = "Tag"
-			tag.Location = &Location{
-				Line:   token.Location.Line,
-				Column: item.Column,
+			tag := &messages.Tag{}
+			tag.Location = &messages.Location{
+				Line:   uint32(token.Location.Line),
+				Column: uint32(item.Column),
 			}
 			tag.Name = item.Text
 			tags = append(tags, tag)

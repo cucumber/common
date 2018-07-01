@@ -118,8 +118,7 @@ module.exports = function TokenMatcher(defaultDialectName) {
         indentToRemove = 0;
       }
 
-      // TODO: Use the separator as keyword. That's needed for pretty printing.
-      setTokenMatched(token, 'DocStringSeparator', contentType);
+      setTokenMatched(token, 'DocStringSeparator', contentType, separator);
       return true;
     }
     return false;

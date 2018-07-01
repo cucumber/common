@@ -128,7 +128,8 @@ module Gherkin
 
         props = {
           location: get_location(separator_token, 0),
-          content: content
+          content: content,
+          delimiter: separator_token.matched_keyword
         }
         props[:content_type] = content_type if content_type
         Cucumber::Messages::DocString.new(props)

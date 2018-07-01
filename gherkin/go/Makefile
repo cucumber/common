@@ -11,18 +11,14 @@ ERRORS       = $(patsubst testdata/%.feature,acceptance/testdata/%.feature.error
 
 GO_SOURCE_FILES = $(shell find . -name "*.go")
 
-export GOPATH = $(realpath ./)
-
 .DELETE_ON_ERROR:
 
 default: .compared
+	mkdir -p ${GOPATH}/src/github.com/cucumber
+	ln -fs ${CURDIR} ${GOPATH}/src/github.com/cucumber/gherkin-go
 .PHONY: default
 
-skip_build:
-	@echo -e "\x1b[31;01mSKIPPING GHERKIN GO BUILD ON ALPINE\x1b[0m"
-.PHONY: skip_build
-
-.compared: .built $(PROTOBUFS) $(TOKENS) $(ASTS) $(PICKLES) $(SOURCES) $(ERRORS)
+.compared: .built $(TOKENS) $(ASTS) $(PICKLES) $(SOURCES) $(ERRORS)
 	touch $@
 
 .built: show-version-info $(GO_SOURCE_FILES) bin/gherkin-generate-tokens bin/gherkin
@@ -46,27 +42,27 @@ acceptance/testdata/%.feature.tokens: testdata/%.feature testdata/%.feature.toke
 
 acceptance/testdata/%.feature.ast.ndjson: testdata/%.feature testdata/%.feature.ast.ndjson bin/gherkin
 	mkdir -p `dirname $@`
-	bin/gherkin --no-source --no-pickles $< | jq --sort-keys "." > $@
+	bin/gherkin --json --no-source --no-pickles $< | jq --sort-keys --compact-output -f remove_empty.jq > $@
 	diff --unified <(jq "." $<.ast.ndjson) <(jq "." $@)
 
 acceptance/testdata/%.feature.protobuf.bin.ndjson: testdata/%.feature.protobuf.bin bin/gherkin
 	mkdir -p `dirname $@`
-	cat $< | bin/gherkin | jq --sort-keys --compact-output "." > $@
+	cat $< | bin/gherkin | jq --sort-keys --compact-output -f remove_empty.jq > $@
 	diff --unified <(jq "." $<.ndjson) <(jq "." $@)
 
 acceptance/testdata/%.feature.errors.ndjson: testdata/%.feature testdata/%.feature.errors.ndjson bin/gherkin
 	mkdir -p `dirname $@`
-	bin/gherkin --no-source $< | jq --sort-keys --compact-output "." > $@
+	bin/gherkin --json --no-source $< | jq --sort-keys --compact-output -f remove_empty.jq > $@
 	diff --unified <(jq "." $<.errors.ndjson) <(jq "." $@)
 
 acceptance/testdata/%.feature.source.ndjson: testdata/%.feature testdata/%.feature.source.ndjson bin/gherkin
 	mkdir -p `dirname $@`
-	bin/gherkin --no-ast --no-pickles $< | jq --sort-keys "." > $@
+	bin/gherkin --json --no-ast --no-pickles $< | jq --sort-keys -f remove_empty.jq > $@
 	diff --unified <(jq "." $<.source.ndjson) <(jq "." $@)
 
 acceptance/testdata/%.feature.pickles.ndjson: testdata/%.feature testdata/%.feature.pickles.ndjson bin/gherkin
 	mkdir -p `dirname $@`
-	bin/gherkin --no-source --no-ast $< | jq --sort-keys "." > $@
+	bin/gherkin --json --no-source --no-ast $< | jq --sort-keys -f remove_empty.jq > $@
 	diff --unified <(jq "." $<.pickles.ndjson) <(jq "." $@)
 
 parser.go: gherkin.berp parser.go.razor berp/berp.exe

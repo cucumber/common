@@ -75,6 +75,7 @@ public class ParserCucumberMessages implements CucumberMessages {
 
     private void addErrorAttachment(List<Wrapper> messages, ParserException e, String uri) {
         Attachment attachment = Attachment.newBuilder()
+                // TODO: Set media here?
                 .setSource(SourceReference.newBuilder()
                         .setUri(uri)
                         .setLocation(

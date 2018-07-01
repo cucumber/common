@@ -12,8 +12,4 @@ go:
   - "1.10"
   - "tip"
 
-env:
-  # fixes 'local import "../" in non-local package' error
-  - GOPATH=
-
 script: make default

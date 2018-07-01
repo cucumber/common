@@ -1,17 +1,18 @@
 SHELL := /usr/bin/env bash
-export GOPATH = $(realpath ./lib)
 
 default: test
+	mkdir -p ${GOPATH}/src/github.com/cucumber
+	ln -s ${CURDIR} ${GOPATH}/src/github.com/cucumber/cucumber-messages-go
 .PHONY: default
 
-test: lib/src/github.com/stretchr/testify lib/src/github.com/golang/protobuf/protoc-gen-go messages.pb.go
+test: ${GOPATH}/src/github.com/stretchr/testify ${GOPATH}/src/github.com/golang/protobuf/protoc-gen-go messages.pb.go
 	go test
 .PHONY: clean
 
-lib/src/github.com/stretchr/testify:
+${GOPATH}/src/github.com/stretchr/testify:
 	go get github.com/stretchr/testify
 
-lib/src/github.com/golang/protobuf/protoc-gen-go:
+${GOPATH}/src/github.com/golang/protobuf/protoc-gen-go:
 	go get github.com/golang/protobuf/protoc-gen-go
 
 messages.pb.go: messages.proto

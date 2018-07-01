@@ -107,6 +107,7 @@ public class GherkinDocumentBuilder implements Builder<GherkinDocument.Builder> 
                 return builder
                         .setLocation(getLocation(separatorToken, 0))
                         .setContent(content.toString())
+                        .setDelimiter(separatorToken.matchedKeyword)
                         .build();
             }
             case DataTable: {

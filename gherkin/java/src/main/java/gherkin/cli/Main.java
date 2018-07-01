@@ -17,7 +17,7 @@ import static java.util.Arrays.asList;
 public class Main {
 
     public static void main(String[] argv) throws IOException {
-        Printer printer = JsonFormat.printer().includingDefaultValueFields();
+        Printer printer = JsonFormat.printer();
 
         List<String> args = new ArrayList<>(asList(argv));
         List<String> paths = new ArrayList<>();

@@ -32,8 +32,27 @@ end.parse!
 
 def print_messages(messages)
   messages.each do |message|
-    json = message.class.encode_json(message, {emit_defaults: true})
-    puts json
+    json = message.class.encode_json(message)
+    # puts json
+    ob = JSON.parse(json)
+    remove_empties(ob)
+    puts JSON.generate(ob)
+  end
+end
+
+def remove_empties(ob)
+  if Hash === ob
+    ob.each do |key, value|
+      if value == []
+        ob.delete(key)
+      else
+        remove_empties(value)
+      end
+    end
+  elsif Array === ob
+    ob.each do |value|
+      remove_empties(value)
+    end
   end
 end
 

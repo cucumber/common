@@ -87,6 +87,7 @@ describe('Parser', function () {
               steps: [{
                 docString: {
                   content: 'closed docstring',
+                  delimiter: "\"\"\"",
                   location: {line: 4, column: 7},
                 },
                 keyword: 'Given ',

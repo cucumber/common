@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"io"
 	"strings"
+	"github.com/cucumber/cucumber-messages-go"
 )
 
 type Parser interface {
@@ -122,11 +123,11 @@ func (g *Line) StartsWith(prefix string) bool {
 	return strings.HasPrefix(g.TrimmedLineText, prefix)
 }
 
-func ParseGherkinDocument(in io.Reader) (gherkinDocument *GherkinDocument, err error) {
+func ParseGherkinDocument(in io.Reader) (gherkinDocument *messages.GherkinDocument, err error) {
 	return ParseGherkinDocumentForLanguage(in, DEFAULT_DIALECT)
 }
 
-func ParseGherkinDocumentForLanguage(in io.Reader, language string) (gherkinDocument *GherkinDocument, err error) {
+func ParseGherkinDocumentForLanguage(in io.Reader, language string) (gherkinDocument *messages.GherkinDocument, err error) {
 
 	builder := NewAstBuilder()
 	parser := NewParser(builder)

@@ -40,31 +40,31 @@ public class PickleCompiler {
         }
 
         String language = feature.getLanguage();
-        List<Tag> tags = feature.getTagsList();
 
-        compileFeature(pickles, language, tags, feature, uri);
+        compileFeature(pickles, feature, language, uri);
         return pickles;
     }
 
-    private void compileFeature(List<Pickle> pickles, String language, List<Tag> tags, Feature feature, String uri) {
+    private void compileFeature(List<Pickle> pickles, Feature feature, String language, String uri) {
+        List<Tag> tags = feature.getTagsList();
         List<PickleStep> backgroundSteps = new ArrayList<>();
         for (FeatureChild child : feature.getChildrenList()) {
             if (child.hasBackground()) {
                 backgroundSteps.addAll(pickleSteps(child.getBackground().getStepsList()));
             } else if (child.hasRule()) {
-                compileRule(pickles, language, tags, backgroundSteps, child.getRule(), uri);
+                compileRule(pickles, child.getRule(), tags, backgroundSteps, language, uri);
             } else {
                 Scenario scenario = child.getScenario();
                 if (scenario.getExamplesList().isEmpty()) {
-                    compileScenario(pickles, backgroundSteps, scenario, tags, language, uri);
+                    compileScenario(pickles, scenario, tags, backgroundSteps, language, uri);
                 } else {
-                    compileScenarioOutline(pickles, backgroundSteps, scenario, tags, language, uri);
+                    compileScenarioOutline(pickles, scenario, tags, backgroundSteps, language, uri);
                 }
             }
         }
     }
 
-    private void compileRule(List<Pickle> pickles, String language, List<Tag> tags, List<PickleStep> featureBackgroundSteps, Rule rule, String uri) {
+    private void compileRule(List<Pickle> pickles, Rule rule, List<Tag> tags, List<PickleStep> featureBackgroundSteps, String language, String uri) {
         List<PickleStep> backgroundSteps = new ArrayList<>(featureBackgroundSteps);
         for (RuleChild child : rule.getChildrenList()) {
             if (child.hasBackground()) {
@@ -72,15 +72,15 @@ public class PickleCompiler {
             } else {
                 Scenario scenario = child.getScenario();
                 if (scenario.getExamplesList().isEmpty()) {
-                    compileScenario(pickles, backgroundSteps, scenario, tags, language, uri);
+                    compileScenario(pickles, scenario, tags, backgroundSteps, language, uri);
                 } else {
-                    compileScenarioOutline(pickles, backgroundSteps, scenario, tags, language, uri);
+                    compileScenarioOutline(pickles, scenario, tags, backgroundSteps, language, uri);
                 }
             }
         }
     }
 
-    private void compileScenario(List<Pickle> pickles, List<PickleStep> backgroundSteps, Scenario scenario, List<Tag> parentTags, String language, String uri) {
+    private void compileScenario(List<Pickle> pickles, Scenario scenario, List<Tag> parentTags, List<PickleStep> backgroundSteps, String language, String uri) {
         List<PickleStep> steps = new ArrayList<>();
         if (!scenario.getStepsList().isEmpty())
             steps.addAll(backgroundSteps);
@@ -104,7 +104,7 @@ public class PickleCompiler {
         pickles.add(pickle);
     }
 
-    private void compileScenarioOutline(List<Pickle> pickles, List<PickleStep> backgroundSteps, Scenario scenario, List<Tag> featureTags, String language, String uri) {
+    private void compileScenarioOutline(List<Pickle> pickles, Scenario scenario, List<Tag> featureTags, List<PickleStep> backgroundSteps, String language, String uri) {
         for (final Examples examples : scenario.getExamplesList()) {
             if (examples.getTableHeader() == null) continue;
             List<TableCell> variableCells = examples.getTableHeader().getCellsList();

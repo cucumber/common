@@ -4,199 +4,211 @@ import (
 	"fmt"
 	"strings"
 	"unicode/utf8"
+	"github.com/cucumber/cucumber-messages-go"
 )
 
-type (
-	Argument interface{}
-
-	PickleTag struct {
-		Location Location `json:"location"`
-		Name     string   `json:"name"`
-	}
-
-	PickleString struct {
-		Location    Location `json:"location"`
-		ContentType string   `json:"contentType,omitempty"`
-		Content     string   `json:"content"`
-	}
-
-	PickleCell struct {
-		Location Location `json:"location"`
-		Value    string   `json:"value"`
-	}
-
-	PickleRow struct {
-		Cells []*PickleCell `json:"cells"`
-	}
-
-	PickleTable struct {
-		Rows []*PickleRow `json:"rows"`
-	}
-
-	PickleStep struct {
-		Text      string     `json:"text"`
-		Arguments []Argument `json:"arguments"`
-		Locations []Location `json:"locations"`
-	}
-
-	Pickle struct {
-		Name      string        `json:"name"`
-		Language  string        `json:"language"`
-		Steps     []*PickleStep `json:"steps"`
-		Tags      []*PickleTag  `json:"tags"`
-		Locations []Location    `json:"locations"`
-	}
-)
-
-func (gd *GherkinDocument) Pickles() []*Pickle {
-	pickles := make([]*Pickle, 0)
-	if gd.Feature == nil {
+func Pickles(gherkinDocument messages.GherkinDocument, uri string) []*messages.Pickle {
+	pickles := make([]*messages.Pickle, 0)
+	if gherkinDocument.Feature == nil {
 		return pickles
 	}
+	language := gherkinDocument.Feature.Language
 
-	bgSteps := make([]*PickleStep, 0)
-	for _, ch := range gd.Feature.Children {
-		switch t := ch.(type) {
-		case *Background:
-			bgSteps = append(bgSteps, pickleSteps(t.Steps)...)
-		case *Scenario:
-			if len(t.Examples) == 0 {
-				steps := make([]*PickleStep, 0)
-				if len(t.Steps) > 0 {
-					steps = append(bgSteps, pickleSteps(t.Steps)...)
-				}
-				tags := pickleTags(append(gd.Feature.Tags, t.Tags...))
-				pickles = append(pickles, &Pickle{
-					Steps:     steps,
-					Tags:      tags,
-					Name:      t.Name,
-					Language:  gd.Feature.Language,
-					Locations: []Location{*t.Location},
-				})
+	pickles = compileFeature(pickles, *gherkinDocument.Feature, uri, language)
+	return pickles
+}
+
+func compileFeature(pickles []*messages.Pickle, feature messages.Feature, uri string, language string) []*messages.Pickle {
+	backgroundSteps := make([]*messages.PickleStep, 0)
+	featureTags := feature.Tags
+	for _, child := range feature.Children {
+		switch t := child.Value.(type) {
+		case *messages.FeatureChild_Background:
+			backgroundSteps = append(backgroundSteps, pickleSteps(t.Background.Steps)...)
+		case *messages.FeatureChild_Rule:
+			pickles = compileRule(pickles, child.GetRule(), featureTags, backgroundSteps, uri, language)
+		case *messages.FeatureChild_Scenario:
+			scenario := t.Scenario
+			if len(scenario.GetExamples()) == 0 {
+				pickles = compileScenario(pickles, backgroundSteps, scenario, featureTags, uri, language)
 			} else {
-				// Scenario Outline
-				for _, examples := range t.Examples {
-					if examples.TableHeader == nil {
-						continue
-					}
-					keys := examples.TableHeader.Cells
-					for _, example := range examples.TableBody {
-						vals := example.Cells
-						tags := pickleTags(append(gd.Feature.Tags, append(t.Tags, examples.Tags...)...))
-
-						steps := make([]*PickleStep, 0)
-
-						// translate steps based on example
-						for _, step := range t.Steps {
-							text := step.Text
-							for i, key := range keys {
-								text = strings.Replace(text, "<"+key.Value+">", vals[i].Value, -1)
-							}
-
-							loc := Location{
-								Line:   step.Location.Line,
-								Column: step.Location.Column + utf8.RuneCountInString(step.Keyword),
-							}
-
-							steps = append(steps, &PickleStep{
-								Text:      text,
-								Arguments: pickleArgument(step.Argument, keys, vals),
-								Locations: []Location{*example.Location, loc},
-							})
-						}
-
-						// translate pickle name
-						name := t.Name
-						for i, key := range keys {
-							name = strings.Replace(name, "<"+key.Value+">", vals[i].Value, -1)
-						}
-
-						if len(steps) > 0 {
-							steps = append(bgSteps, steps...)
-						}
-						pickles = append(pickles, &Pickle{
-							Steps:     steps,
-							Tags:      tags,
-							Name:      name,
-							Language:  gd.Feature.Language,
-							Locations: []Location{*example.Location, *t.Location},
-						})
-					}
-				}
+				pickles = compileScenarioOutline(pickles, scenario, featureTags, backgroundSteps,uri, language)
 			}
 		default:
-			panic(fmt.Sprintf("unexpected %T feature child", ch))
+			panic(fmt.Sprintf("unexpected %T feature child", child))
 		}
 	}
 	return pickles
 }
 
-func pickleTags(tags []*Tag) []*PickleTag {
-	ptags := make([]*PickleTag, len(tags))
+func compileRule(pickles []*messages.Pickle, rule *messages.Rule, tags []*messages.Tag, steps []*messages.PickleStep, uri string, language string) []*messages.Pickle {
+	backgroundSteps := make([]*messages.PickleStep, 0)
+	backgroundSteps = append(backgroundSteps, steps...)
+
+	for _, child := range rule.Children {
+		switch t := child.Value.(type) {
+		case *messages.RuleChild_Background:
+			backgroundSteps = append(backgroundSteps, pickleSteps(t.Background.Steps)...)
+		case *messages.RuleChild_Scenario:
+			scenario := t.Scenario
+			if len(scenario.GetExamples()) == 0 {
+				pickles = compileScenario(pickles, backgroundSteps, scenario, tags, uri, language)
+			} else {
+				pickles = compileScenarioOutline(pickles, scenario, tags, backgroundSteps, uri, language)
+			}
+		default:
+			panic(fmt.Sprintf("unexpected %T feature child", child))
+		}
+	}
+	return pickles
+
+}
+
+func compileScenarioOutline(pickles []*messages.Pickle, scenario *messages.Scenario, featureTags []*messages.Tag, backgroundSteps []*messages.PickleStep, uri string, language string) []*messages.Pickle {
+	for _, examples := range scenario.Examples {
+		if examples.TableHeader == nil {
+			continue
+		}
+		variableCells := examples.TableHeader.Cells
+		for _, values := range examples.TableBody {
+			valueCells := values.Cells
+			tags := pickleTags(append(featureTags, append(scenario.Tags, examples.Tags...)...))
+
+			pickleSteps := make([]*messages.PickleStep, 0)
+
+			// translate pickleSteps based on values
+			for _, step := range scenario.Steps {
+				text := step.Text
+				for i, variableCell := range variableCells {
+					text = strings.Replace(text, "<"+variableCell.Value+">", valueCells[i].Value, -1)
+				}
+
+				pickleStep := pickleStep(step, variableCells, valueCells)
+				pickleStep.Locations = append(pickleStep.Locations, values.Location)
+				pickleSteps = append(pickleSteps, pickleStep)
+			}
+
+			// translate pickle name
+			name := scenario.Name
+			for i, key := range variableCells {
+				name = strings.Replace(name, "<"+key.Value+">", valueCells[i].Value, -1)
+			}
+
+			if len(pickleSteps) > 0 {
+				pickleSteps = append(backgroundSteps, pickleSteps...)
+			}
+
+			locations := make([]*messages.Location, 0)
+			locations = append(locations, scenario.Location)
+			locations = append(locations, values.Location)
+
+			pickles = append(pickles, &messages.Pickle{
+				Uri:       uri,
+				Steps:     pickleSteps,
+				Tags:      tags,
+				Name:      name,
+				Language:  language,
+				Locations: locations,
+			})
+		}
+	}
+	return pickles
+}
+
+func compileScenario(pickles []*messages.Pickle, backgroundSteps []*messages.PickleStep, scenario *messages.Scenario, featureTags []*messages.Tag, uri string, language string) []*messages.Pickle {
+	steps := make([]*messages.PickleStep, 0)
+	if len(scenario.Steps) > 0 {
+		steps = append(backgroundSteps, pickleSteps(scenario.Steps)...)
+	}
+	tags := pickleTags(append(featureTags, scenario.Tags...))
+	locations := make([]*messages.Location, 0)
+	locations = append(locations, scenario.Location)
+	pickles = append(pickles, &messages.Pickle{
+		Uri:       uri,
+		Steps:     steps,
+		Tags:      tags,
+		Name:      scenario.Name,
+		Language:  language,
+		Locations: locations,
+	})
+	return pickles
+}
+
+func pickleDataTable(table *messages.DataTable, variableCells, valueCells []*messages.TableCell) *messages.PickleTable {
+	pickleTableRows := make([]*messages.PickleTableRow, len(table.Rows))
+	for i, row := range table.Rows {
+		pickleTableCells := make([]*messages.PickleTableCell, len(row.Cells))
+		for j, cell := range row.Cells {
+			pickleTableCells[j] = &messages.PickleTableCell{
+				Location: cell.Location,
+				Value:    interpolate(cell.Value, variableCells, valueCells),
+			}
+		}
+		pickleTableRows[i] = &messages.PickleTableRow{Cells: pickleTableCells}
+	}
+	return &messages.PickleTable{Rows: pickleTableRows}
+}
+
+func pickleDocString(docString *messages.DocString, variableCells, valueCells []*messages.TableCell) *messages.PickleDocString {
+	return &messages.PickleDocString{
+		Location:    docString.Location,
+		ContentType: interpolate(docString.ContentType, variableCells, valueCells),
+		Content:     interpolate(docString.Content, variableCells, valueCells),
+	}
+}
+
+func pickleTags(tags []*messages.Tag) []*messages.PickleTag {
+	ptags := make([]*messages.PickleTag, len(tags))
 	for i, tag := range tags {
-		ptags[i] = &PickleTag{
-			Location: *tag.Location,
+		ptags[i] = &messages.PickleTag{
+			Location: tag.Location,
 			Name:     tag.Name,
 		}
 	}
 	return ptags
 }
 
-func pickleSteps(steps []*Step) []*PickleStep {
-	psteps := make([]*PickleStep, len(steps))
+func pickleSteps(steps []*messages.Step) []*messages.PickleStep {
+	pickleSteps := make([]*messages.PickleStep, len(steps))
 	for i, step := range steps {
-		loc := Location{
-			Line:   step.Location.Line,
-			Column: step.Location.Column + utf8.RuneCountInString(step.Keyword),
-		}
-		psteps[i] = &PickleStep{
-			Text:      step.Text,
-			Arguments: pickleArgument(step.Argument, nil, nil),
-			Locations: []Location{loc},
-		}
+		pickleStep := pickleStep(step, nil, nil)
+		pickleSteps[i] = pickleStep
 	}
-	return psteps
+	return pickleSteps
 }
 
-func pickleArgument(arg interface{}, keys, vals []*TableCell) []Argument {
-	trans := func(s string) string {
-		if keys == nil || vals == nil {
-			return s
+func pickleStep(step *messages.Step, variableCells, valueCells []*messages.TableCell) *messages.PickleStep {
+	loc := &messages.Location{
+		Line:   uint32(step.Location.Line),
+		Column: step.Location.Column + uint32(utf8.RuneCountInString(step.Keyword)),
+	}
+	locations := make([]*messages.Location, 0)
+	locations = append(locations, loc)
+	pickleStep := &messages.PickleStep{
+		Text:      interpolate(step.Text, variableCells, valueCells),
+		Locations: locations,
+	}
+	if step.GetDataTable() != nil {
+		pickleStep.Argument = &messages.PickleStep_DataTable{
+			DataTable: pickleDataTable(step.GetDataTable(), variableCells, valueCells),
 		}
-
-		for i, key := range keys {
-			s = strings.Replace(s, "<"+key.Value+">", vals[i].Value, -1)
+	}
+	if step.GetDocString() != nil {
+		pickleStep.Argument = &messages.PickleStep_DocString{
+			DocString: pickleDocString(step.GetDocString(), variableCells, valueCells),
 		}
+	}
+	return pickleStep
+}
 
+func interpolate(s string, variableCells, valueCells []*messages.TableCell) string {
+	if variableCells == nil || valueCells == nil {
 		return s
 	}
 
-	args := make([]Argument, 0)
-	switch t := arg.(type) {
-	case *DocString:
-		args = append(args, &PickleString{
-			Location:    *t.Location,
-			ContentType: trans(t.ContentType),
-			Content:     trans(t.Content),
-		})
-	case *DataTable:
-		rows := make([]*PickleRow, len(t.Rows))
-		for i, row := range t.Rows {
-			cells := make([]*PickleCell, len(row.Cells))
-			for i, cell := range row.Cells {
-				cells[i] = &PickleCell{
-					Location: *cell.Location,
-					Value:    trans(cell.Value),
-				}
-			}
-			rows[i] = &PickleRow{Cells: cells}
-		}
-		args = append(args, &PickleTable{Rows: rows})
-	case nil:
-		break
-	default:
-		panic(fmt.Sprintf("unexpected %T step argument", arg))
+	for i, variableCell := range variableCells {
+		s = strings.Replace(s, "<"+variableCell.Value+">", valueCells[i].Value, -1)
 	}
 
-	return args
+	return s
 }

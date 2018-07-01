@@ -1,2 +1,2 @@
 {"source":{"data":"Feature: Empty feature\n","media":{"contentType":"text/x.cucumber.gherkin+plain","encoding":"UTF-8"},"uri":"testdata/good/incomplete_feature_2.feature"}}
-{"gherkinDocument":{"comments":[],"feature":{"children":[],"description":"","keyword":"Feature","language":"en","location":{"column":1,"line":1},"name":"Empty feature","tags":[]},"uri":"testdata/good/incomplete_feature_2.feature"}}
+{"gherkinDocument":{"feature":{"keyword":"Feature","language":"en","location":{"column":1,"line":1},"name":"Empty feature"},"uri":"testdata/good/incomplete_feature_2.feature"}}

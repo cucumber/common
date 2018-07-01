@@ -164,7 +164,7 @@ public class TokenMatcher implements ITokenMatcher {
                 indentToRemove = 0;
             }
 
-            setTokenMatched(token, TokenType.DocStringSeparator, contentType, null, null, null);
+            setTokenMatched(token, TokenType.DocStringSeparator, contentType, separator, null, null);
             return true;
         }
         return false;

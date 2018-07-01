@@ -131,7 +131,8 @@ module.exports = function GherkinDocumentBuilder() {
 
         var result = {
           location: getLocation(separatorToken),
-          content: content
+          content: content,
+          delimiter: separatorToken.matchedKeyword
         };
         // conditionally add this like this (needed to make tests pass on node 0.10 as well as 4.0)
         if (contentType) {

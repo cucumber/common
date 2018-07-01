@@ -70,9 +70,10 @@ if (options.protobuf) {
     objectMode: true,
     transform: function (message, _, callback) {
       var ob = message.constructor.toObject(message, {defaults: true})
-      // This reviver omits printing fields with null values
+      // This reviver omits printing fields with empty values
+      // This is to make it behave the same as Golang's protobuf->JSON converter
       var json = JSON.stringify(ob, function (key, value) {
-        return value === null ? undefined : value
+        return (value === null) || (value === "") || (value === 0) || (Array.isArray(value) && value.length === 0) ? undefined : value
       });
       this.push(json + "\n")
       callback()

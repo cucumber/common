@@ -100,8 +100,7 @@ module Gherkin
         @indent_to_remove = 0
       end
 
-      # TODO: Use the separator as keyword. That's needed for pretty printing.
-      set_token_matched(token, :DocStringSeparator, content_type)
+      set_token_matched(token, :DocStringSeparator, content_type, separator)
       true
     end
 

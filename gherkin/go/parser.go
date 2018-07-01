@@ -213,6 +213,11 @@ func (t RuleType) Name() string {
 	return ""
 }
 
+type Location struct {
+	Line int
+	Column int
+}
+
 type parseError struct {
 	msg string
 	loc *Location
