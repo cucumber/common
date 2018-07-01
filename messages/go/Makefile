@@ -1,8 +1,10 @@
 SHELL := /usr/bin/env bash
+GOPATH := $(shell go env GOPATH)
 
 default: test
 	mkdir -p ${GOPATH}/src/github.com/cucumber
-	ln -s ${CURDIR} ${GOPATH}/src/github.com/cucumber/cucumber-messages-go
+	rm -rf ${GOPATH}/src/github.com/cucumber/cucumber-messages-go
+	ln -fs ${CURDIR} ${GOPATH}/src/github.com/cucumber/cucumber-messages-go
 .PHONY: default
 
 test: ${GOPATH}/src/github.com/stretchr/testify ${GOPATH}/src/github.com/golang/protobuf/protoc-gen-go messages.pb.go
@@ -16,7 +18,7 @@ ${GOPATH}/src/github.com/golang/protobuf/protoc-gen-go:
 	go get github.com/golang/protobuf/protoc-gen-go
 
 messages.pb.go: messages.proto
-	PATH="${GOPATH}/bin:${PATH}" protoc --go_out=. $<
+	PATH="$$(go env GOPATH)/bin:${PATH}" protoc --go_out=. $<
 
 clean:
 	rm -rf lib/*
