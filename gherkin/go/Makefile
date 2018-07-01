@@ -14,8 +14,6 @@ GO_SOURCE_FILES = $(shell find . -name "*.go")
 .DELETE_ON_ERROR:
 
 default: .compared
-	mkdir -p ${GOPATH}/src/github.com/cucumber
-	ln -fs ${CURDIR} ${GOPATH}/src/github.com/cucumber/gherkin-go
 .PHONY: default
 
 .compared: .built $(TOKENS) $(ASTS) $(PICKLES) $(SOURCES) $(ERRORS)
