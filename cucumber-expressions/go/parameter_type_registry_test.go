@@ -1,11 +1,10 @@
-package cucumberexpressions_test
+package cucumberexpressions
 
 import (
 	"fmt"
 	"regexp"
 	"testing"
 
-	cucumberexpressions "./"
 	"github.com/stretchr/testify/require"
 )
 
@@ -15,8 +14,8 @@ var CAPITALISED_WORD_REGEXPS = []*regexp.Regexp{
 
 func TestParameterTypeRegistry(t *testing.T) {
 	t.Run("does not allow more than one preferential parameter type for each regexp", func(t *testing.T) {
-		parameterTypeRegistry := cucumberexpressions.NewParameterTypeRegistry()
-		nameParameterType, err := cucumberexpressions.NewParameterType(
+		parameterTypeRegistry := NewParameterTypeRegistry()
+		nameParameterType, err := NewParameterType(
 			"name",
 			CAPITALISED_WORD_REGEXPS,
 			"name",
@@ -27,7 +26,7 @@ func TestParameterTypeRegistry(t *testing.T) {
 		require.NoError(t, err)
 		err = parameterTypeRegistry.DefineParameterType(nameParameterType)
 		require.NoError(t, err)
-		personParameterType, err := cucumberexpressions.NewParameterType(
+		personParameterType, err := NewParameterType(
 			"person",
 			CAPITALISED_WORD_REGEXPS,
 			"person",
@@ -38,7 +37,7 @@ func TestParameterTypeRegistry(t *testing.T) {
 		require.NoError(t, err)
 		err = parameterTypeRegistry.DefineParameterType(personParameterType)
 		require.NoError(t, err)
-		placeParameterType, err := cucumberexpressions.NewParameterType(
+		placeParameterType, err := NewParameterType(
 			"place",
 			CAPITALISED_WORD_REGEXPS,
 			"place",
@@ -52,8 +51,8 @@ func TestParameterTypeRegistry(t *testing.T) {
 	})
 
 	t.Run("looks up preferential parameter type by regexp", func(t *testing.T) {
-		parameterTypeRegistry := cucumberexpressions.NewParameterTypeRegistry()
-		nameParameterType, err := cucumberexpressions.NewParameterType(
+		parameterTypeRegistry := NewParameterTypeRegistry()
+		nameParameterType, err := NewParameterType(
 			"name",
 			CAPITALISED_WORD_REGEXPS,
 			"name",
@@ -64,7 +63,7 @@ func TestParameterTypeRegistry(t *testing.T) {
 		require.NoError(t, err)
 		err = parameterTypeRegistry.DefineParameterType(nameParameterType)
 		require.NoError(t, err)
-		personParameterType, err := cucumberexpressions.NewParameterType(
+		personParameterType, err := NewParameterType(
 			"person",
 			CAPITALISED_WORD_REGEXPS,
 			"person",
@@ -75,7 +74,7 @@ func TestParameterTypeRegistry(t *testing.T) {
 		require.NoError(t, err)
 		err = parameterTypeRegistry.DefineParameterType(personParameterType)
 		require.NoError(t, err)
-		placeParameterType, err := cucumberexpressions.NewParameterType(
+		placeParameterType, err := NewParameterType(
 			"place",
 			CAPITALISED_WORD_REGEXPS,
 			"place",
@@ -92,8 +91,8 @@ func TestParameterTypeRegistry(t *testing.T) {
 	})
 
 	t.Run("throws ambiguous exception on lookup when no parameter types are preferential", func(t *testing.T) {
-		parameterTypeRegistry := cucumberexpressions.NewParameterTypeRegistry()
-		nameParameterType, err := cucumberexpressions.NewParameterType(
+		parameterTypeRegistry := NewParameterTypeRegistry()
+		nameParameterType, err := NewParameterType(
 			"name",
 			CAPITALISED_WORD_REGEXPS,
 			"name",
@@ -104,7 +103,7 @@ func TestParameterTypeRegistry(t *testing.T) {
 		require.NoError(t, err)
 		err = parameterTypeRegistry.DefineParameterType(nameParameterType)
 		require.NoError(t, err)
-		personParameterType, err := cucumberexpressions.NewParameterType(
+		personParameterType, err := NewParameterType(
 			"person",
 			CAPITALISED_WORD_REGEXPS,
 			"person",
@@ -115,7 +114,7 @@ func TestParameterTypeRegistry(t *testing.T) {
 		require.NoError(t, err)
 		err = parameterTypeRegistry.DefineParameterType(personParameterType)
 		require.NoError(t, err)
-		placeParameterType, err := cucumberexpressions.NewParameterType(
+		placeParameterType, err := NewParameterType(
 			"place",
 			CAPITALISED_WORD_REGEXPS,
 			"place",

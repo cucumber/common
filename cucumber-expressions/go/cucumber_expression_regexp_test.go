@@ -1,9 +1,8 @@
-package cucumberexpressions_test
+package cucumberexpressions
 
 import (
 	"testing"
 
-	cucumberexpressions "./"
 	"github.com/stretchr/testify/require"
 )
 
@@ -50,8 +49,8 @@ func TestCucumberExpressionRegExpTranslation(t *testing.T) {
 }
 
 func assertRegexp(t *testing.T, expression string, expectedRegexp string) {
-	parameterTypeRegistry := cucumberexpressions.NewParameterTypeRegistry()
-	generator, err := cucumberexpressions.NewCucumberExpression(expression, parameterTypeRegistry)
+	parameterTypeRegistry := NewParameterTypeRegistry()
+	generator, err := NewCucumberExpression(expression, parameterTypeRegistry)
 	require.NoError(t, err)
 	require.Equal(t, generator.Regexp().String(), expectedRegexp)
 }

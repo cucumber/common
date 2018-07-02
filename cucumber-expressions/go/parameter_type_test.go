@@ -1,16 +1,15 @@
-package cucumberexpressions_test
+package cucumberexpressions
 
 import (
 	"regexp"
 	"testing"
 
-	cucumberexpressions "./"
 	"github.com/stretchr/testify/require"
 )
 
 func TestParameterType(t *testing.T) {
 	t.Run("does not allow ignore flag on regexp", func(t *testing.T) {
-		_, err := cucumberexpressions.NewParameterType(
+		_, err := NewParameterType(
 			"case-insensitive",
 			[]*regexp.Regexp{regexp.MustCompile("(?i)[a-z]+")},
 			"case-insensitive",

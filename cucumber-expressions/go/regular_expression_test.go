@@ -1,20 +1,19 @@
-package cucumberexpressions_test
+package cucumberexpressions
 
 import (
 	"regexp"
 	"testing"
 
-	cucumberexpressions "./"
 	"github.com/stretchr/testify/require"
 )
 
 func TestRegularExpression(t *testing.T) {
 	t.Run("documents match arguments", func(t *testing.T) {
-		parameterTypeRegistry := cucumberexpressions.NewParameterTypeRegistry()
+		parameterTypeRegistry := NewParameterTypeRegistry()
 
 		/// [capture-match-arguments]
 		expr := regexp.MustCompile(`I have (\d+) cukes? in my (\w+) now`)
-		expression := cucumberexpressions.NewRegularExpression(expr, parameterTypeRegistry)
+		expression := NewRegularExpression(expr, parameterTypeRegistry)
 		args, err := expression.Match("I have 7 cukes in my belly now")
 		require.NoError(t, err)
 		require.Equal(t, args[0].GetValue(), 7)
@@ -82,9 +81,9 @@ func TestRegularExpression(t *testing.T) {
 	})
 
 	t.Run("exposes regexp and source", func(t *testing.T) {
-		parameterTypeRegistry := cucumberexpressions.NewParameterTypeRegistry()
+		parameterTypeRegistry := NewParameterTypeRegistry()
 		expr := regexp.MustCompile(`I have (\d+) cukes? in my (\w+) now`)
-		expression := cucumberexpressions.NewRegularExpression(expr, parameterTypeRegistry)
+		expression := NewRegularExpression(expr, parameterTypeRegistry)
 		require.Equal(t, expression.Regexp(), expr)
 		require.Equal(t, expression.Source(), expr.String())
 	})
@@ -92,8 +91,8 @@ func TestRegularExpression(t *testing.T) {
 }
 
 func Match(t *testing.T, expr, text string) []interface{} {
-	parameterTypeRegistry := cucumberexpressions.NewParameterTypeRegistry()
-	expression := cucumberexpressions.NewRegularExpression(regexp.MustCompile(expr), parameterTypeRegistry)
+	parameterTypeRegistry := NewParameterTypeRegistry()
+	expression := NewRegularExpression(regexp.MustCompile(expr), parameterTypeRegistry)
 	args, err := expression.Match(text)
 	require.NoError(t, err)
 	if args == nil {

@@ -1,16 +1,14 @@
-package cucumberexpressions_test
+package cucumberexpressions
 
 import (
 	"regexp"
 	"testing"
-
-	cucumberexpressions "./"
 	"github.com/stretchr/testify/require"
 )
 
 func TestCombinatorialGeneratedExpressionFactory(t *testing.T) {
 	t.Run("generates multiple expressions", func(t *testing.T) {
-		colorParameterType, err := cucumberexpressions.NewParameterType(
+		colorParameterType, err := NewParameterType(
 			"color",
 			[]*regexp.Regexp{regexp.MustCompile("red|blue|yellow")},
 			"",
@@ -19,7 +17,7 @@ func TestCombinatorialGeneratedExpressionFactory(t *testing.T) {
 			true,
 		)
 		require.NoError(t, err)
-		csscolorParameterType, err := cucumberexpressions.NewParameterType(
+		csscolorParameterType, err := NewParameterType(
 			"csscolor",
 			[]*regexp.Regexp{regexp.MustCompile("red|blue|yellow")},
 			"",
@@ -28,7 +26,7 @@ func TestCombinatorialGeneratedExpressionFactory(t *testing.T) {
 			true,
 		)
 		require.NoError(t, err)
-		dateParameterType, err := cucumberexpressions.NewParameterType(
+		dateParameterType, err := NewParameterType(
 			"date",
 			[]*regexp.Regexp{regexp.MustCompile(`\d{4}-\d{2}-\d{2}`)},
 			"",
@@ -37,7 +35,7 @@ func TestCombinatorialGeneratedExpressionFactory(t *testing.T) {
 			true,
 		)
 		require.NoError(t, err)
-		datetimeParameterType, err := cucumberexpressions.NewParameterType(
+		datetimeParameterType, err := NewParameterType(
 			"datetime",
 			[]*regexp.Regexp{regexp.MustCompile(`\d{4}-\d{2}-\d{2}`)},
 			"",
@@ -46,7 +44,7 @@ func TestCombinatorialGeneratedExpressionFactory(t *testing.T) {
 			true,
 		)
 		require.NoError(t, err)
-		timestampParameterType, err := cucumberexpressions.NewParameterType(
+		timestampParameterType, err := NewParameterType(
 			"timestamp",
 			[]*regexp.Regexp{regexp.MustCompile(`\d{4}-\d{2}-\d{2}`)},
 			"",
@@ -55,11 +53,11 @@ func TestCombinatorialGeneratedExpressionFactory(t *testing.T) {
 			true,
 		)
 		require.NoError(t, err)
-		parameterTypeCombinations := [][]*cucumberexpressions.ParameterType{
+		parameterTypeCombinations := [][]*ParameterType{
 			{colorParameterType, csscolorParameterType},
 			{dateParameterType, datetimeParameterType, timestampParameterType},
 		}
-		factory := cucumberexpressions.NewCombinatorialGeneratedExpressionFactory("I bought a {%s} ball on {%s}", parameterTypeCombinations)
+		factory := NewCombinatorialGeneratedExpressionFactory("I bought a {%s} ball on {%s}", parameterTypeCombinations)
 		var expressions []string
 		for _, g := range factory.GenerateExpressions() {
 			expressions = append(expressions, g.Source())

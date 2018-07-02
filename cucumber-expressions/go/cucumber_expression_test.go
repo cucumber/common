@@ -1,20 +1,19 @@
-package cucumberexpressions_test
+package cucumberexpressions
 
 import (
 	"fmt"
 	"testing"
 
-	cucumberexpressions "./"
 	"github.com/stretchr/testify/require"
 )
 
 func TestCucumberExpression(t *testing.T) {
 	t.Run("documents expression generation", func(t *testing.T) {
-		parameterTypeRegistry := cucumberexpressions.NewParameterTypeRegistry()
+		parameterTypeRegistry := NewParameterTypeRegistry()
 
 		/// [capture-match-arguments]
 		expr := "I have {int} cuke(s)"
-		expression, err := cucumberexpressions.NewCucumberExpression(expr, parameterTypeRegistry)
+		expression, err := NewCucumberExpression(expr, parameterTypeRegistry)
 		require.NoError(t, err)
 		args, err := expression.Match("I have 7 cukes")
 		require.NoError(t, err)
@@ -146,44 +145,44 @@ func TestCucumberExpression(t *testing.T) {
 	})
 
 	t.Run("does not allow parameter type with left bracket", func(t *testing.T) {
-		parameterTypeRegistry := cucumberexpressions.NewParameterTypeRegistry()
-		_, err := cucumberexpressions.NewCucumberExpression("{[string]}", parameterTypeRegistry)
+		parameterTypeRegistry := NewParameterTypeRegistry()
+		_, err := NewCucumberExpression("{[string]}", parameterTypeRegistry)
 		require.Error(t, err)
 		require.Equal(t, err.Error(), "Illegal character '[' in parameter name {[string]}")
 	})
 
 	t.Run("does not allow optional parameter types", func(t *testing.T) {
-		parameterTypeRegistry := cucumberexpressions.NewParameterTypeRegistry()
-		_, err := cucumberexpressions.NewCucumberExpression("({int})", parameterTypeRegistry)
+		parameterTypeRegistry := NewParameterTypeRegistry()
+		_, err := NewCucumberExpression("({int})", parameterTypeRegistry)
 		require.Error(t, err)
 		require.Equal(t, "Parameter types cannot be optional: ({int})", err.Error())
 	})
 
 	t.Run("does not allow text/parameter type alternation", func(t *testing.T) {
-		parameterTypeRegistry := cucumberexpressions.NewParameterTypeRegistry()
-		_, err := cucumberexpressions.NewCucumberExpression("x/{int}", parameterTypeRegistry)
+		parameterTypeRegistry := NewParameterTypeRegistry()
+		_, err := NewCucumberExpression("x/{int}", parameterTypeRegistry)
 		require.Error(t, err)
 		require.Equal(t, "Parameter types cannot be alternative: x/{int}", err.Error())
 	})
 
 	t.Run("does not allow parameter type/text alternation", func(t *testing.T) {
-		parameterTypeRegistry := cucumberexpressions.NewParameterTypeRegistry()
-		_, err := cucumberexpressions.NewCucumberExpression("{int}/x", parameterTypeRegistry)
+		parameterTypeRegistry := NewParameterTypeRegistry()
+		_, err := NewCucumberExpression("{int}/x", parameterTypeRegistry)
 		require.Error(t, err)
 		require.Equal(t, "Parameter types cannot be alternative: {int}/x", err.Error())
 	})
 
 	t.Run("returns error for unknown parameter", func(t *testing.T) {
-		parameterTypeRegistry := cucumberexpressions.NewParameterTypeRegistry()
-		_, err := cucumberexpressions.NewCucumberExpression("{unknown}", parameterTypeRegistry)
+		parameterTypeRegistry := NewParameterTypeRegistry()
+		_, err := NewCucumberExpression("{unknown}", parameterTypeRegistry)
 		require.Error(t, err)
 		require.Equal(t, err.Error(), "Undefined parameter type {unknown}")
 	})
 
 	t.Run("exposes source", func(t *testing.T) {
 		expr := "I have {int} cuke(s)"
-		parameterTypeRegistry := cucumberexpressions.NewParameterTypeRegistry()
-		expression, err := cucumberexpressions.NewCucumberExpression(expr, parameterTypeRegistry)
+		parameterTypeRegistry := NewParameterTypeRegistry()
+		expression, err := NewCucumberExpression(expr, parameterTypeRegistry)
 		require.NoError(t, err)
 		require.Equal(t, expression.Source(), expr)
 	})
@@ -205,8 +204,8 @@ func TestCucumberExpression(t *testing.T) {
 
 		t.Run("escapes .", func(t *testing.T) {
 			expr := "I have {int} cuke(s) and ."
-			parameterTypeRegistry := cucumberexpressions.NewParameterTypeRegistry()
-			expression, err := cucumberexpressions.NewCucumberExpression(expr, parameterTypeRegistry)
+			parameterTypeRegistry := NewParameterTypeRegistry()
+			expression, err := NewCucumberExpression(expr, parameterTypeRegistry)
 			require.NoError(t, err)
 			args, err := expression.Match("I have 800 cukes and 3")
 			require.NoError(t, err)
@@ -218,8 +217,8 @@ func TestCucumberExpression(t *testing.T) {
 
 		t.Run("escapes |", func(t *testing.T) {
 			expr := "I have {int} cuke(s) and a|b"
-			parameterTypeRegistry := cucumberexpressions.NewParameterTypeRegistry()
-			expression, err := cucumberexpressions.NewCucumberExpression(expr, parameterTypeRegistry)
+			parameterTypeRegistry := NewParameterTypeRegistry()
+			expression, err := NewCucumberExpression(expr, parameterTypeRegistry)
 			require.NoError(t, err)
 			args, err := expression.Match("I have 800 cukes and a")
 			require.NoError(t, err)
@@ -235,8 +234,8 @@ func TestCucumberExpression(t *testing.T) {
 }
 
 func MatchCucumberExpression(t *testing.T, expr string, text string) []interface{} {
-	parameterTypeRegistry := cucumberexpressions.NewParameterTypeRegistry()
-	expression, err := cucumberexpressions.NewCucumberExpression(expr, parameterTypeRegistry)
+	parameterTypeRegistry := NewParameterTypeRegistry()
+	expression, err := NewCucumberExpression(expr, parameterTypeRegistry)
 	require.NoError(t, err)
 	args, err := expression.Match(text)
 	require.NoError(t, err)

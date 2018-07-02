@@ -1,16 +1,15 @@
-package cucumberexpressions_test
+package cucumberexpressions
 
 import (
 	"regexp"
 	"testing"
 
-	cucumberexpressions "./"
 	"github.com/stretchr/testify/require"
 )
 
 func TestTreeRegexp(t *testing.T) {
 	t.Run("exposes group source", func(t *testing.T) {
-		tr := cucumberexpressions.NewTreeRegexp(regexp.MustCompile("(a(?:b)?)(c)"))
+		tr := NewTreeRegexp(regexp.MustCompile("(a(?:b)?)(c)"))
 		var gbSources []string
 		for _, gb := range tr.GroupBuilder().Children() {
 			gbSources = append(gbSources, gb.Source())
@@ -19,7 +18,7 @@ func TestTreeRegexp(t *testing.T) {
 	})
 
 	t.Run("builds tree, ignoring non-capturing groups", func(t *testing.T) {
-		tr := cucumberexpressions.NewTreeRegexp(regexp.MustCompile("(a(?:b)?)(c)"))
+		tr := NewTreeRegexp(regexp.MustCompile("(a(?:b)?)(c)"))
 		group := tr.Match("ac")
 		require.Equal(t, *group.Value(), "ac")
 		require.Equal(t, *group.Children()[0].Value(), "a")
@@ -28,13 +27,13 @@ func TestTreeRegexp(t *testing.T) {
 	})
 
 	t.Run("matches optional group", func(t *testing.T) {
-		tr := cucumberexpressions.NewTreeRegexp(regexp.MustCompile("^Something( with an optional argument)?"))
+		tr := NewTreeRegexp(regexp.MustCompile("^Something( with an optional argument)?"))
 		group := tr.Match("Something")
 		require.Nil(t, group.Children()[0].Value())
 	})
 
 	t.Run("matches nested groups", func(t *testing.T) {
-		tr := cucumberexpressions.NewTreeRegexp(regexp.MustCompile(`^A (\d+) thick line from ((\d+),\s*(\d+),\s*(\d+)) to ((\d+),\s*(\d+),\s*(\d+))`))
+		tr := NewTreeRegexp(regexp.MustCompile(`^A (\d+) thick line from ((\d+),\s*(\d+),\s*(\d+)) to ((\d+),\s*(\d+),\s*(\d+))`))
 		group := tr.Match("A 5 thick line from 10,20,30 to 40,50,60")
 		require.Equal(t, *group.Children()[0].Value(), "5")
 		require.Equal(t, *group.Children()[1].Value(), "10,20,30")
@@ -48,31 +47,31 @@ func TestTreeRegexp(t *testing.T) {
 	})
 
 	t.Run("detects multiple non capturing groups", func(t *testing.T) {
-		tr := cucumberexpressions.NewTreeRegexp(regexp.MustCompile(`(?:a)(:b)(\?c)(d)`))
+		tr := NewTreeRegexp(regexp.MustCompile(`(?:a)(:b)(\?c)(d)`))
 		group := tr.Match("a:b?cd")
 		require.Len(t, group.Children(), 3)
 	})
 
 	t.Run("works with escaped backslash", func(t *testing.T) {
-		tr := cucumberexpressions.NewTreeRegexp(regexp.MustCompile(`foo\\(bar|baz)`))
+		tr := NewTreeRegexp(regexp.MustCompile(`foo\\(bar|baz)`))
 		group := tr.Match("foo\\bar")
 		require.Len(t, group.Children(), 1)
 	})
 
 	t.Run("works with escaped slash", func(t *testing.T) {
-		tr := cucumberexpressions.NewTreeRegexp(regexp.MustCompile(`I go to '\/(.+)'$`))
+		tr := NewTreeRegexp(regexp.MustCompile(`I go to '\/(.+)'$`))
 		group := tr.Match("I go to '/hello'")
 		require.Len(t, group.Children(), 1)
 	})
 
 	t.Run("works with digit and word", func(t *testing.T) {
-		tr := cucumberexpressions.NewTreeRegexp(regexp.MustCompile(`^(\d) (\w+)$`))
+		tr := NewTreeRegexp(regexp.MustCompile(`^(\d) (\w+)$`))
 		group := tr.Match("2 you")
 		require.Len(t, group.Children(), 2)
 	})
 
 	t.Run("captures non capturing groups with capturing groups inside", func(t *testing.T) {
-		tr := cucumberexpressions.NewTreeRegexp(regexp.MustCompile(`the stdout(?: from "(.*?)")?`))
+		tr := NewTreeRegexp(regexp.MustCompile(`the stdout(?: from "(.*?)")?`))
 		group := tr.Match("the stdout")
 		require.Equal(t, *group.Value(), "the stdout")
 		require.Nil(t, group.Children()[0].Value())
@@ -80,7 +79,7 @@ func TestTreeRegexp(t *testing.T) {
 	})
 
 	t.Run("works with flags", func(t *testing.T) {
-		tr := cucumberexpressions.NewTreeRegexp(regexp.MustCompile("(?i)HELLO"))
+		tr := NewTreeRegexp(regexp.MustCompile("(?i)HELLO"))
 		var gbSources []string
 		for _, gb := range tr.GroupBuilder().Children() {
 			gbSources = append(gbSources, gb.Source())
@@ -91,7 +90,7 @@ func TestTreeRegexp(t *testing.T) {
 	})
 
 	t.Run("works with disabled flags", func(t *testing.T) {
-		tr := cucumberexpressions.NewTreeRegexp(regexp.MustCompile("(?i)HELL(?-i:O)"))
+		tr := NewTreeRegexp(regexp.MustCompile("(?i)HELL(?-i:O)"))
 		var gbSources []string
 		for _, gb := range tr.GroupBuilder().Children() {
 			gbSources = append(gbSources, gb.Source())

@@ -1,4 +1,4 @@
-package cucumberexpressions_test
+package cucumberexpressions
 
 import (
 	"encoding/json"
@@ -8,7 +8,6 @@ import (
 	"strings"
 	"testing"
 
-	cucumberexpressions "./"
 	"github.com/stretchr/testify/require"
 )
 
@@ -30,14 +29,14 @@ func TestExamples(t *testing.T) {
 }
 
 func MatchExample(t *testing.T, expressionText, text string) []interface{} {
-	parameterTypeRegistry := cucumberexpressions.NewParameterTypeRegistry()
-	var expression cucumberexpressions.Expression
+	parameterTypeRegistry := NewParameterTypeRegistry()
+	var expression Expression
 	if strings.HasPrefix(expressionText, "/") {
 		r := regexp.MustCompile(expressionText[1 : len(expressionText)-1])
-		expression = cucumberexpressions.NewRegularExpression(r, parameterTypeRegistry)
+		expression = NewRegularExpression(r, parameterTypeRegistry)
 	} else {
 		var err error
-		expression, err = cucumberexpressions.NewCucumberExpression(expressionText, parameterTypeRegistry)
+		expression, err = NewCucumberExpression(expressionText, parameterTypeRegistry)
 		require.NoError(t, err)
 	}
 	args, err := expression.Match(text)

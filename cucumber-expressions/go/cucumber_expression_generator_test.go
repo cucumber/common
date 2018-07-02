@@ -1,10 +1,9 @@
-package cucumberexpressions_test
+package cucumberexpressions
 
 import (
 	"regexp"
 	"testing"
 
-	cucumberexpressions "./"
 	"github.com/stretchr/testify/require"
 )
 
@@ -14,10 +13,10 @@ type Currency struct {
 
 func TestCucumberExpressionGeneratory(t *testing.T) {
 	t.Run("documents expression generation", func(t *testing.T) {
-		parameterTypeRegistry := cucumberexpressions.NewParameterTypeRegistry()
+		parameterTypeRegistry := NewParameterTypeRegistry()
 
 		/// [generate-expression]
-		generator := cucumberexpressions.NewCucumberExpressionGenerator(parameterTypeRegistry)
+		generator := NewCucumberExpressionGenerator(parameterTypeRegistry)
 		undefinedStepText := "I have 2 cucumbers and 1.5 tomato"
 		generatedExpression := generator.GenerateExpressions(undefinedStepText)[0]
 		require.Equal(t, generatedExpression.Source(), "I have {int} cucumbers and {float} tomato")
@@ -83,8 +82,8 @@ func TestCucumberExpressionGeneratory(t *testing.T) {
 	})
 
 	t.Run("generates expression for custom type", func(t *testing.T) {
-		parameterTypeRegistry := cucumberexpressions.NewParameterTypeRegistry()
-		currencyParameterType, err := cucumberexpressions.NewParameterType(
+		parameterTypeRegistry := NewParameterTypeRegistry()
+		currencyParameterType, err := NewParameterType(
 			"currency",
 			[]*regexp.Regexp{regexp.MustCompile("[A-Z]{3}")},
 			"Currency",
@@ -107,8 +106,8 @@ func TestCucumberExpressionGeneratory(t *testing.T) {
 	})
 
 	t.Run("prefers leftmost match when there is overlap", func(t *testing.T) {
-		parameterTypeRegistry := cucumberexpressions.NewParameterTypeRegistry()
-		parameterType1, err := cucumberexpressions.NewParameterType(
+		parameterTypeRegistry := NewParameterTypeRegistry()
+		parameterType1, err := NewParameterType(
 			"type1",
 			[]*regexp.Regexp{regexp.MustCompile("cd")},
 			"type1",
@@ -118,7 +117,7 @@ func TestCucumberExpressionGeneratory(t *testing.T) {
 		)
 		require.NoError(t, err)
 		parameterTypeRegistry.DefineParameterType(parameterType1)
-		parameterType2, err := cucumberexpressions.NewParameterType(
+		parameterType2, err := NewParameterType(
 			"type2",
 			[]*regexp.Regexp{regexp.MustCompile("bc")},
 			"type2",
@@ -141,8 +140,8 @@ func TestCucumberExpressionGeneratory(t *testing.T) {
 	// TODO: prefers widest match
 
 	t.Run("generates all combinations of expressions when several parameter types match", func(t *testing.T) {
-		parameterTypeRegistry := cucumberexpressions.NewParameterTypeRegistry()
-		parameterType1, err := cucumberexpressions.NewParameterType(
+		parameterTypeRegistry := NewParameterTypeRegistry()
+		parameterType1, err := NewParameterType(
 			"type1",
 			[]*regexp.Regexp{regexp.MustCompile("x")},
 			"type1",
@@ -152,7 +151,7 @@ func TestCucumberExpressionGeneratory(t *testing.T) {
 		)
 		require.NoError(t, err)
 		parameterTypeRegistry.DefineParameterType(parameterType1)
-		parameterType2, err := cucumberexpressions.NewParameterType(
+		parameterType2, err := NewParameterType(
 			"type2",
 			[]*regexp.Regexp{regexp.MustCompile("x")},
 			"type2",
@@ -162,7 +161,7 @@ func TestCucumberExpressionGeneratory(t *testing.T) {
 		)
 		require.NoError(t, err)
 		parameterTypeRegistry.DefineParameterType(parameterType2)
-		generator := cucumberexpressions.NewCucumberExpressionGenerator(parameterTypeRegistry)
+		generator := NewCucumberExpressionGenerator(parameterTypeRegistry)
 		generatedExpressions := generator.GenerateExpressions("I have x and x and another x")
 		sources := make([]string, len(generatedExpressions))
 		for i, generatedExpression := range generatedExpressions {
@@ -181,8 +180,8 @@ func TestCucumberExpressionGeneratory(t *testing.T) {
 	})
 
 	t.Run("exposes parameter type names in generated expression", func(t *testing.T) {
-		parameterTypeRegistry := cucumberexpressions.NewParameterTypeRegistry()
-		generator := cucumberexpressions.NewCucumberExpressionGenerator(parameterTypeRegistry)
+		parameterTypeRegistry := NewParameterTypeRegistry()
+		generator := NewCucumberExpressionGenerator(parameterTypeRegistry)
 		generatedExpression := generator.GenerateExpressions("I have 2 cukes and 1.5 euro")[0]
 		typeNames := make([]string, len(generatedExpression.ParameterTypes()))
 		for i, parameterType := range generatedExpression.ParameterTypes() {
@@ -192,8 +191,8 @@ func TestCucumberExpressionGeneratory(t *testing.T) {
 	})
 
 	t.Run("ignores parameter types with optional capture groups", func(t *testing.T) {
-		parameterTypeRegistry := cucumberexpressions.NewParameterTypeRegistry()
-		optionalFlightParameterType, err := cucumberexpressions.NewParameterType(
+		parameterTypeRegistry := NewParameterTypeRegistry()
+		optionalFlightParameterType, err := NewParameterType(
 			"optional-flight",
 			[]*regexp.Regexp{regexp.MustCompile("(1st flight)?")},
 			"optional-flight",
@@ -203,7 +202,7 @@ func TestCucumberExpressionGeneratory(t *testing.T) {
 		)
 		require.NoError(t, err)
 		parameterTypeRegistry.DefineParameterType(optionalFlightParameterType)
-		optionalHotelParameterType, err := cucumberexpressions.NewParameterType(
+		optionalHotelParameterType, err := NewParameterType(
 			"optional-hotel",
 			[]*regexp.Regexp{regexp.MustCompile("(1st hotel)?")},
 			"optional-hotel",
@@ -213,19 +212,19 @@ func TestCucumberExpressionGeneratory(t *testing.T) {
 		)
 		require.NoError(t, err)
 		parameterTypeRegistry.DefineParameterType(optionalHotelParameterType)
-		generator := cucumberexpressions.NewCucumberExpressionGenerator(parameterTypeRegistry)
+		generator := NewCucumberExpressionGenerator(parameterTypeRegistry)
 		generatedExpression := generator.GenerateExpressions("I reach Stage4: 1st flight-1st hotel")[0]
 		require.Equal(t, generatedExpression.Source(), "I reach Stage{int}: {int}st flight{int}st hotel")
 	})
 }
 
 func assertExpression(t *testing.T, expectedExpression string, expectedArgumentNames []string, text string) {
-	parameterTypeRegistry := cucumberexpressions.NewParameterTypeRegistry()
+	parameterTypeRegistry := NewParameterTypeRegistry()
 	assertExpressionWithParameterTypeRegistry(t, parameterTypeRegistry, expectedExpression, expectedArgumentNames, text)
 }
 
-func assertExpressionWithParameterTypeRegistry(t *testing.T, parameterTypeRegistry *cucumberexpressions.ParameterTypeRegistry, expectedExpression string, expectedArgumentNames []string, text string) {
-	generator := cucumberexpressions.NewCucumberExpressionGenerator(parameterTypeRegistry)
+func assertExpressionWithParameterTypeRegistry(t *testing.T, parameterTypeRegistry *ParameterTypeRegistry, expectedExpression string, expectedArgumentNames []string, text string) {
+	generator := NewCucumberExpressionGenerator(parameterTypeRegistry)
 	generatedExpressions := generator.GenerateExpressions(text)
 	require.Len(t, generatedExpressions, 1)
 	generatedExpression := generatedExpressions[0]
