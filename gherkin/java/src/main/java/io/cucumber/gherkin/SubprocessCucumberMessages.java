@@ -13,14 +13,12 @@ import java.util.List;
  * Spawns a subprocess and reads messages from that process' STDOUT (as Protobuf messages)
  */
 public class SubprocessCucumberMessages implements CucumberMessages {
-    private final String cucumberExecutable;
     private final List<String> paths;
     private final boolean includeSource;
     private final boolean includeAst;
     private final boolean includePickles;
 
-    public SubprocessCucumberMessages(String gherkinExecutable, List<String> paths, boolean includeSource, boolean includeAst, boolean includePickles) {
-        this.cucumberExecutable = gherkinExecutable;
+    public SubprocessCucumberMessages(List<String> paths, boolean includeSource, boolean includeAst, boolean includePickles) {
         this.paths = paths;
         this.includeSource = includeSource;
         this.includeAst = includeAst;
@@ -29,9 +27,12 @@ public class SubprocessCucumberMessages implements CucumberMessages {
 
     @Override
     public List<Wrapper> messages() {
+        MagicFile magicFile = new MagicFile("gherkin-go/gherkin-{{.OS}}-{{.Arch}}");
+        magicFile.extract();
+
         try {
             List<String> args = new ArrayList<>();
-            args.add(cucumberExecutable);
+            args.add(magicFile.getTargetFile().getAbsolutePath());
             if (!includeSource) args.add("--no-source");
             if (!includeAst) args.add("--no-ast");
             if (!includePickles) args.add("--no-pickles");

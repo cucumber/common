@@ -13,15 +13,13 @@ import static java.util.Arrays.asList;
 public class Main {
 
     public static void main(String[] argv) throws IOException {
-        Printer printer = JsonFormat.printer();
-
         List<String> args = new ArrayList<>(asList(argv));
         List<String> paths = new ArrayList<>();
 
         boolean includeSource = true;
         boolean includeAst = true;
         boolean includePickles = true;
-        boolean json = false;
+        Printer jsonPrinter = null;
 
         while (!args.isEmpty()) {
             String arg = args.remove(0).trim();
@@ -37,31 +35,30 @@ public class Main {
                     includePickles = false;
                     break;
                 case "--json":
-                    json = true;
+                    jsonPrinter = JsonFormat.printer();
                     break;
                 default:
                     paths.add(arg);
             }
         }
 
-        String gherkinExecutable = System.getenv("GHERKIN_EXECUTABLE");
         if (paths.isEmpty()) {
             CucumberMessages cucumberMessages = new ProtobufCucumberMessages(System.in);
-            printMessages(printer, json, cucumberMessages);
-        } else if (gherkinExecutable != null) {
-            CucumberMessages cucumberMessages = new SubprocessCucumberMessages(gherkinExecutable, paths, includeSource, includeAst, includePickles);
-            printMessages(printer, json, cucumberMessages);
+            printMessages(jsonPrinter, cucumberMessages);
+        } else {
+            CucumberMessages cucumberMessages = new SubprocessCucumberMessages(paths, includeSource, includeAst, includePickles);
+            printMessages(jsonPrinter, cucumberMessages);
         }
     }
 
-    private static void printMessages(Printer printer, boolean protobuf, CucumberMessages cucumberMessages) throws IOException {
+    private static void printMessages(Printer jsonPrinter, CucumberMessages cucumberMessages) throws IOException {
         for (Wrapper wrapper : cucumberMessages.messages()) {
-            if (protobuf) {
-                wrapper.writeDelimitedTo(System.out);
-            } else {
-                Stdio.out.write(printer.print(wrapper));
+            if (jsonPrinter != null) {
+                Stdio.out.write(jsonPrinter.print(wrapper));
                 Stdio.out.write("\n");
                 Stdio.out.flush();
+            } else {
+                wrapper.writeDelimitedTo(System.out);
             }
         }
     }

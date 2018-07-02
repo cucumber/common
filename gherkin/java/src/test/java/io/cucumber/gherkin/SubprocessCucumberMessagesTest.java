@@ -1,6 +1,5 @@
 package io.cucumber.gherkin;
 
-import io.cucumber.gherkin.SubprocessCucumberMessages;
 import io.cucumber.messages.Messages;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -14,9 +13,8 @@ public class SubprocessCucumberMessagesTest {
     @Ignore
     @Test
     public void executes_child_and_processes_its_stdout() {
-        SubprocessCucumberMessages cucumberMessages = new SubprocessCucumberMessages("../javascript/bin/gherkin", singletonList("testdata/good/minimal.feature"), true, true, true);
+        SubprocessCucumberMessages cucumberMessages = new SubprocessCucumberMessages(singletonList("testdata/good/minimal.feature"), true, true, true);
         List<Messages.Wrapper> messages = cucumberMessages.messages();
         assertEquals(3, messages.size());
     }
-
 }
