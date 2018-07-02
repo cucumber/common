@@ -18,9 +18,17 @@ var noSource = flag.Bool("no-source", false, "Skip gherkin source events")
 var noAst = flag.Bool("no-ast", false, "Skip gherkin AST events")
 var noPickles = flag.Bool("no-pickles", false, "Skip gherkin Pickle events")
 var printJson = flag.Bool("json", false, "Print messages as JSON instead of protobuf")
+var versionFlag = flag.Bool("version", false, "print version")
+
+// Set during build with -ldflags
+var version string
 
 func main() {
 	flag.Parse()
+	if *versionFlag {
+		fmt.Printf("gherkin %s\n", version)
+		os.Exit(0)
+	}
 
 	paths := flag.Args()
 

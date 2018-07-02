@@ -26,11 +26,24 @@ ${GOPATH}/src/github.com/cucumber/gherkin-go:
 	rm -rf ${GOPATH}/src/github.com/cucumber/gherkin-go
 	ln -fs ${CURDIR} ${GOPATH}/src/github.com/cucumber/gherkin-go
 
-deps: ${GOPATH}/src/github.com/cucumber/cucumber-messages-go
+deps: ${GOPATH}/src/github.com/cucumber/cucumber-messages-go \
+			${GOPATH}/src/github.com/mitchellh/gox
 .PHONY: deps
 
 ${GOPATH}/src/github.com/cucumber/cucumber-messages-go:
 	go get github.com/cucumber/cucumber-messages-go
+
+${GOPATH}/src/github.com/mitchellh/gox:
+	go get github.com/mitchellh/gox
+
+publish-release: cross-compile
+	go get github.com/tcnksm/ghr
+	ghr -u cucumber -r gherkin-go -t "${GITHUB_TOKEN}" "${CIRCLE_TAG}" dist
+.PHONY: publish-release
+
+cross-compile:
+	gox -ldflags "-X main.version=${CIRCLE_TAG}" -output "dist/gherkin-{{.OS}}-{{.Arch}}" ./cli
+.PHONY: cross-compile
 
 .compared: .built $(TOKENS) $(ASTS) $(PICKLES) $(SOURCES) $(ERRORS)
 	touch $@
@@ -47,7 +60,7 @@ bin/gherkin-generate-tokens: deps link $(GO_SOURCE_FILES) parser.go dialects_bui
 	go build -o $@ ./gherkin-generate-tokens
 
 bin/gherkin: deps link $(GO_SOURCE_FILES) parser.go dialects_builtin.go
-	go build -o $@ ./cli
+	go build -ldflags "-X main.version=test" -o $@ ./cli
 
 acceptance/testdata/%.feature.tokens: testdata/%.feature testdata/%.feature.tokens bin/gherkin-generate-tokens
 	mkdir -p `dirname $@`
@@ -91,7 +104,7 @@ dialects_builtin.go: gherkin-languages.json dialects_builtin.go.jq
 	gofmt -w $@
 
 clean:
-	rm -rf .compared .built acceptance bin/
+	rm -rf .compared .built acceptance bin/ dist/
 .PHONY: clean
 
 clobber: clean
