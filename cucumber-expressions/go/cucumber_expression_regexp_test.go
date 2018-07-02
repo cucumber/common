@@ -3,7 +3,7 @@ package cucumberexpressions_test
 import (
 	"testing"
 
-	cucumberexpressions "."
+	cucumberexpressions "./"
 	"github.com/stretchr/testify/require"
 )
 

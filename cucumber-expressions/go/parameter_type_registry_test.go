@@ -5,7 +5,7 @@ import (
 	"regexp"
 	"testing"
 
-	cucumberexpressions "."
+	cucumberexpressions "./"
 	"github.com/stretchr/testify/require"
 )
 

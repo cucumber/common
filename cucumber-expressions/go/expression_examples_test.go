@@ -8,7 +8,7 @@ import (
 	"strings"
 	"testing"
 
-	cucumberexpressions "."
+	cucumberexpressions "./"
 	"github.com/stretchr/testify/require"
 )
 
