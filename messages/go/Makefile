@@ -24,7 +24,6 @@ messages.pb.go: messages.proto
 	PATH="$$(go env GOPATH)/bin:${PATH}" protoc --go_out=. $<
 
 clean:
-	rm -rf lib/*
 .PHONY: clean
 
 clobber: clean
