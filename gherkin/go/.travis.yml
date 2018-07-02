@@ -17,7 +17,7 @@ deploy:
   bucket: io.cucumber
   skip_cleanup: true
   upload-dir: gherkin-go
-  file: dist
+  local_dir: dist
   on:
     go: '1.10'
   secret_access_key:
