@@ -16,3 +16,6 @@ of serialising those messages to a binary format, and deserialise them on the ot
 end.
 
 The messages are defined in [messages.proto](./messages.proto).
+
+Each subdirectory defines language-specific implementations of these messages,
+generated with `protoc` - the Protobuf compiler.
