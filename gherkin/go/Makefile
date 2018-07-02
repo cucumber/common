@@ -33,15 +33,13 @@ deps: ${GOPATH}/src/github.com/cucumber/cucumber-messages-go \
 ${GOPATH}/src/github.com/cucumber/cucumber-messages-go:
 	go get github.com/cucumber/cucumber-messages-go
 
-${GOPATH}/src/github.com/mitchellh/gox:
-	go get github.com/mitchellh/gox
-
 publish-release: cross-compile
 	go get github.com/tcnksm/ghr
 	ghr -u cucumber -r gherkin-go -t "${GITHUB_TOKEN}" "${CIRCLE_TAG}" dist
 .PHONY: publish-release
 
 cross-compile:
+	go get github.com/mitchellh/gox
 	gox -ldflags "-X main.version=${CIRCLE_TAG}" -output "dist/gherkin-{{.OS}}-{{.Arch}}" ./cli
 .PHONY: cross-compile
 
