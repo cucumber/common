@@ -3,4 +3,3 @@ bin/gherkin-generate-tokens
 .built
 .compared
 acceptance/
-dist/
