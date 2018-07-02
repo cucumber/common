@@ -17,27 +17,7 @@ deploy:
   bucket: io.cucumber
   skip_cleanup: true
   upload-dir: gherkin-go
-  file:
-    - dist/gherkin-darwin-386
-    - dist/gherkin-darwin-amd64
-    - dist/gherkin-freebsd-386
-    - dist/gherkin-freebsd-amd64
-    - dist/gherkin-freebsd-arm
-    - dist/gherkin-linux-386
-    - dist/gherkin-linux-amd64
-    - dist/gherkin-linux-arm
-    - dist/gherkin-linux-mips
-    - dist/gherkin-linux-mips64
-    - dist/gherkin-linux-mips64le
-    - dist/gherkin-linux-mipsle
-    - dist/gherkin-linux-s390x
-    - dist/gherkin-netbsd-386
-    - dist/gherkin-netbsd-amd64
-    - dist/gherkin-netbsd-arm
-    - dist/gherkin-openbsd-386
-    - dist/gherkin-openbsd-amd64
-    - dist/gherkin-windows-386.exe
-    - dist/gherkin-windows-amd64.exe
+  file: dist
   on:
     go: '1.10'
   secret_access_key:
