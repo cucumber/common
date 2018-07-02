@@ -2,9 +2,9 @@ package messages_test
 
 import (
 	"testing"
-	"."
 	"github.com/stretchr/testify/require"
 	"github.com/golang/protobuf/proto"
+	"./"
 )
 
 func TestMessages(t *testing.T) {
