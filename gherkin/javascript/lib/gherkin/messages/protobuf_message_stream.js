@@ -1,5 +1,12 @@
 const Stream = require('stream')
-const Reader = require('cucumber-messages/node_modules/protobufjs').Reader
+let Reader
+try {
+  // If cucumber-messages is `npm link`ed, use this
+  Reader = require('cucumber-messages/node_modules/protobufjs').Reader
+} catch {
+  // Otherwise (when it's not `npm link`'ed'), use this
+  Reader = require('protobufjs').Reader
+}
 
 class ProtobufMessageStream extends Stream.Transform {
   constructor(type) {

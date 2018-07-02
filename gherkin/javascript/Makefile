@@ -26,7 +26,9 @@ default: .compared
 
 yarn.lock: package.json
 	yarn install --network-concurrency 1
-	yarn link cucumber-messages
+	# Linking will only work when we're building in the monorepo, so allow this to fail
+	# If it fails, we'll be using cucumber-messages from package.json
+	-yarn link cucumber-messages
 
 acceptance/testdata/%.feature.tokens: testdata/%.feature testdata/%.feature.tokens .built
 	mkdir -p `dirname $@`
@@ -83,5 +85,5 @@ clean:
 .PHONY: clean
 
 clobber: clean
-	rm -rf lib/gherkin/parser.js yarn.lock
+	rm -rf lib/gherkin/parser.js yarn.lock node_modules
 .PHONY: clobber

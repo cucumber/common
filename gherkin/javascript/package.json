@@ -28,5 +28,7 @@
     "mocha": "^3.0.2",
     "uglify-js": "^2.7.3"
   },
-  "dependencies": {}
+  "dependencies": {
+    "cucumber-messages": "cucumber/cucumber-messages-javascript"
+  }
 }
