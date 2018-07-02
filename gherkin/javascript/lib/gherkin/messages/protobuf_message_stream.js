@@ -3,7 +3,7 @@ let Reader
 try {
   // If cucumber-messages is `npm link`ed, use this
   Reader = require('cucumber-messages/node_modules/protobufjs').Reader
-} catch {
+} catch (ignore) {
   // Otherwise (when it's not `npm link`'ed'), use this
   Reader = require('protobufjs').Reader
 }
