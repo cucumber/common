@@ -11,7 +11,7 @@ test: deps
 	go test ${ARGS}
 .PHONY: clean
 
-deps: ${GOPATH}/src/github.com/stretchr/testify ${GOPATH}/src/github.com/golang/protobuf/protoc-gen-go
+deps: ${GOPATH}/src/github.com/stretchr/testify
 .PHONY: deps
 
 ${GOPATH}/src/github.com/stretchr/testify:
