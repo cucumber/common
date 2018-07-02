@@ -38,7 +38,7 @@ publish-release: cross-compile
 	ghr -u cucumber -r gherkin-go -t "${GITHUB_TOKEN}" "${CIRCLE_TAG}" dist
 .PHONY: publish-release
 
-cross-compile:
+cross-compile: deps link
 	go get github.com/mitchellh/gox
 	gox -ldflags "-X main.version=${CIRCLE_TAG}" -output "dist/gherkin-{{.OS}}-{{.Arch}}" ./cli
 .PHONY: cross-compile
