@@ -5,8 +5,7 @@ import (
 	"io"
 	"os"
 	"strings"
-
-	gherkin ".."
+	"github.com/cucumber/gherkin-go"
 )
 
 func main() {

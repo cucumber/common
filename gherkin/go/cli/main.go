@@ -11,7 +11,7 @@ import (
 	"os"
 	"github.com/golang/protobuf/proto"
 	"github.com/golang/protobuf/jsonpb"
-	".."
+	"github.com/cucumber/gherkin-go"
 )
 
 var noSource = flag.Bool("no-source", false, "Skip gherkin source events")

@@ -1,4 +1,6 @@
 SHELL := /usr/bin/env bash
+GOPATH := $(shell go env GOPATH)
+
 GOOD_FEATURE_FILES = $(shell find testdata/good -name "*.feature")
 BAD_FEATURE_FILES  = $(shell find testdata/bad -name "*.feature")
 
