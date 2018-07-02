@@ -26,13 +26,13 @@ ${GOPATH}/src/github.com/cucumber/gherkin-go:
 	rm -rf ${GOPATH}/src/github.com/cucumber/gherkin-go
 	ln -fs ${CURDIR} ${GOPATH}/src/github.com/cucumber/gherkin-go
 
-deps: ${GOPATH}/src/github.com/cucumber/cucumber-messages-go \
-			${GOPATH}/src/github.com/mitchellh/gox
+deps: ${GOPATH}/src/github.com/cucumber/cucumber-messages-go
 .PHONY: deps
 
 ${GOPATH}/src/github.com/cucumber/cucumber-messages-go:
 	go get github.com/cucumber/cucumber-messages-go
 
+# Publishes to GitHub
 publish-release: cross-compile
 	go get github.com/tcnksm/ghr
 	ghr -u cucumber -r gherkin-go -t "${GITHUB_TOKEN}" "${CIRCLE_TAG}" dist
