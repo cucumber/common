@@ -1,5 +1,5 @@
 SHELL := /usr/bin/env bash
-export GOPATH = $(realpath ./lib)
+GOPATH := $(shell go env GOPATH)
 
 default: test
 .PHONY: default

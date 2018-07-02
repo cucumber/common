@@ -7,9 +7,12 @@ default: test
 	ln -fs ${CURDIR} ${GOPATH}/src/github.com/cucumber/cucumber-messages-go
 .PHONY: default
 
-test: ${GOPATH}/src/github.com/stretchr/testify ${GOPATH}/src/github.com/golang/protobuf/protoc-gen-go messages.pb.go
+test: deps messages.pb.go
 	go test
 .PHONY: clean
+
+deps: ${GOPATH}/src/github.com/stretchr/testify ${GOPATH}/src/github.com/golang/protobuf/protoc-gen-go
+.PHONY: deps
 
 ${GOPATH}/src/github.com/stretchr/testify:
 	go get github.com/stretchr/testify

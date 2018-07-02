@@ -14,7 +14,16 @@ GO_SOURCE_FILES = $(shell find . -name "*.go")
 .DELETE_ON_ERROR:
 
 default: .compared
+	mkdir -p ${GOPATH}/src/github.com/cucumber
+	rm -rf ${GOPATH}/src/github.com/cucumber/gherkin-go
+	ln -fs ${CURDIR} ${GOPATH}/src/github.com/cucumber/gherkin-go
 .PHONY: default
+
+deps: ${GOPATH}/src/github.com/cucumber/cucumber-messages-go
+.PHONY: deps
+
+${GOPATH}/src/github.com/cucumber/cucumber-messages-go:
+	go get github.com/cucumber/cucumber-messages-go
 
 .compared: .built $(TOKENS) $(ASTS) $(PICKLES) $(SOURCES) $(ERRORS)
 	touch $@
@@ -27,10 +36,10 @@ show-version-info:
 	go version
 PHONY: show-version-info
 
-bin/gherkin-generate-tokens: $(GO_SOURCE_FILES) parser.go dialects_builtin.go
+bin/gherkin-generate-tokens: deps $(GO_SOURCE_FILES) parser.go dialects_builtin.go
 	go build -o $@ ./gherkin-generate-tokens
 
-bin/gherkin: $(GO_SOURCE_FILES) parser.go dialects_builtin.go
+bin/gherkin: deps $(GO_SOURCE_FILES) parser.go dialects_builtin.go
 	go build -o $@ ./cli
 
 acceptance/testdata/%.feature.tokens: testdata/%.feature testdata/%.feature.tokens bin/gherkin-generate-tokens
