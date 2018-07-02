@@ -1,10 +1,46 @@
 language: go
 sudo: false
-
 go:
-  - "1.8"
-  - "1.9"
-  - "1.10"
-  - "tip"
-
+- '1.8'
+- '1.9'
+- '1.10'
+- tip
 script: make default
+jobs:
+  include:
+  - stage: deploy
+    go: '1.10'
+    script: make cross-compile
+deploy:
+  provider: s3
+  region: eu-west-2
+  bucket: io.cucumber
+  skip_cleanup: true
+  upload-dir: gherkin-go
+  file:
+    - dist/gherkin-darwin-386
+    - dist/gherkin-darwin-amd64
+    - dist/gherkin-freebsd-386
+    - dist/gherkin-freebsd-amd64
+    - dist/gherkin-freebsd-arm
+    - dist/gherkin-linux-386
+    - dist/gherkin-linux-amd64
+    - dist/gherkin-linux-arm
+    - dist/gherkin-linux-mips
+    - dist/gherkin-linux-mips64
+    - dist/gherkin-linux-mips64le
+    - dist/gherkin-linux-mipsle
+    - dist/gherkin-linux-s390x
+    - dist/gherkin-netbsd-386
+    - dist/gherkin-netbsd-amd64
+    - dist/gherkin-netbsd-arm
+    - dist/gherkin-openbsd-386
+    - dist/gherkin-openbsd-amd64
+    - dist/gherkin-windows-386.exe
+    - dist/gherkin-windows-amd64.exe
+  on:
+    go: '1.10'
+  secret_access_key:
+    secure: D77H5M2C9AtP4qQ0oXCjHOFOKOFHPxNjn9ZFm7yXy8HRWTZ81YfA5SGyxFu9uNcGhbrECb/i2Hm71piJwJzqv6cyRViF4aWRU8H4mv7JiWSx7Rx3kNIV3I8b4RfM3YRhapFR19aQfaJ7xKQ1hk2xofQGD/qFaSbTNSJ6e1JQL/M=
+  access_key_id:
+    secure: UCr0EuflA1t0XK/MfB5CHcdCrZNizqkWRwe57Tec7yU0DwLYkdKAaux+uIvFAFrYGnt+5wyRjgM+mjD/H9UrE/3EEs5qWP9dV355s5FLwHD6CmjHCUXfu4JE3EeSIN1siKXbAzD6hLdwwIWPHXmVc7bscr9MiKBI5AaN11JtHKU=
