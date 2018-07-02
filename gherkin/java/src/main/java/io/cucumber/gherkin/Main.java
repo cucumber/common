@@ -1,9 +1,5 @@
-package gherkin.cli;
+package io.cucumber.gherkin;
 
-import gherkin.messages.CucumberMessages;
-import gherkin.messages.ParserCucumberMessages;
-import gherkin.messages.ProtobufCucumberMessages;
-import gherkin.messages.SubprocessCucumberMessages;
 import io.cucumber.messages.Messages.Wrapper;
 import io.cucumber.messages.com.google.protobuf.util.JsonFormat;
 import io.cucumber.messages.com.google.protobuf.util.JsonFormat.Printer;
@@ -22,26 +18,26 @@ public class Main {
         List<String> args = new ArrayList<>(asList(argv));
         List<String> paths = new ArrayList<>();
 
-        boolean printSource = true;
-        boolean printAst = true;
-        boolean printPickles = true;
-        boolean protobuf = false;
+        boolean includeSource = true;
+        boolean includeAst = true;
+        boolean includePickles = true;
+        boolean json = false;
 
         while (!args.isEmpty()) {
             String arg = args.remove(0).trim();
 
             switch (arg) {
                 case "--no-source":
-                    printSource = false;
+                    includeSource = false;
                     break;
                 case "--no-ast":
-                    printAst = false;
+                    includeAst = false;
                     break;
                 case "--no-pickles":
-                    printPickles = false;
+                    includePickles = false;
                     break;
-                case "--protobuf":
-                    protobuf = true;
+                case "--json":
+                    json = true;
                     break;
                 default:
                     paths.add(arg);
@@ -51,13 +47,10 @@ public class Main {
         String gherkinExecutable = System.getenv("GHERKIN_EXECUTABLE");
         if (paths.isEmpty()) {
             CucumberMessages cucumberMessages = new ProtobufCucumberMessages(System.in);
-            printMessages(printer, protobuf, cucumberMessages);
+            printMessages(printer, json, cucumberMessages);
         } else if (gherkinExecutable != null) {
-            CucumberMessages cucumberMessages = new SubprocessCucumberMessages(gherkinExecutable, paths, printSource, printAst, printPickles);
-            printMessages(printer, protobuf, cucumberMessages);
-        } else {
-            CucumberMessages cucumberMessages = new ParserCucumberMessages(paths, printSource, printAst, printPickles);
-            printMessages(printer, protobuf, cucumberMessages);
+            CucumberMessages cucumberMessages = new SubprocessCucumberMessages(gherkinExecutable, paths, includeSource, includeAst, includePickles);
+            printMessages(printer, json, cucumberMessages);
         }
     }
 

@@ -1,4 +1,4 @@
-package gherkin.cli;
+package io.cucumber.gherkin;
 
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;

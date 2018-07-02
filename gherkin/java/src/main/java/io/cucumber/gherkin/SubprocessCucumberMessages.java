@@ -1,6 +1,5 @@
-package gherkin.messages;
+package io.cucumber.gherkin;
 
-import gherkin.GherkinException;
 import io.cucumber.messages.Messages.Wrapper;
 
 import java.io.File;
@@ -16,16 +15,16 @@ import java.util.List;
 public class SubprocessCucumberMessages implements CucumberMessages {
     private final String cucumberExecutable;
     private final List<String> paths;
-    private final boolean printSource;
-    private final boolean printAst;
-    private final boolean printPickles;
+    private final boolean includeSource;
+    private final boolean includeAst;
+    private final boolean includePickles;
 
-    public SubprocessCucumberMessages(String gherkinExecutable, List<String> paths, boolean printSource, boolean printAst, boolean printPickles) {
+    public SubprocessCucumberMessages(String gherkinExecutable, List<String> paths, boolean includeSource, boolean includeAst, boolean includePickles) {
         this.cucumberExecutable = gherkinExecutable;
         this.paths = paths;
-        this.printSource = printSource;
-        this.printAst = printAst;
-        this.printPickles = printPickles;
+        this.includeSource = includeSource;
+        this.includeAst = includeAst;
+        this.includePickles = includePickles;
     }
 
     @Override
@@ -33,10 +32,9 @@ public class SubprocessCucumberMessages implements CucumberMessages {
         try {
             List<String> args = new ArrayList<>();
             args.add(cucumberExecutable);
-            args.add("--protobuf");
-            if(!printSource) args.add("--no-source");
-            if(!printAst) args.add("--no-ast");
-            if(!printPickles) args.add("--no-pickles");
+            if (!includeSource) args.add("--no-source");
+            if (!includeAst) args.add("--no-ast");
+            if (!includePickles) args.add("--no-pickles");
             args.addAll(paths);
             ProcessBuilder processBuilder = new ProcessBuilder().command(args);
             File stderrFile = File.createTempFile("gherkin-stderr-", ".log");

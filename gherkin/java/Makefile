@@ -2,7 +2,6 @@ SHELL := /usr/bin/env bash
 GOOD_FEATURE_FILES = $(shell find testdata/good -name "*.feature")
 BAD_FEATURE_FILES  = $(shell find testdata/bad -name "*.feature")
 
-TOKENS       = $(patsubst testdata/%.feature,acceptance/testdata/%.feature.tokens,$(GOOD_FEATURE_FILES))
 ASTS         = $(patsubst testdata/%.feature,acceptance/testdata/%.feature.ast.ndjson,$(GOOD_FEATURE_FILES))
 PICKLES      = $(patsubst testdata/%.feature,acceptance/testdata/%.feature.pickles.ndjson,$(GOOD_FEATURE_FILES))
 SOURCES      = $(patsubst testdata/%.feature,acceptance/testdata/%.feature.source.ndjson,$(GOOD_FEATURE_FILES))
@@ -17,25 +16,12 @@ JAVA_FILES = $(shell find . -name "*.java")
 default: .compared
 .PHONY: default
 
-protobins: $(PROTOBUFBINS)
-protos: $(PROTOBUFS)
-
-.compared: $(PROTOBUFS) $(TOKENS) $(ASTS) $(PICKLES) $(ERRORS) $(SOURCES)
+.compared: $(PROTOBUFS) $(ASTS) $(PICKLES) $(ERRORS) $(SOURCES)
 	touch $@
 
-.built: src/main/java/gherkin/Parser.java src/main/resources/gherkin/gherkin-languages.json $(JAVA_FILES) LICENSE pom.xml
+.built: $(JAVA_FILES) LICENSE pom.xml
 	mvn install
 	touch $@
-
-# # Generate
-# acceptance/testdata/%.feature.tokens: testdata/%.feature .built
-# 	mkdir -p `dirname $@`
-# 	bin/gherkin-generate-tokens $< > $<.tokens
-
-acceptance/testdata/%.feature.tokens: testdata/%.feature testdata/%.feature.tokens .built
-	mkdir -p `dirname $@`
-	bin/gherkin-generate-tokens $< > $@
-	diff --unified $<.tokens $@
 
 # # Generate
 # acceptance/testdata/%.feature.ast.ndjson: testdata/%.feature .built
@@ -92,16 +78,6 @@ acceptance/testdata/%.feature.errors.ndjson: testdata/%.feature testdata/%.featu
 	bin/gherkin --no-source $< | jq --sort-keys --compact-output "." > $@
 	diff --unified <(jq "." $<.errors.ndjson) <(jq "." $@)
 
-src/main/java/gherkin/Parser.java: gherkin.berp gherkin-java.razor berp/berp.exe
-	-mono berp/berp.exe -g gherkin.berp -t gherkin-java.razor -o $@
-	# Remove BOM
-	awk 'NR==1{sub(/^\xef\xbb\xbf/,"")}{print}' < $@ > $@.nobom
-	mv $@.nobom $@
-
 clean:
 	rm -rf .compared .built acceptance target
 .PHONY: clean
-
-clobber: clean
-	rm -rf src/main/java/gherkin/Parser.java
-.PHONY: clobber

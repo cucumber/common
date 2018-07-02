@@ -1,5 +1,6 @@
-package gherkin.messages;
+package io.cucumber.gherkin;
 
+import io.cucumber.gherkin.SubprocessCucumberMessages;
 import io.cucumber.messages.Messages;
 import org.junit.Ignore;
 import org.junit.Test;
