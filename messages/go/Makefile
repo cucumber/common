@@ -2,14 +2,20 @@ SHELL := /usr/bin/env bash
 GOPATH := $(shell go env GOPATH)
 
 default: test
+.PHONY: default
+
+test: deps link messages.pb.go
+	go test
+.PHONY: clean
+
+link: ${GOPATH}/src/github.com/cucumber/cucumber-messages-go
+.PHONY: link
+
+${GOPATH}/src/github.com/cucumber/cucumber-messages-go:
 	mkdir -p ${GOPATH}/src/github.com/cucumber
 	rm -rf ${GOPATH}/src/github.com/cucumber/cucumber-messages-go
 	ln -fs ${CURDIR} ${GOPATH}/src/github.com/cucumber/cucumber-messages-go
 .PHONY: default
-
-test: deps messages.pb.go
-	go test
-.PHONY: clean
 
 deps: ${GOPATH}/src/github.com/stretchr/testify ${GOPATH}/src/github.com/golang/protobuf/protoc-gen-go
 .PHONY: deps
