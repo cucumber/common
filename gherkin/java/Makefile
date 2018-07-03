@@ -11,6 +11,12 @@ ERRORS       = $(patsubst testdata/%.feature,acceptance/testdata/%.feature.error
 
 JAVA_FILES = $(shell find . -name "*.java")
 
+ifdef TRAVIS_TAG
+	DOWNLOAD_BINARIES_TARGET=gherkin-go
+else
+	DOWNLOAD_BINARIES_TARGET=no-gherkin-go
+endif
+
 .DELETE_ON_ERROR:
 
 default: .compared
@@ -19,9 +25,24 @@ default: .compared
 .compared: $(PROTOBUFS) $(ASTS) $(PICKLES) $(ERRORS) $(SOURCES)
 	touch $@
 
-.built: $(JAVA_FILES) LICENSE pom.xml
+.built: $(JAVA_FILES) LICENSE pom.xml $(DOWNLOAD_BINARIES_TARGET)
 	mvn install
 	touch $@
+
+# Downloads the most common platform binaries, which will be included in the jar
+# The jar will download other binaries at runtime if they are not bundles
+gherkin-go:
+	mkdir -p $@
+	curl https://s3.eu-west-2.amazonaws.com/io.cucumber/gherkin-go/${TRAVIS_TAG}/gherkin-darwin-amd64      -o gherkin-go/gherkin-darwin-amd64
+	curl https://s3.eu-west-2.amazonaws.com/io.cucumber/gherkin-go/${TRAVIS_TAG}/gherkin-darwin-386        -o gherkin-go/gherkin-darwin-386
+	curl https://s3.eu-west-2.amazonaws.com/io.cucumber/gherkin-go/${TRAVIS_TAG}/gherkin-linux-amd64       -o gherkin-go/gherkin-linux-amd64
+	curl https://s3.eu-west-2.amazonaws.com/io.cucumber/gherkin-go/${TRAVIS_TAG}/gherkin-linux-386         -o gherkin-go/gherkin-linux-386
+	curl https://s3.eu-west-2.amazonaws.com/io.cucumber/gherkin-go/${TRAVIS_TAG}/gherkin-windows-amd64.exe -o gherkin-go/gherkin-windows-amd64.exe
+	curl https://s3.eu-west-2.amazonaws.com/io.cucumber/gherkin-go/${TRAVIS_TAG}/gherkin-windows-386.exe   -o gherkin-go/gherkin-windows-386.exe
+
+no-gherkin-go:
+	echo "Not downloading binaries, because TRAVIS_TAG is not defined"
+.PHONY: no-gherkin-go
 
 # # Generate
 # acceptance/testdata/%.feature.ast.ndjson: testdata/%.feature .built
@@ -79,5 +100,5 @@ acceptance/testdata/%.feature.errors.ndjson: testdata/%.feature testdata/%.featu
 	diff --unified <(jq "." $<.errors.ndjson) <(jq "." $@)
 
 clean:
-	rm -rf .compared .built acceptance target
+	rm -rf .compared .built acceptance target gherkin-go
 .PHONY: clean

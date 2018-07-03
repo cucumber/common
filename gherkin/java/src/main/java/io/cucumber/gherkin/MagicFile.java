@@ -76,7 +76,7 @@ public class MagicFile {
         File file = new File(fileName);
         if (file.isFile()) return new FileInputStream(fileName);
 
-        InputStream is = getClass().getResourceAsStream("/" + fileName);
+        InputStream is = getClass().getResourceAsStream("/gherkin-go/" + fileName);
         if (is != null) return is;
 
         return newUrlInputStream(fileName, targetFile);
