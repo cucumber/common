@@ -26,22 +26,20 @@ ${GOPATH}/src/github.com/cucumber/gherkin-go:
 	rm -rf ${GOPATH}/src/github.com/cucumber/gherkin-go
 	ln -fs ${CURDIR} ${GOPATH}/src/github.com/cucumber/gherkin-go
 
-deps: ${GOPATH}/src/github.com/cucumber/cucumber-messages-go \
-			${GOPATH}/src/github.com/mitchellh/gox
+deps: ${GOPATH}/src/github.com/cucumber/cucumber-messages-go
 .PHONY: deps
 
 ${GOPATH}/src/github.com/cucumber/cucumber-messages-go:
 	go get github.com/cucumber/cucumber-messages-go
 
-${GOPATH}/src/github.com/mitchellh/gox:
-	go get github.com/mitchellh/gox
-
+# Publishes to GitHub
 publish-release: cross-compile
 	go get github.com/tcnksm/ghr
 	ghr -u cucumber -r gherkin-go -t "${GITHUB_TOKEN}" "${CIRCLE_TAG}" dist
 .PHONY: publish-release
 
-cross-compile:
+cross-compile: deps link
+	go get github.com/mitchellh/gox
 	gox -ldflags "-X main.version=${CIRCLE_TAG}" -output "dist/gherkin-{{.OS}}-{{.Arch}}" ./cli
 .PHONY: cross-compile
 
@@ -104,7 +102,7 @@ dialects_builtin.go: gherkin-languages.json dialects_builtin.go.jq
 	gofmt -w $@
 
 clean:
-	rm -rf .compared .built acceptance bin/ dist/
+	rm -rf .compared .built acceptance bin/ dist/*
 .PHONY: clean
 
 clobber: clean
