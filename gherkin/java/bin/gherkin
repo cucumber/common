@@ -3,4 +3,4 @@ DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
 
 java \
     -classpath $DIR/../target/gherkin-6.0.0-SNAPSHOT.jar:$HOME/.m2/repository/io/cucumber/messages/1.0.0-SNAPSHOT/messages-1.0.0-SNAPSHOT.jar \
-    gherkin.cli.Main $*
+    io.cucumber.gherkin.Main $*

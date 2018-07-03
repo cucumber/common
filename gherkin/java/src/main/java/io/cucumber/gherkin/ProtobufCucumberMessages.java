@@ -1,6 +1,5 @@
-package gherkin.messages;
+package io.cucumber.gherkin;
 
-import gherkin.GherkinException;
 import io.cucumber.messages.Messages.Wrapper;
 
 import java.io.IOException;

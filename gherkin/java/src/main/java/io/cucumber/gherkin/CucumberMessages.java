@@ -1,4 +1,4 @@
-package gherkin.messages;
+package io.cucumber.gherkin;
 
 import io.cucumber.messages.Messages;
 

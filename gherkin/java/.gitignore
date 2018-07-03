@@ -5,3 +5,4 @@ acceptance/
 .built
 .compared
 dependency-reduced-pom.xml
+gherkin-go/

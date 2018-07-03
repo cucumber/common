@@ -2,7 +2,6 @@ SHELL := /usr/bin/env bash
 GOOD_FEATURE_FILES = $(shell find testdata/good -name "*.feature")
 BAD_FEATURE_FILES  = $(shell find testdata/bad -name "*.feature")
 
-TOKENS       = $(patsubst testdata/%.feature,acceptance/testdata/%.feature.tokens,$(GOOD_FEATURE_FILES))
 ASTS         = $(patsubst testdata/%.feature,acceptance/testdata/%.feature.ast.ndjson,$(GOOD_FEATURE_FILES))
 PICKLES      = $(patsubst testdata/%.feature,acceptance/testdata/%.feature.pickles.ndjson,$(GOOD_FEATURE_FILES))
 SOURCES      = $(patsubst testdata/%.feature,acceptance/testdata/%.feature.source.ndjson,$(GOOD_FEATURE_FILES))
@@ -12,30 +11,38 @@ ERRORS       = $(patsubst testdata/%.feature,acceptance/testdata/%.feature.error
 
 JAVA_FILES = $(shell find . -name "*.java")
 
+ifdef TRAVIS_TAG
+	DOWNLOAD_BINARIES_TARGET=gherkin-go
+else
+	DOWNLOAD_BINARIES_TARGET=no-gherkin-go
+endif
+
 .DELETE_ON_ERROR:
 
 default: .compared
 .PHONY: default
 
-protobins: $(PROTOBUFBINS)
-protos: $(PROTOBUFS)
-
-.compared: $(PROTOBUFS) $(TOKENS) $(ASTS) $(PICKLES) $(ERRORS) $(SOURCES)
+.compared: $(PROTOBUFS) $(ASTS) $(PICKLES) $(ERRORS) $(SOURCES)
 	touch $@
 
-.built: src/main/java/gherkin/Parser.java src/main/resources/gherkin/gherkin-languages.json $(JAVA_FILES) LICENSE pom.xml
+.built: $(JAVA_FILES) LICENSE pom.xml $(DOWNLOAD_BINARIES_TARGET)
 	mvn install
 	touch $@
 
-# # Generate
-# acceptance/testdata/%.feature.tokens: testdata/%.feature .built
-# 	mkdir -p `dirname $@`
-# 	bin/gherkin-generate-tokens $< > $<.tokens
+# Downloads the most common platform binaries, which will be included in the jar
+# The jar will download other binaries at runtime if they are not bundles
+gherkin-go:
+	mkdir -p $@
+	curl https://s3.eu-west-2.amazonaws.com/io.cucumber/gherkin-go/${TRAVIS_TAG}/gherkin-darwin-amd64      -o gherkin-go/gherkin-darwin-amd64
+	curl https://s3.eu-west-2.amazonaws.com/io.cucumber/gherkin-go/${TRAVIS_TAG}/gherkin-darwin-386        -o gherkin-go/gherkin-darwin-386
+	curl https://s3.eu-west-2.amazonaws.com/io.cucumber/gherkin-go/${TRAVIS_TAG}/gherkin-linux-amd64       -o gherkin-go/gherkin-linux-amd64
+	curl https://s3.eu-west-2.amazonaws.com/io.cucumber/gherkin-go/${TRAVIS_TAG}/gherkin-linux-386         -o gherkin-go/gherkin-linux-386
+	curl https://s3.eu-west-2.amazonaws.com/io.cucumber/gherkin-go/${TRAVIS_TAG}/gherkin-windows-amd64.exe -o gherkin-go/gherkin-windows-amd64.exe
+	curl https://s3.eu-west-2.amazonaws.com/io.cucumber/gherkin-go/${TRAVIS_TAG}/gherkin-windows-386.exe   -o gherkin-go/gherkin-windows-386.exe
 
-acceptance/testdata/%.feature.tokens: testdata/%.feature testdata/%.feature.tokens .built
-	mkdir -p `dirname $@`
-	bin/gherkin-generate-tokens $< > $@
-	diff --unified $<.tokens $@
+no-gherkin-go:
+	echo "Not downloading binaries, because TRAVIS_TAG is not defined"
+.PHONY: no-gherkin-go
 
 # # Generate
 # acceptance/testdata/%.feature.ast.ndjson: testdata/%.feature .built
@@ -44,7 +51,7 @@ acceptance/testdata/%.feature.tokens: testdata/%.feature testdata/%.feature.toke
 
 acceptance/testdata/%.feature.ast.ndjson: testdata/%.feature testdata/%.feature.ast.ndjson .built
 	mkdir -p `dirname $@`
-	bin/gherkin --no-source --no-pickles $< | jq --sort-keys --compact-output "." > $@
+	bin/gherkin --no-source --no-pickles --json $< | jq --sort-keys --compact-output "." > $@
 	diff --unified <(jq "." $<.ast.ndjson) <(jq "." $@)
 
 # # Generate - we only do this in the Java project, then rsync to others
@@ -59,7 +66,7 @@ acceptance/testdata/%.feature.ast.ndjson: testdata/%.feature testdata/%.feature.
 
 acceptance/testdata/%.feature.protobuf.bin.ndjson: testdata/%.feature.protobuf.bin .built
 	mkdir -p `dirname $@`
-	cat $< | bin/gherkin | jq --sort-keys --compact-output "." > $@
+	cat $< | bin/gherkin --json | jq --sort-keys --compact-output "." > $@
 	diff --unified <(jq "." $<.ndjson) <(jq "." $@)
 
 # # Generate
@@ -69,7 +76,7 @@ acceptance/testdata/%.feature.protobuf.bin.ndjson: testdata/%.feature.protobuf.b
 
 acceptance/testdata/%.feature.pickles.ndjson: testdata/%.feature testdata/%.feature.pickles.ndjson .built
 	mkdir -p `dirname $@`
-	bin/gherkin --no-source --no-ast $< | jq --sort-keys --compact-output "." > $@
+	bin/gherkin --no-source --no-ast --json $< | jq --sort-keys --compact-output "." > $@
 	diff --unified <(jq "." $<.pickles.ndjson) <(jq "." $@)
 
 # # Generate
@@ -79,7 +86,7 @@ acceptance/testdata/%.feature.pickles.ndjson: testdata/%.feature testdata/%.feat
 
 acceptance/testdata/%.feature.source.ndjson: testdata/%.feature testdata/%.feature.source.ndjson .built
 	mkdir -p `dirname $@`
-	bin/gherkin --no-ast --no-pickles $< | jq --sort-keys --compact-output "." > $@
+	bin/gherkin --no-ast --no-pickles --json $< | jq --sort-keys --compact-output "." > $@
 	diff --unified <(jq "." $<.source.ndjson) <(jq "." $@)
 
 # # Generate
@@ -89,19 +96,9 @@ acceptance/testdata/%.feature.source.ndjson: testdata/%.feature testdata/%.featu
 
 acceptance/testdata/%.feature.errors.ndjson: testdata/%.feature testdata/%.feature.errors.ndjson .built
 	mkdir -p `dirname $@`
-	bin/gherkin --no-source $< | jq --sort-keys --compact-output "." > $@
+	bin/gherkin --no-source --json $< | jq --sort-keys --compact-output "." > $@
 	diff --unified <(jq "." $<.errors.ndjson) <(jq "." $@)
 
-src/main/java/gherkin/Parser.java: gherkin.berp gherkin-java.razor berp/berp.exe
-	-mono berp/berp.exe -g gherkin.berp -t gherkin-java.razor -o $@
-	# Remove BOM
-	awk 'NR==1{sub(/^\xef\xbb\xbf/,"")}{print}' < $@ > $@.nobom
-	mv $@.nobom $@
-
 clean:
-	rm -rf .compared .built acceptance target
+	rm -rf .compared .built acceptance target gherkin-go
 .PHONY: clean
-
-clobber: clean
-	rm -rf src/main/java/gherkin/Parser.java
-.PHONY: clobber
