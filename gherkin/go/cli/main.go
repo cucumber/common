@@ -9,6 +9,7 @@ import (
 	"flag"
 	"fmt"
 	"os"
+	b64 "encoding/base64"
 	"github.com/golang/protobuf/proto"
 	"github.com/golang/protobuf/jsonpb"
 	"github.com/cucumber/gherkin-go"
@@ -19,14 +20,22 @@ var noAst = flag.Bool("no-ast", false, "Skip gherkin AST events")
 var noPickles = flag.Bool("no-pickles", false, "Skip gherkin Pickle events")
 var printJson = flag.Bool("json", false, "Print messages as JSON instead of protobuf")
 var versionFlag = flag.Bool("version", false, "print version")
+var dialectsFlag = flag.Bool("dialects", false, "print dialects as JSON")
 
 // Set during build with -ldflags
 var version string
+var gherkinDialects string
 
 func main() {
 	flag.Parse()
 	if *versionFlag {
 		fmt.Printf("gherkin %s\n", version)
+		os.Exit(0)
+	}
+
+	if *dialectsFlag {
+		sDec, _ := b64.StdEncoding.DecodeString(gherkinDialects)
+		fmt.Println(string(sDec))
 		os.Exit(0)
 	}
 

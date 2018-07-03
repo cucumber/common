@@ -1,5 +1,6 @@
 SHELL := /usr/bin/env bash
 GOPATH := $(shell go env GOPATH)
+GHERKIN_DIALECTS := $(shell cat gherkin-languages.json | jq --compact-output --sort-keys . | base64)
 
 GOOD_FEATURE_FILES = $(shell find testdata/good -name "*.feature")
 BAD_FEATURE_FILES  = $(shell find testdata/bad -name "*.feature")
@@ -39,8 +40,10 @@ publish-release: cross-compile
 .PHONY: publish-release
 
 cross-compile: deps link
-	go get github.com/mitchellh/gox
-	gox -ldflags "-X main.version=${CIRCLE_TAG}" -output "dist/gherkin-{{.OS}}-{{.Arch}}" ./cli
+	# Using aslakhellesoy's fork until this is merged:
+	# https://github.com/mitchellh/gox/pull/112
+	go get github.com/aslakhellesoy/gox
+	gox -osarch="darwin/amd64" -ldflags "-X main.version=${CIRCLE_TAG} -X main.gherkinDialects=${GHERKIN_DIALECTS}" -output "dist/gherkin-{{.OS}}-{{.Arch}}" -rebuild ./cli
 .PHONY: cross-compile
 
 .compared: .built $(TOKENS) $(ASTS) $(PICKLES) $(SOURCES) $(ERRORS)
@@ -58,7 +61,7 @@ bin/gherkin-generate-tokens: deps link $(GO_SOURCE_FILES) parser.go dialects_bui
 	go build -o $@ ./gherkin-generate-tokens
 
 bin/gherkin: deps link $(GO_SOURCE_FILES) parser.go dialects_builtin.go
-	go build -ldflags "-X main.version=test" -o $@ ./cli
+	go build -ldflags "-X main.version=test main.gherkinDialects=${GHERKIN_DIALECTS}" -o $@ ./cli
 
 acceptance/testdata/%.feature.tokens: testdata/%.feature testdata/%.feature.tokens bin/gherkin-generate-tokens
 	mkdir -p `dirname $@`
