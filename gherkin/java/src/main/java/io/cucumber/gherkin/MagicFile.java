@@ -6,7 +6,6 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.OutputStream;
 import java.net.URL;
 import java.net.URLConnection;
 import java.net.UnknownHostException;
@@ -60,7 +59,7 @@ public class MagicFile {
             InputStream is = getInputStream();
 
             try (FileOutputStream os = new FileOutputStream(targetFile)) {
-                copy(is, os);
+                IO.copy(is, os);
                 is.close();
             }
             targetFile.setExecutable(true);
@@ -228,9 +227,4 @@ public class MagicFile {
         return targetFile;
     }
 
-    private static void copy(InputStream in, OutputStream out) throws IOException {
-        int read = 0;
-        byte[] buf = new byte[4096];
-        while ((read = in.read(buf)) > 0) out.write(buf, 0, read);
-    }
 }

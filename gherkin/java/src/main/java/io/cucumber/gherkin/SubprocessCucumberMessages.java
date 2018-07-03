@@ -2,10 +2,8 @@ package io.cucumber.gherkin;
 
 import io.cucumber.messages.Messages.Wrapper;
 
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,28 +25,14 @@ public class SubprocessCucumberMessages implements CucumberMessages {
 
     @Override
     public List<Wrapper> messages() {
-        MagicFile magicFile = new MagicFile("gherkin-{{.OS}}-{{.Arch}}");
-        if (!magicFile.getTargetFile().isFile())
-            magicFile.extract();
-
+        GherkinExe gherkin = new GherkinExe();
         try {
             List<String> args = new ArrayList<>();
-            args.add(magicFile.getTargetFile().getAbsolutePath());
             if (!includeSource) args.add("--no-source");
             if (!includeAst) args.add("--no-ast");
             if (!includePickles) args.add("--no-pickles");
             args.addAll(paths);
-            ProcessBuilder processBuilder = new ProcessBuilder().command(args);
-            File stderrFile = File.createTempFile("gherkin-stderr-", ".log");
-            stderrFile.deleteOnExit();
-            processBuilder.redirectError(stderrFile);
-            Process gherkin = processBuilder.start();
-            InputStream gherkinStdout = gherkin.getInputStream();
-            int exit = gherkin.waitFor();
-            if (exit != 0) {
-                byte[] bytes = Files.readAllBytes(stderrFile.toPath());
-                throw new GherkinException("Failed to parse Gherkin:" + new String(bytes, "UTF-8"));
-            }
+            InputStream gherkinStdout = gherkin.execute(args);
             return new ProtobufCucumberMessages(gherkinStdout).messages();
         } catch (IOException | InterruptedException e) {
             throw new GherkinException(e);
