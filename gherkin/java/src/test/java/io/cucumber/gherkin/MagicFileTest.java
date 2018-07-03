@@ -65,7 +65,7 @@ public class MagicFileTest {
 
     @Test
     public void downloads_file_from_s3() {
-        MagicFile magicFile = new MagicFile("gherkin-{{.OS}}-{{.Arch}}", new HashMap<Object, Object>() {{
+        MagicFile magicFile = new MagicFile("gherkin-{{.OS}}-{{.Arch}}{{.Ext}}", new HashMap<Object, Object>() {{
             put("os.name", "Mac OS X");
             put("os.arch", "x86_64");
         }});
@@ -79,7 +79,7 @@ public class MagicFileTest {
     @Test
     public void throws_exception_with_explanation_when_file_not_found() {
         expected.expectMessage("Failed to download https://s3.eu-west-2.amazonaws.com/io.cucumber/gherkin-go/master/notfound-darwin-amd64");
-        MagicFile magicFile = new MagicFile("notfound-{{.OS}}-{{.Arch}}", new HashMap<Object, Object>() {{
+        MagicFile magicFile = new MagicFile("notfound-{{.OS}}-{{.Arch}}{{.Ext}}", new HashMap<Object, Object>() {{
             put("os.name", "Mac OS X");
             put("os.arch", "x86_64");
         }});
