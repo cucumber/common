@@ -10,13 +10,22 @@ jobs:
   include:
   - stage: deploy
     go: '1.10'
+    if: env(TRAVIS_TAG) IS present
+    env:
+      - UPLOAD_DIR=gherkin-go/$TRAVIS_TAG
+    script: make cross-compile
+  - stage: deploy
+    go: '1.10'
+    if: env(TRAVIS_TAG) IS NOT present
+    env:
+      - UPLOAD_DIR=gherkin-go/$TRAVIS_BRANCH
     script: make cross-compile
 deploy:
   provider: s3
   region: eu-west-2
   bucket: io.cucumber
   skip_cleanup: true
-  upload-dir: gherkin-go
+  upload-dir: $UPLOAD_DIR
   local_dir: dist
   on:
     go: '1.10'
