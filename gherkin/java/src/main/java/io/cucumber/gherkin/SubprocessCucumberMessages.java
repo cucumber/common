@@ -27,8 +27,9 @@ public class SubprocessCucumberMessages implements CucumberMessages {
 
     @Override
     public List<Wrapper> messages() {
-        MagicFile magicFile = new MagicFile("gherkin-go/gherkin-{{.OS}}-{{.Arch}}");
-        magicFile.extract();
+        MagicFile magicFile = new MagicFile("gherkin-{{.OS}}-{{.Arch}}");
+        if (!magicFile.getTargetFile().isFile())
+            magicFile.extract();
 
         try {
             List<String> args = new ArrayList<>();
