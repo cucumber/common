@@ -43,7 +43,7 @@ cross-compile: deps link
 	# Using aslakhellesoy's fork until this is merged:
 	# https://github.com/mitchellh/gox/pull/112
 	go get github.com/aslakhellesoy/gox
-	gox -osarch="darwin/amd64" -ldflags "-X main.version=${CIRCLE_TAG} -X main.gherkinDialects=${GHERKIN_DIALECTS}" -output "dist/gherkin-{{.OS}}-{{.Arch}}" -rebuild ./cli
+	gox -ldflags "-X main.version=${CIRCLE_TAG} -X main.gherkinDialects=${GHERKIN_DIALECTS}" -output "dist/gherkin-{{.OS}}-{{.Arch}}" -rebuild ./cli
 .PHONY: cross-compile
 
 .compared: .built $(TOKENS) $(ASTS) $(PICKLES) $(SOURCES) $(ERRORS)
