@@ -61,7 +61,10 @@ bin/gherkin-generate-tokens: deps link $(GO_SOURCE_FILES) parser.go dialects_bui
 	go build -o $@ ./gherkin-generate-tokens
 
 bin/gherkin: deps link $(GO_SOURCE_FILES) parser.go dialects_builtin.go
-	go build -ldflags "-X main.version=test main.gherkinDialects=${GHERKIN_DIALECTS}" -o $@ ./cli
+	# We're building without -ldflags because it fails on Alpine Linux. This binary
+	# is for testing only and won't be released. The cross-compiled binaries are built
+	# on Travis' standard linux where this is not an issue.
+	go build -o $@ ./cli
 
 acceptance/testdata/%.feature.tokens: testdata/%.feature testdata/%.feature.tokens bin/gherkin-generate-tokens
 	mkdir -p `dirname $@`
