@@ -27,7 +27,7 @@ public class GherkinExe {
         int exit = gherkin.waitFor();
         if (exit != 0) {
             byte[] bytes = Files.readAllBytes(stderrFile.toPath());
-            throw new GherkinException("Failed to parse Gherkin:" + new String(bytes, "UTF-8"));
+            throw new GherkinException("Error executing gherkin executable:" + new String(bytes, "UTF-8"));
         }
         return gherkinStdout;
     }
