@@ -3,12 +3,18 @@ require 'yaml'
 
 module Gherkin
   class MagicFile
+    attr_accessor :file_name
+
     def initialize(executable_pattern, props = {})
       @props = load_properties(props)
       @file_name = executable_pattern
                    .gsub('{{.OS}}', os)
                    .gsub('{{.Arch}}', arch)
                    .gsub('{{.Ext}}', ext)
+    end
+
+    def target_file
+      File.new("../#{@file_name}")
     end
 
     def load_properties(props)
@@ -40,7 +46,7 @@ module Gherkin
       value = normalize(value)
       if value =~ /^x8664|amd64|ia32e|em64t|x64$/
         'amd64'
-      elsif value =~ /^(x8632|x86|i[3-6]86|ia32|x32)$'/
+      elsif value =~ /^(x8632|x86|i[3-6]86|ia32|x32)$/
         '386'
       elsif value =~ /^(ia64w?|itanium64)$/
         'itanium_64' # TODO: not supported by https://github.com/mitchellh/gox ?

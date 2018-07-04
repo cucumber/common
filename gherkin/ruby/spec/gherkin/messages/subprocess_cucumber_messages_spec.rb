@@ -12,7 +12,6 @@ module Gherkin
         )
         messages = cucumber_messages.messages.to_a
         expect(messages.length).to eq(3)
-
       end
     end
   end
