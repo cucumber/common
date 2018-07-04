@@ -46,6 +46,13 @@ cross-compile: deps link
 	gox -ldflags "-X main.version=${CIRCLE_TAG} -X main.gherkinDialects=${GHERKIN_DIALECTS}" -output "dist/gherkin-{{.OS}}-{{.Arch}}" -rebuild ./cli
 .PHONY: cross-compile
 
+cross-compile-compressed: cross-compile
+	# requires upx in PATH to compress supported binaries
+	upx $(shell find dist/ -name 'gherkin-*' -executable) || true # may produce an error ARCH not supported
+	# test the integrity
+	upx -t $(shell find dist/ -name 'gherkin-*' -executable)
+.PHONY: cross-compile-compressed
+
 .compared: .built $(TOKENS) $(ASTS) $(PICKLES) $(SOURCES) $(ERRORS)
 	touch $@
 
