@@ -22,7 +22,7 @@ default: .compared
 .compared: .built $(ERRORS) $(SOURCES) $(PICKLES) $(PROTOBUFS) $(TOKENS) $(ASTS)
 	touch $@
 
-.built: lib/gherkin/parser.rb lib/gherkin/gherkin-languages.json $(RUBY_FILES) bin/gherkin Gemfile.lock
+.built: $(RUBY_FILES) bin/gherkin Gemfile.lock
 	bundle exec rspec --color
 	touch $@
 
@@ -61,14 +61,8 @@ clean:
 .PHONY: clean
 
 clobber: clean
-	rm -rf lib/gherkin/parser.rb Gemfile.lock
+	rm -rf Gemfile.lock
 .PHONY: clobber
-
-lib/gherkin/parser.rb: gherkin.berp gherkin-ruby.razor berp/berp.exe
-	-mono berp/berp.exe -g gherkin.berp -t gherkin-ruby.razor -o $@
-	# Remove BOM
-	awk 'NR==1{sub(/^\xef\xbb\xbf/,"")}{print}' < $@ > $@.nobom
-	mv $@.nobom $@
 
 Gemfile.lock: Gemfile
 	bundle install

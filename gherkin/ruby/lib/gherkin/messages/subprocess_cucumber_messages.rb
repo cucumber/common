@@ -9,7 +9,7 @@ module Gherkin
       end
       
       def messages
-        args = [@gherkin_executable, '--protobuf']
+        args = [@gherkin_executable]
         args.push('--no-source') unless @print_source
         args.push('--no-ast') unless @print_ast
         args.push('--no-pickles') unless @print_pickles

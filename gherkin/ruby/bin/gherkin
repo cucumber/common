@@ -6,7 +6,6 @@ require 'optparse'
 require 'json'
 require 'gherkin/messages/subprocess_cucumber_messages'
 require 'gherkin/messages/protobuf_cucumber_messages'
-require 'gherkin/messages/parser_cucumber_messages'
 
 options = {
   print_source: true,
@@ -56,8 +55,8 @@ def remove_empties(ob)
   end
 end
 
-# gherkin_executable = '../javascript/bin/gherkin'
-gherkin_executable = ENV['GHERKIN_EXECUTABLE']
+gherkin_executable = '../go/bin/gherkin'
+# gherkin_executable = ENV['GHERKIN_EXECUTABLE']
 if ARGV.empty?
   # Read protobuf from STDIN
   messages = Gherkin::Messages::ProtobufCucumberMessages.new(STDIN).messages
@@ -67,14 +66,6 @@ elsif gherkin_executable
   STDERR.puts options
   messages = Gherkin::Messages::SubprocessCucumberMessages.new(
     gherkin_executable,
-    ARGV,
-    options[:print_source],
-    options[:print_ast],
-    options[:print_pickles]
-  ).messages
-  print_messages(messages)
-else
-  messages = Gherkin::Messages::ParserCucumberMessages.new(
     ARGV,
     options[:print_source],
     options[:print_ast],
