@@ -22,7 +22,7 @@ public class MagicFile {
     private final File targetFile;
 
     /**
-     * @param fileNamePattern A string that contains <pre>{{.OS}}</pre> anb <pre>{{.Arch}}</pre>, which will be replaced
+     * @param fileNamePattern A string that contains <pre>{{.OS}}</pre> and <pre>{{.Arch}}</pre>, which will be replaced
      *                        with platform-specific values
      */
     public MagicFile(String fileNamePattern) {

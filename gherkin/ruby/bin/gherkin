@@ -56,7 +56,6 @@ def remove_empties(ob)
 end
 
 gherkin_executable = '../go/bin/gherkin'
-# gherkin_executable = ENV['GHERKIN_EXECUTABLE']
 if ARGV.empty?
   # Read protobuf from STDIN
   messages = Gherkin::Messages::ProtobufCucumberMessages.new(STDIN).messages

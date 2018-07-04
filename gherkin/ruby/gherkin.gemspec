@@ -12,8 +12,11 @@ Gem::Specification.new do |s|
   s.required_ruby_version = ">= 1.9.3"
 
   s.add_development_dependency 'bundler'
-  s.add_development_dependency 'rake',      '~> 10.5'
-  s.add_development_dependency 'rspec',     '~> 3.7'
+  s.add_development_dependency 'os',    '~> 1.0'
+  s.add_development_dependency 'rake',  '~> 10.5'
+  s.add_development_dependency 'rspec', '~> 3.7'
+  s.add_development_dependency 'rubocop', '~> 0.57.2'
+  s.add_development_dependency 'pry-byebug'
 
   # For coverage reports
   s.add_development_dependency 'coveralls'
