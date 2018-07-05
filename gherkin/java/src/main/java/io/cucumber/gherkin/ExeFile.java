@@ -46,10 +46,6 @@ class ExeFile {
         return "windows".equals(getOs()) ? ".exe" : "";
     }
 
-    public static void deleteOnExit() {
-        deleteOnExit = true;
-    }
-
     /**
      * Resolves the executable file. The file is made executable, and will be deleted when the VM exits.
      *

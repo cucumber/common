@@ -16,11 +16,6 @@ public class ExeFileTest {
     @Rule
     public ExpectedException expected = ExpectedException.none();
 
-    @Before
-    public void setup() {
-        ExeFile.deleteOnExit();
-    }
-
     @Test
     public void detects_osx() {
         ExeFile exeFile = new ExeFile("", new HashMap<Object, Object>() {{
