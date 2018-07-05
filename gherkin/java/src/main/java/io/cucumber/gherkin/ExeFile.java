@@ -78,25 +78,13 @@ class ExeFile {
     }
 
     private InputStream getInputStream() throws IOException {
-        File file = new File(fileName);
-        if (file.isFile()) return new FileInputStream(fileName);
+        File file = new File("./gherkin-go/" + fileName);
+        if (file.isFile()) return new FileInputStream(file);
 
         InputStream is = getClass().getResourceAsStream("/gherkin-go/" + fileName);
         if (is != null) return is;
 
-        return newUrlInputStream(fileName, targetFile);
-    }
-
-    private InputStream newUrlInputStream(String fileName, File targetFile) throws IOException {
-        URL baseUrl = new URL("https://s3.eu-west-2.amazonaws.com/io.cucumber/gherkin-go/" + getVersion() + "/");
-        URL fileUrl = new URL(baseUrl, fileName);
-        URLConnection con = fileUrl.openConnection();
-        con.setRequestProperty("User-Agent", "Mozilla");
-        try {
-            return con.getInputStream();
-        } catch (UnknownHostException | FileNotFoundException e) {
-            throw new GherkinException(String.format("Failed to download %s.\nTry downloading it manually and place it in %s", fileUrl, targetFile.getAbsolutePath()));
-        }
+        throw new GherkinException(String.format("No gherkin executable for %s. Please submit an issue to https://github.com/cucumber/cucumber/issues", fileName));
     }
 
     private String getVersion() {

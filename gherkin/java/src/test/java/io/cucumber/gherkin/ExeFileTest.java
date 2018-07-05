@@ -33,7 +33,7 @@ public class ExeFileTest {
     }
 
     @Test
-    public void generates_file_name_for_macos() {
+    public void generates_file_name_for_darwin() {
         ExeFile exeFile = new ExeFile("gherkin-{{.OS}}-{{.Arch}}{{.Ext}}", new HashMap<Object, Object>() {{
             put("os.name", "Mac OS X");
             put("os.arch", "x86_64");
@@ -51,34 +51,8 @@ public class ExeFileTest {
     }
 
     @Test
-    public void extracts_file_from_file_system() {
-        ExeFile exeFile = new ExeFile("README.md", new HashMap<Object, Object>() {{
-            put("os.name", "Mac OS X");
-            put("os.arch", "x86_64");
-        }});
-
-        File targetFile = exeFile.getTargetFile();
-        targetFile.delete();
-        exeFile.resolve();
-        assertTrue(targetFile.isFile());
-    }
-
-    @Test
-    public void downloads_file_from_s3() {
-        ExeFile exeFile = new ExeFile("gherkin-{{.OS}}-{{.Arch}}{{.Ext}}", new HashMap<Object, Object>() {{
-            put("os.name", "Mac OS X");
-            put("os.arch", "x86_64");
-        }});
-
-        File targetFile = exeFile.getTargetFile();
-        targetFile.delete();
-        exeFile.resolve();
-        assertTrue(targetFile.isFile());
-    }
-
-    @Test
     public void throws_exception_with_explanation_when_file_not_found() {
-        expected.expectMessage("Failed to download https://s3.eu-west-2.amazonaws.com/io.cucumber/gherkin-go/master/notfound-darwin-amd64");
+        expected.expectMessage("No gherkin executable for notfound-darwin-amd64");
         ExeFile exeFile = new ExeFile("notfound-{{.OS}}-{{.Arch}}{{.Ext}}", new HashMap<Object, Object>() {{
             put("os.name", "Mac OS X");
             put("os.arch", "x86_64");
