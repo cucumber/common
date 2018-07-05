@@ -2,13 +2,9 @@ package io.cucumber.gherkin;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.URL;
-import java.net.URLConnection;
-import java.net.UnknownHostException;
 import java.util.Locale;
 import java.util.Map;
 
@@ -29,7 +25,7 @@ class ExeFile {
     private static boolean deleteOnExit;
     private final Map<Object, Object> props;
     private final String fileName;
-    private final File targetFile;
+    private final File exeFile;
 
     public ExeFile(String fileNamePattern) {
         this(fileNamePattern, System.getProperties());
@@ -37,14 +33,13 @@ class ExeFile {
 
     ExeFile(String executablePattern, Map<Object, Object> props) {
         this.props = props;
-        String formatPattern = executablePattern
-                .replace("{{.OS}}", "%s")
-                .replace("{{.Arch}}", "%s")
-                .replace("{{.Ext}}", "%s");
-        this.fileName = String.format(formatPattern, getOs(), getArch(), getExt());
+        this.fileName = executablePattern
+                .replace("{{.OS}}", getOs())
+                .replace("{{.Arch}}", getArch())
+                .replace("{{.Ext}}", getExt());
         File codeFile = new File(getClass().getProtectionDomain().getCodeSource().getLocation().getFile());
         File targetDir = codeFile.isDirectory() ? codeFile : codeFile.getParentFile();
-        targetFile = new File(targetDir, new File(fileName).getName());
+        exeFile = new File(targetDir, new File(fileName).getName());
     }
 
     private String getExt() {
@@ -56,22 +51,22 @@ class ExeFile {
     }
 
     /**
-     * Resolves the file. The file is made executable, and will be deleted when the VM exits.
+     * Resolves the executable file. The file is made executable, and will be deleted when the VM exits.
      *
-     * @return the resolved file.
+     * @return the executable.
      */
-    public File resolve() {
+    public File resolveExeFile() {
         try {
             InputStream is = getInputStream();
 
-            try (FileOutputStream os = new FileOutputStream(targetFile)) {
+            try (FileOutputStream os = new FileOutputStream(exeFile)) {
                 IO.copy(is, os);
                 is.close();
             }
-            targetFile.setExecutable(true);
-            targetFile.setLastModified(System.currentTimeMillis());
-            if (deleteOnExit) targetFile.deleteOnExit();
-            return targetFile;
+            exeFile.setExecutable(true);
+            exeFile.setLastModified(System.currentTimeMillis());
+            if (deleteOnExit) exeFile.deleteOnExit();
+            return exeFile;
         } catch (IOException e) {
             throw new GherkinException(e);
         }
@@ -85,16 +80,6 @@ class ExeFile {
         if (is != null) return is;
 
         throw new GherkinException(String.format("No gherkin executable for %s. Please submit an issue to https://github.com/cucumber/cucumber/issues", fileName));
-    }
-
-    private String getVersion() {
-        Package p = getClass().getPackage();
-        // This is set in pom.xml
-        String version = p.getImplementationVersion();
-        if (version == null || version.endsWith("-SNAPSHOT")) {
-            version = "master";
-        }
-        return version;
     }
 
     String getOs() {
@@ -217,8 +202,8 @@ class ExeFile {
         return fileName;
     }
 
-    File getTargetFile() {
-        return targetFile;
+    File getExeFile() {
+        return exeFile;
     }
 
 }

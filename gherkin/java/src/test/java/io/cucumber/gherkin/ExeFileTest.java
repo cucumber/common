@@ -58,9 +58,9 @@ public class ExeFileTest {
             put("os.arch", "x86_64");
         }});
 
-        File targetFile = exeFile.getTargetFile();
+        File targetFile = exeFile.getExeFile();
         targetFile.delete();
-        exeFile.resolve();
+        exeFile.resolveExeFile();
         assertTrue(targetFile.isFile());
     }
 }

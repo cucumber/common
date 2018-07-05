@@ -19,11 +19,11 @@ public class GherkinExe {
      * @throws InterruptedException if execution failed
      */
     public InputStream execute(List<String> args) throws IOException, InterruptedException {
-        if (!exeFile.getTargetFile().isFile())
-            exeFile.resolve();
+        if (!exeFile.getExeFile().isFile())
+            exeFile.resolveExeFile();
 
         List<String> allArgs = new ArrayList<>();
-        allArgs.add(exeFile.getTargetFile().getAbsolutePath());
+        allArgs.add(exeFile.getExeFile().getAbsolutePath());
         allArgs.addAll(args);
 
         ProcessBuilder processBuilder = new ProcessBuilder().command(allArgs);
