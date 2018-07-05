@@ -7,7 +7,7 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.nio.charset.Charset;
 
-public class IO {
+class IO {
     /**
      * UTF-8 STDOUT
      */

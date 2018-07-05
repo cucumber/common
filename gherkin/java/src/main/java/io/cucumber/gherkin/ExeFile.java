@@ -13,23 +13,29 @@ import java.util.Locale;
 import java.util.Map;
 
 /**
- * A Magic File can be extracted from a Jar file or downloaded from the World Wide Web.
+ * Resolves a file pattern to a platform-specific executable file. The pattern can use the following tokens to refer to
+ * platform-specific names:
+ *
+ * <ul>
+ * <li><pre>{{.OS}}</pre> - Operating system</li>
+ * <li><pre>{{.Arch}}</pre> - Processor architecture</li>
+ * <li><pre>{{.Ext}}</pre> - Executable file extension</li>
+ * </ul>
+ * These values will be replaced with values corresponding to the names
+ * <a href="https://gist.github.com/asukakenji/f15ba7e588ac42795f421b48b8aede63">Go's cross-compiler</a> uses for its
+ * output.
  */
-public class MagicFile {
+class ExeFile {
     private static boolean deleteOnExit;
     private final Map<Object, Object> props;
     private final String fileName;
     private final File targetFile;
 
-    /**
-     * @param fileNamePattern A string that contains <pre>{{.OS}}</pre> anb <pre>{{.Arch}}</pre>, which will be replaced
-     *                        with platform-specific values
-     */
-    public MagicFile(String fileNamePattern) {
+    public ExeFile(String fileNamePattern) {
         this(fileNamePattern, System.getProperties());
     }
 
-    MagicFile(String executablePattern, Map<Object, Object> props) {
+    ExeFile(String executablePattern, Map<Object, Object> props) {
         this.props = props;
         String formatPattern = executablePattern
                 .replace("{{.OS}}", "%s")
@@ -50,11 +56,11 @@ public class MagicFile {
     }
 
     /**
-     * Extracts the file. The file is made executable, and will be deleted when the VM exits.
+     * Resolves the file. The file is made executable, and will be deleted when the VM exits.
      *
-     * @return the extracted file.
+     * @return the resolved file.
      */
-    public File extract() {
+    public File resolve() {
         try {
             InputStream is = getInputStream();
 
