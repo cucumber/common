@@ -1,5 +1,11 @@
-bin/gherkin
-bin/gherkin-generate-tokens
 .built
 .compared
+.deps
+.dist
+.dist-compressed
+.link
+bin/gherkin
+bin/gherkin-generate-tokens
 acceptance/
+dist_compressed/
+dist/
