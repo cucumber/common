@@ -8,14 +8,22 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class GherkinExe {
-    private final MagicFile magicFile = new MagicFile("gherkin-{{.OS}}-{{.Arch}}{{.Ext}}");
+    private final ExeFile exeFile = new ExeFile("gherkin-{{.OS}}-{{.Arch}}{{.Ext}}");
 
+    /**
+     * Executes the gherkin binary command line program.
+     *
+     * @param args command line options
+     * @return the STDOUT of the gherkin command
+     * @throws IOException          if execution failed
+     * @throws InterruptedException if execution failed
+     */
     public InputStream execute(List<String> args) throws IOException, InterruptedException {
-        if (!magicFile.getTargetFile().isFile())
-            magicFile.extract();
+        if (!exeFile.getExeFile().isFile())
+            exeFile.resolveExeFile();
 
         List<String> allArgs = new ArrayList<>();
-        allArgs.add(magicFile.getTargetFile().getAbsolutePath());
+        allArgs.add(exeFile.getExeFile().getAbsolutePath());
         allArgs.addAll(args);
 
         ProcessBuilder processBuilder = new ProcessBuilder().command(allArgs);
@@ -27,7 +35,7 @@ public class GherkinExe {
         int exit = gherkin.waitFor();
         if (exit != 0) {
             byte[] bytes = Files.readAllBytes(stderrFile.toPath());
-            throw new GherkinException("Failed to parse Gherkin:" + new String(bytes, "UTF-8"));
+            throw new GherkinException("Error executing gherkin executable:" + new String(bytes, "UTF-8"));
         }
         return gherkinStdout;
     }
