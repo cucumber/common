@@ -10,6 +10,9 @@ jobs:
   include:
   - stage: deploy
     go: '1.10'
+    before_install:
+      - curl -L https://github.com/upx/upx/releases/download/v3.94/upx-3.94-amd64_linux.tar.xz | tar zx
+      - export PATH=$PATH:$PWD/upx-3.94-amd64_linux
     script: 
       - make .dist
       - make .dist-compressed
