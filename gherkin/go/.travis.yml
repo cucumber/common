@@ -10,7 +10,11 @@ jobs:
   include:
   - stage: deploy
     go: '1.10'
-    script: make cross-compile
+    script: 
+      - make .dist
+      - make .dist-compressed
+      # Copy the binaries that compressed successfully over the uncompressed ones
+      - cp dist_compressed/* dist/
 deploy:
   # Deploy to S3 for tags
   - provider: s3
