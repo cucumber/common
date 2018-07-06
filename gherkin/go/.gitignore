@@ -1,5 +1,6 @@
 .built
 .compared
+.tested
 .deps
 .dist
 .dist-compressed

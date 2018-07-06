@@ -18,7 +18,7 @@ GO_SOURCE_FILES = $(shell find . -name "*.go")
 
 .DELETE_ON_ERROR:
 
-default: .compared
+default: .tested .compared
 .PHONY: default
 
 .link: ${GOPATH}/src/github.com/cucumber/gherkin-go
@@ -62,6 +62,10 @@ dist_compressed/gherkin-%: dist/gherkin-%
 	touch $@
 
 .built: bin/gherkin-generate-tokens bin/gherkin
+	touch $@
+
+.tested: .deps .link $(GO_SOURCE_FILES) parser.go dialects_builtin.go
+	go test
 	touch $@
 
 bin/gherkin-generate-tokens: .deps .link $(GO_SOURCE_FILES) parser.go dialects_builtin.go
@@ -115,7 +119,7 @@ dialects_builtin.go: gherkin-languages.json dialects_builtin.go.jq
 	gofmt -w $@
 
 clean:
-	rm -rf .compared .built acceptance bin/ dist/ dist_compressed/ .dist .dist-compressed .deps .link
+	rm -rf .compared .built .tested acceptance bin/ dist/ dist_compressed/ .dist .dist-compressed .deps .link
 .PHONY: clean
 
 clobber: clean
