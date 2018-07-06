@@ -119,7 +119,7 @@ dialects_builtin.go: gherkin-languages.json dialects_builtin.go.jq
 	gofmt -w $@
 
 clean:
-	rm -rf .compared .built .tested acceptance bin/ dist/ dist_compressed/ .dist .dist-compressed .deps .link
+	rm -rf .compared .built .tested acceptance bin/ dist/* dist_compressed/ .dist .dist-compressed .deps .link
 .PHONY: clean
 
 clobber: clean
