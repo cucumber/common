@@ -1,20 +1,19 @@
-package io.cucumber.gherkin;
+package io.cucumber.gherkin.exe;
 
+import io.cucumber.gherkin.exe.ExeFile;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
-import java.io.File;
 import java.util.HashMap;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
 
 public class ExeFileTest {
 
     @Rule
     public ExpectedException expected = ExpectedException.none();
-    
+
     @Test
     public void generates_file_name_for_darwin() {
         ExeFile exeFile = new ExeFile("gherkin-{{.OS}}-{{.Arch}}{{.Ext}}", new HashMap<Object, Object>() {{
@@ -41,9 +40,6 @@ public class ExeFileTest {
             put("os.arch", "x86_64");
         }});
 
-        File targetFile = exeFile.getFile();
-        targetFile.delete();
         exeFile.extract();
-        assertTrue(targetFile.isFile());
     }
 }

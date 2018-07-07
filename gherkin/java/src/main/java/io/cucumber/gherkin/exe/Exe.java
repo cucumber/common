@@ -1,4 +1,4 @@
-package io.cucumber.gherkin;
+package io.cucumber.gherkin.exe;
 
 import java.io.File;
 import java.io.IOException;
@@ -10,27 +10,31 @@ import java.util.List;
 
 import static io.cucumber.gherkin.IO.copy;
 
-class GherkinExe {
-    private final ExeFile exeFile = new ExeFile("gherkin-{{.OS}}-{{.Arch}}{{.Ext}}");
+public class Exe {
+    private final ExeFile exeFile;
+
+    public Exe(ExeFile exeFile) {
+        this.exeFile = exeFile;
+    }
 
     /**
-     * Executes the gherkin binary command line program.
+     * Executes the executable.
      *
-     * @param args  command line options
-     * @param stdin stream to write to the process' STDIN
+     * @param args  command line arguments
+     * @param stdin stream to write to the executable's STDIN
      * @return the STDOUT of the executable
      * @throws IOException          if execution failed
      * @throws InterruptedException if execution failed
      */
-    InputStream execute(List<String> args, InputStream stdin) throws IOException, InterruptedException {
-        exeFile.extract();
+    public InputStream execute(List<String> args, InputStream stdin) throws IOException, InterruptedException {
+        File exe = exeFile.extract();
 
         List<String> allArgs = new ArrayList<>();
-        allArgs.add(exeFile.getFile().getAbsolutePath());
+        allArgs.add(exe.getAbsolutePath());
         allArgs.addAll(args);
 
         ProcessBuilder processBuilder = new ProcessBuilder().command(allArgs);
-        File stderrFile = File.createTempFile("gherkin-stderr-", ".log");
+        File stderrFile = File.createTempFile("stderr-", ".log");
         stderrFile.deleteOnExit();
         processBuilder.redirectError(stderrFile);
         Process process = processBuilder.start();
@@ -44,7 +48,8 @@ class GherkinExe {
         process.waitFor();
         if (process.exitValue() != 0) {
             byte[] stderr = Files.readAllBytes(stderrFile.toPath());
-            throw new GherkinException(String.format("Error executing gherkin executable.\nSTDERR:%s",
+            throw new ExeException(String.format("Error executing %s.\nSTDERR:%s",
+                    exe.getAbsolutePath(),
                     new String(stderr, "UTF-8")));
         }
         return processStdout;

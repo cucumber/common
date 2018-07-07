@@ -1,4 +1,6 @@
-package io.cucumber.gherkin;
+package io.cucumber.gherkin.exe;
+
+import io.cucumber.gherkin.IO;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -21,12 +23,11 @@ import java.util.Map;
  * <a href="https://gist.github.com/asukakenji/f15ba7e588ac42795f421b48b8aede63">Go's cross-compiler</a> uses for its
  * output.
  */
-class ExeFile {
+public class ExeFile {
     private final Map<Object, Object> props;
     private final String fileName;
-    private final File exeFile;
 
-    ExeFile(String fileNamePattern) {
+    public ExeFile(String fileNamePattern) {
         this(fileNamePattern, System.getProperties());
     }
 
@@ -36,12 +37,6 @@ class ExeFile {
                 .replace("{{.OS}}", getOs())
                 .replace("{{.Arch}}", getArch())
                 .replace("{{.Ext}}", getExt());
-        try {
-            exeFile = File.createTempFile(fileName, "");
-            exeFile.deleteOnExit();
-        } catch (Exception ioe) {
-            throw new GherkinException("Couldn't extract " + fileName, ioe);
-        }
     }
 
     private String getExt() {
@@ -51,20 +46,22 @@ class ExeFile {
     /**
      * Extracts the executable file. The file is made executable, and will be deleted when the VM exits.
      */
-    void extract() {
+    File extract() {
         try {
             InputStream is = getInputStream();
 
+            File exeFile = File.createTempFile(fileName, "");
+            exeFile.deleteOnExit();
             try (FileOutputStream os = new FileOutputStream(exeFile)) {
                 IO.copy(is, os);
                 is.close();
             }
             if (!exeFile.setExecutable(true)) {
-                throw new GherkinException(String.format("Unable to make %s executable", exeFile.getAbsolutePath()));
+                throw new ExeException(String.format("Unable to make %s executable", exeFile.getAbsolutePath()));
             }
-            exeFile.setLastModified(System.currentTimeMillis());
+            return exeFile;
         } catch (IOException | SecurityException e) {
-            throw new GherkinException("Couldn't resolve " + exeFile.getAbsolutePath(), e);
+            throw new ExeException("Couldn't extract " + fileName, e);
         }
     }
 
@@ -75,7 +72,7 @@ class ExeFile {
         InputStream is = getClass().getResourceAsStream("/gherkin-go/" + fileName);
         if (is != null) return is;
 
-        throw new GherkinException(String.format("No gherkin executable for %s. Please submit an issue to https://github.com/cucumber/cucumber/issues", fileName));
+        throw new ExeException(String.format("No gherkin executable for %s. Please submit an issue to https://github.com/cucumber/cucumber/issues", fileName));
     }
 
     private String getOs() {
@@ -196,9 +193,5 @@ class ExeFile {
 
     String getFileName() {
         return fileName;
-    }
-
-    File getFile() {
-        return exeFile;
     }
 }
