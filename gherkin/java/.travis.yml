@@ -1,18 +1,23 @@
 sudo: false
 language: java
-jdk:
-- oraclejdk8
-- oraclejdk9
-- oraclejdk10
+
 jobs:
   include:
+  - stage: test
+    jdk: oraclejdk10
+    script:
+    - "make default"
+  - stage: test
+    jdk: oraclejdk9
+    script:
+    - "make default"
   - stage: deploy
     jdk: oraclejdk8
     script:
+    - "make default"
     - "./scripts/travis_decrypt_signing_key.sh"
     - "./scripts/mvn_deploy.sh"
     - "./scripts/mvn_upload_api_docs.sh"
-script: make default
 env:
   global:
   - secure: QK031Wu7jxDRP1YOqi2qWrTPLOkqvxo3JNHeswdbANUG7o6PVNT4MLuFM9Foe0Mn7h6qhNEBagH8wvTEXZIexh37PJqRfxvI2wQFK92xTaoZMFEW26DBFqjIsNifQ0MT9xZX6t54wbSNUrjAwRxyHuC3cgNkRBJycnKz9qkl2uE=

@@ -1,0 +1,37 @@
+#!/usr/bin/env bash
+#
+# Downloads cross-compiled go gherkin binaries for bundling inside platform-
+# specific packages such as gem, jar, npm module etc.
+#
+set -euf -o pipefail
+
+version=$1
+baseurl=https://s3.eu-west-2.amazonaws.com/io.cucumber/gherkin-go
+
+rm -rf gherkin-go
+mkdir gherkin-go
+
+for gherkin in \
+  gherkin-darwin-386 \
+  gherkin-darwin-amd64 \
+  gherkin-freebsd-386 \
+  gherkin-freebsd-amd64 \
+  gherkin-freebsd-arm \
+  gherkin-linux-386 \
+  gherkin-linux-amd64 \
+  gherkin-linux-arm \
+  gherkin-linux-mips \
+  gherkin-linux-mips64 \
+  gherkin-linux-mips64le \
+  gherkin-linux-mipsle \
+  gherkin-linux-s390x \
+  gherkin-netbsd-386 \
+  gherkin-netbsd-amd64 \
+  gherkin-netbsd-arm \
+  gherkin-openbsd-386 \
+  gherkin-openbsd-amd64 \
+  gherkin-windows-386.exe \
+  gherkin-windows-amd64.exe
+do
+  curl ${baseurl}/${version}/${gherkin} -o gherkin-go/${gherkin}
+done

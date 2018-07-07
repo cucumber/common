@@ -1,6 +1,8 @@
 SHELL := /usr/bin/env bash
 GOPATH := $(shell go env GOPATH)
 GHERKIN_DIALECTS := $(shell cat gherkin-languages.json | jq --compact-output --sort-keys . | base64 | tr -d '\n')
+EXES := $(shell find dist -name 'gherkin-*')
+UPX_EXES = $(patsubst dist/gherkin-%,dist_compressed/gherkin-%,$(EXES))
 
 GOOD_FEATURE_FILES = $(shell find testdata/good -name "*.feature")
 BAD_FEATURE_FILES  = $(shell find testdata/bad -name "*.feature")
@@ -16,51 +18,60 @@ GO_SOURCE_FILES = $(shell find . -name "*.go")
 
 .DELETE_ON_ERROR:
 
-default: .compared
+default: .tested .compared
 .PHONY: default
 
-link: ${GOPATH}/src/github.com/cucumber/gherkin-go
-.PHONY: link
+.link: ${GOPATH}/src/github.com/cucumber/gherkin-go
+	touch $@
 
 ${GOPATH}/src/github.com/cucumber/gherkin-go:
 	mkdir -p ${GOPATH}/src/github.com/cucumber
 	rm -rf ${GOPATH}/src/github.com/cucumber/gherkin-go
 	ln -fs ${CURDIR} ${GOPATH}/src/github.com/cucumber/gherkin-go
 
-deps: ${GOPATH}/src/github.com/cucumber/cucumber-messages-go
-.PHONY: deps
+.deps: ${GOPATH}/src/github.com/cucumber/cucumber-messages-go ${GOPATH}/src/github.com/aslakhellesoy/gox
+	touch $@
 
 ${GOPATH}/src/github.com/cucumber/cucumber-messages-go:
 	go get github.com/cucumber/cucumber-messages-go
 
-# Publishes to GitHub
-publish-release: cross-compile
-	go get github.com/tcnksm/ghr
-	ghr -u cucumber -r gherkin-go -t "${GITHUB_TOKEN}" "${CIRCLE_TAG}" dist
-.PHONY: publish-release
-
-cross-compile: deps link
+${GOPATH}/src/github.com/aslakhellesoy/gox:
 	# Using aslakhellesoy's fork until this is merged:
 	# https://github.com/mitchellh/gox/pull/112
 	go get github.com/aslakhellesoy/gox
+
+.dist: .compared .deps .link
 	gox -ldflags "-X main.version=${CIRCLE_TAG} -X main.gherkinDialects=${GHERKIN_DIALECTS}" -output "dist/gherkin-{{.OS}}-{{.Arch}}" -rebuild ./cli
-.PHONY: cross-compile
+	touch $@
+
+dist/gherkin-%: .dist
+
+.dist-compressed: $(UPX_EXES)
+	touch $@
+
+dist_compressed/gherkin-%: dist/gherkin-%
+	mkdir -p dist_compressed
+	# requires upx in PATH to compress supported binaries
+	# may produce an error ARCH not supported
+	-upx $< -o $@
+
+	# Test the integrity
+	if [ -f "$@" ]; then upx -t $@ || rm $@; fi
 
 .compared: .built $(TOKENS) $(ASTS) $(PICKLES) $(SOURCES) $(ERRORS)
 	touch $@
 
-.built: show-version-info $(GO_SOURCE_FILES) bin/gherkin-generate-tokens bin/gherkin
-	go vet
+.built: bin/gherkin-generate-tokens bin/gherkin
 	touch $@
 
-show-version-info:
-	go version
-PHONY: show-version-info
+.tested: .deps .link $(GO_SOURCE_FILES) parser.go dialects_builtin.go
+	go test
+	touch $@
 
-bin/gherkin-generate-tokens: deps link $(GO_SOURCE_FILES) parser.go dialects_builtin.go
+bin/gherkin-generate-tokens: .deps .link $(GO_SOURCE_FILES) parser.go dialects_builtin.go
 	go build -o $@ ./gherkin-generate-tokens
 
-bin/gherkin: deps link $(GO_SOURCE_FILES) parser.go dialects_builtin.go
+bin/gherkin: .deps .link $(GO_SOURCE_FILES) parser.go dialects_builtin.go
 	# We're building without -ldflags because it fails on Alpine Linux. This binary
 	# is for testing only and won't be released. The cross-compiled binaries are built
 	# on Travis' standard linux where this is not an issue.
@@ -108,7 +119,7 @@ dialects_builtin.go: gherkin-languages.json dialects_builtin.go.jq
 	gofmt -w $@
 
 clean:
-	rm -rf .compared .built acceptance bin/ dist/*
+	rm -rf .compared .built .tested acceptance bin/ dist/* dist_compressed/ .dist .dist-compressed .deps .link
 .PHONY: clean
 
 clobber: clean

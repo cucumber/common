@@ -214,7 +214,7 @@ func (t RuleType) Name() string {
 }
 
 type Location struct {
-	Line int
+	Line   int
 	Column int
 }
 

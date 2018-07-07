@@ -6,11 +6,13 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
-public class ProtobufCucumberMessages implements CucumberMessages {
+class ProtobufGherkinMessages implements GherkinMessages {
     private final InputStream input;
 
-    public ProtobufCucumberMessages(InputStream input) {
+    ProtobufGherkinMessages(InputStream input) {
+        Objects.requireNonNull(input);
         this.input = input;
     }
 

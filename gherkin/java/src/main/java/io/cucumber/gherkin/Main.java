@@ -50,22 +50,22 @@ public class Main {
 
         if (dialects) {
             GherkinExe gherkinExe = new GherkinExe();
-            InputStream gherkinStdout = gherkinExe.execute(Collections.singletonList("--dialects"));
+            InputStream gherkinStdout = gherkinExe.execute(Collections.singletonList("--dialects"), null);
             IO.copy(gherkinStdout, System.out);
             System.exit(0);
         }
 
         if (paths.isEmpty()) {
-            CucumberMessages cucumberMessages = new ProtobufCucumberMessages(System.in);
-            printMessages(jsonPrinter, cucumberMessages);
+            GherkinMessages gherkinMessages = new ProtobufGherkinMessages(System.in);
+            printMessages(jsonPrinter, gherkinMessages);
         } else {
-            CucumberMessages cucumberMessages = new SubprocessCucumberMessages(paths, includeSource, includeAst, includePickles);
-            printMessages(jsonPrinter, cucumberMessages);
+            GherkinMessages gherkinMessages = Gherkin.fromPaths(paths, includeSource, includeAst, includePickles);
+            printMessages(jsonPrinter, gherkinMessages);
         }
     }
 
-    private static void printMessages(Printer jsonPrinter, CucumberMessages cucumberMessages) throws IOException {
-        for (Wrapper wrapper : cucumberMessages.messages()) {
+    private static void printMessages(Printer jsonPrinter, GherkinMessages gherkinMessages) throws IOException {
+        for (Wrapper wrapper : gherkinMessages.messages()) {
             if (jsonPrinter != null) {
                 IO.out.write(jsonPrinter.print(wrapper));
                 IO.out.write("\n");
