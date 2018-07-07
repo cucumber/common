@@ -1,10 +1,9 @@
-require 'pry-byebug'
 require 'rspec'
 require 'gherkin/exe_file'
 
 module Gherkin
   describe ExeFile do
-    it 'detects osx' do
+    it 'detects macos' do
       exe_file = ExeFile.new(
         '',
         'name' => 'Mac OS X', 'arch' => 'x86_64-darwin16'

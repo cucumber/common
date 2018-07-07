@@ -4,7 +4,6 @@ export CUCUMBER_MESSAGES
 GOOD_FEATURE_FILES = $(shell find testdata/good -name "*.feature")
 BAD_FEATURE_FILES  = $(shell find testdata/bad -name "*.feature")
 
-TOKENS       = $(patsubst testdata/%.feature,acceptance/testdata/%.feature.tokens,$(GOOD_FEATURE_FILES))
 ASTS         = $(patsubst testdata/%.feature,acceptance/testdata/%.feature.ast.ndjson,$(GOOD_FEATURE_FILES))
 PICKLES      = $(patsubst testdata/%.feature,acceptance/testdata/%.feature.pickles.ndjson,$(GOOD_FEATURE_FILES))
 SOURCES      = $(patsubst testdata/%.feature,acceptance/testdata/%.feature.source.ndjson,$(GOOD_FEATURE_FILES))
@@ -13,23 +12,24 @@ ERRORS       = $(patsubst testdata/%.feature,acceptance/testdata/%.feature.error
 
 RUBY_FILES = $(shell find . -name "*.rb")
 
+ifdef TRAVIS_TAG
+	GHERKIN_VERSION=$(TRAVIS_TAG)
+else
+	GHERKIN_VERSION=master
+endif
+
 .DELETE_ON_ERROR:
 
 default: .compared
 	bundle exec rake install
 .PHONY: default
 
-.compared: .built $(ERRORS) $(SOURCES) $(PICKLES) $(PROTOBUFS) $(TOKENS) $(ASTS)
+.compared: .built $(ERRORS) $(SOURCES) $(PICKLES) $(PROTOBUFS) $(ASTS)
 	touch $@
 
-.built: $(RUBY_FILES) bin/gherkin Gemfile.lock
+.built: $(RUBY_FILES) bin/gherkin Gemfile.lock gherkin-go
 	bundle exec rspec --color
 	touch $@
-
-acceptance/testdata/%.feature.tokens: testdata/%.feature testdata/%.feature.tokens .built
-	mkdir -p `dirname $@`
-	bundle exec bin/gherkin-generate-tokens $< > $@
-	diff --unified $<.tokens $@
 
 acceptance/testdata/%.feature.ast.ndjson: testdata/%.feature testdata/%.feature.ast.ndjson .built
 	mkdir -p `dirname $@`
@@ -67,3 +67,6 @@ clobber: clean
 Gemfile.lock: Gemfile
 	bundle install
 	touch $@
+
+gherkin-go:
+	./scripts/download-gherkin-go $(GHERKIN_VERSION)
