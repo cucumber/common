@@ -49,7 +49,7 @@ public class Gherkin implements GherkinMessages {
             InputStream gherkinStdout = gherkin.execute(args, getSourcesStream());
             return new ProtobufGherkinMessages(gherkinStdout).messages();
         } catch (IOException | InterruptedException e) {
-            throw new GherkinException(e);
+            throw new GherkinException("Couldn't execute gherkin", e);
         }
     }
 

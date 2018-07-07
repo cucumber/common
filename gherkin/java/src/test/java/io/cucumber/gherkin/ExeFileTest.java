@@ -14,18 +14,7 @@ public class ExeFileTest {
 
     @Rule
     public ExpectedException expected = ExpectedException.none();
-
-    @Test
-    public void detects_osx() {
-        ExeFile exeFile = new ExeFile("", new HashMap<Object, Object>() {{
-            put("os.name", "Mac OS X");
-            put("os.arch", "x86_64");
-        }});
-
-        assertEquals("darwin", exeFile.getOs());
-        assertEquals("amd64", exeFile.getArch());
-    }
-
+    
     @Test
     public void generates_file_name_for_darwin() {
         ExeFile exeFile = new ExeFile("gherkin-{{.OS}}-{{.Arch}}{{.Ext}}", new HashMap<Object, Object>() {{
@@ -46,15 +35,15 @@ public class ExeFileTest {
 
     @Test
     public void throws_exception_with_explanation_when_file_not_found() {
-        expected.expectMessage("No gherkin executable for notfound-darwin-amd64");
+        expected.expectMessage("No gherkin executable for notfound-darwin-amd64. Please submit an issue to https://github.com/cucumber/cucumber/issues");
         ExeFile exeFile = new ExeFile("notfound-{{.OS}}-{{.Arch}}{{.Ext}}", new HashMap<Object, Object>() {{
             put("os.name", "Mac OS X");
             put("os.arch", "x86_64");
         }});
 
-        File targetFile = exeFile.getExeFile();
+        File targetFile = exeFile.getFile();
         targetFile.delete();
-        exeFile.resolveExeFile();
+        exeFile.extract();
         assertTrue(targetFile.isFile());
     }
 }

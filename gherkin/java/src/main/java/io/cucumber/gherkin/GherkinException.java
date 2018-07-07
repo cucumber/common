@@ -5,7 +5,7 @@ public class GherkinException extends RuntimeException {
         super(message);
     }
 
-    public GherkinException(Exception e) {
-        super(e);
+    public GherkinException(String message, Throwable cause) {
+        super(message, cause);
     }
 }

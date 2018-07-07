@@ -26,7 +26,7 @@ class ProtobufGherkinMessages implements GherkinMessages {
             }
             return result;
         } catch (IOException e) {
-            throw new GherkinException(e);
+            throw new GherkinException("Couldn't parse messages", e);
         }
     }
 }
