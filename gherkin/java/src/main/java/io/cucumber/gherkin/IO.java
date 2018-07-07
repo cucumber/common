@@ -11,16 +11,21 @@ class IO {
     /**
      * UTF-8 STDOUT
      */
-    public static final PrintWriter out = new PrintWriter(new OutputStreamWriter(System.out, Charset.forName("UTF-8")), true);
+    static final PrintWriter out = new PrintWriter(new OutputStreamWriter(System.out, Charset.forName("UTF-8")), true);
 
     /**
      * UTF-8 STDERR
      */
     public static final PrintWriter err = new PrintWriter(new OutputStreamWriter(System.err, Charset.forName("UTF-8")), true);
 
-    public static void copy(InputStream in, OutputStream out) throws IOException {
-        int read = 0;
+    static int copy(InputStream in, OutputStream out) throws IOException {
+        int total = 0;
+        int read;
         byte[] buf = new byte[4096];
-        while ((read = in.read(buf)) > 0) out.write(buf, 0, read);
+        while ((read = in.read(buf)) > 0) {
+            total += read;
+            out.write(buf, 0, read);
+        }
+        return total;
     }
 }
