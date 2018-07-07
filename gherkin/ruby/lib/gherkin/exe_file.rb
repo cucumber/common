@@ -2,7 +2,7 @@ require 'os'
 require 'yaml'
 
 module Gherkin
-  class MagicFile
+  class ExeFile
     attr_accessor :file_name
 
     def initialize(executable_pattern, props = {})
@@ -14,7 +14,7 @@ module Gherkin
     end
 
     def target_file
-      File.new("../#{@file_name}")
+      File.new("../gherkin-go/#{@file_name}")
     end
 
     def load_properties(props)
