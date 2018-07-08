@@ -34,4 +34,5 @@ for gherkin in \
   gherkin-windows-amd64.exe
 do
   curl ${baseurl}/${version}/${gherkin} -o gherkin-go/${gherkin}
+  chmod 755 gherkin-go/${gherkin}
 done

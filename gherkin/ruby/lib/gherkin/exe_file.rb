@@ -14,7 +14,7 @@ module Gherkin
     end
 
     def target_file
-      File.new("../gherkin-go/#{@file_name}")
+      "#{Dir.pwd}/gherkin-go/#{@file_name}"
     end
 
     def load_properties(props)
@@ -39,7 +39,7 @@ module Gherkin
 
     def normalize(value)
       return nil if value.nil?
-      value.downcase.gsub(/[^a-z0-9]+/, '') # Locale.US?
+      value.downcase.gsub(/[^a-z0-9]+/, '')
     end
 
     def normalize_arch(value)

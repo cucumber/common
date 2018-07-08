@@ -4,6 +4,7 @@ $LOAD_PATH.unshift(File.join(File.dirname(__FILE__),"../lib"))
 
 require 'optparse'
 require 'json'
+require 'gherkin/exe_file.rb'
 require 'gherkin/messages/subprocess_cucumber_messages'
 require 'gherkin/messages/protobuf_cucumber_messages'
 
@@ -55,7 +56,7 @@ def remove_empties(ob)
   end
 end
 
-gherkin_executable = '../go/bin/gherkin'
+gherkin_executable = Gherkin::ExeFile.new('gherkin-{{.OS}}-{{.Arch}}{{.Ext}}').target_file
 if ARGV.empty?
   # Read protobuf from STDIN
   messages = Gherkin::Messages::ProtobufCucumberMessages.new(STDIN).messages
