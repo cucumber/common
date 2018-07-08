@@ -1,5 +1,7 @@
 package io.cucumber.gherkin;
 
+import io.cucumber.gherkin.exe.Exe;
+import io.cucumber.gherkin.exe.ExeFile;
 import io.cucumber.messages.Messages.Source;
 import io.cucumber.messages.Messages.Wrapper;
 
@@ -12,7 +14,7 @@ import java.util.Collections;
 import java.util.List;
 
 /**
- * Spawns a subprocess and reads messages from that process' STDOUT (as Protobuf messages)
+ * Main entry point for the Gherkin library
  */
 public class Gherkin implements GherkinMessages {
     private final List<String> paths;
@@ -20,6 +22,7 @@ public class Gherkin implements GherkinMessages {
     private final boolean includeSource;
     private final boolean includeAst;
     private final boolean includePickles;
+    static final Exe EXE = new Exe(new ExeFile("gherkin-{{.OS}}-{{.Arch}}{{.Ext}}"));
 
     private Gherkin(List<String> paths, List<Source> sources, boolean includeSource, boolean includeAst, boolean includePickles) {
         this.paths = paths;
@@ -39,17 +42,16 @@ public class Gherkin implements GherkinMessages {
 
     @Override
     public List<Wrapper> messages() {
-        GherkinExe gherkin = new GherkinExe();
         try {
             List<String> args = new ArrayList<>();
             if (!includeSource) args.add("--no-source");
             if (!includeAst) args.add("--no-ast");
             if (!includePickles) args.add("--no-pickles");
             args.addAll(paths);
-            InputStream gherkinStdout = gherkin.execute(args, getSourcesStream());
+            InputStream gherkinStdout = EXE.execute(args, getSourcesStream());
             return new ProtobufGherkinMessages(gherkinStdout).messages();
         } catch (IOException | InterruptedException e) {
-            throw new GherkinException(e);
+            throw new GherkinException("Couldn't execute gherkin", e);
         }
     }
 

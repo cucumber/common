@@ -7,7 +7,7 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.nio.charset.Charset;
 
-class IO {
+public class IO {
     /**
      * UTF-8 STDOUT
      */
@@ -18,7 +18,7 @@ class IO {
      */
     public static final PrintWriter err = new PrintWriter(new OutputStreamWriter(System.err, Charset.forName("UTF-8")), true);
 
-    static int copy(InputStream in, OutputStream out) throws IOException {
+    public static int copy(InputStream in, OutputStream out) throws IOException {
         int total = 0;
         int read;
         byte[] buf = new byte[4096];

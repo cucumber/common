@@ -49,8 +49,7 @@ public class Main {
         }
 
         if (dialects) {
-            GherkinExe gherkinExe = new GherkinExe();
-            InputStream gherkinStdout = gherkinExe.execute(Collections.singletonList("--dialects"), null);
+            InputStream gherkinStdout = Gherkin.EXE.execute(Collections.singletonList("--dialects"), null);
             IO.copy(gherkinStdout, System.out);
             System.exit(0);
         }
