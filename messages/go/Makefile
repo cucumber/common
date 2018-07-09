@@ -1,37 +1,33 @@
 SHELL := /usr/bin/env bash
 GOPATH := $(shell go env GOPATH)
+GO_SOURCE_FILES = $(shell find . -name "*.go")
 
-default: test
-.PHONY: default
+default: .linked .tested
 
-test: deps link messages.pb.go
-	go test
-.PHONY: clean
-
-link: ${GOPATH}/src/github.com/cucumber/cucumber-messages-go
-.PHONY: link
-
-${GOPATH}/src/github.com/cucumber/cucumber-messages-go:
+# Symlink this dir to GOPATH
+.linked:
 	mkdir -p ${GOPATH}/src/github.com/cucumber
 	rm -rf ${GOPATH}/src/github.com/cucumber/cucumber-messages-go
 	ln -fs ${CURDIR} ${GOPATH}/src/github.com/cucumber/cucumber-messages-go
-.PHONY: default
+	touch $@
 
-deps: ${GOPATH}/src/github.com/stretchr/testify ${GOPATH}/src/github.com/golang/protobuf/protoc-gen-go
-.PHONY: deps
+# Remove symlink
+unlink:
+	rm -rf .linked ${GOPATH}/src/github.com/cucumber/cucumber-messages-go
 
-${GOPATH}/src/github.com/stretchr/testify:
-	go get github.com/stretchr/testify
-
-${GOPATH}/src/github.com/golang/protobuf/protoc-gen-go:
+.deps:
+	go get github.com/gogo/protobuf/protoc-gen-gofast
 	go get github.com/golang/protobuf/protoc-gen-go
+	go get github.com/stretchr/testify
+	touch $@
+
+.tested: .linked .deps $(GO_SOURCE_FILES) messages.pb.go
+	go test
+	touch $@
 
 messages.pb.go: messages.proto
-	PATH="$$(go env GOPATH)/bin:${PATH}" protoc --go_out=. $<
+	PATH="$$(go env GOPATH)/bin:${PATH}" protoc --gofast_out=. $<
 
 clean:
+	rm -f .linked .deps .tested messages.pb.go
 .PHONY: clean
-
-clobber: clean
-	rm -f messages.pb.go
-.PHONY: clobber

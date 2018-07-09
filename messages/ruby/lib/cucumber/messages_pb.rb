@@ -10,6 +10,7 @@ Google::Protobuf::DescriptorPool.generated_pool.build do
       optional :gherkinDocument, :message, 2, "io.cucumber.messages.GherkinDocument"
       optional :pickle, :message, 3, "io.cucumber.messages.Pickle"
       optional :attachment, :message, 4, "io.cucumber.messages.Attachment"
+      optional :testStepFinished, :message, 5, "io.cucumber.messages.TestStepFinished"
     end
   end
   add_message "io.cucumber.messages.Location" do
@@ -163,6 +164,17 @@ Google::Protobuf::DescriptorPool.generated_pool.build do
     optional :location, :message, 1, "io.cucumber.messages.Location"
     optional :name, :string, 2
   end
+  add_message "io.cucumber.messages.TestStepFinished" do
+    optional :status, :enum, 1, "io.cucumber.messages.Status"
+  end
+  add_enum "io.cucumber.messages.Status" do
+    value :AMBIGUOUS, 0
+    value :FAILED, 1
+    value :PASSED, 2
+    value :PENDING, 3
+    value :SKIPPED, 4
+    value :UNDEFINED, 5
+  end
 end
 
 module Cucumber
@@ -195,5 +207,7 @@ module Cucumber
     PickleTableCell = Google::Protobuf::DescriptorPool.generated_pool.lookup("io.cucumber.messages.PickleTableCell").msgclass
     PickleTableRow = Google::Protobuf::DescriptorPool.generated_pool.lookup("io.cucumber.messages.PickleTableRow").msgclass
     PickleTag = Google::Protobuf::DescriptorPool.generated_pool.lookup("io.cucumber.messages.PickleTag").msgclass
+    TestStepFinished = Google::Protobuf::DescriptorPool.generated_pool.lookup("io.cucumber.messages.TestStepFinished").msgclass
+    Status = Google::Protobuf::DescriptorPool.generated_pool.lookup("io.cucumber.messages.Status").enummodule
   end
 end

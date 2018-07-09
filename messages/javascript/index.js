@@ -46,6 +46,7 @@ $root.io = (function() {
                  * @property {io.cucumber.messages.IGherkinDocument|null} [gherkinDocument] Wrapper gherkinDocument
                  * @property {io.cucumber.messages.IPickle|null} [pickle] Wrapper pickle
                  * @property {io.cucumber.messages.IAttachment|null} [attachment] Wrapper attachment
+                 * @property {io.cucumber.messages.ITestStepFinished|null} [testStepFinished] Wrapper testStepFinished
                  */
 
                 /**
@@ -95,17 +96,25 @@ $root.io = (function() {
                  */
                 Wrapper.prototype.attachment = null;
 
+                /**
+                 * Wrapper testStepFinished.
+                 * @member {io.cucumber.messages.ITestStepFinished|null|undefined} testStepFinished
+                 * @memberof io.cucumber.messages.Wrapper
+                 * @instance
+                 */
+                Wrapper.prototype.testStepFinished = null;
+
                 // OneOf field names bound to virtual getters and setters
                 var $oneOfFields;
 
                 /**
                  * Wrapper message.
-                 * @member {"source"|"gherkinDocument"|"pickle"|"attachment"|undefined} message
+                 * @member {"source"|"gherkinDocument"|"pickle"|"attachment"|"testStepFinished"|undefined} message
                  * @memberof io.cucumber.messages.Wrapper
                  * @instance
                  */
                 Object.defineProperty(Wrapper.prototype, "message", {
-                    get: $util.oneOfGetter($oneOfFields = ["source", "gherkinDocument", "pickle", "attachment"]),
+                    get: $util.oneOfGetter($oneOfFields = ["source", "gherkinDocument", "pickle", "attachment", "testStepFinished"]),
                     set: $util.oneOfSetter($oneOfFields)
                 });
 
@@ -141,6 +150,8 @@ $root.io = (function() {
                         $root.io.cucumber.messages.Pickle.encode(message.pickle, writer.uint32(/* id 3, wireType 2 =*/26).fork()).ldelim();
                     if (message.attachment != null && message.hasOwnProperty("attachment"))
                         $root.io.cucumber.messages.Attachment.encode(message.attachment, writer.uint32(/* id 4, wireType 2 =*/34).fork()).ldelim();
+                    if (message.testStepFinished != null && message.hasOwnProperty("testStepFinished"))
+                        $root.io.cucumber.messages.TestStepFinished.encode(message.testStepFinished, writer.uint32(/* id 5, wireType 2 =*/42).fork()).ldelim();
                     return writer;
                 };
 
@@ -186,6 +197,9 @@ $root.io = (function() {
                             break;
                         case 4:
                             message.attachment = $root.io.cucumber.messages.Attachment.decode(reader, reader.uint32());
+                            break;
+                        case 5:
+                            message.testStepFinished = $root.io.cucumber.messages.TestStepFinished.decode(reader, reader.uint32());
                             break;
                         default:
                             reader.skipType(tag & 7);
@@ -261,6 +275,16 @@ $root.io = (function() {
                                 return "attachment." + error;
                         }
                     }
+                    if (message.testStepFinished != null && message.hasOwnProperty("testStepFinished")) {
+                        if (properties.message === 1)
+                            return "message: multiple values";
+                        properties.message = 1;
+                        {
+                            var error = $root.io.cucumber.messages.TestStepFinished.verify(message.testStepFinished);
+                            if (error)
+                                return "testStepFinished." + error;
+                        }
+                    }
                     return null;
                 };
 
@@ -295,6 +319,11 @@ $root.io = (function() {
                         if (typeof object.attachment !== "object")
                             throw TypeError(".io.cucumber.messages.Wrapper.attachment: object expected");
                         message.attachment = $root.io.cucumber.messages.Attachment.fromObject(object.attachment);
+                    }
+                    if (object.testStepFinished != null) {
+                        if (typeof object.testStepFinished !== "object")
+                            throw TypeError(".io.cucumber.messages.Wrapper.testStepFinished: object expected");
+                        message.testStepFinished = $root.io.cucumber.messages.TestStepFinished.fromObject(object.testStepFinished);
                     }
                     return message;
                 };
@@ -331,6 +360,11 @@ $root.io = (function() {
                         object.attachment = $root.io.cucumber.messages.Attachment.toObject(message.attachment, options);
                         if (options.oneofs)
                             object.message = "attachment";
+                    }
+                    if (message.testStepFinished != null && message.hasOwnProperty("testStepFinished")) {
+                        object.testStepFinished = $root.io.cucumber.messages.TestStepFinished.toObject(message.testStepFinished, options);
+                        if (options.oneofs)
+                            object.message = "testStepFinished";
                     }
                     return object;
                 };
@@ -7435,6 +7469,248 @@ $root.io = (function() {
                 };
 
                 return PickleTag;
+            })();
+
+            /**
+             * Status enum.
+             * @name io.cucumber.messages.Status
+             * @enum {string}
+             * @property {number} AMBIGUOUS=0 AMBIGUOUS value
+             * @property {number} FAILED=1 FAILED value
+             * @property {number} PASSED=2 PASSED value
+             * @property {number} PENDING=3 PENDING value
+             * @property {number} SKIPPED=4 SKIPPED value
+             * @property {number} UNDEFINED=5 UNDEFINED value
+             */
+            messages.Status = (function() {
+                var valuesById = {}, values = Object.create(valuesById);
+                values[valuesById[0] = "AMBIGUOUS"] = 0;
+                values[valuesById[1] = "FAILED"] = 1;
+                values[valuesById[2] = "PASSED"] = 2;
+                values[valuesById[3] = "PENDING"] = 3;
+                values[valuesById[4] = "SKIPPED"] = 4;
+                values[valuesById[5] = "UNDEFINED"] = 5;
+                return values;
+            })();
+
+            messages.TestStepFinished = (function() {
+
+                /**
+                 * Properties of a TestStepFinished.
+                 * @memberof io.cucumber.messages
+                 * @interface ITestStepFinished
+                 * @property {io.cucumber.messages.Status|null} [status] TestStepFinished status
+                 */
+
+                /**
+                 * Constructs a new TestStepFinished.
+                 * @memberof io.cucumber.messages
+                 * @classdesc Represents a TestStepFinished.
+                 * @implements ITestStepFinished
+                 * @constructor
+                 * @param {io.cucumber.messages.ITestStepFinished=} [properties] Properties to set
+                 */
+                function TestStepFinished(properties) {
+                    if (properties)
+                        for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                            if (properties[keys[i]] != null)
+                                this[keys[i]] = properties[keys[i]];
+                }
+
+                /**
+                 * TestStepFinished status.
+                 * @member {io.cucumber.messages.Status} status
+                 * @memberof io.cucumber.messages.TestStepFinished
+                 * @instance
+                 */
+                TestStepFinished.prototype.status = 0;
+
+                /**
+                 * Creates a new TestStepFinished instance using the specified properties.
+                 * @function create
+                 * @memberof io.cucumber.messages.TestStepFinished
+                 * @static
+                 * @param {io.cucumber.messages.ITestStepFinished=} [properties] Properties to set
+                 * @returns {io.cucumber.messages.TestStepFinished} TestStepFinished instance
+                 */
+                TestStepFinished.create = function create(properties) {
+                    return new TestStepFinished(properties);
+                };
+
+                /**
+                 * Encodes the specified TestStepFinished message. Does not implicitly {@link io.cucumber.messages.TestStepFinished.verify|verify} messages.
+                 * @function encode
+                 * @memberof io.cucumber.messages.TestStepFinished
+                 * @static
+                 * @param {io.cucumber.messages.ITestStepFinished} message TestStepFinished message or plain object to encode
+                 * @param {$protobuf.Writer} [writer] Writer to encode to
+                 * @returns {$protobuf.Writer} Writer
+                 */
+                TestStepFinished.encode = function encode(message, writer) {
+                    if (!writer)
+                        writer = $Writer.create();
+                    if (message.status != null && message.hasOwnProperty("status"))
+                        writer.uint32(/* id 1, wireType 0 =*/8).int32(message.status);
+                    return writer;
+                };
+
+                /**
+                 * Encodes the specified TestStepFinished message, length delimited. Does not implicitly {@link io.cucumber.messages.TestStepFinished.verify|verify} messages.
+                 * @function encodeDelimited
+                 * @memberof io.cucumber.messages.TestStepFinished
+                 * @static
+                 * @param {io.cucumber.messages.ITestStepFinished} message TestStepFinished message or plain object to encode
+                 * @param {$protobuf.Writer} [writer] Writer to encode to
+                 * @returns {$protobuf.Writer} Writer
+                 */
+                TestStepFinished.encodeDelimited = function encodeDelimited(message, writer) {
+                    return this.encode(message, writer).ldelim();
+                };
+
+                /**
+                 * Decodes a TestStepFinished message from the specified reader or buffer.
+                 * @function decode
+                 * @memberof io.cucumber.messages.TestStepFinished
+                 * @static
+                 * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+                 * @param {number} [length] Message length if known beforehand
+                 * @returns {io.cucumber.messages.TestStepFinished} TestStepFinished
+                 * @throws {Error} If the payload is not a reader or valid buffer
+                 * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                 */
+                TestStepFinished.decode = function decode(reader, length) {
+                    if (!(reader instanceof $Reader))
+                        reader = $Reader.create(reader);
+                    var end = length === undefined ? reader.len : reader.pos + length, message = new $root.io.cucumber.messages.TestStepFinished();
+                    while (reader.pos < end) {
+                        var tag = reader.uint32();
+                        switch (tag >>> 3) {
+                        case 1:
+                            message.status = reader.int32();
+                            break;
+                        default:
+                            reader.skipType(tag & 7);
+                            break;
+                        }
+                    }
+                    return message;
+                };
+
+                /**
+                 * Decodes a TestStepFinished message from the specified reader or buffer, length delimited.
+                 * @function decodeDelimited
+                 * @memberof io.cucumber.messages.TestStepFinished
+                 * @static
+                 * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+                 * @returns {io.cucumber.messages.TestStepFinished} TestStepFinished
+                 * @throws {Error} If the payload is not a reader or valid buffer
+                 * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                 */
+                TestStepFinished.decodeDelimited = function decodeDelimited(reader) {
+                    if (!(reader instanceof $Reader))
+                        reader = new $Reader(reader);
+                    return this.decode(reader, reader.uint32());
+                };
+
+                /**
+                 * Verifies a TestStepFinished message.
+                 * @function verify
+                 * @memberof io.cucumber.messages.TestStepFinished
+                 * @static
+                 * @param {Object.<string,*>} message Plain object to verify
+                 * @returns {string|null} `null` if valid, otherwise the reason why it is not
+                 */
+                TestStepFinished.verify = function verify(message) {
+                    if (typeof message !== "object" || message === null)
+                        return "object expected";
+                    if (message.status != null && message.hasOwnProperty("status"))
+                        switch (message.status) {
+                        default:
+                            return "status: enum value expected";
+                        case 0:
+                        case 1:
+                        case 2:
+                        case 3:
+                        case 4:
+                        case 5:
+                            break;
+                        }
+                    return null;
+                };
+
+                /**
+                 * Creates a TestStepFinished message from a plain object. Also converts values to their respective internal types.
+                 * @function fromObject
+                 * @memberof io.cucumber.messages.TestStepFinished
+                 * @static
+                 * @param {Object.<string,*>} object Plain object
+                 * @returns {io.cucumber.messages.TestStepFinished} TestStepFinished
+                 */
+                TestStepFinished.fromObject = function fromObject(object) {
+                    if (object instanceof $root.io.cucumber.messages.TestStepFinished)
+                        return object;
+                    var message = new $root.io.cucumber.messages.TestStepFinished();
+                    switch (object.status) {
+                    case "AMBIGUOUS":
+                    case 0:
+                        message.status = 0;
+                        break;
+                    case "FAILED":
+                    case 1:
+                        message.status = 1;
+                        break;
+                    case "PASSED":
+                    case 2:
+                        message.status = 2;
+                        break;
+                    case "PENDING":
+                    case 3:
+                        message.status = 3;
+                        break;
+                    case "SKIPPED":
+                    case 4:
+                        message.status = 4;
+                        break;
+                    case "UNDEFINED":
+                    case 5:
+                        message.status = 5;
+                        break;
+                    }
+                    return message;
+                };
+
+                /**
+                 * Creates a plain object from a TestStepFinished message. Also converts values to other types if specified.
+                 * @function toObject
+                 * @memberof io.cucumber.messages.TestStepFinished
+                 * @static
+                 * @param {io.cucumber.messages.TestStepFinished} message TestStepFinished
+                 * @param {$protobuf.IConversionOptions} [options] Conversion options
+                 * @returns {Object.<string,*>} Plain object
+                 */
+                TestStepFinished.toObject = function toObject(message, options) {
+                    if (!options)
+                        options = {};
+                    var object = {};
+                    if (options.defaults)
+                        object.status = options.enums === String ? "AMBIGUOUS" : 0;
+                    if (message.status != null && message.hasOwnProperty("status"))
+                        object.status = options.enums === String ? $root.io.cucumber.messages.Status[message.status] : message.status;
+                    return object;
+                };
+
+                /**
+                 * Converts this TestStepFinished to JSON.
+                 * @function toJSON
+                 * @memberof io.cucumber.messages.TestStepFinished
+                 * @instance
+                 * @returns {Object.<string,*>} JSON object
+                 */
+                TestStepFinished.prototype.toJSON = function toJSON() {
+                    return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+                };
+
+                return TestStepFinished;
             })();
 
             return messages;

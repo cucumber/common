@@ -3,13 +3,14 @@ package io.cucumber.messages;
 option ruby_package = "Cucumber.Messages";
 option go_package = "messages";
 
-// All "outer" (self contained) messages that are of this type
+// All messages sent between processes must be of type Wrapper
 message Wrapper {
   oneof message {
     Source source = 1;
     GherkinDocument gherkinDocument = 2;
     Pickle pickle = 3;
     Attachment attachment = 4;
+    TestStepFinished testStepFinished = 5;
   }
 }
 
@@ -194,5 +195,20 @@ message PickleTableRow {
 message PickleTag {
   Location location = 1;
   string name = 2;
+}
+
+////// Results
+
+enum Status {
+  AMBIGUOUS = 0;
+  FAILED = 1;
+  PASSED = 2;
+  PENDING = 3;
+  SKIPPED = 4;
+  UNDEFINED = 5;
+}
+
+message TestStepFinished {
+  Status status = 1;
 }
 
