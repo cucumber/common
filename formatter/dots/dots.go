@@ -32,7 +32,7 @@ func ProcessMessages(stdin io.Reader, stdout io.Writer) {
 			case messages.Status_PASSED:
 				color.New(color.FgGreen).Fprint(stdout, ".")
 			case messages.Status_PENDING:
-				color.New(color.FgYellow).Fprint(stdout, "!")
+				color.New(color.FgYellow).Fprint(stdout, "P")
 			case messages.Status_SKIPPED:
 				color.New(color.FgCyan).Fprint(stdout, "-")
 			case messages.Status_UNDEFINED:

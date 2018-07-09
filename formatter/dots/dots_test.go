@@ -37,7 +37,7 @@ func TestAllResultTypes(t *testing.T) {
 			color.New(color.FgYellow).Sprint("U"),
 			color.New(color.FgMagenta).Sprint("A"),
 			color.New(color.FgGreen).Sprint("."),
-			color.New(color.FgYellow).Sprint("!"),
+			color.New(color.FgYellow).Sprint("P"),
 			"\n",
 		}, ""),
 		stdout.String())
