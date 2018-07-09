@@ -3,3 +3,4 @@
 .linked
 .tested
 bin/
+*.bin

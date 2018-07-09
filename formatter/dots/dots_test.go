@@ -24,7 +24,7 @@ func TestAllResultTypes(t *testing.T) {
 
 	// Write to disk, so it can be used for a manual test
 	b := stdin.Bytes()
-	err := ioutil.WriteFile("testdata/all-results.bin", b, 0644)
+	err := ioutil.WriteFile("all-results.bin", b, 0644)
 	require.NoError(t, err)
 
 	stdout := &bytes.Buffer{}
