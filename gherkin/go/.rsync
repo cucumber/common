@@ -1,5 +1,6 @@
 ../LICENSE LICENSE
 ../../.templates/github/ .github/
+../../.templates/go/default.mk default.mk
 ../testdata/ testdata/
 ../gherkin.berp gherkin.berp
 ../bin/ berp/

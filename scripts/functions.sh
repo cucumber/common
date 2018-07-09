@@ -73,7 +73,7 @@ function subrepos()
 function subrepo_remote()
 {
   subrepo=$1
-  suffix=$(cat ${subrepo}/.subrepo)
+  suffix=$(cat ${subrepo}/.subrepo).git
   if [ -z "${GITHUB_TOKEN}" ]; then
     echo "git@github.com:${suffix}"
   else

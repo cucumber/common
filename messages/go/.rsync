@@ -1,4 +1,4 @@
 ../../LICENSE LICENSE
 ../../.templates/github/ .github/
-../../.templates/go/.travis.yml .travis.yml
+../../.templates/go/ .
 ../messages.proto messages.proto
