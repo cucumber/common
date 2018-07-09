@@ -4,6 +4,7 @@ import (
 	"testing"
 	"github.com/stretchr/testify/require"
 	"github.com/golang/protobuf/proto"
+	"fmt"
 )
 
 func TestMessages(t *testing.T) {
@@ -19,12 +20,23 @@ func TestMessages(t *testing.T) {
 		}
 		encoded, err := proto.Marshal(&pickleDocString)
 		require.NoError(t, err)
-		println(len(encoded))
 		var decoded PickleDocString
 		err = proto.Unmarshal(encoded, &decoded)
 		require.NoError(t, err)
 		require.Equal(t, uint32(20), decoded.Location.Column)
 		require.Equal(t, "some\ncontent\n", decoded.Content)
+	})
+	
+	t.Run("Roundtrips Source", func(t *testing.T) {
+		s := &Wrapper{
+			Message: &Wrapper_Source{
+				Source: &Source{
+					Uri: "JALLA",
+				},
+			},
+		}
+		marshalS, _ := proto.Marshal(s)
+		fmt.Printf("S------- %d\n", len(marshalS))
 	})
 
 	t.Run("builds a step", func(t *testing.T) {

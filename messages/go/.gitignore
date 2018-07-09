@@ -1,1 +1,3 @@
-lib
+.deps
+.linked
+.tested

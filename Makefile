@@ -1,5 +1,6 @@
 SHELL := /usr/bin/env bash
 MAKEFILES=messages/Makefile \
+	formatter/Makefile \
 	gherkin/Makefile \
 	datatable/Makefile \
 	config/Makefile \
