@@ -56,20 +56,14 @@ def remove_empties(ob)
   end
 end
 
-gherkin_executable = Gherkin::ExeFile.new('gherkin-{{.OS}}-{{.Arch}}{{.Ext}}').target_file
-if ARGV.empty?
+messages = ARGV.empty? ? 
   # Read protobuf from STDIN
-  messages = Gherkin::Messages::ProtobufCucumberMessages.new(STDIN).messages
-  print_messages(messages)
-elsif gherkin_executable
-  # Read protobuf from STDIN
-  STDERR.puts options
-  messages = Gherkin::Messages::SubprocessCucumberMessages.new(
-    gherkin_executable,
+  Gherkin::Messages::ProtobufCucumberMessages.new(STDIN).messages
+  :
+  Gherkin::Messages::SubprocessCucumberMessages.new(
     ARGV,
     options[:print_source],
     options[:print_ast],
     options[:print_pickles]
   ).messages
-  print_messages(messages)
-end
+print_messages(messages)

@@ -3,18 +3,14 @@ require 'yaml'
 
 module Gherkin
   class ExeFile
-    attr_accessor :file_name
+    attr_accessor :target_file
 
     def initialize(executable_pattern, props = {})
       @props = load_properties(props)
-      @file_name = executable_pattern
+      @target_file = executable_pattern
                    .gsub('{{.OS}}', os)
                    .gsub('{{.Arch}}', arch)
                    .gsub('{{.Ext}}', ext)
-    end
-
-    def target_file
-      "#{Dir.pwd}/gherkin-go/#{@file_name}"
     end
 
     def load_properties(props)

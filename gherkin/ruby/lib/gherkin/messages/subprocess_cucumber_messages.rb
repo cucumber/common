@@ -1,13 +1,16 @@
 require 'open3'
 require 'gherkin/messages/protobuf_cucumber_messages'
+require 'gherkin/exe_file'
 
 module Gherkin
   module Messages
     class SubprocessCucumberMessages
-      def initialize(gherkin_executable, paths, print_source, print_ast, print_pickles)
-        @gherkin_executable, @paths, @print_source, @print_ast, @print_pickles = gherkin_executable, paths, print_source, print_ast, print_pickles
+      def initialize(paths, print_source, print_ast, print_pickles)
+        @paths, @print_source, @print_ast, @print_pickles = paths, print_source, print_ast, print_pickles
+        path_pattern = "#{File.dirname(__FILE__)}/../../../gherkin-go/gherkin-{{.OS}}-{{.Arch}}{{.Ext}}"
+        @gherkin_executable = ExeFile.new(File.expand_path(path_pattern)).target_file
       end
-      
+
       def messages
         args = [@gherkin_executable]
         args.push('--no-source') unless @print_source

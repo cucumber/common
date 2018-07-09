@@ -18,7 +18,7 @@ module Gherkin
         'gherkin-{{.OS}}-{{.Arch}}{{.Ext}}',
         'name' => 'Mac OS X', 'arch' => 'x86_64'
       )
-      expect(exe_file.file_name).to eq 'gherkin-darwin-amd64'
+      expect(exe_file.target_file).to eq 'gherkin-darwin-amd64'
     end
 
     it 'generates a file name for macos' do
@@ -26,7 +26,7 @@ module Gherkin
         'gherkin-{{.OS}}-{{.Arch}}{{.Ext}}',
         'name' => 'Windows 10', 'arch' => 'x86_32'
       )
-      expect(exe_file.file_name).to eq 'gherkin-windows-386.exe'
+      expect(exe_file.target_file).to eq 'gherkin-windows-386.exe'
     end
   end
 end
