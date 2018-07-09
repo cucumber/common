@@ -57,7 +57,7 @@ acceptance/testdata/%.feature.errors.ndjson: testdata/%.feature testdata/%.featu
 	diff --unified <(jq "." $<.errors.ndjson) <(jq "." $@)
 
 clean:
-	rm -rf .compared .built acceptance coverage
+	rm -rf .compared .built acceptance coverage Gemfile.lock
 .PHONY: clean
 
 clobber: clean
