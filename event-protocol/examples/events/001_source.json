@@ -1,9 +1,0 @@
-{
-  "data": "Feature: Hello\n  Scenario: World\n    Given a step\n\n",
-  "media": {
-    "encoding": "utf-8",
-    "type": "text/x.cucumber.gherkin+plain"
-  },
-  "type": "source",
-  "uri": "features/hello.feature"
-}
