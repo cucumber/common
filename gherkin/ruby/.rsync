@@ -2,3 +2,4 @@
 ../../.templates/github/ .github/
 ../../.templates/ruby/ .
 ../testdata/ testdata/
+../download-gherkin-go scripts/download-gherkin-go
