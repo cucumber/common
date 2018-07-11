@@ -139,11 +139,11 @@ public final class DataTableType {
     /**
      * Creates a data table type for default entry transformer
      * @param entryType class representing entry declared in {@code List<T>}
-     * @param defaultDataTableTransformer default entry transformer registered in {@link DataTableTypeRegistry#setDefaultDataTableEntryTransformer(DefaultDataTableEntryTransformer)}
+     * @param defaultDataTableTransformer default entry transformer registered in {@link DataTableTypeRegistry#setDefaultDataTableEntryTransformer(TableEntryByTypeTransformer)}
      * @param <T> see {@code entryType}
      * @return new DataTableType witch transforms {@code List<List<String>>} to {@code List<T>}
      */
-    static <T> DataTableType defaultEntry(final Class<T> entryType, final DefaultDataTableEntryTransformer defaultDataTableTransformer, final TableCellByTypeTransformer tableCellByTypeTransformer) {
+    static <T> DataTableType defaultEntry(final Class<T> entryType, final TableEntryByTypeTransformer defaultDataTableTransformer, final TableCellByTypeTransformer tableCellByTypeTransformer) {
         return new DataTableType(entryType, new TableEntryTransformer<T>() {
             @Override
             public T transform(Map<String, String> entry) throws Throwable {

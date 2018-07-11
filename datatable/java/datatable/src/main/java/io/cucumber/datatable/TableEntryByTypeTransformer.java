@@ -6,7 +6,7 @@ import java.util.Map;
  * Default transformer for entries which don't have registered {@link DataTableType} in {@code TypeRegistry}. Similar to {@link TableEntryTransformer} but additionally it receives {@code Class<T>} of expected object and {@link TableCellByTypeTransformer} for transforming individual cells from {@code String} to arbitrary type.
  * @see TableEntryTransformer
  */
-public interface DefaultDataTableEntryTransformer {
+public interface TableEntryByTypeTransformer {
 
 	/**
 	 * This method should transform row represented by key-value map to object of type {@code type}

@@ -16,7 +16,7 @@ import static java.lang.String.format;
 public final class DataTableTypeRegistry {
 
     private final Map<JavaType, DataTableType> tableTypeByType = new HashMap<>();
-    private DefaultDataTableEntryTransformer defaultDataTableEntryTransformer;
+    private TableEntryByTypeTransformer defaultDataTableEntryTransformer;
     private TableCellByTypeTransformer defaultDataTableCellTransformer;
 
     public DataTableTypeRegistry(Locale locale) {
@@ -62,7 +62,6 @@ public final class DataTableTypeRegistry {
             }
         };
         defineDataTableType(new DataTableType(Integer.class, integerTableCellTransformer));
-
         defineDataTableType(new DataTableType(int.class, integerTableCellTransformer));
 
         TableCellTransformer<Long> longTableCellTransformer = new TableCellTransformer<Long>() {
@@ -72,7 +71,6 @@ public final class DataTableTypeRegistry {
             }
         };
         defineDataTableType(new DataTableType(Long.class, longTableCellTransformer));
-
         defineDataTableType(new DataTableType(long.class, longTableCellTransformer));
 
         TableCellTransformer<Float> floatTableCellTransformer = new TableCellTransformer<Float>() {
@@ -142,7 +140,7 @@ public final class DataTableTypeRegistry {
         return null;
     }
 
-    public void setDefaultDataTableEntryTransformer(DefaultDataTableEntryTransformer defaultDataTableEntryTransformer) {
+    public void setDefaultDataTableEntryTransformer(TableEntryByTypeTransformer defaultDataTableEntryTransformer) {
         this.defaultDataTableEntryTransformer = defaultDataTableEntryTransformer;
     }
 

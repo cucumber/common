@@ -4,7 +4,7 @@ import java.lang.reflect.Field;
 import java.util.Map;
 
 /**
- * {@link DefaultDataTableEntryTransformer} based on reflection.
+ * {@link TableEntryByTypeTransformer} based on reflection.
  * <p>
  * For example:
  *
@@ -28,7 +28,7 @@ import java.util.Map;
  *
  *  </pre>
  */
-public class SimpleDefaultDataTableEntryTransformer implements DefaultDataTableEntryTransformer {
+public class SimpleTableEntryByTypeTransformer implements TableEntryByTypeTransformer {
 
 	public interface InstanceCreator {
 
@@ -46,13 +46,13 @@ public class SimpleDefaultDataTableEntryTransformer implements DefaultDataTableE
 	private CamelCaseStringConverter fieldNameConverter = new CamelCaseStringConverter();
 	private InstanceCreator instanceCreator;
 
-	public SimpleDefaultDataTableEntryTransformer(InstanceCreator instanceCreator) {
+	public SimpleTableEntryByTypeTransformer(InstanceCreator instanceCreator) {
 		this.instanceCreator = instanceCreator;
 	}
 
 	@Override
 	public <T> T transform(Map<String, String> value, Class<T> type, TableCellByTypeTransformer cellTransformer) throws Throwable {
-
+		
 		T instance = instanceCreator.createInstance(type);
 		Field[] fields = type.getDeclaredFields();
 		for (Map.Entry<String, String> entry : value.entrySet()) {

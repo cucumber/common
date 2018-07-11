@@ -29,16 +29,16 @@ public class DataTableTypeTest {
 
     @Test
     public void shouldTransformATableEntry() {
-        DataTableType tableType = new DataTableType(DataTableTypeRegistryTest.Place.class, new TableEntryTransformer<DataTableTypeRegistryTest.Place>() {
+        DataTableType tableType = new DataTableType(Place.class, new TableEntryTransformer<Place>() {
             @Override
-            public DataTableTypeRegistryTest.Place transform(Map<String, String> entry) throws Throwable {
-                return new DataTableTypeRegistryTest.Place(entry.get("place"));
+            public Place transform(Map<String, String> entry) throws Throwable {
+                return new Place(entry.get("place"));
             }
         });
 
         String here = "here";
         //noinspection unchecked
-        List<DataTableTypeRegistryTest.Place> transform = (List<DataTableTypeRegistryTest.Place>) tableType.transform(Arrays.asList(singletonList("place"), singletonList(here)));
+        List<Place> transform = (List<Place>) tableType.transform(Arrays.asList(singletonList("place"), singletonList(here)));
 
         assertEquals(1,transform.size());
         assertEquals(here, transform.get(0).name);
