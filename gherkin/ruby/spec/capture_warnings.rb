@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 # With thanks to @myronmarston
 # https://github.com/vcr/vcr/blob/master/spec/capture_warnings.rb
 
@@ -12,14 +13,19 @@ module CaptureWarnings
     end
 
     if other_warnings.any?
-      puts "#{ other_warnings.count } non-gherkin warnings detected, set VIEW_OTHER_WARNINGS=true to see them."
+      puts "#{ other_warnings.count } warnings detected, set VIEW_OTHER_WARNINGS=true to see them."
       print_warnings('other', other_warnings) if ENV['VIEW_OTHER_WARNINGS']
     end
 
+    # Until they fix https://bugs.ruby-lang.org/issues/10661
+    if RUBY_VERSION == "2.2.0"
+      project_warnings = project_warnings.reject { |w| w =~ /warning: possible reference to past scope/ }
+    end
+
     if project_warnings.any?
-      puts "#{ project_warnings.count } gherkin warnings detected"
-      print_warnings('gherkin', project_warnings)
-      fail "Please remove all gherkin warnings."
+      puts "#{ project_warnings.count } warnings detected"
+      print_warnings('cucumber-expressions', project_warnings)
+      fail "Please remove all cucumber-expressions warnings."
     end
 
     ensure_system_exit_if_required
@@ -29,7 +35,7 @@ module CaptureWarnings
     old_stderr = STDERR.clone
     pipe_r, pipe_w = IO.pipe
     pipe_r.sync    = true
-    error         = ""
+    error         = String.new
     reader = Thread.new do
       begin
         loop do

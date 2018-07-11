@@ -1,4 +1,4 @@
 ../LICENSE LICENSE
 ../../.templates/github/ .github/
-../../.templates/ruby/.travis.yml .travis.yml
+../../.templates/ruby/ .
 ../testdata/ testdata/

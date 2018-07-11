@@ -1,5 +1,4 @@
-SHELL := /usr/bin/env bash
-export CUCUMBER_MESSAGES
+include default.mk
 
 GOOD_FEATURE_FILES = $(shell find testdata/good -name "*.feature")
 BAD_FEATURE_FILES  = $(shell find testdata/bad -name "*.feature")
@@ -10,63 +9,44 @@ SOURCES      = $(patsubst testdata/%.feature,acceptance/testdata/%.feature.sourc
 PROTOBUFS    = $(patsubst testdata/%.feature,acceptance/testdata/%.feature.protobuf.bin.ndjson,$(GOOD_FEATURE_FILES))
 ERRORS       = $(patsubst testdata/%.feature,acceptance/testdata/%.feature.errors.ndjson,$(BAD_FEATURE_FILES))
 
-RUBY_FILES = $(shell find . -name "*.rb")
-
-ifdef TRAVIS_TAG
-	GHERKIN_VERSION=$(TRAVIS_TAG)
-else
-	GHERKIN_VERSION=master
-endif
-
 .DELETE_ON_ERROR:
 
-default: .compared
-	bundle exec rake install
-.PHONY: default
+.tested: .compared
 
-.compared: .built $(ERRORS) $(SOURCES) $(PICKLES) $(PROTOBUFS) $(ASTS)
+.deps:
+	./scripts/download-gherkin-go $(LIBRARY_VERSION)
 	touch $@
 
-.built: $(RUBY_FILES) bin/gherkin Gemfile.lock gherkin-go
-	bundle exec rspec --color
+.compared: $(ERRORS) $(SOURCES) $(PICKLES) $(PROTOBUFS) $(ASTS)
 	touch $@
 
-acceptance/testdata/%.feature.ast.ndjson: testdata/%.feature testdata/%.feature.ast.ndjson .built
+acceptance/testdata/%.feature.ast.ndjson: testdata/%.feature testdata/%.feature.ast.ndjson .deps
 	mkdir -p `dirname $@`
 	bundle exec bin/gherkin --no-source --no-pickles $< | jq --sort-keys --compact-output "." > $@
 	diff --unified <(jq "." $<.ast.ndjson) <(jq "." $@)
 
-acceptance/testdata/%.feature.protobuf.bin.ndjson: testdata/%.feature.protobuf.bin .built
+acceptance/testdata/%.feature.protobuf.bin.ndjson: testdata/%.feature.protobuf.bin .deps
 	mkdir -p `dirname $@`
 	cat $< | bundle exec bin/gherkin | jq --sort-keys --compact-output "." > $@
 	diff --unified <(jq "." $<.ndjson) <(jq "." $@)
 
-acceptance/testdata/%.feature.pickles.ndjson: testdata/%.feature testdata/%.feature.pickles.ndjson .built
+acceptance/testdata/%.feature.pickles.ndjson: testdata/%.feature testdata/%.feature.pickles.ndjson .deps
 	mkdir -p `dirname $@`
 	bundle exec bin/gherkin --no-source --no-ast $< | jq --sort-keys --compact-output "." > $@
 	diff --unified <(jq "." $<.pickles.ndjson) <(jq "." $@)
 
-acceptance/testdata/%.feature.source.ndjson: testdata/%.feature testdata/%.feature.source.ndjson .built
+acceptance/testdata/%.feature.source.ndjson: testdata/%.feature testdata/%.feature.source.ndjson .deps
 	mkdir -p `dirname $@`
 	bundle exec bin/gherkin --no-ast --no-pickles $< | jq --sort-keys --compact-output "." > $@
 	diff --unified <(jq "." $<.source.ndjson) <(jq "." $@)
 
-acceptance/testdata/%.feature.errors.ndjson: testdata/%.feature testdata/%.feature.errors.ndjson .built
+acceptance/testdata/%.feature.errors.ndjson: testdata/%.feature testdata/%.feature.errors.ndjson .deps
 	mkdir -p `dirname $@`
 	bundle exec bin/gherkin --no-source $< | jq --sort-keys --compact-output "." > $@
 	diff --unified <(jq "." $<.errors.ndjson) <(jq "." $@)
 
-clean:
-	rm -rf .compared .built acceptance coverage Gemfile.lock
-.PHONY: clean
+clean: clean_custom
 
-clobber: clean
-	rm -rf Gemfile.lock
-.PHONY: clobber
-
-Gemfile.lock: Gemfile
-	bundle install
-	touch $@
-
-gherkin-go:
-	./scripts/download-gherkin-go $(GHERKIN_VERSION)
+clean_custom:
+	rm -rf .compared acceptance
+.PHONY: clean_custom
