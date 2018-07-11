@@ -1,5 +1,5 @@
 <!-- NAMING YOUR ISSUE: Please prefix your issue with the name of the sub-project -->
-<!-- e.g. `event-protocol: Schemas out of date` -->
+<!-- e.g. `messages: Define new StepDef message` -->
 <!-- This makes it easier to get some context when reading the names of issues -->
 
 <!-- These sections are meant as guidance for you, to help you give the kind of information we'll need to help with your issue. If a section  doesn't seem to fit, just skip it.

@@ -23,8 +23,8 @@ Run test and build the executable:
 
 ## Trying it out
 
-The tests leave behind `testdata/*.bin` files, which contain protobuf messages. They can be piped
+The tests leave behind `*.bin` files, which contain protobuf messages. They can be piped
 to the executable to see the result:
 
-    cat testdata/all-results.bin | bin/cucumber-dots
+    cat all-results.bin | bin/cucumber-dots
 

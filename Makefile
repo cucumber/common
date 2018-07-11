@@ -4,7 +4,6 @@ MAKEFILES=messages/Makefile \
 	gherkin/Makefile \
 	datatable/Makefile \
 	config/Makefile \
-	event-protocol/Makefile \
 	cucumber-expressions/Makefile \
 	tag-expressions/Makefile
 
