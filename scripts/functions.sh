@@ -104,7 +104,7 @@ function is_branch_or_tag_for_subrepo() {
 }
 
 function git_branch() {
-  >&2 echo "%%%%%% TRAVIS_BRANCH=${TRAVIS_BRANCH}"
+  >&2 echo "*%%%%% TRAVIS_BRANCH=${TRAVIS_BRANCH}"
   if [ -z "${TRAVIS_BRANCH}" ]; then
     >&2 echo "****** git_branch A: $(git rev-parse --abbrev-ref HEAD)"
     git rev-parse --abbrev-ref HEAD
