@@ -5,8 +5,8 @@ $LOAD_PATH.unshift(File.join(File.dirname(__FILE__),"../lib"))
 require 'optparse'
 require 'json'
 require 'gherkin/exe_file.rb'
-require 'gherkin/messages/subprocess_cucumber_messages'
-require 'gherkin/messages/protobuf_cucumber_messages'
+require 'gherkin/gherkin'
+require 'gherkin/protobuf_cucumber_messages'
 
 options = {
   print_source: true,
@@ -58,9 +58,9 @@ end
 
 messages = ARGV.empty? ? 
   # Read protobuf from STDIN
-  Gherkin::Messages::ProtobufCucumberMessages.new(STDIN).messages
+  Gherkin::ProtobufCucumberMessages.new(STDIN).messages
   :
-  Gherkin::Messages::SubprocessCucumberMessages.new(
+  Gherkin::Gherkin.new(
     ARGV,
     options[:print_source],
     options[:print_ast],
