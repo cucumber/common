@@ -8,16 +8,16 @@ module Gherkin
     def initialize(executable_pattern, props = {})
       @props = load_properties(props)
       @target_file = executable_pattern
-                   .gsub('{{.OS}}', os)
-                   .gsub('{{.Arch}}', arch)
-                   .gsub('{{.Ext}}', ext)
+                     .gsub('{{.OS}}', os)
+                     .gsub('{{.Arch}}', arch)
+                     .gsub('{{.Ext}}', ext)
     end
 
     def load_properties(props)
-      os_props = YAML.safe_load(OS.report)
+      props = props.empty? ? YAML.safe_load(OS.report) : props
       {
-        'os.name' => props.dig('name') || os_props.dig('target_os'),
-        'os.arch' => props.dig('arch') || os_props.dig('arch')
+        'os.name' => props['target_os'],
+        'os.arch' => props['arch']
       }
     end
 
@@ -26,11 +26,11 @@ module Gherkin
     end
 
     def os
-      normalize_os(@props.dig('os.name'))
+      normalize_os(@props['os.name'])
     end
 
     def arch
-      normalize_arch(@props.dig('os.arch'))
+      normalize_arch(@props['os.arch'])
     end
 
     def normalize(value)
