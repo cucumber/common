@@ -35,23 +35,24 @@ module CaptureWarnings
     old_stderr = STDERR.clone
     pipe_r, pipe_w = IO.pipe
     pipe_r.sync    = true
-    error         = String.new
+    error          = ''
     reader = Thread.new do
       begin
         loop do
           error << pipe_r.readpartial(1024)
         end
       rescue EOFError
+        continue
       end
     end
     STDERR.reopen(pipe_w)
-    block.call
+    yield
   ensure
     capture_system_exit
     STDERR.reopen(old_stderr)
     pipe_w.close
     reader.join
-    return error.split("\n")
+    error.split("\n")
   end
 
   def print_warnings(type, warnings)
