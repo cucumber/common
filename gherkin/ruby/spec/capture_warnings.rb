@@ -42,17 +42,16 @@ module CaptureWarnings
           error << pipe_r.readpartial(1024)
         end
       rescue EOFError
-        continue
       end
     end
     STDERR.reopen(pipe_w)
-    yield
+    block.call
   ensure
     capture_system_exit
     STDERR.reopen(old_stderr)
     pipe_w.close
     reader.join
-    error.split("\n")
+    return error.split("\n")
   end
 
   def print_warnings(type, warnings)
