@@ -113,10 +113,18 @@ function git_branch() {
 
 function push_subrepos()
 {
-  subrepos $1 | while read subrepo; do
-    push_subrepo_branch_maybe "${subrepo}"
-    push_subrepo_tag_maybe "${subrepo}"
-  done
+  if [ "${TRAVIS_PULL_REQUEST}" = "false" ] || [ -z "${TRAVIS_PULL_REQUEST}" ]; then
+    # Travis builds PRs with TRAVIS_BRANCH=master (or whatever)
+    # the base branch of the PR is. We don't want to push to subrepos in this
+    # case, as it would push the wrong branch. Travis also builds the branch,
+    # which is sufficient.
+    subrepos $1 | while read subrepo; do
+      push_subrepo_branch_maybe "${subrepo}"
+      push_subrepo_tag_maybe "${subrepo}"
+    done
+  else
+    echo "Skipping pushing to subrepos on Travis pull request builds."
+  fi
 }
 
 function push_subrepo_branch_maybe()
