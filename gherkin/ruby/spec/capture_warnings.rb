@@ -35,7 +35,7 @@ module CaptureWarnings
     old_stderr = STDERR.clone
     pipe_r, pipe_w = IO.pipe
     pipe_r.sync    = true
-    error          = ''
+    error          = String.new
     reader = Thread.new do
       begin
         loop do
