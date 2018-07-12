@@ -5,20 +5,12 @@ module Gherkin
   class ExeFile
     attr_accessor :target_file
 
-    def initialize(executable_pattern, props = {})
-      @props = load_properties(props)
+    def initialize(executable_pattern)
+      @props = YAML.safe_load(OS.report)
       @target_file = executable_pattern
-                   .gsub('{{.OS}}', os)
-                   .gsub('{{.Arch}}', arch)
-                   .gsub('{{.Ext}}', ext)
-    end
-
-    def load_properties(props)
-      os_props = YAML.safe_load(OS.report)
-      {
-        'os.name' => props.dig('name') || os_props.dig('target_os'),
-        'os.arch' => props.dig('arch') || os_props.dig('arch')
-      }
+                     .gsub('{{.OS}}', os)
+                     .gsub('{{.Arch}}', arch)
+                     .gsub('{{.Ext}}', ext)
     end
 
     def ext
@@ -26,11 +18,11 @@ module Gherkin
     end
 
     def os
-      normalize_os(@props.dig('os.name'))
+      normalize_os(@props['target_os'])
     end
 
     def arch
-      normalize_arch(@props.dig('os.arch'))
+      normalize_arch(@props['arch'])
     end
 
     def normalize(value)
