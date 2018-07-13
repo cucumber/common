@@ -1,19 +1,6 @@
-SHELL := /usr/bin/env bash
-GOPATH := $(shell go env GOPATH)
-GO_SOURCE_FILES = $(shell find . -name "*.go")
+include default.mk
 
-default: .linked .tested
-
-# Symlink this dir to GOPATH
-.linked:
-	mkdir -p ${GOPATH}/src/github.com/cucumber
-	rm -rf ${GOPATH}/src/github.com/cucumber/cucumber-messages-go
-	ln -fs ${CURDIR} ${GOPATH}/src/github.com/cucumber/cucumber-messages-go
-	touch $@
-
-# Remove symlink
-unlink:
-	rm -rf .linked ${GOPATH}/src/github.com/cucumber/cucumber-messages-go
+default: .tested
 
 .deps:
 	go get github.com/gogo/protobuf/protoc-gen-gofast
@@ -21,13 +8,7 @@ unlink:
 	go get github.com/stretchr/testify
 	touch $@
 
-.tested: .linked .deps $(GO_SOURCE_FILES) messages.pb.go
-	go test
-	touch $@
+.tested: messages.pb.go
 
 messages.pb.go: messages.proto
 	PATH="$$(go env GOPATH)/bin:${PATH}" protoc --gofast_out=. $<
-
-clean:
-	rm -f .linked .deps .tested messages.pb.go
-.PHONY: clean

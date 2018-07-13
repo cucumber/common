@@ -1,0 +1,6 @@
+*.iml
+.deps
+.linked
+.tested
+bin/
+*.bin

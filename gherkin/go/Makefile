@@ -1,5 +1,5 @@
-SHELL := /usr/bin/env bash
-GOPATH := $(shell go env GOPATH)
+include default.mk
+
 GHERKIN_DIALECTS := $(shell cat gherkin-languages.json | jq --compact-output --sort-keys . | base64 | tr -d '\n')
 EXES := $(shell find dist -name 'gherkin-*')
 UPX_EXES = $(patsubst dist/gherkin-%,dist_compressed/gherkin-%,$(EXES))
@@ -14,33 +14,18 @@ SOURCES      = $(patsubst testdata/%.feature,acceptance/testdata/%.feature.sourc
 PROTOBUFS    = $(patsubst testdata/%.feature,acceptance/testdata/%.feature.protobuf.bin.ndjson,$(GOOD_FEATURE_FILES))
 ERRORS       = $(patsubst testdata/%.feature,acceptance/testdata/%.feature.errors.ndjson,$(BAD_FEATURE_FILES))
 
-GO_SOURCE_FILES = $(shell find . -name "*.go")
-
 .DELETE_ON_ERROR:
 
-default: .tested .compared
-.PHONY: default
+default: .compared
 
-.link: ${GOPATH}/src/github.com/cucumber/gherkin-go
-	touch $@
-
-${GOPATH}/src/github.com/cucumber/gherkin-go:
-	mkdir -p ${GOPATH}/src/github.com/cucumber
-	rm -rf ${GOPATH}/src/github.com/cucumber/gherkin-go
-	ln -fs ${CURDIR} ${GOPATH}/src/github.com/cucumber/gherkin-go
-
-.deps: ${GOPATH}/src/github.com/cucumber/cucumber-messages-go ${GOPATH}/src/github.com/aslakhellesoy/gox
-	touch $@
-
-${GOPATH}/src/github.com/cucumber/cucumber-messages-go:
+.deps:
 	go get github.com/cucumber/cucumber-messages-go
-
-${GOPATH}/src/github.com/aslakhellesoy/gox:
 	# Using aslakhellesoy's fork until this is merged:
 	# https://github.com/mitchellh/gox/pull/112
 	go get github.com/aslakhellesoy/gox
+	touch $@
 
-.dist: .compared .deps .link
+.dist: .compared .deps
 	gox -ldflags "-X main.version=${CIRCLE_TAG} -X main.gherkinDialects=${GHERKIN_DIALECTS}" -output "dist/gherkin-{{.OS}}-{{.Arch}}" -rebuild ./cli
 	touch $@
 
@@ -64,14 +49,12 @@ dist_compressed/gherkin-%: dist/gherkin-%
 .built: bin/gherkin-generate-tokens bin/gherkin
 	touch $@
 
-.tested: .deps .link $(GO_SOURCE_FILES) parser.go dialects_builtin.go
-	go test
-	touch $@
+.tested: parser.go dialects_builtin.go
 
-bin/gherkin-generate-tokens: .deps .link $(GO_SOURCE_FILES) parser.go dialects_builtin.go
+bin/gherkin-generate-tokens: .deps $(GO_SOURCE_FILES) parser.go dialects_builtin.go
 	go build -o $@ ./gherkin-generate-tokens
 
-bin/gherkin: .deps .link $(GO_SOURCE_FILES) parser.go dialects_builtin.go
+bin/gherkin: .deps $(GO_SOURCE_FILES) parser.go dialects_builtin.go
 	# We're building without -ldflags because it fails on Alpine Linux. This binary
 	# is for testing only and won't be released. The cross-compiled binaries are built
 	# on Travis' standard linux where this is not an issue.
@@ -118,10 +101,8 @@ dialects_builtin.go: gherkin-languages.json dialects_builtin.go.jq
 	cat $< | jq --sort-keys --from-file dialects_builtin.go.jq --raw-output --compact-output > $@
 	gofmt -w $@
 
-clean:
-	rm -rf .compared .built .tested acceptance bin/ dist/* dist_compressed/ .dist .dist-compressed .deps .link
-.PHONY: clean
+clean: clean-custom
 
-clobber: clean
-	rm -rf parser.go dialects_builtin.go
-.PHONY: clobber
+clean-custom:
+	rm -rf .compared .built acceptance bin/ dist/* dist_compressed/ .dist .dist-compressed
+.PHONY: clean_custom

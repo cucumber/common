@@ -1,16 +1,7 @@
-SHELL := /usr/bin/env bash
-export GOPATH = $(realpath ./lib)
+include default.mk
 
-default: test
-.PHONY: default
+default: .tested
 
-test: lib/src/github.com/stretchr/testify
-	go test
-.PHONY: clean
-
-lib/src/github.com/stretchr/testify:
+.deps:
 	go get github.com/stretchr/testify
-
-clean:
-	rm -rf lib/src lib/pkg
-.PHONY: clean
+	touch $@

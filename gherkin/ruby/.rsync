@@ -1,8 +1,5 @@
 ../LICENSE LICENSE
 ../../.templates/github/ .github/
-../../.templates/ruby/.travis.yml .travis.yml
+../../.templates/ruby/ .
 ../testdata/ testdata/
 ../download-gherkin-go scripts/download-gherkin-go
-../gherkin.berp gherkin.berp
-../bin/ berp/
-../gherkin-languages.json lib/gherkin/gherkin-languages.json

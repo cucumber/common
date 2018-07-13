@@ -1,9 +1,4 @@
-# Please update /.templates/Makefile in the cucumber/cucumber monorepo
-# and sync:
-#
-#     source scripts/functions.sh && rsync_files
-#
-MAKEFILES=$(wildcard */Makefile)
+MAKEFILES=go/Makefile ruby/Makefile
 
 default: $(patsubst %/Makefile,default-%,$(MAKEFILES))
 .PHONY: default

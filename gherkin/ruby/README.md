@@ -2,10 +2,7 @@
 
 Gherkin parser/compiler for Ruby. Please see [Gherkin](https://github.com/cucumber/gherkin) for details.
 
-## Developers
-
-Some files are generated from the `gherkin-ruby.razor` file. Please run the
-following command to generate the ruby files.
+## To build
 
 ~~~bash
 cd <project_root>/ruby

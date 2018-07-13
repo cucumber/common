@@ -1,9 +1,7 @@
-package tagexpressions_test
+package tagexpressions
 
 import (
 	"testing"
-
-	tagexpressions "."
 	"github.com/stretchr/testify/require"
 )
 
@@ -27,12 +25,12 @@ func TestParse(t *testing.T) {
 		for _, example := range examples {
 			infix := example[0]
 			expectedStr := example[1]
-			actual, err := tagexpressions.Parse(infix)
+			actual, err := Parse(infix)
 			require.NoError(t, err)
 			actualStr := actual.ToString()
 			require.Equal(t, expectedStr, actualStr)
 
-			roundTripActual, err := tagexpressions.Parse(actualStr)
+			roundTripActual, err := Parse(actualStr)
 			require.NoError(t, err)
 			roundTripActualStr := roundTripActual.ToString()
 			require.Equal(t, expectedStr, roundTripActualStr)
@@ -54,7 +52,7 @@ func TestParse(t *testing.T) {
 		for _, example := range examples {
 			infix := example[0]
 			expectedErrMessage := example[1]
-			_, err := tagexpressions.Parse(infix)
+			_, err := Parse(infix)
 			require.Error(t, err)
 			require.Equal(t, expectedErrMessage, err.Error())
 		}
@@ -63,14 +61,14 @@ func TestParse(t *testing.T) {
 	t.Run("evalutation errors", func(t *testing.T) {
 
 		t.Run("evaluates not", func(t *testing.T) {
-			expr, err := tagexpressions.Parse("not   x")
+			expr, err := Parse("not   x")
 			require.NoError(t, err)
 			require.False(t, expr.Evaluate([]string{"x"}))
 			require.True(t, expr.Evaluate([]string{"y"}))
 		})
 
 		t.Run("evaluates and", func(t *testing.T) {
-			expr, err := tagexpressions.Parse("x and y")
+			expr, err := Parse("x and y")
 			require.NoError(t, err)
 			require.True(t, expr.Evaluate([]string{"x", "y"}))
 			require.False(t, expr.Evaluate([]string{"y"}))
@@ -78,7 +76,7 @@ func TestParse(t *testing.T) {
 		})
 
 		t.Run("evaluates or", func(t *testing.T) {
-			expr, err := tagexpressions.Parse("  x or(y) ")
+			expr, err := Parse("  x or(y) ")
 			require.NoError(t, err)
 			require.False(t, expr.Evaluate([]string{}))
 			require.True(t, expr.Evaluate([]string{"y"}))
@@ -86,7 +84,7 @@ func TestParse(t *testing.T) {
 		})
 
 		t.Run("evaluates expressions with escaped chars", func(t *testing.T) {
-			expr, err := tagexpressions.Parse("  x\\(1\\) or(y\\(2\\)) ")
+			expr, err := Parse("  x\\(1\\) or(y\\(2\\)) ")
 			require.NoError(t, err)
 			require.False(t, expr.Evaluate([]string{}))
 			require.True(t, expr.Evaluate([]string{"y(2)"}))
@@ -96,7 +94,7 @@ func TestParse(t *testing.T) {
 		})
 
 		t.Run("evaluates empty expressions to true", func(t *testing.T) {
-			expr, err := tagexpressions.Parse("")
+			expr, err := Parse("")
 			require.NoError(t, err)
 			require.True(t, expr.Evaluate([]string{}))
 			require.True(t, expr.Evaluate([]string{"y"}))

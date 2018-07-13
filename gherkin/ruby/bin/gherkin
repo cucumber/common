@@ -4,9 +4,9 @@ $LOAD_PATH.unshift(File.join(File.dirname(__FILE__),"../lib"))
 
 require 'optparse'
 require 'json'
-require 'gherkin/messages/subprocess_cucumber_messages'
-require 'gherkin/messages/protobuf_cucumber_messages'
-require 'gherkin/messages/parser_cucumber_messages'
+require 'gherkin/exe_file.rb'
+require 'gherkin/gherkin'
+require 'gherkin/protobuf_cucumber_messages'
 
 options = {
   print_source: true,
@@ -56,29 +56,14 @@ def remove_empties(ob)
   end
 end
 
-# gherkin_executable = '../javascript/bin/gherkin'
-gherkin_executable = ENV['GHERKIN_EXECUTABLE']
-if ARGV.empty?
+messages = ARGV.empty? ? 
   # Read protobuf from STDIN
-  messages = Gherkin::Messages::ProtobufCucumberMessages.new(STDIN).messages
-  print_messages(messages)
-elsif gherkin_executable
-  # Read protobuf from STDIN
-  STDERR.puts options
-  messages = Gherkin::Messages::SubprocessCucumberMessages.new(
-    gherkin_executable,
+  Gherkin::ProtobufCucumberMessages.new(STDIN).messages
+  :
+  Gherkin::Gherkin.new(
     ARGV,
     options[:print_source],
     options[:print_ast],
     options[:print_pickles]
   ).messages
-  print_messages(messages)
-else
-  messages = Gherkin::Messages::ParserCucumberMessages.new(
-    ARGV,
-    options[:print_source],
-    options[:print_ast],
-    options[:print_pickles]
-  ).messages
-  print_messages(messages)
-end
+print_messages(messages)

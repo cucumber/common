@@ -1,3 +1,5 @@
 coverage/
 Gemfile.lock
 pkg/
+.deps
+.tested

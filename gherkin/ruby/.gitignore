@@ -4,3 +4,6 @@ acceptance/
 .built
 .compared
 pkg/
+gherkin-go/
+.deps
+.tested
