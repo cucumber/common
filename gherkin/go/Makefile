@@ -101,8 +101,8 @@ dialects_builtin.go: gherkin-languages.json dialects_builtin.go.jq
 	cat $< | jq --sort-keys --from-file dialects_builtin.go.jq --raw-output --compact-output > $@
 	gofmt -w $@
 
-clean: clean_custom
+clean: clean-custom
 
-clean_custom:
+clean-custom:
 	rm -rf .compared .built acceptance bin/ dist/* dist_compressed/ .dist .dist-compressed
 .PHONY: clean_custom

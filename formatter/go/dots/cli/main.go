@@ -2,7 +2,7 @@ package main
 
 import (
 	"os"
-	"github.com/cucumber/formatter-dots"
+	dots "github.com/cucumber/dots-formatter-go"
 )
 
 func main() {

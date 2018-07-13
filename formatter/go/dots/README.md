@@ -1,3 +1,5 @@
+[![Build Status](https://secure.travis-ci.org/cucumber/dots-formatter-go.svg)](http://travis-ci.org/cucumber/dots-formatter-go)
+
 # Cucumber Dots Formatter
 
 This formatter produces dots (`....F-U.....`) from Cucumber results.
@@ -8,18 +10,11 @@ The `STDIN` must contain `varint`-delimited protobuf messages.
 
 ## Building
 
-First, install dependencies:
+Just one command:
 
     make .deps
 
-If building from the monorepo, symlink the "messages" project to ${GOPATH}
-Omit this step if building from a clone of the read-only [formatter-dots subrepo](https://github.com/cucumber/formatter-dots)
-
-    make .deps-monorepo
-
-Run test and build the executable:
-
-    make
+This should download dependencies, run tests and build the executable.
 
 ## Trying it out
 

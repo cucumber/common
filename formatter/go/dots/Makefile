@@ -12,5 +12,8 @@ default: bin/cucumber-dots
 bin/cucumber-dots: .deps $(GO_SOURCE_FILES)
 	go build -o $@ ./cli
 
-clean:
+clean: clean-custom
+
+clean-custom:
 	rm -rf bin/cucumber-dots
+.PHONY: clean-custom
