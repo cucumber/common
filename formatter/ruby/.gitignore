@@ -3,3 +3,4 @@ Gemfile.lock
 pkg/
 .deps
 .tested
+executables/
