@@ -1,3 +1,5 @@
+require 'cucumber/messages'
+
 module Cucumber
   module Formatter
 
@@ -14,10 +16,11 @@ module Cucumber
       end
 
       def passed
-        @status = Messages::Status::PASSED
+        @status = Cucumber::Messages::Status::PASSED
       end
 
       def failed
+        @status = Cucumber::Messages::Status::FAILED
       end
 
       def undefined

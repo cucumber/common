@@ -4,7 +4,7 @@ import (
 	"testing"
 	"bytes"
 	"strings"
-	"io/ioutil"
+//	"io/ioutil"
 	gio "github.com/gogo/protobuf/io"
 	"github.com/stretchr/testify/require"
 	"github.com/fatih/color"
@@ -23,9 +23,9 @@ func TestAllResultTypes(t *testing.T) {
 	writer.WriteMsg(newTestStepFinished(messages.Status_PENDING))
 
 	// Write to disk, so it can be used for a manual test
-	b := stdin.Bytes()
-	err := ioutil.WriteFile("testdata/all-results.bin", b, 0644)
-	require.NoError(t, err)
+	// b := stdin.Bytes()
+	// err := ioutil.WriteFile("testdata/all-results.bin", b, 0644)
+	// require.NoError(t, err)
 
 	stdout := &bytes.Buffer{}
 	ProcessMessages(stdin, stdout)

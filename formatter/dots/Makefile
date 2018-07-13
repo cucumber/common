@@ -2,7 +2,7 @@ SHELL := /usr/bin/env bash
 GOPATH := $(shell go env GOPATH)
 GO_SOURCE_FILES = $(shell find . -name "*.go")
 
-default: .linked .tested
+default: .linked .tested bin/cucumber-dots
 
 # Symlink this dir to GOPATH
 .linked:

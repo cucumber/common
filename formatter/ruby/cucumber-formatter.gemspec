@@ -15,6 +15,7 @@ Gem::Specification.new do |s|
   s.add_development_dependency 'rake',      '~> 10.5'
   s.add_development_dependency 'rspec',     '~> 3.7'
   s.add_dependency 'cucumber-messages'
+  s.add_dependency 'os'
 
   s.rubygems_version = ">= 1.6.1"
   s.files            = Dir[
