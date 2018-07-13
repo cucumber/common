@@ -40,7 +40,8 @@ module Cucumber
         config.out_stream.rewind
         out = config.out_stream.read
         
-        expect(out).to eq("F-UA.P\n")
+        # F-UA.P in colours
+        expect(out).to eq("\e[31mF\e[0m\e[36m-\e[0m\e[33mU\e[0m\e[35mA\e[0m\e[32m.\e[0m\e[33mP\e[0m\n")
       end
     end
   end

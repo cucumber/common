@@ -14,6 +14,11 @@ import (
 )
 
 func ProcessMessages(stdin io.Reader, stdout io.Writer) {
+	// We always want colors, regardless of the terminal.
+	// The reason being that language wrappers (Ruby, Java etc)
+	// want to capture colours regardless.
+	color.NoColor = false
+
 	r := gio.NewDelimitedReader(stdin, 4096)
 	for {
 		wrapper := &messages.Wrapper{}
