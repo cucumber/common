@@ -4,3 +4,7 @@
 .tested
 bin/
 *.bin
+.dist
+.dist-compressed
+dist/
+dist_compressed/

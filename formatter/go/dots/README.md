@@ -21,5 +21,5 @@ This should download dependencies, run tests and build the executable.
 The tests leave behind `*.bin` files, which contain protobuf messages. They can be piped
 to the executable to see the result:
 
-    cat all-results.bin | bin/cucumber-dots
+    cat all-results.bin | bin/cucumber-dots-formatter
 
