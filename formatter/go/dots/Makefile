@@ -40,5 +40,5 @@ bin/cucumber-dots-formatter: .deps $(GO_SOURCE_FILES)
 clean: clean-custom
 
 clean-custom:
-	rm -rf bin/cucumber-dots-formatter dist dist_compressed
+	rm -rf bin/cucumber-dots-formatter dist/* dist_compressed
 .PHONY: clean-custom
