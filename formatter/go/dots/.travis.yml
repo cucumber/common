@@ -45,6 +45,7 @@ deploy:
       repo: cucumber/dots-formatter-go
       go: '1.10'
       tags: false
+      all_branches: true
     access_key_id:
       secure: CY/heTGk2tyd3JM6QTaG6LZm1RmdFKU6I3U5HU+NtyWgKu1UGWeJot1mJ8utaYTwtQyB3Z/EIBl17iserSBKv48RJwmfTQkYQIZrvh7j4CNX8Sbbyd3MOWr9+9938OnGokg9CK2Jh0nTVphmmP0riL/SKymLqygB6KvSPxZa7H52WoKyXXyGyIrcmopW+WQrybDo/+xAV2W6feqsrTVRmvMTc57FrJZZPCb9Q9lZ3oGBx+6sFH771pSWi35gkqoDHq4D326133ZTtUdGS5pxNhPMZjDVUgNZJri3sYbwwCv2GaQ3TJc05qopywd2bsBclk/e/pjukanCrhrLJImhxY/sp+02cELNgCIMACb3fMlIfD/rOEFlEaKVMJz15P83ke2Mi2GoDW/729OGqURxTXzbFeM4A9MDp4iiffWsFPcExTvZeeYNBo0NoE1ag479ti/Zf0hvVAh6TnRpSI7sKClzZZEwRz576N4rj7Cvt0qyuxRDmTp2ti88B7CqP86YdS73cWSsx5zvDlbOOZxYzSD+745yy+HpZXMygYPqmcszQ+ubXNE4c1iDoWvVYvm/DN+4YtQj86Q15Hh9N1Vl6vOtY06qVp/azOqnZm8fGOd2fiyqxeNQIn6Aqxd6HVVilUaSeyZnnbICvm369N1bnd8SmrPAZeofl84kKA5463g=
     secret_access_key:
