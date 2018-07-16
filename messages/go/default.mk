@@ -1,5 +1,6 @@
 SHELL := /usr/bin/env bash
 GOPATH := $(shell go env GOPATH)
+PATH := $(PATH):$(GOPATH)/bin
 GO_SOURCE_FILES = $(shell find . -name "*.go")
 
 SUBREPO := $(shell cat .subrepo)

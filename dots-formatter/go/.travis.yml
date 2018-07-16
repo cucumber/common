@@ -14,7 +14,7 @@ jobs:
     - curl -L https://github.com/upx/upx/releases/download/v3.94/upx-3.94-amd64_linux.tar.xz | tar Jx
     - export PATH=$PATH:$PWD/upx-3.94-amd64_linux
     script:
-    - make .dist
+    - make
     - make .dist-compressed
     # Copy the binaries that compressed successfully over the uncompressed ones
     - cp dist_compressed/* dist/
