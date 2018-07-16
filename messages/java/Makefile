@@ -1,13 +1,6 @@
-# Please update /.templates/java/.travis.yml in the cucumber/cucumber monorepo
-# and sync:
-#
-#     source scripts/functions.sh && rsync_files
-#
-default: .built
-.PHONY: default
+include default.mk
 
-.built: pom.xml src/main/java/io/cucumber/messages/Messages.java
-	mvn install
+.deps: src/main/java/io/cucumber/messages/Messages.java
 	touch $@
 
 src/main/java/io/cucumber/messages/Messages.java: messages.proto
@@ -15,5 +8,4 @@ src/main/java/io/cucumber/messages/Messages.java: messages.proto
 	protoc --java_out src/main/java $<
 
 clean:
-	rm -rf target .built src/main/java/io/cucumber/messages/Messages.java
-.PHONY: clean
+	rm -f src/main/java/io/cucumber/messages/Messages.java

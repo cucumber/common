@@ -6,7 +6,7 @@ module Gherkin
   class Gherkin
     def initialize(paths, print_source, print_ast, print_pickles)
       @paths, @print_source, @print_ast, @print_pickles = paths, print_source, print_ast, print_pickles
-      path_pattern = "#{File.dirname(__FILE__)}/../../gherkin-go/gherkin-{{.OS}}-{{.Arch}}{{.Ext}}"
+      path_pattern = "#{File.dirname(__FILE__)}/../../gherkin-go/gherkin-go-{{.OS}}-{{.Arch}}{{.Ext}}"
       @gherkin_executable = ExeFile.new(File.expand_path(path_pattern)).target_file
     end
 

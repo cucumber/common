@@ -21,9 +21,6 @@ default: .compared
 .compared: $(PROTOBUFS) $(ASTS) $(PICKLES) $(ERRORS) $(SOURCES)
 	touch $@
 
-gherkin-go:
-	./scripts/s3-download gherkin-go $(LIBRARY_VERSION)
-
 # # Generate
 # acceptance/testdata/%.feature.ast.ndjson: testdata/%.feature .tested
 # 	mkdir -p `dirname $@`

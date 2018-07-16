@@ -1,3 +1,7 @@
+.idea/
 *.iml
 target/
-dependency-reduced-pom.xml
+release.properties
+pom.xml.releaseBackup
+.deps
+.tested

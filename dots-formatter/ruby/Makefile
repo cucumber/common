@@ -4,8 +4,5 @@ include default.mk
 	./scripts/s3-download dots-formatter-go $(LIBRARY_VERSION)
 	touch $@
 
-clean: clean-custom
-
-clean-custom:
+clean:
 	rm -rf dots-formatter-go
-.PHONY: clean-custom

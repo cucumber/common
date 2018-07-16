@@ -1,10 +1,4 @@
-default: .built
-.PHONY: default
+include default.mk
 
-.built: pom.xml
-	mvn install
+.deps:
 	touch $@
-
-clean:
-	rm -rf target .built
-.PHONY: clean

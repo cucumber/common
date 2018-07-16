@@ -3,6 +3,9 @@
 # Downloads cross-compiled go executables for bundling inside platform-
 # specific packages such as gem, jar, npm module etc.
 #
+# If the files are available locally, they are copied. If not, they
+# are downloaded from S3.
+#
 set -euf -o pipefail
 
 basename=$1
@@ -35,10 +38,16 @@ for platform in \
   windows-386.exe \
   windows-amd64.exe
 do
-  # cURL occasionaly fails. Try up to 3 times with a 5 sec sleep in-betweeen.
-  for i in 1 2 3; do 
-    url="${baseurl}/${basename}/${version}/${basename}-${platform}"
-    file="${basename}/${basename}-${platform}"
-    curl "${url}" -o "${file}" && chmod +x "${file}" && break || sleep 5;
-  done
+  src_url="${baseurl}/${basename}/${version}/${basename}-${platform}"
+  src_file="../go/dist/${basename}-${platform}"
+  file="${basename}/${basename}-${platform}"
+
+  if [ -e ${src_file} ]; then
+    cp ${src_file} ${file}
+  else
+    # cURL occasionaly fails. Try up to 3 times with a 5 sec sleep in-betweeen.
+    for i in 1 2 3; do 
+      curl "${src_url}" -o "${file}" && chmod +x "${file}" && break || sleep 5;
+    done
+  fi
 done

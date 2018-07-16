@@ -1,8 +1,7 @@
 include default.mk
 
 GHERKIN_DIALECTS := $(shell cat gherkin-languages.json | jq --compact-output --sort-keys . | base64 | tr -d '\n')
-EXES := $(shell find dist -name 'gherkin-go-*')
-UPX_EXES = $(patsubst dist/gherkin-go-%,dist_compressed/gherkin-go-%,$(EXES))
+GOX_LDFLAGS := "-X main.version=${TRAVIS_TAG} -X main.gherkinDialects=${GHERKIN_DIALECTS}"
 
 GOOD_FEATURE_FILES = $(shell find testdata/good -name "*.feature")
 BAD_FEATURE_FILES  = $(shell find testdata/bad -name "*.feature")
@@ -24,24 +23,6 @@ default: .compared
 	# https://github.com/mitchellh/gox/pull/112
 	go get github.com/aslakhellesoy/gox
 	touch $@
-
-.dist: .compared .deps
-	gox -ldflags "-X main.version=${CIRCLE_TAG} -X main.gherkinDialects=${GHERKIN_DIALECTS}" -output "dist/gherkin-go-{{.OS}}-{{.Arch}}" -rebuild ./cli
-	touch $@
-
-dist/gherkin-go-%: .dist
-
-.dist-compressed: $(UPX_EXES)
-	touch $@
-
-dist_compressed/gherkin-go-%: dist/gherkin-go-%
-	mkdir -p dist_compressed
-	# requires upx in PATH to compress supported binaries
-	# may produce an error ARCH not supported
-	-upx $< -o $@
-
-	# Test the integrity
-	if [ -f "$@" ]; then upx -t $@ || rm $@; fi
 
 .compared: .built $(TOKENS) $(ASTS) $(PICKLES) $(SOURCES) $(ERRORS)
 	touch $@

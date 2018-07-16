@@ -1,10 +1,10 @@
 .idea/
-gherkin.iml
+*.iml
 target/
-acceptance/
-.built
-.compared
+release.properties
+pom.xml.releaseBackup
 .deps
 .tested
-dependency-reduced-pom.xml
+.compared
+acceptance/
 gherkin-go/
