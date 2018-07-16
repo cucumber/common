@@ -1,9 +1,9 @@
 # encoding: utf-8
 Gem::Specification.new do |s|
-  s.name        = 'cucumber-formatter'
+  s.name        = 'dots-formatter'
   s.version     = '1.0.0'
   s.authors     = ["Matt Wynne", "Aslak Hellesøy"]
-  s.description = 'Standard cucumber formatters'
+  s.description = 'Dots formatter for cucumber'
   s.summary     = "#{s.name}-#{s.version}"
   s.email       = 'cukes@googlegroups.com'
   s.homepage    = "https://github.com/cucumber/cucumber-formatter-ruby"
@@ -22,7 +22,7 @@ Gem::Specification.new do |s|
     'README.md',
     'LICENSE',
     'lib/**/*',
-    'cucumber-formatter-go/**/*'
+    "#{s.name}-go/*"
   ]
   s.test_files       = Dir['spec/**/*']
   s.rdoc_options     = ["--charset=UTF-8"]

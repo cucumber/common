@@ -1,9 +1,9 @@
 include default.mk
 
-EXES := $(shell find dist -name 'cucumber-dots-formatter-*')
-UPX_EXES = $(patsubst dist/cucumber-dots-formatter-%,dist_compressed/cucumber-dots-formatter-%,$(EXES))
+EXES := $(shell find dist -name 'dots-formatter-go-*')
+UPX_EXES = $(patsubst dist/dots-formatter-go-%,dist_compressed/dots-formatter-go-%,$(EXES))
 
-default: bin/cucumber-dots-formatter
+default: bin/dots-formatter
 
 .deps:
 	go get github.com/fatih/color
@@ -17,15 +17,15 @@ default: bin/cucumber-dots-formatter
 
 .dist: .deps
 	mkdir -p dist
-	gox -ldflags "-X main.version=${CIRCLE_TAG}" -output "dist/cucumber-dots-formatter-{{.OS}}-{{.Arch}}" -rebuild ./cli
+	gox -ldflags "-X main.version=${CIRCLE_TAG}" -output "dist/dots-formatter-go-{{.OS}}-{{.Arch}}" -rebuild ./cli
 	touch $@
 
-dist/cucumber-dots-formatter-%: .dist
+dist/dots-formatter-go-%: .dist
 
 .dist-compressed: $(UPX_EXES)
 	touch $@
 
-dist_compressed/cucumber-dots-formatter-%: dist/cucumber-dots-formatter-%
+dist_compressed/dots-formatter-go-%: dist/dots-formatter-go-%
 	mkdir -p dist_compressed
 	# requires upx in PATH to compress supported binaries
 	# may produce an error ARCH not supported
@@ -34,11 +34,11 @@ dist_compressed/cucumber-dots-formatter-%: dist/cucumber-dots-formatter-%
 	# Test the integrity
 	if [ -f "$@" ]; then upx -t $@ || rm $@; fi
 
-bin/cucumber-dots-formatter: .deps $(GO_SOURCE_FILES)
+bin/dots-formatter: .deps $(GO_SOURCE_FILES)
 	go build -o $@ ./cli
 
 clean: clean-custom
 
 clean-custom:
-	rm -rf bin/cucumber-dots-formatter dist/* dist_compressed
+	rm -rf bin/dots-formatter dist/* dist_compressed
 .PHONY: clean-custom

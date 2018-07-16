@@ -1,5 +1,5 @@
 /*
-Package fu implements a simple Cucumber formatter that prints
+Package dots implements a simple Cucumber formatter that prints
 a single ANSI-coloured character for each step.
 */
 

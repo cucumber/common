@@ -11,10 +11,14 @@ ERRORS       = $(patsubst testdata/%.feature,acceptance/testdata/%.feature.error
 
 JAVA_FILES = $(shell find . -name "*.java")
 
+ifdef TRAVIS_BRANCH
+	LIBRARY_VERSION=$(TRAVIS_TAG)
+endif
 ifdef TRAVIS_TAG
-	GHERKIN_VERSION=$(TRAVIS_TAG)
-else
-	GHERKIN_VERSION=master
+	LIBRARY_VERSION=$(TRAVIS_TAG)
+endif
+ifndef LIBRARY_VERSION
+	LIBRARY_VERSION=$(shell git rev-parse --abbrev-ref HEAD)
 endif
 
 .DELETE_ON_ERROR:
@@ -30,7 +34,7 @@ default: .compared
 	touch $@
 
 gherkin-go:
-	./scripts/s3-download gherkin-go $(GHERKIN_VERSION) gherkin-go
+	./scripts/s3-download gherkin-go $(LIBRARY_VERSION)
 
 # # Generate
 # acceptance/testdata/%.feature.ast.ndjson: testdata/%.feature .built

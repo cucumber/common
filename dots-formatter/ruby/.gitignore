@@ -3,4 +3,4 @@ Gemfile.lock
 pkg/
 .deps
 .tested
-executables/
+dots-formatter-go/
