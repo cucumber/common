@@ -1,0 +1,42 @@
+#!/usr/bin/env bash
+#
+# Downloads cross-compiled go executables for bundling inside platform-
+# specific packages such as gem, jar, npm module etc.
+#
+set -euf -o pipefail
+
+basename=$1
+version=$2
+dir=$3
+baseurl=https://s3.eu-west-2.amazonaws.com/io.cucumber/go
+
+rm -rf "${dir}"
+mkdir "${dir}"
+
+for platform in \
+  darwin-386 \
+  darwin-amd64 \
+  freebsd-386 \
+  freebsd-amd64 \
+  freebsd-arm \
+  linux-386 \
+  linux-amd64 \
+  linux-arm \
+  linux-mips \
+  linux-mips64 \
+  linux-mips64le \
+  linux-mipsle \
+  linux-s390x \
+  netbsd-386 \
+  netbsd-amd64 \
+  netbsd-arm \
+  openbsd-386 \
+  openbsd-amd64 \
+  windows-386.exe \
+  windows-amd64.exe
+do
+  # cURL occasionaly fails. Try up to 3 times with a 5 sec sleep in-betweeen.
+  for i in 1 2 3; do 
+    curl "${baseurl}/${version}/${basename}-${platform}" -o "${dir}/${basename}-${platform}" && break || sleep 5;
+  done
+done

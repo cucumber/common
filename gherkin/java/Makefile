@@ -30,7 +30,7 @@ default: .compared
 	touch $@
 
 gherkin-go:
-	./scripts/download-gherkin-go $(GHERKIN_VERSION)
+	./scripts/s3-download gherkin-go $(GHERKIN_VERSION) gherkin-go
 
 # # Generate
 # acceptance/testdata/%.feature.ast.ndjson: testdata/%.feature .built

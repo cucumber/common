@@ -14,7 +14,7 @@ ERRORS       = $(patsubst testdata/%.feature,acceptance/testdata/%.feature.error
 .tested: .compared
 
 .deps:
-	./scripts/download-gherkin-go $(LIBRARY_VERSION)
+	./scripts/s3-download gherkin-go $(LIBRARY_VERSION) gherkin-go
 	touch $@
 
 .compared: $(ERRORS) $(SOURCES) $(PICKLES) $(PROTOBUFS) $(ASTS)
