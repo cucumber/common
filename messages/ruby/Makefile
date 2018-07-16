@@ -1,20 +1,9 @@
-SHELL := /usr/bin/env bash
+include default.mk
 
-default: rspec
-.PHONY: default
-
-rspec: Gemfile.lock lib/cucumber/messages_pb.rb
-	rake
-	rake install
-.PHONY: rspec
+.deps: lib/cucumber/messages_pb.rb
 
 lib/cucumber/messages_pb.rb: messages.proto
 	protoc --ruby_out lib/cucumber $<
 
 clean:
-	rm -rf lib/cucumber/messages_pb.rb Gemfile.lock
-.PHONY: clean
-
-Gemfile.lock: Gemfile
-	bundle install
-	touch $@
+	rm -f lib/cucumber/messages_pb.rb

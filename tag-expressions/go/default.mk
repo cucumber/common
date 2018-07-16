@@ -29,6 +29,9 @@ unlink:
 	go test ${ARGS}
 	touch $@
 
-clean:
-	rm -f .deps .linked .tested
+clean: clean-go
 .PHONY: clean
+
+clean-go:
+	rm -f .deps .linked .tested
+.PHONY: clean-go

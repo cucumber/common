@@ -1,8 +1,8 @@
 include default.mk
 
 GHERKIN_DIALECTS := $(shell cat gherkin-languages.json | jq --compact-output --sort-keys . | base64 | tr -d '\n')
-EXES := $(shell find dist -name 'gherkin-*')
-UPX_EXES = $(patsubst dist/gherkin-%,dist_compressed/gherkin-%,$(EXES))
+EXES := $(shell find dist -name 'gherkin-go-*')
+UPX_EXES = $(patsubst dist/gherkin-go-%,dist_compressed/gherkin-go-%,$(EXES))
 
 GOOD_FEATURE_FILES = $(shell find testdata/good -name "*.feature")
 BAD_FEATURE_FILES  = $(shell find testdata/bad -name "*.feature")
@@ -26,15 +26,15 @@ default: .compared
 	touch $@
 
 .dist: .compared .deps
-	gox -ldflags "-X main.version=${CIRCLE_TAG} -X main.gherkinDialects=${GHERKIN_DIALECTS}" -output "dist/gherkin-{{.OS}}-{{.Arch}}" -rebuild ./cli
+	gox -ldflags "-X main.version=${CIRCLE_TAG} -X main.gherkinDialects=${GHERKIN_DIALECTS}" -output "dist/gherkin-go-{{.OS}}-{{.Arch}}" -rebuild ./cli
 	touch $@
 
-dist/gherkin-%: .dist
+dist/gherkin-go-%: .dist
 
 .dist-compressed: $(UPX_EXES)
 	touch $@
 
-dist_compressed/gherkin-%: dist/gherkin-%
+dist_compressed/gherkin-go-%: dist/gherkin-go-%
 	mkdir -p dist_compressed
 	# requires upx in PATH to compress supported binaries
 	# may produce an error ARCH not supported
@@ -101,8 +101,5 @@ dialects_builtin.go: gherkin-languages.json dialects_builtin.go.jq
 	cat $< | jq --sort-keys --from-file dialects_builtin.go.jq --raw-output --compact-output > $@
 	gofmt -w $@
 
-clean: clean-custom
-
-clean-custom:
+clean:
 	rm -rf .compared .built acceptance bin/ dist/* dist_compressed/ .dist .dist-compressed
-.PHONY: clean_custom

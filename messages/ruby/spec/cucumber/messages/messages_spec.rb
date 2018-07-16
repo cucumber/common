@@ -1,4 +1,5 @@
 require 'cucumber/messages_pb'
+require 'json'
 
 module Cucumber
   module Messages

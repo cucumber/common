@@ -37,8 +37,5 @@ dist_compressed/dots-formatter-go-%: dist/dots-formatter-go-%
 bin/dots-formatter: .deps $(GO_SOURCE_FILES)
 	go build -o $@ ./cli
 
-clean: clean-custom
-
-clean-custom:
+clean:
 	rm -rf bin/dots-formatter dist/* dist_compressed
-.PHONY: clean-custom

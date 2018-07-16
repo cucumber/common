@@ -4,5 +4,7 @@ target/
 acceptance/
 .built
 .compared
+.deps
+.tested
 dependency-reduced-pom.xml
 gherkin-go/

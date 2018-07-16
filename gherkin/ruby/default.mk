@@ -25,6 +25,9 @@ Gemfile.lock: Gemfile $(GEMSPECS)
 	bundle exec rspec --color
 	touch $@
 
-clean:
-	rm -f .deps .linked .tested Gemfile.lock
+clean: clean-ruby
 .PHONY: clean
+
+clean-ruby:
+	rm -f .deps .linked .tested Gemfile.lock
+.PHONY: clean-ruby

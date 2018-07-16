@@ -22,7 +22,7 @@ public class Gherkin implements GherkinMessages {
     private final boolean includeSource;
     private final boolean includeAst;
     private final boolean includePickles;
-    static final Exe EXE = new Exe(new ExeFile("gherkin-{{.OS}}-{{.Arch}}{{.Ext}}"));
+    static final Exe EXE = new Exe(new ExeFile("gherkin-go-{{.OS}}-{{.Arch}}{{.Ext}}"));
 
     private Gherkin(List<String> paths, List<Source> sources, boolean includeSource, boolean includeAst, boolean includePickles) {
         this.paths = paths;

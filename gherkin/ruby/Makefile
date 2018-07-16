@@ -14,7 +14,7 @@ ERRORS       = $(patsubst testdata/%.feature,acceptance/testdata/%.feature.error
 .tested: .compared
 
 .deps:
-	./scripts/s3-download gherkin-go $(LIBRARY_VERSION) gherkin-go
+	./scripts/s3-download gherkin-go $(LIBRARY_VERSION)
 	touch $@
 
 .compared: $(ERRORS) $(SOURCES) $(PICKLES) $(PROTOBUFS) $(ASTS)
@@ -45,8 +45,5 @@ acceptance/testdata/%.feature.errors.ndjson: testdata/%.feature testdata/%.featu
 	bundle exec bin/gherkin --no-source $< | jq --sort-keys --compact-output "." > $@
 	diff --unified <(jq "." $<.errors.ndjson) <(jq "." $@)
 
-clean: clean_custom
-
-clean_custom:
-	rm -rf .compared acceptance
-.PHONY: clean_custom
+clean:
+	rm -rf .compared acceptance gherkin-go
