@@ -17,4 +17,8 @@ DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 source "${DIR}/functions.sh"
 dockerfile=$1
 shift
-docker run --volume $(pwd):/app -it $(docker_image ${dockerfile}) $@
+docker run \
+  -e TRAVIS_BRANCH="${TRAVIS_BRANCH}" \
+  -e TRAVIS_TAG="${TRAVIS_TAG}" \
+  --volume $(pwd):/app \
+  -it $(docker_image ${dockerfile}) $@
