@@ -81,6 +81,7 @@ clean:
 	-rm -rf .venv*
 	-py.cleanup
 	-pipenv --rm
+	-find . -name "*.pyc" | xargs rm
 
 test: $(BOOTSTRAP_DONE_MARKER_FILE)
 	$(PIPENV_RUN) pytest $(PYTEST_ARGS)
