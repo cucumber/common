@@ -41,7 +41,7 @@ func main() {
 
 	paths := flag.Args()
 
-	messageList, err := gherkin.CucumberMessages(paths, os.Stdin, "en", !*noSource, !*noAst, !*noPickles)
+	messageList, err := gherkin.GherkinMessages(paths, os.Stdin, "en", !*noSource, !*noAst, !*noPickles)
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "failed to parse Gherkin: %+v\n", err)
 		os.Exit(1)

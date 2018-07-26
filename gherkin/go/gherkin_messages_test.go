@@ -3,11 +3,13 @@ package gherkin
 import (
 	"testing"
 	"github.com/cucumber/cucumber-messages-go"
-	"github.com/golang/protobuf/proto"
+	gio "github.com/gogo/protobuf/io"
 	"bytes"
 )
 
 func TestMessagesWithStdin(t *testing.T) {
+	stdin := &bytes.Buffer{}
+	writer := gio.NewDelimitedWriter(stdin)
 
 	gherkin := `Feature: Minimal
 
@@ -27,20 +29,10 @@ func TestMessagesWithStdin(t *testing.T) {
 		},
 	}
 
-	message, err := proto.Marshal(source)
-	if err != nil {
-		t.Error(err)
-	}
-	size := proto.EncodeVarint(uint64(len(message)))
+	writer.WriteMsg(source)
+	writer.WriteMsg(source)
 
-	ba := []byte{}
-	ba = append(ba, size...)
-	ba = append(ba, message...)
-	ba = append(ba, size...)
-	ba = append(ba, message...)
-
-	r := bytes.NewReader(ba)
-	wrappers, err := CucumberMessages(nil, r, "en", true, true, true)
+	wrappers, err := GherkinMessages(nil, stdin, "en", true, true, true)
 	if err != nil {
 		t.Error(err)
 	}

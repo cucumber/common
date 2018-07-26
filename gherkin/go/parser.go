@@ -1,5 +1,5 @@
 //
-// This file is generated. Do not edit! Edit gherkin-golang.razor instead.
+// This file is generated. Do not edit! Edit parser.go.razor instead.
 
 //
 package gherkin

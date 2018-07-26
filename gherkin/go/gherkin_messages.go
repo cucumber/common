@@ -10,7 +10,7 @@ import (
 	"io"
 )
 
-func CucumberMessages(paths []string, sourceStream io.Reader, language string, includeSource bool, includeGherkinDocument bool, includePickles bool) ([]messages.Wrapper, error) {
+func GherkinMessages(paths []string, sourceStream io.Reader, language string, includeSource bool, includeGherkinDocument bool, includePickles bool) ([]messages.Wrapper, error) {
 	var result []messages.Wrapper
 
 	processSource := func(source *messages.Source) (error) {

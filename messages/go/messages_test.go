@@ -3,8 +3,8 @@ package messages
 import (
 	"testing"
 	"github.com/stretchr/testify/require"
-	"github.com/golang/protobuf/proto"
-	"fmt"
+	gio "github.com/gogo/protobuf/io"
+	"bytes"
 )
 
 func TestMessages(t *testing.T) {
@@ -18,27 +18,18 @@ func TestMessages(t *testing.T) {
 			ContentType: "text/plain",
 			Content:     "some\ncontent\n",
 		}
-		encoded, err := proto.Marshal(&pickleDocString)
-		require.NoError(t, err)
+
+		b := &bytes.Buffer{}
+		writer := gio.NewDelimitedWriter(b)
+		writer.WriteMsg(&pickleDocString)
+
+		r := gio.NewDelimitedReader(b, 4096)
 		var decoded PickleDocString
-		err = proto.Unmarshal(encoded, &decoded)
-		require.NoError(t, err)
+		r.ReadMsg(&decoded)
 		require.Equal(t, uint32(20), decoded.Location.Column)
 		require.Equal(t, "some\ncontent\n", decoded.Content)
 	})
 	
-	t.Run("Roundtrips Source", func(t *testing.T) {
-		s := &Wrapper{
-			Message: &Wrapper_Source{
-				Source: &Source{
-					Uri: "JALLA",
-				},
-			},
-		}
-		marshalS, _ := proto.Marshal(s)
-		fmt.Printf("S------- %d\n", len(marshalS))
-	})
-
 	t.Run("builds a step", func(t *testing.T) {
 		location := &Location{
 			Line:   10,
@@ -55,11 +46,13 @@ func TestMessages(t *testing.T) {
 			Argument: &Step_DocString{docString},
 		}
 
-		bytes, err := proto.Marshal(step)
-		require.NoError(t, err)
+		b := &bytes.Buffer{}
+		writer := gio.NewDelimitedWriter(b)
+		writer.WriteMsg(step)
+
+		r := gio.NewDelimitedReader(b, 4096)
 		var decoded Step
-		err = proto.Unmarshal(bytes, &decoded)
-		require.NoError(t, err)
+		r.ReadMsg(&decoded)
 		require.Equal(t, "Hello", decoded.GetDocString().Content)
 	})
 }
