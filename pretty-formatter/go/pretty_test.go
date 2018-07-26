@@ -54,6 +54,11 @@ Feature: A
   # C
   Scenario: C
     Given c
+      """
+      x
+       y
+        z
+      """
 
   # D
   Rule: D

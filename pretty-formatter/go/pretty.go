@@ -13,6 +13,7 @@ import (
 	gio "github.com/gogo/protobuf/io"
 	"strings"
 	"strconv"
+	"regexp"
 )
 
 func ProcessMessages(stdin io.Reader, stdout io.Writer) {
@@ -104,13 +105,23 @@ func printStep(stdout io.Writer, depth int, step *messages.Step) {
 	if table != nil {
 		printDataTable(stdout, depth+1, table)
 	}
+
+	docString := step.GetDocString()
+	if docString != nil {
+		printDocString(stdout, depth+1, docString)
+	}
 }
 
-func max(x, y int) int {
-	if x < y {
-		return y
-	}
-	return x
+func printDocString(stdout io.Writer, depth int, docString *messages.DocString) {
+	fmt.Fprintf(stdout, strings.Repeat(" ", depth*2))
+	fmt.Fprintf(stdout, "%s%s\n", docString.Delimiter, docString.ContentType)
+
+	re := regexp.MustCompile("(?m)^")
+	indentedContent := re.ReplaceAllString(docString.Content, strings.Repeat(" ", depth*2))
+	fmt.Fprintf(stdout, "%s\n", indentedContent)
+
+	fmt.Fprintf(stdout, strings.Repeat(" ", depth*2))
+	fmt.Fprintf(stdout, "%s%s\n", docString.Delimiter, docString.ContentType)
 }
 
 func printDataTable(stdout io.Writer, depth int, table *messages.DataTable) {
@@ -168,4 +179,11 @@ func printComments(comments []*messages.Comment, location *messages.Location, st
 		comments = comments[1:]
 	}
 	return comments
+}
+
+func max(x, y int) int {
+	if x < y {
+		return y
+	}
+	return x
 }
