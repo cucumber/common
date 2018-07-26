@@ -59,6 +59,16 @@ Feature: A
        y
         z
       """
+    And <c1>
+    Then <c2>
+
+    # CE
+    @ce
+    Examples: CE
+      | c1  |   c2 |
+      | a   |   10 |
+      | bb  |  100 |
+      | ccc | 1000 |
 
   # D
   Rule: D

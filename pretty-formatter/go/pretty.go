@@ -95,6 +95,25 @@ func processScenario(comments []*messages.Comment, scenario *messages.Scenario, 
 	for _, step := range scenario.GetSteps() {
 		processStep(stdout, depth+1, step)
 	}
+
+	for _, examples := range scenario.GetExamples() {
+		fmt.Fprintf(stdout, "\n")
+		comments = processExamples(comments, examples, stdout, depth+1)
+	}
+
+	return comments
+}
+
+func processExamples(comments []*messages.Comment, examples *messages.Examples, stdout io.Writer, depth int) []*messages.Comment {
+	comments = processComments(comments, examples.Location, stdout)
+	processTags(stdout, depth, examples.Tags)
+	processKeywordNode(stdout, depth, examples)
+
+	rows := []*messages.TableRow{examples.TableHeader}
+	rows = append(rows, examples.GetTableBody()...)
+
+	processTable(rows, stdout, depth+1)
+
 	return comments
 }
 
@@ -139,13 +158,15 @@ func processDocString(stdout io.Writer, depth int, docString *messages.DocString
 }
 
 func processDataTable(stdout io.Writer, depth int, table *messages.DataTable) {
-	rowCount := len(table.GetRows())
+	processTable(table.GetRows(), stdout, depth)
+}
 
-	columnCount := len(table.GetRows()[0].GetCells())
+func processTable(rows []*messages.TableRow, stdout io.Writer, depth int) {
+	rowCount := len(rows)
+	columnCount := len(rows[0].GetCells())
 	columnWidths := make([]int, columnCount, columnCount)
 	columnNumericCount := make([]int, columnCount, columnCount)
-
-	for _, row := range table.GetRows() {
+	for _, row := range rows {
 		for columnIndex, cell := range row.GetCells() {
 			columnWidths[columnIndex] = max(columnWidths[columnIndex], len(cell.GetValue()))
 			_, err := strconv.ParseFloat(cell.GetValue(), 32)
@@ -154,8 +175,7 @@ func processDataTable(stdout io.Writer, depth int, table *messages.DataTable) {
 			}
 		}
 	}
-
-	for _, row := range table.GetRows() {
+	for _, row := range rows {
 		fmt.Fprintf(stdout, strings.Repeat(" ", depth*2))
 		for columnIndex, cell := range row.GetCells() {
 			columnWidth := columnWidths[columnIndex]
