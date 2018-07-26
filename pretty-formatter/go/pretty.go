@@ -8,9 +8,11 @@ package pretty
 import (
 	"io"
 	"fmt"
+
 	"github.com/cucumber/cucumber-messages-go"
 	gio "github.com/gogo/protobuf/io"
 	"strings"
+	"strconv"
 )
 
 func ProcessMessages(stdin io.Reader, stdout io.Writer) {
@@ -80,7 +82,7 @@ func processBackground(comments []*messages.Comment, background *messages.Backgr
 	comments = printComments(comments, background.Location, stdout)
 	printKeywordNode(stdout, depth, background)
 	for _, step := range background.GetSteps() {
-		printStep(stdout, depth + 1, step)
+		printStep(stdout, depth+1, step)
 	}
 	return comments
 }
@@ -89,7 +91,7 @@ func processScenario(comments []*messages.Comment, scenario *messages.Scenario, 
 	comments = printComments(comments, scenario.Location, stdout)
 	printKeywordNode(stdout, depth, scenario)
 	for _, step := range scenario.GetSteps() {
-		printStep(stdout, depth + 1, step)
+		printStep(stdout, depth+1, step)
 	}
 	return comments
 }
@@ -97,6 +99,53 @@ func processScenario(comments []*messages.Comment, scenario *messages.Scenario, 
 func printStep(stdout io.Writer, depth int, step *messages.Step) {
 	fmt.Fprintf(stdout, strings.Repeat(" ", depth*2))
 	fmt.Fprintf(stdout, "%s%s\n", step.GetKeyword(), step.GetText())
+
+	table := step.GetDataTable()
+	if table != nil {
+		printDataTable(stdout, depth+1, table)
+	}
+}
+
+func max(x, y int) int {
+	if x < y {
+		return y
+	}
+	return x
+}
+
+func printDataTable(stdout io.Writer, depth int, table *messages.DataTable) {
+	rowCount := len(table.GetRows())
+
+	columnCount := len(table.GetRows()[0].GetCells())
+	columnWidths := make([]int, columnCount, columnCount)
+	columnNumericCount := make([]int, columnCount, columnCount)
+
+	for _, row := range table.GetRows() {
+		for columnIndex, cell := range row.GetCells() {
+			columnWidths[columnIndex] = max(columnWidths[columnIndex], len(cell.GetValue()))
+			_, err := strconv.ParseFloat(cell.GetValue(), 32)
+			if err == nil {
+				columnNumericCount[columnIndex] += 1
+			}
+		}
+	}
+
+	for _, row := range table.GetRows() {
+		fmt.Fprintf(stdout, strings.Repeat(" ", depth*2))
+		for columnIndex, cell := range row.GetCells() {
+			columnWidth := columnWidths[columnIndex]
+			numericValueRatio := float32(columnNumericCount[columnIndex]) / float32(rowCount)
+			var format string
+			if numericValueRatio >= 0.5 {
+				// More than 50% of cells in column are numeric. Right-align.
+				format = fmt.Sprintf("| %%%dv ", columnWidth)
+			} else {
+				format = fmt.Sprintf("| %%-%dv ", columnWidth)
+			}
+			fmt.Fprintf(stdout, format, cell.GetValue())
+		}
+		fmt.Fprintf(stdout, "|\n")
+	}
 }
 
 func printKeywordNode(stdout io.Writer, depth int, keywordNode KeywordNode) {

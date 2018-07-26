@@ -46,6 +46,10 @@ Feature: A
   # B
   Background: B
     Given b
+      | text | number |
+      | a    |     10 |
+      | bb   |    100 |
+      | ccc  |   1000 |
 
   # C
   Scenario: C
