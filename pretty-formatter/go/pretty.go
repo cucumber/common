@@ -46,6 +46,7 @@ func processFeature(comments []*messages.Comment, feature *messages.Feature, std
 		fmt.Fprintf(stdout, "\n")
 		switch t := child.Value.(type) {
 		case *messages.FeatureChild_Background:
+			comments = processBackground(comments, t.Background, 1, stdout)
 		case *messages.FeatureChild_Rule:
 			comments = processRule(comments, t.Rule, stdout)
 		case *messages.FeatureChild_Scenario:
@@ -65,12 +66,19 @@ func processRule(comments []*messages.Comment, rule *messages.Rule, stdout io.Wr
 		fmt.Fprintf(stdout, "\n")
 		switch t := child.Value.(type) {
 		case *messages.RuleChild_Background:
+			comments = processBackground(comments, t.Background, 2, stdout)
 		case *messages.RuleChild_Scenario:
 			comments = processScenario(comments, t.Scenario, 2, stdout)
 		default:
 			panic(fmt.Sprintf("unexpected %T feature child", child))
 		}
 	}
+	return comments
+}
+
+func processBackground(comments []*messages.Comment, background *messages.Background, depth int, stdout io.Writer) ([]*messages.Comment) {
+	comments = printComments(comments, background.Location, stdout)
+	printKeywordNode(stdout, depth, background)
 	return comments
 }
 

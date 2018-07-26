@@ -44,10 +44,19 @@ func TestPrintsFullLevel(t *testing.T) {
 Feature: A
 
   # B
-  Rule: B
+  Background: B
 
-    # C
-    Scenario: C
+  # C
+  Scenario: C
+
+  # D
+  Rule: D
+
+    # E
+    Background: E
+
+    # F
+    Scenario: F
 `
 
 	stdout := &bytes.Buffer{}
