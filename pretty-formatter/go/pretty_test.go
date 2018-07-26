@@ -45,18 +45,22 @@ Feature: A
 
   # B
   Background: B
+    Given b
 
   # C
   Scenario: C
+    Given c
 
   # D
   Rule: D
 
     # E
     Background: E
+      Given e
 
     # F
     Scenario: F
+      Given f
 `
 
 	stdout := &bytes.Buffer{}

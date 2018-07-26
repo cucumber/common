@@ -79,13 +79,24 @@ func processRule(comments []*messages.Comment, rule *messages.Rule, depth int, s
 func processBackground(comments []*messages.Comment, background *messages.Background, depth int, stdout io.Writer) ([]*messages.Comment) {
 	comments = printComments(comments, background.Location, stdout)
 	printKeywordNode(stdout, depth, background)
+	for _, step := range background.GetSteps() {
+		printStep(stdout, depth + 1, step)
+	}
 	return comments
 }
 
 func processScenario(comments []*messages.Comment, scenario *messages.Scenario, depth int, stdout io.Writer) ([]*messages.Comment) {
 	comments = printComments(comments, scenario.Location, stdout)
 	printKeywordNode(stdout, depth, scenario)
+	for _, step := range scenario.GetSteps() {
+		printStep(stdout, depth + 1, step)
+	}
 	return comments
+}
+
+func printStep(stdout io.Writer, depth int, step *messages.Step) {
+	fmt.Fprintf(stdout, strings.Repeat(" ", depth*2))
+	fmt.Fprintf(stdout, "%s%s\n", step.GetKeyword(), step.GetText())
 }
 
 func printKeywordNode(stdout io.Writer, depth int, keywordNode KeywordNode) {
