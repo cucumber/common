@@ -48,7 +48,7 @@ func processFeature(comments []*messages.Comment, feature *messages.Feature, std
 		case *messages.FeatureChild_Background:
 			comments = processBackground(comments, t.Background, 1, stdout)
 		case *messages.FeatureChild_Rule:
-			comments = processRule(comments, t.Rule, stdout)
+			comments = processRule(comments, t.Rule, 1, stdout)
 		case *messages.FeatureChild_Scenario:
 			comments = processScenario(comments, t.Scenario, 1, stdout)
 		default:
@@ -58,9 +58,9 @@ func processFeature(comments []*messages.Comment, feature *messages.Feature, std
 	return comments
 }
 
-func processRule(comments []*messages.Comment, rule *messages.Rule, stdout io.Writer) ([]*messages.Comment) {
+func processRule(comments []*messages.Comment, rule *messages.Rule, depth int, stdout io.Writer) ([]*messages.Comment) {
 	comments = printComments(comments, rule.Location, stdout)
-	printKeywordNode(stdout, 1, rule)
+	printKeywordNode(stdout, depth, rule)
 
 	for _, child := range rule.Children {
 		fmt.Fprintf(stdout, "\n")
