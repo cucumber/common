@@ -43,8 +43,8 @@ func processGherkinDocument(gherkinDocument *messages.GherkinDocument, stdout io
 }
 
 func processFeature(comments []*messages.Comment, feature *messages.Feature, stdout io.Writer) ([]*messages.Comment) {
-	comments = printComments(comments, feature.Location, stdout)
-	printKeywordNode(stdout, 0, feature)
+	comments = processComments(comments, feature.Location, stdout)
+	processKeywordNode(stdout, 0, feature)
 	for _, child := range feature.Children {
 		fmt.Fprintf(stdout, "\n")
 		switch t := child.Value.(type) {
@@ -62,8 +62,8 @@ func processFeature(comments []*messages.Comment, feature *messages.Feature, std
 }
 
 func processRule(comments []*messages.Comment, rule *messages.Rule, depth int, stdout io.Writer) ([]*messages.Comment) {
-	comments = printComments(comments, rule.Location, stdout)
-	printKeywordNode(stdout, depth, rule)
+	comments = processComments(comments, rule.Location, stdout)
+	processKeywordNode(stdout, depth, rule)
 
 	for _, child := range rule.Children {
 		fmt.Fprintf(stdout, "\n")
@@ -80,39 +80,53 @@ func processRule(comments []*messages.Comment, rule *messages.Rule, depth int, s
 }
 
 func processBackground(comments []*messages.Comment, background *messages.Background, depth int, stdout io.Writer) ([]*messages.Comment) {
-	comments = printComments(comments, background.Location, stdout)
-	printKeywordNode(stdout, depth, background)
+	comments = processComments(comments, background.Location, stdout)
+	processKeywordNode(stdout, depth, background)
 	for _, step := range background.GetSteps() {
-		printStep(stdout, depth+1, step)
+		processStep(stdout, depth+1, step)
 	}
 	return comments
 }
 
 func processScenario(comments []*messages.Comment, scenario *messages.Scenario, depth int, stdout io.Writer) ([]*messages.Comment) {
-	comments = printComments(comments, scenario.Location, stdout)
-	printKeywordNode(stdout, depth, scenario)
+	comments = processComments(comments, scenario.Location, stdout)
+	processTags(stdout, depth, scenario.Tags)
+	processKeywordNode(stdout, depth, scenario)
 	for _, step := range scenario.GetSteps() {
-		printStep(stdout, depth+1, step)
+		processStep(stdout, depth+1, step)
 	}
 	return comments
 }
 
-func printStep(stdout io.Writer, depth int, step *messages.Step) {
+func processTags(stdout io.Writer, depth int, tags []*messages.Tag) {
+	if len(tags) > 0 {
+		fmt.Fprintf(stdout, strings.Repeat(" ", depth*2))
+		for n, tag := range tags {
+			if n > 0 {
+				fmt.Fprint(stdout, " ")
+			}
+			fmt.Fprint(stdout, tag.GetName())
+		}
+		fmt.Fprintf(stdout, "\n")
+	}
+}
+
+func processStep(stdout io.Writer, depth int, step *messages.Step) {
 	fmt.Fprintf(stdout, strings.Repeat(" ", depth*2))
 	fmt.Fprintf(stdout, "%s%s\n", step.GetKeyword(), step.GetText())
 
 	table := step.GetDataTable()
 	if table != nil {
-		printDataTable(stdout, depth+1, table)
+		processDataTable(stdout, depth+1, table)
 	}
 
 	docString := step.GetDocString()
 	if docString != nil {
-		printDocString(stdout, depth+1, docString)
+		processDocString(stdout, depth+1, docString)
 	}
 }
 
-func printDocString(stdout io.Writer, depth int, docString *messages.DocString) {
+func processDocString(stdout io.Writer, depth int, docString *messages.DocString) {
 	fmt.Fprintf(stdout, strings.Repeat(" ", depth*2))
 	fmt.Fprintf(stdout, "%s%s\n", docString.Delimiter, docString.ContentType)
 
@@ -124,7 +138,7 @@ func printDocString(stdout io.Writer, depth int, docString *messages.DocString) 
 	fmt.Fprintf(stdout, "%s%s\n", docString.Delimiter, docString.ContentType)
 }
 
-func printDataTable(stdout io.Writer, depth int, table *messages.DataTable) {
+func processDataTable(stdout io.Writer, depth int, table *messages.DataTable) {
 	rowCount := len(table.GetRows())
 
 	columnCount := len(table.GetRows()[0].GetCells())
@@ -159,7 +173,7 @@ func printDataTable(stdout io.Writer, depth int, table *messages.DataTable) {
 	}
 }
 
-func printKeywordNode(stdout io.Writer, depth int, keywordNode KeywordNode) {
+func processKeywordNode(stdout io.Writer, depth int, keywordNode KeywordNode) {
 	fmt.Fprintf(stdout, strings.Repeat(" ", depth*2))
 	fmt.Fprintf(stdout, "%s: %s\n", keywordNode.GetKeyword(), keywordNode.GetName())
 }
@@ -169,7 +183,7 @@ type KeywordNode interface {
 	GetName() string
 }
 
-func printComments(comments []*messages.Comment, location *messages.Location, stdout io.Writer) ([]*messages.Comment) {
+func processComments(comments []*messages.Comment, location *messages.Location, stdout io.Writer) ([]*messages.Comment) {
 	for len(comments) > 0 {
 		comment := comments[0]
 		if location.Line < comment.Location.Line {

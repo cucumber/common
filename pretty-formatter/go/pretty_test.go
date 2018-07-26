@@ -68,6 +68,7 @@ Feature: A
       Given e
 
     # F
+    @f @F
     Scenario: F
       Given f
 `
