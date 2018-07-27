@@ -122,32 +122,34 @@ public final class DataTableType {
 
     /**
      * Creates a data table type for default cell transformer
-     * @param cellType class representing cell declared in {@code List<List<T>>}
+     *
+     * @param cellType                    class representing cell declared in {@code List<List<T>>}
      * @param defaultDataTableTransformer default cell transformer registered in {@link DataTableTypeRegistry#setDefaultDataTableCellTransformer(TableCellByTypeTransformer)}
-     * @param <T> see {@code cellType}
+     * @param <T>                         see {@code cellType}
      * @return new DataTableType witch transforms {@code List<List<String>>} to {@code List<List<T>>}
      */
     static <T> DataTableType defaultCell(final Class<T> cellType, final TableCellByTypeTransformer defaultDataTableTransformer) {
         return new DataTableType(cellType, new TableCellTransformer<T>() {
             @Override
             public T transform(String cell) throws Throwable {
-                return defaultDataTableTransformer.transform(cell,cellType);
+                return defaultDataTableTransformer.transform(cell, cellType);
             }
         });
     }
 
     /**
      * Creates a data table type for default entry transformer
-     * @param entryType class representing entry declared in {@code List<T>}
+     *
+     * @param entryType                   class representing entry declared in {@code List<T>}
      * @param defaultDataTableTransformer default entry transformer registered in {@link DataTableTypeRegistry#setDefaultDataTableEntryTransformer(TableEntryByTypeTransformer)}
-     * @param <T> see {@code entryType}
+     * @param <T>                         see {@code entryType}
      * @return new DataTableType witch transforms {@code List<List<String>>} to {@code List<T>}
      */
     static <T> DataTableType defaultEntry(final Class<T> entryType, final TableEntryByTypeTransformer defaultDataTableTransformer, final TableCellByTypeTransformer tableCellByTypeTransformer) {
         return new DataTableType(entryType, new TableEntryTransformer<T>() {
             @Override
             public T transform(Map<String, String> entry) throws Throwable {
-                return defaultDataTableTransformer.transform(entry, entryType,tableCellByTypeTransformer);
+                return defaultDataTableTransformer.transform(entry, entryType, tableCellByTypeTransformer);
             }
         });
     }

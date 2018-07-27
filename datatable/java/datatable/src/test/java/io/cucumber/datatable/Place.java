@@ -2,11 +2,11 @@ package io.cucumber.datatable;
 
 class Place {
 
-    String name;
-    int indexOfPlace;
+    final String name;
+    final int indexOfPlace;
 
     Place(String name) {
-        this.name = name;
+        this(name, -1);
     }
 
     Place(String name, int indexOfPlace) {
@@ -14,8 +14,6 @@ class Place {
         this.indexOfPlace = indexOfPlace;
     }
 
-    Place() {
-    }
 
     @Override
     public boolean equals(Object o) {
@@ -39,5 +37,13 @@ class Place {
         int result = name != null ? name.hashCode() : 0;
         result = 31 * result + indexOfPlace;
         return result;
+    }
+
+    @Override
+    public String toString() {
+        return "Place{" +
+                "name='" + name + '\'' +
+                ", indexOfPlace=" + indexOfPlace +
+                '}';
     }
 }

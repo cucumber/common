@@ -21,13 +21,11 @@ public class CucumberExpressionGeneratorTest {
 
     @Test
     public void documents_expression_generation() {
-        /// [generate-expression]
         CucumberExpressionGenerator generator = new CucumberExpressionGenerator(parameterTypeRegistry);
         String undefinedStepText = "I have 2 cucumbers and 1.5 tomato";
         GeneratedExpression generatedExpression = generator.generateExpressions(undefinedStepText).get(0);
         assertEquals("I have {int} cucumbers and {double} tomato", generatedExpression.getSource());
         assertEquals(Double.class, generatedExpression.getParameterTypes().get(1).getType());
-        /// [generate-expression]
     }
 
     @Test

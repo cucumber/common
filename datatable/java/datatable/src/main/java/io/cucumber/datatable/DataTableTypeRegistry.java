@@ -15,6 +15,7 @@ import static java.lang.String.format;
 
 public final class DataTableTypeRegistry {
 
+    private final DataTableCellByTypeTransformer tableCellByTypeTransformer = new DataTableCellByTypeTransformer(this);
     private final Map<JavaType, DataTableType> tableTypeByType = new HashMap<>();
     private TableEntryByTypeTransformer defaultDataTableEntryTransformer;
     private TableCellByTypeTransformer defaultDataTableCellTransformer;
@@ -130,12 +131,19 @@ public final class DataTableTypeRegistry {
         JavaType contentType = targetType.getContentType();
         if(contentType.isCollectionLikeType()) {
             if(defaultDataTableCellTransformer != null){
-                return DataTableType.defaultCell(contentType.getContentType().getRawClass(), defaultDataTableCellTransformer);
+                return DataTableType.defaultCell(
+                        contentType.getContentType().getRawClass(),
+                        defaultDataTableCellTransformer
+                );
             }
             return null;
         }
         if (defaultDataTableEntryTransformer != null){
-            return DataTableType.defaultEntry(contentType.getRawClass(), defaultDataTableEntryTransformer, new DataTableCellByTypeTransformer(this));
+            return DataTableType.defaultEntry(
+                    contentType.getRawClass(),
+                    defaultDataTableEntryTransformer,
+                    tableCellByTypeTransformer
+            );
         }
         return null;
     }
