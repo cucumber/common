@@ -14,6 +14,9 @@ ifeq ($(IN_GOPATH), 0)
 .deps: .linked
 endif
 
+default: .tested
+.PHONY: default
+
 ifneq (,$(wildcard ./cli))
 ifndef ALPINE
 # Cross-compile executables if there is a CLI. Disabled on Alpine Linux builds
@@ -22,9 +25,6 @@ ifndef ALPINE
 default: .dist
 endif
 endif
-
-default: .tested
-.PHONY: default
 
 .dist: .deps
 	mkdir -p dist

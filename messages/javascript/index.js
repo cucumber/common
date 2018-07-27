@@ -7471,6 +7471,486 @@ $root.io = (function() {
                 return PickleTag;
             })();
 
+            messages.TestCase = (function() {
+
+                /**
+                 * Properties of a TestCase.
+                 * @memberof io.cucumber.messages
+                 * @interface ITestCase
+                 * @property {string|null} [uri] TestCase uri
+                 * @property {number|null} [line] TestCase line
+                 */
+
+                /**
+                 * Constructs a new TestCase.
+                 * @memberof io.cucumber.messages
+                 * @classdesc Represents a TestCase.
+                 * @implements ITestCase
+                 * @constructor
+                 * @param {io.cucumber.messages.ITestCase=} [properties] Properties to set
+                 */
+                function TestCase(properties) {
+                    if (properties)
+                        for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                            if (properties[keys[i]] != null)
+                                this[keys[i]] = properties[keys[i]];
+                }
+
+                /**
+                 * TestCase uri.
+                 * @member {string} uri
+                 * @memberof io.cucumber.messages.TestCase
+                 * @instance
+                 */
+                TestCase.prototype.uri = "";
+
+                /**
+                 * TestCase line.
+                 * @member {number} line
+                 * @memberof io.cucumber.messages.TestCase
+                 * @instance
+                 */
+                TestCase.prototype.line = 0;
+
+                /**
+                 * Creates a new TestCase instance using the specified properties.
+                 * @function create
+                 * @memberof io.cucumber.messages.TestCase
+                 * @static
+                 * @param {io.cucumber.messages.ITestCase=} [properties] Properties to set
+                 * @returns {io.cucumber.messages.TestCase} TestCase instance
+                 */
+                TestCase.create = function create(properties) {
+                    return new TestCase(properties);
+                };
+
+                /**
+                 * Encodes the specified TestCase message. Does not implicitly {@link io.cucumber.messages.TestCase.verify|verify} messages.
+                 * @function encode
+                 * @memberof io.cucumber.messages.TestCase
+                 * @static
+                 * @param {io.cucumber.messages.ITestCase} message TestCase message or plain object to encode
+                 * @param {$protobuf.Writer} [writer] Writer to encode to
+                 * @returns {$protobuf.Writer} Writer
+                 */
+                TestCase.encode = function encode(message, writer) {
+                    if (!writer)
+                        writer = $Writer.create();
+                    if (message.uri != null && message.hasOwnProperty("uri"))
+                        writer.uint32(/* id 1, wireType 2 =*/10).string(message.uri);
+                    if (message.line != null && message.hasOwnProperty("line"))
+                        writer.uint32(/* id 2, wireType 0 =*/16).uint32(message.line);
+                    return writer;
+                };
+
+                /**
+                 * Encodes the specified TestCase message, length delimited. Does not implicitly {@link io.cucumber.messages.TestCase.verify|verify} messages.
+                 * @function encodeDelimited
+                 * @memberof io.cucumber.messages.TestCase
+                 * @static
+                 * @param {io.cucumber.messages.ITestCase} message TestCase message or plain object to encode
+                 * @param {$protobuf.Writer} [writer] Writer to encode to
+                 * @returns {$protobuf.Writer} Writer
+                 */
+                TestCase.encodeDelimited = function encodeDelimited(message, writer) {
+                    return this.encode(message, writer).ldelim();
+                };
+
+                /**
+                 * Decodes a TestCase message from the specified reader or buffer.
+                 * @function decode
+                 * @memberof io.cucumber.messages.TestCase
+                 * @static
+                 * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+                 * @param {number} [length] Message length if known beforehand
+                 * @returns {io.cucumber.messages.TestCase} TestCase
+                 * @throws {Error} If the payload is not a reader or valid buffer
+                 * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                 */
+                TestCase.decode = function decode(reader, length) {
+                    if (!(reader instanceof $Reader))
+                        reader = $Reader.create(reader);
+                    var end = length === undefined ? reader.len : reader.pos + length, message = new $root.io.cucumber.messages.TestCase();
+                    while (reader.pos < end) {
+                        var tag = reader.uint32();
+                        switch (tag >>> 3) {
+                        case 1:
+                            message.uri = reader.string();
+                            break;
+                        case 2:
+                            message.line = reader.uint32();
+                            break;
+                        default:
+                            reader.skipType(tag & 7);
+                            break;
+                        }
+                    }
+                    return message;
+                };
+
+                /**
+                 * Decodes a TestCase message from the specified reader or buffer, length delimited.
+                 * @function decodeDelimited
+                 * @memberof io.cucumber.messages.TestCase
+                 * @static
+                 * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+                 * @returns {io.cucumber.messages.TestCase} TestCase
+                 * @throws {Error} If the payload is not a reader or valid buffer
+                 * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                 */
+                TestCase.decodeDelimited = function decodeDelimited(reader) {
+                    if (!(reader instanceof $Reader))
+                        reader = new $Reader(reader);
+                    return this.decode(reader, reader.uint32());
+                };
+
+                /**
+                 * Verifies a TestCase message.
+                 * @function verify
+                 * @memberof io.cucumber.messages.TestCase
+                 * @static
+                 * @param {Object.<string,*>} message Plain object to verify
+                 * @returns {string|null} `null` if valid, otherwise the reason why it is not
+                 */
+                TestCase.verify = function verify(message) {
+                    if (typeof message !== "object" || message === null)
+                        return "object expected";
+                    if (message.uri != null && message.hasOwnProperty("uri"))
+                        if (!$util.isString(message.uri))
+                            return "uri: string expected";
+                    if (message.line != null && message.hasOwnProperty("line"))
+                        if (!$util.isInteger(message.line))
+                            return "line: integer expected";
+                    return null;
+                };
+
+                /**
+                 * Creates a TestCase message from a plain object. Also converts values to their respective internal types.
+                 * @function fromObject
+                 * @memberof io.cucumber.messages.TestCase
+                 * @static
+                 * @param {Object.<string,*>} object Plain object
+                 * @returns {io.cucumber.messages.TestCase} TestCase
+                 */
+                TestCase.fromObject = function fromObject(object) {
+                    if (object instanceof $root.io.cucumber.messages.TestCase)
+                        return object;
+                    var message = new $root.io.cucumber.messages.TestCase();
+                    if (object.uri != null)
+                        message.uri = String(object.uri);
+                    if (object.line != null)
+                        message.line = object.line >>> 0;
+                    return message;
+                };
+
+                /**
+                 * Creates a plain object from a TestCase message. Also converts values to other types if specified.
+                 * @function toObject
+                 * @memberof io.cucumber.messages.TestCase
+                 * @static
+                 * @param {io.cucumber.messages.TestCase} message TestCase
+                 * @param {$protobuf.IConversionOptions} [options] Conversion options
+                 * @returns {Object.<string,*>} Plain object
+                 */
+                TestCase.toObject = function toObject(message, options) {
+                    if (!options)
+                        options = {};
+                    var object = {};
+                    if (options.defaults) {
+                        object.uri = "";
+                        object.line = 0;
+                    }
+                    if (message.uri != null && message.hasOwnProperty("uri"))
+                        object.uri = message.uri;
+                    if (message.line != null && message.hasOwnProperty("line"))
+                        object.line = message.line;
+                    return object;
+                };
+
+                /**
+                 * Converts this TestCase to JSON.
+                 * @function toJSON
+                 * @memberof io.cucumber.messages.TestCase
+                 * @instance
+                 * @returns {Object.<string,*>} JSON object
+                 */
+                TestCase.prototype.toJSON = function toJSON() {
+                    return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+                };
+
+                return TestCase;
+            })();
+
+            messages.TestResult = (function() {
+
+                /**
+                 * Properties of a TestResult.
+                 * @memberof io.cucumber.messages
+                 * @interface ITestResult
+                 * @property {io.cucumber.messages.Status|null} [status] TestResult status
+                 * @property {string|null} [message] TestResult message
+                 * @property {google.protobuf.ITimestamp|null} [timestamp] TestResult timestamp
+                 */
+
+                /**
+                 * Constructs a new TestResult.
+                 * @memberof io.cucumber.messages
+                 * @classdesc Represents a TestResult.
+                 * @implements ITestResult
+                 * @constructor
+                 * @param {io.cucumber.messages.ITestResult=} [properties] Properties to set
+                 */
+                function TestResult(properties) {
+                    if (properties)
+                        for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                            if (properties[keys[i]] != null)
+                                this[keys[i]] = properties[keys[i]];
+                }
+
+                /**
+                 * TestResult status.
+                 * @member {io.cucumber.messages.Status} status
+                 * @memberof io.cucumber.messages.TestResult
+                 * @instance
+                 */
+                TestResult.prototype.status = 0;
+
+                /**
+                 * TestResult message.
+                 * @member {string} message
+                 * @memberof io.cucumber.messages.TestResult
+                 * @instance
+                 */
+                TestResult.prototype.message = "";
+
+                /**
+                 * TestResult timestamp.
+                 * @member {google.protobuf.ITimestamp|null|undefined} timestamp
+                 * @memberof io.cucumber.messages.TestResult
+                 * @instance
+                 */
+                TestResult.prototype.timestamp = null;
+
+                /**
+                 * Creates a new TestResult instance using the specified properties.
+                 * @function create
+                 * @memberof io.cucumber.messages.TestResult
+                 * @static
+                 * @param {io.cucumber.messages.ITestResult=} [properties] Properties to set
+                 * @returns {io.cucumber.messages.TestResult} TestResult instance
+                 */
+                TestResult.create = function create(properties) {
+                    return new TestResult(properties);
+                };
+
+                /**
+                 * Encodes the specified TestResult message. Does not implicitly {@link io.cucumber.messages.TestResult.verify|verify} messages.
+                 * @function encode
+                 * @memberof io.cucumber.messages.TestResult
+                 * @static
+                 * @param {io.cucumber.messages.ITestResult} message TestResult message or plain object to encode
+                 * @param {$protobuf.Writer} [writer] Writer to encode to
+                 * @returns {$protobuf.Writer} Writer
+                 */
+                TestResult.encode = function encode(message, writer) {
+                    if (!writer)
+                        writer = $Writer.create();
+                    if (message.status != null && message.hasOwnProperty("status"))
+                        writer.uint32(/* id 1, wireType 0 =*/8).int32(message.status);
+                    if (message.message != null && message.hasOwnProperty("message"))
+                        writer.uint32(/* id 2, wireType 2 =*/18).string(message.message);
+                    if (message.timestamp != null && message.hasOwnProperty("timestamp"))
+                        $root.google.protobuf.Timestamp.encode(message.timestamp, writer.uint32(/* id 3, wireType 2 =*/26).fork()).ldelim();
+                    return writer;
+                };
+
+                /**
+                 * Encodes the specified TestResult message, length delimited. Does not implicitly {@link io.cucumber.messages.TestResult.verify|verify} messages.
+                 * @function encodeDelimited
+                 * @memberof io.cucumber.messages.TestResult
+                 * @static
+                 * @param {io.cucumber.messages.ITestResult} message TestResult message or plain object to encode
+                 * @param {$protobuf.Writer} [writer] Writer to encode to
+                 * @returns {$protobuf.Writer} Writer
+                 */
+                TestResult.encodeDelimited = function encodeDelimited(message, writer) {
+                    return this.encode(message, writer).ldelim();
+                };
+
+                /**
+                 * Decodes a TestResult message from the specified reader or buffer.
+                 * @function decode
+                 * @memberof io.cucumber.messages.TestResult
+                 * @static
+                 * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+                 * @param {number} [length] Message length if known beforehand
+                 * @returns {io.cucumber.messages.TestResult} TestResult
+                 * @throws {Error} If the payload is not a reader or valid buffer
+                 * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                 */
+                TestResult.decode = function decode(reader, length) {
+                    if (!(reader instanceof $Reader))
+                        reader = $Reader.create(reader);
+                    var end = length === undefined ? reader.len : reader.pos + length, message = new $root.io.cucumber.messages.TestResult();
+                    while (reader.pos < end) {
+                        var tag = reader.uint32();
+                        switch (tag >>> 3) {
+                        case 1:
+                            message.status = reader.int32();
+                            break;
+                        case 2:
+                            message.message = reader.string();
+                            break;
+                        case 3:
+                            message.timestamp = $root.google.protobuf.Timestamp.decode(reader, reader.uint32());
+                            break;
+                        default:
+                            reader.skipType(tag & 7);
+                            break;
+                        }
+                    }
+                    return message;
+                };
+
+                /**
+                 * Decodes a TestResult message from the specified reader or buffer, length delimited.
+                 * @function decodeDelimited
+                 * @memberof io.cucumber.messages.TestResult
+                 * @static
+                 * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+                 * @returns {io.cucumber.messages.TestResult} TestResult
+                 * @throws {Error} If the payload is not a reader or valid buffer
+                 * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                 */
+                TestResult.decodeDelimited = function decodeDelimited(reader) {
+                    if (!(reader instanceof $Reader))
+                        reader = new $Reader(reader);
+                    return this.decode(reader, reader.uint32());
+                };
+
+                /**
+                 * Verifies a TestResult message.
+                 * @function verify
+                 * @memberof io.cucumber.messages.TestResult
+                 * @static
+                 * @param {Object.<string,*>} message Plain object to verify
+                 * @returns {string|null} `null` if valid, otherwise the reason why it is not
+                 */
+                TestResult.verify = function verify(message) {
+                    if (typeof message !== "object" || message === null)
+                        return "object expected";
+                    if (message.status != null && message.hasOwnProperty("status"))
+                        switch (message.status) {
+                        default:
+                            return "status: enum value expected";
+                        case 0:
+                        case 1:
+                        case 2:
+                        case 3:
+                        case 4:
+                        case 5:
+                            break;
+                        }
+                    if (message.message != null && message.hasOwnProperty("message"))
+                        if (!$util.isString(message.message))
+                            return "message: string expected";
+                    if (message.timestamp != null && message.hasOwnProperty("timestamp")) {
+                        var error = $root.google.protobuf.Timestamp.verify(message.timestamp);
+                        if (error)
+                            return "timestamp." + error;
+                    }
+                    return null;
+                };
+
+                /**
+                 * Creates a TestResult message from a plain object. Also converts values to their respective internal types.
+                 * @function fromObject
+                 * @memberof io.cucumber.messages.TestResult
+                 * @static
+                 * @param {Object.<string,*>} object Plain object
+                 * @returns {io.cucumber.messages.TestResult} TestResult
+                 */
+                TestResult.fromObject = function fromObject(object) {
+                    if (object instanceof $root.io.cucumber.messages.TestResult)
+                        return object;
+                    var message = new $root.io.cucumber.messages.TestResult();
+                    switch (object.status) {
+                    case "AMBIGUOUS":
+                    case 0:
+                        message.status = 0;
+                        break;
+                    case "FAILED":
+                    case 1:
+                        message.status = 1;
+                        break;
+                    case "PASSED":
+                    case 2:
+                        message.status = 2;
+                        break;
+                    case "PENDING":
+                    case 3:
+                        message.status = 3;
+                        break;
+                    case "SKIPPED":
+                    case 4:
+                        message.status = 4;
+                        break;
+                    case "UNDEFINED":
+                    case 5:
+                        message.status = 5;
+                        break;
+                    }
+                    if (object.message != null)
+                        message.message = String(object.message);
+                    if (object.timestamp != null) {
+                        if (typeof object.timestamp !== "object")
+                            throw TypeError(".io.cucumber.messages.TestResult.timestamp: object expected");
+                        message.timestamp = $root.google.protobuf.Timestamp.fromObject(object.timestamp);
+                    }
+                    return message;
+                };
+
+                /**
+                 * Creates a plain object from a TestResult message. Also converts values to other types if specified.
+                 * @function toObject
+                 * @memberof io.cucumber.messages.TestResult
+                 * @static
+                 * @param {io.cucumber.messages.TestResult} message TestResult
+                 * @param {$protobuf.IConversionOptions} [options] Conversion options
+                 * @returns {Object.<string,*>} Plain object
+                 */
+                TestResult.toObject = function toObject(message, options) {
+                    if (!options)
+                        options = {};
+                    var object = {};
+                    if (options.defaults) {
+                        object.status = options.enums === String ? "AMBIGUOUS" : 0;
+                        object.message = "";
+                        object.timestamp = null;
+                    }
+                    if (message.status != null && message.hasOwnProperty("status"))
+                        object.status = options.enums === String ? $root.io.cucumber.messages.Status[message.status] : message.status;
+                    if (message.message != null && message.hasOwnProperty("message"))
+                        object.message = message.message;
+                    if (message.timestamp != null && message.hasOwnProperty("timestamp"))
+                        object.timestamp = $root.google.protobuf.Timestamp.toObject(message.timestamp, options);
+                    return object;
+                };
+
+                /**
+                 * Converts this TestResult to JSON.
+                 * @function toJSON
+                 * @memberof io.cucumber.messages.TestResult
+                 * @instance
+                 * @returns {Object.<string,*>} JSON object
+                 */
+                TestResult.prototype.toJSON = function toJSON() {
+                    return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+                };
+
+                return TestResult;
+            })();
+
             /**
              * Status enum.
              * @name io.cucumber.messages.Status
@@ -7499,7 +7979,9 @@ $root.io = (function() {
                  * Properties of a TestStepFinished.
                  * @memberof io.cucumber.messages
                  * @interface ITestStepFinished
-                 * @property {io.cucumber.messages.Status|null} [status] TestStepFinished status
+                 * @property {io.cucumber.messages.ITestCase|null} [testCase] TestStepFinished testCase
+                 * @property {number|null} [index] TestStepFinished index
+                 * @property {io.cucumber.messages.ITestResult|null} [testResult] TestStepFinished testResult
                  */
 
                 /**
@@ -7518,12 +8000,28 @@ $root.io = (function() {
                 }
 
                 /**
-                 * TestStepFinished status.
-                 * @member {io.cucumber.messages.Status} status
+                 * TestStepFinished testCase.
+                 * @member {io.cucumber.messages.ITestCase|null|undefined} testCase
                  * @memberof io.cucumber.messages.TestStepFinished
                  * @instance
                  */
-                TestStepFinished.prototype.status = 0;
+                TestStepFinished.prototype.testCase = null;
+
+                /**
+                 * TestStepFinished index.
+                 * @member {number} index
+                 * @memberof io.cucumber.messages.TestStepFinished
+                 * @instance
+                 */
+                TestStepFinished.prototype.index = 0;
+
+                /**
+                 * TestStepFinished testResult.
+                 * @member {io.cucumber.messages.ITestResult|null|undefined} testResult
+                 * @memberof io.cucumber.messages.TestStepFinished
+                 * @instance
+                 */
+                TestStepFinished.prototype.testResult = null;
 
                 /**
                  * Creates a new TestStepFinished instance using the specified properties.
@@ -7549,8 +8047,12 @@ $root.io = (function() {
                 TestStepFinished.encode = function encode(message, writer) {
                     if (!writer)
                         writer = $Writer.create();
-                    if (message.status != null && message.hasOwnProperty("status"))
-                        writer.uint32(/* id 1, wireType 0 =*/8).int32(message.status);
+                    if (message.testCase != null && message.hasOwnProperty("testCase"))
+                        $root.io.cucumber.messages.TestCase.encode(message.testCase, writer.uint32(/* id 1, wireType 2 =*/10).fork()).ldelim();
+                    if (message.index != null && message.hasOwnProperty("index"))
+                        writer.uint32(/* id 2, wireType 0 =*/16).uint32(message.index);
+                    if (message.testResult != null && message.hasOwnProperty("testResult"))
+                        $root.io.cucumber.messages.TestResult.encode(message.testResult, writer.uint32(/* id 3, wireType 2 =*/26).fork()).ldelim();
                     return writer;
                 };
 
@@ -7586,7 +8088,13 @@ $root.io = (function() {
                         var tag = reader.uint32();
                         switch (tag >>> 3) {
                         case 1:
-                            message.status = reader.int32();
+                            message.testCase = $root.io.cucumber.messages.TestCase.decode(reader, reader.uint32());
+                            break;
+                        case 2:
+                            message.index = reader.uint32();
+                            break;
+                        case 3:
+                            message.testResult = $root.io.cucumber.messages.TestResult.decode(reader, reader.uint32());
                             break;
                         default:
                             reader.skipType(tag & 7);
@@ -7623,18 +8131,19 @@ $root.io = (function() {
                 TestStepFinished.verify = function verify(message) {
                     if (typeof message !== "object" || message === null)
                         return "object expected";
-                    if (message.status != null && message.hasOwnProperty("status"))
-                        switch (message.status) {
-                        default:
-                            return "status: enum value expected";
-                        case 0:
-                        case 1:
-                        case 2:
-                        case 3:
-                        case 4:
-                        case 5:
-                            break;
-                        }
+                    if (message.testCase != null && message.hasOwnProperty("testCase")) {
+                        var error = $root.io.cucumber.messages.TestCase.verify(message.testCase);
+                        if (error)
+                            return "testCase." + error;
+                    }
+                    if (message.index != null && message.hasOwnProperty("index"))
+                        if (!$util.isInteger(message.index))
+                            return "index: integer expected";
+                    if (message.testResult != null && message.hasOwnProperty("testResult")) {
+                        var error = $root.io.cucumber.messages.TestResult.verify(message.testResult);
+                        if (error)
+                            return "testResult." + error;
+                    }
                     return null;
                 };
 
@@ -7650,31 +8159,17 @@ $root.io = (function() {
                     if (object instanceof $root.io.cucumber.messages.TestStepFinished)
                         return object;
                     var message = new $root.io.cucumber.messages.TestStepFinished();
-                    switch (object.status) {
-                    case "AMBIGUOUS":
-                    case 0:
-                        message.status = 0;
-                        break;
-                    case "FAILED":
-                    case 1:
-                        message.status = 1;
-                        break;
-                    case "PASSED":
-                    case 2:
-                        message.status = 2;
-                        break;
-                    case "PENDING":
-                    case 3:
-                        message.status = 3;
-                        break;
-                    case "SKIPPED":
-                    case 4:
-                        message.status = 4;
-                        break;
-                    case "UNDEFINED":
-                    case 5:
-                        message.status = 5;
-                        break;
+                    if (object.testCase != null) {
+                        if (typeof object.testCase !== "object")
+                            throw TypeError(".io.cucumber.messages.TestStepFinished.testCase: object expected");
+                        message.testCase = $root.io.cucumber.messages.TestCase.fromObject(object.testCase);
+                    }
+                    if (object.index != null)
+                        message.index = object.index >>> 0;
+                    if (object.testResult != null) {
+                        if (typeof object.testResult !== "object")
+                            throw TypeError(".io.cucumber.messages.TestStepFinished.testResult: object expected");
+                        message.testResult = $root.io.cucumber.messages.TestResult.fromObject(object.testResult);
                     }
                     return message;
                 };
@@ -7692,10 +8187,17 @@ $root.io = (function() {
                     if (!options)
                         options = {};
                     var object = {};
-                    if (options.defaults)
-                        object.status = options.enums === String ? "AMBIGUOUS" : 0;
-                    if (message.status != null && message.hasOwnProperty("status"))
-                        object.status = options.enums === String ? $root.io.cucumber.messages.Status[message.status] : message.status;
+                    if (options.defaults) {
+                        object.testCase = null;
+                        object.index = 0;
+                        object.testResult = null;
+                    }
+                    if (message.testCase != null && message.hasOwnProperty("testCase"))
+                        object.testCase = $root.io.cucumber.messages.TestCase.toObject(message.testCase, options);
+                    if (message.index != null && message.hasOwnProperty("index"))
+                        object.index = message.index;
+                    if (message.testResult != null && message.hasOwnProperty("testResult"))
+                        object.testResult = $root.io.cucumber.messages.TestResult.toObject(message.testResult, options);
                     return object;
                 };
 
@@ -7720,6 +8222,254 @@ $root.io = (function() {
     })();
 
     return io;
+})();
+
+$root.google = (function() {
+
+    /**
+     * Namespace google.
+     * @exports google
+     * @namespace
+     */
+    var google = {};
+
+    google.protobuf = (function() {
+
+        /**
+         * Namespace protobuf.
+         * @memberof google
+         * @namespace
+         */
+        var protobuf = {};
+
+        protobuf.Timestamp = (function() {
+
+            /**
+             * Properties of a Timestamp.
+             * @memberof google.protobuf
+             * @interface ITimestamp
+             * @property {number|Long|null} [seconds] Timestamp seconds
+             * @property {number|null} [nanos] Timestamp nanos
+             */
+
+            /**
+             * Constructs a new Timestamp.
+             * @memberof google.protobuf
+             * @classdesc Represents a Timestamp.
+             * @implements ITimestamp
+             * @constructor
+             * @param {google.protobuf.ITimestamp=} [properties] Properties to set
+             */
+            function Timestamp(properties) {
+                if (properties)
+                    for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                        if (properties[keys[i]] != null)
+                            this[keys[i]] = properties[keys[i]];
+            }
+
+            /**
+             * Timestamp seconds.
+             * @member {number|Long} seconds
+             * @memberof google.protobuf.Timestamp
+             * @instance
+             */
+            Timestamp.prototype.seconds = $util.Long ? $util.Long.fromBits(0,0,false) : 0;
+
+            /**
+             * Timestamp nanos.
+             * @member {number} nanos
+             * @memberof google.protobuf.Timestamp
+             * @instance
+             */
+            Timestamp.prototype.nanos = 0;
+
+            /**
+             * Creates a new Timestamp instance using the specified properties.
+             * @function create
+             * @memberof google.protobuf.Timestamp
+             * @static
+             * @param {google.protobuf.ITimestamp=} [properties] Properties to set
+             * @returns {google.protobuf.Timestamp} Timestamp instance
+             */
+            Timestamp.create = function create(properties) {
+                return new Timestamp(properties);
+            };
+
+            /**
+             * Encodes the specified Timestamp message. Does not implicitly {@link google.protobuf.Timestamp.verify|verify} messages.
+             * @function encode
+             * @memberof google.protobuf.Timestamp
+             * @static
+             * @param {google.protobuf.ITimestamp} message Timestamp message or plain object to encode
+             * @param {$protobuf.Writer} [writer] Writer to encode to
+             * @returns {$protobuf.Writer} Writer
+             */
+            Timestamp.encode = function encode(message, writer) {
+                if (!writer)
+                    writer = $Writer.create();
+                if (message.seconds != null && message.hasOwnProperty("seconds"))
+                    writer.uint32(/* id 1, wireType 0 =*/8).int64(message.seconds);
+                if (message.nanos != null && message.hasOwnProperty("nanos"))
+                    writer.uint32(/* id 2, wireType 0 =*/16).int32(message.nanos);
+                return writer;
+            };
+
+            /**
+             * Encodes the specified Timestamp message, length delimited. Does not implicitly {@link google.protobuf.Timestamp.verify|verify} messages.
+             * @function encodeDelimited
+             * @memberof google.protobuf.Timestamp
+             * @static
+             * @param {google.protobuf.ITimestamp} message Timestamp message or plain object to encode
+             * @param {$protobuf.Writer} [writer] Writer to encode to
+             * @returns {$protobuf.Writer} Writer
+             */
+            Timestamp.encodeDelimited = function encodeDelimited(message, writer) {
+                return this.encode(message, writer).ldelim();
+            };
+
+            /**
+             * Decodes a Timestamp message from the specified reader or buffer.
+             * @function decode
+             * @memberof google.protobuf.Timestamp
+             * @static
+             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+             * @param {number} [length] Message length if known beforehand
+             * @returns {google.protobuf.Timestamp} Timestamp
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            Timestamp.decode = function decode(reader, length) {
+                if (!(reader instanceof $Reader))
+                    reader = $Reader.create(reader);
+                var end = length === undefined ? reader.len : reader.pos + length, message = new $root.google.protobuf.Timestamp();
+                while (reader.pos < end) {
+                    var tag = reader.uint32();
+                    switch (tag >>> 3) {
+                    case 1:
+                        message.seconds = reader.int64();
+                        break;
+                    case 2:
+                        message.nanos = reader.int32();
+                        break;
+                    default:
+                        reader.skipType(tag & 7);
+                        break;
+                    }
+                }
+                return message;
+            };
+
+            /**
+             * Decodes a Timestamp message from the specified reader or buffer, length delimited.
+             * @function decodeDelimited
+             * @memberof google.protobuf.Timestamp
+             * @static
+             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+             * @returns {google.protobuf.Timestamp} Timestamp
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            Timestamp.decodeDelimited = function decodeDelimited(reader) {
+                if (!(reader instanceof $Reader))
+                    reader = new $Reader(reader);
+                return this.decode(reader, reader.uint32());
+            };
+
+            /**
+             * Verifies a Timestamp message.
+             * @function verify
+             * @memberof google.protobuf.Timestamp
+             * @static
+             * @param {Object.<string,*>} message Plain object to verify
+             * @returns {string|null} `null` if valid, otherwise the reason why it is not
+             */
+            Timestamp.verify = function verify(message) {
+                if (typeof message !== "object" || message === null)
+                    return "object expected";
+                if (message.seconds != null && message.hasOwnProperty("seconds"))
+                    if (!$util.isInteger(message.seconds) && !(message.seconds && $util.isInteger(message.seconds.low) && $util.isInteger(message.seconds.high)))
+                        return "seconds: integer|Long expected";
+                if (message.nanos != null && message.hasOwnProperty("nanos"))
+                    if (!$util.isInteger(message.nanos))
+                        return "nanos: integer expected";
+                return null;
+            };
+
+            /**
+             * Creates a Timestamp message from a plain object. Also converts values to their respective internal types.
+             * @function fromObject
+             * @memberof google.protobuf.Timestamp
+             * @static
+             * @param {Object.<string,*>} object Plain object
+             * @returns {google.protobuf.Timestamp} Timestamp
+             */
+            Timestamp.fromObject = function fromObject(object) {
+                if (object instanceof $root.google.protobuf.Timestamp)
+                    return object;
+                var message = new $root.google.protobuf.Timestamp();
+                if (object.seconds != null)
+                    if ($util.Long)
+                        (message.seconds = $util.Long.fromValue(object.seconds)).unsigned = false;
+                    else if (typeof object.seconds === "string")
+                        message.seconds = parseInt(object.seconds, 10);
+                    else if (typeof object.seconds === "number")
+                        message.seconds = object.seconds;
+                    else if (typeof object.seconds === "object")
+                        message.seconds = new $util.LongBits(object.seconds.low >>> 0, object.seconds.high >>> 0).toNumber();
+                if (object.nanos != null)
+                    message.nanos = object.nanos | 0;
+                return message;
+            };
+
+            /**
+             * Creates a plain object from a Timestamp message. Also converts values to other types if specified.
+             * @function toObject
+             * @memberof google.protobuf.Timestamp
+             * @static
+             * @param {google.protobuf.Timestamp} message Timestamp
+             * @param {$protobuf.IConversionOptions} [options] Conversion options
+             * @returns {Object.<string,*>} Plain object
+             */
+            Timestamp.toObject = function toObject(message, options) {
+                if (!options)
+                    options = {};
+                var object = {};
+                if (options.defaults) {
+                    if ($util.Long) {
+                        var long = new $util.Long(0, 0, false);
+                        object.seconds = options.longs === String ? long.toString() : options.longs === Number ? long.toNumber() : long;
+                    } else
+                        object.seconds = options.longs === String ? "0" : 0;
+                    object.nanos = 0;
+                }
+                if (message.seconds != null && message.hasOwnProperty("seconds"))
+                    if (typeof message.seconds === "number")
+                        object.seconds = options.longs === String ? String(message.seconds) : message.seconds;
+                    else
+                        object.seconds = options.longs === String ? $util.Long.prototype.toString.call(message.seconds) : options.longs === Number ? new $util.LongBits(message.seconds.low >>> 0, message.seconds.high >>> 0).toNumber() : message.seconds;
+                if (message.nanos != null && message.hasOwnProperty("nanos"))
+                    object.nanos = message.nanos;
+                return object;
+            };
+
+            /**
+             * Converts this Timestamp to JSON.
+             * @function toJSON
+             * @memberof google.protobuf.Timestamp
+             * @instance
+             * @returns {Object.<string,*>} JSON object
+             */
+            Timestamp.prototype.toJSON = function toJSON() {
+                return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+            };
+
+            return Timestamp;
+        })();
+
+        return protobuf;
+    })();
+
+    return google;
 })();
 
 module.exports = $root;

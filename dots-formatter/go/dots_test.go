@@ -46,7 +46,11 @@ func TestAllResultTypes(t *testing.T) {
 func newTestStepFinished(status messages.Status) *messages.Wrapper {
 	return &messages.Wrapper{
 		Message: &messages.Wrapper_TestStepFinished{
-			TestStepFinished: &messages.TestStepFinished{Status: status},
+			TestStepFinished: &messages.TestStepFinished{
+				TestResult: &messages.TestResult{
+					Status: status,
+				},
+			},
 		},
 	}
 }

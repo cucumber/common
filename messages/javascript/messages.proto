@@ -1,4 +1,5 @@
 syntax = "proto3";
+import "google/protobuf/timestamp.proto";
 package io.cucumber.messages;
 option ruby_package = "Cucumber.Messages";
 option go_package = "messages";
@@ -199,6 +200,21 @@ message PickleTag {
 
 ////// Results
 
+message SourceLine {
+  string uri = 1;
+  uint32 line = 2;
+}
+
+message TestCase {
+  SourceLine sourceLine = 1;
+}
+
+message TestResult {
+  Status status = 1;
+  string message = 2;
+  google.protobuf.Timestamp timestamp = 3;
+}
+
 enum Status {
   AMBIGUOUS = 0;
   FAILED = 1;
@@ -209,6 +225,8 @@ enum Status {
 }
 
 message TestStepFinished {
-  Status status = 1;
+  TestCase testCase = 1;
+  uint32 index = 2;
+  TestResult testResult = 3;
 }
 

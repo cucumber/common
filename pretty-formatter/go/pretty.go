@@ -16,7 +16,7 @@ import (
 	"regexp"
 )
 
-func ProcessMessages(stdin io.Reader, stdout io.Writer) {
+func ProcessMessages(stdin io.Reader, stdout io.Writer, resultsMode bool) {
 	r := gio.NewDelimitedReader(stdin, 4096)
 	for {
 		wrapper := &messages.Wrapper{}
@@ -29,6 +29,13 @@ func ProcessMessages(stdin io.Reader, stdout io.Writer) {
 		case *messages.Wrapper_GherkinDocument:
 			gherkinDocument := t.GherkinDocument
 			processGherkinDocument(gherkinDocument, stdout)
+		case *messages.Wrapper_TestStepFinished:
+//			finished := t.TestStepFinished
+			
+			// Look up AST node....
+//			sourceLine := finished.TestCase.SourceLine
+
+//			fmt.Fprintf(stdout, "SXX %v\n", finished.GetTestResult().GetStatus().String())
 		}
 
 	}
@@ -38,11 +45,11 @@ func processGherkinDocument(gherkinDocument *messages.GherkinDocument, stdout io
 	feature := gherkinDocument.Feature
 	comments := gherkinDocument.Comments
 	if feature != nil {
-		comments = processFeature(comments, feature, stdout)
+		comments = processFeature(gherkinDocument.Uri, comments, feature, stdout)
 	}
 }
 
-func processFeature(comments []*messages.Comment, feature *messages.Feature, stdout io.Writer) ([]*messages.Comment) {
+func processFeature(uri string, comments []*messages.Comment, feature *messages.Feature, stdout io.Writer) ([]*messages.Comment) {
 	comments = processComments(comments, feature.Location, stdout)
 	processKeywordNode(stdout, 0, feature)
 	for _, child := range feature.Children {
@@ -51,9 +58,9 @@ func processFeature(comments []*messages.Comment, feature *messages.Feature, std
 		case *messages.FeatureChild_Background:
 			comments = processBackground(comments, t.Background, 1, stdout)
 		case *messages.FeatureChild_Rule:
-			comments = processRule(comments, t.Rule, 1, stdout)
+			comments = processRule(uri, comments, t.Rule, 1, stdout)
 		case *messages.FeatureChild_Scenario:
-			comments = processScenario(comments, t.Scenario, 1, stdout)
+			comments = processScenario(uri, comments, t.Scenario, 1, stdout)
 		default:
 			panic(fmt.Sprintf("unexpected %T feature child", child))
 		}
@@ -61,7 +68,7 @@ func processFeature(comments []*messages.Comment, feature *messages.Feature, std
 	return comments
 }
 
-func processRule(comments []*messages.Comment, rule *messages.Rule, depth int, stdout io.Writer) ([]*messages.Comment) {
+func processRule(uri string, comments []*messages.Comment, rule *messages.Rule, depth int, stdout io.Writer) ([]*messages.Comment) {
 	comments = processComments(comments, rule.Location, stdout)
 	processKeywordNode(stdout, depth, rule)
 
@@ -71,7 +78,7 @@ func processRule(comments []*messages.Comment, rule *messages.Rule, depth int, s
 		case *messages.RuleChild_Background:
 			comments = processBackground(comments, t.Background, 2, stdout)
 		case *messages.RuleChild_Scenario:
-			comments = processScenario(comments, t.Scenario, 2, stdout)
+			comments = processScenario(uri, comments, t.Scenario, 2, stdout)
 		default:
 			panic(fmt.Sprintf("unexpected %T feature child", child))
 		}
@@ -88,7 +95,12 @@ func processBackground(comments []*messages.Comment, background *messages.Backgr
 	return comments
 }
 
-func processScenario(comments []*messages.Comment, scenario *messages.Scenario, depth int, stdout io.Writer) ([]*messages.Comment) {
+func processScenario(uri string, comments []*messages.Comment, scenario *messages.Scenario, depth int, stdout io.Writer) ([]*messages.Comment) {
+	//sourceLine := &messages.SourceLine{
+	//	Uri: uri,
+	//	Line: scenario.Location.Line,
+	//}
+
 	comments = processComments(comments, scenario.Location, stdout)
 	processTags(stdout, depth, scenario.Tags)
 	processKeywordNode(stdout, depth, scenario)

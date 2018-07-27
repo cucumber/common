@@ -3,6 +3,7 @@
 
 require 'google/protobuf'
 
+require 'google/protobuf/timestamp_pb'
 Google::Protobuf::DescriptorPool.generated_pool.build do
   add_message "io.cucumber.messages.Wrapper" do
     oneof :message do
@@ -164,8 +165,19 @@ Google::Protobuf::DescriptorPool.generated_pool.build do
     optional :location, :message, 1, "io.cucumber.messages.Location"
     optional :name, :string, 2
   end
-  add_message "io.cucumber.messages.TestStepFinished" do
+  add_message "io.cucumber.messages.TestCase" do
+    optional :uri, :string, 1
+    optional :line, :uint32, 2
+  end
+  add_message "io.cucumber.messages.TestResult" do
     optional :status, :enum, 1, "io.cucumber.messages.Status"
+    optional :message, :string, 2
+    optional :timestamp, :message, 3, "google.protobuf.Timestamp"
+  end
+  add_message "io.cucumber.messages.TestStepFinished" do
+    optional :testCase, :message, 1, "io.cucumber.messages.TestCase"
+    optional :index, :uint32, 2
+    optional :testResult, :message, 3, "io.cucumber.messages.TestResult"
   end
   add_enum "io.cucumber.messages.Status" do
     value :AMBIGUOUS, 0
@@ -207,6 +219,8 @@ module Cucumber
     PickleTableCell = Google::Protobuf::DescriptorPool.generated_pool.lookup("io.cucumber.messages.PickleTableCell").msgclass
     PickleTableRow = Google::Protobuf::DescriptorPool.generated_pool.lookup("io.cucumber.messages.PickleTableRow").msgclass
     PickleTag = Google::Protobuf::DescriptorPool.generated_pool.lookup("io.cucumber.messages.PickleTag").msgclass
+    TestCase = Google::Protobuf::DescriptorPool.generated_pool.lookup("io.cucumber.messages.TestCase").msgclass
+    TestResult = Google::Protobuf::DescriptorPool.generated_pool.lookup("io.cucumber.messages.TestResult").msgclass
     TestStepFinished = Google::Protobuf::DescriptorPool.generated_pool.lookup("io.cucumber.messages.TestStepFinished").msgclass
     Status = Google::Protobuf::DescriptorPool.generated_pool.lookup("io.cucumber.messages.Status").enummodule
   end

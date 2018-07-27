@@ -16,7 +16,7 @@ Feature: Hello
 `
 
 	stdout := &bytes.Buffer{}
-	ProcessMessages(messageReader(t, src), stdout)
+	ProcessMessages(messageReader(t, src), stdout, false)
 
 	require.EqualValues(t,
 		src,
@@ -32,14 +32,14 @@ Feature: Hello
 `
 
 	stdout := &bytes.Buffer{}
-	ProcessMessages(messageReader(t, src), stdout)
+	ProcessMessages(messageReader(t, src), stdout, false)
 
 	require.EqualValues(t,
 		src,
 		stdout.String())
 }
 
-func TestPrintsFullLevel(t *testing.T) {
+func TestPrintsAllTheThings(t *testing.T) {
 	src := `# A
 Feature: A
 
@@ -84,7 +84,30 @@ Feature: A
 `
 
 	stdout := &bytes.Buffer{}
-	ProcessMessages(messageReader(t, src), stdout)
+	ProcessMessages(messageReader(t, src), stdout, false)
+
+	require.EqualValues(t,
+		src,
+		stdout.String())
+}
+
+func TestPrintsInResultsMode(t *testing.T) {
+	src := `Feature: A
+
+  Scenario: B
+    passed Given C
+    failed When D
+    undefined Then E
+`
+
+	stdout := &bytes.Buffer{}
+	prettyStdin := messageReader(t, src)
+	prettyStdinWriter := gio.NewDelimitedWriter(prettyStdin)
+	prettyStdinWriter.WriteMsg(newTestStepFinished(messages.Status_PASSED, 3, 0))
+	prettyStdinWriter.WriteMsg(newTestStepFinished(messages.Status_FAILED, 3, 1))
+	prettyStdinWriter.WriteMsg(newTestStepFinished(messages.Status_UNDEFINED, 3, 2))
+
+	ProcessMessages(prettyStdin, stdout, true)
 
 	require.EqualValues(t,
 		src,
@@ -118,4 +141,23 @@ func messageReader(t *testing.T, src string) *bytes.Buffer {
 		prettyStdinWriter.WriteMsg(&wrapper)
 	}
 	return prettyStdin
+}
+
+func newTestStepFinished(status messages.Status, line uint32, index uint32) *messages.Wrapper {
+	return &messages.Wrapper{
+		Message: &messages.Wrapper_TestStepFinished{
+			TestStepFinished: &messages.TestStepFinished{
+				TestCase: &messages.TestCase{
+					SourceLine: &messages.SourceLine{
+						Uri:  "features/test.feature",
+						Line: line,
+					},
+				},
+				TestResult: &messages.TestResult{
+					Status: status,
+				},
+				Index: index,
+			},
+		},
+	}
 }
