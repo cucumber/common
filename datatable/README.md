@@ -324,6 +324,31 @@ registry.defineDataTableType(new DataTableType(
 [A chess board with one black knight and two white bishops]
 ```
 
+### Default Table Types
+
+So far all examples required transforms to be written manually. This is quite burdensome. By defining and registering
+a `TableEntryByTypeTransformer` and `TableCellByTypeTransformer` it is possible to transform all table entries and cells
+with a custom object mapper (e.g. Jackson Databind).
+
+
+```java
+private class JacksonDataTableTransformer implements TableEntryByTypeTransformer, TableCellByTypeTransformer {
+
+    ObjectMapper objectMapper = new com.fasterxml.jackson.databind.ObjectMapper();
+    
+    @Override
+    public <T> T transform(String value, Class<T> cellType) {
+        return objectMapper.convertValue(value, cellType);
+    }
+
+    @Override
+    public <T> T transform(Map<String, String> entry, Class<T> type, TableCellByTypeTransformer cellTransformer) {
+        return objectMapper.convertValue(entry, type);
+    }
+}
+```
+
+
 ## Diffing
 
 Two tables can be compared using the `diff` or `unorderedDiff` methods.
