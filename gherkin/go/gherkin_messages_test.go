@@ -1,10 +1,10 @@
 package gherkin
 
 import (
-	"testing"
+	"bytes"
 	"github.com/cucumber/cucumber-messages-go"
 	gio "github.com/gogo/protobuf/io"
-	"bytes"
+	"testing"
 )
 
 func TestMessagesWithStdin(t *testing.T) {

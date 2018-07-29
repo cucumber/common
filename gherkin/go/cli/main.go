@@ -6,13 +6,13 @@ will print them as JSON (useful for testing/debugging)
 package main
 
 import (
+	b64 "encoding/base64"
 	"flag"
 	"fmt"
-	"os"
-	b64 "encoding/base64"
-	"github.com/golang/protobuf/proto"
-	"github.com/golang/protobuf/jsonpb"
 	"github.com/cucumber/gherkin-go"
+	"github.com/golang/protobuf/jsonpb"
+	"github.com/golang/protobuf/proto"
+	"os"
 )
 
 var noSource = flag.Bool("no-source", false, "Skip gherkin source events")
@@ -63,7 +63,7 @@ func main() {
 				os.Exit(1)
 			}
 			os.Stdout.Write(proto.EncodeVarint(uint64(len(bytes))))
-			os.Stdout.Write(bytes);
+			os.Stdout.Write(bytes)
 		}
 	}
 }
