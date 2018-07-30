@@ -10,6 +10,7 @@ go:
 install:
   - wget https://github.com/google/protobuf/releases/download/v3.6.0/protobuf-all-3.6.0.tar.gz
   - tar -xzvf protobuf-all-3.6.0.tar.gz
-  - pushd protobuf-3.6.0 && ./configure --prefix=/usr && make && make install && popd
+  - pushd protobuf-3.6.0 && ./configure && make && popd
+  - export PATH=$PATH:$PWD/protobuf-3.6.0/src
 
 script: make default
