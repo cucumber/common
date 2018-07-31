@@ -21,6 +21,7 @@ var noPickles = flag.Bool("no-pickles", false, "Skip gherkin Pickle events")
 var printJson = flag.Bool("json", false, "Print messages as JSON instead of protobuf")
 var versionFlag = flag.Bool("version", false, "print version")
 var dialectsFlag = flag.Bool("dialects", false, "print dialects as JSON")
+var defaultDialectFlag = flag.String("default-dialect", "en", "the default dialect")
 
 // Set during build with -ldflags
 var version string
@@ -41,7 +42,7 @@ func main() {
 
 	paths := flag.Args()
 
-	messageList, err := gherkin.GherkinMessages(paths, os.Stdin, "en", !*noSource, !*noAst, !*noPickles)
+	messageList, err := gherkin.GherkinMessages(paths, os.Stdin, *defaultDialectFlag, !*noSource, !*noAst, !*noPickles)
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "failed to parse Gherkin: %+v\n", err)
 		os.Exit(1)

@@ -5,8 +5,9 @@ require 'cucumber/messages'
 
 module Gherkin
   class Gherkin
-    def initialize(paths, print_source, print_ast, print_pickles)
+    def initialize(paths, print_source, print_ast, print_pickles, default_dialect = nil)
       @paths, @print_source, @print_ast, @print_pickles = paths, print_source, print_ast, print_pickles
+      @default_dialect = default_dialect
       path_pattern = "#{File.dirname(__FILE__)}/../../gherkin-go/gherkin-go-{{.OS}}-{{.Arch}}{{.Ext}}"
       @gherkin_executable = ExeFile.new(File.expand_path(path_pattern)).target_file
     end
@@ -35,6 +36,7 @@ module Gherkin
       args.push('--no-source') unless @print_source
       args.push('--no-ast') unless @print_ast
       args.push('--no-pickles') unless @print_pickles
+      args.push("--default-dialect=#{@default_dialect}") unless @default_dialect.nil?
       args
     end
 

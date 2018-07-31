@@ -27,5 +27,24 @@ module Gherkin
         expect(messages.length).to eq(3)
       end
     end
+
+    context 'setting the default dialect' do
+      it 'features will be parsed using the set default dialect' do
+        gherkin = Gherkin.new(
+          [],
+          true, true, true, 'no'
+        )
+        content = """
+          Egenskap: i18n support
+
+            Scenario: Parsing many languages
+              Gitt Gherkin supports many languages
+              Når Norwegian keywords are parsed
+              Så they should be recognized
+          """
+        messages = gherkin.parse('dummy', content).to_a
+        expect(messages.length).to eq(3)
+      end
+    end
   end
 end
