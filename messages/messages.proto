@@ -5,7 +5,7 @@ option go_package = "messages";
 
 // All messages sent between processes must be of type Wrapper
 message Wrapper {
-  oneof message {
+  oneof msg {
     Source source = 1;
     GherkinDocument gherkinDocument = 2;
     Pickle pickle = 3;
