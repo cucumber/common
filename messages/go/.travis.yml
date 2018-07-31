@@ -7,10 +7,12 @@ go:
   - "1.10"
   - "tip"
 
+cache:
+  directories:
+    - protobuf-3.6.0
+
 install:
-  - wget https://github.com/google/protobuf/releases/download/v3.6.0/protobuf-all-3.6.0.tar.gz
-  - tar -xzvf protobuf-all-3.6.0.tar.gz
-  - pushd protobuf-3.6.0 && ./configure && make && popd
+  - if [ ! -d "$PWD/protobuf-3.6.0" ]; then ./install_protobuf.sh 3.6.0; fi
   - export PATH=$PATH:$PWD/protobuf-3.6.0/src
 
 script: make default
