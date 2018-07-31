@@ -5,7 +5,7 @@ FROM alpine:3.7
 
 WORKDIR /app
 
-RUN apk add --no-cache --update --upgrade alpine-sdk make bash maven openjdk8 diffutils jq python py-pip ruby ruby-dev perl perl-dev wget rsync go nodejs unzip automake autoconf libtool
+RUN apk add --no-cache --update --upgrade alpine-sdk make bash maven openjdk8 diffutils jq python2 python2-dev py2-pip ruby ruby-dev perl perl-dev wget rsync go nodejs unzip automake autoconf libtool
 RUN npm install --global yarn
 RUN echo "gem: --no-document" > ~/.gemrc
 RUN gem install bundler io-console
