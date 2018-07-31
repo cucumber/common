@@ -1,4 +1,6 @@
 opam-version: "1.2"
+name: "cucumber-messages"
+version: "0.0.1"
 maintainer: "cyocum@gmail.com"
 authors: ["Christopher Yocum"]
 homepage: "https://github.com/cucumber/cucumber-messages-ocaml"
