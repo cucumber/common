@@ -1,0 +1,17 @@
+opam-version: "1.2"
+maintainer: "cyocum@gmail.com"
+authors: ["Christopher Yocum"]
+homepage: "https://github.com/cucumber/cucumber-messages-ocaml"
+bug-reports: "https://github.com/cucumber/issues"
+dev-repo: "https://github.com/cucumber/cucumber-messages-ocaml.git"
+
+build: [
+  ["dune" "subst"] {pinned}
+  ["dune" "build" "-p" name "-j" jobs]
+]
+
+
+depends: [
+  "dune" {build}
+  "ocaml-protoc" {build}
+]

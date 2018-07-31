@@ -1,0 +1,10 @@
+(library
+	(name cucumber_messages)
+	(libraries ocaml-protoc)
+	(synopsis "Cucumber messages file for Gherkin")
+	(public_name cucumber-messages))
+
+(rule
+	(targets messages_types.mli messages_types.ml messages_pb.mli messages_pb.ml)
+	(deps messages.proto)
+	(action (run ocaml-protoc -binary -ml_out . %{deps}))) 
