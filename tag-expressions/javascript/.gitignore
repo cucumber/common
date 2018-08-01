@@ -2,3 +2,5 @@ coverage/
 node_modules/
 yarn.lock
 .nyc_output/
+.deps
+.tested
