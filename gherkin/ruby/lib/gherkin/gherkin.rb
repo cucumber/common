@@ -17,7 +17,7 @@ module Gherkin
       args = args.concat(@paths)
       stdin, stdout, stderr, wait_thr = Open3.popen3(*args)
       stdin.close
-      messages = ProtobufCucumberMessages.new(stdout, stderr).messages
+      ProtobufCucumberMessages.new(stdout, stderr).messages
     end
 
     def parse(uri, data)
@@ -26,7 +26,7 @@ module Gherkin
       stdin.binmode
       stdin.write(encode_source_message(uri, data))
       stdin.close
-      messages = ProtobufCucumberMessages.new(stdout, stderr).messages
+      ProtobufCucumberMessages.new(stdout, stderr).messages
     end
 
     private
