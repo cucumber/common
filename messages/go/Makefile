@@ -15,3 +15,6 @@ messages.pb.go: messages.proto
 	protoc -I=. -I=$(GOPATH)/src -I=$(GOPATH)/src/github.com/gogo/protobuf/protobuf --gogofast_out=\
 	Mgoogle/protobuf/timestamp.proto=github.com/gogo/protobuf/types:. \
 	$<
+
+clean:
+	rm -f messages.pb.go

@@ -80,7 +80,9 @@ Log into Travis and set up build for the new (empty) subrepo.
 
 Initialise the subrepo, for example:
     
-    echo "cucumber/tag-expressions-go.git" > tag-expressions/go/.subrepo
+    echo "cucumber/tag-expressions-go" > tag-expressions/go/.subrepo
+    git add tag-expressions/go/.subrepo
+    git commit -m "Add cucumber/tag-expressions-go subrepo"
 
 Push to the subrepo:
 

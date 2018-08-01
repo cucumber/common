@@ -9,6 +9,20 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Added
 
+### Changed
+
+### Deprecated
+
+### Removed
+
+### Fixed
+
+## [1.1.3] - 2018-07-27
+
+### Added
+* Add ability to register default transformers for table cell and entry
+  ([#429](https://github.com/cucumber/cucumber/pull/429)
+   [lsuski])
 * Add `DataTableType#entry(Class)` to easily map tables to `List<SomeClass>`
   ([#408](https://github.com/cucumber/cucumber/pull/408)
    [aslakhellesoy])

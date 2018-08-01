@@ -81,26 +81,20 @@ function subrepo_remote()
   fi
 }
 
-# Checks whether a branch (or tag) is for a subrepo.
-# Used to determine whether or not to push it to the subrepo.
-#
-# branch:  cucumber-expressions-fix-bug
-# subrepo: cucumber-expressions/go)
-# result: 1
-# 
-# branch:  tag-expressions-fix-bug
-# subrepo: cucumber-expressions/go)
-# result: (empty)
-# 
-function is_branch_or_tag_for_subrepo() {
-  branch_or_tag=$1
+function is_commit_for_subrepo() {
+  commit=$1
   subrepo=$2
-  library=$(echo ${subrepo} | cut -d/ -f1)
-  branch_or_tag_prefixes=${branch_or_tag//_/$'\n'}
-  for branch_or_tag_prefix in ${branch_or_tag_prefixes}
+  for modified_file in $(modified_files ${commit})
   do
-      [[ ${branch_or_tag_prefix} == ${library}* ]] || [[ ${branch_or_tag} == "master" ]] && echo "${branch_or_tag_prefix}" && break
+    if [[ ${modified_file} == ${subrepo}* ]]; then
+      echo 'yes'
+    fi
   done
+}
+
+function modified_files() {
+  commit=$1
+  git diff-tree --no-commit-id --name-only -r ${commit}
 }
 
 function git_branch() {
@@ -133,7 +127,7 @@ function push_subrepo_branch_maybe()
   remote=$(subrepo_remote "${subrepo}")
   branch=$(git_branch)
   
-  if is_branch_or_tag_for_subrepo "${branch}" "${subrepo}"; then
+  if is_commit_for_subrepo "${TRAVIS_COMMIT}" "${subrepo}"; then
     git push --force "${remote}" $(splitsh-lite --prefix=${subrepo}):refs/heads/${branch}
   fi
 }
@@ -144,7 +138,7 @@ function push_subrepo_tag_maybe()
   remote=$(subrepo_remote "${subrepo}")
   if [ -z "${TRAVIS_TAG}" ]; then
     echo "No tags to push"
-  elif is_branch_or_tag_for_subrepo "${TRAVIS_TAG}" "${subrepo}"; then
+  elif is_commit_for_subrepo "${TRAVIS_COMMIT}" "${subrepo}"; then
     git push --force "${remote}" $(splitsh-lite --prefix=${subrepo} --origin=refs/tags/${TRAVIS_TAG}):refs/tags/${TRAVIS_TAG}
   fi
 }

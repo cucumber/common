@@ -1,4 +1,4 @@
 ../../LICENSE LICENSE
 ../../.templates/github/ .github/
-../../.templates/go/ .
+../../.templates/go/default.mk default.mk
 ../messages.proto messages.proto

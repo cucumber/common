@@ -12,7 +12,7 @@
 #   # Interactive bash session
 #   docker-run Dockerfile.cucumber-build bash
 #
-set -euf -o pipefail
+set -ef -o pipefail
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 source "${DIR}/functions.sh"
 dockerfile=$1
