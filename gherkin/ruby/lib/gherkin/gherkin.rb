@@ -1,6 +1,7 @@
 require 'open3'
 require 'gherkin/protobuf_cucumber_messages'
 require 'gherkin/exe_file'
+require 'gherkin/exe_file_path'
 require 'cucumber/messages'
 
 module Gherkin
@@ -8,8 +9,7 @@ module Gherkin
     def initialize(paths, print_source, print_ast, print_pickles, default_dialect = nil)
       @paths, @print_source, @print_ast, @print_pickles = paths, print_source, print_ast, print_pickles
       @default_dialect = default_dialect
-      path_pattern = "#{File.dirname(__FILE__)}/../../gherkin-go/gherkin-go-{{.OS}}-{{.Arch}}{{.Ext}}"
-      @gherkin_executable = ExeFile.new(File.expand_path(path_pattern)).target_file
+      @gherkin_executable = ExeFile.new(EXE_FILE_PATH).target_file
     end
 
     def messages
