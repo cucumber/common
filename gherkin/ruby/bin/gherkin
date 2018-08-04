@@ -6,31 +6,27 @@ require 'optparse'
 require 'json'
 require 'gherkin/exe_file.rb'
 require 'gherkin/gherkin'
-require 'gherkin/protobuf_cucumber_messages'
 
 options = {
-  print_source: true,
-  print_ast: true,
-  print_pickles: true,
+  include_source: true,
+  include_gherkin_document: true,
+  include_pickles: true,
   protobuf: false
 }
 
 OptionParser.new do |opts|
   opts.on("--[no-]source", "Don't print source messages") do |v|
-    options[:print_source] = v
+    options[:include_source] = v
   end
   opts.on("--[no-]ast", "Don't print ast messages") do |v|
-    options[:print_ast] = v
+    options[:include_gherkin_document] = v
   end
   opts.on("--[no-]pickles", "Don't print pickle messages") do |v|
-    options[:print_pickles] = v
-  end
-  opts.on("--protobuf", "Print messages as Protocol Buffers") do |v|
-    options[:protobuf] = v
+    options[:include_pickles] = v
   end
 end.parse!
 
-def print_messages(messages)
+def include_messages(messages)
   messages.each do |message|
     json = message.class.encode_json(message)
     # puts json
@@ -60,10 +56,8 @@ messages = ARGV.empty? ?
   # Read protobuf from STDIN
   Gherkin::ProtobufCucumberMessages.new(STDIN).messages
   :
-  Gherkin::Gherkin.new(
+  Gherkin::Gherkin.from_paths(
     ARGV,
-    options[:print_source],
-    options[:print_ast],
-    options[:print_pickles]
-  ).messages
-print_messages(messages)
+    options
+  )
+include_messages(messages)

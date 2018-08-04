@@ -16,7 +16,7 @@ import java.util.List;
 /**
  * Main entry point for the Gherkin library
  */
-public class Gherkin implements GherkinMessages {
+public class Gherkin {
     private final List<String> paths;
     private final List<Source> sources;
     private final boolean includeSource;
@@ -32,15 +32,14 @@ public class Gherkin implements GherkinMessages {
         this.includePickles = includePickles;
     }
 
-    public static GherkinMessages fromPaths(List<String> paths, boolean includeSource, boolean includeAst, boolean includePickles) {
-        return new Gherkin(paths, null, includeSource, includeAst, includePickles);
+    public static List<Wrapper> fromPaths(List<String> paths, boolean includeSource, boolean includeAst, boolean includePickles) {
+        return new Gherkin(paths, null, includeSource, includeAst, includePickles).messages();
     }
 
-    public static GherkinMessages fromSources(List<Source> sources, boolean includeSource, boolean includeAst, boolean includePickles) {
-        return new Gherkin(Collections.<String>emptyList(), sources, includeSource, includeAst, includePickles);
+    public static List<Wrapper> fromSources(List<Source> sources, boolean includeSource, boolean includeAst, boolean includePickles) {
+        return new Gherkin(Collections.<String>emptyList(), sources, includeSource, includeAst, includePickles).messages();
     }
 
-    @Override
     public List<Wrapper> messages() {
         try {
             List<String> args = new ArrayList<>();

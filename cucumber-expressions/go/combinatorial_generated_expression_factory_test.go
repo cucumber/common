@@ -1,9 +1,9 @@
 package cucumberexpressions
 
 import (
+	"github.com/stretchr/testify/require"
 	"regexp"
 	"testing"
-	"github.com/stretchr/testify/require"
 )
 
 func TestCombinatorialGeneratedExpressionFactory(t *testing.T) {

@@ -1,10 +1,13 @@
-*.iml
 .deps
 .linked
 .tested
-bin/
-*.bin
+.built
+.compared
 .dist
 .dist-compressed
-dist/
+.gofmt
+bin/
+acceptance/
 dist_compressed/
+dist/
+*.bin

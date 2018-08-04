@@ -6,34 +6,24 @@ module Gherkin
   describe Gherkin do
     context 'using paths' do
       it "works" do
-        cucumber_messages = Gherkin.new(
-          ["testdata/good/minimal.feature"],
-          true, true, true
+        messages = Gherkin.from_paths(
+          ["testdata/good/minimal.feature"]
         )
-        messages = cucumber_messages.messages.to_a
-        expect(messages.length).to eq(3)
+        expect(messages.to_a.length).to eq(3)
       end
     end
 
     context 'using string content' do
       it 'works' do
-        gherkin = Gherkin.new(
-          [],
-          true, true, true
-        )
         file = File.new('testdata/good/minimal.feature')
         content = file.read.encode('UTF-8')
-        messages = gherkin.parse('testdata/good/minimal.feature', content).to_a
-        expect(messages.length).to eq(3)
+        messages = Gherkin.from_source('testdata/good/minimal.feature', content).to_a
+        expect(messages.to_a.length).to eq(3)
       end
     end
 
     context 'setting the default dialect' do
       it 'features will be parsed using the set default dialect' do
-        gherkin = Gherkin.new(
-          [],
-          true, true, true, 'no'
-        )
         content = """
           Egenskap: i18n support
 
@@ -42,8 +32,8 @@ module Gherkin
               Når Norwegian keywords are parsed
               Så they should be recognized
           """
-        messages = gherkin.parse('dummy', content).to_a
-        expect(messages.length).to eq(3)
+        messages = Gherkin.from_source('dummy', content, {default_dialect: 'no'})
+        expect(messages.to_a.length).to eq(3)
       end
     end
   end

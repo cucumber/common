@@ -1,8 +1,8 @@
 package tagexpressions
 
 import (
-	"testing"
 	"github.com/stretchr/testify/require"
+	"testing"
 )
 
 func TestParse(t *testing.T) {

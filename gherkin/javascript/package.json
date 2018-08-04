@@ -2,12 +2,19 @@
   "name": "gherkin",
   "version": "5.1.0",
   "description": "Gherkin parser",
-  "main": "index.js",
+  "main": "dist/src/Gherkin.js",
   "bin": {
     "gherkin-javascript": "bin/gherkin"
   },
   "scripts": {
-    "test": "make && mocha"
+    "test": "mocha",
+    "eslint-fix": "eslint --fix src test",
+    "coverage": "nyc --reporter=html --reporter=text mocha",
+    "build": "babel src --out-dir dist/src",
+    "build-test": "babel test --out-dir dist/test",
+    "prepare": "yarn build",
+    "postinstall": "node scripts/postinstall.js",
+    "mocha-built": "mocha dist/test"
   },
   "repository": {
     "type": "git",
@@ -20,13 +27,21 @@
   "author": "Aslak Hellesøy",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/cucumber/gherkin/issues"
+    "url": "https://github.com/cucumber/cucumber/issues"
   },
-  "homepage": "https://github.com/cucumber/gherkin",
+  "homepage": "https://github.com/cucumber/gherkin-javascript",
   "devDependencies": {
-    "browserify": "^14.1.0",
-    "mocha": "^3.0.2",
-    "uglify-js": "^2.7.3"
+    "babel-cli": "^6.26.0",
+    "babel-polyfill": "^6.26.0",
+    "babel-preset-env": "^1.7.0",
+    "eslint": "^5.3.0",
+    "eslint-config-eslint": "^5.0.1",
+    "eslint-config-prettier": "^2.9.0",
+    "eslint-plugin-node": "^6.0.1",
+    "eslint-plugin-prettier": "^2.6.2",
+    "mocha": "^5.2.0",
+    "nyc": "^12.0.2",
+    "prettier": "^1.8.2"
   },
   "dependencies": {
     "cucumber-messages": "cucumber/cucumber-messages-javascript"

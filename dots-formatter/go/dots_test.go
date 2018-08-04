@@ -1,14 +1,14 @@
 package dots
 
 import (
-	"testing"
 	"bytes"
-	"strings"
-	"io/ioutil"
+	"github.com/cucumber/cucumber-messages-go"
+	"github.com/fatih/color"
 	gio "github.com/gogo/protobuf/io"
 	"github.com/stretchr/testify/require"
-	"github.com/fatih/color"
-	"github.com/cucumber/cucumber-messages-go"
+	"io/ioutil"
+	"strings"
+	"testing"
 )
 
 func TestAllResultTypes(t *testing.T) {
@@ -41,7 +41,7 @@ func TestAllResultTypes(t *testing.T) {
 			"\n",
 		}, ""),
 		stdout.String())
-	}
+}
 
 func newTestStepFinished(status messages.Status) *messages.Wrapper {
 	return &messages.Wrapper{

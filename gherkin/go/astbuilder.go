@@ -1,8 +1,8 @@
 package gherkin
 
 import (
-	"strings"
 	"github.com/cucumber/cucumber-messages-go"
+	"strings"
 )
 
 type AstBuilder interface {
@@ -290,7 +290,7 @@ func (t *astBuilder) transformNode(node *astNode) (interface{}, error) {
 		feat.Keyword = featureLine.Keyword
 		feat.Name = featureLine.Text
 		feat.Description = description
-		feat.Children = children;
+		feat.Children = children
 		return feat, nil
 
 	case RuleType_Rule:

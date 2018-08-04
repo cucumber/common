@@ -6,9 +6,30 @@ require 'cucumber/messages'
 
 module Gherkin
   class Gherkin
-    def initialize(paths, print_source, print_ast, print_pickles, default_dialect = nil)
-      @paths, @print_source, @print_ast, @print_pickles = paths, print_source, print_ast, print_pickles
-      @default_dialect = default_dialect
+    include Cucumber::Messages::Varint
+
+    DEFAULT_OPTIONS = {
+      include_source: true,
+      include_gherkin_document: true,
+      include_pickles: true
+    }.freeze
+
+    def self.from_paths(paths, options={})
+      self.new(paths, [], options).messages
+    end
+
+    def self.from_sources(sources, options={})
+      self.new([], sources, options).messages
+    end
+
+    def self.from_source(uri, data, options={})
+      from_sources([encode_source_message(uri, data)], options)
+    end
+    
+    def initialize(paths, sources, options)
+      @paths = paths
+      @sources = sources
+      @options = DEFAULT_OPTIONS.merge(options)
       @gherkin_executable = ExeFile.new(EXE_FILE_PATH).target_file
     end
 
@@ -16,15 +37,12 @@ module Gherkin
       args = base_args
       args = args.concat(@paths)
       stdin, stdout, stderr, wait_thr = Open3.popen3(*args)
-      stdin.close
-      ProtobufCucumberMessages.new(stdout, stderr).messages
-    end
-
-    def parse(uri, data)
-      args = base_args
-      stdin, stdout, stderr, wait_thr = Open3.popen3(*args)
       stdin.binmode
-      stdin.write(encode_source_message(uri, data))
+      @sources.each do |source|
+        proto = Cucumber::Messages::Source.encode(source)
+        encode_varint(stdin, proto.length)
+        stdin.write(proto)
+      end
       stdin.close
       ProtobufCucumberMessages.new(stdout, stderr).messages
     end
@@ -33,14 +51,14 @@ module Gherkin
 
     def base_args
       args = [@gherkin_executable]
-      args.push('--no-source') unless @print_source
-      args.push('--no-ast') unless @print_ast
-      args.push('--no-pickles') unless @print_pickles
-      args.push("--default-dialect=#{@default_dialect}") unless @default_dialect.nil?
+      args.push('--no-source') unless @options[:include_source]
+      args.push('--no-ast') unless @options[:include_gherkin_document]
+      args.push('--no-pickles') unless @options[:include_pickles]
+      args.push("--default-dialect=#{@options[:default_dialect]}") unless @options[:default_dialect].nil?
       args
     end
 
-    def encode_source_message(uri, data)
+    def self.encode_source_message(uri, data)
       media_obj = Cucumber::Messages::Media.new
       media_obj.encoding = 'UTF-8'
       media_obj.content_type = 'text/x.cucumber.gherkin+plain'
@@ -48,10 +66,7 @@ module Gherkin
       source_obj.uri = uri
       source_obj.data = data
       source_obj.media = media_obj
-      wrapper_obj = Cucumber::Messages::Wrapper.new
-      wrapper_obj.source = source_obj
-      buf = Cucumber::Messages::Wrapper.encode(wrapper_obj)
-      buf[1..-1] # A leading "\n" needs to be removed
+      source_obj
     end
   end
 end
