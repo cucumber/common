@@ -2,10 +2,10 @@ package main
 
 import (
 	"fmt"
+	"github.com/cucumber/gherkin-go"
 	"io"
 	"os"
 	"strings"
-	"github.com/cucumber/gherkin-go"
 )
 
 func main() {

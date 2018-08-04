@@ -135,7 +135,9 @@ func (m *matcher) MatchBackgroundLine(line *Line) (ok bool, token *Token, err er
 }
 func (m *matcher) MatchScenarioLine(line *Line) (ok bool, token *Token, err error) {
 	ok, token, err = m.matchTitleLine(line, TokenType_ScenarioLine, m.dialect.ScenarioKeywords())
-	if ok || (err != nil) { return ok, token, err}
+	if ok || (err != nil) {
+		return ok, token, err
+	}
 	ok, token, err = m.matchTitleLine(line, TokenType_ScenarioLine, m.dialect.ScenarioOutlineKeywords())
 	return ok, token, err
 }

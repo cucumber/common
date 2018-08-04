@@ -1,4 +1,4 @@
-[![Build Status](https://secure.travis-ci.org/cucumber/gherkin-go.svg)](http://travis-ci.org/cucumber/gherkin-go)
+[![Build Status](https://secure.travis-ci.org/cucumber/gherkin-go.svg)](http://travis-ci.org/cucumber/gherkin-go) [![GoDoc](https://godoc.org/github.com/cucumber/gherkin-go?status.svg)](http://godoc.org/github.com/cucumber/gherkin-go) [![Go Report Card](https://goreportcard.com/badge/github.com/cucumber/gherkin-go)](https://goreportcard.com/report/github.com/cucumber/gherkin-go)
 
 Gherkin parser/compiler for Go. Please see [Gherkin](https://github.com/cucumber/gherkin) for details.
 

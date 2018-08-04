@@ -3,16 +3,16 @@ package gherkin
 import (
 	"fmt"
 	"strings"
-	gio "github.com/gogo/protobuf/io"
 	"github.com/cucumber/cucumber-messages-go"
-	"io/ioutil"
+	gio "github.com/gogo/protobuf/io"
 	"io"
+	"io/ioutil"
 )
 
 func GherkinMessages(paths []string, sourceStream io.Reader, language string, includeSource bool, includeGherkinDocument bool, includePickles bool) ([]messages.Wrapper, error) {
 	var result []messages.Wrapper
 
-	processSource := func(source *messages.Source) (error) {
+	processSource := func(source *messages.Source) error {
 		if includeSource {
 			result = append(result, messages.Wrapper{
 				Message: &messages.Wrapper_Source{
