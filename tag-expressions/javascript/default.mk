@@ -32,7 +32,7 @@ default: .tested .eslinted
 	touch $@
 
 yarn.lock: package.json
-	yarn install --network-concurrency 1
+	yarn install --ignore-engines --network-concurrency 1
 	yarn link
 
 clean: clean-javascript
