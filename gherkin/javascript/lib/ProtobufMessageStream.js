@@ -4,10 +4,13 @@ try {
   // If cucumber-messages is `npm link`ed, use this
   Reader = require('cucumber-messages/node_modules/protobufjs').Reader
 } catch (ignore) {
-  // Otherwise (when it's not `npm link`'ed'), use this
+  // Otherwise (when it's not `npm link`ed), use this
   Reader = require('protobufjs').Reader
 }
 
+/**
+ * Transforms a stream of bytes to protobuf messages
+ */
 class ProtobufMessageStream extends Stream.Transform {
   constructor(type) {
     super({objectMode: true})

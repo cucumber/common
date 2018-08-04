@@ -4,3 +4,4 @@ npm-debug.log
 yarn.lock
 .deps
 .tested
+gherkin-go/

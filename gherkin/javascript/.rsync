@@ -3,6 +3,3 @@
 ../../.templates/javascript/ .
 ../../.templates/s3-download scripts/s3-download
 ../testdata/ testdata/
-../gherkin.berp gherkin.berp
-../bin/ berp/
-../gherkin-languages.json lib/gherkin/gherkin-languages.json

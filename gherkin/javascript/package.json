@@ -2,7 +2,7 @@
   "name": "gherkin",
   "version": "5.1.0",
   "description": "Gherkin parser",
-  "main": "index.js",
+  "main": "lib/Gherkin.js",
   "bin": {
     "gherkin-javascript": "bin/gherkin"
   },
@@ -20,9 +20,9 @@
   "author": "Aslak Hellesøy",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/cucumber/gherkin/issues"
+    "url": "https://github.com/cucumber/cucumber/issues"
   },
-  "homepage": "https://github.com/cucumber/gherkin",
+  "homepage": "https://github.com/cucumber/gherkin-javascript",
   "devDependencies": {
     "mocha": "^3.0.2"
   },
