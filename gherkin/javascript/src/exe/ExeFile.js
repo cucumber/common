@@ -20,28 +20,26 @@ module.exports = class ExeFile {
   }
 
   _os() {
-    // TODO: Support all of these: https://nodejs.org/dist/latest-v10.x/docs/api/os.html#os_os_platform
-    const value = this._normalize(this._props.os)
-    if (value.startsWith('darwin')) {
-      return 'darwin'
-    }
-    return 'unknown'
+    // https://nodejs.org/dist/latest-v10.x/docs/api/os.html#os_os_platform
+    return (
+      {
+        win32: 'windows',
+      }[this._props.os] || this._props.os
+    )
   }
 
   _arch() {
-    // TODO: Support all of these: https://nodejs.org/dist/latest-v10.x/docs/api/process.html#process_process_arch
-    const value = this._normalize(this._props.arch)
-    if (value.match(/^(x8664|amd64|ia32e|em64t|x64)$/)) {
-      return 'amd64'
-    }
-    return 'unknown'
+    // https://nodejs.org/dist/latest-v10.x/docs/api/process.html#process_process_arch
+    return (
+      {
+        mipsel: 'mipsle',
+        x32: '386',
+        x64: 'amd64',
+      }[this._props.arch] || this._props.arch
+    )
   }
 
   _ext() {
     return 'windows' === this._os() ? '.exe' : ''
-  }
-
-  _normalize(value) {
-    return value.toLowerCase().replace(/[^a-z0-9]+/g, '')
   }
 }

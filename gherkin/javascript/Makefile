@@ -17,24 +17,27 @@ ERRORS       = $(patsubst testdata/%.feature,acceptance/testdata/%.feature.error
 	-yarn link cucumber-messages
 	touch $@
 
-.tested: $(ASTS) $(PICKLES) $(ERRORS) $(SOURCES)
+.tested: .compared
 
-acceptance/testdata/%.feature.ast.ndjson: testdata/%.feature testdata/%.feature.ast.ndjson .built
+.compared: $(ASTS) $(PICKLES) $(ERRORS) $(SOURCES)
+	touch $@
+
+acceptance/testdata/%.feature.ast.ndjson: testdata/%.feature testdata/%.feature.ast.ndjson .deps
 	mkdir -p `dirname $@`
 	bin/gherkin --no-source --no-pickles $< | jq --sort-keys --compact-output "." > $@
 	diff --unified <(jq "." $<.ast.ndjson) <(jq "." $@)
 
-acceptance/testdata/%.feature.pickles.ndjson: testdata/%.feature testdata/%.feature.pickles.ndjson .built
+acceptance/testdata/%.feature.pickles.ndjson: testdata/%.feature testdata/%.feature.pickles.ndjson .deps
 	mkdir -p `dirname $@`
 	bin/gherkin --no-source --no-ast $< | jq --sort-keys --compact-output "." > $@
 	diff --unified <(jq "." $<.pickles.ndjson) <(jq "." $@)
 
-acceptance/testdata/%.feature.source.ndjson: testdata/%.feature testdata/%.feature.source.ndjson .built
+acceptance/testdata/%.feature.source.ndjson: testdata/%.feature testdata/%.feature.source.ndjson .deps
 	mkdir -p `dirname $@`
 	bin/gherkin --no-ast --no-pickles $< | jq --sort-keys --compact-output "." > $@
 	diff --unified <(jq "." $<.source.ndjson) <(jq "." $@)
 
-acceptance/testdata/%.feature.errors.ndjson: testdata/%.feature testdata/%.feature.errors.ndjson .built
+acceptance/testdata/%.feature.errors.ndjson: testdata/%.feature testdata/%.feature.errors.ndjson .deps
 	mkdir -p `dirname $@`
 	bin/gherkin --no-source $< | jq --sort-keys --compact-output "." > $@
 	diff --unified <(jq "." $<.errors.ndjson) <(jq "." $@)

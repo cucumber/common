@@ -39,5 +39,5 @@ clean: clean-javascript
 .PHONY: clean
 
 clean-javascript:
-	rm -rf .deps yarn.lock node_modules coverage dist
+	rm -rf .deps yarn.lock node_modules coverage dist/*
 .PHONY: clean-javascript

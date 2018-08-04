@@ -8,5 +8,6 @@ package-lock.json
 .deps
 .tested
 .eslinted
+.compared
 acceptance
 *-go/

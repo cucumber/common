@@ -11,11 +11,11 @@ ERRORS       = $(patsubst testdata/%.feature,acceptance/testdata/%.feature.error
 
 .DELETE_ON_ERROR:
 
-.tested: .compared
-
 .deps:
 	./scripts/s3-download gherkin-go $(LIBRARY_VERSION)
 	touch $@
+
+.tested: .compared
 
 .compared: $(ERRORS) $(SOURCES) $(PICKLES) $(PROTOBUFS) $(ASTS)
 	touch $@
