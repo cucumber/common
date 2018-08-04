@@ -1,6 +1,16 @@
 SHELL := /usr/bin/env bash
 JAVASCRIPT_SOURCE_FILES = $(shell find . -name "*.js" -not -path "./node_modules/*")
 
+ifdef TRAVIS_BRANCH
+	LIBRARY_VERSION=$(TRAVIS_BRANCH)
+endif
+ifdef TRAVIS_TAG
+	LIBRARY_VERSION=$(TRAVIS_TAG)
+endif
+ifndef LIBRARY_VERSION
+	LIBRARY_VERSION=$(shell git rev-parse --abbrev-ref HEAD)
+endif
+
 ASYNC_SUPPORTED := $(shell node --eval "async function foo(){}" 2> /dev/null; echo $$?)
 
 .tested: yarn.lock .deps $(JAVASCRIPT_SOURCE_FILES)
