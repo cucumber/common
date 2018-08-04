@@ -13,7 +13,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
    [charlierudolph])
 
 ### Changed
-N/A
+* JavaScript: Changed API to return a `parse` function rather than a class with a `parse` method.
+* JavaScript: Refactored to ES6 syntax
 
 ### Deprecated
 N/A

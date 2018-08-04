@@ -1,7 +1,13 @@
-acceptance/
+.idea/
+.nyc_output/
+coverage/
+dist/
 node_modules/
-npm-debug.log
 yarn.lock
+npm-debug.log
+package-lock.json
 .deps
 .tested
-gherkin-go/
+.eslinted
+acceptance
+*-go/
