@@ -4,10 +4,8 @@
   "description": "Cucumber Expressions - a simpler alternative to Regular Expressions",
   "main": "dist/src/index.js",
   "scripts": {
-    "test": "npm run eslint && npm run coverage",
-    "eslint": "eslint src test",
+    "test": "mocha",
     "eslint-fix": "eslint --fix src test",
-    "mocha": "mocha",
     "coverage": "nyc --reporter=html --reporter=text mocha",
     "build": "babel src --out-dir dist/src",
     "build-test": "babel test --out-dir dist/test",
