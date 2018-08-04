@@ -5,8 +5,8 @@
 .compared
 .dist
 .dist-compressed
-bin/gherkin
-bin/gherkin-generate-tokens
+.gofmt
+bin/
 acceptance/
 dist_compressed/
 dist/

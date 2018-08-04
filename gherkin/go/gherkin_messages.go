@@ -2,11 +2,11 @@ package gherkin
 
 import (
 	"fmt"
-	"strings"
 	"github.com/cucumber/cucumber-messages-go"
 	gio "github.com/gogo/protobuf/io"
 	"io"
 	"io/ioutil"
+	"strings"
 )
 
 func GherkinMessages(paths []string, sourceStream io.Reader, language string, includeSource bool, includeGherkinDocument bool, includePickles bool) ([]messages.Wrapper, error) {

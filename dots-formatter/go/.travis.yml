@@ -1,52 +1,15 @@
+# Please update /.templates/go/.travis.yml in the cucumber/cucumber monorepo
+# and sync:
+#
+#     source scripts/functions.sh && rsync_files
+#
 language: go
 sudo: false
+
 go:
-- '1.8'
-- '1.9'
-- '1.10'
-- tip
+  - "1.8"
+  - "1.9"
+  - "1.10"
+  - "tip"
+
 script: make default
-jobs:
-  include:
-  - stage: deploy
-    go: '1.10'
-    before_install:
-    - curl -L https://github.com/upx/upx/releases/download/v3.94/upx-3.94-amd64_linux.tar.xz | tar Jx
-    - export PATH=$PATH:$PWD/upx-3.94-amd64_linux
-    script:
-    - make
-    - make .dist-compressed
-    # Copy the binaries that compressed successfully over the uncompressed ones
-    - cp dist_compressed/* dist/
-deploy:
-  # Deploy to S3 for tags
-  - provider: s3
-    region: eu-west-2
-    bucket: io.cucumber
-    skip_cleanup: true
-    upload-dir: dots-formatter-go/$TRAVIS_TAG
-    local_dir: dist
-    on:
-      repo: cucumber/dots-formatter-go
-      go: '1.10'
-      tags: true
-    access_key_id:
-      secure: CY/heTGk2tyd3JM6QTaG6LZm1RmdFKU6I3U5HU+NtyWgKu1UGWeJot1mJ8utaYTwtQyB3Z/EIBl17iserSBKv48RJwmfTQkYQIZrvh7j4CNX8Sbbyd3MOWr9+9938OnGokg9CK2Jh0nTVphmmP0riL/SKymLqygB6KvSPxZa7H52WoKyXXyGyIrcmopW+WQrybDo/+xAV2W6feqsrTVRmvMTc57FrJZZPCb9Q9lZ3oGBx+6sFH771pSWi35gkqoDHq4D326133ZTtUdGS5pxNhPMZjDVUgNZJri3sYbwwCv2GaQ3TJc05qopywd2bsBclk/e/pjukanCrhrLJImhxY/sp+02cELNgCIMACb3fMlIfD/rOEFlEaKVMJz15P83ke2Mi2GoDW/729OGqURxTXzbFeM4A9MDp4iiffWsFPcExTvZeeYNBo0NoE1ag479ti/Zf0hvVAh6TnRpSI7sKClzZZEwRz576N4rj7Cvt0qyuxRDmTp2ti88B7CqP86YdS73cWSsx5zvDlbOOZxYzSD+745yy+HpZXMygYPqmcszQ+ubXNE4c1iDoWvVYvm/DN+4YtQj86Q15Hh9N1Vl6vOtY06qVp/azOqnZm8fGOd2fiyqxeNQIn6Aqxd6HVVilUaSeyZnnbICvm369N1bnd8SmrPAZeofl84kKA5463g=
-    secret_access_key:
-      secure: SMrTXBkWtPc/YfUsLZUxhhv6EaayreUJYUhCOGJvxhsaqC4+9svALpWdW0E9pftPLxcUYFVXUQFSrtIqnokorR1pgGgmdN2mP5K1WyZ3mHhwKNFj15SOlwI3jQ0Ts5P9hLAT2mvgaPd5p25VtUgHcNmCaHx0gVdUaJyTVF6qILnRUiAGGvXxPR+h1rik4WCZobCfu8CdJ9STk3FEtN6ZLYSLfp6H2/u9hj3C7bNYRNpCkaJCs4hXoQTH4rYPmgNpnM33vgviI2Fk/1cYpMh7OltKHRDhExXvukO4u31DC33J1PIxx+XfBPInBGNrb/Qm+f8eJrOt75Rh11xqEblagNw36fQFmddUyPTPD86WF2fc/LaiVqmvX4m5GPp9YlIqJ+fVs9ne1Wk+VgV2xpWagSUYk/9DCYGLU6Ckow8yPx4wz+jyZ1le+aciSpdEDsLL1hUNunps8FpY8IaiYlxwxNmd6d+CmOVSrfbCOBuNogl4kpaCoLLtKXdBZbkVMtZDB6QHfRki4eM3ES5OWrrgJC0BAkCeYsZvDNBYuqV/IKSo65SUyxNOd581crugAjJp2G2EiVbFiLDLF5iQDdcFwEOb/4WFoRvMlY/BFYtnBRj0g0fCrJ+XwXGgKWIlrkfuWmrMuj7BKGbp9jD6b5bWqF7LwLi7FruxFICrJXpxWJs=
-  # Deploy to S3 for non-tags
-  - provider: s3
-    region: eu-west-2
-    bucket: io.cucumber
-    skip_cleanup: true
-    upload-dir: dots-formatter-go/$TRAVIS_BRANCH
-    local_dir: dist
-    on:
-      repo: cucumber/dots-formatter-go
-      go: '1.10'
-      tags: false
-      all_branches: true
-    access_key_id:
-      secure: CY/heTGk2tyd3JM6QTaG6LZm1RmdFKU6I3U5HU+NtyWgKu1UGWeJot1mJ8utaYTwtQyB3Z/EIBl17iserSBKv48RJwmfTQkYQIZrvh7j4CNX8Sbbyd3MOWr9+9938OnGokg9CK2Jh0nTVphmmP0riL/SKymLqygB6KvSPxZa7H52WoKyXXyGyIrcmopW+WQrybDo/+xAV2W6feqsrTVRmvMTc57FrJZZPCb9Q9lZ3oGBx+6sFH771pSWi35gkqoDHq4D326133ZTtUdGS5pxNhPMZjDVUgNZJri3sYbwwCv2GaQ3TJc05qopywd2bsBclk/e/pjukanCrhrLJImhxY/sp+02cELNgCIMACb3fMlIfD/rOEFlEaKVMJz15P83ke2Mi2GoDW/729OGqURxTXzbFeM4A9MDp4iiffWsFPcExTvZeeYNBo0NoE1ag479ti/Zf0hvVAh6TnRpSI7sKClzZZEwRz576N4rj7Cvt0qyuxRDmTp2ti88B7CqP86YdS73cWSsx5zvDlbOOZxYzSD+745yy+HpZXMygYPqmcszQ+ubXNE4c1iDoWvVYvm/DN+4YtQj86Q15Hh9N1Vl6vOtY06qVp/azOqnZm8fGOd2fiyqxeNQIn6Aqxd6HVVilUaSeyZnnbICvm369N1bnd8SmrPAZeofl84kKA5463g=
-    secret_access_key:
-      secure: SMrTXBkWtPc/YfUsLZUxhhv6EaayreUJYUhCOGJvxhsaqC4+9svALpWdW0E9pftPLxcUYFVXUQFSrtIqnokorR1pgGgmdN2mP5K1WyZ3mHhwKNFj15SOlwI3jQ0Ts5P9hLAT2mvgaPd5p25VtUgHcNmCaHx0gVdUaJyTVF6qILnRUiAGGvXxPR+h1rik4WCZobCfu8CdJ9STk3FEtN6ZLYSLfp6H2/u9hj3C7bNYRNpCkaJCs4hXoQTH4rYPmgNpnM33vgviI2Fk/1cYpMh7OltKHRDhExXvukO4u31DC33J1PIxx+XfBPInBGNrb/Qm+f8eJrOt75Rh11xqEblagNw36fQFmddUyPTPD86WF2fc/LaiVqmvX4m5GPp9YlIqJ+fVs9ne1Wk+VgV2xpWagSUYk/9DCYGLU6Ckow8yPx4wz+jyZ1le+aciSpdEDsLL1hUNunps8FpY8IaiYlxwxNmd6d+CmOVSrfbCOBuNogl4kpaCoLLtKXdBZbkVMtZDB6QHfRki4eM3ES5OWrrgJC0BAkCeYsZvDNBYuqV/IKSo65SUyxNOd581crugAjJp2G2EiVbFiLDLF5iQDdcFwEOb/4WFoRvMlY/BFYtnBRj0g0fCrJ+XwXGgKWIlrkfuWmrMuj7BKGbp9jD6b5bWqF7LwLi7FruxFICrJXpxWJs=
