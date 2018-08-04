@@ -10,3 +10,4 @@ bin/
 acceptance/
 dist_compressed/
 dist/
+*.bin
