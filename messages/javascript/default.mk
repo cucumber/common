@@ -15,16 +15,21 @@ ASYNC_SUPPORTED := $(shell node --eval "async function foo(){}" 2> /dev/null; ec
 
 .tested: yarn.lock .deps $(JAVASCRIPT_SOURCE_FILES)
 ifeq ($(ASYNC_SUPPORTED),0)
-	yarn test
+	yarn coverage
 	touch $@
 else
+	yarn build
 	yarn build-test
 	yarn mocha-built
 	touch $@
 endif
 
-default: .tested
+default: .tested .eslinted
 .PHONY: default
+
+.eslinted: $(JAVASCRIPT_SOURCE_FILES)
+	yarn eslint-fix
+	touch $@
 
 yarn.lock: package.json
 	yarn install --network-concurrency 1

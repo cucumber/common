@@ -1,11 +1,11 @@
 /* eslint-env mocha */
-var assert = require('assert')
-var TagExpressionParser = require('../lib/tag_expression_parser')
-var parser = new TagExpressionParser()
+const assert = require('assert')
+const parse = require('../src/tag_expression_parser')
 
 describe('TagExpressionParser', function() {
   describe('#parse', function() {
     ;[
+      ['', 'true'],
       ['a and b', '( a and b )'],
       ['a or b', '( a or b )'],
       ['not a', 'not ( a )'],
@@ -21,12 +21,12 @@ describe('TagExpressionParser', function() {
       // a or not b
     ].forEach(function(inOut) {
       it(inOut[0], function() {
-        var infix = inOut[0]
-        var expr = parser.parse(infix)
+        const infix = inOut[0]
+        const expr = parse(infix)
         assert.equal(expr.toString(), inOut[1])
 
-        var roundtripTokens = expr.toString()
-        var roundtripExpr = parser.parse(roundtripTokens)
+        const roundtripTokens = expr.toString()
+        const roundtripExpr = parse(roundtripTokens)
         assert.equal(roundtripExpr.toString(), inOut[1])
       })
     })
@@ -42,9 +42,9 @@ describe('TagExpressionParser', function() {
       // a or not b
     ].forEach(function(inOut) {
       it(inOut[0] + ' fails', function() {
-        var infix = inOut[0]
+        const infix = inOut[0]
         try {
-          parser.parse(infix)
+          parse(infix)
           throw new Error('Expected syntax error')
         } catch (expected) {
           assert.equal(expected.message, inOut[1])
@@ -55,27 +55,27 @@ describe('TagExpressionParser', function() {
     // evaluation
 
     it('evaluates not', function() {
-      var expr = parser.parse('not   x')
+      const expr = parse('not   x')
       assert.equal(expr.evaluate(['x']), false)
       assert.equal(expr.evaluate(['y']), true)
     })
 
     it('evaluates and', function() {
-      var expr = parser.parse('x and y')
+      const expr = parse('x and y')
       assert.equal(expr.evaluate(['x', 'y']), true)
       assert.equal(expr.evaluate(['y']), false)
       assert.equal(expr.evaluate(['x']), false)
     })
 
     it('evaluates or', function() {
-      var expr = parser.parse('  x or(y) ')
+      const expr = parse('  x or(y) ')
       assert.equal(expr.evaluate([]), false)
       assert.equal(expr.evaluate(['y']), true)
       assert.equal(expr.evaluate(['x']), true)
     })
 
     it('evaluates expressions with escaped chars', function() {
-      var expr = parser.parse('  x\\(1\\) or(y\\(2\\)) ')
+      const expr = parse('  x\\(1\\) or(y\\(2\\)) ')
       assert.equal(expr.evaluate([]), false)
       assert.equal(expr.evaluate(['y(2)']), true)
       assert.equal(expr.evaluate(['x(1)']), true)
@@ -84,7 +84,7 @@ describe('TagExpressionParser', function() {
     })
 
     it('evaluates empty expressions to true', function() {
-      var expr = parser.parse('')
+      const expr = parse('')
       assert.equal(expr.evaluate([]), true)
       assert.equal(expr.evaluate(['y']), true)
       assert.equal(expr.evaluate(['x']), true)
