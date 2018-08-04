@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-class ProtobufGherkinMessages implements GherkinMessages {
+class ProtobufGherkinMessages {
     private final InputStream input;
 
     ProtobufGherkinMessages(InputStream input) {
@@ -16,7 +16,6 @@ class ProtobufGherkinMessages implements GherkinMessages {
         this.input = input;
     }
 
-    @Override
     public List<Wrapper> messages() {
         List<Wrapper> result = new ArrayList<>();
         try {

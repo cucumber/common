@@ -45,4 +45,4 @@ const protobufNdsonStream = new Stream.Transform({
 })
 
 const gherkin = new Gherkin(paths, [], options)
-gherkin.messages().pipe(protobufNdsonStream).pipe(process.stdout)
+gherkin.messageStream().pipe(protobufNdsonStream).pipe(process.stdout)

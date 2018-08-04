@@ -4,6 +4,14 @@ const cm = require('cucumber-messages').io.cucumber.messages;
 const ProtobufMessageStream = require('./ProtobufMessageStream');
 
 module.exports = class Gherkin {
+  static fromPaths(paths, options) {
+    return new this(paths, [], options).messageStream();
+  }
+
+  static fromSources(sources, options) {
+    return new this([], sources, options).messageStream();
+  }
+
   constructor(paths, sources, options) {
     this._paths = paths;
     this._sources = sources;
@@ -15,7 +23,7 @@ module.exports = class Gherkin {
     this._exeFile = new ExeFile(`${__dirname}/../gherkin-go/gherkin-go-{{.OS}}-{{.Arch}}{{.Ext}}`);
   }
 
-  messages() {
+  messageStream() {
     const options = [];
     if (!this._options.includeSource) options.push('--no-source');
     if (!this._options.includeGherkinDocument) options.push('--no-ast');

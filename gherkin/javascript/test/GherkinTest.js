@@ -5,8 +5,9 @@ const Gherkin = require('../src/Gherkin')
 
 describe('Gherkin', () => {
   it('parses gherkin from the file system', async () => {
-    const gherkin = new Gherkin(['testdata/good/minimal.feature'], [], {})
-    const messages = await streamToArray(gherkin.messages())
+    const messages = await streamToArray(
+      Gherkin.fromPaths(['testdata/good/minimal.feature'])
+    )
     assert.strictEqual(messages.length, 3)
   })
 
@@ -24,8 +25,7 @@ describe('Gherkin', () => {
       }),
     })
 
-    const gherkin = new Gherkin([], [source], {})
-    const messages = await streamToArray(gherkin.messages())
+    const messages = await streamToArray(Gherkin.fromSources([source]))
     assert.strictEqual(messages.length, 3)
   })
 })
