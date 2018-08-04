@@ -1,6 +1,9 @@
 /* eslint-env mocha */
 const assert = require('assert')
-const { Location, PickleDocString } = require('..').io.cucumber.messages
+const {
+  Location,
+  PickleDocString,
+} = require('../src/cucumber-messages').io.cucumber.messages
 
 describe('messages', () => {
   it('builds a pickle doc string', () => {
