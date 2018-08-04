@@ -3,8 +3,7 @@ package gherkin
 import (
 	"fmt"
 	"strings"
-
-	"github.com/golang/protobuf/proto"
+	gio "github.com/gogo/protobuf/io"
 	"github.com/cucumber/cucumber-messages-go"
 	"io/ioutil"
 	"io"
@@ -57,25 +56,13 @@ func GherkinMessages(paths []string, sourceStream io.Reader, language string, in
 	}
 
 	if len(paths) == 0 {
-		in, err := ioutil.ReadAll(sourceStream)
-		if err != nil {
-			return result, fmt.Errorf("read stdin: %v\n", err)
-		}
-
-		for len(in) > 0 {
-			l, bytesRead := proto.DecodeVarint(in)
-			size := int(l)
-			skip := bytesRead + size
-			messageBytes := in[bytesRead:skip]
+		reader := gio.NewDelimitedReader(sourceStream, 2048)
+		for {
 			source := &messages.Source{}
-			if err := proto.Unmarshal(messageBytes, source); err != nil {
-				return result, fmt.Errorf("parse message: %v\n", err)
+			if err := reader.ReadMsg(source); err != nil {
+				break
 			}
 			processSource(source)
-
-			if len(in) >= skip {
-				in = in[skip:]
-			}
 		}
 	} else {
 		for _, path := range paths {

@@ -7,7 +7,7 @@
     "gherkin-javascript": "bin/gherkin"
   },
   "scripts": {
-    "test": "make && mocha"
+    "test": "mocha"
   },
   "repository": {
     "type": "git",
@@ -24,9 +24,7 @@
   },
   "homepage": "https://github.com/cucumber/gherkin",
   "devDependencies": {
-    "browserify": "^14.1.0",
-    "mocha": "^3.0.2",
-    "uglify-js": "^2.7.3"
+    "mocha": "^3.0.2"
   },
   "dependencies": {
     "cucumber-messages": "cucumber/cucumber-messages-javascript"

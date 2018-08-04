@@ -1,4 +1,5 @@
-SHELL := /usr/bin/env bash
+include default.mk
+
 GOOD_FEATURE_FILES = $(shell find testdata/good -name "*.feature")
 BAD_FEATURE_FILES  = $(shell find testdata/bad -name "*.feature")
 
@@ -9,26 +10,15 @@ SOURCES      = $(patsubst testdata/%.feature,acceptance/testdata/%.feature.sourc
 PROTOBUFS    = $(patsubst testdata/%.feature,acceptance/testdata/%.feature.protobuf.bin.ndjson,$(GOOD_FEATURE_FILES))
 ERRORS       = $(patsubst testdata/%.feature,acceptance/testdata/%.feature.errors.ndjson,$(BAD_FEATURE_FILES))
 
-JAVASCRIPT_FILES = $(shell find lib -name "*.js") index.js
-
 .DELETE_ON_ERROR:
 
-default: .compared
-	yarn link
-.PHONY: all
-
-.compared: .built $(PROTOBUFS) $(TOKENS) $(ASTS) $(PICKLES) $(ERRORS) $(SOURCES)
-	touch $@
-
-.built: lib/gherkin/parser.js lib/gherkin/gherkin-languages.json $(JAVASCRIPT_FILES) dist/gherkin.js dist/gherkin.min.js yarn.lock
-	./node_modules/.bin/mocha 'test/**/*.js'
-	touch $@
-
-yarn.lock: package.json
-	yarn install --network-concurrency 1
+.deps: lib/gherkin/parser.js
 	# Linking will only work when we're building in the monorepo, so allow this to fail
 	# If it fails, we'll be using cucumber-messages from package.json
 	-yarn link cucumber-messages
+	touch $@
+
+.tested: $(PROTOBUFS) $(TOKENS) $(ASTS) $(PICKLES) $(ERRORS) $(SOURCES)
 
 acceptance/testdata/%.feature.tokens: testdata/%.feature testdata/%.feature.tokens .built
 	mkdir -p `dirname $@`
@@ -66,24 +56,6 @@ lib/gherkin/parser.js: gherkin.berp gherkin-javascript.razor berp/berp.exe
 	awk 'NR==1{sub(/^\xef\xbb\xbf/,"")}{print}' < $@ > $@.nobom
 	mv $@.nobom $@
 
-dist/gherkin.js: lib/gherkin/parser.js $(JAVASCRIPT_FILES) lib/gherkin/gherkin-languages.json LICENSE yarn.lock
-	mkdir -p `dirname $@`
-	echo '/*' > $@
-	cat LICENSE >> $@
-	echo '*/' >> $@
-	#./node_modules/.bin/browserify index.js >> $@
-
-dist/gherkin.min.js: dist/gherkin.js yarn.lock
-	mkdir -p `dirname $@`
-	echo '/*' > $@
-	cat LICENSE >> $@
-	echo '*/' >> $@
-	#./node_modules/.bin/uglifyjs $< >> $@
-
 clean:
-	rm -rf .compared .built acceptance dist
+	rm -rf acceptance lib/gherkin/parser.js
 .PHONY: clean
-
-clobber: clean
-	rm -rf lib/gherkin/parser.js yarn.lock node_modules
-.PHONY: clobber

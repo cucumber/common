@@ -4,3 +4,5 @@ node_modules/
 yarn.lock
 npm-debug.log
 package-lock.json
+.deps
+.tested
