@@ -2,15 +2,15 @@
   "name": "gherkin",
   "version": "5.1.0",
   "description": "Gherkin parser",
-  "main": "lib/Gherkin.js",
+  "main": "dist/src/Gherkin.js",
   "bin": {
     "gherkin-javascript": "bin/gherkin"
   },
   "scripts": {
     "test": "mocha",
-    "eslint-fix": "eslint --fix lib test",
+    "eslint-fix": "eslint --fix src test",
     "coverage": "nyc --reporter=html --reporter=text mocha",
-    "build": "babel lib --out-dir dist/src",
+    "build": "babel src --out-dir dist/src",
     "build-test": "babel test --out-dir dist/test",
     "prepare": "yarn build",
     "postinstall": "node scripts/postinstall.js",

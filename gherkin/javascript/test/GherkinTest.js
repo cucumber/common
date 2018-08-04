@@ -1,19 +1,16 @@
+/* eslint-env mocha */
 const assert = require('assert')
 const cm = require('cucumber-messages').io.cucumber.messages
-const Gherkin = require('../lib/Gherkin')
+const Gherkin = require('../src/Gherkin')
 
 describe('Gherkin', () => {
-  it("parses gherkin from the file system", async () => {
-    const gherkin = new Gherkin(
-      ["testdata/good/minimal.feature"],
-      [],
-      {}
-    )
+  it('parses gherkin from the file system', async () => {
+    const gherkin = new Gherkin(['testdata/good/minimal.feature'], [], {})
     const messages = await streamToArray(gherkin.messages())
     assert.strictEqual(messages.length, 3)
   })
 
-  it("parses gherkin from STDIN", async () => {
+  it('parses gherkin from STDIN', async () => {
     const source = cm.Source.fromObject({
       uri: 'test.feature',
       data: `Feature: Minimal
@@ -22,16 +19,12 @@ describe('Gherkin', () => {
     Given the minimalism
 `,
       media: cm.Media.fromObject({
-        encoding:    "UTF-8",
-        contentType: "text/x.cucumber.gherkin+plain",
-      })
+        encoding: 'UTF-8',
+        contentType: 'text/x.cucumber.gherkin+plain',
+      }),
     })
 
-    const gherkin = new Gherkin(
-      [],
-      [source],
-      {}
-    )
+    const gherkin = new Gherkin([], [source], {})
     const messages = await streamToArray(gherkin.messages())
     assert.strictEqual(messages.length, 3)
   })

@@ -13,7 +13,7 @@ try {
  */
 class ProtobufMessageStream extends Stream.Transform {
   constructor(type) {
-    super({objectMode: true})
+    super({ objectMode: true })
     this._type = type
     this._buffer = Buffer.alloc(0)
   }

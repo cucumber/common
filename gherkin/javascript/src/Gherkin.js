@@ -1,4 +1,4 @@
-const {spawn} = require('child_process')
+const { spawn } = require('child_process')
 const ExeFile = require('./exe/ExeFile')
 const cm = require('cucumber-messages').io.cucumber.messages
 const ProtobufMessageStream = require('./ProtobufMessageStream')
@@ -7,8 +7,17 @@ module.exports = class Gherkin {
   constructor(paths, sources, options) {
     this._paths = paths
     this._sources = sources
-    this._options = Object.assign({includeSource: true, includeGherkinDocument: true, includePickles: true}, options)
-    this._exeFile = new ExeFile(`${__dirname}/../gherkin-go/gherkin-go-{{.OS}}-{{.Arch}}{{.Ext}}`)
+    this._options = Object.assign(
+      {
+        includeSource: true,
+        includeGherkinDocument: true,
+        includePickles: true,
+      },
+      options
+    )
+    this._exeFile = new ExeFile(
+      `${__dirname}/../gherkin-go/gherkin-go-{{.OS}}-{{.Arch}}{{.Ext}}`
+    )
   }
 
   messages() {

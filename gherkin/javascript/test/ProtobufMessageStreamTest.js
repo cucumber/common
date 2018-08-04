@@ -1,17 +1,18 @@
+/* eslint-env mocha */
 const assert = require('assert')
 const cm = require('cucumber-messages').io.cucumber.messages
-const ProtobufMessageStream = require('../lib/ProtobufMessageStream')
+const ProtobufMessageStream = require('../src/ProtobufMessageStream')
 
 describe('ProtobufMessageStream', () => {
-  it('writes 2 messages', (callback) => {
+  it('writes 2 messages', callback => {
     const w1 = cm.Wrapper.fromObject({
-      source: cm.Source.fromObject({uri: 'w1', data: 'data w1'})
+      source: cm.Source.fromObject({ uri: 'w1', data: 'data w1' }),
     })
     const w2 = cm.Wrapper.fromObject({
-      source: cm.Source.fromObject({uri: 'w2', data: 'data 2'})
+      source: cm.Source.fromObject({ uri: 'w2', data: 'data 2' }),
     })
     const w3 = cm.Wrapper.fromObject({
-      source: cm.Source.fromObject({uri: 'w3', data: 'data in w3'})
+      source: cm.Source.fromObject({ uri: 'w3', data: 'data in w3' }),
     })
 
     const b1 = cm.Wrapper.encodeDelimited(w1).finish()
