@@ -30,7 +30,7 @@ while (args.length > 0) {
   }
 }
 
-const protobufNdsonStream = new Stream.Transform({
+const protobufNdjsonStream = new Stream.Transform({
   objectMode: true,
   transform: function (message, _, callback) {
     const ob = message.constructor.toObject(message, {defaults: true})
@@ -44,5 +44,4 @@ const protobufNdsonStream = new Stream.Transform({
   }
 })
 
-const gherkin = new Gherkin(paths, [], options)
-gherkin.messageStream().pipe(protobufNdsonStream).pipe(process.stdout)
+Gherkin.fromPaths(paths, options).pipe(protobufNdjsonStream).pipe(process.stdout)
