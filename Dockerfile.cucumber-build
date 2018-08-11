@@ -21,3 +21,5 @@ RUN cd /protobuf && ./configure
 RUN cd /protobuf && make -j2
 RUN cd /protobuf && make check
 RUN cd /protobuf && make install
+
+RUN eval `opam config env --root=~/` && opam install dune
