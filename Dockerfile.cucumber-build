@@ -5,12 +5,14 @@ FROM alpine:3.7
 
 WORKDIR /app
 
-RUN apk add --no-cache --update --upgrade alpine-sdk make bash maven openjdk8 diffutils jq python py-pip ruby ruby-dev perl perl-dev wget rsync go nodejs unzip automake autoconf libtool
+RUN apk add --no-cache --update --upgrade alpine-sdk make bash maven openjdk8 diffutils jq python py-pip ruby ruby-dev perl perl-dev wget rsync go nodejs unzip automake autoconf libtool ocaml opam
 RUN npm install --global yarn
 RUN echo "gem: --no-document" > ~/.gemrc
 RUN gem install bundler io-console
 RUN pip install pipenv==8.3.2
 RUN curl --fail -L http://cpanmin.us/ > /usr/local/bin/cpanm && chmod +x /usr/local/bin/cpanm
+RUN opam init -y --root ~/
+RUN opam switch --root ~/ 4.07.0+flambda
 
 RUN mkdir -p /protobuf
 RUN curl -L https://github.com/google/protobuf/releases/download/v3.6.0/protobuf-all-3.6.0.tar.gz | tar xvz --strip-components=1 -C /protobuf
