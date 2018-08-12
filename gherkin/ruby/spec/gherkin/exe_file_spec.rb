@@ -6,7 +6,7 @@ module Gherkin
     it 'detects macos' do
       exe_file = ExeFile.new(
         '',
-        'target_os' => 'Mac OS X', 'arch' => 'x86_64-darwin16'
+        os: 'darwin8.10.3', arch: 'amd64'
       )
       expect(exe_file.os).to eq 'darwin'
       expect(exe_file.arch).to eq 'amd64'
@@ -16,15 +16,15 @@ module Gherkin
     it 'generates a file name for macos' do
       exe_file = ExeFile.new(
         'gherkin-{{.OS}}-{{.Arch}}{{.Ext}}',
-        'target_os' => 'Mac OS X', 'arch' => 'x86_64'
+        os: 'darwin8.10.3', arch: 'amd64'
       )
       expect(exe_file.target_file).to eq 'gherkin-darwin-amd64'
     end
 
-    it 'generates a file name for macos' do
+    it 'generates a file name for windows' do
       exe_file = ExeFile.new(
         'gherkin-{{.OS}}-{{.Arch}}{{.Ext}}',
-        'target_os' => 'Windows 10', 'arch' => 'x86_32'
+        os: 'mingw32', arch: 'i686'
       )
       expect(exe_file.target_file).to eq 'gherkin-windows-386.exe'
     end

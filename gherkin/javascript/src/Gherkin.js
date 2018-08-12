@@ -27,7 +27,7 @@ module.exports = class Gherkin {
     let gherkinGoDir = `${__dirname}/../../gherkin-go`
     try {
       statSync(gherkinGoDir)
-    } catch(err) {
+    } catch (err) {
       // Dev mode - we're in src, not dist/src
       gherkinGoDir = `${__dirname}/../gherkin-go`
     }
@@ -43,7 +43,7 @@ module.exports = class Gherkin {
     if (!this._options.includePickles) options.push('--no-pickles')
     const args = options.concat(this._paths)
     const gherkin = spawn(this._exeFile.fileName, args)
-    const protobufMessageStream = new ProtobufMessageStream(cm.Wrapper);
+    const protobufMessageStream = new ProtobufMessageStream(cm.Wrapper)
     gherkin.on('error', err => {
       protobufMessageStream.emit('error', err)
     })
