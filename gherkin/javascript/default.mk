@@ -13,14 +13,14 @@ endif
 
 ASYNC_SUPPORTED := $(shell node --eval "async function foo(){}" 2> /dev/null; echo $$?)
 
-.tested: yarn.lock .deps $(JAVASCRIPT_SOURCE_FILES)
+.tested: package-lock.json .deps $(JAVASCRIPT_SOURCE_FILES)
 ifeq ($(ASYNC_SUPPORTED),0)
-	yarn coverage
+	npm run coverage
 	touch $@
 else
-	yarn build
-	yarn build-test
-	yarn mocha-built
+	npm run build
+	npm run build-test
+	npm run mocha-built
 	touch $@
 endif
 
@@ -28,16 +28,16 @@ default: .tested .eslinted
 .PHONY: default
 
 .eslinted: $(JAVASCRIPT_SOURCE_FILES)
-	yarn eslint-fix
+	npm run eslint-fix
 	touch $@
 
-yarn.lock: package.json
-	yarn install --ignore-engines --network-concurrency 1
-	yarn link
+package-lock.json: package.json
+	npm install
+	npm link
 
 clean: clean-javascript
 .PHONY: clean
 
 clean-javascript:
-	rm -rf .deps yarn.lock node_modules coverage dist/*
+	rm -rf .deps package-lock.json node_modules coverage dist/*
 .PHONY: clean-javascript

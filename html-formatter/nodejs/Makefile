@@ -1,8 +1,8 @@
 default:
-	yarn install --network-concurrency 1
-	yarn link gherkin cucumber-react cucumber-redux cucumber-event-validator
-	yarn test
-	yarn link
+	npm install
+	npm link gherkin cucumber-react cucumber-redux
+	npm test
+	npm link
 .PHONY: default
 
 clean:

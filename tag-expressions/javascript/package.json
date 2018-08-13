@@ -9,7 +9,7 @@
     "coverage": "nyc --reporter=html --reporter=text mocha",
     "build": "babel src --out-dir dist/src",
     "build-test": "babel test --out-dir dist/test",
-    "prepare": "yarn build",
+    "prepare": "npm run build",
     "postinstall": "node scripts/postinstall.js",
     "mocha-built": "mocha dist/test"
   },

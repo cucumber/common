@@ -14,7 +14,7 @@ ERRORS       = $(patsubst testdata/%.feature,acceptance/testdata/%.feature.error
 	./scripts/s3-download gherkin-go $(LIBRARY_VERSION)
 	# Linking will only work when we're building in the monorepo, so allow this to fail
 	# If it fails, we'll be using cucumber-messages from package.json
-	-yarn link cucumber-messages
+	-npm link cucumber-messages
 	touch $@
 
 .tested: .compared
