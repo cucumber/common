@@ -14,15 +14,14 @@ endif
 ASYNC_SUPPORTED := $(shell node --eval "async function foo(){}" 2> /dev/null; echo $$?)
 
 .tested: package-lock.json .deps $(JAVASCRIPT_SOURCE_FILES)
+	npm run build
 ifeq ($(ASYNC_SUPPORTED),0)
 	npm run coverage
-	touch $@
 else
-	npm run build
 	npm run build-test
 	npm run mocha-built
-	touch $@
 endif
+	touch $@
 
 default: .tested .eslinted
 .PHONY: default
