@@ -47,10 +47,11 @@ module.exports = class Gherkin {
     gherkin.on('error', err => {
       protobufMessageStream.emit('error', err)
     })
+    gherkin.stdout.pipe(protobufMessageStream)
     for (const source of this._sources) {
       gherkin.stdin.write(cm.Source.encodeDelimited(source).finish())
     }
     gherkin.stdin.end()
-    return gherkin.stdout.pipe(protobufMessageStream)
+    return protobufMessageStream
   }
 }
