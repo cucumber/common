@@ -42,7 +42,7 @@ type Token struct {
 }
 
 func (t *Token) IsEOF() bool {
-	return t.Type == TokenType_EOF
+	return t.Type == TokenTypeEOF
 }
 func (t *Token) String() string {
 	return fmt.Sprintf("%v: %s/%s", t.Type, t.Keyword, t.Text)
