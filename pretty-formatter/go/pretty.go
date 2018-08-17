@@ -6,14 +6,14 @@ Gherkin documents.
 package pretty
 
 import (
-	"io"
 	"fmt"
+	"io"
 
 	"github.com/cucumber/cucumber-messages-go"
 	gio "github.com/gogo/protobuf/io"
-	"strings"
-	"strconv"
 	"regexp"
+	"strconv"
+	"strings"
 )
 
 func ProcessMessages(stdin io.Reader, stdout io.Writer, resultsMode bool) {
@@ -30,12 +30,12 @@ func ProcessMessages(stdin io.Reader, stdout io.Writer, resultsMode bool) {
 			gherkinDocument := t.GherkinDocument
 			processGherkinDocument(gherkinDocument, stdout)
 		case *messages.Wrapper_TestStepFinished:
-//			finished := t.TestStepFinished
-			
-			// Look up AST node....
-//			sourceLine := finished.TestCase.SourceLine
+			//			finished := t.TestStepFinished
 
-//			fmt.Fprintf(stdout, "SXX %v\n", finished.GetTestResult().GetStatus().String())
+			// Look up AST node....
+			//			sourceLine := finished.TestCase.SourceLine
+
+			//			fmt.Fprintf(stdout, "SXX %v\n", finished.GetTestResult().GetStatus().String())
 		}
 
 	}
@@ -49,7 +49,7 @@ func processGherkinDocument(gherkinDocument *messages.GherkinDocument, stdout io
 	}
 }
 
-func processFeature(uri string, comments []*messages.Comment, feature *messages.Feature, stdout io.Writer) ([]*messages.Comment) {
+func processFeature(uri string, comments []*messages.Comment, feature *messages.Feature, stdout io.Writer) []*messages.Comment {
 	comments = processComments(comments, feature.Location, stdout)
 	processKeywordNode(stdout, 0, feature)
 	for _, child := range feature.Children {
@@ -68,7 +68,7 @@ func processFeature(uri string, comments []*messages.Comment, feature *messages.
 	return comments
 }
 
-func processRule(uri string, comments []*messages.Comment, rule *messages.Rule, depth int, stdout io.Writer) ([]*messages.Comment) {
+func processRule(uri string, comments []*messages.Comment, rule *messages.Rule, depth int, stdout io.Writer) []*messages.Comment {
 	comments = processComments(comments, rule.Location, stdout)
 	processKeywordNode(stdout, depth, rule)
 
@@ -86,7 +86,7 @@ func processRule(uri string, comments []*messages.Comment, rule *messages.Rule, 
 	return comments
 }
 
-func processBackground(comments []*messages.Comment, background *messages.Background, depth int, stdout io.Writer) ([]*messages.Comment) {
+func processBackground(comments []*messages.Comment, background *messages.Background, depth int, stdout io.Writer) []*messages.Comment {
 	comments = processComments(comments, background.Location, stdout)
 	processKeywordNode(stdout, depth, background)
 	for _, step := range background.GetSteps() {
@@ -95,7 +95,7 @@ func processBackground(comments []*messages.Comment, background *messages.Backgr
 	return comments
 }
 
-func processScenario(uri string, comments []*messages.Comment, scenario *messages.Scenario, depth int, stdout io.Writer) ([]*messages.Comment) {
+func processScenario(uri string, comments []*messages.Comment, scenario *messages.Scenario, depth int, stdout io.Writer) []*messages.Comment {
 	//sourceLine := &messages.SourceLine{
 	//	Uri: uri,
 	//	Line: scenario.Location.Line,
@@ -215,7 +215,7 @@ type KeywordNode interface {
 	GetName() string
 }
 
-func processComments(comments []*messages.Comment, location *messages.Location, stdout io.Writer) ([]*messages.Comment) {
+func processComments(comments []*messages.Comment, location *messages.Location, stdout io.Writer) []*messages.Comment {
 	for len(comments) > 0 {
 		comment := comments[0]
 		if location.Line < comment.Location.Line {

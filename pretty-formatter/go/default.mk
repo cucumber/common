@@ -14,7 +14,7 @@ ifeq ($(IN_GOPATH), 0)
 .deps: .linked
 endif
 
-default: .tested
+default: .gofmt .tested
 .PHONY: default
 
 ifneq (,$(wildcard ./cli))
@@ -55,6 +55,10 @@ dist_compressed/$(LIBNAME)-%: dist/$(LIBNAME)-%
 # Remove symlink
 unlink:
 	rm -rf .linked ${GOPATH}/src/github.com/${SUBREPO}
+
+.gofmt: $(GO_SOURCE_FILES)
+	gofmt -w $^
+	touch $@
 
 # Use env variable ARGS to pass arguments to 'go test'
 #   (for running only a specific test or using verbose mode)

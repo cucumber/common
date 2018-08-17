@@ -1,3 +1,13 @@
 .deps
 .linked
 .tested
+.built
+.compared
+.dist
+.dist-compressed
+.gofmt
+bin/
+acceptance/
+dist_compressed/
+dist/
+*.bin

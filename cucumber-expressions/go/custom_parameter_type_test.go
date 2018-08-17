@@ -54,7 +54,6 @@ func TestCustomParameterTypes(t *testing.T) {
 		require.Equal(t, "Illegal character '[' in parameter name {[string]}", err.Error())
 	})
 
-
 	t.Run("CucumberExpression", func(t *testing.T) {
 		t.Run("matches parameters with custom parameter type", func(t *testing.T) {
 			parameterTypeRegistry := CreateParameterTypeRegistry(t)

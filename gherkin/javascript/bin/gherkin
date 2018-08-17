@@ -1,90 +1,47 @@
 #!/usr/bin/env node
 'use strict'
-var Stream = require('stream')
-var fs = require('fs')
-var m = require('cucumber-messages').io.cucumber.messages
-var SourceStream = require('../lib/gherkin/messages/source_stream')
-var MessageStream = require('../lib/gherkin/messages/message_stream')
-var ProtobufMessageStream = require('../lib/gherkin/messages/protobuf_message_stream')
-var args = process.argv.slice(2)
-var options = {
+const Stream = require('stream')
+const Gherkin = require('../src/Gherkin')
+const args = process.argv.slice(2)
+const options = {
   includeSource: true,
   includeGherkinDocument: true,
   includePickles: true,
-  protobuf: false
 }
 
-var paths = []
+const paths = []
 while (args.length > 0) {
-  var arg = args.shift()
+  const arg = args.shift()
   switch (arg) {
     case '--no-source':
-      options.includeSource = false;
-      break;
+      options.includeSource = false
+      break
 
     case '--no-ast':
-      options.includeGherkinDocument = false;
-      break;
+      options.includeGherkinDocument = false
+      break
 
     case '--no-pickles':
-      options.includePickles = false;
-      break;
-
-    case '--protobuf':
-      options.protobuf = true;
-      break;
+      options.includePickles = false
+      break
 
     default:
-      paths.push(arg);
+      paths.push(arg)
   }
 }
 
-function pipeMessagesTo(paths, i, stream) {
-  var path = paths[i++]
-  if (!path) {
-    return stream.end()
+const protobufNdjsonStream = new Stream.Transform({
+  objectMode: true,
+  transform: function (message, _, callback) {
+    const ob = message.constructor.toObject(message, {defaults: true})
+    // This reviver omits printing fields with empty values
+    // This is to make it behave the same as Golang's protobuf->JSON converter
+    const json = JSON.stringify(ob, function (key, value) {
+      return (value === null) || (value === "") || (value === 0) || (Array.isArray(value) && value.length === 0) ? undefined : value
+    })
+    this.push(json + "\n")
+    callback()
   }
-  var messageStream = createMessageStream(path)
-  messageStream.pipe(stream, {end: false})
-  messageStream.on('end', () => pipeMessagesTo(paths, i, stream))
-}
+})
 
-function createMessageStream(path) {
-  return fs.createReadStream(path, {encoding: 'UTF-8'})
-    .pipe(new SourceStream(path))
-    .pipe(new MessageStream(options))
-}
-
-var messageTransformerStream
-if (options.protobuf) {
-  messageTransformerStream = new Stream.Transform({
-    objectMode: true,
-    transform: function (message, _, callback) {
-      var buffer = message.constructor.encodeDelimited(message).finish()
-      this.push(buffer)
-      callback()
-    }
-  })
-} else {
-  messageTransformerStream = new Stream.Transform({
-    objectMode: true,
-    transform: function (message, _, callback) {
-      var ob = message.constructor.toObject(message, {defaults: true})
-      // This reviver omits printing fields with empty values
-      // This is to make it behave the same as Golang's protobuf->JSON converter
-      var json = JSON.stringify(ob, function (key, value) {
-        return (value === null) || (value === "") || (value === 0) || (Array.isArray(value) && value.length === 0) ? undefined : value
-      });
-      this.push(json + "\n")
-      callback()
-    }
-  })
-}
-
-messageTransformerStream.pipe(process.stdout)
-
-if (paths.length > 0) {
-  pipeMessagesTo(paths, 0, messageTransformerStream)
-} else {
-  process.stdin.pipe(new ProtobufMessageStream(m.Wrapper)).pipe(messageTransformerStream)
-}
+Gherkin.fromPaths(paths, options).pipe(protobufNdjsonStream).pipe(process.stdout)

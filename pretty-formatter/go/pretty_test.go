@@ -1,10 +1,10 @@
 package pretty
 
 import (
-	"testing"
 	"bytes"
 	gio "github.com/gogo/protobuf/io"
 	"github.com/stretchr/testify/require"
+	"testing"
 	//"github.com/fatih/color"
 	"github.com/cucumber/cucumber-messages-go"
 	"github.com/cucumber/gherkin-go"

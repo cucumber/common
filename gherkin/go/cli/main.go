@@ -6,13 +6,14 @@ will print them as JSON (useful for testing/debugging)
 package main
 
 import (
+	"bufio"
+	b64 "encoding/base64"
 	"flag"
 	"fmt"
-	"os"
-	b64 "encoding/base64"
-	"github.com/golang/protobuf/proto"
-	"github.com/golang/protobuf/jsonpb"
 	"github.com/cucumber/gherkin-go"
+	"github.com/golang/protobuf/jsonpb"
+	"github.com/golang/protobuf/proto"
+	"os"
 )
 
 var noSource = flag.Bool("no-source", false, "Skip gherkin source events")
@@ -21,6 +22,7 @@ var noPickles = flag.Bool("no-pickles", false, "Skip gherkin Pickle events")
 var printJson = flag.Bool("json", false, "Print messages as JSON instead of protobuf")
 var versionFlag = flag.Bool("version", false, "print version")
 var dialectsFlag = flag.Bool("dialects", false, "print dialects as JSON")
+var defaultDialectFlag = flag.String("default-dialect", "en", "the default dialect")
 
 // Set during build with -ldflags
 var version string
@@ -41,11 +43,13 @@ func main() {
 
 	paths := flag.Args()
 
-	messageList, err := gherkin.GherkinMessages(paths, os.Stdin, "en", !*noSource, !*noAst, !*noPickles)
+	messageList, err := gherkin.GherkinMessages(paths, os.Stdin, *defaultDialectFlag, !*noSource, !*noAst, !*noPickles)
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "failed to parse Gherkin: %+v\n", err)
 		os.Exit(1)
 	}
+	stdout := bufio.NewWriter(os.Stdout)
+	defer stdout.Flush()
 	for _, message := range messageList {
 		if *printJson {
 			ma := jsonpb.Marshaler{}
@@ -54,16 +58,16 @@ func main() {
 				fmt.Fprintf(os.Stderr, "failed to marshal Message to JSON: %+v\n", err)
 				os.Exit(1)
 			}
-			os.Stdout.WriteString(msgJson)
-			os.Stdout.WriteString("\n")
+			stdout.WriteString(msgJson)
+			stdout.WriteString("\n")
 		} else {
 			bytes, err := proto.Marshal(&message)
 			if err != nil {
 				fmt.Fprintf(os.Stderr, "failed to marshal Message: %+v\n", err)
 				os.Exit(1)
 			}
-			os.Stdout.Write(proto.EncodeVarint(uint64(len(bytes))))
-			os.Stdout.Write(bytes);
+			stdout.Write(proto.EncodeVarint(uint64(len(bytes))))
+			stdout.Write(bytes)
 		}
 	}
 }

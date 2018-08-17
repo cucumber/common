@@ -6,11 +6,11 @@ a single ANSI-coloured character for each step.
 package dots
 
 import (
-	"io"
 	"fmt"
-	gio "github.com/gogo/protobuf/io"
 	"github.com/cucumber/cucumber-messages-go"
 	"github.com/fatih/color"
+	gio "github.com/gogo/protobuf/io"
+	"io"
 )
 
 func ProcessMessages(stdin io.Reader, stdout io.Writer) {

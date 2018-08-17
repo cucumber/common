@@ -54,17 +54,14 @@ public class Main {
             System.exit(0);
         }
 
-        if (paths.isEmpty()) {
-            GherkinMessages gherkinMessages = new ProtobufGherkinMessages(System.in);
-            printMessages(jsonPrinter, gherkinMessages);
-        } else {
-            GherkinMessages gherkinMessages = Gherkin.fromPaths(paths, includeSource, includeAst, includePickles);
-            printMessages(jsonPrinter, gherkinMessages);
-        }
+        List<Wrapper> messages = paths.isEmpty() ? 
+                new ProtobufGherkinMessages(System.in).messages() : 
+                Gherkin.fromPaths(paths, includeSource, includeAst, includePickles);
+        printMessages(jsonPrinter, messages);
     }
 
-    private static void printMessages(Printer jsonPrinter, GherkinMessages gherkinMessages) throws IOException {
-        for (Wrapper wrapper : gherkinMessages.messages()) {
+    private static void printMessages(Printer jsonPrinter, List<Wrapper> messages) throws IOException {
+        for (Wrapper wrapper : messages) {
             if (jsonPrinter != null) {
                 IO.out.write(jsonPrinter.print(wrapper));
                 IO.out.write("\n");

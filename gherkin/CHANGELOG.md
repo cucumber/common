@@ -15,8 +15,11 @@ This document is formatted according to the principles of [Keep A CHANGELOG](htt
   ([aslakhellesoy])
 
 ### Changed
-
+* (JavaScript,Java,Ruby) The native parsers are removed. Parsing is done by `gherkin-go` 
+  executables which are bundled with the published libraries.
+  ([aslakhellesoy], [jaysonesmith])
 * (JavaScript,Java,Ruby,Go) `Scenario` keyword (or `Example` keyword) can be used to create `Scenario Outline`.
+  ([aslakhellesoy])
 
 ### Deprecated
 

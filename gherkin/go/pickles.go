@@ -2,9 +2,9 @@ package gherkin
 
 import (
 	"fmt"
+	"github.com/cucumber/cucumber-messages-go"
 	"strings"
 	"unicode/utf8"
-	"github.com/cucumber/cucumber-messages-go"
 )
 
 func Pickles(gherkinDocument messages.GherkinDocument, uri string) []*messages.Pickle {
@@ -32,7 +32,7 @@ func compileFeature(pickles []*messages.Pickle, feature messages.Feature, uri st
 			if len(scenario.GetExamples()) == 0 {
 				pickles = compileScenario(pickles, backgroundSteps, scenario, featureTags, uri, language)
 			} else {
-				pickles = compileScenarioOutline(pickles, scenario, featureTags, backgroundSteps,uri, language)
+				pickles = compileScenarioOutline(pickles, scenario, featureTags, backgroundSteps, uri, language)
 			}
 		default:
 			panic(fmt.Sprintf("unexpected %T feature child", child))

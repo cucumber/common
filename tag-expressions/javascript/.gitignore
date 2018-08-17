@@ -1,4 +1,13 @@
+.idea/
+.nyc_output/
 coverage/
 node_modules/
 yarn.lock
-.nyc_output/
+npm-debug.log
+package-lock.json
+.deps
+.tested
+.eslinted
+.compared
+acceptance
+*-go/

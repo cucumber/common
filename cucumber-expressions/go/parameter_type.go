@@ -2,8 +2,8 @@ package cucumberexpressions
 
 import (
 	"errors"
-	"regexp"
 	"fmt"
+	"regexp"
 )
 
 var HAS_FLAG_REGEXP = regexp.MustCompile(`\(\?[imsU-]+(:.*)?\)`)
@@ -19,8 +19,8 @@ type ParameterType struct {
 	preferForRegexpMatch bool
 }
 
-func CheckParameterTypeName(typeName string) (error) {
-	unescapedTypeName := UNESCAPE_REGEXP.ReplaceAllString(typeName, "$2");
+func CheckParameterTypeName(typeName string) error {
+	unescapedTypeName := UNESCAPE_REGEXP.ReplaceAllString(typeName, "$2")
 	if ILLEGAL_PARAMETER_NAME_REGEXP.MatchString(typeName) {
 		c := ILLEGAL_PARAMETER_NAME_REGEXP.FindStringSubmatch(typeName)[0]
 		return errors.New(fmt.Sprintf("Illegal character '%s' in parameter name {%s}", c, unescapedTypeName))

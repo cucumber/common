@@ -1,8 +1,8 @@
 package main
 
 import (
-	"os"
 	dots "github.com/cucumber/dots-formatter-go"
+	"os"
 )
 
 func main() {

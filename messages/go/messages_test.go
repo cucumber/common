@@ -1,10 +1,10 @@
 package messages
 
 import (
-	"testing"
-	"github.com/stretchr/testify/require"
-	gio "github.com/gogo/protobuf/io"
 	"bytes"
+	gio "github.com/gogo/protobuf/io"
+	"github.com/stretchr/testify/require"
+	"testing"
 )
 
 func TestMessages(t *testing.T) {
@@ -29,7 +29,7 @@ func TestMessages(t *testing.T) {
 		require.Equal(t, uint32(20), decoded.Location.Column)
 		require.Equal(t, "some\ncontent\n", decoded.Content)
 	})
-	
+
 	t.Run("builds a step", func(t *testing.T) {
 		location := &Location{
 			Line:   10,

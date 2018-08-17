@@ -7,12 +7,4 @@ go:
   - "1.10"
   - "tip"
 
-cache:
-  directories:
-    - protobuf-3.6.0
-
-install:
-  - if [ ! -f "$PWD/protobuf-3.6.0/src/protoc" ]; then ./install_protobuf.sh 3.6.0; fi
-  - export PATH=$PATH:$PWD/protobuf-3.6.0/src
-
 script: make default

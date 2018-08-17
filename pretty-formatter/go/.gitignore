@@ -8,3 +8,4 @@ bin/
 .dist-compressed
 dist/
 dist_compressed/
+.gofmt

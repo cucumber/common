@@ -17,8 +17,7 @@ import static org.junit.Assert.assertEquals;
 public class GherkinTest {
     @Test
     public void provides_access_to_the_ast() {
-        GherkinMessages gherkinMessages = Gherkin.fromPaths(singletonList("testdata/good/minimal.feature"), false, true, false);
-        List<Wrapper> messages = gherkinMessages.messages();
+        List<Wrapper> messages = Gherkin.fromPaths(singletonList("testdata/good/minimal.feature"), false, true, false);
         assertEquals(1, messages.size());
 
         // Get the AST
@@ -35,8 +34,7 @@ public class GherkinTest {
 
     @Test
     public void provides_access_to_pickles_which_are_compiled_from_the_ast() {
-        GherkinMessages gherkinMessages = Gherkin.fromPaths(singletonList("testdata/good/scenario_outline.feature"), false, false, true);
-        List<Wrapper> messages = gherkinMessages.messages();
+        List<Wrapper> messages = Gherkin.fromPaths(singletonList("testdata/good/scenario_outline.feature"), false, false, true);
         assertEquals(1, messages.size());
 
         // Get the first pickle
@@ -53,8 +51,7 @@ public class GherkinTest {
                 "\n" +
                 "  Scenario: minimalistic\n" +
                 "    Given the minimalism\n").build();
-        GherkinMessages gherkinMessages = Gherkin.fromSources(singletonList(source), false, true, false);
-        List<Wrapper> messages = gherkinMessages.messages();
+        List<Wrapper> messages = Gherkin.fromSources(singletonList(source), false, true, false);
         GherkinDocument gherkinDocument = messages.get(0).getGherkinDocument();
         Feature feature = gherkinDocument.getFeature();
         assertEquals("Minimal", feature.getName());
