@@ -58,131 +58,124 @@ func (dp DocumentPrinter) processGherkinDocument() {
 	}
 }
 
-func (dp DocumentPrinter) processFeature() []*messages.Comment {
-	comments := dp.processComments(dp.Doc.Comments, dp.Doc.Feature.Location, dp.Writer)
-	dp.processKeywordNode(dp.Writer, 0, dp.Doc.Feature)
+func (dp DocumentPrinter) processFeature() {
+	dp.processComments(dp.Doc.Feature.Location)
+	dp.processKeywordNode(0, dp.Doc.Feature)
 	for _, child := range dp.Doc.Feature.Children {
 		fmt.Fprintf(dp.Writer, "\n")
 		switch t := child.Value.(type) {
 		case *messages.FeatureChild_Background:
-			comments = dp.processBackground(comments, t.Background, 1, dp.Writer)
+			dp.processBackground(t.Background, 1)
 		case *messages.FeatureChild_Rule:
-			comments = dp.processRule(dp.Doc.Uri, comments, t.Rule, 1, dp.Writer)
+			dp.processRule(t.Rule, 1)
 		case *messages.FeatureChild_Scenario:
-			comments = dp.processScenario(dp.Doc.Uri, comments, t.Scenario, 1, dp.Writer)
+			dp.processScenario(t.Scenario, 1)
 		default:
 			panic(fmt.Sprintf("unexpected %T feature child", child))
 		}
 	}
-	return comments
 }
 
-func (dp DocumentPrinter) processRule(uri string, comments []*messages.Comment, rule *messages.Rule, depth int, stdout io.Writer) []*messages.Comment {
-	comments = dp.processComments(comments, rule.Location, stdout)
-	dp.processKeywordNode(stdout, depth, rule)
+func (dp DocumentPrinter) processRule(rule *messages.Rule, depth int) {
+	dp.processComments(rule.Location)
+	dp.processKeywordNode(depth, rule)
 
 	for _, child := range rule.Children {
-		fmt.Fprintf(stdout, "\n")
+		fmt.Fprintf(dp.Writer, "\n")
 		switch t := child.Value.(type) {
 		case *messages.RuleChild_Background:
-			comments = dp.processBackground(comments, t.Background, 2, stdout)
+			dp.processBackground(t.Background, 2)
 		case *messages.RuleChild_Scenario:
-			comments = dp.processScenario(uri, comments, t.Scenario, 2, stdout)
+			dp.processScenario(t.Scenario, 2)
 		default:
 			panic(fmt.Sprintf("unexpected %T feature child", child))
 		}
 	}
-	return comments
 }
 
-func (dp DocumentPrinter) processBackground(comments []*messages.Comment, background *messages.Background, depth int, stdout io.Writer) []*messages.Comment {
-	comments = dp.processComments(comments, background.Location, stdout)
-	dp.processKeywordNode(stdout, depth, background)
+func (dp DocumentPrinter) processBackground(background *messages.Background, depth int) {
+	dp.processComments(background.Location)
+	dp.processKeywordNode(depth, background)
 	for _, step := range background.GetSteps() {
-		dp.processStep(stdout, depth+1, step)
+		dp.processStep(depth+1, step)
 	}
-	return comments
 }
 
-func (dp DocumentPrinter) processScenario(uri string, comments []*messages.Comment, scenario *messages.Scenario, depth int, stdout io.Writer) []*messages.Comment {
+func (dp DocumentPrinter) processScenario(scenario *messages.Scenario, depth int) {
 	//sourceLine := &messages.SourceLine{
 	//	Uri: uri,
 	//	Line: scenario.Location.Line,
 	//}
 
-	comments = dp.processComments(comments, scenario.Location, stdout)
-	dp.processTags(stdout, depth, scenario.Tags)
-	dp.processKeywordNode(stdout, depth, scenario)
+	dp.processComments(scenario.Location)
+	dp.processTags(depth, scenario.Tags)
+	dp.processKeywordNode(depth, scenario)
 	for _, step := range scenario.GetSteps() {
-		dp.processStep(stdout, depth+1, step)
+		dp.processStep(depth+1, step)
 	}
 
 	for _, examples := range scenario.GetExamples() {
-		fmt.Fprintf(stdout, "\n")
-		comments = dp.processExamples(comments, examples, stdout, depth+1)
+		fmt.Fprintf(dp.Writer, "\n")
+		dp.processExamples(examples, depth+1)
 	}
-
-	return comments
 }
 
-func (dp DocumentPrinter) processExamples(comments []*messages.Comment, examples *messages.Examples, stdout io.Writer, depth int) []*messages.Comment {
-	comments = dp.processComments(comments, examples.Location, stdout)
-	dp.processTags(stdout, depth, examples.Tags)
-	dp.processKeywordNode(stdout, depth, examples)
+func (dp DocumentPrinter) processExamples(examples *messages.Examples, depth int) {
+	dp.processComments(examples.Location)
+	dp.processTags(depth, examples.Tags)
+	dp.processKeywordNode(depth, examples)
 
 	rows := []*messages.TableRow{examples.TableHeader}
 	rows = append(rows, examples.GetTableBody()...)
 
-	dp.processTable(rows, stdout, depth+1)
-
-	return comments
+	dp.processTable(rows, depth+1)
 }
 
-func (dp DocumentPrinter) processTags(stdout io.Writer, depth int, tags []*messages.Tag) {
+func (dp DocumentPrinter) processTags(depth int, tags []*messages.Tag) {
 	if len(tags) > 0 {
-		fmt.Fprintf(stdout, strings.Repeat(" ", depth*2))
+		fmt.Fprintf(dp.Writer, strings.Repeat(" ", depth*2))
 		for n, tag := range tags {
 			if n > 0 {
-				fmt.Fprint(stdout, " ")
+				fmt.Fprint(dp.Writer, " ")
 			}
-			fmt.Fprint(stdout, tag.GetName())
+			fmt.Fprint(dp.Writer, tag.GetName())
 		}
-		fmt.Fprintf(stdout, "\n")
+		fmt.Fprintf(dp.Writer, "\n")
 	}
 }
 
-func (dp DocumentPrinter) processStep(stdout io.Writer, depth int, step *messages.Step) {
-	fmt.Fprintf(stdout, strings.Repeat(" ", depth*2))
-	fmt.Fprintf(stdout, "%s%s\n", step.GetKeyword(), step.GetText())
+func (dp DocumentPrinter) processStep(depth int, step *messages.Step) {
+	fmt.Fprintf(dp.Writer, strings.Repeat(" ", depth*2))
+	fmt.Fprintf(dp.Writer, "%s%s\n", step.GetKeyword(), step.GetText())
 
 	table := step.GetDataTable()
 	if table != nil {
-		dp.processDataTable(stdout, depth+1, table)
+		dp.processDataTable(depth+1, table)
 	}
 
 	docString := step.GetDocString()
 	if docString != nil {
-		dp.processDocString(stdout, depth+1, docString)
+		dp.processDocString(depth+1, docString)
 	}
 }
 
-func (dp DocumentPrinter) processDocString(stdout io.Writer, depth int, docString *messages.DocString) {
-	fmt.Fprintf(stdout, strings.Repeat(" ", depth*2))
-	fmt.Fprintf(stdout, "%s%s\n", docString.Delimiter, docString.ContentType)
+func (dp DocumentPrinter) processDocString(depth int, docString *messages.DocString) {
+	fmt.Fprintf(dp.Writer, strings.Repeat(" ", depth*2))
+	fmt.Fprintf(dp.Writer, "%s%s\n", docString.Delimiter, docString.ContentType)
 
 	re := regexp.MustCompile("(?m)^")
 	indentedContent := re.ReplaceAllString(docString.Content, strings.Repeat(" ", depth*2))
-	fmt.Fprintf(stdout, "%s\n", indentedContent)
+	fmt.Fprintf(dp.Writer, "%s\n", indentedContent)
 
-	fmt.Fprintf(stdout, strings.Repeat(" ", depth*2))
-	fmt.Fprintf(stdout, "%s%s\n", docString.Delimiter, docString.ContentType)
+	fmt.Fprintf(dp.Writer, strings.Repeat(" ", depth*2))
+	fmt.Fprintf(dp.Writer, "%s%s\n", docString.Delimiter, docString.ContentType)
 }
 
-func (dp DocumentPrinter) processDataTable(stdout io.Writer, depth int, table *messages.DataTable) {
-	dp.processTable(table.GetRows(), stdout, depth)
+func (dp DocumentPrinter) processDataTable(depth int, table *messages.DataTable) {
+	dp.processTable(table.GetRows(), depth)
 }
 
-func (dp DocumentPrinter) processTable(rows []*messages.TableRow, stdout io.Writer, depth int) {
+func (dp DocumentPrinter) processTable(rows []*messages.TableRow, depth int) {
 	rowCount := len(rows)
 	columnCount := len(rows[0].GetCells())
 	columnWidths := make([]int, columnCount, columnCount)
@@ -197,7 +190,7 @@ func (dp DocumentPrinter) processTable(rows []*messages.TableRow, stdout io.Writ
 		}
 	}
 	for _, row := range rows {
-		fmt.Fprintf(stdout, strings.Repeat(" ", depth*2))
+		fmt.Fprintf(dp.Writer, strings.Repeat(" ", depth*2))
 		for columnIndex, cell := range row.GetCells() {
 			columnWidth := columnWidths[columnIndex]
 			numericValueRatio := float32(columnNumericCount[columnIndex]) / float32(rowCount)
@@ -208,15 +201,15 @@ func (dp DocumentPrinter) processTable(rows []*messages.TableRow, stdout io.Writ
 			} else {
 				format = fmt.Sprintf("| %%-%dv ", columnWidth)
 			}
-			fmt.Fprintf(stdout, format, cell.GetValue())
+			fmt.Fprintf(dp.Writer, format, cell.GetValue())
 		}
-		fmt.Fprintf(stdout, "|\n")
+		fmt.Fprintf(dp.Writer, "|\n")
 	}
 }
 
-func (dp DocumentPrinter) processKeywordNode(stdout io.Writer, depth int, keywordNode KeywordNode) {
-	fmt.Fprintf(stdout, strings.Repeat(" ", depth*2))
-	fmt.Fprintf(stdout, "%s: %s\n", keywordNode.GetKeyword(), keywordNode.GetName())
+func (dp DocumentPrinter) processKeywordNode(depth int, keywordNode KeywordNode) {
+	fmt.Fprintf(dp.Writer, strings.Repeat(" ", depth*2))
+	fmt.Fprintf(dp.Writer, "%s: %s\n", keywordNode.GetKeyword(), keywordNode.GetName())
 }
 
 type KeywordNode interface {
@@ -224,16 +217,15 @@ type KeywordNode interface {
 	GetName() string
 }
 
-func (dp DocumentPrinter) processComments(comments []*messages.Comment, location *messages.Location, stdout io.Writer) []*messages.Comment {
-	for len(comments) > 0 {
-		comment := comments[0]
+func (dp DocumentPrinter) processComments(location *messages.Location) {
+	for len(dp.Doc.Comments) > 0 {
+		comment := dp.Doc.Comments[0]
 		if location.Line < comment.Location.Line {
 			break
 		}
-		fmt.Fprintf(stdout, "%s\n", comment.Text)
-		comments = comments[1:]
+		fmt.Fprintf(dp.Writer, "%s\n", comment.Text)
+		dp.Doc.Comments = dp.Doc.Comments[1:]
 	}
-	return comments
 }
 
 func max(x, y int) int {
