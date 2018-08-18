@@ -28,7 +28,13 @@ func ProcessMessages(stdin io.Reader, stdout io.Writer, resultsMode bool) {
 		switch t := wrapper.Message.(type) {
 		case *messages.Wrapper_GherkinDocument:
 			gherkinDocument := t.GherkinDocument
-			processGherkinDocument(gherkinDocument, stdout)
+			dp := DocumentPrinter{
+				Doc: t.GherkinDocument,
+				Writer: stdout,
+				Comments: t.GherkinDocument.Comments,
+			}
+			
+			dp.processGherkinDocument(gherkinDocument, stdout)
 		case *messages.Wrapper_TestStepFinished:
 			//			finished := t.TestStepFinished
 
@@ -41,26 +47,32 @@ func ProcessMessages(stdin io.Reader, stdout io.Writer, resultsMode bool) {
 	}
 }
 
-func processGherkinDocument(gherkinDocument *messages.GherkinDocument, stdout io.Writer) {
+type DocumentPrinter struct {
+	Doc *messages.GherkinDocument
+	Writer io.Writer
+	Comments []*messages.Comment
+}
+
+func (dp DocumentPrinter) processGherkinDocument(gherkinDocument *messages.GherkinDocument, stdout io.Writer) {
 	feature := gherkinDocument.Feature
 	comments := gherkinDocument.Comments
 	if feature != nil {
-		comments = processFeature(gherkinDocument.Uri, comments, feature, stdout)
+		comments = dp.processFeature(gherkinDocument.Uri, comments, feature, stdout)
 	}
 }
 
-func processFeature(uri string, comments []*messages.Comment, feature *messages.Feature, stdout io.Writer) []*messages.Comment {
-	comments = processComments(comments, feature.Location, stdout)
-	processKeywordNode(stdout, 0, feature)
+func (dp DocumentPrinter) processFeature(uri string, comments []*messages.Comment, feature *messages.Feature, stdout io.Writer) []*messages.Comment {
+	comments = dp.processComments(comments, feature.Location, stdout)
+	dp.processKeywordNode(stdout, 0, feature)
 	for _, child := range feature.Children {
 		fmt.Fprintf(stdout, "\n")
 		switch t := child.Value.(type) {
 		case *messages.FeatureChild_Background:
-			comments = processBackground(comments, t.Background, 1, stdout)
+			comments = dp.processBackground(comments, t.Background, 1, stdout)
 		case *messages.FeatureChild_Rule:
-			comments = processRule(uri, comments, t.Rule, 1, stdout)
+			comments = dp.processRule(uri, comments, t.Rule, 1, stdout)
 		case *messages.FeatureChild_Scenario:
-			comments = processScenario(uri, comments, t.Scenario, 1, stdout)
+			comments = dp.processScenario(uri, comments, t.Scenario, 1, stdout)
 		default:
 			panic(fmt.Sprintf("unexpected %T feature child", child))
 		}
@@ -68,17 +80,17 @@ func processFeature(uri string, comments []*messages.Comment, feature *messages.
 	return comments
 }
 
-func processRule(uri string, comments []*messages.Comment, rule *messages.Rule, depth int, stdout io.Writer) []*messages.Comment {
-	comments = processComments(comments, rule.Location, stdout)
-	processKeywordNode(stdout, depth, rule)
+func (dp DocumentPrinter) processRule(uri string, comments []*messages.Comment, rule *messages.Rule, depth int, stdout io.Writer) []*messages.Comment {
+	comments = dp.processComments(comments, rule.Location, stdout)
+	dp.processKeywordNode(stdout, depth, rule)
 
 	for _, child := range rule.Children {
 		fmt.Fprintf(stdout, "\n")
 		switch t := child.Value.(type) {
 		case *messages.RuleChild_Background:
-			comments = processBackground(comments, t.Background, 2, stdout)
+			comments = dp.processBackground(comments, t.Background, 2, stdout)
 		case *messages.RuleChild_Scenario:
-			comments = processScenario(uri, comments, t.Scenario, 2, stdout)
+			comments = dp.processScenario(uri, comments, t.Scenario, 2, stdout)
 		default:
 			panic(fmt.Sprintf("unexpected %T feature child", child))
 		}
@@ -86,50 +98,50 @@ func processRule(uri string, comments []*messages.Comment, rule *messages.Rule, 
 	return comments
 }
 
-func processBackground(comments []*messages.Comment, background *messages.Background, depth int, stdout io.Writer) []*messages.Comment {
-	comments = processComments(comments, background.Location, stdout)
-	processKeywordNode(stdout, depth, background)
+func (dp DocumentPrinter) processBackground(comments []*messages.Comment, background *messages.Background, depth int, stdout io.Writer) []*messages.Comment {
+	comments = dp.processComments(comments, background.Location, stdout)
+	dp.processKeywordNode(stdout, depth, background)
 	for _, step := range background.GetSteps() {
-		processStep(stdout, depth+1, step)
+		dp.processStep(stdout, depth+1, step)
 	}
 	return comments
 }
 
-func processScenario(uri string, comments []*messages.Comment, scenario *messages.Scenario, depth int, stdout io.Writer) []*messages.Comment {
+func (dp DocumentPrinter) processScenario(uri string, comments []*messages.Comment, scenario *messages.Scenario, depth int, stdout io.Writer) []*messages.Comment {
 	//sourceLine := &messages.SourceLine{
 	//	Uri: uri,
 	//	Line: scenario.Location.Line,
 	//}
 
-	comments = processComments(comments, scenario.Location, stdout)
-	processTags(stdout, depth, scenario.Tags)
-	processKeywordNode(stdout, depth, scenario)
+	comments = dp.processComments(comments, scenario.Location, stdout)
+	dp.processTags(stdout, depth, scenario.Tags)
+	dp.processKeywordNode(stdout, depth, scenario)
 	for _, step := range scenario.GetSteps() {
-		processStep(stdout, depth+1, step)
+		dp.processStep(stdout, depth+1, step)
 	}
 
 	for _, examples := range scenario.GetExamples() {
 		fmt.Fprintf(stdout, "\n")
-		comments = processExamples(comments, examples, stdout, depth+1)
+		comments = dp.processExamples(comments, examples, stdout, depth+1)
 	}
 
 	return comments
 }
 
-func processExamples(comments []*messages.Comment, examples *messages.Examples, stdout io.Writer, depth int) []*messages.Comment {
-	comments = processComments(comments, examples.Location, stdout)
-	processTags(stdout, depth, examples.Tags)
-	processKeywordNode(stdout, depth, examples)
+func (dp DocumentPrinter) processExamples(comments []*messages.Comment, examples *messages.Examples, stdout io.Writer, depth int) []*messages.Comment {
+	comments = dp.processComments(comments, examples.Location, stdout)
+	dp.processTags(stdout, depth, examples.Tags)
+	dp.processKeywordNode(stdout, depth, examples)
 
 	rows := []*messages.TableRow{examples.TableHeader}
 	rows = append(rows, examples.GetTableBody()...)
 
-	processTable(rows, stdout, depth+1)
+	dp.processTable(rows, stdout, depth+1)
 
 	return comments
 }
 
-func processTags(stdout io.Writer, depth int, tags []*messages.Tag) {
+func (dp DocumentPrinter) processTags(stdout io.Writer, depth int, tags []*messages.Tag) {
 	if len(tags) > 0 {
 		fmt.Fprintf(stdout, strings.Repeat(" ", depth*2))
 		for n, tag := range tags {
@@ -142,22 +154,22 @@ func processTags(stdout io.Writer, depth int, tags []*messages.Tag) {
 	}
 }
 
-func processStep(stdout io.Writer, depth int, step *messages.Step) {
+func (dp DocumentPrinter) processStep(stdout io.Writer, depth int, step *messages.Step) {
 	fmt.Fprintf(stdout, strings.Repeat(" ", depth*2))
 	fmt.Fprintf(stdout, "%s%s\n", step.GetKeyword(), step.GetText())
 
 	table := step.GetDataTable()
 	if table != nil {
-		processDataTable(stdout, depth+1, table)
+		dp.processDataTable(stdout, depth+1, table)
 	}
 
 	docString := step.GetDocString()
 	if docString != nil {
-		processDocString(stdout, depth+1, docString)
+		dp.processDocString(stdout, depth+1, docString)
 	}
 }
 
-func processDocString(stdout io.Writer, depth int, docString *messages.DocString) {
+func (dp DocumentPrinter) processDocString(stdout io.Writer, depth int, docString *messages.DocString) {
 	fmt.Fprintf(stdout, strings.Repeat(" ", depth*2))
 	fmt.Fprintf(stdout, "%s%s\n", docString.Delimiter, docString.ContentType)
 
@@ -169,11 +181,11 @@ func processDocString(stdout io.Writer, depth int, docString *messages.DocString
 	fmt.Fprintf(stdout, "%s%s\n", docString.Delimiter, docString.ContentType)
 }
 
-func processDataTable(stdout io.Writer, depth int, table *messages.DataTable) {
-	processTable(table.GetRows(), stdout, depth)
+func (dp DocumentPrinter) processDataTable(stdout io.Writer, depth int, table *messages.DataTable) {
+	dp.processTable(table.GetRows(), stdout, depth)
 }
 
-func processTable(rows []*messages.TableRow, stdout io.Writer, depth int) {
+func (dp DocumentPrinter) processTable(rows []*messages.TableRow, stdout io.Writer, depth int) {
 	rowCount := len(rows)
 	columnCount := len(rows[0].GetCells())
 	columnWidths := make([]int, columnCount, columnCount)
@@ -205,7 +217,7 @@ func processTable(rows []*messages.TableRow, stdout io.Writer, depth int) {
 	}
 }
 
-func processKeywordNode(stdout io.Writer, depth int, keywordNode KeywordNode) {
+func (dp DocumentPrinter) processKeywordNode(stdout io.Writer, depth int, keywordNode KeywordNode) {
 	fmt.Fprintf(stdout, strings.Repeat(" ", depth*2))
 	fmt.Fprintf(stdout, "%s: %s\n", keywordNode.GetKeyword(), keywordNode.GetName())
 }
@@ -215,7 +227,7 @@ type KeywordNode interface {
 	GetName() string
 }
 
-func processComments(comments []*messages.Comment, location *messages.Location, stdout io.Writer) []*messages.Comment {
+func (dp DocumentPrinter) processComments(comments []*messages.Comment, location *messages.Location, stdout io.Writer) []*messages.Comment {
 	for len(comments) > 0 {
 		comment := comments[0]
 		if location.Line < comment.Location.Line {
