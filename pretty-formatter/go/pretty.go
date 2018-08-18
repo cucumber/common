@@ -27,14 +27,13 @@ func ProcessMessages(stdin io.Reader, stdout io.Writer, resultsMode bool) {
 
 		switch t := wrapper.Message.(type) {
 		case *messages.Wrapper_GherkinDocument:
-			gherkinDocument := t.GherkinDocument
 			dp := DocumentPrinter{
 				Doc: t.GherkinDocument,
 				Writer: stdout,
 				Comments: t.GherkinDocument.Comments,
 			}
 			
-			dp.processGherkinDocument(gherkinDocument, stdout)
+			dp.processGherkinDocument()
 		case *messages.Wrapper_TestStepFinished:
 			//			finished := t.TestStepFinished
 
@@ -53,26 +52,24 @@ type DocumentPrinter struct {
 	Comments []*messages.Comment
 }
 
-func (dp DocumentPrinter) processGherkinDocument(gherkinDocument *messages.GherkinDocument, stdout io.Writer) {
-	feature := gherkinDocument.Feature
-	comments := gherkinDocument.Comments
-	if feature != nil {
-		comments = dp.processFeature(gherkinDocument.Uri, comments, feature, stdout)
+func (dp DocumentPrinter) processGherkinDocument() {
+	if dp.Doc.Feature != nil {
+		dp.processFeature()
 	}
 }
 
-func (dp DocumentPrinter) processFeature(uri string, comments []*messages.Comment, feature *messages.Feature, stdout io.Writer) []*messages.Comment {
-	comments = dp.processComments(comments, feature.Location, stdout)
-	dp.processKeywordNode(stdout, 0, feature)
-	for _, child := range feature.Children {
-		fmt.Fprintf(stdout, "\n")
+func (dp DocumentPrinter) processFeature() []*messages.Comment {
+	comments := dp.processComments(dp.Doc.Comments, dp.Doc.Feature.Location, dp.Writer)
+	dp.processKeywordNode(dp.Writer, 0, dp.Doc.Feature)
+	for _, child := range dp.Doc.Feature.Children {
+		fmt.Fprintf(dp.Writer, "\n")
 		switch t := child.Value.(type) {
 		case *messages.FeatureChild_Background:
-			comments = dp.processBackground(comments, t.Background, 1, stdout)
+			comments = dp.processBackground(comments, t.Background, 1, dp.Writer)
 		case *messages.FeatureChild_Rule:
-			comments = dp.processRule(uri, comments, t.Rule, 1, stdout)
+			comments = dp.processRule(dp.Doc.Uri, comments, t.Rule, 1, dp.Writer)
 		case *messages.FeatureChild_Scenario:
-			comments = dp.processScenario(uri, comments, t.Scenario, 1, stdout)
+			comments = dp.processScenario(dp.Doc.Uri, comments, t.Scenario, 1, dp.Writer)
 		default:
 			panic(fmt.Sprintf("unexpected %T feature child", child))
 		}
