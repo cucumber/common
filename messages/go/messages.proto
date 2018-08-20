@@ -11,11 +11,19 @@ message Wrapper {
     GherkinDocument gherkinDocument = 2;
     Pickle pickle = 3;
     Attachment attachment = 4;
-    TestStepFinished testStepFinished = 5;
+    TestCaseStarted testCaseStarted = 5;
+    TestStepStarted testStepStarted = 6;
+    TestStepFinished testStepFinished = 7;
+    TestCaseFinished testCaseFinished = 8;
   }
 }
 
 ////// Source
+
+message SourceReference {
+  string uri = 1;
+  Location location = 2;
+}
 
 message Location {
   uint32 line = 1;
@@ -37,11 +45,6 @@ message Source {
   string uri = 1;
   string data = 2;
   Media media = 3;
-}
-
-message SourceReference {
-  string uri = 1;
-  Location location = 2;
 }
 
 ////// Gherkin
@@ -158,18 +161,13 @@ message Tag {
 ////// Pickles
 
 message Pickle {
-  string uri = 1;
-  string name = 2;
-  string language = 3;
-  repeated PickleStep steps = 4;
-  repeated PickleTag tags = 5;
-  repeated Location locations = 6;
-}
-
-message PickleDocString {
-  Location location = 1;
-  string contentType = 2;
-  string content = 3;
+  string id = 1;
+  string uri = 2;
+  string name = 3;
+  string language = 4;
+  repeated PickleStep steps = 5;
+  repeated PickleTag tags = 6;
+  repeated Location locations = 7;
 }
 
 message PickleStep {
@@ -178,7 +176,14 @@ message PickleStep {
   oneof argument {
     PickleDocString doc_string = 3;
     PickleTable data_table = 4;
-  }}
+  }
+}
+
+message PickleDocString {
+  Location location = 1;
+  string contentType = 2;
+  string content = 3;
+}
 
 message PickleTable {
   repeated PickleTableRow rows = 1;
@@ -200,19 +205,32 @@ message PickleTag {
 
 ////// Results
 
-message SourceLine {
-  string uri = 1;
-  uint32 line = 2;
+message TestCaseStarted {
+  string pickleId = 1;
+  google.protobuf.Timestamp timestamp = 2;
 }
 
-message TestCase {
-  SourceLine sourceLine = 1;
+message TestCaseFinished {
+  string pickleId = 1;
+  google.protobuf.Timestamp timestamp = 2;
+}
+
+message TestStepStarted {
+  string pickleId = 1;
+  uint32 index = 2;
+  google.protobuf.Timestamp timestamp = 3;
+}
+
+message TestStepFinished {
+  string pickleId = 1;
+  uint32 index = 2;
+  TestResult testResult = 3;
+  google.protobuf.Timestamp timestamp = 4;
 }
 
 message TestResult {
   Status status = 1;
   string message = 2;
-  google.protobuf.Timestamp timestamp = 3;
 }
 
 enum Status {
@@ -223,10 +241,3 @@ enum Status {
   SKIPPED = 4;
   UNDEFINED = 5;
 }
-
-message TestStepFinished {
-  TestCase testCase = 1;
-  uint32 index = 2;
-  TestResult testResult = 3;
-}
-

@@ -205,17 +205,56 @@ public final class Messages {
     io.cucumber.messages.Messages.AttachmentOrBuilder getAttachmentOrBuilder();
 
     /**
-     * <code>.io.cucumber.messages.TestStepFinished testStepFinished = 5;</code>
+     * <code>.io.cucumber.messages.TestCaseStarted testCaseStarted = 5;</code>
+     */
+    boolean hasTestCaseStarted();
+    /**
+     * <code>.io.cucumber.messages.TestCaseStarted testCaseStarted = 5;</code>
+     */
+    io.cucumber.messages.Messages.TestCaseStarted getTestCaseStarted();
+    /**
+     * <code>.io.cucumber.messages.TestCaseStarted testCaseStarted = 5;</code>
+     */
+    io.cucumber.messages.Messages.TestCaseStartedOrBuilder getTestCaseStartedOrBuilder();
+
+    /**
+     * <code>.io.cucumber.messages.TestStepStarted testStepStarted = 6;</code>
+     */
+    boolean hasTestStepStarted();
+    /**
+     * <code>.io.cucumber.messages.TestStepStarted testStepStarted = 6;</code>
+     */
+    io.cucumber.messages.Messages.TestStepStarted getTestStepStarted();
+    /**
+     * <code>.io.cucumber.messages.TestStepStarted testStepStarted = 6;</code>
+     */
+    io.cucumber.messages.Messages.TestStepStartedOrBuilder getTestStepStartedOrBuilder();
+
+    /**
+     * <code>.io.cucumber.messages.TestStepFinished testStepFinished = 7;</code>
      */
     boolean hasTestStepFinished();
     /**
-     * <code>.io.cucumber.messages.TestStepFinished testStepFinished = 5;</code>
+     * <code>.io.cucumber.messages.TestStepFinished testStepFinished = 7;</code>
      */
     io.cucumber.messages.Messages.TestStepFinished getTestStepFinished();
     /**
-     * <code>.io.cucumber.messages.TestStepFinished testStepFinished = 5;</code>
+     * <code>.io.cucumber.messages.TestStepFinished testStepFinished = 7;</code>
      */
     io.cucumber.messages.Messages.TestStepFinishedOrBuilder getTestStepFinishedOrBuilder();
+
+    /**
+     * <code>.io.cucumber.messages.TestCaseFinished testCaseFinished = 8;</code>
+     */
+    boolean hasTestCaseFinished();
+    /**
+     * <code>.io.cucumber.messages.TestCaseFinished testCaseFinished = 8;</code>
+     */
+    io.cucumber.messages.Messages.TestCaseFinished getTestCaseFinished();
+    /**
+     * <code>.io.cucumber.messages.TestCaseFinished testCaseFinished = 8;</code>
+     */
+    io.cucumber.messages.Messages.TestCaseFinishedOrBuilder getTestCaseFinishedOrBuilder();
 
     public io.cucumber.messages.Messages.Wrapper.MessageCase getMessageCase();
   }
@@ -319,8 +358,36 @@ public final class Messages {
               break;
             }
             case 42: {
-              io.cucumber.messages.Messages.TestStepFinished.Builder subBuilder = null;
+              io.cucumber.messages.Messages.TestCaseStarted.Builder subBuilder = null;
               if (messageCase_ == 5) {
+                subBuilder = ((io.cucumber.messages.Messages.TestCaseStarted) message_).toBuilder();
+              }
+              message_ =
+                  input.readMessage(io.cucumber.messages.Messages.TestCaseStarted.parser(), extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom((io.cucumber.messages.Messages.TestCaseStarted) message_);
+                message_ = subBuilder.buildPartial();
+              }
+              messageCase_ = 5;
+              break;
+            }
+            case 50: {
+              io.cucumber.messages.Messages.TestStepStarted.Builder subBuilder = null;
+              if (messageCase_ == 6) {
+                subBuilder = ((io.cucumber.messages.Messages.TestStepStarted) message_).toBuilder();
+              }
+              message_ =
+                  input.readMessage(io.cucumber.messages.Messages.TestStepStarted.parser(), extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom((io.cucumber.messages.Messages.TestStepStarted) message_);
+                message_ = subBuilder.buildPartial();
+              }
+              messageCase_ = 6;
+              break;
+            }
+            case 58: {
+              io.cucumber.messages.Messages.TestStepFinished.Builder subBuilder = null;
+              if (messageCase_ == 7) {
                 subBuilder = ((io.cucumber.messages.Messages.TestStepFinished) message_).toBuilder();
               }
               message_ =
@@ -329,7 +396,21 @@ public final class Messages {
                 subBuilder.mergeFrom((io.cucumber.messages.Messages.TestStepFinished) message_);
                 message_ = subBuilder.buildPartial();
               }
-              messageCase_ = 5;
+              messageCase_ = 7;
+              break;
+            }
+            case 66: {
+              io.cucumber.messages.Messages.TestCaseFinished.Builder subBuilder = null;
+              if (messageCase_ == 8) {
+                subBuilder = ((io.cucumber.messages.Messages.TestCaseFinished) message_).toBuilder();
+              }
+              message_ =
+                  input.readMessage(io.cucumber.messages.Messages.TestCaseFinished.parser(), extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom((io.cucumber.messages.Messages.TestCaseFinished) message_);
+                message_ = subBuilder.buildPartial();
+              }
+              messageCase_ = 8;
               break;
             }
             default: {
@@ -372,7 +453,10 @@ public final class Messages {
       GHERKINDOCUMENT(2),
       PICKLE(3),
       ATTACHMENT(4),
-      TESTSTEPFINISHED(5),
+      TESTCASESTARTED(5),
+      TESTSTEPSTARTED(6),
+      TESTSTEPFINISHED(7),
+      TESTCASEFINISHED(8),
       MESSAGE_NOT_SET(0);
       private final int value;
       private MessageCase(int value) {
@@ -392,7 +476,10 @@ public final class Messages {
           case 2: return GHERKINDOCUMENT;
           case 3: return PICKLE;
           case 4: return ATTACHMENT;
-          case 5: return TESTSTEPFINISHED;
+          case 5: return TESTCASESTARTED;
+          case 6: return TESTSTEPSTARTED;
+          case 7: return TESTSTEPFINISHED;
+          case 8: return TESTCASEFINISHED;
           case 0: return MESSAGE_NOT_SET;
           default: return null;
         }
@@ -512,30 +599,108 @@ public final class Messages {
       return io.cucumber.messages.Messages.Attachment.getDefaultInstance();
     }
 
-    public static final int TESTSTEPFINISHED_FIELD_NUMBER = 5;
+    public static final int TESTCASESTARTED_FIELD_NUMBER = 5;
     /**
-     * <code>.io.cucumber.messages.TestStepFinished testStepFinished = 5;</code>
+     * <code>.io.cucumber.messages.TestCaseStarted testCaseStarted = 5;</code>
      */
-    public boolean hasTestStepFinished() {
+    public boolean hasTestCaseStarted() {
       return messageCase_ == 5;
     }
     /**
-     * <code>.io.cucumber.messages.TestStepFinished testStepFinished = 5;</code>
+     * <code>.io.cucumber.messages.TestCaseStarted testCaseStarted = 5;</code>
+     */
+    public io.cucumber.messages.Messages.TestCaseStarted getTestCaseStarted() {
+      if (messageCase_ == 5) {
+         return (io.cucumber.messages.Messages.TestCaseStarted) message_;
+      }
+      return io.cucumber.messages.Messages.TestCaseStarted.getDefaultInstance();
+    }
+    /**
+     * <code>.io.cucumber.messages.TestCaseStarted testCaseStarted = 5;</code>
+     */
+    public io.cucumber.messages.Messages.TestCaseStartedOrBuilder getTestCaseStartedOrBuilder() {
+      if (messageCase_ == 5) {
+         return (io.cucumber.messages.Messages.TestCaseStarted) message_;
+      }
+      return io.cucumber.messages.Messages.TestCaseStarted.getDefaultInstance();
+    }
+
+    public static final int TESTSTEPSTARTED_FIELD_NUMBER = 6;
+    /**
+     * <code>.io.cucumber.messages.TestStepStarted testStepStarted = 6;</code>
+     */
+    public boolean hasTestStepStarted() {
+      return messageCase_ == 6;
+    }
+    /**
+     * <code>.io.cucumber.messages.TestStepStarted testStepStarted = 6;</code>
+     */
+    public io.cucumber.messages.Messages.TestStepStarted getTestStepStarted() {
+      if (messageCase_ == 6) {
+         return (io.cucumber.messages.Messages.TestStepStarted) message_;
+      }
+      return io.cucumber.messages.Messages.TestStepStarted.getDefaultInstance();
+    }
+    /**
+     * <code>.io.cucumber.messages.TestStepStarted testStepStarted = 6;</code>
+     */
+    public io.cucumber.messages.Messages.TestStepStartedOrBuilder getTestStepStartedOrBuilder() {
+      if (messageCase_ == 6) {
+         return (io.cucumber.messages.Messages.TestStepStarted) message_;
+      }
+      return io.cucumber.messages.Messages.TestStepStarted.getDefaultInstance();
+    }
+
+    public static final int TESTSTEPFINISHED_FIELD_NUMBER = 7;
+    /**
+     * <code>.io.cucumber.messages.TestStepFinished testStepFinished = 7;</code>
+     */
+    public boolean hasTestStepFinished() {
+      return messageCase_ == 7;
+    }
+    /**
+     * <code>.io.cucumber.messages.TestStepFinished testStepFinished = 7;</code>
      */
     public io.cucumber.messages.Messages.TestStepFinished getTestStepFinished() {
-      if (messageCase_ == 5) {
+      if (messageCase_ == 7) {
          return (io.cucumber.messages.Messages.TestStepFinished) message_;
       }
       return io.cucumber.messages.Messages.TestStepFinished.getDefaultInstance();
     }
     /**
-     * <code>.io.cucumber.messages.TestStepFinished testStepFinished = 5;</code>
+     * <code>.io.cucumber.messages.TestStepFinished testStepFinished = 7;</code>
      */
     public io.cucumber.messages.Messages.TestStepFinishedOrBuilder getTestStepFinishedOrBuilder() {
-      if (messageCase_ == 5) {
+      if (messageCase_ == 7) {
          return (io.cucumber.messages.Messages.TestStepFinished) message_;
       }
       return io.cucumber.messages.Messages.TestStepFinished.getDefaultInstance();
+    }
+
+    public static final int TESTCASEFINISHED_FIELD_NUMBER = 8;
+    /**
+     * <code>.io.cucumber.messages.TestCaseFinished testCaseFinished = 8;</code>
+     */
+    public boolean hasTestCaseFinished() {
+      return messageCase_ == 8;
+    }
+    /**
+     * <code>.io.cucumber.messages.TestCaseFinished testCaseFinished = 8;</code>
+     */
+    public io.cucumber.messages.Messages.TestCaseFinished getTestCaseFinished() {
+      if (messageCase_ == 8) {
+         return (io.cucumber.messages.Messages.TestCaseFinished) message_;
+      }
+      return io.cucumber.messages.Messages.TestCaseFinished.getDefaultInstance();
+    }
+    /**
+     * <code>.io.cucumber.messages.TestCaseFinished testCaseFinished = 8;</code>
+     */
+    public io.cucumber.messages.Messages.TestCaseFinishedOrBuilder getTestCaseFinishedOrBuilder() {
+      if (messageCase_ == 8) {
+         return (io.cucumber.messages.Messages.TestCaseFinished) message_;
+      }
+      return io.cucumber.messages.Messages.TestCaseFinished.getDefaultInstance();
     }
 
     private byte memoizedIsInitialized = -1;
@@ -565,7 +730,16 @@ public final class Messages {
         output.writeMessage(4, (io.cucumber.messages.Messages.Attachment) message_);
       }
       if (messageCase_ == 5) {
-        output.writeMessage(5, (io.cucumber.messages.Messages.TestStepFinished) message_);
+        output.writeMessage(5, (io.cucumber.messages.Messages.TestCaseStarted) message_);
+      }
+      if (messageCase_ == 6) {
+        output.writeMessage(6, (io.cucumber.messages.Messages.TestStepStarted) message_);
+      }
+      if (messageCase_ == 7) {
+        output.writeMessage(7, (io.cucumber.messages.Messages.TestStepFinished) message_);
+      }
+      if (messageCase_ == 8) {
+        output.writeMessage(8, (io.cucumber.messages.Messages.TestCaseFinished) message_);
       }
       unknownFields.writeTo(output);
     }
@@ -594,7 +768,19 @@ public final class Messages {
       }
       if (messageCase_ == 5) {
         size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(5, (io.cucumber.messages.Messages.TestStepFinished) message_);
+          .computeMessageSize(5, (io.cucumber.messages.Messages.TestCaseStarted) message_);
+      }
+      if (messageCase_ == 6) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(6, (io.cucumber.messages.Messages.TestStepStarted) message_);
+      }
+      if (messageCase_ == 7) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(7, (io.cucumber.messages.Messages.TestStepFinished) message_);
+      }
+      if (messageCase_ == 8) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(8, (io.cucumber.messages.Messages.TestCaseFinished) message_);
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -633,8 +819,20 @@ public final class Messages {
               .equals(other.getAttachment());
           break;
         case 5:
+          result = result && getTestCaseStarted()
+              .equals(other.getTestCaseStarted());
+          break;
+        case 6:
+          result = result && getTestStepStarted()
+              .equals(other.getTestStepStarted());
+          break;
+        case 7:
           result = result && getTestStepFinished()
               .equals(other.getTestStepFinished());
+          break;
+        case 8:
+          result = result && getTestCaseFinished()
+              .equals(other.getTestCaseFinished());
           break;
         case 0:
         default:
@@ -668,8 +866,20 @@ public final class Messages {
           hash = (53 * hash) + getAttachment().hashCode();
           break;
         case 5:
+          hash = (37 * hash) + TESTCASESTARTED_FIELD_NUMBER;
+          hash = (53 * hash) + getTestCaseStarted().hashCode();
+          break;
+        case 6:
+          hash = (37 * hash) + TESTSTEPSTARTED_FIELD_NUMBER;
+          hash = (53 * hash) + getTestStepStarted().hashCode();
+          break;
+        case 7:
           hash = (37 * hash) + TESTSTEPFINISHED_FIELD_NUMBER;
           hash = (53 * hash) + getTestStepFinished().hashCode();
+          break;
+        case 8:
+          hash = (37 * hash) + TESTCASEFINISHED_FIELD_NUMBER;
+          hash = (53 * hash) + getTestCaseFinished().hashCode();
           break;
         case 0:
         default:
@@ -868,10 +1078,31 @@ public final class Messages {
           }
         }
         if (messageCase_ == 5) {
+          if (testCaseStartedBuilder_ == null) {
+            result.message_ = message_;
+          } else {
+            result.message_ = testCaseStartedBuilder_.build();
+          }
+        }
+        if (messageCase_ == 6) {
+          if (testStepStartedBuilder_ == null) {
+            result.message_ = message_;
+          } else {
+            result.message_ = testStepStartedBuilder_.build();
+          }
+        }
+        if (messageCase_ == 7) {
           if (testStepFinishedBuilder_ == null) {
             result.message_ = message_;
           } else {
             result.message_ = testStepFinishedBuilder_.build();
+          }
+        }
+        if (messageCase_ == 8) {
+          if (testCaseFinishedBuilder_ == null) {
+            result.message_ = message_;
+          } else {
+            result.message_ = testCaseFinishedBuilder_.build();
           }
         }
         result.messageCase_ = messageCase_;
@@ -940,8 +1171,20 @@ public final class Messages {
             mergeAttachment(other.getAttachment());
             break;
           }
+          case TESTCASESTARTED: {
+            mergeTestCaseStarted(other.getTestCaseStarted());
+            break;
+          }
+          case TESTSTEPSTARTED: {
+            mergeTestStepStarted(other.getTestStepStarted());
+            break;
+          }
           case TESTSTEPFINISHED: {
             mergeTestStepFinished(other.getTestStepFinished());
+            break;
+          }
+          case TESTCASEFINISHED: {
+            mergeTestCaseFinished(other.getTestCaseFinished());
             break;
           }
           case MESSAGE_NOT_SET: {
@@ -1537,31 +1780,303 @@ public final class Messages {
       }
 
       private com.google.protobuf.SingleFieldBuilderV3<
-          io.cucumber.messages.Messages.TestStepFinished, io.cucumber.messages.Messages.TestStepFinished.Builder, io.cucumber.messages.Messages.TestStepFinishedOrBuilder> testStepFinishedBuilder_;
+          io.cucumber.messages.Messages.TestCaseStarted, io.cucumber.messages.Messages.TestCaseStarted.Builder, io.cucumber.messages.Messages.TestCaseStartedOrBuilder> testCaseStartedBuilder_;
       /**
-       * <code>.io.cucumber.messages.TestStepFinished testStepFinished = 5;</code>
+       * <code>.io.cucumber.messages.TestCaseStarted testCaseStarted = 5;</code>
        */
-      public boolean hasTestStepFinished() {
+      public boolean hasTestCaseStarted() {
         return messageCase_ == 5;
       }
       /**
-       * <code>.io.cucumber.messages.TestStepFinished testStepFinished = 5;</code>
+       * <code>.io.cucumber.messages.TestCaseStarted testCaseStarted = 5;</code>
+       */
+      public io.cucumber.messages.Messages.TestCaseStarted getTestCaseStarted() {
+        if (testCaseStartedBuilder_ == null) {
+          if (messageCase_ == 5) {
+            return (io.cucumber.messages.Messages.TestCaseStarted) message_;
+          }
+          return io.cucumber.messages.Messages.TestCaseStarted.getDefaultInstance();
+        } else {
+          if (messageCase_ == 5) {
+            return testCaseStartedBuilder_.getMessage();
+          }
+          return io.cucumber.messages.Messages.TestCaseStarted.getDefaultInstance();
+        }
+      }
+      /**
+       * <code>.io.cucumber.messages.TestCaseStarted testCaseStarted = 5;</code>
+       */
+      public Builder setTestCaseStarted(io.cucumber.messages.Messages.TestCaseStarted value) {
+        if (testCaseStartedBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          message_ = value;
+          onChanged();
+        } else {
+          testCaseStartedBuilder_.setMessage(value);
+        }
+        messageCase_ = 5;
+        return this;
+      }
+      /**
+       * <code>.io.cucumber.messages.TestCaseStarted testCaseStarted = 5;</code>
+       */
+      public Builder setTestCaseStarted(
+          io.cucumber.messages.Messages.TestCaseStarted.Builder builderForValue) {
+        if (testCaseStartedBuilder_ == null) {
+          message_ = builderForValue.build();
+          onChanged();
+        } else {
+          testCaseStartedBuilder_.setMessage(builderForValue.build());
+        }
+        messageCase_ = 5;
+        return this;
+      }
+      /**
+       * <code>.io.cucumber.messages.TestCaseStarted testCaseStarted = 5;</code>
+       */
+      public Builder mergeTestCaseStarted(io.cucumber.messages.Messages.TestCaseStarted value) {
+        if (testCaseStartedBuilder_ == null) {
+          if (messageCase_ == 5 &&
+              message_ != io.cucumber.messages.Messages.TestCaseStarted.getDefaultInstance()) {
+            message_ = io.cucumber.messages.Messages.TestCaseStarted.newBuilder((io.cucumber.messages.Messages.TestCaseStarted) message_)
+                .mergeFrom(value).buildPartial();
+          } else {
+            message_ = value;
+          }
+          onChanged();
+        } else {
+          if (messageCase_ == 5) {
+            testCaseStartedBuilder_.mergeFrom(value);
+          }
+          testCaseStartedBuilder_.setMessage(value);
+        }
+        messageCase_ = 5;
+        return this;
+      }
+      /**
+       * <code>.io.cucumber.messages.TestCaseStarted testCaseStarted = 5;</code>
+       */
+      public Builder clearTestCaseStarted() {
+        if (testCaseStartedBuilder_ == null) {
+          if (messageCase_ == 5) {
+            messageCase_ = 0;
+            message_ = null;
+            onChanged();
+          }
+        } else {
+          if (messageCase_ == 5) {
+            messageCase_ = 0;
+            message_ = null;
+          }
+          testCaseStartedBuilder_.clear();
+        }
+        return this;
+      }
+      /**
+       * <code>.io.cucumber.messages.TestCaseStarted testCaseStarted = 5;</code>
+       */
+      public io.cucumber.messages.Messages.TestCaseStarted.Builder getTestCaseStartedBuilder() {
+        return getTestCaseStartedFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>.io.cucumber.messages.TestCaseStarted testCaseStarted = 5;</code>
+       */
+      public io.cucumber.messages.Messages.TestCaseStartedOrBuilder getTestCaseStartedOrBuilder() {
+        if ((messageCase_ == 5) && (testCaseStartedBuilder_ != null)) {
+          return testCaseStartedBuilder_.getMessageOrBuilder();
+        } else {
+          if (messageCase_ == 5) {
+            return (io.cucumber.messages.Messages.TestCaseStarted) message_;
+          }
+          return io.cucumber.messages.Messages.TestCaseStarted.getDefaultInstance();
+        }
+      }
+      /**
+       * <code>.io.cucumber.messages.TestCaseStarted testCaseStarted = 5;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilderV3<
+          io.cucumber.messages.Messages.TestCaseStarted, io.cucumber.messages.Messages.TestCaseStarted.Builder, io.cucumber.messages.Messages.TestCaseStartedOrBuilder> 
+          getTestCaseStartedFieldBuilder() {
+        if (testCaseStartedBuilder_ == null) {
+          if (!(messageCase_ == 5)) {
+            message_ = io.cucumber.messages.Messages.TestCaseStarted.getDefaultInstance();
+          }
+          testCaseStartedBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
+              io.cucumber.messages.Messages.TestCaseStarted, io.cucumber.messages.Messages.TestCaseStarted.Builder, io.cucumber.messages.Messages.TestCaseStartedOrBuilder>(
+                  (io.cucumber.messages.Messages.TestCaseStarted) message_,
+                  getParentForChildren(),
+                  isClean());
+          message_ = null;
+        }
+        messageCase_ = 5;
+        onChanged();;
+        return testCaseStartedBuilder_;
+      }
+
+      private com.google.protobuf.SingleFieldBuilderV3<
+          io.cucumber.messages.Messages.TestStepStarted, io.cucumber.messages.Messages.TestStepStarted.Builder, io.cucumber.messages.Messages.TestStepStartedOrBuilder> testStepStartedBuilder_;
+      /**
+       * <code>.io.cucumber.messages.TestStepStarted testStepStarted = 6;</code>
+       */
+      public boolean hasTestStepStarted() {
+        return messageCase_ == 6;
+      }
+      /**
+       * <code>.io.cucumber.messages.TestStepStarted testStepStarted = 6;</code>
+       */
+      public io.cucumber.messages.Messages.TestStepStarted getTestStepStarted() {
+        if (testStepStartedBuilder_ == null) {
+          if (messageCase_ == 6) {
+            return (io.cucumber.messages.Messages.TestStepStarted) message_;
+          }
+          return io.cucumber.messages.Messages.TestStepStarted.getDefaultInstance();
+        } else {
+          if (messageCase_ == 6) {
+            return testStepStartedBuilder_.getMessage();
+          }
+          return io.cucumber.messages.Messages.TestStepStarted.getDefaultInstance();
+        }
+      }
+      /**
+       * <code>.io.cucumber.messages.TestStepStarted testStepStarted = 6;</code>
+       */
+      public Builder setTestStepStarted(io.cucumber.messages.Messages.TestStepStarted value) {
+        if (testStepStartedBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          message_ = value;
+          onChanged();
+        } else {
+          testStepStartedBuilder_.setMessage(value);
+        }
+        messageCase_ = 6;
+        return this;
+      }
+      /**
+       * <code>.io.cucumber.messages.TestStepStarted testStepStarted = 6;</code>
+       */
+      public Builder setTestStepStarted(
+          io.cucumber.messages.Messages.TestStepStarted.Builder builderForValue) {
+        if (testStepStartedBuilder_ == null) {
+          message_ = builderForValue.build();
+          onChanged();
+        } else {
+          testStepStartedBuilder_.setMessage(builderForValue.build());
+        }
+        messageCase_ = 6;
+        return this;
+      }
+      /**
+       * <code>.io.cucumber.messages.TestStepStarted testStepStarted = 6;</code>
+       */
+      public Builder mergeTestStepStarted(io.cucumber.messages.Messages.TestStepStarted value) {
+        if (testStepStartedBuilder_ == null) {
+          if (messageCase_ == 6 &&
+              message_ != io.cucumber.messages.Messages.TestStepStarted.getDefaultInstance()) {
+            message_ = io.cucumber.messages.Messages.TestStepStarted.newBuilder((io.cucumber.messages.Messages.TestStepStarted) message_)
+                .mergeFrom(value).buildPartial();
+          } else {
+            message_ = value;
+          }
+          onChanged();
+        } else {
+          if (messageCase_ == 6) {
+            testStepStartedBuilder_.mergeFrom(value);
+          }
+          testStepStartedBuilder_.setMessage(value);
+        }
+        messageCase_ = 6;
+        return this;
+      }
+      /**
+       * <code>.io.cucumber.messages.TestStepStarted testStepStarted = 6;</code>
+       */
+      public Builder clearTestStepStarted() {
+        if (testStepStartedBuilder_ == null) {
+          if (messageCase_ == 6) {
+            messageCase_ = 0;
+            message_ = null;
+            onChanged();
+          }
+        } else {
+          if (messageCase_ == 6) {
+            messageCase_ = 0;
+            message_ = null;
+          }
+          testStepStartedBuilder_.clear();
+        }
+        return this;
+      }
+      /**
+       * <code>.io.cucumber.messages.TestStepStarted testStepStarted = 6;</code>
+       */
+      public io.cucumber.messages.Messages.TestStepStarted.Builder getTestStepStartedBuilder() {
+        return getTestStepStartedFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>.io.cucumber.messages.TestStepStarted testStepStarted = 6;</code>
+       */
+      public io.cucumber.messages.Messages.TestStepStartedOrBuilder getTestStepStartedOrBuilder() {
+        if ((messageCase_ == 6) && (testStepStartedBuilder_ != null)) {
+          return testStepStartedBuilder_.getMessageOrBuilder();
+        } else {
+          if (messageCase_ == 6) {
+            return (io.cucumber.messages.Messages.TestStepStarted) message_;
+          }
+          return io.cucumber.messages.Messages.TestStepStarted.getDefaultInstance();
+        }
+      }
+      /**
+       * <code>.io.cucumber.messages.TestStepStarted testStepStarted = 6;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilderV3<
+          io.cucumber.messages.Messages.TestStepStarted, io.cucumber.messages.Messages.TestStepStarted.Builder, io.cucumber.messages.Messages.TestStepStartedOrBuilder> 
+          getTestStepStartedFieldBuilder() {
+        if (testStepStartedBuilder_ == null) {
+          if (!(messageCase_ == 6)) {
+            message_ = io.cucumber.messages.Messages.TestStepStarted.getDefaultInstance();
+          }
+          testStepStartedBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
+              io.cucumber.messages.Messages.TestStepStarted, io.cucumber.messages.Messages.TestStepStarted.Builder, io.cucumber.messages.Messages.TestStepStartedOrBuilder>(
+                  (io.cucumber.messages.Messages.TestStepStarted) message_,
+                  getParentForChildren(),
+                  isClean());
+          message_ = null;
+        }
+        messageCase_ = 6;
+        onChanged();;
+        return testStepStartedBuilder_;
+      }
+
+      private com.google.protobuf.SingleFieldBuilderV3<
+          io.cucumber.messages.Messages.TestStepFinished, io.cucumber.messages.Messages.TestStepFinished.Builder, io.cucumber.messages.Messages.TestStepFinishedOrBuilder> testStepFinishedBuilder_;
+      /**
+       * <code>.io.cucumber.messages.TestStepFinished testStepFinished = 7;</code>
+       */
+      public boolean hasTestStepFinished() {
+        return messageCase_ == 7;
+      }
+      /**
+       * <code>.io.cucumber.messages.TestStepFinished testStepFinished = 7;</code>
        */
       public io.cucumber.messages.Messages.TestStepFinished getTestStepFinished() {
         if (testStepFinishedBuilder_ == null) {
-          if (messageCase_ == 5) {
+          if (messageCase_ == 7) {
             return (io.cucumber.messages.Messages.TestStepFinished) message_;
           }
           return io.cucumber.messages.Messages.TestStepFinished.getDefaultInstance();
         } else {
-          if (messageCase_ == 5) {
+          if (messageCase_ == 7) {
             return testStepFinishedBuilder_.getMessage();
           }
           return io.cucumber.messages.Messages.TestStepFinished.getDefaultInstance();
         }
       }
       /**
-       * <code>.io.cucumber.messages.TestStepFinished testStepFinished = 5;</code>
+       * <code>.io.cucumber.messages.TestStepFinished testStepFinished = 7;</code>
        */
       public Builder setTestStepFinished(io.cucumber.messages.Messages.TestStepFinished value) {
         if (testStepFinishedBuilder_ == null) {
@@ -1573,11 +2088,11 @@ public final class Messages {
         } else {
           testStepFinishedBuilder_.setMessage(value);
         }
-        messageCase_ = 5;
+        messageCase_ = 7;
         return this;
       }
       /**
-       * <code>.io.cucumber.messages.TestStepFinished testStepFinished = 5;</code>
+       * <code>.io.cucumber.messages.TestStepFinished testStepFinished = 7;</code>
        */
       public Builder setTestStepFinished(
           io.cucumber.messages.Messages.TestStepFinished.Builder builderForValue) {
@@ -1587,15 +2102,15 @@ public final class Messages {
         } else {
           testStepFinishedBuilder_.setMessage(builderForValue.build());
         }
-        messageCase_ = 5;
+        messageCase_ = 7;
         return this;
       }
       /**
-       * <code>.io.cucumber.messages.TestStepFinished testStepFinished = 5;</code>
+       * <code>.io.cucumber.messages.TestStepFinished testStepFinished = 7;</code>
        */
       public Builder mergeTestStepFinished(io.cucumber.messages.Messages.TestStepFinished value) {
         if (testStepFinishedBuilder_ == null) {
-          if (messageCase_ == 5 &&
+          if (messageCase_ == 7 &&
               message_ != io.cucumber.messages.Messages.TestStepFinished.getDefaultInstance()) {
             message_ = io.cucumber.messages.Messages.TestStepFinished.newBuilder((io.cucumber.messages.Messages.TestStepFinished) message_)
                 .mergeFrom(value).buildPartial();
@@ -1604,26 +2119,26 @@ public final class Messages {
           }
           onChanged();
         } else {
-          if (messageCase_ == 5) {
+          if (messageCase_ == 7) {
             testStepFinishedBuilder_.mergeFrom(value);
           }
           testStepFinishedBuilder_.setMessage(value);
         }
-        messageCase_ = 5;
+        messageCase_ = 7;
         return this;
       }
       /**
-       * <code>.io.cucumber.messages.TestStepFinished testStepFinished = 5;</code>
+       * <code>.io.cucumber.messages.TestStepFinished testStepFinished = 7;</code>
        */
       public Builder clearTestStepFinished() {
         if (testStepFinishedBuilder_ == null) {
-          if (messageCase_ == 5) {
+          if (messageCase_ == 7) {
             messageCase_ = 0;
             message_ = null;
             onChanged();
           }
         } else {
-          if (messageCase_ == 5) {
+          if (messageCase_ == 7) {
             messageCase_ = 0;
             message_ = null;
           }
@@ -1632,32 +2147,32 @@ public final class Messages {
         return this;
       }
       /**
-       * <code>.io.cucumber.messages.TestStepFinished testStepFinished = 5;</code>
+       * <code>.io.cucumber.messages.TestStepFinished testStepFinished = 7;</code>
        */
       public io.cucumber.messages.Messages.TestStepFinished.Builder getTestStepFinishedBuilder() {
         return getTestStepFinishedFieldBuilder().getBuilder();
       }
       /**
-       * <code>.io.cucumber.messages.TestStepFinished testStepFinished = 5;</code>
+       * <code>.io.cucumber.messages.TestStepFinished testStepFinished = 7;</code>
        */
       public io.cucumber.messages.Messages.TestStepFinishedOrBuilder getTestStepFinishedOrBuilder() {
-        if ((messageCase_ == 5) && (testStepFinishedBuilder_ != null)) {
+        if ((messageCase_ == 7) && (testStepFinishedBuilder_ != null)) {
           return testStepFinishedBuilder_.getMessageOrBuilder();
         } else {
-          if (messageCase_ == 5) {
+          if (messageCase_ == 7) {
             return (io.cucumber.messages.Messages.TestStepFinished) message_;
           }
           return io.cucumber.messages.Messages.TestStepFinished.getDefaultInstance();
         }
       }
       /**
-       * <code>.io.cucumber.messages.TestStepFinished testStepFinished = 5;</code>
+       * <code>.io.cucumber.messages.TestStepFinished testStepFinished = 7;</code>
        */
       private com.google.protobuf.SingleFieldBuilderV3<
           io.cucumber.messages.Messages.TestStepFinished, io.cucumber.messages.Messages.TestStepFinished.Builder, io.cucumber.messages.Messages.TestStepFinishedOrBuilder> 
           getTestStepFinishedFieldBuilder() {
         if (testStepFinishedBuilder_ == null) {
-          if (!(messageCase_ == 5)) {
+          if (!(messageCase_ == 7)) {
             message_ = io.cucumber.messages.Messages.TestStepFinished.getDefaultInstance();
           }
           testStepFinishedBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
@@ -1667,9 +2182,145 @@ public final class Messages {
                   isClean());
           message_ = null;
         }
-        messageCase_ = 5;
+        messageCase_ = 7;
         onChanged();;
         return testStepFinishedBuilder_;
+      }
+
+      private com.google.protobuf.SingleFieldBuilderV3<
+          io.cucumber.messages.Messages.TestCaseFinished, io.cucumber.messages.Messages.TestCaseFinished.Builder, io.cucumber.messages.Messages.TestCaseFinishedOrBuilder> testCaseFinishedBuilder_;
+      /**
+       * <code>.io.cucumber.messages.TestCaseFinished testCaseFinished = 8;</code>
+       */
+      public boolean hasTestCaseFinished() {
+        return messageCase_ == 8;
+      }
+      /**
+       * <code>.io.cucumber.messages.TestCaseFinished testCaseFinished = 8;</code>
+       */
+      public io.cucumber.messages.Messages.TestCaseFinished getTestCaseFinished() {
+        if (testCaseFinishedBuilder_ == null) {
+          if (messageCase_ == 8) {
+            return (io.cucumber.messages.Messages.TestCaseFinished) message_;
+          }
+          return io.cucumber.messages.Messages.TestCaseFinished.getDefaultInstance();
+        } else {
+          if (messageCase_ == 8) {
+            return testCaseFinishedBuilder_.getMessage();
+          }
+          return io.cucumber.messages.Messages.TestCaseFinished.getDefaultInstance();
+        }
+      }
+      /**
+       * <code>.io.cucumber.messages.TestCaseFinished testCaseFinished = 8;</code>
+       */
+      public Builder setTestCaseFinished(io.cucumber.messages.Messages.TestCaseFinished value) {
+        if (testCaseFinishedBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          message_ = value;
+          onChanged();
+        } else {
+          testCaseFinishedBuilder_.setMessage(value);
+        }
+        messageCase_ = 8;
+        return this;
+      }
+      /**
+       * <code>.io.cucumber.messages.TestCaseFinished testCaseFinished = 8;</code>
+       */
+      public Builder setTestCaseFinished(
+          io.cucumber.messages.Messages.TestCaseFinished.Builder builderForValue) {
+        if (testCaseFinishedBuilder_ == null) {
+          message_ = builderForValue.build();
+          onChanged();
+        } else {
+          testCaseFinishedBuilder_.setMessage(builderForValue.build());
+        }
+        messageCase_ = 8;
+        return this;
+      }
+      /**
+       * <code>.io.cucumber.messages.TestCaseFinished testCaseFinished = 8;</code>
+       */
+      public Builder mergeTestCaseFinished(io.cucumber.messages.Messages.TestCaseFinished value) {
+        if (testCaseFinishedBuilder_ == null) {
+          if (messageCase_ == 8 &&
+              message_ != io.cucumber.messages.Messages.TestCaseFinished.getDefaultInstance()) {
+            message_ = io.cucumber.messages.Messages.TestCaseFinished.newBuilder((io.cucumber.messages.Messages.TestCaseFinished) message_)
+                .mergeFrom(value).buildPartial();
+          } else {
+            message_ = value;
+          }
+          onChanged();
+        } else {
+          if (messageCase_ == 8) {
+            testCaseFinishedBuilder_.mergeFrom(value);
+          }
+          testCaseFinishedBuilder_.setMessage(value);
+        }
+        messageCase_ = 8;
+        return this;
+      }
+      /**
+       * <code>.io.cucumber.messages.TestCaseFinished testCaseFinished = 8;</code>
+       */
+      public Builder clearTestCaseFinished() {
+        if (testCaseFinishedBuilder_ == null) {
+          if (messageCase_ == 8) {
+            messageCase_ = 0;
+            message_ = null;
+            onChanged();
+          }
+        } else {
+          if (messageCase_ == 8) {
+            messageCase_ = 0;
+            message_ = null;
+          }
+          testCaseFinishedBuilder_.clear();
+        }
+        return this;
+      }
+      /**
+       * <code>.io.cucumber.messages.TestCaseFinished testCaseFinished = 8;</code>
+       */
+      public io.cucumber.messages.Messages.TestCaseFinished.Builder getTestCaseFinishedBuilder() {
+        return getTestCaseFinishedFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>.io.cucumber.messages.TestCaseFinished testCaseFinished = 8;</code>
+       */
+      public io.cucumber.messages.Messages.TestCaseFinishedOrBuilder getTestCaseFinishedOrBuilder() {
+        if ((messageCase_ == 8) && (testCaseFinishedBuilder_ != null)) {
+          return testCaseFinishedBuilder_.getMessageOrBuilder();
+        } else {
+          if (messageCase_ == 8) {
+            return (io.cucumber.messages.Messages.TestCaseFinished) message_;
+          }
+          return io.cucumber.messages.Messages.TestCaseFinished.getDefaultInstance();
+        }
+      }
+      /**
+       * <code>.io.cucumber.messages.TestCaseFinished testCaseFinished = 8;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilderV3<
+          io.cucumber.messages.Messages.TestCaseFinished, io.cucumber.messages.Messages.TestCaseFinished.Builder, io.cucumber.messages.Messages.TestCaseFinishedOrBuilder> 
+          getTestCaseFinishedFieldBuilder() {
+        if (testCaseFinishedBuilder_ == null) {
+          if (!(messageCase_ == 8)) {
+            message_ = io.cucumber.messages.Messages.TestCaseFinished.getDefaultInstance();
+          }
+          testCaseFinishedBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
+              io.cucumber.messages.Messages.TestCaseFinished, io.cucumber.messages.Messages.TestCaseFinished.Builder, io.cucumber.messages.Messages.TestCaseFinishedOrBuilder>(
+                  (io.cucumber.messages.Messages.TestCaseFinished) message_,
+                  getParentForChildren(),
+                  isClean());
+          message_ = null;
+        }
+        messageCase_ = 8;
+        onChanged();;
+        return testCaseFinishedBuilder_;
       }
       @java.lang.Override
       public final Builder setUnknownFields(
@@ -1719,6 +2370,750 @@ public final class Messages {
 
     @java.lang.Override
     public io.cucumber.messages.Messages.Wrapper getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
+  }
+
+  public interface SourceReferenceOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:io.cucumber.messages.SourceReference)
+      com.google.protobuf.MessageOrBuilder {
+
+    /**
+     * <code>string uri = 1;</code>
+     */
+    java.lang.String getUri();
+    /**
+     * <code>string uri = 1;</code>
+     */
+    com.google.protobuf.ByteString
+        getUriBytes();
+
+    /**
+     * <code>.io.cucumber.messages.Location location = 2;</code>
+     */
+    boolean hasLocation();
+    /**
+     * <code>.io.cucumber.messages.Location location = 2;</code>
+     */
+    io.cucumber.messages.Messages.Location getLocation();
+    /**
+     * <code>.io.cucumber.messages.Location location = 2;</code>
+     */
+    io.cucumber.messages.Messages.LocationOrBuilder getLocationOrBuilder();
+  }
+  /**
+   * Protobuf type {@code io.cucumber.messages.SourceReference}
+   */
+  public  static final class SourceReference extends
+      com.google.protobuf.GeneratedMessageV3 implements
+      // @@protoc_insertion_point(message_implements:io.cucumber.messages.SourceReference)
+      SourceReferenceOrBuilder {
+  private static final long serialVersionUID = 0L;
+    // Use SourceReference.newBuilder() to construct.
+    private SourceReference(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+      super(builder);
+    }
+    private SourceReference() {
+      uri_ = "";
+    }
+
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+    getUnknownFields() {
+      return this.unknownFields;
+    }
+    private SourceReference(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      this();
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            case 10: {
+              java.lang.String s = input.readStringRequireUtf8();
+
+              uri_ = s;
+              break;
+            }
+            case 18: {
+              io.cucumber.messages.Messages.Location.Builder subBuilder = null;
+              if (location_ != null) {
+                subBuilder = location_.toBuilder();
+              }
+              location_ = input.readMessage(io.cucumber.messages.Messages.Location.parser(), extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom(location_);
+                location_ = subBuilder.buildPartial();
+              }
+
+              break;
+            }
+            default: {
+              if (!parseUnknownFieldProto3(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return io.cucumber.messages.Messages.internal_static_io_cucumber_messages_SourceReference_descriptor;
+    }
+
+    @java.lang.Override
+    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return io.cucumber.messages.Messages.internal_static_io_cucumber_messages_SourceReference_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              io.cucumber.messages.Messages.SourceReference.class, io.cucumber.messages.Messages.SourceReference.Builder.class);
+    }
+
+    public static final int URI_FIELD_NUMBER = 1;
+    private volatile java.lang.Object uri_;
+    /**
+     * <code>string uri = 1;</code>
+     */
+    public java.lang.String getUri() {
+      java.lang.Object ref = uri_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        uri_ = s;
+        return s;
+      }
+    }
+    /**
+     * <code>string uri = 1;</code>
+     */
+    public com.google.protobuf.ByteString
+        getUriBytes() {
+      java.lang.Object ref = uri_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        uri_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    public static final int LOCATION_FIELD_NUMBER = 2;
+    private io.cucumber.messages.Messages.Location location_;
+    /**
+     * <code>.io.cucumber.messages.Location location = 2;</code>
+     */
+    public boolean hasLocation() {
+      return location_ != null;
+    }
+    /**
+     * <code>.io.cucumber.messages.Location location = 2;</code>
+     */
+    public io.cucumber.messages.Messages.Location getLocation() {
+      return location_ == null ? io.cucumber.messages.Messages.Location.getDefaultInstance() : location_;
+    }
+    /**
+     * <code>.io.cucumber.messages.Location location = 2;</code>
+     */
+    public io.cucumber.messages.Messages.LocationOrBuilder getLocationOrBuilder() {
+      return getLocation();
+    }
+
+    private byte memoizedIsInitialized = -1;
+    @java.lang.Override
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    @java.lang.Override
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      if (!getUriBytes().isEmpty()) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 1, uri_);
+      }
+      if (location_ != null) {
+        output.writeMessage(2, getLocation());
+      }
+      unknownFields.writeTo(output);
+    }
+
+    @java.lang.Override
+    public int getSerializedSize() {
+      int size = memoizedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (!getUriBytes().isEmpty()) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(1, uri_);
+      }
+      if (location_ != null) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(2, getLocation());
+      }
+      size += unknownFields.getSerializedSize();
+      memoizedSize = size;
+      return size;
+    }
+
+    @java.lang.Override
+    public boolean equals(final java.lang.Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof io.cucumber.messages.Messages.SourceReference)) {
+        return super.equals(obj);
+      }
+      io.cucumber.messages.Messages.SourceReference other = (io.cucumber.messages.Messages.SourceReference) obj;
+
+      boolean result = true;
+      result = result && getUri()
+          .equals(other.getUri());
+      result = result && (hasLocation() == other.hasLocation());
+      if (hasLocation()) {
+        result = result && getLocation()
+            .equals(other.getLocation());
+      }
+      result = result && unknownFields.equals(other.unknownFields);
+      return result;
+    }
+
+    @java.lang.Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptor().hashCode();
+      hash = (37 * hash) + URI_FIELD_NUMBER;
+      hash = (53 * hash) + getUri().hashCode();
+      if (hasLocation()) {
+        hash = (37 * hash) + LOCATION_FIELD_NUMBER;
+        hash = (53 * hash) + getLocation().hashCode();
+      }
+      hash = (29 * hash) + unknownFields.hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    public static io.cucumber.messages.Messages.SourceReference parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static io.cucumber.messages.Messages.SourceReference parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static io.cucumber.messages.Messages.SourceReference parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static io.cucumber.messages.Messages.SourceReference parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static io.cucumber.messages.Messages.SourceReference parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static io.cucumber.messages.Messages.SourceReference parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static io.cucumber.messages.Messages.SourceReference parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static io.cucumber.messages.Messages.SourceReference parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static io.cucumber.messages.Messages.SourceReference parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input);
+    }
+    public static io.cucumber.messages.Messages.SourceReference parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static io.cucumber.messages.Messages.SourceReference parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static io.cucumber.messages.Messages.SourceReference parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    @java.lang.Override
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
+    }
+    public static Builder newBuilder(io.cucumber.messages.Messages.SourceReference prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    @java.lang.Override
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code io.cucumber.messages.SourceReference}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:io.cucumber.messages.SourceReference)
+        io.cucumber.messages.Messages.SourceReferenceOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return io.cucumber.messages.Messages.internal_static_io_cucumber_messages_SourceReference_descriptor;
+      }
+
+      @java.lang.Override
+      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return io.cucumber.messages.Messages.internal_static_io_cucumber_messages_SourceReference_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                io.cucumber.messages.Messages.SourceReference.class, io.cucumber.messages.Messages.SourceReference.Builder.class);
+      }
+
+      // Construct using io.cucumber.messages.Messages.SourceReference.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessageV3
+                .alwaysUseFieldBuilders) {
+        }
+      }
+      @java.lang.Override
+      public Builder clear() {
+        super.clear();
+        uri_ = "";
+
+        if (locationBuilder_ == null) {
+          location_ = null;
+        } else {
+          location_ = null;
+          locationBuilder_ = null;
+        }
+        return this;
+      }
+
+      @java.lang.Override
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return io.cucumber.messages.Messages.internal_static_io_cucumber_messages_SourceReference_descriptor;
+      }
+
+      @java.lang.Override
+      public io.cucumber.messages.Messages.SourceReference getDefaultInstanceForType() {
+        return io.cucumber.messages.Messages.SourceReference.getDefaultInstance();
+      }
+
+      @java.lang.Override
+      public io.cucumber.messages.Messages.SourceReference build() {
+        io.cucumber.messages.Messages.SourceReference result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      @java.lang.Override
+      public io.cucumber.messages.Messages.SourceReference buildPartial() {
+        io.cucumber.messages.Messages.SourceReference result = new io.cucumber.messages.Messages.SourceReference(this);
+        result.uri_ = uri_;
+        if (locationBuilder_ == null) {
+          result.location_ = location_;
+        } else {
+          result.location_ = locationBuilder_.build();
+        }
+        onBuilt();
+        return result;
+      }
+
+      @java.lang.Override
+      public Builder clone() {
+        return (Builder) super.clone();
+      }
+      @java.lang.Override
+      public Builder setField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return (Builder) super.setField(field, value);
+      }
+      @java.lang.Override
+      public Builder clearField(
+          com.google.protobuf.Descriptors.FieldDescriptor field) {
+        return (Builder) super.clearField(field);
+      }
+      @java.lang.Override
+      public Builder clearOneof(
+          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+        return (Builder) super.clearOneof(oneof);
+      }
+      @java.lang.Override
+      public Builder setRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          int index, java.lang.Object value) {
+        return (Builder) super.setRepeatedField(field, index, value);
+      }
+      @java.lang.Override
+      public Builder addRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return (Builder) super.addRepeatedField(field, value);
+      }
+      @java.lang.Override
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof io.cucumber.messages.Messages.SourceReference) {
+          return mergeFrom((io.cucumber.messages.Messages.SourceReference)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(io.cucumber.messages.Messages.SourceReference other) {
+        if (other == io.cucumber.messages.Messages.SourceReference.getDefaultInstance()) return this;
+        if (!other.getUri().isEmpty()) {
+          uri_ = other.uri_;
+          onChanged();
+        }
+        if (other.hasLocation()) {
+          mergeLocation(other.getLocation());
+        }
+        this.mergeUnknownFields(other.unknownFields);
+        onChanged();
+        return this;
+      }
+
+      @java.lang.Override
+      public final boolean isInitialized() {
+        return true;
+      }
+
+      @java.lang.Override
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        io.cucumber.messages.Messages.SourceReference parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (io.cucumber.messages.Messages.SourceReference) e.getUnfinishedMessage();
+          throw e.unwrapIOException();
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+
+      private java.lang.Object uri_ = "";
+      /**
+       * <code>string uri = 1;</code>
+       */
+      public java.lang.String getUri() {
+        java.lang.Object ref = uri_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          uri_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>string uri = 1;</code>
+       */
+      public com.google.protobuf.ByteString
+          getUriBytes() {
+        java.lang.Object ref = uri_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          uri_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>string uri = 1;</code>
+       */
+      public Builder setUri(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  
+        uri_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string uri = 1;</code>
+       */
+      public Builder clearUri() {
+        
+        uri_ = getDefaultInstance().getUri();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string uri = 1;</code>
+       */
+      public Builder setUriBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+        
+        uri_ = value;
+        onChanged();
+        return this;
+      }
+
+      private io.cucumber.messages.Messages.Location location_ = null;
+      private com.google.protobuf.SingleFieldBuilderV3<
+          io.cucumber.messages.Messages.Location, io.cucumber.messages.Messages.Location.Builder, io.cucumber.messages.Messages.LocationOrBuilder> locationBuilder_;
+      /**
+       * <code>.io.cucumber.messages.Location location = 2;</code>
+       */
+      public boolean hasLocation() {
+        return locationBuilder_ != null || location_ != null;
+      }
+      /**
+       * <code>.io.cucumber.messages.Location location = 2;</code>
+       */
+      public io.cucumber.messages.Messages.Location getLocation() {
+        if (locationBuilder_ == null) {
+          return location_ == null ? io.cucumber.messages.Messages.Location.getDefaultInstance() : location_;
+        } else {
+          return locationBuilder_.getMessage();
+        }
+      }
+      /**
+       * <code>.io.cucumber.messages.Location location = 2;</code>
+       */
+      public Builder setLocation(io.cucumber.messages.Messages.Location value) {
+        if (locationBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          location_ = value;
+          onChanged();
+        } else {
+          locationBuilder_.setMessage(value);
+        }
+
+        return this;
+      }
+      /**
+       * <code>.io.cucumber.messages.Location location = 2;</code>
+       */
+      public Builder setLocation(
+          io.cucumber.messages.Messages.Location.Builder builderForValue) {
+        if (locationBuilder_ == null) {
+          location_ = builderForValue.build();
+          onChanged();
+        } else {
+          locationBuilder_.setMessage(builderForValue.build());
+        }
+
+        return this;
+      }
+      /**
+       * <code>.io.cucumber.messages.Location location = 2;</code>
+       */
+      public Builder mergeLocation(io.cucumber.messages.Messages.Location value) {
+        if (locationBuilder_ == null) {
+          if (location_ != null) {
+            location_ =
+              io.cucumber.messages.Messages.Location.newBuilder(location_).mergeFrom(value).buildPartial();
+          } else {
+            location_ = value;
+          }
+          onChanged();
+        } else {
+          locationBuilder_.mergeFrom(value);
+        }
+
+        return this;
+      }
+      /**
+       * <code>.io.cucumber.messages.Location location = 2;</code>
+       */
+      public Builder clearLocation() {
+        if (locationBuilder_ == null) {
+          location_ = null;
+          onChanged();
+        } else {
+          location_ = null;
+          locationBuilder_ = null;
+        }
+
+        return this;
+      }
+      /**
+       * <code>.io.cucumber.messages.Location location = 2;</code>
+       */
+      public io.cucumber.messages.Messages.Location.Builder getLocationBuilder() {
+        
+        onChanged();
+        return getLocationFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>.io.cucumber.messages.Location location = 2;</code>
+       */
+      public io.cucumber.messages.Messages.LocationOrBuilder getLocationOrBuilder() {
+        if (locationBuilder_ != null) {
+          return locationBuilder_.getMessageOrBuilder();
+        } else {
+          return location_ == null ?
+              io.cucumber.messages.Messages.Location.getDefaultInstance() : location_;
+        }
+      }
+      /**
+       * <code>.io.cucumber.messages.Location location = 2;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilderV3<
+          io.cucumber.messages.Messages.Location, io.cucumber.messages.Messages.Location.Builder, io.cucumber.messages.Messages.LocationOrBuilder> 
+          getLocationFieldBuilder() {
+        if (locationBuilder_ == null) {
+          locationBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
+              io.cucumber.messages.Messages.Location, io.cucumber.messages.Messages.Location.Builder, io.cucumber.messages.Messages.LocationOrBuilder>(
+                  getLocation(),
+                  getParentForChildren(),
+                  isClean());
+          location_ = null;
+        }
+        return locationBuilder_;
+      }
+      @java.lang.Override
+      public final Builder setUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.setUnknownFieldsProto3(unknownFields);
+      }
+
+      @java.lang.Override
+      public final Builder mergeUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.mergeUnknownFields(unknownFields);
+      }
+
+
+      // @@protoc_insertion_point(builder_scope:io.cucumber.messages.SourceReference)
+    }
+
+    // @@protoc_insertion_point(class_scope:io.cucumber.messages.SourceReference)
+    private static final io.cucumber.messages.Messages.SourceReference DEFAULT_INSTANCE;
+    static {
+      DEFAULT_INSTANCE = new io.cucumber.messages.Messages.SourceReference();
+    }
+
+    public static io.cucumber.messages.Messages.SourceReference getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static final com.google.protobuf.Parser<SourceReference>
+        PARSER = new com.google.protobuf.AbstractParser<SourceReference>() {
+      @java.lang.Override
+      public SourceReference parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new SourceReference(input, extensionRegistry);
+      }
+    };
+
+    public static com.google.protobuf.Parser<SourceReference> parser() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<SourceReference> getParserForType() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public io.cucumber.messages.Messages.SourceReference getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
 
@@ -4764,750 +6159,6 @@ public final class Messages {
 
     @java.lang.Override
     public io.cucumber.messages.Messages.Source getDefaultInstanceForType() {
-      return DEFAULT_INSTANCE;
-    }
-
-  }
-
-  public interface SourceReferenceOrBuilder extends
-      // @@protoc_insertion_point(interface_extends:io.cucumber.messages.SourceReference)
-      com.google.protobuf.MessageOrBuilder {
-
-    /**
-     * <code>string uri = 1;</code>
-     */
-    java.lang.String getUri();
-    /**
-     * <code>string uri = 1;</code>
-     */
-    com.google.protobuf.ByteString
-        getUriBytes();
-
-    /**
-     * <code>.io.cucumber.messages.Location location = 2;</code>
-     */
-    boolean hasLocation();
-    /**
-     * <code>.io.cucumber.messages.Location location = 2;</code>
-     */
-    io.cucumber.messages.Messages.Location getLocation();
-    /**
-     * <code>.io.cucumber.messages.Location location = 2;</code>
-     */
-    io.cucumber.messages.Messages.LocationOrBuilder getLocationOrBuilder();
-  }
-  /**
-   * Protobuf type {@code io.cucumber.messages.SourceReference}
-   */
-  public  static final class SourceReference extends
-      com.google.protobuf.GeneratedMessageV3 implements
-      // @@protoc_insertion_point(message_implements:io.cucumber.messages.SourceReference)
-      SourceReferenceOrBuilder {
-  private static final long serialVersionUID = 0L;
-    // Use SourceReference.newBuilder() to construct.
-    private SourceReference(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
-      super(builder);
-    }
-    private SourceReference() {
-      uri_ = "";
-    }
-
-    @java.lang.Override
-    public final com.google.protobuf.UnknownFieldSet
-    getUnknownFields() {
-      return this.unknownFields;
-    }
-    private SourceReference(
-        com.google.protobuf.CodedInputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      this();
-      if (extensionRegistry == null) {
-        throw new java.lang.NullPointerException();
-      }
-      int mutable_bitField0_ = 0;
-      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
-          com.google.protobuf.UnknownFieldSet.newBuilder();
-      try {
-        boolean done = false;
-        while (!done) {
-          int tag = input.readTag();
-          switch (tag) {
-            case 0:
-              done = true;
-              break;
-            case 10: {
-              java.lang.String s = input.readStringRequireUtf8();
-
-              uri_ = s;
-              break;
-            }
-            case 18: {
-              io.cucumber.messages.Messages.Location.Builder subBuilder = null;
-              if (location_ != null) {
-                subBuilder = location_.toBuilder();
-              }
-              location_ = input.readMessage(io.cucumber.messages.Messages.Location.parser(), extensionRegistry);
-              if (subBuilder != null) {
-                subBuilder.mergeFrom(location_);
-                location_ = subBuilder.buildPartial();
-              }
-
-              break;
-            }
-            default: {
-              if (!parseUnknownFieldProto3(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
-          }
-        }
-      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-        throw e.setUnfinishedMessage(this);
-      } catch (java.io.IOException e) {
-        throw new com.google.protobuf.InvalidProtocolBufferException(
-            e).setUnfinishedMessage(this);
-      } finally {
-        this.unknownFields = unknownFields.build();
-        makeExtensionsImmutable();
-      }
-    }
-    public static final com.google.protobuf.Descriptors.Descriptor
-        getDescriptor() {
-      return io.cucumber.messages.Messages.internal_static_io_cucumber_messages_SourceReference_descriptor;
-    }
-
-    @java.lang.Override
-    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-        internalGetFieldAccessorTable() {
-      return io.cucumber.messages.Messages.internal_static_io_cucumber_messages_SourceReference_fieldAccessorTable
-          .ensureFieldAccessorsInitialized(
-              io.cucumber.messages.Messages.SourceReference.class, io.cucumber.messages.Messages.SourceReference.Builder.class);
-    }
-
-    public static final int URI_FIELD_NUMBER = 1;
-    private volatile java.lang.Object uri_;
-    /**
-     * <code>string uri = 1;</code>
-     */
-    public java.lang.String getUri() {
-      java.lang.Object ref = uri_;
-      if (ref instanceof java.lang.String) {
-        return (java.lang.String) ref;
-      } else {
-        com.google.protobuf.ByteString bs = 
-            (com.google.protobuf.ByteString) ref;
-        java.lang.String s = bs.toStringUtf8();
-        uri_ = s;
-        return s;
-      }
-    }
-    /**
-     * <code>string uri = 1;</code>
-     */
-    public com.google.protobuf.ByteString
-        getUriBytes() {
-      java.lang.Object ref = uri_;
-      if (ref instanceof java.lang.String) {
-        com.google.protobuf.ByteString b = 
-            com.google.protobuf.ByteString.copyFromUtf8(
-                (java.lang.String) ref);
-        uri_ = b;
-        return b;
-      } else {
-        return (com.google.protobuf.ByteString) ref;
-      }
-    }
-
-    public static final int LOCATION_FIELD_NUMBER = 2;
-    private io.cucumber.messages.Messages.Location location_;
-    /**
-     * <code>.io.cucumber.messages.Location location = 2;</code>
-     */
-    public boolean hasLocation() {
-      return location_ != null;
-    }
-    /**
-     * <code>.io.cucumber.messages.Location location = 2;</code>
-     */
-    public io.cucumber.messages.Messages.Location getLocation() {
-      return location_ == null ? io.cucumber.messages.Messages.Location.getDefaultInstance() : location_;
-    }
-    /**
-     * <code>.io.cucumber.messages.Location location = 2;</code>
-     */
-    public io.cucumber.messages.Messages.LocationOrBuilder getLocationOrBuilder() {
-      return getLocation();
-    }
-
-    private byte memoizedIsInitialized = -1;
-    @java.lang.Override
-    public final boolean isInitialized() {
-      byte isInitialized = memoizedIsInitialized;
-      if (isInitialized == 1) return true;
-      if (isInitialized == 0) return false;
-
-      memoizedIsInitialized = 1;
-      return true;
-    }
-
-    @java.lang.Override
-    public void writeTo(com.google.protobuf.CodedOutputStream output)
-                        throws java.io.IOException {
-      if (!getUriBytes().isEmpty()) {
-        com.google.protobuf.GeneratedMessageV3.writeString(output, 1, uri_);
-      }
-      if (location_ != null) {
-        output.writeMessage(2, getLocation());
-      }
-      unknownFields.writeTo(output);
-    }
-
-    @java.lang.Override
-    public int getSerializedSize() {
-      int size = memoizedSize;
-      if (size != -1) return size;
-
-      size = 0;
-      if (!getUriBytes().isEmpty()) {
-        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(1, uri_);
-      }
-      if (location_ != null) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(2, getLocation());
-      }
-      size += unknownFields.getSerializedSize();
-      memoizedSize = size;
-      return size;
-    }
-
-    @java.lang.Override
-    public boolean equals(final java.lang.Object obj) {
-      if (obj == this) {
-       return true;
-      }
-      if (!(obj instanceof io.cucumber.messages.Messages.SourceReference)) {
-        return super.equals(obj);
-      }
-      io.cucumber.messages.Messages.SourceReference other = (io.cucumber.messages.Messages.SourceReference) obj;
-
-      boolean result = true;
-      result = result && getUri()
-          .equals(other.getUri());
-      result = result && (hasLocation() == other.hasLocation());
-      if (hasLocation()) {
-        result = result && getLocation()
-            .equals(other.getLocation());
-      }
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
-    }
-
-    @java.lang.Override
-    public int hashCode() {
-      if (memoizedHashCode != 0) {
-        return memoizedHashCode;
-      }
-      int hash = 41;
-      hash = (19 * hash) + getDescriptor().hashCode();
-      hash = (37 * hash) + URI_FIELD_NUMBER;
-      hash = (53 * hash) + getUri().hashCode();
-      if (hasLocation()) {
-        hash = (37 * hash) + LOCATION_FIELD_NUMBER;
-        hash = (53 * hash) + getLocation().hashCode();
-      }
-      hash = (29 * hash) + unknownFields.hashCode();
-      memoizedHashCode = hash;
-      return hash;
-    }
-
-    public static io.cucumber.messages.Messages.SourceReference parseFrom(
-        java.nio.ByteBuffer data)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data);
-    }
-    public static io.cucumber.messages.Messages.SourceReference parseFrom(
-        java.nio.ByteBuffer data,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data, extensionRegistry);
-    }
-    public static io.cucumber.messages.Messages.SourceReference parseFrom(
-        com.google.protobuf.ByteString data)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data);
-    }
-    public static io.cucumber.messages.Messages.SourceReference parseFrom(
-        com.google.protobuf.ByteString data,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data, extensionRegistry);
-    }
-    public static io.cucumber.messages.Messages.SourceReference parseFrom(byte[] data)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data);
-    }
-    public static io.cucumber.messages.Messages.SourceReference parseFrom(
-        byte[] data,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data, extensionRegistry);
-    }
-    public static io.cucumber.messages.Messages.SourceReference parseFrom(java.io.InputStream input)
-        throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseWithIOException(PARSER, input);
-    }
-    public static io.cucumber.messages.Messages.SourceReference parseFrom(
-        java.io.InputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseWithIOException(PARSER, input, extensionRegistry);
-    }
-    public static io.cucumber.messages.Messages.SourceReference parseDelimitedFrom(java.io.InputStream input)
-        throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseDelimitedWithIOException(PARSER, input);
-    }
-    public static io.cucumber.messages.Messages.SourceReference parseDelimitedFrom(
-        java.io.InputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
-    }
-    public static io.cucumber.messages.Messages.SourceReference parseFrom(
-        com.google.protobuf.CodedInputStream input)
-        throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseWithIOException(PARSER, input);
-    }
-    public static io.cucumber.messages.Messages.SourceReference parseFrom(
-        com.google.protobuf.CodedInputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseWithIOException(PARSER, input, extensionRegistry);
-    }
-
-    @java.lang.Override
-    public Builder newBuilderForType() { return newBuilder(); }
-    public static Builder newBuilder() {
-      return DEFAULT_INSTANCE.toBuilder();
-    }
-    public static Builder newBuilder(io.cucumber.messages.Messages.SourceReference prototype) {
-      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
-    }
-    @java.lang.Override
-    public Builder toBuilder() {
-      return this == DEFAULT_INSTANCE
-          ? new Builder() : new Builder().mergeFrom(this);
-    }
-
-    @java.lang.Override
-    protected Builder newBuilderForType(
-        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
-      Builder builder = new Builder(parent);
-      return builder;
-    }
-    /**
-     * Protobuf type {@code io.cucumber.messages.SourceReference}
-     */
-    public static final class Builder extends
-        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
-        // @@protoc_insertion_point(builder_implements:io.cucumber.messages.SourceReference)
-        io.cucumber.messages.Messages.SourceReferenceOrBuilder {
-      public static final com.google.protobuf.Descriptors.Descriptor
-          getDescriptor() {
-        return io.cucumber.messages.Messages.internal_static_io_cucumber_messages_SourceReference_descriptor;
-      }
-
-      @java.lang.Override
-      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-          internalGetFieldAccessorTable() {
-        return io.cucumber.messages.Messages.internal_static_io_cucumber_messages_SourceReference_fieldAccessorTable
-            .ensureFieldAccessorsInitialized(
-                io.cucumber.messages.Messages.SourceReference.class, io.cucumber.messages.Messages.SourceReference.Builder.class);
-      }
-
-      // Construct using io.cucumber.messages.Messages.SourceReference.newBuilder()
-      private Builder() {
-        maybeForceBuilderInitialization();
-      }
-
-      private Builder(
-          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
-        super(parent);
-        maybeForceBuilderInitialization();
-      }
-      private void maybeForceBuilderInitialization() {
-        if (com.google.protobuf.GeneratedMessageV3
-                .alwaysUseFieldBuilders) {
-        }
-      }
-      @java.lang.Override
-      public Builder clear() {
-        super.clear();
-        uri_ = "";
-
-        if (locationBuilder_ == null) {
-          location_ = null;
-        } else {
-          location_ = null;
-          locationBuilder_ = null;
-        }
-        return this;
-      }
-
-      @java.lang.Override
-      public com.google.protobuf.Descriptors.Descriptor
-          getDescriptorForType() {
-        return io.cucumber.messages.Messages.internal_static_io_cucumber_messages_SourceReference_descriptor;
-      }
-
-      @java.lang.Override
-      public io.cucumber.messages.Messages.SourceReference getDefaultInstanceForType() {
-        return io.cucumber.messages.Messages.SourceReference.getDefaultInstance();
-      }
-
-      @java.lang.Override
-      public io.cucumber.messages.Messages.SourceReference build() {
-        io.cucumber.messages.Messages.SourceReference result = buildPartial();
-        if (!result.isInitialized()) {
-          throw newUninitializedMessageException(result);
-        }
-        return result;
-      }
-
-      @java.lang.Override
-      public io.cucumber.messages.Messages.SourceReference buildPartial() {
-        io.cucumber.messages.Messages.SourceReference result = new io.cucumber.messages.Messages.SourceReference(this);
-        result.uri_ = uri_;
-        if (locationBuilder_ == null) {
-          result.location_ = location_;
-        } else {
-          result.location_ = locationBuilder_.build();
-        }
-        onBuilt();
-        return result;
-      }
-
-      @java.lang.Override
-      public Builder clone() {
-        return (Builder) super.clone();
-      }
-      @java.lang.Override
-      public Builder setField(
-          com.google.protobuf.Descriptors.FieldDescriptor field,
-          java.lang.Object value) {
-        return (Builder) super.setField(field, value);
-      }
-      @java.lang.Override
-      public Builder clearField(
-          com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
-      }
-      @java.lang.Override
-      public Builder clearOneof(
-          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
-      }
-      @java.lang.Override
-      public Builder setRepeatedField(
-          com.google.protobuf.Descriptors.FieldDescriptor field,
-          int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
-      }
-      @java.lang.Override
-      public Builder addRepeatedField(
-          com.google.protobuf.Descriptors.FieldDescriptor field,
-          java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
-      }
-      @java.lang.Override
-      public Builder mergeFrom(com.google.protobuf.Message other) {
-        if (other instanceof io.cucumber.messages.Messages.SourceReference) {
-          return mergeFrom((io.cucumber.messages.Messages.SourceReference)other);
-        } else {
-          super.mergeFrom(other);
-          return this;
-        }
-      }
-
-      public Builder mergeFrom(io.cucumber.messages.Messages.SourceReference other) {
-        if (other == io.cucumber.messages.Messages.SourceReference.getDefaultInstance()) return this;
-        if (!other.getUri().isEmpty()) {
-          uri_ = other.uri_;
-          onChanged();
-        }
-        if (other.hasLocation()) {
-          mergeLocation(other.getLocation());
-        }
-        this.mergeUnknownFields(other.unknownFields);
-        onChanged();
-        return this;
-      }
-
-      @java.lang.Override
-      public final boolean isInitialized() {
-        return true;
-      }
-
-      @java.lang.Override
-      public Builder mergeFrom(
-          com.google.protobuf.CodedInputStream input,
-          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-          throws java.io.IOException {
-        io.cucumber.messages.Messages.SourceReference parsedMessage = null;
-        try {
-          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
-        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-          parsedMessage = (io.cucumber.messages.Messages.SourceReference) e.getUnfinishedMessage();
-          throw e.unwrapIOException();
-        } finally {
-          if (parsedMessage != null) {
-            mergeFrom(parsedMessage);
-          }
-        }
-        return this;
-      }
-
-      private java.lang.Object uri_ = "";
-      /**
-       * <code>string uri = 1;</code>
-       */
-      public java.lang.String getUri() {
-        java.lang.Object ref = uri_;
-        if (!(ref instanceof java.lang.String)) {
-          com.google.protobuf.ByteString bs =
-              (com.google.protobuf.ByteString) ref;
-          java.lang.String s = bs.toStringUtf8();
-          uri_ = s;
-          return s;
-        } else {
-          return (java.lang.String) ref;
-        }
-      }
-      /**
-       * <code>string uri = 1;</code>
-       */
-      public com.google.protobuf.ByteString
-          getUriBytes() {
-        java.lang.Object ref = uri_;
-        if (ref instanceof String) {
-          com.google.protobuf.ByteString b = 
-              com.google.protobuf.ByteString.copyFromUtf8(
-                  (java.lang.String) ref);
-          uri_ = b;
-          return b;
-        } else {
-          return (com.google.protobuf.ByteString) ref;
-        }
-      }
-      /**
-       * <code>string uri = 1;</code>
-       */
-      public Builder setUri(
-          java.lang.String value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  
-        uri_ = value;
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>string uri = 1;</code>
-       */
-      public Builder clearUri() {
-        
-        uri_ = getDefaultInstance().getUri();
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>string uri = 1;</code>
-       */
-      public Builder setUriBytes(
-          com.google.protobuf.ByteString value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  checkByteStringIsUtf8(value);
-        
-        uri_ = value;
-        onChanged();
-        return this;
-      }
-
-      private io.cucumber.messages.Messages.Location location_ = null;
-      private com.google.protobuf.SingleFieldBuilderV3<
-          io.cucumber.messages.Messages.Location, io.cucumber.messages.Messages.Location.Builder, io.cucumber.messages.Messages.LocationOrBuilder> locationBuilder_;
-      /**
-       * <code>.io.cucumber.messages.Location location = 2;</code>
-       */
-      public boolean hasLocation() {
-        return locationBuilder_ != null || location_ != null;
-      }
-      /**
-       * <code>.io.cucumber.messages.Location location = 2;</code>
-       */
-      public io.cucumber.messages.Messages.Location getLocation() {
-        if (locationBuilder_ == null) {
-          return location_ == null ? io.cucumber.messages.Messages.Location.getDefaultInstance() : location_;
-        } else {
-          return locationBuilder_.getMessage();
-        }
-      }
-      /**
-       * <code>.io.cucumber.messages.Location location = 2;</code>
-       */
-      public Builder setLocation(io.cucumber.messages.Messages.Location value) {
-        if (locationBuilder_ == null) {
-          if (value == null) {
-            throw new NullPointerException();
-          }
-          location_ = value;
-          onChanged();
-        } else {
-          locationBuilder_.setMessage(value);
-        }
-
-        return this;
-      }
-      /**
-       * <code>.io.cucumber.messages.Location location = 2;</code>
-       */
-      public Builder setLocation(
-          io.cucumber.messages.Messages.Location.Builder builderForValue) {
-        if (locationBuilder_ == null) {
-          location_ = builderForValue.build();
-          onChanged();
-        } else {
-          locationBuilder_.setMessage(builderForValue.build());
-        }
-
-        return this;
-      }
-      /**
-       * <code>.io.cucumber.messages.Location location = 2;</code>
-       */
-      public Builder mergeLocation(io.cucumber.messages.Messages.Location value) {
-        if (locationBuilder_ == null) {
-          if (location_ != null) {
-            location_ =
-              io.cucumber.messages.Messages.Location.newBuilder(location_).mergeFrom(value).buildPartial();
-          } else {
-            location_ = value;
-          }
-          onChanged();
-        } else {
-          locationBuilder_.mergeFrom(value);
-        }
-
-        return this;
-      }
-      /**
-       * <code>.io.cucumber.messages.Location location = 2;</code>
-       */
-      public Builder clearLocation() {
-        if (locationBuilder_ == null) {
-          location_ = null;
-          onChanged();
-        } else {
-          location_ = null;
-          locationBuilder_ = null;
-        }
-
-        return this;
-      }
-      /**
-       * <code>.io.cucumber.messages.Location location = 2;</code>
-       */
-      public io.cucumber.messages.Messages.Location.Builder getLocationBuilder() {
-        
-        onChanged();
-        return getLocationFieldBuilder().getBuilder();
-      }
-      /**
-       * <code>.io.cucumber.messages.Location location = 2;</code>
-       */
-      public io.cucumber.messages.Messages.LocationOrBuilder getLocationOrBuilder() {
-        if (locationBuilder_ != null) {
-          return locationBuilder_.getMessageOrBuilder();
-        } else {
-          return location_ == null ?
-              io.cucumber.messages.Messages.Location.getDefaultInstance() : location_;
-        }
-      }
-      /**
-       * <code>.io.cucumber.messages.Location location = 2;</code>
-       */
-      private com.google.protobuf.SingleFieldBuilderV3<
-          io.cucumber.messages.Messages.Location, io.cucumber.messages.Messages.Location.Builder, io.cucumber.messages.Messages.LocationOrBuilder> 
-          getLocationFieldBuilder() {
-        if (locationBuilder_ == null) {
-          locationBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
-              io.cucumber.messages.Messages.Location, io.cucumber.messages.Messages.Location.Builder, io.cucumber.messages.Messages.LocationOrBuilder>(
-                  getLocation(),
-                  getParentForChildren(),
-                  isClean());
-          location_ = null;
-        }
-        return locationBuilder_;
-      }
-      @java.lang.Override
-      public final Builder setUnknownFields(
-          final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
-      }
-
-      @java.lang.Override
-      public final Builder mergeUnknownFields(
-          final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.mergeUnknownFields(unknownFields);
-      }
-
-
-      // @@protoc_insertion_point(builder_scope:io.cucumber.messages.SourceReference)
-    }
-
-    // @@protoc_insertion_point(class_scope:io.cucumber.messages.SourceReference)
-    private static final io.cucumber.messages.Messages.SourceReference DEFAULT_INSTANCE;
-    static {
-      DEFAULT_INSTANCE = new io.cucumber.messages.Messages.SourceReference();
-    }
-
-    public static io.cucumber.messages.Messages.SourceReference getDefaultInstance() {
-      return DEFAULT_INSTANCE;
-    }
-
-    private static final com.google.protobuf.Parser<SourceReference>
-        PARSER = new com.google.protobuf.AbstractParser<SourceReference>() {
-      @java.lang.Override
-      public SourceReference parsePartialFrom(
-          com.google.protobuf.CodedInputStream input,
-          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-          throws com.google.protobuf.InvalidProtocolBufferException {
-        return new SourceReference(input, extensionRegistry);
-      }
-    };
-
-    public static com.google.protobuf.Parser<SourceReference> parser() {
-      return PARSER;
-    }
-
-    @java.lang.Override
-    public com.google.protobuf.Parser<SourceReference> getParserForType() {
-      return PARSER;
-    }
-
-    @java.lang.Override
-    public io.cucumber.messages.Messages.SourceReference getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
 
@@ -24027,103 +24678,113 @@ public final class Messages {
       com.google.protobuf.MessageOrBuilder {
 
     /**
-     * <code>string uri = 1;</code>
+     * <code>string id = 1;</code>
+     */
+    java.lang.String getId();
+    /**
+     * <code>string id = 1;</code>
+     */
+    com.google.protobuf.ByteString
+        getIdBytes();
+
+    /**
+     * <code>string uri = 2;</code>
      */
     java.lang.String getUri();
     /**
-     * <code>string uri = 1;</code>
+     * <code>string uri = 2;</code>
      */
     com.google.protobuf.ByteString
         getUriBytes();
 
     /**
-     * <code>string name = 2;</code>
+     * <code>string name = 3;</code>
      */
     java.lang.String getName();
     /**
-     * <code>string name = 2;</code>
+     * <code>string name = 3;</code>
      */
     com.google.protobuf.ByteString
         getNameBytes();
 
     /**
-     * <code>string language = 3;</code>
+     * <code>string language = 4;</code>
      */
     java.lang.String getLanguage();
     /**
-     * <code>string language = 3;</code>
+     * <code>string language = 4;</code>
      */
     com.google.protobuf.ByteString
         getLanguageBytes();
 
     /**
-     * <code>repeated .io.cucumber.messages.PickleStep steps = 4;</code>
+     * <code>repeated .io.cucumber.messages.PickleStep steps = 5;</code>
      */
     java.util.List<io.cucumber.messages.Messages.PickleStep> 
         getStepsList();
     /**
-     * <code>repeated .io.cucumber.messages.PickleStep steps = 4;</code>
+     * <code>repeated .io.cucumber.messages.PickleStep steps = 5;</code>
      */
     io.cucumber.messages.Messages.PickleStep getSteps(int index);
     /**
-     * <code>repeated .io.cucumber.messages.PickleStep steps = 4;</code>
+     * <code>repeated .io.cucumber.messages.PickleStep steps = 5;</code>
      */
     int getStepsCount();
     /**
-     * <code>repeated .io.cucumber.messages.PickleStep steps = 4;</code>
+     * <code>repeated .io.cucumber.messages.PickleStep steps = 5;</code>
      */
     java.util.List<? extends io.cucumber.messages.Messages.PickleStepOrBuilder> 
         getStepsOrBuilderList();
     /**
-     * <code>repeated .io.cucumber.messages.PickleStep steps = 4;</code>
+     * <code>repeated .io.cucumber.messages.PickleStep steps = 5;</code>
      */
     io.cucumber.messages.Messages.PickleStepOrBuilder getStepsOrBuilder(
         int index);
 
     /**
-     * <code>repeated .io.cucumber.messages.PickleTag tags = 5;</code>
+     * <code>repeated .io.cucumber.messages.PickleTag tags = 6;</code>
      */
     java.util.List<io.cucumber.messages.Messages.PickleTag> 
         getTagsList();
     /**
-     * <code>repeated .io.cucumber.messages.PickleTag tags = 5;</code>
+     * <code>repeated .io.cucumber.messages.PickleTag tags = 6;</code>
      */
     io.cucumber.messages.Messages.PickleTag getTags(int index);
     /**
-     * <code>repeated .io.cucumber.messages.PickleTag tags = 5;</code>
+     * <code>repeated .io.cucumber.messages.PickleTag tags = 6;</code>
      */
     int getTagsCount();
     /**
-     * <code>repeated .io.cucumber.messages.PickleTag tags = 5;</code>
+     * <code>repeated .io.cucumber.messages.PickleTag tags = 6;</code>
      */
     java.util.List<? extends io.cucumber.messages.Messages.PickleTagOrBuilder> 
         getTagsOrBuilderList();
     /**
-     * <code>repeated .io.cucumber.messages.PickleTag tags = 5;</code>
+     * <code>repeated .io.cucumber.messages.PickleTag tags = 6;</code>
      */
     io.cucumber.messages.Messages.PickleTagOrBuilder getTagsOrBuilder(
         int index);
 
     /**
-     * <code>repeated .io.cucumber.messages.Location locations = 6;</code>
+     * <code>repeated .io.cucumber.messages.Location locations = 7;</code>
      */
     java.util.List<io.cucumber.messages.Messages.Location> 
         getLocationsList();
     /**
-     * <code>repeated .io.cucumber.messages.Location locations = 6;</code>
+     * <code>repeated .io.cucumber.messages.Location locations = 7;</code>
      */
     io.cucumber.messages.Messages.Location getLocations(int index);
     /**
-     * <code>repeated .io.cucumber.messages.Location locations = 6;</code>
+     * <code>repeated .io.cucumber.messages.Location locations = 7;</code>
      */
     int getLocationsCount();
     /**
-     * <code>repeated .io.cucumber.messages.Location locations = 6;</code>
+     * <code>repeated .io.cucumber.messages.Location locations = 7;</code>
      */
     java.util.List<? extends io.cucumber.messages.Messages.LocationOrBuilder> 
         getLocationsOrBuilderList();
     /**
-     * <code>repeated .io.cucumber.messages.Location locations = 6;</code>
+     * <code>repeated .io.cucumber.messages.Location locations = 7;</code>
      */
     io.cucumber.messages.Messages.LocationOrBuilder getLocationsOrBuilder(
         int index);
@@ -24141,6 +24802,7 @@ public final class Messages {
       super(builder);
     }
     private Pickle() {
+      id_ = "";
       uri_ = "";
       name_ = "";
       language_ = "";
@@ -24176,43 +24838,49 @@ public final class Messages {
             case 10: {
               java.lang.String s = input.readStringRequireUtf8();
 
-              uri_ = s;
+              id_ = s;
               break;
             }
             case 18: {
               java.lang.String s = input.readStringRequireUtf8();
 
-              name_ = s;
+              uri_ = s;
               break;
             }
             case 26: {
               java.lang.String s = input.readStringRequireUtf8();
 
-              language_ = s;
+              name_ = s;
               break;
             }
             case 34: {
-              if (!((mutable_bitField0_ & 0x00000008) == 0x00000008)) {
+              java.lang.String s = input.readStringRequireUtf8();
+
+              language_ = s;
+              break;
+            }
+            case 42: {
+              if (!((mutable_bitField0_ & 0x00000010) == 0x00000010)) {
                 steps_ = new java.util.ArrayList<io.cucumber.messages.Messages.PickleStep>();
-                mutable_bitField0_ |= 0x00000008;
+                mutable_bitField0_ |= 0x00000010;
               }
               steps_.add(
                   input.readMessage(io.cucumber.messages.Messages.PickleStep.parser(), extensionRegistry));
               break;
             }
-            case 42: {
-              if (!((mutable_bitField0_ & 0x00000010) == 0x00000010)) {
+            case 50: {
+              if (!((mutable_bitField0_ & 0x00000020) == 0x00000020)) {
                 tags_ = new java.util.ArrayList<io.cucumber.messages.Messages.PickleTag>();
-                mutable_bitField0_ |= 0x00000010;
+                mutable_bitField0_ |= 0x00000020;
               }
               tags_.add(
                   input.readMessage(io.cucumber.messages.Messages.PickleTag.parser(), extensionRegistry));
               break;
             }
-            case 50: {
-              if (!((mutable_bitField0_ & 0x00000020) == 0x00000020)) {
+            case 58: {
+              if (!((mutable_bitField0_ & 0x00000040) == 0x00000040)) {
                 locations_ = new java.util.ArrayList<io.cucumber.messages.Messages.Location>();
-                mutable_bitField0_ |= 0x00000020;
+                mutable_bitField0_ |= 0x00000040;
               }
               locations_.add(
                   input.readMessage(io.cucumber.messages.Messages.Location.parser(), extensionRegistry));
@@ -24233,13 +24901,13 @@ public final class Messages {
         throw new com.google.protobuf.InvalidProtocolBufferException(
             e).setUnfinishedMessage(this);
       } finally {
-        if (((mutable_bitField0_ & 0x00000008) == 0x00000008)) {
+        if (((mutable_bitField0_ & 0x00000010) == 0x00000010)) {
           steps_ = java.util.Collections.unmodifiableList(steps_);
         }
-        if (((mutable_bitField0_ & 0x00000010) == 0x00000010)) {
+        if (((mutable_bitField0_ & 0x00000020) == 0x00000020)) {
           tags_ = java.util.Collections.unmodifiableList(tags_);
         }
-        if (((mutable_bitField0_ & 0x00000020) == 0x00000020)) {
+        if (((mutable_bitField0_ & 0x00000040) == 0x00000040)) {
           locations_ = java.util.Collections.unmodifiableList(locations_);
         }
         this.unknownFields = unknownFields.build();
@@ -24260,10 +24928,44 @@ public final class Messages {
     }
 
     private int bitField0_;
-    public static final int URI_FIELD_NUMBER = 1;
+    public static final int ID_FIELD_NUMBER = 1;
+    private volatile java.lang.Object id_;
+    /**
+     * <code>string id = 1;</code>
+     */
+    public java.lang.String getId() {
+      java.lang.Object ref = id_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        id_ = s;
+        return s;
+      }
+    }
+    /**
+     * <code>string id = 1;</code>
+     */
+    public com.google.protobuf.ByteString
+        getIdBytes() {
+      java.lang.Object ref = id_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        id_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    public static final int URI_FIELD_NUMBER = 2;
     private volatile java.lang.Object uri_;
     /**
-     * <code>string uri = 1;</code>
+     * <code>string uri = 2;</code>
      */
     public java.lang.String getUri() {
       java.lang.Object ref = uri_;
@@ -24278,7 +24980,7 @@ public final class Messages {
       }
     }
     /**
-     * <code>string uri = 1;</code>
+     * <code>string uri = 2;</code>
      */
     public com.google.protobuf.ByteString
         getUriBytes() {
@@ -24294,10 +24996,10 @@ public final class Messages {
       }
     }
 
-    public static final int NAME_FIELD_NUMBER = 2;
+    public static final int NAME_FIELD_NUMBER = 3;
     private volatile java.lang.Object name_;
     /**
-     * <code>string name = 2;</code>
+     * <code>string name = 3;</code>
      */
     public java.lang.String getName() {
       java.lang.Object ref = name_;
@@ -24312,7 +25014,7 @@ public final class Messages {
       }
     }
     /**
-     * <code>string name = 2;</code>
+     * <code>string name = 3;</code>
      */
     public com.google.protobuf.ByteString
         getNameBytes() {
@@ -24328,10 +25030,10 @@ public final class Messages {
       }
     }
 
-    public static final int LANGUAGE_FIELD_NUMBER = 3;
+    public static final int LANGUAGE_FIELD_NUMBER = 4;
     private volatile java.lang.Object language_;
     /**
-     * <code>string language = 3;</code>
+     * <code>string language = 4;</code>
      */
     public java.lang.String getLanguage() {
       java.lang.Object ref = language_;
@@ -24346,7 +25048,7 @@ public final class Messages {
       }
     }
     /**
-     * <code>string language = 3;</code>
+     * <code>string language = 4;</code>
      */
     public com.google.protobuf.ByteString
         getLanguageBytes() {
@@ -24362,105 +25064,105 @@ public final class Messages {
       }
     }
 
-    public static final int STEPS_FIELD_NUMBER = 4;
+    public static final int STEPS_FIELD_NUMBER = 5;
     private java.util.List<io.cucumber.messages.Messages.PickleStep> steps_;
     /**
-     * <code>repeated .io.cucumber.messages.PickleStep steps = 4;</code>
+     * <code>repeated .io.cucumber.messages.PickleStep steps = 5;</code>
      */
     public java.util.List<io.cucumber.messages.Messages.PickleStep> getStepsList() {
       return steps_;
     }
     /**
-     * <code>repeated .io.cucumber.messages.PickleStep steps = 4;</code>
+     * <code>repeated .io.cucumber.messages.PickleStep steps = 5;</code>
      */
     public java.util.List<? extends io.cucumber.messages.Messages.PickleStepOrBuilder> 
         getStepsOrBuilderList() {
       return steps_;
     }
     /**
-     * <code>repeated .io.cucumber.messages.PickleStep steps = 4;</code>
+     * <code>repeated .io.cucumber.messages.PickleStep steps = 5;</code>
      */
     public int getStepsCount() {
       return steps_.size();
     }
     /**
-     * <code>repeated .io.cucumber.messages.PickleStep steps = 4;</code>
+     * <code>repeated .io.cucumber.messages.PickleStep steps = 5;</code>
      */
     public io.cucumber.messages.Messages.PickleStep getSteps(int index) {
       return steps_.get(index);
     }
     /**
-     * <code>repeated .io.cucumber.messages.PickleStep steps = 4;</code>
+     * <code>repeated .io.cucumber.messages.PickleStep steps = 5;</code>
      */
     public io.cucumber.messages.Messages.PickleStepOrBuilder getStepsOrBuilder(
         int index) {
       return steps_.get(index);
     }
 
-    public static final int TAGS_FIELD_NUMBER = 5;
+    public static final int TAGS_FIELD_NUMBER = 6;
     private java.util.List<io.cucumber.messages.Messages.PickleTag> tags_;
     /**
-     * <code>repeated .io.cucumber.messages.PickleTag tags = 5;</code>
+     * <code>repeated .io.cucumber.messages.PickleTag tags = 6;</code>
      */
     public java.util.List<io.cucumber.messages.Messages.PickleTag> getTagsList() {
       return tags_;
     }
     /**
-     * <code>repeated .io.cucumber.messages.PickleTag tags = 5;</code>
+     * <code>repeated .io.cucumber.messages.PickleTag tags = 6;</code>
      */
     public java.util.List<? extends io.cucumber.messages.Messages.PickleTagOrBuilder> 
         getTagsOrBuilderList() {
       return tags_;
     }
     /**
-     * <code>repeated .io.cucumber.messages.PickleTag tags = 5;</code>
+     * <code>repeated .io.cucumber.messages.PickleTag tags = 6;</code>
      */
     public int getTagsCount() {
       return tags_.size();
     }
     /**
-     * <code>repeated .io.cucumber.messages.PickleTag tags = 5;</code>
+     * <code>repeated .io.cucumber.messages.PickleTag tags = 6;</code>
      */
     public io.cucumber.messages.Messages.PickleTag getTags(int index) {
       return tags_.get(index);
     }
     /**
-     * <code>repeated .io.cucumber.messages.PickleTag tags = 5;</code>
+     * <code>repeated .io.cucumber.messages.PickleTag tags = 6;</code>
      */
     public io.cucumber.messages.Messages.PickleTagOrBuilder getTagsOrBuilder(
         int index) {
       return tags_.get(index);
     }
 
-    public static final int LOCATIONS_FIELD_NUMBER = 6;
+    public static final int LOCATIONS_FIELD_NUMBER = 7;
     private java.util.List<io.cucumber.messages.Messages.Location> locations_;
     /**
-     * <code>repeated .io.cucumber.messages.Location locations = 6;</code>
+     * <code>repeated .io.cucumber.messages.Location locations = 7;</code>
      */
     public java.util.List<io.cucumber.messages.Messages.Location> getLocationsList() {
       return locations_;
     }
     /**
-     * <code>repeated .io.cucumber.messages.Location locations = 6;</code>
+     * <code>repeated .io.cucumber.messages.Location locations = 7;</code>
      */
     public java.util.List<? extends io.cucumber.messages.Messages.LocationOrBuilder> 
         getLocationsOrBuilderList() {
       return locations_;
     }
     /**
-     * <code>repeated .io.cucumber.messages.Location locations = 6;</code>
+     * <code>repeated .io.cucumber.messages.Location locations = 7;</code>
      */
     public int getLocationsCount() {
       return locations_.size();
     }
     /**
-     * <code>repeated .io.cucumber.messages.Location locations = 6;</code>
+     * <code>repeated .io.cucumber.messages.Location locations = 7;</code>
      */
     public io.cucumber.messages.Messages.Location getLocations(int index) {
       return locations_.get(index);
     }
     /**
-     * <code>repeated .io.cucumber.messages.Location locations = 6;</code>
+     * <code>repeated .io.cucumber.messages.Location locations = 7;</code>
      */
     public io.cucumber.messages.Messages.LocationOrBuilder getLocationsOrBuilder(
         int index) {
@@ -24481,23 +25183,26 @@ public final class Messages {
     @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
+      if (!getIdBytes().isEmpty()) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 1, id_);
+      }
       if (!getUriBytes().isEmpty()) {
-        com.google.protobuf.GeneratedMessageV3.writeString(output, 1, uri_);
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 2, uri_);
       }
       if (!getNameBytes().isEmpty()) {
-        com.google.protobuf.GeneratedMessageV3.writeString(output, 2, name_);
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 3, name_);
       }
       if (!getLanguageBytes().isEmpty()) {
-        com.google.protobuf.GeneratedMessageV3.writeString(output, 3, language_);
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 4, language_);
       }
       for (int i = 0; i < steps_.size(); i++) {
-        output.writeMessage(4, steps_.get(i));
+        output.writeMessage(5, steps_.get(i));
       }
       for (int i = 0; i < tags_.size(); i++) {
-        output.writeMessage(5, tags_.get(i));
+        output.writeMessage(6, tags_.get(i));
       }
       for (int i = 0; i < locations_.size(); i++) {
-        output.writeMessage(6, locations_.get(i));
+        output.writeMessage(7, locations_.get(i));
       }
       unknownFields.writeTo(output);
     }
@@ -24508,26 +25213,29 @@ public final class Messages {
       if (size != -1) return size;
 
       size = 0;
+      if (!getIdBytes().isEmpty()) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(1, id_);
+      }
       if (!getUriBytes().isEmpty()) {
-        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(1, uri_);
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(2, uri_);
       }
       if (!getNameBytes().isEmpty()) {
-        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(2, name_);
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(3, name_);
       }
       if (!getLanguageBytes().isEmpty()) {
-        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(3, language_);
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(4, language_);
       }
       for (int i = 0; i < steps_.size(); i++) {
         size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(4, steps_.get(i));
+          .computeMessageSize(5, steps_.get(i));
       }
       for (int i = 0; i < tags_.size(); i++) {
         size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(5, tags_.get(i));
+          .computeMessageSize(6, tags_.get(i));
       }
       for (int i = 0; i < locations_.size(); i++) {
         size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(6, locations_.get(i));
+          .computeMessageSize(7, locations_.get(i));
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -24545,6 +25253,8 @@ public final class Messages {
       io.cucumber.messages.Messages.Pickle other = (io.cucumber.messages.Messages.Pickle) obj;
 
       boolean result = true;
+      result = result && getId()
+          .equals(other.getId());
       result = result && getUri()
           .equals(other.getUri());
       result = result && getName()
@@ -24568,6 +25278,8 @@ public final class Messages {
       }
       int hash = 41;
       hash = (19 * hash) + getDescriptor().hashCode();
+      hash = (37 * hash) + ID_FIELD_NUMBER;
+      hash = (53 * hash) + getId().hashCode();
       hash = (37 * hash) + URI_FIELD_NUMBER;
       hash = (53 * hash) + getUri().hashCode();
       hash = (37 * hash) + NAME_FIELD_NUMBER;
@@ -24722,6 +25434,8 @@ public final class Messages {
       @java.lang.Override
       public Builder clear() {
         super.clear();
+        id_ = "";
+
         uri_ = "";
 
         name_ = "";
@@ -24730,19 +25444,19 @@ public final class Messages {
 
         if (stepsBuilder_ == null) {
           steps_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000008);
+          bitField0_ = (bitField0_ & ~0x00000010);
         } else {
           stepsBuilder_.clear();
         }
         if (tagsBuilder_ == null) {
           tags_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000010);
+          bitField0_ = (bitField0_ & ~0x00000020);
         } else {
           tagsBuilder_.clear();
         }
         if (locationsBuilder_ == null) {
           locations_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000020);
+          bitField0_ = (bitField0_ & ~0x00000040);
         } else {
           locationsBuilder_.clear();
         }
@@ -24774,31 +25488,32 @@ public final class Messages {
         io.cucumber.messages.Messages.Pickle result = new io.cucumber.messages.Messages.Pickle(this);
         int from_bitField0_ = bitField0_;
         int to_bitField0_ = 0;
+        result.id_ = id_;
         result.uri_ = uri_;
         result.name_ = name_;
         result.language_ = language_;
         if (stepsBuilder_ == null) {
-          if (((bitField0_ & 0x00000008) == 0x00000008)) {
+          if (((bitField0_ & 0x00000010) == 0x00000010)) {
             steps_ = java.util.Collections.unmodifiableList(steps_);
-            bitField0_ = (bitField0_ & ~0x00000008);
+            bitField0_ = (bitField0_ & ~0x00000010);
           }
           result.steps_ = steps_;
         } else {
           result.steps_ = stepsBuilder_.build();
         }
         if (tagsBuilder_ == null) {
-          if (((bitField0_ & 0x00000010) == 0x00000010)) {
+          if (((bitField0_ & 0x00000020) == 0x00000020)) {
             tags_ = java.util.Collections.unmodifiableList(tags_);
-            bitField0_ = (bitField0_ & ~0x00000010);
+            bitField0_ = (bitField0_ & ~0x00000020);
           }
           result.tags_ = tags_;
         } else {
           result.tags_ = tagsBuilder_.build();
         }
         if (locationsBuilder_ == null) {
-          if (((bitField0_ & 0x00000020) == 0x00000020)) {
+          if (((bitField0_ & 0x00000040) == 0x00000040)) {
             locations_ = java.util.Collections.unmodifiableList(locations_);
-            bitField0_ = (bitField0_ & ~0x00000020);
+            bitField0_ = (bitField0_ & ~0x00000040);
           }
           result.locations_ = locations_;
         } else {
@@ -24853,6 +25568,10 @@ public final class Messages {
 
       public Builder mergeFrom(io.cucumber.messages.Messages.Pickle other) {
         if (other == io.cucumber.messages.Messages.Pickle.getDefaultInstance()) return this;
+        if (!other.getId().isEmpty()) {
+          id_ = other.id_;
+          onChanged();
+        }
         if (!other.getUri().isEmpty()) {
           uri_ = other.uri_;
           onChanged();
@@ -24869,7 +25588,7 @@ public final class Messages {
           if (!other.steps_.isEmpty()) {
             if (steps_.isEmpty()) {
               steps_ = other.steps_;
-              bitField0_ = (bitField0_ & ~0x00000008);
+              bitField0_ = (bitField0_ & ~0x00000010);
             } else {
               ensureStepsIsMutable();
               steps_.addAll(other.steps_);
@@ -24882,7 +25601,7 @@ public final class Messages {
               stepsBuilder_.dispose();
               stepsBuilder_ = null;
               steps_ = other.steps_;
-              bitField0_ = (bitField0_ & ~0x00000008);
+              bitField0_ = (bitField0_ & ~0x00000010);
               stepsBuilder_ = 
                 com.google.protobuf.GeneratedMessageV3.alwaysUseFieldBuilders ?
                    getStepsFieldBuilder() : null;
@@ -24895,7 +25614,7 @@ public final class Messages {
           if (!other.tags_.isEmpty()) {
             if (tags_.isEmpty()) {
               tags_ = other.tags_;
-              bitField0_ = (bitField0_ & ~0x00000010);
+              bitField0_ = (bitField0_ & ~0x00000020);
             } else {
               ensureTagsIsMutable();
               tags_.addAll(other.tags_);
@@ -24908,7 +25627,7 @@ public final class Messages {
               tagsBuilder_.dispose();
               tagsBuilder_ = null;
               tags_ = other.tags_;
-              bitField0_ = (bitField0_ & ~0x00000010);
+              bitField0_ = (bitField0_ & ~0x00000020);
               tagsBuilder_ = 
                 com.google.protobuf.GeneratedMessageV3.alwaysUseFieldBuilders ?
                    getTagsFieldBuilder() : null;
@@ -24921,7 +25640,7 @@ public final class Messages {
           if (!other.locations_.isEmpty()) {
             if (locations_.isEmpty()) {
               locations_ = other.locations_;
-              bitField0_ = (bitField0_ & ~0x00000020);
+              bitField0_ = (bitField0_ & ~0x00000040);
             } else {
               ensureLocationsIsMutable();
               locations_.addAll(other.locations_);
@@ -24934,7 +25653,7 @@ public final class Messages {
               locationsBuilder_.dispose();
               locationsBuilder_ = null;
               locations_ = other.locations_;
-              bitField0_ = (bitField0_ & ~0x00000020);
+              bitField0_ = (bitField0_ & ~0x00000040);
               locationsBuilder_ = 
                 com.google.protobuf.GeneratedMessageV3.alwaysUseFieldBuilders ?
                    getLocationsFieldBuilder() : null;
@@ -24973,9 +25692,78 @@ public final class Messages {
       }
       private int bitField0_;
 
+      private java.lang.Object id_ = "";
+      /**
+       * <code>string id = 1;</code>
+       */
+      public java.lang.String getId() {
+        java.lang.Object ref = id_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          id_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>string id = 1;</code>
+       */
+      public com.google.protobuf.ByteString
+          getIdBytes() {
+        java.lang.Object ref = id_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          id_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>string id = 1;</code>
+       */
+      public Builder setId(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  
+        id_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string id = 1;</code>
+       */
+      public Builder clearId() {
+        
+        id_ = getDefaultInstance().getId();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string id = 1;</code>
+       */
+      public Builder setIdBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+        
+        id_ = value;
+        onChanged();
+        return this;
+      }
+
       private java.lang.Object uri_ = "";
       /**
-       * <code>string uri = 1;</code>
+       * <code>string uri = 2;</code>
        */
       public java.lang.String getUri() {
         java.lang.Object ref = uri_;
@@ -24990,7 +25778,7 @@ public final class Messages {
         }
       }
       /**
-       * <code>string uri = 1;</code>
+       * <code>string uri = 2;</code>
        */
       public com.google.protobuf.ByteString
           getUriBytes() {
@@ -25006,7 +25794,7 @@ public final class Messages {
         }
       }
       /**
-       * <code>string uri = 1;</code>
+       * <code>string uri = 2;</code>
        */
       public Builder setUri(
           java.lang.String value) {
@@ -25019,7 +25807,7 @@ public final class Messages {
         return this;
       }
       /**
-       * <code>string uri = 1;</code>
+       * <code>string uri = 2;</code>
        */
       public Builder clearUri() {
         
@@ -25028,7 +25816,7 @@ public final class Messages {
         return this;
       }
       /**
-       * <code>string uri = 1;</code>
+       * <code>string uri = 2;</code>
        */
       public Builder setUriBytes(
           com.google.protobuf.ByteString value) {
@@ -25044,7 +25832,7 @@ public final class Messages {
 
       private java.lang.Object name_ = "";
       /**
-       * <code>string name = 2;</code>
+       * <code>string name = 3;</code>
        */
       public java.lang.String getName() {
         java.lang.Object ref = name_;
@@ -25059,7 +25847,7 @@ public final class Messages {
         }
       }
       /**
-       * <code>string name = 2;</code>
+       * <code>string name = 3;</code>
        */
       public com.google.protobuf.ByteString
           getNameBytes() {
@@ -25075,7 +25863,7 @@ public final class Messages {
         }
       }
       /**
-       * <code>string name = 2;</code>
+       * <code>string name = 3;</code>
        */
       public Builder setName(
           java.lang.String value) {
@@ -25088,7 +25876,7 @@ public final class Messages {
         return this;
       }
       /**
-       * <code>string name = 2;</code>
+       * <code>string name = 3;</code>
        */
       public Builder clearName() {
         
@@ -25097,7 +25885,7 @@ public final class Messages {
         return this;
       }
       /**
-       * <code>string name = 2;</code>
+       * <code>string name = 3;</code>
        */
       public Builder setNameBytes(
           com.google.protobuf.ByteString value) {
@@ -25113,7 +25901,7 @@ public final class Messages {
 
       private java.lang.Object language_ = "";
       /**
-       * <code>string language = 3;</code>
+       * <code>string language = 4;</code>
        */
       public java.lang.String getLanguage() {
         java.lang.Object ref = language_;
@@ -25128,7 +25916,7 @@ public final class Messages {
         }
       }
       /**
-       * <code>string language = 3;</code>
+       * <code>string language = 4;</code>
        */
       public com.google.protobuf.ByteString
           getLanguageBytes() {
@@ -25144,7 +25932,7 @@ public final class Messages {
         }
       }
       /**
-       * <code>string language = 3;</code>
+       * <code>string language = 4;</code>
        */
       public Builder setLanguage(
           java.lang.String value) {
@@ -25157,7 +25945,7 @@ public final class Messages {
         return this;
       }
       /**
-       * <code>string language = 3;</code>
+       * <code>string language = 4;</code>
        */
       public Builder clearLanguage() {
         
@@ -25166,7 +25954,7 @@ public final class Messages {
         return this;
       }
       /**
-       * <code>string language = 3;</code>
+       * <code>string language = 4;</code>
        */
       public Builder setLanguageBytes(
           com.google.protobuf.ByteString value) {
@@ -25183,9 +25971,9 @@ public final class Messages {
       private java.util.List<io.cucumber.messages.Messages.PickleStep> steps_ =
         java.util.Collections.emptyList();
       private void ensureStepsIsMutable() {
-        if (!((bitField0_ & 0x00000008) == 0x00000008)) {
+        if (!((bitField0_ & 0x00000010) == 0x00000010)) {
           steps_ = new java.util.ArrayList<io.cucumber.messages.Messages.PickleStep>(steps_);
-          bitField0_ |= 0x00000008;
+          bitField0_ |= 0x00000010;
          }
       }
 
@@ -25193,7 +25981,7 @@ public final class Messages {
           io.cucumber.messages.Messages.PickleStep, io.cucumber.messages.Messages.PickleStep.Builder, io.cucumber.messages.Messages.PickleStepOrBuilder> stepsBuilder_;
 
       /**
-       * <code>repeated .io.cucumber.messages.PickleStep steps = 4;</code>
+       * <code>repeated .io.cucumber.messages.PickleStep steps = 5;</code>
        */
       public java.util.List<io.cucumber.messages.Messages.PickleStep> getStepsList() {
         if (stepsBuilder_ == null) {
@@ -25203,7 +25991,7 @@ public final class Messages {
         }
       }
       /**
-       * <code>repeated .io.cucumber.messages.PickleStep steps = 4;</code>
+       * <code>repeated .io.cucumber.messages.PickleStep steps = 5;</code>
        */
       public int getStepsCount() {
         if (stepsBuilder_ == null) {
@@ -25213,7 +26001,7 @@ public final class Messages {
         }
       }
       /**
-       * <code>repeated .io.cucumber.messages.PickleStep steps = 4;</code>
+       * <code>repeated .io.cucumber.messages.PickleStep steps = 5;</code>
        */
       public io.cucumber.messages.Messages.PickleStep getSteps(int index) {
         if (stepsBuilder_ == null) {
@@ -25223,7 +26011,7 @@ public final class Messages {
         }
       }
       /**
-       * <code>repeated .io.cucumber.messages.PickleStep steps = 4;</code>
+       * <code>repeated .io.cucumber.messages.PickleStep steps = 5;</code>
        */
       public Builder setSteps(
           int index, io.cucumber.messages.Messages.PickleStep value) {
@@ -25240,7 +26028,7 @@ public final class Messages {
         return this;
       }
       /**
-       * <code>repeated .io.cucumber.messages.PickleStep steps = 4;</code>
+       * <code>repeated .io.cucumber.messages.PickleStep steps = 5;</code>
        */
       public Builder setSteps(
           int index, io.cucumber.messages.Messages.PickleStep.Builder builderForValue) {
@@ -25254,7 +26042,7 @@ public final class Messages {
         return this;
       }
       /**
-       * <code>repeated .io.cucumber.messages.PickleStep steps = 4;</code>
+       * <code>repeated .io.cucumber.messages.PickleStep steps = 5;</code>
        */
       public Builder addSteps(io.cucumber.messages.Messages.PickleStep value) {
         if (stepsBuilder_ == null) {
@@ -25270,7 +26058,7 @@ public final class Messages {
         return this;
       }
       /**
-       * <code>repeated .io.cucumber.messages.PickleStep steps = 4;</code>
+       * <code>repeated .io.cucumber.messages.PickleStep steps = 5;</code>
        */
       public Builder addSteps(
           int index, io.cucumber.messages.Messages.PickleStep value) {
@@ -25287,7 +26075,7 @@ public final class Messages {
         return this;
       }
       /**
-       * <code>repeated .io.cucumber.messages.PickleStep steps = 4;</code>
+       * <code>repeated .io.cucumber.messages.PickleStep steps = 5;</code>
        */
       public Builder addSteps(
           io.cucumber.messages.Messages.PickleStep.Builder builderForValue) {
@@ -25301,7 +26089,7 @@ public final class Messages {
         return this;
       }
       /**
-       * <code>repeated .io.cucumber.messages.PickleStep steps = 4;</code>
+       * <code>repeated .io.cucumber.messages.PickleStep steps = 5;</code>
        */
       public Builder addSteps(
           int index, io.cucumber.messages.Messages.PickleStep.Builder builderForValue) {
@@ -25315,7 +26103,7 @@ public final class Messages {
         return this;
       }
       /**
-       * <code>repeated .io.cucumber.messages.PickleStep steps = 4;</code>
+       * <code>repeated .io.cucumber.messages.PickleStep steps = 5;</code>
        */
       public Builder addAllSteps(
           java.lang.Iterable<? extends io.cucumber.messages.Messages.PickleStep> values) {
@@ -25330,12 +26118,12 @@ public final class Messages {
         return this;
       }
       /**
-       * <code>repeated .io.cucumber.messages.PickleStep steps = 4;</code>
+       * <code>repeated .io.cucumber.messages.PickleStep steps = 5;</code>
        */
       public Builder clearSteps() {
         if (stepsBuilder_ == null) {
           steps_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000008);
+          bitField0_ = (bitField0_ & ~0x00000010);
           onChanged();
         } else {
           stepsBuilder_.clear();
@@ -25343,7 +26131,7 @@ public final class Messages {
         return this;
       }
       /**
-       * <code>repeated .io.cucumber.messages.PickleStep steps = 4;</code>
+       * <code>repeated .io.cucumber.messages.PickleStep steps = 5;</code>
        */
       public Builder removeSteps(int index) {
         if (stepsBuilder_ == null) {
@@ -25356,14 +26144,14 @@ public final class Messages {
         return this;
       }
       /**
-       * <code>repeated .io.cucumber.messages.PickleStep steps = 4;</code>
+       * <code>repeated .io.cucumber.messages.PickleStep steps = 5;</code>
        */
       public io.cucumber.messages.Messages.PickleStep.Builder getStepsBuilder(
           int index) {
         return getStepsFieldBuilder().getBuilder(index);
       }
       /**
-       * <code>repeated .io.cucumber.messages.PickleStep steps = 4;</code>
+       * <code>repeated .io.cucumber.messages.PickleStep steps = 5;</code>
        */
       public io.cucumber.messages.Messages.PickleStepOrBuilder getStepsOrBuilder(
           int index) {
@@ -25373,7 +26161,7 @@ public final class Messages {
         }
       }
       /**
-       * <code>repeated .io.cucumber.messages.PickleStep steps = 4;</code>
+       * <code>repeated .io.cucumber.messages.PickleStep steps = 5;</code>
        */
       public java.util.List<? extends io.cucumber.messages.Messages.PickleStepOrBuilder> 
            getStepsOrBuilderList() {
@@ -25384,14 +26172,14 @@ public final class Messages {
         }
       }
       /**
-       * <code>repeated .io.cucumber.messages.PickleStep steps = 4;</code>
+       * <code>repeated .io.cucumber.messages.PickleStep steps = 5;</code>
        */
       public io.cucumber.messages.Messages.PickleStep.Builder addStepsBuilder() {
         return getStepsFieldBuilder().addBuilder(
             io.cucumber.messages.Messages.PickleStep.getDefaultInstance());
       }
       /**
-       * <code>repeated .io.cucumber.messages.PickleStep steps = 4;</code>
+       * <code>repeated .io.cucumber.messages.PickleStep steps = 5;</code>
        */
       public io.cucumber.messages.Messages.PickleStep.Builder addStepsBuilder(
           int index) {
@@ -25399,7 +26187,7 @@ public final class Messages {
             index, io.cucumber.messages.Messages.PickleStep.getDefaultInstance());
       }
       /**
-       * <code>repeated .io.cucumber.messages.PickleStep steps = 4;</code>
+       * <code>repeated .io.cucumber.messages.PickleStep steps = 5;</code>
        */
       public java.util.List<io.cucumber.messages.Messages.PickleStep.Builder> 
            getStepsBuilderList() {
@@ -25412,7 +26200,7 @@ public final class Messages {
           stepsBuilder_ = new com.google.protobuf.RepeatedFieldBuilderV3<
               io.cucumber.messages.Messages.PickleStep, io.cucumber.messages.Messages.PickleStep.Builder, io.cucumber.messages.Messages.PickleStepOrBuilder>(
                   steps_,
-                  ((bitField0_ & 0x00000008) == 0x00000008),
+                  ((bitField0_ & 0x00000010) == 0x00000010),
                   getParentForChildren(),
                   isClean());
           steps_ = null;
@@ -25423,9 +26211,9 @@ public final class Messages {
       private java.util.List<io.cucumber.messages.Messages.PickleTag> tags_ =
         java.util.Collections.emptyList();
       private void ensureTagsIsMutable() {
-        if (!((bitField0_ & 0x00000010) == 0x00000010)) {
+        if (!((bitField0_ & 0x00000020) == 0x00000020)) {
           tags_ = new java.util.ArrayList<io.cucumber.messages.Messages.PickleTag>(tags_);
-          bitField0_ |= 0x00000010;
+          bitField0_ |= 0x00000020;
          }
       }
 
@@ -25433,7 +26221,7 @@ public final class Messages {
           io.cucumber.messages.Messages.PickleTag, io.cucumber.messages.Messages.PickleTag.Builder, io.cucumber.messages.Messages.PickleTagOrBuilder> tagsBuilder_;
 
       /**
-       * <code>repeated .io.cucumber.messages.PickleTag tags = 5;</code>
+       * <code>repeated .io.cucumber.messages.PickleTag tags = 6;</code>
        */
       public java.util.List<io.cucumber.messages.Messages.PickleTag> getTagsList() {
         if (tagsBuilder_ == null) {
@@ -25443,7 +26231,7 @@ public final class Messages {
         }
       }
       /**
-       * <code>repeated .io.cucumber.messages.PickleTag tags = 5;</code>
+       * <code>repeated .io.cucumber.messages.PickleTag tags = 6;</code>
        */
       public int getTagsCount() {
         if (tagsBuilder_ == null) {
@@ -25453,7 +26241,7 @@ public final class Messages {
         }
       }
       /**
-       * <code>repeated .io.cucumber.messages.PickleTag tags = 5;</code>
+       * <code>repeated .io.cucumber.messages.PickleTag tags = 6;</code>
        */
       public io.cucumber.messages.Messages.PickleTag getTags(int index) {
         if (tagsBuilder_ == null) {
@@ -25463,7 +26251,7 @@ public final class Messages {
         }
       }
       /**
-       * <code>repeated .io.cucumber.messages.PickleTag tags = 5;</code>
+       * <code>repeated .io.cucumber.messages.PickleTag tags = 6;</code>
        */
       public Builder setTags(
           int index, io.cucumber.messages.Messages.PickleTag value) {
@@ -25480,7 +26268,7 @@ public final class Messages {
         return this;
       }
       /**
-       * <code>repeated .io.cucumber.messages.PickleTag tags = 5;</code>
+       * <code>repeated .io.cucumber.messages.PickleTag tags = 6;</code>
        */
       public Builder setTags(
           int index, io.cucumber.messages.Messages.PickleTag.Builder builderForValue) {
@@ -25494,7 +26282,7 @@ public final class Messages {
         return this;
       }
       /**
-       * <code>repeated .io.cucumber.messages.PickleTag tags = 5;</code>
+       * <code>repeated .io.cucumber.messages.PickleTag tags = 6;</code>
        */
       public Builder addTags(io.cucumber.messages.Messages.PickleTag value) {
         if (tagsBuilder_ == null) {
@@ -25510,7 +26298,7 @@ public final class Messages {
         return this;
       }
       /**
-       * <code>repeated .io.cucumber.messages.PickleTag tags = 5;</code>
+       * <code>repeated .io.cucumber.messages.PickleTag tags = 6;</code>
        */
       public Builder addTags(
           int index, io.cucumber.messages.Messages.PickleTag value) {
@@ -25527,7 +26315,7 @@ public final class Messages {
         return this;
       }
       /**
-       * <code>repeated .io.cucumber.messages.PickleTag tags = 5;</code>
+       * <code>repeated .io.cucumber.messages.PickleTag tags = 6;</code>
        */
       public Builder addTags(
           io.cucumber.messages.Messages.PickleTag.Builder builderForValue) {
@@ -25541,7 +26329,7 @@ public final class Messages {
         return this;
       }
       /**
-       * <code>repeated .io.cucumber.messages.PickleTag tags = 5;</code>
+       * <code>repeated .io.cucumber.messages.PickleTag tags = 6;</code>
        */
       public Builder addTags(
           int index, io.cucumber.messages.Messages.PickleTag.Builder builderForValue) {
@@ -25555,7 +26343,7 @@ public final class Messages {
         return this;
       }
       /**
-       * <code>repeated .io.cucumber.messages.PickleTag tags = 5;</code>
+       * <code>repeated .io.cucumber.messages.PickleTag tags = 6;</code>
        */
       public Builder addAllTags(
           java.lang.Iterable<? extends io.cucumber.messages.Messages.PickleTag> values) {
@@ -25570,12 +26358,12 @@ public final class Messages {
         return this;
       }
       /**
-       * <code>repeated .io.cucumber.messages.PickleTag tags = 5;</code>
+       * <code>repeated .io.cucumber.messages.PickleTag tags = 6;</code>
        */
       public Builder clearTags() {
         if (tagsBuilder_ == null) {
           tags_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000010);
+          bitField0_ = (bitField0_ & ~0x00000020);
           onChanged();
         } else {
           tagsBuilder_.clear();
@@ -25583,7 +26371,7 @@ public final class Messages {
         return this;
       }
       /**
-       * <code>repeated .io.cucumber.messages.PickleTag tags = 5;</code>
+       * <code>repeated .io.cucumber.messages.PickleTag tags = 6;</code>
        */
       public Builder removeTags(int index) {
         if (tagsBuilder_ == null) {
@@ -25596,14 +26384,14 @@ public final class Messages {
         return this;
       }
       /**
-       * <code>repeated .io.cucumber.messages.PickleTag tags = 5;</code>
+       * <code>repeated .io.cucumber.messages.PickleTag tags = 6;</code>
        */
       public io.cucumber.messages.Messages.PickleTag.Builder getTagsBuilder(
           int index) {
         return getTagsFieldBuilder().getBuilder(index);
       }
       /**
-       * <code>repeated .io.cucumber.messages.PickleTag tags = 5;</code>
+       * <code>repeated .io.cucumber.messages.PickleTag tags = 6;</code>
        */
       public io.cucumber.messages.Messages.PickleTagOrBuilder getTagsOrBuilder(
           int index) {
@@ -25613,7 +26401,7 @@ public final class Messages {
         }
       }
       /**
-       * <code>repeated .io.cucumber.messages.PickleTag tags = 5;</code>
+       * <code>repeated .io.cucumber.messages.PickleTag tags = 6;</code>
        */
       public java.util.List<? extends io.cucumber.messages.Messages.PickleTagOrBuilder> 
            getTagsOrBuilderList() {
@@ -25624,14 +26412,14 @@ public final class Messages {
         }
       }
       /**
-       * <code>repeated .io.cucumber.messages.PickleTag tags = 5;</code>
+       * <code>repeated .io.cucumber.messages.PickleTag tags = 6;</code>
        */
       public io.cucumber.messages.Messages.PickleTag.Builder addTagsBuilder() {
         return getTagsFieldBuilder().addBuilder(
             io.cucumber.messages.Messages.PickleTag.getDefaultInstance());
       }
       /**
-       * <code>repeated .io.cucumber.messages.PickleTag tags = 5;</code>
+       * <code>repeated .io.cucumber.messages.PickleTag tags = 6;</code>
        */
       public io.cucumber.messages.Messages.PickleTag.Builder addTagsBuilder(
           int index) {
@@ -25639,7 +26427,7 @@ public final class Messages {
             index, io.cucumber.messages.Messages.PickleTag.getDefaultInstance());
       }
       /**
-       * <code>repeated .io.cucumber.messages.PickleTag tags = 5;</code>
+       * <code>repeated .io.cucumber.messages.PickleTag tags = 6;</code>
        */
       public java.util.List<io.cucumber.messages.Messages.PickleTag.Builder> 
            getTagsBuilderList() {
@@ -25652,7 +26440,7 @@ public final class Messages {
           tagsBuilder_ = new com.google.protobuf.RepeatedFieldBuilderV3<
               io.cucumber.messages.Messages.PickleTag, io.cucumber.messages.Messages.PickleTag.Builder, io.cucumber.messages.Messages.PickleTagOrBuilder>(
                   tags_,
-                  ((bitField0_ & 0x00000010) == 0x00000010),
+                  ((bitField0_ & 0x00000020) == 0x00000020),
                   getParentForChildren(),
                   isClean());
           tags_ = null;
@@ -25663,9 +26451,9 @@ public final class Messages {
       private java.util.List<io.cucumber.messages.Messages.Location> locations_ =
         java.util.Collections.emptyList();
       private void ensureLocationsIsMutable() {
-        if (!((bitField0_ & 0x00000020) == 0x00000020)) {
+        if (!((bitField0_ & 0x00000040) == 0x00000040)) {
           locations_ = new java.util.ArrayList<io.cucumber.messages.Messages.Location>(locations_);
-          bitField0_ |= 0x00000020;
+          bitField0_ |= 0x00000040;
          }
       }
 
@@ -25673,7 +26461,7 @@ public final class Messages {
           io.cucumber.messages.Messages.Location, io.cucumber.messages.Messages.Location.Builder, io.cucumber.messages.Messages.LocationOrBuilder> locationsBuilder_;
 
       /**
-       * <code>repeated .io.cucumber.messages.Location locations = 6;</code>
+       * <code>repeated .io.cucumber.messages.Location locations = 7;</code>
        */
       public java.util.List<io.cucumber.messages.Messages.Location> getLocationsList() {
         if (locationsBuilder_ == null) {
@@ -25683,7 +26471,7 @@ public final class Messages {
         }
       }
       /**
-       * <code>repeated .io.cucumber.messages.Location locations = 6;</code>
+       * <code>repeated .io.cucumber.messages.Location locations = 7;</code>
        */
       public int getLocationsCount() {
         if (locationsBuilder_ == null) {
@@ -25693,7 +26481,7 @@ public final class Messages {
         }
       }
       /**
-       * <code>repeated .io.cucumber.messages.Location locations = 6;</code>
+       * <code>repeated .io.cucumber.messages.Location locations = 7;</code>
        */
       public io.cucumber.messages.Messages.Location getLocations(int index) {
         if (locationsBuilder_ == null) {
@@ -25703,7 +26491,7 @@ public final class Messages {
         }
       }
       /**
-       * <code>repeated .io.cucumber.messages.Location locations = 6;</code>
+       * <code>repeated .io.cucumber.messages.Location locations = 7;</code>
        */
       public Builder setLocations(
           int index, io.cucumber.messages.Messages.Location value) {
@@ -25720,7 +26508,7 @@ public final class Messages {
         return this;
       }
       /**
-       * <code>repeated .io.cucumber.messages.Location locations = 6;</code>
+       * <code>repeated .io.cucumber.messages.Location locations = 7;</code>
        */
       public Builder setLocations(
           int index, io.cucumber.messages.Messages.Location.Builder builderForValue) {
@@ -25734,7 +26522,7 @@ public final class Messages {
         return this;
       }
       /**
-       * <code>repeated .io.cucumber.messages.Location locations = 6;</code>
+       * <code>repeated .io.cucumber.messages.Location locations = 7;</code>
        */
       public Builder addLocations(io.cucumber.messages.Messages.Location value) {
         if (locationsBuilder_ == null) {
@@ -25750,7 +26538,7 @@ public final class Messages {
         return this;
       }
       /**
-       * <code>repeated .io.cucumber.messages.Location locations = 6;</code>
+       * <code>repeated .io.cucumber.messages.Location locations = 7;</code>
        */
       public Builder addLocations(
           int index, io.cucumber.messages.Messages.Location value) {
@@ -25767,7 +26555,7 @@ public final class Messages {
         return this;
       }
       /**
-       * <code>repeated .io.cucumber.messages.Location locations = 6;</code>
+       * <code>repeated .io.cucumber.messages.Location locations = 7;</code>
        */
       public Builder addLocations(
           io.cucumber.messages.Messages.Location.Builder builderForValue) {
@@ -25781,7 +26569,7 @@ public final class Messages {
         return this;
       }
       /**
-       * <code>repeated .io.cucumber.messages.Location locations = 6;</code>
+       * <code>repeated .io.cucumber.messages.Location locations = 7;</code>
        */
       public Builder addLocations(
           int index, io.cucumber.messages.Messages.Location.Builder builderForValue) {
@@ -25795,7 +26583,7 @@ public final class Messages {
         return this;
       }
       /**
-       * <code>repeated .io.cucumber.messages.Location locations = 6;</code>
+       * <code>repeated .io.cucumber.messages.Location locations = 7;</code>
        */
       public Builder addAllLocations(
           java.lang.Iterable<? extends io.cucumber.messages.Messages.Location> values) {
@@ -25810,12 +26598,12 @@ public final class Messages {
         return this;
       }
       /**
-       * <code>repeated .io.cucumber.messages.Location locations = 6;</code>
+       * <code>repeated .io.cucumber.messages.Location locations = 7;</code>
        */
       public Builder clearLocations() {
         if (locationsBuilder_ == null) {
           locations_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000020);
+          bitField0_ = (bitField0_ & ~0x00000040);
           onChanged();
         } else {
           locationsBuilder_.clear();
@@ -25823,7 +26611,7 @@ public final class Messages {
         return this;
       }
       /**
-       * <code>repeated .io.cucumber.messages.Location locations = 6;</code>
+       * <code>repeated .io.cucumber.messages.Location locations = 7;</code>
        */
       public Builder removeLocations(int index) {
         if (locationsBuilder_ == null) {
@@ -25836,14 +26624,14 @@ public final class Messages {
         return this;
       }
       /**
-       * <code>repeated .io.cucumber.messages.Location locations = 6;</code>
+       * <code>repeated .io.cucumber.messages.Location locations = 7;</code>
        */
       public io.cucumber.messages.Messages.Location.Builder getLocationsBuilder(
           int index) {
         return getLocationsFieldBuilder().getBuilder(index);
       }
       /**
-       * <code>repeated .io.cucumber.messages.Location locations = 6;</code>
+       * <code>repeated .io.cucumber.messages.Location locations = 7;</code>
        */
       public io.cucumber.messages.Messages.LocationOrBuilder getLocationsOrBuilder(
           int index) {
@@ -25853,7 +26641,7 @@ public final class Messages {
         }
       }
       /**
-       * <code>repeated .io.cucumber.messages.Location locations = 6;</code>
+       * <code>repeated .io.cucumber.messages.Location locations = 7;</code>
        */
       public java.util.List<? extends io.cucumber.messages.Messages.LocationOrBuilder> 
            getLocationsOrBuilderList() {
@@ -25864,14 +26652,14 @@ public final class Messages {
         }
       }
       /**
-       * <code>repeated .io.cucumber.messages.Location locations = 6;</code>
+       * <code>repeated .io.cucumber.messages.Location locations = 7;</code>
        */
       public io.cucumber.messages.Messages.Location.Builder addLocationsBuilder() {
         return getLocationsFieldBuilder().addBuilder(
             io.cucumber.messages.Messages.Location.getDefaultInstance());
       }
       /**
-       * <code>repeated .io.cucumber.messages.Location locations = 6;</code>
+       * <code>repeated .io.cucumber.messages.Location locations = 7;</code>
        */
       public io.cucumber.messages.Messages.Location.Builder addLocationsBuilder(
           int index) {
@@ -25879,7 +26667,7 @@ public final class Messages {
             index, io.cucumber.messages.Messages.Location.getDefaultInstance());
       }
       /**
-       * <code>repeated .io.cucumber.messages.Location locations = 6;</code>
+       * <code>repeated .io.cucumber.messages.Location locations = 7;</code>
        */
       public java.util.List<io.cucumber.messages.Messages.Location.Builder> 
            getLocationsBuilderList() {
@@ -25892,7 +26680,7 @@ public final class Messages {
           locationsBuilder_ = new com.google.protobuf.RepeatedFieldBuilderV3<
               io.cucumber.messages.Messages.Location, io.cucumber.messages.Messages.Location.Builder, io.cucumber.messages.Messages.LocationOrBuilder>(
                   locations_,
-                  ((bitField0_ & 0x00000020) == 0x00000020),
+                  ((bitField0_ & 0x00000040) == 0x00000040),
                   getParentForChildren(),
                   isClean());
           locations_ = null;
@@ -25947,887 +26735,6 @@ public final class Messages {
 
     @java.lang.Override
     public io.cucumber.messages.Messages.Pickle getDefaultInstanceForType() {
-      return DEFAULT_INSTANCE;
-    }
-
-  }
-
-  public interface PickleDocStringOrBuilder extends
-      // @@protoc_insertion_point(interface_extends:io.cucumber.messages.PickleDocString)
-      com.google.protobuf.MessageOrBuilder {
-
-    /**
-     * <code>.io.cucumber.messages.Location location = 1;</code>
-     */
-    boolean hasLocation();
-    /**
-     * <code>.io.cucumber.messages.Location location = 1;</code>
-     */
-    io.cucumber.messages.Messages.Location getLocation();
-    /**
-     * <code>.io.cucumber.messages.Location location = 1;</code>
-     */
-    io.cucumber.messages.Messages.LocationOrBuilder getLocationOrBuilder();
-
-    /**
-     * <code>string contentType = 2;</code>
-     */
-    java.lang.String getContentType();
-    /**
-     * <code>string contentType = 2;</code>
-     */
-    com.google.protobuf.ByteString
-        getContentTypeBytes();
-
-    /**
-     * <code>string content = 3;</code>
-     */
-    java.lang.String getContent();
-    /**
-     * <code>string content = 3;</code>
-     */
-    com.google.protobuf.ByteString
-        getContentBytes();
-  }
-  /**
-   * Protobuf type {@code io.cucumber.messages.PickleDocString}
-   */
-  public  static final class PickleDocString extends
-      com.google.protobuf.GeneratedMessageV3 implements
-      // @@protoc_insertion_point(message_implements:io.cucumber.messages.PickleDocString)
-      PickleDocStringOrBuilder {
-  private static final long serialVersionUID = 0L;
-    // Use PickleDocString.newBuilder() to construct.
-    private PickleDocString(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
-      super(builder);
-    }
-    private PickleDocString() {
-      contentType_ = "";
-      content_ = "";
-    }
-
-    @java.lang.Override
-    public final com.google.protobuf.UnknownFieldSet
-    getUnknownFields() {
-      return this.unknownFields;
-    }
-    private PickleDocString(
-        com.google.protobuf.CodedInputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      this();
-      if (extensionRegistry == null) {
-        throw new java.lang.NullPointerException();
-      }
-      int mutable_bitField0_ = 0;
-      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
-          com.google.protobuf.UnknownFieldSet.newBuilder();
-      try {
-        boolean done = false;
-        while (!done) {
-          int tag = input.readTag();
-          switch (tag) {
-            case 0:
-              done = true;
-              break;
-            case 10: {
-              io.cucumber.messages.Messages.Location.Builder subBuilder = null;
-              if (location_ != null) {
-                subBuilder = location_.toBuilder();
-              }
-              location_ = input.readMessage(io.cucumber.messages.Messages.Location.parser(), extensionRegistry);
-              if (subBuilder != null) {
-                subBuilder.mergeFrom(location_);
-                location_ = subBuilder.buildPartial();
-              }
-
-              break;
-            }
-            case 18: {
-              java.lang.String s = input.readStringRequireUtf8();
-
-              contentType_ = s;
-              break;
-            }
-            case 26: {
-              java.lang.String s = input.readStringRequireUtf8();
-
-              content_ = s;
-              break;
-            }
-            default: {
-              if (!parseUnknownFieldProto3(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
-          }
-        }
-      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-        throw e.setUnfinishedMessage(this);
-      } catch (java.io.IOException e) {
-        throw new com.google.protobuf.InvalidProtocolBufferException(
-            e).setUnfinishedMessage(this);
-      } finally {
-        this.unknownFields = unknownFields.build();
-        makeExtensionsImmutable();
-      }
-    }
-    public static final com.google.protobuf.Descriptors.Descriptor
-        getDescriptor() {
-      return io.cucumber.messages.Messages.internal_static_io_cucumber_messages_PickleDocString_descriptor;
-    }
-
-    @java.lang.Override
-    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-        internalGetFieldAccessorTable() {
-      return io.cucumber.messages.Messages.internal_static_io_cucumber_messages_PickleDocString_fieldAccessorTable
-          .ensureFieldAccessorsInitialized(
-              io.cucumber.messages.Messages.PickleDocString.class, io.cucumber.messages.Messages.PickleDocString.Builder.class);
-    }
-
-    public static final int LOCATION_FIELD_NUMBER = 1;
-    private io.cucumber.messages.Messages.Location location_;
-    /**
-     * <code>.io.cucumber.messages.Location location = 1;</code>
-     */
-    public boolean hasLocation() {
-      return location_ != null;
-    }
-    /**
-     * <code>.io.cucumber.messages.Location location = 1;</code>
-     */
-    public io.cucumber.messages.Messages.Location getLocation() {
-      return location_ == null ? io.cucumber.messages.Messages.Location.getDefaultInstance() : location_;
-    }
-    /**
-     * <code>.io.cucumber.messages.Location location = 1;</code>
-     */
-    public io.cucumber.messages.Messages.LocationOrBuilder getLocationOrBuilder() {
-      return getLocation();
-    }
-
-    public static final int CONTENTTYPE_FIELD_NUMBER = 2;
-    private volatile java.lang.Object contentType_;
-    /**
-     * <code>string contentType = 2;</code>
-     */
-    public java.lang.String getContentType() {
-      java.lang.Object ref = contentType_;
-      if (ref instanceof java.lang.String) {
-        return (java.lang.String) ref;
-      } else {
-        com.google.protobuf.ByteString bs = 
-            (com.google.protobuf.ByteString) ref;
-        java.lang.String s = bs.toStringUtf8();
-        contentType_ = s;
-        return s;
-      }
-    }
-    /**
-     * <code>string contentType = 2;</code>
-     */
-    public com.google.protobuf.ByteString
-        getContentTypeBytes() {
-      java.lang.Object ref = contentType_;
-      if (ref instanceof java.lang.String) {
-        com.google.protobuf.ByteString b = 
-            com.google.protobuf.ByteString.copyFromUtf8(
-                (java.lang.String) ref);
-        contentType_ = b;
-        return b;
-      } else {
-        return (com.google.protobuf.ByteString) ref;
-      }
-    }
-
-    public static final int CONTENT_FIELD_NUMBER = 3;
-    private volatile java.lang.Object content_;
-    /**
-     * <code>string content = 3;</code>
-     */
-    public java.lang.String getContent() {
-      java.lang.Object ref = content_;
-      if (ref instanceof java.lang.String) {
-        return (java.lang.String) ref;
-      } else {
-        com.google.protobuf.ByteString bs = 
-            (com.google.protobuf.ByteString) ref;
-        java.lang.String s = bs.toStringUtf8();
-        content_ = s;
-        return s;
-      }
-    }
-    /**
-     * <code>string content = 3;</code>
-     */
-    public com.google.protobuf.ByteString
-        getContentBytes() {
-      java.lang.Object ref = content_;
-      if (ref instanceof java.lang.String) {
-        com.google.protobuf.ByteString b = 
-            com.google.protobuf.ByteString.copyFromUtf8(
-                (java.lang.String) ref);
-        content_ = b;
-        return b;
-      } else {
-        return (com.google.protobuf.ByteString) ref;
-      }
-    }
-
-    private byte memoizedIsInitialized = -1;
-    @java.lang.Override
-    public final boolean isInitialized() {
-      byte isInitialized = memoizedIsInitialized;
-      if (isInitialized == 1) return true;
-      if (isInitialized == 0) return false;
-
-      memoizedIsInitialized = 1;
-      return true;
-    }
-
-    @java.lang.Override
-    public void writeTo(com.google.protobuf.CodedOutputStream output)
-                        throws java.io.IOException {
-      if (location_ != null) {
-        output.writeMessage(1, getLocation());
-      }
-      if (!getContentTypeBytes().isEmpty()) {
-        com.google.protobuf.GeneratedMessageV3.writeString(output, 2, contentType_);
-      }
-      if (!getContentBytes().isEmpty()) {
-        com.google.protobuf.GeneratedMessageV3.writeString(output, 3, content_);
-      }
-      unknownFields.writeTo(output);
-    }
-
-    @java.lang.Override
-    public int getSerializedSize() {
-      int size = memoizedSize;
-      if (size != -1) return size;
-
-      size = 0;
-      if (location_ != null) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(1, getLocation());
-      }
-      if (!getContentTypeBytes().isEmpty()) {
-        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(2, contentType_);
-      }
-      if (!getContentBytes().isEmpty()) {
-        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(3, content_);
-      }
-      size += unknownFields.getSerializedSize();
-      memoizedSize = size;
-      return size;
-    }
-
-    @java.lang.Override
-    public boolean equals(final java.lang.Object obj) {
-      if (obj == this) {
-       return true;
-      }
-      if (!(obj instanceof io.cucumber.messages.Messages.PickleDocString)) {
-        return super.equals(obj);
-      }
-      io.cucumber.messages.Messages.PickleDocString other = (io.cucumber.messages.Messages.PickleDocString) obj;
-
-      boolean result = true;
-      result = result && (hasLocation() == other.hasLocation());
-      if (hasLocation()) {
-        result = result && getLocation()
-            .equals(other.getLocation());
-      }
-      result = result && getContentType()
-          .equals(other.getContentType());
-      result = result && getContent()
-          .equals(other.getContent());
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
-    }
-
-    @java.lang.Override
-    public int hashCode() {
-      if (memoizedHashCode != 0) {
-        return memoizedHashCode;
-      }
-      int hash = 41;
-      hash = (19 * hash) + getDescriptor().hashCode();
-      if (hasLocation()) {
-        hash = (37 * hash) + LOCATION_FIELD_NUMBER;
-        hash = (53 * hash) + getLocation().hashCode();
-      }
-      hash = (37 * hash) + CONTENTTYPE_FIELD_NUMBER;
-      hash = (53 * hash) + getContentType().hashCode();
-      hash = (37 * hash) + CONTENT_FIELD_NUMBER;
-      hash = (53 * hash) + getContent().hashCode();
-      hash = (29 * hash) + unknownFields.hashCode();
-      memoizedHashCode = hash;
-      return hash;
-    }
-
-    public static io.cucumber.messages.Messages.PickleDocString parseFrom(
-        java.nio.ByteBuffer data)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data);
-    }
-    public static io.cucumber.messages.Messages.PickleDocString parseFrom(
-        java.nio.ByteBuffer data,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data, extensionRegistry);
-    }
-    public static io.cucumber.messages.Messages.PickleDocString parseFrom(
-        com.google.protobuf.ByteString data)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data);
-    }
-    public static io.cucumber.messages.Messages.PickleDocString parseFrom(
-        com.google.protobuf.ByteString data,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data, extensionRegistry);
-    }
-    public static io.cucumber.messages.Messages.PickleDocString parseFrom(byte[] data)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data);
-    }
-    public static io.cucumber.messages.Messages.PickleDocString parseFrom(
-        byte[] data,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data, extensionRegistry);
-    }
-    public static io.cucumber.messages.Messages.PickleDocString parseFrom(java.io.InputStream input)
-        throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseWithIOException(PARSER, input);
-    }
-    public static io.cucumber.messages.Messages.PickleDocString parseFrom(
-        java.io.InputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseWithIOException(PARSER, input, extensionRegistry);
-    }
-    public static io.cucumber.messages.Messages.PickleDocString parseDelimitedFrom(java.io.InputStream input)
-        throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseDelimitedWithIOException(PARSER, input);
-    }
-    public static io.cucumber.messages.Messages.PickleDocString parseDelimitedFrom(
-        java.io.InputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
-    }
-    public static io.cucumber.messages.Messages.PickleDocString parseFrom(
-        com.google.protobuf.CodedInputStream input)
-        throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseWithIOException(PARSER, input);
-    }
-    public static io.cucumber.messages.Messages.PickleDocString parseFrom(
-        com.google.protobuf.CodedInputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseWithIOException(PARSER, input, extensionRegistry);
-    }
-
-    @java.lang.Override
-    public Builder newBuilderForType() { return newBuilder(); }
-    public static Builder newBuilder() {
-      return DEFAULT_INSTANCE.toBuilder();
-    }
-    public static Builder newBuilder(io.cucumber.messages.Messages.PickleDocString prototype) {
-      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
-    }
-    @java.lang.Override
-    public Builder toBuilder() {
-      return this == DEFAULT_INSTANCE
-          ? new Builder() : new Builder().mergeFrom(this);
-    }
-
-    @java.lang.Override
-    protected Builder newBuilderForType(
-        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
-      Builder builder = new Builder(parent);
-      return builder;
-    }
-    /**
-     * Protobuf type {@code io.cucumber.messages.PickleDocString}
-     */
-    public static final class Builder extends
-        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
-        // @@protoc_insertion_point(builder_implements:io.cucumber.messages.PickleDocString)
-        io.cucumber.messages.Messages.PickleDocStringOrBuilder {
-      public static final com.google.protobuf.Descriptors.Descriptor
-          getDescriptor() {
-        return io.cucumber.messages.Messages.internal_static_io_cucumber_messages_PickleDocString_descriptor;
-      }
-
-      @java.lang.Override
-      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-          internalGetFieldAccessorTable() {
-        return io.cucumber.messages.Messages.internal_static_io_cucumber_messages_PickleDocString_fieldAccessorTable
-            .ensureFieldAccessorsInitialized(
-                io.cucumber.messages.Messages.PickleDocString.class, io.cucumber.messages.Messages.PickleDocString.Builder.class);
-      }
-
-      // Construct using io.cucumber.messages.Messages.PickleDocString.newBuilder()
-      private Builder() {
-        maybeForceBuilderInitialization();
-      }
-
-      private Builder(
-          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
-        super(parent);
-        maybeForceBuilderInitialization();
-      }
-      private void maybeForceBuilderInitialization() {
-        if (com.google.protobuf.GeneratedMessageV3
-                .alwaysUseFieldBuilders) {
-        }
-      }
-      @java.lang.Override
-      public Builder clear() {
-        super.clear();
-        if (locationBuilder_ == null) {
-          location_ = null;
-        } else {
-          location_ = null;
-          locationBuilder_ = null;
-        }
-        contentType_ = "";
-
-        content_ = "";
-
-        return this;
-      }
-
-      @java.lang.Override
-      public com.google.protobuf.Descriptors.Descriptor
-          getDescriptorForType() {
-        return io.cucumber.messages.Messages.internal_static_io_cucumber_messages_PickleDocString_descriptor;
-      }
-
-      @java.lang.Override
-      public io.cucumber.messages.Messages.PickleDocString getDefaultInstanceForType() {
-        return io.cucumber.messages.Messages.PickleDocString.getDefaultInstance();
-      }
-
-      @java.lang.Override
-      public io.cucumber.messages.Messages.PickleDocString build() {
-        io.cucumber.messages.Messages.PickleDocString result = buildPartial();
-        if (!result.isInitialized()) {
-          throw newUninitializedMessageException(result);
-        }
-        return result;
-      }
-
-      @java.lang.Override
-      public io.cucumber.messages.Messages.PickleDocString buildPartial() {
-        io.cucumber.messages.Messages.PickleDocString result = new io.cucumber.messages.Messages.PickleDocString(this);
-        if (locationBuilder_ == null) {
-          result.location_ = location_;
-        } else {
-          result.location_ = locationBuilder_.build();
-        }
-        result.contentType_ = contentType_;
-        result.content_ = content_;
-        onBuilt();
-        return result;
-      }
-
-      @java.lang.Override
-      public Builder clone() {
-        return (Builder) super.clone();
-      }
-      @java.lang.Override
-      public Builder setField(
-          com.google.protobuf.Descriptors.FieldDescriptor field,
-          java.lang.Object value) {
-        return (Builder) super.setField(field, value);
-      }
-      @java.lang.Override
-      public Builder clearField(
-          com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
-      }
-      @java.lang.Override
-      public Builder clearOneof(
-          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
-      }
-      @java.lang.Override
-      public Builder setRepeatedField(
-          com.google.protobuf.Descriptors.FieldDescriptor field,
-          int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
-      }
-      @java.lang.Override
-      public Builder addRepeatedField(
-          com.google.protobuf.Descriptors.FieldDescriptor field,
-          java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
-      }
-      @java.lang.Override
-      public Builder mergeFrom(com.google.protobuf.Message other) {
-        if (other instanceof io.cucumber.messages.Messages.PickleDocString) {
-          return mergeFrom((io.cucumber.messages.Messages.PickleDocString)other);
-        } else {
-          super.mergeFrom(other);
-          return this;
-        }
-      }
-
-      public Builder mergeFrom(io.cucumber.messages.Messages.PickleDocString other) {
-        if (other == io.cucumber.messages.Messages.PickleDocString.getDefaultInstance()) return this;
-        if (other.hasLocation()) {
-          mergeLocation(other.getLocation());
-        }
-        if (!other.getContentType().isEmpty()) {
-          contentType_ = other.contentType_;
-          onChanged();
-        }
-        if (!other.getContent().isEmpty()) {
-          content_ = other.content_;
-          onChanged();
-        }
-        this.mergeUnknownFields(other.unknownFields);
-        onChanged();
-        return this;
-      }
-
-      @java.lang.Override
-      public final boolean isInitialized() {
-        return true;
-      }
-
-      @java.lang.Override
-      public Builder mergeFrom(
-          com.google.protobuf.CodedInputStream input,
-          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-          throws java.io.IOException {
-        io.cucumber.messages.Messages.PickleDocString parsedMessage = null;
-        try {
-          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
-        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-          parsedMessage = (io.cucumber.messages.Messages.PickleDocString) e.getUnfinishedMessage();
-          throw e.unwrapIOException();
-        } finally {
-          if (parsedMessage != null) {
-            mergeFrom(parsedMessage);
-          }
-        }
-        return this;
-      }
-
-      private io.cucumber.messages.Messages.Location location_ = null;
-      private com.google.protobuf.SingleFieldBuilderV3<
-          io.cucumber.messages.Messages.Location, io.cucumber.messages.Messages.Location.Builder, io.cucumber.messages.Messages.LocationOrBuilder> locationBuilder_;
-      /**
-       * <code>.io.cucumber.messages.Location location = 1;</code>
-       */
-      public boolean hasLocation() {
-        return locationBuilder_ != null || location_ != null;
-      }
-      /**
-       * <code>.io.cucumber.messages.Location location = 1;</code>
-       */
-      public io.cucumber.messages.Messages.Location getLocation() {
-        if (locationBuilder_ == null) {
-          return location_ == null ? io.cucumber.messages.Messages.Location.getDefaultInstance() : location_;
-        } else {
-          return locationBuilder_.getMessage();
-        }
-      }
-      /**
-       * <code>.io.cucumber.messages.Location location = 1;</code>
-       */
-      public Builder setLocation(io.cucumber.messages.Messages.Location value) {
-        if (locationBuilder_ == null) {
-          if (value == null) {
-            throw new NullPointerException();
-          }
-          location_ = value;
-          onChanged();
-        } else {
-          locationBuilder_.setMessage(value);
-        }
-
-        return this;
-      }
-      /**
-       * <code>.io.cucumber.messages.Location location = 1;</code>
-       */
-      public Builder setLocation(
-          io.cucumber.messages.Messages.Location.Builder builderForValue) {
-        if (locationBuilder_ == null) {
-          location_ = builderForValue.build();
-          onChanged();
-        } else {
-          locationBuilder_.setMessage(builderForValue.build());
-        }
-
-        return this;
-      }
-      /**
-       * <code>.io.cucumber.messages.Location location = 1;</code>
-       */
-      public Builder mergeLocation(io.cucumber.messages.Messages.Location value) {
-        if (locationBuilder_ == null) {
-          if (location_ != null) {
-            location_ =
-              io.cucumber.messages.Messages.Location.newBuilder(location_).mergeFrom(value).buildPartial();
-          } else {
-            location_ = value;
-          }
-          onChanged();
-        } else {
-          locationBuilder_.mergeFrom(value);
-        }
-
-        return this;
-      }
-      /**
-       * <code>.io.cucumber.messages.Location location = 1;</code>
-       */
-      public Builder clearLocation() {
-        if (locationBuilder_ == null) {
-          location_ = null;
-          onChanged();
-        } else {
-          location_ = null;
-          locationBuilder_ = null;
-        }
-
-        return this;
-      }
-      /**
-       * <code>.io.cucumber.messages.Location location = 1;</code>
-       */
-      public io.cucumber.messages.Messages.Location.Builder getLocationBuilder() {
-        
-        onChanged();
-        return getLocationFieldBuilder().getBuilder();
-      }
-      /**
-       * <code>.io.cucumber.messages.Location location = 1;</code>
-       */
-      public io.cucumber.messages.Messages.LocationOrBuilder getLocationOrBuilder() {
-        if (locationBuilder_ != null) {
-          return locationBuilder_.getMessageOrBuilder();
-        } else {
-          return location_ == null ?
-              io.cucumber.messages.Messages.Location.getDefaultInstance() : location_;
-        }
-      }
-      /**
-       * <code>.io.cucumber.messages.Location location = 1;</code>
-       */
-      private com.google.protobuf.SingleFieldBuilderV3<
-          io.cucumber.messages.Messages.Location, io.cucumber.messages.Messages.Location.Builder, io.cucumber.messages.Messages.LocationOrBuilder> 
-          getLocationFieldBuilder() {
-        if (locationBuilder_ == null) {
-          locationBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
-              io.cucumber.messages.Messages.Location, io.cucumber.messages.Messages.Location.Builder, io.cucumber.messages.Messages.LocationOrBuilder>(
-                  getLocation(),
-                  getParentForChildren(),
-                  isClean());
-          location_ = null;
-        }
-        return locationBuilder_;
-      }
-
-      private java.lang.Object contentType_ = "";
-      /**
-       * <code>string contentType = 2;</code>
-       */
-      public java.lang.String getContentType() {
-        java.lang.Object ref = contentType_;
-        if (!(ref instanceof java.lang.String)) {
-          com.google.protobuf.ByteString bs =
-              (com.google.protobuf.ByteString) ref;
-          java.lang.String s = bs.toStringUtf8();
-          contentType_ = s;
-          return s;
-        } else {
-          return (java.lang.String) ref;
-        }
-      }
-      /**
-       * <code>string contentType = 2;</code>
-       */
-      public com.google.protobuf.ByteString
-          getContentTypeBytes() {
-        java.lang.Object ref = contentType_;
-        if (ref instanceof String) {
-          com.google.protobuf.ByteString b = 
-              com.google.protobuf.ByteString.copyFromUtf8(
-                  (java.lang.String) ref);
-          contentType_ = b;
-          return b;
-        } else {
-          return (com.google.protobuf.ByteString) ref;
-        }
-      }
-      /**
-       * <code>string contentType = 2;</code>
-       */
-      public Builder setContentType(
-          java.lang.String value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  
-        contentType_ = value;
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>string contentType = 2;</code>
-       */
-      public Builder clearContentType() {
-        
-        contentType_ = getDefaultInstance().getContentType();
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>string contentType = 2;</code>
-       */
-      public Builder setContentTypeBytes(
-          com.google.protobuf.ByteString value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  checkByteStringIsUtf8(value);
-        
-        contentType_ = value;
-        onChanged();
-        return this;
-      }
-
-      private java.lang.Object content_ = "";
-      /**
-       * <code>string content = 3;</code>
-       */
-      public java.lang.String getContent() {
-        java.lang.Object ref = content_;
-        if (!(ref instanceof java.lang.String)) {
-          com.google.protobuf.ByteString bs =
-              (com.google.protobuf.ByteString) ref;
-          java.lang.String s = bs.toStringUtf8();
-          content_ = s;
-          return s;
-        } else {
-          return (java.lang.String) ref;
-        }
-      }
-      /**
-       * <code>string content = 3;</code>
-       */
-      public com.google.protobuf.ByteString
-          getContentBytes() {
-        java.lang.Object ref = content_;
-        if (ref instanceof String) {
-          com.google.protobuf.ByteString b = 
-              com.google.protobuf.ByteString.copyFromUtf8(
-                  (java.lang.String) ref);
-          content_ = b;
-          return b;
-        } else {
-          return (com.google.protobuf.ByteString) ref;
-        }
-      }
-      /**
-       * <code>string content = 3;</code>
-       */
-      public Builder setContent(
-          java.lang.String value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  
-        content_ = value;
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>string content = 3;</code>
-       */
-      public Builder clearContent() {
-        
-        content_ = getDefaultInstance().getContent();
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>string content = 3;</code>
-       */
-      public Builder setContentBytes(
-          com.google.protobuf.ByteString value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  checkByteStringIsUtf8(value);
-        
-        content_ = value;
-        onChanged();
-        return this;
-      }
-      @java.lang.Override
-      public final Builder setUnknownFields(
-          final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
-      }
-
-      @java.lang.Override
-      public final Builder mergeUnknownFields(
-          final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.mergeUnknownFields(unknownFields);
-      }
-
-
-      // @@protoc_insertion_point(builder_scope:io.cucumber.messages.PickleDocString)
-    }
-
-    // @@protoc_insertion_point(class_scope:io.cucumber.messages.PickleDocString)
-    private static final io.cucumber.messages.Messages.PickleDocString DEFAULT_INSTANCE;
-    static {
-      DEFAULT_INSTANCE = new io.cucumber.messages.Messages.PickleDocString();
-    }
-
-    public static io.cucumber.messages.Messages.PickleDocString getDefaultInstance() {
-      return DEFAULT_INSTANCE;
-    }
-
-    private static final com.google.protobuf.Parser<PickleDocString>
-        PARSER = new com.google.protobuf.AbstractParser<PickleDocString>() {
-      @java.lang.Override
-      public PickleDocString parsePartialFrom(
-          com.google.protobuf.CodedInputStream input,
-          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-          throws com.google.protobuf.InvalidProtocolBufferException {
-        return new PickleDocString(input, extensionRegistry);
-      }
-    };
-
-    public static com.google.protobuf.Parser<PickleDocString> parser() {
-      return PARSER;
-    }
-
-    @java.lang.Override
-    public com.google.protobuf.Parser<PickleDocString> getParserForType() {
-      return PARSER;
-    }
-
-    @java.lang.Override
-    public io.cucumber.messages.Messages.PickleDocString getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
 
@@ -28254,6 +28161,887 @@ public final class Messages {
 
     @java.lang.Override
     public io.cucumber.messages.Messages.PickleStep getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
+  }
+
+  public interface PickleDocStringOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:io.cucumber.messages.PickleDocString)
+      com.google.protobuf.MessageOrBuilder {
+
+    /**
+     * <code>.io.cucumber.messages.Location location = 1;</code>
+     */
+    boolean hasLocation();
+    /**
+     * <code>.io.cucumber.messages.Location location = 1;</code>
+     */
+    io.cucumber.messages.Messages.Location getLocation();
+    /**
+     * <code>.io.cucumber.messages.Location location = 1;</code>
+     */
+    io.cucumber.messages.Messages.LocationOrBuilder getLocationOrBuilder();
+
+    /**
+     * <code>string contentType = 2;</code>
+     */
+    java.lang.String getContentType();
+    /**
+     * <code>string contentType = 2;</code>
+     */
+    com.google.protobuf.ByteString
+        getContentTypeBytes();
+
+    /**
+     * <code>string content = 3;</code>
+     */
+    java.lang.String getContent();
+    /**
+     * <code>string content = 3;</code>
+     */
+    com.google.protobuf.ByteString
+        getContentBytes();
+  }
+  /**
+   * Protobuf type {@code io.cucumber.messages.PickleDocString}
+   */
+  public  static final class PickleDocString extends
+      com.google.protobuf.GeneratedMessageV3 implements
+      // @@protoc_insertion_point(message_implements:io.cucumber.messages.PickleDocString)
+      PickleDocStringOrBuilder {
+  private static final long serialVersionUID = 0L;
+    // Use PickleDocString.newBuilder() to construct.
+    private PickleDocString(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+      super(builder);
+    }
+    private PickleDocString() {
+      contentType_ = "";
+      content_ = "";
+    }
+
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+    getUnknownFields() {
+      return this.unknownFields;
+    }
+    private PickleDocString(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      this();
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            case 10: {
+              io.cucumber.messages.Messages.Location.Builder subBuilder = null;
+              if (location_ != null) {
+                subBuilder = location_.toBuilder();
+              }
+              location_ = input.readMessage(io.cucumber.messages.Messages.Location.parser(), extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom(location_);
+                location_ = subBuilder.buildPartial();
+              }
+
+              break;
+            }
+            case 18: {
+              java.lang.String s = input.readStringRequireUtf8();
+
+              contentType_ = s;
+              break;
+            }
+            case 26: {
+              java.lang.String s = input.readStringRequireUtf8();
+
+              content_ = s;
+              break;
+            }
+            default: {
+              if (!parseUnknownFieldProto3(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return io.cucumber.messages.Messages.internal_static_io_cucumber_messages_PickleDocString_descriptor;
+    }
+
+    @java.lang.Override
+    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return io.cucumber.messages.Messages.internal_static_io_cucumber_messages_PickleDocString_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              io.cucumber.messages.Messages.PickleDocString.class, io.cucumber.messages.Messages.PickleDocString.Builder.class);
+    }
+
+    public static final int LOCATION_FIELD_NUMBER = 1;
+    private io.cucumber.messages.Messages.Location location_;
+    /**
+     * <code>.io.cucumber.messages.Location location = 1;</code>
+     */
+    public boolean hasLocation() {
+      return location_ != null;
+    }
+    /**
+     * <code>.io.cucumber.messages.Location location = 1;</code>
+     */
+    public io.cucumber.messages.Messages.Location getLocation() {
+      return location_ == null ? io.cucumber.messages.Messages.Location.getDefaultInstance() : location_;
+    }
+    /**
+     * <code>.io.cucumber.messages.Location location = 1;</code>
+     */
+    public io.cucumber.messages.Messages.LocationOrBuilder getLocationOrBuilder() {
+      return getLocation();
+    }
+
+    public static final int CONTENTTYPE_FIELD_NUMBER = 2;
+    private volatile java.lang.Object contentType_;
+    /**
+     * <code>string contentType = 2;</code>
+     */
+    public java.lang.String getContentType() {
+      java.lang.Object ref = contentType_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        contentType_ = s;
+        return s;
+      }
+    }
+    /**
+     * <code>string contentType = 2;</code>
+     */
+    public com.google.protobuf.ByteString
+        getContentTypeBytes() {
+      java.lang.Object ref = contentType_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        contentType_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    public static final int CONTENT_FIELD_NUMBER = 3;
+    private volatile java.lang.Object content_;
+    /**
+     * <code>string content = 3;</code>
+     */
+    public java.lang.String getContent() {
+      java.lang.Object ref = content_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        content_ = s;
+        return s;
+      }
+    }
+    /**
+     * <code>string content = 3;</code>
+     */
+    public com.google.protobuf.ByteString
+        getContentBytes() {
+      java.lang.Object ref = content_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        content_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    private byte memoizedIsInitialized = -1;
+    @java.lang.Override
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    @java.lang.Override
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      if (location_ != null) {
+        output.writeMessage(1, getLocation());
+      }
+      if (!getContentTypeBytes().isEmpty()) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 2, contentType_);
+      }
+      if (!getContentBytes().isEmpty()) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 3, content_);
+      }
+      unknownFields.writeTo(output);
+    }
+
+    @java.lang.Override
+    public int getSerializedSize() {
+      int size = memoizedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (location_ != null) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(1, getLocation());
+      }
+      if (!getContentTypeBytes().isEmpty()) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(2, contentType_);
+      }
+      if (!getContentBytes().isEmpty()) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(3, content_);
+      }
+      size += unknownFields.getSerializedSize();
+      memoizedSize = size;
+      return size;
+    }
+
+    @java.lang.Override
+    public boolean equals(final java.lang.Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof io.cucumber.messages.Messages.PickleDocString)) {
+        return super.equals(obj);
+      }
+      io.cucumber.messages.Messages.PickleDocString other = (io.cucumber.messages.Messages.PickleDocString) obj;
+
+      boolean result = true;
+      result = result && (hasLocation() == other.hasLocation());
+      if (hasLocation()) {
+        result = result && getLocation()
+            .equals(other.getLocation());
+      }
+      result = result && getContentType()
+          .equals(other.getContentType());
+      result = result && getContent()
+          .equals(other.getContent());
+      result = result && unknownFields.equals(other.unknownFields);
+      return result;
+    }
+
+    @java.lang.Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptor().hashCode();
+      if (hasLocation()) {
+        hash = (37 * hash) + LOCATION_FIELD_NUMBER;
+        hash = (53 * hash) + getLocation().hashCode();
+      }
+      hash = (37 * hash) + CONTENTTYPE_FIELD_NUMBER;
+      hash = (53 * hash) + getContentType().hashCode();
+      hash = (37 * hash) + CONTENT_FIELD_NUMBER;
+      hash = (53 * hash) + getContent().hashCode();
+      hash = (29 * hash) + unknownFields.hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    public static io.cucumber.messages.Messages.PickleDocString parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static io.cucumber.messages.Messages.PickleDocString parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static io.cucumber.messages.Messages.PickleDocString parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static io.cucumber.messages.Messages.PickleDocString parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static io.cucumber.messages.Messages.PickleDocString parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static io.cucumber.messages.Messages.PickleDocString parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static io.cucumber.messages.Messages.PickleDocString parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static io.cucumber.messages.Messages.PickleDocString parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static io.cucumber.messages.Messages.PickleDocString parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input);
+    }
+    public static io.cucumber.messages.Messages.PickleDocString parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static io.cucumber.messages.Messages.PickleDocString parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static io.cucumber.messages.Messages.PickleDocString parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    @java.lang.Override
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
+    }
+    public static Builder newBuilder(io.cucumber.messages.Messages.PickleDocString prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    @java.lang.Override
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code io.cucumber.messages.PickleDocString}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:io.cucumber.messages.PickleDocString)
+        io.cucumber.messages.Messages.PickleDocStringOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return io.cucumber.messages.Messages.internal_static_io_cucumber_messages_PickleDocString_descriptor;
+      }
+
+      @java.lang.Override
+      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return io.cucumber.messages.Messages.internal_static_io_cucumber_messages_PickleDocString_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                io.cucumber.messages.Messages.PickleDocString.class, io.cucumber.messages.Messages.PickleDocString.Builder.class);
+      }
+
+      // Construct using io.cucumber.messages.Messages.PickleDocString.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessageV3
+                .alwaysUseFieldBuilders) {
+        }
+      }
+      @java.lang.Override
+      public Builder clear() {
+        super.clear();
+        if (locationBuilder_ == null) {
+          location_ = null;
+        } else {
+          location_ = null;
+          locationBuilder_ = null;
+        }
+        contentType_ = "";
+
+        content_ = "";
+
+        return this;
+      }
+
+      @java.lang.Override
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return io.cucumber.messages.Messages.internal_static_io_cucumber_messages_PickleDocString_descriptor;
+      }
+
+      @java.lang.Override
+      public io.cucumber.messages.Messages.PickleDocString getDefaultInstanceForType() {
+        return io.cucumber.messages.Messages.PickleDocString.getDefaultInstance();
+      }
+
+      @java.lang.Override
+      public io.cucumber.messages.Messages.PickleDocString build() {
+        io.cucumber.messages.Messages.PickleDocString result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      @java.lang.Override
+      public io.cucumber.messages.Messages.PickleDocString buildPartial() {
+        io.cucumber.messages.Messages.PickleDocString result = new io.cucumber.messages.Messages.PickleDocString(this);
+        if (locationBuilder_ == null) {
+          result.location_ = location_;
+        } else {
+          result.location_ = locationBuilder_.build();
+        }
+        result.contentType_ = contentType_;
+        result.content_ = content_;
+        onBuilt();
+        return result;
+      }
+
+      @java.lang.Override
+      public Builder clone() {
+        return (Builder) super.clone();
+      }
+      @java.lang.Override
+      public Builder setField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return (Builder) super.setField(field, value);
+      }
+      @java.lang.Override
+      public Builder clearField(
+          com.google.protobuf.Descriptors.FieldDescriptor field) {
+        return (Builder) super.clearField(field);
+      }
+      @java.lang.Override
+      public Builder clearOneof(
+          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+        return (Builder) super.clearOneof(oneof);
+      }
+      @java.lang.Override
+      public Builder setRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          int index, java.lang.Object value) {
+        return (Builder) super.setRepeatedField(field, index, value);
+      }
+      @java.lang.Override
+      public Builder addRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return (Builder) super.addRepeatedField(field, value);
+      }
+      @java.lang.Override
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof io.cucumber.messages.Messages.PickleDocString) {
+          return mergeFrom((io.cucumber.messages.Messages.PickleDocString)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(io.cucumber.messages.Messages.PickleDocString other) {
+        if (other == io.cucumber.messages.Messages.PickleDocString.getDefaultInstance()) return this;
+        if (other.hasLocation()) {
+          mergeLocation(other.getLocation());
+        }
+        if (!other.getContentType().isEmpty()) {
+          contentType_ = other.contentType_;
+          onChanged();
+        }
+        if (!other.getContent().isEmpty()) {
+          content_ = other.content_;
+          onChanged();
+        }
+        this.mergeUnknownFields(other.unknownFields);
+        onChanged();
+        return this;
+      }
+
+      @java.lang.Override
+      public final boolean isInitialized() {
+        return true;
+      }
+
+      @java.lang.Override
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        io.cucumber.messages.Messages.PickleDocString parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (io.cucumber.messages.Messages.PickleDocString) e.getUnfinishedMessage();
+          throw e.unwrapIOException();
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+
+      private io.cucumber.messages.Messages.Location location_ = null;
+      private com.google.protobuf.SingleFieldBuilderV3<
+          io.cucumber.messages.Messages.Location, io.cucumber.messages.Messages.Location.Builder, io.cucumber.messages.Messages.LocationOrBuilder> locationBuilder_;
+      /**
+       * <code>.io.cucumber.messages.Location location = 1;</code>
+       */
+      public boolean hasLocation() {
+        return locationBuilder_ != null || location_ != null;
+      }
+      /**
+       * <code>.io.cucumber.messages.Location location = 1;</code>
+       */
+      public io.cucumber.messages.Messages.Location getLocation() {
+        if (locationBuilder_ == null) {
+          return location_ == null ? io.cucumber.messages.Messages.Location.getDefaultInstance() : location_;
+        } else {
+          return locationBuilder_.getMessage();
+        }
+      }
+      /**
+       * <code>.io.cucumber.messages.Location location = 1;</code>
+       */
+      public Builder setLocation(io.cucumber.messages.Messages.Location value) {
+        if (locationBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          location_ = value;
+          onChanged();
+        } else {
+          locationBuilder_.setMessage(value);
+        }
+
+        return this;
+      }
+      /**
+       * <code>.io.cucumber.messages.Location location = 1;</code>
+       */
+      public Builder setLocation(
+          io.cucumber.messages.Messages.Location.Builder builderForValue) {
+        if (locationBuilder_ == null) {
+          location_ = builderForValue.build();
+          onChanged();
+        } else {
+          locationBuilder_.setMessage(builderForValue.build());
+        }
+
+        return this;
+      }
+      /**
+       * <code>.io.cucumber.messages.Location location = 1;</code>
+       */
+      public Builder mergeLocation(io.cucumber.messages.Messages.Location value) {
+        if (locationBuilder_ == null) {
+          if (location_ != null) {
+            location_ =
+              io.cucumber.messages.Messages.Location.newBuilder(location_).mergeFrom(value).buildPartial();
+          } else {
+            location_ = value;
+          }
+          onChanged();
+        } else {
+          locationBuilder_.mergeFrom(value);
+        }
+
+        return this;
+      }
+      /**
+       * <code>.io.cucumber.messages.Location location = 1;</code>
+       */
+      public Builder clearLocation() {
+        if (locationBuilder_ == null) {
+          location_ = null;
+          onChanged();
+        } else {
+          location_ = null;
+          locationBuilder_ = null;
+        }
+
+        return this;
+      }
+      /**
+       * <code>.io.cucumber.messages.Location location = 1;</code>
+       */
+      public io.cucumber.messages.Messages.Location.Builder getLocationBuilder() {
+        
+        onChanged();
+        return getLocationFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>.io.cucumber.messages.Location location = 1;</code>
+       */
+      public io.cucumber.messages.Messages.LocationOrBuilder getLocationOrBuilder() {
+        if (locationBuilder_ != null) {
+          return locationBuilder_.getMessageOrBuilder();
+        } else {
+          return location_ == null ?
+              io.cucumber.messages.Messages.Location.getDefaultInstance() : location_;
+        }
+      }
+      /**
+       * <code>.io.cucumber.messages.Location location = 1;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilderV3<
+          io.cucumber.messages.Messages.Location, io.cucumber.messages.Messages.Location.Builder, io.cucumber.messages.Messages.LocationOrBuilder> 
+          getLocationFieldBuilder() {
+        if (locationBuilder_ == null) {
+          locationBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
+              io.cucumber.messages.Messages.Location, io.cucumber.messages.Messages.Location.Builder, io.cucumber.messages.Messages.LocationOrBuilder>(
+                  getLocation(),
+                  getParentForChildren(),
+                  isClean());
+          location_ = null;
+        }
+        return locationBuilder_;
+      }
+
+      private java.lang.Object contentType_ = "";
+      /**
+       * <code>string contentType = 2;</code>
+       */
+      public java.lang.String getContentType() {
+        java.lang.Object ref = contentType_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          contentType_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>string contentType = 2;</code>
+       */
+      public com.google.protobuf.ByteString
+          getContentTypeBytes() {
+        java.lang.Object ref = contentType_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          contentType_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>string contentType = 2;</code>
+       */
+      public Builder setContentType(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  
+        contentType_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string contentType = 2;</code>
+       */
+      public Builder clearContentType() {
+        
+        contentType_ = getDefaultInstance().getContentType();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string contentType = 2;</code>
+       */
+      public Builder setContentTypeBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+        
+        contentType_ = value;
+        onChanged();
+        return this;
+      }
+
+      private java.lang.Object content_ = "";
+      /**
+       * <code>string content = 3;</code>
+       */
+      public java.lang.String getContent() {
+        java.lang.Object ref = content_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          content_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>string content = 3;</code>
+       */
+      public com.google.protobuf.ByteString
+          getContentBytes() {
+        java.lang.Object ref = content_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          content_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>string content = 3;</code>
+       */
+      public Builder setContent(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  
+        content_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string content = 3;</code>
+       */
+      public Builder clearContent() {
+        
+        content_ = getDefaultInstance().getContent();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string content = 3;</code>
+       */
+      public Builder setContentBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+        
+        content_ = value;
+        onChanged();
+        return this;
+      }
+      @java.lang.Override
+      public final Builder setUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.setUnknownFieldsProto3(unknownFields);
+      }
+
+      @java.lang.Override
+      public final Builder mergeUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.mergeUnknownFields(unknownFields);
+      }
+
+
+      // @@protoc_insertion_point(builder_scope:io.cucumber.messages.PickleDocString)
+    }
+
+    // @@protoc_insertion_point(class_scope:io.cucumber.messages.PickleDocString)
+    private static final io.cucumber.messages.Messages.PickleDocString DEFAULT_INSTANCE;
+    static {
+      DEFAULT_INSTANCE = new io.cucumber.messages.Messages.PickleDocString();
+    }
+
+    public static io.cucumber.messages.Messages.PickleDocString getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static final com.google.protobuf.Parser<PickleDocString>
+        PARSER = new com.google.protobuf.AbstractParser<PickleDocString>() {
+      @java.lang.Override
+      public PickleDocString parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new PickleDocString(input, extensionRegistry);
+      }
+    };
+
+    public static com.google.protobuf.Parser<PickleDocString> parser() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<PickleDocString> getParserForType() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public io.cucumber.messages.Messages.PickleDocString getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
 
@@ -31311,40 +32099,47 @@ public final class Messages {
 
   }
 
-  public interface TestCaseOrBuilder extends
-      // @@protoc_insertion_point(interface_extends:io.cucumber.messages.TestCase)
+  public interface TestCaseStartedOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:io.cucumber.messages.TestCaseStarted)
       com.google.protobuf.MessageOrBuilder {
 
     /**
-     * <code>string uri = 1;</code>
+     * <code>string pickleId = 1;</code>
      */
-    java.lang.String getUri();
+    java.lang.String getPickleId();
     /**
-     * <code>string uri = 1;</code>
+     * <code>string pickleId = 1;</code>
      */
     com.google.protobuf.ByteString
-        getUriBytes();
+        getPickleIdBytes();
 
     /**
-     * <code>uint32 line = 2;</code>
+     * <code>.google.protobuf.Timestamp timestamp = 2;</code>
      */
-    int getLine();
+    boolean hasTimestamp();
+    /**
+     * <code>.google.protobuf.Timestamp timestamp = 2;</code>
+     */
+    com.google.protobuf.Timestamp getTimestamp();
+    /**
+     * <code>.google.protobuf.Timestamp timestamp = 2;</code>
+     */
+    com.google.protobuf.TimestampOrBuilder getTimestampOrBuilder();
   }
   /**
-   * Protobuf type {@code io.cucumber.messages.TestCase}
+   * Protobuf type {@code io.cucumber.messages.TestCaseStarted}
    */
-  public  static final class TestCase extends
+  public  static final class TestCaseStarted extends
       com.google.protobuf.GeneratedMessageV3 implements
-      // @@protoc_insertion_point(message_implements:io.cucumber.messages.TestCase)
-      TestCaseOrBuilder {
+      // @@protoc_insertion_point(message_implements:io.cucumber.messages.TestCaseStarted)
+      TestCaseStartedOrBuilder {
   private static final long serialVersionUID = 0L;
-    // Use TestCase.newBuilder() to construct.
-    private TestCase(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+    // Use TestCaseStarted.newBuilder() to construct.
+    private TestCaseStarted(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
       super(builder);
     }
-    private TestCase() {
-      uri_ = "";
-      line_ = 0;
+    private TestCaseStarted() {
+      pickleId_ = "";
     }
 
     @java.lang.Override
@@ -31352,7 +32147,7 @@ public final class Messages {
     getUnknownFields() {
       return this.unknownFields;
     }
-    private TestCase(
+    private TestCaseStarted(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
@@ -31374,646 +32169,10 @@ public final class Messages {
             case 10: {
               java.lang.String s = input.readStringRequireUtf8();
 
-              uri_ = s;
-              break;
-            }
-            case 16: {
-
-              line_ = input.readUInt32();
-              break;
-            }
-            default: {
-              if (!parseUnknownFieldProto3(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
-          }
-        }
-      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-        throw e.setUnfinishedMessage(this);
-      } catch (java.io.IOException e) {
-        throw new com.google.protobuf.InvalidProtocolBufferException(
-            e).setUnfinishedMessage(this);
-      } finally {
-        this.unknownFields = unknownFields.build();
-        makeExtensionsImmutable();
-      }
-    }
-    public static final com.google.protobuf.Descriptors.Descriptor
-        getDescriptor() {
-      return io.cucumber.messages.Messages.internal_static_io_cucumber_messages_TestCase_descriptor;
-    }
-
-    @java.lang.Override
-    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-        internalGetFieldAccessorTable() {
-      return io.cucumber.messages.Messages.internal_static_io_cucumber_messages_TestCase_fieldAccessorTable
-          .ensureFieldAccessorsInitialized(
-              io.cucumber.messages.Messages.TestCase.class, io.cucumber.messages.Messages.TestCase.Builder.class);
-    }
-
-    public static final int URI_FIELD_NUMBER = 1;
-    private volatile java.lang.Object uri_;
-    /**
-     * <code>string uri = 1;</code>
-     */
-    public java.lang.String getUri() {
-      java.lang.Object ref = uri_;
-      if (ref instanceof java.lang.String) {
-        return (java.lang.String) ref;
-      } else {
-        com.google.protobuf.ByteString bs = 
-            (com.google.protobuf.ByteString) ref;
-        java.lang.String s = bs.toStringUtf8();
-        uri_ = s;
-        return s;
-      }
-    }
-    /**
-     * <code>string uri = 1;</code>
-     */
-    public com.google.protobuf.ByteString
-        getUriBytes() {
-      java.lang.Object ref = uri_;
-      if (ref instanceof java.lang.String) {
-        com.google.protobuf.ByteString b = 
-            com.google.protobuf.ByteString.copyFromUtf8(
-                (java.lang.String) ref);
-        uri_ = b;
-        return b;
-      } else {
-        return (com.google.protobuf.ByteString) ref;
-      }
-    }
-
-    public static final int LINE_FIELD_NUMBER = 2;
-    private int line_;
-    /**
-     * <code>uint32 line = 2;</code>
-     */
-    public int getLine() {
-      return line_;
-    }
-
-    private byte memoizedIsInitialized = -1;
-    @java.lang.Override
-    public final boolean isInitialized() {
-      byte isInitialized = memoizedIsInitialized;
-      if (isInitialized == 1) return true;
-      if (isInitialized == 0) return false;
-
-      memoizedIsInitialized = 1;
-      return true;
-    }
-
-    @java.lang.Override
-    public void writeTo(com.google.protobuf.CodedOutputStream output)
-                        throws java.io.IOException {
-      if (!getUriBytes().isEmpty()) {
-        com.google.protobuf.GeneratedMessageV3.writeString(output, 1, uri_);
-      }
-      if (line_ != 0) {
-        output.writeUInt32(2, line_);
-      }
-      unknownFields.writeTo(output);
-    }
-
-    @java.lang.Override
-    public int getSerializedSize() {
-      int size = memoizedSize;
-      if (size != -1) return size;
-
-      size = 0;
-      if (!getUriBytes().isEmpty()) {
-        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(1, uri_);
-      }
-      if (line_ != 0) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeUInt32Size(2, line_);
-      }
-      size += unknownFields.getSerializedSize();
-      memoizedSize = size;
-      return size;
-    }
-
-    @java.lang.Override
-    public boolean equals(final java.lang.Object obj) {
-      if (obj == this) {
-       return true;
-      }
-      if (!(obj instanceof io.cucumber.messages.Messages.TestCase)) {
-        return super.equals(obj);
-      }
-      io.cucumber.messages.Messages.TestCase other = (io.cucumber.messages.Messages.TestCase) obj;
-
-      boolean result = true;
-      result = result && getUri()
-          .equals(other.getUri());
-      result = result && (getLine()
-          == other.getLine());
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
-    }
-
-    @java.lang.Override
-    public int hashCode() {
-      if (memoizedHashCode != 0) {
-        return memoizedHashCode;
-      }
-      int hash = 41;
-      hash = (19 * hash) + getDescriptor().hashCode();
-      hash = (37 * hash) + URI_FIELD_NUMBER;
-      hash = (53 * hash) + getUri().hashCode();
-      hash = (37 * hash) + LINE_FIELD_NUMBER;
-      hash = (53 * hash) + getLine();
-      hash = (29 * hash) + unknownFields.hashCode();
-      memoizedHashCode = hash;
-      return hash;
-    }
-
-    public static io.cucumber.messages.Messages.TestCase parseFrom(
-        java.nio.ByteBuffer data)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data);
-    }
-    public static io.cucumber.messages.Messages.TestCase parseFrom(
-        java.nio.ByteBuffer data,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data, extensionRegistry);
-    }
-    public static io.cucumber.messages.Messages.TestCase parseFrom(
-        com.google.protobuf.ByteString data)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data);
-    }
-    public static io.cucumber.messages.Messages.TestCase parseFrom(
-        com.google.protobuf.ByteString data,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data, extensionRegistry);
-    }
-    public static io.cucumber.messages.Messages.TestCase parseFrom(byte[] data)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data);
-    }
-    public static io.cucumber.messages.Messages.TestCase parseFrom(
-        byte[] data,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data, extensionRegistry);
-    }
-    public static io.cucumber.messages.Messages.TestCase parseFrom(java.io.InputStream input)
-        throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseWithIOException(PARSER, input);
-    }
-    public static io.cucumber.messages.Messages.TestCase parseFrom(
-        java.io.InputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseWithIOException(PARSER, input, extensionRegistry);
-    }
-    public static io.cucumber.messages.Messages.TestCase parseDelimitedFrom(java.io.InputStream input)
-        throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseDelimitedWithIOException(PARSER, input);
-    }
-    public static io.cucumber.messages.Messages.TestCase parseDelimitedFrom(
-        java.io.InputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
-    }
-    public static io.cucumber.messages.Messages.TestCase parseFrom(
-        com.google.protobuf.CodedInputStream input)
-        throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseWithIOException(PARSER, input);
-    }
-    public static io.cucumber.messages.Messages.TestCase parseFrom(
-        com.google.protobuf.CodedInputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseWithIOException(PARSER, input, extensionRegistry);
-    }
-
-    @java.lang.Override
-    public Builder newBuilderForType() { return newBuilder(); }
-    public static Builder newBuilder() {
-      return DEFAULT_INSTANCE.toBuilder();
-    }
-    public static Builder newBuilder(io.cucumber.messages.Messages.TestCase prototype) {
-      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
-    }
-    @java.lang.Override
-    public Builder toBuilder() {
-      return this == DEFAULT_INSTANCE
-          ? new Builder() : new Builder().mergeFrom(this);
-    }
-
-    @java.lang.Override
-    protected Builder newBuilderForType(
-        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
-      Builder builder = new Builder(parent);
-      return builder;
-    }
-    /**
-     * Protobuf type {@code io.cucumber.messages.TestCase}
-     */
-    public static final class Builder extends
-        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
-        // @@protoc_insertion_point(builder_implements:io.cucumber.messages.TestCase)
-        io.cucumber.messages.Messages.TestCaseOrBuilder {
-      public static final com.google.protobuf.Descriptors.Descriptor
-          getDescriptor() {
-        return io.cucumber.messages.Messages.internal_static_io_cucumber_messages_TestCase_descriptor;
-      }
-
-      @java.lang.Override
-      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-          internalGetFieldAccessorTable() {
-        return io.cucumber.messages.Messages.internal_static_io_cucumber_messages_TestCase_fieldAccessorTable
-            .ensureFieldAccessorsInitialized(
-                io.cucumber.messages.Messages.TestCase.class, io.cucumber.messages.Messages.TestCase.Builder.class);
-      }
-
-      // Construct using io.cucumber.messages.Messages.TestCase.newBuilder()
-      private Builder() {
-        maybeForceBuilderInitialization();
-      }
-
-      private Builder(
-          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
-        super(parent);
-        maybeForceBuilderInitialization();
-      }
-      private void maybeForceBuilderInitialization() {
-        if (com.google.protobuf.GeneratedMessageV3
-                .alwaysUseFieldBuilders) {
-        }
-      }
-      @java.lang.Override
-      public Builder clear() {
-        super.clear();
-        uri_ = "";
-
-        line_ = 0;
-
-        return this;
-      }
-
-      @java.lang.Override
-      public com.google.protobuf.Descriptors.Descriptor
-          getDescriptorForType() {
-        return io.cucumber.messages.Messages.internal_static_io_cucumber_messages_TestCase_descriptor;
-      }
-
-      @java.lang.Override
-      public io.cucumber.messages.Messages.TestCase getDefaultInstanceForType() {
-        return io.cucumber.messages.Messages.TestCase.getDefaultInstance();
-      }
-
-      @java.lang.Override
-      public io.cucumber.messages.Messages.TestCase build() {
-        io.cucumber.messages.Messages.TestCase result = buildPartial();
-        if (!result.isInitialized()) {
-          throw newUninitializedMessageException(result);
-        }
-        return result;
-      }
-
-      @java.lang.Override
-      public io.cucumber.messages.Messages.TestCase buildPartial() {
-        io.cucumber.messages.Messages.TestCase result = new io.cucumber.messages.Messages.TestCase(this);
-        result.uri_ = uri_;
-        result.line_ = line_;
-        onBuilt();
-        return result;
-      }
-
-      @java.lang.Override
-      public Builder clone() {
-        return (Builder) super.clone();
-      }
-      @java.lang.Override
-      public Builder setField(
-          com.google.protobuf.Descriptors.FieldDescriptor field,
-          java.lang.Object value) {
-        return (Builder) super.setField(field, value);
-      }
-      @java.lang.Override
-      public Builder clearField(
-          com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
-      }
-      @java.lang.Override
-      public Builder clearOneof(
-          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
-      }
-      @java.lang.Override
-      public Builder setRepeatedField(
-          com.google.protobuf.Descriptors.FieldDescriptor field,
-          int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
-      }
-      @java.lang.Override
-      public Builder addRepeatedField(
-          com.google.protobuf.Descriptors.FieldDescriptor field,
-          java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
-      }
-      @java.lang.Override
-      public Builder mergeFrom(com.google.protobuf.Message other) {
-        if (other instanceof io.cucumber.messages.Messages.TestCase) {
-          return mergeFrom((io.cucumber.messages.Messages.TestCase)other);
-        } else {
-          super.mergeFrom(other);
-          return this;
-        }
-      }
-
-      public Builder mergeFrom(io.cucumber.messages.Messages.TestCase other) {
-        if (other == io.cucumber.messages.Messages.TestCase.getDefaultInstance()) return this;
-        if (!other.getUri().isEmpty()) {
-          uri_ = other.uri_;
-          onChanged();
-        }
-        if (other.getLine() != 0) {
-          setLine(other.getLine());
-        }
-        this.mergeUnknownFields(other.unknownFields);
-        onChanged();
-        return this;
-      }
-
-      @java.lang.Override
-      public final boolean isInitialized() {
-        return true;
-      }
-
-      @java.lang.Override
-      public Builder mergeFrom(
-          com.google.protobuf.CodedInputStream input,
-          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-          throws java.io.IOException {
-        io.cucumber.messages.Messages.TestCase parsedMessage = null;
-        try {
-          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
-        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-          parsedMessage = (io.cucumber.messages.Messages.TestCase) e.getUnfinishedMessage();
-          throw e.unwrapIOException();
-        } finally {
-          if (parsedMessage != null) {
-            mergeFrom(parsedMessage);
-          }
-        }
-        return this;
-      }
-
-      private java.lang.Object uri_ = "";
-      /**
-       * <code>string uri = 1;</code>
-       */
-      public java.lang.String getUri() {
-        java.lang.Object ref = uri_;
-        if (!(ref instanceof java.lang.String)) {
-          com.google.protobuf.ByteString bs =
-              (com.google.protobuf.ByteString) ref;
-          java.lang.String s = bs.toStringUtf8();
-          uri_ = s;
-          return s;
-        } else {
-          return (java.lang.String) ref;
-        }
-      }
-      /**
-       * <code>string uri = 1;</code>
-       */
-      public com.google.protobuf.ByteString
-          getUriBytes() {
-        java.lang.Object ref = uri_;
-        if (ref instanceof String) {
-          com.google.protobuf.ByteString b = 
-              com.google.protobuf.ByteString.copyFromUtf8(
-                  (java.lang.String) ref);
-          uri_ = b;
-          return b;
-        } else {
-          return (com.google.protobuf.ByteString) ref;
-        }
-      }
-      /**
-       * <code>string uri = 1;</code>
-       */
-      public Builder setUri(
-          java.lang.String value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  
-        uri_ = value;
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>string uri = 1;</code>
-       */
-      public Builder clearUri() {
-        
-        uri_ = getDefaultInstance().getUri();
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>string uri = 1;</code>
-       */
-      public Builder setUriBytes(
-          com.google.protobuf.ByteString value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  checkByteStringIsUtf8(value);
-        
-        uri_ = value;
-        onChanged();
-        return this;
-      }
-
-      private int line_ ;
-      /**
-       * <code>uint32 line = 2;</code>
-       */
-      public int getLine() {
-        return line_;
-      }
-      /**
-       * <code>uint32 line = 2;</code>
-       */
-      public Builder setLine(int value) {
-        
-        line_ = value;
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>uint32 line = 2;</code>
-       */
-      public Builder clearLine() {
-        
-        line_ = 0;
-        onChanged();
-        return this;
-      }
-      @java.lang.Override
-      public final Builder setUnknownFields(
-          final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
-      }
-
-      @java.lang.Override
-      public final Builder mergeUnknownFields(
-          final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.mergeUnknownFields(unknownFields);
-      }
-
-
-      // @@protoc_insertion_point(builder_scope:io.cucumber.messages.TestCase)
-    }
-
-    // @@protoc_insertion_point(class_scope:io.cucumber.messages.TestCase)
-    private static final io.cucumber.messages.Messages.TestCase DEFAULT_INSTANCE;
-    static {
-      DEFAULT_INSTANCE = new io.cucumber.messages.Messages.TestCase();
-    }
-
-    public static io.cucumber.messages.Messages.TestCase getDefaultInstance() {
-      return DEFAULT_INSTANCE;
-    }
-
-    private static final com.google.protobuf.Parser<TestCase>
-        PARSER = new com.google.protobuf.AbstractParser<TestCase>() {
-      @java.lang.Override
-      public TestCase parsePartialFrom(
-          com.google.protobuf.CodedInputStream input,
-          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-          throws com.google.protobuf.InvalidProtocolBufferException {
-        return new TestCase(input, extensionRegistry);
-      }
-    };
-
-    public static com.google.protobuf.Parser<TestCase> parser() {
-      return PARSER;
-    }
-
-    @java.lang.Override
-    public com.google.protobuf.Parser<TestCase> getParserForType() {
-      return PARSER;
-    }
-
-    @java.lang.Override
-    public io.cucumber.messages.Messages.TestCase getDefaultInstanceForType() {
-      return DEFAULT_INSTANCE;
-    }
-
-  }
-
-  public interface TestResultOrBuilder extends
-      // @@protoc_insertion_point(interface_extends:io.cucumber.messages.TestResult)
-      com.google.protobuf.MessageOrBuilder {
-
-    /**
-     * <code>.io.cucumber.messages.Status status = 1;</code>
-     */
-    int getStatusValue();
-    /**
-     * <code>.io.cucumber.messages.Status status = 1;</code>
-     */
-    io.cucumber.messages.Messages.Status getStatus();
-
-    /**
-     * <code>string message = 2;</code>
-     */
-    java.lang.String getMessage();
-    /**
-     * <code>string message = 2;</code>
-     */
-    com.google.protobuf.ByteString
-        getMessageBytes();
-
-    /**
-     * <code>.google.protobuf.Timestamp timestamp = 3;</code>
-     */
-    boolean hasTimestamp();
-    /**
-     * <code>.google.protobuf.Timestamp timestamp = 3;</code>
-     */
-    com.google.protobuf.Timestamp getTimestamp();
-    /**
-     * <code>.google.protobuf.Timestamp timestamp = 3;</code>
-     */
-    com.google.protobuf.TimestampOrBuilder getTimestampOrBuilder();
-  }
-  /**
-   * Protobuf type {@code io.cucumber.messages.TestResult}
-   */
-  public  static final class TestResult extends
-      com.google.protobuf.GeneratedMessageV3 implements
-      // @@protoc_insertion_point(message_implements:io.cucumber.messages.TestResult)
-      TestResultOrBuilder {
-  private static final long serialVersionUID = 0L;
-    // Use TestResult.newBuilder() to construct.
-    private TestResult(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
-      super(builder);
-    }
-    private TestResult() {
-      status_ = 0;
-      message_ = "";
-    }
-
-    @java.lang.Override
-    public final com.google.protobuf.UnknownFieldSet
-    getUnknownFields() {
-      return this.unknownFields;
-    }
-    private TestResult(
-        com.google.protobuf.CodedInputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      this();
-      if (extensionRegistry == null) {
-        throw new java.lang.NullPointerException();
-      }
-      int mutable_bitField0_ = 0;
-      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
-          com.google.protobuf.UnknownFieldSet.newBuilder();
-      try {
-        boolean done = false;
-        while (!done) {
-          int tag = input.readTag();
-          switch (tag) {
-            case 0:
-              done = true;
-              break;
-            case 8: {
-              int rawValue = input.readEnum();
-
-              status_ = rawValue;
+              pickleId_ = s;
               break;
             }
             case 18: {
-              java.lang.String s = input.readStringRequireUtf8();
-
-              message_ = s;
-              break;
-            }
-            case 26: {
               com.google.protobuf.Timestamp.Builder subBuilder = null;
               if (timestamp_ != null) {
                 subBuilder = timestamp_.toBuilder();
@@ -32047,84 +32206,67 @@ public final class Messages {
     }
     public static final com.google.protobuf.Descriptors.Descriptor
         getDescriptor() {
-      return io.cucumber.messages.Messages.internal_static_io_cucumber_messages_TestResult_descriptor;
+      return io.cucumber.messages.Messages.internal_static_io_cucumber_messages_TestCaseStarted_descriptor;
     }
 
     @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
-      return io.cucumber.messages.Messages.internal_static_io_cucumber_messages_TestResult_fieldAccessorTable
+      return io.cucumber.messages.Messages.internal_static_io_cucumber_messages_TestCaseStarted_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
-              io.cucumber.messages.Messages.TestResult.class, io.cucumber.messages.Messages.TestResult.Builder.class);
+              io.cucumber.messages.Messages.TestCaseStarted.class, io.cucumber.messages.Messages.TestCaseStarted.Builder.class);
     }
 
-    public static final int STATUS_FIELD_NUMBER = 1;
-    private int status_;
+    public static final int PICKLEID_FIELD_NUMBER = 1;
+    private volatile java.lang.Object pickleId_;
     /**
-     * <code>.io.cucumber.messages.Status status = 1;</code>
+     * <code>string pickleId = 1;</code>
      */
-    public int getStatusValue() {
-      return status_;
-    }
-    /**
-     * <code>.io.cucumber.messages.Status status = 1;</code>
-     */
-    public io.cucumber.messages.Messages.Status getStatus() {
-      @SuppressWarnings("deprecation")
-      io.cucumber.messages.Messages.Status result = io.cucumber.messages.Messages.Status.valueOf(status_);
-      return result == null ? io.cucumber.messages.Messages.Status.UNRECOGNIZED : result;
-    }
-
-    public static final int MESSAGE_FIELD_NUMBER = 2;
-    private volatile java.lang.Object message_;
-    /**
-     * <code>string message = 2;</code>
-     */
-    public java.lang.String getMessage() {
-      java.lang.Object ref = message_;
+    public java.lang.String getPickleId() {
+      java.lang.Object ref = pickleId_;
       if (ref instanceof java.lang.String) {
         return (java.lang.String) ref;
       } else {
         com.google.protobuf.ByteString bs = 
             (com.google.protobuf.ByteString) ref;
         java.lang.String s = bs.toStringUtf8();
-        message_ = s;
+        pickleId_ = s;
         return s;
       }
     }
     /**
-     * <code>string message = 2;</code>
+     * <code>string pickleId = 1;</code>
      */
     public com.google.protobuf.ByteString
-        getMessageBytes() {
-      java.lang.Object ref = message_;
+        getPickleIdBytes() {
+      java.lang.Object ref = pickleId_;
       if (ref instanceof java.lang.String) {
         com.google.protobuf.ByteString b = 
             com.google.protobuf.ByteString.copyFromUtf8(
                 (java.lang.String) ref);
-        message_ = b;
+        pickleId_ = b;
         return b;
       } else {
         return (com.google.protobuf.ByteString) ref;
       }
     }
 
-    public static final int TIMESTAMP_FIELD_NUMBER = 3;
+    public static final int TIMESTAMP_FIELD_NUMBER = 2;
     private com.google.protobuf.Timestamp timestamp_;
     /**
-     * <code>.google.protobuf.Timestamp timestamp = 3;</code>
+     * <code>.google.protobuf.Timestamp timestamp = 2;</code>
      */
     public boolean hasTimestamp() {
       return timestamp_ != null;
     }
     /**
-     * <code>.google.protobuf.Timestamp timestamp = 3;</code>
+     * <code>.google.protobuf.Timestamp timestamp = 2;</code>
      */
     public com.google.protobuf.Timestamp getTimestamp() {
       return timestamp_ == null ? com.google.protobuf.Timestamp.getDefaultInstance() : timestamp_;
     }
     /**
-     * <code>.google.protobuf.Timestamp timestamp = 3;</code>
+     * <code>.google.protobuf.Timestamp timestamp = 2;</code>
      */
     public com.google.protobuf.TimestampOrBuilder getTimestampOrBuilder() {
       return getTimestamp();
@@ -32144,14 +32286,11 @@ public final class Messages {
     @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
-      if (status_ != io.cucumber.messages.Messages.Status.AMBIGUOUS.getNumber()) {
-        output.writeEnum(1, status_);
-      }
-      if (!getMessageBytes().isEmpty()) {
-        com.google.protobuf.GeneratedMessageV3.writeString(output, 2, message_);
+      if (!getPickleIdBytes().isEmpty()) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 1, pickleId_);
       }
       if (timestamp_ != null) {
-        output.writeMessage(3, getTimestamp());
+        output.writeMessage(2, getTimestamp());
       }
       unknownFields.writeTo(output);
     }
@@ -32162,16 +32301,12 @@ public final class Messages {
       if (size != -1) return size;
 
       size = 0;
-      if (status_ != io.cucumber.messages.Messages.Status.AMBIGUOUS.getNumber()) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeEnumSize(1, status_);
-      }
-      if (!getMessageBytes().isEmpty()) {
-        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(2, message_);
+      if (!getPickleIdBytes().isEmpty()) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(1, pickleId_);
       }
       if (timestamp_ != null) {
         size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(3, getTimestamp());
+          .computeMessageSize(2, getTimestamp());
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -32183,15 +32318,14 @@ public final class Messages {
       if (obj == this) {
        return true;
       }
-      if (!(obj instanceof io.cucumber.messages.Messages.TestResult)) {
+      if (!(obj instanceof io.cucumber.messages.Messages.TestCaseStarted)) {
         return super.equals(obj);
       }
-      io.cucumber.messages.Messages.TestResult other = (io.cucumber.messages.Messages.TestResult) obj;
+      io.cucumber.messages.Messages.TestCaseStarted other = (io.cucumber.messages.Messages.TestCaseStarted) obj;
 
       boolean result = true;
-      result = result && status_ == other.status_;
-      result = result && getMessage()
-          .equals(other.getMessage());
+      result = result && getPickleId()
+          .equals(other.getPickleId());
       result = result && (hasTimestamp() == other.hasTimestamp());
       if (hasTimestamp()) {
         result = result && getTimestamp()
@@ -32208,10 +32342,8 @@ public final class Messages {
       }
       int hash = 41;
       hash = (19 * hash) + getDescriptor().hashCode();
-      hash = (37 * hash) + STATUS_FIELD_NUMBER;
-      hash = (53 * hash) + status_;
-      hash = (37 * hash) + MESSAGE_FIELD_NUMBER;
-      hash = (53 * hash) + getMessage().hashCode();
+      hash = (37 * hash) + PICKLEID_FIELD_NUMBER;
+      hash = (53 * hash) + getPickleId().hashCode();
       if (hasTimestamp()) {
         hash = (37 * hash) + TIMESTAMP_FIELD_NUMBER;
         hash = (53 * hash) + getTimestamp().hashCode();
@@ -32221,69 +32353,69 @@ public final class Messages {
       return hash;
     }
 
-    public static io.cucumber.messages.Messages.TestResult parseFrom(
+    public static io.cucumber.messages.Messages.TestCaseStarted parseFrom(
         java.nio.ByteBuffer data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-    public static io.cucumber.messages.Messages.TestResult parseFrom(
+    public static io.cucumber.messages.Messages.TestCaseStarted parseFrom(
         java.nio.ByteBuffer data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-    public static io.cucumber.messages.Messages.TestResult parseFrom(
+    public static io.cucumber.messages.Messages.TestCaseStarted parseFrom(
         com.google.protobuf.ByteString data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-    public static io.cucumber.messages.Messages.TestResult parseFrom(
+    public static io.cucumber.messages.Messages.TestCaseStarted parseFrom(
         com.google.protobuf.ByteString data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-    public static io.cucumber.messages.Messages.TestResult parseFrom(byte[] data)
+    public static io.cucumber.messages.Messages.TestCaseStarted parseFrom(byte[] data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-    public static io.cucumber.messages.Messages.TestResult parseFrom(
+    public static io.cucumber.messages.Messages.TestCaseStarted parseFrom(
         byte[] data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-    public static io.cucumber.messages.Messages.TestResult parseFrom(java.io.InputStream input)
+    public static io.cucumber.messages.Messages.TestCaseStarted parseFrom(java.io.InputStream input)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseWithIOException(PARSER, input);
     }
-    public static io.cucumber.messages.Messages.TestResult parseFrom(
+    public static io.cucumber.messages.Messages.TestCaseStarted parseFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
-    public static io.cucumber.messages.Messages.TestResult parseDelimitedFrom(java.io.InputStream input)
+    public static io.cucumber.messages.Messages.TestCaseStarted parseDelimitedFrom(java.io.InputStream input)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseDelimitedWithIOException(PARSER, input);
     }
-    public static io.cucumber.messages.Messages.TestResult parseDelimitedFrom(
+    public static io.cucumber.messages.Messages.TestCaseStarted parseDelimitedFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
     }
-    public static io.cucumber.messages.Messages.TestResult parseFrom(
+    public static io.cucumber.messages.Messages.TestCaseStarted parseFrom(
         com.google.protobuf.CodedInputStream input)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseWithIOException(PARSER, input);
     }
-    public static io.cucumber.messages.Messages.TestResult parseFrom(
+    public static io.cucumber.messages.Messages.TestCaseStarted parseFrom(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
@@ -32296,7 +32428,7 @@ public final class Messages {
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
     }
-    public static Builder newBuilder(io.cucumber.messages.Messages.TestResult prototype) {
+    public static Builder newBuilder(io.cucumber.messages.Messages.TestCaseStarted prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
     @java.lang.Override
@@ -32312,26 +32444,26 @@ public final class Messages {
       return builder;
     }
     /**
-     * Protobuf type {@code io.cucumber.messages.TestResult}
+     * Protobuf type {@code io.cucumber.messages.TestCaseStarted}
      */
     public static final class Builder extends
         com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
-        // @@protoc_insertion_point(builder_implements:io.cucumber.messages.TestResult)
-        io.cucumber.messages.Messages.TestResultOrBuilder {
+        // @@protoc_insertion_point(builder_implements:io.cucumber.messages.TestCaseStarted)
+        io.cucumber.messages.Messages.TestCaseStartedOrBuilder {
       public static final com.google.protobuf.Descriptors.Descriptor
           getDescriptor() {
-        return io.cucumber.messages.Messages.internal_static_io_cucumber_messages_TestResult_descriptor;
+        return io.cucumber.messages.Messages.internal_static_io_cucumber_messages_TestCaseStarted_descriptor;
       }
 
       @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
-        return io.cucumber.messages.Messages.internal_static_io_cucumber_messages_TestResult_fieldAccessorTable
+        return io.cucumber.messages.Messages.internal_static_io_cucumber_messages_TestCaseStarted_fieldAccessorTable
             .ensureFieldAccessorsInitialized(
-                io.cucumber.messages.Messages.TestResult.class, io.cucumber.messages.Messages.TestResult.Builder.class);
+                io.cucumber.messages.Messages.TestCaseStarted.class, io.cucumber.messages.Messages.TestCaseStarted.Builder.class);
       }
 
-      // Construct using io.cucumber.messages.Messages.TestResult.newBuilder()
+      // Construct using io.cucumber.messages.Messages.TestCaseStarted.newBuilder()
       private Builder() {
         maybeForceBuilderInitialization();
       }
@@ -32349,9 +32481,7 @@ public final class Messages {
       @java.lang.Override
       public Builder clear() {
         super.clear();
-        status_ = 0;
-
-        message_ = "";
+        pickleId_ = "";
 
         if (timestampBuilder_ == null) {
           timestamp_ = null;
@@ -32365,17 +32495,17 @@ public final class Messages {
       @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
-        return io.cucumber.messages.Messages.internal_static_io_cucumber_messages_TestResult_descriptor;
+        return io.cucumber.messages.Messages.internal_static_io_cucumber_messages_TestCaseStarted_descriptor;
       }
 
       @java.lang.Override
-      public io.cucumber.messages.Messages.TestResult getDefaultInstanceForType() {
-        return io.cucumber.messages.Messages.TestResult.getDefaultInstance();
+      public io.cucumber.messages.Messages.TestCaseStarted getDefaultInstanceForType() {
+        return io.cucumber.messages.Messages.TestCaseStarted.getDefaultInstance();
       }
 
       @java.lang.Override
-      public io.cucumber.messages.Messages.TestResult build() {
-        io.cucumber.messages.Messages.TestResult result = buildPartial();
+      public io.cucumber.messages.Messages.TestCaseStarted build() {
+        io.cucumber.messages.Messages.TestCaseStarted result = buildPartial();
         if (!result.isInitialized()) {
           throw newUninitializedMessageException(result);
         }
@@ -32383,10 +32513,9 @@ public final class Messages {
       }
 
       @java.lang.Override
-      public io.cucumber.messages.Messages.TestResult buildPartial() {
-        io.cucumber.messages.Messages.TestResult result = new io.cucumber.messages.Messages.TestResult(this);
-        result.status_ = status_;
-        result.message_ = message_;
+      public io.cucumber.messages.Messages.TestCaseStarted buildPartial() {
+        io.cucumber.messages.Messages.TestCaseStarted result = new io.cucumber.messages.Messages.TestCaseStarted(this);
+        result.pickleId_ = pickleId_;
         if (timestampBuilder_ == null) {
           result.timestamp_ = timestamp_;
         } else {
@@ -32430,21 +32559,18 @@ public final class Messages {
       }
       @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
-        if (other instanceof io.cucumber.messages.Messages.TestResult) {
-          return mergeFrom((io.cucumber.messages.Messages.TestResult)other);
+        if (other instanceof io.cucumber.messages.Messages.TestCaseStarted) {
+          return mergeFrom((io.cucumber.messages.Messages.TestCaseStarted)other);
         } else {
           super.mergeFrom(other);
           return this;
         }
       }
 
-      public Builder mergeFrom(io.cucumber.messages.Messages.TestResult other) {
-        if (other == io.cucumber.messages.Messages.TestResult.getDefaultInstance()) return this;
-        if (other.status_ != 0) {
-          setStatusValue(other.getStatusValue());
-        }
-        if (!other.getMessage().isEmpty()) {
-          message_ = other.message_;
+      public Builder mergeFrom(io.cucumber.messages.Messages.TestCaseStarted other) {
+        if (other == io.cucumber.messages.Messages.TestCaseStarted.getDefaultInstance()) return this;
+        if (!other.getPickleId().isEmpty()) {
+          pickleId_ = other.pickleId_;
           onChanged();
         }
         if (other.hasTimestamp()) {
@@ -32465,11 +32591,11 @@ public final class Messages {
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws java.io.IOException {
-        io.cucumber.messages.Messages.TestResult parsedMessage = null;
+        io.cucumber.messages.Messages.TestCaseStarted parsedMessage = null;
         try {
           parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
         } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-          parsedMessage = (io.cucumber.messages.Messages.TestResult) e.getUnfinishedMessage();
+          parsedMessage = (io.cucumber.messages.Messages.TestCaseStarted) e.getUnfinishedMessage();
           throw e.unwrapIOException();
         } finally {
           if (parsedMessage != null) {
@@ -32479,116 +32605,1622 @@ public final class Messages {
         return this;
       }
 
-      private int status_ = 0;
+      private java.lang.Object pickleId_ = "";
       /**
-       * <code>.io.cucumber.messages.Status status = 1;</code>
+       * <code>string pickleId = 1;</code>
        */
-      public int getStatusValue() {
-        return status_;
-      }
-      /**
-       * <code>.io.cucumber.messages.Status status = 1;</code>
-       */
-      public Builder setStatusValue(int value) {
-        status_ = value;
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>.io.cucumber.messages.Status status = 1;</code>
-       */
-      public io.cucumber.messages.Messages.Status getStatus() {
-        @SuppressWarnings("deprecation")
-        io.cucumber.messages.Messages.Status result = io.cucumber.messages.Messages.Status.valueOf(status_);
-        return result == null ? io.cucumber.messages.Messages.Status.UNRECOGNIZED : result;
-      }
-      /**
-       * <code>.io.cucumber.messages.Status status = 1;</code>
-       */
-      public Builder setStatus(io.cucumber.messages.Messages.Status value) {
-        if (value == null) {
-          throw new NullPointerException();
-        }
-        
-        status_ = value.getNumber();
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>.io.cucumber.messages.Status status = 1;</code>
-       */
-      public Builder clearStatus() {
-        
-        status_ = 0;
-        onChanged();
-        return this;
-      }
-
-      private java.lang.Object message_ = "";
-      /**
-       * <code>string message = 2;</code>
-       */
-      public java.lang.String getMessage() {
-        java.lang.Object ref = message_;
+      public java.lang.String getPickleId() {
+        java.lang.Object ref = pickleId_;
         if (!(ref instanceof java.lang.String)) {
           com.google.protobuf.ByteString bs =
               (com.google.protobuf.ByteString) ref;
           java.lang.String s = bs.toStringUtf8();
-          message_ = s;
+          pickleId_ = s;
           return s;
         } else {
           return (java.lang.String) ref;
         }
       }
       /**
-       * <code>string message = 2;</code>
+       * <code>string pickleId = 1;</code>
        */
       public com.google.protobuf.ByteString
-          getMessageBytes() {
-        java.lang.Object ref = message_;
+          getPickleIdBytes() {
+        java.lang.Object ref = pickleId_;
         if (ref instanceof String) {
           com.google.protobuf.ByteString b = 
               com.google.protobuf.ByteString.copyFromUtf8(
                   (java.lang.String) ref);
-          message_ = b;
+          pickleId_ = b;
           return b;
         } else {
           return (com.google.protobuf.ByteString) ref;
         }
       }
       /**
-       * <code>string message = 2;</code>
+       * <code>string pickleId = 1;</code>
        */
-      public Builder setMessage(
+      public Builder setPickleId(
           java.lang.String value) {
         if (value == null) {
     throw new NullPointerException();
   }
   
-        message_ = value;
+        pickleId_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>string message = 2;</code>
+       * <code>string pickleId = 1;</code>
        */
-      public Builder clearMessage() {
+      public Builder clearPickleId() {
         
-        message_ = getDefaultInstance().getMessage();
+        pickleId_ = getDefaultInstance().getPickleId();
         onChanged();
         return this;
       }
       /**
-       * <code>string message = 2;</code>
+       * <code>string pickleId = 1;</code>
        */
-      public Builder setMessageBytes(
+      public Builder setPickleIdBytes(
           com.google.protobuf.ByteString value) {
         if (value == null) {
     throw new NullPointerException();
   }
   checkByteStringIsUtf8(value);
         
-        message_ = value;
+        pickleId_ = value;
+        onChanged();
+        return this;
+      }
+
+      private com.google.protobuf.Timestamp timestamp_ = null;
+      private com.google.protobuf.SingleFieldBuilderV3<
+          com.google.protobuf.Timestamp, com.google.protobuf.Timestamp.Builder, com.google.protobuf.TimestampOrBuilder> timestampBuilder_;
+      /**
+       * <code>.google.protobuf.Timestamp timestamp = 2;</code>
+       */
+      public boolean hasTimestamp() {
+        return timestampBuilder_ != null || timestamp_ != null;
+      }
+      /**
+       * <code>.google.protobuf.Timestamp timestamp = 2;</code>
+       */
+      public com.google.protobuf.Timestamp getTimestamp() {
+        if (timestampBuilder_ == null) {
+          return timestamp_ == null ? com.google.protobuf.Timestamp.getDefaultInstance() : timestamp_;
+        } else {
+          return timestampBuilder_.getMessage();
+        }
+      }
+      /**
+       * <code>.google.protobuf.Timestamp timestamp = 2;</code>
+       */
+      public Builder setTimestamp(com.google.protobuf.Timestamp value) {
+        if (timestampBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          timestamp_ = value;
+          onChanged();
+        } else {
+          timestampBuilder_.setMessage(value);
+        }
+
+        return this;
+      }
+      /**
+       * <code>.google.protobuf.Timestamp timestamp = 2;</code>
+       */
+      public Builder setTimestamp(
+          com.google.protobuf.Timestamp.Builder builderForValue) {
+        if (timestampBuilder_ == null) {
+          timestamp_ = builderForValue.build();
+          onChanged();
+        } else {
+          timestampBuilder_.setMessage(builderForValue.build());
+        }
+
+        return this;
+      }
+      /**
+       * <code>.google.protobuf.Timestamp timestamp = 2;</code>
+       */
+      public Builder mergeTimestamp(com.google.protobuf.Timestamp value) {
+        if (timestampBuilder_ == null) {
+          if (timestamp_ != null) {
+            timestamp_ =
+              com.google.protobuf.Timestamp.newBuilder(timestamp_).mergeFrom(value).buildPartial();
+          } else {
+            timestamp_ = value;
+          }
+          onChanged();
+        } else {
+          timestampBuilder_.mergeFrom(value);
+        }
+
+        return this;
+      }
+      /**
+       * <code>.google.protobuf.Timestamp timestamp = 2;</code>
+       */
+      public Builder clearTimestamp() {
+        if (timestampBuilder_ == null) {
+          timestamp_ = null;
+          onChanged();
+        } else {
+          timestamp_ = null;
+          timestampBuilder_ = null;
+        }
+
+        return this;
+      }
+      /**
+       * <code>.google.protobuf.Timestamp timestamp = 2;</code>
+       */
+      public com.google.protobuf.Timestamp.Builder getTimestampBuilder() {
+        
+        onChanged();
+        return getTimestampFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>.google.protobuf.Timestamp timestamp = 2;</code>
+       */
+      public com.google.protobuf.TimestampOrBuilder getTimestampOrBuilder() {
+        if (timestampBuilder_ != null) {
+          return timestampBuilder_.getMessageOrBuilder();
+        } else {
+          return timestamp_ == null ?
+              com.google.protobuf.Timestamp.getDefaultInstance() : timestamp_;
+        }
+      }
+      /**
+       * <code>.google.protobuf.Timestamp timestamp = 2;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilderV3<
+          com.google.protobuf.Timestamp, com.google.protobuf.Timestamp.Builder, com.google.protobuf.TimestampOrBuilder> 
+          getTimestampFieldBuilder() {
+        if (timestampBuilder_ == null) {
+          timestampBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
+              com.google.protobuf.Timestamp, com.google.protobuf.Timestamp.Builder, com.google.protobuf.TimestampOrBuilder>(
+                  getTimestamp(),
+                  getParentForChildren(),
+                  isClean());
+          timestamp_ = null;
+        }
+        return timestampBuilder_;
+      }
+      @java.lang.Override
+      public final Builder setUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.setUnknownFieldsProto3(unknownFields);
+      }
+
+      @java.lang.Override
+      public final Builder mergeUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.mergeUnknownFields(unknownFields);
+      }
+
+
+      // @@protoc_insertion_point(builder_scope:io.cucumber.messages.TestCaseStarted)
+    }
+
+    // @@protoc_insertion_point(class_scope:io.cucumber.messages.TestCaseStarted)
+    private static final io.cucumber.messages.Messages.TestCaseStarted DEFAULT_INSTANCE;
+    static {
+      DEFAULT_INSTANCE = new io.cucumber.messages.Messages.TestCaseStarted();
+    }
+
+    public static io.cucumber.messages.Messages.TestCaseStarted getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static final com.google.protobuf.Parser<TestCaseStarted>
+        PARSER = new com.google.protobuf.AbstractParser<TestCaseStarted>() {
+      @java.lang.Override
+      public TestCaseStarted parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new TestCaseStarted(input, extensionRegistry);
+      }
+    };
+
+    public static com.google.protobuf.Parser<TestCaseStarted> parser() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<TestCaseStarted> getParserForType() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public io.cucumber.messages.Messages.TestCaseStarted getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
+  }
+
+  public interface TestCaseFinishedOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:io.cucumber.messages.TestCaseFinished)
+      com.google.protobuf.MessageOrBuilder {
+
+    /**
+     * <code>string pickleId = 1;</code>
+     */
+    java.lang.String getPickleId();
+    /**
+     * <code>string pickleId = 1;</code>
+     */
+    com.google.protobuf.ByteString
+        getPickleIdBytes();
+
+    /**
+     * <code>.google.protobuf.Timestamp timestamp = 2;</code>
+     */
+    boolean hasTimestamp();
+    /**
+     * <code>.google.protobuf.Timestamp timestamp = 2;</code>
+     */
+    com.google.protobuf.Timestamp getTimestamp();
+    /**
+     * <code>.google.protobuf.Timestamp timestamp = 2;</code>
+     */
+    com.google.protobuf.TimestampOrBuilder getTimestampOrBuilder();
+  }
+  /**
+   * Protobuf type {@code io.cucumber.messages.TestCaseFinished}
+   */
+  public  static final class TestCaseFinished extends
+      com.google.protobuf.GeneratedMessageV3 implements
+      // @@protoc_insertion_point(message_implements:io.cucumber.messages.TestCaseFinished)
+      TestCaseFinishedOrBuilder {
+  private static final long serialVersionUID = 0L;
+    // Use TestCaseFinished.newBuilder() to construct.
+    private TestCaseFinished(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+      super(builder);
+    }
+    private TestCaseFinished() {
+      pickleId_ = "";
+    }
+
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+    getUnknownFields() {
+      return this.unknownFields;
+    }
+    private TestCaseFinished(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      this();
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            case 10: {
+              java.lang.String s = input.readStringRequireUtf8();
+
+              pickleId_ = s;
+              break;
+            }
+            case 18: {
+              com.google.protobuf.Timestamp.Builder subBuilder = null;
+              if (timestamp_ != null) {
+                subBuilder = timestamp_.toBuilder();
+              }
+              timestamp_ = input.readMessage(com.google.protobuf.Timestamp.parser(), extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom(timestamp_);
+                timestamp_ = subBuilder.buildPartial();
+              }
+
+              break;
+            }
+            default: {
+              if (!parseUnknownFieldProto3(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return io.cucumber.messages.Messages.internal_static_io_cucumber_messages_TestCaseFinished_descriptor;
+    }
+
+    @java.lang.Override
+    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return io.cucumber.messages.Messages.internal_static_io_cucumber_messages_TestCaseFinished_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              io.cucumber.messages.Messages.TestCaseFinished.class, io.cucumber.messages.Messages.TestCaseFinished.Builder.class);
+    }
+
+    public static final int PICKLEID_FIELD_NUMBER = 1;
+    private volatile java.lang.Object pickleId_;
+    /**
+     * <code>string pickleId = 1;</code>
+     */
+    public java.lang.String getPickleId() {
+      java.lang.Object ref = pickleId_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        pickleId_ = s;
+        return s;
+      }
+    }
+    /**
+     * <code>string pickleId = 1;</code>
+     */
+    public com.google.protobuf.ByteString
+        getPickleIdBytes() {
+      java.lang.Object ref = pickleId_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        pickleId_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    public static final int TIMESTAMP_FIELD_NUMBER = 2;
+    private com.google.protobuf.Timestamp timestamp_;
+    /**
+     * <code>.google.protobuf.Timestamp timestamp = 2;</code>
+     */
+    public boolean hasTimestamp() {
+      return timestamp_ != null;
+    }
+    /**
+     * <code>.google.protobuf.Timestamp timestamp = 2;</code>
+     */
+    public com.google.protobuf.Timestamp getTimestamp() {
+      return timestamp_ == null ? com.google.protobuf.Timestamp.getDefaultInstance() : timestamp_;
+    }
+    /**
+     * <code>.google.protobuf.Timestamp timestamp = 2;</code>
+     */
+    public com.google.protobuf.TimestampOrBuilder getTimestampOrBuilder() {
+      return getTimestamp();
+    }
+
+    private byte memoizedIsInitialized = -1;
+    @java.lang.Override
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    @java.lang.Override
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      if (!getPickleIdBytes().isEmpty()) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 1, pickleId_);
+      }
+      if (timestamp_ != null) {
+        output.writeMessage(2, getTimestamp());
+      }
+      unknownFields.writeTo(output);
+    }
+
+    @java.lang.Override
+    public int getSerializedSize() {
+      int size = memoizedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (!getPickleIdBytes().isEmpty()) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(1, pickleId_);
+      }
+      if (timestamp_ != null) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(2, getTimestamp());
+      }
+      size += unknownFields.getSerializedSize();
+      memoizedSize = size;
+      return size;
+    }
+
+    @java.lang.Override
+    public boolean equals(final java.lang.Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof io.cucumber.messages.Messages.TestCaseFinished)) {
+        return super.equals(obj);
+      }
+      io.cucumber.messages.Messages.TestCaseFinished other = (io.cucumber.messages.Messages.TestCaseFinished) obj;
+
+      boolean result = true;
+      result = result && getPickleId()
+          .equals(other.getPickleId());
+      result = result && (hasTimestamp() == other.hasTimestamp());
+      if (hasTimestamp()) {
+        result = result && getTimestamp()
+            .equals(other.getTimestamp());
+      }
+      result = result && unknownFields.equals(other.unknownFields);
+      return result;
+    }
+
+    @java.lang.Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptor().hashCode();
+      hash = (37 * hash) + PICKLEID_FIELD_NUMBER;
+      hash = (53 * hash) + getPickleId().hashCode();
+      if (hasTimestamp()) {
+        hash = (37 * hash) + TIMESTAMP_FIELD_NUMBER;
+        hash = (53 * hash) + getTimestamp().hashCode();
+      }
+      hash = (29 * hash) + unknownFields.hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    public static io.cucumber.messages.Messages.TestCaseFinished parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static io.cucumber.messages.Messages.TestCaseFinished parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static io.cucumber.messages.Messages.TestCaseFinished parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static io.cucumber.messages.Messages.TestCaseFinished parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static io.cucumber.messages.Messages.TestCaseFinished parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static io.cucumber.messages.Messages.TestCaseFinished parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static io.cucumber.messages.Messages.TestCaseFinished parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static io.cucumber.messages.Messages.TestCaseFinished parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static io.cucumber.messages.Messages.TestCaseFinished parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input);
+    }
+    public static io.cucumber.messages.Messages.TestCaseFinished parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static io.cucumber.messages.Messages.TestCaseFinished parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static io.cucumber.messages.Messages.TestCaseFinished parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    @java.lang.Override
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
+    }
+    public static Builder newBuilder(io.cucumber.messages.Messages.TestCaseFinished prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    @java.lang.Override
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code io.cucumber.messages.TestCaseFinished}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:io.cucumber.messages.TestCaseFinished)
+        io.cucumber.messages.Messages.TestCaseFinishedOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return io.cucumber.messages.Messages.internal_static_io_cucumber_messages_TestCaseFinished_descriptor;
+      }
+
+      @java.lang.Override
+      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return io.cucumber.messages.Messages.internal_static_io_cucumber_messages_TestCaseFinished_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                io.cucumber.messages.Messages.TestCaseFinished.class, io.cucumber.messages.Messages.TestCaseFinished.Builder.class);
+      }
+
+      // Construct using io.cucumber.messages.Messages.TestCaseFinished.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessageV3
+                .alwaysUseFieldBuilders) {
+        }
+      }
+      @java.lang.Override
+      public Builder clear() {
+        super.clear();
+        pickleId_ = "";
+
+        if (timestampBuilder_ == null) {
+          timestamp_ = null;
+        } else {
+          timestamp_ = null;
+          timestampBuilder_ = null;
+        }
+        return this;
+      }
+
+      @java.lang.Override
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return io.cucumber.messages.Messages.internal_static_io_cucumber_messages_TestCaseFinished_descriptor;
+      }
+
+      @java.lang.Override
+      public io.cucumber.messages.Messages.TestCaseFinished getDefaultInstanceForType() {
+        return io.cucumber.messages.Messages.TestCaseFinished.getDefaultInstance();
+      }
+
+      @java.lang.Override
+      public io.cucumber.messages.Messages.TestCaseFinished build() {
+        io.cucumber.messages.Messages.TestCaseFinished result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      @java.lang.Override
+      public io.cucumber.messages.Messages.TestCaseFinished buildPartial() {
+        io.cucumber.messages.Messages.TestCaseFinished result = new io.cucumber.messages.Messages.TestCaseFinished(this);
+        result.pickleId_ = pickleId_;
+        if (timestampBuilder_ == null) {
+          result.timestamp_ = timestamp_;
+        } else {
+          result.timestamp_ = timestampBuilder_.build();
+        }
+        onBuilt();
+        return result;
+      }
+
+      @java.lang.Override
+      public Builder clone() {
+        return (Builder) super.clone();
+      }
+      @java.lang.Override
+      public Builder setField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return (Builder) super.setField(field, value);
+      }
+      @java.lang.Override
+      public Builder clearField(
+          com.google.protobuf.Descriptors.FieldDescriptor field) {
+        return (Builder) super.clearField(field);
+      }
+      @java.lang.Override
+      public Builder clearOneof(
+          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+        return (Builder) super.clearOneof(oneof);
+      }
+      @java.lang.Override
+      public Builder setRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          int index, java.lang.Object value) {
+        return (Builder) super.setRepeatedField(field, index, value);
+      }
+      @java.lang.Override
+      public Builder addRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return (Builder) super.addRepeatedField(field, value);
+      }
+      @java.lang.Override
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof io.cucumber.messages.Messages.TestCaseFinished) {
+          return mergeFrom((io.cucumber.messages.Messages.TestCaseFinished)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(io.cucumber.messages.Messages.TestCaseFinished other) {
+        if (other == io.cucumber.messages.Messages.TestCaseFinished.getDefaultInstance()) return this;
+        if (!other.getPickleId().isEmpty()) {
+          pickleId_ = other.pickleId_;
+          onChanged();
+        }
+        if (other.hasTimestamp()) {
+          mergeTimestamp(other.getTimestamp());
+        }
+        this.mergeUnknownFields(other.unknownFields);
+        onChanged();
+        return this;
+      }
+
+      @java.lang.Override
+      public final boolean isInitialized() {
+        return true;
+      }
+
+      @java.lang.Override
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        io.cucumber.messages.Messages.TestCaseFinished parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (io.cucumber.messages.Messages.TestCaseFinished) e.getUnfinishedMessage();
+          throw e.unwrapIOException();
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+
+      private java.lang.Object pickleId_ = "";
+      /**
+       * <code>string pickleId = 1;</code>
+       */
+      public java.lang.String getPickleId() {
+        java.lang.Object ref = pickleId_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          pickleId_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>string pickleId = 1;</code>
+       */
+      public com.google.protobuf.ByteString
+          getPickleIdBytes() {
+        java.lang.Object ref = pickleId_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          pickleId_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>string pickleId = 1;</code>
+       */
+      public Builder setPickleId(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  
+        pickleId_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string pickleId = 1;</code>
+       */
+      public Builder clearPickleId() {
+        
+        pickleId_ = getDefaultInstance().getPickleId();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string pickleId = 1;</code>
+       */
+      public Builder setPickleIdBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+        
+        pickleId_ = value;
+        onChanged();
+        return this;
+      }
+
+      private com.google.protobuf.Timestamp timestamp_ = null;
+      private com.google.protobuf.SingleFieldBuilderV3<
+          com.google.protobuf.Timestamp, com.google.protobuf.Timestamp.Builder, com.google.protobuf.TimestampOrBuilder> timestampBuilder_;
+      /**
+       * <code>.google.protobuf.Timestamp timestamp = 2;</code>
+       */
+      public boolean hasTimestamp() {
+        return timestampBuilder_ != null || timestamp_ != null;
+      }
+      /**
+       * <code>.google.protobuf.Timestamp timestamp = 2;</code>
+       */
+      public com.google.protobuf.Timestamp getTimestamp() {
+        if (timestampBuilder_ == null) {
+          return timestamp_ == null ? com.google.protobuf.Timestamp.getDefaultInstance() : timestamp_;
+        } else {
+          return timestampBuilder_.getMessage();
+        }
+      }
+      /**
+       * <code>.google.protobuf.Timestamp timestamp = 2;</code>
+       */
+      public Builder setTimestamp(com.google.protobuf.Timestamp value) {
+        if (timestampBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          timestamp_ = value;
+          onChanged();
+        } else {
+          timestampBuilder_.setMessage(value);
+        }
+
+        return this;
+      }
+      /**
+       * <code>.google.protobuf.Timestamp timestamp = 2;</code>
+       */
+      public Builder setTimestamp(
+          com.google.protobuf.Timestamp.Builder builderForValue) {
+        if (timestampBuilder_ == null) {
+          timestamp_ = builderForValue.build();
+          onChanged();
+        } else {
+          timestampBuilder_.setMessage(builderForValue.build());
+        }
+
+        return this;
+      }
+      /**
+       * <code>.google.protobuf.Timestamp timestamp = 2;</code>
+       */
+      public Builder mergeTimestamp(com.google.protobuf.Timestamp value) {
+        if (timestampBuilder_ == null) {
+          if (timestamp_ != null) {
+            timestamp_ =
+              com.google.protobuf.Timestamp.newBuilder(timestamp_).mergeFrom(value).buildPartial();
+          } else {
+            timestamp_ = value;
+          }
+          onChanged();
+        } else {
+          timestampBuilder_.mergeFrom(value);
+        }
+
+        return this;
+      }
+      /**
+       * <code>.google.protobuf.Timestamp timestamp = 2;</code>
+       */
+      public Builder clearTimestamp() {
+        if (timestampBuilder_ == null) {
+          timestamp_ = null;
+          onChanged();
+        } else {
+          timestamp_ = null;
+          timestampBuilder_ = null;
+        }
+
+        return this;
+      }
+      /**
+       * <code>.google.protobuf.Timestamp timestamp = 2;</code>
+       */
+      public com.google.protobuf.Timestamp.Builder getTimestampBuilder() {
+        
+        onChanged();
+        return getTimestampFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>.google.protobuf.Timestamp timestamp = 2;</code>
+       */
+      public com.google.protobuf.TimestampOrBuilder getTimestampOrBuilder() {
+        if (timestampBuilder_ != null) {
+          return timestampBuilder_.getMessageOrBuilder();
+        } else {
+          return timestamp_ == null ?
+              com.google.protobuf.Timestamp.getDefaultInstance() : timestamp_;
+        }
+      }
+      /**
+       * <code>.google.protobuf.Timestamp timestamp = 2;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilderV3<
+          com.google.protobuf.Timestamp, com.google.protobuf.Timestamp.Builder, com.google.protobuf.TimestampOrBuilder> 
+          getTimestampFieldBuilder() {
+        if (timestampBuilder_ == null) {
+          timestampBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
+              com.google.protobuf.Timestamp, com.google.protobuf.Timestamp.Builder, com.google.protobuf.TimestampOrBuilder>(
+                  getTimestamp(),
+                  getParentForChildren(),
+                  isClean());
+          timestamp_ = null;
+        }
+        return timestampBuilder_;
+      }
+      @java.lang.Override
+      public final Builder setUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.setUnknownFieldsProto3(unknownFields);
+      }
+
+      @java.lang.Override
+      public final Builder mergeUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.mergeUnknownFields(unknownFields);
+      }
+
+
+      // @@protoc_insertion_point(builder_scope:io.cucumber.messages.TestCaseFinished)
+    }
+
+    // @@protoc_insertion_point(class_scope:io.cucumber.messages.TestCaseFinished)
+    private static final io.cucumber.messages.Messages.TestCaseFinished DEFAULT_INSTANCE;
+    static {
+      DEFAULT_INSTANCE = new io.cucumber.messages.Messages.TestCaseFinished();
+    }
+
+    public static io.cucumber.messages.Messages.TestCaseFinished getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static final com.google.protobuf.Parser<TestCaseFinished>
+        PARSER = new com.google.protobuf.AbstractParser<TestCaseFinished>() {
+      @java.lang.Override
+      public TestCaseFinished parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new TestCaseFinished(input, extensionRegistry);
+      }
+    };
+
+    public static com.google.protobuf.Parser<TestCaseFinished> parser() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<TestCaseFinished> getParserForType() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public io.cucumber.messages.Messages.TestCaseFinished getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
+  }
+
+  public interface TestStepStartedOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:io.cucumber.messages.TestStepStarted)
+      com.google.protobuf.MessageOrBuilder {
+
+    /**
+     * <code>string pickleId = 1;</code>
+     */
+    java.lang.String getPickleId();
+    /**
+     * <code>string pickleId = 1;</code>
+     */
+    com.google.protobuf.ByteString
+        getPickleIdBytes();
+
+    /**
+     * <code>uint32 index = 2;</code>
+     */
+    int getIndex();
+
+    /**
+     * <code>.google.protobuf.Timestamp timestamp = 3;</code>
+     */
+    boolean hasTimestamp();
+    /**
+     * <code>.google.protobuf.Timestamp timestamp = 3;</code>
+     */
+    com.google.protobuf.Timestamp getTimestamp();
+    /**
+     * <code>.google.protobuf.Timestamp timestamp = 3;</code>
+     */
+    com.google.protobuf.TimestampOrBuilder getTimestampOrBuilder();
+  }
+  /**
+   * Protobuf type {@code io.cucumber.messages.TestStepStarted}
+   */
+  public  static final class TestStepStarted extends
+      com.google.protobuf.GeneratedMessageV3 implements
+      // @@protoc_insertion_point(message_implements:io.cucumber.messages.TestStepStarted)
+      TestStepStartedOrBuilder {
+  private static final long serialVersionUID = 0L;
+    // Use TestStepStarted.newBuilder() to construct.
+    private TestStepStarted(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+      super(builder);
+    }
+    private TestStepStarted() {
+      pickleId_ = "";
+      index_ = 0;
+    }
+
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+    getUnknownFields() {
+      return this.unknownFields;
+    }
+    private TestStepStarted(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      this();
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            case 10: {
+              java.lang.String s = input.readStringRequireUtf8();
+
+              pickleId_ = s;
+              break;
+            }
+            case 16: {
+
+              index_ = input.readUInt32();
+              break;
+            }
+            case 26: {
+              com.google.protobuf.Timestamp.Builder subBuilder = null;
+              if (timestamp_ != null) {
+                subBuilder = timestamp_.toBuilder();
+              }
+              timestamp_ = input.readMessage(com.google.protobuf.Timestamp.parser(), extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom(timestamp_);
+                timestamp_ = subBuilder.buildPartial();
+              }
+
+              break;
+            }
+            default: {
+              if (!parseUnknownFieldProto3(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return io.cucumber.messages.Messages.internal_static_io_cucumber_messages_TestStepStarted_descriptor;
+    }
+
+    @java.lang.Override
+    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return io.cucumber.messages.Messages.internal_static_io_cucumber_messages_TestStepStarted_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              io.cucumber.messages.Messages.TestStepStarted.class, io.cucumber.messages.Messages.TestStepStarted.Builder.class);
+    }
+
+    public static final int PICKLEID_FIELD_NUMBER = 1;
+    private volatile java.lang.Object pickleId_;
+    /**
+     * <code>string pickleId = 1;</code>
+     */
+    public java.lang.String getPickleId() {
+      java.lang.Object ref = pickleId_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        pickleId_ = s;
+        return s;
+      }
+    }
+    /**
+     * <code>string pickleId = 1;</code>
+     */
+    public com.google.protobuf.ByteString
+        getPickleIdBytes() {
+      java.lang.Object ref = pickleId_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        pickleId_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    public static final int INDEX_FIELD_NUMBER = 2;
+    private int index_;
+    /**
+     * <code>uint32 index = 2;</code>
+     */
+    public int getIndex() {
+      return index_;
+    }
+
+    public static final int TIMESTAMP_FIELD_NUMBER = 3;
+    private com.google.protobuf.Timestamp timestamp_;
+    /**
+     * <code>.google.protobuf.Timestamp timestamp = 3;</code>
+     */
+    public boolean hasTimestamp() {
+      return timestamp_ != null;
+    }
+    /**
+     * <code>.google.protobuf.Timestamp timestamp = 3;</code>
+     */
+    public com.google.protobuf.Timestamp getTimestamp() {
+      return timestamp_ == null ? com.google.protobuf.Timestamp.getDefaultInstance() : timestamp_;
+    }
+    /**
+     * <code>.google.protobuf.Timestamp timestamp = 3;</code>
+     */
+    public com.google.protobuf.TimestampOrBuilder getTimestampOrBuilder() {
+      return getTimestamp();
+    }
+
+    private byte memoizedIsInitialized = -1;
+    @java.lang.Override
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    @java.lang.Override
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      if (!getPickleIdBytes().isEmpty()) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 1, pickleId_);
+      }
+      if (index_ != 0) {
+        output.writeUInt32(2, index_);
+      }
+      if (timestamp_ != null) {
+        output.writeMessage(3, getTimestamp());
+      }
+      unknownFields.writeTo(output);
+    }
+
+    @java.lang.Override
+    public int getSerializedSize() {
+      int size = memoizedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (!getPickleIdBytes().isEmpty()) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(1, pickleId_);
+      }
+      if (index_ != 0) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeUInt32Size(2, index_);
+      }
+      if (timestamp_ != null) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(3, getTimestamp());
+      }
+      size += unknownFields.getSerializedSize();
+      memoizedSize = size;
+      return size;
+    }
+
+    @java.lang.Override
+    public boolean equals(final java.lang.Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof io.cucumber.messages.Messages.TestStepStarted)) {
+        return super.equals(obj);
+      }
+      io.cucumber.messages.Messages.TestStepStarted other = (io.cucumber.messages.Messages.TestStepStarted) obj;
+
+      boolean result = true;
+      result = result && getPickleId()
+          .equals(other.getPickleId());
+      result = result && (getIndex()
+          == other.getIndex());
+      result = result && (hasTimestamp() == other.hasTimestamp());
+      if (hasTimestamp()) {
+        result = result && getTimestamp()
+            .equals(other.getTimestamp());
+      }
+      result = result && unknownFields.equals(other.unknownFields);
+      return result;
+    }
+
+    @java.lang.Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptor().hashCode();
+      hash = (37 * hash) + PICKLEID_FIELD_NUMBER;
+      hash = (53 * hash) + getPickleId().hashCode();
+      hash = (37 * hash) + INDEX_FIELD_NUMBER;
+      hash = (53 * hash) + getIndex();
+      if (hasTimestamp()) {
+        hash = (37 * hash) + TIMESTAMP_FIELD_NUMBER;
+        hash = (53 * hash) + getTimestamp().hashCode();
+      }
+      hash = (29 * hash) + unknownFields.hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    public static io.cucumber.messages.Messages.TestStepStarted parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static io.cucumber.messages.Messages.TestStepStarted parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static io.cucumber.messages.Messages.TestStepStarted parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static io.cucumber.messages.Messages.TestStepStarted parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static io.cucumber.messages.Messages.TestStepStarted parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static io.cucumber.messages.Messages.TestStepStarted parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static io.cucumber.messages.Messages.TestStepStarted parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static io.cucumber.messages.Messages.TestStepStarted parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static io.cucumber.messages.Messages.TestStepStarted parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input);
+    }
+    public static io.cucumber.messages.Messages.TestStepStarted parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static io.cucumber.messages.Messages.TestStepStarted parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static io.cucumber.messages.Messages.TestStepStarted parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    @java.lang.Override
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
+    }
+    public static Builder newBuilder(io.cucumber.messages.Messages.TestStepStarted prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    @java.lang.Override
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code io.cucumber.messages.TestStepStarted}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:io.cucumber.messages.TestStepStarted)
+        io.cucumber.messages.Messages.TestStepStartedOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return io.cucumber.messages.Messages.internal_static_io_cucumber_messages_TestStepStarted_descriptor;
+      }
+
+      @java.lang.Override
+      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return io.cucumber.messages.Messages.internal_static_io_cucumber_messages_TestStepStarted_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                io.cucumber.messages.Messages.TestStepStarted.class, io.cucumber.messages.Messages.TestStepStarted.Builder.class);
+      }
+
+      // Construct using io.cucumber.messages.Messages.TestStepStarted.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessageV3
+                .alwaysUseFieldBuilders) {
+        }
+      }
+      @java.lang.Override
+      public Builder clear() {
+        super.clear();
+        pickleId_ = "";
+
+        index_ = 0;
+
+        if (timestampBuilder_ == null) {
+          timestamp_ = null;
+        } else {
+          timestamp_ = null;
+          timestampBuilder_ = null;
+        }
+        return this;
+      }
+
+      @java.lang.Override
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return io.cucumber.messages.Messages.internal_static_io_cucumber_messages_TestStepStarted_descriptor;
+      }
+
+      @java.lang.Override
+      public io.cucumber.messages.Messages.TestStepStarted getDefaultInstanceForType() {
+        return io.cucumber.messages.Messages.TestStepStarted.getDefaultInstance();
+      }
+
+      @java.lang.Override
+      public io.cucumber.messages.Messages.TestStepStarted build() {
+        io.cucumber.messages.Messages.TestStepStarted result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      @java.lang.Override
+      public io.cucumber.messages.Messages.TestStepStarted buildPartial() {
+        io.cucumber.messages.Messages.TestStepStarted result = new io.cucumber.messages.Messages.TestStepStarted(this);
+        result.pickleId_ = pickleId_;
+        result.index_ = index_;
+        if (timestampBuilder_ == null) {
+          result.timestamp_ = timestamp_;
+        } else {
+          result.timestamp_ = timestampBuilder_.build();
+        }
+        onBuilt();
+        return result;
+      }
+
+      @java.lang.Override
+      public Builder clone() {
+        return (Builder) super.clone();
+      }
+      @java.lang.Override
+      public Builder setField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return (Builder) super.setField(field, value);
+      }
+      @java.lang.Override
+      public Builder clearField(
+          com.google.protobuf.Descriptors.FieldDescriptor field) {
+        return (Builder) super.clearField(field);
+      }
+      @java.lang.Override
+      public Builder clearOneof(
+          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+        return (Builder) super.clearOneof(oneof);
+      }
+      @java.lang.Override
+      public Builder setRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          int index, java.lang.Object value) {
+        return (Builder) super.setRepeatedField(field, index, value);
+      }
+      @java.lang.Override
+      public Builder addRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return (Builder) super.addRepeatedField(field, value);
+      }
+      @java.lang.Override
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof io.cucumber.messages.Messages.TestStepStarted) {
+          return mergeFrom((io.cucumber.messages.Messages.TestStepStarted)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(io.cucumber.messages.Messages.TestStepStarted other) {
+        if (other == io.cucumber.messages.Messages.TestStepStarted.getDefaultInstance()) return this;
+        if (!other.getPickleId().isEmpty()) {
+          pickleId_ = other.pickleId_;
+          onChanged();
+        }
+        if (other.getIndex() != 0) {
+          setIndex(other.getIndex());
+        }
+        if (other.hasTimestamp()) {
+          mergeTimestamp(other.getTimestamp());
+        }
+        this.mergeUnknownFields(other.unknownFields);
+        onChanged();
+        return this;
+      }
+
+      @java.lang.Override
+      public final boolean isInitialized() {
+        return true;
+      }
+
+      @java.lang.Override
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        io.cucumber.messages.Messages.TestStepStarted parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (io.cucumber.messages.Messages.TestStepStarted) e.getUnfinishedMessage();
+          throw e.unwrapIOException();
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+
+      private java.lang.Object pickleId_ = "";
+      /**
+       * <code>string pickleId = 1;</code>
+       */
+      public java.lang.String getPickleId() {
+        java.lang.Object ref = pickleId_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          pickleId_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>string pickleId = 1;</code>
+       */
+      public com.google.protobuf.ByteString
+          getPickleIdBytes() {
+        java.lang.Object ref = pickleId_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          pickleId_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>string pickleId = 1;</code>
+       */
+      public Builder setPickleId(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  
+        pickleId_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string pickleId = 1;</code>
+       */
+      public Builder clearPickleId() {
+        
+        pickleId_ = getDefaultInstance().getPickleId();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string pickleId = 1;</code>
+       */
+      public Builder setPickleIdBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+        
+        pickleId_ = value;
+        onChanged();
+        return this;
+      }
+
+      private int index_ ;
+      /**
+       * <code>uint32 index = 2;</code>
+       */
+      public int getIndex() {
+        return index_;
+      }
+      /**
+       * <code>uint32 index = 2;</code>
+       */
+      public Builder setIndex(int value) {
+        
+        index_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>uint32 index = 2;</code>
+       */
+      public Builder clearIndex() {
+        
+        index_ = 0;
         onChanged();
         return this;
       }
@@ -32722,41 +34354,41 @@ public final class Messages {
       }
 
 
-      // @@protoc_insertion_point(builder_scope:io.cucumber.messages.TestResult)
+      // @@protoc_insertion_point(builder_scope:io.cucumber.messages.TestStepStarted)
     }
 
-    // @@protoc_insertion_point(class_scope:io.cucumber.messages.TestResult)
-    private static final io.cucumber.messages.Messages.TestResult DEFAULT_INSTANCE;
+    // @@protoc_insertion_point(class_scope:io.cucumber.messages.TestStepStarted)
+    private static final io.cucumber.messages.Messages.TestStepStarted DEFAULT_INSTANCE;
     static {
-      DEFAULT_INSTANCE = new io.cucumber.messages.Messages.TestResult();
+      DEFAULT_INSTANCE = new io.cucumber.messages.Messages.TestStepStarted();
     }
 
-    public static io.cucumber.messages.Messages.TestResult getDefaultInstance() {
+    public static io.cucumber.messages.Messages.TestStepStarted getDefaultInstance() {
       return DEFAULT_INSTANCE;
     }
 
-    private static final com.google.protobuf.Parser<TestResult>
-        PARSER = new com.google.protobuf.AbstractParser<TestResult>() {
+    private static final com.google.protobuf.Parser<TestStepStarted>
+        PARSER = new com.google.protobuf.AbstractParser<TestStepStarted>() {
       @java.lang.Override
-      public TestResult parsePartialFrom(
+      public TestStepStarted parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-        return new TestResult(input, extensionRegistry);
+        return new TestStepStarted(input, extensionRegistry);
       }
     };
 
-    public static com.google.protobuf.Parser<TestResult> parser() {
+    public static com.google.protobuf.Parser<TestStepStarted> parser() {
       return PARSER;
     }
 
     @java.lang.Override
-    public com.google.protobuf.Parser<TestResult> getParserForType() {
+    public com.google.protobuf.Parser<TestStepStarted> getParserForType() {
       return PARSER;
     }
 
     @java.lang.Override
-    public io.cucumber.messages.Messages.TestResult getDefaultInstanceForType() {
+    public io.cucumber.messages.Messages.TestStepStarted getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
 
@@ -32767,17 +34399,14 @@ public final class Messages {
       com.google.protobuf.MessageOrBuilder {
 
     /**
-     * <code>.io.cucumber.messages.TestCase testCase = 1;</code>
+     * <code>string pickleId = 1;</code>
      */
-    boolean hasTestCase();
+    java.lang.String getPickleId();
     /**
-     * <code>.io.cucumber.messages.TestCase testCase = 1;</code>
+     * <code>string pickleId = 1;</code>
      */
-    io.cucumber.messages.Messages.TestCase getTestCase();
-    /**
-     * <code>.io.cucumber.messages.TestCase testCase = 1;</code>
-     */
-    io.cucumber.messages.Messages.TestCaseOrBuilder getTestCaseOrBuilder();
+    com.google.protobuf.ByteString
+        getPickleIdBytes();
 
     /**
      * <code>uint32 index = 2;</code>
@@ -32796,6 +34425,19 @@ public final class Messages {
      * <code>.io.cucumber.messages.TestResult testResult = 3;</code>
      */
     io.cucumber.messages.Messages.TestResultOrBuilder getTestResultOrBuilder();
+
+    /**
+     * <code>.google.protobuf.Timestamp timestamp = 4;</code>
+     */
+    boolean hasTimestamp();
+    /**
+     * <code>.google.protobuf.Timestamp timestamp = 4;</code>
+     */
+    com.google.protobuf.Timestamp getTimestamp();
+    /**
+     * <code>.google.protobuf.Timestamp timestamp = 4;</code>
+     */
+    com.google.protobuf.TimestampOrBuilder getTimestampOrBuilder();
   }
   /**
    * Protobuf type {@code io.cucumber.messages.TestStepFinished}
@@ -32810,6 +34452,7 @@ public final class Messages {
       super(builder);
     }
     private TestStepFinished() {
+      pickleId_ = "";
       index_ = 0;
     }
 
@@ -32838,16 +34481,9 @@ public final class Messages {
               done = true;
               break;
             case 10: {
-              io.cucumber.messages.Messages.TestCase.Builder subBuilder = null;
-              if (testCase_ != null) {
-                subBuilder = testCase_.toBuilder();
-              }
-              testCase_ = input.readMessage(io.cucumber.messages.Messages.TestCase.parser(), extensionRegistry);
-              if (subBuilder != null) {
-                subBuilder.mergeFrom(testCase_);
-                testCase_ = subBuilder.buildPartial();
-              }
+              java.lang.String s = input.readStringRequireUtf8();
 
+              pickleId_ = s;
               break;
             }
             case 16: {
@@ -32864,6 +34500,19 @@ public final class Messages {
               if (subBuilder != null) {
                 subBuilder.mergeFrom(testResult_);
                 testResult_ = subBuilder.buildPartial();
+              }
+
+              break;
+            }
+            case 34: {
+              com.google.protobuf.Timestamp.Builder subBuilder = null;
+              if (timestamp_ != null) {
+                subBuilder = timestamp_.toBuilder();
+              }
+              timestamp_ = input.readMessage(com.google.protobuf.Timestamp.parser(), extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom(timestamp_);
+                timestamp_ = subBuilder.buildPartial();
               }
 
               break;
@@ -32900,25 +34549,38 @@ public final class Messages {
               io.cucumber.messages.Messages.TestStepFinished.class, io.cucumber.messages.Messages.TestStepFinished.Builder.class);
     }
 
-    public static final int TESTCASE_FIELD_NUMBER = 1;
-    private io.cucumber.messages.Messages.TestCase testCase_;
+    public static final int PICKLEID_FIELD_NUMBER = 1;
+    private volatile java.lang.Object pickleId_;
     /**
-     * <code>.io.cucumber.messages.TestCase testCase = 1;</code>
+     * <code>string pickleId = 1;</code>
      */
-    public boolean hasTestCase() {
-      return testCase_ != null;
+    public java.lang.String getPickleId() {
+      java.lang.Object ref = pickleId_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        pickleId_ = s;
+        return s;
+      }
     }
     /**
-     * <code>.io.cucumber.messages.TestCase testCase = 1;</code>
+     * <code>string pickleId = 1;</code>
      */
-    public io.cucumber.messages.Messages.TestCase getTestCase() {
-      return testCase_ == null ? io.cucumber.messages.Messages.TestCase.getDefaultInstance() : testCase_;
-    }
-    /**
-     * <code>.io.cucumber.messages.TestCase testCase = 1;</code>
-     */
-    public io.cucumber.messages.Messages.TestCaseOrBuilder getTestCaseOrBuilder() {
-      return getTestCase();
+    public com.google.protobuf.ByteString
+        getPickleIdBytes() {
+      java.lang.Object ref = pickleId_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        pickleId_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
     }
 
     public static final int INDEX_FIELD_NUMBER = 2;
@@ -32951,6 +34613,27 @@ public final class Messages {
       return getTestResult();
     }
 
+    public static final int TIMESTAMP_FIELD_NUMBER = 4;
+    private com.google.protobuf.Timestamp timestamp_;
+    /**
+     * <code>.google.protobuf.Timestamp timestamp = 4;</code>
+     */
+    public boolean hasTimestamp() {
+      return timestamp_ != null;
+    }
+    /**
+     * <code>.google.protobuf.Timestamp timestamp = 4;</code>
+     */
+    public com.google.protobuf.Timestamp getTimestamp() {
+      return timestamp_ == null ? com.google.protobuf.Timestamp.getDefaultInstance() : timestamp_;
+    }
+    /**
+     * <code>.google.protobuf.Timestamp timestamp = 4;</code>
+     */
+    public com.google.protobuf.TimestampOrBuilder getTimestampOrBuilder() {
+      return getTimestamp();
+    }
+
     private byte memoizedIsInitialized = -1;
     @java.lang.Override
     public final boolean isInitialized() {
@@ -32965,14 +34648,17 @@ public final class Messages {
     @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
-      if (testCase_ != null) {
-        output.writeMessage(1, getTestCase());
+      if (!getPickleIdBytes().isEmpty()) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 1, pickleId_);
       }
       if (index_ != 0) {
         output.writeUInt32(2, index_);
       }
       if (testResult_ != null) {
         output.writeMessage(3, getTestResult());
+      }
+      if (timestamp_ != null) {
+        output.writeMessage(4, getTimestamp());
       }
       unknownFields.writeTo(output);
     }
@@ -32983,9 +34669,8 @@ public final class Messages {
       if (size != -1) return size;
 
       size = 0;
-      if (testCase_ != null) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(1, getTestCase());
+      if (!getPickleIdBytes().isEmpty()) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(1, pickleId_);
       }
       if (index_ != 0) {
         size += com.google.protobuf.CodedOutputStream
@@ -32994,6 +34679,10 @@ public final class Messages {
       if (testResult_ != null) {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(3, getTestResult());
+      }
+      if (timestamp_ != null) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(4, getTimestamp());
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -33011,17 +34700,19 @@ public final class Messages {
       io.cucumber.messages.Messages.TestStepFinished other = (io.cucumber.messages.Messages.TestStepFinished) obj;
 
       boolean result = true;
-      result = result && (hasTestCase() == other.hasTestCase());
-      if (hasTestCase()) {
-        result = result && getTestCase()
-            .equals(other.getTestCase());
-      }
+      result = result && getPickleId()
+          .equals(other.getPickleId());
       result = result && (getIndex()
           == other.getIndex());
       result = result && (hasTestResult() == other.hasTestResult());
       if (hasTestResult()) {
         result = result && getTestResult()
             .equals(other.getTestResult());
+      }
+      result = result && (hasTimestamp() == other.hasTimestamp());
+      if (hasTimestamp()) {
+        result = result && getTimestamp()
+            .equals(other.getTimestamp());
       }
       result = result && unknownFields.equals(other.unknownFields);
       return result;
@@ -33034,15 +34725,17 @@ public final class Messages {
       }
       int hash = 41;
       hash = (19 * hash) + getDescriptor().hashCode();
-      if (hasTestCase()) {
-        hash = (37 * hash) + TESTCASE_FIELD_NUMBER;
-        hash = (53 * hash) + getTestCase().hashCode();
-      }
+      hash = (37 * hash) + PICKLEID_FIELD_NUMBER;
+      hash = (53 * hash) + getPickleId().hashCode();
       hash = (37 * hash) + INDEX_FIELD_NUMBER;
       hash = (53 * hash) + getIndex();
       if (hasTestResult()) {
         hash = (37 * hash) + TESTRESULT_FIELD_NUMBER;
         hash = (53 * hash) + getTestResult().hashCode();
+      }
+      if (hasTimestamp()) {
+        hash = (37 * hash) + TIMESTAMP_FIELD_NUMBER;
+        hash = (53 * hash) + getTimestamp().hashCode();
       }
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
@@ -33177,12 +34870,8 @@ public final class Messages {
       @java.lang.Override
       public Builder clear() {
         super.clear();
-        if (testCaseBuilder_ == null) {
-          testCase_ = null;
-        } else {
-          testCase_ = null;
-          testCaseBuilder_ = null;
-        }
+        pickleId_ = "";
+
         index_ = 0;
 
         if (testResultBuilder_ == null) {
@@ -33190,6 +34879,12 @@ public final class Messages {
         } else {
           testResult_ = null;
           testResultBuilder_ = null;
+        }
+        if (timestampBuilder_ == null) {
+          timestamp_ = null;
+        } else {
+          timestamp_ = null;
+          timestampBuilder_ = null;
         }
         return this;
       }
@@ -33217,16 +34912,17 @@ public final class Messages {
       @java.lang.Override
       public io.cucumber.messages.Messages.TestStepFinished buildPartial() {
         io.cucumber.messages.Messages.TestStepFinished result = new io.cucumber.messages.Messages.TestStepFinished(this);
-        if (testCaseBuilder_ == null) {
-          result.testCase_ = testCase_;
-        } else {
-          result.testCase_ = testCaseBuilder_.build();
-        }
+        result.pickleId_ = pickleId_;
         result.index_ = index_;
         if (testResultBuilder_ == null) {
           result.testResult_ = testResult_;
         } else {
           result.testResult_ = testResultBuilder_.build();
+        }
+        if (timestampBuilder_ == null) {
+          result.timestamp_ = timestamp_;
+        } else {
+          result.timestamp_ = timestampBuilder_.build();
         }
         onBuilt();
         return result;
@@ -33276,14 +34972,18 @@ public final class Messages {
 
       public Builder mergeFrom(io.cucumber.messages.Messages.TestStepFinished other) {
         if (other == io.cucumber.messages.Messages.TestStepFinished.getDefaultInstance()) return this;
-        if (other.hasTestCase()) {
-          mergeTestCase(other.getTestCase());
+        if (!other.getPickleId().isEmpty()) {
+          pickleId_ = other.pickleId_;
+          onChanged();
         }
         if (other.getIndex() != 0) {
           setIndex(other.getIndex());
         }
         if (other.hasTestResult()) {
           mergeTestResult(other.getTestResult());
+        }
+        if (other.hasTimestamp()) {
+          mergeTimestamp(other.getTimestamp());
         }
         this.mergeUnknownFields(other.unknownFields);
         onChanged();
@@ -33314,121 +35014,73 @@ public final class Messages {
         return this;
       }
 
-      private io.cucumber.messages.Messages.TestCase testCase_ = null;
-      private com.google.protobuf.SingleFieldBuilderV3<
-          io.cucumber.messages.Messages.TestCase, io.cucumber.messages.Messages.TestCase.Builder, io.cucumber.messages.Messages.TestCaseOrBuilder> testCaseBuilder_;
+      private java.lang.Object pickleId_ = "";
       /**
-       * <code>.io.cucumber.messages.TestCase testCase = 1;</code>
+       * <code>string pickleId = 1;</code>
        */
-      public boolean hasTestCase() {
-        return testCaseBuilder_ != null || testCase_ != null;
-      }
-      /**
-       * <code>.io.cucumber.messages.TestCase testCase = 1;</code>
-       */
-      public io.cucumber.messages.Messages.TestCase getTestCase() {
-        if (testCaseBuilder_ == null) {
-          return testCase_ == null ? io.cucumber.messages.Messages.TestCase.getDefaultInstance() : testCase_;
+      public java.lang.String getPickleId() {
+        java.lang.Object ref = pickleId_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          pickleId_ = s;
+          return s;
         } else {
-          return testCaseBuilder_.getMessage();
+          return (java.lang.String) ref;
         }
       }
       /**
-       * <code>.io.cucumber.messages.TestCase testCase = 1;</code>
+       * <code>string pickleId = 1;</code>
        */
-      public Builder setTestCase(io.cucumber.messages.Messages.TestCase value) {
-        if (testCaseBuilder_ == null) {
-          if (value == null) {
-            throw new NullPointerException();
-          }
-          testCase_ = value;
-          onChanged();
+      public com.google.protobuf.ByteString
+          getPickleIdBytes() {
+        java.lang.Object ref = pickleId_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          pickleId_ = b;
+          return b;
         } else {
-          testCaseBuilder_.setMessage(value);
+          return (com.google.protobuf.ByteString) ref;
         }
-
-        return this;
       }
       /**
-       * <code>.io.cucumber.messages.TestCase testCase = 1;</code>
+       * <code>string pickleId = 1;</code>
        */
-      public Builder setTestCase(
-          io.cucumber.messages.Messages.TestCase.Builder builderForValue) {
-        if (testCaseBuilder_ == null) {
-          testCase_ = builderForValue.build();
-          onChanged();
-        } else {
-          testCaseBuilder_.setMessage(builderForValue.build());
-        }
-
-        return this;
-      }
-      /**
-       * <code>.io.cucumber.messages.TestCase testCase = 1;</code>
-       */
-      public Builder mergeTestCase(io.cucumber.messages.Messages.TestCase value) {
-        if (testCaseBuilder_ == null) {
-          if (testCase_ != null) {
-            testCase_ =
-              io.cucumber.messages.Messages.TestCase.newBuilder(testCase_).mergeFrom(value).buildPartial();
-          } else {
-            testCase_ = value;
-          }
-          onChanged();
-        } else {
-          testCaseBuilder_.mergeFrom(value);
-        }
-
-        return this;
-      }
-      /**
-       * <code>.io.cucumber.messages.TestCase testCase = 1;</code>
-       */
-      public Builder clearTestCase() {
-        if (testCaseBuilder_ == null) {
-          testCase_ = null;
-          onChanged();
-        } else {
-          testCase_ = null;
-          testCaseBuilder_ = null;
-        }
-
-        return this;
-      }
-      /**
-       * <code>.io.cucumber.messages.TestCase testCase = 1;</code>
-       */
-      public io.cucumber.messages.Messages.TestCase.Builder getTestCaseBuilder() {
-        
+      public Builder setPickleId(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  
+        pickleId_ = value;
         onChanged();
-        return getTestCaseFieldBuilder().getBuilder();
+        return this;
       }
       /**
-       * <code>.io.cucumber.messages.TestCase testCase = 1;</code>
+       * <code>string pickleId = 1;</code>
        */
-      public io.cucumber.messages.Messages.TestCaseOrBuilder getTestCaseOrBuilder() {
-        if (testCaseBuilder_ != null) {
-          return testCaseBuilder_.getMessageOrBuilder();
-        } else {
-          return testCase_ == null ?
-              io.cucumber.messages.Messages.TestCase.getDefaultInstance() : testCase_;
-        }
+      public Builder clearPickleId() {
+        
+        pickleId_ = getDefaultInstance().getPickleId();
+        onChanged();
+        return this;
       }
       /**
-       * <code>.io.cucumber.messages.TestCase testCase = 1;</code>
+       * <code>string pickleId = 1;</code>
        */
-      private com.google.protobuf.SingleFieldBuilderV3<
-          io.cucumber.messages.Messages.TestCase, io.cucumber.messages.Messages.TestCase.Builder, io.cucumber.messages.Messages.TestCaseOrBuilder> 
-          getTestCaseFieldBuilder() {
-        if (testCaseBuilder_ == null) {
-          testCaseBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
-              io.cucumber.messages.Messages.TestCase, io.cucumber.messages.Messages.TestCase.Builder, io.cucumber.messages.Messages.TestCaseOrBuilder>(
-                  getTestCase(),
-                  getParentForChildren(),
-                  isClean());
-          testCase_ = null;
-        }
-        return testCaseBuilder_;
+      public Builder setPickleIdBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+        
+        pickleId_ = value;
+        onChanged();
+        return this;
       }
 
       private int index_ ;
@@ -33573,6 +35225,123 @@ public final class Messages {
         }
         return testResultBuilder_;
       }
+
+      private com.google.protobuf.Timestamp timestamp_ = null;
+      private com.google.protobuf.SingleFieldBuilderV3<
+          com.google.protobuf.Timestamp, com.google.protobuf.Timestamp.Builder, com.google.protobuf.TimestampOrBuilder> timestampBuilder_;
+      /**
+       * <code>.google.protobuf.Timestamp timestamp = 4;</code>
+       */
+      public boolean hasTimestamp() {
+        return timestampBuilder_ != null || timestamp_ != null;
+      }
+      /**
+       * <code>.google.protobuf.Timestamp timestamp = 4;</code>
+       */
+      public com.google.protobuf.Timestamp getTimestamp() {
+        if (timestampBuilder_ == null) {
+          return timestamp_ == null ? com.google.protobuf.Timestamp.getDefaultInstance() : timestamp_;
+        } else {
+          return timestampBuilder_.getMessage();
+        }
+      }
+      /**
+       * <code>.google.protobuf.Timestamp timestamp = 4;</code>
+       */
+      public Builder setTimestamp(com.google.protobuf.Timestamp value) {
+        if (timestampBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          timestamp_ = value;
+          onChanged();
+        } else {
+          timestampBuilder_.setMessage(value);
+        }
+
+        return this;
+      }
+      /**
+       * <code>.google.protobuf.Timestamp timestamp = 4;</code>
+       */
+      public Builder setTimestamp(
+          com.google.protobuf.Timestamp.Builder builderForValue) {
+        if (timestampBuilder_ == null) {
+          timestamp_ = builderForValue.build();
+          onChanged();
+        } else {
+          timestampBuilder_.setMessage(builderForValue.build());
+        }
+
+        return this;
+      }
+      /**
+       * <code>.google.protobuf.Timestamp timestamp = 4;</code>
+       */
+      public Builder mergeTimestamp(com.google.protobuf.Timestamp value) {
+        if (timestampBuilder_ == null) {
+          if (timestamp_ != null) {
+            timestamp_ =
+              com.google.protobuf.Timestamp.newBuilder(timestamp_).mergeFrom(value).buildPartial();
+          } else {
+            timestamp_ = value;
+          }
+          onChanged();
+        } else {
+          timestampBuilder_.mergeFrom(value);
+        }
+
+        return this;
+      }
+      /**
+       * <code>.google.protobuf.Timestamp timestamp = 4;</code>
+       */
+      public Builder clearTimestamp() {
+        if (timestampBuilder_ == null) {
+          timestamp_ = null;
+          onChanged();
+        } else {
+          timestamp_ = null;
+          timestampBuilder_ = null;
+        }
+
+        return this;
+      }
+      /**
+       * <code>.google.protobuf.Timestamp timestamp = 4;</code>
+       */
+      public com.google.protobuf.Timestamp.Builder getTimestampBuilder() {
+        
+        onChanged();
+        return getTimestampFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>.google.protobuf.Timestamp timestamp = 4;</code>
+       */
+      public com.google.protobuf.TimestampOrBuilder getTimestampOrBuilder() {
+        if (timestampBuilder_ != null) {
+          return timestampBuilder_.getMessageOrBuilder();
+        } else {
+          return timestamp_ == null ?
+              com.google.protobuf.Timestamp.getDefaultInstance() : timestamp_;
+        }
+      }
+      /**
+       * <code>.google.protobuf.Timestamp timestamp = 4;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilderV3<
+          com.google.protobuf.Timestamp, com.google.protobuf.Timestamp.Builder, com.google.protobuf.TimestampOrBuilder> 
+          getTimestampFieldBuilder() {
+        if (timestampBuilder_ == null) {
+          timestampBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
+              com.google.protobuf.Timestamp, com.google.protobuf.Timestamp.Builder, com.google.protobuf.TimestampOrBuilder>(
+                  getTimestamp(),
+                  getParentForChildren(),
+                  isClean());
+          timestamp_ = null;
+        }
+        return timestampBuilder_;
+      }
       @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
@@ -33626,11 +35395,660 @@ public final class Messages {
 
   }
 
+  public interface TestResultOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:io.cucumber.messages.TestResult)
+      com.google.protobuf.MessageOrBuilder {
+
+    /**
+     * <code>.io.cucumber.messages.Status status = 1;</code>
+     */
+    int getStatusValue();
+    /**
+     * <code>.io.cucumber.messages.Status status = 1;</code>
+     */
+    io.cucumber.messages.Messages.Status getStatus();
+
+    /**
+     * <code>string message = 2;</code>
+     */
+    java.lang.String getMessage();
+    /**
+     * <code>string message = 2;</code>
+     */
+    com.google.protobuf.ByteString
+        getMessageBytes();
+  }
+  /**
+   * Protobuf type {@code io.cucumber.messages.TestResult}
+   */
+  public  static final class TestResult extends
+      com.google.protobuf.GeneratedMessageV3 implements
+      // @@protoc_insertion_point(message_implements:io.cucumber.messages.TestResult)
+      TestResultOrBuilder {
+  private static final long serialVersionUID = 0L;
+    // Use TestResult.newBuilder() to construct.
+    private TestResult(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+      super(builder);
+    }
+    private TestResult() {
+      status_ = 0;
+      message_ = "";
+    }
+
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+    getUnknownFields() {
+      return this.unknownFields;
+    }
+    private TestResult(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      this();
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            case 8: {
+              int rawValue = input.readEnum();
+
+              status_ = rawValue;
+              break;
+            }
+            case 18: {
+              java.lang.String s = input.readStringRequireUtf8();
+
+              message_ = s;
+              break;
+            }
+            default: {
+              if (!parseUnknownFieldProto3(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return io.cucumber.messages.Messages.internal_static_io_cucumber_messages_TestResult_descriptor;
+    }
+
+    @java.lang.Override
+    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return io.cucumber.messages.Messages.internal_static_io_cucumber_messages_TestResult_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              io.cucumber.messages.Messages.TestResult.class, io.cucumber.messages.Messages.TestResult.Builder.class);
+    }
+
+    public static final int STATUS_FIELD_NUMBER = 1;
+    private int status_;
+    /**
+     * <code>.io.cucumber.messages.Status status = 1;</code>
+     */
+    public int getStatusValue() {
+      return status_;
+    }
+    /**
+     * <code>.io.cucumber.messages.Status status = 1;</code>
+     */
+    public io.cucumber.messages.Messages.Status getStatus() {
+      @SuppressWarnings("deprecation")
+      io.cucumber.messages.Messages.Status result = io.cucumber.messages.Messages.Status.valueOf(status_);
+      return result == null ? io.cucumber.messages.Messages.Status.UNRECOGNIZED : result;
+    }
+
+    public static final int MESSAGE_FIELD_NUMBER = 2;
+    private volatile java.lang.Object message_;
+    /**
+     * <code>string message = 2;</code>
+     */
+    public java.lang.String getMessage() {
+      java.lang.Object ref = message_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        message_ = s;
+        return s;
+      }
+    }
+    /**
+     * <code>string message = 2;</code>
+     */
+    public com.google.protobuf.ByteString
+        getMessageBytes() {
+      java.lang.Object ref = message_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        message_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    private byte memoizedIsInitialized = -1;
+    @java.lang.Override
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    @java.lang.Override
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      if (status_ != io.cucumber.messages.Messages.Status.AMBIGUOUS.getNumber()) {
+        output.writeEnum(1, status_);
+      }
+      if (!getMessageBytes().isEmpty()) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 2, message_);
+      }
+      unknownFields.writeTo(output);
+    }
+
+    @java.lang.Override
+    public int getSerializedSize() {
+      int size = memoizedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (status_ != io.cucumber.messages.Messages.Status.AMBIGUOUS.getNumber()) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeEnumSize(1, status_);
+      }
+      if (!getMessageBytes().isEmpty()) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(2, message_);
+      }
+      size += unknownFields.getSerializedSize();
+      memoizedSize = size;
+      return size;
+    }
+
+    @java.lang.Override
+    public boolean equals(final java.lang.Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof io.cucumber.messages.Messages.TestResult)) {
+        return super.equals(obj);
+      }
+      io.cucumber.messages.Messages.TestResult other = (io.cucumber.messages.Messages.TestResult) obj;
+
+      boolean result = true;
+      result = result && status_ == other.status_;
+      result = result && getMessage()
+          .equals(other.getMessage());
+      result = result && unknownFields.equals(other.unknownFields);
+      return result;
+    }
+
+    @java.lang.Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptor().hashCode();
+      hash = (37 * hash) + STATUS_FIELD_NUMBER;
+      hash = (53 * hash) + status_;
+      hash = (37 * hash) + MESSAGE_FIELD_NUMBER;
+      hash = (53 * hash) + getMessage().hashCode();
+      hash = (29 * hash) + unknownFields.hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    public static io.cucumber.messages.Messages.TestResult parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static io.cucumber.messages.Messages.TestResult parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static io.cucumber.messages.Messages.TestResult parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static io.cucumber.messages.Messages.TestResult parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static io.cucumber.messages.Messages.TestResult parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static io.cucumber.messages.Messages.TestResult parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static io.cucumber.messages.Messages.TestResult parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static io.cucumber.messages.Messages.TestResult parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static io.cucumber.messages.Messages.TestResult parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input);
+    }
+    public static io.cucumber.messages.Messages.TestResult parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static io.cucumber.messages.Messages.TestResult parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static io.cucumber.messages.Messages.TestResult parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    @java.lang.Override
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
+    }
+    public static Builder newBuilder(io.cucumber.messages.Messages.TestResult prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    @java.lang.Override
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code io.cucumber.messages.TestResult}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:io.cucumber.messages.TestResult)
+        io.cucumber.messages.Messages.TestResultOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return io.cucumber.messages.Messages.internal_static_io_cucumber_messages_TestResult_descriptor;
+      }
+
+      @java.lang.Override
+      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return io.cucumber.messages.Messages.internal_static_io_cucumber_messages_TestResult_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                io.cucumber.messages.Messages.TestResult.class, io.cucumber.messages.Messages.TestResult.Builder.class);
+      }
+
+      // Construct using io.cucumber.messages.Messages.TestResult.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessageV3
+                .alwaysUseFieldBuilders) {
+        }
+      }
+      @java.lang.Override
+      public Builder clear() {
+        super.clear();
+        status_ = 0;
+
+        message_ = "";
+
+        return this;
+      }
+
+      @java.lang.Override
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return io.cucumber.messages.Messages.internal_static_io_cucumber_messages_TestResult_descriptor;
+      }
+
+      @java.lang.Override
+      public io.cucumber.messages.Messages.TestResult getDefaultInstanceForType() {
+        return io.cucumber.messages.Messages.TestResult.getDefaultInstance();
+      }
+
+      @java.lang.Override
+      public io.cucumber.messages.Messages.TestResult build() {
+        io.cucumber.messages.Messages.TestResult result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      @java.lang.Override
+      public io.cucumber.messages.Messages.TestResult buildPartial() {
+        io.cucumber.messages.Messages.TestResult result = new io.cucumber.messages.Messages.TestResult(this);
+        result.status_ = status_;
+        result.message_ = message_;
+        onBuilt();
+        return result;
+      }
+
+      @java.lang.Override
+      public Builder clone() {
+        return (Builder) super.clone();
+      }
+      @java.lang.Override
+      public Builder setField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return (Builder) super.setField(field, value);
+      }
+      @java.lang.Override
+      public Builder clearField(
+          com.google.protobuf.Descriptors.FieldDescriptor field) {
+        return (Builder) super.clearField(field);
+      }
+      @java.lang.Override
+      public Builder clearOneof(
+          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+        return (Builder) super.clearOneof(oneof);
+      }
+      @java.lang.Override
+      public Builder setRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          int index, java.lang.Object value) {
+        return (Builder) super.setRepeatedField(field, index, value);
+      }
+      @java.lang.Override
+      public Builder addRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return (Builder) super.addRepeatedField(field, value);
+      }
+      @java.lang.Override
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof io.cucumber.messages.Messages.TestResult) {
+          return mergeFrom((io.cucumber.messages.Messages.TestResult)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(io.cucumber.messages.Messages.TestResult other) {
+        if (other == io.cucumber.messages.Messages.TestResult.getDefaultInstance()) return this;
+        if (other.status_ != 0) {
+          setStatusValue(other.getStatusValue());
+        }
+        if (!other.getMessage().isEmpty()) {
+          message_ = other.message_;
+          onChanged();
+        }
+        this.mergeUnknownFields(other.unknownFields);
+        onChanged();
+        return this;
+      }
+
+      @java.lang.Override
+      public final boolean isInitialized() {
+        return true;
+      }
+
+      @java.lang.Override
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        io.cucumber.messages.Messages.TestResult parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (io.cucumber.messages.Messages.TestResult) e.getUnfinishedMessage();
+          throw e.unwrapIOException();
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+
+      private int status_ = 0;
+      /**
+       * <code>.io.cucumber.messages.Status status = 1;</code>
+       */
+      public int getStatusValue() {
+        return status_;
+      }
+      /**
+       * <code>.io.cucumber.messages.Status status = 1;</code>
+       */
+      public Builder setStatusValue(int value) {
+        status_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>.io.cucumber.messages.Status status = 1;</code>
+       */
+      public io.cucumber.messages.Messages.Status getStatus() {
+        @SuppressWarnings("deprecation")
+        io.cucumber.messages.Messages.Status result = io.cucumber.messages.Messages.Status.valueOf(status_);
+        return result == null ? io.cucumber.messages.Messages.Status.UNRECOGNIZED : result;
+      }
+      /**
+       * <code>.io.cucumber.messages.Status status = 1;</code>
+       */
+      public Builder setStatus(io.cucumber.messages.Messages.Status value) {
+        if (value == null) {
+          throw new NullPointerException();
+        }
+        
+        status_ = value.getNumber();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>.io.cucumber.messages.Status status = 1;</code>
+       */
+      public Builder clearStatus() {
+        
+        status_ = 0;
+        onChanged();
+        return this;
+      }
+
+      private java.lang.Object message_ = "";
+      /**
+       * <code>string message = 2;</code>
+       */
+      public java.lang.String getMessage() {
+        java.lang.Object ref = message_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          message_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>string message = 2;</code>
+       */
+      public com.google.protobuf.ByteString
+          getMessageBytes() {
+        java.lang.Object ref = message_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          message_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>string message = 2;</code>
+       */
+      public Builder setMessage(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  
+        message_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string message = 2;</code>
+       */
+      public Builder clearMessage() {
+        
+        message_ = getDefaultInstance().getMessage();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string message = 2;</code>
+       */
+      public Builder setMessageBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+        
+        message_ = value;
+        onChanged();
+        return this;
+      }
+      @java.lang.Override
+      public final Builder setUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.setUnknownFieldsProto3(unknownFields);
+      }
+
+      @java.lang.Override
+      public final Builder mergeUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.mergeUnknownFields(unknownFields);
+      }
+
+
+      // @@protoc_insertion_point(builder_scope:io.cucumber.messages.TestResult)
+    }
+
+    // @@protoc_insertion_point(class_scope:io.cucumber.messages.TestResult)
+    private static final io.cucumber.messages.Messages.TestResult DEFAULT_INSTANCE;
+    static {
+      DEFAULT_INSTANCE = new io.cucumber.messages.Messages.TestResult();
+    }
+
+    public static io.cucumber.messages.Messages.TestResult getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static final com.google.protobuf.Parser<TestResult>
+        PARSER = new com.google.protobuf.AbstractParser<TestResult>() {
+      @java.lang.Override
+      public TestResult parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new TestResult(input, extensionRegistry);
+      }
+    };
+
+    public static com.google.protobuf.Parser<TestResult> parser() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<TestResult> getParserForType() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public io.cucumber.messages.Messages.TestResult getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
+  }
+
   private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_io_cucumber_messages_Wrapper_descriptor;
   private static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_io_cucumber_messages_Wrapper_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_io_cucumber_messages_SourceReference_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_io_cucumber_messages_SourceReference_fieldAccessorTable;
   private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_io_cucumber_messages_Location_descriptor;
   private static final 
@@ -33651,11 +36069,6 @@ public final class Messages {
   private static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_io_cucumber_messages_Source_fieldAccessorTable;
-  private static final com.google.protobuf.Descriptors.Descriptor
-    internal_static_io_cucumber_messages_SourceReference_descriptor;
-  private static final 
-    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-      internal_static_io_cucumber_messages_SourceReference_fieldAccessorTable;
   private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_io_cucumber_messages_GherkinDocument_descriptor;
   private static final 
@@ -33737,15 +36150,15 @@ public final class Messages {
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_io_cucumber_messages_Pickle_fieldAccessorTable;
   private static final com.google.protobuf.Descriptors.Descriptor
-    internal_static_io_cucumber_messages_PickleDocString_descriptor;
-  private static final 
-    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-      internal_static_io_cucumber_messages_PickleDocString_fieldAccessorTable;
-  private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_io_cucumber_messages_PickleStep_descriptor;
   private static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_io_cucumber_messages_PickleStep_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_io_cucumber_messages_PickleDocString_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_io_cucumber_messages_PickleDocString_fieldAccessorTable;
   private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_io_cucumber_messages_PickleTable_descriptor;
   private static final 
@@ -33767,20 +36180,30 @@ public final class Messages {
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_io_cucumber_messages_PickleTag_fieldAccessorTable;
   private static final com.google.protobuf.Descriptors.Descriptor
-    internal_static_io_cucumber_messages_TestCase_descriptor;
+    internal_static_io_cucumber_messages_TestCaseStarted_descriptor;
   private static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-      internal_static_io_cucumber_messages_TestCase_fieldAccessorTable;
+      internal_static_io_cucumber_messages_TestCaseStarted_fieldAccessorTable;
   private static final com.google.protobuf.Descriptors.Descriptor
-    internal_static_io_cucumber_messages_TestResult_descriptor;
+    internal_static_io_cucumber_messages_TestCaseFinished_descriptor;
   private static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-      internal_static_io_cucumber_messages_TestResult_fieldAccessorTable;
+      internal_static_io_cucumber_messages_TestCaseFinished_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_io_cucumber_messages_TestStepStarted_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_io_cucumber_messages_TestStepStarted_fieldAccessorTable;
   private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_io_cucumber_messages_TestStepFinished_descriptor;
   private static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_io_cucumber_messages_TestStepFinished_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_io_cucumber_messages_TestResult_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_io_cucumber_messages_TestResult_fieldAccessorTable;
 
   public static com.google.protobuf.Descriptors.FileDescriptor
       getDescriptor() {
@@ -33791,25 +36214,30 @@ public final class Messages {
   static {
     java.lang.String[] descriptorData = {
       "\n\016messages.proto\022\024io.cucumber.messages\032\037" +
-      "google/protobuf/timestamp.proto\"\262\002\n\007Wrap" +
+      "google/protobuf/timestamp.proto\"\372\003\n\007Wrap" +
       "per\022.\n\006source\030\001 \001(\0132\034.io.cucumber.messag" +
       "es.SourceH\000\022@\n\017gherkinDocument\030\002 \001(\0132%.i" +
       "o.cucumber.messages.GherkinDocumentH\000\022.\n" +
       "\006pickle\030\003 \001(\0132\034.io.cucumber.messages.Pic" +
       "kleH\000\0226\n\nattachment\030\004 \001(\0132 .io.cucumber." +
-      "messages.AttachmentH\000\022B\n\020testStepFinishe" +
-      "d\030\005 \001(\0132&.io.cucumber.messages.TestStepF" +
-      "inishedH\000B\t\n\007message\"(\n\010Location\022\014\n\004line" +
-      "\030\001 \001(\r\022\016\n\006column\030\002 \001(\r\"}\n\nAttachment\0225\n\006" +
-      "source\030\001 \001(\0132%.io.cucumber.messages.Sour" +
-      "ceReference\022\014\n\004data\030\002 \001(\t\022*\n\005media\030\003 \001(\013" +
-      "2\033.io.cucumber.messages.Media\"/\n\005Media\022\020" +
-      "\n\010encoding\030\001 \001(\t\022\024\n\014content_type\030\002 \001(\t\"O" +
-      "\n\006Source\022\013\n\003uri\030\001 \001(\t\022\014\n\004data\030\002 \001(\t\022*\n\005m" +
-      "edia\030\003 \001(\0132\033.io.cucumber.messages.Media\"" +
-      "P\n\017SourceReference\022\013\n\003uri\030\001 \001(\t\0220\n\010locat" +
-      "ion\030\002 \001(\0132\036.io.cucumber.messages.Locatio" +
-      "n\"\177\n\017GherkinDocument\022\013\n\003uri\030\001 \001(\t\022.\n\007fea" +
+      "messages.AttachmentH\000\022@\n\017testCaseStarted" +
+      "\030\005 \001(\0132%.io.cucumber.messages.TestCaseSt" +
+      "artedH\000\022@\n\017testStepStarted\030\006 \001(\0132%.io.cu" +
+      "cumber.messages.TestStepStartedH\000\022B\n\020tes" +
+      "tStepFinished\030\007 \001(\0132&.io.cucumber.messag" +
+      "es.TestStepFinishedH\000\022B\n\020testCaseFinishe" +
+      "d\030\010 \001(\0132&.io.cucumber.messages.TestCaseF" +
+      "inishedH\000B\t\n\007message\"P\n\017SourceReference\022" +
+      "\013\n\003uri\030\001 \001(\t\0220\n\010location\030\002 \001(\0132\036.io.cucu" +
+      "mber.messages.Location\"(\n\010Location\022\014\n\004li" +
+      "ne\030\001 \001(\r\022\016\n\006column\030\002 \001(\r\"}\n\nAttachment\0225" +
+      "\n\006source\030\001 \001(\0132%.io.cucumber.messages.So" +
+      "urceReference\022\014\n\004data\030\002 \001(\t\022*\n\005media\030\003 \001" +
+      "(\0132\033.io.cucumber.messages.Media\"/\n\005Media" +
+      "\022\020\n\010encoding\030\001 \001(\t\022\024\n\014content_type\030\002 \001(\t" +
+      "\"O\n\006Source\022\013\n\003uri\030\001 \001(\t\022\014\n\004data\030\002 \001(\t\022*\n" +
+      "\005media\030\003 \001(\0132\033.io.cucumber.messages.Medi" +
+      "a\"\177\n\017GherkinDocument\022\013\n\003uri\030\001 \001(\t\022.\n\007fea" +
       "ture\030\002 \001(\0132\035.io.cucumber.messages.Featur" +
       "e\022/\n\010comments\030\003 \003(\0132\035.io.cucumber.messag" +
       "es.Comment\"\340\001\n\007Feature\0220\n\010location\030\001 \001(\013" +
@@ -33865,39 +36293,44 @@ public final class Messages {
       " \001(\0132\036.io.cucumber.messages.Location\022.\n\005" +
       "cells\030\002 \003(\0132\037.io.cucumber.messages.Table" +
       "Cell\"E\n\003Tag\0220\n\010location\030\001 \001(\0132\036.io.cucum" +
-      "ber.messages.Location\022\014\n\004name\030\002 \001(\t\"\310\001\n\006" +
-      "Pickle\022\013\n\003uri\030\001 \001(\t\022\014\n\004name\030\002 \001(\t\022\020\n\010lan" +
-      "guage\030\003 \001(\t\022/\n\005steps\030\004 \003(\0132 .io.cucumber" +
-      ".messages.PickleStep\022-\n\004tags\030\005 \003(\0132\037.io." +
-      "cucumber.messages.PickleTag\0221\n\tlocations" +
-      "\030\006 \003(\0132\036.io.cucumber.messages.Location\"i" +
-      "\n\017PickleDocString\0220\n\010location\030\001 \001(\0132\036.io" +
-      ".cucumber.messages.Location\022\023\n\013contentTy" +
-      "pe\030\002 \001(\t\022\017\n\007content\030\003 \001(\t\"\317\001\n\nPickleStep" +
-      "\022\014\n\004text\030\001 \001(\t\0221\n\tlocations\030\002 \003(\0132\036.io.c" +
-      "ucumber.messages.Location\022;\n\ndoc_string\030" +
-      "\003 \001(\0132%.io.cucumber.messages.PickleDocSt" +
-      "ringH\000\0227\n\ndata_table\030\004 \001(\0132!.io.cucumber" +
-      ".messages.PickleTableH\000B\n\n\010argument\"A\n\013P" +
-      "ickleTable\0222\n\004rows\030\001 \003(\0132$.io.cucumber.m" +
-      "essages.PickleTableRow\"R\n\017PickleTableCel" +
-      "l\0220\n\010location\030\001 \001(\0132\036.io.cucumber.messag" +
-      "es.Location\022\r\n\005value\030\002 \001(\t\"F\n\016PickleTabl" +
-      "eRow\0224\n\005cells\030\001 \003(\0132%.io.cucumber.messag" +
-      "es.PickleTableCell\"K\n\tPickleTag\0220\n\010locat" +
-      "ion\030\001 \001(\0132\036.io.cucumber.messages.Locatio" +
-      "n\022\014\n\004name\030\002 \001(\t\"%\n\010TestCase\022\013\n\003uri\030\001 \001(\t" +
-      "\022\014\n\004line\030\002 \001(\r\"z\n\nTestResult\022,\n\006status\030\001" +
-      " \001(\0162\034.io.cucumber.messages.Status\022\017\n\007me" +
-      "ssage\030\002 \001(\t\022-\n\ttimestamp\030\003 \001(\0132\032.google." +
-      "protobuf.Timestamp\"\211\001\n\020TestStepFinished\022" +
-      "0\n\010testCase\030\001 \001(\0132\036.io.cucumber.messages" +
-      ".TestCase\022\r\n\005index\030\002 \001(\r\0224\n\ntestResult\030\003" +
-      " \001(\0132 .io.cucumber.messages.TestResult*X" +
-      "\n\006Status\022\r\n\tAMBIGUOUS\020\000\022\n\n\006FAILED\020\001\022\n\n\006P" +
-      "ASSED\020\002\022\013\n\007PENDING\020\003\022\013\n\007SKIPPED\020\004\022\r\n\tUND" +
-      "EFINED\020\005B\036Z\010messages\352\002\021Cucumber.Messages" +
-      "b\006proto3"
+      "ber.messages.Location\022\014\n\004name\030\002 \001(\t\"\324\001\n\006" +
+      "Pickle\022\n\n\002id\030\001 \001(\t\022\013\n\003uri\030\002 \001(\t\022\014\n\004name\030" +
+      "\003 \001(\t\022\020\n\010language\030\004 \001(\t\022/\n\005steps\030\005 \003(\0132 " +
+      ".io.cucumber.messages.PickleStep\022-\n\004tags" +
+      "\030\006 \003(\0132\037.io.cucumber.messages.PickleTag\022" +
+      "1\n\tlocations\030\007 \003(\0132\036.io.cucumber.message" +
+      "s.Location\"\317\001\n\nPickleStep\022\014\n\004text\030\001 \001(\t\022" +
+      "1\n\tlocations\030\002 \003(\0132\036.io.cucumber.message" +
+      "s.Location\022;\n\ndoc_string\030\003 \001(\0132%.io.cucu" +
+      "mber.messages.PickleDocStringH\000\0227\n\ndata_" +
+      "table\030\004 \001(\0132!.io.cucumber.messages.Pickl" +
+      "eTableH\000B\n\n\010argument\"i\n\017PickleDocString\022" +
+      "0\n\010location\030\001 \001(\0132\036.io.cucumber.messages" +
+      ".Location\022\023\n\013contentType\030\002 \001(\t\022\017\n\007conten" +
+      "t\030\003 \001(\t\"A\n\013PickleTable\0222\n\004rows\030\001 \003(\0132$.i" +
+      "o.cucumber.messages.PickleTableRow\"R\n\017Pi" +
+      "ckleTableCell\0220\n\010location\030\001 \001(\0132\036.io.cuc" +
+      "umber.messages.Location\022\r\n\005value\030\002 \001(\t\"F" +
+      "\n\016PickleTableRow\0224\n\005cells\030\001 \003(\0132%.io.cuc" +
+      "umber.messages.PickleTableCell\"K\n\tPickle" +
+      "Tag\0220\n\010location\030\001 \001(\0132\036.io.cucumber.mess" +
+      "ages.Location\022\014\n\004name\030\002 \001(\t\"R\n\017TestCaseS" +
+      "tarted\022\020\n\010pickleId\030\001 \001(\t\022-\n\ttimestamp\030\002 " +
+      "\001(\0132\032.google.protobuf.Timestamp\"S\n\020TestC" +
+      "aseFinished\022\020\n\010pickleId\030\001 \001(\t\022-\n\ttimesta" +
+      "mp\030\002 \001(\0132\032.google.protobuf.Timestamp\"a\n\017" +
+      "TestStepStarted\022\020\n\010pickleId\030\001 \001(\t\022\r\n\005ind" +
+      "ex\030\002 \001(\r\022-\n\ttimestamp\030\003 \001(\0132\032.google.pro" +
+      "tobuf.Timestamp\"\230\001\n\020TestStepFinished\022\020\n\010" +
+      "pickleId\030\001 \001(\t\022\r\n\005index\030\002 \001(\r\0224\n\ntestRes" +
+      "ult\030\003 \001(\0132 .io.cucumber.messages.TestRes" +
+      "ult\022-\n\ttimestamp\030\004 \001(\0132\032.google.protobuf" +
+      ".Timestamp\"K\n\nTestResult\022,\n\006status\030\001 \001(\016" +
+      "2\034.io.cucumber.messages.Status\022\017\n\007messag" +
+      "e\030\002 \001(\t*X\n\006Status\022\r\n\tAMBIGUOUS\020\000\022\n\n\006FAIL" +
+      "ED\020\001\022\n\n\006PASSED\020\002\022\013\n\007PENDING\020\003\022\013\n\007SKIPPED" +
+      "\020\004\022\r\n\tUNDEFINED\020\005B\036Z\010messages\352\002\021Cucumber" +
+      ".Messagesb\006proto3"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -33917,37 +36350,37 @@ public final class Messages {
     internal_static_io_cucumber_messages_Wrapper_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_io_cucumber_messages_Wrapper_descriptor,
-        new java.lang.String[] { "Source", "GherkinDocument", "Pickle", "Attachment", "TestStepFinished", "Message", });
-    internal_static_io_cucumber_messages_Location_descriptor =
+        new java.lang.String[] { "Source", "GherkinDocument", "Pickle", "Attachment", "TestCaseStarted", "TestStepStarted", "TestStepFinished", "TestCaseFinished", "Message", });
+    internal_static_io_cucumber_messages_SourceReference_descriptor =
       getDescriptor().getMessageTypes().get(1);
+    internal_static_io_cucumber_messages_SourceReference_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_io_cucumber_messages_SourceReference_descriptor,
+        new java.lang.String[] { "Uri", "Location", });
+    internal_static_io_cucumber_messages_Location_descriptor =
+      getDescriptor().getMessageTypes().get(2);
     internal_static_io_cucumber_messages_Location_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_io_cucumber_messages_Location_descriptor,
         new java.lang.String[] { "Line", "Column", });
     internal_static_io_cucumber_messages_Attachment_descriptor =
-      getDescriptor().getMessageTypes().get(2);
+      getDescriptor().getMessageTypes().get(3);
     internal_static_io_cucumber_messages_Attachment_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_io_cucumber_messages_Attachment_descriptor,
         new java.lang.String[] { "Source", "Data", "Media", });
     internal_static_io_cucumber_messages_Media_descriptor =
-      getDescriptor().getMessageTypes().get(3);
+      getDescriptor().getMessageTypes().get(4);
     internal_static_io_cucumber_messages_Media_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_io_cucumber_messages_Media_descriptor,
         new java.lang.String[] { "Encoding", "ContentType", });
     internal_static_io_cucumber_messages_Source_descriptor =
-      getDescriptor().getMessageTypes().get(4);
+      getDescriptor().getMessageTypes().get(5);
     internal_static_io_cucumber_messages_Source_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_io_cucumber_messages_Source_descriptor,
         new java.lang.String[] { "Uri", "Data", "Media", });
-    internal_static_io_cucumber_messages_SourceReference_descriptor =
-      getDescriptor().getMessageTypes().get(5);
-    internal_static_io_cucumber_messages_SourceReference_fieldAccessorTable = new
-      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
-        internal_static_io_cucumber_messages_SourceReference_descriptor,
-        new java.lang.String[] { "Uri", "Location", });
     internal_static_io_cucumber_messages_GherkinDocument_descriptor =
       getDescriptor().getMessageTypes().get(6);
     internal_static_io_cucumber_messages_GherkinDocument_fieldAccessorTable = new
@@ -34043,19 +36476,19 @@ public final class Messages {
     internal_static_io_cucumber_messages_Pickle_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_io_cucumber_messages_Pickle_descriptor,
-        new java.lang.String[] { "Uri", "Name", "Language", "Steps", "Tags", "Locations", });
-    internal_static_io_cucumber_messages_PickleDocString_descriptor =
-      getDescriptor().getMessageTypes().get(22);
-    internal_static_io_cucumber_messages_PickleDocString_fieldAccessorTable = new
-      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
-        internal_static_io_cucumber_messages_PickleDocString_descriptor,
-        new java.lang.String[] { "Location", "ContentType", "Content", });
+        new java.lang.String[] { "Id", "Uri", "Name", "Language", "Steps", "Tags", "Locations", });
     internal_static_io_cucumber_messages_PickleStep_descriptor =
-      getDescriptor().getMessageTypes().get(23);
+      getDescriptor().getMessageTypes().get(22);
     internal_static_io_cucumber_messages_PickleStep_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_io_cucumber_messages_PickleStep_descriptor,
         new java.lang.String[] { "Text", "Locations", "DocString", "DataTable", "Argument", });
+    internal_static_io_cucumber_messages_PickleDocString_descriptor =
+      getDescriptor().getMessageTypes().get(23);
+    internal_static_io_cucumber_messages_PickleDocString_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_io_cucumber_messages_PickleDocString_descriptor,
+        new java.lang.String[] { "Location", "ContentType", "Content", });
     internal_static_io_cucumber_messages_PickleTable_descriptor =
       getDescriptor().getMessageTypes().get(24);
     internal_static_io_cucumber_messages_PickleTable_fieldAccessorTable = new
@@ -34080,24 +36513,36 @@ public final class Messages {
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_io_cucumber_messages_PickleTag_descriptor,
         new java.lang.String[] { "Location", "Name", });
-    internal_static_io_cucumber_messages_TestCase_descriptor =
+    internal_static_io_cucumber_messages_TestCaseStarted_descriptor =
       getDescriptor().getMessageTypes().get(28);
-    internal_static_io_cucumber_messages_TestCase_fieldAccessorTable = new
+    internal_static_io_cucumber_messages_TestCaseStarted_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
-        internal_static_io_cucumber_messages_TestCase_descriptor,
-        new java.lang.String[] { "Uri", "Line", });
-    internal_static_io_cucumber_messages_TestResult_descriptor =
+        internal_static_io_cucumber_messages_TestCaseStarted_descriptor,
+        new java.lang.String[] { "PickleId", "Timestamp", });
+    internal_static_io_cucumber_messages_TestCaseFinished_descriptor =
       getDescriptor().getMessageTypes().get(29);
-    internal_static_io_cucumber_messages_TestResult_fieldAccessorTable = new
+    internal_static_io_cucumber_messages_TestCaseFinished_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
-        internal_static_io_cucumber_messages_TestResult_descriptor,
-        new java.lang.String[] { "Status", "Message", "Timestamp", });
-    internal_static_io_cucumber_messages_TestStepFinished_descriptor =
+        internal_static_io_cucumber_messages_TestCaseFinished_descriptor,
+        new java.lang.String[] { "PickleId", "Timestamp", });
+    internal_static_io_cucumber_messages_TestStepStarted_descriptor =
       getDescriptor().getMessageTypes().get(30);
+    internal_static_io_cucumber_messages_TestStepStarted_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_io_cucumber_messages_TestStepStarted_descriptor,
+        new java.lang.String[] { "PickleId", "Index", "Timestamp", });
+    internal_static_io_cucumber_messages_TestStepFinished_descriptor =
+      getDescriptor().getMessageTypes().get(31);
     internal_static_io_cucumber_messages_TestStepFinished_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_io_cucumber_messages_TestStepFinished_descriptor,
-        new java.lang.String[] { "TestCase", "Index", "TestResult", });
+        new java.lang.String[] { "PickleId", "Index", "TestResult", "Timestamp", });
+    internal_static_io_cucumber_messages_TestResult_descriptor =
+      getDescriptor().getMessageTypes().get(32);
+    internal_static_io_cucumber_messages_TestResult_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_io_cucumber_messages_TestResult_descriptor,
+        new java.lang.String[] { "Status", "Message", });
     com.google.protobuf.TimestampProto.getDescriptor();
   }
 

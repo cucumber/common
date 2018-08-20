@@ -11,8 +11,15 @@ Google::Protobuf::DescriptorPool.generated_pool.build do
       optional :gherkinDocument, :message, 2, "io.cucumber.messages.GherkinDocument"
       optional :pickle, :message, 3, "io.cucumber.messages.Pickle"
       optional :attachment, :message, 4, "io.cucumber.messages.Attachment"
-      optional :testStepFinished, :message, 5, "io.cucumber.messages.TestStepFinished"
+      optional :testCaseStarted, :message, 5, "io.cucumber.messages.TestCaseStarted"
+      optional :testStepStarted, :message, 6, "io.cucumber.messages.TestStepStarted"
+      optional :testStepFinished, :message, 7, "io.cucumber.messages.TestStepFinished"
+      optional :testCaseFinished, :message, 8, "io.cucumber.messages.TestCaseFinished"
     end
+  end
+  add_message "io.cucumber.messages.SourceReference" do
+    optional :uri, :string, 1
+    optional :location, :message, 2, "io.cucumber.messages.Location"
   end
   add_message "io.cucumber.messages.Location" do
     optional :line, :uint32, 1
@@ -31,10 +38,6 @@ Google::Protobuf::DescriptorPool.generated_pool.build do
     optional :uri, :string, 1
     optional :data, :string, 2
     optional :media, :message, 3, "io.cucumber.messages.Media"
-  end
-  add_message "io.cucumber.messages.SourceReference" do
-    optional :uri, :string, 1
-    optional :location, :message, 2, "io.cucumber.messages.Location"
   end
   add_message "io.cucumber.messages.GherkinDocument" do
     optional :uri, :string, 1
@@ -131,17 +134,13 @@ Google::Protobuf::DescriptorPool.generated_pool.build do
     optional :name, :string, 2
   end
   add_message "io.cucumber.messages.Pickle" do
-    optional :uri, :string, 1
-    optional :name, :string, 2
-    optional :language, :string, 3
-    repeated :steps, :message, 4, "io.cucumber.messages.PickleStep"
-    repeated :tags, :message, 5, "io.cucumber.messages.PickleTag"
-    repeated :locations, :message, 6, "io.cucumber.messages.Location"
-  end
-  add_message "io.cucumber.messages.PickleDocString" do
-    optional :location, :message, 1, "io.cucumber.messages.Location"
-    optional :contentType, :string, 2
-    optional :content, :string, 3
+    optional :id, :string, 1
+    optional :uri, :string, 2
+    optional :name, :string, 3
+    optional :language, :string, 4
+    repeated :steps, :message, 5, "io.cucumber.messages.PickleStep"
+    repeated :tags, :message, 6, "io.cucumber.messages.PickleTag"
+    repeated :locations, :message, 7, "io.cucumber.messages.Location"
   end
   add_message "io.cucumber.messages.PickleStep" do
     optional :text, :string, 1
@@ -150,6 +149,11 @@ Google::Protobuf::DescriptorPool.generated_pool.build do
       optional :doc_string, :message, 3, "io.cucumber.messages.PickleDocString"
       optional :data_table, :message, 4, "io.cucumber.messages.PickleTable"
     end
+  end
+  add_message "io.cucumber.messages.PickleDocString" do
+    optional :location, :message, 1, "io.cucumber.messages.Location"
+    optional :contentType, :string, 2
+    optional :content, :string, 3
   end
   add_message "io.cucumber.messages.PickleTable" do
     repeated :rows, :message, 1, "io.cucumber.messages.PickleTableRow"
@@ -165,19 +169,28 @@ Google::Protobuf::DescriptorPool.generated_pool.build do
     optional :location, :message, 1, "io.cucumber.messages.Location"
     optional :name, :string, 2
   end
-  add_message "io.cucumber.messages.TestCase" do
-    optional :uri, :string, 1
-    optional :line, :uint32, 2
+  add_message "io.cucumber.messages.TestCaseStarted" do
+    optional :pickleId, :string, 1
+    optional :timestamp, :message, 2, "google.protobuf.Timestamp"
+  end
+  add_message "io.cucumber.messages.TestCaseFinished" do
+    optional :pickleId, :string, 1
+    optional :timestamp, :message, 2, "google.protobuf.Timestamp"
+  end
+  add_message "io.cucumber.messages.TestStepStarted" do
+    optional :pickleId, :string, 1
+    optional :index, :uint32, 2
+    optional :timestamp, :message, 3, "google.protobuf.Timestamp"
+  end
+  add_message "io.cucumber.messages.TestStepFinished" do
+    optional :pickleId, :string, 1
+    optional :index, :uint32, 2
+    optional :testResult, :message, 3, "io.cucumber.messages.TestResult"
+    optional :timestamp, :message, 4, "google.protobuf.Timestamp"
   end
   add_message "io.cucumber.messages.TestResult" do
     optional :status, :enum, 1, "io.cucumber.messages.Status"
     optional :message, :string, 2
-    optional :timestamp, :message, 3, "google.protobuf.Timestamp"
-  end
-  add_message "io.cucumber.messages.TestStepFinished" do
-    optional :testCase, :message, 1, "io.cucumber.messages.TestCase"
-    optional :index, :uint32, 2
-    optional :testResult, :message, 3, "io.cucumber.messages.TestResult"
   end
   add_enum "io.cucumber.messages.Status" do
     value :AMBIGUOUS, 0
@@ -192,11 +205,11 @@ end
 module Cucumber
   module Messages
     Wrapper = Google::Protobuf::DescriptorPool.generated_pool.lookup("io.cucumber.messages.Wrapper").msgclass
+    SourceReference = Google::Protobuf::DescriptorPool.generated_pool.lookup("io.cucumber.messages.SourceReference").msgclass
     Location = Google::Protobuf::DescriptorPool.generated_pool.lookup("io.cucumber.messages.Location").msgclass
     Attachment = Google::Protobuf::DescriptorPool.generated_pool.lookup("io.cucumber.messages.Attachment").msgclass
     Media = Google::Protobuf::DescriptorPool.generated_pool.lookup("io.cucumber.messages.Media").msgclass
     Source = Google::Protobuf::DescriptorPool.generated_pool.lookup("io.cucumber.messages.Source").msgclass
-    SourceReference = Google::Protobuf::DescriptorPool.generated_pool.lookup("io.cucumber.messages.SourceReference").msgclass
     GherkinDocument = Google::Protobuf::DescriptorPool.generated_pool.lookup("io.cucumber.messages.GherkinDocument").msgclass
     Feature = Google::Protobuf::DescriptorPool.generated_pool.lookup("io.cucumber.messages.Feature").msgclass
     FeatureChild = Google::Protobuf::DescriptorPool.generated_pool.lookup("io.cucumber.messages.FeatureChild").msgclass
@@ -213,15 +226,17 @@ module Cucumber
     TableRow = Google::Protobuf::DescriptorPool.generated_pool.lookup("io.cucumber.messages.TableRow").msgclass
     Tag = Google::Protobuf::DescriptorPool.generated_pool.lookup("io.cucumber.messages.Tag").msgclass
     Pickle = Google::Protobuf::DescriptorPool.generated_pool.lookup("io.cucumber.messages.Pickle").msgclass
-    PickleDocString = Google::Protobuf::DescriptorPool.generated_pool.lookup("io.cucumber.messages.PickleDocString").msgclass
     PickleStep = Google::Protobuf::DescriptorPool.generated_pool.lookup("io.cucumber.messages.PickleStep").msgclass
+    PickleDocString = Google::Protobuf::DescriptorPool.generated_pool.lookup("io.cucumber.messages.PickleDocString").msgclass
     PickleTable = Google::Protobuf::DescriptorPool.generated_pool.lookup("io.cucumber.messages.PickleTable").msgclass
     PickleTableCell = Google::Protobuf::DescriptorPool.generated_pool.lookup("io.cucumber.messages.PickleTableCell").msgclass
     PickleTableRow = Google::Protobuf::DescriptorPool.generated_pool.lookup("io.cucumber.messages.PickleTableRow").msgclass
     PickleTag = Google::Protobuf::DescriptorPool.generated_pool.lookup("io.cucumber.messages.PickleTag").msgclass
-    TestCase = Google::Protobuf::DescriptorPool.generated_pool.lookup("io.cucumber.messages.TestCase").msgclass
-    TestResult = Google::Protobuf::DescriptorPool.generated_pool.lookup("io.cucumber.messages.TestResult").msgclass
+    TestCaseStarted = Google::Protobuf::DescriptorPool.generated_pool.lookup("io.cucumber.messages.TestCaseStarted").msgclass
+    TestCaseFinished = Google::Protobuf::DescriptorPool.generated_pool.lookup("io.cucumber.messages.TestCaseFinished").msgclass
+    TestStepStarted = Google::Protobuf::DescriptorPool.generated_pool.lookup("io.cucumber.messages.TestStepStarted").msgclass
     TestStepFinished = Google::Protobuf::DescriptorPool.generated_pool.lookup("io.cucumber.messages.TestStepFinished").msgclass
+    TestResult = Google::Protobuf::DescriptorPool.generated_pool.lookup("io.cucumber.messages.TestResult").msgclass
     Status = Google::Protobuf::DescriptorPool.generated_pool.lookup("io.cucumber.messages.Status").enummodule
   end
 end

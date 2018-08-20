@@ -91,36 +91,40 @@ Feature: A
 		stdout.String())
 }
 
-//func TestPrintsInResultsMode(t *testing.T) {
-//	src := `Feature: A
-//
-//  Scenario: B
-//    Given C
-//    When D
-//    Then E
-//`
-//
-//	out := `Feature: A
-//
-//  Scenario: B
-//  ✓ Given C
-//  ✗ When D
-//    Then E
-//`
-//
-//	stdout := &bytes.Buffer{}
-//	prettyStdin := messageReader(t, src)
-//	prettyStdinWriter := gio.NewDelimitedWriter(prettyStdin)
-//	prettyStdinWriter.WriteMsg(newTestStepFinished(messages.Status_PASSED, 3, 0))
-//	prettyStdinWriter.WriteMsg(newTestStepFinished(messages.Status_FAILED, 3, 1))
-//	prettyStdinWriter.WriteMsg(newTestStepFinished(messages.Status_UNDEFINED, 3, 2))
-//
-//	ProcessMessages(prettyStdin, stdout, true)
-//
-//	require.EqualValues(t,
-//		out,
-//		stdout.String())
-//}
+func TestPrintsInResultsMode(t *testing.T) {
+	src := `Feature: A
+
+  Scenario: B
+    Given C
+    When D
+    Then E
+`
+
+	// TODO: Add ANSI codes for cursor up (after printing TestCaseStarted)
+	out := `Feature: A
+
+  Scenario: B
+  ✓ Given C
+  ✗ When D
+    Then E
+`
+
+	stdout := &bytes.Buffer{}
+	prettyStdin := messageReader(t, src)
+	prettyStdinWriter := gio.NewDelimitedWriter(prettyStdin)
+	prettyStdinWriter.WriteMsg(newTestCaseStarted("features/test.feature:3"))
+	prettyStdinWriter.WriteMsg(newTestStepFinished(messages.Status_PASSED, "features/test.feature:3", 0))
+	prettyStdinWriter.WriteMsg(newTestStepFinished(messages.Status_FAILED, "features/test.feature:3", 1))
+	prettyStdinWriter.WriteMsg(newTestStepFinished(messages.Status_UNDEFINED, "features/test.feature:3", 2))
+
+	ProcessMessages(prettyStdin, stdout, true)
+
+	require.EqualValues(t,
+		out,
+		stdout.String())
+}
+
+// TODO: Test that scenario doesn't get printed until the test case has started
 
 func messageReader(t *testing.T, src string) *bytes.Buffer {
 	source := &messages.Source{
@@ -151,16 +155,21 @@ func messageReader(t *testing.T, src string) *bytes.Buffer {
 	return prettyStdin
 }
 
-func newTestStepFinished(status messages.Status, line uint32, index uint32) *messages.Wrapper {
+func newTestCaseStarted(pickleId string) *messages.Wrapper {
+	return &messages.Wrapper{
+		Message: &messages.Wrapper_TestCaseStarted{
+			TestCaseStarted: &messages.TestCaseStarted{
+				PickleId: pickleId,
+			},
+		},
+	}
+}
+
+func newTestStepFinished(status messages.Status, pickleId string, index uint32) *messages.Wrapper {
 	return &messages.Wrapper{
 		Message: &messages.Wrapper_TestStepFinished{
 			TestStepFinished: &messages.TestStepFinished{
-				TestCase: &messages.TestCase{
-					SourceLine: &messages.SourceLine{
-						Uri:  "features/test.feature",
-						Line: line,
-					},
-				},
+				PickleId: pickleId,
 				TestResult: &messages.TestResult{
 					Status: status,
 				},

@@ -24,3 +24,10 @@ to the executable to see the result:
 
     cat all-results.bin | bin/cucumber-pretty-formatter
 
+
+# Design
+
+The formatter can operate in two modes:
+
+- Without results (for pretty formatting source code)
+- With results (for pretty formatting results as source code)

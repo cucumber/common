@@ -14,9 +14,13 @@ import (
 	"regexp"
 	"strconv"
 	"strings"
+	"unicode/utf8"
 )
 
 func ProcessMessages(stdin io.Reader, stdout io.Writer, resultsMode bool) {
+	stepPrinters := make(map[string]*StepPrinter)
+	picklePrinters := make(map[string]*PicklePrinter)
+
 	r := gio.NewDelimitedReader(stdin, 4096)
 	for {
 		wrapper := &messages.Wrapper{}
@@ -27,18 +31,46 @@ func ProcessMessages(stdin io.Reader, stdout io.Writer, resultsMode bool) {
 
 		switch t := wrapper.Message.(type) {
 		case *messages.Wrapper_GherkinDocument:
-			dp := DocumentPrinter{
-				Doc: t.GherkinDocument,
-				Writer: stdout,
-				Comments: t.GherkinDocument.Comments,
+			dp := &DocumentPrinter{
+				StepPrinters: stepPrinters,
+				Doc:          t.GherkinDocument,
+				Writer:       stdout,
+				Comments:     t.GherkinDocument.Comments,
+				ResultsMode:  resultsMode,
 			}
-			
-			dp.processGherkinDocument()
-		case *messages.Wrapper_TestStepFinished:
-			//			finished := t.TestStepFinished
 
-			// Look up AST node....
-			//			sourceLine := finished.TestCase.SourceLine
+			dp.processGherkinDocument()
+		case *messages.Wrapper_Pickle:
+			pickleId := makePickleId(t.Pickle.Uri, t.Pickle.Locations)
+			picklePrinters[pickleId] = &PicklePrinter{
+				Pickle:       t.Pickle,
+				Writer:       stdout,
+				StepPrinters: stepPrinters,
+			}
+			//case *messages.Wrapper_TestCase:
+			//	sourceRefKey := makeLocationKeyFromSourceRef(t.TestCase.SourceReference)
+			//
+			//	picklePrinters[t.TestCase.Id] = &PicklePrinter{
+			//		TestCase: t.TestCase,
+			//		Writer: stdout,
+			//	}
+		case *messages.Wrapper_TestCaseStarted:
+			pp := picklePrinters[t.TestCaseStarted.PickleId]
+			pp.printTestCaseStarted()
+		case *messages.Wrapper_TestStepFinished:
+			pp := picklePrinters[t.TestStepFinished.PickleId]
+			pp.printTestStepFinished(t.TestStepFinished.Index, &t.TestStepFinished.TestResult.Status)
+			//pp := picklePrinters[t.TestStepFinished.PickleId]
+			//pp.printStep()
+			//t.TestStepFinished.Index
+			//// Look up AST node....
+			//sourceLine := finished.TestCaseId
+			//
+			//
+			//stepKey := fmt.Sprintf("%s:%d", sourceLine.Uri, sourceLine.Line)
+			//print(stepKey)
+			//sp := stepPrinters[stepKey]
+			//sp.processStep(1)
 
 			//			fmt.Fprintf(stdout, "SXX %v\n", finished.GetTestResult().GetStatus().String())
 		}
@@ -46,19 +78,68 @@ func ProcessMessages(stdin io.Reader, stdout io.Writer, resultsMode bool) {
 	}
 }
 
-type DocumentPrinter struct {
-	Doc *messages.GherkinDocument
-	Writer io.Writer
-	Comments []*messages.Comment
+func makePickleId(uri string, locations []*messages.Location) string {
+	lines := collect(locations, func(loc *messages.Location) string { return fmt.Sprint(loc.Line) })
+	return fmt.Sprintf("%s:%s", uri, strings.Join(lines, ":"))
 }
 
-func (dp DocumentPrinter) processGherkinDocument() {
+// TODO: Move to Gherkin
+func collect(locations []*messages.Location, f func(loc *messages.Location) string) []string {
+	result := make([]string, len(locations))
+	for i, item := range locations {
+		result[i] = f(item)
+	}
+	return result
+}
+
+type DocumentPrinter struct {
+	StepPrinters map[string]*StepPrinter
+	Doc          *messages.GherkinDocument
+	Writer       io.Writer
+	Comments     []*messages.Comment
+	ResultsMode  bool
+}
+
+type PicklePrinter struct {
+	Pickle *messages.Pickle
+	// TODO: Have a ScenarioPrinter instead (which has step printers)
+	StepPrinters map[string]*StepPrinter
+	Writer       io.Writer
+}
+
+func (pp *PicklePrinter) printTestCaseStarted() {
+	// TODO: Grab the ScenarioPrinter (new class)
+	// Maybe it should have the step printers
+}
+
+func (pp *PicklePrinter) printTestStepFinished(stepIndex uint32, status *messages.Status) {
+	pickleStep := pp.Pickle.Steps[stepIndex]
+	stepKey := gherkinStepKey(pp.Pickle.Uri, pickleStep.Locations[0])
+	println("Looking up step key:", stepKey)
+
+	stepPrinter := pp.StepPrinters[stepKey]
+	stepPrinter.processStepWithStatus(2, status)
+}
+
+type StepPrinter struct {
+	Step        *messages.Step
+	Uri         string
+	Writer      io.Writer
+	ResultsMode bool
+}
+
+type TablePrinter struct {
+	Rows   []*messages.TableRow
+	Writer io.Writer
+}
+
+func (dp *DocumentPrinter) processGherkinDocument() {
 	if dp.Doc.Feature != nil {
 		dp.processFeature()
 	}
 }
 
-func (dp DocumentPrinter) processFeature() {
+func (dp *DocumentPrinter) processFeature() {
 	dp.processComments(dp.Doc.Feature.Location)
 	dp.processKeywordNode(0, dp.Doc.Feature)
 	for _, child := range dp.Doc.Feature.Children {
@@ -76,7 +157,7 @@ func (dp DocumentPrinter) processFeature() {
 	}
 }
 
-func (dp DocumentPrinter) processRule(rule *messages.Rule, depth int) {
+func (dp *DocumentPrinter) processRule(rule *messages.Rule, depth int) {
 	dp.processComments(rule.Location)
 	dp.processKeywordNode(depth, rule)
 
@@ -93,15 +174,15 @@ func (dp DocumentPrinter) processRule(rule *messages.Rule, depth int) {
 	}
 }
 
-func (dp DocumentPrinter) processBackground(background *messages.Background, depth int) {
+func (dp *DocumentPrinter) processBackground(background *messages.Background, depth int) {
 	dp.processComments(background.Location)
 	dp.processKeywordNode(depth, background)
 	for _, step := range background.GetSteps() {
-		dp.processStep(depth+1, step)
+		dp.processStep(step, depth+1)
 	}
 }
 
-func (dp DocumentPrinter) processScenario(scenario *messages.Scenario, depth int) {
+func (dp *DocumentPrinter) processScenario(scenario *messages.Scenario, depth int) {
 	//sourceLine := &messages.SourceLine{
 	//	Uri: uri,
 	//	Line: scenario.Location.Line,
@@ -111,7 +192,7 @@ func (dp DocumentPrinter) processScenario(scenario *messages.Scenario, depth int
 	dp.processTags(depth, scenario.Tags)
 	dp.processKeywordNode(depth, scenario)
 	for _, step := range scenario.GetSteps() {
-		dp.processStep(depth+1, step)
+		dp.processStep(step, depth+1)
 	}
 
 	for _, examples := range scenario.GetExamples() {
@@ -120,7 +201,25 @@ func (dp DocumentPrinter) processScenario(scenario *messages.Scenario, depth int
 	}
 }
 
-func (dp DocumentPrinter) processExamples(examples *messages.Examples, depth int) {
+func (dp *DocumentPrinter) processStep(step *messages.Step, depth int) {
+	sp := &StepPrinter{
+		Step:        step,
+		Uri:         dp.Doc.Uri,
+		Writer:      dp.Writer,
+		ResultsMode: dp.ResultsMode,
+	}
+	uri := sp.Uri
+	location := step.Location
+	stepKey := gherkinStepKey(uri, location)
+	dp.StepPrinters[stepKey] = sp
+	sp.processStep(depth)
+}
+
+func gherkinStepKey(uri string, location *messages.Location) string {
+	return fmt.Sprintf("%s:%d", uri, location.Line)
+}
+
+func (dp *DocumentPrinter) processExamples(examples *messages.Examples, depth int) {
 	dp.processComments(examples.Location)
 	dp.processTags(depth, examples.Tags)
 	dp.processKeywordNode(depth, examples)
@@ -128,10 +227,14 @@ func (dp DocumentPrinter) processExamples(examples *messages.Examples, depth int
 	rows := []*messages.TableRow{examples.TableHeader}
 	rows = append(rows, examples.GetTableBody()...)
 
-	dp.processTable(rows, depth+1)
+	tp := &TablePrinter{
+		Rows:   rows,
+		Writer: dp.Writer,
+	}
+	tp.processTable(depth + 1)
 }
 
-func (dp DocumentPrinter) processTags(depth int, tags []*messages.Tag) {
+func (dp *DocumentPrinter) processTags(depth int, tags []*messages.Tag) {
 	if len(tags) > 0 {
 		fmt.Fprintf(dp.Writer, strings.Repeat(" ", depth*2))
 		for n, tag := range tags {
@@ -144,43 +247,71 @@ func (dp DocumentPrinter) processTags(depth int, tags []*messages.Tag) {
 	}
 }
 
-func (dp DocumentPrinter) processStep(depth int, step *messages.Step) {
-	fmt.Fprintf(dp.Writer, strings.Repeat(" ", depth*2))
-	fmt.Fprintf(dp.Writer, "%s%s\n", step.GetKeyword(), step.GetText())
-
-	table := step.GetDataTable()
-	if table != nil {
-		dp.processDataTable(depth+1, table)
+func (sp *StepPrinter) processStep(depth int) {
+	if sp.ResultsMode {
+		return
 	}
 
-	docString := step.GetDocString()
+	fmt.Fprintf(sp.Writer, strings.Repeat(" ", depth*2))
+	fmt.Fprintf(sp.Writer, "%s%s\n", sp.Step.GetKeyword(), sp.Step.GetText())
+
+	table := sp.Step.GetDataTable()
+	if table != nil {
+		sp.processDataTable(depth+1, table)
+	}
+
+	docString := sp.Step.GetDocString()
 	if docString != nil {
-		dp.processDocString(depth+1, docString)
+		sp.processDocString(depth+1, docString)
 	}
 }
 
-func (dp DocumentPrinter) processDocString(depth int, docString *messages.DocString) {
-	fmt.Fprintf(dp.Writer, strings.Repeat(" ", depth*2))
-	fmt.Fprintf(dp.Writer, "%s%s\n", docString.Delimiter, docString.ContentType)
+func (sp *StepPrinter) processStepWithStatus(depth int, status *messages.Status) {
+	prefix := resultPrefix(*status)
+	indentCount := (depth * 2) - utf8.RuneCountInString(prefix)
+	indent := strings.Repeat(" ", indentCount)
+
+	fmt.Fprintf(sp.Writer, indent)
+	fmt.Fprintf(sp.Writer, "%s%s%s\n", prefix, sp.Step.GetKeyword(), sp.Step.GetText())
+}
+
+func resultPrefix(status messages.Status) string {
+	switch status {
+	case messages.Status_PASSED:
+		return "✓ "
+	case messages.Status_FAILED:
+		return "✗ "
+	default:
+		return "  "
+	}
+}
+
+func (sp *StepPrinter) processDocString(depth int, docString *messages.DocString) {
+	fmt.Fprintf(sp.Writer, strings.Repeat(" ", depth*2))
+	fmt.Fprintf(sp.Writer, "%s%s\n", docString.Delimiter, docString.ContentType)
 
 	re := regexp.MustCompile("(?m)^")
 	indentedContent := re.ReplaceAllString(docString.Content, strings.Repeat(" ", depth*2))
-	fmt.Fprintf(dp.Writer, "%s\n", indentedContent)
+	fmt.Fprintf(sp.Writer, "%s\n", indentedContent)
 
-	fmt.Fprintf(dp.Writer, strings.Repeat(" ", depth*2))
-	fmt.Fprintf(dp.Writer, "%s%s\n", docString.Delimiter, docString.ContentType)
+	fmt.Fprintf(sp.Writer, strings.Repeat(" ", depth*2))
+	fmt.Fprintf(sp.Writer, "%s%s\n", docString.Delimiter, docString.ContentType)
 }
 
-func (dp DocumentPrinter) processDataTable(depth int, table *messages.DataTable) {
-	dp.processTable(table.GetRows(), depth)
+func (sp *StepPrinter) processDataTable(depth int, table *messages.DataTable) {
+	tp := &TablePrinter{
+		Rows:   table.GetRows(),
+		Writer: sp.Writer,
+	}
+	tp.processTable(depth)
 }
 
-func (dp DocumentPrinter) processTable(rows []*messages.TableRow, depth int) {
-	rowCount := len(rows)
-	columnCount := len(rows[0].GetCells())
+func (tp *TablePrinter) processTable(depth int) {
+	rowCount := len(tp.Rows)
+	columnCount := len(tp.Rows[0].GetCells())
 	columnWidths := make([]int, columnCount, columnCount)
 	columnNumericCount := make([]int, columnCount, columnCount)
-	for _, row := range rows {
+	for _, row := range tp.Rows {
 		for columnIndex, cell := range row.GetCells() {
 			columnWidths[columnIndex] = max(columnWidths[columnIndex], len(cell.GetValue()))
 			_, err := strconv.ParseFloat(cell.GetValue(), 32)
@@ -189,8 +320,8 @@ func (dp DocumentPrinter) processTable(rows []*messages.TableRow, depth int) {
 			}
 		}
 	}
-	for _, row := range rows {
-		fmt.Fprintf(dp.Writer, strings.Repeat(" ", depth*2))
+	for _, row := range tp.Rows {
+		fmt.Fprintf(tp.Writer, strings.Repeat(" ", depth*2))
 		for columnIndex, cell := range row.GetCells() {
 			columnWidth := columnWidths[columnIndex]
 			numericValueRatio := float32(columnNumericCount[columnIndex]) / float32(rowCount)
@@ -201,13 +332,13 @@ func (dp DocumentPrinter) processTable(rows []*messages.TableRow, depth int) {
 			} else {
 				format = fmt.Sprintf("| %%-%dv ", columnWidth)
 			}
-			fmt.Fprintf(dp.Writer, format, cell.GetValue())
+			fmt.Fprintf(tp.Writer, format, cell.GetValue())
 		}
-		fmt.Fprintf(dp.Writer, "|\n")
+		fmt.Fprintf(tp.Writer, "|\n")
 	}
 }
 
-func (dp DocumentPrinter) processKeywordNode(depth int, keywordNode KeywordNode) {
+func (dp *DocumentPrinter) processKeywordNode(depth int, keywordNode KeywordNode) {
 	fmt.Fprintf(dp.Writer, strings.Repeat(" ", depth*2))
 	fmt.Fprintf(dp.Writer, "%s: %s\n", keywordNode.GetKeyword(), keywordNode.GetName())
 }
@@ -217,7 +348,7 @@ type KeywordNode interface {
 	GetName() string
 }
 
-func (dp DocumentPrinter) processComments(location *messages.Location) {
+func (dp *DocumentPrinter) processComments(location *messages.Location) {
 	for len(dp.Doc.Comments) > 0 {
 		comment := dp.Doc.Comments[0]
 		if location.Line < comment.Location.Line {
