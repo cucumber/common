@@ -101,9 +101,7 @@ func TestPrintsInResultsMode(t *testing.T) {
 `
 
 	// TODO: Add ANSI codes for cursor up (after printing TestCaseStarted)
-	out := `Feature: A
-
-  Scenario: B
+	out := `Scenario: B
   ✓ Given C
   ✗ When D
     Then E
@@ -125,6 +123,28 @@ func TestPrintsInResultsMode(t *testing.T) {
 }
 
 // TODO: Test that scenario doesn't get printed until the test case has started
+
+func TestDoesNotPrintUnstartedTestCase(t *testing.T) {
+	src := `Feature: A
+
+  Scenario: B
+    Given C
+    When D
+    Then E
+`
+
+	// TODO: Add ANSI codes for cursor up (after printing TestCaseStarted)
+	out := ``
+
+	stdout := &bytes.Buffer{}
+	prettyStdin := messageReader(t, src)
+
+	ProcessMessages(prettyStdin, stdout, true)
+
+	require.EqualValues(t,
+		out,
+		stdout.String())
+}
 
 func messageReader(t *testing.T, src string) *bytes.Buffer {
 	source := &messages.Source{

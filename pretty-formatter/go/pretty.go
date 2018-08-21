@@ -15,9 +15,11 @@ import (
 	"strconv"
 	"strings"
 	"unicode/utf8"
+	"io/ioutil"
 )
 
-func ProcessMessages(stdin io.Reader, stdout io.Writer, resultsMode bool) {
+func ProcessMessages(stdin io.Reader, writer io.Writer, resultsMode bool) {
+	scenarioPrinters := make(map[string]*ScenarioPrinter)
 	stepPrinters := make(map[string]*StepPrinter)
 	picklePrinters := make(map[string]*PicklePrinter)
 
@@ -31,12 +33,18 @@ func ProcessMessages(stdin io.Reader, stdout io.Writer, resultsMode bool) {
 
 		switch t := wrapper.Message.(type) {
 		case *messages.Wrapper_GherkinDocument:
+			w := writer
+			if (resultsMode) {
+				w = ioutil.Discard
+			}
+
 			dp := &DocumentPrinter{
-				StepPrinters: stepPrinters,
-				Doc:          t.GherkinDocument,
-				Writer:       stdout,
-				Comments:     t.GherkinDocument.Comments,
-				ResultsMode:  resultsMode,
+				ScenarioPrinters: scenarioPrinters,
+				StepPrinters:     stepPrinters,
+				Doc:              t.GherkinDocument,
+				Writer:           w,
+				Comments:         t.GherkinDocument.Comments,
+				ResultsMode:      resultsMode,
 			}
 
 			dp.processGherkinDocument()
@@ -44,35 +52,15 @@ func ProcessMessages(stdin io.Reader, stdout io.Writer, resultsMode bool) {
 			pickleId := makePickleId(t.Pickle.Uri, t.Pickle.Locations)
 			picklePrinters[pickleId] = &PicklePrinter{
 				Pickle:       t.Pickle,
-				Writer:       stdout,
+				Writer:       writer,
 				StepPrinters: stepPrinters,
 			}
-			//case *messages.Wrapper_TestCase:
-			//	sourceRefKey := makeLocationKeyFromSourceRef(t.TestCase.SourceReference)
-			//
-			//	picklePrinters[t.TestCase.Id] = &PicklePrinter{
-			//		TestCase: t.TestCase,
-			//		Writer: stdout,
-			//	}
 		case *messages.Wrapper_TestCaseStarted:
 			pp := picklePrinters[t.TestCaseStarted.PickleId]
 			pp.printTestCaseStarted()
 		case *messages.Wrapper_TestStepFinished:
 			pp := picklePrinters[t.TestStepFinished.PickleId]
 			pp.printTestStepFinished(t.TestStepFinished.Index, &t.TestStepFinished.TestResult.Status)
-			//pp := picklePrinters[t.TestStepFinished.PickleId]
-			//pp.printStep()
-			//t.TestStepFinished.Index
-			//// Look up AST node....
-			//sourceLine := finished.TestCaseId
-			//
-			//
-			//stepKey := fmt.Sprintf("%s:%d", sourceLine.Uri, sourceLine.Line)
-			//print(stepKey)
-			//sp := stepPrinters[stepKey]
-			//sp.processStep(1)
-
-			//			fmt.Fprintf(stdout, "SXX %v\n", finished.GetTestResult().GetStatus().String())
 		}
 
 	}
@@ -93,32 +81,43 @@ func collect(locations []*messages.Location, f func(loc *messages.Location) stri
 }
 
 type DocumentPrinter struct {
-	StepPrinters map[string]*StepPrinter
-	Doc          *messages.GherkinDocument
-	Writer       io.Writer
-	Comments     []*messages.Comment
-	ResultsMode  bool
+	ScenarioPrinters map[string]*ScenarioPrinter
+	StepPrinters     map[string]*StepPrinter
+	Doc              *messages.GherkinDocument
+	Writer           io.Writer
+	Comments         []*messages.Comment
+	ResultsMode      bool
 }
 
 type PicklePrinter struct {
-	Pickle *messages.Pickle
-	// TODO: Have a ScenarioPrinter instead (which has step printers)
-	StepPrinters map[string]*StepPrinter
-	Writer       io.Writer
+	Pickle           *messages.Pickle
+	ScenarioPrinters map[string]*ScenarioPrinter
+	StepPrinters     map[string]*StepPrinter
+	Writer           io.Writer
 }
 
 func (pp *PicklePrinter) printTestCaseStarted() {
-	// TODO: Grab the ScenarioPrinter (new class)
-	// Maybe it should have the step printers
+	scenarioKey := uriLineKey(pp.Pickle.Uri, pp.Pickle.Locations[0])
+	scenarioPrinter := pp.ScenarioPrinters[scenarioKey]
+	
+	println("KEY:" + scenarioKey)
+
+	fmt.Fprintf(pp.Writer, "%s: %s\n", scenarioPrinter.Scenario.GetKeyword(), pp.Pickle.Name)
 }
 
 func (pp *PicklePrinter) printTestStepFinished(stepIndex uint32, status *messages.Status) {
 	pickleStep := pp.Pickle.Steps[stepIndex]
-	stepKey := gherkinStepKey(pp.Pickle.Uri, pickleStep.Locations[0])
-	println("Looking up step key:", stepKey)
+	stepKey := uriLineKey(pp.Pickle.Uri, pickleStep.Locations[0])
 
 	stepPrinter := pp.StepPrinters[stepKey]
-	stepPrinter.processStepWithStatus(2, status)
+	stepPrinter.processStepWithStatus(pp.Writer, 2, status)
+}
+
+type ScenarioPrinter struct {
+	Scenario    *messages.Scenario
+	Uri         string
+	Writer      io.Writer
+	ResultsMode bool
 }
 
 type StepPrinter struct {
@@ -183,11 +182,17 @@ func (dp *DocumentPrinter) processBackground(background *messages.Background, de
 }
 
 func (dp *DocumentPrinter) processScenario(scenario *messages.Scenario, depth int) {
-	//sourceLine := &messages.SourceLine{
-	//	Uri: uri,
-	//	Line: scenario.Location.Line,
-	//}
+	sp := &ScenarioPrinter{
+		Scenario:    scenario,
+		Uri:         dp.Doc.Uri,
+		Writer:      dp.Writer,
+		ResultsMode: dp.ResultsMode,
+	}
+	key := uriLineKey(sp.Uri, scenario.Location)
+	println("ADDING SP:", key)
+	dp.ScenarioPrinters[key] = sp
 
+	// TODO: Move to ScenarioPrinter
 	dp.processComments(scenario.Location)
 	dp.processTags(depth, scenario.Tags)
 	dp.processKeywordNode(depth, scenario)
@@ -208,14 +213,12 @@ func (dp *DocumentPrinter) processStep(step *messages.Step, depth int) {
 		Writer:      dp.Writer,
 		ResultsMode: dp.ResultsMode,
 	}
-	uri := sp.Uri
-	location := step.Location
-	stepKey := gherkinStepKey(uri, location)
-	dp.StepPrinters[stepKey] = sp
+	dp.StepPrinters[uriLineKey(sp.Uri, step.Location)] = sp
+
 	sp.processStep(depth)
 }
 
-func gherkinStepKey(uri string, location *messages.Location) string {
+func uriLineKey(uri string, location *messages.Location) string {
 	return fmt.Sprintf("%s:%d", uri, location.Line)
 }
 
@@ -266,13 +269,13 @@ func (sp *StepPrinter) processStep(depth int) {
 	}
 }
 
-func (sp *StepPrinter) processStepWithStatus(depth int, status *messages.Status) {
+func (sp *StepPrinter) processStepWithStatus(writer io.Writer, depth int, status *messages.Status) {
 	prefix := resultPrefix(*status)
 	indentCount := (depth * 2) - utf8.RuneCountInString(prefix)
 	indent := strings.Repeat(" ", indentCount)
 
-	fmt.Fprintf(sp.Writer, indent)
-	fmt.Fprintf(sp.Writer, "%s%s%s\n", prefix, sp.Step.GetKeyword(), sp.Step.GetText())
+	fmt.Fprintf(writer, indent)
+	fmt.Fprintf(writer, "%s%s%s\n", prefix, sp.Step.GetKeyword(), sp.Step.GetText())
 }
 
 func resultPrefix(status messages.Status) string {
