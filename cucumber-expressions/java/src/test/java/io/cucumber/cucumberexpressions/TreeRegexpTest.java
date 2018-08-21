@@ -113,6 +113,16 @@ public class TreeRegexpTest {
     }
 
     @Test
+    public void doesnt_consider_parenthesis_in_character_class_as_group() {
+        TreeRegexp tr = new TreeRegexp("^drawings: ([A-Z_, ()]+)$");
+        Group g = tr.match("drawings: FU(BAR)");
+        assertEquals("drawings: FU(BAR)", g.getValue());
+        assertEquals("FU(BAR)", g.getChildren().get(0).getValue());
+        assertEquals(0, g.getChildren().get(0).getChildren().size());
+    }
+
+
+    @Test
     public void works_with_flags() {
         TreeRegexp tr = new TreeRegexp(Pattern.compile("HELLO", Pattern.CASE_INSENSITIVE));
         Group g = tr.match("hello");

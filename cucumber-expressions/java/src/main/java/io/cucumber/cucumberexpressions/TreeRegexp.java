@@ -29,15 +29,19 @@ class TreeRegexp {
 
         stack.push(new GroupBuilder());
         char last = 0;
-        boolean escaping = false;
+        boolean escaping = false, charClass = false;
         boolean nonCapturingMaybe = false;
         int n = 1;
         for (char c : chars) {
-            if (c == '(' && !escaping) {
+            if (c == '[' && !escaping) {
+                charClass = true;
+            } else if (c == ']' && !escaping) {
+                charClass = false;
+            } else if (c == '(' && !escaping && !charClass) {
                 stack.push(new GroupBuilder());
                 groupStartStack.push(n);
                 nonCapturingMaybe = false;
-            } else if (c == ')' && !escaping) {
+            } else if (c == ')' && !escaping && !charClass) {
                 GroupBuilder gb = stack.pop();
                 int groupStart = groupStartStack.pop();
                 if (gb.isCapturing()) {
