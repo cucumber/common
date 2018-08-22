@@ -51,8 +51,7 @@ public class CombinatorialGeneratedExpressionFactoryTest {
 
         CombinatorialGeneratedExpressionFactory factory = new CombinatorialGeneratedExpressionFactory(
                 "I bought a {%s} ball on {%s}",
-                parameterTypeCombinations
-        );
+                parameterTypeCombinations);
         List<GeneratedExpression> generatedExpressions = factory.generateExpressions();
         List<String> expressions = new ArrayList<>();
         for (GeneratedExpression generatedExpression : generatedExpressions) {

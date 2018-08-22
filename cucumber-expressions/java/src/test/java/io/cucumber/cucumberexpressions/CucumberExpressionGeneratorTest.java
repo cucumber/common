@@ -111,6 +111,24 @@ public class CucumberExpressionGeneratorTest {
     }
 
     @Test
+    public void turns_parameter_names_into_camel_case() {
+        parameterTypeRegistry.defineParameterType(new ParameterType<>(
+                "iso-currency",
+                "[A-Z]{3}",
+                Currency.class,
+                new Transformer<Currency>() {
+                    @Override
+                    public Currency transform(String arg) {
+                        return Currency.getInstance(arg);
+                    }
+                }
+        ));
+        assertExpression(
+                "I have a {iso-currency} account and a {iso-currency} account", asList("isoCurrency", "isoCurrency2"),
+                "I have a EUR account and a GBP account");
+    }
+
+    @Test
     public void prefers_leftmost_match_when_there_is_overlap() {
         parameterTypeRegistry.defineParameterType(new ParameterType<>(
                 "currency",
@@ -274,9 +292,13 @@ public class CucumberExpressionGeneratorTest {
     }
 
     private void assertExpression(String expectedExpression, List<String> expectedArgumentNames, String text) {
+        assertExpression(expectedExpression, expectedArgumentNames, text, LetterCase.LOWER_CAMEL_CASE, ProgrammingLanguage.JAVA);
+    }
+
+    private void assertExpression(String expectedExpression, List<String> expectedArgumentNames, String text, LetterCase letterCase, ProgrammingLanguage programmingLanguage) {
         GeneratedExpression generatedExpression = generator.generateExpressions(text).get(0);
         assertEquals(expectedExpression, generatedExpression.getSource());
-        assertEquals(expectedArgumentNames, generatedExpression.getParameterNames());
+        assertEquals(expectedArgumentNames, generatedExpression.getParameterNames(letterCase, programmingLanguage));
 
         // Check that the generated expression matches the text
         CucumberExpression cucumberExpression = new CucumberExpression(generatedExpression.getSource(), parameterTypeRegistry);
