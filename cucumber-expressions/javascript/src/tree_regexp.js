@@ -11,12 +11,17 @@ class TreeRegexp {
     let last = null
     let escaping = false
     let nonCapturingMaybe = false
+    let charClass = false
     this._re.source.split('').forEach((c, n) => {
-      if (c === '(' && !escaping) {
+      if (c == '[' && !escaping) {
+        charClass = true;
+      } else if (c == ']' && !escaping) {
+        charClass = false;
+      } else if (c === '(' && !escaping && !charClass) {
         stack.push(new GroupBuilder())
         groupStartStack.push(n + 1)
         nonCapturingMaybe = false
-      } else if (c === ')' && !escaping) {
+      } else if (c === ')' && !escaping && !charClass) {
         const gb = stack.pop()
         const groupStart = groupStartStack.pop()
         if (gb.capturing) {
