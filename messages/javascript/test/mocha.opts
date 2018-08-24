@@ -1,1 +1,2 @@
 --recursive
+-r ts-node/register
