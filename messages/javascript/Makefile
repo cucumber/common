@@ -1,5 +1,10 @@
 include default.mk
 
+default: dist/src/cucumber-messages.d.ts
+
+dist/src/cucumber-messages.d.ts: src/cucumber-messages.d.ts
+	cp $< $@
+
 .deps: src/cucumber-messages.js src/cucumber-messages.d.ts
 	touch $@
 
