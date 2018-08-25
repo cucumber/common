@@ -11,11 +11,11 @@ import (
 
 	"github.com/cucumber/cucumber-messages-go"
 	gio "github.com/gogo/protobuf/io"
+	"io/ioutil"
 	"regexp"
 	"strconv"
 	"strings"
 	"unicode/utf8"
-	"io/ioutil"
 )
 
 func ProcessMessages(stdin io.Reader, writer io.Writer, resultsMode bool) {
@@ -34,7 +34,7 @@ func ProcessMessages(stdin io.Reader, writer io.Writer, resultsMode bool) {
 		switch t := wrapper.Message.(type) {
 		case *messages.Wrapper_GherkinDocument:
 			w := writer
-			if (resultsMode) {
+			if resultsMode {
 				w = ioutil.Discard
 			}
 
@@ -51,9 +51,10 @@ func ProcessMessages(stdin io.Reader, writer io.Writer, resultsMode bool) {
 		case *messages.Wrapper_Pickle:
 			pickleId := makePickleId(t.Pickle.Uri, t.Pickle.Locations)
 			picklePrinters[pickleId] = &PicklePrinter{
-				Pickle:       t.Pickle,
-				Writer:       writer,
-				StepPrinters: stepPrinters,
+				Pickle:           t.Pickle,
+				Writer:           writer,
+				StepPrinters:     stepPrinters,
+				ScenarioPrinters: scenarioPrinters,
 			}
 		case *messages.Wrapper_TestCaseStarted:
 			pp := picklePrinters[t.TestCaseStarted.PickleId]
@@ -99,8 +100,6 @@ type PicklePrinter struct {
 func (pp *PicklePrinter) printTestCaseStarted() {
 	scenarioKey := uriLineKey(pp.Pickle.Uri, pp.Pickle.Locations[0])
 	scenarioPrinter := pp.ScenarioPrinters[scenarioKey]
-	
-	println("KEY:" + scenarioKey)
 
 	fmt.Fprintf(pp.Writer, "%s: %s\n", scenarioPrinter.Scenario.GetKeyword(), pp.Pickle.Name)
 }
@@ -189,7 +188,6 @@ func (dp *DocumentPrinter) processScenario(scenario *messages.Scenario, depth in
 		ResultsMode: dp.ResultsMode,
 	}
 	key := uriLineKey(sp.Uri, scenario.Location)
-	println("ADDING SP:", key)
 	dp.ScenarioPrinters[key] = sp
 
 	// TODO: Move to ScenarioPrinter
