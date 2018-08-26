@@ -4,10 +4,10 @@
   switch(production.Type)
   {
     case ProductionRuleType.Start:
-      @:ctxt.startRule(@Raw("RuleType_" + production.RuleName.Replace("#", "_")));
+      @:ctxt.startRule(@Raw("RuleType" + production.RuleName.Replace("#", "")));
       break;
     case ProductionRuleType.End:
-      @:ctxt.endRule(@Raw("RuleType_" + production.RuleName.Replace("#", "_")));
+      @:ctxt.endRule(@Raw("RuleType" + production.RuleName.Replace("#", "")));
       break;
     case ProductionRuleType.Process:
       @:ctxt.build(token);
@@ -33,9 +33,9 @@
     //ctxt.addError(err)
     return @state.Id, err</text>}
 @helper MatchToken(TokenType tokenType)
-{<text>ctxt.match_@(tokenType)(line)</text>}
+{<text>ctxt.match@(tokenType)(line)</text>}
 @helper IsMatchToken(TokenType tokenType)
-{<text>ctxt.isMatch_@(tokenType)(line)</text>}
+{<text>ctxt.isMatch@(tokenType)(line)</text>}
 @helper TokenConst(Rule rule)
 {<text>@Raw("rule" + rule.Name.Replace("#", "Int"))</text>}
 //
@@ -52,20 +52,20 @@ import (
 type TokenType int
 
 const (
-  TokenType_None TokenType = iota
+  TokenTypeNone TokenType = iota
   @foreach(var rule in Model.RuleSet.TokenRules)
-  {<text>  @Raw("TokenType_" + rule.Name.Replace("#", ""))
+  {<text>  @Raw("TokenType" + rule.Name.Replace("#", ""))
 </text>}
 )
 
 func tokenTypeForRule(rt RuleType) TokenType {
-    return TokenType_None
+    return TokenTypeNone
 }
 
 func (t TokenType) Name() string {
   switch t {
   @foreach(var rule in Model.RuleSet.TokenRules)
-  {<text>    case @Raw("TokenType_" + rule.Name.Replace("#", "")): return "@Raw(rule.Name.Replace("#", ""))"
+  {<text>    case @Raw("TokenType" + rule.Name.Replace("#", "")): return "@Raw(rule.Name.Replace("#", ""))"
 </text>}
   }
   return ""
@@ -74,30 +74,30 @@ func (t TokenType) Name() string {
 func (t TokenType) RuleType() RuleType {
   switch t {
   @foreach(var rule in Model.RuleSet.TokenRules)
-  {<text>    case @Raw("TokenType_" + rule.Name.Replace("#", "")): return @Raw("RuleType_" + rule.Name.Replace("#", "_"))
+  {<text>    case @Raw("TokenType" + rule.Name.Replace("#", "")): return @Raw("RuleType" + rule.Name.Replace("#", ""))
 </text>}
   }
-  return RuleType_None
+  return RuleTypeNone
 }
 
 
 type RuleType int
 
 const (
-  RuleType_None RuleType = iota
+  RuleTypeNone RuleType = iota
 
   @foreach(var rule in Model.RuleSet.Where(r => !r.TempRule))
-  {<text>  @Raw("RuleType_" + rule.Name.Replace("#", "_"))
+  {<text>  @Raw("RuleType" + rule.Name.Replace("#", ""))
 </text>}
 )
 
 func (t RuleType) IsEOF() bool {
-  return t == RuleType__EOF
+  return t == RuleTypeEOF
 }
 func (t RuleType) Name() string {
   switch t {
   @foreach(var rule in Model.RuleSet.Where(r => !r.TempRule))
-    {<text>    case @Raw("RuleType_" + rule.Name.Replace("#", "_")): return "@Raw(rule.Name)"
+    {<text>    case @Raw("RuleType" + rule.Name.Replace("#", "")): return "@Raw(rule.Name)"
 </text>}
   }
   return ""
@@ -131,7 +131,7 @@ func (p *parser) Parse(s Scanner, m Matcher) (err error) {
   m.Reset()
   ctxt := &parseContext{p,s,p.builder,m,nil,nil}
   var state int
-  ctxt.startRule(@Raw("RuleType_" + @Model.RuleSet.StartRule.Name))
+  ctxt.startRule(@Raw("RuleType" + @Model.RuleSet.StartRule.Name))
   for {
     gl, eof, err := ctxt.scan()
     if err != nil {
@@ -152,7 +152,7 @@ func (p *parser) Parse(s Scanner, m Matcher) (err error) {
       break
     }
   }
-  ctxt.endRule(@Raw("RuleType_" + @Model.RuleSet.StartRule.Name))
+  ctxt.endRule(@Raw("RuleType" + @Model.RuleSet.StartRule.Name))
   if len(ctxt.errors) > 0 {
     return ctxt.errors
   }
@@ -219,7 +219,7 @@ func (ctxt *parseContext) match(state int, line *Line) (newState int, err error)
   @foreach(var state in Model.States.Values.Where(s => !s.IsEndState))
   {
   @:case @state.Id:
-    @:return ctxt.matchAt_@(state.Id)(line);
+    @:return ctxt.matchAt@(state.Id)(line);
   }
   default:
     return state, fmt.Errorf("Unknown state: %+v", state);
@@ -230,13 +230,13 @@ func (ctxt *parseContext) match(state int, line *Line) (newState int, err error)
 {
 <text>
   // @Raw(state.Comment)
-func (ctxt *parseContext) matchAt_@(state.Id)(line *Line) (newState int, err error) {
+func (ctxt *parseContext) matchAt@(state.Id)(line *Line) (newState int, err error) {
   @foreach(var transition in state.Transitions)
   {
   @:if ok, token, err := @MatchToken(transition.TokenType); ok {
     if (transition.LookAheadHint != null)
     {
-    @:if ctxt.lookahead_@(transition.LookAheadHint.Id)(line) {
+    @:if ctxt.lookahead@(transition.LookAheadHint.Id)(line) {
     }
     foreach(var production in transition.Productions)
     {
@@ -263,11 +263,11 @@ type Matcher interface {
 @foreach(var rule in Model.RuleSet.TokenRules)
 {
 <text>
-func (ctxt *parseContext) isMatch_@(rule.Name.Replace("#", ""))(line *Line) bool {
-  ok, _, _ := ctxt.match_@(rule.Name.Replace("#", ""))(line)
+func (ctxt *parseContext) isMatch@(rule.Name.Replace("#", ""))(line *Line) bool {
+  ok, _, _ := ctxt.match@(rule.Name.Replace("#", ""))(line)
   return ok
 }
-func (ctxt *parseContext) match_@(rule.Name.Replace("#", ""))(line *Line) (bool, *Token, error) {
+func (ctxt *parseContext) match@(rule.Name.Replace("#", ""))(line *Line) (bool, *Token, error) {
     @if (rule.Name != "#EOF")
     {
     @:if line.IsEof() {
@@ -282,7 +282,7 @@ func (ctxt *parseContext) match_@(rule.Name.Replace("#", ""))(line *Line) (bool,
 @foreach(var lookAheadHint in Model.RuleSet.LookAheadHints)
 {
 <text>
-func (ctxt *parseContext) lookahead_@(lookAheadHint.Id)(initialLine *Line) bool {
+func (ctxt *parseContext) lookahead@(lookAheadHint.Id)(initialLine *Line) bool {
     var queue []*scanResult
     var match bool
 

@@ -18,11 +18,11 @@ type astBuilder struct {
 func (t *astBuilder) Reset() {
 	t.comments = []*messages.Comment{}
 	t.stack = []*astNode{}
-	t.push(newAstNode(RuleType_None))
+	t.push(newAstNode(RuleTypeNone))
 }
 
 func (t *astBuilder) GetGherkinDocument() *messages.GherkinDocument {
-	res := t.currentNode().getSingle(RuleType_GherkinDocument)
+	res := t.currentNode().getSingle(RuleTypeGherkinDocument)
 	if val, ok := res.(*messages.GherkinDocument); ok {
 		return val
 	}
@@ -92,7 +92,7 @@ func newAstNode(rt RuleType) *astNode {
 func NewAstBuilder() AstBuilder {
 	builder := new(astBuilder)
 	builder.comments = []*messages.Comment{}
-	builder.push(newAstNode(RuleType_None))
+	builder.push(newAstNode(RuleTypeNone))
 	return builder
 }
 
@@ -107,7 +107,7 @@ func (t *astBuilder) pop() *astNode {
 }
 
 func (t *astBuilder) Build(tok *Token) (bool, error) {
-	if tok.Type == TokenType_Comment {
+	if tok.Type == TokenTypeComment {
 		comment := &messages.Comment{
 			Location: astLocation(tok),
 			Text:     tok.Text,
@@ -132,19 +132,19 @@ func (t *astBuilder) EndRule(r RuleType) (bool, error) {
 func (t *astBuilder) transformNode(node *astNode) (interface{}, error) {
 	switch node.ruleType {
 
-	case RuleType_Step:
-		stepLine := node.getToken(TokenType_StepLine)
+	case RuleTypeStep:
+		stepLine := node.getToken(TokenTypeStepLine)
 
 		step := &messages.Step{
 			Location: astLocation(stepLine),
 			Keyword:  stepLine.Keyword,
 			Text:     stepLine.Text,
 		}
-		dataTable := node.getSingle(RuleType_DataTable)
+		dataTable := node.getSingle(RuleTypeDataTable)
 		if dataTable != nil {
 			step.Argument = &messages.Step_DataTable{DataTable: dataTable.(*messages.DataTable)}
 		} else {
-			docString := node.getSingle(RuleType_DocString)
+			docString := node.getSingle(RuleTypeDocString)
 			if docString != nil {
 				step.Argument = &messages.Step_DocString{DocString: docString.(*messages.DocString)}
 			}
@@ -152,9 +152,9 @@ func (t *astBuilder) transformNode(node *astNode) (interface{}, error) {
 
 		return step, nil
 
-	case RuleType_DocString:
-		separatorToken := node.getToken(TokenType_DocStringSeparator)
-		lineTokens := node.getTokens(TokenType_Other)
+	case RuleTypeDocString:
+		separatorToken := node.getToken(TokenTypeDocStringSeparator)
+		lineTokens := node.getTokens(TokenTypeOther)
 		var text string
 		for i := range lineTokens {
 			if i > 0 {
@@ -170,7 +170,7 @@ func (t *astBuilder) transformNode(node *astNode) (interface{}, error) {
 		}
 		return ds, nil
 
-	case RuleType_DataTable:
+	case RuleTypeDataTable:
 		rows, err := astTableRows(node)
 		dt := &messages.DataTable{
 			Location: rows[0].Location,
@@ -178,9 +178,9 @@ func (t *astBuilder) transformNode(node *astNode) (interface{}, error) {
 		}
 		return dt, err
 
-	case RuleType_Background:
-		backgroundLine := node.getToken(TokenType_BackgroundLine)
-		description, _ := node.getSingle(RuleType_Description).(string)
+	case RuleTypeBackground:
+		backgroundLine := node.getToken(TokenTypeBackgroundLine)
+		description, _ := node.getSingle(RuleTypeDescription).(string)
 		bg := &messages.Background{
 			Location:    astLocation(backgroundLine),
 			Keyword:     backgroundLine.Keyword,
@@ -190,12 +190,12 @@ func (t *astBuilder) transformNode(node *astNode) (interface{}, error) {
 		}
 		return bg, nil
 
-	case RuleType_ScenarioDefinition:
+	case RuleTypeScenarioDefinition:
 		tags := astTags(node)
-		scenarioNode, _ := node.getSingle(RuleType_Scenario).(*astNode)
+		scenarioNode, _ := node.getSingle(RuleTypeScenario).(*astNode)
 
-		scenarioLine := scenarioNode.getToken(TokenType_ScenarioLine)
-		description, _ := scenarioNode.getSingle(RuleType_Description).(string)
+		scenarioLine := scenarioNode.getToken(TokenTypeScenarioLine)
+		description, _ := scenarioNode.getSingle(RuleTypeDescription).(string)
 		sc := &messages.Scenario{
 			Tags:        tags,
 			Location:    astLocation(scenarioLine),
@@ -208,12 +208,12 @@ func (t *astBuilder) transformNode(node *astNode) (interface{}, error) {
 
 		return sc, nil
 
-	case RuleType_ExamplesDefinition:
+	case RuleTypeExamplesDefinition:
 		tags := astTags(node)
-		examplesNode, _ := node.getSingle(RuleType_Examples).(*astNode)
-		examplesLine := examplesNode.getToken(TokenType_ExamplesLine)
-		description, _ := examplesNode.getSingle(RuleType_Description).(string)
-		examplesTable := examplesNode.getSingle(RuleType_ExamplesTable)
+		examplesNode, _ := node.getSingle(RuleTypeExamples).(*astNode)
+		examplesLine := examplesNode.getToken(TokenTypeExamplesLine)
+		description, _ := examplesNode.getSingle(RuleTypeDescription).(string)
+		examplesTable := examplesNode.getSingle(RuleTypeExamplesTable)
 
 		// TODO: Is this mutation style ok?
 		ex := &messages.Examples{}
@@ -231,12 +231,12 @@ func (t *astBuilder) transformNode(node *astNode) (interface{}, error) {
 		}
 		return ex, nil
 
-	case RuleType_ExamplesTable:
+	case RuleTypeExamplesTable:
 		allRows, err := astTableRows(node)
 		return allRows, err
 
-	case RuleType_Description:
-		lineTokens := node.getTokens(TokenType_Other)
+	case RuleTypeDescription:
+		lineTokens := node.getTokens(TokenTypeOther)
 		// Trim trailing empty lines
 		end := len(lineTokens)
 		for end > 0 && strings.TrimSpace(lineTokens[end-1].Text) == "" {
@@ -248,32 +248,32 @@ func (t *astBuilder) transformNode(node *astNode) (interface{}, error) {
 		}
 		return strings.Join(desc, "\n"), nil
 
-	case RuleType_Feature:
-		header, ok := node.getSingle(RuleType_FeatureHeader).(*astNode)
+	case RuleTypeFeature:
+		header, ok := node.getSingle(RuleTypeFeatureHeader).(*astNode)
 		if !ok {
 			return nil, nil
 		}
 		tags := astTags(header)
-		featureLine := header.getToken(TokenType_FeatureLine)
+		featureLine := header.getToken(TokenTypeFeatureLine)
 		if featureLine == nil {
 			return nil, nil
 		}
 
 		var children []*messages.FeatureChild
-		background, _ := node.getSingle(RuleType_Background).(*messages.Background)
+		background, _ := node.getSingle(RuleTypeBackground).(*messages.Background)
 		if background != nil {
 			children = append(children, &messages.FeatureChild{
 				Value: &messages.FeatureChild_Background{Background: background},
 			})
 		}
-		scenarios := node.getItems(RuleType_ScenarioDefinition)
+		scenarios := node.getItems(RuleTypeScenarioDefinition)
 		for i := range scenarios {
 			scenario := scenarios[i].(*messages.Scenario)
 			children = append(children, &messages.FeatureChild{
 				Value: &messages.FeatureChild_Scenario{Scenario: scenario},
 			})
 		}
-		rules := node.getItems(RuleType_Rule)
+		rules := node.getItems(RuleTypeRule)
 		for i := range rules {
 			rule := rules[i].(*messages.Rule)
 			children = append(children, &messages.FeatureChild{
@@ -281,7 +281,7 @@ func (t *astBuilder) transformNode(node *astNode) (interface{}, error) {
 			})
 		}
 
-		description, _ := header.getSingle(RuleType_Description).(string)
+		description, _ := header.getSingle(RuleTypeDescription).(string)
 
 		feat := &messages.Feature{}
 		feat.Tags = tags
@@ -293,24 +293,24 @@ func (t *astBuilder) transformNode(node *astNode) (interface{}, error) {
 		feat.Children = children
 		return feat, nil
 
-	case RuleType_Rule:
-		header, ok := node.getSingle(RuleType_RuleHeader).(*astNode)
+	case RuleTypeRule:
+		header, ok := node.getSingle(RuleTypeRuleHeader).(*astNode)
 		if !ok {
 			return nil, nil
 		}
-		ruleLine := header.getToken(TokenType_RuleLine)
+		ruleLine := header.getToken(TokenTypeRuleLine)
 		if ruleLine == nil {
 			return nil, nil
 		}
 
 		var children []*messages.RuleChild
-		background, _ := node.getSingle(RuleType_Background).(*messages.Background)
+		background, _ := node.getSingle(RuleTypeBackground).(*messages.Background)
 		if background != nil {
 			children = append(children, &messages.RuleChild{
 				Value: &messages.RuleChild_Background{Background: background},
 			})
 		}
-		scenarios := node.getItems(RuleType_ScenarioDefinition)
+		scenarios := node.getItems(RuleTypeScenarioDefinition)
 		for i := range scenarios {
 			scenario := scenarios[i].(*messages.Scenario)
 			children = append(children, &messages.RuleChild{
@@ -318,7 +318,7 @@ func (t *astBuilder) transformNode(node *astNode) (interface{}, error) {
 			})
 		}
 
-		description, _ := header.getSingle(RuleType_Description).(string)
+		description, _ := header.getSingle(RuleTypeDescription).(string)
 
 		rule := &messages.Rule{}
 		rule.Location = astLocation(ruleLine)
@@ -328,8 +328,8 @@ func (t *astBuilder) transformNode(node *astNode) (interface{}, error) {
 		rule.Children = children
 		return rule, nil
 
-	case RuleType_GherkinDocument:
-		feature, _ := node.getSingle(RuleType_Feature).(*messages.Feature)
+	case RuleTypeGherkinDocument:
+		feature, _ := node.getSingle(RuleTypeFeature).(*messages.Feature)
 
 		doc := &messages.GherkinDocument{}
 		if feature != nil {
@@ -350,7 +350,7 @@ func astLocation(t *Token) *messages.Location {
 
 func astTableRows(t *astNode) (rows []*messages.TableRow, err error) {
 	rows = []*messages.TableRow{}
-	tokens := t.getTokens(TokenType_TableRow)
+	tokens := t.getTokens(TokenTypeTableRow)
 	for i := range tokens {
 		row := &messages.TableRow{
 			Location: astLocation(tokens[i]),
@@ -395,7 +395,7 @@ func astTableCells(t *Token) (cells []*messages.TableCell) {
 
 func astSteps(t *astNode) (steps []*messages.Step) {
 	steps = []*messages.Step{}
-	tokens := t.getItems(RuleType_Step)
+	tokens := t.getItems(RuleTypeStep)
 	for i := range tokens {
 		step, _ := tokens[i].(*messages.Step)
 		steps = append(steps, step)
@@ -405,7 +405,7 @@ func astSteps(t *astNode) (steps []*messages.Step) {
 
 func astExamples(t *astNode) (examples []*messages.Examples) {
 	examples = []*messages.Examples{}
-	tokens := t.getItems(RuleType_ExamplesDefinition)
+	tokens := t.getItems(RuleTypeExamplesDefinition)
 	for i := range tokens {
 		example, _ := tokens[i].(*messages.Examples)
 		examples = append(examples, example)
@@ -415,11 +415,11 @@ func astExamples(t *astNode) (examples []*messages.Examples) {
 
 func astTags(node *astNode) (tags []*messages.Tag) {
 	tags = []*messages.Tag{}
-	tagsNode, ok := node.getSingle(RuleType_Tags).(*astNode)
+	tagsNode, ok := node.getSingle(RuleTypeTags).(*astNode)
 	if !ok {
 		return
 	}
-	tokens := tagsNode.getTokens(TokenType_TagLine)
+	tokens := tagsNode.getTokens(TokenTypeTagLine)
 	for i := range tokens {
 		token := tokens[i]
 		for k := range token.Items {
