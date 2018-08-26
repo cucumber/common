@@ -2,6 +2,8 @@ package io.cucumber.cucumberexpressions;
 
 import org.junit.Test;
 
+import java.text.DateFormat;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Currency;
@@ -18,6 +20,7 @@ public class CucumberExpressionGeneratorTest {
 
     private final ParameterTypeRegistry parameterTypeRegistry = new ParameterTypeRegistry(Locale.ENGLISH);
     private final CucumberExpressionGenerator generator = new CucumberExpressionGenerator(parameterTypeRegistry);
+    private DateFormat df = DateFormat.getDateInstance();
 
     @Test
     public void documents_expression_generation() {
@@ -127,7 +130,11 @@ public class CucumberExpressionGeneratorTest {
                 new Transformer<Date>() {
                     @Override
                     public Date transform(String arg) {
-                        return new Date(arg);
+                        try {
+                            return df.parse(arg);
+                        } catch (ParseException e) {
+                            throw new RuntimeException(e);
+                        }
                     }
                 }
         ));
@@ -156,7 +163,11 @@ public class CucumberExpressionGeneratorTest {
                 new Transformer<Date>() {
                     @Override
                     public Date transform(String arg) {
-                        return new Date(arg);
+                        try {
+                            return df.parse(arg);
+                        } catch (ParseException e) {
+                            throw new RuntimeException(e);
+                        }
                     }
                 }
         ));
@@ -187,7 +198,11 @@ public class CucumberExpressionGeneratorTest {
                 new Transformer<Date>() {
                     @Override
                     public Date transform(String arg) {
-                        return new Date(arg);
+                        try {
+                            return df.parse(arg);
+                        } catch (ParseException e) {
+                            throw new RuntimeException(e);
+                        }
                     }
                 },
                 true,
