@@ -11,8 +11,6 @@ import (
 	"flag"
 	"fmt"
 	"github.com/cucumber/gherkin-go"
-	"github.com/golang/protobuf/jsonpb"
-	"github.com/golang/protobuf/proto"
 	"os"
 )
 
@@ -43,31 +41,21 @@ func main() {
 
 	paths := flag.Args()
 
-	messageList, err := gherkin.GherkinMessages(paths, os.Stdin, *defaultDialectFlag, !*noSource, !*noAst, !*noPickles)
+	stdout := bufio.NewWriter(os.Stdout)
+	defer stdout.Flush()
+
+	_, err := gherkin.Messages(
+		paths,
+		os.Stdin,
+		*defaultDialectFlag,
+		!*noSource,
+		!*noAst,
+		!*noPickles,
+		stdout,
+		*printJson,
+	)
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "failed to parse Gherkin: %+v\n", err)
 		os.Exit(1)
-	}
-	stdout := bufio.NewWriter(os.Stdout)
-	defer stdout.Flush()
-	for _, message := range messageList {
-		if *printJson {
-			ma := jsonpb.Marshaler{}
-			msgJson, err := ma.MarshalToString(&message)
-			if err != nil {
-				fmt.Fprintf(os.Stderr, "failed to marshal Message to JSON: %+v\n", err)
-				os.Exit(1)
-			}
-			stdout.WriteString(msgJson)
-			stdout.WriteString("\n")
-		} else {
-			bytes, err := proto.Marshal(&message)
-			if err != nil {
-				fmt.Fprintf(os.Stderr, "failed to marshal Message: %+v\n", err)
-				os.Exit(1)
-			}
-			stdout.Write(proto.EncodeVarint(uint64(len(bytes))))
-			stdout.Write(bytes)
-		}
 	}
 }

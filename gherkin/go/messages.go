@@ -1,32 +1,71 @@
 package gherkin
 
 import (
+	"bufio"
 	"fmt"
 	"github.com/cucumber/cucumber-messages-go"
 	gio "github.com/gogo/protobuf/io"
+	"github.com/gogo/protobuf/jsonpb"
+	"github.com/gogo/protobuf/proto"
 	"io"
 	"io/ioutil"
 	"strings"
 )
 
-func GherkinMessages(paths []string, sourceStream io.Reader, language string, includeSource bool, includeGherkinDocument bool, includePickles bool) ([]messages.Wrapper, error) {
+func Messages(
+	paths []string,
+	sourceStream io.Reader,
+	language string,
+	includeSource bool,
+	includeGherkinDocument bool,
+	includePickles bool,
+	outStream io.Writer,
+	json bool,
+) ([]messages.Wrapper, error) {
 	var result []messages.Wrapper
+	var err error
+
+	handleMessage := func(result []messages.Wrapper, message *messages.Wrapper) ([]messages.Wrapper, error) {
+		if outStream != nil {
+			if json {
+				ma := jsonpb.Marshaler{}
+				msgJson, err := ma.MarshalToString(message)
+				if err != nil {
+					return result, err
+				}
+				out := bufio.NewWriter(outStream)
+				out.WriteString(msgJson)
+				out.WriteString("\n")
+			} else {
+				bytes, err := proto.Marshal(message)
+				if err != nil {
+					return result, err
+				}
+				outStream.Write(proto.EncodeVarint(uint64(len(bytes))))
+				outStream.Write(bytes)
+			}
+
+		} else {
+			result = append(result, *message)
+		}
+
+		return result, err
+	}
 
 	processSource := func(source *messages.Source) error {
 		if includeSource {
-			result = append(result, messages.Wrapper{
+			result, err = handleMessage(result, &messages.Wrapper{
 				Message: &messages.Wrapper_Source{
 					Source: source,
 				},
 			})
 		}
-
 		doc, err := ParseGherkinDocumentForLanguage(strings.NewReader(source.Data), language)
 		if errs, ok := err.(parseErrors); ok {
 			// expected parse errors
 			for _, err := range errs {
 				if pe, ok := err.(*parseError); ok {
-					result = append(result, pe.asAttachment(source.Uri))
+					result, err = handleMessage(result, pe.asAttachment(source.Uri))
 				} else {
 					return fmt.Errorf("parse feature file: %s, unexpected error: %+v\n", source.Uri, err)
 				}
@@ -36,7 +75,7 @@ func GherkinMessages(paths []string, sourceStream io.Reader, language string, in
 
 		if includeGherkinDocument {
 			doc.Uri = source.Uri
-			result = append(result, messages.Wrapper{
+			result, err = handleMessage(result, &messages.Wrapper{
 				Message: &messages.Wrapper_GherkinDocument{
 					GherkinDocument: doc,
 				},
@@ -45,7 +84,7 @@ func GherkinMessages(paths []string, sourceStream io.Reader, language string, in
 
 		if includePickles {
 			for _, pickle := range Pickles(*doc, source.Uri) {
-				result = append(result, messages.Wrapper{
+				result, err = handleMessage(result, &messages.Wrapper{
 					Message: &messages.Wrapper_Pickle{
 						Pickle: pickle,
 					},
@@ -82,11 +121,11 @@ func GherkinMessages(paths []string, sourceStream io.Reader, language string, in
 		}
 	}
 
-	return result, nil
+	return result, err
 }
 
-func (a *parseError) asAttachment(uri string) messages.Wrapper {
-	return messages.Wrapper{
+func (a *parseError) asAttachment(uri string) *messages.Wrapper {
+	return &messages.Wrapper{
 		Message: &messages.Wrapper_Attachment{
 			Attachment: &messages.Attachment{
 				Data: a.Error(),

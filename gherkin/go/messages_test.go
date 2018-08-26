@@ -32,7 +32,16 @@ func TestMessagesWithStdin(t *testing.T) {
 	writer.WriteMsg(source)
 	writer.WriteMsg(source)
 
-	wrappers, err := GherkinMessages(nil, stdin, "en", true, true, true)
+	wrappers, err := Messages(
+		nil,
+		stdin,
+		"en",
+		true,
+		true,
+		true,
+		nil,
+		false,
+	)
 	if err != nil {
 		t.Error(err)
 	}

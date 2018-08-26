@@ -158,16 +158,19 @@ func messageReader(t *testing.T, src string) *bytes.Buffer {
 	sources := &bytes.Buffer{}
 	sourcesWriter := gio.NewDelimitedWriter(sources)
 	sourcesWriter.WriteMsg(source)
-	wrappers, err := gherkin.GherkinMessages(
+
+	prettyStdin := &bytes.Buffer{}
+	wrappers, err := gherkin.Messages(
 		nil,
 		sources,
 		"en",
 		true,
 		true,
 		true,
+		prettyStdin,
+		false,
 	)
 	require.NoError(t, err)
-	prettyStdin := &bytes.Buffer{}
 	prettyStdinWriter := gio.NewDelimitedWriter(prettyStdin)
 	for _, wrapper := range wrappers {
 		prettyStdinWriter.WriteMsg(&wrapper)
