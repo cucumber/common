@@ -13,13 +13,18 @@ module Cucumber
         last = nil
         escaping = false
         non_capturing_maybe = false
+        char_class = false
 
         @regexp.source.split('').each_with_index do |c, n|
-          if c == '(' && !escaping
+          if c == '[' && !escaping
+            char_class = true
+          elsif c == ']' && !escaping
+            char_class = false
+          elsif c == '(' && !escaping && !char_class
             stack.push(GroupBuilder.new)
             group_start_stack.push(n+1)
             non_capturing_maybe = false
-          elsif c == ')' && !escaping
+          elsif c == ')' && !escaping && !char_class
             gb = stack.pop
             group_start = group_start_stack.pop
             if gb.capturing?
