@@ -1,7 +1,7 @@
 require 'rspec'
-require 'gherkin/exe_file'
+require 'c21e/exe_file'
 
-module Gherkin
+module C21e
   describe ExeFile do
     it 'detects macos' do
       exe_file = ExeFile.new(
@@ -15,18 +15,18 @@ module Gherkin
 
     it 'generates a file name for macos' do
       exe_file = ExeFile.new(
-        'gherkin-{{.OS}}-{{.Arch}}{{.Ext}}',
+        'test-{{.OS}}-{{.Arch}}{{.Ext}}',
         os: 'darwin8.10.3', arch: 'amd64'
       )
-      expect(exe_file.target_file).to eq 'gherkin-darwin-amd64'
+      expect(exe_file.target_file).to eq 'test-darwin-amd64'
     end
 
     it 'generates a file name for windows' do
       exe_file = ExeFile.new(
-        'gherkin-{{.OS}}-{{.Arch}}{{.Ext}}',
+        'test-{{.OS}}-{{.Arch}}{{.Ext}}',
         os: 'mingw32', arch: 'i686'
       )
-      expect(exe_file.target_file).to eq 'gherkin-windows-386.exe'
+      expect(exe_file.target_file).to eq 'test-windows-386.exe'
     end
   end
 end

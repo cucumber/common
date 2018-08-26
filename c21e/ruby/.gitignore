@@ -1,0 +1,4 @@
+coverage/
+Gemfile.lock
+pkg/
+.tested

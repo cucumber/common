@@ -1,7 +1,7 @@
 require 'rbconfig'
 require 'yaml'
 
-module Gherkin
+module C21e
   class ExeFile
     attr_accessor :target_file
 
