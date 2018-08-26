@@ -14,7 +14,7 @@ type Parser interface {
 }
 
 /*
-The scanner reads a gherkin doc (typically read from a .feature file) and creates a token for
+The Scanner reads a gherkin doc (typically read from a .feature file) and creates a token for
 each line. The tokens are passed to the parser, which outputs an AST (Abstract Syntax Tree).
 
 If the scanner sees a # language header, it will reconfigure itself dynamically to look for
@@ -42,7 +42,7 @@ type Token struct {
 }
 
 func (t *Token) IsEOF() bool {
-	return t.Type == TokenType_EOF
+	return t.Type == TokenTypeEOF
 }
 func (t *Token) String() string {
 	return fmt.Sprintf("%v: %s/%s", t.Type, t.Keyword, t.Text)
