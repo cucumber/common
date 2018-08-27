@@ -6,6 +6,7 @@ import (
 	gio "github.com/gogo/protobuf/io"
 	"io"
 	"io/ioutil"
+	"math"
 	"strings"
 )
 
@@ -56,7 +57,7 @@ func GherkinMessages(paths []string, sourceStream io.Reader, language string, in
 	}
 
 	if len(paths) == 0 {
-		reader := gio.NewDelimitedReader(sourceStream, 2048)
+		reader := gio.NewDelimitedReader(sourceStream, math.MaxInt32)
 		for {
 			source := &messages.Source{}
 			if err := reader.ReadMsg(source); err != nil {
