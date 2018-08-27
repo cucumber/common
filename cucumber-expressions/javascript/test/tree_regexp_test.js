@@ -89,4 +89,12 @@ describe('TreeRegexp', () => {
     const group = tr.match('hello')
     assert.equal(group.value, 'hello')
   })
+
+  it('does not consider parenthesis in character class as group', () => {
+    const tr = new TreeRegexp(/^drawings: ([A-Z, ()]+)$/)
+    const group = tr.match('drawings: ONE(TWO)')
+    assert.equal(group.value, 'drawings: ONE(TWO)')
+    assert.equal(group.children.length, 1)
+    assert.equal(group.children[0].value, 'ONE(TWO)')
+  })
 })

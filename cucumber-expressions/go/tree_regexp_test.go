@@ -59,7 +59,7 @@ func TestTreeRegexp(t *testing.T) {
 	})
 
 	t.Run("works with escaped slash", func(t *testing.T) {
-		tr := NewTreeRegexp(regexp.MustCompile(`I go to '\/(.+)'$`))
+		tr := NewTreeRegexp(regexp.MustCompile(`I go to '/(.+)'$`))
 		group := tr.Match("I go to '/hello'")
 		require.Len(t, group.Children(), 1)
 	})
@@ -76,6 +76,14 @@ func TestTreeRegexp(t *testing.T) {
 		require.Equal(t, *group.Value(), "the stdout")
 		require.Nil(t, group.Children()[0].Value())
 		require.Len(t, group.Children(), 1)
+	})
+
+	t.Run("does not consider parenthesis in character class as group", func(t *testing.T) {
+		tr := NewTreeRegexp(regexp.MustCompile("^drawings: ([A-Z, ()]+)$"))
+		group := tr.Match("drawings: ONE(TWO)")
+		require.Equal(t, *group.Value(), "drawings: ONE(TWO)")
+		require.Len(t, group.Children(), 1)
+		require.Equal(t, *group.Children()[0].Value(), "ONE(TWO)")
 	})
 
 	t.Run("works with flags", func(t *testing.T) {

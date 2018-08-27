@@ -81,22 +81,6 @@ function subrepo_remote()
   fi
 }
 
-function is_commit_for_subrepo() {
-  commit=$1
-  subrepo=$2
-  for modified_file in $(modified_files ${commit})
-  do
-    if [[ ${modified_file} == ${subrepo}* ]]; then
-      echo 'yes'
-    fi
-  done
-}
-
-function modified_files() {
-  commit=$1
-  git diff-tree --no-commit-id --name-only -r ${commit}
-}
-
 function git_branch() {
   if [ -z "${TRAVIS_BRANCH}" ]; then
     git rev-parse --abbrev-ref HEAD
@@ -113,7 +97,7 @@ function push_subrepos()
     # case, as it would push the wrong branch. Travis also builds the branch,
     # which is sufficient.
     subrepos $1 | while read subrepo; do
-      push_subrepo_branch_maybe "${subrepo}"
+      push_subrepo_branch "${subrepo}"
       push_subrepo_tag_maybe "${subrepo}"
     done
   else
@@ -121,15 +105,13 @@ function push_subrepos()
   fi
 }
 
-function push_subrepo_branch_maybe()
+function push_subrepo_branch()
 {
   subrepo=$1
   remote=$(subrepo_remote "${subrepo}")
   branch=$(git_branch)
   
-  if is_commit_for_subrepo "${TRAVIS_COMMIT}" "${subrepo}"; then
-    git push --force "${remote}" $(splitsh-lite --prefix=${subrepo}):refs/heads/${branch}
-  fi
+  git push --force "${remote}" $(splitsh-lite --prefix=${subrepo}):refs/heads/${branch}
 }
 
 function push_subrepo_tag_maybe()
@@ -138,7 +120,7 @@ function push_subrepo_tag_maybe()
   remote=$(subrepo_remote "${subrepo}")
   if [ -z "${TRAVIS_TAG}" ]; then
     echo "No tags to push"
-  elif is_commit_for_subrepo "${TRAVIS_COMMIT}" "${subrepo}"; then
+  else
     git push --force "${remote}" $(splitsh-lite --prefix=${subrepo} --origin=refs/tags/${TRAVIS_TAG}):refs/tags/${TRAVIS_TAG}
   fi
 }

@@ -1,6 +1,6 @@
 require 'open3'
+require 'c21e/exe_file'
 require 'gherkin/protobuf_cucumber_messages'
-require 'gherkin/exe_file'
 require 'gherkin/exe_file_path'
 require 'cucumber/messages'
 
@@ -30,7 +30,7 @@ module Gherkin
       @paths = paths
       @sources = sources
       @options = DEFAULT_OPTIONS.merge(options)
-      @gherkin_executable = ExeFile.new(EXE_FILE_PATH).target_file
+      @gherkin_executable = C21e::ExeFile.new(EXE_FILE_PATH).target_file
     end
 
     def messages

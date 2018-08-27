@@ -23,6 +23,14 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
    [aslakhellesoy])
 
 ### Fixed
+* Parenthesis inside character class should not be treated as capture group.
+  ([#454](https://github.com/cucumber/cucumber/issues/454)
+   [#461](https://github.com/cucumber/cucumber/pull/461)
+   [#463](https://github.com/cucumber/cucumber/pull/463)
+   [#464](https://github.com/cucumber/cucumber/pull/464)
+   [aidamanna]
+   [aslakhellesoy]
+   [spicalous])
    
 ## [6.0.1] - 2018-06-14
 
@@ -465,6 +473,7 @@ N/A
 [1.0.1]:      https://github.com/cucumber/cucumber/releases/tag/cucumber-expressions-v1.0.1
 
 <!-- Contributors in alphabetical order -->
+[aidamanna]:        https://github.com/aslakhellesoy
 [aslakhellesoy]:    https://github.com/aslakhellesoy
 [brasmusson]:       https://github.com/brasmusson
 [charlierudolph]:   https://github.com/charlierudolph
@@ -475,3 +484,4 @@ N/A
 [luke-hill]:        https://github.com/luke-hill
 [mpkorstanje]:      https://github.com/mpkorstanje
 [kAworu]:           https://github.com/kAworu
+[spicalous]:        https://github.com/spicalous
