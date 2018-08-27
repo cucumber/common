@@ -26,12 +26,16 @@ default: .dist
 endif
 endif
 
-.dist: .deps $(GO_SOURCE_FILES)
-	mkdir -p dist
-	gox -ldflags $(GOX_LDFLAGS) -output "dist/$(LIBNAME)-{{.OS}}-{{.Arch}}" -rebuild ./cli
+.dist: .deps dist/$(LIBNAME).wasm dist/$(LIBNAME)-darwin-amd64
 	touch $@
 
-dist/$(LIBNAME)-%: .dist
+dist/$(LIBNAME).wasm: $(GO_SOURCE_FILES)
+	mkdir -p dist
+	-GOARCH=wasm GOOS=js go build -o $@ ./cli
+
+dist/$(LIBNAME)-%: $(GO_SOURCE_FILES)
+	mkdir -p dist
+	gox -ldflags $(GOX_LDFLAGS) -output "dist/$(LIBNAME)-{{.OS}}-{{.Arch}}" -rebuild ./cli
 
 .dist-compressed: $(UPX_EXES)
 	touch $@

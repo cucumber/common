@@ -20,18 +20,22 @@ default: .gofmt .tested
 ifneq (,$(wildcard ./cli))
 ifndef ALPINE
 # Cross-compile executables if there is a CLI. Disabled on Alpine Linux builds
-# (monorepo build in Docker) where cross  compilation fails for certain platforms.
+# (monorepo build in Docker) where cross compilation fails for certain platforms.
 # Subrepo builds don't run in Docker/Alpine, so cross compile will happen there.
 default: .dist
 endif
 endif
 
-.dist: .deps $(GO_SOURCE_FILES)
-	mkdir -p dist
-	gox -ldflags $(GOX_LDFLAGS) -output "dist/$(LIBNAME)-{{.OS}}-{{.Arch}}" -rebuild ./cli
+.dist: .deps dist/$(LIBNAME).wasm dist/$(LIBNAME)-darwin-amd64
 	touch $@
 
-dist/$(LIBNAME)-%: .dist
+dist/$(LIBNAME).wasm: $(GO_SOURCE_FILES)
+	mkdir -p dist
+	-GOARCH=wasm GOOS=js go build -o $@ ./cli
+
+dist/$(LIBNAME)-%: $(GO_SOURCE_FILES)
+	mkdir -p dist
+	gox -ldflags $(GOX_LDFLAGS) -output "dist/$(LIBNAME)-{{.OS}}-{{.Arch}}" -rebuild ./cli
 
 .dist-compressed: $(UPX_EXES)
 	touch $@
