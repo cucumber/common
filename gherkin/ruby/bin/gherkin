@@ -4,7 +4,6 @@ $LOAD_PATH.unshift(File.join(File.dirname(__FILE__),"../lib"))
 
 require 'optparse'
 require 'json'
-require 'gherkin/exe_file.rb'
 require 'gherkin/gherkin'
 
 options = {
@@ -29,7 +28,6 @@ end.parse!
 def include_messages(messages)
   messages.each do |message|
     json = message.class.encode_json(message)
-    # puts json
     ob = JSON.parse(json)
     remove_empties(ob)
     puts JSON.generate(ob)

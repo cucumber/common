@@ -15,13 +15,18 @@ func NewTreeRegexp(regexp *regexp.Regexp) *TreeRegexp {
 	groupStartStack := IntStack{}
 	var last rune
 	escaping := false
+	charClass := false
 	nonCapturingMaybe := false
 	for n, c := range regexp.String() {
-		if c == '(' && !escaping {
+		if c == '[' && !escaping {
+			charClass = true
+		} else if c == ']' && !escaping {
+			charClass = false
+		} else if c == '(' && !escaping && !charClass {
 			stack.Push(NewGroupBuilder())
 			groupStartStack.Push(n + 1)
 			nonCapturingMaybe = false
-		} else if c == ')' && !escaping {
+		} else if c == ')' && !escaping && !charClass {
 			gb := stack.Pop()
 			groupStart := groupStartStack.Pop()
 			if gb.Capturing() {

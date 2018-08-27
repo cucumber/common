@@ -6,6 +6,7 @@ will print them as JSON (useful for testing/debugging)
 package main
 
 import (
+	"bufio"
 	b64 "encoding/base64"
 	"flag"
 	"fmt"
@@ -47,6 +48,8 @@ func main() {
 		fmt.Fprintf(os.Stderr, "failed to parse Gherkin: %+v\n", err)
 		os.Exit(1)
 	}
+	stdout := bufio.NewWriter(os.Stdout)
+	defer stdout.Flush()
 	for _, message := range messageList {
 		if *printJson {
 			ma := jsonpb.Marshaler{}
@@ -55,16 +58,16 @@ func main() {
 				fmt.Fprintf(os.Stderr, "failed to marshal Message to JSON: %+v\n", err)
 				os.Exit(1)
 			}
-			os.Stdout.WriteString(msgJson)
-			os.Stdout.WriteString("\n")
+			stdout.WriteString(msgJson)
+			stdout.WriteString("\n")
 		} else {
 			bytes, err := proto.Marshal(&message)
 			if err != nil {
 				fmt.Fprintf(os.Stderr, "failed to marshal Message: %+v\n", err)
 				os.Exit(1)
 			}
-			os.Stdout.Write(proto.EncodeVarint(uint64(len(bytes))))
-			os.Stdout.Write(bytes)
+			stdout.Write(proto.EncodeVarint(uint64(len(bytes))))
+			stdout.Write(bytes)
 		}
 	}
 }

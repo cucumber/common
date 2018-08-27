@@ -1,9 +1,0 @@
-#!/usr/bin/env bash
-#
-# Reformat and lint all JavaScript with prettier/eslint
-#
-set -euf -o pipefail
-
-git ls-files . | \
-grep "\.jsx\?$" | \
-xargs ./node_modules/.bin/eslint --ext=js --ext=jsx --fix

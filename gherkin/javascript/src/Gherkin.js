@@ -1,5 +1,6 @@
 const { spawn } = require('child_process')
-const ExeFile = require('./exe/ExeFile')
+const { statSync } = require('fs')
+const ExeFile = require('c21e')
 const cm = require('cucumber-messages').io.cucumber.messages
 const ProtobufMessageStream = require('./ProtobufMessageStream')
 
@@ -23,8 +24,15 @@ module.exports = class Gherkin {
       },
       options
     )
+    let gherkinGoDir = `${__dirname}/../../gherkin-go`
+    try {
+      statSync(gherkinGoDir)
+    } catch (err) {
+      // Dev mode - we're in src, not dist/src
+      gherkinGoDir = `${__dirname}/../gherkin-go`
+    }
     this._exeFile = new ExeFile(
-      `${__dirname}/../gherkin-go/gherkin-go-{{.OS}}-{{.Arch}}{{.Ext}}`
+      `${gherkinGoDir}/gherkin-go-{{.OS}}-{{.Arch}}{{.Ext}}`
     )
   }
 
@@ -35,10 +43,15 @@ module.exports = class Gherkin {
     if (!this._options.includePickles) options.push('--no-pickles')
     const args = options.concat(this._paths)
     const gherkin = spawn(this._exeFile.fileName, args)
+    const protobufMessageStream = new ProtobufMessageStream(cm.Wrapper)
+    gherkin.on('error', err => {
+      protobufMessageStream.emit('error', err)
+    })
+    gherkin.stdout.pipe(protobufMessageStream)
     for (const source of this._sources) {
       gherkin.stdin.write(cm.Source.encodeDelimited(source).finish())
     }
     gherkin.stdin.end()
-    return gherkin.stdout.pipe(new ProtobufMessageStream(cm.Wrapper))
+    return protobufMessageStream
   }
 }

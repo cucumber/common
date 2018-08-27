@@ -6,7 +6,7 @@ Gem::Specification.new do |s|
   s.description = 'Cucumber tag expressions for ruby'
   s.summary     = "#{s.name}-#{s.version}"
   s.email       = 'cukes@googlegroups.com'
-  s.homepage    = 'https://docs.cucumber.io/tag-expressions/'
+  s.homepage    = 'https://docs.cucumber.io/cucumber/tag-expressions/'
   s.platform    = Gem::Platform::RUBY
   s.license     = 'MIT'
   s.required_ruby_version = '>= 1.9.3'

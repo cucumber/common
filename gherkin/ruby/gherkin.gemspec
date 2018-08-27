@@ -13,7 +13,6 @@ Gem::Specification.new do |s|
 
   # TODO: Add this dependency before making a release
   # s.add_dependency 'cucumber-messages', SOME_VERSION
-  s.add_dependency 'os',    '~> 1.0'
 
   s.add_development_dependency 'bundler'
   s.add_development_dependency 'rake',  '~> 10.5'
