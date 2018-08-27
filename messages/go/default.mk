@@ -26,7 +26,7 @@ default: .dist
 endif
 endif
 
-.dist: .deps
+.dist: .deps $(GO_SOURCE_FILES)
 	mkdir -p dist
 	gox -ldflags $(GOX_LDFLAGS) -output "dist/$(LIBNAME)-{{.OS}}-{{.Arch}}" -rebuild ./cli
 	touch $@

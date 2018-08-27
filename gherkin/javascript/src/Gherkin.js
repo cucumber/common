@@ -49,7 +49,8 @@ module.exports = class Gherkin {
     })
     gherkin.stdout.pipe(protobufMessageStream)
     for (const source of this._sources) {
-      gherkin.stdin.write(cm.Source.encodeDelimited(source).finish())
+      const wrapper = new cm.Wrapper.fromObject({ source })
+      gherkin.stdin.write(cm.Wrapper.encodeDelimited(wrapper).finish())
     }
     gherkin.stdin.end()
     return protobufMessageStream

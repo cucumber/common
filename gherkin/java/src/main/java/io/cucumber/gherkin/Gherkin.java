@@ -58,7 +58,7 @@ public class Gherkin {
         if (sources == null) return null;
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         for (Source source : sources) {
-            source.writeDelimitedTo(baos);
+            Wrapper.newBuilder().setSource(source).build().writeDelimitedTo(baos);
         }
         return new ByteArrayInputStream(baos.toByteArray());
     }

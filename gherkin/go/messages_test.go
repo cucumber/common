@@ -20,17 +20,21 @@ func TestMessagesWithStdin(t *testing.T) {
     Given b
 `
 
-	source := &messages.Source{
-		Uri:  "features/test.feature",
-		Data: gherkin,
-		Media: &messages.Media{
-			Encoding:    "UTF-8",
-			ContentType: "text/x.cucumber.gherkin+plain",
+	wrapper := &messages.Wrapper{
+		Message: &messages.Wrapper_Source{
+			Source: &messages.Source{
+				Uri:  "features/test.feature",
+				Data: gherkin,
+				Media: &messages.Media{
+					Encoding:    "UTF-8",
+					ContentType: "text/x.cucumber.gherkin+plain",
+				},
+			},
 		},
 	}
 
-	writer.WriteMsg(source)
-	writer.WriteMsg(source)
+	writer.WriteMsg(wrapper)
+	writer.WriteMsg(wrapper)
 
 	wrappers, err := Messages(
 		nil,

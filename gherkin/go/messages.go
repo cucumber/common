@@ -98,11 +98,16 @@ func Messages(
 	if len(paths) == 0 {
 		reader := gio.NewDelimitedReader(sourceStream, math.MaxInt32)
 		for {
-			source := &messages.Source{}
-			if err := reader.ReadMsg(source); err != nil {
+			wrapper := &messages.Wrapper{}
+			err := reader.ReadMsg(wrapper)
+			if err == io.EOF {
 				break
 			}
-			processSource(source)
+
+			switch t := wrapper.Message.(type) {
+			case *messages.Wrapper_Source:
+				processSource(t.Source)
+			}
 		}
 	} else {
 		for _, path := range paths {
