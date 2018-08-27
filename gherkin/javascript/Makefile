@@ -15,6 +15,7 @@ ERRORS       = $(patsubst testdata/%.feature,acceptance/testdata/%.feature.error
 	# Linking will only work when we're building in the monorepo, so allow this to fail
 	# If it fails, we'll be using cucumber-messages from package.json
 	-npm link cucumber-messages
+	-npm link c21e
 	touch $@
 
 .tested: .compared

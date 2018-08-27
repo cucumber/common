@@ -85,6 +85,14 @@ module Cucumber
         expect(group.value).to eq("hello")
       end
 
+      it('does not consider parenthesis in character class as group') do
+        tr = TreeRegexp.new(/^drawings: ([A-Z_, ()]+)$/)
+        group = tr.match('drawings: ONE, TWO(ABC)')
+        expect(group.value).to eq('drawings: ONE, TWO(ABC)')
+        expect(group.children[0].value).to eq('ONE, TWO(ABC)')
+        expect(group.children.length).to eq(1)
+      end
+
       it 'throws an error when there are named capture groups because they are buggy in Ruby' do
         # https://github.com/cucumber/cucumber/issues/329
         expect {

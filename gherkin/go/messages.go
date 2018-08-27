@@ -9,6 +9,7 @@ import (
 	"github.com/gogo/protobuf/proto"
 	"io"
 	"io/ioutil"
+	"math"
 	"strings"
 )
 
@@ -95,7 +96,7 @@ func Messages(
 	}
 
 	if len(paths) == 0 {
-		reader := gio.NewDelimitedReader(sourceStream, 2048)
+		reader := gio.NewDelimitedReader(sourceStream, math.MaxInt32)
 		for {
 			source := &messages.Source{}
 			if err := reader.ReadMsg(source); err != nil {

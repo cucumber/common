@@ -1,11 +1,11 @@
 require 'json'
 require 'open3'
-require 'gherkin/exe_file'
+require 'c21e/exe_file'
 require 'gherkin/exe_file_path'
 
 module Gherkin
   def self.dialects_json
-    gherkin_executable = ExeFile.new(EXE_FILE_PATH).target_file
+    gherkin_executable = C21e::ExeFile.new(EXE_FILE_PATH).target_file
     data, = Open3.capture2e(gherkin_executable, '--dialects')
     data
   end
