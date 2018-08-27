@@ -83,7 +83,10 @@ describe('RegularExpression', () => {
   })
 
   it('does not take consider parenthesis in character class as group', function() {
-    const expression = new RegularExpression(/^drawings: ([A-Z_, ()]+)$/, new ParameterTypeRegistry())
+    const expression = new RegularExpression(
+      /^drawings: ([A-Z_, ()]+)$/,
+      new ParameterTypeRegistry()
+    )
     const args = expression.match('drawings: ONE, TWO(ABC)')
 
     assert.equal(args[0].getValue(), 'ONE, TWO(ABC)')

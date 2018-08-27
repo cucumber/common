@@ -23,8 +23,17 @@ export namespace io {
                 /** Wrapper attachment */
                 attachment?: (io.cucumber.messages.IAttachment|null);
 
+                /** Wrapper testCaseStarted */
+                testCaseStarted?: (io.cucumber.messages.ITestCaseStarted|null);
+
+                /** Wrapper testStepStarted */
+                testStepStarted?: (io.cucumber.messages.ITestStepStarted|null);
+
                 /** Wrapper testStepFinished */
                 testStepFinished?: (io.cucumber.messages.ITestStepFinished|null);
+
+                /** Wrapper testCaseFinished */
+                testCaseFinished?: (io.cucumber.messages.ITestCaseFinished|null);
             }
 
             /** Represents a Wrapper. */
@@ -48,11 +57,20 @@ export namespace io {
                 /** Wrapper attachment. */
                 public attachment?: (io.cucumber.messages.IAttachment|null);
 
+                /** Wrapper testCaseStarted. */
+                public testCaseStarted?: (io.cucumber.messages.ITestCaseStarted|null);
+
+                /** Wrapper testStepStarted. */
+                public testStepStarted?: (io.cucumber.messages.ITestStepStarted|null);
+
                 /** Wrapper testStepFinished. */
                 public testStepFinished?: (io.cucumber.messages.ITestStepFinished|null);
 
+                /** Wrapper testCaseFinished. */
+                public testCaseFinished?: (io.cucumber.messages.ITestCaseFinished|null);
+
                 /** Wrapper message. */
-                public message?: ("source"|"gherkinDocument"|"pickle"|"attachment"|"testStepFinished");
+                public message?: ("source"|"gherkinDocument"|"pickle"|"attachment"|"testCaseStarted"|"testStepStarted"|"testStepFinished"|"testCaseFinished");
 
                 /**
                  * Creates a new Wrapper instance using the specified properties.
@@ -120,6 +138,102 @@ export namespace io {
 
                 /**
                  * Converts this Wrapper to JSON.
+                 * @returns JSON object
+                 */
+                public toJSON(): { [k: string]: any };
+            }
+
+            /** Properties of a SourceReference. */
+            interface ISourceReference {
+
+                /** SourceReference uri */
+                uri?: (string|null);
+
+                /** SourceReference location */
+                location?: (io.cucumber.messages.ILocation|null);
+            }
+
+            /** Represents a SourceReference. */
+            class SourceReference implements ISourceReference {
+
+                /**
+                 * Constructs a new SourceReference.
+                 * @param [properties] Properties to set
+                 */
+                constructor(properties?: io.cucumber.messages.ISourceReference);
+
+                /** SourceReference uri. */
+                public uri: string;
+
+                /** SourceReference location. */
+                public location?: (io.cucumber.messages.ILocation|null);
+
+                /**
+                 * Creates a new SourceReference instance using the specified properties.
+                 * @param [properties] Properties to set
+                 * @returns SourceReference instance
+                 */
+                public static create(properties?: io.cucumber.messages.ISourceReference): io.cucumber.messages.SourceReference;
+
+                /**
+                 * Encodes the specified SourceReference message. Does not implicitly {@link io.cucumber.messages.SourceReference.verify|verify} messages.
+                 * @param message SourceReference message or plain object to encode
+                 * @param [writer] Writer to encode to
+                 * @returns Writer
+                 */
+                public static encode(message: io.cucumber.messages.ISourceReference, writer?: $protobuf.Writer): $protobuf.Writer;
+
+                /**
+                 * Encodes the specified SourceReference message, length delimited. Does not implicitly {@link io.cucumber.messages.SourceReference.verify|verify} messages.
+                 * @param message SourceReference message or plain object to encode
+                 * @param [writer] Writer to encode to
+                 * @returns Writer
+                 */
+                public static encodeDelimited(message: io.cucumber.messages.ISourceReference, writer?: $protobuf.Writer): $protobuf.Writer;
+
+                /**
+                 * Decodes a SourceReference message from the specified reader or buffer.
+                 * @param reader Reader or buffer to decode from
+                 * @param [length] Message length if known beforehand
+                 * @returns SourceReference
+                 * @throws {Error} If the payload is not a reader or valid buffer
+                 * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                 */
+                public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): io.cucumber.messages.SourceReference;
+
+                /**
+                 * Decodes a SourceReference message from the specified reader or buffer, length delimited.
+                 * @param reader Reader or buffer to decode from
+                 * @returns SourceReference
+                 * @throws {Error} If the payload is not a reader or valid buffer
+                 * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                 */
+                public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): io.cucumber.messages.SourceReference;
+
+                /**
+                 * Verifies a SourceReference message.
+                 * @param message Plain object to verify
+                 * @returns `null` if valid, otherwise the reason why it is not
+                 */
+                public static verify(message: { [k: string]: any }): (string|null);
+
+                /**
+                 * Creates a SourceReference message from a plain object. Also converts values to their respective internal types.
+                 * @param object Plain object
+                 * @returns SourceReference
+                 */
+                public static fromObject(object: { [k: string]: any }): io.cucumber.messages.SourceReference;
+
+                /**
+                 * Creates a plain object from a SourceReference message. Also converts values to other types if specified.
+                 * @param message SourceReference
+                 * @param [options] Conversion options
+                 * @returns Plain object
+                 */
+                public static toObject(message: io.cucumber.messages.SourceReference, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+                /**
+                 * Converts this SourceReference to JSON.
                  * @returns JSON object
                  */
                 public toJSON(): { [k: string]: any };
@@ -516,102 +630,6 @@ export namespace io {
 
                 /**
                  * Converts this Source to JSON.
-                 * @returns JSON object
-                 */
-                public toJSON(): { [k: string]: any };
-            }
-
-            /** Properties of a SourceReference. */
-            interface ISourceReference {
-
-                /** SourceReference uri */
-                uri?: (string|null);
-
-                /** SourceReference location */
-                location?: (io.cucumber.messages.ILocation|null);
-            }
-
-            /** Represents a SourceReference. */
-            class SourceReference implements ISourceReference {
-
-                /**
-                 * Constructs a new SourceReference.
-                 * @param [properties] Properties to set
-                 */
-                constructor(properties?: io.cucumber.messages.ISourceReference);
-
-                /** SourceReference uri. */
-                public uri: string;
-
-                /** SourceReference location. */
-                public location?: (io.cucumber.messages.ILocation|null);
-
-                /**
-                 * Creates a new SourceReference instance using the specified properties.
-                 * @param [properties] Properties to set
-                 * @returns SourceReference instance
-                 */
-                public static create(properties?: io.cucumber.messages.ISourceReference): io.cucumber.messages.SourceReference;
-
-                /**
-                 * Encodes the specified SourceReference message. Does not implicitly {@link io.cucumber.messages.SourceReference.verify|verify} messages.
-                 * @param message SourceReference message or plain object to encode
-                 * @param [writer] Writer to encode to
-                 * @returns Writer
-                 */
-                public static encode(message: io.cucumber.messages.ISourceReference, writer?: $protobuf.Writer): $protobuf.Writer;
-
-                /**
-                 * Encodes the specified SourceReference message, length delimited. Does not implicitly {@link io.cucumber.messages.SourceReference.verify|verify} messages.
-                 * @param message SourceReference message or plain object to encode
-                 * @param [writer] Writer to encode to
-                 * @returns Writer
-                 */
-                public static encodeDelimited(message: io.cucumber.messages.ISourceReference, writer?: $protobuf.Writer): $protobuf.Writer;
-
-                /**
-                 * Decodes a SourceReference message from the specified reader or buffer.
-                 * @param reader Reader or buffer to decode from
-                 * @param [length] Message length if known beforehand
-                 * @returns SourceReference
-                 * @throws {Error} If the payload is not a reader or valid buffer
-                 * @throws {$protobuf.util.ProtocolError} If required fields are missing
-                 */
-                public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): io.cucumber.messages.SourceReference;
-
-                /**
-                 * Decodes a SourceReference message from the specified reader or buffer, length delimited.
-                 * @param reader Reader or buffer to decode from
-                 * @returns SourceReference
-                 * @throws {Error} If the payload is not a reader or valid buffer
-                 * @throws {$protobuf.util.ProtocolError} If required fields are missing
-                 */
-                public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): io.cucumber.messages.SourceReference;
-
-                /**
-                 * Verifies a SourceReference message.
-                 * @param message Plain object to verify
-                 * @returns `null` if valid, otherwise the reason why it is not
-                 */
-                public static verify(message: { [k: string]: any }): (string|null);
-
-                /**
-                 * Creates a SourceReference message from a plain object. Also converts values to their respective internal types.
-                 * @param object Plain object
-                 * @returns SourceReference
-                 */
-                public static fromObject(object: { [k: string]: any }): io.cucumber.messages.SourceReference;
-
-                /**
-                 * Creates a plain object from a SourceReference message. Also converts values to other types if specified.
-                 * @param message SourceReference
-                 * @param [options] Conversion options
-                 * @returns Plain object
-                 */
-                public static toObject(message: io.cucumber.messages.SourceReference, options?: $protobuf.IConversionOptions): { [k: string]: any };
-
-                /**
-                 * Converts this SourceReference to JSON.
                  * @returns JSON object
                  */
                 public toJSON(): { [k: string]: any };
@@ -2237,6 +2255,9 @@ export namespace io {
             /** Properties of a Pickle. */
             interface IPickle {
 
+                /** Pickle id */
+                id?: (string|null);
+
                 /** Pickle uri */
                 uri?: (string|null);
 
@@ -2264,6 +2285,9 @@ export namespace io {
                  * @param [properties] Properties to set
                  */
                 constructor(properties?: io.cucumber.messages.IPickle);
+
+                /** Pickle id. */
+                public id: string;
 
                 /** Pickle uri. */
                 public uri: string;
@@ -2349,108 +2373,6 @@ export namespace io {
 
                 /**
                  * Converts this Pickle to JSON.
-                 * @returns JSON object
-                 */
-                public toJSON(): { [k: string]: any };
-            }
-
-            /** Properties of a PickleDocString. */
-            interface IPickleDocString {
-
-                /** PickleDocString location */
-                location?: (io.cucumber.messages.ILocation|null);
-
-                /** PickleDocString contentType */
-                contentType?: (string|null);
-
-                /** PickleDocString content */
-                content?: (string|null);
-            }
-
-            /** Represents a PickleDocString. */
-            class PickleDocString implements IPickleDocString {
-
-                /**
-                 * Constructs a new PickleDocString.
-                 * @param [properties] Properties to set
-                 */
-                constructor(properties?: io.cucumber.messages.IPickleDocString);
-
-                /** PickleDocString location. */
-                public location?: (io.cucumber.messages.ILocation|null);
-
-                /** PickleDocString contentType. */
-                public contentType: string;
-
-                /** PickleDocString content. */
-                public content: string;
-
-                /**
-                 * Creates a new PickleDocString instance using the specified properties.
-                 * @param [properties] Properties to set
-                 * @returns PickleDocString instance
-                 */
-                public static create(properties?: io.cucumber.messages.IPickleDocString): io.cucumber.messages.PickleDocString;
-
-                /**
-                 * Encodes the specified PickleDocString message. Does not implicitly {@link io.cucumber.messages.PickleDocString.verify|verify} messages.
-                 * @param message PickleDocString message or plain object to encode
-                 * @param [writer] Writer to encode to
-                 * @returns Writer
-                 */
-                public static encode(message: io.cucumber.messages.IPickleDocString, writer?: $protobuf.Writer): $protobuf.Writer;
-
-                /**
-                 * Encodes the specified PickleDocString message, length delimited. Does not implicitly {@link io.cucumber.messages.PickleDocString.verify|verify} messages.
-                 * @param message PickleDocString message or plain object to encode
-                 * @param [writer] Writer to encode to
-                 * @returns Writer
-                 */
-                public static encodeDelimited(message: io.cucumber.messages.IPickleDocString, writer?: $protobuf.Writer): $protobuf.Writer;
-
-                /**
-                 * Decodes a PickleDocString message from the specified reader or buffer.
-                 * @param reader Reader or buffer to decode from
-                 * @param [length] Message length if known beforehand
-                 * @returns PickleDocString
-                 * @throws {Error} If the payload is not a reader or valid buffer
-                 * @throws {$protobuf.util.ProtocolError} If required fields are missing
-                 */
-                public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): io.cucumber.messages.PickleDocString;
-
-                /**
-                 * Decodes a PickleDocString message from the specified reader or buffer, length delimited.
-                 * @param reader Reader or buffer to decode from
-                 * @returns PickleDocString
-                 * @throws {Error} If the payload is not a reader or valid buffer
-                 * @throws {$protobuf.util.ProtocolError} If required fields are missing
-                 */
-                public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): io.cucumber.messages.PickleDocString;
-
-                /**
-                 * Verifies a PickleDocString message.
-                 * @param message Plain object to verify
-                 * @returns `null` if valid, otherwise the reason why it is not
-                 */
-                public static verify(message: { [k: string]: any }): (string|null);
-
-                /**
-                 * Creates a PickleDocString message from a plain object. Also converts values to their respective internal types.
-                 * @param object Plain object
-                 * @returns PickleDocString
-                 */
-                public static fromObject(object: { [k: string]: any }): io.cucumber.messages.PickleDocString;
-
-                /**
-                 * Creates a plain object from a PickleDocString message. Also converts values to other types if specified.
-                 * @param message PickleDocString
-                 * @param [options] Conversion options
-                 * @returns Plain object
-                 */
-                public static toObject(message: io.cucumber.messages.PickleDocString, options?: $protobuf.IConversionOptions): { [k: string]: any };
-
-                /**
-                 * Converts this PickleDocString to JSON.
                  * @returns JSON object
                  */
                 public toJSON(): { [k: string]: any };
@@ -2562,6 +2484,108 @@ export namespace io {
 
                 /**
                  * Converts this PickleStep to JSON.
+                 * @returns JSON object
+                 */
+                public toJSON(): { [k: string]: any };
+            }
+
+            /** Properties of a PickleDocString. */
+            interface IPickleDocString {
+
+                /** PickleDocString location */
+                location?: (io.cucumber.messages.ILocation|null);
+
+                /** PickleDocString contentType */
+                contentType?: (string|null);
+
+                /** PickleDocString content */
+                content?: (string|null);
+            }
+
+            /** Represents a PickleDocString. */
+            class PickleDocString implements IPickleDocString {
+
+                /**
+                 * Constructs a new PickleDocString.
+                 * @param [properties] Properties to set
+                 */
+                constructor(properties?: io.cucumber.messages.IPickleDocString);
+
+                /** PickleDocString location. */
+                public location?: (io.cucumber.messages.ILocation|null);
+
+                /** PickleDocString contentType. */
+                public contentType: string;
+
+                /** PickleDocString content. */
+                public content: string;
+
+                /**
+                 * Creates a new PickleDocString instance using the specified properties.
+                 * @param [properties] Properties to set
+                 * @returns PickleDocString instance
+                 */
+                public static create(properties?: io.cucumber.messages.IPickleDocString): io.cucumber.messages.PickleDocString;
+
+                /**
+                 * Encodes the specified PickleDocString message. Does not implicitly {@link io.cucumber.messages.PickleDocString.verify|verify} messages.
+                 * @param message PickleDocString message or plain object to encode
+                 * @param [writer] Writer to encode to
+                 * @returns Writer
+                 */
+                public static encode(message: io.cucumber.messages.IPickleDocString, writer?: $protobuf.Writer): $protobuf.Writer;
+
+                /**
+                 * Encodes the specified PickleDocString message, length delimited. Does not implicitly {@link io.cucumber.messages.PickleDocString.verify|verify} messages.
+                 * @param message PickleDocString message or plain object to encode
+                 * @param [writer] Writer to encode to
+                 * @returns Writer
+                 */
+                public static encodeDelimited(message: io.cucumber.messages.IPickleDocString, writer?: $protobuf.Writer): $protobuf.Writer;
+
+                /**
+                 * Decodes a PickleDocString message from the specified reader or buffer.
+                 * @param reader Reader or buffer to decode from
+                 * @param [length] Message length if known beforehand
+                 * @returns PickleDocString
+                 * @throws {Error} If the payload is not a reader or valid buffer
+                 * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                 */
+                public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): io.cucumber.messages.PickleDocString;
+
+                /**
+                 * Decodes a PickleDocString message from the specified reader or buffer, length delimited.
+                 * @param reader Reader or buffer to decode from
+                 * @returns PickleDocString
+                 * @throws {Error} If the payload is not a reader or valid buffer
+                 * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                 */
+                public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): io.cucumber.messages.PickleDocString;
+
+                /**
+                 * Verifies a PickleDocString message.
+                 * @param message Plain object to verify
+                 * @returns `null` if valid, otherwise the reason why it is not
+                 */
+                public static verify(message: { [k: string]: any }): (string|null);
+
+                /**
+                 * Creates a PickleDocString message from a plain object. Also converts values to their respective internal types.
+                 * @param object Plain object
+                 * @returns PickleDocString
+                 */
+                public static fromObject(object: { [k: string]: any }): io.cucumber.messages.PickleDocString;
+
+                /**
+                 * Creates a plain object from a PickleDocString message. Also converts values to other types if specified.
+                 * @param message PickleDocString
+                 * @param [options] Conversion options
+                 * @returns Plain object
+                 */
+                public static toObject(message: io.cucumber.messages.PickleDocString, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+                /**
+                 * Converts this PickleDocString to JSON.
                  * @returns JSON object
                  */
                 public toJSON(): { [k: string]: any };
@@ -2939,21 +2963,314 @@ export namespace io {
                 public toJSON(): { [k: string]: any };
             }
 
-            /** Status enum. */
-            enum Status {
-                AMBIGUOUS = 0,
-                FAILED = 1,
-                PASSED = 2,
-                PENDING = 3,
-                SKIPPED = 4,
-                UNDEFINED = 5
+            /** Properties of a TestCaseStarted. */
+            interface ITestCaseStarted {
+
+                /** TestCaseStarted pickleId */
+                pickleId?: (string|null);
+
+                /** TestCaseStarted timestamp */
+                timestamp?: (google.protobuf.ITimestamp|null);
+            }
+
+            /** Represents a TestCaseStarted. */
+            class TestCaseStarted implements ITestCaseStarted {
+
+                /**
+                 * Constructs a new TestCaseStarted.
+                 * @param [properties] Properties to set
+                 */
+                constructor(properties?: io.cucumber.messages.ITestCaseStarted);
+
+                /** TestCaseStarted pickleId. */
+                public pickleId: string;
+
+                /** TestCaseStarted timestamp. */
+                public timestamp?: (google.protobuf.ITimestamp|null);
+
+                /**
+                 * Creates a new TestCaseStarted instance using the specified properties.
+                 * @param [properties] Properties to set
+                 * @returns TestCaseStarted instance
+                 */
+                public static create(properties?: io.cucumber.messages.ITestCaseStarted): io.cucumber.messages.TestCaseStarted;
+
+                /**
+                 * Encodes the specified TestCaseStarted message. Does not implicitly {@link io.cucumber.messages.TestCaseStarted.verify|verify} messages.
+                 * @param message TestCaseStarted message or plain object to encode
+                 * @param [writer] Writer to encode to
+                 * @returns Writer
+                 */
+                public static encode(message: io.cucumber.messages.ITestCaseStarted, writer?: $protobuf.Writer): $protobuf.Writer;
+
+                /**
+                 * Encodes the specified TestCaseStarted message, length delimited. Does not implicitly {@link io.cucumber.messages.TestCaseStarted.verify|verify} messages.
+                 * @param message TestCaseStarted message or plain object to encode
+                 * @param [writer] Writer to encode to
+                 * @returns Writer
+                 */
+                public static encodeDelimited(message: io.cucumber.messages.ITestCaseStarted, writer?: $protobuf.Writer): $protobuf.Writer;
+
+                /**
+                 * Decodes a TestCaseStarted message from the specified reader or buffer.
+                 * @param reader Reader or buffer to decode from
+                 * @param [length] Message length if known beforehand
+                 * @returns TestCaseStarted
+                 * @throws {Error} If the payload is not a reader or valid buffer
+                 * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                 */
+                public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): io.cucumber.messages.TestCaseStarted;
+
+                /**
+                 * Decodes a TestCaseStarted message from the specified reader or buffer, length delimited.
+                 * @param reader Reader or buffer to decode from
+                 * @returns TestCaseStarted
+                 * @throws {Error} If the payload is not a reader or valid buffer
+                 * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                 */
+                public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): io.cucumber.messages.TestCaseStarted;
+
+                /**
+                 * Verifies a TestCaseStarted message.
+                 * @param message Plain object to verify
+                 * @returns `null` if valid, otherwise the reason why it is not
+                 */
+                public static verify(message: { [k: string]: any }): (string|null);
+
+                /**
+                 * Creates a TestCaseStarted message from a plain object. Also converts values to their respective internal types.
+                 * @param object Plain object
+                 * @returns TestCaseStarted
+                 */
+                public static fromObject(object: { [k: string]: any }): io.cucumber.messages.TestCaseStarted;
+
+                /**
+                 * Creates a plain object from a TestCaseStarted message. Also converts values to other types if specified.
+                 * @param message TestCaseStarted
+                 * @param [options] Conversion options
+                 * @returns Plain object
+                 */
+                public static toObject(message: io.cucumber.messages.TestCaseStarted, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+                /**
+                 * Converts this TestCaseStarted to JSON.
+                 * @returns JSON object
+                 */
+                public toJSON(): { [k: string]: any };
+            }
+
+            /** Properties of a TestCaseFinished. */
+            interface ITestCaseFinished {
+
+                /** TestCaseFinished pickleId */
+                pickleId?: (string|null);
+
+                /** TestCaseFinished timestamp */
+                timestamp?: (google.protobuf.ITimestamp|null);
+            }
+
+            /** Represents a TestCaseFinished. */
+            class TestCaseFinished implements ITestCaseFinished {
+
+                /**
+                 * Constructs a new TestCaseFinished.
+                 * @param [properties] Properties to set
+                 */
+                constructor(properties?: io.cucumber.messages.ITestCaseFinished);
+
+                /** TestCaseFinished pickleId. */
+                public pickleId: string;
+
+                /** TestCaseFinished timestamp. */
+                public timestamp?: (google.protobuf.ITimestamp|null);
+
+                /**
+                 * Creates a new TestCaseFinished instance using the specified properties.
+                 * @param [properties] Properties to set
+                 * @returns TestCaseFinished instance
+                 */
+                public static create(properties?: io.cucumber.messages.ITestCaseFinished): io.cucumber.messages.TestCaseFinished;
+
+                /**
+                 * Encodes the specified TestCaseFinished message. Does not implicitly {@link io.cucumber.messages.TestCaseFinished.verify|verify} messages.
+                 * @param message TestCaseFinished message or plain object to encode
+                 * @param [writer] Writer to encode to
+                 * @returns Writer
+                 */
+                public static encode(message: io.cucumber.messages.ITestCaseFinished, writer?: $protobuf.Writer): $protobuf.Writer;
+
+                /**
+                 * Encodes the specified TestCaseFinished message, length delimited. Does not implicitly {@link io.cucumber.messages.TestCaseFinished.verify|verify} messages.
+                 * @param message TestCaseFinished message or plain object to encode
+                 * @param [writer] Writer to encode to
+                 * @returns Writer
+                 */
+                public static encodeDelimited(message: io.cucumber.messages.ITestCaseFinished, writer?: $protobuf.Writer): $protobuf.Writer;
+
+                /**
+                 * Decodes a TestCaseFinished message from the specified reader or buffer.
+                 * @param reader Reader or buffer to decode from
+                 * @param [length] Message length if known beforehand
+                 * @returns TestCaseFinished
+                 * @throws {Error} If the payload is not a reader or valid buffer
+                 * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                 */
+                public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): io.cucumber.messages.TestCaseFinished;
+
+                /**
+                 * Decodes a TestCaseFinished message from the specified reader or buffer, length delimited.
+                 * @param reader Reader or buffer to decode from
+                 * @returns TestCaseFinished
+                 * @throws {Error} If the payload is not a reader or valid buffer
+                 * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                 */
+                public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): io.cucumber.messages.TestCaseFinished;
+
+                /**
+                 * Verifies a TestCaseFinished message.
+                 * @param message Plain object to verify
+                 * @returns `null` if valid, otherwise the reason why it is not
+                 */
+                public static verify(message: { [k: string]: any }): (string|null);
+
+                /**
+                 * Creates a TestCaseFinished message from a plain object. Also converts values to their respective internal types.
+                 * @param object Plain object
+                 * @returns TestCaseFinished
+                 */
+                public static fromObject(object: { [k: string]: any }): io.cucumber.messages.TestCaseFinished;
+
+                /**
+                 * Creates a plain object from a TestCaseFinished message. Also converts values to other types if specified.
+                 * @param message TestCaseFinished
+                 * @param [options] Conversion options
+                 * @returns Plain object
+                 */
+                public static toObject(message: io.cucumber.messages.TestCaseFinished, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+                /**
+                 * Converts this TestCaseFinished to JSON.
+                 * @returns JSON object
+                 */
+                public toJSON(): { [k: string]: any };
+            }
+
+            /** Properties of a TestStepStarted. */
+            interface ITestStepStarted {
+
+                /** TestStepStarted pickleId */
+                pickleId?: (string|null);
+
+                /** TestStepStarted index */
+                index?: (number|null);
+
+                /** TestStepStarted timestamp */
+                timestamp?: (google.protobuf.ITimestamp|null);
+            }
+
+            /** Represents a TestStepStarted. */
+            class TestStepStarted implements ITestStepStarted {
+
+                /**
+                 * Constructs a new TestStepStarted.
+                 * @param [properties] Properties to set
+                 */
+                constructor(properties?: io.cucumber.messages.ITestStepStarted);
+
+                /** TestStepStarted pickleId. */
+                public pickleId: string;
+
+                /** TestStepStarted index. */
+                public index: number;
+
+                /** TestStepStarted timestamp. */
+                public timestamp?: (google.protobuf.ITimestamp|null);
+
+                /**
+                 * Creates a new TestStepStarted instance using the specified properties.
+                 * @param [properties] Properties to set
+                 * @returns TestStepStarted instance
+                 */
+                public static create(properties?: io.cucumber.messages.ITestStepStarted): io.cucumber.messages.TestStepStarted;
+
+                /**
+                 * Encodes the specified TestStepStarted message. Does not implicitly {@link io.cucumber.messages.TestStepStarted.verify|verify} messages.
+                 * @param message TestStepStarted message or plain object to encode
+                 * @param [writer] Writer to encode to
+                 * @returns Writer
+                 */
+                public static encode(message: io.cucumber.messages.ITestStepStarted, writer?: $protobuf.Writer): $protobuf.Writer;
+
+                /**
+                 * Encodes the specified TestStepStarted message, length delimited. Does not implicitly {@link io.cucumber.messages.TestStepStarted.verify|verify} messages.
+                 * @param message TestStepStarted message or plain object to encode
+                 * @param [writer] Writer to encode to
+                 * @returns Writer
+                 */
+                public static encodeDelimited(message: io.cucumber.messages.ITestStepStarted, writer?: $protobuf.Writer): $protobuf.Writer;
+
+                /**
+                 * Decodes a TestStepStarted message from the specified reader or buffer.
+                 * @param reader Reader or buffer to decode from
+                 * @param [length] Message length if known beforehand
+                 * @returns TestStepStarted
+                 * @throws {Error} If the payload is not a reader or valid buffer
+                 * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                 */
+                public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): io.cucumber.messages.TestStepStarted;
+
+                /**
+                 * Decodes a TestStepStarted message from the specified reader or buffer, length delimited.
+                 * @param reader Reader or buffer to decode from
+                 * @returns TestStepStarted
+                 * @throws {Error} If the payload is not a reader or valid buffer
+                 * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                 */
+                public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): io.cucumber.messages.TestStepStarted;
+
+                /**
+                 * Verifies a TestStepStarted message.
+                 * @param message Plain object to verify
+                 * @returns `null` if valid, otherwise the reason why it is not
+                 */
+                public static verify(message: { [k: string]: any }): (string|null);
+
+                /**
+                 * Creates a TestStepStarted message from a plain object. Also converts values to their respective internal types.
+                 * @param object Plain object
+                 * @returns TestStepStarted
+                 */
+                public static fromObject(object: { [k: string]: any }): io.cucumber.messages.TestStepStarted;
+
+                /**
+                 * Creates a plain object from a TestStepStarted message. Also converts values to other types if specified.
+                 * @param message TestStepStarted
+                 * @param [options] Conversion options
+                 * @returns Plain object
+                 */
+                public static toObject(message: io.cucumber.messages.TestStepStarted, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+                /**
+                 * Converts this TestStepStarted to JSON.
+                 * @returns JSON object
+                 */
+                public toJSON(): { [k: string]: any };
             }
 
             /** Properties of a TestStepFinished. */
             interface ITestStepFinished {
 
-                /** TestStepFinished status */
-                status?: (io.cucumber.messages.Status|null);
+                /** TestStepFinished pickleId */
+                pickleId?: (string|null);
+
+                /** TestStepFinished index */
+                index?: (number|null);
+
+                /** TestStepFinished testResult */
+                testResult?: (io.cucumber.messages.ITestResult|null);
+
+                /** TestStepFinished timestamp */
+                timestamp?: (google.protobuf.ITimestamp|null);
             }
 
             /** Represents a TestStepFinished. */
@@ -2965,8 +3282,17 @@ export namespace io {
                  */
                 constructor(properties?: io.cucumber.messages.ITestStepFinished);
 
-                /** TestStepFinished status. */
-                public status: io.cucumber.messages.Status;
+                /** TestStepFinished pickleId. */
+                public pickleId: string;
+
+                /** TestStepFinished index. */
+                public index: number;
+
+                /** TestStepFinished testResult. */
+                public testResult?: (io.cucumber.messages.ITestResult|null);
+
+                /** TestStepFinished timestamp. */
+                public timestamp?: (google.protobuf.ITimestamp|null);
 
                 /**
                  * Creates a new TestStepFinished instance using the specified properties.
@@ -3038,6 +3364,216 @@ export namespace io {
                  */
                 public toJSON(): { [k: string]: any };
             }
+
+            /** Properties of a TestResult. */
+            interface ITestResult {
+
+                /** TestResult status */
+                status?: (io.cucumber.messages.Status|null);
+
+                /** TestResult message */
+                message?: (string|null);
+            }
+
+            /** Represents a TestResult. */
+            class TestResult implements ITestResult {
+
+                /**
+                 * Constructs a new TestResult.
+                 * @param [properties] Properties to set
+                 */
+                constructor(properties?: io.cucumber.messages.ITestResult);
+
+                /** TestResult status. */
+                public status: io.cucumber.messages.Status;
+
+                /** TestResult message. */
+                public message: string;
+
+                /**
+                 * Creates a new TestResult instance using the specified properties.
+                 * @param [properties] Properties to set
+                 * @returns TestResult instance
+                 */
+                public static create(properties?: io.cucumber.messages.ITestResult): io.cucumber.messages.TestResult;
+
+                /**
+                 * Encodes the specified TestResult message. Does not implicitly {@link io.cucumber.messages.TestResult.verify|verify} messages.
+                 * @param message TestResult message or plain object to encode
+                 * @param [writer] Writer to encode to
+                 * @returns Writer
+                 */
+                public static encode(message: io.cucumber.messages.ITestResult, writer?: $protobuf.Writer): $protobuf.Writer;
+
+                /**
+                 * Encodes the specified TestResult message, length delimited. Does not implicitly {@link io.cucumber.messages.TestResult.verify|verify} messages.
+                 * @param message TestResult message or plain object to encode
+                 * @param [writer] Writer to encode to
+                 * @returns Writer
+                 */
+                public static encodeDelimited(message: io.cucumber.messages.ITestResult, writer?: $protobuf.Writer): $protobuf.Writer;
+
+                /**
+                 * Decodes a TestResult message from the specified reader or buffer.
+                 * @param reader Reader or buffer to decode from
+                 * @param [length] Message length if known beforehand
+                 * @returns TestResult
+                 * @throws {Error} If the payload is not a reader or valid buffer
+                 * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                 */
+                public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): io.cucumber.messages.TestResult;
+
+                /**
+                 * Decodes a TestResult message from the specified reader or buffer, length delimited.
+                 * @param reader Reader or buffer to decode from
+                 * @returns TestResult
+                 * @throws {Error} If the payload is not a reader or valid buffer
+                 * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                 */
+                public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): io.cucumber.messages.TestResult;
+
+                /**
+                 * Verifies a TestResult message.
+                 * @param message Plain object to verify
+                 * @returns `null` if valid, otherwise the reason why it is not
+                 */
+                public static verify(message: { [k: string]: any }): (string|null);
+
+                /**
+                 * Creates a TestResult message from a plain object. Also converts values to their respective internal types.
+                 * @param object Plain object
+                 * @returns TestResult
+                 */
+                public static fromObject(object: { [k: string]: any }): io.cucumber.messages.TestResult;
+
+                /**
+                 * Creates a plain object from a TestResult message. Also converts values to other types if specified.
+                 * @param message TestResult
+                 * @param [options] Conversion options
+                 * @returns Plain object
+                 */
+                public static toObject(message: io.cucumber.messages.TestResult, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+                /**
+                 * Converts this TestResult to JSON.
+                 * @returns JSON object
+                 */
+                public toJSON(): { [k: string]: any };
+            }
+
+            /** Status enum. */
+            enum Status {
+                AMBIGUOUS = 0,
+                FAILED = 1,
+                PASSED = 2,
+                PENDING = 3,
+                SKIPPED = 4,
+                UNDEFINED = 5
+            }
+        }
+    }
+}
+
+/** Namespace google. */
+export namespace google {
+
+    /** Namespace protobuf. */
+    namespace protobuf {
+
+        /** Properties of a Timestamp. */
+        interface ITimestamp {
+
+            /** Timestamp seconds */
+            seconds?: (number|Long|null);
+
+            /** Timestamp nanos */
+            nanos?: (number|null);
+        }
+
+        /** Represents a Timestamp. */
+        class Timestamp implements ITimestamp {
+
+            /**
+             * Constructs a new Timestamp.
+             * @param [properties] Properties to set
+             */
+            constructor(properties?: google.protobuf.ITimestamp);
+
+            /** Timestamp seconds. */
+            public seconds: (number|Long);
+
+            /** Timestamp nanos. */
+            public nanos: number;
+
+            /**
+             * Creates a new Timestamp instance using the specified properties.
+             * @param [properties] Properties to set
+             * @returns Timestamp instance
+             */
+            public static create(properties?: google.protobuf.ITimestamp): google.protobuf.Timestamp;
+
+            /**
+             * Encodes the specified Timestamp message. Does not implicitly {@link google.protobuf.Timestamp.verify|verify} messages.
+             * @param message Timestamp message or plain object to encode
+             * @param [writer] Writer to encode to
+             * @returns Writer
+             */
+            public static encode(message: google.protobuf.ITimestamp, writer?: $protobuf.Writer): $protobuf.Writer;
+
+            /**
+             * Encodes the specified Timestamp message, length delimited. Does not implicitly {@link google.protobuf.Timestamp.verify|verify} messages.
+             * @param message Timestamp message or plain object to encode
+             * @param [writer] Writer to encode to
+             * @returns Writer
+             */
+            public static encodeDelimited(message: google.protobuf.ITimestamp, writer?: $protobuf.Writer): $protobuf.Writer;
+
+            /**
+             * Decodes a Timestamp message from the specified reader or buffer.
+             * @param reader Reader or buffer to decode from
+             * @param [length] Message length if known beforehand
+             * @returns Timestamp
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): google.protobuf.Timestamp;
+
+            /**
+             * Decodes a Timestamp message from the specified reader or buffer, length delimited.
+             * @param reader Reader or buffer to decode from
+             * @returns Timestamp
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): google.protobuf.Timestamp;
+
+            /**
+             * Verifies a Timestamp message.
+             * @param message Plain object to verify
+             * @returns `null` if valid, otherwise the reason why it is not
+             */
+            public static verify(message: { [k: string]: any }): (string|null);
+
+            /**
+             * Creates a Timestamp message from a plain object. Also converts values to their respective internal types.
+             * @param object Plain object
+             * @returns Timestamp
+             */
+            public static fromObject(object: { [k: string]: any }): google.protobuf.Timestamp;
+
+            /**
+             * Creates a plain object from a Timestamp message. Also converts values to other types if specified.
+             * @param message Timestamp
+             * @param [options] Conversion options
+             * @returns Plain object
+             */
+            public static toObject(message: google.protobuf.Timestamp, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+            /**
+             * Converts this Timestamp to JSON.
+             * @returns JSON object
+             */
+            public toJSON(): { [k: string]: any };
         }
     }
 }

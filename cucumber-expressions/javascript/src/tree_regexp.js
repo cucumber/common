@@ -14,9 +14,9 @@ class TreeRegexp {
     let charClass = false
     this._re.source.split('').forEach((c, n) => {
       if (c == '[' && !escaping) {
-        charClass = true;
+        charClass = true
       } else if (c == ']' && !escaping) {
-        charClass = false;
+        charClass = false
       } else if (c === '(' && !escaping && !charClass) {
         stack.push(new GroupBuilder())
         groupStartStack.push(n + 1)

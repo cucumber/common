@@ -10,7 +10,6 @@ TOKENS       = $(patsubst testdata/%.feature,acceptance/testdata/%.feature.token
 ASTS         = $(patsubst testdata/%.feature,acceptance/testdata/%.feature.ast.ndjson,$(GOOD_FEATURE_FILES))
 PICKLES      = $(patsubst testdata/%.feature,acceptance/testdata/%.feature.pickles.ndjson,$(GOOD_FEATURE_FILES))
 SOURCES      = $(patsubst testdata/%.feature,acceptance/testdata/%.feature.source.ndjson,$(GOOD_FEATURE_FILES))
-PROTOBUFS    = $(patsubst testdata/%.feature,acceptance/testdata/%.feature.protobuf.bin.ndjson,$(GOOD_FEATURE_FILES))
 ERRORS       = $(patsubst testdata/%.feature,acceptance/testdata/%.feature.errors.ndjson,$(BAD_FEATURE_FILES))
 
 .DELETE_ON_ERROR:
@@ -51,11 +50,6 @@ acceptance/testdata/%.feature.ast.ndjson: testdata/%.feature testdata/%.feature.
 	mkdir -p `dirname $@`
 	bin/gherkin --json --no-source --no-pickles $< | jq --sort-keys --compact-output -f remove_empty.jq > $@
 	diff --unified <(jq "." $<.ast.ndjson) <(jq "." $@)
-
-acceptance/testdata/%.feature.protobuf.bin.ndjson: testdata/%.feature.protobuf.bin bin/gherkin
-	mkdir -p `dirname $@`
-	cat $< | bin/gherkin | jq --sort-keys --compact-output -f remove_empty.jq > $@
-	diff --unified <(jq "." $<.ndjson) <(jq "." $@)
 
 acceptance/testdata/%.feature.errors.ndjson: testdata/%.feature testdata/%.feature.errors.ndjson bin/gherkin
 	mkdir -p `dirname $@`
