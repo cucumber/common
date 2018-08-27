@@ -26,7 +26,6 @@ describe('Gherkin', () => {
     })
 
     const messages = await streamToArray(Gherkin.fromSources([source]))
-    console.log('Messages', messages)
     assert.strictEqual(messages.length, 3)
   })
 })
