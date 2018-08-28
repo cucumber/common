@@ -1,11 +1,10 @@
 {
   "presets": [
-    ["@babel/env", {
+    ["env", {
       "targets": {
         "node": "current"
       }
-    }],
-    ["@babel/typescript"]
+    }]
   ],
-  "plugins": ["@babel/transform-async-to-generator"]
+  "plugins": ["transform-async-to-generator"]
 }

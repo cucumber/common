@@ -20,7 +20,7 @@ default: .gofmt .tested
 ifneq (,$(wildcard ./cli))
 ifndef ALPINE
 # Cross-compile executables if there is a CLI. Disabled on Alpine Linux builds
-# (monorepo build in Docker) where cross  compilation fails for certain platforms.
+# (monorepo build in Docker) where cross compilation fails for certain platforms.
 # Subrepo builds don't run in Docker/Alpine, so cross compile will happen there.
 default: .dist
 endif

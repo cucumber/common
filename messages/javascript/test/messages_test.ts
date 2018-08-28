@@ -1,6 +1,7 @@
 /* eslint-env mocha */
-const assert = require('assert')
-const messages = require('../src/cucumber-messages').io.cucumber.messages;
+import * as assert from 'assert'
+import * as cm from '../src/cucumber-messages'
+const messages = cm.io.cucumber.messages
 
 describe('messages', () => {
   it('builds a pickle doc string', () => {
