@@ -7,7 +7,7 @@ const CucumberExpression = require('../src/cucumber_expression')
 const RegularExpression = require('../src/regular_expression')
 const ParameterTypeRegistry = require('../src/parameter_type_registry')
 const ParameterType = require('../src/parameter_type')
-require('babel-polyfill')
+require('@babel/polyfill')
 
 class Color {
   /// [color-constructor]
