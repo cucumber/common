@@ -9,9 +9,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Added
 
-* (Java) Added ParameterType.fromEnum(MyEnumClass.class) to make it easier
+* (Java) Added `ParameterType.fromEnum(MyEnumClass.class)` to make it easier
   to register enums.
-  ([aslakhellesoy])
+  ([#423](https://github.com/cucumber/cucumber/pull/423)
+   [aslakhellesoy])
 
 ### Changed
 
