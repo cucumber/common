@@ -97,9 +97,9 @@ public class TreeRegexpTest {
 
     @Test
     public void works_digit_and_word() {
-        TreeRegexp tr = new TreeRegexp("^(\\d) (\\w+)$");
-        Group g = tr.match("2 you");
-        assertEquals(2, g.getChildren().size());
+        TreeRegexp tr = new TreeRegexp("^(\\d) (\\w+) (\\w+)$");
+        Group g = tr.match("2 you привет");
+        assertEquals(3, g.getChildren().size());
     }
 
     @Test
