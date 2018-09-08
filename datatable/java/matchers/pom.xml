@@ -45,4 +45,8 @@
 
 
     </dependencies>
+
+    <properties>
+        <project.Automatic-Module-Name>io.cucumber.datatable.matchers</project.Automatic-Module-Name>
+    </properties>
 </project>
