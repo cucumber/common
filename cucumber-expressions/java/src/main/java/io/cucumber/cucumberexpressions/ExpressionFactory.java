@@ -16,7 +16,7 @@ public class ExpressionFactory {
     private static final Pattern END_ANCHOR = Pattern.compile(".*\\$$");
     private static final Pattern SCRIPT_STYLE_REGEXP = Pattern.compile("^/(.*)/$");
     private static final Pattern PARENS = Pattern.compile("\\(([^)]+)\\)");
-    private static final Pattern ALPHA = Pattern.compile("[a-zA-Z]+");
+    private static final Pattern ALPHA = Pattern.compile("\\w+", Pattern.UNICODE_CHARACTER_CLASS);
     private final ParameterTypeRegistry parameterTypeRegistry;
 
     public ExpressionFactory(ParameterTypeRegistry parameterTypeRegistry) {
