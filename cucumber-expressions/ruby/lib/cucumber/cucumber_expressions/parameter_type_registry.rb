@@ -7,7 +7,7 @@ module Cucumber
     class ParameterTypeRegistry
       INTEGER_REGEXPS = [/-?\d+/, /\d+/]
       FLOAT_REGEXP = /-?\d*\.\d+/
-      WORD_REGEXP = /\w+/
+      WORD_REGEXP = /[^\s]+/
       STRING_REGEXP = /"([^"\\]*(\\.[^"\\]*)*)"|'([^'\\]*(\\.[^'\\]*)*)'/
 
       def initialize

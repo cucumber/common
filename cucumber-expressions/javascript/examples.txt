@@ -17,3 +17,7 @@ I have 1 cuke in my belly now
 /^Something( with an optional argument)?$/
 Something
 [null]
+---
+Привет, {word}!
+Привет, Мир!
+["Мир"]
