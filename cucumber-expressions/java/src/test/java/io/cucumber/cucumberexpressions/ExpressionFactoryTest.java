@@ -34,11 +34,6 @@ public class ExpressionFactoryTest {
     }
 
     @Test
-    public void creates_cucumber_expression_for_parenthesis_with_alpha_unicode() {
-        assertCucumberExpression("Привет, Мир(ы)!");
-    }
-
-    @Test
     public void creates_cucumber_expression_for_only_begin_anchor() {
         assertRegularExpression("^this looks like a regexp");
     }

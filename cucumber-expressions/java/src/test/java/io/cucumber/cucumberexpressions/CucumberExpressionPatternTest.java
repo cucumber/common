@@ -49,7 +49,13 @@ public class CucumberExpressionPatternTest {
                 "I have many big(ish) cukes",
                 "^I have many big(?:ish)? cukes$"
         );
+    }
 
+    @Test
+    public void translates_parenthesis_with_alpha_unicode() {
+        assertPattern(
+                "Привет, Мир(ы)!",
+                "^Привет, Мир(?:ы)?!$");
     }
 
     private void assertPattern(String expr, String expectedRegexp) {

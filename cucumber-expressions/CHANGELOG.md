@@ -24,6 +24,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
    [aslakhellesoy])
 
 ### Fixed
+* java: The text between `()` (optional text) can be unicode.
+  ([#473](https://github.com/cucumber/cucumber/pull/473)
+   [savkk]
+   [aslakhellesoy]
 * The built-in `{word}` parameter type handles unicode (any non-space character)
   ([#471](https://github.com/cucumber/cucumber/pull/471)
    [savkk]

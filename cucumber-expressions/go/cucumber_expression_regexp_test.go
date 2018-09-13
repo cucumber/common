@@ -46,6 +46,14 @@ func TestCucumberExpressionRegExpTranslation(t *testing.T) {
 			`^I have many big(?:ish)? cukes$`,
 		)
 	})
+
+	t.Run("translates parenthesis with alpha unicode", func(t *testing.T) {
+		assertRegexp(
+			t,
+			"Привет, Мир(ы)!",
+			`^Привет, Мир(?:ы)?!$`,
+		)
+	})
 }
 
 func assertRegexp(t *testing.T, expression string, expectedRegexp string) {

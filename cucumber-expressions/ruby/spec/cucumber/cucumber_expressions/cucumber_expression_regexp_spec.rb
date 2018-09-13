@@ -44,6 +44,13 @@ module Cucumber
             /^I have many big(?:ish)? cukes$/
           )
         end
+
+        it "translates parenthesis with alpha unicode" do
+          assert_regexp(
+            "Привет, Мир(ы)!",
+            /^Привет, Мир(?:ы)?!$/
+          )
+        end
       end
     end
   end
