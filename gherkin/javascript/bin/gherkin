@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 'use strict'
 const Stream = require('stream')
-const Gherkin = require('../src/Gherkin')
+const gherkin = require('../src/index')
 const args = process.argv.slice(2)
 const options = {
   includeSource: true,
@@ -44,4 +44,4 @@ const protobufNdjsonStream = new Stream.Transform({
   }
 })
 
-Gherkin.fromPaths(paths, options).pipe(protobufNdjsonStream).pipe(process.stdout)
+gherkin.fromPaths(paths, options).pipe(protobufNdjsonStream).pipe(process.stdout)
