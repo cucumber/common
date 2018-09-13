@@ -40,7 +40,7 @@ public class ExpressionExamplesTest {
         String[] chunks = s.split("---");
         for (String chunk : chunks) {
             chunk = chunk.trim();
-            data.add(chunk.split("\n"));
+            data.add(chunk.split(System.lineSeparator()));
         }
         return data;
     }
