@@ -24,6 +24,7 @@ ERRORS       = $(patsubst testdata/%.feature,acceptance/testdata/%.feature.error
 	touch $@
 
 dist/src/index.d.ts: src/index.d.ts
+	mkdir -p `dirname $@`
 	cp $< $@
 
 acceptance/testdata/%.feature.ast.ndjson: testdata/%.feature testdata/%.feature.ast.ndjson .deps
