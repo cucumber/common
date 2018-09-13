@@ -10,9 +10,8 @@ Cucumber consists of several components written in different programming languag
 
 These components need to exchange data between them. This is done using *Cucumber Messages*
 
-Cucumber Messages is a message protocol based on [Protocol Buffers](https://developers.google.com/protocol-buffers/). It allows one process to
-construct message objects and send them to another process. Protobuf takes care
-of serialising those messages to a binary format, and deserialise them on the other
+Cucumber Messages is a message protocol based on [Protocol Buffers](https://developers.google.com/protocol-buffers/). It allows one process to construct message objects and send them to another process. 
+Protobuf takes care of serialising those messages to a binary format, and deserialise them on the other
 end.
 
 The messages are defined in [messages.proto](./messages.proto).

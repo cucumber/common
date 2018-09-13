@@ -9,7 +9,7 @@ include default.mk
 
 .tested: messages.pb.go
 
-messages.pb.go: messages.proto .deps
+messages.pb.go: messages.proto
 	protoc -I=. -I=$(GOPATH)/src -I=$(GOPATH)/src/github.com/gogo/protobuf/protobuf --gogofaster_out=\
 	Mgoogle/protobuf/timestamp.proto=github.com/gogo/protobuf/types:. \
 	$<
