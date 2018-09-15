@@ -76,6 +76,9 @@
                             <addClasspath>true</addClasspath>
                             <mainClass>gherkin.cli.Main</mainClass>
                         </manifest>
+                        <manifestEntries>
+                            <Automatic-Module-Name>${project.Automatic-Module-Name}</Automatic-Module-Name>
+                        </manifestEntries>
                     </archive>
                 </configuration>
             </plugin>
@@ -144,5 +147,6 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.Automatic-Module-Name>io.cucumber.gherkin</project.Automatic-Module-Name>
     </properties>
 </project>
