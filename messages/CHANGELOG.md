@@ -8,8 +8,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ## [Unreleased]
 
 ### Added
-* Protobuf messages for Go, Java, JavaScript and Ruby
-* Added Typescript definitions for the JavaScript implementation
 
 ### Changed
 
@@ -22,8 +20,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ## [1.0.0]
 
 ### Added
-* Protobuf messages for Go, Java, JavaScript and Ruby
-* Added Typescript definitions for the JavaScript implementation
+
+* Protobuf messages for Go, Java, JavaScript, TypeScript and Ruby
 
 <!-- Releases -->
 [Unreleased]: https://github.com/cucumber/cucumber/compare/messages-v1.0.0...master
