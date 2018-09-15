@@ -304,7 +304,7 @@ function npm_release() {
 
   pushd "${dir}"
   npm install
-  npm version "${version}"
+  npm version "${version}" --allow-same-version
   npm publish
   git push
   git push --tags
