@@ -17,6 +17,7 @@ ERRORS       = $(patsubst testdata/%.feature,acceptance/testdata/%.feature.error
 default: .compared
 
 .deps:
+	go get
 	go build -i -a -v
 	touch $@
 
