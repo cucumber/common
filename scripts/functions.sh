@@ -282,6 +282,9 @@ function maven_release()
   git add .
   git commit -m "Update to ${version}-SNAPSHOT"
 
+  # LIBRARY_VERSION specifies what executable version to download - if any
+  LIBRARY_VERSION=${version} make
+
   mvn --batch-mode release:clean release:prepare -Darguments="-DskipTests=true"  
   mvn --batch-mode release:perform -Psign-source-javadoc -DskipTests=true
   

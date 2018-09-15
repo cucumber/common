@@ -25,7 +25,7 @@ deploy:
     upload-dir: gherkin-go/$TRAVIS_TAG
     local_dir: dist
     on:
-      go: '1.10'
+      go: '1.11'
       tags: true
     secret_access_key:
       secure: D77H5M2C9AtP4qQ0oXCjHOFOKOFHPxNjn9ZFm7yXy8HRWTZ81YfA5SGyxFu9uNcGhbrECb/i2Hm71piJwJzqv6cyRViF4aWRU8H4mv7JiWSx7Rx3kNIV3I8b4RfM3YRhapFR19aQfaJ7xKQ1hk2xofQGD/qFaSbTNSJ6e1JQL/M=
@@ -39,7 +39,7 @@ deploy:
     upload-dir: gherkin-go/$TRAVIS_BRANCH
     local_dir: dist
     on:
-      go: '1.10'
+      go: '1.11'
       tags: false
     secret_access_key:
       secure: D77H5M2C9AtP4qQ0oXCjHOFOKOFHPxNjn9ZFm7yXy8HRWTZ81YfA5SGyxFu9uNcGhbrECb/i2Hm71piJwJzqv6cyRViF4aWRU8H4mv7JiWSx7Rx3kNIV3I8b4RfM3YRhapFR19aQfaJ7xKQ1hk2xofQGD/qFaSbTNSJ6e1JQL/M=

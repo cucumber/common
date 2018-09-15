@@ -1,7 +1,7 @@
 # Builds a docker image used for building most projects in this repo. It's
 # used both by contributors and CI.
 #
-FROM alpine:3.8
+FROM alpine:edge
 
 WORKDIR /app
 
