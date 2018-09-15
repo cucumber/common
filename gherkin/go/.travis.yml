@@ -3,7 +3,9 @@ sudo: false
 go:
 - '1.11'
 - tip
-script: make default
+script: 
+  # https://dave.cheney.net/2018/07/16/using-go-modules-with-travis-ci
+  - env GO111MODULE=on make
 jobs:
   include:
   - stage: deploy
@@ -12,7 +14,7 @@ jobs:
       - curl -L https://github.com/upx/upx/releases/download/v3.94/upx-3.94-amd64_linux.tar.xz | tar Jx
       - export PATH=$PATH:$PWD/upx-3.94-amd64_linux
     script: 
-      - make
+      - env GO111MODULE=on make
       - make .dist-compressed
       # Copy the binaries that compressed successfully over the uncompressed ones
       - cp dist_compressed/* dist/
