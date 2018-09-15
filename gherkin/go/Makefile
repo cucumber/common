@@ -17,8 +17,8 @@ ERRORS       = $(patsubst testdata/%.feature,acceptance/testdata/%.feature.error
 default: .compared
 
 .deps:
-	go get
-	go build -i -a -v
+	go build
+	go get github.com/aslakhellesoy/gox
 	touch $@
 
 .compared: .built $(TOKENS) $(ASTS) $(PICKLES) $(SOURCES) $(ERRORS)
