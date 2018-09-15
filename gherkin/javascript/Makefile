@@ -18,10 +18,14 @@ ERRORS       = $(patsubst testdata/%.feature,acceptance/testdata/%.feature.error
 	-npm link c21e
 	touch $@
 
-.tested: .compared
+.tested: dist/src/index.d.ts .compared
 
 .compared: $(ASTS) $(PICKLES) $(ERRORS) $(SOURCES)
 	touch $@
+
+dist/src/index.d.ts: src/index.d.ts
+	mkdir -p `dirname $@`
+	cp $< $@
 
 acceptance/testdata/%.feature.ast.ndjson: testdata/%.feature testdata/%.feature.ast.ndjson .deps
 	mkdir -p `dirname $@`

@@ -1,12 +1,12 @@
 /* eslint-env mocha */
 const assert = require('assert')
 const cm = require('cucumber-messages').io.cucumber.messages
-const Gherkin = require('../src/Gherkin')
+const { fromPaths, fromSources } = require('../src/index')
 
-describe('Gherkin', () => {
+describe('gherkin', () => {
   it('parses gherkin from the file system', async () => {
     const messages = await streamToArray(
-      Gherkin.fromPaths(['testdata/good/minimal.feature'])
+      fromPaths(['testdata/good/minimal.feature'])
     )
     assert.strictEqual(messages.length, 3)
   })
@@ -25,7 +25,7 @@ describe('Gherkin', () => {
       }),
     })
 
-    const messages = await streamToArray(Gherkin.fromSources([source]))
+    const messages = await streamToArray(fromSources([source]))
     assert.strictEqual(messages.length, 3)
   })
 })

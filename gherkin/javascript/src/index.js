@@ -4,15 +4,20 @@ const ExeFile = require('c21e')
 const cm = require('cucumber-messages').io.cucumber.messages
 const ProtobufMessageStream = require('./ProtobufMessageStream')
 
-module.exports = class Gherkin {
-  static fromPaths(paths, options) {
-    return new this(paths, [], options).messageStream()
-  }
+function fromPaths(paths, options) {
+  return new Gherkin(paths, [], options).messageStream()
+}
 
-  static fromSources(sources, options) {
-    return new this([], sources, options).messageStream()
-  }
+function fromSources(sources, options) {
+  return new Gherkin([], sources, options).messageStream()
+}
 
+module.exports = {
+  fromPaths,
+  fromSources,
+}
+
+class Gherkin {
   constructor(paths, sources, options) {
     this._paths = paths
     this._sources = sources

@@ -24,6 +24,14 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
    [aslakhellesoy])
 
 ### Fixed
+* java: The text between `()` (optional text) can be unicode.
+  ([#473](https://github.com/cucumber/cucumber/pull/473)
+   [savkk]
+   [aslakhellesoy]
+* The built-in `{word}` parameter type handles unicode (any non-space character)
+  ([#471](https://github.com/cucumber/cucumber/pull/471)
+   [savkk]
+   [aslakhellesoy]
 * Parenthesis inside character class should not be treated as capture group.
   ([#454](https://github.com/cucumber/cucumber/issues/454)
    [#461](https://github.com/cucumber/cucumber/pull/461)
@@ -485,4 +493,5 @@ N/A
 [luke-hill]:        https://github.com/luke-hill
 [mpkorstanje]:      https://github.com/mpkorstanje
 [kAworu]:           https://github.com/kAworu
+[savkk]:            https://github.com/savkk
 [spicalous]:        https://github.com/spicalous

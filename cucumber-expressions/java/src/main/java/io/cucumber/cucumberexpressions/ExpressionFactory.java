@@ -7,8 +7,7 @@ import java.util.regex.PatternSyntaxException;
 /**
  * Creates a {@link CucumberExpression} or {@link RegularExpression} from a {@link String}
  * using heuristics. This is particularly useful for languages that don't have a
- * literal syntax for regular expressions such as Ruby or JavaScript - with Java
- * a regular expression has to be represented as a String.
+ * literal syntax for regular expressions. In Java, a regular expression has to be represented as a String.
  */
 public class ExpressionFactory {
 
@@ -16,7 +15,7 @@ public class ExpressionFactory {
     private static final Pattern END_ANCHOR = Pattern.compile(".*\\$$");
     private static final Pattern SCRIPT_STYLE_REGEXP = Pattern.compile("^/(.*)/$");
     private static final Pattern PARENS = Pattern.compile("\\(([^)]+)\\)");
-    private static final Pattern ALPHA = Pattern.compile("[a-zA-Z]+");
+    private static final Pattern NON_REGEXP_CHARS = Pattern.compile("[^\\[\\].+*]+");
     private final ParameterTypeRegistry parameterTypeRegistry;
 
     public ExpressionFactory(ParameterTypeRegistry parameterTypeRegistry) {
@@ -38,7 +37,7 @@ public class ExpressionFactory {
         m = PARENS.matcher(expressionString);
         if (m.find()) {
             String insideParens = m.group(1);
-            if (ALPHA.matcher(insideParens).lookingAt()) {
+            if (NON_REGEXP_CHARS.matcher(insideParens).lookingAt()) {
                 return new CucumberExpression(expressionString, parameterTypeRegistry);
             }
             return new RegularExpression(Pattern.compile(expressionString), parameterTypeRegistry);

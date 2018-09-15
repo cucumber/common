@@ -36,6 +36,10 @@ describe('CucumberExpression', () => {
         /^I have many big(?:ish)? cukes$/
       )
     })
+
+    it('translates parenthesis with alpha unicode', () => {
+      assertRegexp('Привет, Мир(ы)!', /^Привет, Мир(?:ы)?!$/)
+    })
   })
 })
 

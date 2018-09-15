@@ -15,7 +15,7 @@ var FLOAT_REGEXPS = []*regexp.Regexp{
 	regexp.MustCompile(`-?\d*\.\d+`),
 }
 var WORD_REGEXPS = []*regexp.Regexp{
-	regexp.MustCompile(`\w+`),
+	regexp.MustCompile(`[^\s]+`),
 }
 var STRING_REGEXPS = []*regexp.Regexp{
 	regexp.MustCompile(`"([^"\\]*(\\.[^"\\]*)*)"|'([^'\\]*(\\.[^'\\]*)*)'`),

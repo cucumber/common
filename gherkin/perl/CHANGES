@@ -10,6 +10,7 @@ This document is formatted according to the principles of [Keep A CHANGELOG](htt
 ## [Unreleased] - In Git
 
 ### Added
+* (TypeScript) - Added TypeScript definitions (`.d.ts`) for Gherkin.
 * Added `Example` as synonym for `Scenario` in English and many other languages.
   This is to align Gherkin with BDD and Example Mapping terminology.
   ([aslakhellesoy])

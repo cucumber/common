@@ -7,7 +7,7 @@ const {
 
 const INTEGER_REGEXPS = [/-?\d+/, /\d+/]
 const FLOAT_REGEXP = /-?\d*\.\d+/
-const WORD_REGEXP = /\w+/
+const WORD_REGEXP = /[^\s]+/
 const STRING_REGEXP = /"([^"\\]*(\\.[^"\\]*)*)"|'([^'\\]*(\\.[^'\\]*)*)'/
 
 class ParameterTypeRegistry {
