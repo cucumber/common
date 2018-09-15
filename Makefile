@@ -1,6 +1,6 @@
 SHELL := /usr/bin/env bash
 MAKEFILES=c21e/Makefile \
-	messages/Makefile \
+	cucumber-messages/Makefile \
 	dots-formatter/Makefile \
 	gherkin/Makefile \
 	datatable/Makefile \
