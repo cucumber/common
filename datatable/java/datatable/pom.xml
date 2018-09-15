@@ -50,4 +50,8 @@
         </dependency>
 
     </dependencies>
+
+    <properties>
+        <project.Automatic-Module-Name>io.cucumber.datatable</project.Automatic-Module-Name>
+    </properties>
 </project>
