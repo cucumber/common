@@ -31,8 +31,6 @@ endif
 
 dist/$(LIBNAME)-%: $(GO_SOURCE_FILES)
 	mkdir -p dist
-	-which gox
-	ls -al $(GOPATH)
 	gox -ldflags $(GOX_LDFLAGS) -output "dist/$(LIBNAME)-{{.OS}}-{{.Arch}}" -rebuild ./cli
 
 .dist-compressed: $(UPX_EXES)

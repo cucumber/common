@@ -26,12 +26,8 @@ default: .dist
 endif
 endif
 
-.dist: .deps dist/$(LIBNAME).wasm dist/$(LIBNAME)-darwin-amd64
+.dist: .deps dist/$(LIBNAME)-darwin-amd64
 	touch $@
-
-dist/$(LIBNAME).wasm: $(GO_SOURCE_FILES)
-	mkdir -p dist
-	-GOARCH=wasm GOOS=js go build -o $@ ./cli
 
 dist/$(LIBNAME)-%: $(GO_SOURCE_FILES)
 	mkdir -p dist

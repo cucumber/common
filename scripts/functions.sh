@@ -125,6 +125,22 @@ function push_subrepo_tag_maybe()
   fi
 }
 
+function push_subrepo_tags_maybe()
+{
+  if [ -z "${TRAVIS_TAG}" ]; then
+    echo "No tags to push"
+  else
+    tagged_subrepo=$(echo "${TRAVIS_TAG}" | cut -d/ -f 1)
+    vtag=$(echo "${TRAVIS_TAG}" | cut -d/ -f 2)
+    subrepos . | while read subrepo; do
+      if [[ "${subrepo}" = "${tagged_subrepo}"* ]]; then
+        remote=$(subrepo_remote "${subrepo}")
+        echo git push --force "${remote}" $(splitsh-lite --prefix=${subrepo} --origin=refs/tags/${vtag}):refs/tags/${TRAVIS_TAG}
+      fi
+    done
+  fi
+}
+
 function build_subrepos()
 {
   subrepos $1 | while read subrepo; do
