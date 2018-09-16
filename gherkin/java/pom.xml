@@ -5,7 +5,7 @@
 
     <groupId>io.cucumber</groupId>
     <artifactId>gherkin</artifactId>
-    <version>6.0.0.0</version>
+    <version>6.0.0.1</version>
     <packaging>jar</packaging>
     <name>Gherkin</name>
     <description>Gherkin parser</description>
@@ -25,6 +25,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <minimum.maven.version>3.3</minimum.maven.version>
+        <io.cucumber.messages.version>1.0.0</io.cucumber.messages.version>
         <outputDirectory>${project.build.directory}</outputDirectory>
     </properties>
 
@@ -69,7 +70,7 @@
         <dependency>
             <groupId>io.cucumber</groupId>
             <artifactId>messages</artifactId>
-            <version>1.0.0</version>
+            <version>${io.cucumber.messages.version}</version>
         </dependency>
         <dependency>
             <groupId>junit</groupId>

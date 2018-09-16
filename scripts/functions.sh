@@ -135,7 +135,8 @@ function push_subrepo_tags_maybe()
     subrepos . | while read subrepo; do
       if [[ "${subrepo}" = "${tagged_subrepo}"* ]]; then
         remote=$(subrepo_remote "${subrepo}")
-        echo git push --force "${remote}" $(splitsh-lite --prefix=${subrepo} --origin=refs/tags/${vtag}):refs/tags/${TRAVIS_TAG}
+        ref=$(splitsh-lite --prefix=${subrepo} --origin=refs/tags/${TRAVIS_TAG})
+        git push --force "${remote}" ${ref}:refs/tags/${vtag}
       fi
     done
   fi
