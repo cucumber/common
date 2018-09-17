@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
 
-gherkin_jar=$(ls ${DIR}/../target/*.jar)
+gherkin_jar=$(ls ${DIR}/../target/*.jar | tail -1)
 messages_version=$(cat pom.xml | grep "<io.cucumber.messages.version>" | sed -E "s/.*>(.*)<.*/\1/")
 
 java \
