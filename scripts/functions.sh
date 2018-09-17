@@ -98,8 +98,9 @@ function push_subrepos()
     # which is sufficient.
     subrepos $1 | while read subrepo; do
       push_subrepo_branch "${subrepo}"
-      push_subrepo_tag_maybe "${subrepo}"
+      # push_subrepo_tag_maybe "${subrepo}"
     done
+    push_subrepo_tags_maybe
   else
     echo "Skipping pushing to subrepos on Travis pull request builds."
   fi
@@ -114,16 +115,16 @@ function push_subrepo_branch()
   git push --force "${remote}" $(splitsh-lite --prefix=${subrepo}):refs/heads/${branch}
 }
 
-function push_subrepo_tag_maybe()
-{
-  subrepo=$1
-  remote=$(subrepo_remote "${subrepo}")
-  if [ -z "${TRAVIS_TAG}" ]; then
-    echo "No tags to push"
-  else
-    git push --force "${remote}" $(splitsh-lite --prefix=${subrepo} --origin=refs/tags/${TRAVIS_TAG}):refs/tags/${TRAVIS_TAG}
-  fi
-}
+# function push_subrepo_tag_maybe()
+# {
+#   subrepo=$1
+#   remote=$(subrepo_remote "${subrepo}")
+#   if [ -z "${TRAVIS_TAG}" ]; then
+#     echo "No tags to push"
+#   else
+#     git push --force "${remote}" $(splitsh-lite --prefix=${subrepo} --origin=refs/tags/${TRAVIS_TAG}):refs/tags/${TRAVIS_TAG}
+#   fi
+# }
 
 function push_subrepo_tags_maybe()
 {
