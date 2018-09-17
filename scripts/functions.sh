@@ -82,61 +82,50 @@ function subrepo_remote()
 }
 
 function git_branch() {
-  if [ -z "${TRAVIS_BRANCH}" ]; then
-    git rev-parse --abbrev-ref HEAD
-  else
-    echo "${TRAVIS_BRANCH}"
-  fi
+  echo "${TRAVIS_BRANCH}"
+}
+
+function git_tag() {
+  echo "${TRAVIS_TAG}"
 }
 
 function push_subrepos()
 {
   if [ "${TRAVIS_PULL_REQUEST}" = "false" ] || [ -z "${TRAVIS_PULL_REQUEST}" ]; then
-    # Travis builds PRs with TRAVIS_BRANCH=master (or whatever)
-    # the base branch of the PR is. We don't want to push to subrepos in this
-    # case, as it would push the wrong branch. Travis also builds the branch,
-    # which is sufficient.
     subrepos $1 | while read subrepo; do
-      push_subrepo_branch "${subrepo}"
-      # push_subrepo_tag_maybe "${subrepo}"
+      push_subrepo_branch_maybe "${subrepo}"
     done
-    push_subrepo_tags_maybe
+    push_subrepo_tag_maybe
   else
     echo "Skipping pushing to subrepos on Travis pull request builds."
   fi
 }
 
-function push_subrepo_branch()
+function push_subrepo_branch_maybe()
 {
   subrepo=$1
   remote=$(subrepo_remote "${subrepo}")
   branch=$(git_branch)
   
-  git push --force "${remote}" $(splitsh-lite --prefix=${subrepo}):refs/heads/${branch}
+  if [ -z "${branch}" ]; then
+    echo "No branch to push"
+  else
+    git push --force "${remote}" $(splitsh-lite --prefix=${subrepo}):refs/heads/${branch}
+  fi
 }
 
-# function push_subrepo_tag_maybe()
-# {
-#   subrepo=$1
-#   remote=$(subrepo_remote "${subrepo}")
-#   if [ -z "${TRAVIS_TAG}" ]; then
-#     echo "No tags to push"
-#   else
-#     git push --force "${remote}" $(splitsh-lite --prefix=${subrepo} --origin=refs/tags/${TRAVIS_TAG}):refs/tags/${TRAVIS_TAG}
-#   fi
-# }
-
-function push_subrepo_tags_maybe()
+function push_subrepo_tag_maybe()
 {
-  if [ -z "${TRAVIS_TAG}" ]; then
-    echo "No tags to push"
+  tag=$(git_tag)
+  if [ -z "${tag}" ]; then
+    echo "No tag to push"
   else
-    tagged_subrepo=$(echo "${TRAVIS_TAG}" | cut -d/ -f 1)
-    vtag=$(echo "${TRAVIS_TAG}" | cut -d/ -f 2)
+    tagged_subrepo=$(echo "${tag}" | cut -d/ -f 1)
+    vtag=$(echo "${tag}" | cut -d/ -f 2)
     subrepos . | while read subrepo; do
       if [[ "${subrepo}" = "${tagged_subrepo}"* ]]; then
         remote=$(subrepo_remote "${subrepo}")
-        ref=$(splitsh-lite --prefix=${subrepo} --origin=refs/tags/${TRAVIS_TAG})
+        ref=$(splitsh-lite --prefix=${subrepo} --origin=refs/tags/${tag})
         git push --force "${remote}" ${ref}:refs/tags/${vtag}
       fi
     done
