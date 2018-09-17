@@ -46,7 +46,8 @@ do
     cp ${src_file} ${file}
   else
     # cURL occasionaly fails. Try up to 3 times with a 5 sec sleep in-betweeen.
-    for i in 1 2 3; do 
+    for i in 1 2 3; do
+      echo "Downloading ${src_url}"
       curl "${src_url}" -o "${file}" && chmod +x "${file}" && break || sleep 5;
     done
   fi
