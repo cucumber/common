@@ -11,8 +11,6 @@ if [[ "$TRAVIS_BRANCH" != 'master' && -z "$TRAVIS_TAG" ]]; then
   echo "Skipping deploy (not master branch or tagged build)"
   exit 0
 fi
-echo DO
-exit 0
 source "${DIR}/decrypt_signing_key.sh"
 gpg -q --fast-import scripts/codesigning.asc
 source "${DIR}/mvn_deploy.sh"
