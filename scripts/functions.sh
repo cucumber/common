@@ -91,6 +91,9 @@ function git_tag() {
 
 function push_subrepos()
 {
+  echo "TRAVIS_BRANCH=${TRAVIS_BRANCH}"
+  echo "TRAVIS_TAG=${TRAVIS_TAG}"
+  
   if [ "${TRAVIS_PULL_REQUEST}" = "false" ] || [ -z "${TRAVIS_PULL_REQUEST}" ]; then
     subrepos $1 | while read subrepo; do
       push_subrepo_branch_maybe "${subrepo}"
