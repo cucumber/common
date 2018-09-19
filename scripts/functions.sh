@@ -88,7 +88,10 @@ function subrepo_owner_name()
 }
 
 function git_branch() {
-  echo "${TRAVIS_BRANCH}"
+  if [ -z "${TRAVIS_TAG}" ]; then
+    # Only report branch if we're not on a tag
+    echo "${TRAVIS_BRANCH}"
+  fi
 }
 
 function git_tag() {

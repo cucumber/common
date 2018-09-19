@@ -11,8 +11,8 @@ matrix:
   allow_failures:
   - rvm: jruby-9.1.17.0
 deploy:
-  provider: rubygems
   skip_cleanup: true
+  provider: rubygems
   on:
     tags: true
     ruby: 2.5.1
