@@ -13,6 +13,7 @@ matrix:
 deploy:
   skip_cleanup: true
   provider: rubygems
+  gemspec: gherkin.gemspec
   on:
     tags: true
     ruby: 2.5.1
