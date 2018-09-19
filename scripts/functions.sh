@@ -81,6 +81,12 @@ function subrepo_remote()
   fi
 }
 
+function subrepo_owner_name()
+{
+  subrepo=$1
+  cat ${subrepo}/.subrepo
+}
+
 function git_branch() {
   echo "${TRAVIS_BRANCH}"
 }
@@ -161,15 +167,64 @@ function release_subrepos()
   done
 }
 
-function release_subrepo()
+function release_module()
+{
+  module=$1
+  version=$2
+
+  subrepos "${path}" | while read subrepo; do
+    version_subrepo "${subrepo}" "${version}"
+  done
+  
+  git commit -am "Release ${module} v${version}"
+  git tag "${module}/v${version}"
+  git push && git push --tags
+}
+
+# function release_subrepo()
+# {
+#   subrepo=$1
+#   version=$2
+#   next_version=$3
+# 
+#   clone_for_release "${subrepo}"
+#   release_subrepo_clone "$(release_dir "${subrepo}")" "${version}" "${next_version}"
+# }
+
+# Sets up GPG in a module dir
+function setup_gpg()
 {
   subrepo=$1
-  version=$2
-  next_version=$3
+  repo=$(subrepo_owner_name "${subrepo}")
 
-  clone_for_release "${subrepo}"
-  release_subrepo_clone "$(release_dir "${subrepo}")" "${version}" "${next_version}"
+  pushd "${subrepo}"
+
+  gpg --export-secret-key E60E1F911B996560FFB135DAF4CABFB5B89B8BE6 > scripts/codesigning.asc
+
+  # Encrypt the signing key to scripts/codesigning.asc.enc. Store the encrypted
+  # decryption keys in `.travis.yml` and copy the openssl command to decrypt it.
+  rm -f scripts/codesigning.asc.enc
+  openssl_line=$(travis encrypt-file \
+    scripts/codesigning.asc \
+    scripts/codesigning.asc.enc \
+    --repo "${repo}" | grep openssl)
+  
+  cat << EOF > scripts/decrypt_signing_key.sh
+#!/usr/bin/env bash
+set -euf -o pipefail
+${openssl_line}
+EOF
+  
+  # Remove the unencrypted key. We don't want that to accidentally end up in git!
+  rm scripts/codesigning.asc
+  
+  chmod +x scripts/decrypt_signing_key.sh 
+  git add scripts/codesigning.asc.enc scripts/decrypt_signing_key.sh
+  git commit -m "Add encrypted signing keys for ${subrepo}"
+  
+  popd
 }
+
 
 # Clones a subrepo into a temporary directory, which is where the release will be
 # made from.
@@ -197,6 +252,18 @@ function release_subrepo_clone()
     eval ${ptype}_release "${dir}" "${version}" "${next_version}"
   fi
 }
+
+function version_subrepo()
+{
+  dir=$1
+  version=$2
+
+  ptype=$(project_type "${dir}")
+  if [ -n "${ptype}" ]; then
+    eval ${ptype}_version "${dir}" "${version}"
+  fi
+}
+
 
 function release_dir()
 {
@@ -302,6 +369,20 @@ function maven_release()
   popd
 }
 
+function maven_version()
+{
+  dir=$1
+  version=$2
+  next_version=$3
+
+  pushd "${dir}"
+  xmlstarlet ed --inplace --ps -N pom="http://maven.apache.org/POM/4.0.0" \
+    --update "/pom:project/pom:version" \
+    --value "${version}" \
+    "pom.xml"
+  popd
+}
+
 ################ NPM ################
 
 function npm_release_karma()
@@ -326,6 +407,15 @@ function npm_release() {
   popd
 }
 
+function npm_version() {
+  dir=$1
+  version=$2
+
+  pushd "${dir}"
+  npm --no-git-tag-version version "${version}"
+  popd
+}
+
 ################ RUBYGEM ################
 
 function rubygem_release_karma()
@@ -347,6 +437,15 @@ function rubygem_release() {
   git show > .release.patch
   cd ..
   patch -p1 < .release/.release.patch
+  popd
+}
+
+function rubygem_version() {
+  dir=$1
+  version=$2
+
+  pushd "${dir}"
+  sed -i "" "s/\(s\.version *= *'\)[0-9]*\.[0-9]*\.[0-9]*\('\)/\1${version}\2/" "$(find_path "." "*.gemspec")"
   popd
 }
 
