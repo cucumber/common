@@ -15,7 +15,7 @@ of the module, and all associated module repos will be tagged.
 Triggering a release is simple:
 
     # For example
-    release_module gherkin 7.4.8 # Don't specify the v in the version
+    source scripts/functions.sh && release_module gherkin 7.4.8 # Don't specify the v in the version
 
 This will update the various package descriptors (`pom.xml`, `package.json`, `*.gemspec`)
 in the module implementations. A git commit will be created with message "Release gherkin v7.4.8". 
