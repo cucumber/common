@@ -9,12 +9,14 @@ repo=$(echo "$1" | sed 's|/|%2F|')
 tag=$2
 token=$3
 
-body='{
+body_fmt='{
   "request": {
-    "branch":"${tag}",
-    "message": "Trigger build of tag ${tag}"
+    "branch":"%s",
+    "message": "Trigger build of tag %s"
   }
 }'
+
+body=$(printf "${body_fmt}" "${tag}" "${tag}")
 
 curl -v -s -X POST \
    -H "Content-Type: application/json" \
