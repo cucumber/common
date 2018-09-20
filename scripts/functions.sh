@@ -228,6 +228,15 @@ EOF
   popd
 }
 
+function setup_travis_token() {
+  subrepo=$1
+  pushd "${subrepo}"
+
+  travis encrypt TRAVIS_API_TOKEN=${TRAVIS_API_TOKEN} --add --repo "cucumber/gherkin-go"
+
+  popd
+}
+
 
 # Clones a subrepo into a temporary directory, which is where the release will be
 # made from.

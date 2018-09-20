@@ -1,6 +1,7 @@
 sudo: false
 language: java
 
+
 jobs:
   include:
   - stage: test
@@ -11,8 +12,17 @@ jobs:
     jdk: oraclejdk9
     script:
     - "make default"
+  # -release build (triggered by go build via api)
   - stage: deploy
     jdk: oraclejdk8
+    if: tag IS present AND type = api 
+    script:
+    - "make default"
+    - "./scripts/travis_deploy.sh"
+  # -SNAPSHOT build (push)
+  - stage: deploy
+    jdk: oraclejdk8
+    if: tag IS blank AND type = push 
     script:
     - "make default"
     - "./scripts/travis_deploy.sh"

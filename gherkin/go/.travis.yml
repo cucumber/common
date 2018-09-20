@@ -3,47 +3,51 @@ sudo: false
 go:
 - '1.11'
 - tip
-script: 
-  # https://dave.cheney.net/2018/07/16/using-go-modules-with-travis-ci
-  - env GO111MODULE=on make
+script:
+- env GO111MODULE=on make
+after_success:
+- test $TRAVIS_TAG && scripts/trigger_build.sh cucumber/gherkin-java       $TRAVIS_TAG $TRAVIS_API_TOKEN
+- test $TRAVIS_TAG && scripts/trigger_build.sh cucumber/gherkin-javascript $TRAVIS_TAG $TRAVIS_API_TOKEN
+- test $TRAVIS_TAG && scripts/trigger_build.sh cucumber/gherkin-ruby       $TRAVIS_TAG $TRAVIS_API_TOKEN
 jobs:
   include:
   - stage: deploy
     go: '1.11'
     before_install:
-      - curl -L https://github.com/upx/upx/releases/download/v3.94/upx-3.94-amd64_linux.tar.xz | tar Jx
-      - export PATH=$PATH:$PWD/upx-3.94-amd64_linux
-    script: 
-      - env GO111MODULE=on make
-      - env GO111MODULE=on make .dist-compressed
-      # Copy the binaries that compressed successfully over the uncompressed ones
-      - cp dist_compressed/* dist/
+    - curl -L https://github.com/upx/upx/releases/download/v3.94/upx-3.94-amd64_linux.tar.xz
+      | tar Jx
+    - export PATH=$PATH:$PWD/upx-3.94-amd64_linux
+    script:
+    - env GO111MODULE=on make
+    - env GO111MODULE=on make .dist-compressed
+    - cp dist_compressed/* dist/
 deploy:
-  # Deploy to S3 for tags
-  - provider: s3
-    region: eu-west-2
-    bucket: io.cucumber
-    skip_cleanup: true
-    upload-dir: gherkin-go/$TRAVIS_TAG
-    local_dir: dist
-    on:
-      go: '1.11'
-      tags: true
-    secret_access_key:
-      secure: D77H5M2C9AtP4qQ0oXCjHOFOKOFHPxNjn9ZFm7yXy8HRWTZ81YfA5SGyxFu9uNcGhbrECb/i2Hm71piJwJzqv6cyRViF4aWRU8H4mv7JiWSx7Rx3kNIV3I8b4RfM3YRhapFR19aQfaJ7xKQ1hk2xofQGD/qFaSbTNSJ6e1JQL/M=
-    access_key_id:
-      secure: UCr0EuflA1t0XK/MfB5CHcdCrZNizqkWRwe57Tec7yU0DwLYkdKAaux+uIvFAFrYGnt+5wyRjgM+mjD/H9UrE/3EEs5qWP9dV355s5FLwHD6CmjHCUXfu4JE3EeSIN1siKXbAzD6hLdwwIWPHXmVc7bscr9MiKBI5AaN11JtHKU=
-  # Deploy to S3 for non-tags
-  - provider: s3
-    region: eu-west-2
-    bucket: io.cucumber
-    skip_cleanup: true
-    upload-dir: gherkin-go/$TRAVIS_BRANCH
-    local_dir: dist
-    on:
-      go: '1.11'
-      tags: false
-    secret_access_key:
-      secure: D77H5M2C9AtP4qQ0oXCjHOFOKOFHPxNjn9ZFm7yXy8HRWTZ81YfA5SGyxFu9uNcGhbrECb/i2Hm71piJwJzqv6cyRViF4aWRU8H4mv7JiWSx7Rx3kNIV3I8b4RfM3YRhapFR19aQfaJ7xKQ1hk2xofQGD/qFaSbTNSJ6e1JQL/M=
-    access_key_id:
-      secure: UCr0EuflA1t0XK/MfB5CHcdCrZNizqkWRwe57Tec7yU0DwLYkdKAaux+uIvFAFrYGnt+5wyRjgM+mjD/H9UrE/3EEs5qWP9dV355s5FLwHD6CmjHCUXfu4JE3EeSIN1siKXbAzD6hLdwwIWPHXmVc7bscr9MiKBI5AaN11JtHKU=
+- provider: s3
+  region: eu-west-2
+  bucket: io.cucumber
+  skip_cleanup: true
+  upload-dir: gherkin-go/$TRAVIS_TAG
+  local_dir: dist
+  on:
+    go: '1.11'
+    tags: true
+  secret_access_key:
+    secure: D77H5M2C9AtP4qQ0oXCjHOFOKOFHPxNjn9ZFm7yXy8HRWTZ81YfA5SGyxFu9uNcGhbrECb/i2Hm71piJwJzqv6cyRViF4aWRU8H4mv7JiWSx7Rx3kNIV3I8b4RfM3YRhapFR19aQfaJ7xKQ1hk2xofQGD/qFaSbTNSJ6e1JQL/M=
+  access_key_id:
+    secure: UCr0EuflA1t0XK/MfB5CHcdCrZNizqkWRwe57Tec7yU0DwLYkdKAaux+uIvFAFrYGnt+5wyRjgM+mjD/H9UrE/3EEs5qWP9dV355s5FLwHD6CmjHCUXfu4JE3EeSIN1siKXbAzD6hLdwwIWPHXmVc7bscr9MiKBI5AaN11JtHKU=
+- provider: s3
+  region: eu-west-2
+  bucket: io.cucumber
+  skip_cleanup: true
+  upload-dir: gherkin-go/$TRAVIS_BRANCH
+  local_dir: dist
+  on:
+    go: '1.11'
+    tags: false
+  secret_access_key:
+    secure: D77H5M2C9AtP4qQ0oXCjHOFOKOFHPxNjn9ZFm7yXy8HRWTZ81YfA5SGyxFu9uNcGhbrECb/i2Hm71piJwJzqv6cyRViF4aWRU8H4mv7JiWSx7Rx3kNIV3I8b4RfM3YRhapFR19aQfaJ7xKQ1hk2xofQGD/qFaSbTNSJ6e1JQL/M=
+  access_key_id:
+    secure: UCr0EuflA1t0XK/MfB5CHcdCrZNizqkWRwe57Tec7yU0DwLYkdKAaux+uIvFAFrYGnt+5wyRjgM+mjD/H9UrE/3EEs5qWP9dV355s5FLwHD6CmjHCUXfu4JE3EeSIN1siKXbAzD6hLdwwIWPHXmVc7bscr9MiKBI5AaN11JtHKU=
+env:
+  global:
+    secure: P0ph4igXwh6CT0FapDIuPmqJJIMWw5tZdcusj3xjBIQJWIyQWz1hu3wOjKWKJb/JqGMfTwoK+DaaM5++6f3wOOQA6TZW2ASB7r8f1DsIwdwt3ZiXc2xIA02dA/uqDH+JNZoYiw/rnVqW0jMO7S8SqLiT/8Wxi5d3YI86E4H+4Ls=
