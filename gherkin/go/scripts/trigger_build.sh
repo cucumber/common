@@ -10,9 +10,11 @@ tag=$2
 token=$3
 
 body='{
-"request": {
-"branch":"${tag}"
-}}'
+  "request": {
+    "branch":"${tag}",
+    "message": "Trigger build of tag ${tag}"
+  }
+}'
 
 curl -v -s -X POST \
    -H "Content-Type: application/json" \

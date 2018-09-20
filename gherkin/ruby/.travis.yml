@@ -1,21 +1,21 @@
 sudo: false
 language: ruby
 rvm:
-- 2.5.1
-- 2.4.4
-- 2.3.7
-- 2.2.10
-- jruby-9.1.17.0
+- '2.5.1'
+- '2.4.4'
+- '2.3.7'
+- '2.2.10'
+- 'jruby-9.1.17.0'
 script: make default
 matrix:
   allow_failures:
-  - rvm: jruby-9.1.17.0
+  - rvm: 'jruby-9.1.17.0'
 
 jobs:
   include:
   - stage: deploy
-    ruby: 2.5.1
-    if: tag IS present AND type = api 
+    ruby: '2.5.1'
+    if: type = api 
 
 deploy:
   skip_cleanup: true

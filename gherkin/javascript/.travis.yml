@@ -13,7 +13,7 @@ jobs:
   include:
   - stage: deploy
     node_js: '10'
-    if: tag IS present AND type = api 
+    if: type = api 
 
 deploy:
   skip_cleanup: true

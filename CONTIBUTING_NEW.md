@@ -3,13 +3,13 @@
 Releases are made by tagging the monorepo with a tag using the pattern
 `module/semver`, for example `gherkin/v7.4.8`. The CI build takes care of the rest:
 
-- Tag each module repo with the `semver` part of the monorepo.
-- Trigger a travis build for each module repo.
+- Tag each module repo with the `semver` part of the monorepo tag.
+- Trigger a Travis build for each module repo.
 - Publish packages (maven, npm, rubygems etc) if the (tagged) build is successful.
 
 ## Releasing a module
 
-*Note:* When a module is releases, artefacts will be published for all implementations
+*Note:* When a module is released, artefacts will be published for *all* implementations
 of the module, and all associated module repos will be tagged.
 
 Triggering a release is simple:
@@ -22,17 +22,15 @@ in the module implementations. A git commit will be created with message "Releas
 This commit is also tagged with `gherkin/v7.4.8`. Everything is pushed, which will kick 
 off the release process above.
 
-### Rebuilding tagged builds
+### Triggering tagged builds
 
 After you push a tag, each module repo will start building in parallel. If a module
 has a dependency on the go implementation (such as `gherkin`, `dots-formatter` and
-`pretty-formatter`), you should *cancel* the build and wait for the go implementation's
-build to complete. When it has completed, rerun the cancelled build.
+`pretty-formatter`), the build will initially fail because it can only pass after 
+the go executables have been published and available for download.
 
-The reason for this is that the dependent build can only pass after the go executables
-are published and available for download.
-
-We might automate this process at some stage, but for now this is manual.
+The go module will trigger a new build of dependent module repos after a successful
+tagged build. This second time the builds should pass and successfully publish packages.
 
 ## Configuring a module dir for automated releases
 
