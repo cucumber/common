@@ -13,11 +13,12 @@ jobs:
   include:
   - stage: deploy
     node_js: '10'
-    if: type = api 
 
 deploy:
   skip_cleanup: true
   provider: npm
   email: cukebot@cucumber.io
+  on:
+    tags: true
   api_key:
     secure: w89lnaLVi+Ox4vHFBuuw2e2ZZlld5Ic6IDXLIThGWL4/r4luSvQVM6t6A8HC2p1dH3tZZVWAD6CMXY6GIjShIQ4cMDq1a+MNFgjxLO7EynH0yTMlv/1oO2SFiNg2v4ASSARRwelklq8QQWkgTyNckaPouRSoiAWcVRV3cG6M5IKVJyCO6DKtDppR3DWlZ10dqv7Xj+su6CUTrmSHROMtx9sXWPkozgnFVpEC2Lu9ZlL7Lls8RismvPkcBNgzctmjN28l2pD3HPNiAiFsvEzzucbkZqM5srIby+t2YNEX1nmDJbxEzLHj0M1zctG3G9nmb36nE2FFDmPicCF4hfdO304+xCW89DOxhRl5VQY0B1GqdpPZEOruNgtvp/63Kvnf/gADBwoB0LmNf5eJYr9eBE8IrN1GuPHPZ65n+tVLpCFwr4ijVqb7SGfiQXQbptRu2xC2O2+RBVJKFXdtPoGJ0tgSNBtzMCn4kTBQc/tbwes9TvO00u3He45kNMXG78OQqQv31V4AeaDn4Aa/gOtdrwklnhmDMJ8InLPn4jConLDKjvmFJrSmygLaIZqcdYDvgiB0mw/aI4u0IDa7oazS70m4+RPOgjVWyv4m7J7ck4YRkZlltEHEsJPco8xmVitBR/o+wdkBJaujSwrmkb3H/W2mAYl0GcLa9Sj5EQFIw5c=

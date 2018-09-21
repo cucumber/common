@@ -6,9 +6,9 @@ go:
 script:
 - env GO111MODULE=on make
 after_deploy:
-- test $TRAVIS_TAG && scripts/trigger_build.sh cucumber/gherkin-java       $TRAVIS_TAG $TRAVIS_API_TOKEN
-- test $TRAVIS_TAG && scripts/trigger_build.sh cucumber/gherkin-javascript $TRAVIS_TAG $TRAVIS_API_TOKEN
-- test $TRAVIS_TAG && scripts/trigger_build.sh cucumber/gherkin-ruby       $TRAVIS_TAG $TRAVIS_API_TOKEN
+- test $TRAVIS_TAG && scripts/trigger_build.sh cucumber gherkin-java       $TRAVIS_TAG $TRAVIS_API_TOKEN
+- test $TRAVIS_TAG && scripts/trigger_build.sh cucumber gherkin-javascript $TRAVIS_TAG $TRAVIS_API_TOKEN
+- test $TRAVIS_TAG && scripts/trigger_build.sh cucumber gherkin-ruby       $TRAVIS_TAG $TRAVIS_API_TOKEN
 jobs:
   include:
   - stage: deploy

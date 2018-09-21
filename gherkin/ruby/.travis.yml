@@ -15,11 +15,12 @@ jobs:
   include:
   - stage: deploy
     ruby: '2.5.1'
-    if: type = api 
 
 deploy:
   skip_cleanup: true
   provider: rubygems
   gemspec: gherkin.gemspec
+  on:
+    tags: true
   api_key:
     secure: IP53oqFmeyaLjfP6j5Q2qeUVctMGBk/reHzCX/WxVTWU9KyKjoZ8saz8TL+jq7Bk9VzEeeWvH9+7NU3VTz09RtTa/YvAH5a1Ts29ccf3rmm3VeiUuKte7qd6ZGTZm8LPuHz60ihACXDn6iUQjtv67JYwyloCrHhq1m7B/dzqj/smscSRDPrIUpU9M+RqzC7kTGvytA3Jud+IMnf8pj9FzB3p7b/BWviuJ8aWJUlHJNnK3iCoOKacg391PHZQX6Y2SaD1VGwS0gBJo5CMJrbSpTQf1cWK6LeQdYFX+XhcW4iR5uYisA7yoCkGPzvAdWA3fOhuJZtkNinyUGgHY0WTl0jmSLKCwDmDcroDP602o1JmXDRqRfrxkFPwzB9fqIfJae+p3eJjAk78nTdAu/Q7mNSUEZiIVGLorjGsy7HKgIaQm7P6FzyM6iYsbZ7qpZWCW2LzzjuRGgMQrOh0jOjUyw3zmuotnQp04TfI1A4H5pgcpzq9R/F1mtR77DbmeGviXW8qqkZRY2Nt+B35oo/0zMQSZvne2dLSTf7xpAC2VPmJ4UGSXOyZZJhbyLPRLGc27dpWabEPpyAVy0p76xZx4qdFglmMu1jLCrLPBdGjJQt4gM7X+J6yFu53sz1oOCHvQTDAlC0aHWFswUiUZjObUNKd2RnYUF2fgJ7ciT80Ruw=
