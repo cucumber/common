@@ -14,7 +14,7 @@ Gem::Specification.new do |s|
   # TODO: Add dependency on c21e before making a release
   s.add_dependency 'cucumber-messages', '1.0.0'
 
-  s.add_development_dependency 'bundler'
+  s.add_development_dependency 'bundler', '~> 1.16'
   s.add_development_dependency 'rake',  '~> 10.5'
   s.add_development_dependency 'rspec', '~> 3.7'
 
@@ -22,7 +22,7 @@ Gem::Specification.new do |s|
   s.add_development_dependency 'coveralls'
 
   s.executables      = ["gherkin-ruby", "gherkin"]
-  s.rubygems_version = ">= 1.6.1"
+  s.rubygems_version = ">= 1.6.1", '~> 0.8'
   s.files            = Dir[
     'README.md',
     'LICENSE',
