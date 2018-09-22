@@ -70,11 +70,34 @@ such as `gherkin/java/pom.xml`.
 
 #### Ruby (Rubygems)
 
-Follow the Travis [RubyGems Deployment](https://docs.travis-ci.com/user/deployment/rubygems/) guide.
+Cd into the module dir and run:
+
+    travis setup rubygems
+
+Here are some sample answers:
+
+    Gem name: |cucumber| gherkin
+    Release only tagged commits? |yes| 
+    Release only from cucumber/cucumber? |yes| no
+    Encrypt API key? |yes| 
+
+For more details, follow the Travis [RubyGems Deployment](https://docs.travis-ci.com/user/deployment/rubygems/) guide.
 
 #### JavaScript (NPM)
 
-Follow the Travis [NPM Releasing](https://docs.travis-ci.com/user/deployment/npm/) guide.
+Cd into the module dir and run:
+
+    travis setup npm
+
+Here are some sample answers:
+
+    NPM email address: cukebot@cucumber.io
+    NPM api key: ************************************
+    release only tagged commits? |yes| 
+    Release only from cucumber/cucumber? |yes| no
+    Encrypt API key? |yes| 
+
+Form more details, follow the Travis [NPM Releasing](https://docs.travis-ci.com/user/deployment/npm/) guide.
 
 #### Go (modules)
 

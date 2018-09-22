@@ -1,26 +1,23 @@
 sudo: false
 language: ruby
 rvm:
-- '2.5.1'
-- '2.4.4'
-- '2.3.7'
-- '2.2.10'
-- 'jruby-9.1.17.0'
+- 2.5.1
+- 2.4.4
+- 2.3.7
+- 2.2.10
+- jruby-9.1.17.0
 script: make default
 matrix:
   allow_failures:
-  - rvm: 'jruby-9.1.17.0'
-
+  - rvm: jruby-9.1.17.0
 jobs:
   include:
   - stage: deploy
-    ruby: '2.5.1'
-
+    ruby: 2.5.1
 deploy:
-  skip_cleanup: true
   provider: rubygems
-  gemspec: gherkin.gemspec
+  api_key:
+    secure: lbGG3ygWmwpzdD2dc13CyCQG75KMEhO4++YCKrqosTKo4HO/zHOjMrbSp63Z0sNqq0GE/JvIeRc+U0HZSuSPEsYDCy8OT//ZMiAHkjMa7zD4NRCOPptNSpC+L3JTFSjy98nUrr6Ddmncgjvpt9CCAZexAAXZ/k1X+W2eWQQuq/rgI7QWZpY7U5As1Qu5OIizsG04f/sz+Eivwkn+TvvfhTssMtTUUf0nsasqkULGMYHgPBN5I52ucYhLt1YuUzTypY3u2LcopM5VKGZtRvwnyiBnTrZ1h7zWtbed+zZ5o7B2Ru+xAB2dADdEQCf3Oc3Bf0wTkO48yGEnQqOo+HMD5xrc8azFTd6hilje0mT4b5w1PDNiB7hMAxRZbmBfM9UGlygjr8mPFmVaF7ki2UE/8JLZBZC9frURVkcMzYdzNsWknvsee6o8AklViCym6fUCSuW5WpBUPLE/Z4czBUTqQqwXBFiLYCYNxJmzW+9p0oTwvAQmvcX2arlJB5Vy/YZnWGGKJf/a21fUUoaNKgn3uQ2K7/wDkZqGjBp2wo+dNDmmB3VaOCGe9Y0B6XHOMF6jtJb3noVL8zelks0IEyiwTOTGLelLVmtgdA8lYma1eAWvM48GWBotZJsKGsLdFTxJiTZhCI2AFbbp7hPjntmB+KfxF8CVvbuOUIVb82xbcLw=
+  gem: gherkin
   on:
     tags: true
-  api_key:
-    secure: IP53oqFmeyaLjfP6j5Q2qeUVctMGBk/reHzCX/WxVTWU9KyKjoZ8saz8TL+jq7Bk9VzEeeWvH9+7NU3VTz09RtTa/YvAH5a1Ts29ccf3rmm3VeiUuKte7qd6ZGTZm8LPuHz60ihACXDn6iUQjtv67JYwyloCrHhq1m7B/dzqj/smscSRDPrIUpU9M+RqzC7kTGvytA3Jud+IMnf8pj9FzB3p7b/BWviuJ8aWJUlHJNnK3iCoOKacg391PHZQX6Y2SaD1VGwS0gBJo5CMJrbSpTQf1cWK6LeQdYFX+XhcW4iR5uYisA7yoCkGPzvAdWA3fOhuJZtkNinyUGgHY0WTl0jmSLKCwDmDcroDP602o1JmXDRqRfrxkFPwzB9fqIfJae+p3eJjAk78nTdAu/Q7mNSUEZiIVGLorjGsy7HKgIaQm7P6FzyM6iYsbZ7qpZWCW2LzzjuRGgMQrOh0jOjUyw3zmuotnQp04TfI1A4H5pgcpzq9R/F1mtR77DbmeGviXW8qqkZRY2Nt+B35oo/0zMQSZvne2dLSTf7xpAC2VPmJ4UGSXOyZZJhbyLPRLGc27dpWabEPpyAVy0p76xZx4qdFglmMu1jLCrLPBdGjJQt4gM7X+J6yFu53sz1oOCHvQTDAlC0aHWFswUiUZjObUNKd2RnYUF2fgJ7ciT80Ruw=
