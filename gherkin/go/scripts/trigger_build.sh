@@ -41,7 +41,7 @@ build_state=$(echo "${build}" | jq --raw-output "[.builds[] | select(.tag.name =
 
 echo "build_state=${build_state}"
 
-if [ "$build_state" = "started" ]; then
+if [ "$build_state" = "started" || "$build_state" = "created" ]; then
     echo "Cancelling..."
     curl -X POST \
         -H "Content-Type: application/json" \
