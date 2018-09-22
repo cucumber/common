@@ -13,6 +13,7 @@ jobs:
   - stage: deploy
     node_js: '10'
 deploy:
+  skip_cleanup: true
   provider: npm
   email: cukebot@cucumber.io
   api_key:
