@@ -9,14 +9,22 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Added
 
+### Changed
+
+### Deprecated
+
+### Removed
+
+### Fixed
+   
+## [6.1.0] - 2018-09-23
+
+### Added
+
 * (Java) Added `ParameterType.fromEnum(MyEnumClass.class)` to make it easier
   to register enums.
   ([#423](https://github.com/cucumber/cucumber/pull/423)
    [aslakhellesoy])
-
-### Changed
-
-### Deprecated
 
 ### Removed
 * java: OSGi support has been removed.
@@ -449,7 +457,8 @@ N/A
 * First stable release!
 
 <!-- Releases -->
-[Unreleased]: https://github.com/cucumber/cucumber/compare/cucumber-expressions-v6.0.1...master
+[Unreleased]: https://github.com/cucumber/cucumber/compare/cucumber-expressions-v6.1.0...master
+[6.1.0]:      https://github.com/cucumber/cucumber/compare/cucumber-expressions-v6.0.1...cucumber-expressions-v6.1.0
 [6.0.1]:      https://github.com/cucumber/cucumber/compare/cucumber-expressions-v6.0.0...cucumber-expressions-v6.0.1
 [6.0.0]:      https://github.com/cucumber/cucumber/compare/cucumber-expressions-v5.0.18...cucumber-expressions-v6.0.0
 [5.0.18]:     https://github.com/cucumber/cucumber/compare/cucumber-expressions-v5.0.17...cucumber-expressions-v5.0.18

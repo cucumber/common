@@ -1,10 +1,11 @@
 sudo: false
 language: node_js
 node_js:
-- '10'
-- '9'
-- '8'
-- '6'
+  - "10"
+  - "9"
+  - "8"
+  - "6"
+
 before_install:
 - npm i -g npm@latest
 script: make default
