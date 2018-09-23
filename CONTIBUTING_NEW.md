@@ -72,14 +72,12 @@ such as `gherkin/java/pom.xml`.
 
 Cd into the module dir and run:
 
-    travis setup rubygems
+# Set AUTH_TOKEN to the value from 1Password
 
-Here are some sample answers:
+Cd into the module dir and run:
 
-    Gem name: |cucumber| gherkin
-    Release only tagged commits? |yes| 
-    Release only from cucumber/cucumber? |yes| no
-    Encrypt API key? |yes| 
+    # Find the AUTH_TOKEN at https://rubygems.org/profile/edit (cukebot login password in 1Password)
+    travis encrypt "${AUTH_TOKEN}" --repo cucumber/gherkin-javascript --add deploy.api_key
 
 For more details, follow the Travis [RubyGems Deployment](https://docs.travis-ci.com/user/deployment/rubygems/) guide.
 
@@ -87,17 +85,10 @@ For more details, follow the Travis [RubyGems Deployment](https://docs.travis-ci
 
 Cd into the module dir and run:
 
-    travis setup npm
+    # Set AUTH_TOKEN to the value from 1Password
+    travis encrypt "${AUTH_TOKEN}" --repo cucumber/gherkin-javascript --add deploy.api_key
 
-Here are some sample answers:
-
-    NPM email address: cukebot@cucumber.io
-    NPM api key: ************************************
-    release only tagged commits? |yes| 
-    Release only from cucumber/cucumber? |yes| no
-    Encrypt API key? |yes| 
-
-Form more details, follow the Travis [NPM Releasing](https://docs.travis-ci.com/user/deployment/npm/) guide.
+For more details, follow the Travis [NPM Releasing](https://docs.travis-ci.com/user/deployment/npm/) guide.
 
 #### Go (modules)
 
