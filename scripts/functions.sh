@@ -184,15 +184,15 @@ function release_module()
   git push && git push --tags
 }
 
-# function release_subrepo()
-# {
-#   subrepo=$1
-#   version=$2
-#   next_version=$3
-# 
-#   clone_for_release "${subrepo}"
-#   release_subrepo_clone "$(release_dir "${subrepo}")" "${version}" "${next_version}"
-# }
+ function release_subrepo()
+ {
+   subrepo=$1
+   version=$2
+   next_version=$3
+
+   clone_for_release "${subrepo}"
+   release_subrepo_clone "$(release_dir "${subrepo}")" "${version}" "${next_version}"
+ }
 
 # Sets up GPG in a module dir
 function setup_gpg()
