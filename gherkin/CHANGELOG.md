@@ -14,6 +14,7 @@ This document is formatted according to the principles of [Keep A CHANGELOG](htt
 * Added `Example` as synonym for `Scenario` in English and many other languages.
   This is to align Gherkin with BDD and Example Mapping terminology.
   ([aslakhellesoy])
+* Added `Ukoliko` as an additional synonym for `Given`, in Croatian. ([#480](https://github.com/cucumber/cucumber/pull/480) [banovotz](https://github.com/banovotz))
 
 ### Changed
 * (JavaScript,Java,Ruby) The native parsers are removed. Parsing is done by `gherkin-go` 
