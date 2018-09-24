@@ -100,4 +100,7 @@
         </plugins>
     </build>
 
+    <properties>
+        <project.Automatic-Module-Name>io.cucumber.datatable.dependencies</project.Automatic-Module-Name>
+    </properties>
 </project>
