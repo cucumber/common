@@ -230,9 +230,10 @@ EOF
 
 function setup_travis_token() {
   subrepo=$1
+  repo=$(subrepo_owner_name "${subrepo}")
   pushd "${subrepo}"
 
-  travis encrypt TRAVIS_API_TOKEN=${TRAVIS_API_TOKEN} --add --repo "cucumber/gherkin-go"
+  travis encrypt TRAVIS_API_TOKEN=${TRAVIS_API_TOKEN} --add --repo "${repo}"
 
   popd
 }
