@@ -1,5 +1,4 @@
 ../../LICENSE LICENSE
 ../../.templates/github/ .github/
 ../../.templates/java/ .
-../../.templates/gpg/ .
 ../examples.txt examples.txt

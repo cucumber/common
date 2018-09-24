@@ -1,6 +1,5 @@
 ../LICENSE LICENSE
 ../../.templates/github/ .github/
 ../../.templates/java/ .
-../../.templates/gpg/ .
 ../../.templates/s3-download scripts/s3-download
 ../testdata/ testdata/
