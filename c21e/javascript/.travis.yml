@@ -1,8 +1,3 @@
-# Please update /.templates/javascript/.travis.yml in the cucumber/cucumber monorepo
-# and sync:
-#
-#     source scripts/functions.sh && rsync_files
-#
 sudo: false
 language: node_js
 node_js:
@@ -12,6 +7,17 @@ node_js:
   - "6"
 
 before_install:
-  - npm i -g npm@latest
-
+- npm i -g npm@latest
 script: make default
+jobs:
+  include:
+  - stage: deploy
+    node_js: '10'
+deploy:
+  skip_cleanup: true
+  provider: npm
+  email: cukebot@cucumber.io
+  api_key:
+    secure: DgKbk0MxOtsCsHgj9NQhS05TWVIBhnwpyrhyyM+OmnX5X0fL9+vnPsrJFwyyUYSz9HNFyOr2hEjRmsqslhYoLok42+6PTLqqG+BaywSkVWu+gGBp+fzYegz+RL8KWfH1llJO0sDcXL0g8kCTqNLczZNKBrwpdfHnadHLCWfTdQ0w2Q/ukId1GgAiqBiKW5G/S4rYOu7Sy32X1D2BdOocmFv3JlayOh9ZRRnjVP+Ut9gPlG4u0CIgSVHayEeHnrX7ZC/+aEbRSh8bezi6cRMuUJJTNAJLZpArTxlgRH2VnhJTXOBmkl9vapk6S0nzF2rWDIdnhHomhDER+4eI2AD/3rOc4Ihs04m0nn7mLswMbiNiRFP3CVfTLlH06kucWPyYHzj/7K5NFbDszKN1ILQwkAjPsBqBM8q4xx/jcq9RB5JAyHYJHvBkX5yM1jAiLgWkORfmK8iNVmtj1A9t6Y/bSCLBMSIY7FWGgvheuq4nBbyOAZyhJM8xBkL3i1nfApZDPNMaOPA2zaxmZFdwe967fzddRKEu1C4nMACXXAwSpkV2PHNfMmN6LSjLzt3VgBycJBF4dfnBFswy/VWxsPXsFM3O8o6aDFnPGCwk3lgjBEI+LDcdqmJ8pxgVy8UQ3KlJplRwvq6SFAjazJ4uyabBmdEmSK0ihiNZDt2A+pDglz4=
+  on:
+    tags: true
