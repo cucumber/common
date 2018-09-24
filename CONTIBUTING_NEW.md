@@ -72,10 +72,6 @@ such as `gherkin/java/pom.xml`.
 
 Cd into the module dir and run:
 
-# Set AUTH_TOKEN to the value from 1Password
-
-Cd into the module dir and run:
-
     # Find the AUTH_TOKEN at https://rubygems.org/profile/edit (cukebot login password in 1Password)
     travis encrypt "${AUTH_TOKEN}" --repo cucumber/gherkin-javascript --add deploy.api_key
 
