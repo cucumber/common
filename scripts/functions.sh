@@ -175,7 +175,7 @@ function release_module()
   module=$1
   version=$2
 
-  subrepos "${path}" | while read subrepo; do
+  subrepos "${module}" | while read subrepo; do
     version_subrepo "${subrepo}" "${version}"
   done
   
