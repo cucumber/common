@@ -7,14 +7,63 @@ This project adheres to [Semantic Versioning](http://semver.org).
 This document is formatted according to the principles of [Keep A CHANGELOG](http://keepachangelog.com).
 
 ----
-## [Unreleased] - In Git
+## [6.0.12] - 2018-09-25
+
+This major release aligns Gherkin with [Example Mapping](https://cucumber.io/blog/2015/12/08/example-mapping-introduction),
+a collaborative technique for *designing* scenarios and discovering details
+about rules and behaviour.
+
+A new `Rule` keyword has been introduced, and acts as a grouping of one or more
+`Example`s - a new synonym for `Scenario`. The `Scenario Outline` keyword can now
+be interchanged with the `Scenario` keyword, which makes Gherkin a little less confusing,
+especially to beginners. These are the first major change to the
+Gherkin grammar in 8 years or so, and we're pretty excited about them. We hope they will
+guide people towards thinking of scenarios as *examples of business rules*
+rather than a series of form submissions and link clicking. This rule-focused
+style engages product owners, and can act as amazing living documentation of your
+product. It opens up for the true benefits of BDD - a business-friendly format 
+for describing and agreeing on software behaviour, and a guide to development. 
+Developers will code against this spec, and produce better (simpler) software faster. 
+The software will do what it says on the tin.
+
+The new Gherkin grammar is backwards compatible, meaning that existing Gherkin
+documents are still valid.
+
+The library API however is not backwards compatible. It is now a stream-like
+API which produces a stream of messages (source, AST and pickle messages).
+
+Internally, each library shells out to a go executable (embedded in the library for all major
+OSes and processor architectures), and communicates via STDIN/STDOUT using
+[protocol buffers](https://developers.google.com/protocol-buffers/). The rationale
+behind this architectural change is to reduce the maintenance burden (a single parser
+rather than a dozen), but also to make it quicker and easier to implement a Gherkin
+library in a new language. Just generate some protobuf classes/structs and write a 
+small program that shells out and communicates using those messages.
+
+Our preliminary benchmarks suggest that performance is comparable to the native implementations,
+or better. There is a small hit in startup cost, but this is offset against a higher throughput
+of the parser.
+
+At the time of this writing Gherkin 6 is nearly integrated in Cucumber-JVM and
+Cucumber-Ruby. Integration with Cucumber.js has not started and we would really
+welcome some help with that.
+
+The message protocol will continue to evolve to represent runtime information such
+as results, parameter types, cucumber expressions and other metadata. This will
+make it easier for the community to build plugins for Cucumber. One HTML Gherkin
+formatter to rule them all. Statistic plugins and more.
 
 ### Added
 * (TypeScript) - Added TypeScript definitions (`.d.ts`) for Gherkin.
+* Added `Rule` keyword
+  ([#250](https://github.com/cucumber/cucumber/issues/250)
+   [aslakhellesoy])
 * Added `Example` as synonym for `Scenario` in English and many other languages.
   This is to align Gherkin with BDD and Example Mapping terminology.
   ([aslakhellesoy])
-* Added `Ukoliko` as an additional synonym for `Given`, in Croatian. ([#480](https://github.com/cucumber/cucumber/pull/480) [banovotz](https://github.com/banovotz))
+* Added `Ukoliko` as an additional synonym for `Given`, in Croatian.
+  ([#480](https://github.com/cucumber/cucumber/pull/480) 
+   [banovotz](https://github.com/banovotz))
 
 ### Changed
 * (JavaScript,Java,Ruby) The native parsers are removed. Parsing is done by `gherkin-go` 
@@ -409,7 +458,8 @@ to Gherkin 2.
 * First release
 
 <!-- Releases -->
-[Unreleased]: https://github.com/cucumber/cucumber/compare/gherkin-v5.1.0...HEAD
+[Unreleased]: https://github.com/cucumber/cucumber/compare/gherkin/v6.0.12...HEAD
+[6.0.12]:     https://github.com/cucumber/cucumber/compare/gherkin-v5.1.0...gherkin/v6.0.12
 [5.1.0]:      https://github.com/cucumber/cucumber/compare/gherkin-v5.0.0...gherkin-v5.1.0
 [5.0.0]:      https://github.com/cucumber/cucumber/compare/gherkin-v4.1.3...gherkin-v5.0.0
 [4.1.3]:      https://github.com/cucumber/cucumber/compare/gherkin-v4.1.2...gherkin-v4.1.3
