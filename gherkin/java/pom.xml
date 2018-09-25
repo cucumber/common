@@ -24,7 +24,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <minimum.maven.version>3.3</minimum.maven.version>
-        <io.cucumber.messages.version>1.0.0</io.cucumber.messages.version>
+        <io.cucumber.messages.version>1.0.2</io.cucumber.messages.version>
         <outputDirectory>${project.build.directory}</outputDirectory>
         <project.Automatic-Module-Name>io.cucumber.gherkin</project.Automatic-Module-Name>
     </properties>
