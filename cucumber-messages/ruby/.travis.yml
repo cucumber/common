@@ -22,6 +22,6 @@ deploy:
   provider: rubygems
   api_key:
     secure: PPm6XABN3ggY2uRVY+yktyGbH22LGqaKrDig1BXsC0cqtgRrUzSaq89l7H7Zckgddcpwc8EZ6TTp+jvZAQPZsxmKwZcRthH6rE43o4VZXEIuWfhuvvhewPhF3hp51QqF2I5jJYHwOXbR/IGZseAvy3ksswF9xP9CEtk2j9yLG7yYZa/F+ljXdxel68AcXYBzMbH2CsJPck7FLm7EwMTmYeIwszgpxbht/Clnx/MHmxYKS0pw6Y8E0C3D5HCUFKeiDwgBXuunByawXl/xhloepv9OZiz+4K4sItLaKa2leKYwpvxvTuml7GQ7nbyh8GL8gEJ5+GTDxNoxiHmMeHT1erEbEJVDNFYR8FwuSFXrCq/FbcrQUKdZbg3f0yvf+GCbtnw79yHIUcMtqbvE762CuBBdXanKYjmZwpdLkW7JerCsmplTJrWqt/0uzxJl3atu4EeJ9z6r1ITYgJiYPQussJtNA/tQo2+l+Na6/m+OtX4U90H6lsesrO6oZOAT8EAwce77biOwh138dyNSn/4+0WST6g9G+dtIKfGGlMChifFogbk/c/F8InFPdKQXZjW5McPWM+jl7h07JFePkvl1kUmmDwwTdVIy0CpWEvB7JvYkXy/RpGuWT1HMP8CX/n0d8hhma/f+q3wu8SifipDPiGabYB/exHDYI5Pwbb+eme4=
-  gem: c21e
+  gem: cucumber-messages
   on:
     tags: true
