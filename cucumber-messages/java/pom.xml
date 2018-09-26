@@ -4,7 +4,7 @@
 
     <groupId>io.cucumber</groupId>
     <artifactId>messages</artifactId>
-    <version>1.0.3</version>
+    <version>1.0.4</version>
     <packaging>jar</packaging>
     <name>Cucumber Messages</name>
     <description>Protocol Buffer messages for Cucumber's inter-process communication</description>
