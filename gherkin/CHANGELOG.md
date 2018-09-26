@@ -7,7 +7,7 @@ This project adheres to [Semantic Versioning](http://semver.org).
 This document is formatted according to the principles of [Keep A CHANGELOG](http://keepachangelog.com).
 
 ----
-## [6.0.12] - 2018-09-25
+## [6.0.13] - 2018-09-25
 
 This major release aligns Gherkin with [Example Mapping](https://cucumber.io/blog/2015/12/08/example-mapping-introduction),
 a collaborative technique for *designing* scenarios and discovering details
@@ -458,8 +458,8 @@ to Gherkin 2.
 * First release
 
 <!-- Releases -->
-[Unreleased]: https://github.com/cucumber/cucumber/compare/gherkin/v6.0.12...HEAD
-[6.0.12]:     https://github.com/cucumber/cucumber/compare/gherkin-v5.1.0...gherkin/v6.0.12
+[Unreleased]: https://github.com/cucumber/cucumber/compare/gherkin/v6.0.13...HEAD
+[6.0.12]:     https://github.com/cucumber/cucumber/compare/gherkin-v5.1.0...gherkin/v6.0.13
 [5.1.0]:      https://github.com/cucumber/cucumber/compare/gherkin-v5.0.0...gherkin-v5.1.0
 [5.0.0]:      https://github.com/cucumber/cucumber/compare/gherkin-v4.1.3...gherkin-v5.0.0
 [4.1.3]:      https://github.com/cucumber/cucumber/compare/gherkin-v4.1.2...gherkin-v4.1.3

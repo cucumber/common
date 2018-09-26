@@ -604,6 +604,11 @@ function go_release() {
   popd
 }
 
+function go_version() {
+  # no-op
+  echo ""
+}
+
 ################ xcode ################
 
 function xcode_update_version()
