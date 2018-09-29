@@ -2,13 +2,14 @@ package dots
 
 import (
 	"bytes"
+	"io/ioutil"
+	"strings"
+	"testing"
+
 	"github.com/cucumber/cucumber-messages-go"
 	"github.com/fatih/color"
 	gio "github.com/gogo/protobuf/io"
 	"github.com/stretchr/testify/require"
-	"io/ioutil"
-	"strings"
-	"testing"
 )
 
 func TestAllResultTypes(t *testing.T) {
@@ -21,6 +22,8 @@ func TestAllResultTypes(t *testing.T) {
 	writer.WriteMsg(newTestStepFinished(messages.Status_AMBIGUOUS))
 	writer.WriteMsg(newTestStepFinished(messages.Status_PASSED))
 	writer.WriteMsg(newTestStepFinished(messages.Status_PENDING))
+	writer.WriteMsg(newTestHookFinished(messages.Status_PASSED))
+	writer.WriteMsg(newTestHookFinished(messages.Status_FAILED))
 
 	// Write to disk, so it can be used for a manual test
 	b := stdin.Bytes()
@@ -38,6 +41,7 @@ func TestAllResultTypes(t *testing.T) {
 			color.New(color.FgMagenta).Sprint("A"),
 			color.New(color.FgGreen).Sprint("."),
 			color.New(color.FgYellow).Sprint("P"),
+			color.New(color.FgRed).Sprint("H"),
 			"\n",
 		}, ""),
 		stdout.String())
@@ -47,6 +51,18 @@ func newTestStepFinished(status messages.Status) *messages.Wrapper {
 	return &messages.Wrapper{
 		Message: &messages.Wrapper_TestStepFinished{
 			TestStepFinished: &messages.TestStepFinished{
+				TestResult: &messages.TestResult{
+					Status: status,
+				},
+			},
+		},
+	}
+}
+
+func newTestHookFinished(status messages.Status) *messages.Wrapper {
+	return &messages.Wrapper{
+		Message: &messages.Wrapper_TestHookFinished{
+			TestHookFinished: &messages.TestHookFinished{
 				TestResult: &messages.TestResult{
 					Status: status,
 				},
