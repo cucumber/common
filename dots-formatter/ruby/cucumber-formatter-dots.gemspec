@@ -22,7 +22,7 @@ Gem::Specification.new do |s|
     'README.md',
     'LICENSE',
     'lib/**/*',
-    "#{s.name}-go/*"
+    'dots-formatter-go/*'
   ]
   s.test_files       = Dir['spec/**/*']
   s.rdoc_options     = ["--charset=UTF-8"]
