@@ -30,7 +30,7 @@ module Cucumber
         wrapper = Cucumber::Messages::Wrapper.new(
           testStepFinished: Cucumber::Messages::TestStepFinished.new(
             testResult: Cucumber::Messages::TestResult.new(
-              status: event.result.upcase.to_sym
+              status: event.result.to_sym.upcase
             )
           )
         )
