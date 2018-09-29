@@ -27,13 +27,23 @@ module Cucumber
       end
 
       def on_test_step_finished(event)
-        wrapper = Cucumber::Messages::Wrapper.new(
+        wrapper = if event.test_step.hook?
+          Cucumber::Messages::Wrapper.new(
+          testHookFinished: Cucumber::Messages::TestHookFinished.new(
+            testResult: Cucumber::Messages::TestResult.new(
+              status: event.result.to_sym.upcase
+            )
+          )
+        )
+        else
+          Cucumber::Messages::Wrapper.new(
           testStepFinished: Cucumber::Messages::TestStepFinished.new(
             testResult: Cucumber::Messages::TestResult.new(
               status: event.result.to_sym.upcase
             )
           )
         )
+        end
         bytes = Cucumber::Messages::Wrapper.encode(wrapper)
         encode_varint(@stdin, bytes.unpack('C*').length)
         @stdin.write(bytes)
