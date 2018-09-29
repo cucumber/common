@@ -12,34 +12,34 @@ export namespace io {
             interface IWrapper {
 
                 /** Wrapper source */
-                source: io.cucumber.messages.ISource;
+                source?: (io.cucumber.messages.ISource|null);
 
                 /** Wrapper gherkinDocument */
-                gherkinDocument: io.cucumber.messages.IGherkinDocument;
+                gherkinDocument?: (io.cucumber.messages.IGherkinDocument|null);
 
                 /** Wrapper pickle */
-                pickle: io.cucumber.messages.IPickle;
+                pickle?: (io.cucumber.messages.IPickle|null);
 
                 /** Wrapper attachment */
-                attachment: io.cucumber.messages.IAttachment;
+                attachment?: (io.cucumber.messages.IAttachment|null);
 
                 /** Wrapper testCaseStarted */
-                testCaseStarted: io.cucumber.messages.ITestCaseStarted;
+                testCaseStarted?: (io.cucumber.messages.ITestCaseStarted|null);
 
                 /** Wrapper testStepStarted */
-                testStepStarted: io.cucumber.messages.ITestStepStarted;
+                testStepStarted?: (io.cucumber.messages.ITestStepStarted|null);
 
                 /** Wrapper testStepFinished */
-                testStepFinished: io.cucumber.messages.ITestStepFinished;
+                testStepFinished?: (io.cucumber.messages.ITestStepFinished|null);
 
                 /** Wrapper testCaseFinished */
-                testCaseFinished: io.cucumber.messages.ITestCaseFinished;
+                testCaseFinished?: (io.cucumber.messages.ITestCaseFinished|null);
 
                 /** Wrapper testHookStarted */
-                testHookStarted: io.cucumber.messages.ITestHookStarted;
+                testHookStarted?: (io.cucumber.messages.ITestHookStarted|null);
 
                 /** Wrapper testHookFinished */
-                testHookFinished: io.cucumber.messages.ITestHookFinished;
+                testHookFinished?: (io.cucumber.messages.ITestHookFinished|null);
             }
 
             /** Represents a Wrapper. */
@@ -52,34 +52,34 @@ export namespace io {
                 constructor(properties?: io.cucumber.messages.IWrapper);
 
                 /** Wrapper source. */
-                public source: io.cucumber.messages.ISource;
+                public source?: (io.cucumber.messages.ISource|null);
 
                 /** Wrapper gherkinDocument. */
-                public gherkinDocument: io.cucumber.messages.IGherkinDocument;
+                public gherkinDocument?: (io.cucumber.messages.IGherkinDocument|null);
 
                 /** Wrapper pickle. */
-                public pickle: io.cucumber.messages.IPickle;
+                public pickle?: (io.cucumber.messages.IPickle|null);
 
                 /** Wrapper attachment. */
-                public attachment: io.cucumber.messages.IAttachment;
+                public attachment?: (io.cucumber.messages.IAttachment|null);
 
                 /** Wrapper testCaseStarted. */
-                public testCaseStarted: io.cucumber.messages.ITestCaseStarted;
+                public testCaseStarted?: (io.cucumber.messages.ITestCaseStarted|null);
 
                 /** Wrapper testStepStarted. */
-                public testStepStarted: io.cucumber.messages.ITestStepStarted;
+                public testStepStarted?: (io.cucumber.messages.ITestStepStarted|null);
 
                 /** Wrapper testStepFinished. */
-                public testStepFinished: io.cucumber.messages.ITestStepFinished;
+                public testStepFinished?: (io.cucumber.messages.ITestStepFinished|null);
 
                 /** Wrapper testCaseFinished. */
-                public testCaseFinished: io.cucumber.messages.ITestCaseFinished;
+                public testCaseFinished?: (io.cucumber.messages.ITestCaseFinished|null);
 
                 /** Wrapper testHookStarted. */
-                public testHookStarted: io.cucumber.messages.ITestHookStarted;
+                public testHookStarted?: (io.cucumber.messages.ITestHookStarted|null);
 
                 /** Wrapper testHookFinished. */
-                public testHookFinished: io.cucumber.messages.ITestHookFinished;
+                public testHookFinished?: (io.cucumber.messages.ITestHookFinished|null);
 
                 /** Wrapper message. */
                 public message?: ("source"|"gherkinDocument"|"pickle"|"attachment"|"testCaseStarted"|"testStepStarted"|"testStepFinished"|"testCaseFinished"|"testHookStarted"|"testHookFinished");
@@ -159,10 +159,10 @@ export namespace io {
             interface ISourceReference {
 
                 /** SourceReference uri */
-                uri: string;
+                uri?: (string|null);
 
                 /** SourceReference location */
-                location: io.cucumber.messages.ILocation;
+                location?: (io.cucumber.messages.ILocation|null);
             }
 
             /** Represents a SourceReference. */
@@ -178,7 +178,7 @@ export namespace io {
                 public uri: string;
 
                 /** SourceReference location. */
-                public location: io.cucumber.messages.ILocation;
+                public location?: (io.cucumber.messages.ILocation|null);
 
                 /**
                  * Creates a new SourceReference instance using the specified properties.
@@ -255,10 +255,10 @@ export namespace io {
             interface ILocation {
 
                 /** Location line */
-                line: number;
+                line?: (number|null);
 
                 /** Location column */
-                column: number;
+                column?: (number|null);
             }
 
             /** Represents a Location. */
@@ -351,13 +351,13 @@ export namespace io {
             interface IAttachment {
 
                 /** Attachment source */
-                source: io.cucumber.messages.ISourceReference;
+                source?: (io.cucumber.messages.ISourceReference|null);
 
                 /** Attachment data */
-                data: string;
+                data?: (string|null);
 
                 /** Attachment media */
-                media: io.cucumber.messages.IMedia;
+                media?: (io.cucumber.messages.IMedia|null);
             }
 
             /** Represents an Attachment. */
@@ -370,13 +370,13 @@ export namespace io {
                 constructor(properties?: io.cucumber.messages.IAttachment);
 
                 /** Attachment source. */
-                public source: io.cucumber.messages.ISourceReference;
+                public source?: (io.cucumber.messages.ISourceReference|null);
 
                 /** Attachment data. */
                 public data: string;
 
                 /** Attachment media. */
-                public media: io.cucumber.messages.IMedia;
+                public media?: (io.cucumber.messages.IMedia|null);
 
                 /**
                  * Creates a new Attachment instance using the specified properties.
@@ -453,10 +453,10 @@ export namespace io {
             interface IMedia {
 
                 /** Media encoding */
-                encoding: string;
+                encoding?: (string|null);
 
                 /** Media contentType */
-                contentType: string;
+                contentType?: (string|null);
             }
 
             /** Represents a Media. */
@@ -549,13 +549,13 @@ export namespace io {
             interface ISource {
 
                 /** Source uri */
-                uri: string;
+                uri?: (string|null);
 
                 /** Source data */
-                data: string;
+                data?: (string|null);
 
                 /** Source media */
-                media: io.cucumber.messages.IMedia;
+                media?: (io.cucumber.messages.IMedia|null);
             }
 
             /** Represents a Source. */
@@ -574,7 +574,7 @@ export namespace io {
                 public data: string;
 
                 /** Source media. */
-                public media: io.cucumber.messages.IMedia;
+                public media?: (io.cucumber.messages.IMedia|null);
 
                 /**
                  * Creates a new Source instance using the specified properties.
@@ -651,13 +651,13 @@ export namespace io {
             interface IGherkinDocument {
 
                 /** GherkinDocument uri */
-                uri: string;
+                uri?: (string|null);
 
                 /** GherkinDocument feature */
-                feature: io.cucumber.messages.IFeature;
+                feature?: (io.cucumber.messages.IFeature|null);
 
                 /** GherkinDocument comments */
-                comments: io.cucumber.messages.IComment[];
+                comments?: (io.cucumber.messages.IComment[]|null);
             }
 
             /** Represents a GherkinDocument. */
@@ -673,7 +673,7 @@ export namespace io {
                 public uri: string;
 
                 /** GherkinDocument feature. */
-                public feature: io.cucumber.messages.IFeature;
+                public feature?: (io.cucumber.messages.IFeature|null);
 
                 /** GherkinDocument comments. */
                 public comments: io.cucumber.messages.IComment[];
@@ -753,25 +753,25 @@ export namespace io {
             interface IFeature {
 
                 /** Feature location */
-                location: io.cucumber.messages.ILocation;
+                location?: (io.cucumber.messages.ILocation|null);
 
                 /** Feature tags */
-                tags: io.cucumber.messages.ITag[];
+                tags?: (io.cucumber.messages.ITag[]|null);
 
                 /** Feature language */
-                language: string;
+                language?: (string|null);
 
                 /** Feature keyword */
-                keyword: string;
+                keyword?: (string|null);
 
                 /** Feature name */
-                name: string;
+                name?: (string|null);
 
                 /** Feature description */
-                description: string;
+                description?: (string|null);
 
                 /** Feature children */
-                children: io.cucumber.messages.IFeatureChild[];
+                children?: (io.cucumber.messages.IFeatureChild[]|null);
             }
 
             /** Represents a Feature. */
@@ -784,7 +784,7 @@ export namespace io {
                 constructor(properties?: io.cucumber.messages.IFeature);
 
                 /** Feature location. */
-                public location: io.cucumber.messages.ILocation;
+                public location?: (io.cucumber.messages.ILocation|null);
 
                 /** Feature tags. */
                 public tags: io.cucumber.messages.ITag[];
@@ -879,13 +879,13 @@ export namespace io {
             interface IFeatureChild {
 
                 /** FeatureChild rule */
-                rule: io.cucumber.messages.IRule;
+                rule?: (io.cucumber.messages.IRule|null);
 
                 /** FeatureChild background */
-                background: io.cucumber.messages.IBackground;
+                background?: (io.cucumber.messages.IBackground|null);
 
                 /** FeatureChild scenario */
-                scenario: io.cucumber.messages.IScenario;
+                scenario?: (io.cucumber.messages.IScenario|null);
             }
 
             /** Represents a FeatureChild. */
@@ -898,13 +898,13 @@ export namespace io {
                 constructor(properties?: io.cucumber.messages.IFeatureChild);
 
                 /** FeatureChild rule. */
-                public rule: io.cucumber.messages.IRule;
+                public rule?: (io.cucumber.messages.IRule|null);
 
                 /** FeatureChild background. */
-                public background: io.cucumber.messages.IBackground;
+                public background?: (io.cucumber.messages.IBackground|null);
 
                 /** FeatureChild scenario. */
-                public scenario: io.cucumber.messages.IScenario;
+                public scenario?: (io.cucumber.messages.IScenario|null);
 
                 /** FeatureChild value. */
                 public value?: ("rule"|"background"|"scenario");
@@ -984,19 +984,19 @@ export namespace io {
             interface IRule {
 
                 /** Rule location */
-                location: io.cucumber.messages.ILocation;
+                location?: (io.cucumber.messages.ILocation|null);
 
                 /** Rule keyword */
-                keyword: string;
+                keyword?: (string|null);
 
                 /** Rule name */
-                name: string;
+                name?: (string|null);
 
                 /** Rule description */
-                description: string;
+                description?: (string|null);
 
                 /** Rule children */
-                children: io.cucumber.messages.IRuleChild[];
+                children?: (io.cucumber.messages.IRuleChild[]|null);
             }
 
             /** Represents a Rule. */
@@ -1009,7 +1009,7 @@ export namespace io {
                 constructor(properties?: io.cucumber.messages.IRule);
 
                 /** Rule location. */
-                public location: io.cucumber.messages.ILocation;
+                public location?: (io.cucumber.messages.ILocation|null);
 
                 /** Rule keyword. */
                 public keyword: string;
@@ -1098,10 +1098,10 @@ export namespace io {
             interface IRuleChild {
 
                 /** RuleChild background */
-                background: io.cucumber.messages.IBackground;
+                background?: (io.cucumber.messages.IBackground|null);
 
                 /** RuleChild scenario */
-                scenario: io.cucumber.messages.IScenario;
+                scenario?: (io.cucumber.messages.IScenario|null);
             }
 
             /** Represents a RuleChild. */
@@ -1114,10 +1114,10 @@ export namespace io {
                 constructor(properties?: io.cucumber.messages.IRuleChild);
 
                 /** RuleChild background. */
-                public background: io.cucumber.messages.IBackground;
+                public background?: (io.cucumber.messages.IBackground|null);
 
                 /** RuleChild scenario. */
-                public scenario: io.cucumber.messages.IScenario;
+                public scenario?: (io.cucumber.messages.IScenario|null);
 
                 /** RuleChild value. */
                 public value?: ("background"|"scenario");
@@ -1197,19 +1197,19 @@ export namespace io {
             interface IBackground {
 
                 /** Background location */
-                location: io.cucumber.messages.ILocation;
+                location?: (io.cucumber.messages.ILocation|null);
 
                 /** Background keyword */
-                keyword: string;
+                keyword?: (string|null);
 
                 /** Background name */
-                name: string;
+                name?: (string|null);
 
                 /** Background description */
-                description: string;
+                description?: (string|null);
 
                 /** Background steps */
-                steps: io.cucumber.messages.IStep[];
+                steps?: (io.cucumber.messages.IStep[]|null);
             }
 
             /** Represents a Background. */
@@ -1222,7 +1222,7 @@ export namespace io {
                 constructor(properties?: io.cucumber.messages.IBackground);
 
                 /** Background location. */
-                public location: io.cucumber.messages.ILocation;
+                public location?: (io.cucumber.messages.ILocation|null);
 
                 /** Background keyword. */
                 public keyword: string;
@@ -1311,25 +1311,25 @@ export namespace io {
             interface IScenario {
 
                 /** Scenario location */
-                location: io.cucumber.messages.ILocation;
+                location?: (io.cucumber.messages.ILocation|null);
 
                 /** Scenario tags */
-                tags: io.cucumber.messages.ITag[];
+                tags?: (io.cucumber.messages.ITag[]|null);
 
                 /** Scenario keyword */
-                keyword: string;
+                keyword?: (string|null);
 
                 /** Scenario name */
-                name: string;
+                name?: (string|null);
 
                 /** Scenario description */
-                description: string;
+                description?: (string|null);
 
                 /** Scenario steps */
-                steps: io.cucumber.messages.IStep[];
+                steps?: (io.cucumber.messages.IStep[]|null);
 
                 /** Scenario examples */
-                examples: io.cucumber.messages.IExamples[];
+                examples?: (io.cucumber.messages.IExamples[]|null);
             }
 
             /** Represents a Scenario. */
@@ -1342,7 +1342,7 @@ export namespace io {
                 constructor(properties?: io.cucumber.messages.IScenario);
 
                 /** Scenario location. */
-                public location: io.cucumber.messages.ILocation;
+                public location?: (io.cucumber.messages.ILocation|null);
 
                 /** Scenario tags. */
                 public tags: io.cucumber.messages.ITag[];
@@ -1437,10 +1437,10 @@ export namespace io {
             interface IComment {
 
                 /** Comment location */
-                location: io.cucumber.messages.ILocation;
+                location?: (io.cucumber.messages.ILocation|null);
 
                 /** Comment text */
-                text: string;
+                text?: (string|null);
             }
 
             /** Represents a Comment. */
@@ -1453,7 +1453,7 @@ export namespace io {
                 constructor(properties?: io.cucumber.messages.IComment);
 
                 /** Comment location. */
-                public location: io.cucumber.messages.ILocation;
+                public location?: (io.cucumber.messages.ILocation|null);
 
                 /** Comment text. */
                 public text: string;
@@ -1533,10 +1533,10 @@ export namespace io {
             interface IDataTable {
 
                 /** DataTable location */
-                location: io.cucumber.messages.ILocation;
+                location?: (io.cucumber.messages.ILocation|null);
 
                 /** DataTable rows */
-                rows: io.cucumber.messages.ITableRow[];
+                rows?: (io.cucumber.messages.ITableRow[]|null);
             }
 
             /** Represents a DataTable. */
@@ -1549,7 +1549,7 @@ export namespace io {
                 constructor(properties?: io.cucumber.messages.IDataTable);
 
                 /** DataTable location. */
-                public location: io.cucumber.messages.ILocation;
+                public location?: (io.cucumber.messages.ILocation|null);
 
                 /** DataTable rows. */
                 public rows: io.cucumber.messages.ITableRow[];
@@ -1629,16 +1629,16 @@ export namespace io {
             interface IDocString {
 
                 /** DocString location */
-                location: io.cucumber.messages.ILocation;
+                location?: (io.cucumber.messages.ILocation|null);
 
                 /** DocString contentType */
-                contentType: string;
+                contentType?: (string|null);
 
                 /** DocString content */
-                content: string;
+                content?: (string|null);
 
                 /** DocString delimiter */
-                delimiter: string;
+                delimiter?: (string|null);
             }
 
             /** Represents a DocString. */
@@ -1651,7 +1651,7 @@ export namespace io {
                 constructor(properties?: io.cucumber.messages.IDocString);
 
                 /** DocString location. */
-                public location: io.cucumber.messages.ILocation;
+                public location?: (io.cucumber.messages.ILocation|null);
 
                 /** DocString contentType. */
                 public contentType: string;
@@ -1737,25 +1737,25 @@ export namespace io {
             interface IExamples {
 
                 /** Examples location */
-                location: io.cucumber.messages.ILocation;
+                location?: (io.cucumber.messages.ILocation|null);
 
                 /** Examples tags */
-                tags: io.cucumber.messages.ITag[];
+                tags?: (io.cucumber.messages.ITag[]|null);
 
                 /** Examples keyword */
-                keyword: string;
+                keyword?: (string|null);
 
                 /** Examples name */
-                name: string;
+                name?: (string|null);
 
                 /** Examples description */
-                description: string;
+                description?: (string|null);
 
                 /** Examples tableHeader */
-                tableHeader: io.cucumber.messages.ITableRow;
+                tableHeader?: (io.cucumber.messages.ITableRow|null);
 
                 /** Examples tableBody */
-                tableBody: io.cucumber.messages.ITableRow[];
+                tableBody?: (io.cucumber.messages.ITableRow[]|null);
             }
 
             /** Represents an Examples. */
@@ -1768,7 +1768,7 @@ export namespace io {
                 constructor(properties?: io.cucumber.messages.IExamples);
 
                 /** Examples location. */
-                public location: io.cucumber.messages.ILocation;
+                public location?: (io.cucumber.messages.ILocation|null);
 
                 /** Examples tags. */
                 public tags: io.cucumber.messages.ITag[];
@@ -1783,7 +1783,7 @@ export namespace io {
                 public description: string;
 
                 /** Examples tableHeader. */
-                public tableHeader: io.cucumber.messages.ITableRow;
+                public tableHeader?: (io.cucumber.messages.ITableRow|null);
 
                 /** Examples tableBody. */
                 public tableBody: io.cucumber.messages.ITableRow[];
@@ -1863,19 +1863,19 @@ export namespace io {
             interface IStep {
 
                 /** Step location */
-                location: io.cucumber.messages.ILocation;
+                location?: (io.cucumber.messages.ILocation|null);
 
                 /** Step keyword */
-                keyword: string;
+                keyword?: (string|null);
 
                 /** Step text */
-                text: string;
+                text?: (string|null);
 
                 /** Step docString */
-                docString: io.cucumber.messages.IDocString;
+                docString?: (io.cucumber.messages.IDocString|null);
 
                 /** Step dataTable */
-                dataTable: io.cucumber.messages.IDataTable;
+                dataTable?: (io.cucumber.messages.IDataTable|null);
             }
 
             /** Represents a Step. */
@@ -1888,7 +1888,7 @@ export namespace io {
                 constructor(properties?: io.cucumber.messages.IStep);
 
                 /** Step location. */
-                public location: io.cucumber.messages.ILocation;
+                public location?: (io.cucumber.messages.ILocation|null);
 
                 /** Step keyword. */
                 public keyword: string;
@@ -1897,10 +1897,10 @@ export namespace io {
                 public text: string;
 
                 /** Step docString. */
-                public docString: io.cucumber.messages.IDocString;
+                public docString?: (io.cucumber.messages.IDocString|null);
 
                 /** Step dataTable. */
-                public dataTable: io.cucumber.messages.IDataTable;
+                public dataTable?: (io.cucumber.messages.IDataTable|null);
 
                 /** Step argument. */
                 public argument?: ("docString"|"dataTable");
@@ -1980,10 +1980,10 @@ export namespace io {
             interface ITableCell {
 
                 /** TableCell location */
-                location: io.cucumber.messages.ILocation;
+                location?: (io.cucumber.messages.ILocation|null);
 
                 /** TableCell value */
-                value: string;
+                value?: (string|null);
             }
 
             /** Represents a TableCell. */
@@ -1996,7 +1996,7 @@ export namespace io {
                 constructor(properties?: io.cucumber.messages.ITableCell);
 
                 /** TableCell location. */
-                public location: io.cucumber.messages.ILocation;
+                public location?: (io.cucumber.messages.ILocation|null);
 
                 /** TableCell value. */
                 public value: string;
@@ -2076,10 +2076,10 @@ export namespace io {
             interface ITableRow {
 
                 /** TableRow location */
-                location: io.cucumber.messages.ILocation;
+                location?: (io.cucumber.messages.ILocation|null);
 
                 /** TableRow cells */
-                cells: io.cucumber.messages.ITableCell[];
+                cells?: (io.cucumber.messages.ITableCell[]|null);
             }
 
             /** Represents a TableRow. */
@@ -2092,7 +2092,7 @@ export namespace io {
                 constructor(properties?: io.cucumber.messages.ITableRow);
 
                 /** TableRow location. */
-                public location: io.cucumber.messages.ILocation;
+                public location?: (io.cucumber.messages.ILocation|null);
 
                 /** TableRow cells. */
                 public cells: io.cucumber.messages.ITableCell[];
@@ -2172,10 +2172,10 @@ export namespace io {
             interface ITag {
 
                 /** Tag location */
-                location: io.cucumber.messages.ILocation;
+                location?: (io.cucumber.messages.ILocation|null);
 
                 /** Tag name */
-                name: string;
+                name?: (string|null);
             }
 
             /** Represents a Tag. */
@@ -2188,7 +2188,7 @@ export namespace io {
                 constructor(properties?: io.cucumber.messages.ITag);
 
                 /** Tag location. */
-                public location: io.cucumber.messages.ILocation;
+                public location?: (io.cucumber.messages.ILocation|null);
 
                 /** Tag name. */
                 public name: string;
@@ -2268,25 +2268,25 @@ export namespace io {
             interface IPickle {
 
                 /** Pickle id */
-                id: string;
+                id?: (string|null);
 
                 /** Pickle uri */
-                uri: string;
+                uri?: (string|null);
 
                 /** Pickle name */
-                name: string;
+                name?: (string|null);
 
                 /** Pickle language */
-                language: string;
+                language?: (string|null);
 
                 /** Pickle steps */
-                steps: io.cucumber.messages.IPickleStep[];
+                steps?: (io.cucumber.messages.IPickleStep[]|null);
 
                 /** Pickle tags */
-                tags: io.cucumber.messages.IPickleTag[];
+                tags?: (io.cucumber.messages.IPickleTag[]|null);
 
                 /** Pickle locations */
-                locations: io.cucumber.messages.ILocation[];
+                locations?: (io.cucumber.messages.ILocation[]|null);
             }
 
             /** Represents a Pickle. */
@@ -2394,16 +2394,16 @@ export namespace io {
             interface IPickleStep {
 
                 /** PickleStep text */
-                text: string;
+                text?: (string|null);
 
                 /** PickleStep locations */
-                locations: io.cucumber.messages.ILocation[];
+                locations?: (io.cucumber.messages.ILocation[]|null);
 
                 /** PickleStep docString */
-                docString: io.cucumber.messages.IPickleDocString;
+                docString?: (io.cucumber.messages.IPickleDocString|null);
 
                 /** PickleStep dataTable */
-                dataTable: io.cucumber.messages.IPickleTable;
+                dataTable?: (io.cucumber.messages.IPickleTable|null);
             }
 
             /** Represents a PickleStep. */
@@ -2422,10 +2422,10 @@ export namespace io {
                 public locations: io.cucumber.messages.ILocation[];
 
                 /** PickleStep docString. */
-                public docString: io.cucumber.messages.IPickleDocString;
+                public docString?: (io.cucumber.messages.IPickleDocString|null);
 
                 /** PickleStep dataTable. */
-                public dataTable: io.cucumber.messages.IPickleTable;
+                public dataTable?: (io.cucumber.messages.IPickleTable|null);
 
                 /** PickleStep argument. */
                 public argument?: ("docString"|"dataTable");
@@ -2505,13 +2505,13 @@ export namespace io {
             interface IPickleDocString {
 
                 /** PickleDocString location */
-                location: io.cucumber.messages.ILocation;
+                location?: (io.cucumber.messages.ILocation|null);
 
                 /** PickleDocString contentType */
-                contentType: string;
+                contentType?: (string|null);
 
                 /** PickleDocString content */
-                content: string;
+                content?: (string|null);
             }
 
             /** Represents a PickleDocString. */
@@ -2524,7 +2524,7 @@ export namespace io {
                 constructor(properties?: io.cucumber.messages.IPickleDocString);
 
                 /** PickleDocString location. */
-                public location: io.cucumber.messages.ILocation;
+                public location?: (io.cucumber.messages.ILocation|null);
 
                 /** PickleDocString contentType. */
                 public contentType: string;
@@ -2607,7 +2607,7 @@ export namespace io {
             interface IPickleTable {
 
                 /** PickleTable rows */
-                rows: io.cucumber.messages.IPickleTableRow[];
+                rows?: (io.cucumber.messages.IPickleTableRow[]|null);
             }
 
             /** Represents a PickleTable. */
@@ -2697,10 +2697,10 @@ export namespace io {
             interface IPickleTableCell {
 
                 /** PickleTableCell location */
-                location: io.cucumber.messages.ILocation;
+                location?: (io.cucumber.messages.ILocation|null);
 
                 /** PickleTableCell value */
-                value: string;
+                value?: (string|null);
             }
 
             /** Represents a PickleTableCell. */
@@ -2713,7 +2713,7 @@ export namespace io {
                 constructor(properties?: io.cucumber.messages.IPickleTableCell);
 
                 /** PickleTableCell location. */
-                public location: io.cucumber.messages.ILocation;
+                public location?: (io.cucumber.messages.ILocation|null);
 
                 /** PickleTableCell value. */
                 public value: string;
@@ -2793,7 +2793,7 @@ export namespace io {
             interface IPickleTableRow {
 
                 /** PickleTableRow cells */
-                cells: io.cucumber.messages.IPickleTableCell[];
+                cells?: (io.cucumber.messages.IPickleTableCell[]|null);
             }
 
             /** Represents a PickleTableRow. */
@@ -2883,10 +2883,10 @@ export namespace io {
             interface IPickleTag {
 
                 /** PickleTag location */
-                location: io.cucumber.messages.ILocation;
+                location?: (io.cucumber.messages.ILocation|null);
 
                 /** PickleTag name */
-                name: string;
+                name?: (string|null);
             }
 
             /** Represents a PickleTag. */
@@ -2899,7 +2899,7 @@ export namespace io {
                 constructor(properties?: io.cucumber.messages.IPickleTag);
 
                 /** PickleTag location. */
-                public location: io.cucumber.messages.ILocation;
+                public location?: (io.cucumber.messages.ILocation|null);
 
                 /** PickleTag name. */
                 public name: string;
@@ -2979,10 +2979,10 @@ export namespace io {
             interface ITestCaseStarted {
 
                 /** TestCaseStarted pickleId */
-                pickleId: string;
+                pickleId?: (string|null);
 
                 /** TestCaseStarted timestamp */
-                timestamp: google.protobuf.ITimestamp;
+                timestamp?: (google.protobuf.ITimestamp|null);
             }
 
             /** Represents a TestCaseStarted. */
@@ -2998,7 +2998,7 @@ export namespace io {
                 public pickleId: string;
 
                 /** TestCaseStarted timestamp. */
-                public timestamp: google.protobuf.ITimestamp;
+                public timestamp?: (google.protobuf.ITimestamp|null);
 
                 /**
                  * Creates a new TestCaseStarted instance using the specified properties.
@@ -3075,10 +3075,10 @@ export namespace io {
             interface ITestCaseFinished {
 
                 /** TestCaseFinished pickleId */
-                pickleId: string;
+                pickleId?: (string|null);
 
                 /** TestCaseFinished timestamp */
-                timestamp: google.protobuf.ITimestamp;
+                timestamp?: (google.protobuf.ITimestamp|null);
             }
 
             /** Represents a TestCaseFinished. */
@@ -3094,7 +3094,7 @@ export namespace io {
                 public pickleId: string;
 
                 /** TestCaseFinished timestamp. */
-                public timestamp: google.protobuf.ITimestamp;
+                public timestamp?: (google.protobuf.ITimestamp|null);
 
                 /**
                  * Creates a new TestCaseFinished instance using the specified properties.
@@ -3171,13 +3171,13 @@ export namespace io {
             interface ITestStepStarted {
 
                 /** TestStepStarted pickleId */
-                pickleId: string;
+                pickleId?: (string|null);
 
                 /** TestStepStarted index */
-                index: number;
+                index?: (number|null);
 
                 /** TestStepStarted timestamp */
-                timestamp: google.protobuf.ITimestamp;
+                timestamp?: (google.protobuf.ITimestamp|null);
             }
 
             /** Represents a TestStepStarted. */
@@ -3196,7 +3196,7 @@ export namespace io {
                 public index: number;
 
                 /** TestStepStarted timestamp. */
-                public timestamp: google.protobuf.ITimestamp;
+                public timestamp?: (google.protobuf.ITimestamp|null);
 
                 /**
                  * Creates a new TestStepStarted instance using the specified properties.
@@ -3273,16 +3273,16 @@ export namespace io {
             interface ITestStepFinished {
 
                 /** TestStepFinished pickleId */
-                pickleId: string;
+                pickleId?: (string|null);
 
                 /** TestStepFinished index */
-                index: number;
+                index?: (number|null);
 
                 /** TestStepFinished testResult */
-                testResult: io.cucumber.messages.ITestResult;
+                testResult?: (io.cucumber.messages.ITestResult|null);
 
                 /** TestStepFinished timestamp */
-                timestamp: google.protobuf.ITimestamp;
+                timestamp?: (google.protobuf.ITimestamp|null);
             }
 
             /** Represents a TestStepFinished. */
@@ -3301,10 +3301,10 @@ export namespace io {
                 public index: number;
 
                 /** TestStepFinished testResult. */
-                public testResult: io.cucumber.messages.ITestResult;
+                public testResult?: (io.cucumber.messages.ITestResult|null);
 
                 /** TestStepFinished timestamp. */
-                public timestamp: google.protobuf.ITimestamp;
+                public timestamp?: (google.protobuf.ITimestamp|null);
 
                 /**
                  * Creates a new TestStepFinished instance using the specified properties.
@@ -3381,10 +3381,10 @@ export namespace io {
             interface ITestHookStarted {
 
                 /** TestHookStarted pickleId */
-                pickleId: string;
+                pickleId?: (string|null);
 
                 /** TestHookStarted timestamp */
-                timestamp: google.protobuf.ITimestamp;
+                timestamp?: (google.protobuf.ITimestamp|null);
             }
 
             /** Represents a TestHookStarted. */
@@ -3400,7 +3400,7 @@ export namespace io {
                 public pickleId: string;
 
                 /** TestHookStarted timestamp. */
-                public timestamp: google.protobuf.ITimestamp;
+                public timestamp?: (google.protobuf.ITimestamp|null);
 
                 /**
                  * Creates a new TestHookStarted instance using the specified properties.
@@ -3477,13 +3477,13 @@ export namespace io {
             interface ITestHookFinished {
 
                 /** TestHookFinished pickleId */
-                pickleId: string;
+                pickleId?: (string|null);
 
                 /** TestHookFinished testResult */
-                testResult: io.cucumber.messages.ITestResult;
+                testResult?: (io.cucumber.messages.ITestResult|null);
 
                 /** TestHookFinished timestamp */
-                timestamp: google.protobuf.ITimestamp;
+                timestamp?: (google.protobuf.ITimestamp|null);
             }
 
             /** Represents a TestHookFinished. */
@@ -3499,10 +3499,10 @@ export namespace io {
                 public pickleId: string;
 
                 /** TestHookFinished testResult. */
-                public testResult: io.cucumber.messages.ITestResult;
+                public testResult?: (io.cucumber.messages.ITestResult|null);
 
                 /** TestHookFinished timestamp. */
-                public timestamp: google.protobuf.ITimestamp;
+                public timestamp?: (google.protobuf.ITimestamp|null);
 
                 /**
                  * Creates a new TestHookFinished instance using the specified properties.
@@ -3579,10 +3579,10 @@ export namespace io {
             interface ITestResult {
 
                 /** TestResult status */
-                status: io.cucumber.messages.Status;
+                status?: (io.cucumber.messages.Status|null);
 
                 /** TestResult message */
-                message: string;
+                message?: (string|null);
             }
 
             /** Represents a TestResult. */
@@ -3697,7 +3697,7 @@ export namespace google {
             seconds?: (number|Long|null);
 
             /** Timestamp nanos */
-            nanos: number;
+            nanos?: (number|null);
         }
 
         /** Represents a Timestamp. */
