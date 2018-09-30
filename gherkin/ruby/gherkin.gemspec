@@ -11,8 +11,8 @@ Gem::Specification.new do |s|
   s.license     = "MIT"
   s.required_ruby_version = ">= 1.9.3"
 
-  s.add_dependency 'c21e', '~> 1.1.5'
-  s.add_dependency 'cucumber-messages', '~> 1.0.4'
+  s.add_dependency 'c21e', '~> 1.1'
+  s.add_dependency 'cucumber-messages', '~> 1.1'
 
   s.add_development_dependency 'bundler', '~> 1.16'
   s.add_development_dependency 'rake',  '~> 10.5'
