@@ -18,32 +18,31 @@ module Cucumber
         root = File.expand_path(File.dirname(__FILE__) + '/../../..')
         @exe = C21e::ExeFile.new("#{root}/dots-formatter-go/dots-formatter-go-{{.OS}}-{{.Arch}}{{.Ext}}").target_file
       end
-      
+
       def on_test_run_started(event)
-        @stdin, stdout, stderr, @wait_thread = Open3.popen3(@exe)
+        @stdin, stdout, _stderr, @wait_thread = Open3.popen3(@exe)
         @out_thread = Thread.new do
-          stdout.each_byte {|b| @out_stream << b.chr}
+          stdout.each_byte { |b| @out_stream << b.chr }
         end
       end
 
       def on_test_step_finished(event)
-        wrapper = if event.test_step.hook?
-          Cucumber::Messages::Wrapper.new(
-          testHookFinished: Cucumber::Messages::TestHookFinished.new(
-            testResult: Cucumber::Messages::TestResult.new(
-              status: event.result.to_sym.upcase
-            )
-          )
-        )
-        else
-          Cucumber::Messages::Wrapper.new(
-          testStepFinished: Cucumber::Messages::TestStepFinished.new(
-            testResult: Cucumber::Messages::TestResult.new(
-              status: event.result.to_sym.upcase
-            )
-          )
-        )
-        end
+        wrapper = event.test_step.hook? ?
+                    Cucumber::Messages::Wrapper.new(
+                      testHookFinished: Cucumber::Messages::TestHookFinished.new(
+                        testResult: Cucumber::Messages::TestResult.new(
+                          status: event.result.to_sym.upcase
+                        )
+                      )
+                    )
+                  :
+                    Cucumber::Messages::Wrapper.new(
+                      testStepFinished: Cucumber::Messages::TestStepFinished.new(
+                        testResult: Cucumber::Messages::TestResult.new(
+                          status: event.result.to_sym.upcase
+                        )
+                      )
+                    )
         bytes = Cucumber::Messages::Wrapper.encode(wrapper)
         encode_varint(@stdin, bytes.unpack('C*').length)
         @stdin.write(bytes)
