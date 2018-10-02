@@ -144,6 +144,17 @@ public final class ParameterType<T> implements Comparable<ParameterType<?>> {
         return useForSnippets;
     }
 
+    /**
+     * Returns the underlying transformer used to convert captured group values
+     * into an instance of the target type
+     *
+     * @return The underlying {@link CaptureGroupTransformer} instance
+     * @see #transform(List)
+     */
+    public CaptureGroupTransformer<T> getTransformer() {
+        return transformer;
+    }
+
     T transform(List<String> groupValues) {
         if (transformer instanceof TransformerAdaptor) {
             if (groupValues.size() > 1)
