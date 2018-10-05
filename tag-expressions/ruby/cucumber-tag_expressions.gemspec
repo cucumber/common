@@ -11,6 +11,14 @@ Gem::Specification.new do |s|
   s.license     = 'MIT'
   s.required_ruby_version = '>= 1.9.3'
 
+  s.metadata    = {
+                    'bug_tracker_uri'   => 'https://github.com/cucumber/cucumber/issues',
+                    'changelog_uri'     => 'https://github.com/cucumber/cucumber/blob/master/tag-expressions/CHANGELOG.md',
+                    'documentation_uri' => 'https://docs.cucumber.io/cucumber/tag-expressions/',
+                    'mailing_list_uri'  => 'https://groups.google.com/forum/#!forum/cukes',
+                    'source_code_uri'   => 'https://github.com/cucumber/cucumber/blob/master/tag-expressions/ruby',
+                  }
+
   s.add_development_dependency 'bundler'
   s.add_development_dependency 'rake',      '~> 10.5'
   s.add_development_dependency 'rspec',     '~> 3.7'
