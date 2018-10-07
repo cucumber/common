@@ -214,7 +214,8 @@ message TestCaseStarted {
 
 message TestCaseFinished {
   string pickleId = 1;
-  google.protobuf.Timestamp timestamp = 2;
+  TestResult testResult = 2;
+  google.protobuf.Timestamp timestamp = 3;
 }
 
 message TestStepStarted {
