@@ -11,6 +11,14 @@ Gem::Specification.new do |s|
   s.license     = "MIT"
   s.required_ruby_version = ">= 1.9.3"
 
+  s.metadata    = {
+                    'bug_tracker_uri'   => 'https://github.com/cucumber/cucumber/issues',
+                    'changelog_uri'     => 'https://github.com/cucumber/cucumber/blob/master/cucumber-messages/CHANGELOG.md',
+                    'documentation_uri' => 'https://www.rubydoc.info/github/cucumber/cucumber-messages-ruby',
+                    'mailing_list_uri'  => 'https://groups.google.com/forum/#!forum/cukes',
+                    'source_code_uri'   => 'https://github.com/cucumber/cucumber/blob/master/cucumber-messages/ruby',
+                  }
+
   # As of this writing (28 June 2018), the latest version is
   # 3.6.0, which doesn't works with JRuby. 
   # See https://github.com/google/protobuf/issues/1594 

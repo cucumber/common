@@ -11,6 +11,14 @@ Gem::Specification.new do |s|
   s.license     = "MIT"
   s.required_ruby_version = ">= 1.9.3"
 
+  s.metadata    = {
+                    'bug_tracker_uri'   => 'https://github.com/cucumber/cucumber/issues',
+                    'changelog_uri'     => 'https://github.com/cucumber/cucumber/blob/master/gherkin/CHANGELOG.md',
+                    'documentation_uri' => 'https://docs.cucumber.io/gherkin/',
+                    'mailing_list_uri'  => 'https://groups.google.com/forum/#!forum/cukes',
+                    'source_code_uri'   => 'https://github.com/cucumber/cucumber/blob/master/gherkin/ruby',
+                  }
+
   s.add_dependency 'c21e', '~> 1.1'
   s.add_dependency 'cucumber-messages', '~> 1.1'
 
