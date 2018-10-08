@@ -20,6 +20,10 @@ describe('RegularExpression', () => {
     assert.deepEqual(match(/(\d\d)/, '22')[0], '22')
   })
 
+  it('does not transform anonymous', () => {
+    assert.deepEqual(match(/(.*)/, '22')[0], '22')
+  })
+
   it('transforms negative int', () => {
     assert.deepEqual(match(/(-?\d+)/, '-22')[0], -22)
   })

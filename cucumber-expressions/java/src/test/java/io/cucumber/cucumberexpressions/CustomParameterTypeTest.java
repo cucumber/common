@@ -7,6 +7,7 @@ import org.junit.rules.ExpectedException;
 
 import java.util.List;
 import java.util.Locale;
+import java.util.regex.Pattern;
 
 import static java.lang.Integer.parseInt;
 import static java.util.Arrays.asList;
@@ -76,11 +77,11 @@ public class CustomParameterTypeTest {
                 "[string]",
                 ".*",
                 String.class, new Transformer<String>() {
-                    @Override
-                    public String transform(String s) {
-                        return s;
-                    }
-                },
+            @Override
+            public String transform(String s) {
+                return s;
+            }
+        },
                 false,
                 false
         );
@@ -149,6 +150,21 @@ public class CustomParameterTypeTest {
         arguments.get(1).getValue();
     }
 
+    @Test
+    public void warns_when_anonymous_parameter_has_multiple_capture_groups() {
+        parameterTypeRegistry = new ParameterTypeRegistry(Locale.ENGLISH);
+        Expression expression = new RegularExpression(Pattern.compile("^A (\\d+) thick line from ((\\d+),\\s*(\\d+),\\s*(\\d+)) to ((\\d+),\\s*(\\d+),\\s*(\\d+))$"), parameterTypeRegistry);
+        List<Argument<?>> arguments = expression.match("A 5 thick line from 10,20,30 to 40,50,60",
+                Integer.class, Coordinate.class, Coordinate.class);
+
+        arguments.get(0).getValue();
+
+        expectedException.expectMessage(
+                "Anonymous ParameterType has multiple capture groups [(\\d+),\\s*(\\d+),\\s*(\\d+)]. " +
+                        "You can only use a single capture group in an anonymous ParameterType."
+        );
+        arguments.get(1).getValue();
+    }
 
     @Test
     public void matches_CucumberExpression_parameters_with_custom_parameter_type_using_optional_group() {

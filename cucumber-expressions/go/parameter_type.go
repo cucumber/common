@@ -3,6 +3,7 @@ package cucumberexpressions
 import (
 	"errors"
 	"fmt"
+	"reflect"
 	"regexp"
 )
 
@@ -53,6 +54,30 @@ func NewParameterType(name string, regexps []*regexp.Regexp, type1 string, trans
 	}, nil
 }
 
+func createAnonymousParameterType(parameterTypeRegexp string) (*ParameterType, error) {
+	return NewParameterType(
+		"",
+		[]*regexp.Regexp{regexp.MustCompile(parameterTypeRegexp)},
+		"unknown",
+		func(args ...*string) interface{} {
+			panic("Anonymous transform must be deanonymized before use")
+		},
+		false,
+		true,
+	)
+}
+
+func (p *ParameterType) deAnonymize(type1 reflect.Type, transform func(args ...*string) interface{}) (*ParameterType, error) {
+	return NewParameterType(
+		"anonymous",
+		p.regexps,
+		type1.Name(),
+		transform,
+		p.useForSnippets,
+		p.preferForRegexpMatch,
+	)
+}
+
 func (p *ParameterType) Name() string {
 	return p.name
 }
@@ -91,4 +116,8 @@ func CompareParameterTypes(pt1, pt2 *ParameterType) int {
 		return 1
 	}
 	return 0
+}
+
+func (p *ParameterType) isAnonymous() bool {
+	return len(p.name) == 0
 }

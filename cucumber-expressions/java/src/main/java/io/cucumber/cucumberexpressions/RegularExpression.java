@@ -1,13 +1,16 @@
 package io.cucumber.cucumberexpressions;
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
 
+import static io.cucumber.cucumberexpressions.ParameterType.createAnonymousParameterType;
+
 public class RegularExpression implements Expression {
     private final Pattern expressionRegexp;
     private final ParameterTypeRegistry parameterTypeRegistry;
-    private TreeRegexp treeRegexp;
+    private final TreeRegexp treeRegexp;
 
     /**
      * Creates a new instance. Use this when the transform types are not known in advance,
@@ -20,33 +23,36 @@ public class RegularExpression implements Expression {
     public RegularExpression(Pattern expressionRegexp, ParameterTypeRegistry parameterTypeRegistry) {
         this.expressionRegexp = expressionRegexp;
         this.parameterTypeRegistry = parameterTypeRegistry;
-        treeRegexp = new TreeRegexp(expressionRegexp);
+        this.treeRegexp = new TreeRegexp(expressionRegexp);
     }
 
     @Override
-    public List<Argument<?>> match(String text) {
-        List<ParameterType<?>> parameterTypes = new ArrayList<>();
+    public List<Argument<?>> match(String text, Type... typeHints) {
+        final ParameterByTypeTransformer defaultTransformer = parameterTypeRegistry.getDefaultParameterTransformer();
+        final List<ParameterType<?>> parameterTypes = new ArrayList<>();
+        int typeHintIndex = 0;
         for (GroupBuilder groupBuilder : treeRegexp.getGroupBuilder().getChildren()) {
-            String parameterTypeRegexp = groupBuilder.getSource();
+            final String parameterTypeRegexp = groupBuilder.getSource();
+            final Type typeHint = typeHintIndex < typeHints.length ? typeHints[typeHintIndex++] : String.class;
 
             ParameterType<?> parameterType = parameterTypeRegistry.lookupByRegexp(parameterTypeRegexp, expressionRegexp, text);
-            if (parameterType == null) parameterType = new ParameterType<>(
-                    null,
-                    parameterTypeRegexp,
-                    String.class,
-                    new Transformer<String>() {
-                        @Override
-                        public String transform(String arg) {
-                            return arg;
-                        }
-                    }
-            );
+
+            if (parameterType == null) {
+                parameterType = createAnonymousParameterType(parameterTypeRegexp);
+            }
+
+            // Either from createAnonymousParameterType or lookupByRegexp
+            if (parameterType.isAnonymous()) {
+                Transformer<Object> transformer = new ObjectMapperTransformer(defaultTransformer, typeHint);
+                parameterType = parameterType.deAnonymize(typeHint, transformer);
+            }
+
             parameterTypes.add(parameterType);
         }
 
+
         return Argument.build(treeRegexp, parameterTypes, text);
     }
-
 
     @Override
     public Pattern getRegexp() {
@@ -57,4 +63,5 @@ public class RegularExpression implements Expression {
     public String getSource() {
         return expressionRegexp.pattern();
     }
+
 }

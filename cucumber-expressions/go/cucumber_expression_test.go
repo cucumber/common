@@ -2,6 +2,7 @@ package cucumberexpressions
 
 import (
 	"fmt"
+	"reflect"
 	"testing"
 
 	"github.com/stretchr/testify/require"
@@ -144,6 +145,19 @@ func TestCucumberExpression(t *testing.T) {
 		)
 	})
 
+	t.Run("matches anonymous", func(t *testing.T) {
+		require.Equal(
+			t,
+			MatchCucumberExpression(t, "{}", ".22", reflect.TypeOf(float64(0))),
+			[]interface{}{float64(0.22)},
+		)
+		require.Equal(
+			t,
+			MatchCucumberExpression(t, "{}", "0.22", reflect.TypeOf(float64(0))),
+			[]interface{}{float64(0.22)},
+		)
+	})
+
 	t.Run("does not allow parameter type with left bracket", func(t *testing.T) {
 		parameterTypeRegistry := NewParameterTypeRegistry()
 		_, err := NewCucumberExpression("{[string]}", parameterTypeRegistry)
@@ -233,11 +247,11 @@ func TestCucumberExpression(t *testing.T) {
 	})
 }
 
-func MatchCucumberExpression(t *testing.T, expr string, text string) []interface{} {
+func MatchCucumberExpression(t *testing.T, expr string, text string, typeHints ...reflect.Type) []interface{} {
 	parameterTypeRegistry := NewParameterTypeRegistry()
 	expression, err := NewCucumberExpression(expr, parameterTypeRegistry)
 	require.NoError(t, err)
-	args, err := expression.Match(text)
+	args, err := expression.Match(text, typeHints...)
 	require.NoError(t, err)
 	if args == nil {
 		return nil

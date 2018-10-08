@@ -20,6 +20,10 @@ module Cucumber
         expect( match(/(\d\d)/, "22") ).to eq(["22"])
       end
 
+      it "does not transform anonymous" do
+        expect( match(/(.*)/, "22") ).to eq(["22"])
+      end
+
       it "transforms negative int" do
         expect( match(/(-?\d+)/, "-22") ).to eq([-22])
       end

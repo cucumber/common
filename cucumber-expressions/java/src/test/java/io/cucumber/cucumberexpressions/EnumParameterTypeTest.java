@@ -5,7 +5,6 @@ import org.junit.Test;
 import java.util.List;
 import java.util.Locale;
 
-import static java.util.Collections.singletonList;
 import static org.junit.Assert.assertEquals;
 
 public class EnumParameterTypeTest {
