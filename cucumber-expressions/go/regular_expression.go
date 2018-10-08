@@ -1,6 +1,7 @@
 package cucumberexpressions
 
 import (
+	"reflect"
 	"regexp"
 )
 
@@ -18,32 +19,42 @@ func NewRegularExpression(expressionRegexp *regexp.Regexp, parameterTypeRegistry
 	}
 }
 
-func (r *RegularExpression) Match(text string) ([]*Argument, error) {
+func (r *RegularExpression) Match(text string, typeHints ...reflect.Type) ([]*Argument, error) {
 	parameterTypes := []*ParameterType{}
-	for _, groupBuilder := range r.treeRegexp.GroupBuilder().Children() {
+	for i, groupBuilder := range r.treeRegexp.GroupBuilder().Children() {
 		parameterTypeRegexp := groupBuilder.Source()
 		parameterType, err := r.parameterTypeRegistry.LookupByRegexp(parameterTypeRegexp, r.expressionRegexp.String(), text)
 		if err != nil {
 			return nil, err
 		}
+
 		if parameterType == nil {
-			parameterType, err = NewParameterType(
-				"",
-				[]*regexp.Regexp{regexp.MustCompile(parameterTypeRegexp)},
-				"string",
-				func(arg3 ...*string) interface{} {
-					return *arg3[0]
-				},
-				false,
-				false,
-			)
+			anonymousParameterType, err := createAnonymousParameterType(parameterTypeRegexp)
 			if err != nil {
-				panic(err)
+				return nil, err
 			}
+			parameterType = anonymousParameterType
+		}
+
+		if parameterType.isAnonymous() {
+			typeHint := typeHintOrDefault(i, typeHints...)
+			deanonimizedParameterType, err := parameterType.deAnonymize(typeHint, r.objectMapperTransformer(typeHint))
+			if err != nil {
+				return nil, err
+			}
+			parameterType = deanonimizedParameterType
 		}
 		parameterTypes = append(parameterTypes, parameterType)
 	}
 	return BuildArguments(r.treeRegexp, text, parameterTypes), nil
+}
+
+func typeHintOrDefault(i int, typeHints ...reflect.Type) reflect.Type {
+	typeHint := reflect.TypeOf("")
+	if i < len(typeHints) {
+		typeHint = typeHints[i]
+	}
+	return typeHint
 }
 
 func (r *RegularExpression) Regexp() *regexp.Regexp {
@@ -52,4 +63,14 @@ func (r *RegularExpression) Regexp() *regexp.Regexp {
 
 func (r *RegularExpression) Source() string {
 	return r.expressionRegexp.String()
+}
+
+func (r *RegularExpression) objectMapperTransformer(typeHint reflect.Type) func(args ...*string) interface{} {
+	return func(args ...*string) interface{} {
+		i, err := r.parameterTypeRegistry.defaultTransformer.Transform(*args[0], typeHint)
+		if err != nil {
+			panic(err)
+		}
+		return i
+	}
 }

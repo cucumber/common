@@ -168,7 +168,7 @@ describe('Custom parameter type', () => {
             Color,
             s => new Color(s),
             false,
-            true
+            false
           )
         )
       })

@@ -1,6 +1,7 @@
 package cucumberexpressions
 
 import (
+	"reflect"
 	"regexp"
 	"testing"
 
@@ -23,6 +24,18 @@ func TestRegularExpression(t *testing.T) {
 
 	t.Run("does no transform by default", func(t *testing.T) {
 		require.Equal(t, Match(t, `(\d\d)`, "22")[0], "22")
+	})
+
+	t.Run("uses type hint for transform when available", func(t *testing.T) {
+		require.Equal(t, Match(t, `(\d\d)`, "22", reflect.TypeOf(int(0)))[0], 22)
+	})
+
+	t.Run("uses type hint for anonymous parameter type", func(t *testing.T) {
+		require.Equal(t, Match(t, `(.*)`, "22", reflect.TypeOf(int(0)))[0], 22)
+	})
+
+	t.Run("does no transform when no type hint is available for anonymous parameter type", func(t *testing.T) {
+		require.Equal(t, Match(t, `(.*)`, "22")[0], "22")
 	})
 
 	t.Run("transforms negative int", func(t *testing.T) {
@@ -90,10 +103,10 @@ func TestRegularExpression(t *testing.T) {
 
 }
 
-func Match(t *testing.T, expr, text string) []interface{} {
+func Match(t *testing.T, expr, text string, typeHints ...reflect.Type) []interface{} {
 	parameterTypeRegistry := NewParameterTypeRegistry()
 	expression := NewRegularExpression(regexp.MustCompile(expr), parameterTypeRegistry)
-	args, err := expression.Match(text)
+	args, err := expression.Match(text, typeHints...)
 	require.NoError(t, err)
 	if args == nil {
 		return nil

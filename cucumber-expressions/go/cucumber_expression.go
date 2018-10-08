@@ -2,24 +2,26 @@ package cucumberexpressions
 
 import (
 	"fmt"
+	"reflect"
 	"regexp"
 	"strings"
 )
 
 var ESCAPE_REGEXP = regexp.MustCompile(`([\\^[$.|?*+])`)
-var PARAMETER_REGEXP = regexp.MustCompile(`(\\\\\\\\)?{([^}]+)}`)
+var PARAMETER_REGEXP = regexp.MustCompile(`(\\\\\\\\)?{([^}]*)}`)
 var OPTIONAL_REGEXP = regexp.MustCompile(`(\\\\\\\\)?\([^)]+\)`)
 var ALTERNATIVE_NON_WHITESPACE_TEXT_REGEXP = regexp.MustCompile(`([^\s^/]+)((/[^\s^/]+)+)`)
 var DOUBLE_ESCAPE = `\\\\`
 
 type CucumberExpression struct {
-	source         string
-	parameterTypes []*ParameterType
-	treeRegexp     *TreeRegexp
+	source                string
+	parameterTypes        []*ParameterType
+	treeRegexp            *TreeRegexp
+	parameterTypeRegistry *ParameterTypeRegistry
 }
 
 func NewCucumberExpression(expression string, parameterTypeRegistry *ParameterTypeRegistry) (*CucumberExpression, error) {
-	result := &CucumberExpression{source: expression}
+	result := &CucumberExpression{source: expression, parameterTypeRegistry: parameterTypeRegistry}
 
 	expression = result.processEscapes(expression)
 
@@ -44,8 +46,28 @@ func NewCucumberExpression(expression string, parameterTypeRegistry *ParameterTy
 	return result, nil
 }
 
-func (c *CucumberExpression) Match(text string) ([]*Argument, error) {
-	return BuildArguments(c.treeRegexp, text, c.parameterTypes), nil
+func (c *CucumberExpression) Match(text string, typeHints ...reflect.Type) ([]*Argument, error) {
+	parameterTypes := make([]*ParameterType, len(c.parameterTypes))
+	copy(parameterTypes, c.parameterTypes)
+	for i := 0; i < len(parameterTypes); i++ {
+		if parameterTypes[i].isAnonymous() {
+			typeHint := hintOrDefault(i, typeHints...)
+			parameterType, err := parameterTypes[i].deAnonymize(typeHint, c.objectMapperTransformer(typeHint))
+			if err != nil {
+				return nil, err
+			}
+			parameterTypes[i] = parameterType
+		}
+	}
+	return BuildArguments(c.treeRegexp, text, parameterTypes), nil
+}
+
+func hintOrDefault(i int, typeHints ...reflect.Type) reflect.Type {
+	typeHint := reflect.TypeOf("")
+	if i < len(typeHints) {
+		typeHint = typeHints[i]
+	}
+	return typeHint
 }
 
 func (c *CucumberExpression) Regexp() *regexp.Regexp {
@@ -134,4 +156,13 @@ func buildCaptureRegexp(regexps []*regexp.Regexp) string {
 	}
 
 	return fmt.Sprintf("(%s)", strings.Join(captureGroups, "|"))
+}
+func (r *CucumberExpression) objectMapperTransformer(typeHint reflect.Type) func(args ...*string) interface{} {
+	return func(args ...*string) interface{} {
+		i, err := r.parameterTypeRegistry.defaultTransformer.Transform(*args[0], typeHint)
+		if err != nil {
+			panic(err)
+		}
+		return i
+	}
 }

@@ -50,6 +50,20 @@ func TestParameterTypeRegistry(t *testing.T) {
 		require.EqualError(t, err, fmt.Sprintf("There can only be one preferential parameter type per regexp. The regexp /%s/ is used for two preferential parameter types, {name} and {place}", CAPITALISED_WORD_REGEXPS[0].String()))
 	})
 
+	t.Run("does not allow anonymous parameter type to be registered", func(t *testing.T) {
+		parameterTypeRegistry := NewParameterTypeRegistry()
+		anonymousParameter, err := NewParameterType(
+			"",
+			CAPITALISED_WORD_REGEXPS,
+			"anonymous",
+			nil,
+			false,
+			false,
+		)
+		err = parameterTypeRegistry.DefineParameterType(anonymousParameter)
+		require.EqualError(t, err, fmt.Sprintf("The anonymous parameter type has already been defined"))
+	})
+
 	t.Run("looks up preferential parameter type by regexp", func(t *testing.T) {
 		parameterTypeRegistry := NewParameterTypeRegistry()
 		nameParameterType, err := NewParameterType(

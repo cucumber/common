@@ -18,6 +18,7 @@ public final class ParameterType<T> implements Comparable<ParameterType<?>> {
     private final boolean preferForRegexpMatch;
     private final boolean useForSnippets;
     private final CaptureGroupTransformer<T> transformer;
+    private final boolean anonymous;
 
     static void checkParameterTypeName(String name) {
         String unescapedTypeName = UNESCAPE_PATTERN.matcher(name).replaceAll("$2");
@@ -25,6 +26,15 @@ public final class ParameterType<T> implements Comparable<ParameterType<?>> {
         if (matcher.find()) {
             throw new CucumberExpressionException(String.format("Illegal character '%s' in parameter name {%s}.", matcher.group(1), unescapedTypeName));
         }
+    }
+
+    static ParameterType<Object> createAnonymousParameterType(String regexp) {
+        return new ParameterType<>("", singletonList(regexp), Object.class, new CaptureGroupTransformer<Object>() {
+
+            public Object transform(String[] arg) {
+                throw new UnsupportedOperationException("Anonymous transform must be deanonymized before use");
+            }
+        }, false, true, true);
     }
 
     public static <E extends Enum> ParameterType<E> fromEnum(final Class<E> enumClass) {
@@ -47,7 +57,7 @@ public final class ParameterType<T> implements Comparable<ParameterType<?>> {
         );
     }
 
-    public ParameterType(String name, List<String> regexps, Type type, CaptureGroupTransformer<T> transformer, boolean useForSnippets, boolean preferForRegexpMatch) {
+    private ParameterType(String name, List<String> regexps, Type type, CaptureGroupTransformer<T> transformer, boolean useForSnippets, boolean preferForRegexpMatch, boolean anonymous) {
         if (regexps == null) throw new NullPointerException("regexps cannot be null");
         if (type == null) throw new NullPointerException("type cannot be null");
         if (transformer == null) throw new NullPointerException("transformer cannot be null");
@@ -58,6 +68,11 @@ public final class ParameterType<T> implements Comparable<ParameterType<?>> {
         this.transformer = transformer;
         this.useForSnippets = useForSnippets;
         this.preferForRegexpMatch = preferForRegexpMatch;
+        this.anonymous = anonymous;
+    }
+
+    public ParameterType(String name, List<String> regexps, Type type, CaptureGroupTransformer<T> transformer, boolean useForSnippets, boolean preferForRegexpMatch) {
+        this(name, regexps, type, transformer, useForSnippets, preferForRegexpMatch, false);
     }
 
     public ParameterType(String name, List<String> regexps, Class<T> type, CaptureGroupTransformer<T> transformer, boolean useForSnippets, boolean preferForRegexpMatch) {
@@ -144,12 +159,26 @@ public final class ParameterType<T> implements Comparable<ParameterType<?>> {
         return useForSnippets;
     }
 
+    boolean isAnonymous() {
+        return anonymous;
+    }
+
+    ParameterType<Object> deAnonymize(Type type, Transformer<Object> transformer) {
+        return new ParameterType<>("anonymous", regexps, type, new TransformerAdaptor<>(transformer), useForSnippets, preferForRegexpMatch, anonymous);
+    }
+
     T transform(List<String> groupValues) {
         if (transformer instanceof TransformerAdaptor) {
-            if (groupValues.size() > 1)
+            if (groupValues.size() > 1) {
+                if (isAnonymous()) {
+                    throw new CucumberExpressionException(String.format("" +
+                            "Anonymous ParameterType has multiple capture groups %s. " +
+                            "You can only use a single capture group in an anonymous ParameterType.", regexps));
+                }
                 throw new CucumberExpressionException(String.format("" +
                         "ParameterType {%s} was registered with a Transformer but has multiple capture groups %s. " +
                         "Did you mean to use a CaptureGroupTransformer?", name, regexps));
+            }
         }
 
         try {

@@ -12,7 +12,7 @@ const {
 
 // Does not include (){} characters because they have special meaning
 const ESCAPE_REGEXP = () => /([\\^[$.|?*+])/g
-const PARAMETER_REGEXP = () => /(\\\\)?{([^}]+)}/g
+const PARAMETER_REGEXP = () => /(\\\\)?{([^}]*)}/g
 const OPTIONAL_REGEXP = () => /(\\\\)?\(([^)]+)\)/g
 const ALTERNATIVE_NON_WHITESPACE_TEXT_REGEXP = () =>
   /([^\s^/]+)((\/[^\s^/]+)+)/g

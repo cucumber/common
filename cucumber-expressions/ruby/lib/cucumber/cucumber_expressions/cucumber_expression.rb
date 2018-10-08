@@ -7,7 +7,7 @@ module Cucumber
     class CucumberExpression
       # Does not include (){} characters because they have special meaning
       ESCAPE_REGEXP = /([\\^\[$.|?*+\]])/
-      PARAMETER_REGEXP = /(\\\\)?{([^}]+)}/
+      PARAMETER_REGEXP = /(\\\\)?{([^}]*)}/
       OPTIONAL_REGEXP = /(\\\\)?\(([^)]+)\)/
       ALTERNATIVE_NON_WHITESPACE_TEXT_REGEXP = /([^\s^\/]+)((\/[^\s^\/]+)+)/
       DOUBLE_ESCAPE = '\\\\'

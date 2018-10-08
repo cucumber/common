@@ -78,7 +78,7 @@ func (c *CucumberExpressionGenerator) GenerateExpressions(text string) []*Genera
 
 func (c *CucumberExpressionGenerator) createParameterTypeMatchers(text string) []*ParameterTypeMatcher {
 	result := []*ParameterTypeMatcher{}
-	for _, parameterType := range c.parameterTypeRegistry.ParamaterTypes() {
+	for _, parameterType := range c.parameterTypeRegistry.ParameterTypes() {
 		if parameterType.UseForSnippets() {
 			result = append(result, c.createParameterTypeMatchers2(parameterType, text)...)
 		}
