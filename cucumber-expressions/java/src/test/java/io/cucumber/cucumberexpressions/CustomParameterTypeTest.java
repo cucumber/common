@@ -52,21 +52,19 @@ public class CustomParameterTypeTest {
 
     @Before
     public void create_parameter() {
-        /// [add-color-parameter-type]
         parameterTypeRegistry.defineParameterType(new ParameterType<>(
-                "color",                                  // name
-                "red|blue|yellow",                        // regexp
-                Color.class,                              // type
+                "color",
+                "red|blue|yellow",
+                Color.class,
                 new Transformer<Color>() {
                     @Override
                     public Color transform(String arg) {
                         return new Color(arg);
                     }
-                },                                        // transform
-                false,                                    // useForSnippets
-                false                                     // preferForRegexpMatch
+                },
+                false,
+                false
         ));
-        /// [add-color-parameter-type]
     }
 
     @Test
@@ -75,12 +73,7 @@ public class CustomParameterTypeTest {
         new ParameterType<>(
                 "[string]",
                 ".*",
-                String.class, new Transformer<String>() {
-            @Override
-            public String transform(String s) {
-                return s;
-            }
-        },
+                String.class, (Transformer<String>) s -> s,
                 false,
                 false
         );
