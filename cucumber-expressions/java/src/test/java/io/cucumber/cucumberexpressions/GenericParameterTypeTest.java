@@ -2,6 +2,7 @@ package io.cucumber.cucumberexpressions;
 
 import org.junit.Test;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 
@@ -17,12 +18,8 @@ public class GenericParameterTypeTest {
                 "stringlist",
                 singletonList(".*"),
                 new TypeReference<List<String>>() {
-                }.getType(), new CaptureGroupTransformer<List<String>>() {
-                    @Override
-                    public List<String> transform(String... args) {
-                        return asList(args[0].split(","));
-                    }
-                },
+                }.getType(),
+                (CaptureGroupTransformer<List<String>>) args -> Arrays.asList(args[0].split(",")),
                 false,
                 false));
         Expression expression = new CucumberExpression("I have {stringlist} yay", parameterTypeRegistry);

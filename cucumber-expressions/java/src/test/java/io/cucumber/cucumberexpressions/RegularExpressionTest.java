@@ -2,6 +2,7 @@ package io.cucumber.cucumberexpressions;
 
 import org.junit.Test;
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -66,7 +67,7 @@ public class RegularExpressionTest {
         String expr = "Across the line\\(s\\)";
         String step = "Across the line(s)";
         List<?> match = match(compile(expr), step);
-        assertEquals(emptyList (), match);
+        assertEquals(emptyList(), match);
     }
 
     @Test
@@ -77,14 +78,16 @@ public class RegularExpressionTest {
         assertEquals(regexp, expression.getRegexp().pattern());
     }
 
-    private List<?> match(Pattern pattern, String text) {
-        return match(pattern, text, Locale.ENGLISH);
+    @Test
+    public void matches_int_as_float_using_explicit_type() {
+        List<?> match = match(compile("a (\\d+) and a (.*)"), "a 22 and a 33.5", Float.class, Double.class);
+        assertEquals(asList(22f, 33.5d), match);
     }
 
-    private List<?> match(Pattern pattern, String text, Locale locale) {
-        ParameterTypeRegistry parameterTypeRegistry = new ParameterTypeRegistry(locale);
+    private List<?> match(Pattern pattern, String text, Type... types) {
+        ParameterTypeRegistry parameterTypeRegistry = new ParameterTypeRegistry(Locale.ENGLISH);
         RegularExpression regularExpression = new RegularExpression(pattern, parameterTypeRegistry);
-        List<Argument<?>> arguments = regularExpression.match(text);
+        List<Argument<?>> arguments = regularExpression.match(text, types);
         List<Object> values = new ArrayList<>();
         for (Argument<?> argument : arguments) {
             values.add(argument.getValue());
