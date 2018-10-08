@@ -1,5 +1,6 @@
 package io.cucumber.cucumberexpressions;
 
+import java.lang.reflect.Type;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.text.NumberFormat;
@@ -23,6 +24,7 @@ public class ParameterTypeRegistry {
     private static final List<String> WORD_REGEXPS = singletonList(Pattern.compile("[^\\s]+").pattern());
     private static final List<String> STRING_REGEXPS = singletonList(Pattern.compile("\"([^\"\\\\]*(\\\\.[^\"\\\\]*)*)\"|'([^'\\\\]*(\\\\.[^'\\\\]*)*)'").pattern());
     private final Map<String, ParameterType<?>> parameterTypeByName = new HashMap<>();
+    private final Map<Type, SortedSet<ParameterType<?>>> parameterTypesByType = new HashMap<>();
     private final Map<String, SortedSet<ParameterType<?>>> parameterTypesByRegexp = new HashMap<>();
 
     public ParameterTypeRegistry(Locale locale) {
@@ -99,9 +101,7 @@ public class ParameterTypeRegistry {
         }
 
         for (String parameterTypeRegexp : parameterType.getRegexps()) {
-            if (parameterTypesByRegexp.get(parameterTypeRegexp) == null) {
-                parameterTypesByRegexp.put(parameterTypeRegexp, new TreeSet<ParameterType<?>>());
-            }
+            parameterTypesByRegexp.computeIfAbsent(parameterTypeRegexp, k -> new TreeSet<>());
             SortedSet<ParameterType<?>> parameterTypes = parameterTypesByRegexp.get(parameterTypeRegexp);
             if (!parameterTypes.isEmpty() && parameterTypes.first().preferForRegexpMatch() && parameterType.preferForRegexpMatch()) {
                 throw new CucumberExpressionException(String.format(
@@ -112,10 +112,31 @@ public class ParameterTypeRegistry {
             }
             parameterTypes.add(parameterType);
         }
+
+        parameterTypesByType.computeIfAbsent(parameterType.getType(), k -> new TreeSet<>());
+        SortedSet<ParameterType<?>> parameterTypes = parameterTypesByType.get(parameterType.getType());
+        if (!parameterTypes.isEmpty() && parameterTypes.first().preferForRegexpMatch() && parameterType.preferForRegexpMatch()) {
+            throw new CucumberExpressionException(String.format(
+                    "There can only be one preferential parameter type per type. " +
+                            "The type %s is used for two preferential parameter types, {%s} and {%s}",
+                    parameterType.getType().getTypeName(), parameterTypes.first().getType().getTypeName(), parameterType.getType().getTypeName()
+            ));
+        }
+        parameterTypes.add(parameterType);
+
     }
 
     public <T> ParameterType<T> lookupByTypeName(String typeName) {
         return (ParameterType<T>) parameterTypeByName.get(typeName);
+    }
+
+    public <T> ParameterType<T> lookupByType(Type type, String text) {
+        SortedSet<ParameterType<?>> parameterTypes = parameterTypesByType.get(type);
+        if (parameterTypes == null) return null;
+        if (parameterTypes.size() > 1 && !parameterTypes.first().preferForRegexpMatch()) {
+            throw new CucumberExpressionException(String.format("Multiple parameter types match type %s", type.getTypeName()));
+        }
+        return (ParameterType<T>) parameterTypes.first();
     }
 
     public <T> ParameterType<T> lookupByRegexp(String parameterTypeRegexp, Pattern expressionRegexp, String text) {

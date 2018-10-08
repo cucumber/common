@@ -76,11 +76,11 @@ public class CustomParameterTypeTest {
                 "[string]",
                 ".*",
                 String.class, new Transformer<String>() {
-                    @Override
-                    public String transform(String s) {
-                        return s;
-                    }
-                },
+            @Override
+            public String transform(String s) {
+                return s;
+            }
+        },
                 false,
                 false
         );

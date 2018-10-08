@@ -1,5 +1,6 @@
 package io.cucumber.cucumberexpressions;
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -123,7 +124,7 @@ public class CucumberExpression implements Expression {
     }
 
     @Override
-    public List<Argument<?>> match(String text) {
+    public List<Argument<?>> match(String text, Type... types) {
         return Argument.build(treeRegexp, parameterTypes, text);
     }
 
