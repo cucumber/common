@@ -5,7 +5,8 @@ option ruby_package = "Cucumber.Messages";
 option go_package = "messages";
 
 // All messages sent between processes must be of type Wrapper
-message Wrapper {
+message EventWrapper {
+  google.protobuf.Timestamp timestamp = 16;
   oneof message {
     Source source = 1;
     GherkinDocument gherkinDocument = 2;
@@ -15,6 +16,12 @@ message Wrapper {
     TestStepStarted testStepStarted = 6;
     TestStepFinished testStepFinished = 7;
     TestCaseFinished testCaseFinished = 8;
+
+    PickleAccepted pickleAccepted = 9;
+    PickleRejected pickleRejected = 10;
+    TestCasePrepared testCasePrepared = 11;
+    TestRunStarted testRunStarted = 12;
+    TestRunFinished testRunFinished = 13;
   }
 }
 
@@ -203,34 +210,54 @@ message PickleTag {
   string name = 2;
 }
 
+////// Filtering
+
+message PickleAccepted {
+  string pickleId = 1;
+}
+
+message PickleRejected {
+  string pickleId = 2;
+}
+
 ////// Results
+
+message TestRunStarted {}
+
+message TestCasePreparedStep {
+  SourceReference sourceLocation = 1;
+  SourceReference actionLocation = 2;
+}
+
+message TestCasePrepared {
+  string pickleId = 1;
+  repeated TestCasePreparedStep steps = 3;
+}
 
 message TestCaseStarted {
   string pickleId = 1;
-  google.protobuf.Timestamp timestamp = 2;
 }
 
 message TestCaseFinished {
   string pickleId = 1;
-  google.protobuf.Timestamp timestamp = 2;
+  TestResult testResult = 3;
 }
 
 message TestStepStarted {
   string pickleId = 1;
   uint32 index = 2;
-  google.protobuf.Timestamp timestamp = 3;
 }
 
 message TestStepFinished {
   string pickleId = 1;
   uint32 index = 2;
   TestResult testResult = 3;
-  google.protobuf.Timestamp timestamp = 4;
 }
 
 message TestResult {
   Status status = 1;
   string message = 2;
+  uint32 duration = 3;
 }
 
 enum Status {
@@ -240,4 +267,8 @@ enum Status {
   PENDING = 3;
   SKIPPED = 4;
   UNDEFINED = 5;
+}
+
+message TestRunFinished {
+  bool success = 1;
 }
