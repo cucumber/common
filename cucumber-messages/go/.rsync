@@ -1,5 +1,4 @@
 ../../LICENSE LICENSE
 ../../.templates/github/ .github/
 ../../.templates/go/ .
-../commands.proto commands.proto
-../events.proto events.proto
+../messages.proto messages.proto
