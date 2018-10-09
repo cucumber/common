@@ -1,7 +1,7 @@
 # encoding: utf-8
 Gem::Specification.new do |s|
   s.name        = 'gherkin'
-  s.version     = '6.0.6'
+  s.version     = '6.0.14'
   s.authors     = ["Gáspár Nagy", "Aslak Hellesøy", "Steve Tooke"]
   s.description = 'Gherkin parser'
   s.summary     = "#{s.name}-#{s.version}"
@@ -11,10 +11,18 @@ Gem::Specification.new do |s|
   s.license     = "MIT"
   s.required_ruby_version = ">= 1.9.3"
 
-  # TODO: Add dependency on c21e before making a release
-  s.add_dependency 'cucumber-messages', '1.0.0'
+  s.metadata    = {
+                    'bug_tracker_uri'   => 'https://github.com/cucumber/cucumber/issues',
+                    'changelog_uri'     => 'https://github.com/cucumber/cucumber/blob/master/gherkin/CHANGELOG.md',
+                    'documentation_uri' => 'https://docs.cucumber.io/gherkin/',
+                    'mailing_list_uri'  => 'https://groups.google.com/forum/#!forum/cukes',
+                    'source_code_uri'   => 'https://github.com/cucumber/cucumber/blob/master/gherkin/ruby',
+                  }
 
-  s.add_development_dependency 'bundler'
+  s.add_dependency 'c21e', '~> 1.1'
+  s.add_dependency 'cucumber-messages', '~> 1.1'
+
+  s.add_development_dependency 'bundler', '~> 1.16'
   s.add_development_dependency 'rake',  '~> 10.5'
   s.add_development_dependency 'rspec', '~> 3.7'
 
@@ -22,7 +30,7 @@ Gem::Specification.new do |s|
   s.add_development_dependency 'coveralls'
 
   s.executables      = ["gherkin-ruby", "gherkin"]
-  s.rubygems_version = ">= 1.6.1"
+  s.rubygems_version = ">= 1.6.1", '~> 0.8'
   s.files            = Dir[
     'README.md',
     'LICENSE',

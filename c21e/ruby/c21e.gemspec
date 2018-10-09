@@ -1,7 +1,7 @@
 # -*- encoding: utf-8 -*-
 Gem::Specification.new do |s|
   s.name        = 'c21e'
-  s.version     = '6.0.1'
+  s.version     = '1.1.5'
   s.authors     = ["Aslak Hellesøy"]
   s.description = 'Run cross-platform executables'
   s.summary     = "#{s.name}-#{s.version}"
@@ -10,6 +10,13 @@ Gem::Specification.new do |s|
   s.platform    = Gem::Platform::RUBY
   s.license     = "MIT"
   s.required_ruby_version = ">= 1.9.3"
+
+  s.metadata    = {
+                    'bug_tracker_uri'   => 'https://github.com/cucumber/cucumber/issues',
+                    'documentation_uri' => 'https://www.rubydoc.info/github/cucumber/c21e-ruby',
+                    'mailing_list_uri'  => 'https://groups.google.com/forum/#!forum/cukes',
+                    'source_code_uri'   => 'https://github.com/cucumber/cucumber/blob/master/c21e/ruby',
+                  }
 
   s.add_development_dependency 'bundler'
   s.add_development_dependency 'rake',      '~> 12.3'

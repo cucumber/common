@@ -1,5 +1,4 @@
 ../../LICENSE LICENSE
 ../../.templates/github/ .github/
 ../../.templates/java/ .
-../../.templates/gpg/ .
 ../messages.proto messages.proto

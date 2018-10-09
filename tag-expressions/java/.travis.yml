@@ -1,5 +1,6 @@
 sudo: false
 language: java
+
 jdk:
 - oraclejdk8
 - oraclejdk9
@@ -9,10 +10,9 @@ jobs:
   - stage: deploy
     jdk: oraclejdk8
     script:
-    - "./scripts/travis_decrypt_signing_key.sh"
-    - "./scripts/mvn_deploy.sh"
-    - "./scripts/mvn_upload_api_docs.sh"
+    - "./scripts/travis_deploy.sh"
 script: make default
+
 env:
   global:
   - secure: NilY34KhY+vz98I+FsPlYgMEcYimqNbe8k3fVo6i5sQgeUbt7jJ5GLu4UyKMXF+K9hEPyfXpfM540n6b0lFIzZQMAQYnMjNFbLJ13XU4uEcOtIcAnxb2NQKMipVG/X02YNZpke5t3r8lStl/6tynZnc+As9m8Mc9ZFJgQpf28wxy7dPmVIxsJB0cftnPIT5aPDjl4acArKGm1WnGmzz9BOVwl/YFhpmcsewQzM5RpIkLEoZDFQAI7tGz+mlZDkWm2Qy2w4okG0PZhowJ3uV2SZbXMXp1y0iG+0qFD9hDPlOuh/JucuAa5HzC/HYgqKwnjXB2T7i47qcuFdFVyv7lNXE+qkAjUBorDX+/0Wb/XD4UIuY+75NFSxzNAqifObmcbtJC/nsGpsXOGJlIlTQ3hIZq1c/Gscaachprl8pnkNW4y21Ns0VGmWaNhXWDxTN4oUrw4YvREH+Yrf1RGJhQBtgKoVLil9mUp9z0fZlU/l9A632SUgzPJU2HHJIam7s7Ay+8EM7RCIHGKgp0DbNWmSm196VvfLOWMNT9eM+Hb9jjJlpj0/FE2A2kxprl4IWSLhJ5pfCltNq/2Myf0VksaswKv8GmS+8Hik5H7rCRHMLACU8fQyx1W9n7StLzv+CqBBs4D0F8ir1y4AyuXUvjrN+fXmIUyIS05qVMHbUyEwQ=

@@ -27,9 +27,14 @@ func ProcessMessages(stdin io.Reader, stdout io.Writer) {
 			break
 		}
 
-		switch t := wrapper.Message.(type) {
+		switch m := wrapper.Message.(type) {
+		case *messages.Wrapper_TestHookFinished:
+			switch m.TestHookFinished.TestResult.Status {
+			case messages.Status_FAILED:
+				color.New(color.FgRed).Fprint(stdout, "H")
+			}
 		case *messages.Wrapper_TestStepFinished:
-			switch t.TestStepFinished.TestResult.Status {
+			switch m.TestStepFinished.TestResult.Status {
 			case messages.Status_AMBIGUOUS:
 				color.New(color.FgMagenta).Fprint(stdout, "A")
 			case messages.Status_FAILED:

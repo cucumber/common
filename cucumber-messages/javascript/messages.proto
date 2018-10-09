@@ -15,6 +15,8 @@ message Wrapper {
     TestStepStarted testStepStarted = 6;
     TestStepFinished testStepFinished = 7;
     TestCaseFinished testCaseFinished = 8;
+    TestHookStarted testHookStarted = 9;
+    TestHookFinished testHookFinished = 10;
   }
 }
 
@@ -226,6 +228,17 @@ message TestStepFinished {
   uint32 index = 2;
   TestResult testResult = 3;
   google.protobuf.Timestamp timestamp = 4;
+}
+
+message TestHookStarted {
+  string pickleId = 1;
+  google.protobuf.Timestamp timestamp = 2;
+}
+
+message TestHookFinished {
+  string pickleId = 1;
+  TestResult testResult = 2;
+  google.protobuf.Timestamp timestamp = 3;
 }
 
 message TestResult {

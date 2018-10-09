@@ -175,7 +175,7 @@ function release_module()
   module=$1
   version=$2
 
-  subrepos "${path}" | while read subrepo; do
+  subrepos "${module}" | while read subrepo; do
     version_subrepo "${subrepo}" "${version}"
   done
   
@@ -184,15 +184,15 @@ function release_module()
   git push && git push --tags
 }
 
-# function release_subrepo()
-# {
-#   subrepo=$1
-#   version=$2
-#   next_version=$3
-# 
-#   clone_for_release "${subrepo}"
-#   release_subrepo_clone "$(release_dir "${subrepo}")" "${version}" "${next_version}"
-# }
+ function release_subrepo()
+ {
+   subrepo=$1
+   version=$2
+   next_version=$3
+
+   clone_for_release "${subrepo}"
+   release_subrepo_clone "$(release_dir "${subrepo}")" "${version}" "${next_version}"
+ }
 
 # Sets up GPG in a module dir
 function setup_gpg()
@@ -230,9 +230,10 @@ EOF
 
 function setup_travis_token() {
   subrepo=$1
+  repo=$(subrepo_owner_name "${subrepo}")
   pushd "${subrepo}"
 
-  travis encrypt TRAVIS_API_TOKEN=${TRAVIS_API_TOKEN} --add --repo "cucumber/gherkin-go"
+  travis encrypt TRAVIS_API_TOKEN=${TRAVIS_API_TOKEN} --add --repo "${repo}"
 
   popd
 }
@@ -601,6 +602,11 @@ function go_release() {
   git push
   git push --tags
   popd
+}
+
+function go_version() {
+  # no-op
+  echo ""
 }
 
 ################ xcode ################

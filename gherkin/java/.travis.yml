@@ -1,7 +1,6 @@
 sudo: false
 language: java
 
-
 jobs:
   include:
   - stage: test

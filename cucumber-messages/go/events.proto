@@ -4,7 +4,7 @@ package io.cucumber.messages;
 option ruby_package = "Cucumber.Messages";
 option go_package = "messages";
 
-// All messages sent between processes must be of type Wrapper
+// All messages sent between processes must be of type EventWrapper
 message EventWrapper {
   google.protobuf.Timestamp timestamp = 16;
   oneof message {
@@ -16,12 +16,13 @@ message EventWrapper {
     TestStepStarted testStepStarted = 6;
     TestStepFinished testStepFinished = 7;
     TestCaseFinished testCaseFinished = 8;
-
-    PickleAccepted pickleAccepted = 9;
-    PickleRejected pickleRejected = 10;
-    TestCasePrepared testCasePrepared = 11;
-    TestRunStarted testRunStarted = 12;
-    TestRunFinished testRunFinished = 13;
+    TestHookStarted testHookStarted = 9;
+    TestHookFinished testHookFinished = 10;
+    PickleAccepted pickleAccepted = 11;
+    PickleRejected pickleRejected = 12;
+    TestCasePrepared testCasePrepared = 13;
+    TestRunStarted testRunStarted = 14;
+    TestRunFinished testRunFinished = 15;
   }
 }
 
@@ -252,6 +253,15 @@ message TestStepFinished {
   string pickleId = 1;
   uint32 index = 2;
   TestResult testResult = 3;
+}
+
+message TestHookStarted {
+  string pickleId = 1;
+}
+
+message TestHookFinished {
+  string pickleId = 1;
+  TestResult testResult = 2;
 }
 
 message TestResult {

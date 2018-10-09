@@ -50,6 +50,8 @@ $root.io = (function() {
                  * @property {io.cucumber.messages.ITestStepStarted|null} [testStepStarted] Wrapper testStepStarted
                  * @property {io.cucumber.messages.ITestStepFinished|null} [testStepFinished] Wrapper testStepFinished
                  * @property {io.cucumber.messages.ITestCaseFinished|null} [testCaseFinished] Wrapper testCaseFinished
+                 * @property {io.cucumber.messages.ITestHookStarted|null} [testHookStarted] Wrapper testHookStarted
+                 * @property {io.cucumber.messages.ITestHookFinished|null} [testHookFinished] Wrapper testHookFinished
                  */
 
                 /**
@@ -131,17 +133,33 @@ $root.io = (function() {
                  */
                 Wrapper.prototype.testCaseFinished = null;
 
+                /**
+                 * Wrapper testHookStarted.
+                 * @member {io.cucumber.messages.ITestHookStarted|null|undefined} testHookStarted
+                 * @memberof io.cucumber.messages.Wrapper
+                 * @instance
+                 */
+                Wrapper.prototype.testHookStarted = null;
+
+                /**
+                 * Wrapper testHookFinished.
+                 * @member {io.cucumber.messages.ITestHookFinished|null|undefined} testHookFinished
+                 * @memberof io.cucumber.messages.Wrapper
+                 * @instance
+                 */
+                Wrapper.prototype.testHookFinished = null;
+
                 // OneOf field names bound to virtual getters and setters
                 var $oneOfFields;
 
                 /**
                  * Wrapper message.
-                 * @member {"source"|"gherkinDocument"|"pickle"|"attachment"|"testCaseStarted"|"testStepStarted"|"testStepFinished"|"testCaseFinished"|undefined} message
+                 * @member {"source"|"gherkinDocument"|"pickle"|"attachment"|"testCaseStarted"|"testStepStarted"|"testStepFinished"|"testCaseFinished"|"testHookStarted"|"testHookFinished"|undefined} message
                  * @memberof io.cucumber.messages.Wrapper
                  * @instance
                  */
                 Object.defineProperty(Wrapper.prototype, "message", {
-                    get: $util.oneOfGetter($oneOfFields = ["source", "gherkinDocument", "pickle", "attachment", "testCaseStarted", "testStepStarted", "testStepFinished", "testCaseFinished"]),
+                    get: $util.oneOfGetter($oneOfFields = ["source", "gherkinDocument", "pickle", "attachment", "testCaseStarted", "testStepStarted", "testStepFinished", "testCaseFinished", "testHookStarted", "testHookFinished"]),
                     set: $util.oneOfSetter($oneOfFields)
                 });
 
@@ -185,6 +203,10 @@ $root.io = (function() {
                         $root.io.cucumber.messages.TestStepFinished.encode(message.testStepFinished, writer.uint32(/* id 7, wireType 2 =*/58).fork()).ldelim();
                     if (message.testCaseFinished != null && message.hasOwnProperty("testCaseFinished"))
                         $root.io.cucumber.messages.TestCaseFinished.encode(message.testCaseFinished, writer.uint32(/* id 8, wireType 2 =*/66).fork()).ldelim();
+                    if (message.testHookStarted != null && message.hasOwnProperty("testHookStarted"))
+                        $root.io.cucumber.messages.TestHookStarted.encode(message.testHookStarted, writer.uint32(/* id 9, wireType 2 =*/74).fork()).ldelim();
+                    if (message.testHookFinished != null && message.hasOwnProperty("testHookFinished"))
+                        $root.io.cucumber.messages.TestHookFinished.encode(message.testHookFinished, writer.uint32(/* id 10, wireType 2 =*/82).fork()).ldelim();
                     return writer;
                 };
 
@@ -242,6 +264,12 @@ $root.io = (function() {
                             break;
                         case 8:
                             message.testCaseFinished = $root.io.cucumber.messages.TestCaseFinished.decode(reader, reader.uint32());
+                            break;
+                        case 9:
+                            message.testHookStarted = $root.io.cucumber.messages.TestHookStarted.decode(reader, reader.uint32());
+                            break;
+                        case 10:
+                            message.testHookFinished = $root.io.cucumber.messages.TestHookFinished.decode(reader, reader.uint32());
                             break;
                         default:
                             reader.skipType(tag & 7);
@@ -357,6 +385,26 @@ $root.io = (function() {
                                 return "testCaseFinished." + error;
                         }
                     }
+                    if (message.testHookStarted != null && message.hasOwnProperty("testHookStarted")) {
+                        if (properties.message === 1)
+                            return "message: multiple values";
+                        properties.message = 1;
+                        {
+                            var error = $root.io.cucumber.messages.TestHookStarted.verify(message.testHookStarted);
+                            if (error)
+                                return "testHookStarted." + error;
+                        }
+                    }
+                    if (message.testHookFinished != null && message.hasOwnProperty("testHookFinished")) {
+                        if (properties.message === 1)
+                            return "message: multiple values";
+                        properties.message = 1;
+                        {
+                            var error = $root.io.cucumber.messages.TestHookFinished.verify(message.testHookFinished);
+                            if (error)
+                                return "testHookFinished." + error;
+                        }
+                    }
                     return null;
                 };
 
@@ -411,6 +459,16 @@ $root.io = (function() {
                         if (typeof object.testCaseFinished !== "object")
                             throw TypeError(".io.cucumber.messages.Wrapper.testCaseFinished: object expected");
                         message.testCaseFinished = $root.io.cucumber.messages.TestCaseFinished.fromObject(object.testCaseFinished);
+                    }
+                    if (object.testHookStarted != null) {
+                        if (typeof object.testHookStarted !== "object")
+                            throw TypeError(".io.cucumber.messages.Wrapper.testHookStarted: object expected");
+                        message.testHookStarted = $root.io.cucumber.messages.TestHookStarted.fromObject(object.testHookStarted);
+                    }
+                    if (object.testHookFinished != null) {
+                        if (typeof object.testHookFinished !== "object")
+                            throw TypeError(".io.cucumber.messages.Wrapper.testHookFinished: object expected");
+                        message.testHookFinished = $root.io.cucumber.messages.TestHookFinished.fromObject(object.testHookFinished);
                     }
                     return message;
                 };
@@ -467,6 +525,16 @@ $root.io = (function() {
                         object.testCaseFinished = $root.io.cucumber.messages.TestCaseFinished.toObject(message.testCaseFinished, options);
                         if (options.oneofs)
                             object.message = "testCaseFinished";
+                    }
+                    if (message.testHookStarted != null && message.hasOwnProperty("testHookStarted")) {
+                        object.testHookStarted = $root.io.cucumber.messages.TestHookStarted.toObject(message.testHookStarted, options);
+                        if (options.oneofs)
+                            object.message = "testHookStarted";
+                    }
+                    if (message.testHookFinished != null && message.hasOwnProperty("testHookFinished")) {
+                        object.testHookFinished = $root.io.cucumber.messages.TestHookFinished.toObject(message.testHookFinished, options);
+                        if (options.oneofs)
+                            object.message = "testHookFinished";
                     }
                     return object;
                 };
@@ -8524,6 +8592,463 @@ $root.io = (function() {
                 };
 
                 return TestStepFinished;
+            })();
+
+            messages.TestHookStarted = (function() {
+
+                /**
+                 * Properties of a TestHookStarted.
+                 * @memberof io.cucumber.messages
+                 * @interface ITestHookStarted
+                 * @property {string|null} [pickleId] TestHookStarted pickleId
+                 * @property {google.protobuf.ITimestamp|null} [timestamp] TestHookStarted timestamp
+                 */
+
+                /**
+                 * Constructs a new TestHookStarted.
+                 * @memberof io.cucumber.messages
+                 * @classdesc Represents a TestHookStarted.
+                 * @implements ITestHookStarted
+                 * @constructor
+                 * @param {io.cucumber.messages.ITestHookStarted=} [properties] Properties to set
+                 */
+                function TestHookStarted(properties) {
+                    if (properties)
+                        for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                            if (properties[keys[i]] != null)
+                                this[keys[i]] = properties[keys[i]];
+                }
+
+                /**
+                 * TestHookStarted pickleId.
+                 * @member {string} pickleId
+                 * @memberof io.cucumber.messages.TestHookStarted
+                 * @instance
+                 */
+                TestHookStarted.prototype.pickleId = "";
+
+                /**
+                 * TestHookStarted timestamp.
+                 * @member {google.protobuf.ITimestamp|null|undefined} timestamp
+                 * @memberof io.cucumber.messages.TestHookStarted
+                 * @instance
+                 */
+                TestHookStarted.prototype.timestamp = null;
+
+                /**
+                 * Creates a new TestHookStarted instance using the specified properties.
+                 * @function create
+                 * @memberof io.cucumber.messages.TestHookStarted
+                 * @static
+                 * @param {io.cucumber.messages.ITestHookStarted=} [properties] Properties to set
+                 * @returns {io.cucumber.messages.TestHookStarted} TestHookStarted instance
+                 */
+                TestHookStarted.create = function create(properties) {
+                    return new TestHookStarted(properties);
+                };
+
+                /**
+                 * Encodes the specified TestHookStarted message. Does not implicitly {@link io.cucumber.messages.TestHookStarted.verify|verify} messages.
+                 * @function encode
+                 * @memberof io.cucumber.messages.TestHookStarted
+                 * @static
+                 * @param {io.cucumber.messages.ITestHookStarted} message TestHookStarted message or plain object to encode
+                 * @param {$protobuf.Writer} [writer] Writer to encode to
+                 * @returns {$protobuf.Writer} Writer
+                 */
+                TestHookStarted.encode = function encode(message, writer) {
+                    if (!writer)
+                        writer = $Writer.create();
+                    if (message.pickleId != null && message.hasOwnProperty("pickleId"))
+                        writer.uint32(/* id 1, wireType 2 =*/10).string(message.pickleId);
+                    if (message.timestamp != null && message.hasOwnProperty("timestamp"))
+                        $root.google.protobuf.Timestamp.encode(message.timestamp, writer.uint32(/* id 2, wireType 2 =*/18).fork()).ldelim();
+                    return writer;
+                };
+
+                /**
+                 * Encodes the specified TestHookStarted message, length delimited. Does not implicitly {@link io.cucumber.messages.TestHookStarted.verify|verify} messages.
+                 * @function encodeDelimited
+                 * @memberof io.cucumber.messages.TestHookStarted
+                 * @static
+                 * @param {io.cucumber.messages.ITestHookStarted} message TestHookStarted message or plain object to encode
+                 * @param {$protobuf.Writer} [writer] Writer to encode to
+                 * @returns {$protobuf.Writer} Writer
+                 */
+                TestHookStarted.encodeDelimited = function encodeDelimited(message, writer) {
+                    return this.encode(message, writer).ldelim();
+                };
+
+                /**
+                 * Decodes a TestHookStarted message from the specified reader or buffer.
+                 * @function decode
+                 * @memberof io.cucumber.messages.TestHookStarted
+                 * @static
+                 * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+                 * @param {number} [length] Message length if known beforehand
+                 * @returns {io.cucumber.messages.TestHookStarted} TestHookStarted
+                 * @throws {Error} If the payload is not a reader or valid buffer
+                 * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                 */
+                TestHookStarted.decode = function decode(reader, length) {
+                    if (!(reader instanceof $Reader))
+                        reader = $Reader.create(reader);
+                    var end = length === undefined ? reader.len : reader.pos + length, message = new $root.io.cucumber.messages.TestHookStarted();
+                    while (reader.pos < end) {
+                        var tag = reader.uint32();
+                        switch (tag >>> 3) {
+                        case 1:
+                            message.pickleId = reader.string();
+                            break;
+                        case 2:
+                            message.timestamp = $root.google.protobuf.Timestamp.decode(reader, reader.uint32());
+                            break;
+                        default:
+                            reader.skipType(tag & 7);
+                            break;
+                        }
+                    }
+                    return message;
+                };
+
+                /**
+                 * Decodes a TestHookStarted message from the specified reader or buffer, length delimited.
+                 * @function decodeDelimited
+                 * @memberof io.cucumber.messages.TestHookStarted
+                 * @static
+                 * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+                 * @returns {io.cucumber.messages.TestHookStarted} TestHookStarted
+                 * @throws {Error} If the payload is not a reader or valid buffer
+                 * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                 */
+                TestHookStarted.decodeDelimited = function decodeDelimited(reader) {
+                    if (!(reader instanceof $Reader))
+                        reader = new $Reader(reader);
+                    return this.decode(reader, reader.uint32());
+                };
+
+                /**
+                 * Verifies a TestHookStarted message.
+                 * @function verify
+                 * @memberof io.cucumber.messages.TestHookStarted
+                 * @static
+                 * @param {Object.<string,*>} message Plain object to verify
+                 * @returns {string|null} `null` if valid, otherwise the reason why it is not
+                 */
+                TestHookStarted.verify = function verify(message) {
+                    if (typeof message !== "object" || message === null)
+                        return "object expected";
+                    if (message.pickleId != null && message.hasOwnProperty("pickleId"))
+                        if (!$util.isString(message.pickleId))
+                            return "pickleId: string expected";
+                    if (message.timestamp != null && message.hasOwnProperty("timestamp")) {
+                        var error = $root.google.protobuf.Timestamp.verify(message.timestamp);
+                        if (error)
+                            return "timestamp." + error;
+                    }
+                    return null;
+                };
+
+                /**
+                 * Creates a TestHookStarted message from a plain object. Also converts values to their respective internal types.
+                 * @function fromObject
+                 * @memberof io.cucumber.messages.TestHookStarted
+                 * @static
+                 * @param {Object.<string,*>} object Plain object
+                 * @returns {io.cucumber.messages.TestHookStarted} TestHookStarted
+                 */
+                TestHookStarted.fromObject = function fromObject(object) {
+                    if (object instanceof $root.io.cucumber.messages.TestHookStarted)
+                        return object;
+                    var message = new $root.io.cucumber.messages.TestHookStarted();
+                    if (object.pickleId != null)
+                        message.pickleId = String(object.pickleId);
+                    if (object.timestamp != null) {
+                        if (typeof object.timestamp !== "object")
+                            throw TypeError(".io.cucumber.messages.TestHookStarted.timestamp: object expected");
+                        message.timestamp = $root.google.protobuf.Timestamp.fromObject(object.timestamp);
+                    }
+                    return message;
+                };
+
+                /**
+                 * Creates a plain object from a TestHookStarted message. Also converts values to other types if specified.
+                 * @function toObject
+                 * @memberof io.cucumber.messages.TestHookStarted
+                 * @static
+                 * @param {io.cucumber.messages.TestHookStarted} message TestHookStarted
+                 * @param {$protobuf.IConversionOptions} [options] Conversion options
+                 * @returns {Object.<string,*>} Plain object
+                 */
+                TestHookStarted.toObject = function toObject(message, options) {
+                    if (!options)
+                        options = {};
+                    var object = {};
+                    if (options.defaults) {
+                        object.pickleId = "";
+                        object.timestamp = null;
+                    }
+                    if (message.pickleId != null && message.hasOwnProperty("pickleId"))
+                        object.pickleId = message.pickleId;
+                    if (message.timestamp != null && message.hasOwnProperty("timestamp"))
+                        object.timestamp = $root.google.protobuf.Timestamp.toObject(message.timestamp, options);
+                    return object;
+                };
+
+                /**
+                 * Converts this TestHookStarted to JSON.
+                 * @function toJSON
+                 * @memberof io.cucumber.messages.TestHookStarted
+                 * @instance
+                 * @returns {Object.<string,*>} JSON object
+                 */
+                TestHookStarted.prototype.toJSON = function toJSON() {
+                    return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+                };
+
+                return TestHookStarted;
+            })();
+
+            messages.TestHookFinished = (function() {
+
+                /**
+                 * Properties of a TestHookFinished.
+                 * @memberof io.cucumber.messages
+                 * @interface ITestHookFinished
+                 * @property {string|null} [pickleId] TestHookFinished pickleId
+                 * @property {io.cucumber.messages.ITestResult|null} [testResult] TestHookFinished testResult
+                 * @property {google.protobuf.ITimestamp|null} [timestamp] TestHookFinished timestamp
+                 */
+
+                /**
+                 * Constructs a new TestHookFinished.
+                 * @memberof io.cucumber.messages
+                 * @classdesc Represents a TestHookFinished.
+                 * @implements ITestHookFinished
+                 * @constructor
+                 * @param {io.cucumber.messages.ITestHookFinished=} [properties] Properties to set
+                 */
+                function TestHookFinished(properties) {
+                    if (properties)
+                        for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                            if (properties[keys[i]] != null)
+                                this[keys[i]] = properties[keys[i]];
+                }
+
+                /**
+                 * TestHookFinished pickleId.
+                 * @member {string} pickleId
+                 * @memberof io.cucumber.messages.TestHookFinished
+                 * @instance
+                 */
+                TestHookFinished.prototype.pickleId = "";
+
+                /**
+                 * TestHookFinished testResult.
+                 * @member {io.cucumber.messages.ITestResult|null|undefined} testResult
+                 * @memberof io.cucumber.messages.TestHookFinished
+                 * @instance
+                 */
+                TestHookFinished.prototype.testResult = null;
+
+                /**
+                 * TestHookFinished timestamp.
+                 * @member {google.protobuf.ITimestamp|null|undefined} timestamp
+                 * @memberof io.cucumber.messages.TestHookFinished
+                 * @instance
+                 */
+                TestHookFinished.prototype.timestamp = null;
+
+                /**
+                 * Creates a new TestHookFinished instance using the specified properties.
+                 * @function create
+                 * @memberof io.cucumber.messages.TestHookFinished
+                 * @static
+                 * @param {io.cucumber.messages.ITestHookFinished=} [properties] Properties to set
+                 * @returns {io.cucumber.messages.TestHookFinished} TestHookFinished instance
+                 */
+                TestHookFinished.create = function create(properties) {
+                    return new TestHookFinished(properties);
+                };
+
+                /**
+                 * Encodes the specified TestHookFinished message. Does not implicitly {@link io.cucumber.messages.TestHookFinished.verify|verify} messages.
+                 * @function encode
+                 * @memberof io.cucumber.messages.TestHookFinished
+                 * @static
+                 * @param {io.cucumber.messages.ITestHookFinished} message TestHookFinished message or plain object to encode
+                 * @param {$protobuf.Writer} [writer] Writer to encode to
+                 * @returns {$protobuf.Writer} Writer
+                 */
+                TestHookFinished.encode = function encode(message, writer) {
+                    if (!writer)
+                        writer = $Writer.create();
+                    if (message.pickleId != null && message.hasOwnProperty("pickleId"))
+                        writer.uint32(/* id 1, wireType 2 =*/10).string(message.pickleId);
+                    if (message.testResult != null && message.hasOwnProperty("testResult"))
+                        $root.io.cucumber.messages.TestResult.encode(message.testResult, writer.uint32(/* id 2, wireType 2 =*/18).fork()).ldelim();
+                    if (message.timestamp != null && message.hasOwnProperty("timestamp"))
+                        $root.google.protobuf.Timestamp.encode(message.timestamp, writer.uint32(/* id 3, wireType 2 =*/26).fork()).ldelim();
+                    return writer;
+                };
+
+                /**
+                 * Encodes the specified TestHookFinished message, length delimited. Does not implicitly {@link io.cucumber.messages.TestHookFinished.verify|verify} messages.
+                 * @function encodeDelimited
+                 * @memberof io.cucumber.messages.TestHookFinished
+                 * @static
+                 * @param {io.cucumber.messages.ITestHookFinished} message TestHookFinished message or plain object to encode
+                 * @param {$protobuf.Writer} [writer] Writer to encode to
+                 * @returns {$protobuf.Writer} Writer
+                 */
+                TestHookFinished.encodeDelimited = function encodeDelimited(message, writer) {
+                    return this.encode(message, writer).ldelim();
+                };
+
+                /**
+                 * Decodes a TestHookFinished message from the specified reader or buffer.
+                 * @function decode
+                 * @memberof io.cucumber.messages.TestHookFinished
+                 * @static
+                 * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+                 * @param {number} [length] Message length if known beforehand
+                 * @returns {io.cucumber.messages.TestHookFinished} TestHookFinished
+                 * @throws {Error} If the payload is not a reader or valid buffer
+                 * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                 */
+                TestHookFinished.decode = function decode(reader, length) {
+                    if (!(reader instanceof $Reader))
+                        reader = $Reader.create(reader);
+                    var end = length === undefined ? reader.len : reader.pos + length, message = new $root.io.cucumber.messages.TestHookFinished();
+                    while (reader.pos < end) {
+                        var tag = reader.uint32();
+                        switch (tag >>> 3) {
+                        case 1:
+                            message.pickleId = reader.string();
+                            break;
+                        case 2:
+                            message.testResult = $root.io.cucumber.messages.TestResult.decode(reader, reader.uint32());
+                            break;
+                        case 3:
+                            message.timestamp = $root.google.protobuf.Timestamp.decode(reader, reader.uint32());
+                            break;
+                        default:
+                            reader.skipType(tag & 7);
+                            break;
+                        }
+                    }
+                    return message;
+                };
+
+                /**
+                 * Decodes a TestHookFinished message from the specified reader or buffer, length delimited.
+                 * @function decodeDelimited
+                 * @memberof io.cucumber.messages.TestHookFinished
+                 * @static
+                 * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+                 * @returns {io.cucumber.messages.TestHookFinished} TestHookFinished
+                 * @throws {Error} If the payload is not a reader or valid buffer
+                 * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                 */
+                TestHookFinished.decodeDelimited = function decodeDelimited(reader) {
+                    if (!(reader instanceof $Reader))
+                        reader = new $Reader(reader);
+                    return this.decode(reader, reader.uint32());
+                };
+
+                /**
+                 * Verifies a TestHookFinished message.
+                 * @function verify
+                 * @memberof io.cucumber.messages.TestHookFinished
+                 * @static
+                 * @param {Object.<string,*>} message Plain object to verify
+                 * @returns {string|null} `null` if valid, otherwise the reason why it is not
+                 */
+                TestHookFinished.verify = function verify(message) {
+                    if (typeof message !== "object" || message === null)
+                        return "object expected";
+                    if (message.pickleId != null && message.hasOwnProperty("pickleId"))
+                        if (!$util.isString(message.pickleId))
+                            return "pickleId: string expected";
+                    if (message.testResult != null && message.hasOwnProperty("testResult")) {
+                        var error = $root.io.cucumber.messages.TestResult.verify(message.testResult);
+                        if (error)
+                            return "testResult." + error;
+                    }
+                    if (message.timestamp != null && message.hasOwnProperty("timestamp")) {
+                        var error = $root.google.protobuf.Timestamp.verify(message.timestamp);
+                        if (error)
+                            return "timestamp." + error;
+                    }
+                    return null;
+                };
+
+                /**
+                 * Creates a TestHookFinished message from a plain object. Also converts values to their respective internal types.
+                 * @function fromObject
+                 * @memberof io.cucumber.messages.TestHookFinished
+                 * @static
+                 * @param {Object.<string,*>} object Plain object
+                 * @returns {io.cucumber.messages.TestHookFinished} TestHookFinished
+                 */
+                TestHookFinished.fromObject = function fromObject(object) {
+                    if (object instanceof $root.io.cucumber.messages.TestHookFinished)
+                        return object;
+                    var message = new $root.io.cucumber.messages.TestHookFinished();
+                    if (object.pickleId != null)
+                        message.pickleId = String(object.pickleId);
+                    if (object.testResult != null) {
+                        if (typeof object.testResult !== "object")
+                            throw TypeError(".io.cucumber.messages.TestHookFinished.testResult: object expected");
+                        message.testResult = $root.io.cucumber.messages.TestResult.fromObject(object.testResult);
+                    }
+                    if (object.timestamp != null) {
+                        if (typeof object.timestamp !== "object")
+                            throw TypeError(".io.cucumber.messages.TestHookFinished.timestamp: object expected");
+                        message.timestamp = $root.google.protobuf.Timestamp.fromObject(object.timestamp);
+                    }
+                    return message;
+                };
+
+                /**
+                 * Creates a plain object from a TestHookFinished message. Also converts values to other types if specified.
+                 * @function toObject
+                 * @memberof io.cucumber.messages.TestHookFinished
+                 * @static
+                 * @param {io.cucumber.messages.TestHookFinished} message TestHookFinished
+                 * @param {$protobuf.IConversionOptions} [options] Conversion options
+                 * @returns {Object.<string,*>} Plain object
+                 */
+                TestHookFinished.toObject = function toObject(message, options) {
+                    if (!options)
+                        options = {};
+                    var object = {};
+                    if (options.defaults) {
+                        object.pickleId = "";
+                        object.testResult = null;
+                        object.timestamp = null;
+                    }
+                    if (message.pickleId != null && message.hasOwnProperty("pickleId"))
+                        object.pickleId = message.pickleId;
+                    if (message.testResult != null && message.hasOwnProperty("testResult"))
+                        object.testResult = $root.io.cucumber.messages.TestResult.toObject(message.testResult, options);
+                    if (message.timestamp != null && message.hasOwnProperty("timestamp"))
+                        object.timestamp = $root.google.protobuf.Timestamp.toObject(message.timestamp, options);
+                    return object;
+                };
+
+                /**
+                 * Converts this TestHookFinished to JSON.
+                 * @function toJSON
+                 * @memberof io.cucumber.messages.TestHookFinished
+                 * @instance
+                 * @returns {Object.<string,*>} JSON object
+                 */
+                TestHookFinished.prototype.toJSON = function toJSON() {
+                    return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+                };
+
+                return TestHookFinished;
             })();
 
             messages.TestResult = (function() {

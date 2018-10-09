@@ -15,6 +15,8 @@ Google::Protobuf::DescriptorPool.generated_pool.build do
       optional :testStepStarted, :message, 6, "io.cucumber.messages.TestStepStarted"
       optional :testStepFinished, :message, 7, "io.cucumber.messages.TestStepFinished"
       optional :testCaseFinished, :message, 8, "io.cucumber.messages.TestCaseFinished"
+      optional :testHookStarted, :message, 9, "io.cucumber.messages.TestHookStarted"
+      optional :testHookFinished, :message, 10, "io.cucumber.messages.TestHookFinished"
     end
   end
   add_message "io.cucumber.messages.SourceReference" do
@@ -188,6 +190,15 @@ Google::Protobuf::DescriptorPool.generated_pool.build do
     optional :testResult, :message, 3, "io.cucumber.messages.TestResult"
     optional :timestamp, :message, 4, "google.protobuf.Timestamp"
   end
+  add_message "io.cucumber.messages.TestHookStarted" do
+    optional :pickleId, :string, 1
+    optional :timestamp, :message, 2, "google.protobuf.Timestamp"
+  end
+  add_message "io.cucumber.messages.TestHookFinished" do
+    optional :pickleId, :string, 1
+    optional :testResult, :message, 2, "io.cucumber.messages.TestResult"
+    optional :timestamp, :message, 3, "google.protobuf.Timestamp"
+  end
   add_message "io.cucumber.messages.TestResult" do
     optional :status, :enum, 1, "io.cucumber.messages.Status"
     optional :message, :string, 2
@@ -236,6 +247,8 @@ module Cucumber
     TestCaseFinished = Google::Protobuf::DescriptorPool.generated_pool.lookup("io.cucumber.messages.TestCaseFinished").msgclass
     TestStepStarted = Google::Protobuf::DescriptorPool.generated_pool.lookup("io.cucumber.messages.TestStepStarted").msgclass
     TestStepFinished = Google::Protobuf::DescriptorPool.generated_pool.lookup("io.cucumber.messages.TestStepFinished").msgclass
+    TestHookStarted = Google::Protobuf::DescriptorPool.generated_pool.lookup("io.cucumber.messages.TestHookStarted").msgclass
+    TestHookFinished = Google::Protobuf::DescriptorPool.generated_pool.lookup("io.cucumber.messages.TestHookFinished").msgclass
     TestResult = Google::Protobuf::DescriptorPool.generated_pool.lookup("io.cucumber.messages.TestResult").msgclass
     Status = Google::Protobuf::DescriptorPool.generated_pool.lookup("io.cucumber.messages.Status").enummodule
   end

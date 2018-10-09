@@ -4,7 +4,7 @@
 
     <groupId>io.cucumber</groupId>
     <artifactId>gherkin</artifactId>
-    <version>6.0.6</version>
+    <version>6.0.14</version>
     <packaging>jar</packaging>
     <name>Gherkin</name>
     <description>Gherkin parser</description>
@@ -24,8 +24,9 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <minimum.maven.version>3.3</minimum.maven.version>
-        <io.cucumber.messages.version>1.0.0</io.cucumber.messages.version>
+        <io.cucumber.messages.version>1.0.4</io.cucumber.messages.version>
         <outputDirectory>${project.build.directory}</outputDirectory>
+        <project.Automatic-Module-Name>io.cucumber.gherkin</project.Automatic-Module-Name>
     </properties>
 
     <licenses>
@@ -117,6 +118,20 @@
                     <source>1.7</source>
                     <target>1.7</target>
                     <compilerArgument>-Werror</compilerArgument>
+                </configuration>
+            </plugin>
+
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <version>3.1.0</version>
+                <configuration>
+                    <archive>
+                        <manifestEntries>
+                            <Automatic-Module-Name>${project.Automatic-Module-Name}</Automatic-Module-Name>
+                        </manifestEntries>
+                    </archive>
                 </configuration>
             </plugin>
 

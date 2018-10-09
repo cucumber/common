@@ -70,11 +70,21 @@ such as `gherkin/java/pom.xml`.
 
 #### Ruby (Rubygems)
 
-Follow the Travis [RubyGems Deployment](https://docs.travis-ci.com/user/deployment/rubygems/) guide.
+Cd into the module dir and run:
+
+    # Find the AUTH_TOKEN at https://rubygems.org/profile/edit (cukebot login password in 1Password)
+    travis encrypt "${AUTH_TOKEN}" --repo cucumber/gherkin-javascript --add deploy.api_key
+
+For more details, follow the Travis [RubyGems Deployment](https://docs.travis-ci.com/user/deployment/rubygems/) guide.
 
 #### JavaScript (NPM)
 
-Follow the Travis [NPM Releasing](https://docs.travis-ci.com/user/deployment/npm/) guide.
+Cd into the module dir and run:
+
+    # Set AUTH_TOKEN to the value from 1Password
+    travis encrypt "${AUTH_TOKEN}" --repo cucumber/gherkin-javascript --add deploy.api_key
+
+For more details, follow the Travis [NPM Releasing](https://docs.travis-ci.com/user/deployment/npm/) guide.
 
 #### Go (modules)
 

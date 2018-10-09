@@ -21,27 +21,36 @@ module Cucumber
       end
     end
     
-    TestStepFinished = Struct.new(:result)
-    
+    TestStep = Struct.new(:hook?)
+    TestStepFinished = Struct.new(:result, :test_step)
+
     describe Dots do
+      def hook_finished_event(status)
+        TestStepFinished.new(status, TestStep.new(true))
+      end
+
+      def gherkin_step_finished_event(status)
+        TestStepFinished.new(status, TestStep.new(false))
+      end
+
       it 'prints coloured dots' do
         config = StubConfig.new
-        f = Dots.new(config)
-        
+        Dots.new(config)
+
         config.test_run_started({})
-        config.test_step_finished(TestStepFinished.new('failed'))
-        config.test_step_finished(TestStepFinished.new('skipped'))
-        config.test_step_finished(TestStepFinished.new('undefined'))
-        config.test_step_finished(TestStepFinished.new('ambiguous'))
-        config.test_step_finished(TestStepFinished.new('passed'))
-        config.test_step_finished(TestStepFinished.new('pending'))
+        config.test_step_finished(hook_finished_event('failed'))
+        config.test_step_finished(gherkin_step_finished_event('failed'))
+        config.test_step_finished(gherkin_step_finished_event('skipped'))
+        config.test_step_finished(gherkin_step_finished_event('undefined'))
+        config.test_step_finished(gherkin_step_finished_event('ambiguous'))
+        config.test_step_finished(gherkin_step_finished_event('passed'))
+        config.test_step_finished(gherkin_step_finished_event('pending'))
         config.test_run_finished({})
-        
+
         config.out_stream.rewind
         out = config.out_stream.read
-        
-        # F-UA.P in colours
-        expect(out).to eq("\e[31mF\e[0m\e[36m-\e[0m\e[33mU\e[0m\e[35mA\e[0m\e[32m.\e[0m\e[33mP\e[0m\n")
+
+        expect(out).to eq(File.read(File.dirname(__FILE__) + '/expected_output.ansi'))
       end
     end
   end
