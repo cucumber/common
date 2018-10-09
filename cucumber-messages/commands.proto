@@ -77,7 +77,7 @@ message RuntimeConfig {
 }
 
 message SupportCodeConfig {
-	repeated TestCaseHookDefinitionConfig beforeTestCaseHookDefinitionConfigs = 1;
+  repeated TestCaseHookDefinitionConfig beforeTestCaseHookDefinitionConfigs = 1;
   repeated TestCaseHookDefinitionConfig afterTestCaseHookDefinitionConfigs = 2;
   repeated StepDefinitionConfig stepDefinitionConfigs = 3;
   repeated ParameterTypeConfig parameterTypeConfigs = 4;
