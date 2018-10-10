@@ -4,19 +4,54 @@ package io.cucumber.messages;
 option ruby_package = "Cucumber.Messages";
 option go_package = "messages";
 
-// All messages sent between processes must be of type Wrapper
-message Wrapper {
+// All messages sent between gherkin or formatters must be of type EventWrapper
+message EventWrapper {
+  google.protobuf.Timestamp timestamp = 16;
   oneof message {
+    // Gherkin messages
     Source source = 1;
     GherkinDocument gherkinDocument = 2;
     Pickle pickle = 3;
     Attachment attachment = 4;
+    // Execution Messages
     TestCaseStarted testCaseStarted = 5;
     TestStepStarted testStepStarted = 6;
     TestStepFinished testStepFinished = 7;
     TestCaseFinished testCaseFinished = 8;
     TestHookStarted testHookStarted = 9;
     TestHookFinished testHookFinished = 10;
+    PickleAccepted pickleAccepted = 11;
+    PickleRejected pickleRejected = 12;
+    TestCasePrepared testCasePrepared = 13;
+    TestRunStarted testRunStarted = 14;
+    TestRunFinished testRunFinished = 15;
+  }
+}
+
+// All messages sent between cucumber-engine and its calling process must be of type CommandWrapper
+message CommandWrapper {
+  string id = 1;
+  oneof message {
+    // Sent by caller to start the cucumber-engine
+    CommandStart commandStart = 2;
+
+    // Sent by caller to signal an action (from below) as been completed
+    CommandActionComplete commandActionComplete = 3;
+
+    // Sent by cucumber-engine to perform actions
+    CommandRunBeforeTestRunHooks commandRunBeforeTestRunHooks = 4;
+    CommandInitializeTestCase commandInitializeTestCase = 5;
+    CommandRunBeforeTestCaseHook commandRunBeforeTestCaseHook = 6;
+    CommandRunTestStep commandRunTestStep = 7;
+    CommandRunAfterTestCaseHook commandRunAfterTestCaseHook = 8;
+    CommandRunAfterTestRunHooks commandRunAfterTestRunHooks = 9;
+    CommandGenerateSnippet commandGenerateSnippet = 10;
+
+    // Sent by cucumber-engine to be forwarded to formatters
+    EventWrapper commandEvent = 11;
+
+    // Sent by cucumber-engine to signal fatal error
+    string commandError = 12;
   }
 }
 
@@ -205,45 +240,63 @@ message PickleTag {
   string name = 2;
 }
 
+////// Filtering
+
+message PickleAccepted {
+  string pickleId = 1;
+}
+
+message PickleRejected {
+  string pickleId = 2;
+}
+
 ////// Results
+
+message TestRunStarted {}
+
+message TestCasePreparedStep {
+  SourceReference sourceLocation = 1;
+  SourceReference actionLocation = 2;
+}
+
+message TestCasePrepared {
+  string pickleId = 1;
+  repeated TestCasePreparedStep steps = 3;
+}
 
 message TestCaseStarted {
   string pickleId = 1;
-  google.protobuf.Timestamp timestamp = 2;
 }
 
 message TestCaseFinished {
   string pickleId = 1;
-  google.protobuf.Timestamp timestamp = 2;
+  TestResult testResult = 3;
 }
 
 message TestStepStarted {
   string pickleId = 1;
   uint32 index = 2;
-  google.protobuf.Timestamp timestamp = 3;
 }
 
 message TestStepFinished {
   string pickleId = 1;
   uint32 index = 2;
   TestResult testResult = 3;
-  google.protobuf.Timestamp timestamp = 4;
 }
 
 message TestHookStarted {
   string pickleId = 1;
-  google.protobuf.Timestamp timestamp = 2;
 }
 
 message TestHookFinished {
   string pickleId = 1;
   TestResult testResult = 2;
-  google.protobuf.Timestamp timestamp = 3;
 }
 
 message TestResult {
   Status status = 1;
   string message = 2;
+  uint32 duration = 3;
 }
 
 enum Status {
@@ -253,4 +306,150 @@ enum Status {
   PENDING = 3;
   SKIPPED = 4;
   UNDEFINED = 5;
+}
+
+message TestRunFinished {
+  bool success = 1;
+}
+
+////// CommandStart
+
+message CommandStart {
+  string baseDirectory = 2;
+  FeaturesConfig featuresConfig = 3;
+  RuntimeConfig runtimeConfig = 4;
+  SupportCodeConfig supportCodeConfig = 5;
+}
+
+message FeaturesConfig {
+  repeated string absolutePaths = 1;
+  string language = 2;
+  FeaturesFilterConfig filters = 3;
+  FeaturesOrder order = 4;
+}
+
+message FeaturesFilterConfig {
+  string tagExpression = 1;
+  repeated string nameRegularExpressions = 2;
+  repeated UriToLinesMapping uriToLinesMapping = 3;
+}
+
+message UriToLinesMapping {
+  string absolutePath = 1;
+  repeated uint64 lines = 2;
+}
+
+message FeaturesOrder {
+  FeaturesOrderType type = 1;
+  uint64 seed = 2;
+}
+
+enum FeaturesOrderType {
+  ORDER_OF_DEFINITION = 0;
+  RANDOM = 1;
+}
+
+message RuntimeConfig {
+  bool isFailFast = 1;
+  bool isDryRun = 2;
+  bool isStrict = 3;
+  uint64 maxParallel = 4;
+}
+
+message SupportCodeConfig {
+  repeated TestCaseHookDefinitionConfig beforeTestCaseHookDefinitionConfigs = 1;
+  repeated TestCaseHookDefinitionConfig afterTestCaseHookDefinitionConfigs = 2;
+  repeated StepDefinitionConfig stepDefinitionConfigs = 3;
+  repeated ParameterTypeConfig parameterTypeConfigs = 4;
+}
+
+message TestCaseHookDefinitionConfig {
+  string id = 1;
+  string tagExpression = 2;
+  SourceReference location = 3;
+}
+
+message StepDefinitionConfig {
+  string id = 1;
+  StepDefinitionPattern pattern = 2;
+  SourceReference location = 3;
+}
+
+message StepDefinitionPattern {
+  string source = 1;
+  StepDefinitionPatternType type = 2;
+}
+
+enum StepDefinitionPatternType {
+  CUCUMBER_EXPRESSION = 0;
+  REGULAR_EXPRESSION = 1;
+}
+
+message ParameterTypeConfig {
+  string name = 1;
+  repeated string regularExpressions = 2;
+  bool preferForRegularExpressionMatch = 3;
+  bool useForSnippets = 4;
+}
+
+////// CommandActionComplete
+
+message CommandActionComplete {
+  string completedId = 1;
+
+  oneof result {
+    // Used for responses to CommandRunBeforeTestCaseHook / CommandRunTestStep / CommandRunAfterTestCaseHook
+    TestResult testResult = 2;
+    // Used for response to CommandGenerateSnippet
+    string snippet = 3;
+  }
+}
+
+////// Actions
+
+message CommandRunBeforeTestRunHooks {}
+
+message CommandRunAfterTestRunHooks {}
+
+message CommandInitializeTestCase {
+  string testCaseId = 1;
+  Pickle pickle = 2;
+}
+
+message CommandRunBeforeTestCaseHook {
+  string testCaseId = 1;
+  string testCaseHookDefinitionId = 2;
+}
+
+message CommandRunAfterTestCaseHook {
+  string testCaseId = 1;
+  string testCaseHookDefinitionId = 2;
+}
+
+message CommandRunTestStep {
+  string testCaseId = 1;
+  string stepDefinitionId = 2;
+  repeated PatternMatch patternMatches = 3;
+}
+
+message PatternMatch {
+  repeated string captures = 1;
+  string parameterTypeName = 2;
+  oneof pickleArgument {
+    PickleDocString doc_string = 3;
+    PickleTable data_table = 4;
+  }
+}
+
+message CommandGenerateSnippet {
+  repeated GeneratedExpression generatedExpressions = 1;
+  oneof pickleArgument {
+    PickleDocString doc_string = 2;
+    PickleTable data_table = 3;
+  }
+}
+
+message GeneratedExpression {
+  string text = 1;
+  repeated string parameterTypeNames = 2;
 }
