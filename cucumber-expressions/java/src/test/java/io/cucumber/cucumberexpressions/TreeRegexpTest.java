@@ -9,6 +9,7 @@ import java.util.regex.Pattern;
 import static java.util.Arrays.asList;
 import static java.util.Collections.emptyList;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 
 public class TreeRegexpTest {
     @Test
@@ -127,5 +128,23 @@ public class TreeRegexpTest {
         TreeRegexp tr = new TreeRegexp(Pattern.compile("HELLO", Pattern.CASE_INSENSITIVE));
         Group g = tr.match("hello");
         assertEquals("hello", g.getValue());
+    }
+
+    @Test
+    public void uses_loaded_pattern_compiler_service() {
+        String regexp = "[0-9]";
+        TreeRegexp tr = new TreeRegexp(regexp);
+        assertNull(tr.match("1a"));
+
+        PatternCompilerProvider.service = new PatternCompiler() {
+            @Override
+            public Pattern compile(String regexp) {
+                return Pattern.compile(regexp+"[a-z]");
+            }
+        };
+        
+        tr = new TreeRegexp(regexp);
+        assertEquals("1a",tr.match("1a").getValue());
+        PatternCompilerProvider.service = null;
     }
 }
