@@ -9,6 +9,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Added
 
+* (Java) the ability to supply an alternative algorithm for compiling `java.util.regex.Pattern`
+  to work around a limitation on Android (and other platforms).
+  ([#494](https://github.com/cucumber/cucumber/issues/494)
+   [#498](https://github.com/cucumber/cucumber/pull/498)
+   [lsuski])
+
 ### Changed
 
 ### Deprecated
@@ -499,6 +505,7 @@ N/A
 [gpichot]:          https://github.com/gpichot
 [jamis]:            https://github.com/jamis
 [jaysonesmith]:     https://github.com/jaysonesmith
+[lsuski]:           https://github.com/lsuski
 [luke-hill]:        https://github.com/luke-hill
 [mpkorstanje]:      https://github.com/mpkorstanje
 [kAworu]:           https://github.com/kAworu
