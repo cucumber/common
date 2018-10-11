@@ -138,8 +138,8 @@ public class TreeRegexpTest {
 
         PatternCompilerProvider.service = new PatternCompiler() {
             @Override
-            public Pattern compile(String regexp) {
-                return Pattern.compile(regexp+"[a-z]");
+            public Pattern compile(String regexp, int flags) {
+                return Pattern.compile(regexp+"[a-z]",flags);
             }
         };
         

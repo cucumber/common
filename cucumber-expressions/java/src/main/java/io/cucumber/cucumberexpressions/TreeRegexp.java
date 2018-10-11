@@ -17,7 +17,7 @@ class TreeRegexp {
     private final GroupBuilder groupBuilder;
 
     TreeRegexp(String regexp) {
-        this(PatternCompilerProvider.getCompiler().compile(regexp));
+        this(PatternCompilerProvider.getCompiler().compile(regexp, Pattern.UNICODE_CHARACTER_CLASS));
     }
 
     TreeRegexp(Pattern pattern) {

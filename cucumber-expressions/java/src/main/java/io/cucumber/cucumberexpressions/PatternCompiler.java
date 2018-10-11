@@ -11,7 +11,8 @@ public interface PatternCompiler {
 
 	/**
 	 * @param regexp regular expression
+	 * @param flags additional flags (e.g. {@link Pattern#UNICODE_CHARACTER_CLASS})
 	 * @return new {@link Pattern} instance from provided {@code regexp}
 	 */
-	Pattern compile(String regexp);
+	Pattern compile(String regexp, int flags);
 }
