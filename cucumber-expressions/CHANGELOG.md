@@ -17,6 +17,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Fixed
    
+## [6.1.2] - 2018-10-11
+
+Same as 6.1.1 - just fixed a mistake made during the 6.1.1 release.
+   
 ## [6.1.1] - 2018-10-11
 
 ### Fixed
@@ -467,7 +471,8 @@ N/A
 * First stable release!
 
 <!-- Releases -->
-[Unreleased]: https://github.com/cucumber/cucumber/compare/cucumber-expressions-v6.1.1...master
+[Unreleased]: https://github.com/cucumber/cucumber/compare/cucumber-expressions-v6.1.2...master
+[6.1.2]:      https://github.com/cucumber/cucumber/compare/cucumber-expressions-v6.1.01..cucumber-expressions-v6.1.2
 [6.1.1]:      https://github.com/cucumber/cucumber/compare/cucumber-expressions-v6.1.0...cucumber-expressions-v6.1.1
 [6.1.0]:      https://github.com/cucumber/cucumber/compare/cucumber-expressions-v6.0.1...cucumber-expressions-v6.1.0
 [6.0.1]:      https://github.com/cucumber/cucumber/compare/cucumber-expressions-v6.0.0...cucumber-expressions-v6.0.1
