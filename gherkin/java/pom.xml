@@ -2,7 +2,11 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>io.cucumber</groupId>
+    <parent>
+        <groupId>io.cucumber</groupId>
+        <artifactId>cucumber-parent</artifactId>
+        <version>1.0.1</version>
+    </parent>
     <artifactId>gherkin</artifactId>
     <version>6.0.14</version>
     <packaging>jar</packaging>
@@ -10,32 +14,10 @@
     <description>Gherkin parser</description>
     <url>https://github.com/cucumber/gherkin-java</url>
 
-    <developers>
-        <developer>
-            <id>cucumber</id>
-            <name>Cucumber Developers</name>
-            <email>devs@cucumber.io</email>
-            <organization>Cucumber</organization>
-            <organizationUrl>https://github.com/cucumber</organizationUrl>
-        </developer>
-    </developers>
-
     <properties>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        <minimum.maven.version>3.3</minimum.maven.version>
         <io.cucumber.messages.version>1.0.4</io.cucumber.messages.version>
-        <outputDirectory>${project.build.directory}</outputDirectory>
-        <project.Automatic-Module-Name>io.cucumber.gherkin</project.Automatic-Module-Name>
+        <project.Automatic-Module-Name>io.cucumber.cucumberexpressions</project.Automatic-Module-Name>
     </properties>
-
-    <licenses>
-        <license>
-            <name>MIT License</name>
-            <url>http://www.opensource.org/licenses/mit-license</url>
-            <distribution>repo</distribution>
-        </license>
-    </licenses>
 
     <scm>
         <connection>scm:git:git://github.com/cucumber/gherkin-java.git</connection>
@@ -43,28 +25,6 @@
         <url>git://github.com/cucumber/gherkin-java.git</url>
         <tag>HEAD</tag>
     </scm>
-
-    <!--
-     this adds a repository that the plugins will use for dependency resolution
-     Any items that we use in a plugin's <dependency> phase can be resolved from here, as well as central
-    -->
-    <pluginRepositories>
-        <pluginRepository>
-            <id>sonatype.org</id>
-            <url>https://oss.sonatype.org/content/repositories/releases</url>
-        </pluginRepository>
-    </pluginRepositories>
-
-    <distributionManagement>
-        <snapshotRepository>
-            <id>ossrh</id>
-            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
-        </snapshotRepository>
-        <repository>
-            <id>ossrh</id>
-            <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
-        </repository>
-    </distributionManagement>
 
     <dependencies>
         <dependency>
@@ -79,125 +39,4 @@
             <scope>test</scope>
         </dependency>
     </dependencies>
-
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-assembly-plugin</artifactId>
-                <version>3.1.0</version>
-                <configuration>
-                    <appendAssemblyId>false</appendAssemblyId>
-                    <descriptors>
-                        <descriptor>assembly.xml</descriptor>
-                    </descriptors>
-                    <archive>
-                        <manifest>
-                            <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
-                            <addDefaultSpecificationEntries>true</addDefaultSpecificationEntries>
-                        </manifest>
-                    </archive>
-                </configuration>
-                <executions>
-                    <execution>
-                        <id>make-assembly</id>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>single</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.7.0</version>
-                <configuration>
-                    <encoding>UTF-8</encoding>
-                    <source>1.7</source>
-                    <target>1.7</target>
-                    <compilerArgument>-Werror</compilerArgument>
-                </configuration>
-            </plugin>
-
-
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-jar-plugin</artifactId>
-                <version>3.1.0</version>
-                <configuration>
-                    <archive>
-                        <manifestEntries>
-                            <Automatic-Module-Name>${project.Automatic-Module-Name}</Automatic-Module-Name>
-                        </manifestEntries>
-                    </archive>
-                </configuration>
-            </plugin>
-
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-surefire-plugin</artifactId>
-                <version>2.22.0</version>
-                <configuration>
-                    <useFile>false</useFile>
-                </configuration>
-            </plugin>
-
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-release-plugin</artifactId>
-                <version>2.5.3</version>
-                <configuration>
-                    <tagNameFormat>v@{project.version}</tagNameFormat>
-                </configuration>
-            </plugin>
-        </plugins>
-    </build>
-
-    <profiles>
-        <profile>
-            <id>sign-source-javadoc</id>
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-source-plugin</artifactId>
-                        <executions>
-                            <execution>
-                                <id>attach-sources</id>
-                                <goals>
-                                    <goal>jar-no-fork</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                    </plugin>
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-javadoc-plugin</artifactId>
-                        <executions>
-                            <execution>
-                                <id>attach-javadocs</id>
-                                <goals>
-                                    <goal>jar</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                    </plugin>
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-gpg-plugin</artifactId>
-                        <executions>
-                            <execution>
-                                <phase>verify</phase>
-                                <goals>
-                                    <goal>sign</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
-    </profiles>
 </project>
