@@ -2,9 +2,9 @@
 # PYTHON PACKAGE REQUIREMENTS FOR: For testing only
 # ============================================================================
 
-pytest >= 3.0
-pytest-html >= 1.16
+pytest >= 3.2
+pytest-html >= 1.19
 
 # -- DEVELOPMENT SUPPORT: Testing
-tox >= 2.9.1
+tox >= 2.9
 coverage >= 4.2
