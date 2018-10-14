@@ -1,22 +1,20 @@
 sudo: false
 language: java
-
+jdk:
+- oraclejdk8
+- oraclejdk9
+- oraclejdk10
 jobs:
   include:
-  - stage: test
-    jdk: oraclejdk10
-    script:
-    - "make default"
-  - stage: test
-    jdk: oraclejdk9
-    script:
-    - "make default"
   - stage: deploy
     jdk: oraclejdk8
     script:
-    - "make default"
     - "./scripts/travis_deploy.sh"
+script: make default
 env:
   global:
-  - secure: QK031Wu7jxDRP1YOqi2qWrTPLOkqvxo3JNHeswdbANUG7o6PVNT4MLuFM9Foe0Mn7h6qhNEBagH8wvTEXZIexh37PJqRfxvI2wQFK92xTaoZMFEW26DBFqjIsNifQ0MT9xZX6t54wbSNUrjAwRxyHuC3cgNkRBJycnKz9qkl2uE=
-  - secure: FKcrfJen8Ar1Xv9/fxIObX//VPVaiwlDmJJTJ9Tecq4mxlq6Km+Eq0dGhlnqCng7uEJJUOWGbwqGhHcH/TDTrlBiBLJqZ6hwj2/cXqMsk3a4OQZ25xy2eZKmg3+3Le8vRP6eYZo+qfF0QdcXrorcPu4LDZs5aQMiF+yV453Xh1Y=
+  - secure: agxFqlp+zYAqPnNlc43+hYUIuMkruj2yyawD3K+5ObhgXQWHeFbGL2SWrir0sx/ZBEwa8FnSXz80Gox1wEmUKvjzlPiIkyvThmsDvuYbylEWWK7A1qGVk3L/qtRh+dmqsCyebEPzonTChqiObbC5klXBTtM78LiIF5szRi3yt58=
+  - secure: iYMzxCDCH3o34ioWYDRrGi5ISf7JVEY6M6fLRq25a733wmrOSAMVvaEtByTGoHwt1FQu2ipfRkLGILFh+CdS8/X7habXfl+ustzsj982ROz9i0p49Oswi2mncvV72EoUUKLof3ePMtRN80yv/OwTUBZfdQH0/PzNo/hyOrZw0V4=
+before_install:
+- openssl aes-256-cbc -K $encrypted_16c1bf8e2cda_key -iv $encrypted_16c1bf8e2cda_iv
+  -in scripts/codesigning.asc.enc -out scripts/codesigning.asc -d
