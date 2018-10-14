@@ -1,5 +1,6 @@
 <?xml version="1.0"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
@@ -10,11 +11,13 @@
 
     <artifactId>datatable-matchers</artifactId>
     <packaging>jar</packaging>
-    <name>DataTable Matchers</name>
-    <description>Hamcrest matchers for data tables</description>
+    <name>DataTable Hamcrest Matchers</name>
+
+    <properties>
+        <project.Automatic-Module-Name>io.cucumber.datatable.matchers</project.Automatic-Module-Name>
+    </properties>
 
     <dependencies>
-
         <dependency>
             <groupId>io.cucumber</groupId>
             <artifactId>datatable</artifactId>
@@ -42,11 +45,5 @@
             <artifactId>guava</artifactId>
             <scope>test</scope>
         </dependency>
-
-
     </dependencies>
-
-    <properties>
-        <project.Automatic-Module-Name>io.cucumber.datatable.matchers</project.Automatic-Module-Name>
-    </properties>
 </project>
