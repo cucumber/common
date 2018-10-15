@@ -1,7 +1,5 @@
 # Cross Platform Executable (c21e)
 
-숞
-
 This is a library for running cross-platform executables.
 
 Cucumber relies executables that are cross-compiled for various CPUs and

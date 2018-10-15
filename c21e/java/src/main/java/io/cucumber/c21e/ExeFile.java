@@ -1,6 +1,4 @@
-package io.cucumber.gherkin.exe;
-
-import io.cucumber.gherkin.IO;
+package io.cucumber.c21e;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -24,14 +22,16 @@ import java.util.Map;
  * output.
  */
 public class ExeFile {
+    private final File exeDir;
     private final Map<Object, Object> props;
     private final String fileName;
 
-    public ExeFile(String fileNamePattern) {
-        this(fileNamePattern, System.getProperties());
+    public ExeFile(File exeDir, String fileNamePattern) {
+        this(exeDir, fileNamePattern, System.getProperties());
     }
 
-    ExeFile(String executablePattern, Map<Object, Object> props) {
+    ExeFile(File exeDir, String executablePattern, Map<Object, Object> props) {
+        this.exeDir = exeDir;
         this.props = props;
         this.fileName = executablePattern
                 .replace("{{.OS}}", getOs())
@@ -46,7 +46,7 @@ public class ExeFile {
     /**
      * Extracts the executable file. The file is made executable, and will be deleted when the VM exits.
      */
-    File extract() {
+    public File extract() {
         try {
             InputStream is = getInputStream();
 
@@ -66,10 +66,10 @@ public class ExeFile {
     }
 
     private InputStream getInputStream() throws IOException {
-        File file = new File("./gherkin-go/" + fileName);
+        File file = new File(exeDir, fileName);
         if (file.isFile()) return new FileInputStream(file);
 
-        InputStream is = getClass().getResourceAsStream("/gherkin-go/" + fileName);
+        InputStream is = getClass().getResourceAsStream(String.format("/%s/%s", exeDir.getName(), fileName));
         if (is != null) return is;
 
         throw new ExeException(String.format("No gherkin executable for %s. Please submit an issue to https://github.com/cucumber/cucumber/issues", fileName));

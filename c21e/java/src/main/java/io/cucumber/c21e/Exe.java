@@ -1,14 +1,15 @@
-package io.cucumber.gherkin.exe;
+package io.cucumber.c21e;
 
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.List;
 
-import static io.cucumber.gherkin.IO.copy;
+import static io.cucumber.c21e.IO.copy;
 
 public class Exe {
     private final ExeFile exeFile;
@@ -27,10 +28,9 @@ public class Exe {
      * @throws InterruptedException if execution failed
      */
     public InputStream execute(List<String> args, InputStream stdin) throws IOException, InterruptedException {
-        File exe = exeFile.extract();
-
+        File file = exeFile.extract();
         List<String> allArgs = new ArrayList<>();
-        allArgs.add(exe.getAbsolutePath());
+        allArgs.add(file.getAbsolutePath());
         allArgs.addAll(args);
 
         ProcessBuilder processBuilder = new ProcessBuilder().command(allArgs);
@@ -49,8 +49,8 @@ public class Exe {
         if (process.exitValue() != 0) {
             byte[] stderr = Files.readAllBytes(stderrFile.toPath());
             throw new ExeException(String.format("Error executing %s.\nSTDERR:%s",
-                    exe.getAbsolutePath(),
-                    new String(stderr, "UTF-8")));
+                    file.getAbsolutePath(),
+                    new String(stderr, StandardCharsets.UTF_8)));
         }
         return processStdout;
     }
