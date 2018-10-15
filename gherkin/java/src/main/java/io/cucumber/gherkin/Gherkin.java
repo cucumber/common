@@ -1,12 +1,13 @@
 package io.cucumber.gherkin;
 
-import io.cucumber.gherkin.exe.Exe;
-import io.cucumber.gherkin.exe.ExeFile;
+import io.cucumber.c21e.Exe;
+import io.cucumber.c21e.ExeFile;
 import io.cucumber.messages.Messages.Source;
 import io.cucumber.messages.Messages.EventWrapper;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -22,7 +23,7 @@ public class Gherkin {
     private final boolean includeSource;
     private final boolean includeAst;
     private final boolean includePickles;
-    static final Exe EXE = new Exe(new ExeFile("gherkin-go-{{.OS}}-{{.Arch}}{{.Ext}}"));
+    static final Exe EXE = new Exe(new ExeFile(new File("gherkin-go"), "gherkin-go-{{.OS}}-{{.Arch}}{{.Ext}}"));
 
     private Gherkin(List<String> paths, List<Source> sources, boolean includeSource, boolean includeAst, boolean includePickles) {
         this.paths = paths;

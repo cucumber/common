@@ -17,6 +17,7 @@
 
     <properties>
         <io.cucumber.messages.version>2.0.0-SNAPSHOT</io.cucumber.messages.version>
+        <io.cucumber.c21e.version>1.0.0-SNAPSHOT</io.cucumber.c21e.version>
         <project.Automatic-Module-Name>io.cucumber.cucumberexpressions</project.Automatic-Module-Name>
     </properties>
 
@@ -33,6 +34,13 @@
             <artifactId>messages</artifactId>
             <version>${io.cucumber.messages.version}</version>
         </dependency>
+
+        <dependency>
+            <groupId>io.cucumber</groupId>
+            <artifactId>c21e</artifactId>
+            <version>${io.cucumber.c21e.version}</version>
+        </dependency>
+
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
