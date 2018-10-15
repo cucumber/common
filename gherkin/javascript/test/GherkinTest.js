@@ -3,7 +3,7 @@ const assert = require('assert')
 const cm = require('cucumber-messages').io.cucumber.messages
 const { fromPaths, fromSources } = require('../src/index')
 
-describe('gherkin', () => {
+describe('gherkin (JavaScript)', () => {
   it('parses gherkin from the file system', async () => {
     const messages = await streamToArray(
       fromPaths(['testdata/good/minimal.feature'])

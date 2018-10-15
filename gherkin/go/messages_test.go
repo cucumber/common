@@ -2,7 +2,7 @@ package gherkin
 
 import (
 	"bytes"
-	"github.com/cucumber/cucumber-messages-go"
+	"github.com/cucumber/cucumber-messages-go/v2"
 	gio "github.com/gogo/protobuf/io"
 	"testing"
 )
@@ -20,8 +20,8 @@ func TestMessagesWithStdin(t *testing.T) {
     Given b
 `
 
-	wrapper := &messages.Wrapper{
-		Message: &messages.Wrapper_Source{
+	wrapper := &messages.EventWrapper{
+		Message: &messages.EventWrapper_Source{
 			Source: &messages.Source{
 				Uri:  "features/test.feature",
 				Data: gherkin,

@@ -3,7 +3,7 @@ package io.cucumber.gherkin;
 import io.cucumber.gherkin.exe.Exe;
 import io.cucumber.gherkin.exe.ExeFile;
 import io.cucumber.messages.Messages.Source;
-import io.cucumber.messages.Messages.Wrapper;
+import io.cucumber.messages.Messages.EventWrapper;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -32,15 +32,15 @@ public class Gherkin {
         this.includePickles = includePickles;
     }
 
-    public static List<Wrapper> fromPaths(List<String> paths, boolean includeSource, boolean includeAst, boolean includePickles) {
+    public static List<EventWrapper> fromPaths(List<String> paths, boolean includeSource, boolean includeAst, boolean includePickles) {
         return new Gherkin(paths, null, includeSource, includeAst, includePickles).messages();
     }
 
-    public static List<Wrapper> fromSources(List<Source> sources, boolean includeSource, boolean includeAst, boolean includePickles) {
+    public static List<EventWrapper> fromSources(List<Source> sources, boolean includeSource, boolean includeAst, boolean includePickles) {
         return new Gherkin(Collections.<String>emptyList(), sources, includeSource, includeAst, includePickles).messages();
     }
 
-    public List<Wrapper> messages() {
+    public List<EventWrapper> messages() {
         try {
             List<String> args = new ArrayList<>();
             if (!includeSource) args.add("--no-source");
@@ -58,7 +58,7 @@ public class Gherkin {
         if (sources == null) return null;
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         for (Source source : sources) {
-            Wrapper.newBuilder().setSource(source).build().writeDelimitedTo(baos);
+            EventWrapper.newBuilder().setSource(source).build().writeDelimitedTo(baos);
         }
         return new ByteArrayInputStream(baos.toByteArray());
     }

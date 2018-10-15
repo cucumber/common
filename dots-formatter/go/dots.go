@@ -7,7 +7,7 @@ package dots
 
 import (
 	"fmt"
-	"github.com/cucumber/cucumber-messages-go"
+	"github.com/cucumber/cucumber-messages-go/v2"
 	"github.com/fatih/color"
 	gio "github.com/gogo/protobuf/io"
 	"io"
@@ -21,19 +21,19 @@ func ProcessMessages(stdin io.Reader, stdout io.Writer) {
 
 	r := gio.NewDelimitedReader(stdin, 4096)
 	for {
-		wrapper := &messages.Wrapper{}
+		wrapper := &messages.EventWrapper{}
 		err := r.ReadMsg(wrapper)
 		if err == io.EOF {
 			break
 		}
 
 		switch m := wrapper.Message.(type) {
-		case *messages.Wrapper_TestHookFinished:
+		case *messages.EventWrapper_TestHookFinished:
 			switch m.TestHookFinished.TestResult.Status {
 			case messages.Status_FAILED:
 				color.New(color.FgRed).Fprint(stdout, "H")
 			}
-		case *messages.Wrapper_TestStepFinished:
+		case *messages.EventWrapper_TestStepFinished:
 			switch m.TestStepFinished.TestResult.Status {
 			case messages.Status_AMBIGUOUS:
 				color.New(color.FgMagenta).Fprint(stdout, "A")

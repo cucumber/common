@@ -1,4 +1,4 @@
-module github.com/cucumber/cucumber-messages-go
+module github.com/cucumber/cucumber-messages-go/v2
 
 require (
 	github.com/davecgh/go-spew v1.1.1 // indirect

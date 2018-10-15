@@ -3,11 +3,11 @@ import * as assert from 'assert'
 import * as gherkin from "../src";
 import {Readable} from "stream";
 import {io} from "cucumber-messages";
-import Wrapper = io.cucumber.messages.Wrapper;
+import EventWrapper = io.cucumber.messages.EventWrapper;
 import Source = io.cucumber.messages.Source;
 import Media = io.cucumber.messages.Media;
 
-describe('gherkin', () => {
+describe('gherkin (TypeScript)', () => {
   it('parses gherkin from the file system', async () => {
     const wrappers = await streamToArray(
       gherkin.fromPaths(['testdata/good/minimal.feature'])
@@ -34,9 +34,9 @@ describe('gherkin', () => {
   })
 })
 
-async function streamToArray(readableStream: Readable): Promise<Wrapper[]> {
-  return new Promise<Wrapper[]>((resolve: (wrappers:Wrapper[]) => void, reject: (err:Error) => void) => {
-    const items: Wrapper[] = []
+async function streamToArray(readableStream: Readable): Promise<EventWrapper[]> {
+  return new Promise<EventWrapper[]>((resolve: (wrappers:EventWrapper[]) => void, reject: (err:Error) => void) => {
+    const items: EventWrapper[] = []
     readableStream.on('data', items.push.bind(items))
     readableStream.on('error', (err:Error) => reject(err))
     readableStream.on('end', () => resolve(items))

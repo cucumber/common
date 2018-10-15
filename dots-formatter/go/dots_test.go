@@ -6,7 +6,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/cucumber/cucumber-messages-go"
+	"github.com/cucumber/cucumber-messages-go/v2"
 	"github.com/fatih/color"
 	gio "github.com/gogo/protobuf/io"
 	"github.com/stretchr/testify/require"
@@ -47,9 +47,9 @@ func TestAllResultTypes(t *testing.T) {
 		stdout.String())
 }
 
-func newTestStepFinished(status messages.Status) *messages.Wrapper {
-	return &messages.Wrapper{
-		Message: &messages.Wrapper_TestStepFinished{
+func newTestStepFinished(status messages.Status) *messages.EventWrapper {
+	return &messages.EventWrapper{
+		Message: &messages.EventWrapper_TestStepFinished{
 			TestStepFinished: &messages.TestStepFinished{
 				TestResult: &messages.TestResult{
 					Status: status,
@@ -59,9 +59,9 @@ func newTestStepFinished(status messages.Status) *messages.Wrapper {
 	}
 }
 
-func newTestHookFinished(status messages.Status) *messages.Wrapper {
-	return &messages.Wrapper{
-		Message: &messages.Wrapper_TestHookFinished{
+func newTestHookFinished(status messages.Status) *messages.EventWrapper {
+	return &messages.EventWrapper{
+		Message: &messages.EventWrapper_TestHookFinished{
 			TestHookFinished: &messages.TestHookFinished{
 				TestResult: &messages.TestResult{
 					Status: status,

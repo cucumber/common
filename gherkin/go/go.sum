@@ -4,6 +4,8 @@ github.com/cucumber/cucumber-messages-go v1.0.0 h1:IxYaPWALzu3hxyU2GcOVc653eulPp
 github.com/cucumber/cucumber-messages-go v1.0.0/go.mod h1:pyOx/z0q3PlinqQcXb3+FEOfW7SNcG5XxprNyWAKW4Y=
 github.com/cucumber/cucumber-messages-go v1.1.2 h1:pICZYxjehdykadtWB4VYq9wGM47Mm0J+PE2nsWQulYU=
 github.com/cucumber/cucumber-messages-go v1.1.2/go.mod h1:pyOx/z0q3PlinqQcXb3+FEOfW7SNcG5XxprNyWAKW4Y=
+github.com/cucumber/gherkin-go v5.1.0+incompatible h1:RCvyVI6KQLI2IJkijZBeJcE4K3U7DnhQ1RjD7VV+AIk=
+github.com/cucumber/gherkin-go v5.1.0+incompatible/go.mod h1:bYJ65F+CDEAL70FXAu7/ef4ayC/NhRXO8zEW3IB21w0=
 github.com/davecgh/go-spew v1.1.1/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
 github.com/gogo/protobuf v1.1.1 h1:72R+M5VuhED/KujmZVcIquuo8mBgX4oVda//DQb3PXo=
 github.com/gogo/protobuf v1.1.1/go.mod h1:r8qH/GZQm5c6nD/R0oafs1akxWv10x8SbQlK7atdtwQ=

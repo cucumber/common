@@ -39,10 +39,10 @@ module Gherkin
       stdin, stdout, stderr, wait_thr = Open3.popen3(*args)
       stdin.binmode
       @sources.each do |source|
-        wrapper = Cucumber::Messages::Wrapper.new(
+        wrapper = Cucumber::Messages::EventWrapper.new(
           source: source
         )
-        proto = Cucumber::Messages::Wrapper.encode(wrapper)
+        proto = Cucumber::Messages::EventWrapper.encode(wrapper)
         encode_varint(stdin, proto.length)
         stdin.write(proto)
       end

@@ -3,7 +3,7 @@ package gherkin
 import (
 	"bufio"
 	"fmt"
-	"github.com/cucumber/cucumber-messages-go"
+	"github.com/cucumber/cucumber-messages-go/v2"
 	gio "github.com/gogo/protobuf/io"
 	"github.com/gogo/protobuf/jsonpb"
 	"github.com/gogo/protobuf/proto"
@@ -22,11 +22,11 @@ func Messages(
 	includePickles bool,
 	outStream io.Writer,
 	json bool,
-) ([]messages.Wrapper, error) {
-	var result []messages.Wrapper
+) ([]messages.EventWrapper, error) {
+	var result []messages.EventWrapper
 	var err error
 
-	handleMessage := func(result []messages.Wrapper, message *messages.Wrapper) ([]messages.Wrapper, error) {
+	handleMessage := func(result []messages.EventWrapper, message *messages.EventWrapper) ([]messages.EventWrapper, error) {
 		if outStream != nil {
 			if json {
 				ma := jsonpb.Marshaler{}
@@ -55,8 +55,8 @@ func Messages(
 
 	processSource := func(source *messages.Source) error {
 		if includeSource {
-			result, err = handleMessage(result, &messages.Wrapper{
-				Message: &messages.Wrapper_Source{
+			result, err = handleMessage(result, &messages.EventWrapper{
+				Message: &messages.EventWrapper_Source{
 					Source: source,
 				},
 			})
@@ -76,8 +76,8 @@ func Messages(
 
 		if includeGherkinDocument {
 			doc.Uri = source.Uri
-			result, err = handleMessage(result, &messages.Wrapper{
-				Message: &messages.Wrapper_GherkinDocument{
+			result, err = handleMessage(result, &messages.EventWrapper{
+				Message: &messages.EventWrapper_GherkinDocument{
 					GherkinDocument: doc,
 				},
 			})
@@ -85,8 +85,8 @@ func Messages(
 
 		if includePickles {
 			for _, pickle := range Pickles(*doc, source.Uri) {
-				result, err = handleMessage(result, &messages.Wrapper{
-					Message: &messages.Wrapper_Pickle{
+				result, err = handleMessage(result, &messages.EventWrapper{
+					Message: &messages.EventWrapper_Pickle{
 						Pickle: pickle,
 					},
 				})
@@ -98,14 +98,14 @@ func Messages(
 	if len(paths) == 0 {
 		reader := gio.NewDelimitedReader(sourceStream, math.MaxInt32)
 		for {
-			wrapper := &messages.Wrapper{}
+			wrapper := &messages.EventWrapper{}
 			err := reader.ReadMsg(wrapper)
 			if err == io.EOF {
 				break
 			}
 
 			switch t := wrapper.Message.(type) {
-			case *messages.Wrapper_Source:
+			case *messages.EventWrapper_Source:
 				processSource(t.Source)
 			}
 		}
@@ -130,9 +130,9 @@ func Messages(
 	return result, err
 }
 
-func (a *parseError) asAttachment(uri string) *messages.Wrapper {
-	return &messages.Wrapper{
-		Message: &messages.Wrapper_Attachment{
+func (a *parseError) asAttachment(uri string) *messages.EventWrapper {
+	return &messages.EventWrapper{
+		Message: &messages.EventWrapper_Attachment{
 			Attachment: &messages.Attachment{
 				Data: a.Error(),
 				Source: &messages.SourceReference{
