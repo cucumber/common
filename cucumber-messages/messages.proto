@@ -283,6 +283,7 @@ message TestHookFinished {
 message TestResult {
   Status status = 1;
   string message = 2;
+  uint64 durationNanoseconds = 3;
 }
 
 enum Status {
@@ -378,7 +379,7 @@ message ParameterTypeConfig {
   bool useForSnippets = 4;
 }
 
-////// CommandActionComplete
+////// Commands - CommandActionComplete
 
 message CommandActionComplete {
   string completedId = 1;
@@ -391,7 +392,7 @@ message CommandActionComplete {
   }
 }
 
-////// Actions
+////// Commands - Actions
 
 message CommandRunBeforeTestRunHooks {
   string actionId = 1;
