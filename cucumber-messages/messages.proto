@@ -222,8 +222,29 @@ message PickleTag {
   Location location = 1;
   string name = 2;
 }
+////// Filtering
+
+message PickleAccepted {
+  string pickleId = 1;
+}
+
+message PickleRejected {
+  string pickleId = 2;
+}
 
 ////// Results
+
+message TestRunStarted {}
+
+message TestCasePreparedStep {
+  SourceReference sourceLocation = 1;
+  SourceReference actionLocation = 2;
+}
+
+message TestCasePrepared {
+  string pickleId = 1;
+  repeated TestCasePreparedStep steps = 2;
+}
 
 message TestCaseStarted {
   string pickleId = 1;
@@ -276,6 +297,8 @@ enum Status {
 message TestRunFinished {
   bool success = 1;
 }
+
+////// Commands
 
 message CommandStart {
   string baseDirectory = 2;
