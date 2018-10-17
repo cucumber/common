@@ -25,16 +25,16 @@ message Wrapper {
     TestRunStarted testRunStarted = 14;
     TestRunFinished testRunFinished = 15;
     // Cucumber-Engine Messages
-    CommandStart commandStart = 2;
-    CommandActionComplete commandActionComplete = 3;
-    CommandRunBeforeTestRunHooks commandRunBeforeTestRunHooks = 4;
-    CommandInitializeTestCase commandInitializeTestCase = 5;
-    CommandRunBeforeTestCaseHook commandRunBeforeTestCaseHook = 6;
-    CommandRunTestStep commandRunTestStep = 7;
-    CommandRunAfterTestCaseHook commandRunAfterTestCaseHook = 8;
-    CommandRunAfterTestRunHooks commandRunAfterTestRunHooks = 9;
-    CommandGenerateSnippet commandGenerateSnippet = 10;
-    string commandError = 12;
+    CommandStart commandStart = 16;
+    CommandActionComplete commandActionComplete = 17;
+    CommandRunBeforeTestRunHooks commandRunBeforeTestRunHooks = 18;
+    CommandInitializeTestCase commandInitializeTestCase = 19;
+    CommandRunBeforeTestCaseHook commandRunBeforeTestCaseHook = 20;
+    CommandRunTestStep commandRunTestStep = 21;
+    CommandRunAfterTestCaseHook commandRunAfterTestCaseHook = 22;
+    CommandRunAfterTestRunHooks commandRunAfterTestRunHooks = 23;
+    CommandGenerateSnippet commandGenerateSnippet = 24;
+    string commandError = 25;
   }
 }
 
