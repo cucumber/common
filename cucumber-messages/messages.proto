@@ -379,8 +379,6 @@ message ParameterTypeConfig {
   bool useForSnippets = 4;
 }
 
-////// Commands - CommandActionComplete
-
 message CommandActionComplete {
   string completedId = 1;
 
@@ -391,8 +389,6 @@ message CommandActionComplete {
     string snippet = 3;
   }
 }
-
-////// Commands - Actions
 
 message CommandRunBeforeTestRunHooks {
   string actionId = 1;
