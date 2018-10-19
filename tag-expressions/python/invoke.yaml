@@ -16,4 +16,7 @@ run:
     echo: true
     pty:  true
 
-
+clean_all:
+    extra_directories:
+      - .pytest_cache
+      - .hypothesis
