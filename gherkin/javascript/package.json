@@ -52,6 +52,6 @@
   },
   "dependencies": {
     "c21e": "^1.1.5",
-    "cucumber-messages": "cucumber/cucumber-messages-javascript#cucumber-engine-messages"
+    "cucumber-messages": "^2.0.0"
   }
 }
