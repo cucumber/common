@@ -5,15 +5,15 @@ rvm:
 - 2.4.4
 - 2.3.7
 - 2.2.10
-- jruby-9.1.17.0
+- jruby-9.2.0.0
 script: make default
 matrix:
   allow_failures:
-  - rvm: jruby-9.1.17.0
+  - rvm: jruby-9.2.0.0
 jobs:
   include:
   - stage: deploy
-    ruby: 2.5.1
+    ruby: "2.5.3"
 deploy:
   skip_cleanup: true
   provider: rubygems

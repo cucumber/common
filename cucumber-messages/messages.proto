@@ -4,19 +4,40 @@ package io.cucumber.messages;
 option ruby_package = "Cucumber.Messages";
 option go_package = "messages";
 
+// When removing a field, comment it out, rather than deleting the line.
+// When adding a field, increment the number by one.
+
 // All messages sent between processes must be of type Wrapper
 message Wrapper {
   oneof message {
+    // Gherkin messages
     Source source = 1;
     GherkinDocument gherkinDocument = 2;
     Pickle pickle = 3;
     Attachment attachment = 4;
+    // Execution messages
     TestCaseStarted testCaseStarted = 5;
     TestStepStarted testStepStarted = 6;
     TestStepFinished testStepFinished = 7;
     TestCaseFinished testCaseFinished = 8;
     TestHookStarted testHookStarted = 9;
     TestHookFinished testHookFinished = 10;
+    PickleAccepted pickleAccepted = 11;
+    PickleRejected pickleRejected = 12;
+    TestCasePrepared testCasePrepared = 13;
+    TestRunStarted testRunStarted = 14;
+    TestRunFinished testRunFinished = 15;
+    // Cucumber-Engine Messages
+    CommandStart commandStart = 16;
+    CommandActionComplete commandActionComplete = 17;
+    CommandRunBeforeTestRunHooks commandRunBeforeTestRunHooks = 18;
+    CommandInitializeTestCase commandInitializeTestCase = 19;
+    CommandRunBeforeTestCaseHook commandRunBeforeTestCaseHook = 20;
+    CommandRunTestStep commandRunTestStep = 21;
+    CommandRunAfterTestCaseHook commandRunAfterTestCaseHook = 22;
+    CommandRunAfterTestRunHooks commandRunAfterTestRunHooks = 23;
+    CommandGenerateSnippet commandGenerateSnippet = 24;
+    string commandError = 25;
   }
 }
 
@@ -204,8 +225,29 @@ message PickleTag {
   Location location = 1;
   string name = 2;
 }
+////// Filtering
+
+message PickleAccepted {
+  string pickleId = 1;
+}
+
+message PickleRejected {
+  string pickleId = 2;
+}
 
 ////// Results
+
+message TestRunStarted {}
+
+message TestCasePreparedStep {
+  SourceReference sourceLocation = 1;
+  SourceReference actionLocation = 2;
+}
+
+message TestCasePrepared {
+  string pickleId = 1;
+  repeated TestCasePreparedStep steps = 2;
+}
 
 message TestCaseStarted {
   string pickleId = 1;
@@ -245,6 +287,7 @@ message TestHookFinished {
 message TestResult {
   Status status = 1;
   string message = 2;
+  uint64 durationNanoseconds = 3;
 }
 
 enum Status {
@@ -254,4 +297,155 @@ enum Status {
   PENDING = 3;
   SKIPPED = 4;
   UNDEFINED = 5;
+}
+
+message TestRunFinished {
+  bool success = 1;
+}
+
+////// Commands
+
+message CommandStart {
+  string baseDirectory = 2;
+  SourcesConfig sourcesConfig = 3;
+  RuntimeConfig runtimeConfig = 4;
+  SupportCodeConfig supportCodeConfig = 5;
+}
+
+message SourcesConfig {
+  repeated string absolutePaths = 1;
+  string language = 2;
+  SourcesFilterConfig filters = 3;
+  SourcesOrder order = 4;
+}
+
+message SourcesFilterConfig {
+  string tagExpression = 1;
+  repeated string nameRegularExpressions = 2;
+  repeated UriToLinesMapping uriToLinesMapping = 3;
+}
+
+message UriToLinesMapping {
+  string absolutePath = 1;
+  repeated uint64 lines = 2;
+}
+
+message SourcesOrder {
+  SourcesOrderType type = 1;
+  uint64 seed = 2;
+}
+
+enum SourcesOrderType {
+  ORDER_OF_DEFINITION = 0;
+  RANDOM = 1;
+}
+
+message RuntimeConfig {
+  bool isFailFast = 1;
+  bool isDryRun = 2;
+  bool isStrict = 3;
+  uint64 maxParallel = 4;
+}
+
+message SupportCodeConfig {
+  repeated TestCaseHookDefinitionConfig beforeTestCaseHookDefinitionConfigs = 1;
+  repeated TestCaseHookDefinitionConfig afterTestCaseHookDefinitionConfigs = 2;
+  repeated StepDefinitionConfig stepDefinitionConfigs = 3;
+  repeated ParameterTypeConfig parameterTypeConfigs = 4;
+}
+
+message TestCaseHookDefinitionConfig {
+  string id = 1;
+  string tagExpression = 2;
+  SourceReference location = 3;
+}
+
+message StepDefinitionConfig {
+  string id = 1;
+  StepDefinitionPattern pattern = 2;
+  SourceReference location = 3;
+}
+
+message StepDefinitionPattern {
+  string source = 1;
+  StepDefinitionPatternType type = 2;
+}
+
+enum StepDefinitionPatternType {
+  CUCUMBER_EXPRESSION = 0;
+  REGULAR_EXPRESSION = 1;
+}
+
+message ParameterTypeConfig {
+  string name = 1;
+  repeated string regularExpressions = 2;
+  bool preferForRegularExpressionMatch = 3;
+  bool useForSnippets = 4;
+}
+
+message CommandActionComplete {
+  string completedId = 1;
+
+  oneof result {
+    // Used for responses to CommandRunBeforeTestCaseHook / CommandRunTestStep / CommandRunAfterTestCaseHook
+    TestResult testResult = 2;
+    // Used for response to CommandGenerateSnippet
+    string snippet = 3;
+  }
+}
+
+message CommandRunBeforeTestRunHooks {
+  string actionId = 1;
+}
+
+message CommandRunAfterTestRunHooks {
+  string actionId = 1;
+}
+
+message CommandInitializeTestCase {
+  string actionId = 1;
+  string testCaseId = 2;
+  Pickle pickle = 3;
+}
+
+message CommandRunBeforeTestCaseHook {
+  string actionId = 1;
+  string testCaseId = 2;
+  string testCaseHookDefinitionId = 3;
+}
+
+message CommandRunAfterTestCaseHook {
+  string actionId = 1;
+  string testCaseId = 2;
+  string testCaseHookDefinitionId = 3;
+}
+
+message CommandRunTestStep {
+  string actionId = 1;
+  string testCaseId = 2;
+  string stepDefinitionId = 3;
+  repeated PatternMatch patternMatches = 4;
+}
+
+message PatternMatch {
+  repeated string captures = 1;
+  string parameterTypeName = 2;
+  oneof pickleArgument {
+    PickleDocString doc_string = 3;
+    PickleTable data_table = 4;
+  }
+}
+
+message CommandGenerateSnippet {
+  string actionId = 1;
+  repeated GeneratedExpression generatedExpressions = 2;
+  oneof pickleArgument {
+    PickleDocString doc_string = 3;
+    PickleTable data_table = 4;
+  }
+}
+
+message GeneratedExpression {
+  string text = 1;
+  repeated string parameterTypeNames = 2;
 }

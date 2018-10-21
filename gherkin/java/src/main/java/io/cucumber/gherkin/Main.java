@@ -54,8 +54,8 @@ public class Main {
             System.exit(0);
         }
 
-        List<Wrapper> messages = paths.isEmpty() ? 
-                new ProtobufGherkinMessages(System.in).messages() : 
+        List<Wrapper> messages = paths.isEmpty() ?
+                new ProtobufGherkinMessages(System.in).messages() :
                 Gherkin.fromPaths(paths, includeSource, includeAst, includePickles);
         printMessages(jsonPrinter, messages);
     }

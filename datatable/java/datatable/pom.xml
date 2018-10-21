@@ -11,7 +11,10 @@
     <artifactId>datatable</artifactId>
     <packaging>jar</packaging>
     <name>DataTable</name>
-    <description>Simple data tables for Java</description>
+
+    <properties>
+        <project.Automatic-Module-Name>io.cucumber.datatable</project.Automatic-Module-Name>
+    </properties>
 
     <dependencies>
         <dependency>
@@ -48,10 +51,5 @@
             <artifactId>gherkin</artifactId>
             <scope>test</scope>
         </dependency>
-
     </dependencies>
-
-    <properties>
-        <project.Automatic-Module-Name>io.cucumber.datatable</project.Automatic-Module-Name>
-    </properties>
 </project>

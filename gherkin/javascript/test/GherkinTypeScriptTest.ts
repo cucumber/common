@@ -7,7 +7,7 @@ import Wrapper = io.cucumber.messages.Wrapper;
 import Source = io.cucumber.messages.Source;
 import Media = io.cucumber.messages.Media;
 
-describe('gherkin', () => {
+describe('gherkin (TypeScript)', () => {
   it('parses gherkin from the file system', async () => {
     const wrappers = await streamToArray(
       gherkin.fromPaths(['testdata/good/minimal.feature'])

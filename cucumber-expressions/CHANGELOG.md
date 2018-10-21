@@ -17,6 +17,20 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Fixed
    
+## [6.1.2] - 2018-10-11
+
+Same as 6.1.1 - just fixed a mistake made during the 6.1.1 release.
+   
+## [6.1.1] - 2018-10-11
+
+### Fixed
+
+* (Java) Add the ability to supply an alternative algorithm for compiling `java.util.regex.Pattern`
+  to work around a limitation on Android (and other platforms).
+  ([#494](https://github.com/cucumber/cucumber/issues/494)
+   [#498](https://github.com/cucumber/cucumber/pull/498)
+   [lsuski])  
+
 ## [6.1.0] - 2018-09-23
 
 ### Added
@@ -457,7 +471,9 @@ N/A
 * First stable release!
 
 <!-- Releases -->
-[Unreleased]: https://github.com/cucumber/cucumber/compare/cucumber-expressions-v6.1.0...master
+[Unreleased]: https://github.com/cucumber/cucumber/compare/cucumber-expressions-v6.1.2...master
+[6.1.2]:      https://github.com/cucumber/cucumber/compare/cucumber-expressions-v6.1.01..cucumber-expressions-v6.1.2
+[6.1.1]:      https://github.com/cucumber/cucumber/compare/cucumber-expressions-v6.1.0...cucumber-expressions-v6.1.1
 [6.1.0]:      https://github.com/cucumber/cucumber/compare/cucumber-expressions-v6.0.1...cucumber-expressions-v6.1.0
 [6.0.1]:      https://github.com/cucumber/cucumber/compare/cucumber-expressions-v6.0.0...cucumber-expressions-v6.0.1
 [6.0.0]:      https://github.com/cucumber/cucumber/compare/cucumber-expressions-v5.0.18...cucumber-expressions-v6.0.0
@@ -499,6 +515,7 @@ N/A
 [gpichot]:          https://github.com/gpichot
 [jamis]:            https://github.com/jamis
 [jaysonesmith]:     https://github.com/jaysonesmith
+[lsuski]:           https://github.com/lsuski
 [luke-hill]:        https://github.com/luke-hill
 [mpkorstanje]:      https://github.com/mpkorstanje
 [kAworu]:           https://github.com/kAworu

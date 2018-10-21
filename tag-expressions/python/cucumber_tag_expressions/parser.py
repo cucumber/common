@@ -10,7 +10,7 @@ Provides parsing of boolean tag expressions.
     assert "( a and ( b or not (c) ) )" == str(expression)
 
 UNSUPPORTED:
-* Support special tags w/ escaped-parens: @reqid\(10\)
+* Support special tags w/ escaped-parens: ``@reqid\(10\)``
 """
 
 from __future__ import absolute_import
@@ -108,7 +108,7 @@ class TagExpressionError(Exception):
 # -----------------------------------------------------------------------------
 class TagExpressionParser(object):
     """Parser class to parse boolean tag-expressions.
-    This class uses the `Shunting Yard algorithm`_ to parse the tag-expression. 
+    This class uses the `Shunting Yard algorithm`_ to parse the tag-expression.
 
     Boolean operations:
 
@@ -130,7 +130,7 @@ class TagExpressionParser(object):
         expression = TagExpressionParser.parse(text11)
         assert False == expression.evaluate(["foo"])
         assert True  == expression.evaluate(["other"])
-        
+
         # -- BINARY OPERATIONS:
         text21 = "foo and bar" = "(foo and bar)"
         expression = TagExpressionParser.parse(text21)
@@ -143,9 +143,9 @@ class TagExpressionParser(object):
         assert True  == expression.evaluate(["foo", "bar"])
         assert True  == expression.evaluate(["foo", "other"])
         assert False == expression.evaluate([])
-        
+
     .. see::
-    
+
         * `Shunting Yard algorithm`_
         * http://rosettacode.org/wiki/Parsing/Shunting-yard_algorithm
 
@@ -163,6 +163,12 @@ class TagExpressionParser(object):
         :return: Token object or None, if not found.
         """
         return cls.TOKEN_MAP.get(text, None)
+
+    @classmethod
+    def make_operand(cls, text):
+        """Creates operand-object from parsed text."""
+        # -- EXTENSION-POINT: For #406 or similar.
+        return Literal(text)
 
     @classmethod
     def parse(cls, text):
@@ -195,8 +201,9 @@ class TagExpressionParser(object):
         for index, part in enumerate(parts):
             token = cls.select_token(part)
             if token is None:
+                # -- CASE OPERAND: Literal or ...
                 ensure_expected_token_type(TokenType.OPERAND)
-                expressions.append(Literal(part))
+                expressions.append(cls.make_operand(part))
                 expected_token_type = TokenType.OPERATOR
             elif token.is_unary:
                 ensure_expected_token_type(TokenType.OPERAND)

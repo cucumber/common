@@ -2,17 +2,12 @@ SHELL := /usr/bin/env bash
 ALPINE := $(shell which apk 2> /dev/null)
 GOPATH := $(shell go env GOPATH)
 PATH := $(PATH):$(GOPATH)/bin
-GO_SOURCE_FILES = $(shell find . -name "*.go")
-
-SUBREPO := $(shell cat .subrepo)
+GO_SOURCE_FILES := $(shell find . -name "*.go" | sort)
+SRC_DIR := $(shell find . -name "*.go" | sort | head -1 | xargs dirname)
 LIBNAME := $(shell cat .subrepo | cut -d'/' -f2)
 GOX_LDFLAGS := "-X main.version=${TRAVIS_TAG}"
 EXES := $(shell find dist -name '$(LIBNAME)-*')
 UPX_EXES = $(patsubst dist/$(LIBNAME)-%,dist_compressed/$(LIBNAME)-%,$(EXES))
-IN_GOPATH := $(shell [[ "$$(pwd)" == ${GOPATH}/* ]] && echo 1 || echo 0)
-ifeq ($(IN_GOPATH), 0)
-.deps: .linked
-endif
 
 default: .gofmt .tested
 .PHONY: default
@@ -45,17 +40,6 @@ dist_compressed/$(LIBNAME)-%: dist/$(LIBNAME)-%
 	# Test the integrity
 	if [ -f "$@" ]; then upx -t $@ || rm $@; fi
 
-# Symlink this dir to GOPATH
-.linked:
-	mkdir -p $$(dirname ${GOPATH}/src/github.com/${SUBREPO})
-	rm -rf ${GOPATH}/src/github.com/${SUBREPO}
-	ln -fs ${CURDIR} ${GOPATH}/src/github.com/${SUBREPO}
-	touch $@
-
-# Remove symlink
-unlink:
-	rm -rf .linked ${GOPATH}/src/github.com/${SUBREPO}
-
 .gofmt: $(GO_SOURCE_FILES)
 	gofmt -w $^
 	touch $@
@@ -64,12 +48,12 @@ unlink:
 #   (for running only a specific test or using verbose mode)
 #   Example: ARGS='-v -run TestCucumberExpression' make test
 .tested: .deps $(GO_SOURCE_FILES)
-	go test ${ARGS}
+	cd ${SRC_DIR} && go test ${ARGS}
 	touch $@
 
 clean: clean-go
 .PHONY: clean
 
 clean-go:
-	rm -rf .deps .linked .tested dist/* dist_compressed
+	rm -rf .deps .tested dist/* dist_compressed
 .PHONY: clean-go

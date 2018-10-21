@@ -100,9 +100,6 @@ function git_tag() {
 
 function push_subrepos()
 {
-  echo "TRAVIS_BRANCH=${TRAVIS_BRANCH}"
-  echo "TRAVIS_TAG=${TRAVIS_TAG}"
-  
   if [ "${TRAVIS_PULL_REQUEST}" = "false" ] || [ -z "${TRAVIS_PULL_REQUEST}" ]; then
     subrepos $1 | while read subrepo; do
       push_subrepo_branch_maybe "${subrepo}"
@@ -144,32 +141,6 @@ function push_subrepo_tag_maybe()
   fi
 }
 
-function build_subrepos()
-{
-  subrepos $1 | while read subrepo; do
-    pushd "${subrepo}"
-    make
-    popd
-  done
-}
-
-# Releases all implementations of a group.
-#
-# Before running this function you should make sure you are authenticated
-# with all the various package managers:
-#
-#   ./scripts/check-release-karma
-function release_subrepos()
-{
-  group_path=$1
-  version=$2
-  next_version=$3
-
-  subrepos "${group_path}" | while read subrepo; do
-    release_subrepo "${subrepo}" "${version}" "${next_version}"
-  done
-}
-
 function release_module()
 {
   module=$1
@@ -184,46 +155,57 @@ function release_module()
   git push && git push --tags
 }
 
- function release_subrepo()
- {
-   subrepo=$1
-   version=$2
-   next_version=$3
+function setup_travis_maven_deploy()
+{
+  subrepo=$1
+  repo=$(subrepo_owner_name "${subrepo}")
+  if [ -z "${CI_SONATYPE_PASSWORD}" ]; then
+    echo "Please define CI_SONATYPE_PASSWORD. It's in 1Password (cukebot)."
+    exit 1
+  fi
+  if [ -z "${CI_GPG_PASSPHRASE}" ]; then
+    echo "Please define CI_GPG_PASSPHRASE. It's in 1Password."
+    exit 1
+  fi
 
-   clone_for_release "${subrepo}"
-   release_subrepo_clone "$(release_dir "${subrepo}")" "${version}" "${next_version}"
- }
+  pushd "${subrepo}"
+  travis encrypt "CI_SONATYPE_PASSWORD=${CI_SONATYPE_PASSWORD}" --add --repo "${repo}"
+  travis encrypt "CI_GPG_PASSPHRASE=${CI_GPG_PASSPHRASE}" --add --repo "${repo}"
+  popd
+  setup_gpg "${subrepo}"
+}
 
 # Sets up GPG in a module dir
 function setup_gpg()
 {
   subrepo=$1
-  repo=$(subrepo_owner_name "${subrepo}")
+  if [ -z "$2" ]; then
+    repo=$(subrepo_owner_name "${subrepo}")
+  else
+    repo=$2
+  fi
 
   pushd "${subrepo}"
 
-  gpg --export-secret-key E60E1F911B996560FFB135DAF4CABFB5B89B8BE6 > scripts/codesigning.asc
+  if [ -z "${CI_GPG_PASSPHRASE}" ]; then
+    echo "Please define CI_GPG_PASSPHRASE. It's in 1Password."
+    exit 1
+  fi
+
+  echo "${CI_GPG_PASSPHRASE}" | gpg2 --batch --passphrase-fd 0 --pinentry-mode loopback \
+    --export-secret-key E60E1F911B996560FFB135DAF4CABFB5B89B8BE6 > scripts/codesigning.asc
 
   # Encrypt the signing key to scripts/codesigning.asc.enc. Store the encrypted
   # decryption keys in `.travis.yml` and copy the openssl command to decrypt it.
   rm -f scripts/codesigning.asc.enc
-  openssl_line=$(travis encrypt-file \
+  travis encrypt-file \
     scripts/codesigning.asc \
     scripts/codesigning.asc.enc \
-    --repo "${repo}" | grep openssl)
-  
-  cat << EOF > scripts/decrypt_signing_key.sh
-#!/usr/bin/env bash
-set -euf -o pipefail
-${openssl_line}
-EOF
+    --add \
+    --repo "${repo}"
   
   # Remove the unencrypted key. We don't want that to accidentally end up in git!
   rm scripts/codesigning.asc
-  
-  chmod +x scripts/decrypt_signing_key.sh 
-  git add scripts/codesigning.asc.enc scripts/decrypt_signing_key.sh
-  git commit -m "Add encrypted signing keys for ${subrepo}"
   
   popd
 }
@@ -238,34 +220,6 @@ function setup_travis_token() {
   popd
 }
 
-
-# Clones a subrepo into a temporary directory, which is where the release will be
-# made from.
-function clone_for_release()
-{
-  subrepo=$1
-  remote=$(subrepo_remote "${subrepo}")
-  rdir=$(release_dir "${subrepo}")
-
-  rm -rf "${rdir}"
-
-  echo_green "***** Cloning ${remote} (${subrepo}) *****"
-  git clone "${remote}" "${rdir}"
-}
-
-# Publishes a released package for a subrepo (from a clone of the subrepo)
-function release_subrepo_clone()
-{
-  dir=$1
-  version=$2
-  next_version=$3
-
-  ptype=$(project_type "${dir}")
-  if [ -n "${ptype}" ]; then
-    eval ${ptype}_release "${dir}" "${version}" "${next_version}"
-  fi
-}
-
 function version_subrepo()
 {
   dir=$1
@@ -277,35 +231,6 @@ function version_subrepo()
   fi
 }
 
-
-function release_dir()
-{
-  echo "$1/.release"
-}
-
-function release_karma_all()
-{
-  group_path=$1
-
-  subrepos "${group_path}" | while read subrepo; do
-    release_karma "$subrepo"
-  done
-}
-
-# Check whether the current user (probably) has the karma to release a subrepo.
-# This is not a real check, just high level checks you're logged into the package
-# repo, and other heuristics.
-function release_karma()
-{
-  dir=$1
-
-  ptype=$(project_type "${dir}")
-  if [ -n "${ptype}" ]; then
-    eval ${ptype}_release_karma
-  fi
-}
-
-# TODO: Replace with a simple `basename`
 function project_type()
 {
   dir=$1
@@ -333,54 +258,7 @@ function project_type()
   fi
 }
 
-function find_path()
-{
-  subrepo=$1
-  glob=$2
-  find "${subrepo}" -name "${glob}" | head -1
-}
-
 ################ MAVEN ################
-
-function maven_release_karma()
-{
-  echo_green "Checking maven release karma..."
-  ls ~/.m2/settings.xml && echo_green "maven ok" || echo_red "\nFollow these instructions: https://maven.apache.org/guides/mini/guide-encryption.html"
-
-  echo_green "Checking gpg..."
-  ls ~/.gnupg/secring.gpg && echo_green "gpg ok" || echo_red "\nFollow these instructions: http://blog.sonatype.com/2010/01/how-to-generate-pgp-signatures-with-maven/"
-
-  echo_green "Checking xmlstarlet..."
-  which xmlstarlet || echo_red "\nYou need to brew install xmlstarlet (or similar if you're not on OS X)"
-
-  echo_red "Try this manually: gpg --use-agent --local-user devs@cucumber.io -ab README.md"
-  echo_red "The first time you should be asked for a passphrase, the next time not."
-}
-
-function maven_release()
-{
-  dir=$1
-  version=$2
-  next_version=$3
-
-  pushd "${dir}"
-
-  xmlstarlet ed --inplace --ps -N pom="http://maven.apache.org/POM/4.0.0" \
-    --update "/pom:project/pom:version" \
-    --value "${version}-SNAPSHOT" \
-    "pom.xml"
-  git add .
-  git commit -m "Update to ${version}-SNAPSHOT"
-
-  # LIBRARY_VERSION specifies what executable version to download - if any
-  LIBRARY_VERSION=${version} make
-
-  mvn --batch-mode release:clean release:prepare -Darguments="-DskipTests=true"  
-  mvn --batch-mode release:perform -Psign-source-javadoc -DskipTests=true
-  
-  cp pom.xml ../pom.xml
-  popd
-}
 
 function maven_version()
 {
@@ -396,60 +274,12 @@ function maven_version()
   popd
 }
 
-################ NPM ################
-
-function npm_release_karma()
-{
-  echo_green "Checking npm release karma..."
-  npm whoami && echo_green "npm ok" || echo_red "\nYou need to: npm login"
-}
-
-function npm_release() {
-  dir=$1
-  version=$2
-  next_version=$3
-
-  pushd "${dir}"
-  npm install
-  npm version "${version}" --allow-same-version
-  npm publish
-  git push
-  git push --tags
-
-  cp package.json ../package.json
-  popd
-}
-
 function npm_version() {
   dir=$1
   version=$2
 
   pushd "${dir}"
   npm --no-git-tag-version version "${version}"
-  popd
-}
-
-################ RUBYGEM ################
-
-function rubygem_release_karma()
-{
-  echo_green "Checking rubygems release karma..."
-  ls ~/.gem/credentials && echo_green "rubygems ok" || echo_red "\nYou need to: gem push"
-}
-
-function rubygem_release() {
-  dir=$1
-  version=$2
-  next_version=$3
-
-  pushd "${dir}"
-  sed -i "" "s/\(s\.version *= *'\)[0-9]*\.[0-9]*\.[0-9]*\('\)/\1${version}\2/" "$(find_path "." "*.gemspec")"
-  git add .
-  git commit -m "Release ${version}"
-  bundle exec rake build release
-  git show > .release.patch
-  cd ..
-  patch -p1 < .release/.release.patch
   popd
 }
 
@@ -462,13 +292,7 @@ function rubygem_version() {
   popd
 }
 
-################ PYTHON ################
-
-function python_release_karma()
-{
-  echo_green "Checking PyPi release karma..."
-  ls ~/.pypirc && echo_green "PyPi ok" || echo_red "\nYou need to create a ~/.pypirc file. See http://peterdowns.com/posts/first-time-with-pypi.html"
-}
+# FUNCTIONS BELOW ARE OBSOLETE AND SHOULD BE REPLACXED WITH TRAVIS RELEASING
 
 function python_release() {
   dir=$1
