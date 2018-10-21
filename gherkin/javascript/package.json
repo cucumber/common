@@ -11,8 +11,8 @@
     "test": "mocha test/**/*.{ts,js}",
     "eslint-fix": "eslint --fix src test",
     "coverage": "nyc --reporter=html --reporter=text mocha test/**/*.{ts,js}",
-    "build": "babel src --out-dir dist/src",
-    "build-test": "babel test --out-dir dist/test",
+    "build": "npx babel src --out-dir dist/src",
+    "build-test": "npx babel test --out-dir dist/test",
     "prepare": "npm run build",
     "postinstall": "node scripts/postinstall.js",
     "mocha-built": "mocha dist/test"
