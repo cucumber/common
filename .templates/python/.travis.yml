@@ -6,6 +6,7 @@
 sudo: false
 language: python
 python:
+  - "3.7-dev"
   - "3.6"
   - "2.7"
   - "3.5"

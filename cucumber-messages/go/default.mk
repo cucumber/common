@@ -12,7 +12,7 @@ UPX_EXES = $(patsubst dist/$(LIBNAME)-%,dist_compressed/$(LIBNAME)-%,$(EXES))
 default: .gofmt .tested
 .PHONY: default
 
-ifneq (,$(wildcard ./cli))
+ifneq (,$(wildcard ./main.go))
 ifndef ALPINE
 # Cross-compile executables if there is a CLI. Disabled on Alpine Linux builds
 # (monorepo build in Docker) where cross compilation fails for certain platforms.
@@ -26,7 +26,7 @@ endif
 
 dist/$(LIBNAME)-%: $(GO_SOURCE_FILES)
 	mkdir -p dist
-	gox -ldflags $(GOX_LDFLAGS) -output "dist/$(LIBNAME)-{{.OS}}-{{.Arch}}" -rebuild ./cli
+	gox -ldflags $(GOX_LDFLAGS) -output "dist/$(LIBNAME)-{{.OS}}-{{.Arch}}" -rebuild main.go
 
 .dist-compressed: $(UPX_EXES)
 	touch $@
