@@ -9,6 +9,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Added
 
+* Add testResult to the TestCaseFinished message
+  ([#488](https://github.com/cucumber/cucumber/pull/488)
+   [brasmusson])
+
 ### Changed
 
 ### Deprecated
@@ -22,7 +26,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Added
 
 * Several messages to support [cucumber-engine]()
-  ([]()
+  ([#502](https://github.com/cucumber/cucumber/pull/502)
    [charlierudolph])
 
 ## [1.1.2] - 2018-10-01
@@ -46,4 +50,5 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 <!-- Contributors in alphabetical order -->
 [aslakhellesoy]:    https://github.com/aslakhellesoy
+[brasmusson]:       https://github.com/brasmusson
 [charlierudolph]:   https://github.com/charlierudolph
