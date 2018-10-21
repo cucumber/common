@@ -7,15 +7,15 @@ option go_package = "messages";
 // When removing a field, comment it out, rather than deleting the line.
 // When adding a field, increment the number by one.
 
-// All messages sent between gherkin or formatters must be of type EventWrapper
-message EventWrapper {
+// All messages sent between processes must be of type Wrapper
+message Wrapper {
   oneof message {
     // Gherkin messages
     Source source = 1;
     GherkinDocument gherkinDocument = 2;
     Pickle pickle = 3;
     Attachment attachment = 4;
-    // Execution Messages
+    // Execution messages
     TestCaseStarted testCaseStarted = 5;
     TestStepStarted testStepStarted = 6;
     TestStepFinished testStepFinished = 7;
@@ -27,34 +27,17 @@ message EventWrapper {
     TestCasePrepared testCasePrepared = 13;
     TestRunStarted testRunStarted = 14;
     TestRunFinished testRunFinished = 15;
-  }
-  google.protobuf.Timestamp timestamp = 16;
-}
-
-// All messages sent between cucumber-engine and its calling process must be of type CommandWrapper
-message CommandWrapper {
-  string id = 1;
-  oneof message {
-    // Sent by caller to start the cucumber-engine
-    CommandStart commandStart = 2;
-
-    // Sent by caller to signal an action (from below) as been completed
-    CommandActionComplete commandActionComplete = 3;
-
-    // Sent by cucumber-engine to perform actions
-    CommandRunBeforeTestRunHooks commandRunBeforeTestRunHooks = 4;
-    CommandInitializeTestCase commandInitializeTestCase = 5;
-    CommandRunBeforeTestCaseHook commandRunBeforeTestCaseHook = 6;
-    CommandRunTestStep commandRunTestStep = 7;
-    CommandRunAfterTestCaseHook commandRunAfterTestCaseHook = 8;
-    CommandRunAfterTestRunHooks commandRunAfterTestRunHooks = 9;
-    CommandGenerateSnippet commandGenerateSnippet = 10;
-
-    // Sent by cucumber-engine to be forwarded to formatters
-    EventWrapper commandEvent = 11;
-
-    // Sent by cucumber-engine to signal fatal error
-    string commandError = 12;
+    // Cucumber-Engine Messages
+    CommandStart commandStart = 16;
+    CommandActionComplete commandActionComplete = 17;
+    CommandRunBeforeTestRunHooks commandRunBeforeTestRunHooks = 18;
+    CommandInitializeTestCase commandInitializeTestCase = 19;
+    CommandRunBeforeTestCaseHook commandRunBeforeTestCaseHook = 20;
+    CommandRunTestStep commandRunTestStep = 21;
+    CommandRunAfterTestCaseHook commandRunAfterTestCaseHook = 22;
+    CommandRunAfterTestRunHooks commandRunAfterTestRunHooks = 23;
+    CommandGenerateSnippet commandGenerateSnippet = 24;
+    string commandError = 25;
   }
 }
 
@@ -178,8 +161,8 @@ message Step {
   string keyword = 2;
   string text = 3;
   oneof argument {
-    DocString doc_string = 4;
-    DataTable data_table = 5;
+    DocString doc_string = 5;
+    DataTable data_table = 6;
   }
 }
 
@@ -242,7 +225,6 @@ message PickleTag {
   Location location = 1;
   string name = 2;
 }
-
 ////// Filtering
 
 message PickleAccepted {
@@ -269,42 +251,42 @@ message TestCasePrepared {
 
 message TestCaseStarted {
   string pickleId = 1;
-  // google.protobuf.Timestamp timestamp = 2;
+  google.protobuf.Timestamp timestamp = 2;
 }
 
 message TestCaseFinished {
   string pickleId = 1;
-  // google.protobuf.Timestamp timestamp = 2;
-  TestResult testResult = 3;
+  google.protobuf.Timestamp timestamp = 2;
 }
 
 message TestStepStarted {
   string pickleId = 1;
   uint32 index = 2;
+  google.protobuf.Timestamp timestamp = 3;
 }
 
 message TestStepFinished {
   string pickleId = 1;
   uint32 index = 2;
   TestResult testResult = 3;
-  // google.protobuf.Timestamp timestamp = 4;
+  google.protobuf.Timestamp timestamp = 4;
 }
 
 message TestHookStarted {
   string pickleId = 1;
-  // google.protobuf.Timestamp timestamp = 2;
+  google.protobuf.Timestamp timestamp = 2;
 }
 
 message TestHookFinished {
   string pickleId = 1;
   TestResult testResult = 2;
-  // google.protobuf.Timestamp timestamp = 3;
+  google.protobuf.Timestamp timestamp = 3;
 }
 
 message TestResult {
   Status status = 1;
   string message = 2;
-  uint32 durationNanos = 3;
+  uint64 durationNanoseconds = 3;
 }
 
 enum Status {
@@ -319,6 +301,8 @@ enum Status {
 message TestRunFinished {
   bool success = 1;
 }
+
+////// Commands
 
 message CommandStart {
   string baseDirectory = 2;
@@ -398,8 +382,6 @@ message ParameterTypeConfig {
   bool useForSnippets = 4;
 }
 
-////// CommandActionComplete
-
 message CommandActionComplete {
   string completedId = 1;
 
@@ -411,31 +393,37 @@ message CommandActionComplete {
   }
 }
 
-////// Actions
+message CommandRunBeforeTestRunHooks {
+  string actionId = 1;
+}
 
-message CommandRunBeforeTestRunHooks {}
-
-message CommandRunAfterTestRunHooks {}
+message CommandRunAfterTestRunHooks {
+  string actionId = 1;
+}
 
 message CommandInitializeTestCase {
-  string testCaseId = 1;
-  Pickle pickle = 2;
+  string actionId = 1;
+  string testCaseId = 2;
+  Pickle pickle = 3;
 }
 
 message CommandRunBeforeTestCaseHook {
-  string testCaseId = 1;
-  string testCaseHookDefinitionId = 2;
+  string actionId = 1;
+  string testCaseId = 2;
+  string testCaseHookDefinitionId = 3;
 }
 
 message CommandRunAfterTestCaseHook {
-  string testCaseId = 1;
-  string testCaseHookDefinitionId = 2;
+  string actionId = 1;
+  string testCaseId = 2;
+  string testCaseHookDefinitionId = 3;
 }
 
 message CommandRunTestStep {
-  string testCaseId = 1;
-  string stepDefinitionId = 2;
-  repeated PatternMatch patternMatches = 3;
+  string actionId = 1;
+  string testCaseId = 2;
+  string stepDefinitionId = 3;
+  repeated PatternMatch patternMatches = 4;
 }
 
 message PatternMatch {
@@ -448,10 +436,11 @@ message PatternMatch {
 }
 
 message CommandGenerateSnippet {
-  repeated GeneratedExpression generatedExpressions = 1;
+  string actionId = 1;
+  repeated GeneratedExpression generatedExpressions = 2;
   oneof pickleArgument {
-    PickleDocString doc_string = 2;
-    PickleTable data_table = 3;
+    PickleDocString doc_string = 3;
+    PickleTable data_table = 4;
   }
 }
 

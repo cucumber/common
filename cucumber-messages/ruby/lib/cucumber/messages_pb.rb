@@ -5,7 +5,7 @@ require 'google/protobuf'
 
 require 'google/protobuf/timestamp_pb'
 Google::Protobuf::DescriptorPool.generated_pool.build do
-  add_message "io.cucumber.messages.EventWrapper" do
+  add_message "io.cucumber.messages.Wrapper" do
     optional :timestamp, :message, 16, "google.protobuf.Timestamp"
     oneof :message do
       optional :source, :message, 1, "io.cucumber.messages.Source"
@@ -37,7 +37,7 @@ Google::Protobuf::DescriptorPool.generated_pool.build do
       optional :commandRunAfterTestCaseHook, :message, 8, "io.cucumber.messages.CommandRunAfterTestCaseHook"
       optional :commandRunAfterTestRunHooks, :message, 9, "io.cucumber.messages.CommandRunAfterTestRunHooks"
       optional :commandGenerateSnippet, :message, 10, "io.cucumber.messages.CommandGenerateSnippet"
-      optional :commandEvent, :message, 11, "io.cucumber.messages.EventWrapper"
+      optional :commandEvent, :message, 11, "io.cucumber.messages.Wrapper"
       optional :commandError, :string, 12
     end
   end
@@ -364,7 +364,7 @@ end
 
 module Cucumber
   module Messages
-    EventWrapper = Google::Protobuf::DescriptorPool.generated_pool.lookup("io.cucumber.messages.EventWrapper").msgclass
+    Wrapper = Google::Protobuf::DescriptorPool.generated_pool.lookup("io.cucumber.messages.Wrapper").msgclass
     CommandWrapper = Google::Protobuf::DescriptorPool.generated_pool.lookup("io.cucumber.messages.CommandWrapper").msgclass
     SourceReference = Google::Protobuf::DescriptorPool.generated_pool.lookup("io.cucumber.messages.SourceReference").msgclass
     Location = Google::Protobuf::DescriptorPool.generated_pool.lookup("io.cucumber.messages.Location").msgclass

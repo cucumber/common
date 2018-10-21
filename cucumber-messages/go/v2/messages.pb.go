@@ -102,40 +102,40 @@ func (StepDefinitionPatternType) EnumDescriptor() ([]byte, []int) {
 	return fileDescriptor_messages_bb8a864308ae4c34, []int{2}
 }
 
-// All messages sent between gherkin or formatters must be of type EventWrapper
-type EventWrapper struct {
+// All messages sent between gherkin or formatters must be of type Wrapper
+type Wrapper struct {
 	// Types that are valid to be assigned to Message:
-	//	*EventWrapper_Source
-	//	*EventWrapper_GherkinDocument
-	//	*EventWrapper_Pickle
-	//	*EventWrapper_Attachment
-	//	*EventWrapper_TestCaseStarted
-	//	*EventWrapper_TestStepStarted
-	//	*EventWrapper_TestStepFinished
-	//	*EventWrapper_TestCaseFinished
-	//	*EventWrapper_TestHookStarted
-	//	*EventWrapper_TestHookFinished
-	//	*EventWrapper_PickleAccepted
-	//	*EventWrapper_PickleRejected
-	//	*EventWrapper_TestCasePrepared
-	//	*EventWrapper_TestRunStarted
-	//	*EventWrapper_TestRunFinished
-	Message   isEventWrapper_Message `protobuf_oneof:"message"`
-	Timestamp *types.Timestamp       `protobuf:"bytes,16,opt,name=timestamp" json:"timestamp,omitempty"`
+	//	*Wrapper_Source
+	//	*Wrapper_GherkinDocument
+	//	*Wrapper_Pickle
+	//	*Wrapper_Attachment
+	//	*Wrapper_TestCaseStarted
+	//	*Wrapper_TestStepStarted
+	//	*Wrapper_TestStepFinished
+	//	*Wrapper_TestCaseFinished
+	//	*Wrapper_TestHookStarted
+	//	*Wrapper_TestHookFinished
+	//	*Wrapper_PickleAccepted
+	//	*Wrapper_PickleRejected
+	//	*Wrapper_TestCasePrepared
+	//	*Wrapper_TestRunStarted
+	//	*Wrapper_TestRunFinished
+	Message   isWrapper_Message `protobuf_oneof:"message"`
+	Timestamp *types.Timestamp  `protobuf:"bytes,16,opt,name=timestamp" json:"timestamp,omitempty"`
 }
 
-func (m *EventWrapper) Reset()         { *m = EventWrapper{} }
-func (m *EventWrapper) String() string { return proto.CompactTextString(m) }
-func (*EventWrapper) ProtoMessage()    {}
-func (*EventWrapper) Descriptor() ([]byte, []int) {
+func (m *Wrapper) Reset()         { *m = Wrapper{} }
+func (m *Wrapper) String() string { return proto.CompactTextString(m) }
+func (*Wrapper) ProtoMessage()    {}
+func (*Wrapper) Descriptor() ([]byte, []int) {
 	return fileDescriptor_messages_bb8a864308ae4c34, []int{0}
 }
-func (m *EventWrapper) XXX_Unmarshal(b []byte) error {
+func (m *Wrapper) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
 }
-func (m *EventWrapper) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+func (m *Wrapper) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	if deterministic {
-		return xxx_messageInfo_EventWrapper.Marshal(b, m, deterministic)
+		return xxx_messageInfo_Wrapper.Marshal(b, m, deterministic)
 	} else {
 		b = b[:cap(b)]
 		n, err := m.MarshalTo(b)
@@ -145,199 +145,199 @@ func (m *EventWrapper) XXX_Marshal(b []byte, deterministic bool) ([]byte, error)
 		return b[:n], nil
 	}
 }
-func (dst *EventWrapper) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_EventWrapper.Merge(dst, src)
+func (dst *Wrapper) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_Wrapper.Merge(dst, src)
 }
-func (m *EventWrapper) XXX_Size() int {
+func (m *Wrapper) XXX_Size() int {
 	return m.Size()
 }
-func (m *EventWrapper) XXX_DiscardUnknown() {
-	xxx_messageInfo_EventWrapper.DiscardUnknown(m)
+func (m *Wrapper) XXX_DiscardUnknown() {
+	xxx_messageInfo_Wrapper.DiscardUnknown(m)
 }
 
-var xxx_messageInfo_EventWrapper proto.InternalMessageInfo
+var xxx_messageInfo_Wrapper proto.InternalMessageInfo
 
-type isEventWrapper_Message interface {
-	isEventWrapper_Message()
+type isWrapper_Message interface {
+	isWrapper_Message()
 	MarshalTo([]byte) (int, error)
 	Size() int
 }
 
-type EventWrapper_Source struct {
+type Wrapper_Source struct {
 	Source *Source `protobuf:"bytes,1,opt,name=source,oneof"`
 }
-type EventWrapper_GherkinDocument struct {
+type Wrapper_GherkinDocument struct {
 	GherkinDocument *GherkinDocument `protobuf:"bytes,2,opt,name=gherkinDocument,oneof"`
 }
-type EventWrapper_Pickle struct {
+type Wrapper_Pickle struct {
 	Pickle *Pickle `protobuf:"bytes,3,opt,name=pickle,oneof"`
 }
-type EventWrapper_Attachment struct {
+type Wrapper_Attachment struct {
 	Attachment *Attachment `protobuf:"bytes,4,opt,name=attachment,oneof"`
 }
-type EventWrapper_TestCaseStarted struct {
+type Wrapper_TestCaseStarted struct {
 	TestCaseStarted *TestCaseStarted `protobuf:"bytes,5,opt,name=testCaseStarted,oneof"`
 }
-type EventWrapper_TestStepStarted struct {
+type Wrapper_TestStepStarted struct {
 	TestStepStarted *TestStepStarted `protobuf:"bytes,6,opt,name=testStepStarted,oneof"`
 }
-type EventWrapper_TestStepFinished struct {
+type Wrapper_TestStepFinished struct {
 	TestStepFinished *TestStepFinished `protobuf:"bytes,7,opt,name=testStepFinished,oneof"`
 }
-type EventWrapper_TestCaseFinished struct {
+type Wrapper_TestCaseFinished struct {
 	TestCaseFinished *TestCaseFinished `protobuf:"bytes,8,opt,name=testCaseFinished,oneof"`
 }
-type EventWrapper_TestHookStarted struct {
+type Wrapper_TestHookStarted struct {
 	TestHookStarted *TestHookStarted `protobuf:"bytes,9,opt,name=testHookStarted,oneof"`
 }
-type EventWrapper_TestHookFinished struct {
+type Wrapper_TestHookFinished struct {
 	TestHookFinished *TestHookFinished `protobuf:"bytes,10,opt,name=testHookFinished,oneof"`
 }
-type EventWrapper_PickleAccepted struct {
+type Wrapper_PickleAccepted struct {
 	PickleAccepted *PickleAccepted `protobuf:"bytes,11,opt,name=pickleAccepted,oneof"`
 }
-type EventWrapper_PickleRejected struct {
+type Wrapper_PickleRejected struct {
 	PickleRejected *PickleRejected `protobuf:"bytes,12,opt,name=pickleRejected,oneof"`
 }
-type EventWrapper_TestCasePrepared struct {
+type Wrapper_TestCasePrepared struct {
 	TestCasePrepared *TestCasePrepared `protobuf:"bytes,13,opt,name=testCasePrepared,oneof"`
 }
-type EventWrapper_TestRunStarted struct {
+type Wrapper_TestRunStarted struct {
 	TestRunStarted *TestRunStarted `protobuf:"bytes,14,opt,name=testRunStarted,oneof"`
 }
-type EventWrapper_TestRunFinished struct {
+type Wrapper_TestRunFinished struct {
 	TestRunFinished *TestRunFinished `protobuf:"bytes,15,opt,name=testRunFinished,oneof"`
 }
 
-func (*EventWrapper_Source) isEventWrapper_Message()           {}
-func (*EventWrapper_GherkinDocument) isEventWrapper_Message()  {}
-func (*EventWrapper_Pickle) isEventWrapper_Message()           {}
-func (*EventWrapper_Attachment) isEventWrapper_Message()       {}
-func (*EventWrapper_TestCaseStarted) isEventWrapper_Message()  {}
-func (*EventWrapper_TestStepStarted) isEventWrapper_Message()  {}
-func (*EventWrapper_TestStepFinished) isEventWrapper_Message() {}
-func (*EventWrapper_TestCaseFinished) isEventWrapper_Message() {}
-func (*EventWrapper_TestHookStarted) isEventWrapper_Message()  {}
-func (*EventWrapper_TestHookFinished) isEventWrapper_Message() {}
-func (*EventWrapper_PickleAccepted) isEventWrapper_Message()   {}
-func (*EventWrapper_PickleRejected) isEventWrapper_Message()   {}
-func (*EventWrapper_TestCasePrepared) isEventWrapper_Message() {}
-func (*EventWrapper_TestRunStarted) isEventWrapper_Message()   {}
-func (*EventWrapper_TestRunFinished) isEventWrapper_Message()  {}
+func (*Wrapper_Source) isWrapper_Message()           {}
+func (*Wrapper_GherkinDocument) isWrapper_Message()  {}
+func (*Wrapper_Pickle) isWrapper_Message()           {}
+func (*Wrapper_Attachment) isWrapper_Message()       {}
+func (*Wrapper_TestCaseStarted) isWrapper_Message()  {}
+func (*Wrapper_TestStepStarted) isWrapper_Message()  {}
+func (*Wrapper_TestStepFinished) isWrapper_Message() {}
+func (*Wrapper_TestCaseFinished) isWrapper_Message() {}
+func (*Wrapper_TestHookStarted) isWrapper_Message()  {}
+func (*Wrapper_TestHookFinished) isWrapper_Message() {}
+func (*Wrapper_PickleAccepted) isWrapper_Message()   {}
+func (*Wrapper_PickleRejected) isWrapper_Message()   {}
+func (*Wrapper_TestCasePrepared) isWrapper_Message() {}
+func (*Wrapper_TestRunStarted) isWrapper_Message()   {}
+func (*Wrapper_TestRunFinished) isWrapper_Message()  {}
 
-func (m *EventWrapper) GetMessage() isEventWrapper_Message {
+func (m *Wrapper) GetMessage() isWrapper_Message {
 	if m != nil {
 		return m.Message
 	}
 	return nil
 }
 
-func (m *EventWrapper) GetSource() *Source {
-	if x, ok := m.GetMessage().(*EventWrapper_Source); ok {
+func (m *Wrapper) GetSource() *Source {
+	if x, ok := m.GetMessage().(*Wrapper_Source); ok {
 		return x.Source
 	}
 	return nil
 }
 
-func (m *EventWrapper) GetGherkinDocument() *GherkinDocument {
-	if x, ok := m.GetMessage().(*EventWrapper_GherkinDocument); ok {
+func (m *Wrapper) GetGherkinDocument() *GherkinDocument {
+	if x, ok := m.GetMessage().(*Wrapper_GherkinDocument); ok {
 		return x.GherkinDocument
 	}
 	return nil
 }
 
-func (m *EventWrapper) GetPickle() *Pickle {
-	if x, ok := m.GetMessage().(*EventWrapper_Pickle); ok {
+func (m *Wrapper) GetPickle() *Pickle {
+	if x, ok := m.GetMessage().(*Wrapper_Pickle); ok {
 		return x.Pickle
 	}
 	return nil
 }
 
-func (m *EventWrapper) GetAttachment() *Attachment {
-	if x, ok := m.GetMessage().(*EventWrapper_Attachment); ok {
+func (m *Wrapper) GetAttachment() *Attachment {
+	if x, ok := m.GetMessage().(*Wrapper_Attachment); ok {
 		return x.Attachment
 	}
 	return nil
 }
 
-func (m *EventWrapper) GetTestCaseStarted() *TestCaseStarted {
-	if x, ok := m.GetMessage().(*EventWrapper_TestCaseStarted); ok {
+func (m *Wrapper) GetTestCaseStarted() *TestCaseStarted {
+	if x, ok := m.GetMessage().(*Wrapper_TestCaseStarted); ok {
 		return x.TestCaseStarted
 	}
 	return nil
 }
 
-func (m *EventWrapper) GetTestStepStarted() *TestStepStarted {
-	if x, ok := m.GetMessage().(*EventWrapper_TestStepStarted); ok {
+func (m *Wrapper) GetTestStepStarted() *TestStepStarted {
+	if x, ok := m.GetMessage().(*Wrapper_TestStepStarted); ok {
 		return x.TestStepStarted
 	}
 	return nil
 }
 
-func (m *EventWrapper) GetTestStepFinished() *TestStepFinished {
-	if x, ok := m.GetMessage().(*EventWrapper_TestStepFinished); ok {
+func (m *Wrapper) GetTestStepFinished() *TestStepFinished {
+	if x, ok := m.GetMessage().(*Wrapper_TestStepFinished); ok {
 		return x.TestStepFinished
 	}
 	return nil
 }
 
-func (m *EventWrapper) GetTestCaseFinished() *TestCaseFinished {
-	if x, ok := m.GetMessage().(*EventWrapper_TestCaseFinished); ok {
+func (m *Wrapper) GetTestCaseFinished() *TestCaseFinished {
+	if x, ok := m.GetMessage().(*Wrapper_TestCaseFinished); ok {
 		return x.TestCaseFinished
 	}
 	return nil
 }
 
-func (m *EventWrapper) GetTestHookStarted() *TestHookStarted {
-	if x, ok := m.GetMessage().(*EventWrapper_TestHookStarted); ok {
+func (m *Wrapper) GetTestHookStarted() *TestHookStarted {
+	if x, ok := m.GetMessage().(*Wrapper_TestHookStarted); ok {
 		return x.TestHookStarted
 	}
 	return nil
 }
 
-func (m *EventWrapper) GetTestHookFinished() *TestHookFinished {
-	if x, ok := m.GetMessage().(*EventWrapper_TestHookFinished); ok {
+func (m *Wrapper) GetTestHookFinished() *TestHookFinished {
+	if x, ok := m.GetMessage().(*Wrapper_TestHookFinished); ok {
 		return x.TestHookFinished
 	}
 	return nil
 }
 
-func (m *EventWrapper) GetPickleAccepted() *PickleAccepted {
-	if x, ok := m.GetMessage().(*EventWrapper_PickleAccepted); ok {
+func (m *Wrapper) GetPickleAccepted() *PickleAccepted {
+	if x, ok := m.GetMessage().(*Wrapper_PickleAccepted); ok {
 		return x.PickleAccepted
 	}
 	return nil
 }
 
-func (m *EventWrapper) GetPickleRejected() *PickleRejected {
-	if x, ok := m.GetMessage().(*EventWrapper_PickleRejected); ok {
+func (m *Wrapper) GetPickleRejected() *PickleRejected {
+	if x, ok := m.GetMessage().(*Wrapper_PickleRejected); ok {
 		return x.PickleRejected
 	}
 	return nil
 }
 
-func (m *EventWrapper) GetTestCasePrepared() *TestCasePrepared {
-	if x, ok := m.GetMessage().(*EventWrapper_TestCasePrepared); ok {
+func (m *Wrapper) GetTestCasePrepared() *TestCasePrepared {
+	if x, ok := m.GetMessage().(*Wrapper_TestCasePrepared); ok {
 		return x.TestCasePrepared
 	}
 	return nil
 }
 
-func (m *EventWrapper) GetTestRunStarted() *TestRunStarted {
-	if x, ok := m.GetMessage().(*EventWrapper_TestRunStarted); ok {
+func (m *Wrapper) GetTestRunStarted() *TestRunStarted {
+	if x, ok := m.GetMessage().(*Wrapper_TestRunStarted); ok {
 		return x.TestRunStarted
 	}
 	return nil
 }
 
-func (m *EventWrapper) GetTestRunFinished() *TestRunFinished {
-	if x, ok := m.GetMessage().(*EventWrapper_TestRunFinished); ok {
+func (m *Wrapper) GetTestRunFinished() *TestRunFinished {
+	if x, ok := m.GetMessage().(*Wrapper_TestRunFinished); ok {
 		return x.TestRunFinished
 	}
 	return nil
 }
 
-func (m *EventWrapper) GetTimestamp() *types.Timestamp {
+func (m *Wrapper) GetTimestamp() *types.Timestamp {
 	if m != nil {
 		return m.Timestamp
 	}
@@ -345,114 +345,114 @@ func (m *EventWrapper) GetTimestamp() *types.Timestamp {
 }
 
 // XXX_OneofFuncs is for the internal use of the proto package.
-func (*EventWrapper) XXX_OneofFuncs() (func(msg proto.Message, b *proto.Buffer) error, func(msg proto.Message, tag, wire int, b *proto.Buffer) (bool, error), func(msg proto.Message) (n int), []interface{}) {
-	return _EventWrapper_OneofMarshaler, _EventWrapper_OneofUnmarshaler, _EventWrapper_OneofSizer, []interface{}{
-		(*EventWrapper_Source)(nil),
-		(*EventWrapper_GherkinDocument)(nil),
-		(*EventWrapper_Pickle)(nil),
-		(*EventWrapper_Attachment)(nil),
-		(*EventWrapper_TestCaseStarted)(nil),
-		(*EventWrapper_TestStepStarted)(nil),
-		(*EventWrapper_TestStepFinished)(nil),
-		(*EventWrapper_TestCaseFinished)(nil),
-		(*EventWrapper_TestHookStarted)(nil),
-		(*EventWrapper_TestHookFinished)(nil),
-		(*EventWrapper_PickleAccepted)(nil),
-		(*EventWrapper_PickleRejected)(nil),
-		(*EventWrapper_TestCasePrepared)(nil),
-		(*EventWrapper_TestRunStarted)(nil),
-		(*EventWrapper_TestRunFinished)(nil),
+func (*Wrapper) XXX_OneofFuncs() (func(msg proto.Message, b *proto.Buffer) error, func(msg proto.Message, tag, wire int, b *proto.Buffer) (bool, error), func(msg proto.Message) (n int), []interface{}) {
+	return _Wrapper_OneofMarshaler, _Wrapper_OneofUnmarshaler, _Wrapper_OneofSizer, []interface{}{
+		(*Wrapper_Source)(nil),
+		(*Wrapper_GherkinDocument)(nil),
+		(*Wrapper_Pickle)(nil),
+		(*Wrapper_Attachment)(nil),
+		(*Wrapper_TestCaseStarted)(nil),
+		(*Wrapper_TestStepStarted)(nil),
+		(*Wrapper_TestStepFinished)(nil),
+		(*Wrapper_TestCaseFinished)(nil),
+		(*Wrapper_TestHookStarted)(nil),
+		(*Wrapper_TestHookFinished)(nil),
+		(*Wrapper_PickleAccepted)(nil),
+		(*Wrapper_PickleRejected)(nil),
+		(*Wrapper_TestCasePrepared)(nil),
+		(*Wrapper_TestRunStarted)(nil),
+		(*Wrapper_TestRunFinished)(nil),
 	}
 }
 
-func _EventWrapper_OneofMarshaler(msg proto.Message, b *proto.Buffer) error {
-	m := msg.(*EventWrapper)
+func _Wrapper_OneofMarshaler(msg proto.Message, b *proto.Buffer) error {
+	m := msg.(*Wrapper)
 	// message
 	switch x := m.Message.(type) {
-	case *EventWrapper_Source:
+	case *Wrapper_Source:
 		_ = b.EncodeVarint(1<<3 | proto.WireBytes)
 		if err := b.EncodeMessage(x.Source); err != nil {
 			return err
 		}
-	case *EventWrapper_GherkinDocument:
+	case *Wrapper_GherkinDocument:
 		_ = b.EncodeVarint(2<<3 | proto.WireBytes)
 		if err := b.EncodeMessage(x.GherkinDocument); err != nil {
 			return err
 		}
-	case *EventWrapper_Pickle:
+	case *Wrapper_Pickle:
 		_ = b.EncodeVarint(3<<3 | proto.WireBytes)
 		if err := b.EncodeMessage(x.Pickle); err != nil {
 			return err
 		}
-	case *EventWrapper_Attachment:
+	case *Wrapper_Attachment:
 		_ = b.EncodeVarint(4<<3 | proto.WireBytes)
 		if err := b.EncodeMessage(x.Attachment); err != nil {
 			return err
 		}
-	case *EventWrapper_TestCaseStarted:
+	case *Wrapper_TestCaseStarted:
 		_ = b.EncodeVarint(5<<3 | proto.WireBytes)
 		if err := b.EncodeMessage(x.TestCaseStarted); err != nil {
 			return err
 		}
-	case *EventWrapper_TestStepStarted:
+	case *Wrapper_TestStepStarted:
 		_ = b.EncodeVarint(6<<3 | proto.WireBytes)
 		if err := b.EncodeMessage(x.TestStepStarted); err != nil {
 			return err
 		}
-	case *EventWrapper_TestStepFinished:
+	case *Wrapper_TestStepFinished:
 		_ = b.EncodeVarint(7<<3 | proto.WireBytes)
 		if err := b.EncodeMessage(x.TestStepFinished); err != nil {
 			return err
 		}
-	case *EventWrapper_TestCaseFinished:
+	case *Wrapper_TestCaseFinished:
 		_ = b.EncodeVarint(8<<3 | proto.WireBytes)
 		if err := b.EncodeMessage(x.TestCaseFinished); err != nil {
 			return err
 		}
-	case *EventWrapper_TestHookStarted:
+	case *Wrapper_TestHookStarted:
 		_ = b.EncodeVarint(9<<3 | proto.WireBytes)
 		if err := b.EncodeMessage(x.TestHookStarted); err != nil {
 			return err
 		}
-	case *EventWrapper_TestHookFinished:
+	case *Wrapper_TestHookFinished:
 		_ = b.EncodeVarint(10<<3 | proto.WireBytes)
 		if err := b.EncodeMessage(x.TestHookFinished); err != nil {
 			return err
 		}
-	case *EventWrapper_PickleAccepted:
+	case *Wrapper_PickleAccepted:
 		_ = b.EncodeVarint(11<<3 | proto.WireBytes)
 		if err := b.EncodeMessage(x.PickleAccepted); err != nil {
 			return err
 		}
-	case *EventWrapper_PickleRejected:
+	case *Wrapper_PickleRejected:
 		_ = b.EncodeVarint(12<<3 | proto.WireBytes)
 		if err := b.EncodeMessage(x.PickleRejected); err != nil {
 			return err
 		}
-	case *EventWrapper_TestCasePrepared:
+	case *Wrapper_TestCasePrepared:
 		_ = b.EncodeVarint(13<<3 | proto.WireBytes)
 		if err := b.EncodeMessage(x.TestCasePrepared); err != nil {
 			return err
 		}
-	case *EventWrapper_TestRunStarted:
+	case *Wrapper_TestRunStarted:
 		_ = b.EncodeVarint(14<<3 | proto.WireBytes)
 		if err := b.EncodeMessage(x.TestRunStarted); err != nil {
 			return err
 		}
-	case *EventWrapper_TestRunFinished:
+	case *Wrapper_TestRunFinished:
 		_ = b.EncodeVarint(15<<3 | proto.WireBytes)
 		if err := b.EncodeMessage(x.TestRunFinished); err != nil {
 			return err
 		}
 	case nil:
 	default:
-		return fmt.Errorf("EventWrapper.Message has unexpected type %T", x)
+		return fmt.Errorf("Wrapper.Message has unexpected type %T", x)
 	}
 	return nil
 }
 
-func _EventWrapper_OneofUnmarshaler(msg proto.Message, tag, wire int, b *proto.Buffer) (bool, error) {
-	m := msg.(*EventWrapper)
+func _Wrapper_OneofUnmarshaler(msg proto.Message, tag, wire int, b *proto.Buffer) (bool, error) {
+	m := msg.(*Wrapper)
 	switch tag {
 	case 1: // message.source
 		if wire != proto.WireBytes {
@@ -460,7 +460,7 @@ func _EventWrapper_OneofUnmarshaler(msg proto.Message, tag, wire int, b *proto.B
 		}
 		msg := new(Source)
 		err := b.DecodeMessage(msg)
-		m.Message = &EventWrapper_Source{msg}
+		m.Message = &Wrapper_Source{msg}
 		return true, err
 	case 2: // message.gherkinDocument
 		if wire != proto.WireBytes {
@@ -468,7 +468,7 @@ func _EventWrapper_OneofUnmarshaler(msg proto.Message, tag, wire int, b *proto.B
 		}
 		msg := new(GherkinDocument)
 		err := b.DecodeMessage(msg)
-		m.Message = &EventWrapper_GherkinDocument{msg}
+		m.Message = &Wrapper_GherkinDocument{msg}
 		return true, err
 	case 3: // message.pickle
 		if wire != proto.WireBytes {
@@ -476,7 +476,7 @@ func _EventWrapper_OneofUnmarshaler(msg proto.Message, tag, wire int, b *proto.B
 		}
 		msg := new(Pickle)
 		err := b.DecodeMessage(msg)
-		m.Message = &EventWrapper_Pickle{msg}
+		m.Message = &Wrapper_Pickle{msg}
 		return true, err
 	case 4: // message.attachment
 		if wire != proto.WireBytes {
@@ -484,7 +484,7 @@ func _EventWrapper_OneofUnmarshaler(msg proto.Message, tag, wire int, b *proto.B
 		}
 		msg := new(Attachment)
 		err := b.DecodeMessage(msg)
-		m.Message = &EventWrapper_Attachment{msg}
+		m.Message = &Wrapper_Attachment{msg}
 		return true, err
 	case 5: // message.testCaseStarted
 		if wire != proto.WireBytes {
@@ -492,7 +492,7 @@ func _EventWrapper_OneofUnmarshaler(msg proto.Message, tag, wire int, b *proto.B
 		}
 		msg := new(TestCaseStarted)
 		err := b.DecodeMessage(msg)
-		m.Message = &EventWrapper_TestCaseStarted{msg}
+		m.Message = &Wrapper_TestCaseStarted{msg}
 		return true, err
 	case 6: // message.testStepStarted
 		if wire != proto.WireBytes {
@@ -500,7 +500,7 @@ func _EventWrapper_OneofUnmarshaler(msg proto.Message, tag, wire int, b *proto.B
 		}
 		msg := new(TestStepStarted)
 		err := b.DecodeMessage(msg)
-		m.Message = &EventWrapper_TestStepStarted{msg}
+		m.Message = &Wrapper_TestStepStarted{msg}
 		return true, err
 	case 7: // message.testStepFinished
 		if wire != proto.WireBytes {
@@ -508,7 +508,7 @@ func _EventWrapper_OneofUnmarshaler(msg proto.Message, tag, wire int, b *proto.B
 		}
 		msg := new(TestStepFinished)
 		err := b.DecodeMessage(msg)
-		m.Message = &EventWrapper_TestStepFinished{msg}
+		m.Message = &Wrapper_TestStepFinished{msg}
 		return true, err
 	case 8: // message.testCaseFinished
 		if wire != proto.WireBytes {
@@ -516,7 +516,7 @@ func _EventWrapper_OneofUnmarshaler(msg proto.Message, tag, wire int, b *proto.B
 		}
 		msg := new(TestCaseFinished)
 		err := b.DecodeMessage(msg)
-		m.Message = &EventWrapper_TestCaseFinished{msg}
+		m.Message = &Wrapper_TestCaseFinished{msg}
 		return true, err
 	case 9: // message.testHookStarted
 		if wire != proto.WireBytes {
@@ -524,7 +524,7 @@ func _EventWrapper_OneofUnmarshaler(msg proto.Message, tag, wire int, b *proto.B
 		}
 		msg := new(TestHookStarted)
 		err := b.DecodeMessage(msg)
-		m.Message = &EventWrapper_TestHookStarted{msg}
+		m.Message = &Wrapper_TestHookStarted{msg}
 		return true, err
 	case 10: // message.testHookFinished
 		if wire != proto.WireBytes {
@@ -532,7 +532,7 @@ func _EventWrapper_OneofUnmarshaler(msg proto.Message, tag, wire int, b *proto.B
 		}
 		msg := new(TestHookFinished)
 		err := b.DecodeMessage(msg)
-		m.Message = &EventWrapper_TestHookFinished{msg}
+		m.Message = &Wrapper_TestHookFinished{msg}
 		return true, err
 	case 11: // message.pickleAccepted
 		if wire != proto.WireBytes {
@@ -540,7 +540,7 @@ func _EventWrapper_OneofUnmarshaler(msg proto.Message, tag, wire int, b *proto.B
 		}
 		msg := new(PickleAccepted)
 		err := b.DecodeMessage(msg)
-		m.Message = &EventWrapper_PickleAccepted{msg}
+		m.Message = &Wrapper_PickleAccepted{msg}
 		return true, err
 	case 12: // message.pickleRejected
 		if wire != proto.WireBytes {
@@ -548,7 +548,7 @@ func _EventWrapper_OneofUnmarshaler(msg proto.Message, tag, wire int, b *proto.B
 		}
 		msg := new(PickleRejected)
 		err := b.DecodeMessage(msg)
-		m.Message = &EventWrapper_PickleRejected{msg}
+		m.Message = &Wrapper_PickleRejected{msg}
 		return true, err
 	case 13: // message.testCasePrepared
 		if wire != proto.WireBytes {
@@ -556,7 +556,7 @@ func _EventWrapper_OneofUnmarshaler(msg proto.Message, tag, wire int, b *proto.B
 		}
 		msg := new(TestCasePrepared)
 		err := b.DecodeMessage(msg)
-		m.Message = &EventWrapper_TestCasePrepared{msg}
+		m.Message = &Wrapper_TestCasePrepared{msg}
 		return true, err
 	case 14: // message.testRunStarted
 		if wire != proto.WireBytes {
@@ -564,7 +564,7 @@ func _EventWrapper_OneofUnmarshaler(msg proto.Message, tag, wire int, b *proto.B
 		}
 		msg := new(TestRunStarted)
 		err := b.DecodeMessage(msg)
-		m.Message = &EventWrapper_TestRunStarted{msg}
+		m.Message = &Wrapper_TestRunStarted{msg}
 		return true, err
 	case 15: // message.testRunFinished
 		if wire != proto.WireBytes {
@@ -572,88 +572,88 @@ func _EventWrapper_OneofUnmarshaler(msg proto.Message, tag, wire int, b *proto.B
 		}
 		msg := new(TestRunFinished)
 		err := b.DecodeMessage(msg)
-		m.Message = &EventWrapper_TestRunFinished{msg}
+		m.Message = &Wrapper_TestRunFinished{msg}
 		return true, err
 	default:
 		return false, nil
 	}
 }
 
-func _EventWrapper_OneofSizer(msg proto.Message) (n int) {
-	m := msg.(*EventWrapper)
+func _Wrapper_OneofSizer(msg proto.Message) (n int) {
+	m := msg.(*Wrapper)
 	// message
 	switch x := m.Message.(type) {
-	case *EventWrapper_Source:
+	case *Wrapper_Source:
 		s := proto.Size(x.Source)
 		n += 1 // tag and wire
 		n += proto.SizeVarint(uint64(s))
 		n += s
-	case *EventWrapper_GherkinDocument:
+	case *Wrapper_GherkinDocument:
 		s := proto.Size(x.GherkinDocument)
 		n += 1 // tag and wire
 		n += proto.SizeVarint(uint64(s))
 		n += s
-	case *EventWrapper_Pickle:
+	case *Wrapper_Pickle:
 		s := proto.Size(x.Pickle)
 		n += 1 // tag and wire
 		n += proto.SizeVarint(uint64(s))
 		n += s
-	case *EventWrapper_Attachment:
+	case *Wrapper_Attachment:
 		s := proto.Size(x.Attachment)
 		n += 1 // tag and wire
 		n += proto.SizeVarint(uint64(s))
 		n += s
-	case *EventWrapper_TestCaseStarted:
+	case *Wrapper_TestCaseStarted:
 		s := proto.Size(x.TestCaseStarted)
 		n += 1 // tag and wire
 		n += proto.SizeVarint(uint64(s))
 		n += s
-	case *EventWrapper_TestStepStarted:
+	case *Wrapper_TestStepStarted:
 		s := proto.Size(x.TestStepStarted)
 		n += 1 // tag and wire
 		n += proto.SizeVarint(uint64(s))
 		n += s
-	case *EventWrapper_TestStepFinished:
+	case *Wrapper_TestStepFinished:
 		s := proto.Size(x.TestStepFinished)
 		n += 1 // tag and wire
 		n += proto.SizeVarint(uint64(s))
 		n += s
-	case *EventWrapper_TestCaseFinished:
+	case *Wrapper_TestCaseFinished:
 		s := proto.Size(x.TestCaseFinished)
 		n += 1 // tag and wire
 		n += proto.SizeVarint(uint64(s))
 		n += s
-	case *EventWrapper_TestHookStarted:
+	case *Wrapper_TestHookStarted:
 		s := proto.Size(x.TestHookStarted)
 		n += 1 // tag and wire
 		n += proto.SizeVarint(uint64(s))
 		n += s
-	case *EventWrapper_TestHookFinished:
+	case *Wrapper_TestHookFinished:
 		s := proto.Size(x.TestHookFinished)
 		n += 1 // tag and wire
 		n += proto.SizeVarint(uint64(s))
 		n += s
-	case *EventWrapper_PickleAccepted:
+	case *Wrapper_PickleAccepted:
 		s := proto.Size(x.PickleAccepted)
 		n += 1 // tag and wire
 		n += proto.SizeVarint(uint64(s))
 		n += s
-	case *EventWrapper_PickleRejected:
+	case *Wrapper_PickleRejected:
 		s := proto.Size(x.PickleRejected)
 		n += 1 // tag and wire
 		n += proto.SizeVarint(uint64(s))
 		n += s
-	case *EventWrapper_TestCasePrepared:
+	case *Wrapper_TestCasePrepared:
 		s := proto.Size(x.TestCasePrepared)
 		n += 1 // tag and wire
 		n += proto.SizeVarint(uint64(s))
 		n += s
-	case *EventWrapper_TestRunStarted:
+	case *Wrapper_TestRunStarted:
 		s := proto.Size(x.TestRunStarted)
 		n += 1 // tag and wire
 		n += proto.SizeVarint(uint64(s))
 		n += s
-	case *EventWrapper_TestRunFinished:
+	case *Wrapper_TestRunFinished:
 		s := proto.Size(x.TestRunFinished)
 		n += 1 // tag and wire
 		n += proto.SizeVarint(uint64(s))
@@ -750,7 +750,7 @@ type CommandWrapper_CommandGenerateSnippet struct {
 	CommandGenerateSnippet *CommandGenerateSnippet `protobuf:"bytes,10,opt,name=commandGenerateSnippet,oneof"`
 }
 type CommandWrapper_CommandEvent struct {
-	CommandEvent *EventWrapper `protobuf:"bytes,11,opt,name=commandEvent,oneof"`
+	CommandEvent *Wrapper `protobuf:"bytes,11,opt,name=commandEvent,oneof"`
 }
 type CommandWrapper_CommandError struct {
 	CommandError string `protobuf:"bytes,12,opt,name=commandError,proto3,oneof"`
@@ -845,7 +845,7 @@ func (m *CommandWrapper) GetCommandGenerateSnippet() *CommandGenerateSnippet {
 	return nil
 }
 
-func (m *CommandWrapper) GetCommandEvent() *EventWrapper {
+func (m *CommandWrapper) GetCommandEvent() *Wrapper {
 	if x, ok := m.GetMessage().(*CommandWrapper_CommandEvent); ok {
 		return x.CommandEvent
 	}
@@ -1019,7 +1019,7 @@ func _CommandWrapper_OneofUnmarshaler(msg proto.Message, tag, wire int, b *proto
 		if wire != proto.WireBytes {
 			return true, proto.ErrInternalBadWireType
 		}
-		msg := new(EventWrapper)
+		msg := new(Wrapper)
 		err := b.DecodeMessage(msg)
 		m.Message = &CommandWrapper_CommandEvent{msg}
 		return true, err
@@ -5346,7 +5346,7 @@ func (m *GeneratedExpression) GetParameterTypeNames() []string {
 }
 
 func init() {
-	proto.RegisterType((*EventWrapper)(nil), "io.cucumber.messages.EventWrapper")
+	proto.RegisterType((*Wrapper)(nil), "io.cucumber.messages.Wrapper")
 	proto.RegisterType((*CommandWrapper)(nil), "io.cucumber.messages.CommandWrapper")
 	proto.RegisterType((*SourceReference)(nil), "io.cucumber.messages.SourceReference")
 	proto.RegisterType((*Location)(nil), "io.cucumber.messages.Location")
@@ -5413,7 +5413,7 @@ func init() {
 	proto.RegisterEnum("io.cucumber.messages.SourcesOrderType", SourcesOrderType_name, SourcesOrderType_value)
 	proto.RegisterEnum("io.cucumber.messages.StepDefinitionPatternType", StepDefinitionPatternType_name, StepDefinitionPatternType_value)
 }
-func (m *EventWrapper) Marshal() (dAtA []byte, err error) {
+func (m *Wrapper) Marshal() (dAtA []byte, err error) {
 	size := m.Size()
 	dAtA = make([]byte, size)
 	n, err := m.MarshalTo(dAtA)
@@ -5423,7 +5423,7 @@ func (m *EventWrapper) Marshal() (dAtA []byte, err error) {
 	return dAtA[:n], nil
 }
 
-func (m *EventWrapper) MarshalTo(dAtA []byte) (int, error) {
+func (m *Wrapper) MarshalTo(dAtA []byte) (int, error) {
 	var i int
 	_ = i
 	var l int
@@ -5450,7 +5450,7 @@ func (m *EventWrapper) MarshalTo(dAtA []byte) (int, error) {
 	return i, nil
 }
 
-func (m *EventWrapper_Source) MarshalTo(dAtA []byte) (int, error) {
+func (m *Wrapper_Source) MarshalTo(dAtA []byte) (int, error) {
 	i := 0
 	if m.Source != nil {
 		dAtA[i] = 0xa
@@ -5464,7 +5464,7 @@ func (m *EventWrapper_Source) MarshalTo(dAtA []byte) (int, error) {
 	}
 	return i, nil
 }
-func (m *EventWrapper_GherkinDocument) MarshalTo(dAtA []byte) (int, error) {
+func (m *Wrapper_GherkinDocument) MarshalTo(dAtA []byte) (int, error) {
 	i := 0
 	if m.GherkinDocument != nil {
 		dAtA[i] = 0x12
@@ -5478,7 +5478,7 @@ func (m *EventWrapper_GherkinDocument) MarshalTo(dAtA []byte) (int, error) {
 	}
 	return i, nil
 }
-func (m *EventWrapper_Pickle) MarshalTo(dAtA []byte) (int, error) {
+func (m *Wrapper_Pickle) MarshalTo(dAtA []byte) (int, error) {
 	i := 0
 	if m.Pickle != nil {
 		dAtA[i] = 0x1a
@@ -5492,7 +5492,7 @@ func (m *EventWrapper_Pickle) MarshalTo(dAtA []byte) (int, error) {
 	}
 	return i, nil
 }
-func (m *EventWrapper_Attachment) MarshalTo(dAtA []byte) (int, error) {
+func (m *Wrapper_Attachment) MarshalTo(dAtA []byte) (int, error) {
 	i := 0
 	if m.Attachment != nil {
 		dAtA[i] = 0x22
@@ -5506,7 +5506,7 @@ func (m *EventWrapper_Attachment) MarshalTo(dAtA []byte) (int, error) {
 	}
 	return i, nil
 }
-func (m *EventWrapper_TestCaseStarted) MarshalTo(dAtA []byte) (int, error) {
+func (m *Wrapper_TestCaseStarted) MarshalTo(dAtA []byte) (int, error) {
 	i := 0
 	if m.TestCaseStarted != nil {
 		dAtA[i] = 0x2a
@@ -5520,7 +5520,7 @@ func (m *EventWrapper_TestCaseStarted) MarshalTo(dAtA []byte) (int, error) {
 	}
 	return i, nil
 }
-func (m *EventWrapper_TestStepStarted) MarshalTo(dAtA []byte) (int, error) {
+func (m *Wrapper_TestStepStarted) MarshalTo(dAtA []byte) (int, error) {
 	i := 0
 	if m.TestStepStarted != nil {
 		dAtA[i] = 0x32
@@ -5534,7 +5534,7 @@ func (m *EventWrapper_TestStepStarted) MarshalTo(dAtA []byte) (int, error) {
 	}
 	return i, nil
 }
-func (m *EventWrapper_TestStepFinished) MarshalTo(dAtA []byte) (int, error) {
+func (m *Wrapper_TestStepFinished) MarshalTo(dAtA []byte) (int, error) {
 	i := 0
 	if m.TestStepFinished != nil {
 		dAtA[i] = 0x3a
@@ -5548,7 +5548,7 @@ func (m *EventWrapper_TestStepFinished) MarshalTo(dAtA []byte) (int, error) {
 	}
 	return i, nil
 }
-func (m *EventWrapper_TestCaseFinished) MarshalTo(dAtA []byte) (int, error) {
+func (m *Wrapper_TestCaseFinished) MarshalTo(dAtA []byte) (int, error) {
 	i := 0
 	if m.TestCaseFinished != nil {
 		dAtA[i] = 0x42
@@ -5562,7 +5562,7 @@ func (m *EventWrapper_TestCaseFinished) MarshalTo(dAtA []byte) (int, error) {
 	}
 	return i, nil
 }
-func (m *EventWrapper_TestHookStarted) MarshalTo(dAtA []byte) (int, error) {
+func (m *Wrapper_TestHookStarted) MarshalTo(dAtA []byte) (int, error) {
 	i := 0
 	if m.TestHookStarted != nil {
 		dAtA[i] = 0x4a
@@ -5576,7 +5576,7 @@ func (m *EventWrapper_TestHookStarted) MarshalTo(dAtA []byte) (int, error) {
 	}
 	return i, nil
 }
-func (m *EventWrapper_TestHookFinished) MarshalTo(dAtA []byte) (int, error) {
+func (m *Wrapper_TestHookFinished) MarshalTo(dAtA []byte) (int, error) {
 	i := 0
 	if m.TestHookFinished != nil {
 		dAtA[i] = 0x52
@@ -5590,7 +5590,7 @@ func (m *EventWrapper_TestHookFinished) MarshalTo(dAtA []byte) (int, error) {
 	}
 	return i, nil
 }
-func (m *EventWrapper_PickleAccepted) MarshalTo(dAtA []byte) (int, error) {
+func (m *Wrapper_PickleAccepted) MarshalTo(dAtA []byte) (int, error) {
 	i := 0
 	if m.PickleAccepted != nil {
 		dAtA[i] = 0x5a
@@ -5604,7 +5604,7 @@ func (m *EventWrapper_PickleAccepted) MarshalTo(dAtA []byte) (int, error) {
 	}
 	return i, nil
 }
-func (m *EventWrapper_PickleRejected) MarshalTo(dAtA []byte) (int, error) {
+func (m *Wrapper_PickleRejected) MarshalTo(dAtA []byte) (int, error) {
 	i := 0
 	if m.PickleRejected != nil {
 		dAtA[i] = 0x62
@@ -5618,7 +5618,7 @@ func (m *EventWrapper_PickleRejected) MarshalTo(dAtA []byte) (int, error) {
 	}
 	return i, nil
 }
-func (m *EventWrapper_TestCasePrepared) MarshalTo(dAtA []byte) (int, error) {
+func (m *Wrapper_TestCasePrepared) MarshalTo(dAtA []byte) (int, error) {
 	i := 0
 	if m.TestCasePrepared != nil {
 		dAtA[i] = 0x6a
@@ -5632,7 +5632,7 @@ func (m *EventWrapper_TestCasePrepared) MarshalTo(dAtA []byte) (int, error) {
 	}
 	return i, nil
 }
-func (m *EventWrapper_TestRunStarted) MarshalTo(dAtA []byte) (int, error) {
+func (m *Wrapper_TestRunStarted) MarshalTo(dAtA []byte) (int, error) {
 	i := 0
 	if m.TestRunStarted != nil {
 		dAtA[i] = 0x72
@@ -5646,7 +5646,7 @@ func (m *EventWrapper_TestRunStarted) MarshalTo(dAtA []byte) (int, error) {
 	}
 	return i, nil
 }
-func (m *EventWrapper_TestRunFinished) MarshalTo(dAtA []byte) (int, error) {
+func (m *Wrapper_TestRunFinished) MarshalTo(dAtA []byte) (int, error) {
 	i := 0
 	if m.TestRunFinished != nil {
 		dAtA[i] = 0x7a
@@ -8477,7 +8477,7 @@ func encodeVarintMessages(dAtA []byte, offset int, v uint64) int {
 	dAtA[offset] = uint8(v)
 	return offset + 1
 }
-func (m *EventWrapper) Size() (n int) {
+func (m *Wrapper) Size() (n int) {
 	if m == nil {
 		return 0
 	}
@@ -8493,7 +8493,7 @@ func (m *EventWrapper) Size() (n int) {
 	return n
 }
 
-func (m *EventWrapper_Source) Size() (n int) {
+func (m *Wrapper_Source) Size() (n int) {
 	if m == nil {
 		return 0
 	}
@@ -8505,7 +8505,7 @@ func (m *EventWrapper_Source) Size() (n int) {
 	}
 	return n
 }
-func (m *EventWrapper_GherkinDocument) Size() (n int) {
+func (m *Wrapper_GherkinDocument) Size() (n int) {
 	if m == nil {
 		return 0
 	}
@@ -8517,7 +8517,7 @@ func (m *EventWrapper_GherkinDocument) Size() (n int) {
 	}
 	return n
 }
-func (m *EventWrapper_Pickle) Size() (n int) {
+func (m *Wrapper_Pickle) Size() (n int) {
 	if m == nil {
 		return 0
 	}
@@ -8529,7 +8529,7 @@ func (m *EventWrapper_Pickle) Size() (n int) {
 	}
 	return n
 }
-func (m *EventWrapper_Attachment) Size() (n int) {
+func (m *Wrapper_Attachment) Size() (n int) {
 	if m == nil {
 		return 0
 	}
@@ -8541,7 +8541,7 @@ func (m *EventWrapper_Attachment) Size() (n int) {
 	}
 	return n
 }
-func (m *EventWrapper_TestCaseStarted) Size() (n int) {
+func (m *Wrapper_TestCaseStarted) Size() (n int) {
 	if m == nil {
 		return 0
 	}
@@ -8553,7 +8553,7 @@ func (m *EventWrapper_TestCaseStarted) Size() (n int) {
 	}
 	return n
 }
-func (m *EventWrapper_TestStepStarted) Size() (n int) {
+func (m *Wrapper_TestStepStarted) Size() (n int) {
 	if m == nil {
 		return 0
 	}
@@ -8565,7 +8565,7 @@ func (m *EventWrapper_TestStepStarted) Size() (n int) {
 	}
 	return n
 }
-func (m *EventWrapper_TestStepFinished) Size() (n int) {
+func (m *Wrapper_TestStepFinished) Size() (n int) {
 	if m == nil {
 		return 0
 	}
@@ -8577,7 +8577,7 @@ func (m *EventWrapper_TestStepFinished) Size() (n int) {
 	}
 	return n
 }
-func (m *EventWrapper_TestCaseFinished) Size() (n int) {
+func (m *Wrapper_TestCaseFinished) Size() (n int) {
 	if m == nil {
 		return 0
 	}
@@ -8589,7 +8589,7 @@ func (m *EventWrapper_TestCaseFinished) Size() (n int) {
 	}
 	return n
 }
-func (m *EventWrapper_TestHookStarted) Size() (n int) {
+func (m *Wrapper_TestHookStarted) Size() (n int) {
 	if m == nil {
 		return 0
 	}
@@ -8601,7 +8601,7 @@ func (m *EventWrapper_TestHookStarted) Size() (n int) {
 	}
 	return n
 }
-func (m *EventWrapper_TestHookFinished) Size() (n int) {
+func (m *Wrapper_TestHookFinished) Size() (n int) {
 	if m == nil {
 		return 0
 	}
@@ -8613,7 +8613,7 @@ func (m *EventWrapper_TestHookFinished) Size() (n int) {
 	}
 	return n
 }
-func (m *EventWrapper_PickleAccepted) Size() (n int) {
+func (m *Wrapper_PickleAccepted) Size() (n int) {
 	if m == nil {
 		return 0
 	}
@@ -8625,7 +8625,7 @@ func (m *EventWrapper_PickleAccepted) Size() (n int) {
 	}
 	return n
 }
-func (m *EventWrapper_PickleRejected) Size() (n int) {
+func (m *Wrapper_PickleRejected) Size() (n int) {
 	if m == nil {
 		return 0
 	}
@@ -8637,7 +8637,7 @@ func (m *EventWrapper_PickleRejected) Size() (n int) {
 	}
 	return n
 }
-func (m *EventWrapper_TestCasePrepared) Size() (n int) {
+func (m *Wrapper_TestCasePrepared) Size() (n int) {
 	if m == nil {
 		return 0
 	}
@@ -8649,7 +8649,7 @@ func (m *EventWrapper_TestCasePrepared) Size() (n int) {
 	}
 	return n
 }
-func (m *EventWrapper_TestRunStarted) Size() (n int) {
+func (m *Wrapper_TestRunStarted) Size() (n int) {
 	if m == nil {
 		return 0
 	}
@@ -8661,7 +8661,7 @@ func (m *EventWrapper_TestRunStarted) Size() (n int) {
 	}
 	return n
 }
-func (m *EventWrapper_TestRunFinished) Size() (n int) {
+func (m *Wrapper_TestRunFinished) Size() (n int) {
 	if m == nil {
 		return 0
 	}
@@ -10237,7 +10237,7 @@ func sovMessages(x uint64) (n int) {
 func sozMessages(x uint64) (n int) {
 	return sovMessages(uint64((x << 1) ^ uint64((int64(x) >> 63))))
 }
-func (m *EventWrapper) Unmarshal(dAtA []byte) error {
+func (m *Wrapper) Unmarshal(dAtA []byte) error {
 	l := len(dAtA)
 	iNdEx := 0
 	for iNdEx < l {
@@ -10260,10 +10260,10 @@ func (m *EventWrapper) Unmarshal(dAtA []byte) error {
 		fieldNum := int32(wire >> 3)
 		wireType := int(wire & 0x7)
 		if wireType == 4 {
-			return fmt.Errorf("proto: EventWrapper: wiretype end group for non-group")
+			return fmt.Errorf("proto: Wrapper: wiretype end group for non-group")
 		}
 		if fieldNum <= 0 {
-			return fmt.Errorf("proto: EventWrapper: illegal tag %d (wire type %d)", fieldNum, wire)
+			return fmt.Errorf("proto: Wrapper: illegal tag %d (wire type %d)", fieldNum, wire)
 		}
 		switch fieldNum {
 		case 1:
@@ -10296,7 +10296,7 @@ func (m *EventWrapper) Unmarshal(dAtA []byte) error {
 			if err := v.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
 				return err
 			}
-			m.Message = &EventWrapper_Source{v}
+			m.Message = &Wrapper_Source{v}
 			iNdEx = postIndex
 		case 2:
 			if wireType != 2 {
@@ -10328,7 +10328,7 @@ func (m *EventWrapper) Unmarshal(dAtA []byte) error {
 			if err := v.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
 				return err
 			}
-			m.Message = &EventWrapper_GherkinDocument{v}
+			m.Message = &Wrapper_GherkinDocument{v}
 			iNdEx = postIndex
 		case 3:
 			if wireType != 2 {
@@ -10360,7 +10360,7 @@ func (m *EventWrapper) Unmarshal(dAtA []byte) error {
 			if err := v.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
 				return err
 			}
-			m.Message = &EventWrapper_Pickle{v}
+			m.Message = &Wrapper_Pickle{v}
 			iNdEx = postIndex
 		case 4:
 			if wireType != 2 {
@@ -10392,7 +10392,7 @@ func (m *EventWrapper) Unmarshal(dAtA []byte) error {
 			if err := v.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
 				return err
 			}
-			m.Message = &EventWrapper_Attachment{v}
+			m.Message = &Wrapper_Attachment{v}
 			iNdEx = postIndex
 		case 5:
 			if wireType != 2 {
@@ -10424,7 +10424,7 @@ func (m *EventWrapper) Unmarshal(dAtA []byte) error {
 			if err := v.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
 				return err
 			}
-			m.Message = &EventWrapper_TestCaseStarted{v}
+			m.Message = &Wrapper_TestCaseStarted{v}
 			iNdEx = postIndex
 		case 6:
 			if wireType != 2 {
@@ -10456,7 +10456,7 @@ func (m *EventWrapper) Unmarshal(dAtA []byte) error {
 			if err := v.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
 				return err
 			}
-			m.Message = &EventWrapper_TestStepStarted{v}
+			m.Message = &Wrapper_TestStepStarted{v}
 			iNdEx = postIndex
 		case 7:
 			if wireType != 2 {
@@ -10488,7 +10488,7 @@ func (m *EventWrapper) Unmarshal(dAtA []byte) error {
 			if err := v.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
 				return err
 			}
-			m.Message = &EventWrapper_TestStepFinished{v}
+			m.Message = &Wrapper_TestStepFinished{v}
 			iNdEx = postIndex
 		case 8:
 			if wireType != 2 {
@@ -10520,7 +10520,7 @@ func (m *EventWrapper) Unmarshal(dAtA []byte) error {
 			if err := v.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
 				return err
 			}
-			m.Message = &EventWrapper_TestCaseFinished{v}
+			m.Message = &Wrapper_TestCaseFinished{v}
 			iNdEx = postIndex
 		case 9:
 			if wireType != 2 {
@@ -10552,7 +10552,7 @@ func (m *EventWrapper) Unmarshal(dAtA []byte) error {
 			if err := v.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
 				return err
 			}
-			m.Message = &EventWrapper_TestHookStarted{v}
+			m.Message = &Wrapper_TestHookStarted{v}
 			iNdEx = postIndex
 		case 10:
 			if wireType != 2 {
@@ -10584,7 +10584,7 @@ func (m *EventWrapper) Unmarshal(dAtA []byte) error {
 			if err := v.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
 				return err
 			}
-			m.Message = &EventWrapper_TestHookFinished{v}
+			m.Message = &Wrapper_TestHookFinished{v}
 			iNdEx = postIndex
 		case 11:
 			if wireType != 2 {
@@ -10616,7 +10616,7 @@ func (m *EventWrapper) Unmarshal(dAtA []byte) error {
 			if err := v.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
 				return err
 			}
-			m.Message = &EventWrapper_PickleAccepted{v}
+			m.Message = &Wrapper_PickleAccepted{v}
 			iNdEx = postIndex
 		case 12:
 			if wireType != 2 {
@@ -10648,7 +10648,7 @@ func (m *EventWrapper) Unmarshal(dAtA []byte) error {
 			if err := v.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
 				return err
 			}
-			m.Message = &EventWrapper_PickleRejected{v}
+			m.Message = &Wrapper_PickleRejected{v}
 			iNdEx = postIndex
 		case 13:
 			if wireType != 2 {
@@ -10680,7 +10680,7 @@ func (m *EventWrapper) Unmarshal(dAtA []byte) error {
 			if err := v.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
 				return err
 			}
-			m.Message = &EventWrapper_TestCasePrepared{v}
+			m.Message = &Wrapper_TestCasePrepared{v}
 			iNdEx = postIndex
 		case 14:
 			if wireType != 2 {
@@ -10712,7 +10712,7 @@ func (m *EventWrapper) Unmarshal(dAtA []byte) error {
 			if err := v.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
 				return err
 			}
-			m.Message = &EventWrapper_TestRunStarted{v}
+			m.Message = &Wrapper_TestRunStarted{v}
 			iNdEx = postIndex
 		case 15:
 			if wireType != 2 {
@@ -10744,7 +10744,7 @@ func (m *EventWrapper) Unmarshal(dAtA []byte) error {
 			if err := v.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
 				return err
 			}
-			m.Message = &EventWrapper_TestRunFinished{v}
+			m.Message = &Wrapper_TestRunFinished{v}
 			iNdEx = postIndex
 		case 16:
 			if wireType != 2 {
@@ -11172,7 +11172,7 @@ func (m *CommandWrapper) Unmarshal(dAtA []byte) error {
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			v := &EventWrapper{}
+			v := &Wrapper{}
 			if err := v.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
 				return err
 			}

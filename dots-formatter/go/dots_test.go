@@ -47,9 +47,9 @@ func TestAllResultTypes(t *testing.T) {
 		stdout.String())
 }
 
-func newTestStepFinished(status messages.Status) *messages.EventWrapper {
-	return &messages.EventWrapper{
-		Message: &messages.EventWrapper_TestStepFinished{
+func newTestStepFinished(status messages.Status) *messages.Wrapper {
+	return &messages.Wrapper{
+		Message: &messages.Wrapper_TestStepFinished{
 			TestStepFinished: &messages.TestStepFinished{
 				TestResult: &messages.TestResult{
 					Status: status,
@@ -59,9 +59,9 @@ func newTestStepFinished(status messages.Status) *messages.EventWrapper {
 	}
 }
 
-func newTestHookFinished(status messages.Status) *messages.EventWrapper {
-	return &messages.EventWrapper{
-		Message: &messages.EventWrapper_TestHookFinished{
+func newTestHookFinished(status messages.Status) *messages.Wrapper {
+	return &messages.Wrapper{
+		Message: &messages.Wrapper_TestHookFinished{
 			TestHookFinished: &messages.TestHookFinished{
 				TestResult: &messages.TestResult{
 					Status: status,

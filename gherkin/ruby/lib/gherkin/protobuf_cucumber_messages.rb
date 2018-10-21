@@ -20,7 +20,7 @@ module Gherkin
             break if @io.eof?
             len = decode_varint(@io)
             buf = @io.read(len)
-            wrapper = Cucumber::Messages::EventWrapper.decode(buf)
+            wrapper = Cucumber::Messages::Wrapper.decode(buf)
             y.yield wrapper
           end
         end

@@ -20,8 +20,8 @@ func TestMessagesWithStdin(t *testing.T) {
     Given b
 `
 
-	wrapper := &messages.EventWrapper{
-		Message: &messages.EventWrapper_Source{
+	wrapper := &messages.Wrapper{
+		Message: &messages.Wrapper_Source{
 			Source: &messages.Source{
 				Uri:  "features/test.feature",
 				Data: gherkin,

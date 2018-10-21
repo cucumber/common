@@ -48,14 +48,14 @@ class Gherkin {
     if (!this._options.includePickles) options.push('--no-pickles')
     const args = options.concat(this._paths)
     const gherkin = spawn(this._exeFile.fileName, args)
-    const protobufMessageStream = new ProtobufMessageStream(cm.EventWrapper)
+    const protobufMessageStream = new ProtobufMessageStream(cm.Wrapper)
     gherkin.on('error', err => {
       protobufMessageStream.emit('error', err)
     })
     gherkin.stdout.pipe(protobufMessageStream)
     for (const source of this._sources) {
-      const wrapper = new cm.EventWrapper.fromObject({ source })
-      gherkin.stdin.write(cm.EventWrapper.encodeDelimited(wrapper).finish())
+      const wrapper = new cm.Wrapper.fromObject({ source })
+      gherkin.stdin.write(cm.Wrapper.encodeDelimited(wrapper).finish())
     }
     gherkin.stdin.end()
     return protobufMessageStream

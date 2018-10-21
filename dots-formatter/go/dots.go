@@ -21,19 +21,19 @@ func ProcessMessages(stdin io.Reader, stdout io.Writer) {
 
 	r := gio.NewDelimitedReader(stdin, 4096)
 	for {
-		wrapper := &messages.EventWrapper{}
+		wrapper := &messages.Wrapper{}
 		err := r.ReadMsg(wrapper)
 		if err == io.EOF {
 			break
 		}
 
 		switch m := wrapper.Message.(type) {
-		case *messages.EventWrapper_TestHookFinished:
+		case *messages.Wrapper_TestHookFinished:
 			switch m.TestHookFinished.TestResult.Status {
 			case messages.Status_FAILED:
 				color.New(color.FgRed).Fprint(stdout, "H")
 			}
-		case *messages.EventWrapper_TestStepFinished:
+		case *messages.Wrapper_TestStepFinished:
 			switch m.TestStepFinished.TestResult.Status {
 			case messages.Status_AMBIGUOUS:
 				color.New(color.FgMagenta).Fprint(stdout, "A")

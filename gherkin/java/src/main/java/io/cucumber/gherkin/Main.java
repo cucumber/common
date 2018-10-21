@@ -1,6 +1,6 @@
 package io.cucumber.gherkin;
 
-import io.cucumber.messages.Messages.EventWrapper;
+import io.cucumber.messages.Messages.Wrapper;
 import io.cucumber.messages.com.google.protobuf.util.JsonFormat;
 import io.cucumber.messages.com.google.protobuf.util.JsonFormat.Printer;
 
@@ -54,14 +54,14 @@ public class Main {
             System.exit(0);
         }
 
-        List<EventWrapper> messages = paths.isEmpty() ?
+        List<Wrapper> messages = paths.isEmpty() ?
                 new ProtobufGherkinMessages(System.in).messages() :
                 Gherkin.fromPaths(paths, includeSource, includeAst, includePickles);
         printMessages(jsonPrinter, messages);
     }
 
-    private static void printMessages(Printer jsonPrinter, List<EventWrapper> messages) throws IOException {
-        for (EventWrapper wrapper : messages) {
+    private static void printMessages(Printer jsonPrinter, List<Wrapper> messages) throws IOException {
+        for (Wrapper wrapper : messages) {
             if (jsonPrinter != null) {
                 IO.out.write(jsonPrinter.print(wrapper));
                 IO.out.write("\n");

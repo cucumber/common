@@ -344,8 +344,8 @@ public final class Messages {
     // @@protoc_insertion_point(enum_scope:io.cucumber.messages.StepDefinitionPatternType)
   }
 
-  public interface EventWrapperOrBuilder extends
-      // @@protoc_insertion_point(interface_extends:io.cucumber.messages.EventWrapper)
+  public interface WrapperOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:io.cucumber.messages.Wrapper)
       com.google.protobuf.MessageOrBuilder {
 
     /**
@@ -580,25 +580,25 @@ public final class Messages {
      */
     com.google.protobuf.TimestampOrBuilder getTimestampOrBuilder();
 
-    public io.cucumber.messages.Messages.EventWrapper.MessageCase getMessageCase();
+    public io.cucumber.messages.Messages.Wrapper.MessageCase getMessageCase();
   }
   /**
    * <pre>
-   * All messages sent between gherkin or formatters must be of type EventWrapper
+   * All messages sent between gherkin or formatters must be of type Wrapper
    * </pre>
    *
-   * Protobuf type {@code io.cucumber.messages.EventWrapper}
+   * Protobuf type {@code io.cucumber.messages.Wrapper}
    */
-  public  static final class EventWrapper extends
+  public  static final class Wrapper extends
       com.google.protobuf.GeneratedMessageV3 implements
-      // @@protoc_insertion_point(message_implements:io.cucumber.messages.EventWrapper)
-      EventWrapperOrBuilder {
+      // @@protoc_insertion_point(message_implements:io.cucumber.messages.Wrapper)
+      WrapperOrBuilder {
   private static final long serialVersionUID = 0L;
-    // Use EventWrapper.newBuilder() to construct.
-    private EventWrapper(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+    // Use Wrapper.newBuilder() to construct.
+    private Wrapper(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
       super(builder);
     }
-    private EventWrapper() {
+    private Wrapper() {
     }
 
     @java.lang.Override
@@ -606,7 +606,7 @@ public final class Messages {
     getUnknownFields() {
       return this.unknownFields;
     }
-    private EventWrapper(
+    private Wrapper(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
@@ -869,15 +869,15 @@ public final class Messages {
     }
     public static final com.google.protobuf.Descriptors.Descriptor
         getDescriptor() {
-      return io.cucumber.messages.Messages.internal_static_io_cucumber_messages_EventWrapper_descriptor;
+      return io.cucumber.messages.Messages.internal_static_io_cucumber_messages_Wrapper_descriptor;
     }
 
     @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
-      return io.cucumber.messages.Messages.internal_static_io_cucumber_messages_EventWrapper_fieldAccessorTable
+      return io.cucumber.messages.Messages.internal_static_io_cucumber_messages_Wrapper_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
-              io.cucumber.messages.Messages.EventWrapper.class, io.cucumber.messages.Messages.EventWrapper.Builder.class);
+              io.cucumber.messages.Messages.Wrapper.class, io.cucumber.messages.Messages.Wrapper.Builder.class);
     }
 
     private int messageCase_ = 0;
@@ -1524,10 +1524,10 @@ public final class Messages {
       if (obj == this) {
        return true;
       }
-      if (!(obj instanceof io.cucumber.messages.Messages.EventWrapper)) {
+      if (!(obj instanceof io.cucumber.messages.Messages.Wrapper)) {
         return super.equals(obj);
       }
-      io.cucumber.messages.Messages.EventWrapper other = (io.cucumber.messages.Messages.EventWrapper) obj;
+      io.cucumber.messages.Messages.Wrapper other = (io.cucumber.messages.Messages.Wrapper) obj;
 
       boolean result = true;
       result = result && (hasTimestamp() == other.hasTimestamp());
@@ -1686,69 +1686,69 @@ public final class Messages {
       return hash;
     }
 
-    public static io.cucumber.messages.Messages.EventWrapper parseFrom(
+    public static io.cucumber.messages.Messages.Wrapper parseFrom(
         java.nio.ByteBuffer data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-    public static io.cucumber.messages.Messages.EventWrapper parseFrom(
+    public static io.cucumber.messages.Messages.Wrapper parseFrom(
         java.nio.ByteBuffer data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-    public static io.cucumber.messages.Messages.EventWrapper parseFrom(
+    public static io.cucumber.messages.Messages.Wrapper parseFrom(
         com.google.protobuf.ByteString data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-    public static io.cucumber.messages.Messages.EventWrapper parseFrom(
+    public static io.cucumber.messages.Messages.Wrapper parseFrom(
         com.google.protobuf.ByteString data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-    public static io.cucumber.messages.Messages.EventWrapper parseFrom(byte[] data)
+    public static io.cucumber.messages.Messages.Wrapper parseFrom(byte[] data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-    public static io.cucumber.messages.Messages.EventWrapper parseFrom(
+    public static io.cucumber.messages.Messages.Wrapper parseFrom(
         byte[] data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-    public static io.cucumber.messages.Messages.EventWrapper parseFrom(java.io.InputStream input)
+    public static io.cucumber.messages.Messages.Wrapper parseFrom(java.io.InputStream input)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseWithIOException(PARSER, input);
     }
-    public static io.cucumber.messages.Messages.EventWrapper parseFrom(
+    public static io.cucumber.messages.Messages.Wrapper parseFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
-    public static io.cucumber.messages.Messages.EventWrapper parseDelimitedFrom(java.io.InputStream input)
+    public static io.cucumber.messages.Messages.Wrapper parseDelimitedFrom(java.io.InputStream input)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseDelimitedWithIOException(PARSER, input);
     }
-    public static io.cucumber.messages.Messages.EventWrapper parseDelimitedFrom(
+    public static io.cucumber.messages.Messages.Wrapper parseDelimitedFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
     }
-    public static io.cucumber.messages.Messages.EventWrapper parseFrom(
+    public static io.cucumber.messages.Messages.Wrapper parseFrom(
         com.google.protobuf.CodedInputStream input)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseWithIOException(PARSER, input);
     }
-    public static io.cucumber.messages.Messages.EventWrapper parseFrom(
+    public static io.cucumber.messages.Messages.Wrapper parseFrom(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
@@ -1761,7 +1761,7 @@ public final class Messages {
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
     }
-    public static Builder newBuilder(io.cucumber.messages.Messages.EventWrapper prototype) {
+    public static Builder newBuilder(io.cucumber.messages.Messages.Wrapper prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
     @java.lang.Override
@@ -1778,29 +1778,29 @@ public final class Messages {
     }
     /**
      * <pre>
-     * All messages sent between gherkin or formatters must be of type EventWrapper
+     * All messages sent between gherkin or formatters must be of type Wrapper
      * </pre>
      *
-     * Protobuf type {@code io.cucumber.messages.EventWrapper}
+     * Protobuf type {@code io.cucumber.messages.Wrapper}
      */
     public static final class Builder extends
         com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
-        // @@protoc_insertion_point(builder_implements:io.cucumber.messages.EventWrapper)
-        io.cucumber.messages.Messages.EventWrapperOrBuilder {
+        // @@protoc_insertion_point(builder_implements:io.cucumber.messages.Wrapper)
+        io.cucumber.messages.Messages.WrapperOrBuilder {
       public static final com.google.protobuf.Descriptors.Descriptor
           getDescriptor() {
-        return io.cucumber.messages.Messages.internal_static_io_cucumber_messages_EventWrapper_descriptor;
+        return io.cucumber.messages.Messages.internal_static_io_cucumber_messages_Wrapper_descriptor;
       }
 
       @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
-        return io.cucumber.messages.Messages.internal_static_io_cucumber_messages_EventWrapper_fieldAccessorTable
+        return io.cucumber.messages.Messages.internal_static_io_cucumber_messages_Wrapper_fieldAccessorTable
             .ensureFieldAccessorsInitialized(
-                io.cucumber.messages.Messages.EventWrapper.class, io.cucumber.messages.Messages.EventWrapper.Builder.class);
+                io.cucumber.messages.Messages.Wrapper.class, io.cucumber.messages.Messages.Wrapper.Builder.class);
       }
 
-      // Construct using io.cucumber.messages.Messages.EventWrapper.newBuilder()
+      // Construct using io.cucumber.messages.Messages.Wrapper.newBuilder()
       private Builder() {
         maybeForceBuilderInitialization();
       }
@@ -1832,17 +1832,17 @@ public final class Messages {
       @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
-        return io.cucumber.messages.Messages.internal_static_io_cucumber_messages_EventWrapper_descriptor;
+        return io.cucumber.messages.Messages.internal_static_io_cucumber_messages_Wrapper_descriptor;
       }
 
       @java.lang.Override
-      public io.cucumber.messages.Messages.EventWrapper getDefaultInstanceForType() {
-        return io.cucumber.messages.Messages.EventWrapper.getDefaultInstance();
+      public io.cucumber.messages.Messages.Wrapper getDefaultInstanceForType() {
+        return io.cucumber.messages.Messages.Wrapper.getDefaultInstance();
       }
 
       @java.lang.Override
-      public io.cucumber.messages.Messages.EventWrapper build() {
-        io.cucumber.messages.Messages.EventWrapper result = buildPartial();
+      public io.cucumber.messages.Messages.Wrapper build() {
+        io.cucumber.messages.Messages.Wrapper result = buildPartial();
         if (!result.isInitialized()) {
           throw newUninitializedMessageException(result);
         }
@@ -1850,8 +1850,8 @@ public final class Messages {
       }
 
       @java.lang.Override
-      public io.cucumber.messages.Messages.EventWrapper buildPartial() {
-        io.cucumber.messages.Messages.EventWrapper result = new io.cucumber.messages.Messages.EventWrapper(this);
+      public io.cucumber.messages.Messages.Wrapper buildPartial() {
+        io.cucumber.messages.Messages.Wrapper result = new io.cucumber.messages.Messages.Wrapper(this);
         if (messageCase_ == 1) {
           if (sourceBuilder_ == null) {
             result.message_ = message_;
@@ -2001,16 +2001,16 @@ public final class Messages {
       }
       @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
-        if (other instanceof io.cucumber.messages.Messages.EventWrapper) {
-          return mergeFrom((io.cucumber.messages.Messages.EventWrapper)other);
+        if (other instanceof io.cucumber.messages.Messages.Wrapper) {
+          return mergeFrom((io.cucumber.messages.Messages.Wrapper)other);
         } else {
           super.mergeFrom(other);
           return this;
         }
       }
 
-      public Builder mergeFrom(io.cucumber.messages.Messages.EventWrapper other) {
-        if (other == io.cucumber.messages.Messages.EventWrapper.getDefaultInstance()) return this;
+      public Builder mergeFrom(io.cucumber.messages.Messages.Wrapper other) {
+        if (other == io.cucumber.messages.Messages.Wrapper.getDefaultInstance()) return this;
         if (other.hasTimestamp()) {
           mergeTimestamp(other.getTimestamp());
         }
@@ -2094,11 +2094,11 @@ public final class Messages {
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws java.io.IOException {
-        io.cucumber.messages.Messages.EventWrapper parsedMessage = null;
+        io.cucumber.messages.Messages.Wrapper parsedMessage = null;
         try {
           parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
         } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-          parsedMessage = (io.cucumber.messages.Messages.EventWrapper) e.getUnfinishedMessage();
+          parsedMessage = (io.cucumber.messages.Messages.Wrapper) e.getUnfinishedMessage();
           throw e.unwrapIOException();
         } finally {
           if (parsedMessage != null) {
@@ -4364,41 +4364,41 @@ public final class Messages {
       }
 
 
-      // @@protoc_insertion_point(builder_scope:io.cucumber.messages.EventWrapper)
+      // @@protoc_insertion_point(builder_scope:io.cucumber.messages.Wrapper)
     }
 
-    // @@protoc_insertion_point(class_scope:io.cucumber.messages.EventWrapper)
-    private static final io.cucumber.messages.Messages.EventWrapper DEFAULT_INSTANCE;
+    // @@protoc_insertion_point(class_scope:io.cucumber.messages.Wrapper)
+    private static final io.cucumber.messages.Messages.Wrapper DEFAULT_INSTANCE;
     static {
-      DEFAULT_INSTANCE = new io.cucumber.messages.Messages.EventWrapper();
+      DEFAULT_INSTANCE = new io.cucumber.messages.Messages.Wrapper();
     }
 
-    public static io.cucumber.messages.Messages.EventWrapper getDefaultInstance() {
+    public static io.cucumber.messages.Messages.Wrapper getDefaultInstance() {
       return DEFAULT_INSTANCE;
     }
 
-    private static final com.google.protobuf.Parser<EventWrapper>
-        PARSER = new com.google.protobuf.AbstractParser<EventWrapper>() {
+    private static final com.google.protobuf.Parser<Wrapper>
+        PARSER = new com.google.protobuf.AbstractParser<Wrapper>() {
       @java.lang.Override
-      public EventWrapper parsePartialFrom(
+      public Wrapper parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-        return new EventWrapper(input, extensionRegistry);
+        return new Wrapper(input, extensionRegistry);
       }
     };
 
-    public static com.google.protobuf.Parser<EventWrapper> parser() {
+    public static com.google.protobuf.Parser<Wrapper> parser() {
       return PARSER;
     }
 
     @java.lang.Override
-    public com.google.protobuf.Parser<EventWrapper> getParserForType() {
+    public com.google.protobuf.Parser<Wrapper> getParserForType() {
       return PARSER;
     }
 
     @java.lang.Override
-    public io.cucumber.messages.Messages.EventWrapper getDefaultInstanceForType() {
+    public io.cucumber.messages.Messages.Wrapper getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
 
@@ -4576,7 +4576,7 @@ public final class Messages {
      * Sent by cucumber-engine to be forwarded to formatters
      * </pre>
      *
-     * <code>.io.cucumber.messages.EventWrapper commandEvent = 11;</code>
+     * <code>.io.cucumber.messages.Wrapper commandEvent = 11;</code>
      */
     boolean hasCommandEvent();
     /**
@@ -4584,17 +4584,17 @@ public final class Messages {
      * Sent by cucumber-engine to be forwarded to formatters
      * </pre>
      *
-     * <code>.io.cucumber.messages.EventWrapper commandEvent = 11;</code>
+     * <code>.io.cucumber.messages.Wrapper commandEvent = 11;</code>
      */
-    io.cucumber.messages.Messages.EventWrapper getCommandEvent();
+    io.cucumber.messages.Messages.Wrapper getCommandEvent();
     /**
      * <pre>
      * Sent by cucumber-engine to be forwarded to formatters
      * </pre>
      *
-     * <code>.io.cucumber.messages.EventWrapper commandEvent = 11;</code>
+     * <code>.io.cucumber.messages.Wrapper commandEvent = 11;</code>
      */
-    io.cucumber.messages.Messages.EventWrapperOrBuilder getCommandEventOrBuilder();
+    io.cucumber.messages.Messages.WrapperOrBuilder getCommandEventOrBuilder();
 
     /**
      * <pre>
@@ -4793,14 +4793,14 @@ public final class Messages {
               break;
             }
             case 90: {
-              io.cucumber.messages.Messages.EventWrapper.Builder subBuilder = null;
+              io.cucumber.messages.Messages.Wrapper.Builder subBuilder = null;
               if (messageCase_ == 11) {
-                subBuilder = ((io.cucumber.messages.Messages.EventWrapper) message_).toBuilder();
+                subBuilder = ((io.cucumber.messages.Messages.Wrapper) message_).toBuilder();
               }
               message_ =
-                  input.readMessage(io.cucumber.messages.Messages.EventWrapper.parser(), extensionRegistry);
+                  input.readMessage(io.cucumber.messages.Messages.Wrapper.parser(), extensionRegistry);
               if (subBuilder != null) {
-                subBuilder.mergeFrom((io.cucumber.messages.Messages.EventWrapper) message_);
+                subBuilder.mergeFrom((io.cucumber.messages.Messages.Wrapper) message_);
                 message_ = subBuilder.buildPartial();
               }
               messageCase_ = 11;
@@ -5210,7 +5210,7 @@ public final class Messages {
      * Sent by cucumber-engine to be forwarded to formatters
      * </pre>
      *
-     * <code>.io.cucumber.messages.EventWrapper commandEvent = 11;</code>
+     * <code>.io.cucumber.messages.Wrapper commandEvent = 11;</code>
      */
     public boolean hasCommandEvent() {
       return messageCase_ == 11;
@@ -5220,26 +5220,26 @@ public final class Messages {
      * Sent by cucumber-engine to be forwarded to formatters
      * </pre>
      *
-     * <code>.io.cucumber.messages.EventWrapper commandEvent = 11;</code>
+     * <code>.io.cucumber.messages.Wrapper commandEvent = 11;</code>
      */
-    public io.cucumber.messages.Messages.EventWrapper getCommandEvent() {
+    public io.cucumber.messages.Messages.Wrapper getCommandEvent() {
       if (messageCase_ == 11) {
-         return (io.cucumber.messages.Messages.EventWrapper) message_;
+         return (io.cucumber.messages.Messages.Wrapper) message_;
       }
-      return io.cucumber.messages.Messages.EventWrapper.getDefaultInstance();
+      return io.cucumber.messages.Messages.Wrapper.getDefaultInstance();
     }
     /**
      * <pre>
      * Sent by cucumber-engine to be forwarded to formatters
      * </pre>
      *
-     * <code>.io.cucumber.messages.EventWrapper commandEvent = 11;</code>
+     * <code>.io.cucumber.messages.Wrapper commandEvent = 11;</code>
      */
-    public io.cucumber.messages.Messages.EventWrapperOrBuilder getCommandEventOrBuilder() {
+    public io.cucumber.messages.Messages.WrapperOrBuilder getCommandEventOrBuilder() {
       if (messageCase_ == 11) {
-         return (io.cucumber.messages.Messages.EventWrapper) message_;
+         return (io.cucumber.messages.Messages.Wrapper) message_;
       }
-      return io.cucumber.messages.Messages.EventWrapper.getDefaultInstance();
+      return io.cucumber.messages.Messages.Wrapper.getDefaultInstance();
     }
 
     public static final int COMMANDERROR_FIELD_NUMBER = 12;
@@ -5338,7 +5338,7 @@ public final class Messages {
         output.writeMessage(10, (io.cucumber.messages.Messages.CommandGenerateSnippet) message_);
       }
       if (messageCase_ == 11) {
-        output.writeMessage(11, (io.cucumber.messages.Messages.EventWrapper) message_);
+        output.writeMessage(11, (io.cucumber.messages.Messages.Wrapper) message_);
       }
       if (messageCase_ == 12) {
         com.google.protobuf.GeneratedMessageV3.writeString(output, 12, message_);
@@ -5393,7 +5393,7 @@ public final class Messages {
       }
       if (messageCase_ == 11) {
         size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(11, (io.cucumber.messages.Messages.EventWrapper) message_);
+          .computeMessageSize(11, (io.cucumber.messages.Messages.Wrapper) message_);
       }
       if (messageCase_ == 12) {
         size += com.google.protobuf.GeneratedMessageV3.computeStringSize(12, message_);
@@ -7319,13 +7319,13 @@ public final class Messages {
       }
 
       private com.google.protobuf.SingleFieldBuilderV3<
-          io.cucumber.messages.Messages.EventWrapper, io.cucumber.messages.Messages.EventWrapper.Builder, io.cucumber.messages.Messages.EventWrapperOrBuilder> commandEventBuilder_;
+          io.cucumber.messages.Messages.Wrapper, io.cucumber.messages.Messages.Wrapper.Builder, io.cucumber.messages.Messages.WrapperOrBuilder> commandEventBuilder_;
       /**
        * <pre>
        * Sent by cucumber-engine to be forwarded to formatters
        * </pre>
        *
-       * <code>.io.cucumber.messages.EventWrapper commandEvent = 11;</code>
+       * <code>.io.cucumber.messages.Wrapper commandEvent = 11;</code>
        */
       public boolean hasCommandEvent() {
         return messageCase_ == 11;
@@ -7335,19 +7335,19 @@ public final class Messages {
        * Sent by cucumber-engine to be forwarded to formatters
        * </pre>
        *
-       * <code>.io.cucumber.messages.EventWrapper commandEvent = 11;</code>
+       * <code>.io.cucumber.messages.Wrapper commandEvent = 11;</code>
        */
-      public io.cucumber.messages.Messages.EventWrapper getCommandEvent() {
+      public io.cucumber.messages.Messages.Wrapper getCommandEvent() {
         if (commandEventBuilder_ == null) {
           if (messageCase_ == 11) {
-            return (io.cucumber.messages.Messages.EventWrapper) message_;
+            return (io.cucumber.messages.Messages.Wrapper) message_;
           }
-          return io.cucumber.messages.Messages.EventWrapper.getDefaultInstance();
+          return io.cucumber.messages.Messages.Wrapper.getDefaultInstance();
         } else {
           if (messageCase_ == 11) {
             return commandEventBuilder_.getMessage();
           }
-          return io.cucumber.messages.Messages.EventWrapper.getDefaultInstance();
+          return io.cucumber.messages.Messages.Wrapper.getDefaultInstance();
         }
       }
       /**
@@ -7355,9 +7355,9 @@ public final class Messages {
        * Sent by cucumber-engine to be forwarded to formatters
        * </pre>
        *
-       * <code>.io.cucumber.messages.EventWrapper commandEvent = 11;</code>
+       * <code>.io.cucumber.messages.Wrapper commandEvent = 11;</code>
        */
-      public Builder setCommandEvent(io.cucumber.messages.Messages.EventWrapper value) {
+      public Builder setCommandEvent(io.cucumber.messages.Messages.Wrapper value) {
         if (commandEventBuilder_ == null) {
           if (value == null) {
             throw new NullPointerException();
@@ -7375,10 +7375,10 @@ public final class Messages {
        * Sent by cucumber-engine to be forwarded to formatters
        * </pre>
        *
-       * <code>.io.cucumber.messages.EventWrapper commandEvent = 11;</code>
+       * <code>.io.cucumber.messages.Wrapper commandEvent = 11;</code>
        */
       public Builder setCommandEvent(
-          io.cucumber.messages.Messages.EventWrapper.Builder builderForValue) {
+          io.cucumber.messages.Messages.Wrapper.Builder builderForValue) {
         if (commandEventBuilder_ == null) {
           message_ = builderForValue.build();
           onChanged();
@@ -7393,13 +7393,13 @@ public final class Messages {
        * Sent by cucumber-engine to be forwarded to formatters
        * </pre>
        *
-       * <code>.io.cucumber.messages.EventWrapper commandEvent = 11;</code>
+       * <code>.io.cucumber.messages.Wrapper commandEvent = 11;</code>
        */
-      public Builder mergeCommandEvent(io.cucumber.messages.Messages.EventWrapper value) {
+      public Builder mergeCommandEvent(io.cucumber.messages.Messages.Wrapper value) {
         if (commandEventBuilder_ == null) {
           if (messageCase_ == 11 &&
-              message_ != io.cucumber.messages.Messages.EventWrapper.getDefaultInstance()) {
-            message_ = io.cucumber.messages.Messages.EventWrapper.newBuilder((io.cucumber.messages.Messages.EventWrapper) message_)
+              message_ != io.cucumber.messages.Messages.Wrapper.getDefaultInstance()) {
+            message_ = io.cucumber.messages.Messages.Wrapper.newBuilder((io.cucumber.messages.Messages.Wrapper) message_)
                 .mergeFrom(value).buildPartial();
           } else {
             message_ = value;
@@ -7419,7 +7419,7 @@ public final class Messages {
        * Sent by cucumber-engine to be forwarded to formatters
        * </pre>
        *
-       * <code>.io.cucumber.messages.EventWrapper commandEvent = 11;</code>
+       * <code>.io.cucumber.messages.Wrapper commandEvent = 11;</code>
        */
       public Builder clearCommandEvent() {
         if (commandEventBuilder_ == null) {
@@ -7442,9 +7442,9 @@ public final class Messages {
        * Sent by cucumber-engine to be forwarded to formatters
        * </pre>
        *
-       * <code>.io.cucumber.messages.EventWrapper commandEvent = 11;</code>
+       * <code>.io.cucumber.messages.Wrapper commandEvent = 11;</code>
        */
-      public io.cucumber.messages.Messages.EventWrapper.Builder getCommandEventBuilder() {
+      public io.cucumber.messages.Messages.Wrapper.Builder getCommandEventBuilder() {
         return getCommandEventFieldBuilder().getBuilder();
       }
       /**
@@ -7452,16 +7452,16 @@ public final class Messages {
        * Sent by cucumber-engine to be forwarded to formatters
        * </pre>
        *
-       * <code>.io.cucumber.messages.EventWrapper commandEvent = 11;</code>
+       * <code>.io.cucumber.messages.Wrapper commandEvent = 11;</code>
        */
-      public io.cucumber.messages.Messages.EventWrapperOrBuilder getCommandEventOrBuilder() {
+      public io.cucumber.messages.Messages.WrapperOrBuilder getCommandEventOrBuilder() {
         if ((messageCase_ == 11) && (commandEventBuilder_ != null)) {
           return commandEventBuilder_.getMessageOrBuilder();
         } else {
           if (messageCase_ == 11) {
-            return (io.cucumber.messages.Messages.EventWrapper) message_;
+            return (io.cucumber.messages.Messages.Wrapper) message_;
           }
-          return io.cucumber.messages.Messages.EventWrapper.getDefaultInstance();
+          return io.cucumber.messages.Messages.Wrapper.getDefaultInstance();
         }
       }
       /**
@@ -7469,18 +7469,18 @@ public final class Messages {
        * Sent by cucumber-engine to be forwarded to formatters
        * </pre>
        *
-       * <code>.io.cucumber.messages.EventWrapper commandEvent = 11;</code>
+       * <code>.io.cucumber.messages.Wrapper commandEvent = 11;</code>
        */
       private com.google.protobuf.SingleFieldBuilderV3<
-          io.cucumber.messages.Messages.EventWrapper, io.cucumber.messages.Messages.EventWrapper.Builder, io.cucumber.messages.Messages.EventWrapperOrBuilder> 
+          io.cucumber.messages.Messages.Wrapper, io.cucumber.messages.Messages.Wrapper.Builder, io.cucumber.messages.Messages.WrapperOrBuilder> 
           getCommandEventFieldBuilder() {
         if (commandEventBuilder_ == null) {
           if (!(messageCase_ == 11)) {
-            message_ = io.cucumber.messages.Messages.EventWrapper.getDefaultInstance();
+            message_ = io.cucumber.messages.Messages.Wrapper.getDefaultInstance();
           }
           commandEventBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
-              io.cucumber.messages.Messages.EventWrapper, io.cucumber.messages.Messages.EventWrapper.Builder, io.cucumber.messages.Messages.EventWrapperOrBuilder>(
-                  (io.cucumber.messages.Messages.EventWrapper) message_,
+              io.cucumber.messages.Messages.Wrapper, io.cucumber.messages.Messages.Wrapper.Builder, io.cucumber.messages.Messages.WrapperOrBuilder>(
+                  (io.cucumber.messages.Messages.Wrapper) message_,
                   getParentForChildren(),
                   isClean());
           message_ = null;
@@ -64985,10 +64985,10 @@ public final class Messages {
   }
 
   private static final com.google.protobuf.Descriptors.Descriptor
-    internal_static_io_cucumber_messages_EventWrapper_descriptor;
+    internal_static_io_cucumber_messages_Wrapper_descriptor;
   private static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-      internal_static_io_cucumber_messages_EventWrapper_fieldAccessorTable;
+      internal_static_io_cucumber_messages_Wrapper_fieldAccessorTable;
   private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_io_cucumber_messages_CommandWrapper_descriptor;
   private static final 
@@ -65556,11 +65556,11 @@ public final class Messages {
         new com.google.protobuf.Descriptors.FileDescriptor[] {
           com.google.protobuf.TimestampProto.getDescriptor(),
         }, assigner);
-    internal_static_io_cucumber_messages_EventWrapper_descriptor =
+    internal_static_io_cucumber_messages_Wrapper_descriptor =
       getDescriptor().getMessageTypes().get(0);
-    internal_static_io_cucumber_messages_EventWrapper_fieldAccessorTable = new
+    internal_static_io_cucumber_messages_Wrapper_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
-        internal_static_io_cucumber_messages_EventWrapper_descriptor,
+        internal_static_io_cucumber_messages_Wrapper_descriptor,
         new java.lang.String[] { "Source", "GherkinDocument", "Pickle", "Attachment", "TestCaseStarted", "TestStepStarted", "TestStepFinished", "TestCaseFinished", "TestHookStarted", "TestHookFinished", "PickleAccepted", "PickleRejected", "TestCasePrepared", "TestRunStarted", "TestRunFinished", "Timestamp", "Message", });
     internal_static_io_cucumber_messages_CommandWrapper_descriptor =
       getDescriptor().getMessageTypes().get(1);

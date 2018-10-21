@@ -1,6 +1,6 @@
 package io.cucumber.gherkin;
 
-import io.cucumber.messages.Messages.EventWrapper;
+import io.cucumber.messages.Messages.Wrapper;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -16,11 +16,11 @@ class ProtobufGherkinMessages {
         this.input = input;
     }
 
-    public List<EventWrapper> messages() {
-        List<EventWrapper> result = new ArrayList<>();
+    public List<Wrapper> messages() {
+        List<Wrapper> result = new ArrayList<>();
         try {
             while (input.available() > 0) {
-                EventWrapper wrapper = EventWrapper.parseDelimitedFrom(input);
+                Wrapper wrapper = Wrapper.parseDelimitedFrom(input);
                 result.add(wrapper);
             }
             return result;

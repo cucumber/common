@@ -8,184 +8,184 @@ export namespace io {
         /** Namespace messages. */
         namespace messages {
 
-            /** Properties of an EventWrapper. */
-            interface IEventWrapper {
+            /** Properties of an Wrapper. */
+            interface IWrapper {
 
-                /** EventWrapper source */
+                /** Wrapper source */
                 source?: (io.cucumber.messages.ISource|null);
 
-                /** EventWrapper gherkinDocument */
+                /** Wrapper gherkinDocument */
                 gherkinDocument?: (io.cucumber.messages.IGherkinDocument|null);
 
-                /** EventWrapper pickle */
+                /** Wrapper pickle */
                 pickle?: (io.cucumber.messages.IPickle|null);
 
-                /** EventWrapper attachment */
+                /** Wrapper attachment */
                 attachment?: (io.cucumber.messages.IAttachment|null);
 
-                /** EventWrapper testCaseStarted */
+                /** Wrapper testCaseStarted */
                 testCaseStarted?: (io.cucumber.messages.ITestCaseStarted|null);
 
-                /** EventWrapper testStepStarted */
+                /** Wrapper testStepStarted */
                 testStepStarted?: (io.cucumber.messages.ITestStepStarted|null);
 
-                /** EventWrapper testStepFinished */
+                /** Wrapper testStepFinished */
                 testStepFinished?: (io.cucumber.messages.ITestStepFinished|null);
 
-                /** EventWrapper testCaseFinished */
+                /** Wrapper testCaseFinished */
                 testCaseFinished?: (io.cucumber.messages.ITestCaseFinished|null);
 
-                /** EventWrapper testHookStarted */
+                /** Wrapper testHookStarted */
                 testHookStarted?: (io.cucumber.messages.ITestHookStarted|null);
 
-                /** EventWrapper testHookFinished */
+                /** Wrapper testHookFinished */
                 testHookFinished?: (io.cucumber.messages.ITestHookFinished|null);
 
-                /** EventWrapper pickleAccepted */
+                /** Wrapper pickleAccepted */
                 pickleAccepted?: (io.cucumber.messages.IPickleAccepted|null);
 
-                /** EventWrapper pickleRejected */
+                /** Wrapper pickleRejected */
                 pickleRejected?: (io.cucumber.messages.IPickleRejected|null);
 
-                /** EventWrapper testCasePrepared */
+                /** Wrapper testCasePrepared */
                 testCasePrepared?: (io.cucumber.messages.ITestCasePrepared|null);
 
-                /** EventWrapper testRunStarted */
+                /** Wrapper testRunStarted */
                 testRunStarted?: (io.cucumber.messages.ITestRunStarted|null);
 
-                /** EventWrapper testRunFinished */
+                /** Wrapper testRunFinished */
                 testRunFinished?: (io.cucumber.messages.ITestRunFinished|null);
 
-                /** EventWrapper timestamp */
+                /** Wrapper timestamp */
                 timestamp?: (google.protobuf.ITimestamp|null);
             }
 
-            /** Represents an EventWrapper. */
-            class EventWrapper implements IEventWrapper {
+            /** Represents an Wrapper. */
+            class Wrapper implements IWrapper {
 
                 /**
-                 * Constructs a new EventWrapper.
+                 * Constructs a new Wrapper.
                  * @param [properties] Properties to set
                  */
-                constructor(properties?: io.cucumber.messages.IEventWrapper);
+                constructor(properties?: io.cucumber.messages.IWrapper);
 
-                /** EventWrapper source. */
+                /** Wrapper source. */
                 public source?: (io.cucumber.messages.ISource|null);
 
-                /** EventWrapper gherkinDocument. */
+                /** Wrapper gherkinDocument. */
                 public gherkinDocument?: (io.cucumber.messages.IGherkinDocument|null);
 
-                /** EventWrapper pickle. */
+                /** Wrapper pickle. */
                 public pickle?: (io.cucumber.messages.IPickle|null);
 
-                /** EventWrapper attachment. */
+                /** Wrapper attachment. */
                 public attachment?: (io.cucumber.messages.IAttachment|null);
 
-                /** EventWrapper testCaseStarted. */
+                /** Wrapper testCaseStarted. */
                 public testCaseStarted?: (io.cucumber.messages.ITestCaseStarted|null);
 
-                /** EventWrapper testStepStarted. */
+                /** Wrapper testStepStarted. */
                 public testStepStarted?: (io.cucumber.messages.ITestStepStarted|null);
 
-                /** EventWrapper testStepFinished. */
+                /** Wrapper testStepFinished. */
                 public testStepFinished?: (io.cucumber.messages.ITestStepFinished|null);
 
-                /** EventWrapper testCaseFinished. */
+                /** Wrapper testCaseFinished. */
                 public testCaseFinished?: (io.cucumber.messages.ITestCaseFinished|null);
 
-                /** EventWrapper testHookStarted. */
+                /** Wrapper testHookStarted. */
                 public testHookStarted?: (io.cucumber.messages.ITestHookStarted|null);
 
-                /** EventWrapper testHookFinished. */
+                /** Wrapper testHookFinished. */
                 public testHookFinished?: (io.cucumber.messages.ITestHookFinished|null);
 
-                /** EventWrapper pickleAccepted. */
+                /** Wrapper pickleAccepted. */
                 public pickleAccepted?: (io.cucumber.messages.IPickleAccepted|null);
 
-                /** EventWrapper pickleRejected. */
+                /** Wrapper pickleRejected. */
                 public pickleRejected?: (io.cucumber.messages.IPickleRejected|null);
 
-                /** EventWrapper testCasePrepared. */
+                /** Wrapper testCasePrepared. */
                 public testCasePrepared?: (io.cucumber.messages.ITestCasePrepared|null);
 
-                /** EventWrapper testRunStarted. */
+                /** Wrapper testRunStarted. */
                 public testRunStarted?: (io.cucumber.messages.ITestRunStarted|null);
 
-                /** EventWrapper testRunFinished. */
+                /** Wrapper testRunFinished. */
                 public testRunFinished?: (io.cucumber.messages.ITestRunFinished|null);
 
-                /** EventWrapper timestamp. */
+                /** Wrapper timestamp. */
                 public timestamp?: (google.protobuf.ITimestamp|null);
 
-                /** EventWrapper message. */
+                /** Wrapper message. */
                 public message?: ("source"|"gherkinDocument"|"pickle"|"attachment"|"testCaseStarted"|"testStepStarted"|"testStepFinished"|"testCaseFinished"|"testHookStarted"|"testHookFinished"|"pickleAccepted"|"pickleRejected"|"testCasePrepared"|"testRunStarted"|"testRunFinished");
 
                 /**
-                 * Creates a new EventWrapper instance using the specified properties.
+                 * Creates a new Wrapper instance using the specified properties.
                  * @param [properties] Properties to set
-                 * @returns EventWrapper instance
+                 * @returns Wrapper instance
                  */
-                public static create(properties?: io.cucumber.messages.IEventWrapper): io.cucumber.messages.EventWrapper;
+                public static create(properties?: io.cucumber.messages.IWrapper): io.cucumber.messages.Wrapper;
 
                 /**
-                 * Encodes the specified EventWrapper message. Does not implicitly {@link io.cucumber.messages.EventWrapper.verify|verify} messages.
-                 * @param message EventWrapper message or plain object to encode
+                 * Encodes the specified Wrapper message. Does not implicitly {@link io.cucumber.messages.Wrapper.verify|verify} messages.
+                 * @param message Wrapper message or plain object to encode
                  * @param [writer] Writer to encode to
                  * @returns Writer
                  */
-                public static encode(message: io.cucumber.messages.IEventWrapper, writer?: $protobuf.Writer): $protobuf.Writer;
+                public static encode(message: io.cucumber.messages.IWrapper, writer?: $protobuf.Writer): $protobuf.Writer;
 
                 /**
-                 * Encodes the specified EventWrapper message, length delimited. Does not implicitly {@link io.cucumber.messages.EventWrapper.verify|verify} messages.
-                 * @param message EventWrapper message or plain object to encode
+                 * Encodes the specified Wrapper message, length delimited. Does not implicitly {@link io.cucumber.messages.Wrapper.verify|verify} messages.
+                 * @param message Wrapper message or plain object to encode
                  * @param [writer] Writer to encode to
                  * @returns Writer
                  */
-                public static encodeDelimited(message: io.cucumber.messages.IEventWrapper, writer?: $protobuf.Writer): $protobuf.Writer;
+                public static encodeDelimited(message: io.cucumber.messages.IWrapper, writer?: $protobuf.Writer): $protobuf.Writer;
 
                 /**
-                 * Decodes an EventWrapper message from the specified reader or buffer.
+                 * Decodes an Wrapper message from the specified reader or buffer.
                  * @param reader Reader or buffer to decode from
                  * @param [length] Message length if known beforehand
-                 * @returns EventWrapper
+                 * @returns Wrapper
                  * @throws {Error} If the payload is not a reader or valid buffer
                  * @throws {$protobuf.util.ProtocolError} If required fields are missing
                  */
-                public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): io.cucumber.messages.EventWrapper;
+                public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): io.cucumber.messages.Wrapper;
 
                 /**
-                 * Decodes an EventWrapper message from the specified reader or buffer, length delimited.
+                 * Decodes an Wrapper message from the specified reader or buffer, length delimited.
                  * @param reader Reader or buffer to decode from
-                 * @returns EventWrapper
+                 * @returns Wrapper
                  * @throws {Error} If the payload is not a reader or valid buffer
                  * @throws {$protobuf.util.ProtocolError} If required fields are missing
                  */
-                public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): io.cucumber.messages.EventWrapper;
+                public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): io.cucumber.messages.Wrapper;
 
                 /**
-                 * Verifies an EventWrapper message.
+                 * Verifies an Wrapper message.
                  * @param message Plain object to verify
                  * @returns `null` if valid, otherwise the reason why it is not
                  */
                 public static verify(message: { [k: string]: any }): (string|null);
 
                 /**
-                 * Creates an EventWrapper message from a plain object. Also converts values to their respective internal types.
+                 * Creates an Wrapper message from a plain object. Also converts values to their respective internal types.
                  * @param object Plain object
-                 * @returns EventWrapper
+                 * @returns Wrapper
                  */
-                public static fromObject(object: { [k: string]: any }): io.cucumber.messages.EventWrapper;
+                public static fromObject(object: { [k: string]: any }): io.cucumber.messages.Wrapper;
 
                 /**
-                 * Creates a plain object from an EventWrapper message. Also converts values to other types if specified.
-                 * @param message EventWrapper
+                 * Creates a plain object from an Wrapper message. Also converts values to other types if specified.
+                 * @param message Wrapper
                  * @param [options] Conversion options
                  * @returns Plain object
                  */
-                public static toObject(message: io.cucumber.messages.EventWrapper, options?: $protobuf.IConversionOptions): { [k: string]: any };
+                public static toObject(message: io.cucumber.messages.Wrapper, options?: $protobuf.IConversionOptions): { [k: string]: any };
 
                 /**
-                 * Converts this EventWrapper to JSON.
+                 * Converts this Wrapper to JSON.
                  * @returns JSON object
                  */
                 public toJSON(): { [k: string]: any };
@@ -225,7 +225,7 @@ export namespace io {
                 commandGenerateSnippet?: (io.cucumber.messages.ICommandGenerateSnippet|null);
 
                 /** CommandWrapper commandEvent */
-                commandEvent?: (io.cucumber.messages.IEventWrapper|null);
+                commandEvent?: (io.cucumber.messages.IWrapper|null);
 
                 /** CommandWrapper commandError */
                 commandError?: (string|null);
@@ -271,7 +271,7 @@ export namespace io {
                 public commandGenerateSnippet?: (io.cucumber.messages.ICommandGenerateSnippet|null);
 
                 /** CommandWrapper commandEvent. */
-                public commandEvent?: (io.cucumber.messages.IEventWrapper|null);
+                public commandEvent?: (io.cucumber.messages.IWrapper|null);
 
                 /** CommandWrapper commandError. */
                 public commandError: string;
