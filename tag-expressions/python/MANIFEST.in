@@ -1,5 +1,5 @@
 include README.rst
-# -- PREPARED: include LICENSE
+include LICENSE
 include .bumpversion.cfg
 include .coveragerc
 include .editorconfig
@@ -11,11 +11,13 @@ include *.txt
 include *.ini
 include *.cfg
 include *.yaml
+include Makefile
 
 recursive-include py.requirements  *.txt
 recursive-include tasks         *.py *.txt *.rst
 recursive-include tests         *.py *.txt
 recursive-include bin           *.sh *.py *.cmd
+recursive-include scripts       *.py *.sh
 # -- PREPARED:
 #  recursive-include docs          *.rst *.txt *.py
 
