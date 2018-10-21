@@ -17,4 +17,6 @@ __*/
 .venv*/
 .DS_Store
 .coverage
+.deps
+.tested
 Pipfile.lock

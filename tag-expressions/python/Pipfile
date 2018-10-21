@@ -1,19 +1,14 @@
 [[source]]
-
 url = "https://pypi.python.org/simple"
 verify_ssl = true
 name = "pypi"
 
-
 [dev-packages]
 
-
-
 [packages]
-
-pytest = ">=3.0"
-pytest-html = ">=1.16"
-tox = ">=2.9.1"
+pytest = ">=3.2"
+pytest-html = ">=1.19"
+tox = ">=2.9"
 coverage = ">=4.2"
 "enum34" = "*"
 invoke = ">=0.21.0"
@@ -21,3 +16,4 @@ invoke = ">=0.21.0"
 pathlib = "*"
 "backports.shutil_which" = "*"
 pycmd = "*"
+six = ">=1.11.0"

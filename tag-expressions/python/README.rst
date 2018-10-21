@@ -1,7 +1,6 @@
 Cucumber Tag Expressions for Python
 ===============================================================================
 
-
 .. image:: https://img.shields.io/travis/cucumber/tag-expressions-python/master.svg
     :target: https://travis-ci.org/cucumber/tag-expressions-python
     :alt: Travis CI Build Status
@@ -24,15 +23,16 @@ Cucumber tag-expressions provide readable boolean expressions
 to select features and scenarios marked with tags in Gherkin files
 in an easy way::
 
-    # -- TAG-EXPRESSION EXAMPLES:
-
+    # -- SIMPLE TAG-EXPRESSION EXAMPLES:
     @a and @b
     @a or  @b
     not @a
 
+    # -- MORE TAG-EXPRESSION EXAMPLES:
     @a and not @b
     (@a or @b) and not @c
 
 
 SEE ALSO:
-* `cucumber tag-expressions docs <https://docs.cucumber.io/cucumber/api/#tag-expressions>`_
+
+* https://docs.cucumber.io/cucumber/tag-expressions/
