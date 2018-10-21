@@ -8,7 +8,7 @@ export namespace io {
         /** Namespace messages. */
         namespace messages {
 
-            /** Properties of an Wrapper. */
+            /** Properties of a Wrapper. */
             interface IWrapper {
 
                 /** Wrapper source */
@@ -56,11 +56,38 @@ export namespace io {
                 /** Wrapper testRunFinished */
                 testRunFinished?: (io.cucumber.messages.ITestRunFinished|null);
 
-                /** Wrapper timestamp */
-                timestamp?: (google.protobuf.ITimestamp|null);
+                /** Wrapper commandStart */
+                commandStart?: (io.cucumber.messages.ICommandStart|null);
+
+                /** Wrapper commandActionComplete */
+                commandActionComplete?: (io.cucumber.messages.ICommandActionComplete|null);
+
+                /** Wrapper commandRunBeforeTestRunHooks */
+                commandRunBeforeTestRunHooks?: (io.cucumber.messages.ICommandRunBeforeTestRunHooks|null);
+
+                /** Wrapper commandInitializeTestCase */
+                commandInitializeTestCase?: (io.cucumber.messages.ICommandInitializeTestCase|null);
+
+                /** Wrapper commandRunBeforeTestCaseHook */
+                commandRunBeforeTestCaseHook?: (io.cucumber.messages.ICommandRunBeforeTestCaseHook|null);
+
+                /** Wrapper commandRunTestStep */
+                commandRunTestStep?: (io.cucumber.messages.ICommandRunTestStep|null);
+
+                /** Wrapper commandRunAfterTestCaseHook */
+                commandRunAfterTestCaseHook?: (io.cucumber.messages.ICommandRunAfterTestCaseHook|null);
+
+                /** Wrapper commandRunAfterTestRunHooks */
+                commandRunAfterTestRunHooks?: (io.cucumber.messages.ICommandRunAfterTestRunHooks|null);
+
+                /** Wrapper commandGenerateSnippet */
+                commandGenerateSnippet?: (io.cucumber.messages.ICommandGenerateSnippet|null);
+
+                /** Wrapper commandError */
+                commandError?: (string|null);
             }
 
-            /** Represents an Wrapper. */
+            /** Represents a Wrapper. */
             class Wrapper implements IWrapper {
 
                 /**
@@ -114,11 +141,38 @@ export namespace io {
                 /** Wrapper testRunFinished. */
                 public testRunFinished?: (io.cucumber.messages.ITestRunFinished|null);
 
-                /** Wrapper timestamp. */
-                public timestamp?: (google.protobuf.ITimestamp|null);
+                /** Wrapper commandStart. */
+                public commandStart?: (io.cucumber.messages.ICommandStart|null);
+
+                /** Wrapper commandActionComplete. */
+                public commandActionComplete?: (io.cucumber.messages.ICommandActionComplete|null);
+
+                /** Wrapper commandRunBeforeTestRunHooks. */
+                public commandRunBeforeTestRunHooks?: (io.cucumber.messages.ICommandRunBeforeTestRunHooks|null);
+
+                /** Wrapper commandInitializeTestCase. */
+                public commandInitializeTestCase?: (io.cucumber.messages.ICommandInitializeTestCase|null);
+
+                /** Wrapper commandRunBeforeTestCaseHook. */
+                public commandRunBeforeTestCaseHook?: (io.cucumber.messages.ICommandRunBeforeTestCaseHook|null);
+
+                /** Wrapper commandRunTestStep. */
+                public commandRunTestStep?: (io.cucumber.messages.ICommandRunTestStep|null);
+
+                /** Wrapper commandRunAfterTestCaseHook. */
+                public commandRunAfterTestCaseHook?: (io.cucumber.messages.ICommandRunAfterTestCaseHook|null);
+
+                /** Wrapper commandRunAfterTestRunHooks. */
+                public commandRunAfterTestRunHooks?: (io.cucumber.messages.ICommandRunAfterTestRunHooks|null);
+
+                /** Wrapper commandGenerateSnippet. */
+                public commandGenerateSnippet?: (io.cucumber.messages.ICommandGenerateSnippet|null);
+
+                /** Wrapper commandError. */
+                public commandError: string;
 
                 /** Wrapper message. */
-                public message?: ("source"|"gherkinDocument"|"pickle"|"attachment"|"testCaseStarted"|"testStepStarted"|"testStepFinished"|"testCaseFinished"|"testHookStarted"|"testHookFinished"|"pickleAccepted"|"pickleRejected"|"testCasePrepared"|"testRunStarted"|"testRunFinished");
+                public message?: ("source"|"gherkinDocument"|"pickle"|"attachment"|"testCaseStarted"|"testStepStarted"|"testStepFinished"|"testCaseFinished"|"testHookStarted"|"testHookFinished"|"pickleAccepted"|"pickleRejected"|"testCasePrepared"|"testRunStarted"|"testRunFinished"|"commandStart"|"commandActionComplete"|"commandRunBeforeTestRunHooks"|"commandInitializeTestCase"|"commandRunBeforeTestCaseHook"|"commandRunTestStep"|"commandRunAfterTestCaseHook"|"commandRunAfterTestRunHooks"|"commandGenerateSnippet"|"commandError");
 
                 /**
                  * Creates a new Wrapper instance using the specified properties.
@@ -144,7 +198,7 @@ export namespace io {
                 public static encodeDelimited(message: io.cucumber.messages.IWrapper, writer?: $protobuf.Writer): $protobuf.Writer;
 
                 /**
-                 * Decodes an Wrapper message from the specified reader or buffer.
+                 * Decodes a Wrapper message from the specified reader or buffer.
                  * @param reader Reader or buffer to decode from
                  * @param [length] Message length if known beforehand
                  * @returns Wrapper
@@ -154,7 +208,7 @@ export namespace io {
                 public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): io.cucumber.messages.Wrapper;
 
                 /**
-                 * Decodes an Wrapper message from the specified reader or buffer, length delimited.
+                 * Decodes a Wrapper message from the specified reader or buffer, length delimited.
                  * @param reader Reader or buffer to decode from
                  * @returns Wrapper
                  * @throws {Error} If the payload is not a reader or valid buffer
@@ -163,21 +217,21 @@ export namespace io {
                 public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): io.cucumber.messages.Wrapper;
 
                 /**
-                 * Verifies an Wrapper message.
+                 * Verifies a Wrapper message.
                  * @param message Plain object to verify
                  * @returns `null` if valid, otherwise the reason why it is not
                  */
                 public static verify(message: { [k: string]: any }): (string|null);
 
                 /**
-                 * Creates an Wrapper message from a plain object. Also converts values to their respective internal types.
+                 * Creates a Wrapper message from a plain object. Also converts values to their respective internal types.
                  * @param object Plain object
                  * @returns Wrapper
                  */
                 public static fromObject(object: { [k: string]: any }): io.cucumber.messages.Wrapper;
 
                 /**
-                 * Creates a plain object from an Wrapper message. Also converts values to other types if specified.
+                 * Creates a plain object from a Wrapper message. Also converts values to other types if specified.
                  * @param message Wrapper
                  * @param [options] Conversion options
                  * @returns Plain object
@@ -186,165 +240,6 @@ export namespace io {
 
                 /**
                  * Converts this Wrapper to JSON.
-                 * @returns JSON object
-                 */
-                public toJSON(): { [k: string]: any };
-            }
-
-            /** Properties of a CommandWrapper. */
-            interface ICommandWrapper {
-
-                /** CommandWrapper id */
-                id?: (string|null);
-
-                /** CommandWrapper commandStart */
-                commandStart?: (io.cucumber.messages.ICommandStart|null);
-
-                /** CommandWrapper commandActionComplete */
-                commandActionComplete?: (io.cucumber.messages.ICommandActionComplete|null);
-
-                /** CommandWrapper commandRunBeforeTestRunHooks */
-                commandRunBeforeTestRunHooks?: (io.cucumber.messages.ICommandRunBeforeTestRunHooks|null);
-
-                /** CommandWrapper commandInitializeTestCase */
-                commandInitializeTestCase?: (io.cucumber.messages.ICommandInitializeTestCase|null);
-
-                /** CommandWrapper commandRunBeforeTestCaseHook */
-                commandRunBeforeTestCaseHook?: (io.cucumber.messages.ICommandRunBeforeTestCaseHook|null);
-
-                /** CommandWrapper commandRunTestStep */
-                commandRunTestStep?: (io.cucumber.messages.ICommandRunTestStep|null);
-
-                /** CommandWrapper commandRunAfterTestCaseHook */
-                commandRunAfterTestCaseHook?: (io.cucumber.messages.ICommandRunAfterTestCaseHook|null);
-
-                /** CommandWrapper commandRunAfterTestRunHooks */
-                commandRunAfterTestRunHooks?: (io.cucumber.messages.ICommandRunAfterTestRunHooks|null);
-
-                /** CommandWrapper commandGenerateSnippet */
-                commandGenerateSnippet?: (io.cucumber.messages.ICommandGenerateSnippet|null);
-
-                /** CommandWrapper commandEvent */
-                commandEvent?: (io.cucumber.messages.IWrapper|null);
-
-                /** CommandWrapper commandError */
-                commandError?: (string|null);
-            }
-
-            /** Represents a CommandWrapper. */
-            class CommandWrapper implements ICommandWrapper {
-
-                /**
-                 * Constructs a new CommandWrapper.
-                 * @param [properties] Properties to set
-                 */
-                constructor(properties?: io.cucumber.messages.ICommandWrapper);
-
-                /** CommandWrapper id. */
-                public id: string;
-
-                /** CommandWrapper commandStart. */
-                public commandStart?: (io.cucumber.messages.ICommandStart|null);
-
-                /** CommandWrapper commandActionComplete. */
-                public commandActionComplete?: (io.cucumber.messages.ICommandActionComplete|null);
-
-                /** CommandWrapper commandRunBeforeTestRunHooks. */
-                public commandRunBeforeTestRunHooks?: (io.cucumber.messages.ICommandRunBeforeTestRunHooks|null);
-
-                /** CommandWrapper commandInitializeTestCase. */
-                public commandInitializeTestCase?: (io.cucumber.messages.ICommandInitializeTestCase|null);
-
-                /** CommandWrapper commandRunBeforeTestCaseHook. */
-                public commandRunBeforeTestCaseHook?: (io.cucumber.messages.ICommandRunBeforeTestCaseHook|null);
-
-                /** CommandWrapper commandRunTestStep. */
-                public commandRunTestStep?: (io.cucumber.messages.ICommandRunTestStep|null);
-
-                /** CommandWrapper commandRunAfterTestCaseHook. */
-                public commandRunAfterTestCaseHook?: (io.cucumber.messages.ICommandRunAfterTestCaseHook|null);
-
-                /** CommandWrapper commandRunAfterTestRunHooks. */
-                public commandRunAfterTestRunHooks?: (io.cucumber.messages.ICommandRunAfterTestRunHooks|null);
-
-                /** CommandWrapper commandGenerateSnippet. */
-                public commandGenerateSnippet?: (io.cucumber.messages.ICommandGenerateSnippet|null);
-
-                /** CommandWrapper commandEvent. */
-                public commandEvent?: (io.cucumber.messages.IWrapper|null);
-
-                /** CommandWrapper commandError. */
-                public commandError: string;
-
-                /** CommandWrapper message. */
-                public message?: ("commandStart"|"commandActionComplete"|"commandRunBeforeTestRunHooks"|"commandInitializeTestCase"|"commandRunBeforeTestCaseHook"|"commandRunTestStep"|"commandRunAfterTestCaseHook"|"commandRunAfterTestRunHooks"|"commandGenerateSnippet"|"commandEvent"|"commandError");
-
-                /**
-                 * Creates a new CommandWrapper instance using the specified properties.
-                 * @param [properties] Properties to set
-                 * @returns CommandWrapper instance
-                 */
-                public static create(properties?: io.cucumber.messages.ICommandWrapper): io.cucumber.messages.CommandWrapper;
-
-                /**
-                 * Encodes the specified CommandWrapper message. Does not implicitly {@link io.cucumber.messages.CommandWrapper.verify|verify} messages.
-                 * @param message CommandWrapper message or plain object to encode
-                 * @param [writer] Writer to encode to
-                 * @returns Writer
-                 */
-                public static encode(message: io.cucumber.messages.ICommandWrapper, writer?: $protobuf.Writer): $protobuf.Writer;
-
-                /**
-                 * Encodes the specified CommandWrapper message, length delimited. Does not implicitly {@link io.cucumber.messages.CommandWrapper.verify|verify} messages.
-                 * @param message CommandWrapper message or plain object to encode
-                 * @param [writer] Writer to encode to
-                 * @returns Writer
-                 */
-                public static encodeDelimited(message: io.cucumber.messages.ICommandWrapper, writer?: $protobuf.Writer): $protobuf.Writer;
-
-                /**
-                 * Decodes a CommandWrapper message from the specified reader or buffer.
-                 * @param reader Reader or buffer to decode from
-                 * @param [length] Message length if known beforehand
-                 * @returns CommandWrapper
-                 * @throws {Error} If the payload is not a reader or valid buffer
-                 * @throws {$protobuf.util.ProtocolError} If required fields are missing
-                 */
-                public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): io.cucumber.messages.CommandWrapper;
-
-                /**
-                 * Decodes a CommandWrapper message from the specified reader or buffer, length delimited.
-                 * @param reader Reader or buffer to decode from
-                 * @returns CommandWrapper
-                 * @throws {Error} If the payload is not a reader or valid buffer
-                 * @throws {$protobuf.util.ProtocolError} If required fields are missing
-                 */
-                public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): io.cucumber.messages.CommandWrapper;
-
-                /**
-                 * Verifies a CommandWrapper message.
-                 * @param message Plain object to verify
-                 * @returns `null` if valid, otherwise the reason why it is not
-                 */
-                public static verify(message: { [k: string]: any }): (string|null);
-
-                /**
-                 * Creates a CommandWrapper message from a plain object. Also converts values to their respective internal types.
-                 * @param object Plain object
-                 * @returns CommandWrapper
-                 */
-                public static fromObject(object: { [k: string]: any }): io.cucumber.messages.CommandWrapper;
-
-                /**
-                 * Creates a plain object from a CommandWrapper message. Also converts values to other types if specified.
-                 * @param message CommandWrapper
-                 * @param [options] Conversion options
-                 * @returns Plain object
-                 */
-                public static toObject(message: io.cucumber.messages.CommandWrapper, options?: $protobuf.IConversionOptions): { [k: string]: any };
-
-                /**
-                 * Converts this CommandWrapper to JSON.
                  * @returns JSON object
                  */
                 public toJSON(): { [k: string]: any };
@@ -3631,6 +3526,9 @@ export namespace io {
 
                 /** TestCaseStarted pickleId */
                 pickleId?: (string|null);
+
+                /** TestCaseStarted timestamp */
+                timestamp?: (google.protobuf.ITimestamp|null);
             }
 
             /** Represents a TestCaseStarted. */
@@ -3644,6 +3542,9 @@ export namespace io {
 
                 /** TestCaseStarted pickleId. */
                 public pickleId: string;
+
+                /** TestCaseStarted timestamp. */
+                public timestamp?: (google.protobuf.ITimestamp|null);
 
                 /**
                  * Creates a new TestCaseStarted instance using the specified properties.
@@ -3722,8 +3623,8 @@ export namespace io {
                 /** TestCaseFinished pickleId */
                 pickleId?: (string|null);
 
-                /** TestCaseFinished testResult */
-                testResult?: (io.cucumber.messages.ITestResult|null);
+                /** TestCaseFinished timestamp */
+                timestamp?: (google.protobuf.ITimestamp|null);
             }
 
             /** Represents a TestCaseFinished. */
@@ -3738,8 +3639,8 @@ export namespace io {
                 /** TestCaseFinished pickleId. */
                 public pickleId: string;
 
-                /** TestCaseFinished testResult. */
-                public testResult?: (io.cucumber.messages.ITestResult|null);
+                /** TestCaseFinished timestamp. */
+                public timestamp?: (google.protobuf.ITimestamp|null);
 
                 /**
                  * Creates a new TestCaseFinished instance using the specified properties.
@@ -3820,6 +3721,9 @@ export namespace io {
 
                 /** TestStepStarted index */
                 index?: (number|null);
+
+                /** TestStepStarted timestamp */
+                timestamp?: (google.protobuf.ITimestamp|null);
             }
 
             /** Represents a TestStepStarted. */
@@ -3836,6 +3740,9 @@ export namespace io {
 
                 /** TestStepStarted index. */
                 public index: number;
+
+                /** TestStepStarted timestamp. */
+                public timestamp?: (google.protobuf.ITimestamp|null);
 
                 /**
                  * Creates a new TestStepStarted instance using the specified properties.
@@ -3919,6 +3826,9 @@ export namespace io {
 
                 /** TestStepFinished testResult */
                 testResult?: (io.cucumber.messages.ITestResult|null);
+
+                /** TestStepFinished timestamp */
+                timestamp?: (google.protobuf.ITimestamp|null);
             }
 
             /** Represents a TestStepFinished. */
@@ -3938,6 +3848,9 @@ export namespace io {
 
                 /** TestStepFinished testResult. */
                 public testResult?: (io.cucumber.messages.ITestResult|null);
+
+                /** TestStepFinished timestamp. */
+                public timestamp?: (google.protobuf.ITimestamp|null);
 
                 /**
                  * Creates a new TestStepFinished instance using the specified properties.
@@ -4015,6 +3928,9 @@ export namespace io {
 
                 /** TestHookStarted pickleId */
                 pickleId?: (string|null);
+
+                /** TestHookStarted timestamp */
+                timestamp?: (google.protobuf.ITimestamp|null);
             }
 
             /** Represents a TestHookStarted. */
@@ -4028,6 +3944,9 @@ export namespace io {
 
                 /** TestHookStarted pickleId. */
                 public pickleId: string;
+
+                /** TestHookStarted timestamp. */
+                public timestamp?: (google.protobuf.ITimestamp|null);
 
                 /**
                  * Creates a new TestHookStarted instance using the specified properties.
@@ -4108,6 +4027,9 @@ export namespace io {
 
                 /** TestHookFinished testResult */
                 testResult?: (io.cucumber.messages.ITestResult|null);
+
+                /** TestHookFinished timestamp */
+                timestamp?: (google.protobuf.ITimestamp|null);
             }
 
             /** Represents a TestHookFinished. */
@@ -4124,6 +4046,9 @@ export namespace io {
 
                 /** TestHookFinished testResult. */
                 public testResult?: (io.cucumber.messages.ITestResult|null);
+
+                /** TestHookFinished timestamp. */
+                public timestamp?: (google.protobuf.ITimestamp|null);
 
                 /**
                  * Creates a new TestHookFinished instance using the specified properties.
@@ -4205,8 +4130,8 @@ export namespace io {
                 /** TestResult message */
                 message?: (string|null);
 
-                /** TestResult durationNanos */
-                durationNanos?: (number|null);
+                /** TestResult durationNanoseconds */
+                durationNanoseconds?: (number|Long|null);
             }
 
             /** Represents a TestResult. */
@@ -4224,8 +4149,8 @@ export namespace io {
                 /** TestResult message. */
                 public message: string;
 
-                /** TestResult durationNanos. */
-                public durationNanos: number;
+                /** TestResult durationNanoseconds. */
+                public durationNanoseconds: (number|Long);
 
                 /**
                  * Creates a new TestResult instance using the specified properties.
@@ -5651,6 +5576,9 @@ export namespace io {
 
             /** Properties of a CommandRunBeforeTestRunHooks. */
             interface ICommandRunBeforeTestRunHooks {
+
+                /** CommandRunBeforeTestRunHooks actionId */
+                actionId?: (string|null);
             }
 
             /** Represents a CommandRunBeforeTestRunHooks. */
@@ -5661,6 +5589,9 @@ export namespace io {
                  * @param [properties] Properties to set
                  */
                 constructor(properties?: io.cucumber.messages.ICommandRunBeforeTestRunHooks);
+
+                /** CommandRunBeforeTestRunHooks actionId. */
+                public actionId: string;
 
                 /**
                  * Creates a new CommandRunBeforeTestRunHooks instance using the specified properties.
@@ -5735,6 +5666,9 @@ export namespace io {
 
             /** Properties of a CommandRunAfterTestRunHooks. */
             interface ICommandRunAfterTestRunHooks {
+
+                /** CommandRunAfterTestRunHooks actionId */
+                actionId?: (string|null);
             }
 
             /** Represents a CommandRunAfterTestRunHooks. */
@@ -5745,6 +5679,9 @@ export namespace io {
                  * @param [properties] Properties to set
                  */
                 constructor(properties?: io.cucumber.messages.ICommandRunAfterTestRunHooks);
+
+                /** CommandRunAfterTestRunHooks actionId. */
+                public actionId: string;
 
                 /**
                  * Creates a new CommandRunAfterTestRunHooks instance using the specified properties.
@@ -5820,6 +5757,9 @@ export namespace io {
             /** Properties of a CommandInitializeTestCase. */
             interface ICommandInitializeTestCase {
 
+                /** CommandInitializeTestCase actionId */
+                actionId?: (string|null);
+
                 /** CommandInitializeTestCase testCaseId */
                 testCaseId?: (string|null);
 
@@ -5835,6 +5775,9 @@ export namespace io {
                  * @param [properties] Properties to set
                  */
                 constructor(properties?: io.cucumber.messages.ICommandInitializeTestCase);
+
+                /** CommandInitializeTestCase actionId. */
+                public actionId: string;
 
                 /** CommandInitializeTestCase testCaseId. */
                 public testCaseId: string;
@@ -5916,6 +5859,9 @@ export namespace io {
             /** Properties of a CommandRunBeforeTestCaseHook. */
             interface ICommandRunBeforeTestCaseHook {
 
+                /** CommandRunBeforeTestCaseHook actionId */
+                actionId?: (string|null);
+
                 /** CommandRunBeforeTestCaseHook testCaseId */
                 testCaseId?: (string|null);
 
@@ -5931,6 +5877,9 @@ export namespace io {
                  * @param [properties] Properties to set
                  */
                 constructor(properties?: io.cucumber.messages.ICommandRunBeforeTestCaseHook);
+
+                /** CommandRunBeforeTestCaseHook actionId. */
+                public actionId: string;
 
                 /** CommandRunBeforeTestCaseHook testCaseId. */
                 public testCaseId: string;
@@ -6012,6 +5961,9 @@ export namespace io {
             /** Properties of a CommandRunAfterTestCaseHook. */
             interface ICommandRunAfterTestCaseHook {
 
+                /** CommandRunAfterTestCaseHook actionId */
+                actionId?: (string|null);
+
                 /** CommandRunAfterTestCaseHook testCaseId */
                 testCaseId?: (string|null);
 
@@ -6027,6 +5979,9 @@ export namespace io {
                  * @param [properties] Properties to set
                  */
                 constructor(properties?: io.cucumber.messages.ICommandRunAfterTestCaseHook);
+
+                /** CommandRunAfterTestCaseHook actionId. */
+                public actionId: string;
 
                 /** CommandRunAfterTestCaseHook testCaseId. */
                 public testCaseId: string;
@@ -6108,6 +6063,9 @@ export namespace io {
             /** Properties of a CommandRunTestStep. */
             interface ICommandRunTestStep {
 
+                /** CommandRunTestStep actionId */
+                actionId?: (string|null);
+
                 /** CommandRunTestStep testCaseId */
                 testCaseId?: (string|null);
 
@@ -6126,6 +6084,9 @@ export namespace io {
                  * @param [properties] Properties to set
                  */
                 constructor(properties?: io.cucumber.messages.ICommandRunTestStep);
+
+                /** CommandRunTestStep actionId. */
+                public actionId: string;
 
                 /** CommandRunTestStep testCaseId. */
                 public testCaseId: string;
@@ -6321,6 +6282,9 @@ export namespace io {
             /** Properties of a CommandGenerateSnippet. */
             interface ICommandGenerateSnippet {
 
+                /** CommandGenerateSnippet actionId */
+                actionId?: (string|null);
+
                 /** CommandGenerateSnippet generatedExpressions */
                 generatedExpressions?: (io.cucumber.messages.IGeneratedExpression[]|null);
 
@@ -6339,6 +6303,9 @@ export namespace io {
                  * @param [properties] Properties to set
                  */
                 constructor(properties?: io.cucumber.messages.ICommandGenerateSnippet);
+
+                /** CommandGenerateSnippet actionId. */
+                public actionId: string;
 
                 /** CommandGenerateSnippet generatedExpressions. */
                 public generatedExpressions: io.cucumber.messages.IGeneratedExpression[];

@@ -6,7 +6,6 @@ require 'google/protobuf'
 require 'google/protobuf/timestamp_pb'
 Google::Protobuf::DescriptorPool.generated_pool.build do
   add_message "io.cucumber.messages.Wrapper" do
-    optional :timestamp, :message, 16, "google.protobuf.Timestamp"
     oneof :message do
       optional :source, :message, 1, "io.cucumber.messages.Source"
       optional :gherkinDocument, :message, 2, "io.cucumber.messages.GherkinDocument"
@@ -23,22 +22,16 @@ Google::Protobuf::DescriptorPool.generated_pool.build do
       optional :testCasePrepared, :message, 13, "io.cucumber.messages.TestCasePrepared"
       optional :testRunStarted, :message, 14, "io.cucumber.messages.TestRunStarted"
       optional :testRunFinished, :message, 15, "io.cucumber.messages.TestRunFinished"
-    end
-  end
-  add_message "io.cucumber.messages.CommandWrapper" do
-    optional :id, :string, 1
-    oneof :message do
-      optional :commandStart, :message, 2, "io.cucumber.messages.CommandStart"
-      optional :commandActionComplete, :message, 3, "io.cucumber.messages.CommandActionComplete"
-      optional :commandRunBeforeTestRunHooks, :message, 4, "io.cucumber.messages.CommandRunBeforeTestRunHooks"
-      optional :commandInitializeTestCase, :message, 5, "io.cucumber.messages.CommandInitializeTestCase"
-      optional :commandRunBeforeTestCaseHook, :message, 6, "io.cucumber.messages.CommandRunBeforeTestCaseHook"
-      optional :commandRunTestStep, :message, 7, "io.cucumber.messages.CommandRunTestStep"
-      optional :commandRunAfterTestCaseHook, :message, 8, "io.cucumber.messages.CommandRunAfterTestCaseHook"
-      optional :commandRunAfterTestRunHooks, :message, 9, "io.cucumber.messages.CommandRunAfterTestRunHooks"
-      optional :commandGenerateSnippet, :message, 10, "io.cucumber.messages.CommandGenerateSnippet"
-      optional :commandEvent, :message, 11, "io.cucumber.messages.Wrapper"
-      optional :commandError, :string, 12
+      optional :commandStart, :message, 16, "io.cucumber.messages.CommandStart"
+      optional :commandActionComplete, :message, 17, "io.cucumber.messages.CommandActionComplete"
+      optional :commandRunBeforeTestRunHooks, :message, 18, "io.cucumber.messages.CommandRunBeforeTestRunHooks"
+      optional :commandInitializeTestCase, :message, 19, "io.cucumber.messages.CommandInitializeTestCase"
+      optional :commandRunBeforeTestCaseHook, :message, 20, "io.cucumber.messages.CommandRunBeforeTestCaseHook"
+      optional :commandRunTestStep, :message, 21, "io.cucumber.messages.CommandRunTestStep"
+      optional :commandRunAfterTestCaseHook, :message, 22, "io.cucumber.messages.CommandRunAfterTestCaseHook"
+      optional :commandRunAfterTestRunHooks, :message, 23, "io.cucumber.messages.CommandRunAfterTestRunHooks"
+      optional :commandGenerateSnippet, :message, 24, "io.cucumber.messages.CommandGenerateSnippet"
+      optional :commandError, :string, 25
     end
   end
   add_message "io.cucumber.messages.SourceReference" do
@@ -141,8 +134,8 @@ Google::Protobuf::DescriptorPool.generated_pool.build do
     optional :keyword, :string, 2
     optional :text, :string, 3
     oneof :argument do
-      optional :doc_string, :message, 4, "io.cucumber.messages.DocString"
-      optional :data_table, :message, 5, "io.cucumber.messages.DataTable"
+      optional :doc_string, :message, 5, "io.cucumber.messages.DocString"
+      optional :data_table, :message, 6, "io.cucumber.messages.DataTable"
     end
   end
   add_message "io.cucumber.messages.TableCell" do
@@ -211,31 +204,36 @@ Google::Protobuf::DescriptorPool.generated_pool.build do
   end
   add_message "io.cucumber.messages.TestCaseStarted" do
     optional :pickleId, :string, 1
+    optional :timestamp, :message, 2, "google.protobuf.Timestamp"
   end
   add_message "io.cucumber.messages.TestCaseFinished" do
     optional :pickleId, :string, 1
-    optional :testResult, :message, 3, "io.cucumber.messages.TestResult"
+    optional :timestamp, :message, 2, "google.protobuf.Timestamp"
   end
   add_message "io.cucumber.messages.TestStepStarted" do
     optional :pickleId, :string, 1
     optional :index, :uint32, 2
+    optional :timestamp, :message, 3, "google.protobuf.Timestamp"
   end
   add_message "io.cucumber.messages.TestStepFinished" do
     optional :pickleId, :string, 1
     optional :index, :uint32, 2
     optional :testResult, :message, 3, "io.cucumber.messages.TestResult"
+    optional :timestamp, :message, 4, "google.protobuf.Timestamp"
   end
   add_message "io.cucumber.messages.TestHookStarted" do
     optional :pickleId, :string, 1
+    optional :timestamp, :message, 2, "google.protobuf.Timestamp"
   end
   add_message "io.cucumber.messages.TestHookFinished" do
     optional :pickleId, :string, 1
     optional :testResult, :message, 2, "io.cucumber.messages.TestResult"
+    optional :timestamp, :message, 3, "google.protobuf.Timestamp"
   end
   add_message "io.cucumber.messages.TestResult" do
     optional :status, :enum, 1, "io.cucumber.messages.Status"
     optional :message, :string, 2
-    optional :durationNanos, :uint32, 3
+    optional :durationNanoseconds, :uint64, 3
   end
   add_message "io.cucumber.messages.TestRunFinished" do
     optional :success, :bool, 1
@@ -305,25 +303,31 @@ Google::Protobuf::DescriptorPool.generated_pool.build do
     end
   end
   add_message "io.cucumber.messages.CommandRunBeforeTestRunHooks" do
+    optional :actionId, :string, 1
   end
   add_message "io.cucumber.messages.CommandRunAfterTestRunHooks" do
+    optional :actionId, :string, 1
   end
   add_message "io.cucumber.messages.CommandInitializeTestCase" do
-    optional :testCaseId, :string, 1
-    optional :pickle, :message, 2, "io.cucumber.messages.Pickle"
+    optional :actionId, :string, 1
+    optional :testCaseId, :string, 2
+    optional :pickle, :message, 3, "io.cucumber.messages.Pickle"
   end
   add_message "io.cucumber.messages.CommandRunBeforeTestCaseHook" do
-    optional :testCaseId, :string, 1
-    optional :testCaseHookDefinitionId, :string, 2
+    optional :actionId, :string, 1
+    optional :testCaseId, :string, 2
+    optional :testCaseHookDefinitionId, :string, 3
   end
   add_message "io.cucumber.messages.CommandRunAfterTestCaseHook" do
-    optional :testCaseId, :string, 1
-    optional :testCaseHookDefinitionId, :string, 2
+    optional :actionId, :string, 1
+    optional :testCaseId, :string, 2
+    optional :testCaseHookDefinitionId, :string, 3
   end
   add_message "io.cucumber.messages.CommandRunTestStep" do
-    optional :testCaseId, :string, 1
-    optional :stepDefinitionId, :string, 2
-    repeated :patternMatches, :message, 3, "io.cucumber.messages.PatternMatch"
+    optional :actionId, :string, 1
+    optional :testCaseId, :string, 2
+    optional :stepDefinitionId, :string, 3
+    repeated :patternMatches, :message, 4, "io.cucumber.messages.PatternMatch"
   end
   add_message "io.cucumber.messages.PatternMatch" do
     repeated :captures, :string, 1
@@ -334,10 +338,11 @@ Google::Protobuf::DescriptorPool.generated_pool.build do
     end
   end
   add_message "io.cucumber.messages.CommandGenerateSnippet" do
-    repeated :generatedExpressions, :message, 1, "io.cucumber.messages.GeneratedExpression"
+    optional :actionId, :string, 1
+    repeated :generatedExpressions, :message, 2, "io.cucumber.messages.GeneratedExpression"
     oneof :pickleArgument do
-      optional :doc_string, :message, 2, "io.cucumber.messages.PickleDocString"
-      optional :data_table, :message, 3, "io.cucumber.messages.PickleTable"
+      optional :doc_string, :message, 3, "io.cucumber.messages.PickleDocString"
+      optional :data_table, :message, 4, "io.cucumber.messages.PickleTable"
     end
   end
   add_message "io.cucumber.messages.GeneratedExpression" do
@@ -365,7 +370,6 @@ end
 module Cucumber
   module Messages
     Wrapper = Google::Protobuf::DescriptorPool.generated_pool.lookup("io.cucumber.messages.Wrapper").msgclass
-    CommandWrapper = Google::Protobuf::DescriptorPool.generated_pool.lookup("io.cucumber.messages.CommandWrapper").msgclass
     SourceReference = Google::Protobuf::DescriptorPool.generated_pool.lookup("io.cucumber.messages.SourceReference").msgclass
     Location = Google::Protobuf::DescriptorPool.generated_pool.lookup("io.cucumber.messages.Location").msgclass
     Attachment = Google::Protobuf::DescriptorPool.generated_pool.lookup("io.cucumber.messages.Attachment").msgclass

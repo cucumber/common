@@ -39,7 +39,7 @@ $root.io = (function() {
             messages.Wrapper = (function() {
 
                 /**
-                 * Properties of an Wrapper.
+                 * Properties of a Wrapper.
                  * @memberof io.cucumber.messages
                  * @interface IWrapper
                  * @property {io.cucumber.messages.ISource|null} [source] Wrapper source
@@ -57,13 +57,22 @@ $root.io = (function() {
                  * @property {io.cucumber.messages.ITestCasePrepared|null} [testCasePrepared] Wrapper testCasePrepared
                  * @property {io.cucumber.messages.ITestRunStarted|null} [testRunStarted] Wrapper testRunStarted
                  * @property {io.cucumber.messages.ITestRunFinished|null} [testRunFinished] Wrapper testRunFinished
-                 * @property {google.protobuf.ITimestamp|null} [timestamp] Wrapper timestamp
+                 * @property {io.cucumber.messages.ICommandStart|null} [commandStart] Wrapper commandStart
+                 * @property {io.cucumber.messages.ICommandActionComplete|null} [commandActionComplete] Wrapper commandActionComplete
+                 * @property {io.cucumber.messages.ICommandRunBeforeTestRunHooks|null} [commandRunBeforeTestRunHooks] Wrapper commandRunBeforeTestRunHooks
+                 * @property {io.cucumber.messages.ICommandInitializeTestCase|null} [commandInitializeTestCase] Wrapper commandInitializeTestCase
+                 * @property {io.cucumber.messages.ICommandRunBeforeTestCaseHook|null} [commandRunBeforeTestCaseHook] Wrapper commandRunBeforeTestCaseHook
+                 * @property {io.cucumber.messages.ICommandRunTestStep|null} [commandRunTestStep] Wrapper commandRunTestStep
+                 * @property {io.cucumber.messages.ICommandRunAfterTestCaseHook|null} [commandRunAfterTestCaseHook] Wrapper commandRunAfterTestCaseHook
+                 * @property {io.cucumber.messages.ICommandRunAfterTestRunHooks|null} [commandRunAfterTestRunHooks] Wrapper commandRunAfterTestRunHooks
+                 * @property {io.cucumber.messages.ICommandGenerateSnippet|null} [commandGenerateSnippet] Wrapper commandGenerateSnippet
+                 * @property {string|null} [commandError] Wrapper commandError
                  */
 
                 /**
                  * Constructs a new Wrapper.
                  * @memberof io.cucumber.messages
-                 * @classdesc Represents an Wrapper.
+                 * @classdesc Represents a Wrapper.
                  * @implements IWrapper
                  * @constructor
                  * @param {io.cucumber.messages.IWrapper=} [properties] Properties to set
@@ -196,24 +205,96 @@ $root.io = (function() {
                 Wrapper.prototype.testRunFinished = null;
 
                 /**
-                 * Wrapper timestamp.
-                 * @member {google.protobuf.ITimestamp|null|undefined} timestamp
+                 * Wrapper commandStart.
+                 * @member {io.cucumber.messages.ICommandStart|null|undefined} commandStart
                  * @memberof io.cucumber.messages.Wrapper
                  * @instance
                  */
-                Wrapper.prototype.timestamp = null;
+                Wrapper.prototype.commandStart = null;
+
+                /**
+                 * Wrapper commandActionComplete.
+                 * @member {io.cucumber.messages.ICommandActionComplete|null|undefined} commandActionComplete
+                 * @memberof io.cucumber.messages.Wrapper
+                 * @instance
+                 */
+                Wrapper.prototype.commandActionComplete = null;
+
+                /**
+                 * Wrapper commandRunBeforeTestRunHooks.
+                 * @member {io.cucumber.messages.ICommandRunBeforeTestRunHooks|null|undefined} commandRunBeforeTestRunHooks
+                 * @memberof io.cucumber.messages.Wrapper
+                 * @instance
+                 */
+                Wrapper.prototype.commandRunBeforeTestRunHooks = null;
+
+                /**
+                 * Wrapper commandInitializeTestCase.
+                 * @member {io.cucumber.messages.ICommandInitializeTestCase|null|undefined} commandInitializeTestCase
+                 * @memberof io.cucumber.messages.Wrapper
+                 * @instance
+                 */
+                Wrapper.prototype.commandInitializeTestCase = null;
+
+                /**
+                 * Wrapper commandRunBeforeTestCaseHook.
+                 * @member {io.cucumber.messages.ICommandRunBeforeTestCaseHook|null|undefined} commandRunBeforeTestCaseHook
+                 * @memberof io.cucumber.messages.Wrapper
+                 * @instance
+                 */
+                Wrapper.prototype.commandRunBeforeTestCaseHook = null;
+
+                /**
+                 * Wrapper commandRunTestStep.
+                 * @member {io.cucumber.messages.ICommandRunTestStep|null|undefined} commandRunTestStep
+                 * @memberof io.cucumber.messages.Wrapper
+                 * @instance
+                 */
+                Wrapper.prototype.commandRunTestStep = null;
+
+                /**
+                 * Wrapper commandRunAfterTestCaseHook.
+                 * @member {io.cucumber.messages.ICommandRunAfterTestCaseHook|null|undefined} commandRunAfterTestCaseHook
+                 * @memberof io.cucumber.messages.Wrapper
+                 * @instance
+                 */
+                Wrapper.prototype.commandRunAfterTestCaseHook = null;
+
+                /**
+                 * Wrapper commandRunAfterTestRunHooks.
+                 * @member {io.cucumber.messages.ICommandRunAfterTestRunHooks|null|undefined} commandRunAfterTestRunHooks
+                 * @memberof io.cucumber.messages.Wrapper
+                 * @instance
+                 */
+                Wrapper.prototype.commandRunAfterTestRunHooks = null;
+
+                /**
+                 * Wrapper commandGenerateSnippet.
+                 * @member {io.cucumber.messages.ICommandGenerateSnippet|null|undefined} commandGenerateSnippet
+                 * @memberof io.cucumber.messages.Wrapper
+                 * @instance
+                 */
+                Wrapper.prototype.commandGenerateSnippet = null;
+
+                /**
+                 * Wrapper commandError.
+                 * @member {string} commandError
+                 * @memberof io.cucumber.messages.Wrapper
+                 * @instance
+                 */
+                Wrapper.prototype.commandError = "";
 
                 // OneOf field names bound to virtual getters and setters
                 var $oneOfFields;
 
                 /**
                  * Wrapper message.
-                 * @member {"source"|"gherkinDocument"|"pickle"|"attachment"|"testCaseStarted"|"testStepStarted"|"testStepFinished"|"testCaseFinished"|"testHookStarted"|"testHookFinished"|"pickleAccepted"|"pickleRejected"|"testCasePrepared"|"testRunStarted"|"testRunFinished"|undefined} message
+                 * @member {"source"|"gherkinDocument"|"pickle"|"attachment"|"testCaseStarted"|"testStepStarted"|"testStepFinished"|"testCaseFinished"|"testHookStarted"|"testHookFinished"|"pickleAccepted"|"pickleRejected"|"testCasePrepared"|"testRunStarted"|"testRunFinished"|"commandStart"|"commandActionComplete"|"commandRunBeforeTestRunHooks"|"commandInitializeTestCase"|"commandRunBeforeTestCaseHook"|"commandRunTestStep"|"commandRunAfterTestCaseHook"|"commandRunAfterTestRunHooks"|"commandGenerateSnippet"|"commandError"|undefined} message
                  * @memberof io.cucumber.messages.Wrapper
                  * @instance
                  */
                 Object.defineProperty(Wrapper.prototype, "message", {
-                    get: $util.oneOfGetter($oneOfFields = ["source", "gherkinDocument", "pickle", "attachment", "testCaseStarted", "testStepStarted", "testStepFinished", "testCaseFinished", "testHookStarted", "testHookFinished", "pickleAccepted", "pickleRejected", "testCasePrepared", "testRunStarted", "testRunFinished"]),
+                    get: $util.oneOfGetter($oneOfFields = ["source", "gherkinDocument", "pickle", "attachment", "testCaseStarted", "testStepStarted", "testStepFinished", "testCaseFinished", "testHookStarted", "testHookFinished", "pickleAccepted", "pickleRejected", "testCasePrepared", "testRunStarted", "testRunFinished", "commandStart", "commandActionComplete", "commandRunBeforeTestRunHooks", "commandInitializeTestCase", "commandRunBeforeTestCaseHook", "commandRunTestStep", "commandRunAfterTestCaseHook", "commandRunAfterTestRunHooks", "commandGenerateSnippet", "commandError"]),
                     set: $util.oneOfSetter($oneOfFields)
                 });
 
@@ -271,8 +352,26 @@ $root.io = (function() {
                         $root.io.cucumber.messages.TestRunStarted.encode(message.testRunStarted, writer.uint32(/* id 14, wireType 2 =*/114).fork()).ldelim();
                     if (message.testRunFinished != null && message.hasOwnProperty("testRunFinished"))
                         $root.io.cucumber.messages.TestRunFinished.encode(message.testRunFinished, writer.uint32(/* id 15, wireType 2 =*/122).fork()).ldelim();
-                    if (message.timestamp != null && message.hasOwnProperty("timestamp"))
-                        $root.google.protobuf.Timestamp.encode(message.timestamp, writer.uint32(/* id 16, wireType 2 =*/130).fork()).ldelim();
+                    if (message.commandStart != null && message.hasOwnProperty("commandStart"))
+                        $root.io.cucumber.messages.CommandStart.encode(message.commandStart, writer.uint32(/* id 16, wireType 2 =*/130).fork()).ldelim();
+                    if (message.commandActionComplete != null && message.hasOwnProperty("commandActionComplete"))
+                        $root.io.cucumber.messages.CommandActionComplete.encode(message.commandActionComplete, writer.uint32(/* id 17, wireType 2 =*/138).fork()).ldelim();
+                    if (message.commandRunBeforeTestRunHooks != null && message.hasOwnProperty("commandRunBeforeTestRunHooks"))
+                        $root.io.cucumber.messages.CommandRunBeforeTestRunHooks.encode(message.commandRunBeforeTestRunHooks, writer.uint32(/* id 18, wireType 2 =*/146).fork()).ldelim();
+                    if (message.commandInitializeTestCase != null && message.hasOwnProperty("commandInitializeTestCase"))
+                        $root.io.cucumber.messages.CommandInitializeTestCase.encode(message.commandInitializeTestCase, writer.uint32(/* id 19, wireType 2 =*/154).fork()).ldelim();
+                    if (message.commandRunBeforeTestCaseHook != null && message.hasOwnProperty("commandRunBeforeTestCaseHook"))
+                        $root.io.cucumber.messages.CommandRunBeforeTestCaseHook.encode(message.commandRunBeforeTestCaseHook, writer.uint32(/* id 20, wireType 2 =*/162).fork()).ldelim();
+                    if (message.commandRunTestStep != null && message.hasOwnProperty("commandRunTestStep"))
+                        $root.io.cucumber.messages.CommandRunTestStep.encode(message.commandRunTestStep, writer.uint32(/* id 21, wireType 2 =*/170).fork()).ldelim();
+                    if (message.commandRunAfterTestCaseHook != null && message.hasOwnProperty("commandRunAfterTestCaseHook"))
+                        $root.io.cucumber.messages.CommandRunAfterTestCaseHook.encode(message.commandRunAfterTestCaseHook, writer.uint32(/* id 22, wireType 2 =*/178).fork()).ldelim();
+                    if (message.commandRunAfterTestRunHooks != null && message.hasOwnProperty("commandRunAfterTestRunHooks"))
+                        $root.io.cucumber.messages.CommandRunAfterTestRunHooks.encode(message.commandRunAfterTestRunHooks, writer.uint32(/* id 23, wireType 2 =*/186).fork()).ldelim();
+                    if (message.commandGenerateSnippet != null && message.hasOwnProperty("commandGenerateSnippet"))
+                        $root.io.cucumber.messages.CommandGenerateSnippet.encode(message.commandGenerateSnippet, writer.uint32(/* id 24, wireType 2 =*/194).fork()).ldelim();
+                    if (message.commandError != null && message.hasOwnProperty("commandError"))
+                        writer.uint32(/* id 25, wireType 2 =*/202).string(message.commandError);
                     return writer;
                 };
 
@@ -290,7 +389,7 @@ $root.io = (function() {
                 };
 
                 /**
-                 * Decodes an Wrapper message from the specified reader or buffer.
+                 * Decodes a Wrapper message from the specified reader or buffer.
                  * @function decode
                  * @memberof io.cucumber.messages.Wrapper
                  * @static
@@ -353,7 +452,34 @@ $root.io = (function() {
                             message.testRunFinished = $root.io.cucumber.messages.TestRunFinished.decode(reader, reader.uint32());
                             break;
                         case 16:
-                            message.timestamp = $root.google.protobuf.Timestamp.decode(reader, reader.uint32());
+                            message.commandStart = $root.io.cucumber.messages.CommandStart.decode(reader, reader.uint32());
+                            break;
+                        case 17:
+                            message.commandActionComplete = $root.io.cucumber.messages.CommandActionComplete.decode(reader, reader.uint32());
+                            break;
+                        case 18:
+                            message.commandRunBeforeTestRunHooks = $root.io.cucumber.messages.CommandRunBeforeTestRunHooks.decode(reader, reader.uint32());
+                            break;
+                        case 19:
+                            message.commandInitializeTestCase = $root.io.cucumber.messages.CommandInitializeTestCase.decode(reader, reader.uint32());
+                            break;
+                        case 20:
+                            message.commandRunBeforeTestCaseHook = $root.io.cucumber.messages.CommandRunBeforeTestCaseHook.decode(reader, reader.uint32());
+                            break;
+                        case 21:
+                            message.commandRunTestStep = $root.io.cucumber.messages.CommandRunTestStep.decode(reader, reader.uint32());
+                            break;
+                        case 22:
+                            message.commandRunAfterTestCaseHook = $root.io.cucumber.messages.CommandRunAfterTestCaseHook.decode(reader, reader.uint32());
+                            break;
+                        case 23:
+                            message.commandRunAfterTestRunHooks = $root.io.cucumber.messages.CommandRunAfterTestRunHooks.decode(reader, reader.uint32());
+                            break;
+                        case 24:
+                            message.commandGenerateSnippet = $root.io.cucumber.messages.CommandGenerateSnippet.decode(reader, reader.uint32());
+                            break;
+                        case 25:
+                            message.commandError = reader.string();
                             break;
                         default:
                             reader.skipType(tag & 7);
@@ -364,7 +490,7 @@ $root.io = (function() {
                 };
 
                 /**
-                 * Decodes an Wrapper message from the specified reader or buffer, length delimited.
+                 * Decodes a Wrapper message from the specified reader or buffer, length delimited.
                  * @function decodeDelimited
                  * @memberof io.cucumber.messages.Wrapper
                  * @static
@@ -380,7 +506,7 @@ $root.io = (function() {
                 };
 
                 /**
-                 * Verifies an Wrapper message.
+                 * Verifies a Wrapper message.
                  * @function verify
                  * @memberof io.cucumber.messages.Wrapper
                  * @static
@@ -539,521 +665,9 @@ $root.io = (function() {
                                 return "testRunFinished." + error;
                         }
                     }
-                    if (message.timestamp != null && message.hasOwnProperty("timestamp")) {
-                        var error = $root.google.protobuf.Timestamp.verify(message.timestamp);
-                        if (error)
-                            return "timestamp." + error;
-                    }
-                    return null;
-                };
-
-                /**
-                 * Creates an Wrapper message from a plain object. Also converts values to their respective internal types.
-                 * @function fromObject
-                 * @memberof io.cucumber.messages.Wrapper
-                 * @static
-                 * @param {Object.<string,*>} object Plain object
-                 * @returns {io.cucumber.messages.Wrapper} Wrapper
-                 */
-                Wrapper.fromObject = function fromObject(object) {
-                    if (object instanceof $root.io.cucumber.messages.Wrapper)
-                        return object;
-                    var message = new $root.io.cucumber.messages.Wrapper();
-                    if (object.source != null) {
-                        if (typeof object.source !== "object")
-                            throw TypeError(".io.cucumber.messages.Wrapper.source: object expected");
-                        message.source = $root.io.cucumber.messages.Source.fromObject(object.source);
-                    }
-                    if (object.gherkinDocument != null) {
-                        if (typeof object.gherkinDocument !== "object")
-                            throw TypeError(".io.cucumber.messages.Wrapper.gherkinDocument: object expected");
-                        message.gherkinDocument = $root.io.cucumber.messages.GherkinDocument.fromObject(object.gherkinDocument);
-                    }
-                    if (object.pickle != null) {
-                        if (typeof object.pickle !== "object")
-                            throw TypeError(".io.cucumber.messages.Wrapper.pickle: object expected");
-                        message.pickle = $root.io.cucumber.messages.Pickle.fromObject(object.pickle);
-                    }
-                    if (object.attachment != null) {
-                        if (typeof object.attachment !== "object")
-                            throw TypeError(".io.cucumber.messages.Wrapper.attachment: object expected");
-                        message.attachment = $root.io.cucumber.messages.Attachment.fromObject(object.attachment);
-                    }
-                    if (object.testCaseStarted != null) {
-                        if (typeof object.testCaseStarted !== "object")
-                            throw TypeError(".io.cucumber.messages.Wrapper.testCaseStarted: object expected");
-                        message.testCaseStarted = $root.io.cucumber.messages.TestCaseStarted.fromObject(object.testCaseStarted);
-                    }
-                    if (object.testStepStarted != null) {
-                        if (typeof object.testStepStarted !== "object")
-                            throw TypeError(".io.cucumber.messages.Wrapper.testStepStarted: object expected");
-                        message.testStepStarted = $root.io.cucumber.messages.TestStepStarted.fromObject(object.testStepStarted);
-                    }
-                    if (object.testStepFinished != null) {
-                        if (typeof object.testStepFinished !== "object")
-                            throw TypeError(".io.cucumber.messages.Wrapper.testStepFinished: object expected");
-                        message.testStepFinished = $root.io.cucumber.messages.TestStepFinished.fromObject(object.testStepFinished);
-                    }
-                    if (object.testCaseFinished != null) {
-                        if (typeof object.testCaseFinished !== "object")
-                            throw TypeError(".io.cucumber.messages.Wrapper.testCaseFinished: object expected");
-                        message.testCaseFinished = $root.io.cucumber.messages.TestCaseFinished.fromObject(object.testCaseFinished);
-                    }
-                    if (object.testHookStarted != null) {
-                        if (typeof object.testHookStarted !== "object")
-                            throw TypeError(".io.cucumber.messages.Wrapper.testHookStarted: object expected");
-                        message.testHookStarted = $root.io.cucumber.messages.TestHookStarted.fromObject(object.testHookStarted);
-                    }
-                    if (object.testHookFinished != null) {
-                        if (typeof object.testHookFinished !== "object")
-                            throw TypeError(".io.cucumber.messages.Wrapper.testHookFinished: object expected");
-                        message.testHookFinished = $root.io.cucumber.messages.TestHookFinished.fromObject(object.testHookFinished);
-                    }
-                    if (object.pickleAccepted != null) {
-                        if (typeof object.pickleAccepted !== "object")
-                            throw TypeError(".io.cucumber.messages.Wrapper.pickleAccepted: object expected");
-                        message.pickleAccepted = $root.io.cucumber.messages.PickleAccepted.fromObject(object.pickleAccepted);
-                    }
-                    if (object.pickleRejected != null) {
-                        if (typeof object.pickleRejected !== "object")
-                            throw TypeError(".io.cucumber.messages.Wrapper.pickleRejected: object expected");
-                        message.pickleRejected = $root.io.cucumber.messages.PickleRejected.fromObject(object.pickleRejected);
-                    }
-                    if (object.testCasePrepared != null) {
-                        if (typeof object.testCasePrepared !== "object")
-                            throw TypeError(".io.cucumber.messages.Wrapper.testCasePrepared: object expected");
-                        message.testCasePrepared = $root.io.cucumber.messages.TestCasePrepared.fromObject(object.testCasePrepared);
-                    }
-                    if (object.testRunStarted != null) {
-                        if (typeof object.testRunStarted !== "object")
-                            throw TypeError(".io.cucumber.messages.Wrapper.testRunStarted: object expected");
-                        message.testRunStarted = $root.io.cucumber.messages.TestRunStarted.fromObject(object.testRunStarted);
-                    }
-                    if (object.testRunFinished != null) {
-                        if (typeof object.testRunFinished !== "object")
-                            throw TypeError(".io.cucumber.messages.Wrapper.testRunFinished: object expected");
-                        message.testRunFinished = $root.io.cucumber.messages.TestRunFinished.fromObject(object.testRunFinished);
-                    }
-                    if (object.timestamp != null) {
-                        if (typeof object.timestamp !== "object")
-                            throw TypeError(".io.cucumber.messages.Wrapper.timestamp: object expected");
-                        message.timestamp = $root.google.protobuf.Timestamp.fromObject(object.timestamp);
-                    }
-                    return message;
-                };
-
-                /**
-                 * Creates a plain object from an Wrapper message. Also converts values to other types if specified.
-                 * @function toObject
-                 * @memberof io.cucumber.messages.Wrapper
-                 * @static
-                 * @param {io.cucumber.messages.Wrapper} message Wrapper
-                 * @param {$protobuf.IConversionOptions} [options] Conversion options
-                 * @returns {Object.<string,*>} Plain object
-                 */
-                Wrapper.toObject = function toObject(message, options) {
-                    if (!options)
-                        options = {};
-                    var object = {};
-                    if (options.defaults)
-                        object.timestamp = null;
-                    if (message.source != null && message.hasOwnProperty("source")) {
-                        object.source = $root.io.cucumber.messages.Source.toObject(message.source, options);
-                        if (options.oneofs)
-                            object.message = "source";
-                    }
-                    if (message.gherkinDocument != null && message.hasOwnProperty("gherkinDocument")) {
-                        object.gherkinDocument = $root.io.cucumber.messages.GherkinDocument.toObject(message.gherkinDocument, options);
-                        if (options.oneofs)
-                            object.message = "gherkinDocument";
-                    }
-                    if (message.pickle != null && message.hasOwnProperty("pickle")) {
-                        object.pickle = $root.io.cucumber.messages.Pickle.toObject(message.pickle, options);
-                        if (options.oneofs)
-                            object.message = "pickle";
-                    }
-                    if (message.attachment != null && message.hasOwnProperty("attachment")) {
-                        object.attachment = $root.io.cucumber.messages.Attachment.toObject(message.attachment, options);
-                        if (options.oneofs)
-                            object.message = "attachment";
-                    }
-                    if (message.testCaseStarted != null && message.hasOwnProperty("testCaseStarted")) {
-                        object.testCaseStarted = $root.io.cucumber.messages.TestCaseStarted.toObject(message.testCaseStarted, options);
-                        if (options.oneofs)
-                            object.message = "testCaseStarted";
-                    }
-                    if (message.testStepStarted != null && message.hasOwnProperty("testStepStarted")) {
-                        object.testStepStarted = $root.io.cucumber.messages.TestStepStarted.toObject(message.testStepStarted, options);
-                        if (options.oneofs)
-                            object.message = "testStepStarted";
-                    }
-                    if (message.testStepFinished != null && message.hasOwnProperty("testStepFinished")) {
-                        object.testStepFinished = $root.io.cucumber.messages.TestStepFinished.toObject(message.testStepFinished, options);
-                        if (options.oneofs)
-                            object.message = "testStepFinished";
-                    }
-                    if (message.testCaseFinished != null && message.hasOwnProperty("testCaseFinished")) {
-                        object.testCaseFinished = $root.io.cucumber.messages.TestCaseFinished.toObject(message.testCaseFinished, options);
-                        if (options.oneofs)
-                            object.message = "testCaseFinished";
-                    }
-                    if (message.testHookStarted != null && message.hasOwnProperty("testHookStarted")) {
-                        object.testHookStarted = $root.io.cucumber.messages.TestHookStarted.toObject(message.testHookStarted, options);
-                        if (options.oneofs)
-                            object.message = "testHookStarted";
-                    }
-                    if (message.testHookFinished != null && message.hasOwnProperty("testHookFinished")) {
-                        object.testHookFinished = $root.io.cucumber.messages.TestHookFinished.toObject(message.testHookFinished, options);
-                        if (options.oneofs)
-                            object.message = "testHookFinished";
-                    }
-                    if (message.pickleAccepted != null && message.hasOwnProperty("pickleAccepted")) {
-                        object.pickleAccepted = $root.io.cucumber.messages.PickleAccepted.toObject(message.pickleAccepted, options);
-                        if (options.oneofs)
-                            object.message = "pickleAccepted";
-                    }
-                    if (message.pickleRejected != null && message.hasOwnProperty("pickleRejected")) {
-                        object.pickleRejected = $root.io.cucumber.messages.PickleRejected.toObject(message.pickleRejected, options);
-                        if (options.oneofs)
-                            object.message = "pickleRejected";
-                    }
-                    if (message.testCasePrepared != null && message.hasOwnProperty("testCasePrepared")) {
-                        object.testCasePrepared = $root.io.cucumber.messages.TestCasePrepared.toObject(message.testCasePrepared, options);
-                        if (options.oneofs)
-                            object.message = "testCasePrepared";
-                    }
-                    if (message.testRunStarted != null && message.hasOwnProperty("testRunStarted")) {
-                        object.testRunStarted = $root.io.cucumber.messages.TestRunStarted.toObject(message.testRunStarted, options);
-                        if (options.oneofs)
-                            object.message = "testRunStarted";
-                    }
-                    if (message.testRunFinished != null && message.hasOwnProperty("testRunFinished")) {
-                        object.testRunFinished = $root.io.cucumber.messages.TestRunFinished.toObject(message.testRunFinished, options);
-                        if (options.oneofs)
-                            object.message = "testRunFinished";
-                    }
-                    if (message.timestamp != null && message.hasOwnProperty("timestamp"))
-                        object.timestamp = $root.google.protobuf.Timestamp.toObject(message.timestamp, options);
-                    return object;
-                };
-
-                /**
-                 * Converts this Wrapper to JSON.
-                 * @function toJSON
-                 * @memberof io.cucumber.messages.Wrapper
-                 * @instance
-                 * @returns {Object.<string,*>} JSON object
-                 */
-                Wrapper.prototype.toJSON = function toJSON() {
-                    return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
-                };
-
-                return Wrapper;
-            })();
-
-            messages.CommandWrapper = (function() {
-
-                /**
-                 * Properties of a CommandWrapper.
-                 * @memberof io.cucumber.messages
-                 * @interface ICommandWrapper
-                 * @property {string|null} [id] CommandWrapper id
-                 * @property {io.cucumber.messages.ICommandStart|null} [commandStart] CommandWrapper commandStart
-                 * @property {io.cucumber.messages.ICommandActionComplete|null} [commandActionComplete] CommandWrapper commandActionComplete
-                 * @property {io.cucumber.messages.ICommandRunBeforeTestRunHooks|null} [commandRunBeforeTestRunHooks] CommandWrapper commandRunBeforeTestRunHooks
-                 * @property {io.cucumber.messages.ICommandInitializeTestCase|null} [commandInitializeTestCase] CommandWrapper commandInitializeTestCase
-                 * @property {io.cucumber.messages.ICommandRunBeforeTestCaseHook|null} [commandRunBeforeTestCaseHook] CommandWrapper commandRunBeforeTestCaseHook
-                 * @property {io.cucumber.messages.ICommandRunTestStep|null} [commandRunTestStep] CommandWrapper commandRunTestStep
-                 * @property {io.cucumber.messages.ICommandRunAfterTestCaseHook|null} [commandRunAfterTestCaseHook] CommandWrapper commandRunAfterTestCaseHook
-                 * @property {io.cucumber.messages.ICommandRunAfterTestRunHooks|null} [commandRunAfterTestRunHooks] CommandWrapper commandRunAfterTestRunHooks
-                 * @property {io.cucumber.messages.ICommandGenerateSnippet|null} [commandGenerateSnippet] CommandWrapper commandGenerateSnippet
-                 * @property {io.cucumber.messages.IWrapper|null} [commandEvent] CommandWrapper commandEvent
-                 * @property {string|null} [commandError] CommandWrapper commandError
-                 */
-
-                /**
-                 * Constructs a new CommandWrapper.
-                 * @memberof io.cucumber.messages
-                 * @classdesc Represents a CommandWrapper.
-                 * @implements ICommandWrapper
-                 * @constructor
-                 * @param {io.cucumber.messages.ICommandWrapper=} [properties] Properties to set
-                 */
-                function CommandWrapper(properties) {
-                    if (properties)
-                        for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
-                            if (properties[keys[i]] != null)
-                                this[keys[i]] = properties[keys[i]];
-                }
-
-                /**
-                 * CommandWrapper id.
-                 * @member {string} id
-                 * @memberof io.cucumber.messages.CommandWrapper
-                 * @instance
-                 */
-                CommandWrapper.prototype.id = "";
-
-                /**
-                 * CommandWrapper commandStart.
-                 * @member {io.cucumber.messages.ICommandStart|null|undefined} commandStart
-                 * @memberof io.cucumber.messages.CommandWrapper
-                 * @instance
-                 */
-                CommandWrapper.prototype.commandStart = null;
-
-                /**
-                 * CommandWrapper commandActionComplete.
-                 * @member {io.cucumber.messages.ICommandActionComplete|null|undefined} commandActionComplete
-                 * @memberof io.cucumber.messages.CommandWrapper
-                 * @instance
-                 */
-                CommandWrapper.prototype.commandActionComplete = null;
-
-                /**
-                 * CommandWrapper commandRunBeforeTestRunHooks.
-                 * @member {io.cucumber.messages.ICommandRunBeforeTestRunHooks|null|undefined} commandRunBeforeTestRunHooks
-                 * @memberof io.cucumber.messages.CommandWrapper
-                 * @instance
-                 */
-                CommandWrapper.prototype.commandRunBeforeTestRunHooks = null;
-
-                /**
-                 * CommandWrapper commandInitializeTestCase.
-                 * @member {io.cucumber.messages.ICommandInitializeTestCase|null|undefined} commandInitializeTestCase
-                 * @memberof io.cucumber.messages.CommandWrapper
-                 * @instance
-                 */
-                CommandWrapper.prototype.commandInitializeTestCase = null;
-
-                /**
-                 * CommandWrapper commandRunBeforeTestCaseHook.
-                 * @member {io.cucumber.messages.ICommandRunBeforeTestCaseHook|null|undefined} commandRunBeforeTestCaseHook
-                 * @memberof io.cucumber.messages.CommandWrapper
-                 * @instance
-                 */
-                CommandWrapper.prototype.commandRunBeforeTestCaseHook = null;
-
-                /**
-                 * CommandWrapper commandRunTestStep.
-                 * @member {io.cucumber.messages.ICommandRunTestStep|null|undefined} commandRunTestStep
-                 * @memberof io.cucumber.messages.CommandWrapper
-                 * @instance
-                 */
-                CommandWrapper.prototype.commandRunTestStep = null;
-
-                /**
-                 * CommandWrapper commandRunAfterTestCaseHook.
-                 * @member {io.cucumber.messages.ICommandRunAfterTestCaseHook|null|undefined} commandRunAfterTestCaseHook
-                 * @memberof io.cucumber.messages.CommandWrapper
-                 * @instance
-                 */
-                CommandWrapper.prototype.commandRunAfterTestCaseHook = null;
-
-                /**
-                 * CommandWrapper commandRunAfterTestRunHooks.
-                 * @member {io.cucumber.messages.ICommandRunAfterTestRunHooks|null|undefined} commandRunAfterTestRunHooks
-                 * @memberof io.cucumber.messages.CommandWrapper
-                 * @instance
-                 */
-                CommandWrapper.prototype.commandRunAfterTestRunHooks = null;
-
-                /**
-                 * CommandWrapper commandGenerateSnippet.
-                 * @member {io.cucumber.messages.ICommandGenerateSnippet|null|undefined} commandGenerateSnippet
-                 * @memberof io.cucumber.messages.CommandWrapper
-                 * @instance
-                 */
-                CommandWrapper.prototype.commandGenerateSnippet = null;
-
-                /**
-                 * CommandWrapper commandEvent.
-                 * @member {io.cucumber.messages.IWrapper|null|undefined} commandEvent
-                 * @memberof io.cucumber.messages.CommandWrapper
-                 * @instance
-                 */
-                CommandWrapper.prototype.commandEvent = null;
-
-                /**
-                 * CommandWrapper commandError.
-                 * @member {string} commandError
-                 * @memberof io.cucumber.messages.CommandWrapper
-                 * @instance
-                 */
-                CommandWrapper.prototype.commandError = "";
-
-                // OneOf field names bound to virtual getters and setters
-                var $oneOfFields;
-
-                /**
-                 * CommandWrapper message.
-                 * @member {"commandStart"|"commandActionComplete"|"commandRunBeforeTestRunHooks"|"commandInitializeTestCase"|"commandRunBeforeTestCaseHook"|"commandRunTestStep"|"commandRunAfterTestCaseHook"|"commandRunAfterTestRunHooks"|"commandGenerateSnippet"|"commandEvent"|"commandError"|undefined} message
-                 * @memberof io.cucumber.messages.CommandWrapper
-                 * @instance
-                 */
-                Object.defineProperty(CommandWrapper.prototype, "message", {
-                    get: $util.oneOfGetter($oneOfFields = ["commandStart", "commandActionComplete", "commandRunBeforeTestRunHooks", "commandInitializeTestCase", "commandRunBeforeTestCaseHook", "commandRunTestStep", "commandRunAfterTestCaseHook", "commandRunAfterTestRunHooks", "commandGenerateSnippet", "commandEvent", "commandError"]),
-                    set: $util.oneOfSetter($oneOfFields)
-                });
-
-                /**
-                 * Creates a new CommandWrapper instance using the specified properties.
-                 * @function create
-                 * @memberof io.cucumber.messages.CommandWrapper
-                 * @static
-                 * @param {io.cucumber.messages.ICommandWrapper=} [properties] Properties to set
-                 * @returns {io.cucumber.messages.CommandWrapper} CommandWrapper instance
-                 */
-                CommandWrapper.create = function create(properties) {
-                    return new CommandWrapper(properties);
-                };
-
-                /**
-                 * Encodes the specified CommandWrapper message. Does not implicitly {@link io.cucumber.messages.CommandWrapper.verify|verify} messages.
-                 * @function encode
-                 * @memberof io.cucumber.messages.CommandWrapper
-                 * @static
-                 * @param {io.cucumber.messages.ICommandWrapper} message CommandWrapper message or plain object to encode
-                 * @param {$protobuf.Writer} [writer] Writer to encode to
-                 * @returns {$protobuf.Writer} Writer
-                 */
-                CommandWrapper.encode = function encode(message, writer) {
-                    if (!writer)
-                        writer = $Writer.create();
-                    if (message.id != null && message.hasOwnProperty("id"))
-                        writer.uint32(/* id 1, wireType 2 =*/10).string(message.id);
-                    if (message.commandStart != null && message.hasOwnProperty("commandStart"))
-                        $root.io.cucumber.messages.CommandStart.encode(message.commandStart, writer.uint32(/* id 2, wireType 2 =*/18).fork()).ldelim();
-                    if (message.commandActionComplete != null && message.hasOwnProperty("commandActionComplete"))
-                        $root.io.cucumber.messages.CommandActionComplete.encode(message.commandActionComplete, writer.uint32(/* id 3, wireType 2 =*/26).fork()).ldelim();
-                    if (message.commandRunBeforeTestRunHooks != null && message.hasOwnProperty("commandRunBeforeTestRunHooks"))
-                        $root.io.cucumber.messages.CommandRunBeforeTestRunHooks.encode(message.commandRunBeforeTestRunHooks, writer.uint32(/* id 4, wireType 2 =*/34).fork()).ldelim();
-                    if (message.commandInitializeTestCase != null && message.hasOwnProperty("commandInitializeTestCase"))
-                        $root.io.cucumber.messages.CommandInitializeTestCase.encode(message.commandInitializeTestCase, writer.uint32(/* id 5, wireType 2 =*/42).fork()).ldelim();
-                    if (message.commandRunBeforeTestCaseHook != null && message.hasOwnProperty("commandRunBeforeTestCaseHook"))
-                        $root.io.cucumber.messages.CommandRunBeforeTestCaseHook.encode(message.commandRunBeforeTestCaseHook, writer.uint32(/* id 6, wireType 2 =*/50).fork()).ldelim();
-                    if (message.commandRunTestStep != null && message.hasOwnProperty("commandRunTestStep"))
-                        $root.io.cucumber.messages.CommandRunTestStep.encode(message.commandRunTestStep, writer.uint32(/* id 7, wireType 2 =*/58).fork()).ldelim();
-                    if (message.commandRunAfterTestCaseHook != null && message.hasOwnProperty("commandRunAfterTestCaseHook"))
-                        $root.io.cucumber.messages.CommandRunAfterTestCaseHook.encode(message.commandRunAfterTestCaseHook, writer.uint32(/* id 8, wireType 2 =*/66).fork()).ldelim();
-                    if (message.commandRunAfterTestRunHooks != null && message.hasOwnProperty("commandRunAfterTestRunHooks"))
-                        $root.io.cucumber.messages.CommandRunAfterTestRunHooks.encode(message.commandRunAfterTestRunHooks, writer.uint32(/* id 9, wireType 2 =*/74).fork()).ldelim();
-                    if (message.commandGenerateSnippet != null && message.hasOwnProperty("commandGenerateSnippet"))
-                        $root.io.cucumber.messages.CommandGenerateSnippet.encode(message.commandGenerateSnippet, writer.uint32(/* id 10, wireType 2 =*/82).fork()).ldelim();
-                    if (message.commandEvent != null && message.hasOwnProperty("commandEvent"))
-                        $root.io.cucumber.messages.Wrapper.encode(message.commandEvent, writer.uint32(/* id 11, wireType 2 =*/90).fork()).ldelim();
-                    if (message.commandError != null && message.hasOwnProperty("commandError"))
-                        writer.uint32(/* id 12, wireType 2 =*/98).string(message.commandError);
-                    return writer;
-                };
-
-                /**
-                 * Encodes the specified CommandWrapper message, length delimited. Does not implicitly {@link io.cucumber.messages.CommandWrapper.verify|verify} messages.
-                 * @function encodeDelimited
-                 * @memberof io.cucumber.messages.CommandWrapper
-                 * @static
-                 * @param {io.cucumber.messages.ICommandWrapper} message CommandWrapper message or plain object to encode
-                 * @param {$protobuf.Writer} [writer] Writer to encode to
-                 * @returns {$protobuf.Writer} Writer
-                 */
-                CommandWrapper.encodeDelimited = function encodeDelimited(message, writer) {
-                    return this.encode(message, writer).ldelim();
-                };
-
-                /**
-                 * Decodes a CommandWrapper message from the specified reader or buffer.
-                 * @function decode
-                 * @memberof io.cucumber.messages.CommandWrapper
-                 * @static
-                 * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-                 * @param {number} [length] Message length if known beforehand
-                 * @returns {io.cucumber.messages.CommandWrapper} CommandWrapper
-                 * @throws {Error} If the payload is not a reader or valid buffer
-                 * @throws {$protobuf.util.ProtocolError} If required fields are missing
-                 */
-                CommandWrapper.decode = function decode(reader, length) {
-                    if (!(reader instanceof $Reader))
-                        reader = $Reader.create(reader);
-                    var end = length === undefined ? reader.len : reader.pos + length, message = new $root.io.cucumber.messages.CommandWrapper();
-                    while (reader.pos < end) {
-                        var tag = reader.uint32();
-                        switch (tag >>> 3) {
-                        case 1:
-                            message.id = reader.string();
-                            break;
-                        case 2:
-                            message.commandStart = $root.io.cucumber.messages.CommandStart.decode(reader, reader.uint32());
-                            break;
-                        case 3:
-                            message.commandActionComplete = $root.io.cucumber.messages.CommandActionComplete.decode(reader, reader.uint32());
-                            break;
-                        case 4:
-                            message.commandRunBeforeTestRunHooks = $root.io.cucumber.messages.CommandRunBeforeTestRunHooks.decode(reader, reader.uint32());
-                            break;
-                        case 5:
-                            message.commandInitializeTestCase = $root.io.cucumber.messages.CommandInitializeTestCase.decode(reader, reader.uint32());
-                            break;
-                        case 6:
-                            message.commandRunBeforeTestCaseHook = $root.io.cucumber.messages.CommandRunBeforeTestCaseHook.decode(reader, reader.uint32());
-                            break;
-                        case 7:
-                            message.commandRunTestStep = $root.io.cucumber.messages.CommandRunTestStep.decode(reader, reader.uint32());
-                            break;
-                        case 8:
-                            message.commandRunAfterTestCaseHook = $root.io.cucumber.messages.CommandRunAfterTestCaseHook.decode(reader, reader.uint32());
-                            break;
-                        case 9:
-                            message.commandRunAfterTestRunHooks = $root.io.cucumber.messages.CommandRunAfterTestRunHooks.decode(reader, reader.uint32());
-                            break;
-                        case 10:
-                            message.commandGenerateSnippet = $root.io.cucumber.messages.CommandGenerateSnippet.decode(reader, reader.uint32());
-                            break;
-                        case 11:
-                            message.commandEvent = $root.io.cucumber.messages.Wrapper.decode(reader, reader.uint32());
-                            break;
-                        case 12:
-                            message.commandError = reader.string();
-                            break;
-                        default:
-                            reader.skipType(tag & 7);
-                            break;
-                        }
-                    }
-                    return message;
-                };
-
-                /**
-                 * Decodes a CommandWrapper message from the specified reader or buffer, length delimited.
-                 * @function decodeDelimited
-                 * @memberof io.cucumber.messages.CommandWrapper
-                 * @static
-                 * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-                 * @returns {io.cucumber.messages.CommandWrapper} CommandWrapper
-                 * @throws {Error} If the payload is not a reader or valid buffer
-                 * @throws {$protobuf.util.ProtocolError} If required fields are missing
-                 */
-                CommandWrapper.decodeDelimited = function decodeDelimited(reader) {
-                    if (!(reader instanceof $Reader))
-                        reader = new $Reader(reader);
-                    return this.decode(reader, reader.uint32());
-                };
-
-                /**
-                 * Verifies a CommandWrapper message.
-                 * @function verify
-                 * @memberof io.cucumber.messages.CommandWrapper
-                 * @static
-                 * @param {Object.<string,*>} message Plain object to verify
-                 * @returns {string|null} `null` if valid, otherwise the reason why it is not
-                 */
-                CommandWrapper.verify = function verify(message) {
-                    if (typeof message !== "object" || message === null)
-                        return "object expected";
-                    var properties = {};
-                    if (message.id != null && message.hasOwnProperty("id"))
-                        if (!$util.isString(message.id))
-                            return "id: string expected";
                     if (message.commandStart != null && message.hasOwnProperty("commandStart")) {
+                        if (properties.message === 1)
+                            return "message: multiple values";
                         properties.message = 1;
                         {
                             var error = $root.io.cucumber.messages.CommandStart.verify(message.commandStart);
@@ -1141,16 +755,6 @@ $root.io = (function() {
                                 return "commandGenerateSnippet." + error;
                         }
                     }
-                    if (message.commandEvent != null && message.hasOwnProperty("commandEvent")) {
-                        if (properties.message === 1)
-                            return "message: multiple values";
-                        properties.message = 1;
-                        {
-                            var error = $root.io.cucumber.messages.Wrapper.verify(message.commandEvent);
-                            if (error)
-                                return "commandEvent." + error;
-                        }
-                    }
                     if (message.commandError != null && message.hasOwnProperty("commandError")) {
                         if (properties.message === 1)
                             return "message: multiple values";
@@ -1162,68 +766,136 @@ $root.io = (function() {
                 };
 
                 /**
-                 * Creates a CommandWrapper message from a plain object. Also converts values to their respective internal types.
+                 * Creates a Wrapper message from a plain object. Also converts values to their respective internal types.
                  * @function fromObject
-                 * @memberof io.cucumber.messages.CommandWrapper
+                 * @memberof io.cucumber.messages.Wrapper
                  * @static
                  * @param {Object.<string,*>} object Plain object
-                 * @returns {io.cucumber.messages.CommandWrapper} CommandWrapper
+                 * @returns {io.cucumber.messages.Wrapper} Wrapper
                  */
-                CommandWrapper.fromObject = function fromObject(object) {
-                    if (object instanceof $root.io.cucumber.messages.CommandWrapper)
+                Wrapper.fromObject = function fromObject(object) {
+                    if (object instanceof $root.io.cucumber.messages.Wrapper)
                         return object;
-                    var message = new $root.io.cucumber.messages.CommandWrapper();
-                    if (object.id != null)
-                        message.id = String(object.id);
+                    var message = new $root.io.cucumber.messages.Wrapper();
+                    if (object.source != null) {
+                        if (typeof object.source !== "object")
+                            throw TypeError(".io.cucumber.messages.Wrapper.source: object expected");
+                        message.source = $root.io.cucumber.messages.Source.fromObject(object.source);
+                    }
+                    if (object.gherkinDocument != null) {
+                        if (typeof object.gherkinDocument !== "object")
+                            throw TypeError(".io.cucumber.messages.Wrapper.gherkinDocument: object expected");
+                        message.gherkinDocument = $root.io.cucumber.messages.GherkinDocument.fromObject(object.gherkinDocument);
+                    }
+                    if (object.pickle != null) {
+                        if (typeof object.pickle !== "object")
+                            throw TypeError(".io.cucumber.messages.Wrapper.pickle: object expected");
+                        message.pickle = $root.io.cucumber.messages.Pickle.fromObject(object.pickle);
+                    }
+                    if (object.attachment != null) {
+                        if (typeof object.attachment !== "object")
+                            throw TypeError(".io.cucumber.messages.Wrapper.attachment: object expected");
+                        message.attachment = $root.io.cucumber.messages.Attachment.fromObject(object.attachment);
+                    }
+                    if (object.testCaseStarted != null) {
+                        if (typeof object.testCaseStarted !== "object")
+                            throw TypeError(".io.cucumber.messages.Wrapper.testCaseStarted: object expected");
+                        message.testCaseStarted = $root.io.cucumber.messages.TestCaseStarted.fromObject(object.testCaseStarted);
+                    }
+                    if (object.testStepStarted != null) {
+                        if (typeof object.testStepStarted !== "object")
+                            throw TypeError(".io.cucumber.messages.Wrapper.testStepStarted: object expected");
+                        message.testStepStarted = $root.io.cucumber.messages.TestStepStarted.fromObject(object.testStepStarted);
+                    }
+                    if (object.testStepFinished != null) {
+                        if (typeof object.testStepFinished !== "object")
+                            throw TypeError(".io.cucumber.messages.Wrapper.testStepFinished: object expected");
+                        message.testStepFinished = $root.io.cucumber.messages.TestStepFinished.fromObject(object.testStepFinished);
+                    }
+                    if (object.testCaseFinished != null) {
+                        if (typeof object.testCaseFinished !== "object")
+                            throw TypeError(".io.cucumber.messages.Wrapper.testCaseFinished: object expected");
+                        message.testCaseFinished = $root.io.cucumber.messages.TestCaseFinished.fromObject(object.testCaseFinished);
+                    }
+                    if (object.testHookStarted != null) {
+                        if (typeof object.testHookStarted !== "object")
+                            throw TypeError(".io.cucumber.messages.Wrapper.testHookStarted: object expected");
+                        message.testHookStarted = $root.io.cucumber.messages.TestHookStarted.fromObject(object.testHookStarted);
+                    }
+                    if (object.testHookFinished != null) {
+                        if (typeof object.testHookFinished !== "object")
+                            throw TypeError(".io.cucumber.messages.Wrapper.testHookFinished: object expected");
+                        message.testHookFinished = $root.io.cucumber.messages.TestHookFinished.fromObject(object.testHookFinished);
+                    }
+                    if (object.pickleAccepted != null) {
+                        if (typeof object.pickleAccepted !== "object")
+                            throw TypeError(".io.cucumber.messages.Wrapper.pickleAccepted: object expected");
+                        message.pickleAccepted = $root.io.cucumber.messages.PickleAccepted.fromObject(object.pickleAccepted);
+                    }
+                    if (object.pickleRejected != null) {
+                        if (typeof object.pickleRejected !== "object")
+                            throw TypeError(".io.cucumber.messages.Wrapper.pickleRejected: object expected");
+                        message.pickleRejected = $root.io.cucumber.messages.PickleRejected.fromObject(object.pickleRejected);
+                    }
+                    if (object.testCasePrepared != null) {
+                        if (typeof object.testCasePrepared !== "object")
+                            throw TypeError(".io.cucumber.messages.Wrapper.testCasePrepared: object expected");
+                        message.testCasePrepared = $root.io.cucumber.messages.TestCasePrepared.fromObject(object.testCasePrepared);
+                    }
+                    if (object.testRunStarted != null) {
+                        if (typeof object.testRunStarted !== "object")
+                            throw TypeError(".io.cucumber.messages.Wrapper.testRunStarted: object expected");
+                        message.testRunStarted = $root.io.cucumber.messages.TestRunStarted.fromObject(object.testRunStarted);
+                    }
+                    if (object.testRunFinished != null) {
+                        if (typeof object.testRunFinished !== "object")
+                            throw TypeError(".io.cucumber.messages.Wrapper.testRunFinished: object expected");
+                        message.testRunFinished = $root.io.cucumber.messages.TestRunFinished.fromObject(object.testRunFinished);
+                    }
                     if (object.commandStart != null) {
                         if (typeof object.commandStart !== "object")
-                            throw TypeError(".io.cucumber.messages.CommandWrapper.commandStart: object expected");
+                            throw TypeError(".io.cucumber.messages.Wrapper.commandStart: object expected");
                         message.commandStart = $root.io.cucumber.messages.CommandStart.fromObject(object.commandStart);
                     }
                     if (object.commandActionComplete != null) {
                         if (typeof object.commandActionComplete !== "object")
-                            throw TypeError(".io.cucumber.messages.CommandWrapper.commandActionComplete: object expected");
+                            throw TypeError(".io.cucumber.messages.Wrapper.commandActionComplete: object expected");
                         message.commandActionComplete = $root.io.cucumber.messages.CommandActionComplete.fromObject(object.commandActionComplete);
                     }
                     if (object.commandRunBeforeTestRunHooks != null) {
                         if (typeof object.commandRunBeforeTestRunHooks !== "object")
-                            throw TypeError(".io.cucumber.messages.CommandWrapper.commandRunBeforeTestRunHooks: object expected");
+                            throw TypeError(".io.cucumber.messages.Wrapper.commandRunBeforeTestRunHooks: object expected");
                         message.commandRunBeforeTestRunHooks = $root.io.cucumber.messages.CommandRunBeforeTestRunHooks.fromObject(object.commandRunBeforeTestRunHooks);
                     }
                     if (object.commandInitializeTestCase != null) {
                         if (typeof object.commandInitializeTestCase !== "object")
-                            throw TypeError(".io.cucumber.messages.CommandWrapper.commandInitializeTestCase: object expected");
+                            throw TypeError(".io.cucumber.messages.Wrapper.commandInitializeTestCase: object expected");
                         message.commandInitializeTestCase = $root.io.cucumber.messages.CommandInitializeTestCase.fromObject(object.commandInitializeTestCase);
                     }
                     if (object.commandRunBeforeTestCaseHook != null) {
                         if (typeof object.commandRunBeforeTestCaseHook !== "object")
-                            throw TypeError(".io.cucumber.messages.CommandWrapper.commandRunBeforeTestCaseHook: object expected");
+                            throw TypeError(".io.cucumber.messages.Wrapper.commandRunBeforeTestCaseHook: object expected");
                         message.commandRunBeforeTestCaseHook = $root.io.cucumber.messages.CommandRunBeforeTestCaseHook.fromObject(object.commandRunBeforeTestCaseHook);
                     }
                     if (object.commandRunTestStep != null) {
                         if (typeof object.commandRunTestStep !== "object")
-                            throw TypeError(".io.cucumber.messages.CommandWrapper.commandRunTestStep: object expected");
+                            throw TypeError(".io.cucumber.messages.Wrapper.commandRunTestStep: object expected");
                         message.commandRunTestStep = $root.io.cucumber.messages.CommandRunTestStep.fromObject(object.commandRunTestStep);
                     }
                     if (object.commandRunAfterTestCaseHook != null) {
                         if (typeof object.commandRunAfterTestCaseHook !== "object")
-                            throw TypeError(".io.cucumber.messages.CommandWrapper.commandRunAfterTestCaseHook: object expected");
+                            throw TypeError(".io.cucumber.messages.Wrapper.commandRunAfterTestCaseHook: object expected");
                         message.commandRunAfterTestCaseHook = $root.io.cucumber.messages.CommandRunAfterTestCaseHook.fromObject(object.commandRunAfterTestCaseHook);
                     }
                     if (object.commandRunAfterTestRunHooks != null) {
                         if (typeof object.commandRunAfterTestRunHooks !== "object")
-                            throw TypeError(".io.cucumber.messages.CommandWrapper.commandRunAfterTestRunHooks: object expected");
+                            throw TypeError(".io.cucumber.messages.Wrapper.commandRunAfterTestRunHooks: object expected");
                         message.commandRunAfterTestRunHooks = $root.io.cucumber.messages.CommandRunAfterTestRunHooks.fromObject(object.commandRunAfterTestRunHooks);
                     }
                     if (object.commandGenerateSnippet != null) {
                         if (typeof object.commandGenerateSnippet !== "object")
-                            throw TypeError(".io.cucumber.messages.CommandWrapper.commandGenerateSnippet: object expected");
+                            throw TypeError(".io.cucumber.messages.Wrapper.commandGenerateSnippet: object expected");
                         message.commandGenerateSnippet = $root.io.cucumber.messages.CommandGenerateSnippet.fromObject(object.commandGenerateSnippet);
-                    }
-                    if (object.commandEvent != null) {
-                        if (typeof object.commandEvent !== "object")
-                            throw TypeError(".io.cucumber.messages.CommandWrapper.commandEvent: object expected");
-                        message.commandEvent = $root.io.cucumber.messages.Wrapper.fromObject(object.commandEvent);
                     }
                     if (object.commandError != null)
                         message.commandError = String(object.commandError);
@@ -1231,22 +903,93 @@ $root.io = (function() {
                 };
 
                 /**
-                 * Creates a plain object from a CommandWrapper message. Also converts values to other types if specified.
+                 * Creates a plain object from a Wrapper message. Also converts values to other types if specified.
                  * @function toObject
-                 * @memberof io.cucumber.messages.CommandWrapper
+                 * @memberof io.cucumber.messages.Wrapper
                  * @static
-                 * @param {io.cucumber.messages.CommandWrapper} message CommandWrapper
+                 * @param {io.cucumber.messages.Wrapper} message Wrapper
                  * @param {$protobuf.IConversionOptions} [options] Conversion options
                  * @returns {Object.<string,*>} Plain object
                  */
-                CommandWrapper.toObject = function toObject(message, options) {
+                Wrapper.toObject = function toObject(message, options) {
                     if (!options)
                         options = {};
                     var object = {};
-                    if (options.defaults)
-                        object.id = "";
-                    if (message.id != null && message.hasOwnProperty("id"))
-                        object.id = message.id;
+                    if (message.source != null && message.hasOwnProperty("source")) {
+                        object.source = $root.io.cucumber.messages.Source.toObject(message.source, options);
+                        if (options.oneofs)
+                            object.message = "source";
+                    }
+                    if (message.gherkinDocument != null && message.hasOwnProperty("gherkinDocument")) {
+                        object.gherkinDocument = $root.io.cucumber.messages.GherkinDocument.toObject(message.gherkinDocument, options);
+                        if (options.oneofs)
+                            object.message = "gherkinDocument";
+                    }
+                    if (message.pickle != null && message.hasOwnProperty("pickle")) {
+                        object.pickle = $root.io.cucumber.messages.Pickle.toObject(message.pickle, options);
+                        if (options.oneofs)
+                            object.message = "pickle";
+                    }
+                    if (message.attachment != null && message.hasOwnProperty("attachment")) {
+                        object.attachment = $root.io.cucumber.messages.Attachment.toObject(message.attachment, options);
+                        if (options.oneofs)
+                            object.message = "attachment";
+                    }
+                    if (message.testCaseStarted != null && message.hasOwnProperty("testCaseStarted")) {
+                        object.testCaseStarted = $root.io.cucumber.messages.TestCaseStarted.toObject(message.testCaseStarted, options);
+                        if (options.oneofs)
+                            object.message = "testCaseStarted";
+                    }
+                    if (message.testStepStarted != null && message.hasOwnProperty("testStepStarted")) {
+                        object.testStepStarted = $root.io.cucumber.messages.TestStepStarted.toObject(message.testStepStarted, options);
+                        if (options.oneofs)
+                            object.message = "testStepStarted";
+                    }
+                    if (message.testStepFinished != null && message.hasOwnProperty("testStepFinished")) {
+                        object.testStepFinished = $root.io.cucumber.messages.TestStepFinished.toObject(message.testStepFinished, options);
+                        if (options.oneofs)
+                            object.message = "testStepFinished";
+                    }
+                    if (message.testCaseFinished != null && message.hasOwnProperty("testCaseFinished")) {
+                        object.testCaseFinished = $root.io.cucumber.messages.TestCaseFinished.toObject(message.testCaseFinished, options);
+                        if (options.oneofs)
+                            object.message = "testCaseFinished";
+                    }
+                    if (message.testHookStarted != null && message.hasOwnProperty("testHookStarted")) {
+                        object.testHookStarted = $root.io.cucumber.messages.TestHookStarted.toObject(message.testHookStarted, options);
+                        if (options.oneofs)
+                            object.message = "testHookStarted";
+                    }
+                    if (message.testHookFinished != null && message.hasOwnProperty("testHookFinished")) {
+                        object.testHookFinished = $root.io.cucumber.messages.TestHookFinished.toObject(message.testHookFinished, options);
+                        if (options.oneofs)
+                            object.message = "testHookFinished";
+                    }
+                    if (message.pickleAccepted != null && message.hasOwnProperty("pickleAccepted")) {
+                        object.pickleAccepted = $root.io.cucumber.messages.PickleAccepted.toObject(message.pickleAccepted, options);
+                        if (options.oneofs)
+                            object.message = "pickleAccepted";
+                    }
+                    if (message.pickleRejected != null && message.hasOwnProperty("pickleRejected")) {
+                        object.pickleRejected = $root.io.cucumber.messages.PickleRejected.toObject(message.pickleRejected, options);
+                        if (options.oneofs)
+                            object.message = "pickleRejected";
+                    }
+                    if (message.testCasePrepared != null && message.hasOwnProperty("testCasePrepared")) {
+                        object.testCasePrepared = $root.io.cucumber.messages.TestCasePrepared.toObject(message.testCasePrepared, options);
+                        if (options.oneofs)
+                            object.message = "testCasePrepared";
+                    }
+                    if (message.testRunStarted != null && message.hasOwnProperty("testRunStarted")) {
+                        object.testRunStarted = $root.io.cucumber.messages.TestRunStarted.toObject(message.testRunStarted, options);
+                        if (options.oneofs)
+                            object.message = "testRunStarted";
+                    }
+                    if (message.testRunFinished != null && message.hasOwnProperty("testRunFinished")) {
+                        object.testRunFinished = $root.io.cucumber.messages.TestRunFinished.toObject(message.testRunFinished, options);
+                        if (options.oneofs)
+                            object.message = "testRunFinished";
+                    }
                     if (message.commandStart != null && message.hasOwnProperty("commandStart")) {
                         object.commandStart = $root.io.cucumber.messages.CommandStart.toObject(message.commandStart, options);
                         if (options.oneofs)
@@ -1292,11 +1035,6 @@ $root.io = (function() {
                         if (options.oneofs)
                             object.message = "commandGenerateSnippet";
                     }
-                    if (message.commandEvent != null && message.hasOwnProperty("commandEvent")) {
-                        object.commandEvent = $root.io.cucumber.messages.Wrapper.toObject(message.commandEvent, options);
-                        if (options.oneofs)
-                            object.message = "commandEvent";
-                    }
                     if (message.commandError != null && message.hasOwnProperty("commandError")) {
                         object.commandError = message.commandError;
                         if (options.oneofs)
@@ -1306,17 +1044,17 @@ $root.io = (function() {
                 };
 
                 /**
-                 * Converts this CommandWrapper to JSON.
+                 * Converts this Wrapper to JSON.
                  * @function toJSON
-                 * @memberof io.cucumber.messages.CommandWrapper
+                 * @memberof io.cucumber.messages.Wrapper
                  * @instance
                  * @returns {Object.<string,*>} JSON object
                  */
-                CommandWrapper.prototype.toJSON = function toJSON() {
+                Wrapper.prototype.toJSON = function toJSON() {
                     return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
                 };
 
-                return CommandWrapper;
+                return Wrapper;
             })();
 
             messages.SourceReference = (function() {
@@ -5778,9 +5516,9 @@ $root.io = (function() {
                     if (message.text != null && message.hasOwnProperty("text"))
                         writer.uint32(/* id 3, wireType 2 =*/26).string(message.text);
                     if (message.docString != null && message.hasOwnProperty("docString"))
-                        $root.io.cucumber.messages.DocString.encode(message.docString, writer.uint32(/* id 4, wireType 2 =*/34).fork()).ldelim();
+                        $root.io.cucumber.messages.DocString.encode(message.docString, writer.uint32(/* id 5, wireType 2 =*/42).fork()).ldelim();
                     if (message.dataTable != null && message.hasOwnProperty("dataTable"))
-                        $root.io.cucumber.messages.DataTable.encode(message.dataTable, writer.uint32(/* id 5, wireType 2 =*/42).fork()).ldelim();
+                        $root.io.cucumber.messages.DataTable.encode(message.dataTable, writer.uint32(/* id 6, wireType 2 =*/50).fork()).ldelim();
                     return writer;
                 };
 
@@ -5824,10 +5562,10 @@ $root.io = (function() {
                         case 3:
                             message.text = reader.string();
                             break;
-                        case 4:
+                        case 5:
                             message.docString = $root.io.cucumber.messages.DocString.decode(reader, reader.uint32());
                             break;
-                        case 5:
+                        case 6:
                             message.dataTable = $root.io.cucumber.messages.DataTable.decode(reader, reader.uint32());
                             break;
                         default:
@@ -9421,6 +9159,7 @@ $root.io = (function() {
                  * @memberof io.cucumber.messages
                  * @interface ITestCaseStarted
                  * @property {string|null} [pickleId] TestCaseStarted pickleId
+                 * @property {google.protobuf.ITimestamp|null} [timestamp] TestCaseStarted timestamp
                  */
 
                 /**
@@ -9445,6 +9184,14 @@ $root.io = (function() {
                  * @instance
                  */
                 TestCaseStarted.prototype.pickleId = "";
+
+                /**
+                 * TestCaseStarted timestamp.
+                 * @member {google.protobuf.ITimestamp|null|undefined} timestamp
+                 * @memberof io.cucumber.messages.TestCaseStarted
+                 * @instance
+                 */
+                TestCaseStarted.prototype.timestamp = null;
 
                 /**
                  * Creates a new TestCaseStarted instance using the specified properties.
@@ -9472,6 +9219,8 @@ $root.io = (function() {
                         writer = $Writer.create();
                     if (message.pickleId != null && message.hasOwnProperty("pickleId"))
                         writer.uint32(/* id 1, wireType 2 =*/10).string(message.pickleId);
+                    if (message.timestamp != null && message.hasOwnProperty("timestamp"))
+                        $root.google.protobuf.Timestamp.encode(message.timestamp, writer.uint32(/* id 2, wireType 2 =*/18).fork()).ldelim();
                     return writer;
                 };
 
@@ -9508,6 +9257,9 @@ $root.io = (function() {
                         switch (tag >>> 3) {
                         case 1:
                             message.pickleId = reader.string();
+                            break;
+                        case 2:
+                            message.timestamp = $root.google.protobuf.Timestamp.decode(reader, reader.uint32());
                             break;
                         default:
                             reader.skipType(tag & 7);
@@ -9547,6 +9299,11 @@ $root.io = (function() {
                     if (message.pickleId != null && message.hasOwnProperty("pickleId"))
                         if (!$util.isString(message.pickleId))
                             return "pickleId: string expected";
+                    if (message.timestamp != null && message.hasOwnProperty("timestamp")) {
+                        var error = $root.google.protobuf.Timestamp.verify(message.timestamp);
+                        if (error)
+                            return "timestamp." + error;
+                    }
                     return null;
                 };
 
@@ -9564,6 +9321,11 @@ $root.io = (function() {
                     var message = new $root.io.cucumber.messages.TestCaseStarted();
                     if (object.pickleId != null)
                         message.pickleId = String(object.pickleId);
+                    if (object.timestamp != null) {
+                        if (typeof object.timestamp !== "object")
+                            throw TypeError(".io.cucumber.messages.TestCaseStarted.timestamp: object expected");
+                        message.timestamp = $root.google.protobuf.Timestamp.fromObject(object.timestamp);
+                    }
                     return message;
                 };
 
@@ -9580,10 +9342,14 @@ $root.io = (function() {
                     if (!options)
                         options = {};
                     var object = {};
-                    if (options.defaults)
+                    if (options.defaults) {
                         object.pickleId = "";
+                        object.timestamp = null;
+                    }
                     if (message.pickleId != null && message.hasOwnProperty("pickleId"))
                         object.pickleId = message.pickleId;
+                    if (message.timestamp != null && message.hasOwnProperty("timestamp"))
+                        object.timestamp = $root.google.protobuf.Timestamp.toObject(message.timestamp, options);
                     return object;
                 };
 
@@ -9608,7 +9374,7 @@ $root.io = (function() {
                  * @memberof io.cucumber.messages
                  * @interface ITestCaseFinished
                  * @property {string|null} [pickleId] TestCaseFinished pickleId
-                 * @property {io.cucumber.messages.ITestResult|null} [testResult] TestCaseFinished testResult
+                 * @property {google.protobuf.ITimestamp|null} [timestamp] TestCaseFinished timestamp
                  */
 
                 /**
@@ -9635,12 +9401,12 @@ $root.io = (function() {
                 TestCaseFinished.prototype.pickleId = "";
 
                 /**
-                 * TestCaseFinished testResult.
-                 * @member {io.cucumber.messages.ITestResult|null|undefined} testResult
+                 * TestCaseFinished timestamp.
+                 * @member {google.protobuf.ITimestamp|null|undefined} timestamp
                  * @memberof io.cucumber.messages.TestCaseFinished
                  * @instance
                  */
-                TestCaseFinished.prototype.testResult = null;
+                TestCaseFinished.prototype.timestamp = null;
 
                 /**
                  * Creates a new TestCaseFinished instance using the specified properties.
@@ -9668,8 +9434,8 @@ $root.io = (function() {
                         writer = $Writer.create();
                     if (message.pickleId != null && message.hasOwnProperty("pickleId"))
                         writer.uint32(/* id 1, wireType 2 =*/10).string(message.pickleId);
-                    if (message.testResult != null && message.hasOwnProperty("testResult"))
-                        $root.io.cucumber.messages.TestResult.encode(message.testResult, writer.uint32(/* id 3, wireType 2 =*/26).fork()).ldelim();
+                    if (message.timestamp != null && message.hasOwnProperty("timestamp"))
+                        $root.google.protobuf.Timestamp.encode(message.timestamp, writer.uint32(/* id 2, wireType 2 =*/18).fork()).ldelim();
                     return writer;
                 };
 
@@ -9707,8 +9473,8 @@ $root.io = (function() {
                         case 1:
                             message.pickleId = reader.string();
                             break;
-                        case 3:
-                            message.testResult = $root.io.cucumber.messages.TestResult.decode(reader, reader.uint32());
+                        case 2:
+                            message.timestamp = $root.google.protobuf.Timestamp.decode(reader, reader.uint32());
                             break;
                         default:
                             reader.skipType(tag & 7);
@@ -9748,10 +9514,10 @@ $root.io = (function() {
                     if (message.pickleId != null && message.hasOwnProperty("pickleId"))
                         if (!$util.isString(message.pickleId))
                             return "pickleId: string expected";
-                    if (message.testResult != null && message.hasOwnProperty("testResult")) {
-                        var error = $root.io.cucumber.messages.TestResult.verify(message.testResult);
+                    if (message.timestamp != null && message.hasOwnProperty("timestamp")) {
+                        var error = $root.google.protobuf.Timestamp.verify(message.timestamp);
                         if (error)
-                            return "testResult." + error;
+                            return "timestamp." + error;
                     }
                     return null;
                 };
@@ -9770,10 +9536,10 @@ $root.io = (function() {
                     var message = new $root.io.cucumber.messages.TestCaseFinished();
                     if (object.pickleId != null)
                         message.pickleId = String(object.pickleId);
-                    if (object.testResult != null) {
-                        if (typeof object.testResult !== "object")
-                            throw TypeError(".io.cucumber.messages.TestCaseFinished.testResult: object expected");
-                        message.testResult = $root.io.cucumber.messages.TestResult.fromObject(object.testResult);
+                    if (object.timestamp != null) {
+                        if (typeof object.timestamp !== "object")
+                            throw TypeError(".io.cucumber.messages.TestCaseFinished.timestamp: object expected");
+                        message.timestamp = $root.google.protobuf.Timestamp.fromObject(object.timestamp);
                     }
                     return message;
                 };
@@ -9793,12 +9559,12 @@ $root.io = (function() {
                     var object = {};
                     if (options.defaults) {
                         object.pickleId = "";
-                        object.testResult = null;
+                        object.timestamp = null;
                     }
                     if (message.pickleId != null && message.hasOwnProperty("pickleId"))
                         object.pickleId = message.pickleId;
-                    if (message.testResult != null && message.hasOwnProperty("testResult"))
-                        object.testResult = $root.io.cucumber.messages.TestResult.toObject(message.testResult, options);
+                    if (message.timestamp != null && message.hasOwnProperty("timestamp"))
+                        object.timestamp = $root.google.protobuf.Timestamp.toObject(message.timestamp, options);
                     return object;
                 };
 
@@ -9824,6 +9590,7 @@ $root.io = (function() {
                  * @interface ITestStepStarted
                  * @property {string|null} [pickleId] TestStepStarted pickleId
                  * @property {number|null} [index] TestStepStarted index
+                 * @property {google.protobuf.ITimestamp|null} [timestamp] TestStepStarted timestamp
                  */
 
                 /**
@@ -9858,6 +9625,14 @@ $root.io = (function() {
                 TestStepStarted.prototype.index = 0;
 
                 /**
+                 * TestStepStarted timestamp.
+                 * @member {google.protobuf.ITimestamp|null|undefined} timestamp
+                 * @memberof io.cucumber.messages.TestStepStarted
+                 * @instance
+                 */
+                TestStepStarted.prototype.timestamp = null;
+
+                /**
                  * Creates a new TestStepStarted instance using the specified properties.
                  * @function create
                  * @memberof io.cucumber.messages.TestStepStarted
@@ -9885,6 +9660,8 @@ $root.io = (function() {
                         writer.uint32(/* id 1, wireType 2 =*/10).string(message.pickleId);
                     if (message.index != null && message.hasOwnProperty("index"))
                         writer.uint32(/* id 2, wireType 0 =*/16).uint32(message.index);
+                    if (message.timestamp != null && message.hasOwnProperty("timestamp"))
+                        $root.google.protobuf.Timestamp.encode(message.timestamp, writer.uint32(/* id 3, wireType 2 =*/26).fork()).ldelim();
                     return writer;
                 };
 
@@ -9924,6 +9701,9 @@ $root.io = (function() {
                             break;
                         case 2:
                             message.index = reader.uint32();
+                            break;
+                        case 3:
+                            message.timestamp = $root.google.protobuf.Timestamp.decode(reader, reader.uint32());
                             break;
                         default:
                             reader.skipType(tag & 7);
@@ -9966,6 +9746,11 @@ $root.io = (function() {
                     if (message.index != null && message.hasOwnProperty("index"))
                         if (!$util.isInteger(message.index))
                             return "index: integer expected";
+                    if (message.timestamp != null && message.hasOwnProperty("timestamp")) {
+                        var error = $root.google.protobuf.Timestamp.verify(message.timestamp);
+                        if (error)
+                            return "timestamp." + error;
+                    }
                     return null;
                 };
 
@@ -9985,6 +9770,11 @@ $root.io = (function() {
                         message.pickleId = String(object.pickleId);
                     if (object.index != null)
                         message.index = object.index >>> 0;
+                    if (object.timestamp != null) {
+                        if (typeof object.timestamp !== "object")
+                            throw TypeError(".io.cucumber.messages.TestStepStarted.timestamp: object expected");
+                        message.timestamp = $root.google.protobuf.Timestamp.fromObject(object.timestamp);
+                    }
                     return message;
                 };
 
@@ -10004,11 +9794,14 @@ $root.io = (function() {
                     if (options.defaults) {
                         object.pickleId = "";
                         object.index = 0;
+                        object.timestamp = null;
                     }
                     if (message.pickleId != null && message.hasOwnProperty("pickleId"))
                         object.pickleId = message.pickleId;
                     if (message.index != null && message.hasOwnProperty("index"))
                         object.index = message.index;
+                    if (message.timestamp != null && message.hasOwnProperty("timestamp"))
+                        object.timestamp = $root.google.protobuf.Timestamp.toObject(message.timestamp, options);
                     return object;
                 };
 
@@ -10035,6 +9828,7 @@ $root.io = (function() {
                  * @property {string|null} [pickleId] TestStepFinished pickleId
                  * @property {number|null} [index] TestStepFinished index
                  * @property {io.cucumber.messages.ITestResult|null} [testResult] TestStepFinished testResult
+                 * @property {google.protobuf.ITimestamp|null} [timestamp] TestStepFinished timestamp
                  */
 
                 /**
@@ -10077,6 +9871,14 @@ $root.io = (function() {
                 TestStepFinished.prototype.testResult = null;
 
                 /**
+                 * TestStepFinished timestamp.
+                 * @member {google.protobuf.ITimestamp|null|undefined} timestamp
+                 * @memberof io.cucumber.messages.TestStepFinished
+                 * @instance
+                 */
+                TestStepFinished.prototype.timestamp = null;
+
+                /**
                  * Creates a new TestStepFinished instance using the specified properties.
                  * @function create
                  * @memberof io.cucumber.messages.TestStepFinished
@@ -10106,6 +9908,8 @@ $root.io = (function() {
                         writer.uint32(/* id 2, wireType 0 =*/16).uint32(message.index);
                     if (message.testResult != null && message.hasOwnProperty("testResult"))
                         $root.io.cucumber.messages.TestResult.encode(message.testResult, writer.uint32(/* id 3, wireType 2 =*/26).fork()).ldelim();
+                    if (message.timestamp != null && message.hasOwnProperty("timestamp"))
+                        $root.google.protobuf.Timestamp.encode(message.timestamp, writer.uint32(/* id 4, wireType 2 =*/34).fork()).ldelim();
                     return writer;
                 };
 
@@ -10148,6 +9952,9 @@ $root.io = (function() {
                             break;
                         case 3:
                             message.testResult = $root.io.cucumber.messages.TestResult.decode(reader, reader.uint32());
+                            break;
+                        case 4:
+                            message.timestamp = $root.google.protobuf.Timestamp.decode(reader, reader.uint32());
                             break;
                         default:
                             reader.skipType(tag & 7);
@@ -10195,6 +10002,11 @@ $root.io = (function() {
                         if (error)
                             return "testResult." + error;
                     }
+                    if (message.timestamp != null && message.hasOwnProperty("timestamp")) {
+                        var error = $root.google.protobuf.Timestamp.verify(message.timestamp);
+                        if (error)
+                            return "timestamp." + error;
+                    }
                     return null;
                 };
 
@@ -10219,6 +10031,11 @@ $root.io = (function() {
                             throw TypeError(".io.cucumber.messages.TestStepFinished.testResult: object expected");
                         message.testResult = $root.io.cucumber.messages.TestResult.fromObject(object.testResult);
                     }
+                    if (object.timestamp != null) {
+                        if (typeof object.timestamp !== "object")
+                            throw TypeError(".io.cucumber.messages.TestStepFinished.timestamp: object expected");
+                        message.timestamp = $root.google.protobuf.Timestamp.fromObject(object.timestamp);
+                    }
                     return message;
                 };
 
@@ -10239,6 +10056,7 @@ $root.io = (function() {
                         object.pickleId = "";
                         object.index = 0;
                         object.testResult = null;
+                        object.timestamp = null;
                     }
                     if (message.pickleId != null && message.hasOwnProperty("pickleId"))
                         object.pickleId = message.pickleId;
@@ -10246,6 +10064,8 @@ $root.io = (function() {
                         object.index = message.index;
                     if (message.testResult != null && message.hasOwnProperty("testResult"))
                         object.testResult = $root.io.cucumber.messages.TestResult.toObject(message.testResult, options);
+                    if (message.timestamp != null && message.hasOwnProperty("timestamp"))
+                        object.timestamp = $root.google.protobuf.Timestamp.toObject(message.timestamp, options);
                     return object;
                 };
 
@@ -10270,6 +10090,7 @@ $root.io = (function() {
                  * @memberof io.cucumber.messages
                  * @interface ITestHookStarted
                  * @property {string|null} [pickleId] TestHookStarted pickleId
+                 * @property {google.protobuf.ITimestamp|null} [timestamp] TestHookStarted timestamp
                  */
 
                 /**
@@ -10294,6 +10115,14 @@ $root.io = (function() {
                  * @instance
                  */
                 TestHookStarted.prototype.pickleId = "";
+
+                /**
+                 * TestHookStarted timestamp.
+                 * @member {google.protobuf.ITimestamp|null|undefined} timestamp
+                 * @memberof io.cucumber.messages.TestHookStarted
+                 * @instance
+                 */
+                TestHookStarted.prototype.timestamp = null;
 
                 /**
                  * Creates a new TestHookStarted instance using the specified properties.
@@ -10321,6 +10150,8 @@ $root.io = (function() {
                         writer = $Writer.create();
                     if (message.pickleId != null && message.hasOwnProperty("pickleId"))
                         writer.uint32(/* id 1, wireType 2 =*/10).string(message.pickleId);
+                    if (message.timestamp != null && message.hasOwnProperty("timestamp"))
+                        $root.google.protobuf.Timestamp.encode(message.timestamp, writer.uint32(/* id 2, wireType 2 =*/18).fork()).ldelim();
                     return writer;
                 };
 
@@ -10357,6 +10188,9 @@ $root.io = (function() {
                         switch (tag >>> 3) {
                         case 1:
                             message.pickleId = reader.string();
+                            break;
+                        case 2:
+                            message.timestamp = $root.google.protobuf.Timestamp.decode(reader, reader.uint32());
                             break;
                         default:
                             reader.skipType(tag & 7);
@@ -10396,6 +10230,11 @@ $root.io = (function() {
                     if (message.pickleId != null && message.hasOwnProperty("pickleId"))
                         if (!$util.isString(message.pickleId))
                             return "pickleId: string expected";
+                    if (message.timestamp != null && message.hasOwnProperty("timestamp")) {
+                        var error = $root.google.protobuf.Timestamp.verify(message.timestamp);
+                        if (error)
+                            return "timestamp." + error;
+                    }
                     return null;
                 };
 
@@ -10413,6 +10252,11 @@ $root.io = (function() {
                     var message = new $root.io.cucumber.messages.TestHookStarted();
                     if (object.pickleId != null)
                         message.pickleId = String(object.pickleId);
+                    if (object.timestamp != null) {
+                        if (typeof object.timestamp !== "object")
+                            throw TypeError(".io.cucumber.messages.TestHookStarted.timestamp: object expected");
+                        message.timestamp = $root.google.protobuf.Timestamp.fromObject(object.timestamp);
+                    }
                     return message;
                 };
 
@@ -10429,10 +10273,14 @@ $root.io = (function() {
                     if (!options)
                         options = {};
                     var object = {};
-                    if (options.defaults)
+                    if (options.defaults) {
                         object.pickleId = "";
+                        object.timestamp = null;
+                    }
                     if (message.pickleId != null && message.hasOwnProperty("pickleId"))
                         object.pickleId = message.pickleId;
+                    if (message.timestamp != null && message.hasOwnProperty("timestamp"))
+                        object.timestamp = $root.google.protobuf.Timestamp.toObject(message.timestamp, options);
                     return object;
                 };
 
@@ -10458,6 +10306,7 @@ $root.io = (function() {
                  * @interface ITestHookFinished
                  * @property {string|null} [pickleId] TestHookFinished pickleId
                  * @property {io.cucumber.messages.ITestResult|null} [testResult] TestHookFinished testResult
+                 * @property {google.protobuf.ITimestamp|null} [timestamp] TestHookFinished timestamp
                  */
 
                 /**
@@ -10492,6 +10341,14 @@ $root.io = (function() {
                 TestHookFinished.prototype.testResult = null;
 
                 /**
+                 * TestHookFinished timestamp.
+                 * @member {google.protobuf.ITimestamp|null|undefined} timestamp
+                 * @memberof io.cucumber.messages.TestHookFinished
+                 * @instance
+                 */
+                TestHookFinished.prototype.timestamp = null;
+
+                /**
                  * Creates a new TestHookFinished instance using the specified properties.
                  * @function create
                  * @memberof io.cucumber.messages.TestHookFinished
@@ -10519,6 +10376,8 @@ $root.io = (function() {
                         writer.uint32(/* id 1, wireType 2 =*/10).string(message.pickleId);
                     if (message.testResult != null && message.hasOwnProperty("testResult"))
                         $root.io.cucumber.messages.TestResult.encode(message.testResult, writer.uint32(/* id 2, wireType 2 =*/18).fork()).ldelim();
+                    if (message.timestamp != null && message.hasOwnProperty("timestamp"))
+                        $root.google.protobuf.Timestamp.encode(message.timestamp, writer.uint32(/* id 3, wireType 2 =*/26).fork()).ldelim();
                     return writer;
                 };
 
@@ -10558,6 +10417,9 @@ $root.io = (function() {
                             break;
                         case 2:
                             message.testResult = $root.io.cucumber.messages.TestResult.decode(reader, reader.uint32());
+                            break;
+                        case 3:
+                            message.timestamp = $root.google.protobuf.Timestamp.decode(reader, reader.uint32());
                             break;
                         default:
                             reader.skipType(tag & 7);
@@ -10602,6 +10464,11 @@ $root.io = (function() {
                         if (error)
                             return "testResult." + error;
                     }
+                    if (message.timestamp != null && message.hasOwnProperty("timestamp")) {
+                        var error = $root.google.protobuf.Timestamp.verify(message.timestamp);
+                        if (error)
+                            return "timestamp." + error;
+                    }
                     return null;
                 };
 
@@ -10624,6 +10491,11 @@ $root.io = (function() {
                             throw TypeError(".io.cucumber.messages.TestHookFinished.testResult: object expected");
                         message.testResult = $root.io.cucumber.messages.TestResult.fromObject(object.testResult);
                     }
+                    if (object.timestamp != null) {
+                        if (typeof object.timestamp !== "object")
+                            throw TypeError(".io.cucumber.messages.TestHookFinished.timestamp: object expected");
+                        message.timestamp = $root.google.protobuf.Timestamp.fromObject(object.timestamp);
+                    }
                     return message;
                 };
 
@@ -10643,11 +10515,14 @@ $root.io = (function() {
                     if (options.defaults) {
                         object.pickleId = "";
                         object.testResult = null;
+                        object.timestamp = null;
                     }
                     if (message.pickleId != null && message.hasOwnProperty("pickleId"))
                         object.pickleId = message.pickleId;
                     if (message.testResult != null && message.hasOwnProperty("testResult"))
                         object.testResult = $root.io.cucumber.messages.TestResult.toObject(message.testResult, options);
+                    if (message.timestamp != null && message.hasOwnProperty("timestamp"))
+                        object.timestamp = $root.google.protobuf.Timestamp.toObject(message.timestamp, options);
                     return object;
                 };
 
@@ -10673,7 +10548,7 @@ $root.io = (function() {
                  * @interface ITestResult
                  * @property {io.cucumber.messages.Status|null} [status] TestResult status
                  * @property {string|null} [message] TestResult message
-                 * @property {number|null} [durationNanos] TestResult durationNanos
+                 * @property {number|Long|null} [durationNanoseconds] TestResult durationNanoseconds
                  */
 
                 /**
@@ -10708,12 +10583,12 @@ $root.io = (function() {
                 TestResult.prototype.message = "";
 
                 /**
-                 * TestResult durationNanos.
-                 * @member {number} durationNanos
+                 * TestResult durationNanoseconds.
+                 * @member {number|Long} durationNanoseconds
                  * @memberof io.cucumber.messages.TestResult
                  * @instance
                  */
-                TestResult.prototype.durationNanos = 0;
+                TestResult.prototype.durationNanoseconds = $util.Long ? $util.Long.fromBits(0,0,true) : 0;
 
                 /**
                  * Creates a new TestResult instance using the specified properties.
@@ -10743,8 +10618,8 @@ $root.io = (function() {
                         writer.uint32(/* id 1, wireType 0 =*/8).int32(message.status);
                     if (message.message != null && message.hasOwnProperty("message"))
                         writer.uint32(/* id 2, wireType 2 =*/18).string(message.message);
-                    if (message.durationNanos != null && message.hasOwnProperty("durationNanos"))
-                        writer.uint32(/* id 3, wireType 0 =*/24).uint32(message.durationNanos);
+                    if (message.durationNanoseconds != null && message.hasOwnProperty("durationNanoseconds"))
+                        writer.uint32(/* id 3, wireType 0 =*/24).uint64(message.durationNanoseconds);
                     return writer;
                 };
 
@@ -10786,7 +10661,7 @@ $root.io = (function() {
                             message.message = reader.string();
                             break;
                         case 3:
-                            message.durationNanos = reader.uint32();
+                            message.durationNanoseconds = reader.uint64();
                             break;
                         default:
                             reader.skipType(tag & 7);
@@ -10838,9 +10713,9 @@ $root.io = (function() {
                     if (message.message != null && message.hasOwnProperty("message"))
                         if (!$util.isString(message.message))
                             return "message: string expected";
-                    if (message.durationNanos != null && message.hasOwnProperty("durationNanos"))
-                        if (!$util.isInteger(message.durationNanos))
-                            return "durationNanos: integer expected";
+                    if (message.durationNanoseconds != null && message.hasOwnProperty("durationNanoseconds"))
+                        if (!$util.isInteger(message.durationNanoseconds) && !(message.durationNanoseconds && $util.isInteger(message.durationNanoseconds.low) && $util.isInteger(message.durationNanoseconds.high)))
+                            return "durationNanoseconds: integer|Long expected";
                     return null;
                 };
 
@@ -10884,8 +10759,15 @@ $root.io = (function() {
                     }
                     if (object.message != null)
                         message.message = String(object.message);
-                    if (object.durationNanos != null)
-                        message.durationNanos = object.durationNanos >>> 0;
+                    if (object.durationNanoseconds != null)
+                        if ($util.Long)
+                            (message.durationNanoseconds = $util.Long.fromValue(object.durationNanoseconds)).unsigned = true;
+                        else if (typeof object.durationNanoseconds === "string")
+                            message.durationNanoseconds = parseInt(object.durationNanoseconds, 10);
+                        else if (typeof object.durationNanoseconds === "number")
+                            message.durationNanoseconds = object.durationNanoseconds;
+                        else if (typeof object.durationNanoseconds === "object")
+                            message.durationNanoseconds = new $util.LongBits(object.durationNanoseconds.low >>> 0, object.durationNanoseconds.high >>> 0).toNumber(true);
                     return message;
                 };
 
@@ -10905,14 +10787,21 @@ $root.io = (function() {
                     if (options.defaults) {
                         object.status = options.enums === String ? "AMBIGUOUS" : 0;
                         object.message = "";
-                        object.durationNanos = 0;
+                        if ($util.Long) {
+                            var long = new $util.Long(0, 0, true);
+                            object.durationNanoseconds = options.longs === String ? long.toString() : options.longs === Number ? long.toNumber() : long;
+                        } else
+                            object.durationNanoseconds = options.longs === String ? "0" : 0;
                     }
                     if (message.status != null && message.hasOwnProperty("status"))
                         object.status = options.enums === String ? $root.io.cucumber.messages.Status[message.status] : message.status;
                     if (message.message != null && message.hasOwnProperty("message"))
                         object.message = message.message;
-                    if (message.durationNanos != null && message.hasOwnProperty("durationNanos"))
-                        object.durationNanos = message.durationNanos;
+                    if (message.durationNanoseconds != null && message.hasOwnProperty("durationNanoseconds"))
+                        if (typeof message.durationNanoseconds === "number")
+                            object.durationNanoseconds = options.longs === String ? String(message.durationNanoseconds) : message.durationNanoseconds;
+                        else
+                            object.durationNanoseconds = options.longs === String ? $util.Long.prototype.toString.call(message.durationNanoseconds) : options.longs === Number ? new $util.LongBits(message.durationNanoseconds.low >>> 0, message.durationNanoseconds.high >>> 0).toNumber(true) : message.durationNanoseconds;
                     return object;
                 };
 
@@ -14315,6 +14204,7 @@ $root.io = (function() {
                  * Properties of a CommandRunBeforeTestRunHooks.
                  * @memberof io.cucumber.messages
                  * @interface ICommandRunBeforeTestRunHooks
+                 * @property {string|null} [actionId] CommandRunBeforeTestRunHooks actionId
                  */
 
                 /**
@@ -14331,6 +14221,14 @@ $root.io = (function() {
                             if (properties[keys[i]] != null)
                                 this[keys[i]] = properties[keys[i]];
                 }
+
+                /**
+                 * CommandRunBeforeTestRunHooks actionId.
+                 * @member {string} actionId
+                 * @memberof io.cucumber.messages.CommandRunBeforeTestRunHooks
+                 * @instance
+                 */
+                CommandRunBeforeTestRunHooks.prototype.actionId = "";
 
                 /**
                  * Creates a new CommandRunBeforeTestRunHooks instance using the specified properties.
@@ -14356,6 +14254,8 @@ $root.io = (function() {
                 CommandRunBeforeTestRunHooks.encode = function encode(message, writer) {
                     if (!writer)
                         writer = $Writer.create();
+                    if (message.actionId != null && message.hasOwnProperty("actionId"))
+                        writer.uint32(/* id 1, wireType 2 =*/10).string(message.actionId);
                     return writer;
                 };
 
@@ -14390,6 +14290,9 @@ $root.io = (function() {
                     while (reader.pos < end) {
                         var tag = reader.uint32();
                         switch (tag >>> 3) {
+                        case 1:
+                            message.actionId = reader.string();
+                            break;
                         default:
                             reader.skipType(tag & 7);
                             break;
@@ -14425,6 +14328,9 @@ $root.io = (function() {
                 CommandRunBeforeTestRunHooks.verify = function verify(message) {
                     if (typeof message !== "object" || message === null)
                         return "object expected";
+                    if (message.actionId != null && message.hasOwnProperty("actionId"))
+                        if (!$util.isString(message.actionId))
+                            return "actionId: string expected";
                     return null;
                 };
 
@@ -14439,7 +14345,10 @@ $root.io = (function() {
                 CommandRunBeforeTestRunHooks.fromObject = function fromObject(object) {
                     if (object instanceof $root.io.cucumber.messages.CommandRunBeforeTestRunHooks)
                         return object;
-                    return new $root.io.cucumber.messages.CommandRunBeforeTestRunHooks();
+                    var message = new $root.io.cucumber.messages.CommandRunBeforeTestRunHooks();
+                    if (object.actionId != null)
+                        message.actionId = String(object.actionId);
+                    return message;
                 };
 
                 /**
@@ -14451,8 +14360,15 @@ $root.io = (function() {
                  * @param {$protobuf.IConversionOptions} [options] Conversion options
                  * @returns {Object.<string,*>} Plain object
                  */
-                CommandRunBeforeTestRunHooks.toObject = function toObject() {
-                    return {};
+                CommandRunBeforeTestRunHooks.toObject = function toObject(message, options) {
+                    if (!options)
+                        options = {};
+                    var object = {};
+                    if (options.defaults)
+                        object.actionId = "";
+                    if (message.actionId != null && message.hasOwnProperty("actionId"))
+                        object.actionId = message.actionId;
+                    return object;
                 };
 
                 /**
@@ -14475,6 +14391,7 @@ $root.io = (function() {
                  * Properties of a CommandRunAfterTestRunHooks.
                  * @memberof io.cucumber.messages
                  * @interface ICommandRunAfterTestRunHooks
+                 * @property {string|null} [actionId] CommandRunAfterTestRunHooks actionId
                  */
 
                 /**
@@ -14491,6 +14408,14 @@ $root.io = (function() {
                             if (properties[keys[i]] != null)
                                 this[keys[i]] = properties[keys[i]];
                 }
+
+                /**
+                 * CommandRunAfterTestRunHooks actionId.
+                 * @member {string} actionId
+                 * @memberof io.cucumber.messages.CommandRunAfterTestRunHooks
+                 * @instance
+                 */
+                CommandRunAfterTestRunHooks.prototype.actionId = "";
 
                 /**
                  * Creates a new CommandRunAfterTestRunHooks instance using the specified properties.
@@ -14516,6 +14441,8 @@ $root.io = (function() {
                 CommandRunAfterTestRunHooks.encode = function encode(message, writer) {
                     if (!writer)
                         writer = $Writer.create();
+                    if (message.actionId != null && message.hasOwnProperty("actionId"))
+                        writer.uint32(/* id 1, wireType 2 =*/10).string(message.actionId);
                     return writer;
                 };
 
@@ -14550,6 +14477,9 @@ $root.io = (function() {
                     while (reader.pos < end) {
                         var tag = reader.uint32();
                         switch (tag >>> 3) {
+                        case 1:
+                            message.actionId = reader.string();
+                            break;
                         default:
                             reader.skipType(tag & 7);
                             break;
@@ -14585,6 +14515,9 @@ $root.io = (function() {
                 CommandRunAfterTestRunHooks.verify = function verify(message) {
                     if (typeof message !== "object" || message === null)
                         return "object expected";
+                    if (message.actionId != null && message.hasOwnProperty("actionId"))
+                        if (!$util.isString(message.actionId))
+                            return "actionId: string expected";
                     return null;
                 };
 
@@ -14599,7 +14532,10 @@ $root.io = (function() {
                 CommandRunAfterTestRunHooks.fromObject = function fromObject(object) {
                     if (object instanceof $root.io.cucumber.messages.CommandRunAfterTestRunHooks)
                         return object;
-                    return new $root.io.cucumber.messages.CommandRunAfterTestRunHooks();
+                    var message = new $root.io.cucumber.messages.CommandRunAfterTestRunHooks();
+                    if (object.actionId != null)
+                        message.actionId = String(object.actionId);
+                    return message;
                 };
 
                 /**
@@ -14611,8 +14547,15 @@ $root.io = (function() {
                  * @param {$protobuf.IConversionOptions} [options] Conversion options
                  * @returns {Object.<string,*>} Plain object
                  */
-                CommandRunAfterTestRunHooks.toObject = function toObject() {
-                    return {};
+                CommandRunAfterTestRunHooks.toObject = function toObject(message, options) {
+                    if (!options)
+                        options = {};
+                    var object = {};
+                    if (options.defaults)
+                        object.actionId = "";
+                    if (message.actionId != null && message.hasOwnProperty("actionId"))
+                        object.actionId = message.actionId;
+                    return object;
                 };
 
                 /**
@@ -14635,6 +14578,7 @@ $root.io = (function() {
                  * Properties of a CommandInitializeTestCase.
                  * @memberof io.cucumber.messages
                  * @interface ICommandInitializeTestCase
+                 * @property {string|null} [actionId] CommandInitializeTestCase actionId
                  * @property {string|null} [testCaseId] CommandInitializeTestCase testCaseId
                  * @property {io.cucumber.messages.IPickle|null} [pickle] CommandInitializeTestCase pickle
                  */
@@ -14653,6 +14597,14 @@ $root.io = (function() {
                             if (properties[keys[i]] != null)
                                 this[keys[i]] = properties[keys[i]];
                 }
+
+                /**
+                 * CommandInitializeTestCase actionId.
+                 * @member {string} actionId
+                 * @memberof io.cucumber.messages.CommandInitializeTestCase
+                 * @instance
+                 */
+                CommandInitializeTestCase.prototype.actionId = "";
 
                 /**
                  * CommandInitializeTestCase testCaseId.
@@ -14694,10 +14646,12 @@ $root.io = (function() {
                 CommandInitializeTestCase.encode = function encode(message, writer) {
                     if (!writer)
                         writer = $Writer.create();
+                    if (message.actionId != null && message.hasOwnProperty("actionId"))
+                        writer.uint32(/* id 1, wireType 2 =*/10).string(message.actionId);
                     if (message.testCaseId != null && message.hasOwnProperty("testCaseId"))
-                        writer.uint32(/* id 1, wireType 2 =*/10).string(message.testCaseId);
+                        writer.uint32(/* id 2, wireType 2 =*/18).string(message.testCaseId);
                     if (message.pickle != null && message.hasOwnProperty("pickle"))
-                        $root.io.cucumber.messages.Pickle.encode(message.pickle, writer.uint32(/* id 2, wireType 2 =*/18).fork()).ldelim();
+                        $root.io.cucumber.messages.Pickle.encode(message.pickle, writer.uint32(/* id 3, wireType 2 =*/26).fork()).ldelim();
                     return writer;
                 };
 
@@ -14733,9 +14687,12 @@ $root.io = (function() {
                         var tag = reader.uint32();
                         switch (tag >>> 3) {
                         case 1:
-                            message.testCaseId = reader.string();
+                            message.actionId = reader.string();
                             break;
                         case 2:
+                            message.testCaseId = reader.string();
+                            break;
+                        case 3:
                             message.pickle = $root.io.cucumber.messages.Pickle.decode(reader, reader.uint32());
                             break;
                         default:
@@ -14773,6 +14730,9 @@ $root.io = (function() {
                 CommandInitializeTestCase.verify = function verify(message) {
                     if (typeof message !== "object" || message === null)
                         return "object expected";
+                    if (message.actionId != null && message.hasOwnProperty("actionId"))
+                        if (!$util.isString(message.actionId))
+                            return "actionId: string expected";
                     if (message.testCaseId != null && message.hasOwnProperty("testCaseId"))
                         if (!$util.isString(message.testCaseId))
                             return "testCaseId: string expected";
@@ -14796,6 +14756,8 @@ $root.io = (function() {
                     if (object instanceof $root.io.cucumber.messages.CommandInitializeTestCase)
                         return object;
                     var message = new $root.io.cucumber.messages.CommandInitializeTestCase();
+                    if (object.actionId != null)
+                        message.actionId = String(object.actionId);
                     if (object.testCaseId != null)
                         message.testCaseId = String(object.testCaseId);
                     if (object.pickle != null) {
@@ -14820,9 +14782,12 @@ $root.io = (function() {
                         options = {};
                     var object = {};
                     if (options.defaults) {
+                        object.actionId = "";
                         object.testCaseId = "";
                         object.pickle = null;
                     }
+                    if (message.actionId != null && message.hasOwnProperty("actionId"))
+                        object.actionId = message.actionId;
                     if (message.testCaseId != null && message.hasOwnProperty("testCaseId"))
                         object.testCaseId = message.testCaseId;
                     if (message.pickle != null && message.hasOwnProperty("pickle"))
@@ -14850,6 +14815,7 @@ $root.io = (function() {
                  * Properties of a CommandRunBeforeTestCaseHook.
                  * @memberof io.cucumber.messages
                  * @interface ICommandRunBeforeTestCaseHook
+                 * @property {string|null} [actionId] CommandRunBeforeTestCaseHook actionId
                  * @property {string|null} [testCaseId] CommandRunBeforeTestCaseHook testCaseId
                  * @property {string|null} [testCaseHookDefinitionId] CommandRunBeforeTestCaseHook testCaseHookDefinitionId
                  */
@@ -14868,6 +14834,14 @@ $root.io = (function() {
                             if (properties[keys[i]] != null)
                                 this[keys[i]] = properties[keys[i]];
                 }
+
+                /**
+                 * CommandRunBeforeTestCaseHook actionId.
+                 * @member {string} actionId
+                 * @memberof io.cucumber.messages.CommandRunBeforeTestCaseHook
+                 * @instance
+                 */
+                CommandRunBeforeTestCaseHook.prototype.actionId = "";
 
                 /**
                  * CommandRunBeforeTestCaseHook testCaseId.
@@ -14909,10 +14883,12 @@ $root.io = (function() {
                 CommandRunBeforeTestCaseHook.encode = function encode(message, writer) {
                     if (!writer)
                         writer = $Writer.create();
+                    if (message.actionId != null && message.hasOwnProperty("actionId"))
+                        writer.uint32(/* id 1, wireType 2 =*/10).string(message.actionId);
                     if (message.testCaseId != null && message.hasOwnProperty("testCaseId"))
-                        writer.uint32(/* id 1, wireType 2 =*/10).string(message.testCaseId);
+                        writer.uint32(/* id 2, wireType 2 =*/18).string(message.testCaseId);
                     if (message.testCaseHookDefinitionId != null && message.hasOwnProperty("testCaseHookDefinitionId"))
-                        writer.uint32(/* id 2, wireType 2 =*/18).string(message.testCaseHookDefinitionId);
+                        writer.uint32(/* id 3, wireType 2 =*/26).string(message.testCaseHookDefinitionId);
                     return writer;
                 };
 
@@ -14948,9 +14924,12 @@ $root.io = (function() {
                         var tag = reader.uint32();
                         switch (tag >>> 3) {
                         case 1:
-                            message.testCaseId = reader.string();
+                            message.actionId = reader.string();
                             break;
                         case 2:
+                            message.testCaseId = reader.string();
+                            break;
+                        case 3:
                             message.testCaseHookDefinitionId = reader.string();
                             break;
                         default:
@@ -14988,6 +14967,9 @@ $root.io = (function() {
                 CommandRunBeforeTestCaseHook.verify = function verify(message) {
                     if (typeof message !== "object" || message === null)
                         return "object expected";
+                    if (message.actionId != null && message.hasOwnProperty("actionId"))
+                        if (!$util.isString(message.actionId))
+                            return "actionId: string expected";
                     if (message.testCaseId != null && message.hasOwnProperty("testCaseId"))
                         if (!$util.isString(message.testCaseId))
                             return "testCaseId: string expected";
@@ -15009,6 +14991,8 @@ $root.io = (function() {
                     if (object instanceof $root.io.cucumber.messages.CommandRunBeforeTestCaseHook)
                         return object;
                     var message = new $root.io.cucumber.messages.CommandRunBeforeTestCaseHook();
+                    if (object.actionId != null)
+                        message.actionId = String(object.actionId);
                     if (object.testCaseId != null)
                         message.testCaseId = String(object.testCaseId);
                     if (object.testCaseHookDefinitionId != null)
@@ -15030,9 +15014,12 @@ $root.io = (function() {
                         options = {};
                     var object = {};
                     if (options.defaults) {
+                        object.actionId = "";
                         object.testCaseId = "";
                         object.testCaseHookDefinitionId = "";
                     }
+                    if (message.actionId != null && message.hasOwnProperty("actionId"))
+                        object.actionId = message.actionId;
                     if (message.testCaseId != null && message.hasOwnProperty("testCaseId"))
                         object.testCaseId = message.testCaseId;
                     if (message.testCaseHookDefinitionId != null && message.hasOwnProperty("testCaseHookDefinitionId"))
@@ -15060,6 +15047,7 @@ $root.io = (function() {
                  * Properties of a CommandRunAfterTestCaseHook.
                  * @memberof io.cucumber.messages
                  * @interface ICommandRunAfterTestCaseHook
+                 * @property {string|null} [actionId] CommandRunAfterTestCaseHook actionId
                  * @property {string|null} [testCaseId] CommandRunAfterTestCaseHook testCaseId
                  * @property {string|null} [testCaseHookDefinitionId] CommandRunAfterTestCaseHook testCaseHookDefinitionId
                  */
@@ -15078,6 +15066,14 @@ $root.io = (function() {
                             if (properties[keys[i]] != null)
                                 this[keys[i]] = properties[keys[i]];
                 }
+
+                /**
+                 * CommandRunAfterTestCaseHook actionId.
+                 * @member {string} actionId
+                 * @memberof io.cucumber.messages.CommandRunAfterTestCaseHook
+                 * @instance
+                 */
+                CommandRunAfterTestCaseHook.prototype.actionId = "";
 
                 /**
                  * CommandRunAfterTestCaseHook testCaseId.
@@ -15119,10 +15115,12 @@ $root.io = (function() {
                 CommandRunAfterTestCaseHook.encode = function encode(message, writer) {
                     if (!writer)
                         writer = $Writer.create();
+                    if (message.actionId != null && message.hasOwnProperty("actionId"))
+                        writer.uint32(/* id 1, wireType 2 =*/10).string(message.actionId);
                     if (message.testCaseId != null && message.hasOwnProperty("testCaseId"))
-                        writer.uint32(/* id 1, wireType 2 =*/10).string(message.testCaseId);
+                        writer.uint32(/* id 2, wireType 2 =*/18).string(message.testCaseId);
                     if (message.testCaseHookDefinitionId != null && message.hasOwnProperty("testCaseHookDefinitionId"))
-                        writer.uint32(/* id 2, wireType 2 =*/18).string(message.testCaseHookDefinitionId);
+                        writer.uint32(/* id 3, wireType 2 =*/26).string(message.testCaseHookDefinitionId);
                     return writer;
                 };
 
@@ -15158,9 +15156,12 @@ $root.io = (function() {
                         var tag = reader.uint32();
                         switch (tag >>> 3) {
                         case 1:
-                            message.testCaseId = reader.string();
+                            message.actionId = reader.string();
                             break;
                         case 2:
+                            message.testCaseId = reader.string();
+                            break;
+                        case 3:
                             message.testCaseHookDefinitionId = reader.string();
                             break;
                         default:
@@ -15198,6 +15199,9 @@ $root.io = (function() {
                 CommandRunAfterTestCaseHook.verify = function verify(message) {
                     if (typeof message !== "object" || message === null)
                         return "object expected";
+                    if (message.actionId != null && message.hasOwnProperty("actionId"))
+                        if (!$util.isString(message.actionId))
+                            return "actionId: string expected";
                     if (message.testCaseId != null && message.hasOwnProperty("testCaseId"))
                         if (!$util.isString(message.testCaseId))
                             return "testCaseId: string expected";
@@ -15219,6 +15223,8 @@ $root.io = (function() {
                     if (object instanceof $root.io.cucumber.messages.CommandRunAfterTestCaseHook)
                         return object;
                     var message = new $root.io.cucumber.messages.CommandRunAfterTestCaseHook();
+                    if (object.actionId != null)
+                        message.actionId = String(object.actionId);
                     if (object.testCaseId != null)
                         message.testCaseId = String(object.testCaseId);
                     if (object.testCaseHookDefinitionId != null)
@@ -15240,9 +15246,12 @@ $root.io = (function() {
                         options = {};
                     var object = {};
                     if (options.defaults) {
+                        object.actionId = "";
                         object.testCaseId = "";
                         object.testCaseHookDefinitionId = "";
                     }
+                    if (message.actionId != null && message.hasOwnProperty("actionId"))
+                        object.actionId = message.actionId;
                     if (message.testCaseId != null && message.hasOwnProperty("testCaseId"))
                         object.testCaseId = message.testCaseId;
                     if (message.testCaseHookDefinitionId != null && message.hasOwnProperty("testCaseHookDefinitionId"))
@@ -15270,6 +15279,7 @@ $root.io = (function() {
                  * Properties of a CommandRunTestStep.
                  * @memberof io.cucumber.messages
                  * @interface ICommandRunTestStep
+                 * @property {string|null} [actionId] CommandRunTestStep actionId
                  * @property {string|null} [testCaseId] CommandRunTestStep testCaseId
                  * @property {string|null} [stepDefinitionId] CommandRunTestStep stepDefinitionId
                  * @property {Array.<io.cucumber.messages.IPatternMatch>|null} [patternMatches] CommandRunTestStep patternMatches
@@ -15290,6 +15300,14 @@ $root.io = (function() {
                             if (properties[keys[i]] != null)
                                 this[keys[i]] = properties[keys[i]];
                 }
+
+                /**
+                 * CommandRunTestStep actionId.
+                 * @member {string} actionId
+                 * @memberof io.cucumber.messages.CommandRunTestStep
+                 * @instance
+                 */
+                CommandRunTestStep.prototype.actionId = "";
 
                 /**
                  * CommandRunTestStep testCaseId.
@@ -15339,13 +15357,15 @@ $root.io = (function() {
                 CommandRunTestStep.encode = function encode(message, writer) {
                     if (!writer)
                         writer = $Writer.create();
+                    if (message.actionId != null && message.hasOwnProperty("actionId"))
+                        writer.uint32(/* id 1, wireType 2 =*/10).string(message.actionId);
                     if (message.testCaseId != null && message.hasOwnProperty("testCaseId"))
-                        writer.uint32(/* id 1, wireType 2 =*/10).string(message.testCaseId);
+                        writer.uint32(/* id 2, wireType 2 =*/18).string(message.testCaseId);
                     if (message.stepDefinitionId != null && message.hasOwnProperty("stepDefinitionId"))
-                        writer.uint32(/* id 2, wireType 2 =*/18).string(message.stepDefinitionId);
+                        writer.uint32(/* id 3, wireType 2 =*/26).string(message.stepDefinitionId);
                     if (message.patternMatches != null && message.patternMatches.length)
                         for (var i = 0; i < message.patternMatches.length; ++i)
-                            $root.io.cucumber.messages.PatternMatch.encode(message.patternMatches[i], writer.uint32(/* id 3, wireType 2 =*/26).fork()).ldelim();
+                            $root.io.cucumber.messages.PatternMatch.encode(message.patternMatches[i], writer.uint32(/* id 4, wireType 2 =*/34).fork()).ldelim();
                     return writer;
                 };
 
@@ -15381,12 +15401,15 @@ $root.io = (function() {
                         var tag = reader.uint32();
                         switch (tag >>> 3) {
                         case 1:
-                            message.testCaseId = reader.string();
+                            message.actionId = reader.string();
                             break;
                         case 2:
-                            message.stepDefinitionId = reader.string();
+                            message.testCaseId = reader.string();
                             break;
                         case 3:
+                            message.stepDefinitionId = reader.string();
+                            break;
+                        case 4:
                             if (!(message.patternMatches && message.patternMatches.length))
                                 message.patternMatches = [];
                             message.patternMatches.push($root.io.cucumber.messages.PatternMatch.decode(reader, reader.uint32()));
@@ -15426,6 +15449,9 @@ $root.io = (function() {
                 CommandRunTestStep.verify = function verify(message) {
                     if (typeof message !== "object" || message === null)
                         return "object expected";
+                    if (message.actionId != null && message.hasOwnProperty("actionId"))
+                        if (!$util.isString(message.actionId))
+                            return "actionId: string expected";
                     if (message.testCaseId != null && message.hasOwnProperty("testCaseId"))
                         if (!$util.isString(message.testCaseId))
                             return "testCaseId: string expected";
@@ -15456,6 +15482,8 @@ $root.io = (function() {
                     if (object instanceof $root.io.cucumber.messages.CommandRunTestStep)
                         return object;
                     var message = new $root.io.cucumber.messages.CommandRunTestStep();
+                    if (object.actionId != null)
+                        message.actionId = String(object.actionId);
                     if (object.testCaseId != null)
                         message.testCaseId = String(object.testCaseId);
                     if (object.stepDefinitionId != null)
@@ -15489,9 +15517,12 @@ $root.io = (function() {
                     if (options.arrays || options.defaults)
                         object.patternMatches = [];
                     if (options.defaults) {
+                        object.actionId = "";
                         object.testCaseId = "";
                         object.stepDefinitionId = "";
                     }
+                    if (message.actionId != null && message.hasOwnProperty("actionId"))
+                        object.actionId = message.actionId;
                     if (message.testCaseId != null && message.hasOwnProperty("testCaseId"))
                         object.testCaseId = message.testCaseId;
                     if (message.stepDefinitionId != null && message.hasOwnProperty("stepDefinitionId"))
@@ -15831,6 +15862,7 @@ $root.io = (function() {
                  * Properties of a CommandGenerateSnippet.
                  * @memberof io.cucumber.messages
                  * @interface ICommandGenerateSnippet
+                 * @property {string|null} [actionId] CommandGenerateSnippet actionId
                  * @property {Array.<io.cucumber.messages.IGeneratedExpression>|null} [generatedExpressions] CommandGenerateSnippet generatedExpressions
                  * @property {io.cucumber.messages.IPickleDocString|null} [docString] CommandGenerateSnippet docString
                  * @property {io.cucumber.messages.IPickleTable|null} [dataTable] CommandGenerateSnippet dataTable
@@ -15851,6 +15883,14 @@ $root.io = (function() {
                             if (properties[keys[i]] != null)
                                 this[keys[i]] = properties[keys[i]];
                 }
+
+                /**
+                 * CommandGenerateSnippet actionId.
+                 * @member {string} actionId
+                 * @memberof io.cucumber.messages.CommandGenerateSnippet
+                 * @instance
+                 */
+                CommandGenerateSnippet.prototype.actionId = "";
 
                 /**
                  * CommandGenerateSnippet generatedExpressions.
@@ -15914,13 +15954,15 @@ $root.io = (function() {
                 CommandGenerateSnippet.encode = function encode(message, writer) {
                     if (!writer)
                         writer = $Writer.create();
+                    if (message.actionId != null && message.hasOwnProperty("actionId"))
+                        writer.uint32(/* id 1, wireType 2 =*/10).string(message.actionId);
                     if (message.generatedExpressions != null && message.generatedExpressions.length)
                         for (var i = 0; i < message.generatedExpressions.length; ++i)
-                            $root.io.cucumber.messages.GeneratedExpression.encode(message.generatedExpressions[i], writer.uint32(/* id 1, wireType 2 =*/10).fork()).ldelim();
+                            $root.io.cucumber.messages.GeneratedExpression.encode(message.generatedExpressions[i], writer.uint32(/* id 2, wireType 2 =*/18).fork()).ldelim();
                     if (message.docString != null && message.hasOwnProperty("docString"))
-                        $root.io.cucumber.messages.PickleDocString.encode(message.docString, writer.uint32(/* id 2, wireType 2 =*/18).fork()).ldelim();
+                        $root.io.cucumber.messages.PickleDocString.encode(message.docString, writer.uint32(/* id 3, wireType 2 =*/26).fork()).ldelim();
                     if (message.dataTable != null && message.hasOwnProperty("dataTable"))
-                        $root.io.cucumber.messages.PickleTable.encode(message.dataTable, writer.uint32(/* id 3, wireType 2 =*/26).fork()).ldelim();
+                        $root.io.cucumber.messages.PickleTable.encode(message.dataTable, writer.uint32(/* id 4, wireType 2 =*/34).fork()).ldelim();
                     return writer;
                 };
 
@@ -15956,14 +15998,17 @@ $root.io = (function() {
                         var tag = reader.uint32();
                         switch (tag >>> 3) {
                         case 1:
+                            message.actionId = reader.string();
+                            break;
+                        case 2:
                             if (!(message.generatedExpressions && message.generatedExpressions.length))
                                 message.generatedExpressions = [];
                             message.generatedExpressions.push($root.io.cucumber.messages.GeneratedExpression.decode(reader, reader.uint32()));
                             break;
-                        case 2:
+                        case 3:
                             message.docString = $root.io.cucumber.messages.PickleDocString.decode(reader, reader.uint32());
                             break;
-                        case 3:
+                        case 4:
                             message.dataTable = $root.io.cucumber.messages.PickleTable.decode(reader, reader.uint32());
                             break;
                         default:
@@ -16002,6 +16047,9 @@ $root.io = (function() {
                     if (typeof message !== "object" || message === null)
                         return "object expected";
                     var properties = {};
+                    if (message.actionId != null && message.hasOwnProperty("actionId"))
+                        if (!$util.isString(message.actionId))
+                            return "actionId: string expected";
                     if (message.generatedExpressions != null && message.hasOwnProperty("generatedExpressions")) {
                         if (!Array.isArray(message.generatedExpressions))
                             return "generatedExpressions: array expected";
@@ -16044,6 +16092,8 @@ $root.io = (function() {
                     if (object instanceof $root.io.cucumber.messages.CommandGenerateSnippet)
                         return object;
                     var message = new $root.io.cucumber.messages.CommandGenerateSnippet();
+                    if (object.actionId != null)
+                        message.actionId = String(object.actionId);
                     if (object.generatedExpressions) {
                         if (!Array.isArray(object.generatedExpressions))
                             throw TypeError(".io.cucumber.messages.CommandGenerateSnippet.generatedExpressions: array expected");
@@ -16082,6 +16132,10 @@ $root.io = (function() {
                     var object = {};
                     if (options.arrays || options.defaults)
                         object.generatedExpressions = [];
+                    if (options.defaults)
+                        object.actionId = "";
+                    if (message.actionId != null && message.hasOwnProperty("actionId"))
+                        object.actionId = message.actionId;
                     if (message.generatedExpressions && message.generatedExpressions.length) {
                         object.generatedExpressions = [];
                         for (var j = 0; j < message.generatedExpressions.length; ++j)
