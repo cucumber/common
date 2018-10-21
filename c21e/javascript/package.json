@@ -19,11 +19,6 @@
   },
   "keywords": [
     "cucumber",
-    "tags",
-    "tag",
-    "parser",
-    "boolean",
-    "bool"
   ],
   "author": "Cucumber Limited <cukes@googlegroups.com>",
   "license": "MIT",
