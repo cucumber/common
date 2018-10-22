@@ -3,7 +3,10 @@ sudo: false
 go:
 - '1.11'
 - tip
-script: make default
+script:
+- env GO111MODULE=on make
+after_deploy:
+- test $TRAVIS_TAG && scripts/trigger_build.sh cucumber dots-formatter-ruby       $TRAVIS_TAG $TRAVIS_API_TOKEN
 jobs:
   include:
   - stage: deploy
@@ -12,9 +15,8 @@ jobs:
     - curl -L https://github.com/upx/upx/releases/download/v3.94/upx-3.94-amd64_linux.tar.xz | tar Jx
     - export PATH=$PATH:$PWD/upx-3.94-amd64_linux
     script:
-    - make
-    - make .dist-compressed
-    # Copy the binaries that compressed successfully over the uncompressed ones
+    - env GO111MODULE=on make
+    - env GO111MODULE=on make .dist-compressed
     - cp dist_compressed/* dist/
 deploy:
   # Deploy to S3 for tags
@@ -25,7 +27,6 @@ deploy:
     upload-dir: dots-formatter-go/$TRAVIS_TAG
     local_dir: dist
     on:
-      repo: cucumber/dots-formatter-go
       go: '1.11'
       tags: true
     access_key_id:
@@ -40,7 +41,6 @@ deploy:
     upload-dir: dots-formatter-go/$TRAVIS_BRANCH
     local_dir: dist
     on:
-      repo: cucumber/dots-formatter-go
       go: '1.11'
       tags: false
       all_branches: true
