@@ -3,9 +3,6 @@ ALPINE := $(shell which apk 2> /dev/null)
 GOPATH := $(shell go env GOPATH)
 PATH := $(PATH):$(GOPATH)/bin
 GO_SOURCE_FILES := $(shell find . -name "*.go" | sort)
-# Sort all .go files (except ./cmd/main.go) by depth. Take the dirname of the first one.
-# https://stackoverflow.com/questions/11703979/sort-files-by-depth-bash
-SRC_DIR := $(shell find . -type f -name "*.go" -print | grep -v ./cmd/main.go | perl -n -e '$$x = $$_; $$x =~ tr%/%%cd; print length($$x), " $$_";' | sort -k 1n -k 2 | sed 's/^[0-9][0-9]* //' | head -1 | xargs dirname)
 LIBNAME := $(shell cat .subrepo | cut -d'/' -f2)
 GOX_LDFLAGS := "-X main.version=${TRAVIS_TAG}"
 EXES := $(shell find dist -name '$(LIBNAME)-*')
@@ -14,7 +11,7 @@ UPX_EXES = $(patsubst dist/$(LIBNAME)-%,dist_compressed/$(LIBNAME)-%,$(EXES))
 default: .gofmt .tested
 .PHONY: default
 
-ifneq (,$(wildcard ./main.go))
+ifneq (,$(wildcard ./cmd/main.go))
 ifndef ALPINE
 # Cross-compile executables if there is a CLI. Disabled on Alpine Linux builds
 # (monorepo build in Docker) where cross compilation fails for certain platforms.
@@ -28,7 +25,7 @@ endif
 
 dist/$(LIBNAME)-%: $(GO_SOURCE_FILES)
 	mkdir -p dist
-	gox -ldflags $(GOX_LDFLAGS) -output "dist/$(LIBNAME)-{{.OS}}-{{.Arch}}" -rebuild main.go
+	gox -ldflags $(GOX_LDFLAGS) -output "dist/$(LIBNAME)-{{.OS}}-{{.Arch}}" -rebuild ./cmd
 
 .dist-compressed: $(UPX_EXES)
 	touch $@
@@ -46,11 +43,8 @@ dist_compressed/$(LIBNAME)-%: dist/$(LIBNAME)-%
 	gofmt -w $^
 	touch $@
 
-# Use env variable ARGS to pass arguments to 'go test'
-#   (for running only a specific test or using verbose mode)
-#   Example: ARGS='-v -run TestCucumberExpression' make test
 .tested: .deps $(GO_SOURCE_FILES)
-	cd ${SRC_DIR} && go test ${ARGS}
+	go test ./...
 	touch $@
 
 clean: clean-go
