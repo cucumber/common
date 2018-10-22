@@ -3,7 +3,9 @@ ALPINE := $(shell which apk 2> /dev/null)
 GOPATH := $(shell go env GOPATH)
 PATH := $(PATH):$(GOPATH)/bin
 GO_SOURCE_FILES := $(shell find . -name "*.go" | sort)
-SRC_DIR := $(shell find . -name "*.go" | sort | head -1 | xargs dirname)
+# Sort all .go files (except ./cmd/main.go) by depth. Take the dirname of the first one.
+# https://stackoverflow.com/questions/11703979/sort-files-by-depth-bash
+SRC_DIR := $(shell find . -type f -name "*.go" -print | grep -v ./cmd/main.go | perl -n -e '$$x = $$_; $$x =~ tr%/%%cd; print length($$x), " $$_";' | sort -k 1n -k 2 | sed 's/^[0-9][0-9]* //' | head -1 | xargs dirname)
 LIBNAME := $(shell cat .subrepo | cut -d'/' -f2)
 GOX_LDFLAGS := "-X main.version=${TRAVIS_TAG}"
 EXES := $(shell find dist -name '$(LIBNAME)-*')
