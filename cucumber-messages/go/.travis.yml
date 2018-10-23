@@ -2,5 +2,4 @@ language: go
 sudo: false
 go:
 - '1.11'
-- tip
 script: make default
