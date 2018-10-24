@@ -429,7 +429,7 @@ static const wchar_t* get_description_text(AstNode* ast_node) {
     int current_line = 0;
     while (queue_item) {
         ++current_line;
-        if (!GherkinLine_is_empty(((Token*)queue_item->item)->line)) {
+        if (/*!GherkinLine_is_empty(((Token*)queue_item->item)->line)*/true) { //create_multi_line_text_from_tokens doesn't skip GherkinLine_is_empty lines
             line_count = current_line;
             text_length += wcslen(((Token*)queue_item->item)->matched_text);
         }
