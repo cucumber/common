@@ -149,6 +149,19 @@ public final class DataTableTypeRegistryTableConverter extends AbstractTableConv
         if (cellValueType != null) {
             return unpack((List<List<T>>) cellValueType.transform(cells));
         }
+
+        if (cells.size() > 1) {
+            DataTableType defaultTableType = registry.getDefaultTableEntryTransformer(itemType);
+            if (defaultTableType != null) {
+                return (List<T>) defaultTableType.transform(cells);
+            }
+        }
+
+        DataTableType defaultCellValueType = registry.getDefaultTableCellTransformer(itemType);
+        if (defaultCellValueType != null) {
+            return unpack((List<List<T>>) defaultCellValueType.transform(cells));
+        }
+
         return null;
     }
 
@@ -163,6 +176,9 @@ public final class DataTableTypeRegistryTableConverter extends AbstractTableConv
         }
 
         DataTableType tableType = registry.lookupTableTypeByType(aListOf(aListOf(itemType)));
+        if (tableType == null) {
+            tableType = registry.getDefaultTableCellTransformer(itemType);
+        }
         if (tableType != null) {
             return unmodifiableList((List<List<T>>) tableType.transform(dataTable.cells()));
         }
@@ -221,6 +237,9 @@ public final class DataTableTypeRegistryTableConverter extends AbstractTableConv
             DataTableType keyConverter;
             keyConverter = registry.lookupTableTypeByType(aListOf(aListOf(keyType)));
             if (keyConverter == null) {
+                keyConverter = registry.getDefaultTableCellTransformer(keyType);
+            }
+            if (keyConverter == null) {
                 throw mapNoConverterDefined(keyType, valueType, "TableCellTransformer", keyType);
             }
             return unpack((List<List<K>>) keyConverter.transform(keyColumn.subList(1, keyColumn.size())));
@@ -261,6 +280,20 @@ public final class DataTableTypeRegistryTableConverter extends AbstractTableConv
         //
         // So instead we unroll these steps here. This keeps the error handling and messages sane.
 
+        // Handle case #1.
+        Type listItemType = listItemType(valueType);
+        if (listItemType != null) {
+            // Table cell types take priority over default converters
+            DataTableType cellValueConverter = registry.lookupTableTypeByType(aListOf(aListOf(listItemType)));
+            if (cellValueConverter == null) {
+                cellValueConverter = registry.getDefaultTableCellTransformer(listItemType);
+            }
+            if (cellValueConverter == null) {
+                throw mapNoConverterDefined(keyType, valueType, "TableCellTransformer", valueType);
+            }
+            return (List<V>) cellValueConverter.transform(dataTable.cells());
+        }
+
         // Handle case #2
         Type valueMapKeyType = mapKeyType(valueType);
         if (valueMapKeyType != null) {
@@ -270,20 +303,31 @@ public final class DataTableTypeRegistryTableConverter extends AbstractTableConv
             return (List<V>) toMaps(dataTable, String.class, String.class);
         }
 
-        // Try to handle case #3. We are required to check the most specific solution first.
+        // Try to handle case #3.
+        // We check this regardless of the keys. They may not imply that this is a table entry.
+        // But this type was registered as such.
         DataTableType entryValueConverter = registry.lookupTableTypeByType(aListOf(valueType));
         if (entryValueConverter != null) {
             return (List<V>) entryValueConverter.transform(dataTable.cells());
         }
 
         if (keysImplyTableEntryTransformer) {
+            // There is no way around it though. This is probably a table entry.
+            DataTableType defaultEntryValueConverter = registry.getDefaultTableEntryTransformer(valueType);
+            if (defaultEntryValueConverter != null) {
+                return (List<V>) defaultEntryValueConverter.transform(dataTable.cells());
+            }
             throw keysImplyTableEntryTransformer(keyType, valueType);
         }
 
-        // Try to handle case #1. This may result in multiple values per key if the table is too wide.
+        // This may result in multiple values per key if the table is too wide.
         DataTableType cellValueConverter = registry.lookupTableTypeByType(aListOf(aListOf(valueType)));
         if (cellValueConverter != null) {
             return unpack((List<List<V>>) cellValueConverter.transform(dataTable.cells()));
+        }
+        DataTableType defaultCellValueConverter = registry.getDefaultTableCellTransformer(valueType);
+        if (defaultCellValueConverter != null) {
+            return unpack((List<List<V>>) defaultCellValueConverter.transform(dataTable.cells()));
         }
 
         throw mapNoConverterDefined(keyType, valueType, "TableEntryTransformer or TableCellTransformer", valueType);

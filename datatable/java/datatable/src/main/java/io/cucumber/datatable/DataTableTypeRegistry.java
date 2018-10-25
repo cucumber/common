@@ -118,34 +118,32 @@ public final class DataTableTypeRegistry {
 
     public DataTableType lookupTableTypeByType(final Type tableType) {
         JavaType targetType = constructType(tableType);
-        DataTableType dataTableType = tableTypeByType.get(targetType);
+        return tableTypeByType.get(targetType);
+    }
 
-        if(dataTableType != null){
-            return dataTableType;
-        }
-
-        if(!targetType.isCollectionLikeType()){
-            return  null;
-        }
-
-        JavaType contentType = targetType.getContentType();
-        if(contentType.isCollectionLikeType()) {
-            if(defaultDataTableCellTransformer != null){
-                return DataTableType.defaultCell(
-                        contentType.getContentType().getRawClass(),
-                        defaultDataTableCellTransformer
-                );
-            }
+    public DataTableType getDefaultTableCellTransformer(final Type tableType) {
+        if (defaultDataTableCellTransformer == null) {
             return null;
         }
-        if (defaultDataTableEntryTransformer != null){
-            return DataTableType.defaultEntry(
-                    contentType.getRawClass(),
-                    defaultDataTableEntryTransformer,
-                    tableCellByTypeTransformer
-            );
+
+        JavaType targetType = constructType(tableType);
+        return DataTableType.defaultCell(
+                targetType.getRawClass(),
+                defaultDataTableCellTransformer
+        );
+    }
+
+    public DataTableType getDefaultTableEntryTransformer(final Type tableType) {
+        if (defaultDataTableEntryTransformer == null) {
+            return null;
         }
-        return null;
+
+        JavaType targetType = constructType(tableType);
+        return DataTableType.defaultEntry(
+                targetType.getRawClass(),
+                defaultDataTableEntryTransformer,
+                tableCellByTypeTransformer
+        );
     }
 
     public void setDefaultDataTableEntryTransformer(TableEntryByTypeTransformer defaultDataTableEntryTransformer) {

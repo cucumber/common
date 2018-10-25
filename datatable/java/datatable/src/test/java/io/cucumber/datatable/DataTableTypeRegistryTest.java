@@ -97,39 +97,6 @@ public class DataTableTypeRegistryTest {
         assertNull(lookupTableTypeByType);
     }
 
-
-    @Test
-    @SuppressWarnings("unchecked")
-    public void returns_default_data_table_type_for_cell_if_none_match_and_default_registered() {
-
-        registry.defineDataTableType(DataTableType.cell(DataTableTypeRegistryTest.class));
-        registry.defineDataTableType(DataTableType.entry(DataTableTypeRegistryTest.class));
-        registry.setDefaultDataTableCellTransformer(PLACE_TABLE_CELL_TRANSFORMER);
-        registry.setDefaultDataTableEntryTransformer(PLACE_TABLE_ENTRY_TRANSFORMER);
-
-        DataTableType dataTableType = requireNonNull(registry.lookupTableTypeByType(LIST_OF_LIST_OF_PLACE));
-        List<List<Place>> transformedCells = (List<List<Place>>) dataTableType.transform(singletonList(singletonList("here")));
-
-        assertEquals(singletonList(singletonList(new Place("here"))), transformedCells);
-
-    }
-
-    @Test
-    @SuppressWarnings("unchecked")
-    public void returns_default_data_table_type_for_entry_if_none_match_and_default_registered() {
-
-        registry.defineDataTableType(DataTableType.cell(DataTableTypeRegistryTest.class));
-        registry.defineDataTableType(DataTableType.entry(DataTableTypeRegistryTest.class));
-        registry.setDefaultDataTableCellTransformer(PLACE_TABLE_CELL_TRANSFORMER);
-        registry.setDefaultDataTableEntryTransformer(PLACE_TABLE_ENTRY_TRANSFORMER);
-
-        DataTableType dataTableType = requireNonNull(registry.lookupTableTypeByType(LIST_OF_PLACE));
-
-        List<Place> transformedEntries = (List<Place>) dataTableType.transform(asList(asList("name","index of place"), asList("here","20")));
-
-        assertEquals(singletonList(new Place("here", 20)), transformedEntries);
-    }
-
     @Test
     public void returns_cell_data_table_type() {
 
