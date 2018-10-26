@@ -348,6 +348,10 @@ private class JacksonDataTableTransformer implements TableEntryByTypeTransformer
 }
 ```
 
+The`TableEntryByTypeTransformer` and `TableCellByTypeTransformer` are used when there is no table entry or table cell 
+defined for a given type. Note that when installing both `TableEntryByTypeTransformer` and `TableCellByTypeTransformer`
+it becomes impossible to disambiguate between table entries and table cells. By default table entries are assumed over
+table cells. This ambiguity can be resolved by adding a header.
 
 ## Diffing
 

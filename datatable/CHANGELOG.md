@@ -16,7 +16,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Removed
 
 ### Fixed
-
+* Fix priority of default converters
+  ([#514](https://github.com/cucumber/cucumber/pull/514)
+   [mpkorstanje])
 ## [1.1.3] - 2018-07-27
 
 ### Added
