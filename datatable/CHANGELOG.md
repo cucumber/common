@@ -16,9 +16,14 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Removed
 
 ### Fixed
+
+## [1.1.6] - 2018-10-26
+
+### Fixed
 * Fix priority of default converters
   ([#514](https://github.com/cucumber/cucumber/pull/514)
    [mpkorstanje])
+   
 ## [1.1.3] - 2018-07-27
 
 ### Added
@@ -78,7 +83,8 @@ There are no (1.1.0 and 1.1.1 releases).
 * java: OSGI fixes
 
 <!-- Releases -->
-[Unreleased]: https://github.com/cucumber/cucumber/compare/datatable-v1.1.2...master
+[Unreleased]: https://github.com/cucumber/cucumber/compare/datatable-v1.1.6...master
+[1.1.6]:      https://github.com/cucumber/cucumber/compare/datatable-v1.1.2...datatable-v1.1.6
 [1.1.2]:      https://github.com/cucumber/cucumber/compare/datatable-v1.0.3...datatable-v1.1.2
 [1.0.3]:      https://github.com/cucumber/cucumber/compare/datatable-v1.0.2...datatable-v1.0.3
 [1.0.2]:      https://github.com/cucumber/cucumber/compare/datatable-v1.0.1...datatable-v1.0.2
@@ -88,4 +94,5 @@ There are no (1.1.0 and 1.1.1 releases).
 <!-- Contributors in alphabetical order -->
 [aslakhellesoy]:    https://github.com/aslakhellesoy
 [kuehl]:            https://github.com/kuehl
+[lsuski]:           https://github.com/lsuski
 [mpkorstanje]:      https://github.com/mpkorstanje
