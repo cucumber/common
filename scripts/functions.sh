@@ -267,7 +267,7 @@ function maven_version()
   next_version=$3
 
   pushd "${dir}"
-  mvn versions:set -DnewVersion=${version}
+  mvn versions:set -DnewVersion=${version} -DgenerateBackupPoms=false
   popd
 }
 
