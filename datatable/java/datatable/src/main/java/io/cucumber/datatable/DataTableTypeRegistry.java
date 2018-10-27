@@ -121,7 +121,7 @@ public final class DataTableTypeRegistry {
         return tableTypeByType.get(targetType);
     }
 
-    public DataTableType getDefaultTableCellTransformer(final Type tableType) {
+    DataTableType getDefaultTableCellTransformer(final Type tableType) {
         if (defaultDataTableCellTransformer == null) {
             return null;
         }
@@ -133,7 +133,7 @@ public final class DataTableTypeRegistry {
         );
     }
 
-    public DataTableType getDefaultTableEntryTransformer(final Type tableType) {
+    DataTableType getDefaultTableEntryTransformer(final Type tableType) {
         if (defaultDataTableEntryTransformer == null) {
             return null;
         }
