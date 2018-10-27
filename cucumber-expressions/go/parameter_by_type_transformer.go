@@ -3,10 +3,13 @@ package cucumberexpressions
 import (
 	"errors"
 	"fmt"
-	"math/bits"
 	"reflect"
 	"strconv"
 )
+
+// can be imported from "math/bits". Not yet supported in go 1.8
+const uintSize = 32 << (^uint(0) >> 32 & 1) // 32 or 64
+
 
 type ParameterByTypeTransformer interface {
 	// toValueType accepts either reflect.Type or reflect.Kind
@@ -61,7 +64,7 @@ func transformKind(fromValue string, toValueKind reflect.Kind) (interface{}, err
 		}
 		return nil, err
 	case reflect.Uint:
-		i, err := strconv.ParseUint(fromValue, 10, bits.UintSize)
+		i, err := strconv.ParseUint(fromValue, 10, uintSize)
 		if err == nil {
 			return uint(i), nil
 		}
