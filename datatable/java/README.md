@@ -1,3 +1,4 @@
+[![Maven Central](https://maven-badges.herokuapp.com/maven-central/io.cucumber/datatable/badge.svg)](https://maven-badges.herokuapp.com/maven-central/io.cucumber/datatable)
 [![Build Status](https://travis-ci.org/cucumber/datatable-java.svg?branch=master)](https://travis-ci.org/cucumber/datatable-java)
 
 # Data Table for Java
