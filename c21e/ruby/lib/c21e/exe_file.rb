@@ -40,7 +40,7 @@ module C21e
       # https://github.com/kolosek/residds/blob/master/vendor/bundle/ruby/2.0.0/gems/launchy-2.4.3/spec/tattle-host-os.yaml
       case @props[:arch]
         when /i\d86/ then '386'
-        when /x86_64/ then 'amd64'
+        when /x64|x86_64/ then 'amd64'
         else @props[:arch]
       end
     end
