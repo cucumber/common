@@ -49,6 +49,11 @@ public class ExpressionFactoryTest {
     }
 
     @Test
+    public void creates_regular_expression_for_parenthesis_with_regexp_digits() {
+        assertRegularExpression("this (\\d+) like a regexp");
+    }
+
+    @Test
     public void creates_regular_expression_for_slashed_anchors() {
         assertRegularExpression("^please remove slashes$", "/^please remove slashes$/");
     }
