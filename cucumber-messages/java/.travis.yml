@@ -6,7 +6,7 @@ jdk:
 jobs:
   include:
   - stage: deploy
-    jdk: oraclejdk8
+    jdk: openjdk11
     script:
     - "./scripts/mvn_deploy.sh"
 script: make default
