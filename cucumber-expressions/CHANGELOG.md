@@ -20,8 +20,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ## [6.2.0] - 2018-10-28
 
 ### Added
- * Add anonymous parameter types 
-    ([#496](https://github.com/cucumber/cucumber/pull/496) [mpkorstanje])
+* Add anonymous parameter types 
+  ([#496](https://github.com/cucumber/cucumber/pull/496) [mpkorstanje])
 
 ## [6.1.2] - 2018-10-11
 
