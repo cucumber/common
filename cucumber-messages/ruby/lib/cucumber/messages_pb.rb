@@ -209,6 +209,7 @@ Google::Protobuf::DescriptorPool.generated_pool.build do
   add_message "io.cucumber.messages.TestCaseFinished" do
     optional :pickleId, :string, 1
     optional :timestamp, :message, 2, "google.protobuf.Timestamp"
+    optional :testResult, :message, 3, "io.cucumber.messages.TestResult"
   end
   add_message "io.cucumber.messages.TestStepStarted" do
     optional :pickleId, :string, 1

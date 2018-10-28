@@ -40116,6 +40116,19 @@ public final class Messages {
      * <code>.google.protobuf.Timestamp timestamp = 2;</code>
      */
     com.google.protobuf.TimestampOrBuilder getTimestampOrBuilder();
+
+    /**
+     * <code>.io.cucumber.messages.TestResult testResult = 3;</code>
+     */
+    boolean hasTestResult();
+    /**
+     * <code>.io.cucumber.messages.TestResult testResult = 3;</code>
+     */
+    io.cucumber.messages.Messages.TestResult getTestResult();
+    /**
+     * <code>.io.cucumber.messages.TestResult testResult = 3;</code>
+     */
+    io.cucumber.messages.Messages.TestResultOrBuilder getTestResultOrBuilder();
   }
   /**
    * Protobuf type {@code io.cucumber.messages.TestCaseFinished}
@@ -40172,6 +40185,19 @@ public final class Messages {
               if (subBuilder != null) {
                 subBuilder.mergeFrom(timestamp_);
                 timestamp_ = subBuilder.buildPartial();
+              }
+
+              break;
+            }
+            case 26: {
+              io.cucumber.messages.Messages.TestResult.Builder subBuilder = null;
+              if (testResult_ != null) {
+                subBuilder = testResult_.toBuilder();
+              }
+              testResult_ = input.readMessage(io.cucumber.messages.Messages.TestResult.parser(), extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom(testResult_);
+                testResult_ = subBuilder.buildPartial();
               }
 
               break;
@@ -40263,6 +40289,27 @@ public final class Messages {
       return getTimestamp();
     }
 
+    public static final int TESTRESULT_FIELD_NUMBER = 3;
+    private io.cucumber.messages.Messages.TestResult testResult_;
+    /**
+     * <code>.io.cucumber.messages.TestResult testResult = 3;</code>
+     */
+    public boolean hasTestResult() {
+      return testResult_ != null;
+    }
+    /**
+     * <code>.io.cucumber.messages.TestResult testResult = 3;</code>
+     */
+    public io.cucumber.messages.Messages.TestResult getTestResult() {
+      return testResult_ == null ? io.cucumber.messages.Messages.TestResult.getDefaultInstance() : testResult_;
+    }
+    /**
+     * <code>.io.cucumber.messages.TestResult testResult = 3;</code>
+     */
+    public io.cucumber.messages.Messages.TestResultOrBuilder getTestResultOrBuilder() {
+      return getTestResult();
+    }
+
     private byte memoizedIsInitialized = -1;
     @java.lang.Override
     public final boolean isInitialized() {
@@ -40283,6 +40330,9 @@ public final class Messages {
       if (timestamp_ != null) {
         output.writeMessage(2, getTimestamp());
       }
+      if (testResult_ != null) {
+        output.writeMessage(3, getTestResult());
+      }
       unknownFields.writeTo(output);
     }
 
@@ -40298,6 +40348,10 @@ public final class Messages {
       if (timestamp_ != null) {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(2, getTimestamp());
+      }
+      if (testResult_ != null) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(3, getTestResult());
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -40322,6 +40376,11 @@ public final class Messages {
         result = result && getTimestamp()
             .equals(other.getTimestamp());
       }
+      result = result && (hasTestResult() == other.hasTestResult());
+      if (hasTestResult()) {
+        result = result && getTestResult()
+            .equals(other.getTestResult());
+      }
       result = result && unknownFields.equals(other.unknownFields);
       return result;
     }
@@ -40338,6 +40397,10 @@ public final class Messages {
       if (hasTimestamp()) {
         hash = (37 * hash) + TIMESTAMP_FIELD_NUMBER;
         hash = (53 * hash) + getTimestamp().hashCode();
+      }
+      if (hasTestResult()) {
+        hash = (37 * hash) + TESTRESULT_FIELD_NUMBER;
+        hash = (53 * hash) + getTestResult().hashCode();
       }
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
@@ -40480,6 +40543,12 @@ public final class Messages {
           timestamp_ = null;
           timestampBuilder_ = null;
         }
+        if (testResultBuilder_ == null) {
+          testResult_ = null;
+        } else {
+          testResult_ = null;
+          testResultBuilder_ = null;
+        }
         return this;
       }
 
@@ -40511,6 +40580,11 @@ public final class Messages {
           result.timestamp_ = timestamp_;
         } else {
           result.timestamp_ = timestampBuilder_.build();
+        }
+        if (testResultBuilder_ == null) {
+          result.testResult_ = testResult_;
+        } else {
+          result.testResult_ = testResultBuilder_.build();
         }
         onBuilt();
         return result;
@@ -40566,6 +40640,9 @@ public final class Messages {
         }
         if (other.hasTimestamp()) {
           mergeTimestamp(other.getTimestamp());
+        }
+        if (other.hasTestResult()) {
+          mergeTestResult(other.getTestResult());
         }
         this.mergeUnknownFields(other.unknownFields);
         onChanged();
@@ -40780,6 +40857,123 @@ public final class Messages {
           timestamp_ = null;
         }
         return timestampBuilder_;
+      }
+
+      private io.cucumber.messages.Messages.TestResult testResult_ = null;
+      private com.google.protobuf.SingleFieldBuilderV3<
+          io.cucumber.messages.Messages.TestResult, io.cucumber.messages.Messages.TestResult.Builder, io.cucumber.messages.Messages.TestResultOrBuilder> testResultBuilder_;
+      /**
+       * <code>.io.cucumber.messages.TestResult testResult = 3;</code>
+       */
+      public boolean hasTestResult() {
+        return testResultBuilder_ != null || testResult_ != null;
+      }
+      /**
+       * <code>.io.cucumber.messages.TestResult testResult = 3;</code>
+       */
+      public io.cucumber.messages.Messages.TestResult getTestResult() {
+        if (testResultBuilder_ == null) {
+          return testResult_ == null ? io.cucumber.messages.Messages.TestResult.getDefaultInstance() : testResult_;
+        } else {
+          return testResultBuilder_.getMessage();
+        }
+      }
+      /**
+       * <code>.io.cucumber.messages.TestResult testResult = 3;</code>
+       */
+      public Builder setTestResult(io.cucumber.messages.Messages.TestResult value) {
+        if (testResultBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          testResult_ = value;
+          onChanged();
+        } else {
+          testResultBuilder_.setMessage(value);
+        }
+
+        return this;
+      }
+      /**
+       * <code>.io.cucumber.messages.TestResult testResult = 3;</code>
+       */
+      public Builder setTestResult(
+          io.cucumber.messages.Messages.TestResult.Builder builderForValue) {
+        if (testResultBuilder_ == null) {
+          testResult_ = builderForValue.build();
+          onChanged();
+        } else {
+          testResultBuilder_.setMessage(builderForValue.build());
+        }
+
+        return this;
+      }
+      /**
+       * <code>.io.cucumber.messages.TestResult testResult = 3;</code>
+       */
+      public Builder mergeTestResult(io.cucumber.messages.Messages.TestResult value) {
+        if (testResultBuilder_ == null) {
+          if (testResult_ != null) {
+            testResult_ =
+              io.cucumber.messages.Messages.TestResult.newBuilder(testResult_).mergeFrom(value).buildPartial();
+          } else {
+            testResult_ = value;
+          }
+          onChanged();
+        } else {
+          testResultBuilder_.mergeFrom(value);
+        }
+
+        return this;
+      }
+      /**
+       * <code>.io.cucumber.messages.TestResult testResult = 3;</code>
+       */
+      public Builder clearTestResult() {
+        if (testResultBuilder_ == null) {
+          testResult_ = null;
+          onChanged();
+        } else {
+          testResult_ = null;
+          testResultBuilder_ = null;
+        }
+
+        return this;
+      }
+      /**
+       * <code>.io.cucumber.messages.TestResult testResult = 3;</code>
+       */
+      public io.cucumber.messages.Messages.TestResult.Builder getTestResultBuilder() {
+        
+        onChanged();
+        return getTestResultFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>.io.cucumber.messages.TestResult testResult = 3;</code>
+       */
+      public io.cucumber.messages.Messages.TestResultOrBuilder getTestResultOrBuilder() {
+        if (testResultBuilder_ != null) {
+          return testResultBuilder_.getMessageOrBuilder();
+        } else {
+          return testResult_ == null ?
+              io.cucumber.messages.Messages.TestResult.getDefaultInstance() : testResult_;
+        }
+      }
+      /**
+       * <code>.io.cucumber.messages.TestResult testResult = 3;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilderV3<
+          io.cucumber.messages.Messages.TestResult, io.cucumber.messages.Messages.TestResult.Builder, io.cucumber.messages.Messages.TestResultOrBuilder> 
+          getTestResultFieldBuilder() {
+        if (testResultBuilder_ == null) {
+          testResultBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
+              io.cucumber.messages.Messages.TestResult, io.cucumber.messages.Messages.TestResult.Builder, io.cucumber.messages.Messages.TestResultOrBuilder>(
+                  getTestResult(),
+                  getParentForChildren(),
+                  isClean());
+          testResult_ = null;
+        }
+        return testResultBuilder_;
       }
       @java.lang.Override
       public final Builder setUnknownFields(
@@ -65870,103 +66064,105 @@ public final class Messages {
       "leId\030\001 \001(\t\0229\n\005steps\030\002 \003(\0132*.io.cucumber." +
       "messages.TestCasePreparedStep\"R\n\017TestCas" +
       "eStarted\022\020\n\010pickleId\030\001 \001(\t\022-\n\ttimestamp\030" +
-      "\002 \001(\0132\032.google.protobuf.Timestamp\"S\n\020Tes" +
-      "tCaseFinished\022\020\n\010pickleId\030\001 \001(\t\022-\n\ttimes" +
-      "tamp\030\002 \001(\0132\032.google.protobuf.Timestamp\"a" +
-      "\n\017TestStepStarted\022\020\n\010pickleId\030\001 \001(\t\022\r\n\005i" +
-      "ndex\030\002 \001(\r\022-\n\ttimestamp\030\003 \001(\0132\032.google.p" +
-      "rotobuf.Timestamp\"\230\001\n\020TestStepFinished\022\020" +
-      "\n\010pickleId\030\001 \001(\t\022\r\n\005index\030\002 \001(\r\0224\n\ntestR" +
-      "esult\030\003 \001(\0132 .io.cucumber.messages.TestR" +
-      "esult\022-\n\ttimestamp\030\004 \001(\0132\032.google.protob" +
-      "uf.Timestamp\"R\n\017TestHookStarted\022\020\n\010pickl" +
-      "eId\030\001 \001(\t\022-\n\ttimestamp\030\002 \001(\0132\032.google.pr" +
-      "otobuf.Timestamp\"\211\001\n\020TestHookFinished\022\020\n" +
-      "\010pickleId\030\001 \001(\t\0224\n\ntestResult\030\002 \001(\0132 .io" +
-      ".cucumber.messages.TestResult\022-\n\ttimesta" +
-      "mp\030\003 \001(\0132\032.google.protobuf.Timestamp\"h\n\n" +
-      "TestResult\022,\n\006status\030\001 \001(\0162\034.io.cucumber" +
-      ".messages.Status\022\017\n\007message\030\002 \001(\t\022\033\n\023dur" +
-      "ationNanoseconds\030\003 \001(\004\"\"\n\017TestRunFinishe" +
-      "d\022\017\n\007success\030\001 \001(\010\"\341\001\n\014CommandStart\022\025\n\rb" +
-      "aseDirectory\030\002 \001(\t\022:\n\rsourcesConfig\030\003 \001(" +
-      "\0132#.io.cucumber.messages.SourcesConfig\022:" +
-      "\n\rruntimeConfig\030\004 \001(\0132#.io.cucumber.mess" +
-      "ages.RuntimeConfig\022B\n\021supportCodeConfig\030" +
-      "\005 \001(\0132\'.io.cucumber.messages.SupportCode" +
-      "Config\"\247\001\n\rSourcesConfig\022\025\n\rabsolutePath" +
-      "s\030\001 \003(\t\022\020\n\010language\030\002 \001(\t\022:\n\007filters\030\003 \001" +
-      "(\0132).io.cucumber.messages.SourcesFilterC" +
-      "onfig\0221\n\005order\030\004 \001(\0132\".io.cucumber.messa" +
-      "ges.SourcesOrder\"\220\001\n\023SourcesFilterConfig" +
-      "\022\025\n\rtagExpression\030\001 \001(\t\022\036\n\026nameRegularEx" +
-      "pressions\030\002 \003(\t\022B\n\021uriToLinesMapping\030\003 \003" +
-      "(\0132\'.io.cucumber.messages.UriToLinesMapp" +
-      "ing\"8\n\021UriToLinesMapping\022\024\n\014absolutePath" +
-      "\030\001 \001(\t\022\r\n\005lines\030\002 \003(\004\"R\n\014SourcesOrder\0224\n" +
-      "\004type\030\001 \001(\0162&.io.cucumber.messages.Sourc" +
-      "esOrderType\022\014\n\004seed\030\002 \001(\004\"\\\n\rRuntimeConf" +
-      "ig\022\022\n\nisFailFast\030\001 \001(\010\022\020\n\010isDryRun\030\002 \001(\010" +
-      "\022\020\n\010isStrict\030\003 \001(\010\022\023\n\013maxParallel\030\004 \001(\004\"" +
-      "\350\002\n\021SupportCodeConfig\022_\n#beforeTestCaseH" +
-      "ookDefinitionConfigs\030\001 \003(\01322.io.cucumber" +
-      ".messages.TestCaseHookDefinitionConfig\022^" +
-      "\n\"afterTestCaseHookDefinitionConfigs\030\002 \003" +
-      "(\01322.io.cucumber.messages.TestCaseHookDe" +
-      "finitionConfig\022I\n\025stepDefinitionConfigs\030" +
-      "\003 \003(\0132*.io.cucumber.messages.StepDefinit" +
-      "ionConfig\022G\n\024parameterTypeConfigs\030\004 \003(\0132" +
-      ").io.cucumber.messages.ParameterTypeConf" +
-      "ig\"z\n\034TestCaseHookDefinitionConfig\022\n\n\002id" +
-      "\030\001 \001(\t\022\025\n\rtagExpression\030\002 \001(\t\0227\n\010locatio" +
-      "n\030\003 \001(\0132%.io.cucumber.messages.SourceRef" +
-      "erence\"\231\001\n\024StepDefinitionConfig\022\n\n\002id\030\001 " +
-      "\001(\t\022<\n\007pattern\030\002 \001(\0132+.io.cucumber.messa" +
-      "ges.StepDefinitionPattern\0227\n\010location\030\003 " +
-      "\001(\0132%.io.cucumber.messages.SourceReferen" +
-      "ce\"f\n\025StepDefinitionPattern\022\016\n\006source\030\001 " +
-      "\001(\t\022=\n\004type\030\002 \001(\0162/.io.cucumber.messages" +
-      ".StepDefinitionPatternType\"\200\001\n\023Parameter" +
-      "TypeConfig\022\014\n\004name\030\001 \001(\t\022\032\n\022regularExpre" +
-      "ssions\030\002 \003(\t\022\'\n\037preferForRegularExpressi" +
-      "onMatch\030\003 \001(\010\022\026\n\016useForSnippets\030\004 \001(\010\"\201\001" +
-      "\n\025CommandActionComplete\022\023\n\013completedId\030\001" +
-      " \001(\t\0226\n\ntestResult\030\002 \001(\0132 .io.cucumber.m" +
-      "essages.TestResultH\000\022\021\n\007snippet\030\003 \001(\tH\000B" +
-      "\010\n\006result\"0\n\034CommandRunBeforeTestRunHook" +
-      "s\022\020\n\010actionId\030\001 \001(\t\"/\n\033CommandRunAfterTe" +
-      "stRunHooks\022\020\n\010actionId\030\001 \001(\t\"o\n\031CommandI" +
-      "nitializeTestCase\022\020\n\010actionId\030\001 \001(\t\022\022\n\nt" +
-      "estCaseId\030\002 \001(\t\022,\n\006pickle\030\003 \001(\0132\034.io.cuc" +
-      "umber.messages.Pickle\"f\n\034CommandRunBefor" +
-      "eTestCaseHook\022\020\n\010actionId\030\001 \001(\t\022\022\n\ntestC" +
-      "aseId\030\002 \001(\t\022 \n\030testCaseHookDefinitionId\030" +
-      "\003 \001(\t\"e\n\033CommandRunAfterTestCaseHook\022\020\n\010" +
-      "actionId\030\001 \001(\t\022\022\n\ntestCaseId\030\002 \001(\t\022 \n\030te" +
-      "stCaseHookDefinitionId\030\003 \001(\t\"\220\001\n\022Command" +
-      "RunTestStep\022\020\n\010actionId\030\001 \001(\t\022\022\n\ntestCas" +
-      "eId\030\002 \001(\t\022\030\n\020stepDefinitionId\030\003 \001(\t\022:\n\016p" +
-      "atternMatches\030\004 \003(\0132\".io.cucumber.messag" +
-      "es.PatternMatch\"\303\001\n\014PatternMatch\022\020\n\010capt" +
-      "ures\030\001 \003(\t\022\031\n\021parameterTypeName\030\002 \001(\t\022;\n" +
-      "\ndoc_string\030\003 \001(\0132%.io.cucumber.messages" +
-      ".PickleDocStringH\000\0227\n\ndata_table\030\004 \001(\0132!" +
-      ".io.cucumber.messages.PickleTableH\000B\020\n\016p" +
-      "ickleArgument\"\373\001\n\026CommandGenerateSnippet" +
-      "\022\020\n\010actionId\030\001 \001(\t\022G\n\024generatedExpressio" +
-      "ns\030\002 \003(\0132).io.cucumber.messages.Generate" +
-      "dExpression\022;\n\ndoc_string\030\003 \001(\0132%.io.cuc" +
-      "umber.messages.PickleDocStringH\000\0227\n\ndata" +
-      "_table\030\004 \001(\0132!.io.cucumber.messages.Pick" +
-      "leTableH\000B\020\n\016pickleArgument\"?\n\023Generated" +
-      "Expression\022\014\n\004text\030\001 \001(\t\022\032\n\022parameterTyp" +
-      "eNames\030\002 \003(\t*X\n\006Status\022\r\n\tAMBIGUOUS\020\000\022\n\n" +
-      "\006FAILED\020\001\022\n\n\006PASSED\020\002\022\013\n\007PENDING\020\003\022\013\n\007SK" +
-      "IPPED\020\004\022\r\n\tUNDEFINED\020\005*7\n\020SourcesOrderTy" +
-      "pe\022\027\n\023ORDER_OF_DEFINITION\020\000\022\n\n\006RANDOM\020\001*" +
-      "L\n\031StepDefinitionPatternType\022\027\n\023CUCUMBER" +
-      "_EXPRESSION\020\000\022\026\n\022REGULAR_EXPRESSION\020\001B\036Z" +
-      "\010messages\352\002\021Cucumber.Messagesb\006proto3"
+      "\002 \001(\0132\032.google.protobuf.Timestamp\"\211\001\n\020Te" +
+      "stCaseFinished\022\020\n\010pickleId\030\001 \001(\t\022-\n\ttime" +
+      "stamp\030\002 \001(\0132\032.google.protobuf.Timestamp\022" +
+      "4\n\ntestResult\030\003 \001(\0132 .io.cucumber.messag" +
+      "es.TestResult\"a\n\017TestStepStarted\022\020\n\010pick" +
+      "leId\030\001 \001(\t\022\r\n\005index\030\002 \001(\r\022-\n\ttimestamp\030\003" +
+      " \001(\0132\032.google.protobuf.Timestamp\"\230\001\n\020Tes" +
+      "tStepFinished\022\020\n\010pickleId\030\001 \001(\t\022\r\n\005index" +
+      "\030\002 \001(\r\0224\n\ntestResult\030\003 \001(\0132 .io.cucumber" +
+      ".messages.TestResult\022-\n\ttimestamp\030\004 \001(\0132" +
+      "\032.google.protobuf.Timestamp\"R\n\017TestHookS" +
+      "tarted\022\020\n\010pickleId\030\001 \001(\t\022-\n\ttimestamp\030\002 " +
+      "\001(\0132\032.google.protobuf.Timestamp\"\211\001\n\020Test" +
+      "HookFinished\022\020\n\010pickleId\030\001 \001(\t\0224\n\ntestRe" +
+      "sult\030\002 \001(\0132 .io.cucumber.messages.TestRe" +
+      "sult\022-\n\ttimestamp\030\003 \001(\0132\032.google.protobu" +
+      "f.Timestamp\"h\n\nTestResult\022,\n\006status\030\001 \001(" +
+      "\0162\034.io.cucumber.messages.Status\022\017\n\007messa" +
+      "ge\030\002 \001(\t\022\033\n\023durationNanoseconds\030\003 \001(\004\"\"\n" +
+      "\017TestRunFinished\022\017\n\007success\030\001 \001(\010\"\341\001\n\014Co" +
+      "mmandStart\022\025\n\rbaseDirectory\030\002 \001(\t\022:\n\rsou" +
+      "rcesConfig\030\003 \001(\0132#.io.cucumber.messages." +
+      "SourcesConfig\022:\n\rruntimeConfig\030\004 \001(\0132#.i" +
+      "o.cucumber.messages.RuntimeConfig\022B\n\021sup" +
+      "portCodeConfig\030\005 \001(\0132\'.io.cucumber.messa" +
+      "ges.SupportCodeConfig\"\247\001\n\rSourcesConfig\022" +
+      "\025\n\rabsolutePaths\030\001 \003(\t\022\020\n\010language\030\002 \001(\t" +
+      "\022:\n\007filters\030\003 \001(\0132).io.cucumber.messages" +
+      ".SourcesFilterConfig\0221\n\005order\030\004 \001(\0132\".io" +
+      ".cucumber.messages.SourcesOrder\"\220\001\n\023Sour" +
+      "cesFilterConfig\022\025\n\rtagExpression\030\001 \001(\t\022\036" +
+      "\n\026nameRegularExpressions\030\002 \003(\t\022B\n\021uriToL" +
+      "inesMapping\030\003 \003(\0132\'.io.cucumber.messages" +
+      ".UriToLinesMapping\"8\n\021UriToLinesMapping\022" +
+      "\024\n\014absolutePath\030\001 \001(\t\022\r\n\005lines\030\002 \003(\004\"R\n\014" +
+      "SourcesOrder\0224\n\004type\030\001 \001(\0162&.io.cucumber" +
+      ".messages.SourcesOrderType\022\014\n\004seed\030\002 \001(\004" +
+      "\"\\\n\rRuntimeConfig\022\022\n\nisFailFast\030\001 \001(\010\022\020\n" +
+      "\010isDryRun\030\002 \001(\010\022\020\n\010isStrict\030\003 \001(\010\022\023\n\013max" +
+      "Parallel\030\004 \001(\004\"\350\002\n\021SupportCodeConfig\022_\n#" +
+      "beforeTestCaseHookDefinitionConfigs\030\001 \003(" +
+      "\01322.io.cucumber.messages.TestCaseHookDef" +
+      "initionConfig\022^\n\"afterTestCaseHookDefini" +
+      "tionConfigs\030\002 \003(\01322.io.cucumber.messages" +
+      ".TestCaseHookDefinitionConfig\022I\n\025stepDef" +
+      "initionConfigs\030\003 \003(\0132*.io.cucumber.messa" +
+      "ges.StepDefinitionConfig\022G\n\024parameterTyp" +
+      "eConfigs\030\004 \003(\0132).io.cucumber.messages.Pa" +
+      "rameterTypeConfig\"z\n\034TestCaseHookDefinit" +
+      "ionConfig\022\n\n\002id\030\001 \001(\t\022\025\n\rtagExpression\030\002" +
+      " \001(\t\0227\n\010location\030\003 \001(\0132%.io.cucumber.mes" +
+      "sages.SourceReference\"\231\001\n\024StepDefinition" +
+      "Config\022\n\n\002id\030\001 \001(\t\022<\n\007pattern\030\002 \001(\0132+.io" +
+      ".cucumber.messages.StepDefinitionPattern" +
+      "\0227\n\010location\030\003 \001(\0132%.io.cucumber.message" +
+      "s.SourceReference\"f\n\025StepDefinitionPatte" +
+      "rn\022\016\n\006source\030\001 \001(\t\022=\n\004type\030\002 \001(\0162/.io.cu" +
+      "cumber.messages.StepDefinitionPatternTyp" +
+      "e\"\200\001\n\023ParameterTypeConfig\022\014\n\004name\030\001 \001(\t\022" +
+      "\032\n\022regularExpressions\030\002 \003(\t\022\'\n\037preferFor" +
+      "RegularExpressionMatch\030\003 \001(\010\022\026\n\016useForSn" +
+      "ippets\030\004 \001(\010\"\201\001\n\025CommandActionComplete\022\023" +
+      "\n\013completedId\030\001 \001(\t\0226\n\ntestResult\030\002 \001(\0132" +
+      " .io.cucumber.messages.TestResultH\000\022\021\n\007s" +
+      "nippet\030\003 \001(\tH\000B\010\n\006result\"0\n\034CommandRunBe" +
+      "foreTestRunHooks\022\020\n\010actionId\030\001 \001(\t\"/\n\033Co" +
+      "mmandRunAfterTestRunHooks\022\020\n\010actionId\030\001 " +
+      "\001(\t\"o\n\031CommandInitializeTestCase\022\020\n\010acti" +
+      "onId\030\001 \001(\t\022\022\n\ntestCaseId\030\002 \001(\t\022,\n\006pickle" +
+      "\030\003 \001(\0132\034.io.cucumber.messages.Pickle\"f\n\034" +
+      "CommandRunBeforeTestCaseHook\022\020\n\010actionId" +
+      "\030\001 \001(\t\022\022\n\ntestCaseId\030\002 \001(\t\022 \n\030testCaseHo" +
+      "okDefinitionId\030\003 \001(\t\"e\n\033CommandRunAfterT" +
+      "estCaseHook\022\020\n\010actionId\030\001 \001(\t\022\022\n\ntestCas" +
+      "eId\030\002 \001(\t\022 \n\030testCaseHookDefinitionId\030\003 " +
+      "\001(\t\"\220\001\n\022CommandRunTestStep\022\020\n\010actionId\030\001" +
+      " \001(\t\022\022\n\ntestCaseId\030\002 \001(\t\022\030\n\020stepDefiniti" +
+      "onId\030\003 \001(\t\022:\n\016patternMatches\030\004 \003(\0132\".io." +
+      "cucumber.messages.PatternMatch\"\303\001\n\014Patte" +
+      "rnMatch\022\020\n\010captures\030\001 \003(\t\022\031\n\021parameterTy" +
+      "peName\030\002 \001(\t\022;\n\ndoc_string\030\003 \001(\0132%.io.cu" +
+      "cumber.messages.PickleDocStringH\000\0227\n\ndat" +
+      "a_table\030\004 \001(\0132!.io.cucumber.messages.Pic" +
+      "kleTableH\000B\020\n\016pickleArgument\"\373\001\n\026Command" +
+      "GenerateSnippet\022\020\n\010actionId\030\001 \001(\t\022G\n\024gen" +
+      "eratedExpressions\030\002 \003(\0132).io.cucumber.me" +
+      "ssages.GeneratedExpression\022;\n\ndoc_string" +
+      "\030\003 \001(\0132%.io.cucumber.messages.PickleDocS" +
+      "tringH\000\0227\n\ndata_table\030\004 \001(\0132!.io.cucumbe" +
+      "r.messages.PickleTableH\000B\020\n\016pickleArgume" +
+      "nt\"?\n\023GeneratedExpression\022\014\n\004text\030\001 \001(\t\022" +
+      "\032\n\022parameterTypeNames\030\002 \003(\t*X\n\006Status\022\r\n" +
+      "\tAMBIGUOUS\020\000\022\n\n\006FAILED\020\001\022\n\n\006PASSED\020\002\022\013\n\007" +
+      "PENDING\020\003\022\013\n\007SKIPPED\020\004\022\r\n\tUNDEFINED\020\005*7\n" +
+      "\020SourcesOrderType\022\027\n\023ORDER_OF_DEFINITION" +
+      "\020\000\022\n\n\006RANDOM\020\001*L\n\031StepDefinitionPatternT" +
+      "ype\022\027\n\023CUCUMBER_EXPRESSION\020\000\022\026\n\022REGULAR_" +
+      "EXPRESSION\020\001B\036Z\010messages\352\002\021Cucumber.Mess" +
+      "agesb\006proto3"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -66190,7 +66386,7 @@ public final class Messages {
     internal_static_io_cucumber_messages_TestCaseFinished_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_io_cucumber_messages_TestCaseFinished_descriptor,
-        new java.lang.String[] { "PickleId", "Timestamp", });
+        new java.lang.String[] { "PickleId", "Timestamp", "TestResult", });
     internal_static_io_cucumber_messages_TestStepStarted_descriptor =
       getDescriptor().getMessageTypes().get(35);
     internal_static_io_cucumber_messages_TestStepStarted_fieldAccessorTable = new

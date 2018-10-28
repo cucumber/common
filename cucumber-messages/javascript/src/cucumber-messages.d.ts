@@ -3625,6 +3625,9 @@ export namespace io {
 
                 /** TestCaseFinished timestamp */
                 timestamp?: (google.protobuf.ITimestamp|null);
+
+                /** TestCaseFinished testResult */
+                testResult?: (io.cucumber.messages.ITestResult|null);
             }
 
             /** Represents a TestCaseFinished. */
@@ -3641,6 +3644,9 @@ export namespace io {
 
                 /** TestCaseFinished timestamp. */
                 public timestamp?: (google.protobuf.ITimestamp|null);
+
+                /** TestCaseFinished testResult. */
+                public testResult?: (io.cucumber.messages.ITestResult|null);
 
                 /**
                  * Creates a new TestCaseFinished instance using the specified properties.

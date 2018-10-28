@@ -10,7 +10,6 @@ import (
 // can be imported from "math/bits". Not yet supported in go 1.8
 const uintSize = 32 << (^uint(0) >> 32 & 1) // 32 or 64
 
-
 type ParameterByTypeTransformer interface {
 	// toValueType accepts either reflect.Type or reflect.Kind
 	Transform(fromValue string, toValueType interface{}) (interface{}, error)

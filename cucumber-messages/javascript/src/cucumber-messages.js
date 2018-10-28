@@ -9375,6 +9375,7 @@ $root.io = (function() {
                  * @interface ITestCaseFinished
                  * @property {string|null} [pickleId] TestCaseFinished pickleId
                  * @property {google.protobuf.ITimestamp|null} [timestamp] TestCaseFinished timestamp
+                 * @property {io.cucumber.messages.ITestResult|null} [testResult] TestCaseFinished testResult
                  */
 
                 /**
@@ -9409,6 +9410,14 @@ $root.io = (function() {
                 TestCaseFinished.prototype.timestamp = null;
 
                 /**
+                 * TestCaseFinished testResult.
+                 * @member {io.cucumber.messages.ITestResult|null|undefined} testResult
+                 * @memberof io.cucumber.messages.TestCaseFinished
+                 * @instance
+                 */
+                TestCaseFinished.prototype.testResult = null;
+
+                /**
                  * Creates a new TestCaseFinished instance using the specified properties.
                  * @function create
                  * @memberof io.cucumber.messages.TestCaseFinished
@@ -9436,6 +9445,8 @@ $root.io = (function() {
                         writer.uint32(/* id 1, wireType 2 =*/10).string(message.pickleId);
                     if (message.timestamp != null && message.hasOwnProperty("timestamp"))
                         $root.google.protobuf.Timestamp.encode(message.timestamp, writer.uint32(/* id 2, wireType 2 =*/18).fork()).ldelim();
+                    if (message.testResult != null && message.hasOwnProperty("testResult"))
+                        $root.io.cucumber.messages.TestResult.encode(message.testResult, writer.uint32(/* id 3, wireType 2 =*/26).fork()).ldelim();
                     return writer;
                 };
 
@@ -9475,6 +9486,9 @@ $root.io = (function() {
                             break;
                         case 2:
                             message.timestamp = $root.google.protobuf.Timestamp.decode(reader, reader.uint32());
+                            break;
+                        case 3:
+                            message.testResult = $root.io.cucumber.messages.TestResult.decode(reader, reader.uint32());
                             break;
                         default:
                             reader.skipType(tag & 7);
@@ -9519,6 +9533,11 @@ $root.io = (function() {
                         if (error)
                             return "timestamp." + error;
                     }
+                    if (message.testResult != null && message.hasOwnProperty("testResult")) {
+                        var error = $root.io.cucumber.messages.TestResult.verify(message.testResult);
+                        if (error)
+                            return "testResult." + error;
+                    }
                     return null;
                 };
 
@@ -9541,6 +9560,11 @@ $root.io = (function() {
                             throw TypeError(".io.cucumber.messages.TestCaseFinished.timestamp: object expected");
                         message.timestamp = $root.google.protobuf.Timestamp.fromObject(object.timestamp);
                     }
+                    if (object.testResult != null) {
+                        if (typeof object.testResult !== "object")
+                            throw TypeError(".io.cucumber.messages.TestCaseFinished.testResult: object expected");
+                        message.testResult = $root.io.cucumber.messages.TestResult.fromObject(object.testResult);
+                    }
                     return message;
                 };
 
@@ -9560,11 +9584,14 @@ $root.io = (function() {
                     if (options.defaults) {
                         object.pickleId = "";
                         object.timestamp = null;
+                        object.testResult = null;
                     }
                     if (message.pickleId != null && message.hasOwnProperty("pickleId"))
                         object.pickleId = message.pickleId;
                     if (message.timestamp != null && message.hasOwnProperty("timestamp"))
                         object.timestamp = $root.google.protobuf.Timestamp.toObject(message.timestamp, options);
+                    if (message.testResult != null && message.hasOwnProperty("testResult"))
+                        object.testResult = $root.io.cucumber.messages.TestResult.toObject(message.testResult, options);
                     return object;
                 };
 
