@@ -16,6 +16,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Removed
 
 ### Fixed
+
+* [Ruby] Detect x64
+  ([#517](https://github.com/cucumber/cucumber/issues/517)
+   [@aslakhellesoy])
    
 ## [1.1.6] - 2018-10-21
 
