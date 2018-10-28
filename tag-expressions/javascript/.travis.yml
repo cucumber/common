@@ -1,12 +1,23 @@
 sudo: false
 language: node_js
 node_js:
-  - "10"
-  - "9"
-  - "8"
-  - "6"
-
+- '10'
+- '9'
+- '8'
+- '6'
 before_install:
-  - npm i -g npm@latest
-
+- npm i -g npm@latest
 script: make default
+jobs:
+  include:
+  - stage: deploy
+    node_js: '10'
+    deploy:
+      skip_cleanup: true
+      provider: npm
+      email: cukebot@cucumber.io
+      on:
+        tags: true
+deploy:
+  api_key:
+    secure: kLi/rApTb5lmDwWuFWf9g2xKRU5ynQhom99qfbdaiW0V+ATKX/VY6X1Et2gUGYNFprPYwpvUFdrZfkGyu1XuK2PgQXIdcNGx3a/4cCqh2IOA0PeAAMsbJ2LUtjfqJVlbTduZ7Yi3zmsSibA98neVBIhc1cdOxI4eqaP+CcxzPC2Fwro8ZSTyL32LZTbrULvsIygahRXBzsy6LKhZK0CMgZ8EV78H3t8DnUc6GqWQOP113QycrjO5zL8lsGTYB01MFTa1+B7im0wXj0Q69s7JgESqNJg8EQKmTgaqa3eJOJYHGHaq9r30/8/ZSHp42BCyHLuFCBJzNcnBZkggAq2skyjcbM+n2NL+n2WJW9vQcAAoZ3ub/l5+A29Pvs6xNEXzuJ5A99xdy1e22ge3h6Tv/BBQaaKpUvCIMD8Fc7npvYc0sDESRQxiNNYCaewxHdTardgSJoSyon+6vPskwQaGPxHT/6BQkme6AJ/N5fco2UzarjZGAkwDXHcjUmP0ihI+GOw6uYvYS0kH8C6SXE7u+LNDXNU4yMUdyAh5diZQTAVJen4/FbqdahB/MBWsk5k2fU452zDV/FmPK2Z9DBhntiwz4unr8Vpe+K6gwZEp4gxbcHVjSjdtpKkj59cLaOerZHLShkp1kaI00UGRI8fSgFWkQ4SeGH4pDiBuKvOyA8o=

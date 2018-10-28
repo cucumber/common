@@ -50,7 +50,7 @@ characters with `\` in the password/passphrase when running the commands below:
 Cd into the module dir and run:
 
     # Find the AUTH_TOKEN at https://rubygems.org/profile/edit (cukebot login password in 1Password)
-    travis encrypt "${AUTH_TOKEN}" --repo cucumber/gherkin-javascript --add deploy.api_key
+    travis encrypt "${AUTH_TOKEN}" --repo cucumber/gherkin-ruby --add deploy.api_key
 
 For more details, follow the Travis [RubyGems Deployment](https://docs.travis-ci.com/user/deployment/rubygems/) guide.
 
