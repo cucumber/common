@@ -154,7 +154,7 @@ module Cucumber
                 /.*/,
                 Color,
                 lambda {|s| Color.new(s)},
-                true,
+                false,
                 false
             ))
           end

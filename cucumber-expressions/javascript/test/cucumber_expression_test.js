@@ -115,6 +115,10 @@ describe('CucumberExpression', () => {
     assert.deepEqual(match('{float}', '.22'), [0.22])
   })
 
+  it('matches anonymous', () => {
+    assert.deepEqual(match('{}', '0.22'), ['0.22'])
+  })
+
   it('throws unknown parameter type', () => {
     try {
       match('{unknown}', 'something')

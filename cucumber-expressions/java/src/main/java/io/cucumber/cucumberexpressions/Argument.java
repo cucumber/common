@@ -1,5 +1,6 @@
 package io.cucumber.cucumberexpressions;
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -61,5 +62,9 @@ public class Argument<T> {
 
     public T getValue() {
         return parameterType.transform(group.getValues());
+    }
+
+    public Type getType(){
+        return parameterType.getType();
     }
 }

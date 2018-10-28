@@ -1,5 +1,6 @@
 package io.cucumber.cucumberexpressions;
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -9,7 +10,7 @@ public class CucumberExpression implements Expression {
     // Does not include (){} characters because they have special meaning
     private static final Pattern ESCAPE_PATTERN = Pattern.compile("([\\\\^\\[$.|?*+\\]])");
     @SuppressWarnings("RegExpRedundantEscape") // Android can't parse unescaped braces
-    static final Pattern PARAMETER_PATTERN = Pattern.compile("(\\\\\\\\)?\\{([^}]+)\\}");
+    static final Pattern PARAMETER_PATTERN = Pattern.compile("(\\\\\\\\)?\\{([^}]*)\\}");
     private static final Pattern OPTIONAL_PATTERN = Pattern.compile("(\\\\\\\\)?\\(([^)]+)\\)");
     private static final Pattern ALTERNATIVE_NON_WHITESPACE_TEXT_REGEXP = Pattern.compile("([^\\s^/]+)((/[^\\s^/]+)+)");
     private static final String DOUBLE_ESCAPE = "\\\\";
@@ -19,9 +20,11 @@ public class CucumberExpression implements Expression {
     private final List<ParameterType<?>> parameterTypes = new ArrayList<>();
     private final String source;
     private final TreeRegexp treeRegexp;
+    private final ParameterTypeRegistry parameterTypeRegistry;
 
     public CucumberExpression(String expression, ParameterTypeRegistry parameterTypeRegistry) {
         this.source = expression;
+        this.parameterTypeRegistry = parameterTypeRegistry;
 
         expression = processEscapes(expression);
         expression = processOptional(expression);
@@ -29,6 +32,7 @@ public class CucumberExpression implements Expression {
         expression = processParameters(expression, parameterTypeRegistry);
         expression = "^" + expression + "$";
         treeRegexp = new TreeRegexp(expression);
+
     }
 
     private String processEscapes(String expression) {
@@ -123,7 +127,18 @@ public class CucumberExpression implements Expression {
     }
 
     @Override
-    public List<Argument<?>> match(String text) {
+    public List<Argument<?>> match(String text, Type... typeHints) {
+        List<ParameterType<?>> parameterTypes = new ArrayList<>(this.parameterTypes);
+        for (int i = 0; i < parameterTypes.size(); i++) {
+            ParameterType<?> parameterType = parameterTypes.get(i);
+            Type type = i < typeHints.length ? typeHints[i] : String.class;
+            if (parameterType.isAnonymous()) {
+                ParameterByTypeTransformer defaultTransformer = parameterTypeRegistry.getDefaultParameterTransformer();
+                ObjectMapperTransformer transformer = new ObjectMapperTransformer(defaultTransformer, type);
+                parameterTypes.set(i, parameterType.deAnonymize(type, transformer));
+            }
+        }
+
         return Argument.build(treeRegexp, parameterTypes, text);
     }
 

@@ -76,6 +76,10 @@ module Cucumber
         expect(match("{float}", ".22")).to eq([0.22])
       end
 
+      it "matches anonymous" do
+        expect(match("{}", "0.22")).to eq(["0.22"])
+      end
+
       '[]()$.|?*+'.split('').each do |char|
         it "does not allow parameter type with #{char}" do
           expect {match("{#{char}string}", "something")}.to raise_error("Illegal character '#{char}' in parameter name {#{char}string}")

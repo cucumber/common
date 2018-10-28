@@ -267,10 +267,7 @@ function maven_version()
   next_version=$3
 
   pushd "${dir}"
-  xmlstarlet ed --inplace --ps -N pom="http://maven.apache.org/POM/4.0.0" \
-    --update "/pom:project/pom:version" \
-    --value "${version}" \
-    "pom.xml"
+  mvn versions:set -DnewVersion=${version} -DgenerateBackupPoms=false
   popd
 }
 

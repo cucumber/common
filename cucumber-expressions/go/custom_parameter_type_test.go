@@ -47,8 +47,8 @@ func TestCustomParameterTypes(t *testing.T) {
 			func(args ...*string) interface{} {
 				return *args[0]
 			},
-			true,
-			true,
+			false,
+			false,
 		)
 		require.Error(t, err)
 		require.Equal(t, "Illegal character '[' in parameter name {[string]}", err.Error())
@@ -176,7 +176,7 @@ func TestCustomParameterTypes(t *testing.T) {
 					"Color",
 					func(args ...*string) interface{} { return &Color{name: *args[0]} },
 					false,
-					true,
+					false,
 				)
 				require.NoError(t, err)
 				err = parameterTypeRegistry.DefineParameterType(colorParameterType)
@@ -217,7 +217,7 @@ func TestCustomParameterTypes(t *testing.T) {
 			t.Run("matches arguments with custom parameter type", func(t *testing.T) {
 				parameterTypeRegistry := NewParameterTypeRegistry()
 				colorParameterType, err := NewParameterType(
-					"",
+					"color",
 					[]*regexp.Regexp{regexp.MustCompile("red|blue|yellow")},
 					"color",
 					func(args ...*string) interface{} { return &Color{name: *args[0]} },

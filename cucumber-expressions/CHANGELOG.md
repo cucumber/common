@@ -16,7 +16,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Removed
 
 ### Fixed
-   
+
+## [6.2.0] - 2018-10-28
+
+### Added
+ * Add anonymous parameter types 
+    ([#496](https://github.com/cucumber/cucumber/pull/496) [mpkorstanje])
+
 ## [6.1.2] - 2018-10-11
 
 Same as 6.1.1 - just fixed a mistake made during the 6.1.1 release.
@@ -471,8 +477,9 @@ N/A
 * First stable release!
 
 <!-- Releases -->
-[Unreleased]: https://github.com/cucumber/cucumber/compare/cucumber-expressions-v6.1.2...master
-[6.1.2]:      https://github.com/cucumber/cucumber/compare/cucumber-expressions-v6.1.01..cucumber-expressions-v6.1.2
+[Unreleased]: https://github.com/cucumber/cucumber/compare/cucumber-expressions-v6.2.0...master
+[6.2.0]:      https://github.com/cucumber/cucumber/compare/cucumber-expressions-v6.1.2..cucumber-expressions-v6.2.0
+[6.1.2]:      https://github.com/cucumber/cucumber/compare/cucumber-expressions-v6.1.0..cucumber-expressions-v6.1.2
 [6.1.1]:      https://github.com/cucumber/cucumber/compare/cucumber-expressions-v6.1.0...cucumber-expressions-v6.1.1
 [6.1.0]:      https://github.com/cucumber/cucumber/compare/cucumber-expressions-v6.0.1...cucumber-expressions-v6.1.0
 [6.0.1]:      https://github.com/cucumber/cucumber/compare/cucumber-expressions-v6.0.0...cucumber-expressions-v6.0.1

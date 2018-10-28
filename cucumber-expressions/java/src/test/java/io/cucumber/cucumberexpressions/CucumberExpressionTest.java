@@ -4,6 +4,7 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
+import java.lang.reflect.Type;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.ArrayList;
@@ -110,6 +111,16 @@ public class CucumberExpressionTest {
     }
 
     @Test
+    public void matches_anonymous_parameter_type_with_hint() {
+        assertEquals(singletonList(0.22f), match("{}", "0.22", Float.class));
+    }
+
+    @Test
+    public void matches_anonymous_parameter_type() {
+        assertEquals(singletonList("0.22"), match("{}", "0.22"));
+    }
+
+    @Test
     public void does_not_allow_parameter_type_with_left_bracket() {
         expectedException.expectMessage("Illegal character '[' in parameter name {[string]}");
         match("{[string]}", "something");
@@ -181,13 +192,13 @@ public class CucumberExpressionTest {
         assertEquals(singletonList(1.22), values);
     }
 
-    private List<?> match(String expr, String text) {
-        return match(expr, text, Locale.ENGLISH);
+    private List<?> match(String expr, String text, Type... typeHints) {
+        return match(expr, text, Locale.ENGLISH, typeHints);
     }
 
-    private List<?> match(String expr, String text, Locale locale) {
+    private List<?> match(String expr, String text, Locale locale, Type... typeHints) {
         CucumberExpression expression = new CucumberExpression(expr, new ParameterTypeRegistry(locale));
-        List<Argument<?>> args = expression.match(text);
+        List<Argument<?>> args = expression.match(text, typeHints);
         if (args == null) {
             return null;
         } else {

@@ -6,7 +6,7 @@
     <parent>
         <groupId>io.cucumber</groupId>
         <artifactId>datatable-parent</artifactId>
-        <version>1.1.4-SNAPSHOT</version>
+        <version>1.1.8-SNAPSHOT</version>
     </parent>
 
     <artifactId>datatable-dependencies</artifactId>
@@ -16,6 +16,15 @@
     <properties>
         <project.Automatic-Module-Name>io.cucumber.datatable.dependencies</project.Automatic-Module-Name>
     </properties>
+
+    <licenses>
+        <license>
+            <name>The Apache Software License, Version 2.0</name>
+            <url>http://www.apache.org/licenses/LICENSE-2.0</url>
+            <distribution>repo</distribution>
+            <comments>The License used by Diffutils and Jackson Databind</comments>
+        </license>
+    </licenses>
 
     <dependencies>
         <dependency>
@@ -58,6 +67,15 @@
                         </configuration>
                     </execution>
                 </executions>
+            </plugin>
+            <!--Shaded java doc has to be attached -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <configuration>
+                    <includeDependencySources>true</includeDependencySources>
+                    <failOnError>false</failOnError>
+                </configuration>
             </plugin>
         </plugins>
     </build>

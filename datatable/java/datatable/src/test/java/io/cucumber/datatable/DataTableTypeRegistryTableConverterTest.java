@@ -3,15 +3,20 @@ package io.cucumber.datatable;
 import com.google.common.collect.HashMultiset;
 import com.google.common.collect.Multiset;
 import io.cucumber.datatable.DataTable.TableConverter;
+import io.cucumber.datatable.dependency.com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
+import java.beans.ConstructorProperties;
 import java.lang.reflect.Type;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.TimeZone;
 
 import static io.cucumber.datatable.DataTable.emptyDataTable;
 import static io.cucumber.datatable.TableParser.parse;
@@ -37,7 +42,11 @@ public class DataTableTypeRegistryTableConverterTest {
     }.getType();
     private static final Type MAP_OF_AIR_PORT_CODE_TO_COORDINATE = new TypeReference<Map<AirPortCode, Coordinate>>() {
     }.getType();
+    private static final Type MAP_OF_AIR_PORT_CODE_TO_AIR_PORT_CODE = new TypeReference<Map<AirPortCode, AirPortCode>>() {
+    }.getType();
     private static final Type MAP_OF_STRING_TO_LIST_OF_DOUBLE = new TypeReference<Map<String, List<Double>>>() {
+    }.getType();
+    private static final Type MAP_OF_STRING_TO_LIST_OF_DATE = new TypeReference<Map<String, List<Date>>>() {
     }.getType();
     private static final Type LIST_OF_AUTHOR = new TypeReference<List<Author>>() {
     }.getType();
@@ -67,17 +76,19 @@ public class DataTableTypeRegistryTableConverterTest {
     }.getType();
     private static final Type LIST_OF_DOUBLE = new TypeReference<List<Double>>() {
     }.getType();
+    private static final Type LIST_OF_DATE = new TypeReference<List<Date>>() {
+    }.getType();
     private static final Type MAP_OF_STRING_TO_MAP_OF_INTEGER_TO_PIECE = new TypeReference<Map<String, Map<Integer, Piece>>>() {
     }.getType();
     private static final TableTransformer<ChessBoard> CHESS_BOARD_TABLE_TRANSFORMER = new TableTransformer<ChessBoard>() {
         @Override
-        public ChessBoard transform(DataTable table) throws Throwable {
+        public ChessBoard transform(DataTable table) {
             return new ChessBoard(table.subTable(1, 1).asList());
         }
     };
     private static final TableCellTransformer<Piece> PIECE_TABLE_CELL_TRANSFORMER = new TableCellTransformer<Piece>() {
         @Override
-        public Piece transform(String cell) throws Throwable {
+        public Piece transform(String cell) {
             return Piece.fromString(cell);
         }
     };
@@ -87,6 +98,19 @@ public class DataTableTypeRegistryTableConverterTest {
             return new AirPortCode(cell);
         }
     };
+    private static final SimpleDateFormat SIMPLE_DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd");
+
+    static {
+        SIMPLE_DATE_FORMAT.setTimeZone(TimeZone.getTimeZone("UTC"));
+    }
+
+    private static final DataTableType DATE_TABLE_CELL_TRANSFORMER = new DataTableType(Date.class, new TableCellTransformer<Date>() {
+        @Override
+        public Date transform(String cell) throws Throwable {
+            return SIMPLE_DATE_FORMAT.parse(cell);
+        }
+    });
+
     private static final TableEntryTransformer<Coordinate> COORDINATE_TABLE_ENTRY_TRANSFORMER = new TableEntryTransformer<Coordinate>() {
         @Override
         public Coordinate transform(Map<String, String> tableEntry) {
@@ -98,13 +122,13 @@ public class DataTableTypeRegistryTableConverterTest {
     };
     private static final TableEntryTransformer<Author> AUTHOR_TABLE_ENTRY_TRANSFORMER = new TableEntryTransformer<Author>() {
         @Override
-        public Author transform(Map<String, String> tableEntry) throws Throwable {
+        public Author transform(Map<String, String> tableEntry) {
             return new Author(tableEntry.get("firstName"), tableEntry.get("lastName"), tableEntry.get("birthDate"));
         }
     };
     private static final TableRowTransformer<Coordinate> COORDINATE_TABLE_ROW_TRANSFORMER = new TableRowTransformer<Coordinate>() {
         @Override
-        public Coordinate transform(List<String> tableRow) throws Throwable {
+        public Coordinate transform(List<String> tableRow) {
             return new Coordinate(
                     Double.parseDouble(tableRow.get(0)),
                     Double.parseDouble(tableRow.get(1))
@@ -113,8 +137,32 @@ public class DataTableTypeRegistryTableConverterTest {
     };
     private static final TableEntryTransformer<AirPortCode> AIR_PORT_CODE_TABLE_ENTRY_TRANSFORMER = new TableEntryTransformer<AirPortCode>() {
         @Override
-        public AirPortCode transform(Map<String, String> tableEntry) throws Throwable {
+        public AirPortCode transform(Map<String, String> tableEntry) {
             return new AirPortCode(tableEntry.get("code"));
+        }
+    };
+    private static final TableEntryByTypeTransformer TABLE_ENTRY_BY_TYPE_CONVERTER_SHOULD_NOT_BE_USED = new TableEntryByTypeTransformer() {
+        @Override
+        public <T> T transform(Map<String, String> entry, Class<T> type, TableCellByTypeTransformer cellTransformer) {
+            throw new IllegalStateException("Should not be used");
+        }
+    };
+    private static final TableCellByTypeTransformer TABLE_CELL_BY_TYPE_CONVERTER_SHOULD_NOT_BE_USED = new TableCellByTypeTransformer() {
+        @Override
+        public <T> T transform(String value, Class<T> cellType) {
+            throw new IllegalStateException("Should not be used");
+        }
+    };
+    private static final TableEntryByTypeTransformer JACKSON_TABLE_ENTRY_BY_TYPE_CONVERTER = new TableEntryByTypeTransformer() {
+        @Override
+        public <T> T transform(Map<String, String> entry, Class<T> type, TableCellByTypeTransformer cellTransformer) {
+            return new ObjectMapper().convertValue(entry, type);
+        }
+    };
+    private static final TableCellByTypeTransformer JACKSON_TABLE_CELL_BY_TYPE_CONVERTER = new TableCellByTypeTransformer() {
+        @Override
+        public <T> T transform(String value, Class<T> cellType) {
+            return new ObjectMapper().convertValue(value, cellType);
         }
     };
 
@@ -238,8 +286,6 @@ public class DataTableTypeRegistryTableConverterTest {
 
     @Test
     public void convert_to_list_of_object() {
-        registry.defineDataTableType(new DataTableType(Author.class, AUTHOR_TABLE_ENTRY_TRANSFORMER));
-
         DataTable table = parse("",
                 " | firstName   | lastName | birthDate  |",
                 " | Annie M. G. | Schmidt  | 1911-03-20 |",
@@ -252,13 +298,58 @@ public class DataTableTypeRegistryTableConverterTest {
                 new Author("Roald", "Dahl", "1916-09-13"),
                 new Author("Astrid", "Lindgren", "1907-11-14")
         );
+        registry.defineDataTableType(new DataTableType(Author.class, AUTHOR_TABLE_ENTRY_TRANSFORMER));
+
+        assertEquals(expected, converter.toList(table, Author.class));
+        assertEquals(expected, converter.convert(table, LIST_OF_AUTHOR));
+    }
+
+
+    @Test
+    public void convert_to_list_of_object__with_default_converters_present() {
+        DataTable table = parse("",
+                " | firstName   | lastName | birthDate  |",
+                " | Annie M. G. | Schmidt  | 1911-03-20 |",
+                " | Roald       | Dahl     | 1916-09-13 |",
+                " | Astrid      | Lindgren | 1907-11-14 |"
+        );
+
+        List<Author> expected = asList(
+                new Author("Annie M. G.", "Schmidt", "1911-03-20"),
+                new Author("Roald", "Dahl", "1916-09-13"),
+                new Author("Astrid", "Lindgren", "1907-11-14")
+        );
+        registry.setDefaultDataTableEntryTransformer(TABLE_ENTRY_BY_TYPE_CONVERTER_SHOULD_NOT_BE_USED);
+        registry.setDefaultDataTableCellTransformer(TABLE_CELL_BY_TYPE_CONVERTER_SHOULD_NOT_BE_USED);
+        registry.defineDataTableType(new DataTableType(Author.class, AUTHOR_TABLE_ENTRY_TRANSFORMER));
 
         assertEquals(expected, converter.toList(table, Author.class));
         assertEquals(expected, converter.convert(table, LIST_OF_AUTHOR));
     }
 
     @Test
-    public void convert_to_list_of_object_using_object_mapper() {
+    public void convert_to_list_of_object__using_default_converter() {
+        DataTable table = parse("",
+                " | firstName   | lastName | birthDate  |",
+                " | Annie M. G. | Schmidt  | 1911-03-20 |",
+                " | Roald       | Dahl     | 1916-09-13 |",
+                " | Astrid      | Lindgren | 1907-11-14 |"
+        );
+
+        List<Author> expected = asList(
+                new Author("Annie M. G.", "Schmidt", "1911-03-20"),
+                new Author("Roald", "Dahl", "1916-09-13"),
+                new Author("Astrid", "Lindgren", "1907-11-14")
+        );
+        registry.setDefaultDataTableEntryTransformer(JACKSON_TABLE_ENTRY_BY_TYPE_CONVERTER);
+        registry.setDefaultDataTableCellTransformer(TABLE_CELL_BY_TYPE_CONVERTER_SHOULD_NOT_BE_USED);
+
+        assertEquals(expected, converter.toList(table, Author.class));
+        assertEquals(expected, converter.convert(table, LIST_OF_AUTHOR));
+    }
+
+    @Test
+    public void convert_to_list_of_object__using_object_mapper() {
         registry.defineDataTableType(DataTableType.entry(Author.class));
 
         DataTable table = parse("",
@@ -366,6 +457,26 @@ public class DataTableTypeRegistryTableConverterTest {
         assertEquals(expected, converter.convert(table, Map.class));
     }
 
+
+    @Test
+    public void convert_to_map__default_transformers_present() {
+        registry.setDefaultDataTableEntryTransformer(TABLE_ENTRY_BY_TYPE_CONVERTER_SHOULD_NOT_BE_USED);
+        registry.setDefaultDataTableCellTransformer(TABLE_CELL_BY_TYPE_CONVERTER_SHOULD_NOT_BE_USED);
+
+        DataTable table = parse("",
+                "| 3 | 4 |",
+                "| 5 | 6 |"
+        );
+
+        Map<String, String> expected = new HashMap<String, String>() {{
+            put("3", "4");
+            put("5", "6");
+        }};
+
+        assertEquals(expected, converter.toMap(table, String.class, String.class));
+        assertEquals(expected, converter.convert(table, Map.class));
+    }
+
     @Test
     public void convert_to_map__single_column() {
         DataTable table = parse("| 1 |");
@@ -403,7 +514,128 @@ public class DataTableTypeRegistryTableConverterTest {
     }
 
     @Test
-    public void convert_to_map_of_object_to_object_using_list_of_and_string_wrapper() {
+    public void convert_to_map_of_object_to_object__with_implied_entries_by_count() {
+        DataTable table = parse("",
+                "| code | lat       | lon         |",
+                "| KMSY | 29.993333 | -90.258056  |",
+                "| KSFO | 37.618889 | -122.375    |",
+                "| KSEA | 47.448889 | -122.309444 |",
+                "| KJFK | 40.639722 | -73.778889  |"
+        );
+
+        Map<AirPortCode, Coordinate> expected = new HashMap<AirPortCode, Coordinate>() {{
+            put(new AirPortCode("KMSY"), new Coordinate(29.993333, -90.258056));
+            put(new AirPortCode("KSFO"), new Coordinate(37.618889, -122.375));
+            put(new AirPortCode("KSEA"), new Coordinate(47.448889, -122.309444));
+            put(new AirPortCode("KJFK"), new Coordinate(40.639722, -73.778889));
+        }};
+
+        registry.defineDataTableType(new DataTableType(Coordinate.class, COORDINATE_TABLE_ENTRY_TRANSFORMER));
+        registry.defineDataTableType(new DataTableType(AirPortCode.class, AIR_PORT_CODE_TABLE_ENTRY_TRANSFORMER));
+
+        assertEquals(expected, converter.toMap(table, AirPortCode.class, Coordinate.class));
+        assertEquals(expected, converter.convert(table, MAP_OF_AIR_PORT_CODE_TO_COORDINATE));
+    }
+
+    @Test
+    public void convert_to_map_of_object_to_object__default_transformers_present() {
+        registry.setDefaultDataTableEntryTransformer(TABLE_ENTRY_BY_TYPE_CONVERTER_SHOULD_NOT_BE_USED);
+        registry.setDefaultDataTableCellTransformer(TABLE_CELL_BY_TYPE_CONVERTER_SHOULD_NOT_BE_USED);
+
+        DataTable table = parse("",
+                "|      | lat       | lon         |",
+                "| KMSY | 29.993333 | -90.258056  |",
+                "| KSFO | 37.618889 | -122.375    |",
+                "| KSEA | 47.448889 | -122.309444 |",
+                "| KJFK | 40.639722 | -73.778889  |"
+        );
+
+        Map<AirPortCode, Coordinate> expected = new HashMap<AirPortCode, Coordinate>() {{
+            put(new AirPortCode("KMSY"), new Coordinate(29.993333, -90.258056));
+            put(new AirPortCode("KSFO"), new Coordinate(37.618889, -122.375));
+            put(new AirPortCode("KSEA"), new Coordinate(47.448889, -122.309444));
+            put(new AirPortCode("KJFK"), new Coordinate(40.639722, -73.778889));
+        }};
+
+        registry.defineDataTableType(new DataTableType(Coordinate.class, COORDINATE_TABLE_ENTRY_TRANSFORMER));
+        registry.defineDataTableType(new DataTableType(AirPortCode.class, AIR_PORT_CODE_TABLE_CELL_TRANSFORMER));
+
+        assertEquals(expected, converter.toMap(table, AirPortCode.class, Coordinate.class));
+        assertEquals(expected, converter.convert(table, MAP_OF_AIR_PORT_CODE_TO_COORDINATE));
+    }
+
+
+    @Test
+    public void convert_to_map_of_object_to_object__using_default_transformers() {
+        DataTable table = parse("",
+                "|      | lat       | lon         |",
+                "| KMSY | 29.993333 | -90.258056  |",
+                "| KSFO | 37.618889 | -122.375    |",
+                "| KSEA | 47.448889 | -122.309444 |",
+                "| KJFK | 40.639722 | -73.778889  |"
+        );
+
+        Map<AirPortCode, Coordinate> expected = new HashMap<AirPortCode, Coordinate>() {{
+            put(new AirPortCode("KMSY"), new Coordinate(29.993333, -90.258056));
+            put(new AirPortCode("KSFO"), new Coordinate(37.618889, -122.375));
+            put(new AirPortCode("KSEA"), new Coordinate(47.448889, -122.309444));
+            put(new AirPortCode("KJFK"), new Coordinate(40.639722, -73.778889));
+        }};
+
+        registry.setDefaultDataTableEntryTransformer(JACKSON_TABLE_ENTRY_BY_TYPE_CONVERTER);
+        registry.setDefaultDataTableCellTransformer(JACKSON_TABLE_CELL_BY_TYPE_CONVERTER);
+
+        assertEquals(expected, converter.toMap(table, AirPortCode.class, Coordinate.class));
+        assertEquals(expected, converter.convert(table, MAP_OF_AIR_PORT_CODE_TO_COORDINATE));
+    }
+
+
+    @Test
+    public void convert_to_map_of_object_to_object__without_implied_entries__using_default_cell_transformer() {
+        DataTable table = parse("",
+                "| KMSY | KSFO | ",
+                "| KSFO | KSEA | ",
+                "| KSEA | KJFK | ",
+                "| KJFK | AMS  | "
+        );
+
+        Map<AirPortCode, AirPortCode> expected = new HashMap<AirPortCode, AirPortCode>() {{
+            put(new AirPortCode("KMSY"), new AirPortCode("KSFO"));
+            put(new AirPortCode("KSFO"), new AirPortCode("KSEA"));
+            put(new AirPortCode("KSEA"), new AirPortCode("KJFK"));
+            put(new AirPortCode("KJFK"), new AirPortCode("AMS"));
+        }};
+        registry.setDefaultDataTableCellTransformer(JACKSON_TABLE_CELL_BY_TYPE_CONVERTER);
+
+        assertEquals(expected, converter.toMap(table, AirPortCode.class, AirPortCode.class));
+        assertEquals(expected, converter.convert(table, MAP_OF_AIR_PORT_CODE_TO_AIR_PORT_CODE));
+    }
+
+    @Test
+    public void to_map_of_object_to_object__without_implied_entries__prefers__default_table_entry_converter() {
+        DataTable table = parse("",
+                "| KMSY | KSFO | ",
+                "| KSFO | KSEA | ",
+                "| KSEA | KJFK | ",
+                "| KJFK | AMS  | "
+        );
+
+        Map<AirPortCode, AirPortCode> expected = new HashMap<AirPortCode, AirPortCode>() {{
+            put(new AirPortCode("KMSY"), new AirPortCode("KSFO"));
+            put(new AirPortCode("KSFO"), new AirPortCode("KSEA"));
+            put(new AirPortCode("KSEA"), new AirPortCode("KJFK"));
+            put(new AirPortCode("KJFK"), new AirPortCode("AMS"));
+        }};
+
+        registry.setDefaultDataTableCellTransformer(JACKSON_TABLE_CELL_BY_TYPE_CONVERTER);
+
+        assertEquals(expected, converter.convert(table, MAP_OF_AIR_PORT_CODE_TO_AIR_PORT_CODE));
+    }
+
+
+
+    @Test
+    public void convert_to_map_of_object_to_object_using_entry_and_cell() {
         DataTable table = parse("",
                 "|      | lat       | lon         |",
                 "| KMSY | 29.993333 | -90.258056  |",
@@ -435,6 +667,66 @@ public class DataTableTypeRegistryTableConverterTest {
                 "| KJFK | 40.639722 | -73.778889  |"
         );
 
+        Map<String, List<Double>> expected = new HashMap<String, List<Double>>() {{
+            put("KMSY", asList(29.993333, -90.258056));
+            put("KSFO", asList(37.618889, -122.375));
+            put("KSEA", asList(47.448889, -122.309444));
+            put("KJFK", asList(40.639722, -73.778889));
+        }};
+
+        assertEquals(expected, converter.convert(table, MAP_OF_STRING_TO_LIST_OF_DOUBLE));
+    }
+
+
+    @Test
+    public void convert_to_map_of_primitive_to_list_of_object() throws ParseException {
+        DataTable table = parse("",
+                " | Annie M. G. | 1995-03-21 | 1911-03-20 |",
+                " | Roald       | 1990-09-13 | 1916-09-13 |",
+                " | Astrid      | 1907-10-14 | 1907-11-14 |"
+        );
+
+        Map<String, List<Date>> expected = new HashMap<String, List<Date>>() {{
+            put("Annie M. G.", asList(SIMPLE_DATE_FORMAT.parse("1995-03-21"), SIMPLE_DATE_FORMAT.parse("1911-03-20")));
+            put("Roald", asList(SIMPLE_DATE_FORMAT.parse("1990-09-13"), SIMPLE_DATE_FORMAT.parse("1916-09-13")));
+            put("Astrid", asList(SIMPLE_DATE_FORMAT.parse("1907-10-14"), SIMPLE_DATE_FORMAT.parse("1907-11-14")));
+        }};
+
+        registry.defineDataTableType(DATE_TABLE_CELL_TRANSFORMER);
+
+        assertEquals(expected, converter.convert(table, MAP_OF_STRING_TO_LIST_OF_DATE));
+    }
+
+    @Test
+    public void convert_to_map_of_primitive_to_list_of_object__with_default_converter() throws ParseException {
+        DataTable table = parse("",
+                " | Annie M. G. | 1995-03-21 | 1911-03-20 |",
+                " | Roald       | 1990-09-13 | 1916-09-13 |",
+                " | Astrid      | 1907-10-14 | 1907-11-14 |"
+        );
+
+        Map<String, List<Date>> expected = new HashMap<String, List<Date>>() {{
+            put("Annie M. G.", asList(SIMPLE_DATE_FORMAT.parse("1995-03-21"), SIMPLE_DATE_FORMAT.parse("1911-03-20")));
+            put("Roald", asList(SIMPLE_DATE_FORMAT.parse("1990-09-13"), SIMPLE_DATE_FORMAT.parse("1916-09-13")));
+            put("Astrid", asList(SIMPLE_DATE_FORMAT.parse("1907-10-14"), SIMPLE_DATE_FORMAT.parse("1907-11-14")));
+        }};
+
+        registry.setDefaultDataTableCellTransformer(JACKSON_TABLE_CELL_BY_TYPE_CONVERTER);
+
+        assertEquals(expected, converter.convert(table, MAP_OF_STRING_TO_LIST_OF_DATE));
+    }
+
+    @Test
+    public void convert_to_map_of_primitive_to_list_of_primitive__default_converter_present() {
+        registry.setDefaultDataTableEntryTransformer(TABLE_ENTRY_BY_TYPE_CONVERTER_SHOULD_NOT_BE_USED);
+        registry.setDefaultDataTableCellTransformer(TABLE_CELL_BY_TYPE_CONVERTER_SHOULD_NOT_BE_USED);
+
+        DataTable table = parse("",
+                "| KMSY | 29.993333 | -90.258056  |",
+                "| KSFO | 37.618889 | -122.375    |",
+                "| KSEA | 47.448889 | -122.309444 |",
+                "| KJFK | 40.639722 | -73.778889  |"
+        );
 
         Map<String, List<Double>> expected = new HashMap<String, List<Double>>() {{
             put("KMSY", asList(29.993333, -90.258056));
@@ -648,6 +940,9 @@ public class DataTableTypeRegistryTableConverterTest {
 
     @Test
     public void convert_to_object() {
+        registry.setDefaultDataTableEntryTransformer(TABLE_ENTRY_BY_TYPE_CONVERTER_SHOULD_NOT_BE_USED);
+        registry.setDefaultDataTableCellTransformer(TABLE_CELL_BY_TYPE_CONVERTER_SHOULD_NOT_BE_USED);
+
         DataTable table = parse("",
                 "  |   | 1 | 2 | 3 |",
                 "  | A | ♘ |   | ♝ |",
@@ -697,6 +992,26 @@ public class DataTableTypeRegistryTableConverterTest {
     }
 
     @Test
+    public void convert_to_single_object__single_cell__with_default_transformer_present() {
+        registry.setDefaultDataTableEntryTransformer(TABLE_ENTRY_BY_TYPE_CONVERTER_SHOULD_NOT_BE_USED);
+        registry.setDefaultDataTableCellTransformer(TABLE_CELL_BY_TYPE_CONVERTER_SHOULD_NOT_BE_USED);
+
+        DataTable table = parse("| ♝ |");
+        registry.defineDataTableType(new DataTableType(Piece.class, PIECE_TABLE_CELL_TRANSFORMER));
+
+        assertEquals(Piece.BLACK_BISHOP, converter.convert(table, Piece.class));
+    }
+
+    @Test
+    public void convert_to_single_object__single_cell__using_default_transformer() {
+        DataTable table = parse("| BLACK_BISHOP |");
+        registry.setDefaultDataTableEntryTransformer(TABLE_ENTRY_BY_TYPE_CONVERTER_SHOULD_NOT_BE_USED);
+        registry.setDefaultDataTableCellTransformer(JACKSON_TABLE_CELL_BY_TYPE_CONVERTER);
+
+        assertEquals(Piece.BLACK_BISHOP, converter.convert(table, Piece.class));
+    }
+
+    @Test
     public void convert_to_table__table_transformer_takes_precedence_over_identity_transform() {
         DataTable table = parse("",
                 "  |   | 1 | 2 | 3 |",
@@ -737,6 +1052,17 @@ public class DataTableTypeRegistryTableConverterTest {
         );
         converter.convert(table, Piece.class);
     }
+
+    @Test
+    public void convert_to_unknown_type__throws_exception__with_table_entry_converter_present__throws_exception() {
+        expectedException.expectMessage(singletonNoConverterDefined(Piece.class).getMessage());
+
+        DataTable table = parse("",
+                "| ♘ |"
+        );
+        converter.convert(table, Piece.class);
+    }
+
 
     @Test
     public void to_list__single_column__throws_exception__register_transformer() {
@@ -944,6 +1270,26 @@ public class DataTableTypeRegistryTableConverterTest {
     }
 
     @Test
+    public void to_map_of_primitive_to_list_of_unknown__throws_exception() throws ParseException {
+        expectedException.expectMessage(mapNoConverterDefined(String.class, LIST_OF_DATE, "TableCellTransformer", LIST_OF_DATE).getMessage());
+
+        DataTable table = parse("",
+                " | Annie M. G. | 1995-03-21 | 1911-03-20 |",
+                " | Roald       | 1990-09-13 | 1916-09-13 |",
+                " | Astrid      | 1907-10-14 | 1907-11-14 |"
+        );
+
+        Map<String, List<Date>> expected = new HashMap<String, List<Date>>() {{
+            put("Annie M. G.", asList(SIMPLE_DATE_FORMAT.parse("1995-03-21"), SIMPLE_DATE_FORMAT.parse("1911-03-20")));
+            put("Roald", asList(SIMPLE_DATE_FORMAT.parse("1990-09-13"), SIMPLE_DATE_FORMAT.parse("1916-09-13")));
+            put("Astrid", asList(SIMPLE_DATE_FORMAT.parse("1907-10-14"), SIMPLE_DATE_FORMAT.parse("1907-11-14")));
+        }};
+
+        assertEquals(expected, converter.convert(table, MAP_OF_STRING_TO_LIST_OF_DATE));
+    }
+
+
+    @Test
     public void to_maps_cant_convert_table_with_duplicate_keys() {
         expectedException.expectMessage(format("" +
                         "Can't convert DataTable to Map<%s, %s>. " +
@@ -1005,7 +1351,7 @@ public class DataTableTypeRegistryTableConverterTest {
             this.glyp = glyp;
         }
 
-        static Piece fromString(String glyp) {
+        public static Piece fromString(String glyp) {
             for (Piece piece : values()) {
                 if (piece.glyp.equals(glyp)) {
                     return piece;
@@ -1020,9 +1366,10 @@ public class DataTableTypeRegistryTableConverterTest {
         }
     }
 
-    private static final class AirPortCode {
+    public static final class AirPortCode {
         private final String code;
 
+        @ConstructorProperties("code")
         public AirPortCode(String code) {
             this.code = code;
         }
@@ -1047,6 +1394,10 @@ public class DataTableTypeRegistryTableConverterTest {
             return "AirPortCode{" +
                     "code='" + code + '\'' +
                     '}';
+        }
+
+        public static AirPortCode fromString(String code) {
+            return new AirPortCode(code);
         }
     }
 

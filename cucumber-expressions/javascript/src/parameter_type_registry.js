@@ -9,6 +9,7 @@ const INTEGER_REGEXPS = [/-?\d+/, /\d+/]
 const FLOAT_REGEXP = /-?\d*\.\d+/
 const WORD_REGEXP = /[^\s]+/
 const STRING_REGEXP = /"([^"\\]*(\\.[^"\\]*)*)"|'([^'\\]*(\\.[^'\\]*)*)'/
+const ANONYMOUS_REGEXP = /.*/
 
 class ParameterTypeRegistry {
   constructor() {
@@ -48,6 +49,9 @@ class ParameterTypeRegistry {
         false
       )
     )
+    this.defineParameterType(
+      new ParameterType('', ANONYMOUS_REGEXP, String, s => s, false, true)
+    )
   }
 
   get parameterTypes() {
@@ -79,11 +83,16 @@ class ParameterTypeRegistry {
   }
 
   defineParameterType(parameterType) {
-    if (parameterType.name) {
+    if (parameterType.name !== undefined) {
       if (this._parameterTypeByName.has(parameterType.name))
-        throw new Error(
-          `There is already a parameter type with name ${parameterType.name}`
-        )
+        if (parameterType.name.length === 0)
+          throw new Error(
+            `The anonymous parameter type has already been defined`
+          )
+        else
+          throw new Error(
+            `There is already a parameter type with name ${parameterType.name}`
+          )
       this._parameterTypeByName.set(parameterType.name, parameterType)
     }
 

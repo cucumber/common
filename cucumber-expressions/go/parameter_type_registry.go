@@ -2,9 +2,9 @@ package cucumberexpressions
 
 import (
 	"fmt"
+	"reflect"
 	"regexp"
 	"sort"
-	"strconv"
 )
 
 var INTEGER_REGEXPS = []*regexp.Regexp{
@@ -20,23 +20,28 @@ var WORD_REGEXPS = []*regexp.Regexp{
 var STRING_REGEXPS = []*regexp.Regexp{
 	regexp.MustCompile(`"([^"\\]*(\\.[^"\\]*)*)"|'([^'\\]*(\\.[^'\\]*)*)'`),
 }
+var ANONYMOUS_REGEXPS = `.*`
 
 type ParameterTypeRegistry struct {
 	parameterTypeByName    map[string]*ParameterType
 	parameterTypesByRegexp map[string][]*ParameterType
+	defaultTransformer     ParameterByTypeTransformer
 }
 
 func NewParameterTypeRegistry() *ParameterTypeRegistry {
+	transformer := BuiltInParameterTransformer{}
+
 	result := &ParameterTypeRegistry{
 		parameterTypeByName:    map[string]*ParameterType{},
 		parameterTypesByRegexp: map[string][]*ParameterType{},
+		defaultTransformer:     transformer,
 	}
 	intParameterType, err := NewParameterType(
 		"int",
 		INTEGER_REGEXPS,
 		"int",
 		func(args ...*string) interface{} {
-			i, err := strconv.Atoi(*args[0])
+			i, err := transformer.Transform(*args[0], reflect.Int)
 			if err != nil {
 				panic(err)
 			}
@@ -54,7 +59,7 @@ func NewParameterTypeRegistry() *ParameterTypeRegistry {
 		FLOAT_REGEXPS,
 		"float",
 		func(args ...*string) interface{} {
-			f, err := strconv.ParseFloat(*args[0], 64)
+			f, err := transformer.Transform(*args[0], reflect.Float64)
 			if err != nil {
 				panic(err)
 			}
@@ -72,7 +77,11 @@ func NewParameterTypeRegistry() *ParameterTypeRegistry {
 		WORD_REGEXPS,
 		"string",
 		func(args ...*string) interface{} {
-			return *args[0]
+			i, err := transformer.Transform(*args[0], reflect.String)
+			if err != nil {
+				panic(err)
+			}
+			return i
 		},
 		false,
 		false,
@@ -87,9 +96,17 @@ func NewParameterTypeRegistry() *ParameterTypeRegistry {
 		"string",
 		func(args ...*string) interface{} {
 			if args[0] == nil && args[1] != nil {
-				return *args[1]
+				i, err := transformer.Transform(*args[1], reflect.String)
+				if err != nil {
+					panic(err)
+				}
+				return i
 			}
-			return *args[0]
+			i, err := transformer.Transform(*args[0], reflect.String)
+			if err != nil {
+				panic(err)
+			}
+			return i
 		},
 		true,
 		false,
@@ -98,10 +115,17 @@ func NewParameterTypeRegistry() *ParameterTypeRegistry {
 		panic(err)
 	}
 	result.DefineParameterType(stringParameterType)
+
+	anonymouseParameterType, err := createAnonymousParameterType(ANONYMOUS_REGEXPS)
+	if err != nil {
+		panic(err)
+	}
+	result.DefineParameterType(anonymouseParameterType)
+
 	return result
 }
 
-func (p *ParameterTypeRegistry) ParamaterTypes() []*ParameterType {
+func (p *ParameterTypeRegistry) ParameterTypes() []*ParameterType {
 	result := make([]*ParameterType, len(p.parameterTypeByName))
 	index := 0
 	for _, parameterType := range p.parameterTypeByName {
@@ -128,12 +152,13 @@ func (p *ParameterTypeRegistry) LookupByRegexp(parameterTypeRegexp string, expre
 }
 
 func (p *ParameterTypeRegistry) DefineParameterType(parameterType *ParameterType) error {
-	if len(parameterType.Name()) > 0 {
-		if _, ok := p.parameterTypeByName[parameterType.Name()]; ok {
-			return fmt.Errorf("There is already a parameter type with name %s", parameterType.Name())
+	if _, ok := p.parameterTypeByName[parameterType.Name()]; ok {
+		if len(parameterType.Name()) == 0 {
+			return fmt.Errorf("The anonymous parameter type has already been defined")
 		}
-		p.parameterTypeByName[parameterType.Name()] = parameterType
+		return fmt.Errorf("There is already a parameter type with name %s", parameterType.Name())
 	}
+	p.parameterTypeByName[parameterType.Name()] = parameterType
 	for _, parameterTypeRegexp := range parameterType.Regexps() {
 		if _, ok := p.parameterTypesByRegexp[parameterTypeRegexp.String()]; !ok {
 			p.parameterTypesByRegexp[parameterTypeRegexp.String()] = []*ParameterType{}

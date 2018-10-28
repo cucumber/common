@@ -1,16 +1,19 @@
 package io.cucumber.cucumberexpressions;
 
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 
 import java.util.Locale;
 import java.util.regex.Pattern;
 
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertSame;
-import static org.junit.Assert.fail;
 
 public class ParameterTypeRegistryTest {
+
+    @Rule
+    public ExpectedException expectedException = ExpectedException.none();
 
     private static final String CAPITALISED_WORD = "[A-Z]+\\w+";
 
@@ -48,17 +51,15 @@ public class ParameterTypeRegistryTest {
                 return new Person(arg);
             }
         }, false, false));
-        try {
-            registry.defineParameterType(new ParameterType<>("place", CAPITALISED_WORD, Place.class, new Transformer<Place>() {
-                @Override
-                public Place transform(String arg) {
-                    return new Place(arg);
-                }
-            }, false, true));
-            fail("Expected an exception");
-        } catch (CucumberExpressionException e) {
-            assertEquals("There can only be one preferential parameter type per regexp. The regexp /[A-Z]+\\w+/ is used for two preferential parameter types, {name} and {place}", e.getMessage());
-        }
+        expectedException.expectMessage("There can only be one preferential parameter type per regexp. The regexp /[A-Z]+\\w+/ is used for two preferential parameter types, {name} and {place}");
+
+        registry.defineParameterType(new ParameterType<>("place", CAPITALISED_WORD, Place.class, new Transformer<Place>() {
+            @Override
+            public Place transform(String arg) {
+                return new Place(arg);
+            }
+        }, false, true));
+
     }
 
     @Test
@@ -110,33 +111,43 @@ public class ParameterTypeRegistryTest {
         registry.defineParameterType(name);
         registry.defineParameterType(person);
         registry.defineParameterType(place);
-        try {
-            registry.lookupByRegexp(CAPITALISED_WORD, Pattern.compile("([A-Z]+\\w+) and ([A-Z]+\\w+)"), "Lisa and Bob");
-            fail("Expected an exception");
-        } catch (AmbiguousParameterTypeException e) {
-            String expected = "" +
-                    "Your Regular Expression /([A-Z]+\\w+) and ([A-Z]+\\w+)/\n" +
-                    "matches multiple parameter types with regexp /[A-Z]+\\w+/:\n" +
-                    "   {name}\n" +
-                    "   {person}\n" +
-                    "   {place}\n" +
-                    "\n" +
-                    "I couldn't decide which one to use. You have two options:\n" +
-                    "\n" +
-                    "1) Use a Cucumber Expression instead of a Regular Expression. Try one of these:\n" +
-                    "   {name} and {name}\n" +
-                    "   {name} and {person}\n" +
-                    "   {name} and {place}\n" +
-                    "   {person} and {name}\n" +
-                    "   {person} and {person}\n" +
-                    "   {person} and {place}\n" +
-                    "   {place} and {name}\n" +
-                    "   {place} and {person}\n" +
-                    "   {place} and {place}\n" +
-                    "\n" +
-                    "2) Make one of the parameter types preferential and continue to use a Regular Expression.\n" +
-                    "\n";
-            assertEquals(expected, e.getMessage());
-        }
+
+        String expected = "" +
+                "Your Regular Expression /([A-Z]+\\w+) and ([A-Z]+\\w+)/\n" +
+                "matches multiple parameter types with regexp /[A-Z]+\\w+/:\n" +
+                "   {name}\n" +
+                "   {person}\n" +
+                "   {place}\n" +
+                "\n" +
+                "I couldn't decide which one to use. You have two options:\n" +
+                "\n" +
+                "1) Use a Cucumber Expression instead of a Regular Expression. Try one of these:\n" +
+                "   {name} and {name}\n" +
+                "   {name} and {person}\n" +
+                "   {name} and {place}\n" +
+                "   {person} and {name}\n" +
+                "   {person} and {person}\n" +
+                "   {person} and {place}\n" +
+                "   {place} and {name}\n" +
+                "   {place} and {person}\n" +
+                "   {place} and {place}\n" +
+                "\n" +
+                "2) Make one of the parameter types preferential and continue to use a Regular Expression.\n" +
+                "\n";
+        expectedException.expectMessage(expected);
+
+        registry.lookupByRegexp(CAPITALISED_WORD, Pattern.compile("([A-Z]+\\w+) and ([A-Z]+\\w+)"), "Lisa and Bob");
     }
+
+    @Test
+    public void does_not_allow_anonymous_parameter_type_to_be_registered() {
+        expectedException.expectMessage("The anonymous parameter type has already been defined");
+        registry.defineParameterType(new ParameterType<>("", ".*", Object.class, new Transformer<Object>() {
+            @Override
+            public Object transform(String arg) {
+                return arg;
+            }
+        }));
+    }
+
 }
