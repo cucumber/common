@@ -17,6 +17,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Fixed
 
+## [1.1.7] - 2018-10-30
+
+### Fixed
+
 * [Ruby] Detect x64
   ([#517](https://github.com/cucumber/cucumber/issues/517)
    [@aslakhellesoy])
@@ -34,7 +38,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 * First stable release!
 
 <!-- Releases -->
-[Unreleased]: https://github.com/cucumber/cucumber/compare/c21e/v1.1.6...master
+[Unreleased]: https://github.com/cucumber/cucumber/compare/c21e/v1.1.7...master
+[1.1.7]:      https://github.com/cucumber/cucumber/compare/c21e/v1.1.6...c21e/v1.1.7
 [1.1.6]:      https://github.com/cucumber/cucumber/compare/c21e/v1.1.5...c21e/v1.1.6
 [1.1.5]:      https://github.com/cucumber/cucumber/tree/c21e/v1.1.5
 
