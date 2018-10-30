@@ -13,11 +13,11 @@ jobs:
   include:
   - stage: deploy
     node_js: '10'
-    deploy:
-      skip_cleanup: true
-      provider: npm
-      email: cukebot@cucumber.io
-      api_key:
-        secure: yRrOoVM8UJNjAtxPcH99+KZe9rnyjCZFzYYmCaC8K8f7ynObbm/P99BWHMyCmHn1bq191msssIoxcqMvwNSWGJdI2eY4c41yCW8DIk3gnqXHqJtvcHdkAP9bo4FpjfkFpr0hI5T5sbmmn+l8tpU8vXYA5cQFYSTx2CgwB9v9IFW7S08zvWW0TFIii5FQsx1AfxJ5TeR8PpSvAq4A7+lFUA3W99PX4vhtmc5xzKYkB/gUhOQunVRKxlH/MRH0tIklXFNhtKL4wEd7JiTEj5KRS6cyAhYiJv/bZBdXnUh5KxSejwSv+i9koZMY+ZgVPqRFh6mNbhtL4u83PQE/98QLy8CbIVVgPth7g/JZVpmcif4MK66zam7Clu624Pj/OlEV7zRqS5sY9VtQjJF/LTcEhcP0nRZV0GeotuYRq6l/4YMFJWoJwqJ+oJcyN0dwpQCIbMfnioRzSLXpJubGQ4jxjHj8NtR8OSSjC0aG3ymh0Wk8aoERTosyb4KTrJoH54yZUwsWL6U6ib4fsaDJXBIk3duncXQNtgtv4ofNl6U297qjWIPV9W/tsVn6Hs9zSHt9RhHhaESUeq6LnESUh+Lfy2ybHwlhMKHntQnaK2I3dUKLzqMmurywYHjZpCdyQnKiWjseeQLHxkLHkmsg+mEYBb8dFvOPvU6NlUxMCXU8Eu4=
-      on:
-        tags: true
+deploy:
+  skip_cleanup: true
+  provider: npm
+  email: cukebot@cucumber.io
+  on:
+    tags: true
+  api_key:
+    secure: yRrOoVM8UJNjAtxPcH99+KZe9rnyjCZFzYYmCaC8K8f7ynObbm/P99BWHMyCmHn1bq191msssIoxcqMvwNSWGJdI2eY4c41yCW8DIk3gnqXHqJtvcHdkAP9bo4FpjfkFpr0hI5T5sbmmn+l8tpU8vXYA5cQFYSTx2CgwB9v9IFW7S08zvWW0TFIii5FQsx1AfxJ5TeR8PpSvAq4A7+lFUA3W99PX4vhtmc5xzKYkB/gUhOQunVRKxlH/MRH0tIklXFNhtKL4wEd7JiTEj5KRS6cyAhYiJv/bZBdXnUh5KxSejwSv+i9koZMY+ZgVPqRFh6mNbhtL4u83PQE/98QLy8CbIVVgPth7g/JZVpmcif4MK66zam7Clu624Pj/OlEV7zRqS5sY9VtQjJF/LTcEhcP0nRZV0GeotuYRq6l/4YMFJWoJwqJ+oJcyN0dwpQCIbMfnioRzSLXpJubGQ4jxjHj8NtR8OSSjC0aG3ymh0Wk8aoERTosyb4KTrJoH54yZUwsWL6U6ib4fsaDJXBIk3duncXQNtgtv4ofNl6U297qjWIPV9W/tsVn6Hs9zSHt9RhHhaESUeq6LnESUh+Lfy2ybHwlhMKHntQnaK2I3dUKLzqMmurywYHjZpCdyQnKiWjseeQLHxkLHkmsg+mEYBb8dFvOPvU6NlUxMCXU8Eu4=

@@ -13,11 +13,11 @@ jobs:
   include:
   - stage: deploy
     node_js: '10'
-    deploy:
-      skip_cleanup: true
-      provider: npm
-      email: cukebot@cucumber.io
-      api_key:
-        secure: hlfJVCSk3YG4GJMr84Ml0qYtUnfuA5s5ZT5mZdNMNkeDpZwxS3jzkX2jh43ARNhnAiosTD8lrbGT6bOEmfH+wRQdqeUa3igr4dEMBQowqvkJSuhznnZQnb/HVrPhIlGduM2/gcySTpu91tD/Wg3N5WwcrNx6gek6+L9jDWszLZs=
-      on:
-        tags: true
+deploy:
+  skip_cleanup: true
+  provider: npm
+  email: cukebot@cucumber.io
+  on:
+    tags: true
+  api_key:
+    secure: hlfJVCSk3YG4GJMr84Ml0qYtUnfuA5s5ZT5mZdNMNkeDpZwxS3jzkX2jh43ARNhnAiosTD8lrbGT6bOEmfH+wRQdqeUa3igr4dEMBQowqvkJSuhznnZQnb/HVrPhIlGduM2/gcySTpu91tD/Wg3N5WwcrNx6gek6+L9jDWszLZs=

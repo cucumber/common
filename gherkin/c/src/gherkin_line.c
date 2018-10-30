@@ -28,7 +28,7 @@ const GherkinLine* GherkinLine_new(const wchar_t* line_text, int line_number) {
     line->indent = 0;
     line->line_text = line_text;
     line->trimmed_line = line_text;
-    while (line->trimmed_line[0] != '\0' && line->trimmed_line[0] == L' ') {
+    while (line->trimmed_line[0] != '\0' && (line->trimmed_line[0] == L' ' || line->trimmed_line[0] == L'\t')) {
         ++line->trimmed_line;
         ++line->indent;
     }

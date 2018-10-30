@@ -18,7 +18,8 @@ This document is formatted according to the principles of [Keep A CHANGELOG](htt
 ### Removed
 
 ### Fixed
-
+* Fix bug where leading tabs prevented parser from identifying keywords
+  ([#512](https://github.com/cucumber/cucumber/pull/512) [VjacheslavVytjagov])
 * [JavaScript] Fix JavaScript build
   ([#499](https://github.com/cucumber/cucumber/pull/499)
    [noisygerman])
