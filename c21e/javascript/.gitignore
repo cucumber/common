@@ -10,4 +10,5 @@ package-lock.json
 .eslinted
 .compared
 acceptance
+dist
 *-go/
