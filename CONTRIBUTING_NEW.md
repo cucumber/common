@@ -8,18 +8,18 @@ Triggering a release is simple:
     source scripts/functions.sh && release_module MODULE_NAME VERSION # Don't specify the v in the version
 
 *IMPORTANT*: After running this command, bump the minor version and append `-SNAPSHOT` to any
-affected `pom.xml` files.
+affected `pom.xml` files, then commit with message "Post-release: Bump to SNAPSHOT version".
 
-This will update the various package descriptors (`pom.xml`, `package.json`, `*.gemspec`)
+Triggering a release will update the various package descriptors (`pom.xml`, `package.json`, `*.gemspec`)
 in the module directories. A git commit will be created with message "Release MODULE_NAME vVERSION". 
 This commit is also tagged with `MODULE/vVERSION`. 
 
 Behind the scenes - the following will occur:
 
 - The release commit and tag is pushed, which will kick off the build of the monorepo.
-- Each module repo is tagged with `vVERSION`.
-- Each module repo will have a Travis build triggered.
-- The module Travis builds will publish packages (maven, npm, rubygems etc).
+- The monorepo build tags each relevant module repo with `vVERSION`.
+- Each module repo will have a tagged Travis build triggered.
+- The module repo's Travis builds will publish packages (maven, npm, rubygems etc).
 
 ### Caveats
 
@@ -28,7 +28,8 @@ has a dependency on the go implementation (such as `gherkin`, `dots-formatter` a
 `pretty-formatter`), the build will initially fail because it can only pass after 
 the go executables have been uploaded to S3 and made available for download.
 
-The go module will trigger a new build of dependent module repos after a successful
+To work around this limitation,
+the go module build will trigger a new build of dependent module repos after a successful
 tagged build. This second time the builds should pass and successfully publish packages.
 
 ## Configuring a module dir for automated releases
