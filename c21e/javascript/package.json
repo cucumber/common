@@ -9,7 +9,7 @@
     "coverage": "nyc --reporter=html --reporter=text mocha",
     "build": "npx babel-cli src --out-dir dist/src",
     "build-test": "npx babel-cli test --out-dir dist/test",
-    "prepublish": "npm run build",
+    "prepublishOnly": "npm run build",
     "mocha-built": "mocha dist/test"
   },
   "repository": {
