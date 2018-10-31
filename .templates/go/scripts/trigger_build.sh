@@ -20,11 +20,14 @@ builds=$(curl \
     "https://api.travis-ci.org/repo/${org_repo}/builds"
 )
 
-# Find the id of the build with the git tag we're interested in
-build_id=$(echo "${builds}" | jq "[.builds[] | select(.tag.name == \"${tag}\")][0] | .id")
+# Find the build with the git tag we're interested in
+build=$(echo "${builds}" | jq "[.builds[] | select(.tag.name == \"${tag}\")][0]")
+
+# Find the id of the build
+build_id=$(echo "${build}" | jq ".id")
 
 # Find the build's state
-build_state=$(echo "${build}" | jq --raw-output "[.builds[] | select(.tag.name == \"${tag}\")][0] | .state")
+build_state=$(echo "${build}" | jq --raw-output ".state")
 
 if [ "$build_state" = "started" || "$build_state" = "created" ]; then
     echo "Cancelling ${build_state} build of ${org}/${repo}@${tag}"
@@ -36,7 +39,7 @@ if [ "$build_state" = "started" || "$build_state" = "created" ]; then
         "https://api.travis-ci.org/build/${build_id}/cancel"
 fi
 
-echo "Restarting build of ${org}/${repo}@${tag}"
+echo "Restarting build ${build_id} of ${org}/${repo}@${tag}"
 curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
