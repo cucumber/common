@@ -19,7 +19,7 @@ This document is formatted according to the principles of [Keep A CHANGELOG](htt
 
 ### Fixed
 
-## [6.0.14] - 2018-10-31
+## [6.0.15] - 2018-10-31
 
 ### Added
 * (Go) Executables are uploaded to GitHub releases.
@@ -480,8 +480,8 @@ to Gherkin 2.
 * First release
 
 <!-- Releases -->
-[Unreleased]: https://github.com/cucumber/cucumber/compare/gherkin/v6.0.14...HEAD
-[6.0.14]:     https://github.com/cucumber/cucumber/compare/gherkin-v6.0.13...gherkin/v6.0.14
+[Unreleased]: https://github.com/cucumber/cucumber/compare/gherkin/v6.0.15...HEAD
+[6.0.15]:     https://github.com/cucumber/cucumber/compare/gherkin-v6.0.13...gherkin/v6.0.15
 [6.0.13]:     https://github.com/cucumber/cucumber/compare/gherkin-v5.1.0...gherkin/v6.0.13
 [5.1.0]:      https://github.com/cucumber/cucumber/compare/gherkin-v5.0.0...gherkin-v5.1.0
 [5.0.0]:      https://github.com/cucumber/cucumber/compare/gherkin-v4.1.3...gherkin-v5.0.0
