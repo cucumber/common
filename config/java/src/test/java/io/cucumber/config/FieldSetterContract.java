@@ -40,6 +40,11 @@ public abstract class FieldSetterContract {
         assertEquals(MyConfig.Myenum.BAR, testing.myenum);
     }
 
+    @Test
+    public void sets_pattern_field() {
+        assertEquals("^hello$", testing.regexp.pattern());
+    }
+
     protected abstract MapBuilder makeMapBuilder(Object config);
 
 }

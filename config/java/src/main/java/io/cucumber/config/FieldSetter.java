@@ -3,6 +3,7 @@ package io.cucumber.config;
 import java.lang.reflect.Field;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Pattern;
 
 import static java.util.Arrays.asList;
 
@@ -54,6 +55,15 @@ class FieldSetter {
             return (String) value;
         } else {
             throw new RuntimeException(String.format("Can't convert %s to String", value.getClass().getName()));
+        }
+    }
+
+    private static Pattern toPattern(Object value) {
+        value = single(value);
+        if (value instanceof String) {
+            return Pattern.compile((String) value);
+        } else {
+            throw new RuntimeException(String.format("Can't convert %s to Pattern", value.getClass().getName()));
         }
     }
 
@@ -111,6 +121,8 @@ class FieldSetter {
                 fieldValue = toList(value);
             } else if (isEnum(field)) {
                 fieldValue = toEnum(value, (Class) field.getType());
+            } else if (isPattern(field)) {
+                fieldValue = toPattern(value);
             } else {
                 throw new RuntimeException(String.format("Can't convert %s to %s", value.getClass().getName(), field.getType().getName()));
             }
@@ -118,6 +130,10 @@ class FieldSetter {
         } catch (IllegalAccessException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    private boolean isPattern(Field field) {
+        return field.getType().isAssignableFrom(Pattern.class);
     }
 
     private boolean isEnum(Field field) {

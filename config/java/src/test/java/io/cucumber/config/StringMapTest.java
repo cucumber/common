@@ -10,6 +10,7 @@ public class StringMapTest extends FieldSetterContract {
             put("testing.meaning", "42");
             put("testing.message", "hello");
             put("testing.myenum", "BAR");
+            put("testing.regexp", "^hello$");
             put("testing.stringlist", "one,two");
         }});
     }

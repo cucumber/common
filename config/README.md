@@ -13,11 +13,12 @@ several sources:
 You provide a configuration object, which is a simple object with default
 field values. The library overrides those values from the sources above.
 
-Field values can be of four types:
+Field values can be of the following types:
 
 * boolean
 * string
 * array of strings
+* RegExp/Pattern
 * enum (Java only)
 
 Field values are overridden in the order of the sources above.

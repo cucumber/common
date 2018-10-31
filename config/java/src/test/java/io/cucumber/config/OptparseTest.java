@@ -22,6 +22,7 @@ public class OptparseTest extends FieldSetterContract {
                         "--meaning", "42",
                         "--message", "hello",
                         "--myenum", "BAR",
+                        "--regexp", "^hello$",
                         "one",
                         "two"
                 ),

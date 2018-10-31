@@ -12,6 +12,7 @@ public class JsonTest extends FieldSetterContract {
                 "    \"meaning\": 42,\n" +
                 "    \"message\": \"hello\",\n" +
                 "    \"myenum\": \"BAR\",\n" +
+                "    \"regexp\": \"^hello$\",\n" +
                 "    \"stringlist\": [\n" +
                 "      \"one\",\n" +
                 "      \"two\"\n" +
