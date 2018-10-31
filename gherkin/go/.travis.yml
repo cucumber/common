@@ -13,14 +13,23 @@ jobs:
   - stage: deploy
     go: '1.11'
     before_install:
-    - curl -L https://github.com/upx/upx/releases/download/v3.94/upx-3.94-amd64_linux.tar.xz
+    - curl -L https://github.com/upx/upx/releases/download/v3.95/upx-3.95-amd64_linux.tar.xz
       | tar Jx
-    - export PATH=$PATH:$PWD/upx-3.94-amd64_linux
+    - export PATH=$PATH:$PWD/upx-3.95-amd64_linux
     script:
     - env GO111MODULE=on make
     - env GO111MODULE=on make .dist-compressed
     - cp dist_compressed/* dist/
 deploy:
+- provider: releases
+  file_glob: true
+  file: dist/*
+  skip_cleanup: true
+  on:
+    go: '1.11'
+    tags: true
+  api_key:
+    secure: JX4XQWDgTlx6IOKhasKBQWpI49X3CZNTIybaEQ6uV0FEPztw8aF11R7EJEcMoB3DDboeHfBtqaCcMsaCd9NDY1l/qcCJojeRgAhB8GcEZw6lIn2Xij/wSW14agKSHVxoopkK/hof6MfokbEgdMME0UC+7xXbxLOuJ4VeDplnKrw=
 - provider: s3
   region: eu-west-2
   bucket: io.cucumber

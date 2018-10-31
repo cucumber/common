@@ -80,11 +80,19 @@ so there is nothing extra to set up. The tag is pushed by the `release_module` c
 
 #### executables
 
-Cd into the module dir and run:
+Cd into the module dir.
+
+Copy `gherkin/go/.travis.yml` and change the following:
+
+* Change `upload-dir`
+* Change `after_deploy` entries. See the Caveats section above for details
+* Remove all the properties that have `secure:` values (encrypted values)
+
+Add encrypted values:
+
+    # Find "cukebot personal github token for releases" in 1Password
+    travis encrypt "..." --add deploy[0].api_key --repo cucumber/dots-formatter-go
+    # Ok, that deploy[0] ends up in the wrong place - move it to the right place.
 
     # Find TRAVIS_API_TOKEN in 1Password
     travis encrypt TRAVIS_API_TOKEN=... --add env.global --repo cucumber/dots-formatter-go
-
-You should also add an `after_deploy` section to trigger a rebuild of dependent modules.
-See the Caveats section above for details, and look at the `.travis.yml` for `gherkin/go` for
-an example.
