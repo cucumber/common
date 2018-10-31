@@ -3,12 +3,13 @@
 *Note:* When a module is released, artefacts will be published for *all* implementations
 of the module, and all associated module repos will be tagged.
 
+Checklist:
+
+* Maven `pom.xml` should *not* have any `-SNAPSHOT` dependencies
+
 Triggering a release is simple:
 
     source scripts/functions.sh && release_module MODULE_NAME VERSION # Don't specify the v in the version
-
-*IMPORTANT*: After running this command, bump the minor version and append `-SNAPSHOT` to any
-affected `pom.xml` files, then commit with message "Post-release: Bump to SNAPSHOT version".
 
 Triggering a release will update the various package descriptors (`pom.xml`, `package.json`, `*.gemspec`)
 in the module directories. A git commit will be created with message "Release MODULE_NAME vVERSION". 
@@ -20,6 +21,14 @@ Behind the scenes - the following will occur:
 - The monorepo build tags each relevant module repo with `vVERSION`.
 - Each module repo will have a tagged Travis build triggered.
 - The module repo's Travis builds will publish packages (maven, npm, rubygems etc).
+
+### Post-release process
+
+After triggering a release, bump the minor version and append `-SNAPSHOT` to any
+affected `pom.xml` files, then commit with message "Post-release: Bump to SNAPSHOT version".
+
+When the release is completed (check RubyGems, NPM and Maven Central), update any dependent
+modules to depend on the version you just released.
 
 ### Caveats
 

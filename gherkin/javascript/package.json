@@ -11,10 +11,9 @@
     "test": "mocha test/**/*.{ts,js}",
     "eslint-fix": "eslint --fix src test",
     "coverage": "nyc --reporter=html --reporter=text mocha test/**/*.{ts,js}",
-    "build": "npx babel src --out-dir dist/src",
-    "build-test": "npx babel test --out-dir dist/test",
-    "prepare": "npm run build",
-    "postinstall": "node scripts/postinstall.js",
+    "build": "babel src --out-dir dist/src",
+    "build-test": "babel test --out-dir dist/test",
+    "prepublishOnly": "npm run build",
     "mocha-built": "mocha dist/test"
   },
   "repository": {
@@ -51,7 +50,7 @@
     "typescript": "^3.0.3"
   },
   "dependencies": {
-    "c21e": "^1.1.5",
+    "c21e": "^1.1.7",
     "cucumber-messages": "^2.0.0"
   }
 }

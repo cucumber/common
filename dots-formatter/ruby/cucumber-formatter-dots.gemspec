@@ -18,11 +18,12 @@ Gem::Specification.new do |s|
                     'source_code_uri'   => 'https://github.com/cucumber/cucumber/blob/master/dots-formatter/ruby',
                   }
 
+  s.add_dependency 'c21e', '~> 1.1.8'
+  s.add_dependency 'cucumber-messages', '~> 2.0.0'
+
   s.add_development_dependency 'bundler'
   s.add_development_dependency 'rake',      '~> 10.5'
   s.add_development_dependency 'rspec',     '~> 3.7'
-  s.add_dependency 'cucumber-messages'
-  s.add_dependency 'os'
 
   s.rubygems_version = ">= 1.6.1"
   s.files            = Dir[
