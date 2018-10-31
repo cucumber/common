@@ -77,3 +77,14 @@ For more details, follow the Travis [NPM Releasing](https://docs.travis-ci.com/u
 
 Starting with Go 1.11, releasing a go module is simply a matter of pushing a git tag,
 so there is nothing extra to set up. The tag is pushed by the `release_module` command.
+
+#### executables
+
+Cd into the module dir and run:
+
+    # Find TRAVIS_API_TOKEN in 1Password
+    travis encrypt TRAVIS_API_TOKEN=... --add env.global --repo cucumber/dots-formatter-go
+
+You should also add an `after_deploy` section to trigger a rebuild of dependent modules.
+See the Caveats section above for details, and look at the `.travis.yml` for `gherkin/go` for
+an example.
