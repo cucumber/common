@@ -1,7 +1,7 @@
 # encoding: utf-8
 Gem::Specification.new do |s|
   s.name        = 'cucumber-formatter-dots'
-  s.version     = '1.1.1'
+  s.version     = '1.1.2'
   s.authors     = ["Matt Wynne", "Aslak Hellesøy"]
   s.description = 'Dots formatter for cucumber'
   s.summary     = "#{s.name}-#{s.version}"
