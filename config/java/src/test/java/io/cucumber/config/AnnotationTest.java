@@ -21,9 +21,11 @@ public class AnnotationTest extends FieldSetterContract {
         String message();
 
         String[] stringlist();
+
+        MyConfig.Myenum myenum();
     }
 
-    @MyAnnotation(somebool = true, meaning = 42, message = "hello", stringlist = {"one", "two"})
+    @MyAnnotation(somebool = true, meaning = 42, message = "hello", stringlist = {"one", "two"}, myenum = MyConfig.Myenum.BAR)
     private class MyClass {
 
     }

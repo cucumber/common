@@ -57,6 +57,25 @@ class FieldSetter {
         }
     }
 
+    private static <T extends Enum<T>> Enum<T> toEnum(Object value, Class<T> enumClass) {
+        value = single(value);
+        if (value instanceof String) {
+            T[] enumConstants = enumClass.getEnumConstants();
+            String s = (String) value;
+            for (T enumConstant : enumConstants) {
+                if (enumConstant.name().equals(s)) {
+                    return enumConstant;
+                }
+            }
+            throw new RuntimeException(String.format("Can't convert %s to enum %s", value.getClass().getName(), enumClass.getName()));
+        } else if (enumClass.isAssignableFrom(value.getClass())) {
+            return (Enum<T>) value;
+        } else {
+            throw new RuntimeException(String.format("Can't convert %s to enum %s", value.getClass().getName(), enumClass.getName()));
+        }
+    }
+
+
     private static List toList(Object value) {
         if (value instanceof List) {
             return (List) value;
@@ -90,6 +109,8 @@ class FieldSetter {
                 fieldValue = toInteger(value);
             } else if (isList(field)) {
                 fieldValue = toList(value);
+            } else if (isEnum(field)) {
+                fieldValue = toEnum(value, (Class) field.getType());
             } else {
                 throw new RuntimeException(String.format("Can't convert %s to %s", value.getClass().getName(), field.getType().getName()));
             }
@@ -97,6 +118,10 @@ class FieldSetter {
         } catch (IllegalAccessException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    private boolean isEnum(Field field) {
+        return field.getType().isEnum();
     }
 
     private boolean isList(Field field) {

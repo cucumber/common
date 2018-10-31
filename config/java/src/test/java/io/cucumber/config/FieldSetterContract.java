@@ -35,6 +35,11 @@ public abstract class FieldSetterContract {
         assertEquals("two", testing.stringlist.get(1));
     }
 
+    @Test
+    public void sets_enum_field() {
+        assertEquals(MyConfig.Myenum.BAR, testing.myenum);
+    }
+
     protected abstract MapBuilder makeMapBuilder(Object config);
 
 }
