@@ -2,8 +2,6 @@ package io.cucumber.config;
 
 import org.junit.Test;
 
-import java.io.FileNotFoundException;
-import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
 
 import static java.util.Arrays.asList;
@@ -12,7 +10,7 @@ import static org.junit.Assert.assertTrue;
 
 public class ConfigBuilderTest {
     @Test
-    public void builds_object_from_files_and_command_line() throws FileNotFoundException, UnsupportedEncodingException {
+    public void builds_object_from_files_and_command_line() {
         ConfigBuilder configBuilder = new ConfigBuilder(
                 "src/test/resources/test-config",
                 new String[]{"testing"},
@@ -33,7 +31,7 @@ public class ConfigBuilderTest {
     }
 
     @Test
-    public void builds_object_from_env_and_system_properties() throws FileNotFoundException, UnsupportedEncodingException {
+    public void builds_object_from_env_and_system_properties() {
         ConfigBuilder configBuilder = new ConfigBuilder(
                 "src/test/resources/does-not-exist",
                 new String[]{"not-used"},

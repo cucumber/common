@@ -16,7 +16,6 @@ class AnnotationBuilder implements MapBuilder {
     @Override
     public Map<String, ?> buildMap() {
         Map<String, Object> result = new HashMap<>();
-        if (annotation == null) return result;
         Method[] declaredMethods = annotation.annotationType().getDeclaredMethods();
         for (Method declaredMethod : declaredMethods) {
             try {

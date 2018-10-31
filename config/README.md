@@ -25,7 +25,7 @@ Field values are overridden in the order of the sources above.
 Fields of string array type are either appended to or replaced, depending on the source.
 
 * Appending sources: YAML, JSON, Java Annotations, System properties
-* Replacing sources: Command line arguments and Environment variables
+* Replacing sources: Environment variables and Command line arguments 
 
 ## How it works
 

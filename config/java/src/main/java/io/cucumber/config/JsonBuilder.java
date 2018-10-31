@@ -10,7 +10,7 @@ import static io.cucumber.config.DeepMap.getMap;
 
 class JsonBuilder implements MapBuilder {
     private final String[] keys;
-    private Map<String, Object> map;
+    private Map<String, ?> map;
 
     JsonBuilder(String[] keys, Reader jsonReader) {
         this.keys = keys;

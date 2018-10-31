@@ -4,6 +4,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 public abstract class FieldSetterContract {
     private final MyConfig testing = new MyConfig();
@@ -16,7 +17,7 @@ public abstract class FieldSetterContract {
 
     @Test
     public void sets_boolean_field() {
-        assertEquals(true, testing.somebool);
+        assertTrue(testing.somebool);
     }
 
     @Test
