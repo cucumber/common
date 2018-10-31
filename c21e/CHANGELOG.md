@@ -17,6 +17,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Fixed
 
+## [1.1.8] - 2018-10-30
+
+### Fixed
+
+* Broken 1.1.7 release
+   
 ## [1.1.7] - 2018-10-30
 
 ### Fixed
@@ -38,7 +44,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 * First stable release!
 
 <!-- Releases -->
-[Unreleased]: https://github.com/cucumber/cucumber/compare/c21e/v1.1.7...master
+[Unreleased]: https://github.com/cucumber/cucumber/compare/c21e/v1.1.8...master
+[1.1.8]:      https://github.com/cucumber/cucumber/compare/c21e/v1.1.7...c21e/v1.1.8
 [1.1.7]:      https://github.com/cucumber/cucumber/compare/c21e/v1.1.6...c21e/v1.1.7
 [1.1.6]:      https://github.com/cucumber/cucumber/compare/c21e/v1.1.5...c21e/v1.1.6
 [1.1.5]:      https://github.com/cucumber/cucumber/tree/c21e/v1.1.5
