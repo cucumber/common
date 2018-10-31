@@ -193,7 +193,7 @@ namespace Gherkin
                     indentToRemove = 0;
                 }
 
-                SetTokenMatched(token, TokenType.DocStringSeparator, contentType);
+                SetTokenMatched(token, TokenType.DocStringSeparator, contentType, separator);
                 return true;
             }
             return false;
