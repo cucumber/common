@@ -7,8 +7,8 @@
     "test": "mocha",
     "eslint-fix": "eslint --fix src test",
     "coverage": "nyc --reporter=html --reporter=text mocha",
-    "build": "npx babel-cli src --out-dir dist/src",
-    "build-test": "npx babel-cli test --out-dir dist/test",
+    "build": "babel src --out-dir dist/src",
+    "build-test": "babel test --out-dir dist/test",
     "prepublishOnly": "npm run build",
     "mocha-built": "mocha dist/test"
   },
