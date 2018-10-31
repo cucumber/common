@@ -5,19 +5,32 @@ go:
 script:
 - env GO111MODULE=on make
 after_deploy:
-- test $TRAVIS_TAG && scripts/trigger_build.sh cucumber dots-formatter-ruby $TRAVIS_TAG $TRAVIS_API_TOKEN
+- test $TRAVIS_TAG && scripts/trigger_build.sh cucumber dots-formatter-ruby $TRAVIS_TAG
+  $TRAVIS_API_TOKEN
 jobs:
   include:
   - stage: deploy
     go: '1.11'
     before_install:
-    - curl -L https://github.com/upx/upx/releases/download/v3.94/upx-3.94-amd64_linux.tar.xz | tar Jx
+    - curl -L https://github.com/upx/upx/releases/download/v3.94/upx-3.94-amd64_linux.tar.xz
+      | tar Jx
     - export PATH=$PATH:$PWD/upx-3.94-amd64_linux
     script:
     - env GO111MODULE=on make
     - env GO111MODULE=on make .dist-compressed
     - cp dist_compressed/* dist/
 deploy:
+  matrix:
+  # Deploy to GitHub for tags
+  - provider: releases
+    api_key:
+      secure: Vsmuq8q+7TFli0h/Ts9vU5Th8w7rKFgSVj9oUZH8VvCFqLxxvxYLp8rRIK58KHvbr0VPeGJ0c2Sxn4B74uu8T1rPEn9CSV8haKNnqsVxxANyiuBvY7jb7+fQeETr+1hQbMaKLPdtnDi8viBts1UL6b80MszhLJdpB0cEWXT8NMt8F0VKy9w5lfg3FI4nqNITYn0b4GXEtpV3wH7XzsMHWl2YUA2MHXKlYNiV8GaO8krrAvIIFEjWykofjcLH3yq0lSK8ybqMsuqEmKieEbGMguru/e08T0T5RWz7LmwCqODIaPPNto8FWkELWR+4Y6td391xxfzftAhBJM5WrgdU0GpI40mLaLWr4MlLhwPyq8g4vPW0oYXeyjTjj9LX276biv8upZtvjNMmxuZFXnEjGqeEEbIZiheCCldttz62bFbBQFjeo5bqokbilRU4iSeqc9lCP8DH6ZHHGaeF4Ciez93zMjg9BS7kNGqcnHxEaOp5Ht3UVdjEKsID4FbXNI3Sk6g4ZjXYx1MVST9NmJFu2gaU95weTWk8id3yeVFgYTIg2HxTvWp5p0dmaN1bX1mHpv4frQRJVWPbZNoRbszoeqEVeCJPE0gVa87SaNnUMOzkK9UzUgXCl56fPlQri2pLXv4GFQEUUNhs9Jl8bPEdcrQnz8LagDzuah3D8gdwpfQ=
+    file_glob: true
+    file: dist/*
+    skip_cleanup: true
+    on:
+      go: '1.11'
+      tags: true
   # Deploy to S3 for tags
   - provider: s3
     region: eu-west-2
