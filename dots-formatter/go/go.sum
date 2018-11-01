@@ -2,6 +2,8 @@ github.com/aslakhellesoy/gox v0.4.0 h1:0Zi24+Bp0v/9x/ViLN7mKdD4+tEP1WcXxbP1uxP7V
 github.com/aslakhellesoy/gox v0.4.0/go.mod h1:eWI5kaukwHdXWzQ7Hhfbb/F2NSO+VCPHIcsovzQd2sY=
 github.com/cucumber/cucumber-messages-go/v2 v2.0.0 h1:hc6z72JFAOBCvvyarcPkY8mJltpgmlUN4eBTdmOjnqQ=
 github.com/cucumber/cucumber-messages-go/v2 v2.0.0/go.mod h1:gcqqQ2QDOn2kUqcrzQ0Py6Tpks0SJTKbBzU2KetX/C8=
+github.com/cucumber/cucumber-messages-go/v2 v2.1.0 h1:1fXC7lbZZvFvcM1kG29XH77gWyd40aAznA0BmaJHQnE=
+github.com/cucumber/cucumber-messages-go/v2 v2.1.0/go.mod h1:gcqqQ2QDOn2kUqcrzQ0Py6Tpks0SJTKbBzU2KetX/C8=
 github.com/davecgh/go-spew v1.1.1 h1:vj9j/u1bqnvCEfJOwUhtlOARqs3+rkHYY13jYWTU97c=
 github.com/davecgh/go-spew v1.1.1/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
 github.com/fatih/color v1.7.0 h1:DkWD4oS2D8LGGgTQ6IvwJJXSL5Vp2ffcQg58nFV38Ys=
