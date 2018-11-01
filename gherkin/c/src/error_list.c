@@ -66,9 +66,6 @@ Error* ErrorList_remove(ErrorList* error_list) {
 
 void ErrorList_add(ErrorList* error_list, const wchar_t* error_text, const Location location) {
     ItemQueue_add(error_list->errors, (Item*)Error_new(error_text, location));
-    if (ItemQueue_size(error_list->errors) > 10) {
-        ErrorList_jump_to_global_rescue_env(error_list);
-    }
 }
 
 void ErrorList_add_unexpected_eof_error(ErrorList* error_list, Token* received_token, const wchar_t* expected_tokens) {
