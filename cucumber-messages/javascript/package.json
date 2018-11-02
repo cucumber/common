@@ -1,6 +1,6 @@
 {
   "name": "cucumber-messages",
-  "version": "2.1.0",
+  "version": "2.1.1",
   "description": "Protocol Buffer messages for Cucumber's inter-process communication",
   "main": "src/cucumber-messages.js",
   "repository": "git://github.com/cucumber/cucumber-messages-javascript.git",
