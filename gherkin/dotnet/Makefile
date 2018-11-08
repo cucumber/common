@@ -61,15 +61,6 @@ acceptance/testdata/%.feature.source.ndjson: testdata/%.feature testdata/%.featu
 	bin/gherkin net45 --no-pickles --no-ast $< | jq --sort-keys --compact-output "." > $@
 	diff --unified <(jq "." $<.source.ndjson) <(jq "." $@)
 
-acceptance/testdata/%.feature.ast.ndjson: testdata/%.feature testdata/%.feature.ast.ndjson .sln_built_debug .run_tests
-	mkdir -p `dirname $@`
-
-	bin/gherkin netcoreapp2.0 --no-source --no-pickles $< | jq --sort-keys --compact-output "." > $@
-	diff --unified <(jq "." $<.ast.ndjson) <(jq "." $@)
-
-	bin/gherkin net45 --no-source --no-pickles $< | jq --sort-keys --compact-output "." > $@
-	diff --unified <(jq "." $<.ast.ndjson) <(jq "." $@)
-
 acceptance/testdata/%.feature.errors.ndjson: testdata/%.feature testdata/%.feature.errors.ndjson .sln_built_debug .run_tests
 	mkdir -p `dirname $@`
 

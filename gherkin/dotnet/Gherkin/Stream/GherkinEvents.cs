@@ -7,13 +7,16 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
+using Gherkin.Events.Args.Ast;
 using Background = Gherkin.Ast.Background;
-using Comment = Gherkin.Events.Args.Comment;
+using Comment = Gherkin.Events.Args.Ast.Comment;
 using Examples = Gherkin.Ast.Examples;
-using Feature = Gherkin.Events.Args.Feature;
-using Location = Gherkin.Events.Args.Location;
+using Feature = Gherkin.Events.Args.Ast.Feature;
+using Location = Gherkin.Events.Args.Ast.Location;
+using Rule = Gherkin.Events.Args.Ast.Rule;
 using Scenario = Gherkin.Ast.Scenario;
-using Step = Gherkin.Events.Args.Step;
+using Step = Gherkin.Events.Args.Ast.Step;
+using StepsContainer = Gherkin.Events.Args.Ast.StepsContainer;
 
 namespace Gherkin
 {
@@ -100,7 +103,7 @@ namespace Gherkin
                 return null;
             }
 
-            return new Events.Args.Feature()
+            return new Feature()
             {
                 Name = feature.Name == string.Empty ? null : feature.Name,
                 Keyword = feature.Keyword,
@@ -123,7 +126,7 @@ namespace Gherkin
                 case Background background:
                     return new Children()
                     {
-                        Background = new Events.Args.StepsContainer()
+                        Background = new StepsContainer()
                         {
                             Location = ConvertLocation(background.Location),
                             Name = background.Name == string.Empty ? null : background.Name,
@@ -134,7 +137,7 @@ namespace Gherkin
                 case Scenario scenario:
                     return new Children()
                     {
-                        Scenario = new Events.Args.StepsContainer()
+                        Scenario = new StepsContainer()
                         {
                             Keyword = scenario.Keyword,
                             Location = ConvertLocation(scenario.Location),
@@ -147,7 +150,7 @@ namespace Gherkin
                     {
                         return new Children()
                         {
-                            Rule = new Events.Args.Rule()
+                            Rule = new Rule()
                             {
                                 Name = rule.Name == string.Empty ? null : rule.Name,
                                 Keyword = rule.Keyword,
@@ -165,9 +168,9 @@ namespace Gherkin
 
         }
 
-        private Events.Args.Examples ConvertExamples(Examples examples)
+        private Events.Args.Ast.Examples ConvertExamples(Examples examples)
         {
-            return new Events.Args.Examples()
+            return new Events.Args.Ast.Examples()
             {
                 Name = examples.Name == string.Empty ? null : examples.Name,
                 Keyword = examples.Keyword,

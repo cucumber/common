@@ -1,6 +1,6 @@
 using Gherkin.Pickles;
 
-namespace Gherkin
+namespace Gherkin.Events
 {
     public class PickleEvent : IEvent
     {
