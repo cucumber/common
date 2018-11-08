@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Gherkin.Stream;
 using Newtonsoft.Json;
 
 namespace Gherkin.CLI

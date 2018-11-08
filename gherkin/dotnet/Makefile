@@ -43,15 +43,6 @@ acceptance/testdata/%.feature.tokens: testdata/%.feature testdata/%.feature.toke
 	bin/gherkin-generate-tokens net45 $< > $@
 	diff --unified $<.tokens $@
 
-acceptance/testdata/%.feature.pickles.ndjson: testdata/%.feature testdata/%.feature.pickles.ndjson .sln_built_debug .run_tests
-	mkdir -p `dirname $@`
-
-	bin/gherkin netcoreapp2.0 --no-source --no-ast $< | jq --sort-keys --compact-output "." > $@
-	diff --unified <(jq "." $<.pickles.ndjson) <(jq "." $@)
-
-	bin/gherkin net45 --no-source --no-ast $< | jq --sort-keys --compact-output "." > $@
-	diff --unified <(jq "." $<.pickles.ndjson) <(jq "." $@)
-
 acceptance/testdata/%.feature.source.ndjson: testdata/%.feature testdata/%.feature.source.ndjson .sln_built_debug .run_tests
 	mkdir -p `dirname $@`
 

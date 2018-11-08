@@ -5,4 +5,3 @@ Makefile text eol=lf
 docker-run text eol=lf
 gherkin text eol=lf
 gherkin-generate-tokens text eol=lf
-/testdata/* text eol=lf

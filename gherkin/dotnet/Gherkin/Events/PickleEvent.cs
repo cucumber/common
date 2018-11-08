@@ -1,17 +1,15 @@
-using Gherkin.Pickles;
+using System.Runtime.Serialization;
 
 namespace Gherkin.Events
 {
     public class PickleEvent : IEvent
     {
-        public readonly string type = "pickle";
-        public readonly string uri;
-        public readonly Pickle pickle;
+        [DataMember(Name = "pickle")]
+        public Args.Pickle.Pickle Pickle { get; set; }
 
-        public PickleEvent (string uri, Pickle pickle)
+        public PickleEvent (Args.Pickle.Pickle pickle)
         {
-            this.uri = uri;
-            this.pickle = pickle;
+            Pickle = pickle;
         }
     }
 }

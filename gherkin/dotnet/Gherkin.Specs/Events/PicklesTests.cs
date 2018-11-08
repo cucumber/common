@@ -1,10 +1,12 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
 using FluentAssertions;
 using Gherkin.Events;
+using Gherkin.Stream;
 using Utf8Json;
 using Xunit;
 
@@ -21,9 +23,9 @@ namespace Gherkin.Specs.Events
             Debug.Assert(featureFileFolder != null);
             var expectedAstFile = fullPathToTestFeatureFile + ".pickles.ndjson";
 
-            var expectedAstContent = File.ReadAllText(expectedAstFile, Encoding.UTF8);
-
-            //var expectedGherkinDocumentEvent = JsonSerializer.Deserialize<GherkinDocumentEvent>(expectedAstContent);
+            var expectedPicklesContent = File.ReadAllText(expectedAstFile, Encoding.UTF8);
+            
+            var expectedPickleEvents = NDJsonParser.Deserialize<PickleEvent>(expectedPicklesContent);
 
 
             var raisedEvents = new List<IEvent>();
@@ -38,9 +40,13 @@ namespace Gherkin.Specs.Events
                 }
             }
 
-            raisedEvents.Count.Should().Be(1);
+            raisedEvents.Should().AllBeOfType<PickleEvent>();
 
-            
+            raisedEvents.Should().BeEquivalentTo(expectedPickleEvents, config => config.Excluding(ghe => ghe.Pickle.Uri).
+                Using<string>(ctx =>
+                {
+                    ctx.Subject.Should().Be(ctx.Expectation?.Replace("\n", Environment.NewLine));
+                }).WhenTypeIs<string>(), $"{testFeatureFile} is not generating the same content as {expectedAstFile}");
         }
 
         [Theory, MemberData(nameof(TestFileProvider.GetInvalidTestFiles), MemberType = typeof(TestFileProvider))]

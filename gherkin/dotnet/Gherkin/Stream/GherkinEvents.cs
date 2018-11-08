@@ -1,39 +1,28 @@
 ﻿using Gherkin.Ast;
 using Gherkin.Events;
-using Gherkin.Events.Args;
 using Gherkin.Pickles;
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.IO;
-using System.Linq;
-using Gherkin.Events.Args.Ast;
-using Background = Gherkin.Ast.Background;
-using Comment = Gherkin.Events.Args.Ast.Comment;
-using Examples = Gherkin.Ast.Examples;
-using Feature = Gherkin.Events.Args.Ast.Feature;
-using Location = Gherkin.Events.Args.Ast.Location;
-using Rule = Gherkin.Events.Args.Ast.Rule;
-using Scenario = Gherkin.Ast.Scenario;
-using Step = Gherkin.Events.Args.Ast.Step;
-using StepsContainer = Gherkin.Events.Args.Ast.StepsContainer;
 
-namespace Gherkin
+namespace Gherkin.Stream
 {
     public class GherkinEvents
     {
-        private readonly Parser parser = new Parser();
-        private readonly Compiler compiler = new Compiler();
+        private readonly Parser _parser = new Parser();
+        private readonly Compiler _compiler = new Compiler();
+        private readonly AstEventConverter _astEventConverter = new AstEventConverter();
+        private readonly PickleEventConverter _pickleEventConverter = new PickleEventConverter();
 
-        bool printAst;
-        bool printPickles;
-        bool printSource;
+        readonly bool _printAst;
+        readonly bool _printPickles;
+        readonly bool _printSource;
 
         public GherkinEvents(bool printSource, bool printAst, bool printPickles)
         {
-            this.printSource = printSource;
-            this.printAst = printAst;
-            this.printPickles = printPickles;
+            _printSource = printSource;
+            _printAst = printAst;
+            _printPickles = printPickles;
         }
 
         public IEnumerable<IEvent> Iterable(SourceEvent sourceEvent)
@@ -42,22 +31,22 @@ namespace Gherkin
 
             try
             {
-                GherkinDocument gherkinDocument = parser.Parse(new StringReader(sourceEvent.data));
+                GherkinDocument gherkinDocument = _parser.Parse(new StringReader(sourceEvent.data));
 
-                if (printSource)
+                if (_printSource)
                 {
                     events.Add(sourceEvent);
                 }
-                if (printAst)
+                if (_printAst)
                 {
-                    events.Add(new GherkinDocumentEvent(ConvertGherkinDocumentToEventArgs(gherkinDocument, sourceEvent.uri)));
+                    events.Add(new GherkinDocumentEvent(_astEventConverter.ConvertGherkinDocumentToEventArgs(gherkinDocument, sourceEvent.uri)));
                 }
-                if (printPickles)
+                if (_printPickles)
                 {
-                    List<Pickle> pickles = compiler.Compile(gherkinDocument);
+                    List<Pickle> pickles = _compiler.Compile(gherkinDocument);
                     foreach (Pickle pickle in pickles)
                     {
-                        events.Add(new PickleEvent(sourceEvent.uri, pickle));
+                        events.Add(new PickleEvent(_pickleEventConverter.Convert(pickle, sourceEvent.uri)));
                     }
                 }
             }
@@ -75,156 +64,7 @@ namespace Gherkin
             return events;
         }
 
-        private GherkinDocumentEventArgs ConvertGherkinDocumentToEventArgs(GherkinDocument gherkinDocument, string sourceEventUri)
-        {
-            return new GherkinDocumentEventArgs()
-            {
-                Uri = sourceEventUri,
-                Feature = ConvertFeature(gherkinDocument),
-                Comments = ConvertComments(gherkinDocument)
-            };
-        }
 
-        private IReadOnlyCollection<Comment> ConvertComments(GherkinDocument gherkinDocument)
-        {
-            return gherkinDocument.Comments.Select(c =>
-                new Comment()
-                {
-                    Text = c.Text,
-                    Location = ConvertLocation(c.Location)
-                }).ToReadOnlyCollection();
-        }
-
-        private Feature ConvertFeature(GherkinDocument gherkinDocument)
-        {
-            var feature = gherkinDocument.Feature;
-            if (feature == null)
-            {
-                return null;
-            }
-
-            return new Feature()
-            {
-                Name = feature.Name == string.Empty ? null : feature.Name,
-                Keyword = feature.Keyword,
-                Language = feature.Language,
-                Location = ConvertLocation(feature.Location),
-                Children = feature.Children.Select(ConvertToChildren).ToReadOnlyCollection()
-            };
-        }
-
-        private static Location ConvertLocation(Ast.Location location)
-        {
-            return new Location(location.Column, location.Line);
-        }
-
-
-        private Children ConvertToChildren(IHasLocation hasLocation)
-        {
-            switch (hasLocation)
-            {
-                case Background background:
-                    return new Children()
-                    {
-                        Background = new StepsContainer()
-                        {
-                            Location = ConvertLocation(background.Location),
-                            Name = background.Name == string.Empty ? null : background.Name,
-                            Keyword = background.Keyword,
-                            Steps = background.Steps.Select(s => ConvertStep(s)).ToList()
-                        }
-                    };
-                case Scenario scenario:
-                    return new Children()
-                    {
-                        Scenario = new StepsContainer()
-                        {
-                            Keyword = scenario.Keyword,
-                            Location = ConvertLocation(scenario.Location),
-                            Name = scenario.Name == string.Empty ? null : scenario.Name,
-                            Steps = scenario.Steps.Select(s => ConvertStep(s)).ToList(),
-                            Examples = scenario.Examples.Select(ConvertExamples).ToReadOnlyCollection(),
-                        }
-                    };
-                case Ast.Rule rule:
-                    {
-                        return new Children()
-                        {
-                            Rule = new Rule()
-                            {
-                                Name = rule.Name == string.Empty ? null : rule.Name,
-                                Keyword = rule.Keyword,
-                                Children = rule.Children.Select(ConvertToChildren).ToReadOnlyCollection(),
-                                Location = ConvertLocation(rule.Location)
-                            }
-                        };
-                    }
-
-
-
-                default:
-                    throw new NotImplementedException();
-            }
-
-        }
-
-        private Events.Args.Ast.Examples ConvertExamples(Examples examples)
-        {
-            return new Events.Args.Ast.Examples()
-            {
-                Name = examples.Name == string.Empty ? null : examples.Name,
-                Keyword = examples.Keyword,
-                Description = examples.Description,
-                Location = ConvertLocation(examples.Location),
-                TableHeader = ConvertTableHeader(examples),
-                TableBody = ConvertToTableBody(examples)
-
-            };
-        }
-
-        private IReadOnlyCollection<TableBody> ConvertToTableBody(Examples examples)
-        {
-            if (examples.TableBody == null)
-                return new List<TableBody>();
-
-            return examples.TableBody.Select(b =>
-                new TableBody()
-                {
-                    Location = ConvertLocation(b.Location),
-                    Cells = b.Cells.Select(ConvertCell).ToReadOnlyCollection()
-                }).ToReadOnlyCollection();
-        }
-
-        private TableHeader ConvertTableHeader(Examples examples)
-        {
-            if (examples.TableHeader == null)
-                return null;
-
-            return new TableHeader()
-            {
-                Location = ConvertLocation(examples.TableHeader.Location),
-                Cells = examples.TableHeader.Cells.Select(ConvertCell).ToReadOnlyCollection()
-            };
-        }
-
-        private Cell ConvertCell(TableCell c)
-        {
-            return new Cell()
-            {
-                Value = c.Value,
-                Location = ConvertLocation(c.Location)
-            };
-        }
-
-        private Step ConvertStep(Ast.Step step)
-        {
-            return new Step()
-            {
-                Keyword = step.Keyword,
-                Text = step.Text,
-                Location = ConvertLocation(step.Location)
-            };
-        }
 
         private void addErrorAttachment(List<IEvent> events, ParserException e, String uri)
         {
@@ -239,14 +79,6 @@ namespace Gherkin
                     e.Message
             ));
 
-        }
-    }
-
-    public static class IEnumerableExtensions
-    {
-        public static ReadOnlyCollection<T> ToReadOnlyCollection<T>(this IEnumerable<T> enumerable)
-        {
-            return new ReadOnlyCollection<T>(enumerable.ToList());
         }
     }
 }

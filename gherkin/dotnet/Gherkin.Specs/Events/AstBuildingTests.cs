@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using FluentAssertions;
 using Gherkin.Events;
+using Gherkin.Stream;
 using Utf8Json;
 using Xunit;
 
@@ -42,7 +43,6 @@ namespace Gherkin.Specs.Events
 
             var onlyEvent = raisedEvents.Single();
             var actualGherkinDocumentEvent = (onlyEvent as GherkinDocumentEvent);
-
 
             actualGherkinDocumentEvent.Should().BeEquivalentTo(expectedGherkinDocumentEvent, config => config.Excluding(ghe => ghe.SelectedMemberPath.EndsWith("Uri")), $"{testFeatureFile} is not generating the same content as {expectedAstFile}");
         }
