@@ -12,33 +12,6 @@ namespace Gherkin.CLI
         {
             var contract = base.ResolveContract(type);
 
-            //TODO: introfuce Node base type and filter for that here
-            if (typeof(IHasLocation).GetTypeInfo().IsAssignableFrom(type))
-            {
-                var objContract = (JsonObjectContract) contract;
-                if (!objContract.Properties.Contains("type"))
-                    objContract.Properties.AddProperty(new JsonProperty()
-                    {
-                        PropertyName = "type",
-                        ValueProvider = new GetTypeValueProvider(),
-                        PropertyType = typeof(string),
-                        Readable = true
-                    });
-            }
-
-            if (typeof(GherkinDocument).GetTypeInfo().IsAssignableFrom(type))
-            {
-                var objContract = (JsonObjectContract) contract;
-                if (!objContract.Properties.Contains("type"))
-                    objContract.Properties.AddProperty(new JsonProperty()
-                    {
-                        PropertyName = "type",
-                        ValueProvider = new GetTypeValueProvider(),
-                        PropertyType = typeof(string),
-                        Readable = true
-                    });
-            }
-
             return contract;
         }
 

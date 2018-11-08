@@ -21,11 +21,15 @@ namespace Gherkin.Specs
 
         private static IEnumerable<object[]> GetTestFiles(string category)
         {
-            string testFileFolder =
-                Path.GetFullPath(Path.Combine(TestFolders.InputFolder, "..", "..", "..", @"testdata", category));
+            string testFileFolder = GetTestFileFolder(category);
 
             return Directory.GetFiles(testFileFolder, "*.feature")
-                            .Select(f => new object[]{f});
+                            .Select(f => new object[]{Path.GetFileName(f)});
+        }
+
+        public static string GetTestFileFolder(string category)
+        {
+            return Path.GetFullPath(Path.Combine(TestFolders.InputFolder, "..", "..", "..", @"testdata", category));
         }
     }
 }

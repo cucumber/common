@@ -10,11 +10,12 @@ namespace Gherkin.Specs
         [Theory, MemberData(nameof(TestFileProvider.GetValidTestFiles), MemberType = typeof(TestFileProvider))]
         public void TestSuccessfulTokenMatching(string testFeatureFile)
         {
-            var featureFileFolder = Path.GetDirectoryName(testFeatureFile);
+            var fullPathToTestFeatureFile = Path.Combine(TestFileProvider.GetTestFileFolder("good"), testFeatureFile);
+            var featureFileFolder = Path.GetDirectoryName(fullPathToTestFeatureFile);
             Debug.Assert(featureFileFolder != null);
-            var expectedTokensFile = testFeatureFile + ".tokens";
+            var expectedTokensFile = fullPathToTestFeatureFile + ".tokens";
 
-            var tokensText = TokensGenerator.TokensGenerator.GenerateTokens(testFeatureFile);
+            var tokensText = TokensGenerator.TokensGenerator.GenerateTokens(fullPathToTestFeatureFile);
             var expectedTokensText = LineEndingHelper.NormalizeLineEndings(File.ReadAllText(expectedTokensFile));
 
             Assert.Equal(expectedTokensText, tokensText);

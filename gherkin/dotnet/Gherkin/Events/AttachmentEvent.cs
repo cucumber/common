@@ -1,7 +1,7 @@
 ﻿using System;
 namespace Gherkin
 {
-    class AttachmentEvent : IEvent
+    public class AttachmentEvent : IEvent
     {
         public readonly string type = "attachment";
         public readonly SourceRef source;
@@ -14,7 +14,7 @@ namespace Gherkin
             this.data = data;
         }
 
-        internal class SourceRef
+        public class SourceRef
         {
             public readonly String uri;
             public readonly Location start;
@@ -26,7 +26,7 @@ namespace Gherkin
             }
         }
 
-        internal class Location
+        public class Location
         {
             public readonly int line;
             public readonly int column;
@@ -38,7 +38,7 @@ namespace Gherkin
             }
         }
 
-        internal class Media
+        public class Media
         {
             public readonly string encoding = "utf-8";
             public readonly string type = "text/x.cucumber.stacktrace+plain";
