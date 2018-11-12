@@ -1,17 +1,16 @@
-﻿
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using Gherkin.Events.Args.Pickle;
 using Gherkin.Pickles;
 using Pickle = Gherkin.Pickles.Pickle;
 
-namespace Gherkin.Stream
+namespace Gherkin.Stream.Converter
 {
     public class PickleEventConverter
     {
-        public Events.Args.Pickle.Pickle Convert(Pickle pickle, string sourceEventUri)
+        public Events.Args.Pickle.PickleEventArgs Convert(Pickle pickle, string sourceEventUri)
         {
-            return new Events.Args.Pickle.Pickle()
+            return new Events.Args.Pickle.PickleEventArgs()
             {
                 Name = pickle.Name == string.Empty ? null : pickle.Name,
                 Locations = pickle.Locations.Select(ConvertLocation).ToReadOnlyCollection(),

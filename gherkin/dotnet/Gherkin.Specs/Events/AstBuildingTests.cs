@@ -1,87 +1,43 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.IO;
-using System.Linq;
-using System.Text;
+﻿using System.Linq;
 using FluentAssertions;
 using Gherkin.Events;
-using Gherkin.Stream;
-using Utf8Json;
+using Gherkin.Specs.Helper;
 using Xunit;
 
 namespace Gherkin.Specs.Events
 {
-    public class AstBuildingTests
+    public class AstBuildingTests : EventTestBase
     {
         [Theory, MemberData(nameof(TestFileProvider.GetValidTestFiles), MemberType = typeof(TestFileProvider))]
         public void TestSuccessfulAstBuilding(string testFeatureFile)
         {
-            var fullPathToTestFeatureFile = Path.Combine(TestFileProvider.GetTestFileFolder("good"), testFeatureFile);
+            var testFile = GetFullPathToTestFeatureFile(testFeatureFile, "good", ".ast.ndjson");
 
-            var featureFileFolder = Path.GetDirectoryName(fullPathToTestFeatureFile);
-            Debug.Assert(featureFileFolder != null);
-            var expectedAstFile = fullPathToTestFeatureFile + ".ast.ndjson";
+            var expectedAstContent = GetExpectedContent(testFile.ExpectedFileFullPath);
 
-            var expectedAstContent = File.ReadAllText(expectedAstFile, Encoding.UTF8);
+            var expectedGherkinDocumentEvent = NDJsonParser.Deserialize<GherkinDocumentEvent>(expectedAstContent);
 
-            var expectedGherkinDocumentEvent = JsonSerializer.Deserialize<GherkinDocumentEvent>(expectedAstContent);
+            var raisedEvents = StartGherkinEventQueue(testFile.FullPath, false, true, false);
 
+            raisedEvents.Should().AllBeOfType<GherkinDocumentEvent>();
 
-            var raisedEvents = new List<IEvent>();
-
-            SourceEvents sourceEvents = new SourceEvents(new List<string>() { fullPathToTestFeatureFile });
-            GherkinEvents gherkinEvents = new GherkinEvents(false, true, false);
-            foreach (var sourceEventEvent in sourceEvents)
-            {
-                foreach (IEvent evt in gherkinEvents.Iterable(sourceEventEvent))
-                {
-                    raisedEvents.Add(evt);
-                }
-            }
-
-            raisedEvents.Count.Should().Be(1);
-
-            var onlyEvent = raisedEvents.Single();
-            var actualGherkinDocumentEvent = (onlyEvent as GherkinDocumentEvent);
-
-            actualGherkinDocumentEvent.Should().BeEquivalentTo(expectedGherkinDocumentEvent, config => config.Excluding(ghe => ghe.SelectedMemberPath.EndsWith("Uri")), $"{testFeatureFile} is not generating the same content as {expectedAstFile}");
+            AssertEvents(testFeatureFile, raisedEvents.Cast<GherkinDocumentEvent>().ToList(), expectedGherkinDocumentEvent, testFile);
         }
 
         [Theory, MemberData(nameof(TestFileProvider.GetInvalidTestFiles), MemberType = typeof(TestFileProvider))]
         public void TestFailedAstBuilding(string testFeatureFile)
         {
-            var fullPathToTestFeatureFile = Path.Combine(TestFileProvider.GetTestFileFolder("bad"), testFeatureFile);
+            var testFile = GetFullPathToTestFeatureFile(testFeatureFile, "bad", ".errors.ndjson");
 
-            var featureFileFolder = Path.GetDirectoryName(fullPathToTestFeatureFile);
-            Debug.Assert(featureFileFolder != null);
-            var expectedAstFile = fullPathToTestFeatureFile + ".errors.ndjson";
+            var expectedAstContent = GetExpectedContent(testFile.ExpectedFileFullPath);
 
-            var expectedPicklesContent = File.ReadAllText(expectedAstFile, Encoding.UTF8);
+            var expectedGherkinDocumentEvent = NDJsonParser.Deserialize<AttachmentEvent>(expectedAstContent);
 
-            var expectedPickleEvents = NDJsonParser.Deserialize<AttachmentEvent>(expectedPicklesContent);
-
-
-            var raisedEvents = new List<IEvent>();
-
-            SourceEvents sourceEvents = new SourceEvents(new List<string>() { fullPathToTestFeatureFile });
-            GherkinEvents gherkinEvents = new GherkinEvents(false, true, false);
-            foreach (var sourceEventEvent in sourceEvents)
-            {
-                foreach (IEvent evt in gherkinEvents.Iterable(sourceEventEvent))
-                {
-                    raisedEvents.Add(evt);
-                }
-            }
-
+            var raisedEvents = StartGherkinEventQueue(testFile.FullPath, false, true, false);
 
             raisedEvents.Should().AllBeOfType<AttachmentEvent>();
 
-            raisedEvents.Should().BeEquivalentTo(expectedPickleEvents, config => config.Excluding(ghe => ghe.Args.Source.Uri).
-                Using<string>(ctx =>
-                {
-                    ctx.Subject.Should().Be(ctx.Expectation?.Replace("\n", Environment.NewLine));
-                }).WhenTypeIs<string>(), $"{testFeatureFile} is not generating the same content as {expectedAstFile}");
+            AssertEvents(testFeatureFile, raisedEvents.Cast<AttachmentEvent>().ToList(), expectedGherkinDocumentEvent, testFile);
         }
     }
 }

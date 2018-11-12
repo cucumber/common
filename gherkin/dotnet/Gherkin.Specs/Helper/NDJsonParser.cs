@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using Utf8Json;
 
-namespace Gherkin.Specs
+namespace Gherkin.Specs.Helper
 {
     public class NDJsonParser
     {

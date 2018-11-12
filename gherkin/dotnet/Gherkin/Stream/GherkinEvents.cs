@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using Gherkin.Events.Args.Attachment;
+using Gherkin.Stream.Converter;
 
 namespace Gherkin.Stream
 {
@@ -72,7 +73,7 @@ namespace Gherkin.Stream
         {
             events.Add(new AttachmentEvent()
             {
-                Args = new AttachmentEventArgs()
+                EventArgs = new AttachmentEventArgs()
                 {
                     Data = e.Message,
                     Source = new Source()

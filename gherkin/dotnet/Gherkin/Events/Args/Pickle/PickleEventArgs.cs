@@ -3,9 +3,9 @@ using System.Runtime.Serialization;
 
 namespace Gherkin.Events.Args.Pickle
 {
-    public class Pickle
+    public class PickleEventArgs
     {
-        public Pickle()
+        public PickleEventArgs()
         {
             Locations = new List<Location>();
             Steps= new List<Step>();

@@ -6,6 +6,6 @@ namespace Gherkin.Events
     public class SourceEvent : IEvent
     {
         [DataMember(Name = "source")]
-        public SourceEventArgs SourceEventArgs { get; set; }
+        public SourceEventArgs EventArgs { get; set; }
     }
 }

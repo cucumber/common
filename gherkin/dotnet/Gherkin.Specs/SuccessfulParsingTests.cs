@@ -1,7 +1,7 @@
 ﻿using System.IO;
 using Gherkin.Ast;
+using Gherkin.Specs.Helper;
 using Newtonsoft.Json;
-using Gherkin.CLI;
 using Xunit;
 
 namespace Gherkin.Specs

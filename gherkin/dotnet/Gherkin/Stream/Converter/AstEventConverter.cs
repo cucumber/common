@@ -11,7 +11,7 @@ using Rule = Gherkin.Events.Args.Ast.Rule;
 using Step = Gherkin.Events.Args.Ast.Step;
 using StepsContainer = Gherkin.Events.Args.Ast.StepsContainer;
 
-namespace Gherkin.Stream
+namespace Gherkin.Stream.Converter
 {
     public class AstEventConverter
     {
@@ -53,9 +53,9 @@ namespace Gherkin.Stream
             };
         }
 
-        private static Events.Args.Ast.Location ConvertLocation(Ast.Location location)
+        private static Location ConvertLocation(Ast.Location location)
         {
-            return new Events.Args.Ast.Location(location.Column, location.Line);
+            return new Location(location.Column, location.Line);
         }
 
 

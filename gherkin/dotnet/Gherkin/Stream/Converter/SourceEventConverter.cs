@@ -1,7 +1,7 @@
 ﻿using Gherkin.Events;
 using Gherkin.Events.Args.Source;
 
-namespace Gherkin.Stream
+namespace Gherkin.Stream.Converter
 {
     public class SourceEventConverter
     {
@@ -9,7 +9,7 @@ namespace Gherkin.Stream
         {
             return new SourceEvent()
             {
-                SourceEventArgs = new SourceEventArgs()
+                EventArgs = new SourceEventArgs()
                 {
                     Uri = sourceEvent.Uri,
                     Data = sourceEvent.Data,

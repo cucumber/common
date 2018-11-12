@@ -1,6 +1,6 @@
 ﻿using System.Diagnostics;
 using System.IO;
-using Gherkin.CLI;
+using Gherkin.Specs.Helper;
 using Xunit;
 
 namespace Gherkin.Specs
