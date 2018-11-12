@@ -53,9 +53,9 @@ namespace Gherkin.Stream
             };
         }
 
-        private static Location ConvertLocation(Ast.Location location)
+        private static Events.Args.Ast.Location ConvertLocation(Ast.Location location)
         {
-            return new Location(location.Column, location.Line);
+            return new Events.Args.Ast.Location(location.Column, location.Line);
         }
 
 

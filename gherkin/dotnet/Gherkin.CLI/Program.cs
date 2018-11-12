@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Gherkin.Events;
 using Gherkin.Stream;
 using Newtonsoft.Json;
 
@@ -41,7 +42,7 @@ namespace Gherkin.CLI
 
             SourceEvents sourceEvents = new SourceEvents (paths);
             GherkinEvents gherkinEvents = new GherkinEvents (printSource, printAst, printPickles);
-            foreach (SourceEvent sourceEventEvent in sourceEvents) {
+            foreach (var sourceEventEvent in sourceEvents) {
                 foreach (IEvent evt in gherkinEvents.Iterable(sourceEventEvent)) {
                     Console.WriteLine (JsonConvert.SerializeObject (evt, jsonSerializerSettings));
                 }

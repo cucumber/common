@@ -34,33 +34,6 @@ skip_build:
 .compared: .sln_built_debug .run_tests $(TOKENS) $(ASTS) $(PICKLES) $(SOURCES) $(ERRORS)
 	touch $@
 
-acceptance/testdata/%.feature.tokens: testdata/%.feature testdata/%.feature.tokens .sln_built_debug .run_tests
-	mkdir -p `dirname $@`
-
-	bin/gherkin-generate-tokens netcoreapp2.0 $< > $@
-	diff --unified $<.tokens $@
-
-	bin/gherkin-generate-tokens net45 $< > $@
-	diff --unified $<.tokens $@
-
-acceptance/testdata/%.feature.source.ndjson: testdata/%.feature testdata/%.feature.source.ndjson .sln_built_debug .run_tests
-	mkdir -p `dirname $@`
-
-	bin/gherkin netcoreapp2.0 --no-pickles --no-ast $< | jq --sort-keys --compact-output "." > $@
-	diff --unified <(jq "." $<.source.ndjson) <(jq "." $@)
-
-	bin/gherkin net45 --no-pickles --no-ast $< | jq --sort-keys --compact-output "." > $@
-	diff --unified <(jq "." $<.source.ndjson) <(jq "." $@)
-
-acceptance/testdata/%.feature.errors.ndjson: testdata/%.feature testdata/%.feature.errors.ndjson .sln_built_debug .run_tests
-	mkdir -p `dirname $@`
-
-	bin/gherkin netcoreapp2.0 --no-source $< | jq --sort-keys --compact-output "." > $@
-	diff --unified $<.errors.ndjson $@
-
-	bin/gherkin net45 --no-source $< | jq --sort-keys --compact-output "." > $@
-	diff --unified $<.errors.ndjson $@
-
 clean:
 	rm -rf .compared .built .run_tests acceptance .sln_built_debug
 	rm -rf */bin

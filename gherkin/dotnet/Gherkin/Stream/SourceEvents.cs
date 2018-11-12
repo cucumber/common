@@ -1,10 +1,15 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 
-namespace Gherkin
+namespace Gherkin.Stream
 {
-    public class SourceEvents : IEnumerable<SourceEvent>
+    public class Sources
+    {
+        public string Uri { get; set; }
+        public string Data { get; set; }
+    }
+
+    public class SourceEvents : IEnumerable<Sources>
     {
         List<string> paths;
 
@@ -13,7 +18,7 @@ namespace Gherkin
             this.paths = paths;
         }
 
-        public IEnumerator<SourceEvent> GetEnumerator ()
+        public IEnumerator<Sources> GetEnumerator ()
         {
             return new SourceEventEnumerator (paths);
         }
@@ -24,7 +29,7 @@ namespace Gherkin
         }
     }
 
-    public class SourceEventEnumerator : IEnumerator<SourceEvent>
+    public class SourceEventEnumerator : IEnumerator<Sources>
     {
         int position = -1;
         List<string> paths;
@@ -34,19 +39,19 @@ namespace Gherkin
             this.paths = paths;
         }
 
-        public SourceEvent Current {
+        public Sources Current {
             get {
                 string path = paths [position];
                 string data = System.IO.File.ReadAllText(path);
-                return new SourceEvent(path, data);
+                return new Sources()
+                {
+                    Data = data,
+                    Uri = path
+                };
             }
         }
 
-        object IEnumerator.Current {
-            get {
-                return Current;
-            }
-        }
+        object IEnumerator.Current => Current;
 
         public void Dispose ()
         {

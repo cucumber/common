@@ -75,9 +75,9 @@ namespace Gherkin.Stream
 
         }
 
-        private Location ConvertLocation(PickleLocation location)
+        private Events.Args.Pickle.Location ConvertLocation(PickleLocation location)
         {
-            return new Location()
+            return new Events.Args.Pickle.Location()
             {
                 Column = location.Column,
                 Line = location.Line

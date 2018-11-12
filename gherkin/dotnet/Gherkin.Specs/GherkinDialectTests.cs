@@ -16,7 +16,7 @@ namespace Gherkin.Specs
         {
             var x = new GherkinDialectProvider();
             
-            Assert.Throws<NoSuchLanguageException>(() => x.GetDialect("nosuchlang", new Location(1, 2)));            
+            Assert.Throws<NoSuchLanguageException>(() => x.GetDialect("nosuchlang", new Ast.Location(1, 2)));            
         }
 
         [Fact]

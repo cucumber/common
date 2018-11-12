@@ -1,22 +1,11 @@
-﻿namespace Gherkin
+﻿using System.Runtime.Serialization;
+using Gherkin.Events.Args.Source;
+
+namespace Gherkin.Events
 {
     public class SourceEvent : IEvent
     {
-        public readonly string type = "source";
-        public readonly string uri;
-        public readonly string data;
-        public readonly Media media = new Media ();
-
-        public SourceEvent (string uri, string data)
-        {
-            this.uri = uri;
-            this.data = data;
-        }
-
-        public class Media
-        {
-            public readonly string encoding = "utf-8";
-            public readonly string type = "text/x.cucumber.gherkin+plain";
-        }
+        [DataMember(Name = "source")]
+        public SourceEventArgs SourceEventArgs { get; set; }
     }
 }

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -31,7 +32,7 @@ namespace Gherkin.Specs.Events
 
             SourceEvents sourceEvents = new SourceEvents(new List<string>() { fullPathToTestFeatureFile });
             GherkinEvents gherkinEvents = new GherkinEvents(false, true, false);
-            foreach (SourceEvent sourceEventEvent in sourceEvents)
+            foreach (var sourceEventEvent in sourceEvents)
             {
                 foreach (IEvent evt in gherkinEvents.Iterable(sourceEventEvent))
                 {
@@ -54,12 +55,18 @@ namespace Gherkin.Specs.Events
 
             var featureFileFolder = Path.GetDirectoryName(fullPathToTestFeatureFile);
             Debug.Assert(featureFileFolder != null);
+            var expectedAstFile = fullPathToTestFeatureFile + ".errors.ndjson";
+
+            var expectedPicklesContent = File.ReadAllText(expectedAstFile, Encoding.UTF8);
+
+            var expectedPickleEvents = NDJsonParser.Deserialize<AttachmentEvent>(expectedPicklesContent);
+
 
             var raisedEvents = new List<IEvent>();
 
             SourceEvents sourceEvents = new SourceEvents(new List<string>() { fullPathToTestFeatureFile });
             GherkinEvents gherkinEvents = new GherkinEvents(false, true, false);
-            foreach (SourceEvent sourceEventEvent in sourceEvents)
+            foreach (var sourceEventEvent in sourceEvents)
             {
                 foreach (IEvent evt in gherkinEvents.Iterable(sourceEventEvent))
                 {
@@ -67,7 +74,14 @@ namespace Gherkin.Specs.Events
                 }
             }
 
+
             raisedEvents.Should().AllBeOfType<AttachmentEvent>();
+
+            raisedEvents.Should().BeEquivalentTo(expectedPickleEvents, config => config.Excluding(ghe => ghe.Args.Source.Uri).
+                Using<string>(ctx =>
+                {
+                    ctx.Subject.Should().Be(ctx.Expectation?.Replace("\n", Environment.NewLine));
+                }).WhenTypeIs<string>(), $"{testFeatureFile} is not generating the same content as {expectedAstFile}");
         }
     }
 }
