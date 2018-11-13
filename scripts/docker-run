@@ -16,9 +16,8 @@ set -ef -o pipefail
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 LOCAL_PATH=$(pwd)
 
-which wslpath
-if [ $? -eq 0 ]
-  then LOCAL_PATH="$(wslpath -w $(pwd))"
+if command -v wslPath &> /dev/null; then
+  LOCAL_PATH="$(wslpath -w $(pwd))"
 fi
 
 source "${DIR}/functions.sh"
