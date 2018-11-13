@@ -18,7 +18,10 @@ namespace Gherkin.Specs.Events
                                                                config => config.Excluding(ghe => ghe.SelectedMemberPath.EndsWith("Uri"))
                                                                                .Using<string>(ctx =>
                                                                                                 {
-                                                                                                    ctx.Subject.Should().Be(ctx.Expectation?.Replace(Environment.NewLine, "\n")?.Replace("\n", Environment.NewLine));
+                                                                                                    var replacedSubject = ctx.Subject?.Replace("\r\n", "\n")?.Replace("\n", Environment.NewLine);
+                                                                                                    var expectedSubject = ctx.Expectation?.Replace("\r\n", "\n")?.Replace("\n", Environment.NewLine);
+
+                                                                                                    replacedSubject.Should().Be(expectedSubject);
                                                                                                 }).WhenTypeIs<string>(),
                                                                $"{testFeatureFile} is not generating the same content as {testFile.ExpectedFileFullPath}");
         }
