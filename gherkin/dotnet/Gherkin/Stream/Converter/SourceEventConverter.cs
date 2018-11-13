@@ -12,8 +12,8 @@ namespace Gherkin.Stream.Converter
                 EventArgs = new SourceEventArgs()
                 {
                     Uri = sourceEvent.Uri,
-                    Data = sourceEvent.Data,
-                    Media = new Events.Media()
+                    Data = sourceEvent.Data == string.Empty ? null : sourceEvent.Data,
+                    Media = new Media()
                 }
             };
         }
