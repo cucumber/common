@@ -99,13 +99,7 @@ namespace Gherkin
 
         private IEnumerable<Tuple<string, int>> SplitCells(string row)
         {
-#if NET45
-            var rowEnum = row.GetEnumerator();                        
-#endif
-
-#if (NETSTANDARD1_5 || NETCOREAPP1_0 || NETCOREAPP1_1)
-            var rowEnum = row.AsEnumerable().GetEnumerator();            
-#endif
+            var rowEnum = row.GetEnumerator();            
 
             string cell = "";
             int pos = 0;

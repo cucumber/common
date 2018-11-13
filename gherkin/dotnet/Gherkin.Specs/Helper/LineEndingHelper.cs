@@ -6,5 +6,10 @@
         {
             return text.Replace("\r\n", "\n").TrimEnd('\n');
         }
+
+        public static string StripLineEndings(string text)
+        {
+            return text.Replace("\r", "").Replace("\n", "").Trim();
+        }
     }
 }

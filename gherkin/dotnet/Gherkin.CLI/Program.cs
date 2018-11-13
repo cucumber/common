@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using Gherkin.Events;
 using Gherkin.Stream;
-using Newtonsoft.Json;
 
 namespace Gherkin.CLI
 {
@@ -10,10 +9,6 @@ namespace Gherkin.CLI
     {
         static int Main(string[] argv)
         {
-            var jsonSerializerSettings = new JsonSerializerSettings ();
-            jsonSerializerSettings.Formatting = Formatting.None;
-            jsonSerializerSettings.NullValueHandling = NullValueHandling.Ignore;
-            jsonSerializerSettings.ContractResolver =  new FeatureAstJSonContractResolver();   
          
 
             List<string> args = new List<string> (argv);
@@ -44,7 +39,7 @@ namespace Gherkin.CLI
             GherkinEvents gherkinEvents = new GherkinEvents (printSource, printAst, printPickles);
             foreach (var sourceEventEvent in sourceEvents) {
                 foreach (IEvent evt in gherkinEvents.Iterable(sourceEventEvent)) {
-                    Console.WriteLine (JsonConvert.SerializeObject (evt, jsonSerializerSettings));
+                    Console.WriteLine (Utf8Json.JsonSerializer.Serialize(evt));
                 }
             }
             return 0;
