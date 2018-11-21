@@ -1,7 +1,7 @@
 ﻿using System.IO;
 using Gherkin.Ast;
+using Gherkin.Specs.Helper;
 using Newtonsoft.Json;
-using Gherkin.CLI;
 using Xunit;
 
 namespace Gherkin.Specs
@@ -11,8 +11,10 @@ namespace Gherkin.Specs
         [Theory, MemberData(nameof(TestFileProvider.GetValidTestFiles), MemberType = typeof(TestFileProvider))]
         public void TestSuccessfulParsing(string testFeatureFile)
         {
+            var fullPathToTestFeatureFile = Path.Combine(TestFileProvider.GetTestFileFolder("good"), testFeatureFile);
+
             var parser = new Parser();
-            var parsingResult = parser.Parse(testFeatureFile);
+            var parsingResult = parser.Parse(fullPathToTestFeatureFile);
             Assert.NotNull(parsingResult);
         }
 

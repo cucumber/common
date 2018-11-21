@@ -26,7 +26,7 @@ namespace Gherkin
         public virtual Token Read()
         {
             var line = reader.ReadLine();
-            var location = new Location(++lineNumber);
+            var location = new Ast.Location(++lineNumber);
             return line == null ? new Token(null, location) : new Token(new GherkinLine(line, lineNumber), location);
         }
     }

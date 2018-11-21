@@ -14,11 +14,17 @@
 #
 set -ef -o pipefail
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+LOCAL_PATH=$(pwd)
+
+if command -v wslPath &> /dev/null; then
+  LOCAL_PATH="$(wslpath -w $(pwd))"
+fi
+
 source "${DIR}/functions.sh"
 dockerfile=$1
 shift
 docker run \
   -e TRAVIS_BRANCH="${TRAVIS_BRANCH}" \
   -e TRAVIS_TAG="${TRAVIS_TAG}" \
-  --volume $(pwd):/app \
+  -v "${LOCAL_PATH}":/app \
   -it $(docker_image ${dockerfile}) $@

@@ -1,17 +1,21 @@
-﻿using Gherkin.Ast;
+﻿using System.Runtime.Serialization;
+using Gherkin.Events.Args;
+using Gherkin.Events.Args.Ast;
 
-namespace Gherkin
+namespace Gherkin.Events
 {
 	public class GherkinDocumentEvent : IEvent
 	{
-        public readonly string type = "gherkin-document";
-        public readonly GherkinDocument document;
-		public readonly string uri;
+	    public GherkinDocumentEvent(GherkinDocumentEventArgs eventArgs)
+	    {
+	        EventArgs = eventArgs;
+	    }
 
-        public GherkinDocumentEvent (string uri, GherkinDocument document)
-		{
-			this.uri = uri;
-			this.document = document;
-		}
+	    public GherkinDocumentEvent()
+	    {
+	    }
+
+	    [DataMember(Name = "gherkinDocument")]
+	    public GherkinDocumentEventArgs EventArgs { get; set; }
 	}
 }

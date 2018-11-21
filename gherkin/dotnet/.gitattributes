@@ -1,0 +1,7 @@
+# Set line endings to LF, even on Windows. Otherwise, execution within Docker fails.
+# See https://help.github.com/articles/dealing-with-line-endings/
+*.sh text eol=lf
+Makefile text eol=lf
+docker-run text eol=lf
+gherkin text eol=lf
+gherkin-generate-tokens text eol=lf

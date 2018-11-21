@@ -47,7 +47,7 @@ namespace Gherkin
             token.MatchedItems = items;
             token.MatchedGherkinDialect = CurrentDialect;
             token.MatchedIndent = indent ?? (token.Line == null ? 0 : token.Line.Indent);
-            token.Location = new Location(token.Location.Line, token.MatchedIndent + 1);
+            token.Location = new Ast.Location(token.Location.Line, token.MatchedIndent + 1);
         }
 
         public bool Match_EOF(Token token)
@@ -90,7 +90,7 @@ namespace Gherkin
 
         private ParserException CreateTokenMatcherException(Token token, string message)
         {
-            return new AstBuilderException(message, new Location(token.Location.Line, token.Line.Indent + 1));
+            return new AstBuilderException(message, new Ast.Location(token.Location.Line, token.Line.Indent + 1));
         }
 
         public bool Match_Language(Token token)
