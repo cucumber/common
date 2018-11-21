@@ -101,12 +101,11 @@ Gherkin/Parser.cs: gherkin.berp gherkin-csharp.razor berp/berp.exe
 .sln_built_debug: Gherkin/Parser.cs $(CS_FILES) Gherkin/gherkin-languages.json
 	echo "Building on $(UNAME)"
 
-	dotnet restore
-	msbuild
+	dotnet build
 
 	touch $@
 
 .run_tests:
 
-	cd Gherkin.Specs; dotnet xunit -nobuild -fxversion 2.0.7
+	cd Gherkin.Specs; dotnet test --no-build -f netcoreapp2.0
 	touch $@
