@@ -1,5 +1,6 @@
 package io.cucumber.datatable;
 
+import java.math.BigDecimal;
 import java.text.NumberFormat;
 import java.text.ParseException;
 
@@ -16,6 +17,10 @@ class NumberParser {
 
     float parseFloat(String s) {
         return parse(s).floatValue();
+    }
+
+    BigDecimal parseDecimal(String s) {
+        return BigDecimal.valueOf(parse(s).doubleValue());
     }
 
     private Number parse(String s) {

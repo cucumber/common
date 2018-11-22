@@ -34,7 +34,7 @@ public final class DataTableTypeRegistry {
         defineDataTableType(new DataTableType(BigDecimal.class, new TableCellTransformer<BigDecimal>() {
             @Override
             public BigDecimal transform(String cell) {
-                return new BigDecimal(cell);
+                return numberParser.parseDecimal(cell);
             }
         }));
 
