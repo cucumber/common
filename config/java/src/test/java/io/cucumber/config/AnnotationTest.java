@@ -4,6 +4,7 @@ import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
+import java.util.regex.Pattern;
 
 public class AnnotationTest extends FieldSetterContract {
     @Override
@@ -21,9 +22,20 @@ public class AnnotationTest extends FieldSetterContract {
         String message();
 
         String[] stringlist();
+
+        MyConfig.Myenum myenum();
+
+        String regexp();
     }
 
-    @MyAnnotation(somebool = true, meaning = 42, message = "hello", stringlist = {"one", "two"})
+    @MyAnnotation(
+            somebool = true,
+            meaning = 42,
+            message = "hello",
+            stringlist = {"one", "two"},
+            myenum = MyConfig.Myenum.BAR,
+            regexp = "^hello$"
+    )
     private class MyClass {
 
     }

@@ -8,7 +8,7 @@ jobs:
   - stage: deploy
     jdk: oraclejdk8
     script:
-    - "./scripts/mvn_deploy.sh"
+    - "[ -z $TRAVIS_TAG ] && ./scripts/mvn_deploy.sh"
 script: make default
 env:
   global:

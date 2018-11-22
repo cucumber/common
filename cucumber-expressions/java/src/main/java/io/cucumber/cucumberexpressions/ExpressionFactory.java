@@ -15,7 +15,7 @@ public class ExpressionFactory {
     private static final Pattern END_ANCHOR = Pattern.compile(".*\\$$");
     private static final Pattern SCRIPT_STYLE_REGEXP = Pattern.compile("^/(.*)/$");
     private static final Pattern PARENS = Pattern.compile("\\(([^)]+)\\)");
-    private static final Pattern NON_REGEXP_CHARS = Pattern.compile("[^\\[\\].+*]+");
+    private static final Pattern REGEXP_CHARS = Pattern.compile("[\\[\\].+*]+");
     private final ParameterTypeRegistry parameterTypeRegistry;
 
     public ExpressionFactory(ParameterTypeRegistry parameterTypeRegistry) {
@@ -37,10 +37,9 @@ public class ExpressionFactory {
         m = PARENS.matcher(expressionString);
         if (m.find()) {
             String insideParens = m.group(1);
-            if (NON_REGEXP_CHARS.matcher(insideParens).lookingAt()) {
-                return new CucumberExpression(expressionString, parameterTypeRegistry);
+            if (REGEXP_CHARS.matcher(insideParens).find()) {
+                return new RegularExpression(Pattern.compile(expressionString), parameterTypeRegistry);
             }
-            return new RegularExpression(Pattern.compile(expressionString), parameterTypeRegistry);
         }
         return new CucumberExpression(expressionString, parameterTypeRegistry);
     }

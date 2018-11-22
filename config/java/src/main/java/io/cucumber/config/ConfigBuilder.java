@@ -4,8 +4,9 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStreamReader;
-import java.io.UnsupportedEncodingException;
+import java.io.Reader;
 import java.lang.annotation.Annotation;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -48,27 +49,44 @@ public class ConfigBuilder {
         this.environmentVariables = environmentVariables;
     }
 
-    public <T> T build(T t) throws FileNotFoundException, UnsupportedEncodingException {
+    /**
+     * Builds a config.
+     *
+     * @param config the initial config object, with default values set.
+     * @param <T>    The type of the config
+     * @return the original config object, with new values from the config sources.
+     */
+    public <T> T build(T config) {
         List<MapBuilder> mapBuilders = new ArrayList<>();
         File yamlFile = new File(basename + ".yaml");
         if (yamlFile.isFile()) {
-            mapBuilders.add(new YamlBuilder(fileConfigKeys, new InputStreamReader(new FileInputStream(yamlFile), "UTF-8")));
+            mapBuilders.add(new YamlBuilder(fileConfigKeys, getFileReader(yamlFile)));
         }
 
         File jsonFile = new File(basename + ".json");
         if (jsonFile.isFile()) {
-            mapBuilders.add(new JsonBuilder(fileConfigKeys, new InputStreamReader(new FileInputStream(jsonFile), "UTF-8")));
+            mapBuilders.add(new JsonBuilder(fileConfigKeys, getFileReader(jsonFile)));
         }
 
-        mapBuilders.add(new AnnotationBuilder(annotation));
+        if(annotation != null) {
+            mapBuilders.add(new AnnotationBuilder(annotation));
+        }
         mapBuilders.add(new StringMapBuilder(environmentVariablePrefix, systemProperties));
         mapBuilders.add(new StringMapBuilder(environmentVariablePrefix, environmentVariables));
-        mapBuilders.add(new OptparseBuilder(t, optparseSurplusKey, asList(commandLineArgs), optparseAliases));
+        mapBuilders.add(new OptparseBuilder(config, optparseSurplusKey, asList(commandLineArgs), optparseAliases));
 
-        FieldSetter fieldSetter = new FieldSetter(t);
+        FieldSetter fieldSetter = new FieldSetter(config);
         for (MapBuilder mapBuilder : mapBuilders) {
             fieldSetter.setFields(mapBuilder.buildMap());
         }
-        return t;
+        return config;
+    }
+
+    private Reader getFileReader(File file) {
+        try {
+            return new InputStreamReader(new FileInputStream(file), StandardCharsets.UTF_8);
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException("Unexpected - could not find file " + file.getAbsolutePath(), e);
+        }
     }
 }

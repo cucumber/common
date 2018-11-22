@@ -1,4 +1,0 @@
-# manyrepo: cucumber/html-formatter-nodejs
-language: node_js
-node_js:
-  - "6"

@@ -17,6 +17,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Fixed
 
+* (Java) Improve heuristics for creating Cucumber/Regular Expressions from strings
+  ([#515](https://github.com/cucumber/cucumber/issues/515)
+   [#518](https://github.com/cucumber/cucumber/pull/518)
+   [aslakhellesoy])
+
 ## [6.2.0] - 2018-10-28
 
 ### Added

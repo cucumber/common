@@ -8,8 +8,8 @@ jobs:
   - stage: deploy
     go: '1.11'
     before_install:
-    - curl -L https://github.com/upx/upx/releases/download/v3.94/upx-3.94-amd64_linux.tar.xz | tar Jx
-    - export PATH=$PATH:$PWD/upx-3.94-amd64_linux
+    - curl -L https://github.com/upx/upx/releases/download/v3.95/upx-3.95-amd64_linux.tar.xz | tar Jx
+    - export PATH=$PATH:$PWD/upx-3.95-amd64_linux
     script:
     - make
     - make .dist-compressed

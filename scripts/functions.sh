@@ -258,6 +258,13 @@ function project_type()
   fi
 }
 
+function find_path()
+{
+  subrepo=$1
+  glob=$2
+  find "${subrepo}" -name "${glob}" | head -1
+}
+
 ################ MAVEN ################
 
 function maven_version()

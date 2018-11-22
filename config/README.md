@@ -13,17 +13,19 @@ several sources:
 You provide a configuration object, which is a simple object with default
 field values. The library overrides those values from the sources above.
 
-Field values can be of three types:
+Field values can be of the following types:
 
 * boolean
 * string
 * array of strings
+* RegExp/Pattern
+* enum (Java only)
 
 Field values are overridden in the order of the sources above.
 Fields of string array type are either appended to or replaced, depending on the source.
 
 * Appending sources: YAML, JSON, Java Annotations, System properties
-* Replacing sources: Command line arguments and Environment variables
+* Replacing sources: Environment variables and Command line arguments 
 
 ## How it works
 

@@ -10,6 +10,8 @@ public class YamlTest extends FieldSetterContract {
                 "  somebool: true\n" +
                 "  meaning: 42\n" +
                 "  message: hello\n" +
+                "  myenum: BAR\n" +
+                "  regexp: ^hello$\n" +
                 "  stringlist:\n" +
                 "  - one\n" +
                 "  - two\n"
