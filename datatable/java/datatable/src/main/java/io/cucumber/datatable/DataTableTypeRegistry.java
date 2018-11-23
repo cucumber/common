@@ -5,7 +5,6 @@ import io.cucumber.datatable.dependency.com.fasterxml.jackson.databind.JavaType;
 import java.lang.reflect.Type;
 import java.math.BigDecimal;
 import java.math.BigInteger;
-import java.text.NumberFormat;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
@@ -21,8 +20,7 @@ public final class DataTableTypeRegistry {
     private TableCellByTypeTransformer defaultDataTableCellTransformer;
 
     public DataTableTypeRegistry(Locale locale) {
-        NumberFormat numberFormat = NumberFormat.getNumberInstance(locale);
-        final NumberParser numberParser = new NumberParser(numberFormat);
+        final NumberParser numberParser = new NumberParser(locale);
 
         defineDataTableType(new DataTableType(BigInteger.class, new TableCellTransformer<BigInteger>() {
             @Override
@@ -34,7 +32,7 @@ public final class DataTableTypeRegistry {
         defineDataTableType(new DataTableType(BigDecimal.class, new TableCellTransformer<BigDecimal>() {
             @Override
             public BigDecimal transform(String cell) {
-                return numberParser.parseDecimal(cell);
+                return numberParser.parseBigDecimal(cell);
             }
         }));
 
