@@ -6,13 +6,12 @@ import org.junit.rules.ExpectedException;
 
 import java.lang.reflect.Type;
 import java.math.BigDecimal;
-import java.util.Collections;
-import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
 import static io.cucumber.datatable.TypeFactory.aListOf;
 import static io.cucumber.datatable.TypeFactory.constructType;
+import static java.util.Collections.singletonList;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertSame;
@@ -21,7 +20,7 @@ public class DataTableTypeRegistryTest {
 
     private static final Type LIST_OF_LIST_OF_PLACE = aListOf(aListOf(Place.class));
     private static final Type LIST_OF_PLACE = aListOf(Place.class);
-    private static final Type LIST_OF_LIST_OF_DECIMAL = aListOf(aListOf(BigDecimal.class));
+    private static final Type LIST_OF_LIST_OF_BIG_DECIMAL = aListOf(aListOf(BigDecimal.class));
     private static final TableCellByTypeTransformer PLACE_TABLE_CELL_TRANSFORMER = new TableCellByTypeTransformer() {
         @Override
         @SuppressWarnings("unchecked")
@@ -123,21 +122,22 @@ public class DataTableTypeRegistryTest {
 
     @Test
     public void parse_decimal_with_english_locale() {
-        expectDecimalValueForDecimalStringInLocale(Locale.ENGLISH, 12.45, "12.45");
+        DataTableTypeRegistry registry = new DataTableTypeRegistry(Locale.ENGLISH);
+        DataTableType dataTableType = registry.lookupTableTypeByType(LIST_OF_LIST_OF_BIG_DECIMAL);
+        assertEquals(
+                singletonList(singletonList(new BigDecimal("2105.88"))),
+                dataTableType.transform(singletonList(singletonList("2,105.88")))
+        );
     }
 
     @Test
-    public void parse_decimal_with_polish_locale() {
-        expectDecimalValueForDecimalStringInLocale(Locale.forLanguageTag("pl"), 12.45, "12,45");
+    public void parse_decimal_with_german_locale() {
+        DataTableTypeRegistry registry = new DataTableTypeRegistry(Locale.GERMAN);
+        DataTableType dataTableType = registry.lookupTableTypeByType(LIST_OF_LIST_OF_BIG_DECIMAL);
+        assertEquals(
+                singletonList(singletonList(new BigDecimal("2105.88"))),
+                dataTableType.transform(singletonList(singletonList("2.105,88")))
+        );
 
-    }
-
-    private void expectDecimalValueForDecimalStringInLocale(Locale locale, double expectedDecimalValue, String decimalString) {
-        DataTableTypeRegistry typeRegistry = new DataTableTypeRegistry(locale);
-        //noinspection unchecked
-        List<List<BigDecimal>> transform = (List<List<BigDecimal>>) typeRegistry.lookupTableTypeByType(LIST_OF_LIST_OF_DECIMAL).transform(Collections.singletonList(Collections.singletonList(decimalString)));
-
-        assertEquals(1,transform.size());
-        assertEquals(0,transform.get(0).get(0).compareTo(BigDecimal.valueOf(expectedDecimalValue)));
     }
 }
