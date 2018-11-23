@@ -123,17 +123,17 @@ public class DataTableTypeRegistryTest {
 
     @Test
     public void parse_decimal_with_english_locale() {
-        parse_decimal_with_provided_locale(registry, "12.45", 12.45);
+        expectDecimalValueForDecimalStringInLocale(Locale.ENGLISH, 12.45, "12.45");
     }
 
     @Test
     public void parse_decimal_with_polish_locale() {
-        DataTableTypeRegistry plRegistry = new DataTableTypeRegistry(Locale.forLanguageTag("pl"));
-        parse_decimal_with_provided_locale(plRegistry, "12,45", 12.45);
+        expectDecimalValueForDecimalStringInLocale(Locale.forLanguageTag("pl"), 12.45, "12,45");
 
     }
 
-    private void parse_decimal_with_provided_locale(DataTableTypeRegistry typeRegistry, String decimalString, double expectedDecimalValue) {
+    private void expectDecimalValueForDecimalStringInLocale(Locale locale, double expectedDecimalValue, String decimalString) {
+        DataTableTypeRegistry typeRegistry = new DataTableTypeRegistry(locale);
         //noinspection unchecked
         List<List<BigDecimal>> transform = (List<List<BigDecimal>>) typeRegistry.lookupTableTypeByType(LIST_OF_LIST_OF_DECIMAL).transform(Collections.singletonList(Collections.singletonList(decimalString)));
 
