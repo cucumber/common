@@ -1,4 +1,4 @@
-package io.cucumber.datatable;
+package io.cucumber.cucumberexpressions;
 
 import org.junit.Test;
 

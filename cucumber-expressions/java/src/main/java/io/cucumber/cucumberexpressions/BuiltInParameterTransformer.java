@@ -13,8 +13,7 @@ final class BuiltInParameterTransformer implements ParameterByTypeTransformer {
     private final NumberParser numberParser;
 
     BuiltInParameterTransformer(Locale locale) {
-        NumberFormat numberFormat = NumberFormat.getNumberInstance(locale);
-        this.numberParser = new NumberParser(numberFormat);
+        this.numberParser = new NumberParser(locale);
     }
 
     @Override
@@ -37,7 +36,7 @@ final class BuiltInParameterTransformer implements ParameterByTypeTransformer {
         }
 
         if (BigDecimal.class.equals(toValueClass)) {
-            return new BigDecimal(fromValue);
+            return numberParser.parseBigDecimal(fromValue);
         }
 
         if (Byte.class.equals(toValueClass) || byte.class.equals(toValueClass)) {
