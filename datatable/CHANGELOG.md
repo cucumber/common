@@ -17,6 +17,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Fixed
 
+
+## [1.1.8] - 2018-11-29
+
+### Fixed
+* Fix parsing BigDecimal with locale ([#539](https://github.com/cucumber/cucumber/pull/539) [lsuski], [mpkorstanje])
+
 ## [1.1.7] - 2018-10-26
 
 ### Fixed
