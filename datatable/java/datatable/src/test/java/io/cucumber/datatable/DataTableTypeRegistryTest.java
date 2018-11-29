@@ -5,15 +5,13 @@ import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
 import java.lang.reflect.Type;
-import java.util.List;
+import java.math.BigDecimal;
 import java.util.Locale;
 import java.util.Map;
 
 import static io.cucumber.datatable.TypeFactory.aListOf;
 import static io.cucumber.datatable.TypeFactory.constructType;
-import static java.util.Arrays.asList;
 import static java.util.Collections.singletonList;
-import static java.util.Objects.requireNonNull;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertSame;
@@ -22,6 +20,7 @@ public class DataTableTypeRegistryTest {
 
     private static final Type LIST_OF_LIST_OF_PLACE = aListOf(aListOf(Place.class));
     private static final Type LIST_OF_PLACE = aListOf(Place.class);
+    private static final Type LIST_OF_LIST_OF_BIG_DECIMAL = aListOf(aListOf(BigDecimal.class));
     private static final TableCellByTypeTransformer PLACE_TABLE_CELL_TRANSFORMER = new TableCellByTypeTransformer() {
         @Override
         @SuppressWarnings("unchecked")
@@ -119,5 +118,26 @@ public class DataTableTypeRegistryTest {
         DataTableType lookupTableTypeByType = registry.lookupTableTypeByType(LIST_OF_PLACE);
 
         assertSame(entry, lookupTableTypeByType);
+    }
+
+    @Test
+    public void parse_decimal_with_english_locale() {
+        DataTableTypeRegistry registry = new DataTableTypeRegistry(Locale.ENGLISH);
+        DataTableType dataTableType = registry.lookupTableTypeByType(LIST_OF_LIST_OF_BIG_DECIMAL);
+        assertEquals(
+                singletonList(singletonList(new BigDecimal("2105.88"))),
+                dataTableType.transform(singletonList(singletonList("2,105.88")))
+        );
+    }
+
+    @Test
+    public void parse_decimal_with_german_locale() {
+        DataTableTypeRegistry registry = new DataTableTypeRegistry(Locale.GERMAN);
+        DataTableType dataTableType = registry.lookupTableTypeByType(LIST_OF_LIST_OF_BIG_DECIMAL);
+        assertEquals(
+                singletonList(singletonList(new BigDecimal("2105.88"))),
+                dataTableType.transform(singletonList(singletonList("2.105,88")))
+        );
+
     }
 }
