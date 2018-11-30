@@ -1,1 +1,0 @@
-{"pickle":{"language":"no","locations":[{"column":3,"line":4}],"name":"Parsing many languages","steps":[{"locations":[{"column":10,"line":5}],"text":"Gherkin supports many languages"},{"locations":[{"column":9,"line":6}],"text":"Norwegian keywords are parsed"},{"locations":[{"column":8,"line":7}],"text":"they should be recognized"}],"uri":"testdata/good/i18n_no.feature"}}

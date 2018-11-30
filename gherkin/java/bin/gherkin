@@ -1,9 +1,0 @@
-#!/usr/bin/env bash
-DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
-
-gherkin_jar=$(ls ${DIR}/../target/*.jar | tail -1)
-messages_version=$(cat pom.xml | grep "<io.cucumber.messages.version>" | sed -E "s/.*>(.*)<.*/\1/")
-
-java \
-    -classpath "${gherkin_jar}:$HOME/.m2/repository/io/cucumber/messages/${messages_version}/messages-${messages_version}.jar" \
-    io.cucumber.gherkin.Main $*

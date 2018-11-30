@@ -1,1 +1,0 @@
-{"source":{"data":"Feature: Minimal Scenario Outline\n\n  Scenario: minimalistic\n    Given the <what>\n\n    Examples:\n      | what       |\n      | minimalism |\n","media":{"contentType":"text/x.cucumber.gherkin+plain","encoding":"UTF-8"},"uri":"testdata/good/scenario_outline.feature"}}
