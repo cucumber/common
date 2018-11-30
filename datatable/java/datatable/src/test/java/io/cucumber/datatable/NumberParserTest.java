@@ -11,7 +11,7 @@ import static org.junit.Assert.assertEquals;
 
 public class NumberParserTest {
 
-    private final NumberParser english = new NumberParser(Locale.forLanguageTag("fy"));
+    private final NumberParser english = new NumberParser(Locale.ENGLISH);
     private final NumberParser german = new NumberParser(Locale.GERMAN);
 
     @Test
