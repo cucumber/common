@@ -1,6 +1,6 @@
 ## Release process
 
-*Note:* When a module is released, artefacts will be published for *all* implementations
+*Note:* When a module is released, artifacts will be published for *all* implementations
 of the module, and all associated module repos will be tagged.
 
 Checklist:
