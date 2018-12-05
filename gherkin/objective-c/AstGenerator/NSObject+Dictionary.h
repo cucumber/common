@@ -2,6 +2,6 @@
 
 @interface NSObject (Dictionary)
 
-+ (NSDictionary *)dictionary;
+- (NSDictionary *)dictionary;
 
 @end

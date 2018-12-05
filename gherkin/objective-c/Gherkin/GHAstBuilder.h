@@ -1,10 +1,10 @@
-﻿#import <Foundation/Foundation.h>
+#import <Foundation/Foundation.h>
 #import "GHAstNode.h"
 #import "GHParser.h"
 @protocol GHAstBuilderProtocol;
 @class GHToken;
 
-@interface GHAstBuilder<GHAstBuilderProtocol> : NSObject
+@interface GHAstBuilder : NSObject <GHAstBuilderProtocol>
 
 - (id)init;
 - (void)reset;

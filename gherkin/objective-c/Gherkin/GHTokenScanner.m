@@ -1,4 +1,4 @@
-﻿#import <Foundation/Foundation.h>
+#import <Foundation/Foundation.h>
 #import "GHTokenScanner.h"
 
 #import "GHToken.h"
@@ -23,7 +23,7 @@
         {
             lines = [[NSMutableArray<NSString *> alloc] init];
             [theFileContent enumerateLinesUsingBlock:^(NSString * _Nonnull line, BOOL * _Nonnull stop) {
-                [lines addObject: line];
+                [self->lines addObject: line];
             }];
         }
     }
