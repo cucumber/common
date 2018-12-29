@@ -196,9 +196,14 @@ message Pickle {
 message PickleStep {
   string text = 1;
   repeated Location locations = 2;
-  oneof argument {
-    PickleDocString doc_string = 3;
-    PickleTable data_table = 4;
+  reserved 3, 4;
+  PickleStepArgument argument = 5;
+}
+
+message PickleStepArgument {
+  oneof message {
+    PickleDocString doc_string = 1;
+    PickleTable data_table = 2;
   }
 }
 
@@ -404,45 +409,43 @@ message CommandRunAfterTestRunHooks {
 
 message CommandInitializeTestCase {
   string actionId = 1;
-  string testCaseId = 2;
   Pickle pickle = 3;
 }
 
 message CommandRunBeforeTestCaseHook {
   string actionId = 1;
-  string testCaseId = 2;
+  reserved 2;
   string testCaseHookDefinitionId = 3;
+  string pickleId = 4;
 }
 
 message CommandRunAfterTestCaseHook {
   string actionId = 1;
-  string testCaseId = 2;
+  reserved 2;
   string testCaseHookDefinitionId = 3;
+  string pickleId = 4;
 }
 
 message CommandRunTestStep {
   string actionId = 1;
-  string testCaseId = 2;
+  reserved 2;
   string stepDefinitionId = 3;
   repeated PatternMatch patternMatches = 4;
+  string pickleId = 5;
 }
 
 message PatternMatch {
   repeated string captures = 1;
   string parameterTypeName = 2;
-  oneof pickleArgument {
-    PickleDocString doc_string = 3;
-    PickleTable data_table = 4;
-  }
+  reserved 3, 4;
+  PickleStepArgument pickleStepArgument = 5;
 }
 
 message CommandGenerateSnippet {
   string actionId = 1;
   repeated GeneratedExpression generatedExpressions = 2;
-  oneof pickleArgument {
-    PickleDocString doc_string = 3;
-    PickleTable data_table = 4;
-  }
+  reserved 3, 4;
+  PickleStepArgument pickleStepArgument = 5;
 }
 
 message GeneratedExpression {
