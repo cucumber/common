@@ -409,6 +409,7 @@ message CommandRunAfterTestRunHooks {
 
 message CommandInitializeTestCase {
   string actionId = 1;
+  reserved 2;
   Pickle pickle = 3;
 }
 
