@@ -6,6 +6,7 @@
 #include "ast.h"
 #include "example_table.h"
 #include "location.h"
+#include "step.h"
 #include "tag.h"
 #include "scenario_definition.h"
 

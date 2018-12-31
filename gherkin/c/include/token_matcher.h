@@ -29,6 +29,7 @@ struct TokenMatcher {
     match_function match_ExamplesLine;
     match_function match_BackgroundLine;
     match_function match_StepLine;
+    match_function match_RuleLine;
     match_function match_Empty;
     match_function match_TableRow;
     match_function match_Comment;

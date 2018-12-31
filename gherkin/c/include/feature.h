@@ -7,6 +7,7 @@
 #include "location.h"
 #include "tag.h"
 #include "background.h"
+#include "rule.h"
 #include "scenario_definition.h"
 
 #ifdef __cplusplus
@@ -23,9 +24,10 @@ typedef struct Feature {
     const wchar_t* description;
     const Tags* tags;
     const ScenarioDefinitions* scenario_definitions;
+    const Rules* rules;
 } Feature;
 
-const Feature* Feature_new(Location location, const wchar_t* language, const wchar_t* keyword, const wchar_t* name, const wchar_t* description, const Tags* tags, const ScenarioDefinitions* scenario_definitions);
+const Feature* Feature_new(Location location, const wchar_t* language, const wchar_t* keyword, const wchar_t* name, const wchar_t* description, const Tags* tags, const ScenarioDefinitions* scenario_definitions, Rules const* rules);
 
 void Feature_delete(const Feature* feature);
 

@@ -21,6 +21,8 @@ bool TokenMatcher_match_BackgroundLine(TokenMatcher* token_matcher, Token* token
 
 bool TokenMatcher_match_StepLine(TokenMatcher* token_matcher, Token* token);
 
+bool TokenMatcher_match_RuleLine(TokenMatcher* token_matcher, Token* token);
+
 bool TokenMatcher_match_Empty(TokenMatcher* token_matcher, Token* token);
 
 bool TokenMatcher_match_TableRow(TokenMatcher* token_matcher, Token* token);
@@ -63,6 +65,7 @@ TokenMatcher* TokenMatcher_new(const wchar_t* default_language) {
     token_matcher->match_ExamplesLine = &TokenMatcher_match_ExamplesLine;
     token_matcher->match_BackgroundLine = &TokenMatcher_match_BackgroundLine;
     token_matcher->match_StepLine = &TokenMatcher_match_StepLine;
+    token_matcher->match_RuleLine = &TokenMatcher_match_RuleLine;
     token_matcher->match_Empty = &TokenMatcher_match_Empty;
     token_matcher->match_TableRow = &TokenMatcher_match_TableRow;
     token_matcher->match_Comment = &TokenMatcher_match_Comment;
@@ -130,6 +133,10 @@ bool TokenMatcher_match_StepLine(TokenMatcher* token_matcher, Token* token) {
         return true;
     result = match_step_keywords(token, token_matcher->dialect->but_keywords);
     return result;
+}
+
+bool TokenMatcher_match_RuleLine(TokenMatcher* token_matcher, Token* token) {
+    return match_title_line(token, Token_RuleLine, token_matcher->dialect->rule_keywords);
 }
 
 bool TokenMatcher_match_Empty(TokenMatcher* token_matcher, Token* token) {

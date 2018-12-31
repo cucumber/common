@@ -122,6 +122,83 @@ int Compiler_compile(Compiler* compiler, const GherkinDocument* gherkin_document
         }
     }
 
+    for (int m = 0; m < feature->rules->rule_count; ++m) {
+        int rule_background_step_count = 0;
+        const Steps* rule_background_steps = 0;
+
+        ScenarioDefinitions const* scenario_definitions = feature->rules->rules[m]->scenario_definitions;
+        for (i = 0; i < scenario_definitions->scenario_definition_count; ++i) {
+            if (scenario_definitions->scenario_definitions[i]->type == Gherkin_Background) {
+                const Background* background = (const Background*)scenario_definitions->scenario_definitions[i];
+                rule_background_step_count = background->steps->step_count;
+                rule_background_steps = background->steps;
+            }
+            else if (scenario_definitions->scenario_definitions[i]->type == Gherkin_Scenario) {
+                const Scenario* scenario = (const Scenario*)scenario_definitions->scenario_definitions[i];
+                int k;
+                if (scenario->examples->example_count == 0) {
+                    const PickleLocations* locations = PickleLocations_new_single(scenario->location.line, scenario->location.column);
+                    const PickleTags* tags = create_pickle_tags(feature->tags, scenario->tags, 0);
+                    PickleSteps* steps = (PickleSteps*) malloc(sizeof(PickleSteps));
+                    if (scenario->steps->step_count == 0)
+                    {
+                        steps->step_count = 0;
+                        steps->steps = 0;
+                    } else {
+                        steps->step_count = scenario->steps->step_count + background_step_count + rule_background_step_count;
+                        steps->steps = (PickleStep*) malloc((steps->step_count) * sizeof(PickleStep));
+                        if (background_steps)
+                        {
+                            copy_steps(steps->steps, background_steps);
+                        }
+                        if (rule_background_steps)
+                        {
+                            copy_steps(steps->steps + background_step_count, rule_background_steps);
+                        }
+                        copy_steps(steps->steps + background_step_count + rule_background_step_count, scenario->steps);
+                    }
+                    ItemQueue_add(compiler->pickle_list, (Item*) Pickle_new(feature->language, locations, tags, scenario->name, steps));
+                } else {
+                    for (k = 0; k < scenario->examples->example_count; ++k) {
+                        ExampleTable* example_table = &scenario->examples->example_table[k];
+                        if (!example_table->table_header) {
+                            continue;
+                        }
+                        int l;
+                        for (l = 0; l < example_table->table_body->row_count; ++l) {
+                            const TableRow* table_row = &example_table->table_body->table_rows[l];
+                            const PickleLocations* locations = PickleLocations_new_double(table_row->location.line, table_row->location.column, scenario->location.line, scenario->location.column);
+                            const PickleTags* tags = create_pickle_tags(feature->tags, scenario->tags, example_table->tags);
+                            PickleSteps* steps = (PickleSteps*)malloc(sizeof(PickleSteps));
+                            if (scenario->steps->step_count == 0) {
+                                steps->step_count = 0;
+                                steps->steps = 0;
+                            } else {
+                                steps->step_count = scenario->steps->step_count + background_step_count + rule_background_step_count;
+                                steps->steps = (PickleStep*)malloc(steps->step_count * sizeof(PickleStep));
+                                if (background_steps) {
+                                    copy_steps(steps->steps, background_steps);
+                                }
+                                if (rule_background_steps) {
+                                    copy_steps(steps->steps, rule_background_steps);
+                                }
+                                int j;
+                                for (j = 0; j < scenario->steps->step_count; ++j) {
+                                    int column_offset = scenario->steps->steps[j].keyword ? StringUtilities_code_point_length(scenario->steps->steps[j].keyword) : 0;
+                                    const PickleLocations* step_locations = PickleLocations_new_double(table_row->location.line, table_row->location.column, scenario->steps->steps[j].location.line, scenario->steps->steps[j].location.column + column_offset);
+                                    const PickleStep* step = expand_outline_step(&scenario->steps->steps[j], example_table->table_header, table_row, step_locations);
+                                    PickleStep_transfer(&steps->steps[background_step_count + j], (PickleStep*)step);
+                                }
+                            }
+                            const wchar_t* new_name = create_expanded_text(scenario->name, example_table->table_header, table_row);
+                            ItemQueue_add(compiler->pickle_list, (Item*)Pickle_new(feature->language, locations, tags, new_name, steps));
+                            free((void*)new_name);
+                        }
+                    }
+                }
+            }
+        }
+    }
     return 0;
 }
 

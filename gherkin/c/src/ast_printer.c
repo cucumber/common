@@ -21,6 +21,8 @@ static const wchar_t* ast_item_type_to_string(GherkinAstType type) {
         return L"Background";
     case Gherkin_Scenario:
         return L"Scenario";
+    case Gherkin_Rule:
+        return L"Rule";
     case Gherkin_Step:
         return L"Step";
     case Gherkin_DataTable:
@@ -243,6 +245,46 @@ static void print_comment(FILE* file, const Comment* comment) {
     fprintf(file, "}");
 }
 
+void print_scenario_definitions(FILE* file, const ScenarioDefinitions* scenario_definitions)
+{
+    int i;
+    for (i = 0; i < scenario_definitions->scenario_definition_count; ++i) {
+        if (i > 0) {
+            fprintf(file, ",");
+        }
+        if (scenario_definitions->scenario_definitions[i]->type == Gherkin_Background) {
+            print_background(file, (Background*)scenario_definitions->scenario_definitions[i]);
+        } else {
+            print_scenario(file, (Scenario*)scenario_definitions->scenario_definitions[i]);
+        }
+    }
+}
+
+void print_rule(FILE* file, const Rule* rule)
+{
+    fprintf(file, "{");
+    fprintf(file, "\"type\":\"%ls\",", ast_item_type_to_string(rule->type));
+    print_location(file, &rule->location);
+    //print_keyword(file, rule->keyword);
+    //print_name(file, rule->name);
+    print_description(file, rule->description);
+    fprintf(file, "\"children\":[");
+    print_scenario_definitions(file, rule->scenario_definitions);
+    fprintf(file, "]");
+    fprintf(file, "}\n");
+}
+
+void print_rules(FILE* file, const Rules* rules)
+{
+    for (int i = 0; i < rules->rule_count; ++i)
+    {
+        if (i > 0)
+            fprintf(file, ",");
+
+        print_rule(file, rules->rules[i]);
+    }
+}
+
 void print_feature(FILE* file, const Feature* feature) {
     fprintf(file, "{");
     fprintf(file, "\"type\":\"%ls\",", ast_item_type_to_string(feature->type));
@@ -251,7 +293,7 @@ void print_feature(FILE* file, const Feature* feature) {
     for (i = 0; i < feature->tags->tag_count; ++i) {
         if (i > 0) {
             fprintf(file, ",");
-    }
+        }
         print_tag(file, &feature->tags->tags[i]);
     }
     fprintf(file, "],");
@@ -263,19 +305,12 @@ void print_feature(FILE* file, const Feature* feature) {
     print_name(file, feature->name);
     print_description(file, feature->description);
     fprintf(file, "\"children\":[");
-    for (i = 0; i < feature->scenario_definitions->scenario_definition_count; ++i) {
-        if (i > 0) {
-            fprintf(file, ",");
-        }
-        if (feature->scenario_definitions->scenario_definitions[i]->type == Gherkin_Background) {
-            print_background(file, (Background*)feature->scenario_definitions->scenario_definitions[i]);
-        }
-        else if (feature->scenario_definitions->scenario_definitions[i]->type == Gherkin_Scenario) {
-            print_scenario(file, (Scenario*)feature->scenario_definitions->scenario_definitions[i]);
-        } else {
-            print_scenario(file, (Scenario*)feature->scenario_definitions->scenario_definitions[i]);
-        }
+    print_scenario_definitions(file, feature->scenario_definitions);
+    if (feature->scenario_definitions->scenario_definition_count > 0 && feature->rules->rule_count > 0)
+    {
+        fprintf(file, ",");
     }
+    print_rules(file, feature->rules);
     fprintf(file, "]");
     fprintf(file, "}\n");
 }

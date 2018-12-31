@@ -27,7 +27,9 @@ LIST(APPEND GHERKIN_SRS
         src/gherkin_document.c
         src/feature.c
         src/scenario.c
+        src/scenario_definition.c
         src/background.c
+        src/rule.c
         src/comment.c
         src/data_table.c
         src/doc_string.c

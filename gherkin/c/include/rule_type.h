@@ -9,6 +9,7 @@ typedef enum RuleType {
     Rule_Comment, /* #Comment */
     Rule_TagLine, /* #TagLine */
     Rule_FeatureLine, /* #FeatureLine */
+    Rule_RuleLine, /* #RuleLine */
     Rule_BackgroundLine, /* #BackgroundLine */
     Rule_ScenarioLine, /* #ScenarioLine */
     Rule_ExamplesLine, /* #ExamplesLine */
@@ -18,8 +19,10 @@ typedef enum RuleType {
     Rule_Language, /* #Language */
     Rule_Other, /* #Other */
     Rule_GherkinDocument, /* GherkinDocument! := Feature? */
-    Rule_Feature, /* Feature! := FeatureHeader Background? ScenarioDefinition* */
+    Rule_Feature, /* Feature! := FeatureHeader Background? ScenarioDefinition* Rule* */
     Rule_FeatureHeader, /* FeatureHeader! := #Language? Tags? #FeatureLine DescriptionHelper */
+    Rule_Rule, /* Rule! := RuleHeader Background? ScenarioDefinition* */
+    Rule_RuleHeader, /* RuleHeader! := #RuleLine DescriptionHelper */
     Rule_Background, /* Background! := #BackgroundLine DescriptionHelper Step* */
     Rule_ScenarioDefinition, /* ScenarioDefinition! := Tags? Scenario */
     Rule_Scenario, /* Scenario! := #ScenarioLine DescriptionHelper Step* ExamplesDefinition* */

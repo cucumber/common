@@ -5,6 +5,7 @@
 #include "scenario.h"
 #include "data_table.h"
 #include "doc_string.h"
+#include "rule.h"
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -38,6 +39,8 @@ static void* transform_node(AstNode* ast_node, AstBuilder* ast_builder);
 static const Background* get_background(AstNode* ast_node);
 
 static const ScenarioDefinitions* get_scenario_definitions(AstNode* ast_node);
+
+static const Rules* get_rules(AstNode* ast_node);
 
 static const Steps* get_steps(AstNode* ast_node);
 
@@ -229,11 +232,26 @@ static void* transform_node(AstNode* ast_node, AstBuilder* ast_builder) {
         if (!token) {
             return (void*)0;
         }
-        const Feature* feature = Feature_new(token->location, token->matched_language, token->matched_keyword, token->matched_text, get_description(node), get_tags(node), get_scenario_definitions(ast_node));
+        const Feature* feature = Feature_new(token->location, token->matched_language, token->matched_keyword, token->matched_text, get_description(node), get_tags(node), get_scenario_definitions(ast_node), get_rules(ast_node));
         Token_delete(token);
         AstNode_delete(node);
         AstNode_delete(ast_node);
         return (void*)feature;
+    }
+    case Rule_Rule: {
+        node = AstNode_get_single(ast_node, Rule_RuleHeader);
+        if (!node) {
+            return (void*)0;
+        }
+        token = AstNode_get_token(node, Token_RuleLine);
+        if (!token) {
+            return (void*)0;
+        }
+        Rule const* rule = Rule_new(token->location, token->matched_keyword, token->matched_text, get_description(node), get_scenario_definitions(ast_node));
+        Token_delete(token);
+        AstNode_delete(node);
+        AstNode_delete(ast_node);
+        return (void*)rule;
     }
     case Rule_GherkinDocument: {
         const Feature* feature = AstNode_get_single(ast_node, Rule_Feature);
@@ -264,6 +282,25 @@ static const ScenarioDefinitions* get_scenario_definitions(AstNode* ast_node) {
         }
     }
     return scenario_definitions;
+}
+
+static const Rules* get_rules(AstNode* ast_node) {
+    ItemQueue* rules_queue = AstNode_get_items(ast_node, Rule_Rule);
+
+    Rules* rules = (Rules*) malloc(sizeof(Rules));
+    rules->rule_count = ItemQueue_size(rules_queue);
+
+    if (rules->rule_count > 0)
+    {
+        rules->rules = (Rule**) malloc(rules->rule_count * sizeof(Rule*));
+        int i;
+        for (i = 0; i < rules->rule_count; ++i)
+        {
+            rules->rules[i] = (Rule*)ItemQueue_remove(rules_queue);
+        }
+    }
+
+    return rules;
 }
 
 static const Background* get_background(AstNode* ast_node) {
