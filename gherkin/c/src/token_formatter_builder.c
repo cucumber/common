@@ -113,6 +113,8 @@ const char* token_type_to_string(TokenType token_type) {
         return "TagLine";
     case Token_Language:
         return "Language";
+    case Token_RuleLine:
+        return "RuleLine";
     case Token_Comment:
         return "Comment";
     case Token_DocStringSeparator:
