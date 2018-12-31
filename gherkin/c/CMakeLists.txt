@@ -68,6 +68,23 @@ add_library(gherkin ${GHERKIN_SRS})
 target_include_directories(gherkin PUBLIC
     "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include;${CMAKE_CURRENT_SOURCE_DIR}/src>")
 
+include(CheckSymbolExists)
+include(CMakePushCheckState)
+
+cmake_push_check_state()
+set(CMAKE_REQUIRED_QUIET ON)
+check_symbol_exists(log10 math.h RES)
+if(NOT RES)
+  list(APPEND CMAKE_REQUIRED_LIBRARIES m)
+  check_symbol_exists(log10 math.h RES2)
+  if(RES2)
+    target_link_libraries(gherkin PRIVATE m)
+  else()
+      message(FATAL_ERROR "Don't know what library to link against to use log10.")
+  endif()
+endif()
+cmake_pop_check_state()
+
 add_executable(gherkinexe ${GHERKIN_CLI})
 target_link_libraries(gherkinexe gherkin)
 target_include_directories(gherkinexe PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include ${CMAKE_CURRENT_SOURCE_DIR}/src)
