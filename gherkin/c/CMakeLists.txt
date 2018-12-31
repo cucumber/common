@@ -64,6 +64,8 @@ LIST(APPEND GHERKIN_CLI
         src/gherkin_cli.c
         )
 
+include(CTest)
+enable_testing()
 
 add_library(gherkin ${GHERKIN_SRS})
 target_include_directories(gherkin PUBLIC
@@ -82,16 +84,15 @@ file(GLOB GOOD_FEATURE_FILES
 file(GLOB BAD_FEATURE_FILES
         ${CMAKE_CURRENT_SOURCE_DIR}/testdata/bad/*.feature
         )
-add_custom_target(invo DEPENDS invo)
-add_dependencies(invo gherkinexe)
-FOREACH(ENTITY ${GOOD_FEATURE_FILES})
-    add_custom_command(
-            TARGET gherkinexe
-            POST_BUILD
-            COMMAND gherkinexe  ${ENTITY}
-            DEPENDS invo
+
+foreach(ENTITY ${GOOD_FEATURE_FILES})
+    get_filename_component(TEST_NAME ${ENTITY} NAME_WE)
+    add_test(
+        NAME ${TEST_NAME}
+        COMMAND $<TARGET_FILE:gherkinexe> ${ENTITY}
     )
-ENDFOREACH()
+endforeach()
+
 ############ Installation section ############
 set(include_install_dir "include")
 set(lib_install_dir "lib/")

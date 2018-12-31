@@ -2,11 +2,19 @@
 
 <h2>Build instruction:</h2>
 
+From the source directory run
+
 ```
-mkdir build
-cd build
-cmake ..
-cmake --build . --target install
+cmake -Bbuild -H.
+cmake --build build
+```
+to build, then optionally run the tests via
+```
+cmake --build build --target test
+```
+and finally install via
+```
+cmake --build build --target install
 ```
 
 ![](https://raw.githubusercontent.com/Pwera/gherkin-c/master/gherkin.gif)
