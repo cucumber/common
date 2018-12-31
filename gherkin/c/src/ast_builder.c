@@ -3,7 +3,6 @@
 #include "item_queue.h"
 #include "token.h"
 #include "scenario.h"
-#include "scenario_outline.h"
 #include "data_table.h"
 #include "doc_string.h"
 #include <stdio.h>
@@ -178,33 +177,24 @@ static void* transform_node(AstNode* ast_node, AstBuilder* ast_builder) {
         AstNode_delete(ast_node);
         return (void*)background;
     }
-    case Rule_Scenario_Definition: {
+    case Rule_ScenarioDefinition: {
         node = AstNode_get_single(ast_node, Rule_Scenario);
         if (node) {
             token = AstNode_get_token(node, Token_ScenarioLine);
-            const Scenario* scenario = Scenario_new(token->location, token->matched_keyword, token->matched_text, get_description(node), get_tags(ast_node), get_steps(node));
+            const Scenario* scenario = Scenario_new(token->location, token->matched_keyword, token->matched_text, get_description(node), get_tags(ast_node), get_steps(node), get_examples(node));
             Token_delete(token);
             AstNode_delete(node);
             AstNode_delete(ast_node);
             return (void*)scenario;
         }
         else {
-            node = AstNode_get_single(ast_node, Rule_ScenarioOutline);
-            if (!node) {
-                ErrorList_internal_grammar_error(ast_builder->errors);
-            }
-            token = AstNode_get_token(node, Token_ScenarioOutlineLine);
-            const ScenarioOutline* scenario_outline = ScenarioOutline_new(token->location, token->matched_keyword, token->matched_text, get_description(node), get_tags(ast_node), get_steps(node), get_examples(node));
-            Token_delete(token);
-            AstNode_delete(node);
-            AstNode_delete(ast_node);
-            return (void*)scenario_outline;
+            ErrorList_internal_grammar_error(ast_builder->errors);
         }
     }
-    case Rule_Examples_Definition: {
+    case Rule_ExamplesDefinition: {
         node = AstNode_get_single(ast_node, Rule_Examples);
         token = AstNode_get_token(node, Token_ExamplesLine);
-        const ExampleTableOnly* table = (ExampleTableOnly*)AstNode_get_single(node, Rule_Examples_Table);
+        const ExampleTableOnly* table = (ExampleTableOnly*)AstNode_get_single(node, Rule_ExamplesTable);
         const TableRow* header = table ? table->table_header : 0;
         const TableRows* body = table ? table->table_body : 0;
         const ExampleTable* example_table = ExampleTable_new(token->location, token->matched_keyword, token->matched_text, get_description(node), get_tags(ast_node), header, body);
@@ -214,7 +204,7 @@ static void* transform_node(AstNode* ast_node, AstBuilder* ast_builder) {
         AstNode_delete(ast_node);
         return (void*)example_table;
     }
-    case Rule_Examples_Table: {
+    case Rule_ExamplesTable: {
         const TableRow* header = get_table_header(ast_node);
         const TableRows* body = get_table_body(ast_node);
         ensure_cell_count(ast_builder->errors, body, header, ast_node);
@@ -231,7 +221,7 @@ static void* transform_node(AstNode* ast_node, AstBuilder* ast_builder) {
         return (void*)description;
     }
     case Rule_Feature: {
-        node = AstNode_get_single(ast_node, Rule_Feature_Header);
+        node = AstNode_get_single(ast_node, Rule_FeatureHeader);
         if (!node) {
             return (void*)0;
         }
@@ -257,7 +247,7 @@ static void* transform_node(AstNode* ast_node, AstBuilder* ast_builder) {
 }
 
 static const ScenarioDefinitions* get_scenario_definitions(AstNode* ast_node) {
-    ItemQueue* scenario_definitions_queue = AstNode_get_items(ast_node, Rule_Scenario_Definition);
+    ItemQueue* scenario_definitions_queue = AstNode_get_items(ast_node, Rule_ScenarioDefinition);
     const Background* background = get_background(ast_node);
     int background_count = background ? 1 : 0;
     ScenarioDefinitions* scenario_definitions = (ScenarioDefinitions*)malloc(sizeof(ScenarioDefinitions));
@@ -307,7 +297,7 @@ static const StepArgument* get_step_argument(AstNode* ast_node) {
 }
 
 static const Examples* get_examples(AstNode* ast_node) {
-    ItemQueue* examples_queue = AstNode_get_items(ast_node, Rule_Examples_Definition);
+    ItemQueue* examples_queue = AstNode_get_items(ast_node, Rule_ExamplesDefinition);
     Examples* examples = (Examples*)malloc(sizeof(Examples));
     examples->example_count = ItemQueue_size(examples_queue);
     examples->example_table = 0;

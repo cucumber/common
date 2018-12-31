@@ -26,7 +26,6 @@ struct TokenMatcher {
     matcher_reset_function reset;
     match_function match_FeatureLine;
     match_function match_ScenarioLine;
-    match_function match_ScenarioOutlineLine;
     match_function match_ExamplesLine;
     match_function match_BackgroundLine;
     match_function match_StepLine;

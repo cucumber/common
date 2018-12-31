@@ -1,7 +1,6 @@
 #include "ast_printer.h"
 #include "feature.h"
 #include "scenario.h"
-#include "scenario_outline.h"
 #include "step.h"
 #include "data_table.h"
 #include "doc_string.h"
@@ -22,8 +21,6 @@ static const wchar_t* ast_item_type_to_string(GherkinAstType type) {
         return L"Background";
     case Gherkin_Scenario:
         return L"Scenario";
-    case Gherkin_ScenarioOutline:
-        return L"ScenarioOutline";
     case Gherkin_Step:
         return L"Step";
     case Gherkin_DataTable:
@@ -172,31 +169,6 @@ static void print_tag(FILE* file, const Tag* tag) {
     fprintf(file, "\"}");
 }
 
-static void print_scenario(FILE* file, const Scenario* scenario) {
-    fprintf(file, "{\"type\":\"%ls\",", ast_item_type_to_string(scenario->type));
-    fprintf(file, "\"tags\":[");
-    int i;
-    for (i = 0; i < scenario->tags->tag_count; ++i) {
-        if (i > 0) {
-            fprintf(file, ",");
-        }
-        print_tag(file, &scenario->tags->tags[i]);
-    }
-    fprintf(file, "],");
-    print_location(file, &scenario->location);
-    print_keyword(file, scenario->keyword);
-    print_name(file, scenario->name);
-    print_description(file, scenario->description);
-    fprintf(file, "\"steps\":[");
-    for (i = 0; i < scenario->steps->step_count; ++i) {
-        if (i > 0) {
-            fprintf(file, ",");
-        }
-        print_step(file, &scenario->steps->steps[i]);
-    }
-    fprintf(file, "]}");
-}
-
 static void print_example_table(FILE* file, const ExampleTable* example_table) {
     fprintf(file, "{\"type\":\"%ls\",", ast_item_type_to_string(example_table->type));
     print_location(file, &example_table->location);
@@ -231,35 +203,35 @@ static void print_example_table(FILE* file, const ExampleTable* example_table) {
     fprintf(file, "}");
 }
 
-static void print_scenario_outline(FILE* file, const ScenarioOutline* scenario_outline) {
-    fprintf(file, "{\"type\":\"%ls\",", ast_item_type_to_string(scenario_outline->type));
+static void print_scenario(FILE* file, const Scenario* scenario) {
+    fprintf(file, "{\"type\":\"%ls\",", ast_item_type_to_string(scenario->type));
     fprintf(file, "\"tags\":[");
     int i;
-    for (i = 0; i < scenario_outline->tags->tag_count; ++i) {
+    for (i = 0; i < scenario->tags->tag_count; ++i) {
         if (i > 0) {
             fprintf(file, ",");
         }
-        print_tag(file, &scenario_outline->tags->tags[i]);
+        print_tag(file, &scenario->tags->tags[i]);
     }
     fprintf(file, "],");
-    print_location(file, &scenario_outline->location);
-    print_keyword(file, scenario_outline->keyword);
-    print_name(file, scenario_outline->name);
-    print_description(file, scenario_outline->description);
+    print_location(file, &scenario->location);
+    print_keyword(file, scenario->keyword);
+    print_name(file, scenario->name);
+    print_description(file, scenario->description);
     fprintf(file, "\"steps\":[");
-    for (i = 0; i < scenario_outline->steps->step_count; ++i) {
+    for (i = 0; i < scenario->steps->step_count; ++i) {
         if (i > 0) {
             fprintf(file, ",");
         }
-        print_step(file, &scenario_outline->steps->steps[i]);
+        print_step(file, &scenario->steps->steps[i]);
     }
     fprintf(file, "],");
     fprintf(file, "\"examples\":[");
-    for (i = 0; i < scenario_outline->examples->example_count; ++i) {
+    for (i = 0; i < scenario->examples->example_count; ++i) {
         if (i > 0) {
             fprintf(file, ",");
         }
-        print_example_table(file, &scenario_outline->examples->example_table[i]);
+        print_example_table(file, &scenario->examples->example_table[i]);
     }
     fprintf(file, "]}");
 }
@@ -301,7 +273,7 @@ void print_feature(FILE* file, const Feature* feature) {
         else if (feature->scenario_definitions->scenario_definitions[i]->type == Gherkin_Scenario) {
             print_scenario(file, (Scenario*)feature->scenario_definitions->scenario_definitions[i]);
         } else {
-            print_scenario_outline(file, (ScenarioOutline*)feature->scenario_definitions->scenario_definitions[i]);
+            print_scenario(file, (Scenario*)feature->scenario_definitions->scenario_definitions[i]);
         }
     }
     fprintf(file, "]");

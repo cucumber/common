@@ -101,8 +101,6 @@ const char* token_type_to_string(TokenType token_type) {
         return "FeatureLine";
     case Token_ScenarioLine:
         return "ScenarioLine";
-    case Token_ScenarioOutlineLine:
-        return "ScenarioOutlineLine";
     case Token_ExamplesLine:
         return "ExamplesLine";
     case Token_BackgroundLine:

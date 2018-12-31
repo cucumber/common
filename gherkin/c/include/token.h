@@ -16,7 +16,6 @@ typedef enum TokenType {
     Token_Empty = Rule_Empty,
     Token_FeatureLine = Rule_FeatureLine,
     Token_ScenarioLine = Rule_ScenarioLine,
-    Token_ScenarioOutlineLine = Rule_ScenarioOutlineLine,
     Token_ExamplesLine = Rule_ExamplesLine,
     Token_BackgroundLine = Rule_BackgroundLine,
     Token_StepLine = Rule_StepLine,

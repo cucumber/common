@@ -1,6 +1,5 @@
 #include "feature.h"
 #include "scenario.h"
-#include "scenario_outline.h"
 #include "string_utilities.h"
 #include <stdlib.h>
 
@@ -57,8 +56,8 @@ void Feature_delete(const Feature* feature) {
                 else if (scenario_definition->type == Gherkin_Scenario) {
                     Scenario_delete((Scenario*)scenario_definition);
                 }
-                else if (scenario_definition->type == Gherkin_ScenarioOutline) {
-                    ScenarioOutline_delete((ScenarioOutline*)scenario_definition);
+                else if (scenario_definition->type == Gherkin_Scenario) {
+                    Scenario_delete((Scenario*)scenario_definition);
                 }
             }
             free((void*)feature->scenario_definitions->scenario_definitions);

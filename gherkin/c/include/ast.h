@@ -12,7 +12,6 @@ typedef enum GherkinAstType {
     Gherkin_Feature,
     Gherkin_Background,
     Gherkin_Scenario,
-    Gherkin_ScenarioOutline,
     Gherkin_Examples,
     Gherkin_Step,
     Gherkin_DataTable,
