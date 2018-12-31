@@ -64,7 +64,7 @@ LIST(APPEND GHERKIN_CLI
         )
 
 
-add_library(gherkin SHARED ${GHERKIN_SRS})
+add_library(gherkin ${GHERKIN_SRS})
 target_include_directories(gherkin PUBLIC
     "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include;${CMAKE_CURRENT_SOURCE_DIR}/src>")
 
