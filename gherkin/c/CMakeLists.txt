@@ -89,7 +89,22 @@ foreach(ENTITY ${GOOD_FEATURE_FILES})
     get_filename_component(TEST_NAME ${ENTITY} NAME_WE)
     add_test(
         NAME ${TEST_NAME}
-        COMMAND $<TARGET_FILE:gherkinexe> ${ENTITY}
+        COMMAND ${CMAKE_COMMAND}
+                -DGHERKINEXE=$<TARGET_FILE:gherkinexe>
+                -DGHERKIN_GENERATE_TOKENS=$<TARGET_FILE:gherkin_generate_tokens>
+                -DFEATUREFILE=${ENTITY}
+                -P ${CMAKE_CURRENT_SOURCE_DIR}/cmake/TestRunner.cmake
+    )
+endforeach()
+foreach(ENTITY ${BAD_FEATURE_FILES})
+    get_filename_component(TEST_NAME ${ENTITY} NAME_WE)
+    add_test(
+        NAME ${TEST_NAME}
+        COMMAND ${CMAKE_COMMAND}
+                -DGHERKINEXE=$<TARGET_FILE:gherkinexe>
+                -DGHERKIN_GENERATE_TOKENS=$<TARGET_FILE:gherkin_generate_tokens>
+                -DFEATUREFILE=${ENTITY}
+                -P ${CMAKE_CURRENT_SOURCE_DIR}/cmake/TestRunner.cmake
     )
 endforeach()
 
