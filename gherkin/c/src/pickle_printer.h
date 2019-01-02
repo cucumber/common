@@ -2,13 +2,15 @@
 #define GHERKIN_PICKLE_PRINTER_H_
 
 #include "pickle.h"
+
 #include <stdio.h>
+#include <wchar.h>
 
 #ifdef __cplusplus
 extern "C" {
 #endif
 
-void PicklePrinter_print_pickle(FILE* file, const Pickle* pickle);
+void PicklePrinter_print_pickle(FILE* file, const Pickle* pickle, const wchar_t* uri);
 
 #ifdef __cplusplus
 }

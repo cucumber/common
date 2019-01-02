@@ -43,11 +43,8 @@ static void PickleEvent_print(const Event* event, FILE* file) {
     const PickleEvent* pickle_event = (const PickleEvent*) event;
     if (pickle_event) {
         fprintf(file, "{");
-        fprintf(file, "\"type\":\"pickle\",");
-        fprintf(file, "\"uri\":\"");
-        PrintUtilities_print_json_string(file, pickle_event->uri);
-        fprintf(file, "\",\"pickle\":");
-        PicklePrinter_print_pickle(file, pickle_event->pickle);
+        fprintf(file, "\"pickle\":");
+        PicklePrinter_print_pickle(file, pickle_event->pickle, pickle_event->uri);
         fprintf(file, "}\n");
     }
 }
