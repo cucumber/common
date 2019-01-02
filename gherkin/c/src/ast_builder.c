@@ -166,7 +166,7 @@ static void* transform_node(AstNode* ast_node, AstBuilder* ast_builder) {
     }
     case Rule_DocString: {
         token = AstNode_get_token(ast_node, Token_DocStringSeparator);
-        const DocString* doc_string = DocString_new(token->location, token->matched_text, get_doc_string_text(ast_node));
+        const DocString* doc_string = DocString_new(token->location, token->matched_text, get_doc_string_text(ast_node), token->matched_keyword);
         Token_delete(token);
         AstNode_delete(ast_node);
         return (void*)doc_string;

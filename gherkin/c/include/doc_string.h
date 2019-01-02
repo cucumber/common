@@ -16,9 +16,10 @@ typedef struct DocString {
     Location location;
     wchar_t* content_type;
     const wchar_t* content;
+    const wchar_t* delimiter;
 } DocString;
 
-const DocString* DocString_new(Location location, const wchar_t* content_type, const wchar_t* content);
+const DocString* DocString_new(Location location, const wchar_t* content_type, const wchar_t* content, const wchar_t* delimiter);
 
 void DocString_delete(const DocString* doc_string);
 
