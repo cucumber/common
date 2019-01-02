@@ -237,7 +237,7 @@ static bool match_DocStringSeparator(TokenMatcher* token_matcher, Token* token, 
             token_matcher->active_doc_string_separator = 0;
             token_matcher->indent_to_remove = 0;
         }
-        set_token_matched(token, Token_DocStringSeparator, content_type, 0, -1, 0);
+        set_token_matched(token, Token_DocStringSeparator, content_type, separator, -1, 0);
         return true;
     }
     return false;
