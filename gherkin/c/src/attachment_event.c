@@ -47,14 +47,19 @@ static void AttachmentEvent_print(const Event* event, FILE* file) {
     }
     const AttachmentEvent* attachment_event = (const AttachmentEvent*)event;
     fprintf(file, "{");
+    fprintf(file, "\"attachment\":{");
     fprintf(file, "\"data\":\"");
     PrintUtilities_print_json_string(file, attachment_event->data);
-    fprintf(file, "\",\"media\":{\"encoding\":\"utf-8\",\"type\":\"text/x.cucumber.stacktrace+plain\"},");
-    fprintf(file, "\"source\":{\"start\":");
-    fprintf(file, "{\"line\":%d,", attachment_event->location.line);
-    fprintf(file, "\"column\":%d},", attachment_event->location.column);
+    fprintf(file, "\",");
+    fprintf(file, "\"source\":{\"location\": {");
+    fprintf(file, "\"line\":%d", attachment_event->location.line);
+    if (attachment_event->location.column > 0) {
+        fprintf(file, ",\"column\":%d", attachment_event->location.column);
+    }
+    fprintf(file, "},");
     fprintf(file, "\"uri\":\"");
     PrintUtilities_print_json_string(file, attachment_event->uri);
-    fprintf(file, "\"},\"type\":\"attachment\"");
+    fprintf(file, "\"}");
+    fprintf(file, "}");
     fprintf(file, "}\n");
 }
