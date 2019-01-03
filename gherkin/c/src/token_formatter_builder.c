@@ -102,7 +102,7 @@ const char* token_type_to_string(TokenType token_type) {
     case Token_ScenarioLine:
         return "ScenarioLine";
     case Token_ScenarioOutlineLine:
-        return "ScenarioOutlineLine";
+        return "ScenarioLine";
     case Token_ExamplesLine:
         return "ExamplesLine";
     case Token_BackgroundLine:
