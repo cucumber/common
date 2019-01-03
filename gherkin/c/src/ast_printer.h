@@ -2,13 +2,15 @@
 #define GHERKIN_AST_PRINTER_H_
 
 #include "gherkin_document.h"
+
 #include <stdio.h>
+#include <wchar.h>
 
 #ifdef __cplusplus
 extern "C" {
 #endif
 
-void AstPrinter_print_gherkin_document(FILE* file, const GherkinDocument* gherkin_document);
+void AstPrinter_print_gherkin_document(FILE* file, const GherkinDocument* gherkin_document, wchar_t* uri);
 
 #ifdef __cplusplus
 }

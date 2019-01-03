@@ -42,11 +42,8 @@ static void GherkinDocumentEvent_print(const Event* event, FILE* file) {
     }
     const GherkinDocumentEvent* gherkin_document_event = (const GherkinDocumentEvent*)event;
     fprintf(file, "{");
-    fprintf(file, "\"type\":\"gherkin-document\",");
-    fprintf(file, "\"uri\":\"");
-    PrintUtilities_print_json_string(file, gherkin_document_event->uri);
-    fprintf(file, "\",\"document\":");
-    AstPrinter_print_gherkin_document(file, gherkin_document_event->gherkin_document);
+    fprintf(file, "\"gherkinDocument\":");
+    AstPrinter_print_gherkin_document(file, gherkin_document_event->gherkin_document, gherkin_document_event->uri);
     fprintf(file, "}\n");
 }
 
