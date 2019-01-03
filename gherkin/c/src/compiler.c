@@ -93,7 +93,7 @@ int Compiler_compile(Compiler* compiler, const GherkinDocument* gherkin_document
                 int l;
                 for (l = 0; l < example_table->table_body->row_count; ++l) {
                     const TableRow* table_row = &example_table->table_body->table_rows[l];
-                    const PickleLocations* locations = PickleLocations_new_double(table_row->location.line, table_row->location.column, scenario_outline->location.line, scenario_outline->location.column);
+                    const PickleLocations* locations = PickleLocations_new_double(scenario_outline->location.line, scenario_outline->location.column, table_row->location.line, table_row->location.column);
                     const PickleTags* tags = create_pickle_tags(feature->tags, scenario_outline->tags, example_table->tags);
                     PickleSteps* steps = (PickleSteps*)malloc(sizeof(PickleSteps));
                     if (scenario_outline->steps->step_count == 0) {
@@ -108,7 +108,7 @@ int Compiler_compile(Compiler* compiler, const GherkinDocument* gherkin_document
                         int j;
                         for (j = 0; j < scenario_outline->steps->step_count; ++j) {
                             int column_offset = scenario_outline->steps->steps[j].keyword ? StringUtilities_code_point_length(scenario_outline->steps->steps[j].keyword) : 0;
-                            const PickleLocations* step_locations = PickleLocations_new_double(table_row->location.line, table_row->location.column, scenario_outline->steps->steps[j].location.line, scenario_outline->steps->steps[j].location.column + column_offset);
+                            const PickleLocations* step_locations = PickleLocations_new_double(scenario_outline->steps->steps[j].location.line, scenario_outline->steps->steps[j].location.column + column_offset, table_row->location.line, table_row->location.column);
                             const PickleStep* step = expand_outline_step(&scenario_outline->steps->steps[j], example_table->table_header, table_row, step_locations);
                             PickleStep_transfer(&steps->steps[background_step_count + j], (PickleStep*)step);
                         }
