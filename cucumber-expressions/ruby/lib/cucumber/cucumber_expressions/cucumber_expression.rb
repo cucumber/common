@@ -10,6 +10,7 @@ module Cucumber
       PARAMETER_REGEXP = /(\\\\)?{([^}]*)}/
       OPTIONAL_REGEXP = /(\\\\)?\(([^)]+)\)/
       ALTERNATIVE_NON_WHITESPACE_TEXT_REGEXP = /([^\s^\/]+)((\/[^\s^\/]+)+)/
+      BRACKETS_WANTED_REGEXP = /\\\\\({.+}\)/
       DOUBLE_ESCAPE = '\\\\'
       PARAMETER_TYPES_CANNOT_BE_ALTERNATIVE = 'Parameter types cannot be alternative: '
       PARAMETER_TYPES_CANNOT_BE_OPTIONAL = 'Parameter types cannot be optional: '
@@ -19,7 +20,7 @@ module Cucumber
       def initialize(expression, parameter_type_registry)
         @source = expression
         @parameter_types = []
-        
+
         expression = process_escapes(expression)
         expression = process_optional(expression)
         expression = process_alternation(expression)
@@ -51,7 +52,7 @@ module Cucumber
         # Create non-capturing, optional capture groups from parenthesis
         expression.gsub(OPTIONAL_REGEXP) do
           g2 = $2
-          check_no_parameter_type(g2, PARAMETER_TYPES_CANNOT_BE_OPTIONAL)
+          check_no_parameter_type(g2, PARAMETER_TYPES_CANNOT_BE_OPTIONAL) unless brackets_wanted?(expression)
           # look for double-escaped parentheses
           $1 == DOUBLE_ESCAPE ? "\\(#{g2}\\)" : "(?:#{g2})?"
         end
@@ -100,6 +101,10 @@ module Cucumber
         if PARAMETER_REGEXP =~ s
           raise CucumberExpressionError.new("#{message}#{source}")
         end
+      end
+
+      def brackets_wanted?(expression)
+        expression =~ BRACKETS_WANTED_REGEXP
       end
     end
   end
