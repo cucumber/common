@@ -109,6 +109,14 @@ func TestCucumberExpression(t *testing.T) {
 		)
 	})
 
+	t.Run("ignores parenthesis around int expression", func(t *testing.T) {
+		require.Equal(
+			t,
+			MatchCucumberExpression(t, "\\\\({int}) blind mice", `(3) blind mice`),
+			[]interface{}{3},
+		)
+	})
+
 	t.Run("matches escaped slash", func(t *testing.T) {
 		require.Equal(
 			t,

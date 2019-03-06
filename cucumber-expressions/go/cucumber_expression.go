@@ -12,6 +12,7 @@ var PARAMETER_REGEXP = regexp.MustCompile(`(\\\\\\\\)?{([^}]*)}`)
 var OPTIONAL_REGEXP = regexp.MustCompile(`(\\\\\\\\)?\([^)]+\)`)
 var ALTERNATIVE_NON_WHITESPACE_TEXT_REGEXP = regexp.MustCompile(`([^\s^/]+)((/[^\s^/]+)+)`)
 var DOUBLE_ESCAPE = `\\\\`
+var PAREN_WRAPPED_PARAMETER = regexp.MustCompile(`\\\\\({.+}\)`)
 
 type CucumberExpression struct {
 	source                string
@@ -85,7 +86,7 @@ func (c *CucumberExpression) processEscapes(expression string) string {
 func (c *CucumberExpression) processOptional(expression string) (string, error) {
 	var err error
 	result := OPTIONAL_REGEXP.ReplaceAllStringFunc(expression, func(match string) string {
-		if PARAMETER_REGEXP.MatchString(match) {
+		if PARAMETER_REGEXP.MatchString(match) && !PAREN_WRAPPED_PARAMETER.MatchString(match) {
 			err = NewCucumberExpressionError(fmt.Sprintf("Parameter types cannot be optional: %s", c.source))
 			return match
 		}
