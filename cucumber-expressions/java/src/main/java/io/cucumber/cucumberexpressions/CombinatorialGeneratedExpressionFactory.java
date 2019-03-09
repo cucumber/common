@@ -1,9 +1,13 @@
 package io.cucumber.cucumberexpressions;
 
+import java.util.ArrayDeque;
 import java.util.ArrayList;
+import java.util.Deque;
 import java.util.List;
 
 class CombinatorialGeneratedExpressionFactory {
+    // 256 generated expressions ought to be enough for anybody
+    private static final int MAX_EXPRESSIONS = 256;
     private final String expressionTemplate;
     private final List<List<ParameterType<?>>> parameterTypeCombinations;
 
@@ -17,29 +21,34 @@ class CombinatorialGeneratedExpressionFactory {
 
     List<GeneratedExpression> generateExpressions() {
         List<GeneratedExpression> generatedExpressions = new ArrayList<>();
-        generatePermutations(generatedExpressions, 0, new ArrayList<ParameterType<?>>());
+        ArrayDeque<ParameterType<?>> permutation = new ArrayDeque<>(parameterTypeCombinations.size());
+        generatePermutations(generatedExpressions, permutation);
         return generatedExpressions;
     }
 
     private void generatePermutations(
             List<GeneratedExpression> generatedExpressions,
-            int depth,
-            List<ParameterType<?>> currentParameterTypes
+            Deque<ParameterType<?>> permutation
     ) {
-        if (depth == parameterTypeCombinations.size()) {
-            generatedExpressions.add(new GeneratedExpression(expressionTemplate, currentParameterTypes));
+        if (generatedExpressions.size() >= MAX_EXPRESSIONS) {
             return;
         }
 
-        for (int i = 0; i < parameterTypeCombinations.get(depth).size(); ++i) {
-            List<ParameterType<?>> newCurrentParameterTypes = new ArrayList<>(currentParameterTypes); // clone
-            newCurrentParameterTypes.add(parameterTypeCombinations.get(depth).get(i));
+        if (permutation.size() == parameterTypeCombinations.size()) {
+            ArrayList<ParameterType<?>> permutationCopy = new ArrayList<>(permutation);
+            generatedExpressions.add(new GeneratedExpression(expressionTemplate, permutationCopy));
+            return;
+        }
 
-            generatePermutations(
-                    generatedExpressions,
-                    depth + 1,
-                    newCurrentParameterTypes
-            );
+        List<ParameterType<?>> parameterTypes = parameterTypeCombinations.get(permutation.size());
+        for (ParameterType<?> parameterType : parameterTypes) {
+            // Avoid recursion if no elements can be added.
+            if (generatedExpressions.size() >= MAX_EXPRESSIONS) {
+                return;
+            }
+            permutation.addLast(parameterType);
+            generatePermutations(generatedExpressions, permutation);
+            permutation.removeLast();
         }
     }
 }

@@ -212,4 +212,23 @@ describe('CucumberExpressionGenerator', () => {
       'I reach Stage{int}: {int}st flight{int}st hotl'
     )
   })
+
+  it('generates at most 256 expressions', () => {
+    for (let i = 0; i < 4; i++){
+      parameterTypeRegistry.defineParameterType(
+        new ParameterType(
+            'my-type-' + i,
+            /[a-z]/,
+            null,
+            s => s,
+            true,
+            false
+        )
+      )
+    }
+    // This would otherwise generate 4^11=419430 expressions and consume just shy of 1.5GB.
+    const expressions = generator.generateExpressions('a simple step')
+    assert.equal(expressions.length, 256)
+  })
+
 })
