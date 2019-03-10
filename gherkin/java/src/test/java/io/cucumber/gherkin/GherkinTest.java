@@ -7,7 +7,6 @@ import io.cucumber.messages.Messages.PickleStep;
 import io.cucumber.messages.Messages.Scenario;
 import io.cucumber.messages.Messages.Source;
 import io.cucumber.messages.Messages.Wrapper;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import java.util.List;
@@ -15,7 +14,6 @@ import java.util.List;
 import static java.util.Collections.singletonList;
 import static org.junit.Assert.assertEquals;
 
-@Ignore
 public class GherkinTest {
     @Test
     public void provides_access_to_the_ast() {
