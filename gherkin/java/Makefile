@@ -12,9 +12,9 @@ include default.mk
 #
 #default: .compared
 #
-#.deps:
+.deps:
 #	./scripts/s3-download gherkin-go $(LIBRARY_VERSION)
-#	touch $@
+	touch $@
 #
 #.compared: $(ASTS) $(PICKLES) $(ERRORS) $(SOURCES)
 #	touch $@
