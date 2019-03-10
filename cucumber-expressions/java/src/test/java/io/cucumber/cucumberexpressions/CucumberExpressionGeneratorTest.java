@@ -273,6 +273,29 @@ public class CucumberExpressionGeneratorTest {
         assertEquals("I reach Stage{int}: {int}st flight{int}st hotl", generatedExpressions.get(0).getSource());
     }
 
+    @Test
+    public void generates_at_most_256_expressions() {
+        for (int i = 0; i < 4; i++) {
+            ParameterType<String> myType = new ParameterType<>(
+                    "my-type-" + i,
+                    "[a-z]",
+                    String.class,
+                    new Transformer<String>() {
+                        @Override
+                        public String transform(String arg) {
+                            return arg;
+                        }
+                    },
+                    true,
+                    false
+            );
+            parameterTypeRegistry.defineParameterType(myType);
+
+        }
+        // This would otherwise generate 4^11=419430 expressions and consume just shy of 1.5GB.
+        assertEquals(256, generator.generateExpressions("a simple step").size());
+    }
+
     private void assertExpression(String expectedExpression, List<String> expectedArgumentNames, String text) {
         GeneratedExpression generatedExpression = generator.generateExpressions(text).get(0);
         assertEquals(expectedExpression, generatedExpression.getSource());

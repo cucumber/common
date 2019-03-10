@@ -1,5 +1,8 @@
 package cucumberexpressions
 
+// 256 generated expressions ought to be enough for anybody
+const maxExpressions = 256
+
 type CombinatorialGeneratedExpressionFactory struct {
 	expressionTemplate        string
 	parameterTypeCombinations [][]*ParameterType
@@ -19,6 +22,10 @@ func (c *CombinatorialGeneratedExpressionFactory) GenerateExpressions() []*Gener
 }
 
 func (c *CombinatorialGeneratedExpressionFactory) generatePermutations(generatedExpressions *GeneratedExpressionList, depth int, currentParameterTypes []*ParameterType) {
+	if len(generatedExpressions.elements) >= maxExpressions {
+		return
+	}
+
 	if depth == len(c.parameterTypeCombinations) {
 		generatedExpressions.Push(
 			NewGeneratedExpression(c.expressionTemplate, currentParameterTypes),
@@ -27,6 +34,11 @@ func (c *CombinatorialGeneratedExpressionFactory) generatePermutations(generated
 	}
 
 	for _, parameterType := range c.parameterTypeCombinations[depth] {
+		// Avoid recursion if no elements can be added.
+		if len(generatedExpressions.elements) >= maxExpressions {
+			return
+		}
+
 		c.generatePermutations(
 			generatedExpressions,
 			depth+1,

@@ -120,11 +120,28 @@ module Cucumber
         expect(expression.source).to eq("I reach Stage{int}: {int}st flight{int}st hotl")
       end
 
+      it "generates at most 256 expressions" do
+        for i in 0..3
+          @parameter_type_registry.define_parameter_type(ParameterType.new(
+              "my-type-#{i}",
+              /[a-z]/,
+              String,
+              lambda {|s| s},
+              true,
+              false
+          ))
+        end
+        # This would otherwise generate 4^11=419430 expressions and consume just shy of 1.5GB.
+        expressions = @generator.generate_expressions("a simple step")
+        expect(expressions.length).to eq(256)
+      end
+
+
       def assert_expression(expected_expression, expected_argument_names, text)
         generated_expression = @generator.generate_expression(text)
         expect(generated_expression.parameter_names).to eq(expected_argument_names)
         expect(generated_expression.source).to eq(expected_expression)
-        
+
         cucumber_expression = CucumberExpression.new(generated_expression.source, @parameter_type_registry)
         match = cucumber_expression.match(text)
         if match.nil?

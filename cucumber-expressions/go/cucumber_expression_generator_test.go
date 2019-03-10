@@ -216,6 +216,27 @@ func TestCucumberExpressionGeneratory(t *testing.T) {
 		generatedExpression := generator.GenerateExpressions("I reach Stage4: 1st flight-1st hotel")[0]
 		require.Equal(t, generatedExpression.Source(), "I reach Stage{int}: {int}st flight{int}st hotel")
 	})
+
+	t.Run("generates at most 256 expressions", func(t *testing.T) {
+		parameterTypeRegistry := NewParameterTypeRegistry()
+		for i := 1; i <= 4; i++ {
+			myType, err := NewParameterType(
+				"my-type-"+string(i),
+				[]*regexp.Regexp{regexp.MustCompile("[a-z]")},
+				"string",
+				nil,
+				true,
+				false,
+			)
+			require.NoError(t, err)
+			parameterTypeRegistry.DefineParameterType(myType)
+		}
+
+		generator := NewCucumberExpressionGenerator(parameterTypeRegistry)
+		// This would otherwise generate 4^11=419430 expressions and consume just shy of 1.5GB.
+		generatedExpressions := generator.GenerateExpressions("a simple step")
+		require.Equal(t, len(generatedExpressions), 256)
+	})
 }
 
 func assertExpression(t *testing.T, expectedExpression string, expectedArgumentNames []string, text string) {
