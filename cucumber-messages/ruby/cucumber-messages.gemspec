@@ -19,8 +19,8 @@ Gem::Specification.new do |s|
                     'source_code_uri'   => 'https://github.com/cucumber/cucumber/blob/master/cucumber-messages/ruby',
                   }
 
-  # As of this writing (28 June 2018), the latest version is
-  # 3.6.0, which doesn't works with JRuby. 
+  # As of this writing (12 March 2019), the latest version is
+  # 3.7.0, which doesn't work with JRuby.
   # See https://github.com/google/protobuf/issues/1594 
   # 3.1.0 works with JRuby, but fails with MRI 2.4.4 and above.
   #
@@ -29,8 +29,15 @@ Gem::Specification.new do |s|
   # pick the appropriate one in their bundle.
   #
   # Users of JRuby would probably install 3.2.0, while users of MRI would use
-  # 3.6.0.
-  s.add_dependency 'google-protobuf', '~> 3.2'
+  # a version either around 3.2 (If they are on an old Ruby), or 3.7 if they
+  # are running on Ruby 2.6. This is due to some extensions failing to compile
+  # which has only been recently fixed and won't be backported
+  #
+  if RbConfig::CONFIG["MINOR"] == "6"
+    s.add_dependency('google-protobuf', '~> 3.7')
+  else
+    s.add_dependency('google-protobuf', ['>= 3.2', '< 3.6'])
+  end
 
   s.add_development_dependency 'bundler'
   s.add_development_dependency 'rake',      '~> 12.3'
