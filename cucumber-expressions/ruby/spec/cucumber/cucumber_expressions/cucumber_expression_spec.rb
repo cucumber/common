@@ -63,6 +63,10 @@ module Cucumber
         expect(match('\\({int}) blind mice', '(3) blind mice')).to eq([3])
       end
 
+      it 'can capture an expression inside escaped parentheses with additional content' do
+        expect(match('\\(those huge {int} grey) blind mice', '(those huge 3 grey) blind mice')).to eq([3])
+      end
+
       it "matches escaped slash" do
         expect(match("12\\/2020", "12/2020")).to eq([])
       end

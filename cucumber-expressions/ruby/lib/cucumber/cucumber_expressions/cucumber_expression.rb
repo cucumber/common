@@ -10,7 +10,7 @@ module Cucumber
       PARAMETER_REGEXP = /(\\\\)?{([^}]*)}/
       OPTIONAL_REGEXP = /(\\\\)?\(([^)]+)\)/
       ALTERNATIVE_NON_WHITESPACE_TEXT_REGEXP = /([^\s^\/]+)((\/[^\s^\/]+)+)/
-      BRACKETS_WANTED_REGEXP = /\\\\\({.+}\)/
+      BRACKETS_WANTED_REGEXP = /\\\\\(.*{.+}.*\)/
       DOUBLE_ESCAPE = '\\\\'
       PARAMETER_TYPES_CANNOT_BE_ALTERNATIVE = 'Parameter types cannot be alternative: '
       PARAMETER_TYPES_CANNOT_BE_OPTIONAL = 'Parameter types cannot be optional: '
