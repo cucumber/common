@@ -17,6 +17,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Fixed
 
+* Fix Project struggling to build across JRuby and Ruby 2.6
+  ([#578](https://github.com/cucumber/cucumber/pull/578)
+  [luke-hill])
+   
 ## [2.1.1] - 2018-11-02
 
 ### Fixed
@@ -64,3 +68,4 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 [aslakhellesoy]:    https://github.com/aslakhellesoy
 [brasmusson]:       https://github.com/brasmusson
 [charlierudolph]:   https://github.com/charlierudolph
+[luke-hill]:        https://github.com/luke-hill
