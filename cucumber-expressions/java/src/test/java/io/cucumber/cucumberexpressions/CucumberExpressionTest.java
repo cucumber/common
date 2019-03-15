@@ -139,6 +139,11 @@ public class CucumberExpressionTest {
     }
 
     @Test
+    public void allows_escaped_optional_parameter_types() {
+        assertEquals(singletonList(3), match("\\({int})", "(3)"));
+    }
+
+    @Test
     public void does_not_allow_text_parameter_type_alternation() {
         expectedException.expectMessage("Parameter types cannot be alternative: x/{int}");
         match("x/{int}", "3");
