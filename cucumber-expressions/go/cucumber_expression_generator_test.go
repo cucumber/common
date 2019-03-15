@@ -190,7 +190,7 @@ func TestCucumberExpressionGeneratory(t *testing.T) {
 		require.Equal(t, typeNames, []string{"int", "float"})
 	})
 
-	t.Run("ignores parameter types with optional capture groups", func(t *testing.T) {
+	t.Run("matches parameter types with optional capture groups", func(t *testing.T) {
 		parameterTypeRegistry := NewParameterTypeRegistry()
 		optionalFlightParameterType, err := NewParameterType(
 			"optional-flight",
@@ -214,7 +214,9 @@ func TestCucumberExpressionGeneratory(t *testing.T) {
 		parameterTypeRegistry.DefineParameterType(optionalHotelParameterType)
 		generator := NewCucumberExpressionGenerator(parameterTypeRegistry)
 		generatedExpression := generator.GenerateExpressions("I reach Stage4: 1st flight-1st hotel")[0]
-		require.Equal(t, generatedExpression.Source(), "I reach Stage{int}: {int}st flight{int}st hotel")
+		// While you would expect this to be `I reach Stage{int}: {optional-flight}-{optional-hotel}`
+		// the `-1` causes {int} to match just before {optional-hotel}.
+		require.Equal(t, generatedExpression.Source(), "I reach Stage{int}: {optional-flight}{int}st hotel")
 	})
 
 	t.Run("generates at most 256 expressions", func(t *testing.T) {
@@ -236,6 +238,36 @@ func TestCucumberExpressionGeneratory(t *testing.T) {
 		// This would otherwise generate 4^11=419430 expressions and consume just shy of 1.5GB.
 		generatedExpressions := generator.GenerateExpressions("a simple step")
 		require.Equal(t, len(generatedExpressions), 256)
+	})
+
+	t.Run("prefers expression with longest non empty match", func(t *testing.T) {
+		parameterTypeRegistry := NewParameterTypeRegistry()
+		zeroOrMore, err := NewParameterType(
+			"zero-or-more",
+			[]*regexp.Regexp{regexp.MustCompile("[a-z]*")},
+			"string",
+			nil,
+			true,
+			false,
+		)
+		require.NoError(t, err)
+		parameterTypeRegistry.DefineParameterType(zeroOrMore)
+		exactlyOne, err := NewParameterType(
+			"exactly-one",
+			[]*regexp.Regexp{regexp.MustCompile("[a-z]")},
+			"string",
+			nil,
+			true,
+			false,
+		)
+		require.NoError(t, err)
+		parameterTypeRegistry.DefineParameterType(exactlyOne)
+		generator := NewCucumberExpressionGenerator(parameterTypeRegistry)
+
+		generatedExpressions := generator.GenerateExpressions("a simple step")
+		require.Equal(t, len(generatedExpressions), 2)
+		require.Equal(t, generatedExpressions[0].Source(), "{exactly-one} {zero-or-more} {zero-or-more}")
+		require.Equal(t, generatedExpressions[1].Source(), "{zero-or-more} {zero-or-more} {zero-or-more}")
 	})
 }
 
