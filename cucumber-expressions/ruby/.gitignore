@@ -2,3 +2,4 @@ coverage/
 Gemfile.lock
 pkg/
 .tested
+.rake_tasks~

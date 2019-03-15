@@ -10,7 +10,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Added
 
 ### Changed
-
+* Limit generated expressions to 256
+ ([#576](https://github.com/cucumber/cucumber/issues/576)
+   [#574](https://github.com/cucumber/cucumber/pull/574)
+   [mpkorstanje])
 ### Deprecated
 
 ### Removed
