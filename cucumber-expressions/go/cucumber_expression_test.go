@@ -109,14 +109,6 @@ func TestCucumberExpression(t *testing.T) {
 		)
 	})
 
-	t.Run("ignores parenthesis around int expression", func(t *testing.T) {
-		require.Equal(
-			t,
-			MatchCucumberExpression(t, "\\\\({int}) blind mice", `(3) blind mice`),
-			[]interface{}{3},
-		)
-	})
-
 	t.Run("matches escaped slash", func(t *testing.T) {
 		require.Equal(
 			t,
@@ -178,6 +170,14 @@ func TestCucumberExpression(t *testing.T) {
 		_, err := NewCucumberExpression("({int})", parameterTypeRegistry)
 		require.Error(t, err)
 		require.Equal(t, "Parameter types cannot be optional: ({int})", err.Error())
+	})
+
+	t.Run("allows escaped optional parameters", func(t *testing.T) {
+		require.Equal(
+			t,
+			MatchCucumberExpression(t, "\\\\({int})", `(3)`),
+			[]interface{}{3},
+		)
 	})
 
 	t.Run("does not allow text/parameter type alternation", func(t *testing.T) {
