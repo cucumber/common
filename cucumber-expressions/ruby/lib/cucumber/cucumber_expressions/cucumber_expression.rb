@@ -19,7 +19,7 @@ module Cucumber
       def initialize(expression, parameter_type_registry)
         @source = expression
         @parameter_types = []
-        
+
         expression = process_escapes(expression)
         expression = process_optional(expression)
         expression = process_alternation(expression)
@@ -51,9 +51,22 @@ module Cucumber
         # Create non-capturing, optional capture groups from parenthesis
         expression.gsub(OPTIONAL_REGEXP) do
           g2 = $2
-          check_no_parameter_type(g2, PARAMETER_TYPES_CANNOT_BE_OPTIONAL)
+          # When using Parameter Types, the () characters are used to represent an optional
+          # item such as (a ) which would be equivalent to (?:a )? in regex
+          #
+          # You cannot have optional Parameter Types i.e. ({int}) as this causes
+          # problems during the conversion phase to regex. So we check for that here
+          #
+          # One exclusion to this rule is if you actually want the brackets i.e. you
+          # want to capture (3) then we still permit this as an individual rule
+          # See: https://github.com/cucumber/cucumber-ruby/issues/1337 for more info
           # look for double-escaped parentheses
-          $1 == DOUBLE_ESCAPE ? "\\(#{g2}\\)" : "(?:#{g2})?"
+          if $1 == DOUBLE_ESCAPE
+            "\\(#{g2}\\)"
+          else
+            check_no_parameter_type(g2, PARAMETER_TYPES_CANNOT_BE_OPTIONAL)
+            "(?:#{g2})?"
+          end
         end
       end
 

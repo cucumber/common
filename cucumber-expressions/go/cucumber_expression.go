@@ -85,13 +85,12 @@ func (c *CucumberExpression) processEscapes(expression string) string {
 func (c *CucumberExpression) processOptional(expression string) (string, error) {
 	var err error
 	result := OPTIONAL_REGEXP.ReplaceAllStringFunc(expression, func(match string) string {
+		if strings.HasPrefix(match, DOUBLE_ESCAPE) {
+			return fmt.Sprintf(`\(%s\)`, match[5:len(match)-1])
+		}
 		if PARAMETER_REGEXP.MatchString(match) {
 			err = NewCucumberExpressionError(fmt.Sprintf("Parameter types cannot be optional: %s", c.source))
 			return match
-		}
-
-		if strings.HasPrefix(match, DOUBLE_ESCAPE) {
-			return fmt.Sprintf(`\(%s\)`, match[5:len(match)-1])
 		}
 		return fmt.Sprintf("(?:%s)?", match[1:len(match)-1])
 	})

@@ -19,7 +19,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Removed
 
 ### Fixed
-
+* Allow parameter-types in escaped optional groups
+   ([#572](https://github.com/cucumber/cucumber/pull/572)
+     [#561](https://github.com/cucumber/cucumber/pull/561)
+     [luke-hill], [jaysonesmith], [mpkorstanje])
+     
 * (Java) Improve heuristics for creating Cucumber/Regular Expressions from strings
   ([#515](https://github.com/cucumber/cucumber/issues/515)
    [#518](https://github.com/cucumber/cucumber/pull/518)

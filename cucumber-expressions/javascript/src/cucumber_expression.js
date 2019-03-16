@@ -46,8 +46,11 @@ class CucumberExpression {
 
   processOptional(expression) {
     return expression.replace(OPTIONAL_REGEXP(), (match, p1, p2) => {
+      if (p1 === DOUBLE_ESCAPE) {
+        return `\\(${p2}\\)`
+      }
       this._checkNoParameterType(p2, PARAMETER_TYPES_CANNOT_BE_OPTIONAL)
-      return p1 === DOUBLE_ESCAPE ? `\\(${p2}\\)` : `(?:${p2})?`
+      return `(?:${p2})?`
     })
   }
 

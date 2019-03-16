@@ -94,6 +94,10 @@ module Cucumber
         expect {match("({int})", "3")}.to raise_error('Parameter types cannot be optional: ({int})')
       end
 
+      it "does allow escaped optional parameter types" do
+        expect(match("\\({int})", "(3)")).to eq([3])
+      end
+
       it "does not allow text/parameter type alternation" do
         expect {match("x/{int}", "3")}.to raise_error('Parameter types cannot be alternative: x/{int}')
       end
