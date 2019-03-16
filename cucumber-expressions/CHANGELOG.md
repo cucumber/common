@@ -11,7 +11,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Changed
 * Limit generated expressions to 256
- ([#576](https://github.com/cucumber/cucumber/issues/576)
+ ([#576](https://github.com/cucumber/cucumber/issues/576),
    [#574](https://github.com/cucumber/cucumber/pull/574)
    [mpkorstanje])
 ### Deprecated
@@ -20,9 +20,19 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Fixed
 * Allow parameter-types in escaped optional groups
-   ([#572](https://github.com/cucumber/cucumber/pull/572)
+   ([#572](https://github.com/cucumber/cucumber/pull/572),
      [#561](https://github.com/cucumber/cucumber/pull/561)
      [luke-hill], [jaysonesmith], [mpkorstanje])
+     
+* : Prefer expression with the longest non-empty match #580
+  ([#580](https://github.com/cucumber/cucumber/pull/580),
+    [#575](https://github.com/cucumber/cucumber/issues/575)
+    [mpkorstanje])
+     
+
+## [6.2.1] - 2018-11-30
+
+### Fixed 
      
 * (Java) Improve heuristics for creating Cucumber/Regular Expressions from strings
   ([#515](https://github.com/cucumber/cucumber/issues/515)
