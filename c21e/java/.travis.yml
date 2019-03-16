@@ -3,7 +3,6 @@ language: java
 jdk:
 - oraclejdk8
 - openjdk11
-- openjdk-ea
 jobs:
   include:
   - stage: deploy
