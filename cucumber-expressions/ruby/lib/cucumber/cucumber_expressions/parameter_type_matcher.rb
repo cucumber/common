@@ -9,7 +9,14 @@ module Cucumber
       end
 
       def advance_to(new_match_position)
-        self.class.new(parameter_type, @regexp, @text, new_match_position)
+        (new_match_position...@text.length).each {|advancedPos|
+          matcher = self.class.new(parameter_type, @regexp, @text, advancedPos)
+          if matcher.find
+            return matcher
+          end
+        }
+
+        self.class.new(parameter_type, @regexp, @text, @text.length)
       end
 
       def find

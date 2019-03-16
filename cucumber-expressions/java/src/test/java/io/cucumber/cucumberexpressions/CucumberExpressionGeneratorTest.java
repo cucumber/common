@@ -235,7 +235,7 @@ public class CucumberExpressionGeneratorTest {
     }
 
     @Test
-    public void ignores_parameter_types_with_optional_capture_groups() {
+    public void matches_parameter_types_with_optional_capture_groups() {
         ParameterType<String> optionalFlight = new ParameterType<>(
                 "optional-flight",
                 "(1st flight)?",
@@ -265,12 +265,10 @@ public class CucumberExpressionGeneratorTest {
 
         parameterTypeRegistry.defineParameterType(optionalFlight);
         parameterTypeRegistry.defineParameterType(optionalHotel);
-        // Notice the hotl typo
-        List<GeneratedExpression> generatedExpressions = generator.generateExpressions("I reach Stage4: 1st flight-1st hotl");
-        // Because the parameter's regexp has an optional capture group, its value is "" when we match it against the
-        // undefined step. For that reason we ignore it when we generate the snippets.
-        // It would be nice if we could get a value out of the group, but I haven't figured out how.
-        assertEquals("I reach Stage{int}: {int}st flight{int}st hotl", generatedExpressions.get(0).getSource());
+        // While you would expect this to be `I reach Stage{int}: {optional-flight}-{optional-hotel}` the `-1` causes
+        // {int} to match just before {optional-hotel}.
+        List<GeneratedExpression> generatedExpressions = generator.generateExpressions("I reach Stage4: 1st flight-1st hotel");
+        assertEquals("I reach Stage{int}: {optional-flight}{int}st hotel", generatedExpressions.get(0).getSource());
     }
 
     @Test
@@ -294,6 +292,43 @@ public class CucumberExpressionGeneratorTest {
         }
         // This would otherwise generate 4^11=419430 expressions and consume just shy of 1.5GB.
         assertEquals(256, generator.generateExpressions("a simple step").size());
+    }
+
+    @Test
+    public void prefers_expression_with_longest_non_empty_match() {
+        ParameterType<String> zeroOrMore = new ParameterType<>(
+                "zero-or-more",
+                "[a-z]*",
+                String.class,
+                new Transformer<String>() {
+                    @Override
+                    public String transform(String arg) {
+                        return arg;
+                    }
+                },
+                true,
+                false
+        );
+        parameterTypeRegistry.defineParameterType(zeroOrMore);
+        ParameterType<String> exactlyOne = new ParameterType<>(
+                "exactly-one",
+                "[a-z]",
+                String.class,
+                new Transformer<String>() {
+                    @Override
+                    public String transform(String arg) {
+                        return arg;
+                    }
+                },
+                true,
+                false
+        );
+        parameterTypeRegistry.defineParameterType(exactlyOne);
+
+        List<GeneratedExpression> generatedExpressions = generator.generateExpressions("a simple step");
+        assertEquals(2, generatedExpressions.size());
+        assertEquals("{exactly-one} {zero-or-more} {zero-or-more}", generatedExpressions.get(0).getSource());
+        assertEquals("{zero-or-more} {zero-or-more} {zero-or-more}", generatedExpressions.get(1).getSource());
     }
 
     private void assertExpression(String expectedExpression, List<String> expectedArgumentNames, String text) {
