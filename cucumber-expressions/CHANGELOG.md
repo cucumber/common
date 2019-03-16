@@ -24,7 +24,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
      [#561](https://github.com/cucumber/cucumber/pull/561)
      [luke-hill], [jaysonesmith], [mpkorstanje])
      
-* : Prefer expression with the longest non-empty match #580
+* Prefer expression with the longest non-empty match #580
   ([#580](https://github.com/cucumber/cucumber/pull/580),
     [#575](https://github.com/cucumber/cucumber/issues/575)
     [mpkorstanje])
