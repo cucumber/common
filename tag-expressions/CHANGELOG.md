@@ -25,7 +25,9 @@ N/A
    [aslakhellesoy])
 
 ### Fixed
-N/A
+* Documentation links now point to new website (cucumber.io)
+  ([#560](https://github.com/cucumber/cucumber/issues/560)
+   [luke-hill])
 
 ## [1.1.1] - 2017-12-01
 
@@ -85,3 +87,4 @@ N/A
 [brasmusson]:       https://github.com/brasmusson
 [charlierudolph]:   https://github.com/charlierudolph
 [link89]:           https://github.com/link89
+[luke-hill]:        https://github.com/luke-hill
