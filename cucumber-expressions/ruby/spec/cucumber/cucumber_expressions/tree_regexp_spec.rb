@@ -17,13 +17,22 @@ module Cucumber
         expect(group.children[1].value).to eq('c')
       end
 
-      it 'ignores non-capturing groups' do
-        tr = TreeRegexp.new(/(a(?:b)?)(c)/)
-        group = tr.match('ac')
-        expect(group.value).to eq('ac')
-        expect(group.children[0].value).to eq('a')
-        expect(group.children[0].children).to eq([])
-        expect(group.children[1].value).to eq('c')
+      context 'non-capturing groups' do
+        it 'ignores `?:` as a non-capturing group' do
+          tr = TreeRegexp.new(/a(?:b)(c)/)
+          group = tr.match('abc')
+          expect(group.value).to eq('abc')
+          expect(group.children[0].value).to eq('c')
+          expect(group.children[0].children).to eq([])
+        end
+
+        it 'ignores `?!` as a non-capturing group' do
+          tr = TreeRegexp.new(/a(?!b)(c)/)
+          group = tr.match('aBc')
+          expect(group.value).to eq('aBc')
+          expect(group.children[0].value).to eq('c')
+          expect(group.children[0].children).to eq([])
+        end
       end
 
       it 'matches optional group' do

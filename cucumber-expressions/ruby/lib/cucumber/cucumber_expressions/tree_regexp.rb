@@ -15,36 +15,36 @@ module Cucumber
         non_capturing_maybe = false
         char_class = false
 
-        @regexp.source.split('').each_with_index do |c, n|
-          if c == '[' && !escaping
+        @regexp.source.each_char.with_index do |char, index|
+          if char == '[' && !escaping
             char_class = true
-          elsif c == ']' && !escaping
+          elsif char == ']' && !escaping
             char_class = false
-          elsif c == '(' && !escaping && !char_class
+          elsif char == '(' && !escaping && !char_class
             stack.push(GroupBuilder.new)
-            group_start_stack.push(n+1)
+            group_start_stack.push(index+1)
             non_capturing_maybe = false
-          elsif c == ')' && !escaping && !char_class
+          elsif char == ')' && !escaping && !char_class
             gb = stack.pop
             group_start = group_start_stack.pop
             if gb.capturing?
-              gb.source = @regexp.source[group_start...n]
+              gb.source = @regexp.source[group_start...index]
               stack.last.add(gb)
             else
               gb.move_children_to(stack.last)
             end
             non_capturing_maybe = false
-          elsif c == '?' && last == '('
+          elsif char == '?' && last == '('
             non_capturing_maybe = true
-          elsif c == ':' && non_capturing_maybe
+          elsif char == ':' || char == '!' && non_capturing_maybe
             stack.last.set_non_capturing!
             non_capturing_maybe = false
-          elsif c == '<' && non_capturing_maybe
+          elsif char == '<' && non_capturing_maybe
             raise CucumberExpressionError.new("Named capture groups are not supported. See https://github.com/cucumber/cucumber/issues/329")
           end
 
-          escaping = c == '\\' && !escaping
-          last = c
+          escaping = char == '\\' && !escaping
+          last = char
         end
         @group_builder = stack.pop
       end
