@@ -216,16 +216,9 @@ describe('CucumberExpressionGenerator', () => {
   })
 
   it('generates at most 256 expressions', () => {
-    for (let i = 0; i < 4; i++){
+    for (let i = 0; i < 4; i++) {
       parameterTypeRegistry.defineParameterType(
-        new ParameterType(
-            'my-type-' + i,
-            /[a-z]/,
-            null,
-            s => s,
-            true,
-            false
-        )
+        new ParameterType('my-type-' + i, /[a-z]/, null, s => s, true, false)
       )
     }
     // This would otherwise generate 4^11=419430 expressions and consume just shy of 1.5GB.
@@ -235,38 +228,21 @@ describe('CucumberExpressionGenerator', () => {
 
   it('prefers expression with longest non empty match', () => {
     parameterTypeRegistry.defineParameterType(
-        new ParameterType(
-            'zero-or-more',
-            /[a-z]*/,
-            null,
-            s => s,
-            true,
-            false
-        )
+      new ParameterType('zero-or-more', /[a-z]*/, null, s => s, true, false)
     )
     parameterTypeRegistry.defineParameterType(
-        new ParameterType(
-            'exactly-one',
-            /[a-z]/,
-            null,
-            s => s,
-            true,
-            false
-        )
+      new ParameterType('exactly-one', /[a-z]/, null, s => s, true, false)
     )
 
-    const expressions = generator.generateExpressions(
-        'a simple step'
-    )
+    const expressions = generator.generateExpressions('a simple step')
     assert.equal(expressions.length, 2)
     assert.equal(
-        expressions[0].source,
-        '{exactly-one} {zero-or-more} {zero-or-more}'
+      expressions[0].source,
+      '{exactly-one} {zero-or-more} {zero-or-more}'
     )
     assert.equal(
-        expressions[1].source,
-        '{zero-or-more} {zero-or-more} {zero-or-more}'
+      expressions[1].source,
+      '{zero-or-more} {zero-or-more} {zero-or-more}'
     )
   })
-
 })

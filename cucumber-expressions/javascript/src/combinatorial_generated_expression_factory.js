@@ -1,7 +1,7 @@
 const GeneratedExpression = require('./generated_expression')
 
 // 256 generated expressions ought to be enough for anybody
-const MAX_EXPRESSIONS = 256;
+const MAX_EXPRESSIONS = 256
 
 class CombinatorialGeneratedExpressionFactory {
   constructor(expressionTemplate, parameterTypeCombinations) {
@@ -16,7 +16,7 @@ class CombinatorialGeneratedExpressionFactory {
   }
 
   _generatePermutations(generatedExpressions, depth, currentParameterTypes) {
-    if(generatedExpressions.length >= MAX_EXPRESSIONS){
+    if (generatedExpressions.length >= MAX_EXPRESSIONS) {
       return
     }
 
@@ -29,7 +29,7 @@ class CombinatorialGeneratedExpressionFactory {
 
     for (let i = 0; i < this._parameterTypeCombinations[depth].length; ++i) {
       // Avoid recursion if no elements can be added.
-      if(generatedExpressions.length >= MAX_EXPRESSIONS){
+      if (generatedExpressions.length >= MAX_EXPRESSIONS) {
         return
       }
 

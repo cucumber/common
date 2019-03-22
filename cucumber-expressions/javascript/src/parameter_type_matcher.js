@@ -14,16 +14,20 @@ class ParameterTypeMatcher {
   }
 
   advanceTo(newMatchPosition) {
-    for (let advancedPos = newMatchPosition; advancedPos < this._text.length; advancedPos++) {
+    for (
+      let advancedPos = newMatchPosition;
+      advancedPos < this._text.length;
+      advancedPos++
+    ) {
       let matcher = new ParameterTypeMatcher(
-          this._parameterType,
-          this._treeRegexp,
-          this._text,
-          advancedPos
-      );
+        this._parameterType,
+        this._treeRegexp,
+        this._text,
+        advancedPos
+      )
 
-      if(matcher.find){
-        return matcher;
+      if (matcher.find) {
+        return matcher
       }
     }
 
