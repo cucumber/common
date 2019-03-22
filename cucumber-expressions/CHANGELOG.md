@@ -17,7 +17,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Fixed
 
-## [6.2.2] - 2019-03-22
+## [6.2.3] - 2019-03-22
+
+### Fixed
+
+* Ruby release process working again
+
+## [6.2.2] - 2019-03-16
 
 ### Changed
 
@@ -507,7 +513,8 @@ N/A
 * First stable release!
 
 <!-- Releases -->
-[Unreleased]: https://github.com/cucumber/cucumber/compare/cucumber-expressions-v6.2.2...master
+[Unreleased]: https://github.com/cucumber/cucumber/compare/cucumber-expressions-v6.2.3...master
+[6.2.3]:      https://github.com/cucumber/cucumber/compare/cucumber-expressions-v6.2.2...cucumber-expressions-v6.2.3
 [6.2.2]:      https://github.com/cucumber/cucumber/compare/cucumber-expressions-v6.2.1...cucumber-expressions-v6.2.2
 [6.2.1]:      https://github.com/cucumber/cucumber/compare/cucumber-expressions-v6.2.0...cucumber-expressions-v6.2.1
 [6.2.0]:      https://github.com/cucumber/cucumber/compare/cucumber-expressions-v6.1.2...cucumber-expressions-v6.2.0
