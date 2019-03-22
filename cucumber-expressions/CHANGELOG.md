@@ -10,25 +10,33 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Added
 
 ### Changed
-* Limit generated expressions to 256
- ([#576](https://github.com/cucumber/cucumber/issues/576),
-   [#574](https://github.com/cucumber/cucumber/pull/574)
-   [mpkorstanje])
+
 ### Deprecated
 
 ### Removed
 
 ### Fixed
+
+## [6.2.2] - 2019-03-22
+
+### Changed
+
+* Limit generated expressions to 256
+ ([#576](https://github.com/cucumber/cucumber/issues/576),
+   [#574](https://github.com/cucumber/cucumber/pull/574)
+   [mpkorstanje])
+
+### Fixed
+
 * Allow parameter-types in escaped optional groups
    ([#572](https://github.com/cucumber/cucumber/pull/572),
      [#561](https://github.com/cucumber/cucumber/pull/561)
      [luke-hill], [jaysonesmith], [mpkorstanje])
-     
+
 * Prefer expression with the longest non-empty match #580
   ([#580](https://github.com/cucumber/cucumber/pull/580),
     [#575](https://github.com/cucumber/cucumber/issues/575)
     [mpkorstanje])
-     
 
 ## [6.2.1] - 2018-11-30
 
@@ -499,9 +507,11 @@ N/A
 * First stable release!
 
 <!-- Releases -->
-[Unreleased]: https://github.com/cucumber/cucumber/compare/cucumber-expressions-v6.2.0...master
-[6.2.0]:      https://github.com/cucumber/cucumber/compare/cucumber-expressions-v6.1.2..cucumber-expressions-v6.2.0
-[6.1.2]:      https://github.com/cucumber/cucumber/compare/cucumber-expressions-v6.1.0..cucumber-expressions-v6.1.2
+[Unreleased]: https://github.com/cucumber/cucumber/compare/cucumber-expressions-v6.2.2...master
+[6.2.2]:      https://github.com/cucumber/cucumber/compare/cucumber-expressions-v6.2.1...cucumber-expressions-v6.2.2
+[6.2.1]:      https://github.com/cucumber/cucumber/compare/cucumber-expressions-v6.2.0...cucumber-expressions-v6.2.1
+[6.2.0]:      https://github.com/cucumber/cucumber/compare/cucumber-expressions-v6.1.2...cucumber-expressions-v6.2.0
+[6.1.2]:      https://github.com/cucumber/cucumber/compare/cucumber-expressions-v6.1.0...cucumber-expressions-v6.1.2
 [6.1.1]:      https://github.com/cucumber/cucumber/compare/cucumber-expressions-v6.1.0...cucumber-expressions-v6.1.1
 [6.1.0]:      https://github.com/cucumber/cucumber/compare/cucumber-expressions-v6.0.1...cucumber-expressions-v6.1.0
 [6.0.1]:      https://github.com/cucumber/cucumber/compare/cucumber-expressions-v6.0.0...cucumber-expressions-v6.0.1
