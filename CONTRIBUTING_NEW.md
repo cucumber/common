@@ -6,6 +6,7 @@ of the module, and all associated module repos will be tagged.
 Checklist:
 
 * Maven `pom.xml` should *not* have any `-SNAPSHOT` dependencies
+* Maven `pom.xml` version field should not contain `-SNAPSHOT`
 
 Triggering a release is simple:
 
