@@ -3,10 +3,10 @@
 *Note:* When a module is released, artifacts will be published for *all* implementations
 of the module, and all associated module repos will be tagged.
 
-Checklist:
+Please pay attention to the following:
 
 * Maven `pom.xml` should *not* have any `-SNAPSHOT` dependencies
-* Maven `pom.xml` version field should not contain `-SNAPSHOT`
+* Do not remove the `-SNAPSHOT` suffix from the maven `pom.xml` version field, the build process will remove it automatically 
 
 Triggering a release is simple:
 
