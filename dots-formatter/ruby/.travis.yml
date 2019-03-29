@@ -1,24 +1,25 @@
 sudo: false
 language: ruby
+
 rvm:
-- 2.5.1
-- 2.4.4
-- 2.3.7
-- 2.2.10
-- jruby-9.2.0.0
+- 2.6
+- 2.5
+- 2.4
+- 2.3
+- 2.2
+- jruby-9.2.6.0
+
 script: make default
-matrix:
-  allow_failures:
-  - rvm: jruby-9.2.0.0
+
 jobs:
   include:
-  - stage: deploy
-    ruby: "2.5.3"
-deploy:
-  skip_cleanup: true
-  provider: rubygems
-  gem: cucumber-formatter-dots
-  on:
-    tags: true
-  api_key:
-    secure: pu+yTF61Up4jfTM+mMXs3x3IXoRwqrP75jeYMAfmTKbTHLUZWmu6c6S2R9+9iracK0VhKT430sDTvsBiinu8u3qxohXnih5ijYR6sY9YtCFZqglF3JwLuAYn14quwnHidjM7Zik050o1BRxpxLmp4n/ViynSdBv5JcJ9gK24o8AD9ErsT+l2mIS2W6vrnrA9KRGQ14GPpKjSE2YtCm+zV0mZ65HIAr2JP6FMo7CEwWj1ngLmqA8M/6aQelcelIt8iRK3UeGjZEtt0/E3XZX2sNAPzaUhIze4PmOAtJk8Il0SoTej7QTELXciKav4CLe73Vv67qxDh3wWp1yGdFIPPuxNFQQpwsKw3wDm/48ViLgF6sf2x0TOeojpRTOC92ZqT+0dVAWhDGMjcTSeA68tfwR/UH/BQoaM7o1rgr7KlKwB1WD0gukCCKjo4XU2soHxh/w8qC8LHepSv8XRiBb/pG64CkzBQpZhi2diERjVrTS31BgWGWPrrPon1DR98TJn4XCUlhJ5DJjyrcp/qLkyFNKxXHOj46tQGLozomZBv98BAYC9JBkJdvSV8N3i8MO02dXYf0X19XTOzslE1UKGq4dCTIt2b5UE8RQ9jVudJGxo81iXIMKn13RskadVtfamYYEMa0hQwWhJJ5afoHdKg6uVmTwe7pNlYt625+O6TPY=
+  - stage: gem push
+    ruby: 2.6
+    deploy:
+      provider: rubygems
+      skip_cleanup: true
+      on:
+        tags: true
+      api_key:
+        secure: pu+yTF61Up4jfTM+mMXs3x3IXoRwqrP75jeYMAfmTKbTHLUZWmu6c6S2R9+9iracK0VhKT430sDTvsBiinu8u3qxohXnih5ijYR6sY9YtCFZqglF3JwLuAYn14quwnHidjM7Zik050o1BRxpxLmp4n/ViynSdBv5JcJ9gK24o8AD9ErsT+l2mIS2W6vrnrA9KRGQ14GPpKjSE2YtCm+zV0mZ65HIAr2JP6FMo7CEwWj1ngLmqA8M/6aQelcelIt8iRK3UeGjZEtt0/E3XZX2sNAPzaUhIze4PmOAtJk8Il0SoTej7QTELXciKav4CLe73Vv67qxDh3wWp1yGdFIPPuxNFQQpwsKw3wDm/48ViLgF6sf2x0TOeojpRTOC92ZqT+0dVAWhDGMjcTSeA68tfwR/UH/BQoaM7o1rgr7KlKwB1WD0gukCCKjo4XU2soHxh/w8qC8LHepSv8XRiBb/pG64CkzBQpZhi2diERjVrTS31BgWGWPrrPon1DR98TJn4XCUlhJ5DJjyrcp/qLkyFNKxXHOj46tQGLozomZBv98BAYC9JBkJdvSV8N3i8MO02dXYf0X19XTOzslE1UKGq4dCTIt2b5UE8RQ9jVudJGxo81iXIMKn13RskadVtfamYYEMa0hQwWhJJ5afoHdKg6uVmTwe7pNlYt625+O6TPY=
+      gem: cucumber-formatter-dots
