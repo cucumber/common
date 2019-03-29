@@ -5,7 +5,7 @@
     <parent>
         <groupId>io.cucumber</groupId>
         <artifactId>cucumber-parent</artifactId>
-        <version>1.0.1</version>
+        <version>1.0.3</version>
     </parent>
     <artifactId>messages</artifactId>
     <version>2.1.1-SNAPSHOT</version>
