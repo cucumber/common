@@ -264,7 +264,7 @@ var buildinDialects = gherkinDialectMap{
 				"Kontekst",
 			},
 			scenario: []string{
-				"Nümunələr",
+				"Nümunə",
 				"Ssenari",
 			},
 			scenarioOutline: []string{

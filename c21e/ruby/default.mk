@@ -3,7 +3,7 @@ RUBY_SOURCE_FILES = $(shell find . -name "*.rb")
 GEMSPECS = $(shell find . -name "*.gemspec")
 
 ifdef TRAVIS_BRANCH
-	LIBRARY_VERSION=$(TRAVIS_BRANCH)
+	LIBRARY_VERSION=master
 endif
 ifdef TRAVIS_TAG
 	LIBRARY_VERSION=$(TRAVIS_TAG)

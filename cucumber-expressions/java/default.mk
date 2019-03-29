@@ -2,7 +2,7 @@ SHELL := /usr/bin/env bash
 JAVA_SOURCE_FILES = $(shell find . -name "*.java")
 
 ifdef TRAVIS_BRANCH
-	LIBRARY_VERSION=$(TRAVIS_BRANCH)
+	LIBRARY_VERSION=master
 endif
 ifdef TRAVIS_TAG
 	LIBRARY_VERSION=$(TRAVIS_TAG)

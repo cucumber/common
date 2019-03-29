@@ -2,7 +2,7 @@ SHELL := /usr/bin/env bash
 JAVASCRIPT_SOURCE_FILES = $(shell find . -name "*.js" -not -path "./node_modules/*")
 
 ifdef TRAVIS_BRANCH
-	LIBRARY_VERSION=$(TRAVIS_BRANCH)
+	LIBRARY_VERSION=master
 endif
 ifdef TRAVIS_TAG
 	LIBRARY_VERSION=$(TRAVIS_TAG)
