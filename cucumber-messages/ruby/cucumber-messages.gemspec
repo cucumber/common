@@ -9,7 +9,7 @@ Gem::Specification.new do |s|
   s.homepage    = "https://github.com/cucumber/cucumber-messages-ruby#readme"
   s.platform    = Gem::Platform::RUBY
   s.license     = "MIT"
-  s.required_ruby_version = ">= 1.9.3"
+  s.required_ruby_version = ">= 2.3"
 
   s.metadata    = {
                     'bug_tracker_uri'   => 'https://github.com/cucumber/cucumber/issues',
