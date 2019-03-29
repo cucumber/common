@@ -8,7 +8,7 @@ Please pay attention to the following:
 * Maven `pom.xml` should *not* have any `-SNAPSHOT` dependencies
 * Do not remove the `-SNAPSHOT` suffix from the maven `pom.xml` version field, the build process will remove it automatically 
 * Update the CHANGELOG.md
-  * Update the version and contributer links at the bottom of the files
+  * Update the version and contributor links at the bottom of the files
   * Create a new empty "Unreleased" section
   * Update the title for the new release
   * Remove the empty change sections
