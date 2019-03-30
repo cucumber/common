@@ -8,6 +8,10 @@ rvm:
 - 2.3
 - jruby-9.2.6.0
 
+matrix:
+  allow_failures:
+  - rvm: jruby-9.2.6.0
+
 script: make default
 
 jobs:
