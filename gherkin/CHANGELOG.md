@@ -19,7 +19,7 @@ This document is formatted according to the principles of [Keep A CHANGELOG](htt
 
 ### Fixed
 
-## [6.0.16] - 2019-03-29
+## [6.0.17] - 2019-03-31
 
 ### Changed
 
@@ -486,8 +486,8 @@ to Gherkin 2.
 * First release
 
 <!-- Releases -->
-[Unreleased]: https://github.com/cucumber/cucumber/compare/gherkin/v6.0.16...HEAD
-[6.0.16]:     https://github.com/cucumber/cucumber/compare/gherkin-v6.0.15...gherkin/v6.0.16
+[Unreleased]: https://github.com/cucumber/cucumber/compare/gherkin/v6.0.17...HEAD
+[6.0.17]:     https://github.com/cucumber/cucumber/compare/gherkin-v6.0.15...gherkin/v6.0.17
 [6.0.15]:     https://github.com/cucumber/cucumber/compare/gherkin-v6.0.14...gherkin/v6.0.15
 [6.0.14]:     https://github.com/cucumber/cucumber/compare/gherkin-v6.0.13...gherkin/v6.0.14
 [6.0.13]:     https://github.com/cucumber/cucumber/compare/gherkin-v5.1.0...gherkin/v6.0.13
