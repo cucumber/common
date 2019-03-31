@@ -9,7 +9,7 @@
         <version>1.0.3</version>
     </parent>
     <artifactId>gherkin</artifactId>
-    <version>6.0.16</version>
+    <version>6.0.17</version>
     <packaging>jar</packaging>
     <name>Gherkin</name>
     <description>Gherkin parser</description>
