@@ -6,17 +6,15 @@ module Cucumber
     describe Messages do
       it "builds a pickle doc string" do
         location = Location.new(line: 10, column: 20)
-        pickle_doc_tring = PickleDocString.new(
+        pds = PickleDocString.new(
           location: location, 
           contentType: 'text/plain', 
           content: 'some\ncontent\n'
         )
-        expect(JSON.parse(PickleDocString.encode_json(pickle_doc_tring)))
-          .to(eq(
-            'location' => { 'line' => 10, 'column' => 20 },
-            'contentType' => 'text/plain',
-            'content' => 'some\ncontent\n' 
-          ))
+        expect(pds.location.line).to(eq(10))
+        expect(pds.location.column).to(eq(20))
+        expect(pds.contentType).to(eq('text/plain'))
+        expect(pds.content).to(eq('some\ncontent\n'))
       end
     end
   end
