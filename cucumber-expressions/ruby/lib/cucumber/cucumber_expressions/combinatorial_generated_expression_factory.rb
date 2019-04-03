@@ -15,9 +15,14 @@ module Cucumber
         generated_expressions
       end
 
-      private
+      # 256 generated expressions ought to be enough for anybody
+      MAX_EXPRESSIONS = 256
 
       def generate_permutations(generated_expressions, depth, current_parameter_types)
+        if generated_expressions.length >= MAX_EXPRESSIONS
+          return
+        end
+
         if depth == @parameter_type_combinations.length
           generated_expression = GeneratedExpression.new(@expression_template, current_parameter_types)
           generated_expressions.push(generated_expression)
@@ -25,6 +30,10 @@ module Cucumber
         end
 
         (0...@parameter_type_combinations[depth].length).each do |i|
+          # Avoid recursion if no elements can be added.
+          if generated_expressions.length >= MAX_EXPRESSIONS
+            return
+          end
           new_current_parameter_types = current_parameter_types.dup # clone
           new_current_parameter_types.push(@parameter_type_combinations[depth][i])
           generate_permutations(

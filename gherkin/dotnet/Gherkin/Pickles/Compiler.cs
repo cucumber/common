@@ -228,7 +228,7 @@ namespace Gherkin.Pickles
             );
         }
 
-        protected virtual PickleLocation PickleLocation(Location location)
+        protected virtual PickleLocation PickleLocation(Ast.Location location)
         {
             return new PickleLocation(location.Line, location.Column);
         }

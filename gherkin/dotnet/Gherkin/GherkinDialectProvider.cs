@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using Gherkin.Ast;
-using Newtonsoft.Json;
 using System.Reflection;
 
 namespace Gherkin
@@ -11,30 +10,11 @@ namespace Gherkin
     public interface IGherkinDialectProvider
     {
         GherkinDialect DefaultDialect { get; }
-        GherkinDialect GetDialect(string language, Location location);
+        GherkinDialect GetDialect(string language, Ast.Location location);
     }
 
     public class GherkinDialectProvider : IGherkinDialectProvider
     {
-        protected class GherkinLanguageSetting
-        {
-            // ReSharper disable InconsistentNaming
-            public string name;
-            public string native;
-            public string[] feature;
-            public string[] rule;
-            public string[] background;
-            public string[] scenario;
-            public string[] scenarioOutline;
-            public string[] examples;
-            public string[] given;
-            public string[] when;
-            public string[] then;
-            public string[] and;
-            public string[] but;
-            // ReSharper restore InconsistentNaming
-        }
-
         private readonly Lazy<GherkinDialect> defaultDialect;
 
         public GherkinDialect DefaultDialect
@@ -47,13 +27,13 @@ namespace Gherkin
             defaultDialect = new Lazy<GherkinDialect>(() => GetDialect(defaultLanguage, null));
         }
 
-        protected virtual bool TryGetDialect(string language, Location location, out GherkinDialect dialect)
+        protected virtual bool TryGetDialect(string language, Ast.Location location, out GherkinDialect dialect)
         {
             var gherkinLanguageSettings = LoadLanguageSettings();
             return TryGetDialect(language, gherkinLanguageSettings, location, out dialect);
         }
 
-        public virtual GherkinDialect GetDialect(string language, Location location)
+        public virtual GherkinDialect GetDialect(string language, Ast.Location location)
         {
             if (!TryGetDialect(language, location, out var dialect))
                 throw new NoSuchLanguageException(language, location);
@@ -64,15 +44,8 @@ namespace Gherkin
         {
             const string languageFileName = "gherkin-languages.json";
             
-            #if NET45            
-            var assembly = typeof(GherkinDialectProvider).Assembly;
-            var resourceStream = assembly.GetManifestResourceStream(typeof(GherkinDialectProvider), languageFileName);                        
-            #endif
-            
-            #if (NETSTANDARD1_5 || NETCOREAPP1_0 || NETCOREAPP1_1)
-            var assembly = typeof(GherkinDialectProvider).GetTypeInfo().Assembly;            
+            var assembly = typeof(GherkinDialectProvider).Assembly;            
             var resourceStream = assembly.GetManifestResourceStream("Gherkin." + languageFileName);            
-            #endif
                                     
             if (resourceStream == null)
                 throw new InvalidOperationException("Gherkin language resource not found: " + languageFileName);
@@ -83,10 +56,10 @@ namespace Gherkin
 
         protected Dictionary<string, GherkinLanguageSetting> ParseJsonContent(string languagesFileContent)
         {
-            return JsonConvert.DeserializeObject<Dictionary<string, GherkinLanguageSetting>>(languagesFileContent);
+            return Utf8Json.JsonSerializer.Deserialize<Dictionary<string, GherkinLanguageSetting>>(languagesFileContent);
         }
 
-        protected virtual bool TryGetDialect(string language, Dictionary<string, GherkinLanguageSetting> gherkinLanguageSettings, Location location, out GherkinDialect dialect)
+        protected virtual bool TryGetDialect(string language, Dictionary<string, GherkinLanguageSetting> gherkinLanguageSettings, Ast.Location location, out GherkinDialect dialect)
         {
             if (!gherkinLanguageSettings.TryGetValue(language, out var languageSettings))
             {
@@ -142,5 +115,24 @@ namespace Gherkin
                 new[] {"* ", "And " },
                 new[] {"* ", "But " });
         }
+    }
+
+    public class GherkinLanguageSetting
+    {
+        // ReSharper disable InconsistentNaming
+        public string name;
+        public string native;
+        public string[] feature;
+        public string[] rule;
+        public string[] background;
+        public string[] scenario;
+        public string[] scenarioOutline;
+        public string[] examples;
+        public string[] given;
+        public string[] when;
+        public string[] then;
+        public string[] and;
+        public string[] but;
+        // ReSharper restore InconsistentNaming
     }
 }

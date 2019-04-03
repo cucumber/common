@@ -94,7 +94,7 @@ formatter to rule them all. Statistic plugins and more.
   executables which are bundled with the published libraries.
   ([aslakhellesoy], [jaysonesmith])
 * (JavaScript,Java,Ruby,Go) `Scenario` keyword (or `Example` keyword) can be used to create `Scenario Outline`.
-  ([aslakhellesoy])
+  ([#353](https://github.com/cucumber/cucumber/pull/353) [aslakhellesoy])
 
 ### Removed
 * (Java) OSGi support has been removed.

@@ -1,7 +1,7 @@
 # -*- encoding: utf-8 -*-
 Gem::Specification.new do |s|
   s.name        = 'c21e'
-  s.version     = '1.1.8'
+  s.version     = '1.1.9'
   s.authors     = ["Aslak Hellesøy"]
   s.description = 'Run cross-platform executables'
   s.summary     = "#{s.name}-#{s.version}"
@@ -9,7 +9,7 @@ Gem::Specification.new do |s|
   s.homepage    = "https://github.com/cucumber/cucumber-expressions-ruby#readme"
   s.platform    = Gem::Platform::RUBY
   s.license     = "MIT"
-  s.required_ruby_version = ">= 1.9.3"
+  s.required_ruby_version = ">= 2.3"
 
   s.metadata    = {
                     'bug_tracker_uri'   => 'https://github.com/cucumber/cucumber/issues',

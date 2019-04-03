@@ -29,7 +29,13 @@ func (p *ParameterTypeMatcher) ParameterType() *ParameterType {
 }
 
 func (p *ParameterTypeMatcher) AdvanceTo(newMatchPosition int) *ParameterTypeMatcher {
-	return NewParameterTypeMatcher(p.parameterType, p.regexp, p.text, newMatchPosition)
+	for advancedPos := newMatchPosition; advancedPos < len(p.text); advancedPos++ {
+		var matcher = NewParameterTypeMatcher(p.parameterType, p.regexp, p.text, advancedPos)
+		if matcher.Find() {
+			return matcher
+		}
+	}
+	return NewParameterTypeMatcher(p.parameterType, p.regexp, p.text, len(p.text))
 }
 
 func (p *ParameterTypeMatcher) Find() bool {

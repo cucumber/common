@@ -9,8 +9,7 @@ require 'gherkin/gherkin'
 options = {
   include_source: true,
   include_gherkin_document: true,
-  include_pickles: true,
-  protobuf: false
+  include_pickles: true
 }
 
 OptionParser.new do |opts|

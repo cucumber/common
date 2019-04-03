@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Gherkin.Ast;
-using Xunit;
-using Xunit.Sdk;
+﻿using Xunit;
 
 namespace Gherkin.Specs
 {
@@ -16,7 +9,7 @@ namespace Gherkin.Specs
         {
             var x = new GherkinDialectProvider();
             
-            Assert.Throws<NoSuchLanguageException>(() => x.GetDialect("nosuchlang", new Location(1, 2)));            
+            Assert.Throws<NoSuchLanguageException>(() => x.GetDialect("nosuchlang", new Ast.Location(1, 2)));            
         }
 
         [Fact]

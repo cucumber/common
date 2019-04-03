@@ -1,11 +1,17 @@
 ## Release process
 
-*Note:* When a module is released, artefacts will be published for *all* implementations
+*Note:* When a module is released, artifacts will be published for *all* implementations
 of the module, and all associated module repos will be tagged.
 
-Checklist:
+Please pay attention to the following:
 
 * Maven `pom.xml` should *not* have any `-SNAPSHOT` dependencies
+* Do not remove the `-SNAPSHOT` suffix from the maven `pom.xml` version field, the build process will remove it automatically 
+* Update the CHANGELOG.md
+  * Update the version and contributor links at the bottom of the files
+  * Create a new empty "Unreleased" section
+  * Update the title for the new release
+  * Remove the empty change sections
 
 Triggering a release is simple:
 

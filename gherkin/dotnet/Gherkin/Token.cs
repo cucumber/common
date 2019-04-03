@@ -12,9 +12,9 @@ namespace Gherkin
         public GherkinLineSpan[] MatchedItems { get; set; }
         public int MatchedIndent { get; set; }
         public GherkinDialect MatchedGherkinDialect { get; set; }
-        public Location Location { get; set; }
+        public Ast.Location Location { get; set; }
 
-        public Token(IGherkinLine line, Location location)
+        public Token(IGherkinLine line, Ast.Location location)
         {
             Line = line;
             Location = location;

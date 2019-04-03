@@ -98,7 +98,7 @@ module Cucumber
         expect(types).to eq([Integer, Float])
       end
 
-      it "ignores parameter types with optional capture groups" do
+      it "matches parameter types with optional capture groups" do
         @parameter_type_registry.define_parameter_type(ParameterType.new(
             'optional-flight',
             /(1st flight)?/,
@@ -116,15 +116,57 @@ module Cucumber
             false
         ))
 
-        expression = @generator.generate_expressions("I reach Stage4: 1st flight-1st hotl")[0]
-        expect(expression.source).to eq("I reach Stage{int}: {int}st flight{int}st hotl")
+        expression = @generator.generate_expressions("I reach Stage4: 1st flight-1st hotel")[0]
+        # While you would expect this to be `I reach Stage{int}: {optional-flight}-{optional-hotel}`
+        # the `-1` causes {int} to match just before {optional-hotel}.
+        expect(expression.source).to eq("I reach Stage{int}: {optional-flight}{int}st hotel")
+      end
+
+      it "generates at most 256 expressions" do
+        for i in 0..3
+          @parameter_type_registry.define_parameter_type(ParameterType.new(
+              "my-type-#{i}",
+              /[a-z]/,
+              String,
+              lambda {|s| s},
+              true,
+              false
+          ))
+        end
+        # This would otherwise generate 4^11=419430 expressions and consume just shy of 1.5GB.
+        expressions = @generator.generate_expressions("a simple step")
+        expect(expressions.length).to eq(256)
+      end
+
+      it "prefers expression with longest non empty match" do
+        @parameter_type_registry.define_parameter_type(ParameterType.new(
+            'zero-or-more',
+            /[a-z]*/,
+            String,
+            lambda {|s| s},
+            true,
+            false
+        ))
+        @parameter_type_registry.define_parameter_type(ParameterType.new(
+            'exactly-one',
+            /[a-z]/,
+            String,
+            lambda {|s| s},
+            true,
+            false
+        ))
+
+        expressions = @generator.generate_expressions("a simple step")
+        expect(expressions.length).to eq(2)
+        expect(expressions[0].source).to eq("{exactly-one} {zero-or-more} {zero-or-more}")
+        expect(expressions[1].source).to eq("{zero-or-more} {zero-or-more} {zero-or-more}")
       end
 
       def assert_expression(expected_expression, expected_argument_names, text)
         generated_expression = @generator.generate_expression(text)
         expect(generated_expression.parameter_names).to eq(expected_argument_names)
         expect(generated_expression.source).to eq(expected_expression)
-        
+
         cucumber_expression = CucumberExpression.new(generated_expression.source, @parameter_type_registry)
         match = cucumber_expression.match(text)
         if match.nil?

@@ -1,2 +1,0 @@
-#!/usr/bin/env bash
-node --harmony node_modules/.bin/cucumber.js "$@"
