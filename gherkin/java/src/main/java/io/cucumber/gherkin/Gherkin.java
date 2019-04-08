@@ -4,6 +4,7 @@ import io.cucumber.c21e.Exe;
 import io.cucumber.c21e.ExeFile;
 import io.cucumber.messages.Messages.Source;
 import io.cucumber.messages.Messages.Wrapper;
+import io.cucumber.messages.StreamWrapperIterable;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -33,15 +34,15 @@ public class Gherkin {
         this.includePickles = includePickles;
     }
 
-    public static List<Wrapper> fromPaths(List<String> paths, boolean includeSource, boolean includeAst, boolean includePickles) {
+    public static Iterable<Wrapper> fromPaths(List<String> paths, boolean includeSource, boolean includeAst, boolean includePickles) {
         return new Gherkin(paths, null, includeSource, includeAst, includePickles).messages();
     }
 
-    public static List<Wrapper> fromSources(List<Source> sources, boolean includeSource, boolean includeAst, boolean includePickles) {
+    public static Iterable<Wrapper> fromSources(List<Source> sources, boolean includeSource, boolean includeAst, boolean includePickles) {
         return new Gherkin(Collections.<String>emptyList(), sources, includeSource, includeAst, includePickles).messages();
     }
 
-    public List<Wrapper> messages() {
+    public Iterable<Wrapper> messages() {
         try {
             List<String> args = new ArrayList<>();
             if (!includeSource) args.add("--no-source");
@@ -49,7 +50,7 @@ public class Gherkin {
             if (!includePickles) args.add("--no-pickles");
             args.addAll(paths);
             InputStream gherkinStdout = EXE.execute(args, getSourcesStream());
-            return new ProtobufGherkinMessages(gherkinStdout).messages();
+            return new StreamWrapperIterable(gherkinStdout);
         } catch (IOException | InterruptedException e) {
             throw new GherkinException("Couldn't execute gherkin", e);
         }
