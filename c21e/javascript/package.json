@@ -5,7 +5,7 @@
   "main": "dist/src/ExeFile.js",
   "scripts": {
     "test": "mocha",
-    "eslint-fix": "eslint --fix src test",
+    "lint-fix": "eslint --fix src test",
     "coverage": "nyc --reporter=html --reporter=text mocha",
     "build": "babel src --out-dir dist/src",
     "build-test": "babel test --out-dir dist/test",
@@ -36,7 +36,7 @@
     "eslint-config-prettier": "^4.1.0",
     "eslint-plugin-node": "^8.0.0",
     "eslint-plugin-prettier": "^3.0.0",
-    "mocha": "^6.0.2",
+    "mocha": "^6.1.2",
     "nyc": "^13.1.0",
     "prettier": "^1.8.2"
   }

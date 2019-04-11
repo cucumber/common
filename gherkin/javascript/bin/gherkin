@@ -32,16 +32,24 @@ while (args.length > 0) {
 
 const protobufNdjsonStream = new Stream.Transform({
   objectMode: true,
-  transform: function (message, _, callback) {
-    const ob = message.constructor.toObject(message, {defaults: true})
+  transform: function(message, _, callback) {
+    const ob = message.constructor.toObject(message, { defaults: true })
     // This reviver omits printing fields with empty values
     // This is to make it behave the same as Golang's protobuf->JSON converter
-    const json = JSON.stringify(ob, function (key, value) {
-      return (value === null) || (value === "") || (value === 0) || (Array.isArray(value) && value.length === 0) ? undefined : value
+    const json = JSON.stringify(ob, function(key, value) {
+      return value === null ||
+        value === '' ||
+        value === 0 ||
+        (Array.isArray(value) && value.length === 0)
+        ? undefined
+        : value
     })
-    this.push(json + "\n")
+    this.push(json + '\n')
     callback()
-  }
+  },
 })
 
-gherkin.fromPaths(paths, options).pipe(protobufNdjsonStream).pipe(process.stdout)
+gherkin
+  .fromPaths(paths, options)
+  .pipe(protobufNdjsonStream)
+  .pipe(process.stdout)

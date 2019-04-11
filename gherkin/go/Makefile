@@ -77,4 +77,4 @@ dialects_builtin.go: gherkin-languages.json dialects_builtin.go.jq
 	gofmt -w $@
 
 clean:
-	rm -rf .compared .built acceptance bin/ dist/* dist_compressed/ .dist .dist-compressed parser.go dialects_builtin.go
+	rm -rf .compared .built acceptance bin/ dist/* dist_compressed/ .dist .dist-compressed

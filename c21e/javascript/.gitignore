@@ -7,8 +7,12 @@ npm-debug.log
 package-lock.json
 .deps
 .tested
-.eslinted
+.linted
 .compared
+.codegen
 acceptance
 dist
 *-go/
+# Only applies to cucumber-messages/javascript
+src/cucumber-messages.d.ts
+src/cucumber-messages.js
