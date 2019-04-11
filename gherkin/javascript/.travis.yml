@@ -8,6 +8,8 @@ node_js:
 
 before_install:
 - npm i -g npm@latest
+env:
+  - SKIP_NPM_LINK=1
 script: make default
 jobs:
   include:
