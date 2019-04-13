@@ -52,9 +52,7 @@ class Gherkin {
   }
 
   messageStream() {
-    const options = []
-    if (!this._options.defaultDialect)
-      options.push('--default-dialect', this._options.defaultDialect)
+    const options = ['--default-dialect', this._options.defaultDialect]
     if (!this._options.includeSource) options.push('--no-source')
     if (!this._options.includeGherkinDocument) options.push('--no-ast')
     if (!this._options.includePickles) options.push('--no-pickles')
