@@ -17,7 +17,6 @@ ERRORS       = $(patsubst testdata/%.feature,acceptance/testdata/%.feature.error
 default: .compared
 
 .deps:
-	go build
 	go get github.com/aslakhellesoy/gox
 	touch $@
 
@@ -64,6 +63,9 @@ acceptance/testdata/%.feature.pickles.ndjson: testdata/%.feature testdata/%.feat
 	diff --unified <(jq "." $<.pickles.ndjson) <(jq "." $@)
 
 parser.go: gherkin.berp parser.go.razor berp/berp.exe
+	# We're allowing mono to fail. The monorepo build runs in a docker image which
+	# doesn't have mono installed. This looks like it will be fixed post Alpine 3.9:
+	# https://pkgs.alpinelinux.org/packages?name=mono&branch=edge
 	-mono berp/berp.exe -g gherkin.berp -t parser.go.razor -o $@
 	# Remove BOM
 	awk 'NR==1{sub(/^\xef\xbb\xbf/,"")}{print}' < $@ > $@.nobom

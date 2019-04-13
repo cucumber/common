@@ -152,7 +152,7 @@ function release_module()
   
   git commit -am "Release ${module} v${version}"
   git tag "${module}/v${version}"
-  git push && git push --tags
+  git push && git push origin "${module}/v${version}"
 }
 
 function setup_travis_maven_deploy()

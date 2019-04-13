@@ -1,6 +1,6 @@
 {
   "name": "gherkin",
-  "version": "6.0.15",
+  "version": "6.0.17",
   "description": "Gherkin parser",
   "main": "dist/src/index.js",
   "types": "dist/src/index.d.ts",
@@ -9,7 +9,7 @@
   },
   "scripts": {
     "test": "mocha test/**/*.{ts,js}",
-    "eslint-fix": "eslint --fix src test",
+    "lint-fix": "eslint --fix src test",
     "coverage": "nyc --reporter=html --reporter=text mocha test/**/*.{ts,js}",
     "build": "babel src --out-dir dist/src",
     "build-test": "babel test --out-dir dist/test",
@@ -37,20 +37,20 @@
     "@babel/polyfill": "^7.0.0",
     "@babel/preset-env": "^7.0.0",
     "@types/mocha": "^5.2.5",
-    "@types/node": "^10.9.4",
+    "@types/node": "^11.12.1",
     "eslint": "^5.3.0",
     "eslint-config-eslint": "^5.0.1",
-    "eslint-config-prettier": "^3.1.0",
-    "eslint-plugin-node": "^7.0.1",
+    "eslint-config-prettier": "^4.1.0",
+    "eslint-plugin-node": "^8.0.1",
     "eslint-plugin-prettier": "^3.0.0",
-    "mocha": "^5.2.0",
+    "mocha": "^6.0.2",
     "nyc": "^13.1.0",
     "prettier": "^1.8.2",
-    "ts-node": "^7.0.1",
-    "typescript": "^3.0.3"
+    "ts-node": "^8.0.3",
+    "typescript": "^3.4.1"
   },
   "dependencies": {
-    "c21e": "^1.1.7",
-    "cucumber-messages": "^2.1.0"
+    "c21e": "cucumber/c21e-javascript",
+    "cucumber-messages": "cucumber/cucumber-messages-javascript"
   }
 }

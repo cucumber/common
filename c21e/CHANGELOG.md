@@ -17,12 +17,18 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Fixed
 
+## [1.1.9] - 2019-03-22
+
+### Fixed
+
+* [JavaScript] releases are now working again.
+
 ## [1.1.8] - 2018-10-30
 
 ### Fixed
 
 * Broken 1.1.7 release
-   
+
 ## [1.1.7] - 2018-10-30
 
 ### Fixed
@@ -30,7 +36,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 * [Ruby] Detect x64
   ([#517](https://github.com/cucumber/cucumber/issues/517)
    [@aslakhellesoy])
-   
+
 ## [1.1.6] - 2018-10-21
 
 ### Added
@@ -44,7 +50,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 * First stable release!
 
 <!-- Releases -->
-[Unreleased]: https://github.com/cucumber/cucumber/compare/c21e/v1.1.8...master
+[Unreleased]: https://github.com/cucumber/cucumber/compare/c21e/v1.1.9...master
+[1.1.9]:      https://github.com/cucumber/cucumber/compare/c21e/v1.1.8...c21e/v1.1.9
 [1.1.8]:      https://github.com/cucumber/cucumber/compare/c21e/v1.1.7...c21e/v1.1.8
 [1.1.7]:      https://github.com/cucumber/cucumber/compare/c21e/v1.1.6...c21e/v1.1.7
 [1.1.6]:      https://github.com/cucumber/cucumber/compare/c21e/v1.1.5...c21e/v1.1.6

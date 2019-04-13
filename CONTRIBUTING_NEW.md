@@ -3,9 +3,16 @@
 *Note:* When a module is released, artifacts will be published for *all* implementations
 of the module, and all associated module repos will be tagged.
 
-Checklist:
+Please pay attention to the following:
 
 * Maven `pom.xml` should *not* have any `-SNAPSHOT` dependencies
+  * Do not remove the `-SNAPSHOT` suffix from the maven `pom.xml` version field, the build process will remove it automatically.
+* Node.js `package.json` should *not* have any github dependencies (`"cucumber-messages": "cucumber/cucumber-messages-javascript"`) but rather depend on a released version.
+* Update the CHANGELOG.md
+  * Update the version and contributor links at the bottom of the files
+  * Create a new empty "Unreleased" section
+  * Update the title for the new release
+  * Remove the empty change sections
 
 Triggering a release is simple:
 
@@ -24,11 +31,12 @@ Behind the scenes - the following will occur:
 
 ### Post-release process
 
-After triggering a release, bump the minor version and append `-SNAPSHOT` to any
-affected `pom.xml` files, then commit with message "Post-release: Bump to SNAPSHOT version".
+After triggering a release:
 
-When the release is completed (check RubyGems, NPM and Maven Central), update any dependent
-modules to depend on the version you just released.
+* Bump the minor version and append `-SNAPSHOT` to any affected `pom.xml` files
+* Restore `package.json` dependencies on other modules from semver to git dependency. For example, in `gherkin/javascript/package.json` - change the `"cucumber-messages": "9.9.9"` (or whatever the version is) back to `"cucumber-messages": "cucumber/cucumber-messages-javascript"`.
+
+Then commit with message "Post-release: Bump to development versions".
 
 ### Caveats
 

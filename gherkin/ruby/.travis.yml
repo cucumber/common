@@ -2,25 +2,28 @@ sudo: false
 language: ruby
 
 rvm:
-  - "2.5.3"
-  - "2.4.5"
-  - "2.3.8"
-  - "jruby-9.2.0.0"
-
-script: make default
+- 2.6
+- 2.5
+- 2.4
+- 2.3
+- jruby-9.2.6.0
 
 matrix:
   allow_failures:
-  - rvm: jruby-9.2.0.0
+  - rvm: jruby-9.2.6.0
+
+script: make default
+
 jobs:
   include:
-  - stage: deploy
-    ruby: "2.5.3"
-deploy:
-  skip_cleanup: true
-  provider: rubygems
-  api_key:
-    secure: EFoxx/tPgZ2pZqlR5eDEXYQ4f0Lw/2AhkPEPggdbWbzOHMf8WtTAMvjBXKFhMuxmIqLrjd+Yf2gbcJ9kSG4VAWYRVZKPxz39WCUZso1elrrWu0X6gYVzIXjfTdioauyg3mXP5TOvQrG/GCr3/dGpxsDWHO1pFLIVWjg8GIye6Ic=
-  gem: gherkin
-  on:
-    tags: true
+  - stage: gem push
+    ruby: 2.6
+    deploy:
+      provider: rubygems
+      skip_cleanup: true
+      on:
+        tags: true
+      api_key:
+        secure: EFoxx/tPgZ2pZqlR5eDEXYQ4f0Lw/2AhkPEPggdbWbzOHMf8WtTAMvjBXKFhMuxmIqLrjd+Yf2gbcJ9kSG4VAWYRVZKPxz39WCUZso1elrrWu0X6gYVzIXjfTdioauyg3mXP5TOvQrG/GCr3/dGpxsDWHO1pFLIVWjg8GIye6Ic=
+      gem: gherkin
+

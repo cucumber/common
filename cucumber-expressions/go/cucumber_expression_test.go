@@ -172,6 +172,14 @@ func TestCucumberExpression(t *testing.T) {
 		require.Equal(t, "Parameter types cannot be optional: ({int})", err.Error())
 	})
 
+	t.Run("allows escaped optional parameters", func(t *testing.T) {
+		require.Equal(
+			t,
+			MatchCucumberExpression(t, "\\\\({int})", `(3)`),
+			[]interface{}{3},
+		)
+	})
+
 	t.Run("does not allow text/parameter type alternation", func(t *testing.T) {
 		parameterTypeRegistry := NewParameterTypeRegistry()
 		_, err := NewCucumberExpression("x/{int}", parameterTypeRegistry)

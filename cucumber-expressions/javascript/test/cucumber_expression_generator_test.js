@@ -182,7 +182,7 @@ describe('CucumberExpressionGenerator', () => {
     assert.deepEqual(typeNames, ['int', 'float'])
   })
 
-  it('ignores parameter types with optional capture groups', () => {
+  it('matches parameter types with optional capture groups', () => {
     parameterTypeRegistry.defineParameterType(
       new ParameterType(
         'optional-flight',
@@ -205,11 +205,44 @@ describe('CucumberExpressionGenerator', () => {
     )
 
     const expression = generator.generateExpressions(
-      'I reach Stage4: 1st flight-1st hotl'
+      'I reach Stage4: 1st flight-1st hotel'
     )[0]
+    // While you would expect this to be `I reach Stage{int}: {optional-flight}-{optional-hotel}` the `-1` causes
+    // {int} to match just before {optional-hotel}.
     assert.equal(
       expression.source,
-      'I reach Stage{int}: {int}st flight{int}st hotl'
+      'I reach Stage{int}: {optional-flight}{int}st hotel'
+    )
+  })
+
+  it('generates at most 256 expressions', () => {
+    for (let i = 0; i < 4; i++) {
+      parameterTypeRegistry.defineParameterType(
+        new ParameterType('my-type-' + i, /[a-z]/, null, s => s, true, false)
+      )
+    }
+    // This would otherwise generate 4^11=419430 expressions and consume just shy of 1.5GB.
+    const expressions = generator.generateExpressions('a simple step')
+    assert.equal(expressions.length, 256)
+  })
+
+  it('prefers expression with longest non empty match', () => {
+    parameterTypeRegistry.defineParameterType(
+      new ParameterType('zero-or-more', /[a-z]*/, null, s => s, true, false)
+    )
+    parameterTypeRegistry.defineParameterType(
+      new ParameterType('exactly-one', /[a-z]/, null, s => s, true, false)
+    )
+
+    const expressions = generator.generateExpressions('a simple step')
+    assert.equal(expressions.length, 2)
+    assert.equal(
+      expressions[0].source,
+      '{exactly-one} {zero-or-more} {zero-or-more}'
+    )
+    assert.equal(
+      expressions[1].source,
+      '{zero-or-more} {zero-or-more} {zero-or-more}'
     )
   })
 })

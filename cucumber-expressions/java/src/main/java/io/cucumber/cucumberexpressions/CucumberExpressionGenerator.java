@@ -27,9 +27,8 @@ public class CucumberExpressionGenerator {
             List<ParameterTypeMatcher> matchingParameterTypeMatchers = new ArrayList<>();
 
             for (ParameterTypeMatcher parameterTypeMatcher : parameterTypeMatchers) {
-                ParameterTypeMatcher advancedParameterTypeMatcher = parameterTypeMatcher.advanceTo(pos);
-                if (advancedParameterTypeMatcher.find()) {
-                    matchingParameterTypeMatchers.add(advancedParameterTypeMatcher);
+                if (parameterTypeMatcher.advanceToAndFind(pos)) {
+                    matchingParameterTypeMatchers.add(parameterTypeMatcher);
                 }
             }
 

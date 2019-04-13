@@ -5,9 +5,13 @@
     "preserveConstEnums": true,
     "sourceMap": true,
     "rootDir": ".",
-    "outDir": "dist"
+    "outDir": "dist",
+    "allowJs": false,
+    "target": "es5",
+    "declaration": true
   },
-  "files": [
-    "test/messages_test.ts"
+  "include": [
+    "src/**/*",
+    "test/**/*"
   ]
 }

@@ -19,6 +19,12 @@ This document is formatted according to the principles of [Keep A CHANGELOG](htt
 
 ### Fixed
 
+## [6.0.17] - 2019-03-31
+
+### Changed
+
+* Upgrade to cucumber-messages 2.1.2
+
 ## [6.0.15] - 2018-10-31
 
 ### Added
@@ -94,7 +100,7 @@ formatter to rule them all. Statistic plugins and more.
   executables which are bundled with the published libraries.
   ([aslakhellesoy], [jaysonesmith])
 * (JavaScript,Java,Ruby,Go) `Scenario` keyword (or `Example` keyword) can be used to create `Scenario Outline`.
-  ([aslakhellesoy])
+  ([#353](https://github.com/cucumber/cucumber/pull/353) [aslakhellesoy])
 
 ### Removed
 * (Java) OSGi support has been removed.
@@ -480,8 +486,10 @@ to Gherkin 2.
 * First release
 
 <!-- Releases -->
-[Unreleased]: https://github.com/cucumber/cucumber/compare/gherkin/v6.0.15...HEAD
-[6.0.15]:     https://github.com/cucumber/cucumber/compare/gherkin-v6.0.13...gherkin/v6.0.15
+[Unreleased]: https://github.com/cucumber/cucumber/compare/gherkin/v6.0.17...HEAD
+[6.0.17]:     https://github.com/cucumber/cucumber/compare/gherkin-v6.0.15...gherkin/v6.0.17
+[6.0.15]:     https://github.com/cucumber/cucumber/compare/gherkin-v6.0.14...gherkin/v6.0.15
+[6.0.14]:     https://github.com/cucumber/cucumber/compare/gherkin-v6.0.13...gherkin/v6.0.14
 [6.0.13]:     https://github.com/cucumber/cucumber/compare/gherkin-v5.1.0...gherkin/v6.0.13
 [5.1.0]:      https://github.com/cucumber/cucumber/compare/gherkin-v5.0.0...gherkin-v5.1.0
 [5.0.0]:      https://github.com/cucumber/cucumber/compare/gherkin-v4.1.3...gherkin-v5.0.0

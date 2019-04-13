@@ -140,6 +140,10 @@ describe('CucumberExpression', () => {
     }
   })
 
+  it('allows escaped optional parameter types', () => {
+    assert.deepEqual(match('\\({int})', '(3)'), [3])
+  })
+
   it('does not allow text/parameter type alternation', () => {
     try {
       match('x/{int}', '3')

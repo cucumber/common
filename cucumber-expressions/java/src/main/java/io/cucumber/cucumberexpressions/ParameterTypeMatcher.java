@@ -13,12 +13,16 @@ class ParameterTypeMatcher implements Comparable<ParameterTypeMatcher> {
         this.textLength = textLength;
     }
 
-    public ParameterTypeMatcher advanceTo(int newMatchPos) {
-        return new ParameterTypeMatcher(parameterType, matcher.region(newMatchPos, textLength), textLength);
-    }
-
-    public boolean find() {
-        return matcher.find() && !group().isEmpty();
+    public boolean advanceToAndFind(int newMatchPos) {
+        // Unlike js, ruby and go, the matcher is stateful
+        // so we can't use the immutable semantics.
+        matcher.region(newMatchPos, textLength);
+        while (matcher.find()) {
+            if (!group().isEmpty()) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public int start() {
