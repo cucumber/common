@@ -1,4 +1,4 @@
-const { spawn } = require('child_process')
+const { spawn, spawnSync } = require('child_process')
 const { statSync } = require('fs')
 const ExeFile = require('c21e')
 const { messages, ProtobufMessageStream } = require('cucumber-messages')
@@ -11,7 +11,12 @@ function fromSources(sources, options) {
   return new Gherkin([], sources, options).messageStream()
 }
 
+function dialects() {
+  return new Gherkin([], [], {}).dialects()
+}
+
 module.exports = {
+  dialects,
   fromPaths,
   fromSources,
 }
@@ -22,6 +27,7 @@ class Gherkin {
     this._sources = sources
     this._options = Object.assign(
       {
+        defaultDialect: 'en',
         includeSource: true,
         includeGherkinDocument: true,
         includePickles: true,
@@ -40,8 +46,15 @@ class Gherkin {
     )
   }
 
+  dialects() {
+    const result = spawnSync(this._exeFile.fileName, ['--dialects'])
+    return JSON.parse(result.stdout)
+  }
+
   messageStream() {
     const options = []
+    if (!this._options.defaultDialect)
+      options.push('--default-dialect', this._options.defaultDialect)
     if (!this._options.includeSource) options.push('--no-source')
     if (!this._options.includeGherkinDocument) options.push('--no-ast')
     if (!this._options.includePickles) options.push('--no-pickles')

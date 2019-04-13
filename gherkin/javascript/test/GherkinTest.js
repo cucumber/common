@@ -1,7 +1,7 @@
 /* eslint-env mocha */
 const assert = require('assert')
 const { messages } = require('cucumber-messages')
-const { fromPaths, fromSources } = require('../src/index')
+const { dialects, fromPaths, fromSources } = require('../src/index')
 
 describe('gherkin (JavaScript)', () => {
   it('parses gherkin from the file system', async () => {
@@ -27,6 +27,11 @@ describe('gherkin (JavaScript)', () => {
 
     const wrappers = await streamToArray(fromSources([source]))
     assert.strictEqual(wrappers.length, 3)
+  })
+
+  it('parses outputs dialects', async () => {
+    const result = dialects()
+    assert.strictEqual(result['en'].name, 'English')
   })
 })
 
