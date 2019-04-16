@@ -1,48 +1,0 @@
-¬
-©
-&testdata/good/several_examples.featureÖFeature: Tagged Examples
-
-  Scenario Outline: minimalistic
-    Given the <what>
-
-    @foo
-    Examples:
-      | what |
-      | foo  |
-
-    @bar
-    Examples:
-      | what |
-      | bar  |
-
-  @zap
-  Scenario: ha ok
-&
-UTF-8text/x.cucumber.gherkin+plainÙÖ
-&testdata/good/several_examples.feature«
-en"Feature*Tagged Examples:ÛØ
-Scenario Outline"minimalistic2
-Given 
-the <what>:I
-
-@fooExamples2
-
-	what:
-	
-		foo:I
-
-@barExamples2
-
-	what:
-
-	bar:'%
-
-@zapScenario"ha okmk
-&testdata/good/several_examples.featureminimalisticen"
-the foo	*
-@foo22	mk
-&testdata/good/several_examples.featureminimalisticen"
-the bar*
-@bar22IG
-&testdata/good/several_examples.featureha oken*
-@zap2

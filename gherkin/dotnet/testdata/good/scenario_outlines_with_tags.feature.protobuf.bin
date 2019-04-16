@@ -1,68 +1,0 @@
-—
-”
-1testdata/good/scenario_outlines_with_tags.feature¶@a
-Feature:
-  @b @c
-  Scenario Outline:
-    Given <x>
-
-    Examples:
-      | x |
-      | y |
-
-  @d @e
-  Scenario Outline:
-    Given <m>
-
-    @f
-    Examples:
-      | m |
-      | n |
-&
-UTF-8text/x.cucumber.gherkin+plainèå
-1testdata/good/scenario_outlines_with_tags.feature¯
-
-
-@aen"Feature:}
-
-
-@b
-
-@cScenario Outline2
-Given <x>:6
-Examples2
-	
-	x:
-		
-		y:Œ‰
-
-
-@d
-
-@eScenario Outline2
-Given <m>:B
-
-
-@fExamples2
-	
-	m:
-	
-	nzx
-1testdata/good/scenario_outlines_with_tags.featureen"
-y	*
-
-@a*
-
-@b*
-
-@c22	‡„
-1testdata/good/scenario_outlines_with_tags.featureen"
-n*
-
-@a*
-
-@d*
-
-@e*
-
-@f22

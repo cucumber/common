@@ -1,8 +1,0 @@
-Å
-
-(testdata/good/spaces_in_language.feature+  #  language  :   en-lol
-OH HAI: STUFFING
-&
-UTF-8text/x.cucumber.gherkin+plainNL
-(testdata/good/spaces_in_language.feature 
-en-lol"OH HAI*STUFFING

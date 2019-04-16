@@ -1,14 +1,0 @@
-—
-”
-%testdata/good/minimal-example.featureCFeature: Minimal
-
-  Example: minimalistic
-    Given the minimalism
-&
-UTF-8text/x.cucumber.gherkin+plain‰†
-%testdata/good/minimal-example.feature]
-en"Feature*Minimal:?=
-Example"minimalistic2
-Given the minimalismYW
-%testdata/good/minimal-example.featureminimalisticen"
-the minimalism2

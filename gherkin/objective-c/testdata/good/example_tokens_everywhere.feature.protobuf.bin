@@ -1,62 +1,0 @@
-˜
-•
-/testdata/good/example_tokens_everywhere.feature¹Feature: Example tokens everywhere
-
-  Scenario Outline: the <one>
-    Given the <two>:
-      """
-      <three>
-      """
-    Given the <four>:
-      | <five> |
-
-    Examples:
-      | one | two  | three | four   | five  |
-      | un  | deux | trois | quatre | cinq  |
-      | uno | dos  | tres  | quatro | cinco |
-&
-UTF-8text/x.cucumber.gherkin+plainöó
-/testdata/good/example_tokens_everywhere.feature¿
-en"Feature*Example tokens everywhere:Ž‹
-Scenario Outline"	the <one>2+
-Given 
-the <two>:*
-<three>2;
-Given the <four>:2
-	
-	
-		<five>:û
-Examples2K
-
-	one
-two
-three
-four
-'five:M
-
-
-	un
-deux
-trois
-quatre
-'cinq:M
-
-	uno
-dos
-tres
-quatro
-'cinco¡ž
-/testdata/good/example_tokens_everywhere.featurethe unen"&
-	the deux:
-trois"+
-the quatre:"
-
-
-		cinq22¡ž
-/testdata/good/example_tokens_everywhere.featurethe unoen"$
-the dos:
-tres",
-the quatro:"
-
-
-		cinco22
