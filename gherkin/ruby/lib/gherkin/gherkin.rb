@@ -1,12 +1,11 @@
 require 'open3'
 require 'c21e/exe_file'
-require 'gherkin/protobuf_cucumber_messages'
+# require 'gherkin/protobuf_cucumber_messages'
 require 'gherkin/exe_file_path'
 require 'cucumber/messages'
 
 module Gherkin
   class Gherkin
-    include Cucumber::Messages::Varint
 
     DEFAULT_OPTIONS = {
       include_source: true,
@@ -42,12 +41,10 @@ module Gherkin
         wrapper = Cucumber::Messages::Wrapper.new(
           source: source
         )
-        proto = Cucumber::Messages::Wrapper.encode(wrapper)
-        encode_varint(stdin, proto.length)
-        stdin.write(proto)
+        wrapper.write_delimited_to(stdin)
       end
       stdin.close
-      ProtobufCucumberMessages.new(stdout, stderr).messages
+      Cucumber::Messages::ProtobufIoEnumerator.call(stdout)
     end
 
     private

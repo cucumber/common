@@ -4,7 +4,7 @@ import io.cucumber.c21e.Exe;
 import io.cucumber.c21e.ExeFile;
 import io.cucumber.messages.Messages.Source;
 import io.cucumber.messages.Messages.Wrapper;
-import io.cucumber.messages.StreamWrapperIterable;
+import io.cucumber.messages.ProtobufStreamIterable;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -50,7 +50,7 @@ public class Gherkin {
             if (!includePickles) args.add("--no-pickles");
             args.addAll(paths);
             InputStream gherkinStdout = EXE.execute(args, getSourcesStream());
-            return new StreamWrapperIterable(gherkinStdout);
+            return new ProtobufStreamIterable(gherkinStdout);
         } catch (IOException | InterruptedException e) {
             throw new GherkinException("Couldn't execute gherkin", e);
         }

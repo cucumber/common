@@ -1,7 +1,7 @@
 package io.cucumber.gherkin;
 
 import io.cucumber.messages.Messages.Wrapper;
-import io.cucumber.messages.StreamWrapperIterable;
+import io.cucumber.messages.ProtobufStreamIterable;
 import io.cucumber.messages.com.google.protobuf.util.JsonFormat;
 import io.cucumber.messages.com.google.protobuf.util.JsonFormat.Printer;
 
@@ -56,7 +56,7 @@ public class Main {
         }
 
         Iterable<Wrapper> messages = paths.isEmpty() ?
-                new StreamWrapperIterable(System.in) :
+                new ProtobufStreamIterable(System.in) :
                 Gherkin.fromPaths(paths, includeSource, includeAst, includePickles);
         printMessages(jsonPrinter, messages);
     }

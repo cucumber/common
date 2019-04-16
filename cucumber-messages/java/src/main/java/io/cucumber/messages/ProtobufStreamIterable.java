@@ -10,10 +10,10 @@ import java.util.Iterator;
  * Tests can then use a {@code new ArrayList<Messages.Wrapper>} which implements the same interface .
  */
 
-public class StreamWrapperIterable implements Iterable<Messages.Wrapper> {
+public class ProtobufStreamIterable implements Iterable<Messages.Wrapper> {
     private final InputStream input;
 
-    public StreamWrapperIterable(InputStream input) {
+    public ProtobufStreamIterable(InputStream input) {
         this.input = input;
     }
 
