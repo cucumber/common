@@ -22,16 +22,14 @@ module Cucumber
           tr = TreeRegexp.new(/a(?:b)(c)/)
           group = tr.match('abc')
           expect(group.value).to eq('abc')
-          expect(group.children[0].value).to eq('c')
-          expect(group.children[0].children).to eq([])
+          expect(group.children.length).to eq 1
         end
 
         it 'ignores `?!` as a non-capturing group' do
-          tr = TreeRegexp.new(/a(?!b)(c)/)
+          tr = TreeRegexp.new(/a(?!b)(.+)/)
           group = tr.match('aBc')
           expect(group.value).to eq('aBc')
-          expect(group.children[0].value).to eq('c')
-          expect(group.children[0].children).to eq([])
+          expect(group.children.length).to eq 1
         end
       end
 
