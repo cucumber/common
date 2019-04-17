@@ -25,19 +25,16 @@ var ProtobufMessageStream = (function (_super) {
     }
     ProtobufMessageStream.prototype._transform = function (chunk, encoding, callback) {
         this.buffer = Buffer.concat([this.buffer, chunk]);
-        var reader = protobufjs_1.Reader.create(this.buffer);
-        try {
-            var len = reader.len, pos = reader.pos;
-            while (pos < len) {
+        while (true) {
+            try {
+                var reader = protobufjs_1.Reader.create(this.buffer);
                 var message = this.decodeDelimited(reader);
-                if (!message) {
-                    return callback(new Error("No message returned. len=" + len + ", pos=" + pos));
-                }
-                this.buffer = this.buffer.slice(reader.pos);
                 this.push(message);
+                this.buffer = this.buffer.slice(reader.pos);
             }
-        }
-        catch (err) {
+            catch (err) {
+                break;
+            }
         }
         callback();
     };

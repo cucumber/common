@@ -13,20 +13,16 @@ class ProtobufMessageStream<T> extends Transform {
 
   _transform(chunk: any, encoding: string, callback: TransformCallback) {
     this.buffer = Buffer.concat([this.buffer, chunk])
-    const reader = Reader.create(this.buffer)
 
-    try {
-      const {len, pos} = reader
-      while (pos < len) {
+    while (true) {
+      try {
+        const reader = Reader.create(this.buffer)
         const message = this.decodeDelimited(reader)
-        if(!message) {
-          return callback(new Error(`No message returned. len=${len}, pos=${pos}`))
-        }
-        this.buffer = this.buffer.slice(reader.pos)
         this.push(message)
+        this.buffer = this.buffer.slice(reader.pos)
+      } catch(err) {
+        break
       }
-    } catch (err) {
-      // wait for more
     }
     callback()
   }
