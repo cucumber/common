@@ -23,7 +23,7 @@ ERRORS       = $(patsubst testdata/%.feature,acceptance/testdata/%.feature.error
 default: .compared
 
 .deps:
-	# go get github.com/aslakhellesoy/gox
+	go get github.com/aslakhellesoy/gox
 	touch $@
 
 golden: .built $(TOKENS_GOLDEN) $(ASTS_GOLDEN) $(PICKLES_GOLDEN) $(SOURCES_GOLDEN) $(ERRORS_GOLDEN)
