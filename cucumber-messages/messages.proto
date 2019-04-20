@@ -433,13 +433,13 @@ message CommandRunTestStep {
   string stepDefinitionId = 3;
   repeated PatternMatch patternMatches = 4;
   string pickleId = 5;
+  PickleStepArgument pickleStepArgument = 5;
 }
 
 message PatternMatch {
   repeated string captures = 1;
   string parameterTypeName = 2;
   reserved 3, 4;
-  PickleStepArgument pickleStepArgument = 5;
 }
 
 message CommandGenerateSnippet {
