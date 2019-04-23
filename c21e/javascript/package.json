@@ -37,7 +37,7 @@
     "eslint-plugin-node": "^8.0.0",
     "eslint-plugin-prettier": "^3.0.0",
     "mocha": "^6.1.2",
-    "nyc": "^13.1.0",
+    "nyc": "^14.0.0",
     "prettier": "^1.8.2"
   }
 }
