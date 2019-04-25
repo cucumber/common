@@ -1,8 +1,7 @@
 const { spawn } = require('child_process')
 const { statSync } = require('fs')
 const ExeFile = require('c21e')
-const cm = require('cucumber-messages').io.cucumber.messages
-const ProtobufMessageStream = require('./ProtobufMessageStream')
+const { messages, ProtobufMessageStream } = require('cucumber-messages')
 
 function fromPaths(paths, options) {
   return new Gherkin(paths, [], options).messageStream()
@@ -48,14 +47,16 @@ class Gherkin {
     if (!this._options.includePickles) options.push('--no-pickles')
     const args = options.concat(this._paths)
     const gherkin = spawn(this._exeFile.fileName, args)
-    const protobufMessageStream = new ProtobufMessageStream(cm.Wrapper)
+    const protobufMessageStream = new ProtobufMessageStream(
+      messages.Wrapper.decodeDelimited.bind(messages.Wrapper)
+    )
     gherkin.on('error', err => {
       protobufMessageStream.emit('error', err)
     })
     gherkin.stdout.pipe(protobufMessageStream)
     for (const source of this._sources) {
-      const wrapper = new cm.Wrapper.fromObject({ source })
-      gherkin.stdin.write(cm.Wrapper.encodeDelimited(wrapper).finish())
+      const wrapper = new messages.Wrapper.fromObject({ source })
+      gherkin.stdin.write(messages.Wrapper.encodeDelimited(wrapper).finish())
     }
     gherkin.stdin.end()
     return protobufMessageStream

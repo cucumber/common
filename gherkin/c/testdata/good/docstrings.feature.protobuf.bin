@@ -1,103 +1,0 @@
-§
-°
- testdata/good/docstrings.feature‘Feature: DocString variations
-
-  Scenario: minimalistic
-    Given a simple DocString
-      """
-      first line (no indent)
-        second line (indented with two spaces)
-
-      third line was empty
-      """
-    Given a DocString with content type
-      """xml
-      <foo>
-        <bar />
-      </foo>
-      """
-    And a DocString with wrong indentation
-      """
-    wrongly indented line
-      """
-    And a DocString with alternative separator
-      ```
-      first line
-      second line
-      ```
-    And a DocString with normal separator inside
-      ```
-      first line
-      """
-      third line
-      ```
-    And a DocString with alternative separator inside
-      """
-      first line
-      ```
-      third line
-      """
-    And a DocString with escaped separator inside
-      """
-      first line
-      \"\"\"
-      third line
-      """
-&
-UTF-8text/x.cucumber.gherkin+plainãà
- testdata/good/docstrings.feature„
-en"Feature*DocString variations:∑¥
-Scenario"minimalistic2Å
-Given a simple DocString*]
-Ufirst line (no indent)
-  second line (indented with two spaces)
-
-third line was empty2R
-Given a DocString with content type*#
-xml<foo>
-  <bar />
-</foo>2O
-And "a DocString with wrong indentation*
-wrongly indented line2T
-And &a DocString with alternative separator*
-first line
-second line2Y
-And (a DocString with normal separator inside*!
-first line
-"""
-third line2^
- And -a DocString with alternative separator inside*!
-!first line
-```
-third line2Z
-&And )a DocString with escaped separator inside*!
-'first line
-"""
-third line§°
- testdata/good/docstrings.featureminimalisticen"y
-a simple DocString]
-Ufirst line (no indent)
-  second line (indented with two spaces)
-
-third line was empty"J
-a DocString with content type#
-xml<foo>
-  <bar />
-</foo>"I
-"a DocString with wrong indentation	
-wrongly indented line"N
-&a DocString with alternative separator	
-first line
-second line"S
-(a DocString with normal separator inside	!
-first line
-"""
-third line"X
--a DocString with alternative separator inside 	!
-!first line
-```
-third line"T
-)a DocString with escaped separator inside&	!
-'first line
-"""
-third line2

@@ -9,7 +9,7 @@
   },
   "scripts": {
     "test": "mocha test/**/*.{ts,js}",
-    "eslint-fix": "eslint --fix src test",
+    "lint-fix": "eslint --fix src test",
     "coverage": "nyc --reporter=html --reporter=text mocha test/**/*.{ts,js}",
     "build": "babel src --out-dir dist/src",
     "build-test": "babel test --out-dir dist/test",
@@ -50,7 +50,7 @@
     "typescript": "^3.4.1"
   },
   "dependencies": {
-    "c21e": "^1.1.9",
-    "cucumber-messages": "^2.1.2"
+    "c21e": "cucumber/c21e-javascript",
+    "cucumber-messages": "cucumber/cucumber-messages-javascript"
   }
 }

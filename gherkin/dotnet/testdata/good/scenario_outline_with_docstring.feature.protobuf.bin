@@ -1,45 +1,0 @@
-œ
-Ã
-5testdata/good/scenario_outline_with_docstring.featureÍFeature: Scenario Outline with a docstring
-
-Scenario Outline: Greetings come in many forms
-    Given this file:
-    """<type>
-    Greeting:<content>
-    """
-
-Examples:
-  | type  | content |
-  | en    | Hello   |
-  | fr    | Bonjour |
-&
-UTF-8text/x.cucumber.gherkin+plainÌ
-5testdata/good/scenario_outline_with_docstring.feature≥
-en"Feature*!Scenario Outline with a docstring:˙˜
-Scenario Outline"Greetings come in many forms2>
-Given 
-this file:*"
-<type>Greeting:<content>:
-	Examples2%
-
-
-
-type
-
-content:!
-
-
-en
-Hello:#
-
-
-fr
-Bonjourûõ
-5testdata/good/scenario_outline_with_docstring.featureGreetings come in many formsen"4
-
-this file:
-enGreeting:Hello22†ù
-5testdata/good/scenario_outline_with_docstring.featureGreetings come in many formsen"6
-
-this file:
-frGreeting:Bonjour22

@@ -1,17 +1,0 @@
-Ð
-Í
-)testdata/good/incomplete_scenario.featurexFeature: Incomplete scenarios
-
-  Background: Adding a background won't make a pickle
-    * a step
-
-  Scenario: no steps
-&
-UTF-8text/x.cucumber.gherkin+plainËÈ
-)testdata/good/incomplete_scenario.featureš
-en"Feature*Incomplete scenarios:QO
-
-Background'Adding a background won't make a pickle*
-* a step:
-Scenario"no stepsA?
-)testdata/good/incomplete_scenario.featureno stepsen2

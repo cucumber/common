@@ -1,68 +1,0 @@
-ä
-á
-$testdata/good/readme_example.feature∂@a
-Feature:
-  @b @c
-  Scenario Outline:
-    Given <x>
-
-    Examples:
-      | x |
-      | y |
-
-  @d @e
-  Scenario Outline:
-    Given <m>
-
-    @f
-    Examples:
-      | m |
-      | n |
-&
-UTF-8text/x.cucumber.gherkin+plain€ÿ
-$testdata/good/readme_example.featureØ
-
-
-@aen"Feature:}
-
-
-@b
-
-@cScenario Outline2
-Given <x>:6
-Examples2
-	
-	x:
-		
-		y:åâ
-
-
-@d
-
-@eScenario Outline2
-Given <m>:B
-
-
-@fExamples2
-	
-	m:
-	
-	nmk
-$testdata/good/readme_example.featureen"
-y	*
-
-@a*
-
-@b*
-
-@c22	yw
-$testdata/good/readme_example.featureen"
-n*
-
-@a*
-
-@d*
-
-@e*
-
-@f22

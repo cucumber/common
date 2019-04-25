@@ -1,1 +1,24 @@
-{"pickle":{"language":"em","locations":[{"column":3,"line":4}],"name":"💃","steps":[{"locations":[{"column":6,"line":5}],"text":"🎸"}],"uri":"testdata/good/i18n_emoji.feature"}}
+{
+  "pickle": {
+    "language": "em",
+    "locations": [
+      {
+        "column": 3,
+        "line": 4
+      }
+    ],
+    "name": "💃",
+    "steps": [
+      {
+        "locations": [
+          {
+            "column": 6,
+            "line": 5
+          }
+        ],
+        "text": "🎸"
+      }
+    ],
+    "uri": "testdata/good/i18n_emoji.feature"
+  }
+}

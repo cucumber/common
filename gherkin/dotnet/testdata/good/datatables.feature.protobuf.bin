@@ -1,118 +1,0 @@
-œ
-™
- testdata/good/datatables.featureÌFeature: DataTables
-
-  Scenario: minimalistic
-    Given a simple data table
-      | foo | bar |
-      | boz | boo |
-    And a data table with a single cell
-      | foo |
-    And a data table with different fromatting
-      |   foo|bar|    boz    |    
-    And a data table with an empty cell
-      |foo||boz|
-    And a data table with comments and newlines inside
-      | foo | bar |
-
-      | boz  | boo  |
-      # this is a comment
-      | boz2 | boo2 |
-&
-UTF-8text/x.cucumber.gherkin+plainÈÅ
- testdata/good/datatables.featureý
-en"Feature*
-DataTables:ÛØ
-Scenario"minimalistic2o
-Given a simple data table2J
- 
-
-	foo
-bar 
-
-	boz
-boo2J
-And a data table with a single cell2
-
-
-	foo2k
-	And &a data table with different fromatting25
-
--
-
-
-
-foo
-
-bar
-
-boz2_
-And a data table with an empty cell20
-(
-
-foo
-
-boz2¬
-And .a data table with comments and newlines inside2n
- 
-
-	foo
-bar 
-
-	boz
-boo"
-
-	boz2
-boo2!
-      # this is a comment‰†
- testdata/good/datatables.featureminimalisticen"U
-a simple data table"8
-
-
-	foo
-
-bar
-
-
-	boz
-
-boo"8
-a data table with a single cell	"
-
-
-	foo"Y
-&a data table with different fromatting		")
-'
-
-
-foo
-
-
-bar
-
-
-boz"M
-a data table with an empty cell	"$
-"
-
-foo
-
-
-
-boz"Ž
-.a data table with comments and newlines inside	"V
-
-
-	foo
-
-bar
-
-
-	boz
-
-boo
-
-
-	boz2
-
-boo22

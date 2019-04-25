@@ -2,26 +2,26 @@
   "name": "cucumber-messages",
   "version": "2.1.2",
   "description": "Protocol Buffer messages for Cucumber's inter-process communication",
-  "main": "src/cucumber-messages.js",
+  "main": "dist/src/index.js",
   "repository": "git://github.com/cucumber/cucumber-messages-javascript.git",
   "author": "Cucumber Limited <cukes@googlegroups.com>",
   "license": "MIT",
   "scripts": {
     "test": "mocha test/**/*.ts",
-    "eslint-fix": "echo 'skipping eslint on generated code'",
+    "lint-fix": "echo 'skipping linting on generated code'",
     "coverage": "echo 'skipping coverage on generated code'",
-    "build": "echo 'skipping babel on generated code'",
+    "build": "tsc",
     "build-test": "echo 'skipping babel on generated code'",
     "mocha-built": "mocha test/**/*.ts"
   },
   "dependencies": {
-    "protobufjs": "^6.8.6"
+    "protobufjs": "^6.8.8"
   },
   "devDependencies": {
     "@types/mocha": "^5.2.5",
-    "mocha": "^5.2.0",
+    "mocha": "^6.1.2",
     "nyc": "^13.0.1",
-    "ts-node": "^7.0.1",
+    "ts-node": "^8.0.3",
     "typescript": "^3.0.1"
   }
 }

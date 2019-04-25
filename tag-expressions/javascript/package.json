@@ -5,7 +5,7 @@
   "main": "dist/src/tag_expression_parser.js",
   "scripts": {
     "test": "mocha",
-    "eslint-fix": "eslint --fix src test",
+    "lint-fix": "eslint --fix src test",
     "coverage": "nyc --reporter=html --reporter=text mocha",
     "build": "babel src --out-dir dist/src",
     "build-test": "babel test --out-dir dist/test",
