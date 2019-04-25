@@ -6,6 +6,13 @@
 
   <ItemGroup>
     <PackageReference Include="Google.Protobuf" Version="3.7.0" />
+    <PackageReference Include="Grpc.Tools" Version="1.20.0">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
   </ItemGroup>
 
+  <ItemGroup>
+    <Protobuf Include =" ../messages.proto" OutputDir="$(MsBuildThisFileDirectory)" />
+  </ItemGroup>
 </Project>
