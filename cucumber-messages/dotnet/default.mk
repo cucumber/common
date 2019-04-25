@@ -21,7 +21,7 @@ default: .tested
 	dotnet build
 
 .tested: .built
-	cd $(SPEC_DIR) && dotnet test --no-build -f netcoreapp2.0
+	cd $(SPEC_DIR) && dotnet test --no-build
 	touch $@
 
 clean: clean-java
