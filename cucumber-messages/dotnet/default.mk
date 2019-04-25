@@ -17,7 +17,7 @@ endif
 default: .tested
 .PHONY: default
 
-.built: $(SLN_FILES) $(CSPROJ_FILES) $(CSHARP_SOURCE_FILES) .deps
+.built: $(SLN_FILES) $(CSPROJ_FILES) $(CSHARP_SOURCE_FILES)
 	dotnet build
 
 .tested: .built
@@ -28,5 +28,5 @@ clean: clean-java
 .PHONY: clean
 
 clean-java:
-	rm -rf .deps .tested .built
+	rm -rf .tested .built
 .PHONY: clean-java
