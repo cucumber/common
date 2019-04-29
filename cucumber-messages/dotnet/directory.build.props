@@ -1,0 +1,3 @@
+﻿<Project>
+  <Import Project="$(SolutionDir)\netfx.props" />
+</Project>
