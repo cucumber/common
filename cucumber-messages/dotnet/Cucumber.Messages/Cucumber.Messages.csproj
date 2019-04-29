@@ -13,6 +13,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Protobuf Include =" ../messages.proto" OutputDir="$(MsBuildThisFileDirectory)" />
+    <Compile Remove="Messages.cs" />
+    <Protobuf Include="messages.proto" OutputDir="$(MsBuildThisFileDirectory)" GrpcServices="None" />
   </ItemGroup>
 </Project>
