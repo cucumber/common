@@ -1,5 +1,4 @@
 SHELL := /usr/bin/env bash
-SPEC_DIR = $(shell find . -name "*.Specs")
 SLN_FILES = $(shell find . -name "*.sln")
 CSPROJ_FILES = $(shell find . -name "*.csproj")
 CSHARP_SOURCE_FILES = $(shell find . -name "*.cs")
@@ -18,10 +17,10 @@ default: .tested
 .PHONY: default
 
 .built: $(SLN_FILES) $(CSPROJ_FILES) $(CSHARP_SOURCE_FILES)
-	dotnet build
+	dotnet build -bl
 
 .tested: .built
-	cd $(SPEC_DIR) && dotnet test --no-build
+	dotnet test
 	touch $@
 
 clean: clean-java
