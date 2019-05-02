@@ -12,7 +12,7 @@ var INTEGER_REGEXPS = []*regexp.Regexp{
 	regexp.MustCompile(`\d+`),
 }
 var FLOAT_REGEXPS = []*regexp.Regexp{
-	regexp.MustCompile(`-?\d*\.\d+`),
+	regexp.MustCompile(`-?\d*(?:[.,]\d+)?`),
 }
 var WORD_REGEXPS = []*regexp.Regexp{
 	regexp.MustCompile(`[^\s]+`),

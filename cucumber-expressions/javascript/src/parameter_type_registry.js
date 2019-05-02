@@ -6,7 +6,7 @@ const {
 } = require('./errors')
 
 const INTEGER_REGEXPS = [/-?\d+/, /\d+/]
-const FLOAT_REGEXP = /-?\d*\.\d+/
+const FLOAT_REGEXP = /-?\d*(?:\.\d+)?/
 const WORD_REGEXP = /[^\s]+/
 const STRING_REGEXP = /"([^"\\]*(\\.[^"\\]*)*)"|'([^'\\]*(\\.[^'\\]*)*)'/
 const ANONYMOUS_REGEXP = /.*/

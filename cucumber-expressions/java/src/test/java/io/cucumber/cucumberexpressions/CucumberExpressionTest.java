@@ -197,6 +197,12 @@ public class CucumberExpressionTest {
         assertEquals(singletonList(1.22), values);
     }
 
+    @Test
+    public void matches_float_with_zero() {
+        List<?> values = match("{float}", "0", Locale.ENGLISH);
+        assertEquals(0.0f, values.get(0));
+    }
+
     private List<?> match(String expr, String text, Type... typeHints) {
         return match(expr, text, Locale.ENGLISH, typeHints);
     }

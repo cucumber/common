@@ -39,10 +39,16 @@ class ParameterTypeMatcher implements Comparable<ParameterTypeMatcher> {
         if (posComparison != 0) return posComparison;
         int lengthComparison = Integer.compare(o.group().length(), group().length());
         if (lengthComparison != 0) return lengthComparison;
+        int weightComparison = Integer.compare(o.parameterType.weight(), parameterType.weight());
+        if (weightComparison != 0) return weightComparison;
         return 0;
     }
 
     public ParameterType<?> getParameterType() {
         return parameterType;
+    }
+
+    public String toString() {
+        return parameterType.getType().toString();
     }
 }

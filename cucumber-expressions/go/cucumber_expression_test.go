@@ -145,6 +145,19 @@ func TestCucumberExpression(t *testing.T) {
 		)
 	})
 
+	t.Run("matches float with zero", func(t *testing.T) {
+		require.Equal(
+			t,
+			MatchCucumberExpression(t, "{float}", "0"),
+			[]interface{}{0.0},
+		)
+		require.Equal(
+			t,
+			MatchCucumberExpression(t, "{float}", "-1"),
+			[]interface{}{-1.0},
+		)
+	})
+
 	t.Run("matches anonymous", func(t *testing.T) {
 		require.Equal(
 			t,
