@@ -1,35 +1,34 @@
 "use strict";
-
-const Argument = require('./argument');
-
-const TreeRegexp = require('./tree_regexp');
-
-const ParameterType = require('./parameter_type');
-
-class RegularExpression {
-  constructor(expressionRegexp, parameterTypeRegistry) {
-    this._expressionRegexp = expressionRegexp;
-    this._parameterTypeRegistry = parameterTypeRegistry;
-    this._treeRegexp = new TreeRegexp(expressionRegexp);
-  }
-
-  match(text) {
-    const parameterTypes = this._treeRegexp.groupBuilder.children.map(groupBuilder => {
-      const parameterTypeRegexp = groupBuilder.source;
-      return this._parameterTypeRegistry.lookupByRegexp(parameterTypeRegexp, this._treeRegexp, text) || new ParameterType(null, parameterTypeRegexp, String, s => s, false, false);
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+var argument_1 = __importDefault(require("./argument"));
+var tree_regexp_1 = __importDefault(require("./tree_regexp"));
+var parameter_type_1 = __importDefault(require("./parameter_type"));
+var RegularExpression = /** @class */ (function () {
+    function RegularExpression(regexp, parameterTypeRegistry) {
+        this.regexp = regexp;
+        this.parameterTypeRegistry = parameterTypeRegistry;
+        this.treeRegexp = new tree_regexp_1.default(regexp);
+    }
+    RegularExpression.prototype.match = function (text) {
+        var _this = this;
+        var parameterTypes = this.treeRegexp.groupBuilder.children.map(function (groupBuilder) {
+            var parameterTypeRegexp = groupBuilder.source;
+            return (_this.parameterTypeRegistry.lookupByRegexp(parameterTypeRegexp, _this.regexp, text) ||
+                new parameter_type_1.default(null, parameterTypeRegexp, String, function (s) { return (s === undefined ? null : s); }, false, false));
+        });
+        return argument_1.default.build(this.treeRegexp, text, parameterTypes);
+    };
+    Object.defineProperty(RegularExpression.prototype, "source", {
+        get: function () {
+            return this.regexp.source;
+        },
+        enumerable: true,
+        configurable: true
     });
-
-    return Argument.build(this._treeRegexp, text, parameterTypes);
-  }
-
-  get regexp() {
-    return this._expressionRegexp;
-  }
-
-  get source() {
-    return this._expressionRegexp.source;
-  }
-
-}
-
-module.exports = RegularExpression;
+    return RegularExpression;
+}());
+exports.default = RegularExpression;
+//# sourceMappingURL=regular_expression.js.map

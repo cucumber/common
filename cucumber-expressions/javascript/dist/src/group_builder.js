@@ -1,41 +1,38 @@
 "use strict";
-
-const Group = require('./group');
-
-class GroupBuilder {
-  constructor() {
-    this._groupBuilders = [];
-    this._capturing = true;
-  }
-
-  add(groupBuilder) {
-    this._groupBuilders.push(groupBuilder);
-  }
-
-  build(match, nextGroupIndex) {
-    const groupIndex = nextGroupIndex();
-
-    const children = this._groupBuilders.map(gb => gb.build(match, nextGroupIndex));
-
-    return new Group(match[groupIndex], match.index[groupIndex], match.index[groupIndex] + (match[groupIndex] || '').length, children);
-  }
-
-  setNonCapturing() {
-    this._capturing = false;
-  }
-
-  get capturing() {
-    return this._capturing;
-  }
-
-  get children() {
-    return this._groupBuilders;
-  }
-
-  moveChildrenTo(groupBuilder) {
-    this._groupBuilders.forEach(child => groupBuilder.add(child));
-  }
-
-}
-
-module.exports = GroupBuilder;
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+var group_1 = __importDefault(require("./group"));
+var GroupBuilder = /** @class */ (function () {
+    function GroupBuilder() {
+        this.capturing = true;
+        this.groupBuilders = [];
+    }
+    GroupBuilder.prototype.add = function (groupBuilder) {
+        this.groupBuilders.push(groupBuilder);
+    };
+    GroupBuilder.prototype.build = function (match, nextGroupIndex) {
+        var groupIndex = nextGroupIndex();
+        var children = this.groupBuilders.map(function (gb) {
+            return gb.build(match, nextGroupIndex);
+        });
+        return new group_1.default(match[groupIndex] || null, match.index[groupIndex], match.index[groupIndex] + (match[groupIndex] || "").length, children);
+    };
+    GroupBuilder.prototype.setNonCapturing = function () {
+        this.capturing = false;
+    };
+    Object.defineProperty(GroupBuilder.prototype, "children", {
+        get: function () {
+            return this.groupBuilders;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    GroupBuilder.prototype.moveChildrenTo = function (groupBuilder) {
+        this.groupBuilders.forEach(function (child) { return groupBuilder.add(child); });
+    };
+    return GroupBuilder;
+}());
+exports.default = GroupBuilder;
+//# sourceMappingURL=group_builder.js.map

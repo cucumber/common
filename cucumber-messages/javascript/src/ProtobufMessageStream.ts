@@ -1,31 +1,33 @@
-import { Transform, TransformCallback } from 'stream'
-import { Reader } from 'protobufjs'
+import { Transform, TransformCallback } from "stream";
+import { Reader } from "protobufjs";
 
 /**
  * Transforms a stream of bytes to protobuf messages
  */
 class ProtobufMessageStream<T> extends Transform {
-  private buffer = Buffer.alloc(0)
+  private buffer = Buffer.alloc(0);
 
-  constructor(private readonly decodeDelimited: (reader: Reader|Uint8Array) => T) {
-    super({objectMode: true})
+  constructor(
+    private readonly decodeDelimited: (reader: Reader | Uint8Array) => T
+  ) {
+    super({ objectMode: true });
   }
 
-  _transform(chunk: any, encoding: string, callback: TransformCallback) {
-    this.buffer = Buffer.concat([this.buffer, chunk])
+  public _transform(chunk: any, encoding: string, callback: TransformCallback) {
+    this.buffer = Buffer.concat([this.buffer, chunk]);
 
     while (true) {
       try {
-        const reader = Reader.create(this.buffer)
-        const message = this.decodeDelimited(reader)
-        this.push(message)
-        this.buffer = this.buffer.slice(reader.pos)
-      } catch(err) {
-        break
+        const reader = Reader.create(this.buffer);
+        const message = this.decodeDelimited(reader);
+        this.push(message);
+        this.buffer = this.buffer.slice(reader.pos);
+      } catch (err) {
+        break;
       }
     }
-    callback()
+    callback();
   }
 }
 
-export default ProtobufMessageStream
+export default ProtobufMessageStream;

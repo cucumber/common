@@ -1,33 +1,22 @@
 "use strict";
-
-class Group {
-  constructor(value, start, end, children) {
-    this._value = value;
-    this._start = start;
-    this._end = end;
-    this._children = children;
-  }
-
-  get value() {
-    return this._value;
-  }
-
-  get start() {
-    return this._start;
-  }
-
-  get end() {
-    return this._end;
-  }
-
-  get children() {
-    return this._children;
-  }
-
-  get values() {
-    return (this.children.length === 0 ? [this] : this.children).map(g => g.value).filter(v => v !== undefined);
-  }
-
-}
-
-module.exports = Group;
+Object.defineProperty(exports, "__esModule", { value: true });
+var Group = /** @class */ (function () {
+    function Group(value, start, end, children) {
+        this.value = value;
+        this.start = start;
+        this.end = end;
+        this.children = children;
+    }
+    Object.defineProperty(Group.prototype, "values", {
+        get: function () {
+            return (this.children.length === 0 ? [this] : this.children)
+                .map(function (g) { return g.value; })
+                .filter(function (v) { return v !== null; });
+        },
+        enumerable: true,
+        configurable: true
+    });
+    return Group;
+}());
+exports.default = Group;
+//# sourceMappingURL=group.js.map
