@@ -1,6 +1,7 @@
 sudo: false
 language: node_js
 node_js:
+  - "12"
   - "10"
   - "9"
   - "8"
@@ -12,7 +13,7 @@ script: make default
 jobs:
   include:
   - stage: npm release
-    node_js: '10'
+    node_js: '12'
     deploy:
       skip_cleanup: true
       provider: npm
