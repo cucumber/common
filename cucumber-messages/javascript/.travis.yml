@@ -6,6 +6,12 @@ node_js:
   - "9"
   - "8"
   - "6"
+matrix:
+  allow_failures:
+  # pbts depends transitively on requizzle, which has a bug on Node 12
+  # https://github.com/hegemonic/requizzle/issues/6
+  # Remove this when pbts works on Node 12
+  - rvm: "12"
 
 before_install:
 - npm i -g npm@latest
