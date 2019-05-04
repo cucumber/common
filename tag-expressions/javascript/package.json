@@ -3,10 +3,12 @@
   "version": "1.1.1",
   "description": "Cucumber Tag Expression parser",
   "main": "dist/src/tag_expression_parser.js",
+  "types": "dist/src/tag_expression_parser.d.ts",
   "scripts": {
-    "test": "mocha 'test/**/*.ts'",
+    "test": "mocha test/**/*.ts",
+    "lint": "tslint src/**/*.ts test/**/*.ts",
     "lint-fix": "tslint --fix src/**/*.ts test/**/*.ts",
-    "coverage": "nyc mocha 'test/**/*.ts'",
+    "coverage": "nyc --reporter=html --reporter=text mocha test/**/*.ts",
     "build": "tsc",
     "prepublishOnly": "npm run build"
   },

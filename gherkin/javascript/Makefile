@@ -19,7 +19,6 @@ ifndef SKIP_NPM_LINK
 	npm link cucumber-messages
 	npm link c21e
 endif
-	touch $@
 
 .tested: dist/src/index.js .compared
 

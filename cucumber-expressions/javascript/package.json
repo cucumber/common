@@ -3,8 +3,10 @@
   "version": "7.0.0",
   "description": "Cucumber Expressions - a simpler alternative to Regular Expressions",
   "main": "dist/src/index.js",
+  "types": "dist/src/index.d.ts",
   "scripts": {
-    "test": "mocha 'test/**/*.ts'",
+    "test": "mocha test/**/*.ts",
+    "lint": "tslint src/**/*.ts test/**/*.ts",
     "lint-fix": "tslint --fix src/**/*.ts test/**/*.ts",
     "coverage": "nyc --reporter=html --reporter=text mocha test/**/*.ts",
     "build": "tsc",

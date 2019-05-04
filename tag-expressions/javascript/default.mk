@@ -7,23 +7,25 @@ else
 	LIBRARY_VERSION=master
 endif
 
-default: .tested .linted .built
+default: .built .tested .linted
 .PHONY: default
 
-.codegen: .deps
+.deps: package-lock.json
+	touch $@
 
-.tested: package-lock.json .codegen $(TYPESCRIPT_SOURCE_FILES)
+.codegen:
+	touch $@
+
+.built: .deps .codegen $(TYPESCRIPT_SOURCE_FILES)
+	npm run build
+
+.tested: .deps .codegen $(TYPESCRIPT_SOURCE_FILES)
 	TS_NODE_TRANSPILE_ONLY=1 npm run test
 	touch $@
 
-.linted: $(TYPESCRIPT_SOURCE_FILES)
-	npm run lint-fix
+.linted: .deps .codegen $(TYPESCRIPT_SOURCE_FILES)
+	npm run lint
 	touch $@
-
-.built: $(TYPESCRIPT_SOURCE_FILES)
-	npm run build
-
-.deps: package-lock.json
 
 package-lock.json: package.json
 	npm install

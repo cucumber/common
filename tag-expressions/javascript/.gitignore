@@ -12,6 +12,3 @@ package-lock.json
 .codegen
 acceptance
 *-go/
-# Only applies to cucumber-messages/javascript
-src/cucumber-messages.d.ts
-src/cucumber-messages.js
