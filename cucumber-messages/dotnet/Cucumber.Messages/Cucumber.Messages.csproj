@@ -14,6 +14,6 @@
 
   <ItemGroup>
     <Compile Remove="Messages.cs" />
-    <Protobuf Include="messages.proto" OutputDir="$(MsBuildThisFileDirectory)" GrpcServices="None" />
+    <Protobuf Include="../messages.proto" OutputDir="$(MsBuildThisFileDirectory)" GrpcServices="None" />
   </ItemGroup>
 </Project>

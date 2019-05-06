@@ -9,6 +9,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{425C17B8-AD8E-41B4-9CC4-64C34C13B867}"
 	ProjectSection(SolutionItems) = preProject
 		.gitignore = .gitignore
+		messages.proto = messages.proto
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Build", "Build", "{A0B27547-2117-480F-9572-BF004AC570A1}"
