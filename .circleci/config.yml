@@ -2,7 +2,7 @@ version: 2
 jobs:
   build:
     docker:
-      - image: cucumber/cucumber-build:634984d00241d347b60da920b334a2bd
+      - image: cucumber/cucumber-build:239a61b280059c39f31d5d7be85bb747
 
     working_directory: ~/repo
 
