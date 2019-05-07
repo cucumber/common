@@ -18,6 +18,7 @@ default: .packed
 
 .built: $(SLN_FILES) $(CSPROJ_FILES) $(CSHARP_SOURCE_FILES)
 	dotnet build -bl -c Release
+	touch $@
 
 .tested: .built
 	dotnet test
@@ -25,10 +26,11 @@ default: .packed
 
 .packed: .tested
 	dotnet pack -c Release -p:PrereleaseVersionPostfix="$(LIBRARY_VERSION)"
+	touch $@
 
 clean: clean-java
 .PHONY: clean
 
 clean-java:
-	rm -rf .tested .built
+	rm -rf .tested .built .packed
 .PHONY: clean-java
