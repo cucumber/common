@@ -10,16 +10,16 @@
   <PropertyGroup Label="Package Properties">
     <PackageId>Cucumber.Messages</PackageId>
     <Title>Cucumber.Messages</Title>
-    <Authors>Cucumber Ltd</Authors>
+    <Authors>Cucumber Ltd, TechTalk</Authors>
     <Description>Protocol Buffer messages for Cucumber's and SpecFlow's inter-process communication</Description>
     <PackageVersion>$(Version)</PackageVersion>
-    <Copyright>Copyright © Cucumber Ltd</Copyright>
+    <Copyright>Copyright © Cucumber Ltd &amp; TechTalk</Copyright>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageIconUrl>https://cucumber.io/images/cucumber-mark-32x32.png</PackageIconUrl>
     <PackageTags>cucumber-messages cucumber specflow gherkin</PackageTags>
     <PackageOutputPath Condition="'$(SolutionDir)' != ''">$(SolutionDir)/GeneratedNuGetPackages/$(Configuration)</PackageOutputPath>
     <PackageOutputPath Condition="'$(SolutionDir)' == ''">$(MSBuildThisFileDirectory)/../GeneratedNuGetPackages/$(Configuration)</PackageOutputPath>
-    <RepositoryUrl>https://github.com/cucumber/cucumber/tree/cucumber-messages-dotnet/cucumber-messages</RepositoryUrl>
+    <RepositoryUrl>https://github.com/cucumber/cucumber</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
   </PropertyGroup>
 
