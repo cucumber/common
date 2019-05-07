@@ -1,11 +1,24 @@
-
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.26124.0
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.28803.156
 MinimumVisualStudioVersion = 15.0.26124.0
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cucumber.Messages", "Cucumber.Messages\Cucumber.Messages.csproj", "{E90670B3-6B40-4844-9D8F-0C19F89A9B45}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cucumber.Messages", "Cucumber.Messages\Cucumber.Messages.csproj", "{E90670B3-6B40-4844-9D8F-0C19F89A9B45}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cucumber.Messages.Specs", "Cucumber.Messages.Specs\Cucumber.Messages.Specs.csproj", "{EEFB77CC-19E2-440D-864F-53B924C9D3D1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cucumber.Messages.Specs", "Cucumber.Messages.Specs\Cucumber.Messages.Specs.csproj", "{EEFB77CC-19E2-440D-864F-53B924C9D3D1}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{425C17B8-AD8E-41B4-9CC4-64C34C13B867}"
+	ProjectSection(SolutionItems) = preProject
+		.gitignore = .gitignore
+		messages.proto = messages.proto
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Build", "Build", "{A0B27547-2117-480F-9572-BF004AC570A1}"
+	ProjectSection(SolutionItems) = preProject
+		default.mk = default.mk
+		directory.build.props = directory.build.props
+		Makefile = Makefile
+		netfx.props = netfx.props
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -16,33 +29,36 @@ Global
 		Release|x64 = Release|x64
 		Release|x86 = Release|x86
 	EndGlobalSection
-	GlobalSection(SolutionProperties) = preSolution
-		HideSolutionNode = FALSE
-	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{E90670B3-6B40-4844-9D8F-0C19F89A9B45}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{E90670B3-6B40-4844-9D8F-0C19F89A9B45}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{E90670B3-6B40-4844-9D8F-0C19F89A9B45}.Debug|x64.ActiveCfg = Debug|x64
-		{E90670B3-6B40-4844-9D8F-0C19F89A9B45}.Debug|x64.Build.0 = Debug|x64
-		{E90670B3-6B40-4844-9D8F-0C19F89A9B45}.Debug|x86.ActiveCfg = Debug|x86
-		{E90670B3-6B40-4844-9D8F-0C19F89A9B45}.Debug|x86.Build.0 = Debug|x86
+		{E90670B3-6B40-4844-9D8F-0C19F89A9B45}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{E90670B3-6B40-4844-9D8F-0C19F89A9B45}.Debug|x64.Build.0 = Debug|Any CPU
+		{E90670B3-6B40-4844-9D8F-0C19F89A9B45}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{E90670B3-6B40-4844-9D8F-0C19F89A9B45}.Debug|x86.Build.0 = Debug|Any CPU
 		{E90670B3-6B40-4844-9D8F-0C19F89A9B45}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E90670B3-6B40-4844-9D8F-0C19F89A9B45}.Release|Any CPU.Build.0 = Release|Any CPU
-		{E90670B3-6B40-4844-9D8F-0C19F89A9B45}.Release|x64.ActiveCfg = Release|x64
-		{E90670B3-6B40-4844-9D8F-0C19F89A9B45}.Release|x64.Build.0 = Release|x64
-		{E90670B3-6B40-4844-9D8F-0C19F89A9B45}.Release|x86.ActiveCfg = Release|x86
-		{E90670B3-6B40-4844-9D8F-0C19F89A9B45}.Release|x86.Build.0 = Release|x86
+		{E90670B3-6B40-4844-9D8F-0C19F89A9B45}.Release|x64.ActiveCfg = Release|Any CPU
+		{E90670B3-6B40-4844-9D8F-0C19F89A9B45}.Release|x64.Build.0 = Release|Any CPU
+		{E90670B3-6B40-4844-9D8F-0C19F89A9B45}.Release|x86.ActiveCfg = Release|Any CPU
+		{E90670B3-6B40-4844-9D8F-0C19F89A9B45}.Release|x86.Build.0 = Release|Any CPU
 		{EEFB77CC-19E2-440D-864F-53B924C9D3D1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{EEFB77CC-19E2-440D-864F-53B924C9D3D1}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{EEFB77CC-19E2-440D-864F-53B924C9D3D1}.Debug|x64.ActiveCfg = Debug|x64
-		{EEFB77CC-19E2-440D-864F-53B924C9D3D1}.Debug|x64.Build.0 = Debug|x64
-		{EEFB77CC-19E2-440D-864F-53B924C9D3D1}.Debug|x86.ActiveCfg = Debug|x86
-		{EEFB77CC-19E2-440D-864F-53B924C9D3D1}.Debug|x86.Build.0 = Debug|x86
+		{EEFB77CC-19E2-440D-864F-53B924C9D3D1}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{EEFB77CC-19E2-440D-864F-53B924C9D3D1}.Debug|x64.Build.0 = Debug|Any CPU
+		{EEFB77CC-19E2-440D-864F-53B924C9D3D1}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{EEFB77CC-19E2-440D-864F-53B924C9D3D1}.Debug|x86.Build.0 = Debug|Any CPU
 		{EEFB77CC-19E2-440D-864F-53B924C9D3D1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EEFB77CC-19E2-440D-864F-53B924C9D3D1}.Release|Any CPU.Build.0 = Release|Any CPU
-		{EEFB77CC-19E2-440D-864F-53B924C9D3D1}.Release|x64.ActiveCfg = Release|x64
-		{EEFB77CC-19E2-440D-864F-53B924C9D3D1}.Release|x64.Build.0 = Release|x64
-		{EEFB77CC-19E2-440D-864F-53B924C9D3D1}.Release|x86.ActiveCfg = Release|x86
-		{EEFB77CC-19E2-440D-864F-53B924C9D3D1}.Release|x86.Build.0 = Release|x86
+		{EEFB77CC-19E2-440D-864F-53B924C9D3D1}.Release|x64.ActiveCfg = Release|Any CPU
+		{EEFB77CC-19E2-440D-864F-53B924C9D3D1}.Release|x64.Build.0 = Release|Any CPU
+		{EEFB77CC-19E2-440D-864F-53B924C9D3D1}.Release|x86.ActiveCfg = Release|Any CPU
+		{EEFB77CC-19E2-440D-864F-53B924C9D3D1}.Release|x86.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {075BE4EF-2553-4706-BCDF-655946DB247B}
 	EndGlobalSection
 EndGlobal
