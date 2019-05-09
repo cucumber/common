@@ -5,6 +5,8 @@
     <VersionNumber>1.0.0</VersionNumber>
     <Version Condition="'$(Version)' == '' and '$(PrereleaseVersionPostfix)' != ''">$(VersionNumber)-$(PrereleaseVersionPostfix)</Version>
     <Version Condition="'$(Version)' == ''">$(VersionNumber)</Version>
+    <SignAssembly>true</SignAssembly>
+    <DelaySign>false</DelaySign>
   </PropertyGroup>
 
   <PropertyGroup Label="Package Properties">
@@ -21,6 +23,7 @@
     <PackageOutputPath Condition="'$(SolutionDir)' == ''">$(MSBuildThisFileDirectory)/../GeneratedNuGetPackages/$(Configuration)</PackageOutputPath>
     <RepositoryUrl>https://github.com/cucumber/cucumber</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
+    <AssemblyOriginatorKeyFile>Cucumber.Messages.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
 
   <ItemGroup>
