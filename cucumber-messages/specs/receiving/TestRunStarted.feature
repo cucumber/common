@@ -6,7 +6,7 @@ Scenario: Handling a message queue with no TestRunStarted message
   Then there is an error
   And the queue processing is stopped
 
-Scenario: Handling a message queue with a singe TestRunStarted message
+Scenario: Handling a message queue with a single TestRunStarted message
   Given there is a TestRunStarted message in the message queue
   When the message queue is processed
   Then the start of the test run was recognized
