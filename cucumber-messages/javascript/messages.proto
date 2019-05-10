@@ -237,7 +237,9 @@ message PickleRejected {
 
 ////// Results
 
-message TestRunStarted {}
+message TestRunStarted {
+  google.protobuf.Timestamp timestamp = 1;
+}
 
 message TestCasePreparedStep {
   SourceReference sourceLocation = 1;
