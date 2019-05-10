@@ -14,4 +14,5 @@ Scenario: Handling a message queue with a single TestRunStarted message
 Scenario: Handling a message queue with two TestRunStarted messages
   Given there are two TestRunStarted messages in the message queue
   When the message queue is processed
-  Then the second TestRunStarted message has been ignored
+  Then the start of the test run was recognized
+  And the second TestRunStarted message has been ignored
