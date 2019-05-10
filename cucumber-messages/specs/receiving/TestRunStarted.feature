@@ -3,7 +3,7 @@ Feature: Receiving TestRunStarted messages
 Scenario: Handling a message queue with no TestRunStarted message
   Given there is no TestRunStarted message in the message queue
   When the messsage queue is processed
-  Then there is an error
+  Then an error indicating that no TestRunStarted message could be found in the queue should be shown
   And the queue processing is stopped
 
 Scenario: Handling a message queue with a single TestRunStarted message
