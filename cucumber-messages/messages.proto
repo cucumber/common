@@ -239,6 +239,7 @@ message PickleRejected {
 
 message TestRunStarted {
   google.protobuf.Timestamp timestamp = 1;
+  string cucumberImplementation = 2;
 }
 
 message TestCasePreparedStep {
