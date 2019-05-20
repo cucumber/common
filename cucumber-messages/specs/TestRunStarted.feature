@@ -11,6 +11,7 @@ Feature: Sending TestRunStarted messages
       | empty test suite                  | 0                    |
       | test suite contains feature files | 1                    |
 
+  @SpecFlow
   Scenario: Parallel test runs can send multiple messages
 
     Given the test runner is 'SpecFlow+Runner'
