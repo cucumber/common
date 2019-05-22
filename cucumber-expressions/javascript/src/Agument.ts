@@ -3,12 +3,12 @@ import ParameterType from "./ParameterType";
 import Group from "./Group";
 import { CucumberExpressionError } from "./Errors";
 
-export default class Argument<T> {
+export default class Agument<T> {
   public static build(
     treeRegexp: TreeRegexp,
     text: string,
     parameterTypes: Array<ParameterType<any>>
-  ): Array<Argument<any>> {
+  ): Array<Agument<any>> {
     const group = treeRegexp.match(text);
     if (!group) {
       return null;
@@ -27,7 +27,7 @@ export default class Argument<T> {
     }
 
     return parameterTypes.map(
-      (parameterType, i) => new Argument(argGroups[i], parameterType)
+      (parameterType, i) => new Agument(argGroups[i], parameterType)
     );
   }
 
@@ -50,4 +50,4 @@ export default class Argument<T> {
   }
 }
 
-module.exports = Argument;
+module.exports = Agument;
