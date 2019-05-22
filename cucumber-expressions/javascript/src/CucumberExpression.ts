@@ -1,7 +1,7 @@
 import ParameterTypeRegistry from "./ParameterTypeRegistry";
 import ParameterType from "./ParameterType";
 import TreeRegexp from "./TreeRegexp";
-import Agument from "./Agument";
+import Argument from "./Argument";
 import { CucumberExpressionError, UndefinedParameterTypeError } from "./Errors";
 
 // RegExps with the g flag are stateful in JavaScript. In order to be able
@@ -97,8 +97,8 @@ export default class CucumberExpression {
     });
   }
 
-  public match(text: string): Array<Agument<any>> {
-    return Agument.build(this.treeRegexp, text, this.parameterTypes);
+  public match(text: string): Array<Argument<any>> {
+    return Argument.build(this.treeRegexp, text, this.parameterTypes);
   }
 
   get regexp(): RegExp {

@@ -1,4 +1,4 @@
-import Agument from "./Agument";
+import Argument from "./Argument";
 import TreeRegexp from "./TreeRegexp";
 import ParameterType from "./ParameterType";
 import ParameterTypeRegistry from "./ParameterTypeRegistry";
@@ -36,7 +36,7 @@ export default class RegularExpression {
       }
     );
 
-    return Agument.build(this.treeRegexp, text, parameterTypes);
+    return Argument.build(this.treeRegexp, text, parameterTypes);
   }
 
   get source() {
