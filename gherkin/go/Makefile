@@ -31,7 +31,7 @@ golden: .built $(TOKENS_GOLDEN) $(ASTS_GOLDEN) $(PICKLES_GOLDEN) $(SOURCES_GOLDE
 .compared: .built $(TOKENS) $(ASTS) $(PICKLES) $(SOURCES) $(ERRORS)
 	touch $@
 
-.built: bin/gherkin-generate-tokens bin/gherkin
+.built: bin/gherkin-generate-tokens bin/gherkin dist/gherkin-go-js-wasm.wasm
 	touch $@
 
 .tested: parser.go dialects_builtin.go
@@ -44,6 +44,9 @@ bin/gherkin: .deps $(GO_SOURCE_FILES) parser.go dialects_builtin.go
 	# is for testing only and won't be released. The cross-compiled binaries are built
 	# on Travis' standard linux where this is not an issue.
 	go build -o $@ ./cmd
+
+dist/gherkin-go-js-wasm.wasm:
+	GOOS=js GOARCH=wasm go build -o $@ wasm/main.go
 
 testdata/%.feature.tokens: testdata/%.feature
 ifdef GOLDEN

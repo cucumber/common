@@ -35,15 +35,27 @@ func Messages(
 					return result, err
 				}
 				out := bufio.NewWriter(outStream)
-				out.WriteString(msgJson)
-				out.WriteString("\n")
+				_, err = out.WriteString(msgJson)
+				if err != nil {
+					return result, err
+				}
+				_, err = out.WriteString("\n")
+				if err != nil {
+					return result, err
+				}
 			} else {
 				bytes, err := proto.Marshal(message)
 				if err != nil {
 					return result, err
 				}
-				outStream.Write(proto.EncodeVarint(uint64(len(bytes))))
-				outStream.Write(bytes)
+				_, err = outStream.Write(proto.EncodeVarint(uint64(len(bytes))))
+				if err != nil {
+					return result, err
+				}
+				_, err = outStream.Write(bytes)
+				if err != nil {
+					return result, err
+				}
 			}
 
 		} else {
@@ -74,7 +86,7 @@ func Messages(
 			return nil
 		}
 
-		if includeGherkinDocument {
+		if doc != nil && includeGherkinDocument {
 			doc.Uri = source.Uri
 			result, err = handleMessage(result, &messages.Wrapper{
 				Message: &messages.Wrapper_GherkinDocument{
@@ -83,7 +95,7 @@ func Messages(
 			})
 		}
 
-		if includePickles {
+		if doc != nil && includePickles {
 			for _, pickle := range Pickles(*doc, source.Uri) {
 				result, err = handleMessage(result, &messages.Wrapper{
 					Message: &messages.Wrapper_Pickle{
@@ -106,7 +118,7 @@ func Messages(
 
 			switch t := wrapper.Message.(type) {
 			case *messages.Wrapper_Source:
-				processSource(t.Source)
+				err = processSource(t.Source)
 			}
 		}
 	} else {
@@ -123,7 +135,7 @@ func Messages(
 					ContentType: "text/x.cucumber.gherkin+plain",
 				},
 			}
-			processSource(source)
+			err = processSource(source)
 		}
 	}
 
