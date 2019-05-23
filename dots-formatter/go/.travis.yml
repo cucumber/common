@@ -17,7 +17,9 @@ jobs:
     script:
     - env GO111MODULE=on make
     - env GO111MODULE=on make .dist-compressed
-    - cp dist_compressed/* dist/
+    # The upx compressed binaries pass the `upx -t` integrity test, but they still
+    # seem to be corrupted, so we'll disable their use for now.
+    # - cp dist_compressed/* dist/
 deploy:
 - provider: releases
   api_key:
