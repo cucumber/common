@@ -19,16 +19,14 @@ ifndef SKIP_NPM_LINK
 	npm link cucumber-messages
 	npm link c21e
 endif
-	touch $@
 
-.tested: dist/src/index.d.ts .compared
+.tested: dist/src/index.js .compared
 
 .compared: $(ASTS) $(PICKLES) $(ERRORS) $(SOURCES)
 	touch $@
 
-dist/src/index.d.ts: src/index.d.ts
-	mkdir -p `dirname $@`
-	cp $< $@
+dist/src/index.js: src/index.ts
+	npm run build
 
 acceptance/testdata/%.feature.ast.ndjson: testdata/%.feature testdata/%.feature.ast.ndjson .deps
 	mkdir -p `dirname $@`

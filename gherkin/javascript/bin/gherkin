@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 'use strict'
 const Stream = require('stream')
-const gherkin = require('../src/index')
+const gherkin = require('../dist/src/index')
 const args = process.argv.slice(2)
 const options = {
   includeSource: true,
