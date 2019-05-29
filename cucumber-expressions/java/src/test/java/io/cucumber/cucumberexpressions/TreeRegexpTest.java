@@ -34,13 +34,19 @@ public class TreeRegexpTest {
     }
 
     @Test
-    public void ignores_non_capturing_groups() {
-        TreeRegexp tr = new TreeRegexp("(a(?:b)?)(c)");
-        Group g = tr.match("ac");
-        assertEquals("ac", g.getValue());
-        assertEquals("a", g.getChildren().get(0).getValue());
-        assertEquals(emptyList(), g.getChildren().get(0).getChildren());
-        assertEquals("c", g.getChildren().get(1).getValue());
+    public void ignores_question_mark_colon_non_capturing_group() {
+        TreeRegexp tr = new TreeRegexp("a(?:b)(c)");
+        Group g = tr.match("abc");
+        assertEquals("abc", g.getValue());
+        assertEquals("1", g.getChildren().size());
+    }
+
+    @Test
+    public void ignores_question_mark_exclamation_mark_non_capturing_group() {
+        TreeRegexp tr = new TreeRegexp("a(?!b)(.+)");
+        Group g = tr.match("aBc");
+        assertEquals("aBc", g.getValue());
+        assertEquals("1", g.getChildren().size());
     }
 
     @Test
