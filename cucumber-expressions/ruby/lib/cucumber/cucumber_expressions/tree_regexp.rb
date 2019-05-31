@@ -55,7 +55,6 @@ module Cucumber
         group_indices = (0..match.length).to_a.to_enum
         @group_builder.build(match, group_indices)
       end
-
     end
   end
 end
