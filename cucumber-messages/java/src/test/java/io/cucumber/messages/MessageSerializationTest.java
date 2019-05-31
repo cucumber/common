@@ -21,9 +21,9 @@ public class MessageSerializationTest {
         writeOutgoingMessages(outgoingMessages, output);
 
         InputStream input = new ByteArrayInputStream(output.toByteArray());
-        List<Messages.Wrapper> incomingMessages = readIncomingMessages(input);
+        Iterable<Messages.Wrapper> incomingMessages = new ProtobufStreamIterable(input);
 
-        assertEquals(outgoingMessages, incomingMessages);
+        assertEquals(outgoingMessages, toList(incomingMessages));
     }
 
     private List<Messages.Wrapper> createOutgoingMessages() {
@@ -39,12 +39,9 @@ public class MessageSerializationTest {
         }
     }
 
-    private List<Messages.Wrapper> readIncomingMessages(InputStream input) {
-        Iterable<Messages.Wrapper> messages = new StreamWrapperIterable(input);
-        List<Messages.Wrapper> incomingMessages = new ArrayList<>();
-        for (Messages.Wrapper message : messages) {
-            incomingMessages.add(message);
-        }
-        return incomingMessages;
+    private static <T> List<T> toList(Iterable<T> iterable) {
+        List<T> result = new ArrayList<>();
+        iterable.iterator().forEachRemaining(result::add);
+        return result;
     }
 }

@@ -1,3 +1,0 @@
-{"source":{"data":"Feature: Minimal\n\n  Scenario: minimalistic\n    Given the minimalism\n","media":{"contentType":"text/x.cucumber.gherkin+plain","encoding":"UTF-8"},"uri":"testdata/good/minimal.feature"}}
-{"gherkinDocument":{"feature":{"children":[{"scenario":{"keyword":"Scenario","location":{"column":3,"line":3},"name":"minimalistic","steps":[{"keyword":"Given ","location":{"column":5,"line":4},"text":"the minimalism"}]}}],"keyword":"Feature","language":"en","location":{"column":1,"line":1},"name":"Minimal"},"uri":"testdata/good/minimal.feature"}}
-{"pickle":{"language":"en","locations":[{"column":3,"line":3}],"name":"minimalistic","steps":[{"locations":[{"column":11,"line":4}],"text":"the minimalism"}],"uri":"testdata/good/minimal.feature"}}

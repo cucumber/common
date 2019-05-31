@@ -1,1 +1,185 @@
-{"gherkinDocument":{"feature":{"children":[{"scenario":{"examples":[{"keyword":"Examples","location":{"column":5,"line":7},"tableBody":[{"cells":[{"location":{"column":9,"line":9},"value":"y"}],"location":{"column":7,"line":9}}],"tableHeader":{"cells":[{"location":{"column":9,"line":8},"value":"x"}],"location":{"column":7,"line":8}}}],"keyword":"Scenario Outline","location":{"column":3,"line":4},"steps":[{"keyword":"Given ","location":{"column":5,"line":5},"text":"<x>"}],"tags":[{"location":{"column":3,"line":3},"name":"@b"},{"location":{"column":6,"line":3},"name":"@c"}]}},{"scenario":{"examples":[{"keyword":"Examples","location":{"column":5,"line":16},"tableBody":[{"cells":[{"location":{"column":9,"line":18},"value":"n"}],"location":{"column":7,"line":18}}],"tableHeader":{"cells":[{"location":{"column":9,"line":17},"value":"m"}],"location":{"column":7,"line":17}},"tags":[{"location":{"column":5,"line":15},"name":"@f"}]}],"keyword":"Scenario Outline","location":{"column":3,"line":12},"steps":[{"keyword":"Given ","location":{"column":5,"line":13},"text":"<m>"}],"tags":[{"location":{"column":3,"line":11},"name":"@d"},{"location":{"column":6,"line":11},"name":"@e"}]}}],"keyword":"Feature","language":"en","location":{"column":1,"line":2},"tags":[{"location":{"column":1,"line":1},"name":"@a"}]},"uri":"testdata/good/readme_example.feature"}}
+{
+  "gherkinDocument": {
+    "feature": {
+      "children": [
+        {
+          "scenario": {
+            "examples": [
+              {
+                "keyword": "Examples",
+                "location": {
+                  "column": 5,
+                  "line": 7
+                },
+                "tableBody": [
+                  {
+                    "cells": [
+                      {
+                        "location": {
+                          "column": 9,
+                          "line": 9
+                        },
+                        "value": "y"
+                      }
+                    ],
+                    "location": {
+                      "column": 7,
+                      "line": 9
+                    }
+                  }
+                ],
+                "tableHeader": {
+                  "cells": [
+                    {
+                      "location": {
+                        "column": 9,
+                        "line": 8
+                      },
+                      "value": "x"
+                    }
+                  ],
+                  "location": {
+                    "column": 7,
+                    "line": 8
+                  }
+                }
+              }
+            ],
+            "keyword": "Scenario Outline",
+            "location": {
+              "column": 3,
+              "line": 4
+            },
+            "steps": [
+              {
+                "keyword": "Given ",
+                "location": {
+                  "column": 5,
+                  "line": 5
+                },
+                "text": "<x>"
+              }
+            ],
+            "tags": [
+              {
+                "location": {
+                  "column": 3,
+                  "line": 3
+                },
+                "name": "@b"
+              },
+              {
+                "location": {
+                  "column": 6,
+                  "line": 3
+                },
+                "name": "@c"
+              }
+            ]
+          }
+        },
+        {
+          "scenario": {
+            "examples": [
+              {
+                "keyword": "Examples",
+                "location": {
+                  "column": 5,
+                  "line": 16
+                },
+                "tableBody": [
+                  {
+                    "cells": [
+                      {
+                        "location": {
+                          "column": 9,
+                          "line": 18
+                        },
+                        "value": "n"
+                      }
+                    ],
+                    "location": {
+                      "column": 7,
+                      "line": 18
+                    }
+                  }
+                ],
+                "tableHeader": {
+                  "cells": [
+                    {
+                      "location": {
+                        "column": 9,
+                        "line": 17
+                      },
+                      "value": "m"
+                    }
+                  ],
+                  "location": {
+                    "column": 7,
+                    "line": 17
+                  }
+                },
+                "tags": [
+                  {
+                    "location": {
+                      "column": 5,
+                      "line": 15
+                    },
+                    "name": "@f"
+                  }
+                ]
+              }
+            ],
+            "keyword": "Scenario Outline",
+            "location": {
+              "column": 3,
+              "line": 12
+            },
+            "steps": [
+              {
+                "keyword": "Given ",
+                "location": {
+                  "column": 5,
+                  "line": 13
+                },
+                "text": "<m>"
+              }
+            ],
+            "tags": [
+              {
+                "location": {
+                  "column": 3,
+                  "line": 11
+                },
+                "name": "@d"
+              },
+              {
+                "location": {
+                  "column": 6,
+                  "line": 11
+                },
+                "name": "@e"
+              }
+            ]
+          }
+        }
+      ],
+      "keyword": "Feature",
+      "language": "en",
+      "location": {
+        "column": 1,
+        "line": 2
+      },
+      "tags": [
+        {
+          "location": {
+            "column": 1,
+            "line": 1
+          },
+          "name": "@a"
+        }
+      ]
+    },
+    "uri": "testdata/good/readme_example.feature"
+  }
+}

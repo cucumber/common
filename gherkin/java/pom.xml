@@ -17,7 +17,7 @@
 
     <properties>
         <io.cucumber.messages.version>2.1.3-SNAPSHOT</io.cucumber.messages.version>
-        <io.cucumber.c21e.version>1.1.9</io.cucumber.c21e.version>
+        <io.cucumber.c21e.version>1.1.10-SNAPSHOT</io.cucumber.c21e.version>
         <project.Automatic-Module-Name>io.cucumber.gherkin</project.Automatic-Module-Name>
     </properties>
 
@@ -51,6 +51,16 @@
 
     <build>
         <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <encoding>UTF-8</encoding>
+                    <source>1.8</source>
+                    <target>1.8</target>
+                </configuration>
+            </plugin>
+
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-assembly-plugin</artifactId>

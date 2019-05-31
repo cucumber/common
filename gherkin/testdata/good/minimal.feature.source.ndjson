@@ -1,1 +1,10 @@
-{"source":{"data":"Feature: Minimal\n\n  Scenario: minimalistic\n    Given the minimalism\n","media":{"contentType":"text/x.cucumber.gherkin+plain","encoding":"UTF-8"},"uri":"testdata/good/minimal.feature"}}
+{
+  "source": {
+    "data": "Feature: Minimal\n\n  Scenario: minimalistic\n    Given the minimalism\n",
+    "media": {
+      "contentType": "text/x.cucumber.gherkin+plain",
+      "encoding": "UTF-8"
+    },
+    "uri": "testdata/good/minimal.feature"
+  }
+}

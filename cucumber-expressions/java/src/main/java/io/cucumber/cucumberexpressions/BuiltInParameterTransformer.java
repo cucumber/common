@@ -63,6 +63,10 @@ final class BuiltInParameterTransformer implements ParameterByTypeTransformer {
             return numberParser.parseDouble(fromValue);
         }
 
+        if (Boolean.class.equals(toValueClass) || boolean.class.equals(toValueClass)) {
+            return Boolean.parseBoolean(fromValue);
+        }
+
         if (toValueClass.isEnum()) {
             @SuppressWarnings("unchecked")
             Class<? extends Enum<?>> enumClass = (Class<? extends Enum<?>>) toValueClass;

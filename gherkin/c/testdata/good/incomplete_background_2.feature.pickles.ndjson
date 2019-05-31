@@ -1,1 +1,24 @@
-{"pickle":{"language":"en","locations":[{"column":3,"line":6}],"name":"still pickles up","steps":[{"locations":[{"column":7,"line":7}],"text":"a step"}],"uri":"testdata/good/incomplete_background_2.feature"}}
+{
+  "pickle": {
+    "language": "en",
+    "locations": [
+      {
+        "column": 3,
+        "line": 6
+      }
+    ],
+    "name": "still pickles up",
+    "steps": [
+      {
+        "locations": [
+          {
+            "column": 7,
+            "line": 7
+          }
+        ],
+        "text": "a step"
+      }
+    ],
+    "uri": "testdata/good/incomplete_background_2.feature"
+  }
+}

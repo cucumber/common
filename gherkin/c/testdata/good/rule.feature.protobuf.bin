@@ -1,52 +1,0 @@
-±
-®
-testdata/good/rule.featureçFeature: Some rules
-
-  Background:
-    Given fb
-
-  Rule: A
-    The rule A description
-
-    Background:
-      Given ab
-
-    Example: Example A
-      Given a
-
-  Rule: B
-    The rule B description
-
-    Example: Example B
-      Given b&
-UTF-8text/x.cucumber.gherkin+plain×Ô
-testdata/good/rule.featureµ
-en"Feature*
-Some rules:(&
-
-Background*
-Given fb:‰
-†
-RuleA"    The rule A description*(
-&
-	
-Background*
-
-Given ab*/-
-Example"	Example A2
-Given a:^
-\
-RuleB"    The rule B description*/-
-Example"	Example B2
-Given bVT
-testdata/good/rule.feature	Example Aen"
-
-fb"
-
-ab
-"	
-a2JH
-testdata/good/rule.feature	Example Ben"
-
-fb"	
-b2
