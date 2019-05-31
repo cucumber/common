@@ -16,6 +16,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Removed
 
 ### Fixed
+* Allow `?!` as a non-capturing regex
+ ([#481](https://github.com/cucumber/cucumber/issues/576),
+   [#593](https://github.com/cucumber/cucumber/pull/593)
+   [luke-hill])
 
 ## [7.0.0] - 2019-03-22
 

@@ -38,7 +38,7 @@ public class TreeRegexpTest {
         TreeRegexp tr = new TreeRegexp("a(?:b)(c)");
         Group g = tr.match("abc");
         assertEquals("abc", g.getValue());
-        assertEquals("1", g.getChildren().size());
+        assertEquals(1, g.getChildren().size());
     }
 
     @Test
@@ -46,7 +46,7 @@ public class TreeRegexpTest {
         TreeRegexp tr = new TreeRegexp("a(?!b)(.+)");
         Group g = tr.match("aBc");
         assertEquals("aBc", g.getValue());
-        assertEquals("1", g.getChildren().size());
+        assertEquals(1, g.getChildren().size());
     }
 
     @Test
