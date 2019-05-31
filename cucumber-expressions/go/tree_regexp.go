@@ -39,7 +39,7 @@ func NewTreeRegexp(regexp *regexp.Regexp) *TreeRegexp {
 		} else if c == '?' && last == '(' {
 			nonCapturingMaybe = true
 		} else if nonCapturingMaybe {
-			if c == ':' || isFlagCharacter(c) {
+			if (c == ':' || c == '!') || isFlagCharacter(c) {
 				stack.Peek().SetNonCapturing()
 			}
 			nonCapturingMaybe = false
