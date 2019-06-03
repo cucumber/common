@@ -39,10 +39,12 @@ func NewTreeRegexp(regexp *regexp.Regexp) *TreeRegexp {
 		} else if c == '?' && last == '(' {
 			nonCapturingMaybe = true
 		} else if nonCapturingMaybe {
-			if (c == ':' || c == '!') || isFlagCharacter(c) {
+			if c == ':' || isFlagCharacter(c) {
 				stack.Peek().SetNonCapturing()
+				nonCapturingMaybe = false
+			} else if c == '!' || isFlagCharacter(c) {
+				return CucumberExpressionError.New("GOLang does not support ?! used as a regex negative matcher")
 			}
-			nonCapturingMaybe = false
 		}
 		escaping = c == '\\' && !escaping
 		last = c
