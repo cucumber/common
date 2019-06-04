@@ -1,10 +1,17 @@
 sudo: false
 language: node_js
 node_js:
+  - "12"
   - "10"
   - "9"
   - "8"
   - "6"
+matrix:
+  allow_failures:
+  # pbts depends transitively on requizzle, which has a bug on Node 12
+  # https://github.com/hegemonic/requizzle/issues/6
+  # Remove this when pbts works on Node 12
+  - rvm: "12"
 
 before_install:
 - npm i -g npm@latest
@@ -12,7 +19,7 @@ script: make default
 jobs:
   include:
   - stage: deploy
-    node_js: '10'
+    node_js: '12'
 deploy:
   skip_cleanup: true
   provider: npm

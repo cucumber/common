@@ -1,1 +1,11 @@
-{"attachment":{"data":"(7:0): unexpected end of file, expected: #TagLine, #ScenarioLine, #Comment, #Empty","source":{"location":{"line":7},"uri":"testdata/bad/unexpected_eof.feature"}}}
+{
+  "attachment": {
+    "data": "(7:0): unexpected end of file, expected: #TagLine, #ScenarioLine, #Comment, #Empty",
+    "source": {
+      "location": {
+        "line": 7
+      },
+      "uri": "testdata/bad/unexpected_eof.feature"
+    }
+  }
+}

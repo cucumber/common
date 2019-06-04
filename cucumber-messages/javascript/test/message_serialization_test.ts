@@ -1,7 +1,6 @@
-/* eslint-env mocha */
-import { messages, ProtobufMessageStream } from "../src"
+import { messages, ProtobufMessageStream } from '../src'
 import { PassThrough, Readable, Writable } from 'stream'
-import assert = require("assert")
+import assert = require('assert')
 
 import Source = messages.Source
 import Attachment = messages.Attachment
@@ -12,7 +11,9 @@ describe('messages', () => {
     const outgoingMessages: Wrapper[] = createOutgoingMessages()
 
     const out = new PassThrough()
-    const input = out.pipe(new ProtobufMessageStream(Wrapper.decodeDelimited.bind(Wrapper)))
+    const input = out.pipe(
+      new ProtobufMessageStream(Wrapper.decodeDelimited.bind(Wrapper))
+    )
 
     writeOutgoingMessages(outgoingMessages, out)
     const incomingMessages: Wrapper[] = await readIncomingMessages(input)
@@ -22,12 +23,17 @@ describe('messages', () => {
 
   function createOutgoingMessages() {
     return [
-      Wrapper.create({source: Source.create({data: 'Feature: Hello'})}),
-      Wrapper.create({attachment: Attachment.create({data: 'Some stack trace'})}),
+      Wrapper.create({ source: Source.create({ data: 'Feature: Hello' }) }),
+      Wrapper.create({
+        attachment: Attachment.create({ data: 'Some stack trace' }),
+      }),
     ]
   }
 
-  function writeOutgoingMessages(outgoingMessages: Wrapper[], output: Writable) {
+  function writeOutgoingMessages(
+    outgoingMessages: Wrapper[],
+    output: Writable
+  ) {
     for (const outgoingMessage of outgoingMessages) {
       const chunk = Wrapper.encodeDelimited(outgoingMessage).finish()
       output.write(chunk)

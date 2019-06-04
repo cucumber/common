@@ -1,2 +1,0 @@
-{"source":{"data":"# Just a comment","media":{"contentType":"text/x.cucumber.gherkin+plain","encoding":"UTF-8"},"uri":"testdata/good/incomplete_feature_3.feature"}}
-{"gherkinDocument":{"comments":[{"location":{"column":1,"line":1},"text":"# Just a comment"}],"uri":"testdata/good/incomplete_feature_3.feature"}}

@@ -19,6 +19,10 @@ This document is formatted according to the principles of [Keep A CHANGELOG](htt
 
 ### Fixed
 
+* [Java,JavaScript] Fix parsing of long documents.
+  ([#566](https://github.com/cucumber/cucumber/issues/566)
+   [aslakhellesoy])
+
 ## [6.0.17] - 2019-03-31
 
 ### Changed

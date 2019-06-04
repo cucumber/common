@@ -6,6 +6,7 @@ import org.junit.rules.ExpectedException;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 
 import static java.util.Locale.ENGLISH;
@@ -44,6 +45,14 @@ public class BuiltInParameterTransformerTest {
                 "Can't transform 'something' to class io.cucumber.cucumberexpressions.BuiltInParameterTransformerTest$TestEnum. " +
                 "Not an enum constant");
         objectMapper.transform("something", TestEnum.class);
+    }
+
+
+    @Test
+    public void should_transform_boolean() {
+      for (String value : Arrays.asList("true", "True", "false", "False")){
+        objectMapper.transform(value, Boolean.class);
+      }
     }
 
     private enum TestEnum {

@@ -4,7 +4,7 @@ import io.cucumber.c21e.Exe;
 import io.cucumber.c21e.ExeFile;
 import io.cucumber.messages.Messages.Source;
 import io.cucumber.messages.Messages.Wrapper;
-import io.cucumber.messages.StreamWrapperIterable;
+import io.cucumber.messages.ProtobufStreamIterable;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -24,7 +24,6 @@ public class Gherkin {
     private final boolean includeSource;
     private final boolean includeAst;
     private final boolean includePickles;
-    static final Exe EXE = new Exe(new ExeFile(new File("gherkin-go"), "gherkin-go-{{.OS}}-{{.Arch}}{{.Ext}}"));
 
     private Gherkin(List<String> paths, List<Source> sources, boolean includeSource, boolean includeAst, boolean includePickles) {
         this.paths = paths;
@@ -44,16 +43,21 @@ public class Gherkin {
 
     public Iterable<Wrapper> messages() {
         try {
+            Exe exe = makeExe();
             List<String> args = new ArrayList<>();
             if (!includeSource) args.add("--no-source");
             if (!includeAst) args.add("--no-ast");
             if (!includePickles) args.add("--no-pickles");
             args.addAll(paths);
-            InputStream gherkinStdout = EXE.execute(args, getSourcesStream());
-            return new StreamWrapperIterable(gherkinStdout);
-        } catch (IOException | InterruptedException e) {
+            InputStream gherkinStdout = exe.execute(args, getSourcesStream());
+            return new ProtobufStreamIterable(gherkinStdout);
+        } catch (IOException e) {
             throw new GherkinException("Couldn't execute gherkin", e);
         }
+    }
+
+    public static Exe makeExe() {
+        return new Exe(new ExeFile(new File("gherkin-go"), "gherkin-go-{{.OS}}-{{.Arch}}{{.Ext}}"));
     }
 
     private InputStream getSourcesStream() throws IOException {

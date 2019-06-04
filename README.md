@@ -4,11 +4,11 @@
 # ![Cucumber Logo](https://github.com/cucumber-ltd/brand/raw/master/images/png/notm/cucumber-black/cucumber-black-128.png)
 
 Cucumber is a tool that supports [Behaviour-Driven Development
-(BDD)](https://cucumber.io/blog/2017/05/15/intro-to-bdd-and-tdd) - a software
+(BDD)](https://cucumber.io/blog/intro-to-bdd-and-tdd/) - a software
 development process that aims to enhance software quality and reduce
 maintenance costs.
 
-Cucumber executes *executable specifications* written in [plain language](https://docs.cucumber.io/gherkin/)
+Cucumber executes *executable specifications* written in [plain language](https://cucumber.io/docs/gherkin/)
 and produces reports indicating whether the software behaves according to the
 specification or not.
 

@@ -3,13 +3,15 @@ language: java
 jdk:
 - oraclejdk8
 - openjdk11
+script: make default
 jobs:
   include:
-  - stage: deploy
+  - stage: mvn deploy
     jdk: oraclejdk8
-    script:
-    - ./scripts/mvn_deploy.sh
-script: make default
+    deploy:
+      skip_cleanup: true
+      provider: script
+      script: bash ./scripts/mvn_deploy.sh
 env:
   global:
   - secure: OAh+xh8LU7v7tDu6aQ5Q38MagT8mJPqEXYpJyUhYXthxwvmO/SYuw4OEiLZtkNCIWRUyAIb4MRmy4wK7SAlSHYbGF9Ka7y+DUaeOrGVa8l2rhGwvEJgbWD0X+BYoxRt4NPgwHEdI/VdxjSEbPKkYNAM4xBzTw0oR6vgxQulpcUQ9bfj4l01N+ewTHFTR6xeJO4FPU1TvsDsgQCCr2LHL3vfCrNf62MhUz1jPKm8QCZnjcjXetyFPxsXOfr+cA29S24QbZSX2Z+vNGrJqKn5K/+Wpu95Vod3iuQG1wMgqfQfhqNIvA2yR2dqXF1oyDggJw/EENbzvDarcqQHUCzqjpm8igNpt7YA/UyB+i6rnlwcodgfqS6eCzkOPOox5K3ZtfTTIaJEp4QMJKueqHo+oosr93J6HMNEOAyJxq2IYhz1IO9OJIypFLqDRxvhayOEKFeo/tWiOEtKh02pdAcPAwG2Xp1cCcJ/SH9VjZmfv1sl4UmBm/GGdIFeEAC20NBsBumjw+tf2qrpNIekB++iVab3WTK+pki0vTOG3wrKgFw5Dw9/HriYzXtIxMkUu7LBRx/pdC2P0EyzNqsWRWVg9KXqcT5GKXuqf+qlzyWPzObiC6CG6Ss5tpl7daNV+IO+X+Lll6qrAyMdB2UNJeTPrMGBVy5DRbvyTtFuZO2sAhiU=

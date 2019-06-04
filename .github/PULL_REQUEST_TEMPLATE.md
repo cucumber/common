@@ -38,6 +38,11 @@
 
 <!--- Go over all the following points, and put an `x` in all the boxes that apply. -->
 <!--- If you're unsure about any of these, don't hesitate to ask. We're here to help! -->
+- [ ] The change has been ported to Java.
+- [ ] The change has been ported to Ruby.
+- [ ] The change has been ported to JavaScript.
+- [ ] The change has been ported to Go.
+- [ ] The change has been ported to .NET.
 - [ ] I've added tests for my code.
 - [ ] My change requires a change to the documentation.
 - [ ] I have updated the documentation accordingly.

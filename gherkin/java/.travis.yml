@@ -1,16 +1,17 @@
 sudo: false
 language: java
-
 jdk:
 - oraclejdk8
 - openjdk11
+script: make default
 jobs:
   include:
-  - stage: deploy
+  - stage: mvn deploy
     jdk: oraclejdk8
-    script:
-    - ./scripts/mvn_deploy.sh
-script: make default
+    deploy:
+      skip_cleanup: true
+      provider: script
+      script: bash ./scripts/mvn_deploy.sh
 env:
   global:
   - secure: agxFqlp+zYAqPnNlc43+hYUIuMkruj2yyawD3K+5ObhgXQWHeFbGL2SWrir0sx/ZBEwa8FnSXz80Gox1wEmUKvjzlPiIkyvThmsDvuYbylEWWK7A1qGVk3L/qtRh+dmqsCyebEPzonTChqiObbC5klXBTtM78LiIF5szRi3yt58=

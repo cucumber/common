@@ -3,25 +3,31 @@
   "version": "2.1.2",
   "description": "Protocol Buffer messages for Cucumber's inter-process communication",
   "main": "dist/src/index.js",
+  "types": "dist/src/index.d.ts",
   "repository": "git://github.com/cucumber/cucumber-messages-javascript.git",
   "author": "Cucumber Limited <cukes@googlegroups.com>",
   "license": "MIT",
   "scripts": {
     "test": "mocha test/**/*.ts",
-    "lint-fix": "echo 'skipping linting on generated code'",
-    "coverage": "echo 'skipping coverage on generated code'",
+    "lint": "tslint src/**/*.ts test/**/*.ts --exclude src/cucumber-messages.d.ts --exclude dist/src/cucumber-messages.d.ts",
+    "lint-fix": "tslint --fix src/**/*.ts test/**/*.ts",
+    "coverage": "nyc --reporter=html --reporter=text mocha test/**/*.ts",
     "build": "tsc",
-    "build-test": "echo 'skipping babel on generated code'",
-    "mocha-built": "mocha test/**/*.ts"
+    "prepublishOnly": "npm run build"
   },
   "dependencies": {
     "protobufjs": "^6.8.8"
   },
   "devDependencies": {
-    "@types/mocha": "^5.2.5",
+    "@types/mocha": "^5.2.6",
+    "@types/node": "^11.13.9",
     "mocha": "^6.1.2",
-    "nyc": "^13.0.1",
-    "ts-node": "^8.0.3",
-    "typescript": "^3.0.1"
+    "nyc": "^14.1.0",
+    "prettier": "^1.17.0",
+    "ts-node": "^8.1.0",
+    "tslint": "^5.16.0",
+    "tslint-config-prettier": "^1.18.0",
+    "tslint-plugin-prettier": "^2.0.1",
+    "typescript": "^3.4.5"
   }
 }

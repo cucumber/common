@@ -1,1 +1,24 @@
-{"pickle":{"language":"en","locations":[{"column":3,"line":3}],"name":"minimalistic","steps":[{"locations":[{"column":11,"line":4}],"text":"the minimalism"}],"uri":"testdata/good/minimal-example.feature"}}
+{
+  "pickle": {
+    "language": "en",
+    "locations": [
+      {
+        "column": 3,
+        "line": 3
+      }
+    ],
+    "name": "minimalistic",
+    "steps": [
+      {
+        "locations": [
+          {
+            "column": 11,
+            "line": 4
+          }
+        ],
+        "text": "the minimalism"
+      }
+    ],
+    "uri": "testdata/good/minimal-example.feature"
+  }
+}

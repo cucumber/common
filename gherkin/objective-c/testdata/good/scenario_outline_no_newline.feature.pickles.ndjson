@@ -1,1 +1,32 @@
-{"pickle":{"language":"en","locations":[{"column":1,"line":3},{"column":3,"line":8}],"name":"minimalistic","steps":[{"locations":[{"column":11,"line":4},{"column":3,"line":8}],"text":"the minimalism"}],"uri":"testdata/good/scenario_outline_no_newline.feature"}}
+{
+  "pickle": {
+    "language": "en",
+    "locations": [
+      {
+        "column": 1,
+        "line": 3
+      },
+      {
+        "column": 3,
+        "line": 8
+      }
+    ],
+    "name": "minimalistic",
+    "steps": [
+      {
+        "locations": [
+          {
+            "column": 11,
+            "line": 4
+          },
+          {
+            "column": 3,
+            "line": 8
+          }
+        ],
+        "text": "the minimalism"
+      }
+    ],
+    "uri": "testdata/good/scenario_outline_no_newline.feature"
+  }
+}
