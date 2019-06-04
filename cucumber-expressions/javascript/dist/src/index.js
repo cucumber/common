@@ -12,6 +12,6 @@ module.exports = {
     RegularExpression: RegularExpression_1.default,
     CucumberExpressionGenerator: CucumberExpressionGenerator_1.default,
     ParameterTypeRegistry: ParameterTypeRegistry_1.default,
-    ParameterType: ParameterType_1.default
+    ParameterType: ParameterType_1.default,
 };
 //# sourceMappingURL=index.js.map

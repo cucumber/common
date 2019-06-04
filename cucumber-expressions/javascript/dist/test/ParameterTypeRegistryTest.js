@@ -25,30 +25,30 @@ var Place = /** @class */ (function () {
     return Place;
 }());
 var CAPITALISED_WORD = /[A-Z]+\w+/;
-describe("ParameterTypeRegistry", function () {
+describe('ParameterTypeRegistry', function () {
     var registry;
     beforeEach(function () {
         registry = new ParameterTypeRegistry_1.default();
     });
-    it("does not allow more than one preferential parameter type for each regexp", function () {
-        registry.defineParameterType(new ParameterType_1.default("name", CAPITALISED_WORD, Name, function (s) { return new Name(s); }, true, true));
-        registry.defineParameterType(new ParameterType_1.default("person", CAPITALISED_WORD, Person, function (s) { return new Person(s); }, true, false));
+    it('does not allow more than one preferential parameter type for each regexp', function () {
+        registry.defineParameterType(new ParameterType_1.default('name', CAPITALISED_WORD, Name, function (s) { return new Name(s); }, true, true));
+        registry.defineParameterType(new ParameterType_1.default('person', CAPITALISED_WORD, Person, function (s) { return new Person(s); }, true, false));
         try {
-            registry.defineParameterType(new ParameterType_1.default("place", CAPITALISED_WORD, Place, function (s) { return new Place(s); }, true, true));
-            throw new Error("Should have failed");
+            registry.defineParameterType(new ParameterType_1.default('place', CAPITALISED_WORD, Place, function (s) { return new Place(s); }, true, true));
+            throw new Error('Should have failed');
         }
         catch (err) {
             assert_1.default.strictEqual(err.message, "There can only be one preferential parameter type per regexp. The regexp " + CAPITALISED_WORD + " is used for two preferential parameter types, {name} and {place}");
         }
     });
-    it("looks up preferential parameter type by regexp", function () {
-        var name = new ParameterType_1.default("name", /[A-Z]+\w+/, null, function (s) { return new Name(s); }, true, false);
-        var person = new ParameterType_1.default("person", /[A-Z]+\w+/, null, function (s) { return new Person(s); }, true, true);
-        var place = new ParameterType_1.default("place", /[A-Z]+\w+/, null, function (s) { return new Place(s); }, true, false);
+    it('looks up preferential parameter type by regexp', function () {
+        var name = new ParameterType_1.default('name', /[A-Z]+\w+/, null, function (s) { return new Name(s); }, true, false);
+        var person = new ParameterType_1.default('person', /[A-Z]+\w+/, null, function (s) { return new Person(s); }, true, true);
+        var place = new ParameterType_1.default('place', /[A-Z]+\w+/, null, function (s) { return new Place(s); }, true, false);
         registry.defineParameterType(name);
         registry.defineParameterType(person);
         registry.defineParameterType(place);
-        assert_1.default.strictEqual(registry.lookupByRegexp("[A-Z]+\\w+", /([A-Z]+\w+) and ([A-Z]+\w+)/, "Lisa and Bob"), person);
+        assert_1.default.strictEqual(registry.lookupByRegexp('[A-Z]+\\w+', /([A-Z]+\w+) and ([A-Z]+\w+)/, 'Lisa and Bob'), person);
     });
 });
 //# sourceMappingURL=ParameterTypeRegistryTest.js.map

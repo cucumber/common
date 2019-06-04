@@ -1,79 +1,79 @@
-import { spawn } from "child_process";
-import { statSync } from "fs";
-import ExeFile from "c21e";
-import { messages, ProtobufMessageStream } from "cucumber-messages";
+import { spawn } from 'child_process'
+import { statSync } from 'fs'
+import ExeFile from 'c21e'
+import { messages, ProtobufMessageStream } from 'cucumber-messages'
 
 const defaultOptions = {
   includeSource: true,
   includeGherkinDocument: true,
-  includePickles: true
-};
+  includePickles: true,
+}
 
 function fromPaths(paths: string[], options: IGherkinOptions = defaultOptions) {
-  return new Gherkin(paths, [], options).messageStream();
+  return new Gherkin(paths, [], options).messageStream()
 }
 
 function fromSources(
   sources: messages.Source[],
   options: IGherkinOptions = defaultOptions
 ) {
-  return new Gherkin([], sources, options).messageStream();
+  return new Gherkin([], sources, options).messageStream()
 }
 
 export interface IGherkinOptions {
-  includeSource: boolean;
-  includeGherkinDocument: boolean;
-  includePickles: boolean;
+  includeSource: boolean
+  includeGherkinDocument: boolean
+  includePickles: boolean
 }
 
-export { fromPaths, fromSources };
+export { fromPaths, fromSources }
 
 class Gherkin {
-  private exeFile: ExeFile;
+  private exeFile: ExeFile
 
   constructor(
     private readonly paths: string[],
     private readonly sources: messages.Source[],
     private options: IGherkinOptions
   ) {
-    this.options = { ...defaultOptions, ...options };
-    let gherkinGoDir = `${__dirname}/../../gherkin-go`;
+    this.options = { ...defaultOptions, ...options }
+    let gherkinGoDir = `${__dirname}/../../gherkin-go`
     try {
-      statSync(gherkinGoDir);
+      statSync(gherkinGoDir)
     } catch (err) {
       // Dev mode - we're in src, not dist/src
-      gherkinGoDir = `${__dirname}/../gherkin-go`;
+      gherkinGoDir = `${__dirname}/../gherkin-go`
     }
     this.exeFile = new ExeFile(
       `${gherkinGoDir}/gherkin-go-{{.OS}}-{{.Arch}}{{.Ext}}`
-    );
+    )
   }
 
   public messageStream() {
-    const options = [];
+    const options = []
     if (!this.options.includeSource) {
-      options.push("--no-source");
+      options.push('--no-source')
     }
     if (!this.options.includeGherkinDocument) {
-      options.push("--no-ast");
+      options.push('--no-ast')
     }
     if (!this.options.includePickles) {
-      options.push("--no-pickles");
+      options.push('--no-pickles')
     }
-    const args = options.concat(this.paths);
-    const gherkin = spawn(this.exeFile.fileName, args);
+    const args = options.concat(this.paths)
+    const gherkin = spawn(this.exeFile.fileName, args)
     const protobufMessageStream = new ProtobufMessageStream(
       messages.Wrapper.decodeDelimited.bind(messages.Wrapper)
-    );
-    gherkin.on("error", err => {
-      protobufMessageStream.emit("error", err);
-    });
-    gherkin.stdout.pipe(protobufMessageStream);
+    )
+    gherkin.on('error', err => {
+      protobufMessageStream.emit('error', err)
+    })
+    gherkin.stdout.pipe(protobufMessageStream)
     for (const source of this.sources) {
-      const wrapper = messages.Wrapper.fromObject({ source });
-      gherkin.stdin.write(messages.Wrapper.encodeDelimited(wrapper).finish());
+      const wrapper = messages.Wrapper.fromObject({ source })
+      gherkin.stdin.write(messages.Wrapper.encodeDelimited(wrapper).finish())
     }
-    gherkin.stdin.end();
-    return protobufMessageStream;
+    gherkin.stdin.end()
+    return protobufMessageStream
   }
 }

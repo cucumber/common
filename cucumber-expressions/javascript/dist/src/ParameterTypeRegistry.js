@@ -25,11 +25,11 @@ var ParameterTypeRegistry = /** @class */ (function () {
     function ParameterTypeRegistry() {
         this.parameterTypeByName = new Map();
         this.parameterTypesByRegexp = new Map();
-        this.defineParameterType(new ParameterType_1.default("int", INTEGER_REGEXPS, Number, function (s) { return (s === undefined ? null : Number(s)); }, true, true));
-        this.defineParameterType(new ParameterType_1.default("float", FLOAT_REGEXP, Number, function (s) { return (s === undefined ? null : parseFloat(s)); }, true, false));
-        this.defineParameterType(new ParameterType_1.default("word", WORD_REGEXP, String, function (s) { return s; }, false, false));
-        this.defineParameterType(new ParameterType_1.default("string", STRING_REGEXP, String, function (s) { return s.replace(/\\"/g, '"').replace(/\\'/g, "'"); }, true, false));
-        this.defineParameterType(new ParameterType_1.default("", ANONYMOUS_REGEXP, String, function (s) { return s; }, false, true));
+        this.defineParameterType(new ParameterType_1.default('int', INTEGER_REGEXPS, Number, function (s) { return (s === undefined ? null : Number(s)); }, true, true));
+        this.defineParameterType(new ParameterType_1.default('float', FLOAT_REGEXP, Number, function (s) { return (s === undefined ? null : parseFloat(s)); }, true, false));
+        this.defineParameterType(new ParameterType_1.default('word', WORD_REGEXP, String, function (s) { return s; }, false, false));
+        this.defineParameterType(new ParameterType_1.default('string', STRING_REGEXP, String, function (s) { return s.replace(/\\"/g, '"').replace(/\\'/g, "'"); }, true, false));
+        this.defineParameterType(new ParameterType_1.default('', ANONYMOUS_REGEXP, String, function (s) { return s; }, false, true));
     }
     Object.defineProperty(ParameterTypeRegistry.prototype, "parameterTypes", {
         get: function () {
@@ -79,7 +79,7 @@ var ParameterTypeRegistry = /** @class */ (function () {
                 if (parameterTypes.length > 0 &&
                     existingParameterType.preferForRegexpMatch &&
                     parameterType.preferForRegexpMatch) {
-                    throw new Errors_1.CucumberExpressionError("There can only be one preferential parameter type per regexp. " +
+                    throw new Errors_1.CucumberExpressionError('There can only be one preferential parameter type per regexp. ' +
                         ("The regexp /" + parameterTypeRegexp + "/ is used for two preferential parameter types, {" + existingParameterType.name + "} and {" + parameterType.name + "}"));
                 }
                 if (parameterTypes.indexOf(parameterType) === -1) {

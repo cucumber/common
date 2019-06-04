@@ -1,6 +1,6 @@
-import TreeRegexp from "./TreeRegexp";
-import ParameterType from "./ParameterType";
-import Group from "./Group";
+import TreeRegexp from './TreeRegexp';
+import ParameterType from './ParameterType';
+import Group from './Group';
 export default class Argument<T> {
     readonly group: Group;
     readonly parameterType: ParameterType<T>;

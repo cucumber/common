@@ -1,5 +1,5 @@
-import Group from "./Group";
-import RegexExecArray from "./RegexExecArray";
+import Group from './Group';
+import RegexExecArray from './RegexExecArray';
 export default class GroupBuilder {
     source: string;
     capturing: boolean;

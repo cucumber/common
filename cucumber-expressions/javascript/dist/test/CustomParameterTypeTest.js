@@ -1,4 +1,4 @@
-"use strict";
+'use strict';
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     return new (P || (P = Promise))(function (resolve, reject) {
         function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
@@ -58,13 +58,13 @@ var CssColor = /** @class */ (function () {
     }
     return CssColor;
 }());
-describe("Custom parameter type", function () {
+describe('Custom parameter type', function () {
     var parameterTypeRegistry;
     beforeEach(function () {
         parameterTypeRegistry = new ParameterTypeRegistry_1.default();
         /* eslint-disable prettier/prettier */
         /// [add-color-parameter-type]
-        parameterTypeRegistry.defineParameterType(new ParameterType_1.default("color", // name
+        parameterTypeRegistry.defineParameterType(new ParameterType_1.default('color', // name
         /red|blue|yellow/, // regexp
         Color, // type
         function (// type
@@ -75,16 +75,16 @@ describe("Custom parameter type", function () {
         /// [add-color-parameter-type]
         /* eslint-enable prettier/prettier */
     });
-    describe("CucumberExpression", function () {
-        it("throws exception for illegal character in parameter name", function () {
-            assert_throws_1.default(function () { return new ParameterType_1.default("[string]", /.*/, String, function (s) { return s; }, false, true); }, "Illegal character '[' in parameter name {[string]}");
+    describe('CucumberExpression', function () {
+        it('throws exception for illegal character in parameter name', function () {
+            assert_throws_1.default(function () { return new ParameterType_1.default('[string]', /.*/, String, function (s) { return s; }, false, true); }, "Illegal character '[' in parameter name {[string]}");
         });
-        it("matches parameters with custom parameter type", function () {
-            var expression = new CucumberExpression_1.default("I have a {color} ball", parameterTypeRegistry);
-            var value = expression.match("I have a red ball")[0].getValue(null);
-            assert_1.default.strictEqual(value.name, "red");
+        it('matches parameters with custom parameter type', function () {
+            var expression = new CucumberExpression_1.default('I have a {color} ball', parameterTypeRegistry);
+            var value = expression.match('I have a red ball')[0].getValue(null);
+            assert_1.default.strictEqual(value.name, 'red');
         });
-        it("matches parameters with multiple capture groups", function () {
+        it('matches parameters with multiple capture groups', function () {
             var Coordinate = /** @class */ (function () {
                 function Coordinate(x, y, z) {
                     this.x = x;
@@ -93,11 +93,11 @@ describe("Custom parameter type", function () {
                 }
                 return Coordinate;
             }());
-            parameterTypeRegistry.defineParameterType(new ParameterType_1.default("coordinate", /(\d+),\s*(\d+),\s*(\d+)/, Coordinate, function (x, y, z) {
+            parameterTypeRegistry.defineParameterType(new ParameterType_1.default('coordinate', /(\d+),\s*(\d+),\s*(\d+)/, Coordinate, function (x, y, z) {
                 return new Coordinate(Number(x), Number(y), Number(z));
             }, true, true));
-            var expression = new CucumberExpression_1.default("A {int} thick line from {coordinate} to {coordinate}", parameterTypeRegistry);
-            var args = expression.match("A 5 thick line from 10,20,30 to 40,50,60");
+            var expression = new CucumberExpression_1.default('A {int} thick line from {coordinate} to {coordinate}', parameterTypeRegistry);
+            var args = expression.match('A 5 thick line from 10,20,30 to 40,50,60');
             var thick = args[0].getValue(null);
             assert_1.default.strictEqual(thick, 5);
             var from = args[1].getValue(null);
@@ -109,50 +109,48 @@ describe("Custom parameter type", function () {
             assert_1.default.strictEqual(to.y, 50);
             assert_1.default.strictEqual(to.z, 60);
         });
-        it("matches parameters with custom parameter type using optional capture group", function () {
+        it('matches parameters with custom parameter type using optional capture group', function () {
             parameterTypeRegistry = new ParameterTypeRegistry_1.default();
-            parameterTypeRegistry.defineParameterType(new ParameterType_1.default("color", [/red|blue|yellow/, /(?:dark|light) (?:red|blue|yellow)/], Color, function (s) { return new Color(s); }, false, true));
-            var expression = new CucumberExpression_1.default("I have a {color} ball", parameterTypeRegistry);
-            var value = expression
-                .match("I have a dark red ball")[0]
-                .getValue(null);
-            assert_1.default.strictEqual(value.name, "dark red");
+            parameterTypeRegistry.defineParameterType(new ParameterType_1.default('color', [/red|blue|yellow/, /(?:dark|light) (?:red|blue|yellow)/], Color, function (s) { return new Color(s); }, false, true));
+            var expression = new CucumberExpression_1.default('I have a {color} ball', parameterTypeRegistry);
+            var value = expression.match('I have a dark red ball')[0].getValue(null);
+            assert_1.default.strictEqual(value.name, 'dark red');
         });
-        it("defers transformation until queried from argument", function () {
-            parameterTypeRegistry.defineParameterType(new ParameterType_1.default("throwing", /bad/, null, function (s) {
+        it('defers transformation until queried from argument', function () {
+            parameterTypeRegistry.defineParameterType(new ParameterType_1.default('throwing', /bad/, null, function (s) {
                 throw new Error("Can't transform [" + s + "]");
             }, false, true));
-            var expression = new CucumberExpression_1.default("I have a {throwing} parameter", parameterTypeRegistry);
-            var args = expression.match("I have a bad parameter");
+            var expression = new CucumberExpression_1.default('I have a {throwing} parameter', parameterTypeRegistry);
+            var args = expression.match('I have a bad parameter');
             assert_throws_1.default(function () { return args[0].getValue(null); }, "Can't transform [bad]");
         });
-        describe("conflicting parameter type", function () {
-            it("is detected for type name", function () {
+        describe('conflicting parameter type', function () {
+            it('is detected for type name', function () {
                 assert_throws_1.default(function () {
-                    return parameterTypeRegistry.defineParameterType(new ParameterType_1.default("color", /.*/, CssColor, function (s) { return new CssColor(s); }, false, true));
-                }, "There is already a parameter type with name color");
+                    return parameterTypeRegistry.defineParameterType(new ParameterType_1.default('color', /.*/, CssColor, function (s) { return new CssColor(s); }, false, true));
+                }, 'There is already a parameter type with name color');
             });
-            it("is not detected for type", function () {
-                parameterTypeRegistry.defineParameterType(new ParameterType_1.default("whatever", /.*/, Color, function (s) { return new Color(s); }, false, false));
+            it('is not detected for type', function () {
+                parameterTypeRegistry.defineParameterType(new ParameterType_1.default('whatever', /.*/, Color, function (s) { return new Color(s); }, false, false));
             });
-            it("is not detected for regexp", function () {
-                parameterTypeRegistry.defineParameterType(new ParameterType_1.default("css-color", /red|blue|yellow/, CssColor, function (s) { return new CssColor(s); }, true, false));
-                assert_1.default.strictEqual(new CucumberExpression_1.default("I have a {css-color} ball", parameterTypeRegistry)
-                    .match("I have a blue ball")[0]
+            it('is not detected for regexp', function () {
+                parameterTypeRegistry.defineParameterType(new ParameterType_1.default('css-color', /red|blue|yellow/, CssColor, function (s) { return new CssColor(s); }, true, false));
+                assert_1.default.strictEqual(new CucumberExpression_1.default('I have a {css-color} ball', parameterTypeRegistry)
+                    .match('I have a blue ball')[0]
                     .getValue(null).constructor, CssColor);
-                assert_1.default.strictEqual(new CucumberExpression_1.default("I have a {css-color} ball", parameterTypeRegistry)
-                    .match("I have a blue ball")[0]
-                    .getValue(null).name, "blue");
-                assert_1.default.strictEqual(new CucumberExpression_1.default("I have a {color} ball", parameterTypeRegistry)
-                    .match("I have a blue ball")[0]
+                assert_1.default.strictEqual(new CucumberExpression_1.default('I have a {css-color} ball', parameterTypeRegistry)
+                    .match('I have a blue ball')[0]
+                    .getValue(null).name, 'blue');
+                assert_1.default.strictEqual(new CucumberExpression_1.default('I have a {color} ball', parameterTypeRegistry)
+                    .match('I have a blue ball')[0]
                     .getValue(null).constructor, Color);
-                assert_1.default.strictEqual(new CucumberExpression_1.default("I have a {color} ball", parameterTypeRegistry)
-                    .match("I have a blue ball")[0]
-                    .getValue(null).name, "blue");
+                assert_1.default.strictEqual(new CucumberExpression_1.default('I have a {color} ball', parameterTypeRegistry)
+                    .match('I have a blue ball')[0]
+                    .getValue(null).name, 'blue');
             });
         });
         // JavaScript-specific
-        it("creates arguments using async transform", function () { return __awaiter(_this, void 0, void 0, function () {
+        it('creates arguments using async transform', function () { return __awaiter(_this, void 0, void 0, function () {
             var expression, args, value;
             var _this = this;
             return __generator(this, function (_a) {
@@ -160,28 +158,28 @@ describe("Custom parameter type", function () {
                     case 0:
                         parameterTypeRegistry = new ParameterTypeRegistry_1.default();
                         /// [add-async-parameter-type]
-                        parameterTypeRegistry.defineParameterType(new ParameterType_1.default("asyncColor", /red|blue|yellow/, Color, function (s) { return __awaiter(_this, void 0, void 0, function () { return __generator(this, function (_a) {
+                        parameterTypeRegistry.defineParameterType(new ParameterType_1.default('asyncColor', /red|blue|yellow/, Color, function (s) { return __awaiter(_this, void 0, void 0, function () { return __generator(this, function (_a) {
                             return [2 /*return*/, new Color(s)];
                         }); }); }, false, true));
-                        expression = new CucumberExpression_1.default("I have a {asyncColor} ball", parameterTypeRegistry);
-                        return [4 /*yield*/, expression.match("I have a red ball")];
+                        expression = new CucumberExpression_1.default('I have a {asyncColor} ball', parameterTypeRegistry);
+                        return [4 /*yield*/, expression.match('I have a red ball')];
                     case 1:
                         args = _a.sent();
                         return [4 /*yield*/, args[0].getValue(null)];
                     case 2:
                         value = _a.sent();
-                        assert_1.default.strictEqual(value.name, "red");
+                        assert_1.default.strictEqual(value.name, 'red');
                         return [2 /*return*/];
                 }
             });
         }); });
     });
-    describe("RegularExpression", function () {
-        it("matches arguments with custom parameter type", function () {
+    describe('RegularExpression', function () {
+        it('matches arguments with custom parameter type', function () {
             var expression = new RegularExpression_1.default(/I have a (red|blue|yellow) ball/, parameterTypeRegistry);
-            var value = expression.match("I have a red ball")[0].getValue(null);
+            var value = expression.match('I have a red ball')[0].getValue(null);
             assert_1.default.strictEqual(value.constructor, Color);
-            assert_1.default.strictEqual(value.name, "red");
+            assert_1.default.strictEqual(value.name, 'red');
         });
     });
 });

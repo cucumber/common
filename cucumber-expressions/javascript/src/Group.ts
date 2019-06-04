@@ -9,6 +9,6 @@ export default class Group {
   get values(): string[] {
     return (this.children.length === 0 ? [this] : this.children)
       .map(g => g.value)
-      .filter(v => v !== null);
+      .filter(v => v !== null)
   }
 }

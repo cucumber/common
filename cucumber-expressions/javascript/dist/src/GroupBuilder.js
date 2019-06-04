@@ -17,7 +17,7 @@ var GroupBuilder = /** @class */ (function () {
         var children = this.groupBuilders.map(function (gb) {
             return gb.build(match, nextGroupIndex);
         });
-        return new Group_1.default(match[groupIndex] || null, match.index[groupIndex], match.index[groupIndex] + (match[groupIndex] || "").length, children);
+        return new Group_1.default(match[groupIndex] || null, match.index[groupIndex], match.index[groupIndex] + (match[groupIndex] || '').length, children);
     };
     GroupBuilder.prototype.setNonCapturing = function () {
         this.capturing = false;

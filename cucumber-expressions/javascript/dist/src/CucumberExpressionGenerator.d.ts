@@ -1,6 +1,6 @@
-import ParameterTypeRegistry from "./ParameterTypeRegistry";
-import ParameterTypeMatcher from "./ParameterTypeMatcher";
-import GeneratedExpression from "./GeneratedExpression";
+import ParameterTypeRegistry from './ParameterTypeRegistry';
+import ParameterTypeMatcher from './ParameterTypeMatcher';
+import GeneratedExpression from './GeneratedExpression';
 export default class CucumberExpressionGenerator {
     private readonly parameterTypeRegistry;
     constructor(parameterTypeRegistry: ParameterTypeRegistry);

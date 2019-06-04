@@ -1,4 +1,4 @@
-import GroupBuilder from "./GroupBuilder";
+import GroupBuilder from './GroupBuilder';
 export default class TreeRegexp {
     regexp: RegExp;
     private regex;

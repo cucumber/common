@@ -1,5 +1,5 @@
-import util from "util";
-import ParameterType from "./ParameterType";
+import util from 'util'
+import ParameterType from './ParameterType'
 
 export default class GeneratedExpression {
   constructor(
@@ -11,7 +11,7 @@ export default class GeneratedExpression {
     return util.format(
       this.expressionTemplate,
       ...this.parameterTypes.map(t => t.name)
-    );
+    )
   }
 
   /**
@@ -20,10 +20,10 @@ export default class GeneratedExpression {
    * @returns {Array.<String>}
    */
   get parameterNames() {
-    const usageByTypeName: { [key: string]: number } = {};
+    const usageByTypeName: { [key: string]: number } = {}
     return this.parameterTypes.map(t =>
       getParameterName(t.name, usageByTypeName)
-    );
+    )
   }
 }
 
@@ -31,9 +31,9 @@ function getParameterName(
   typeName: string,
   usageByTypeName: { [key: string]: number }
 ) {
-  let count = usageByTypeName[typeName];
-  count = count ? count + 1 : 1;
-  usageByTypeName[typeName] = count;
+  let count = usageByTypeName[typeName]
+  count = count ? count + 1 : 1
+  usageByTypeName[typeName] = count
 
-  return count === 1 ? typeName : `${typeName}${count}`;
+  return count === 1 ? typeName : `${typeName}${count}`
 }

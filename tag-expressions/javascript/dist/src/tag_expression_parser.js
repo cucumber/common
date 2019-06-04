@@ -1,18 +1,18 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-var OPERAND = "operand";
-var OPERATOR = "operator";
+var OPERAND = 'operand';
+var OPERATOR = 'operator';
 var PREC = {
-    "(": -2,
-    ")": -1,
+    '(': -2,
+    ')': -1,
     or: 0,
     and: 1,
-    not: 2
+    not: 2,
 };
 var ASSOC = {
-    or: "left",
-    and: "left",
-    not: "right"
+    or: 'left',
+    and: 'left',
+    not: 'right',
 };
 /**
  * Parses infix boolean expression (using Dijkstra's Shunting Yard algorithm)
@@ -38,27 +38,27 @@ function parse(infix) {
             check(expectedTokenType, OPERATOR);
             while (operators.length > 0 &&
                 isOp(peek(operators)) &&
-                ((ASSOC[token] === "left" && PREC[token] <= PREC[peek(operators)]) ||
-                    (ASSOC[token] === "right" && PREC[token] < PREC[peek(operators)]))) {
+                ((ASSOC[token] === 'left' && PREC[token] <= PREC[peek(operators)]) ||
+                    (ASSOC[token] === 'right' && PREC[token] < PREC[peek(operators)]))) {
                 pushExpr(pop(operators), expressions);
             }
             operators.push(token);
             expectedTokenType = OPERAND;
         }
-        else if ("(" === token) {
+        else if ('(' === token) {
             check(expectedTokenType, OPERAND);
             operators.push(token);
             expectedTokenType = OPERAND;
         }
-        else if (")" === token) {
+        else if (')' === token) {
             check(expectedTokenType, OPERATOR);
-            while (operators.length > 0 && peek(operators) !== "(") {
+            while (operators.length > 0 && peek(operators) !== '(') {
                 pushExpr(pop(operators), expressions);
             }
             if (operators.length === 0) {
-                throw Error("Syntax error. Unmatched )");
+                throw Error('Syntax error. Unmatched )');
             }
-            if (peek(operators) === "(") {
+            if (peek(operators) === '(') {
                 pop(operators);
             }
             expectedTokenType = OPERATOR;
@@ -70,8 +70,8 @@ function parse(infix) {
         }
     });
     while (operators.length > 0) {
-        if (peek(operators) === "(") {
-            throw Error("Syntax error. Unmatched (");
+        if (peek(operators) === '(') {
+            throw Error('Syntax error. Unmatched (');
         }
         pushExpr(pop(operators), expressions);
     }
@@ -84,7 +84,7 @@ function tokenize(expr) {
     var token;
     for (var i = 0; i < expr.length; i++) {
         var c = expr.charAt(i);
-        if ("\\" === c) {
+        if ('\\' === c) {
             isEscaped = true;
         }
         else {
@@ -92,15 +92,15 @@ function tokenize(expr) {
                 // skip
                 if (token) {
                     // end of token
-                    tokens.push(token.join(""));
+                    tokens.push(token.join(''));
                     token = undefined;
                 }
             }
             else {
-                if ((c === "(" || c === ")") && !isEscaped) {
+                if ((c === '(' || c === ')') && !isEscaped) {
                     if (token) {
                         // end of token
-                        tokens.push(token.join(""));
+                        tokens.push(token.join(''));
                         token = undefined;
                     }
                     tokens.push(c);
@@ -113,22 +113,22 @@ function tokenize(expr) {
         }
     }
     if (token) {
-        tokens.push(token.join(""));
+        tokens.push(token.join(''));
     }
     return tokens;
 }
 function isUnary(token) {
-    return "not" === token;
+    return 'not' === token;
 }
 function isBinary(token) {
-    return "or" === token || "and" === token;
+    return 'or' === token || 'and' === token;
 }
 function isOp(token) {
     return ASSOC[token] !== undefined;
 }
 function check(expectedTokenType, tokenType) {
     if (expectedTokenType !== tokenType) {
-        throw new Error("Syntax error. Expected " + expectedTokenType);
+        throw new Error('Syntax error. Expected ' + expectedTokenType);
     }
 }
 function peek(stack) {
@@ -136,20 +136,20 @@ function peek(stack) {
 }
 function pop(stack) {
     if (stack.length === 0) {
-        throw new Error("empty stack");
+        throw new Error('empty stack');
     }
     return stack.pop();
 }
 function pushExpr(token, stack) {
-    if (token === "and") {
+    if (token === 'and') {
         var rightAndExpr = pop(stack);
         stack.push(new And(pop(stack), rightAndExpr));
     }
-    else if (token === "or") {
+    else if (token === 'or') {
         var rightOrExpr = pop(stack);
         stack.push(new Or(pop(stack), rightOrExpr));
     }
-    else if (token === "not") {
+    else if (token === 'not') {
         stack.push(new Not(pop(stack)));
     }
     else {
@@ -164,7 +164,7 @@ var Literal = /** @class */ (function () {
         return variables.indexOf(this.value) !== -1;
     };
     Literal.prototype.toString = function () {
-        return this.value.replace(/\(/g, "\\(").replace(/\)/g, "\\)");
+        return this.value.replace(/\(/g, '\\(').replace(/\)/g, '\\)');
     };
     return Literal;
 }());
@@ -177,11 +177,11 @@ var Or = /** @class */ (function () {
         return (this.leftExpr.evaluate(variables) || this.rightExpr.evaluate(variables));
     };
     Or.prototype.toString = function () {
-        return ("( " +
+        return ('( ' +
             this.leftExpr.toString() +
-            " or " +
+            ' or ' +
             this.rightExpr.toString() +
-            " )");
+            ' )');
     };
     return Or;
 }());
@@ -194,11 +194,11 @@ var And = /** @class */ (function () {
         return (this.leftExpr.evaluate(variables) && this.rightExpr.evaluate(variables));
     };
     And.prototype.toString = function () {
-        return ("( " +
+        return ('( ' +
             this.leftExpr.toString() +
-            " and " +
+            ' and ' +
             this.rightExpr.toString() +
-            " )");
+            ' )');
     };
     return And;
 }());
@@ -210,7 +210,7 @@ var Not = /** @class */ (function () {
         return !this.expr.evaluate(variables);
     };
     Not.prototype.toString = function () {
-        return "not ( " + this.expr.toString() + " )";
+        return 'not ( ' + this.expr.toString() + ' )';
     };
     return Not;
 }());
@@ -221,7 +221,7 @@ var True = /** @class */ (function () {
         return true;
     };
     True.prototype.toString = function () {
-        return "true";
+        return 'true';
     };
     return True;
 }());

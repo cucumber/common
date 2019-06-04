@@ -27,9 +27,9 @@ var OPTIONAL_REGEXP = function () { return /(\\\\)?\(([^)]+)\)/g; };
 var ALTERNATIVE_NON_WHITESPACE_TEXT_REGEXP = function () {
     return /([^\s^/]+)((\/[^\s^/]+)+)/g;
 };
-var DOUBLE_ESCAPE = "\\\\";
-var PARAMETER_TYPES_CANNOT_BE_ALTERNATIVE = "Parameter types cannot be alternative: ";
-var PARAMETER_TYPES_CANNOT_BE_OPTIONAL = "Parameter types cannot be optional: ";
+var DOUBLE_ESCAPE = '\\\\';
+var PARAMETER_TYPES_CANNOT_BE_ALTERNATIVE = 'Parameter types cannot be alternative: ';
+var PARAMETER_TYPES_CANNOT_BE_OPTIONAL = 'Parameter types cannot be optional: ';
 var CucumberExpression = /** @class */ (function () {
     /**
      * @param expression
@@ -47,7 +47,7 @@ var CucumberExpression = /** @class */ (function () {
         this.treeRegexp = new TreeRegexp_1.default(expr);
     }
     CucumberExpression.prototype.processEscapes = function (expression) {
-        return expression.replace(ESCAPE_REGEXP(), "\\$1");
+        return expression.replace(ESCAPE_REGEXP(), '\\$1');
     };
     CucumberExpression.prototype.processOptional = function (expression) {
         var _this = this;
@@ -65,8 +65,8 @@ var CucumberExpression = /** @class */ (function () {
             var e_1, _a;
             // replace \/ with /
             // replace / with |
-            var replacement = match.replace(/\//g, "|").replace(/\\\|/g, "/");
-            if (replacement.indexOf("|") !== -1) {
+            var replacement = match.replace(/\//g, '|').replace(/\\\|/g, '/');
+            if (replacement.indexOf('|') !== -1) {
                 try {
                     for (var _b = __values(replacement.split(/\|/)), _c = _b.next(); !_c.done; _c = _b.next()) {
                         var part = _c.value;
@@ -135,6 +135,6 @@ function buildCaptureRegexp(regexps) {
     var captureGroups = regexps.map(function (group) {
         return "(?:" + group + ")";
     });
-    return "(" + captureGroups.join("|") + ")";
+    return "(" + captureGroups.join('|') + ")";
 }
 //# sourceMappingURL=CucumberExpression.js.map

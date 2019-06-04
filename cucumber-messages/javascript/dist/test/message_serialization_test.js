@@ -52,8 +52,8 @@ var assert = require("assert");
 var Source = src_1.messages.Source;
 var Attachment = src_1.messages.Attachment;
 var Wrapper = src_1.messages.Wrapper;
-describe("messages", function () {
-    it("can be serialised over a stream", function () { return __awaiter(_this, void 0, void 0, function () {
+describe('messages', function () {
+    it('can be serialised over a stream', function () { return __awaiter(_this, void 0, void 0, function () {
         var outgoingMessages, out, input, incomingMessages;
         return __generator(this, function (_a) {
             switch (_a.label) {
@@ -72,10 +72,10 @@ describe("messages", function () {
     }); });
     function createOutgoingMessages() {
         return [
-            Wrapper.create({ source: Source.create({ data: "Feature: Hello" }) }),
+            Wrapper.create({ source: Source.create({ data: 'Feature: Hello' }) }),
             Wrapper.create({
-                attachment: Attachment.create({ data: "Some stack trace" })
-            })
+                attachment: Attachment.create({ data: 'Some stack trace' }),
+            }),
         ];
     }
     function writeOutgoingMessages(outgoingMessages, output) {
@@ -99,9 +99,9 @@ describe("messages", function () {
     function readIncomingMessages(input) {
         return new Promise(function (resolve, reject) {
             var result = [];
-            input.on("data", function (wrapper) { return result.push(wrapper); });
-            input.on("end", function () { return resolve(result); });
-            input.on("error", function (err) { return reject(err); });
+            input.on('data', function (wrapper) { return result.push(wrapper); });
+            input.on('end', function () { return resolve(result); });
+            input.on('error', function (err) { return reject(err); });
         });
     }
 });

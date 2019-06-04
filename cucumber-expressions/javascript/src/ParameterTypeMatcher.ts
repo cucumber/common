@@ -1,7 +1,7 @@
-import ParameterType from "./ParameterType";
+import ParameterType from './ParameterType'
 
 export default class ParameterTypeMatcher {
-  private readonly match: RegExpExecArray;
+  private readonly match: RegExpExecArray
 
   constructor(
     public readonly parameterType: ParameterType<any>,
@@ -9,8 +9,8 @@ export default class ParameterTypeMatcher {
     private readonly text: string,
     private matchPosition: number = 0
   ) {
-    const captureGroupRegexp = new RegExp(`(${regexpString})`);
-    this.match = captureGroupRegexp.exec(text.slice(this.matchPosition));
+    const captureGroupRegexp = new RegExp(`(${regexpString})`)
+    this.match = captureGroupRegexp.exec(text.slice(this.matchPosition))
   }
 
   public advanceTo(newMatchPosition: number) {
@@ -24,10 +24,10 @@ export default class ParameterTypeMatcher {
         this.regexpString,
         this.text,
         advancedPos
-      );
+      )
 
       if (matcher.find) {
-        return matcher;
+        return matcher
       }
     }
 
@@ -36,32 +36,32 @@ export default class ParameterTypeMatcher {
       this.regexpString,
       this.text,
       this.text.length
-    );
+    )
   }
 
   get find() {
-    return this.match && this.group !== "";
+    return this.match && this.group !== ''
   }
 
   get start() {
-    return this.matchPosition + this.match.index;
+    return this.matchPosition + this.match.index
   }
 
   get group() {
-    return this.match[0];
+    return this.match[0]
   }
 
   public static compare(a: ParameterTypeMatcher, b: ParameterTypeMatcher) {
-    const posComparison = a.start - b.start;
+    const posComparison = a.start - b.start
     if (posComparison !== 0) {
-      return posComparison;
+      return posComparison
     }
-    const lengthComparison = b.group.length - a.group.length;
+    const lengthComparison = b.group.length - a.group.length
     if (lengthComparison !== 0) {
-      return lengthComparison;
+      return lengthComparison
     }
-    return 0;
+    return 0
   }
 }
 
-module.exports = ParameterTypeMatcher;
+module.exports = ParameterTypeMatcher

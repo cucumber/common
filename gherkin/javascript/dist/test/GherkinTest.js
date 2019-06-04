@@ -48,12 +48,12 @@ var gherkin = __importStar(require("../src"));
 var cucumber_messages_1 = require("cucumber-messages");
 var Source = cucumber_messages_1.messages.Source;
 var Media = cucumber_messages_1.messages.Media;
-describe("gherkin (TypeScript)", function () {
-    it("parses gherkin from the file system", function () { return __awaiter(_this, void 0, void 0, function () {
+describe('gherkin (TypeScript)', function () {
+    it('parses gherkin from the file system', function () { return __awaiter(_this, void 0, void 0, function () {
         var wrappers;
         return __generator(this, function (_a) {
             switch (_a.label) {
-                case 0: return [4 /*yield*/, streamToArray(gherkin.fromPaths(["testdata/good/minimal.feature"]))];
+                case 0: return [4 /*yield*/, streamToArray(gherkin.fromPaths(['testdata/good/minimal.feature']))];
                 case 1:
                     wrappers = _a.sent();
                     assert.strictEqual(wrappers.length, 3);
@@ -61,18 +61,18 @@ describe("gherkin (TypeScript)", function () {
             }
         });
     }); });
-    it("parses gherkin from STDIN", function () { return __awaiter(_this, void 0, void 0, function () {
+    it('parses gherkin from STDIN', function () { return __awaiter(_this, void 0, void 0, function () {
         var source, wrappers;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
                     source = Source.fromObject({
-                        uri: "test.feature",
+                        uri: 'test.feature',
                         data: "Feature: Minimal\n\n  Scenario: minimalistic\n    Given the minimalism\n",
                         media: Media.fromObject({
-                            encoding: "UTF-8",
-                            contentType: "text/x.cucumber.gherkin+plain"
-                        })
+                            encoding: 'UTF-8',
+                            contentType: 'text/x.cucumber.gherkin+plain',
+                        }),
                     });
                     return [4 /*yield*/, streamToArray(gherkin.fromSources([source]))];
                 case 1:
@@ -88,9 +88,9 @@ function streamToArray(readableStream) {
         return __generator(this, function (_a) {
             return [2 /*return*/, new Promise(function (resolve, reject) {
                     var items = [];
-                    readableStream.on("data", items.push.bind(items));
-                    readableStream.on("error", function (err) { return reject(err); });
-                    readableStream.on("end", function () { return resolve(items); });
+                    readableStream.on('data', items.push.bind(items));
+                    readableStream.on('error', function (err) { return reject(err); });
+                    readableStream.on('end', function () { return resolve(items); });
                 })];
         });
     });
