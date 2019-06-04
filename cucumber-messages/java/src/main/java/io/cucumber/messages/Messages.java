@@ -30791,32 +30791,17 @@ public final class Messages {
         int index);
 
     /**
-     * <code>.io.cucumber.messages.PickleDocString doc_string = 3;</code>
+     * <code>.io.cucumber.messages.PickleStepArgument argument = 5;</code>
      */
-    boolean hasDocString();
+    boolean hasArgument();
     /**
-     * <code>.io.cucumber.messages.PickleDocString doc_string = 3;</code>
+     * <code>.io.cucumber.messages.PickleStepArgument argument = 5;</code>
      */
-    io.cucumber.messages.Messages.PickleDocString getDocString();
+    io.cucumber.messages.Messages.PickleStepArgument getArgument();
     /**
-     * <code>.io.cucumber.messages.PickleDocString doc_string = 3;</code>
+     * <code>.io.cucumber.messages.PickleStepArgument argument = 5;</code>
      */
-    io.cucumber.messages.Messages.PickleDocStringOrBuilder getDocStringOrBuilder();
-
-    /**
-     * <code>.io.cucumber.messages.PickleTable data_table = 4;</code>
-     */
-    boolean hasDataTable();
-    /**
-     * <code>.io.cucumber.messages.PickleTable data_table = 4;</code>
-     */
-    io.cucumber.messages.Messages.PickleTable getDataTable();
-    /**
-     * <code>.io.cucumber.messages.PickleTable data_table = 4;</code>
-     */
-    io.cucumber.messages.Messages.PickleTableOrBuilder getDataTableOrBuilder();
-
-    public io.cucumber.messages.Messages.PickleStep.ArgumentCase getArgumentCase();
+    io.cucumber.messages.Messages.PickleStepArgumentOrBuilder getArgumentOrBuilder();
   }
   /**
    * Protobuf type {@code io.cucumber.messages.PickleStep}
@@ -30874,32 +30859,17 @@ public final class Messages {
                   input.readMessage(io.cucumber.messages.Messages.Location.parser(), extensionRegistry));
               break;
             }
-            case 26: {
-              io.cucumber.messages.Messages.PickleDocString.Builder subBuilder = null;
-              if (argumentCase_ == 3) {
-                subBuilder = ((io.cucumber.messages.Messages.PickleDocString) argument_).toBuilder();
+            case 42: {
+              io.cucumber.messages.Messages.PickleStepArgument.Builder subBuilder = null;
+              if (argument_ != null) {
+                subBuilder = argument_.toBuilder();
               }
-              argument_ =
-                  input.readMessage(io.cucumber.messages.Messages.PickleDocString.parser(), extensionRegistry);
+              argument_ = input.readMessage(io.cucumber.messages.Messages.PickleStepArgument.parser(), extensionRegistry);
               if (subBuilder != null) {
-                subBuilder.mergeFrom((io.cucumber.messages.Messages.PickleDocString) argument_);
+                subBuilder.mergeFrom(argument_);
                 argument_ = subBuilder.buildPartial();
               }
-              argumentCase_ = 3;
-              break;
-            }
-            case 34: {
-              io.cucumber.messages.Messages.PickleTable.Builder subBuilder = null;
-              if (argumentCase_ == 4) {
-                subBuilder = ((io.cucumber.messages.Messages.PickleTable) argument_).toBuilder();
-              }
-              argument_ =
-                  input.readMessage(io.cucumber.messages.Messages.PickleTable.parser(), extensionRegistry);
-              if (subBuilder != null) {
-                subBuilder.mergeFrom((io.cucumber.messages.Messages.PickleTable) argument_);
-                argument_ = subBuilder.buildPartial();
-              }
-              argumentCase_ = 4;
+
               break;
             }
             default: {
@@ -30938,44 +30908,6 @@ public final class Messages {
     }
 
     private int bitField0_;
-    private int argumentCase_ = 0;
-    private java.lang.Object argument_;
-    public enum ArgumentCase
-        implements com.google.protobuf.Internal.EnumLite {
-      DOC_STRING(3),
-      DATA_TABLE(4),
-      ARGUMENT_NOT_SET(0);
-      private final int value;
-      private ArgumentCase(int value) {
-        this.value = value;
-      }
-      /**
-       * @deprecated Use {@link #forNumber(int)} instead.
-       */
-      @java.lang.Deprecated
-      public static ArgumentCase valueOf(int value) {
-        return forNumber(value);
-      }
-
-      public static ArgumentCase forNumber(int value) {
-        switch (value) {
-          case 3: return DOC_STRING;
-          case 4: return DATA_TABLE;
-          case 0: return ARGUMENT_NOT_SET;
-          default: return null;
-        }
-      }
-      public int getNumber() {
-        return this.value;
-      }
-    };
-
-    public ArgumentCase
-    getArgumentCase() {
-      return ArgumentCase.forNumber(
-          argumentCase_);
-    }
-
     public static final int TEXT_FIELD_NUMBER = 1;
     private volatile java.lang.Object text_;
     /**
@@ -31045,56 +30977,25 @@ public final class Messages {
       return locations_.get(index);
     }
 
-    public static final int DOC_STRING_FIELD_NUMBER = 3;
+    public static final int ARGUMENT_FIELD_NUMBER = 5;
+    private io.cucumber.messages.Messages.PickleStepArgument argument_;
     /**
-     * <code>.io.cucumber.messages.PickleDocString doc_string = 3;</code>
+     * <code>.io.cucumber.messages.PickleStepArgument argument = 5;</code>
      */
-    public boolean hasDocString() {
-      return argumentCase_ == 3;
+    public boolean hasArgument() {
+      return argument_ != null;
     }
     /**
-     * <code>.io.cucumber.messages.PickleDocString doc_string = 3;</code>
+     * <code>.io.cucumber.messages.PickleStepArgument argument = 5;</code>
      */
-    public io.cucumber.messages.Messages.PickleDocString getDocString() {
-      if (argumentCase_ == 3) {
-         return (io.cucumber.messages.Messages.PickleDocString) argument_;
-      }
-      return io.cucumber.messages.Messages.PickleDocString.getDefaultInstance();
+    public io.cucumber.messages.Messages.PickleStepArgument getArgument() {
+      return argument_ == null ? io.cucumber.messages.Messages.PickleStepArgument.getDefaultInstance() : argument_;
     }
     /**
-     * <code>.io.cucumber.messages.PickleDocString doc_string = 3;</code>
+     * <code>.io.cucumber.messages.PickleStepArgument argument = 5;</code>
      */
-    public io.cucumber.messages.Messages.PickleDocStringOrBuilder getDocStringOrBuilder() {
-      if (argumentCase_ == 3) {
-         return (io.cucumber.messages.Messages.PickleDocString) argument_;
-      }
-      return io.cucumber.messages.Messages.PickleDocString.getDefaultInstance();
-    }
-
-    public static final int DATA_TABLE_FIELD_NUMBER = 4;
-    /**
-     * <code>.io.cucumber.messages.PickleTable data_table = 4;</code>
-     */
-    public boolean hasDataTable() {
-      return argumentCase_ == 4;
-    }
-    /**
-     * <code>.io.cucumber.messages.PickleTable data_table = 4;</code>
-     */
-    public io.cucumber.messages.Messages.PickleTable getDataTable() {
-      if (argumentCase_ == 4) {
-         return (io.cucumber.messages.Messages.PickleTable) argument_;
-      }
-      return io.cucumber.messages.Messages.PickleTable.getDefaultInstance();
-    }
-    /**
-     * <code>.io.cucumber.messages.PickleTable data_table = 4;</code>
-     */
-    public io.cucumber.messages.Messages.PickleTableOrBuilder getDataTableOrBuilder() {
-      if (argumentCase_ == 4) {
-         return (io.cucumber.messages.Messages.PickleTable) argument_;
-      }
-      return io.cucumber.messages.Messages.PickleTable.getDefaultInstance();
+    public io.cucumber.messages.Messages.PickleStepArgumentOrBuilder getArgumentOrBuilder() {
+      return getArgument();
     }
 
     private byte memoizedIsInitialized = -1;
@@ -31117,11 +31018,8 @@ public final class Messages {
       for (int i = 0; i < locations_.size(); i++) {
         output.writeMessage(2, locations_.get(i));
       }
-      if (argumentCase_ == 3) {
-        output.writeMessage(3, (io.cucumber.messages.Messages.PickleDocString) argument_);
-      }
-      if (argumentCase_ == 4) {
-        output.writeMessage(4, (io.cucumber.messages.Messages.PickleTable) argument_);
+      if (argument_ != null) {
+        output.writeMessage(5, getArgument());
       }
       unknownFields.writeTo(output);
     }
@@ -31139,13 +31037,9 @@ public final class Messages {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(2, locations_.get(i));
       }
-      if (argumentCase_ == 3) {
+      if (argument_ != null) {
         size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(3, (io.cucumber.messages.Messages.PickleDocString) argument_);
-      }
-      if (argumentCase_ == 4) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(4, (io.cucumber.messages.Messages.PickleTable) argument_);
+          .computeMessageSize(5, getArgument());
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -31167,20 +31061,10 @@ public final class Messages {
           .equals(other.getText());
       result = result && getLocationsList()
           .equals(other.getLocationsList());
-      result = result && getArgumentCase().equals(
-          other.getArgumentCase());
-      if (!result) return false;
-      switch (argumentCase_) {
-        case 3:
-          result = result && getDocString()
-              .equals(other.getDocString());
-          break;
-        case 4:
-          result = result && getDataTable()
-              .equals(other.getDataTable());
-          break;
-        case 0:
-        default:
+      result = result && (hasArgument() == other.hasArgument());
+      if (hasArgument()) {
+        result = result && getArgument()
+            .equals(other.getArgument());
       }
       result = result && unknownFields.equals(other.unknownFields);
       return result;
@@ -31199,17 +31083,9 @@ public final class Messages {
         hash = (37 * hash) + LOCATIONS_FIELD_NUMBER;
         hash = (53 * hash) + getLocationsList().hashCode();
       }
-      switch (argumentCase_) {
-        case 3:
-          hash = (37 * hash) + DOC_STRING_FIELD_NUMBER;
-          hash = (53 * hash) + getDocString().hashCode();
-          break;
-        case 4:
-          hash = (37 * hash) + DATA_TABLE_FIELD_NUMBER;
-          hash = (53 * hash) + getDataTable().hashCode();
-          break;
-        case 0:
-        default:
+      if (hasArgument()) {
+        hash = (37 * hash) + ARGUMENT_FIELD_NUMBER;
+        hash = (53 * hash) + getArgument().hashCode();
       }
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
@@ -31353,8 +31229,12 @@ public final class Messages {
         } else {
           locationsBuilder_.clear();
         }
-        argumentCase_ = 0;
-        argument_ = null;
+        if (argumentBuilder_ == null) {
+          argument_ = null;
+        } else {
+          argument_ = null;
+          argumentBuilder_ = null;
+        }
         return this;
       }
 
@@ -31393,22 +31273,12 @@ public final class Messages {
         } else {
           result.locations_ = locationsBuilder_.build();
         }
-        if (argumentCase_ == 3) {
-          if (docStringBuilder_ == null) {
-            result.argument_ = argument_;
-          } else {
-            result.argument_ = docStringBuilder_.build();
-          }
-        }
-        if (argumentCase_ == 4) {
-          if (dataTableBuilder_ == null) {
-            result.argument_ = argument_;
-          } else {
-            result.argument_ = dataTableBuilder_.build();
-          }
+        if (argumentBuilder_ == null) {
+          result.argument_ = argument_;
+        } else {
+          result.argument_ = argumentBuilder_.build();
         }
         result.bitField0_ = to_bitField0_;
-        result.argumentCase_ = argumentCase_;
         onBuilt();
         return result;
       }
@@ -31487,18 +31357,8 @@ public final class Messages {
             }
           }
         }
-        switch (other.getArgumentCase()) {
-          case DOC_STRING: {
-            mergeDocString(other.getDocString());
-            break;
-          }
-          case DATA_TABLE: {
-            mergeDataTable(other.getDataTable());
-            break;
-          }
-          case ARGUMENT_NOT_SET: {
-            break;
-          }
+        if (other.hasArgument()) {
+          mergeArgument(other.getArgument());
         }
         this.mergeUnknownFields(other.unknownFields);
         onChanged();
@@ -31528,21 +31388,6 @@ public final class Messages {
         }
         return this;
       }
-      private int argumentCase_ = 0;
-      private java.lang.Object argument_;
-      public ArgumentCase
-          getArgumentCase() {
-        return ArgumentCase.forNumber(
-            argumentCase_);
-      }
-
-      public Builder clearArgument() {
-        argumentCase_ = 0;
-        argument_ = null;
-        onChanged();
-        return this;
-      }
-
       private int bitField0_;
 
       private java.lang.Object text_ = "";
@@ -31854,276 +31699,121 @@ public final class Messages {
         return locationsBuilder_;
       }
 
+      private io.cucumber.messages.Messages.PickleStepArgument argument_ = null;
       private com.google.protobuf.SingleFieldBuilderV3<
-          io.cucumber.messages.Messages.PickleDocString, io.cucumber.messages.Messages.PickleDocString.Builder, io.cucumber.messages.Messages.PickleDocStringOrBuilder> docStringBuilder_;
+          io.cucumber.messages.Messages.PickleStepArgument, io.cucumber.messages.Messages.PickleStepArgument.Builder, io.cucumber.messages.Messages.PickleStepArgumentOrBuilder> argumentBuilder_;
       /**
-       * <code>.io.cucumber.messages.PickleDocString doc_string = 3;</code>
+       * <code>.io.cucumber.messages.PickleStepArgument argument = 5;</code>
        */
-      public boolean hasDocString() {
-        return argumentCase_ == 3;
+      public boolean hasArgument() {
+        return argumentBuilder_ != null || argument_ != null;
       }
       /**
-       * <code>.io.cucumber.messages.PickleDocString doc_string = 3;</code>
+       * <code>.io.cucumber.messages.PickleStepArgument argument = 5;</code>
        */
-      public io.cucumber.messages.Messages.PickleDocString getDocString() {
-        if (docStringBuilder_ == null) {
-          if (argumentCase_ == 3) {
-            return (io.cucumber.messages.Messages.PickleDocString) argument_;
-          }
-          return io.cucumber.messages.Messages.PickleDocString.getDefaultInstance();
+      public io.cucumber.messages.Messages.PickleStepArgument getArgument() {
+        if (argumentBuilder_ == null) {
+          return argument_ == null ? io.cucumber.messages.Messages.PickleStepArgument.getDefaultInstance() : argument_;
         } else {
-          if (argumentCase_ == 3) {
-            return docStringBuilder_.getMessage();
-          }
-          return io.cucumber.messages.Messages.PickleDocString.getDefaultInstance();
+          return argumentBuilder_.getMessage();
         }
       }
       /**
-       * <code>.io.cucumber.messages.PickleDocString doc_string = 3;</code>
+       * <code>.io.cucumber.messages.PickleStepArgument argument = 5;</code>
        */
-      public Builder setDocString(io.cucumber.messages.Messages.PickleDocString value) {
-        if (docStringBuilder_ == null) {
+      public Builder setArgument(io.cucumber.messages.Messages.PickleStepArgument value) {
+        if (argumentBuilder_ == null) {
           if (value == null) {
             throw new NullPointerException();
           }
           argument_ = value;
           onChanged();
         } else {
-          docStringBuilder_.setMessage(value);
+          argumentBuilder_.setMessage(value);
         }
-        argumentCase_ = 3;
-        return this;
-      }
-      /**
-       * <code>.io.cucumber.messages.PickleDocString doc_string = 3;</code>
-       */
-      public Builder setDocString(
-          io.cucumber.messages.Messages.PickleDocString.Builder builderForValue) {
-        if (docStringBuilder_ == null) {
-          argument_ = builderForValue.build();
-          onChanged();
-        } else {
-          docStringBuilder_.setMessage(builderForValue.build());
-        }
-        argumentCase_ = 3;
-        return this;
-      }
-      /**
-       * <code>.io.cucumber.messages.PickleDocString doc_string = 3;</code>
-       */
-      public Builder mergeDocString(io.cucumber.messages.Messages.PickleDocString value) {
-        if (docStringBuilder_ == null) {
-          if (argumentCase_ == 3 &&
-              argument_ != io.cucumber.messages.Messages.PickleDocString.getDefaultInstance()) {
-            argument_ = io.cucumber.messages.Messages.PickleDocString.newBuilder((io.cucumber.messages.Messages.PickleDocString) argument_)
-                .mergeFrom(value).buildPartial();
-          } else {
-            argument_ = value;
-          }
-          onChanged();
-        } else {
-          if (argumentCase_ == 3) {
-            docStringBuilder_.mergeFrom(value);
-          }
-          docStringBuilder_.setMessage(value);
-        }
-        argumentCase_ = 3;
-        return this;
-      }
-      /**
-       * <code>.io.cucumber.messages.PickleDocString doc_string = 3;</code>
-       */
-      public Builder clearDocString() {
-        if (docStringBuilder_ == null) {
-          if (argumentCase_ == 3) {
-            argumentCase_ = 0;
-            argument_ = null;
-            onChanged();
-          }
-        } else {
-          if (argumentCase_ == 3) {
-            argumentCase_ = 0;
-            argument_ = null;
-          }
-          docStringBuilder_.clear();
-        }
-        return this;
-      }
-      /**
-       * <code>.io.cucumber.messages.PickleDocString doc_string = 3;</code>
-       */
-      public io.cucumber.messages.Messages.PickleDocString.Builder getDocStringBuilder() {
-        return getDocStringFieldBuilder().getBuilder();
-      }
-      /**
-       * <code>.io.cucumber.messages.PickleDocString doc_string = 3;</code>
-       */
-      public io.cucumber.messages.Messages.PickleDocStringOrBuilder getDocStringOrBuilder() {
-        if ((argumentCase_ == 3) && (docStringBuilder_ != null)) {
-          return docStringBuilder_.getMessageOrBuilder();
-        } else {
-          if (argumentCase_ == 3) {
-            return (io.cucumber.messages.Messages.PickleDocString) argument_;
-          }
-          return io.cucumber.messages.Messages.PickleDocString.getDefaultInstance();
-        }
-      }
-      /**
-       * <code>.io.cucumber.messages.PickleDocString doc_string = 3;</code>
-       */
-      private com.google.protobuf.SingleFieldBuilderV3<
-          io.cucumber.messages.Messages.PickleDocString, io.cucumber.messages.Messages.PickleDocString.Builder, io.cucumber.messages.Messages.PickleDocStringOrBuilder> 
-          getDocStringFieldBuilder() {
-        if (docStringBuilder_ == null) {
-          if (!(argumentCase_ == 3)) {
-            argument_ = io.cucumber.messages.Messages.PickleDocString.getDefaultInstance();
-          }
-          docStringBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
-              io.cucumber.messages.Messages.PickleDocString, io.cucumber.messages.Messages.PickleDocString.Builder, io.cucumber.messages.Messages.PickleDocStringOrBuilder>(
-                  (io.cucumber.messages.Messages.PickleDocString) argument_,
-                  getParentForChildren(),
-                  isClean());
-          argument_ = null;
-        }
-        argumentCase_ = 3;
-        onChanged();;
-        return docStringBuilder_;
-      }
 
-      private com.google.protobuf.SingleFieldBuilderV3<
-          io.cucumber.messages.Messages.PickleTable, io.cucumber.messages.Messages.PickleTable.Builder, io.cucumber.messages.Messages.PickleTableOrBuilder> dataTableBuilder_;
-      /**
-       * <code>.io.cucumber.messages.PickleTable data_table = 4;</code>
-       */
-      public boolean hasDataTable() {
-        return argumentCase_ == 4;
-      }
-      /**
-       * <code>.io.cucumber.messages.PickleTable data_table = 4;</code>
-       */
-      public io.cucumber.messages.Messages.PickleTable getDataTable() {
-        if (dataTableBuilder_ == null) {
-          if (argumentCase_ == 4) {
-            return (io.cucumber.messages.Messages.PickleTable) argument_;
-          }
-          return io.cucumber.messages.Messages.PickleTable.getDefaultInstance();
-        } else {
-          if (argumentCase_ == 4) {
-            return dataTableBuilder_.getMessage();
-          }
-          return io.cucumber.messages.Messages.PickleTable.getDefaultInstance();
-        }
-      }
-      /**
-       * <code>.io.cucumber.messages.PickleTable data_table = 4;</code>
-       */
-      public Builder setDataTable(io.cucumber.messages.Messages.PickleTable value) {
-        if (dataTableBuilder_ == null) {
-          if (value == null) {
-            throw new NullPointerException();
-          }
-          argument_ = value;
-          onChanged();
-        } else {
-          dataTableBuilder_.setMessage(value);
-        }
-        argumentCase_ = 4;
         return this;
       }
       /**
-       * <code>.io.cucumber.messages.PickleTable data_table = 4;</code>
+       * <code>.io.cucumber.messages.PickleStepArgument argument = 5;</code>
        */
-      public Builder setDataTable(
-          io.cucumber.messages.Messages.PickleTable.Builder builderForValue) {
-        if (dataTableBuilder_ == null) {
+      public Builder setArgument(
+          io.cucumber.messages.Messages.PickleStepArgument.Builder builderForValue) {
+        if (argumentBuilder_ == null) {
           argument_ = builderForValue.build();
           onChanged();
         } else {
-          dataTableBuilder_.setMessage(builderForValue.build());
+          argumentBuilder_.setMessage(builderForValue.build());
         }
-        argumentCase_ = 4;
+
         return this;
       }
       /**
-       * <code>.io.cucumber.messages.PickleTable data_table = 4;</code>
+       * <code>.io.cucumber.messages.PickleStepArgument argument = 5;</code>
        */
-      public Builder mergeDataTable(io.cucumber.messages.Messages.PickleTable value) {
-        if (dataTableBuilder_ == null) {
-          if (argumentCase_ == 4 &&
-              argument_ != io.cucumber.messages.Messages.PickleTable.getDefaultInstance()) {
-            argument_ = io.cucumber.messages.Messages.PickleTable.newBuilder((io.cucumber.messages.Messages.PickleTable) argument_)
-                .mergeFrom(value).buildPartial();
+      public Builder mergeArgument(io.cucumber.messages.Messages.PickleStepArgument value) {
+        if (argumentBuilder_ == null) {
+          if (argument_ != null) {
+            argument_ =
+              io.cucumber.messages.Messages.PickleStepArgument.newBuilder(argument_).mergeFrom(value).buildPartial();
           } else {
             argument_ = value;
           }
           onChanged();
         } else {
-          if (argumentCase_ == 4) {
-            dataTableBuilder_.mergeFrom(value);
-          }
-          dataTableBuilder_.setMessage(value);
+          argumentBuilder_.mergeFrom(value);
         }
-        argumentCase_ = 4;
+
         return this;
       }
       /**
-       * <code>.io.cucumber.messages.PickleTable data_table = 4;</code>
+       * <code>.io.cucumber.messages.PickleStepArgument argument = 5;</code>
        */
-      public Builder clearDataTable() {
-        if (dataTableBuilder_ == null) {
-          if (argumentCase_ == 4) {
-            argumentCase_ = 0;
-            argument_ = null;
-            onChanged();
-          }
+      public Builder clearArgument() {
+        if (argumentBuilder_ == null) {
+          argument_ = null;
+          onChanged();
         } else {
-          if (argumentCase_ == 4) {
-            argumentCase_ = 0;
-            argument_ = null;
-          }
-          dataTableBuilder_.clear();
+          argument_ = null;
+          argumentBuilder_ = null;
         }
+
         return this;
       }
       /**
-       * <code>.io.cucumber.messages.PickleTable data_table = 4;</code>
+       * <code>.io.cucumber.messages.PickleStepArgument argument = 5;</code>
        */
-      public io.cucumber.messages.Messages.PickleTable.Builder getDataTableBuilder() {
-        return getDataTableFieldBuilder().getBuilder();
+      public io.cucumber.messages.Messages.PickleStepArgument.Builder getArgumentBuilder() {
+        
+        onChanged();
+        return getArgumentFieldBuilder().getBuilder();
       }
       /**
-       * <code>.io.cucumber.messages.PickleTable data_table = 4;</code>
+       * <code>.io.cucumber.messages.PickleStepArgument argument = 5;</code>
        */
-      public io.cucumber.messages.Messages.PickleTableOrBuilder getDataTableOrBuilder() {
-        if ((argumentCase_ == 4) && (dataTableBuilder_ != null)) {
-          return dataTableBuilder_.getMessageOrBuilder();
+      public io.cucumber.messages.Messages.PickleStepArgumentOrBuilder getArgumentOrBuilder() {
+        if (argumentBuilder_ != null) {
+          return argumentBuilder_.getMessageOrBuilder();
         } else {
-          if (argumentCase_ == 4) {
-            return (io.cucumber.messages.Messages.PickleTable) argument_;
-          }
-          return io.cucumber.messages.Messages.PickleTable.getDefaultInstance();
+          return argument_ == null ?
+              io.cucumber.messages.Messages.PickleStepArgument.getDefaultInstance() : argument_;
         }
       }
       /**
-       * <code>.io.cucumber.messages.PickleTable data_table = 4;</code>
+       * <code>.io.cucumber.messages.PickleStepArgument argument = 5;</code>
        */
       private com.google.protobuf.SingleFieldBuilderV3<
-          io.cucumber.messages.Messages.PickleTable, io.cucumber.messages.Messages.PickleTable.Builder, io.cucumber.messages.Messages.PickleTableOrBuilder> 
-          getDataTableFieldBuilder() {
-        if (dataTableBuilder_ == null) {
-          if (!(argumentCase_ == 4)) {
-            argument_ = io.cucumber.messages.Messages.PickleTable.getDefaultInstance();
-          }
-          dataTableBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
-              io.cucumber.messages.Messages.PickleTable, io.cucumber.messages.Messages.PickleTable.Builder, io.cucumber.messages.Messages.PickleTableOrBuilder>(
-                  (io.cucumber.messages.Messages.PickleTable) argument_,
+          io.cucumber.messages.Messages.PickleStepArgument, io.cucumber.messages.Messages.PickleStepArgument.Builder, io.cucumber.messages.Messages.PickleStepArgumentOrBuilder> 
+          getArgumentFieldBuilder() {
+        if (argumentBuilder_ == null) {
+          argumentBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
+              io.cucumber.messages.Messages.PickleStepArgument, io.cucumber.messages.Messages.PickleStepArgument.Builder, io.cucumber.messages.Messages.PickleStepArgumentOrBuilder>(
+                  getArgument(),
                   getParentForChildren(),
                   isClean());
           argument_ = null;
         }
-        argumentCase_ = 4;
-        onChanged();;
-        return dataTableBuilder_;
+        return argumentBuilder_;
       }
       @java.lang.Override
       public final Builder setUnknownFields(
@@ -32173,6 +31863,923 @@ public final class Messages {
 
     @java.lang.Override
     public io.cucumber.messages.Messages.PickleStep getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
+  }
+
+  public interface PickleStepArgumentOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:io.cucumber.messages.PickleStepArgument)
+      com.google.protobuf.MessageOrBuilder {
+
+    /**
+     * <code>.io.cucumber.messages.PickleDocString doc_string = 1;</code>
+     */
+    boolean hasDocString();
+    /**
+     * <code>.io.cucumber.messages.PickleDocString doc_string = 1;</code>
+     */
+    io.cucumber.messages.Messages.PickleDocString getDocString();
+    /**
+     * <code>.io.cucumber.messages.PickleDocString doc_string = 1;</code>
+     */
+    io.cucumber.messages.Messages.PickleDocStringOrBuilder getDocStringOrBuilder();
+
+    /**
+     * <code>.io.cucumber.messages.PickleTable data_table = 2;</code>
+     */
+    boolean hasDataTable();
+    /**
+     * <code>.io.cucumber.messages.PickleTable data_table = 2;</code>
+     */
+    io.cucumber.messages.Messages.PickleTable getDataTable();
+    /**
+     * <code>.io.cucumber.messages.PickleTable data_table = 2;</code>
+     */
+    io.cucumber.messages.Messages.PickleTableOrBuilder getDataTableOrBuilder();
+
+    public io.cucumber.messages.Messages.PickleStepArgument.MessageCase getMessageCase();
+  }
+  /**
+   * Protobuf type {@code io.cucumber.messages.PickleStepArgument}
+   */
+  public  static final class PickleStepArgument extends
+      com.google.protobuf.GeneratedMessageV3 implements
+      // @@protoc_insertion_point(message_implements:io.cucumber.messages.PickleStepArgument)
+      PickleStepArgumentOrBuilder {
+  private static final long serialVersionUID = 0L;
+    // Use PickleStepArgument.newBuilder() to construct.
+    private PickleStepArgument(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+      super(builder);
+    }
+    private PickleStepArgument() {
+    }
+
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+    getUnknownFields() {
+      return this.unknownFields;
+    }
+    private PickleStepArgument(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      this();
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            case 10: {
+              io.cucumber.messages.Messages.PickleDocString.Builder subBuilder = null;
+              if (messageCase_ == 1) {
+                subBuilder = ((io.cucumber.messages.Messages.PickleDocString) message_).toBuilder();
+              }
+              message_ =
+                  input.readMessage(io.cucumber.messages.Messages.PickleDocString.parser(), extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom((io.cucumber.messages.Messages.PickleDocString) message_);
+                message_ = subBuilder.buildPartial();
+              }
+              messageCase_ = 1;
+              break;
+            }
+            case 18: {
+              io.cucumber.messages.Messages.PickleTable.Builder subBuilder = null;
+              if (messageCase_ == 2) {
+                subBuilder = ((io.cucumber.messages.Messages.PickleTable) message_).toBuilder();
+              }
+              message_ =
+                  input.readMessage(io.cucumber.messages.Messages.PickleTable.parser(), extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom((io.cucumber.messages.Messages.PickleTable) message_);
+                message_ = subBuilder.buildPartial();
+              }
+              messageCase_ = 2;
+              break;
+            }
+            default: {
+              if (!parseUnknownFieldProto3(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return io.cucumber.messages.Messages.internal_static_io_cucumber_messages_PickleStepArgument_descriptor;
+    }
+
+    @java.lang.Override
+    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return io.cucumber.messages.Messages.internal_static_io_cucumber_messages_PickleStepArgument_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              io.cucumber.messages.Messages.PickleStepArgument.class, io.cucumber.messages.Messages.PickleStepArgument.Builder.class);
+    }
+
+    private int messageCase_ = 0;
+    private java.lang.Object message_;
+    public enum MessageCase
+        implements com.google.protobuf.Internal.EnumLite {
+      DOC_STRING(1),
+      DATA_TABLE(2),
+      MESSAGE_NOT_SET(0);
+      private final int value;
+      private MessageCase(int value) {
+        this.value = value;
+      }
+      /**
+       * @deprecated Use {@link #forNumber(int)} instead.
+       */
+      @java.lang.Deprecated
+      public static MessageCase valueOf(int value) {
+        return forNumber(value);
+      }
+
+      public static MessageCase forNumber(int value) {
+        switch (value) {
+          case 1: return DOC_STRING;
+          case 2: return DATA_TABLE;
+          case 0: return MESSAGE_NOT_SET;
+          default: return null;
+        }
+      }
+      public int getNumber() {
+        return this.value;
+      }
+    };
+
+    public MessageCase
+    getMessageCase() {
+      return MessageCase.forNumber(
+          messageCase_);
+    }
+
+    public static final int DOC_STRING_FIELD_NUMBER = 1;
+    /**
+     * <code>.io.cucumber.messages.PickleDocString doc_string = 1;</code>
+     */
+    public boolean hasDocString() {
+      return messageCase_ == 1;
+    }
+    /**
+     * <code>.io.cucumber.messages.PickleDocString doc_string = 1;</code>
+     */
+    public io.cucumber.messages.Messages.PickleDocString getDocString() {
+      if (messageCase_ == 1) {
+         return (io.cucumber.messages.Messages.PickleDocString) message_;
+      }
+      return io.cucumber.messages.Messages.PickleDocString.getDefaultInstance();
+    }
+    /**
+     * <code>.io.cucumber.messages.PickleDocString doc_string = 1;</code>
+     */
+    public io.cucumber.messages.Messages.PickleDocStringOrBuilder getDocStringOrBuilder() {
+      if (messageCase_ == 1) {
+         return (io.cucumber.messages.Messages.PickleDocString) message_;
+      }
+      return io.cucumber.messages.Messages.PickleDocString.getDefaultInstance();
+    }
+
+    public static final int DATA_TABLE_FIELD_NUMBER = 2;
+    /**
+     * <code>.io.cucumber.messages.PickleTable data_table = 2;</code>
+     */
+    public boolean hasDataTable() {
+      return messageCase_ == 2;
+    }
+    /**
+     * <code>.io.cucumber.messages.PickleTable data_table = 2;</code>
+     */
+    public io.cucumber.messages.Messages.PickleTable getDataTable() {
+      if (messageCase_ == 2) {
+         return (io.cucumber.messages.Messages.PickleTable) message_;
+      }
+      return io.cucumber.messages.Messages.PickleTable.getDefaultInstance();
+    }
+    /**
+     * <code>.io.cucumber.messages.PickleTable data_table = 2;</code>
+     */
+    public io.cucumber.messages.Messages.PickleTableOrBuilder getDataTableOrBuilder() {
+      if (messageCase_ == 2) {
+         return (io.cucumber.messages.Messages.PickleTable) message_;
+      }
+      return io.cucumber.messages.Messages.PickleTable.getDefaultInstance();
+    }
+
+    private byte memoizedIsInitialized = -1;
+    @java.lang.Override
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    @java.lang.Override
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      if (messageCase_ == 1) {
+        output.writeMessage(1, (io.cucumber.messages.Messages.PickleDocString) message_);
+      }
+      if (messageCase_ == 2) {
+        output.writeMessage(2, (io.cucumber.messages.Messages.PickleTable) message_);
+      }
+      unknownFields.writeTo(output);
+    }
+
+    @java.lang.Override
+    public int getSerializedSize() {
+      int size = memoizedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (messageCase_ == 1) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(1, (io.cucumber.messages.Messages.PickleDocString) message_);
+      }
+      if (messageCase_ == 2) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(2, (io.cucumber.messages.Messages.PickleTable) message_);
+      }
+      size += unknownFields.getSerializedSize();
+      memoizedSize = size;
+      return size;
+    }
+
+    @java.lang.Override
+    public boolean equals(final java.lang.Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof io.cucumber.messages.Messages.PickleStepArgument)) {
+        return super.equals(obj);
+      }
+      io.cucumber.messages.Messages.PickleStepArgument other = (io.cucumber.messages.Messages.PickleStepArgument) obj;
+
+      boolean result = true;
+      result = result && getMessageCase().equals(
+          other.getMessageCase());
+      if (!result) return false;
+      switch (messageCase_) {
+        case 1:
+          result = result && getDocString()
+              .equals(other.getDocString());
+          break;
+        case 2:
+          result = result && getDataTable()
+              .equals(other.getDataTable());
+          break;
+        case 0:
+        default:
+      }
+      result = result && unknownFields.equals(other.unknownFields);
+      return result;
+    }
+
+    @java.lang.Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptor().hashCode();
+      switch (messageCase_) {
+        case 1:
+          hash = (37 * hash) + DOC_STRING_FIELD_NUMBER;
+          hash = (53 * hash) + getDocString().hashCode();
+          break;
+        case 2:
+          hash = (37 * hash) + DATA_TABLE_FIELD_NUMBER;
+          hash = (53 * hash) + getDataTable().hashCode();
+          break;
+        case 0:
+        default:
+      }
+      hash = (29 * hash) + unknownFields.hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    public static io.cucumber.messages.Messages.PickleStepArgument parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static io.cucumber.messages.Messages.PickleStepArgument parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static io.cucumber.messages.Messages.PickleStepArgument parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static io.cucumber.messages.Messages.PickleStepArgument parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static io.cucumber.messages.Messages.PickleStepArgument parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static io.cucumber.messages.Messages.PickleStepArgument parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static io.cucumber.messages.Messages.PickleStepArgument parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static io.cucumber.messages.Messages.PickleStepArgument parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static io.cucumber.messages.Messages.PickleStepArgument parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input);
+    }
+    public static io.cucumber.messages.Messages.PickleStepArgument parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static io.cucumber.messages.Messages.PickleStepArgument parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static io.cucumber.messages.Messages.PickleStepArgument parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    @java.lang.Override
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
+    }
+    public static Builder newBuilder(io.cucumber.messages.Messages.PickleStepArgument prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    @java.lang.Override
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code io.cucumber.messages.PickleStepArgument}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:io.cucumber.messages.PickleStepArgument)
+        io.cucumber.messages.Messages.PickleStepArgumentOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return io.cucumber.messages.Messages.internal_static_io_cucumber_messages_PickleStepArgument_descriptor;
+      }
+
+      @java.lang.Override
+      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return io.cucumber.messages.Messages.internal_static_io_cucumber_messages_PickleStepArgument_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                io.cucumber.messages.Messages.PickleStepArgument.class, io.cucumber.messages.Messages.PickleStepArgument.Builder.class);
+      }
+
+      // Construct using io.cucumber.messages.Messages.PickleStepArgument.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessageV3
+                .alwaysUseFieldBuilders) {
+        }
+      }
+      @java.lang.Override
+      public Builder clear() {
+        super.clear();
+        messageCase_ = 0;
+        message_ = null;
+        return this;
+      }
+
+      @java.lang.Override
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return io.cucumber.messages.Messages.internal_static_io_cucumber_messages_PickleStepArgument_descriptor;
+      }
+
+      @java.lang.Override
+      public io.cucumber.messages.Messages.PickleStepArgument getDefaultInstanceForType() {
+        return io.cucumber.messages.Messages.PickleStepArgument.getDefaultInstance();
+      }
+
+      @java.lang.Override
+      public io.cucumber.messages.Messages.PickleStepArgument build() {
+        io.cucumber.messages.Messages.PickleStepArgument result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      @java.lang.Override
+      public io.cucumber.messages.Messages.PickleStepArgument buildPartial() {
+        io.cucumber.messages.Messages.PickleStepArgument result = new io.cucumber.messages.Messages.PickleStepArgument(this);
+        if (messageCase_ == 1) {
+          if (docStringBuilder_ == null) {
+            result.message_ = message_;
+          } else {
+            result.message_ = docStringBuilder_.build();
+          }
+        }
+        if (messageCase_ == 2) {
+          if (dataTableBuilder_ == null) {
+            result.message_ = message_;
+          } else {
+            result.message_ = dataTableBuilder_.build();
+          }
+        }
+        result.messageCase_ = messageCase_;
+        onBuilt();
+        return result;
+      }
+
+      @java.lang.Override
+      public Builder clone() {
+        return (Builder) super.clone();
+      }
+      @java.lang.Override
+      public Builder setField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return (Builder) super.setField(field, value);
+      }
+      @java.lang.Override
+      public Builder clearField(
+          com.google.protobuf.Descriptors.FieldDescriptor field) {
+        return (Builder) super.clearField(field);
+      }
+      @java.lang.Override
+      public Builder clearOneof(
+          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+        return (Builder) super.clearOneof(oneof);
+      }
+      @java.lang.Override
+      public Builder setRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          int index, java.lang.Object value) {
+        return (Builder) super.setRepeatedField(field, index, value);
+      }
+      @java.lang.Override
+      public Builder addRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return (Builder) super.addRepeatedField(field, value);
+      }
+      @java.lang.Override
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof io.cucumber.messages.Messages.PickleStepArgument) {
+          return mergeFrom((io.cucumber.messages.Messages.PickleStepArgument)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(io.cucumber.messages.Messages.PickleStepArgument other) {
+        if (other == io.cucumber.messages.Messages.PickleStepArgument.getDefaultInstance()) return this;
+        switch (other.getMessageCase()) {
+          case DOC_STRING: {
+            mergeDocString(other.getDocString());
+            break;
+          }
+          case DATA_TABLE: {
+            mergeDataTable(other.getDataTable());
+            break;
+          }
+          case MESSAGE_NOT_SET: {
+            break;
+          }
+        }
+        this.mergeUnknownFields(other.unknownFields);
+        onChanged();
+        return this;
+      }
+
+      @java.lang.Override
+      public final boolean isInitialized() {
+        return true;
+      }
+
+      @java.lang.Override
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        io.cucumber.messages.Messages.PickleStepArgument parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (io.cucumber.messages.Messages.PickleStepArgument) e.getUnfinishedMessage();
+          throw e.unwrapIOException();
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      private int messageCase_ = 0;
+      private java.lang.Object message_;
+      public MessageCase
+          getMessageCase() {
+        return MessageCase.forNumber(
+            messageCase_);
+      }
+
+      public Builder clearMessage() {
+        messageCase_ = 0;
+        message_ = null;
+        onChanged();
+        return this;
+      }
+
+
+      private com.google.protobuf.SingleFieldBuilderV3<
+          io.cucumber.messages.Messages.PickleDocString, io.cucumber.messages.Messages.PickleDocString.Builder, io.cucumber.messages.Messages.PickleDocStringOrBuilder> docStringBuilder_;
+      /**
+       * <code>.io.cucumber.messages.PickleDocString doc_string = 1;</code>
+       */
+      public boolean hasDocString() {
+        return messageCase_ == 1;
+      }
+      /**
+       * <code>.io.cucumber.messages.PickleDocString doc_string = 1;</code>
+       */
+      public io.cucumber.messages.Messages.PickleDocString getDocString() {
+        if (docStringBuilder_ == null) {
+          if (messageCase_ == 1) {
+            return (io.cucumber.messages.Messages.PickleDocString) message_;
+          }
+          return io.cucumber.messages.Messages.PickleDocString.getDefaultInstance();
+        } else {
+          if (messageCase_ == 1) {
+            return docStringBuilder_.getMessage();
+          }
+          return io.cucumber.messages.Messages.PickleDocString.getDefaultInstance();
+        }
+      }
+      /**
+       * <code>.io.cucumber.messages.PickleDocString doc_string = 1;</code>
+       */
+      public Builder setDocString(io.cucumber.messages.Messages.PickleDocString value) {
+        if (docStringBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          message_ = value;
+          onChanged();
+        } else {
+          docStringBuilder_.setMessage(value);
+        }
+        messageCase_ = 1;
+        return this;
+      }
+      /**
+       * <code>.io.cucumber.messages.PickleDocString doc_string = 1;</code>
+       */
+      public Builder setDocString(
+          io.cucumber.messages.Messages.PickleDocString.Builder builderForValue) {
+        if (docStringBuilder_ == null) {
+          message_ = builderForValue.build();
+          onChanged();
+        } else {
+          docStringBuilder_.setMessage(builderForValue.build());
+        }
+        messageCase_ = 1;
+        return this;
+      }
+      /**
+       * <code>.io.cucumber.messages.PickleDocString doc_string = 1;</code>
+       */
+      public Builder mergeDocString(io.cucumber.messages.Messages.PickleDocString value) {
+        if (docStringBuilder_ == null) {
+          if (messageCase_ == 1 &&
+              message_ != io.cucumber.messages.Messages.PickleDocString.getDefaultInstance()) {
+            message_ = io.cucumber.messages.Messages.PickleDocString.newBuilder((io.cucumber.messages.Messages.PickleDocString) message_)
+                .mergeFrom(value).buildPartial();
+          } else {
+            message_ = value;
+          }
+          onChanged();
+        } else {
+          if (messageCase_ == 1) {
+            docStringBuilder_.mergeFrom(value);
+          }
+          docStringBuilder_.setMessage(value);
+        }
+        messageCase_ = 1;
+        return this;
+      }
+      /**
+       * <code>.io.cucumber.messages.PickleDocString doc_string = 1;</code>
+       */
+      public Builder clearDocString() {
+        if (docStringBuilder_ == null) {
+          if (messageCase_ == 1) {
+            messageCase_ = 0;
+            message_ = null;
+            onChanged();
+          }
+        } else {
+          if (messageCase_ == 1) {
+            messageCase_ = 0;
+            message_ = null;
+          }
+          docStringBuilder_.clear();
+        }
+        return this;
+      }
+      /**
+       * <code>.io.cucumber.messages.PickleDocString doc_string = 1;</code>
+       */
+      public io.cucumber.messages.Messages.PickleDocString.Builder getDocStringBuilder() {
+        return getDocStringFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>.io.cucumber.messages.PickleDocString doc_string = 1;</code>
+       */
+      public io.cucumber.messages.Messages.PickleDocStringOrBuilder getDocStringOrBuilder() {
+        if ((messageCase_ == 1) && (docStringBuilder_ != null)) {
+          return docStringBuilder_.getMessageOrBuilder();
+        } else {
+          if (messageCase_ == 1) {
+            return (io.cucumber.messages.Messages.PickleDocString) message_;
+          }
+          return io.cucumber.messages.Messages.PickleDocString.getDefaultInstance();
+        }
+      }
+      /**
+       * <code>.io.cucumber.messages.PickleDocString doc_string = 1;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilderV3<
+          io.cucumber.messages.Messages.PickleDocString, io.cucumber.messages.Messages.PickleDocString.Builder, io.cucumber.messages.Messages.PickleDocStringOrBuilder> 
+          getDocStringFieldBuilder() {
+        if (docStringBuilder_ == null) {
+          if (!(messageCase_ == 1)) {
+            message_ = io.cucumber.messages.Messages.PickleDocString.getDefaultInstance();
+          }
+          docStringBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
+              io.cucumber.messages.Messages.PickleDocString, io.cucumber.messages.Messages.PickleDocString.Builder, io.cucumber.messages.Messages.PickleDocStringOrBuilder>(
+                  (io.cucumber.messages.Messages.PickleDocString) message_,
+                  getParentForChildren(),
+                  isClean());
+          message_ = null;
+        }
+        messageCase_ = 1;
+        onChanged();;
+        return docStringBuilder_;
+      }
+
+      private com.google.protobuf.SingleFieldBuilderV3<
+          io.cucumber.messages.Messages.PickleTable, io.cucumber.messages.Messages.PickleTable.Builder, io.cucumber.messages.Messages.PickleTableOrBuilder> dataTableBuilder_;
+      /**
+       * <code>.io.cucumber.messages.PickleTable data_table = 2;</code>
+       */
+      public boolean hasDataTable() {
+        return messageCase_ == 2;
+      }
+      /**
+       * <code>.io.cucumber.messages.PickleTable data_table = 2;</code>
+       */
+      public io.cucumber.messages.Messages.PickleTable getDataTable() {
+        if (dataTableBuilder_ == null) {
+          if (messageCase_ == 2) {
+            return (io.cucumber.messages.Messages.PickleTable) message_;
+          }
+          return io.cucumber.messages.Messages.PickleTable.getDefaultInstance();
+        } else {
+          if (messageCase_ == 2) {
+            return dataTableBuilder_.getMessage();
+          }
+          return io.cucumber.messages.Messages.PickleTable.getDefaultInstance();
+        }
+      }
+      /**
+       * <code>.io.cucumber.messages.PickleTable data_table = 2;</code>
+       */
+      public Builder setDataTable(io.cucumber.messages.Messages.PickleTable value) {
+        if (dataTableBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          message_ = value;
+          onChanged();
+        } else {
+          dataTableBuilder_.setMessage(value);
+        }
+        messageCase_ = 2;
+        return this;
+      }
+      /**
+       * <code>.io.cucumber.messages.PickleTable data_table = 2;</code>
+       */
+      public Builder setDataTable(
+          io.cucumber.messages.Messages.PickleTable.Builder builderForValue) {
+        if (dataTableBuilder_ == null) {
+          message_ = builderForValue.build();
+          onChanged();
+        } else {
+          dataTableBuilder_.setMessage(builderForValue.build());
+        }
+        messageCase_ = 2;
+        return this;
+      }
+      /**
+       * <code>.io.cucumber.messages.PickleTable data_table = 2;</code>
+       */
+      public Builder mergeDataTable(io.cucumber.messages.Messages.PickleTable value) {
+        if (dataTableBuilder_ == null) {
+          if (messageCase_ == 2 &&
+              message_ != io.cucumber.messages.Messages.PickleTable.getDefaultInstance()) {
+            message_ = io.cucumber.messages.Messages.PickleTable.newBuilder((io.cucumber.messages.Messages.PickleTable) message_)
+                .mergeFrom(value).buildPartial();
+          } else {
+            message_ = value;
+          }
+          onChanged();
+        } else {
+          if (messageCase_ == 2) {
+            dataTableBuilder_.mergeFrom(value);
+          }
+          dataTableBuilder_.setMessage(value);
+        }
+        messageCase_ = 2;
+        return this;
+      }
+      /**
+       * <code>.io.cucumber.messages.PickleTable data_table = 2;</code>
+       */
+      public Builder clearDataTable() {
+        if (dataTableBuilder_ == null) {
+          if (messageCase_ == 2) {
+            messageCase_ = 0;
+            message_ = null;
+            onChanged();
+          }
+        } else {
+          if (messageCase_ == 2) {
+            messageCase_ = 0;
+            message_ = null;
+          }
+          dataTableBuilder_.clear();
+        }
+        return this;
+      }
+      /**
+       * <code>.io.cucumber.messages.PickleTable data_table = 2;</code>
+       */
+      public io.cucumber.messages.Messages.PickleTable.Builder getDataTableBuilder() {
+        return getDataTableFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>.io.cucumber.messages.PickleTable data_table = 2;</code>
+       */
+      public io.cucumber.messages.Messages.PickleTableOrBuilder getDataTableOrBuilder() {
+        if ((messageCase_ == 2) && (dataTableBuilder_ != null)) {
+          return dataTableBuilder_.getMessageOrBuilder();
+        } else {
+          if (messageCase_ == 2) {
+            return (io.cucumber.messages.Messages.PickleTable) message_;
+          }
+          return io.cucumber.messages.Messages.PickleTable.getDefaultInstance();
+        }
+      }
+      /**
+       * <code>.io.cucumber.messages.PickleTable data_table = 2;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilderV3<
+          io.cucumber.messages.Messages.PickleTable, io.cucumber.messages.Messages.PickleTable.Builder, io.cucumber.messages.Messages.PickleTableOrBuilder> 
+          getDataTableFieldBuilder() {
+        if (dataTableBuilder_ == null) {
+          if (!(messageCase_ == 2)) {
+            message_ = io.cucumber.messages.Messages.PickleTable.getDefaultInstance();
+          }
+          dataTableBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
+              io.cucumber.messages.Messages.PickleTable, io.cucumber.messages.Messages.PickleTable.Builder, io.cucumber.messages.Messages.PickleTableOrBuilder>(
+                  (io.cucumber.messages.Messages.PickleTable) message_,
+                  getParentForChildren(),
+                  isClean());
+          message_ = null;
+        }
+        messageCase_ = 2;
+        onChanged();;
+        return dataTableBuilder_;
+      }
+      @java.lang.Override
+      public final Builder setUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.setUnknownFieldsProto3(unknownFields);
+      }
+
+      @java.lang.Override
+      public final Builder mergeUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.mergeUnknownFields(unknownFields);
+      }
+
+
+      // @@protoc_insertion_point(builder_scope:io.cucumber.messages.PickleStepArgument)
+    }
+
+    // @@protoc_insertion_point(class_scope:io.cucumber.messages.PickleStepArgument)
+    private static final io.cucumber.messages.Messages.PickleStepArgument DEFAULT_INSTANCE;
+    static {
+      DEFAULT_INSTANCE = new io.cucumber.messages.Messages.PickleStepArgument();
+    }
+
+    public static io.cucumber.messages.Messages.PickleStepArgument getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static final com.google.protobuf.Parser<PickleStepArgument>
+        PARSER = new com.google.protobuf.AbstractParser<PickleStepArgument>() {
+      @java.lang.Override
+      public PickleStepArgument parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new PickleStepArgument(input, extensionRegistry);
+      }
+    };
+
+    public static com.google.protobuf.Parser<PickleStepArgument> parser() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<PickleStepArgument> getParserForType() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public io.cucumber.messages.Messages.PickleStepArgument getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
 
@@ -37227,16 +37834,6 @@ public final class Messages {
      * <code>.google.protobuf.Timestamp timestamp = 1;</code>
      */
     com.google.protobuf.TimestampOrBuilder getTimestampOrBuilder();
-
-    /**
-     * <code>string cucumberImplementation = 2;</code>
-     */
-    java.lang.String getCucumberImplementation();
-    /**
-     * <code>string cucumberImplementation = 2;</code>
-     */
-    com.google.protobuf.ByteString
-        getCucumberImplementationBytes();
   }
   /**
    * Protobuf type {@code io.cucumber.messages.TestRunStarted}
@@ -37251,7 +37848,6 @@ public final class Messages {
       super(builder);
     }
     private TestRunStarted() {
-      cucumberImplementation_ = "";
     }
 
     @java.lang.Override
@@ -37289,12 +37885,6 @@ public final class Messages {
                 timestamp_ = subBuilder.buildPartial();
               }
 
-              break;
-            }
-            case 18: {
-              java.lang.String s = input.readStringRequireUtf8();
-
-              cucumberImplementation_ = s;
               break;
             }
             default: {
@@ -37350,40 +37940,6 @@ public final class Messages {
       return getTimestamp();
     }
 
-    public static final int CUCUMBERIMPLEMENTATION_FIELD_NUMBER = 2;
-    private volatile java.lang.Object cucumberImplementation_;
-    /**
-     * <code>string cucumberImplementation = 2;</code>
-     */
-    public java.lang.String getCucumberImplementation() {
-      java.lang.Object ref = cucumberImplementation_;
-      if (ref instanceof java.lang.String) {
-        return (java.lang.String) ref;
-      } else {
-        com.google.protobuf.ByteString bs = 
-            (com.google.protobuf.ByteString) ref;
-        java.lang.String s = bs.toStringUtf8();
-        cucumberImplementation_ = s;
-        return s;
-      }
-    }
-    /**
-     * <code>string cucumberImplementation = 2;</code>
-     */
-    public com.google.protobuf.ByteString
-        getCucumberImplementationBytes() {
-      java.lang.Object ref = cucumberImplementation_;
-      if (ref instanceof java.lang.String) {
-        com.google.protobuf.ByteString b = 
-            com.google.protobuf.ByteString.copyFromUtf8(
-                (java.lang.String) ref);
-        cucumberImplementation_ = b;
-        return b;
-      } else {
-        return (com.google.protobuf.ByteString) ref;
-      }
-    }
-
     private byte memoizedIsInitialized = -1;
     @java.lang.Override
     public final boolean isInitialized() {
@@ -37401,9 +37957,6 @@ public final class Messages {
       if (timestamp_ != null) {
         output.writeMessage(1, getTimestamp());
       }
-      if (!getCucumberImplementationBytes().isEmpty()) {
-        com.google.protobuf.GeneratedMessageV3.writeString(output, 2, cucumberImplementation_);
-      }
       unknownFields.writeTo(output);
     }
 
@@ -37416,9 +37969,6 @@ public final class Messages {
       if (timestamp_ != null) {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(1, getTimestamp());
-      }
-      if (!getCucumberImplementationBytes().isEmpty()) {
-        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(2, cucumberImplementation_);
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -37441,8 +37991,6 @@ public final class Messages {
         result = result && getTimestamp()
             .equals(other.getTimestamp());
       }
-      result = result && getCucumberImplementation()
-          .equals(other.getCucumberImplementation());
       result = result && unknownFields.equals(other.unknownFields);
       return result;
     }
@@ -37458,8 +38006,6 @@ public final class Messages {
         hash = (37 * hash) + TIMESTAMP_FIELD_NUMBER;
         hash = (53 * hash) + getTimestamp().hashCode();
       }
-      hash = (37 * hash) + CUCUMBERIMPLEMENTATION_FIELD_NUMBER;
-      hash = (53 * hash) + getCucumberImplementation().hashCode();
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
       return hash;
@@ -37599,8 +38145,6 @@ public final class Messages {
           timestamp_ = null;
           timestampBuilder_ = null;
         }
-        cucumberImplementation_ = "";
-
         return this;
       }
 
@@ -37632,7 +38176,6 @@ public final class Messages {
         } else {
           result.timestamp_ = timestampBuilder_.build();
         }
-        result.cucumberImplementation_ = cucumberImplementation_;
         onBuilt();
         return result;
       }
@@ -37683,10 +38226,6 @@ public final class Messages {
         if (other == io.cucumber.messages.Messages.TestRunStarted.getDefaultInstance()) return this;
         if (other.hasTimestamp()) {
           mergeTimestamp(other.getTimestamp());
-        }
-        if (!other.getCucumberImplementation().isEmpty()) {
-          cucumberImplementation_ = other.cucumberImplementation_;
-          onChanged();
         }
         this.mergeUnknownFields(other.unknownFields);
         onChanged();
@@ -37832,75 +38371,6 @@ public final class Messages {
           timestamp_ = null;
         }
         return timestampBuilder_;
-      }
-
-      private java.lang.Object cucumberImplementation_ = "";
-      /**
-       * <code>string cucumberImplementation = 2;</code>
-       */
-      public java.lang.String getCucumberImplementation() {
-        java.lang.Object ref = cucumberImplementation_;
-        if (!(ref instanceof java.lang.String)) {
-          com.google.protobuf.ByteString bs =
-              (com.google.protobuf.ByteString) ref;
-          java.lang.String s = bs.toStringUtf8();
-          cucumberImplementation_ = s;
-          return s;
-        } else {
-          return (java.lang.String) ref;
-        }
-      }
-      /**
-       * <code>string cucumberImplementation = 2;</code>
-       */
-      public com.google.protobuf.ByteString
-          getCucumberImplementationBytes() {
-        java.lang.Object ref = cucumberImplementation_;
-        if (ref instanceof String) {
-          com.google.protobuf.ByteString b = 
-              com.google.protobuf.ByteString.copyFromUtf8(
-                  (java.lang.String) ref);
-          cucumberImplementation_ = b;
-          return b;
-        } else {
-          return (com.google.protobuf.ByteString) ref;
-        }
-      }
-      /**
-       * <code>string cucumberImplementation = 2;</code>
-       */
-      public Builder setCucumberImplementation(
-          java.lang.String value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  
-        cucumberImplementation_ = value;
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>string cucumberImplementation = 2;</code>
-       */
-      public Builder clearCucumberImplementation() {
-        
-        cucumberImplementation_ = getDefaultInstance().getCucumberImplementation();
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>string cucumberImplementation = 2;</code>
-       */
-      public Builder setCucumberImplementationBytes(
-          com.google.protobuf.ByteString value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  checkByteStringIsUtf8(value);
-        
-        cucumberImplementation_ = value;
-        onChanged();
-        return this;
       }
       @java.lang.Override
       public final Builder setUnknownFields(
@@ -39704,6 +40174,19 @@ public final class Messages {
      * <code>.google.protobuf.Timestamp timestamp = 2;</code>
      */
     com.google.protobuf.TimestampOrBuilder getTimestampOrBuilder();
+
+    /**
+     * <code>.io.cucumber.messages.TestCaseStarted.Platform platform = 3;</code>
+     */
+    boolean hasPlatform();
+    /**
+     * <code>.io.cucumber.messages.TestCaseStarted.Platform platform = 3;</code>
+     */
+    io.cucumber.messages.Messages.TestCaseStarted.Platform getPlatform();
+    /**
+     * <code>.io.cucumber.messages.TestCaseStarted.Platform platform = 3;</code>
+     */
+    io.cucumber.messages.Messages.TestCaseStarted.PlatformOrBuilder getPlatformOrBuilder();
   }
   /**
    * Protobuf type {@code io.cucumber.messages.TestCaseStarted}
@@ -39764,6 +40247,19 @@ public final class Messages {
 
               break;
             }
+            case 26: {
+              io.cucumber.messages.Messages.TestCaseStarted.Platform.Builder subBuilder = null;
+              if (platform_ != null) {
+                subBuilder = platform_.toBuilder();
+              }
+              platform_ = input.readMessage(io.cucumber.messages.Messages.TestCaseStarted.Platform.parser(), extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom(platform_);
+                platform_ = subBuilder.buildPartial();
+              }
+
+              break;
+            }
             default: {
               if (!parseUnknownFieldProto3(
                   input, unknownFields, extensionRegistry, tag)) {
@@ -39794,6 +40290,1111 @@ public final class Messages {
       return io.cucumber.messages.Messages.internal_static_io_cucumber_messages_TestCaseStarted_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
               io.cucumber.messages.Messages.TestCaseStarted.class, io.cucumber.messages.Messages.TestCaseStarted.Builder.class);
+    }
+
+    public interface PlatformOrBuilder extends
+        // @@protoc_insertion_point(interface_extends:io.cucumber.messages.TestCaseStarted.Platform)
+        com.google.protobuf.MessageOrBuilder {
+
+      /**
+       * <pre>
+       * The runner implementation. For example "SpecFlow", "Cucumber-JVM", "Behat" etc.
+       * </pre>
+       *
+       * <code>string implementation = 1;</code>
+       */
+      java.lang.String getImplementation();
+      /**
+       * <pre>
+       * The runner implementation. For example "SpecFlow", "Cucumber-JVM", "Behat" etc.
+       * </pre>
+       *
+       * <code>string implementation = 1;</code>
+       */
+      com.google.protobuf.ByteString
+          getImplementationBytes();
+
+      /**
+       * <pre>
+       * The version of the runner
+       * </pre>
+       *
+       * <code>string version = 2;</code>
+       */
+      java.lang.String getVersion();
+      /**
+       * <pre>
+       * The version of the runner
+       * </pre>
+       *
+       * <code>string version = 2;</code>
+       */
+      com.google.protobuf.ByteString
+          getVersionBytes();
+
+      /**
+       * <pre>
+       * The operating system
+       * </pre>
+       *
+       * <code>string os = 3;</code>
+       */
+      java.lang.String getOs();
+      /**
+       * <pre>
+       * The operating system
+       * </pre>
+       *
+       * <code>string os = 3;</code>
+       */
+      com.google.protobuf.ByteString
+          getOsBytes();
+
+      /**
+       * <pre>
+       * The CPU architecture
+       * </pre>
+       *
+       * <code>string cpu = 4;</code>
+       */
+      java.lang.String getCpu();
+      /**
+       * <pre>
+       * The CPU architecture
+       * </pre>
+       *
+       * <code>string cpu = 4;</code>
+       */
+      com.google.protobuf.ByteString
+          getCpuBytes();
+    }
+    /**
+     * Protobuf type {@code io.cucumber.messages.TestCaseStarted.Platform}
+     */
+    public  static final class Platform extends
+        com.google.protobuf.GeneratedMessageV3 implements
+        // @@protoc_insertion_point(message_implements:io.cucumber.messages.TestCaseStarted.Platform)
+        PlatformOrBuilder {
+    private static final long serialVersionUID = 0L;
+      // Use Platform.newBuilder() to construct.
+      private Platform(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+        super(builder);
+      }
+      private Platform() {
+        implementation_ = "";
+        version_ = "";
+        os_ = "";
+        cpu_ = "";
+      }
+
+      @java.lang.Override
+      public final com.google.protobuf.UnknownFieldSet
+      getUnknownFields() {
+        return this.unknownFields;
+      }
+      private Platform(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        this();
+        if (extensionRegistry == null) {
+          throw new java.lang.NullPointerException();
+        }
+        int mutable_bitField0_ = 0;
+        com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+            com.google.protobuf.UnknownFieldSet.newBuilder();
+        try {
+          boolean done = false;
+          while (!done) {
+            int tag = input.readTag();
+            switch (tag) {
+              case 0:
+                done = true;
+                break;
+              case 10: {
+                java.lang.String s = input.readStringRequireUtf8();
+
+                implementation_ = s;
+                break;
+              }
+              case 18: {
+                java.lang.String s = input.readStringRequireUtf8();
+
+                version_ = s;
+                break;
+              }
+              case 26: {
+                java.lang.String s = input.readStringRequireUtf8();
+
+                os_ = s;
+                break;
+              }
+              case 34: {
+                java.lang.String s = input.readStringRequireUtf8();
+
+                cpu_ = s;
+                break;
+              }
+              default: {
+                if (!parseUnknownFieldProto3(
+                    input, unknownFields, extensionRegistry, tag)) {
+                  done = true;
+                }
+                break;
+              }
+            }
+          }
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          throw e.setUnfinishedMessage(this);
+        } catch (java.io.IOException e) {
+          throw new com.google.protobuf.InvalidProtocolBufferException(
+              e).setUnfinishedMessage(this);
+        } finally {
+          this.unknownFields = unknownFields.build();
+          makeExtensionsImmutable();
+        }
+      }
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return io.cucumber.messages.Messages.internal_static_io_cucumber_messages_TestCaseStarted_Platform_descriptor;
+      }
+
+      @java.lang.Override
+      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return io.cucumber.messages.Messages.internal_static_io_cucumber_messages_TestCaseStarted_Platform_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                io.cucumber.messages.Messages.TestCaseStarted.Platform.class, io.cucumber.messages.Messages.TestCaseStarted.Platform.Builder.class);
+      }
+
+      public static final int IMPLEMENTATION_FIELD_NUMBER = 1;
+      private volatile java.lang.Object implementation_;
+      /**
+       * <pre>
+       * The runner implementation. For example "SpecFlow", "Cucumber-JVM", "Behat" etc.
+       * </pre>
+       *
+       * <code>string implementation = 1;</code>
+       */
+      public java.lang.String getImplementation() {
+        java.lang.Object ref = implementation_;
+        if (ref instanceof java.lang.String) {
+          return (java.lang.String) ref;
+        } else {
+          com.google.protobuf.ByteString bs = 
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          implementation_ = s;
+          return s;
+        }
+      }
+      /**
+       * <pre>
+       * The runner implementation. For example "SpecFlow", "Cucumber-JVM", "Behat" etc.
+       * </pre>
+       *
+       * <code>string implementation = 1;</code>
+       */
+      public com.google.protobuf.ByteString
+          getImplementationBytes() {
+        java.lang.Object ref = implementation_;
+        if (ref instanceof java.lang.String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          implementation_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+
+      public static final int VERSION_FIELD_NUMBER = 2;
+      private volatile java.lang.Object version_;
+      /**
+       * <pre>
+       * The version of the runner
+       * </pre>
+       *
+       * <code>string version = 2;</code>
+       */
+      public java.lang.String getVersion() {
+        java.lang.Object ref = version_;
+        if (ref instanceof java.lang.String) {
+          return (java.lang.String) ref;
+        } else {
+          com.google.protobuf.ByteString bs = 
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          version_ = s;
+          return s;
+        }
+      }
+      /**
+       * <pre>
+       * The version of the runner
+       * </pre>
+       *
+       * <code>string version = 2;</code>
+       */
+      public com.google.protobuf.ByteString
+          getVersionBytes() {
+        java.lang.Object ref = version_;
+        if (ref instanceof java.lang.String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          version_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+
+      public static final int OS_FIELD_NUMBER = 3;
+      private volatile java.lang.Object os_;
+      /**
+       * <pre>
+       * The operating system
+       * </pre>
+       *
+       * <code>string os = 3;</code>
+       */
+      public java.lang.String getOs() {
+        java.lang.Object ref = os_;
+        if (ref instanceof java.lang.String) {
+          return (java.lang.String) ref;
+        } else {
+          com.google.protobuf.ByteString bs = 
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          os_ = s;
+          return s;
+        }
+      }
+      /**
+       * <pre>
+       * The operating system
+       * </pre>
+       *
+       * <code>string os = 3;</code>
+       */
+      public com.google.protobuf.ByteString
+          getOsBytes() {
+        java.lang.Object ref = os_;
+        if (ref instanceof java.lang.String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          os_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+
+      public static final int CPU_FIELD_NUMBER = 4;
+      private volatile java.lang.Object cpu_;
+      /**
+       * <pre>
+       * The CPU architecture
+       * </pre>
+       *
+       * <code>string cpu = 4;</code>
+       */
+      public java.lang.String getCpu() {
+        java.lang.Object ref = cpu_;
+        if (ref instanceof java.lang.String) {
+          return (java.lang.String) ref;
+        } else {
+          com.google.protobuf.ByteString bs = 
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          cpu_ = s;
+          return s;
+        }
+      }
+      /**
+       * <pre>
+       * The CPU architecture
+       * </pre>
+       *
+       * <code>string cpu = 4;</code>
+       */
+      public com.google.protobuf.ByteString
+          getCpuBytes() {
+        java.lang.Object ref = cpu_;
+        if (ref instanceof java.lang.String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          cpu_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+
+      private byte memoizedIsInitialized = -1;
+      @java.lang.Override
+      public final boolean isInitialized() {
+        byte isInitialized = memoizedIsInitialized;
+        if (isInitialized == 1) return true;
+        if (isInitialized == 0) return false;
+
+        memoizedIsInitialized = 1;
+        return true;
+      }
+
+      @java.lang.Override
+      public void writeTo(com.google.protobuf.CodedOutputStream output)
+                          throws java.io.IOException {
+        if (!getImplementationBytes().isEmpty()) {
+          com.google.protobuf.GeneratedMessageV3.writeString(output, 1, implementation_);
+        }
+        if (!getVersionBytes().isEmpty()) {
+          com.google.protobuf.GeneratedMessageV3.writeString(output, 2, version_);
+        }
+        if (!getOsBytes().isEmpty()) {
+          com.google.protobuf.GeneratedMessageV3.writeString(output, 3, os_);
+        }
+        if (!getCpuBytes().isEmpty()) {
+          com.google.protobuf.GeneratedMessageV3.writeString(output, 4, cpu_);
+        }
+        unknownFields.writeTo(output);
+      }
+
+      @java.lang.Override
+      public int getSerializedSize() {
+        int size = memoizedSize;
+        if (size != -1) return size;
+
+        size = 0;
+        if (!getImplementationBytes().isEmpty()) {
+          size += com.google.protobuf.GeneratedMessageV3.computeStringSize(1, implementation_);
+        }
+        if (!getVersionBytes().isEmpty()) {
+          size += com.google.protobuf.GeneratedMessageV3.computeStringSize(2, version_);
+        }
+        if (!getOsBytes().isEmpty()) {
+          size += com.google.protobuf.GeneratedMessageV3.computeStringSize(3, os_);
+        }
+        if (!getCpuBytes().isEmpty()) {
+          size += com.google.protobuf.GeneratedMessageV3.computeStringSize(4, cpu_);
+        }
+        size += unknownFields.getSerializedSize();
+        memoizedSize = size;
+        return size;
+      }
+
+      @java.lang.Override
+      public boolean equals(final java.lang.Object obj) {
+        if (obj == this) {
+         return true;
+        }
+        if (!(obj instanceof io.cucumber.messages.Messages.TestCaseStarted.Platform)) {
+          return super.equals(obj);
+        }
+        io.cucumber.messages.Messages.TestCaseStarted.Platform other = (io.cucumber.messages.Messages.TestCaseStarted.Platform) obj;
+
+        boolean result = true;
+        result = result && getImplementation()
+            .equals(other.getImplementation());
+        result = result && getVersion()
+            .equals(other.getVersion());
+        result = result && getOs()
+            .equals(other.getOs());
+        result = result && getCpu()
+            .equals(other.getCpu());
+        result = result && unknownFields.equals(other.unknownFields);
+        return result;
+      }
+
+      @java.lang.Override
+      public int hashCode() {
+        if (memoizedHashCode != 0) {
+          return memoizedHashCode;
+        }
+        int hash = 41;
+        hash = (19 * hash) + getDescriptor().hashCode();
+        hash = (37 * hash) + IMPLEMENTATION_FIELD_NUMBER;
+        hash = (53 * hash) + getImplementation().hashCode();
+        hash = (37 * hash) + VERSION_FIELD_NUMBER;
+        hash = (53 * hash) + getVersion().hashCode();
+        hash = (37 * hash) + OS_FIELD_NUMBER;
+        hash = (53 * hash) + getOs().hashCode();
+        hash = (37 * hash) + CPU_FIELD_NUMBER;
+        hash = (53 * hash) + getCpu().hashCode();
+        hash = (29 * hash) + unknownFields.hashCode();
+        memoizedHashCode = hash;
+        return hash;
+      }
+
+      public static io.cucumber.messages.Messages.TestCaseStarted.Platform parseFrom(
+          java.nio.ByteBuffer data)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return PARSER.parseFrom(data);
+      }
+      public static io.cucumber.messages.Messages.TestCaseStarted.Platform parseFrom(
+          java.nio.ByteBuffer data,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return PARSER.parseFrom(data, extensionRegistry);
+      }
+      public static io.cucumber.messages.Messages.TestCaseStarted.Platform parseFrom(
+          com.google.protobuf.ByteString data)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return PARSER.parseFrom(data);
+      }
+      public static io.cucumber.messages.Messages.TestCaseStarted.Platform parseFrom(
+          com.google.protobuf.ByteString data,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return PARSER.parseFrom(data, extensionRegistry);
+      }
+      public static io.cucumber.messages.Messages.TestCaseStarted.Platform parseFrom(byte[] data)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return PARSER.parseFrom(data);
+      }
+      public static io.cucumber.messages.Messages.TestCaseStarted.Platform parseFrom(
+          byte[] data,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return PARSER.parseFrom(data, extensionRegistry);
+      }
+      public static io.cucumber.messages.Messages.TestCaseStarted.Platform parseFrom(java.io.InputStream input)
+          throws java.io.IOException {
+        return com.google.protobuf.GeneratedMessageV3
+            .parseWithIOException(PARSER, input);
+      }
+      public static io.cucumber.messages.Messages.TestCaseStarted.Platform parseFrom(
+          java.io.InputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        return com.google.protobuf.GeneratedMessageV3
+            .parseWithIOException(PARSER, input, extensionRegistry);
+      }
+      public static io.cucumber.messages.Messages.TestCaseStarted.Platform parseDelimitedFrom(java.io.InputStream input)
+          throws java.io.IOException {
+        return com.google.protobuf.GeneratedMessageV3
+            .parseDelimitedWithIOException(PARSER, input);
+      }
+      public static io.cucumber.messages.Messages.TestCaseStarted.Platform parseDelimitedFrom(
+          java.io.InputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        return com.google.protobuf.GeneratedMessageV3
+            .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+      }
+      public static io.cucumber.messages.Messages.TestCaseStarted.Platform parseFrom(
+          com.google.protobuf.CodedInputStream input)
+          throws java.io.IOException {
+        return com.google.protobuf.GeneratedMessageV3
+            .parseWithIOException(PARSER, input);
+      }
+      public static io.cucumber.messages.Messages.TestCaseStarted.Platform parseFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        return com.google.protobuf.GeneratedMessageV3
+            .parseWithIOException(PARSER, input, extensionRegistry);
+      }
+
+      @java.lang.Override
+      public Builder newBuilderForType() { return newBuilder(); }
+      public static Builder newBuilder() {
+        return DEFAULT_INSTANCE.toBuilder();
+      }
+      public static Builder newBuilder(io.cucumber.messages.Messages.TestCaseStarted.Platform prototype) {
+        return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+      }
+      @java.lang.Override
+      public Builder toBuilder() {
+        return this == DEFAULT_INSTANCE
+            ? new Builder() : new Builder().mergeFrom(this);
+      }
+
+      @java.lang.Override
+      protected Builder newBuilderForType(
+          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+        Builder builder = new Builder(parent);
+        return builder;
+      }
+      /**
+       * Protobuf type {@code io.cucumber.messages.TestCaseStarted.Platform}
+       */
+      public static final class Builder extends
+          com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
+          // @@protoc_insertion_point(builder_implements:io.cucumber.messages.TestCaseStarted.Platform)
+          io.cucumber.messages.Messages.TestCaseStarted.PlatformOrBuilder {
+        public static final com.google.protobuf.Descriptors.Descriptor
+            getDescriptor() {
+          return io.cucumber.messages.Messages.internal_static_io_cucumber_messages_TestCaseStarted_Platform_descriptor;
+        }
+
+        @java.lang.Override
+        protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+            internalGetFieldAccessorTable() {
+          return io.cucumber.messages.Messages.internal_static_io_cucumber_messages_TestCaseStarted_Platform_fieldAccessorTable
+              .ensureFieldAccessorsInitialized(
+                  io.cucumber.messages.Messages.TestCaseStarted.Platform.class, io.cucumber.messages.Messages.TestCaseStarted.Platform.Builder.class);
+        }
+
+        // Construct using io.cucumber.messages.Messages.TestCaseStarted.Platform.newBuilder()
+        private Builder() {
+          maybeForceBuilderInitialization();
+        }
+
+        private Builder(
+            com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+          super(parent);
+          maybeForceBuilderInitialization();
+        }
+        private void maybeForceBuilderInitialization() {
+          if (com.google.protobuf.GeneratedMessageV3
+                  .alwaysUseFieldBuilders) {
+          }
+        }
+        @java.lang.Override
+        public Builder clear() {
+          super.clear();
+          implementation_ = "";
+
+          version_ = "";
+
+          os_ = "";
+
+          cpu_ = "";
+
+          return this;
+        }
+
+        @java.lang.Override
+        public com.google.protobuf.Descriptors.Descriptor
+            getDescriptorForType() {
+          return io.cucumber.messages.Messages.internal_static_io_cucumber_messages_TestCaseStarted_Platform_descriptor;
+        }
+
+        @java.lang.Override
+        public io.cucumber.messages.Messages.TestCaseStarted.Platform getDefaultInstanceForType() {
+          return io.cucumber.messages.Messages.TestCaseStarted.Platform.getDefaultInstance();
+        }
+
+        @java.lang.Override
+        public io.cucumber.messages.Messages.TestCaseStarted.Platform build() {
+          io.cucumber.messages.Messages.TestCaseStarted.Platform result = buildPartial();
+          if (!result.isInitialized()) {
+            throw newUninitializedMessageException(result);
+          }
+          return result;
+        }
+
+        @java.lang.Override
+        public io.cucumber.messages.Messages.TestCaseStarted.Platform buildPartial() {
+          io.cucumber.messages.Messages.TestCaseStarted.Platform result = new io.cucumber.messages.Messages.TestCaseStarted.Platform(this);
+          result.implementation_ = implementation_;
+          result.version_ = version_;
+          result.os_ = os_;
+          result.cpu_ = cpu_;
+          onBuilt();
+          return result;
+        }
+
+        @java.lang.Override
+        public Builder clone() {
+          return (Builder) super.clone();
+        }
+        @java.lang.Override
+        public Builder setField(
+            com.google.protobuf.Descriptors.FieldDescriptor field,
+            java.lang.Object value) {
+          return (Builder) super.setField(field, value);
+        }
+        @java.lang.Override
+        public Builder clearField(
+            com.google.protobuf.Descriptors.FieldDescriptor field) {
+          return (Builder) super.clearField(field);
+        }
+        @java.lang.Override
+        public Builder clearOneof(
+            com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+          return (Builder) super.clearOneof(oneof);
+        }
+        @java.lang.Override
+        public Builder setRepeatedField(
+            com.google.protobuf.Descriptors.FieldDescriptor field,
+            int index, java.lang.Object value) {
+          return (Builder) super.setRepeatedField(field, index, value);
+        }
+        @java.lang.Override
+        public Builder addRepeatedField(
+            com.google.protobuf.Descriptors.FieldDescriptor field,
+            java.lang.Object value) {
+          return (Builder) super.addRepeatedField(field, value);
+        }
+        @java.lang.Override
+        public Builder mergeFrom(com.google.protobuf.Message other) {
+          if (other instanceof io.cucumber.messages.Messages.TestCaseStarted.Platform) {
+            return mergeFrom((io.cucumber.messages.Messages.TestCaseStarted.Platform)other);
+          } else {
+            super.mergeFrom(other);
+            return this;
+          }
+        }
+
+        public Builder mergeFrom(io.cucumber.messages.Messages.TestCaseStarted.Platform other) {
+          if (other == io.cucumber.messages.Messages.TestCaseStarted.Platform.getDefaultInstance()) return this;
+          if (!other.getImplementation().isEmpty()) {
+            implementation_ = other.implementation_;
+            onChanged();
+          }
+          if (!other.getVersion().isEmpty()) {
+            version_ = other.version_;
+            onChanged();
+          }
+          if (!other.getOs().isEmpty()) {
+            os_ = other.os_;
+            onChanged();
+          }
+          if (!other.getCpu().isEmpty()) {
+            cpu_ = other.cpu_;
+            onChanged();
+          }
+          this.mergeUnknownFields(other.unknownFields);
+          onChanged();
+          return this;
+        }
+
+        @java.lang.Override
+        public final boolean isInitialized() {
+          return true;
+        }
+
+        @java.lang.Override
+        public Builder mergeFrom(
+            com.google.protobuf.CodedInputStream input,
+            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+            throws java.io.IOException {
+          io.cucumber.messages.Messages.TestCaseStarted.Platform parsedMessage = null;
+          try {
+            parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+          } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+            parsedMessage = (io.cucumber.messages.Messages.TestCaseStarted.Platform) e.getUnfinishedMessage();
+            throw e.unwrapIOException();
+          } finally {
+            if (parsedMessage != null) {
+              mergeFrom(parsedMessage);
+            }
+          }
+          return this;
+        }
+
+        private java.lang.Object implementation_ = "";
+        /**
+         * <pre>
+         * The runner implementation. For example "SpecFlow", "Cucumber-JVM", "Behat" etc.
+         * </pre>
+         *
+         * <code>string implementation = 1;</code>
+         */
+        public java.lang.String getImplementation() {
+          java.lang.Object ref = implementation_;
+          if (!(ref instanceof java.lang.String)) {
+            com.google.protobuf.ByteString bs =
+                (com.google.protobuf.ByteString) ref;
+            java.lang.String s = bs.toStringUtf8();
+            implementation_ = s;
+            return s;
+          } else {
+            return (java.lang.String) ref;
+          }
+        }
+        /**
+         * <pre>
+         * The runner implementation. For example "SpecFlow", "Cucumber-JVM", "Behat" etc.
+         * </pre>
+         *
+         * <code>string implementation = 1;</code>
+         */
+        public com.google.protobuf.ByteString
+            getImplementationBytes() {
+          java.lang.Object ref = implementation_;
+          if (ref instanceof String) {
+            com.google.protobuf.ByteString b = 
+                com.google.protobuf.ByteString.copyFromUtf8(
+                    (java.lang.String) ref);
+            implementation_ = b;
+            return b;
+          } else {
+            return (com.google.protobuf.ByteString) ref;
+          }
+        }
+        /**
+         * <pre>
+         * The runner implementation. For example "SpecFlow", "Cucumber-JVM", "Behat" etc.
+         * </pre>
+         *
+         * <code>string implementation = 1;</code>
+         */
+        public Builder setImplementation(
+            java.lang.String value) {
+          if (value == null) {
+    throw new NullPointerException();
+  }
+  
+          implementation_ = value;
+          onChanged();
+          return this;
+        }
+        /**
+         * <pre>
+         * The runner implementation. For example "SpecFlow", "Cucumber-JVM", "Behat" etc.
+         * </pre>
+         *
+         * <code>string implementation = 1;</code>
+         */
+        public Builder clearImplementation() {
+          
+          implementation_ = getDefaultInstance().getImplementation();
+          onChanged();
+          return this;
+        }
+        /**
+         * <pre>
+         * The runner implementation. For example "SpecFlow", "Cucumber-JVM", "Behat" etc.
+         * </pre>
+         *
+         * <code>string implementation = 1;</code>
+         */
+        public Builder setImplementationBytes(
+            com.google.protobuf.ByteString value) {
+          if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+          
+          implementation_ = value;
+          onChanged();
+          return this;
+        }
+
+        private java.lang.Object version_ = "";
+        /**
+         * <pre>
+         * The version of the runner
+         * </pre>
+         *
+         * <code>string version = 2;</code>
+         */
+        public java.lang.String getVersion() {
+          java.lang.Object ref = version_;
+          if (!(ref instanceof java.lang.String)) {
+            com.google.protobuf.ByteString bs =
+                (com.google.protobuf.ByteString) ref;
+            java.lang.String s = bs.toStringUtf8();
+            version_ = s;
+            return s;
+          } else {
+            return (java.lang.String) ref;
+          }
+        }
+        /**
+         * <pre>
+         * The version of the runner
+         * </pre>
+         *
+         * <code>string version = 2;</code>
+         */
+        public com.google.protobuf.ByteString
+            getVersionBytes() {
+          java.lang.Object ref = version_;
+          if (ref instanceof String) {
+            com.google.protobuf.ByteString b = 
+                com.google.protobuf.ByteString.copyFromUtf8(
+                    (java.lang.String) ref);
+            version_ = b;
+            return b;
+          } else {
+            return (com.google.protobuf.ByteString) ref;
+          }
+        }
+        /**
+         * <pre>
+         * The version of the runner
+         * </pre>
+         *
+         * <code>string version = 2;</code>
+         */
+        public Builder setVersion(
+            java.lang.String value) {
+          if (value == null) {
+    throw new NullPointerException();
+  }
+  
+          version_ = value;
+          onChanged();
+          return this;
+        }
+        /**
+         * <pre>
+         * The version of the runner
+         * </pre>
+         *
+         * <code>string version = 2;</code>
+         */
+        public Builder clearVersion() {
+          
+          version_ = getDefaultInstance().getVersion();
+          onChanged();
+          return this;
+        }
+        /**
+         * <pre>
+         * The version of the runner
+         * </pre>
+         *
+         * <code>string version = 2;</code>
+         */
+        public Builder setVersionBytes(
+            com.google.protobuf.ByteString value) {
+          if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+          
+          version_ = value;
+          onChanged();
+          return this;
+        }
+
+        private java.lang.Object os_ = "";
+        /**
+         * <pre>
+         * The operating system
+         * </pre>
+         *
+         * <code>string os = 3;</code>
+         */
+        public java.lang.String getOs() {
+          java.lang.Object ref = os_;
+          if (!(ref instanceof java.lang.String)) {
+            com.google.protobuf.ByteString bs =
+                (com.google.protobuf.ByteString) ref;
+            java.lang.String s = bs.toStringUtf8();
+            os_ = s;
+            return s;
+          } else {
+            return (java.lang.String) ref;
+          }
+        }
+        /**
+         * <pre>
+         * The operating system
+         * </pre>
+         *
+         * <code>string os = 3;</code>
+         */
+        public com.google.protobuf.ByteString
+            getOsBytes() {
+          java.lang.Object ref = os_;
+          if (ref instanceof String) {
+            com.google.protobuf.ByteString b = 
+                com.google.protobuf.ByteString.copyFromUtf8(
+                    (java.lang.String) ref);
+            os_ = b;
+            return b;
+          } else {
+            return (com.google.protobuf.ByteString) ref;
+          }
+        }
+        /**
+         * <pre>
+         * The operating system
+         * </pre>
+         *
+         * <code>string os = 3;</code>
+         */
+        public Builder setOs(
+            java.lang.String value) {
+          if (value == null) {
+    throw new NullPointerException();
+  }
+  
+          os_ = value;
+          onChanged();
+          return this;
+        }
+        /**
+         * <pre>
+         * The operating system
+         * </pre>
+         *
+         * <code>string os = 3;</code>
+         */
+        public Builder clearOs() {
+          
+          os_ = getDefaultInstance().getOs();
+          onChanged();
+          return this;
+        }
+        /**
+         * <pre>
+         * The operating system
+         * </pre>
+         *
+         * <code>string os = 3;</code>
+         */
+        public Builder setOsBytes(
+            com.google.protobuf.ByteString value) {
+          if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+          
+          os_ = value;
+          onChanged();
+          return this;
+        }
+
+        private java.lang.Object cpu_ = "";
+        /**
+         * <pre>
+         * The CPU architecture
+         * </pre>
+         *
+         * <code>string cpu = 4;</code>
+         */
+        public java.lang.String getCpu() {
+          java.lang.Object ref = cpu_;
+          if (!(ref instanceof java.lang.String)) {
+            com.google.protobuf.ByteString bs =
+                (com.google.protobuf.ByteString) ref;
+            java.lang.String s = bs.toStringUtf8();
+            cpu_ = s;
+            return s;
+          } else {
+            return (java.lang.String) ref;
+          }
+        }
+        /**
+         * <pre>
+         * The CPU architecture
+         * </pre>
+         *
+         * <code>string cpu = 4;</code>
+         */
+        public com.google.protobuf.ByteString
+            getCpuBytes() {
+          java.lang.Object ref = cpu_;
+          if (ref instanceof String) {
+            com.google.protobuf.ByteString b = 
+                com.google.protobuf.ByteString.copyFromUtf8(
+                    (java.lang.String) ref);
+            cpu_ = b;
+            return b;
+          } else {
+            return (com.google.protobuf.ByteString) ref;
+          }
+        }
+        /**
+         * <pre>
+         * The CPU architecture
+         * </pre>
+         *
+         * <code>string cpu = 4;</code>
+         */
+        public Builder setCpu(
+            java.lang.String value) {
+          if (value == null) {
+    throw new NullPointerException();
+  }
+  
+          cpu_ = value;
+          onChanged();
+          return this;
+        }
+        /**
+         * <pre>
+         * The CPU architecture
+         * </pre>
+         *
+         * <code>string cpu = 4;</code>
+         */
+        public Builder clearCpu() {
+          
+          cpu_ = getDefaultInstance().getCpu();
+          onChanged();
+          return this;
+        }
+        /**
+         * <pre>
+         * The CPU architecture
+         * </pre>
+         *
+         * <code>string cpu = 4;</code>
+         */
+        public Builder setCpuBytes(
+            com.google.protobuf.ByteString value) {
+          if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+          
+          cpu_ = value;
+          onChanged();
+          return this;
+        }
+        @java.lang.Override
+        public final Builder setUnknownFields(
+            final com.google.protobuf.UnknownFieldSet unknownFields) {
+          return super.setUnknownFieldsProto3(unknownFields);
+        }
+
+        @java.lang.Override
+        public final Builder mergeUnknownFields(
+            final com.google.protobuf.UnknownFieldSet unknownFields) {
+          return super.mergeUnknownFields(unknownFields);
+        }
+
+
+        // @@protoc_insertion_point(builder_scope:io.cucumber.messages.TestCaseStarted.Platform)
+      }
+
+      // @@protoc_insertion_point(class_scope:io.cucumber.messages.TestCaseStarted.Platform)
+      private static final io.cucumber.messages.Messages.TestCaseStarted.Platform DEFAULT_INSTANCE;
+      static {
+        DEFAULT_INSTANCE = new io.cucumber.messages.Messages.TestCaseStarted.Platform();
+      }
+
+      public static io.cucumber.messages.Messages.TestCaseStarted.Platform getDefaultInstance() {
+        return DEFAULT_INSTANCE;
+      }
+
+      private static final com.google.protobuf.Parser<Platform>
+          PARSER = new com.google.protobuf.AbstractParser<Platform>() {
+        @java.lang.Override
+        public Platform parsePartialFrom(
+            com.google.protobuf.CodedInputStream input,
+            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+            throws com.google.protobuf.InvalidProtocolBufferException {
+          return new Platform(input, extensionRegistry);
+        }
+      };
+
+      public static com.google.protobuf.Parser<Platform> parser() {
+        return PARSER;
+      }
+
+      @java.lang.Override
+      public com.google.protobuf.Parser<Platform> getParserForType() {
+        return PARSER;
+      }
+
+      @java.lang.Override
+      public io.cucumber.messages.Messages.TestCaseStarted.Platform getDefaultInstanceForType() {
+        return DEFAULT_INSTANCE;
+      }
+
     }
 
     public static final int PICKLEID_FIELD_NUMBER = 1;
@@ -39851,6 +41452,27 @@ public final class Messages {
       return getTimestamp();
     }
 
+    public static final int PLATFORM_FIELD_NUMBER = 3;
+    private io.cucumber.messages.Messages.TestCaseStarted.Platform platform_;
+    /**
+     * <code>.io.cucumber.messages.TestCaseStarted.Platform platform = 3;</code>
+     */
+    public boolean hasPlatform() {
+      return platform_ != null;
+    }
+    /**
+     * <code>.io.cucumber.messages.TestCaseStarted.Platform platform = 3;</code>
+     */
+    public io.cucumber.messages.Messages.TestCaseStarted.Platform getPlatform() {
+      return platform_ == null ? io.cucumber.messages.Messages.TestCaseStarted.Platform.getDefaultInstance() : platform_;
+    }
+    /**
+     * <code>.io.cucumber.messages.TestCaseStarted.Platform platform = 3;</code>
+     */
+    public io.cucumber.messages.Messages.TestCaseStarted.PlatformOrBuilder getPlatformOrBuilder() {
+      return getPlatform();
+    }
+
     private byte memoizedIsInitialized = -1;
     @java.lang.Override
     public final boolean isInitialized() {
@@ -39871,6 +41493,9 @@ public final class Messages {
       if (timestamp_ != null) {
         output.writeMessage(2, getTimestamp());
       }
+      if (platform_ != null) {
+        output.writeMessage(3, getPlatform());
+      }
       unknownFields.writeTo(output);
     }
 
@@ -39886,6 +41511,10 @@ public final class Messages {
       if (timestamp_ != null) {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(2, getTimestamp());
+      }
+      if (platform_ != null) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(3, getPlatform());
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -39910,6 +41539,11 @@ public final class Messages {
         result = result && getTimestamp()
             .equals(other.getTimestamp());
       }
+      result = result && (hasPlatform() == other.hasPlatform());
+      if (hasPlatform()) {
+        result = result && getPlatform()
+            .equals(other.getPlatform());
+      }
       result = result && unknownFields.equals(other.unknownFields);
       return result;
     }
@@ -39926,6 +41560,10 @@ public final class Messages {
       if (hasTimestamp()) {
         hash = (37 * hash) + TIMESTAMP_FIELD_NUMBER;
         hash = (53 * hash) + getTimestamp().hashCode();
+      }
+      if (hasPlatform()) {
+        hash = (37 * hash) + PLATFORM_FIELD_NUMBER;
+        hash = (53 * hash) + getPlatform().hashCode();
       }
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
@@ -40068,6 +41706,12 @@ public final class Messages {
           timestamp_ = null;
           timestampBuilder_ = null;
         }
+        if (platformBuilder_ == null) {
+          platform_ = null;
+        } else {
+          platform_ = null;
+          platformBuilder_ = null;
+        }
         return this;
       }
 
@@ -40099,6 +41743,11 @@ public final class Messages {
           result.timestamp_ = timestamp_;
         } else {
           result.timestamp_ = timestampBuilder_.build();
+        }
+        if (platformBuilder_ == null) {
+          result.platform_ = platform_;
+        } else {
+          result.platform_ = platformBuilder_.build();
         }
         onBuilt();
         return result;
@@ -40154,6 +41803,9 @@ public final class Messages {
         }
         if (other.hasTimestamp()) {
           mergeTimestamp(other.getTimestamp());
+        }
+        if (other.hasPlatform()) {
+          mergePlatform(other.getPlatform());
         }
         this.mergeUnknownFields(other.unknownFields);
         onChanged();
@@ -40368,6 +42020,123 @@ public final class Messages {
           timestamp_ = null;
         }
         return timestampBuilder_;
+      }
+
+      private io.cucumber.messages.Messages.TestCaseStarted.Platform platform_ = null;
+      private com.google.protobuf.SingleFieldBuilderV3<
+          io.cucumber.messages.Messages.TestCaseStarted.Platform, io.cucumber.messages.Messages.TestCaseStarted.Platform.Builder, io.cucumber.messages.Messages.TestCaseStarted.PlatformOrBuilder> platformBuilder_;
+      /**
+       * <code>.io.cucumber.messages.TestCaseStarted.Platform platform = 3;</code>
+       */
+      public boolean hasPlatform() {
+        return platformBuilder_ != null || platform_ != null;
+      }
+      /**
+       * <code>.io.cucumber.messages.TestCaseStarted.Platform platform = 3;</code>
+       */
+      public io.cucumber.messages.Messages.TestCaseStarted.Platform getPlatform() {
+        if (platformBuilder_ == null) {
+          return platform_ == null ? io.cucumber.messages.Messages.TestCaseStarted.Platform.getDefaultInstance() : platform_;
+        } else {
+          return platformBuilder_.getMessage();
+        }
+      }
+      /**
+       * <code>.io.cucumber.messages.TestCaseStarted.Platform platform = 3;</code>
+       */
+      public Builder setPlatform(io.cucumber.messages.Messages.TestCaseStarted.Platform value) {
+        if (platformBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          platform_ = value;
+          onChanged();
+        } else {
+          platformBuilder_.setMessage(value);
+        }
+
+        return this;
+      }
+      /**
+       * <code>.io.cucumber.messages.TestCaseStarted.Platform platform = 3;</code>
+       */
+      public Builder setPlatform(
+          io.cucumber.messages.Messages.TestCaseStarted.Platform.Builder builderForValue) {
+        if (platformBuilder_ == null) {
+          platform_ = builderForValue.build();
+          onChanged();
+        } else {
+          platformBuilder_.setMessage(builderForValue.build());
+        }
+
+        return this;
+      }
+      /**
+       * <code>.io.cucumber.messages.TestCaseStarted.Platform platform = 3;</code>
+       */
+      public Builder mergePlatform(io.cucumber.messages.Messages.TestCaseStarted.Platform value) {
+        if (platformBuilder_ == null) {
+          if (platform_ != null) {
+            platform_ =
+              io.cucumber.messages.Messages.TestCaseStarted.Platform.newBuilder(platform_).mergeFrom(value).buildPartial();
+          } else {
+            platform_ = value;
+          }
+          onChanged();
+        } else {
+          platformBuilder_.mergeFrom(value);
+        }
+
+        return this;
+      }
+      /**
+       * <code>.io.cucumber.messages.TestCaseStarted.Platform platform = 3;</code>
+       */
+      public Builder clearPlatform() {
+        if (platformBuilder_ == null) {
+          platform_ = null;
+          onChanged();
+        } else {
+          platform_ = null;
+          platformBuilder_ = null;
+        }
+
+        return this;
+      }
+      /**
+       * <code>.io.cucumber.messages.TestCaseStarted.Platform platform = 3;</code>
+       */
+      public io.cucumber.messages.Messages.TestCaseStarted.Platform.Builder getPlatformBuilder() {
+        
+        onChanged();
+        return getPlatformFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>.io.cucumber.messages.TestCaseStarted.Platform platform = 3;</code>
+       */
+      public io.cucumber.messages.Messages.TestCaseStarted.PlatformOrBuilder getPlatformOrBuilder() {
+        if (platformBuilder_ != null) {
+          return platformBuilder_.getMessageOrBuilder();
+        } else {
+          return platform_ == null ?
+              io.cucumber.messages.Messages.TestCaseStarted.Platform.getDefaultInstance() : platform_;
+        }
+      }
+      /**
+       * <code>.io.cucumber.messages.TestCaseStarted.Platform platform = 3;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilderV3<
+          io.cucumber.messages.Messages.TestCaseStarted.Platform, io.cucumber.messages.Messages.TestCaseStarted.Platform.Builder, io.cucumber.messages.Messages.TestCaseStarted.PlatformOrBuilder> 
+          getPlatformFieldBuilder() {
+        if (platformBuilder_ == null) {
+          platformBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
+              io.cucumber.messages.Messages.TestCaseStarted.Platform, io.cucumber.messages.Messages.TestCaseStarted.Platform.Builder, io.cucumber.messages.Messages.TestCaseStarted.PlatformOrBuilder>(
+                  getPlatform(),
+                  getParentForChildren(),
+                  isClean());
+          platform_ = null;
+        }
+        return platformBuilder_;
       }
       @java.lang.Override
       public final Builder setUnknownFields(
@@ -58807,16 +60576,6 @@ public final class Messages {
         getActionIdBytes();
 
     /**
-     * <code>string testCaseId = 2;</code>
-     */
-    java.lang.String getTestCaseId();
-    /**
-     * <code>string testCaseId = 2;</code>
-     */
-    com.google.protobuf.ByteString
-        getTestCaseIdBytes();
-
-    /**
      * <code>.io.cucumber.messages.Pickle pickle = 3;</code>
      */
     boolean hasPickle();
@@ -58843,7 +60602,6 @@ public final class Messages {
     }
     private CommandInitializeTestCase() {
       actionId_ = "";
-      testCaseId_ = "";
     }
 
     @java.lang.Override
@@ -58874,12 +60632,6 @@ public final class Messages {
               java.lang.String s = input.readStringRequireUtf8();
 
               actionId_ = s;
-              break;
-            }
-            case 18: {
-              java.lang.String s = input.readStringRequireUtf8();
-
-              testCaseId_ = s;
               break;
             }
             case 26: {
@@ -58961,40 +60713,6 @@ public final class Messages {
       }
     }
 
-    public static final int TESTCASEID_FIELD_NUMBER = 2;
-    private volatile java.lang.Object testCaseId_;
-    /**
-     * <code>string testCaseId = 2;</code>
-     */
-    public java.lang.String getTestCaseId() {
-      java.lang.Object ref = testCaseId_;
-      if (ref instanceof java.lang.String) {
-        return (java.lang.String) ref;
-      } else {
-        com.google.protobuf.ByteString bs = 
-            (com.google.protobuf.ByteString) ref;
-        java.lang.String s = bs.toStringUtf8();
-        testCaseId_ = s;
-        return s;
-      }
-    }
-    /**
-     * <code>string testCaseId = 2;</code>
-     */
-    public com.google.protobuf.ByteString
-        getTestCaseIdBytes() {
-      java.lang.Object ref = testCaseId_;
-      if (ref instanceof java.lang.String) {
-        com.google.protobuf.ByteString b = 
-            com.google.protobuf.ByteString.copyFromUtf8(
-                (java.lang.String) ref);
-        testCaseId_ = b;
-        return b;
-      } else {
-        return (com.google.protobuf.ByteString) ref;
-      }
-    }
-
     public static final int PICKLE_FIELD_NUMBER = 3;
     private io.cucumber.messages.Messages.Pickle pickle_;
     /**
@@ -59033,9 +60751,6 @@ public final class Messages {
       if (!getActionIdBytes().isEmpty()) {
         com.google.protobuf.GeneratedMessageV3.writeString(output, 1, actionId_);
       }
-      if (!getTestCaseIdBytes().isEmpty()) {
-        com.google.protobuf.GeneratedMessageV3.writeString(output, 2, testCaseId_);
-      }
       if (pickle_ != null) {
         output.writeMessage(3, getPickle());
       }
@@ -59050,9 +60765,6 @@ public final class Messages {
       size = 0;
       if (!getActionIdBytes().isEmpty()) {
         size += com.google.protobuf.GeneratedMessageV3.computeStringSize(1, actionId_);
-      }
-      if (!getTestCaseIdBytes().isEmpty()) {
-        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(2, testCaseId_);
       }
       if (pickle_ != null) {
         size += com.google.protobuf.CodedOutputStream
@@ -59076,8 +60788,6 @@ public final class Messages {
       boolean result = true;
       result = result && getActionId()
           .equals(other.getActionId());
-      result = result && getTestCaseId()
-          .equals(other.getTestCaseId());
       result = result && (hasPickle() == other.hasPickle());
       if (hasPickle()) {
         result = result && getPickle()
@@ -59096,8 +60806,6 @@ public final class Messages {
       hash = (19 * hash) + getDescriptor().hashCode();
       hash = (37 * hash) + ACTIONID_FIELD_NUMBER;
       hash = (53 * hash) + getActionId().hashCode();
-      hash = (37 * hash) + TESTCASEID_FIELD_NUMBER;
-      hash = (53 * hash) + getTestCaseId().hashCode();
       if (hasPickle()) {
         hash = (37 * hash) + PICKLE_FIELD_NUMBER;
         hash = (53 * hash) + getPickle().hashCode();
@@ -59237,8 +60945,6 @@ public final class Messages {
         super.clear();
         actionId_ = "";
 
-        testCaseId_ = "";
-
         if (pickleBuilder_ == null) {
           pickle_ = null;
         } else {
@@ -59272,7 +60978,6 @@ public final class Messages {
       public io.cucumber.messages.Messages.CommandInitializeTestCase buildPartial() {
         io.cucumber.messages.Messages.CommandInitializeTestCase result = new io.cucumber.messages.Messages.CommandInitializeTestCase(this);
         result.actionId_ = actionId_;
-        result.testCaseId_ = testCaseId_;
         if (pickleBuilder_ == null) {
           result.pickle_ = pickle_;
         } else {
@@ -59328,10 +61033,6 @@ public final class Messages {
         if (other == io.cucumber.messages.Messages.CommandInitializeTestCase.getDefaultInstance()) return this;
         if (!other.getActionId().isEmpty()) {
           actionId_ = other.actionId_;
-          onChanged();
-        }
-        if (!other.getTestCaseId().isEmpty()) {
-          testCaseId_ = other.testCaseId_;
           onChanged();
         }
         if (other.hasPickle()) {
@@ -59431,75 +61132,6 @@ public final class Messages {
   checkByteStringIsUtf8(value);
         
         actionId_ = value;
-        onChanged();
-        return this;
-      }
-
-      private java.lang.Object testCaseId_ = "";
-      /**
-       * <code>string testCaseId = 2;</code>
-       */
-      public java.lang.String getTestCaseId() {
-        java.lang.Object ref = testCaseId_;
-        if (!(ref instanceof java.lang.String)) {
-          com.google.protobuf.ByteString bs =
-              (com.google.protobuf.ByteString) ref;
-          java.lang.String s = bs.toStringUtf8();
-          testCaseId_ = s;
-          return s;
-        } else {
-          return (java.lang.String) ref;
-        }
-      }
-      /**
-       * <code>string testCaseId = 2;</code>
-       */
-      public com.google.protobuf.ByteString
-          getTestCaseIdBytes() {
-        java.lang.Object ref = testCaseId_;
-        if (ref instanceof String) {
-          com.google.protobuf.ByteString b = 
-              com.google.protobuf.ByteString.copyFromUtf8(
-                  (java.lang.String) ref);
-          testCaseId_ = b;
-          return b;
-        } else {
-          return (com.google.protobuf.ByteString) ref;
-        }
-      }
-      /**
-       * <code>string testCaseId = 2;</code>
-       */
-      public Builder setTestCaseId(
-          java.lang.String value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  
-        testCaseId_ = value;
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>string testCaseId = 2;</code>
-       */
-      public Builder clearTestCaseId() {
-        
-        testCaseId_ = getDefaultInstance().getTestCaseId();
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>string testCaseId = 2;</code>
-       */
-      public Builder setTestCaseIdBytes(
-          com.google.protobuf.ByteString value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  checkByteStringIsUtf8(value);
-        
-        testCaseId_ = value;
         onChanged();
         return this;
       }
@@ -59688,16 +61320,6 @@ public final class Messages {
         getActionIdBytes();
 
     /**
-     * <code>string testCaseId = 2;</code>
-     */
-    java.lang.String getTestCaseId();
-    /**
-     * <code>string testCaseId = 2;</code>
-     */
-    com.google.protobuf.ByteString
-        getTestCaseIdBytes();
-
-    /**
      * <code>string testCaseHookDefinitionId = 3;</code>
      */
     java.lang.String getTestCaseHookDefinitionId();
@@ -59706,6 +61328,16 @@ public final class Messages {
      */
     com.google.protobuf.ByteString
         getTestCaseHookDefinitionIdBytes();
+
+    /**
+     * <code>string pickleId = 4;</code>
+     */
+    java.lang.String getPickleId();
+    /**
+     * <code>string pickleId = 4;</code>
+     */
+    com.google.protobuf.ByteString
+        getPickleIdBytes();
   }
   /**
    * Protobuf type {@code io.cucumber.messages.CommandRunBeforeTestCaseHook}
@@ -59721,8 +61353,8 @@ public final class Messages {
     }
     private CommandRunBeforeTestCaseHook() {
       actionId_ = "";
-      testCaseId_ = "";
       testCaseHookDefinitionId_ = "";
+      pickleId_ = "";
     }
 
     @java.lang.Override
@@ -59755,16 +61387,16 @@ public final class Messages {
               actionId_ = s;
               break;
             }
-            case 18: {
-              java.lang.String s = input.readStringRequireUtf8();
-
-              testCaseId_ = s;
-              break;
-            }
             case 26: {
               java.lang.String s = input.readStringRequireUtf8();
 
               testCaseHookDefinitionId_ = s;
+              break;
+            }
+            case 34: {
+              java.lang.String s = input.readStringRequireUtf8();
+
+              pickleId_ = s;
               break;
             }
             default: {
@@ -59833,40 +61465,6 @@ public final class Messages {
       }
     }
 
-    public static final int TESTCASEID_FIELD_NUMBER = 2;
-    private volatile java.lang.Object testCaseId_;
-    /**
-     * <code>string testCaseId = 2;</code>
-     */
-    public java.lang.String getTestCaseId() {
-      java.lang.Object ref = testCaseId_;
-      if (ref instanceof java.lang.String) {
-        return (java.lang.String) ref;
-      } else {
-        com.google.protobuf.ByteString bs = 
-            (com.google.protobuf.ByteString) ref;
-        java.lang.String s = bs.toStringUtf8();
-        testCaseId_ = s;
-        return s;
-      }
-    }
-    /**
-     * <code>string testCaseId = 2;</code>
-     */
-    public com.google.protobuf.ByteString
-        getTestCaseIdBytes() {
-      java.lang.Object ref = testCaseId_;
-      if (ref instanceof java.lang.String) {
-        com.google.protobuf.ByteString b = 
-            com.google.protobuf.ByteString.copyFromUtf8(
-                (java.lang.String) ref);
-        testCaseId_ = b;
-        return b;
-      } else {
-        return (com.google.protobuf.ByteString) ref;
-      }
-    }
-
     public static final int TESTCASEHOOKDEFINITIONID_FIELD_NUMBER = 3;
     private volatile java.lang.Object testCaseHookDefinitionId_;
     /**
@@ -59901,6 +61499,40 @@ public final class Messages {
       }
     }
 
+    public static final int PICKLEID_FIELD_NUMBER = 4;
+    private volatile java.lang.Object pickleId_;
+    /**
+     * <code>string pickleId = 4;</code>
+     */
+    public java.lang.String getPickleId() {
+      java.lang.Object ref = pickleId_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        pickleId_ = s;
+        return s;
+      }
+    }
+    /**
+     * <code>string pickleId = 4;</code>
+     */
+    public com.google.protobuf.ByteString
+        getPickleIdBytes() {
+      java.lang.Object ref = pickleId_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        pickleId_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
     private byte memoizedIsInitialized = -1;
     @java.lang.Override
     public final boolean isInitialized() {
@@ -59918,11 +61550,11 @@ public final class Messages {
       if (!getActionIdBytes().isEmpty()) {
         com.google.protobuf.GeneratedMessageV3.writeString(output, 1, actionId_);
       }
-      if (!getTestCaseIdBytes().isEmpty()) {
-        com.google.protobuf.GeneratedMessageV3.writeString(output, 2, testCaseId_);
-      }
       if (!getTestCaseHookDefinitionIdBytes().isEmpty()) {
         com.google.protobuf.GeneratedMessageV3.writeString(output, 3, testCaseHookDefinitionId_);
+      }
+      if (!getPickleIdBytes().isEmpty()) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 4, pickleId_);
       }
       unknownFields.writeTo(output);
     }
@@ -59936,11 +61568,11 @@ public final class Messages {
       if (!getActionIdBytes().isEmpty()) {
         size += com.google.protobuf.GeneratedMessageV3.computeStringSize(1, actionId_);
       }
-      if (!getTestCaseIdBytes().isEmpty()) {
-        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(2, testCaseId_);
-      }
       if (!getTestCaseHookDefinitionIdBytes().isEmpty()) {
         size += com.google.protobuf.GeneratedMessageV3.computeStringSize(3, testCaseHookDefinitionId_);
+      }
+      if (!getPickleIdBytes().isEmpty()) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(4, pickleId_);
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -59960,10 +61592,10 @@ public final class Messages {
       boolean result = true;
       result = result && getActionId()
           .equals(other.getActionId());
-      result = result && getTestCaseId()
-          .equals(other.getTestCaseId());
       result = result && getTestCaseHookDefinitionId()
           .equals(other.getTestCaseHookDefinitionId());
+      result = result && getPickleId()
+          .equals(other.getPickleId());
       result = result && unknownFields.equals(other.unknownFields);
       return result;
     }
@@ -59977,10 +61609,10 @@ public final class Messages {
       hash = (19 * hash) + getDescriptor().hashCode();
       hash = (37 * hash) + ACTIONID_FIELD_NUMBER;
       hash = (53 * hash) + getActionId().hashCode();
-      hash = (37 * hash) + TESTCASEID_FIELD_NUMBER;
-      hash = (53 * hash) + getTestCaseId().hashCode();
       hash = (37 * hash) + TESTCASEHOOKDEFINITIONID_FIELD_NUMBER;
       hash = (53 * hash) + getTestCaseHookDefinitionId().hashCode();
+      hash = (37 * hash) + PICKLEID_FIELD_NUMBER;
+      hash = (53 * hash) + getPickleId().hashCode();
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
       return hash;
@@ -60116,9 +61748,9 @@ public final class Messages {
         super.clear();
         actionId_ = "";
 
-        testCaseId_ = "";
-
         testCaseHookDefinitionId_ = "";
+
+        pickleId_ = "";
 
         return this;
       }
@@ -60147,8 +61779,8 @@ public final class Messages {
       public io.cucumber.messages.Messages.CommandRunBeforeTestCaseHook buildPartial() {
         io.cucumber.messages.Messages.CommandRunBeforeTestCaseHook result = new io.cucumber.messages.Messages.CommandRunBeforeTestCaseHook(this);
         result.actionId_ = actionId_;
-        result.testCaseId_ = testCaseId_;
         result.testCaseHookDefinitionId_ = testCaseHookDefinitionId_;
+        result.pickleId_ = pickleId_;
         onBuilt();
         return result;
       }
@@ -60201,12 +61833,12 @@ public final class Messages {
           actionId_ = other.actionId_;
           onChanged();
         }
-        if (!other.getTestCaseId().isEmpty()) {
-          testCaseId_ = other.testCaseId_;
-          onChanged();
-        }
         if (!other.getTestCaseHookDefinitionId().isEmpty()) {
           testCaseHookDefinitionId_ = other.testCaseHookDefinitionId_;
+          onChanged();
+        }
+        if (!other.getPickleId().isEmpty()) {
+          pickleId_ = other.pickleId_;
           onChanged();
         }
         this.mergeUnknownFields(other.unknownFields);
@@ -60307,75 +61939,6 @@ public final class Messages {
         return this;
       }
 
-      private java.lang.Object testCaseId_ = "";
-      /**
-       * <code>string testCaseId = 2;</code>
-       */
-      public java.lang.String getTestCaseId() {
-        java.lang.Object ref = testCaseId_;
-        if (!(ref instanceof java.lang.String)) {
-          com.google.protobuf.ByteString bs =
-              (com.google.protobuf.ByteString) ref;
-          java.lang.String s = bs.toStringUtf8();
-          testCaseId_ = s;
-          return s;
-        } else {
-          return (java.lang.String) ref;
-        }
-      }
-      /**
-       * <code>string testCaseId = 2;</code>
-       */
-      public com.google.protobuf.ByteString
-          getTestCaseIdBytes() {
-        java.lang.Object ref = testCaseId_;
-        if (ref instanceof String) {
-          com.google.protobuf.ByteString b = 
-              com.google.protobuf.ByteString.copyFromUtf8(
-                  (java.lang.String) ref);
-          testCaseId_ = b;
-          return b;
-        } else {
-          return (com.google.protobuf.ByteString) ref;
-        }
-      }
-      /**
-       * <code>string testCaseId = 2;</code>
-       */
-      public Builder setTestCaseId(
-          java.lang.String value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  
-        testCaseId_ = value;
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>string testCaseId = 2;</code>
-       */
-      public Builder clearTestCaseId() {
-        
-        testCaseId_ = getDefaultInstance().getTestCaseId();
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>string testCaseId = 2;</code>
-       */
-      public Builder setTestCaseIdBytes(
-          com.google.protobuf.ByteString value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  checkByteStringIsUtf8(value);
-        
-        testCaseId_ = value;
-        onChanged();
-        return this;
-      }
-
       private java.lang.Object testCaseHookDefinitionId_ = "";
       /**
        * <code>string testCaseHookDefinitionId = 3;</code>
@@ -60441,6 +62004,75 @@ public final class Messages {
   checkByteStringIsUtf8(value);
         
         testCaseHookDefinitionId_ = value;
+        onChanged();
+        return this;
+      }
+
+      private java.lang.Object pickleId_ = "";
+      /**
+       * <code>string pickleId = 4;</code>
+       */
+      public java.lang.String getPickleId() {
+        java.lang.Object ref = pickleId_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          pickleId_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>string pickleId = 4;</code>
+       */
+      public com.google.protobuf.ByteString
+          getPickleIdBytes() {
+        java.lang.Object ref = pickleId_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          pickleId_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>string pickleId = 4;</code>
+       */
+      public Builder setPickleId(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  
+        pickleId_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string pickleId = 4;</code>
+       */
+      public Builder clearPickleId() {
+        
+        pickleId_ = getDefaultInstance().getPickleId();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string pickleId = 4;</code>
+       */
+      public Builder setPickleIdBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+        
+        pickleId_ = value;
         onChanged();
         return this;
       }
@@ -60512,16 +62144,6 @@ public final class Messages {
         getActionIdBytes();
 
     /**
-     * <code>string testCaseId = 2;</code>
-     */
-    java.lang.String getTestCaseId();
-    /**
-     * <code>string testCaseId = 2;</code>
-     */
-    com.google.protobuf.ByteString
-        getTestCaseIdBytes();
-
-    /**
      * <code>string testCaseHookDefinitionId = 3;</code>
      */
     java.lang.String getTestCaseHookDefinitionId();
@@ -60530,6 +62152,16 @@ public final class Messages {
      */
     com.google.protobuf.ByteString
         getTestCaseHookDefinitionIdBytes();
+
+    /**
+     * <code>string pickleId = 4;</code>
+     */
+    java.lang.String getPickleId();
+    /**
+     * <code>string pickleId = 4;</code>
+     */
+    com.google.protobuf.ByteString
+        getPickleIdBytes();
   }
   /**
    * Protobuf type {@code io.cucumber.messages.CommandRunAfterTestCaseHook}
@@ -60545,8 +62177,8 @@ public final class Messages {
     }
     private CommandRunAfterTestCaseHook() {
       actionId_ = "";
-      testCaseId_ = "";
       testCaseHookDefinitionId_ = "";
+      pickleId_ = "";
     }
 
     @java.lang.Override
@@ -60579,16 +62211,16 @@ public final class Messages {
               actionId_ = s;
               break;
             }
-            case 18: {
-              java.lang.String s = input.readStringRequireUtf8();
-
-              testCaseId_ = s;
-              break;
-            }
             case 26: {
               java.lang.String s = input.readStringRequireUtf8();
 
               testCaseHookDefinitionId_ = s;
+              break;
+            }
+            case 34: {
+              java.lang.String s = input.readStringRequireUtf8();
+
+              pickleId_ = s;
               break;
             }
             default: {
@@ -60657,40 +62289,6 @@ public final class Messages {
       }
     }
 
-    public static final int TESTCASEID_FIELD_NUMBER = 2;
-    private volatile java.lang.Object testCaseId_;
-    /**
-     * <code>string testCaseId = 2;</code>
-     */
-    public java.lang.String getTestCaseId() {
-      java.lang.Object ref = testCaseId_;
-      if (ref instanceof java.lang.String) {
-        return (java.lang.String) ref;
-      } else {
-        com.google.protobuf.ByteString bs = 
-            (com.google.protobuf.ByteString) ref;
-        java.lang.String s = bs.toStringUtf8();
-        testCaseId_ = s;
-        return s;
-      }
-    }
-    /**
-     * <code>string testCaseId = 2;</code>
-     */
-    public com.google.protobuf.ByteString
-        getTestCaseIdBytes() {
-      java.lang.Object ref = testCaseId_;
-      if (ref instanceof java.lang.String) {
-        com.google.protobuf.ByteString b = 
-            com.google.protobuf.ByteString.copyFromUtf8(
-                (java.lang.String) ref);
-        testCaseId_ = b;
-        return b;
-      } else {
-        return (com.google.protobuf.ByteString) ref;
-      }
-    }
-
     public static final int TESTCASEHOOKDEFINITIONID_FIELD_NUMBER = 3;
     private volatile java.lang.Object testCaseHookDefinitionId_;
     /**
@@ -60725,6 +62323,40 @@ public final class Messages {
       }
     }
 
+    public static final int PICKLEID_FIELD_NUMBER = 4;
+    private volatile java.lang.Object pickleId_;
+    /**
+     * <code>string pickleId = 4;</code>
+     */
+    public java.lang.String getPickleId() {
+      java.lang.Object ref = pickleId_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        pickleId_ = s;
+        return s;
+      }
+    }
+    /**
+     * <code>string pickleId = 4;</code>
+     */
+    public com.google.protobuf.ByteString
+        getPickleIdBytes() {
+      java.lang.Object ref = pickleId_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        pickleId_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
     private byte memoizedIsInitialized = -1;
     @java.lang.Override
     public final boolean isInitialized() {
@@ -60742,11 +62374,11 @@ public final class Messages {
       if (!getActionIdBytes().isEmpty()) {
         com.google.protobuf.GeneratedMessageV3.writeString(output, 1, actionId_);
       }
-      if (!getTestCaseIdBytes().isEmpty()) {
-        com.google.protobuf.GeneratedMessageV3.writeString(output, 2, testCaseId_);
-      }
       if (!getTestCaseHookDefinitionIdBytes().isEmpty()) {
         com.google.protobuf.GeneratedMessageV3.writeString(output, 3, testCaseHookDefinitionId_);
+      }
+      if (!getPickleIdBytes().isEmpty()) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 4, pickleId_);
       }
       unknownFields.writeTo(output);
     }
@@ -60760,11 +62392,11 @@ public final class Messages {
       if (!getActionIdBytes().isEmpty()) {
         size += com.google.protobuf.GeneratedMessageV3.computeStringSize(1, actionId_);
       }
-      if (!getTestCaseIdBytes().isEmpty()) {
-        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(2, testCaseId_);
-      }
       if (!getTestCaseHookDefinitionIdBytes().isEmpty()) {
         size += com.google.protobuf.GeneratedMessageV3.computeStringSize(3, testCaseHookDefinitionId_);
+      }
+      if (!getPickleIdBytes().isEmpty()) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(4, pickleId_);
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -60784,10 +62416,10 @@ public final class Messages {
       boolean result = true;
       result = result && getActionId()
           .equals(other.getActionId());
-      result = result && getTestCaseId()
-          .equals(other.getTestCaseId());
       result = result && getTestCaseHookDefinitionId()
           .equals(other.getTestCaseHookDefinitionId());
+      result = result && getPickleId()
+          .equals(other.getPickleId());
       result = result && unknownFields.equals(other.unknownFields);
       return result;
     }
@@ -60801,10 +62433,10 @@ public final class Messages {
       hash = (19 * hash) + getDescriptor().hashCode();
       hash = (37 * hash) + ACTIONID_FIELD_NUMBER;
       hash = (53 * hash) + getActionId().hashCode();
-      hash = (37 * hash) + TESTCASEID_FIELD_NUMBER;
-      hash = (53 * hash) + getTestCaseId().hashCode();
       hash = (37 * hash) + TESTCASEHOOKDEFINITIONID_FIELD_NUMBER;
       hash = (53 * hash) + getTestCaseHookDefinitionId().hashCode();
+      hash = (37 * hash) + PICKLEID_FIELD_NUMBER;
+      hash = (53 * hash) + getPickleId().hashCode();
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
       return hash;
@@ -60940,9 +62572,9 @@ public final class Messages {
         super.clear();
         actionId_ = "";
 
-        testCaseId_ = "";
-
         testCaseHookDefinitionId_ = "";
+
+        pickleId_ = "";
 
         return this;
       }
@@ -60971,8 +62603,8 @@ public final class Messages {
       public io.cucumber.messages.Messages.CommandRunAfterTestCaseHook buildPartial() {
         io.cucumber.messages.Messages.CommandRunAfterTestCaseHook result = new io.cucumber.messages.Messages.CommandRunAfterTestCaseHook(this);
         result.actionId_ = actionId_;
-        result.testCaseId_ = testCaseId_;
         result.testCaseHookDefinitionId_ = testCaseHookDefinitionId_;
+        result.pickleId_ = pickleId_;
         onBuilt();
         return result;
       }
@@ -61025,12 +62657,12 @@ public final class Messages {
           actionId_ = other.actionId_;
           onChanged();
         }
-        if (!other.getTestCaseId().isEmpty()) {
-          testCaseId_ = other.testCaseId_;
-          onChanged();
-        }
         if (!other.getTestCaseHookDefinitionId().isEmpty()) {
           testCaseHookDefinitionId_ = other.testCaseHookDefinitionId_;
+          onChanged();
+        }
+        if (!other.getPickleId().isEmpty()) {
+          pickleId_ = other.pickleId_;
           onChanged();
         }
         this.mergeUnknownFields(other.unknownFields);
@@ -61131,75 +62763,6 @@ public final class Messages {
         return this;
       }
 
-      private java.lang.Object testCaseId_ = "";
-      /**
-       * <code>string testCaseId = 2;</code>
-       */
-      public java.lang.String getTestCaseId() {
-        java.lang.Object ref = testCaseId_;
-        if (!(ref instanceof java.lang.String)) {
-          com.google.protobuf.ByteString bs =
-              (com.google.protobuf.ByteString) ref;
-          java.lang.String s = bs.toStringUtf8();
-          testCaseId_ = s;
-          return s;
-        } else {
-          return (java.lang.String) ref;
-        }
-      }
-      /**
-       * <code>string testCaseId = 2;</code>
-       */
-      public com.google.protobuf.ByteString
-          getTestCaseIdBytes() {
-        java.lang.Object ref = testCaseId_;
-        if (ref instanceof String) {
-          com.google.protobuf.ByteString b = 
-              com.google.protobuf.ByteString.copyFromUtf8(
-                  (java.lang.String) ref);
-          testCaseId_ = b;
-          return b;
-        } else {
-          return (com.google.protobuf.ByteString) ref;
-        }
-      }
-      /**
-       * <code>string testCaseId = 2;</code>
-       */
-      public Builder setTestCaseId(
-          java.lang.String value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  
-        testCaseId_ = value;
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>string testCaseId = 2;</code>
-       */
-      public Builder clearTestCaseId() {
-        
-        testCaseId_ = getDefaultInstance().getTestCaseId();
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>string testCaseId = 2;</code>
-       */
-      public Builder setTestCaseIdBytes(
-          com.google.protobuf.ByteString value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  checkByteStringIsUtf8(value);
-        
-        testCaseId_ = value;
-        onChanged();
-        return this;
-      }
-
       private java.lang.Object testCaseHookDefinitionId_ = "";
       /**
        * <code>string testCaseHookDefinitionId = 3;</code>
@@ -61265,6 +62828,75 @@ public final class Messages {
   checkByteStringIsUtf8(value);
         
         testCaseHookDefinitionId_ = value;
+        onChanged();
+        return this;
+      }
+
+      private java.lang.Object pickleId_ = "";
+      /**
+       * <code>string pickleId = 4;</code>
+       */
+      public java.lang.String getPickleId() {
+        java.lang.Object ref = pickleId_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          pickleId_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>string pickleId = 4;</code>
+       */
+      public com.google.protobuf.ByteString
+          getPickleIdBytes() {
+        java.lang.Object ref = pickleId_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          pickleId_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>string pickleId = 4;</code>
+       */
+      public Builder setPickleId(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  
+        pickleId_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string pickleId = 4;</code>
+       */
+      public Builder clearPickleId() {
+        
+        pickleId_ = getDefaultInstance().getPickleId();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string pickleId = 4;</code>
+       */
+      public Builder setPickleIdBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+        
+        pickleId_ = value;
         onChanged();
         return this;
       }
@@ -61336,16 +62968,6 @@ public final class Messages {
         getActionIdBytes();
 
     /**
-     * <code>string testCaseId = 2;</code>
-     */
-    java.lang.String getTestCaseId();
-    /**
-     * <code>string testCaseId = 2;</code>
-     */
-    com.google.protobuf.ByteString
-        getTestCaseIdBytes();
-
-    /**
      * <code>string stepDefinitionId = 3;</code>
      */
     java.lang.String getStepDefinitionId();
@@ -61378,6 +63000,29 @@ public final class Messages {
      */
     io.cucumber.messages.Messages.PatternMatchOrBuilder getPatternMatchesOrBuilder(
         int index);
+
+    /**
+     * <code>string pickleId = 5;</code>
+     */
+    java.lang.String getPickleId();
+    /**
+     * <code>string pickleId = 5;</code>
+     */
+    com.google.protobuf.ByteString
+        getPickleIdBytes();
+
+    /**
+     * <code>.io.cucumber.messages.PickleStepArgument pickleStepArgument = 6;</code>
+     */
+    boolean hasPickleStepArgument();
+    /**
+     * <code>.io.cucumber.messages.PickleStepArgument pickleStepArgument = 6;</code>
+     */
+    io.cucumber.messages.Messages.PickleStepArgument getPickleStepArgument();
+    /**
+     * <code>.io.cucumber.messages.PickleStepArgument pickleStepArgument = 6;</code>
+     */
+    io.cucumber.messages.Messages.PickleStepArgumentOrBuilder getPickleStepArgumentOrBuilder();
   }
   /**
    * Protobuf type {@code io.cucumber.messages.CommandRunTestStep}
@@ -61393,9 +63038,9 @@ public final class Messages {
     }
     private CommandRunTestStep() {
       actionId_ = "";
-      testCaseId_ = "";
       stepDefinitionId_ = "";
       patternMatches_ = java.util.Collections.emptyList();
+      pickleId_ = "";
     }
 
     @java.lang.Override
@@ -61428,12 +63073,6 @@ public final class Messages {
               actionId_ = s;
               break;
             }
-            case 18: {
-              java.lang.String s = input.readStringRequireUtf8();
-
-              testCaseId_ = s;
-              break;
-            }
             case 26: {
               java.lang.String s = input.readStringRequireUtf8();
 
@@ -61441,12 +63080,31 @@ public final class Messages {
               break;
             }
             case 34: {
-              if (!((mutable_bitField0_ & 0x00000008) == 0x00000008)) {
+              if (!((mutable_bitField0_ & 0x00000004) == 0x00000004)) {
                 patternMatches_ = new java.util.ArrayList<io.cucumber.messages.Messages.PatternMatch>();
-                mutable_bitField0_ |= 0x00000008;
+                mutable_bitField0_ |= 0x00000004;
               }
               patternMatches_.add(
                   input.readMessage(io.cucumber.messages.Messages.PatternMatch.parser(), extensionRegistry));
+              break;
+            }
+            case 42: {
+              java.lang.String s = input.readStringRequireUtf8();
+
+              pickleId_ = s;
+              break;
+            }
+            case 50: {
+              io.cucumber.messages.Messages.PickleStepArgument.Builder subBuilder = null;
+              if (pickleStepArgument_ != null) {
+                subBuilder = pickleStepArgument_.toBuilder();
+              }
+              pickleStepArgument_ = input.readMessage(io.cucumber.messages.Messages.PickleStepArgument.parser(), extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom(pickleStepArgument_);
+                pickleStepArgument_ = subBuilder.buildPartial();
+              }
+
               break;
             }
             default: {
@@ -61464,7 +63122,7 @@ public final class Messages {
         throw new com.google.protobuf.InvalidProtocolBufferException(
             e).setUnfinishedMessage(this);
       } finally {
-        if (((mutable_bitField0_ & 0x00000008) == 0x00000008)) {
+        if (((mutable_bitField0_ & 0x00000004) == 0x00000004)) {
           patternMatches_ = java.util.Collections.unmodifiableList(patternMatches_);
         }
         this.unknownFields = unknownFields.build();
@@ -61513,40 +63171,6 @@ public final class Messages {
             com.google.protobuf.ByteString.copyFromUtf8(
                 (java.lang.String) ref);
         actionId_ = b;
-        return b;
-      } else {
-        return (com.google.protobuf.ByteString) ref;
-      }
-    }
-
-    public static final int TESTCASEID_FIELD_NUMBER = 2;
-    private volatile java.lang.Object testCaseId_;
-    /**
-     * <code>string testCaseId = 2;</code>
-     */
-    public java.lang.String getTestCaseId() {
-      java.lang.Object ref = testCaseId_;
-      if (ref instanceof java.lang.String) {
-        return (java.lang.String) ref;
-      } else {
-        com.google.protobuf.ByteString bs = 
-            (com.google.protobuf.ByteString) ref;
-        java.lang.String s = bs.toStringUtf8();
-        testCaseId_ = s;
-        return s;
-      }
-    }
-    /**
-     * <code>string testCaseId = 2;</code>
-     */
-    public com.google.protobuf.ByteString
-        getTestCaseIdBytes() {
-      java.lang.Object ref = testCaseId_;
-      if (ref instanceof java.lang.String) {
-        com.google.protobuf.ByteString b = 
-            com.google.protobuf.ByteString.copyFromUtf8(
-                (java.lang.String) ref);
-        testCaseId_ = b;
         return b;
       } else {
         return (com.google.protobuf.ByteString) ref;
@@ -61622,6 +63246,61 @@ public final class Messages {
       return patternMatches_.get(index);
     }
 
+    public static final int PICKLEID_FIELD_NUMBER = 5;
+    private volatile java.lang.Object pickleId_;
+    /**
+     * <code>string pickleId = 5;</code>
+     */
+    public java.lang.String getPickleId() {
+      java.lang.Object ref = pickleId_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        pickleId_ = s;
+        return s;
+      }
+    }
+    /**
+     * <code>string pickleId = 5;</code>
+     */
+    public com.google.protobuf.ByteString
+        getPickleIdBytes() {
+      java.lang.Object ref = pickleId_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        pickleId_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    public static final int PICKLESTEPARGUMENT_FIELD_NUMBER = 6;
+    private io.cucumber.messages.Messages.PickleStepArgument pickleStepArgument_;
+    /**
+     * <code>.io.cucumber.messages.PickleStepArgument pickleStepArgument = 6;</code>
+     */
+    public boolean hasPickleStepArgument() {
+      return pickleStepArgument_ != null;
+    }
+    /**
+     * <code>.io.cucumber.messages.PickleStepArgument pickleStepArgument = 6;</code>
+     */
+    public io.cucumber.messages.Messages.PickleStepArgument getPickleStepArgument() {
+      return pickleStepArgument_ == null ? io.cucumber.messages.Messages.PickleStepArgument.getDefaultInstance() : pickleStepArgument_;
+    }
+    /**
+     * <code>.io.cucumber.messages.PickleStepArgument pickleStepArgument = 6;</code>
+     */
+    public io.cucumber.messages.Messages.PickleStepArgumentOrBuilder getPickleStepArgumentOrBuilder() {
+      return getPickleStepArgument();
+    }
+
     private byte memoizedIsInitialized = -1;
     @java.lang.Override
     public final boolean isInitialized() {
@@ -61639,14 +63318,17 @@ public final class Messages {
       if (!getActionIdBytes().isEmpty()) {
         com.google.protobuf.GeneratedMessageV3.writeString(output, 1, actionId_);
       }
-      if (!getTestCaseIdBytes().isEmpty()) {
-        com.google.protobuf.GeneratedMessageV3.writeString(output, 2, testCaseId_);
-      }
       if (!getStepDefinitionIdBytes().isEmpty()) {
         com.google.protobuf.GeneratedMessageV3.writeString(output, 3, stepDefinitionId_);
       }
       for (int i = 0; i < patternMatches_.size(); i++) {
         output.writeMessage(4, patternMatches_.get(i));
+      }
+      if (!getPickleIdBytes().isEmpty()) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 5, pickleId_);
+      }
+      if (pickleStepArgument_ != null) {
+        output.writeMessage(6, getPickleStepArgument());
       }
       unknownFields.writeTo(output);
     }
@@ -61660,15 +63342,19 @@ public final class Messages {
       if (!getActionIdBytes().isEmpty()) {
         size += com.google.protobuf.GeneratedMessageV3.computeStringSize(1, actionId_);
       }
-      if (!getTestCaseIdBytes().isEmpty()) {
-        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(2, testCaseId_);
-      }
       if (!getStepDefinitionIdBytes().isEmpty()) {
         size += com.google.protobuf.GeneratedMessageV3.computeStringSize(3, stepDefinitionId_);
       }
       for (int i = 0; i < patternMatches_.size(); i++) {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(4, patternMatches_.get(i));
+      }
+      if (!getPickleIdBytes().isEmpty()) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(5, pickleId_);
+      }
+      if (pickleStepArgument_ != null) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(6, getPickleStepArgument());
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -61688,12 +63374,17 @@ public final class Messages {
       boolean result = true;
       result = result && getActionId()
           .equals(other.getActionId());
-      result = result && getTestCaseId()
-          .equals(other.getTestCaseId());
       result = result && getStepDefinitionId()
           .equals(other.getStepDefinitionId());
       result = result && getPatternMatchesList()
           .equals(other.getPatternMatchesList());
+      result = result && getPickleId()
+          .equals(other.getPickleId());
+      result = result && (hasPickleStepArgument() == other.hasPickleStepArgument());
+      if (hasPickleStepArgument()) {
+        result = result && getPickleStepArgument()
+            .equals(other.getPickleStepArgument());
+      }
       result = result && unknownFields.equals(other.unknownFields);
       return result;
     }
@@ -61707,13 +63398,17 @@ public final class Messages {
       hash = (19 * hash) + getDescriptor().hashCode();
       hash = (37 * hash) + ACTIONID_FIELD_NUMBER;
       hash = (53 * hash) + getActionId().hashCode();
-      hash = (37 * hash) + TESTCASEID_FIELD_NUMBER;
-      hash = (53 * hash) + getTestCaseId().hashCode();
       hash = (37 * hash) + STEPDEFINITIONID_FIELD_NUMBER;
       hash = (53 * hash) + getStepDefinitionId().hashCode();
       if (getPatternMatchesCount() > 0) {
         hash = (37 * hash) + PATTERNMATCHES_FIELD_NUMBER;
         hash = (53 * hash) + getPatternMatchesList().hashCode();
+      }
+      hash = (37 * hash) + PICKLEID_FIELD_NUMBER;
+      hash = (53 * hash) + getPickleId().hashCode();
+      if (hasPickleStepArgument()) {
+        hash = (37 * hash) + PICKLESTEPARGUMENT_FIELD_NUMBER;
+        hash = (53 * hash) + getPickleStepArgument().hashCode();
       }
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
@@ -61851,15 +63546,21 @@ public final class Messages {
         super.clear();
         actionId_ = "";
 
-        testCaseId_ = "";
-
         stepDefinitionId_ = "";
 
         if (patternMatchesBuilder_ == null) {
           patternMatches_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000008);
+          bitField0_ = (bitField0_ & ~0x00000004);
         } else {
           patternMatchesBuilder_.clear();
+        }
+        pickleId_ = "";
+
+        if (pickleStepArgumentBuilder_ == null) {
+          pickleStepArgument_ = null;
+        } else {
+          pickleStepArgument_ = null;
+          pickleStepArgumentBuilder_ = null;
         }
         return this;
       }
@@ -61890,16 +63591,21 @@ public final class Messages {
         int from_bitField0_ = bitField0_;
         int to_bitField0_ = 0;
         result.actionId_ = actionId_;
-        result.testCaseId_ = testCaseId_;
         result.stepDefinitionId_ = stepDefinitionId_;
         if (patternMatchesBuilder_ == null) {
-          if (((bitField0_ & 0x00000008) == 0x00000008)) {
+          if (((bitField0_ & 0x00000004) == 0x00000004)) {
             patternMatches_ = java.util.Collections.unmodifiableList(patternMatches_);
-            bitField0_ = (bitField0_ & ~0x00000008);
+            bitField0_ = (bitField0_ & ~0x00000004);
           }
           result.patternMatches_ = patternMatches_;
         } else {
           result.patternMatches_ = patternMatchesBuilder_.build();
+        }
+        result.pickleId_ = pickleId_;
+        if (pickleStepArgumentBuilder_ == null) {
+          result.pickleStepArgument_ = pickleStepArgument_;
+        } else {
+          result.pickleStepArgument_ = pickleStepArgumentBuilder_.build();
         }
         result.bitField0_ = to_bitField0_;
         onBuilt();
@@ -61954,10 +63660,6 @@ public final class Messages {
           actionId_ = other.actionId_;
           onChanged();
         }
-        if (!other.getTestCaseId().isEmpty()) {
-          testCaseId_ = other.testCaseId_;
-          onChanged();
-        }
         if (!other.getStepDefinitionId().isEmpty()) {
           stepDefinitionId_ = other.stepDefinitionId_;
           onChanged();
@@ -61966,7 +63668,7 @@ public final class Messages {
           if (!other.patternMatches_.isEmpty()) {
             if (patternMatches_.isEmpty()) {
               patternMatches_ = other.patternMatches_;
-              bitField0_ = (bitField0_ & ~0x00000008);
+              bitField0_ = (bitField0_ & ~0x00000004);
             } else {
               ensurePatternMatchesIsMutable();
               patternMatches_.addAll(other.patternMatches_);
@@ -61979,7 +63681,7 @@ public final class Messages {
               patternMatchesBuilder_.dispose();
               patternMatchesBuilder_ = null;
               patternMatches_ = other.patternMatches_;
-              bitField0_ = (bitField0_ & ~0x00000008);
+              bitField0_ = (bitField0_ & ~0x00000004);
               patternMatchesBuilder_ = 
                 com.google.protobuf.GeneratedMessageV3.alwaysUseFieldBuilders ?
                    getPatternMatchesFieldBuilder() : null;
@@ -61987,6 +63689,13 @@ public final class Messages {
               patternMatchesBuilder_.addAllMessages(other.patternMatches_);
             }
           }
+        }
+        if (!other.getPickleId().isEmpty()) {
+          pickleId_ = other.pickleId_;
+          onChanged();
+        }
+        if (other.hasPickleStepArgument()) {
+          mergePickleStepArgument(other.getPickleStepArgument());
         }
         this.mergeUnknownFields(other.unknownFields);
         onChanged();
@@ -62087,75 +63796,6 @@ public final class Messages {
         return this;
       }
 
-      private java.lang.Object testCaseId_ = "";
-      /**
-       * <code>string testCaseId = 2;</code>
-       */
-      public java.lang.String getTestCaseId() {
-        java.lang.Object ref = testCaseId_;
-        if (!(ref instanceof java.lang.String)) {
-          com.google.protobuf.ByteString bs =
-              (com.google.protobuf.ByteString) ref;
-          java.lang.String s = bs.toStringUtf8();
-          testCaseId_ = s;
-          return s;
-        } else {
-          return (java.lang.String) ref;
-        }
-      }
-      /**
-       * <code>string testCaseId = 2;</code>
-       */
-      public com.google.protobuf.ByteString
-          getTestCaseIdBytes() {
-        java.lang.Object ref = testCaseId_;
-        if (ref instanceof String) {
-          com.google.protobuf.ByteString b = 
-              com.google.protobuf.ByteString.copyFromUtf8(
-                  (java.lang.String) ref);
-          testCaseId_ = b;
-          return b;
-        } else {
-          return (com.google.protobuf.ByteString) ref;
-        }
-      }
-      /**
-       * <code>string testCaseId = 2;</code>
-       */
-      public Builder setTestCaseId(
-          java.lang.String value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  
-        testCaseId_ = value;
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>string testCaseId = 2;</code>
-       */
-      public Builder clearTestCaseId() {
-        
-        testCaseId_ = getDefaultInstance().getTestCaseId();
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>string testCaseId = 2;</code>
-       */
-      public Builder setTestCaseIdBytes(
-          com.google.protobuf.ByteString value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  checkByteStringIsUtf8(value);
-        
-        testCaseId_ = value;
-        onChanged();
-        return this;
-      }
-
       private java.lang.Object stepDefinitionId_ = "";
       /**
        * <code>string stepDefinitionId = 3;</code>
@@ -62228,9 +63868,9 @@ public final class Messages {
       private java.util.List<io.cucumber.messages.Messages.PatternMatch> patternMatches_ =
         java.util.Collections.emptyList();
       private void ensurePatternMatchesIsMutable() {
-        if (!((bitField0_ & 0x00000008) == 0x00000008)) {
+        if (!((bitField0_ & 0x00000004) == 0x00000004)) {
           patternMatches_ = new java.util.ArrayList<io.cucumber.messages.Messages.PatternMatch>(patternMatches_);
-          bitField0_ |= 0x00000008;
+          bitField0_ |= 0x00000004;
          }
       }
 
@@ -62380,7 +64020,7 @@ public final class Messages {
       public Builder clearPatternMatches() {
         if (patternMatchesBuilder_ == null) {
           patternMatches_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000008);
+          bitField0_ = (bitField0_ & ~0x00000004);
           onChanged();
         } else {
           patternMatchesBuilder_.clear();
@@ -62457,12 +64097,198 @@ public final class Messages {
           patternMatchesBuilder_ = new com.google.protobuf.RepeatedFieldBuilderV3<
               io.cucumber.messages.Messages.PatternMatch, io.cucumber.messages.Messages.PatternMatch.Builder, io.cucumber.messages.Messages.PatternMatchOrBuilder>(
                   patternMatches_,
-                  ((bitField0_ & 0x00000008) == 0x00000008),
+                  ((bitField0_ & 0x00000004) == 0x00000004),
                   getParentForChildren(),
                   isClean());
           patternMatches_ = null;
         }
         return patternMatchesBuilder_;
+      }
+
+      private java.lang.Object pickleId_ = "";
+      /**
+       * <code>string pickleId = 5;</code>
+       */
+      public java.lang.String getPickleId() {
+        java.lang.Object ref = pickleId_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          pickleId_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>string pickleId = 5;</code>
+       */
+      public com.google.protobuf.ByteString
+          getPickleIdBytes() {
+        java.lang.Object ref = pickleId_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          pickleId_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>string pickleId = 5;</code>
+       */
+      public Builder setPickleId(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  
+        pickleId_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string pickleId = 5;</code>
+       */
+      public Builder clearPickleId() {
+        
+        pickleId_ = getDefaultInstance().getPickleId();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string pickleId = 5;</code>
+       */
+      public Builder setPickleIdBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+        
+        pickleId_ = value;
+        onChanged();
+        return this;
+      }
+
+      private io.cucumber.messages.Messages.PickleStepArgument pickleStepArgument_ = null;
+      private com.google.protobuf.SingleFieldBuilderV3<
+          io.cucumber.messages.Messages.PickleStepArgument, io.cucumber.messages.Messages.PickleStepArgument.Builder, io.cucumber.messages.Messages.PickleStepArgumentOrBuilder> pickleStepArgumentBuilder_;
+      /**
+       * <code>.io.cucumber.messages.PickleStepArgument pickleStepArgument = 6;</code>
+       */
+      public boolean hasPickleStepArgument() {
+        return pickleStepArgumentBuilder_ != null || pickleStepArgument_ != null;
+      }
+      /**
+       * <code>.io.cucumber.messages.PickleStepArgument pickleStepArgument = 6;</code>
+       */
+      public io.cucumber.messages.Messages.PickleStepArgument getPickleStepArgument() {
+        if (pickleStepArgumentBuilder_ == null) {
+          return pickleStepArgument_ == null ? io.cucumber.messages.Messages.PickleStepArgument.getDefaultInstance() : pickleStepArgument_;
+        } else {
+          return pickleStepArgumentBuilder_.getMessage();
+        }
+      }
+      /**
+       * <code>.io.cucumber.messages.PickleStepArgument pickleStepArgument = 6;</code>
+       */
+      public Builder setPickleStepArgument(io.cucumber.messages.Messages.PickleStepArgument value) {
+        if (pickleStepArgumentBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          pickleStepArgument_ = value;
+          onChanged();
+        } else {
+          pickleStepArgumentBuilder_.setMessage(value);
+        }
+
+        return this;
+      }
+      /**
+       * <code>.io.cucumber.messages.PickleStepArgument pickleStepArgument = 6;</code>
+       */
+      public Builder setPickleStepArgument(
+          io.cucumber.messages.Messages.PickleStepArgument.Builder builderForValue) {
+        if (pickleStepArgumentBuilder_ == null) {
+          pickleStepArgument_ = builderForValue.build();
+          onChanged();
+        } else {
+          pickleStepArgumentBuilder_.setMessage(builderForValue.build());
+        }
+
+        return this;
+      }
+      /**
+       * <code>.io.cucumber.messages.PickleStepArgument pickleStepArgument = 6;</code>
+       */
+      public Builder mergePickleStepArgument(io.cucumber.messages.Messages.PickleStepArgument value) {
+        if (pickleStepArgumentBuilder_ == null) {
+          if (pickleStepArgument_ != null) {
+            pickleStepArgument_ =
+              io.cucumber.messages.Messages.PickleStepArgument.newBuilder(pickleStepArgument_).mergeFrom(value).buildPartial();
+          } else {
+            pickleStepArgument_ = value;
+          }
+          onChanged();
+        } else {
+          pickleStepArgumentBuilder_.mergeFrom(value);
+        }
+
+        return this;
+      }
+      /**
+       * <code>.io.cucumber.messages.PickleStepArgument pickleStepArgument = 6;</code>
+       */
+      public Builder clearPickleStepArgument() {
+        if (pickleStepArgumentBuilder_ == null) {
+          pickleStepArgument_ = null;
+          onChanged();
+        } else {
+          pickleStepArgument_ = null;
+          pickleStepArgumentBuilder_ = null;
+        }
+
+        return this;
+      }
+      /**
+       * <code>.io.cucumber.messages.PickleStepArgument pickleStepArgument = 6;</code>
+       */
+      public io.cucumber.messages.Messages.PickleStepArgument.Builder getPickleStepArgumentBuilder() {
+        
+        onChanged();
+        return getPickleStepArgumentFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>.io.cucumber.messages.PickleStepArgument pickleStepArgument = 6;</code>
+       */
+      public io.cucumber.messages.Messages.PickleStepArgumentOrBuilder getPickleStepArgumentOrBuilder() {
+        if (pickleStepArgumentBuilder_ != null) {
+          return pickleStepArgumentBuilder_.getMessageOrBuilder();
+        } else {
+          return pickleStepArgument_ == null ?
+              io.cucumber.messages.Messages.PickleStepArgument.getDefaultInstance() : pickleStepArgument_;
+        }
+      }
+      /**
+       * <code>.io.cucumber.messages.PickleStepArgument pickleStepArgument = 6;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilderV3<
+          io.cucumber.messages.Messages.PickleStepArgument, io.cucumber.messages.Messages.PickleStepArgument.Builder, io.cucumber.messages.Messages.PickleStepArgumentOrBuilder> 
+          getPickleStepArgumentFieldBuilder() {
+        if (pickleStepArgumentBuilder_ == null) {
+          pickleStepArgumentBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
+              io.cucumber.messages.Messages.PickleStepArgument, io.cucumber.messages.Messages.PickleStepArgument.Builder, io.cucumber.messages.Messages.PickleStepArgumentOrBuilder>(
+                  getPickleStepArgument(),
+                  getParentForChildren(),
+                  isClean());
+          pickleStepArgument_ = null;
+        }
+        return pickleStepArgumentBuilder_;
       }
       @java.lang.Override
       public final Builder setUnknownFields(
@@ -62549,34 +64375,6 @@ public final class Messages {
      */
     com.google.protobuf.ByteString
         getParameterTypeNameBytes();
-
-    /**
-     * <code>.io.cucumber.messages.PickleDocString doc_string = 3;</code>
-     */
-    boolean hasDocString();
-    /**
-     * <code>.io.cucumber.messages.PickleDocString doc_string = 3;</code>
-     */
-    io.cucumber.messages.Messages.PickleDocString getDocString();
-    /**
-     * <code>.io.cucumber.messages.PickleDocString doc_string = 3;</code>
-     */
-    io.cucumber.messages.Messages.PickleDocStringOrBuilder getDocStringOrBuilder();
-
-    /**
-     * <code>.io.cucumber.messages.PickleTable data_table = 4;</code>
-     */
-    boolean hasDataTable();
-    /**
-     * <code>.io.cucumber.messages.PickleTable data_table = 4;</code>
-     */
-    io.cucumber.messages.Messages.PickleTable getDataTable();
-    /**
-     * <code>.io.cucumber.messages.PickleTable data_table = 4;</code>
-     */
-    io.cucumber.messages.Messages.PickleTableOrBuilder getDataTableOrBuilder();
-
-    public io.cucumber.messages.Messages.PatternMatch.PickleArgumentCase getPickleArgumentCase();
   }
   /**
    * Protobuf type {@code io.cucumber.messages.PatternMatch}
@@ -62634,34 +64432,6 @@ public final class Messages {
               parameterTypeName_ = s;
               break;
             }
-            case 26: {
-              io.cucumber.messages.Messages.PickleDocString.Builder subBuilder = null;
-              if (pickleArgumentCase_ == 3) {
-                subBuilder = ((io.cucumber.messages.Messages.PickleDocString) pickleArgument_).toBuilder();
-              }
-              pickleArgument_ =
-                  input.readMessage(io.cucumber.messages.Messages.PickleDocString.parser(), extensionRegistry);
-              if (subBuilder != null) {
-                subBuilder.mergeFrom((io.cucumber.messages.Messages.PickleDocString) pickleArgument_);
-                pickleArgument_ = subBuilder.buildPartial();
-              }
-              pickleArgumentCase_ = 3;
-              break;
-            }
-            case 34: {
-              io.cucumber.messages.Messages.PickleTable.Builder subBuilder = null;
-              if (pickleArgumentCase_ == 4) {
-                subBuilder = ((io.cucumber.messages.Messages.PickleTable) pickleArgument_).toBuilder();
-              }
-              pickleArgument_ =
-                  input.readMessage(io.cucumber.messages.Messages.PickleTable.parser(), extensionRegistry);
-              if (subBuilder != null) {
-                subBuilder.mergeFrom((io.cucumber.messages.Messages.PickleTable) pickleArgument_);
-                pickleArgument_ = subBuilder.buildPartial();
-              }
-              pickleArgumentCase_ = 4;
-              break;
-            }
             default: {
               if (!parseUnknownFieldProto3(
                   input, unknownFields, extensionRegistry, tag)) {
@@ -62698,44 +64468,6 @@ public final class Messages {
     }
 
     private int bitField0_;
-    private int pickleArgumentCase_ = 0;
-    private java.lang.Object pickleArgument_;
-    public enum PickleArgumentCase
-        implements com.google.protobuf.Internal.EnumLite {
-      DOC_STRING(3),
-      DATA_TABLE(4),
-      PICKLEARGUMENT_NOT_SET(0);
-      private final int value;
-      private PickleArgumentCase(int value) {
-        this.value = value;
-      }
-      /**
-       * @deprecated Use {@link #forNumber(int)} instead.
-       */
-      @java.lang.Deprecated
-      public static PickleArgumentCase valueOf(int value) {
-        return forNumber(value);
-      }
-
-      public static PickleArgumentCase forNumber(int value) {
-        switch (value) {
-          case 3: return DOC_STRING;
-          case 4: return DATA_TABLE;
-          case 0: return PICKLEARGUMENT_NOT_SET;
-          default: return null;
-        }
-      }
-      public int getNumber() {
-        return this.value;
-      }
-    };
-
-    public PickleArgumentCase
-    getPickleArgumentCase() {
-      return PickleArgumentCase.forNumber(
-          pickleArgumentCase_);
-    }
-
     public static final int CAPTURES_FIELD_NUMBER = 1;
     private com.google.protobuf.LazyStringList captures_;
     /**
@@ -62799,58 +64531,6 @@ public final class Messages {
       }
     }
 
-    public static final int DOC_STRING_FIELD_NUMBER = 3;
-    /**
-     * <code>.io.cucumber.messages.PickleDocString doc_string = 3;</code>
-     */
-    public boolean hasDocString() {
-      return pickleArgumentCase_ == 3;
-    }
-    /**
-     * <code>.io.cucumber.messages.PickleDocString doc_string = 3;</code>
-     */
-    public io.cucumber.messages.Messages.PickleDocString getDocString() {
-      if (pickleArgumentCase_ == 3) {
-         return (io.cucumber.messages.Messages.PickleDocString) pickleArgument_;
-      }
-      return io.cucumber.messages.Messages.PickleDocString.getDefaultInstance();
-    }
-    /**
-     * <code>.io.cucumber.messages.PickleDocString doc_string = 3;</code>
-     */
-    public io.cucumber.messages.Messages.PickleDocStringOrBuilder getDocStringOrBuilder() {
-      if (pickleArgumentCase_ == 3) {
-         return (io.cucumber.messages.Messages.PickleDocString) pickleArgument_;
-      }
-      return io.cucumber.messages.Messages.PickleDocString.getDefaultInstance();
-    }
-
-    public static final int DATA_TABLE_FIELD_NUMBER = 4;
-    /**
-     * <code>.io.cucumber.messages.PickleTable data_table = 4;</code>
-     */
-    public boolean hasDataTable() {
-      return pickleArgumentCase_ == 4;
-    }
-    /**
-     * <code>.io.cucumber.messages.PickleTable data_table = 4;</code>
-     */
-    public io.cucumber.messages.Messages.PickleTable getDataTable() {
-      if (pickleArgumentCase_ == 4) {
-         return (io.cucumber.messages.Messages.PickleTable) pickleArgument_;
-      }
-      return io.cucumber.messages.Messages.PickleTable.getDefaultInstance();
-    }
-    /**
-     * <code>.io.cucumber.messages.PickleTable data_table = 4;</code>
-     */
-    public io.cucumber.messages.Messages.PickleTableOrBuilder getDataTableOrBuilder() {
-      if (pickleArgumentCase_ == 4) {
-         return (io.cucumber.messages.Messages.PickleTable) pickleArgument_;
-      }
-      return io.cucumber.messages.Messages.PickleTable.getDefaultInstance();
-    }
-
     private byte memoizedIsInitialized = -1;
     @java.lang.Override
     public final boolean isInitialized() {
@@ -62870,12 +64550,6 @@ public final class Messages {
       }
       if (!getParameterTypeNameBytes().isEmpty()) {
         com.google.protobuf.GeneratedMessageV3.writeString(output, 2, parameterTypeName_);
-      }
-      if (pickleArgumentCase_ == 3) {
-        output.writeMessage(3, (io.cucumber.messages.Messages.PickleDocString) pickleArgument_);
-      }
-      if (pickleArgumentCase_ == 4) {
-        output.writeMessage(4, (io.cucumber.messages.Messages.PickleTable) pickleArgument_);
       }
       unknownFields.writeTo(output);
     }
@@ -62897,14 +64571,6 @@ public final class Messages {
       if (!getParameterTypeNameBytes().isEmpty()) {
         size += com.google.protobuf.GeneratedMessageV3.computeStringSize(2, parameterTypeName_);
       }
-      if (pickleArgumentCase_ == 3) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(3, (io.cucumber.messages.Messages.PickleDocString) pickleArgument_);
-      }
-      if (pickleArgumentCase_ == 4) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(4, (io.cucumber.messages.Messages.PickleTable) pickleArgument_);
-      }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
       return size;
@@ -62925,21 +64591,6 @@ public final class Messages {
           .equals(other.getCapturesList());
       result = result && getParameterTypeName()
           .equals(other.getParameterTypeName());
-      result = result && getPickleArgumentCase().equals(
-          other.getPickleArgumentCase());
-      if (!result) return false;
-      switch (pickleArgumentCase_) {
-        case 3:
-          result = result && getDocString()
-              .equals(other.getDocString());
-          break;
-        case 4:
-          result = result && getDataTable()
-              .equals(other.getDataTable());
-          break;
-        case 0:
-        default:
-      }
       result = result && unknownFields.equals(other.unknownFields);
       return result;
     }
@@ -62957,18 +64608,6 @@ public final class Messages {
       }
       hash = (37 * hash) + PARAMETERTYPENAME_FIELD_NUMBER;
       hash = (53 * hash) + getParameterTypeName().hashCode();
-      switch (pickleArgumentCase_) {
-        case 3:
-          hash = (37 * hash) + DOC_STRING_FIELD_NUMBER;
-          hash = (53 * hash) + getDocString().hashCode();
-          break;
-        case 4:
-          hash = (37 * hash) + DATA_TABLE_FIELD_NUMBER;
-          hash = (53 * hash) + getDataTable().hashCode();
-          break;
-        case 0:
-        default:
-      }
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
       return hash;
@@ -63106,8 +64745,6 @@ public final class Messages {
         bitField0_ = (bitField0_ & ~0x00000001);
         parameterTypeName_ = "";
 
-        pickleArgumentCase_ = 0;
-        pickleArgument_ = null;
         return this;
       }
 
@@ -63142,22 +64779,7 @@ public final class Messages {
         }
         result.captures_ = captures_;
         result.parameterTypeName_ = parameterTypeName_;
-        if (pickleArgumentCase_ == 3) {
-          if (docStringBuilder_ == null) {
-            result.pickleArgument_ = pickleArgument_;
-          } else {
-            result.pickleArgument_ = docStringBuilder_.build();
-          }
-        }
-        if (pickleArgumentCase_ == 4) {
-          if (dataTableBuilder_ == null) {
-            result.pickleArgument_ = pickleArgument_;
-          } else {
-            result.pickleArgument_ = dataTableBuilder_.build();
-          }
-        }
         result.bitField0_ = to_bitField0_;
-        result.pickleArgumentCase_ = pickleArgumentCase_;
         onBuilt();
         return result;
       }
@@ -63220,19 +64842,6 @@ public final class Messages {
           parameterTypeName_ = other.parameterTypeName_;
           onChanged();
         }
-        switch (other.getPickleArgumentCase()) {
-          case DOC_STRING: {
-            mergeDocString(other.getDocString());
-            break;
-          }
-          case DATA_TABLE: {
-            mergeDataTable(other.getDataTable());
-            break;
-          }
-          case PICKLEARGUMENT_NOT_SET: {
-            break;
-          }
-        }
         this.mergeUnknownFields(other.unknownFields);
         onChanged();
         return this;
@@ -63261,21 +64870,6 @@ public final class Messages {
         }
         return this;
       }
-      private int pickleArgumentCase_ = 0;
-      private java.lang.Object pickleArgument_;
-      public PickleArgumentCase
-          getPickleArgumentCase() {
-        return PickleArgumentCase.forNumber(
-            pickleArgumentCase_);
-      }
-
-      public Builder clearPickleArgument() {
-        pickleArgumentCase_ = 0;
-        pickleArgument_ = null;
-        onChanged();
-        return this;
-      }
-
       private int bitField0_;
 
       private com.google.protobuf.LazyStringList captures_ = com.google.protobuf.LazyStringArrayList.EMPTY;
@@ -63440,278 +65034,6 @@ public final class Messages {
         onChanged();
         return this;
       }
-
-      private com.google.protobuf.SingleFieldBuilderV3<
-          io.cucumber.messages.Messages.PickleDocString, io.cucumber.messages.Messages.PickleDocString.Builder, io.cucumber.messages.Messages.PickleDocStringOrBuilder> docStringBuilder_;
-      /**
-       * <code>.io.cucumber.messages.PickleDocString doc_string = 3;</code>
-       */
-      public boolean hasDocString() {
-        return pickleArgumentCase_ == 3;
-      }
-      /**
-       * <code>.io.cucumber.messages.PickleDocString doc_string = 3;</code>
-       */
-      public io.cucumber.messages.Messages.PickleDocString getDocString() {
-        if (docStringBuilder_ == null) {
-          if (pickleArgumentCase_ == 3) {
-            return (io.cucumber.messages.Messages.PickleDocString) pickleArgument_;
-          }
-          return io.cucumber.messages.Messages.PickleDocString.getDefaultInstance();
-        } else {
-          if (pickleArgumentCase_ == 3) {
-            return docStringBuilder_.getMessage();
-          }
-          return io.cucumber.messages.Messages.PickleDocString.getDefaultInstance();
-        }
-      }
-      /**
-       * <code>.io.cucumber.messages.PickleDocString doc_string = 3;</code>
-       */
-      public Builder setDocString(io.cucumber.messages.Messages.PickleDocString value) {
-        if (docStringBuilder_ == null) {
-          if (value == null) {
-            throw new NullPointerException();
-          }
-          pickleArgument_ = value;
-          onChanged();
-        } else {
-          docStringBuilder_.setMessage(value);
-        }
-        pickleArgumentCase_ = 3;
-        return this;
-      }
-      /**
-       * <code>.io.cucumber.messages.PickleDocString doc_string = 3;</code>
-       */
-      public Builder setDocString(
-          io.cucumber.messages.Messages.PickleDocString.Builder builderForValue) {
-        if (docStringBuilder_ == null) {
-          pickleArgument_ = builderForValue.build();
-          onChanged();
-        } else {
-          docStringBuilder_.setMessage(builderForValue.build());
-        }
-        pickleArgumentCase_ = 3;
-        return this;
-      }
-      /**
-       * <code>.io.cucumber.messages.PickleDocString doc_string = 3;</code>
-       */
-      public Builder mergeDocString(io.cucumber.messages.Messages.PickleDocString value) {
-        if (docStringBuilder_ == null) {
-          if (pickleArgumentCase_ == 3 &&
-              pickleArgument_ != io.cucumber.messages.Messages.PickleDocString.getDefaultInstance()) {
-            pickleArgument_ = io.cucumber.messages.Messages.PickleDocString.newBuilder((io.cucumber.messages.Messages.PickleDocString) pickleArgument_)
-                .mergeFrom(value).buildPartial();
-          } else {
-            pickleArgument_ = value;
-          }
-          onChanged();
-        } else {
-          if (pickleArgumentCase_ == 3) {
-            docStringBuilder_.mergeFrom(value);
-          }
-          docStringBuilder_.setMessage(value);
-        }
-        pickleArgumentCase_ = 3;
-        return this;
-      }
-      /**
-       * <code>.io.cucumber.messages.PickleDocString doc_string = 3;</code>
-       */
-      public Builder clearDocString() {
-        if (docStringBuilder_ == null) {
-          if (pickleArgumentCase_ == 3) {
-            pickleArgumentCase_ = 0;
-            pickleArgument_ = null;
-            onChanged();
-          }
-        } else {
-          if (pickleArgumentCase_ == 3) {
-            pickleArgumentCase_ = 0;
-            pickleArgument_ = null;
-          }
-          docStringBuilder_.clear();
-        }
-        return this;
-      }
-      /**
-       * <code>.io.cucumber.messages.PickleDocString doc_string = 3;</code>
-       */
-      public io.cucumber.messages.Messages.PickleDocString.Builder getDocStringBuilder() {
-        return getDocStringFieldBuilder().getBuilder();
-      }
-      /**
-       * <code>.io.cucumber.messages.PickleDocString doc_string = 3;</code>
-       */
-      public io.cucumber.messages.Messages.PickleDocStringOrBuilder getDocStringOrBuilder() {
-        if ((pickleArgumentCase_ == 3) && (docStringBuilder_ != null)) {
-          return docStringBuilder_.getMessageOrBuilder();
-        } else {
-          if (pickleArgumentCase_ == 3) {
-            return (io.cucumber.messages.Messages.PickleDocString) pickleArgument_;
-          }
-          return io.cucumber.messages.Messages.PickleDocString.getDefaultInstance();
-        }
-      }
-      /**
-       * <code>.io.cucumber.messages.PickleDocString doc_string = 3;</code>
-       */
-      private com.google.protobuf.SingleFieldBuilderV3<
-          io.cucumber.messages.Messages.PickleDocString, io.cucumber.messages.Messages.PickleDocString.Builder, io.cucumber.messages.Messages.PickleDocStringOrBuilder> 
-          getDocStringFieldBuilder() {
-        if (docStringBuilder_ == null) {
-          if (!(pickleArgumentCase_ == 3)) {
-            pickleArgument_ = io.cucumber.messages.Messages.PickleDocString.getDefaultInstance();
-          }
-          docStringBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
-              io.cucumber.messages.Messages.PickleDocString, io.cucumber.messages.Messages.PickleDocString.Builder, io.cucumber.messages.Messages.PickleDocStringOrBuilder>(
-                  (io.cucumber.messages.Messages.PickleDocString) pickleArgument_,
-                  getParentForChildren(),
-                  isClean());
-          pickleArgument_ = null;
-        }
-        pickleArgumentCase_ = 3;
-        onChanged();;
-        return docStringBuilder_;
-      }
-
-      private com.google.protobuf.SingleFieldBuilderV3<
-          io.cucumber.messages.Messages.PickleTable, io.cucumber.messages.Messages.PickleTable.Builder, io.cucumber.messages.Messages.PickleTableOrBuilder> dataTableBuilder_;
-      /**
-       * <code>.io.cucumber.messages.PickleTable data_table = 4;</code>
-       */
-      public boolean hasDataTable() {
-        return pickleArgumentCase_ == 4;
-      }
-      /**
-       * <code>.io.cucumber.messages.PickleTable data_table = 4;</code>
-       */
-      public io.cucumber.messages.Messages.PickleTable getDataTable() {
-        if (dataTableBuilder_ == null) {
-          if (pickleArgumentCase_ == 4) {
-            return (io.cucumber.messages.Messages.PickleTable) pickleArgument_;
-          }
-          return io.cucumber.messages.Messages.PickleTable.getDefaultInstance();
-        } else {
-          if (pickleArgumentCase_ == 4) {
-            return dataTableBuilder_.getMessage();
-          }
-          return io.cucumber.messages.Messages.PickleTable.getDefaultInstance();
-        }
-      }
-      /**
-       * <code>.io.cucumber.messages.PickleTable data_table = 4;</code>
-       */
-      public Builder setDataTable(io.cucumber.messages.Messages.PickleTable value) {
-        if (dataTableBuilder_ == null) {
-          if (value == null) {
-            throw new NullPointerException();
-          }
-          pickleArgument_ = value;
-          onChanged();
-        } else {
-          dataTableBuilder_.setMessage(value);
-        }
-        pickleArgumentCase_ = 4;
-        return this;
-      }
-      /**
-       * <code>.io.cucumber.messages.PickleTable data_table = 4;</code>
-       */
-      public Builder setDataTable(
-          io.cucumber.messages.Messages.PickleTable.Builder builderForValue) {
-        if (dataTableBuilder_ == null) {
-          pickleArgument_ = builderForValue.build();
-          onChanged();
-        } else {
-          dataTableBuilder_.setMessage(builderForValue.build());
-        }
-        pickleArgumentCase_ = 4;
-        return this;
-      }
-      /**
-       * <code>.io.cucumber.messages.PickleTable data_table = 4;</code>
-       */
-      public Builder mergeDataTable(io.cucumber.messages.Messages.PickleTable value) {
-        if (dataTableBuilder_ == null) {
-          if (pickleArgumentCase_ == 4 &&
-              pickleArgument_ != io.cucumber.messages.Messages.PickleTable.getDefaultInstance()) {
-            pickleArgument_ = io.cucumber.messages.Messages.PickleTable.newBuilder((io.cucumber.messages.Messages.PickleTable) pickleArgument_)
-                .mergeFrom(value).buildPartial();
-          } else {
-            pickleArgument_ = value;
-          }
-          onChanged();
-        } else {
-          if (pickleArgumentCase_ == 4) {
-            dataTableBuilder_.mergeFrom(value);
-          }
-          dataTableBuilder_.setMessage(value);
-        }
-        pickleArgumentCase_ = 4;
-        return this;
-      }
-      /**
-       * <code>.io.cucumber.messages.PickleTable data_table = 4;</code>
-       */
-      public Builder clearDataTable() {
-        if (dataTableBuilder_ == null) {
-          if (pickleArgumentCase_ == 4) {
-            pickleArgumentCase_ = 0;
-            pickleArgument_ = null;
-            onChanged();
-          }
-        } else {
-          if (pickleArgumentCase_ == 4) {
-            pickleArgumentCase_ = 0;
-            pickleArgument_ = null;
-          }
-          dataTableBuilder_.clear();
-        }
-        return this;
-      }
-      /**
-       * <code>.io.cucumber.messages.PickleTable data_table = 4;</code>
-       */
-      public io.cucumber.messages.Messages.PickleTable.Builder getDataTableBuilder() {
-        return getDataTableFieldBuilder().getBuilder();
-      }
-      /**
-       * <code>.io.cucumber.messages.PickleTable data_table = 4;</code>
-       */
-      public io.cucumber.messages.Messages.PickleTableOrBuilder getDataTableOrBuilder() {
-        if ((pickleArgumentCase_ == 4) && (dataTableBuilder_ != null)) {
-          return dataTableBuilder_.getMessageOrBuilder();
-        } else {
-          if (pickleArgumentCase_ == 4) {
-            return (io.cucumber.messages.Messages.PickleTable) pickleArgument_;
-          }
-          return io.cucumber.messages.Messages.PickleTable.getDefaultInstance();
-        }
-      }
-      /**
-       * <code>.io.cucumber.messages.PickleTable data_table = 4;</code>
-       */
-      private com.google.protobuf.SingleFieldBuilderV3<
-          io.cucumber.messages.Messages.PickleTable, io.cucumber.messages.Messages.PickleTable.Builder, io.cucumber.messages.Messages.PickleTableOrBuilder> 
-          getDataTableFieldBuilder() {
-        if (dataTableBuilder_ == null) {
-          if (!(pickleArgumentCase_ == 4)) {
-            pickleArgument_ = io.cucumber.messages.Messages.PickleTable.getDefaultInstance();
-          }
-          dataTableBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
-              io.cucumber.messages.Messages.PickleTable, io.cucumber.messages.Messages.PickleTable.Builder, io.cucumber.messages.Messages.PickleTableOrBuilder>(
-                  (io.cucumber.messages.Messages.PickleTable) pickleArgument_,
-                  getParentForChildren(),
-                  isClean());
-          pickleArgument_ = null;
-        }
-        pickleArgumentCase_ = 4;
-        onChanged();;
-        return dataTableBuilder_;
-      }
       @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
@@ -63804,32 +65126,17 @@ public final class Messages {
         int index);
 
     /**
-     * <code>.io.cucumber.messages.PickleDocString doc_string = 3;</code>
+     * <code>.io.cucumber.messages.PickleStepArgument pickleStepArgument = 5;</code>
      */
-    boolean hasDocString();
+    boolean hasPickleStepArgument();
     /**
-     * <code>.io.cucumber.messages.PickleDocString doc_string = 3;</code>
+     * <code>.io.cucumber.messages.PickleStepArgument pickleStepArgument = 5;</code>
      */
-    io.cucumber.messages.Messages.PickleDocString getDocString();
+    io.cucumber.messages.Messages.PickleStepArgument getPickleStepArgument();
     /**
-     * <code>.io.cucumber.messages.PickleDocString doc_string = 3;</code>
+     * <code>.io.cucumber.messages.PickleStepArgument pickleStepArgument = 5;</code>
      */
-    io.cucumber.messages.Messages.PickleDocStringOrBuilder getDocStringOrBuilder();
-
-    /**
-     * <code>.io.cucumber.messages.PickleTable data_table = 4;</code>
-     */
-    boolean hasDataTable();
-    /**
-     * <code>.io.cucumber.messages.PickleTable data_table = 4;</code>
-     */
-    io.cucumber.messages.Messages.PickleTable getDataTable();
-    /**
-     * <code>.io.cucumber.messages.PickleTable data_table = 4;</code>
-     */
-    io.cucumber.messages.Messages.PickleTableOrBuilder getDataTableOrBuilder();
-
-    public io.cucumber.messages.Messages.CommandGenerateSnippet.PickleArgumentCase getPickleArgumentCase();
+    io.cucumber.messages.Messages.PickleStepArgumentOrBuilder getPickleStepArgumentOrBuilder();
   }
   /**
    * Protobuf type {@code io.cucumber.messages.CommandGenerateSnippet}
@@ -63887,32 +65194,17 @@ public final class Messages {
                   input.readMessage(io.cucumber.messages.Messages.GeneratedExpression.parser(), extensionRegistry));
               break;
             }
-            case 26: {
-              io.cucumber.messages.Messages.PickleDocString.Builder subBuilder = null;
-              if (pickleArgumentCase_ == 3) {
-                subBuilder = ((io.cucumber.messages.Messages.PickleDocString) pickleArgument_).toBuilder();
+            case 42: {
+              io.cucumber.messages.Messages.PickleStepArgument.Builder subBuilder = null;
+              if (pickleStepArgument_ != null) {
+                subBuilder = pickleStepArgument_.toBuilder();
               }
-              pickleArgument_ =
-                  input.readMessage(io.cucumber.messages.Messages.PickleDocString.parser(), extensionRegistry);
+              pickleStepArgument_ = input.readMessage(io.cucumber.messages.Messages.PickleStepArgument.parser(), extensionRegistry);
               if (subBuilder != null) {
-                subBuilder.mergeFrom((io.cucumber.messages.Messages.PickleDocString) pickleArgument_);
-                pickleArgument_ = subBuilder.buildPartial();
+                subBuilder.mergeFrom(pickleStepArgument_);
+                pickleStepArgument_ = subBuilder.buildPartial();
               }
-              pickleArgumentCase_ = 3;
-              break;
-            }
-            case 34: {
-              io.cucumber.messages.Messages.PickleTable.Builder subBuilder = null;
-              if (pickleArgumentCase_ == 4) {
-                subBuilder = ((io.cucumber.messages.Messages.PickleTable) pickleArgument_).toBuilder();
-              }
-              pickleArgument_ =
-                  input.readMessage(io.cucumber.messages.Messages.PickleTable.parser(), extensionRegistry);
-              if (subBuilder != null) {
-                subBuilder.mergeFrom((io.cucumber.messages.Messages.PickleTable) pickleArgument_);
-                pickleArgument_ = subBuilder.buildPartial();
-              }
-              pickleArgumentCase_ = 4;
+
               break;
             }
             default: {
@@ -63951,44 +65243,6 @@ public final class Messages {
     }
 
     private int bitField0_;
-    private int pickleArgumentCase_ = 0;
-    private java.lang.Object pickleArgument_;
-    public enum PickleArgumentCase
-        implements com.google.protobuf.Internal.EnumLite {
-      DOC_STRING(3),
-      DATA_TABLE(4),
-      PICKLEARGUMENT_NOT_SET(0);
-      private final int value;
-      private PickleArgumentCase(int value) {
-        this.value = value;
-      }
-      /**
-       * @deprecated Use {@link #forNumber(int)} instead.
-       */
-      @java.lang.Deprecated
-      public static PickleArgumentCase valueOf(int value) {
-        return forNumber(value);
-      }
-
-      public static PickleArgumentCase forNumber(int value) {
-        switch (value) {
-          case 3: return DOC_STRING;
-          case 4: return DATA_TABLE;
-          case 0: return PICKLEARGUMENT_NOT_SET;
-          default: return null;
-        }
-      }
-      public int getNumber() {
-        return this.value;
-      }
-    };
-
-    public PickleArgumentCase
-    getPickleArgumentCase() {
-      return PickleArgumentCase.forNumber(
-          pickleArgumentCase_);
-    }
-
     public static final int ACTIONID_FIELD_NUMBER = 1;
     private volatile java.lang.Object actionId_;
     /**
@@ -64058,56 +65312,25 @@ public final class Messages {
       return generatedExpressions_.get(index);
     }
 
-    public static final int DOC_STRING_FIELD_NUMBER = 3;
+    public static final int PICKLESTEPARGUMENT_FIELD_NUMBER = 5;
+    private io.cucumber.messages.Messages.PickleStepArgument pickleStepArgument_;
     /**
-     * <code>.io.cucumber.messages.PickleDocString doc_string = 3;</code>
+     * <code>.io.cucumber.messages.PickleStepArgument pickleStepArgument = 5;</code>
      */
-    public boolean hasDocString() {
-      return pickleArgumentCase_ == 3;
+    public boolean hasPickleStepArgument() {
+      return pickleStepArgument_ != null;
     }
     /**
-     * <code>.io.cucumber.messages.PickleDocString doc_string = 3;</code>
+     * <code>.io.cucumber.messages.PickleStepArgument pickleStepArgument = 5;</code>
      */
-    public io.cucumber.messages.Messages.PickleDocString getDocString() {
-      if (pickleArgumentCase_ == 3) {
-         return (io.cucumber.messages.Messages.PickleDocString) pickleArgument_;
-      }
-      return io.cucumber.messages.Messages.PickleDocString.getDefaultInstance();
+    public io.cucumber.messages.Messages.PickleStepArgument getPickleStepArgument() {
+      return pickleStepArgument_ == null ? io.cucumber.messages.Messages.PickleStepArgument.getDefaultInstance() : pickleStepArgument_;
     }
     /**
-     * <code>.io.cucumber.messages.PickleDocString doc_string = 3;</code>
+     * <code>.io.cucumber.messages.PickleStepArgument pickleStepArgument = 5;</code>
      */
-    public io.cucumber.messages.Messages.PickleDocStringOrBuilder getDocStringOrBuilder() {
-      if (pickleArgumentCase_ == 3) {
-         return (io.cucumber.messages.Messages.PickleDocString) pickleArgument_;
-      }
-      return io.cucumber.messages.Messages.PickleDocString.getDefaultInstance();
-    }
-
-    public static final int DATA_TABLE_FIELD_NUMBER = 4;
-    /**
-     * <code>.io.cucumber.messages.PickleTable data_table = 4;</code>
-     */
-    public boolean hasDataTable() {
-      return pickleArgumentCase_ == 4;
-    }
-    /**
-     * <code>.io.cucumber.messages.PickleTable data_table = 4;</code>
-     */
-    public io.cucumber.messages.Messages.PickleTable getDataTable() {
-      if (pickleArgumentCase_ == 4) {
-         return (io.cucumber.messages.Messages.PickleTable) pickleArgument_;
-      }
-      return io.cucumber.messages.Messages.PickleTable.getDefaultInstance();
-    }
-    /**
-     * <code>.io.cucumber.messages.PickleTable data_table = 4;</code>
-     */
-    public io.cucumber.messages.Messages.PickleTableOrBuilder getDataTableOrBuilder() {
-      if (pickleArgumentCase_ == 4) {
-         return (io.cucumber.messages.Messages.PickleTable) pickleArgument_;
-      }
-      return io.cucumber.messages.Messages.PickleTable.getDefaultInstance();
+    public io.cucumber.messages.Messages.PickleStepArgumentOrBuilder getPickleStepArgumentOrBuilder() {
+      return getPickleStepArgument();
     }
 
     private byte memoizedIsInitialized = -1;
@@ -64130,11 +65353,8 @@ public final class Messages {
       for (int i = 0; i < generatedExpressions_.size(); i++) {
         output.writeMessage(2, generatedExpressions_.get(i));
       }
-      if (pickleArgumentCase_ == 3) {
-        output.writeMessage(3, (io.cucumber.messages.Messages.PickleDocString) pickleArgument_);
-      }
-      if (pickleArgumentCase_ == 4) {
-        output.writeMessage(4, (io.cucumber.messages.Messages.PickleTable) pickleArgument_);
+      if (pickleStepArgument_ != null) {
+        output.writeMessage(5, getPickleStepArgument());
       }
       unknownFields.writeTo(output);
     }
@@ -64152,13 +65372,9 @@ public final class Messages {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(2, generatedExpressions_.get(i));
       }
-      if (pickleArgumentCase_ == 3) {
+      if (pickleStepArgument_ != null) {
         size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(3, (io.cucumber.messages.Messages.PickleDocString) pickleArgument_);
-      }
-      if (pickleArgumentCase_ == 4) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(4, (io.cucumber.messages.Messages.PickleTable) pickleArgument_);
+          .computeMessageSize(5, getPickleStepArgument());
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -64180,20 +65396,10 @@ public final class Messages {
           .equals(other.getActionId());
       result = result && getGeneratedExpressionsList()
           .equals(other.getGeneratedExpressionsList());
-      result = result && getPickleArgumentCase().equals(
-          other.getPickleArgumentCase());
-      if (!result) return false;
-      switch (pickleArgumentCase_) {
-        case 3:
-          result = result && getDocString()
-              .equals(other.getDocString());
-          break;
-        case 4:
-          result = result && getDataTable()
-              .equals(other.getDataTable());
-          break;
-        case 0:
-        default:
+      result = result && (hasPickleStepArgument() == other.hasPickleStepArgument());
+      if (hasPickleStepArgument()) {
+        result = result && getPickleStepArgument()
+            .equals(other.getPickleStepArgument());
       }
       result = result && unknownFields.equals(other.unknownFields);
       return result;
@@ -64212,17 +65418,9 @@ public final class Messages {
         hash = (37 * hash) + GENERATEDEXPRESSIONS_FIELD_NUMBER;
         hash = (53 * hash) + getGeneratedExpressionsList().hashCode();
       }
-      switch (pickleArgumentCase_) {
-        case 3:
-          hash = (37 * hash) + DOC_STRING_FIELD_NUMBER;
-          hash = (53 * hash) + getDocString().hashCode();
-          break;
-        case 4:
-          hash = (37 * hash) + DATA_TABLE_FIELD_NUMBER;
-          hash = (53 * hash) + getDataTable().hashCode();
-          break;
-        case 0:
-        default:
+      if (hasPickleStepArgument()) {
+        hash = (37 * hash) + PICKLESTEPARGUMENT_FIELD_NUMBER;
+        hash = (53 * hash) + getPickleStepArgument().hashCode();
       }
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
@@ -64366,8 +65564,12 @@ public final class Messages {
         } else {
           generatedExpressionsBuilder_.clear();
         }
-        pickleArgumentCase_ = 0;
-        pickleArgument_ = null;
+        if (pickleStepArgumentBuilder_ == null) {
+          pickleStepArgument_ = null;
+        } else {
+          pickleStepArgument_ = null;
+          pickleStepArgumentBuilder_ = null;
+        }
         return this;
       }
 
@@ -64406,22 +65608,12 @@ public final class Messages {
         } else {
           result.generatedExpressions_ = generatedExpressionsBuilder_.build();
         }
-        if (pickleArgumentCase_ == 3) {
-          if (docStringBuilder_ == null) {
-            result.pickleArgument_ = pickleArgument_;
-          } else {
-            result.pickleArgument_ = docStringBuilder_.build();
-          }
-        }
-        if (pickleArgumentCase_ == 4) {
-          if (dataTableBuilder_ == null) {
-            result.pickleArgument_ = pickleArgument_;
-          } else {
-            result.pickleArgument_ = dataTableBuilder_.build();
-          }
+        if (pickleStepArgumentBuilder_ == null) {
+          result.pickleStepArgument_ = pickleStepArgument_;
+        } else {
+          result.pickleStepArgument_ = pickleStepArgumentBuilder_.build();
         }
         result.bitField0_ = to_bitField0_;
-        result.pickleArgumentCase_ = pickleArgumentCase_;
         onBuilt();
         return result;
       }
@@ -64500,18 +65692,8 @@ public final class Messages {
             }
           }
         }
-        switch (other.getPickleArgumentCase()) {
-          case DOC_STRING: {
-            mergeDocString(other.getDocString());
-            break;
-          }
-          case DATA_TABLE: {
-            mergeDataTable(other.getDataTable());
-            break;
-          }
-          case PICKLEARGUMENT_NOT_SET: {
-            break;
-          }
+        if (other.hasPickleStepArgument()) {
+          mergePickleStepArgument(other.getPickleStepArgument());
         }
         this.mergeUnknownFields(other.unknownFields);
         onChanged();
@@ -64541,21 +65723,6 @@ public final class Messages {
         }
         return this;
       }
-      private int pickleArgumentCase_ = 0;
-      private java.lang.Object pickleArgument_;
-      public PickleArgumentCase
-          getPickleArgumentCase() {
-        return PickleArgumentCase.forNumber(
-            pickleArgumentCase_);
-      }
-
-      public Builder clearPickleArgument() {
-        pickleArgumentCase_ = 0;
-        pickleArgument_ = null;
-        onChanged();
-        return this;
-      }
-
       private int bitField0_;
 
       private java.lang.Object actionId_ = "";
@@ -64867,276 +66034,121 @@ public final class Messages {
         return generatedExpressionsBuilder_;
       }
 
+      private io.cucumber.messages.Messages.PickleStepArgument pickleStepArgument_ = null;
       private com.google.protobuf.SingleFieldBuilderV3<
-          io.cucumber.messages.Messages.PickleDocString, io.cucumber.messages.Messages.PickleDocString.Builder, io.cucumber.messages.Messages.PickleDocStringOrBuilder> docStringBuilder_;
+          io.cucumber.messages.Messages.PickleStepArgument, io.cucumber.messages.Messages.PickleStepArgument.Builder, io.cucumber.messages.Messages.PickleStepArgumentOrBuilder> pickleStepArgumentBuilder_;
       /**
-       * <code>.io.cucumber.messages.PickleDocString doc_string = 3;</code>
+       * <code>.io.cucumber.messages.PickleStepArgument pickleStepArgument = 5;</code>
        */
-      public boolean hasDocString() {
-        return pickleArgumentCase_ == 3;
+      public boolean hasPickleStepArgument() {
+        return pickleStepArgumentBuilder_ != null || pickleStepArgument_ != null;
       }
       /**
-       * <code>.io.cucumber.messages.PickleDocString doc_string = 3;</code>
+       * <code>.io.cucumber.messages.PickleStepArgument pickleStepArgument = 5;</code>
        */
-      public io.cucumber.messages.Messages.PickleDocString getDocString() {
-        if (docStringBuilder_ == null) {
-          if (pickleArgumentCase_ == 3) {
-            return (io.cucumber.messages.Messages.PickleDocString) pickleArgument_;
-          }
-          return io.cucumber.messages.Messages.PickleDocString.getDefaultInstance();
+      public io.cucumber.messages.Messages.PickleStepArgument getPickleStepArgument() {
+        if (pickleStepArgumentBuilder_ == null) {
+          return pickleStepArgument_ == null ? io.cucumber.messages.Messages.PickleStepArgument.getDefaultInstance() : pickleStepArgument_;
         } else {
-          if (pickleArgumentCase_ == 3) {
-            return docStringBuilder_.getMessage();
-          }
-          return io.cucumber.messages.Messages.PickleDocString.getDefaultInstance();
+          return pickleStepArgumentBuilder_.getMessage();
         }
       }
       /**
-       * <code>.io.cucumber.messages.PickleDocString doc_string = 3;</code>
+       * <code>.io.cucumber.messages.PickleStepArgument pickleStepArgument = 5;</code>
        */
-      public Builder setDocString(io.cucumber.messages.Messages.PickleDocString value) {
-        if (docStringBuilder_ == null) {
+      public Builder setPickleStepArgument(io.cucumber.messages.Messages.PickleStepArgument value) {
+        if (pickleStepArgumentBuilder_ == null) {
           if (value == null) {
             throw new NullPointerException();
           }
-          pickleArgument_ = value;
+          pickleStepArgument_ = value;
           onChanged();
         } else {
-          docStringBuilder_.setMessage(value);
+          pickleStepArgumentBuilder_.setMessage(value);
         }
-        pickleArgumentCase_ = 3;
-        return this;
-      }
-      /**
-       * <code>.io.cucumber.messages.PickleDocString doc_string = 3;</code>
-       */
-      public Builder setDocString(
-          io.cucumber.messages.Messages.PickleDocString.Builder builderForValue) {
-        if (docStringBuilder_ == null) {
-          pickleArgument_ = builderForValue.build();
-          onChanged();
-        } else {
-          docStringBuilder_.setMessage(builderForValue.build());
-        }
-        pickleArgumentCase_ = 3;
-        return this;
-      }
-      /**
-       * <code>.io.cucumber.messages.PickleDocString doc_string = 3;</code>
-       */
-      public Builder mergeDocString(io.cucumber.messages.Messages.PickleDocString value) {
-        if (docStringBuilder_ == null) {
-          if (pickleArgumentCase_ == 3 &&
-              pickleArgument_ != io.cucumber.messages.Messages.PickleDocString.getDefaultInstance()) {
-            pickleArgument_ = io.cucumber.messages.Messages.PickleDocString.newBuilder((io.cucumber.messages.Messages.PickleDocString) pickleArgument_)
-                .mergeFrom(value).buildPartial();
-          } else {
-            pickleArgument_ = value;
-          }
-          onChanged();
-        } else {
-          if (pickleArgumentCase_ == 3) {
-            docStringBuilder_.mergeFrom(value);
-          }
-          docStringBuilder_.setMessage(value);
-        }
-        pickleArgumentCase_ = 3;
-        return this;
-      }
-      /**
-       * <code>.io.cucumber.messages.PickleDocString doc_string = 3;</code>
-       */
-      public Builder clearDocString() {
-        if (docStringBuilder_ == null) {
-          if (pickleArgumentCase_ == 3) {
-            pickleArgumentCase_ = 0;
-            pickleArgument_ = null;
-            onChanged();
-          }
-        } else {
-          if (pickleArgumentCase_ == 3) {
-            pickleArgumentCase_ = 0;
-            pickleArgument_ = null;
-          }
-          docStringBuilder_.clear();
-        }
-        return this;
-      }
-      /**
-       * <code>.io.cucumber.messages.PickleDocString doc_string = 3;</code>
-       */
-      public io.cucumber.messages.Messages.PickleDocString.Builder getDocStringBuilder() {
-        return getDocStringFieldBuilder().getBuilder();
-      }
-      /**
-       * <code>.io.cucumber.messages.PickleDocString doc_string = 3;</code>
-       */
-      public io.cucumber.messages.Messages.PickleDocStringOrBuilder getDocStringOrBuilder() {
-        if ((pickleArgumentCase_ == 3) && (docStringBuilder_ != null)) {
-          return docStringBuilder_.getMessageOrBuilder();
-        } else {
-          if (pickleArgumentCase_ == 3) {
-            return (io.cucumber.messages.Messages.PickleDocString) pickleArgument_;
-          }
-          return io.cucumber.messages.Messages.PickleDocString.getDefaultInstance();
-        }
-      }
-      /**
-       * <code>.io.cucumber.messages.PickleDocString doc_string = 3;</code>
-       */
-      private com.google.protobuf.SingleFieldBuilderV3<
-          io.cucumber.messages.Messages.PickleDocString, io.cucumber.messages.Messages.PickleDocString.Builder, io.cucumber.messages.Messages.PickleDocStringOrBuilder> 
-          getDocStringFieldBuilder() {
-        if (docStringBuilder_ == null) {
-          if (!(pickleArgumentCase_ == 3)) {
-            pickleArgument_ = io.cucumber.messages.Messages.PickleDocString.getDefaultInstance();
-          }
-          docStringBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
-              io.cucumber.messages.Messages.PickleDocString, io.cucumber.messages.Messages.PickleDocString.Builder, io.cucumber.messages.Messages.PickleDocStringOrBuilder>(
-                  (io.cucumber.messages.Messages.PickleDocString) pickleArgument_,
-                  getParentForChildren(),
-                  isClean());
-          pickleArgument_ = null;
-        }
-        pickleArgumentCase_ = 3;
-        onChanged();;
-        return docStringBuilder_;
-      }
 
-      private com.google.protobuf.SingleFieldBuilderV3<
-          io.cucumber.messages.Messages.PickleTable, io.cucumber.messages.Messages.PickleTable.Builder, io.cucumber.messages.Messages.PickleTableOrBuilder> dataTableBuilder_;
-      /**
-       * <code>.io.cucumber.messages.PickleTable data_table = 4;</code>
-       */
-      public boolean hasDataTable() {
-        return pickleArgumentCase_ == 4;
-      }
-      /**
-       * <code>.io.cucumber.messages.PickleTable data_table = 4;</code>
-       */
-      public io.cucumber.messages.Messages.PickleTable getDataTable() {
-        if (dataTableBuilder_ == null) {
-          if (pickleArgumentCase_ == 4) {
-            return (io.cucumber.messages.Messages.PickleTable) pickleArgument_;
-          }
-          return io.cucumber.messages.Messages.PickleTable.getDefaultInstance();
-        } else {
-          if (pickleArgumentCase_ == 4) {
-            return dataTableBuilder_.getMessage();
-          }
-          return io.cucumber.messages.Messages.PickleTable.getDefaultInstance();
-        }
-      }
-      /**
-       * <code>.io.cucumber.messages.PickleTable data_table = 4;</code>
-       */
-      public Builder setDataTable(io.cucumber.messages.Messages.PickleTable value) {
-        if (dataTableBuilder_ == null) {
-          if (value == null) {
-            throw new NullPointerException();
-          }
-          pickleArgument_ = value;
-          onChanged();
-        } else {
-          dataTableBuilder_.setMessage(value);
-        }
-        pickleArgumentCase_ = 4;
         return this;
       }
       /**
-       * <code>.io.cucumber.messages.PickleTable data_table = 4;</code>
+       * <code>.io.cucumber.messages.PickleStepArgument pickleStepArgument = 5;</code>
        */
-      public Builder setDataTable(
-          io.cucumber.messages.Messages.PickleTable.Builder builderForValue) {
-        if (dataTableBuilder_ == null) {
-          pickleArgument_ = builderForValue.build();
+      public Builder setPickleStepArgument(
+          io.cucumber.messages.Messages.PickleStepArgument.Builder builderForValue) {
+        if (pickleStepArgumentBuilder_ == null) {
+          pickleStepArgument_ = builderForValue.build();
           onChanged();
         } else {
-          dataTableBuilder_.setMessage(builderForValue.build());
+          pickleStepArgumentBuilder_.setMessage(builderForValue.build());
         }
-        pickleArgumentCase_ = 4;
+
         return this;
       }
       /**
-       * <code>.io.cucumber.messages.PickleTable data_table = 4;</code>
+       * <code>.io.cucumber.messages.PickleStepArgument pickleStepArgument = 5;</code>
        */
-      public Builder mergeDataTable(io.cucumber.messages.Messages.PickleTable value) {
-        if (dataTableBuilder_ == null) {
-          if (pickleArgumentCase_ == 4 &&
-              pickleArgument_ != io.cucumber.messages.Messages.PickleTable.getDefaultInstance()) {
-            pickleArgument_ = io.cucumber.messages.Messages.PickleTable.newBuilder((io.cucumber.messages.Messages.PickleTable) pickleArgument_)
-                .mergeFrom(value).buildPartial();
+      public Builder mergePickleStepArgument(io.cucumber.messages.Messages.PickleStepArgument value) {
+        if (pickleStepArgumentBuilder_ == null) {
+          if (pickleStepArgument_ != null) {
+            pickleStepArgument_ =
+              io.cucumber.messages.Messages.PickleStepArgument.newBuilder(pickleStepArgument_).mergeFrom(value).buildPartial();
           } else {
-            pickleArgument_ = value;
+            pickleStepArgument_ = value;
           }
           onChanged();
         } else {
-          if (pickleArgumentCase_ == 4) {
-            dataTableBuilder_.mergeFrom(value);
-          }
-          dataTableBuilder_.setMessage(value);
+          pickleStepArgumentBuilder_.mergeFrom(value);
         }
-        pickleArgumentCase_ = 4;
+
         return this;
       }
       /**
-       * <code>.io.cucumber.messages.PickleTable data_table = 4;</code>
+       * <code>.io.cucumber.messages.PickleStepArgument pickleStepArgument = 5;</code>
        */
-      public Builder clearDataTable() {
-        if (dataTableBuilder_ == null) {
-          if (pickleArgumentCase_ == 4) {
-            pickleArgumentCase_ = 0;
-            pickleArgument_ = null;
-            onChanged();
-          }
+      public Builder clearPickleStepArgument() {
+        if (pickleStepArgumentBuilder_ == null) {
+          pickleStepArgument_ = null;
+          onChanged();
         } else {
-          if (pickleArgumentCase_ == 4) {
-            pickleArgumentCase_ = 0;
-            pickleArgument_ = null;
-          }
-          dataTableBuilder_.clear();
+          pickleStepArgument_ = null;
+          pickleStepArgumentBuilder_ = null;
         }
+
         return this;
       }
       /**
-       * <code>.io.cucumber.messages.PickleTable data_table = 4;</code>
+       * <code>.io.cucumber.messages.PickleStepArgument pickleStepArgument = 5;</code>
        */
-      public io.cucumber.messages.Messages.PickleTable.Builder getDataTableBuilder() {
-        return getDataTableFieldBuilder().getBuilder();
+      public io.cucumber.messages.Messages.PickleStepArgument.Builder getPickleStepArgumentBuilder() {
+        
+        onChanged();
+        return getPickleStepArgumentFieldBuilder().getBuilder();
       }
       /**
-       * <code>.io.cucumber.messages.PickleTable data_table = 4;</code>
+       * <code>.io.cucumber.messages.PickleStepArgument pickleStepArgument = 5;</code>
        */
-      public io.cucumber.messages.Messages.PickleTableOrBuilder getDataTableOrBuilder() {
-        if ((pickleArgumentCase_ == 4) && (dataTableBuilder_ != null)) {
-          return dataTableBuilder_.getMessageOrBuilder();
+      public io.cucumber.messages.Messages.PickleStepArgumentOrBuilder getPickleStepArgumentOrBuilder() {
+        if (pickleStepArgumentBuilder_ != null) {
+          return pickleStepArgumentBuilder_.getMessageOrBuilder();
         } else {
-          if (pickleArgumentCase_ == 4) {
-            return (io.cucumber.messages.Messages.PickleTable) pickleArgument_;
-          }
-          return io.cucumber.messages.Messages.PickleTable.getDefaultInstance();
+          return pickleStepArgument_ == null ?
+              io.cucumber.messages.Messages.PickleStepArgument.getDefaultInstance() : pickleStepArgument_;
         }
       }
       /**
-       * <code>.io.cucumber.messages.PickleTable data_table = 4;</code>
+       * <code>.io.cucumber.messages.PickleStepArgument pickleStepArgument = 5;</code>
        */
       private com.google.protobuf.SingleFieldBuilderV3<
-          io.cucumber.messages.Messages.PickleTable, io.cucumber.messages.Messages.PickleTable.Builder, io.cucumber.messages.Messages.PickleTableOrBuilder> 
-          getDataTableFieldBuilder() {
-        if (dataTableBuilder_ == null) {
-          if (!(pickleArgumentCase_ == 4)) {
-            pickleArgument_ = io.cucumber.messages.Messages.PickleTable.getDefaultInstance();
-          }
-          dataTableBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
-              io.cucumber.messages.Messages.PickleTable, io.cucumber.messages.Messages.PickleTable.Builder, io.cucumber.messages.Messages.PickleTableOrBuilder>(
-                  (io.cucumber.messages.Messages.PickleTable) pickleArgument_,
+          io.cucumber.messages.Messages.PickleStepArgument, io.cucumber.messages.Messages.PickleStepArgument.Builder, io.cucumber.messages.Messages.PickleStepArgumentOrBuilder> 
+          getPickleStepArgumentFieldBuilder() {
+        if (pickleStepArgumentBuilder_ == null) {
+          pickleStepArgumentBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
+              io.cucumber.messages.Messages.PickleStepArgument, io.cucumber.messages.Messages.PickleStepArgument.Builder, io.cucumber.messages.Messages.PickleStepArgumentOrBuilder>(
+                  getPickleStepArgument(),
                   getParentForChildren(),
                   isClean());
-          pickleArgument_ = null;
+          pickleStepArgument_ = null;
         }
-        pickleArgumentCase_ = 4;
-        onChanged();;
-        return dataTableBuilder_;
+        return pickleStepArgumentBuilder_;
       }
       @java.lang.Override
       public final Builder setUnknownFields(
@@ -66051,6 +67063,11 @@ public final class Messages {
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_io_cucumber_messages_PickleStep_fieldAccessorTable;
   private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_io_cucumber_messages_PickleStepArgument_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_io_cucumber_messages_PickleStepArgument_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_io_cucumber_messages_PickleDocString_descriptor;
   private static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
@@ -66105,6 +67122,11 @@ public final class Messages {
   private static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_io_cucumber_messages_TestCaseStarted_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_io_cucumber_messages_TestCaseStarted_Platform_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_io_cucumber_messages_TestCaseStarted_Platform_fieldAccessorTable;
   private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_io_cucumber_messages_TestCaseFinished_descriptor;
   private static final 
@@ -66370,133 +67392,135 @@ public final class Messages {
       "e\030\004 \001(\t\022/\n\005steps\030\005 \003(\0132 .io.cucumber.mes" +
       "sages.PickleStep\022-\n\004tags\030\006 \003(\0132\037.io.cucu" +
       "mber.messages.PickleTag\0221\n\tlocations\030\007 \003" +
-      "(\0132\036.io.cucumber.messages.Location\"\317\001\n\nP" +
+      "(\0132\036.io.cucumber.messages.Location\"\225\001\n\nP" +
       "ickleStep\022\014\n\004text\030\001 \001(\t\0221\n\tlocations\030\002 \003" +
-      "(\0132\036.io.cucumber.messages.Location\022;\n\ndo" +
-      "c_string\030\003 \001(\0132%.io.cucumber.messages.Pi" +
-      "ckleDocStringH\000\0227\n\ndata_table\030\004 \001(\0132!.io" +
-      ".cucumber.messages.PickleTableH\000B\n\n\010argu" +
-      "ment\"i\n\017PickleDocString\0220\n\010location\030\001 \001(" +
-      "\0132\036.io.cucumber.messages.Location\022\023\n\013con" +
-      "tentType\030\002 \001(\t\022\017\n\007content\030\003 \001(\t\"A\n\013Pickl" +
-      "eTable\0222\n\004rows\030\001 \003(\0132$.io.cucumber.messa" +
-      "ges.PickleTableRow\"R\n\017PickleTableCell\0220\n" +
+      "(\0132\036.io.cucumber.messages.Location\022:\n\010ar" +
+      "gument\030\005 \001(\0132(.io.cucumber.messages.Pick" +
+      "leStepArgumentJ\004\010\003\020\004J\004\010\004\020\005\"\225\001\n\022PickleSte" +
+      "pArgument\022;\n\ndoc_string\030\001 \001(\0132%.io.cucum" +
+      "ber.messages.PickleDocStringH\000\0227\n\ndata_t" +
+      "able\030\002 \001(\0132!.io.cucumber.messages.Pickle" +
+      "TableH\000B\t\n\007message\"i\n\017PickleDocString\0220\n" +
       "\010location\030\001 \001(\0132\036.io.cucumber.messages.L" +
-      "ocation\022\r\n\005value\030\002 \001(\t\"F\n\016PickleTableRow" +
-      "\0224\n\005cells\030\001 \003(\0132%.io.cucumber.messages.P" +
-      "ickleTableCell\"K\n\tPickleTag\0220\n\010location\030" +
-      "\001 \001(\0132\036.io.cucumber.messages.Location\022\014\n" +
-      "\004name\030\002 \001(\t\"\"\n\016PickleAccepted\022\020\n\010pickleI" +
-      "d\030\001 \001(\t\"\"\n\016PickleRejected\022\020\n\010pickleId\030\002 " +
-      "\001(\t\"_\n\016TestRunStarted\022-\n\ttimestamp\030\001 \001(\013" +
-      "2\032.google.protobuf.Timestamp\022\036\n\026cucumber" +
-      "Implementation\030\002 \001(\t\"\224\001\n\024TestCasePrepare" +
-      "dStep\022=\n\016sourceLocation\030\001 \001(\0132%.io.cucum" +
-      "ber.messages.SourceReference\022=\n\016actionLo" +
-      "cation\030\002 \001(\0132%.io.cucumber.messages.Sour" +
-      "ceReference\"_\n\020TestCasePrepared\022\020\n\010pickl" +
-      "eId\030\001 \001(\t\0229\n\005steps\030\002 \003(\0132*.io.cucumber.m" +
-      "essages.TestCasePreparedStep\"R\n\017TestCase" +
-      "Started\022\020\n\010pickleId\030\001 \001(\t\022-\n\ttimestamp\030\002" +
-      " \001(\0132\032.google.protobuf.Timestamp\"\211\001\n\020Tes" +
-      "tCaseFinished\022\020\n\010pickleId\030\001 \001(\t\022-\n\ttimes" +
-      "tamp\030\002 \001(\0132\032.google.protobuf.Timestamp\0224" +
-      "\n\ntestResult\030\003 \001(\0132 .io.cucumber.message" +
-      "s.TestResult\"a\n\017TestStepStarted\022\020\n\010pickl" +
-      "eId\030\001 \001(\t\022\r\n\005index\030\002 \001(\r\022-\n\ttimestamp\030\003 " +
-      "\001(\0132\032.google.protobuf.Timestamp\"\230\001\n\020Test" +
-      "StepFinished\022\020\n\010pickleId\030\001 \001(\t\022\r\n\005index\030" +
-      "\002 \001(\r\0224\n\ntestResult\030\003 \001(\0132 .io.cucumber." +
-      "messages.TestResult\022-\n\ttimestamp\030\004 \001(\0132\032" +
-      ".google.protobuf.Timestamp\"R\n\017TestHookSt" +
-      "arted\022\020\n\010pickleId\030\001 \001(\t\022-\n\ttimestamp\030\002 \001" +
-      "(\0132\032.google.protobuf.Timestamp\"\211\001\n\020TestH" +
-      "ookFinished\022\020\n\010pickleId\030\001 \001(\t\0224\n\ntestRes" +
-      "ult\030\002 \001(\0132 .io.cucumber.messages.TestRes" +
-      "ult\022-\n\ttimestamp\030\003 \001(\0132\032.google.protobuf" +
-      ".Timestamp\"h\n\nTestResult\022,\n\006status\030\001 \001(\016" +
-      "2\034.io.cucumber.messages.Status\022\017\n\007messag" +
-      "e\030\002 \001(\t\022\033\n\023durationNanoseconds\030\003 \001(\004\"\"\n\017" +
-      "TestRunFinished\022\017\n\007success\030\001 \001(\010\"\341\001\n\014Com" +
-      "mandStart\022\025\n\rbaseDirectory\030\002 \001(\t\022:\n\rsour" +
-      "cesConfig\030\003 \001(\0132#.io.cucumber.messages.S" +
-      "ourcesConfig\022:\n\rruntimeConfig\030\004 \001(\0132#.io" +
-      ".cucumber.messages.RuntimeConfig\022B\n\021supp" +
-      "ortCodeConfig\030\005 \001(\0132\'.io.cucumber.messag" +
-      "es.SupportCodeConfig\"\247\001\n\rSourcesConfig\022\025" +
-      "\n\rabsolutePaths\030\001 \003(\t\022\020\n\010language\030\002 \001(\t\022" +
-      ":\n\007filters\030\003 \001(\0132).io.cucumber.messages." +
-      "SourcesFilterConfig\0221\n\005order\030\004 \001(\0132\".io." +
-      "cucumber.messages.SourcesOrder\"\220\001\n\023Sourc" +
-      "esFilterConfig\022\025\n\rtagExpression\030\001 \001(\t\022\036\n" +
-      "\026nameRegularExpressions\030\002 \003(\t\022B\n\021uriToLi" +
-      "nesMapping\030\003 \003(\0132\'.io.cucumber.messages." +
-      "UriToLinesMapping\"8\n\021UriToLinesMapping\022\024" +
-      "\n\014absolutePath\030\001 \001(\t\022\r\n\005lines\030\002 \003(\004\"R\n\014S" +
-      "ourcesOrder\0224\n\004type\030\001 \001(\0162&.io.cucumber." +
-      "messages.SourcesOrderType\022\014\n\004seed\030\002 \001(\004\"" +
-      "\\\n\rRuntimeConfig\022\022\n\nisFailFast\030\001 \001(\010\022\020\n\010" +
-      "isDryRun\030\002 \001(\010\022\020\n\010isStrict\030\003 \001(\010\022\023\n\013maxP" +
-      "arallel\030\004 \001(\004\"\350\002\n\021SupportCodeConfig\022_\n#b" +
-      "eforeTestCaseHookDefinitionConfigs\030\001 \003(\013" +
-      "22.io.cucumber.messages.TestCaseHookDefi" +
-      "nitionConfig\022^\n\"afterTestCaseHookDefinit" +
-      "ionConfigs\030\002 \003(\01322.io.cucumber.messages." +
-      "TestCaseHookDefinitionConfig\022I\n\025stepDefi" +
-      "nitionConfigs\030\003 \003(\0132*.io.cucumber.messag" +
-      "es.StepDefinitionConfig\022G\n\024parameterType" +
-      "Configs\030\004 \003(\0132).io.cucumber.messages.Par" +
-      "ameterTypeConfig\"z\n\034TestCaseHookDefiniti" +
-      "onConfig\022\n\n\002id\030\001 \001(\t\022\025\n\rtagExpression\030\002 " +
-      "\001(\t\0227\n\010location\030\003 \001(\0132%.io.cucumber.mess" +
-      "ages.SourceReference\"\231\001\n\024StepDefinitionC" +
-      "onfig\022\n\n\002id\030\001 \001(\t\022<\n\007pattern\030\002 \001(\0132+.io." +
-      "cucumber.messages.StepDefinitionPattern\022" +
-      "7\n\010location\030\003 \001(\0132%.io.cucumber.messages" +
-      ".SourceReference\"f\n\025StepDefinitionPatter" +
-      "n\022\016\n\006source\030\001 \001(\t\022=\n\004type\030\002 \001(\0162/.io.cuc" +
-      "umber.messages.StepDefinitionPatternType" +
-      "\"\200\001\n\023ParameterTypeConfig\022\014\n\004name\030\001 \001(\t\022\032" +
-      "\n\022regularExpressions\030\002 \003(\t\022\'\n\037preferForR" +
-      "egularExpressionMatch\030\003 \001(\010\022\026\n\016useForSni" +
-      "ppets\030\004 \001(\010\"\201\001\n\025CommandActionComplete\022\023\n" +
-      "\013completedId\030\001 \001(\t\0226\n\ntestResult\030\002 \001(\0132 " +
-      ".io.cucumber.messages.TestResultH\000\022\021\n\007sn" +
-      "ippet\030\003 \001(\tH\000B\010\n\006result\"0\n\034CommandRunBef" +
-      "oreTestRunHooks\022\020\n\010actionId\030\001 \001(\t\"/\n\033Com" +
-      "mandRunAfterTestRunHooks\022\020\n\010actionId\030\001 \001" +
-      "(\t\"o\n\031CommandInitializeTestCase\022\020\n\010actio" +
-      "nId\030\001 \001(\t\022\022\n\ntestCaseId\030\002 \001(\t\022,\n\006pickle\030" +
-      "\003 \001(\0132\034.io.cucumber.messages.Pickle\"f\n\034C" +
-      "ommandRunBeforeTestCaseHook\022\020\n\010actionId\030" +
-      "\001 \001(\t\022\022\n\ntestCaseId\030\002 \001(\t\022 \n\030testCaseHoo" +
-      "kDefinitionId\030\003 \001(\t\"e\n\033CommandRunAfterTe" +
-      "stCaseHook\022\020\n\010actionId\030\001 \001(\t\022\022\n\ntestCase" +
-      "Id\030\002 \001(\t\022 \n\030testCaseHookDefinitionId\030\003 \001" +
-      "(\t\"\220\001\n\022CommandRunTestStep\022\020\n\010actionId\030\001 " +
-      "\001(\t\022\022\n\ntestCaseId\030\002 \001(\t\022\030\n\020stepDefinitio" +
-      "nId\030\003 \001(\t\022:\n\016patternMatches\030\004 \003(\0132\".io.c" +
-      "ucumber.messages.PatternMatch\"\303\001\n\014Patter" +
-      "nMatch\022\020\n\010captures\030\001 \003(\t\022\031\n\021parameterTyp" +
-      "eName\030\002 \001(\t\022;\n\ndoc_string\030\003 \001(\0132%.io.cuc" +
-      "umber.messages.PickleDocStringH\000\0227\n\ndata" +
-      "_table\030\004 \001(\0132!.io.cucumber.messages.Pick" +
-      "leTableH\000B\020\n\016pickleArgument\"\373\001\n\026CommandG" +
-      "enerateSnippet\022\020\n\010actionId\030\001 \001(\t\022G\n\024gene" +
-      "ratedExpressions\030\002 \003(\0132).io.cucumber.mes" +
-      "sages.GeneratedExpression\022;\n\ndoc_string\030" +
-      "\003 \001(\0132%.io.cucumber.messages.PickleDocSt" +
-      "ringH\000\0227\n\ndata_table\030\004 \001(\0132!.io.cucumber" +
-      ".messages.PickleTableH\000B\020\n\016pickleArgumen" +
-      "t\"?\n\023GeneratedExpression\022\014\n\004text\030\001 \001(\t\022\032" +
-      "\n\022parameterTypeNames\030\002 \003(\t*X\n\006Status\022\r\n\t" +
-      "AMBIGUOUS\020\000\022\n\n\006FAILED\020\001\022\n\n\006PASSED\020\002\022\013\n\007P" +
-      "ENDING\020\003\022\013\n\007SKIPPED\020\004\022\r\n\tUNDEFINED\020\005*7\n\020" +
-      "SourcesOrderType\022\027\n\023ORDER_OF_DEFINITION\020" +
-      "\000\022\n\n\006RANDOM\020\001*L\n\031StepDefinitionPatternTy" +
-      "pe\022\027\n\023CUCUMBER_EXPRESSION\020\000\022\026\n\022REGULAR_E" +
-      "XPRESSION\020\001B\036Z\010messages\352\002\021Cucumber.Messa" +
-      "gesb\006proto3"
+      "ocation\022\023\n\013contentType\030\002 \001(\t\022\017\n\007content\030" +
+      "\003 \001(\t\"A\n\013PickleTable\0222\n\004rows\030\001 \003(\0132$.io." +
+      "cucumber.messages.PickleTableRow\"R\n\017Pick" +
+      "leTableCell\0220\n\010location\030\001 \001(\0132\036.io.cucum" +
+      "ber.messages.Location\022\r\n\005value\030\002 \001(\t\"F\n\016" +
+      "PickleTableRow\0224\n\005cells\030\001 \003(\0132%.io.cucum" +
+      "ber.messages.PickleTableCell\"K\n\tPickleTa" +
+      "g\0220\n\010location\030\001 \001(\0132\036.io.cucumber.messag" +
+      "es.Location\022\014\n\004name\030\002 \001(\t\"\"\n\016PickleAccep" +
+      "ted\022\020\n\010pickleId\030\001 \001(\t\"\"\n\016PickleRejected\022" +
+      "\020\n\010pickleId\030\002 \001(\t\"?\n\016TestRunStarted\022-\n\tt" +
+      "imestamp\030\001 \001(\0132\032.google.protobuf.Timesta" +
+      "mp\"\224\001\n\024TestCasePreparedStep\022=\n\016sourceLoc" +
+      "ation\030\001 \001(\0132%.io.cucumber.messages.Sourc" +
+      "eReference\022=\n\016actionLocation\030\002 \001(\0132%.io." +
+      "cucumber.messages.SourceReference\"_\n\020Tes" +
+      "tCasePrepared\022\020\n\010pickleId\030\001 \001(\t\0229\n\005steps" +
+      "\030\002 \003(\0132*.io.cucumber.messages.TestCasePr" +
+      "eparedStep\"\342\001\n\017TestCaseStarted\022\020\n\010pickle" +
+      "Id\030\001 \001(\t\022-\n\ttimestamp\030\002 \001(\0132\032.google.pro" +
+      "tobuf.Timestamp\022@\n\010platform\030\003 \001(\0132..io.c" +
+      "ucumber.messages.TestCaseStarted.Platfor" +
+      "m\032L\n\010Platform\022\026\n\016implementation\030\001 \001(\t\022\017\n" +
+      "\007version\030\002 \001(\t\022\n\n\002os\030\003 \001(\t\022\013\n\003cpu\030\004 \001(\t\"" +
+      "\211\001\n\020TestCaseFinished\022\020\n\010pickleId\030\001 \001(\t\022-" +
+      "\n\ttimestamp\030\002 \001(\0132\032.google.protobuf.Time" +
+      "stamp\0224\n\ntestResult\030\003 \001(\0132 .io.cucumber." +
+      "messages.TestResult\"a\n\017TestStepStarted\022\020" +
+      "\n\010pickleId\030\001 \001(\t\022\r\n\005index\030\002 \001(\r\022-\n\ttimes" +
+      "tamp\030\003 \001(\0132\032.google.protobuf.Timestamp\"\230" +
+      "\001\n\020TestStepFinished\022\020\n\010pickleId\030\001 \001(\t\022\r\n" +
+      "\005index\030\002 \001(\r\0224\n\ntestResult\030\003 \001(\0132 .io.cu" +
+      "cumber.messages.TestResult\022-\n\ttimestamp\030" +
+      "\004 \001(\0132\032.google.protobuf.Timestamp\"R\n\017Tes" +
+      "tHookStarted\022\020\n\010pickleId\030\001 \001(\t\022-\n\ttimest" +
+      "amp\030\002 \001(\0132\032.google.protobuf.Timestamp\"\211\001" +
+      "\n\020TestHookFinished\022\020\n\010pickleId\030\001 \001(\t\0224\n\n" +
+      "testResult\030\002 \001(\0132 .io.cucumber.messages." +
+      "TestResult\022-\n\ttimestamp\030\003 \001(\0132\032.google.p" +
+      "rotobuf.Timestamp\"h\n\nTestResult\022,\n\006statu" +
+      "s\030\001 \001(\0162\034.io.cucumber.messages.Status\022\017\n" +
+      "\007message\030\002 \001(\t\022\033\n\023durationNanoseconds\030\003 " +
+      "\001(\004\"\"\n\017TestRunFinished\022\017\n\007success\030\001 \001(\010\"" +
+      "\341\001\n\014CommandStart\022\025\n\rbaseDirectory\030\002 \001(\t\022" +
+      ":\n\rsourcesConfig\030\003 \001(\0132#.io.cucumber.mes" +
+      "sages.SourcesConfig\022:\n\rruntimeConfig\030\004 \001" +
+      "(\0132#.io.cucumber.messages.RuntimeConfig\022" +
+      "B\n\021supportCodeConfig\030\005 \001(\0132\'.io.cucumber" +
+      ".messages.SupportCodeConfig\"\247\001\n\rSourcesC" +
+      "onfig\022\025\n\rabsolutePaths\030\001 \003(\t\022\020\n\010language" +
+      "\030\002 \001(\t\022:\n\007filters\030\003 \001(\0132).io.cucumber.me" +
+      "ssages.SourcesFilterConfig\0221\n\005order\030\004 \001(" +
+      "\0132\".io.cucumber.messages.SourcesOrder\"\220\001" +
+      "\n\023SourcesFilterConfig\022\025\n\rtagExpression\030\001" +
+      " \001(\t\022\036\n\026nameRegularExpressions\030\002 \003(\t\022B\n\021" +
+      "uriToLinesMapping\030\003 \003(\0132\'.io.cucumber.me" +
+      "ssages.UriToLinesMapping\"8\n\021UriToLinesMa" +
+      "pping\022\024\n\014absolutePath\030\001 \001(\t\022\r\n\005lines\030\002 \003" +
+      "(\004\"R\n\014SourcesOrder\0224\n\004type\030\001 \001(\0162&.io.cu" +
+      "cumber.messages.SourcesOrderType\022\014\n\004seed" +
+      "\030\002 \001(\004\"\\\n\rRuntimeConfig\022\022\n\nisFailFast\030\001 " +
+      "\001(\010\022\020\n\010isDryRun\030\002 \001(\010\022\020\n\010isStrict\030\003 \001(\010\022" +
+      "\023\n\013maxParallel\030\004 \001(\004\"\350\002\n\021SupportCodeConf" +
+      "ig\022_\n#beforeTestCaseHookDefinitionConfig" +
+      "s\030\001 \003(\01322.io.cucumber.messages.TestCaseH" +
+      "ookDefinitionConfig\022^\n\"afterTestCaseHook" +
+      "DefinitionConfigs\030\002 \003(\01322.io.cucumber.me" +
+      "ssages.TestCaseHookDefinitionConfig\022I\n\025s" +
+      "tepDefinitionConfigs\030\003 \003(\0132*.io.cucumber" +
+      ".messages.StepDefinitionConfig\022G\n\024parame" +
+      "terTypeConfigs\030\004 \003(\0132).io.cucumber.messa" +
+      "ges.ParameterTypeConfig\"z\n\034TestCaseHookD" +
+      "efinitionConfig\022\n\n\002id\030\001 \001(\t\022\025\n\rtagExpres" +
+      "sion\030\002 \001(\t\0227\n\010location\030\003 \001(\0132%.io.cucumb" +
+      "er.messages.SourceReference\"\231\001\n\024StepDefi" +
+      "nitionConfig\022\n\n\002id\030\001 \001(\t\022<\n\007pattern\030\002 \001(" +
+      "\0132+.io.cucumber.messages.StepDefinitionP" +
+      "attern\0227\n\010location\030\003 \001(\0132%.io.cucumber.m" +
+      "essages.SourceReference\"f\n\025StepDefinitio" +
+      "nPattern\022\016\n\006source\030\001 \001(\t\022=\n\004type\030\002 \001(\0162/" +
+      ".io.cucumber.messages.StepDefinitionPatt" +
+      "ernType\"\200\001\n\023ParameterTypeConfig\022\014\n\004name\030" +
+      "\001 \001(\t\022\032\n\022regularExpressions\030\002 \003(\t\022\'\n\037pre" +
+      "ferForRegularExpressionMatch\030\003 \001(\010\022\026\n\016us" +
+      "eForSnippets\030\004 \001(\010\"\201\001\n\025CommandActionComp" +
+      "lete\022\023\n\013completedId\030\001 \001(\t\0226\n\ntestResult\030" +
+      "\002 \001(\0132 .io.cucumber.messages.TestResultH" +
+      "\000\022\021\n\007snippet\030\003 \001(\tH\000B\010\n\006result\"0\n\034Comman" +
+      "dRunBeforeTestRunHooks\022\020\n\010actionId\030\001 \001(\t" +
+      "\"/\n\033CommandRunAfterTestRunHooks\022\020\n\010actio" +
+      "nId\030\001 \001(\t\"a\n\031CommandInitializeTestCase\022\020" +
+      "\n\010actionId\030\001 \001(\t\022,\n\006pickle\030\003 \001(\0132\034.io.cu" +
+      "cumber.messages.PickleJ\004\010\002\020\003\"j\n\034CommandR" +
+      "unBeforeTestCaseHook\022\020\n\010actionId\030\001 \001(\t\022 " +
+      "\n\030testCaseHookDefinitionId\030\003 \001(\t\022\020\n\010pick" +
+      "leId\030\004 \001(\tJ\004\010\002\020\003\"i\n\033CommandRunAfterTestC" +
+      "aseHook\022\020\n\010actionId\030\001 \001(\t\022 \n\030testCaseHoo" +
+      "kDefinitionId\030\003 \001(\t\022\020\n\010pickleId\030\004 \001(\tJ\004\010" +
+      "\002\020\003\"\332\001\n\022CommandRunTestStep\022\020\n\010actionId\030\001" +
+      " \001(\t\022\030\n\020stepDefinitionId\030\003 \001(\t\022:\n\016patter" +
+      "nMatches\030\004 \003(\0132\".io.cucumber.messages.Pa" +
+      "tternMatch\022\020\n\010pickleId\030\005 \001(\t\022D\n\022pickleSt" +
+      "epArgument\030\006 \001(\0132(.io.cucumber.messages." +
+      "PickleStepArgumentJ\004\010\002\020\003\"G\n\014PatternMatch" +
+      "\022\020\n\010captures\030\001 \003(\t\022\031\n\021parameterTypeName\030" +
+      "\002 \001(\tJ\004\010\003\020\004J\004\010\004\020\005\"\305\001\n\026CommandGenerateSni" +
+      "ppet\022\020\n\010actionId\030\001 \001(\t\022G\n\024generatedExpre" +
+      "ssions\030\002 \003(\0132).io.cucumber.messages.Gene" +
+      "ratedExpression\022D\n\022pickleStepArgument\030\005 " +
+      "\001(\0132(.io.cucumber.messages.PickleStepArg" +
+      "umentJ\004\010\003\020\004J\004\010\004\020\005\"?\n\023GeneratedExpression" +
+      "\022\014\n\004text\030\001 \001(\t\022\032\n\022parameterTypeNames\030\002 \003" +
+      "(\t*X\n\006Status\022\r\n\tAMBIGUOUS\020\000\022\n\n\006FAILED\020\001\022" +
+      "\n\n\006PASSED\020\002\022\013\n\007PENDING\020\003\022\013\n\007SKIPPED\020\004\022\r\n" +
+      "\tUNDEFINED\020\005*7\n\020SourcesOrderType\022\027\n\023ORDE" +
+      "R_OF_DEFINITION\020\000\022\n\n\006RANDOM\020\001*L\n\031StepDef" +
+      "initionPatternType\022\027\n\023CUCUMBER_EXPRESSIO" +
+      "N\020\000\022\026\n\022REGULAR_EXPRESSION\020\001B\036Z\010messages\352" +
+      "\002\021Cucumber.Messagesb\006proto3"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -66648,237 +67672,249 @@ public final class Messages {
     internal_static_io_cucumber_messages_PickleStep_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_io_cucumber_messages_PickleStep_descriptor,
-        new java.lang.String[] { "Text", "Locations", "DocString", "DataTable", "Argument", });
-    internal_static_io_cucumber_messages_PickleDocString_descriptor =
+        new java.lang.String[] { "Text", "Locations", "Argument", });
+    internal_static_io_cucumber_messages_PickleStepArgument_descriptor =
       getDescriptor().getMessageTypes().get(23);
+    internal_static_io_cucumber_messages_PickleStepArgument_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_io_cucumber_messages_PickleStepArgument_descriptor,
+        new java.lang.String[] { "DocString", "DataTable", "Message", });
+    internal_static_io_cucumber_messages_PickleDocString_descriptor =
+      getDescriptor().getMessageTypes().get(24);
     internal_static_io_cucumber_messages_PickleDocString_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_io_cucumber_messages_PickleDocString_descriptor,
         new java.lang.String[] { "Location", "ContentType", "Content", });
     internal_static_io_cucumber_messages_PickleTable_descriptor =
-      getDescriptor().getMessageTypes().get(24);
+      getDescriptor().getMessageTypes().get(25);
     internal_static_io_cucumber_messages_PickleTable_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_io_cucumber_messages_PickleTable_descriptor,
         new java.lang.String[] { "Rows", });
     internal_static_io_cucumber_messages_PickleTableCell_descriptor =
-      getDescriptor().getMessageTypes().get(25);
+      getDescriptor().getMessageTypes().get(26);
     internal_static_io_cucumber_messages_PickleTableCell_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_io_cucumber_messages_PickleTableCell_descriptor,
         new java.lang.String[] { "Location", "Value", });
     internal_static_io_cucumber_messages_PickleTableRow_descriptor =
-      getDescriptor().getMessageTypes().get(26);
+      getDescriptor().getMessageTypes().get(27);
     internal_static_io_cucumber_messages_PickleTableRow_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_io_cucumber_messages_PickleTableRow_descriptor,
         new java.lang.String[] { "Cells", });
     internal_static_io_cucumber_messages_PickleTag_descriptor =
-      getDescriptor().getMessageTypes().get(27);
+      getDescriptor().getMessageTypes().get(28);
     internal_static_io_cucumber_messages_PickleTag_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_io_cucumber_messages_PickleTag_descriptor,
         new java.lang.String[] { "Location", "Name", });
     internal_static_io_cucumber_messages_PickleAccepted_descriptor =
-      getDescriptor().getMessageTypes().get(28);
+      getDescriptor().getMessageTypes().get(29);
     internal_static_io_cucumber_messages_PickleAccepted_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_io_cucumber_messages_PickleAccepted_descriptor,
         new java.lang.String[] { "PickleId", });
     internal_static_io_cucumber_messages_PickleRejected_descriptor =
-      getDescriptor().getMessageTypes().get(29);
+      getDescriptor().getMessageTypes().get(30);
     internal_static_io_cucumber_messages_PickleRejected_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_io_cucumber_messages_PickleRejected_descriptor,
         new java.lang.String[] { "PickleId", });
     internal_static_io_cucumber_messages_TestRunStarted_descriptor =
-      getDescriptor().getMessageTypes().get(30);
+      getDescriptor().getMessageTypes().get(31);
     internal_static_io_cucumber_messages_TestRunStarted_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_io_cucumber_messages_TestRunStarted_descriptor,
-        new java.lang.String[] { "Timestamp", "CucumberImplementation", });
+        new java.lang.String[] { "Timestamp", });
     internal_static_io_cucumber_messages_TestCasePreparedStep_descriptor =
-      getDescriptor().getMessageTypes().get(31);
+      getDescriptor().getMessageTypes().get(32);
     internal_static_io_cucumber_messages_TestCasePreparedStep_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_io_cucumber_messages_TestCasePreparedStep_descriptor,
         new java.lang.String[] { "SourceLocation", "ActionLocation", });
     internal_static_io_cucumber_messages_TestCasePrepared_descriptor =
-      getDescriptor().getMessageTypes().get(32);
+      getDescriptor().getMessageTypes().get(33);
     internal_static_io_cucumber_messages_TestCasePrepared_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_io_cucumber_messages_TestCasePrepared_descriptor,
         new java.lang.String[] { "PickleId", "Steps", });
     internal_static_io_cucumber_messages_TestCaseStarted_descriptor =
-      getDescriptor().getMessageTypes().get(33);
+      getDescriptor().getMessageTypes().get(34);
     internal_static_io_cucumber_messages_TestCaseStarted_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_io_cucumber_messages_TestCaseStarted_descriptor,
-        new java.lang.String[] { "PickleId", "Timestamp", });
+        new java.lang.String[] { "PickleId", "Timestamp", "Platform", });
+    internal_static_io_cucumber_messages_TestCaseStarted_Platform_descriptor =
+      internal_static_io_cucumber_messages_TestCaseStarted_descriptor.getNestedTypes().get(0);
+    internal_static_io_cucumber_messages_TestCaseStarted_Platform_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_io_cucumber_messages_TestCaseStarted_Platform_descriptor,
+        new java.lang.String[] { "Implementation", "Version", "Os", "Cpu", });
     internal_static_io_cucumber_messages_TestCaseFinished_descriptor =
-      getDescriptor().getMessageTypes().get(34);
+      getDescriptor().getMessageTypes().get(35);
     internal_static_io_cucumber_messages_TestCaseFinished_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_io_cucumber_messages_TestCaseFinished_descriptor,
         new java.lang.String[] { "PickleId", "Timestamp", "TestResult", });
     internal_static_io_cucumber_messages_TestStepStarted_descriptor =
-      getDescriptor().getMessageTypes().get(35);
+      getDescriptor().getMessageTypes().get(36);
     internal_static_io_cucumber_messages_TestStepStarted_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_io_cucumber_messages_TestStepStarted_descriptor,
         new java.lang.String[] { "PickleId", "Index", "Timestamp", });
     internal_static_io_cucumber_messages_TestStepFinished_descriptor =
-      getDescriptor().getMessageTypes().get(36);
+      getDescriptor().getMessageTypes().get(37);
     internal_static_io_cucumber_messages_TestStepFinished_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_io_cucumber_messages_TestStepFinished_descriptor,
         new java.lang.String[] { "PickleId", "Index", "TestResult", "Timestamp", });
     internal_static_io_cucumber_messages_TestHookStarted_descriptor =
-      getDescriptor().getMessageTypes().get(37);
+      getDescriptor().getMessageTypes().get(38);
     internal_static_io_cucumber_messages_TestHookStarted_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_io_cucumber_messages_TestHookStarted_descriptor,
         new java.lang.String[] { "PickleId", "Timestamp", });
     internal_static_io_cucumber_messages_TestHookFinished_descriptor =
-      getDescriptor().getMessageTypes().get(38);
+      getDescriptor().getMessageTypes().get(39);
     internal_static_io_cucumber_messages_TestHookFinished_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_io_cucumber_messages_TestHookFinished_descriptor,
         new java.lang.String[] { "PickleId", "TestResult", "Timestamp", });
     internal_static_io_cucumber_messages_TestResult_descriptor =
-      getDescriptor().getMessageTypes().get(39);
+      getDescriptor().getMessageTypes().get(40);
     internal_static_io_cucumber_messages_TestResult_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_io_cucumber_messages_TestResult_descriptor,
         new java.lang.String[] { "Status", "Message", "DurationNanoseconds", });
     internal_static_io_cucumber_messages_TestRunFinished_descriptor =
-      getDescriptor().getMessageTypes().get(40);
+      getDescriptor().getMessageTypes().get(41);
     internal_static_io_cucumber_messages_TestRunFinished_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_io_cucumber_messages_TestRunFinished_descriptor,
         new java.lang.String[] { "Success", });
     internal_static_io_cucumber_messages_CommandStart_descriptor =
-      getDescriptor().getMessageTypes().get(41);
+      getDescriptor().getMessageTypes().get(42);
     internal_static_io_cucumber_messages_CommandStart_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_io_cucumber_messages_CommandStart_descriptor,
         new java.lang.String[] { "BaseDirectory", "SourcesConfig", "RuntimeConfig", "SupportCodeConfig", });
     internal_static_io_cucumber_messages_SourcesConfig_descriptor =
-      getDescriptor().getMessageTypes().get(42);
+      getDescriptor().getMessageTypes().get(43);
     internal_static_io_cucumber_messages_SourcesConfig_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_io_cucumber_messages_SourcesConfig_descriptor,
         new java.lang.String[] { "AbsolutePaths", "Language", "Filters", "Order", });
     internal_static_io_cucumber_messages_SourcesFilterConfig_descriptor =
-      getDescriptor().getMessageTypes().get(43);
+      getDescriptor().getMessageTypes().get(44);
     internal_static_io_cucumber_messages_SourcesFilterConfig_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_io_cucumber_messages_SourcesFilterConfig_descriptor,
         new java.lang.String[] { "TagExpression", "NameRegularExpressions", "UriToLinesMapping", });
     internal_static_io_cucumber_messages_UriToLinesMapping_descriptor =
-      getDescriptor().getMessageTypes().get(44);
+      getDescriptor().getMessageTypes().get(45);
     internal_static_io_cucumber_messages_UriToLinesMapping_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_io_cucumber_messages_UriToLinesMapping_descriptor,
         new java.lang.String[] { "AbsolutePath", "Lines", });
     internal_static_io_cucumber_messages_SourcesOrder_descriptor =
-      getDescriptor().getMessageTypes().get(45);
+      getDescriptor().getMessageTypes().get(46);
     internal_static_io_cucumber_messages_SourcesOrder_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_io_cucumber_messages_SourcesOrder_descriptor,
         new java.lang.String[] { "Type", "Seed", });
     internal_static_io_cucumber_messages_RuntimeConfig_descriptor =
-      getDescriptor().getMessageTypes().get(46);
+      getDescriptor().getMessageTypes().get(47);
     internal_static_io_cucumber_messages_RuntimeConfig_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_io_cucumber_messages_RuntimeConfig_descriptor,
         new java.lang.String[] { "IsFailFast", "IsDryRun", "IsStrict", "MaxParallel", });
     internal_static_io_cucumber_messages_SupportCodeConfig_descriptor =
-      getDescriptor().getMessageTypes().get(47);
+      getDescriptor().getMessageTypes().get(48);
     internal_static_io_cucumber_messages_SupportCodeConfig_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_io_cucumber_messages_SupportCodeConfig_descriptor,
         new java.lang.String[] { "BeforeTestCaseHookDefinitionConfigs", "AfterTestCaseHookDefinitionConfigs", "StepDefinitionConfigs", "ParameterTypeConfigs", });
     internal_static_io_cucumber_messages_TestCaseHookDefinitionConfig_descriptor =
-      getDescriptor().getMessageTypes().get(48);
+      getDescriptor().getMessageTypes().get(49);
     internal_static_io_cucumber_messages_TestCaseHookDefinitionConfig_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_io_cucumber_messages_TestCaseHookDefinitionConfig_descriptor,
         new java.lang.String[] { "Id", "TagExpression", "Location", });
     internal_static_io_cucumber_messages_StepDefinitionConfig_descriptor =
-      getDescriptor().getMessageTypes().get(49);
+      getDescriptor().getMessageTypes().get(50);
     internal_static_io_cucumber_messages_StepDefinitionConfig_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_io_cucumber_messages_StepDefinitionConfig_descriptor,
         new java.lang.String[] { "Id", "Pattern", "Location", });
     internal_static_io_cucumber_messages_StepDefinitionPattern_descriptor =
-      getDescriptor().getMessageTypes().get(50);
+      getDescriptor().getMessageTypes().get(51);
     internal_static_io_cucumber_messages_StepDefinitionPattern_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_io_cucumber_messages_StepDefinitionPattern_descriptor,
         new java.lang.String[] { "Source", "Type", });
     internal_static_io_cucumber_messages_ParameterTypeConfig_descriptor =
-      getDescriptor().getMessageTypes().get(51);
+      getDescriptor().getMessageTypes().get(52);
     internal_static_io_cucumber_messages_ParameterTypeConfig_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_io_cucumber_messages_ParameterTypeConfig_descriptor,
         new java.lang.String[] { "Name", "RegularExpressions", "PreferForRegularExpressionMatch", "UseForSnippets", });
     internal_static_io_cucumber_messages_CommandActionComplete_descriptor =
-      getDescriptor().getMessageTypes().get(52);
+      getDescriptor().getMessageTypes().get(53);
     internal_static_io_cucumber_messages_CommandActionComplete_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_io_cucumber_messages_CommandActionComplete_descriptor,
         new java.lang.String[] { "CompletedId", "TestResult", "Snippet", "Result", });
     internal_static_io_cucumber_messages_CommandRunBeforeTestRunHooks_descriptor =
-      getDescriptor().getMessageTypes().get(53);
+      getDescriptor().getMessageTypes().get(54);
     internal_static_io_cucumber_messages_CommandRunBeforeTestRunHooks_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_io_cucumber_messages_CommandRunBeforeTestRunHooks_descriptor,
         new java.lang.String[] { "ActionId", });
     internal_static_io_cucumber_messages_CommandRunAfterTestRunHooks_descriptor =
-      getDescriptor().getMessageTypes().get(54);
+      getDescriptor().getMessageTypes().get(55);
     internal_static_io_cucumber_messages_CommandRunAfterTestRunHooks_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_io_cucumber_messages_CommandRunAfterTestRunHooks_descriptor,
         new java.lang.String[] { "ActionId", });
     internal_static_io_cucumber_messages_CommandInitializeTestCase_descriptor =
-      getDescriptor().getMessageTypes().get(55);
+      getDescriptor().getMessageTypes().get(56);
     internal_static_io_cucumber_messages_CommandInitializeTestCase_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_io_cucumber_messages_CommandInitializeTestCase_descriptor,
-        new java.lang.String[] { "ActionId", "TestCaseId", "Pickle", });
+        new java.lang.String[] { "ActionId", "Pickle", });
     internal_static_io_cucumber_messages_CommandRunBeforeTestCaseHook_descriptor =
-      getDescriptor().getMessageTypes().get(56);
+      getDescriptor().getMessageTypes().get(57);
     internal_static_io_cucumber_messages_CommandRunBeforeTestCaseHook_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_io_cucumber_messages_CommandRunBeforeTestCaseHook_descriptor,
-        new java.lang.String[] { "ActionId", "TestCaseId", "TestCaseHookDefinitionId", });
+        new java.lang.String[] { "ActionId", "TestCaseHookDefinitionId", "PickleId", });
     internal_static_io_cucumber_messages_CommandRunAfterTestCaseHook_descriptor =
-      getDescriptor().getMessageTypes().get(57);
+      getDescriptor().getMessageTypes().get(58);
     internal_static_io_cucumber_messages_CommandRunAfterTestCaseHook_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_io_cucumber_messages_CommandRunAfterTestCaseHook_descriptor,
-        new java.lang.String[] { "ActionId", "TestCaseId", "TestCaseHookDefinitionId", });
+        new java.lang.String[] { "ActionId", "TestCaseHookDefinitionId", "PickleId", });
     internal_static_io_cucumber_messages_CommandRunTestStep_descriptor =
-      getDescriptor().getMessageTypes().get(58);
+      getDescriptor().getMessageTypes().get(59);
     internal_static_io_cucumber_messages_CommandRunTestStep_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_io_cucumber_messages_CommandRunTestStep_descriptor,
-        new java.lang.String[] { "ActionId", "TestCaseId", "StepDefinitionId", "PatternMatches", });
+        new java.lang.String[] { "ActionId", "StepDefinitionId", "PatternMatches", "PickleId", "PickleStepArgument", });
     internal_static_io_cucumber_messages_PatternMatch_descriptor =
-      getDescriptor().getMessageTypes().get(59);
+      getDescriptor().getMessageTypes().get(60);
     internal_static_io_cucumber_messages_PatternMatch_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_io_cucumber_messages_PatternMatch_descriptor,
-        new java.lang.String[] { "Captures", "ParameterTypeName", "DocString", "DataTable", "PickleArgument", });
+        new java.lang.String[] { "Captures", "ParameterTypeName", });
     internal_static_io_cucumber_messages_CommandGenerateSnippet_descriptor =
-      getDescriptor().getMessageTypes().get(60);
+      getDescriptor().getMessageTypes().get(61);
     internal_static_io_cucumber_messages_CommandGenerateSnippet_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_io_cucumber_messages_CommandGenerateSnippet_descriptor,
-        new java.lang.String[] { "ActionId", "GeneratedExpressions", "DocString", "DataTable", "PickleArgument", });
+        new java.lang.String[] { "ActionId", "GeneratedExpressions", "PickleStepArgument", });
     internal_static_io_cucumber_messages_GeneratedExpression_descriptor =
-      getDescriptor().getMessageTypes().get(61);
+      getDescriptor().getMessageTypes().get(62);
     internal_static_io_cucumber_messages_GeneratedExpression_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_io_cucumber_messages_GeneratedExpression_descriptor,

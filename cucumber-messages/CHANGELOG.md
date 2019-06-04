@@ -8,8 +8,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ## [In Git] - (Not released)
 
 ### Added
+* Added `TestCaseStarted#platform` field
+  ([#626](https://github.com/cucumber/cucumber/pull/626))
 
 ### Changed
+* Misc changes for `cucumber-engine`
+  ([#549](https://github.com/cucumber/cucumber/pull/549))
 
 ### Deprecated
 

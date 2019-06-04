@@ -162,9 +162,12 @@ Google::Protobuf::DescriptorPool.generated_pool.build do
   add_message "io.cucumber.messages.PickleStep" do
     optional :text, :string, 1
     repeated :locations, :message, 2, "io.cucumber.messages.Location"
-    oneof :argument do
-      optional :doc_string, :message, 3, "io.cucumber.messages.PickleDocString"
-      optional :data_table, :message, 4, "io.cucumber.messages.PickleTable"
+    optional :argument, :message, 5, "io.cucumber.messages.PickleStepArgument"
+  end
+  add_message "io.cucumber.messages.PickleStepArgument" do
+    oneof :message do
+      optional :doc_string, :message, 1, "io.cucumber.messages.PickleDocString"
+      optional :data_table, :message, 2, "io.cucumber.messages.PickleTable"
     end
   end
   add_message "io.cucumber.messages.PickleDocString" do
@@ -194,7 +197,6 @@ Google::Protobuf::DescriptorPool.generated_pool.build do
   end
   add_message "io.cucumber.messages.TestRunStarted" do
     optional :timestamp, :message, 1, "google.protobuf.Timestamp"
-    optional :cucumberImplementation, :string, 2
   end
   add_message "io.cucumber.messages.TestCasePreparedStep" do
     optional :sourceLocation, :message, 1, "io.cucumber.messages.SourceReference"
@@ -320,40 +322,33 @@ Google::Protobuf::DescriptorPool.generated_pool.build do
   end
   add_message "io.cucumber.messages.CommandInitializeTestCase" do
     optional :actionId, :string, 1
-    optional :testCaseId, :string, 2
     optional :pickle, :message, 3, "io.cucumber.messages.Pickle"
   end
   add_message "io.cucumber.messages.CommandRunBeforeTestCaseHook" do
     optional :actionId, :string, 1
-    optional :testCaseId, :string, 2
     optional :testCaseHookDefinitionId, :string, 3
+    optional :pickleId, :string, 4
   end
   add_message "io.cucumber.messages.CommandRunAfterTestCaseHook" do
     optional :actionId, :string, 1
-    optional :testCaseId, :string, 2
     optional :testCaseHookDefinitionId, :string, 3
+    optional :pickleId, :string, 4
   end
   add_message "io.cucumber.messages.CommandRunTestStep" do
     optional :actionId, :string, 1
-    optional :testCaseId, :string, 2
     optional :stepDefinitionId, :string, 3
     repeated :patternMatches, :message, 4, "io.cucumber.messages.PatternMatch"
+    optional :pickleId, :string, 5
+    optional :pickleStepArgument, :message, 6, "io.cucumber.messages.PickleStepArgument"
   end
   add_message "io.cucumber.messages.PatternMatch" do
     repeated :captures, :string, 1
     optional :parameterTypeName, :string, 2
-    oneof :pickleArgument do
-      optional :doc_string, :message, 3, "io.cucumber.messages.PickleDocString"
-      optional :data_table, :message, 4, "io.cucumber.messages.PickleTable"
-    end
   end
   add_message "io.cucumber.messages.CommandGenerateSnippet" do
     optional :actionId, :string, 1
     repeated :generatedExpressions, :message, 2, "io.cucumber.messages.GeneratedExpression"
-    oneof :pickleArgument do
-      optional :doc_string, :message, 3, "io.cucumber.messages.PickleDocString"
-      optional :data_table, :message, 4, "io.cucumber.messages.PickleTable"
-    end
+    optional :pickleStepArgument, :message, 5, "io.cucumber.messages.PickleStepArgument"
   end
   add_message "io.cucumber.messages.GeneratedExpression" do
     optional :text, :string, 1
@@ -402,6 +397,7 @@ module Cucumber
     Tag = Google::Protobuf::DescriptorPool.generated_pool.lookup("io.cucumber.messages.Tag").msgclass
     Pickle = Google::Protobuf::DescriptorPool.generated_pool.lookup("io.cucumber.messages.Pickle").msgclass
     PickleStep = Google::Protobuf::DescriptorPool.generated_pool.lookup("io.cucumber.messages.PickleStep").msgclass
+    PickleStepArgument = Google::Protobuf::DescriptorPool.generated_pool.lookup("io.cucumber.messages.PickleStepArgument").msgclass
     PickleDocString = Google::Protobuf::DescriptorPool.generated_pool.lookup("io.cucumber.messages.PickleDocString").msgclass
     PickleTable = Google::Protobuf::DescriptorPool.generated_pool.lookup("io.cucumber.messages.PickleTable").msgclass
     PickleTableCell = Google::Protobuf::DescriptorPool.generated_pool.lookup("io.cucumber.messages.PickleTableCell").msgclass

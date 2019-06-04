@@ -2862,11 +2862,8 @@ export namespace io {
         /** PickleStep locations */
         locations?: io.cucumber.messages.ILocation[] | null
 
-        /** PickleStep docString */
-        docString?: io.cucumber.messages.IPickleDocString | null
-
-        /** PickleStep dataTable */
-        dataTable?: io.cucumber.messages.IPickleTable | null
+        /** PickleStep argument */
+        argument?: io.cucumber.messages.IPickleStepArgument | null
       }
 
       /** Represents a PickleStep. */
@@ -2883,14 +2880,8 @@ export namespace io {
         /** PickleStep locations. */
         public locations: io.cucumber.messages.ILocation[]
 
-        /** PickleStep docString. */
-        public docString?: io.cucumber.messages.IPickleDocString | null
-
-        /** PickleStep dataTable. */
-        public dataTable?: io.cucumber.messages.IPickleTable | null
-
         /** PickleStep argument. */
-        public argument?: 'docString' | 'dataTable'
+        public argument?: io.cucumber.messages.IPickleStepArgument | null
 
         /**
          * Creates a new PickleStep instance using the specified properties.
@@ -2976,6 +2967,121 @@ export namespace io {
 
         /**
          * Converts this PickleStep to JSON.
+         * @returns JSON object
+         */
+        public toJSON(): { [k: string]: any }
+      }
+
+      /** Properties of a PickleStepArgument. */
+      interface IPickleStepArgument {
+        /** PickleStepArgument docString */
+        docString?: io.cucumber.messages.IPickleDocString | null
+
+        /** PickleStepArgument dataTable */
+        dataTable?: io.cucumber.messages.IPickleTable | null
+      }
+
+      /** Represents a PickleStepArgument. */
+      class PickleStepArgument implements IPickleStepArgument {
+        /**
+         * Constructs a new PickleStepArgument.
+         * @param [properties] Properties to set
+         */
+        constructor(properties?: io.cucumber.messages.IPickleStepArgument)
+
+        /** PickleStepArgument docString. */
+        public docString?: io.cucumber.messages.IPickleDocString | null
+
+        /** PickleStepArgument dataTable. */
+        public dataTable?: io.cucumber.messages.IPickleTable | null
+
+        /** PickleStepArgument message. */
+        public message?: 'docString' | 'dataTable'
+
+        /**
+         * Creates a new PickleStepArgument instance using the specified properties.
+         * @param [properties] Properties to set
+         * @returns PickleStepArgument instance
+         */
+        public static create(
+          properties?: io.cucumber.messages.IPickleStepArgument
+        ): io.cucumber.messages.PickleStepArgument
+
+        /**
+         * Encodes the specified PickleStepArgument message. Does not implicitly {@link io.cucumber.messages.PickleStepArgument.verify|verify} messages.
+         * @param message PickleStepArgument message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encode(
+          message: io.cucumber.messages.IPickleStepArgument,
+          writer?: $protobuf.Writer
+        ): $protobuf.Writer
+
+        /**
+         * Encodes the specified PickleStepArgument message, length delimited. Does not implicitly {@link io.cucumber.messages.PickleStepArgument.verify|verify} messages.
+         * @param message PickleStepArgument message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encodeDelimited(
+          message: io.cucumber.messages.IPickleStepArgument,
+          writer?: $protobuf.Writer
+        ): $protobuf.Writer
+
+        /**
+         * Decodes a PickleStepArgument message from the specified reader or buffer.
+         * @param reader Reader or buffer to decode from
+         * @param [length] Message length if known beforehand
+         * @returns PickleStepArgument
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decode(
+          reader: $protobuf.Reader | Uint8Array,
+          length?: number
+        ): io.cucumber.messages.PickleStepArgument
+
+        /**
+         * Decodes a PickleStepArgument message from the specified reader or buffer, length delimited.
+         * @param reader Reader or buffer to decode from
+         * @returns PickleStepArgument
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decodeDelimited(
+          reader: $protobuf.Reader | Uint8Array
+        ): io.cucumber.messages.PickleStepArgument
+
+        /**
+         * Verifies a PickleStepArgument message.
+         * @param message Plain object to verify
+         * @returns `null` if valid, otherwise the reason why it is not
+         */
+        public static verify(message: { [k: string]: any }): string | null
+
+        /**
+         * Creates a PickleStepArgument message from a plain object. Also converts values to their respective internal types.
+         * @param object Plain object
+         * @returns PickleStepArgument
+         */
+        public static fromObject(object: {
+          [k: string]: any
+        }): io.cucumber.messages.PickleStepArgument
+
+        /**
+         * Creates a plain object from a PickleStepArgument message. Also converts values to other types if specified.
+         * @param message PickleStepArgument
+         * @param [options] Conversion options
+         * @returns Plain object
+         */
+        public static toObject(
+          message: io.cucumber.messages.PickleStepArgument,
+          options?: $protobuf.IConversionOptions
+        ): { [k: string]: any }
+
+        /**
+         * Converts this PickleStepArgument to JSON.
          * @returns JSON object
          */
         public toJSON(): { [k: string]: any }
@@ -3751,9 +3857,6 @@ export namespace io {
       interface ITestRunStarted {
         /** TestRunStarted timestamp */
         timestamp?: google.protobuf.ITimestamp | null
-
-        /** TestRunStarted cucumberImplementation */
-        cucumberImplementation?: string | null
       }
 
       /** Represents a TestRunStarted. */
@@ -3766,9 +3869,6 @@ export namespace io {
 
         /** TestRunStarted timestamp. */
         public timestamp?: google.protobuf.ITimestamp | null
-
-        /** TestRunStarted cucumberImplementation. */
-        public cucumberImplementation: string
 
         /**
          * Creates a new TestRunStarted instance using the specified properties.
@@ -6830,9 +6930,6 @@ export namespace io {
         /** CommandInitializeTestCase actionId */
         actionId?: string | null
 
-        /** CommandInitializeTestCase testCaseId */
-        testCaseId?: string | null
-
         /** CommandInitializeTestCase pickle */
         pickle?: io.cucumber.messages.IPickle | null
       }
@@ -6849,9 +6946,6 @@ export namespace io {
 
         /** CommandInitializeTestCase actionId. */
         public actionId: string
-
-        /** CommandInitializeTestCase testCaseId. */
-        public testCaseId: string
 
         /** CommandInitializeTestCase pickle. */
         public pickle?: io.cucumber.messages.IPickle | null
@@ -6950,11 +7044,11 @@ export namespace io {
         /** CommandRunBeforeTestCaseHook actionId */
         actionId?: string | null
 
-        /** CommandRunBeforeTestCaseHook testCaseId */
-        testCaseId?: string | null
-
         /** CommandRunBeforeTestCaseHook testCaseHookDefinitionId */
         testCaseHookDefinitionId?: string | null
+
+        /** CommandRunBeforeTestCaseHook pickleId */
+        pickleId?: string | null
       }
 
       /** Represents a CommandRunBeforeTestCaseHook. */
@@ -6971,11 +7065,11 @@ export namespace io {
         /** CommandRunBeforeTestCaseHook actionId. */
         public actionId: string
 
-        /** CommandRunBeforeTestCaseHook testCaseId. */
-        public testCaseId: string
-
         /** CommandRunBeforeTestCaseHook testCaseHookDefinitionId. */
         public testCaseHookDefinitionId: string
+
+        /** CommandRunBeforeTestCaseHook pickleId. */
+        public pickleId: string
 
         /**
          * Creates a new CommandRunBeforeTestCaseHook instance using the specified properties.
@@ -7071,11 +7165,11 @@ export namespace io {
         /** CommandRunAfterTestCaseHook actionId */
         actionId?: string | null
 
-        /** CommandRunAfterTestCaseHook testCaseId */
-        testCaseId?: string | null
-
         /** CommandRunAfterTestCaseHook testCaseHookDefinitionId */
         testCaseHookDefinitionId?: string | null
+
+        /** CommandRunAfterTestCaseHook pickleId */
+        pickleId?: string | null
       }
 
       /** Represents a CommandRunAfterTestCaseHook. */
@@ -7092,11 +7186,11 @@ export namespace io {
         /** CommandRunAfterTestCaseHook actionId. */
         public actionId: string
 
-        /** CommandRunAfterTestCaseHook testCaseId. */
-        public testCaseId: string
-
         /** CommandRunAfterTestCaseHook testCaseHookDefinitionId. */
         public testCaseHookDefinitionId: string
+
+        /** CommandRunAfterTestCaseHook pickleId. */
+        public pickleId: string
 
         /**
          * Creates a new CommandRunAfterTestCaseHook instance using the specified properties.
@@ -7192,14 +7286,17 @@ export namespace io {
         /** CommandRunTestStep actionId */
         actionId?: string | null
 
-        /** CommandRunTestStep testCaseId */
-        testCaseId?: string | null
-
         /** CommandRunTestStep stepDefinitionId */
         stepDefinitionId?: string | null
 
         /** CommandRunTestStep patternMatches */
         patternMatches?: io.cucumber.messages.IPatternMatch[] | null
+
+        /** CommandRunTestStep pickleId */
+        pickleId?: string | null
+
+        /** CommandRunTestStep pickleStepArgument */
+        pickleStepArgument?: io.cucumber.messages.IPickleStepArgument | null
       }
 
       /** Represents a CommandRunTestStep. */
@@ -7213,14 +7310,17 @@ export namespace io {
         /** CommandRunTestStep actionId. */
         public actionId: string
 
-        /** CommandRunTestStep testCaseId. */
-        public testCaseId: string
-
         /** CommandRunTestStep stepDefinitionId. */
         public stepDefinitionId: string
 
         /** CommandRunTestStep patternMatches. */
         public patternMatches: io.cucumber.messages.IPatternMatch[]
+
+        /** CommandRunTestStep pickleId. */
+        public pickleId: string
+
+        /** CommandRunTestStep pickleStepArgument. */
+        public pickleStepArgument?: io.cucumber.messages.IPickleStepArgument | null
 
         /**
          * Creates a new CommandRunTestStep instance using the specified properties.
@@ -7318,12 +7418,6 @@ export namespace io {
 
         /** PatternMatch parameterTypeName */
         parameterTypeName?: string | null
-
-        /** PatternMatch docString */
-        docString?: io.cucumber.messages.IPickleDocString | null
-
-        /** PatternMatch dataTable */
-        dataTable?: io.cucumber.messages.IPickleTable | null
       }
 
       /** Represents a PatternMatch. */
@@ -7339,15 +7433,6 @@ export namespace io {
 
         /** PatternMatch parameterTypeName. */
         public parameterTypeName: string
-
-        /** PatternMatch docString. */
-        public docString?: io.cucumber.messages.IPickleDocString | null
-
-        /** PatternMatch dataTable. */
-        public dataTable?: io.cucumber.messages.IPickleTable | null
-
-        /** PatternMatch pickleArgument. */
-        public pickleArgument?: 'docString' | 'dataTable'
 
         /**
          * Creates a new PatternMatch instance using the specified properties.
@@ -7448,11 +7533,8 @@ export namespace io {
           | io.cucumber.messages.IGeneratedExpression[]
           | null
 
-        /** CommandGenerateSnippet docString */
-        docString?: io.cucumber.messages.IPickleDocString | null
-
-        /** CommandGenerateSnippet dataTable */
-        dataTable?: io.cucumber.messages.IPickleTable | null
+        /** CommandGenerateSnippet pickleStepArgument */
+        pickleStepArgument?: io.cucumber.messages.IPickleStepArgument | null
       }
 
       /** Represents a CommandGenerateSnippet. */
@@ -7469,14 +7551,8 @@ export namespace io {
         /** CommandGenerateSnippet generatedExpressions. */
         public generatedExpressions: io.cucumber.messages.IGeneratedExpression[]
 
-        /** CommandGenerateSnippet docString. */
-        public docString?: io.cucumber.messages.IPickleDocString | null
-
-        /** CommandGenerateSnippet dataTable. */
-        public dataTable?: io.cucumber.messages.IPickleTable | null
-
-        /** CommandGenerateSnippet pickleArgument. */
-        public pickleArgument?: 'docString' | 'dataTable'
+        /** CommandGenerateSnippet pickleStepArgument. */
+        public pickleStepArgument?: io.cucumber.messages.IPickleStepArgument | null
 
         /**
          * Creates a new CommandGenerateSnippet instance using the specified properties.
