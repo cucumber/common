@@ -196,6 +196,7 @@ Google::Protobuf::DescriptorPool.generated_pool.build do
     optional :pickleId, :string, 2
   end
   add_message "io.cucumber.messages.TestRunStarted" do
+    optional :timestamp, :message, 1, "google.protobuf.Timestamp"
   end
   add_message "io.cucumber.messages.TestCasePreparedStep" do
     optional :sourceLocation, :message, 1, "io.cucumber.messages.SourceReference"
@@ -208,6 +209,13 @@ Google::Protobuf::DescriptorPool.generated_pool.build do
   add_message "io.cucumber.messages.TestCaseStarted" do
     optional :pickleId, :string, 1
     optional :timestamp, :message, 2, "google.protobuf.Timestamp"
+    optional :platform, :message, 3, "io.cucumber.messages.TestCaseStarted.Platform"
+  end
+  add_message "io.cucumber.messages.TestCaseStarted.Platform" do
+    optional :implementation, :string, 1
+    optional :version, :string, 2
+    optional :os, :string, 3
+    optional :cpu, :string, 4
   end
   add_message "io.cucumber.messages.TestCaseFinished" do
     optional :pickleId, :string, 1
@@ -401,6 +409,7 @@ module Cucumber
     TestCasePreparedStep = Google::Protobuf::DescriptorPool.generated_pool.lookup("io.cucumber.messages.TestCasePreparedStep").msgclass
     TestCasePrepared = Google::Protobuf::DescriptorPool.generated_pool.lookup("io.cucumber.messages.TestCasePrepared").msgclass
     TestCaseStarted = Google::Protobuf::DescriptorPool.generated_pool.lookup("io.cucumber.messages.TestCaseStarted").msgclass
+    TestCaseStarted::Platform = Google::Protobuf::DescriptorPool.generated_pool.lookup("io.cucumber.messages.TestCaseStarted.Platform").msgclass
     TestCaseFinished = Google::Protobuf::DescriptorPool.generated_pool.lookup("io.cucumber.messages.TestCaseFinished").msgclass
     TestStepStarted = Google::Protobuf::DescriptorPool.generated_pool.lookup("io.cucumber.messages.TestStepStarted").msgclass
     TestStepFinished = Google::Protobuf::DescriptorPool.generated_pool.lookup("io.cucumber.messages.TestStepFinished").msgclass

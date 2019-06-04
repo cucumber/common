@@ -8739,6 +8739,7 @@ $root.io = (function() {
                  * Properties of a TestRunStarted.
                  * @memberof io.cucumber.messages
                  * @interface ITestRunStarted
+                 * @property {google.protobuf.ITimestamp|null} [timestamp] TestRunStarted timestamp
                  */
 
                 /**
@@ -8755,6 +8756,14 @@ $root.io = (function() {
                             if (properties[keys[i]] != null)
                                 this[keys[i]] = properties[keys[i]];
                 }
+
+                /**
+                 * TestRunStarted timestamp.
+                 * @member {google.protobuf.ITimestamp|null|undefined} timestamp
+                 * @memberof io.cucumber.messages.TestRunStarted
+                 * @instance
+                 */
+                TestRunStarted.prototype.timestamp = null;
 
                 /**
                  * Creates a new TestRunStarted instance using the specified properties.
@@ -8780,6 +8789,8 @@ $root.io = (function() {
                 TestRunStarted.encode = function encode(message, writer) {
                     if (!writer)
                         writer = $Writer.create();
+                    if (message.timestamp != null && message.hasOwnProperty("timestamp"))
+                        $root.google.protobuf.Timestamp.encode(message.timestamp, writer.uint32(/* id 1, wireType 2 =*/10).fork()).ldelim();
                     return writer;
                 };
 
@@ -8814,6 +8825,9 @@ $root.io = (function() {
                     while (reader.pos < end) {
                         var tag = reader.uint32();
                         switch (tag >>> 3) {
+                        case 1:
+                            message.timestamp = $root.google.protobuf.Timestamp.decode(reader, reader.uint32());
+                            break;
                         default:
                             reader.skipType(tag & 7);
                             break;
@@ -8849,6 +8863,11 @@ $root.io = (function() {
                 TestRunStarted.verify = function verify(message) {
                     if (typeof message !== "object" || message === null)
                         return "object expected";
+                    if (message.timestamp != null && message.hasOwnProperty("timestamp")) {
+                        var error = $root.google.protobuf.Timestamp.verify(message.timestamp);
+                        if (error)
+                            return "timestamp." + error;
+                    }
                     return null;
                 };
 
@@ -8863,7 +8882,13 @@ $root.io = (function() {
                 TestRunStarted.fromObject = function fromObject(object) {
                     if (object instanceof $root.io.cucumber.messages.TestRunStarted)
                         return object;
-                    return new $root.io.cucumber.messages.TestRunStarted();
+                    var message = new $root.io.cucumber.messages.TestRunStarted();
+                    if (object.timestamp != null) {
+                        if (typeof object.timestamp !== "object")
+                            throw TypeError(".io.cucumber.messages.TestRunStarted.timestamp: object expected");
+                        message.timestamp = $root.google.protobuf.Timestamp.fromObject(object.timestamp);
+                    }
+                    return message;
                 };
 
                 /**
@@ -8875,8 +8900,15 @@ $root.io = (function() {
                  * @param {$protobuf.IConversionOptions} [options] Conversion options
                  * @returns {Object.<string,*>} Plain object
                  */
-                TestRunStarted.toObject = function toObject() {
-                    return {};
+                TestRunStarted.toObject = function toObject(message, options) {
+                    if (!options)
+                        options = {};
+                    var object = {};
+                    if (options.defaults)
+                        object.timestamp = null;
+                    if (message.timestamp != null && message.hasOwnProperty("timestamp"))
+                        object.timestamp = $root.google.protobuf.Timestamp.toObject(message.timestamp, options);
+                    return object;
                 };
 
                 /**
@@ -9352,6 +9384,7 @@ $root.io = (function() {
                  * @interface ITestCaseStarted
                  * @property {string|null} [pickleId] TestCaseStarted pickleId
                  * @property {google.protobuf.ITimestamp|null} [timestamp] TestCaseStarted timestamp
+                 * @property {io.cucumber.messages.TestCaseStarted.IPlatform|null} [platform] TestCaseStarted platform
                  */
 
                 /**
@@ -9386,6 +9419,14 @@ $root.io = (function() {
                 TestCaseStarted.prototype.timestamp = null;
 
                 /**
+                 * TestCaseStarted platform.
+                 * @member {io.cucumber.messages.TestCaseStarted.IPlatform|null|undefined} platform
+                 * @memberof io.cucumber.messages.TestCaseStarted
+                 * @instance
+                 */
+                TestCaseStarted.prototype.platform = null;
+
+                /**
                  * Creates a new TestCaseStarted instance using the specified properties.
                  * @function create
                  * @memberof io.cucumber.messages.TestCaseStarted
@@ -9413,6 +9454,8 @@ $root.io = (function() {
                         writer.uint32(/* id 1, wireType 2 =*/10).string(message.pickleId);
                     if (message.timestamp != null && message.hasOwnProperty("timestamp"))
                         $root.google.protobuf.Timestamp.encode(message.timestamp, writer.uint32(/* id 2, wireType 2 =*/18).fork()).ldelim();
+                    if (message.platform != null && message.hasOwnProperty("platform"))
+                        $root.io.cucumber.messages.TestCaseStarted.Platform.encode(message.platform, writer.uint32(/* id 3, wireType 2 =*/26).fork()).ldelim();
                     return writer;
                 };
 
@@ -9452,6 +9495,9 @@ $root.io = (function() {
                             break;
                         case 2:
                             message.timestamp = $root.google.protobuf.Timestamp.decode(reader, reader.uint32());
+                            break;
+                        case 3:
+                            message.platform = $root.io.cucumber.messages.TestCaseStarted.Platform.decode(reader, reader.uint32());
                             break;
                         default:
                             reader.skipType(tag & 7);
@@ -9496,6 +9542,11 @@ $root.io = (function() {
                         if (error)
                             return "timestamp." + error;
                     }
+                    if (message.platform != null && message.hasOwnProperty("platform")) {
+                        var error = $root.io.cucumber.messages.TestCaseStarted.Platform.verify(message.platform);
+                        if (error)
+                            return "platform." + error;
+                    }
                     return null;
                 };
 
@@ -9518,6 +9569,11 @@ $root.io = (function() {
                             throw TypeError(".io.cucumber.messages.TestCaseStarted.timestamp: object expected");
                         message.timestamp = $root.google.protobuf.Timestamp.fromObject(object.timestamp);
                     }
+                    if (object.platform != null) {
+                        if (typeof object.platform !== "object")
+                            throw TypeError(".io.cucumber.messages.TestCaseStarted.platform: object expected");
+                        message.platform = $root.io.cucumber.messages.TestCaseStarted.Platform.fromObject(object.platform);
+                    }
                     return message;
                 };
 
@@ -9537,11 +9593,14 @@ $root.io = (function() {
                     if (options.defaults) {
                         object.pickleId = "";
                         object.timestamp = null;
+                        object.platform = null;
                     }
                     if (message.pickleId != null && message.hasOwnProperty("pickleId"))
                         object.pickleId = message.pickleId;
                     if (message.timestamp != null && message.hasOwnProperty("timestamp"))
                         object.timestamp = $root.google.protobuf.Timestamp.toObject(message.timestamp, options);
+                    if (message.platform != null && message.hasOwnProperty("platform"))
+                        object.platform = $root.io.cucumber.messages.TestCaseStarted.Platform.toObject(message.platform, options);
                     return object;
                 };
 
@@ -9555,6 +9614,260 @@ $root.io = (function() {
                 TestCaseStarted.prototype.toJSON = function toJSON() {
                     return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
                 };
+
+                TestCaseStarted.Platform = (function() {
+
+                    /**
+                     * Properties of a Platform.
+                     * @memberof io.cucumber.messages.TestCaseStarted
+                     * @interface IPlatform
+                     * @property {string|null} [implementation] Platform implementation
+                     * @property {string|null} [version] Platform version
+                     * @property {string|null} [os] Platform os
+                     * @property {string|null} [cpu] Platform cpu
+                     */
+
+                    /**
+                     * Constructs a new Platform.
+                     * @memberof io.cucumber.messages.TestCaseStarted
+                     * @classdesc Represents a Platform.
+                     * @implements IPlatform
+                     * @constructor
+                     * @param {io.cucumber.messages.TestCaseStarted.IPlatform=} [properties] Properties to set
+                     */
+                    function Platform(properties) {
+                        if (properties)
+                            for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                                if (properties[keys[i]] != null)
+                                    this[keys[i]] = properties[keys[i]];
+                    }
+
+                    /**
+                     * Platform implementation.
+                     * @member {string} implementation
+                     * @memberof io.cucumber.messages.TestCaseStarted.Platform
+                     * @instance
+                     */
+                    Platform.prototype.implementation = "";
+
+                    /**
+                     * Platform version.
+                     * @member {string} version
+                     * @memberof io.cucumber.messages.TestCaseStarted.Platform
+                     * @instance
+                     */
+                    Platform.prototype.version = "";
+
+                    /**
+                     * Platform os.
+                     * @member {string} os
+                     * @memberof io.cucumber.messages.TestCaseStarted.Platform
+                     * @instance
+                     */
+                    Platform.prototype.os = "";
+
+                    /**
+                     * Platform cpu.
+                     * @member {string} cpu
+                     * @memberof io.cucumber.messages.TestCaseStarted.Platform
+                     * @instance
+                     */
+                    Platform.prototype.cpu = "";
+
+                    /**
+                     * Creates a new Platform instance using the specified properties.
+                     * @function create
+                     * @memberof io.cucumber.messages.TestCaseStarted.Platform
+                     * @static
+                     * @param {io.cucumber.messages.TestCaseStarted.IPlatform=} [properties] Properties to set
+                     * @returns {io.cucumber.messages.TestCaseStarted.Platform} Platform instance
+                     */
+                    Platform.create = function create(properties) {
+                        return new Platform(properties);
+                    };
+
+                    /**
+                     * Encodes the specified Platform message. Does not implicitly {@link io.cucumber.messages.TestCaseStarted.Platform.verify|verify} messages.
+                     * @function encode
+                     * @memberof io.cucumber.messages.TestCaseStarted.Platform
+                     * @static
+                     * @param {io.cucumber.messages.TestCaseStarted.IPlatform} message Platform message or plain object to encode
+                     * @param {$protobuf.Writer} [writer] Writer to encode to
+                     * @returns {$protobuf.Writer} Writer
+                     */
+                    Platform.encode = function encode(message, writer) {
+                        if (!writer)
+                            writer = $Writer.create();
+                        if (message.implementation != null && message.hasOwnProperty("implementation"))
+                            writer.uint32(/* id 1, wireType 2 =*/10).string(message.implementation);
+                        if (message.version != null && message.hasOwnProperty("version"))
+                            writer.uint32(/* id 2, wireType 2 =*/18).string(message.version);
+                        if (message.os != null && message.hasOwnProperty("os"))
+                            writer.uint32(/* id 3, wireType 2 =*/26).string(message.os);
+                        if (message.cpu != null && message.hasOwnProperty("cpu"))
+                            writer.uint32(/* id 4, wireType 2 =*/34).string(message.cpu);
+                        return writer;
+                    };
+
+                    /**
+                     * Encodes the specified Platform message, length delimited. Does not implicitly {@link io.cucumber.messages.TestCaseStarted.Platform.verify|verify} messages.
+                     * @function encodeDelimited
+                     * @memberof io.cucumber.messages.TestCaseStarted.Platform
+                     * @static
+                     * @param {io.cucumber.messages.TestCaseStarted.IPlatform} message Platform message or plain object to encode
+                     * @param {$protobuf.Writer} [writer] Writer to encode to
+                     * @returns {$protobuf.Writer} Writer
+                     */
+                    Platform.encodeDelimited = function encodeDelimited(message, writer) {
+                        return this.encode(message, writer).ldelim();
+                    };
+
+                    /**
+                     * Decodes a Platform message from the specified reader or buffer.
+                     * @function decode
+                     * @memberof io.cucumber.messages.TestCaseStarted.Platform
+                     * @static
+                     * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+                     * @param {number} [length] Message length if known beforehand
+                     * @returns {io.cucumber.messages.TestCaseStarted.Platform} Platform
+                     * @throws {Error} If the payload is not a reader or valid buffer
+                     * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                     */
+                    Platform.decode = function decode(reader, length) {
+                        if (!(reader instanceof $Reader))
+                            reader = $Reader.create(reader);
+                        var end = length === undefined ? reader.len : reader.pos + length, message = new $root.io.cucumber.messages.TestCaseStarted.Platform();
+                        while (reader.pos < end) {
+                            var tag = reader.uint32();
+                            switch (tag >>> 3) {
+                            case 1:
+                                message.implementation = reader.string();
+                                break;
+                            case 2:
+                                message.version = reader.string();
+                                break;
+                            case 3:
+                                message.os = reader.string();
+                                break;
+                            case 4:
+                                message.cpu = reader.string();
+                                break;
+                            default:
+                                reader.skipType(tag & 7);
+                                break;
+                            }
+                        }
+                        return message;
+                    };
+
+                    /**
+                     * Decodes a Platform message from the specified reader or buffer, length delimited.
+                     * @function decodeDelimited
+                     * @memberof io.cucumber.messages.TestCaseStarted.Platform
+                     * @static
+                     * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+                     * @returns {io.cucumber.messages.TestCaseStarted.Platform} Platform
+                     * @throws {Error} If the payload is not a reader or valid buffer
+                     * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                     */
+                    Platform.decodeDelimited = function decodeDelimited(reader) {
+                        if (!(reader instanceof $Reader))
+                            reader = new $Reader(reader);
+                        return this.decode(reader, reader.uint32());
+                    };
+
+                    /**
+                     * Verifies a Platform message.
+                     * @function verify
+                     * @memberof io.cucumber.messages.TestCaseStarted.Platform
+                     * @static
+                     * @param {Object.<string,*>} message Plain object to verify
+                     * @returns {string|null} `null` if valid, otherwise the reason why it is not
+                     */
+                    Platform.verify = function verify(message) {
+                        if (typeof message !== "object" || message === null)
+                            return "object expected";
+                        if (message.implementation != null && message.hasOwnProperty("implementation"))
+                            if (!$util.isString(message.implementation))
+                                return "implementation: string expected";
+                        if (message.version != null && message.hasOwnProperty("version"))
+                            if (!$util.isString(message.version))
+                                return "version: string expected";
+                        if (message.os != null && message.hasOwnProperty("os"))
+                            if (!$util.isString(message.os))
+                                return "os: string expected";
+                        if (message.cpu != null && message.hasOwnProperty("cpu"))
+                            if (!$util.isString(message.cpu))
+                                return "cpu: string expected";
+                        return null;
+                    };
+
+                    /**
+                     * Creates a Platform message from a plain object. Also converts values to their respective internal types.
+                     * @function fromObject
+                     * @memberof io.cucumber.messages.TestCaseStarted.Platform
+                     * @static
+                     * @param {Object.<string,*>} object Plain object
+                     * @returns {io.cucumber.messages.TestCaseStarted.Platform} Platform
+                     */
+                    Platform.fromObject = function fromObject(object) {
+                        if (object instanceof $root.io.cucumber.messages.TestCaseStarted.Platform)
+                            return object;
+                        var message = new $root.io.cucumber.messages.TestCaseStarted.Platform();
+                        if (object.implementation != null)
+                            message.implementation = String(object.implementation);
+                        if (object.version != null)
+                            message.version = String(object.version);
+                        if (object.os != null)
+                            message.os = String(object.os);
+                        if (object.cpu != null)
+                            message.cpu = String(object.cpu);
+                        return message;
+                    };
+
+                    /**
+                     * Creates a plain object from a Platform message. Also converts values to other types if specified.
+                     * @function toObject
+                     * @memberof io.cucumber.messages.TestCaseStarted.Platform
+                     * @static
+                     * @param {io.cucumber.messages.TestCaseStarted.Platform} message Platform
+                     * @param {$protobuf.IConversionOptions} [options] Conversion options
+                     * @returns {Object.<string,*>} Plain object
+                     */
+                    Platform.toObject = function toObject(message, options) {
+                        if (!options)
+                            options = {};
+                        var object = {};
+                        if (options.defaults) {
+                            object.implementation = "";
+                            object.version = "";
+                            object.os = "";
+                            object.cpu = "";
+                        }
+                        if (message.implementation != null && message.hasOwnProperty("implementation"))
+                            object.implementation = message.implementation;
+                        if (message.version != null && message.hasOwnProperty("version"))
+                            object.version = message.version;
+                        if (message.os != null && message.hasOwnProperty("os"))
+                            object.os = message.os;
+                        if (message.cpu != null && message.hasOwnProperty("cpu"))
+                            object.cpu = message.cpu;
+                        return object;
+                    };
+
+                    /**
+                     * Converts this Platform to JSON.
+                     * @function toJSON
+                     * @memberof io.cucumber.messages.TestCaseStarted.Platform
+                     * @instance
+                     * @returns {Object.<string,*>} JSON object
+                     */
+                    Platform.prototype.toJSON = function toJSON() {
+                        return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+                    };
+
+                    return Platform;
+                })();
 
                 return TestCaseStarted;
             })();

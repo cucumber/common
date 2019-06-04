@@ -37821,6 +37821,19 @@ public final class Messages {
   public interface TestRunStartedOrBuilder extends
       // @@protoc_insertion_point(interface_extends:io.cucumber.messages.TestRunStarted)
       com.google.protobuf.MessageOrBuilder {
+
+    /**
+     * <code>.google.protobuf.Timestamp timestamp = 1;</code>
+     */
+    boolean hasTimestamp();
+    /**
+     * <code>.google.protobuf.Timestamp timestamp = 1;</code>
+     */
+    com.google.protobuf.Timestamp getTimestamp();
+    /**
+     * <code>.google.protobuf.Timestamp timestamp = 1;</code>
+     */
+    com.google.protobuf.TimestampOrBuilder getTimestampOrBuilder();
   }
   /**
    * Protobuf type {@code io.cucumber.messages.TestRunStarted}
@@ -37850,6 +37863,7 @@ public final class Messages {
       if (extensionRegistry == null) {
         throw new java.lang.NullPointerException();
       }
+      int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
@@ -37860,6 +37874,19 @@ public final class Messages {
             case 0:
               done = true;
               break;
+            case 10: {
+              com.google.protobuf.Timestamp.Builder subBuilder = null;
+              if (timestamp_ != null) {
+                subBuilder = timestamp_.toBuilder();
+              }
+              timestamp_ = input.readMessage(com.google.protobuf.Timestamp.parser(), extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom(timestamp_);
+                timestamp_ = subBuilder.buildPartial();
+              }
+
+              break;
+            }
             default: {
               if (!parseUnknownFieldProto3(
                   input, unknownFields, extensionRegistry, tag)) {
@@ -37892,6 +37919,27 @@ public final class Messages {
               io.cucumber.messages.Messages.TestRunStarted.class, io.cucumber.messages.Messages.TestRunStarted.Builder.class);
     }
 
+    public static final int TIMESTAMP_FIELD_NUMBER = 1;
+    private com.google.protobuf.Timestamp timestamp_;
+    /**
+     * <code>.google.protobuf.Timestamp timestamp = 1;</code>
+     */
+    public boolean hasTimestamp() {
+      return timestamp_ != null;
+    }
+    /**
+     * <code>.google.protobuf.Timestamp timestamp = 1;</code>
+     */
+    public com.google.protobuf.Timestamp getTimestamp() {
+      return timestamp_ == null ? com.google.protobuf.Timestamp.getDefaultInstance() : timestamp_;
+    }
+    /**
+     * <code>.google.protobuf.Timestamp timestamp = 1;</code>
+     */
+    public com.google.protobuf.TimestampOrBuilder getTimestampOrBuilder() {
+      return getTimestamp();
+    }
+
     private byte memoizedIsInitialized = -1;
     @java.lang.Override
     public final boolean isInitialized() {
@@ -37906,6 +37954,9 @@ public final class Messages {
     @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
+      if (timestamp_ != null) {
+        output.writeMessage(1, getTimestamp());
+      }
       unknownFields.writeTo(output);
     }
 
@@ -37915,6 +37966,10 @@ public final class Messages {
       if (size != -1) return size;
 
       size = 0;
+      if (timestamp_ != null) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(1, getTimestamp());
+      }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
       return size;
@@ -37931,6 +37986,11 @@ public final class Messages {
       io.cucumber.messages.Messages.TestRunStarted other = (io.cucumber.messages.Messages.TestRunStarted) obj;
 
       boolean result = true;
+      result = result && (hasTimestamp() == other.hasTimestamp());
+      if (hasTimestamp()) {
+        result = result && getTimestamp()
+            .equals(other.getTimestamp());
+      }
       result = result && unknownFields.equals(other.unknownFields);
       return result;
     }
@@ -37942,6 +38002,10 @@ public final class Messages {
       }
       int hash = 41;
       hash = (19 * hash) + getDescriptor().hashCode();
+      if (hasTimestamp()) {
+        hash = (37 * hash) + TIMESTAMP_FIELD_NUMBER;
+        hash = (53 * hash) + getTimestamp().hashCode();
+      }
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
       return hash;
@@ -38075,6 +38139,12 @@ public final class Messages {
       @java.lang.Override
       public Builder clear() {
         super.clear();
+        if (timestampBuilder_ == null) {
+          timestamp_ = null;
+        } else {
+          timestamp_ = null;
+          timestampBuilder_ = null;
+        }
         return this;
       }
 
@@ -38101,6 +38171,11 @@ public final class Messages {
       @java.lang.Override
       public io.cucumber.messages.Messages.TestRunStarted buildPartial() {
         io.cucumber.messages.Messages.TestRunStarted result = new io.cucumber.messages.Messages.TestRunStarted(this);
+        if (timestampBuilder_ == null) {
+          result.timestamp_ = timestamp_;
+        } else {
+          result.timestamp_ = timestampBuilder_.build();
+        }
         onBuilt();
         return result;
       }
@@ -38149,6 +38224,9 @@ public final class Messages {
 
       public Builder mergeFrom(io.cucumber.messages.Messages.TestRunStarted other) {
         if (other == io.cucumber.messages.Messages.TestRunStarted.getDefaultInstance()) return this;
+        if (other.hasTimestamp()) {
+          mergeTimestamp(other.getTimestamp());
+        }
         this.mergeUnknownFields(other.unknownFields);
         onChanged();
         return this;
@@ -38176,6 +38254,123 @@ public final class Messages {
           }
         }
         return this;
+      }
+
+      private com.google.protobuf.Timestamp timestamp_ = null;
+      private com.google.protobuf.SingleFieldBuilderV3<
+          com.google.protobuf.Timestamp, com.google.protobuf.Timestamp.Builder, com.google.protobuf.TimestampOrBuilder> timestampBuilder_;
+      /**
+       * <code>.google.protobuf.Timestamp timestamp = 1;</code>
+       */
+      public boolean hasTimestamp() {
+        return timestampBuilder_ != null || timestamp_ != null;
+      }
+      /**
+       * <code>.google.protobuf.Timestamp timestamp = 1;</code>
+       */
+      public com.google.protobuf.Timestamp getTimestamp() {
+        if (timestampBuilder_ == null) {
+          return timestamp_ == null ? com.google.protobuf.Timestamp.getDefaultInstance() : timestamp_;
+        } else {
+          return timestampBuilder_.getMessage();
+        }
+      }
+      /**
+       * <code>.google.protobuf.Timestamp timestamp = 1;</code>
+       */
+      public Builder setTimestamp(com.google.protobuf.Timestamp value) {
+        if (timestampBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          timestamp_ = value;
+          onChanged();
+        } else {
+          timestampBuilder_.setMessage(value);
+        }
+
+        return this;
+      }
+      /**
+       * <code>.google.protobuf.Timestamp timestamp = 1;</code>
+       */
+      public Builder setTimestamp(
+          com.google.protobuf.Timestamp.Builder builderForValue) {
+        if (timestampBuilder_ == null) {
+          timestamp_ = builderForValue.build();
+          onChanged();
+        } else {
+          timestampBuilder_.setMessage(builderForValue.build());
+        }
+
+        return this;
+      }
+      /**
+       * <code>.google.protobuf.Timestamp timestamp = 1;</code>
+       */
+      public Builder mergeTimestamp(com.google.protobuf.Timestamp value) {
+        if (timestampBuilder_ == null) {
+          if (timestamp_ != null) {
+            timestamp_ =
+              com.google.protobuf.Timestamp.newBuilder(timestamp_).mergeFrom(value).buildPartial();
+          } else {
+            timestamp_ = value;
+          }
+          onChanged();
+        } else {
+          timestampBuilder_.mergeFrom(value);
+        }
+
+        return this;
+      }
+      /**
+       * <code>.google.protobuf.Timestamp timestamp = 1;</code>
+       */
+      public Builder clearTimestamp() {
+        if (timestampBuilder_ == null) {
+          timestamp_ = null;
+          onChanged();
+        } else {
+          timestamp_ = null;
+          timestampBuilder_ = null;
+        }
+
+        return this;
+      }
+      /**
+       * <code>.google.protobuf.Timestamp timestamp = 1;</code>
+       */
+      public com.google.protobuf.Timestamp.Builder getTimestampBuilder() {
+        
+        onChanged();
+        return getTimestampFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>.google.protobuf.Timestamp timestamp = 1;</code>
+       */
+      public com.google.protobuf.TimestampOrBuilder getTimestampOrBuilder() {
+        if (timestampBuilder_ != null) {
+          return timestampBuilder_.getMessageOrBuilder();
+        } else {
+          return timestamp_ == null ?
+              com.google.protobuf.Timestamp.getDefaultInstance() : timestamp_;
+        }
+      }
+      /**
+       * <code>.google.protobuf.Timestamp timestamp = 1;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilderV3<
+          com.google.protobuf.Timestamp, com.google.protobuf.Timestamp.Builder, com.google.protobuf.TimestampOrBuilder> 
+          getTimestampFieldBuilder() {
+        if (timestampBuilder_ == null) {
+          timestampBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
+              com.google.protobuf.Timestamp, com.google.protobuf.Timestamp.Builder, com.google.protobuf.TimestampOrBuilder>(
+                  getTimestamp(),
+                  getParentForChildren(),
+                  isClean());
+          timestamp_ = null;
+        }
+        return timestampBuilder_;
       }
       @java.lang.Override
       public final Builder setUnknownFields(
@@ -39979,6 +40174,19 @@ public final class Messages {
      * <code>.google.protobuf.Timestamp timestamp = 2;</code>
      */
     com.google.protobuf.TimestampOrBuilder getTimestampOrBuilder();
+
+    /**
+     * <code>.io.cucumber.messages.TestCaseStarted.Platform platform = 3;</code>
+     */
+    boolean hasPlatform();
+    /**
+     * <code>.io.cucumber.messages.TestCaseStarted.Platform platform = 3;</code>
+     */
+    io.cucumber.messages.Messages.TestCaseStarted.Platform getPlatform();
+    /**
+     * <code>.io.cucumber.messages.TestCaseStarted.Platform platform = 3;</code>
+     */
+    io.cucumber.messages.Messages.TestCaseStarted.PlatformOrBuilder getPlatformOrBuilder();
   }
   /**
    * Protobuf type {@code io.cucumber.messages.TestCaseStarted}
@@ -40039,6 +40247,19 @@ public final class Messages {
 
               break;
             }
+            case 26: {
+              io.cucumber.messages.Messages.TestCaseStarted.Platform.Builder subBuilder = null;
+              if (platform_ != null) {
+                subBuilder = platform_.toBuilder();
+              }
+              platform_ = input.readMessage(io.cucumber.messages.Messages.TestCaseStarted.Platform.parser(), extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom(platform_);
+                platform_ = subBuilder.buildPartial();
+              }
+
+              break;
+            }
             default: {
               if (!parseUnknownFieldProto3(
                   input, unknownFields, extensionRegistry, tag)) {
@@ -40069,6 +40290,1111 @@ public final class Messages {
       return io.cucumber.messages.Messages.internal_static_io_cucumber_messages_TestCaseStarted_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
               io.cucumber.messages.Messages.TestCaseStarted.class, io.cucumber.messages.Messages.TestCaseStarted.Builder.class);
+    }
+
+    public interface PlatformOrBuilder extends
+        // @@protoc_insertion_point(interface_extends:io.cucumber.messages.TestCaseStarted.Platform)
+        com.google.protobuf.MessageOrBuilder {
+
+      /**
+       * <pre>
+       * The runner implementation. For example "SpecFlow", "Cucumber-JVM", "Behat" etc.
+       * </pre>
+       *
+       * <code>string implementation = 1;</code>
+       */
+      java.lang.String getImplementation();
+      /**
+       * <pre>
+       * The runner implementation. For example "SpecFlow", "Cucumber-JVM", "Behat" etc.
+       * </pre>
+       *
+       * <code>string implementation = 1;</code>
+       */
+      com.google.protobuf.ByteString
+          getImplementationBytes();
+
+      /**
+       * <pre>
+       * The version of the runner
+       * </pre>
+       *
+       * <code>string version = 2;</code>
+       */
+      java.lang.String getVersion();
+      /**
+       * <pre>
+       * The version of the runner
+       * </pre>
+       *
+       * <code>string version = 2;</code>
+       */
+      com.google.protobuf.ByteString
+          getVersionBytes();
+
+      /**
+       * <pre>
+       * The operating system
+       * </pre>
+       *
+       * <code>string os = 3;</code>
+       */
+      java.lang.String getOs();
+      /**
+       * <pre>
+       * The operating system
+       * </pre>
+       *
+       * <code>string os = 3;</code>
+       */
+      com.google.protobuf.ByteString
+          getOsBytes();
+
+      /**
+       * <pre>
+       * The CPU architecture
+       * </pre>
+       *
+       * <code>string cpu = 4;</code>
+       */
+      java.lang.String getCpu();
+      /**
+       * <pre>
+       * The CPU architecture
+       * </pre>
+       *
+       * <code>string cpu = 4;</code>
+       */
+      com.google.protobuf.ByteString
+          getCpuBytes();
+    }
+    /**
+     * Protobuf type {@code io.cucumber.messages.TestCaseStarted.Platform}
+     */
+    public  static final class Platform extends
+        com.google.protobuf.GeneratedMessageV3 implements
+        // @@protoc_insertion_point(message_implements:io.cucumber.messages.TestCaseStarted.Platform)
+        PlatformOrBuilder {
+    private static final long serialVersionUID = 0L;
+      // Use Platform.newBuilder() to construct.
+      private Platform(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+        super(builder);
+      }
+      private Platform() {
+        implementation_ = "";
+        version_ = "";
+        os_ = "";
+        cpu_ = "";
+      }
+
+      @java.lang.Override
+      public final com.google.protobuf.UnknownFieldSet
+      getUnknownFields() {
+        return this.unknownFields;
+      }
+      private Platform(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        this();
+        if (extensionRegistry == null) {
+          throw new java.lang.NullPointerException();
+        }
+        int mutable_bitField0_ = 0;
+        com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+            com.google.protobuf.UnknownFieldSet.newBuilder();
+        try {
+          boolean done = false;
+          while (!done) {
+            int tag = input.readTag();
+            switch (tag) {
+              case 0:
+                done = true;
+                break;
+              case 10: {
+                java.lang.String s = input.readStringRequireUtf8();
+
+                implementation_ = s;
+                break;
+              }
+              case 18: {
+                java.lang.String s = input.readStringRequireUtf8();
+
+                version_ = s;
+                break;
+              }
+              case 26: {
+                java.lang.String s = input.readStringRequireUtf8();
+
+                os_ = s;
+                break;
+              }
+              case 34: {
+                java.lang.String s = input.readStringRequireUtf8();
+
+                cpu_ = s;
+                break;
+              }
+              default: {
+                if (!parseUnknownFieldProto3(
+                    input, unknownFields, extensionRegistry, tag)) {
+                  done = true;
+                }
+                break;
+              }
+            }
+          }
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          throw e.setUnfinishedMessage(this);
+        } catch (java.io.IOException e) {
+          throw new com.google.protobuf.InvalidProtocolBufferException(
+              e).setUnfinishedMessage(this);
+        } finally {
+          this.unknownFields = unknownFields.build();
+          makeExtensionsImmutable();
+        }
+      }
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return io.cucumber.messages.Messages.internal_static_io_cucumber_messages_TestCaseStarted_Platform_descriptor;
+      }
+
+      @java.lang.Override
+      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return io.cucumber.messages.Messages.internal_static_io_cucumber_messages_TestCaseStarted_Platform_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                io.cucumber.messages.Messages.TestCaseStarted.Platform.class, io.cucumber.messages.Messages.TestCaseStarted.Platform.Builder.class);
+      }
+
+      public static final int IMPLEMENTATION_FIELD_NUMBER = 1;
+      private volatile java.lang.Object implementation_;
+      /**
+       * <pre>
+       * The runner implementation. For example "SpecFlow", "Cucumber-JVM", "Behat" etc.
+       * </pre>
+       *
+       * <code>string implementation = 1;</code>
+       */
+      public java.lang.String getImplementation() {
+        java.lang.Object ref = implementation_;
+        if (ref instanceof java.lang.String) {
+          return (java.lang.String) ref;
+        } else {
+          com.google.protobuf.ByteString bs = 
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          implementation_ = s;
+          return s;
+        }
+      }
+      /**
+       * <pre>
+       * The runner implementation. For example "SpecFlow", "Cucumber-JVM", "Behat" etc.
+       * </pre>
+       *
+       * <code>string implementation = 1;</code>
+       */
+      public com.google.protobuf.ByteString
+          getImplementationBytes() {
+        java.lang.Object ref = implementation_;
+        if (ref instanceof java.lang.String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          implementation_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+
+      public static final int VERSION_FIELD_NUMBER = 2;
+      private volatile java.lang.Object version_;
+      /**
+       * <pre>
+       * The version of the runner
+       * </pre>
+       *
+       * <code>string version = 2;</code>
+       */
+      public java.lang.String getVersion() {
+        java.lang.Object ref = version_;
+        if (ref instanceof java.lang.String) {
+          return (java.lang.String) ref;
+        } else {
+          com.google.protobuf.ByteString bs = 
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          version_ = s;
+          return s;
+        }
+      }
+      /**
+       * <pre>
+       * The version of the runner
+       * </pre>
+       *
+       * <code>string version = 2;</code>
+       */
+      public com.google.protobuf.ByteString
+          getVersionBytes() {
+        java.lang.Object ref = version_;
+        if (ref instanceof java.lang.String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          version_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+
+      public static final int OS_FIELD_NUMBER = 3;
+      private volatile java.lang.Object os_;
+      /**
+       * <pre>
+       * The operating system
+       * </pre>
+       *
+       * <code>string os = 3;</code>
+       */
+      public java.lang.String getOs() {
+        java.lang.Object ref = os_;
+        if (ref instanceof java.lang.String) {
+          return (java.lang.String) ref;
+        } else {
+          com.google.protobuf.ByteString bs = 
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          os_ = s;
+          return s;
+        }
+      }
+      /**
+       * <pre>
+       * The operating system
+       * </pre>
+       *
+       * <code>string os = 3;</code>
+       */
+      public com.google.protobuf.ByteString
+          getOsBytes() {
+        java.lang.Object ref = os_;
+        if (ref instanceof java.lang.String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          os_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+
+      public static final int CPU_FIELD_NUMBER = 4;
+      private volatile java.lang.Object cpu_;
+      /**
+       * <pre>
+       * The CPU architecture
+       * </pre>
+       *
+       * <code>string cpu = 4;</code>
+       */
+      public java.lang.String getCpu() {
+        java.lang.Object ref = cpu_;
+        if (ref instanceof java.lang.String) {
+          return (java.lang.String) ref;
+        } else {
+          com.google.protobuf.ByteString bs = 
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          cpu_ = s;
+          return s;
+        }
+      }
+      /**
+       * <pre>
+       * The CPU architecture
+       * </pre>
+       *
+       * <code>string cpu = 4;</code>
+       */
+      public com.google.protobuf.ByteString
+          getCpuBytes() {
+        java.lang.Object ref = cpu_;
+        if (ref instanceof java.lang.String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          cpu_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+
+      private byte memoizedIsInitialized = -1;
+      @java.lang.Override
+      public final boolean isInitialized() {
+        byte isInitialized = memoizedIsInitialized;
+        if (isInitialized == 1) return true;
+        if (isInitialized == 0) return false;
+
+        memoizedIsInitialized = 1;
+        return true;
+      }
+
+      @java.lang.Override
+      public void writeTo(com.google.protobuf.CodedOutputStream output)
+                          throws java.io.IOException {
+        if (!getImplementationBytes().isEmpty()) {
+          com.google.protobuf.GeneratedMessageV3.writeString(output, 1, implementation_);
+        }
+        if (!getVersionBytes().isEmpty()) {
+          com.google.protobuf.GeneratedMessageV3.writeString(output, 2, version_);
+        }
+        if (!getOsBytes().isEmpty()) {
+          com.google.protobuf.GeneratedMessageV3.writeString(output, 3, os_);
+        }
+        if (!getCpuBytes().isEmpty()) {
+          com.google.protobuf.GeneratedMessageV3.writeString(output, 4, cpu_);
+        }
+        unknownFields.writeTo(output);
+      }
+
+      @java.lang.Override
+      public int getSerializedSize() {
+        int size = memoizedSize;
+        if (size != -1) return size;
+
+        size = 0;
+        if (!getImplementationBytes().isEmpty()) {
+          size += com.google.protobuf.GeneratedMessageV3.computeStringSize(1, implementation_);
+        }
+        if (!getVersionBytes().isEmpty()) {
+          size += com.google.protobuf.GeneratedMessageV3.computeStringSize(2, version_);
+        }
+        if (!getOsBytes().isEmpty()) {
+          size += com.google.protobuf.GeneratedMessageV3.computeStringSize(3, os_);
+        }
+        if (!getCpuBytes().isEmpty()) {
+          size += com.google.protobuf.GeneratedMessageV3.computeStringSize(4, cpu_);
+        }
+        size += unknownFields.getSerializedSize();
+        memoizedSize = size;
+        return size;
+      }
+
+      @java.lang.Override
+      public boolean equals(final java.lang.Object obj) {
+        if (obj == this) {
+         return true;
+        }
+        if (!(obj instanceof io.cucumber.messages.Messages.TestCaseStarted.Platform)) {
+          return super.equals(obj);
+        }
+        io.cucumber.messages.Messages.TestCaseStarted.Platform other = (io.cucumber.messages.Messages.TestCaseStarted.Platform) obj;
+
+        boolean result = true;
+        result = result && getImplementation()
+            .equals(other.getImplementation());
+        result = result && getVersion()
+            .equals(other.getVersion());
+        result = result && getOs()
+            .equals(other.getOs());
+        result = result && getCpu()
+            .equals(other.getCpu());
+        result = result && unknownFields.equals(other.unknownFields);
+        return result;
+      }
+
+      @java.lang.Override
+      public int hashCode() {
+        if (memoizedHashCode != 0) {
+          return memoizedHashCode;
+        }
+        int hash = 41;
+        hash = (19 * hash) + getDescriptor().hashCode();
+        hash = (37 * hash) + IMPLEMENTATION_FIELD_NUMBER;
+        hash = (53 * hash) + getImplementation().hashCode();
+        hash = (37 * hash) + VERSION_FIELD_NUMBER;
+        hash = (53 * hash) + getVersion().hashCode();
+        hash = (37 * hash) + OS_FIELD_NUMBER;
+        hash = (53 * hash) + getOs().hashCode();
+        hash = (37 * hash) + CPU_FIELD_NUMBER;
+        hash = (53 * hash) + getCpu().hashCode();
+        hash = (29 * hash) + unknownFields.hashCode();
+        memoizedHashCode = hash;
+        return hash;
+      }
+
+      public static io.cucumber.messages.Messages.TestCaseStarted.Platform parseFrom(
+          java.nio.ByteBuffer data)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return PARSER.parseFrom(data);
+      }
+      public static io.cucumber.messages.Messages.TestCaseStarted.Platform parseFrom(
+          java.nio.ByteBuffer data,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return PARSER.parseFrom(data, extensionRegistry);
+      }
+      public static io.cucumber.messages.Messages.TestCaseStarted.Platform parseFrom(
+          com.google.protobuf.ByteString data)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return PARSER.parseFrom(data);
+      }
+      public static io.cucumber.messages.Messages.TestCaseStarted.Platform parseFrom(
+          com.google.protobuf.ByteString data,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return PARSER.parseFrom(data, extensionRegistry);
+      }
+      public static io.cucumber.messages.Messages.TestCaseStarted.Platform parseFrom(byte[] data)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return PARSER.parseFrom(data);
+      }
+      public static io.cucumber.messages.Messages.TestCaseStarted.Platform parseFrom(
+          byte[] data,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return PARSER.parseFrom(data, extensionRegistry);
+      }
+      public static io.cucumber.messages.Messages.TestCaseStarted.Platform parseFrom(java.io.InputStream input)
+          throws java.io.IOException {
+        return com.google.protobuf.GeneratedMessageV3
+            .parseWithIOException(PARSER, input);
+      }
+      public static io.cucumber.messages.Messages.TestCaseStarted.Platform parseFrom(
+          java.io.InputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        return com.google.protobuf.GeneratedMessageV3
+            .parseWithIOException(PARSER, input, extensionRegistry);
+      }
+      public static io.cucumber.messages.Messages.TestCaseStarted.Platform parseDelimitedFrom(java.io.InputStream input)
+          throws java.io.IOException {
+        return com.google.protobuf.GeneratedMessageV3
+            .parseDelimitedWithIOException(PARSER, input);
+      }
+      public static io.cucumber.messages.Messages.TestCaseStarted.Platform parseDelimitedFrom(
+          java.io.InputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        return com.google.protobuf.GeneratedMessageV3
+            .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+      }
+      public static io.cucumber.messages.Messages.TestCaseStarted.Platform parseFrom(
+          com.google.protobuf.CodedInputStream input)
+          throws java.io.IOException {
+        return com.google.protobuf.GeneratedMessageV3
+            .parseWithIOException(PARSER, input);
+      }
+      public static io.cucumber.messages.Messages.TestCaseStarted.Platform parseFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        return com.google.protobuf.GeneratedMessageV3
+            .parseWithIOException(PARSER, input, extensionRegistry);
+      }
+
+      @java.lang.Override
+      public Builder newBuilderForType() { return newBuilder(); }
+      public static Builder newBuilder() {
+        return DEFAULT_INSTANCE.toBuilder();
+      }
+      public static Builder newBuilder(io.cucumber.messages.Messages.TestCaseStarted.Platform prototype) {
+        return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+      }
+      @java.lang.Override
+      public Builder toBuilder() {
+        return this == DEFAULT_INSTANCE
+            ? new Builder() : new Builder().mergeFrom(this);
+      }
+
+      @java.lang.Override
+      protected Builder newBuilderForType(
+          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+        Builder builder = new Builder(parent);
+        return builder;
+      }
+      /**
+       * Protobuf type {@code io.cucumber.messages.TestCaseStarted.Platform}
+       */
+      public static final class Builder extends
+          com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
+          // @@protoc_insertion_point(builder_implements:io.cucumber.messages.TestCaseStarted.Platform)
+          io.cucumber.messages.Messages.TestCaseStarted.PlatformOrBuilder {
+        public static final com.google.protobuf.Descriptors.Descriptor
+            getDescriptor() {
+          return io.cucumber.messages.Messages.internal_static_io_cucumber_messages_TestCaseStarted_Platform_descriptor;
+        }
+
+        @java.lang.Override
+        protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+            internalGetFieldAccessorTable() {
+          return io.cucumber.messages.Messages.internal_static_io_cucumber_messages_TestCaseStarted_Platform_fieldAccessorTable
+              .ensureFieldAccessorsInitialized(
+                  io.cucumber.messages.Messages.TestCaseStarted.Platform.class, io.cucumber.messages.Messages.TestCaseStarted.Platform.Builder.class);
+        }
+
+        // Construct using io.cucumber.messages.Messages.TestCaseStarted.Platform.newBuilder()
+        private Builder() {
+          maybeForceBuilderInitialization();
+        }
+
+        private Builder(
+            com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+          super(parent);
+          maybeForceBuilderInitialization();
+        }
+        private void maybeForceBuilderInitialization() {
+          if (com.google.protobuf.GeneratedMessageV3
+                  .alwaysUseFieldBuilders) {
+          }
+        }
+        @java.lang.Override
+        public Builder clear() {
+          super.clear();
+          implementation_ = "";
+
+          version_ = "";
+
+          os_ = "";
+
+          cpu_ = "";
+
+          return this;
+        }
+
+        @java.lang.Override
+        public com.google.protobuf.Descriptors.Descriptor
+            getDescriptorForType() {
+          return io.cucumber.messages.Messages.internal_static_io_cucumber_messages_TestCaseStarted_Platform_descriptor;
+        }
+
+        @java.lang.Override
+        public io.cucumber.messages.Messages.TestCaseStarted.Platform getDefaultInstanceForType() {
+          return io.cucumber.messages.Messages.TestCaseStarted.Platform.getDefaultInstance();
+        }
+
+        @java.lang.Override
+        public io.cucumber.messages.Messages.TestCaseStarted.Platform build() {
+          io.cucumber.messages.Messages.TestCaseStarted.Platform result = buildPartial();
+          if (!result.isInitialized()) {
+            throw newUninitializedMessageException(result);
+          }
+          return result;
+        }
+
+        @java.lang.Override
+        public io.cucumber.messages.Messages.TestCaseStarted.Platform buildPartial() {
+          io.cucumber.messages.Messages.TestCaseStarted.Platform result = new io.cucumber.messages.Messages.TestCaseStarted.Platform(this);
+          result.implementation_ = implementation_;
+          result.version_ = version_;
+          result.os_ = os_;
+          result.cpu_ = cpu_;
+          onBuilt();
+          return result;
+        }
+
+        @java.lang.Override
+        public Builder clone() {
+          return (Builder) super.clone();
+        }
+        @java.lang.Override
+        public Builder setField(
+            com.google.protobuf.Descriptors.FieldDescriptor field,
+            java.lang.Object value) {
+          return (Builder) super.setField(field, value);
+        }
+        @java.lang.Override
+        public Builder clearField(
+            com.google.protobuf.Descriptors.FieldDescriptor field) {
+          return (Builder) super.clearField(field);
+        }
+        @java.lang.Override
+        public Builder clearOneof(
+            com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+          return (Builder) super.clearOneof(oneof);
+        }
+        @java.lang.Override
+        public Builder setRepeatedField(
+            com.google.protobuf.Descriptors.FieldDescriptor field,
+            int index, java.lang.Object value) {
+          return (Builder) super.setRepeatedField(field, index, value);
+        }
+        @java.lang.Override
+        public Builder addRepeatedField(
+            com.google.protobuf.Descriptors.FieldDescriptor field,
+            java.lang.Object value) {
+          return (Builder) super.addRepeatedField(field, value);
+        }
+        @java.lang.Override
+        public Builder mergeFrom(com.google.protobuf.Message other) {
+          if (other instanceof io.cucumber.messages.Messages.TestCaseStarted.Platform) {
+            return mergeFrom((io.cucumber.messages.Messages.TestCaseStarted.Platform)other);
+          } else {
+            super.mergeFrom(other);
+            return this;
+          }
+        }
+
+        public Builder mergeFrom(io.cucumber.messages.Messages.TestCaseStarted.Platform other) {
+          if (other == io.cucumber.messages.Messages.TestCaseStarted.Platform.getDefaultInstance()) return this;
+          if (!other.getImplementation().isEmpty()) {
+            implementation_ = other.implementation_;
+            onChanged();
+          }
+          if (!other.getVersion().isEmpty()) {
+            version_ = other.version_;
+            onChanged();
+          }
+          if (!other.getOs().isEmpty()) {
+            os_ = other.os_;
+            onChanged();
+          }
+          if (!other.getCpu().isEmpty()) {
+            cpu_ = other.cpu_;
+            onChanged();
+          }
+          this.mergeUnknownFields(other.unknownFields);
+          onChanged();
+          return this;
+        }
+
+        @java.lang.Override
+        public final boolean isInitialized() {
+          return true;
+        }
+
+        @java.lang.Override
+        public Builder mergeFrom(
+            com.google.protobuf.CodedInputStream input,
+            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+            throws java.io.IOException {
+          io.cucumber.messages.Messages.TestCaseStarted.Platform parsedMessage = null;
+          try {
+            parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+          } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+            parsedMessage = (io.cucumber.messages.Messages.TestCaseStarted.Platform) e.getUnfinishedMessage();
+            throw e.unwrapIOException();
+          } finally {
+            if (parsedMessage != null) {
+              mergeFrom(parsedMessage);
+            }
+          }
+          return this;
+        }
+
+        private java.lang.Object implementation_ = "";
+        /**
+         * <pre>
+         * The runner implementation. For example "SpecFlow", "Cucumber-JVM", "Behat" etc.
+         * </pre>
+         *
+         * <code>string implementation = 1;</code>
+         */
+        public java.lang.String getImplementation() {
+          java.lang.Object ref = implementation_;
+          if (!(ref instanceof java.lang.String)) {
+            com.google.protobuf.ByteString bs =
+                (com.google.protobuf.ByteString) ref;
+            java.lang.String s = bs.toStringUtf8();
+            implementation_ = s;
+            return s;
+          } else {
+            return (java.lang.String) ref;
+          }
+        }
+        /**
+         * <pre>
+         * The runner implementation. For example "SpecFlow", "Cucumber-JVM", "Behat" etc.
+         * </pre>
+         *
+         * <code>string implementation = 1;</code>
+         */
+        public com.google.protobuf.ByteString
+            getImplementationBytes() {
+          java.lang.Object ref = implementation_;
+          if (ref instanceof String) {
+            com.google.protobuf.ByteString b = 
+                com.google.protobuf.ByteString.copyFromUtf8(
+                    (java.lang.String) ref);
+            implementation_ = b;
+            return b;
+          } else {
+            return (com.google.protobuf.ByteString) ref;
+          }
+        }
+        /**
+         * <pre>
+         * The runner implementation. For example "SpecFlow", "Cucumber-JVM", "Behat" etc.
+         * </pre>
+         *
+         * <code>string implementation = 1;</code>
+         */
+        public Builder setImplementation(
+            java.lang.String value) {
+          if (value == null) {
+    throw new NullPointerException();
+  }
+  
+          implementation_ = value;
+          onChanged();
+          return this;
+        }
+        /**
+         * <pre>
+         * The runner implementation. For example "SpecFlow", "Cucumber-JVM", "Behat" etc.
+         * </pre>
+         *
+         * <code>string implementation = 1;</code>
+         */
+        public Builder clearImplementation() {
+          
+          implementation_ = getDefaultInstance().getImplementation();
+          onChanged();
+          return this;
+        }
+        /**
+         * <pre>
+         * The runner implementation. For example "SpecFlow", "Cucumber-JVM", "Behat" etc.
+         * </pre>
+         *
+         * <code>string implementation = 1;</code>
+         */
+        public Builder setImplementationBytes(
+            com.google.protobuf.ByteString value) {
+          if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+          
+          implementation_ = value;
+          onChanged();
+          return this;
+        }
+
+        private java.lang.Object version_ = "";
+        /**
+         * <pre>
+         * The version of the runner
+         * </pre>
+         *
+         * <code>string version = 2;</code>
+         */
+        public java.lang.String getVersion() {
+          java.lang.Object ref = version_;
+          if (!(ref instanceof java.lang.String)) {
+            com.google.protobuf.ByteString bs =
+                (com.google.protobuf.ByteString) ref;
+            java.lang.String s = bs.toStringUtf8();
+            version_ = s;
+            return s;
+          } else {
+            return (java.lang.String) ref;
+          }
+        }
+        /**
+         * <pre>
+         * The version of the runner
+         * </pre>
+         *
+         * <code>string version = 2;</code>
+         */
+        public com.google.protobuf.ByteString
+            getVersionBytes() {
+          java.lang.Object ref = version_;
+          if (ref instanceof String) {
+            com.google.protobuf.ByteString b = 
+                com.google.protobuf.ByteString.copyFromUtf8(
+                    (java.lang.String) ref);
+            version_ = b;
+            return b;
+          } else {
+            return (com.google.protobuf.ByteString) ref;
+          }
+        }
+        /**
+         * <pre>
+         * The version of the runner
+         * </pre>
+         *
+         * <code>string version = 2;</code>
+         */
+        public Builder setVersion(
+            java.lang.String value) {
+          if (value == null) {
+    throw new NullPointerException();
+  }
+  
+          version_ = value;
+          onChanged();
+          return this;
+        }
+        /**
+         * <pre>
+         * The version of the runner
+         * </pre>
+         *
+         * <code>string version = 2;</code>
+         */
+        public Builder clearVersion() {
+          
+          version_ = getDefaultInstance().getVersion();
+          onChanged();
+          return this;
+        }
+        /**
+         * <pre>
+         * The version of the runner
+         * </pre>
+         *
+         * <code>string version = 2;</code>
+         */
+        public Builder setVersionBytes(
+            com.google.protobuf.ByteString value) {
+          if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+          
+          version_ = value;
+          onChanged();
+          return this;
+        }
+
+        private java.lang.Object os_ = "";
+        /**
+         * <pre>
+         * The operating system
+         * </pre>
+         *
+         * <code>string os = 3;</code>
+         */
+        public java.lang.String getOs() {
+          java.lang.Object ref = os_;
+          if (!(ref instanceof java.lang.String)) {
+            com.google.protobuf.ByteString bs =
+                (com.google.protobuf.ByteString) ref;
+            java.lang.String s = bs.toStringUtf8();
+            os_ = s;
+            return s;
+          } else {
+            return (java.lang.String) ref;
+          }
+        }
+        /**
+         * <pre>
+         * The operating system
+         * </pre>
+         *
+         * <code>string os = 3;</code>
+         */
+        public com.google.protobuf.ByteString
+            getOsBytes() {
+          java.lang.Object ref = os_;
+          if (ref instanceof String) {
+            com.google.protobuf.ByteString b = 
+                com.google.protobuf.ByteString.copyFromUtf8(
+                    (java.lang.String) ref);
+            os_ = b;
+            return b;
+          } else {
+            return (com.google.protobuf.ByteString) ref;
+          }
+        }
+        /**
+         * <pre>
+         * The operating system
+         * </pre>
+         *
+         * <code>string os = 3;</code>
+         */
+        public Builder setOs(
+            java.lang.String value) {
+          if (value == null) {
+    throw new NullPointerException();
+  }
+  
+          os_ = value;
+          onChanged();
+          return this;
+        }
+        /**
+         * <pre>
+         * The operating system
+         * </pre>
+         *
+         * <code>string os = 3;</code>
+         */
+        public Builder clearOs() {
+          
+          os_ = getDefaultInstance().getOs();
+          onChanged();
+          return this;
+        }
+        /**
+         * <pre>
+         * The operating system
+         * </pre>
+         *
+         * <code>string os = 3;</code>
+         */
+        public Builder setOsBytes(
+            com.google.protobuf.ByteString value) {
+          if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+          
+          os_ = value;
+          onChanged();
+          return this;
+        }
+
+        private java.lang.Object cpu_ = "";
+        /**
+         * <pre>
+         * The CPU architecture
+         * </pre>
+         *
+         * <code>string cpu = 4;</code>
+         */
+        public java.lang.String getCpu() {
+          java.lang.Object ref = cpu_;
+          if (!(ref instanceof java.lang.String)) {
+            com.google.protobuf.ByteString bs =
+                (com.google.protobuf.ByteString) ref;
+            java.lang.String s = bs.toStringUtf8();
+            cpu_ = s;
+            return s;
+          } else {
+            return (java.lang.String) ref;
+          }
+        }
+        /**
+         * <pre>
+         * The CPU architecture
+         * </pre>
+         *
+         * <code>string cpu = 4;</code>
+         */
+        public com.google.protobuf.ByteString
+            getCpuBytes() {
+          java.lang.Object ref = cpu_;
+          if (ref instanceof String) {
+            com.google.protobuf.ByteString b = 
+                com.google.protobuf.ByteString.copyFromUtf8(
+                    (java.lang.String) ref);
+            cpu_ = b;
+            return b;
+          } else {
+            return (com.google.protobuf.ByteString) ref;
+          }
+        }
+        /**
+         * <pre>
+         * The CPU architecture
+         * </pre>
+         *
+         * <code>string cpu = 4;</code>
+         */
+        public Builder setCpu(
+            java.lang.String value) {
+          if (value == null) {
+    throw new NullPointerException();
+  }
+  
+          cpu_ = value;
+          onChanged();
+          return this;
+        }
+        /**
+         * <pre>
+         * The CPU architecture
+         * </pre>
+         *
+         * <code>string cpu = 4;</code>
+         */
+        public Builder clearCpu() {
+          
+          cpu_ = getDefaultInstance().getCpu();
+          onChanged();
+          return this;
+        }
+        /**
+         * <pre>
+         * The CPU architecture
+         * </pre>
+         *
+         * <code>string cpu = 4;</code>
+         */
+        public Builder setCpuBytes(
+            com.google.protobuf.ByteString value) {
+          if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+          
+          cpu_ = value;
+          onChanged();
+          return this;
+        }
+        @java.lang.Override
+        public final Builder setUnknownFields(
+            final com.google.protobuf.UnknownFieldSet unknownFields) {
+          return super.setUnknownFieldsProto3(unknownFields);
+        }
+
+        @java.lang.Override
+        public final Builder mergeUnknownFields(
+            final com.google.protobuf.UnknownFieldSet unknownFields) {
+          return super.mergeUnknownFields(unknownFields);
+        }
+
+
+        // @@protoc_insertion_point(builder_scope:io.cucumber.messages.TestCaseStarted.Platform)
+      }
+
+      // @@protoc_insertion_point(class_scope:io.cucumber.messages.TestCaseStarted.Platform)
+      private static final io.cucumber.messages.Messages.TestCaseStarted.Platform DEFAULT_INSTANCE;
+      static {
+        DEFAULT_INSTANCE = new io.cucumber.messages.Messages.TestCaseStarted.Platform();
+      }
+
+      public static io.cucumber.messages.Messages.TestCaseStarted.Platform getDefaultInstance() {
+        return DEFAULT_INSTANCE;
+      }
+
+      private static final com.google.protobuf.Parser<Platform>
+          PARSER = new com.google.protobuf.AbstractParser<Platform>() {
+        @java.lang.Override
+        public Platform parsePartialFrom(
+            com.google.protobuf.CodedInputStream input,
+            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+            throws com.google.protobuf.InvalidProtocolBufferException {
+          return new Platform(input, extensionRegistry);
+        }
+      };
+
+      public static com.google.protobuf.Parser<Platform> parser() {
+        return PARSER;
+      }
+
+      @java.lang.Override
+      public com.google.protobuf.Parser<Platform> getParserForType() {
+        return PARSER;
+      }
+
+      @java.lang.Override
+      public io.cucumber.messages.Messages.TestCaseStarted.Platform getDefaultInstanceForType() {
+        return DEFAULT_INSTANCE;
+      }
+
     }
 
     public static final int PICKLEID_FIELD_NUMBER = 1;
@@ -40126,6 +41452,27 @@ public final class Messages {
       return getTimestamp();
     }
 
+    public static final int PLATFORM_FIELD_NUMBER = 3;
+    private io.cucumber.messages.Messages.TestCaseStarted.Platform platform_;
+    /**
+     * <code>.io.cucumber.messages.TestCaseStarted.Platform platform = 3;</code>
+     */
+    public boolean hasPlatform() {
+      return platform_ != null;
+    }
+    /**
+     * <code>.io.cucumber.messages.TestCaseStarted.Platform platform = 3;</code>
+     */
+    public io.cucumber.messages.Messages.TestCaseStarted.Platform getPlatform() {
+      return platform_ == null ? io.cucumber.messages.Messages.TestCaseStarted.Platform.getDefaultInstance() : platform_;
+    }
+    /**
+     * <code>.io.cucumber.messages.TestCaseStarted.Platform platform = 3;</code>
+     */
+    public io.cucumber.messages.Messages.TestCaseStarted.PlatformOrBuilder getPlatformOrBuilder() {
+      return getPlatform();
+    }
+
     private byte memoizedIsInitialized = -1;
     @java.lang.Override
     public final boolean isInitialized() {
@@ -40146,6 +41493,9 @@ public final class Messages {
       if (timestamp_ != null) {
         output.writeMessage(2, getTimestamp());
       }
+      if (platform_ != null) {
+        output.writeMessage(3, getPlatform());
+      }
       unknownFields.writeTo(output);
     }
 
@@ -40161,6 +41511,10 @@ public final class Messages {
       if (timestamp_ != null) {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(2, getTimestamp());
+      }
+      if (platform_ != null) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(3, getPlatform());
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -40185,6 +41539,11 @@ public final class Messages {
         result = result && getTimestamp()
             .equals(other.getTimestamp());
       }
+      result = result && (hasPlatform() == other.hasPlatform());
+      if (hasPlatform()) {
+        result = result && getPlatform()
+            .equals(other.getPlatform());
+      }
       result = result && unknownFields.equals(other.unknownFields);
       return result;
     }
@@ -40201,6 +41560,10 @@ public final class Messages {
       if (hasTimestamp()) {
         hash = (37 * hash) + TIMESTAMP_FIELD_NUMBER;
         hash = (53 * hash) + getTimestamp().hashCode();
+      }
+      if (hasPlatform()) {
+        hash = (37 * hash) + PLATFORM_FIELD_NUMBER;
+        hash = (53 * hash) + getPlatform().hashCode();
       }
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
@@ -40343,6 +41706,12 @@ public final class Messages {
           timestamp_ = null;
           timestampBuilder_ = null;
         }
+        if (platformBuilder_ == null) {
+          platform_ = null;
+        } else {
+          platform_ = null;
+          platformBuilder_ = null;
+        }
         return this;
       }
 
@@ -40374,6 +41743,11 @@ public final class Messages {
           result.timestamp_ = timestamp_;
         } else {
           result.timestamp_ = timestampBuilder_.build();
+        }
+        if (platformBuilder_ == null) {
+          result.platform_ = platform_;
+        } else {
+          result.platform_ = platformBuilder_.build();
         }
         onBuilt();
         return result;
@@ -40429,6 +41803,9 @@ public final class Messages {
         }
         if (other.hasTimestamp()) {
           mergeTimestamp(other.getTimestamp());
+        }
+        if (other.hasPlatform()) {
+          mergePlatform(other.getPlatform());
         }
         this.mergeUnknownFields(other.unknownFields);
         onChanged();
@@ -40643,6 +42020,123 @@ public final class Messages {
           timestamp_ = null;
         }
         return timestampBuilder_;
+      }
+
+      private io.cucumber.messages.Messages.TestCaseStarted.Platform platform_ = null;
+      private com.google.protobuf.SingleFieldBuilderV3<
+          io.cucumber.messages.Messages.TestCaseStarted.Platform, io.cucumber.messages.Messages.TestCaseStarted.Platform.Builder, io.cucumber.messages.Messages.TestCaseStarted.PlatformOrBuilder> platformBuilder_;
+      /**
+       * <code>.io.cucumber.messages.TestCaseStarted.Platform platform = 3;</code>
+       */
+      public boolean hasPlatform() {
+        return platformBuilder_ != null || platform_ != null;
+      }
+      /**
+       * <code>.io.cucumber.messages.TestCaseStarted.Platform platform = 3;</code>
+       */
+      public io.cucumber.messages.Messages.TestCaseStarted.Platform getPlatform() {
+        if (platformBuilder_ == null) {
+          return platform_ == null ? io.cucumber.messages.Messages.TestCaseStarted.Platform.getDefaultInstance() : platform_;
+        } else {
+          return platformBuilder_.getMessage();
+        }
+      }
+      /**
+       * <code>.io.cucumber.messages.TestCaseStarted.Platform platform = 3;</code>
+       */
+      public Builder setPlatform(io.cucumber.messages.Messages.TestCaseStarted.Platform value) {
+        if (platformBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          platform_ = value;
+          onChanged();
+        } else {
+          platformBuilder_.setMessage(value);
+        }
+
+        return this;
+      }
+      /**
+       * <code>.io.cucumber.messages.TestCaseStarted.Platform platform = 3;</code>
+       */
+      public Builder setPlatform(
+          io.cucumber.messages.Messages.TestCaseStarted.Platform.Builder builderForValue) {
+        if (platformBuilder_ == null) {
+          platform_ = builderForValue.build();
+          onChanged();
+        } else {
+          platformBuilder_.setMessage(builderForValue.build());
+        }
+
+        return this;
+      }
+      /**
+       * <code>.io.cucumber.messages.TestCaseStarted.Platform platform = 3;</code>
+       */
+      public Builder mergePlatform(io.cucumber.messages.Messages.TestCaseStarted.Platform value) {
+        if (platformBuilder_ == null) {
+          if (platform_ != null) {
+            platform_ =
+              io.cucumber.messages.Messages.TestCaseStarted.Platform.newBuilder(platform_).mergeFrom(value).buildPartial();
+          } else {
+            platform_ = value;
+          }
+          onChanged();
+        } else {
+          platformBuilder_.mergeFrom(value);
+        }
+
+        return this;
+      }
+      /**
+       * <code>.io.cucumber.messages.TestCaseStarted.Platform platform = 3;</code>
+       */
+      public Builder clearPlatform() {
+        if (platformBuilder_ == null) {
+          platform_ = null;
+          onChanged();
+        } else {
+          platform_ = null;
+          platformBuilder_ = null;
+        }
+
+        return this;
+      }
+      /**
+       * <code>.io.cucumber.messages.TestCaseStarted.Platform platform = 3;</code>
+       */
+      public io.cucumber.messages.Messages.TestCaseStarted.Platform.Builder getPlatformBuilder() {
+        
+        onChanged();
+        return getPlatformFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>.io.cucumber.messages.TestCaseStarted.Platform platform = 3;</code>
+       */
+      public io.cucumber.messages.Messages.TestCaseStarted.PlatformOrBuilder getPlatformOrBuilder() {
+        if (platformBuilder_ != null) {
+          return platformBuilder_.getMessageOrBuilder();
+        } else {
+          return platform_ == null ?
+              io.cucumber.messages.Messages.TestCaseStarted.Platform.getDefaultInstance() : platform_;
+        }
+      }
+      /**
+       * <code>.io.cucumber.messages.TestCaseStarted.Platform platform = 3;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilderV3<
+          io.cucumber.messages.Messages.TestCaseStarted.Platform, io.cucumber.messages.Messages.TestCaseStarted.Platform.Builder, io.cucumber.messages.Messages.TestCaseStarted.PlatformOrBuilder> 
+          getPlatformFieldBuilder() {
+        if (platformBuilder_ == null) {
+          platformBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
+              io.cucumber.messages.Messages.TestCaseStarted.Platform, io.cucumber.messages.Messages.TestCaseStarted.Platform.Builder, io.cucumber.messages.Messages.TestCaseStarted.PlatformOrBuilder>(
+                  getPlatform(),
+                  getParentForChildren(),
+                  isClean());
+          platform_ = null;
+        }
+        return platformBuilder_;
       }
       @java.lang.Override
       public final Builder setUnknownFields(
@@ -65629,6 +67123,11 @@ public final class Messages {
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_io_cucumber_messages_TestCaseStarted_fieldAccessorTable;
   private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_io_cucumber_messages_TestCaseStarted_Platform_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_io_cucumber_messages_TestCaseStarted_Platform_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_io_cucumber_messages_TestCaseFinished_descriptor;
   private static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
@@ -65913,110 +67412,115 @@ public final class Messages {
       "g\0220\n\010location\030\001 \001(\0132\036.io.cucumber.messag" +
       "es.Location\022\014\n\004name\030\002 \001(\t\"\"\n\016PickleAccep" +
       "ted\022\020\n\010pickleId\030\001 \001(\t\"\"\n\016PickleRejected\022" +
-      "\020\n\010pickleId\030\002 \001(\t\"\020\n\016TestRunStarted\"\224\001\n\024" +
-      "TestCasePreparedStep\022=\n\016sourceLocation\030\001" +
-      " \001(\0132%.io.cucumber.messages.SourceRefere" +
-      "nce\022=\n\016actionLocation\030\002 \001(\0132%.io.cucumbe" +
-      "r.messages.SourceReference\"_\n\020TestCasePr" +
-      "epared\022\020\n\010pickleId\030\001 \001(\t\0229\n\005steps\030\002 \003(\0132" +
-      "*.io.cucumber.messages.TestCasePreparedS" +
-      "tep\"R\n\017TestCaseStarted\022\020\n\010pickleId\030\001 \001(\t" +
-      "\022-\n\ttimestamp\030\002 \001(\0132\032.google.protobuf.Ti" +
-      "mestamp\"\211\001\n\020TestCaseFinished\022\020\n\010pickleId" +
-      "\030\001 \001(\t\022-\n\ttimestamp\030\002 \001(\0132\032.google.proto" +
-      "buf.Timestamp\0224\n\ntestResult\030\003 \001(\0132 .io.c" +
-      "ucumber.messages.TestResult\"a\n\017TestStepS" +
-      "tarted\022\020\n\010pickleId\030\001 \001(\t\022\r\n\005index\030\002 \001(\r\022" +
-      "-\n\ttimestamp\030\003 \001(\0132\032.google.protobuf.Tim" +
-      "estamp\"\230\001\n\020TestStepFinished\022\020\n\010pickleId\030" +
-      "\001 \001(\t\022\r\n\005index\030\002 \001(\r\0224\n\ntestResult\030\003 \001(\013" +
-      "2 .io.cucumber.messages.TestResult\022-\n\tti" +
-      "mestamp\030\004 \001(\0132\032.google.protobuf.Timestam" +
-      "p\"R\n\017TestHookStarted\022\020\n\010pickleId\030\001 \001(\t\022-" +
+      "\020\n\010pickleId\030\002 \001(\t\"?\n\016TestRunStarted\022-\n\tt" +
+      "imestamp\030\001 \001(\0132\032.google.protobuf.Timesta" +
+      "mp\"\224\001\n\024TestCasePreparedStep\022=\n\016sourceLoc" +
+      "ation\030\001 \001(\0132%.io.cucumber.messages.Sourc" +
+      "eReference\022=\n\016actionLocation\030\002 \001(\0132%.io." +
+      "cucumber.messages.SourceReference\"_\n\020Tes" +
+      "tCasePrepared\022\020\n\010pickleId\030\001 \001(\t\0229\n\005steps" +
+      "\030\002 \003(\0132*.io.cucumber.messages.TestCasePr" +
+      "eparedStep\"\342\001\n\017TestCaseStarted\022\020\n\010pickle" +
+      "Id\030\001 \001(\t\022-\n\ttimestamp\030\002 \001(\0132\032.google.pro" +
+      "tobuf.Timestamp\022@\n\010platform\030\003 \001(\0132..io.c" +
+      "ucumber.messages.TestCaseStarted.Platfor" +
+      "m\032L\n\010Platform\022\026\n\016implementation\030\001 \001(\t\022\017\n" +
+      "\007version\030\002 \001(\t\022\n\n\002os\030\003 \001(\t\022\013\n\003cpu\030\004 \001(\t\"" +
+      "\211\001\n\020TestCaseFinished\022\020\n\010pickleId\030\001 \001(\t\022-" +
       "\n\ttimestamp\030\002 \001(\0132\032.google.protobuf.Time" +
-      "stamp\"\211\001\n\020TestHookFinished\022\020\n\010pickleId\030\001" +
-      " \001(\t\0224\n\ntestResult\030\002 \001(\0132 .io.cucumber.m" +
-      "essages.TestResult\022-\n\ttimestamp\030\003 \001(\0132\032." +
-      "google.protobuf.Timestamp\"h\n\nTestResult\022" +
-      ",\n\006status\030\001 \001(\0162\034.io.cucumber.messages.S" +
-      "tatus\022\017\n\007message\030\002 \001(\t\022\033\n\023durationNanose" +
-      "conds\030\003 \001(\004\"\"\n\017TestRunFinished\022\017\n\007succes" +
-      "s\030\001 \001(\010\"\341\001\n\014CommandStart\022\025\n\rbaseDirector" +
-      "y\030\002 \001(\t\022:\n\rsourcesConfig\030\003 \001(\0132#.io.cucu" +
-      "mber.messages.SourcesConfig\022:\n\rruntimeCo" +
-      "nfig\030\004 \001(\0132#.io.cucumber.messages.Runtim" +
-      "eConfig\022B\n\021supportCodeConfig\030\005 \001(\0132\'.io." +
-      "cucumber.messages.SupportCodeConfig\"\247\001\n\r" +
-      "SourcesConfig\022\025\n\rabsolutePaths\030\001 \003(\t\022\020\n\010" +
-      "language\030\002 \001(\t\022:\n\007filters\030\003 \001(\0132).io.cuc" +
-      "umber.messages.SourcesFilterConfig\0221\n\005or" +
-      "der\030\004 \001(\0132\".io.cucumber.messages.Sources" +
-      "Order\"\220\001\n\023SourcesFilterConfig\022\025\n\rtagExpr" +
-      "ession\030\001 \001(\t\022\036\n\026nameRegularExpressions\030\002" +
-      " \003(\t\022B\n\021uriToLinesMapping\030\003 \003(\0132\'.io.cuc" +
-      "umber.messages.UriToLinesMapping\"8\n\021UriT" +
-      "oLinesMapping\022\024\n\014absolutePath\030\001 \001(\t\022\r\n\005l" +
-      "ines\030\002 \003(\004\"R\n\014SourcesOrder\0224\n\004type\030\001 \001(\016" +
-      "2&.io.cucumber.messages.SourcesOrderType" +
-      "\022\014\n\004seed\030\002 \001(\004\"\\\n\rRuntimeConfig\022\022\n\nisFai" +
-      "lFast\030\001 \001(\010\022\020\n\010isDryRun\030\002 \001(\010\022\020\n\010isStric" +
-      "t\030\003 \001(\010\022\023\n\013maxParallel\030\004 \001(\004\"\350\002\n\021Support" +
-      "CodeConfig\022_\n#beforeTestCaseHookDefiniti" +
-      "onConfigs\030\001 \003(\01322.io.cucumber.messages.T" +
-      "estCaseHookDefinitionConfig\022^\n\"afterTest" +
-      "CaseHookDefinitionConfigs\030\002 \003(\01322.io.cuc" +
-      "umber.messages.TestCaseHookDefinitionCon" +
-      "fig\022I\n\025stepDefinitionConfigs\030\003 \003(\0132*.io." +
-      "cucumber.messages.StepDefinitionConfig\022G" +
-      "\n\024parameterTypeConfigs\030\004 \003(\0132).io.cucumb" +
-      "er.messages.ParameterTypeConfig\"z\n\034TestC" +
-      "aseHookDefinitionConfig\022\n\n\002id\030\001 \001(\t\022\025\n\rt" +
-      "agExpression\030\002 \001(\t\0227\n\010location\030\003 \001(\0132%.i" +
-      "o.cucumber.messages.SourceReference\"\231\001\n\024" +
-      "StepDefinitionConfig\022\n\n\002id\030\001 \001(\t\022<\n\007patt" +
-      "ern\030\002 \001(\0132+.io.cucumber.messages.StepDef" +
-      "initionPattern\0227\n\010location\030\003 \001(\0132%.io.cu" +
-      "cumber.messages.SourceReference\"f\n\025StepD" +
-      "efinitionPattern\022\016\n\006source\030\001 \001(\t\022=\n\004type" +
-      "\030\002 \001(\0162/.io.cucumber.messages.StepDefini" +
-      "tionPatternType\"\200\001\n\023ParameterTypeConfig\022" +
-      "\014\n\004name\030\001 \001(\t\022\032\n\022regularExpressions\030\002 \003(" +
-      "\t\022\'\n\037preferForRegularExpressionMatch\030\003 \001" +
-      "(\010\022\026\n\016useForSnippets\030\004 \001(\010\"\201\001\n\025CommandAc" +
-      "tionComplete\022\023\n\013completedId\030\001 \001(\t\0226\n\ntes" +
-      "tResult\030\002 \001(\0132 .io.cucumber.messages.Tes" +
-      "tResultH\000\022\021\n\007snippet\030\003 \001(\tH\000B\010\n\006result\"0" +
-      "\n\034CommandRunBeforeTestRunHooks\022\020\n\010action" +
-      "Id\030\001 \001(\t\"/\n\033CommandRunAfterTestRunHooks\022" +
-      "\020\n\010actionId\030\001 \001(\t\"a\n\031CommandInitializeTe" +
-      "stCase\022\020\n\010actionId\030\001 \001(\t\022,\n\006pickle\030\003 \001(\013" +
-      "2\034.io.cucumber.messages.PickleJ\004\010\002\020\003\"j\n\034" +
-      "CommandRunBeforeTestCaseHook\022\020\n\010actionId" +
-      "\030\001 \001(\t\022 \n\030testCaseHookDefinitionId\030\003 \001(\t" +
-      "\022\020\n\010pickleId\030\004 \001(\tJ\004\010\002\020\003\"i\n\033CommandRunAf" +
-      "terTestCaseHook\022\020\n\010actionId\030\001 \001(\t\022 \n\030tes" +
-      "tCaseHookDefinitionId\030\003 \001(\t\022\020\n\010pickleId\030" +
-      "\004 \001(\tJ\004\010\002\020\003\"\332\001\n\022CommandRunTestStep\022\020\n\010ac" +
-      "tionId\030\001 \001(\t\022\030\n\020stepDefinitionId\030\003 \001(\t\022:" +
-      "\n\016patternMatches\030\004 \003(\0132\".io.cucumber.mes" +
-      "sages.PatternMatch\022\020\n\010pickleId\030\005 \001(\t\022D\n\022" +
-      "pickleStepArgument\030\006 \001(\0132(.io.cucumber.m" +
-      "essages.PickleStepArgumentJ\004\010\002\020\003\"G\n\014Patt" +
-      "ernMatch\022\020\n\010captures\030\001 \003(\t\022\031\n\021parameterT" +
-      "ypeName\030\002 \001(\tJ\004\010\003\020\004J\004\010\004\020\005\"\305\001\n\026CommandGen" +
-      "erateSnippet\022\020\n\010actionId\030\001 \001(\t\022G\n\024genera" +
-      "tedExpressions\030\002 \003(\0132).io.cucumber.messa" +
-      "ges.GeneratedExpression\022D\n\022pickleStepArg" +
-      "ument\030\005 \001(\0132(.io.cucumber.messages.Pickl" +
-      "eStepArgumentJ\004\010\003\020\004J\004\010\004\020\005\"?\n\023GeneratedEx" +
-      "pression\022\014\n\004text\030\001 \001(\t\022\032\n\022parameterTypeN" +
-      "ames\030\002 \003(\t*X\n\006Status\022\r\n\tAMBIGUOUS\020\000\022\n\n\006F" +
-      "AILED\020\001\022\n\n\006PASSED\020\002\022\013\n\007PENDING\020\003\022\013\n\007SKIP" +
-      "PED\020\004\022\r\n\tUNDEFINED\020\005*7\n\020SourcesOrderType" +
-      "\022\027\n\023ORDER_OF_DEFINITION\020\000\022\n\n\006RANDOM\020\001*L\n" +
-      "\031StepDefinitionPatternType\022\027\n\023CUCUMBER_E" +
-      "XPRESSION\020\000\022\026\n\022REGULAR_EXPRESSION\020\001B\036Z\010m" +
-      "essages\352\002\021Cucumber.Messagesb\006proto3"
+      "stamp\0224\n\ntestResult\030\003 \001(\0132 .io.cucumber." +
+      "messages.TestResult\"a\n\017TestStepStarted\022\020" +
+      "\n\010pickleId\030\001 \001(\t\022\r\n\005index\030\002 \001(\r\022-\n\ttimes" +
+      "tamp\030\003 \001(\0132\032.google.protobuf.Timestamp\"\230" +
+      "\001\n\020TestStepFinished\022\020\n\010pickleId\030\001 \001(\t\022\r\n" +
+      "\005index\030\002 \001(\r\0224\n\ntestResult\030\003 \001(\0132 .io.cu" +
+      "cumber.messages.TestResult\022-\n\ttimestamp\030" +
+      "\004 \001(\0132\032.google.protobuf.Timestamp\"R\n\017Tes" +
+      "tHookStarted\022\020\n\010pickleId\030\001 \001(\t\022-\n\ttimest" +
+      "amp\030\002 \001(\0132\032.google.protobuf.Timestamp\"\211\001" +
+      "\n\020TestHookFinished\022\020\n\010pickleId\030\001 \001(\t\0224\n\n" +
+      "testResult\030\002 \001(\0132 .io.cucumber.messages." +
+      "TestResult\022-\n\ttimestamp\030\003 \001(\0132\032.google.p" +
+      "rotobuf.Timestamp\"h\n\nTestResult\022,\n\006statu" +
+      "s\030\001 \001(\0162\034.io.cucumber.messages.Status\022\017\n" +
+      "\007message\030\002 \001(\t\022\033\n\023durationNanoseconds\030\003 " +
+      "\001(\004\"\"\n\017TestRunFinished\022\017\n\007success\030\001 \001(\010\"" +
+      "\341\001\n\014CommandStart\022\025\n\rbaseDirectory\030\002 \001(\t\022" +
+      ":\n\rsourcesConfig\030\003 \001(\0132#.io.cucumber.mes" +
+      "sages.SourcesConfig\022:\n\rruntimeConfig\030\004 \001" +
+      "(\0132#.io.cucumber.messages.RuntimeConfig\022" +
+      "B\n\021supportCodeConfig\030\005 \001(\0132\'.io.cucumber" +
+      ".messages.SupportCodeConfig\"\247\001\n\rSourcesC" +
+      "onfig\022\025\n\rabsolutePaths\030\001 \003(\t\022\020\n\010language" +
+      "\030\002 \001(\t\022:\n\007filters\030\003 \001(\0132).io.cucumber.me" +
+      "ssages.SourcesFilterConfig\0221\n\005order\030\004 \001(" +
+      "\0132\".io.cucumber.messages.SourcesOrder\"\220\001" +
+      "\n\023SourcesFilterConfig\022\025\n\rtagExpression\030\001" +
+      " \001(\t\022\036\n\026nameRegularExpressions\030\002 \003(\t\022B\n\021" +
+      "uriToLinesMapping\030\003 \003(\0132\'.io.cucumber.me" +
+      "ssages.UriToLinesMapping\"8\n\021UriToLinesMa" +
+      "pping\022\024\n\014absolutePath\030\001 \001(\t\022\r\n\005lines\030\002 \003" +
+      "(\004\"R\n\014SourcesOrder\0224\n\004type\030\001 \001(\0162&.io.cu" +
+      "cumber.messages.SourcesOrderType\022\014\n\004seed" +
+      "\030\002 \001(\004\"\\\n\rRuntimeConfig\022\022\n\nisFailFast\030\001 " +
+      "\001(\010\022\020\n\010isDryRun\030\002 \001(\010\022\020\n\010isStrict\030\003 \001(\010\022" +
+      "\023\n\013maxParallel\030\004 \001(\004\"\350\002\n\021SupportCodeConf" +
+      "ig\022_\n#beforeTestCaseHookDefinitionConfig" +
+      "s\030\001 \003(\01322.io.cucumber.messages.TestCaseH" +
+      "ookDefinitionConfig\022^\n\"afterTestCaseHook" +
+      "DefinitionConfigs\030\002 \003(\01322.io.cucumber.me" +
+      "ssages.TestCaseHookDefinitionConfig\022I\n\025s" +
+      "tepDefinitionConfigs\030\003 \003(\0132*.io.cucumber" +
+      ".messages.StepDefinitionConfig\022G\n\024parame" +
+      "terTypeConfigs\030\004 \003(\0132).io.cucumber.messa" +
+      "ges.ParameterTypeConfig\"z\n\034TestCaseHookD" +
+      "efinitionConfig\022\n\n\002id\030\001 \001(\t\022\025\n\rtagExpres" +
+      "sion\030\002 \001(\t\0227\n\010location\030\003 \001(\0132%.io.cucumb" +
+      "er.messages.SourceReference\"\231\001\n\024StepDefi" +
+      "nitionConfig\022\n\n\002id\030\001 \001(\t\022<\n\007pattern\030\002 \001(" +
+      "\0132+.io.cucumber.messages.StepDefinitionP" +
+      "attern\0227\n\010location\030\003 \001(\0132%.io.cucumber.m" +
+      "essages.SourceReference\"f\n\025StepDefinitio" +
+      "nPattern\022\016\n\006source\030\001 \001(\t\022=\n\004type\030\002 \001(\0162/" +
+      ".io.cucumber.messages.StepDefinitionPatt" +
+      "ernType\"\200\001\n\023ParameterTypeConfig\022\014\n\004name\030" +
+      "\001 \001(\t\022\032\n\022regularExpressions\030\002 \003(\t\022\'\n\037pre" +
+      "ferForRegularExpressionMatch\030\003 \001(\010\022\026\n\016us" +
+      "eForSnippets\030\004 \001(\010\"\201\001\n\025CommandActionComp" +
+      "lete\022\023\n\013completedId\030\001 \001(\t\0226\n\ntestResult\030" +
+      "\002 \001(\0132 .io.cucumber.messages.TestResultH" +
+      "\000\022\021\n\007snippet\030\003 \001(\tH\000B\010\n\006result\"0\n\034Comman" +
+      "dRunBeforeTestRunHooks\022\020\n\010actionId\030\001 \001(\t" +
+      "\"/\n\033CommandRunAfterTestRunHooks\022\020\n\010actio" +
+      "nId\030\001 \001(\t\"a\n\031CommandInitializeTestCase\022\020" +
+      "\n\010actionId\030\001 \001(\t\022,\n\006pickle\030\003 \001(\0132\034.io.cu" +
+      "cumber.messages.PickleJ\004\010\002\020\003\"j\n\034CommandR" +
+      "unBeforeTestCaseHook\022\020\n\010actionId\030\001 \001(\t\022 " +
+      "\n\030testCaseHookDefinitionId\030\003 \001(\t\022\020\n\010pick" +
+      "leId\030\004 \001(\tJ\004\010\002\020\003\"i\n\033CommandRunAfterTestC" +
+      "aseHook\022\020\n\010actionId\030\001 \001(\t\022 \n\030testCaseHoo" +
+      "kDefinitionId\030\003 \001(\t\022\020\n\010pickleId\030\004 \001(\tJ\004\010" +
+      "\002\020\003\"\332\001\n\022CommandRunTestStep\022\020\n\010actionId\030\001" +
+      " \001(\t\022\030\n\020stepDefinitionId\030\003 \001(\t\022:\n\016patter" +
+      "nMatches\030\004 \003(\0132\".io.cucumber.messages.Pa" +
+      "tternMatch\022\020\n\010pickleId\030\005 \001(\t\022D\n\022pickleSt" +
+      "epArgument\030\006 \001(\0132(.io.cucumber.messages." +
+      "PickleStepArgumentJ\004\010\002\020\003\"G\n\014PatternMatch" +
+      "\022\020\n\010captures\030\001 \003(\t\022\031\n\021parameterTypeName\030" +
+      "\002 \001(\tJ\004\010\003\020\004J\004\010\004\020\005\"\305\001\n\026CommandGenerateSni" +
+      "ppet\022\020\n\010actionId\030\001 \001(\t\022G\n\024generatedExpre" +
+      "ssions\030\002 \003(\0132).io.cucumber.messages.Gene" +
+      "ratedExpression\022D\n\022pickleStepArgument\030\005 " +
+      "\001(\0132(.io.cucumber.messages.PickleStepArg" +
+      "umentJ\004\010\003\020\004J\004\010\004\020\005\"?\n\023GeneratedExpression" +
+      "\022\014\n\004text\030\001 \001(\t\022\032\n\022parameterTypeNames\030\002 \003" +
+      "(\t*X\n\006Status\022\r\n\tAMBIGUOUS\020\000\022\n\n\006FAILED\020\001\022" +
+      "\n\n\006PASSED\020\002\022\013\n\007PENDING\020\003\022\013\n\007SKIPPED\020\004\022\r\n" +
+      "\tUNDEFINED\020\005*7\n\020SourcesOrderType\022\027\n\023ORDE" +
+      "R_OF_DEFINITION\020\000\022\n\n\006RANDOM\020\001*L\n\031StepDef" +
+      "initionPatternType\022\027\n\023CUCUMBER_EXPRESSIO" +
+      "N\020\000\022\026\n\022REGULAR_EXPRESSION\020\001B\036Z\010messages\352" +
+      "\002\021Cucumber.Messagesb\006proto3"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -66222,7 +67726,7 @@ public final class Messages {
     internal_static_io_cucumber_messages_TestRunStarted_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_io_cucumber_messages_TestRunStarted_descriptor,
-        new java.lang.String[] { });
+        new java.lang.String[] { "Timestamp", });
     internal_static_io_cucumber_messages_TestCasePreparedStep_descriptor =
       getDescriptor().getMessageTypes().get(32);
     internal_static_io_cucumber_messages_TestCasePreparedStep_fieldAccessorTable = new
@@ -66240,7 +67744,13 @@ public final class Messages {
     internal_static_io_cucumber_messages_TestCaseStarted_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_io_cucumber_messages_TestCaseStarted_descriptor,
-        new java.lang.String[] { "PickleId", "Timestamp", });
+        new java.lang.String[] { "PickleId", "Timestamp", "Platform", });
+    internal_static_io_cucumber_messages_TestCaseStarted_Platform_descriptor =
+      internal_static_io_cucumber_messages_TestCaseStarted_descriptor.getNestedTypes().get(0);
+    internal_static_io_cucumber_messages_TestCaseStarted_Platform_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_io_cucumber_messages_TestCaseStarted_Platform_descriptor,
+        new java.lang.String[] { "Implementation", "Version", "Os", "Cpu", });
     internal_static_io_cucumber_messages_TestCaseFinished_descriptor =
       getDescriptor().getMessageTypes().get(35);
     internal_static_io_cucumber_messages_TestCaseFinished_fieldAccessorTable = new
