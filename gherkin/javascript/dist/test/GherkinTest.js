@@ -34,50 +34,56 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
-var __importStar = (this && this.__importStar) || function (mod) {
-    if (mod && mod.__esModule) return mod;
-    var result = {};
-    if (mod != null) for (var k in mod) if (Object.hasOwnProperty.call(mod, k)) result[k] = mod[k];
-    result["default"] = mod;
-    return result;
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 var _this = this;
 Object.defineProperty(exports, "__esModule", { value: true });
-var assert = __importStar(require("assert"));
-var gherkin = __importStar(require("../src"));
+var assert_1 = __importDefault(require("assert"));
+var src_1 = __importDefault(require("../src"));
 var cucumber_messages_1 = require("cucumber-messages");
 var Source = cucumber_messages_1.messages.Source;
 var Media = cucumber_messages_1.messages.Media;
-describe("gherkin (TypeScript)", function () {
-    it("parses gherkin from the file system", function () { return __awaiter(_this, void 0, void 0, function () {
+describe('gherkin (TypeScript)', function () {
+    it('parses gherkin from the file system', function () { return __awaiter(_this, void 0, void 0, function () {
         var wrappers;
         return __generator(this, function (_a) {
             switch (_a.label) {
-                case 0: return [4 /*yield*/, streamToArray(gherkin.fromPaths(["testdata/good/minimal.feature"]))];
+                case 0: return [4 /*yield*/, streamToArray(src_1.default.fromPaths(['testdata/good/minimal.feature']))];
                 case 1:
                     wrappers = _a.sent();
-                    assert.strictEqual(wrappers.length, 3);
+                    assert_1.default.strictEqual(wrappers.length, 3);
                     return [2 /*return*/];
             }
         });
     }); });
-    it("parses gherkin from STDIN", function () { return __awaiter(_this, void 0, void 0, function () {
+    it('parses gherkin from STDIN', function () { return __awaiter(_this, void 0, void 0, function () {
         var source, wrappers;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
                     source = Source.fromObject({
-                        uri: "test.feature",
+                        uri: 'test.feature',
                         data: "Feature: Minimal\n\n  Scenario: minimalistic\n    Given the minimalism\n",
                         media: Media.fromObject({
-                            encoding: "UTF-8",
-                            contentType: "text/x.cucumber.gherkin+plain"
-                        })
+                            encoding: 'UTF-8',
+                            contentType: 'text/x.cucumber.gherkin+plain',
+                        }),
                     });
-                    return [4 /*yield*/, streamToArray(gherkin.fromSources([source]))];
+                    return [4 /*yield*/, streamToArray(src_1.default.fromSources([source]))];
                 case 1:
                     wrappers = _a.sent();
-                    assert.strictEqual(wrappers.length, 3);
+                    assert_1.default.strictEqual(wrappers.length, 3);
+                    return [2 /*return*/];
+            }
+        });
+    }); });
+    xit('works with wasm', function () { return __awaiter(_this, void 0, void 0, function () {
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0: return [4 /*yield*/, src_1.default.fromSourcesWasm()];
+                case 1:
+                    _a.sent();
                     return [2 /*return*/];
             }
         });
@@ -88,9 +94,9 @@ function streamToArray(readableStream) {
         return __generator(this, function (_a) {
             return [2 /*return*/, new Promise(function (resolve, reject) {
                     var items = [];
-                    readableStream.on("data", items.push.bind(items));
-                    readableStream.on("error", function (err) { return reject(err); });
-                    readableStream.on("end", function () { return resolve(items); });
+                    readableStream.on('data', items.push.bind(items));
+                    readableStream.on('error', function (err) { return reject(err); });
+                    readableStream.on('end', function () { return resolve(items); });
                 })];
         });
     });
