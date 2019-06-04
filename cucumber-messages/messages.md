@@ -57,6 +57,7 @@
     - [TestCasePrepared](#io.cucumber.messages.TestCasePrepared)
     - [TestCasePreparedStep](#io.cucumber.messages.TestCasePreparedStep)
     - [TestCaseStarted](#io.cucumber.messages.TestCaseStarted)
+    - [TestCaseStarted.Platform](#io.cucumber.messages.TestCaseStarted.Platform)
     - [TestHookFinished](#io.cucumber.messages.TestHookFinished)
     - [TestHookStarted](#io.cucumber.messages.TestHookStarted)
     - [TestResult](#io.cucumber.messages.TestResult)
@@ -983,6 +984,25 @@
 | ----- | ---- | ----- | ----------- |
 | pickleId | [string](#string) |  |  |
 | timestamp | [google.protobuf.Timestamp](#google.protobuf.Timestamp) |  |  |
+| platform | [TestCaseStarted.Platform](#io.cucumber.messages.TestCaseStarted.Platform) |  |  |
+
+
+
+
+
+
+<a name="io.cucumber.messages.TestCaseStarted.Platform"></a>
+
+### TestCaseStarted.Platform
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| implementation | [string](#string) |  | The runner implementation. For example &#34;SpecFlow&#34;, &#34;Cucumber-JVM&#34;, &#34;Behat&#34; etc. |
+| version | [string](#string) |  | The version of the runner |
+| os | [string](#string) |  | The operating system |
+| cpu | [string](#string) |  | The CPU architecture |
 
 
 
@@ -1058,6 +1078,12 @@
 
 ### TestRunStarted
 
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| timestamp | [google.protobuf.Timestamp](#google.protobuf.Timestamp) |  |  |
+| cucumberImplementation | [string](#string) |  |  |
 
 
 

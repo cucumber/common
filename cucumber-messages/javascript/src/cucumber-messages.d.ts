@@ -3748,7 +3748,13 @@ export namespace io {
       }
 
       /** Properties of a TestRunStarted. */
-      interface ITestRunStarted {}
+      interface ITestRunStarted {
+        /** TestRunStarted timestamp */
+        timestamp?: google.protobuf.ITimestamp | null
+
+        /** TestRunStarted cucumberImplementation */
+        cucumberImplementation?: string | null
+      }
 
       /** Represents a TestRunStarted. */
       class TestRunStarted implements ITestRunStarted {
@@ -3757,6 +3763,12 @@ export namespace io {
          * @param [properties] Properties to set
          */
         constructor(properties?: io.cucumber.messages.ITestRunStarted)
+
+        /** TestRunStarted timestamp. */
+        public timestamp?: google.protobuf.ITimestamp | null
+
+        /** TestRunStarted cucumberImplementation. */
+        public cucumberImplementation: string
 
         /**
          * Creates a new TestRunStarted instance using the specified properties.
@@ -4078,6 +4090,9 @@ export namespace io {
 
         /** TestCaseStarted timestamp */
         timestamp?: google.protobuf.ITimestamp | null
+
+        /** TestCaseStarted platform */
+        platform?: io.cucumber.messages.TestCaseStarted.IPlatform | null
       }
 
       /** Represents a TestCaseStarted. */
@@ -4093,6 +4108,9 @@ export namespace io {
 
         /** TestCaseStarted timestamp. */
         public timestamp?: google.protobuf.ITimestamp | null
+
+        /** TestCaseStarted platform. */
+        public platform?: io.cucumber.messages.TestCaseStarted.IPlatform | null
 
         /**
          * Creates a new TestCaseStarted instance using the specified properties.
@@ -4181,6 +4199,134 @@ export namespace io {
          * @returns JSON object
          */
         public toJSON(): { [k: string]: any }
+      }
+
+      namespace TestCaseStarted {
+        /** Properties of a Platform. */
+        interface IPlatform {
+          /** Platform implementation */
+          implementation?: string | null
+
+          /** Platform version */
+          version?: string | null
+
+          /** Platform os */
+          os?: string | null
+
+          /** Platform cpu */
+          cpu?: string | null
+        }
+
+        /** Represents a Platform. */
+        class Platform implements IPlatform {
+          /**
+           * Constructs a new Platform.
+           * @param [properties] Properties to set
+           */
+          constructor(
+            properties?: io.cucumber.messages.TestCaseStarted.IPlatform
+          )
+
+          /** Platform implementation. */
+          public implementation: string
+
+          /** Platform version. */
+          public version: string
+
+          /** Platform os. */
+          public os: string
+
+          /** Platform cpu. */
+          public cpu: string
+
+          /**
+           * Creates a new Platform instance using the specified properties.
+           * @param [properties] Properties to set
+           * @returns Platform instance
+           */
+          public static create(
+            properties?: io.cucumber.messages.TestCaseStarted.IPlatform
+          ): io.cucumber.messages.TestCaseStarted.Platform
+
+          /**
+           * Encodes the specified Platform message. Does not implicitly {@link io.cucumber.messages.TestCaseStarted.Platform.verify|verify} messages.
+           * @param message Platform message or plain object to encode
+           * @param [writer] Writer to encode to
+           * @returns Writer
+           */
+          public static encode(
+            message: io.cucumber.messages.TestCaseStarted.IPlatform,
+            writer?: $protobuf.Writer
+          ): $protobuf.Writer
+
+          /**
+           * Encodes the specified Platform message, length delimited. Does not implicitly {@link io.cucumber.messages.TestCaseStarted.Platform.verify|verify} messages.
+           * @param message Platform message or plain object to encode
+           * @param [writer] Writer to encode to
+           * @returns Writer
+           */
+          public static encodeDelimited(
+            message: io.cucumber.messages.TestCaseStarted.IPlatform,
+            writer?: $protobuf.Writer
+          ): $protobuf.Writer
+
+          /**
+           * Decodes a Platform message from the specified reader or buffer.
+           * @param reader Reader or buffer to decode from
+           * @param [length] Message length if known beforehand
+           * @returns Platform
+           * @throws {Error} If the payload is not a reader or valid buffer
+           * @throws {$protobuf.util.ProtocolError} If required fields are missing
+           */
+          public static decode(
+            reader: $protobuf.Reader | Uint8Array,
+            length?: number
+          ): io.cucumber.messages.TestCaseStarted.Platform
+
+          /**
+           * Decodes a Platform message from the specified reader or buffer, length delimited.
+           * @param reader Reader or buffer to decode from
+           * @returns Platform
+           * @throws {Error} If the payload is not a reader or valid buffer
+           * @throws {$protobuf.util.ProtocolError} If required fields are missing
+           */
+          public static decodeDelimited(
+            reader: $protobuf.Reader | Uint8Array
+          ): io.cucumber.messages.TestCaseStarted.Platform
+
+          /**
+           * Verifies a Platform message.
+           * @param message Plain object to verify
+           * @returns `null` if valid, otherwise the reason why it is not
+           */
+          public static verify(message: { [k: string]: any }): string | null
+
+          /**
+           * Creates a Platform message from a plain object. Also converts values to their respective internal types.
+           * @param object Plain object
+           * @returns Platform
+           */
+          public static fromObject(object: {
+            [k: string]: any
+          }): io.cucumber.messages.TestCaseStarted.Platform
+
+          /**
+           * Creates a plain object from a Platform message. Also converts values to other types if specified.
+           * @param message Platform
+           * @param [options] Conversion options
+           * @returns Plain object
+           */
+          public static toObject(
+            message: io.cucumber.messages.TestCaseStarted.Platform,
+            options?: $protobuf.IConversionOptions
+          ): { [k: string]: any }
+
+          /**
+           * Converts this Platform to JSON.
+           * @returns JSON object
+           */
+          public toJSON(): { [k: string]: any }
+        }
       }
 
       /** Properties of a TestCaseFinished. */

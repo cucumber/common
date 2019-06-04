@@ -255,6 +255,18 @@ message TestCasePrepared {
 message TestCaseStarted {
   string pickleId = 1;
   google.protobuf.Timestamp timestamp = 2;
+  Platform platform = 3;
+
+  message Platform {
+    // The runner implementation. For example "SpecFlow", "Cucumber-JVM", "Behat" etc.
+    string implementation = 1;
+    // The version of the runner
+    string version = 2;
+    // The operating system
+    string os = 3;
+    // The CPU architecture
+    string cpu = 4;
+  }
 }
 
 message TestCaseFinished {
