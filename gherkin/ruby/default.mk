@@ -18,7 +18,7 @@ Gemfile.lock: Gemfile $(GEMSPECS)
 	touch $@
 
 .tested: .deps $(RUBY_SOURCE_FILES)
-	bundle exec rspec --color
+	bundle install && bundle exec rspec --color
 	touch $@
 
 clean: clean-ruby
