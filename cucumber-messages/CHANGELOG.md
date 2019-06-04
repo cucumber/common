@@ -10,6 +10,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Added
 
 ### Changed
+* Misc changes for `cucumber-engine`
+  ([#549](https://github.com/cucumber/cucumber/pull/549))
 
 ### Deprecated
 

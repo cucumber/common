@@ -6780,8 +6780,7 @@ $root.io = (function() {
                  * @interface IPickleStep
                  * @property {string|null} [text] PickleStep text
                  * @property {Array.<io.cucumber.messages.ILocation>|null} [locations] PickleStep locations
-                 * @property {io.cucumber.messages.IPickleDocString|null} [docString] PickleStep docString
-                 * @property {io.cucumber.messages.IPickleTable|null} [dataTable] PickleStep dataTable
+                 * @property {io.cucumber.messages.IPickleStepArgument|null} [argument] PickleStep argument
                  */
 
                 /**
@@ -6817,34 +6816,12 @@ $root.io = (function() {
                 PickleStep.prototype.locations = $util.emptyArray;
 
                 /**
-                 * PickleStep docString.
-                 * @member {io.cucumber.messages.IPickleDocString|null|undefined} docString
-                 * @memberof io.cucumber.messages.PickleStep
-                 * @instance
-                 */
-                PickleStep.prototype.docString = null;
-
-                /**
-                 * PickleStep dataTable.
-                 * @member {io.cucumber.messages.IPickleTable|null|undefined} dataTable
-                 * @memberof io.cucumber.messages.PickleStep
-                 * @instance
-                 */
-                PickleStep.prototype.dataTable = null;
-
-                // OneOf field names bound to virtual getters and setters
-                var $oneOfFields;
-
-                /**
                  * PickleStep argument.
-                 * @member {"docString"|"dataTable"|undefined} argument
+                 * @member {io.cucumber.messages.IPickleStepArgument|null|undefined} argument
                  * @memberof io.cucumber.messages.PickleStep
                  * @instance
                  */
-                Object.defineProperty(PickleStep.prototype, "argument", {
-                    get: $util.oneOfGetter($oneOfFields = ["docString", "dataTable"]),
-                    set: $util.oneOfSetter($oneOfFields)
-                });
+                PickleStep.prototype.argument = null;
 
                 /**
                  * Creates a new PickleStep instance using the specified properties.
@@ -6875,10 +6852,8 @@ $root.io = (function() {
                     if (message.locations != null && message.locations.length)
                         for (var i = 0; i < message.locations.length; ++i)
                             $root.io.cucumber.messages.Location.encode(message.locations[i], writer.uint32(/* id 2, wireType 2 =*/18).fork()).ldelim();
-                    if (message.docString != null && message.hasOwnProperty("docString"))
-                        $root.io.cucumber.messages.PickleDocString.encode(message.docString, writer.uint32(/* id 3, wireType 2 =*/26).fork()).ldelim();
-                    if (message.dataTable != null && message.hasOwnProperty("dataTable"))
-                        $root.io.cucumber.messages.PickleTable.encode(message.dataTable, writer.uint32(/* id 4, wireType 2 =*/34).fork()).ldelim();
+                    if (message.argument != null && message.hasOwnProperty("argument"))
+                        $root.io.cucumber.messages.PickleStepArgument.encode(message.argument, writer.uint32(/* id 5, wireType 2 =*/42).fork()).ldelim();
                     return writer;
                 };
 
@@ -6921,11 +6896,8 @@ $root.io = (function() {
                                 message.locations = [];
                             message.locations.push($root.io.cucumber.messages.Location.decode(reader, reader.uint32()));
                             break;
-                        case 3:
-                            message.docString = $root.io.cucumber.messages.PickleDocString.decode(reader, reader.uint32());
-                            break;
-                        case 4:
-                            message.dataTable = $root.io.cucumber.messages.PickleTable.decode(reader, reader.uint32());
+                        case 5:
+                            message.argument = $root.io.cucumber.messages.PickleStepArgument.decode(reader, reader.uint32());
                             break;
                         default:
                             reader.skipType(tag & 7);
@@ -6962,7 +6934,6 @@ $root.io = (function() {
                 PickleStep.verify = function verify(message) {
                     if (typeof message !== "object" || message === null)
                         return "object expected";
-                    var properties = {};
                     if (message.text != null && message.hasOwnProperty("text"))
                         if (!$util.isString(message.text))
                             return "text: string expected";
@@ -6975,23 +6946,10 @@ $root.io = (function() {
                                 return "locations." + error;
                         }
                     }
-                    if (message.docString != null && message.hasOwnProperty("docString")) {
-                        properties.argument = 1;
-                        {
-                            var error = $root.io.cucumber.messages.PickleDocString.verify(message.docString);
-                            if (error)
-                                return "docString." + error;
-                        }
-                    }
-                    if (message.dataTable != null && message.hasOwnProperty("dataTable")) {
-                        if (properties.argument === 1)
-                            return "argument: multiple values";
-                        properties.argument = 1;
-                        {
-                            var error = $root.io.cucumber.messages.PickleTable.verify(message.dataTable);
-                            if (error)
-                                return "dataTable." + error;
-                        }
+                    if (message.argument != null && message.hasOwnProperty("argument")) {
+                        var error = $root.io.cucumber.messages.PickleStepArgument.verify(message.argument);
+                        if (error)
+                            return "argument." + error;
                     }
                     return null;
                 };
@@ -7020,15 +6978,10 @@ $root.io = (function() {
                             message.locations[i] = $root.io.cucumber.messages.Location.fromObject(object.locations[i]);
                         }
                     }
-                    if (object.docString != null) {
-                        if (typeof object.docString !== "object")
-                            throw TypeError(".io.cucumber.messages.PickleStep.docString: object expected");
-                        message.docString = $root.io.cucumber.messages.PickleDocString.fromObject(object.docString);
-                    }
-                    if (object.dataTable != null) {
-                        if (typeof object.dataTable !== "object")
-                            throw TypeError(".io.cucumber.messages.PickleStep.dataTable: object expected");
-                        message.dataTable = $root.io.cucumber.messages.PickleTable.fromObject(object.dataTable);
+                    if (object.argument != null) {
+                        if (typeof object.argument !== "object")
+                            throw TypeError(".io.cucumber.messages.PickleStep.argument: object expected");
+                        message.argument = $root.io.cucumber.messages.PickleStepArgument.fromObject(object.argument);
                     }
                     return message;
                 };
@@ -7048,8 +7001,10 @@ $root.io = (function() {
                     var object = {};
                     if (options.arrays || options.defaults)
                         object.locations = [];
-                    if (options.defaults)
+                    if (options.defaults) {
                         object.text = "";
+                        object.argument = null;
+                    }
                     if (message.text != null && message.hasOwnProperty("text"))
                         object.text = message.text;
                     if (message.locations && message.locations.length) {
@@ -7057,16 +7012,8 @@ $root.io = (function() {
                         for (var j = 0; j < message.locations.length; ++j)
                             object.locations[j] = $root.io.cucumber.messages.Location.toObject(message.locations[j], options);
                     }
-                    if (message.docString != null && message.hasOwnProperty("docString")) {
-                        object.docString = $root.io.cucumber.messages.PickleDocString.toObject(message.docString, options);
-                        if (options.oneofs)
-                            object.argument = "docString";
-                    }
-                    if (message.dataTable != null && message.hasOwnProperty("dataTable")) {
-                        object.dataTable = $root.io.cucumber.messages.PickleTable.toObject(message.dataTable, options);
-                        if (options.oneofs)
-                            object.argument = "dataTable";
-                    }
+                    if (message.argument != null && message.hasOwnProperty("argument"))
+                        object.argument = $root.io.cucumber.messages.PickleStepArgument.toObject(message.argument, options);
                     return object;
                 };
 
@@ -7082,6 +7029,251 @@ $root.io = (function() {
                 };
 
                 return PickleStep;
+            })();
+
+            messages.PickleStepArgument = (function() {
+
+                /**
+                 * Properties of a PickleStepArgument.
+                 * @memberof io.cucumber.messages
+                 * @interface IPickleStepArgument
+                 * @property {io.cucumber.messages.IPickleDocString|null} [docString] PickleStepArgument docString
+                 * @property {io.cucumber.messages.IPickleTable|null} [dataTable] PickleStepArgument dataTable
+                 */
+
+                /**
+                 * Constructs a new PickleStepArgument.
+                 * @memberof io.cucumber.messages
+                 * @classdesc Represents a PickleStepArgument.
+                 * @implements IPickleStepArgument
+                 * @constructor
+                 * @param {io.cucumber.messages.IPickleStepArgument=} [properties] Properties to set
+                 */
+                function PickleStepArgument(properties) {
+                    if (properties)
+                        for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                            if (properties[keys[i]] != null)
+                                this[keys[i]] = properties[keys[i]];
+                }
+
+                /**
+                 * PickleStepArgument docString.
+                 * @member {io.cucumber.messages.IPickleDocString|null|undefined} docString
+                 * @memberof io.cucumber.messages.PickleStepArgument
+                 * @instance
+                 */
+                PickleStepArgument.prototype.docString = null;
+
+                /**
+                 * PickleStepArgument dataTable.
+                 * @member {io.cucumber.messages.IPickleTable|null|undefined} dataTable
+                 * @memberof io.cucumber.messages.PickleStepArgument
+                 * @instance
+                 */
+                PickleStepArgument.prototype.dataTable = null;
+
+                // OneOf field names bound to virtual getters and setters
+                var $oneOfFields;
+
+                /**
+                 * PickleStepArgument message.
+                 * @member {"docString"|"dataTable"|undefined} message
+                 * @memberof io.cucumber.messages.PickleStepArgument
+                 * @instance
+                 */
+                Object.defineProperty(PickleStepArgument.prototype, "message", {
+                    get: $util.oneOfGetter($oneOfFields = ["docString", "dataTable"]),
+                    set: $util.oneOfSetter($oneOfFields)
+                });
+
+                /**
+                 * Creates a new PickleStepArgument instance using the specified properties.
+                 * @function create
+                 * @memberof io.cucumber.messages.PickleStepArgument
+                 * @static
+                 * @param {io.cucumber.messages.IPickleStepArgument=} [properties] Properties to set
+                 * @returns {io.cucumber.messages.PickleStepArgument} PickleStepArgument instance
+                 */
+                PickleStepArgument.create = function create(properties) {
+                    return new PickleStepArgument(properties);
+                };
+
+                /**
+                 * Encodes the specified PickleStepArgument message. Does not implicitly {@link io.cucumber.messages.PickleStepArgument.verify|verify} messages.
+                 * @function encode
+                 * @memberof io.cucumber.messages.PickleStepArgument
+                 * @static
+                 * @param {io.cucumber.messages.IPickleStepArgument} message PickleStepArgument message or plain object to encode
+                 * @param {$protobuf.Writer} [writer] Writer to encode to
+                 * @returns {$protobuf.Writer} Writer
+                 */
+                PickleStepArgument.encode = function encode(message, writer) {
+                    if (!writer)
+                        writer = $Writer.create();
+                    if (message.docString != null && message.hasOwnProperty("docString"))
+                        $root.io.cucumber.messages.PickleDocString.encode(message.docString, writer.uint32(/* id 1, wireType 2 =*/10).fork()).ldelim();
+                    if (message.dataTable != null && message.hasOwnProperty("dataTable"))
+                        $root.io.cucumber.messages.PickleTable.encode(message.dataTable, writer.uint32(/* id 2, wireType 2 =*/18).fork()).ldelim();
+                    return writer;
+                };
+
+                /**
+                 * Encodes the specified PickleStepArgument message, length delimited. Does not implicitly {@link io.cucumber.messages.PickleStepArgument.verify|verify} messages.
+                 * @function encodeDelimited
+                 * @memberof io.cucumber.messages.PickleStepArgument
+                 * @static
+                 * @param {io.cucumber.messages.IPickleStepArgument} message PickleStepArgument message or plain object to encode
+                 * @param {$protobuf.Writer} [writer] Writer to encode to
+                 * @returns {$protobuf.Writer} Writer
+                 */
+                PickleStepArgument.encodeDelimited = function encodeDelimited(message, writer) {
+                    return this.encode(message, writer).ldelim();
+                };
+
+                /**
+                 * Decodes a PickleStepArgument message from the specified reader or buffer.
+                 * @function decode
+                 * @memberof io.cucumber.messages.PickleStepArgument
+                 * @static
+                 * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+                 * @param {number} [length] Message length if known beforehand
+                 * @returns {io.cucumber.messages.PickleStepArgument} PickleStepArgument
+                 * @throws {Error} If the payload is not a reader or valid buffer
+                 * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                 */
+                PickleStepArgument.decode = function decode(reader, length) {
+                    if (!(reader instanceof $Reader))
+                        reader = $Reader.create(reader);
+                    var end = length === undefined ? reader.len : reader.pos + length, message = new $root.io.cucumber.messages.PickleStepArgument();
+                    while (reader.pos < end) {
+                        var tag = reader.uint32();
+                        switch (tag >>> 3) {
+                        case 1:
+                            message.docString = $root.io.cucumber.messages.PickleDocString.decode(reader, reader.uint32());
+                            break;
+                        case 2:
+                            message.dataTable = $root.io.cucumber.messages.PickleTable.decode(reader, reader.uint32());
+                            break;
+                        default:
+                            reader.skipType(tag & 7);
+                            break;
+                        }
+                    }
+                    return message;
+                };
+
+                /**
+                 * Decodes a PickleStepArgument message from the specified reader or buffer, length delimited.
+                 * @function decodeDelimited
+                 * @memberof io.cucumber.messages.PickleStepArgument
+                 * @static
+                 * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+                 * @returns {io.cucumber.messages.PickleStepArgument} PickleStepArgument
+                 * @throws {Error} If the payload is not a reader or valid buffer
+                 * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                 */
+                PickleStepArgument.decodeDelimited = function decodeDelimited(reader) {
+                    if (!(reader instanceof $Reader))
+                        reader = new $Reader(reader);
+                    return this.decode(reader, reader.uint32());
+                };
+
+                /**
+                 * Verifies a PickleStepArgument message.
+                 * @function verify
+                 * @memberof io.cucumber.messages.PickleStepArgument
+                 * @static
+                 * @param {Object.<string,*>} message Plain object to verify
+                 * @returns {string|null} `null` if valid, otherwise the reason why it is not
+                 */
+                PickleStepArgument.verify = function verify(message) {
+                    if (typeof message !== "object" || message === null)
+                        return "object expected";
+                    var properties = {};
+                    if (message.docString != null && message.hasOwnProperty("docString")) {
+                        properties.message = 1;
+                        {
+                            var error = $root.io.cucumber.messages.PickleDocString.verify(message.docString);
+                            if (error)
+                                return "docString." + error;
+                        }
+                    }
+                    if (message.dataTable != null && message.hasOwnProperty("dataTable")) {
+                        if (properties.message === 1)
+                            return "message: multiple values";
+                        properties.message = 1;
+                        {
+                            var error = $root.io.cucumber.messages.PickleTable.verify(message.dataTable);
+                            if (error)
+                                return "dataTable." + error;
+                        }
+                    }
+                    return null;
+                };
+
+                /**
+                 * Creates a PickleStepArgument message from a plain object. Also converts values to their respective internal types.
+                 * @function fromObject
+                 * @memberof io.cucumber.messages.PickleStepArgument
+                 * @static
+                 * @param {Object.<string,*>} object Plain object
+                 * @returns {io.cucumber.messages.PickleStepArgument} PickleStepArgument
+                 */
+                PickleStepArgument.fromObject = function fromObject(object) {
+                    if (object instanceof $root.io.cucumber.messages.PickleStepArgument)
+                        return object;
+                    var message = new $root.io.cucumber.messages.PickleStepArgument();
+                    if (object.docString != null) {
+                        if (typeof object.docString !== "object")
+                            throw TypeError(".io.cucumber.messages.PickleStepArgument.docString: object expected");
+                        message.docString = $root.io.cucumber.messages.PickleDocString.fromObject(object.docString);
+                    }
+                    if (object.dataTable != null) {
+                        if (typeof object.dataTable !== "object")
+                            throw TypeError(".io.cucumber.messages.PickleStepArgument.dataTable: object expected");
+                        message.dataTable = $root.io.cucumber.messages.PickleTable.fromObject(object.dataTable);
+                    }
+                    return message;
+                };
+
+                /**
+                 * Creates a plain object from a PickleStepArgument message. Also converts values to other types if specified.
+                 * @function toObject
+                 * @memberof io.cucumber.messages.PickleStepArgument
+                 * @static
+                 * @param {io.cucumber.messages.PickleStepArgument} message PickleStepArgument
+                 * @param {$protobuf.IConversionOptions} [options] Conversion options
+                 * @returns {Object.<string,*>} Plain object
+                 */
+                PickleStepArgument.toObject = function toObject(message, options) {
+                    if (!options)
+                        options = {};
+                    var object = {};
+                    if (message.docString != null && message.hasOwnProperty("docString")) {
+                        object.docString = $root.io.cucumber.messages.PickleDocString.toObject(message.docString, options);
+                        if (options.oneofs)
+                            object.message = "docString";
+                    }
+                    if (message.dataTable != null && message.hasOwnProperty("dataTable")) {
+                        object.dataTable = $root.io.cucumber.messages.PickleTable.toObject(message.dataTable, options);
+                        if (options.oneofs)
+                            object.message = "dataTable";
+                    }
+                    return object;
+                };
+
+                /**
+                 * Converts this PickleStepArgument to JSON.
+                 * @function toJSON
+                 * @memberof io.cucumber.messages.PickleStepArgument
+                 * @instance
+                 * @returns {Object.<string,*>} JSON object
+                 */
+                PickleStepArgument.prototype.toJSON = function toJSON() {
+                    return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+                };
+
+                return PickleStepArgument;
             })();
 
             messages.PickleDocString = (function() {
@@ -14606,7 +14798,6 @@ $root.io = (function() {
                  * @memberof io.cucumber.messages
                  * @interface ICommandInitializeTestCase
                  * @property {string|null} [actionId] CommandInitializeTestCase actionId
-                 * @property {string|null} [testCaseId] CommandInitializeTestCase testCaseId
                  * @property {io.cucumber.messages.IPickle|null} [pickle] CommandInitializeTestCase pickle
                  */
 
@@ -14632,14 +14823,6 @@ $root.io = (function() {
                  * @instance
                  */
                 CommandInitializeTestCase.prototype.actionId = "";
-
-                /**
-                 * CommandInitializeTestCase testCaseId.
-                 * @member {string} testCaseId
-                 * @memberof io.cucumber.messages.CommandInitializeTestCase
-                 * @instance
-                 */
-                CommandInitializeTestCase.prototype.testCaseId = "";
 
                 /**
                  * CommandInitializeTestCase pickle.
@@ -14675,8 +14858,6 @@ $root.io = (function() {
                         writer = $Writer.create();
                     if (message.actionId != null && message.hasOwnProperty("actionId"))
                         writer.uint32(/* id 1, wireType 2 =*/10).string(message.actionId);
-                    if (message.testCaseId != null && message.hasOwnProperty("testCaseId"))
-                        writer.uint32(/* id 2, wireType 2 =*/18).string(message.testCaseId);
                     if (message.pickle != null && message.hasOwnProperty("pickle"))
                         $root.io.cucumber.messages.Pickle.encode(message.pickle, writer.uint32(/* id 3, wireType 2 =*/26).fork()).ldelim();
                     return writer;
@@ -14715,9 +14896,6 @@ $root.io = (function() {
                         switch (tag >>> 3) {
                         case 1:
                             message.actionId = reader.string();
-                            break;
-                        case 2:
-                            message.testCaseId = reader.string();
                             break;
                         case 3:
                             message.pickle = $root.io.cucumber.messages.Pickle.decode(reader, reader.uint32());
@@ -14760,9 +14938,6 @@ $root.io = (function() {
                     if (message.actionId != null && message.hasOwnProperty("actionId"))
                         if (!$util.isString(message.actionId))
                             return "actionId: string expected";
-                    if (message.testCaseId != null && message.hasOwnProperty("testCaseId"))
-                        if (!$util.isString(message.testCaseId))
-                            return "testCaseId: string expected";
                     if (message.pickle != null && message.hasOwnProperty("pickle")) {
                         var error = $root.io.cucumber.messages.Pickle.verify(message.pickle);
                         if (error)
@@ -14785,8 +14960,6 @@ $root.io = (function() {
                     var message = new $root.io.cucumber.messages.CommandInitializeTestCase();
                     if (object.actionId != null)
                         message.actionId = String(object.actionId);
-                    if (object.testCaseId != null)
-                        message.testCaseId = String(object.testCaseId);
                     if (object.pickle != null) {
                         if (typeof object.pickle !== "object")
                             throw TypeError(".io.cucumber.messages.CommandInitializeTestCase.pickle: object expected");
@@ -14810,13 +14983,10 @@ $root.io = (function() {
                     var object = {};
                     if (options.defaults) {
                         object.actionId = "";
-                        object.testCaseId = "";
                         object.pickle = null;
                     }
                     if (message.actionId != null && message.hasOwnProperty("actionId"))
                         object.actionId = message.actionId;
-                    if (message.testCaseId != null && message.hasOwnProperty("testCaseId"))
-                        object.testCaseId = message.testCaseId;
                     if (message.pickle != null && message.hasOwnProperty("pickle"))
                         object.pickle = $root.io.cucumber.messages.Pickle.toObject(message.pickle, options);
                     return object;
@@ -14843,8 +15013,8 @@ $root.io = (function() {
                  * @memberof io.cucumber.messages
                  * @interface ICommandRunBeforeTestCaseHook
                  * @property {string|null} [actionId] CommandRunBeforeTestCaseHook actionId
-                 * @property {string|null} [testCaseId] CommandRunBeforeTestCaseHook testCaseId
                  * @property {string|null} [testCaseHookDefinitionId] CommandRunBeforeTestCaseHook testCaseHookDefinitionId
+                 * @property {string|null} [pickleId] CommandRunBeforeTestCaseHook pickleId
                  */
 
                 /**
@@ -14871,20 +15041,20 @@ $root.io = (function() {
                 CommandRunBeforeTestCaseHook.prototype.actionId = "";
 
                 /**
-                 * CommandRunBeforeTestCaseHook testCaseId.
-                 * @member {string} testCaseId
-                 * @memberof io.cucumber.messages.CommandRunBeforeTestCaseHook
-                 * @instance
-                 */
-                CommandRunBeforeTestCaseHook.prototype.testCaseId = "";
-
-                /**
                  * CommandRunBeforeTestCaseHook testCaseHookDefinitionId.
                  * @member {string} testCaseHookDefinitionId
                  * @memberof io.cucumber.messages.CommandRunBeforeTestCaseHook
                  * @instance
                  */
                 CommandRunBeforeTestCaseHook.prototype.testCaseHookDefinitionId = "";
+
+                /**
+                 * CommandRunBeforeTestCaseHook pickleId.
+                 * @member {string} pickleId
+                 * @memberof io.cucumber.messages.CommandRunBeforeTestCaseHook
+                 * @instance
+                 */
+                CommandRunBeforeTestCaseHook.prototype.pickleId = "";
 
                 /**
                  * Creates a new CommandRunBeforeTestCaseHook instance using the specified properties.
@@ -14912,10 +15082,10 @@ $root.io = (function() {
                         writer = $Writer.create();
                     if (message.actionId != null && message.hasOwnProperty("actionId"))
                         writer.uint32(/* id 1, wireType 2 =*/10).string(message.actionId);
-                    if (message.testCaseId != null && message.hasOwnProperty("testCaseId"))
-                        writer.uint32(/* id 2, wireType 2 =*/18).string(message.testCaseId);
                     if (message.testCaseHookDefinitionId != null && message.hasOwnProperty("testCaseHookDefinitionId"))
                         writer.uint32(/* id 3, wireType 2 =*/26).string(message.testCaseHookDefinitionId);
+                    if (message.pickleId != null && message.hasOwnProperty("pickleId"))
+                        writer.uint32(/* id 4, wireType 2 =*/34).string(message.pickleId);
                     return writer;
                 };
 
@@ -14953,11 +15123,11 @@ $root.io = (function() {
                         case 1:
                             message.actionId = reader.string();
                             break;
-                        case 2:
-                            message.testCaseId = reader.string();
-                            break;
                         case 3:
                             message.testCaseHookDefinitionId = reader.string();
+                            break;
+                        case 4:
+                            message.pickleId = reader.string();
                             break;
                         default:
                             reader.skipType(tag & 7);
@@ -14997,12 +15167,12 @@ $root.io = (function() {
                     if (message.actionId != null && message.hasOwnProperty("actionId"))
                         if (!$util.isString(message.actionId))
                             return "actionId: string expected";
-                    if (message.testCaseId != null && message.hasOwnProperty("testCaseId"))
-                        if (!$util.isString(message.testCaseId))
-                            return "testCaseId: string expected";
                     if (message.testCaseHookDefinitionId != null && message.hasOwnProperty("testCaseHookDefinitionId"))
                         if (!$util.isString(message.testCaseHookDefinitionId))
                             return "testCaseHookDefinitionId: string expected";
+                    if (message.pickleId != null && message.hasOwnProperty("pickleId"))
+                        if (!$util.isString(message.pickleId))
+                            return "pickleId: string expected";
                     return null;
                 };
 
@@ -15020,10 +15190,10 @@ $root.io = (function() {
                     var message = new $root.io.cucumber.messages.CommandRunBeforeTestCaseHook();
                     if (object.actionId != null)
                         message.actionId = String(object.actionId);
-                    if (object.testCaseId != null)
-                        message.testCaseId = String(object.testCaseId);
                     if (object.testCaseHookDefinitionId != null)
                         message.testCaseHookDefinitionId = String(object.testCaseHookDefinitionId);
+                    if (object.pickleId != null)
+                        message.pickleId = String(object.pickleId);
                     return message;
                 };
 
@@ -15042,15 +15212,15 @@ $root.io = (function() {
                     var object = {};
                     if (options.defaults) {
                         object.actionId = "";
-                        object.testCaseId = "";
                         object.testCaseHookDefinitionId = "";
+                        object.pickleId = "";
                     }
                     if (message.actionId != null && message.hasOwnProperty("actionId"))
                         object.actionId = message.actionId;
-                    if (message.testCaseId != null && message.hasOwnProperty("testCaseId"))
-                        object.testCaseId = message.testCaseId;
                     if (message.testCaseHookDefinitionId != null && message.hasOwnProperty("testCaseHookDefinitionId"))
                         object.testCaseHookDefinitionId = message.testCaseHookDefinitionId;
+                    if (message.pickleId != null && message.hasOwnProperty("pickleId"))
+                        object.pickleId = message.pickleId;
                     return object;
                 };
 
@@ -15075,8 +15245,8 @@ $root.io = (function() {
                  * @memberof io.cucumber.messages
                  * @interface ICommandRunAfterTestCaseHook
                  * @property {string|null} [actionId] CommandRunAfterTestCaseHook actionId
-                 * @property {string|null} [testCaseId] CommandRunAfterTestCaseHook testCaseId
                  * @property {string|null} [testCaseHookDefinitionId] CommandRunAfterTestCaseHook testCaseHookDefinitionId
+                 * @property {string|null} [pickleId] CommandRunAfterTestCaseHook pickleId
                  */
 
                 /**
@@ -15103,20 +15273,20 @@ $root.io = (function() {
                 CommandRunAfterTestCaseHook.prototype.actionId = "";
 
                 /**
-                 * CommandRunAfterTestCaseHook testCaseId.
-                 * @member {string} testCaseId
-                 * @memberof io.cucumber.messages.CommandRunAfterTestCaseHook
-                 * @instance
-                 */
-                CommandRunAfterTestCaseHook.prototype.testCaseId = "";
-
-                /**
                  * CommandRunAfterTestCaseHook testCaseHookDefinitionId.
                  * @member {string} testCaseHookDefinitionId
                  * @memberof io.cucumber.messages.CommandRunAfterTestCaseHook
                  * @instance
                  */
                 CommandRunAfterTestCaseHook.prototype.testCaseHookDefinitionId = "";
+
+                /**
+                 * CommandRunAfterTestCaseHook pickleId.
+                 * @member {string} pickleId
+                 * @memberof io.cucumber.messages.CommandRunAfterTestCaseHook
+                 * @instance
+                 */
+                CommandRunAfterTestCaseHook.prototype.pickleId = "";
 
                 /**
                  * Creates a new CommandRunAfterTestCaseHook instance using the specified properties.
@@ -15144,10 +15314,10 @@ $root.io = (function() {
                         writer = $Writer.create();
                     if (message.actionId != null && message.hasOwnProperty("actionId"))
                         writer.uint32(/* id 1, wireType 2 =*/10).string(message.actionId);
-                    if (message.testCaseId != null && message.hasOwnProperty("testCaseId"))
-                        writer.uint32(/* id 2, wireType 2 =*/18).string(message.testCaseId);
                     if (message.testCaseHookDefinitionId != null && message.hasOwnProperty("testCaseHookDefinitionId"))
                         writer.uint32(/* id 3, wireType 2 =*/26).string(message.testCaseHookDefinitionId);
+                    if (message.pickleId != null && message.hasOwnProperty("pickleId"))
+                        writer.uint32(/* id 4, wireType 2 =*/34).string(message.pickleId);
                     return writer;
                 };
 
@@ -15185,11 +15355,11 @@ $root.io = (function() {
                         case 1:
                             message.actionId = reader.string();
                             break;
-                        case 2:
-                            message.testCaseId = reader.string();
-                            break;
                         case 3:
                             message.testCaseHookDefinitionId = reader.string();
+                            break;
+                        case 4:
+                            message.pickleId = reader.string();
                             break;
                         default:
                             reader.skipType(tag & 7);
@@ -15229,12 +15399,12 @@ $root.io = (function() {
                     if (message.actionId != null && message.hasOwnProperty("actionId"))
                         if (!$util.isString(message.actionId))
                             return "actionId: string expected";
-                    if (message.testCaseId != null && message.hasOwnProperty("testCaseId"))
-                        if (!$util.isString(message.testCaseId))
-                            return "testCaseId: string expected";
                     if (message.testCaseHookDefinitionId != null && message.hasOwnProperty("testCaseHookDefinitionId"))
                         if (!$util.isString(message.testCaseHookDefinitionId))
                             return "testCaseHookDefinitionId: string expected";
+                    if (message.pickleId != null && message.hasOwnProperty("pickleId"))
+                        if (!$util.isString(message.pickleId))
+                            return "pickleId: string expected";
                     return null;
                 };
 
@@ -15252,10 +15422,10 @@ $root.io = (function() {
                     var message = new $root.io.cucumber.messages.CommandRunAfterTestCaseHook();
                     if (object.actionId != null)
                         message.actionId = String(object.actionId);
-                    if (object.testCaseId != null)
-                        message.testCaseId = String(object.testCaseId);
                     if (object.testCaseHookDefinitionId != null)
                         message.testCaseHookDefinitionId = String(object.testCaseHookDefinitionId);
+                    if (object.pickleId != null)
+                        message.pickleId = String(object.pickleId);
                     return message;
                 };
 
@@ -15274,15 +15444,15 @@ $root.io = (function() {
                     var object = {};
                     if (options.defaults) {
                         object.actionId = "";
-                        object.testCaseId = "";
                         object.testCaseHookDefinitionId = "";
+                        object.pickleId = "";
                     }
                     if (message.actionId != null && message.hasOwnProperty("actionId"))
                         object.actionId = message.actionId;
-                    if (message.testCaseId != null && message.hasOwnProperty("testCaseId"))
-                        object.testCaseId = message.testCaseId;
                     if (message.testCaseHookDefinitionId != null && message.hasOwnProperty("testCaseHookDefinitionId"))
                         object.testCaseHookDefinitionId = message.testCaseHookDefinitionId;
+                    if (message.pickleId != null && message.hasOwnProperty("pickleId"))
+                        object.pickleId = message.pickleId;
                     return object;
                 };
 
@@ -15307,9 +15477,10 @@ $root.io = (function() {
                  * @memberof io.cucumber.messages
                  * @interface ICommandRunTestStep
                  * @property {string|null} [actionId] CommandRunTestStep actionId
-                 * @property {string|null} [testCaseId] CommandRunTestStep testCaseId
                  * @property {string|null} [stepDefinitionId] CommandRunTestStep stepDefinitionId
                  * @property {Array.<io.cucumber.messages.IPatternMatch>|null} [patternMatches] CommandRunTestStep patternMatches
+                 * @property {string|null} [pickleId] CommandRunTestStep pickleId
+                 * @property {io.cucumber.messages.IPickleStepArgument|null} [pickleStepArgument] CommandRunTestStep pickleStepArgument
                  */
 
                 /**
@@ -15337,14 +15508,6 @@ $root.io = (function() {
                 CommandRunTestStep.prototype.actionId = "";
 
                 /**
-                 * CommandRunTestStep testCaseId.
-                 * @member {string} testCaseId
-                 * @memberof io.cucumber.messages.CommandRunTestStep
-                 * @instance
-                 */
-                CommandRunTestStep.prototype.testCaseId = "";
-
-                /**
                  * CommandRunTestStep stepDefinitionId.
                  * @member {string} stepDefinitionId
                  * @memberof io.cucumber.messages.CommandRunTestStep
@@ -15359,6 +15522,22 @@ $root.io = (function() {
                  * @instance
                  */
                 CommandRunTestStep.prototype.patternMatches = $util.emptyArray;
+
+                /**
+                 * CommandRunTestStep pickleId.
+                 * @member {string} pickleId
+                 * @memberof io.cucumber.messages.CommandRunTestStep
+                 * @instance
+                 */
+                CommandRunTestStep.prototype.pickleId = "";
+
+                /**
+                 * CommandRunTestStep pickleStepArgument.
+                 * @member {io.cucumber.messages.IPickleStepArgument|null|undefined} pickleStepArgument
+                 * @memberof io.cucumber.messages.CommandRunTestStep
+                 * @instance
+                 */
+                CommandRunTestStep.prototype.pickleStepArgument = null;
 
                 /**
                  * Creates a new CommandRunTestStep instance using the specified properties.
@@ -15386,13 +15565,15 @@ $root.io = (function() {
                         writer = $Writer.create();
                     if (message.actionId != null && message.hasOwnProperty("actionId"))
                         writer.uint32(/* id 1, wireType 2 =*/10).string(message.actionId);
-                    if (message.testCaseId != null && message.hasOwnProperty("testCaseId"))
-                        writer.uint32(/* id 2, wireType 2 =*/18).string(message.testCaseId);
                     if (message.stepDefinitionId != null && message.hasOwnProperty("stepDefinitionId"))
                         writer.uint32(/* id 3, wireType 2 =*/26).string(message.stepDefinitionId);
                     if (message.patternMatches != null && message.patternMatches.length)
                         for (var i = 0; i < message.patternMatches.length; ++i)
                             $root.io.cucumber.messages.PatternMatch.encode(message.patternMatches[i], writer.uint32(/* id 4, wireType 2 =*/34).fork()).ldelim();
+                    if (message.pickleId != null && message.hasOwnProperty("pickleId"))
+                        writer.uint32(/* id 5, wireType 2 =*/42).string(message.pickleId);
+                    if (message.pickleStepArgument != null && message.hasOwnProperty("pickleStepArgument"))
+                        $root.io.cucumber.messages.PickleStepArgument.encode(message.pickleStepArgument, writer.uint32(/* id 6, wireType 2 =*/50).fork()).ldelim();
                     return writer;
                 };
 
@@ -15430,9 +15611,6 @@ $root.io = (function() {
                         case 1:
                             message.actionId = reader.string();
                             break;
-                        case 2:
-                            message.testCaseId = reader.string();
-                            break;
                         case 3:
                             message.stepDefinitionId = reader.string();
                             break;
@@ -15440,6 +15618,12 @@ $root.io = (function() {
                             if (!(message.patternMatches && message.patternMatches.length))
                                 message.patternMatches = [];
                             message.patternMatches.push($root.io.cucumber.messages.PatternMatch.decode(reader, reader.uint32()));
+                            break;
+                        case 5:
+                            message.pickleId = reader.string();
+                            break;
+                        case 6:
+                            message.pickleStepArgument = $root.io.cucumber.messages.PickleStepArgument.decode(reader, reader.uint32());
                             break;
                         default:
                             reader.skipType(tag & 7);
@@ -15479,9 +15663,6 @@ $root.io = (function() {
                     if (message.actionId != null && message.hasOwnProperty("actionId"))
                         if (!$util.isString(message.actionId))
                             return "actionId: string expected";
-                    if (message.testCaseId != null && message.hasOwnProperty("testCaseId"))
-                        if (!$util.isString(message.testCaseId))
-                            return "testCaseId: string expected";
                     if (message.stepDefinitionId != null && message.hasOwnProperty("stepDefinitionId"))
                         if (!$util.isString(message.stepDefinitionId))
                             return "stepDefinitionId: string expected";
@@ -15493,6 +15674,14 @@ $root.io = (function() {
                             if (error)
                                 return "patternMatches." + error;
                         }
+                    }
+                    if (message.pickleId != null && message.hasOwnProperty("pickleId"))
+                        if (!$util.isString(message.pickleId))
+                            return "pickleId: string expected";
+                    if (message.pickleStepArgument != null && message.hasOwnProperty("pickleStepArgument")) {
+                        var error = $root.io.cucumber.messages.PickleStepArgument.verify(message.pickleStepArgument);
+                        if (error)
+                            return "pickleStepArgument." + error;
                     }
                     return null;
                 };
@@ -15511,8 +15700,6 @@ $root.io = (function() {
                     var message = new $root.io.cucumber.messages.CommandRunTestStep();
                     if (object.actionId != null)
                         message.actionId = String(object.actionId);
-                    if (object.testCaseId != null)
-                        message.testCaseId = String(object.testCaseId);
                     if (object.stepDefinitionId != null)
                         message.stepDefinitionId = String(object.stepDefinitionId);
                     if (object.patternMatches) {
@@ -15524,6 +15711,13 @@ $root.io = (function() {
                                 throw TypeError(".io.cucumber.messages.CommandRunTestStep.patternMatches: object expected");
                             message.patternMatches[i] = $root.io.cucumber.messages.PatternMatch.fromObject(object.patternMatches[i]);
                         }
+                    }
+                    if (object.pickleId != null)
+                        message.pickleId = String(object.pickleId);
+                    if (object.pickleStepArgument != null) {
+                        if (typeof object.pickleStepArgument !== "object")
+                            throw TypeError(".io.cucumber.messages.CommandRunTestStep.pickleStepArgument: object expected");
+                        message.pickleStepArgument = $root.io.cucumber.messages.PickleStepArgument.fromObject(object.pickleStepArgument);
                     }
                     return message;
                 };
@@ -15545,13 +15739,12 @@ $root.io = (function() {
                         object.patternMatches = [];
                     if (options.defaults) {
                         object.actionId = "";
-                        object.testCaseId = "";
                         object.stepDefinitionId = "";
+                        object.pickleId = "";
+                        object.pickleStepArgument = null;
                     }
                     if (message.actionId != null && message.hasOwnProperty("actionId"))
                         object.actionId = message.actionId;
-                    if (message.testCaseId != null && message.hasOwnProperty("testCaseId"))
-                        object.testCaseId = message.testCaseId;
                     if (message.stepDefinitionId != null && message.hasOwnProperty("stepDefinitionId"))
                         object.stepDefinitionId = message.stepDefinitionId;
                     if (message.patternMatches && message.patternMatches.length) {
@@ -15559,6 +15752,10 @@ $root.io = (function() {
                         for (var j = 0; j < message.patternMatches.length; ++j)
                             object.patternMatches[j] = $root.io.cucumber.messages.PatternMatch.toObject(message.patternMatches[j], options);
                     }
+                    if (message.pickleId != null && message.hasOwnProperty("pickleId"))
+                        object.pickleId = message.pickleId;
+                    if (message.pickleStepArgument != null && message.hasOwnProperty("pickleStepArgument"))
+                        object.pickleStepArgument = $root.io.cucumber.messages.PickleStepArgument.toObject(message.pickleStepArgument, options);
                     return object;
                 };
 
@@ -15584,8 +15781,6 @@ $root.io = (function() {
                  * @interface IPatternMatch
                  * @property {Array.<string>|null} [captures] PatternMatch captures
                  * @property {string|null} [parameterTypeName] PatternMatch parameterTypeName
-                 * @property {io.cucumber.messages.IPickleDocString|null} [docString] PatternMatch docString
-                 * @property {io.cucumber.messages.IPickleTable|null} [dataTable] PatternMatch dataTable
                  */
 
                 /**
@@ -15621,36 +15816,6 @@ $root.io = (function() {
                 PatternMatch.prototype.parameterTypeName = "";
 
                 /**
-                 * PatternMatch docString.
-                 * @member {io.cucumber.messages.IPickleDocString|null|undefined} docString
-                 * @memberof io.cucumber.messages.PatternMatch
-                 * @instance
-                 */
-                PatternMatch.prototype.docString = null;
-
-                /**
-                 * PatternMatch dataTable.
-                 * @member {io.cucumber.messages.IPickleTable|null|undefined} dataTable
-                 * @memberof io.cucumber.messages.PatternMatch
-                 * @instance
-                 */
-                PatternMatch.prototype.dataTable = null;
-
-                // OneOf field names bound to virtual getters and setters
-                var $oneOfFields;
-
-                /**
-                 * PatternMatch pickleArgument.
-                 * @member {"docString"|"dataTable"|undefined} pickleArgument
-                 * @memberof io.cucumber.messages.PatternMatch
-                 * @instance
-                 */
-                Object.defineProperty(PatternMatch.prototype, "pickleArgument", {
-                    get: $util.oneOfGetter($oneOfFields = ["docString", "dataTable"]),
-                    set: $util.oneOfSetter($oneOfFields)
-                });
-
-                /**
                  * Creates a new PatternMatch instance using the specified properties.
                  * @function create
                  * @memberof io.cucumber.messages.PatternMatch
@@ -15679,10 +15844,6 @@ $root.io = (function() {
                             writer.uint32(/* id 1, wireType 2 =*/10).string(message.captures[i]);
                     if (message.parameterTypeName != null && message.hasOwnProperty("parameterTypeName"))
                         writer.uint32(/* id 2, wireType 2 =*/18).string(message.parameterTypeName);
-                    if (message.docString != null && message.hasOwnProperty("docString"))
-                        $root.io.cucumber.messages.PickleDocString.encode(message.docString, writer.uint32(/* id 3, wireType 2 =*/26).fork()).ldelim();
-                    if (message.dataTable != null && message.hasOwnProperty("dataTable"))
-                        $root.io.cucumber.messages.PickleTable.encode(message.dataTable, writer.uint32(/* id 4, wireType 2 =*/34).fork()).ldelim();
                     return writer;
                 };
 
@@ -15725,12 +15886,6 @@ $root.io = (function() {
                         case 2:
                             message.parameterTypeName = reader.string();
                             break;
-                        case 3:
-                            message.docString = $root.io.cucumber.messages.PickleDocString.decode(reader, reader.uint32());
-                            break;
-                        case 4:
-                            message.dataTable = $root.io.cucumber.messages.PickleTable.decode(reader, reader.uint32());
-                            break;
                         default:
                             reader.skipType(tag & 7);
                             break;
@@ -15766,7 +15921,6 @@ $root.io = (function() {
                 PatternMatch.verify = function verify(message) {
                     if (typeof message !== "object" || message === null)
                         return "object expected";
-                    var properties = {};
                     if (message.captures != null && message.hasOwnProperty("captures")) {
                         if (!Array.isArray(message.captures))
                             return "captures: array expected";
@@ -15777,24 +15931,6 @@ $root.io = (function() {
                     if (message.parameterTypeName != null && message.hasOwnProperty("parameterTypeName"))
                         if (!$util.isString(message.parameterTypeName))
                             return "parameterTypeName: string expected";
-                    if (message.docString != null && message.hasOwnProperty("docString")) {
-                        properties.pickleArgument = 1;
-                        {
-                            var error = $root.io.cucumber.messages.PickleDocString.verify(message.docString);
-                            if (error)
-                                return "docString." + error;
-                        }
-                    }
-                    if (message.dataTable != null && message.hasOwnProperty("dataTable")) {
-                        if (properties.pickleArgument === 1)
-                            return "pickleArgument: multiple values";
-                        properties.pickleArgument = 1;
-                        {
-                            var error = $root.io.cucumber.messages.PickleTable.verify(message.dataTable);
-                            if (error)
-                                return "dataTable." + error;
-                        }
-                    }
                     return null;
                 };
 
@@ -15819,16 +15955,6 @@ $root.io = (function() {
                     }
                     if (object.parameterTypeName != null)
                         message.parameterTypeName = String(object.parameterTypeName);
-                    if (object.docString != null) {
-                        if (typeof object.docString !== "object")
-                            throw TypeError(".io.cucumber.messages.PatternMatch.docString: object expected");
-                        message.docString = $root.io.cucumber.messages.PickleDocString.fromObject(object.docString);
-                    }
-                    if (object.dataTable != null) {
-                        if (typeof object.dataTable !== "object")
-                            throw TypeError(".io.cucumber.messages.PatternMatch.dataTable: object expected");
-                        message.dataTable = $root.io.cucumber.messages.PickleTable.fromObject(object.dataTable);
-                    }
                     return message;
                 };
 
@@ -15856,16 +15982,6 @@ $root.io = (function() {
                     }
                     if (message.parameterTypeName != null && message.hasOwnProperty("parameterTypeName"))
                         object.parameterTypeName = message.parameterTypeName;
-                    if (message.docString != null && message.hasOwnProperty("docString")) {
-                        object.docString = $root.io.cucumber.messages.PickleDocString.toObject(message.docString, options);
-                        if (options.oneofs)
-                            object.pickleArgument = "docString";
-                    }
-                    if (message.dataTable != null && message.hasOwnProperty("dataTable")) {
-                        object.dataTable = $root.io.cucumber.messages.PickleTable.toObject(message.dataTable, options);
-                        if (options.oneofs)
-                            object.pickleArgument = "dataTable";
-                    }
                     return object;
                 };
 
@@ -15891,8 +16007,7 @@ $root.io = (function() {
                  * @interface ICommandGenerateSnippet
                  * @property {string|null} [actionId] CommandGenerateSnippet actionId
                  * @property {Array.<io.cucumber.messages.IGeneratedExpression>|null} [generatedExpressions] CommandGenerateSnippet generatedExpressions
-                 * @property {io.cucumber.messages.IPickleDocString|null} [docString] CommandGenerateSnippet docString
-                 * @property {io.cucumber.messages.IPickleTable|null} [dataTable] CommandGenerateSnippet dataTable
+                 * @property {io.cucumber.messages.IPickleStepArgument|null} [pickleStepArgument] CommandGenerateSnippet pickleStepArgument
                  */
 
                 /**
@@ -15928,34 +16043,12 @@ $root.io = (function() {
                 CommandGenerateSnippet.prototype.generatedExpressions = $util.emptyArray;
 
                 /**
-                 * CommandGenerateSnippet docString.
-                 * @member {io.cucumber.messages.IPickleDocString|null|undefined} docString
+                 * CommandGenerateSnippet pickleStepArgument.
+                 * @member {io.cucumber.messages.IPickleStepArgument|null|undefined} pickleStepArgument
                  * @memberof io.cucumber.messages.CommandGenerateSnippet
                  * @instance
                  */
-                CommandGenerateSnippet.prototype.docString = null;
-
-                /**
-                 * CommandGenerateSnippet dataTable.
-                 * @member {io.cucumber.messages.IPickleTable|null|undefined} dataTable
-                 * @memberof io.cucumber.messages.CommandGenerateSnippet
-                 * @instance
-                 */
-                CommandGenerateSnippet.prototype.dataTable = null;
-
-                // OneOf field names bound to virtual getters and setters
-                var $oneOfFields;
-
-                /**
-                 * CommandGenerateSnippet pickleArgument.
-                 * @member {"docString"|"dataTable"|undefined} pickleArgument
-                 * @memberof io.cucumber.messages.CommandGenerateSnippet
-                 * @instance
-                 */
-                Object.defineProperty(CommandGenerateSnippet.prototype, "pickleArgument", {
-                    get: $util.oneOfGetter($oneOfFields = ["docString", "dataTable"]),
-                    set: $util.oneOfSetter($oneOfFields)
-                });
+                CommandGenerateSnippet.prototype.pickleStepArgument = null;
 
                 /**
                  * Creates a new CommandGenerateSnippet instance using the specified properties.
@@ -15986,10 +16079,8 @@ $root.io = (function() {
                     if (message.generatedExpressions != null && message.generatedExpressions.length)
                         for (var i = 0; i < message.generatedExpressions.length; ++i)
                             $root.io.cucumber.messages.GeneratedExpression.encode(message.generatedExpressions[i], writer.uint32(/* id 2, wireType 2 =*/18).fork()).ldelim();
-                    if (message.docString != null && message.hasOwnProperty("docString"))
-                        $root.io.cucumber.messages.PickleDocString.encode(message.docString, writer.uint32(/* id 3, wireType 2 =*/26).fork()).ldelim();
-                    if (message.dataTable != null && message.hasOwnProperty("dataTable"))
-                        $root.io.cucumber.messages.PickleTable.encode(message.dataTable, writer.uint32(/* id 4, wireType 2 =*/34).fork()).ldelim();
+                    if (message.pickleStepArgument != null && message.hasOwnProperty("pickleStepArgument"))
+                        $root.io.cucumber.messages.PickleStepArgument.encode(message.pickleStepArgument, writer.uint32(/* id 5, wireType 2 =*/42).fork()).ldelim();
                     return writer;
                 };
 
@@ -16032,11 +16123,8 @@ $root.io = (function() {
                                 message.generatedExpressions = [];
                             message.generatedExpressions.push($root.io.cucumber.messages.GeneratedExpression.decode(reader, reader.uint32()));
                             break;
-                        case 3:
-                            message.docString = $root.io.cucumber.messages.PickleDocString.decode(reader, reader.uint32());
-                            break;
-                        case 4:
-                            message.dataTable = $root.io.cucumber.messages.PickleTable.decode(reader, reader.uint32());
+                        case 5:
+                            message.pickleStepArgument = $root.io.cucumber.messages.PickleStepArgument.decode(reader, reader.uint32());
                             break;
                         default:
                             reader.skipType(tag & 7);
@@ -16073,7 +16161,6 @@ $root.io = (function() {
                 CommandGenerateSnippet.verify = function verify(message) {
                     if (typeof message !== "object" || message === null)
                         return "object expected";
-                    var properties = {};
                     if (message.actionId != null && message.hasOwnProperty("actionId"))
                         if (!$util.isString(message.actionId))
                             return "actionId: string expected";
@@ -16086,23 +16173,10 @@ $root.io = (function() {
                                 return "generatedExpressions." + error;
                         }
                     }
-                    if (message.docString != null && message.hasOwnProperty("docString")) {
-                        properties.pickleArgument = 1;
-                        {
-                            var error = $root.io.cucumber.messages.PickleDocString.verify(message.docString);
-                            if (error)
-                                return "docString." + error;
-                        }
-                    }
-                    if (message.dataTable != null && message.hasOwnProperty("dataTable")) {
-                        if (properties.pickleArgument === 1)
-                            return "pickleArgument: multiple values";
-                        properties.pickleArgument = 1;
-                        {
-                            var error = $root.io.cucumber.messages.PickleTable.verify(message.dataTable);
-                            if (error)
-                                return "dataTable." + error;
-                        }
+                    if (message.pickleStepArgument != null && message.hasOwnProperty("pickleStepArgument")) {
+                        var error = $root.io.cucumber.messages.PickleStepArgument.verify(message.pickleStepArgument);
+                        if (error)
+                            return "pickleStepArgument." + error;
                     }
                     return null;
                 };
@@ -16131,15 +16205,10 @@ $root.io = (function() {
                             message.generatedExpressions[i] = $root.io.cucumber.messages.GeneratedExpression.fromObject(object.generatedExpressions[i]);
                         }
                     }
-                    if (object.docString != null) {
-                        if (typeof object.docString !== "object")
-                            throw TypeError(".io.cucumber.messages.CommandGenerateSnippet.docString: object expected");
-                        message.docString = $root.io.cucumber.messages.PickleDocString.fromObject(object.docString);
-                    }
-                    if (object.dataTable != null) {
-                        if (typeof object.dataTable !== "object")
-                            throw TypeError(".io.cucumber.messages.CommandGenerateSnippet.dataTable: object expected");
-                        message.dataTable = $root.io.cucumber.messages.PickleTable.fromObject(object.dataTable);
+                    if (object.pickleStepArgument != null) {
+                        if (typeof object.pickleStepArgument !== "object")
+                            throw TypeError(".io.cucumber.messages.CommandGenerateSnippet.pickleStepArgument: object expected");
+                        message.pickleStepArgument = $root.io.cucumber.messages.PickleStepArgument.fromObject(object.pickleStepArgument);
                     }
                     return message;
                 };
@@ -16159,8 +16228,10 @@ $root.io = (function() {
                     var object = {};
                     if (options.arrays || options.defaults)
                         object.generatedExpressions = [];
-                    if (options.defaults)
+                    if (options.defaults) {
                         object.actionId = "";
+                        object.pickleStepArgument = null;
+                    }
                     if (message.actionId != null && message.hasOwnProperty("actionId"))
                         object.actionId = message.actionId;
                     if (message.generatedExpressions && message.generatedExpressions.length) {
@@ -16168,16 +16239,8 @@ $root.io = (function() {
                         for (var j = 0; j < message.generatedExpressions.length; ++j)
                             object.generatedExpressions[j] = $root.io.cucumber.messages.GeneratedExpression.toObject(message.generatedExpressions[j], options);
                     }
-                    if (message.docString != null && message.hasOwnProperty("docString")) {
-                        object.docString = $root.io.cucumber.messages.PickleDocString.toObject(message.docString, options);
-                        if (options.oneofs)
-                            object.pickleArgument = "docString";
-                    }
-                    if (message.dataTable != null && message.hasOwnProperty("dataTable")) {
-                        object.dataTable = $root.io.cucumber.messages.PickleTable.toObject(message.dataTable, options);
-                        if (options.oneofs)
-                            object.pickleArgument = "dataTable";
-                    }
+                    if (message.pickleStepArgument != null && message.hasOwnProperty("pickleStepArgument"))
+                        object.pickleStepArgument = $root.io.cucumber.messages.PickleStepArgument.toObject(message.pickleStepArgument, options);
                     return object;
                 };
 

@@ -32,6 +32,7 @@
     - [PickleDocString](#io.cucumber.messages.PickleDocString)
     - [PickleRejected](#io.cucumber.messages.PickleRejected)
     - [PickleStep](#io.cucumber.messages.PickleStep)
+    - [PickleStepArgument](#io.cucumber.messages.PickleStepArgument)
     - [PickleTable](#io.cucumber.messages.PickleTable)
     - [PickleTableCell](#io.cucumber.messages.PickleTableCell)
     - [PickleTableRow](#io.cucumber.messages.PickleTableRow)
@@ -148,8 +149,7 @@
 | ----- | ---- | ----- | ----------- |
 | actionId | [string](#string) |  |  |
 | generatedExpressions | [GeneratedExpression](#io.cucumber.messages.GeneratedExpression) | repeated |  |
-| doc_string | [PickleDocString](#io.cucumber.messages.PickleDocString) |  |  |
-| data_table | [PickleTable](#io.cucumber.messages.PickleTable) |  |  |
+| pickleStepArgument | [PickleStepArgument](#io.cucumber.messages.PickleStepArgument) |  |  |
 
 
 
@@ -165,7 +165,6 @@
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
 | actionId | [string](#string) |  |  |
-| testCaseId | [string](#string) |  |  |
 | pickle | [Pickle](#io.cucumber.messages.Pickle) |  |  |
 
 
@@ -182,8 +181,8 @@
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
 | actionId | [string](#string) |  |  |
-| testCaseId | [string](#string) |  |  |
 | testCaseHookDefinitionId | [string](#string) |  |  |
+| pickleId | [string](#string) |  |  |
 
 
 
@@ -214,8 +213,8 @@
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
 | actionId | [string](#string) |  |  |
-| testCaseId | [string](#string) |  |  |
 | testCaseHookDefinitionId | [string](#string) |  |  |
+| pickleId | [string](#string) |  |  |
 
 
 
@@ -246,9 +245,10 @@
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
 | actionId | [string](#string) |  |  |
-| testCaseId | [string](#string) |  |  |
 | stepDefinitionId | [string](#string) |  |  |
 | patternMatches | [PatternMatch](#io.cucumber.messages.PatternMatch) | repeated |  |
+| pickleId | [string](#string) |  |  |
+| pickleStepArgument | [PickleStepArgument](#io.cucumber.messages.PickleStepArgument) |  |  |
 
 
 
@@ -475,8 +475,6 @@
 | ----- | ---- | ----- | ----------- |
 | captures | [string](#string) | repeated |  |
 | parameterTypeName | [string](#string) |  |  |
-| doc_string | [PickleDocString](#io.cucumber.messages.PickleDocString) |  |  |
-| data_table | [PickleTable](#io.cucumber.messages.PickleTable) |  |  |
 
 
 
@@ -561,6 +559,21 @@
 | ----- | ---- | ----- | ----------- |
 | text | [string](#string) |  |  |
 | locations | [Location](#io.cucumber.messages.Location) | repeated |  |
+| argument | [PickleStepArgument](#io.cucumber.messages.PickleStepArgument) |  |  |
+
+
+
+
+
+
+<a name="io.cucumber.messages.PickleStepArgument"></a>
+
+### PickleStepArgument
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
 | doc_string | [PickleDocString](#io.cucumber.messages.PickleDocString) |  |  |
 | data_table | [PickleTable](#io.cucumber.messages.PickleTable) |  |  |
 
