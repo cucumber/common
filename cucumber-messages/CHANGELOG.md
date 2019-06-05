@@ -12,6 +12,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
   ([#626](https://github.com/cucumber/cucumber/pull/626))
 
 ### Changed
+* Use an enum for the `encoding` field.
 * Misc changes for `cucumber-engine`
   ([#549](https://github.com/cucumber/cucumber/pull/549))
 

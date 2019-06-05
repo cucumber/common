@@ -15,26 +15,26 @@ import static org.junit.Assert.assertEquals;
 public class MessageSerializationTest {
     @Test
     public void can_serialise_messages_over_a_stream() throws IOException {
-        List<Messages.Wrapper> outgoingMessages = createOutgoingMessages();
+        List<Messages.Envelope> outgoingMessages = createOutgoingMessages();
 
         ByteArrayOutputStream output = new ByteArrayOutputStream();
         writeOutgoingMessages(outgoingMessages, output);
 
         InputStream input = new ByteArrayInputStream(output.toByteArray());
-        Iterable<Messages.Wrapper> incomingMessages = new ProtobufStreamIterable(input);
+        Iterable<Messages.Envelope> incomingMessages = new ProtobufStreamIterable(input);
 
         assertEquals(outgoingMessages, toList(incomingMessages));
     }
 
-    private List<Messages.Wrapper> createOutgoingMessages() {
-        List<Messages.Wrapper> outgoingMessages = new ArrayList<>();
-        outgoingMessages.add(Messages.Wrapper.newBuilder().setSource(Messages.Source.newBuilder().setData("Feature: Hello")).build());
-        outgoingMessages.add(Messages.Wrapper.newBuilder().setAttachment(Messages.Attachment.newBuilder().setData("Some stack trace")).build());
+    private List<Messages.Envelope> createOutgoingMessages() {
+        List<Messages.Envelope> outgoingMessages = new ArrayList<>();
+        outgoingMessages.add(Messages.Envelope.newBuilder().setSource(Messages.Source.newBuilder().setData("Feature: Hello")).build());
+        outgoingMessages.add(Messages.Envelope.newBuilder().setAttachment(Messages.Attachment.newBuilder().setData("Some stack trace")).build());
         return outgoingMessages;
     }
 
-    private void writeOutgoingMessages(List<Messages.Wrapper> messages, OutputStream output) throws IOException {
-        for (Messages.Wrapper writtenMessage : messages) {
+    private void writeOutgoingMessages(List<Messages.Envelope> messages, OutputStream output) throws IOException {
+        for (Messages.Envelope writtenMessage : messages) {
             writtenMessage.writeDelimitedTo(output);
         }
     }

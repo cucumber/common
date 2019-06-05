@@ -2,7 +2,7 @@ import * as assert from 'assert'
 import * as gherkin from '../src'
 import { Readable } from 'stream'
 import { messages } from 'cucumber-messages'
-import Wrapper = messages.Wrapper
+import Envelope = messages.Envelope
 import Source = messages.Source
 import Media = messages.Media
 
@@ -33,10 +33,10 @@ describe('gherkin (TypeScript)', () => {
   })
 })
 
-async function streamToArray(readableStream: Readable): Promise<Wrapper[]> {
-  return new Promise<Wrapper[]>(
-    (resolve: (wrappers: Wrapper[]) => void, reject: (err: Error) => void) => {
-      const items: Wrapper[] = []
+async function streamToArray(readableStream: Readable): Promise<Envelope[]> {
+  return new Promise<Envelope[]>(
+    (resolve: (wrappers: Envelope[]) => void, reject: (err: Error) => void) => {
+      const items: Envelope[] = []
       readableStream.on('data', items.push.bind(items))
       readableStream.on('error', (err: Error) => reject(err))
       readableStream.on('end', () => resolve(items))

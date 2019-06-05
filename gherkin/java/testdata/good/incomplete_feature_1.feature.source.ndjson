@@ -3,7 +3,7 @@
     "data": "Feature: Just a description\n  A short description\n",
     "media": {
       "contentType": "text/x.cucumber.gherkin+plain",
-      "encoding": "UTF-8"
+      "encoding": "UTF8"
     },
     "uri": "testdata/good/incomplete_feature_1.feature"
   }

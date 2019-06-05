@@ -73,7 +73,7 @@ var Gherkin = /** @class */ (function () {
         }
         var args = options.concat(this.paths);
         var gherkin = child_process_1.spawn(this.exeFile.fileName, args);
-        var protobufMessageStream = new cucumber_messages_1.ProtobufMessageStream(cucumber_messages_1.messages.Wrapper.decodeDelimited.bind(cucumber_messages_1.messages.Wrapper));
+        var protobufMessageStream = new cucumber_messages_1.ProtobufMessageStream(cucumber_messages_1.messages.Envelope.decodeDelimited.bind(cucumber_messages_1.messages.Envelope));
         gherkin.on('error', function (err) {
             protobufMessageStream.emit('error', err);
         });
@@ -81,8 +81,8 @@ var Gherkin = /** @class */ (function () {
         try {
             for (var _b = __values(this.sources), _c = _b.next(); !_c.done; _c = _b.next()) {
                 var source = _c.value;
-                var wrapper = cucumber_messages_1.messages.Wrapper.fromObject({ source: source });
-                gherkin.stdin.write(cucumber_messages_1.messages.Wrapper.encodeDelimited(wrapper).finish());
+                var wrapper = cucumber_messages_1.messages.Envelope.fromObject({ source: source });
+                gherkin.stdin.write(cucumber_messages_1.messages.Envelope.encodeDelimited(wrapper).finish());
             }
         }
         catch (e_1_1) { e_1 = { error: e_1_1 }; }
