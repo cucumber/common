@@ -1,4 +1,4 @@
-module github.com/cucumber/cucumber-messages-go/v2
+module github.com/cucumber/cucumber-messages-go/v3
 
 require (
 	github.com/gogo/protobuf v1.2.1

@@ -8,8 +8,25 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ## [In Git] - (Not released)
 
 ### Added
+
+### Changed
+
+### Deprecated
+
+### Removed
+
+### Fixed
+
+## [3.0.0] - (2019-06-05)
+
+### Added
+* Added `TestRunStarted#timestamp` field
+  ([#615](https://github.com/cucumber/cucumber/pull/615)
+   [david1995])
 * Added `TestCaseStarted#platform` field
-  ([#626](https://github.com/cucumber/cucumber/pull/626))
+  ([#626](https://github.com/cucumber/cucumber/pull/626)
+   [#616](https://github.com/cucumber/cucumber/pull/616)
+   [david1995])
 
 ### Changed
 * Use an enum for the `encoding` field.
@@ -66,7 +83,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 * Protobuf messages for Go, Java, JavaScript, TypeScript and Ruby
 
 <!-- Releases -->
-[Unreleased]: https://github.com/cucumber/cucumber/compare/cucumber-messages/v2.1.2...master
+[Unreleased]: https://github.com/cucumber/cucumber/compare/cucumber-messages/v3.0.0...master
+[3.0.0]:      https://github.com/cucumber/cucumber/compare/cucumber-messages/v2.1.2...v3.0.0
 [2.1.2]:      https://github.com/cucumber/cucumber/compare/cucumber-messages/v2.1.1...v2.1.2
 [2.1.1]:      https://github.com/cucumber/cucumber/compare/cucumber-messages/v2.1.0...v2.1.1
 [2.1.0]:      https://github.com/cucumber/cucumber/compare/cucumber-messages/v2.0.0...v2.1.0
@@ -78,4 +96,5 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 [aslakhellesoy]:    https://github.com/aslakhellesoy
 [brasmusson]:       https://github.com/brasmusson
 [charlierudolph]:   https://github.com/charlierudolph
+[david1995]:        https://github.com/david1995
 [luke-hill]:        https://github.com/luke-hill

@@ -23,7 +23,7 @@ describe('gherkin (TypeScript)', () => {
     Given the minimalism
 `,
       media: Media.fromObject({
-        encoding: 'UTF-8',
+        encoding: 'UTF8',
         contentType: 'text/x.cucumber.gherkin+plain',
       }),
     })
