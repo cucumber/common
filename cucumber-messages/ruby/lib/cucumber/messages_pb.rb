@@ -34,18 +34,13 @@ Google::Protobuf::DescriptorPool.generated_pool.build do
       optional :commandError, :string, 25
     end
   end
-  add_message "io.cucumber.messages.SourceReference" do
-    optional :uri, :string, 1
-    optional :location, :message, 2, "io.cucumber.messages.Location"
-  end
   add_message "io.cucumber.messages.Location" do
     optional :line, :uint32, 1
     optional :column, :uint32, 2
   end
-  add_message "io.cucumber.messages.Attachment" do
-    optional :source, :message, 1, "io.cucumber.messages.SourceReference"
-    optional :data, :string, 2
-    optional :media, :message, 3, "io.cucumber.messages.Media"
+  add_message "io.cucumber.messages.SourceReference" do
+    optional :uri, :string, 1
+    optional :location, :message, 2, "io.cucumber.messages.Location"
   end
   add_message "io.cucumber.messages.Media" do
     optional :encoding, :string, 1
@@ -58,136 +53,141 @@ Google::Protobuf::DescriptorPool.generated_pool.build do
   end
   add_message "io.cucumber.messages.GherkinDocument" do
     optional :uri, :string, 1
-    optional :feature, :message, 2, "io.cucumber.messages.Feature"
-    repeated :comments, :message, 3, "io.cucumber.messages.Comment"
+    optional :feature, :message, 2, "io.cucumber.messages.GherkinDocument.Feature"
+    repeated :comments, :message, 3, "io.cucumber.messages.GherkinDocument.Comment"
   end
-  add_message "io.cucumber.messages.Feature" do
+  add_message "io.cucumber.messages.GherkinDocument.Comment" do
     optional :location, :message, 1, "io.cucumber.messages.Location"
-    repeated :tags, :message, 2, "io.cucumber.messages.Tag"
+    optional :text, :string, 2
+  end
+  add_message "io.cucumber.messages.GherkinDocument.Feature" do
+    optional :location, :message, 1, "io.cucumber.messages.Location"
+    repeated :tags, :message, 2, "io.cucumber.messages.GherkinDocument.Feature.Tag"
     optional :language, :string, 3
     optional :keyword, :string, 4
     optional :name, :string, 5
     optional :description, :string, 6
-    repeated :children, :message, 7, "io.cucumber.messages.FeatureChild"
+    repeated :children, :message, 7, "io.cucumber.messages.GherkinDocument.Feature.FeatureChild"
   end
-  add_message "io.cucumber.messages.FeatureChild" do
+  add_message "io.cucumber.messages.GherkinDocument.Feature.Tag" do
+    optional :location, :message, 1, "io.cucumber.messages.Location"
+    optional :name, :string, 2
+  end
+  add_message "io.cucumber.messages.GherkinDocument.Feature.FeatureChild" do
     oneof :value do
-      optional :rule, :message, 1, "io.cucumber.messages.Rule"
-      optional :background, :message, 2, "io.cucumber.messages.Background"
-      optional :scenario, :message, 3, "io.cucumber.messages.Scenario"
+      optional :rule, :message, 1, "io.cucumber.messages.GherkinDocument.Feature.FeatureChild.Rule"
+      optional :background, :message, 2, "io.cucumber.messages.GherkinDocument.Feature.Background"
+      optional :scenario, :message, 3, "io.cucumber.messages.GherkinDocument.Feature.Scenario"
     end
   end
-  add_message "io.cucumber.messages.Rule" do
+  add_message "io.cucumber.messages.GherkinDocument.Feature.FeatureChild.Rule" do
     optional :location, :message, 1, "io.cucumber.messages.Location"
     optional :keyword, :string, 2
     optional :name, :string, 3
     optional :description, :string, 4
-    repeated :children, :message, 5, "io.cucumber.messages.RuleChild"
+    repeated :children, :message, 5, "io.cucumber.messages.GherkinDocument.Feature.FeatureChild.RuleChild"
   end
-  add_message "io.cucumber.messages.RuleChild" do
+  add_message "io.cucumber.messages.GherkinDocument.Feature.FeatureChild.RuleChild" do
     oneof :value do
-      optional :background, :message, 1, "io.cucumber.messages.Background"
-      optional :scenario, :message, 2, "io.cucumber.messages.Scenario"
+      optional :background, :message, 1, "io.cucumber.messages.GherkinDocument.Feature.Background"
+      optional :scenario, :message, 2, "io.cucumber.messages.GherkinDocument.Feature.Scenario"
     end
   end
-  add_message "io.cucumber.messages.Background" do
+  add_message "io.cucumber.messages.GherkinDocument.Feature.Background" do
     optional :location, :message, 1, "io.cucumber.messages.Location"
     optional :keyword, :string, 2
     optional :name, :string, 3
     optional :description, :string, 4
-    repeated :steps, :message, 5, "io.cucumber.messages.Step"
+    repeated :steps, :message, 5, "io.cucumber.messages.GherkinDocument.Feature.Step"
   end
-  add_message "io.cucumber.messages.Scenario" do
+  add_message "io.cucumber.messages.GherkinDocument.Feature.Scenario" do
     optional :location, :message, 1, "io.cucumber.messages.Location"
-    repeated :tags, :message, 2, "io.cucumber.messages.Tag"
+    repeated :tags, :message, 2, "io.cucumber.messages.GherkinDocument.Feature.Tag"
     optional :keyword, :string, 3
     optional :name, :string, 4
     optional :description, :string, 5
-    repeated :steps, :message, 6, "io.cucumber.messages.Step"
-    repeated :examples, :message, 7, "io.cucumber.messages.Examples"
+    repeated :steps, :message, 6, "io.cucumber.messages.GherkinDocument.Feature.Step"
+    repeated :examples, :message, 7, "io.cucumber.messages.GherkinDocument.Feature.Scenario.Examples"
   end
-  add_message "io.cucumber.messages.Comment" do
+  add_message "io.cucumber.messages.GherkinDocument.Feature.Scenario.Examples" do
     optional :location, :message, 1, "io.cucumber.messages.Location"
-    optional :text, :string, 2
+    repeated :tags, :message, 2, "io.cucumber.messages.GherkinDocument.Feature.Tag"
+    optional :keyword, :string, 3
+    optional :name, :string, 4
+    optional :description, :string, 5
+    optional :table_header, :message, 6, "io.cucumber.messages.GherkinDocument.Feature.TableRow"
+    repeated :table_body, :message, 7, "io.cucumber.messages.GherkinDocument.Feature.TableRow"
   end
-  add_message "io.cucumber.messages.DataTable" do
+  add_message "io.cucumber.messages.GherkinDocument.Feature.TableRow" do
     optional :location, :message, 1, "io.cucumber.messages.Location"
-    repeated :rows, :message, 2, "io.cucumber.messages.TableRow"
+    repeated :cells, :message, 2, "io.cucumber.messages.GherkinDocument.Feature.TableRow.TableCell"
   end
-  add_message "io.cucumber.messages.DocString" do
+  add_message "io.cucumber.messages.GherkinDocument.Feature.TableRow.TableCell" do
+    optional :location, :message, 1, "io.cucumber.messages.Location"
+    optional :value, :string, 2
+  end
+  add_message "io.cucumber.messages.GherkinDocument.Feature.Step" do
+    optional :location, :message, 1, "io.cucumber.messages.Location"
+    optional :keyword, :string, 2
+    optional :text, :string, 3
+    oneof :argument do
+      optional :doc_string, :message, 5, "io.cucumber.messages.GherkinDocument.Feature.Step.DocString"
+      optional :data_table, :message, 6, "io.cucumber.messages.GherkinDocument.Feature.Step.DataTable"
+    end
+  end
+  add_message "io.cucumber.messages.GherkinDocument.Feature.Step.DataTable" do
+    optional :location, :message, 1, "io.cucumber.messages.Location"
+    repeated :rows, :message, 2, "io.cucumber.messages.GherkinDocument.Feature.TableRow"
+  end
+  add_message "io.cucumber.messages.GherkinDocument.Feature.Step.DocString" do
     optional :location, :message, 1, "io.cucumber.messages.Location"
     optional :content_type, :string, 2
     optional :content, :string, 3
     optional :delimiter, :string, 4
   end
-  add_message "io.cucumber.messages.Examples" do
-    optional :location, :message, 1, "io.cucumber.messages.Location"
-    repeated :tags, :message, 2, "io.cucumber.messages.Tag"
-    optional :keyword, :string, 3
-    optional :name, :string, 4
-    optional :description, :string, 5
-    optional :table_header, :message, 6, "io.cucumber.messages.TableRow"
-    repeated :table_body, :message, 7, "io.cucumber.messages.TableRow"
-  end
-  add_message "io.cucumber.messages.Step" do
-    optional :location, :message, 1, "io.cucumber.messages.Location"
-    optional :keyword, :string, 2
-    optional :text, :string, 3
-    oneof :argument do
-      optional :doc_string, :message, 5, "io.cucumber.messages.DocString"
-      optional :data_table, :message, 6, "io.cucumber.messages.DataTable"
-    end
-  end
-  add_message "io.cucumber.messages.TableCell" do
-    optional :location, :message, 1, "io.cucumber.messages.Location"
-    optional :value, :string, 2
-  end
-  add_message "io.cucumber.messages.TableRow" do
-    optional :location, :message, 1, "io.cucumber.messages.Location"
-    repeated :cells, :message, 2, "io.cucumber.messages.TableCell"
-  end
-  add_message "io.cucumber.messages.Tag" do
-    optional :location, :message, 1, "io.cucumber.messages.Location"
-    optional :name, :string, 2
+  add_message "io.cucumber.messages.Attachment" do
+    optional :source, :message, 1, "io.cucumber.messages.SourceReference"
+    optional :data, :string, 2
+    optional :media, :message, 3, "io.cucumber.messages.Media"
   end
   add_message "io.cucumber.messages.Pickle" do
     optional :id, :string, 1
     optional :uri, :string, 2
     optional :name, :string, 3
     optional :language, :string, 4
-    repeated :steps, :message, 5, "io.cucumber.messages.PickleStep"
-    repeated :tags, :message, 6, "io.cucumber.messages.PickleTag"
+    repeated :steps, :message, 5, "io.cucumber.messages.Pickle.PickleStep"
+    repeated :tags, :message, 6, "io.cucumber.messages.Pickle.PickleTag"
     repeated :locations, :message, 7, "io.cucumber.messages.Location"
   end
-  add_message "io.cucumber.messages.PickleStep" do
+  add_message "io.cucumber.messages.Pickle.PickleTag" do
+    optional :location, :message, 1, "io.cucumber.messages.Location"
+    optional :name, :string, 2
+  end
+  add_message "io.cucumber.messages.Pickle.PickleStep" do
     optional :text, :string, 1
     repeated :locations, :message, 2, "io.cucumber.messages.Location"
     optional :argument, :message, 5, "io.cucumber.messages.PickleStepArgument"
   end
   add_message "io.cucumber.messages.PickleStepArgument" do
     oneof :message do
-      optional :doc_string, :message, 1, "io.cucumber.messages.PickleDocString"
-      optional :data_table, :message, 2, "io.cucumber.messages.PickleTable"
+      optional :doc_string, :message, 1, "io.cucumber.messages.PickleStepArgument.PickleDocString"
+      optional :data_table, :message, 2, "io.cucumber.messages.PickleStepArgument.PickleTable"
     end
   end
-  add_message "io.cucumber.messages.PickleDocString" do
+  add_message "io.cucumber.messages.PickleStepArgument.PickleDocString" do
     optional :location, :message, 1, "io.cucumber.messages.Location"
     optional :contentType, :string, 2
     optional :content, :string, 3
   end
-  add_message "io.cucumber.messages.PickleTable" do
-    repeated :rows, :message, 1, "io.cucumber.messages.PickleTableRow"
+  add_message "io.cucumber.messages.PickleStepArgument.PickleTable" do
+    repeated :rows, :message, 1, "io.cucumber.messages.PickleStepArgument.PickleTable.PickleTableRow"
   end
-  add_message "io.cucumber.messages.PickleTableCell" do
+  add_message "io.cucumber.messages.PickleStepArgument.PickleTable.PickleTableRow" do
+    repeated :cells, :message, 1, "io.cucumber.messages.PickleStepArgument.PickleTable.PickleTableRow.PickleTableCell"
+  end
+  add_message "io.cucumber.messages.PickleStepArgument.PickleTable.PickleTableRow.PickleTableCell" do
     optional :location, :message, 1, "io.cucumber.messages.Location"
     optional :value, :string, 2
-  end
-  add_message "io.cucumber.messages.PickleTableRow" do
-    repeated :cells, :message, 1, "io.cucumber.messages.PickleTableCell"
-  end
-  add_message "io.cucumber.messages.PickleTag" do
-    optional :location, :message, 1, "io.cucumber.messages.Location"
-    optional :name, :string, 2
   end
   add_message "io.cucumber.messages.PickleAccepted" do
     optional :pickleId, :string, 1
@@ -375,34 +375,34 @@ end
 module Cucumber
   module Messages
     Wrapper = Google::Protobuf::DescriptorPool.generated_pool.lookup("io.cucumber.messages.Wrapper").msgclass
-    SourceReference = Google::Protobuf::DescriptorPool.generated_pool.lookup("io.cucumber.messages.SourceReference").msgclass
     Location = Google::Protobuf::DescriptorPool.generated_pool.lookup("io.cucumber.messages.Location").msgclass
-    Attachment = Google::Protobuf::DescriptorPool.generated_pool.lookup("io.cucumber.messages.Attachment").msgclass
+    SourceReference = Google::Protobuf::DescriptorPool.generated_pool.lookup("io.cucumber.messages.SourceReference").msgclass
     Media = Google::Protobuf::DescriptorPool.generated_pool.lookup("io.cucumber.messages.Media").msgclass
     Source = Google::Protobuf::DescriptorPool.generated_pool.lookup("io.cucumber.messages.Source").msgclass
     GherkinDocument = Google::Protobuf::DescriptorPool.generated_pool.lookup("io.cucumber.messages.GherkinDocument").msgclass
-    Feature = Google::Protobuf::DescriptorPool.generated_pool.lookup("io.cucumber.messages.Feature").msgclass
-    FeatureChild = Google::Protobuf::DescriptorPool.generated_pool.lookup("io.cucumber.messages.FeatureChild").msgclass
-    Rule = Google::Protobuf::DescriptorPool.generated_pool.lookup("io.cucumber.messages.Rule").msgclass
-    RuleChild = Google::Protobuf::DescriptorPool.generated_pool.lookup("io.cucumber.messages.RuleChild").msgclass
-    Background = Google::Protobuf::DescriptorPool.generated_pool.lookup("io.cucumber.messages.Background").msgclass
-    Scenario = Google::Protobuf::DescriptorPool.generated_pool.lookup("io.cucumber.messages.Scenario").msgclass
-    Comment = Google::Protobuf::DescriptorPool.generated_pool.lookup("io.cucumber.messages.Comment").msgclass
-    DataTable = Google::Protobuf::DescriptorPool.generated_pool.lookup("io.cucumber.messages.DataTable").msgclass
-    DocString = Google::Protobuf::DescriptorPool.generated_pool.lookup("io.cucumber.messages.DocString").msgclass
-    Examples = Google::Protobuf::DescriptorPool.generated_pool.lookup("io.cucumber.messages.Examples").msgclass
-    Step = Google::Protobuf::DescriptorPool.generated_pool.lookup("io.cucumber.messages.Step").msgclass
-    TableCell = Google::Protobuf::DescriptorPool.generated_pool.lookup("io.cucumber.messages.TableCell").msgclass
-    TableRow = Google::Protobuf::DescriptorPool.generated_pool.lookup("io.cucumber.messages.TableRow").msgclass
-    Tag = Google::Protobuf::DescriptorPool.generated_pool.lookup("io.cucumber.messages.Tag").msgclass
+    GherkinDocument::Comment = Google::Protobuf::DescriptorPool.generated_pool.lookup("io.cucumber.messages.GherkinDocument.Comment").msgclass
+    GherkinDocument::Feature = Google::Protobuf::DescriptorPool.generated_pool.lookup("io.cucumber.messages.GherkinDocument.Feature").msgclass
+    GherkinDocument::Feature::Tag = Google::Protobuf::DescriptorPool.generated_pool.lookup("io.cucumber.messages.GherkinDocument.Feature.Tag").msgclass
+    GherkinDocument::Feature::FeatureChild = Google::Protobuf::DescriptorPool.generated_pool.lookup("io.cucumber.messages.GherkinDocument.Feature.FeatureChild").msgclass
+    GherkinDocument::Feature::FeatureChild::Rule = Google::Protobuf::DescriptorPool.generated_pool.lookup("io.cucumber.messages.GherkinDocument.Feature.FeatureChild.Rule").msgclass
+    GherkinDocument::Feature::FeatureChild::RuleChild = Google::Protobuf::DescriptorPool.generated_pool.lookup("io.cucumber.messages.GherkinDocument.Feature.FeatureChild.RuleChild").msgclass
+    GherkinDocument::Feature::Background = Google::Protobuf::DescriptorPool.generated_pool.lookup("io.cucumber.messages.GherkinDocument.Feature.Background").msgclass
+    GherkinDocument::Feature::Scenario = Google::Protobuf::DescriptorPool.generated_pool.lookup("io.cucumber.messages.GherkinDocument.Feature.Scenario").msgclass
+    GherkinDocument::Feature::Scenario::Examples = Google::Protobuf::DescriptorPool.generated_pool.lookup("io.cucumber.messages.GherkinDocument.Feature.Scenario.Examples").msgclass
+    GherkinDocument::Feature::TableRow = Google::Protobuf::DescriptorPool.generated_pool.lookup("io.cucumber.messages.GherkinDocument.Feature.TableRow").msgclass
+    GherkinDocument::Feature::TableRow::TableCell = Google::Protobuf::DescriptorPool.generated_pool.lookup("io.cucumber.messages.GherkinDocument.Feature.TableRow.TableCell").msgclass
+    GherkinDocument::Feature::Step = Google::Protobuf::DescriptorPool.generated_pool.lookup("io.cucumber.messages.GherkinDocument.Feature.Step").msgclass
+    GherkinDocument::Feature::Step::DataTable = Google::Protobuf::DescriptorPool.generated_pool.lookup("io.cucumber.messages.GherkinDocument.Feature.Step.DataTable").msgclass
+    GherkinDocument::Feature::Step::DocString = Google::Protobuf::DescriptorPool.generated_pool.lookup("io.cucumber.messages.GherkinDocument.Feature.Step.DocString").msgclass
+    Attachment = Google::Protobuf::DescriptorPool.generated_pool.lookup("io.cucumber.messages.Attachment").msgclass
     Pickle = Google::Protobuf::DescriptorPool.generated_pool.lookup("io.cucumber.messages.Pickle").msgclass
-    PickleStep = Google::Protobuf::DescriptorPool.generated_pool.lookup("io.cucumber.messages.PickleStep").msgclass
+    Pickle::PickleTag = Google::Protobuf::DescriptorPool.generated_pool.lookup("io.cucumber.messages.Pickle.PickleTag").msgclass
+    Pickle::PickleStep = Google::Protobuf::DescriptorPool.generated_pool.lookup("io.cucumber.messages.Pickle.PickleStep").msgclass
     PickleStepArgument = Google::Protobuf::DescriptorPool.generated_pool.lookup("io.cucumber.messages.PickleStepArgument").msgclass
-    PickleDocString = Google::Protobuf::DescriptorPool.generated_pool.lookup("io.cucumber.messages.PickleDocString").msgclass
-    PickleTable = Google::Protobuf::DescriptorPool.generated_pool.lookup("io.cucumber.messages.PickleTable").msgclass
-    PickleTableCell = Google::Protobuf::DescriptorPool.generated_pool.lookup("io.cucumber.messages.PickleTableCell").msgclass
-    PickleTableRow = Google::Protobuf::DescriptorPool.generated_pool.lookup("io.cucumber.messages.PickleTableRow").msgclass
-    PickleTag = Google::Protobuf::DescriptorPool.generated_pool.lookup("io.cucumber.messages.PickleTag").msgclass
+    PickleStepArgument::PickleDocString = Google::Protobuf::DescriptorPool.generated_pool.lookup("io.cucumber.messages.PickleStepArgument.PickleDocString").msgclass
+    PickleStepArgument::PickleTable = Google::Protobuf::DescriptorPool.generated_pool.lookup("io.cucumber.messages.PickleStepArgument.PickleTable").msgclass
+    PickleStepArgument::PickleTable::PickleTableRow = Google::Protobuf::DescriptorPool.generated_pool.lookup("io.cucumber.messages.PickleStepArgument.PickleTable.PickleTableRow").msgclass
+    PickleStepArgument::PickleTable::PickleTableRow::PickleTableCell = Google::Protobuf::DescriptorPool.generated_pool.lookup("io.cucumber.messages.PickleStepArgument.PickleTable.PickleTableRow.PickleTableCell").msgclass
     PickleAccepted = Google::Protobuf::DescriptorPool.generated_pool.lookup("io.cucumber.messages.PickleAccepted").msgclass
     PickleRejected = Google::Protobuf::DescriptorPool.generated_pool.lookup("io.cucumber.messages.PickleRejected").msgclass
     TestRunStarted = Google::Protobuf::DescriptorPool.generated_pool.lookup("io.cucumber.messages.TestRunStarted").msgclass

@@ -5,7 +5,6 @@
 
 - [messages.proto](#messages.proto)
     - [Attachment](#io.cucumber.messages.Attachment)
-    - [Background](#io.cucumber.messages.Background)
     - [CommandActionComplete](#io.cucumber.messages.CommandActionComplete)
     - [CommandGenerateSnippet](#io.cucumber.messages.CommandGenerateSnippet)
     - [CommandInitializeTestCase](#io.cucumber.messages.CommandInitializeTestCase)
@@ -15,44 +14,45 @@
     - [CommandRunBeforeTestRunHooks](#io.cucumber.messages.CommandRunBeforeTestRunHooks)
     - [CommandRunTestStep](#io.cucumber.messages.CommandRunTestStep)
     - [CommandStart](#io.cucumber.messages.CommandStart)
-    - [Comment](#io.cucumber.messages.Comment)
-    - [DataTable](#io.cucumber.messages.DataTable)
-    - [DocString](#io.cucumber.messages.DocString)
-    - [Examples](#io.cucumber.messages.Examples)
-    - [Feature](#io.cucumber.messages.Feature)
-    - [FeatureChild](#io.cucumber.messages.FeatureChild)
     - [GeneratedExpression](#io.cucumber.messages.GeneratedExpression)
     - [GherkinDocument](#io.cucumber.messages.GherkinDocument)
+    - [GherkinDocument.Comment](#io.cucumber.messages.GherkinDocument.Comment)
+    - [GherkinDocument.Feature](#io.cucumber.messages.GherkinDocument.Feature)
+    - [GherkinDocument.Feature.Background](#io.cucumber.messages.GherkinDocument.Feature.Background)
+    - [GherkinDocument.Feature.FeatureChild](#io.cucumber.messages.GherkinDocument.Feature.FeatureChild)
+    - [GherkinDocument.Feature.FeatureChild.Rule](#io.cucumber.messages.GherkinDocument.Feature.FeatureChild.Rule)
+    - [GherkinDocument.Feature.FeatureChild.RuleChild](#io.cucumber.messages.GherkinDocument.Feature.FeatureChild.RuleChild)
+    - [GherkinDocument.Feature.Scenario](#io.cucumber.messages.GherkinDocument.Feature.Scenario)
+    - [GherkinDocument.Feature.Scenario.Examples](#io.cucumber.messages.GherkinDocument.Feature.Scenario.Examples)
+    - [GherkinDocument.Feature.Step](#io.cucumber.messages.GherkinDocument.Feature.Step)
+    - [GherkinDocument.Feature.Step.DataTable](#io.cucumber.messages.GherkinDocument.Feature.Step.DataTable)
+    - [GherkinDocument.Feature.Step.DocString](#io.cucumber.messages.GherkinDocument.Feature.Step.DocString)
+    - [GherkinDocument.Feature.TableRow](#io.cucumber.messages.GherkinDocument.Feature.TableRow)
+    - [GherkinDocument.Feature.TableRow.TableCell](#io.cucumber.messages.GherkinDocument.Feature.TableRow.TableCell)
+    - [GherkinDocument.Feature.Tag](#io.cucumber.messages.GherkinDocument.Feature.Tag)
     - [Location](#io.cucumber.messages.Location)
     - [Media](#io.cucumber.messages.Media)
     - [ParameterTypeConfig](#io.cucumber.messages.ParameterTypeConfig)
     - [PatternMatch](#io.cucumber.messages.PatternMatch)
     - [Pickle](#io.cucumber.messages.Pickle)
+    - [Pickle.PickleStep](#io.cucumber.messages.Pickle.PickleStep)
+    - [Pickle.PickleTag](#io.cucumber.messages.Pickle.PickleTag)
     - [PickleAccepted](#io.cucumber.messages.PickleAccepted)
-    - [PickleDocString](#io.cucumber.messages.PickleDocString)
     - [PickleRejected](#io.cucumber.messages.PickleRejected)
-    - [PickleStep](#io.cucumber.messages.PickleStep)
     - [PickleStepArgument](#io.cucumber.messages.PickleStepArgument)
-    - [PickleTable](#io.cucumber.messages.PickleTable)
-    - [PickleTableCell](#io.cucumber.messages.PickleTableCell)
-    - [PickleTableRow](#io.cucumber.messages.PickleTableRow)
-    - [PickleTag](#io.cucumber.messages.PickleTag)
-    - [Rule](#io.cucumber.messages.Rule)
-    - [RuleChild](#io.cucumber.messages.RuleChild)
+    - [PickleStepArgument.PickleDocString](#io.cucumber.messages.PickleStepArgument.PickleDocString)
+    - [PickleStepArgument.PickleTable](#io.cucumber.messages.PickleStepArgument.PickleTable)
+    - [PickleStepArgument.PickleTable.PickleTableRow](#io.cucumber.messages.PickleStepArgument.PickleTable.PickleTableRow)
+    - [PickleStepArgument.PickleTable.PickleTableRow.PickleTableCell](#io.cucumber.messages.PickleStepArgument.PickleTable.PickleTableRow.PickleTableCell)
     - [RuntimeConfig](#io.cucumber.messages.RuntimeConfig)
-    - [Scenario](#io.cucumber.messages.Scenario)
     - [Source](#io.cucumber.messages.Source)
     - [SourceReference](#io.cucumber.messages.SourceReference)
     - [SourcesConfig](#io.cucumber.messages.SourcesConfig)
     - [SourcesFilterConfig](#io.cucumber.messages.SourcesFilterConfig)
     - [SourcesOrder](#io.cucumber.messages.SourcesOrder)
-    - [Step](#io.cucumber.messages.Step)
     - [StepDefinitionConfig](#io.cucumber.messages.StepDefinitionConfig)
     - [StepDefinitionPattern](#io.cucumber.messages.StepDefinitionPattern)
     - [SupportCodeConfig](#io.cucumber.messages.SupportCodeConfig)
-    - [TableCell](#io.cucumber.messages.TableCell)
-    - [TableRow](#io.cucumber.messages.TableRow)
-    - [Tag](#io.cucumber.messages.Tag)
     - [TestCaseFinished](#io.cucumber.messages.TestCaseFinished)
     - [TestCaseHookDefinitionConfig](#io.cucumber.messages.TestCaseHookDefinitionConfig)
     - [TestCasePrepared](#io.cucumber.messages.TestCasePrepared)
@@ -98,25 +98,6 @@
 | source | [SourceReference](#io.cucumber.messages.SourceReference) |  |  |
 | data | [string](#string) |  |  |
 | media | [Media](#io.cucumber.messages.Media) |  |  |
-
-
-
-
-
-
-<a name="io.cucumber.messages.Background"></a>
-
-### Background
-
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| location | [Location](#io.cucumber.messages.Location) |  |  |
-| keyword | [string](#string) |  |  |
-| name | [string](#string) |  |  |
-| description | [string](#string) |  |  |
-| steps | [Step](#io.cucumber.messages.Step) | repeated |  |
 
 
 
@@ -274,115 +255,6 @@
 
 
 
-<a name="io.cucumber.messages.Comment"></a>
-
-### Comment
-
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| location | [Location](#io.cucumber.messages.Location) |  |  |
-| text | [string](#string) |  |  |
-
-
-
-
-
-
-<a name="io.cucumber.messages.DataTable"></a>
-
-### DataTable
-
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| location | [Location](#io.cucumber.messages.Location) |  |  |
-| rows | [TableRow](#io.cucumber.messages.TableRow) | repeated |  |
-
-
-
-
-
-
-<a name="io.cucumber.messages.DocString"></a>
-
-### DocString
-
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| location | [Location](#io.cucumber.messages.Location) |  |  |
-| content_type | [string](#string) |  |  |
-| content | [string](#string) |  |  |
-| delimiter | [string](#string) |  |  |
-
-
-
-
-
-
-<a name="io.cucumber.messages.Examples"></a>
-
-### Examples
-
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| location | [Location](#io.cucumber.messages.Location) |  |  |
-| tags | [Tag](#io.cucumber.messages.Tag) | repeated |  |
-| keyword | [string](#string) |  |  |
-| name | [string](#string) |  |  |
-| description | [string](#string) |  |  |
-| table_header | [TableRow](#io.cucumber.messages.TableRow) |  |  |
-| table_body | [TableRow](#io.cucumber.messages.TableRow) | repeated |  |
-
-
-
-
-
-
-<a name="io.cucumber.messages.Feature"></a>
-
-### Feature
-
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| location | [Location](#io.cucumber.messages.Location) |  |  |
-| tags | [Tag](#io.cucumber.messages.Tag) | repeated |  |
-| language | [string](#string) |  |  |
-| keyword | [string](#string) |  |  |
-| name | [string](#string) |  |  |
-| description | [string](#string) |  |  |
-| children | [FeatureChild](#io.cucumber.messages.FeatureChild) | repeated |  |
-
-
-
-
-
-
-<a name="io.cucumber.messages.FeatureChild"></a>
-
-### FeatureChild
-
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| rule | [Rule](#io.cucumber.messages.Rule) |  |  |
-| background | [Background](#io.cucumber.messages.Background) |  |  |
-| scenario | [Scenario](#io.cucumber.messages.Scenario) |  |  |
-
-
-
-
-
-
 <a name="io.cucumber.messages.GeneratedExpression"></a>
 
 ### GeneratedExpression
@@ -408,8 +280,259 @@
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
 | uri | [string](#string) |  |  |
-| feature | [Feature](#io.cucumber.messages.Feature) |  |  |
-| comments | [Comment](#io.cucumber.messages.Comment) | repeated |  |
+| feature | [GherkinDocument.Feature](#io.cucumber.messages.GherkinDocument.Feature) |  |  |
+| comments | [GherkinDocument.Comment](#io.cucumber.messages.GherkinDocument.Comment) | repeated |  |
+
+
+
+
+
+
+<a name="io.cucumber.messages.GherkinDocument.Comment"></a>
+
+### GherkinDocument.Comment
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| location | [Location](#io.cucumber.messages.Location) |  |  |
+| text | [string](#string) |  |  |
+
+
+
+
+
+
+<a name="io.cucumber.messages.GherkinDocument.Feature"></a>
+
+### GherkinDocument.Feature
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| location | [Location](#io.cucumber.messages.Location) |  |  |
+| tags | [GherkinDocument.Feature.Tag](#io.cucumber.messages.GherkinDocument.Feature.Tag) | repeated |  |
+| language | [string](#string) |  |  |
+| keyword | [string](#string) |  |  |
+| name | [string](#string) |  |  |
+| description | [string](#string) |  |  |
+| children | [GherkinDocument.Feature.FeatureChild](#io.cucumber.messages.GherkinDocument.Feature.FeatureChild) | repeated |  |
+
+
+
+
+
+
+<a name="io.cucumber.messages.GherkinDocument.Feature.Background"></a>
+
+### GherkinDocument.Feature.Background
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| location | [Location](#io.cucumber.messages.Location) |  |  |
+| keyword | [string](#string) |  |  |
+| name | [string](#string) |  |  |
+| description | [string](#string) |  |  |
+| steps | [GherkinDocument.Feature.Step](#io.cucumber.messages.GherkinDocument.Feature.Step) | repeated |  |
+
+
+
+
+
+
+<a name="io.cucumber.messages.GherkinDocument.Feature.FeatureChild"></a>
+
+### GherkinDocument.Feature.FeatureChild
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| rule | [GherkinDocument.Feature.FeatureChild.Rule](#io.cucumber.messages.GherkinDocument.Feature.FeatureChild.Rule) |  |  |
+| background | [GherkinDocument.Feature.Background](#io.cucumber.messages.GherkinDocument.Feature.Background) |  |  |
+| scenario | [GherkinDocument.Feature.Scenario](#io.cucumber.messages.GherkinDocument.Feature.Scenario) |  |  |
+
+
+
+
+
+
+<a name="io.cucumber.messages.GherkinDocument.Feature.FeatureChild.Rule"></a>
+
+### GherkinDocument.Feature.FeatureChild.Rule
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| location | [Location](#io.cucumber.messages.Location) |  |  |
+| keyword | [string](#string) |  |  |
+| name | [string](#string) |  |  |
+| description | [string](#string) |  |  |
+| children | [GherkinDocument.Feature.FeatureChild.RuleChild](#io.cucumber.messages.GherkinDocument.Feature.FeatureChild.RuleChild) | repeated |  |
+
+
+
+
+
+
+<a name="io.cucumber.messages.GherkinDocument.Feature.FeatureChild.RuleChild"></a>
+
+### GherkinDocument.Feature.FeatureChild.RuleChild
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| background | [GherkinDocument.Feature.Background](#io.cucumber.messages.GherkinDocument.Feature.Background) |  |  |
+| scenario | [GherkinDocument.Feature.Scenario](#io.cucumber.messages.GherkinDocument.Feature.Scenario) |  |  |
+
+
+
+
+
+
+<a name="io.cucumber.messages.GherkinDocument.Feature.Scenario"></a>
+
+### GherkinDocument.Feature.Scenario
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| location | [Location](#io.cucumber.messages.Location) |  |  |
+| tags | [GherkinDocument.Feature.Tag](#io.cucumber.messages.GherkinDocument.Feature.Tag) | repeated |  |
+| keyword | [string](#string) |  |  |
+| name | [string](#string) |  |  |
+| description | [string](#string) |  |  |
+| steps | [GherkinDocument.Feature.Step](#io.cucumber.messages.GherkinDocument.Feature.Step) | repeated |  |
+| examples | [GherkinDocument.Feature.Scenario.Examples](#io.cucumber.messages.GherkinDocument.Feature.Scenario.Examples) | repeated |  |
+
+
+
+
+
+
+<a name="io.cucumber.messages.GherkinDocument.Feature.Scenario.Examples"></a>
+
+### GherkinDocument.Feature.Scenario.Examples
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| location | [Location](#io.cucumber.messages.Location) |  |  |
+| tags | [GherkinDocument.Feature.Tag](#io.cucumber.messages.GherkinDocument.Feature.Tag) | repeated |  |
+| keyword | [string](#string) |  |  |
+| name | [string](#string) |  |  |
+| description | [string](#string) |  |  |
+| table_header | [GherkinDocument.Feature.TableRow](#io.cucumber.messages.GherkinDocument.Feature.TableRow) |  |  |
+| table_body | [GherkinDocument.Feature.TableRow](#io.cucumber.messages.GherkinDocument.Feature.TableRow) | repeated |  |
+
+
+
+
+
+
+<a name="io.cucumber.messages.GherkinDocument.Feature.Step"></a>
+
+### GherkinDocument.Feature.Step
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| location | [Location](#io.cucumber.messages.Location) |  |  |
+| keyword | [string](#string) |  |  |
+| text | [string](#string) |  |  |
+| doc_string | [GherkinDocument.Feature.Step.DocString](#io.cucumber.messages.GherkinDocument.Feature.Step.DocString) |  |  |
+| data_table | [GherkinDocument.Feature.Step.DataTable](#io.cucumber.messages.GherkinDocument.Feature.Step.DataTable) |  |  |
+
+
+
+
+
+
+<a name="io.cucumber.messages.GherkinDocument.Feature.Step.DataTable"></a>
+
+### GherkinDocument.Feature.Step.DataTable
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| location | [Location](#io.cucumber.messages.Location) |  |  |
+| rows | [GherkinDocument.Feature.TableRow](#io.cucumber.messages.GherkinDocument.Feature.TableRow) | repeated |  |
+
+
+
+
+
+
+<a name="io.cucumber.messages.GherkinDocument.Feature.Step.DocString"></a>
+
+### GherkinDocument.Feature.Step.DocString
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| location | [Location](#io.cucumber.messages.Location) |  |  |
+| content_type | [string](#string) |  |  |
+| content | [string](#string) |  |  |
+| delimiter | [string](#string) |  |  |
+
+
+
+
+
+
+<a name="io.cucumber.messages.GherkinDocument.Feature.TableRow"></a>
+
+### GherkinDocument.Feature.TableRow
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| location | [Location](#io.cucumber.messages.Location) |  |  |
+| cells | [GherkinDocument.Feature.TableRow.TableCell](#io.cucumber.messages.GherkinDocument.Feature.TableRow.TableCell) | repeated |  |
+
+
+
+
+
+
+<a name="io.cucumber.messages.GherkinDocument.Feature.TableRow.TableCell"></a>
+
+### GherkinDocument.Feature.TableRow.TableCell
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| location | [Location](#io.cucumber.messages.Location) |  |  |
+| value | [string](#string) |  |  |
+
+
+
+
+
+
+<a name="io.cucumber.messages.GherkinDocument.Feature.Tag"></a>
+
+### GherkinDocument.Feature.Tag
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| location | [Location](#io.cucumber.messages.Location) |  |  |
+| name | [string](#string) |  |  |
 
 
 
@@ -494,9 +617,42 @@
 | uri | [string](#string) |  |  |
 | name | [string](#string) |  |  |
 | language | [string](#string) |  |  |
-| steps | [PickleStep](#io.cucumber.messages.PickleStep) | repeated |  |
-| tags | [PickleTag](#io.cucumber.messages.PickleTag) | repeated |  |
+| steps | [Pickle.PickleStep](#io.cucumber.messages.Pickle.PickleStep) | repeated |  |
+| tags | [Pickle.PickleTag](#io.cucumber.messages.Pickle.PickleTag) | repeated |  |
 | locations | [Location](#io.cucumber.messages.Location) | repeated |  |
+
+
+
+
+
+
+<a name="io.cucumber.messages.Pickle.PickleStep"></a>
+
+### Pickle.PickleStep
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| text | [string](#string) |  |  |
+| locations | [Location](#io.cucumber.messages.Location) | repeated |  |
+| argument | [PickleStepArgument](#io.cucumber.messages.PickleStepArgument) |  |  |
+
+
+
+
+
+
+<a name="io.cucumber.messages.Pickle.PickleTag"></a>
+
+### Pickle.PickleTag
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| location | [Location](#io.cucumber.messages.Location) |  |  |
+| name | [string](#string) |  |  |
 
 
 
@@ -518,23 +674,6 @@
 
 
 
-<a name="io.cucumber.messages.PickleDocString"></a>
-
-### PickleDocString
-
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| location | [Location](#io.cucumber.messages.Location) |  |  |
-| contentType | [string](#string) |  |  |
-| content | [string](#string) |  |  |
-
-
-
-
-
-
 <a name="io.cucumber.messages.PickleRejected"></a>
 
 ### PickleRejected
@@ -550,23 +689,6 @@
 
 
 
-<a name="io.cucumber.messages.PickleStep"></a>
-
-### PickleStep
-
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| text | [string](#string) |  |  |
-| locations | [Location](#io.cucumber.messages.Location) | repeated |  |
-| argument | [PickleStepArgument](#io.cucumber.messages.PickleStepArgument) |  |  |
-
-
-
-
-
-
 <a name="io.cucumber.messages.PickleStepArgument"></a>
 
 ### PickleStepArgument
@@ -575,32 +697,64 @@
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| doc_string | [PickleDocString](#io.cucumber.messages.PickleDocString) |  |  |
-| data_table | [PickleTable](#io.cucumber.messages.PickleTable) |  |  |
+| doc_string | [PickleStepArgument.PickleDocString](#io.cucumber.messages.PickleStepArgument.PickleDocString) |  |  |
+| data_table | [PickleStepArgument.PickleTable](#io.cucumber.messages.PickleStepArgument.PickleTable) |  |  |
 
 
 
 
 
 
-<a name="io.cucumber.messages.PickleTable"></a>
+<a name="io.cucumber.messages.PickleStepArgument.PickleDocString"></a>
 
-### PickleTable
+### PickleStepArgument.PickleDocString
 
 
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| rows | [PickleTableRow](#io.cucumber.messages.PickleTableRow) | repeated |  |
+| location | [Location](#io.cucumber.messages.Location) |  |  |
+| contentType | [string](#string) |  |  |
+| content | [string](#string) |  |  |
 
 
 
 
 
 
-<a name="io.cucumber.messages.PickleTableCell"></a>
+<a name="io.cucumber.messages.PickleStepArgument.PickleTable"></a>
 
-### PickleTableCell
+### PickleStepArgument.PickleTable
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| rows | [PickleStepArgument.PickleTable.PickleTableRow](#io.cucumber.messages.PickleStepArgument.PickleTable.PickleTableRow) | repeated |  |
+
+
+
+
+
+
+<a name="io.cucumber.messages.PickleStepArgument.PickleTable.PickleTableRow"></a>
+
+### PickleStepArgument.PickleTable.PickleTableRow
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| cells | [PickleStepArgument.PickleTable.PickleTableRow.PickleTableCell](#io.cucumber.messages.PickleStepArgument.PickleTable.PickleTableRow.PickleTableCell) | repeated |  |
+
+
+
+
+
+
+<a name="io.cucumber.messages.PickleStepArgument.PickleTable.PickleTableRow.PickleTableCell"></a>
+
+### PickleStepArgument.PickleTable.PickleTableRow.PickleTableCell
 
 
 
@@ -608,72 +762,6 @@
 | ----- | ---- | ----- | ----------- |
 | location | [Location](#io.cucumber.messages.Location) |  |  |
 | value | [string](#string) |  |  |
-
-
-
-
-
-
-<a name="io.cucumber.messages.PickleTableRow"></a>
-
-### PickleTableRow
-
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| cells | [PickleTableCell](#io.cucumber.messages.PickleTableCell) | repeated |  |
-
-
-
-
-
-
-<a name="io.cucumber.messages.PickleTag"></a>
-
-### PickleTag
-
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| location | [Location](#io.cucumber.messages.Location) |  |  |
-| name | [string](#string) |  |  |
-
-
-
-
-
-
-<a name="io.cucumber.messages.Rule"></a>
-
-### Rule
-
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| location | [Location](#io.cucumber.messages.Location) |  |  |
-| keyword | [string](#string) |  |  |
-| name | [string](#string) |  |  |
-| description | [string](#string) |  |  |
-| children | [RuleChild](#io.cucumber.messages.RuleChild) | repeated |  |
-
-
-
-
-
-
-<a name="io.cucumber.messages.RuleChild"></a>
-
-### RuleChild
-
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| background | [Background](#io.cucumber.messages.Background) |  |  |
-| scenario | [Scenario](#io.cucumber.messages.Scenario) |  |  |
 
 
 
@@ -692,27 +780,6 @@
 | isDryRun | [bool](#bool) |  |  |
 | isStrict | [bool](#bool) |  |  |
 | maxParallel | [uint64](#uint64) |  |  |
-
-
-
-
-
-
-<a name="io.cucumber.messages.Scenario"></a>
-
-### Scenario
-
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| location | [Location](#io.cucumber.messages.Location) |  |  |
-| tags | [Tag](#io.cucumber.messages.Tag) | repeated |  |
-| keyword | [string](#string) |  |  |
-| name | [string](#string) |  |  |
-| description | [string](#string) |  |  |
-| steps | [Step](#io.cucumber.messages.Step) | repeated |  |
-| examples | [Examples](#io.cucumber.messages.Examples) | repeated |  |
 
 
 
@@ -803,25 +870,6 @@
 
 
 
-<a name="io.cucumber.messages.Step"></a>
-
-### Step
-
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| location | [Location](#io.cucumber.messages.Location) |  |  |
-| keyword | [string](#string) |  |  |
-| text | [string](#string) |  |  |
-| doc_string | [DocString](#io.cucumber.messages.DocString) |  |  |
-| data_table | [DataTable](#io.cucumber.messages.DataTable) |  |  |
-
-
-
-
-
-
 <a name="io.cucumber.messages.StepDefinitionConfig"></a>
 
 ### StepDefinitionConfig
@@ -867,54 +915,6 @@
 | afterTestCaseHookDefinitionConfigs | [TestCaseHookDefinitionConfig](#io.cucumber.messages.TestCaseHookDefinitionConfig) | repeated |  |
 | stepDefinitionConfigs | [StepDefinitionConfig](#io.cucumber.messages.StepDefinitionConfig) | repeated |  |
 | parameterTypeConfigs | [ParameterTypeConfig](#io.cucumber.messages.ParameterTypeConfig) | repeated |  |
-
-
-
-
-
-
-<a name="io.cucumber.messages.TableCell"></a>
-
-### TableCell
-
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| location | [Location](#io.cucumber.messages.Location) |  |  |
-| value | [string](#string) |  |  |
-
-
-
-
-
-
-<a name="io.cucumber.messages.TableRow"></a>
-
-### TableRow
-
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| location | [Location](#io.cucumber.messages.Location) |  |  |
-| cells | [TableCell](#io.cucumber.messages.TableCell) | repeated |  |
-
-
-
-
-
-
-<a name="io.cucumber.messages.Tag"></a>
-
-### Tag
-
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| location | [Location](#io.cucumber.messages.Location) |  |  |
-| name | [string](#string) |  |  |
 
 
 
