@@ -14,12 +14,14 @@
     "name": "Greetings come in many forms",
     "steps": [
       {
-        "docString": {
-          "content": "Greeting:Hello",
-          "contentType": "en",
-          "location": {
-            "column": 5,
-            "line": 5
+        "argument": {
+          "docString": {
+            "content": "Greeting:Hello",
+            "contentType": "en",
+            "location": {
+              "column": 5,
+              "line": 5
+            }
           }
         },
         "locations": [
@@ -54,12 +56,14 @@
     "name": "Greetings come in many forms",
     "steps": [
       {
-        "docString": {
-          "content": "Greeting:Bonjour",
-          "contentType": "fr",
-          "location": {
-            "column": 5,
-            "line": 5
+        "argument": {
+          "docString": {
+            "content": "Greeting:Bonjour",
+            "contentType": "fr",
+            "location": {
+              "column": 5,
+              "line": 5
+            }
           }
         },
         "locations": [

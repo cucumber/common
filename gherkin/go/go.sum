@@ -1,7 +1,8 @@
 github.com/aslakhellesoy/gox v0.4.0 h1:0Zi24+Bp0v/9x/ViLN7mKdD4+tEP1WcXxbP1uxP7V6w=
 github.com/aslakhellesoy/gox v0.4.0/go.mod h1:eWI5kaukwHdXWzQ7Hhfbb/F2NSO+VCPHIcsovzQd2sY=
-github.com/cucumber/cucumber-messages-go/v2 v2.1.2 h1:tTfIayUyCVz7ZGDKHqeg+3nBshZmI1e8j3FwxR3RJ+o=
-github.com/cucumber/cucumber-messages-go/v2 v2.1.2/go.mod h1:gcqqQ2QDOn2kUqcrzQ0Py6Tpks0SJTKbBzU2KetX/C8=
+github.com/cucumber/cucumber-messages-go/v3 v2.1.2 h1:tTfIayUyCVz7ZGDKHqeg+3nBshZmI1e8j3FwxR3RJ+o=
+github.com/cucumber/cucumber-messages-go/v3 v2.1.2/go.mod h1:gcqqQ2QDOn2kUqcrzQ0Py6Tpks0SJTKbBzU2KetX/C8=
+github.com/davecgh/go-spew v1.1.0/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
 github.com/davecgh/go-spew v1.1.1/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
 github.com/gogo/protobuf v1.1.1/go.mod h1:r8qH/GZQm5c6nD/R0oafs1akxWv10x8SbQlK7atdtwQ=
 github.com/gogo/protobuf v1.2.1 h1:/s5zKNz0uPFCZ5hddgPdo2TK2TVrUNMn0OOX8/aZMTE=
@@ -12,6 +13,8 @@ github.com/kisielk/gotool v1.0.0/go.mod h1:XhKaO+MFFWcvkIS/tQcRk01m1F5IRFswLeQ+o
 github.com/mitchellh/iochan v1.0.0 h1:C+X3KsSTLFVBr/tK1eYN/vs4rJcvsiLU338UhYPJWeY=
 github.com/mitchellh/iochan v1.0.0/go.mod h1:JwYml1nuB7xOzsp52dPpHFffvOCDupsG0QubkSMEySY=
 github.com/pmezard/go-difflib v1.0.0/go.mod h1:iKH77koFhYxTK1pcRnkKkqfTogsbg7gZNVY4sRDYZ/4=
+github.com/stretchr/objx v0.1.0/go.mod h1:HFkY916IF+rwdDfMAkV7OtwuqBVzrE8GR6GFx+wExME=
 github.com/stretchr/objx v0.1.1/go.mod h1:HFkY916IF+rwdDfMAkV7OtwuqBVzrE8GR6GFx+wExME=
 github.com/stretchr/testify v1.2.2/go.mod h1:a8OnRcib4nhh0OaRAV+Yts87kKdq0PP7pXfy6kDkUVs=
+github.com/stretchr/testify v1.3.0/go.mod h1:M5WIy9Dh21IEIfnGCwXGc5bZfKNJtfHm1UVUgZn+9EI=
 golang.org/x/tools v0.0.0-20180221164845-07fd8470d635/go.mod h1:n7NCudcB/nEzxVGmLbDWY5pfWTLqBcC2KZ6jyYvM4mQ=

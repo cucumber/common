@@ -36,48 +36,48 @@ $root.io = (function() {
              */
             var messages = {};
 
-            messages.Wrapper = (function() {
+            messages.Envelope = (function() {
 
                 /**
-                 * Properties of a Wrapper.
+                 * Properties of an Envelope.
                  * @memberof io.cucumber.messages
-                 * @interface IWrapper
-                 * @property {io.cucumber.messages.ISource|null} [source] Wrapper source
-                 * @property {io.cucumber.messages.IGherkinDocument|null} [gherkinDocument] Wrapper gherkinDocument
-                 * @property {io.cucumber.messages.IPickle|null} [pickle] Wrapper pickle
-                 * @property {io.cucumber.messages.IAttachment|null} [attachment] Wrapper attachment
-                 * @property {io.cucumber.messages.ITestCaseStarted|null} [testCaseStarted] Wrapper testCaseStarted
-                 * @property {io.cucumber.messages.ITestStepStarted|null} [testStepStarted] Wrapper testStepStarted
-                 * @property {io.cucumber.messages.ITestStepFinished|null} [testStepFinished] Wrapper testStepFinished
-                 * @property {io.cucumber.messages.ITestCaseFinished|null} [testCaseFinished] Wrapper testCaseFinished
-                 * @property {io.cucumber.messages.ITestHookStarted|null} [testHookStarted] Wrapper testHookStarted
-                 * @property {io.cucumber.messages.ITestHookFinished|null} [testHookFinished] Wrapper testHookFinished
-                 * @property {io.cucumber.messages.IPickleAccepted|null} [pickleAccepted] Wrapper pickleAccepted
-                 * @property {io.cucumber.messages.IPickleRejected|null} [pickleRejected] Wrapper pickleRejected
-                 * @property {io.cucumber.messages.ITestCasePrepared|null} [testCasePrepared] Wrapper testCasePrepared
-                 * @property {io.cucumber.messages.ITestRunStarted|null} [testRunStarted] Wrapper testRunStarted
-                 * @property {io.cucumber.messages.ITestRunFinished|null} [testRunFinished] Wrapper testRunFinished
-                 * @property {io.cucumber.messages.ICommandStart|null} [commandStart] Wrapper commandStart
-                 * @property {io.cucumber.messages.ICommandActionComplete|null} [commandActionComplete] Wrapper commandActionComplete
-                 * @property {io.cucumber.messages.ICommandRunBeforeTestRunHooks|null} [commandRunBeforeTestRunHooks] Wrapper commandRunBeforeTestRunHooks
-                 * @property {io.cucumber.messages.ICommandInitializeTestCase|null} [commandInitializeTestCase] Wrapper commandInitializeTestCase
-                 * @property {io.cucumber.messages.ICommandRunBeforeTestCaseHook|null} [commandRunBeforeTestCaseHook] Wrapper commandRunBeforeTestCaseHook
-                 * @property {io.cucumber.messages.ICommandRunTestStep|null} [commandRunTestStep] Wrapper commandRunTestStep
-                 * @property {io.cucumber.messages.ICommandRunAfterTestCaseHook|null} [commandRunAfterTestCaseHook] Wrapper commandRunAfterTestCaseHook
-                 * @property {io.cucumber.messages.ICommandRunAfterTestRunHooks|null} [commandRunAfterTestRunHooks] Wrapper commandRunAfterTestRunHooks
-                 * @property {io.cucumber.messages.ICommandGenerateSnippet|null} [commandGenerateSnippet] Wrapper commandGenerateSnippet
-                 * @property {string|null} [commandError] Wrapper commandError
+                 * @interface IEnvelope
+                 * @property {io.cucumber.messages.ISource|null} [source] Envelope source
+                 * @property {io.cucumber.messages.IGherkinDocument|null} [gherkinDocument] Envelope gherkinDocument
+                 * @property {io.cucumber.messages.IPickle|null} [pickle] Envelope pickle
+                 * @property {io.cucumber.messages.IAttachment|null} [attachment] Envelope attachment
+                 * @property {io.cucumber.messages.ITestCaseStarted|null} [testCaseStarted] Envelope testCaseStarted
+                 * @property {io.cucumber.messages.ITestStepStarted|null} [testStepStarted] Envelope testStepStarted
+                 * @property {io.cucumber.messages.ITestStepFinished|null} [testStepFinished] Envelope testStepFinished
+                 * @property {io.cucumber.messages.ITestCaseFinished|null} [testCaseFinished] Envelope testCaseFinished
+                 * @property {io.cucumber.messages.ITestHookStarted|null} [testHookStarted] Envelope testHookStarted
+                 * @property {io.cucumber.messages.ITestHookFinished|null} [testHookFinished] Envelope testHookFinished
+                 * @property {io.cucumber.messages.IPickleAccepted|null} [pickleAccepted] Envelope pickleAccepted
+                 * @property {io.cucumber.messages.IPickleRejected|null} [pickleRejected] Envelope pickleRejected
+                 * @property {io.cucumber.messages.ITestCasePrepared|null} [testCasePrepared] Envelope testCasePrepared
+                 * @property {io.cucumber.messages.ITestRunStarted|null} [testRunStarted] Envelope testRunStarted
+                 * @property {io.cucumber.messages.ITestRunFinished|null} [testRunFinished] Envelope testRunFinished
+                 * @property {io.cucumber.messages.ICommandStart|null} [commandStart] Envelope commandStart
+                 * @property {io.cucumber.messages.ICommandActionComplete|null} [commandActionComplete] Envelope commandActionComplete
+                 * @property {io.cucumber.messages.ICommandRunBeforeTestRunHooks|null} [commandRunBeforeTestRunHooks] Envelope commandRunBeforeTestRunHooks
+                 * @property {io.cucumber.messages.ICommandInitializeTestCase|null} [commandInitializeTestCase] Envelope commandInitializeTestCase
+                 * @property {io.cucumber.messages.ICommandRunBeforeTestCaseHook|null} [commandRunBeforeTestCaseHook] Envelope commandRunBeforeTestCaseHook
+                 * @property {io.cucumber.messages.ICommandRunTestStep|null} [commandRunTestStep] Envelope commandRunTestStep
+                 * @property {io.cucumber.messages.ICommandRunAfterTestCaseHook|null} [commandRunAfterTestCaseHook] Envelope commandRunAfterTestCaseHook
+                 * @property {io.cucumber.messages.ICommandRunAfterTestRunHooks|null} [commandRunAfterTestRunHooks] Envelope commandRunAfterTestRunHooks
+                 * @property {io.cucumber.messages.ICommandGenerateSnippet|null} [commandGenerateSnippet] Envelope commandGenerateSnippet
+                 * @property {string|null} [commandError] Envelope commandError
                  */
 
                 /**
-                 * Constructs a new Wrapper.
+                 * Constructs a new Envelope.
                  * @memberof io.cucumber.messages
-                 * @classdesc Represents a Wrapper.
-                 * @implements IWrapper
+                 * @classdesc Represents an Envelope.
+                 * @implements IEnvelope
                  * @constructor
-                 * @param {io.cucumber.messages.IWrapper=} [properties] Properties to set
+                 * @param {io.cucumber.messages.IEnvelope=} [properties] Properties to set
                  */
-                function Wrapper(properties) {
+                function Envelope(properties) {
                     if (properties)
                         for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
                             if (properties[keys[i]] != null)
@@ -85,241 +85,241 @@ $root.io = (function() {
                 }
 
                 /**
-                 * Wrapper source.
+                 * Envelope source.
                  * @member {io.cucumber.messages.ISource|null|undefined} source
-                 * @memberof io.cucumber.messages.Wrapper
+                 * @memberof io.cucumber.messages.Envelope
                  * @instance
                  */
-                Wrapper.prototype.source = null;
+                Envelope.prototype.source = null;
 
                 /**
-                 * Wrapper gherkinDocument.
+                 * Envelope gherkinDocument.
                  * @member {io.cucumber.messages.IGherkinDocument|null|undefined} gherkinDocument
-                 * @memberof io.cucumber.messages.Wrapper
+                 * @memberof io.cucumber.messages.Envelope
                  * @instance
                  */
-                Wrapper.prototype.gherkinDocument = null;
+                Envelope.prototype.gherkinDocument = null;
 
                 /**
-                 * Wrapper pickle.
+                 * Envelope pickle.
                  * @member {io.cucumber.messages.IPickle|null|undefined} pickle
-                 * @memberof io.cucumber.messages.Wrapper
+                 * @memberof io.cucumber.messages.Envelope
                  * @instance
                  */
-                Wrapper.prototype.pickle = null;
+                Envelope.prototype.pickle = null;
 
                 /**
-                 * Wrapper attachment.
+                 * Envelope attachment.
                  * @member {io.cucumber.messages.IAttachment|null|undefined} attachment
-                 * @memberof io.cucumber.messages.Wrapper
+                 * @memberof io.cucumber.messages.Envelope
                  * @instance
                  */
-                Wrapper.prototype.attachment = null;
+                Envelope.prototype.attachment = null;
 
                 /**
-                 * Wrapper testCaseStarted.
+                 * Envelope testCaseStarted.
                  * @member {io.cucumber.messages.ITestCaseStarted|null|undefined} testCaseStarted
-                 * @memberof io.cucumber.messages.Wrapper
+                 * @memberof io.cucumber.messages.Envelope
                  * @instance
                  */
-                Wrapper.prototype.testCaseStarted = null;
+                Envelope.prototype.testCaseStarted = null;
 
                 /**
-                 * Wrapper testStepStarted.
+                 * Envelope testStepStarted.
                  * @member {io.cucumber.messages.ITestStepStarted|null|undefined} testStepStarted
-                 * @memberof io.cucumber.messages.Wrapper
+                 * @memberof io.cucumber.messages.Envelope
                  * @instance
                  */
-                Wrapper.prototype.testStepStarted = null;
+                Envelope.prototype.testStepStarted = null;
 
                 /**
-                 * Wrapper testStepFinished.
+                 * Envelope testStepFinished.
                  * @member {io.cucumber.messages.ITestStepFinished|null|undefined} testStepFinished
-                 * @memberof io.cucumber.messages.Wrapper
+                 * @memberof io.cucumber.messages.Envelope
                  * @instance
                  */
-                Wrapper.prototype.testStepFinished = null;
+                Envelope.prototype.testStepFinished = null;
 
                 /**
-                 * Wrapper testCaseFinished.
+                 * Envelope testCaseFinished.
                  * @member {io.cucumber.messages.ITestCaseFinished|null|undefined} testCaseFinished
-                 * @memberof io.cucumber.messages.Wrapper
+                 * @memberof io.cucumber.messages.Envelope
                  * @instance
                  */
-                Wrapper.prototype.testCaseFinished = null;
+                Envelope.prototype.testCaseFinished = null;
 
                 /**
-                 * Wrapper testHookStarted.
+                 * Envelope testHookStarted.
                  * @member {io.cucumber.messages.ITestHookStarted|null|undefined} testHookStarted
-                 * @memberof io.cucumber.messages.Wrapper
+                 * @memberof io.cucumber.messages.Envelope
                  * @instance
                  */
-                Wrapper.prototype.testHookStarted = null;
+                Envelope.prototype.testHookStarted = null;
 
                 /**
-                 * Wrapper testHookFinished.
+                 * Envelope testHookFinished.
                  * @member {io.cucumber.messages.ITestHookFinished|null|undefined} testHookFinished
-                 * @memberof io.cucumber.messages.Wrapper
+                 * @memberof io.cucumber.messages.Envelope
                  * @instance
                  */
-                Wrapper.prototype.testHookFinished = null;
+                Envelope.prototype.testHookFinished = null;
 
                 /**
-                 * Wrapper pickleAccepted.
+                 * Envelope pickleAccepted.
                  * @member {io.cucumber.messages.IPickleAccepted|null|undefined} pickleAccepted
-                 * @memberof io.cucumber.messages.Wrapper
+                 * @memberof io.cucumber.messages.Envelope
                  * @instance
                  */
-                Wrapper.prototype.pickleAccepted = null;
+                Envelope.prototype.pickleAccepted = null;
 
                 /**
-                 * Wrapper pickleRejected.
+                 * Envelope pickleRejected.
                  * @member {io.cucumber.messages.IPickleRejected|null|undefined} pickleRejected
-                 * @memberof io.cucumber.messages.Wrapper
+                 * @memberof io.cucumber.messages.Envelope
                  * @instance
                  */
-                Wrapper.prototype.pickleRejected = null;
+                Envelope.prototype.pickleRejected = null;
 
                 /**
-                 * Wrapper testCasePrepared.
+                 * Envelope testCasePrepared.
                  * @member {io.cucumber.messages.ITestCasePrepared|null|undefined} testCasePrepared
-                 * @memberof io.cucumber.messages.Wrapper
+                 * @memberof io.cucumber.messages.Envelope
                  * @instance
                  */
-                Wrapper.prototype.testCasePrepared = null;
+                Envelope.prototype.testCasePrepared = null;
 
                 /**
-                 * Wrapper testRunStarted.
+                 * Envelope testRunStarted.
                  * @member {io.cucumber.messages.ITestRunStarted|null|undefined} testRunStarted
-                 * @memberof io.cucumber.messages.Wrapper
+                 * @memberof io.cucumber.messages.Envelope
                  * @instance
                  */
-                Wrapper.prototype.testRunStarted = null;
+                Envelope.prototype.testRunStarted = null;
 
                 /**
-                 * Wrapper testRunFinished.
+                 * Envelope testRunFinished.
                  * @member {io.cucumber.messages.ITestRunFinished|null|undefined} testRunFinished
-                 * @memberof io.cucumber.messages.Wrapper
+                 * @memberof io.cucumber.messages.Envelope
                  * @instance
                  */
-                Wrapper.prototype.testRunFinished = null;
+                Envelope.prototype.testRunFinished = null;
 
                 /**
-                 * Wrapper commandStart.
+                 * Envelope commandStart.
                  * @member {io.cucumber.messages.ICommandStart|null|undefined} commandStart
-                 * @memberof io.cucumber.messages.Wrapper
+                 * @memberof io.cucumber.messages.Envelope
                  * @instance
                  */
-                Wrapper.prototype.commandStart = null;
+                Envelope.prototype.commandStart = null;
 
                 /**
-                 * Wrapper commandActionComplete.
+                 * Envelope commandActionComplete.
                  * @member {io.cucumber.messages.ICommandActionComplete|null|undefined} commandActionComplete
-                 * @memberof io.cucumber.messages.Wrapper
+                 * @memberof io.cucumber.messages.Envelope
                  * @instance
                  */
-                Wrapper.prototype.commandActionComplete = null;
+                Envelope.prototype.commandActionComplete = null;
 
                 /**
-                 * Wrapper commandRunBeforeTestRunHooks.
+                 * Envelope commandRunBeforeTestRunHooks.
                  * @member {io.cucumber.messages.ICommandRunBeforeTestRunHooks|null|undefined} commandRunBeforeTestRunHooks
-                 * @memberof io.cucumber.messages.Wrapper
+                 * @memberof io.cucumber.messages.Envelope
                  * @instance
                  */
-                Wrapper.prototype.commandRunBeforeTestRunHooks = null;
+                Envelope.prototype.commandRunBeforeTestRunHooks = null;
 
                 /**
-                 * Wrapper commandInitializeTestCase.
+                 * Envelope commandInitializeTestCase.
                  * @member {io.cucumber.messages.ICommandInitializeTestCase|null|undefined} commandInitializeTestCase
-                 * @memberof io.cucumber.messages.Wrapper
+                 * @memberof io.cucumber.messages.Envelope
                  * @instance
                  */
-                Wrapper.prototype.commandInitializeTestCase = null;
+                Envelope.prototype.commandInitializeTestCase = null;
 
                 /**
-                 * Wrapper commandRunBeforeTestCaseHook.
+                 * Envelope commandRunBeforeTestCaseHook.
                  * @member {io.cucumber.messages.ICommandRunBeforeTestCaseHook|null|undefined} commandRunBeforeTestCaseHook
-                 * @memberof io.cucumber.messages.Wrapper
+                 * @memberof io.cucumber.messages.Envelope
                  * @instance
                  */
-                Wrapper.prototype.commandRunBeforeTestCaseHook = null;
+                Envelope.prototype.commandRunBeforeTestCaseHook = null;
 
                 /**
-                 * Wrapper commandRunTestStep.
+                 * Envelope commandRunTestStep.
                  * @member {io.cucumber.messages.ICommandRunTestStep|null|undefined} commandRunTestStep
-                 * @memberof io.cucumber.messages.Wrapper
+                 * @memberof io.cucumber.messages.Envelope
                  * @instance
                  */
-                Wrapper.prototype.commandRunTestStep = null;
+                Envelope.prototype.commandRunTestStep = null;
 
                 /**
-                 * Wrapper commandRunAfterTestCaseHook.
+                 * Envelope commandRunAfterTestCaseHook.
                  * @member {io.cucumber.messages.ICommandRunAfterTestCaseHook|null|undefined} commandRunAfterTestCaseHook
-                 * @memberof io.cucumber.messages.Wrapper
+                 * @memberof io.cucumber.messages.Envelope
                  * @instance
                  */
-                Wrapper.prototype.commandRunAfterTestCaseHook = null;
+                Envelope.prototype.commandRunAfterTestCaseHook = null;
 
                 /**
-                 * Wrapper commandRunAfterTestRunHooks.
+                 * Envelope commandRunAfterTestRunHooks.
                  * @member {io.cucumber.messages.ICommandRunAfterTestRunHooks|null|undefined} commandRunAfterTestRunHooks
-                 * @memberof io.cucumber.messages.Wrapper
+                 * @memberof io.cucumber.messages.Envelope
                  * @instance
                  */
-                Wrapper.prototype.commandRunAfterTestRunHooks = null;
+                Envelope.prototype.commandRunAfterTestRunHooks = null;
 
                 /**
-                 * Wrapper commandGenerateSnippet.
+                 * Envelope commandGenerateSnippet.
                  * @member {io.cucumber.messages.ICommandGenerateSnippet|null|undefined} commandGenerateSnippet
-                 * @memberof io.cucumber.messages.Wrapper
+                 * @memberof io.cucumber.messages.Envelope
                  * @instance
                  */
-                Wrapper.prototype.commandGenerateSnippet = null;
+                Envelope.prototype.commandGenerateSnippet = null;
 
                 /**
-                 * Wrapper commandError.
+                 * Envelope commandError.
                  * @member {string} commandError
-                 * @memberof io.cucumber.messages.Wrapper
+                 * @memberof io.cucumber.messages.Envelope
                  * @instance
                  */
-                Wrapper.prototype.commandError = "";
+                Envelope.prototype.commandError = "";
 
                 // OneOf field names bound to virtual getters and setters
                 var $oneOfFields;
 
                 /**
-                 * Wrapper message.
+                 * Envelope message.
                  * @member {"source"|"gherkinDocument"|"pickle"|"attachment"|"testCaseStarted"|"testStepStarted"|"testStepFinished"|"testCaseFinished"|"testHookStarted"|"testHookFinished"|"pickleAccepted"|"pickleRejected"|"testCasePrepared"|"testRunStarted"|"testRunFinished"|"commandStart"|"commandActionComplete"|"commandRunBeforeTestRunHooks"|"commandInitializeTestCase"|"commandRunBeforeTestCaseHook"|"commandRunTestStep"|"commandRunAfterTestCaseHook"|"commandRunAfterTestRunHooks"|"commandGenerateSnippet"|"commandError"|undefined} message
-                 * @memberof io.cucumber.messages.Wrapper
+                 * @memberof io.cucumber.messages.Envelope
                  * @instance
                  */
-                Object.defineProperty(Wrapper.prototype, "message", {
+                Object.defineProperty(Envelope.prototype, "message", {
                     get: $util.oneOfGetter($oneOfFields = ["source", "gherkinDocument", "pickle", "attachment", "testCaseStarted", "testStepStarted", "testStepFinished", "testCaseFinished", "testHookStarted", "testHookFinished", "pickleAccepted", "pickleRejected", "testCasePrepared", "testRunStarted", "testRunFinished", "commandStart", "commandActionComplete", "commandRunBeforeTestRunHooks", "commandInitializeTestCase", "commandRunBeforeTestCaseHook", "commandRunTestStep", "commandRunAfterTestCaseHook", "commandRunAfterTestRunHooks", "commandGenerateSnippet", "commandError"]),
                     set: $util.oneOfSetter($oneOfFields)
                 });
 
                 /**
-                 * Creates a new Wrapper instance using the specified properties.
+                 * Creates a new Envelope instance using the specified properties.
                  * @function create
-                 * @memberof io.cucumber.messages.Wrapper
+                 * @memberof io.cucumber.messages.Envelope
                  * @static
-                 * @param {io.cucumber.messages.IWrapper=} [properties] Properties to set
-                 * @returns {io.cucumber.messages.Wrapper} Wrapper instance
+                 * @param {io.cucumber.messages.IEnvelope=} [properties] Properties to set
+                 * @returns {io.cucumber.messages.Envelope} Envelope instance
                  */
-                Wrapper.create = function create(properties) {
-                    return new Wrapper(properties);
+                Envelope.create = function create(properties) {
+                    return new Envelope(properties);
                 };
 
                 /**
-                 * Encodes the specified Wrapper message. Does not implicitly {@link io.cucumber.messages.Wrapper.verify|verify} messages.
+                 * Encodes the specified Envelope message. Does not implicitly {@link io.cucumber.messages.Envelope.verify|verify} messages.
                  * @function encode
-                 * @memberof io.cucumber.messages.Wrapper
+                 * @memberof io.cucumber.messages.Envelope
                  * @static
-                 * @param {io.cucumber.messages.IWrapper} message Wrapper message or plain object to encode
+                 * @param {io.cucumber.messages.IEnvelope} message Envelope message or plain object to encode
                  * @param {$protobuf.Writer} [writer] Writer to encode to
                  * @returns {$protobuf.Writer} Writer
                  */
-                Wrapper.encode = function encode(message, writer) {
+                Envelope.encode = function encode(message, writer) {
                     if (!writer)
                         writer = $Writer.create();
                     if (message.source != null && message.hasOwnProperty("source"))
@@ -376,33 +376,33 @@ $root.io = (function() {
                 };
 
                 /**
-                 * Encodes the specified Wrapper message, length delimited. Does not implicitly {@link io.cucumber.messages.Wrapper.verify|verify} messages.
+                 * Encodes the specified Envelope message, length delimited. Does not implicitly {@link io.cucumber.messages.Envelope.verify|verify} messages.
                  * @function encodeDelimited
-                 * @memberof io.cucumber.messages.Wrapper
+                 * @memberof io.cucumber.messages.Envelope
                  * @static
-                 * @param {io.cucumber.messages.IWrapper} message Wrapper message or plain object to encode
+                 * @param {io.cucumber.messages.IEnvelope} message Envelope message or plain object to encode
                  * @param {$protobuf.Writer} [writer] Writer to encode to
                  * @returns {$protobuf.Writer} Writer
                  */
-                Wrapper.encodeDelimited = function encodeDelimited(message, writer) {
+                Envelope.encodeDelimited = function encodeDelimited(message, writer) {
                     return this.encode(message, writer).ldelim();
                 };
 
                 /**
-                 * Decodes a Wrapper message from the specified reader or buffer.
+                 * Decodes an Envelope message from the specified reader or buffer.
                  * @function decode
-                 * @memberof io.cucumber.messages.Wrapper
+                 * @memberof io.cucumber.messages.Envelope
                  * @static
                  * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
                  * @param {number} [length] Message length if known beforehand
-                 * @returns {io.cucumber.messages.Wrapper} Wrapper
+                 * @returns {io.cucumber.messages.Envelope} Envelope
                  * @throws {Error} If the payload is not a reader or valid buffer
                  * @throws {$protobuf.util.ProtocolError} If required fields are missing
                  */
-                Wrapper.decode = function decode(reader, length) {
+                Envelope.decode = function decode(reader, length) {
                     if (!(reader instanceof $Reader))
                         reader = $Reader.create(reader);
-                    var end = length === undefined ? reader.len : reader.pos + length, message = new $root.io.cucumber.messages.Wrapper();
+                    var end = length === undefined ? reader.len : reader.pos + length, message = new $root.io.cucumber.messages.Envelope();
                     while (reader.pos < end) {
                         var tag = reader.uint32();
                         switch (tag >>> 3) {
@@ -490,30 +490,30 @@ $root.io = (function() {
                 };
 
                 /**
-                 * Decodes a Wrapper message from the specified reader or buffer, length delimited.
+                 * Decodes an Envelope message from the specified reader or buffer, length delimited.
                  * @function decodeDelimited
-                 * @memberof io.cucumber.messages.Wrapper
+                 * @memberof io.cucumber.messages.Envelope
                  * @static
                  * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-                 * @returns {io.cucumber.messages.Wrapper} Wrapper
+                 * @returns {io.cucumber.messages.Envelope} Envelope
                  * @throws {Error} If the payload is not a reader or valid buffer
                  * @throws {$protobuf.util.ProtocolError} If required fields are missing
                  */
-                Wrapper.decodeDelimited = function decodeDelimited(reader) {
+                Envelope.decodeDelimited = function decodeDelimited(reader) {
                     if (!(reader instanceof $Reader))
                         reader = new $Reader(reader);
                     return this.decode(reader, reader.uint32());
                 };
 
                 /**
-                 * Verifies a Wrapper message.
+                 * Verifies an Envelope message.
                  * @function verify
-                 * @memberof io.cucumber.messages.Wrapper
+                 * @memberof io.cucumber.messages.Envelope
                  * @static
                  * @param {Object.<string,*>} message Plain object to verify
                  * @returns {string|null} `null` if valid, otherwise the reason why it is not
                  */
-                Wrapper.verify = function verify(message) {
+                Envelope.verify = function verify(message) {
                     if (typeof message !== "object" || message === null)
                         return "object expected";
                     var properties = {};
@@ -766,135 +766,135 @@ $root.io = (function() {
                 };
 
                 /**
-                 * Creates a Wrapper message from a plain object. Also converts values to their respective internal types.
+                 * Creates an Envelope message from a plain object. Also converts values to their respective internal types.
                  * @function fromObject
-                 * @memberof io.cucumber.messages.Wrapper
+                 * @memberof io.cucumber.messages.Envelope
                  * @static
                  * @param {Object.<string,*>} object Plain object
-                 * @returns {io.cucumber.messages.Wrapper} Wrapper
+                 * @returns {io.cucumber.messages.Envelope} Envelope
                  */
-                Wrapper.fromObject = function fromObject(object) {
-                    if (object instanceof $root.io.cucumber.messages.Wrapper)
+                Envelope.fromObject = function fromObject(object) {
+                    if (object instanceof $root.io.cucumber.messages.Envelope)
                         return object;
-                    var message = new $root.io.cucumber.messages.Wrapper();
+                    var message = new $root.io.cucumber.messages.Envelope();
                     if (object.source != null) {
                         if (typeof object.source !== "object")
-                            throw TypeError(".io.cucumber.messages.Wrapper.source: object expected");
+                            throw TypeError(".io.cucumber.messages.Envelope.source: object expected");
                         message.source = $root.io.cucumber.messages.Source.fromObject(object.source);
                     }
                     if (object.gherkinDocument != null) {
                         if (typeof object.gherkinDocument !== "object")
-                            throw TypeError(".io.cucumber.messages.Wrapper.gherkinDocument: object expected");
+                            throw TypeError(".io.cucumber.messages.Envelope.gherkinDocument: object expected");
                         message.gherkinDocument = $root.io.cucumber.messages.GherkinDocument.fromObject(object.gherkinDocument);
                     }
                     if (object.pickle != null) {
                         if (typeof object.pickle !== "object")
-                            throw TypeError(".io.cucumber.messages.Wrapper.pickle: object expected");
+                            throw TypeError(".io.cucumber.messages.Envelope.pickle: object expected");
                         message.pickle = $root.io.cucumber.messages.Pickle.fromObject(object.pickle);
                     }
                     if (object.attachment != null) {
                         if (typeof object.attachment !== "object")
-                            throw TypeError(".io.cucumber.messages.Wrapper.attachment: object expected");
+                            throw TypeError(".io.cucumber.messages.Envelope.attachment: object expected");
                         message.attachment = $root.io.cucumber.messages.Attachment.fromObject(object.attachment);
                     }
                     if (object.testCaseStarted != null) {
                         if (typeof object.testCaseStarted !== "object")
-                            throw TypeError(".io.cucumber.messages.Wrapper.testCaseStarted: object expected");
+                            throw TypeError(".io.cucumber.messages.Envelope.testCaseStarted: object expected");
                         message.testCaseStarted = $root.io.cucumber.messages.TestCaseStarted.fromObject(object.testCaseStarted);
                     }
                     if (object.testStepStarted != null) {
                         if (typeof object.testStepStarted !== "object")
-                            throw TypeError(".io.cucumber.messages.Wrapper.testStepStarted: object expected");
+                            throw TypeError(".io.cucumber.messages.Envelope.testStepStarted: object expected");
                         message.testStepStarted = $root.io.cucumber.messages.TestStepStarted.fromObject(object.testStepStarted);
                     }
                     if (object.testStepFinished != null) {
                         if (typeof object.testStepFinished !== "object")
-                            throw TypeError(".io.cucumber.messages.Wrapper.testStepFinished: object expected");
+                            throw TypeError(".io.cucumber.messages.Envelope.testStepFinished: object expected");
                         message.testStepFinished = $root.io.cucumber.messages.TestStepFinished.fromObject(object.testStepFinished);
                     }
                     if (object.testCaseFinished != null) {
                         if (typeof object.testCaseFinished !== "object")
-                            throw TypeError(".io.cucumber.messages.Wrapper.testCaseFinished: object expected");
+                            throw TypeError(".io.cucumber.messages.Envelope.testCaseFinished: object expected");
                         message.testCaseFinished = $root.io.cucumber.messages.TestCaseFinished.fromObject(object.testCaseFinished);
                     }
                     if (object.testHookStarted != null) {
                         if (typeof object.testHookStarted !== "object")
-                            throw TypeError(".io.cucumber.messages.Wrapper.testHookStarted: object expected");
+                            throw TypeError(".io.cucumber.messages.Envelope.testHookStarted: object expected");
                         message.testHookStarted = $root.io.cucumber.messages.TestHookStarted.fromObject(object.testHookStarted);
                     }
                     if (object.testHookFinished != null) {
                         if (typeof object.testHookFinished !== "object")
-                            throw TypeError(".io.cucumber.messages.Wrapper.testHookFinished: object expected");
+                            throw TypeError(".io.cucumber.messages.Envelope.testHookFinished: object expected");
                         message.testHookFinished = $root.io.cucumber.messages.TestHookFinished.fromObject(object.testHookFinished);
                     }
                     if (object.pickleAccepted != null) {
                         if (typeof object.pickleAccepted !== "object")
-                            throw TypeError(".io.cucumber.messages.Wrapper.pickleAccepted: object expected");
+                            throw TypeError(".io.cucumber.messages.Envelope.pickleAccepted: object expected");
                         message.pickleAccepted = $root.io.cucumber.messages.PickleAccepted.fromObject(object.pickleAccepted);
                     }
                     if (object.pickleRejected != null) {
                         if (typeof object.pickleRejected !== "object")
-                            throw TypeError(".io.cucumber.messages.Wrapper.pickleRejected: object expected");
+                            throw TypeError(".io.cucumber.messages.Envelope.pickleRejected: object expected");
                         message.pickleRejected = $root.io.cucumber.messages.PickleRejected.fromObject(object.pickleRejected);
                     }
                     if (object.testCasePrepared != null) {
                         if (typeof object.testCasePrepared !== "object")
-                            throw TypeError(".io.cucumber.messages.Wrapper.testCasePrepared: object expected");
+                            throw TypeError(".io.cucumber.messages.Envelope.testCasePrepared: object expected");
                         message.testCasePrepared = $root.io.cucumber.messages.TestCasePrepared.fromObject(object.testCasePrepared);
                     }
                     if (object.testRunStarted != null) {
                         if (typeof object.testRunStarted !== "object")
-                            throw TypeError(".io.cucumber.messages.Wrapper.testRunStarted: object expected");
+                            throw TypeError(".io.cucumber.messages.Envelope.testRunStarted: object expected");
                         message.testRunStarted = $root.io.cucumber.messages.TestRunStarted.fromObject(object.testRunStarted);
                     }
                     if (object.testRunFinished != null) {
                         if (typeof object.testRunFinished !== "object")
-                            throw TypeError(".io.cucumber.messages.Wrapper.testRunFinished: object expected");
+                            throw TypeError(".io.cucumber.messages.Envelope.testRunFinished: object expected");
                         message.testRunFinished = $root.io.cucumber.messages.TestRunFinished.fromObject(object.testRunFinished);
                     }
                     if (object.commandStart != null) {
                         if (typeof object.commandStart !== "object")
-                            throw TypeError(".io.cucumber.messages.Wrapper.commandStart: object expected");
+                            throw TypeError(".io.cucumber.messages.Envelope.commandStart: object expected");
                         message.commandStart = $root.io.cucumber.messages.CommandStart.fromObject(object.commandStart);
                     }
                     if (object.commandActionComplete != null) {
                         if (typeof object.commandActionComplete !== "object")
-                            throw TypeError(".io.cucumber.messages.Wrapper.commandActionComplete: object expected");
+                            throw TypeError(".io.cucumber.messages.Envelope.commandActionComplete: object expected");
                         message.commandActionComplete = $root.io.cucumber.messages.CommandActionComplete.fromObject(object.commandActionComplete);
                     }
                     if (object.commandRunBeforeTestRunHooks != null) {
                         if (typeof object.commandRunBeforeTestRunHooks !== "object")
-                            throw TypeError(".io.cucumber.messages.Wrapper.commandRunBeforeTestRunHooks: object expected");
+                            throw TypeError(".io.cucumber.messages.Envelope.commandRunBeforeTestRunHooks: object expected");
                         message.commandRunBeforeTestRunHooks = $root.io.cucumber.messages.CommandRunBeforeTestRunHooks.fromObject(object.commandRunBeforeTestRunHooks);
                     }
                     if (object.commandInitializeTestCase != null) {
                         if (typeof object.commandInitializeTestCase !== "object")
-                            throw TypeError(".io.cucumber.messages.Wrapper.commandInitializeTestCase: object expected");
+                            throw TypeError(".io.cucumber.messages.Envelope.commandInitializeTestCase: object expected");
                         message.commandInitializeTestCase = $root.io.cucumber.messages.CommandInitializeTestCase.fromObject(object.commandInitializeTestCase);
                     }
                     if (object.commandRunBeforeTestCaseHook != null) {
                         if (typeof object.commandRunBeforeTestCaseHook !== "object")
-                            throw TypeError(".io.cucumber.messages.Wrapper.commandRunBeforeTestCaseHook: object expected");
+                            throw TypeError(".io.cucumber.messages.Envelope.commandRunBeforeTestCaseHook: object expected");
                         message.commandRunBeforeTestCaseHook = $root.io.cucumber.messages.CommandRunBeforeTestCaseHook.fromObject(object.commandRunBeforeTestCaseHook);
                     }
                     if (object.commandRunTestStep != null) {
                         if (typeof object.commandRunTestStep !== "object")
-                            throw TypeError(".io.cucumber.messages.Wrapper.commandRunTestStep: object expected");
+                            throw TypeError(".io.cucumber.messages.Envelope.commandRunTestStep: object expected");
                         message.commandRunTestStep = $root.io.cucumber.messages.CommandRunTestStep.fromObject(object.commandRunTestStep);
                     }
                     if (object.commandRunAfterTestCaseHook != null) {
                         if (typeof object.commandRunAfterTestCaseHook !== "object")
-                            throw TypeError(".io.cucumber.messages.Wrapper.commandRunAfterTestCaseHook: object expected");
+                            throw TypeError(".io.cucumber.messages.Envelope.commandRunAfterTestCaseHook: object expected");
                         message.commandRunAfterTestCaseHook = $root.io.cucumber.messages.CommandRunAfterTestCaseHook.fromObject(object.commandRunAfterTestCaseHook);
                     }
                     if (object.commandRunAfterTestRunHooks != null) {
                         if (typeof object.commandRunAfterTestRunHooks !== "object")
-                            throw TypeError(".io.cucumber.messages.Wrapper.commandRunAfterTestRunHooks: object expected");
+                            throw TypeError(".io.cucumber.messages.Envelope.commandRunAfterTestRunHooks: object expected");
                         message.commandRunAfterTestRunHooks = $root.io.cucumber.messages.CommandRunAfterTestRunHooks.fromObject(object.commandRunAfterTestRunHooks);
                     }
                     if (object.commandGenerateSnippet != null) {
                         if (typeof object.commandGenerateSnippet !== "object")
-                            throw TypeError(".io.cucumber.messages.Wrapper.commandGenerateSnippet: object expected");
+                            throw TypeError(".io.cucumber.messages.Envelope.commandGenerateSnippet: object expected");
                         message.commandGenerateSnippet = $root.io.cucumber.messages.CommandGenerateSnippet.fromObject(object.commandGenerateSnippet);
                     }
                     if (object.commandError != null)
@@ -903,15 +903,15 @@ $root.io = (function() {
                 };
 
                 /**
-                 * Creates a plain object from a Wrapper message. Also converts values to other types if specified.
+                 * Creates a plain object from an Envelope message. Also converts values to other types if specified.
                  * @function toObject
-                 * @memberof io.cucumber.messages.Wrapper
+                 * @memberof io.cucumber.messages.Envelope
                  * @static
-                 * @param {io.cucumber.messages.Wrapper} message Wrapper
+                 * @param {io.cucumber.messages.Envelope} message Envelope
                  * @param {$protobuf.IConversionOptions} [options] Conversion options
                  * @returns {Object.<string,*>} Plain object
                  */
-                Wrapper.toObject = function toObject(message, options) {
+                Envelope.toObject = function toObject(message, options) {
                     if (!options)
                         options = {};
                     var object = {};
@@ -1044,17 +1044,17 @@ $root.io = (function() {
                 };
 
                 /**
-                 * Converts this Wrapper to JSON.
+                 * Converts this Envelope to JSON.
                  * @function toJSON
-                 * @memberof io.cucumber.messages.Wrapper
+                 * @memberof io.cucumber.messages.Envelope
                  * @instance
                  * @returns {Object.<string,*>} JSON object
                  */
-                Wrapper.prototype.toJSON = function toJSON() {
+                Envelope.prototype.toJSON = function toJSON() {
                     return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
                 };
 
-                return Wrapper;
+                return Envelope;
             })();
 
             messages.Location = (function() {

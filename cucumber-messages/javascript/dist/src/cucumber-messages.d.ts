@@ -5,168 +5,168 @@ export namespace io {
   namespace cucumber {
     /** Namespace messages. */
     namespace messages {
-      /** Properties of a Wrapper. */
-      interface IWrapper {
-        /** Wrapper source */
+      /** Properties of an Envelope. */
+      interface IEnvelope {
+        /** Envelope source */
         source?: io.cucumber.messages.ISource | null
 
-        /** Wrapper gherkinDocument */
+        /** Envelope gherkinDocument */
         gherkinDocument?: io.cucumber.messages.IGherkinDocument | null
 
-        /** Wrapper pickle */
+        /** Envelope pickle */
         pickle?: io.cucumber.messages.IPickle | null
 
-        /** Wrapper attachment */
+        /** Envelope attachment */
         attachment?: io.cucumber.messages.IAttachment | null
 
-        /** Wrapper testCaseStarted */
+        /** Envelope testCaseStarted */
         testCaseStarted?: io.cucumber.messages.ITestCaseStarted | null
 
-        /** Wrapper testStepStarted */
+        /** Envelope testStepStarted */
         testStepStarted?: io.cucumber.messages.ITestStepStarted | null
 
-        /** Wrapper testStepFinished */
+        /** Envelope testStepFinished */
         testStepFinished?: io.cucumber.messages.ITestStepFinished | null
 
-        /** Wrapper testCaseFinished */
+        /** Envelope testCaseFinished */
         testCaseFinished?: io.cucumber.messages.ITestCaseFinished | null
 
-        /** Wrapper testHookStarted */
+        /** Envelope testHookStarted */
         testHookStarted?: io.cucumber.messages.ITestHookStarted | null
 
-        /** Wrapper testHookFinished */
+        /** Envelope testHookFinished */
         testHookFinished?: io.cucumber.messages.ITestHookFinished | null
 
-        /** Wrapper pickleAccepted */
+        /** Envelope pickleAccepted */
         pickleAccepted?: io.cucumber.messages.IPickleAccepted | null
 
-        /** Wrapper pickleRejected */
+        /** Envelope pickleRejected */
         pickleRejected?: io.cucumber.messages.IPickleRejected | null
 
-        /** Wrapper testCasePrepared */
+        /** Envelope testCasePrepared */
         testCasePrepared?: io.cucumber.messages.ITestCasePrepared | null
 
-        /** Wrapper testRunStarted */
+        /** Envelope testRunStarted */
         testRunStarted?: io.cucumber.messages.ITestRunStarted | null
 
-        /** Wrapper testRunFinished */
+        /** Envelope testRunFinished */
         testRunFinished?: io.cucumber.messages.ITestRunFinished | null
 
-        /** Wrapper commandStart */
+        /** Envelope commandStart */
         commandStart?: io.cucumber.messages.ICommandStart | null
 
-        /** Wrapper commandActionComplete */
+        /** Envelope commandActionComplete */
         commandActionComplete?: io.cucumber.messages.ICommandActionComplete | null
 
-        /** Wrapper commandRunBeforeTestRunHooks */
+        /** Envelope commandRunBeforeTestRunHooks */
         commandRunBeforeTestRunHooks?: io.cucumber.messages.ICommandRunBeforeTestRunHooks | null
 
-        /** Wrapper commandInitializeTestCase */
+        /** Envelope commandInitializeTestCase */
         commandInitializeTestCase?: io.cucumber.messages.ICommandInitializeTestCase | null
 
-        /** Wrapper commandRunBeforeTestCaseHook */
+        /** Envelope commandRunBeforeTestCaseHook */
         commandRunBeforeTestCaseHook?: io.cucumber.messages.ICommandRunBeforeTestCaseHook | null
 
-        /** Wrapper commandRunTestStep */
+        /** Envelope commandRunTestStep */
         commandRunTestStep?: io.cucumber.messages.ICommandRunTestStep | null
 
-        /** Wrapper commandRunAfterTestCaseHook */
+        /** Envelope commandRunAfterTestCaseHook */
         commandRunAfterTestCaseHook?: io.cucumber.messages.ICommandRunAfterTestCaseHook | null
 
-        /** Wrapper commandRunAfterTestRunHooks */
+        /** Envelope commandRunAfterTestRunHooks */
         commandRunAfterTestRunHooks?: io.cucumber.messages.ICommandRunAfterTestRunHooks | null
 
-        /** Wrapper commandGenerateSnippet */
+        /** Envelope commandGenerateSnippet */
         commandGenerateSnippet?: io.cucumber.messages.ICommandGenerateSnippet | null
 
-        /** Wrapper commandError */
+        /** Envelope commandError */
         commandError?: string | null
       }
 
-      /** Represents a Wrapper. */
-      class Wrapper implements IWrapper {
+      /** Represents an Envelope. */
+      class Envelope implements IEnvelope {
         /**
-         * Constructs a new Wrapper.
+         * Constructs a new Envelope.
          * @param [properties] Properties to set
          */
-        constructor(properties?: io.cucumber.messages.IWrapper)
+        constructor(properties?: io.cucumber.messages.IEnvelope)
 
-        /** Wrapper source. */
+        /** Envelope source. */
         public source?: io.cucumber.messages.ISource | null
 
-        /** Wrapper gherkinDocument. */
+        /** Envelope gherkinDocument. */
         public gherkinDocument?: io.cucumber.messages.IGherkinDocument | null
 
-        /** Wrapper pickle. */
+        /** Envelope pickle. */
         public pickle?: io.cucumber.messages.IPickle | null
 
-        /** Wrapper attachment. */
+        /** Envelope attachment. */
         public attachment?: io.cucumber.messages.IAttachment | null
 
-        /** Wrapper testCaseStarted. */
+        /** Envelope testCaseStarted. */
         public testCaseStarted?: io.cucumber.messages.ITestCaseStarted | null
 
-        /** Wrapper testStepStarted. */
+        /** Envelope testStepStarted. */
         public testStepStarted?: io.cucumber.messages.ITestStepStarted | null
 
-        /** Wrapper testStepFinished. */
+        /** Envelope testStepFinished. */
         public testStepFinished?: io.cucumber.messages.ITestStepFinished | null
 
-        /** Wrapper testCaseFinished. */
+        /** Envelope testCaseFinished. */
         public testCaseFinished?: io.cucumber.messages.ITestCaseFinished | null
 
-        /** Wrapper testHookStarted. */
+        /** Envelope testHookStarted. */
         public testHookStarted?: io.cucumber.messages.ITestHookStarted | null
 
-        /** Wrapper testHookFinished. */
+        /** Envelope testHookFinished. */
         public testHookFinished?: io.cucumber.messages.ITestHookFinished | null
 
-        /** Wrapper pickleAccepted. */
+        /** Envelope pickleAccepted. */
         public pickleAccepted?: io.cucumber.messages.IPickleAccepted | null
 
-        /** Wrapper pickleRejected. */
+        /** Envelope pickleRejected. */
         public pickleRejected?: io.cucumber.messages.IPickleRejected | null
 
-        /** Wrapper testCasePrepared. */
+        /** Envelope testCasePrepared. */
         public testCasePrepared?: io.cucumber.messages.ITestCasePrepared | null
 
-        /** Wrapper testRunStarted. */
+        /** Envelope testRunStarted. */
         public testRunStarted?: io.cucumber.messages.ITestRunStarted | null
 
-        /** Wrapper testRunFinished. */
+        /** Envelope testRunFinished. */
         public testRunFinished?: io.cucumber.messages.ITestRunFinished | null
 
-        /** Wrapper commandStart. */
+        /** Envelope commandStart. */
         public commandStart?: io.cucumber.messages.ICommandStart | null
 
-        /** Wrapper commandActionComplete. */
+        /** Envelope commandActionComplete. */
         public commandActionComplete?: io.cucumber.messages.ICommandActionComplete | null
 
-        /** Wrapper commandRunBeforeTestRunHooks. */
+        /** Envelope commandRunBeforeTestRunHooks. */
         public commandRunBeforeTestRunHooks?: io.cucumber.messages.ICommandRunBeforeTestRunHooks | null
 
-        /** Wrapper commandInitializeTestCase. */
+        /** Envelope commandInitializeTestCase. */
         public commandInitializeTestCase?: io.cucumber.messages.ICommandInitializeTestCase | null
 
-        /** Wrapper commandRunBeforeTestCaseHook. */
+        /** Envelope commandRunBeforeTestCaseHook. */
         public commandRunBeforeTestCaseHook?: io.cucumber.messages.ICommandRunBeforeTestCaseHook | null
 
-        /** Wrapper commandRunTestStep. */
+        /** Envelope commandRunTestStep. */
         public commandRunTestStep?: io.cucumber.messages.ICommandRunTestStep | null
 
-        /** Wrapper commandRunAfterTestCaseHook. */
+        /** Envelope commandRunAfterTestCaseHook. */
         public commandRunAfterTestCaseHook?: io.cucumber.messages.ICommandRunAfterTestCaseHook | null
 
-        /** Wrapper commandRunAfterTestRunHooks. */
+        /** Envelope commandRunAfterTestRunHooks. */
         public commandRunAfterTestRunHooks?: io.cucumber.messages.ICommandRunAfterTestRunHooks | null
 
-        /** Wrapper commandGenerateSnippet. */
+        /** Envelope commandGenerateSnippet. */
         public commandGenerateSnippet?: io.cucumber.messages.ICommandGenerateSnippet | null
 
-        /** Wrapper commandError. */
+        /** Envelope commandError. */
         public commandError: string
 
-        /** Wrapper message. */
+        /** Envelope message. */
         public message?:
           | 'source'
           | 'gherkinDocument'
@@ -195,89 +195,89 @@ export namespace io {
           | 'commandError'
 
         /**
-         * Creates a new Wrapper instance using the specified properties.
+         * Creates a new Envelope instance using the specified properties.
          * @param [properties] Properties to set
-         * @returns Wrapper instance
+         * @returns Envelope instance
          */
         public static create(
-          properties?: io.cucumber.messages.IWrapper
-        ): io.cucumber.messages.Wrapper
+          properties?: io.cucumber.messages.IEnvelope
+        ): io.cucumber.messages.Envelope
 
         /**
-         * Encodes the specified Wrapper message. Does not implicitly {@link io.cucumber.messages.Wrapper.verify|verify} messages.
-         * @param message Wrapper message or plain object to encode
+         * Encodes the specified Envelope message. Does not implicitly {@link io.cucumber.messages.Envelope.verify|verify} messages.
+         * @param message Envelope message or plain object to encode
          * @param [writer] Writer to encode to
          * @returns Writer
          */
         public static encode(
-          message: io.cucumber.messages.IWrapper,
+          message: io.cucumber.messages.IEnvelope,
           writer?: $protobuf.Writer
         ): $protobuf.Writer
 
         /**
-         * Encodes the specified Wrapper message, length delimited. Does not implicitly {@link io.cucumber.messages.Wrapper.verify|verify} messages.
-         * @param message Wrapper message or plain object to encode
+         * Encodes the specified Envelope message, length delimited. Does not implicitly {@link io.cucumber.messages.Envelope.verify|verify} messages.
+         * @param message Envelope message or plain object to encode
          * @param [writer] Writer to encode to
          * @returns Writer
          */
         public static encodeDelimited(
-          message: io.cucumber.messages.IWrapper,
+          message: io.cucumber.messages.IEnvelope,
           writer?: $protobuf.Writer
         ): $protobuf.Writer
 
         /**
-         * Decodes a Wrapper message from the specified reader or buffer.
+         * Decodes an Envelope message from the specified reader or buffer.
          * @param reader Reader or buffer to decode from
          * @param [length] Message length if known beforehand
-         * @returns Wrapper
+         * @returns Envelope
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
         public static decode(
           reader: $protobuf.Reader | Uint8Array,
           length?: number
-        ): io.cucumber.messages.Wrapper
+        ): io.cucumber.messages.Envelope
 
         /**
-         * Decodes a Wrapper message from the specified reader or buffer, length delimited.
+         * Decodes an Envelope message from the specified reader or buffer, length delimited.
          * @param reader Reader or buffer to decode from
-         * @returns Wrapper
+         * @returns Envelope
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
         public static decodeDelimited(
           reader: $protobuf.Reader | Uint8Array
-        ): io.cucumber.messages.Wrapper
+        ): io.cucumber.messages.Envelope
 
         /**
-         * Verifies a Wrapper message.
+         * Verifies an Envelope message.
          * @param message Plain object to verify
          * @returns `null` if valid, otherwise the reason why it is not
          */
         public static verify(message: { [k: string]: any }): string | null
 
         /**
-         * Creates a Wrapper message from a plain object. Also converts values to their respective internal types.
+         * Creates an Envelope message from a plain object. Also converts values to their respective internal types.
          * @param object Plain object
-         * @returns Wrapper
+         * @returns Envelope
          */
         public static fromObject(object: {
           [k: string]: any
-        }): io.cucumber.messages.Wrapper
+        }): io.cucumber.messages.Envelope
 
         /**
-         * Creates a plain object from a Wrapper message. Also converts values to other types if specified.
-         * @param message Wrapper
+         * Creates a plain object from an Envelope message. Also converts values to other types if specified.
+         * @param message Envelope
          * @param [options] Conversion options
          * @returns Plain object
          */
         public static toObject(
-          message: io.cucumber.messages.Wrapper,
+          message: io.cucumber.messages.Envelope,
           options?: $protobuf.IConversionOptions
         ): { [k: string]: any }
 
         /**
-         * Converts this Wrapper to JSON.
+         * Converts this Envelope to JSON.
          * @returns JSON object
          */
         public toJSON(): { [k: string]: any }

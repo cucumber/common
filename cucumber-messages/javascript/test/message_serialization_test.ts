@@ -4,47 +4,47 @@ import assert = require('assert')
 
 import Source = messages.Source
 import Attachment = messages.Attachment
-import Wrapper = messages.Wrapper
+import Envelope = messages.Envelope
 
 describe('messages', () => {
   it('can be serialised over a stream', async () => {
-    const outgoingMessages: Wrapper[] = createOutgoingMessages()
+    const outgoingMessages: Envelope[] = createOutgoingMessages()
 
     const out = new PassThrough()
     const input = out.pipe(
-      new ProtobufMessageStream(Wrapper.decodeDelimited.bind(Wrapper))
+      new ProtobufMessageStream(Envelope.decodeDelimited.bind(Envelope))
     )
 
     writeOutgoingMessages(outgoingMessages, out)
-    const incomingMessages: Wrapper[] = await readIncomingMessages(input)
+    const incomingMessages: Envelope[] = await readIncomingMessages(input)
 
     assert.deepStrictEqual(incomingMessages, outgoingMessages)
   })
 
   function createOutgoingMessages() {
     return [
-      Wrapper.create({ source: Source.create({ data: 'Feature: Hello' }) }),
-      Wrapper.create({
+      Envelope.create({ source: Source.create({ data: 'Feature: Hello' }) }),
+      Envelope.create({
         attachment: Attachment.create({ data: 'Some stack trace' }),
       }),
     ]
   }
 
   function writeOutgoingMessages(
-    outgoingMessages: Wrapper[],
+    outgoingMessages: Envelope[],
     output: Writable
   ) {
     for (const outgoingMessage of outgoingMessages) {
-      const chunk = Wrapper.encodeDelimited(outgoingMessage).finish()
+      const chunk = Envelope.encodeDelimited(outgoingMessage).finish()
       output.write(chunk)
     }
     output.end()
   }
 
-  function readIncomingMessages(input: Readable): Promise<Wrapper[]> {
+  function readIncomingMessages(input: Readable): Promise<Envelope[]> {
     return new Promise((resolve, reject) => {
-      const result: Wrapper[] = []
-      input.on('data', (wrapper: Wrapper) => result.push(wrapper))
+      const result: Envelope[] = []
+      input.on('data', (wrapper: Envelope) => result.push(wrapper))
       input.on('end', () => resolve(result))
       input.on('error', (err: Error) => reject(err))
     })

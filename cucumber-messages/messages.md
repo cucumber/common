@@ -14,6 +14,7 @@
     - [CommandRunBeforeTestRunHooks](#io.cucumber.messages.CommandRunBeforeTestRunHooks)
     - [CommandRunTestStep](#io.cucumber.messages.CommandRunTestStep)
     - [CommandStart](#io.cucumber.messages.CommandStart)
+    - [Envelope](#io.cucumber.messages.Envelope)
     - [GeneratedExpression](#io.cucumber.messages.GeneratedExpression)
     - [GherkinDocument](#io.cucumber.messages.GherkinDocument)
     - [GherkinDocument.Comment](#io.cucumber.messages.GherkinDocument.Comment)
@@ -67,7 +68,6 @@
     - [TestStepFinished](#io.cucumber.messages.TestStepFinished)
     - [TestStepStarted](#io.cucumber.messages.TestStepStarted)
     - [UriToLinesMapping](#io.cucumber.messages.UriToLinesMapping)
-    - [Wrapper](#io.cucumber.messages.Wrapper)
   
     - [SourcesOrderType](#io.cucumber.messages.SourcesOrderType)
     - [Status](#io.cucumber.messages.Status)
@@ -249,6 +249,45 @@
 | sourcesConfig | [SourcesConfig](#io.cucumber.messages.SourcesConfig) |  |  |
 | runtimeConfig | [RuntimeConfig](#io.cucumber.messages.RuntimeConfig) |  |  |
 | supportCodeConfig | [SupportCodeConfig](#io.cucumber.messages.SupportCodeConfig) |  |  |
+
+
+
+
+
+
+<a name="io.cucumber.messages.Envelope"></a>
+
+### Envelope
+All messages sent between processes must be of type Wrapper
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| source | [Source](#io.cucumber.messages.Source) |  | Gherkin messages |
+| gherkinDocument | [GherkinDocument](#io.cucumber.messages.GherkinDocument) |  |  |
+| pickle | [Pickle](#io.cucumber.messages.Pickle) |  |  |
+| attachment | [Attachment](#io.cucumber.messages.Attachment) |  |  |
+| testCaseStarted | [TestCaseStarted](#io.cucumber.messages.TestCaseStarted) |  | Execution messages |
+| testStepStarted | [TestStepStarted](#io.cucumber.messages.TestStepStarted) |  |  |
+| testStepFinished | [TestStepFinished](#io.cucumber.messages.TestStepFinished) |  |  |
+| testCaseFinished | [TestCaseFinished](#io.cucumber.messages.TestCaseFinished) |  |  |
+| testHookStarted | [TestHookStarted](#io.cucumber.messages.TestHookStarted) |  |  |
+| testHookFinished | [TestHookFinished](#io.cucumber.messages.TestHookFinished) |  |  |
+| pickleAccepted | [PickleAccepted](#io.cucumber.messages.PickleAccepted) |  |  |
+| pickleRejected | [PickleRejected](#io.cucumber.messages.PickleRejected) |  |  |
+| testCasePrepared | [TestCasePrepared](#io.cucumber.messages.TestCasePrepared) |  |  |
+| testRunStarted | [TestRunStarted](#io.cucumber.messages.TestRunStarted) |  |  |
+| testRunFinished | [TestRunFinished](#io.cucumber.messages.TestRunFinished) |  |  |
+| commandStart | [CommandStart](#io.cucumber.messages.CommandStart) |  | Cucumber-Engine Messages |
+| commandActionComplete | [CommandActionComplete](#io.cucumber.messages.CommandActionComplete) |  |  |
+| commandRunBeforeTestRunHooks | [CommandRunBeforeTestRunHooks](#io.cucumber.messages.CommandRunBeforeTestRunHooks) |  |  |
+| commandInitializeTestCase | [CommandInitializeTestCase](#io.cucumber.messages.CommandInitializeTestCase) |  |  |
+| commandRunBeforeTestCaseHook | [CommandRunBeforeTestCaseHook](#io.cucumber.messages.CommandRunBeforeTestCaseHook) |  |  |
+| commandRunTestStep | [CommandRunTestStep](#io.cucumber.messages.CommandRunTestStep) |  |  |
+| commandRunAfterTestCaseHook | [CommandRunAfterTestCaseHook](#io.cucumber.messages.CommandRunAfterTestCaseHook) |  |  |
+| commandRunAfterTestRunHooks | [CommandRunAfterTestRunHooks](#io.cucumber.messages.CommandRunAfterTestRunHooks) |  |  |
+| commandGenerateSnippet | [CommandGenerateSnippet](#io.cucumber.messages.CommandGenerateSnippet) |  |  |
+| commandError | [string](#string) |  |  |
 
 
 
@@ -1147,45 +1186,6 @@
 | ----- | ---- | ----- | ----------- |
 | absolutePath | [string](#string) |  |  |
 | lines | [uint64](#uint64) | repeated |  |
-
-
-
-
-
-
-<a name="io.cucumber.messages.Wrapper"></a>
-
-### Wrapper
-All messages sent between processes must be of type Wrapper
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| source | [Source](#io.cucumber.messages.Source) |  | Gherkin messages |
-| gherkinDocument | [GherkinDocument](#io.cucumber.messages.GherkinDocument) |  |  |
-| pickle | [Pickle](#io.cucumber.messages.Pickle) |  |  |
-| attachment | [Attachment](#io.cucumber.messages.Attachment) |  |  |
-| testCaseStarted | [TestCaseStarted](#io.cucumber.messages.TestCaseStarted) |  | Execution messages |
-| testStepStarted | [TestStepStarted](#io.cucumber.messages.TestStepStarted) |  |  |
-| testStepFinished | [TestStepFinished](#io.cucumber.messages.TestStepFinished) |  |  |
-| testCaseFinished | [TestCaseFinished](#io.cucumber.messages.TestCaseFinished) |  |  |
-| testHookStarted | [TestHookStarted](#io.cucumber.messages.TestHookStarted) |  |  |
-| testHookFinished | [TestHookFinished](#io.cucumber.messages.TestHookFinished) |  |  |
-| pickleAccepted | [PickleAccepted](#io.cucumber.messages.PickleAccepted) |  |  |
-| pickleRejected | [PickleRejected](#io.cucumber.messages.PickleRejected) |  |  |
-| testCasePrepared | [TestCasePrepared](#io.cucumber.messages.TestCasePrepared) |  |  |
-| testRunStarted | [TestRunStarted](#io.cucumber.messages.TestRunStarted) |  |  |
-| testRunFinished | [TestRunFinished](#io.cucumber.messages.TestRunFinished) |  |  |
-| commandStart | [CommandStart](#io.cucumber.messages.CommandStart) |  | Cucumber-Engine Messages |
-| commandActionComplete | [CommandActionComplete](#io.cucumber.messages.CommandActionComplete) |  |  |
-| commandRunBeforeTestRunHooks | [CommandRunBeforeTestRunHooks](#io.cucumber.messages.CommandRunBeforeTestRunHooks) |  |  |
-| commandInitializeTestCase | [CommandInitializeTestCase](#io.cucumber.messages.CommandInitializeTestCase) |  |  |
-| commandRunBeforeTestCaseHook | [CommandRunBeforeTestCaseHook](#io.cucumber.messages.CommandRunBeforeTestCaseHook) |  |  |
-| commandRunTestStep | [CommandRunTestStep](#io.cucumber.messages.CommandRunTestStep) |  |  |
-| commandRunAfterTestCaseHook | [CommandRunAfterTestCaseHook](#io.cucumber.messages.CommandRunAfterTestCaseHook) |  |  |
-| commandRunAfterTestRunHooks | [CommandRunAfterTestRunHooks](#io.cucumber.messages.CommandRunAfterTestRunHooks) |  |  |
-| commandGenerateSnippet | [CommandGenerateSnippet](#io.cucumber.messages.CommandGenerateSnippet) |  |  |
-| commandError | [string](#string) |  |  |
 
 
 

@@ -5,7 +5,7 @@ require 'google/protobuf'
 
 require 'google/protobuf/timestamp_pb'
 Google::Protobuf::DescriptorPool.generated_pool.build do
-  add_message "io.cucumber.messages.Wrapper" do
+  add_message "io.cucumber.messages.Envelope" do
     oneof :message do
       optional :source, :message, 1, "io.cucumber.messages.Source"
       optional :gherkinDocument, :message, 2, "io.cucumber.messages.GherkinDocument"
@@ -374,7 +374,7 @@ end
 
 module Cucumber
   module Messages
-    Wrapper = Google::Protobuf::DescriptorPool.generated_pool.lookup("io.cucumber.messages.Wrapper").msgclass
+    Envelope = Google::Protobuf::DescriptorPool.generated_pool.lookup("io.cucumber.messages.Envelope").msgclass
     Location = Google::Protobuf::DescriptorPool.generated_pool.lookup("io.cucumber.messages.Location").msgclass
     SourceReference = Google::Protobuf::DescriptorPool.generated_pool.lookup("io.cucumber.messages.SourceReference").msgclass
     Media = Google::Protobuf::DescriptorPool.generated_pool.lookup("io.cucumber.messages.Media").msgclass

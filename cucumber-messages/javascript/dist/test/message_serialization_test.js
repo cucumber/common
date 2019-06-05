@@ -51,7 +51,7 @@ var stream_1 = require("stream");
 var assert = require("assert");
 var Source = src_1.messages.Source;
 var Attachment = src_1.messages.Attachment;
-var Wrapper = src_1.messages.Wrapper;
+var Envelope = src_1.messages.Envelope;
 describe('messages', function () {
     it('can be serialised over a stream', function () { return __awaiter(_this, void 0, void 0, function () {
         var outgoingMessages, out, input, incomingMessages;
@@ -60,7 +60,7 @@ describe('messages', function () {
                 case 0:
                     outgoingMessages = createOutgoingMessages();
                     out = new stream_1.PassThrough();
-                    input = out.pipe(new src_1.ProtobufMessageStream(Wrapper.decodeDelimited.bind(Wrapper)));
+                    input = out.pipe(new src_1.ProtobufMessageStream(Envelope.decodeDelimited.bind(Envelope)));
                     writeOutgoingMessages(outgoingMessages, out);
                     return [4 /*yield*/, readIncomingMessages(input)];
                 case 1:
@@ -72,8 +72,8 @@ describe('messages', function () {
     }); });
     function createOutgoingMessages() {
         return [
-            Wrapper.create({ source: Source.create({ data: 'Feature: Hello' }) }),
-            Wrapper.create({
+            Envelope.create({ source: Source.create({ data: 'Feature: Hello' }) }),
+            Envelope.create({
                 attachment: Attachment.create({ data: 'Some stack trace' }),
             }),
         ];
@@ -83,7 +83,7 @@ describe('messages', function () {
         try {
             for (var outgoingMessages_1 = __values(outgoingMessages), outgoingMessages_1_1 = outgoingMessages_1.next(); !outgoingMessages_1_1.done; outgoingMessages_1_1 = outgoingMessages_1.next()) {
                 var outgoingMessage = outgoingMessages_1_1.value;
-                var chunk = Wrapper.encodeDelimited(outgoingMessage).finish();
+                var chunk = Envelope.encodeDelimited(outgoingMessage).finish();
                 output.write(chunk);
             }
         }

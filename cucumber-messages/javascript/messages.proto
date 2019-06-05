@@ -6,9 +6,10 @@ option go_package = "messages";
 
 // When removing a field, replace it with reserved, rather than deleting the line.
 // When adding a field, add it to the end and increment the number by one.
+// See https://developers.google.com/protocol-buffers/docs/proto#updating for details
 
 // All messages sent between processes must be of type Wrapper
-message Wrapper {
+message Envelope {
   oneof message {
     // Gherkin messages
     Source source = 1;

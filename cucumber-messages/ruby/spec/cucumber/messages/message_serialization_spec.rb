@@ -18,8 +18,8 @@ module Cucumber
 
       def create_outgoing_messages
         return [
-          Wrapper.new(source: Source.new(data: 'Feature: Hello')),
-          Wrapper.new(attachment: Attachment.new(data: 'some stack trace'))
+          Envelope.new(source: Source.new(data: 'Feature: Hello')),
+          Envelope.new(attachment: Attachment.new(data: 'some stack trace'))
         ]
       end
 

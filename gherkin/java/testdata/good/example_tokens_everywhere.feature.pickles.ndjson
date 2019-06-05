@@ -14,11 +14,13 @@
     "name": "the un",
     "steps": [
       {
-        "docString": {
-          "content": "trois",
-          "location": {
-            "column": 7,
-            "line": 5
+        "argument": {
+          "docString": {
+            "content": "trois",
+            "location": {
+              "column": 7,
+              "line": 5
+            }
           }
         },
         "locations": [
@@ -34,20 +36,22 @@
         "text": "the deux:"
       },
       {
-        "dataTable": {
-          "rows": [
-            {
-              "cells": [
-                {
-                  "location": {
-                    "column": 9,
-                    "line": 9
-                  },
-                  "value": "cinq"
-                }
-              ]
-            }
-          ]
+        "argument": {
+          "dataTable": {
+            "rows": [
+              {
+                "cells": [
+                  {
+                    "location": {
+                      "column": 9,
+                      "line": 9
+                    },
+                    "value": "cinq"
+                  }
+                ]
+              }
+            ]
+          }
         },
         "locations": [
           {
@@ -81,11 +85,13 @@
     "name": "the uno",
     "steps": [
       {
-        "docString": {
-          "content": "tres",
-          "location": {
-            "column": 7,
-            "line": 5
+        "argument": {
+          "docString": {
+            "content": "tres",
+            "location": {
+              "column": 7,
+              "line": 5
+            }
           }
         },
         "locations": [
@@ -101,20 +107,22 @@
         "text": "the dos:"
       },
       {
-        "dataTable": {
-          "rows": [
-            {
-              "cells": [
-                {
-                  "location": {
-                    "column": 9,
-                    "line": 9
-                  },
-                  "value": "cinco"
-                }
-              ]
-            }
-          ]
+        "argument": {
+          "dataTable": {
+            "rows": [
+              {
+                "cells": [
+                  {
+                    "location": {
+                      "column": 9,
+                      "line": 9
+                    },
+                    "value": "cinco"
+                  }
+                ]
+              }
+            ]
+          }
         },
         "locations": [
           {

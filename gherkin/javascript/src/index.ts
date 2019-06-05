@@ -63,15 +63,15 @@ class Gherkin {
     const args = options.concat(this.paths)
     const gherkin = spawn(this.exeFile.fileName, args)
     const protobufMessageStream = new ProtobufMessageStream(
-      messages.Wrapper.decodeDelimited.bind(messages.Wrapper)
+      messages.Envelope.decodeDelimited.bind(messages.Envelope)
     )
     gherkin.on('error', err => {
       protobufMessageStream.emit('error', err)
     })
     gherkin.stdout.pipe(protobufMessageStream)
     for (const source of this.sources) {
-      const wrapper = messages.Wrapper.fromObject({ source })
-      gherkin.stdin.write(messages.Wrapper.encodeDelimited(wrapper).finish())
+      const wrapper = messages.Envelope.fromObject({ source })
+      gherkin.stdin.write(messages.Envelope.encodeDelimited(wrapper).finish())
     }
     gherkin.stdin.end()
     return protobufMessageStream

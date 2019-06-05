@@ -38,7 +38,7 @@ module Gherkin
       stdin, stdout, stderr, wait_thr = Open3.popen3(*args)
       stdin.binmode
       @sources.each do |source|
-        wrapper = Cucumber::Messages::Wrapper.new(
+        wrapper = Cucumber::Messages::Envelope.new(
           source: source
         )
         wrapper.write_delimited_to(stdin)
