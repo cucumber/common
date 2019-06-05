@@ -43,8 +43,12 @@ Google::Protobuf::DescriptorPool.generated_pool.build do
     optional :location, :message, 2, "io.cucumber.messages.Location"
   end
   add_message "io.cucumber.messages.Media" do
-    optional :encoding, :string, 1
+    optional :encoding, :enum, 1, "io.cucumber.messages.Media.Encoding"
     optional :content_type, :string, 2
+  end
+  add_enum "io.cucumber.messages.Media.Encoding" do
+    value :BASE64, 0
+    value :UTF8, 1
   end
   add_message "io.cucumber.messages.Source" do
     optional :uri, :string, 1
@@ -243,9 +247,17 @@ Google::Protobuf::DescriptorPool.generated_pool.build do
     optional :timestamp, :message, 3, "google.protobuf.Timestamp"
   end
   add_message "io.cucumber.messages.TestResult" do
-    optional :status, :enum, 1, "io.cucumber.messages.Status"
+    optional :status, :enum, 1, "io.cucumber.messages.TestResult.Status"
     optional :message, :string, 2
     optional :durationNanoseconds, :uint64, 3
+  end
+  add_enum "io.cucumber.messages.TestResult.Status" do
+    value :AMBIGUOUS, 0
+    value :FAILED, 1
+    value :PASSED, 2
+    value :PENDING, 3
+    value :SKIPPED, 4
+    value :UNDEFINED, 5
   end
   add_message "io.cucumber.messages.TestRunFinished" do
     optional :success, :bool, 1
@@ -354,14 +366,6 @@ Google::Protobuf::DescriptorPool.generated_pool.build do
     optional :text, :string, 1
     repeated :parameterTypeNames, :string, 2
   end
-  add_enum "io.cucumber.messages.Status" do
-    value :AMBIGUOUS, 0
-    value :FAILED, 1
-    value :PASSED, 2
-    value :PENDING, 3
-    value :SKIPPED, 4
-    value :UNDEFINED, 5
-  end
   add_enum "io.cucumber.messages.SourcesOrderType" do
     value :ORDER_OF_DEFINITION, 0
     value :RANDOM, 1
@@ -378,6 +382,7 @@ module Cucumber
     Location = Google::Protobuf::DescriptorPool.generated_pool.lookup("io.cucumber.messages.Location").msgclass
     SourceReference = Google::Protobuf::DescriptorPool.generated_pool.lookup("io.cucumber.messages.SourceReference").msgclass
     Media = Google::Protobuf::DescriptorPool.generated_pool.lookup("io.cucumber.messages.Media").msgclass
+    Media::Encoding = Google::Protobuf::DescriptorPool.generated_pool.lookup("io.cucumber.messages.Media.Encoding").enummodule
     Source = Google::Protobuf::DescriptorPool.generated_pool.lookup("io.cucumber.messages.Source").msgclass
     GherkinDocument = Google::Protobuf::DescriptorPool.generated_pool.lookup("io.cucumber.messages.GherkinDocument").msgclass
     GherkinDocument::Comment = Google::Protobuf::DescriptorPool.generated_pool.lookup("io.cucumber.messages.GherkinDocument.Comment").msgclass
@@ -416,6 +421,7 @@ module Cucumber
     TestHookStarted = Google::Protobuf::DescriptorPool.generated_pool.lookup("io.cucumber.messages.TestHookStarted").msgclass
     TestHookFinished = Google::Protobuf::DescriptorPool.generated_pool.lookup("io.cucumber.messages.TestHookFinished").msgclass
     TestResult = Google::Protobuf::DescriptorPool.generated_pool.lookup("io.cucumber.messages.TestResult").msgclass
+    TestResult::Status = Google::Protobuf::DescriptorPool.generated_pool.lookup("io.cucumber.messages.TestResult.Status").enummodule
     TestRunFinished = Google::Protobuf::DescriptorPool.generated_pool.lookup("io.cucumber.messages.TestRunFinished").msgclass
     CommandStart = Google::Protobuf::DescriptorPool.generated_pool.lookup("io.cucumber.messages.CommandStart").msgclass
     SourcesConfig = Google::Protobuf::DescriptorPool.generated_pool.lookup("io.cucumber.messages.SourcesConfig").msgclass
@@ -438,7 +444,6 @@ module Cucumber
     PatternMatch = Google::Protobuf::DescriptorPool.generated_pool.lookup("io.cucumber.messages.PatternMatch").msgclass
     CommandGenerateSnippet = Google::Protobuf::DescriptorPool.generated_pool.lookup("io.cucumber.messages.CommandGenerateSnippet").msgclass
     GeneratedExpression = Google::Protobuf::DescriptorPool.generated_pool.lookup("io.cucumber.messages.GeneratedExpression").msgclass
-    Status = Google::Protobuf::DescriptorPool.generated_pool.lookup("io.cucumber.messages.Status").enummodule
     SourcesOrderType = Google::Protobuf::DescriptorPool.generated_pool.lookup("io.cucumber.messages.SourcesOrderType").enummodule
     StepDefinitionPatternType = Google::Protobuf::DescriptorPool.generated_pool.lookup("io.cucumber.messages.StepDefinitionPatternType").enummodule
   end

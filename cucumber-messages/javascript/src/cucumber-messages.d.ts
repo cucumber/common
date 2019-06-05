@@ -83,7 +83,10 @@ export namespace io {
         commandError?: string | null
       }
 
-      /** Represents an Envelope. */
+      /**
+       * All the messages that are passed between different components/processes are Envelope
+       * messages.
+       */
       class Envelope implements IEnvelope {
         /**
          * Constructs a new Envelope.
@@ -292,7 +295,7 @@ export namespace io {
         column?: number | null
       }
 
-      /** Represents a Location. */
+      /** Points to a line and a column in a text file */
       class Location implements ILocation {
         /**
          * Constructs a new Location.
@@ -404,7 +407,10 @@ export namespace io {
         location?: io.cucumber.messages.ILocation | null
       }
 
-      /** Represents a SourceReference. */
+      /**
+       * Points to a [Source](#io.cucumber.messages.Source) identified by `uri` and a
+       * [Location](#io.cucumber.messages.Location) within that file.
+       */
       class SourceReference implements ISourceReference {
         /**
          * Constructs a new SourceReference.
@@ -510,13 +516,18 @@ export namespace io {
       /** Properties of a Media. */
       interface IMedia {
         /** Media encoding */
-        encoding?: string | null
+        encoding?: io.cucumber.messages.Media.Encoding | null
 
-        /** Media contentType */
+        /**
+         * The content type of the data. This can be any valid
+         * [IANA Media Type](https://www.iana.org/assignments/media-types/media-types.xhtml)
+         * as well as Cucumber-specific media types such as `text/x.cucumber.gherkin+plain`
+         * and `text/x.cucumber.stacktrace+plain`
+         */
         contentType?: string | null
       }
 
-      /** Represents a Media. */
+      /** Meta information about encoded contents */
       class Media implements IMedia {
         /**
          * Constructs a new Media.
@@ -525,9 +536,14 @@ export namespace io {
         constructor(properties?: io.cucumber.messages.IMedia)
 
         /** Media encoding. */
-        public encoding: string
+        public encoding: io.cucumber.messages.Media.Encoding
 
-        /** Media contentType. */
+        /**
+         * The content type of the data. This can be any valid
+         * [IANA Media Type](https://www.iana.org/assignments/media-types/media-types.xhtml)
+         * as well as Cucumber-specific media types such as `text/x.cucumber.gherkin+plain`
+         * and `text/x.cucumber.stacktrace+plain`
+         */
         public contentType: string
 
         /**
@@ -619,9 +635,20 @@ export namespace io {
         public toJSON(): { [k: string]: any }
       }
 
+      namespace Media {
+        /** Encoding enum. */
+        enum Encoding {
+          BASE64 = 0,
+          UTF8 = 1,
+        }
+      }
+
       /** Properties of a Source. */
       interface ISource {
-        /** Source uri */
+        /**
+         * The [URI](https://en.wikipedia.org/wiki/Uniform_Resource_Identifier)
+         * of the source, typically a file path relative to the root directory
+         */
         uri?: string | null
 
         /** Source data */
@@ -631,7 +658,7 @@ export namespace io {
         media?: io.cucumber.messages.IMedia | null
       }
 
-      /** Represents a Source. */
+      /** A source file, typically a Gherkin document */
       class Source implements ISource {
         /**
          * Constructs a new Source.
@@ -639,7 +666,10 @@ export namespace io {
          */
         constructor(properties?: io.cucumber.messages.ISource)
 
-        /** Source uri. */
+        /**
+         * The [URI](https://en.wikipedia.org/wiki/Uniform_Resource_Identifier)
+         * of the source, typically a file path relative to the root directory
+         */
         public uri: string
 
         /** Source data. */
@@ -739,7 +769,10 @@ export namespace io {
 
       /** Properties of a GherkinDocument. */
       interface IGherkinDocument {
-        /** GherkinDocument uri */
+        /**
+         * The [URI](https://en.wikipedia.org/wiki/Uniform_Resource_Identifier)
+         * of the source, typically a file path relative to the root directory
+         */
         uri?: string | null
 
         /** GherkinDocument feature */
@@ -749,7 +782,14 @@ export namespace io {
         comments?: io.cucumber.messages.GherkinDocument.IComment[] | null
       }
 
-      /** Represents a GherkinDocument. */
+      /**
+       * The [AST](https://en.wikipedia.org/wiki/Abstract_syntax_tree) of a Gherkin document.
+       * Cucumber implementations should *not* depend on `GherkinDocument` or any of its
+       * children for execution - use [Pickle](#io.cucumber.messages.Pickle) instead.
+       *
+       * The only consumers of `GherkinDocument` should only be formatters that produce
+       * "rich" output, resembling the original Gherkin document.
+       */
       class GherkinDocument implements IGherkinDocument {
         /**
          * Constructs a new GherkinDocument.
@@ -757,7 +797,10 @@ export namespace io {
          */
         constructor(properties?: io.cucumber.messages.IGherkinDocument)
 
-        /** GherkinDocument uri. */
+        /**
+         * The [URI](https://en.wikipedia.org/wiki/Uniform_Resource_Identifier)
+         * of the source, typically a file path relative to the root directory
+         */
         public uri: string
 
         /** GherkinDocument feature. */
@@ -865,7 +908,7 @@ export namespace io {
           text?: string | null
         }
 
-        /** Represents a Comment. */
+        /** A comment in a Gherkin document */
         class Comment implements IComment {
           /**
            * Constructs a new Comment.
@@ -996,7 +1039,7 @@ export namespace io {
             | null
         }
 
-        /** Represents a Feature. */
+        /** The top level node in the AST */
         class Feature implements IFeature {
           /**
            * Constructs a new Feature.
@@ -1126,7 +1169,7 @@ export namespace io {
             name?: string | null
           }
 
-          /** Represents a Tag. */
+          /** A tag */
           class Tag implements ITag {
             /**
              * Constructs a new Tag.
@@ -1243,7 +1286,7 @@ export namespace io {
             scenario?: io.cucumber.messages.GherkinDocument.Feature.IScenario | null
           }
 
-          /** Represents a FeatureChild. */
+          /** A child node of a `Feature` node */
           class FeatureChild implements IFeatureChild {
             /**
              * Constructs a new FeatureChild.
@@ -1375,7 +1418,7 @@ export namespace io {
                 | null
             }
 
-            /** Represents a Rule. */
+            /** A `Rule` node */
             class Rule implements IRule {
               /**
                * Constructs a new Rule.
@@ -2658,7 +2701,15 @@ export namespace io {
         media?: io.cucumber.messages.IMedia | null
       }
 
-      /** Represents an Attachment. */
+      /**
+       * An attachment represents any kind of data associated with a line in a
+       * [Source](#io.cucumber.messages.Source) file. It can be used for:
+       *
+       * * Syntax errors during parse time
+       * * Screenshots captured and attached during execution
+       * * Logs captured and attached during execution
+       * * Runtime errors raised/thrown during execution (TODO: Conflicts with `TestResult#message`?)
+       */
       class Attachment implements IAttachment {
         /**
          * Constructs a new Attachment.
@@ -2766,7 +2817,11 @@ export namespace io {
 
       /** Properties of a Pickle. */
       interface IPickle {
-        /** Pickle id */
+        /**
+         * A unique id for the pickle. This is a [SHA1](https://en.wikipedia.org/wiki/SHA-1) hash
+         * from the source data and the `locations` of the pickle.
+         * This ID will change if source the file is modified.
+         */
         id?: string | null
 
         /** Pickle uri */
@@ -2781,14 +2836,30 @@ export namespace io {
         /** Pickle steps */
         steps?: io.cucumber.messages.Pickle.IPickleStep[] | null
 
-        /** Pickle tags */
+        /**
+         * One or more tags. If this pickle is constructed from a Gherkin document,
+         * It includes inherited tags from the `Feature` as well.
+         */
         tags?: io.cucumber.messages.Pickle.IPickleTag[] | null
 
-        /** Pickle locations */
+        /**
+         * The source locations of the pickle. The last one represents the unique
+         * line number. A pickle constructed from `Examples` will have the first
+         * location originating from the `Step`, and the second from the table row.
+         */
         locations?: io.cucumber.messages.ILocation[] | null
       }
 
-      /** Represents a Pickle. */
+      /**
+       * A `Pickle` represents a test case Cucumber can *execute*. It is typically derived
+       * from another format, such as [GherkinDocument](#io.cucumber.messages.GherkinDocument).
+       * In the future a `Pickle` may be derived from other formats such as Markdown or
+       * Excel files.
+       *
+       * By making `Pickle` the main data structure Cucumber uses for execution, the
+       * implementation of Cucumber itself becomes simpler, as it doesn't have to deal
+       * with the complex structure of a [GherkinDocument](#io.cucumber.messages.GherkinDocument).
+       */
       class Pickle implements IPickle {
         /**
          * Constructs a new Pickle.
@@ -2796,7 +2867,11 @@ export namespace io {
          */
         constructor(properties?: io.cucumber.messages.IPickle)
 
-        /** Pickle id. */
+        /**
+         * A unique id for the pickle. This is a [SHA1](https://en.wikipedia.org/wiki/SHA-1) hash
+         * from the source data and the `locations` of the pickle.
+         * This ID will change if source the file is modified.
+         */
         public id: string
 
         /** Pickle uri. */
@@ -2811,10 +2886,17 @@ export namespace io {
         /** Pickle steps. */
         public steps: io.cucumber.messages.Pickle.IPickleStep[]
 
-        /** Pickle tags. */
+        /**
+         * One or more tags. If this pickle is constructed from a Gherkin document,
+         * It includes inherited tags from the `Feature` as well.
+         */
         public tags: io.cucumber.messages.Pickle.IPickleTag[]
 
-        /** Pickle locations. */
+        /**
+         * The source locations of the pickle. The last one represents the unique
+         * line number. A pickle constructed from `Examples` will have the first
+         * location originating from the `Step`, and the second from the table row.
+         */
         public locations: io.cucumber.messages.ILocation[]
 
         /**
@@ -2916,7 +2998,7 @@ export namespace io {
           name?: string | null
         }
 
-        /** Represents a PickleTag. */
+        /** A tag */
         class PickleTag implements IPickleTag {
           /**
            * Constructs a new PickleTag.
@@ -3031,7 +3113,7 @@ export namespace io {
           argument?: io.cucumber.messages.IPickleStepArgument | null
         }
 
-        /** Represents a PickleStep. */
+        /** An executable step */
         class PickleStep implements IPickleStep {
           /**
            * Constructs a new PickleStep.
@@ -3147,7 +3229,7 @@ export namespace io {
         dataTable?: io.cucumber.messages.PickleStepArgument.IPickleTable | null
       }
 
-      /** Represents a PickleStepArgument. */
+      /** A wrapper for either a doc string or a table. */
       class PickleStepArgument implements IPickleStepArgument {
         /**
          * Constructs a new PickleStepArgument.
@@ -5094,7 +5176,7 @@ export namespace io {
       /** Properties of a TestResult. */
       interface ITestResult {
         /** TestResult status */
-        status?: io.cucumber.messages.Status | null
+        status?: io.cucumber.messages.TestResult.Status | null
 
         /** TestResult message */
         message?: string | null
@@ -5112,7 +5194,7 @@ export namespace io {
         constructor(properties?: io.cucumber.messages.ITestResult)
 
         /** TestResult status. */
-        public status: io.cucumber.messages.Status
+        public status: io.cucumber.messages.TestResult.Status
 
         /** TestResult message. */
         public message: string
@@ -5209,14 +5291,16 @@ export namespace io {
         public toJSON(): { [k: string]: any }
       }
 
-      /** Status enum. */
-      enum Status {
-        AMBIGUOUS = 0,
-        FAILED = 1,
-        PASSED = 2,
-        PENDING = 3,
-        SKIPPED = 4,
-        UNDEFINED = 5,
+      namespace TestResult {
+        /** Status enum. */
+        enum Status {
+          AMBIGUOUS = 0,
+          FAILED = 1,
+          PASSED = 2,
+          PENDING = 3,
+          SKIPPED = 4,
+          UNDEFINED = 5,
+        }
       }
 
       /** Properties of a TestRunFinished. */

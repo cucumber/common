@@ -26,7 +26,7 @@ func TestMessagesWithStdin(t *testing.T) {
 				Uri:  "features/test.feature",
 				Data: gherkin,
 				Media: &messages.Media{
-					Encoding:    "UTF-8",
+					Encoding:    messages.Media_UTF8,
 					ContentType: "text/x.cucumber.gherkin+plain",
 				},
 			},

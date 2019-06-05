@@ -69,9 +69,10 @@
     - [TestStepStarted](#io.cucumber.messages.TestStepStarted)
     - [UriToLinesMapping](#io.cucumber.messages.UriToLinesMapping)
   
+    - [Media.Encoding](#io.cucumber.messages.Media.Encoding)
     - [SourcesOrderType](#io.cucumber.messages.SourcesOrderType)
-    - [Status](#io.cucumber.messages.Status)
     - [StepDefinitionPatternType](#io.cucumber.messages.StepDefinitionPatternType)
+    - [TestResult.Status](#io.cucumber.messages.TestResult.Status)
   
   
   
@@ -90,7 +91,13 @@
 <a name="io.cucumber.messages.Attachment"></a>
 
 ### Attachment
+An attachment represents any kind of data associated with a line in a
+[Source](#io.cucumber.messages.Source) file. It can be used for:
 
+* Syntax errors during parse time
+* Screenshots captured and attached during execution
+* Logs captured and attached during execution
+* Runtime errors raised/thrown during execution (TODO: Conflicts with `TestResult#message`?)
 
 
 | Field | Type | Label | Description |
@@ -258,7 +265,8 @@
 <a name="io.cucumber.messages.Envelope"></a>
 
 ### Envelope
-All messages sent between processes must be of type Wrapper
+All the messages that are passed between different components/processes are Envelope
+messages.
 
 
 | Field | Type | Label | Description |
@@ -313,14 +321,19 @@ All messages sent between processes must be of type Wrapper
 <a name="io.cucumber.messages.GherkinDocument"></a>
 
 ### GherkinDocument
+The [AST](https://en.wikipedia.org/wiki/Abstract_syntax_tree) of a Gherkin document.
+Cucumber implementations should *not* depend on `GherkinDocument` or any of its
+children for execution - use [Pickle](#io.cucumber.messages.Pickle) instead.
 
+The only consumers of `GherkinDocument` should only be formatters that produce
+&#34;rich&#34; output, resembling the original Gherkin document.
 
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| uri | [string](#string) |  |  |
+| uri | [string](#string) |  | The [URI](https://en.wikipedia.org/wiki/Uniform_Resource_Identifier) of the source, typically a file path relative to the root directory |
 | feature | [GherkinDocument.Feature](#io.cucumber.messages.GherkinDocument.Feature) |  |  |
-| comments | [GherkinDocument.Comment](#io.cucumber.messages.GherkinDocument.Comment) | repeated |  |
+| comments | [GherkinDocument.Comment](#io.cucumber.messages.GherkinDocument.Comment) | repeated | All the comments in the Gherkin document |
 
 
 
@@ -330,13 +343,13 @@ All messages sent between processes must be of type Wrapper
 <a name="io.cucumber.messages.GherkinDocument.Comment"></a>
 
 ### GherkinDocument.Comment
-
+A comment in a Gherkin document
 
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| location | [Location](#io.cucumber.messages.Location) |  |  |
-| text | [string](#string) |  |  |
+| location | [Location](#io.cucumber.messages.Location) |  | The location of the comment |
+| text | [string](#string) |  | The text of the comment |
 
 
 
@@ -346,18 +359,18 @@ All messages sent between processes must be of type Wrapper
 <a name="io.cucumber.messages.GherkinDocument.Feature"></a>
 
 ### GherkinDocument.Feature
-
+The top level node in the AST
 
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| location | [Location](#io.cucumber.messages.Location) |  |  |
-| tags | [GherkinDocument.Feature.Tag](#io.cucumber.messages.GherkinDocument.Feature.Tag) | repeated |  |
-| language | [string](#string) |  |  |
-| keyword | [string](#string) |  |  |
-| name | [string](#string) |  |  |
-| description | [string](#string) |  |  |
-| children | [GherkinDocument.Feature.FeatureChild](#io.cucumber.messages.GherkinDocument.Feature.FeatureChild) | repeated |  |
+| location | [Location](#io.cucumber.messages.Location) |  | The location of the `Feature` keyword |
+| tags | [GherkinDocument.Feature.Tag](#io.cucumber.messages.GherkinDocument.Feature.Tag) | repeated | All the tags placed above the `Feature` keyword |
+| language | [string](#string) |  | The [ISO 639-1](https://en.wikipedia.org/wiki/ISO_639-1) language code of the Gherkin document |
+| keyword | [string](#string) |  | The text of the `Feature` keyword (in the language specified by `language`) |
+| name | [string](#string) |  | The name of the feature (the text following the `keyword`) |
+| description | [string](#string) |  | The line(s) underneath the line with the `keyword` that are used as description |
+| children | [GherkinDocument.Feature.FeatureChild](#io.cucumber.messages.GherkinDocument.Feature.FeatureChild) | repeated | Zero or more children |
 
 
 
@@ -372,7 +385,7 @@ All messages sent between processes must be of type Wrapper
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| location | [Location](#io.cucumber.messages.Location) |  |  |
+| location | [Location](#io.cucumber.messages.Location) |  | The location of the `Background` keyword |
 | keyword | [string](#string) |  |  |
 | name | [string](#string) |  |  |
 | description | [string](#string) |  |  |
@@ -386,7 +399,7 @@ All messages sent between processes must be of type Wrapper
 <a name="io.cucumber.messages.GherkinDocument.Feature.FeatureChild"></a>
 
 ### GherkinDocument.Feature.FeatureChild
-
+A child node of a `Feature` node
 
 
 | Field | Type | Label | Description |
@@ -403,12 +416,12 @@ All messages sent between processes must be of type Wrapper
 <a name="io.cucumber.messages.GherkinDocument.Feature.FeatureChild.Rule"></a>
 
 ### GherkinDocument.Feature.FeatureChild.Rule
-
+A `Rule` node
 
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| location | [Location](#io.cucumber.messages.Location) |  |  |
+| location | [Location](#io.cucumber.messages.Location) |  | The location of the `Rule` keyword |
 | keyword | [string](#string) |  |  |
 | name | [string](#string) |  |  |
 | description | [string](#string) |  |  |
@@ -443,7 +456,7 @@ All messages sent between processes must be of type Wrapper
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| location | [Location](#io.cucumber.messages.Location) |  |  |
+| location | [Location](#io.cucumber.messages.Location) |  | The location of the `Scenario` keyword |
 | tags | [GherkinDocument.Feature.Tag](#io.cucumber.messages.GherkinDocument.Feature.Tag) | repeated |  |
 | keyword | [string](#string) |  |  |
 | name | [string](#string) |  |  |
@@ -464,7 +477,7 @@ All messages sent between processes must be of type Wrapper
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| location | [Location](#io.cucumber.messages.Location) |  |  |
+| location | [Location](#io.cucumber.messages.Location) |  | The location of the `Examples` keyword |
 | tags | [GherkinDocument.Feature.Tag](#io.cucumber.messages.GherkinDocument.Feature.Tag) | repeated |  |
 | keyword | [string](#string) |  |  |
 | name | [string](#string) |  |  |
@@ -480,12 +493,12 @@ All messages sent between processes must be of type Wrapper
 <a name="io.cucumber.messages.GherkinDocument.Feature.Step"></a>
 
 ### GherkinDocument.Feature.Step
-
+A step
 
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| location | [Location](#io.cucumber.messages.Location) |  |  |
+| location | [Location](#io.cucumber.messages.Location) |  | The location of the steps&#39; `keyword` |
 | keyword | [string](#string) |  |  |
 | text | [string](#string) |  |  |
 | doc_string | [GherkinDocument.Feature.Step.DocString](#io.cucumber.messages.GherkinDocument.Feature.Step.DocString) |  |  |
@@ -533,13 +546,13 @@ All messages sent between processes must be of type Wrapper
 <a name="io.cucumber.messages.GherkinDocument.Feature.TableRow"></a>
 
 ### GherkinDocument.Feature.TableRow
-
+A row in a table
 
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| location | [Location](#io.cucumber.messages.Location) |  |  |
-| cells | [GherkinDocument.Feature.TableRow.TableCell](#io.cucumber.messages.GherkinDocument.Feature.TableRow.TableCell) | repeated |  |
+| location | [Location](#io.cucumber.messages.Location) |  | The location of the first cell in the row |
+| cells | [GherkinDocument.Feature.TableRow.TableCell](#io.cucumber.messages.GherkinDocument.Feature.TableRow.TableCell) | repeated | Cells in the row |
 
 
 
@@ -549,13 +562,13 @@ All messages sent between processes must be of type Wrapper
 <a name="io.cucumber.messages.GherkinDocument.Feature.TableRow.TableCell"></a>
 
 ### GherkinDocument.Feature.TableRow.TableCell
-
+A cell in a `TableRow`
 
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| location | [Location](#io.cucumber.messages.Location) |  |  |
-| value | [string](#string) |  |  |
+| location | [Location](#io.cucumber.messages.Location) |  | The location of the cell |
+| value | [string](#string) |  | The value of the cell |
 
 
 
@@ -565,13 +578,13 @@ All messages sent between processes must be of type Wrapper
 <a name="io.cucumber.messages.GherkinDocument.Feature.Tag"></a>
 
 ### GherkinDocument.Feature.Tag
-
+A tag
 
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| location | [Location](#io.cucumber.messages.Location) |  |  |
-| name | [string](#string) |  |  |
+| location | [Location](#io.cucumber.messages.Location) |  | Location of the tag |
+| name | [string](#string) |  | The name of the tag (including the leading `@`) |
 
 
 
@@ -581,7 +594,7 @@ All messages sent between processes must be of type Wrapper
 <a name="io.cucumber.messages.Location"></a>
 
 ### Location
-
+Points to a line and a column in a text file
 
 
 | Field | Type | Label | Description |
@@ -597,13 +610,13 @@ All messages sent between processes must be of type Wrapper
 <a name="io.cucumber.messages.Media"></a>
 
 ### Media
-
+Meta information about encoded contents
 
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| encoding | [string](#string) |  |  |
-| content_type | [string](#string) |  |  |
+| encoding | [Media.Encoding](#io.cucumber.messages.Media.Encoding) |  | The encoding of the data |
+| content_type | [string](#string) |  | The content type of the data. This can be any valid [IANA Media Type](https://www.iana.org/assignments/media-types/media-types.xhtml) as well as Cucumber-specific media types such as `text/x.cucumber.gherkin&#43;plain` and `text/x.cucumber.stacktrace&#43;plain` |
 
 
 
@@ -647,18 +660,25 @@ All messages sent between processes must be of type Wrapper
 <a name="io.cucumber.messages.Pickle"></a>
 
 ### Pickle
+A `Pickle` represents a test case Cucumber can *execute*. It is typically derived
+from another format, such as [GherkinDocument](#io.cucumber.messages.GherkinDocument).
+In the future a `Pickle` may be derived from other formats such as Markdown or
+Excel files.
 
+By making `Pickle` the main data structure Cucumber uses for execution, the 
+implementation of Cucumber itself becomes simpler, as it doesn&#39;t have to deal
+with the complex structure of a [GherkinDocument](#io.cucumber.messages.GherkinDocument).
 
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| id | [string](#string) |  |  |
-| uri | [string](#string) |  |  |
-| name | [string](#string) |  |  |
-| language | [string](#string) |  |  |
-| steps | [Pickle.PickleStep](#io.cucumber.messages.Pickle.PickleStep) | repeated |  |
-| tags | [Pickle.PickleTag](#io.cucumber.messages.Pickle.PickleTag) | repeated |  |
-| locations | [Location](#io.cucumber.messages.Location) | repeated |  |
+| id | [string](#string) |  | A unique id for the pickle. This is a [SHA1](https://en.wikipedia.org/wiki/SHA-1) hash from the source data and the `locations` of the pickle. This ID will change if source the file is modified. |
+| uri | [string](#string) |  | The uri of the source file |
+| name | [string](#string) |  | The name of the pickle |
+| language | [string](#string) |  | The language of the pickle |
+| steps | [Pickle.PickleStep](#io.cucumber.messages.Pickle.PickleStep) | repeated | One or more steps |
+| tags | [Pickle.PickleTag](#io.cucumber.messages.Pickle.PickleTag) | repeated | One or more tags. If this pickle is constructed from a Gherkin document, It includes inherited tags from the `Feature` as well. |
+| locations | [Location](#io.cucumber.messages.Location) | repeated | The source locations of the pickle. The last one represents the unique line number. A pickle constructed from `Examples` will have the first location originating from the `Step`, and the second from the table row. |
 
 
 
@@ -668,14 +688,14 @@ All messages sent between processes must be of type Wrapper
 <a name="io.cucumber.messages.Pickle.PickleStep"></a>
 
 ### Pickle.PickleStep
-
+An executable step
 
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
 | text | [string](#string) |  |  |
 | locations | [Location](#io.cucumber.messages.Location) | repeated |  |
-| argument | [PickleStepArgument](#io.cucumber.messages.PickleStepArgument) |  |  |
+| argument | [PickleStepArgument](#io.cucumber.messages.PickleStepArgument) |  | An optional argument |
 
 
 
@@ -685,7 +705,7 @@ All messages sent between processes must be of type Wrapper
 <a name="io.cucumber.messages.Pickle.PickleTag"></a>
 
 ### Pickle.PickleTag
-
+A tag
 
 
 | Field | Type | Label | Description |
@@ -731,7 +751,7 @@ All messages sent between processes must be of type Wrapper
 <a name="io.cucumber.messages.PickleStepArgument"></a>
 
 ### PickleStepArgument
-
+A wrapper for either a doc string or a table.
 
 
 | Field | Type | Label | Description |
@@ -828,14 +848,14 @@ All messages sent between processes must be of type Wrapper
 <a name="io.cucumber.messages.Source"></a>
 
 ### Source
-
+A source file, typically a Gherkin document
 
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| uri | [string](#string) |  |  |
-| data | [string](#string) |  |  |
-| media | [Media](#io.cucumber.messages.Media) |  |  |
+| uri | [string](#string) |  | The [URI](https://en.wikipedia.org/wiki/Uniform_Resource_Identifier) of the source, typically a file path relative to the root directory |
+| data | [string](#string) |  | The contents of the file |
+| media | [Media](#io.cucumber.messages.Media) |  | The media type of the file |
 
 
 
@@ -845,7 +865,8 @@ All messages sent between processes must be of type Wrapper
 <a name="io.cucumber.messages.SourceReference"></a>
 
 ### SourceReference
-
+Points to a [Source](#io.cucumber.messages.Source) identified by `uri` and a 
+[Location](#io.cucumber.messages.Location) within that file.
 
 
 | Field | Type | Label | Description |
@@ -1102,7 +1123,7 @@ All messages sent between processes must be of type Wrapper
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| status | [Status](#io.cucumber.messages.Status) |  |  |
+| status | [TestResult.Status](#io.cucumber.messages.TestResult.Status) |  |  |
 | message | [string](#string) |  |  |
 | durationNanoseconds | [uint64](#uint64) |  |  |
 
@@ -1194,6 +1215,18 @@ All messages sent between processes must be of type Wrapper
  
 
 
+<a name="io.cucumber.messages.Media.Encoding"></a>
+
+### Media.Encoding
+
+
+| Name | Number | Description |
+| ---- | ------ | ----------- |
+| BASE64 | 0 | Base64 encoded binary data |
+| UTF8 | 1 | UTF8 encoded string |
+
+
+
 <a name="io.cucumber.messages.SourcesOrderType"></a>
 
 ### SourcesOrderType
@@ -1206,9 +1239,21 @@ All messages sent between processes must be of type Wrapper
 
 
 
-<a name="io.cucumber.messages.Status"></a>
+<a name="io.cucumber.messages.StepDefinitionPatternType"></a>
 
-### Status
+### StepDefinitionPatternType
+
+
+| Name | Number | Description |
+| ---- | ------ | ----------- |
+| CUCUMBER_EXPRESSION | 0 |  |
+| REGULAR_EXPRESSION | 1 |  |
+
+
+
+<a name="io.cucumber.messages.TestResult.Status"></a>
+
+### TestResult.Status
 
 
 | Name | Number | Description |
@@ -1219,18 +1264,6 @@ All messages sent between processes must be of type Wrapper
 | PENDING | 3 |  |
 | SKIPPED | 4 |  |
 | UNDEFINED | 5 |  |
-
-
-
-<a name="io.cucumber.messages.StepDefinitionPatternType"></a>
-
-### StepDefinitionPatternType
-
-
-| Name | Number | Description |
-| ---- | ------ | ----------- |
-| CUCUMBER_EXPRESSION | 0 |  |
-| REGULAR_EXPRESSION | 1 |  |
 
 
  

@@ -84,7 +84,7 @@ func Messages(
 		}
 
 		if includePickles {
-			for _, pickle := range Pickles(*doc, source.Uri) {
+			for _, pickle := range Pickles(*doc, source.Uri, source.Data) {
 				result, err = handleMessage(result, &messages.Envelope{
 					Message: &messages.Envelope_Pickle{
 						Pickle: pickle,
@@ -119,7 +119,7 @@ func Messages(
 				Uri:  path,
 				Data: string(in),
 				Media: &messages.Media{
-					Encoding:    "UTF-8",
+					Encoding:    messages.Media_UTF8,
 					ContentType: "text/x.cucumber.gherkin+plain",
 				},
 			}

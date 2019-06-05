@@ -72,7 +72,8 @@ $root.io = (function() {
                 /**
                  * Constructs a new Envelope.
                  * @memberof io.cucumber.messages
-                 * @classdesc Represents an Envelope.
+                 * @classdesc All the messages that are passed between different components/processes are Envelope
+                 * messages.
                  * @implements IEnvelope
                  * @constructor
                  * @param {io.cucumber.messages.IEnvelope=} [properties] Properties to set
@@ -1070,7 +1071,7 @@ $root.io = (function() {
                 /**
                  * Constructs a new Location.
                  * @memberof io.cucumber.messages
-                 * @classdesc Represents a Location.
+                 * @classdesc Points to a line and a column in a text file
                  * @implements ILocation
                  * @constructor
                  * @param {io.cucumber.messages.ILocation=} [properties] Properties to set
@@ -1280,7 +1281,8 @@ $root.io = (function() {
                 /**
                  * Constructs a new SourceReference.
                  * @memberof io.cucumber.messages
-                 * @classdesc Represents a SourceReference.
+                 * @classdesc Points to a [Source](#io.cucumber.messages.Source) identified by `uri` and a
+                 * [Location](#io.cucumber.messages.Location) within that file.
                  * @implements ISourceReference
                  * @constructor
                  * @param {io.cucumber.messages.ISourceReference=} [properties] Properties to set
@@ -1488,14 +1490,17 @@ $root.io = (function() {
                  * Properties of a Media.
                  * @memberof io.cucumber.messages
                  * @interface IMedia
-                 * @property {string|null} [encoding] Media encoding
-                 * @property {string|null} [contentType] Media contentType
+                 * @property {io.cucumber.messages.Media.Encoding|null} [encoding] Media encoding
+                 * @property {string|null} [contentType] The content type of the data. This can be any valid
+                 * [IANA Media Type](https://www.iana.org/assignments/media-types/media-types.xhtml)
+                 * as well as Cucumber-specific media types such as `text/x.cucumber.gherkin+plain`
+                 * and `text/x.cucumber.stacktrace+plain`
                  */
 
                 /**
                  * Constructs a new Media.
                  * @memberof io.cucumber.messages
-                 * @classdesc Represents a Media.
+                 * @classdesc Meta information about encoded contents
                  * @implements IMedia
                  * @constructor
                  * @param {io.cucumber.messages.IMedia=} [properties] Properties to set
@@ -1509,14 +1514,17 @@ $root.io = (function() {
 
                 /**
                  * Media encoding.
-                 * @member {string} encoding
+                 * @member {io.cucumber.messages.Media.Encoding} encoding
                  * @memberof io.cucumber.messages.Media
                  * @instance
                  */
-                Media.prototype.encoding = "";
+                Media.prototype.encoding = 0;
 
                 /**
-                 * Media contentType.
+                 * The content type of the data. This can be any valid
+                 * [IANA Media Type](https://www.iana.org/assignments/media-types/media-types.xhtml)
+                 * as well as Cucumber-specific media types such as `text/x.cucumber.gherkin+plain`
+                 * and `text/x.cucumber.stacktrace+plain`
                  * @member {string} contentType
                  * @memberof io.cucumber.messages.Media
                  * @instance
@@ -1548,7 +1556,7 @@ $root.io = (function() {
                     if (!writer)
                         writer = $Writer.create();
                     if (message.encoding != null && message.hasOwnProperty("encoding"))
-                        writer.uint32(/* id 1, wireType 2 =*/10).string(message.encoding);
+                        writer.uint32(/* id 1, wireType 0 =*/8).int32(message.encoding);
                     if (message.contentType != null && message.hasOwnProperty("contentType"))
                         writer.uint32(/* id 2, wireType 2 =*/18).string(message.contentType);
                     return writer;
@@ -1586,7 +1594,7 @@ $root.io = (function() {
                         var tag = reader.uint32();
                         switch (tag >>> 3) {
                         case 1:
-                            message.encoding = reader.string();
+                            message.encoding = reader.int32();
                             break;
                         case 2:
                             message.contentType = reader.string();
@@ -1627,8 +1635,13 @@ $root.io = (function() {
                     if (typeof message !== "object" || message === null)
                         return "object expected";
                     if (message.encoding != null && message.hasOwnProperty("encoding"))
-                        if (!$util.isString(message.encoding))
-                            return "encoding: string expected";
+                        switch (message.encoding) {
+                        default:
+                            return "encoding: enum value expected";
+                        case 0:
+                        case 1:
+                            break;
+                        }
                     if (message.contentType != null && message.hasOwnProperty("contentType"))
                         if (!$util.isString(message.contentType))
                             return "contentType: string expected";
@@ -1647,8 +1660,16 @@ $root.io = (function() {
                     if (object instanceof $root.io.cucumber.messages.Media)
                         return object;
                     var message = new $root.io.cucumber.messages.Media();
-                    if (object.encoding != null)
-                        message.encoding = String(object.encoding);
+                    switch (object.encoding) {
+                    case "BASE64":
+                    case 0:
+                        message.encoding = 0;
+                        break;
+                    case "UTF8":
+                    case 1:
+                        message.encoding = 1;
+                        break;
+                    }
                     if (object.contentType != null)
                         message.contentType = String(object.contentType);
                     return message;
@@ -1668,11 +1689,11 @@ $root.io = (function() {
                         options = {};
                     var object = {};
                     if (options.defaults) {
-                        object.encoding = "";
+                        object.encoding = options.enums === String ? "BASE64" : 0;
                         object.contentType = "";
                     }
                     if (message.encoding != null && message.hasOwnProperty("encoding"))
-                        object.encoding = message.encoding;
+                        object.encoding = options.enums === String ? $root.io.cucumber.messages.Media.Encoding[message.encoding] : message.encoding;
                     if (message.contentType != null && message.hasOwnProperty("contentType"))
                         object.contentType = message.contentType;
                     return object;
@@ -1689,6 +1710,20 @@ $root.io = (function() {
                     return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
                 };
 
+                /**
+                 * Encoding enum.
+                 * @name io.cucumber.messages.Media.Encoding
+                 * @enum {string}
+                 * @property {number} BASE64=0 BASE64 value
+                 * @property {number} UTF8=1 UTF8 value
+                 */
+                Media.Encoding = (function() {
+                    var valuesById = {}, values = Object.create(valuesById);
+                    values[valuesById[0] = "BASE64"] = 0;
+                    values[valuesById[1] = "UTF8"] = 1;
+                    return values;
+                })();
+
                 return Media;
             })();
 
@@ -1698,7 +1733,8 @@ $root.io = (function() {
                  * Properties of a Source.
                  * @memberof io.cucumber.messages
                  * @interface ISource
-                 * @property {string|null} [uri] Source uri
+                 * @property {string|null} [uri] The [URI](https://en.wikipedia.org/wiki/Uniform_Resource_Identifier)
+                 * of the source, typically a file path relative to the root directory
                  * @property {string|null} [data] Source data
                  * @property {io.cucumber.messages.IMedia|null} [media] Source media
                  */
@@ -1706,7 +1742,7 @@ $root.io = (function() {
                 /**
                  * Constructs a new Source.
                  * @memberof io.cucumber.messages
-                 * @classdesc Represents a Source.
+                 * @classdesc A source file, typically a Gherkin document
                  * @implements ISource
                  * @constructor
                  * @param {io.cucumber.messages.ISource=} [properties] Properties to set
@@ -1719,7 +1755,8 @@ $root.io = (function() {
                 }
 
                 /**
-                 * Source uri.
+                 * The [URI](https://en.wikipedia.org/wiki/Uniform_Resource_Identifier)
+                 * of the source, typically a file path relative to the root directory
                  * @member {string} uri
                  * @memberof io.cucumber.messages.Source
                  * @instance
@@ -1935,7 +1972,8 @@ $root.io = (function() {
                  * Properties of a GherkinDocument.
                  * @memberof io.cucumber.messages
                  * @interface IGherkinDocument
-                 * @property {string|null} [uri] GherkinDocument uri
+                 * @property {string|null} [uri] The [URI](https://en.wikipedia.org/wiki/Uniform_Resource_Identifier)
+                 * of the source, typically a file path relative to the root directory
                  * @property {io.cucumber.messages.GherkinDocument.IFeature|null} [feature] GherkinDocument feature
                  * @property {Array.<io.cucumber.messages.GherkinDocument.IComment>|null} [comments] GherkinDocument comments
                  */
@@ -1943,7 +1981,12 @@ $root.io = (function() {
                 /**
                  * Constructs a new GherkinDocument.
                  * @memberof io.cucumber.messages
-                 * @classdesc Represents a GherkinDocument.
+                 * @classdesc The [AST](https://en.wikipedia.org/wiki/Abstract_syntax_tree) of a Gherkin document.
+                 * Cucumber implementations should *not* depend on `GherkinDocument` or any of its
+                 * children for execution - use [Pickle](#io.cucumber.messages.Pickle) instead.
+                 * 
+                 * The only consumers of `GherkinDocument` should only be formatters that produce
+                 * "rich" output, resembling the original Gherkin document.
                  * @implements IGherkinDocument
                  * @constructor
                  * @param {io.cucumber.messages.IGherkinDocument=} [properties] Properties to set
@@ -1957,7 +2000,8 @@ $root.io = (function() {
                 }
 
                 /**
-                 * GherkinDocument uri.
+                 * The [URI](https://en.wikipedia.org/wiki/Uniform_Resource_Identifier)
+                 * of the source, typically a file path relative to the root directory
                  * @member {string} uri
                  * @memberof io.cucumber.messages.GherkinDocument
                  * @instance
@@ -2198,7 +2242,7 @@ $root.io = (function() {
                     /**
                      * Constructs a new Comment.
                      * @memberof io.cucumber.messages.GherkinDocument
-                     * @classdesc Represents a Comment.
+                     * @classdesc A comment in a Gherkin document
                      * @implements IComment
                      * @constructor
                      * @param {io.cucumber.messages.GherkinDocument.IComment=} [properties] Properties to set
@@ -2418,7 +2462,7 @@ $root.io = (function() {
                     /**
                      * Constructs a new Feature.
                      * @memberof io.cucumber.messages.GherkinDocument
-                     * @classdesc Represents a Feature.
+                     * @classdesc The top level node in the AST
                      * @implements IFeature
                      * @constructor
                      * @param {io.cucumber.messages.GherkinDocument.IFeature=} [properties] Properties to set
@@ -2779,7 +2823,7 @@ $root.io = (function() {
                         /**
                          * Constructs a new Tag.
                          * @memberof io.cucumber.messages.GherkinDocument.Feature
-                         * @classdesc Represents a Tag.
+                         * @classdesc A tag
                          * @implements ITag
                          * @constructor
                          * @param {io.cucumber.messages.GherkinDocument.Feature.ITag=} [properties] Properties to set
@@ -2995,7 +3039,7 @@ $root.io = (function() {
                         /**
                          * Constructs a new FeatureChild.
                          * @memberof io.cucumber.messages.GherkinDocument.Feature
-                         * @classdesc Represents a FeatureChild.
+                         * @classdesc A child node of a `Feature` node
                          * @implements IFeatureChild
                          * @constructor
                          * @param {io.cucumber.messages.GherkinDocument.Feature.IFeatureChild=} [properties] Properties to set
@@ -3273,7 +3317,7 @@ $root.io = (function() {
                             /**
                              * Constructs a new Rule.
                              * @memberof io.cucumber.messages.GherkinDocument.Feature.FeatureChild
-                             * @classdesc Represents a Rule.
+                             * @classdesc A `Rule` node
                              * @implements IRule
                              * @constructor
                              * @param {io.cucumber.messages.GherkinDocument.Feature.FeatureChild.IRule=} [properties] Properties to set
@@ -6159,7 +6203,13 @@ $root.io = (function() {
                 /**
                  * Constructs a new Attachment.
                  * @memberof io.cucumber.messages
-                 * @classdesc Represents an Attachment.
+                 * @classdesc An attachment represents any kind of data associated with a line in a
+                 * [Source](#io.cucumber.messages.Source) file. It can be used for:
+                 * 
+                 * * Syntax errors during parse time
+                 * * Screenshots captured and attached during execution
+                 * * Logs captured and attached during execution
+                 * * Runtime errors raised/thrown during execution (TODO: Conflicts with `TestResult#message`?)
                  * @implements IAttachment
                  * @constructor
                  * @param {io.cucumber.messages.IAttachment=} [properties] Properties to set
@@ -6393,19 +6443,31 @@ $root.io = (function() {
                  * Properties of a Pickle.
                  * @memberof io.cucumber.messages
                  * @interface IPickle
-                 * @property {string|null} [id] Pickle id
+                 * @property {string|null} [id] A unique id for the pickle. This is a [SHA1](https://en.wikipedia.org/wiki/SHA-1) hash
+                 * from the source data and the `locations` of the pickle.
+                 * This ID will change if source the file is modified.
                  * @property {string|null} [uri] Pickle uri
                  * @property {string|null} [name] Pickle name
                  * @property {string|null} [language] Pickle language
                  * @property {Array.<io.cucumber.messages.Pickle.IPickleStep>|null} [steps] Pickle steps
-                 * @property {Array.<io.cucumber.messages.Pickle.IPickleTag>|null} [tags] Pickle tags
-                 * @property {Array.<io.cucumber.messages.ILocation>|null} [locations] Pickle locations
+                 * @property {Array.<io.cucumber.messages.Pickle.IPickleTag>|null} [tags] One or more tags. If this pickle is constructed from a Gherkin document,
+                 * It includes inherited tags from the `Feature` as well.
+                 * @property {Array.<io.cucumber.messages.ILocation>|null} [locations] The source locations of the pickle. The last one represents the unique
+                 * line number. A pickle constructed from `Examples` will have the first
+                 * location originating from the `Step`, and the second from the table row.
                  */
 
                 /**
                  * Constructs a new Pickle.
                  * @memberof io.cucumber.messages
-                 * @classdesc Represents a Pickle.
+                 * @classdesc A `Pickle` represents a test case Cucumber can *execute*. It is typically derived
+                 * from another format, such as [GherkinDocument](#io.cucumber.messages.GherkinDocument).
+                 * In the future a `Pickle` may be derived from other formats such as Markdown or
+                 * Excel files.
+                 * 
+                 * By making `Pickle` the main data structure Cucumber uses for execution, the
+                 * implementation of Cucumber itself becomes simpler, as it doesn't have to deal
+                 * with the complex structure of a [GherkinDocument](#io.cucumber.messages.GherkinDocument).
                  * @implements IPickle
                  * @constructor
                  * @param {io.cucumber.messages.IPickle=} [properties] Properties to set
@@ -6421,7 +6483,9 @@ $root.io = (function() {
                 }
 
                 /**
-                 * Pickle id.
+                 * A unique id for the pickle. This is a [SHA1](https://en.wikipedia.org/wiki/SHA-1) hash
+                 * from the source data and the `locations` of the pickle.
+                 * This ID will change if source the file is modified.
                  * @member {string} id
                  * @memberof io.cucumber.messages.Pickle
                  * @instance
@@ -6461,7 +6525,8 @@ $root.io = (function() {
                 Pickle.prototype.steps = $util.emptyArray;
 
                 /**
-                 * Pickle tags.
+                 * One or more tags. If this pickle is constructed from a Gherkin document,
+                 * It includes inherited tags from the `Feature` as well.
                  * @member {Array.<io.cucumber.messages.Pickle.IPickleTag>} tags
                  * @memberof io.cucumber.messages.Pickle
                  * @instance
@@ -6469,7 +6534,9 @@ $root.io = (function() {
                 Pickle.prototype.tags = $util.emptyArray;
 
                 /**
-                 * Pickle locations.
+                 * The source locations of the pickle. The last one represents the unique
+                 * line number. A pickle constructed from `Examples` will have the first
+                 * location originating from the `Step`, and the second from the table row.
                  * @member {Array.<io.cucumber.messages.ILocation>} locations
                  * @memberof io.cucumber.messages.Pickle
                  * @instance
@@ -6782,7 +6849,7 @@ $root.io = (function() {
                     /**
                      * Constructs a new PickleTag.
                      * @memberof io.cucumber.messages.Pickle
-                     * @classdesc Represents a PickleTag.
+                     * @classdesc A tag
                      * @implements IPickleTag
                      * @constructor
                      * @param {io.cucumber.messages.Pickle.IPickleTag=} [properties] Properties to set
@@ -6998,7 +7065,7 @@ $root.io = (function() {
                     /**
                      * Constructs a new PickleStep.
                      * @memberof io.cucumber.messages.Pickle
-                     * @classdesc Represents a PickleStep.
+                     * @classdesc An executable step
                      * @implements IPickleStep
                      * @constructor
                      * @param {io.cucumber.messages.Pickle.IPickleStep=} [properties] Properties to set
@@ -7259,7 +7326,7 @@ $root.io = (function() {
                 /**
                  * Constructs a new PickleStepArgument.
                  * @memberof io.cucumber.messages
-                 * @classdesc Represents a PickleStepArgument.
+                 * @classdesc A wrapper for either a doc string or a table.
                  * @implements IPickleStepArgument
                  * @constructor
                  * @param {io.cucumber.messages.IPickleStepArgument=} [properties] Properties to set
@@ -11078,7 +11145,7 @@ $root.io = (function() {
                  * Properties of a TestResult.
                  * @memberof io.cucumber.messages
                  * @interface ITestResult
-                 * @property {io.cucumber.messages.Status|null} [status] TestResult status
+                 * @property {io.cucumber.messages.TestResult.Status|null} [status] TestResult status
                  * @property {string|null} [message] TestResult message
                  * @property {number|Long|null} [durationNanoseconds] TestResult durationNanoseconds
                  */
@@ -11100,7 +11167,7 @@ $root.io = (function() {
 
                 /**
                  * TestResult status.
-                 * @member {io.cucumber.messages.Status} status
+                 * @member {io.cucumber.messages.TestResult.Status} status
                  * @memberof io.cucumber.messages.TestResult
                  * @instance
                  */
@@ -11326,7 +11393,7 @@ $root.io = (function() {
                             object.durationNanoseconds = options.longs === String ? "0" : 0;
                     }
                     if (message.status != null && message.hasOwnProperty("status"))
-                        object.status = options.enums === String ? $root.io.cucumber.messages.Status[message.status] : message.status;
+                        object.status = options.enums === String ? $root.io.cucumber.messages.TestResult.Status[message.status] : message.status;
                     if (message.message != null && message.hasOwnProperty("message"))
                         object.message = message.message;
                     if (message.durationNanoseconds != null && message.hasOwnProperty("durationNanoseconds"))
@@ -11348,29 +11415,29 @@ $root.io = (function() {
                     return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
                 };
 
-                return TestResult;
-            })();
+                /**
+                 * Status enum.
+                 * @name io.cucumber.messages.TestResult.Status
+                 * @enum {string}
+                 * @property {number} AMBIGUOUS=0 AMBIGUOUS value
+                 * @property {number} FAILED=1 FAILED value
+                 * @property {number} PASSED=2 PASSED value
+                 * @property {number} PENDING=3 PENDING value
+                 * @property {number} SKIPPED=4 SKIPPED value
+                 * @property {number} UNDEFINED=5 UNDEFINED value
+                 */
+                TestResult.Status = (function() {
+                    var valuesById = {}, values = Object.create(valuesById);
+                    values[valuesById[0] = "AMBIGUOUS"] = 0;
+                    values[valuesById[1] = "FAILED"] = 1;
+                    values[valuesById[2] = "PASSED"] = 2;
+                    values[valuesById[3] = "PENDING"] = 3;
+                    values[valuesById[4] = "SKIPPED"] = 4;
+                    values[valuesById[5] = "UNDEFINED"] = 5;
+                    return values;
+                })();
 
-            /**
-             * Status enum.
-             * @name io.cucumber.messages.Status
-             * @enum {string}
-             * @property {number} AMBIGUOUS=0 AMBIGUOUS value
-             * @property {number} FAILED=1 FAILED value
-             * @property {number} PASSED=2 PASSED value
-             * @property {number} PENDING=3 PENDING value
-             * @property {number} SKIPPED=4 SKIPPED value
-             * @property {number} UNDEFINED=5 UNDEFINED value
-             */
-            messages.Status = (function() {
-                var valuesById = {}, values = Object.create(valuesById);
-                values[valuesById[0] = "AMBIGUOUS"] = 0;
-                values[valuesById[1] = "FAILED"] = 1;
-                values[valuesById[2] = "PASSED"] = 2;
-                values[valuesById[3] = "PENDING"] = 3;
-                values[valuesById[4] = "SKIPPED"] = 4;
-                values[valuesById[5] = "UNDEFINED"] = 5;
-                return values;
+                return TestResult;
             })();
 
             messages.TestRunFinished = (function() {

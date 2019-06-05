@@ -15,140 +15,6 @@ public final class Messages {
         (com.google.protobuf.ExtensionRegistryLite) registry);
   }
   /**
-   * Protobuf enum {@code io.cucumber.messages.Status}
-   */
-  public enum Status
-      implements com.google.protobuf.ProtocolMessageEnum {
-    /**
-     * <code>AMBIGUOUS = 0;</code>
-     */
-    AMBIGUOUS(0),
-    /**
-     * <code>FAILED = 1;</code>
-     */
-    FAILED(1),
-    /**
-     * <code>PASSED = 2;</code>
-     */
-    PASSED(2),
-    /**
-     * <code>PENDING = 3;</code>
-     */
-    PENDING(3),
-    /**
-     * <code>SKIPPED = 4;</code>
-     */
-    SKIPPED(4),
-    /**
-     * <code>UNDEFINED = 5;</code>
-     */
-    UNDEFINED(5),
-    UNRECOGNIZED(-1),
-    ;
-
-    /**
-     * <code>AMBIGUOUS = 0;</code>
-     */
-    public static final int AMBIGUOUS_VALUE = 0;
-    /**
-     * <code>FAILED = 1;</code>
-     */
-    public static final int FAILED_VALUE = 1;
-    /**
-     * <code>PASSED = 2;</code>
-     */
-    public static final int PASSED_VALUE = 2;
-    /**
-     * <code>PENDING = 3;</code>
-     */
-    public static final int PENDING_VALUE = 3;
-    /**
-     * <code>SKIPPED = 4;</code>
-     */
-    public static final int SKIPPED_VALUE = 4;
-    /**
-     * <code>UNDEFINED = 5;</code>
-     */
-    public static final int UNDEFINED_VALUE = 5;
-
-
-    public final int getNumber() {
-      if (this == UNRECOGNIZED) {
-        throw new java.lang.IllegalArgumentException(
-            "Can't get the number of an unknown enum value.");
-      }
-      return value;
-    }
-
-    /**
-     * @deprecated Use {@link #forNumber(int)} instead.
-     */
-    @java.lang.Deprecated
-    public static Status valueOf(int value) {
-      return forNumber(value);
-    }
-
-    public static Status forNumber(int value) {
-      switch (value) {
-        case 0: return AMBIGUOUS;
-        case 1: return FAILED;
-        case 2: return PASSED;
-        case 3: return PENDING;
-        case 4: return SKIPPED;
-        case 5: return UNDEFINED;
-        default: return null;
-      }
-    }
-
-    public static com.google.protobuf.Internal.EnumLiteMap<Status>
-        internalGetValueMap() {
-      return internalValueMap;
-    }
-    private static final com.google.protobuf.Internal.EnumLiteMap<
-        Status> internalValueMap =
-          new com.google.protobuf.Internal.EnumLiteMap<Status>() {
-            public Status findValueByNumber(int number) {
-              return Status.forNumber(number);
-            }
-          };
-
-    public final com.google.protobuf.Descriptors.EnumValueDescriptor
-        getValueDescriptor() {
-      return getDescriptor().getValues().get(ordinal());
-    }
-    public final com.google.protobuf.Descriptors.EnumDescriptor
-        getDescriptorForType() {
-      return getDescriptor();
-    }
-    public static final com.google.protobuf.Descriptors.EnumDescriptor
-        getDescriptor() {
-      return io.cucumber.messages.Messages.getDescriptor().getEnumTypes().get(0);
-    }
-
-    private static final Status[] VALUES = values();
-
-    public static Status valueOf(
-        com.google.protobuf.Descriptors.EnumValueDescriptor desc) {
-      if (desc.getType() != getDescriptor()) {
-        throw new java.lang.IllegalArgumentException(
-          "EnumValueDescriptor is not for this type.");
-      }
-      if (desc.getIndex() == -1) {
-        return UNRECOGNIZED;
-      }
-      return VALUES[desc.getIndex()];
-    }
-
-    private final int value;
-
-    private Status(int value) {
-      this.value = value;
-    }
-
-    // @@protoc_insertion_point(enum_scope:io.cucumber.messages.Status)
-  }
-
-  /**
    * Protobuf enum {@code io.cucumber.messages.SourcesOrderType}
    */
   public enum SourcesOrderType
@@ -220,7 +86,7 @@ public final class Messages {
     }
     public static final com.google.protobuf.Descriptors.EnumDescriptor
         getDescriptor() {
-      return io.cucumber.messages.Messages.getDescriptor().getEnumTypes().get(1);
+      return io.cucumber.messages.Messages.getDescriptor().getEnumTypes().get(0);
     }
 
     private static final SourcesOrderType[] VALUES = values();
@@ -318,7 +184,7 @@ public final class Messages {
     }
     public static final com.google.protobuf.Descriptors.EnumDescriptor
         getDescriptor() {
-      return io.cucumber.messages.Messages.getDescriptor().getEnumTypes().get(2);
+      return io.cucumber.messages.Messages.getDescriptor().getEnumTypes().get(1);
     }
 
     private static final StepDefinitionPatternType[] VALUES = values();
@@ -710,7 +576,9 @@ public final class Messages {
   }
   /**
    * <pre>
-   * All messages sent between processes must be of type Wrapper
+   **
+   * All the messages that are passed between different components/processes are Envelope
+   * messages.
    * </pre>
    *
    * Protobuf type {@code io.cucumber.messages.Envelope}
@@ -2444,7 +2312,9 @@ public final class Messages {
     }
     /**
      * <pre>
-     * All messages sent between processes must be of type Wrapper
+     **
+     * All the messages that are passed between different components/processes are Envelope
+     * messages.
      * </pre>
      *
      * Protobuf type {@code io.cucumber.messages.Envelope}
@@ -6402,6 +6272,11 @@ public final class Messages {
     int getColumn();
   }
   /**
+   * <pre>
+   **
+   * Points to a line and a column in a text file
+   * </pre>
+   *
    * Protobuf type {@code io.cucumber.messages.Location}
    */
   public  static final class Location extends
@@ -6670,6 +6545,11 @@ public final class Messages {
       return builder;
     }
     /**
+     * <pre>
+     **
+     * Points to a line and a column in a text file
+     * </pre>
+     *
      * Protobuf type {@code io.cucumber.messages.Location}
      */
     public static final class Builder extends
@@ -6954,6 +6834,12 @@ public final class Messages {
     io.cucumber.messages.Messages.LocationOrBuilder getLocationOrBuilder();
   }
   /**
+   * <pre>
+   **
+   * Points to a [Source](#io.cucumber.messages.Source) identified by `uri` and a 
+   * [Location](#io.cucumber.messages.Location) within that file.
+   * </pre>
+   *
    * Protobuf type {@code io.cucumber.messages.SourceReference}
    */
   public  static final class SourceReference extends
@@ -7271,6 +7157,12 @@ public final class Messages {
       return builder;
     }
     /**
+     * <pre>
+     **
+     * Points to a [Source](#io.cucumber.messages.Source) identified by `uri` and a 
+     * [Location](#io.cucumber.messages.Location) within that file.
+     * </pre>
+     *
      * Protobuf type {@code io.cucumber.messages.SourceReference}
      */
     public static final class Builder extends
@@ -7675,26 +7567,54 @@ public final class Messages {
       com.google.protobuf.MessageOrBuilder {
 
     /**
-     * <code>string encoding = 1;</code>
+     * <pre>
+     * The encoding of the data
+     * </pre>
+     *
+     * <code>.io.cucumber.messages.Media.Encoding encoding = 1;</code>
      */
-    java.lang.String getEncoding();
+    int getEncodingValue();
     /**
-     * <code>string encoding = 1;</code>
+     * <pre>
+     * The encoding of the data
+     * </pre>
+     *
+     * <code>.io.cucumber.messages.Media.Encoding encoding = 1;</code>
      */
-    com.google.protobuf.ByteString
-        getEncodingBytes();
+    io.cucumber.messages.Messages.Media.Encoding getEncoding();
 
     /**
+     * <pre>
+     **
+     * The content type of the data. This can be any valid
+     * [IANA Media Type](https://www.iana.org/assignments/media-types/media-types.xhtml)
+     * as well as Cucumber-specific media types such as `text/x.cucumber.gherkin+plain`
+     * and `text/x.cucumber.stacktrace+plain`
+     * </pre>
+     *
      * <code>string content_type = 2;</code>
      */
     java.lang.String getContentType();
     /**
+     * <pre>
+     **
+     * The content type of the data. This can be any valid
+     * [IANA Media Type](https://www.iana.org/assignments/media-types/media-types.xhtml)
+     * as well as Cucumber-specific media types such as `text/x.cucumber.gherkin+plain`
+     * and `text/x.cucumber.stacktrace+plain`
+     * </pre>
+     *
      * <code>string content_type = 2;</code>
      */
     com.google.protobuf.ByteString
         getContentTypeBytes();
   }
   /**
+   * <pre>
+   **
+   * Meta information about encoded contents
+   * </pre>
+   *
    * Protobuf type {@code io.cucumber.messages.Media}
    */
   public  static final class Media extends
@@ -7707,7 +7627,7 @@ public final class Messages {
       super(builder);
     }
     private Media() {
-      encoding_ = "";
+      encoding_ = 0;
       contentType_ = "";
     }
 
@@ -7735,10 +7655,10 @@ public final class Messages {
             case 0:
               done = true;
               break;
-            case 10: {
-              java.lang.String s = input.readStringRequireUtf8();
+            case 8: {
+              int rawValue = input.readEnum();
 
-              encoding_ = s;
+              encoding_ = rawValue;
               break;
             }
             case 18: {
@@ -7779,43 +7699,156 @@ public final class Messages {
               io.cucumber.messages.Messages.Media.class, io.cucumber.messages.Messages.Media.Builder.class);
     }
 
-    public static final int ENCODING_FIELD_NUMBER = 1;
-    private volatile java.lang.Object encoding_;
     /**
-     * <code>string encoding = 1;</code>
+     * Protobuf enum {@code io.cucumber.messages.Media.Encoding}
      */
-    public java.lang.String getEncoding() {
-      java.lang.Object ref = encoding_;
-      if (ref instanceof java.lang.String) {
-        return (java.lang.String) ref;
-      } else {
-        com.google.protobuf.ByteString bs = 
-            (com.google.protobuf.ByteString) ref;
-        java.lang.String s = bs.toStringUtf8();
-        encoding_ = s;
-        return s;
+    public enum Encoding
+        implements com.google.protobuf.ProtocolMessageEnum {
+      /**
+       * <pre>
+       * Base64 encoded binary data
+       * </pre>
+       *
+       * <code>BASE64 = 0;</code>
+       */
+      BASE64(0),
+      /**
+       * <pre>
+       * UTF8 encoded string
+       * </pre>
+       *
+       * <code>UTF8 = 1;</code>
+       */
+      UTF8(1),
+      UNRECOGNIZED(-1),
+      ;
+
+      /**
+       * <pre>
+       * Base64 encoded binary data
+       * </pre>
+       *
+       * <code>BASE64 = 0;</code>
+       */
+      public static final int BASE64_VALUE = 0;
+      /**
+       * <pre>
+       * UTF8 encoded string
+       * </pre>
+       *
+       * <code>UTF8 = 1;</code>
+       */
+      public static final int UTF8_VALUE = 1;
+
+
+      public final int getNumber() {
+        if (this == UNRECOGNIZED) {
+          throw new java.lang.IllegalArgumentException(
+              "Can't get the number of an unknown enum value.");
+        }
+        return value;
       }
+
+      /**
+       * @deprecated Use {@link #forNumber(int)} instead.
+       */
+      @java.lang.Deprecated
+      public static Encoding valueOf(int value) {
+        return forNumber(value);
+      }
+
+      public static Encoding forNumber(int value) {
+        switch (value) {
+          case 0: return BASE64;
+          case 1: return UTF8;
+          default: return null;
+        }
+      }
+
+      public static com.google.protobuf.Internal.EnumLiteMap<Encoding>
+          internalGetValueMap() {
+        return internalValueMap;
+      }
+      private static final com.google.protobuf.Internal.EnumLiteMap<
+          Encoding> internalValueMap =
+            new com.google.protobuf.Internal.EnumLiteMap<Encoding>() {
+              public Encoding findValueByNumber(int number) {
+                return Encoding.forNumber(number);
+              }
+            };
+
+      public final com.google.protobuf.Descriptors.EnumValueDescriptor
+          getValueDescriptor() {
+        return getDescriptor().getValues().get(ordinal());
+      }
+      public final com.google.protobuf.Descriptors.EnumDescriptor
+          getDescriptorForType() {
+        return getDescriptor();
+      }
+      public static final com.google.protobuf.Descriptors.EnumDescriptor
+          getDescriptor() {
+        return io.cucumber.messages.Messages.Media.getDescriptor().getEnumTypes().get(0);
+      }
+
+      private static final Encoding[] VALUES = values();
+
+      public static Encoding valueOf(
+          com.google.protobuf.Descriptors.EnumValueDescriptor desc) {
+        if (desc.getType() != getDescriptor()) {
+          throw new java.lang.IllegalArgumentException(
+            "EnumValueDescriptor is not for this type.");
+        }
+        if (desc.getIndex() == -1) {
+          return UNRECOGNIZED;
+        }
+        return VALUES[desc.getIndex()];
+      }
+
+      private final int value;
+
+      private Encoding(int value) {
+        this.value = value;
+      }
+
+      // @@protoc_insertion_point(enum_scope:io.cucumber.messages.Media.Encoding)
+    }
+
+    public static final int ENCODING_FIELD_NUMBER = 1;
+    private int encoding_;
+    /**
+     * <pre>
+     * The encoding of the data
+     * </pre>
+     *
+     * <code>.io.cucumber.messages.Media.Encoding encoding = 1;</code>
+     */
+    public int getEncodingValue() {
+      return encoding_;
     }
     /**
-     * <code>string encoding = 1;</code>
+     * <pre>
+     * The encoding of the data
+     * </pre>
+     *
+     * <code>.io.cucumber.messages.Media.Encoding encoding = 1;</code>
      */
-    public com.google.protobuf.ByteString
-        getEncodingBytes() {
-      java.lang.Object ref = encoding_;
-      if (ref instanceof java.lang.String) {
-        com.google.protobuf.ByteString b = 
-            com.google.protobuf.ByteString.copyFromUtf8(
-                (java.lang.String) ref);
-        encoding_ = b;
-        return b;
-      } else {
-        return (com.google.protobuf.ByteString) ref;
-      }
+    public io.cucumber.messages.Messages.Media.Encoding getEncoding() {
+      @SuppressWarnings("deprecation")
+      io.cucumber.messages.Messages.Media.Encoding result = io.cucumber.messages.Messages.Media.Encoding.valueOf(encoding_);
+      return result == null ? io.cucumber.messages.Messages.Media.Encoding.UNRECOGNIZED : result;
     }
 
     public static final int CONTENT_TYPE_FIELD_NUMBER = 2;
     private volatile java.lang.Object contentType_;
     /**
+     * <pre>
+     **
+     * The content type of the data. This can be any valid
+     * [IANA Media Type](https://www.iana.org/assignments/media-types/media-types.xhtml)
+     * as well as Cucumber-specific media types such as `text/x.cucumber.gherkin+plain`
+     * and `text/x.cucumber.stacktrace+plain`
+     * </pre>
+     *
      * <code>string content_type = 2;</code>
      */
     public java.lang.String getContentType() {
@@ -7831,6 +7864,14 @@ public final class Messages {
       }
     }
     /**
+     * <pre>
+     **
+     * The content type of the data. This can be any valid
+     * [IANA Media Type](https://www.iana.org/assignments/media-types/media-types.xhtml)
+     * as well as Cucumber-specific media types such as `text/x.cucumber.gherkin+plain`
+     * and `text/x.cucumber.stacktrace+plain`
+     * </pre>
+     *
      * <code>string content_type = 2;</code>
      */
     public com.google.protobuf.ByteString
@@ -7861,8 +7902,8 @@ public final class Messages {
     @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
-      if (!getEncodingBytes().isEmpty()) {
-        com.google.protobuf.GeneratedMessageV3.writeString(output, 1, encoding_);
+      if (encoding_ != io.cucumber.messages.Messages.Media.Encoding.BASE64.getNumber()) {
+        output.writeEnum(1, encoding_);
       }
       if (!getContentTypeBytes().isEmpty()) {
         com.google.protobuf.GeneratedMessageV3.writeString(output, 2, contentType_);
@@ -7876,8 +7917,9 @@ public final class Messages {
       if (size != -1) return size;
 
       size = 0;
-      if (!getEncodingBytes().isEmpty()) {
-        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(1, encoding_);
+      if (encoding_ != io.cucumber.messages.Messages.Media.Encoding.BASE64.getNumber()) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeEnumSize(1, encoding_);
       }
       if (!getContentTypeBytes().isEmpty()) {
         size += com.google.protobuf.GeneratedMessageV3.computeStringSize(2, contentType_);
@@ -7898,8 +7940,7 @@ public final class Messages {
       io.cucumber.messages.Messages.Media other = (io.cucumber.messages.Messages.Media) obj;
 
       boolean result = true;
-      result = result && getEncoding()
-          .equals(other.getEncoding());
+      result = result && encoding_ == other.encoding_;
       result = result && getContentType()
           .equals(other.getContentType());
       result = result && unknownFields.equals(other.unknownFields);
@@ -7914,7 +7955,7 @@ public final class Messages {
       int hash = 41;
       hash = (19 * hash) + getDescriptor().hashCode();
       hash = (37 * hash) + ENCODING_FIELD_NUMBER;
-      hash = (53 * hash) + getEncoding().hashCode();
+      hash = (53 * hash) + encoding_;
       hash = (37 * hash) + CONTENT_TYPE_FIELD_NUMBER;
       hash = (53 * hash) + getContentType().hashCode();
       hash = (29 * hash) + unknownFields.hashCode();
@@ -8013,6 +8054,11 @@ public final class Messages {
       return builder;
     }
     /**
+     * <pre>
+     **
+     * Meta information about encoded contents
+     * </pre>
+     *
      * Protobuf type {@code io.cucumber.messages.Media}
      */
     public static final class Builder extends
@@ -8050,7 +8096,7 @@ public final class Messages {
       @java.lang.Override
       public Builder clear() {
         super.clear();
-        encoding_ = "";
+        encoding_ = 0;
 
         contentType_ = "";
 
@@ -8130,9 +8176,8 @@ public final class Messages {
 
       public Builder mergeFrom(io.cucumber.messages.Messages.Media other) {
         if (other == io.cucumber.messages.Messages.Media.getDefaultInstance()) return this;
-        if (!other.getEncoding().isEmpty()) {
-          encoding_ = other.encoding_;
-          onChanged();
+        if (other.encoding_ != 0) {
+          setEncodingValue(other.getEncodingValue());
         }
         if (!other.getContentType().isEmpty()) {
           contentType_ = other.contentType_;
@@ -8167,77 +8212,81 @@ public final class Messages {
         return this;
       }
 
-      private java.lang.Object encoding_ = "";
+      private int encoding_ = 0;
       /**
-       * <code>string encoding = 1;</code>
+       * <pre>
+       * The encoding of the data
+       * </pre>
+       *
+       * <code>.io.cucumber.messages.Media.Encoding encoding = 1;</code>
        */
-      public java.lang.String getEncoding() {
-        java.lang.Object ref = encoding_;
-        if (!(ref instanceof java.lang.String)) {
-          com.google.protobuf.ByteString bs =
-              (com.google.protobuf.ByteString) ref;
-          java.lang.String s = bs.toStringUtf8();
-          encoding_ = s;
-          return s;
-        } else {
-          return (java.lang.String) ref;
-        }
+      public int getEncodingValue() {
+        return encoding_;
       }
       /**
-       * <code>string encoding = 1;</code>
+       * <pre>
+       * The encoding of the data
+       * </pre>
+       *
+       * <code>.io.cucumber.messages.Media.Encoding encoding = 1;</code>
        */
-      public com.google.protobuf.ByteString
-          getEncodingBytes() {
-        java.lang.Object ref = encoding_;
-        if (ref instanceof String) {
-          com.google.protobuf.ByteString b = 
-              com.google.protobuf.ByteString.copyFromUtf8(
-                  (java.lang.String) ref);
-          encoding_ = b;
-          return b;
-        } else {
-          return (com.google.protobuf.ByteString) ref;
-        }
-      }
-      /**
-       * <code>string encoding = 1;</code>
-       */
-      public Builder setEncoding(
-          java.lang.String value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  
+      public Builder setEncodingValue(int value) {
         encoding_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>string encoding = 1;</code>
+       * <pre>
+       * The encoding of the data
+       * </pre>
+       *
+       * <code>.io.cucumber.messages.Media.Encoding encoding = 1;</code>
+       */
+      public io.cucumber.messages.Messages.Media.Encoding getEncoding() {
+        @SuppressWarnings("deprecation")
+        io.cucumber.messages.Messages.Media.Encoding result = io.cucumber.messages.Messages.Media.Encoding.valueOf(encoding_);
+        return result == null ? io.cucumber.messages.Messages.Media.Encoding.UNRECOGNIZED : result;
+      }
+      /**
+       * <pre>
+       * The encoding of the data
+       * </pre>
+       *
+       * <code>.io.cucumber.messages.Media.Encoding encoding = 1;</code>
+       */
+      public Builder setEncoding(io.cucumber.messages.Messages.Media.Encoding value) {
+        if (value == null) {
+          throw new NullPointerException();
+        }
+        
+        encoding_ = value.getNumber();
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * The encoding of the data
+       * </pre>
+       *
+       * <code>.io.cucumber.messages.Media.Encoding encoding = 1;</code>
        */
       public Builder clearEncoding() {
         
-        encoding_ = getDefaultInstance().getEncoding();
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>string encoding = 1;</code>
-       */
-      public Builder setEncodingBytes(
-          com.google.protobuf.ByteString value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  checkByteStringIsUtf8(value);
-        
-        encoding_ = value;
+        encoding_ = 0;
         onChanged();
         return this;
       }
 
       private java.lang.Object contentType_ = "";
       /**
+       * <pre>
+       **
+       * The content type of the data. This can be any valid
+       * [IANA Media Type](https://www.iana.org/assignments/media-types/media-types.xhtml)
+       * as well as Cucumber-specific media types such as `text/x.cucumber.gherkin+plain`
+       * and `text/x.cucumber.stacktrace+plain`
+       * </pre>
+       *
        * <code>string content_type = 2;</code>
        */
       public java.lang.String getContentType() {
@@ -8253,6 +8302,14 @@ public final class Messages {
         }
       }
       /**
+       * <pre>
+       **
+       * The content type of the data. This can be any valid
+       * [IANA Media Type](https://www.iana.org/assignments/media-types/media-types.xhtml)
+       * as well as Cucumber-specific media types such as `text/x.cucumber.gherkin+plain`
+       * and `text/x.cucumber.stacktrace+plain`
+       * </pre>
+       *
        * <code>string content_type = 2;</code>
        */
       public com.google.protobuf.ByteString
@@ -8269,6 +8326,14 @@ public final class Messages {
         }
       }
       /**
+       * <pre>
+       **
+       * The content type of the data. This can be any valid
+       * [IANA Media Type](https://www.iana.org/assignments/media-types/media-types.xhtml)
+       * as well as Cucumber-specific media types such as `text/x.cucumber.gherkin+plain`
+       * and `text/x.cucumber.stacktrace+plain`
+       * </pre>
+       *
        * <code>string content_type = 2;</code>
        */
       public Builder setContentType(
@@ -8282,6 +8347,14 @@ public final class Messages {
         return this;
       }
       /**
+       * <pre>
+       **
+       * The content type of the data. This can be any valid
+       * [IANA Media Type](https://www.iana.org/assignments/media-types/media-types.xhtml)
+       * as well as Cucumber-specific media types such as `text/x.cucumber.gherkin+plain`
+       * and `text/x.cucumber.stacktrace+plain`
+       * </pre>
+       *
        * <code>string content_type = 2;</code>
        */
       public Builder clearContentType() {
@@ -8291,6 +8364,14 @@ public final class Messages {
         return this;
       }
       /**
+       * <pre>
+       **
+       * The content type of the data. This can be any valid
+       * [IANA Media Type](https://www.iana.org/assignments/media-types/media-types.xhtml)
+       * as well as Cucumber-specific media types such as `text/x.cucumber.gherkin+plain`
+       * and `text/x.cucumber.stacktrace+plain`
+       * </pre>
+       *
        * <code>string content_type = 2;</code>
        */
       public Builder setContentTypeBytes(
@@ -8362,39 +8443,76 @@ public final class Messages {
       com.google.protobuf.MessageOrBuilder {
 
     /**
+     * <pre>
+     **
+     * The [URI](https://en.wikipedia.org/wiki/Uniform_Resource_Identifier)
+     * of the source, typically a file path relative to the root directory
+     * </pre>
+     *
      * <code>string uri = 1;</code>
      */
     java.lang.String getUri();
     /**
+     * <pre>
+     **
+     * The [URI](https://en.wikipedia.org/wiki/Uniform_Resource_Identifier)
+     * of the source, typically a file path relative to the root directory
+     * </pre>
+     *
      * <code>string uri = 1;</code>
      */
     com.google.protobuf.ByteString
         getUriBytes();
 
     /**
+     * <pre>
+     * The contents of the file
+     * </pre>
+     *
      * <code>string data = 2;</code>
      */
     java.lang.String getData();
     /**
+     * <pre>
+     * The contents of the file
+     * </pre>
+     *
      * <code>string data = 2;</code>
      */
     com.google.protobuf.ByteString
         getDataBytes();
 
     /**
+     * <pre>
+     * The media type of the file
+     * </pre>
+     *
      * <code>.io.cucumber.messages.Media media = 3;</code>
      */
     boolean hasMedia();
     /**
+     * <pre>
+     * The media type of the file
+     * </pre>
+     *
      * <code>.io.cucumber.messages.Media media = 3;</code>
      */
     io.cucumber.messages.Messages.Media getMedia();
     /**
+     * <pre>
+     * The media type of the file
+     * </pre>
+     *
      * <code>.io.cucumber.messages.Media media = 3;</code>
      */
     io.cucumber.messages.Messages.MediaOrBuilder getMediaOrBuilder();
   }
   /**
+   * <pre>
+   **
+   * A source file, typically a Gherkin document
+   * </pre>
+   *
    * Protobuf type {@code io.cucumber.messages.Source}
    */
   public  static final class Source extends
@@ -8495,6 +8613,12 @@ public final class Messages {
     public static final int URI_FIELD_NUMBER = 1;
     private volatile java.lang.Object uri_;
     /**
+     * <pre>
+     **
+     * The [URI](https://en.wikipedia.org/wiki/Uniform_Resource_Identifier)
+     * of the source, typically a file path relative to the root directory
+     * </pre>
+     *
      * <code>string uri = 1;</code>
      */
     public java.lang.String getUri() {
@@ -8510,6 +8634,12 @@ public final class Messages {
       }
     }
     /**
+     * <pre>
+     **
+     * The [URI](https://en.wikipedia.org/wiki/Uniform_Resource_Identifier)
+     * of the source, typically a file path relative to the root directory
+     * </pre>
+     *
      * <code>string uri = 1;</code>
      */
     public com.google.protobuf.ByteString
@@ -8529,6 +8659,10 @@ public final class Messages {
     public static final int DATA_FIELD_NUMBER = 2;
     private volatile java.lang.Object data_;
     /**
+     * <pre>
+     * The contents of the file
+     * </pre>
+     *
      * <code>string data = 2;</code>
      */
     public java.lang.String getData() {
@@ -8544,6 +8678,10 @@ public final class Messages {
       }
     }
     /**
+     * <pre>
+     * The contents of the file
+     * </pre>
+     *
      * <code>string data = 2;</code>
      */
     public com.google.protobuf.ByteString
@@ -8563,18 +8701,30 @@ public final class Messages {
     public static final int MEDIA_FIELD_NUMBER = 3;
     private io.cucumber.messages.Messages.Media media_;
     /**
+     * <pre>
+     * The media type of the file
+     * </pre>
+     *
      * <code>.io.cucumber.messages.Media media = 3;</code>
      */
     public boolean hasMedia() {
       return media_ != null;
     }
     /**
+     * <pre>
+     * The media type of the file
+     * </pre>
+     *
      * <code>.io.cucumber.messages.Media media = 3;</code>
      */
     public io.cucumber.messages.Messages.Media getMedia() {
       return media_ == null ? io.cucumber.messages.Messages.Media.getDefaultInstance() : media_;
     }
     /**
+     * <pre>
+     * The media type of the file
+     * </pre>
+     *
      * <code>.io.cucumber.messages.Media media = 3;</code>
      */
     public io.cucumber.messages.Messages.MediaOrBuilder getMediaOrBuilder() {
@@ -8763,6 +8913,11 @@ public final class Messages {
       return builder;
     }
     /**
+     * <pre>
+     **
+     * A source file, typically a Gherkin document
+     * </pre>
+     *
      * Protobuf type {@code io.cucumber.messages.Source}
      */
     public static final class Builder extends
@@ -8933,6 +9088,12 @@ public final class Messages {
 
       private java.lang.Object uri_ = "";
       /**
+       * <pre>
+       **
+       * The [URI](https://en.wikipedia.org/wiki/Uniform_Resource_Identifier)
+       * of the source, typically a file path relative to the root directory
+       * </pre>
+       *
        * <code>string uri = 1;</code>
        */
       public java.lang.String getUri() {
@@ -8948,6 +9109,12 @@ public final class Messages {
         }
       }
       /**
+       * <pre>
+       **
+       * The [URI](https://en.wikipedia.org/wiki/Uniform_Resource_Identifier)
+       * of the source, typically a file path relative to the root directory
+       * </pre>
+       *
        * <code>string uri = 1;</code>
        */
       public com.google.protobuf.ByteString
@@ -8964,6 +9131,12 @@ public final class Messages {
         }
       }
       /**
+       * <pre>
+       **
+       * The [URI](https://en.wikipedia.org/wiki/Uniform_Resource_Identifier)
+       * of the source, typically a file path relative to the root directory
+       * </pre>
+       *
        * <code>string uri = 1;</code>
        */
       public Builder setUri(
@@ -8977,6 +9150,12 @@ public final class Messages {
         return this;
       }
       /**
+       * <pre>
+       **
+       * The [URI](https://en.wikipedia.org/wiki/Uniform_Resource_Identifier)
+       * of the source, typically a file path relative to the root directory
+       * </pre>
+       *
        * <code>string uri = 1;</code>
        */
       public Builder clearUri() {
@@ -8986,6 +9165,12 @@ public final class Messages {
         return this;
       }
       /**
+       * <pre>
+       **
+       * The [URI](https://en.wikipedia.org/wiki/Uniform_Resource_Identifier)
+       * of the source, typically a file path relative to the root directory
+       * </pre>
+       *
        * <code>string uri = 1;</code>
        */
       public Builder setUriBytes(
@@ -9002,6 +9187,10 @@ public final class Messages {
 
       private java.lang.Object data_ = "";
       /**
+       * <pre>
+       * The contents of the file
+       * </pre>
+       *
        * <code>string data = 2;</code>
        */
       public java.lang.String getData() {
@@ -9017,6 +9206,10 @@ public final class Messages {
         }
       }
       /**
+       * <pre>
+       * The contents of the file
+       * </pre>
+       *
        * <code>string data = 2;</code>
        */
       public com.google.protobuf.ByteString
@@ -9033,6 +9226,10 @@ public final class Messages {
         }
       }
       /**
+       * <pre>
+       * The contents of the file
+       * </pre>
+       *
        * <code>string data = 2;</code>
        */
       public Builder setData(
@@ -9046,6 +9243,10 @@ public final class Messages {
         return this;
       }
       /**
+       * <pre>
+       * The contents of the file
+       * </pre>
+       *
        * <code>string data = 2;</code>
        */
       public Builder clearData() {
@@ -9055,6 +9256,10 @@ public final class Messages {
         return this;
       }
       /**
+       * <pre>
+       * The contents of the file
+       * </pre>
+       *
        * <code>string data = 2;</code>
        */
       public Builder setDataBytes(
@@ -9073,12 +9278,20 @@ public final class Messages {
       private com.google.protobuf.SingleFieldBuilderV3<
           io.cucumber.messages.Messages.Media, io.cucumber.messages.Messages.Media.Builder, io.cucumber.messages.Messages.MediaOrBuilder> mediaBuilder_;
       /**
+       * <pre>
+       * The media type of the file
+       * </pre>
+       *
        * <code>.io.cucumber.messages.Media media = 3;</code>
        */
       public boolean hasMedia() {
         return mediaBuilder_ != null || media_ != null;
       }
       /**
+       * <pre>
+       * The media type of the file
+       * </pre>
+       *
        * <code>.io.cucumber.messages.Media media = 3;</code>
        */
       public io.cucumber.messages.Messages.Media getMedia() {
@@ -9089,6 +9302,10 @@ public final class Messages {
         }
       }
       /**
+       * <pre>
+       * The media type of the file
+       * </pre>
+       *
        * <code>.io.cucumber.messages.Media media = 3;</code>
        */
       public Builder setMedia(io.cucumber.messages.Messages.Media value) {
@@ -9105,6 +9322,10 @@ public final class Messages {
         return this;
       }
       /**
+       * <pre>
+       * The media type of the file
+       * </pre>
+       *
        * <code>.io.cucumber.messages.Media media = 3;</code>
        */
       public Builder setMedia(
@@ -9119,6 +9340,10 @@ public final class Messages {
         return this;
       }
       /**
+       * <pre>
+       * The media type of the file
+       * </pre>
+       *
        * <code>.io.cucumber.messages.Media media = 3;</code>
        */
       public Builder mergeMedia(io.cucumber.messages.Messages.Media value) {
@@ -9137,6 +9362,10 @@ public final class Messages {
         return this;
       }
       /**
+       * <pre>
+       * The media type of the file
+       * </pre>
+       *
        * <code>.io.cucumber.messages.Media media = 3;</code>
        */
       public Builder clearMedia() {
@@ -9151,6 +9380,10 @@ public final class Messages {
         return this;
       }
       /**
+       * <pre>
+       * The media type of the file
+       * </pre>
+       *
        * <code>.io.cucumber.messages.Media media = 3;</code>
        */
       public io.cucumber.messages.Messages.Media.Builder getMediaBuilder() {
@@ -9159,6 +9392,10 @@ public final class Messages {
         return getMediaFieldBuilder().getBuilder();
       }
       /**
+       * <pre>
+       * The media type of the file
+       * </pre>
+       *
        * <code>.io.cucumber.messages.Media media = 3;</code>
        */
       public io.cucumber.messages.Messages.MediaOrBuilder getMediaOrBuilder() {
@@ -9170,6 +9407,10 @@ public final class Messages {
         }
       }
       /**
+       * <pre>
+       * The media type of the file
+       * </pre>
+       *
        * <code>.io.cucumber.messages.Media media = 3;</code>
        */
       private com.google.protobuf.SingleFieldBuilderV3<
@@ -9243,10 +9484,22 @@ public final class Messages {
       com.google.protobuf.MessageOrBuilder {
 
     /**
+     * <pre>
+     **
+     * The [URI](https://en.wikipedia.org/wiki/Uniform_Resource_Identifier)
+     * of the source, typically a file path relative to the root directory
+     * </pre>
+     *
      * <code>string uri = 1;</code>
      */
     java.lang.String getUri();
     /**
+     * <pre>
+     **
+     * The [URI](https://en.wikipedia.org/wiki/Uniform_Resource_Identifier)
+     * of the source, typically a file path relative to the root directory
+     * </pre>
+     *
      * <code>string uri = 1;</code>
      */
     com.google.protobuf.ByteString
@@ -9266,30 +9519,59 @@ public final class Messages {
     io.cucumber.messages.Messages.GherkinDocument.FeatureOrBuilder getFeatureOrBuilder();
 
     /**
+     * <pre>
+     * All the comments in the Gherkin document
+     * </pre>
+     *
      * <code>repeated .io.cucumber.messages.GherkinDocument.Comment comments = 3;</code>
      */
     java.util.List<io.cucumber.messages.Messages.GherkinDocument.Comment> 
         getCommentsList();
     /**
+     * <pre>
+     * All the comments in the Gherkin document
+     * </pre>
+     *
      * <code>repeated .io.cucumber.messages.GherkinDocument.Comment comments = 3;</code>
      */
     io.cucumber.messages.Messages.GherkinDocument.Comment getComments(int index);
     /**
+     * <pre>
+     * All the comments in the Gherkin document
+     * </pre>
+     *
      * <code>repeated .io.cucumber.messages.GherkinDocument.Comment comments = 3;</code>
      */
     int getCommentsCount();
     /**
+     * <pre>
+     * All the comments in the Gherkin document
+     * </pre>
+     *
      * <code>repeated .io.cucumber.messages.GherkinDocument.Comment comments = 3;</code>
      */
     java.util.List<? extends io.cucumber.messages.Messages.GherkinDocument.CommentOrBuilder> 
         getCommentsOrBuilderList();
     /**
+     * <pre>
+     * All the comments in the Gherkin document
+     * </pre>
+     *
      * <code>repeated .io.cucumber.messages.GherkinDocument.Comment comments = 3;</code>
      */
     io.cucumber.messages.Messages.GherkinDocument.CommentOrBuilder getCommentsOrBuilder(
         int index);
   }
   /**
+   * <pre>
+   **
+   * The [AST](https://en.wikipedia.org/wiki/Abstract_syntax_tree) of a Gherkin document.
+   * Cucumber implementations should *not* depend on `GherkinDocument` or any of its
+   * children for execution - use [Pickle](#io.cucumber.messages.Pickle) instead.
+   * The only consumers of `GherkinDocument` should only be formatters that produce
+   * "rich" output, resembling the original Gherkin document.
+   * </pre>
+   *
    * Protobuf type {@code io.cucumber.messages.GherkinDocument}
    */
   public  static final class GherkinDocument extends
@@ -9398,29 +9680,54 @@ public final class Messages {
         com.google.protobuf.MessageOrBuilder {
 
       /**
+       * <pre>
+       * The location of the comment
+       * </pre>
+       *
        * <code>.io.cucumber.messages.Location location = 1;</code>
        */
       boolean hasLocation();
       /**
+       * <pre>
+       * The location of the comment
+       * </pre>
+       *
        * <code>.io.cucumber.messages.Location location = 1;</code>
        */
       io.cucumber.messages.Messages.Location getLocation();
       /**
+       * <pre>
+       * The location of the comment
+       * </pre>
+       *
        * <code>.io.cucumber.messages.Location location = 1;</code>
        */
       io.cucumber.messages.Messages.LocationOrBuilder getLocationOrBuilder();
 
       /**
+       * <pre>
+       * The text of the comment
+       * </pre>
+       *
        * <code>string text = 2;</code>
        */
       java.lang.String getText();
       /**
+       * <pre>
+       * The text of the comment
+       * </pre>
+       *
        * <code>string text = 2;</code>
        */
       com.google.protobuf.ByteString
           getTextBytes();
     }
     /**
+     * <pre>
+     **
+     * A comment in a Gherkin document
+     * </pre>
+     *
      * Protobuf type {@code io.cucumber.messages.GherkinDocument.Comment}
      */
     public  static final class Comment extends
@@ -9514,18 +9821,30 @@ public final class Messages {
       public static final int LOCATION_FIELD_NUMBER = 1;
       private io.cucumber.messages.Messages.Location location_;
       /**
+       * <pre>
+       * The location of the comment
+       * </pre>
+       *
        * <code>.io.cucumber.messages.Location location = 1;</code>
        */
       public boolean hasLocation() {
         return location_ != null;
       }
       /**
+       * <pre>
+       * The location of the comment
+       * </pre>
+       *
        * <code>.io.cucumber.messages.Location location = 1;</code>
        */
       public io.cucumber.messages.Messages.Location getLocation() {
         return location_ == null ? io.cucumber.messages.Messages.Location.getDefaultInstance() : location_;
       }
       /**
+       * <pre>
+       * The location of the comment
+       * </pre>
+       *
        * <code>.io.cucumber.messages.Location location = 1;</code>
        */
       public io.cucumber.messages.Messages.LocationOrBuilder getLocationOrBuilder() {
@@ -9535,6 +9854,10 @@ public final class Messages {
       public static final int TEXT_FIELD_NUMBER = 2;
       private volatile java.lang.Object text_;
       /**
+       * <pre>
+       * The text of the comment
+       * </pre>
+       *
        * <code>string text = 2;</code>
        */
       public java.lang.String getText() {
@@ -9550,6 +9873,10 @@ public final class Messages {
         }
       }
       /**
+       * <pre>
+       * The text of the comment
+       * </pre>
+       *
        * <code>string text = 2;</code>
        */
       public com.google.protobuf.ByteString
@@ -9738,6 +10065,11 @@ public final class Messages {
         return builder;
       }
       /**
+       * <pre>
+       **
+       * A comment in a Gherkin document
+       * </pre>
+       *
        * Protobuf type {@code io.cucumber.messages.GherkinDocument.Comment}
        */
       public static final class Builder extends
@@ -9903,12 +10235,20 @@ public final class Messages {
         private com.google.protobuf.SingleFieldBuilderV3<
             io.cucumber.messages.Messages.Location, io.cucumber.messages.Messages.Location.Builder, io.cucumber.messages.Messages.LocationOrBuilder> locationBuilder_;
         /**
+         * <pre>
+         * The location of the comment
+         * </pre>
+         *
          * <code>.io.cucumber.messages.Location location = 1;</code>
          */
         public boolean hasLocation() {
           return locationBuilder_ != null || location_ != null;
         }
         /**
+         * <pre>
+         * The location of the comment
+         * </pre>
+         *
          * <code>.io.cucumber.messages.Location location = 1;</code>
          */
         public io.cucumber.messages.Messages.Location getLocation() {
@@ -9919,6 +10259,10 @@ public final class Messages {
           }
         }
         /**
+         * <pre>
+         * The location of the comment
+         * </pre>
+         *
          * <code>.io.cucumber.messages.Location location = 1;</code>
          */
         public Builder setLocation(io.cucumber.messages.Messages.Location value) {
@@ -9935,6 +10279,10 @@ public final class Messages {
           return this;
         }
         /**
+         * <pre>
+         * The location of the comment
+         * </pre>
+         *
          * <code>.io.cucumber.messages.Location location = 1;</code>
          */
         public Builder setLocation(
@@ -9949,6 +10297,10 @@ public final class Messages {
           return this;
         }
         /**
+         * <pre>
+         * The location of the comment
+         * </pre>
+         *
          * <code>.io.cucumber.messages.Location location = 1;</code>
          */
         public Builder mergeLocation(io.cucumber.messages.Messages.Location value) {
@@ -9967,6 +10319,10 @@ public final class Messages {
           return this;
         }
         /**
+         * <pre>
+         * The location of the comment
+         * </pre>
+         *
          * <code>.io.cucumber.messages.Location location = 1;</code>
          */
         public Builder clearLocation() {
@@ -9981,6 +10337,10 @@ public final class Messages {
           return this;
         }
         /**
+         * <pre>
+         * The location of the comment
+         * </pre>
+         *
          * <code>.io.cucumber.messages.Location location = 1;</code>
          */
         public io.cucumber.messages.Messages.Location.Builder getLocationBuilder() {
@@ -9989,6 +10349,10 @@ public final class Messages {
           return getLocationFieldBuilder().getBuilder();
         }
         /**
+         * <pre>
+         * The location of the comment
+         * </pre>
+         *
          * <code>.io.cucumber.messages.Location location = 1;</code>
          */
         public io.cucumber.messages.Messages.LocationOrBuilder getLocationOrBuilder() {
@@ -10000,6 +10364,10 @@ public final class Messages {
           }
         }
         /**
+         * <pre>
+         * The location of the comment
+         * </pre>
+         *
          * <code>.io.cucumber.messages.Location location = 1;</code>
          */
         private com.google.protobuf.SingleFieldBuilderV3<
@@ -10018,6 +10386,10 @@ public final class Messages {
 
         private java.lang.Object text_ = "";
         /**
+         * <pre>
+         * The text of the comment
+         * </pre>
+         *
          * <code>string text = 2;</code>
          */
         public java.lang.String getText() {
@@ -10033,6 +10405,10 @@ public final class Messages {
           }
         }
         /**
+         * <pre>
+         * The text of the comment
+         * </pre>
+         *
          * <code>string text = 2;</code>
          */
         public com.google.protobuf.ByteString
@@ -10049,6 +10425,10 @@ public final class Messages {
           }
         }
         /**
+         * <pre>
+         * The text of the comment
+         * </pre>
+         *
          * <code>string text = 2;</code>
          */
         public Builder setText(
@@ -10062,6 +10442,10 @@ public final class Messages {
           return this;
         }
         /**
+         * <pre>
+         * The text of the comment
+         * </pre>
+         *
          * <code>string text = 2;</code>
          */
         public Builder clearText() {
@@ -10071,6 +10455,10 @@ public final class Messages {
           return this;
         }
         /**
+         * <pre>
+         * The text of the comment
+         * </pre>
+         *
          * <code>string text = 2;</code>
          */
         public Builder setTextBytes(
@@ -10142,107 +10530,196 @@ public final class Messages {
         com.google.protobuf.MessageOrBuilder {
 
       /**
+       * <pre>
+       * The location of the `Feature` keyword
+       * </pre>
+       *
        * <code>.io.cucumber.messages.Location location = 1;</code>
        */
       boolean hasLocation();
       /**
+       * <pre>
+       * The location of the `Feature` keyword
+       * </pre>
+       *
        * <code>.io.cucumber.messages.Location location = 1;</code>
        */
       io.cucumber.messages.Messages.Location getLocation();
       /**
+       * <pre>
+       * The location of the `Feature` keyword
+       * </pre>
+       *
        * <code>.io.cucumber.messages.Location location = 1;</code>
        */
       io.cucumber.messages.Messages.LocationOrBuilder getLocationOrBuilder();
 
       /**
+       * <pre>
+       * All the tags placed above the `Feature` keyword
+       * </pre>
+       *
        * <code>repeated .io.cucumber.messages.GherkinDocument.Feature.Tag tags = 2;</code>
        */
       java.util.List<io.cucumber.messages.Messages.GherkinDocument.Feature.Tag> 
           getTagsList();
       /**
+       * <pre>
+       * All the tags placed above the `Feature` keyword
+       * </pre>
+       *
        * <code>repeated .io.cucumber.messages.GherkinDocument.Feature.Tag tags = 2;</code>
        */
       io.cucumber.messages.Messages.GherkinDocument.Feature.Tag getTags(int index);
       /**
+       * <pre>
+       * All the tags placed above the `Feature` keyword
+       * </pre>
+       *
        * <code>repeated .io.cucumber.messages.GherkinDocument.Feature.Tag tags = 2;</code>
        */
       int getTagsCount();
       /**
+       * <pre>
+       * All the tags placed above the `Feature` keyword
+       * </pre>
+       *
        * <code>repeated .io.cucumber.messages.GherkinDocument.Feature.Tag tags = 2;</code>
        */
       java.util.List<? extends io.cucumber.messages.Messages.GherkinDocument.Feature.TagOrBuilder> 
           getTagsOrBuilderList();
       /**
+       * <pre>
+       * All the tags placed above the `Feature` keyword
+       * </pre>
+       *
        * <code>repeated .io.cucumber.messages.GherkinDocument.Feature.Tag tags = 2;</code>
        */
       io.cucumber.messages.Messages.GherkinDocument.Feature.TagOrBuilder getTagsOrBuilder(
           int index);
 
       /**
+       * <pre>
+       * The [ISO 639-1](https://en.wikipedia.org/wiki/ISO_639-1) language code of the Gherkin document
+       * </pre>
+       *
        * <code>string language = 3;</code>
        */
       java.lang.String getLanguage();
       /**
+       * <pre>
+       * The [ISO 639-1](https://en.wikipedia.org/wiki/ISO_639-1) language code of the Gherkin document
+       * </pre>
+       *
        * <code>string language = 3;</code>
        */
       com.google.protobuf.ByteString
           getLanguageBytes();
 
       /**
+       * <pre>
+       * The text of the `Feature` keyword (in the language specified by `language`)
+       * </pre>
+       *
        * <code>string keyword = 4;</code>
        */
       java.lang.String getKeyword();
       /**
+       * <pre>
+       * The text of the `Feature` keyword (in the language specified by `language`)
+       * </pre>
+       *
        * <code>string keyword = 4;</code>
        */
       com.google.protobuf.ByteString
           getKeywordBytes();
 
       /**
+       * <pre>
+       * The name of the feature (the text following the `keyword`)
+       * </pre>
+       *
        * <code>string name = 5;</code>
        */
       java.lang.String getName();
       /**
+       * <pre>
+       * The name of the feature (the text following the `keyword`)
+       * </pre>
+       *
        * <code>string name = 5;</code>
        */
       com.google.protobuf.ByteString
           getNameBytes();
 
       /**
+       * <pre>
+       * The line(s) underneath the line with the `keyword` that are used as description
+       * </pre>
+       *
        * <code>string description = 6;</code>
        */
       java.lang.String getDescription();
       /**
+       * <pre>
+       * The line(s) underneath the line with the `keyword` that are used as description
+       * </pre>
+       *
        * <code>string description = 6;</code>
        */
       com.google.protobuf.ByteString
           getDescriptionBytes();
 
       /**
+       * <pre>
+       * Zero or more children
+       * </pre>
+       *
        * <code>repeated .io.cucumber.messages.GherkinDocument.Feature.FeatureChild children = 7;</code>
        */
       java.util.List<io.cucumber.messages.Messages.GherkinDocument.Feature.FeatureChild> 
           getChildrenList();
       /**
+       * <pre>
+       * Zero or more children
+       * </pre>
+       *
        * <code>repeated .io.cucumber.messages.GherkinDocument.Feature.FeatureChild children = 7;</code>
        */
       io.cucumber.messages.Messages.GherkinDocument.Feature.FeatureChild getChildren(int index);
       /**
+       * <pre>
+       * Zero or more children
+       * </pre>
+       *
        * <code>repeated .io.cucumber.messages.GherkinDocument.Feature.FeatureChild children = 7;</code>
        */
       int getChildrenCount();
       /**
+       * <pre>
+       * Zero or more children
+       * </pre>
+       *
        * <code>repeated .io.cucumber.messages.GherkinDocument.Feature.FeatureChild children = 7;</code>
        */
       java.util.List<? extends io.cucumber.messages.Messages.GherkinDocument.Feature.FeatureChildOrBuilder> 
           getChildrenOrBuilderList();
       /**
+       * <pre>
+       * Zero or more children
+       * </pre>
+       *
        * <code>repeated .io.cucumber.messages.GherkinDocument.Feature.FeatureChild children = 7;</code>
        */
       io.cucumber.messages.Messages.GherkinDocument.Feature.FeatureChildOrBuilder getChildrenOrBuilder(
           int index);
     }
     /**
+     * <pre>
+     **
+     * The top level node in the AST
+     * </pre>
+     *
      * Protobuf type {@code io.cucumber.messages.GherkinDocument.Feature}
      */
     public  static final class Feature extends
@@ -10385,29 +10862,54 @@ public final class Messages {
           com.google.protobuf.MessageOrBuilder {
 
         /**
+         * <pre>
+         * Location of the tag
+         * </pre>
+         *
          * <code>.io.cucumber.messages.Location location = 1;</code>
          */
         boolean hasLocation();
         /**
+         * <pre>
+         * Location of the tag
+         * </pre>
+         *
          * <code>.io.cucumber.messages.Location location = 1;</code>
          */
         io.cucumber.messages.Messages.Location getLocation();
         /**
+         * <pre>
+         * Location of the tag
+         * </pre>
+         *
          * <code>.io.cucumber.messages.Location location = 1;</code>
          */
         io.cucumber.messages.Messages.LocationOrBuilder getLocationOrBuilder();
 
         /**
+         * <pre>
+         * The name of the tag (including the leading `&#64;`)
+         * </pre>
+         *
          * <code>string name = 2;</code>
          */
         java.lang.String getName();
         /**
+         * <pre>
+         * The name of the tag (including the leading `&#64;`)
+         * </pre>
+         *
          * <code>string name = 2;</code>
          */
         com.google.protobuf.ByteString
             getNameBytes();
       }
       /**
+       * <pre>
+       **
+       * A tag
+       * </pre>
+       *
        * Protobuf type {@code io.cucumber.messages.GherkinDocument.Feature.Tag}
        */
       public  static final class Tag extends
@@ -10501,18 +11003,30 @@ public final class Messages {
         public static final int LOCATION_FIELD_NUMBER = 1;
         private io.cucumber.messages.Messages.Location location_;
         /**
+         * <pre>
+         * Location of the tag
+         * </pre>
+         *
          * <code>.io.cucumber.messages.Location location = 1;</code>
          */
         public boolean hasLocation() {
           return location_ != null;
         }
         /**
+         * <pre>
+         * Location of the tag
+         * </pre>
+         *
          * <code>.io.cucumber.messages.Location location = 1;</code>
          */
         public io.cucumber.messages.Messages.Location getLocation() {
           return location_ == null ? io.cucumber.messages.Messages.Location.getDefaultInstance() : location_;
         }
         /**
+         * <pre>
+         * Location of the tag
+         * </pre>
+         *
          * <code>.io.cucumber.messages.Location location = 1;</code>
          */
         public io.cucumber.messages.Messages.LocationOrBuilder getLocationOrBuilder() {
@@ -10522,6 +11036,10 @@ public final class Messages {
         public static final int NAME_FIELD_NUMBER = 2;
         private volatile java.lang.Object name_;
         /**
+         * <pre>
+         * The name of the tag (including the leading `&#64;`)
+         * </pre>
+         *
          * <code>string name = 2;</code>
          */
         public java.lang.String getName() {
@@ -10537,6 +11055,10 @@ public final class Messages {
           }
         }
         /**
+         * <pre>
+         * The name of the tag (including the leading `&#64;`)
+         * </pre>
+         *
          * <code>string name = 2;</code>
          */
         public com.google.protobuf.ByteString
@@ -10725,6 +11247,11 @@ public final class Messages {
           return builder;
         }
         /**
+         * <pre>
+         **
+         * A tag
+         * </pre>
+         *
          * Protobuf type {@code io.cucumber.messages.GherkinDocument.Feature.Tag}
          */
         public static final class Builder extends
@@ -10890,12 +11417,20 @@ public final class Messages {
           private com.google.protobuf.SingleFieldBuilderV3<
               io.cucumber.messages.Messages.Location, io.cucumber.messages.Messages.Location.Builder, io.cucumber.messages.Messages.LocationOrBuilder> locationBuilder_;
           /**
+           * <pre>
+           * Location of the tag
+           * </pre>
+           *
            * <code>.io.cucumber.messages.Location location = 1;</code>
            */
           public boolean hasLocation() {
             return locationBuilder_ != null || location_ != null;
           }
           /**
+           * <pre>
+           * Location of the tag
+           * </pre>
+           *
            * <code>.io.cucumber.messages.Location location = 1;</code>
            */
           public io.cucumber.messages.Messages.Location getLocation() {
@@ -10906,6 +11441,10 @@ public final class Messages {
             }
           }
           /**
+           * <pre>
+           * Location of the tag
+           * </pre>
+           *
            * <code>.io.cucumber.messages.Location location = 1;</code>
            */
           public Builder setLocation(io.cucumber.messages.Messages.Location value) {
@@ -10922,6 +11461,10 @@ public final class Messages {
             return this;
           }
           /**
+           * <pre>
+           * Location of the tag
+           * </pre>
+           *
            * <code>.io.cucumber.messages.Location location = 1;</code>
            */
           public Builder setLocation(
@@ -10936,6 +11479,10 @@ public final class Messages {
             return this;
           }
           /**
+           * <pre>
+           * Location of the tag
+           * </pre>
+           *
            * <code>.io.cucumber.messages.Location location = 1;</code>
            */
           public Builder mergeLocation(io.cucumber.messages.Messages.Location value) {
@@ -10954,6 +11501,10 @@ public final class Messages {
             return this;
           }
           /**
+           * <pre>
+           * Location of the tag
+           * </pre>
+           *
            * <code>.io.cucumber.messages.Location location = 1;</code>
            */
           public Builder clearLocation() {
@@ -10968,6 +11519,10 @@ public final class Messages {
             return this;
           }
           /**
+           * <pre>
+           * Location of the tag
+           * </pre>
+           *
            * <code>.io.cucumber.messages.Location location = 1;</code>
            */
           public io.cucumber.messages.Messages.Location.Builder getLocationBuilder() {
@@ -10976,6 +11531,10 @@ public final class Messages {
             return getLocationFieldBuilder().getBuilder();
           }
           /**
+           * <pre>
+           * Location of the tag
+           * </pre>
+           *
            * <code>.io.cucumber.messages.Location location = 1;</code>
            */
           public io.cucumber.messages.Messages.LocationOrBuilder getLocationOrBuilder() {
@@ -10987,6 +11546,10 @@ public final class Messages {
             }
           }
           /**
+           * <pre>
+           * Location of the tag
+           * </pre>
+           *
            * <code>.io.cucumber.messages.Location location = 1;</code>
            */
           private com.google.protobuf.SingleFieldBuilderV3<
@@ -11005,6 +11568,10 @@ public final class Messages {
 
           private java.lang.Object name_ = "";
           /**
+           * <pre>
+           * The name of the tag (including the leading `&#64;`)
+           * </pre>
+           *
            * <code>string name = 2;</code>
            */
           public java.lang.String getName() {
@@ -11020,6 +11587,10 @@ public final class Messages {
             }
           }
           /**
+           * <pre>
+           * The name of the tag (including the leading `&#64;`)
+           * </pre>
+           *
            * <code>string name = 2;</code>
            */
           public com.google.protobuf.ByteString
@@ -11036,6 +11607,10 @@ public final class Messages {
             }
           }
           /**
+           * <pre>
+           * The name of the tag (including the leading `&#64;`)
+           * </pre>
+           *
            * <code>string name = 2;</code>
            */
           public Builder setName(
@@ -11049,6 +11624,10 @@ public final class Messages {
             return this;
           }
           /**
+           * <pre>
+           * The name of the tag (including the leading `&#64;`)
+           * </pre>
+           *
            * <code>string name = 2;</code>
            */
           public Builder clearName() {
@@ -11058,6 +11637,10 @@ public final class Messages {
             return this;
           }
           /**
+           * <pre>
+           * The name of the tag (including the leading `&#64;`)
+           * </pre>
+           *
            * <code>string name = 2;</code>
            */
           public Builder setNameBytes(
@@ -11170,6 +11753,11 @@ public final class Messages {
         public io.cucumber.messages.Messages.GherkinDocument.Feature.FeatureChild.ValueCase getValueCase();
       }
       /**
+       * <pre>
+       **
+       * A child node of a `Feature` node
+       * </pre>
+       *
        * Protobuf type {@code io.cucumber.messages.GherkinDocument.Feature.FeatureChild}
        */
       public  static final class FeatureChild extends
@@ -11287,14 +11875,26 @@ public final class Messages {
             com.google.protobuf.MessageOrBuilder {
 
           /**
+           * <pre>
+           * The location of the `Rule` keyword
+           * </pre>
+           *
            * <code>.io.cucumber.messages.Location location = 1;</code>
            */
           boolean hasLocation();
           /**
+           * <pre>
+           * The location of the `Rule` keyword
+           * </pre>
+           *
            * <code>.io.cucumber.messages.Location location = 1;</code>
            */
           io.cucumber.messages.Messages.Location getLocation();
           /**
+           * <pre>
+           * The location of the `Rule` keyword
+           * </pre>
+           *
            * <code>.io.cucumber.messages.Location location = 1;</code>
            */
           io.cucumber.messages.Messages.LocationOrBuilder getLocationOrBuilder();
@@ -11354,6 +11954,11 @@ public final class Messages {
               int index);
         }
         /**
+         * <pre>
+         **
+         * A `Rule` node
+         * </pre>
+         *
          * Protobuf type {@code io.cucumber.messages.GherkinDocument.Feature.FeatureChild.Rule}
          */
         public  static final class Rule extends
@@ -11475,18 +12080,30 @@ public final class Messages {
           public static final int LOCATION_FIELD_NUMBER = 1;
           private io.cucumber.messages.Messages.Location location_;
           /**
+           * <pre>
+           * The location of the `Rule` keyword
+           * </pre>
+           *
            * <code>.io.cucumber.messages.Location location = 1;</code>
            */
           public boolean hasLocation() {
             return location_ != null;
           }
           /**
+           * <pre>
+           * The location of the `Rule` keyword
+           * </pre>
+           *
            * <code>.io.cucumber.messages.Location location = 1;</code>
            */
           public io.cucumber.messages.Messages.Location getLocation() {
             return location_ == null ? io.cucumber.messages.Messages.Location.getDefaultInstance() : location_;
           }
           /**
+           * <pre>
+           * The location of the `Rule` keyword
+           * </pre>
+           *
            * <code>.io.cucumber.messages.Location location = 1;</code>
            */
           public io.cucumber.messages.Messages.LocationOrBuilder getLocationOrBuilder() {
@@ -11835,6 +12452,11 @@ public final class Messages {
             return builder;
           }
           /**
+           * <pre>
+           **
+           * A `Rule` node
+           * </pre>
+           *
            * Protobuf type {@code io.cucumber.messages.GherkinDocument.Feature.FeatureChild.Rule}
            */
           public static final class Builder extends
@@ -12060,12 +12682,20 @@ public final class Messages {
             private com.google.protobuf.SingleFieldBuilderV3<
                 io.cucumber.messages.Messages.Location, io.cucumber.messages.Messages.Location.Builder, io.cucumber.messages.Messages.LocationOrBuilder> locationBuilder_;
             /**
+             * <pre>
+             * The location of the `Rule` keyword
+             * </pre>
+             *
              * <code>.io.cucumber.messages.Location location = 1;</code>
              */
             public boolean hasLocation() {
               return locationBuilder_ != null || location_ != null;
             }
             /**
+             * <pre>
+             * The location of the `Rule` keyword
+             * </pre>
+             *
              * <code>.io.cucumber.messages.Location location = 1;</code>
              */
             public io.cucumber.messages.Messages.Location getLocation() {
@@ -12076,6 +12706,10 @@ public final class Messages {
               }
             }
             /**
+             * <pre>
+             * The location of the `Rule` keyword
+             * </pre>
+             *
              * <code>.io.cucumber.messages.Location location = 1;</code>
              */
             public Builder setLocation(io.cucumber.messages.Messages.Location value) {
@@ -12092,6 +12726,10 @@ public final class Messages {
               return this;
             }
             /**
+             * <pre>
+             * The location of the `Rule` keyword
+             * </pre>
+             *
              * <code>.io.cucumber.messages.Location location = 1;</code>
              */
             public Builder setLocation(
@@ -12106,6 +12744,10 @@ public final class Messages {
               return this;
             }
             /**
+             * <pre>
+             * The location of the `Rule` keyword
+             * </pre>
+             *
              * <code>.io.cucumber.messages.Location location = 1;</code>
              */
             public Builder mergeLocation(io.cucumber.messages.Messages.Location value) {
@@ -12124,6 +12766,10 @@ public final class Messages {
               return this;
             }
             /**
+             * <pre>
+             * The location of the `Rule` keyword
+             * </pre>
+             *
              * <code>.io.cucumber.messages.Location location = 1;</code>
              */
             public Builder clearLocation() {
@@ -12138,6 +12784,10 @@ public final class Messages {
               return this;
             }
             /**
+             * <pre>
+             * The location of the `Rule` keyword
+             * </pre>
+             *
              * <code>.io.cucumber.messages.Location location = 1;</code>
              */
             public io.cucumber.messages.Messages.Location.Builder getLocationBuilder() {
@@ -12146,6 +12796,10 @@ public final class Messages {
               return getLocationFieldBuilder().getBuilder();
             }
             /**
+             * <pre>
+             * The location of the `Rule` keyword
+             * </pre>
+             *
              * <code>.io.cucumber.messages.Location location = 1;</code>
              */
             public io.cucumber.messages.Messages.LocationOrBuilder getLocationOrBuilder() {
@@ -12157,6 +12811,10 @@ public final class Messages {
               }
             }
             /**
+             * <pre>
+             * The location of the `Rule` keyword
+             * </pre>
+             *
              * <code>.io.cucumber.messages.Location location = 1;</code>
              */
             private com.google.protobuf.SingleFieldBuilderV3<
@@ -13909,6 +14567,11 @@ public final class Messages {
           return builder;
         }
         /**
+         * <pre>
+         **
+         * A child node of a `Feature` node
+         * </pre>
+         *
          * Protobuf type {@code io.cucumber.messages.GherkinDocument.Feature.FeatureChild}
          */
         public static final class Builder extends
@@ -14570,14 +15233,26 @@ public final class Messages {
           com.google.protobuf.MessageOrBuilder {
 
         /**
+         * <pre>
+         * The location of the `Background` keyword
+         * </pre>
+         *
          * <code>.io.cucumber.messages.Location location = 1;</code>
          */
         boolean hasLocation();
         /**
+         * <pre>
+         * The location of the `Background` keyword
+         * </pre>
+         *
          * <code>.io.cucumber.messages.Location location = 1;</code>
          */
         io.cucumber.messages.Messages.Location getLocation();
         /**
+         * <pre>
+         * The location of the `Background` keyword
+         * </pre>
+         *
          * <code>.io.cucumber.messages.Location location = 1;</code>
          */
         io.cucumber.messages.Messages.LocationOrBuilder getLocationOrBuilder();
@@ -14758,18 +15433,30 @@ public final class Messages {
         public static final int LOCATION_FIELD_NUMBER = 1;
         private io.cucumber.messages.Messages.Location location_;
         /**
+         * <pre>
+         * The location of the `Background` keyword
+         * </pre>
+         *
          * <code>.io.cucumber.messages.Location location = 1;</code>
          */
         public boolean hasLocation() {
           return location_ != null;
         }
         /**
+         * <pre>
+         * The location of the `Background` keyword
+         * </pre>
+         *
          * <code>.io.cucumber.messages.Location location = 1;</code>
          */
         public io.cucumber.messages.Messages.Location getLocation() {
           return location_ == null ? io.cucumber.messages.Messages.Location.getDefaultInstance() : location_;
         }
         /**
+         * <pre>
+         * The location of the `Background` keyword
+         * </pre>
+         *
          * <code>.io.cucumber.messages.Location location = 1;</code>
          */
         public io.cucumber.messages.Messages.LocationOrBuilder getLocationOrBuilder() {
@@ -15343,12 +16030,20 @@ public final class Messages {
           private com.google.protobuf.SingleFieldBuilderV3<
               io.cucumber.messages.Messages.Location, io.cucumber.messages.Messages.Location.Builder, io.cucumber.messages.Messages.LocationOrBuilder> locationBuilder_;
           /**
+           * <pre>
+           * The location of the `Background` keyword
+           * </pre>
+           *
            * <code>.io.cucumber.messages.Location location = 1;</code>
            */
           public boolean hasLocation() {
             return locationBuilder_ != null || location_ != null;
           }
           /**
+           * <pre>
+           * The location of the `Background` keyword
+           * </pre>
+           *
            * <code>.io.cucumber.messages.Location location = 1;</code>
            */
           public io.cucumber.messages.Messages.Location getLocation() {
@@ -15359,6 +16054,10 @@ public final class Messages {
             }
           }
           /**
+           * <pre>
+           * The location of the `Background` keyword
+           * </pre>
+           *
            * <code>.io.cucumber.messages.Location location = 1;</code>
            */
           public Builder setLocation(io.cucumber.messages.Messages.Location value) {
@@ -15375,6 +16074,10 @@ public final class Messages {
             return this;
           }
           /**
+           * <pre>
+           * The location of the `Background` keyword
+           * </pre>
+           *
            * <code>.io.cucumber.messages.Location location = 1;</code>
            */
           public Builder setLocation(
@@ -15389,6 +16092,10 @@ public final class Messages {
             return this;
           }
           /**
+           * <pre>
+           * The location of the `Background` keyword
+           * </pre>
+           *
            * <code>.io.cucumber.messages.Location location = 1;</code>
            */
           public Builder mergeLocation(io.cucumber.messages.Messages.Location value) {
@@ -15407,6 +16114,10 @@ public final class Messages {
             return this;
           }
           /**
+           * <pre>
+           * The location of the `Background` keyword
+           * </pre>
+           *
            * <code>.io.cucumber.messages.Location location = 1;</code>
            */
           public Builder clearLocation() {
@@ -15421,6 +16132,10 @@ public final class Messages {
             return this;
           }
           /**
+           * <pre>
+           * The location of the `Background` keyword
+           * </pre>
+           *
            * <code>.io.cucumber.messages.Location location = 1;</code>
            */
           public io.cucumber.messages.Messages.Location.Builder getLocationBuilder() {
@@ -15429,6 +16144,10 @@ public final class Messages {
             return getLocationFieldBuilder().getBuilder();
           }
           /**
+           * <pre>
+           * The location of the `Background` keyword
+           * </pre>
+           *
            * <code>.io.cucumber.messages.Location location = 1;</code>
            */
           public io.cucumber.messages.Messages.LocationOrBuilder getLocationOrBuilder() {
@@ -15440,6 +16159,10 @@ public final class Messages {
             }
           }
           /**
+           * <pre>
+           * The location of the `Background` keyword
+           * </pre>
+           *
            * <code>.io.cucumber.messages.Location location = 1;</code>
            */
           private com.google.protobuf.SingleFieldBuilderV3<
@@ -15960,14 +16683,26 @@ public final class Messages {
           com.google.protobuf.MessageOrBuilder {
 
         /**
+         * <pre>
+         * The location of the `Scenario` keyword
+         * </pre>
+         *
          * <code>.io.cucumber.messages.Location location = 1;</code>
          */
         boolean hasLocation();
         /**
+         * <pre>
+         * The location of the `Scenario` keyword
+         * </pre>
+         *
          * <code>.io.cucumber.messages.Location location = 1;</code>
          */
         io.cucumber.messages.Messages.Location getLocation();
         /**
+         * <pre>
+         * The location of the `Scenario` keyword
+         * </pre>
+         *
          * <code>.io.cucumber.messages.Location location = 1;</code>
          */
         io.cucumber.messages.Messages.LocationOrBuilder getLocationOrBuilder();
@@ -16223,14 +16958,26 @@ public final class Messages {
             com.google.protobuf.MessageOrBuilder {
 
           /**
+           * <pre>
+           * The location of the `Examples` keyword
+           * </pre>
+           *
            * <code>.io.cucumber.messages.Location location = 1;</code>
            */
           boolean hasLocation();
           /**
+           * <pre>
+           * The location of the `Examples` keyword
+           * </pre>
+           *
            * <code>.io.cucumber.messages.Location location = 1;</code>
            */
           io.cucumber.messages.Messages.Location getLocation();
           /**
+           * <pre>
+           * The location of the `Examples` keyword
+           * </pre>
+           *
            * <code>.io.cucumber.messages.Location location = 1;</code>
            */
           io.cucumber.messages.Messages.LocationOrBuilder getLocationOrBuilder();
@@ -16474,18 +17221,30 @@ public final class Messages {
           public static final int LOCATION_FIELD_NUMBER = 1;
           private io.cucumber.messages.Messages.Location location_;
           /**
+           * <pre>
+           * The location of the `Examples` keyword
+           * </pre>
+           *
            * <code>.io.cucumber.messages.Location location = 1;</code>
            */
           public boolean hasLocation() {
             return location_ != null;
           }
           /**
+           * <pre>
+           * The location of the `Examples` keyword
+           * </pre>
+           *
            * <code>.io.cucumber.messages.Location location = 1;</code>
            */
           public io.cucumber.messages.Messages.Location getLocation() {
             return location_ == null ? io.cucumber.messages.Messages.Location.getDefaultInstance() : location_;
           }
           /**
+           * <pre>
+           * The location of the `Examples` keyword
+           * </pre>
+           *
            * <code>.io.cucumber.messages.Location location = 1;</code>
            */
           public io.cucumber.messages.Messages.LocationOrBuilder getLocationOrBuilder() {
@@ -17200,12 +17959,20 @@ public final class Messages {
             private com.google.protobuf.SingleFieldBuilderV3<
                 io.cucumber.messages.Messages.Location, io.cucumber.messages.Messages.Location.Builder, io.cucumber.messages.Messages.LocationOrBuilder> locationBuilder_;
             /**
+             * <pre>
+             * The location of the `Examples` keyword
+             * </pre>
+             *
              * <code>.io.cucumber.messages.Location location = 1;</code>
              */
             public boolean hasLocation() {
               return locationBuilder_ != null || location_ != null;
             }
             /**
+             * <pre>
+             * The location of the `Examples` keyword
+             * </pre>
+             *
              * <code>.io.cucumber.messages.Location location = 1;</code>
              */
             public io.cucumber.messages.Messages.Location getLocation() {
@@ -17216,6 +17983,10 @@ public final class Messages {
               }
             }
             /**
+             * <pre>
+             * The location of the `Examples` keyword
+             * </pre>
+             *
              * <code>.io.cucumber.messages.Location location = 1;</code>
              */
             public Builder setLocation(io.cucumber.messages.Messages.Location value) {
@@ -17232,6 +18003,10 @@ public final class Messages {
               return this;
             }
             /**
+             * <pre>
+             * The location of the `Examples` keyword
+             * </pre>
+             *
              * <code>.io.cucumber.messages.Location location = 1;</code>
              */
             public Builder setLocation(
@@ -17246,6 +18021,10 @@ public final class Messages {
               return this;
             }
             /**
+             * <pre>
+             * The location of the `Examples` keyword
+             * </pre>
+             *
              * <code>.io.cucumber.messages.Location location = 1;</code>
              */
             public Builder mergeLocation(io.cucumber.messages.Messages.Location value) {
@@ -17264,6 +18043,10 @@ public final class Messages {
               return this;
             }
             /**
+             * <pre>
+             * The location of the `Examples` keyword
+             * </pre>
+             *
              * <code>.io.cucumber.messages.Location location = 1;</code>
              */
             public Builder clearLocation() {
@@ -17278,6 +18061,10 @@ public final class Messages {
               return this;
             }
             /**
+             * <pre>
+             * The location of the `Examples` keyword
+             * </pre>
+             *
              * <code>.io.cucumber.messages.Location location = 1;</code>
              */
             public io.cucumber.messages.Messages.Location.Builder getLocationBuilder() {
@@ -17286,6 +18073,10 @@ public final class Messages {
               return getLocationFieldBuilder().getBuilder();
             }
             /**
+             * <pre>
+             * The location of the `Examples` keyword
+             * </pre>
+             *
              * <code>.io.cucumber.messages.Location location = 1;</code>
              */
             public io.cucumber.messages.Messages.LocationOrBuilder getLocationOrBuilder() {
@@ -17297,6 +18088,10 @@ public final class Messages {
               }
             }
             /**
+             * <pre>
+             * The location of the `Examples` keyword
+             * </pre>
+             *
              * <code>.io.cucumber.messages.Location location = 1;</code>
              */
             private com.google.protobuf.SingleFieldBuilderV3<
@@ -18173,18 +18968,30 @@ public final class Messages {
         public static final int LOCATION_FIELD_NUMBER = 1;
         private io.cucumber.messages.Messages.Location location_;
         /**
+         * <pre>
+         * The location of the `Scenario` keyword
+         * </pre>
+         *
          * <code>.io.cucumber.messages.Location location = 1;</code>
          */
         public boolean hasLocation() {
           return location_ != null;
         }
         /**
+         * <pre>
+         * The location of the `Scenario` keyword
+         * </pre>
+         *
          * <code>.io.cucumber.messages.Location location = 1;</code>
          */
         public io.cucumber.messages.Messages.Location getLocation() {
           return location_ == null ? io.cucumber.messages.Messages.Location.getDefaultInstance() : location_;
         }
         /**
+         * <pre>
+         * The location of the `Scenario` keyword
+         * </pre>
+         *
          * <code>.io.cucumber.messages.Location location = 1;</code>
          */
         public io.cucumber.messages.Messages.LocationOrBuilder getLocationOrBuilder() {
@@ -18938,12 +19745,20 @@ public final class Messages {
           private com.google.protobuf.SingleFieldBuilderV3<
               io.cucumber.messages.Messages.Location, io.cucumber.messages.Messages.Location.Builder, io.cucumber.messages.Messages.LocationOrBuilder> locationBuilder_;
           /**
+           * <pre>
+           * The location of the `Scenario` keyword
+           * </pre>
+           *
            * <code>.io.cucumber.messages.Location location = 1;</code>
            */
           public boolean hasLocation() {
             return locationBuilder_ != null || location_ != null;
           }
           /**
+           * <pre>
+           * The location of the `Scenario` keyword
+           * </pre>
+           *
            * <code>.io.cucumber.messages.Location location = 1;</code>
            */
           public io.cucumber.messages.Messages.Location getLocation() {
@@ -18954,6 +19769,10 @@ public final class Messages {
             }
           }
           /**
+           * <pre>
+           * The location of the `Scenario` keyword
+           * </pre>
+           *
            * <code>.io.cucumber.messages.Location location = 1;</code>
            */
           public Builder setLocation(io.cucumber.messages.Messages.Location value) {
@@ -18970,6 +19789,10 @@ public final class Messages {
             return this;
           }
           /**
+           * <pre>
+           * The location of the `Scenario` keyword
+           * </pre>
+           *
            * <code>.io.cucumber.messages.Location location = 1;</code>
            */
           public Builder setLocation(
@@ -18984,6 +19807,10 @@ public final class Messages {
             return this;
           }
           /**
+           * <pre>
+           * The location of the `Scenario` keyword
+           * </pre>
+           *
            * <code>.io.cucumber.messages.Location location = 1;</code>
            */
           public Builder mergeLocation(io.cucumber.messages.Messages.Location value) {
@@ -19002,6 +19829,10 @@ public final class Messages {
             return this;
           }
           /**
+           * <pre>
+           * The location of the `Scenario` keyword
+           * </pre>
+           *
            * <code>.io.cucumber.messages.Location location = 1;</code>
            */
           public Builder clearLocation() {
@@ -19016,6 +19847,10 @@ public final class Messages {
             return this;
           }
           /**
+           * <pre>
+           * The location of the `Scenario` keyword
+           * </pre>
+           *
            * <code>.io.cucumber.messages.Location location = 1;</code>
            */
           public io.cucumber.messages.Messages.Location.Builder getLocationBuilder() {
@@ -19024,6 +19859,10 @@ public final class Messages {
             return getLocationFieldBuilder().getBuilder();
           }
           /**
+           * <pre>
+           * The location of the `Scenario` keyword
+           * </pre>
+           *
            * <code>.io.cucumber.messages.Location location = 1;</code>
            */
           public io.cucumber.messages.Messages.LocationOrBuilder getLocationOrBuilder() {
@@ -19035,6 +19874,10 @@ public final class Messages {
             }
           }
           /**
+           * <pre>
+           * The location of the `Scenario` keyword
+           * </pre>
+           *
            * <code>.io.cucumber.messages.Location location = 1;</code>
            */
           private com.google.protobuf.SingleFieldBuilderV3<
@@ -20035,43 +20878,79 @@ public final class Messages {
           com.google.protobuf.MessageOrBuilder {
 
         /**
+         * <pre>
+         * The location of the first cell in the row
+         * </pre>
+         *
          * <code>.io.cucumber.messages.Location location = 1;</code>
          */
         boolean hasLocation();
         /**
+         * <pre>
+         * The location of the first cell in the row
+         * </pre>
+         *
          * <code>.io.cucumber.messages.Location location = 1;</code>
          */
         io.cucumber.messages.Messages.Location getLocation();
         /**
+         * <pre>
+         * The location of the first cell in the row
+         * </pre>
+         *
          * <code>.io.cucumber.messages.Location location = 1;</code>
          */
         io.cucumber.messages.Messages.LocationOrBuilder getLocationOrBuilder();
 
         /**
+         * <pre>
+         * Cells in the row
+         * </pre>
+         *
          * <code>repeated .io.cucumber.messages.GherkinDocument.Feature.TableRow.TableCell cells = 2;</code>
          */
         java.util.List<io.cucumber.messages.Messages.GherkinDocument.Feature.TableRow.TableCell> 
             getCellsList();
         /**
+         * <pre>
+         * Cells in the row
+         * </pre>
+         *
          * <code>repeated .io.cucumber.messages.GherkinDocument.Feature.TableRow.TableCell cells = 2;</code>
          */
         io.cucumber.messages.Messages.GherkinDocument.Feature.TableRow.TableCell getCells(int index);
         /**
+         * <pre>
+         * Cells in the row
+         * </pre>
+         *
          * <code>repeated .io.cucumber.messages.GherkinDocument.Feature.TableRow.TableCell cells = 2;</code>
          */
         int getCellsCount();
         /**
+         * <pre>
+         * Cells in the row
+         * </pre>
+         *
          * <code>repeated .io.cucumber.messages.GherkinDocument.Feature.TableRow.TableCell cells = 2;</code>
          */
         java.util.List<? extends io.cucumber.messages.Messages.GherkinDocument.Feature.TableRow.TableCellOrBuilder> 
             getCellsOrBuilderList();
         /**
+         * <pre>
+         * Cells in the row
+         * </pre>
+         *
          * <code>repeated .io.cucumber.messages.GherkinDocument.Feature.TableRow.TableCell cells = 2;</code>
          */
         io.cucumber.messages.Messages.GherkinDocument.Feature.TableRow.TableCellOrBuilder getCellsOrBuilder(
             int index);
       }
       /**
+       * <pre>
+       * A row in a table
+       * </pre>
+       *
        * Protobuf type {@code io.cucumber.messages.GherkinDocument.Feature.TableRow}
        */
       public  static final class TableRow extends
@@ -20173,29 +21052,53 @@ public final class Messages {
             com.google.protobuf.MessageOrBuilder {
 
           /**
+           * <pre>
+           * The location of the cell
+           * </pre>
+           *
            * <code>.io.cucumber.messages.Location location = 1;</code>
            */
           boolean hasLocation();
           /**
+           * <pre>
+           * The location of the cell
+           * </pre>
+           *
            * <code>.io.cucumber.messages.Location location = 1;</code>
            */
           io.cucumber.messages.Messages.Location getLocation();
           /**
+           * <pre>
+           * The location of the cell
+           * </pre>
+           *
            * <code>.io.cucumber.messages.Location location = 1;</code>
            */
           io.cucumber.messages.Messages.LocationOrBuilder getLocationOrBuilder();
 
           /**
+           * <pre>
+           * The value of the cell
+           * </pre>
+           *
            * <code>string value = 2;</code>
            */
           java.lang.String getValue();
           /**
+           * <pre>
+           * The value of the cell
+           * </pre>
+           *
            * <code>string value = 2;</code>
            */
           com.google.protobuf.ByteString
               getValueBytes();
         }
         /**
+         * <pre>
+         * A cell in a `TableRow`
+         * </pre>
+         *
          * Protobuf type {@code io.cucumber.messages.GherkinDocument.Feature.TableRow.TableCell}
          */
         public  static final class TableCell extends
@@ -20289,18 +21192,30 @@ public final class Messages {
           public static final int LOCATION_FIELD_NUMBER = 1;
           private io.cucumber.messages.Messages.Location location_;
           /**
+           * <pre>
+           * The location of the cell
+           * </pre>
+           *
            * <code>.io.cucumber.messages.Location location = 1;</code>
            */
           public boolean hasLocation() {
             return location_ != null;
           }
           /**
+           * <pre>
+           * The location of the cell
+           * </pre>
+           *
            * <code>.io.cucumber.messages.Location location = 1;</code>
            */
           public io.cucumber.messages.Messages.Location getLocation() {
             return location_ == null ? io.cucumber.messages.Messages.Location.getDefaultInstance() : location_;
           }
           /**
+           * <pre>
+           * The location of the cell
+           * </pre>
+           *
            * <code>.io.cucumber.messages.Location location = 1;</code>
            */
           public io.cucumber.messages.Messages.LocationOrBuilder getLocationOrBuilder() {
@@ -20310,6 +21225,10 @@ public final class Messages {
           public static final int VALUE_FIELD_NUMBER = 2;
           private volatile java.lang.Object value_;
           /**
+           * <pre>
+           * The value of the cell
+           * </pre>
+           *
            * <code>string value = 2;</code>
            */
           public java.lang.String getValue() {
@@ -20325,6 +21244,10 @@ public final class Messages {
             }
           }
           /**
+           * <pre>
+           * The value of the cell
+           * </pre>
+           *
            * <code>string value = 2;</code>
            */
           public com.google.protobuf.ByteString
@@ -20513,6 +21436,10 @@ public final class Messages {
             return builder;
           }
           /**
+           * <pre>
+           * A cell in a `TableRow`
+           * </pre>
+           *
            * Protobuf type {@code io.cucumber.messages.GherkinDocument.Feature.TableRow.TableCell}
            */
           public static final class Builder extends
@@ -20678,12 +21605,20 @@ public final class Messages {
             private com.google.protobuf.SingleFieldBuilderV3<
                 io.cucumber.messages.Messages.Location, io.cucumber.messages.Messages.Location.Builder, io.cucumber.messages.Messages.LocationOrBuilder> locationBuilder_;
             /**
+             * <pre>
+             * The location of the cell
+             * </pre>
+             *
              * <code>.io.cucumber.messages.Location location = 1;</code>
              */
             public boolean hasLocation() {
               return locationBuilder_ != null || location_ != null;
             }
             /**
+             * <pre>
+             * The location of the cell
+             * </pre>
+             *
              * <code>.io.cucumber.messages.Location location = 1;</code>
              */
             public io.cucumber.messages.Messages.Location getLocation() {
@@ -20694,6 +21629,10 @@ public final class Messages {
               }
             }
             /**
+             * <pre>
+             * The location of the cell
+             * </pre>
+             *
              * <code>.io.cucumber.messages.Location location = 1;</code>
              */
             public Builder setLocation(io.cucumber.messages.Messages.Location value) {
@@ -20710,6 +21649,10 @@ public final class Messages {
               return this;
             }
             /**
+             * <pre>
+             * The location of the cell
+             * </pre>
+             *
              * <code>.io.cucumber.messages.Location location = 1;</code>
              */
             public Builder setLocation(
@@ -20724,6 +21667,10 @@ public final class Messages {
               return this;
             }
             /**
+             * <pre>
+             * The location of the cell
+             * </pre>
+             *
              * <code>.io.cucumber.messages.Location location = 1;</code>
              */
             public Builder mergeLocation(io.cucumber.messages.Messages.Location value) {
@@ -20742,6 +21689,10 @@ public final class Messages {
               return this;
             }
             /**
+             * <pre>
+             * The location of the cell
+             * </pre>
+             *
              * <code>.io.cucumber.messages.Location location = 1;</code>
              */
             public Builder clearLocation() {
@@ -20756,6 +21707,10 @@ public final class Messages {
               return this;
             }
             /**
+             * <pre>
+             * The location of the cell
+             * </pre>
+             *
              * <code>.io.cucumber.messages.Location location = 1;</code>
              */
             public io.cucumber.messages.Messages.Location.Builder getLocationBuilder() {
@@ -20764,6 +21719,10 @@ public final class Messages {
               return getLocationFieldBuilder().getBuilder();
             }
             /**
+             * <pre>
+             * The location of the cell
+             * </pre>
+             *
              * <code>.io.cucumber.messages.Location location = 1;</code>
              */
             public io.cucumber.messages.Messages.LocationOrBuilder getLocationOrBuilder() {
@@ -20775,6 +21734,10 @@ public final class Messages {
               }
             }
             /**
+             * <pre>
+             * The location of the cell
+             * </pre>
+             *
              * <code>.io.cucumber.messages.Location location = 1;</code>
              */
             private com.google.protobuf.SingleFieldBuilderV3<
@@ -20793,6 +21756,10 @@ public final class Messages {
 
             private java.lang.Object value_ = "";
             /**
+             * <pre>
+             * The value of the cell
+             * </pre>
+             *
              * <code>string value = 2;</code>
              */
             public java.lang.String getValue() {
@@ -20808,6 +21775,10 @@ public final class Messages {
               }
             }
             /**
+             * <pre>
+             * The value of the cell
+             * </pre>
+             *
              * <code>string value = 2;</code>
              */
             public com.google.protobuf.ByteString
@@ -20824,6 +21795,10 @@ public final class Messages {
               }
             }
             /**
+             * <pre>
+             * The value of the cell
+             * </pre>
+             *
              * <code>string value = 2;</code>
              */
             public Builder setValue(
@@ -20837,6 +21812,10 @@ public final class Messages {
               return this;
             }
             /**
+             * <pre>
+             * The value of the cell
+             * </pre>
+             *
              * <code>string value = 2;</code>
              */
             public Builder clearValue() {
@@ -20846,6 +21825,10 @@ public final class Messages {
               return this;
             }
             /**
+             * <pre>
+             * The value of the cell
+             * </pre>
+             *
              * <code>string value = 2;</code>
              */
             public Builder setValueBytes(
@@ -20916,18 +21899,30 @@ public final class Messages {
         public static final int LOCATION_FIELD_NUMBER = 1;
         private io.cucumber.messages.Messages.Location location_;
         /**
+         * <pre>
+         * The location of the first cell in the row
+         * </pre>
+         *
          * <code>.io.cucumber.messages.Location location = 1;</code>
          */
         public boolean hasLocation() {
           return location_ != null;
         }
         /**
+         * <pre>
+         * The location of the first cell in the row
+         * </pre>
+         *
          * <code>.io.cucumber.messages.Location location = 1;</code>
          */
         public io.cucumber.messages.Messages.Location getLocation() {
           return location_ == null ? io.cucumber.messages.Messages.Location.getDefaultInstance() : location_;
         }
         /**
+         * <pre>
+         * The location of the first cell in the row
+         * </pre>
+         *
          * <code>.io.cucumber.messages.Location location = 1;</code>
          */
         public io.cucumber.messages.Messages.LocationOrBuilder getLocationOrBuilder() {
@@ -20937,12 +21932,20 @@ public final class Messages {
         public static final int CELLS_FIELD_NUMBER = 2;
         private java.util.List<io.cucumber.messages.Messages.GherkinDocument.Feature.TableRow.TableCell> cells_;
         /**
+         * <pre>
+         * Cells in the row
+         * </pre>
+         *
          * <code>repeated .io.cucumber.messages.GherkinDocument.Feature.TableRow.TableCell cells = 2;</code>
          */
         public java.util.List<io.cucumber.messages.Messages.GherkinDocument.Feature.TableRow.TableCell> getCellsList() {
           return cells_;
         }
         /**
+         * <pre>
+         * Cells in the row
+         * </pre>
+         *
          * <code>repeated .io.cucumber.messages.GherkinDocument.Feature.TableRow.TableCell cells = 2;</code>
          */
         public java.util.List<? extends io.cucumber.messages.Messages.GherkinDocument.Feature.TableRow.TableCellOrBuilder> 
@@ -20950,18 +21953,30 @@ public final class Messages {
           return cells_;
         }
         /**
+         * <pre>
+         * Cells in the row
+         * </pre>
+         *
          * <code>repeated .io.cucumber.messages.GherkinDocument.Feature.TableRow.TableCell cells = 2;</code>
          */
         public int getCellsCount() {
           return cells_.size();
         }
         /**
+         * <pre>
+         * Cells in the row
+         * </pre>
+         *
          * <code>repeated .io.cucumber.messages.GherkinDocument.Feature.TableRow.TableCell cells = 2;</code>
          */
         public io.cucumber.messages.Messages.GherkinDocument.Feature.TableRow.TableCell getCells(int index) {
           return cells_.get(index);
         }
         /**
+         * <pre>
+         * Cells in the row
+         * </pre>
+         *
          * <code>repeated .io.cucumber.messages.GherkinDocument.Feature.TableRow.TableCell cells = 2;</code>
          */
         public io.cucumber.messages.Messages.GherkinDocument.Feature.TableRow.TableCellOrBuilder getCellsOrBuilder(
@@ -21144,6 +22159,10 @@ public final class Messages {
           return builder;
         }
         /**
+         * <pre>
+         * A row in a table
+         * </pre>
+         *
          * Protobuf type {@code io.cucumber.messages.GherkinDocument.Feature.TableRow}
          */
         public static final class Builder extends
@@ -21348,12 +22367,20 @@ public final class Messages {
           private com.google.protobuf.SingleFieldBuilderV3<
               io.cucumber.messages.Messages.Location, io.cucumber.messages.Messages.Location.Builder, io.cucumber.messages.Messages.LocationOrBuilder> locationBuilder_;
           /**
+           * <pre>
+           * The location of the first cell in the row
+           * </pre>
+           *
            * <code>.io.cucumber.messages.Location location = 1;</code>
            */
           public boolean hasLocation() {
             return locationBuilder_ != null || location_ != null;
           }
           /**
+           * <pre>
+           * The location of the first cell in the row
+           * </pre>
+           *
            * <code>.io.cucumber.messages.Location location = 1;</code>
            */
           public io.cucumber.messages.Messages.Location getLocation() {
@@ -21364,6 +22391,10 @@ public final class Messages {
             }
           }
           /**
+           * <pre>
+           * The location of the first cell in the row
+           * </pre>
+           *
            * <code>.io.cucumber.messages.Location location = 1;</code>
            */
           public Builder setLocation(io.cucumber.messages.Messages.Location value) {
@@ -21380,6 +22411,10 @@ public final class Messages {
             return this;
           }
           /**
+           * <pre>
+           * The location of the first cell in the row
+           * </pre>
+           *
            * <code>.io.cucumber.messages.Location location = 1;</code>
            */
           public Builder setLocation(
@@ -21394,6 +22429,10 @@ public final class Messages {
             return this;
           }
           /**
+           * <pre>
+           * The location of the first cell in the row
+           * </pre>
+           *
            * <code>.io.cucumber.messages.Location location = 1;</code>
            */
           public Builder mergeLocation(io.cucumber.messages.Messages.Location value) {
@@ -21412,6 +22451,10 @@ public final class Messages {
             return this;
           }
           /**
+           * <pre>
+           * The location of the first cell in the row
+           * </pre>
+           *
            * <code>.io.cucumber.messages.Location location = 1;</code>
            */
           public Builder clearLocation() {
@@ -21426,6 +22469,10 @@ public final class Messages {
             return this;
           }
           /**
+           * <pre>
+           * The location of the first cell in the row
+           * </pre>
+           *
            * <code>.io.cucumber.messages.Location location = 1;</code>
            */
           public io.cucumber.messages.Messages.Location.Builder getLocationBuilder() {
@@ -21434,6 +22481,10 @@ public final class Messages {
             return getLocationFieldBuilder().getBuilder();
           }
           /**
+           * <pre>
+           * The location of the first cell in the row
+           * </pre>
+           *
            * <code>.io.cucumber.messages.Location location = 1;</code>
            */
           public io.cucumber.messages.Messages.LocationOrBuilder getLocationOrBuilder() {
@@ -21445,6 +22496,10 @@ public final class Messages {
             }
           }
           /**
+           * <pre>
+           * The location of the first cell in the row
+           * </pre>
+           *
            * <code>.io.cucumber.messages.Location location = 1;</code>
            */
           private com.google.protobuf.SingleFieldBuilderV3<
@@ -21474,6 +22529,10 @@ public final class Messages {
               io.cucumber.messages.Messages.GherkinDocument.Feature.TableRow.TableCell, io.cucumber.messages.Messages.GherkinDocument.Feature.TableRow.TableCell.Builder, io.cucumber.messages.Messages.GherkinDocument.Feature.TableRow.TableCellOrBuilder> cellsBuilder_;
 
           /**
+           * <pre>
+           * Cells in the row
+           * </pre>
+           *
            * <code>repeated .io.cucumber.messages.GherkinDocument.Feature.TableRow.TableCell cells = 2;</code>
            */
           public java.util.List<io.cucumber.messages.Messages.GherkinDocument.Feature.TableRow.TableCell> getCellsList() {
@@ -21484,6 +22543,10 @@ public final class Messages {
             }
           }
           /**
+           * <pre>
+           * Cells in the row
+           * </pre>
+           *
            * <code>repeated .io.cucumber.messages.GherkinDocument.Feature.TableRow.TableCell cells = 2;</code>
            */
           public int getCellsCount() {
@@ -21494,6 +22557,10 @@ public final class Messages {
             }
           }
           /**
+           * <pre>
+           * Cells in the row
+           * </pre>
+           *
            * <code>repeated .io.cucumber.messages.GherkinDocument.Feature.TableRow.TableCell cells = 2;</code>
            */
           public io.cucumber.messages.Messages.GherkinDocument.Feature.TableRow.TableCell getCells(int index) {
@@ -21504,6 +22571,10 @@ public final class Messages {
             }
           }
           /**
+           * <pre>
+           * Cells in the row
+           * </pre>
+           *
            * <code>repeated .io.cucumber.messages.GherkinDocument.Feature.TableRow.TableCell cells = 2;</code>
            */
           public Builder setCells(
@@ -21521,6 +22592,10 @@ public final class Messages {
             return this;
           }
           /**
+           * <pre>
+           * Cells in the row
+           * </pre>
+           *
            * <code>repeated .io.cucumber.messages.GherkinDocument.Feature.TableRow.TableCell cells = 2;</code>
            */
           public Builder setCells(
@@ -21535,6 +22610,10 @@ public final class Messages {
             return this;
           }
           /**
+           * <pre>
+           * Cells in the row
+           * </pre>
+           *
            * <code>repeated .io.cucumber.messages.GherkinDocument.Feature.TableRow.TableCell cells = 2;</code>
            */
           public Builder addCells(io.cucumber.messages.Messages.GherkinDocument.Feature.TableRow.TableCell value) {
@@ -21551,6 +22630,10 @@ public final class Messages {
             return this;
           }
           /**
+           * <pre>
+           * Cells in the row
+           * </pre>
+           *
            * <code>repeated .io.cucumber.messages.GherkinDocument.Feature.TableRow.TableCell cells = 2;</code>
            */
           public Builder addCells(
@@ -21568,6 +22651,10 @@ public final class Messages {
             return this;
           }
           /**
+           * <pre>
+           * Cells in the row
+           * </pre>
+           *
            * <code>repeated .io.cucumber.messages.GherkinDocument.Feature.TableRow.TableCell cells = 2;</code>
            */
           public Builder addCells(
@@ -21582,6 +22669,10 @@ public final class Messages {
             return this;
           }
           /**
+           * <pre>
+           * Cells in the row
+           * </pre>
+           *
            * <code>repeated .io.cucumber.messages.GherkinDocument.Feature.TableRow.TableCell cells = 2;</code>
            */
           public Builder addCells(
@@ -21596,6 +22687,10 @@ public final class Messages {
             return this;
           }
           /**
+           * <pre>
+           * Cells in the row
+           * </pre>
+           *
            * <code>repeated .io.cucumber.messages.GherkinDocument.Feature.TableRow.TableCell cells = 2;</code>
            */
           public Builder addAllCells(
@@ -21611,6 +22706,10 @@ public final class Messages {
             return this;
           }
           /**
+           * <pre>
+           * Cells in the row
+           * </pre>
+           *
            * <code>repeated .io.cucumber.messages.GherkinDocument.Feature.TableRow.TableCell cells = 2;</code>
            */
           public Builder clearCells() {
@@ -21624,6 +22723,10 @@ public final class Messages {
             return this;
           }
           /**
+           * <pre>
+           * Cells in the row
+           * </pre>
+           *
            * <code>repeated .io.cucumber.messages.GherkinDocument.Feature.TableRow.TableCell cells = 2;</code>
            */
           public Builder removeCells(int index) {
@@ -21637,6 +22740,10 @@ public final class Messages {
             return this;
           }
           /**
+           * <pre>
+           * Cells in the row
+           * </pre>
+           *
            * <code>repeated .io.cucumber.messages.GherkinDocument.Feature.TableRow.TableCell cells = 2;</code>
            */
           public io.cucumber.messages.Messages.GherkinDocument.Feature.TableRow.TableCell.Builder getCellsBuilder(
@@ -21644,6 +22751,10 @@ public final class Messages {
             return getCellsFieldBuilder().getBuilder(index);
           }
           /**
+           * <pre>
+           * Cells in the row
+           * </pre>
+           *
            * <code>repeated .io.cucumber.messages.GherkinDocument.Feature.TableRow.TableCell cells = 2;</code>
            */
           public io.cucumber.messages.Messages.GherkinDocument.Feature.TableRow.TableCellOrBuilder getCellsOrBuilder(
@@ -21654,6 +22765,10 @@ public final class Messages {
             }
           }
           /**
+           * <pre>
+           * Cells in the row
+           * </pre>
+           *
            * <code>repeated .io.cucumber.messages.GherkinDocument.Feature.TableRow.TableCell cells = 2;</code>
            */
           public java.util.List<? extends io.cucumber.messages.Messages.GherkinDocument.Feature.TableRow.TableCellOrBuilder> 
@@ -21665,6 +22780,10 @@ public final class Messages {
             }
           }
           /**
+           * <pre>
+           * Cells in the row
+           * </pre>
+           *
            * <code>repeated .io.cucumber.messages.GherkinDocument.Feature.TableRow.TableCell cells = 2;</code>
            */
           public io.cucumber.messages.Messages.GherkinDocument.Feature.TableRow.TableCell.Builder addCellsBuilder() {
@@ -21672,6 +22791,10 @@ public final class Messages {
                 io.cucumber.messages.Messages.GherkinDocument.Feature.TableRow.TableCell.getDefaultInstance());
           }
           /**
+           * <pre>
+           * Cells in the row
+           * </pre>
+           *
            * <code>repeated .io.cucumber.messages.GherkinDocument.Feature.TableRow.TableCell cells = 2;</code>
            */
           public io.cucumber.messages.Messages.GherkinDocument.Feature.TableRow.TableCell.Builder addCellsBuilder(
@@ -21680,6 +22803,10 @@ public final class Messages {
                 index, io.cucumber.messages.Messages.GherkinDocument.Feature.TableRow.TableCell.getDefaultInstance());
           }
           /**
+           * <pre>
+           * Cells in the row
+           * </pre>
+           *
            * <code>repeated .io.cucumber.messages.GherkinDocument.Feature.TableRow.TableCell cells = 2;</code>
            */
           public java.util.List<io.cucumber.messages.Messages.GherkinDocument.Feature.TableRow.TableCell.Builder> 
@@ -21758,14 +22885,26 @@ public final class Messages {
           com.google.protobuf.MessageOrBuilder {
 
         /**
+         * <pre>
+         * The location of the steps' `keyword`
+         * </pre>
+         *
          * <code>.io.cucumber.messages.Location location = 1;</code>
          */
         boolean hasLocation();
         /**
+         * <pre>
+         * The location of the steps' `keyword`
+         * </pre>
+         *
          * <code>.io.cucumber.messages.Location location = 1;</code>
          */
         io.cucumber.messages.Messages.Location getLocation();
         /**
+         * <pre>
+         * The location of the steps' `keyword`
+         * </pre>
+         *
          * <code>.io.cucumber.messages.Location location = 1;</code>
          */
         io.cucumber.messages.Messages.LocationOrBuilder getLocationOrBuilder();
@@ -21819,6 +22958,10 @@ public final class Messages {
         public io.cucumber.messages.Messages.GherkinDocument.Feature.Step.ArgumentCase getArgumentCase();
       }
       /**
+       * <pre>
+       * A step
+       * </pre>
+       *
        * Protobuf type {@code io.cucumber.messages.GherkinDocument.Feature.Step}
        */
       public  static final class Step extends
@@ -23982,18 +25125,30 @@ public final class Messages {
         public static final int LOCATION_FIELD_NUMBER = 1;
         private io.cucumber.messages.Messages.Location location_;
         /**
+         * <pre>
+         * The location of the steps' `keyword`
+         * </pre>
+         *
          * <code>.io.cucumber.messages.Location location = 1;</code>
          */
         public boolean hasLocation() {
           return location_ != null;
         }
         /**
+         * <pre>
+         * The location of the steps' `keyword`
+         * </pre>
+         *
          * <code>.io.cucumber.messages.Location location = 1;</code>
          */
         public io.cucumber.messages.Messages.Location getLocation() {
           return location_ == null ? io.cucumber.messages.Messages.Location.getDefaultInstance() : location_;
         }
         /**
+         * <pre>
+         * The location of the steps' `keyword`
+         * </pre>
+         *
          * <code>.io.cucumber.messages.Location location = 1;</code>
          */
         public io.cucumber.messages.Messages.LocationOrBuilder getLocationOrBuilder() {
@@ -24343,6 +25498,10 @@ public final class Messages {
           return builder;
         }
         /**
+         * <pre>
+         * A step
+         * </pre>
+         *
          * Protobuf type {@code io.cucumber.messages.GherkinDocument.Feature.Step}
          */
         public static final class Builder extends
@@ -24560,12 +25719,20 @@ public final class Messages {
           private com.google.protobuf.SingleFieldBuilderV3<
               io.cucumber.messages.Messages.Location, io.cucumber.messages.Messages.Location.Builder, io.cucumber.messages.Messages.LocationOrBuilder> locationBuilder_;
           /**
+           * <pre>
+           * The location of the steps' `keyword`
+           * </pre>
+           *
            * <code>.io.cucumber.messages.Location location = 1;</code>
            */
           public boolean hasLocation() {
             return locationBuilder_ != null || location_ != null;
           }
           /**
+           * <pre>
+           * The location of the steps' `keyword`
+           * </pre>
+           *
            * <code>.io.cucumber.messages.Location location = 1;</code>
            */
           public io.cucumber.messages.Messages.Location getLocation() {
@@ -24576,6 +25743,10 @@ public final class Messages {
             }
           }
           /**
+           * <pre>
+           * The location of the steps' `keyword`
+           * </pre>
+           *
            * <code>.io.cucumber.messages.Location location = 1;</code>
            */
           public Builder setLocation(io.cucumber.messages.Messages.Location value) {
@@ -24592,6 +25763,10 @@ public final class Messages {
             return this;
           }
           /**
+           * <pre>
+           * The location of the steps' `keyword`
+           * </pre>
+           *
            * <code>.io.cucumber.messages.Location location = 1;</code>
            */
           public Builder setLocation(
@@ -24606,6 +25781,10 @@ public final class Messages {
             return this;
           }
           /**
+           * <pre>
+           * The location of the steps' `keyword`
+           * </pre>
+           *
            * <code>.io.cucumber.messages.Location location = 1;</code>
            */
           public Builder mergeLocation(io.cucumber.messages.Messages.Location value) {
@@ -24624,6 +25803,10 @@ public final class Messages {
             return this;
           }
           /**
+           * <pre>
+           * The location of the steps' `keyword`
+           * </pre>
+           *
            * <code>.io.cucumber.messages.Location location = 1;</code>
            */
           public Builder clearLocation() {
@@ -24638,6 +25821,10 @@ public final class Messages {
             return this;
           }
           /**
+           * <pre>
+           * The location of the steps' `keyword`
+           * </pre>
+           *
            * <code>.io.cucumber.messages.Location location = 1;</code>
            */
           public io.cucumber.messages.Messages.Location.Builder getLocationBuilder() {
@@ -24646,6 +25833,10 @@ public final class Messages {
             return getLocationFieldBuilder().getBuilder();
           }
           /**
+           * <pre>
+           * The location of the steps' `keyword`
+           * </pre>
+           *
            * <code>.io.cucumber.messages.Location location = 1;</code>
            */
           public io.cucumber.messages.Messages.LocationOrBuilder getLocationOrBuilder() {
@@ -24657,6 +25848,10 @@ public final class Messages {
             }
           }
           /**
+           * <pre>
+           * The location of the steps' `keyword`
+           * </pre>
+           *
            * <code>.io.cucumber.messages.Location location = 1;</code>
            */
           private com.google.protobuf.SingleFieldBuilderV3<
@@ -25139,18 +26334,30 @@ public final class Messages {
       public static final int LOCATION_FIELD_NUMBER = 1;
       private io.cucumber.messages.Messages.Location location_;
       /**
+       * <pre>
+       * The location of the `Feature` keyword
+       * </pre>
+       *
        * <code>.io.cucumber.messages.Location location = 1;</code>
        */
       public boolean hasLocation() {
         return location_ != null;
       }
       /**
+       * <pre>
+       * The location of the `Feature` keyword
+       * </pre>
+       *
        * <code>.io.cucumber.messages.Location location = 1;</code>
        */
       public io.cucumber.messages.Messages.Location getLocation() {
         return location_ == null ? io.cucumber.messages.Messages.Location.getDefaultInstance() : location_;
       }
       /**
+       * <pre>
+       * The location of the `Feature` keyword
+       * </pre>
+       *
        * <code>.io.cucumber.messages.Location location = 1;</code>
        */
       public io.cucumber.messages.Messages.LocationOrBuilder getLocationOrBuilder() {
@@ -25160,12 +26367,20 @@ public final class Messages {
       public static final int TAGS_FIELD_NUMBER = 2;
       private java.util.List<io.cucumber.messages.Messages.GherkinDocument.Feature.Tag> tags_;
       /**
+       * <pre>
+       * All the tags placed above the `Feature` keyword
+       * </pre>
+       *
        * <code>repeated .io.cucumber.messages.GherkinDocument.Feature.Tag tags = 2;</code>
        */
       public java.util.List<io.cucumber.messages.Messages.GherkinDocument.Feature.Tag> getTagsList() {
         return tags_;
       }
       /**
+       * <pre>
+       * All the tags placed above the `Feature` keyword
+       * </pre>
+       *
        * <code>repeated .io.cucumber.messages.GherkinDocument.Feature.Tag tags = 2;</code>
        */
       public java.util.List<? extends io.cucumber.messages.Messages.GherkinDocument.Feature.TagOrBuilder> 
@@ -25173,18 +26388,30 @@ public final class Messages {
         return tags_;
       }
       /**
+       * <pre>
+       * All the tags placed above the `Feature` keyword
+       * </pre>
+       *
        * <code>repeated .io.cucumber.messages.GherkinDocument.Feature.Tag tags = 2;</code>
        */
       public int getTagsCount() {
         return tags_.size();
       }
       /**
+       * <pre>
+       * All the tags placed above the `Feature` keyword
+       * </pre>
+       *
        * <code>repeated .io.cucumber.messages.GherkinDocument.Feature.Tag tags = 2;</code>
        */
       public io.cucumber.messages.Messages.GherkinDocument.Feature.Tag getTags(int index) {
         return tags_.get(index);
       }
       /**
+       * <pre>
+       * All the tags placed above the `Feature` keyword
+       * </pre>
+       *
        * <code>repeated .io.cucumber.messages.GherkinDocument.Feature.Tag tags = 2;</code>
        */
       public io.cucumber.messages.Messages.GherkinDocument.Feature.TagOrBuilder getTagsOrBuilder(
@@ -25195,6 +26422,10 @@ public final class Messages {
       public static final int LANGUAGE_FIELD_NUMBER = 3;
       private volatile java.lang.Object language_;
       /**
+       * <pre>
+       * The [ISO 639-1](https://en.wikipedia.org/wiki/ISO_639-1) language code of the Gherkin document
+       * </pre>
+       *
        * <code>string language = 3;</code>
        */
       public java.lang.String getLanguage() {
@@ -25210,6 +26441,10 @@ public final class Messages {
         }
       }
       /**
+       * <pre>
+       * The [ISO 639-1](https://en.wikipedia.org/wiki/ISO_639-1) language code of the Gherkin document
+       * </pre>
+       *
        * <code>string language = 3;</code>
        */
       public com.google.protobuf.ByteString
@@ -25229,6 +26464,10 @@ public final class Messages {
       public static final int KEYWORD_FIELD_NUMBER = 4;
       private volatile java.lang.Object keyword_;
       /**
+       * <pre>
+       * The text of the `Feature` keyword (in the language specified by `language`)
+       * </pre>
+       *
        * <code>string keyword = 4;</code>
        */
       public java.lang.String getKeyword() {
@@ -25244,6 +26483,10 @@ public final class Messages {
         }
       }
       /**
+       * <pre>
+       * The text of the `Feature` keyword (in the language specified by `language`)
+       * </pre>
+       *
        * <code>string keyword = 4;</code>
        */
       public com.google.protobuf.ByteString
@@ -25263,6 +26506,10 @@ public final class Messages {
       public static final int NAME_FIELD_NUMBER = 5;
       private volatile java.lang.Object name_;
       /**
+       * <pre>
+       * The name of the feature (the text following the `keyword`)
+       * </pre>
+       *
        * <code>string name = 5;</code>
        */
       public java.lang.String getName() {
@@ -25278,6 +26525,10 @@ public final class Messages {
         }
       }
       /**
+       * <pre>
+       * The name of the feature (the text following the `keyword`)
+       * </pre>
+       *
        * <code>string name = 5;</code>
        */
       public com.google.protobuf.ByteString
@@ -25297,6 +26548,10 @@ public final class Messages {
       public static final int DESCRIPTION_FIELD_NUMBER = 6;
       private volatile java.lang.Object description_;
       /**
+       * <pre>
+       * The line(s) underneath the line with the `keyword` that are used as description
+       * </pre>
+       *
        * <code>string description = 6;</code>
        */
       public java.lang.String getDescription() {
@@ -25312,6 +26567,10 @@ public final class Messages {
         }
       }
       /**
+       * <pre>
+       * The line(s) underneath the line with the `keyword` that are used as description
+       * </pre>
+       *
        * <code>string description = 6;</code>
        */
       public com.google.protobuf.ByteString
@@ -25331,12 +26590,20 @@ public final class Messages {
       public static final int CHILDREN_FIELD_NUMBER = 7;
       private java.util.List<io.cucumber.messages.Messages.GherkinDocument.Feature.FeatureChild> children_;
       /**
+       * <pre>
+       * Zero or more children
+       * </pre>
+       *
        * <code>repeated .io.cucumber.messages.GherkinDocument.Feature.FeatureChild children = 7;</code>
        */
       public java.util.List<io.cucumber.messages.Messages.GherkinDocument.Feature.FeatureChild> getChildrenList() {
         return children_;
       }
       /**
+       * <pre>
+       * Zero or more children
+       * </pre>
+       *
        * <code>repeated .io.cucumber.messages.GherkinDocument.Feature.FeatureChild children = 7;</code>
        */
       public java.util.List<? extends io.cucumber.messages.Messages.GherkinDocument.Feature.FeatureChildOrBuilder> 
@@ -25344,18 +26611,30 @@ public final class Messages {
         return children_;
       }
       /**
+       * <pre>
+       * Zero or more children
+       * </pre>
+       *
        * <code>repeated .io.cucumber.messages.GherkinDocument.Feature.FeatureChild children = 7;</code>
        */
       public int getChildrenCount() {
         return children_.size();
       }
       /**
+       * <pre>
+       * Zero or more children
+       * </pre>
+       *
        * <code>repeated .io.cucumber.messages.GherkinDocument.Feature.FeatureChild children = 7;</code>
        */
       public io.cucumber.messages.Messages.GherkinDocument.Feature.FeatureChild getChildren(int index) {
         return children_.get(index);
       }
       /**
+       * <pre>
+       * Zero or more children
+       * </pre>
+       *
        * <code>repeated .io.cucumber.messages.GherkinDocument.Feature.FeatureChild children = 7;</code>
        */
       public io.cucumber.messages.Messages.GherkinDocument.Feature.FeatureChildOrBuilder getChildrenOrBuilder(
@@ -25591,6 +26870,11 @@ public final class Messages {
         return builder;
       }
       /**
+       * <pre>
+       **
+       * The top level node in the AST
+       * </pre>
+       *
        * Protobuf type {@code io.cucumber.messages.GherkinDocument.Feature}
        */
       public static final class Builder extends
@@ -25865,12 +27149,20 @@ public final class Messages {
         private com.google.protobuf.SingleFieldBuilderV3<
             io.cucumber.messages.Messages.Location, io.cucumber.messages.Messages.Location.Builder, io.cucumber.messages.Messages.LocationOrBuilder> locationBuilder_;
         /**
+         * <pre>
+         * The location of the `Feature` keyword
+         * </pre>
+         *
          * <code>.io.cucumber.messages.Location location = 1;</code>
          */
         public boolean hasLocation() {
           return locationBuilder_ != null || location_ != null;
         }
         /**
+         * <pre>
+         * The location of the `Feature` keyword
+         * </pre>
+         *
          * <code>.io.cucumber.messages.Location location = 1;</code>
          */
         public io.cucumber.messages.Messages.Location getLocation() {
@@ -25881,6 +27173,10 @@ public final class Messages {
           }
         }
         /**
+         * <pre>
+         * The location of the `Feature` keyword
+         * </pre>
+         *
          * <code>.io.cucumber.messages.Location location = 1;</code>
          */
         public Builder setLocation(io.cucumber.messages.Messages.Location value) {
@@ -25897,6 +27193,10 @@ public final class Messages {
           return this;
         }
         /**
+         * <pre>
+         * The location of the `Feature` keyword
+         * </pre>
+         *
          * <code>.io.cucumber.messages.Location location = 1;</code>
          */
         public Builder setLocation(
@@ -25911,6 +27211,10 @@ public final class Messages {
           return this;
         }
         /**
+         * <pre>
+         * The location of the `Feature` keyword
+         * </pre>
+         *
          * <code>.io.cucumber.messages.Location location = 1;</code>
          */
         public Builder mergeLocation(io.cucumber.messages.Messages.Location value) {
@@ -25929,6 +27233,10 @@ public final class Messages {
           return this;
         }
         /**
+         * <pre>
+         * The location of the `Feature` keyword
+         * </pre>
+         *
          * <code>.io.cucumber.messages.Location location = 1;</code>
          */
         public Builder clearLocation() {
@@ -25943,6 +27251,10 @@ public final class Messages {
           return this;
         }
         /**
+         * <pre>
+         * The location of the `Feature` keyword
+         * </pre>
+         *
          * <code>.io.cucumber.messages.Location location = 1;</code>
          */
         public io.cucumber.messages.Messages.Location.Builder getLocationBuilder() {
@@ -25951,6 +27263,10 @@ public final class Messages {
           return getLocationFieldBuilder().getBuilder();
         }
         /**
+         * <pre>
+         * The location of the `Feature` keyword
+         * </pre>
+         *
          * <code>.io.cucumber.messages.Location location = 1;</code>
          */
         public io.cucumber.messages.Messages.LocationOrBuilder getLocationOrBuilder() {
@@ -25962,6 +27278,10 @@ public final class Messages {
           }
         }
         /**
+         * <pre>
+         * The location of the `Feature` keyword
+         * </pre>
+         *
          * <code>.io.cucumber.messages.Location location = 1;</code>
          */
         private com.google.protobuf.SingleFieldBuilderV3<
@@ -25991,6 +27311,10 @@ public final class Messages {
             io.cucumber.messages.Messages.GherkinDocument.Feature.Tag, io.cucumber.messages.Messages.GherkinDocument.Feature.Tag.Builder, io.cucumber.messages.Messages.GherkinDocument.Feature.TagOrBuilder> tagsBuilder_;
 
         /**
+         * <pre>
+         * All the tags placed above the `Feature` keyword
+         * </pre>
+         *
          * <code>repeated .io.cucumber.messages.GherkinDocument.Feature.Tag tags = 2;</code>
          */
         public java.util.List<io.cucumber.messages.Messages.GherkinDocument.Feature.Tag> getTagsList() {
@@ -26001,6 +27325,10 @@ public final class Messages {
           }
         }
         /**
+         * <pre>
+         * All the tags placed above the `Feature` keyword
+         * </pre>
+         *
          * <code>repeated .io.cucumber.messages.GherkinDocument.Feature.Tag tags = 2;</code>
          */
         public int getTagsCount() {
@@ -26011,6 +27339,10 @@ public final class Messages {
           }
         }
         /**
+         * <pre>
+         * All the tags placed above the `Feature` keyword
+         * </pre>
+         *
          * <code>repeated .io.cucumber.messages.GherkinDocument.Feature.Tag tags = 2;</code>
          */
         public io.cucumber.messages.Messages.GherkinDocument.Feature.Tag getTags(int index) {
@@ -26021,6 +27353,10 @@ public final class Messages {
           }
         }
         /**
+         * <pre>
+         * All the tags placed above the `Feature` keyword
+         * </pre>
+         *
          * <code>repeated .io.cucumber.messages.GherkinDocument.Feature.Tag tags = 2;</code>
          */
         public Builder setTags(
@@ -26038,6 +27374,10 @@ public final class Messages {
           return this;
         }
         /**
+         * <pre>
+         * All the tags placed above the `Feature` keyword
+         * </pre>
+         *
          * <code>repeated .io.cucumber.messages.GherkinDocument.Feature.Tag tags = 2;</code>
          */
         public Builder setTags(
@@ -26052,6 +27392,10 @@ public final class Messages {
           return this;
         }
         /**
+         * <pre>
+         * All the tags placed above the `Feature` keyword
+         * </pre>
+         *
          * <code>repeated .io.cucumber.messages.GherkinDocument.Feature.Tag tags = 2;</code>
          */
         public Builder addTags(io.cucumber.messages.Messages.GherkinDocument.Feature.Tag value) {
@@ -26068,6 +27412,10 @@ public final class Messages {
           return this;
         }
         /**
+         * <pre>
+         * All the tags placed above the `Feature` keyword
+         * </pre>
+         *
          * <code>repeated .io.cucumber.messages.GherkinDocument.Feature.Tag tags = 2;</code>
          */
         public Builder addTags(
@@ -26085,6 +27433,10 @@ public final class Messages {
           return this;
         }
         /**
+         * <pre>
+         * All the tags placed above the `Feature` keyword
+         * </pre>
+         *
          * <code>repeated .io.cucumber.messages.GherkinDocument.Feature.Tag tags = 2;</code>
          */
         public Builder addTags(
@@ -26099,6 +27451,10 @@ public final class Messages {
           return this;
         }
         /**
+         * <pre>
+         * All the tags placed above the `Feature` keyword
+         * </pre>
+         *
          * <code>repeated .io.cucumber.messages.GherkinDocument.Feature.Tag tags = 2;</code>
          */
         public Builder addTags(
@@ -26113,6 +27469,10 @@ public final class Messages {
           return this;
         }
         /**
+         * <pre>
+         * All the tags placed above the `Feature` keyword
+         * </pre>
+         *
          * <code>repeated .io.cucumber.messages.GherkinDocument.Feature.Tag tags = 2;</code>
          */
         public Builder addAllTags(
@@ -26128,6 +27488,10 @@ public final class Messages {
           return this;
         }
         /**
+         * <pre>
+         * All the tags placed above the `Feature` keyword
+         * </pre>
+         *
          * <code>repeated .io.cucumber.messages.GherkinDocument.Feature.Tag tags = 2;</code>
          */
         public Builder clearTags() {
@@ -26141,6 +27505,10 @@ public final class Messages {
           return this;
         }
         /**
+         * <pre>
+         * All the tags placed above the `Feature` keyword
+         * </pre>
+         *
          * <code>repeated .io.cucumber.messages.GherkinDocument.Feature.Tag tags = 2;</code>
          */
         public Builder removeTags(int index) {
@@ -26154,6 +27522,10 @@ public final class Messages {
           return this;
         }
         /**
+         * <pre>
+         * All the tags placed above the `Feature` keyword
+         * </pre>
+         *
          * <code>repeated .io.cucumber.messages.GherkinDocument.Feature.Tag tags = 2;</code>
          */
         public io.cucumber.messages.Messages.GherkinDocument.Feature.Tag.Builder getTagsBuilder(
@@ -26161,6 +27533,10 @@ public final class Messages {
           return getTagsFieldBuilder().getBuilder(index);
         }
         /**
+         * <pre>
+         * All the tags placed above the `Feature` keyword
+         * </pre>
+         *
          * <code>repeated .io.cucumber.messages.GherkinDocument.Feature.Tag tags = 2;</code>
          */
         public io.cucumber.messages.Messages.GherkinDocument.Feature.TagOrBuilder getTagsOrBuilder(
@@ -26171,6 +27547,10 @@ public final class Messages {
           }
         }
         /**
+         * <pre>
+         * All the tags placed above the `Feature` keyword
+         * </pre>
+         *
          * <code>repeated .io.cucumber.messages.GherkinDocument.Feature.Tag tags = 2;</code>
          */
         public java.util.List<? extends io.cucumber.messages.Messages.GherkinDocument.Feature.TagOrBuilder> 
@@ -26182,6 +27562,10 @@ public final class Messages {
           }
         }
         /**
+         * <pre>
+         * All the tags placed above the `Feature` keyword
+         * </pre>
+         *
          * <code>repeated .io.cucumber.messages.GherkinDocument.Feature.Tag tags = 2;</code>
          */
         public io.cucumber.messages.Messages.GherkinDocument.Feature.Tag.Builder addTagsBuilder() {
@@ -26189,6 +27573,10 @@ public final class Messages {
               io.cucumber.messages.Messages.GherkinDocument.Feature.Tag.getDefaultInstance());
         }
         /**
+         * <pre>
+         * All the tags placed above the `Feature` keyword
+         * </pre>
+         *
          * <code>repeated .io.cucumber.messages.GherkinDocument.Feature.Tag tags = 2;</code>
          */
         public io.cucumber.messages.Messages.GherkinDocument.Feature.Tag.Builder addTagsBuilder(
@@ -26197,6 +27585,10 @@ public final class Messages {
               index, io.cucumber.messages.Messages.GherkinDocument.Feature.Tag.getDefaultInstance());
         }
         /**
+         * <pre>
+         * All the tags placed above the `Feature` keyword
+         * </pre>
+         *
          * <code>repeated .io.cucumber.messages.GherkinDocument.Feature.Tag tags = 2;</code>
          */
         public java.util.List<io.cucumber.messages.Messages.GherkinDocument.Feature.Tag.Builder> 
@@ -26220,6 +27612,10 @@ public final class Messages {
 
         private java.lang.Object language_ = "";
         /**
+         * <pre>
+         * The [ISO 639-1](https://en.wikipedia.org/wiki/ISO_639-1) language code of the Gherkin document
+         * </pre>
+         *
          * <code>string language = 3;</code>
          */
         public java.lang.String getLanguage() {
@@ -26235,6 +27631,10 @@ public final class Messages {
           }
         }
         /**
+         * <pre>
+         * The [ISO 639-1](https://en.wikipedia.org/wiki/ISO_639-1) language code of the Gherkin document
+         * </pre>
+         *
          * <code>string language = 3;</code>
          */
         public com.google.protobuf.ByteString
@@ -26251,6 +27651,10 @@ public final class Messages {
           }
         }
         /**
+         * <pre>
+         * The [ISO 639-1](https://en.wikipedia.org/wiki/ISO_639-1) language code of the Gherkin document
+         * </pre>
+         *
          * <code>string language = 3;</code>
          */
         public Builder setLanguage(
@@ -26264,6 +27668,10 @@ public final class Messages {
           return this;
         }
         /**
+         * <pre>
+         * The [ISO 639-1](https://en.wikipedia.org/wiki/ISO_639-1) language code of the Gherkin document
+         * </pre>
+         *
          * <code>string language = 3;</code>
          */
         public Builder clearLanguage() {
@@ -26273,6 +27681,10 @@ public final class Messages {
           return this;
         }
         /**
+         * <pre>
+         * The [ISO 639-1](https://en.wikipedia.org/wiki/ISO_639-1) language code of the Gherkin document
+         * </pre>
+         *
          * <code>string language = 3;</code>
          */
         public Builder setLanguageBytes(
@@ -26289,6 +27701,10 @@ public final class Messages {
 
         private java.lang.Object keyword_ = "";
         /**
+         * <pre>
+         * The text of the `Feature` keyword (in the language specified by `language`)
+         * </pre>
+         *
          * <code>string keyword = 4;</code>
          */
         public java.lang.String getKeyword() {
@@ -26304,6 +27720,10 @@ public final class Messages {
           }
         }
         /**
+         * <pre>
+         * The text of the `Feature` keyword (in the language specified by `language`)
+         * </pre>
+         *
          * <code>string keyword = 4;</code>
          */
         public com.google.protobuf.ByteString
@@ -26320,6 +27740,10 @@ public final class Messages {
           }
         }
         /**
+         * <pre>
+         * The text of the `Feature` keyword (in the language specified by `language`)
+         * </pre>
+         *
          * <code>string keyword = 4;</code>
          */
         public Builder setKeyword(
@@ -26333,6 +27757,10 @@ public final class Messages {
           return this;
         }
         /**
+         * <pre>
+         * The text of the `Feature` keyword (in the language specified by `language`)
+         * </pre>
+         *
          * <code>string keyword = 4;</code>
          */
         public Builder clearKeyword() {
@@ -26342,6 +27770,10 @@ public final class Messages {
           return this;
         }
         /**
+         * <pre>
+         * The text of the `Feature` keyword (in the language specified by `language`)
+         * </pre>
+         *
          * <code>string keyword = 4;</code>
          */
         public Builder setKeywordBytes(
@@ -26358,6 +27790,10 @@ public final class Messages {
 
         private java.lang.Object name_ = "";
         /**
+         * <pre>
+         * The name of the feature (the text following the `keyword`)
+         * </pre>
+         *
          * <code>string name = 5;</code>
          */
         public java.lang.String getName() {
@@ -26373,6 +27809,10 @@ public final class Messages {
           }
         }
         /**
+         * <pre>
+         * The name of the feature (the text following the `keyword`)
+         * </pre>
+         *
          * <code>string name = 5;</code>
          */
         public com.google.protobuf.ByteString
@@ -26389,6 +27829,10 @@ public final class Messages {
           }
         }
         /**
+         * <pre>
+         * The name of the feature (the text following the `keyword`)
+         * </pre>
+         *
          * <code>string name = 5;</code>
          */
         public Builder setName(
@@ -26402,6 +27846,10 @@ public final class Messages {
           return this;
         }
         /**
+         * <pre>
+         * The name of the feature (the text following the `keyword`)
+         * </pre>
+         *
          * <code>string name = 5;</code>
          */
         public Builder clearName() {
@@ -26411,6 +27859,10 @@ public final class Messages {
           return this;
         }
         /**
+         * <pre>
+         * The name of the feature (the text following the `keyword`)
+         * </pre>
+         *
          * <code>string name = 5;</code>
          */
         public Builder setNameBytes(
@@ -26427,6 +27879,10 @@ public final class Messages {
 
         private java.lang.Object description_ = "";
         /**
+         * <pre>
+         * The line(s) underneath the line with the `keyword` that are used as description
+         * </pre>
+         *
          * <code>string description = 6;</code>
          */
         public java.lang.String getDescription() {
@@ -26442,6 +27898,10 @@ public final class Messages {
           }
         }
         /**
+         * <pre>
+         * The line(s) underneath the line with the `keyword` that are used as description
+         * </pre>
+         *
          * <code>string description = 6;</code>
          */
         public com.google.protobuf.ByteString
@@ -26458,6 +27918,10 @@ public final class Messages {
           }
         }
         /**
+         * <pre>
+         * The line(s) underneath the line with the `keyword` that are used as description
+         * </pre>
+         *
          * <code>string description = 6;</code>
          */
         public Builder setDescription(
@@ -26471,6 +27935,10 @@ public final class Messages {
           return this;
         }
         /**
+         * <pre>
+         * The line(s) underneath the line with the `keyword` that are used as description
+         * </pre>
+         *
          * <code>string description = 6;</code>
          */
         public Builder clearDescription() {
@@ -26480,6 +27948,10 @@ public final class Messages {
           return this;
         }
         /**
+         * <pre>
+         * The line(s) underneath the line with the `keyword` that are used as description
+         * </pre>
+         *
          * <code>string description = 6;</code>
          */
         public Builder setDescriptionBytes(
@@ -26507,6 +27979,10 @@ public final class Messages {
             io.cucumber.messages.Messages.GherkinDocument.Feature.FeatureChild, io.cucumber.messages.Messages.GherkinDocument.Feature.FeatureChild.Builder, io.cucumber.messages.Messages.GherkinDocument.Feature.FeatureChildOrBuilder> childrenBuilder_;
 
         /**
+         * <pre>
+         * Zero or more children
+         * </pre>
+         *
          * <code>repeated .io.cucumber.messages.GherkinDocument.Feature.FeatureChild children = 7;</code>
          */
         public java.util.List<io.cucumber.messages.Messages.GherkinDocument.Feature.FeatureChild> getChildrenList() {
@@ -26517,6 +27993,10 @@ public final class Messages {
           }
         }
         /**
+         * <pre>
+         * Zero or more children
+         * </pre>
+         *
          * <code>repeated .io.cucumber.messages.GherkinDocument.Feature.FeatureChild children = 7;</code>
          */
         public int getChildrenCount() {
@@ -26527,6 +28007,10 @@ public final class Messages {
           }
         }
         /**
+         * <pre>
+         * Zero or more children
+         * </pre>
+         *
          * <code>repeated .io.cucumber.messages.GherkinDocument.Feature.FeatureChild children = 7;</code>
          */
         public io.cucumber.messages.Messages.GherkinDocument.Feature.FeatureChild getChildren(int index) {
@@ -26537,6 +28021,10 @@ public final class Messages {
           }
         }
         /**
+         * <pre>
+         * Zero or more children
+         * </pre>
+         *
          * <code>repeated .io.cucumber.messages.GherkinDocument.Feature.FeatureChild children = 7;</code>
          */
         public Builder setChildren(
@@ -26554,6 +28042,10 @@ public final class Messages {
           return this;
         }
         /**
+         * <pre>
+         * Zero or more children
+         * </pre>
+         *
          * <code>repeated .io.cucumber.messages.GherkinDocument.Feature.FeatureChild children = 7;</code>
          */
         public Builder setChildren(
@@ -26568,6 +28060,10 @@ public final class Messages {
           return this;
         }
         /**
+         * <pre>
+         * Zero or more children
+         * </pre>
+         *
          * <code>repeated .io.cucumber.messages.GherkinDocument.Feature.FeatureChild children = 7;</code>
          */
         public Builder addChildren(io.cucumber.messages.Messages.GherkinDocument.Feature.FeatureChild value) {
@@ -26584,6 +28080,10 @@ public final class Messages {
           return this;
         }
         /**
+         * <pre>
+         * Zero or more children
+         * </pre>
+         *
          * <code>repeated .io.cucumber.messages.GherkinDocument.Feature.FeatureChild children = 7;</code>
          */
         public Builder addChildren(
@@ -26601,6 +28101,10 @@ public final class Messages {
           return this;
         }
         /**
+         * <pre>
+         * Zero or more children
+         * </pre>
+         *
          * <code>repeated .io.cucumber.messages.GherkinDocument.Feature.FeatureChild children = 7;</code>
          */
         public Builder addChildren(
@@ -26615,6 +28119,10 @@ public final class Messages {
           return this;
         }
         /**
+         * <pre>
+         * Zero or more children
+         * </pre>
+         *
          * <code>repeated .io.cucumber.messages.GherkinDocument.Feature.FeatureChild children = 7;</code>
          */
         public Builder addChildren(
@@ -26629,6 +28137,10 @@ public final class Messages {
           return this;
         }
         /**
+         * <pre>
+         * Zero or more children
+         * </pre>
+         *
          * <code>repeated .io.cucumber.messages.GherkinDocument.Feature.FeatureChild children = 7;</code>
          */
         public Builder addAllChildren(
@@ -26644,6 +28156,10 @@ public final class Messages {
           return this;
         }
         /**
+         * <pre>
+         * Zero or more children
+         * </pre>
+         *
          * <code>repeated .io.cucumber.messages.GherkinDocument.Feature.FeatureChild children = 7;</code>
          */
         public Builder clearChildren() {
@@ -26657,6 +28173,10 @@ public final class Messages {
           return this;
         }
         /**
+         * <pre>
+         * Zero or more children
+         * </pre>
+         *
          * <code>repeated .io.cucumber.messages.GherkinDocument.Feature.FeatureChild children = 7;</code>
          */
         public Builder removeChildren(int index) {
@@ -26670,6 +28190,10 @@ public final class Messages {
           return this;
         }
         /**
+         * <pre>
+         * Zero or more children
+         * </pre>
+         *
          * <code>repeated .io.cucumber.messages.GherkinDocument.Feature.FeatureChild children = 7;</code>
          */
         public io.cucumber.messages.Messages.GherkinDocument.Feature.FeatureChild.Builder getChildrenBuilder(
@@ -26677,6 +28201,10 @@ public final class Messages {
           return getChildrenFieldBuilder().getBuilder(index);
         }
         /**
+         * <pre>
+         * Zero or more children
+         * </pre>
+         *
          * <code>repeated .io.cucumber.messages.GherkinDocument.Feature.FeatureChild children = 7;</code>
          */
         public io.cucumber.messages.Messages.GherkinDocument.Feature.FeatureChildOrBuilder getChildrenOrBuilder(
@@ -26687,6 +28215,10 @@ public final class Messages {
           }
         }
         /**
+         * <pre>
+         * Zero or more children
+         * </pre>
+         *
          * <code>repeated .io.cucumber.messages.GherkinDocument.Feature.FeatureChild children = 7;</code>
          */
         public java.util.List<? extends io.cucumber.messages.Messages.GherkinDocument.Feature.FeatureChildOrBuilder> 
@@ -26698,6 +28230,10 @@ public final class Messages {
           }
         }
         /**
+         * <pre>
+         * Zero or more children
+         * </pre>
+         *
          * <code>repeated .io.cucumber.messages.GherkinDocument.Feature.FeatureChild children = 7;</code>
          */
         public io.cucumber.messages.Messages.GherkinDocument.Feature.FeatureChild.Builder addChildrenBuilder() {
@@ -26705,6 +28241,10 @@ public final class Messages {
               io.cucumber.messages.Messages.GherkinDocument.Feature.FeatureChild.getDefaultInstance());
         }
         /**
+         * <pre>
+         * Zero or more children
+         * </pre>
+         *
          * <code>repeated .io.cucumber.messages.GherkinDocument.Feature.FeatureChild children = 7;</code>
          */
         public io.cucumber.messages.Messages.GherkinDocument.Feature.FeatureChild.Builder addChildrenBuilder(
@@ -26713,6 +28253,10 @@ public final class Messages {
               index, io.cucumber.messages.Messages.GherkinDocument.Feature.FeatureChild.getDefaultInstance());
         }
         /**
+         * <pre>
+         * Zero or more children
+         * </pre>
+         *
          * <code>repeated .io.cucumber.messages.GherkinDocument.Feature.FeatureChild children = 7;</code>
          */
         public java.util.List<io.cucumber.messages.Messages.GherkinDocument.Feature.FeatureChild.Builder> 
@@ -26790,6 +28334,12 @@ public final class Messages {
     public static final int URI_FIELD_NUMBER = 1;
     private volatile java.lang.Object uri_;
     /**
+     * <pre>
+     **
+     * The [URI](https://en.wikipedia.org/wiki/Uniform_Resource_Identifier)
+     * of the source, typically a file path relative to the root directory
+     * </pre>
+     *
      * <code>string uri = 1;</code>
      */
     public java.lang.String getUri() {
@@ -26805,6 +28355,12 @@ public final class Messages {
       }
     }
     /**
+     * <pre>
+     **
+     * The [URI](https://en.wikipedia.org/wiki/Uniform_Resource_Identifier)
+     * of the source, typically a file path relative to the root directory
+     * </pre>
+     *
      * <code>string uri = 1;</code>
      */
     public com.google.protobuf.ByteString
@@ -26845,12 +28401,20 @@ public final class Messages {
     public static final int COMMENTS_FIELD_NUMBER = 3;
     private java.util.List<io.cucumber.messages.Messages.GherkinDocument.Comment> comments_;
     /**
+     * <pre>
+     * All the comments in the Gherkin document
+     * </pre>
+     *
      * <code>repeated .io.cucumber.messages.GherkinDocument.Comment comments = 3;</code>
      */
     public java.util.List<io.cucumber.messages.Messages.GherkinDocument.Comment> getCommentsList() {
       return comments_;
     }
     /**
+     * <pre>
+     * All the comments in the Gherkin document
+     * </pre>
+     *
      * <code>repeated .io.cucumber.messages.GherkinDocument.Comment comments = 3;</code>
      */
     public java.util.List<? extends io.cucumber.messages.Messages.GherkinDocument.CommentOrBuilder> 
@@ -26858,18 +28422,30 @@ public final class Messages {
       return comments_;
     }
     /**
+     * <pre>
+     * All the comments in the Gherkin document
+     * </pre>
+     *
      * <code>repeated .io.cucumber.messages.GherkinDocument.Comment comments = 3;</code>
      */
     public int getCommentsCount() {
       return comments_.size();
     }
     /**
+     * <pre>
+     * All the comments in the Gherkin document
+     * </pre>
+     *
      * <code>repeated .io.cucumber.messages.GherkinDocument.Comment comments = 3;</code>
      */
     public io.cucumber.messages.Messages.GherkinDocument.Comment getComments(int index) {
       return comments_.get(index);
     }
     /**
+     * <pre>
+     * All the comments in the Gherkin document
+     * </pre>
+     *
      * <code>repeated .io.cucumber.messages.GherkinDocument.Comment comments = 3;</code>
      */
     public io.cucumber.messages.Messages.GherkinDocument.CommentOrBuilder getCommentsOrBuilder(
@@ -27062,6 +28638,15 @@ public final class Messages {
       return builder;
     }
     /**
+     * <pre>
+     **
+     * The [AST](https://en.wikipedia.org/wiki/Abstract_syntax_tree) of a Gherkin document.
+     * Cucumber implementations should *not* depend on `GherkinDocument` or any of its
+     * children for execution - use [Pickle](#io.cucumber.messages.Pickle) instead.
+     * The only consumers of `GherkinDocument` should only be formatters that produce
+     * "rich" output, resembling the original Gherkin document.
+     * </pre>
+     *
      * Protobuf type {@code io.cucumber.messages.GherkinDocument}
      */
     public static final class Builder extends
@@ -27271,6 +28856,12 @@ public final class Messages {
 
       private java.lang.Object uri_ = "";
       /**
+       * <pre>
+       **
+       * The [URI](https://en.wikipedia.org/wiki/Uniform_Resource_Identifier)
+       * of the source, typically a file path relative to the root directory
+       * </pre>
+       *
        * <code>string uri = 1;</code>
        */
       public java.lang.String getUri() {
@@ -27286,6 +28877,12 @@ public final class Messages {
         }
       }
       /**
+       * <pre>
+       **
+       * The [URI](https://en.wikipedia.org/wiki/Uniform_Resource_Identifier)
+       * of the source, typically a file path relative to the root directory
+       * </pre>
+       *
        * <code>string uri = 1;</code>
        */
       public com.google.protobuf.ByteString
@@ -27302,6 +28899,12 @@ public final class Messages {
         }
       }
       /**
+       * <pre>
+       **
+       * The [URI](https://en.wikipedia.org/wiki/Uniform_Resource_Identifier)
+       * of the source, typically a file path relative to the root directory
+       * </pre>
+       *
        * <code>string uri = 1;</code>
        */
       public Builder setUri(
@@ -27315,6 +28918,12 @@ public final class Messages {
         return this;
       }
       /**
+       * <pre>
+       **
+       * The [URI](https://en.wikipedia.org/wiki/Uniform_Resource_Identifier)
+       * of the source, typically a file path relative to the root directory
+       * </pre>
+       *
        * <code>string uri = 1;</code>
        */
       public Builder clearUri() {
@@ -27324,6 +28933,12 @@ public final class Messages {
         return this;
       }
       /**
+       * <pre>
+       **
+       * The [URI](https://en.wikipedia.org/wiki/Uniform_Resource_Identifier)
+       * of the source, typically a file path relative to the root directory
+       * </pre>
+       *
        * <code>string uri = 1;</code>
        */
       public Builder setUriBytes(
@@ -27468,6 +29083,10 @@ public final class Messages {
           io.cucumber.messages.Messages.GherkinDocument.Comment, io.cucumber.messages.Messages.GherkinDocument.Comment.Builder, io.cucumber.messages.Messages.GherkinDocument.CommentOrBuilder> commentsBuilder_;
 
       /**
+       * <pre>
+       * All the comments in the Gherkin document
+       * </pre>
+       *
        * <code>repeated .io.cucumber.messages.GherkinDocument.Comment comments = 3;</code>
        */
       public java.util.List<io.cucumber.messages.Messages.GherkinDocument.Comment> getCommentsList() {
@@ -27478,6 +29097,10 @@ public final class Messages {
         }
       }
       /**
+       * <pre>
+       * All the comments in the Gherkin document
+       * </pre>
+       *
        * <code>repeated .io.cucumber.messages.GherkinDocument.Comment comments = 3;</code>
        */
       public int getCommentsCount() {
@@ -27488,6 +29111,10 @@ public final class Messages {
         }
       }
       /**
+       * <pre>
+       * All the comments in the Gherkin document
+       * </pre>
+       *
        * <code>repeated .io.cucumber.messages.GherkinDocument.Comment comments = 3;</code>
        */
       public io.cucumber.messages.Messages.GherkinDocument.Comment getComments(int index) {
@@ -27498,6 +29125,10 @@ public final class Messages {
         }
       }
       /**
+       * <pre>
+       * All the comments in the Gherkin document
+       * </pre>
+       *
        * <code>repeated .io.cucumber.messages.GherkinDocument.Comment comments = 3;</code>
        */
       public Builder setComments(
@@ -27515,6 +29146,10 @@ public final class Messages {
         return this;
       }
       /**
+       * <pre>
+       * All the comments in the Gherkin document
+       * </pre>
+       *
        * <code>repeated .io.cucumber.messages.GherkinDocument.Comment comments = 3;</code>
        */
       public Builder setComments(
@@ -27529,6 +29164,10 @@ public final class Messages {
         return this;
       }
       /**
+       * <pre>
+       * All the comments in the Gherkin document
+       * </pre>
+       *
        * <code>repeated .io.cucumber.messages.GherkinDocument.Comment comments = 3;</code>
        */
       public Builder addComments(io.cucumber.messages.Messages.GherkinDocument.Comment value) {
@@ -27545,6 +29184,10 @@ public final class Messages {
         return this;
       }
       /**
+       * <pre>
+       * All the comments in the Gherkin document
+       * </pre>
+       *
        * <code>repeated .io.cucumber.messages.GherkinDocument.Comment comments = 3;</code>
        */
       public Builder addComments(
@@ -27562,6 +29205,10 @@ public final class Messages {
         return this;
       }
       /**
+       * <pre>
+       * All the comments in the Gherkin document
+       * </pre>
+       *
        * <code>repeated .io.cucumber.messages.GherkinDocument.Comment comments = 3;</code>
        */
       public Builder addComments(
@@ -27576,6 +29223,10 @@ public final class Messages {
         return this;
       }
       /**
+       * <pre>
+       * All the comments in the Gherkin document
+       * </pre>
+       *
        * <code>repeated .io.cucumber.messages.GherkinDocument.Comment comments = 3;</code>
        */
       public Builder addComments(
@@ -27590,6 +29241,10 @@ public final class Messages {
         return this;
       }
       /**
+       * <pre>
+       * All the comments in the Gherkin document
+       * </pre>
+       *
        * <code>repeated .io.cucumber.messages.GherkinDocument.Comment comments = 3;</code>
        */
       public Builder addAllComments(
@@ -27605,6 +29260,10 @@ public final class Messages {
         return this;
       }
       /**
+       * <pre>
+       * All the comments in the Gherkin document
+       * </pre>
+       *
        * <code>repeated .io.cucumber.messages.GherkinDocument.Comment comments = 3;</code>
        */
       public Builder clearComments() {
@@ -27618,6 +29277,10 @@ public final class Messages {
         return this;
       }
       /**
+       * <pre>
+       * All the comments in the Gherkin document
+       * </pre>
+       *
        * <code>repeated .io.cucumber.messages.GherkinDocument.Comment comments = 3;</code>
        */
       public Builder removeComments(int index) {
@@ -27631,6 +29294,10 @@ public final class Messages {
         return this;
       }
       /**
+       * <pre>
+       * All the comments in the Gherkin document
+       * </pre>
+       *
        * <code>repeated .io.cucumber.messages.GherkinDocument.Comment comments = 3;</code>
        */
       public io.cucumber.messages.Messages.GherkinDocument.Comment.Builder getCommentsBuilder(
@@ -27638,6 +29305,10 @@ public final class Messages {
         return getCommentsFieldBuilder().getBuilder(index);
       }
       /**
+       * <pre>
+       * All the comments in the Gherkin document
+       * </pre>
+       *
        * <code>repeated .io.cucumber.messages.GherkinDocument.Comment comments = 3;</code>
        */
       public io.cucumber.messages.Messages.GherkinDocument.CommentOrBuilder getCommentsOrBuilder(
@@ -27648,6 +29319,10 @@ public final class Messages {
         }
       }
       /**
+       * <pre>
+       * All the comments in the Gherkin document
+       * </pre>
+       *
        * <code>repeated .io.cucumber.messages.GherkinDocument.Comment comments = 3;</code>
        */
       public java.util.List<? extends io.cucumber.messages.Messages.GherkinDocument.CommentOrBuilder> 
@@ -27659,6 +29334,10 @@ public final class Messages {
         }
       }
       /**
+       * <pre>
+       * All the comments in the Gherkin document
+       * </pre>
+       *
        * <code>repeated .io.cucumber.messages.GherkinDocument.Comment comments = 3;</code>
        */
       public io.cucumber.messages.Messages.GherkinDocument.Comment.Builder addCommentsBuilder() {
@@ -27666,6 +29345,10 @@ public final class Messages {
             io.cucumber.messages.Messages.GherkinDocument.Comment.getDefaultInstance());
       }
       /**
+       * <pre>
+       * All the comments in the Gherkin document
+       * </pre>
+       *
        * <code>repeated .io.cucumber.messages.GherkinDocument.Comment comments = 3;</code>
        */
       public io.cucumber.messages.Messages.GherkinDocument.Comment.Builder addCommentsBuilder(
@@ -27674,6 +29357,10 @@ public final class Messages {
             index, io.cucumber.messages.Messages.GherkinDocument.Comment.getDefaultInstance());
       }
       /**
+       * <pre>
+       * All the comments in the Gherkin document
+       * </pre>
+       *
        * <code>repeated .io.cucumber.messages.GherkinDocument.Comment comments = 3;</code>
        */
       public java.util.List<io.cucumber.messages.Messages.GherkinDocument.Comment.Builder> 
@@ -27788,6 +29475,16 @@ public final class Messages {
     io.cucumber.messages.Messages.MediaOrBuilder getMediaOrBuilder();
   }
   /**
+   * <pre>
+   **
+   * An attachment represents any kind of data associated with a line in a
+   * [Source](#io.cucumber.messages.Source) file. It can be used for:
+   * * Syntax errors during parse time
+   * * Screenshots captured and attached during execution
+   * * Logs captured and attached during execution
+   * * Runtime errors raised/thrown during execution (TODO: Conflicts with `TestResult#message`?)
+   * </pre>
+   *
    * Protobuf type {@code io.cucumber.messages.Attachment}
    */
   public  static final class Attachment extends
@@ -28155,6 +29852,16 @@ public final class Messages {
       return builder;
     }
     /**
+     * <pre>
+     **
+     * An attachment represents any kind of data associated with a line in a
+     * [Source](#io.cucumber.messages.Source) file. It can be used for:
+     * * Syntax errors during parse time
+     * * Screenshots captured and attached during execution
+     * * Logs captured and attached during execution
+     * * Runtime errors raised/thrown during execution (TODO: Conflicts with `TestResult#message`?)
+     * </pre>
+     *
      * Protobuf type {@code io.cucumber.messages.Attachment}
      */
     public static final class Builder extends
@@ -28690,118 +30397,252 @@ public final class Messages {
       com.google.protobuf.MessageOrBuilder {
 
     /**
+     * <pre>
+     **
+     * A unique id for the pickle. This is a [SHA1](https://en.wikipedia.org/wiki/SHA-1) hash
+     * from the source data and the `locations` of the pickle.
+     * This ID will change if source the file is modified.
+     * </pre>
+     *
      * <code>string id = 1;</code>
      */
     java.lang.String getId();
     /**
+     * <pre>
+     **
+     * A unique id for the pickle. This is a [SHA1](https://en.wikipedia.org/wiki/SHA-1) hash
+     * from the source data and the `locations` of the pickle.
+     * This ID will change if source the file is modified.
+     * </pre>
+     *
      * <code>string id = 1;</code>
      */
     com.google.protobuf.ByteString
         getIdBytes();
 
     /**
+     * <pre>
+     * The uri of the source file
+     * </pre>
+     *
      * <code>string uri = 2;</code>
      */
     java.lang.String getUri();
     /**
+     * <pre>
+     * The uri of the source file
+     * </pre>
+     *
      * <code>string uri = 2;</code>
      */
     com.google.protobuf.ByteString
         getUriBytes();
 
     /**
+     * <pre>
+     * The name of the pickle
+     * </pre>
+     *
      * <code>string name = 3;</code>
      */
     java.lang.String getName();
     /**
+     * <pre>
+     * The name of the pickle
+     * </pre>
+     *
      * <code>string name = 3;</code>
      */
     com.google.protobuf.ByteString
         getNameBytes();
 
     /**
+     * <pre>
+     * The language of the pickle
+     * </pre>
+     *
      * <code>string language = 4;</code>
      */
     java.lang.String getLanguage();
     /**
+     * <pre>
+     * The language of the pickle
+     * </pre>
+     *
      * <code>string language = 4;</code>
      */
     com.google.protobuf.ByteString
         getLanguageBytes();
 
     /**
+     * <pre>
+     * One or more steps
+     * </pre>
+     *
      * <code>repeated .io.cucumber.messages.Pickle.PickleStep steps = 5;</code>
      */
     java.util.List<io.cucumber.messages.Messages.Pickle.PickleStep> 
         getStepsList();
     /**
+     * <pre>
+     * One or more steps
+     * </pre>
+     *
      * <code>repeated .io.cucumber.messages.Pickle.PickleStep steps = 5;</code>
      */
     io.cucumber.messages.Messages.Pickle.PickleStep getSteps(int index);
     /**
+     * <pre>
+     * One or more steps
+     * </pre>
+     *
      * <code>repeated .io.cucumber.messages.Pickle.PickleStep steps = 5;</code>
      */
     int getStepsCount();
     /**
+     * <pre>
+     * One or more steps
+     * </pre>
+     *
      * <code>repeated .io.cucumber.messages.Pickle.PickleStep steps = 5;</code>
      */
     java.util.List<? extends io.cucumber.messages.Messages.Pickle.PickleStepOrBuilder> 
         getStepsOrBuilderList();
     /**
+     * <pre>
+     * One or more steps
+     * </pre>
+     *
      * <code>repeated .io.cucumber.messages.Pickle.PickleStep steps = 5;</code>
      */
     io.cucumber.messages.Messages.Pickle.PickleStepOrBuilder getStepsOrBuilder(
         int index);
 
     /**
+     * <pre>
+     **
+     * One or more tags. If this pickle is constructed from a Gherkin document,
+     * It includes inherited tags from the `Feature` as well.
+     * </pre>
+     *
      * <code>repeated .io.cucumber.messages.Pickle.PickleTag tags = 6;</code>
      */
     java.util.List<io.cucumber.messages.Messages.Pickle.PickleTag> 
         getTagsList();
     /**
+     * <pre>
+     **
+     * One or more tags. If this pickle is constructed from a Gherkin document,
+     * It includes inherited tags from the `Feature` as well.
+     * </pre>
+     *
      * <code>repeated .io.cucumber.messages.Pickle.PickleTag tags = 6;</code>
      */
     io.cucumber.messages.Messages.Pickle.PickleTag getTags(int index);
     /**
+     * <pre>
+     **
+     * One or more tags. If this pickle is constructed from a Gherkin document,
+     * It includes inherited tags from the `Feature` as well.
+     * </pre>
+     *
      * <code>repeated .io.cucumber.messages.Pickle.PickleTag tags = 6;</code>
      */
     int getTagsCount();
     /**
+     * <pre>
+     **
+     * One or more tags. If this pickle is constructed from a Gherkin document,
+     * It includes inherited tags from the `Feature` as well.
+     * </pre>
+     *
      * <code>repeated .io.cucumber.messages.Pickle.PickleTag tags = 6;</code>
      */
     java.util.List<? extends io.cucumber.messages.Messages.Pickle.PickleTagOrBuilder> 
         getTagsOrBuilderList();
     /**
+     * <pre>
+     **
+     * One or more tags. If this pickle is constructed from a Gherkin document,
+     * It includes inherited tags from the `Feature` as well.
+     * </pre>
+     *
      * <code>repeated .io.cucumber.messages.Pickle.PickleTag tags = 6;</code>
      */
     io.cucumber.messages.Messages.Pickle.PickleTagOrBuilder getTagsOrBuilder(
         int index);
 
     /**
+     * <pre>
+     **
+     * The source locations of the pickle. The last one represents the unique
+     * line number. A pickle constructed from `Examples` will have the first
+     * location originating from the `Step`, and the second from the table row.
+     * </pre>
+     *
      * <code>repeated .io.cucumber.messages.Location locations = 7;</code>
      */
     java.util.List<io.cucumber.messages.Messages.Location> 
         getLocationsList();
     /**
+     * <pre>
+     **
+     * The source locations of the pickle. The last one represents the unique
+     * line number. A pickle constructed from `Examples` will have the first
+     * location originating from the `Step`, and the second from the table row.
+     * </pre>
+     *
      * <code>repeated .io.cucumber.messages.Location locations = 7;</code>
      */
     io.cucumber.messages.Messages.Location getLocations(int index);
     /**
+     * <pre>
+     **
+     * The source locations of the pickle. The last one represents the unique
+     * line number. A pickle constructed from `Examples` will have the first
+     * location originating from the `Step`, and the second from the table row.
+     * </pre>
+     *
      * <code>repeated .io.cucumber.messages.Location locations = 7;</code>
      */
     int getLocationsCount();
     /**
+     * <pre>
+     **
+     * The source locations of the pickle. The last one represents the unique
+     * line number. A pickle constructed from `Examples` will have the first
+     * location originating from the `Step`, and the second from the table row.
+     * </pre>
+     *
      * <code>repeated .io.cucumber.messages.Location locations = 7;</code>
      */
     java.util.List<? extends io.cucumber.messages.Messages.LocationOrBuilder> 
         getLocationsOrBuilderList();
     /**
+     * <pre>
+     **
+     * The source locations of the pickle. The last one represents the unique
+     * line number. A pickle constructed from `Examples` will have the first
+     * location originating from the `Step`, and the second from the table row.
+     * </pre>
+     *
      * <code>repeated .io.cucumber.messages.Location locations = 7;</code>
      */
     io.cucumber.messages.Messages.LocationOrBuilder getLocationsOrBuilder(
         int index);
   }
   /**
+   * <pre>
+   **
+   * A `Pickle` represents a test case Cucumber can *execute*. It is typically derived
+   * from another format, such as [GherkinDocument](#io.cucumber.messages.GherkinDocument).
+   * In the future a `Pickle` may be derived from other formats such as Markdown or
+   * Excel files.
+   * By making `Pickle` the main data structure Cucumber uses for execution, the 
+   * implementation of Cucumber itself becomes simpler, as it doesn't have to deal
+   * with the complex structure of a [GherkinDocument](#io.cucumber.messages.GherkinDocument).
+   * </pre>
+   *
    * Protobuf type {@code io.cucumber.messages.Pickle}
    */
   public  static final class Pickle extends
@@ -28967,6 +30808,11 @@ public final class Messages {
           getNameBytes();
     }
     /**
+     * <pre>
+     **
+     * A tag
+     * </pre>
+     *
      * Protobuf type {@code io.cucumber.messages.Pickle.PickleTag}
      */
     public  static final class PickleTag extends
@@ -29284,6 +31130,11 @@ public final class Messages {
         return builder;
       }
       /**
+       * <pre>
+       **
+       * A tag
+       * </pre>
+       *
        * Protobuf type {@code io.cucumber.messages.Pickle.PickleTag}
        */
       public static final class Builder extends
@@ -29722,19 +31573,36 @@ public final class Messages {
           int index);
 
       /**
+       * <pre>
+       * An optional argument
+       * </pre>
+       *
        * <code>.io.cucumber.messages.PickleStepArgument argument = 5;</code>
        */
       boolean hasArgument();
       /**
+       * <pre>
+       * An optional argument
+       * </pre>
+       *
        * <code>.io.cucumber.messages.PickleStepArgument argument = 5;</code>
        */
       io.cucumber.messages.Messages.PickleStepArgument getArgument();
       /**
+       * <pre>
+       * An optional argument
+       * </pre>
+       *
        * <code>.io.cucumber.messages.PickleStepArgument argument = 5;</code>
        */
       io.cucumber.messages.Messages.PickleStepArgumentOrBuilder getArgumentOrBuilder();
     }
     /**
+     * <pre>
+     **
+     * An executable step
+     * </pre>
+     *
      * Protobuf type {@code io.cucumber.messages.Pickle.PickleStep}
      */
     public  static final class PickleStep extends
@@ -29911,18 +31779,30 @@ public final class Messages {
       public static final int ARGUMENT_FIELD_NUMBER = 5;
       private io.cucumber.messages.Messages.PickleStepArgument argument_;
       /**
+       * <pre>
+       * An optional argument
+       * </pre>
+       *
        * <code>.io.cucumber.messages.PickleStepArgument argument = 5;</code>
        */
       public boolean hasArgument() {
         return argument_ != null;
       }
       /**
+       * <pre>
+       * An optional argument
+       * </pre>
+       *
        * <code>.io.cucumber.messages.PickleStepArgument argument = 5;</code>
        */
       public io.cucumber.messages.Messages.PickleStepArgument getArgument() {
         return argument_ == null ? io.cucumber.messages.Messages.PickleStepArgument.getDefaultInstance() : argument_;
       }
       /**
+       * <pre>
+       * An optional argument
+       * </pre>
+       *
        * <code>.io.cucumber.messages.PickleStepArgument argument = 5;</code>
        */
       public io.cucumber.messages.Messages.PickleStepArgumentOrBuilder getArgumentOrBuilder() {
@@ -30114,6 +31994,11 @@ public final class Messages {
         return builder;
       }
       /**
+       * <pre>
+       **
+       * An executable step
+       * </pre>
+       *
        * Protobuf type {@code io.cucumber.messages.Pickle.PickleStep}
        */
       public static final class Builder extends
@@ -30634,12 +32519,20 @@ public final class Messages {
         private com.google.protobuf.SingleFieldBuilderV3<
             io.cucumber.messages.Messages.PickleStepArgument, io.cucumber.messages.Messages.PickleStepArgument.Builder, io.cucumber.messages.Messages.PickleStepArgumentOrBuilder> argumentBuilder_;
         /**
+         * <pre>
+         * An optional argument
+         * </pre>
+         *
          * <code>.io.cucumber.messages.PickleStepArgument argument = 5;</code>
          */
         public boolean hasArgument() {
           return argumentBuilder_ != null || argument_ != null;
         }
         /**
+         * <pre>
+         * An optional argument
+         * </pre>
+         *
          * <code>.io.cucumber.messages.PickleStepArgument argument = 5;</code>
          */
         public io.cucumber.messages.Messages.PickleStepArgument getArgument() {
@@ -30650,6 +32543,10 @@ public final class Messages {
           }
         }
         /**
+         * <pre>
+         * An optional argument
+         * </pre>
+         *
          * <code>.io.cucumber.messages.PickleStepArgument argument = 5;</code>
          */
         public Builder setArgument(io.cucumber.messages.Messages.PickleStepArgument value) {
@@ -30666,6 +32563,10 @@ public final class Messages {
           return this;
         }
         /**
+         * <pre>
+         * An optional argument
+         * </pre>
+         *
          * <code>.io.cucumber.messages.PickleStepArgument argument = 5;</code>
          */
         public Builder setArgument(
@@ -30680,6 +32581,10 @@ public final class Messages {
           return this;
         }
         /**
+         * <pre>
+         * An optional argument
+         * </pre>
+         *
          * <code>.io.cucumber.messages.PickleStepArgument argument = 5;</code>
          */
         public Builder mergeArgument(io.cucumber.messages.Messages.PickleStepArgument value) {
@@ -30698,6 +32603,10 @@ public final class Messages {
           return this;
         }
         /**
+         * <pre>
+         * An optional argument
+         * </pre>
+         *
          * <code>.io.cucumber.messages.PickleStepArgument argument = 5;</code>
          */
         public Builder clearArgument() {
@@ -30712,6 +32621,10 @@ public final class Messages {
           return this;
         }
         /**
+         * <pre>
+         * An optional argument
+         * </pre>
+         *
          * <code>.io.cucumber.messages.PickleStepArgument argument = 5;</code>
          */
         public io.cucumber.messages.Messages.PickleStepArgument.Builder getArgumentBuilder() {
@@ -30720,6 +32633,10 @@ public final class Messages {
           return getArgumentFieldBuilder().getBuilder();
         }
         /**
+         * <pre>
+         * An optional argument
+         * </pre>
+         *
          * <code>.io.cucumber.messages.PickleStepArgument argument = 5;</code>
          */
         public io.cucumber.messages.Messages.PickleStepArgumentOrBuilder getArgumentOrBuilder() {
@@ -30731,6 +32648,10 @@ public final class Messages {
           }
         }
         /**
+         * <pre>
+         * An optional argument
+         * </pre>
+         *
          * <code>.io.cucumber.messages.PickleStepArgument argument = 5;</code>
          */
         private com.google.protobuf.SingleFieldBuilderV3<
@@ -30803,6 +32724,13 @@ public final class Messages {
     public static final int ID_FIELD_NUMBER = 1;
     private volatile java.lang.Object id_;
     /**
+     * <pre>
+     **
+     * A unique id for the pickle. This is a [SHA1](https://en.wikipedia.org/wiki/SHA-1) hash
+     * from the source data and the `locations` of the pickle.
+     * This ID will change if source the file is modified.
+     * </pre>
+     *
      * <code>string id = 1;</code>
      */
     public java.lang.String getId() {
@@ -30818,6 +32746,13 @@ public final class Messages {
       }
     }
     /**
+     * <pre>
+     **
+     * A unique id for the pickle. This is a [SHA1](https://en.wikipedia.org/wiki/SHA-1) hash
+     * from the source data and the `locations` of the pickle.
+     * This ID will change if source the file is modified.
+     * </pre>
+     *
      * <code>string id = 1;</code>
      */
     public com.google.protobuf.ByteString
@@ -30837,6 +32772,10 @@ public final class Messages {
     public static final int URI_FIELD_NUMBER = 2;
     private volatile java.lang.Object uri_;
     /**
+     * <pre>
+     * The uri of the source file
+     * </pre>
+     *
      * <code>string uri = 2;</code>
      */
     public java.lang.String getUri() {
@@ -30852,6 +32791,10 @@ public final class Messages {
       }
     }
     /**
+     * <pre>
+     * The uri of the source file
+     * </pre>
+     *
      * <code>string uri = 2;</code>
      */
     public com.google.protobuf.ByteString
@@ -30871,6 +32814,10 @@ public final class Messages {
     public static final int NAME_FIELD_NUMBER = 3;
     private volatile java.lang.Object name_;
     /**
+     * <pre>
+     * The name of the pickle
+     * </pre>
+     *
      * <code>string name = 3;</code>
      */
     public java.lang.String getName() {
@@ -30886,6 +32833,10 @@ public final class Messages {
       }
     }
     /**
+     * <pre>
+     * The name of the pickle
+     * </pre>
+     *
      * <code>string name = 3;</code>
      */
     public com.google.protobuf.ByteString
@@ -30905,6 +32856,10 @@ public final class Messages {
     public static final int LANGUAGE_FIELD_NUMBER = 4;
     private volatile java.lang.Object language_;
     /**
+     * <pre>
+     * The language of the pickle
+     * </pre>
+     *
      * <code>string language = 4;</code>
      */
     public java.lang.String getLanguage() {
@@ -30920,6 +32875,10 @@ public final class Messages {
       }
     }
     /**
+     * <pre>
+     * The language of the pickle
+     * </pre>
+     *
      * <code>string language = 4;</code>
      */
     public com.google.protobuf.ByteString
@@ -30939,12 +32898,20 @@ public final class Messages {
     public static final int STEPS_FIELD_NUMBER = 5;
     private java.util.List<io.cucumber.messages.Messages.Pickle.PickleStep> steps_;
     /**
+     * <pre>
+     * One or more steps
+     * </pre>
+     *
      * <code>repeated .io.cucumber.messages.Pickle.PickleStep steps = 5;</code>
      */
     public java.util.List<io.cucumber.messages.Messages.Pickle.PickleStep> getStepsList() {
       return steps_;
     }
     /**
+     * <pre>
+     * One or more steps
+     * </pre>
+     *
      * <code>repeated .io.cucumber.messages.Pickle.PickleStep steps = 5;</code>
      */
     public java.util.List<? extends io.cucumber.messages.Messages.Pickle.PickleStepOrBuilder> 
@@ -30952,18 +32919,30 @@ public final class Messages {
       return steps_;
     }
     /**
+     * <pre>
+     * One or more steps
+     * </pre>
+     *
      * <code>repeated .io.cucumber.messages.Pickle.PickleStep steps = 5;</code>
      */
     public int getStepsCount() {
       return steps_.size();
     }
     /**
+     * <pre>
+     * One or more steps
+     * </pre>
+     *
      * <code>repeated .io.cucumber.messages.Pickle.PickleStep steps = 5;</code>
      */
     public io.cucumber.messages.Messages.Pickle.PickleStep getSteps(int index) {
       return steps_.get(index);
     }
     /**
+     * <pre>
+     * One or more steps
+     * </pre>
+     *
      * <code>repeated .io.cucumber.messages.Pickle.PickleStep steps = 5;</code>
      */
     public io.cucumber.messages.Messages.Pickle.PickleStepOrBuilder getStepsOrBuilder(
@@ -30974,12 +32953,24 @@ public final class Messages {
     public static final int TAGS_FIELD_NUMBER = 6;
     private java.util.List<io.cucumber.messages.Messages.Pickle.PickleTag> tags_;
     /**
+     * <pre>
+     **
+     * One or more tags. If this pickle is constructed from a Gherkin document,
+     * It includes inherited tags from the `Feature` as well.
+     * </pre>
+     *
      * <code>repeated .io.cucumber.messages.Pickle.PickleTag tags = 6;</code>
      */
     public java.util.List<io.cucumber.messages.Messages.Pickle.PickleTag> getTagsList() {
       return tags_;
     }
     /**
+     * <pre>
+     **
+     * One or more tags. If this pickle is constructed from a Gherkin document,
+     * It includes inherited tags from the `Feature` as well.
+     * </pre>
+     *
      * <code>repeated .io.cucumber.messages.Pickle.PickleTag tags = 6;</code>
      */
     public java.util.List<? extends io.cucumber.messages.Messages.Pickle.PickleTagOrBuilder> 
@@ -30987,18 +32978,36 @@ public final class Messages {
       return tags_;
     }
     /**
+     * <pre>
+     **
+     * One or more tags. If this pickle is constructed from a Gherkin document,
+     * It includes inherited tags from the `Feature` as well.
+     * </pre>
+     *
      * <code>repeated .io.cucumber.messages.Pickle.PickleTag tags = 6;</code>
      */
     public int getTagsCount() {
       return tags_.size();
     }
     /**
+     * <pre>
+     **
+     * One or more tags. If this pickle is constructed from a Gherkin document,
+     * It includes inherited tags from the `Feature` as well.
+     * </pre>
+     *
      * <code>repeated .io.cucumber.messages.Pickle.PickleTag tags = 6;</code>
      */
     public io.cucumber.messages.Messages.Pickle.PickleTag getTags(int index) {
       return tags_.get(index);
     }
     /**
+     * <pre>
+     **
+     * One or more tags. If this pickle is constructed from a Gherkin document,
+     * It includes inherited tags from the `Feature` as well.
+     * </pre>
+     *
      * <code>repeated .io.cucumber.messages.Pickle.PickleTag tags = 6;</code>
      */
     public io.cucumber.messages.Messages.Pickle.PickleTagOrBuilder getTagsOrBuilder(
@@ -31009,12 +33018,26 @@ public final class Messages {
     public static final int LOCATIONS_FIELD_NUMBER = 7;
     private java.util.List<io.cucumber.messages.Messages.Location> locations_;
     /**
+     * <pre>
+     **
+     * The source locations of the pickle. The last one represents the unique
+     * line number. A pickle constructed from `Examples` will have the first
+     * location originating from the `Step`, and the second from the table row.
+     * </pre>
+     *
      * <code>repeated .io.cucumber.messages.Location locations = 7;</code>
      */
     public java.util.List<io.cucumber.messages.Messages.Location> getLocationsList() {
       return locations_;
     }
     /**
+     * <pre>
+     **
+     * The source locations of the pickle. The last one represents the unique
+     * line number. A pickle constructed from `Examples` will have the first
+     * location originating from the `Step`, and the second from the table row.
+     * </pre>
+     *
      * <code>repeated .io.cucumber.messages.Location locations = 7;</code>
      */
     public java.util.List<? extends io.cucumber.messages.Messages.LocationOrBuilder> 
@@ -31022,18 +33045,39 @@ public final class Messages {
       return locations_;
     }
     /**
+     * <pre>
+     **
+     * The source locations of the pickle. The last one represents the unique
+     * line number. A pickle constructed from `Examples` will have the first
+     * location originating from the `Step`, and the second from the table row.
+     * </pre>
+     *
      * <code>repeated .io.cucumber.messages.Location locations = 7;</code>
      */
     public int getLocationsCount() {
       return locations_.size();
     }
     /**
+     * <pre>
+     **
+     * The source locations of the pickle. The last one represents the unique
+     * line number. A pickle constructed from `Examples` will have the first
+     * location originating from the `Step`, and the second from the table row.
+     * </pre>
+     *
      * <code>repeated .io.cucumber.messages.Location locations = 7;</code>
      */
     public io.cucumber.messages.Messages.Location getLocations(int index) {
       return locations_.get(index);
     }
     /**
+     * <pre>
+     **
+     * The source locations of the pickle. The last one represents the unique
+     * line number. A pickle constructed from `Examples` will have the first
+     * location originating from the `Step`, and the second from the table row.
+     * </pre>
+     *
      * <code>repeated .io.cucumber.messages.Location locations = 7;</code>
      */
     public io.cucumber.messages.Messages.LocationOrBuilder getLocationsOrBuilder(
@@ -31266,6 +33310,17 @@ public final class Messages {
       return builder;
     }
     /**
+     * <pre>
+     **
+     * A `Pickle` represents a test case Cucumber can *execute*. It is typically derived
+     * from another format, such as [GherkinDocument](#io.cucumber.messages.GherkinDocument).
+     * In the future a `Pickle` may be derived from other formats such as Markdown or
+     * Excel files.
+     * By making `Pickle` the main data structure Cucumber uses for execution, the 
+     * implementation of Cucumber itself becomes simpler, as it doesn't have to deal
+     * with the complex structure of a [GherkinDocument](#io.cucumber.messages.GherkinDocument).
+     * </pre>
+     *
      * Protobuf type {@code io.cucumber.messages.Pickle}
      */
     public static final class Builder extends
@@ -31566,6 +33621,13 @@ public final class Messages {
 
       private java.lang.Object id_ = "";
       /**
+       * <pre>
+       **
+       * A unique id for the pickle. This is a [SHA1](https://en.wikipedia.org/wiki/SHA-1) hash
+       * from the source data and the `locations` of the pickle.
+       * This ID will change if source the file is modified.
+       * </pre>
+       *
        * <code>string id = 1;</code>
        */
       public java.lang.String getId() {
@@ -31581,6 +33643,13 @@ public final class Messages {
         }
       }
       /**
+       * <pre>
+       **
+       * A unique id for the pickle. This is a [SHA1](https://en.wikipedia.org/wiki/SHA-1) hash
+       * from the source data and the `locations` of the pickle.
+       * This ID will change if source the file is modified.
+       * </pre>
+       *
        * <code>string id = 1;</code>
        */
       public com.google.protobuf.ByteString
@@ -31597,6 +33666,13 @@ public final class Messages {
         }
       }
       /**
+       * <pre>
+       **
+       * A unique id for the pickle. This is a [SHA1](https://en.wikipedia.org/wiki/SHA-1) hash
+       * from the source data and the `locations` of the pickle.
+       * This ID will change if source the file is modified.
+       * </pre>
+       *
        * <code>string id = 1;</code>
        */
       public Builder setId(
@@ -31610,6 +33686,13 @@ public final class Messages {
         return this;
       }
       /**
+       * <pre>
+       **
+       * A unique id for the pickle. This is a [SHA1](https://en.wikipedia.org/wiki/SHA-1) hash
+       * from the source data and the `locations` of the pickle.
+       * This ID will change if source the file is modified.
+       * </pre>
+       *
        * <code>string id = 1;</code>
        */
       public Builder clearId() {
@@ -31619,6 +33702,13 @@ public final class Messages {
         return this;
       }
       /**
+       * <pre>
+       **
+       * A unique id for the pickle. This is a [SHA1](https://en.wikipedia.org/wiki/SHA-1) hash
+       * from the source data and the `locations` of the pickle.
+       * This ID will change if source the file is modified.
+       * </pre>
+       *
        * <code>string id = 1;</code>
        */
       public Builder setIdBytes(
@@ -31635,6 +33725,10 @@ public final class Messages {
 
       private java.lang.Object uri_ = "";
       /**
+       * <pre>
+       * The uri of the source file
+       * </pre>
+       *
        * <code>string uri = 2;</code>
        */
       public java.lang.String getUri() {
@@ -31650,6 +33744,10 @@ public final class Messages {
         }
       }
       /**
+       * <pre>
+       * The uri of the source file
+       * </pre>
+       *
        * <code>string uri = 2;</code>
        */
       public com.google.protobuf.ByteString
@@ -31666,6 +33764,10 @@ public final class Messages {
         }
       }
       /**
+       * <pre>
+       * The uri of the source file
+       * </pre>
+       *
        * <code>string uri = 2;</code>
        */
       public Builder setUri(
@@ -31679,6 +33781,10 @@ public final class Messages {
         return this;
       }
       /**
+       * <pre>
+       * The uri of the source file
+       * </pre>
+       *
        * <code>string uri = 2;</code>
        */
       public Builder clearUri() {
@@ -31688,6 +33794,10 @@ public final class Messages {
         return this;
       }
       /**
+       * <pre>
+       * The uri of the source file
+       * </pre>
+       *
        * <code>string uri = 2;</code>
        */
       public Builder setUriBytes(
@@ -31704,6 +33814,10 @@ public final class Messages {
 
       private java.lang.Object name_ = "";
       /**
+       * <pre>
+       * The name of the pickle
+       * </pre>
+       *
        * <code>string name = 3;</code>
        */
       public java.lang.String getName() {
@@ -31719,6 +33833,10 @@ public final class Messages {
         }
       }
       /**
+       * <pre>
+       * The name of the pickle
+       * </pre>
+       *
        * <code>string name = 3;</code>
        */
       public com.google.protobuf.ByteString
@@ -31735,6 +33853,10 @@ public final class Messages {
         }
       }
       /**
+       * <pre>
+       * The name of the pickle
+       * </pre>
+       *
        * <code>string name = 3;</code>
        */
       public Builder setName(
@@ -31748,6 +33870,10 @@ public final class Messages {
         return this;
       }
       /**
+       * <pre>
+       * The name of the pickle
+       * </pre>
+       *
        * <code>string name = 3;</code>
        */
       public Builder clearName() {
@@ -31757,6 +33883,10 @@ public final class Messages {
         return this;
       }
       /**
+       * <pre>
+       * The name of the pickle
+       * </pre>
+       *
        * <code>string name = 3;</code>
        */
       public Builder setNameBytes(
@@ -31773,6 +33903,10 @@ public final class Messages {
 
       private java.lang.Object language_ = "";
       /**
+       * <pre>
+       * The language of the pickle
+       * </pre>
+       *
        * <code>string language = 4;</code>
        */
       public java.lang.String getLanguage() {
@@ -31788,6 +33922,10 @@ public final class Messages {
         }
       }
       /**
+       * <pre>
+       * The language of the pickle
+       * </pre>
+       *
        * <code>string language = 4;</code>
        */
       public com.google.protobuf.ByteString
@@ -31804,6 +33942,10 @@ public final class Messages {
         }
       }
       /**
+       * <pre>
+       * The language of the pickle
+       * </pre>
+       *
        * <code>string language = 4;</code>
        */
       public Builder setLanguage(
@@ -31817,6 +33959,10 @@ public final class Messages {
         return this;
       }
       /**
+       * <pre>
+       * The language of the pickle
+       * </pre>
+       *
        * <code>string language = 4;</code>
        */
       public Builder clearLanguage() {
@@ -31826,6 +33972,10 @@ public final class Messages {
         return this;
       }
       /**
+       * <pre>
+       * The language of the pickle
+       * </pre>
+       *
        * <code>string language = 4;</code>
        */
       public Builder setLanguageBytes(
@@ -31853,6 +34003,10 @@ public final class Messages {
           io.cucumber.messages.Messages.Pickle.PickleStep, io.cucumber.messages.Messages.Pickle.PickleStep.Builder, io.cucumber.messages.Messages.Pickle.PickleStepOrBuilder> stepsBuilder_;
 
       /**
+       * <pre>
+       * One or more steps
+       * </pre>
+       *
        * <code>repeated .io.cucumber.messages.Pickle.PickleStep steps = 5;</code>
        */
       public java.util.List<io.cucumber.messages.Messages.Pickle.PickleStep> getStepsList() {
@@ -31863,6 +34017,10 @@ public final class Messages {
         }
       }
       /**
+       * <pre>
+       * One or more steps
+       * </pre>
+       *
        * <code>repeated .io.cucumber.messages.Pickle.PickleStep steps = 5;</code>
        */
       public int getStepsCount() {
@@ -31873,6 +34031,10 @@ public final class Messages {
         }
       }
       /**
+       * <pre>
+       * One or more steps
+       * </pre>
+       *
        * <code>repeated .io.cucumber.messages.Pickle.PickleStep steps = 5;</code>
        */
       public io.cucumber.messages.Messages.Pickle.PickleStep getSteps(int index) {
@@ -31883,6 +34045,10 @@ public final class Messages {
         }
       }
       /**
+       * <pre>
+       * One or more steps
+       * </pre>
+       *
        * <code>repeated .io.cucumber.messages.Pickle.PickleStep steps = 5;</code>
        */
       public Builder setSteps(
@@ -31900,6 +34066,10 @@ public final class Messages {
         return this;
       }
       /**
+       * <pre>
+       * One or more steps
+       * </pre>
+       *
        * <code>repeated .io.cucumber.messages.Pickle.PickleStep steps = 5;</code>
        */
       public Builder setSteps(
@@ -31914,6 +34084,10 @@ public final class Messages {
         return this;
       }
       /**
+       * <pre>
+       * One or more steps
+       * </pre>
+       *
        * <code>repeated .io.cucumber.messages.Pickle.PickleStep steps = 5;</code>
        */
       public Builder addSteps(io.cucumber.messages.Messages.Pickle.PickleStep value) {
@@ -31930,6 +34104,10 @@ public final class Messages {
         return this;
       }
       /**
+       * <pre>
+       * One or more steps
+       * </pre>
+       *
        * <code>repeated .io.cucumber.messages.Pickle.PickleStep steps = 5;</code>
        */
       public Builder addSteps(
@@ -31947,6 +34125,10 @@ public final class Messages {
         return this;
       }
       /**
+       * <pre>
+       * One or more steps
+       * </pre>
+       *
        * <code>repeated .io.cucumber.messages.Pickle.PickleStep steps = 5;</code>
        */
       public Builder addSteps(
@@ -31961,6 +34143,10 @@ public final class Messages {
         return this;
       }
       /**
+       * <pre>
+       * One or more steps
+       * </pre>
+       *
        * <code>repeated .io.cucumber.messages.Pickle.PickleStep steps = 5;</code>
        */
       public Builder addSteps(
@@ -31975,6 +34161,10 @@ public final class Messages {
         return this;
       }
       /**
+       * <pre>
+       * One or more steps
+       * </pre>
+       *
        * <code>repeated .io.cucumber.messages.Pickle.PickleStep steps = 5;</code>
        */
       public Builder addAllSteps(
@@ -31990,6 +34180,10 @@ public final class Messages {
         return this;
       }
       /**
+       * <pre>
+       * One or more steps
+       * </pre>
+       *
        * <code>repeated .io.cucumber.messages.Pickle.PickleStep steps = 5;</code>
        */
       public Builder clearSteps() {
@@ -32003,6 +34197,10 @@ public final class Messages {
         return this;
       }
       /**
+       * <pre>
+       * One or more steps
+       * </pre>
+       *
        * <code>repeated .io.cucumber.messages.Pickle.PickleStep steps = 5;</code>
        */
       public Builder removeSteps(int index) {
@@ -32016,6 +34214,10 @@ public final class Messages {
         return this;
       }
       /**
+       * <pre>
+       * One or more steps
+       * </pre>
+       *
        * <code>repeated .io.cucumber.messages.Pickle.PickleStep steps = 5;</code>
        */
       public io.cucumber.messages.Messages.Pickle.PickleStep.Builder getStepsBuilder(
@@ -32023,6 +34225,10 @@ public final class Messages {
         return getStepsFieldBuilder().getBuilder(index);
       }
       /**
+       * <pre>
+       * One or more steps
+       * </pre>
+       *
        * <code>repeated .io.cucumber.messages.Pickle.PickleStep steps = 5;</code>
        */
       public io.cucumber.messages.Messages.Pickle.PickleStepOrBuilder getStepsOrBuilder(
@@ -32033,6 +34239,10 @@ public final class Messages {
         }
       }
       /**
+       * <pre>
+       * One or more steps
+       * </pre>
+       *
        * <code>repeated .io.cucumber.messages.Pickle.PickleStep steps = 5;</code>
        */
       public java.util.List<? extends io.cucumber.messages.Messages.Pickle.PickleStepOrBuilder> 
@@ -32044,6 +34254,10 @@ public final class Messages {
         }
       }
       /**
+       * <pre>
+       * One or more steps
+       * </pre>
+       *
        * <code>repeated .io.cucumber.messages.Pickle.PickleStep steps = 5;</code>
        */
       public io.cucumber.messages.Messages.Pickle.PickleStep.Builder addStepsBuilder() {
@@ -32051,6 +34265,10 @@ public final class Messages {
             io.cucumber.messages.Messages.Pickle.PickleStep.getDefaultInstance());
       }
       /**
+       * <pre>
+       * One or more steps
+       * </pre>
+       *
        * <code>repeated .io.cucumber.messages.Pickle.PickleStep steps = 5;</code>
        */
       public io.cucumber.messages.Messages.Pickle.PickleStep.Builder addStepsBuilder(
@@ -32059,6 +34277,10 @@ public final class Messages {
             index, io.cucumber.messages.Messages.Pickle.PickleStep.getDefaultInstance());
       }
       /**
+       * <pre>
+       * One or more steps
+       * </pre>
+       *
        * <code>repeated .io.cucumber.messages.Pickle.PickleStep steps = 5;</code>
        */
       public java.util.List<io.cucumber.messages.Messages.Pickle.PickleStep.Builder> 
@@ -32093,6 +34315,12 @@ public final class Messages {
           io.cucumber.messages.Messages.Pickle.PickleTag, io.cucumber.messages.Messages.Pickle.PickleTag.Builder, io.cucumber.messages.Messages.Pickle.PickleTagOrBuilder> tagsBuilder_;
 
       /**
+       * <pre>
+       **
+       * One or more tags. If this pickle is constructed from a Gherkin document,
+       * It includes inherited tags from the `Feature` as well.
+       * </pre>
+       *
        * <code>repeated .io.cucumber.messages.Pickle.PickleTag tags = 6;</code>
        */
       public java.util.List<io.cucumber.messages.Messages.Pickle.PickleTag> getTagsList() {
@@ -32103,6 +34331,12 @@ public final class Messages {
         }
       }
       /**
+       * <pre>
+       **
+       * One or more tags. If this pickle is constructed from a Gherkin document,
+       * It includes inherited tags from the `Feature` as well.
+       * </pre>
+       *
        * <code>repeated .io.cucumber.messages.Pickle.PickleTag tags = 6;</code>
        */
       public int getTagsCount() {
@@ -32113,6 +34347,12 @@ public final class Messages {
         }
       }
       /**
+       * <pre>
+       **
+       * One or more tags. If this pickle is constructed from a Gherkin document,
+       * It includes inherited tags from the `Feature` as well.
+       * </pre>
+       *
        * <code>repeated .io.cucumber.messages.Pickle.PickleTag tags = 6;</code>
        */
       public io.cucumber.messages.Messages.Pickle.PickleTag getTags(int index) {
@@ -32123,6 +34363,12 @@ public final class Messages {
         }
       }
       /**
+       * <pre>
+       **
+       * One or more tags. If this pickle is constructed from a Gherkin document,
+       * It includes inherited tags from the `Feature` as well.
+       * </pre>
+       *
        * <code>repeated .io.cucumber.messages.Pickle.PickleTag tags = 6;</code>
        */
       public Builder setTags(
@@ -32140,6 +34386,12 @@ public final class Messages {
         return this;
       }
       /**
+       * <pre>
+       **
+       * One or more tags. If this pickle is constructed from a Gherkin document,
+       * It includes inherited tags from the `Feature` as well.
+       * </pre>
+       *
        * <code>repeated .io.cucumber.messages.Pickle.PickleTag tags = 6;</code>
        */
       public Builder setTags(
@@ -32154,6 +34406,12 @@ public final class Messages {
         return this;
       }
       /**
+       * <pre>
+       **
+       * One or more tags. If this pickle is constructed from a Gherkin document,
+       * It includes inherited tags from the `Feature` as well.
+       * </pre>
+       *
        * <code>repeated .io.cucumber.messages.Pickle.PickleTag tags = 6;</code>
        */
       public Builder addTags(io.cucumber.messages.Messages.Pickle.PickleTag value) {
@@ -32170,6 +34428,12 @@ public final class Messages {
         return this;
       }
       /**
+       * <pre>
+       **
+       * One or more tags. If this pickle is constructed from a Gherkin document,
+       * It includes inherited tags from the `Feature` as well.
+       * </pre>
+       *
        * <code>repeated .io.cucumber.messages.Pickle.PickleTag tags = 6;</code>
        */
       public Builder addTags(
@@ -32187,6 +34451,12 @@ public final class Messages {
         return this;
       }
       /**
+       * <pre>
+       **
+       * One or more tags. If this pickle is constructed from a Gherkin document,
+       * It includes inherited tags from the `Feature` as well.
+       * </pre>
+       *
        * <code>repeated .io.cucumber.messages.Pickle.PickleTag tags = 6;</code>
        */
       public Builder addTags(
@@ -32201,6 +34471,12 @@ public final class Messages {
         return this;
       }
       /**
+       * <pre>
+       **
+       * One or more tags. If this pickle is constructed from a Gherkin document,
+       * It includes inherited tags from the `Feature` as well.
+       * </pre>
+       *
        * <code>repeated .io.cucumber.messages.Pickle.PickleTag tags = 6;</code>
        */
       public Builder addTags(
@@ -32215,6 +34491,12 @@ public final class Messages {
         return this;
       }
       /**
+       * <pre>
+       **
+       * One or more tags. If this pickle is constructed from a Gherkin document,
+       * It includes inherited tags from the `Feature` as well.
+       * </pre>
+       *
        * <code>repeated .io.cucumber.messages.Pickle.PickleTag tags = 6;</code>
        */
       public Builder addAllTags(
@@ -32230,6 +34512,12 @@ public final class Messages {
         return this;
       }
       /**
+       * <pre>
+       **
+       * One or more tags. If this pickle is constructed from a Gherkin document,
+       * It includes inherited tags from the `Feature` as well.
+       * </pre>
+       *
        * <code>repeated .io.cucumber.messages.Pickle.PickleTag tags = 6;</code>
        */
       public Builder clearTags() {
@@ -32243,6 +34531,12 @@ public final class Messages {
         return this;
       }
       /**
+       * <pre>
+       **
+       * One or more tags. If this pickle is constructed from a Gherkin document,
+       * It includes inherited tags from the `Feature` as well.
+       * </pre>
+       *
        * <code>repeated .io.cucumber.messages.Pickle.PickleTag tags = 6;</code>
        */
       public Builder removeTags(int index) {
@@ -32256,6 +34550,12 @@ public final class Messages {
         return this;
       }
       /**
+       * <pre>
+       **
+       * One or more tags. If this pickle is constructed from a Gherkin document,
+       * It includes inherited tags from the `Feature` as well.
+       * </pre>
+       *
        * <code>repeated .io.cucumber.messages.Pickle.PickleTag tags = 6;</code>
        */
       public io.cucumber.messages.Messages.Pickle.PickleTag.Builder getTagsBuilder(
@@ -32263,6 +34563,12 @@ public final class Messages {
         return getTagsFieldBuilder().getBuilder(index);
       }
       /**
+       * <pre>
+       **
+       * One or more tags. If this pickle is constructed from a Gherkin document,
+       * It includes inherited tags from the `Feature` as well.
+       * </pre>
+       *
        * <code>repeated .io.cucumber.messages.Pickle.PickleTag tags = 6;</code>
        */
       public io.cucumber.messages.Messages.Pickle.PickleTagOrBuilder getTagsOrBuilder(
@@ -32273,6 +34579,12 @@ public final class Messages {
         }
       }
       /**
+       * <pre>
+       **
+       * One or more tags. If this pickle is constructed from a Gherkin document,
+       * It includes inherited tags from the `Feature` as well.
+       * </pre>
+       *
        * <code>repeated .io.cucumber.messages.Pickle.PickleTag tags = 6;</code>
        */
       public java.util.List<? extends io.cucumber.messages.Messages.Pickle.PickleTagOrBuilder> 
@@ -32284,6 +34596,12 @@ public final class Messages {
         }
       }
       /**
+       * <pre>
+       **
+       * One or more tags. If this pickle is constructed from a Gherkin document,
+       * It includes inherited tags from the `Feature` as well.
+       * </pre>
+       *
        * <code>repeated .io.cucumber.messages.Pickle.PickleTag tags = 6;</code>
        */
       public io.cucumber.messages.Messages.Pickle.PickleTag.Builder addTagsBuilder() {
@@ -32291,6 +34609,12 @@ public final class Messages {
             io.cucumber.messages.Messages.Pickle.PickleTag.getDefaultInstance());
       }
       /**
+       * <pre>
+       **
+       * One or more tags. If this pickle is constructed from a Gherkin document,
+       * It includes inherited tags from the `Feature` as well.
+       * </pre>
+       *
        * <code>repeated .io.cucumber.messages.Pickle.PickleTag tags = 6;</code>
        */
       public io.cucumber.messages.Messages.Pickle.PickleTag.Builder addTagsBuilder(
@@ -32299,6 +34623,12 @@ public final class Messages {
             index, io.cucumber.messages.Messages.Pickle.PickleTag.getDefaultInstance());
       }
       /**
+       * <pre>
+       **
+       * One or more tags. If this pickle is constructed from a Gherkin document,
+       * It includes inherited tags from the `Feature` as well.
+       * </pre>
+       *
        * <code>repeated .io.cucumber.messages.Pickle.PickleTag tags = 6;</code>
        */
       public java.util.List<io.cucumber.messages.Messages.Pickle.PickleTag.Builder> 
@@ -32333,6 +34663,13 @@ public final class Messages {
           io.cucumber.messages.Messages.Location, io.cucumber.messages.Messages.Location.Builder, io.cucumber.messages.Messages.LocationOrBuilder> locationsBuilder_;
 
       /**
+       * <pre>
+       **
+       * The source locations of the pickle. The last one represents the unique
+       * line number. A pickle constructed from `Examples` will have the first
+       * location originating from the `Step`, and the second from the table row.
+       * </pre>
+       *
        * <code>repeated .io.cucumber.messages.Location locations = 7;</code>
        */
       public java.util.List<io.cucumber.messages.Messages.Location> getLocationsList() {
@@ -32343,6 +34680,13 @@ public final class Messages {
         }
       }
       /**
+       * <pre>
+       **
+       * The source locations of the pickle. The last one represents the unique
+       * line number. A pickle constructed from `Examples` will have the first
+       * location originating from the `Step`, and the second from the table row.
+       * </pre>
+       *
        * <code>repeated .io.cucumber.messages.Location locations = 7;</code>
        */
       public int getLocationsCount() {
@@ -32353,6 +34697,13 @@ public final class Messages {
         }
       }
       /**
+       * <pre>
+       **
+       * The source locations of the pickle. The last one represents the unique
+       * line number. A pickle constructed from `Examples` will have the first
+       * location originating from the `Step`, and the second from the table row.
+       * </pre>
+       *
        * <code>repeated .io.cucumber.messages.Location locations = 7;</code>
        */
       public io.cucumber.messages.Messages.Location getLocations(int index) {
@@ -32363,6 +34714,13 @@ public final class Messages {
         }
       }
       /**
+       * <pre>
+       **
+       * The source locations of the pickle. The last one represents the unique
+       * line number. A pickle constructed from `Examples` will have the first
+       * location originating from the `Step`, and the second from the table row.
+       * </pre>
+       *
        * <code>repeated .io.cucumber.messages.Location locations = 7;</code>
        */
       public Builder setLocations(
@@ -32380,6 +34738,13 @@ public final class Messages {
         return this;
       }
       /**
+       * <pre>
+       **
+       * The source locations of the pickle. The last one represents the unique
+       * line number. A pickle constructed from `Examples` will have the first
+       * location originating from the `Step`, and the second from the table row.
+       * </pre>
+       *
        * <code>repeated .io.cucumber.messages.Location locations = 7;</code>
        */
       public Builder setLocations(
@@ -32394,6 +34759,13 @@ public final class Messages {
         return this;
       }
       /**
+       * <pre>
+       **
+       * The source locations of the pickle. The last one represents the unique
+       * line number. A pickle constructed from `Examples` will have the first
+       * location originating from the `Step`, and the second from the table row.
+       * </pre>
+       *
        * <code>repeated .io.cucumber.messages.Location locations = 7;</code>
        */
       public Builder addLocations(io.cucumber.messages.Messages.Location value) {
@@ -32410,6 +34782,13 @@ public final class Messages {
         return this;
       }
       /**
+       * <pre>
+       **
+       * The source locations of the pickle. The last one represents the unique
+       * line number. A pickle constructed from `Examples` will have the first
+       * location originating from the `Step`, and the second from the table row.
+       * </pre>
+       *
        * <code>repeated .io.cucumber.messages.Location locations = 7;</code>
        */
       public Builder addLocations(
@@ -32427,6 +34806,13 @@ public final class Messages {
         return this;
       }
       /**
+       * <pre>
+       **
+       * The source locations of the pickle. The last one represents the unique
+       * line number. A pickle constructed from `Examples` will have the first
+       * location originating from the `Step`, and the second from the table row.
+       * </pre>
+       *
        * <code>repeated .io.cucumber.messages.Location locations = 7;</code>
        */
       public Builder addLocations(
@@ -32441,6 +34827,13 @@ public final class Messages {
         return this;
       }
       /**
+       * <pre>
+       **
+       * The source locations of the pickle. The last one represents the unique
+       * line number. A pickle constructed from `Examples` will have the first
+       * location originating from the `Step`, and the second from the table row.
+       * </pre>
+       *
        * <code>repeated .io.cucumber.messages.Location locations = 7;</code>
        */
       public Builder addLocations(
@@ -32455,6 +34848,13 @@ public final class Messages {
         return this;
       }
       /**
+       * <pre>
+       **
+       * The source locations of the pickle. The last one represents the unique
+       * line number. A pickle constructed from `Examples` will have the first
+       * location originating from the `Step`, and the second from the table row.
+       * </pre>
+       *
        * <code>repeated .io.cucumber.messages.Location locations = 7;</code>
        */
       public Builder addAllLocations(
@@ -32470,6 +34870,13 @@ public final class Messages {
         return this;
       }
       /**
+       * <pre>
+       **
+       * The source locations of the pickle. The last one represents the unique
+       * line number. A pickle constructed from `Examples` will have the first
+       * location originating from the `Step`, and the second from the table row.
+       * </pre>
+       *
        * <code>repeated .io.cucumber.messages.Location locations = 7;</code>
        */
       public Builder clearLocations() {
@@ -32483,6 +34890,13 @@ public final class Messages {
         return this;
       }
       /**
+       * <pre>
+       **
+       * The source locations of the pickle. The last one represents the unique
+       * line number. A pickle constructed from `Examples` will have the first
+       * location originating from the `Step`, and the second from the table row.
+       * </pre>
+       *
        * <code>repeated .io.cucumber.messages.Location locations = 7;</code>
        */
       public Builder removeLocations(int index) {
@@ -32496,6 +34910,13 @@ public final class Messages {
         return this;
       }
       /**
+       * <pre>
+       **
+       * The source locations of the pickle. The last one represents the unique
+       * line number. A pickle constructed from `Examples` will have the first
+       * location originating from the `Step`, and the second from the table row.
+       * </pre>
+       *
        * <code>repeated .io.cucumber.messages.Location locations = 7;</code>
        */
       public io.cucumber.messages.Messages.Location.Builder getLocationsBuilder(
@@ -32503,6 +34924,13 @@ public final class Messages {
         return getLocationsFieldBuilder().getBuilder(index);
       }
       /**
+       * <pre>
+       **
+       * The source locations of the pickle. The last one represents the unique
+       * line number. A pickle constructed from `Examples` will have the first
+       * location originating from the `Step`, and the second from the table row.
+       * </pre>
+       *
        * <code>repeated .io.cucumber.messages.Location locations = 7;</code>
        */
       public io.cucumber.messages.Messages.LocationOrBuilder getLocationsOrBuilder(
@@ -32513,6 +34941,13 @@ public final class Messages {
         }
       }
       /**
+       * <pre>
+       **
+       * The source locations of the pickle. The last one represents the unique
+       * line number. A pickle constructed from `Examples` will have the first
+       * location originating from the `Step`, and the second from the table row.
+       * </pre>
+       *
        * <code>repeated .io.cucumber.messages.Location locations = 7;</code>
        */
       public java.util.List<? extends io.cucumber.messages.Messages.LocationOrBuilder> 
@@ -32524,6 +34959,13 @@ public final class Messages {
         }
       }
       /**
+       * <pre>
+       **
+       * The source locations of the pickle. The last one represents the unique
+       * line number. A pickle constructed from `Examples` will have the first
+       * location originating from the `Step`, and the second from the table row.
+       * </pre>
+       *
        * <code>repeated .io.cucumber.messages.Location locations = 7;</code>
        */
       public io.cucumber.messages.Messages.Location.Builder addLocationsBuilder() {
@@ -32531,6 +34973,13 @@ public final class Messages {
             io.cucumber.messages.Messages.Location.getDefaultInstance());
       }
       /**
+       * <pre>
+       **
+       * The source locations of the pickle. The last one represents the unique
+       * line number. A pickle constructed from `Examples` will have the first
+       * location originating from the `Step`, and the second from the table row.
+       * </pre>
+       *
        * <code>repeated .io.cucumber.messages.Location locations = 7;</code>
        */
       public io.cucumber.messages.Messages.Location.Builder addLocationsBuilder(
@@ -32539,6 +34988,13 @@ public final class Messages {
             index, io.cucumber.messages.Messages.Location.getDefaultInstance());
       }
       /**
+       * <pre>
+       **
+       * The source locations of the pickle. The last one represents the unique
+       * line number. A pickle constructed from `Examples` will have the first
+       * location originating from the `Step`, and the second from the table row.
+       * </pre>
+       *
        * <code>repeated .io.cucumber.messages.Location locations = 7;</code>
        */
       public java.util.List<io.cucumber.messages.Messages.Location.Builder> 
@@ -32645,6 +35101,11 @@ public final class Messages {
     public io.cucumber.messages.Messages.PickleStepArgument.MessageCase getMessageCase();
   }
   /**
+   * <pre>
+   **
+   * A wrapper for either a doc string or a table.
+   * </pre>
+   *
    * Protobuf type {@code io.cucumber.messages.PickleStepArgument}
    */
   public  static final class PickleStepArgument extends
@@ -36209,6 +38670,11 @@ public final class Messages {
       return builder;
     }
     /**
+     * <pre>
+     **
+     * A wrapper for either a doc string or a table.
+     * </pre>
+     *
      * Protobuf type {@code io.cucumber.messages.PickleStepArgument}
      */
     public static final class Builder extends
@@ -46624,13 +49090,13 @@ public final class Messages {
       com.google.protobuf.MessageOrBuilder {
 
     /**
-     * <code>.io.cucumber.messages.Status status = 1;</code>
+     * <code>.io.cucumber.messages.TestResult.Status status = 1;</code>
      */
     int getStatusValue();
     /**
-     * <code>.io.cucumber.messages.Status status = 1;</code>
+     * <code>.io.cucumber.messages.TestResult.Status status = 1;</code>
      */
-    io.cucumber.messages.Messages.Status getStatus();
+    io.cucumber.messages.Messages.TestResult.Status getStatus();
 
     /**
      * <code>string message = 2;</code>
@@ -46738,21 +49204,155 @@ public final class Messages {
               io.cucumber.messages.Messages.TestResult.class, io.cucumber.messages.Messages.TestResult.Builder.class);
     }
 
+    /**
+     * Protobuf enum {@code io.cucumber.messages.TestResult.Status}
+     */
+    public enum Status
+        implements com.google.protobuf.ProtocolMessageEnum {
+      /**
+       * <code>AMBIGUOUS = 0;</code>
+       */
+      AMBIGUOUS(0),
+      /**
+       * <code>FAILED = 1;</code>
+       */
+      FAILED(1),
+      /**
+       * <code>PASSED = 2;</code>
+       */
+      PASSED(2),
+      /**
+       * <code>PENDING = 3;</code>
+       */
+      PENDING(3),
+      /**
+       * <code>SKIPPED = 4;</code>
+       */
+      SKIPPED(4),
+      /**
+       * <code>UNDEFINED = 5;</code>
+       */
+      UNDEFINED(5),
+      UNRECOGNIZED(-1),
+      ;
+
+      /**
+       * <code>AMBIGUOUS = 0;</code>
+       */
+      public static final int AMBIGUOUS_VALUE = 0;
+      /**
+       * <code>FAILED = 1;</code>
+       */
+      public static final int FAILED_VALUE = 1;
+      /**
+       * <code>PASSED = 2;</code>
+       */
+      public static final int PASSED_VALUE = 2;
+      /**
+       * <code>PENDING = 3;</code>
+       */
+      public static final int PENDING_VALUE = 3;
+      /**
+       * <code>SKIPPED = 4;</code>
+       */
+      public static final int SKIPPED_VALUE = 4;
+      /**
+       * <code>UNDEFINED = 5;</code>
+       */
+      public static final int UNDEFINED_VALUE = 5;
+
+
+      public final int getNumber() {
+        if (this == UNRECOGNIZED) {
+          throw new java.lang.IllegalArgumentException(
+              "Can't get the number of an unknown enum value.");
+        }
+        return value;
+      }
+
+      /**
+       * @deprecated Use {@link #forNumber(int)} instead.
+       */
+      @java.lang.Deprecated
+      public static Status valueOf(int value) {
+        return forNumber(value);
+      }
+
+      public static Status forNumber(int value) {
+        switch (value) {
+          case 0: return AMBIGUOUS;
+          case 1: return FAILED;
+          case 2: return PASSED;
+          case 3: return PENDING;
+          case 4: return SKIPPED;
+          case 5: return UNDEFINED;
+          default: return null;
+        }
+      }
+
+      public static com.google.protobuf.Internal.EnumLiteMap<Status>
+          internalGetValueMap() {
+        return internalValueMap;
+      }
+      private static final com.google.protobuf.Internal.EnumLiteMap<
+          Status> internalValueMap =
+            new com.google.protobuf.Internal.EnumLiteMap<Status>() {
+              public Status findValueByNumber(int number) {
+                return Status.forNumber(number);
+              }
+            };
+
+      public final com.google.protobuf.Descriptors.EnumValueDescriptor
+          getValueDescriptor() {
+        return getDescriptor().getValues().get(ordinal());
+      }
+      public final com.google.protobuf.Descriptors.EnumDescriptor
+          getDescriptorForType() {
+        return getDescriptor();
+      }
+      public static final com.google.protobuf.Descriptors.EnumDescriptor
+          getDescriptor() {
+        return io.cucumber.messages.Messages.TestResult.getDescriptor().getEnumTypes().get(0);
+      }
+
+      private static final Status[] VALUES = values();
+
+      public static Status valueOf(
+          com.google.protobuf.Descriptors.EnumValueDescriptor desc) {
+        if (desc.getType() != getDescriptor()) {
+          throw new java.lang.IllegalArgumentException(
+            "EnumValueDescriptor is not for this type.");
+        }
+        if (desc.getIndex() == -1) {
+          return UNRECOGNIZED;
+        }
+        return VALUES[desc.getIndex()];
+      }
+
+      private final int value;
+
+      private Status(int value) {
+        this.value = value;
+      }
+
+      // @@protoc_insertion_point(enum_scope:io.cucumber.messages.TestResult.Status)
+    }
+
     public static final int STATUS_FIELD_NUMBER = 1;
     private int status_;
     /**
-     * <code>.io.cucumber.messages.Status status = 1;</code>
+     * <code>.io.cucumber.messages.TestResult.Status status = 1;</code>
      */
     public int getStatusValue() {
       return status_;
     }
     /**
-     * <code>.io.cucumber.messages.Status status = 1;</code>
+     * <code>.io.cucumber.messages.TestResult.Status status = 1;</code>
      */
-    public io.cucumber.messages.Messages.Status getStatus() {
+    public io.cucumber.messages.Messages.TestResult.Status getStatus() {
       @SuppressWarnings("deprecation")
-      io.cucumber.messages.Messages.Status result = io.cucumber.messages.Messages.Status.valueOf(status_);
-      return result == null ? io.cucumber.messages.Messages.Status.UNRECOGNIZED : result;
+      io.cucumber.messages.Messages.TestResult.Status result = io.cucumber.messages.Messages.TestResult.Status.valueOf(status_);
+      return result == null ? io.cucumber.messages.Messages.TestResult.Status.UNRECOGNIZED : result;
     }
 
     public static final int MESSAGE_FIELD_NUMBER = 2;
@@ -46812,7 +49412,7 @@ public final class Messages {
     @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
-      if (status_ != io.cucumber.messages.Messages.Status.AMBIGUOUS.getNumber()) {
+      if (status_ != io.cucumber.messages.Messages.TestResult.Status.AMBIGUOUS.getNumber()) {
         output.writeEnum(1, status_);
       }
       if (!getMessageBytes().isEmpty()) {
@@ -46830,7 +49430,7 @@ public final class Messages {
       if (size != -1) return size;
 
       size = 0;
-      if (status_ != io.cucumber.messages.Messages.Status.AMBIGUOUS.getNumber()) {
+      if (status_ != io.cucumber.messages.Messages.TestResult.Status.AMBIGUOUS.getNumber()) {
         size += com.google.protobuf.CodedOutputStream
           .computeEnumSize(1, status_);
       }
@@ -47137,13 +49737,13 @@ public final class Messages {
 
       private int status_ = 0;
       /**
-       * <code>.io.cucumber.messages.Status status = 1;</code>
+       * <code>.io.cucumber.messages.TestResult.Status status = 1;</code>
        */
       public int getStatusValue() {
         return status_;
       }
       /**
-       * <code>.io.cucumber.messages.Status status = 1;</code>
+       * <code>.io.cucumber.messages.TestResult.Status status = 1;</code>
        */
       public Builder setStatusValue(int value) {
         status_ = value;
@@ -47151,17 +49751,17 @@ public final class Messages {
         return this;
       }
       /**
-       * <code>.io.cucumber.messages.Status status = 1;</code>
+       * <code>.io.cucumber.messages.TestResult.Status status = 1;</code>
        */
-      public io.cucumber.messages.Messages.Status getStatus() {
+      public io.cucumber.messages.Messages.TestResult.Status getStatus() {
         @SuppressWarnings("deprecation")
-        io.cucumber.messages.Messages.Status result = io.cucumber.messages.Messages.Status.valueOf(status_);
-        return result == null ? io.cucumber.messages.Messages.Status.UNRECOGNIZED : result;
+        io.cucumber.messages.Messages.TestResult.Status result = io.cucumber.messages.Messages.TestResult.Status.valueOf(status_);
+        return result == null ? io.cucumber.messages.Messages.TestResult.Status.UNRECOGNIZED : result;
       }
       /**
-       * <code>.io.cucumber.messages.Status status = 1;</code>
+       * <code>.io.cucumber.messages.TestResult.Status status = 1;</code>
        */
-      public Builder setStatus(io.cucumber.messages.Messages.Status value) {
+      public Builder setStatus(io.cucumber.messages.Messages.TestResult.Status value) {
         if (value == null) {
           throw new NullPointerException();
         }
@@ -47171,7 +49771,7 @@ public final class Messages {
         return this;
       }
       /**
-       * <code>.io.cucumber.messages.Status status = 1;</code>
+       * <code>.io.cucumber.messages.TestResult.Status status = 1;</code>
        */
       public Builder clearStatus() {
         
@@ -67324,220 +69924,222 @@ public final class Messages {
       "ssage\"(\n\010Location\022\014\n\004line\030\001 \001(\r\022\016\n\006colum" +
       "n\030\002 \001(\r\"P\n\017SourceReference\022\013\n\003uri\030\001 \001(\t\022" +
       "0\n\010location\030\002 \001(\0132\036.io.cucumber.messages" +
-      ".Location\"/\n\005Media\022\020\n\010encoding\030\001 \001(\t\022\024\n\014" +
-      "content_type\030\002 \001(\t\"O\n\006Source\022\013\n\003uri\030\001 \001(" +
-      "\t\022\014\n\004data\030\002 \001(\t\022*\n\005media\030\003 \001(\0132\033.io.cucu" +
-      "mber.messages.Media\"\200\026\n\017GherkinDocument\022" +
-      "\013\n\003uri\030\001 \001(\t\022>\n\007feature\030\002 \001(\0132-.io.cucum" +
-      "ber.messages.GherkinDocument.Feature\022?\n\010" +
-      "comments\030\003 \003(\0132-.io.cucumber.messages.Gh" +
-      "erkinDocument.Comment\032I\n\007Comment\0220\n\010loca" +
-      "tion\030\001 \001(\0132\036.io.cucumber.messages.Locati" +
-      "on\022\014\n\004text\030\002 \001(\t\032\223\024\n\007Feature\0220\n\010location" +
-      "\030\001 \001(\0132\036.io.cucumber.messages.Location\022?" +
-      "\n\004tags\030\002 \003(\01321.io.cucumber.messages.Gher" +
-      "kinDocument.Feature.Tag\022\020\n\010language\030\003 \001(" +
-      "\t\022\017\n\007keyword\030\004 \001(\t\022\014\n\004name\030\005 \001(\t\022\023\n\013desc" +
-      "ription\030\006 \001(\t\022L\n\010children\030\007 \003(\0132:.io.cuc" +
-      "umber.messages.GherkinDocument.Feature.F" +
-      "eatureChild\032E\n\003Tag\0220\n\010location\030\001 \001(\0132\036.i" +
-      "o.cucumber.messages.Location\022\014\n\004name\030\002 \001" +
-      "(\t\032\376\004\n\014FeatureChild\022O\n\004rule\030\001 \001(\0132?.io.c" +
-      "ucumber.messages.GherkinDocument.Feature" +
-      ".FeatureChild.RuleH\000\022N\n\nbackground\030\002 \001(\013" +
-      "28.io.cucumber.messages.GherkinDocument." +
-      "Feature.BackgroundH\000\022J\n\010scenario\030\003 \001(\01326" +
-      ".io.cucumber.messages.GherkinDocument.Fe" +
-      "ature.ScenarioH\000\032\304\001\n\004Rule\0220\n\010location\030\001 " +
-      "\001(\0132\036.io.cucumber.messages.Location\022\017\n\007k" +
-      "eyword\030\002 \001(\t\022\014\n\004name\030\003 \001(\t\022\023\n\013descriptio" +
-      "n\030\004 \001(\t\022V\n\010children\030\005 \003(\0132D.io.cucumber." +
+      ".Location\"w\n\005Media\0226\n\010encoding\030\001 \001(\0162$.i" +
+      "o.cucumber.messages.Media.Encoding\022\024\n\014co" +
+      "ntent_type\030\002 \001(\t\" \n\010Encoding\022\n\n\006BASE64\020\000" +
+      "\022\010\n\004UTF8\020\001\"O\n\006Source\022\013\n\003uri\030\001 \001(\t\022\014\n\004dat" +
+      "a\030\002 \001(\t\022*\n\005media\030\003 \001(\0132\033.io.cucumber.mes" +
+      "sages.Media\"\200\026\n\017GherkinDocument\022\013\n\003uri\030\001" +
+      " \001(\t\022>\n\007feature\030\002 \001(\0132-.io.cucumber.mess" +
+      "ages.GherkinDocument.Feature\022?\n\010comments" +
+      "\030\003 \003(\0132-.io.cucumber.messages.GherkinDoc" +
+      "ument.Comment\032I\n\007Comment\0220\n\010location\030\001 \001" +
+      "(\0132\036.io.cucumber.messages.Location\022\014\n\004te" +
+      "xt\030\002 \001(\t\032\223\024\n\007Feature\0220\n\010location\030\001 \001(\0132\036" +
+      ".io.cucumber.messages.Location\022?\n\004tags\030\002" +
+      " \003(\01321.io.cucumber.messages.GherkinDocum" +
+      "ent.Feature.Tag\022\020\n\010language\030\003 \001(\t\022\017\n\007key" +
+      "word\030\004 \001(\t\022\014\n\004name\030\005 \001(\t\022\023\n\013description\030" +
+      "\006 \001(\t\022L\n\010children\030\007 \003(\0132:.io.cucumber.me" +
+      "ssages.GherkinDocument.Feature.FeatureCh" +
+      "ild\032E\n\003Tag\0220\n\010location\030\001 \001(\0132\036.io.cucumb" +
+      "er.messages.Location\022\014\n\004name\030\002 \001(\t\032\376\004\n\014F" +
+      "eatureChild\022O\n\004rule\030\001 \001(\0132?.io.cucumber." +
       "messages.GherkinDocument.Feature.Feature" +
-      "Child.RuleChild\032\260\001\n\tRuleChild\022N\n\nbackgro" +
-      "und\030\001 \001(\01328.io.cucumber.messages.Gherkin" +
-      "Document.Feature.BackgroundH\000\022J\n\010scenari" +
-      "o\030\002 \001(\01326.io.cucumber.messages.GherkinDo" +
-      "cument.Feature.ScenarioH\000B\007\n\005valueB\007\n\005va" +
-      "lue\032\265\001\n\nBackground\0220\n\010location\030\001 \001(\0132\036.i" +
-      "o.cucumber.messages.Location\022\017\n\007keyword\030" +
-      "\002 \001(\t\022\014\n\004name\030\003 \001(\t\022\023\n\013description\030\004 \001(\t" +
-      "\022A\n\005steps\030\005 \003(\01322.io.cucumber.messages.G" +
-      "herkinDocument.Feature.Step\032\225\005\n\010Scenario" +
-      "\0220\n\010location\030\001 \001(\0132\036.io.cucumber.message" +
-      "s.Location\022?\n\004tags\030\002 \003(\01321.io.cucumber.m" +
-      "essages.GherkinDocument.Feature.Tag\022\017\n\007k" +
-      "eyword\030\003 \001(\t\022\014\n\004name\030\004 \001(\t\022\023\n\013descriptio" +
-      "n\030\005 \001(\t\022A\n\005steps\030\006 \003(\01322.io.cucumber.mes" +
-      "sages.GherkinDocument.Feature.Step\022Q\n\010ex" +
-      "amples\030\007 \003(\0132?.io.cucumber.messages.Gher" +
-      "kinDocument.Feature.Scenario.Examples\032\313\002" +
-      "\n\010Examples\0220\n\010location\030\001 \001(\0132\036.io.cucumb" +
-      "er.messages.Location\022?\n\004tags\030\002 \003(\01321.io." +
-      "cucumber.messages.GherkinDocument.Featur" +
-      "e.Tag\022\017\n\007keyword\030\003 \001(\t\022\014\n\004name\030\004 \001(\t\022\023\n\013" +
-      "description\030\005 \001(\t\022L\n\014table_header\030\006 \001(\0132" +
+      "Child.RuleH\000\022N\n\nbackground\030\002 \001(\01328.io.cu" +
+      "cumber.messages.GherkinDocument.Feature." +
+      "BackgroundH\000\022J\n\010scenario\030\003 \001(\01326.io.cucu" +
+      "mber.messages.GherkinDocument.Feature.Sc" +
+      "enarioH\000\032\304\001\n\004Rule\0220\n\010location\030\001 \001(\0132\036.io" +
+      ".cucumber.messages.Location\022\017\n\007keyword\030\002" +
+      " \001(\t\022\014\n\004name\030\003 \001(\t\022\023\n\013description\030\004 \001(\t\022" +
+      "V\n\010children\030\005 \003(\0132D.io.cucumber.messages" +
+      ".GherkinDocument.Feature.FeatureChild.Ru" +
+      "leChild\032\260\001\n\tRuleChild\022N\n\nbackground\030\001 \001(" +
+      "\01328.io.cucumber.messages.GherkinDocument" +
+      ".Feature.BackgroundH\000\022J\n\010scenario\030\002 \001(\0132" +
       "6.io.cucumber.messages.GherkinDocument.F" +
-      "eature.TableRow\022J\n\ntable_body\030\007 \003(\01326.io" +
-      ".cucumber.messages.GherkinDocument.Featu" +
-      "re.TableRow\032\333\001\n\010TableRow\0220\n\010location\030\001 \001" +
-      "(\0132\036.io.cucumber.messages.Location\022O\n\005ce" +
-      "lls\030\002 \003(\0132@.io.cucumber.messages.Gherkin" +
-      "Document.Feature.TableRow.TableCell\032L\n\tT" +
-      "ableCell\0220\n\010location\030\001 \001(\0132\036.io.cucumber" +
-      ".messages.Location\022\r\n\005value\030\002 \001(\t\032\212\004\n\004St" +
-      "ep\0220\n\010location\030\001 \001(\0132\036.io.cucumber.messa" +
-      "ges.Location\022\017\n\007keyword\030\002 \001(\t\022\014\n\004text\030\003 " +
-      "\001(\t\022R\n\ndoc_string\030\005 \001(\0132<.io.cucumber.me" +
-      "ssages.GherkinDocument.Feature.Step.DocS" +
-      "tringH\000\022R\n\ndata_table\030\006 \001(\0132<.io.cucumbe" +
-      "r.messages.GherkinDocument.Feature.Step." +
-      "DataTableH\000\032\203\001\n\tDataTable\0220\n\010location\030\001 " +
-      "\001(\0132\036.io.cucumber.messages.Location\022D\n\004r" +
-      "ows\030\002 \003(\01326.io.cucumber.messages.Gherkin" +
-      "Document.Feature.TableRow\032w\n\tDocString\0220" +
-      "\n\010location\030\001 \001(\0132\036.io.cucumber.messages." +
-      "Location\022\024\n\014content_type\030\002 \001(\t\022\017\n\007conten" +
-      "t\030\003 \001(\t\022\021\n\tdelimiter\030\004 \001(\tB\n\n\010argument\"}" +
-      "\n\nAttachment\0225\n\006source\030\001 \001(\0132%.io.cucumb" +
-      "er.messages.SourceReference\022\014\n\004data\030\002 \001(" +
-      "\t\022*\n\005media\030\003 \001(\0132\033.io.cucumber.messages." +
-      "Media\"\307\003\n\006Pickle\022\n\n\002id\030\001 \001(\t\022\013\n\003uri\030\002 \001(" +
-      "\t\022\014\n\004name\030\003 \001(\t\022\020\n\010language\030\004 \001(\t\0226\n\005ste" +
-      "ps\030\005 \003(\0132\'.io.cucumber.messages.Pickle.P" +
-      "ickleStep\0224\n\004tags\030\006 \003(\0132&.io.cucumber.me" +
-      "ssages.Pickle.PickleTag\0221\n\tlocations\030\007 \003" +
-      "(\0132\036.io.cucumber.messages.Location\032K\n\tPi" +
-      "ckleTag\0220\n\010location\030\001 \001(\0132\036.io.cucumber." +
-      "messages.Location\022\014\n\004name\030\002 \001(\t\032\225\001\n\nPick" +
-      "leStep\022\014\n\004text\030\001 \001(\t\0221\n\tlocations\030\002 \003(\0132" +
-      "\036.io.cucumber.messages.Location\022:\n\010argum" +
-      "ent\030\005 \001(\0132(.io.cucumber.messages.PickleS" +
-      "tepArgumentJ\004\010\003\020\004J\004\010\004\020\005\"\324\004\n\022PickleStepAr" +
-      "gument\022N\n\ndoc_string\030\001 \001(\01328.io.cucumber" +
-      ".messages.PickleStepArgument.PickleDocSt" +
-      "ringH\000\022J\n\ndata_table\030\002 \001(\01324.io.cucumber" +
-      ".messages.PickleStepArgument.PickleTable" +
-      "H\000\032i\n\017PickleDocString\0220\n\010location\030\001 \001(\0132" +
-      "\036.io.cucumber.messages.Location\022\023\n\013conte" +
-      "ntType\030\002 \001(\t\022\017\n\007content\030\003 \001(\t\032\253\002\n\013Pickle" +
-      "Table\022Q\n\004rows\030\001 \003(\0132C.io.cucumber.messag" +
-      "es.PickleStepArgument.PickleTable.Pickle" +
-      "TableRow\032\310\001\n\016PickleTableRow\022b\n\005cells\030\001 \003" +
-      "(\0132S.io.cucumber.messages.PickleStepArgu" +
-      "ment.PickleTable.PickleTableRow.PickleTa" +
-      "bleCell\032R\n\017PickleTableCell\0220\n\010location\030\001" +
-      " \001(\0132\036.io.cucumber.messages.Location\022\r\n\005" +
-      "value\030\002 \001(\tB\t\n\007message\"\"\n\016PickleAccepted" +
-      "\022\020\n\010pickleId\030\001 \001(\t\"\"\n\016PickleRejected\022\020\n\010" +
-      "pickleId\030\002 \001(\t\"?\n\016TestRunStarted\022-\n\ttime" +
-      "stamp\030\001 \001(\0132\032.google.protobuf.Timestamp\"" +
-      "\224\001\n\024TestCasePreparedStep\022=\n\016sourceLocati" +
-      "on\030\001 \001(\0132%.io.cucumber.messages.SourceRe" +
-      "ference\022=\n\016actionLocation\030\002 \001(\0132%.io.cuc" +
-      "umber.messages.SourceReference\"_\n\020TestCa" +
-      "sePrepared\022\020\n\010pickleId\030\001 \001(\t\0229\n\005steps\030\002 " +
-      "\003(\0132*.io.cucumber.messages.TestCasePrepa" +
-      "redStep\"\342\001\n\017TestCaseStarted\022\020\n\010pickleId\030" +
-      "\001 \001(\t\022-\n\ttimestamp\030\002 \001(\0132\032.google.protob" +
-      "uf.Timestamp\022@\n\010platform\030\003 \001(\0132..io.cucu" +
-      "mber.messages.TestCaseStarted.Platform\032L" +
-      "\n\010Platform\022\026\n\016implementation\030\001 \001(\t\022\017\n\007ve" +
-      "rsion\030\002 \001(\t\022\n\n\002os\030\003 \001(\t\022\013\n\003cpu\030\004 \001(\t\"\211\001\n" +
-      "\020TestCaseFinished\022\020\n\010pickleId\030\001 \001(\t\022-\n\tt" +
-      "imestamp\030\002 \001(\0132\032.google.protobuf.Timesta" +
-      "mp\0224\n\ntestResult\030\003 \001(\0132 .io.cucumber.mes" +
-      "sages.TestResult\"a\n\017TestStepStarted\022\020\n\010p" +
-      "ickleId\030\001 \001(\t\022\r\n\005index\030\002 \001(\r\022-\n\ttimestam" +
-      "p\030\003 \001(\0132\032.google.protobuf.Timestamp\"\230\001\n\020" +
-      "TestStepFinished\022\020\n\010pickleId\030\001 \001(\t\022\r\n\005in" +
-      "dex\030\002 \001(\r\0224\n\ntestResult\030\003 \001(\0132 .io.cucum" +
-      "ber.messages.TestResult\022-\n\ttimestamp\030\004 \001" +
-      "(\0132\032.google.protobuf.Timestamp\"R\n\017TestHo" +
-      "okStarted\022\020\n\010pickleId\030\001 \001(\t\022-\n\ttimestamp" +
-      "\030\002 \001(\0132\032.google.protobuf.Timestamp\"\211\001\n\020T" +
-      "estHookFinished\022\020\n\010pickleId\030\001 \001(\t\0224\n\ntes" +
-      "tResult\030\002 \001(\0132 .io.cucumber.messages.Tes" +
-      "tResult\022-\n\ttimestamp\030\003 \001(\0132\032.google.prot" +
-      "obuf.Timestamp\"h\n\nTestResult\022,\n\006status\030\001" +
-      " \001(\0162\034.io.cucumber.messages.Status\022\017\n\007me" +
-      "ssage\030\002 \001(\t\022\033\n\023durationNanoseconds\030\003 \001(\004" +
-      "\"\"\n\017TestRunFinished\022\017\n\007success\030\001 \001(\010\"\341\001\n" +
-      "\014CommandStart\022\025\n\rbaseDirectory\030\002 \001(\t\022:\n\r" +
-      "sourcesConfig\030\003 \001(\0132#.io.cucumber.messag" +
-      "es.SourcesConfig\022:\n\rruntimeConfig\030\004 \001(\0132" +
-      "#.io.cucumber.messages.RuntimeConfig\022B\n\021" +
-      "supportCodeConfig\030\005 \001(\0132\'.io.cucumber.me" +
-      "ssages.SupportCodeConfig\"\247\001\n\rSourcesConf" +
-      "ig\022\025\n\rabsolutePaths\030\001 \003(\t\022\020\n\010language\030\002 " +
-      "\001(\t\022:\n\007filters\030\003 \001(\0132).io.cucumber.messa" +
-      "ges.SourcesFilterConfig\0221\n\005order\030\004 \001(\0132\"" +
-      ".io.cucumber.messages.SourcesOrder\"\220\001\n\023S" +
-      "ourcesFilterConfig\022\025\n\rtagExpression\030\001 \001(" +
-      "\t\022\036\n\026nameRegularExpressions\030\002 \003(\t\022B\n\021uri" +
-      "ToLinesMapping\030\003 \003(\0132\'.io.cucumber.messa" +
-      "ges.UriToLinesMapping\"8\n\021UriToLinesMappi" +
-      "ng\022\024\n\014absolutePath\030\001 \001(\t\022\r\n\005lines\030\002 \003(\004\"" +
-      "R\n\014SourcesOrder\0224\n\004type\030\001 \001(\0162&.io.cucum" +
-      "ber.messages.SourcesOrderType\022\014\n\004seed\030\002 " +
-      "\001(\004\"\\\n\rRuntimeConfig\022\022\n\nisFailFast\030\001 \001(\010" +
-      "\022\020\n\010isDryRun\030\002 \001(\010\022\020\n\010isStrict\030\003 \001(\010\022\023\n\013" +
-      "maxParallel\030\004 \001(\004\"\350\002\n\021SupportCodeConfig\022" +
-      "_\n#beforeTestCaseHookDefinitionConfigs\030\001" +
-      " \003(\01322.io.cucumber.messages.TestCaseHook" +
-      "DefinitionConfig\022^\n\"afterTestCaseHookDef" +
-      "initionConfigs\030\002 \003(\01322.io.cucumber.messa" +
-      "ges.TestCaseHookDefinitionConfig\022I\n\025step" +
-      "DefinitionConfigs\030\003 \003(\0132*.io.cucumber.me" +
-      "ssages.StepDefinitionConfig\022G\n\024parameter" +
-      "TypeConfigs\030\004 \003(\0132).io.cucumber.messages" +
-      ".ParameterTypeConfig\"z\n\034TestCaseHookDefi" +
-      "nitionConfig\022\n\n\002id\030\001 \001(\t\022\025\n\rtagExpressio" +
-      "n\030\002 \001(\t\0227\n\010location\030\003 \001(\0132%.io.cucumber." +
-      "messages.SourceReference\"\231\001\n\024StepDefinit" +
-      "ionConfig\022\n\n\002id\030\001 \001(\t\022<\n\007pattern\030\002 \001(\0132+" +
-      ".io.cucumber.messages.StepDefinitionPatt" +
-      "ern\0227\n\010location\030\003 \001(\0132%.io.cucumber.mess" +
-      "ages.SourceReference\"f\n\025StepDefinitionPa" +
-      "ttern\022\016\n\006source\030\001 \001(\t\022=\n\004type\030\002 \001(\0162/.io" +
-      ".cucumber.messages.StepDefinitionPattern" +
-      "Type\"\200\001\n\023ParameterTypeConfig\022\014\n\004name\030\001 \001" +
-      "(\t\022\032\n\022regularExpressions\030\002 \003(\t\022\'\n\037prefer" +
-      "ForRegularExpressionMatch\030\003 \001(\010\022\026\n\016useFo" +
-      "rSnippets\030\004 \001(\010\"\201\001\n\025CommandActionComplet" +
-      "e\022\023\n\013completedId\030\001 \001(\t\0226\n\ntestResult\030\002 \001" +
-      "(\0132 .io.cucumber.messages.TestResultH\000\022\021" +
-      "\n\007snippet\030\003 \001(\tH\000B\010\n\006result\"0\n\034CommandRu" +
-      "nBeforeTestRunHooks\022\020\n\010actionId\030\001 \001(\t\"/\n" +
-      "\033CommandRunAfterTestRunHooks\022\020\n\010actionId" +
-      "\030\001 \001(\t\"a\n\031CommandInitializeTestCase\022\020\n\010a" +
-      "ctionId\030\001 \001(\t\022,\n\006pickle\030\003 \001(\0132\034.io.cucum" +
-      "ber.messages.PickleJ\004\010\002\020\003\"j\n\034CommandRunB" +
-      "eforeTestCaseHook\022\020\n\010actionId\030\001 \001(\t\022 \n\030t" +
-      "estCaseHookDefinitionId\030\003 \001(\t\022\020\n\010pickleI" +
-      "d\030\004 \001(\tJ\004\010\002\020\003\"i\n\033CommandRunAfterTestCase" +
-      "Hook\022\020\n\010actionId\030\001 \001(\t\022 \n\030testCaseHookDe" +
-      "finitionId\030\003 \001(\t\022\020\n\010pickleId\030\004 \001(\tJ\004\010\002\020\003" +
-      "\"\332\001\n\022CommandRunTestStep\022\020\n\010actionId\030\001 \001(" +
-      "\t\022\030\n\020stepDefinitionId\030\003 \001(\t\022:\n\016patternMa" +
-      "tches\030\004 \003(\0132\".io.cucumber.messages.Patte" +
-      "rnMatch\022\020\n\010pickleId\030\005 \001(\t\022D\n\022pickleStepA" +
-      "rgument\030\006 \001(\0132(.io.cucumber.messages.Pic" +
-      "kleStepArgumentJ\004\010\002\020\003\"G\n\014PatternMatch\022\020\n" +
-      "\010captures\030\001 \003(\t\022\031\n\021parameterTypeName\030\002 \001" +
-      "(\tJ\004\010\003\020\004J\004\010\004\020\005\"\305\001\n\026CommandGenerateSnippe" +
-      "t\022\020\n\010actionId\030\001 \001(\t\022G\n\024generatedExpressi" +
-      "ons\030\002 \003(\0132).io.cucumber.messages.Generat" +
-      "edExpression\022D\n\022pickleStepArgument\030\005 \001(\013" +
-      "2(.io.cucumber.messages.PickleStepArgume" +
-      "ntJ\004\010\003\020\004J\004\010\004\020\005\"?\n\023GeneratedExpression\022\014\n" +
-      "\004text\030\001 \001(\t\022\032\n\022parameterTypeNames\030\002 \003(\t*" +
-      "X\n\006Status\022\r\n\tAMBIGUOUS\020\000\022\n\n\006FAILED\020\001\022\n\n\006" +
-      "PASSED\020\002\022\013\n\007PENDING\020\003\022\013\n\007SKIPPED\020\004\022\r\n\tUN" +
-      "DEFINED\020\005*7\n\020SourcesOrderType\022\027\n\023ORDER_O" +
-      "F_DEFINITION\020\000\022\n\n\006RANDOM\020\001*L\n\031StepDefini" +
-      "tionPatternType\022\027\n\023CUCUMBER_EXPRESSION\020\000" +
-      "\022\026\n\022REGULAR_EXPRESSION\020\001B\036Z\010messages\352\002\021C" +
-      "ucumber.Messagesb\006proto3"
+      "eature.ScenarioH\000B\007\n\005valueB\007\n\005value\032\265\001\n\n" +
+      "Background\0220\n\010location\030\001 \001(\0132\036.io.cucumb" +
+      "er.messages.Location\022\017\n\007keyword\030\002 \001(\t\022\014\n" +
+      "\004name\030\003 \001(\t\022\023\n\013description\030\004 \001(\t\022A\n\005step" +
+      "s\030\005 \003(\01322.io.cucumber.messages.GherkinDo" +
+      "cument.Feature.Step\032\225\005\n\010Scenario\0220\n\010loca" +
+      "tion\030\001 \001(\0132\036.io.cucumber.messages.Locati" +
+      "on\022?\n\004tags\030\002 \003(\01321.io.cucumber.messages." +
+      "GherkinDocument.Feature.Tag\022\017\n\007keyword\030\003" +
+      " \001(\t\022\014\n\004name\030\004 \001(\t\022\023\n\013description\030\005 \001(\t\022" +
+      "A\n\005steps\030\006 \003(\01322.io.cucumber.messages.Gh" +
+      "erkinDocument.Feature.Step\022Q\n\010examples\030\007" +
+      " \003(\0132?.io.cucumber.messages.GherkinDocum" +
+      "ent.Feature.Scenario.Examples\032\313\002\n\010Exampl" +
+      "es\0220\n\010location\030\001 \001(\0132\036.io.cucumber.messa" +
+      "ges.Location\022?\n\004tags\030\002 \003(\01321.io.cucumber" +
+      ".messages.GherkinDocument.Feature.Tag\022\017\n" +
+      "\007keyword\030\003 \001(\t\022\014\n\004name\030\004 \001(\t\022\023\n\013descript" +
+      "ion\030\005 \001(\t\022L\n\014table_header\030\006 \001(\01326.io.cuc" +
+      "umber.messages.GherkinDocument.Feature.T" +
+      "ableRow\022J\n\ntable_body\030\007 \003(\01326.io.cucumbe" +
+      "r.messages.GherkinDocument.Feature.Table" +
+      "Row\032\333\001\n\010TableRow\0220\n\010location\030\001 \001(\0132\036.io." +
+      "cucumber.messages.Location\022O\n\005cells\030\002 \003(" +
+      "\0132@.io.cucumber.messages.GherkinDocument" +
+      ".Feature.TableRow.TableCell\032L\n\tTableCell" +
+      "\0220\n\010location\030\001 \001(\0132\036.io.cucumber.message" +
+      "s.Location\022\r\n\005value\030\002 \001(\t\032\212\004\n\004Step\0220\n\010lo" +
+      "cation\030\001 \001(\0132\036.io.cucumber.messages.Loca" +
+      "tion\022\017\n\007keyword\030\002 \001(\t\022\014\n\004text\030\003 \001(\t\022R\n\nd" +
+      "oc_string\030\005 \001(\0132<.io.cucumber.messages.G" +
+      "herkinDocument.Feature.Step.DocStringH\000\022" +
+      "R\n\ndata_table\030\006 \001(\0132<.io.cucumber.messag" +
+      "es.GherkinDocument.Feature.Step.DataTabl" +
+      "eH\000\032\203\001\n\tDataTable\0220\n\010location\030\001 \001(\0132\036.io" +
+      ".cucumber.messages.Location\022D\n\004rows\030\002 \003(" +
+      "\01326.io.cucumber.messages.GherkinDocument" +
+      ".Feature.TableRow\032w\n\tDocString\0220\n\010locati" +
+      "on\030\001 \001(\0132\036.io.cucumber.messages.Location" +
+      "\022\024\n\014content_type\030\002 \001(\t\022\017\n\007content\030\003 \001(\t\022" +
+      "\021\n\tdelimiter\030\004 \001(\tB\n\n\010argument\"}\n\nAttach" +
+      "ment\0225\n\006source\030\001 \001(\0132%.io.cucumber.messa" +
+      "ges.SourceReference\022\014\n\004data\030\002 \001(\t\022*\n\005med" +
+      "ia\030\003 \001(\0132\033.io.cucumber.messages.Media\"\307\003" +
+      "\n\006Pickle\022\n\n\002id\030\001 \001(\t\022\013\n\003uri\030\002 \001(\t\022\014\n\004nam" +
+      "e\030\003 \001(\t\022\020\n\010language\030\004 \001(\t\0226\n\005steps\030\005 \003(\013" +
+      "2\'.io.cucumber.messages.Pickle.PickleSte" +
+      "p\0224\n\004tags\030\006 \003(\0132&.io.cucumber.messages.P" +
+      "ickle.PickleTag\0221\n\tlocations\030\007 \003(\0132\036.io." +
+      "cucumber.messages.Location\032K\n\tPickleTag\022" +
+      "0\n\010location\030\001 \001(\0132\036.io.cucumber.messages" +
+      ".Location\022\014\n\004name\030\002 \001(\t\032\225\001\n\nPickleStep\022\014" +
+      "\n\004text\030\001 \001(\t\0221\n\tlocations\030\002 \003(\0132\036.io.cuc" +
+      "umber.messages.Location\022:\n\010argument\030\005 \001(" +
+      "\0132(.io.cucumber.messages.PickleStepArgum" +
+      "entJ\004\010\003\020\004J\004\010\004\020\005\"\324\004\n\022PickleStepArgument\022N" +
+      "\n\ndoc_string\030\001 \001(\01328.io.cucumber.message" +
+      "s.PickleStepArgument.PickleDocStringH\000\022J" +
+      "\n\ndata_table\030\002 \001(\01324.io.cucumber.message" +
+      "s.PickleStepArgument.PickleTableH\000\032i\n\017Pi" +
+      "ckleDocString\0220\n\010location\030\001 \001(\0132\036.io.cuc" +
+      "umber.messages.Location\022\023\n\013contentType\030\002" +
+      " \001(\t\022\017\n\007content\030\003 \001(\t\032\253\002\n\013PickleTable\022Q\n" +
+      "\004rows\030\001 \003(\0132C.io.cucumber.messages.Pickl" +
+      "eStepArgument.PickleTable.PickleTableRow" +
+      "\032\310\001\n\016PickleTableRow\022b\n\005cells\030\001 \003(\0132S.io." +
+      "cucumber.messages.PickleStepArgument.Pic" +
+      "kleTable.PickleTableRow.PickleTableCell\032" +
+      "R\n\017PickleTableCell\0220\n\010location\030\001 \001(\0132\036.i" +
+      "o.cucumber.messages.Location\022\r\n\005value\030\002 " +
+      "\001(\tB\t\n\007message\"\"\n\016PickleAccepted\022\020\n\010pick" +
+      "leId\030\001 \001(\t\"\"\n\016PickleRejected\022\020\n\010pickleId" +
+      "\030\002 \001(\t\"?\n\016TestRunStarted\022-\n\ttimestamp\030\001 " +
+      "\001(\0132\032.google.protobuf.Timestamp\"\224\001\n\024Test" +
+      "CasePreparedStep\022=\n\016sourceLocation\030\001 \001(\013" +
+      "2%.io.cucumber.messages.SourceReference\022" +
+      "=\n\016actionLocation\030\002 \001(\0132%.io.cucumber.me" +
+      "ssages.SourceReference\"_\n\020TestCasePrepar" +
+      "ed\022\020\n\010pickleId\030\001 \001(\t\0229\n\005steps\030\002 \003(\0132*.io" +
+      ".cucumber.messages.TestCasePreparedStep\"" +
+      "\342\001\n\017TestCaseStarted\022\020\n\010pickleId\030\001 \001(\t\022-\n" +
+      "\ttimestamp\030\002 \001(\0132\032.google.protobuf.Times" +
+      "tamp\022@\n\010platform\030\003 \001(\0132..io.cucumber.mes" +
+      "sages.TestCaseStarted.Platform\032L\n\010Platfo" +
+      "rm\022\026\n\016implementation\030\001 \001(\t\022\017\n\007version\030\002 " +
+      "\001(\t\022\n\n\002os\030\003 \001(\t\022\013\n\003cpu\030\004 \001(\t\"\211\001\n\020TestCas" +
+      "eFinished\022\020\n\010pickleId\030\001 \001(\t\022-\n\ttimestamp" +
+      "\030\002 \001(\0132\032.google.protobuf.Timestamp\0224\n\nte" +
+      "stResult\030\003 \001(\0132 .io.cucumber.messages.Te" +
+      "stResult\"a\n\017TestStepStarted\022\020\n\010pickleId\030" +
+      "\001 \001(\t\022\r\n\005index\030\002 \001(\r\022-\n\ttimestamp\030\003 \001(\0132" +
+      "\032.google.protobuf.Timestamp\"\230\001\n\020TestStep" +
+      "Finished\022\020\n\010pickleId\030\001 \001(\t\022\r\n\005index\030\002 \001(" +
+      "\r\0224\n\ntestResult\030\003 \001(\0132 .io.cucumber.mess" +
+      "ages.TestResult\022-\n\ttimestamp\030\004 \001(\0132\032.goo" +
+      "gle.protobuf.Timestamp\"R\n\017TestHookStarte" +
+      "d\022\020\n\010pickleId\030\001 \001(\t\022-\n\ttimestamp\030\002 \001(\0132\032" +
+      ".google.protobuf.Timestamp\"\211\001\n\020TestHookF" +
+      "inished\022\020\n\010pickleId\030\001 \001(\t\0224\n\ntestResult\030" +
+      "\002 \001(\0132 .io.cucumber.messages.TestResult\022" +
+      "-\n\ttimestamp\030\003 \001(\0132\032.google.protobuf.Tim" +
+      "estamp\"\315\001\n\nTestResult\0227\n\006status\030\001 \001(\0162\'." +
+      "io.cucumber.messages.TestResult.Status\022\017" +
+      "\n\007message\030\002 \001(\t\022\033\n\023durationNanoseconds\030\003" +
+      " \001(\004\"X\n\006Status\022\r\n\tAMBIGUOUS\020\000\022\n\n\006FAILED\020" +
+      "\001\022\n\n\006PASSED\020\002\022\013\n\007PENDING\020\003\022\013\n\007SKIPPED\020\004\022" +
+      "\r\n\tUNDEFINED\020\005\"\"\n\017TestRunFinished\022\017\n\007suc" +
+      "cess\030\001 \001(\010\"\341\001\n\014CommandStart\022\025\n\rbaseDirec" +
+      "tory\030\002 \001(\t\022:\n\rsourcesConfig\030\003 \001(\0132#.io.c" +
+      "ucumber.messages.SourcesConfig\022:\n\rruntim" +
+      "eConfig\030\004 \001(\0132#.io.cucumber.messages.Run" +
+      "timeConfig\022B\n\021supportCodeConfig\030\005 \001(\0132\'." +
+      "io.cucumber.messages.SupportCodeConfig\"\247" +
+      "\001\n\rSourcesConfig\022\025\n\rabsolutePaths\030\001 \003(\t\022" +
+      "\020\n\010language\030\002 \001(\t\022:\n\007filters\030\003 \001(\0132).io." +
+      "cucumber.messages.SourcesFilterConfig\0221\n" +
+      "\005order\030\004 \001(\0132\".io.cucumber.messages.Sour" +
+      "cesOrder\"\220\001\n\023SourcesFilterConfig\022\025\n\rtagE" +
+      "xpression\030\001 \001(\t\022\036\n\026nameRegularExpression" +
+      "s\030\002 \003(\t\022B\n\021uriToLinesMapping\030\003 \003(\0132\'.io." +
+      "cucumber.messages.UriToLinesMapping\"8\n\021U" +
+      "riToLinesMapping\022\024\n\014absolutePath\030\001 \001(\t\022\r" +
+      "\n\005lines\030\002 \003(\004\"R\n\014SourcesOrder\0224\n\004type\030\001 " +
+      "\001(\0162&.io.cucumber.messages.SourcesOrderT" +
+      "ype\022\014\n\004seed\030\002 \001(\004\"\\\n\rRuntimeConfig\022\022\n\nis" +
+      "FailFast\030\001 \001(\010\022\020\n\010isDryRun\030\002 \001(\010\022\020\n\010isSt" +
+      "rict\030\003 \001(\010\022\023\n\013maxParallel\030\004 \001(\004\"\350\002\n\021Supp" +
+      "ortCodeConfig\022_\n#beforeTestCaseHookDefin" +
+      "itionConfigs\030\001 \003(\01322.io.cucumber.message" +
+      "s.TestCaseHookDefinitionConfig\022^\n\"afterT" +
+      "estCaseHookDefinitionConfigs\030\002 \003(\01322.io." +
+      "cucumber.messages.TestCaseHookDefinition" +
+      "Config\022I\n\025stepDefinitionConfigs\030\003 \003(\0132*." +
+      "io.cucumber.messages.StepDefinitionConfi" +
+      "g\022G\n\024parameterTypeConfigs\030\004 \003(\0132).io.cuc" +
+      "umber.messages.ParameterTypeConfig\"z\n\034Te" +
+      "stCaseHookDefinitionConfig\022\n\n\002id\030\001 \001(\t\022\025" +
+      "\n\rtagExpression\030\002 \001(\t\0227\n\010location\030\003 \001(\0132" +
+      "%.io.cucumber.messages.SourceReference\"\231" +
+      "\001\n\024StepDefinitionConfig\022\n\n\002id\030\001 \001(\t\022<\n\007p" +
+      "attern\030\002 \001(\0132+.io.cucumber.messages.Step" +
+      "DefinitionPattern\0227\n\010location\030\003 \001(\0132%.io" +
+      ".cucumber.messages.SourceReference\"f\n\025St" +
+      "epDefinitionPattern\022\016\n\006source\030\001 \001(\t\022=\n\004t" +
+      "ype\030\002 \001(\0162/.io.cucumber.messages.StepDef" +
+      "initionPatternType\"\200\001\n\023ParameterTypeConf" +
+      "ig\022\014\n\004name\030\001 \001(\t\022\032\n\022regularExpressions\030\002" +
+      " \003(\t\022\'\n\037preferForRegularExpressionMatch\030" +
+      "\003 \001(\010\022\026\n\016useForSnippets\030\004 \001(\010\"\201\001\n\025Comman" +
+      "dActionComplete\022\023\n\013completedId\030\001 \001(\t\0226\n\n" +
+      "testResult\030\002 \001(\0132 .io.cucumber.messages." +
+      "TestResultH\000\022\021\n\007snippet\030\003 \001(\tH\000B\010\n\006resul" +
+      "t\"0\n\034CommandRunBeforeTestRunHooks\022\020\n\010act" +
+      "ionId\030\001 \001(\t\"/\n\033CommandRunAfterTestRunHoo" +
+      "ks\022\020\n\010actionId\030\001 \001(\t\"a\n\031CommandInitializ" +
+      "eTestCase\022\020\n\010actionId\030\001 \001(\t\022,\n\006pickle\030\003 " +
+      "\001(\0132\034.io.cucumber.messages.PickleJ\004\010\002\020\003\"" +
+      "j\n\034CommandRunBeforeTestCaseHook\022\020\n\010actio" +
+      "nId\030\001 \001(\t\022 \n\030testCaseHookDefinitionId\030\003 " +
+      "\001(\t\022\020\n\010pickleId\030\004 \001(\tJ\004\010\002\020\003\"i\n\033CommandRu" +
+      "nAfterTestCaseHook\022\020\n\010actionId\030\001 \001(\t\022 \n\030" +
+      "testCaseHookDefinitionId\030\003 \001(\t\022\020\n\010pickle" +
+      "Id\030\004 \001(\tJ\004\010\002\020\003\"\332\001\n\022CommandRunTestStep\022\020\n" +
+      "\010actionId\030\001 \001(\t\022\030\n\020stepDefinitionId\030\003 \001(" +
+      "\t\022:\n\016patternMatches\030\004 \003(\0132\".io.cucumber." +
+      "messages.PatternMatch\022\020\n\010pickleId\030\005 \001(\t\022" +
+      "D\n\022pickleStepArgument\030\006 \001(\0132(.io.cucumbe" +
+      "r.messages.PickleStepArgumentJ\004\010\002\020\003\"G\n\014P" +
+      "atternMatch\022\020\n\010captures\030\001 \003(\t\022\031\n\021paramet" +
+      "erTypeName\030\002 \001(\tJ\004\010\003\020\004J\004\010\004\020\005\"\305\001\n\026Command" +
+      "GenerateSnippet\022\020\n\010actionId\030\001 \001(\t\022G\n\024gen" +
+      "eratedExpressions\030\002 \003(\0132).io.cucumber.me" +
+      "ssages.GeneratedExpression\022D\n\022pickleStep" +
+      "Argument\030\005 \001(\0132(.io.cucumber.messages.Pi" +
+      "ckleStepArgumentJ\004\010\003\020\004J\004\010\004\020\005\"?\n\023Generate" +
+      "dExpression\022\014\n\004text\030\001 \001(\t\022\032\n\022parameterTy" +
+      "peNames\030\002 \003(\t*7\n\020SourcesOrderType\022\027\n\023ORD" +
+      "ER_OF_DEFINITION\020\000\022\n\n\006RANDOM\020\001*L\n\031StepDe" +
+      "finitionPatternType\022\027\n\023CUCUMBER_EXPRESSI" +
+      "ON\020\000\022\026\n\022REGULAR_EXPRESSION\020\001B\036Z\010messages" +
+      "\352\002\021Cucumber.Messagesb\006proto3"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
