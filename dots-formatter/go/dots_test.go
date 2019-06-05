@@ -16,14 +16,14 @@ func TestAllResultTypes(t *testing.T) {
 	stdin := &bytes.Buffer{}
 	writer := gio.NewDelimitedWriter(stdin)
 
-	writer.WriteMsg(newTestStepFinished(messages.Status_FAILED))
-	writer.WriteMsg(newTestStepFinished(messages.Status_SKIPPED))
-	writer.WriteMsg(newTestStepFinished(messages.Status_UNDEFINED))
-	writer.WriteMsg(newTestStepFinished(messages.Status_AMBIGUOUS))
-	writer.WriteMsg(newTestStepFinished(messages.Status_PASSED))
-	writer.WriteMsg(newTestStepFinished(messages.Status_PENDING))
-	writer.WriteMsg(newTestHookFinished(messages.Status_PASSED))
-	writer.WriteMsg(newTestHookFinished(messages.Status_FAILED))
+	writer.WriteMsg(newTestStepFinished(messages.TestResult_FAILED))
+	writer.WriteMsg(newTestStepFinished(messages.TestResult_SKIPPED))
+	writer.WriteMsg(newTestStepFinished(messages.TestResult_UNDEFINED))
+	writer.WriteMsg(newTestStepFinished(messages.TestResult_AMBIGUOUS))
+	writer.WriteMsg(newTestStepFinished(messages.TestResult_PASSED))
+	writer.WriteMsg(newTestStepFinished(messages.TestResult_PENDING))
+	writer.WriteMsg(newTestHookFinished(messages.TestResult_PASSED))
+	writer.WriteMsg(newTestHookFinished(messages.TestResult_FAILED))
 
 	// Write to disk, so it can be used for a manual test
 	b := stdin.Bytes()
@@ -47,7 +47,7 @@ func TestAllResultTypes(t *testing.T) {
 		stdout.String())
 }
 
-func newTestStepFinished(status messages.Status) *messages.Envelope {
+func newTestStepFinished(status messages.TestResult_Status) *messages.Envelope {
 	return &messages.Envelope{
 		Message: &messages.Envelope_TestStepFinished{
 			TestStepFinished: &messages.TestStepFinished{
@@ -59,7 +59,7 @@ func newTestStepFinished(status messages.Status) *messages.Envelope {
 	}
 }
 
-func newTestHookFinished(status messages.Status) *messages.Envelope {
+func newTestHookFinished(status messages.TestResult_Status) *messages.Envelope {
 	return &messages.Envelope{
 		Message: &messages.Envelope_TestHookFinished{
 			TestHookFinished: &messages.TestHookFinished{

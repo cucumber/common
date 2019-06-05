@@ -60,7 +60,7 @@ module Gherkin
 
     def self.encode_source_message(uri, data)
       media_obj = Cucumber::Messages::Media.new
-      media_obj.encoding = 'UTF8'
+      media_obj.encoding = :UTF8
       media_obj.content_type = 'text/x.cucumber.gherkin+plain'
       source_obj = Cucumber::Messages::Source.new
       source_obj.uri = uri

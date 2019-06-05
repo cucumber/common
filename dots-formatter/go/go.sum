@@ -1,5 +1,7 @@
 github.com/aslakhellesoy/gox v0.4.0 h1:0Zi24+Bp0v/9x/ViLN7mKdD4+tEP1WcXxbP1uxP7V6w=
 github.com/aslakhellesoy/gox v0.4.0/go.mod h1:eWI5kaukwHdXWzQ7Hhfbb/F2NSO+VCPHIcsovzQd2sY=
+github.com/cucumber/cucumber-messages-go/v3 v3.0.0 h1:kwGItSYwtZljxy3iTTPhbwQovOnOnIVFwMAxU6m+Es4=
+github.com/cucumber/cucumber-messages-go/v3 v3.0.0/go.mod h1:kXQizua4ThRoPutzZADbWoep0yN+DE3rsH9uJIdO0BU=
 github.com/davecgh/go-spew v1.1.0 h1:ZDRjVQ15GmhC3fiQ8ni8+OwkZQO4DARzQgrnXU1Liz8=
 github.com/davecgh/go-spew v1.1.0/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
 github.com/fatih/color v1.7.0 h1:DkWD4oS2D8LGGgTQ6IvwJJXSL5Vp2ffcQg58nFV38Ys=

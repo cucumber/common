@@ -30,22 +30,22 @@ func ProcessMessages(stdin io.Reader, stdout io.Writer) {
 		switch m := wrapper.Message.(type) {
 		case *messages.Envelope_TestHookFinished:
 			switch m.TestHookFinished.TestResult.Status {
-			case messages.Status_FAILED:
+			case messages.TestResult_FAILED:
 				color.New(color.FgRed).Fprint(stdout, "H")
 			}
 		case *messages.Envelope_TestStepFinished:
 			switch m.TestStepFinished.TestResult.Status {
-			case messages.Status_AMBIGUOUS:
+			case messages.TestResult_AMBIGUOUS:
 				color.New(color.FgMagenta).Fprint(stdout, "A")
-			case messages.Status_FAILED:
+			case messages.TestResult_FAILED:
 				color.New(color.FgRed).Fprint(stdout, "F")
-			case messages.Status_PASSED:
+			case messages.TestResult_PASSED:
 				color.New(color.FgGreen).Fprint(stdout, ".")
-			case messages.Status_PENDING:
+			case messages.TestResult_PENDING:
 				color.New(color.FgYellow).Fprint(stdout, "P")
-			case messages.Status_SKIPPED:
+			case messages.TestResult_SKIPPED:
 				color.New(color.FgCyan).Fprint(stdout, "-")
-			case messages.Status_UNDEFINED:
+			case messages.TestResult_UNDEFINED:
 				color.New(color.FgYellow).Fprint(stdout, "U")
 			}
 		}
