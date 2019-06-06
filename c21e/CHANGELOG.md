@@ -17,6 +17,16 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Fixed
 
+## [1.2.0] - 2019-06-06
+
+### Added
+
+* [Java] added `Exe#waitFor`
+
+### Changed
+
+* [Java] added `Exe#execute` no longer throws `InterruptedException`
+
 ## [1.1.9] - 2019-03-22
 
 ### Fixed
@@ -50,7 +60,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 * First stable release!
 
 <!-- Releases -->
-[Unreleased]: https://github.com/cucumber/cucumber/compare/c21e/v1.1.9...master
+[Unreleased]: https://github.com/cucumber/cucumber/compare/c21e/v1.2.0...master
+[1.2.0]:      https://github.com/cucumber/cucumber/compare/c21e/v1.1.9...c21e/1.2.0
 [1.1.9]:      https://github.com/cucumber/cucumber/compare/c21e/v1.1.8...c21e/v1.1.9
 [1.1.8]:      https://github.com/cucumber/cucumber/compare/c21e/v1.1.7...c21e/v1.1.8
 [1.1.7]:      https://github.com/cucumber/cucumber/compare/c21e/v1.1.6...c21e/v1.1.7
