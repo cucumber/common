@@ -12,6 +12,10 @@ basename=$1
 version=$2
 baseurl=https://s3.eu-west-2.amazonaws.com/io.cucumber
 
+function abs_path {
+  (cd "$(dirname '$1')" &>/dev/null && printf "%s/%s" "$PWD" "${1##*/}")
+}
+
 rm -rf "${basename}"
 mkdir "${basename}"
 
@@ -51,4 +55,6 @@ do
       curl "${src_url}" -o "${file}" && chmod +x "${file}" && break || sleep 5;
     done
   fi
+  full_path=$(abs_path "${file}")
+  echo "Wrote ${full_path}"
 done
