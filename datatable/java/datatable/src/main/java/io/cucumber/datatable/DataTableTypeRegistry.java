@@ -25,21 +25,21 @@ public final class DataTableTypeRegistry {
         defineDataTableType(new DataTableType(BigInteger.class, new TableCellTransformer<BigInteger>() {
             @Override
             public BigInteger transform(String cell) {
-                return new BigInteger(cell);
+                return cell.isEmpty() ? null : new BigInteger(cell);
             }
         }));
 
         defineDataTableType(new DataTableType(BigDecimal.class, new TableCellTransformer<BigDecimal>() {
             @Override
             public BigDecimal transform(String cell) {
-                return numberParser.parseBigDecimal(cell);
+                return cell.isEmpty() ? null : numberParser.parseBigDecimal(cell);
             }
         }));
 
         TableCellTransformer<Byte> byteTableCellTransformer = new TableCellTransformer<Byte>() {
             @Override
             public Byte transform(String cell) {
-                return Byte.decode(cell);
+                return cell.isEmpty() ? null : Byte.decode(cell);
             }
         };
         defineDataTableType(new DataTableType(Byte.class, byteTableCellTransformer));
@@ -48,7 +48,7 @@ public final class DataTableTypeRegistry {
         TableCellTransformer<Short> shortTableCellTransformer = new TableCellTransformer<Short>() {
             @Override
             public Short transform(String cell) {
-                return Short.decode(cell);
+                return cell.isEmpty() ? null : Short.decode(cell);
             }
         };
         defineDataTableType(new DataTableType(Short.class, shortTableCellTransformer));
@@ -57,7 +57,7 @@ public final class DataTableTypeRegistry {
         TableCellTransformer<Integer> integerTableCellTransformer = new TableCellTransformer<Integer>() {
             @Override
             public Integer transform(String cell) {
-                return Integer.decode(cell);
+                return cell.isEmpty() ? null : Integer.decode(cell);
             }
         };
         defineDataTableType(new DataTableType(Integer.class, integerTableCellTransformer));
@@ -66,7 +66,7 @@ public final class DataTableTypeRegistry {
         TableCellTransformer<Long> longTableCellTransformer = new TableCellTransformer<Long>() {
             @Override
             public Long transform(String cell) {
-                return Long.decode(cell);
+                return cell.isEmpty() ? null : Long.decode(cell);
             }
         };
         defineDataTableType(new DataTableType(Long.class, longTableCellTransformer));
@@ -75,7 +75,7 @@ public final class DataTableTypeRegistry {
         TableCellTransformer<Float> floatTableCellTransformer = new TableCellTransformer<Float>() {
             @Override
             public Float transform(String cell) {
-                return numberParser.parseFloat(cell);
+                return cell.isEmpty() ? null : numberParser.parseFloat(cell);
             }
         };
         defineDataTableType(new DataTableType(Float.class, floatTableCellTransformer));
@@ -84,7 +84,7 @@ public final class DataTableTypeRegistry {
         TableCellTransformer<Double> doubleTableCellTransformer = new TableCellTransformer<Double>() {
             @Override
             public Double transform(String cell) {
-                return numberParser.parseDouble(cell);
+                return cell.isEmpty() ? null : numberParser.parseDouble(cell);
             }
         };
         defineDataTableType(new DataTableType(Double.class, doubleTableCellTransformer));

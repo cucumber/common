@@ -6,6 +6,7 @@ import org.junit.rules.ExpectedException;
 
 import java.lang.reflect.Type;
 import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.util.Locale;
 import java.util.Map;
 
@@ -21,6 +22,15 @@ public class DataTableTypeRegistryTest {
     private static final Type LIST_OF_LIST_OF_PLACE = aListOf(aListOf(Place.class));
     private static final Type LIST_OF_PLACE = aListOf(Place.class);
     private static final Type LIST_OF_LIST_OF_BIG_DECIMAL = aListOf(aListOf(BigDecimal.class));
+    private static final Type LIST_OF_LIST_OF_BIG_INTEGER = aListOf(aListOf(BigInteger.class));
+    private static final Type LIST_OF_LIST_OF_BYTE = aListOf(aListOf(Byte.class));
+    private static final Type LIST_OF_LIST_OF_SHORT = aListOf(aListOf(Short.class));
+    private static final Type LIST_OF_LIST_OF_INTEGER = aListOf(aListOf(Integer.class));
+    private static final Type LIST_OF_LIST_OF_LONG = aListOf(aListOf(Long.class));
+    private static final Type LIST_OF_LIST_OF_FLOAT = aListOf(aListOf(Float.class));
+    private static final Type LIST_OF_LIST_OF_DOUBLE = aListOf(aListOf(Double.class));
+    private static final Type LIST_OF_LIST_OF_STRING = aListOf(aListOf(String.class));
+    
     private static final TableCellByTypeTransformer PLACE_TABLE_CELL_TRANSFORMER = new TableCellByTypeTransformer() {
         @Override
         @SuppressWarnings("unchecked")
@@ -139,5 +149,110 @@ public class DataTableTypeRegistryTest {
                 dataTableType.transform(singletonList(singletonList("2.105,88")))
         );
 
+    }
+    
+    @Test
+    public void empty_big_integer_transformed_to_null() {
+        DataTableTypeRegistry registry = new DataTableTypeRegistry(Locale.ENGLISH);
+        DataTableType dataTableType = registry.lookupTableTypeByType(LIST_OF_LIST_OF_BIG_INTEGER);
+        assertEquals(
+                singletonList(singletonList(null)),
+                dataTableType.transform(singletonList(singletonList("")))
+        );
+        
+    }
+    
+    @Test
+    public void empty_big_decimal_transformed_to_null() {
+        DataTableTypeRegistry registry = new DataTableTypeRegistry(Locale.ENGLISH);
+        DataTableType dataTableType = registry.lookupTableTypeByType(LIST_OF_LIST_OF_BIG_DECIMAL);
+        assertEquals(
+                singletonList(singletonList(null)),
+                dataTableType.transform(singletonList(singletonList("")))
+        );
+        
+    }
+    
+    @Test
+    public void empty_byte_transformed_to_null() {
+        DataTableTypeRegistry registry = new DataTableTypeRegistry(Locale.ENGLISH);
+        DataTableType dataTableType = registry.lookupTableTypeByType(LIST_OF_LIST_OF_BYTE);
+        assertEquals(
+                singletonList(singletonList(null)),
+                dataTableType.transform(singletonList(singletonList("")))
+        );
+        
+    }
+    
+    @Test
+    public void empty_short_transformed_to_null() {
+        DataTableTypeRegistry registry = new DataTableTypeRegistry(Locale.ENGLISH);
+        DataTableType dataTableType = registry.lookupTableTypeByType(LIST_OF_LIST_OF_SHORT);
+        assertEquals(
+                singletonList(singletonList(null)),
+                dataTableType.transform(singletonList(singletonList("")))
+        );
+        
+    }
+    
+    @Test
+    public void empty_integer_transformed_to_null() {
+        DataTableTypeRegistry registry = new DataTableTypeRegistry(Locale.ENGLISH);
+        DataTableType dataTableType = registry.lookupTableTypeByType(LIST_OF_LIST_OF_INTEGER);
+        assertEquals(
+                singletonList(singletonList(null)),
+                dataTableType.transform(singletonList(singletonList("")))
+        );
+        
+    }
+    
+    @Test
+    public void empty_long_transformed_to_null() {
+        DataTableTypeRegistry registry = new DataTableTypeRegistry(Locale.ENGLISH);
+        DataTableType dataTableType = registry.lookupTableTypeByType(LIST_OF_LIST_OF_LONG);
+        assertEquals(
+                singletonList(singletonList(null)),
+                dataTableType.transform(singletonList(singletonList("")))
+        );
+        
+    }
+    
+    @Test
+    public void empty_float_transformed_to_null() {
+        DataTableTypeRegistry registry = new DataTableTypeRegistry(Locale.ENGLISH);
+        DataTableType dataTableType = registry.lookupTableTypeByType(LIST_OF_LIST_OF_FLOAT);
+        assertEquals(
+                singletonList(singletonList(null)),
+                dataTableType.transform(singletonList(singletonList("")))
+        );
+        
+    }
+    
+    @Test
+    public void empty_double_transformed_to_null() {
+        DataTableTypeRegistry registry = new DataTableTypeRegistry(Locale.ENGLISH);
+        DataTableType dataTableType = registry.lookupTableTypeByType(LIST_OF_LIST_OF_DOUBLE);
+        assertEquals(
+                singletonList(singletonList(null)),
+                dataTableType.transform(singletonList(singletonList("")))
+        );
+        
+    }
+    
+    /**
+     * TODO in v5
+     * To remain consistent the empty string should always be converted to null (so also for strings)
+     * and doing this would be a breaking change.
+     * Should be picked up with v5.
+     */
+    @Test
+    public void empty_string_transformed_to_empty() {
+        DataTableTypeRegistry registry = new DataTableTypeRegistry(Locale.ENGLISH);
+        DataTableType dataTableType = registry.lookupTableTypeByType(LIST_OF_LIST_OF_STRING);
+        assertEquals(
+                singletonList(singletonList("")),
+                dataTableType.transform(singletonList(singletonList("")))
+        );
+        
     }
 }
