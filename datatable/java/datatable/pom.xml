@@ -5,7 +5,7 @@
     <parent>
         <groupId>io.cucumber</groupId>
         <artifactId>datatable-parent</artifactId>
-        <version>1.1.14-SNAPSHOT</version>
+        <version>1.1.14</version>
     </parent>
 
     <artifactId>datatable</artifactId>
