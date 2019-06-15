@@ -1,6 +1,5 @@
 sudo: required
-# The language isn't really ruby (it's polyglot) - this is just to avoid travis lint warnings
-language: ruby
+language: minimal
 services:
 - docker
 before_script:
