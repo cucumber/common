@@ -11,6 +11,11 @@ jobs:
       script: scripts/push_subrepos.sh
     - env: DOCKER_RUN=true
       script: scripts/docker-run Dockerfile.cucumber-build make
+    - env: CUCUMBER_EXPRESSIONS=java
+      language: java
+      script:
+        - cd cucumber-expressions/java
+        - mvn test
 
 env:
   global:
