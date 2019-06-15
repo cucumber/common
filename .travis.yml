@@ -7,8 +7,10 @@ before_script:
 
 jobs:
   include:
-    - script: scripts/push_subrepos.sh
-    - script: scripts/docker-run Dockerfile.cucumber-build make
+    - env: PUSH_SUB_REPOS=true
+      script: scripts/push_subrepos.sh
+    - env: DOCKER_RUN=true
+      script: scripts/docker-run Dockerfile.cucumber-build make
 
 env:
   global:

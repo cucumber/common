@@ -117,7 +117,7 @@ public final class DataTableType {
      * Jackson {@code ObjectMapper} through {@link DataTableTypeRegistry#setDefaultDataTableCellTransformer(io.cucumber.datatable.TableCellByTypeTransformer)}
      * to transform a table cell to an arbitrary object.
      */
-` `    @Deprecated
+    @Deprecated
     public static <T> DataTableType cell(final Class<T> type) {
         return new DataTableType(type, new TableCellTransformer<T>() {
             @Override
