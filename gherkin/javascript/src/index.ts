@@ -1,6 +1,6 @@
 import { spawn } from 'child_process'
 import { statSync } from 'fs'
-import * as ExeFile from 'c21e'
+import { ExeFile } from 'c21e'
 import { messages, ProtobufMessageStream } from 'cucumber-messages'
 
 const defaultOptions = {
