@@ -67,6 +67,7 @@ $root.io = (function() {
                  * @property {io.cucumber.messages.ICommandRunAfterTestRunHooks|null} [commandRunAfterTestRunHooks] Envelope commandRunAfterTestRunHooks
                  * @property {io.cucumber.messages.ICommandGenerateSnippet|null} [commandGenerateSnippet] Envelope commandGenerateSnippet
                  * @property {string|null} [commandError] Envelope commandError
+                 * @property {io.cucumber.messages.IQuit|null} [quit] Envelope quit
                  */
 
                 /**
@@ -285,17 +286,25 @@ $root.io = (function() {
                  */
                 Envelope.prototype.commandError = "";
 
+                /**
+                 * Envelope quit.
+                 * @member {io.cucumber.messages.IQuit|null|undefined} quit
+                 * @memberof io.cucumber.messages.Envelope
+                 * @instance
+                 */
+                Envelope.prototype.quit = null;
+
                 // OneOf field names bound to virtual getters and setters
                 var $oneOfFields;
 
                 /**
                  * Envelope message.
-                 * @member {"source"|"gherkinDocument"|"pickle"|"attachment"|"testCaseStarted"|"testStepStarted"|"testStepFinished"|"testCaseFinished"|"testHookStarted"|"testHookFinished"|"pickleAccepted"|"pickleRejected"|"testCasePrepared"|"testRunStarted"|"testRunFinished"|"commandStart"|"commandActionComplete"|"commandRunBeforeTestRunHooks"|"commandInitializeTestCase"|"commandRunBeforeTestCaseHook"|"commandRunTestStep"|"commandRunAfterTestCaseHook"|"commandRunAfterTestRunHooks"|"commandGenerateSnippet"|"commandError"|undefined} message
+                 * @member {"source"|"gherkinDocument"|"pickle"|"attachment"|"testCaseStarted"|"testStepStarted"|"testStepFinished"|"testCaseFinished"|"testHookStarted"|"testHookFinished"|"pickleAccepted"|"pickleRejected"|"testCasePrepared"|"testRunStarted"|"testRunFinished"|"commandStart"|"commandActionComplete"|"commandRunBeforeTestRunHooks"|"commandInitializeTestCase"|"commandRunBeforeTestCaseHook"|"commandRunTestStep"|"commandRunAfterTestCaseHook"|"commandRunAfterTestRunHooks"|"commandGenerateSnippet"|"commandError"|"quit"|undefined} message
                  * @memberof io.cucumber.messages.Envelope
                  * @instance
                  */
                 Object.defineProperty(Envelope.prototype, "message", {
-                    get: $util.oneOfGetter($oneOfFields = ["source", "gherkinDocument", "pickle", "attachment", "testCaseStarted", "testStepStarted", "testStepFinished", "testCaseFinished", "testHookStarted", "testHookFinished", "pickleAccepted", "pickleRejected", "testCasePrepared", "testRunStarted", "testRunFinished", "commandStart", "commandActionComplete", "commandRunBeforeTestRunHooks", "commandInitializeTestCase", "commandRunBeforeTestCaseHook", "commandRunTestStep", "commandRunAfterTestCaseHook", "commandRunAfterTestRunHooks", "commandGenerateSnippet", "commandError"]),
+                    get: $util.oneOfGetter($oneOfFields = ["source", "gherkinDocument", "pickle", "attachment", "testCaseStarted", "testStepStarted", "testStepFinished", "testCaseFinished", "testHookStarted", "testHookFinished", "pickleAccepted", "pickleRejected", "testCasePrepared", "testRunStarted", "testRunFinished", "commandStart", "commandActionComplete", "commandRunBeforeTestRunHooks", "commandInitializeTestCase", "commandRunBeforeTestCaseHook", "commandRunTestStep", "commandRunAfterTestCaseHook", "commandRunAfterTestRunHooks", "commandGenerateSnippet", "commandError", "quit"]),
                     set: $util.oneOfSetter($oneOfFields)
                 });
 
@@ -373,6 +382,8 @@ $root.io = (function() {
                         $root.io.cucumber.messages.CommandGenerateSnippet.encode(message.commandGenerateSnippet, writer.uint32(/* id 24, wireType 2 =*/194).fork()).ldelim();
                     if (message.commandError != null && message.hasOwnProperty("commandError"))
                         writer.uint32(/* id 25, wireType 2 =*/202).string(message.commandError);
+                    if (message.quit != null && message.hasOwnProperty("quit"))
+                        $root.io.cucumber.messages.Quit.encode(message.quit, writer.uint32(/* id 26, wireType 2 =*/210).fork()).ldelim();
                     return writer;
                 };
 
@@ -481,6 +492,9 @@ $root.io = (function() {
                             break;
                         case 25:
                             message.commandError = reader.string();
+                            break;
+                        case 26:
+                            message.quit = $root.io.cucumber.messages.Quit.decode(reader, reader.uint32());
                             break;
                         default:
                             reader.skipType(tag & 7);
@@ -763,6 +777,16 @@ $root.io = (function() {
                         if (!$util.isString(message.commandError))
                             return "commandError: string expected";
                     }
+                    if (message.quit != null && message.hasOwnProperty("quit")) {
+                        if (properties.message === 1)
+                            return "message: multiple values";
+                        properties.message = 1;
+                        {
+                            var error = $root.io.cucumber.messages.Quit.verify(message.quit);
+                            if (error)
+                                return "quit." + error;
+                        }
+                    }
                     return null;
                 };
 
@@ -900,6 +924,11 @@ $root.io = (function() {
                     }
                     if (object.commandError != null)
                         message.commandError = String(object.commandError);
+                    if (object.quit != null) {
+                        if (typeof object.quit !== "object")
+                            throw TypeError(".io.cucumber.messages.Envelope.quit: object expected");
+                        message.quit = $root.io.cucumber.messages.Quit.fromObject(object.quit);
+                    }
                     return message;
                 };
 
@@ -1040,6 +1069,11 @@ $root.io = (function() {
                         object.commandError = message.commandError;
                         if (options.oneofs)
                             object.message = "commandError";
+                    }
+                    if (message.quit != null && message.hasOwnProperty("quit")) {
+                        object.quit = $root.io.cucumber.messages.Quit.toObject(message.quit, options);
+                        if (options.oneofs)
+                            object.message = "quit";
                     }
                     return object;
                 };
@@ -7358,12 +7392,12 @@ $root.io = (function() {
                 var $oneOfFields;
 
                 /**
-                 * PickleStepArgument message.
-                 * @member {"docString"|"dataTable"|undefined} message
+                 * PickleStepArgument argument.
+                 * @member {"docString"|"dataTable"|undefined} argument
                  * @memberof io.cucumber.messages.PickleStepArgument
                  * @instance
                  */
-                Object.defineProperty(PickleStepArgument.prototype, "message", {
+                Object.defineProperty(PickleStepArgument.prototype, "argument", {
                     get: $util.oneOfGetter($oneOfFields = ["docString", "dataTable"]),
                     set: $util.oneOfSetter($oneOfFields)
                 });
@@ -7473,7 +7507,7 @@ $root.io = (function() {
                         return "object expected";
                     var properties = {};
                     if (message.docString != null && message.hasOwnProperty("docString")) {
-                        properties.message = 1;
+                        properties.argument = 1;
                         {
                             var error = $root.io.cucumber.messages.PickleStepArgument.PickleDocString.verify(message.docString);
                             if (error)
@@ -7481,9 +7515,9 @@ $root.io = (function() {
                         }
                     }
                     if (message.dataTable != null && message.hasOwnProperty("dataTable")) {
-                        if (properties.message === 1)
-                            return "message: multiple values";
-                        properties.message = 1;
+                        if (properties.argument === 1)
+                            return "argument: multiple values";
+                        properties.argument = 1;
                         {
                             var error = $root.io.cucumber.messages.PickleStepArgument.PickleTable.verify(message.dataTable);
                             if (error)
@@ -7534,12 +7568,12 @@ $root.io = (function() {
                     if (message.docString != null && message.hasOwnProperty("docString")) {
                         object.docString = $root.io.cucumber.messages.PickleStepArgument.PickleDocString.toObject(message.docString, options);
                         if (options.oneofs)
-                            object.message = "docString";
+                            object.argument = "docString";
                     }
                     if (message.dataTable != null && message.hasOwnProperty("dataTable")) {
                         object.dataTable = $root.io.cucumber.messages.PickleStepArgument.PickleTable.toObject(message.dataTable, options);
                         if (options.oneofs)
-                            object.message = "dataTable";
+                            object.argument = "dataTable";
                     }
                     return object;
                 };
@@ -11634,15 +11668,15 @@ $root.io = (function() {
                  * @memberof io.cucumber.messages
                  * @interface ICommandStart
                  * @property {string|null} [baseDirectory] CommandStart baseDirectory
-                 * @property {io.cucumber.messages.ISourcesConfig|null} [sourcesConfig] CommandStart sourcesConfig
-                 * @property {io.cucumber.messages.IRuntimeConfig|null} [runtimeConfig] CommandStart runtimeConfig
-                 * @property {io.cucumber.messages.ISupportCodeConfig|null} [supportCodeConfig] CommandStart supportCodeConfig
+                 * @property {io.cucumber.messages.CommandStart.ISourcesConfig|null} [sourcesConfig] CommandStart sourcesConfig
+                 * @property {io.cucumber.messages.CommandStart.IRuntimeConfig|null} [runtimeConfig] CommandStart runtimeConfig
+                 * @property {io.cucumber.messages.CommandStart.ISupportCodeConfig|null} [supportCodeConfig] CommandStart supportCodeConfig
                  */
 
                 /**
                  * Constructs a new CommandStart.
                  * @memberof io.cucumber.messages
-                 * @classdesc Represents a CommandStart.
+                 * @classdesc This is the first message the front-end should send to the engine.
                  * @implements ICommandStart
                  * @constructor
                  * @param {io.cucumber.messages.ICommandStart=} [properties] Properties to set
@@ -11664,7 +11698,7 @@ $root.io = (function() {
 
                 /**
                  * CommandStart sourcesConfig.
-                 * @member {io.cucumber.messages.ISourcesConfig|null|undefined} sourcesConfig
+                 * @member {io.cucumber.messages.CommandStart.ISourcesConfig|null|undefined} sourcesConfig
                  * @memberof io.cucumber.messages.CommandStart
                  * @instance
                  */
@@ -11672,7 +11706,7 @@ $root.io = (function() {
 
                 /**
                  * CommandStart runtimeConfig.
-                 * @member {io.cucumber.messages.IRuntimeConfig|null|undefined} runtimeConfig
+                 * @member {io.cucumber.messages.CommandStart.IRuntimeConfig|null|undefined} runtimeConfig
                  * @memberof io.cucumber.messages.CommandStart
                  * @instance
                  */
@@ -11680,7 +11714,7 @@ $root.io = (function() {
 
                 /**
                  * CommandStart supportCodeConfig.
-                 * @member {io.cucumber.messages.ISupportCodeConfig|null|undefined} supportCodeConfig
+                 * @member {io.cucumber.messages.CommandStart.ISupportCodeConfig|null|undefined} supportCodeConfig
                  * @memberof io.cucumber.messages.CommandStart
                  * @instance
                  */
@@ -11713,11 +11747,11 @@ $root.io = (function() {
                     if (message.baseDirectory != null && message.hasOwnProperty("baseDirectory"))
                         writer.uint32(/* id 2, wireType 2 =*/18).string(message.baseDirectory);
                     if (message.sourcesConfig != null && message.hasOwnProperty("sourcesConfig"))
-                        $root.io.cucumber.messages.SourcesConfig.encode(message.sourcesConfig, writer.uint32(/* id 3, wireType 2 =*/26).fork()).ldelim();
+                        $root.io.cucumber.messages.CommandStart.SourcesConfig.encode(message.sourcesConfig, writer.uint32(/* id 3, wireType 2 =*/26).fork()).ldelim();
                     if (message.runtimeConfig != null && message.hasOwnProperty("runtimeConfig"))
-                        $root.io.cucumber.messages.RuntimeConfig.encode(message.runtimeConfig, writer.uint32(/* id 4, wireType 2 =*/34).fork()).ldelim();
+                        $root.io.cucumber.messages.CommandStart.RuntimeConfig.encode(message.runtimeConfig, writer.uint32(/* id 4, wireType 2 =*/34).fork()).ldelim();
                     if (message.supportCodeConfig != null && message.hasOwnProperty("supportCodeConfig"))
-                        $root.io.cucumber.messages.SupportCodeConfig.encode(message.supportCodeConfig, writer.uint32(/* id 5, wireType 2 =*/42).fork()).ldelim();
+                        $root.io.cucumber.messages.CommandStart.SupportCodeConfig.encode(message.supportCodeConfig, writer.uint32(/* id 5, wireType 2 =*/42).fork()).ldelim();
                     return writer;
                 };
 
@@ -11756,13 +11790,13 @@ $root.io = (function() {
                             message.baseDirectory = reader.string();
                             break;
                         case 3:
-                            message.sourcesConfig = $root.io.cucumber.messages.SourcesConfig.decode(reader, reader.uint32());
+                            message.sourcesConfig = $root.io.cucumber.messages.CommandStart.SourcesConfig.decode(reader, reader.uint32());
                             break;
                         case 4:
-                            message.runtimeConfig = $root.io.cucumber.messages.RuntimeConfig.decode(reader, reader.uint32());
+                            message.runtimeConfig = $root.io.cucumber.messages.CommandStart.RuntimeConfig.decode(reader, reader.uint32());
                             break;
                         case 5:
-                            message.supportCodeConfig = $root.io.cucumber.messages.SupportCodeConfig.decode(reader, reader.uint32());
+                            message.supportCodeConfig = $root.io.cucumber.messages.CommandStart.SupportCodeConfig.decode(reader, reader.uint32());
                             break;
                         default:
                             reader.skipType(tag & 7);
@@ -11803,17 +11837,17 @@ $root.io = (function() {
                         if (!$util.isString(message.baseDirectory))
                             return "baseDirectory: string expected";
                     if (message.sourcesConfig != null && message.hasOwnProperty("sourcesConfig")) {
-                        var error = $root.io.cucumber.messages.SourcesConfig.verify(message.sourcesConfig);
+                        var error = $root.io.cucumber.messages.CommandStart.SourcesConfig.verify(message.sourcesConfig);
                         if (error)
                             return "sourcesConfig." + error;
                     }
                     if (message.runtimeConfig != null && message.hasOwnProperty("runtimeConfig")) {
-                        var error = $root.io.cucumber.messages.RuntimeConfig.verify(message.runtimeConfig);
+                        var error = $root.io.cucumber.messages.CommandStart.RuntimeConfig.verify(message.runtimeConfig);
                         if (error)
                             return "runtimeConfig." + error;
                     }
                     if (message.supportCodeConfig != null && message.hasOwnProperty("supportCodeConfig")) {
-                        var error = $root.io.cucumber.messages.SupportCodeConfig.verify(message.supportCodeConfig);
+                        var error = $root.io.cucumber.messages.CommandStart.SupportCodeConfig.verify(message.supportCodeConfig);
                         if (error)
                             return "supportCodeConfig." + error;
                     }
@@ -11837,17 +11871,17 @@ $root.io = (function() {
                     if (object.sourcesConfig != null) {
                         if (typeof object.sourcesConfig !== "object")
                             throw TypeError(".io.cucumber.messages.CommandStart.sourcesConfig: object expected");
-                        message.sourcesConfig = $root.io.cucumber.messages.SourcesConfig.fromObject(object.sourcesConfig);
+                        message.sourcesConfig = $root.io.cucumber.messages.CommandStart.SourcesConfig.fromObject(object.sourcesConfig);
                     }
                     if (object.runtimeConfig != null) {
                         if (typeof object.runtimeConfig !== "object")
                             throw TypeError(".io.cucumber.messages.CommandStart.runtimeConfig: object expected");
-                        message.runtimeConfig = $root.io.cucumber.messages.RuntimeConfig.fromObject(object.runtimeConfig);
+                        message.runtimeConfig = $root.io.cucumber.messages.CommandStart.RuntimeConfig.fromObject(object.runtimeConfig);
                     }
                     if (object.supportCodeConfig != null) {
                         if (typeof object.supportCodeConfig !== "object")
                             throw TypeError(".io.cucumber.messages.CommandStart.supportCodeConfig: object expected");
-                        message.supportCodeConfig = $root.io.cucumber.messages.SupportCodeConfig.fromObject(object.supportCodeConfig);
+                        message.supportCodeConfig = $root.io.cucumber.messages.CommandStart.SupportCodeConfig.fromObject(object.supportCodeConfig);
                     }
                     return message;
                 };
@@ -11874,11 +11908,11 @@ $root.io = (function() {
                     if (message.baseDirectory != null && message.hasOwnProperty("baseDirectory"))
                         object.baseDirectory = message.baseDirectory;
                     if (message.sourcesConfig != null && message.hasOwnProperty("sourcesConfig"))
-                        object.sourcesConfig = $root.io.cucumber.messages.SourcesConfig.toObject(message.sourcesConfig, options);
+                        object.sourcesConfig = $root.io.cucumber.messages.CommandStart.SourcesConfig.toObject(message.sourcesConfig, options);
                     if (message.runtimeConfig != null && message.hasOwnProperty("runtimeConfig"))
-                        object.runtimeConfig = $root.io.cucumber.messages.RuntimeConfig.toObject(message.runtimeConfig, options);
+                        object.runtimeConfig = $root.io.cucumber.messages.CommandStart.RuntimeConfig.toObject(message.runtimeConfig, options);
                     if (message.supportCodeConfig != null && message.hasOwnProperty("supportCodeConfig"))
-                        object.supportCodeConfig = $root.io.cucumber.messages.SupportCodeConfig.toObject(message.supportCodeConfig, options);
+                        object.supportCodeConfig = $root.io.cucumber.messages.CommandStart.SupportCodeConfig.toObject(message.supportCodeConfig, options);
                     return object;
                 };
 
@@ -11893,2646 +11927,2646 @@ $root.io = (function() {
                     return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
                 };
 
-                return CommandStart;
-            })();
+                CommandStart.SourcesConfig = (function() {
 
-            messages.SourcesConfig = (function() {
+                    /**
+                     * Properties of a SourcesConfig.
+                     * @memberof io.cucumber.messages.CommandStart
+                     * @interface ISourcesConfig
+                     * @property {Array.<string>|null} [absolutePaths] SourcesConfig absolutePaths
+                     * @property {string|null} [language] SourcesConfig language
+                     * @property {io.cucumber.messages.CommandStart.SourcesConfig.ISourcesFilterConfig|null} [filters] SourcesConfig filters
+                     * @property {io.cucumber.messages.CommandStart.SourcesConfig.ISourcesOrder|null} [order] SourcesConfig order
+                     */
 
-                /**
-                 * Properties of a SourcesConfig.
-                 * @memberof io.cucumber.messages
-                 * @interface ISourcesConfig
-                 * @property {Array.<string>|null} [absolutePaths] SourcesConfig absolutePaths
-                 * @property {string|null} [language] SourcesConfig language
-                 * @property {io.cucumber.messages.ISourcesFilterConfig|null} [filters] SourcesConfig filters
-                 * @property {io.cucumber.messages.ISourcesOrder|null} [order] SourcesConfig order
-                 */
+                    /**
+                     * Constructs a new SourcesConfig.
+                     * @memberof io.cucumber.messages.CommandStart
+                     * @classdesc Represents a SourcesConfig.
+                     * @implements ISourcesConfig
+                     * @constructor
+                     * @param {io.cucumber.messages.CommandStart.ISourcesConfig=} [properties] Properties to set
+                     */
+                    function SourcesConfig(properties) {
+                        this.absolutePaths = [];
+                        if (properties)
+                            for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                                if (properties[keys[i]] != null)
+                                    this[keys[i]] = properties[keys[i]];
+                    }
 
-                /**
-                 * Constructs a new SourcesConfig.
-                 * @memberof io.cucumber.messages
-                 * @classdesc Represents a SourcesConfig.
-                 * @implements ISourcesConfig
-                 * @constructor
-                 * @param {io.cucumber.messages.ISourcesConfig=} [properties] Properties to set
-                 */
-                function SourcesConfig(properties) {
-                    this.absolutePaths = [];
-                    if (properties)
-                        for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
-                            if (properties[keys[i]] != null)
-                                this[keys[i]] = properties[keys[i]];
-                }
+                    /**
+                     * SourcesConfig absolutePaths.
+                     * @member {Array.<string>} absolutePaths
+                     * @memberof io.cucumber.messages.CommandStart.SourcesConfig
+                     * @instance
+                     */
+                    SourcesConfig.prototype.absolutePaths = $util.emptyArray;
 
-                /**
-                 * SourcesConfig absolutePaths.
-                 * @member {Array.<string>} absolutePaths
-                 * @memberof io.cucumber.messages.SourcesConfig
-                 * @instance
-                 */
-                SourcesConfig.prototype.absolutePaths = $util.emptyArray;
+                    /**
+                     * SourcesConfig language.
+                     * @member {string} language
+                     * @memberof io.cucumber.messages.CommandStart.SourcesConfig
+                     * @instance
+                     */
+                    SourcesConfig.prototype.language = "";
 
-                /**
-                 * SourcesConfig language.
-                 * @member {string} language
-                 * @memberof io.cucumber.messages.SourcesConfig
-                 * @instance
-                 */
-                SourcesConfig.prototype.language = "";
+                    /**
+                     * SourcesConfig filters.
+                     * @member {io.cucumber.messages.CommandStart.SourcesConfig.ISourcesFilterConfig|null|undefined} filters
+                     * @memberof io.cucumber.messages.CommandStart.SourcesConfig
+                     * @instance
+                     */
+                    SourcesConfig.prototype.filters = null;
 
-                /**
-                 * SourcesConfig filters.
-                 * @member {io.cucumber.messages.ISourcesFilterConfig|null|undefined} filters
-                 * @memberof io.cucumber.messages.SourcesConfig
-                 * @instance
-                 */
-                SourcesConfig.prototype.filters = null;
+                    /**
+                     * SourcesConfig order.
+                     * @member {io.cucumber.messages.CommandStart.SourcesConfig.ISourcesOrder|null|undefined} order
+                     * @memberof io.cucumber.messages.CommandStart.SourcesConfig
+                     * @instance
+                     */
+                    SourcesConfig.prototype.order = null;
 
-                /**
-                 * SourcesConfig order.
-                 * @member {io.cucumber.messages.ISourcesOrder|null|undefined} order
-                 * @memberof io.cucumber.messages.SourcesConfig
-                 * @instance
-                 */
-                SourcesConfig.prototype.order = null;
+                    /**
+                     * Creates a new SourcesConfig instance using the specified properties.
+                     * @function create
+                     * @memberof io.cucumber.messages.CommandStart.SourcesConfig
+                     * @static
+                     * @param {io.cucumber.messages.CommandStart.ISourcesConfig=} [properties] Properties to set
+                     * @returns {io.cucumber.messages.CommandStart.SourcesConfig} SourcesConfig instance
+                     */
+                    SourcesConfig.create = function create(properties) {
+                        return new SourcesConfig(properties);
+                    };
 
-                /**
-                 * Creates a new SourcesConfig instance using the specified properties.
-                 * @function create
-                 * @memberof io.cucumber.messages.SourcesConfig
-                 * @static
-                 * @param {io.cucumber.messages.ISourcesConfig=} [properties] Properties to set
-                 * @returns {io.cucumber.messages.SourcesConfig} SourcesConfig instance
-                 */
-                SourcesConfig.create = function create(properties) {
-                    return new SourcesConfig(properties);
-                };
+                    /**
+                     * Encodes the specified SourcesConfig message. Does not implicitly {@link io.cucumber.messages.CommandStart.SourcesConfig.verify|verify} messages.
+                     * @function encode
+                     * @memberof io.cucumber.messages.CommandStart.SourcesConfig
+                     * @static
+                     * @param {io.cucumber.messages.CommandStart.ISourcesConfig} message SourcesConfig message or plain object to encode
+                     * @param {$protobuf.Writer} [writer] Writer to encode to
+                     * @returns {$protobuf.Writer} Writer
+                     */
+                    SourcesConfig.encode = function encode(message, writer) {
+                        if (!writer)
+                            writer = $Writer.create();
+                        if (message.absolutePaths != null && message.absolutePaths.length)
+                            for (var i = 0; i < message.absolutePaths.length; ++i)
+                                writer.uint32(/* id 1, wireType 2 =*/10).string(message.absolutePaths[i]);
+                        if (message.language != null && message.hasOwnProperty("language"))
+                            writer.uint32(/* id 2, wireType 2 =*/18).string(message.language);
+                        if (message.filters != null && message.hasOwnProperty("filters"))
+                            $root.io.cucumber.messages.CommandStart.SourcesConfig.SourcesFilterConfig.encode(message.filters, writer.uint32(/* id 3, wireType 2 =*/26).fork()).ldelim();
+                        if (message.order != null && message.hasOwnProperty("order"))
+                            $root.io.cucumber.messages.CommandStart.SourcesConfig.SourcesOrder.encode(message.order, writer.uint32(/* id 4, wireType 2 =*/34).fork()).ldelim();
+                        return writer;
+                    };
 
-                /**
-                 * Encodes the specified SourcesConfig message. Does not implicitly {@link io.cucumber.messages.SourcesConfig.verify|verify} messages.
-                 * @function encode
-                 * @memberof io.cucumber.messages.SourcesConfig
-                 * @static
-                 * @param {io.cucumber.messages.ISourcesConfig} message SourcesConfig message or plain object to encode
-                 * @param {$protobuf.Writer} [writer] Writer to encode to
-                 * @returns {$protobuf.Writer} Writer
-                 */
-                SourcesConfig.encode = function encode(message, writer) {
-                    if (!writer)
-                        writer = $Writer.create();
-                    if (message.absolutePaths != null && message.absolutePaths.length)
-                        for (var i = 0; i < message.absolutePaths.length; ++i)
-                            writer.uint32(/* id 1, wireType 2 =*/10).string(message.absolutePaths[i]);
-                    if (message.language != null && message.hasOwnProperty("language"))
-                        writer.uint32(/* id 2, wireType 2 =*/18).string(message.language);
-                    if (message.filters != null && message.hasOwnProperty("filters"))
-                        $root.io.cucumber.messages.SourcesFilterConfig.encode(message.filters, writer.uint32(/* id 3, wireType 2 =*/26).fork()).ldelim();
-                    if (message.order != null && message.hasOwnProperty("order"))
-                        $root.io.cucumber.messages.SourcesOrder.encode(message.order, writer.uint32(/* id 4, wireType 2 =*/34).fork()).ldelim();
-                    return writer;
-                };
+                    /**
+                     * Encodes the specified SourcesConfig message, length delimited. Does not implicitly {@link io.cucumber.messages.CommandStart.SourcesConfig.verify|verify} messages.
+                     * @function encodeDelimited
+                     * @memberof io.cucumber.messages.CommandStart.SourcesConfig
+                     * @static
+                     * @param {io.cucumber.messages.CommandStart.ISourcesConfig} message SourcesConfig message or plain object to encode
+                     * @param {$protobuf.Writer} [writer] Writer to encode to
+                     * @returns {$protobuf.Writer} Writer
+                     */
+                    SourcesConfig.encodeDelimited = function encodeDelimited(message, writer) {
+                        return this.encode(message, writer).ldelim();
+                    };
 
-                /**
-                 * Encodes the specified SourcesConfig message, length delimited. Does not implicitly {@link io.cucumber.messages.SourcesConfig.verify|verify} messages.
-                 * @function encodeDelimited
-                 * @memberof io.cucumber.messages.SourcesConfig
-                 * @static
-                 * @param {io.cucumber.messages.ISourcesConfig} message SourcesConfig message or plain object to encode
-                 * @param {$protobuf.Writer} [writer] Writer to encode to
-                 * @returns {$protobuf.Writer} Writer
-                 */
-                SourcesConfig.encodeDelimited = function encodeDelimited(message, writer) {
-                    return this.encode(message, writer).ldelim();
-                };
-
-                /**
-                 * Decodes a SourcesConfig message from the specified reader or buffer.
-                 * @function decode
-                 * @memberof io.cucumber.messages.SourcesConfig
-                 * @static
-                 * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-                 * @param {number} [length] Message length if known beforehand
-                 * @returns {io.cucumber.messages.SourcesConfig} SourcesConfig
-                 * @throws {Error} If the payload is not a reader or valid buffer
-                 * @throws {$protobuf.util.ProtocolError} If required fields are missing
-                 */
-                SourcesConfig.decode = function decode(reader, length) {
-                    if (!(reader instanceof $Reader))
-                        reader = $Reader.create(reader);
-                    var end = length === undefined ? reader.len : reader.pos + length, message = new $root.io.cucumber.messages.SourcesConfig();
-                    while (reader.pos < end) {
-                        var tag = reader.uint32();
-                        switch (tag >>> 3) {
-                        case 1:
-                            if (!(message.absolutePaths && message.absolutePaths.length))
-                                message.absolutePaths = [];
-                            message.absolutePaths.push(reader.string());
-                            break;
-                        case 2:
-                            message.language = reader.string();
-                            break;
-                        case 3:
-                            message.filters = $root.io.cucumber.messages.SourcesFilterConfig.decode(reader, reader.uint32());
-                            break;
-                        case 4:
-                            message.order = $root.io.cucumber.messages.SourcesOrder.decode(reader, reader.uint32());
-                            break;
-                        default:
-                            reader.skipType(tag & 7);
-                            break;
+                    /**
+                     * Decodes a SourcesConfig message from the specified reader or buffer.
+                     * @function decode
+                     * @memberof io.cucumber.messages.CommandStart.SourcesConfig
+                     * @static
+                     * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+                     * @param {number} [length] Message length if known beforehand
+                     * @returns {io.cucumber.messages.CommandStart.SourcesConfig} SourcesConfig
+                     * @throws {Error} If the payload is not a reader or valid buffer
+                     * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                     */
+                    SourcesConfig.decode = function decode(reader, length) {
+                        if (!(reader instanceof $Reader))
+                            reader = $Reader.create(reader);
+                        var end = length === undefined ? reader.len : reader.pos + length, message = new $root.io.cucumber.messages.CommandStart.SourcesConfig();
+                        while (reader.pos < end) {
+                            var tag = reader.uint32();
+                            switch (tag >>> 3) {
+                            case 1:
+                                if (!(message.absolutePaths && message.absolutePaths.length))
+                                    message.absolutePaths = [];
+                                message.absolutePaths.push(reader.string());
+                                break;
+                            case 2:
+                                message.language = reader.string();
+                                break;
+                            case 3:
+                                message.filters = $root.io.cucumber.messages.CommandStart.SourcesConfig.SourcesFilterConfig.decode(reader, reader.uint32());
+                                break;
+                            case 4:
+                                message.order = $root.io.cucumber.messages.CommandStart.SourcesConfig.SourcesOrder.decode(reader, reader.uint32());
+                                break;
+                            default:
+                                reader.skipType(tag & 7);
+                                break;
+                            }
                         }
-                    }
-                    return message;
-                };
+                        return message;
+                    };
 
-                /**
-                 * Decodes a SourcesConfig message from the specified reader or buffer, length delimited.
-                 * @function decodeDelimited
-                 * @memberof io.cucumber.messages.SourcesConfig
-                 * @static
-                 * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-                 * @returns {io.cucumber.messages.SourcesConfig} SourcesConfig
-                 * @throws {Error} If the payload is not a reader or valid buffer
-                 * @throws {$protobuf.util.ProtocolError} If required fields are missing
-                 */
-                SourcesConfig.decodeDelimited = function decodeDelimited(reader) {
-                    if (!(reader instanceof $Reader))
-                        reader = new $Reader(reader);
-                    return this.decode(reader, reader.uint32());
-                };
+                    /**
+                     * Decodes a SourcesConfig message from the specified reader or buffer, length delimited.
+                     * @function decodeDelimited
+                     * @memberof io.cucumber.messages.CommandStart.SourcesConfig
+                     * @static
+                     * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+                     * @returns {io.cucumber.messages.CommandStart.SourcesConfig} SourcesConfig
+                     * @throws {Error} If the payload is not a reader or valid buffer
+                     * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                     */
+                    SourcesConfig.decodeDelimited = function decodeDelimited(reader) {
+                        if (!(reader instanceof $Reader))
+                            reader = new $Reader(reader);
+                        return this.decode(reader, reader.uint32());
+                    };
 
-                /**
-                 * Verifies a SourcesConfig message.
-                 * @function verify
-                 * @memberof io.cucumber.messages.SourcesConfig
-                 * @static
-                 * @param {Object.<string,*>} message Plain object to verify
-                 * @returns {string|null} `null` if valid, otherwise the reason why it is not
-                 */
-                SourcesConfig.verify = function verify(message) {
-                    if (typeof message !== "object" || message === null)
-                        return "object expected";
-                    if (message.absolutePaths != null && message.hasOwnProperty("absolutePaths")) {
-                        if (!Array.isArray(message.absolutePaths))
-                            return "absolutePaths: array expected";
-                        for (var i = 0; i < message.absolutePaths.length; ++i)
-                            if (!$util.isString(message.absolutePaths[i]))
-                                return "absolutePaths: string[] expected";
-                    }
-                    if (message.language != null && message.hasOwnProperty("language"))
-                        if (!$util.isString(message.language))
-                            return "language: string expected";
-                    if (message.filters != null && message.hasOwnProperty("filters")) {
-                        var error = $root.io.cucumber.messages.SourcesFilterConfig.verify(message.filters);
-                        if (error)
-                            return "filters." + error;
-                    }
-                    if (message.order != null && message.hasOwnProperty("order")) {
-                        var error = $root.io.cucumber.messages.SourcesOrder.verify(message.order);
-                        if (error)
-                            return "order." + error;
-                    }
-                    return null;
-                };
+                    /**
+                     * Verifies a SourcesConfig message.
+                     * @function verify
+                     * @memberof io.cucumber.messages.CommandStart.SourcesConfig
+                     * @static
+                     * @param {Object.<string,*>} message Plain object to verify
+                     * @returns {string|null} `null` if valid, otherwise the reason why it is not
+                     */
+                    SourcesConfig.verify = function verify(message) {
+                        if (typeof message !== "object" || message === null)
+                            return "object expected";
+                        if (message.absolutePaths != null && message.hasOwnProperty("absolutePaths")) {
+                            if (!Array.isArray(message.absolutePaths))
+                                return "absolutePaths: array expected";
+                            for (var i = 0; i < message.absolutePaths.length; ++i)
+                                if (!$util.isString(message.absolutePaths[i]))
+                                    return "absolutePaths: string[] expected";
+                        }
+                        if (message.language != null && message.hasOwnProperty("language"))
+                            if (!$util.isString(message.language))
+                                return "language: string expected";
+                        if (message.filters != null && message.hasOwnProperty("filters")) {
+                            var error = $root.io.cucumber.messages.CommandStart.SourcesConfig.SourcesFilterConfig.verify(message.filters);
+                            if (error)
+                                return "filters." + error;
+                        }
+                        if (message.order != null && message.hasOwnProperty("order")) {
+                            var error = $root.io.cucumber.messages.CommandStart.SourcesConfig.SourcesOrder.verify(message.order);
+                            if (error)
+                                return "order." + error;
+                        }
+                        return null;
+                    };
 
-                /**
-                 * Creates a SourcesConfig message from a plain object. Also converts values to their respective internal types.
-                 * @function fromObject
-                 * @memberof io.cucumber.messages.SourcesConfig
-                 * @static
-                 * @param {Object.<string,*>} object Plain object
-                 * @returns {io.cucumber.messages.SourcesConfig} SourcesConfig
-                 */
-                SourcesConfig.fromObject = function fromObject(object) {
-                    if (object instanceof $root.io.cucumber.messages.SourcesConfig)
+                    /**
+                     * Creates a SourcesConfig message from a plain object. Also converts values to their respective internal types.
+                     * @function fromObject
+                     * @memberof io.cucumber.messages.CommandStart.SourcesConfig
+                     * @static
+                     * @param {Object.<string,*>} object Plain object
+                     * @returns {io.cucumber.messages.CommandStart.SourcesConfig} SourcesConfig
+                     */
+                    SourcesConfig.fromObject = function fromObject(object) {
+                        if (object instanceof $root.io.cucumber.messages.CommandStart.SourcesConfig)
+                            return object;
+                        var message = new $root.io.cucumber.messages.CommandStart.SourcesConfig();
+                        if (object.absolutePaths) {
+                            if (!Array.isArray(object.absolutePaths))
+                                throw TypeError(".io.cucumber.messages.CommandStart.SourcesConfig.absolutePaths: array expected");
+                            message.absolutePaths = [];
+                            for (var i = 0; i < object.absolutePaths.length; ++i)
+                                message.absolutePaths[i] = String(object.absolutePaths[i]);
+                        }
+                        if (object.language != null)
+                            message.language = String(object.language);
+                        if (object.filters != null) {
+                            if (typeof object.filters !== "object")
+                                throw TypeError(".io.cucumber.messages.CommandStart.SourcesConfig.filters: object expected");
+                            message.filters = $root.io.cucumber.messages.CommandStart.SourcesConfig.SourcesFilterConfig.fromObject(object.filters);
+                        }
+                        if (object.order != null) {
+                            if (typeof object.order !== "object")
+                                throw TypeError(".io.cucumber.messages.CommandStart.SourcesConfig.order: object expected");
+                            message.order = $root.io.cucumber.messages.CommandStart.SourcesConfig.SourcesOrder.fromObject(object.order);
+                        }
+                        return message;
+                    };
+
+                    /**
+                     * Creates a plain object from a SourcesConfig message. Also converts values to other types if specified.
+                     * @function toObject
+                     * @memberof io.cucumber.messages.CommandStart.SourcesConfig
+                     * @static
+                     * @param {io.cucumber.messages.CommandStart.SourcesConfig} message SourcesConfig
+                     * @param {$protobuf.IConversionOptions} [options] Conversion options
+                     * @returns {Object.<string,*>} Plain object
+                     */
+                    SourcesConfig.toObject = function toObject(message, options) {
+                        if (!options)
+                            options = {};
+                        var object = {};
+                        if (options.arrays || options.defaults)
+                            object.absolutePaths = [];
+                        if (options.defaults) {
+                            object.language = "";
+                            object.filters = null;
+                            object.order = null;
+                        }
+                        if (message.absolutePaths && message.absolutePaths.length) {
+                            object.absolutePaths = [];
+                            for (var j = 0; j < message.absolutePaths.length; ++j)
+                                object.absolutePaths[j] = message.absolutePaths[j];
+                        }
+                        if (message.language != null && message.hasOwnProperty("language"))
+                            object.language = message.language;
+                        if (message.filters != null && message.hasOwnProperty("filters"))
+                            object.filters = $root.io.cucumber.messages.CommandStart.SourcesConfig.SourcesFilterConfig.toObject(message.filters, options);
+                        if (message.order != null && message.hasOwnProperty("order"))
+                            object.order = $root.io.cucumber.messages.CommandStart.SourcesConfig.SourcesOrder.toObject(message.order, options);
                         return object;
-                    var message = new $root.io.cucumber.messages.SourcesConfig();
-                    if (object.absolutePaths) {
-                        if (!Array.isArray(object.absolutePaths))
-                            throw TypeError(".io.cucumber.messages.SourcesConfig.absolutePaths: array expected");
-                        message.absolutePaths = [];
-                        for (var i = 0; i < object.absolutePaths.length; ++i)
-                            message.absolutePaths[i] = String(object.absolutePaths[i]);
-                    }
-                    if (object.language != null)
-                        message.language = String(object.language);
-                    if (object.filters != null) {
-                        if (typeof object.filters !== "object")
-                            throw TypeError(".io.cucumber.messages.SourcesConfig.filters: object expected");
-                        message.filters = $root.io.cucumber.messages.SourcesFilterConfig.fromObject(object.filters);
-                    }
-                    if (object.order != null) {
-                        if (typeof object.order !== "object")
-                            throw TypeError(".io.cucumber.messages.SourcesConfig.order: object expected");
-                        message.order = $root.io.cucumber.messages.SourcesOrder.fromObject(object.order);
-                    }
-                    return message;
-                };
+                    };
 
-                /**
-                 * Creates a plain object from a SourcesConfig message. Also converts values to other types if specified.
-                 * @function toObject
-                 * @memberof io.cucumber.messages.SourcesConfig
-                 * @static
-                 * @param {io.cucumber.messages.SourcesConfig} message SourcesConfig
-                 * @param {$protobuf.IConversionOptions} [options] Conversion options
-                 * @returns {Object.<string,*>} Plain object
-                 */
-                SourcesConfig.toObject = function toObject(message, options) {
-                    if (!options)
-                        options = {};
-                    var object = {};
-                    if (options.arrays || options.defaults)
-                        object.absolutePaths = [];
-                    if (options.defaults) {
-                        object.language = "";
-                        object.filters = null;
-                        object.order = null;
-                    }
-                    if (message.absolutePaths && message.absolutePaths.length) {
-                        object.absolutePaths = [];
-                        for (var j = 0; j < message.absolutePaths.length; ++j)
-                            object.absolutePaths[j] = message.absolutePaths[j];
-                    }
-                    if (message.language != null && message.hasOwnProperty("language"))
-                        object.language = message.language;
-                    if (message.filters != null && message.hasOwnProperty("filters"))
-                        object.filters = $root.io.cucumber.messages.SourcesFilterConfig.toObject(message.filters, options);
-                    if (message.order != null && message.hasOwnProperty("order"))
-                        object.order = $root.io.cucumber.messages.SourcesOrder.toObject(message.order, options);
-                    return object;
-                };
+                    /**
+                     * Converts this SourcesConfig to JSON.
+                     * @function toJSON
+                     * @memberof io.cucumber.messages.CommandStart.SourcesConfig
+                     * @instance
+                     * @returns {Object.<string,*>} JSON object
+                     */
+                    SourcesConfig.prototype.toJSON = function toJSON() {
+                        return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+                    };
 
-                /**
-                 * Converts this SourcesConfig to JSON.
-                 * @function toJSON
-                 * @memberof io.cucumber.messages.SourcesConfig
-                 * @instance
-                 * @returns {Object.<string,*>} JSON object
-                 */
-                SourcesConfig.prototype.toJSON = function toJSON() {
-                    return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
-                };
+                    SourcesConfig.SourcesFilterConfig = (function() {
 
-                return SourcesConfig;
-            })();
+                        /**
+                         * Properties of a SourcesFilterConfig.
+                         * @memberof io.cucumber.messages.CommandStart.SourcesConfig
+                         * @interface ISourcesFilterConfig
+                         * @property {string|null} [tagExpression] SourcesFilterConfig tagExpression
+                         * @property {Array.<string>|null} [nameRegularExpressions] SourcesFilterConfig nameRegularExpressions
+                         * @property {Array.<io.cucumber.messages.CommandStart.SourcesConfig.SourcesFilterConfig.IUriToLinesMapping>|null} [uriToLinesMapping] SourcesFilterConfig uriToLinesMapping
+                         */
 
-            messages.SourcesFilterConfig = (function() {
+                        /**
+                         * Constructs a new SourcesFilterConfig.
+                         * @memberof io.cucumber.messages.CommandStart.SourcesConfig
+                         * @classdesc Specifies how to filter feature files.
+                         * @implements ISourcesFilterConfig
+                         * @constructor
+                         * @param {io.cucumber.messages.CommandStart.SourcesConfig.ISourcesFilterConfig=} [properties] Properties to set
+                         */
+                        function SourcesFilterConfig(properties) {
+                            this.nameRegularExpressions = [];
+                            this.uriToLinesMapping = [];
+                            if (properties)
+                                for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                                    if (properties[keys[i]] != null)
+                                        this[keys[i]] = properties[keys[i]];
+                        }
 
-                /**
-                 * Properties of a SourcesFilterConfig.
-                 * @memberof io.cucumber.messages
-                 * @interface ISourcesFilterConfig
-                 * @property {string|null} [tagExpression] SourcesFilterConfig tagExpression
-                 * @property {Array.<string>|null} [nameRegularExpressions] SourcesFilterConfig nameRegularExpressions
-                 * @property {Array.<io.cucumber.messages.IUriToLinesMapping>|null} [uriToLinesMapping] SourcesFilterConfig uriToLinesMapping
-                 */
+                        /**
+                         * SourcesFilterConfig tagExpression.
+                         * @member {string} tagExpression
+                         * @memberof io.cucumber.messages.CommandStart.SourcesConfig.SourcesFilterConfig
+                         * @instance
+                         */
+                        SourcesFilterConfig.prototype.tagExpression = "";
 
-                /**
-                 * Constructs a new SourcesFilterConfig.
-                 * @memberof io.cucumber.messages
-                 * @classdesc Represents a SourcesFilterConfig.
-                 * @implements ISourcesFilterConfig
-                 * @constructor
-                 * @param {io.cucumber.messages.ISourcesFilterConfig=} [properties] Properties to set
-                 */
-                function SourcesFilterConfig(properties) {
-                    this.nameRegularExpressions = [];
-                    this.uriToLinesMapping = [];
-                    if (properties)
-                        for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
-                            if (properties[keys[i]] != null)
-                                this[keys[i]] = properties[keys[i]];
-                }
+                        /**
+                         * SourcesFilterConfig nameRegularExpressions.
+                         * @member {Array.<string>} nameRegularExpressions
+                         * @memberof io.cucumber.messages.CommandStart.SourcesConfig.SourcesFilterConfig
+                         * @instance
+                         */
+                        SourcesFilterConfig.prototype.nameRegularExpressions = $util.emptyArray;
 
-                /**
-                 * SourcesFilterConfig tagExpression.
-                 * @member {string} tagExpression
-                 * @memberof io.cucumber.messages.SourcesFilterConfig
-                 * @instance
-                 */
-                SourcesFilterConfig.prototype.tagExpression = "";
+                        /**
+                         * SourcesFilterConfig uriToLinesMapping.
+                         * @member {Array.<io.cucumber.messages.CommandStart.SourcesConfig.SourcesFilterConfig.IUriToLinesMapping>} uriToLinesMapping
+                         * @memberof io.cucumber.messages.CommandStart.SourcesConfig.SourcesFilterConfig
+                         * @instance
+                         */
+                        SourcesFilterConfig.prototype.uriToLinesMapping = $util.emptyArray;
 
-                /**
-                 * SourcesFilterConfig nameRegularExpressions.
-                 * @member {Array.<string>} nameRegularExpressions
-                 * @memberof io.cucumber.messages.SourcesFilterConfig
-                 * @instance
-                 */
-                SourcesFilterConfig.prototype.nameRegularExpressions = $util.emptyArray;
+                        /**
+                         * Creates a new SourcesFilterConfig instance using the specified properties.
+                         * @function create
+                         * @memberof io.cucumber.messages.CommandStart.SourcesConfig.SourcesFilterConfig
+                         * @static
+                         * @param {io.cucumber.messages.CommandStart.SourcesConfig.ISourcesFilterConfig=} [properties] Properties to set
+                         * @returns {io.cucumber.messages.CommandStart.SourcesConfig.SourcesFilterConfig} SourcesFilterConfig instance
+                         */
+                        SourcesFilterConfig.create = function create(properties) {
+                            return new SourcesFilterConfig(properties);
+                        };
 
-                /**
-                 * SourcesFilterConfig uriToLinesMapping.
-                 * @member {Array.<io.cucumber.messages.IUriToLinesMapping>} uriToLinesMapping
-                 * @memberof io.cucumber.messages.SourcesFilterConfig
-                 * @instance
-                 */
-                SourcesFilterConfig.prototype.uriToLinesMapping = $util.emptyArray;
+                        /**
+                         * Encodes the specified SourcesFilterConfig message. Does not implicitly {@link io.cucumber.messages.CommandStart.SourcesConfig.SourcesFilterConfig.verify|verify} messages.
+                         * @function encode
+                         * @memberof io.cucumber.messages.CommandStart.SourcesConfig.SourcesFilterConfig
+                         * @static
+                         * @param {io.cucumber.messages.CommandStart.SourcesConfig.ISourcesFilterConfig} message SourcesFilterConfig message or plain object to encode
+                         * @param {$protobuf.Writer} [writer] Writer to encode to
+                         * @returns {$protobuf.Writer} Writer
+                         */
+                        SourcesFilterConfig.encode = function encode(message, writer) {
+                            if (!writer)
+                                writer = $Writer.create();
+                            if (message.tagExpression != null && message.hasOwnProperty("tagExpression"))
+                                writer.uint32(/* id 1, wireType 2 =*/10).string(message.tagExpression);
+                            if (message.nameRegularExpressions != null && message.nameRegularExpressions.length)
+                                for (var i = 0; i < message.nameRegularExpressions.length; ++i)
+                                    writer.uint32(/* id 2, wireType 2 =*/18).string(message.nameRegularExpressions[i]);
+                            if (message.uriToLinesMapping != null && message.uriToLinesMapping.length)
+                                for (var i = 0; i < message.uriToLinesMapping.length; ++i)
+                                    $root.io.cucumber.messages.CommandStart.SourcesConfig.SourcesFilterConfig.UriToLinesMapping.encode(message.uriToLinesMapping[i], writer.uint32(/* id 3, wireType 2 =*/26).fork()).ldelim();
+                            return writer;
+                        };
 
-                /**
-                 * Creates a new SourcesFilterConfig instance using the specified properties.
-                 * @function create
-                 * @memberof io.cucumber.messages.SourcesFilterConfig
-                 * @static
-                 * @param {io.cucumber.messages.ISourcesFilterConfig=} [properties] Properties to set
-                 * @returns {io.cucumber.messages.SourcesFilterConfig} SourcesFilterConfig instance
-                 */
-                SourcesFilterConfig.create = function create(properties) {
-                    return new SourcesFilterConfig(properties);
-                };
+                        /**
+                         * Encodes the specified SourcesFilterConfig message, length delimited. Does not implicitly {@link io.cucumber.messages.CommandStart.SourcesConfig.SourcesFilterConfig.verify|verify} messages.
+                         * @function encodeDelimited
+                         * @memberof io.cucumber.messages.CommandStart.SourcesConfig.SourcesFilterConfig
+                         * @static
+                         * @param {io.cucumber.messages.CommandStart.SourcesConfig.ISourcesFilterConfig} message SourcesFilterConfig message or plain object to encode
+                         * @param {$protobuf.Writer} [writer] Writer to encode to
+                         * @returns {$protobuf.Writer} Writer
+                         */
+                        SourcesFilterConfig.encodeDelimited = function encodeDelimited(message, writer) {
+                            return this.encode(message, writer).ldelim();
+                        };
 
-                /**
-                 * Encodes the specified SourcesFilterConfig message. Does not implicitly {@link io.cucumber.messages.SourcesFilterConfig.verify|verify} messages.
-                 * @function encode
-                 * @memberof io.cucumber.messages.SourcesFilterConfig
-                 * @static
-                 * @param {io.cucumber.messages.ISourcesFilterConfig} message SourcesFilterConfig message or plain object to encode
-                 * @param {$protobuf.Writer} [writer] Writer to encode to
-                 * @returns {$protobuf.Writer} Writer
-                 */
-                SourcesFilterConfig.encode = function encode(message, writer) {
-                    if (!writer)
-                        writer = $Writer.create();
-                    if (message.tagExpression != null && message.hasOwnProperty("tagExpression"))
-                        writer.uint32(/* id 1, wireType 2 =*/10).string(message.tagExpression);
-                    if (message.nameRegularExpressions != null && message.nameRegularExpressions.length)
-                        for (var i = 0; i < message.nameRegularExpressions.length; ++i)
-                            writer.uint32(/* id 2, wireType 2 =*/18).string(message.nameRegularExpressions[i]);
-                    if (message.uriToLinesMapping != null && message.uriToLinesMapping.length)
-                        for (var i = 0; i < message.uriToLinesMapping.length; ++i)
-                            $root.io.cucumber.messages.UriToLinesMapping.encode(message.uriToLinesMapping[i], writer.uint32(/* id 3, wireType 2 =*/26).fork()).ldelim();
-                    return writer;
-                };
+                        /**
+                         * Decodes a SourcesFilterConfig message from the specified reader or buffer.
+                         * @function decode
+                         * @memberof io.cucumber.messages.CommandStart.SourcesConfig.SourcesFilterConfig
+                         * @static
+                         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+                         * @param {number} [length] Message length if known beforehand
+                         * @returns {io.cucumber.messages.CommandStart.SourcesConfig.SourcesFilterConfig} SourcesFilterConfig
+                         * @throws {Error} If the payload is not a reader or valid buffer
+                         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                         */
+                        SourcesFilterConfig.decode = function decode(reader, length) {
+                            if (!(reader instanceof $Reader))
+                                reader = $Reader.create(reader);
+                            var end = length === undefined ? reader.len : reader.pos + length, message = new $root.io.cucumber.messages.CommandStart.SourcesConfig.SourcesFilterConfig();
+                            while (reader.pos < end) {
+                                var tag = reader.uint32();
+                                switch (tag >>> 3) {
+                                case 1:
+                                    message.tagExpression = reader.string();
+                                    break;
+                                case 2:
+                                    if (!(message.nameRegularExpressions && message.nameRegularExpressions.length))
+                                        message.nameRegularExpressions = [];
+                                    message.nameRegularExpressions.push(reader.string());
+                                    break;
+                                case 3:
+                                    if (!(message.uriToLinesMapping && message.uriToLinesMapping.length))
+                                        message.uriToLinesMapping = [];
+                                    message.uriToLinesMapping.push($root.io.cucumber.messages.CommandStart.SourcesConfig.SourcesFilterConfig.UriToLinesMapping.decode(reader, reader.uint32()));
+                                    break;
+                                default:
+                                    reader.skipType(tag & 7);
+                                    break;
+                                }
+                            }
+                            return message;
+                        };
 
-                /**
-                 * Encodes the specified SourcesFilterConfig message, length delimited. Does not implicitly {@link io.cucumber.messages.SourcesFilterConfig.verify|verify} messages.
-                 * @function encodeDelimited
-                 * @memberof io.cucumber.messages.SourcesFilterConfig
-                 * @static
-                 * @param {io.cucumber.messages.ISourcesFilterConfig} message SourcesFilterConfig message or plain object to encode
-                 * @param {$protobuf.Writer} [writer] Writer to encode to
-                 * @returns {$protobuf.Writer} Writer
-                 */
-                SourcesFilterConfig.encodeDelimited = function encodeDelimited(message, writer) {
-                    return this.encode(message, writer).ldelim();
-                };
+                        /**
+                         * Decodes a SourcesFilterConfig message from the specified reader or buffer, length delimited.
+                         * @function decodeDelimited
+                         * @memberof io.cucumber.messages.CommandStart.SourcesConfig.SourcesFilterConfig
+                         * @static
+                         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+                         * @returns {io.cucumber.messages.CommandStart.SourcesConfig.SourcesFilterConfig} SourcesFilterConfig
+                         * @throws {Error} If the payload is not a reader or valid buffer
+                         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                         */
+                        SourcesFilterConfig.decodeDelimited = function decodeDelimited(reader) {
+                            if (!(reader instanceof $Reader))
+                                reader = new $Reader(reader);
+                            return this.decode(reader, reader.uint32());
+                        };
 
-                /**
-                 * Decodes a SourcesFilterConfig message from the specified reader or buffer.
-                 * @function decode
-                 * @memberof io.cucumber.messages.SourcesFilterConfig
-                 * @static
-                 * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-                 * @param {number} [length] Message length if known beforehand
-                 * @returns {io.cucumber.messages.SourcesFilterConfig} SourcesFilterConfig
-                 * @throws {Error} If the payload is not a reader or valid buffer
-                 * @throws {$protobuf.util.ProtocolError} If required fields are missing
-                 */
-                SourcesFilterConfig.decode = function decode(reader, length) {
-                    if (!(reader instanceof $Reader))
-                        reader = $Reader.create(reader);
-                    var end = length === undefined ? reader.len : reader.pos + length, message = new $root.io.cucumber.messages.SourcesFilterConfig();
-                    while (reader.pos < end) {
-                        var tag = reader.uint32();
-                        switch (tag >>> 3) {
-                        case 1:
-                            message.tagExpression = reader.string();
-                            break;
-                        case 2:
-                            if (!(message.nameRegularExpressions && message.nameRegularExpressions.length))
+                        /**
+                         * Verifies a SourcesFilterConfig message.
+                         * @function verify
+                         * @memberof io.cucumber.messages.CommandStart.SourcesConfig.SourcesFilterConfig
+                         * @static
+                         * @param {Object.<string,*>} message Plain object to verify
+                         * @returns {string|null} `null` if valid, otherwise the reason why it is not
+                         */
+                        SourcesFilterConfig.verify = function verify(message) {
+                            if (typeof message !== "object" || message === null)
+                                return "object expected";
+                            if (message.tagExpression != null && message.hasOwnProperty("tagExpression"))
+                                if (!$util.isString(message.tagExpression))
+                                    return "tagExpression: string expected";
+                            if (message.nameRegularExpressions != null && message.hasOwnProperty("nameRegularExpressions")) {
+                                if (!Array.isArray(message.nameRegularExpressions))
+                                    return "nameRegularExpressions: array expected";
+                                for (var i = 0; i < message.nameRegularExpressions.length; ++i)
+                                    if (!$util.isString(message.nameRegularExpressions[i]))
+                                        return "nameRegularExpressions: string[] expected";
+                            }
+                            if (message.uriToLinesMapping != null && message.hasOwnProperty("uriToLinesMapping")) {
+                                if (!Array.isArray(message.uriToLinesMapping))
+                                    return "uriToLinesMapping: array expected";
+                                for (var i = 0; i < message.uriToLinesMapping.length; ++i) {
+                                    var error = $root.io.cucumber.messages.CommandStart.SourcesConfig.SourcesFilterConfig.UriToLinesMapping.verify(message.uriToLinesMapping[i]);
+                                    if (error)
+                                        return "uriToLinesMapping." + error;
+                                }
+                            }
+                            return null;
+                        };
+
+                        /**
+                         * Creates a SourcesFilterConfig message from a plain object. Also converts values to their respective internal types.
+                         * @function fromObject
+                         * @memberof io.cucumber.messages.CommandStart.SourcesConfig.SourcesFilterConfig
+                         * @static
+                         * @param {Object.<string,*>} object Plain object
+                         * @returns {io.cucumber.messages.CommandStart.SourcesConfig.SourcesFilterConfig} SourcesFilterConfig
+                         */
+                        SourcesFilterConfig.fromObject = function fromObject(object) {
+                            if (object instanceof $root.io.cucumber.messages.CommandStart.SourcesConfig.SourcesFilterConfig)
+                                return object;
+                            var message = new $root.io.cucumber.messages.CommandStart.SourcesConfig.SourcesFilterConfig();
+                            if (object.tagExpression != null)
+                                message.tagExpression = String(object.tagExpression);
+                            if (object.nameRegularExpressions) {
+                                if (!Array.isArray(object.nameRegularExpressions))
+                                    throw TypeError(".io.cucumber.messages.CommandStart.SourcesConfig.SourcesFilterConfig.nameRegularExpressions: array expected");
                                 message.nameRegularExpressions = [];
-                            message.nameRegularExpressions.push(reader.string());
-                            break;
-                        case 3:
-                            if (!(message.uriToLinesMapping && message.uriToLinesMapping.length))
+                                for (var i = 0; i < object.nameRegularExpressions.length; ++i)
+                                    message.nameRegularExpressions[i] = String(object.nameRegularExpressions[i]);
+                            }
+                            if (object.uriToLinesMapping) {
+                                if (!Array.isArray(object.uriToLinesMapping))
+                                    throw TypeError(".io.cucumber.messages.CommandStart.SourcesConfig.SourcesFilterConfig.uriToLinesMapping: array expected");
                                 message.uriToLinesMapping = [];
-                            message.uriToLinesMapping.push($root.io.cucumber.messages.UriToLinesMapping.decode(reader, reader.uint32()));
-                            break;
-                        default:
-                            reader.skipType(tag & 7);
-                            break;
+                                for (var i = 0; i < object.uriToLinesMapping.length; ++i) {
+                                    if (typeof object.uriToLinesMapping[i] !== "object")
+                                        throw TypeError(".io.cucumber.messages.CommandStart.SourcesConfig.SourcesFilterConfig.uriToLinesMapping: object expected");
+                                    message.uriToLinesMapping[i] = $root.io.cucumber.messages.CommandStart.SourcesConfig.SourcesFilterConfig.UriToLinesMapping.fromObject(object.uriToLinesMapping[i]);
+                                }
+                            }
+                            return message;
+                        };
+
+                        /**
+                         * Creates a plain object from a SourcesFilterConfig message. Also converts values to other types if specified.
+                         * @function toObject
+                         * @memberof io.cucumber.messages.CommandStart.SourcesConfig.SourcesFilterConfig
+                         * @static
+                         * @param {io.cucumber.messages.CommandStart.SourcesConfig.SourcesFilterConfig} message SourcesFilterConfig
+                         * @param {$protobuf.IConversionOptions} [options] Conversion options
+                         * @returns {Object.<string,*>} Plain object
+                         */
+                        SourcesFilterConfig.toObject = function toObject(message, options) {
+                            if (!options)
+                                options = {};
+                            var object = {};
+                            if (options.arrays || options.defaults) {
+                                object.nameRegularExpressions = [];
+                                object.uriToLinesMapping = [];
+                            }
+                            if (options.defaults)
+                                object.tagExpression = "";
+                            if (message.tagExpression != null && message.hasOwnProperty("tagExpression"))
+                                object.tagExpression = message.tagExpression;
+                            if (message.nameRegularExpressions && message.nameRegularExpressions.length) {
+                                object.nameRegularExpressions = [];
+                                for (var j = 0; j < message.nameRegularExpressions.length; ++j)
+                                    object.nameRegularExpressions[j] = message.nameRegularExpressions[j];
+                            }
+                            if (message.uriToLinesMapping && message.uriToLinesMapping.length) {
+                                object.uriToLinesMapping = [];
+                                for (var j = 0; j < message.uriToLinesMapping.length; ++j)
+                                    object.uriToLinesMapping[j] = $root.io.cucumber.messages.CommandStart.SourcesConfig.SourcesFilterConfig.UriToLinesMapping.toObject(message.uriToLinesMapping[j], options);
+                            }
+                            return object;
+                        };
+
+                        /**
+                         * Converts this SourcesFilterConfig to JSON.
+                         * @function toJSON
+                         * @memberof io.cucumber.messages.CommandStart.SourcesConfig.SourcesFilterConfig
+                         * @instance
+                         * @returns {Object.<string,*>} JSON object
+                         */
+                        SourcesFilterConfig.prototype.toJSON = function toJSON() {
+                            return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+                        };
+
+                        SourcesFilterConfig.UriToLinesMapping = (function() {
+
+                            /**
+                             * Properties of an UriToLinesMapping.
+                             * @memberof io.cucumber.messages.CommandStart.SourcesConfig.SourcesFilterConfig
+                             * @interface IUriToLinesMapping
+                             * @property {string|null} [absolutePath] UriToLinesMapping absolutePath
+                             * @property {Array.<number|Long>|null} [lines] UriToLinesMapping lines
+                             */
+
+                            /**
+                             * Constructs a new UriToLinesMapping.
+                             * @memberof io.cucumber.messages.CommandStart.SourcesConfig.SourcesFilterConfig
+                             * @classdesc Specifies line numbers in a particular file
+                             * @implements IUriToLinesMapping
+                             * @constructor
+                             * @param {io.cucumber.messages.CommandStart.SourcesConfig.SourcesFilterConfig.IUriToLinesMapping=} [properties] Properties to set
+                             */
+                            function UriToLinesMapping(properties) {
+                                this.lines = [];
+                                if (properties)
+                                    for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                                        if (properties[keys[i]] != null)
+                                            this[keys[i]] = properties[keys[i]];
+                            }
+
+                            /**
+                             * UriToLinesMapping absolutePath.
+                             * @member {string} absolutePath
+                             * @memberof io.cucumber.messages.CommandStart.SourcesConfig.SourcesFilterConfig.UriToLinesMapping
+                             * @instance
+                             */
+                            UriToLinesMapping.prototype.absolutePath = "";
+
+                            /**
+                             * UriToLinesMapping lines.
+                             * @member {Array.<number|Long>} lines
+                             * @memberof io.cucumber.messages.CommandStart.SourcesConfig.SourcesFilterConfig.UriToLinesMapping
+                             * @instance
+                             */
+                            UriToLinesMapping.prototype.lines = $util.emptyArray;
+
+                            /**
+                             * Creates a new UriToLinesMapping instance using the specified properties.
+                             * @function create
+                             * @memberof io.cucumber.messages.CommandStart.SourcesConfig.SourcesFilterConfig.UriToLinesMapping
+                             * @static
+                             * @param {io.cucumber.messages.CommandStart.SourcesConfig.SourcesFilterConfig.IUriToLinesMapping=} [properties] Properties to set
+                             * @returns {io.cucumber.messages.CommandStart.SourcesConfig.SourcesFilterConfig.UriToLinesMapping} UriToLinesMapping instance
+                             */
+                            UriToLinesMapping.create = function create(properties) {
+                                return new UriToLinesMapping(properties);
+                            };
+
+                            /**
+                             * Encodes the specified UriToLinesMapping message. Does not implicitly {@link io.cucumber.messages.CommandStart.SourcesConfig.SourcesFilterConfig.UriToLinesMapping.verify|verify} messages.
+                             * @function encode
+                             * @memberof io.cucumber.messages.CommandStart.SourcesConfig.SourcesFilterConfig.UriToLinesMapping
+                             * @static
+                             * @param {io.cucumber.messages.CommandStart.SourcesConfig.SourcesFilterConfig.IUriToLinesMapping} message UriToLinesMapping message or plain object to encode
+                             * @param {$protobuf.Writer} [writer] Writer to encode to
+                             * @returns {$protobuf.Writer} Writer
+                             */
+                            UriToLinesMapping.encode = function encode(message, writer) {
+                                if (!writer)
+                                    writer = $Writer.create();
+                                if (message.absolutePath != null && message.hasOwnProperty("absolutePath"))
+                                    writer.uint32(/* id 1, wireType 2 =*/10).string(message.absolutePath);
+                                if (message.lines != null && message.lines.length) {
+                                    writer.uint32(/* id 2, wireType 2 =*/18).fork();
+                                    for (var i = 0; i < message.lines.length; ++i)
+                                        writer.uint64(message.lines[i]);
+                                    writer.ldelim();
+                                }
+                                return writer;
+                            };
+
+                            /**
+                             * Encodes the specified UriToLinesMapping message, length delimited. Does not implicitly {@link io.cucumber.messages.CommandStart.SourcesConfig.SourcesFilterConfig.UriToLinesMapping.verify|verify} messages.
+                             * @function encodeDelimited
+                             * @memberof io.cucumber.messages.CommandStart.SourcesConfig.SourcesFilterConfig.UriToLinesMapping
+                             * @static
+                             * @param {io.cucumber.messages.CommandStart.SourcesConfig.SourcesFilterConfig.IUriToLinesMapping} message UriToLinesMapping message or plain object to encode
+                             * @param {$protobuf.Writer} [writer] Writer to encode to
+                             * @returns {$protobuf.Writer} Writer
+                             */
+                            UriToLinesMapping.encodeDelimited = function encodeDelimited(message, writer) {
+                                return this.encode(message, writer).ldelim();
+                            };
+
+                            /**
+                             * Decodes an UriToLinesMapping message from the specified reader or buffer.
+                             * @function decode
+                             * @memberof io.cucumber.messages.CommandStart.SourcesConfig.SourcesFilterConfig.UriToLinesMapping
+                             * @static
+                             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+                             * @param {number} [length] Message length if known beforehand
+                             * @returns {io.cucumber.messages.CommandStart.SourcesConfig.SourcesFilterConfig.UriToLinesMapping} UriToLinesMapping
+                             * @throws {Error} If the payload is not a reader or valid buffer
+                             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                             */
+                            UriToLinesMapping.decode = function decode(reader, length) {
+                                if (!(reader instanceof $Reader))
+                                    reader = $Reader.create(reader);
+                                var end = length === undefined ? reader.len : reader.pos + length, message = new $root.io.cucumber.messages.CommandStart.SourcesConfig.SourcesFilterConfig.UriToLinesMapping();
+                                while (reader.pos < end) {
+                                    var tag = reader.uint32();
+                                    switch (tag >>> 3) {
+                                    case 1:
+                                        message.absolutePath = reader.string();
+                                        break;
+                                    case 2:
+                                        if (!(message.lines && message.lines.length))
+                                            message.lines = [];
+                                        if ((tag & 7) === 2) {
+                                            var end2 = reader.uint32() + reader.pos;
+                                            while (reader.pos < end2)
+                                                message.lines.push(reader.uint64());
+                                        } else
+                                            message.lines.push(reader.uint64());
+                                        break;
+                                    default:
+                                        reader.skipType(tag & 7);
+                                        break;
+                                    }
+                                }
+                                return message;
+                            };
+
+                            /**
+                             * Decodes an UriToLinesMapping message from the specified reader or buffer, length delimited.
+                             * @function decodeDelimited
+                             * @memberof io.cucumber.messages.CommandStart.SourcesConfig.SourcesFilterConfig.UriToLinesMapping
+                             * @static
+                             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+                             * @returns {io.cucumber.messages.CommandStart.SourcesConfig.SourcesFilterConfig.UriToLinesMapping} UriToLinesMapping
+                             * @throws {Error} If the payload is not a reader or valid buffer
+                             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                             */
+                            UriToLinesMapping.decodeDelimited = function decodeDelimited(reader) {
+                                if (!(reader instanceof $Reader))
+                                    reader = new $Reader(reader);
+                                return this.decode(reader, reader.uint32());
+                            };
+
+                            /**
+                             * Verifies an UriToLinesMapping message.
+                             * @function verify
+                             * @memberof io.cucumber.messages.CommandStart.SourcesConfig.SourcesFilterConfig.UriToLinesMapping
+                             * @static
+                             * @param {Object.<string,*>} message Plain object to verify
+                             * @returns {string|null} `null` if valid, otherwise the reason why it is not
+                             */
+                            UriToLinesMapping.verify = function verify(message) {
+                                if (typeof message !== "object" || message === null)
+                                    return "object expected";
+                                if (message.absolutePath != null && message.hasOwnProperty("absolutePath"))
+                                    if (!$util.isString(message.absolutePath))
+                                        return "absolutePath: string expected";
+                                if (message.lines != null && message.hasOwnProperty("lines")) {
+                                    if (!Array.isArray(message.lines))
+                                        return "lines: array expected";
+                                    for (var i = 0; i < message.lines.length; ++i)
+                                        if (!$util.isInteger(message.lines[i]) && !(message.lines[i] && $util.isInteger(message.lines[i].low) && $util.isInteger(message.lines[i].high)))
+                                            return "lines: integer|Long[] expected";
+                                }
+                                return null;
+                            };
+
+                            /**
+                             * Creates an UriToLinesMapping message from a plain object. Also converts values to their respective internal types.
+                             * @function fromObject
+                             * @memberof io.cucumber.messages.CommandStart.SourcesConfig.SourcesFilterConfig.UriToLinesMapping
+                             * @static
+                             * @param {Object.<string,*>} object Plain object
+                             * @returns {io.cucumber.messages.CommandStart.SourcesConfig.SourcesFilterConfig.UriToLinesMapping} UriToLinesMapping
+                             */
+                            UriToLinesMapping.fromObject = function fromObject(object) {
+                                if (object instanceof $root.io.cucumber.messages.CommandStart.SourcesConfig.SourcesFilterConfig.UriToLinesMapping)
+                                    return object;
+                                var message = new $root.io.cucumber.messages.CommandStart.SourcesConfig.SourcesFilterConfig.UriToLinesMapping();
+                                if (object.absolutePath != null)
+                                    message.absolutePath = String(object.absolutePath);
+                                if (object.lines) {
+                                    if (!Array.isArray(object.lines))
+                                        throw TypeError(".io.cucumber.messages.CommandStart.SourcesConfig.SourcesFilterConfig.UriToLinesMapping.lines: array expected");
+                                    message.lines = [];
+                                    for (var i = 0; i < object.lines.length; ++i)
+                                        if ($util.Long)
+                                            (message.lines[i] = $util.Long.fromValue(object.lines[i])).unsigned = true;
+                                        else if (typeof object.lines[i] === "string")
+                                            message.lines[i] = parseInt(object.lines[i], 10);
+                                        else if (typeof object.lines[i] === "number")
+                                            message.lines[i] = object.lines[i];
+                                        else if (typeof object.lines[i] === "object")
+                                            message.lines[i] = new $util.LongBits(object.lines[i].low >>> 0, object.lines[i].high >>> 0).toNumber(true);
+                                }
+                                return message;
+                            };
+
+                            /**
+                             * Creates a plain object from an UriToLinesMapping message. Also converts values to other types if specified.
+                             * @function toObject
+                             * @memberof io.cucumber.messages.CommandStart.SourcesConfig.SourcesFilterConfig.UriToLinesMapping
+                             * @static
+                             * @param {io.cucumber.messages.CommandStart.SourcesConfig.SourcesFilterConfig.UriToLinesMapping} message UriToLinesMapping
+                             * @param {$protobuf.IConversionOptions} [options] Conversion options
+                             * @returns {Object.<string,*>} Plain object
+                             */
+                            UriToLinesMapping.toObject = function toObject(message, options) {
+                                if (!options)
+                                    options = {};
+                                var object = {};
+                                if (options.arrays || options.defaults)
+                                    object.lines = [];
+                                if (options.defaults)
+                                    object.absolutePath = "";
+                                if (message.absolutePath != null && message.hasOwnProperty("absolutePath"))
+                                    object.absolutePath = message.absolutePath;
+                                if (message.lines && message.lines.length) {
+                                    object.lines = [];
+                                    for (var j = 0; j < message.lines.length; ++j)
+                                        if (typeof message.lines[j] === "number")
+                                            object.lines[j] = options.longs === String ? String(message.lines[j]) : message.lines[j];
+                                        else
+                                            object.lines[j] = options.longs === String ? $util.Long.prototype.toString.call(message.lines[j]) : options.longs === Number ? new $util.LongBits(message.lines[j].low >>> 0, message.lines[j].high >>> 0).toNumber(true) : message.lines[j];
+                                }
+                                return object;
+                            };
+
+                            /**
+                             * Converts this UriToLinesMapping to JSON.
+                             * @function toJSON
+                             * @memberof io.cucumber.messages.CommandStart.SourcesConfig.SourcesFilterConfig.UriToLinesMapping
+                             * @instance
+                             * @returns {Object.<string,*>} JSON object
+                             */
+                            UriToLinesMapping.prototype.toJSON = function toJSON() {
+                                return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+                            };
+
+                            return UriToLinesMapping;
+                        })();
+
+                        return SourcesFilterConfig;
+                    })();
+
+                    SourcesConfig.SourcesOrder = (function() {
+
+                        /**
+                         * Properties of a SourcesOrder.
+                         * @memberof io.cucumber.messages.CommandStart.SourcesConfig
+                         * @interface ISourcesOrder
+                         * @property {io.cucumber.messages.CommandStart.SourcesConfig.SourcesOrder.SourcesOrderType|null} [type] SourcesOrder type
+                         * @property {number|Long|null} [seed] SourcesOrder seed
+                         */
+
+                        /**
+                         * Constructs a new SourcesOrder.
+                         * @memberof io.cucumber.messages.CommandStart.SourcesConfig
+                         * @classdesc Specifies the order in which tests should be executed
+                         * @implements ISourcesOrder
+                         * @constructor
+                         * @param {io.cucumber.messages.CommandStart.SourcesConfig.ISourcesOrder=} [properties] Properties to set
+                         */
+                        function SourcesOrder(properties) {
+                            if (properties)
+                                for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                                    if (properties[keys[i]] != null)
+                                        this[keys[i]] = properties[keys[i]];
                         }
-                    }
-                    return message;
-                };
 
-                /**
-                 * Decodes a SourcesFilterConfig message from the specified reader or buffer, length delimited.
-                 * @function decodeDelimited
-                 * @memberof io.cucumber.messages.SourcesFilterConfig
-                 * @static
-                 * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-                 * @returns {io.cucumber.messages.SourcesFilterConfig} SourcesFilterConfig
-                 * @throws {Error} If the payload is not a reader or valid buffer
-                 * @throws {$protobuf.util.ProtocolError} If required fields are missing
-                 */
-                SourcesFilterConfig.decodeDelimited = function decodeDelimited(reader) {
-                    if (!(reader instanceof $Reader))
-                        reader = new $Reader(reader);
-                    return this.decode(reader, reader.uint32());
-                };
+                        /**
+                         * SourcesOrder type.
+                         * @member {io.cucumber.messages.CommandStart.SourcesConfig.SourcesOrder.SourcesOrderType} type
+                         * @memberof io.cucumber.messages.CommandStart.SourcesConfig.SourcesOrder
+                         * @instance
+                         */
+                        SourcesOrder.prototype.type = 0;
 
-                /**
-                 * Verifies a SourcesFilterConfig message.
-                 * @function verify
-                 * @memberof io.cucumber.messages.SourcesFilterConfig
-                 * @static
-                 * @param {Object.<string,*>} message Plain object to verify
-                 * @returns {string|null} `null` if valid, otherwise the reason why it is not
-                 */
-                SourcesFilterConfig.verify = function verify(message) {
-                    if (typeof message !== "object" || message === null)
-                        return "object expected";
-                    if (message.tagExpression != null && message.hasOwnProperty("tagExpression"))
-                        if (!$util.isString(message.tagExpression))
-                            return "tagExpression: string expected";
-                    if (message.nameRegularExpressions != null && message.hasOwnProperty("nameRegularExpressions")) {
-                        if (!Array.isArray(message.nameRegularExpressions))
-                            return "nameRegularExpressions: array expected";
-                        for (var i = 0; i < message.nameRegularExpressions.length; ++i)
-                            if (!$util.isString(message.nameRegularExpressions[i]))
-                                return "nameRegularExpressions: string[] expected";
+                        /**
+                         * SourcesOrder seed.
+                         * @member {number|Long} seed
+                         * @memberof io.cucumber.messages.CommandStart.SourcesConfig.SourcesOrder
+                         * @instance
+                         */
+                        SourcesOrder.prototype.seed = $util.Long ? $util.Long.fromBits(0,0,true) : 0;
+
+                        /**
+                         * Creates a new SourcesOrder instance using the specified properties.
+                         * @function create
+                         * @memberof io.cucumber.messages.CommandStart.SourcesConfig.SourcesOrder
+                         * @static
+                         * @param {io.cucumber.messages.CommandStart.SourcesConfig.ISourcesOrder=} [properties] Properties to set
+                         * @returns {io.cucumber.messages.CommandStart.SourcesConfig.SourcesOrder} SourcesOrder instance
+                         */
+                        SourcesOrder.create = function create(properties) {
+                            return new SourcesOrder(properties);
+                        };
+
+                        /**
+                         * Encodes the specified SourcesOrder message. Does not implicitly {@link io.cucumber.messages.CommandStart.SourcesConfig.SourcesOrder.verify|verify} messages.
+                         * @function encode
+                         * @memberof io.cucumber.messages.CommandStart.SourcesConfig.SourcesOrder
+                         * @static
+                         * @param {io.cucumber.messages.CommandStart.SourcesConfig.ISourcesOrder} message SourcesOrder message or plain object to encode
+                         * @param {$protobuf.Writer} [writer] Writer to encode to
+                         * @returns {$protobuf.Writer} Writer
+                         */
+                        SourcesOrder.encode = function encode(message, writer) {
+                            if (!writer)
+                                writer = $Writer.create();
+                            if (message.type != null && message.hasOwnProperty("type"))
+                                writer.uint32(/* id 1, wireType 0 =*/8).int32(message.type);
+                            if (message.seed != null && message.hasOwnProperty("seed"))
+                                writer.uint32(/* id 2, wireType 0 =*/16).uint64(message.seed);
+                            return writer;
+                        };
+
+                        /**
+                         * Encodes the specified SourcesOrder message, length delimited. Does not implicitly {@link io.cucumber.messages.CommandStart.SourcesConfig.SourcesOrder.verify|verify} messages.
+                         * @function encodeDelimited
+                         * @memberof io.cucumber.messages.CommandStart.SourcesConfig.SourcesOrder
+                         * @static
+                         * @param {io.cucumber.messages.CommandStart.SourcesConfig.ISourcesOrder} message SourcesOrder message or plain object to encode
+                         * @param {$protobuf.Writer} [writer] Writer to encode to
+                         * @returns {$protobuf.Writer} Writer
+                         */
+                        SourcesOrder.encodeDelimited = function encodeDelimited(message, writer) {
+                            return this.encode(message, writer).ldelim();
+                        };
+
+                        /**
+                         * Decodes a SourcesOrder message from the specified reader or buffer.
+                         * @function decode
+                         * @memberof io.cucumber.messages.CommandStart.SourcesConfig.SourcesOrder
+                         * @static
+                         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+                         * @param {number} [length] Message length if known beforehand
+                         * @returns {io.cucumber.messages.CommandStart.SourcesConfig.SourcesOrder} SourcesOrder
+                         * @throws {Error} If the payload is not a reader or valid buffer
+                         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                         */
+                        SourcesOrder.decode = function decode(reader, length) {
+                            if (!(reader instanceof $Reader))
+                                reader = $Reader.create(reader);
+                            var end = length === undefined ? reader.len : reader.pos + length, message = new $root.io.cucumber.messages.CommandStart.SourcesConfig.SourcesOrder();
+                            while (reader.pos < end) {
+                                var tag = reader.uint32();
+                                switch (tag >>> 3) {
+                                case 1:
+                                    message.type = reader.int32();
+                                    break;
+                                case 2:
+                                    message.seed = reader.uint64();
+                                    break;
+                                default:
+                                    reader.skipType(tag & 7);
+                                    break;
+                                }
+                            }
+                            return message;
+                        };
+
+                        /**
+                         * Decodes a SourcesOrder message from the specified reader or buffer, length delimited.
+                         * @function decodeDelimited
+                         * @memberof io.cucumber.messages.CommandStart.SourcesConfig.SourcesOrder
+                         * @static
+                         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+                         * @returns {io.cucumber.messages.CommandStart.SourcesConfig.SourcesOrder} SourcesOrder
+                         * @throws {Error} If the payload is not a reader or valid buffer
+                         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                         */
+                        SourcesOrder.decodeDelimited = function decodeDelimited(reader) {
+                            if (!(reader instanceof $Reader))
+                                reader = new $Reader(reader);
+                            return this.decode(reader, reader.uint32());
+                        };
+
+                        /**
+                         * Verifies a SourcesOrder message.
+                         * @function verify
+                         * @memberof io.cucumber.messages.CommandStart.SourcesConfig.SourcesOrder
+                         * @static
+                         * @param {Object.<string,*>} message Plain object to verify
+                         * @returns {string|null} `null` if valid, otherwise the reason why it is not
+                         */
+                        SourcesOrder.verify = function verify(message) {
+                            if (typeof message !== "object" || message === null)
+                                return "object expected";
+                            if (message.type != null && message.hasOwnProperty("type"))
+                                switch (message.type) {
+                                default:
+                                    return "type: enum value expected";
+                                case 0:
+                                case 1:
+                                    break;
+                                }
+                            if (message.seed != null && message.hasOwnProperty("seed"))
+                                if (!$util.isInteger(message.seed) && !(message.seed && $util.isInteger(message.seed.low) && $util.isInteger(message.seed.high)))
+                                    return "seed: integer|Long expected";
+                            return null;
+                        };
+
+                        /**
+                         * Creates a SourcesOrder message from a plain object. Also converts values to their respective internal types.
+                         * @function fromObject
+                         * @memberof io.cucumber.messages.CommandStart.SourcesConfig.SourcesOrder
+                         * @static
+                         * @param {Object.<string,*>} object Plain object
+                         * @returns {io.cucumber.messages.CommandStart.SourcesConfig.SourcesOrder} SourcesOrder
+                         */
+                        SourcesOrder.fromObject = function fromObject(object) {
+                            if (object instanceof $root.io.cucumber.messages.CommandStart.SourcesConfig.SourcesOrder)
+                                return object;
+                            var message = new $root.io.cucumber.messages.CommandStart.SourcesConfig.SourcesOrder();
+                            switch (object.type) {
+                            case "ORDER_OF_DEFINITION":
+                            case 0:
+                                message.type = 0;
+                                break;
+                            case "RANDOM":
+                            case 1:
+                                message.type = 1;
+                                break;
+                            }
+                            if (object.seed != null)
+                                if ($util.Long)
+                                    (message.seed = $util.Long.fromValue(object.seed)).unsigned = true;
+                                else if (typeof object.seed === "string")
+                                    message.seed = parseInt(object.seed, 10);
+                                else if (typeof object.seed === "number")
+                                    message.seed = object.seed;
+                                else if (typeof object.seed === "object")
+                                    message.seed = new $util.LongBits(object.seed.low >>> 0, object.seed.high >>> 0).toNumber(true);
+                            return message;
+                        };
+
+                        /**
+                         * Creates a plain object from a SourcesOrder message. Also converts values to other types if specified.
+                         * @function toObject
+                         * @memberof io.cucumber.messages.CommandStart.SourcesConfig.SourcesOrder
+                         * @static
+                         * @param {io.cucumber.messages.CommandStart.SourcesConfig.SourcesOrder} message SourcesOrder
+                         * @param {$protobuf.IConversionOptions} [options] Conversion options
+                         * @returns {Object.<string,*>} Plain object
+                         */
+                        SourcesOrder.toObject = function toObject(message, options) {
+                            if (!options)
+                                options = {};
+                            var object = {};
+                            if (options.defaults) {
+                                object.type = options.enums === String ? "ORDER_OF_DEFINITION" : 0;
+                                if ($util.Long) {
+                                    var long = new $util.Long(0, 0, true);
+                                    object.seed = options.longs === String ? long.toString() : options.longs === Number ? long.toNumber() : long;
+                                } else
+                                    object.seed = options.longs === String ? "0" : 0;
+                            }
+                            if (message.type != null && message.hasOwnProperty("type"))
+                                object.type = options.enums === String ? $root.io.cucumber.messages.CommandStart.SourcesConfig.SourcesOrder.SourcesOrderType[message.type] : message.type;
+                            if (message.seed != null && message.hasOwnProperty("seed"))
+                                if (typeof message.seed === "number")
+                                    object.seed = options.longs === String ? String(message.seed) : message.seed;
+                                else
+                                    object.seed = options.longs === String ? $util.Long.prototype.toString.call(message.seed) : options.longs === Number ? new $util.LongBits(message.seed.low >>> 0, message.seed.high >>> 0).toNumber(true) : message.seed;
+                            return object;
+                        };
+
+                        /**
+                         * Converts this SourcesOrder to JSON.
+                         * @function toJSON
+                         * @memberof io.cucumber.messages.CommandStart.SourcesConfig.SourcesOrder
+                         * @instance
+                         * @returns {Object.<string,*>} JSON object
+                         */
+                        SourcesOrder.prototype.toJSON = function toJSON() {
+                            return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+                        };
+
+                        /**
+                         * SourcesOrderType enum.
+                         * @name io.cucumber.messages.CommandStart.SourcesConfig.SourcesOrder.SourcesOrderType
+                         * @enum {string}
+                         * @property {number} ORDER_OF_DEFINITION=0 ORDER_OF_DEFINITION value
+                         * @property {number} RANDOM=1 RANDOM value
+                         */
+                        SourcesOrder.SourcesOrderType = (function() {
+                            var valuesById = {}, values = Object.create(valuesById);
+                            values[valuesById[0] = "ORDER_OF_DEFINITION"] = 0;
+                            values[valuesById[1] = "RANDOM"] = 1;
+                            return values;
+                        })();
+
+                        return SourcesOrder;
+                    })();
+
+                    return SourcesConfig;
+                })();
+
+                CommandStart.RuntimeConfig = (function() {
+
+                    /**
+                     * Properties of a RuntimeConfig.
+                     * @memberof io.cucumber.messages.CommandStart
+                     * @interface IRuntimeConfig
+                     * @property {boolean|null} [isFailFast] RuntimeConfig isFailFast
+                     * @property {boolean|null} [isDryRun] RuntimeConfig isDryRun
+                     * @property {boolean|null} [isStrict] RuntimeConfig isStrict
+                     * @property {number|Long|null} [maxParallel] RuntimeConfig maxParallel
+                     */
+
+                    /**
+                     * Constructs a new RuntimeConfig.
+                     * @memberof io.cucumber.messages.CommandStart
+                     * @classdesc Represents a RuntimeConfig.
+                     * @implements IRuntimeConfig
+                     * @constructor
+                     * @param {io.cucumber.messages.CommandStart.IRuntimeConfig=} [properties] Properties to set
+                     */
+                    function RuntimeConfig(properties) {
+                        if (properties)
+                            for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                                if (properties[keys[i]] != null)
+                                    this[keys[i]] = properties[keys[i]];
                     }
-                    if (message.uriToLinesMapping != null && message.hasOwnProperty("uriToLinesMapping")) {
-                        if (!Array.isArray(message.uriToLinesMapping))
-                            return "uriToLinesMapping: array expected";
-                        for (var i = 0; i < message.uriToLinesMapping.length; ++i) {
-                            var error = $root.io.cucumber.messages.UriToLinesMapping.verify(message.uriToLinesMapping[i]);
-                            if (error)
-                                return "uriToLinesMapping." + error;
+
+                    /**
+                     * RuntimeConfig isFailFast.
+                     * @member {boolean} isFailFast
+                     * @memberof io.cucumber.messages.CommandStart.RuntimeConfig
+                     * @instance
+                     */
+                    RuntimeConfig.prototype.isFailFast = false;
+
+                    /**
+                     * RuntimeConfig isDryRun.
+                     * @member {boolean} isDryRun
+                     * @memberof io.cucumber.messages.CommandStart.RuntimeConfig
+                     * @instance
+                     */
+                    RuntimeConfig.prototype.isDryRun = false;
+
+                    /**
+                     * RuntimeConfig isStrict.
+                     * @member {boolean} isStrict
+                     * @memberof io.cucumber.messages.CommandStart.RuntimeConfig
+                     * @instance
+                     */
+                    RuntimeConfig.prototype.isStrict = false;
+
+                    /**
+                     * RuntimeConfig maxParallel.
+                     * @member {number|Long} maxParallel
+                     * @memberof io.cucumber.messages.CommandStart.RuntimeConfig
+                     * @instance
+                     */
+                    RuntimeConfig.prototype.maxParallel = $util.Long ? $util.Long.fromBits(0,0,true) : 0;
+
+                    /**
+                     * Creates a new RuntimeConfig instance using the specified properties.
+                     * @function create
+                     * @memberof io.cucumber.messages.CommandStart.RuntimeConfig
+                     * @static
+                     * @param {io.cucumber.messages.CommandStart.IRuntimeConfig=} [properties] Properties to set
+                     * @returns {io.cucumber.messages.CommandStart.RuntimeConfig} RuntimeConfig instance
+                     */
+                    RuntimeConfig.create = function create(properties) {
+                        return new RuntimeConfig(properties);
+                    };
+
+                    /**
+                     * Encodes the specified RuntimeConfig message. Does not implicitly {@link io.cucumber.messages.CommandStart.RuntimeConfig.verify|verify} messages.
+                     * @function encode
+                     * @memberof io.cucumber.messages.CommandStart.RuntimeConfig
+                     * @static
+                     * @param {io.cucumber.messages.CommandStart.IRuntimeConfig} message RuntimeConfig message or plain object to encode
+                     * @param {$protobuf.Writer} [writer] Writer to encode to
+                     * @returns {$protobuf.Writer} Writer
+                     */
+                    RuntimeConfig.encode = function encode(message, writer) {
+                        if (!writer)
+                            writer = $Writer.create();
+                        if (message.isFailFast != null && message.hasOwnProperty("isFailFast"))
+                            writer.uint32(/* id 1, wireType 0 =*/8).bool(message.isFailFast);
+                        if (message.isDryRun != null && message.hasOwnProperty("isDryRun"))
+                            writer.uint32(/* id 2, wireType 0 =*/16).bool(message.isDryRun);
+                        if (message.isStrict != null && message.hasOwnProperty("isStrict"))
+                            writer.uint32(/* id 3, wireType 0 =*/24).bool(message.isStrict);
+                        if (message.maxParallel != null && message.hasOwnProperty("maxParallel"))
+                            writer.uint32(/* id 4, wireType 0 =*/32).uint64(message.maxParallel);
+                        return writer;
+                    };
+
+                    /**
+                     * Encodes the specified RuntimeConfig message, length delimited. Does not implicitly {@link io.cucumber.messages.CommandStart.RuntimeConfig.verify|verify} messages.
+                     * @function encodeDelimited
+                     * @memberof io.cucumber.messages.CommandStart.RuntimeConfig
+                     * @static
+                     * @param {io.cucumber.messages.CommandStart.IRuntimeConfig} message RuntimeConfig message or plain object to encode
+                     * @param {$protobuf.Writer} [writer] Writer to encode to
+                     * @returns {$protobuf.Writer} Writer
+                     */
+                    RuntimeConfig.encodeDelimited = function encodeDelimited(message, writer) {
+                        return this.encode(message, writer).ldelim();
+                    };
+
+                    /**
+                     * Decodes a RuntimeConfig message from the specified reader or buffer.
+                     * @function decode
+                     * @memberof io.cucumber.messages.CommandStart.RuntimeConfig
+                     * @static
+                     * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+                     * @param {number} [length] Message length if known beforehand
+                     * @returns {io.cucumber.messages.CommandStart.RuntimeConfig} RuntimeConfig
+                     * @throws {Error} If the payload is not a reader or valid buffer
+                     * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                     */
+                    RuntimeConfig.decode = function decode(reader, length) {
+                        if (!(reader instanceof $Reader))
+                            reader = $Reader.create(reader);
+                        var end = length === undefined ? reader.len : reader.pos + length, message = new $root.io.cucumber.messages.CommandStart.RuntimeConfig();
+                        while (reader.pos < end) {
+                            var tag = reader.uint32();
+                            switch (tag >>> 3) {
+                            case 1:
+                                message.isFailFast = reader.bool();
+                                break;
+                            case 2:
+                                message.isDryRun = reader.bool();
+                                break;
+                            case 3:
+                                message.isStrict = reader.bool();
+                                break;
+                            case 4:
+                                message.maxParallel = reader.uint64();
+                                break;
+                            default:
+                                reader.skipType(tag & 7);
+                                break;
+                            }
                         }
-                    }
-                    return null;
-                };
+                        return message;
+                    };
 
-                /**
-                 * Creates a SourcesFilterConfig message from a plain object. Also converts values to their respective internal types.
-                 * @function fromObject
-                 * @memberof io.cucumber.messages.SourcesFilterConfig
-                 * @static
-                 * @param {Object.<string,*>} object Plain object
-                 * @returns {io.cucumber.messages.SourcesFilterConfig} SourcesFilterConfig
-                 */
-                SourcesFilterConfig.fromObject = function fromObject(object) {
-                    if (object instanceof $root.io.cucumber.messages.SourcesFilterConfig)
-                        return object;
-                    var message = new $root.io.cucumber.messages.SourcesFilterConfig();
-                    if (object.tagExpression != null)
-                        message.tagExpression = String(object.tagExpression);
-                    if (object.nameRegularExpressions) {
-                        if (!Array.isArray(object.nameRegularExpressions))
-                            throw TypeError(".io.cucumber.messages.SourcesFilterConfig.nameRegularExpressions: array expected");
-                        message.nameRegularExpressions = [];
-                        for (var i = 0; i < object.nameRegularExpressions.length; ++i)
-                            message.nameRegularExpressions[i] = String(object.nameRegularExpressions[i]);
-                    }
-                    if (object.uriToLinesMapping) {
-                        if (!Array.isArray(object.uriToLinesMapping))
-                            throw TypeError(".io.cucumber.messages.SourcesFilterConfig.uriToLinesMapping: array expected");
-                        message.uriToLinesMapping = [];
-                        for (var i = 0; i < object.uriToLinesMapping.length; ++i) {
-                            if (typeof object.uriToLinesMapping[i] !== "object")
-                                throw TypeError(".io.cucumber.messages.SourcesFilterConfig.uriToLinesMapping: object expected");
-                            message.uriToLinesMapping[i] = $root.io.cucumber.messages.UriToLinesMapping.fromObject(object.uriToLinesMapping[i]);
-                        }
-                    }
-                    return message;
-                };
+                    /**
+                     * Decodes a RuntimeConfig message from the specified reader or buffer, length delimited.
+                     * @function decodeDelimited
+                     * @memberof io.cucumber.messages.CommandStart.RuntimeConfig
+                     * @static
+                     * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+                     * @returns {io.cucumber.messages.CommandStart.RuntimeConfig} RuntimeConfig
+                     * @throws {Error} If the payload is not a reader or valid buffer
+                     * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                     */
+                    RuntimeConfig.decodeDelimited = function decodeDelimited(reader) {
+                        if (!(reader instanceof $Reader))
+                            reader = new $Reader(reader);
+                        return this.decode(reader, reader.uint32());
+                    };
 
-                /**
-                 * Creates a plain object from a SourcesFilterConfig message. Also converts values to other types if specified.
-                 * @function toObject
-                 * @memberof io.cucumber.messages.SourcesFilterConfig
-                 * @static
-                 * @param {io.cucumber.messages.SourcesFilterConfig} message SourcesFilterConfig
-                 * @param {$protobuf.IConversionOptions} [options] Conversion options
-                 * @returns {Object.<string,*>} Plain object
-                 */
-                SourcesFilterConfig.toObject = function toObject(message, options) {
-                    if (!options)
-                        options = {};
-                    var object = {};
-                    if (options.arrays || options.defaults) {
-                        object.nameRegularExpressions = [];
-                        object.uriToLinesMapping = [];
-                    }
-                    if (options.defaults)
-                        object.tagExpression = "";
-                    if (message.tagExpression != null && message.hasOwnProperty("tagExpression"))
-                        object.tagExpression = message.tagExpression;
-                    if (message.nameRegularExpressions && message.nameRegularExpressions.length) {
-                        object.nameRegularExpressions = [];
-                        for (var j = 0; j < message.nameRegularExpressions.length; ++j)
-                            object.nameRegularExpressions[j] = message.nameRegularExpressions[j];
-                    }
-                    if (message.uriToLinesMapping && message.uriToLinesMapping.length) {
-                        object.uriToLinesMapping = [];
-                        for (var j = 0; j < message.uriToLinesMapping.length; ++j)
-                            object.uriToLinesMapping[j] = $root.io.cucumber.messages.UriToLinesMapping.toObject(message.uriToLinesMapping[j], options);
-                    }
-                    return object;
-                };
+                    /**
+                     * Verifies a RuntimeConfig message.
+                     * @function verify
+                     * @memberof io.cucumber.messages.CommandStart.RuntimeConfig
+                     * @static
+                     * @param {Object.<string,*>} message Plain object to verify
+                     * @returns {string|null} `null` if valid, otherwise the reason why it is not
+                     */
+                    RuntimeConfig.verify = function verify(message) {
+                        if (typeof message !== "object" || message === null)
+                            return "object expected";
+                        if (message.isFailFast != null && message.hasOwnProperty("isFailFast"))
+                            if (typeof message.isFailFast !== "boolean")
+                                return "isFailFast: boolean expected";
+                        if (message.isDryRun != null && message.hasOwnProperty("isDryRun"))
+                            if (typeof message.isDryRun !== "boolean")
+                                return "isDryRun: boolean expected";
+                        if (message.isStrict != null && message.hasOwnProperty("isStrict"))
+                            if (typeof message.isStrict !== "boolean")
+                                return "isStrict: boolean expected";
+                        if (message.maxParallel != null && message.hasOwnProperty("maxParallel"))
+                            if (!$util.isInteger(message.maxParallel) && !(message.maxParallel && $util.isInteger(message.maxParallel.low) && $util.isInteger(message.maxParallel.high)))
+                                return "maxParallel: integer|Long expected";
+                        return null;
+                    };
 
-                /**
-                 * Converts this SourcesFilterConfig to JSON.
-                 * @function toJSON
-                 * @memberof io.cucumber.messages.SourcesFilterConfig
-                 * @instance
-                 * @returns {Object.<string,*>} JSON object
-                 */
-                SourcesFilterConfig.prototype.toJSON = function toJSON() {
-                    return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
-                };
-
-                return SourcesFilterConfig;
-            })();
-
-            messages.UriToLinesMapping = (function() {
-
-                /**
-                 * Properties of an UriToLinesMapping.
-                 * @memberof io.cucumber.messages
-                 * @interface IUriToLinesMapping
-                 * @property {string|null} [absolutePath] UriToLinesMapping absolutePath
-                 * @property {Array.<number|Long>|null} [lines] UriToLinesMapping lines
-                 */
-
-                /**
-                 * Constructs a new UriToLinesMapping.
-                 * @memberof io.cucumber.messages
-                 * @classdesc Represents an UriToLinesMapping.
-                 * @implements IUriToLinesMapping
-                 * @constructor
-                 * @param {io.cucumber.messages.IUriToLinesMapping=} [properties] Properties to set
-                 */
-                function UriToLinesMapping(properties) {
-                    this.lines = [];
-                    if (properties)
-                        for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
-                            if (properties[keys[i]] != null)
-                                this[keys[i]] = properties[keys[i]];
-                }
-
-                /**
-                 * UriToLinesMapping absolutePath.
-                 * @member {string} absolutePath
-                 * @memberof io.cucumber.messages.UriToLinesMapping
-                 * @instance
-                 */
-                UriToLinesMapping.prototype.absolutePath = "";
-
-                /**
-                 * UriToLinesMapping lines.
-                 * @member {Array.<number|Long>} lines
-                 * @memberof io.cucumber.messages.UriToLinesMapping
-                 * @instance
-                 */
-                UriToLinesMapping.prototype.lines = $util.emptyArray;
-
-                /**
-                 * Creates a new UriToLinesMapping instance using the specified properties.
-                 * @function create
-                 * @memberof io.cucumber.messages.UriToLinesMapping
-                 * @static
-                 * @param {io.cucumber.messages.IUriToLinesMapping=} [properties] Properties to set
-                 * @returns {io.cucumber.messages.UriToLinesMapping} UriToLinesMapping instance
-                 */
-                UriToLinesMapping.create = function create(properties) {
-                    return new UriToLinesMapping(properties);
-                };
-
-                /**
-                 * Encodes the specified UriToLinesMapping message. Does not implicitly {@link io.cucumber.messages.UriToLinesMapping.verify|verify} messages.
-                 * @function encode
-                 * @memberof io.cucumber.messages.UriToLinesMapping
-                 * @static
-                 * @param {io.cucumber.messages.IUriToLinesMapping} message UriToLinesMapping message or plain object to encode
-                 * @param {$protobuf.Writer} [writer] Writer to encode to
-                 * @returns {$protobuf.Writer} Writer
-                 */
-                UriToLinesMapping.encode = function encode(message, writer) {
-                    if (!writer)
-                        writer = $Writer.create();
-                    if (message.absolutePath != null && message.hasOwnProperty("absolutePath"))
-                        writer.uint32(/* id 1, wireType 2 =*/10).string(message.absolutePath);
-                    if (message.lines != null && message.lines.length) {
-                        writer.uint32(/* id 2, wireType 2 =*/18).fork();
-                        for (var i = 0; i < message.lines.length; ++i)
-                            writer.uint64(message.lines[i]);
-                        writer.ldelim();
-                    }
-                    return writer;
-                };
-
-                /**
-                 * Encodes the specified UriToLinesMapping message, length delimited. Does not implicitly {@link io.cucumber.messages.UriToLinesMapping.verify|verify} messages.
-                 * @function encodeDelimited
-                 * @memberof io.cucumber.messages.UriToLinesMapping
-                 * @static
-                 * @param {io.cucumber.messages.IUriToLinesMapping} message UriToLinesMapping message or plain object to encode
-                 * @param {$protobuf.Writer} [writer] Writer to encode to
-                 * @returns {$protobuf.Writer} Writer
-                 */
-                UriToLinesMapping.encodeDelimited = function encodeDelimited(message, writer) {
-                    return this.encode(message, writer).ldelim();
-                };
-
-                /**
-                 * Decodes an UriToLinesMapping message from the specified reader or buffer.
-                 * @function decode
-                 * @memberof io.cucumber.messages.UriToLinesMapping
-                 * @static
-                 * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-                 * @param {number} [length] Message length if known beforehand
-                 * @returns {io.cucumber.messages.UriToLinesMapping} UriToLinesMapping
-                 * @throws {Error} If the payload is not a reader or valid buffer
-                 * @throws {$protobuf.util.ProtocolError} If required fields are missing
-                 */
-                UriToLinesMapping.decode = function decode(reader, length) {
-                    if (!(reader instanceof $Reader))
-                        reader = $Reader.create(reader);
-                    var end = length === undefined ? reader.len : reader.pos + length, message = new $root.io.cucumber.messages.UriToLinesMapping();
-                    while (reader.pos < end) {
-                        var tag = reader.uint32();
-                        switch (tag >>> 3) {
-                        case 1:
-                            message.absolutePath = reader.string();
-                            break;
-                        case 2:
-                            if (!(message.lines && message.lines.length))
-                                message.lines = [];
-                            if ((tag & 7) === 2) {
-                                var end2 = reader.uint32() + reader.pos;
-                                while (reader.pos < end2)
-                                    message.lines.push(reader.uint64());
-                            } else
-                                message.lines.push(reader.uint64());
-                            break;
-                        default:
-                            reader.skipType(tag & 7);
-                            break;
-                        }
-                    }
-                    return message;
-                };
-
-                /**
-                 * Decodes an UriToLinesMapping message from the specified reader or buffer, length delimited.
-                 * @function decodeDelimited
-                 * @memberof io.cucumber.messages.UriToLinesMapping
-                 * @static
-                 * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-                 * @returns {io.cucumber.messages.UriToLinesMapping} UriToLinesMapping
-                 * @throws {Error} If the payload is not a reader or valid buffer
-                 * @throws {$protobuf.util.ProtocolError} If required fields are missing
-                 */
-                UriToLinesMapping.decodeDelimited = function decodeDelimited(reader) {
-                    if (!(reader instanceof $Reader))
-                        reader = new $Reader(reader);
-                    return this.decode(reader, reader.uint32());
-                };
-
-                /**
-                 * Verifies an UriToLinesMapping message.
-                 * @function verify
-                 * @memberof io.cucumber.messages.UriToLinesMapping
-                 * @static
-                 * @param {Object.<string,*>} message Plain object to verify
-                 * @returns {string|null} `null` if valid, otherwise the reason why it is not
-                 */
-                UriToLinesMapping.verify = function verify(message) {
-                    if (typeof message !== "object" || message === null)
-                        return "object expected";
-                    if (message.absolutePath != null && message.hasOwnProperty("absolutePath"))
-                        if (!$util.isString(message.absolutePath))
-                            return "absolutePath: string expected";
-                    if (message.lines != null && message.hasOwnProperty("lines")) {
-                        if (!Array.isArray(message.lines))
-                            return "lines: array expected";
-                        for (var i = 0; i < message.lines.length; ++i)
-                            if (!$util.isInteger(message.lines[i]) && !(message.lines[i] && $util.isInteger(message.lines[i].low) && $util.isInteger(message.lines[i].high)))
-                                return "lines: integer|Long[] expected";
-                    }
-                    return null;
-                };
-
-                /**
-                 * Creates an UriToLinesMapping message from a plain object. Also converts values to their respective internal types.
-                 * @function fromObject
-                 * @memberof io.cucumber.messages.UriToLinesMapping
-                 * @static
-                 * @param {Object.<string,*>} object Plain object
-                 * @returns {io.cucumber.messages.UriToLinesMapping} UriToLinesMapping
-                 */
-                UriToLinesMapping.fromObject = function fromObject(object) {
-                    if (object instanceof $root.io.cucumber.messages.UriToLinesMapping)
-                        return object;
-                    var message = new $root.io.cucumber.messages.UriToLinesMapping();
-                    if (object.absolutePath != null)
-                        message.absolutePath = String(object.absolutePath);
-                    if (object.lines) {
-                        if (!Array.isArray(object.lines))
-                            throw TypeError(".io.cucumber.messages.UriToLinesMapping.lines: array expected");
-                        message.lines = [];
-                        for (var i = 0; i < object.lines.length; ++i)
+                    /**
+                     * Creates a RuntimeConfig message from a plain object. Also converts values to their respective internal types.
+                     * @function fromObject
+                     * @memberof io.cucumber.messages.CommandStart.RuntimeConfig
+                     * @static
+                     * @param {Object.<string,*>} object Plain object
+                     * @returns {io.cucumber.messages.CommandStart.RuntimeConfig} RuntimeConfig
+                     */
+                    RuntimeConfig.fromObject = function fromObject(object) {
+                        if (object instanceof $root.io.cucumber.messages.CommandStart.RuntimeConfig)
+                            return object;
+                        var message = new $root.io.cucumber.messages.CommandStart.RuntimeConfig();
+                        if (object.isFailFast != null)
+                            message.isFailFast = Boolean(object.isFailFast);
+                        if (object.isDryRun != null)
+                            message.isDryRun = Boolean(object.isDryRun);
+                        if (object.isStrict != null)
+                            message.isStrict = Boolean(object.isStrict);
+                        if (object.maxParallel != null)
                             if ($util.Long)
-                                (message.lines[i] = $util.Long.fromValue(object.lines[i])).unsigned = true;
-                            else if (typeof object.lines[i] === "string")
-                                message.lines[i] = parseInt(object.lines[i], 10);
-                            else if (typeof object.lines[i] === "number")
-                                message.lines[i] = object.lines[i];
-                            else if (typeof object.lines[i] === "object")
-                                message.lines[i] = new $util.LongBits(object.lines[i].low >>> 0, object.lines[i].high >>> 0).toNumber(true);
-                    }
-                    return message;
-                };
+                                (message.maxParallel = $util.Long.fromValue(object.maxParallel)).unsigned = true;
+                            else if (typeof object.maxParallel === "string")
+                                message.maxParallel = parseInt(object.maxParallel, 10);
+                            else if (typeof object.maxParallel === "number")
+                                message.maxParallel = object.maxParallel;
+                            else if (typeof object.maxParallel === "object")
+                                message.maxParallel = new $util.LongBits(object.maxParallel.low >>> 0, object.maxParallel.high >>> 0).toNumber(true);
+                        return message;
+                    };
 
-                /**
-                 * Creates a plain object from an UriToLinesMapping message. Also converts values to other types if specified.
-                 * @function toObject
-                 * @memberof io.cucumber.messages.UriToLinesMapping
-                 * @static
-                 * @param {io.cucumber.messages.UriToLinesMapping} message UriToLinesMapping
-                 * @param {$protobuf.IConversionOptions} [options] Conversion options
-                 * @returns {Object.<string,*>} Plain object
-                 */
-                UriToLinesMapping.toObject = function toObject(message, options) {
-                    if (!options)
-                        options = {};
-                    var object = {};
-                    if (options.arrays || options.defaults)
-                        object.lines = [];
-                    if (options.defaults)
-                        object.absolutePath = "";
-                    if (message.absolutePath != null && message.hasOwnProperty("absolutePath"))
-                        object.absolutePath = message.absolutePath;
-                    if (message.lines && message.lines.length) {
-                        object.lines = [];
-                        for (var j = 0; j < message.lines.length; ++j)
-                            if (typeof message.lines[j] === "number")
-                                object.lines[j] = options.longs === String ? String(message.lines[j]) : message.lines[j];
+                    /**
+                     * Creates a plain object from a RuntimeConfig message. Also converts values to other types if specified.
+                     * @function toObject
+                     * @memberof io.cucumber.messages.CommandStart.RuntimeConfig
+                     * @static
+                     * @param {io.cucumber.messages.CommandStart.RuntimeConfig} message RuntimeConfig
+                     * @param {$protobuf.IConversionOptions} [options] Conversion options
+                     * @returns {Object.<string,*>} Plain object
+                     */
+                    RuntimeConfig.toObject = function toObject(message, options) {
+                        if (!options)
+                            options = {};
+                        var object = {};
+                        if (options.defaults) {
+                            object.isFailFast = false;
+                            object.isDryRun = false;
+                            object.isStrict = false;
+                            if ($util.Long) {
+                                var long = new $util.Long(0, 0, true);
+                                object.maxParallel = options.longs === String ? long.toString() : options.longs === Number ? long.toNumber() : long;
+                            } else
+                                object.maxParallel = options.longs === String ? "0" : 0;
+                        }
+                        if (message.isFailFast != null && message.hasOwnProperty("isFailFast"))
+                            object.isFailFast = message.isFailFast;
+                        if (message.isDryRun != null && message.hasOwnProperty("isDryRun"))
+                            object.isDryRun = message.isDryRun;
+                        if (message.isStrict != null && message.hasOwnProperty("isStrict"))
+                            object.isStrict = message.isStrict;
+                        if (message.maxParallel != null && message.hasOwnProperty("maxParallel"))
+                            if (typeof message.maxParallel === "number")
+                                object.maxParallel = options.longs === String ? String(message.maxParallel) : message.maxParallel;
                             else
-                                object.lines[j] = options.longs === String ? $util.Long.prototype.toString.call(message.lines[j]) : options.longs === Number ? new $util.LongBits(message.lines[j].low >>> 0, message.lines[j].high >>> 0).toNumber(true) : message.lines[j];
-                    }
-                    return object;
-                };
-
-                /**
-                 * Converts this UriToLinesMapping to JSON.
-                 * @function toJSON
-                 * @memberof io.cucumber.messages.UriToLinesMapping
-                 * @instance
-                 * @returns {Object.<string,*>} JSON object
-                 */
-                UriToLinesMapping.prototype.toJSON = function toJSON() {
-                    return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
-                };
-
-                return UriToLinesMapping;
-            })();
-
-            messages.SourcesOrder = (function() {
-
-                /**
-                 * Properties of a SourcesOrder.
-                 * @memberof io.cucumber.messages
-                 * @interface ISourcesOrder
-                 * @property {io.cucumber.messages.SourcesOrderType|null} [type] SourcesOrder type
-                 * @property {number|Long|null} [seed] SourcesOrder seed
-                 */
-
-                /**
-                 * Constructs a new SourcesOrder.
-                 * @memberof io.cucumber.messages
-                 * @classdesc Represents a SourcesOrder.
-                 * @implements ISourcesOrder
-                 * @constructor
-                 * @param {io.cucumber.messages.ISourcesOrder=} [properties] Properties to set
-                 */
-                function SourcesOrder(properties) {
-                    if (properties)
-                        for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
-                            if (properties[keys[i]] != null)
-                                this[keys[i]] = properties[keys[i]];
-                }
-
-                /**
-                 * SourcesOrder type.
-                 * @member {io.cucumber.messages.SourcesOrderType} type
-                 * @memberof io.cucumber.messages.SourcesOrder
-                 * @instance
-                 */
-                SourcesOrder.prototype.type = 0;
-
-                /**
-                 * SourcesOrder seed.
-                 * @member {number|Long} seed
-                 * @memberof io.cucumber.messages.SourcesOrder
-                 * @instance
-                 */
-                SourcesOrder.prototype.seed = $util.Long ? $util.Long.fromBits(0,0,true) : 0;
-
-                /**
-                 * Creates a new SourcesOrder instance using the specified properties.
-                 * @function create
-                 * @memberof io.cucumber.messages.SourcesOrder
-                 * @static
-                 * @param {io.cucumber.messages.ISourcesOrder=} [properties] Properties to set
-                 * @returns {io.cucumber.messages.SourcesOrder} SourcesOrder instance
-                 */
-                SourcesOrder.create = function create(properties) {
-                    return new SourcesOrder(properties);
-                };
-
-                /**
-                 * Encodes the specified SourcesOrder message. Does not implicitly {@link io.cucumber.messages.SourcesOrder.verify|verify} messages.
-                 * @function encode
-                 * @memberof io.cucumber.messages.SourcesOrder
-                 * @static
-                 * @param {io.cucumber.messages.ISourcesOrder} message SourcesOrder message or plain object to encode
-                 * @param {$protobuf.Writer} [writer] Writer to encode to
-                 * @returns {$protobuf.Writer} Writer
-                 */
-                SourcesOrder.encode = function encode(message, writer) {
-                    if (!writer)
-                        writer = $Writer.create();
-                    if (message.type != null && message.hasOwnProperty("type"))
-                        writer.uint32(/* id 1, wireType 0 =*/8).int32(message.type);
-                    if (message.seed != null && message.hasOwnProperty("seed"))
-                        writer.uint32(/* id 2, wireType 0 =*/16).uint64(message.seed);
-                    return writer;
-                };
-
-                /**
-                 * Encodes the specified SourcesOrder message, length delimited. Does not implicitly {@link io.cucumber.messages.SourcesOrder.verify|verify} messages.
-                 * @function encodeDelimited
-                 * @memberof io.cucumber.messages.SourcesOrder
-                 * @static
-                 * @param {io.cucumber.messages.ISourcesOrder} message SourcesOrder message or plain object to encode
-                 * @param {$protobuf.Writer} [writer] Writer to encode to
-                 * @returns {$protobuf.Writer} Writer
-                 */
-                SourcesOrder.encodeDelimited = function encodeDelimited(message, writer) {
-                    return this.encode(message, writer).ldelim();
-                };
-
-                /**
-                 * Decodes a SourcesOrder message from the specified reader or buffer.
-                 * @function decode
-                 * @memberof io.cucumber.messages.SourcesOrder
-                 * @static
-                 * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-                 * @param {number} [length] Message length if known beforehand
-                 * @returns {io.cucumber.messages.SourcesOrder} SourcesOrder
-                 * @throws {Error} If the payload is not a reader or valid buffer
-                 * @throws {$protobuf.util.ProtocolError} If required fields are missing
-                 */
-                SourcesOrder.decode = function decode(reader, length) {
-                    if (!(reader instanceof $Reader))
-                        reader = $Reader.create(reader);
-                    var end = length === undefined ? reader.len : reader.pos + length, message = new $root.io.cucumber.messages.SourcesOrder();
-                    while (reader.pos < end) {
-                        var tag = reader.uint32();
-                        switch (tag >>> 3) {
-                        case 1:
-                            message.type = reader.int32();
-                            break;
-                        case 2:
-                            message.seed = reader.uint64();
-                            break;
-                        default:
-                            reader.skipType(tag & 7);
-                            break;
-                        }
-                    }
-                    return message;
-                };
-
-                /**
-                 * Decodes a SourcesOrder message from the specified reader or buffer, length delimited.
-                 * @function decodeDelimited
-                 * @memberof io.cucumber.messages.SourcesOrder
-                 * @static
-                 * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-                 * @returns {io.cucumber.messages.SourcesOrder} SourcesOrder
-                 * @throws {Error} If the payload is not a reader or valid buffer
-                 * @throws {$protobuf.util.ProtocolError} If required fields are missing
-                 */
-                SourcesOrder.decodeDelimited = function decodeDelimited(reader) {
-                    if (!(reader instanceof $Reader))
-                        reader = new $Reader(reader);
-                    return this.decode(reader, reader.uint32());
-                };
-
-                /**
-                 * Verifies a SourcesOrder message.
-                 * @function verify
-                 * @memberof io.cucumber.messages.SourcesOrder
-                 * @static
-                 * @param {Object.<string,*>} message Plain object to verify
-                 * @returns {string|null} `null` if valid, otherwise the reason why it is not
-                 */
-                SourcesOrder.verify = function verify(message) {
-                    if (typeof message !== "object" || message === null)
-                        return "object expected";
-                    if (message.type != null && message.hasOwnProperty("type"))
-                        switch (message.type) {
-                        default:
-                            return "type: enum value expected";
-                        case 0:
-                        case 1:
-                            break;
-                        }
-                    if (message.seed != null && message.hasOwnProperty("seed"))
-                        if (!$util.isInteger(message.seed) && !(message.seed && $util.isInteger(message.seed.low) && $util.isInteger(message.seed.high)))
-                            return "seed: integer|Long expected";
-                    return null;
-                };
-
-                /**
-                 * Creates a SourcesOrder message from a plain object. Also converts values to their respective internal types.
-                 * @function fromObject
-                 * @memberof io.cucumber.messages.SourcesOrder
-                 * @static
-                 * @param {Object.<string,*>} object Plain object
-                 * @returns {io.cucumber.messages.SourcesOrder} SourcesOrder
-                 */
-                SourcesOrder.fromObject = function fromObject(object) {
-                    if (object instanceof $root.io.cucumber.messages.SourcesOrder)
+                                object.maxParallel = options.longs === String ? $util.Long.prototype.toString.call(message.maxParallel) : options.longs === Number ? new $util.LongBits(message.maxParallel.low >>> 0, message.maxParallel.high >>> 0).toNumber(true) : message.maxParallel;
                         return object;
-                    var message = new $root.io.cucumber.messages.SourcesOrder();
-                    switch (object.type) {
-                    case "ORDER_OF_DEFINITION":
-                    case 0:
-                        message.type = 0;
-                        break;
-                    case "RANDOM":
-                    case 1:
-                        message.type = 1;
-                        break;
+                    };
+
+                    /**
+                     * Converts this RuntimeConfig to JSON.
+                     * @function toJSON
+                     * @memberof io.cucumber.messages.CommandStart.RuntimeConfig
+                     * @instance
+                     * @returns {Object.<string,*>} JSON object
+                     */
+                    RuntimeConfig.prototype.toJSON = function toJSON() {
+                        return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+                    };
+
+                    return RuntimeConfig;
+                })();
+
+                CommandStart.SupportCodeConfig = (function() {
+
+                    /**
+                     * Properties of a SupportCodeConfig.
+                     * @memberof io.cucumber.messages.CommandStart
+                     * @interface ISupportCodeConfig
+                     * @property {Array.<io.cucumber.messages.CommandStart.SupportCodeConfig.ITestCaseHookDefinitionConfig>|null} [beforeTestCaseHookDefinitionConfigs] SupportCodeConfig beforeTestCaseHookDefinitionConfigs
+                     * @property {Array.<io.cucumber.messages.CommandStart.SupportCodeConfig.ITestCaseHookDefinitionConfig>|null} [afterTestCaseHookDefinitionConfigs] SupportCodeConfig afterTestCaseHookDefinitionConfigs
+                     * @property {Array.<io.cucumber.messages.CommandStart.SupportCodeConfig.IStepDefinitionConfig>|null} [stepDefinitionConfigs] SupportCodeConfig stepDefinitionConfigs
+                     * @property {Array.<io.cucumber.messages.CommandStart.IParameterTypeConfig>|null} [parameterTypeConfigs] SupportCodeConfig parameterTypeConfigs
+                     */
+
+                    /**
+                     * Constructs a new SupportCodeConfig.
+                     * @memberof io.cucumber.messages.CommandStart
+                     * @classdesc Represents a SupportCodeConfig.
+                     * @implements ISupportCodeConfig
+                     * @constructor
+                     * @param {io.cucumber.messages.CommandStart.ISupportCodeConfig=} [properties] Properties to set
+                     */
+                    function SupportCodeConfig(properties) {
+                        this.beforeTestCaseHookDefinitionConfigs = [];
+                        this.afterTestCaseHookDefinitionConfigs = [];
+                        this.stepDefinitionConfigs = [];
+                        this.parameterTypeConfigs = [];
+                        if (properties)
+                            for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                                if (properties[keys[i]] != null)
+                                    this[keys[i]] = properties[keys[i]];
                     }
-                    if (object.seed != null)
-                        if ($util.Long)
-                            (message.seed = $util.Long.fromValue(object.seed)).unsigned = true;
-                        else if (typeof object.seed === "string")
-                            message.seed = parseInt(object.seed, 10);
-                        else if (typeof object.seed === "number")
-                            message.seed = object.seed;
-                        else if (typeof object.seed === "object")
-                            message.seed = new $util.LongBits(object.seed.low >>> 0, object.seed.high >>> 0).toNumber(true);
-                    return message;
-                };
 
-                /**
-                 * Creates a plain object from a SourcesOrder message. Also converts values to other types if specified.
-                 * @function toObject
-                 * @memberof io.cucumber.messages.SourcesOrder
-                 * @static
-                 * @param {io.cucumber.messages.SourcesOrder} message SourcesOrder
-                 * @param {$protobuf.IConversionOptions} [options] Conversion options
-                 * @returns {Object.<string,*>} Plain object
-                 */
-                SourcesOrder.toObject = function toObject(message, options) {
-                    if (!options)
-                        options = {};
-                    var object = {};
-                    if (options.defaults) {
-                        object.type = options.enums === String ? "ORDER_OF_DEFINITION" : 0;
-                        if ($util.Long) {
-                            var long = new $util.Long(0, 0, true);
-                            object.seed = options.longs === String ? long.toString() : options.longs === Number ? long.toNumber() : long;
-                        } else
-                            object.seed = options.longs === String ? "0" : 0;
-                    }
-                    if (message.type != null && message.hasOwnProperty("type"))
-                        object.type = options.enums === String ? $root.io.cucumber.messages.SourcesOrderType[message.type] : message.type;
-                    if (message.seed != null && message.hasOwnProperty("seed"))
-                        if (typeof message.seed === "number")
-                            object.seed = options.longs === String ? String(message.seed) : message.seed;
-                        else
-                            object.seed = options.longs === String ? $util.Long.prototype.toString.call(message.seed) : options.longs === Number ? new $util.LongBits(message.seed.low >>> 0, message.seed.high >>> 0).toNumber(true) : message.seed;
-                    return object;
-                };
+                    /**
+                     * SupportCodeConfig beforeTestCaseHookDefinitionConfigs.
+                     * @member {Array.<io.cucumber.messages.CommandStart.SupportCodeConfig.ITestCaseHookDefinitionConfig>} beforeTestCaseHookDefinitionConfigs
+                     * @memberof io.cucumber.messages.CommandStart.SupportCodeConfig
+                     * @instance
+                     */
+                    SupportCodeConfig.prototype.beforeTestCaseHookDefinitionConfigs = $util.emptyArray;
 
-                /**
-                 * Converts this SourcesOrder to JSON.
-                 * @function toJSON
-                 * @memberof io.cucumber.messages.SourcesOrder
-                 * @instance
-                 * @returns {Object.<string,*>} JSON object
-                 */
-                SourcesOrder.prototype.toJSON = function toJSON() {
-                    return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
-                };
+                    /**
+                     * SupportCodeConfig afterTestCaseHookDefinitionConfigs.
+                     * @member {Array.<io.cucumber.messages.CommandStart.SupportCodeConfig.ITestCaseHookDefinitionConfig>} afterTestCaseHookDefinitionConfigs
+                     * @memberof io.cucumber.messages.CommandStart.SupportCodeConfig
+                     * @instance
+                     */
+                    SupportCodeConfig.prototype.afterTestCaseHookDefinitionConfigs = $util.emptyArray;
 
-                return SourcesOrder;
-            })();
+                    /**
+                     * SupportCodeConfig stepDefinitionConfigs.
+                     * @member {Array.<io.cucumber.messages.CommandStart.SupportCodeConfig.IStepDefinitionConfig>} stepDefinitionConfigs
+                     * @memberof io.cucumber.messages.CommandStart.SupportCodeConfig
+                     * @instance
+                     */
+                    SupportCodeConfig.prototype.stepDefinitionConfigs = $util.emptyArray;
 
-            /**
-             * SourcesOrderType enum.
-             * @name io.cucumber.messages.SourcesOrderType
-             * @enum {string}
-             * @property {number} ORDER_OF_DEFINITION=0 ORDER_OF_DEFINITION value
-             * @property {number} RANDOM=1 RANDOM value
-             */
-            messages.SourcesOrderType = (function() {
-                var valuesById = {}, values = Object.create(valuesById);
-                values[valuesById[0] = "ORDER_OF_DEFINITION"] = 0;
-                values[valuesById[1] = "RANDOM"] = 1;
-                return values;
-            })();
+                    /**
+                     * SupportCodeConfig parameterTypeConfigs.
+                     * @member {Array.<io.cucumber.messages.CommandStart.IParameterTypeConfig>} parameterTypeConfigs
+                     * @memberof io.cucumber.messages.CommandStart.SupportCodeConfig
+                     * @instance
+                     */
+                    SupportCodeConfig.prototype.parameterTypeConfigs = $util.emptyArray;
 
-            messages.RuntimeConfig = (function() {
+                    /**
+                     * Creates a new SupportCodeConfig instance using the specified properties.
+                     * @function create
+                     * @memberof io.cucumber.messages.CommandStart.SupportCodeConfig
+                     * @static
+                     * @param {io.cucumber.messages.CommandStart.ISupportCodeConfig=} [properties] Properties to set
+                     * @returns {io.cucumber.messages.CommandStart.SupportCodeConfig} SupportCodeConfig instance
+                     */
+                    SupportCodeConfig.create = function create(properties) {
+                        return new SupportCodeConfig(properties);
+                    };
 
-                /**
-                 * Properties of a RuntimeConfig.
-                 * @memberof io.cucumber.messages
-                 * @interface IRuntimeConfig
-                 * @property {boolean|null} [isFailFast] RuntimeConfig isFailFast
-                 * @property {boolean|null} [isDryRun] RuntimeConfig isDryRun
-                 * @property {boolean|null} [isStrict] RuntimeConfig isStrict
-                 * @property {number|Long|null} [maxParallel] RuntimeConfig maxParallel
-                 */
+                    /**
+                     * Encodes the specified SupportCodeConfig message. Does not implicitly {@link io.cucumber.messages.CommandStart.SupportCodeConfig.verify|verify} messages.
+                     * @function encode
+                     * @memberof io.cucumber.messages.CommandStart.SupportCodeConfig
+                     * @static
+                     * @param {io.cucumber.messages.CommandStart.ISupportCodeConfig} message SupportCodeConfig message or plain object to encode
+                     * @param {$protobuf.Writer} [writer] Writer to encode to
+                     * @returns {$protobuf.Writer} Writer
+                     */
+                    SupportCodeConfig.encode = function encode(message, writer) {
+                        if (!writer)
+                            writer = $Writer.create();
+                        if (message.beforeTestCaseHookDefinitionConfigs != null && message.beforeTestCaseHookDefinitionConfigs.length)
+                            for (var i = 0; i < message.beforeTestCaseHookDefinitionConfigs.length; ++i)
+                                $root.io.cucumber.messages.CommandStart.SupportCodeConfig.TestCaseHookDefinitionConfig.encode(message.beforeTestCaseHookDefinitionConfigs[i], writer.uint32(/* id 1, wireType 2 =*/10).fork()).ldelim();
+                        if (message.afterTestCaseHookDefinitionConfigs != null && message.afterTestCaseHookDefinitionConfigs.length)
+                            for (var i = 0; i < message.afterTestCaseHookDefinitionConfigs.length; ++i)
+                                $root.io.cucumber.messages.CommandStart.SupportCodeConfig.TestCaseHookDefinitionConfig.encode(message.afterTestCaseHookDefinitionConfigs[i], writer.uint32(/* id 2, wireType 2 =*/18).fork()).ldelim();
+                        if (message.stepDefinitionConfigs != null && message.stepDefinitionConfigs.length)
+                            for (var i = 0; i < message.stepDefinitionConfigs.length; ++i)
+                                $root.io.cucumber.messages.CommandStart.SupportCodeConfig.StepDefinitionConfig.encode(message.stepDefinitionConfigs[i], writer.uint32(/* id 3, wireType 2 =*/26).fork()).ldelim();
+                        if (message.parameterTypeConfigs != null && message.parameterTypeConfigs.length)
+                            for (var i = 0; i < message.parameterTypeConfigs.length; ++i)
+                                $root.io.cucumber.messages.CommandStart.ParameterTypeConfig.encode(message.parameterTypeConfigs[i], writer.uint32(/* id 4, wireType 2 =*/34).fork()).ldelim();
+                        return writer;
+                    };
 
-                /**
-                 * Constructs a new RuntimeConfig.
-                 * @memberof io.cucumber.messages
-                 * @classdesc Represents a RuntimeConfig.
-                 * @implements IRuntimeConfig
-                 * @constructor
-                 * @param {io.cucumber.messages.IRuntimeConfig=} [properties] Properties to set
-                 */
-                function RuntimeConfig(properties) {
-                    if (properties)
-                        for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
-                            if (properties[keys[i]] != null)
-                                this[keys[i]] = properties[keys[i]];
-                }
+                    /**
+                     * Encodes the specified SupportCodeConfig message, length delimited. Does not implicitly {@link io.cucumber.messages.CommandStart.SupportCodeConfig.verify|verify} messages.
+                     * @function encodeDelimited
+                     * @memberof io.cucumber.messages.CommandStart.SupportCodeConfig
+                     * @static
+                     * @param {io.cucumber.messages.CommandStart.ISupportCodeConfig} message SupportCodeConfig message or plain object to encode
+                     * @param {$protobuf.Writer} [writer] Writer to encode to
+                     * @returns {$protobuf.Writer} Writer
+                     */
+                    SupportCodeConfig.encodeDelimited = function encodeDelimited(message, writer) {
+                        return this.encode(message, writer).ldelim();
+                    };
 
-                /**
-                 * RuntimeConfig isFailFast.
-                 * @member {boolean} isFailFast
-                 * @memberof io.cucumber.messages.RuntimeConfig
-                 * @instance
-                 */
-                RuntimeConfig.prototype.isFailFast = false;
-
-                /**
-                 * RuntimeConfig isDryRun.
-                 * @member {boolean} isDryRun
-                 * @memberof io.cucumber.messages.RuntimeConfig
-                 * @instance
-                 */
-                RuntimeConfig.prototype.isDryRun = false;
-
-                /**
-                 * RuntimeConfig isStrict.
-                 * @member {boolean} isStrict
-                 * @memberof io.cucumber.messages.RuntimeConfig
-                 * @instance
-                 */
-                RuntimeConfig.prototype.isStrict = false;
-
-                /**
-                 * RuntimeConfig maxParallel.
-                 * @member {number|Long} maxParallel
-                 * @memberof io.cucumber.messages.RuntimeConfig
-                 * @instance
-                 */
-                RuntimeConfig.prototype.maxParallel = $util.Long ? $util.Long.fromBits(0,0,true) : 0;
-
-                /**
-                 * Creates a new RuntimeConfig instance using the specified properties.
-                 * @function create
-                 * @memberof io.cucumber.messages.RuntimeConfig
-                 * @static
-                 * @param {io.cucumber.messages.IRuntimeConfig=} [properties] Properties to set
-                 * @returns {io.cucumber.messages.RuntimeConfig} RuntimeConfig instance
-                 */
-                RuntimeConfig.create = function create(properties) {
-                    return new RuntimeConfig(properties);
-                };
-
-                /**
-                 * Encodes the specified RuntimeConfig message. Does not implicitly {@link io.cucumber.messages.RuntimeConfig.verify|verify} messages.
-                 * @function encode
-                 * @memberof io.cucumber.messages.RuntimeConfig
-                 * @static
-                 * @param {io.cucumber.messages.IRuntimeConfig} message RuntimeConfig message or plain object to encode
-                 * @param {$protobuf.Writer} [writer] Writer to encode to
-                 * @returns {$protobuf.Writer} Writer
-                 */
-                RuntimeConfig.encode = function encode(message, writer) {
-                    if (!writer)
-                        writer = $Writer.create();
-                    if (message.isFailFast != null && message.hasOwnProperty("isFailFast"))
-                        writer.uint32(/* id 1, wireType 0 =*/8).bool(message.isFailFast);
-                    if (message.isDryRun != null && message.hasOwnProperty("isDryRun"))
-                        writer.uint32(/* id 2, wireType 0 =*/16).bool(message.isDryRun);
-                    if (message.isStrict != null && message.hasOwnProperty("isStrict"))
-                        writer.uint32(/* id 3, wireType 0 =*/24).bool(message.isStrict);
-                    if (message.maxParallel != null && message.hasOwnProperty("maxParallel"))
-                        writer.uint32(/* id 4, wireType 0 =*/32).uint64(message.maxParallel);
-                    return writer;
-                };
-
-                /**
-                 * Encodes the specified RuntimeConfig message, length delimited. Does not implicitly {@link io.cucumber.messages.RuntimeConfig.verify|verify} messages.
-                 * @function encodeDelimited
-                 * @memberof io.cucumber.messages.RuntimeConfig
-                 * @static
-                 * @param {io.cucumber.messages.IRuntimeConfig} message RuntimeConfig message or plain object to encode
-                 * @param {$protobuf.Writer} [writer] Writer to encode to
-                 * @returns {$protobuf.Writer} Writer
-                 */
-                RuntimeConfig.encodeDelimited = function encodeDelimited(message, writer) {
-                    return this.encode(message, writer).ldelim();
-                };
-
-                /**
-                 * Decodes a RuntimeConfig message from the specified reader or buffer.
-                 * @function decode
-                 * @memberof io.cucumber.messages.RuntimeConfig
-                 * @static
-                 * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-                 * @param {number} [length] Message length if known beforehand
-                 * @returns {io.cucumber.messages.RuntimeConfig} RuntimeConfig
-                 * @throws {Error} If the payload is not a reader or valid buffer
-                 * @throws {$protobuf.util.ProtocolError} If required fields are missing
-                 */
-                RuntimeConfig.decode = function decode(reader, length) {
-                    if (!(reader instanceof $Reader))
-                        reader = $Reader.create(reader);
-                    var end = length === undefined ? reader.len : reader.pos + length, message = new $root.io.cucumber.messages.RuntimeConfig();
-                    while (reader.pos < end) {
-                        var tag = reader.uint32();
-                        switch (tag >>> 3) {
-                        case 1:
-                            message.isFailFast = reader.bool();
-                            break;
-                        case 2:
-                            message.isDryRun = reader.bool();
-                            break;
-                        case 3:
-                            message.isStrict = reader.bool();
-                            break;
-                        case 4:
-                            message.maxParallel = reader.uint64();
-                            break;
-                        default:
-                            reader.skipType(tag & 7);
-                            break;
+                    /**
+                     * Decodes a SupportCodeConfig message from the specified reader or buffer.
+                     * @function decode
+                     * @memberof io.cucumber.messages.CommandStart.SupportCodeConfig
+                     * @static
+                     * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+                     * @param {number} [length] Message length if known beforehand
+                     * @returns {io.cucumber.messages.CommandStart.SupportCodeConfig} SupportCodeConfig
+                     * @throws {Error} If the payload is not a reader or valid buffer
+                     * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                     */
+                    SupportCodeConfig.decode = function decode(reader, length) {
+                        if (!(reader instanceof $Reader))
+                            reader = $Reader.create(reader);
+                        var end = length === undefined ? reader.len : reader.pos + length, message = new $root.io.cucumber.messages.CommandStart.SupportCodeConfig();
+                        while (reader.pos < end) {
+                            var tag = reader.uint32();
+                            switch (tag >>> 3) {
+                            case 1:
+                                if (!(message.beforeTestCaseHookDefinitionConfigs && message.beforeTestCaseHookDefinitionConfigs.length))
+                                    message.beforeTestCaseHookDefinitionConfigs = [];
+                                message.beforeTestCaseHookDefinitionConfigs.push($root.io.cucumber.messages.CommandStart.SupportCodeConfig.TestCaseHookDefinitionConfig.decode(reader, reader.uint32()));
+                                break;
+                            case 2:
+                                if (!(message.afterTestCaseHookDefinitionConfigs && message.afterTestCaseHookDefinitionConfigs.length))
+                                    message.afterTestCaseHookDefinitionConfigs = [];
+                                message.afterTestCaseHookDefinitionConfigs.push($root.io.cucumber.messages.CommandStart.SupportCodeConfig.TestCaseHookDefinitionConfig.decode(reader, reader.uint32()));
+                                break;
+                            case 3:
+                                if (!(message.stepDefinitionConfigs && message.stepDefinitionConfigs.length))
+                                    message.stepDefinitionConfigs = [];
+                                message.stepDefinitionConfigs.push($root.io.cucumber.messages.CommandStart.SupportCodeConfig.StepDefinitionConfig.decode(reader, reader.uint32()));
+                                break;
+                            case 4:
+                                if (!(message.parameterTypeConfigs && message.parameterTypeConfigs.length))
+                                    message.parameterTypeConfigs = [];
+                                message.parameterTypeConfigs.push($root.io.cucumber.messages.CommandStart.ParameterTypeConfig.decode(reader, reader.uint32()));
+                                break;
+                            default:
+                                reader.skipType(tag & 7);
+                                break;
+                            }
                         }
-                    }
-                    return message;
-                };
+                        return message;
+                    };
 
-                /**
-                 * Decodes a RuntimeConfig message from the specified reader or buffer, length delimited.
-                 * @function decodeDelimited
-                 * @memberof io.cucumber.messages.RuntimeConfig
-                 * @static
-                 * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-                 * @returns {io.cucumber.messages.RuntimeConfig} RuntimeConfig
-                 * @throws {Error} If the payload is not a reader or valid buffer
-                 * @throws {$protobuf.util.ProtocolError} If required fields are missing
-                 */
-                RuntimeConfig.decodeDelimited = function decodeDelimited(reader) {
-                    if (!(reader instanceof $Reader))
-                        reader = new $Reader(reader);
-                    return this.decode(reader, reader.uint32());
-                };
+                    /**
+                     * Decodes a SupportCodeConfig message from the specified reader or buffer, length delimited.
+                     * @function decodeDelimited
+                     * @memberof io.cucumber.messages.CommandStart.SupportCodeConfig
+                     * @static
+                     * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+                     * @returns {io.cucumber.messages.CommandStart.SupportCodeConfig} SupportCodeConfig
+                     * @throws {Error} If the payload is not a reader or valid buffer
+                     * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                     */
+                    SupportCodeConfig.decodeDelimited = function decodeDelimited(reader) {
+                        if (!(reader instanceof $Reader))
+                            reader = new $Reader(reader);
+                        return this.decode(reader, reader.uint32());
+                    };
 
-                /**
-                 * Verifies a RuntimeConfig message.
-                 * @function verify
-                 * @memberof io.cucumber.messages.RuntimeConfig
-                 * @static
-                 * @param {Object.<string,*>} message Plain object to verify
-                 * @returns {string|null} `null` if valid, otherwise the reason why it is not
-                 */
-                RuntimeConfig.verify = function verify(message) {
-                    if (typeof message !== "object" || message === null)
-                        return "object expected";
-                    if (message.isFailFast != null && message.hasOwnProperty("isFailFast"))
-                        if (typeof message.isFailFast !== "boolean")
-                            return "isFailFast: boolean expected";
-                    if (message.isDryRun != null && message.hasOwnProperty("isDryRun"))
-                        if (typeof message.isDryRun !== "boolean")
-                            return "isDryRun: boolean expected";
-                    if (message.isStrict != null && message.hasOwnProperty("isStrict"))
-                        if (typeof message.isStrict !== "boolean")
-                            return "isStrict: boolean expected";
-                    if (message.maxParallel != null && message.hasOwnProperty("maxParallel"))
-                        if (!$util.isInteger(message.maxParallel) && !(message.maxParallel && $util.isInteger(message.maxParallel.low) && $util.isInteger(message.maxParallel.high)))
-                            return "maxParallel: integer|Long expected";
-                    return null;
-                };
+                    /**
+                     * Verifies a SupportCodeConfig message.
+                     * @function verify
+                     * @memberof io.cucumber.messages.CommandStart.SupportCodeConfig
+                     * @static
+                     * @param {Object.<string,*>} message Plain object to verify
+                     * @returns {string|null} `null` if valid, otherwise the reason why it is not
+                     */
+                    SupportCodeConfig.verify = function verify(message) {
+                        if (typeof message !== "object" || message === null)
+                            return "object expected";
+                        if (message.beforeTestCaseHookDefinitionConfigs != null && message.hasOwnProperty("beforeTestCaseHookDefinitionConfigs")) {
+                            if (!Array.isArray(message.beforeTestCaseHookDefinitionConfigs))
+                                return "beforeTestCaseHookDefinitionConfigs: array expected";
+                            for (var i = 0; i < message.beforeTestCaseHookDefinitionConfigs.length; ++i) {
+                                var error = $root.io.cucumber.messages.CommandStart.SupportCodeConfig.TestCaseHookDefinitionConfig.verify(message.beforeTestCaseHookDefinitionConfigs[i]);
+                                if (error)
+                                    return "beforeTestCaseHookDefinitionConfigs." + error;
+                            }
+                        }
+                        if (message.afterTestCaseHookDefinitionConfigs != null && message.hasOwnProperty("afterTestCaseHookDefinitionConfigs")) {
+                            if (!Array.isArray(message.afterTestCaseHookDefinitionConfigs))
+                                return "afterTestCaseHookDefinitionConfigs: array expected";
+                            for (var i = 0; i < message.afterTestCaseHookDefinitionConfigs.length; ++i) {
+                                var error = $root.io.cucumber.messages.CommandStart.SupportCodeConfig.TestCaseHookDefinitionConfig.verify(message.afterTestCaseHookDefinitionConfigs[i]);
+                                if (error)
+                                    return "afterTestCaseHookDefinitionConfigs." + error;
+                            }
+                        }
+                        if (message.stepDefinitionConfigs != null && message.hasOwnProperty("stepDefinitionConfigs")) {
+                            if (!Array.isArray(message.stepDefinitionConfigs))
+                                return "stepDefinitionConfigs: array expected";
+                            for (var i = 0; i < message.stepDefinitionConfigs.length; ++i) {
+                                var error = $root.io.cucumber.messages.CommandStart.SupportCodeConfig.StepDefinitionConfig.verify(message.stepDefinitionConfigs[i]);
+                                if (error)
+                                    return "stepDefinitionConfigs." + error;
+                            }
+                        }
+                        if (message.parameterTypeConfigs != null && message.hasOwnProperty("parameterTypeConfigs")) {
+                            if (!Array.isArray(message.parameterTypeConfigs))
+                                return "parameterTypeConfigs: array expected";
+                            for (var i = 0; i < message.parameterTypeConfigs.length; ++i) {
+                                var error = $root.io.cucumber.messages.CommandStart.ParameterTypeConfig.verify(message.parameterTypeConfigs[i]);
+                                if (error)
+                                    return "parameterTypeConfigs." + error;
+                            }
+                        }
+                        return null;
+                    };
 
-                /**
-                 * Creates a RuntimeConfig message from a plain object. Also converts values to their respective internal types.
-                 * @function fromObject
-                 * @memberof io.cucumber.messages.RuntimeConfig
-                 * @static
-                 * @param {Object.<string,*>} object Plain object
-                 * @returns {io.cucumber.messages.RuntimeConfig} RuntimeConfig
-                 */
-                RuntimeConfig.fromObject = function fromObject(object) {
-                    if (object instanceof $root.io.cucumber.messages.RuntimeConfig)
+                    /**
+                     * Creates a SupportCodeConfig message from a plain object. Also converts values to their respective internal types.
+                     * @function fromObject
+                     * @memberof io.cucumber.messages.CommandStart.SupportCodeConfig
+                     * @static
+                     * @param {Object.<string,*>} object Plain object
+                     * @returns {io.cucumber.messages.CommandStart.SupportCodeConfig} SupportCodeConfig
+                     */
+                    SupportCodeConfig.fromObject = function fromObject(object) {
+                        if (object instanceof $root.io.cucumber.messages.CommandStart.SupportCodeConfig)
+                            return object;
+                        var message = new $root.io.cucumber.messages.CommandStart.SupportCodeConfig();
+                        if (object.beforeTestCaseHookDefinitionConfigs) {
+                            if (!Array.isArray(object.beforeTestCaseHookDefinitionConfigs))
+                                throw TypeError(".io.cucumber.messages.CommandStart.SupportCodeConfig.beforeTestCaseHookDefinitionConfigs: array expected");
+                            message.beforeTestCaseHookDefinitionConfigs = [];
+                            for (var i = 0; i < object.beforeTestCaseHookDefinitionConfigs.length; ++i) {
+                                if (typeof object.beforeTestCaseHookDefinitionConfigs[i] !== "object")
+                                    throw TypeError(".io.cucumber.messages.CommandStart.SupportCodeConfig.beforeTestCaseHookDefinitionConfigs: object expected");
+                                message.beforeTestCaseHookDefinitionConfigs[i] = $root.io.cucumber.messages.CommandStart.SupportCodeConfig.TestCaseHookDefinitionConfig.fromObject(object.beforeTestCaseHookDefinitionConfigs[i]);
+                            }
+                        }
+                        if (object.afterTestCaseHookDefinitionConfigs) {
+                            if (!Array.isArray(object.afterTestCaseHookDefinitionConfigs))
+                                throw TypeError(".io.cucumber.messages.CommandStart.SupportCodeConfig.afterTestCaseHookDefinitionConfigs: array expected");
+                            message.afterTestCaseHookDefinitionConfigs = [];
+                            for (var i = 0; i < object.afterTestCaseHookDefinitionConfigs.length; ++i) {
+                                if (typeof object.afterTestCaseHookDefinitionConfigs[i] !== "object")
+                                    throw TypeError(".io.cucumber.messages.CommandStart.SupportCodeConfig.afterTestCaseHookDefinitionConfigs: object expected");
+                                message.afterTestCaseHookDefinitionConfigs[i] = $root.io.cucumber.messages.CommandStart.SupportCodeConfig.TestCaseHookDefinitionConfig.fromObject(object.afterTestCaseHookDefinitionConfigs[i]);
+                            }
+                        }
+                        if (object.stepDefinitionConfigs) {
+                            if (!Array.isArray(object.stepDefinitionConfigs))
+                                throw TypeError(".io.cucumber.messages.CommandStart.SupportCodeConfig.stepDefinitionConfigs: array expected");
+                            message.stepDefinitionConfigs = [];
+                            for (var i = 0; i < object.stepDefinitionConfigs.length; ++i) {
+                                if (typeof object.stepDefinitionConfigs[i] !== "object")
+                                    throw TypeError(".io.cucumber.messages.CommandStart.SupportCodeConfig.stepDefinitionConfigs: object expected");
+                                message.stepDefinitionConfigs[i] = $root.io.cucumber.messages.CommandStart.SupportCodeConfig.StepDefinitionConfig.fromObject(object.stepDefinitionConfigs[i]);
+                            }
+                        }
+                        if (object.parameterTypeConfigs) {
+                            if (!Array.isArray(object.parameterTypeConfigs))
+                                throw TypeError(".io.cucumber.messages.CommandStart.SupportCodeConfig.parameterTypeConfigs: array expected");
+                            message.parameterTypeConfigs = [];
+                            for (var i = 0; i < object.parameterTypeConfigs.length; ++i) {
+                                if (typeof object.parameterTypeConfigs[i] !== "object")
+                                    throw TypeError(".io.cucumber.messages.CommandStart.SupportCodeConfig.parameterTypeConfigs: object expected");
+                                message.parameterTypeConfigs[i] = $root.io.cucumber.messages.CommandStart.ParameterTypeConfig.fromObject(object.parameterTypeConfigs[i]);
+                            }
+                        }
+                        return message;
+                    };
+
+                    /**
+                     * Creates a plain object from a SupportCodeConfig message. Also converts values to other types if specified.
+                     * @function toObject
+                     * @memberof io.cucumber.messages.CommandStart.SupportCodeConfig
+                     * @static
+                     * @param {io.cucumber.messages.CommandStart.SupportCodeConfig} message SupportCodeConfig
+                     * @param {$protobuf.IConversionOptions} [options] Conversion options
+                     * @returns {Object.<string,*>} Plain object
+                     */
+                    SupportCodeConfig.toObject = function toObject(message, options) {
+                        if (!options)
+                            options = {};
+                        var object = {};
+                        if (options.arrays || options.defaults) {
+                            object.beforeTestCaseHookDefinitionConfigs = [];
+                            object.afterTestCaseHookDefinitionConfigs = [];
+                            object.stepDefinitionConfigs = [];
+                            object.parameterTypeConfigs = [];
+                        }
+                        if (message.beforeTestCaseHookDefinitionConfigs && message.beforeTestCaseHookDefinitionConfigs.length) {
+                            object.beforeTestCaseHookDefinitionConfigs = [];
+                            for (var j = 0; j < message.beforeTestCaseHookDefinitionConfigs.length; ++j)
+                                object.beforeTestCaseHookDefinitionConfigs[j] = $root.io.cucumber.messages.CommandStart.SupportCodeConfig.TestCaseHookDefinitionConfig.toObject(message.beforeTestCaseHookDefinitionConfigs[j], options);
+                        }
+                        if (message.afterTestCaseHookDefinitionConfigs && message.afterTestCaseHookDefinitionConfigs.length) {
+                            object.afterTestCaseHookDefinitionConfigs = [];
+                            for (var j = 0; j < message.afterTestCaseHookDefinitionConfigs.length; ++j)
+                                object.afterTestCaseHookDefinitionConfigs[j] = $root.io.cucumber.messages.CommandStart.SupportCodeConfig.TestCaseHookDefinitionConfig.toObject(message.afterTestCaseHookDefinitionConfigs[j], options);
+                        }
+                        if (message.stepDefinitionConfigs && message.stepDefinitionConfigs.length) {
+                            object.stepDefinitionConfigs = [];
+                            for (var j = 0; j < message.stepDefinitionConfigs.length; ++j)
+                                object.stepDefinitionConfigs[j] = $root.io.cucumber.messages.CommandStart.SupportCodeConfig.StepDefinitionConfig.toObject(message.stepDefinitionConfigs[j], options);
+                        }
+                        if (message.parameterTypeConfigs && message.parameterTypeConfigs.length) {
+                            object.parameterTypeConfigs = [];
+                            for (var j = 0; j < message.parameterTypeConfigs.length; ++j)
+                                object.parameterTypeConfigs[j] = $root.io.cucumber.messages.CommandStart.ParameterTypeConfig.toObject(message.parameterTypeConfigs[j], options);
+                        }
                         return object;
-                    var message = new $root.io.cucumber.messages.RuntimeConfig();
-                    if (object.isFailFast != null)
-                        message.isFailFast = Boolean(object.isFailFast);
-                    if (object.isDryRun != null)
-                        message.isDryRun = Boolean(object.isDryRun);
-                    if (object.isStrict != null)
-                        message.isStrict = Boolean(object.isStrict);
-                    if (object.maxParallel != null)
-                        if ($util.Long)
-                            (message.maxParallel = $util.Long.fromValue(object.maxParallel)).unsigned = true;
-                        else if (typeof object.maxParallel === "string")
-                            message.maxParallel = parseInt(object.maxParallel, 10);
-                        else if (typeof object.maxParallel === "number")
-                            message.maxParallel = object.maxParallel;
-                        else if (typeof object.maxParallel === "object")
-                            message.maxParallel = new $util.LongBits(object.maxParallel.low >>> 0, object.maxParallel.high >>> 0).toNumber(true);
-                    return message;
-                };
+                    };
 
-                /**
-                 * Creates a plain object from a RuntimeConfig message. Also converts values to other types if specified.
-                 * @function toObject
-                 * @memberof io.cucumber.messages.RuntimeConfig
-                 * @static
-                 * @param {io.cucumber.messages.RuntimeConfig} message RuntimeConfig
-                 * @param {$protobuf.IConversionOptions} [options] Conversion options
-                 * @returns {Object.<string,*>} Plain object
-                 */
-                RuntimeConfig.toObject = function toObject(message, options) {
-                    if (!options)
-                        options = {};
-                    var object = {};
-                    if (options.defaults) {
-                        object.isFailFast = false;
-                        object.isDryRun = false;
-                        object.isStrict = false;
-                        if ($util.Long) {
-                            var long = new $util.Long(0, 0, true);
-                            object.maxParallel = options.longs === String ? long.toString() : options.longs === Number ? long.toNumber() : long;
-                        } else
-                            object.maxParallel = options.longs === String ? "0" : 0;
-                    }
-                    if (message.isFailFast != null && message.hasOwnProperty("isFailFast"))
-                        object.isFailFast = message.isFailFast;
-                    if (message.isDryRun != null && message.hasOwnProperty("isDryRun"))
-                        object.isDryRun = message.isDryRun;
-                    if (message.isStrict != null && message.hasOwnProperty("isStrict"))
-                        object.isStrict = message.isStrict;
-                    if (message.maxParallel != null && message.hasOwnProperty("maxParallel"))
-                        if (typeof message.maxParallel === "number")
-                            object.maxParallel = options.longs === String ? String(message.maxParallel) : message.maxParallel;
-                        else
-                            object.maxParallel = options.longs === String ? $util.Long.prototype.toString.call(message.maxParallel) : options.longs === Number ? new $util.LongBits(message.maxParallel.low >>> 0, message.maxParallel.high >>> 0).toNumber(true) : message.maxParallel;
-                    return object;
-                };
+                    /**
+                     * Converts this SupportCodeConfig to JSON.
+                     * @function toJSON
+                     * @memberof io.cucumber.messages.CommandStart.SupportCodeConfig
+                     * @instance
+                     * @returns {Object.<string,*>} JSON object
+                     */
+                    SupportCodeConfig.prototype.toJSON = function toJSON() {
+                        return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+                    };
 
-                /**
-                 * Converts this RuntimeConfig to JSON.
-                 * @function toJSON
-                 * @memberof io.cucumber.messages.RuntimeConfig
-                 * @instance
-                 * @returns {Object.<string,*>} JSON object
-                 */
-                RuntimeConfig.prototype.toJSON = function toJSON() {
-                    return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
-                };
+                    SupportCodeConfig.TestCaseHookDefinitionConfig = (function() {
 
-                return RuntimeConfig;
-            })();
+                        /**
+                         * Properties of a TestCaseHookDefinitionConfig.
+                         * @memberof io.cucumber.messages.CommandStart.SupportCodeConfig
+                         * @interface ITestCaseHookDefinitionConfig
+                         * @property {string|null} [id] TestCaseHookDefinitionConfig id
+                         * @property {string|null} [tagExpression] TestCaseHookDefinitionConfig tagExpression
+                         * @property {io.cucumber.messages.ISourceReference|null} [location] TestCaseHookDefinitionConfig location
+                         */
 
-            messages.SupportCodeConfig = (function() {
-
-                /**
-                 * Properties of a SupportCodeConfig.
-                 * @memberof io.cucumber.messages
-                 * @interface ISupportCodeConfig
-                 * @property {Array.<io.cucumber.messages.ITestCaseHookDefinitionConfig>|null} [beforeTestCaseHookDefinitionConfigs] SupportCodeConfig beforeTestCaseHookDefinitionConfigs
-                 * @property {Array.<io.cucumber.messages.ITestCaseHookDefinitionConfig>|null} [afterTestCaseHookDefinitionConfigs] SupportCodeConfig afterTestCaseHookDefinitionConfigs
-                 * @property {Array.<io.cucumber.messages.IStepDefinitionConfig>|null} [stepDefinitionConfigs] SupportCodeConfig stepDefinitionConfigs
-                 * @property {Array.<io.cucumber.messages.IParameterTypeConfig>|null} [parameterTypeConfigs] SupportCodeConfig parameterTypeConfigs
-                 */
-
-                /**
-                 * Constructs a new SupportCodeConfig.
-                 * @memberof io.cucumber.messages
-                 * @classdesc Represents a SupportCodeConfig.
-                 * @implements ISupportCodeConfig
-                 * @constructor
-                 * @param {io.cucumber.messages.ISupportCodeConfig=} [properties] Properties to set
-                 */
-                function SupportCodeConfig(properties) {
-                    this.beforeTestCaseHookDefinitionConfigs = [];
-                    this.afterTestCaseHookDefinitionConfigs = [];
-                    this.stepDefinitionConfigs = [];
-                    this.parameterTypeConfigs = [];
-                    if (properties)
-                        for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
-                            if (properties[keys[i]] != null)
-                                this[keys[i]] = properties[keys[i]];
-                }
-
-                /**
-                 * SupportCodeConfig beforeTestCaseHookDefinitionConfigs.
-                 * @member {Array.<io.cucumber.messages.ITestCaseHookDefinitionConfig>} beforeTestCaseHookDefinitionConfigs
-                 * @memberof io.cucumber.messages.SupportCodeConfig
-                 * @instance
-                 */
-                SupportCodeConfig.prototype.beforeTestCaseHookDefinitionConfigs = $util.emptyArray;
-
-                /**
-                 * SupportCodeConfig afterTestCaseHookDefinitionConfigs.
-                 * @member {Array.<io.cucumber.messages.ITestCaseHookDefinitionConfig>} afterTestCaseHookDefinitionConfigs
-                 * @memberof io.cucumber.messages.SupportCodeConfig
-                 * @instance
-                 */
-                SupportCodeConfig.prototype.afterTestCaseHookDefinitionConfigs = $util.emptyArray;
-
-                /**
-                 * SupportCodeConfig stepDefinitionConfigs.
-                 * @member {Array.<io.cucumber.messages.IStepDefinitionConfig>} stepDefinitionConfigs
-                 * @memberof io.cucumber.messages.SupportCodeConfig
-                 * @instance
-                 */
-                SupportCodeConfig.prototype.stepDefinitionConfigs = $util.emptyArray;
-
-                /**
-                 * SupportCodeConfig parameterTypeConfigs.
-                 * @member {Array.<io.cucumber.messages.IParameterTypeConfig>} parameterTypeConfigs
-                 * @memberof io.cucumber.messages.SupportCodeConfig
-                 * @instance
-                 */
-                SupportCodeConfig.prototype.parameterTypeConfigs = $util.emptyArray;
-
-                /**
-                 * Creates a new SupportCodeConfig instance using the specified properties.
-                 * @function create
-                 * @memberof io.cucumber.messages.SupportCodeConfig
-                 * @static
-                 * @param {io.cucumber.messages.ISupportCodeConfig=} [properties] Properties to set
-                 * @returns {io.cucumber.messages.SupportCodeConfig} SupportCodeConfig instance
-                 */
-                SupportCodeConfig.create = function create(properties) {
-                    return new SupportCodeConfig(properties);
-                };
-
-                /**
-                 * Encodes the specified SupportCodeConfig message. Does not implicitly {@link io.cucumber.messages.SupportCodeConfig.verify|verify} messages.
-                 * @function encode
-                 * @memberof io.cucumber.messages.SupportCodeConfig
-                 * @static
-                 * @param {io.cucumber.messages.ISupportCodeConfig} message SupportCodeConfig message or plain object to encode
-                 * @param {$protobuf.Writer} [writer] Writer to encode to
-                 * @returns {$protobuf.Writer} Writer
-                 */
-                SupportCodeConfig.encode = function encode(message, writer) {
-                    if (!writer)
-                        writer = $Writer.create();
-                    if (message.beforeTestCaseHookDefinitionConfigs != null && message.beforeTestCaseHookDefinitionConfigs.length)
-                        for (var i = 0; i < message.beforeTestCaseHookDefinitionConfigs.length; ++i)
-                            $root.io.cucumber.messages.TestCaseHookDefinitionConfig.encode(message.beforeTestCaseHookDefinitionConfigs[i], writer.uint32(/* id 1, wireType 2 =*/10).fork()).ldelim();
-                    if (message.afterTestCaseHookDefinitionConfigs != null && message.afterTestCaseHookDefinitionConfigs.length)
-                        for (var i = 0; i < message.afterTestCaseHookDefinitionConfigs.length; ++i)
-                            $root.io.cucumber.messages.TestCaseHookDefinitionConfig.encode(message.afterTestCaseHookDefinitionConfigs[i], writer.uint32(/* id 2, wireType 2 =*/18).fork()).ldelim();
-                    if (message.stepDefinitionConfigs != null && message.stepDefinitionConfigs.length)
-                        for (var i = 0; i < message.stepDefinitionConfigs.length; ++i)
-                            $root.io.cucumber.messages.StepDefinitionConfig.encode(message.stepDefinitionConfigs[i], writer.uint32(/* id 3, wireType 2 =*/26).fork()).ldelim();
-                    if (message.parameterTypeConfigs != null && message.parameterTypeConfigs.length)
-                        for (var i = 0; i < message.parameterTypeConfigs.length; ++i)
-                            $root.io.cucumber.messages.ParameterTypeConfig.encode(message.parameterTypeConfigs[i], writer.uint32(/* id 4, wireType 2 =*/34).fork()).ldelim();
-                    return writer;
-                };
-
-                /**
-                 * Encodes the specified SupportCodeConfig message, length delimited. Does not implicitly {@link io.cucumber.messages.SupportCodeConfig.verify|verify} messages.
-                 * @function encodeDelimited
-                 * @memberof io.cucumber.messages.SupportCodeConfig
-                 * @static
-                 * @param {io.cucumber.messages.ISupportCodeConfig} message SupportCodeConfig message or plain object to encode
-                 * @param {$protobuf.Writer} [writer] Writer to encode to
-                 * @returns {$protobuf.Writer} Writer
-                 */
-                SupportCodeConfig.encodeDelimited = function encodeDelimited(message, writer) {
-                    return this.encode(message, writer).ldelim();
-                };
-
-                /**
-                 * Decodes a SupportCodeConfig message from the specified reader or buffer.
-                 * @function decode
-                 * @memberof io.cucumber.messages.SupportCodeConfig
-                 * @static
-                 * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-                 * @param {number} [length] Message length if known beforehand
-                 * @returns {io.cucumber.messages.SupportCodeConfig} SupportCodeConfig
-                 * @throws {Error} If the payload is not a reader or valid buffer
-                 * @throws {$protobuf.util.ProtocolError} If required fields are missing
-                 */
-                SupportCodeConfig.decode = function decode(reader, length) {
-                    if (!(reader instanceof $Reader))
-                        reader = $Reader.create(reader);
-                    var end = length === undefined ? reader.len : reader.pos + length, message = new $root.io.cucumber.messages.SupportCodeConfig();
-                    while (reader.pos < end) {
-                        var tag = reader.uint32();
-                        switch (tag >>> 3) {
-                        case 1:
-                            if (!(message.beforeTestCaseHookDefinitionConfigs && message.beforeTestCaseHookDefinitionConfigs.length))
-                                message.beforeTestCaseHookDefinitionConfigs = [];
-                            message.beforeTestCaseHookDefinitionConfigs.push($root.io.cucumber.messages.TestCaseHookDefinitionConfig.decode(reader, reader.uint32()));
-                            break;
-                        case 2:
-                            if (!(message.afterTestCaseHookDefinitionConfigs && message.afterTestCaseHookDefinitionConfigs.length))
-                                message.afterTestCaseHookDefinitionConfigs = [];
-                            message.afterTestCaseHookDefinitionConfigs.push($root.io.cucumber.messages.TestCaseHookDefinitionConfig.decode(reader, reader.uint32()));
-                            break;
-                        case 3:
-                            if (!(message.stepDefinitionConfigs && message.stepDefinitionConfigs.length))
-                                message.stepDefinitionConfigs = [];
-                            message.stepDefinitionConfigs.push($root.io.cucumber.messages.StepDefinitionConfig.decode(reader, reader.uint32()));
-                            break;
-                        case 4:
-                            if (!(message.parameterTypeConfigs && message.parameterTypeConfigs.length))
-                                message.parameterTypeConfigs = [];
-                            message.parameterTypeConfigs.push($root.io.cucumber.messages.ParameterTypeConfig.decode(reader, reader.uint32()));
-                            break;
-                        default:
-                            reader.skipType(tag & 7);
-                            break;
+                        /**
+                         * Constructs a new TestCaseHookDefinitionConfig.
+                         * @memberof io.cucumber.messages.CommandStart.SupportCodeConfig
+                         * @classdesc Represents a TestCaseHookDefinitionConfig.
+                         * @implements ITestCaseHookDefinitionConfig
+                         * @constructor
+                         * @param {io.cucumber.messages.CommandStart.SupportCodeConfig.ITestCaseHookDefinitionConfig=} [properties] Properties to set
+                         */
+                        function TestCaseHookDefinitionConfig(properties) {
+                            if (properties)
+                                for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                                    if (properties[keys[i]] != null)
+                                        this[keys[i]] = properties[keys[i]];
                         }
-                    }
-                    return message;
-                };
 
-                /**
-                 * Decodes a SupportCodeConfig message from the specified reader or buffer, length delimited.
-                 * @function decodeDelimited
-                 * @memberof io.cucumber.messages.SupportCodeConfig
-                 * @static
-                 * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-                 * @returns {io.cucumber.messages.SupportCodeConfig} SupportCodeConfig
-                 * @throws {Error} If the payload is not a reader or valid buffer
-                 * @throws {$protobuf.util.ProtocolError} If required fields are missing
-                 */
-                SupportCodeConfig.decodeDelimited = function decodeDelimited(reader) {
-                    if (!(reader instanceof $Reader))
-                        reader = new $Reader(reader);
-                    return this.decode(reader, reader.uint32());
-                };
+                        /**
+                         * TestCaseHookDefinitionConfig id.
+                         * @member {string} id
+                         * @memberof io.cucumber.messages.CommandStart.SupportCodeConfig.TestCaseHookDefinitionConfig
+                         * @instance
+                         */
+                        TestCaseHookDefinitionConfig.prototype.id = "";
 
-                /**
-                 * Verifies a SupportCodeConfig message.
-                 * @function verify
-                 * @memberof io.cucumber.messages.SupportCodeConfig
-                 * @static
-                 * @param {Object.<string,*>} message Plain object to verify
-                 * @returns {string|null} `null` if valid, otherwise the reason why it is not
-                 */
-                SupportCodeConfig.verify = function verify(message) {
-                    if (typeof message !== "object" || message === null)
-                        return "object expected";
-                    if (message.beforeTestCaseHookDefinitionConfigs != null && message.hasOwnProperty("beforeTestCaseHookDefinitionConfigs")) {
-                        if (!Array.isArray(message.beforeTestCaseHookDefinitionConfigs))
-                            return "beforeTestCaseHookDefinitionConfigs: array expected";
-                        for (var i = 0; i < message.beforeTestCaseHookDefinitionConfigs.length; ++i) {
-                            var error = $root.io.cucumber.messages.TestCaseHookDefinitionConfig.verify(message.beforeTestCaseHookDefinitionConfigs[i]);
-                            if (error)
-                                return "beforeTestCaseHookDefinitionConfigs." + error;
-                        }
-                    }
-                    if (message.afterTestCaseHookDefinitionConfigs != null && message.hasOwnProperty("afterTestCaseHookDefinitionConfigs")) {
-                        if (!Array.isArray(message.afterTestCaseHookDefinitionConfigs))
-                            return "afterTestCaseHookDefinitionConfigs: array expected";
-                        for (var i = 0; i < message.afterTestCaseHookDefinitionConfigs.length; ++i) {
-                            var error = $root.io.cucumber.messages.TestCaseHookDefinitionConfig.verify(message.afterTestCaseHookDefinitionConfigs[i]);
-                            if (error)
-                                return "afterTestCaseHookDefinitionConfigs." + error;
-                        }
-                    }
-                    if (message.stepDefinitionConfigs != null && message.hasOwnProperty("stepDefinitionConfigs")) {
-                        if (!Array.isArray(message.stepDefinitionConfigs))
-                            return "stepDefinitionConfigs: array expected";
-                        for (var i = 0; i < message.stepDefinitionConfigs.length; ++i) {
-                            var error = $root.io.cucumber.messages.StepDefinitionConfig.verify(message.stepDefinitionConfigs[i]);
-                            if (error)
-                                return "stepDefinitionConfigs." + error;
-                        }
-                    }
-                    if (message.parameterTypeConfigs != null && message.hasOwnProperty("parameterTypeConfigs")) {
-                        if (!Array.isArray(message.parameterTypeConfigs))
-                            return "parameterTypeConfigs: array expected";
-                        for (var i = 0; i < message.parameterTypeConfigs.length; ++i) {
-                            var error = $root.io.cucumber.messages.ParameterTypeConfig.verify(message.parameterTypeConfigs[i]);
-                            if (error)
-                                return "parameterTypeConfigs." + error;
-                        }
-                    }
-                    return null;
-                };
+                        /**
+                         * TestCaseHookDefinitionConfig tagExpression.
+                         * @member {string} tagExpression
+                         * @memberof io.cucumber.messages.CommandStart.SupportCodeConfig.TestCaseHookDefinitionConfig
+                         * @instance
+                         */
+                        TestCaseHookDefinitionConfig.prototype.tagExpression = "";
 
-                /**
-                 * Creates a SupportCodeConfig message from a plain object. Also converts values to their respective internal types.
-                 * @function fromObject
-                 * @memberof io.cucumber.messages.SupportCodeConfig
-                 * @static
-                 * @param {Object.<string,*>} object Plain object
-                 * @returns {io.cucumber.messages.SupportCodeConfig} SupportCodeConfig
-                 */
-                SupportCodeConfig.fromObject = function fromObject(object) {
-                    if (object instanceof $root.io.cucumber.messages.SupportCodeConfig)
+                        /**
+                         * TestCaseHookDefinitionConfig location.
+                         * @member {io.cucumber.messages.ISourceReference|null|undefined} location
+                         * @memberof io.cucumber.messages.CommandStart.SupportCodeConfig.TestCaseHookDefinitionConfig
+                         * @instance
+                         */
+                        TestCaseHookDefinitionConfig.prototype.location = null;
+
+                        /**
+                         * Creates a new TestCaseHookDefinitionConfig instance using the specified properties.
+                         * @function create
+                         * @memberof io.cucumber.messages.CommandStart.SupportCodeConfig.TestCaseHookDefinitionConfig
+                         * @static
+                         * @param {io.cucumber.messages.CommandStart.SupportCodeConfig.ITestCaseHookDefinitionConfig=} [properties] Properties to set
+                         * @returns {io.cucumber.messages.CommandStart.SupportCodeConfig.TestCaseHookDefinitionConfig} TestCaseHookDefinitionConfig instance
+                         */
+                        TestCaseHookDefinitionConfig.create = function create(properties) {
+                            return new TestCaseHookDefinitionConfig(properties);
+                        };
+
+                        /**
+                         * Encodes the specified TestCaseHookDefinitionConfig message. Does not implicitly {@link io.cucumber.messages.CommandStart.SupportCodeConfig.TestCaseHookDefinitionConfig.verify|verify} messages.
+                         * @function encode
+                         * @memberof io.cucumber.messages.CommandStart.SupportCodeConfig.TestCaseHookDefinitionConfig
+                         * @static
+                         * @param {io.cucumber.messages.CommandStart.SupportCodeConfig.ITestCaseHookDefinitionConfig} message TestCaseHookDefinitionConfig message or plain object to encode
+                         * @param {$protobuf.Writer} [writer] Writer to encode to
+                         * @returns {$protobuf.Writer} Writer
+                         */
+                        TestCaseHookDefinitionConfig.encode = function encode(message, writer) {
+                            if (!writer)
+                                writer = $Writer.create();
+                            if (message.id != null && message.hasOwnProperty("id"))
+                                writer.uint32(/* id 1, wireType 2 =*/10).string(message.id);
+                            if (message.tagExpression != null && message.hasOwnProperty("tagExpression"))
+                                writer.uint32(/* id 2, wireType 2 =*/18).string(message.tagExpression);
+                            if (message.location != null && message.hasOwnProperty("location"))
+                                $root.io.cucumber.messages.SourceReference.encode(message.location, writer.uint32(/* id 3, wireType 2 =*/26).fork()).ldelim();
+                            return writer;
+                        };
+
+                        /**
+                         * Encodes the specified TestCaseHookDefinitionConfig message, length delimited. Does not implicitly {@link io.cucumber.messages.CommandStart.SupportCodeConfig.TestCaseHookDefinitionConfig.verify|verify} messages.
+                         * @function encodeDelimited
+                         * @memberof io.cucumber.messages.CommandStart.SupportCodeConfig.TestCaseHookDefinitionConfig
+                         * @static
+                         * @param {io.cucumber.messages.CommandStart.SupportCodeConfig.ITestCaseHookDefinitionConfig} message TestCaseHookDefinitionConfig message or plain object to encode
+                         * @param {$protobuf.Writer} [writer] Writer to encode to
+                         * @returns {$protobuf.Writer} Writer
+                         */
+                        TestCaseHookDefinitionConfig.encodeDelimited = function encodeDelimited(message, writer) {
+                            return this.encode(message, writer).ldelim();
+                        };
+
+                        /**
+                         * Decodes a TestCaseHookDefinitionConfig message from the specified reader or buffer.
+                         * @function decode
+                         * @memberof io.cucumber.messages.CommandStart.SupportCodeConfig.TestCaseHookDefinitionConfig
+                         * @static
+                         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+                         * @param {number} [length] Message length if known beforehand
+                         * @returns {io.cucumber.messages.CommandStart.SupportCodeConfig.TestCaseHookDefinitionConfig} TestCaseHookDefinitionConfig
+                         * @throws {Error} If the payload is not a reader or valid buffer
+                         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                         */
+                        TestCaseHookDefinitionConfig.decode = function decode(reader, length) {
+                            if (!(reader instanceof $Reader))
+                                reader = $Reader.create(reader);
+                            var end = length === undefined ? reader.len : reader.pos + length, message = new $root.io.cucumber.messages.CommandStart.SupportCodeConfig.TestCaseHookDefinitionConfig();
+                            while (reader.pos < end) {
+                                var tag = reader.uint32();
+                                switch (tag >>> 3) {
+                                case 1:
+                                    message.id = reader.string();
+                                    break;
+                                case 2:
+                                    message.tagExpression = reader.string();
+                                    break;
+                                case 3:
+                                    message.location = $root.io.cucumber.messages.SourceReference.decode(reader, reader.uint32());
+                                    break;
+                                default:
+                                    reader.skipType(tag & 7);
+                                    break;
+                                }
+                            }
+                            return message;
+                        };
+
+                        /**
+                         * Decodes a TestCaseHookDefinitionConfig message from the specified reader or buffer, length delimited.
+                         * @function decodeDelimited
+                         * @memberof io.cucumber.messages.CommandStart.SupportCodeConfig.TestCaseHookDefinitionConfig
+                         * @static
+                         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+                         * @returns {io.cucumber.messages.CommandStart.SupportCodeConfig.TestCaseHookDefinitionConfig} TestCaseHookDefinitionConfig
+                         * @throws {Error} If the payload is not a reader or valid buffer
+                         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                         */
+                        TestCaseHookDefinitionConfig.decodeDelimited = function decodeDelimited(reader) {
+                            if (!(reader instanceof $Reader))
+                                reader = new $Reader(reader);
+                            return this.decode(reader, reader.uint32());
+                        };
+
+                        /**
+                         * Verifies a TestCaseHookDefinitionConfig message.
+                         * @function verify
+                         * @memberof io.cucumber.messages.CommandStart.SupportCodeConfig.TestCaseHookDefinitionConfig
+                         * @static
+                         * @param {Object.<string,*>} message Plain object to verify
+                         * @returns {string|null} `null` if valid, otherwise the reason why it is not
+                         */
+                        TestCaseHookDefinitionConfig.verify = function verify(message) {
+                            if (typeof message !== "object" || message === null)
+                                return "object expected";
+                            if (message.id != null && message.hasOwnProperty("id"))
+                                if (!$util.isString(message.id))
+                                    return "id: string expected";
+                            if (message.tagExpression != null && message.hasOwnProperty("tagExpression"))
+                                if (!$util.isString(message.tagExpression))
+                                    return "tagExpression: string expected";
+                            if (message.location != null && message.hasOwnProperty("location")) {
+                                var error = $root.io.cucumber.messages.SourceReference.verify(message.location);
+                                if (error)
+                                    return "location." + error;
+                            }
+                            return null;
+                        };
+
+                        /**
+                         * Creates a TestCaseHookDefinitionConfig message from a plain object. Also converts values to their respective internal types.
+                         * @function fromObject
+                         * @memberof io.cucumber.messages.CommandStart.SupportCodeConfig.TestCaseHookDefinitionConfig
+                         * @static
+                         * @param {Object.<string,*>} object Plain object
+                         * @returns {io.cucumber.messages.CommandStart.SupportCodeConfig.TestCaseHookDefinitionConfig} TestCaseHookDefinitionConfig
+                         */
+                        TestCaseHookDefinitionConfig.fromObject = function fromObject(object) {
+                            if (object instanceof $root.io.cucumber.messages.CommandStart.SupportCodeConfig.TestCaseHookDefinitionConfig)
+                                return object;
+                            var message = new $root.io.cucumber.messages.CommandStart.SupportCodeConfig.TestCaseHookDefinitionConfig();
+                            if (object.id != null)
+                                message.id = String(object.id);
+                            if (object.tagExpression != null)
+                                message.tagExpression = String(object.tagExpression);
+                            if (object.location != null) {
+                                if (typeof object.location !== "object")
+                                    throw TypeError(".io.cucumber.messages.CommandStart.SupportCodeConfig.TestCaseHookDefinitionConfig.location: object expected");
+                                message.location = $root.io.cucumber.messages.SourceReference.fromObject(object.location);
+                            }
+                            return message;
+                        };
+
+                        /**
+                         * Creates a plain object from a TestCaseHookDefinitionConfig message. Also converts values to other types if specified.
+                         * @function toObject
+                         * @memberof io.cucumber.messages.CommandStart.SupportCodeConfig.TestCaseHookDefinitionConfig
+                         * @static
+                         * @param {io.cucumber.messages.CommandStart.SupportCodeConfig.TestCaseHookDefinitionConfig} message TestCaseHookDefinitionConfig
+                         * @param {$protobuf.IConversionOptions} [options] Conversion options
+                         * @returns {Object.<string,*>} Plain object
+                         */
+                        TestCaseHookDefinitionConfig.toObject = function toObject(message, options) {
+                            if (!options)
+                                options = {};
+                            var object = {};
+                            if (options.defaults) {
+                                object.id = "";
+                                object.tagExpression = "";
+                                object.location = null;
+                            }
+                            if (message.id != null && message.hasOwnProperty("id"))
+                                object.id = message.id;
+                            if (message.tagExpression != null && message.hasOwnProperty("tagExpression"))
+                                object.tagExpression = message.tagExpression;
+                            if (message.location != null && message.hasOwnProperty("location"))
+                                object.location = $root.io.cucumber.messages.SourceReference.toObject(message.location, options);
+                            return object;
+                        };
+
+                        /**
+                         * Converts this TestCaseHookDefinitionConfig to JSON.
+                         * @function toJSON
+                         * @memberof io.cucumber.messages.CommandStart.SupportCodeConfig.TestCaseHookDefinitionConfig
+                         * @instance
+                         * @returns {Object.<string,*>} JSON object
+                         */
+                        TestCaseHookDefinitionConfig.prototype.toJSON = function toJSON() {
+                            return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+                        };
+
+                        return TestCaseHookDefinitionConfig;
+                    })();
+
+                    SupportCodeConfig.StepDefinitionConfig = (function() {
+
+                        /**
+                         * Properties of a StepDefinitionConfig.
+                         * @memberof io.cucumber.messages.CommandStart.SupportCodeConfig
+                         * @interface IStepDefinitionConfig
+                         * @property {string|null} [id] StepDefinitionConfig id
+                         * @property {io.cucumber.messages.CommandStart.SupportCodeConfig.StepDefinitionConfig.IStepDefinitionPattern|null} [pattern] StepDefinitionConfig pattern
+                         * @property {io.cucumber.messages.ISourceReference|null} [location] StepDefinitionConfig location
+                         */
+
+                        /**
+                         * Constructs a new StepDefinitionConfig.
+                         * @memberof io.cucumber.messages.CommandStart.SupportCodeConfig
+                         * @classdesc Represents a StepDefinitionConfig.
+                         * @implements IStepDefinitionConfig
+                         * @constructor
+                         * @param {io.cucumber.messages.CommandStart.SupportCodeConfig.IStepDefinitionConfig=} [properties] Properties to set
+                         */
+                        function StepDefinitionConfig(properties) {
+                            if (properties)
+                                for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                                    if (properties[keys[i]] != null)
+                                        this[keys[i]] = properties[keys[i]];
+                        }
+
+                        /**
+                         * StepDefinitionConfig id.
+                         * @member {string} id
+                         * @memberof io.cucumber.messages.CommandStart.SupportCodeConfig.StepDefinitionConfig
+                         * @instance
+                         */
+                        StepDefinitionConfig.prototype.id = "";
+
+                        /**
+                         * StepDefinitionConfig pattern.
+                         * @member {io.cucumber.messages.CommandStart.SupportCodeConfig.StepDefinitionConfig.IStepDefinitionPattern|null|undefined} pattern
+                         * @memberof io.cucumber.messages.CommandStart.SupportCodeConfig.StepDefinitionConfig
+                         * @instance
+                         */
+                        StepDefinitionConfig.prototype.pattern = null;
+
+                        /**
+                         * StepDefinitionConfig location.
+                         * @member {io.cucumber.messages.ISourceReference|null|undefined} location
+                         * @memberof io.cucumber.messages.CommandStart.SupportCodeConfig.StepDefinitionConfig
+                         * @instance
+                         */
+                        StepDefinitionConfig.prototype.location = null;
+
+                        /**
+                         * Creates a new StepDefinitionConfig instance using the specified properties.
+                         * @function create
+                         * @memberof io.cucumber.messages.CommandStart.SupportCodeConfig.StepDefinitionConfig
+                         * @static
+                         * @param {io.cucumber.messages.CommandStart.SupportCodeConfig.IStepDefinitionConfig=} [properties] Properties to set
+                         * @returns {io.cucumber.messages.CommandStart.SupportCodeConfig.StepDefinitionConfig} StepDefinitionConfig instance
+                         */
+                        StepDefinitionConfig.create = function create(properties) {
+                            return new StepDefinitionConfig(properties);
+                        };
+
+                        /**
+                         * Encodes the specified StepDefinitionConfig message. Does not implicitly {@link io.cucumber.messages.CommandStart.SupportCodeConfig.StepDefinitionConfig.verify|verify} messages.
+                         * @function encode
+                         * @memberof io.cucumber.messages.CommandStart.SupportCodeConfig.StepDefinitionConfig
+                         * @static
+                         * @param {io.cucumber.messages.CommandStart.SupportCodeConfig.IStepDefinitionConfig} message StepDefinitionConfig message or plain object to encode
+                         * @param {$protobuf.Writer} [writer] Writer to encode to
+                         * @returns {$protobuf.Writer} Writer
+                         */
+                        StepDefinitionConfig.encode = function encode(message, writer) {
+                            if (!writer)
+                                writer = $Writer.create();
+                            if (message.id != null && message.hasOwnProperty("id"))
+                                writer.uint32(/* id 1, wireType 2 =*/10).string(message.id);
+                            if (message.pattern != null && message.hasOwnProperty("pattern"))
+                                $root.io.cucumber.messages.CommandStart.SupportCodeConfig.StepDefinitionConfig.StepDefinitionPattern.encode(message.pattern, writer.uint32(/* id 2, wireType 2 =*/18).fork()).ldelim();
+                            if (message.location != null && message.hasOwnProperty("location"))
+                                $root.io.cucumber.messages.SourceReference.encode(message.location, writer.uint32(/* id 3, wireType 2 =*/26).fork()).ldelim();
+                            return writer;
+                        };
+
+                        /**
+                         * Encodes the specified StepDefinitionConfig message, length delimited. Does not implicitly {@link io.cucumber.messages.CommandStart.SupportCodeConfig.StepDefinitionConfig.verify|verify} messages.
+                         * @function encodeDelimited
+                         * @memberof io.cucumber.messages.CommandStart.SupportCodeConfig.StepDefinitionConfig
+                         * @static
+                         * @param {io.cucumber.messages.CommandStart.SupportCodeConfig.IStepDefinitionConfig} message StepDefinitionConfig message or plain object to encode
+                         * @param {$protobuf.Writer} [writer] Writer to encode to
+                         * @returns {$protobuf.Writer} Writer
+                         */
+                        StepDefinitionConfig.encodeDelimited = function encodeDelimited(message, writer) {
+                            return this.encode(message, writer).ldelim();
+                        };
+
+                        /**
+                         * Decodes a StepDefinitionConfig message from the specified reader or buffer.
+                         * @function decode
+                         * @memberof io.cucumber.messages.CommandStart.SupportCodeConfig.StepDefinitionConfig
+                         * @static
+                         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+                         * @param {number} [length] Message length if known beforehand
+                         * @returns {io.cucumber.messages.CommandStart.SupportCodeConfig.StepDefinitionConfig} StepDefinitionConfig
+                         * @throws {Error} If the payload is not a reader or valid buffer
+                         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                         */
+                        StepDefinitionConfig.decode = function decode(reader, length) {
+                            if (!(reader instanceof $Reader))
+                                reader = $Reader.create(reader);
+                            var end = length === undefined ? reader.len : reader.pos + length, message = new $root.io.cucumber.messages.CommandStart.SupportCodeConfig.StepDefinitionConfig();
+                            while (reader.pos < end) {
+                                var tag = reader.uint32();
+                                switch (tag >>> 3) {
+                                case 1:
+                                    message.id = reader.string();
+                                    break;
+                                case 2:
+                                    message.pattern = $root.io.cucumber.messages.CommandStart.SupportCodeConfig.StepDefinitionConfig.StepDefinitionPattern.decode(reader, reader.uint32());
+                                    break;
+                                case 3:
+                                    message.location = $root.io.cucumber.messages.SourceReference.decode(reader, reader.uint32());
+                                    break;
+                                default:
+                                    reader.skipType(tag & 7);
+                                    break;
+                                }
+                            }
+                            return message;
+                        };
+
+                        /**
+                         * Decodes a StepDefinitionConfig message from the specified reader or buffer, length delimited.
+                         * @function decodeDelimited
+                         * @memberof io.cucumber.messages.CommandStart.SupportCodeConfig.StepDefinitionConfig
+                         * @static
+                         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+                         * @returns {io.cucumber.messages.CommandStart.SupportCodeConfig.StepDefinitionConfig} StepDefinitionConfig
+                         * @throws {Error} If the payload is not a reader or valid buffer
+                         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                         */
+                        StepDefinitionConfig.decodeDelimited = function decodeDelimited(reader) {
+                            if (!(reader instanceof $Reader))
+                                reader = new $Reader(reader);
+                            return this.decode(reader, reader.uint32());
+                        };
+
+                        /**
+                         * Verifies a StepDefinitionConfig message.
+                         * @function verify
+                         * @memberof io.cucumber.messages.CommandStart.SupportCodeConfig.StepDefinitionConfig
+                         * @static
+                         * @param {Object.<string,*>} message Plain object to verify
+                         * @returns {string|null} `null` if valid, otherwise the reason why it is not
+                         */
+                        StepDefinitionConfig.verify = function verify(message) {
+                            if (typeof message !== "object" || message === null)
+                                return "object expected";
+                            if (message.id != null && message.hasOwnProperty("id"))
+                                if (!$util.isString(message.id))
+                                    return "id: string expected";
+                            if (message.pattern != null && message.hasOwnProperty("pattern")) {
+                                var error = $root.io.cucumber.messages.CommandStart.SupportCodeConfig.StepDefinitionConfig.StepDefinitionPattern.verify(message.pattern);
+                                if (error)
+                                    return "pattern." + error;
+                            }
+                            if (message.location != null && message.hasOwnProperty("location")) {
+                                var error = $root.io.cucumber.messages.SourceReference.verify(message.location);
+                                if (error)
+                                    return "location." + error;
+                            }
+                            return null;
+                        };
+
+                        /**
+                         * Creates a StepDefinitionConfig message from a plain object. Also converts values to their respective internal types.
+                         * @function fromObject
+                         * @memberof io.cucumber.messages.CommandStart.SupportCodeConfig.StepDefinitionConfig
+                         * @static
+                         * @param {Object.<string,*>} object Plain object
+                         * @returns {io.cucumber.messages.CommandStart.SupportCodeConfig.StepDefinitionConfig} StepDefinitionConfig
+                         */
+                        StepDefinitionConfig.fromObject = function fromObject(object) {
+                            if (object instanceof $root.io.cucumber.messages.CommandStart.SupportCodeConfig.StepDefinitionConfig)
+                                return object;
+                            var message = new $root.io.cucumber.messages.CommandStart.SupportCodeConfig.StepDefinitionConfig();
+                            if (object.id != null)
+                                message.id = String(object.id);
+                            if (object.pattern != null) {
+                                if (typeof object.pattern !== "object")
+                                    throw TypeError(".io.cucumber.messages.CommandStart.SupportCodeConfig.StepDefinitionConfig.pattern: object expected");
+                                message.pattern = $root.io.cucumber.messages.CommandStart.SupportCodeConfig.StepDefinitionConfig.StepDefinitionPattern.fromObject(object.pattern);
+                            }
+                            if (object.location != null) {
+                                if (typeof object.location !== "object")
+                                    throw TypeError(".io.cucumber.messages.CommandStart.SupportCodeConfig.StepDefinitionConfig.location: object expected");
+                                message.location = $root.io.cucumber.messages.SourceReference.fromObject(object.location);
+                            }
+                            return message;
+                        };
+
+                        /**
+                         * Creates a plain object from a StepDefinitionConfig message. Also converts values to other types if specified.
+                         * @function toObject
+                         * @memberof io.cucumber.messages.CommandStart.SupportCodeConfig.StepDefinitionConfig
+                         * @static
+                         * @param {io.cucumber.messages.CommandStart.SupportCodeConfig.StepDefinitionConfig} message StepDefinitionConfig
+                         * @param {$protobuf.IConversionOptions} [options] Conversion options
+                         * @returns {Object.<string,*>} Plain object
+                         */
+                        StepDefinitionConfig.toObject = function toObject(message, options) {
+                            if (!options)
+                                options = {};
+                            var object = {};
+                            if (options.defaults) {
+                                object.id = "";
+                                object.pattern = null;
+                                object.location = null;
+                            }
+                            if (message.id != null && message.hasOwnProperty("id"))
+                                object.id = message.id;
+                            if (message.pattern != null && message.hasOwnProperty("pattern"))
+                                object.pattern = $root.io.cucumber.messages.CommandStart.SupportCodeConfig.StepDefinitionConfig.StepDefinitionPattern.toObject(message.pattern, options);
+                            if (message.location != null && message.hasOwnProperty("location"))
+                                object.location = $root.io.cucumber.messages.SourceReference.toObject(message.location, options);
+                            return object;
+                        };
+
+                        /**
+                         * Converts this StepDefinitionConfig to JSON.
+                         * @function toJSON
+                         * @memberof io.cucumber.messages.CommandStart.SupportCodeConfig.StepDefinitionConfig
+                         * @instance
+                         * @returns {Object.<string,*>} JSON object
+                         */
+                        StepDefinitionConfig.prototype.toJSON = function toJSON() {
+                            return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+                        };
+
+                        StepDefinitionConfig.StepDefinitionPattern = (function() {
+
+                            /**
+                             * Properties of a StepDefinitionPattern.
+                             * @memberof io.cucumber.messages.CommandStart.SupportCodeConfig.StepDefinitionConfig
+                             * @interface IStepDefinitionPattern
+                             * @property {string|null} [source] StepDefinitionPattern source
+                             * @property {io.cucumber.messages.CommandStart.SupportCodeConfig.StepDefinitionConfig.StepDefinitionPattern.StepDefinitionPatternType|null} [type] StepDefinitionPattern type
+                             */
+
+                            /**
+                             * Constructs a new StepDefinitionPattern.
+                             * @memberof io.cucumber.messages.CommandStart.SupportCodeConfig.StepDefinitionConfig
+                             * @classdesc Represents a StepDefinitionPattern.
+                             * @implements IStepDefinitionPattern
+                             * @constructor
+                             * @param {io.cucumber.messages.CommandStart.SupportCodeConfig.StepDefinitionConfig.IStepDefinitionPattern=} [properties] Properties to set
+                             */
+                            function StepDefinitionPattern(properties) {
+                                if (properties)
+                                    for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                                        if (properties[keys[i]] != null)
+                                            this[keys[i]] = properties[keys[i]];
+                            }
+
+                            /**
+                             * StepDefinitionPattern source.
+                             * @member {string} source
+                             * @memberof io.cucumber.messages.CommandStart.SupportCodeConfig.StepDefinitionConfig.StepDefinitionPattern
+                             * @instance
+                             */
+                            StepDefinitionPattern.prototype.source = "";
+
+                            /**
+                             * StepDefinitionPattern type.
+                             * @member {io.cucumber.messages.CommandStart.SupportCodeConfig.StepDefinitionConfig.StepDefinitionPattern.StepDefinitionPatternType} type
+                             * @memberof io.cucumber.messages.CommandStart.SupportCodeConfig.StepDefinitionConfig.StepDefinitionPattern
+                             * @instance
+                             */
+                            StepDefinitionPattern.prototype.type = 0;
+
+                            /**
+                             * Creates a new StepDefinitionPattern instance using the specified properties.
+                             * @function create
+                             * @memberof io.cucumber.messages.CommandStart.SupportCodeConfig.StepDefinitionConfig.StepDefinitionPattern
+                             * @static
+                             * @param {io.cucumber.messages.CommandStart.SupportCodeConfig.StepDefinitionConfig.IStepDefinitionPattern=} [properties] Properties to set
+                             * @returns {io.cucumber.messages.CommandStart.SupportCodeConfig.StepDefinitionConfig.StepDefinitionPattern} StepDefinitionPattern instance
+                             */
+                            StepDefinitionPattern.create = function create(properties) {
+                                return new StepDefinitionPattern(properties);
+                            };
+
+                            /**
+                             * Encodes the specified StepDefinitionPattern message. Does not implicitly {@link io.cucumber.messages.CommandStart.SupportCodeConfig.StepDefinitionConfig.StepDefinitionPattern.verify|verify} messages.
+                             * @function encode
+                             * @memberof io.cucumber.messages.CommandStart.SupportCodeConfig.StepDefinitionConfig.StepDefinitionPattern
+                             * @static
+                             * @param {io.cucumber.messages.CommandStart.SupportCodeConfig.StepDefinitionConfig.IStepDefinitionPattern} message StepDefinitionPattern message or plain object to encode
+                             * @param {$protobuf.Writer} [writer] Writer to encode to
+                             * @returns {$protobuf.Writer} Writer
+                             */
+                            StepDefinitionPattern.encode = function encode(message, writer) {
+                                if (!writer)
+                                    writer = $Writer.create();
+                                if (message.source != null && message.hasOwnProperty("source"))
+                                    writer.uint32(/* id 1, wireType 2 =*/10).string(message.source);
+                                if (message.type != null && message.hasOwnProperty("type"))
+                                    writer.uint32(/* id 2, wireType 0 =*/16).int32(message.type);
+                                return writer;
+                            };
+
+                            /**
+                             * Encodes the specified StepDefinitionPattern message, length delimited. Does not implicitly {@link io.cucumber.messages.CommandStart.SupportCodeConfig.StepDefinitionConfig.StepDefinitionPattern.verify|verify} messages.
+                             * @function encodeDelimited
+                             * @memberof io.cucumber.messages.CommandStart.SupportCodeConfig.StepDefinitionConfig.StepDefinitionPattern
+                             * @static
+                             * @param {io.cucumber.messages.CommandStart.SupportCodeConfig.StepDefinitionConfig.IStepDefinitionPattern} message StepDefinitionPattern message or plain object to encode
+                             * @param {$protobuf.Writer} [writer] Writer to encode to
+                             * @returns {$protobuf.Writer} Writer
+                             */
+                            StepDefinitionPattern.encodeDelimited = function encodeDelimited(message, writer) {
+                                return this.encode(message, writer).ldelim();
+                            };
+
+                            /**
+                             * Decodes a StepDefinitionPattern message from the specified reader or buffer.
+                             * @function decode
+                             * @memberof io.cucumber.messages.CommandStart.SupportCodeConfig.StepDefinitionConfig.StepDefinitionPattern
+                             * @static
+                             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+                             * @param {number} [length] Message length if known beforehand
+                             * @returns {io.cucumber.messages.CommandStart.SupportCodeConfig.StepDefinitionConfig.StepDefinitionPattern} StepDefinitionPattern
+                             * @throws {Error} If the payload is not a reader or valid buffer
+                             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                             */
+                            StepDefinitionPattern.decode = function decode(reader, length) {
+                                if (!(reader instanceof $Reader))
+                                    reader = $Reader.create(reader);
+                                var end = length === undefined ? reader.len : reader.pos + length, message = new $root.io.cucumber.messages.CommandStart.SupportCodeConfig.StepDefinitionConfig.StepDefinitionPattern();
+                                while (reader.pos < end) {
+                                    var tag = reader.uint32();
+                                    switch (tag >>> 3) {
+                                    case 1:
+                                        message.source = reader.string();
+                                        break;
+                                    case 2:
+                                        message.type = reader.int32();
+                                        break;
+                                    default:
+                                        reader.skipType(tag & 7);
+                                        break;
+                                    }
+                                }
+                                return message;
+                            };
+
+                            /**
+                             * Decodes a StepDefinitionPattern message from the specified reader or buffer, length delimited.
+                             * @function decodeDelimited
+                             * @memberof io.cucumber.messages.CommandStart.SupportCodeConfig.StepDefinitionConfig.StepDefinitionPattern
+                             * @static
+                             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+                             * @returns {io.cucumber.messages.CommandStart.SupportCodeConfig.StepDefinitionConfig.StepDefinitionPattern} StepDefinitionPattern
+                             * @throws {Error} If the payload is not a reader or valid buffer
+                             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                             */
+                            StepDefinitionPattern.decodeDelimited = function decodeDelimited(reader) {
+                                if (!(reader instanceof $Reader))
+                                    reader = new $Reader(reader);
+                                return this.decode(reader, reader.uint32());
+                            };
+
+                            /**
+                             * Verifies a StepDefinitionPattern message.
+                             * @function verify
+                             * @memberof io.cucumber.messages.CommandStart.SupportCodeConfig.StepDefinitionConfig.StepDefinitionPattern
+                             * @static
+                             * @param {Object.<string,*>} message Plain object to verify
+                             * @returns {string|null} `null` if valid, otherwise the reason why it is not
+                             */
+                            StepDefinitionPattern.verify = function verify(message) {
+                                if (typeof message !== "object" || message === null)
+                                    return "object expected";
+                                if (message.source != null && message.hasOwnProperty("source"))
+                                    if (!$util.isString(message.source))
+                                        return "source: string expected";
+                                if (message.type != null && message.hasOwnProperty("type"))
+                                    switch (message.type) {
+                                    default:
+                                        return "type: enum value expected";
+                                    case 0:
+                                    case 1:
+                                        break;
+                                    }
+                                return null;
+                            };
+
+                            /**
+                             * Creates a StepDefinitionPattern message from a plain object. Also converts values to their respective internal types.
+                             * @function fromObject
+                             * @memberof io.cucumber.messages.CommandStart.SupportCodeConfig.StepDefinitionConfig.StepDefinitionPattern
+                             * @static
+                             * @param {Object.<string,*>} object Plain object
+                             * @returns {io.cucumber.messages.CommandStart.SupportCodeConfig.StepDefinitionConfig.StepDefinitionPattern} StepDefinitionPattern
+                             */
+                            StepDefinitionPattern.fromObject = function fromObject(object) {
+                                if (object instanceof $root.io.cucumber.messages.CommandStart.SupportCodeConfig.StepDefinitionConfig.StepDefinitionPattern)
+                                    return object;
+                                var message = new $root.io.cucumber.messages.CommandStart.SupportCodeConfig.StepDefinitionConfig.StepDefinitionPattern();
+                                if (object.source != null)
+                                    message.source = String(object.source);
+                                switch (object.type) {
+                                case "CUCUMBER_EXPRESSION":
+                                case 0:
+                                    message.type = 0;
+                                    break;
+                                case "REGULAR_EXPRESSION":
+                                case 1:
+                                    message.type = 1;
+                                    break;
+                                }
+                                return message;
+                            };
+
+                            /**
+                             * Creates a plain object from a StepDefinitionPattern message. Also converts values to other types if specified.
+                             * @function toObject
+                             * @memberof io.cucumber.messages.CommandStart.SupportCodeConfig.StepDefinitionConfig.StepDefinitionPattern
+                             * @static
+                             * @param {io.cucumber.messages.CommandStart.SupportCodeConfig.StepDefinitionConfig.StepDefinitionPattern} message StepDefinitionPattern
+                             * @param {$protobuf.IConversionOptions} [options] Conversion options
+                             * @returns {Object.<string,*>} Plain object
+                             */
+                            StepDefinitionPattern.toObject = function toObject(message, options) {
+                                if (!options)
+                                    options = {};
+                                var object = {};
+                                if (options.defaults) {
+                                    object.source = "";
+                                    object.type = options.enums === String ? "CUCUMBER_EXPRESSION" : 0;
+                                }
+                                if (message.source != null && message.hasOwnProperty("source"))
+                                    object.source = message.source;
+                                if (message.type != null && message.hasOwnProperty("type"))
+                                    object.type = options.enums === String ? $root.io.cucumber.messages.CommandStart.SupportCodeConfig.StepDefinitionConfig.StepDefinitionPattern.StepDefinitionPatternType[message.type] : message.type;
+                                return object;
+                            };
+
+                            /**
+                             * Converts this StepDefinitionPattern to JSON.
+                             * @function toJSON
+                             * @memberof io.cucumber.messages.CommandStart.SupportCodeConfig.StepDefinitionConfig.StepDefinitionPattern
+                             * @instance
+                             * @returns {Object.<string,*>} JSON object
+                             */
+                            StepDefinitionPattern.prototype.toJSON = function toJSON() {
+                                return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+                            };
+
+                            /**
+                             * StepDefinitionPatternType enum.
+                             * @name io.cucumber.messages.CommandStart.SupportCodeConfig.StepDefinitionConfig.StepDefinitionPattern.StepDefinitionPatternType
+                             * @enum {string}
+                             * @property {number} CUCUMBER_EXPRESSION=0 CUCUMBER_EXPRESSION value
+                             * @property {number} REGULAR_EXPRESSION=1 REGULAR_EXPRESSION value
+                             */
+                            StepDefinitionPattern.StepDefinitionPatternType = (function() {
+                                var valuesById = {}, values = Object.create(valuesById);
+                                values[valuesById[0] = "CUCUMBER_EXPRESSION"] = 0;
+                                values[valuesById[1] = "REGULAR_EXPRESSION"] = 1;
+                                return values;
+                            })();
+
+                            return StepDefinitionPattern;
+                        })();
+
+                        return StepDefinitionConfig;
+                    })();
+
+                    return SupportCodeConfig;
+                })();
+
+                CommandStart.ParameterTypeConfig = (function() {
+
+                    /**
+                     * Properties of a ParameterTypeConfig.
+                     * @memberof io.cucumber.messages.CommandStart
+                     * @interface IParameterTypeConfig
+                     * @property {string|null} [name] ParameterTypeConfig name
+                     * @property {Array.<string>|null} [regularExpressions] ParameterTypeConfig regularExpressions
+                     * @property {boolean|null} [preferForRegularExpressionMatch] ParameterTypeConfig preferForRegularExpressionMatch
+                     * @property {boolean|null} [useForSnippets] ParameterTypeConfig useForSnippets
+                     */
+
+                    /**
+                     * Constructs a new ParameterTypeConfig.
+                     * @memberof io.cucumber.messages.CommandStart
+                     * @classdesc Represents a ParameterTypeConfig.
+                     * @implements IParameterTypeConfig
+                     * @constructor
+                     * @param {io.cucumber.messages.CommandStart.IParameterTypeConfig=} [properties] Properties to set
+                     */
+                    function ParameterTypeConfig(properties) {
+                        this.regularExpressions = [];
+                        if (properties)
+                            for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                                if (properties[keys[i]] != null)
+                                    this[keys[i]] = properties[keys[i]];
+                    }
+
+                    /**
+                     * ParameterTypeConfig name.
+                     * @member {string} name
+                     * @memberof io.cucumber.messages.CommandStart.ParameterTypeConfig
+                     * @instance
+                     */
+                    ParameterTypeConfig.prototype.name = "";
+
+                    /**
+                     * ParameterTypeConfig regularExpressions.
+                     * @member {Array.<string>} regularExpressions
+                     * @memberof io.cucumber.messages.CommandStart.ParameterTypeConfig
+                     * @instance
+                     */
+                    ParameterTypeConfig.prototype.regularExpressions = $util.emptyArray;
+
+                    /**
+                     * ParameterTypeConfig preferForRegularExpressionMatch.
+                     * @member {boolean} preferForRegularExpressionMatch
+                     * @memberof io.cucumber.messages.CommandStart.ParameterTypeConfig
+                     * @instance
+                     */
+                    ParameterTypeConfig.prototype.preferForRegularExpressionMatch = false;
+
+                    /**
+                     * ParameterTypeConfig useForSnippets.
+                     * @member {boolean} useForSnippets
+                     * @memberof io.cucumber.messages.CommandStart.ParameterTypeConfig
+                     * @instance
+                     */
+                    ParameterTypeConfig.prototype.useForSnippets = false;
+
+                    /**
+                     * Creates a new ParameterTypeConfig instance using the specified properties.
+                     * @function create
+                     * @memberof io.cucumber.messages.CommandStart.ParameterTypeConfig
+                     * @static
+                     * @param {io.cucumber.messages.CommandStart.IParameterTypeConfig=} [properties] Properties to set
+                     * @returns {io.cucumber.messages.CommandStart.ParameterTypeConfig} ParameterTypeConfig instance
+                     */
+                    ParameterTypeConfig.create = function create(properties) {
+                        return new ParameterTypeConfig(properties);
+                    };
+
+                    /**
+                     * Encodes the specified ParameterTypeConfig message. Does not implicitly {@link io.cucumber.messages.CommandStart.ParameterTypeConfig.verify|verify} messages.
+                     * @function encode
+                     * @memberof io.cucumber.messages.CommandStart.ParameterTypeConfig
+                     * @static
+                     * @param {io.cucumber.messages.CommandStart.IParameterTypeConfig} message ParameterTypeConfig message or plain object to encode
+                     * @param {$protobuf.Writer} [writer] Writer to encode to
+                     * @returns {$protobuf.Writer} Writer
+                     */
+                    ParameterTypeConfig.encode = function encode(message, writer) {
+                        if (!writer)
+                            writer = $Writer.create();
+                        if (message.name != null && message.hasOwnProperty("name"))
+                            writer.uint32(/* id 1, wireType 2 =*/10).string(message.name);
+                        if (message.regularExpressions != null && message.regularExpressions.length)
+                            for (var i = 0; i < message.regularExpressions.length; ++i)
+                                writer.uint32(/* id 2, wireType 2 =*/18).string(message.regularExpressions[i]);
+                        if (message.preferForRegularExpressionMatch != null && message.hasOwnProperty("preferForRegularExpressionMatch"))
+                            writer.uint32(/* id 3, wireType 0 =*/24).bool(message.preferForRegularExpressionMatch);
+                        if (message.useForSnippets != null && message.hasOwnProperty("useForSnippets"))
+                            writer.uint32(/* id 4, wireType 0 =*/32).bool(message.useForSnippets);
+                        return writer;
+                    };
+
+                    /**
+                     * Encodes the specified ParameterTypeConfig message, length delimited. Does not implicitly {@link io.cucumber.messages.CommandStart.ParameterTypeConfig.verify|verify} messages.
+                     * @function encodeDelimited
+                     * @memberof io.cucumber.messages.CommandStart.ParameterTypeConfig
+                     * @static
+                     * @param {io.cucumber.messages.CommandStart.IParameterTypeConfig} message ParameterTypeConfig message or plain object to encode
+                     * @param {$protobuf.Writer} [writer] Writer to encode to
+                     * @returns {$protobuf.Writer} Writer
+                     */
+                    ParameterTypeConfig.encodeDelimited = function encodeDelimited(message, writer) {
+                        return this.encode(message, writer).ldelim();
+                    };
+
+                    /**
+                     * Decodes a ParameterTypeConfig message from the specified reader or buffer.
+                     * @function decode
+                     * @memberof io.cucumber.messages.CommandStart.ParameterTypeConfig
+                     * @static
+                     * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+                     * @param {number} [length] Message length if known beforehand
+                     * @returns {io.cucumber.messages.CommandStart.ParameterTypeConfig} ParameterTypeConfig
+                     * @throws {Error} If the payload is not a reader or valid buffer
+                     * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                     */
+                    ParameterTypeConfig.decode = function decode(reader, length) {
+                        if (!(reader instanceof $Reader))
+                            reader = $Reader.create(reader);
+                        var end = length === undefined ? reader.len : reader.pos + length, message = new $root.io.cucumber.messages.CommandStart.ParameterTypeConfig();
+                        while (reader.pos < end) {
+                            var tag = reader.uint32();
+                            switch (tag >>> 3) {
+                            case 1:
+                                message.name = reader.string();
+                                break;
+                            case 2:
+                                if (!(message.regularExpressions && message.regularExpressions.length))
+                                    message.regularExpressions = [];
+                                message.regularExpressions.push(reader.string());
+                                break;
+                            case 3:
+                                message.preferForRegularExpressionMatch = reader.bool();
+                                break;
+                            case 4:
+                                message.useForSnippets = reader.bool();
+                                break;
+                            default:
+                                reader.skipType(tag & 7);
+                                break;
+                            }
+                        }
+                        return message;
+                    };
+
+                    /**
+                     * Decodes a ParameterTypeConfig message from the specified reader or buffer, length delimited.
+                     * @function decodeDelimited
+                     * @memberof io.cucumber.messages.CommandStart.ParameterTypeConfig
+                     * @static
+                     * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+                     * @returns {io.cucumber.messages.CommandStart.ParameterTypeConfig} ParameterTypeConfig
+                     * @throws {Error} If the payload is not a reader or valid buffer
+                     * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                     */
+                    ParameterTypeConfig.decodeDelimited = function decodeDelimited(reader) {
+                        if (!(reader instanceof $Reader))
+                            reader = new $Reader(reader);
+                        return this.decode(reader, reader.uint32());
+                    };
+
+                    /**
+                     * Verifies a ParameterTypeConfig message.
+                     * @function verify
+                     * @memberof io.cucumber.messages.CommandStart.ParameterTypeConfig
+                     * @static
+                     * @param {Object.<string,*>} message Plain object to verify
+                     * @returns {string|null} `null` if valid, otherwise the reason why it is not
+                     */
+                    ParameterTypeConfig.verify = function verify(message) {
+                        if (typeof message !== "object" || message === null)
+                            return "object expected";
+                        if (message.name != null && message.hasOwnProperty("name"))
+                            if (!$util.isString(message.name))
+                                return "name: string expected";
+                        if (message.regularExpressions != null && message.hasOwnProperty("regularExpressions")) {
+                            if (!Array.isArray(message.regularExpressions))
+                                return "regularExpressions: array expected";
+                            for (var i = 0; i < message.regularExpressions.length; ++i)
+                                if (!$util.isString(message.regularExpressions[i]))
+                                    return "regularExpressions: string[] expected";
+                        }
+                        if (message.preferForRegularExpressionMatch != null && message.hasOwnProperty("preferForRegularExpressionMatch"))
+                            if (typeof message.preferForRegularExpressionMatch !== "boolean")
+                                return "preferForRegularExpressionMatch: boolean expected";
+                        if (message.useForSnippets != null && message.hasOwnProperty("useForSnippets"))
+                            if (typeof message.useForSnippets !== "boolean")
+                                return "useForSnippets: boolean expected";
+                        return null;
+                    };
+
+                    /**
+                     * Creates a ParameterTypeConfig message from a plain object. Also converts values to their respective internal types.
+                     * @function fromObject
+                     * @memberof io.cucumber.messages.CommandStart.ParameterTypeConfig
+                     * @static
+                     * @param {Object.<string,*>} object Plain object
+                     * @returns {io.cucumber.messages.CommandStart.ParameterTypeConfig} ParameterTypeConfig
+                     */
+                    ParameterTypeConfig.fromObject = function fromObject(object) {
+                        if (object instanceof $root.io.cucumber.messages.CommandStart.ParameterTypeConfig)
+                            return object;
+                        var message = new $root.io.cucumber.messages.CommandStart.ParameterTypeConfig();
+                        if (object.name != null)
+                            message.name = String(object.name);
+                        if (object.regularExpressions) {
+                            if (!Array.isArray(object.regularExpressions))
+                                throw TypeError(".io.cucumber.messages.CommandStart.ParameterTypeConfig.regularExpressions: array expected");
+                            message.regularExpressions = [];
+                            for (var i = 0; i < object.regularExpressions.length; ++i)
+                                message.regularExpressions[i] = String(object.regularExpressions[i]);
+                        }
+                        if (object.preferForRegularExpressionMatch != null)
+                            message.preferForRegularExpressionMatch = Boolean(object.preferForRegularExpressionMatch);
+                        if (object.useForSnippets != null)
+                            message.useForSnippets = Boolean(object.useForSnippets);
+                        return message;
+                    };
+
+                    /**
+                     * Creates a plain object from a ParameterTypeConfig message. Also converts values to other types if specified.
+                     * @function toObject
+                     * @memberof io.cucumber.messages.CommandStart.ParameterTypeConfig
+                     * @static
+                     * @param {io.cucumber.messages.CommandStart.ParameterTypeConfig} message ParameterTypeConfig
+                     * @param {$protobuf.IConversionOptions} [options] Conversion options
+                     * @returns {Object.<string,*>} Plain object
+                     */
+                    ParameterTypeConfig.toObject = function toObject(message, options) {
+                        if (!options)
+                            options = {};
+                        var object = {};
+                        if (options.arrays || options.defaults)
+                            object.regularExpressions = [];
+                        if (options.defaults) {
+                            object.name = "";
+                            object.preferForRegularExpressionMatch = false;
+                            object.useForSnippets = false;
+                        }
+                        if (message.name != null && message.hasOwnProperty("name"))
+                            object.name = message.name;
+                        if (message.regularExpressions && message.regularExpressions.length) {
+                            object.regularExpressions = [];
+                            for (var j = 0; j < message.regularExpressions.length; ++j)
+                                object.regularExpressions[j] = message.regularExpressions[j];
+                        }
+                        if (message.preferForRegularExpressionMatch != null && message.hasOwnProperty("preferForRegularExpressionMatch"))
+                            object.preferForRegularExpressionMatch = message.preferForRegularExpressionMatch;
+                        if (message.useForSnippets != null && message.hasOwnProperty("useForSnippets"))
+                            object.useForSnippets = message.useForSnippets;
                         return object;
-                    var message = new $root.io.cucumber.messages.SupportCodeConfig();
-                    if (object.beforeTestCaseHookDefinitionConfigs) {
-                        if (!Array.isArray(object.beforeTestCaseHookDefinitionConfigs))
-                            throw TypeError(".io.cucumber.messages.SupportCodeConfig.beforeTestCaseHookDefinitionConfigs: array expected");
-                        message.beforeTestCaseHookDefinitionConfigs = [];
-                        for (var i = 0; i < object.beforeTestCaseHookDefinitionConfigs.length; ++i) {
-                            if (typeof object.beforeTestCaseHookDefinitionConfigs[i] !== "object")
-                                throw TypeError(".io.cucumber.messages.SupportCodeConfig.beforeTestCaseHookDefinitionConfigs: object expected");
-                            message.beforeTestCaseHookDefinitionConfigs[i] = $root.io.cucumber.messages.TestCaseHookDefinitionConfig.fromObject(object.beforeTestCaseHookDefinitionConfigs[i]);
-                        }
-                    }
-                    if (object.afterTestCaseHookDefinitionConfigs) {
-                        if (!Array.isArray(object.afterTestCaseHookDefinitionConfigs))
-                            throw TypeError(".io.cucumber.messages.SupportCodeConfig.afterTestCaseHookDefinitionConfigs: array expected");
-                        message.afterTestCaseHookDefinitionConfigs = [];
-                        for (var i = 0; i < object.afterTestCaseHookDefinitionConfigs.length; ++i) {
-                            if (typeof object.afterTestCaseHookDefinitionConfigs[i] !== "object")
-                                throw TypeError(".io.cucumber.messages.SupportCodeConfig.afterTestCaseHookDefinitionConfigs: object expected");
-                            message.afterTestCaseHookDefinitionConfigs[i] = $root.io.cucumber.messages.TestCaseHookDefinitionConfig.fromObject(object.afterTestCaseHookDefinitionConfigs[i]);
-                        }
-                    }
-                    if (object.stepDefinitionConfigs) {
-                        if (!Array.isArray(object.stepDefinitionConfigs))
-                            throw TypeError(".io.cucumber.messages.SupportCodeConfig.stepDefinitionConfigs: array expected");
-                        message.stepDefinitionConfigs = [];
-                        for (var i = 0; i < object.stepDefinitionConfigs.length; ++i) {
-                            if (typeof object.stepDefinitionConfigs[i] !== "object")
-                                throw TypeError(".io.cucumber.messages.SupportCodeConfig.stepDefinitionConfigs: object expected");
-                            message.stepDefinitionConfigs[i] = $root.io.cucumber.messages.StepDefinitionConfig.fromObject(object.stepDefinitionConfigs[i]);
-                        }
-                    }
-                    if (object.parameterTypeConfigs) {
-                        if (!Array.isArray(object.parameterTypeConfigs))
-                            throw TypeError(".io.cucumber.messages.SupportCodeConfig.parameterTypeConfigs: array expected");
-                        message.parameterTypeConfigs = [];
-                        for (var i = 0; i < object.parameterTypeConfigs.length; ++i) {
-                            if (typeof object.parameterTypeConfigs[i] !== "object")
-                                throw TypeError(".io.cucumber.messages.SupportCodeConfig.parameterTypeConfigs: object expected");
-                            message.parameterTypeConfigs[i] = $root.io.cucumber.messages.ParameterTypeConfig.fromObject(object.parameterTypeConfigs[i]);
-                        }
-                    }
-                    return message;
-                };
-
-                /**
-                 * Creates a plain object from a SupportCodeConfig message. Also converts values to other types if specified.
-                 * @function toObject
-                 * @memberof io.cucumber.messages.SupportCodeConfig
-                 * @static
-                 * @param {io.cucumber.messages.SupportCodeConfig} message SupportCodeConfig
-                 * @param {$protobuf.IConversionOptions} [options] Conversion options
-                 * @returns {Object.<string,*>} Plain object
-                 */
-                SupportCodeConfig.toObject = function toObject(message, options) {
-                    if (!options)
-                        options = {};
-                    var object = {};
-                    if (options.arrays || options.defaults) {
-                        object.beforeTestCaseHookDefinitionConfigs = [];
-                        object.afterTestCaseHookDefinitionConfigs = [];
-                        object.stepDefinitionConfigs = [];
-                        object.parameterTypeConfigs = [];
-                    }
-                    if (message.beforeTestCaseHookDefinitionConfigs && message.beforeTestCaseHookDefinitionConfigs.length) {
-                        object.beforeTestCaseHookDefinitionConfigs = [];
-                        for (var j = 0; j < message.beforeTestCaseHookDefinitionConfigs.length; ++j)
-                            object.beforeTestCaseHookDefinitionConfigs[j] = $root.io.cucumber.messages.TestCaseHookDefinitionConfig.toObject(message.beforeTestCaseHookDefinitionConfigs[j], options);
-                    }
-                    if (message.afterTestCaseHookDefinitionConfigs && message.afterTestCaseHookDefinitionConfigs.length) {
-                        object.afterTestCaseHookDefinitionConfigs = [];
-                        for (var j = 0; j < message.afterTestCaseHookDefinitionConfigs.length; ++j)
-                            object.afterTestCaseHookDefinitionConfigs[j] = $root.io.cucumber.messages.TestCaseHookDefinitionConfig.toObject(message.afterTestCaseHookDefinitionConfigs[j], options);
-                    }
-                    if (message.stepDefinitionConfigs && message.stepDefinitionConfigs.length) {
-                        object.stepDefinitionConfigs = [];
-                        for (var j = 0; j < message.stepDefinitionConfigs.length; ++j)
-                            object.stepDefinitionConfigs[j] = $root.io.cucumber.messages.StepDefinitionConfig.toObject(message.stepDefinitionConfigs[j], options);
-                    }
-                    if (message.parameterTypeConfigs && message.parameterTypeConfigs.length) {
-                        object.parameterTypeConfigs = [];
-                        for (var j = 0; j < message.parameterTypeConfigs.length; ++j)
-                            object.parameterTypeConfigs[j] = $root.io.cucumber.messages.ParameterTypeConfig.toObject(message.parameterTypeConfigs[j], options);
-                    }
-                    return object;
-                };
-
-                /**
-                 * Converts this SupportCodeConfig to JSON.
-                 * @function toJSON
-                 * @memberof io.cucumber.messages.SupportCodeConfig
-                 * @instance
-                 * @returns {Object.<string,*>} JSON object
-                 */
-                SupportCodeConfig.prototype.toJSON = function toJSON() {
-                    return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
-                };
-
-                return SupportCodeConfig;
-            })();
-
-            messages.TestCaseHookDefinitionConfig = (function() {
-
-                /**
-                 * Properties of a TestCaseHookDefinitionConfig.
-                 * @memberof io.cucumber.messages
-                 * @interface ITestCaseHookDefinitionConfig
-                 * @property {string|null} [id] TestCaseHookDefinitionConfig id
-                 * @property {string|null} [tagExpression] TestCaseHookDefinitionConfig tagExpression
-                 * @property {io.cucumber.messages.ISourceReference|null} [location] TestCaseHookDefinitionConfig location
-                 */
-
-                /**
-                 * Constructs a new TestCaseHookDefinitionConfig.
-                 * @memberof io.cucumber.messages
-                 * @classdesc Represents a TestCaseHookDefinitionConfig.
-                 * @implements ITestCaseHookDefinitionConfig
-                 * @constructor
-                 * @param {io.cucumber.messages.ITestCaseHookDefinitionConfig=} [properties] Properties to set
-                 */
-                function TestCaseHookDefinitionConfig(properties) {
-                    if (properties)
-                        for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
-                            if (properties[keys[i]] != null)
-                                this[keys[i]] = properties[keys[i]];
-                }
-
-                /**
-                 * TestCaseHookDefinitionConfig id.
-                 * @member {string} id
-                 * @memberof io.cucumber.messages.TestCaseHookDefinitionConfig
-                 * @instance
-                 */
-                TestCaseHookDefinitionConfig.prototype.id = "";
-
-                /**
-                 * TestCaseHookDefinitionConfig tagExpression.
-                 * @member {string} tagExpression
-                 * @memberof io.cucumber.messages.TestCaseHookDefinitionConfig
-                 * @instance
-                 */
-                TestCaseHookDefinitionConfig.prototype.tagExpression = "";
-
-                /**
-                 * TestCaseHookDefinitionConfig location.
-                 * @member {io.cucumber.messages.ISourceReference|null|undefined} location
-                 * @memberof io.cucumber.messages.TestCaseHookDefinitionConfig
-                 * @instance
-                 */
-                TestCaseHookDefinitionConfig.prototype.location = null;
-
-                /**
-                 * Creates a new TestCaseHookDefinitionConfig instance using the specified properties.
-                 * @function create
-                 * @memberof io.cucumber.messages.TestCaseHookDefinitionConfig
-                 * @static
-                 * @param {io.cucumber.messages.ITestCaseHookDefinitionConfig=} [properties] Properties to set
-                 * @returns {io.cucumber.messages.TestCaseHookDefinitionConfig} TestCaseHookDefinitionConfig instance
-                 */
-                TestCaseHookDefinitionConfig.create = function create(properties) {
-                    return new TestCaseHookDefinitionConfig(properties);
-                };
-
-                /**
-                 * Encodes the specified TestCaseHookDefinitionConfig message. Does not implicitly {@link io.cucumber.messages.TestCaseHookDefinitionConfig.verify|verify} messages.
-                 * @function encode
-                 * @memberof io.cucumber.messages.TestCaseHookDefinitionConfig
-                 * @static
-                 * @param {io.cucumber.messages.ITestCaseHookDefinitionConfig} message TestCaseHookDefinitionConfig message or plain object to encode
-                 * @param {$protobuf.Writer} [writer] Writer to encode to
-                 * @returns {$protobuf.Writer} Writer
-                 */
-                TestCaseHookDefinitionConfig.encode = function encode(message, writer) {
-                    if (!writer)
-                        writer = $Writer.create();
-                    if (message.id != null && message.hasOwnProperty("id"))
-                        writer.uint32(/* id 1, wireType 2 =*/10).string(message.id);
-                    if (message.tagExpression != null && message.hasOwnProperty("tagExpression"))
-                        writer.uint32(/* id 2, wireType 2 =*/18).string(message.tagExpression);
-                    if (message.location != null && message.hasOwnProperty("location"))
-                        $root.io.cucumber.messages.SourceReference.encode(message.location, writer.uint32(/* id 3, wireType 2 =*/26).fork()).ldelim();
-                    return writer;
-                };
-
-                /**
-                 * Encodes the specified TestCaseHookDefinitionConfig message, length delimited. Does not implicitly {@link io.cucumber.messages.TestCaseHookDefinitionConfig.verify|verify} messages.
-                 * @function encodeDelimited
-                 * @memberof io.cucumber.messages.TestCaseHookDefinitionConfig
-                 * @static
-                 * @param {io.cucumber.messages.ITestCaseHookDefinitionConfig} message TestCaseHookDefinitionConfig message or plain object to encode
-                 * @param {$protobuf.Writer} [writer] Writer to encode to
-                 * @returns {$protobuf.Writer} Writer
-                 */
-                TestCaseHookDefinitionConfig.encodeDelimited = function encodeDelimited(message, writer) {
-                    return this.encode(message, writer).ldelim();
-                };
-
-                /**
-                 * Decodes a TestCaseHookDefinitionConfig message from the specified reader or buffer.
-                 * @function decode
-                 * @memberof io.cucumber.messages.TestCaseHookDefinitionConfig
-                 * @static
-                 * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-                 * @param {number} [length] Message length if known beforehand
-                 * @returns {io.cucumber.messages.TestCaseHookDefinitionConfig} TestCaseHookDefinitionConfig
-                 * @throws {Error} If the payload is not a reader or valid buffer
-                 * @throws {$protobuf.util.ProtocolError} If required fields are missing
-                 */
-                TestCaseHookDefinitionConfig.decode = function decode(reader, length) {
-                    if (!(reader instanceof $Reader))
-                        reader = $Reader.create(reader);
-                    var end = length === undefined ? reader.len : reader.pos + length, message = new $root.io.cucumber.messages.TestCaseHookDefinitionConfig();
-                    while (reader.pos < end) {
-                        var tag = reader.uint32();
-                        switch (tag >>> 3) {
-                        case 1:
-                            message.id = reader.string();
-                            break;
-                        case 2:
-                            message.tagExpression = reader.string();
-                            break;
-                        case 3:
-                            message.location = $root.io.cucumber.messages.SourceReference.decode(reader, reader.uint32());
-                            break;
-                        default:
-                            reader.skipType(tag & 7);
-                            break;
-                        }
-                    }
-                    return message;
-                };
-
-                /**
-                 * Decodes a TestCaseHookDefinitionConfig message from the specified reader or buffer, length delimited.
-                 * @function decodeDelimited
-                 * @memberof io.cucumber.messages.TestCaseHookDefinitionConfig
-                 * @static
-                 * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-                 * @returns {io.cucumber.messages.TestCaseHookDefinitionConfig} TestCaseHookDefinitionConfig
-                 * @throws {Error} If the payload is not a reader or valid buffer
-                 * @throws {$protobuf.util.ProtocolError} If required fields are missing
-                 */
-                TestCaseHookDefinitionConfig.decodeDelimited = function decodeDelimited(reader) {
-                    if (!(reader instanceof $Reader))
-                        reader = new $Reader(reader);
-                    return this.decode(reader, reader.uint32());
-                };
-
-                /**
-                 * Verifies a TestCaseHookDefinitionConfig message.
-                 * @function verify
-                 * @memberof io.cucumber.messages.TestCaseHookDefinitionConfig
-                 * @static
-                 * @param {Object.<string,*>} message Plain object to verify
-                 * @returns {string|null} `null` if valid, otherwise the reason why it is not
-                 */
-                TestCaseHookDefinitionConfig.verify = function verify(message) {
-                    if (typeof message !== "object" || message === null)
-                        return "object expected";
-                    if (message.id != null && message.hasOwnProperty("id"))
-                        if (!$util.isString(message.id))
-                            return "id: string expected";
-                    if (message.tagExpression != null && message.hasOwnProperty("tagExpression"))
-                        if (!$util.isString(message.tagExpression))
-                            return "tagExpression: string expected";
-                    if (message.location != null && message.hasOwnProperty("location")) {
-                        var error = $root.io.cucumber.messages.SourceReference.verify(message.location);
-                        if (error)
-                            return "location." + error;
-                    }
-                    return null;
-                };
-
-                /**
-                 * Creates a TestCaseHookDefinitionConfig message from a plain object. Also converts values to their respective internal types.
-                 * @function fromObject
-                 * @memberof io.cucumber.messages.TestCaseHookDefinitionConfig
-                 * @static
-                 * @param {Object.<string,*>} object Plain object
-                 * @returns {io.cucumber.messages.TestCaseHookDefinitionConfig} TestCaseHookDefinitionConfig
-                 */
-                TestCaseHookDefinitionConfig.fromObject = function fromObject(object) {
-                    if (object instanceof $root.io.cucumber.messages.TestCaseHookDefinitionConfig)
-                        return object;
-                    var message = new $root.io.cucumber.messages.TestCaseHookDefinitionConfig();
-                    if (object.id != null)
-                        message.id = String(object.id);
-                    if (object.tagExpression != null)
-                        message.tagExpression = String(object.tagExpression);
-                    if (object.location != null) {
-                        if (typeof object.location !== "object")
-                            throw TypeError(".io.cucumber.messages.TestCaseHookDefinitionConfig.location: object expected");
-                        message.location = $root.io.cucumber.messages.SourceReference.fromObject(object.location);
-                    }
-                    return message;
-                };
-
-                /**
-                 * Creates a plain object from a TestCaseHookDefinitionConfig message. Also converts values to other types if specified.
-                 * @function toObject
-                 * @memberof io.cucumber.messages.TestCaseHookDefinitionConfig
-                 * @static
-                 * @param {io.cucumber.messages.TestCaseHookDefinitionConfig} message TestCaseHookDefinitionConfig
-                 * @param {$protobuf.IConversionOptions} [options] Conversion options
-                 * @returns {Object.<string,*>} Plain object
-                 */
-                TestCaseHookDefinitionConfig.toObject = function toObject(message, options) {
-                    if (!options)
-                        options = {};
-                    var object = {};
-                    if (options.defaults) {
-                        object.id = "";
-                        object.tagExpression = "";
-                        object.location = null;
-                    }
-                    if (message.id != null && message.hasOwnProperty("id"))
-                        object.id = message.id;
-                    if (message.tagExpression != null && message.hasOwnProperty("tagExpression"))
-                        object.tagExpression = message.tagExpression;
-                    if (message.location != null && message.hasOwnProperty("location"))
-                        object.location = $root.io.cucumber.messages.SourceReference.toObject(message.location, options);
-                    return object;
-                };
-
-                /**
-                 * Converts this TestCaseHookDefinitionConfig to JSON.
-                 * @function toJSON
-                 * @memberof io.cucumber.messages.TestCaseHookDefinitionConfig
-                 * @instance
-                 * @returns {Object.<string,*>} JSON object
-                 */
-                TestCaseHookDefinitionConfig.prototype.toJSON = function toJSON() {
-                    return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
-                };
-
-                return TestCaseHookDefinitionConfig;
-            })();
-
-            messages.StepDefinitionConfig = (function() {
-
-                /**
-                 * Properties of a StepDefinitionConfig.
-                 * @memberof io.cucumber.messages
-                 * @interface IStepDefinitionConfig
-                 * @property {string|null} [id] StepDefinitionConfig id
-                 * @property {io.cucumber.messages.IStepDefinitionPattern|null} [pattern] StepDefinitionConfig pattern
-                 * @property {io.cucumber.messages.ISourceReference|null} [location] StepDefinitionConfig location
-                 */
-
-                /**
-                 * Constructs a new StepDefinitionConfig.
-                 * @memberof io.cucumber.messages
-                 * @classdesc Represents a StepDefinitionConfig.
-                 * @implements IStepDefinitionConfig
-                 * @constructor
-                 * @param {io.cucumber.messages.IStepDefinitionConfig=} [properties] Properties to set
-                 */
-                function StepDefinitionConfig(properties) {
-                    if (properties)
-                        for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
-                            if (properties[keys[i]] != null)
-                                this[keys[i]] = properties[keys[i]];
-                }
-
-                /**
-                 * StepDefinitionConfig id.
-                 * @member {string} id
-                 * @memberof io.cucumber.messages.StepDefinitionConfig
-                 * @instance
-                 */
-                StepDefinitionConfig.prototype.id = "";
-
-                /**
-                 * StepDefinitionConfig pattern.
-                 * @member {io.cucumber.messages.IStepDefinitionPattern|null|undefined} pattern
-                 * @memberof io.cucumber.messages.StepDefinitionConfig
-                 * @instance
-                 */
-                StepDefinitionConfig.prototype.pattern = null;
-
-                /**
-                 * StepDefinitionConfig location.
-                 * @member {io.cucumber.messages.ISourceReference|null|undefined} location
-                 * @memberof io.cucumber.messages.StepDefinitionConfig
-                 * @instance
-                 */
-                StepDefinitionConfig.prototype.location = null;
-
-                /**
-                 * Creates a new StepDefinitionConfig instance using the specified properties.
-                 * @function create
-                 * @memberof io.cucumber.messages.StepDefinitionConfig
-                 * @static
-                 * @param {io.cucumber.messages.IStepDefinitionConfig=} [properties] Properties to set
-                 * @returns {io.cucumber.messages.StepDefinitionConfig} StepDefinitionConfig instance
-                 */
-                StepDefinitionConfig.create = function create(properties) {
-                    return new StepDefinitionConfig(properties);
-                };
-
-                /**
-                 * Encodes the specified StepDefinitionConfig message. Does not implicitly {@link io.cucumber.messages.StepDefinitionConfig.verify|verify} messages.
-                 * @function encode
-                 * @memberof io.cucumber.messages.StepDefinitionConfig
-                 * @static
-                 * @param {io.cucumber.messages.IStepDefinitionConfig} message StepDefinitionConfig message or plain object to encode
-                 * @param {$protobuf.Writer} [writer] Writer to encode to
-                 * @returns {$protobuf.Writer} Writer
-                 */
-                StepDefinitionConfig.encode = function encode(message, writer) {
-                    if (!writer)
-                        writer = $Writer.create();
-                    if (message.id != null && message.hasOwnProperty("id"))
-                        writer.uint32(/* id 1, wireType 2 =*/10).string(message.id);
-                    if (message.pattern != null && message.hasOwnProperty("pattern"))
-                        $root.io.cucumber.messages.StepDefinitionPattern.encode(message.pattern, writer.uint32(/* id 2, wireType 2 =*/18).fork()).ldelim();
-                    if (message.location != null && message.hasOwnProperty("location"))
-                        $root.io.cucumber.messages.SourceReference.encode(message.location, writer.uint32(/* id 3, wireType 2 =*/26).fork()).ldelim();
-                    return writer;
-                };
-
-                /**
-                 * Encodes the specified StepDefinitionConfig message, length delimited. Does not implicitly {@link io.cucumber.messages.StepDefinitionConfig.verify|verify} messages.
-                 * @function encodeDelimited
-                 * @memberof io.cucumber.messages.StepDefinitionConfig
-                 * @static
-                 * @param {io.cucumber.messages.IStepDefinitionConfig} message StepDefinitionConfig message or plain object to encode
-                 * @param {$protobuf.Writer} [writer] Writer to encode to
-                 * @returns {$protobuf.Writer} Writer
-                 */
-                StepDefinitionConfig.encodeDelimited = function encodeDelimited(message, writer) {
-                    return this.encode(message, writer).ldelim();
-                };
-
-                /**
-                 * Decodes a StepDefinitionConfig message from the specified reader or buffer.
-                 * @function decode
-                 * @memberof io.cucumber.messages.StepDefinitionConfig
-                 * @static
-                 * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-                 * @param {number} [length] Message length if known beforehand
-                 * @returns {io.cucumber.messages.StepDefinitionConfig} StepDefinitionConfig
-                 * @throws {Error} If the payload is not a reader or valid buffer
-                 * @throws {$protobuf.util.ProtocolError} If required fields are missing
-                 */
-                StepDefinitionConfig.decode = function decode(reader, length) {
-                    if (!(reader instanceof $Reader))
-                        reader = $Reader.create(reader);
-                    var end = length === undefined ? reader.len : reader.pos + length, message = new $root.io.cucumber.messages.StepDefinitionConfig();
-                    while (reader.pos < end) {
-                        var tag = reader.uint32();
-                        switch (tag >>> 3) {
-                        case 1:
-                            message.id = reader.string();
-                            break;
-                        case 2:
-                            message.pattern = $root.io.cucumber.messages.StepDefinitionPattern.decode(reader, reader.uint32());
-                            break;
-                        case 3:
-                            message.location = $root.io.cucumber.messages.SourceReference.decode(reader, reader.uint32());
-                            break;
-                        default:
-                            reader.skipType(tag & 7);
-                            break;
-                        }
-                    }
-                    return message;
-                };
-
-                /**
-                 * Decodes a StepDefinitionConfig message from the specified reader or buffer, length delimited.
-                 * @function decodeDelimited
-                 * @memberof io.cucumber.messages.StepDefinitionConfig
-                 * @static
-                 * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-                 * @returns {io.cucumber.messages.StepDefinitionConfig} StepDefinitionConfig
-                 * @throws {Error} If the payload is not a reader or valid buffer
-                 * @throws {$protobuf.util.ProtocolError} If required fields are missing
-                 */
-                StepDefinitionConfig.decodeDelimited = function decodeDelimited(reader) {
-                    if (!(reader instanceof $Reader))
-                        reader = new $Reader(reader);
-                    return this.decode(reader, reader.uint32());
-                };
-
-                /**
-                 * Verifies a StepDefinitionConfig message.
-                 * @function verify
-                 * @memberof io.cucumber.messages.StepDefinitionConfig
-                 * @static
-                 * @param {Object.<string,*>} message Plain object to verify
-                 * @returns {string|null} `null` if valid, otherwise the reason why it is not
-                 */
-                StepDefinitionConfig.verify = function verify(message) {
-                    if (typeof message !== "object" || message === null)
-                        return "object expected";
-                    if (message.id != null && message.hasOwnProperty("id"))
-                        if (!$util.isString(message.id))
-                            return "id: string expected";
-                    if (message.pattern != null && message.hasOwnProperty("pattern")) {
-                        var error = $root.io.cucumber.messages.StepDefinitionPattern.verify(message.pattern);
-                        if (error)
-                            return "pattern." + error;
-                    }
-                    if (message.location != null && message.hasOwnProperty("location")) {
-                        var error = $root.io.cucumber.messages.SourceReference.verify(message.location);
-                        if (error)
-                            return "location." + error;
-                    }
-                    return null;
-                };
-
-                /**
-                 * Creates a StepDefinitionConfig message from a plain object. Also converts values to their respective internal types.
-                 * @function fromObject
-                 * @memberof io.cucumber.messages.StepDefinitionConfig
-                 * @static
-                 * @param {Object.<string,*>} object Plain object
-                 * @returns {io.cucumber.messages.StepDefinitionConfig} StepDefinitionConfig
-                 */
-                StepDefinitionConfig.fromObject = function fromObject(object) {
-                    if (object instanceof $root.io.cucumber.messages.StepDefinitionConfig)
-                        return object;
-                    var message = new $root.io.cucumber.messages.StepDefinitionConfig();
-                    if (object.id != null)
-                        message.id = String(object.id);
-                    if (object.pattern != null) {
-                        if (typeof object.pattern !== "object")
-                            throw TypeError(".io.cucumber.messages.StepDefinitionConfig.pattern: object expected");
-                        message.pattern = $root.io.cucumber.messages.StepDefinitionPattern.fromObject(object.pattern);
-                    }
-                    if (object.location != null) {
-                        if (typeof object.location !== "object")
-                            throw TypeError(".io.cucumber.messages.StepDefinitionConfig.location: object expected");
-                        message.location = $root.io.cucumber.messages.SourceReference.fromObject(object.location);
-                    }
-                    return message;
-                };
-
-                /**
-                 * Creates a plain object from a StepDefinitionConfig message. Also converts values to other types if specified.
-                 * @function toObject
-                 * @memberof io.cucumber.messages.StepDefinitionConfig
-                 * @static
-                 * @param {io.cucumber.messages.StepDefinitionConfig} message StepDefinitionConfig
-                 * @param {$protobuf.IConversionOptions} [options] Conversion options
-                 * @returns {Object.<string,*>} Plain object
-                 */
-                StepDefinitionConfig.toObject = function toObject(message, options) {
-                    if (!options)
-                        options = {};
-                    var object = {};
-                    if (options.defaults) {
-                        object.id = "";
-                        object.pattern = null;
-                        object.location = null;
-                    }
-                    if (message.id != null && message.hasOwnProperty("id"))
-                        object.id = message.id;
-                    if (message.pattern != null && message.hasOwnProperty("pattern"))
-                        object.pattern = $root.io.cucumber.messages.StepDefinitionPattern.toObject(message.pattern, options);
-                    if (message.location != null && message.hasOwnProperty("location"))
-                        object.location = $root.io.cucumber.messages.SourceReference.toObject(message.location, options);
-                    return object;
-                };
-
-                /**
-                 * Converts this StepDefinitionConfig to JSON.
-                 * @function toJSON
-                 * @memberof io.cucumber.messages.StepDefinitionConfig
-                 * @instance
-                 * @returns {Object.<string,*>} JSON object
-                 */
-                StepDefinitionConfig.prototype.toJSON = function toJSON() {
-                    return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
-                };
-
-                return StepDefinitionConfig;
-            })();
-
-            messages.StepDefinitionPattern = (function() {
-
-                /**
-                 * Properties of a StepDefinitionPattern.
-                 * @memberof io.cucumber.messages
-                 * @interface IStepDefinitionPattern
-                 * @property {string|null} [source] StepDefinitionPattern source
-                 * @property {io.cucumber.messages.StepDefinitionPatternType|null} [type] StepDefinitionPattern type
-                 */
-
-                /**
-                 * Constructs a new StepDefinitionPattern.
-                 * @memberof io.cucumber.messages
-                 * @classdesc Represents a StepDefinitionPattern.
-                 * @implements IStepDefinitionPattern
-                 * @constructor
-                 * @param {io.cucumber.messages.IStepDefinitionPattern=} [properties] Properties to set
-                 */
-                function StepDefinitionPattern(properties) {
-                    if (properties)
-                        for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
-                            if (properties[keys[i]] != null)
-                                this[keys[i]] = properties[keys[i]];
-                }
-
-                /**
-                 * StepDefinitionPattern source.
-                 * @member {string} source
-                 * @memberof io.cucumber.messages.StepDefinitionPattern
-                 * @instance
-                 */
-                StepDefinitionPattern.prototype.source = "";
-
-                /**
-                 * StepDefinitionPattern type.
-                 * @member {io.cucumber.messages.StepDefinitionPatternType} type
-                 * @memberof io.cucumber.messages.StepDefinitionPattern
-                 * @instance
-                 */
-                StepDefinitionPattern.prototype.type = 0;
-
-                /**
-                 * Creates a new StepDefinitionPattern instance using the specified properties.
-                 * @function create
-                 * @memberof io.cucumber.messages.StepDefinitionPattern
-                 * @static
-                 * @param {io.cucumber.messages.IStepDefinitionPattern=} [properties] Properties to set
-                 * @returns {io.cucumber.messages.StepDefinitionPattern} StepDefinitionPattern instance
-                 */
-                StepDefinitionPattern.create = function create(properties) {
-                    return new StepDefinitionPattern(properties);
-                };
-
-                /**
-                 * Encodes the specified StepDefinitionPattern message. Does not implicitly {@link io.cucumber.messages.StepDefinitionPattern.verify|verify} messages.
-                 * @function encode
-                 * @memberof io.cucumber.messages.StepDefinitionPattern
-                 * @static
-                 * @param {io.cucumber.messages.IStepDefinitionPattern} message StepDefinitionPattern message or plain object to encode
-                 * @param {$protobuf.Writer} [writer] Writer to encode to
-                 * @returns {$protobuf.Writer} Writer
-                 */
-                StepDefinitionPattern.encode = function encode(message, writer) {
-                    if (!writer)
-                        writer = $Writer.create();
-                    if (message.source != null && message.hasOwnProperty("source"))
-                        writer.uint32(/* id 1, wireType 2 =*/10).string(message.source);
-                    if (message.type != null && message.hasOwnProperty("type"))
-                        writer.uint32(/* id 2, wireType 0 =*/16).int32(message.type);
-                    return writer;
-                };
-
-                /**
-                 * Encodes the specified StepDefinitionPattern message, length delimited. Does not implicitly {@link io.cucumber.messages.StepDefinitionPattern.verify|verify} messages.
-                 * @function encodeDelimited
-                 * @memberof io.cucumber.messages.StepDefinitionPattern
-                 * @static
-                 * @param {io.cucumber.messages.IStepDefinitionPattern} message StepDefinitionPattern message or plain object to encode
-                 * @param {$protobuf.Writer} [writer] Writer to encode to
-                 * @returns {$protobuf.Writer} Writer
-                 */
-                StepDefinitionPattern.encodeDelimited = function encodeDelimited(message, writer) {
-                    return this.encode(message, writer).ldelim();
-                };
-
-                /**
-                 * Decodes a StepDefinitionPattern message from the specified reader or buffer.
-                 * @function decode
-                 * @memberof io.cucumber.messages.StepDefinitionPattern
-                 * @static
-                 * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-                 * @param {number} [length] Message length if known beforehand
-                 * @returns {io.cucumber.messages.StepDefinitionPattern} StepDefinitionPattern
-                 * @throws {Error} If the payload is not a reader or valid buffer
-                 * @throws {$protobuf.util.ProtocolError} If required fields are missing
-                 */
-                StepDefinitionPattern.decode = function decode(reader, length) {
-                    if (!(reader instanceof $Reader))
-                        reader = $Reader.create(reader);
-                    var end = length === undefined ? reader.len : reader.pos + length, message = new $root.io.cucumber.messages.StepDefinitionPattern();
-                    while (reader.pos < end) {
-                        var tag = reader.uint32();
-                        switch (tag >>> 3) {
-                        case 1:
-                            message.source = reader.string();
-                            break;
-                        case 2:
-                            message.type = reader.int32();
-                            break;
-                        default:
-                            reader.skipType(tag & 7);
-                            break;
-                        }
-                    }
-                    return message;
-                };
-
-                /**
-                 * Decodes a StepDefinitionPattern message from the specified reader or buffer, length delimited.
-                 * @function decodeDelimited
-                 * @memberof io.cucumber.messages.StepDefinitionPattern
-                 * @static
-                 * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-                 * @returns {io.cucumber.messages.StepDefinitionPattern} StepDefinitionPattern
-                 * @throws {Error} If the payload is not a reader or valid buffer
-                 * @throws {$protobuf.util.ProtocolError} If required fields are missing
-                 */
-                StepDefinitionPattern.decodeDelimited = function decodeDelimited(reader) {
-                    if (!(reader instanceof $Reader))
-                        reader = new $Reader(reader);
-                    return this.decode(reader, reader.uint32());
-                };
-
-                /**
-                 * Verifies a StepDefinitionPattern message.
-                 * @function verify
-                 * @memberof io.cucumber.messages.StepDefinitionPattern
-                 * @static
-                 * @param {Object.<string,*>} message Plain object to verify
-                 * @returns {string|null} `null` if valid, otherwise the reason why it is not
-                 */
-                StepDefinitionPattern.verify = function verify(message) {
-                    if (typeof message !== "object" || message === null)
-                        return "object expected";
-                    if (message.source != null && message.hasOwnProperty("source"))
-                        if (!$util.isString(message.source))
-                            return "source: string expected";
-                    if (message.type != null && message.hasOwnProperty("type"))
-                        switch (message.type) {
-                        default:
-                            return "type: enum value expected";
-                        case 0:
-                        case 1:
-                            break;
-                        }
-                    return null;
-                };
-
-                /**
-                 * Creates a StepDefinitionPattern message from a plain object. Also converts values to their respective internal types.
-                 * @function fromObject
-                 * @memberof io.cucumber.messages.StepDefinitionPattern
-                 * @static
-                 * @param {Object.<string,*>} object Plain object
-                 * @returns {io.cucumber.messages.StepDefinitionPattern} StepDefinitionPattern
-                 */
-                StepDefinitionPattern.fromObject = function fromObject(object) {
-                    if (object instanceof $root.io.cucumber.messages.StepDefinitionPattern)
-                        return object;
-                    var message = new $root.io.cucumber.messages.StepDefinitionPattern();
-                    if (object.source != null)
-                        message.source = String(object.source);
-                    switch (object.type) {
-                    case "CUCUMBER_EXPRESSION":
-                    case 0:
-                        message.type = 0;
-                        break;
-                    case "REGULAR_EXPRESSION":
-                    case 1:
-                        message.type = 1;
-                        break;
-                    }
-                    return message;
-                };
-
-                /**
-                 * Creates a plain object from a StepDefinitionPattern message. Also converts values to other types if specified.
-                 * @function toObject
-                 * @memberof io.cucumber.messages.StepDefinitionPattern
-                 * @static
-                 * @param {io.cucumber.messages.StepDefinitionPattern} message StepDefinitionPattern
-                 * @param {$protobuf.IConversionOptions} [options] Conversion options
-                 * @returns {Object.<string,*>} Plain object
-                 */
-                StepDefinitionPattern.toObject = function toObject(message, options) {
-                    if (!options)
-                        options = {};
-                    var object = {};
-                    if (options.defaults) {
-                        object.source = "";
-                        object.type = options.enums === String ? "CUCUMBER_EXPRESSION" : 0;
-                    }
-                    if (message.source != null && message.hasOwnProperty("source"))
-                        object.source = message.source;
-                    if (message.type != null && message.hasOwnProperty("type"))
-                        object.type = options.enums === String ? $root.io.cucumber.messages.StepDefinitionPatternType[message.type] : message.type;
-                    return object;
-                };
-
-                /**
-                 * Converts this StepDefinitionPattern to JSON.
-                 * @function toJSON
-                 * @memberof io.cucumber.messages.StepDefinitionPattern
-                 * @instance
-                 * @returns {Object.<string,*>} JSON object
-                 */
-                StepDefinitionPattern.prototype.toJSON = function toJSON() {
-                    return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
-                };
-
-                return StepDefinitionPattern;
-            })();
-
-            /**
-             * StepDefinitionPatternType enum.
-             * @name io.cucumber.messages.StepDefinitionPatternType
-             * @enum {string}
-             * @property {number} CUCUMBER_EXPRESSION=0 CUCUMBER_EXPRESSION value
-             * @property {number} REGULAR_EXPRESSION=1 REGULAR_EXPRESSION value
-             */
-            messages.StepDefinitionPatternType = (function() {
-                var valuesById = {}, values = Object.create(valuesById);
-                values[valuesById[0] = "CUCUMBER_EXPRESSION"] = 0;
-                values[valuesById[1] = "REGULAR_EXPRESSION"] = 1;
-                return values;
-            })();
-
-            messages.ParameterTypeConfig = (function() {
-
-                /**
-                 * Properties of a ParameterTypeConfig.
-                 * @memberof io.cucumber.messages
-                 * @interface IParameterTypeConfig
-                 * @property {string|null} [name] ParameterTypeConfig name
-                 * @property {Array.<string>|null} [regularExpressions] ParameterTypeConfig regularExpressions
-                 * @property {boolean|null} [preferForRegularExpressionMatch] ParameterTypeConfig preferForRegularExpressionMatch
-                 * @property {boolean|null} [useForSnippets] ParameterTypeConfig useForSnippets
-                 */
-
-                /**
-                 * Constructs a new ParameterTypeConfig.
-                 * @memberof io.cucumber.messages
-                 * @classdesc Represents a ParameterTypeConfig.
-                 * @implements IParameterTypeConfig
-                 * @constructor
-                 * @param {io.cucumber.messages.IParameterTypeConfig=} [properties] Properties to set
-                 */
-                function ParameterTypeConfig(properties) {
-                    this.regularExpressions = [];
-                    if (properties)
-                        for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
-                            if (properties[keys[i]] != null)
-                                this[keys[i]] = properties[keys[i]];
-                }
-
-                /**
-                 * ParameterTypeConfig name.
-                 * @member {string} name
-                 * @memberof io.cucumber.messages.ParameterTypeConfig
-                 * @instance
-                 */
-                ParameterTypeConfig.prototype.name = "";
-
-                /**
-                 * ParameterTypeConfig regularExpressions.
-                 * @member {Array.<string>} regularExpressions
-                 * @memberof io.cucumber.messages.ParameterTypeConfig
-                 * @instance
-                 */
-                ParameterTypeConfig.prototype.regularExpressions = $util.emptyArray;
-
-                /**
-                 * ParameterTypeConfig preferForRegularExpressionMatch.
-                 * @member {boolean} preferForRegularExpressionMatch
-                 * @memberof io.cucumber.messages.ParameterTypeConfig
-                 * @instance
-                 */
-                ParameterTypeConfig.prototype.preferForRegularExpressionMatch = false;
-
-                /**
-                 * ParameterTypeConfig useForSnippets.
-                 * @member {boolean} useForSnippets
-                 * @memberof io.cucumber.messages.ParameterTypeConfig
-                 * @instance
-                 */
-                ParameterTypeConfig.prototype.useForSnippets = false;
-
-                /**
-                 * Creates a new ParameterTypeConfig instance using the specified properties.
-                 * @function create
-                 * @memberof io.cucumber.messages.ParameterTypeConfig
-                 * @static
-                 * @param {io.cucumber.messages.IParameterTypeConfig=} [properties] Properties to set
-                 * @returns {io.cucumber.messages.ParameterTypeConfig} ParameterTypeConfig instance
-                 */
-                ParameterTypeConfig.create = function create(properties) {
-                    return new ParameterTypeConfig(properties);
-                };
-
-                /**
-                 * Encodes the specified ParameterTypeConfig message. Does not implicitly {@link io.cucumber.messages.ParameterTypeConfig.verify|verify} messages.
-                 * @function encode
-                 * @memberof io.cucumber.messages.ParameterTypeConfig
-                 * @static
-                 * @param {io.cucumber.messages.IParameterTypeConfig} message ParameterTypeConfig message or plain object to encode
-                 * @param {$protobuf.Writer} [writer] Writer to encode to
-                 * @returns {$protobuf.Writer} Writer
-                 */
-                ParameterTypeConfig.encode = function encode(message, writer) {
-                    if (!writer)
-                        writer = $Writer.create();
-                    if (message.name != null && message.hasOwnProperty("name"))
-                        writer.uint32(/* id 1, wireType 2 =*/10).string(message.name);
-                    if (message.regularExpressions != null && message.regularExpressions.length)
-                        for (var i = 0; i < message.regularExpressions.length; ++i)
-                            writer.uint32(/* id 2, wireType 2 =*/18).string(message.regularExpressions[i]);
-                    if (message.preferForRegularExpressionMatch != null && message.hasOwnProperty("preferForRegularExpressionMatch"))
-                        writer.uint32(/* id 3, wireType 0 =*/24).bool(message.preferForRegularExpressionMatch);
-                    if (message.useForSnippets != null && message.hasOwnProperty("useForSnippets"))
-                        writer.uint32(/* id 4, wireType 0 =*/32).bool(message.useForSnippets);
-                    return writer;
-                };
-
-                /**
-                 * Encodes the specified ParameterTypeConfig message, length delimited. Does not implicitly {@link io.cucumber.messages.ParameterTypeConfig.verify|verify} messages.
-                 * @function encodeDelimited
-                 * @memberof io.cucumber.messages.ParameterTypeConfig
-                 * @static
-                 * @param {io.cucumber.messages.IParameterTypeConfig} message ParameterTypeConfig message or plain object to encode
-                 * @param {$protobuf.Writer} [writer] Writer to encode to
-                 * @returns {$protobuf.Writer} Writer
-                 */
-                ParameterTypeConfig.encodeDelimited = function encodeDelimited(message, writer) {
-                    return this.encode(message, writer).ldelim();
-                };
-
-                /**
-                 * Decodes a ParameterTypeConfig message from the specified reader or buffer.
-                 * @function decode
-                 * @memberof io.cucumber.messages.ParameterTypeConfig
-                 * @static
-                 * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-                 * @param {number} [length] Message length if known beforehand
-                 * @returns {io.cucumber.messages.ParameterTypeConfig} ParameterTypeConfig
-                 * @throws {Error} If the payload is not a reader or valid buffer
-                 * @throws {$protobuf.util.ProtocolError} If required fields are missing
-                 */
-                ParameterTypeConfig.decode = function decode(reader, length) {
-                    if (!(reader instanceof $Reader))
-                        reader = $Reader.create(reader);
-                    var end = length === undefined ? reader.len : reader.pos + length, message = new $root.io.cucumber.messages.ParameterTypeConfig();
-                    while (reader.pos < end) {
-                        var tag = reader.uint32();
-                        switch (tag >>> 3) {
-                        case 1:
-                            message.name = reader.string();
-                            break;
-                        case 2:
-                            if (!(message.regularExpressions && message.regularExpressions.length))
-                                message.regularExpressions = [];
-                            message.regularExpressions.push(reader.string());
-                            break;
-                        case 3:
-                            message.preferForRegularExpressionMatch = reader.bool();
-                            break;
-                        case 4:
-                            message.useForSnippets = reader.bool();
-                            break;
-                        default:
-                            reader.skipType(tag & 7);
-                            break;
-                        }
-                    }
-                    return message;
-                };
-
-                /**
-                 * Decodes a ParameterTypeConfig message from the specified reader or buffer, length delimited.
-                 * @function decodeDelimited
-                 * @memberof io.cucumber.messages.ParameterTypeConfig
-                 * @static
-                 * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-                 * @returns {io.cucumber.messages.ParameterTypeConfig} ParameterTypeConfig
-                 * @throws {Error} If the payload is not a reader or valid buffer
-                 * @throws {$protobuf.util.ProtocolError} If required fields are missing
-                 */
-                ParameterTypeConfig.decodeDelimited = function decodeDelimited(reader) {
-                    if (!(reader instanceof $Reader))
-                        reader = new $Reader(reader);
-                    return this.decode(reader, reader.uint32());
-                };
-
-                /**
-                 * Verifies a ParameterTypeConfig message.
-                 * @function verify
-                 * @memberof io.cucumber.messages.ParameterTypeConfig
-                 * @static
-                 * @param {Object.<string,*>} message Plain object to verify
-                 * @returns {string|null} `null` if valid, otherwise the reason why it is not
-                 */
-                ParameterTypeConfig.verify = function verify(message) {
-                    if (typeof message !== "object" || message === null)
-                        return "object expected";
-                    if (message.name != null && message.hasOwnProperty("name"))
-                        if (!$util.isString(message.name))
-                            return "name: string expected";
-                    if (message.regularExpressions != null && message.hasOwnProperty("regularExpressions")) {
-                        if (!Array.isArray(message.regularExpressions))
-                            return "regularExpressions: array expected";
-                        for (var i = 0; i < message.regularExpressions.length; ++i)
-                            if (!$util.isString(message.regularExpressions[i]))
-                                return "regularExpressions: string[] expected";
-                    }
-                    if (message.preferForRegularExpressionMatch != null && message.hasOwnProperty("preferForRegularExpressionMatch"))
-                        if (typeof message.preferForRegularExpressionMatch !== "boolean")
-                            return "preferForRegularExpressionMatch: boolean expected";
-                    if (message.useForSnippets != null && message.hasOwnProperty("useForSnippets"))
-                        if (typeof message.useForSnippets !== "boolean")
-                            return "useForSnippets: boolean expected";
-                    return null;
-                };
-
-                /**
-                 * Creates a ParameterTypeConfig message from a plain object. Also converts values to their respective internal types.
-                 * @function fromObject
-                 * @memberof io.cucumber.messages.ParameterTypeConfig
-                 * @static
-                 * @param {Object.<string,*>} object Plain object
-                 * @returns {io.cucumber.messages.ParameterTypeConfig} ParameterTypeConfig
-                 */
-                ParameterTypeConfig.fromObject = function fromObject(object) {
-                    if (object instanceof $root.io.cucumber.messages.ParameterTypeConfig)
-                        return object;
-                    var message = new $root.io.cucumber.messages.ParameterTypeConfig();
-                    if (object.name != null)
-                        message.name = String(object.name);
-                    if (object.regularExpressions) {
-                        if (!Array.isArray(object.regularExpressions))
-                            throw TypeError(".io.cucumber.messages.ParameterTypeConfig.regularExpressions: array expected");
-                        message.regularExpressions = [];
-                        for (var i = 0; i < object.regularExpressions.length; ++i)
-                            message.regularExpressions[i] = String(object.regularExpressions[i]);
-                    }
-                    if (object.preferForRegularExpressionMatch != null)
-                        message.preferForRegularExpressionMatch = Boolean(object.preferForRegularExpressionMatch);
-                    if (object.useForSnippets != null)
-                        message.useForSnippets = Boolean(object.useForSnippets);
-                    return message;
-                };
-
-                /**
-                 * Creates a plain object from a ParameterTypeConfig message. Also converts values to other types if specified.
-                 * @function toObject
-                 * @memberof io.cucumber.messages.ParameterTypeConfig
-                 * @static
-                 * @param {io.cucumber.messages.ParameterTypeConfig} message ParameterTypeConfig
-                 * @param {$protobuf.IConversionOptions} [options] Conversion options
-                 * @returns {Object.<string,*>} Plain object
-                 */
-                ParameterTypeConfig.toObject = function toObject(message, options) {
-                    if (!options)
-                        options = {};
-                    var object = {};
-                    if (options.arrays || options.defaults)
-                        object.regularExpressions = [];
-                    if (options.defaults) {
-                        object.name = "";
-                        object.preferForRegularExpressionMatch = false;
-                        object.useForSnippets = false;
-                    }
-                    if (message.name != null && message.hasOwnProperty("name"))
-                        object.name = message.name;
-                    if (message.regularExpressions && message.regularExpressions.length) {
-                        object.regularExpressions = [];
-                        for (var j = 0; j < message.regularExpressions.length; ++j)
-                            object.regularExpressions[j] = message.regularExpressions[j];
-                    }
-                    if (message.preferForRegularExpressionMatch != null && message.hasOwnProperty("preferForRegularExpressionMatch"))
-                        object.preferForRegularExpressionMatch = message.preferForRegularExpressionMatch;
-                    if (message.useForSnippets != null && message.hasOwnProperty("useForSnippets"))
-                        object.useForSnippets = message.useForSnippets;
-                    return object;
-                };
-
-                /**
-                 * Converts this ParameterTypeConfig to JSON.
-                 * @function toJSON
-                 * @memberof io.cucumber.messages.ParameterTypeConfig
-                 * @instance
-                 * @returns {Object.<string,*>} JSON object
-                 */
-                ParameterTypeConfig.prototype.toJSON = function toJSON() {
-                    return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
-                };
-
-                return ParameterTypeConfig;
+                    };
+
+                    /**
+                     * Converts this ParameterTypeConfig to JSON.
+                     * @function toJSON
+                     * @memberof io.cucumber.messages.CommandStart.ParameterTypeConfig
+                     * @instance
+                     * @returns {Object.<string,*>} JSON object
+                     */
+                    ParameterTypeConfig.prototype.toJSON = function toJSON() {
+                        return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+                    };
+
+                    return ParameterTypeConfig;
+                })();
+
+                return CommandStart;
             })();
 
             messages.CommandActionComplete = (function() {
@@ -15858,7 +15892,7 @@ $root.io = (function() {
                  * @interface ICommandRunTestStep
                  * @property {string|null} [actionId] CommandRunTestStep actionId
                  * @property {string|null} [stepDefinitionId] CommandRunTestStep stepDefinitionId
-                 * @property {Array.<io.cucumber.messages.IPatternMatch>|null} [patternMatches] CommandRunTestStep patternMatches
+                 * @property {Array.<io.cucumber.messages.CommandRunTestStep.IPatternMatch>|null} [patternMatches] CommandRunTestStep patternMatches
                  * @property {string|null} [pickleId] CommandRunTestStep pickleId
                  * @property {io.cucumber.messages.IPickleStepArgument|null} [pickleStepArgument] CommandRunTestStep pickleStepArgument
                  */
@@ -15897,7 +15931,7 @@ $root.io = (function() {
 
                 /**
                  * CommandRunTestStep patternMatches.
-                 * @member {Array.<io.cucumber.messages.IPatternMatch>} patternMatches
+                 * @member {Array.<io.cucumber.messages.CommandRunTestStep.IPatternMatch>} patternMatches
                  * @memberof io.cucumber.messages.CommandRunTestStep
                  * @instance
                  */
@@ -15949,7 +15983,7 @@ $root.io = (function() {
                         writer.uint32(/* id 3, wireType 2 =*/26).string(message.stepDefinitionId);
                     if (message.patternMatches != null && message.patternMatches.length)
                         for (var i = 0; i < message.patternMatches.length; ++i)
-                            $root.io.cucumber.messages.PatternMatch.encode(message.patternMatches[i], writer.uint32(/* id 4, wireType 2 =*/34).fork()).ldelim();
+                            $root.io.cucumber.messages.CommandRunTestStep.PatternMatch.encode(message.patternMatches[i], writer.uint32(/* id 4, wireType 2 =*/34).fork()).ldelim();
                     if (message.pickleId != null && message.hasOwnProperty("pickleId"))
                         writer.uint32(/* id 5, wireType 2 =*/42).string(message.pickleId);
                     if (message.pickleStepArgument != null && message.hasOwnProperty("pickleStepArgument"))
@@ -15997,7 +16031,7 @@ $root.io = (function() {
                         case 4:
                             if (!(message.patternMatches && message.patternMatches.length))
                                 message.patternMatches = [];
-                            message.patternMatches.push($root.io.cucumber.messages.PatternMatch.decode(reader, reader.uint32()));
+                            message.patternMatches.push($root.io.cucumber.messages.CommandRunTestStep.PatternMatch.decode(reader, reader.uint32()));
                             break;
                         case 5:
                             message.pickleId = reader.string();
@@ -16050,7 +16084,7 @@ $root.io = (function() {
                         if (!Array.isArray(message.patternMatches))
                             return "patternMatches: array expected";
                         for (var i = 0; i < message.patternMatches.length; ++i) {
-                            var error = $root.io.cucumber.messages.PatternMatch.verify(message.patternMatches[i]);
+                            var error = $root.io.cucumber.messages.CommandRunTestStep.PatternMatch.verify(message.patternMatches[i]);
                             if (error)
                                 return "patternMatches." + error;
                         }
@@ -16089,7 +16123,7 @@ $root.io = (function() {
                         for (var i = 0; i < object.patternMatches.length; ++i) {
                             if (typeof object.patternMatches[i] !== "object")
                                 throw TypeError(".io.cucumber.messages.CommandRunTestStep.patternMatches: object expected");
-                            message.patternMatches[i] = $root.io.cucumber.messages.PatternMatch.fromObject(object.patternMatches[i]);
+                            message.patternMatches[i] = $root.io.cucumber.messages.CommandRunTestStep.PatternMatch.fromObject(object.patternMatches[i]);
                         }
                     }
                     if (object.pickleId != null)
@@ -16130,7 +16164,7 @@ $root.io = (function() {
                     if (message.patternMatches && message.patternMatches.length) {
                         object.patternMatches = [];
                         for (var j = 0; j < message.patternMatches.length; ++j)
-                            object.patternMatches[j] = $root.io.cucumber.messages.PatternMatch.toObject(message.patternMatches[j], options);
+                            object.patternMatches[j] = $root.io.cucumber.messages.CommandRunTestStep.PatternMatch.toObject(message.patternMatches[j], options);
                     }
                     if (message.pickleId != null && message.hasOwnProperty("pickleId"))
                         object.pickleId = message.pickleId;
@@ -16150,233 +16184,233 @@ $root.io = (function() {
                     return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
                 };
 
-                return CommandRunTestStep;
-            })();
+                CommandRunTestStep.PatternMatch = (function() {
 
-            messages.PatternMatch = (function() {
+                    /**
+                     * Properties of a PatternMatch.
+                     * @memberof io.cucumber.messages.CommandRunTestStep
+                     * @interface IPatternMatch
+                     * @property {Array.<string>|null} [captures] PatternMatch captures
+                     * @property {string|null} [parameterTypeName] PatternMatch parameterTypeName
+                     */
 
-                /**
-                 * Properties of a PatternMatch.
-                 * @memberof io.cucumber.messages
-                 * @interface IPatternMatch
-                 * @property {Array.<string>|null} [captures] PatternMatch captures
-                 * @property {string|null} [parameterTypeName] PatternMatch parameterTypeName
-                 */
+                    /**
+                     * Constructs a new PatternMatch.
+                     * @memberof io.cucumber.messages.CommandRunTestStep
+                     * @classdesc Represents a PatternMatch.
+                     * @implements IPatternMatch
+                     * @constructor
+                     * @param {io.cucumber.messages.CommandRunTestStep.IPatternMatch=} [properties] Properties to set
+                     */
+                    function PatternMatch(properties) {
+                        this.captures = [];
+                        if (properties)
+                            for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                                if (properties[keys[i]] != null)
+                                    this[keys[i]] = properties[keys[i]];
+                    }
 
-                /**
-                 * Constructs a new PatternMatch.
-                 * @memberof io.cucumber.messages
-                 * @classdesc Represents a PatternMatch.
-                 * @implements IPatternMatch
-                 * @constructor
-                 * @param {io.cucumber.messages.IPatternMatch=} [properties] Properties to set
-                 */
-                function PatternMatch(properties) {
-                    this.captures = [];
-                    if (properties)
-                        for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
-                            if (properties[keys[i]] != null)
-                                this[keys[i]] = properties[keys[i]];
-                }
+                    /**
+                     * PatternMatch captures.
+                     * @member {Array.<string>} captures
+                     * @memberof io.cucumber.messages.CommandRunTestStep.PatternMatch
+                     * @instance
+                     */
+                    PatternMatch.prototype.captures = $util.emptyArray;
 
-                /**
-                 * PatternMatch captures.
-                 * @member {Array.<string>} captures
-                 * @memberof io.cucumber.messages.PatternMatch
-                 * @instance
-                 */
-                PatternMatch.prototype.captures = $util.emptyArray;
+                    /**
+                     * PatternMatch parameterTypeName.
+                     * @member {string} parameterTypeName
+                     * @memberof io.cucumber.messages.CommandRunTestStep.PatternMatch
+                     * @instance
+                     */
+                    PatternMatch.prototype.parameterTypeName = "";
 
-                /**
-                 * PatternMatch parameterTypeName.
-                 * @member {string} parameterTypeName
-                 * @memberof io.cucumber.messages.PatternMatch
-                 * @instance
-                 */
-                PatternMatch.prototype.parameterTypeName = "";
+                    /**
+                     * Creates a new PatternMatch instance using the specified properties.
+                     * @function create
+                     * @memberof io.cucumber.messages.CommandRunTestStep.PatternMatch
+                     * @static
+                     * @param {io.cucumber.messages.CommandRunTestStep.IPatternMatch=} [properties] Properties to set
+                     * @returns {io.cucumber.messages.CommandRunTestStep.PatternMatch} PatternMatch instance
+                     */
+                    PatternMatch.create = function create(properties) {
+                        return new PatternMatch(properties);
+                    };
 
-                /**
-                 * Creates a new PatternMatch instance using the specified properties.
-                 * @function create
-                 * @memberof io.cucumber.messages.PatternMatch
-                 * @static
-                 * @param {io.cucumber.messages.IPatternMatch=} [properties] Properties to set
-                 * @returns {io.cucumber.messages.PatternMatch} PatternMatch instance
-                 */
-                PatternMatch.create = function create(properties) {
-                    return new PatternMatch(properties);
-                };
+                    /**
+                     * Encodes the specified PatternMatch message. Does not implicitly {@link io.cucumber.messages.CommandRunTestStep.PatternMatch.verify|verify} messages.
+                     * @function encode
+                     * @memberof io.cucumber.messages.CommandRunTestStep.PatternMatch
+                     * @static
+                     * @param {io.cucumber.messages.CommandRunTestStep.IPatternMatch} message PatternMatch message or plain object to encode
+                     * @param {$protobuf.Writer} [writer] Writer to encode to
+                     * @returns {$protobuf.Writer} Writer
+                     */
+                    PatternMatch.encode = function encode(message, writer) {
+                        if (!writer)
+                            writer = $Writer.create();
+                        if (message.captures != null && message.captures.length)
+                            for (var i = 0; i < message.captures.length; ++i)
+                                writer.uint32(/* id 1, wireType 2 =*/10).string(message.captures[i]);
+                        if (message.parameterTypeName != null && message.hasOwnProperty("parameterTypeName"))
+                            writer.uint32(/* id 2, wireType 2 =*/18).string(message.parameterTypeName);
+                        return writer;
+                    };
 
-                /**
-                 * Encodes the specified PatternMatch message. Does not implicitly {@link io.cucumber.messages.PatternMatch.verify|verify} messages.
-                 * @function encode
-                 * @memberof io.cucumber.messages.PatternMatch
-                 * @static
-                 * @param {io.cucumber.messages.IPatternMatch} message PatternMatch message or plain object to encode
-                 * @param {$protobuf.Writer} [writer] Writer to encode to
-                 * @returns {$protobuf.Writer} Writer
-                 */
-                PatternMatch.encode = function encode(message, writer) {
-                    if (!writer)
-                        writer = $Writer.create();
-                    if (message.captures != null && message.captures.length)
-                        for (var i = 0; i < message.captures.length; ++i)
-                            writer.uint32(/* id 1, wireType 2 =*/10).string(message.captures[i]);
-                    if (message.parameterTypeName != null && message.hasOwnProperty("parameterTypeName"))
-                        writer.uint32(/* id 2, wireType 2 =*/18).string(message.parameterTypeName);
-                    return writer;
-                };
+                    /**
+                     * Encodes the specified PatternMatch message, length delimited. Does not implicitly {@link io.cucumber.messages.CommandRunTestStep.PatternMatch.verify|verify} messages.
+                     * @function encodeDelimited
+                     * @memberof io.cucumber.messages.CommandRunTestStep.PatternMatch
+                     * @static
+                     * @param {io.cucumber.messages.CommandRunTestStep.IPatternMatch} message PatternMatch message or plain object to encode
+                     * @param {$protobuf.Writer} [writer] Writer to encode to
+                     * @returns {$protobuf.Writer} Writer
+                     */
+                    PatternMatch.encodeDelimited = function encodeDelimited(message, writer) {
+                        return this.encode(message, writer).ldelim();
+                    };
 
-                /**
-                 * Encodes the specified PatternMatch message, length delimited. Does not implicitly {@link io.cucumber.messages.PatternMatch.verify|verify} messages.
-                 * @function encodeDelimited
-                 * @memberof io.cucumber.messages.PatternMatch
-                 * @static
-                 * @param {io.cucumber.messages.IPatternMatch} message PatternMatch message or plain object to encode
-                 * @param {$protobuf.Writer} [writer] Writer to encode to
-                 * @returns {$protobuf.Writer} Writer
-                 */
-                PatternMatch.encodeDelimited = function encodeDelimited(message, writer) {
-                    return this.encode(message, writer).ldelim();
-                };
-
-                /**
-                 * Decodes a PatternMatch message from the specified reader or buffer.
-                 * @function decode
-                 * @memberof io.cucumber.messages.PatternMatch
-                 * @static
-                 * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-                 * @param {number} [length] Message length if known beforehand
-                 * @returns {io.cucumber.messages.PatternMatch} PatternMatch
-                 * @throws {Error} If the payload is not a reader or valid buffer
-                 * @throws {$protobuf.util.ProtocolError} If required fields are missing
-                 */
-                PatternMatch.decode = function decode(reader, length) {
-                    if (!(reader instanceof $Reader))
-                        reader = $Reader.create(reader);
-                    var end = length === undefined ? reader.len : reader.pos + length, message = new $root.io.cucumber.messages.PatternMatch();
-                    while (reader.pos < end) {
-                        var tag = reader.uint32();
-                        switch (tag >>> 3) {
-                        case 1:
-                            if (!(message.captures && message.captures.length))
-                                message.captures = [];
-                            message.captures.push(reader.string());
-                            break;
-                        case 2:
-                            message.parameterTypeName = reader.string();
-                            break;
-                        default:
-                            reader.skipType(tag & 7);
-                            break;
+                    /**
+                     * Decodes a PatternMatch message from the specified reader or buffer.
+                     * @function decode
+                     * @memberof io.cucumber.messages.CommandRunTestStep.PatternMatch
+                     * @static
+                     * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+                     * @param {number} [length] Message length if known beforehand
+                     * @returns {io.cucumber.messages.CommandRunTestStep.PatternMatch} PatternMatch
+                     * @throws {Error} If the payload is not a reader or valid buffer
+                     * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                     */
+                    PatternMatch.decode = function decode(reader, length) {
+                        if (!(reader instanceof $Reader))
+                            reader = $Reader.create(reader);
+                        var end = length === undefined ? reader.len : reader.pos + length, message = new $root.io.cucumber.messages.CommandRunTestStep.PatternMatch();
+                        while (reader.pos < end) {
+                            var tag = reader.uint32();
+                            switch (tag >>> 3) {
+                            case 1:
+                                if (!(message.captures && message.captures.length))
+                                    message.captures = [];
+                                message.captures.push(reader.string());
+                                break;
+                            case 2:
+                                message.parameterTypeName = reader.string();
+                                break;
+                            default:
+                                reader.skipType(tag & 7);
+                                break;
+                            }
                         }
-                    }
-                    return message;
-                };
+                        return message;
+                    };
 
-                /**
-                 * Decodes a PatternMatch message from the specified reader or buffer, length delimited.
-                 * @function decodeDelimited
-                 * @memberof io.cucumber.messages.PatternMatch
-                 * @static
-                 * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-                 * @returns {io.cucumber.messages.PatternMatch} PatternMatch
-                 * @throws {Error} If the payload is not a reader or valid buffer
-                 * @throws {$protobuf.util.ProtocolError} If required fields are missing
-                 */
-                PatternMatch.decodeDelimited = function decodeDelimited(reader) {
-                    if (!(reader instanceof $Reader))
-                        reader = new $Reader(reader);
-                    return this.decode(reader, reader.uint32());
-                };
+                    /**
+                     * Decodes a PatternMatch message from the specified reader or buffer, length delimited.
+                     * @function decodeDelimited
+                     * @memberof io.cucumber.messages.CommandRunTestStep.PatternMatch
+                     * @static
+                     * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+                     * @returns {io.cucumber.messages.CommandRunTestStep.PatternMatch} PatternMatch
+                     * @throws {Error} If the payload is not a reader or valid buffer
+                     * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                     */
+                    PatternMatch.decodeDelimited = function decodeDelimited(reader) {
+                        if (!(reader instanceof $Reader))
+                            reader = new $Reader(reader);
+                        return this.decode(reader, reader.uint32());
+                    };
 
-                /**
-                 * Verifies a PatternMatch message.
-                 * @function verify
-                 * @memberof io.cucumber.messages.PatternMatch
-                 * @static
-                 * @param {Object.<string,*>} message Plain object to verify
-                 * @returns {string|null} `null` if valid, otherwise the reason why it is not
-                 */
-                PatternMatch.verify = function verify(message) {
-                    if (typeof message !== "object" || message === null)
-                        return "object expected";
-                    if (message.captures != null && message.hasOwnProperty("captures")) {
-                        if (!Array.isArray(message.captures))
-                            return "captures: array expected";
-                        for (var i = 0; i < message.captures.length; ++i)
-                            if (!$util.isString(message.captures[i]))
-                                return "captures: string[] expected";
-                    }
-                    if (message.parameterTypeName != null && message.hasOwnProperty("parameterTypeName"))
-                        if (!$util.isString(message.parameterTypeName))
-                            return "parameterTypeName: string expected";
-                    return null;
-                };
+                    /**
+                     * Verifies a PatternMatch message.
+                     * @function verify
+                     * @memberof io.cucumber.messages.CommandRunTestStep.PatternMatch
+                     * @static
+                     * @param {Object.<string,*>} message Plain object to verify
+                     * @returns {string|null} `null` if valid, otherwise the reason why it is not
+                     */
+                    PatternMatch.verify = function verify(message) {
+                        if (typeof message !== "object" || message === null)
+                            return "object expected";
+                        if (message.captures != null && message.hasOwnProperty("captures")) {
+                            if (!Array.isArray(message.captures))
+                                return "captures: array expected";
+                            for (var i = 0; i < message.captures.length; ++i)
+                                if (!$util.isString(message.captures[i]))
+                                    return "captures: string[] expected";
+                        }
+                        if (message.parameterTypeName != null && message.hasOwnProperty("parameterTypeName"))
+                            if (!$util.isString(message.parameterTypeName))
+                                return "parameterTypeName: string expected";
+                        return null;
+                    };
 
-                /**
-                 * Creates a PatternMatch message from a plain object. Also converts values to their respective internal types.
-                 * @function fromObject
-                 * @memberof io.cucumber.messages.PatternMatch
-                 * @static
-                 * @param {Object.<string,*>} object Plain object
-                 * @returns {io.cucumber.messages.PatternMatch} PatternMatch
-                 */
-                PatternMatch.fromObject = function fromObject(object) {
-                    if (object instanceof $root.io.cucumber.messages.PatternMatch)
+                    /**
+                     * Creates a PatternMatch message from a plain object. Also converts values to their respective internal types.
+                     * @function fromObject
+                     * @memberof io.cucumber.messages.CommandRunTestStep.PatternMatch
+                     * @static
+                     * @param {Object.<string,*>} object Plain object
+                     * @returns {io.cucumber.messages.CommandRunTestStep.PatternMatch} PatternMatch
+                     */
+                    PatternMatch.fromObject = function fromObject(object) {
+                        if (object instanceof $root.io.cucumber.messages.CommandRunTestStep.PatternMatch)
+                            return object;
+                        var message = new $root.io.cucumber.messages.CommandRunTestStep.PatternMatch();
+                        if (object.captures) {
+                            if (!Array.isArray(object.captures))
+                                throw TypeError(".io.cucumber.messages.CommandRunTestStep.PatternMatch.captures: array expected");
+                            message.captures = [];
+                            for (var i = 0; i < object.captures.length; ++i)
+                                message.captures[i] = String(object.captures[i]);
+                        }
+                        if (object.parameterTypeName != null)
+                            message.parameterTypeName = String(object.parameterTypeName);
+                        return message;
+                    };
+
+                    /**
+                     * Creates a plain object from a PatternMatch message. Also converts values to other types if specified.
+                     * @function toObject
+                     * @memberof io.cucumber.messages.CommandRunTestStep.PatternMatch
+                     * @static
+                     * @param {io.cucumber.messages.CommandRunTestStep.PatternMatch} message PatternMatch
+                     * @param {$protobuf.IConversionOptions} [options] Conversion options
+                     * @returns {Object.<string,*>} Plain object
+                     */
+                    PatternMatch.toObject = function toObject(message, options) {
+                        if (!options)
+                            options = {};
+                        var object = {};
+                        if (options.arrays || options.defaults)
+                            object.captures = [];
+                        if (options.defaults)
+                            object.parameterTypeName = "";
+                        if (message.captures && message.captures.length) {
+                            object.captures = [];
+                            for (var j = 0; j < message.captures.length; ++j)
+                                object.captures[j] = message.captures[j];
+                        }
+                        if (message.parameterTypeName != null && message.hasOwnProperty("parameterTypeName"))
+                            object.parameterTypeName = message.parameterTypeName;
                         return object;
-                    var message = new $root.io.cucumber.messages.PatternMatch();
-                    if (object.captures) {
-                        if (!Array.isArray(object.captures))
-                            throw TypeError(".io.cucumber.messages.PatternMatch.captures: array expected");
-                        message.captures = [];
-                        for (var i = 0; i < object.captures.length; ++i)
-                            message.captures[i] = String(object.captures[i]);
-                    }
-                    if (object.parameterTypeName != null)
-                        message.parameterTypeName = String(object.parameterTypeName);
-                    return message;
-                };
+                    };
 
-                /**
-                 * Creates a plain object from a PatternMatch message. Also converts values to other types if specified.
-                 * @function toObject
-                 * @memberof io.cucumber.messages.PatternMatch
-                 * @static
-                 * @param {io.cucumber.messages.PatternMatch} message PatternMatch
-                 * @param {$protobuf.IConversionOptions} [options] Conversion options
-                 * @returns {Object.<string,*>} Plain object
-                 */
-                PatternMatch.toObject = function toObject(message, options) {
-                    if (!options)
-                        options = {};
-                    var object = {};
-                    if (options.arrays || options.defaults)
-                        object.captures = [];
-                    if (options.defaults)
-                        object.parameterTypeName = "";
-                    if (message.captures && message.captures.length) {
-                        object.captures = [];
-                        for (var j = 0; j < message.captures.length; ++j)
-                            object.captures[j] = message.captures[j];
-                    }
-                    if (message.parameterTypeName != null && message.hasOwnProperty("parameterTypeName"))
-                        object.parameterTypeName = message.parameterTypeName;
-                    return object;
-                };
+                    /**
+                     * Converts this PatternMatch to JSON.
+                     * @function toJSON
+                     * @memberof io.cucumber.messages.CommandRunTestStep.PatternMatch
+                     * @instance
+                     * @returns {Object.<string,*>} JSON object
+                     */
+                    PatternMatch.prototype.toJSON = function toJSON() {
+                        return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+                    };
 
-                /**
-                 * Converts this PatternMatch to JSON.
-                 * @function toJSON
-                 * @memberof io.cucumber.messages.PatternMatch
-                 * @instance
-                 * @returns {Object.<string,*>} JSON object
-                 */
-                PatternMatch.prototype.toJSON = function toJSON() {
-                    return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
-                };
+                    return PatternMatch;
+                })();
 
-                return PatternMatch;
+                return CommandRunTestStep;
             })();
 
             messages.CommandGenerateSnippet = (function() {
@@ -16386,7 +16420,7 @@ $root.io = (function() {
                  * @memberof io.cucumber.messages
                  * @interface ICommandGenerateSnippet
                  * @property {string|null} [actionId] CommandGenerateSnippet actionId
-                 * @property {Array.<io.cucumber.messages.IGeneratedExpression>|null} [generatedExpressions] CommandGenerateSnippet generatedExpressions
+                 * @property {Array.<io.cucumber.messages.CommandGenerateSnippet.IGeneratedExpression>|null} [generatedExpressions] CommandGenerateSnippet generatedExpressions
                  * @property {io.cucumber.messages.IPickleStepArgument|null} [pickleStepArgument] CommandGenerateSnippet pickleStepArgument
                  */
 
@@ -16416,7 +16450,7 @@ $root.io = (function() {
 
                 /**
                  * CommandGenerateSnippet generatedExpressions.
-                 * @member {Array.<io.cucumber.messages.IGeneratedExpression>} generatedExpressions
+                 * @member {Array.<io.cucumber.messages.CommandGenerateSnippet.IGeneratedExpression>} generatedExpressions
                  * @memberof io.cucumber.messages.CommandGenerateSnippet
                  * @instance
                  */
@@ -16458,7 +16492,7 @@ $root.io = (function() {
                         writer.uint32(/* id 1, wireType 2 =*/10).string(message.actionId);
                     if (message.generatedExpressions != null && message.generatedExpressions.length)
                         for (var i = 0; i < message.generatedExpressions.length; ++i)
-                            $root.io.cucumber.messages.GeneratedExpression.encode(message.generatedExpressions[i], writer.uint32(/* id 2, wireType 2 =*/18).fork()).ldelim();
+                            $root.io.cucumber.messages.CommandGenerateSnippet.GeneratedExpression.encode(message.generatedExpressions[i], writer.uint32(/* id 2, wireType 2 =*/18).fork()).ldelim();
                     if (message.pickleStepArgument != null && message.hasOwnProperty("pickleStepArgument"))
                         $root.io.cucumber.messages.PickleStepArgument.encode(message.pickleStepArgument, writer.uint32(/* id 5, wireType 2 =*/42).fork()).ldelim();
                     return writer;
@@ -16501,7 +16535,7 @@ $root.io = (function() {
                         case 2:
                             if (!(message.generatedExpressions && message.generatedExpressions.length))
                                 message.generatedExpressions = [];
-                            message.generatedExpressions.push($root.io.cucumber.messages.GeneratedExpression.decode(reader, reader.uint32()));
+                            message.generatedExpressions.push($root.io.cucumber.messages.CommandGenerateSnippet.GeneratedExpression.decode(reader, reader.uint32()));
                             break;
                         case 5:
                             message.pickleStepArgument = $root.io.cucumber.messages.PickleStepArgument.decode(reader, reader.uint32());
@@ -16548,7 +16582,7 @@ $root.io = (function() {
                         if (!Array.isArray(message.generatedExpressions))
                             return "generatedExpressions: array expected";
                         for (var i = 0; i < message.generatedExpressions.length; ++i) {
-                            var error = $root.io.cucumber.messages.GeneratedExpression.verify(message.generatedExpressions[i]);
+                            var error = $root.io.cucumber.messages.CommandGenerateSnippet.GeneratedExpression.verify(message.generatedExpressions[i]);
                             if (error)
                                 return "generatedExpressions." + error;
                         }
@@ -16582,7 +16616,7 @@ $root.io = (function() {
                         for (var i = 0; i < object.generatedExpressions.length; ++i) {
                             if (typeof object.generatedExpressions[i] !== "object")
                                 throw TypeError(".io.cucumber.messages.CommandGenerateSnippet.generatedExpressions: object expected");
-                            message.generatedExpressions[i] = $root.io.cucumber.messages.GeneratedExpression.fromObject(object.generatedExpressions[i]);
+                            message.generatedExpressions[i] = $root.io.cucumber.messages.CommandGenerateSnippet.GeneratedExpression.fromObject(object.generatedExpressions[i]);
                         }
                     }
                     if (object.pickleStepArgument != null) {
@@ -16617,7 +16651,7 @@ $root.io = (function() {
                     if (message.generatedExpressions && message.generatedExpressions.length) {
                         object.generatedExpressions = [];
                         for (var j = 0; j < message.generatedExpressions.length; ++j)
-                            object.generatedExpressions[j] = $root.io.cucumber.messages.GeneratedExpression.toObject(message.generatedExpressions[j], options);
+                            object.generatedExpressions[j] = $root.io.cucumber.messages.CommandGenerateSnippet.GeneratedExpression.toObject(message.generatedExpressions[j], options);
                     }
                     if (message.pickleStepArgument != null && message.hasOwnProperty("pickleStepArgument"))
                         object.pickleStepArgument = $root.io.cucumber.messages.PickleStepArgument.toObject(message.pickleStepArgument, options);
@@ -16635,29 +16669,253 @@ $root.io = (function() {
                     return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
                 };
 
+                CommandGenerateSnippet.GeneratedExpression = (function() {
+
+                    /**
+                     * Properties of a GeneratedExpression.
+                     * @memberof io.cucumber.messages.CommandGenerateSnippet
+                     * @interface IGeneratedExpression
+                     * @property {string|null} [text] GeneratedExpression text
+                     * @property {Array.<string>|null} [parameterTypeNames] GeneratedExpression parameterTypeNames
+                     */
+
+                    /**
+                     * Constructs a new GeneratedExpression.
+                     * @memberof io.cucumber.messages.CommandGenerateSnippet
+                     * @classdesc Represents a GeneratedExpression.
+                     * @implements IGeneratedExpression
+                     * @constructor
+                     * @param {io.cucumber.messages.CommandGenerateSnippet.IGeneratedExpression=} [properties] Properties to set
+                     */
+                    function GeneratedExpression(properties) {
+                        this.parameterTypeNames = [];
+                        if (properties)
+                            for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                                if (properties[keys[i]] != null)
+                                    this[keys[i]] = properties[keys[i]];
+                    }
+
+                    /**
+                     * GeneratedExpression text.
+                     * @member {string} text
+                     * @memberof io.cucumber.messages.CommandGenerateSnippet.GeneratedExpression
+                     * @instance
+                     */
+                    GeneratedExpression.prototype.text = "";
+
+                    /**
+                     * GeneratedExpression parameterTypeNames.
+                     * @member {Array.<string>} parameterTypeNames
+                     * @memberof io.cucumber.messages.CommandGenerateSnippet.GeneratedExpression
+                     * @instance
+                     */
+                    GeneratedExpression.prototype.parameterTypeNames = $util.emptyArray;
+
+                    /**
+                     * Creates a new GeneratedExpression instance using the specified properties.
+                     * @function create
+                     * @memberof io.cucumber.messages.CommandGenerateSnippet.GeneratedExpression
+                     * @static
+                     * @param {io.cucumber.messages.CommandGenerateSnippet.IGeneratedExpression=} [properties] Properties to set
+                     * @returns {io.cucumber.messages.CommandGenerateSnippet.GeneratedExpression} GeneratedExpression instance
+                     */
+                    GeneratedExpression.create = function create(properties) {
+                        return new GeneratedExpression(properties);
+                    };
+
+                    /**
+                     * Encodes the specified GeneratedExpression message. Does not implicitly {@link io.cucumber.messages.CommandGenerateSnippet.GeneratedExpression.verify|verify} messages.
+                     * @function encode
+                     * @memberof io.cucumber.messages.CommandGenerateSnippet.GeneratedExpression
+                     * @static
+                     * @param {io.cucumber.messages.CommandGenerateSnippet.IGeneratedExpression} message GeneratedExpression message or plain object to encode
+                     * @param {$protobuf.Writer} [writer] Writer to encode to
+                     * @returns {$protobuf.Writer} Writer
+                     */
+                    GeneratedExpression.encode = function encode(message, writer) {
+                        if (!writer)
+                            writer = $Writer.create();
+                        if (message.text != null && message.hasOwnProperty("text"))
+                            writer.uint32(/* id 1, wireType 2 =*/10).string(message.text);
+                        if (message.parameterTypeNames != null && message.parameterTypeNames.length)
+                            for (var i = 0; i < message.parameterTypeNames.length; ++i)
+                                writer.uint32(/* id 2, wireType 2 =*/18).string(message.parameterTypeNames[i]);
+                        return writer;
+                    };
+
+                    /**
+                     * Encodes the specified GeneratedExpression message, length delimited. Does not implicitly {@link io.cucumber.messages.CommandGenerateSnippet.GeneratedExpression.verify|verify} messages.
+                     * @function encodeDelimited
+                     * @memberof io.cucumber.messages.CommandGenerateSnippet.GeneratedExpression
+                     * @static
+                     * @param {io.cucumber.messages.CommandGenerateSnippet.IGeneratedExpression} message GeneratedExpression message or plain object to encode
+                     * @param {$protobuf.Writer} [writer] Writer to encode to
+                     * @returns {$protobuf.Writer} Writer
+                     */
+                    GeneratedExpression.encodeDelimited = function encodeDelimited(message, writer) {
+                        return this.encode(message, writer).ldelim();
+                    };
+
+                    /**
+                     * Decodes a GeneratedExpression message from the specified reader or buffer.
+                     * @function decode
+                     * @memberof io.cucumber.messages.CommandGenerateSnippet.GeneratedExpression
+                     * @static
+                     * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+                     * @param {number} [length] Message length if known beforehand
+                     * @returns {io.cucumber.messages.CommandGenerateSnippet.GeneratedExpression} GeneratedExpression
+                     * @throws {Error} If the payload is not a reader or valid buffer
+                     * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                     */
+                    GeneratedExpression.decode = function decode(reader, length) {
+                        if (!(reader instanceof $Reader))
+                            reader = $Reader.create(reader);
+                        var end = length === undefined ? reader.len : reader.pos + length, message = new $root.io.cucumber.messages.CommandGenerateSnippet.GeneratedExpression();
+                        while (reader.pos < end) {
+                            var tag = reader.uint32();
+                            switch (tag >>> 3) {
+                            case 1:
+                                message.text = reader.string();
+                                break;
+                            case 2:
+                                if (!(message.parameterTypeNames && message.parameterTypeNames.length))
+                                    message.parameterTypeNames = [];
+                                message.parameterTypeNames.push(reader.string());
+                                break;
+                            default:
+                                reader.skipType(tag & 7);
+                                break;
+                            }
+                        }
+                        return message;
+                    };
+
+                    /**
+                     * Decodes a GeneratedExpression message from the specified reader or buffer, length delimited.
+                     * @function decodeDelimited
+                     * @memberof io.cucumber.messages.CommandGenerateSnippet.GeneratedExpression
+                     * @static
+                     * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+                     * @returns {io.cucumber.messages.CommandGenerateSnippet.GeneratedExpression} GeneratedExpression
+                     * @throws {Error} If the payload is not a reader or valid buffer
+                     * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                     */
+                    GeneratedExpression.decodeDelimited = function decodeDelimited(reader) {
+                        if (!(reader instanceof $Reader))
+                            reader = new $Reader(reader);
+                        return this.decode(reader, reader.uint32());
+                    };
+
+                    /**
+                     * Verifies a GeneratedExpression message.
+                     * @function verify
+                     * @memberof io.cucumber.messages.CommandGenerateSnippet.GeneratedExpression
+                     * @static
+                     * @param {Object.<string,*>} message Plain object to verify
+                     * @returns {string|null} `null` if valid, otherwise the reason why it is not
+                     */
+                    GeneratedExpression.verify = function verify(message) {
+                        if (typeof message !== "object" || message === null)
+                            return "object expected";
+                        if (message.text != null && message.hasOwnProperty("text"))
+                            if (!$util.isString(message.text))
+                                return "text: string expected";
+                        if (message.parameterTypeNames != null && message.hasOwnProperty("parameterTypeNames")) {
+                            if (!Array.isArray(message.parameterTypeNames))
+                                return "parameterTypeNames: array expected";
+                            for (var i = 0; i < message.parameterTypeNames.length; ++i)
+                                if (!$util.isString(message.parameterTypeNames[i]))
+                                    return "parameterTypeNames: string[] expected";
+                        }
+                        return null;
+                    };
+
+                    /**
+                     * Creates a GeneratedExpression message from a plain object. Also converts values to their respective internal types.
+                     * @function fromObject
+                     * @memberof io.cucumber.messages.CommandGenerateSnippet.GeneratedExpression
+                     * @static
+                     * @param {Object.<string,*>} object Plain object
+                     * @returns {io.cucumber.messages.CommandGenerateSnippet.GeneratedExpression} GeneratedExpression
+                     */
+                    GeneratedExpression.fromObject = function fromObject(object) {
+                        if (object instanceof $root.io.cucumber.messages.CommandGenerateSnippet.GeneratedExpression)
+                            return object;
+                        var message = new $root.io.cucumber.messages.CommandGenerateSnippet.GeneratedExpression();
+                        if (object.text != null)
+                            message.text = String(object.text);
+                        if (object.parameterTypeNames) {
+                            if (!Array.isArray(object.parameterTypeNames))
+                                throw TypeError(".io.cucumber.messages.CommandGenerateSnippet.GeneratedExpression.parameterTypeNames: array expected");
+                            message.parameterTypeNames = [];
+                            for (var i = 0; i < object.parameterTypeNames.length; ++i)
+                                message.parameterTypeNames[i] = String(object.parameterTypeNames[i]);
+                        }
+                        return message;
+                    };
+
+                    /**
+                     * Creates a plain object from a GeneratedExpression message. Also converts values to other types if specified.
+                     * @function toObject
+                     * @memberof io.cucumber.messages.CommandGenerateSnippet.GeneratedExpression
+                     * @static
+                     * @param {io.cucumber.messages.CommandGenerateSnippet.GeneratedExpression} message GeneratedExpression
+                     * @param {$protobuf.IConversionOptions} [options] Conversion options
+                     * @returns {Object.<string,*>} Plain object
+                     */
+                    GeneratedExpression.toObject = function toObject(message, options) {
+                        if (!options)
+                            options = {};
+                        var object = {};
+                        if (options.arrays || options.defaults)
+                            object.parameterTypeNames = [];
+                        if (options.defaults)
+                            object.text = "";
+                        if (message.text != null && message.hasOwnProperty("text"))
+                            object.text = message.text;
+                        if (message.parameterTypeNames && message.parameterTypeNames.length) {
+                            object.parameterTypeNames = [];
+                            for (var j = 0; j < message.parameterTypeNames.length; ++j)
+                                object.parameterTypeNames[j] = message.parameterTypeNames[j];
+                        }
+                        return object;
+                    };
+
+                    /**
+                     * Converts this GeneratedExpression to JSON.
+                     * @function toJSON
+                     * @memberof io.cucumber.messages.CommandGenerateSnippet.GeneratedExpression
+                     * @instance
+                     * @returns {Object.<string,*>} JSON object
+                     */
+                    GeneratedExpression.prototype.toJSON = function toJSON() {
+                        return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+                    };
+
+                    return GeneratedExpression;
+                })();
+
                 return CommandGenerateSnippet;
             })();
 
-            messages.GeneratedExpression = (function() {
+            messages.Quit = (function() {
 
                 /**
-                 * Properties of a GeneratedExpression.
+                 * Properties of a Quit.
                  * @memberof io.cucumber.messages
-                 * @interface IGeneratedExpression
-                 * @property {string|null} [text] GeneratedExpression text
-                 * @property {Array.<string>|null} [parameterTypeNames] GeneratedExpression parameterTypeNames
+                 * @interface IQuit
+                 * @property {io.cucumber.messages.Quit.Reason|null} [reason] Quit reason
                  */
 
                 /**
-                 * Constructs a new GeneratedExpression.
+                 * Constructs a new Quit.
                  * @memberof io.cucumber.messages
-                 * @classdesc Represents a GeneratedExpression.
-                 * @implements IGeneratedExpression
+                 * @classdesc Represents a Quit.
+                 * @implements IQuit
                  * @constructor
-                 * @param {io.cucumber.messages.IGeneratedExpression=} [properties] Properties to set
+                 * @param {io.cucumber.messages.IQuit=} [properties] Properties to set
                  */
-                function GeneratedExpression(properties) {
-                    this.parameterTypeNames = [];
+                function Quit(properties) {
                     if (properties)
                         for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
                             if (properties[keys[i]] != null)
@@ -16665,91 +16923,75 @@ $root.io = (function() {
                 }
 
                 /**
-                 * GeneratedExpression text.
-                 * @member {string} text
-                 * @memberof io.cucumber.messages.GeneratedExpression
+                 * Quit reason.
+                 * @member {io.cucumber.messages.Quit.Reason} reason
+                 * @memberof io.cucumber.messages.Quit
                  * @instance
                  */
-                GeneratedExpression.prototype.text = "";
+                Quit.prototype.reason = 0;
 
                 /**
-                 * GeneratedExpression parameterTypeNames.
-                 * @member {Array.<string>} parameterTypeNames
-                 * @memberof io.cucumber.messages.GeneratedExpression
-                 * @instance
-                 */
-                GeneratedExpression.prototype.parameterTypeNames = $util.emptyArray;
-
-                /**
-                 * Creates a new GeneratedExpression instance using the specified properties.
+                 * Creates a new Quit instance using the specified properties.
                  * @function create
-                 * @memberof io.cucumber.messages.GeneratedExpression
+                 * @memberof io.cucumber.messages.Quit
                  * @static
-                 * @param {io.cucumber.messages.IGeneratedExpression=} [properties] Properties to set
-                 * @returns {io.cucumber.messages.GeneratedExpression} GeneratedExpression instance
+                 * @param {io.cucumber.messages.IQuit=} [properties] Properties to set
+                 * @returns {io.cucumber.messages.Quit} Quit instance
                  */
-                GeneratedExpression.create = function create(properties) {
-                    return new GeneratedExpression(properties);
+                Quit.create = function create(properties) {
+                    return new Quit(properties);
                 };
 
                 /**
-                 * Encodes the specified GeneratedExpression message. Does not implicitly {@link io.cucumber.messages.GeneratedExpression.verify|verify} messages.
+                 * Encodes the specified Quit message. Does not implicitly {@link io.cucumber.messages.Quit.verify|verify} messages.
                  * @function encode
-                 * @memberof io.cucumber.messages.GeneratedExpression
+                 * @memberof io.cucumber.messages.Quit
                  * @static
-                 * @param {io.cucumber.messages.IGeneratedExpression} message GeneratedExpression message or plain object to encode
+                 * @param {io.cucumber.messages.IQuit} message Quit message or plain object to encode
                  * @param {$protobuf.Writer} [writer] Writer to encode to
                  * @returns {$protobuf.Writer} Writer
                  */
-                GeneratedExpression.encode = function encode(message, writer) {
+                Quit.encode = function encode(message, writer) {
                     if (!writer)
                         writer = $Writer.create();
-                    if (message.text != null && message.hasOwnProperty("text"))
-                        writer.uint32(/* id 1, wireType 2 =*/10).string(message.text);
-                    if (message.parameterTypeNames != null && message.parameterTypeNames.length)
-                        for (var i = 0; i < message.parameterTypeNames.length; ++i)
-                            writer.uint32(/* id 2, wireType 2 =*/18).string(message.parameterTypeNames[i]);
+                    if (message.reason != null && message.hasOwnProperty("reason"))
+                        writer.uint32(/* id 1, wireType 0 =*/8).int32(message.reason);
                     return writer;
                 };
 
                 /**
-                 * Encodes the specified GeneratedExpression message, length delimited. Does not implicitly {@link io.cucumber.messages.GeneratedExpression.verify|verify} messages.
+                 * Encodes the specified Quit message, length delimited. Does not implicitly {@link io.cucumber.messages.Quit.verify|verify} messages.
                  * @function encodeDelimited
-                 * @memberof io.cucumber.messages.GeneratedExpression
+                 * @memberof io.cucumber.messages.Quit
                  * @static
-                 * @param {io.cucumber.messages.IGeneratedExpression} message GeneratedExpression message or plain object to encode
+                 * @param {io.cucumber.messages.IQuit} message Quit message or plain object to encode
                  * @param {$protobuf.Writer} [writer] Writer to encode to
                  * @returns {$protobuf.Writer} Writer
                  */
-                GeneratedExpression.encodeDelimited = function encodeDelimited(message, writer) {
+                Quit.encodeDelimited = function encodeDelimited(message, writer) {
                     return this.encode(message, writer).ldelim();
                 };
 
                 /**
-                 * Decodes a GeneratedExpression message from the specified reader or buffer.
+                 * Decodes a Quit message from the specified reader or buffer.
                  * @function decode
-                 * @memberof io.cucumber.messages.GeneratedExpression
+                 * @memberof io.cucumber.messages.Quit
                  * @static
                  * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
                  * @param {number} [length] Message length if known beforehand
-                 * @returns {io.cucumber.messages.GeneratedExpression} GeneratedExpression
+                 * @returns {io.cucumber.messages.Quit} Quit
                  * @throws {Error} If the payload is not a reader or valid buffer
                  * @throws {$protobuf.util.ProtocolError} If required fields are missing
                  */
-                GeneratedExpression.decode = function decode(reader, length) {
+                Quit.decode = function decode(reader, length) {
                     if (!(reader instanceof $Reader))
                         reader = $Reader.create(reader);
-                    var end = length === undefined ? reader.len : reader.pos + length, message = new $root.io.cucumber.messages.GeneratedExpression();
+                    var end = length === undefined ? reader.len : reader.pos + length, message = new $root.io.cucumber.messages.Quit();
                     while (reader.pos < end) {
                         var tag = reader.uint32();
                         switch (tag >>> 3) {
                         case 1:
-                            message.text = reader.string();
-                            break;
-                        case 2:
-                            if (!(message.parameterTypeNames && message.parameterTypeNames.length))
-                                message.parameterTypeNames = [];
-                            message.parameterTypeNames.push(reader.string());
+                            message.reason = reader.int32();
                             break;
                         default:
                             reader.skipType(tag & 7);
@@ -16760,108 +17002,107 @@ $root.io = (function() {
                 };
 
                 /**
-                 * Decodes a GeneratedExpression message from the specified reader or buffer, length delimited.
+                 * Decodes a Quit message from the specified reader or buffer, length delimited.
                  * @function decodeDelimited
-                 * @memberof io.cucumber.messages.GeneratedExpression
+                 * @memberof io.cucumber.messages.Quit
                  * @static
                  * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-                 * @returns {io.cucumber.messages.GeneratedExpression} GeneratedExpression
+                 * @returns {io.cucumber.messages.Quit} Quit
                  * @throws {Error} If the payload is not a reader or valid buffer
                  * @throws {$protobuf.util.ProtocolError} If required fields are missing
                  */
-                GeneratedExpression.decodeDelimited = function decodeDelimited(reader) {
+                Quit.decodeDelimited = function decodeDelimited(reader) {
                     if (!(reader instanceof $Reader))
                         reader = new $Reader(reader);
                     return this.decode(reader, reader.uint32());
                 };
 
                 /**
-                 * Verifies a GeneratedExpression message.
+                 * Verifies a Quit message.
                  * @function verify
-                 * @memberof io.cucumber.messages.GeneratedExpression
+                 * @memberof io.cucumber.messages.Quit
                  * @static
                  * @param {Object.<string,*>} message Plain object to verify
                  * @returns {string|null} `null` if valid, otherwise the reason why it is not
                  */
-                GeneratedExpression.verify = function verify(message) {
+                Quit.verify = function verify(message) {
                     if (typeof message !== "object" || message === null)
                         return "object expected";
-                    if (message.text != null && message.hasOwnProperty("text"))
-                        if (!$util.isString(message.text))
-                            return "text: string expected";
-                    if (message.parameterTypeNames != null && message.hasOwnProperty("parameterTypeNames")) {
-                        if (!Array.isArray(message.parameterTypeNames))
-                            return "parameterTypeNames: array expected";
-                        for (var i = 0; i < message.parameterTypeNames.length; ++i)
-                            if (!$util.isString(message.parameterTypeNames[i]))
-                                return "parameterTypeNames: string[] expected";
-                    }
+                    if (message.reason != null && message.hasOwnProperty("reason"))
+                        switch (message.reason) {
+                        default:
+                            return "reason: enum value expected";
+                        case 0:
+                            break;
+                        }
                     return null;
                 };
 
                 /**
-                 * Creates a GeneratedExpression message from a plain object. Also converts values to their respective internal types.
+                 * Creates a Quit message from a plain object. Also converts values to their respective internal types.
                  * @function fromObject
-                 * @memberof io.cucumber.messages.GeneratedExpression
+                 * @memberof io.cucumber.messages.Quit
                  * @static
                  * @param {Object.<string,*>} object Plain object
-                 * @returns {io.cucumber.messages.GeneratedExpression} GeneratedExpression
+                 * @returns {io.cucumber.messages.Quit} Quit
                  */
-                GeneratedExpression.fromObject = function fromObject(object) {
-                    if (object instanceof $root.io.cucumber.messages.GeneratedExpression)
+                Quit.fromObject = function fromObject(object) {
+                    if (object instanceof $root.io.cucumber.messages.Quit)
                         return object;
-                    var message = new $root.io.cucumber.messages.GeneratedExpression();
-                    if (object.text != null)
-                        message.text = String(object.text);
-                    if (object.parameterTypeNames) {
-                        if (!Array.isArray(object.parameterTypeNames))
-                            throw TypeError(".io.cucumber.messages.GeneratedExpression.parameterTypeNames: array expected");
-                        message.parameterTypeNames = [];
-                        for (var i = 0; i < object.parameterTypeNames.length; ++i)
-                            message.parameterTypeNames[i] = String(object.parameterTypeNames[i]);
+                    var message = new $root.io.cucumber.messages.Quit();
+                    switch (object.reason) {
+                    case "FINISH_PLEASE":
+                    case 0:
+                        message.reason = 0;
+                        break;
                     }
                     return message;
                 };
 
                 /**
-                 * Creates a plain object from a GeneratedExpression message. Also converts values to other types if specified.
+                 * Creates a plain object from a Quit message. Also converts values to other types if specified.
                  * @function toObject
-                 * @memberof io.cucumber.messages.GeneratedExpression
+                 * @memberof io.cucumber.messages.Quit
                  * @static
-                 * @param {io.cucumber.messages.GeneratedExpression} message GeneratedExpression
+                 * @param {io.cucumber.messages.Quit} message Quit
                  * @param {$protobuf.IConversionOptions} [options] Conversion options
                  * @returns {Object.<string,*>} Plain object
                  */
-                GeneratedExpression.toObject = function toObject(message, options) {
+                Quit.toObject = function toObject(message, options) {
                     if (!options)
                         options = {};
                     var object = {};
-                    if (options.arrays || options.defaults)
-                        object.parameterTypeNames = [];
                     if (options.defaults)
-                        object.text = "";
-                    if (message.text != null && message.hasOwnProperty("text"))
-                        object.text = message.text;
-                    if (message.parameterTypeNames && message.parameterTypeNames.length) {
-                        object.parameterTypeNames = [];
-                        for (var j = 0; j < message.parameterTypeNames.length; ++j)
-                            object.parameterTypeNames[j] = message.parameterTypeNames[j];
-                    }
+                        object.reason = options.enums === String ? "FINISH_PLEASE" : 0;
+                    if (message.reason != null && message.hasOwnProperty("reason"))
+                        object.reason = options.enums === String ? $root.io.cucumber.messages.Quit.Reason[message.reason] : message.reason;
                     return object;
                 };
 
                 /**
-                 * Converts this GeneratedExpression to JSON.
+                 * Converts this Quit to JSON.
                  * @function toJSON
-                 * @memberof io.cucumber.messages.GeneratedExpression
+                 * @memberof io.cucumber.messages.Quit
                  * @instance
                  * @returns {Object.<string,*>} JSON object
                  */
-                GeneratedExpression.prototype.toJSON = function toJSON() {
+                Quit.prototype.toJSON = function toJSON() {
                     return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
                 };
 
-                return GeneratedExpression;
+                /**
+                 * Reason enum.
+                 * @name io.cucumber.messages.Quit.Reason
+                 * @enum {string}
+                 * @property {number} FINISH_PLEASE=0 FINISH_PLEASE value
+                 */
+                Quit.Reason = (function() {
+                    var valuesById = {}, values = Object.create(valuesById);
+                    values[valuesById[0] = "FINISH_PLEASE"] = 0;
+                    return values;
+                })();
+
+                return Quit;
             })();
 
             return messages;

@@ -1,0 +1,16 @@
+{
+  "attachment": {
+    "source": {
+      "uri": null,
+      "location": {
+        "line": null,
+        "column": null
+      }
+    },
+    "data": null,
+    "media": {
+      "encoding": null,
+      "content_type": null
+    }
+  }
+}

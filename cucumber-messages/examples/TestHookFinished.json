@@ -1,0 +1,11 @@
+{
+  "testHookFinished": {
+    "pickleId": null,
+    "testResult": {
+      "status": null,
+      "message": null,
+      "durationNanoseconds": null
+    },
+    "timestamp": null
+  }
+}

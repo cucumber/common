@@ -1,0 +1,12 @@
+{
+  "testCaseStarted": {
+    "pickleId": null,
+    "timestamp": null,
+    "platform": {
+      "implementation": null,
+      "version": null,
+      "os": null,
+      "cpu": null
+    }
+  }
+}

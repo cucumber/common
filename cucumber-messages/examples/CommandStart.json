@@ -1,0 +1,91 @@
+{
+  "commandStart": {
+    "baseDirectory": "/Users/me/my-project",
+    "sourcesConfig": {
+      "absolutePaths": [
+        "/Users/me/my-project/features/foo.feature",
+        "/Users/me/my-project/features/bar.feature"
+      ],
+      "language": "en",
+      "filters": {
+        "tagExpression": "@foo and not @bar",
+        "nameRegularExpressions": [
+
+        ],
+        "uriToLinesMapping": [
+          {
+            "absolutePath": "/Users/me/my-project/features/hello.feature",
+            "lines": [
+              27,
+              39
+            ]
+          }
+        ]
+      },
+      "order": {
+        "type": 0,
+        "seed": 129071284
+      }
+    },
+    "runtimeConfig": {
+      "isFailFast": false,
+      "isDryRun": false,
+      "isStrict": true,
+      "maxParallel": 1
+    },
+    "supportCodeConfig": {
+      "beforeTestCaseHookDefinitionConfigs": [
+        {
+          "id": null,
+          "tagExpression": null,
+          "location": {
+            "uri": null,
+            "location": {
+              "line": null,
+              "column": null
+            }
+          }
+        }
+      ],
+      "afterTestCaseHookDefinitionConfigs": [
+        {
+          "id": null,
+          "tagExpression": null,
+          "location": {
+            "uri": null,
+            "location": {
+              "line": null,
+              "column": null
+            }
+          }
+        }
+      ],
+      "stepDefinitionConfigs": [
+        {
+          "id": null,
+          "pattern": {
+            "source": null,
+            "type": null
+          },
+          "location": {
+            "uri": null,
+            "location": {
+              "line": null,
+              "column": null
+            }
+          }
+        }
+      ],
+      "parameterTypeConfigs": [
+        {
+          "name": null,
+          "regularExpressions": [
+
+          ],
+          "preferForRegularExpressionMatch": null,
+          "useForSnippets": null
+        }
+      ]
+    }
+  }
+}

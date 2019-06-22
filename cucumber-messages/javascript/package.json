@@ -10,7 +10,7 @@
   "scripts": {
     "test": "mocha test/**/*.ts",
     "lint": "tslint src/**/*.ts test/**/*.ts --exclude src/cucumber-messages.d.ts --exclude dist/src/cucumber-messages.d.ts",
-    "lint-fix": "tslint --fix src/**/*.ts test/**/*.ts",
+    "lint-fix": "tslint --fix src/index.ts src/ProtobufMessageStream.ts test/**/*.ts",
     "coverage": "nyc --reporter=html --reporter=text mocha test/**/*.ts",
     "build": "tsc",
     "prepublishOnly": "npm run build"

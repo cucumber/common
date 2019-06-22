@@ -32,6 +32,7 @@ Google::Protobuf::DescriptorPool.generated_pool.build do
       optional :commandRunAfterTestRunHooks, :message, 23, "io.cucumber.messages.CommandRunAfterTestRunHooks"
       optional :commandGenerateSnippet, :message, 24, "io.cucumber.messages.CommandGenerateSnippet"
       optional :commandError, :string, 25
+      optional :quit, :message, 26, "io.cucumber.messages.Quit"
     end
   end
   add_message "io.cucumber.messages.Location" do
@@ -173,7 +174,7 @@ Google::Protobuf::DescriptorPool.generated_pool.build do
     optional :argument, :message, 5, "io.cucumber.messages.PickleStepArgument"
   end
   add_message "io.cucumber.messages.PickleStepArgument" do
-    oneof :message do
+    oneof :argument do
       optional :doc_string, :message, 1, "io.cucumber.messages.PickleStepArgument.PickleDocString"
       optional :data_table, :message, 2, "io.cucumber.messages.PickleStepArgument.PickleTable"
     end
@@ -264,56 +265,64 @@ Google::Protobuf::DescriptorPool.generated_pool.build do
   end
   add_message "io.cucumber.messages.CommandStart" do
     optional :baseDirectory, :string, 2
-    optional :sourcesConfig, :message, 3, "io.cucumber.messages.SourcesConfig"
-    optional :runtimeConfig, :message, 4, "io.cucumber.messages.RuntimeConfig"
-    optional :supportCodeConfig, :message, 5, "io.cucumber.messages.SupportCodeConfig"
+    optional :sourcesConfig, :message, 3, "io.cucumber.messages.CommandStart.SourcesConfig"
+    optional :runtimeConfig, :message, 4, "io.cucumber.messages.CommandStart.RuntimeConfig"
+    optional :supportCodeConfig, :message, 5, "io.cucumber.messages.CommandStart.SupportCodeConfig"
   end
-  add_message "io.cucumber.messages.SourcesConfig" do
+  add_message "io.cucumber.messages.CommandStart.SourcesConfig" do
     repeated :absolutePaths, :string, 1
     optional :language, :string, 2
-    optional :filters, :message, 3, "io.cucumber.messages.SourcesFilterConfig"
-    optional :order, :message, 4, "io.cucumber.messages.SourcesOrder"
+    optional :filters, :message, 3, "io.cucumber.messages.CommandStart.SourcesConfig.SourcesFilterConfig"
+    optional :order, :message, 4, "io.cucumber.messages.CommandStart.SourcesConfig.SourcesOrder"
   end
-  add_message "io.cucumber.messages.SourcesFilterConfig" do
+  add_message "io.cucumber.messages.CommandStart.SourcesConfig.SourcesFilterConfig" do
     optional :tagExpression, :string, 1
     repeated :nameRegularExpressions, :string, 2
-    repeated :uriToLinesMapping, :message, 3, "io.cucumber.messages.UriToLinesMapping"
+    repeated :uriToLinesMapping, :message, 3, "io.cucumber.messages.CommandStart.SourcesConfig.SourcesFilterConfig.UriToLinesMapping"
   end
-  add_message "io.cucumber.messages.UriToLinesMapping" do
+  add_message "io.cucumber.messages.CommandStart.SourcesConfig.SourcesFilterConfig.UriToLinesMapping" do
     optional :absolutePath, :string, 1
     repeated :lines, :uint64, 2
   end
-  add_message "io.cucumber.messages.SourcesOrder" do
-    optional :type, :enum, 1, "io.cucumber.messages.SourcesOrderType"
+  add_message "io.cucumber.messages.CommandStart.SourcesConfig.SourcesOrder" do
+    optional :type, :enum, 1, "io.cucumber.messages.CommandStart.SourcesConfig.SourcesOrder.SourcesOrderType"
     optional :seed, :uint64, 2
   end
-  add_message "io.cucumber.messages.RuntimeConfig" do
+  add_enum "io.cucumber.messages.CommandStart.SourcesConfig.SourcesOrder.SourcesOrderType" do
+    value :ORDER_OF_DEFINITION, 0
+    value :RANDOM, 1
+  end
+  add_message "io.cucumber.messages.CommandStart.RuntimeConfig" do
     optional :isFailFast, :bool, 1
     optional :isDryRun, :bool, 2
     optional :isStrict, :bool, 3
     optional :maxParallel, :uint64, 4
   end
-  add_message "io.cucumber.messages.SupportCodeConfig" do
-    repeated :beforeTestCaseHookDefinitionConfigs, :message, 1, "io.cucumber.messages.TestCaseHookDefinitionConfig"
-    repeated :afterTestCaseHookDefinitionConfigs, :message, 2, "io.cucumber.messages.TestCaseHookDefinitionConfig"
-    repeated :stepDefinitionConfigs, :message, 3, "io.cucumber.messages.StepDefinitionConfig"
-    repeated :parameterTypeConfigs, :message, 4, "io.cucumber.messages.ParameterTypeConfig"
+  add_message "io.cucumber.messages.CommandStart.SupportCodeConfig" do
+    repeated :beforeTestCaseHookDefinitionConfigs, :message, 1, "io.cucumber.messages.CommandStart.SupportCodeConfig.TestCaseHookDefinitionConfig"
+    repeated :afterTestCaseHookDefinitionConfigs, :message, 2, "io.cucumber.messages.CommandStart.SupportCodeConfig.TestCaseHookDefinitionConfig"
+    repeated :stepDefinitionConfigs, :message, 3, "io.cucumber.messages.CommandStart.SupportCodeConfig.StepDefinitionConfig"
+    repeated :parameterTypeConfigs, :message, 4, "io.cucumber.messages.CommandStart.ParameterTypeConfig"
   end
-  add_message "io.cucumber.messages.TestCaseHookDefinitionConfig" do
+  add_message "io.cucumber.messages.CommandStart.SupportCodeConfig.TestCaseHookDefinitionConfig" do
     optional :id, :string, 1
     optional :tagExpression, :string, 2
     optional :location, :message, 3, "io.cucumber.messages.SourceReference"
   end
-  add_message "io.cucumber.messages.StepDefinitionConfig" do
+  add_message "io.cucumber.messages.CommandStart.SupportCodeConfig.StepDefinitionConfig" do
     optional :id, :string, 1
-    optional :pattern, :message, 2, "io.cucumber.messages.StepDefinitionPattern"
+    optional :pattern, :message, 2, "io.cucumber.messages.CommandStart.SupportCodeConfig.StepDefinitionConfig.StepDefinitionPattern"
     optional :location, :message, 3, "io.cucumber.messages.SourceReference"
   end
-  add_message "io.cucumber.messages.StepDefinitionPattern" do
+  add_message "io.cucumber.messages.CommandStart.SupportCodeConfig.StepDefinitionConfig.StepDefinitionPattern" do
     optional :source, :string, 1
-    optional :type, :enum, 2, "io.cucumber.messages.StepDefinitionPatternType"
+    optional :type, :enum, 2, "io.cucumber.messages.CommandStart.SupportCodeConfig.StepDefinitionConfig.StepDefinitionPattern.StepDefinitionPatternType"
   end
-  add_message "io.cucumber.messages.ParameterTypeConfig" do
+  add_enum "io.cucumber.messages.CommandStart.SupportCodeConfig.StepDefinitionConfig.StepDefinitionPattern.StepDefinitionPatternType" do
+    value :CUCUMBER_EXPRESSION, 0
+    value :REGULAR_EXPRESSION, 1
+  end
+  add_message "io.cucumber.messages.CommandStart.ParameterTypeConfig" do
     optional :name, :string, 1
     repeated :regularExpressions, :string, 2
     optional :preferForRegularExpressionMatch, :bool, 3
@@ -349,30 +358,28 @@ Google::Protobuf::DescriptorPool.generated_pool.build do
   add_message "io.cucumber.messages.CommandRunTestStep" do
     optional :actionId, :string, 1
     optional :stepDefinitionId, :string, 3
-    repeated :patternMatches, :message, 4, "io.cucumber.messages.PatternMatch"
+    repeated :patternMatches, :message, 4, "io.cucumber.messages.CommandRunTestStep.PatternMatch"
     optional :pickleId, :string, 5
     optional :pickleStepArgument, :message, 6, "io.cucumber.messages.PickleStepArgument"
   end
-  add_message "io.cucumber.messages.PatternMatch" do
+  add_message "io.cucumber.messages.CommandRunTestStep.PatternMatch" do
     repeated :captures, :string, 1
     optional :parameterTypeName, :string, 2
   end
   add_message "io.cucumber.messages.CommandGenerateSnippet" do
     optional :actionId, :string, 1
-    repeated :generatedExpressions, :message, 2, "io.cucumber.messages.GeneratedExpression"
+    repeated :generatedExpressions, :message, 2, "io.cucumber.messages.CommandGenerateSnippet.GeneratedExpression"
     optional :pickleStepArgument, :message, 5, "io.cucumber.messages.PickleStepArgument"
   end
-  add_message "io.cucumber.messages.GeneratedExpression" do
+  add_message "io.cucumber.messages.CommandGenerateSnippet.GeneratedExpression" do
     optional :text, :string, 1
     repeated :parameterTypeNames, :string, 2
   end
-  add_enum "io.cucumber.messages.SourcesOrderType" do
-    value :ORDER_OF_DEFINITION, 0
-    value :RANDOM, 1
+  add_message "io.cucumber.messages.Quit" do
+    optional :reason, :enum, 1, "io.cucumber.messages.Quit.Reason"
   end
-  add_enum "io.cucumber.messages.StepDefinitionPatternType" do
-    value :CUCUMBER_EXPRESSION, 0
-    value :REGULAR_EXPRESSION, 1
+  add_enum "io.cucumber.messages.Quit.Reason" do
+    value :FINISH_PLEASE, 0
   end
 end
 
@@ -424,16 +431,18 @@ module Cucumber
     TestResult::Status = Google::Protobuf::DescriptorPool.generated_pool.lookup("io.cucumber.messages.TestResult.Status").enummodule
     TestRunFinished = Google::Protobuf::DescriptorPool.generated_pool.lookup("io.cucumber.messages.TestRunFinished").msgclass
     CommandStart = Google::Protobuf::DescriptorPool.generated_pool.lookup("io.cucumber.messages.CommandStart").msgclass
-    SourcesConfig = Google::Protobuf::DescriptorPool.generated_pool.lookup("io.cucumber.messages.SourcesConfig").msgclass
-    SourcesFilterConfig = Google::Protobuf::DescriptorPool.generated_pool.lookup("io.cucumber.messages.SourcesFilterConfig").msgclass
-    UriToLinesMapping = Google::Protobuf::DescriptorPool.generated_pool.lookup("io.cucumber.messages.UriToLinesMapping").msgclass
-    SourcesOrder = Google::Protobuf::DescriptorPool.generated_pool.lookup("io.cucumber.messages.SourcesOrder").msgclass
-    RuntimeConfig = Google::Protobuf::DescriptorPool.generated_pool.lookup("io.cucumber.messages.RuntimeConfig").msgclass
-    SupportCodeConfig = Google::Protobuf::DescriptorPool.generated_pool.lookup("io.cucumber.messages.SupportCodeConfig").msgclass
-    TestCaseHookDefinitionConfig = Google::Protobuf::DescriptorPool.generated_pool.lookup("io.cucumber.messages.TestCaseHookDefinitionConfig").msgclass
-    StepDefinitionConfig = Google::Protobuf::DescriptorPool.generated_pool.lookup("io.cucumber.messages.StepDefinitionConfig").msgclass
-    StepDefinitionPattern = Google::Protobuf::DescriptorPool.generated_pool.lookup("io.cucumber.messages.StepDefinitionPattern").msgclass
-    ParameterTypeConfig = Google::Protobuf::DescriptorPool.generated_pool.lookup("io.cucumber.messages.ParameterTypeConfig").msgclass
+    CommandStart::SourcesConfig = Google::Protobuf::DescriptorPool.generated_pool.lookup("io.cucumber.messages.CommandStart.SourcesConfig").msgclass
+    CommandStart::SourcesConfig::SourcesFilterConfig = Google::Protobuf::DescriptorPool.generated_pool.lookup("io.cucumber.messages.CommandStart.SourcesConfig.SourcesFilterConfig").msgclass
+    CommandStart::SourcesConfig::SourcesFilterConfig::UriToLinesMapping = Google::Protobuf::DescriptorPool.generated_pool.lookup("io.cucumber.messages.CommandStart.SourcesConfig.SourcesFilterConfig.UriToLinesMapping").msgclass
+    CommandStart::SourcesConfig::SourcesOrder = Google::Protobuf::DescriptorPool.generated_pool.lookup("io.cucumber.messages.CommandStart.SourcesConfig.SourcesOrder").msgclass
+    CommandStart::SourcesConfig::SourcesOrder::SourcesOrderType = Google::Protobuf::DescriptorPool.generated_pool.lookup("io.cucumber.messages.CommandStart.SourcesConfig.SourcesOrder.SourcesOrderType").enummodule
+    CommandStart::RuntimeConfig = Google::Protobuf::DescriptorPool.generated_pool.lookup("io.cucumber.messages.CommandStart.RuntimeConfig").msgclass
+    CommandStart::SupportCodeConfig = Google::Protobuf::DescriptorPool.generated_pool.lookup("io.cucumber.messages.CommandStart.SupportCodeConfig").msgclass
+    CommandStart::SupportCodeConfig::TestCaseHookDefinitionConfig = Google::Protobuf::DescriptorPool.generated_pool.lookup("io.cucumber.messages.CommandStart.SupportCodeConfig.TestCaseHookDefinitionConfig").msgclass
+    CommandStart::SupportCodeConfig::StepDefinitionConfig = Google::Protobuf::DescriptorPool.generated_pool.lookup("io.cucumber.messages.CommandStart.SupportCodeConfig.StepDefinitionConfig").msgclass
+    CommandStart::SupportCodeConfig::StepDefinitionConfig::StepDefinitionPattern = Google::Protobuf::DescriptorPool.generated_pool.lookup("io.cucumber.messages.CommandStart.SupportCodeConfig.StepDefinitionConfig.StepDefinitionPattern").msgclass
+    CommandStart::SupportCodeConfig::StepDefinitionConfig::StepDefinitionPattern::StepDefinitionPatternType = Google::Protobuf::DescriptorPool.generated_pool.lookup("io.cucumber.messages.CommandStart.SupportCodeConfig.StepDefinitionConfig.StepDefinitionPattern.StepDefinitionPatternType").enummodule
+    CommandStart::ParameterTypeConfig = Google::Protobuf::DescriptorPool.generated_pool.lookup("io.cucumber.messages.CommandStart.ParameterTypeConfig").msgclass
     CommandActionComplete = Google::Protobuf::DescriptorPool.generated_pool.lookup("io.cucumber.messages.CommandActionComplete").msgclass
     CommandRunBeforeTestRunHooks = Google::Protobuf::DescriptorPool.generated_pool.lookup("io.cucumber.messages.CommandRunBeforeTestRunHooks").msgclass
     CommandRunAfterTestRunHooks = Google::Protobuf::DescriptorPool.generated_pool.lookup("io.cucumber.messages.CommandRunAfterTestRunHooks").msgclass
@@ -441,10 +450,10 @@ module Cucumber
     CommandRunBeforeTestCaseHook = Google::Protobuf::DescriptorPool.generated_pool.lookup("io.cucumber.messages.CommandRunBeforeTestCaseHook").msgclass
     CommandRunAfterTestCaseHook = Google::Protobuf::DescriptorPool.generated_pool.lookup("io.cucumber.messages.CommandRunAfterTestCaseHook").msgclass
     CommandRunTestStep = Google::Protobuf::DescriptorPool.generated_pool.lookup("io.cucumber.messages.CommandRunTestStep").msgclass
-    PatternMatch = Google::Protobuf::DescriptorPool.generated_pool.lookup("io.cucumber.messages.PatternMatch").msgclass
+    CommandRunTestStep::PatternMatch = Google::Protobuf::DescriptorPool.generated_pool.lookup("io.cucumber.messages.CommandRunTestStep.PatternMatch").msgclass
     CommandGenerateSnippet = Google::Protobuf::DescriptorPool.generated_pool.lookup("io.cucumber.messages.CommandGenerateSnippet").msgclass
-    GeneratedExpression = Google::Protobuf::DescriptorPool.generated_pool.lookup("io.cucumber.messages.GeneratedExpression").msgclass
-    SourcesOrderType = Google::Protobuf::DescriptorPool.generated_pool.lookup("io.cucumber.messages.SourcesOrderType").enummodule
-    StepDefinitionPatternType = Google::Protobuf::DescriptorPool.generated_pool.lookup("io.cucumber.messages.StepDefinitionPatternType").enummodule
+    CommandGenerateSnippet::GeneratedExpression = Google::Protobuf::DescriptorPool.generated_pool.lookup("io.cucumber.messages.CommandGenerateSnippet.GeneratedExpression").msgclass
+    Quit = Google::Protobuf::DescriptorPool.generated_pool.lookup("io.cucumber.messages.Quit").msgclass
+    Quit::Reason = Google::Protobuf::DescriptorPool.generated_pool.lookup("io.cucumber.messages.Quit.Reason").enummodule
   end
 end

@@ -1,0 +1,62 @@
+{
+  "commandInitializeTestCase": {
+    "actionId": null,
+    "pickle": {
+      "id": null,
+      "uri": null,
+      "name": null,
+      "language": null,
+      "steps": [
+        {
+          "text": null,
+          "locations": [
+            {
+              "line": null,
+              "column": null
+            }
+          ],
+          "argument": {
+            "doc_string": {
+              "location": {
+                "line": null,
+                "column": null
+              },
+              "contentType": null,
+              "content": null
+            },
+            "data_table": {
+              "rows": [
+                {
+                  "cells": [
+                    {
+                      "location": {
+                        "line": null,
+                        "column": null
+                      },
+                      "value": null
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        }
+      ],
+      "tags": [
+        {
+          "location": {
+            "line": null,
+            "column": null
+          },
+          "name": null
+        }
+      ],
+      "locations": [
+        {
+          "line": null,
+          "column": null
+        }
+      ]
+    }
+  }
+}

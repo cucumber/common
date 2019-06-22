@@ -1,0 +1,11 @@
+{
+  "commandActionComplete": {
+    "completedId": null,
+    "testResult": {
+      "status": null,
+      "message": null,
+      "durationNanoseconds": null
+    },
+    "snippet": null
+  }
+}
