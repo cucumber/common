@@ -21,9 +21,7 @@ export default class ParameterType<T> {
     const match = unescapedTypeName.match(ILLEGAL_PARAMETER_NAME_PATTERN)
     if (match) {
       throw new CucumberExpressionError(
-        `Illegal character '${
-          match[1]
-        }' in parameter name {${unescapedTypeName}}`
+        `Illegal character '${match[1]}' in parameter name {${unescapedTypeName}}`
       )
     }
   }
