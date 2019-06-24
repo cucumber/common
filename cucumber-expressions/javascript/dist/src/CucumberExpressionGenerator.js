@@ -24,13 +24,13 @@ var CucumberExpressionGenerator = /** @class */ (function () {
     CucumberExpressionGenerator.prototype.generateExpressions = function (text) {
         var parameterTypeCombinations = [];
         var parameterTypeMatchers = this._createParameterTypeMatchers(text);
-        var expressionTemplate = "";
+        var expressionTemplate = '';
         var pos = 0;
         var _loop_1 = function () {
             var e_1, _a, e_2, _b;
             var matchingParameterTypeMatchers = [];
             try {
-                for (var parameterTypeMatchers_1 = __values(parameterTypeMatchers), parameterTypeMatchers_1_1 = parameterTypeMatchers_1.next(); !parameterTypeMatchers_1_1.done; parameterTypeMatchers_1_1 = parameterTypeMatchers_1.next()) {
+                for (var parameterTypeMatchers_1 = (e_1 = void 0, __values(parameterTypeMatchers)), parameterTypeMatchers_1_1 = parameterTypeMatchers_1.next(); !parameterTypeMatchers_1_1.done; parameterTypeMatchers_1_1 = parameterTypeMatchers_1.next()) {
                     var parameterTypeMatcher = parameterTypeMatchers_1_1.value;
                     var advancedParameterTypeMatcher = parameterTypeMatcher.advanceTo(pos);
                     if (advancedParameterTypeMatcher.find) {
@@ -58,7 +58,7 @@ var CucumberExpressionGenerator = /** @class */ (function () {
                 // Users are most likely to want these, so they should be listed at the top.
                 var parameterTypes = [];
                 try {
-                    for (var bestParameterTypeMatchers_1 = __values(bestParameterTypeMatchers), bestParameterTypeMatchers_1_1 = bestParameterTypeMatchers_1.next(); !bestParameterTypeMatchers_1_1.done; bestParameterTypeMatchers_1_1 = bestParameterTypeMatchers_1.next()) {
+                    for (var bestParameterTypeMatchers_1 = (e_2 = void 0, __values(bestParameterTypeMatchers)), bestParameterTypeMatchers_1_1 = bestParameterTypeMatchers_1.next(); !bestParameterTypeMatchers_1_1.done; bestParameterTypeMatchers_1_1 = bestParameterTypeMatchers_1.next()) {
                         var parameterTypeMatcher = bestParameterTypeMatchers_1_1.value;
                         if (parameterTypes.indexOf(parameterTypeMatcher.parameterType) === -1) {
                             parameterTypes.push(parameterTypeMatcher.parameterType);
@@ -75,10 +75,9 @@ var CucumberExpressionGenerator = /** @class */ (function () {
                 parameterTypes = parameterTypes.sort(ParameterType_1.default.compare);
                 parameterTypeCombinations.push(parameterTypes);
                 expressionTemplate += escape(text.slice(pos, bestParameterTypeMatcher_1.start));
-                expressionTemplate += "{%s}";
+                expressionTemplate += '{%s}';
                 pos =
-                    bestParameterTypeMatcher_1.start +
-                        bestParameterTypeMatcher_1.group.length;
+                    bestParameterTypeMatcher_1.start + bestParameterTypeMatcher_1.group.length;
             }
             else {
                 return "break";
@@ -101,7 +100,7 @@ var CucumberExpressionGenerator = /** @class */ (function () {
      */
     CucumberExpressionGenerator.prototype.generateExpression = function (text) {
         var _this = this;
-        return util_1.default.deprecate(function () { return _this.generateExpressions(text)[0]; }, "CucumberExpressionGenerator.generateExpression: Use CucumberExpressionGenerator.generateExpressions instead")();
+        return util_1.default.deprecate(function () { return _this.generateExpressions(text)[0]; }, 'CucumberExpressionGenerator.generateExpression: Use CucumberExpressionGenerator.generateExpressions instead')();
     };
     CucumberExpressionGenerator.prototype._createParameterTypeMatchers = function (text) {
         var e_3, _a;
@@ -147,10 +146,10 @@ var CucumberExpressionGenerator = /** @class */ (function () {
 exports.default = CucumberExpressionGenerator;
 function escape(s) {
     return s
-        .replace(/%/g, "%%") // for util.format
-        .replace(/\(/g, "\\(")
-        .replace(/{/g, "\\{")
-        .replace(/\//g, "\\/");
+        .replace(/%/g, '%%') // for util.format
+        .replace(/\(/g, '\\(')
+        .replace(/{/g, '\\{')
+        .replace(/\//g, '\\/');
 }
 module.exports = CucumberExpressionGenerator;
 //# sourceMappingURL=CucumberExpressionGenerator.js.map

@@ -11,6 +11,8 @@ This document is formatted according to the principles of [Keep A CHANGELOG](htt
 
 ### Added
 
+* Populate the `Pickle#id` field with a SHA1 hash of the source + line + column.
+
 ### Changed
 
 ### Deprecated

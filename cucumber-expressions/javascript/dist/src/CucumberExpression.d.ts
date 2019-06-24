@@ -1,5 +1,5 @@
-import ParameterTypeRegistry from "./ParameterTypeRegistry";
-import Argument from "./Argument";
+import ParameterTypeRegistry from './ParameterTypeRegistry';
+import Argument from './Argument';
 export default class CucumberExpression {
     private readonly expression;
     private readonly parameterTypeRegistry;

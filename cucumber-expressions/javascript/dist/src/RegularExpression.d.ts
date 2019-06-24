@@ -1,5 +1,5 @@
-import Argument from "./Argument";
-import ParameterTypeRegistry from "./ParameterTypeRegistry";
+import Argument from './Argument';
+import ParameterTypeRegistry from './ParameterTypeRegistry';
 export default class RegularExpression {
     readonly regexp: RegExp;
     private readonly parameterTypeRegistry;

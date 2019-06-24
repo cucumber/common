@@ -52,7 +52,7 @@ var ParameterType = /** @class */ (function () {
         return pt1.name.localeCompare(pt2.name);
     };
     ParameterType.checkParameterTypeName = function (typeName) {
-        var unescapedTypeName = typeName.replace(UNESCAPE_PATTERN(), "$2");
+        var unescapedTypeName = typeName.replace(UNESCAPE_PATTERN(), '$2');
         var match = unescapedTypeName.match(ILLEGAL_PARAMETER_NAME_PATTERN);
         if (match) {
             throw new Errors_1.CucumberExpressionError("Illegal character '" + match[1] + "' in parameter name {" + unescapedTypeName + "}");
@@ -75,7 +75,7 @@ function regexpSource(regexp) {
     var e_1, _a;
     var flags = regexpFlags(regexp);
     try {
-        for (var _b = __values(["g", "i", "m", "y"]), _c = _b.next(); !_c.done; _c = _b.next()) {
+        for (var _b = __values(['g', 'i', 'm', 'y']), _c = _b.next(); !_c.done; _c = _b.next()) {
             var flag = _c.value;
             if (flags.indexOf(flag) !== -1) {
                 throw new Errors_1.CucumberExpressionError("ParameterType Regexps can't use flag '" + flag + "'");
@@ -96,15 +96,15 @@ function regexpSource(regexp) {
 function regexpFlags(regexp) {
     var flags = regexp.flags;
     if (flags === undefined) {
-        flags = "";
+        flags = '';
         if (regexp.ignoreCase) {
-            flags += "i";
+            flags += 'i';
         }
         if (regexp.global) {
-            flags += "g";
+            flags += 'g';
         }
         if (regexp.multiline) {
-            flags += "m";
+            flags += 'm';
         }
     }
     return flags;

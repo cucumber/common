@@ -1,5 +1,6 @@
 {
   "pickle": {
+    "id": "bb69d6ff129ad9c020796f29aac02fc3b763a850",
     "language": "en",
     "locations": [
       {
@@ -14,12 +15,14 @@
     "name": "Greetings come in many forms",
     "steps": [
       {
-        "docString": {
-          "content": "Greeting:Hello",
-          "contentType": "en",
-          "location": {
-            "column": 5,
-            "line": 5
+        "argument": {
+          "docString": {
+            "content": "Greeting:Hello",
+            "contentType": "en",
+            "location": {
+              "column": 5,
+              "line": 5
+            }
           }
         },
         "locations": [
@@ -40,6 +43,7 @@
 }
 {
   "pickle": {
+    "id": "40d1873c0ee28dc1ab3b4cfdb130ae56c1966939",
     "language": "en",
     "locations": [
       {
@@ -54,12 +58,14 @@
     "name": "Greetings come in many forms",
     "steps": [
       {
-        "docString": {
-          "content": "Greeting:Bonjour",
-          "contentType": "fr",
-          "location": {
-            "column": 5,
-            "line": 5
+        "argument": {
+          "docString": {
+            "content": "Greeting:Bonjour",
+            "contentType": "fr",
+            "location": {
+              "column": 5,
+              "line": 5
+            }
           }
         },
         "locations": [

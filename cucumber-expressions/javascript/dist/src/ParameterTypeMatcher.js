@@ -21,7 +21,7 @@ var ParameterTypeMatcher = /** @class */ (function () {
     };
     Object.defineProperty(ParameterTypeMatcher.prototype, "find", {
         get: function () {
-            return this.match && this.group !== "";
+            return this.match && this.group !== '';
         },
         enumerable: true,
         configurable: true

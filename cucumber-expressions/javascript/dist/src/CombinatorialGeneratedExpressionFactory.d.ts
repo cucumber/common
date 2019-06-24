@@ -1,5 +1,5 @@
-import GeneratedExpression from "./GeneratedExpression";
-import ParameterType from "./ParameterType";
+import GeneratedExpression from './GeneratedExpression';
+import ParameterType from './ParameterType';
 export default class CombinatorialGeneratedExpressionFactory {
     private readonly expressionTemplate;
     private readonly parameterTypeCombinations;

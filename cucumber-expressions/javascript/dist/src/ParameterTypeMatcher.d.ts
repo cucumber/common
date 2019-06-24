@@ -1,4 +1,4 @@
-import ParameterType from "./ParameterType";
+import ParameterType from './ParameterType';
 export default class ParameterTypeMatcher {
     readonly parameterType: ParameterType<any>;
     private readonly regexpString;

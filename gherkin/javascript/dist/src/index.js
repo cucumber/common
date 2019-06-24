@@ -31,7 +31,7 @@ var cucumber_messages_1 = require("cucumber-messages");
 var defaultOptions = {
     includeSource: true,
     includeGherkinDocument: true,
-    includePickles: true
+    includePickles: true,
 };
 function fromPaths(paths, options) {
     if (options === void 0) { options = defaultOptions; }
@@ -63,26 +63,26 @@ var Gherkin = /** @class */ (function () {
         var e_1, _a;
         var options = [];
         if (!this.options.includeSource) {
-            options.push("--no-source");
+            options.push('--no-source');
         }
         if (!this.options.includeGherkinDocument) {
-            options.push("--no-ast");
+            options.push('--no-ast');
         }
         if (!this.options.includePickles) {
-            options.push("--no-pickles");
+            options.push('--no-pickles');
         }
         var args = options.concat(this.paths);
         var gherkin = child_process_1.spawn(this.exeFile.fileName, args);
-        var protobufMessageStream = new cucumber_messages_1.ProtobufMessageStream(cucumber_messages_1.messages.Wrapper.decodeDelimited.bind(cucumber_messages_1.messages.Wrapper));
-        gherkin.on("error", function (err) {
-            protobufMessageStream.emit("error", err);
+        var protobufMessageStream = new cucumber_messages_1.ProtobufMessageStream(cucumber_messages_1.messages.Envelope.decodeDelimited.bind(cucumber_messages_1.messages.Envelope));
+        gherkin.on('error', function (err) {
+            protobufMessageStream.emit('error', err);
         });
         gherkin.stdout.pipe(protobufMessageStream);
         try {
             for (var _b = __values(this.sources), _c = _b.next(); !_c.done; _c = _b.next()) {
                 var source = _c.value;
-                var wrapper = cucumber_messages_1.messages.Wrapper.fromObject({ source: source });
-                gherkin.stdin.write(cucumber_messages_1.messages.Wrapper.encodeDelimited(wrapper).finish());
+                var wrapper = cucumber_messages_1.messages.Envelope.fromObject({ source: source });
+                gherkin.stdin.write(cucumber_messages_1.messages.Envelope.encodeDelimited(wrapper).finish());
             }
         }
         catch (e_1_1) { e_1 = { error: e_1_1 }; }

@@ -1,52 +1,52 @@
-import { messages, ProtobufMessageStream } from "../src";
-import { PassThrough, Readable, Writable } from "stream";
-import assert = require("assert");
+import { messages, ProtobufMessageStream } from '../src'
+import { PassThrough, Readable, Writable } from 'stream'
+import assert = require('assert')
 
-import Source = messages.Source;
-import Attachment = messages.Attachment;
-import Wrapper = messages.Wrapper;
+import Source = messages.Source
+import Attachment = messages.Attachment
+import Envelope = messages.Envelope
 
-describe("messages", () => {
-  it("can be serialised over a stream", async () => {
-    const outgoingMessages: Wrapper[] = createOutgoingMessages();
+describe('messages', () => {
+  it('can be serialised over a stream', async () => {
+    const outgoingMessages: Envelope[] = createOutgoingMessages()
 
-    const out = new PassThrough();
+    const out = new PassThrough()
     const input = out.pipe(
-      new ProtobufMessageStream(Wrapper.decodeDelimited.bind(Wrapper))
-    );
+      new ProtobufMessageStream(Envelope.decodeDelimited.bind(Envelope))
+    )
 
-    writeOutgoingMessages(outgoingMessages, out);
-    const incomingMessages: Wrapper[] = await readIncomingMessages(input);
+    writeOutgoingMessages(outgoingMessages, out)
+    const incomingMessages: Envelope[] = await readIncomingMessages(input)
 
-    assert.deepStrictEqual(incomingMessages, outgoingMessages);
-  });
+    assert.deepStrictEqual(incomingMessages, outgoingMessages)
+  })
 
   function createOutgoingMessages() {
     return [
-      Wrapper.create({ source: Source.create({ data: "Feature: Hello" }) }),
-      Wrapper.create({
-        attachment: Attachment.create({ data: "Some stack trace" })
-      })
-    ];
+      Envelope.create({ source: Source.create({ data: 'Feature: Hello' }) }),
+      Envelope.create({
+        attachment: Attachment.create({ data: 'Some stack trace' }),
+      }),
+    ]
   }
 
   function writeOutgoingMessages(
-    outgoingMessages: Wrapper[],
+    outgoingMessages: Envelope[],
     output: Writable
   ) {
     for (const outgoingMessage of outgoingMessages) {
-      const chunk = Wrapper.encodeDelimited(outgoingMessage).finish();
-      output.write(chunk);
+      const chunk = Envelope.encodeDelimited(outgoingMessage).finish()
+      output.write(chunk)
     }
-    output.end();
+    output.end()
   }
 
-  function readIncomingMessages(input: Readable): Promise<Wrapper[]> {
+  function readIncomingMessages(input: Readable): Promise<Envelope[]> {
     return new Promise((resolve, reject) => {
-      const result: Wrapper[] = [];
-      input.on("data", (wrapper: Wrapper) => result.push(wrapper));
-      input.on("end", () => resolve(result));
-      input.on("error", (err: Error) => reject(err));
-    });
+      const result: Envelope[] = []
+      input.on('data', (wrapper: Envelope) => result.push(wrapper))
+      input.on('end', () => resolve(result))
+      input.on('error', (err: Error) => reject(err))
+    })
   }
-});
+})

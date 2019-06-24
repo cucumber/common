@@ -1,22 +1,22 @@
-import Argument from "./Argument";
-import TreeRegexp from "./TreeRegexp";
-import ParameterType from "./ParameterType";
-import ParameterTypeRegistry from "./ParameterTypeRegistry";
+import Argument from './Argument'
+import TreeRegexp from './TreeRegexp'
+import ParameterType from './ParameterType'
+import ParameterTypeRegistry from './ParameterTypeRegistry'
 
 export default class RegularExpression {
-  private readonly treeRegexp: TreeRegexp;
+  private readonly treeRegexp: TreeRegexp
 
   constructor(
     public readonly regexp: RegExp,
     private readonly parameterTypeRegistry: ParameterTypeRegistry
   ) {
-    this.treeRegexp = new TreeRegexp(regexp);
+    this.treeRegexp = new TreeRegexp(regexp)
   }
 
   public match(text: string) {
     const parameterTypes = this.treeRegexp.groupBuilder.children.map(
       groupBuilder => {
-        const parameterTypeRegexp = groupBuilder.source;
+        const parameterTypeRegexp = groupBuilder.source
 
         return (
           this.parameterTypeRegistry.lookupByRegexp(
@@ -32,14 +32,14 @@ export default class RegularExpression {
             false,
             false
           )
-        );
+        )
       }
-    );
+    )
 
-    return Argument.build(this.treeRegexp, text, parameterTypes);
+    return Argument.build(this.treeRegexp, text, parameterTypes)
   }
 
   get source() {
-    return this.regexp.source;
+    return this.regexp.source
   }
 }

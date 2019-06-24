@@ -24,7 +24,7 @@ default: .built .tested .linted
 	touch $@
 
 .linted: .deps .codegen $(TYPESCRIPT_SOURCE_FILES)
-	npm run lint
+	npm run lint-fix
 	touch $@
 
 package-lock.json: package.json

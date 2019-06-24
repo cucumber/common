@@ -34,7 +34,7 @@ var assert_1 = __importDefault(require("assert"));
 var CucumberExpression_1 = __importDefault(require("../src/CucumberExpression"));
 var RegularExpression_1 = __importDefault(require("../src/RegularExpression"));
 var ParameterTypeRegistry_1 = __importDefault(require("../src/ParameterTypeRegistry"));
-describe("examples.txt", function () {
+describe('examples.txt', function () {
     var e_1, _a;
     var match = function (expressionText, text) {
         var m = /\/(.*)\//.exec(expressionText);
@@ -47,7 +47,7 @@ describe("examples.txt", function () {
         }
         return args.map(function (arg) { return arg.getValue(null); });
     };
-    var examples = fs_1.default.readFileSync("examples.txt", "utf-8");
+    var examples = fs_1.default.readFileSync('examples.txt', 'utf-8');
     var chunks = examples.split(/^---/m);
     var _loop_1 = function (chunk) {
         var _a = __read(chunk.trim().split(/\n/m), 3), expressionText = _a[0], text = _a[1], expectedArgs = _a[2];

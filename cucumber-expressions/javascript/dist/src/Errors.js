@@ -33,10 +33,10 @@ var AmbiguousParameterTypeError = /** @class */ (function (_super) {
         return new this("Your Regular Expression " + expressionRegexp + "\nmatches multiple parameter types with regexp " + parameterTypeRegexp + ":\n   " + this._parameterTypeNames(parameterTypes) + "\n\nI couldn't decide which one to use. You have two options:\n\n1) Use a Cucumber Expression instead of a Regular Expression. Try one of these:\n   " + this._expressions(generatedExpressions) + "\n\n2) Make one of the parameter types preferential and continue to use a Regular Expression.\n");
     };
     AmbiguousParameterTypeError._parameterTypeNames = function (parameterTypes) {
-        return parameterTypes.map(function (p) { return "{" + p.name + "}"; }).join("\n   ");
+        return parameterTypes.map(function (p) { return "{" + p.name + "}"; }).join('\n   ');
     };
     AmbiguousParameterTypeError._expressions = function (generatedExpressions) {
-        return generatedExpressions.map(function (e) { return e.source; }).join("\n   ");
+        return generatedExpressions.map(function (e) { return e.source; }).join('\n   ');
     };
     return AmbiguousParameterTypeError;
 }(CucumberExpressionError));

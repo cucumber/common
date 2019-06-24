@@ -1,37 +1,37 @@
-import Group from "./Group";
-import RegexExecArray from "./RegexExecArray";
+import Group from './Group'
+import RegexExecArray from './RegexExecArray'
 
 export default class GroupBuilder {
-  public source: string;
-  public capturing = true;
-  private groupBuilders: GroupBuilder[] = [];
+  public source: string
+  public capturing = true
+  private groupBuilders: GroupBuilder[] = []
 
   public add(groupBuilder: GroupBuilder) {
-    this.groupBuilders.push(groupBuilder);
+    this.groupBuilders.push(groupBuilder)
   }
 
   public build(match: RegexExecArray, nextGroupIndex: () => number): Group {
-    const groupIndex = nextGroupIndex();
+    const groupIndex = nextGroupIndex()
     const children = this.groupBuilders.map(gb =>
       gb.build(match, nextGroupIndex)
-    );
+    )
     return new Group(
       match[groupIndex] || null,
       match.index[groupIndex],
-      match.index[groupIndex] + (match[groupIndex] || "").length,
+      match.index[groupIndex] + (match[groupIndex] || '').length,
       children
-    );
+    )
   }
 
   public setNonCapturing() {
-    this.capturing = false;
+    this.capturing = false
   }
 
   get children() {
-    return this.groupBuilders;
+    return this.groupBuilders
   }
 
   public moveChildrenTo(groupBuilder: GroupBuilder) {
-    this.groupBuilders.forEach(child => groupBuilder.add(child));
+    this.groupBuilders.forEach(child => groupBuilder.add(child))
   }
 }

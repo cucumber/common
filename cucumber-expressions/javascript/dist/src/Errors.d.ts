@@ -1,5 +1,5 @@
-import ParameterType from "./ParameterType";
-import GeneratedExpression from "./GeneratedExpression";
+import ParameterType from './ParameterType';
+import GeneratedExpression from './GeneratedExpression';
 declare class CucumberExpressionError extends Error {
 }
 declare class AmbiguousParameterTypeError extends CucumberExpressionError {
@@ -11,4 +11,4 @@ declare class AmbiguousParameterTypeError extends CucumberExpressionError {
 declare class UndefinedParameterTypeError extends CucumberExpressionError {
     constructor(typeName: string);
 }
-export { AmbiguousParameterTypeError, UndefinedParameterTypeError, CucumberExpressionError };
+export { AmbiguousParameterTypeError, UndefinedParameterTypeError, CucumberExpressionError, };

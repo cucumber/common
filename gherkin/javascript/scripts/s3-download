@@ -51,4 +51,5 @@ do
       curl "${src_url}" -o "${file}" && chmod +x "${file}" && break || sleep 5;
     done
   fi
+  ls -al "$(pwd)/${file}"
 done

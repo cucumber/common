@@ -9,7 +9,7 @@ var becke_ch__regex__s0_0_v1__base__pl__lib_1 = __importDefault(require("becke-c
 var TreeRegexp = /** @class */ (function () {
     function TreeRegexp(regexp) {
         var _this = this;
-        this.regexp = "string" === typeof regexp ? new RegExp(regexp) : regexp;
+        this.regexp = 'string' === typeof regexp ? new RegExp(regexp) : regexp;
         this.regex = new becke_ch__regex__s0_0_v1__base__pl__lib_1.default(this.regexp.source, this.regexp.flags);
         var stack = [new GroupBuilder_1.default()];
         var groupStartStack = [];
@@ -17,19 +17,19 @@ var TreeRegexp = /** @class */ (function () {
         var escaping = false;
         var nonCapturingMaybe = false;
         var charClass = false;
-        this.regexp.source.split("").forEach(function (c, n) {
-            if (c === "[" && !escaping) {
+        this.regexp.source.split('').forEach(function (c, n) {
+            if (c === '[' && !escaping) {
                 charClass = true;
             }
-            else if (c === "]" && !escaping) {
+            else if (c === ']' && !escaping) {
                 charClass = false;
             }
-            else if (c === "(" && !escaping && !charClass) {
+            else if (c === '(' && !escaping && !charClass) {
                 stack.push(new GroupBuilder_1.default());
                 groupStartStack.push(n + 1);
                 nonCapturingMaybe = false;
             }
-            else if (c === ")" && !escaping && !charClass) {
+            else if (c === ')' && !escaping && !charClass) {
                 var gb = stack.pop();
                 var groupStart = groupStartStack.pop();
                 if (gb.capturing) {
@@ -41,14 +41,14 @@ var TreeRegexp = /** @class */ (function () {
                 }
                 nonCapturingMaybe = false;
             }
-            else if (c === "?" && last === "(") {
+            else if (c === '?' && last === '(') {
                 nonCapturingMaybe = true;
             }
-            else if (c === ":" && nonCapturingMaybe) {
+            else if (c === ':' && nonCapturingMaybe) {
                 stack[stack.length - 1].setNonCapturing();
                 nonCapturingMaybe = false;
             }
-            escaping = c === "\\" && !escaping;
+            escaping = c === '\\' && !escaping;
             last = c;
         });
         this.groupBuilder = stack.pop();

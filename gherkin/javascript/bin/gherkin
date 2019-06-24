@@ -42,12 +42,21 @@ const protobufNdjsonStream = new Stream.Transform({
         value === 0 ||
         (Array.isArray(value) && value.length === 0)
         ? undefined
-        : value
+        : fixEnum(key, value)
     })
     this.push(json + '\n')
     callback()
   },
 })
+
+// Enum values are incorrectly represented in JSON as the enum value index,
+// rather than the enum value string. This function works around that.
+function fixEnum(key, value) {
+  if(key === 'encoding') {
+    return ['BASE64', 'UTF8'][value]
+  }
+  return value
+}
 
 gherkin
   .fromPaths(paths, options)

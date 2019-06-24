@@ -1,4 +1,4 @@
-import ParameterType from "./ParameterType";
+import ParameterType from './ParameterType';
 export default class GeneratedExpression {
     private readonly expressionTemplate;
     readonly parameterTypes: Array<ParameterType<any>>;

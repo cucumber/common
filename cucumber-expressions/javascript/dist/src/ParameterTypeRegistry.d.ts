@@ -1,4 +1,4 @@
-import ParameterType from "./ParameterType";
+import ParameterType from './ParameterType';
 export default class ParameterTypeRegistry {
     private readonly parameterTypeByName;
     private readonly parameterTypesByRegexp;
