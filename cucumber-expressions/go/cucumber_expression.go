@@ -24,6 +24,10 @@ type CucumberExpression struct {
 func NewCucumberExpression(expression string, parameterTypeRegistry *ParameterTypeRegistry) (*CucumberExpression, error) {
 	result := &CucumberExpression{source: expression, parameterTypeRegistry: parameterTypeRegistry}
 
+	if strings.Contains(expression, `(?!`) {
+		return nil, errors.New("sorry, go does not support ?! used as a regex negative matcher")
+	}
+
 	expression = result.processEscapes(expression)
 
 	expression, err := result.processOptional(expression)
@@ -42,10 +46,6 @@ func NewCucumberExpression(expression string, parameterTypeRegistry *ParameterTy
 	}
 
 	expression = "^" + expression + "$"
-
-	if strings.Contains(expression, `?!`) {
-		return nil, errors.New("sorry, go does not support ?! used as a regex negative matcher")
-	}
 
 	result.treeRegexp = NewTreeRegexp(regexp.MustCompile(expression))
 	return result, nil
@@ -120,7 +120,7 @@ func (c *CucumberExpression) processAlteration(expression string) (string, error
 			}
 			return fmt.Sprintf("(?:%s)", replacement)
 		}
-		
+
 		return replacement
 	})
 	return result, err
