@@ -116,9 +116,4 @@ func TestTreeRegexp(t *testing.T) {
 		group = tr.Match("hellO")
 		require.Equal(t, *group.Value(), "hellO")
 	})
-
-	t.Run("throws an error when using `?!` as is unsupported in GOLang", func(t *testing.T) {
-		tr, err := NewTreeRegexp(regexp.MustCompile("a(?!b)(.+)"))
-		assert.EqualError(t, err, "GOLang does not support ?! used as a regex negative matcher")
-	})
 }

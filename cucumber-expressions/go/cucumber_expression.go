@@ -1,6 +1,7 @@
 package cucumberexpressions
 
 import (
+	"errors"
 	"fmt"
 	"reflect"
 	"regexp"
@@ -41,6 +42,10 @@ func NewCucumberExpression(expression string, parameterTypeRegistry *ParameterTy
 	}
 
 	expression = "^" + expression + "$"
+
+	if strings.Contains(expression, `?!`) {
+		return nil, errors.New("sorry, go does not support ?! used as a regex negative matcher")
+	}
 
 	result.treeRegexp = NewTreeRegexp(regexp.MustCompile(expression))
 	return result, nil
@@ -114,9 +119,9 @@ func (c *CucumberExpression) processAlteration(expression string) (string, error
 				}
 			}
 			return fmt.Sprintf("(?:%s)", replacement)
-		} else {
-			return replacement
 		}
+		
+		return replacement
 	})
 	return result, err
 }

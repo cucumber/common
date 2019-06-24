@@ -42,8 +42,6 @@ func NewTreeRegexp(regexp *regexp.Regexp) *TreeRegexp {
 			if c == ':' || isFlagCharacter(c) {
 				stack.Peek().SetNonCapturing()
 				nonCapturingMaybe = false
-			} else if c == '!' || isFlagCharacter(c) {
-				return CucumberExpressionError.New("GOLang does not support ?! used as a regex negative matcher")
 			}
 		}
 		escaping = c == '\\' && !escaping
