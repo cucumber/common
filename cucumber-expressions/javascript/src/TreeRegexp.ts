@@ -35,12 +35,12 @@ export default class TreeRegexp {
         } else {
           gb.moveChildrenTo(stack[stack.length - 1])
         }
-        nonCapturingMaybe = false
-      } else if (c === '?' && last === '(') {
-        nonCapturingMaybe = true
-      } else if (c === ':' && nonCapturingMaybe) {
-        stack[stack.length - 1].setNonCapturing()
-        nonCapturingMaybe = false
+        nonCapturingMaybe = false;
+      } else if (c === "?" && last === "(") {
+        nonCapturingMaybe = true;
+      } else if ((c === ":" || c === "!") && nonCapturingMaybe) {
+        stack[stack.length - 1].setNonCapturing();
+        nonCapturingMaybe = false;
       }
       escaping = c === '\\' && !escaping
       last = c

@@ -41,8 +41,8 @@ func NewTreeRegexp(regexp *regexp.Regexp) *TreeRegexp {
 		} else if nonCapturingMaybe {
 			if c == ':' || isFlagCharacter(c) {
 				stack.Peek().SetNonCapturing()
+				nonCapturingMaybe = false
 			}
-			nonCapturingMaybe = false
 		}
 		escaping = c == '\\' && !escaping
 		last = c
