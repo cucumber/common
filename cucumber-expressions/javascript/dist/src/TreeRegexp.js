@@ -41,10 +41,10 @@ var TreeRegexp = /** @class */ (function () {
                 }
                 nonCapturingMaybe = false;
             }
-            else if (c === '?' && last === '(') {
+            else if (c === "?" && last === "(") {
                 nonCapturingMaybe = true;
             }
-            else if (c === ':' && nonCapturingMaybe) {
+            else if ((c === ":" || c === "!") && nonCapturingMaybe) {
                 stack[stack.length - 1].setNonCapturing();
                 nonCapturingMaybe = false;
             }

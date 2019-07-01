@@ -19,19 +19,19 @@ describe('TreeRegexp', () => {
     assert.strictEqual(group.children[1].value, 'c')
   })
 
-  it("ignores `?:` as a non-capturing group", () => {
-    const tr = new TreeRegexp(/a(?:b)(c)/);
-    const group = tr.match("abc");
-    assert.strictEqual(group.value, "abc");
-    assert.strictEqual(group.children.length, 1);
-  });
+  it('ignores `?:` as a non-capturing group', () => {
+    const tr = new TreeRegexp(/a(?:b)(c)/)
+    const group = tr.match('abc')
+    assert.strictEqual(group.value, 'abc')
+    assert.strictEqual(group.children.length, 1)
+  })
 
-  it("ignores `?!` as a non-capturing group", () => {
-    const tr = new TreeRegexp(/a(?!b)(.+)/);
-    const group = tr.match("aBc");
-    assert.strictEqual(group.value, "aBc");
-    assert.strictEqual(group.children.length, 1);
-  });
+  it('ignores `?!` as a non-capturing group', () => {
+    const tr = new TreeRegexp(/a(?!b)(.+)/)
+    const group = tr.match('aBc')
+    assert.strictEqual(group.value, 'aBc')
+    assert.strictEqual(group.children.length, 1)
+  })
 
   it('matches optional group', () => {
     const tr = new TreeRegexp(/^Something( with an optional argument)?/)
