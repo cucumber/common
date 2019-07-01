@@ -26,6 +26,13 @@ func TestTreeRegexp(t *testing.T) {
 		require.Equal(t, *group.Children()[1].Value(), "c")
 	})
 
+	t.Run("ignores `?:` as a non-capturing group", func(t *testing.T) {
+		tr := NewTreeRegexp(regexp.MustCompile("a(?:b)(c)"))
+		group := tr.Match("abc")
+		require.Equal(t, *group.Value(), "abc")
+		require.Len(t, group.Children(), 1)
+	})
+
 	t.Run("matches optional group", func(t *testing.T) {
 		tr := NewTreeRegexp(regexp.MustCompile("^Something( with an optional argument)?"))
 		group := tr.Match("Something")
@@ -109,5 +116,4 @@ func TestTreeRegexp(t *testing.T) {
 		group = tr.Match("hellO")
 		require.Equal(t, *group.Value(), "hellO")
 	})
-
 }

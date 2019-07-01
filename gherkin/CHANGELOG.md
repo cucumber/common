@@ -11,6 +11,8 @@ This document is formatted according to the principles of [Keep A CHANGELOG](htt
 
 ### Added
 
+* Populate the `Pickle#id` field with a SHA1 hash of the source + line + column.
+
 ### Changed
 
 ### Deprecated
@@ -19,7 +21,12 @@ This document is formatted according to the principles of [Keep A CHANGELOG](htt
 
 ### Fixed
 
-* [Java,JavaScript] Fix parsing of long documents.
+* [TypeScript] ExeFile not a constructor
+  ([#641](https://github.com/cucumber/cucumber/pull/641)
+   [#634](https://github.com/cucumber/cucumber/issues/634)
+   [joscha])
+
+* [Java,TypeScript] Fix parsing of long documents.
   ([#566](https://github.com/cucumber/cucumber/issues/566)
    [aslakhellesoy])
 
@@ -55,9 +62,9 @@ Gherkin grammar in 8 years or so, and we're pretty excited about them. We hope t
 guide people towards thinking of scenarios as *examples of business rules*
 rather than a series of form submissions and link clicking. This rule-focused
 style engages product owners, and can act as amazing living documentation of your
-product. It opens up for the true benefits of BDD - a business-friendly format 
-for describing and agreeing on software behaviour, and a guide to development. 
-Developers will code against this spec, and produce better (simpler) software faster. 
+product. It opens up for the true benefits of BDD - a business-friendly format
+for describing and agreeing on software behaviour, and a guide to development.
+Developers will code against this spec, and produce better (simpler) software faster.
 The software will do what it says on the tin.
 
 The new Gherkin grammar is backwards compatible, meaning that existing Gherkin
@@ -71,7 +78,7 @@ OSes and processor architectures), and communicates via STDIN/STDOUT using
 [protocol buffers](https://developers.google.com/protocol-buffers/). The rationale
 behind this architectural change is to reduce the maintenance burden (a single parser
 rather than a dozen), but also to make it quicker and easier to implement a Gherkin
-library in a new language. Just generate some protobuf classes/structs and write a 
+library in a new language. Just generate some protobuf classes/structs and write a
 small program that shells out and communicates using those messages.
 
 Our preliminary benchmarks suggest that performance is comparable to the native implementations,
@@ -96,11 +103,11 @@ formatter to rule them all. Statistic plugins and more.
   This is to align Gherkin with BDD and Example Mapping terminology.
   ([aslakhellesoy])
 * Added `Ukoliko` as an additional synonym for `Given`, in Croatian.
-  ([#480](https://github.com/cucumber/cucumber/pull/480) 
+  ([#480](https://github.com/cucumber/cucumber/pull/480)
    [banovotz](https://github.com/banovotz))
 
 ### Changed
-* (JavaScript,Java,Ruby) The native parsers are removed. Parsing is done by `gherkin-go` 
+* (JavaScript,Java,Ruby) The native parsers are removed. Parsing is done by `gherkin-go`
   executables which are bundled with the published libraries.
   ([aslakhellesoy], [jaysonesmith])
 * (JavaScript,Java,Ruby,Go) `Scenario` keyword (or `Example` keyword) can be used to create `Scenario Outline`.
@@ -521,6 +528,7 @@ to Gherkin 2.
 [gabanz]:           https://github.com/gabanz
 [jargalan]:         https://github.com/jargalan
 [jmezach]:          https://github.com/jmezach
+[joscha]:           https://github.com/joscha
 [koterpillar]:      https://github.com/koterpillar
 [l3pp4rd]:          https://github.com/l3pp4rd
 [LiohAu]:           https://github.com/LiohAu

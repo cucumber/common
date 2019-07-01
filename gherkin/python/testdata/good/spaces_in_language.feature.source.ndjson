@@ -3,7 +3,7 @@
     "data": "  #  language  :   en-lol\nOH HAI: STUFFING\n",
     "media": {
       "contentType": "text/x.cucumber.gherkin+plain",
-      "encoding": "UTF-8"
+      "encoding": "UTF8"
     },
     "uri": "testdata/good/spaces_in_language.feature"
   }

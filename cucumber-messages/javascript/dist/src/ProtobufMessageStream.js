@@ -15,7 +15,10 @@ var __extends = (this && this.__extends) || (function () {
 Object.defineProperty(exports, "__esModule", { value: true });
 var stream_1 = require("stream");
 var protobufjs_1 = require("protobufjs");
-var ProtobufMessageStream = (function (_super) {
+/**
+ * Transforms a stream of bytes to protobuf messages
+ */
+var ProtobufMessageStream = /** @class */ (function (_super) {
     __extends(ProtobufMessageStream, _super);
     function ProtobufMessageStream(decodeDelimited) {
         var _this = _super.call(this, { objectMode: true }) || this;

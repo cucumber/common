@@ -34,6 +34,16 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
+var __values = (this && this.__values) || function (o) {
+    var m = typeof Symbol === "function" && o[Symbol.iterator], i = 0;
+    if (m) return m.call(o);
+    return {
+        next: function () {
+            if (o && i >= o.length) o = void 0;
+            return { value: o && o[i++], done: !o };
+        }
+    };
+};
 var _this = this;
 Object.defineProperty(exports, "__esModule", { value: true });
 var src_1 = require("../src");
@@ -41,7 +51,7 @@ var stream_1 = require("stream");
 var assert = require("assert");
 var Source = src_1.messages.Source;
 var Attachment = src_1.messages.Attachment;
-var Wrapper = src_1.messages.Wrapper;
+var Envelope = src_1.messages.Envelope;
 describe('messages', function () {
     it('can be serialised over a stream', function () { return __awaiter(_this, void 0, void 0, function () {
         var outgoingMessages, out, input, incomingMessages;
@@ -50,27 +60,39 @@ describe('messages', function () {
                 case 0:
                     outgoingMessages = createOutgoingMessages();
                     out = new stream_1.PassThrough();
-                    input = out.pipe(new src_1.ProtobufMessageStream(Wrapper.decodeDelimited.bind(Wrapper)));
+                    input = out.pipe(new src_1.ProtobufMessageStream(Envelope.decodeDelimited.bind(Envelope)));
                     writeOutgoingMessages(outgoingMessages, out);
-                    return [4, readIncomingMessages(input)];
+                    return [4 /*yield*/, readIncomingMessages(input)];
                 case 1:
                     incomingMessages = _a.sent();
                     assert.deepStrictEqual(incomingMessages, outgoingMessages);
-                    return [2];
+                    return [2 /*return*/];
             }
         });
     }); });
     function createOutgoingMessages() {
         return [
-            Wrapper.create({ source: Source.create({ data: 'Feature: Hello' }) }),
-            Wrapper.create({ attachment: Attachment.create({ data: 'Some stack trace' }) }),
+            Envelope.create({ source: Source.create({ data: 'Feature: Hello' }) }),
+            Envelope.create({
+                attachment: Attachment.create({ data: 'Some stack trace' }),
+            }),
         ];
     }
     function writeOutgoingMessages(outgoingMessages, output) {
-        for (var _i = 0, outgoingMessages_1 = outgoingMessages; _i < outgoingMessages_1.length; _i++) {
-            var outgoingMessage = outgoingMessages_1[_i];
-            var chunk = Wrapper.encodeDelimited(outgoingMessage).finish();
-            output.write(chunk);
+        var e_1, _a;
+        try {
+            for (var outgoingMessages_1 = __values(outgoingMessages), outgoingMessages_1_1 = outgoingMessages_1.next(); !outgoingMessages_1_1.done; outgoingMessages_1_1 = outgoingMessages_1.next()) {
+                var outgoingMessage = outgoingMessages_1_1.value;
+                var chunk = Envelope.encodeDelimited(outgoingMessage).finish();
+                output.write(chunk);
+            }
+        }
+        catch (e_1_1) { e_1 = { error: e_1_1 }; }
+        finally {
+            try {
+                if (outgoingMessages_1_1 && !outgoingMessages_1_1.done && (_a = outgoingMessages_1.return)) _a.call(outgoingMessages_1);
+            }
+            finally { if (e_1) throw e_1.error; }
         }
         output.end();
     }

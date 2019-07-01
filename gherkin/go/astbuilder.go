@@ -1,7 +1,7 @@
 package gherkin
 
 import (
-	"github.com/cucumber/cucumber-messages-go/v2"
+	"github.com/cucumber/cucumber-messages-go/v3"
 	"strings"
 )
 
@@ -12,11 +12,11 @@ type AstBuilder interface {
 
 type astBuilder struct {
 	stack    []*astNode
-	comments []*messages.Comment
+	comments []*messages.GherkinDocument_Comment
 }
 
 func (t *astBuilder) Reset() {
-	t.comments = []*messages.Comment{}
+	t.comments = []*messages.GherkinDocument_Comment{}
 	t.stack = []*astNode{}
 	t.push(newAstNode(RuleTypeNone))
 }
@@ -91,7 +91,7 @@ func newAstNode(rt RuleType) *astNode {
 
 func NewAstBuilder() AstBuilder {
 	builder := new(astBuilder)
-	builder.comments = []*messages.Comment{}
+	builder.comments = []*messages.GherkinDocument_Comment{}
 	builder.push(newAstNode(RuleTypeNone))
 	return builder
 }
@@ -108,7 +108,7 @@ func (t *astBuilder) pop() *astNode {
 
 func (t *astBuilder) Build(tok *Token) (bool, error) {
 	if tok.Type == TokenTypeComment {
-		comment := &messages.Comment{
+		comment := &messages.GherkinDocument_Comment{
 			Location: astLocation(tok),
 			Text:     tok.Text,
 		}
@@ -135,18 +135,20 @@ func (t *astBuilder) transformNode(node *astNode) (interface{}, error) {
 	case RuleTypeStep:
 		stepLine := node.getToken(TokenTypeStepLine)
 
-		step := &messages.Step{
+		step := &messages.GherkinDocument_Feature_Step{
 			Location: astLocation(stepLine),
 			Keyword:  stepLine.Keyword,
 			Text:     stepLine.Text,
 		}
 		dataTable := node.getSingle(RuleTypeDataTable)
 		if dataTable != nil {
-			step.Argument = &messages.Step_DataTable{DataTable: dataTable.(*messages.DataTable)}
+			step.Argument = &messages.GherkinDocument_Feature_Step_DataTable_{
+				DataTable: dataTable.(*messages.GherkinDocument_Feature_Step_DataTable),
+			}
 		} else {
 			docString := node.getSingle(RuleTypeDocString)
 			if docString != nil {
-				step.Argument = &messages.Step_DocString{DocString: docString.(*messages.DocString)}
+				step.Argument = &messages.GherkinDocument_Feature_Step_DocString_{DocString: docString.(*messages.GherkinDocument_Feature_Step_DocString)}
 			}
 		}
 
@@ -162,7 +164,7 @@ func (t *astBuilder) transformNode(node *astNode) (interface{}, error) {
 			}
 			text += lineTokens[i].Text
 		}
-		ds := &messages.DocString{
+		ds := &messages.GherkinDocument_Feature_Step_DocString{
 			Location:    astLocation(separatorToken),
 			ContentType: separatorToken.Text,
 			Content:     text,
@@ -172,7 +174,7 @@ func (t *astBuilder) transformNode(node *astNode) (interface{}, error) {
 
 	case RuleTypeDataTable:
 		rows, err := astTableRows(node)
-		dt := &messages.DataTable{
+		dt := &messages.GherkinDocument_Feature_Step_DataTable{
 			Location: rows[0].Location,
 			Rows:     rows,
 		}
@@ -181,7 +183,7 @@ func (t *astBuilder) transformNode(node *astNode) (interface{}, error) {
 	case RuleTypeBackground:
 		backgroundLine := node.getToken(TokenTypeBackgroundLine)
 		description, _ := node.getSingle(RuleTypeDescription).(string)
-		bg := &messages.Background{
+		bg := &messages.GherkinDocument_Feature_Background{
 			Location:    astLocation(backgroundLine),
 			Keyword:     backgroundLine.Keyword,
 			Name:        backgroundLine.Text,
@@ -196,7 +198,7 @@ func (t *astBuilder) transformNode(node *astNode) (interface{}, error) {
 
 		scenarioLine := scenarioNode.getToken(TokenTypeScenarioLine)
 		description, _ := scenarioNode.getSingle(RuleTypeDescription).(string)
-		sc := &messages.Scenario{
+		sc := &messages.GherkinDocument_Feature_Scenario{
 			Tags:        tags,
 			Location:    astLocation(scenarioLine),
 			Keyword:     scenarioLine.Keyword,
@@ -216,7 +218,7 @@ func (t *astBuilder) transformNode(node *astNode) (interface{}, error) {
 		examplesTable := examplesNode.getSingle(RuleTypeExamplesTable)
 
 		// TODO: Is this mutation style ok?
-		ex := &messages.Examples{}
+		ex := &messages.GherkinDocument_Feature_Scenario_Examples{}
 		ex.Tags = tags
 		ex.Location = astLocation(examplesLine)
 		ex.Keyword = examplesLine.Keyword
@@ -225,7 +227,7 @@ func (t *astBuilder) transformNode(node *astNode) (interface{}, error) {
 		ex.TableHeader = nil
 		ex.TableBody = nil
 		if examplesTable != nil {
-			allRows, _ := examplesTable.([]*messages.TableRow)
+			allRows, _ := examplesTable.([]*messages.GherkinDocument_Feature_TableRow)
 			ex.TableHeader = allRows[0]
 			ex.TableBody = allRows[1:]
 		}
@@ -259,31 +261,33 @@ func (t *astBuilder) transformNode(node *astNode) (interface{}, error) {
 			return nil, nil
 		}
 
-		var children []*messages.FeatureChild
-		background, _ := node.getSingle(RuleTypeBackground).(*messages.Background)
+		var children []*messages.GherkinDocument_Feature_FeatureChild
+		background, _ := node.getSingle(RuleTypeBackground).(*messages.GherkinDocument_Feature_Background)
 		if background != nil {
-			children = append(children, &messages.FeatureChild{
-				Value: &messages.FeatureChild_Background{Background: background},
+			children = append(children, &messages.GherkinDocument_Feature_FeatureChild{
+				Value: &messages.GherkinDocument_Feature_FeatureChild_Background{Background: background},
 			})
 		}
 		scenarios := node.getItems(RuleTypeScenarioDefinition)
 		for i := range scenarios {
-			scenario := scenarios[i].(*messages.Scenario)
-			children = append(children, &messages.FeatureChild{
-				Value: &messages.FeatureChild_Scenario{Scenario: scenario},
+			scenario := scenarios[i].(*messages.GherkinDocument_Feature_Scenario)
+			children = append(children, &messages.GherkinDocument_Feature_FeatureChild{
+				Value: &messages.GherkinDocument_Feature_FeatureChild_Scenario{Scenario: scenario},
 			})
 		}
 		rules := node.getItems(RuleTypeRule)
 		for i := range rules {
-			rule := rules[i].(*messages.Rule)
-			children = append(children, &messages.FeatureChild{
-				Value: &messages.FeatureChild_Rule{Rule: rule},
+			rule := rules[i].(*messages.GherkinDocument_Feature_FeatureChild_Rule)
+			children = append(children, &messages.GherkinDocument_Feature_FeatureChild{
+				Value: &messages.GherkinDocument_Feature_FeatureChild_Rule_{
+					Rule: rule,
+				},
 			})
 		}
 
 		description, _ := header.getSingle(RuleTypeDescription).(string)
 
-		feat := &messages.Feature{}
+		feat := &messages.GherkinDocument_Feature{}
 		feat.Tags = tags
 		feat.Location = astLocation(featureLine)
 		feat.Language = featureLine.GherkinDialect
@@ -303,24 +307,25 @@ func (t *astBuilder) transformNode(node *astNode) (interface{}, error) {
 			return nil, nil
 		}
 
-		var children []*messages.RuleChild
-		background, _ := node.getSingle(RuleTypeBackground).(*messages.Background)
+		var children []*messages.GherkinDocument_Feature_FeatureChild_RuleChild
+		background, _ := node.getSingle(RuleTypeBackground).(*messages.GherkinDocument_Feature_Background)
+
 		if background != nil {
-			children = append(children, &messages.RuleChild{
-				Value: &messages.RuleChild_Background{Background: background},
+			children = append(children, &messages.GherkinDocument_Feature_FeatureChild_RuleChild{
+				Value: &messages.GherkinDocument_Feature_FeatureChild_RuleChild_Background{Background: background},
 			})
 		}
 		scenarios := node.getItems(RuleTypeScenarioDefinition)
 		for i := range scenarios {
-			scenario := scenarios[i].(*messages.Scenario)
-			children = append(children, &messages.RuleChild{
-				Value: &messages.RuleChild_Scenario{Scenario: scenario},
+			scenario := scenarios[i].(*messages.GherkinDocument_Feature_Scenario)
+			children = append(children, &messages.GherkinDocument_Feature_FeatureChild_RuleChild{
+				Value: &messages.GherkinDocument_Feature_FeatureChild_RuleChild_Scenario{Scenario: scenario},
 			})
 		}
 
 		description, _ := header.getSingle(RuleTypeDescription).(string)
 
-		rule := &messages.Rule{}
+		rule := &messages.GherkinDocument_Feature_FeatureChild_Rule{}
 		rule.Location = astLocation(ruleLine)
 		rule.Keyword = ruleLine.Keyword
 		rule.Name = ruleLine.Text
@@ -329,7 +334,7 @@ func (t *astBuilder) transformNode(node *astNode) (interface{}, error) {
 		return rule, nil
 
 	case RuleTypeGherkinDocument:
-		feature, _ := node.getSingle(RuleTypeFeature).(*messages.Feature)
+		feature, _ := node.getSingle(RuleTypeFeature).(*messages.GherkinDocument_Feature)
 
 		doc := &messages.GherkinDocument{}
 		if feature != nil {
@@ -348,11 +353,11 @@ func astLocation(t *Token) *messages.Location {
 	}
 }
 
-func astTableRows(t *astNode) (rows []*messages.TableRow, err error) {
-	rows = []*messages.TableRow{}
+func astTableRows(t *astNode) (rows []*messages.GherkinDocument_Feature_TableRow, err error) {
+	rows = []*messages.GherkinDocument_Feature_TableRow{}
 	tokens := t.getTokens(TokenTypeTableRow)
 	for i := range tokens {
-		row := &messages.TableRow{
+		row := &messages.GherkinDocument_Feature_TableRow{
 			Location: astLocation(tokens[i]),
 			Cells:    astTableCells(tokens[i]),
 		}
@@ -362,7 +367,7 @@ func astTableRows(t *astNode) (rows []*messages.TableRow, err error) {
 	return
 }
 
-func ensureCellCount(rows []*messages.TableRow) error {
+func ensureCellCount(rows []*messages.GherkinDocument_Feature_TableRow) error {
 	if len(rows) <= 1 {
 		return nil
 	}
@@ -378,11 +383,11 @@ func ensureCellCount(rows []*messages.TableRow) error {
 	return nil
 }
 
-func astTableCells(t *Token) (cells []*messages.TableCell) {
-	cells = []*messages.TableCell{}
+func astTableCells(t *Token) (cells []*messages.GherkinDocument_Feature_TableRow_TableCell) {
+	cells = []*messages.GherkinDocument_Feature_TableRow_TableCell{}
 	for i := range t.Items {
 		item := t.Items[i]
-		cell := &messages.TableCell{}
+		cell := &messages.GherkinDocument_Feature_TableRow_TableCell{}
 		cell.Location = &messages.Location{
 			Line:   uint32(t.Location.Line),
 			Column: uint32(item.Column),
@@ -393,28 +398,28 @@ func astTableCells(t *Token) (cells []*messages.TableCell) {
 	return
 }
 
-func astSteps(t *astNode) (steps []*messages.Step) {
-	steps = []*messages.Step{}
+func astSteps(t *astNode) (steps []*messages.GherkinDocument_Feature_Step) {
+	steps = []*messages.GherkinDocument_Feature_Step{}
 	tokens := t.getItems(RuleTypeStep)
 	for i := range tokens {
-		step, _ := tokens[i].(*messages.Step)
+		step, _ := tokens[i].(*messages.GherkinDocument_Feature_Step)
 		steps = append(steps, step)
 	}
 	return
 }
 
-func astExamples(t *astNode) (examples []*messages.Examples) {
-	examples = []*messages.Examples{}
+func astExamples(t *astNode) (examples []*messages.GherkinDocument_Feature_Scenario_Examples) {
+	examples = []*messages.GherkinDocument_Feature_Scenario_Examples{}
 	tokens := t.getItems(RuleTypeExamplesDefinition)
 	for i := range tokens {
-		example, _ := tokens[i].(*messages.Examples)
+		example, _ := tokens[i].(*messages.GherkinDocument_Feature_Scenario_Examples)
 		examples = append(examples, example)
 	}
 	return
 }
 
-func astTags(node *astNode) (tags []*messages.Tag) {
-	tags = []*messages.Tag{}
+func astTags(node *astNode) (tags []*messages.GherkinDocument_Feature_Tag) {
+	tags = []*messages.GherkinDocument_Feature_Tag{}
 	tagsNode, ok := node.getSingle(RuleTypeTags).(*astNode)
 	if !ok {
 		return
@@ -424,7 +429,7 @@ func astTags(node *astNode) (tags []*messages.Tag) {
 		token := tokens[i]
 		for k := range token.Items {
 			item := token.Items[k]
-			tag := &messages.Tag{}
+			tag := &messages.GherkinDocument_Feature_Tag{}
 			tag.Location = &messages.Location{
 				Line:   uint32(token.Location.Line),
 				Column: uint32(item.Column),

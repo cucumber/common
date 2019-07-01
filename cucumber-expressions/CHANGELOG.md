@@ -16,6 +16,17 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Removed
 
 ### Fixed
+* Allow `?!` as a non-capturing regex
+ ([#481](https://github.com/cucumber/cucumber/issues/576),
+   [#593](https://github.com/cucumber/cucumber/pull/593)
+   [luke-hill])
+
+## [7.0.2] - 2019-06-15
+
+### Fixed
+
+* Support Boolean in BuiltInParameterTransformer 
+    ([#604](https://github.com/cucumber/cucumber/pull/604) [tommywo])
 
 ## [7.0.0] - 2019-03-22
 
@@ -524,7 +535,8 @@ N/A
 * First stable release!
 
 <!-- Releases -->
-[Unreleased]: https://github.com/cucumber/cucumber/compare/cucumber-expressions-v7.0.0...master
+[Unreleased]: https://github.com/cucumber/cucumber/compare/cucumber-expressions-v7.0.2...master
+[7.0.2]:      https://github.com/cucumber/cucumber/compare/cucumber-expressions-v7.0.0...cucumber-expressions-v7.0.2
 [7.0.0]:      https://github.com/cucumber/cucumber/compare/cucumber-expressions-v6.6.2...cucumber-expressions-v7.0.0
 [6.6.2]:      https://github.com/cucumber/cucumber/compare/cucumber-expressions-v6.2.3...cucumber-expressions-v6.6.2
 [6.2.3]:      https://github.com/cucumber/cucumber/compare/cucumber-expressions-v6.2.2...cucumber-expressions-v6.2.3
@@ -581,3 +593,4 @@ N/A
 [savkk]:            https://github.com/savkk
 [spicalous]:        https://github.com/spicalous
 [tooky]:            https://github.com/tooky
+[tommywo]:          https://github.com/tommywo

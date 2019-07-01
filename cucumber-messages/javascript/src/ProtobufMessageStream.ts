@@ -7,11 +7,13 @@ import { Reader } from 'protobufjs'
 class ProtobufMessageStream<T> extends Transform {
   private buffer = Buffer.alloc(0)
 
-  constructor(private readonly decodeDelimited: (reader: Reader|Uint8Array) => T) {
-    super({objectMode: true})
+  constructor(
+    private readonly decodeDelimited: (reader: Reader | Uint8Array) => T
+  ) {
+    super({ objectMode: true })
   }
 
-  _transform(chunk: any, encoding: string, callback: TransformCallback) {
+  public _transform(chunk: any, encoding: string, callback: TransformCallback) {
     this.buffer = Buffer.concat([this.buffer, chunk])
 
     while (true) {
@@ -20,7 +22,7 @@ class ProtobufMessageStream<T> extends Transform {
         const message = this.decodeDelimited(reader)
         this.push(message)
         this.buffer = this.buffer.slice(reader.pos)
-      } catch(err) {
+      } catch (err) {
         break
       }
     }

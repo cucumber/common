@@ -1,5 +1,6 @@
 {
   "pickle": {
+    "id": "7f6957a28baf5ecf2af10c7ebcbb2febb1719be4",
     "language": "en",
     "locations": [
       {
@@ -10,11 +11,13 @@
     "name": "minimalistic",
     "steps": [
       {
-        "docString": {
-          "content": "first line (no indent)\n  second line (indented with two spaces)\n\nthird line was empty",
-          "location": {
-            "column": 7,
-            "line": 5
+        "argument": {
+          "docString": {
+            "content": "first line (no indent)\n  second line (indented with two spaces)\n\nthird line was empty",
+            "location": {
+              "column": 7,
+              "line": 5
+            }
           }
         },
         "locations": [
@@ -26,12 +29,14 @@
         "text": "a simple DocString"
       },
       {
-        "docString": {
-          "content": "<foo>\n  <bar />\n</foo>",
-          "contentType": "xml",
-          "location": {
-            "column": 7,
-            "line": 12
+        "argument": {
+          "docString": {
+            "content": "<foo>\n  <bar />\n</foo>",
+            "contentType": "xml",
+            "location": {
+              "column": 7,
+              "line": 12
+            }
           }
         },
         "locations": [
@@ -43,11 +48,13 @@
         "text": "a DocString with content type"
       },
       {
-        "docString": {
-          "content": "wrongly indented line",
-          "location": {
-            "column": 7,
-            "line": 18
+        "argument": {
+          "docString": {
+            "content": "wrongly indented line",
+            "location": {
+              "column": 7,
+              "line": 18
+            }
           }
         },
         "locations": [
@@ -59,11 +66,13 @@
         "text": "a DocString with wrong indentation"
       },
       {
-        "docString": {
-          "content": "first line\nsecond line",
-          "location": {
-            "column": 7,
-            "line": 22
+        "argument": {
+          "docString": {
+            "content": "first line\nsecond line",
+            "location": {
+              "column": 7,
+              "line": 22
+            }
           }
         },
         "locations": [
@@ -75,11 +84,13 @@
         "text": "a DocString with alternative separator"
       },
       {
-        "docString": {
-          "content": "first line\n\"\"\"\nthird line",
-          "location": {
-            "column": 7,
-            "line": 27
+        "argument": {
+          "docString": {
+            "content": "first line\n\"\"\"\nthird line",
+            "location": {
+              "column": 7,
+              "line": 27
+            }
           }
         },
         "locations": [
@@ -91,11 +102,13 @@
         "text": "a DocString with normal separator inside"
       },
       {
-        "docString": {
-          "content": "first line\n```\nthird line",
-          "location": {
-            "column": 7,
-            "line": 33
+        "argument": {
+          "docString": {
+            "content": "first line\n```\nthird line",
+            "location": {
+              "column": 7,
+              "line": 33
+            }
           }
         },
         "locations": [
@@ -107,11 +120,13 @@
         "text": "a DocString with alternative separator inside"
       },
       {
-        "docString": {
-          "content": "first line\n\"\"\"\nthird line",
-          "location": {
-            "column": 7,
-            "line": 39
+        "argument": {
+          "docString": {
+            "content": "first line\n\"\"\"\nthird line",
+            "location": {
+              "column": 7,
+              "line": 39
+            }
           }
         },
         "locations": [

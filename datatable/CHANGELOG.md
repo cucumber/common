@@ -17,6 +17,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Fixed
 
+## [1.1.14] - 2019-06-14
+
+### Fixed
+ *  Empty cell are not converted to `null`'s for `Double` class
+        ([#1617](https://github.com/cucumber/cucumber-jvm/issues/1617) [gkalnytskyi]) 
 
 ## [1.1.8] - 2018-11-29
 
@@ -89,7 +94,8 @@ There are no (1.1.0 and 1.1.1 releases).
 * java: OSGI fixes
 
 <!-- Releases -->
-[Unreleased]: https://github.com/cucumber/cucumber/compare/datatable-v1.1.7...master
+[Unreleased]: https://github.com/cucumber/cucumber/compare/datatable-v1.1.14...master
+[1.1.14]: https://github.com/cucumber/cucumber/compare/datatable-v1.1.7...datatable-v1.1.14
 [1.1.7]:      https://github.com/cucumber/cucumber/compare/datatable-v1.1.2...datatable-v1.1.7
 [1.1.2]:      https://github.com/cucumber/cucumber/compare/datatable-v1.0.3...datatable-v1.1.2
 [1.0.3]:      https://github.com/cucumber/cucumber/compare/datatable-v1.0.2...datatable-v1.0.3
@@ -99,6 +105,7 @@ There are no (1.1.0 and 1.1.1 releases).
 
 <!-- Contributors in alphabetical order -->
 [aslakhellesoy]:    https://github.com/aslakhellesoy
+[gkalnytskyi]:      https://github.com/gkalnytskyi
 [kuehl]:            https://github.com/kuehl
 [lsuski]:           https://github.com/lsuski
 [mpkorstanje]:      https://github.com/mpkorstanje

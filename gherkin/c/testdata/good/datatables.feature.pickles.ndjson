@@ -1,5 +1,6 @@
 {
   "pickle": {
+    "id": "60d95df0cbf5ef34063e2fd47d342b289836bfae",
     "language": "en",
     "locations": [
       {
@@ -10,45 +11,47 @@
     "name": "minimalistic",
     "steps": [
       {
-        "dataTable": {
-          "rows": [
-            {
-              "cells": [
-                {
-                  "location": {
-                    "column": 9,
-                    "line": 5
+        "argument": {
+          "dataTable": {
+            "rows": [
+              {
+                "cells": [
+                  {
+                    "location": {
+                      "column": 9,
+                      "line": 5
+                    },
+                    "value": "foo"
                   },
-                  "value": "foo"
-                },
-                {
-                  "location": {
-                    "column": 15,
-                    "line": 5
+                  {
+                    "location": {
+                      "column": 15,
+                      "line": 5
+                    },
+                    "value": "bar"
+                  }
+                ]
+              },
+              {
+                "cells": [
+                  {
+                    "location": {
+                      "column": 9,
+                      "line": 6
+                    },
+                    "value": "boz"
                   },
-                  "value": "bar"
-                }
-              ]
-            },
-            {
-              "cells": [
-                {
-                  "location": {
-                    "column": 9,
-                    "line": 6
-                  },
-                  "value": "boz"
-                },
-                {
-                  "location": {
-                    "column": 15,
-                    "line": 6
-                  },
-                  "value": "boo"
-                }
-              ]
-            }
-          ]
+                  {
+                    "location": {
+                      "column": 15,
+                      "line": 6
+                    },
+                    "value": "boo"
+                  }
+                ]
+              }
+            ]
+          }
         },
         "locations": [
           {
@@ -59,20 +62,22 @@
         "text": "a simple data table"
       },
       {
-        "dataTable": {
-          "rows": [
-            {
-              "cells": [
-                {
-                  "location": {
-                    "column": 9,
-                    "line": 8
-                  },
-                  "value": "foo"
-                }
-              ]
-            }
-          ]
+        "argument": {
+          "dataTable": {
+            "rows": [
+              {
+                "cells": [
+                  {
+                    "location": {
+                      "column": 9,
+                      "line": 8
+                    },
+                    "value": "foo"
+                  }
+                ]
+              }
+            ]
+          }
         },
         "locations": [
           {
@@ -83,34 +88,36 @@
         "text": "a data table with a single cell"
       },
       {
-        "dataTable": {
-          "rows": [
-            {
-              "cells": [
-                {
-                  "location": {
-                    "column": 11,
-                    "line": 10
+        "argument": {
+          "dataTable": {
+            "rows": [
+              {
+                "cells": [
+                  {
+                    "location": {
+                      "column": 11,
+                      "line": 10
+                    },
+                    "value": "foo"
                   },
-                  "value": "foo"
-                },
-                {
-                  "location": {
-                    "column": 15,
-                    "line": 10
+                  {
+                    "location": {
+                      "column": 15,
+                      "line": 10
+                    },
+                    "value": "bar"
                   },
-                  "value": "bar"
-                },
-                {
-                  "location": {
-                    "column": 23,
-                    "line": 10
-                  },
-                  "value": "boz"
-                }
-              ]
-            }
-          ]
+                  {
+                    "location": {
+                      "column": 23,
+                      "line": 10
+                    },
+                    "value": "boz"
+                  }
+                ]
+              }
+            ]
+          }
         },
         "locations": [
           {
@@ -121,33 +128,35 @@
         "text": "a data table with different fromatting"
       },
       {
-        "dataTable": {
-          "rows": [
-            {
-              "cells": [
-                {
-                  "location": {
-                    "column": 8,
-                    "line": 12
+        "argument": {
+          "dataTable": {
+            "rows": [
+              {
+                "cells": [
+                  {
+                    "location": {
+                      "column": 8,
+                      "line": 12
+                    },
+                    "value": "foo"
                   },
-                  "value": "foo"
-                },
-                {
-                  "location": {
-                    "column": 12,
-                    "line": 12
+                  {
+                    "location": {
+                      "column": 12,
+                      "line": 12
+                    }
+                  },
+                  {
+                    "location": {
+                      "column": 13,
+                      "line": 12
+                    },
+                    "value": "boz"
                   }
-                },
-                {
-                  "location": {
-                    "column": 13,
-                    "line": 12
-                  },
-                  "value": "boz"
-                }
-              ]
-            }
-          ]
+                ]
+              }
+            ]
+          }
         },
         "locations": [
           {
@@ -158,63 +167,65 @@
         "text": "a data table with an empty cell"
       },
       {
-        "dataTable": {
-          "rows": [
-            {
-              "cells": [
-                {
-                  "location": {
-                    "column": 9,
-                    "line": 14
+        "argument": {
+          "dataTable": {
+            "rows": [
+              {
+                "cells": [
+                  {
+                    "location": {
+                      "column": 9,
+                      "line": 14
+                    },
+                    "value": "foo"
                   },
-                  "value": "foo"
-                },
-                {
-                  "location": {
-                    "column": 15,
-                    "line": 14
+                  {
+                    "location": {
+                      "column": 15,
+                      "line": 14
+                    },
+                    "value": "bar"
+                  }
+                ]
+              },
+              {
+                "cells": [
+                  {
+                    "location": {
+                      "column": 9,
+                      "line": 16
+                    },
+                    "value": "boz"
                   },
-                  "value": "bar"
-                }
-              ]
-            },
-            {
-              "cells": [
-                {
-                  "location": {
-                    "column": 9,
-                    "line": 16
+                  {
+                    "location": {
+                      "column": 16,
+                      "line": 16
+                    },
+                    "value": "boo"
+                  }
+                ]
+              },
+              {
+                "cells": [
+                  {
+                    "location": {
+                      "column": 9,
+                      "line": 18
+                    },
+                    "value": "boz2"
                   },
-                  "value": "boz"
-                },
-                {
-                  "location": {
-                    "column": 16,
-                    "line": 16
-                  },
-                  "value": "boo"
-                }
-              ]
-            },
-            {
-              "cells": [
-                {
-                  "location": {
-                    "column": 9,
-                    "line": 18
-                  },
-                  "value": "boz2"
-                },
-                {
-                  "location": {
-                    "column": 16,
-                    "line": 18
-                  },
-                  "value": "boo2"
-                }
-              ]
-            }
-          ]
+                  {
+                    "location": {
+                      "column": 16,
+                      "line": 18
+                    },
+                    "value": "boo2"
+                  }
+                ]
+              }
+            ]
+          }
         },
         "locations": [
           {

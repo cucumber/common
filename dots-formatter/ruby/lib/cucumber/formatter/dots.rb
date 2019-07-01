@@ -27,7 +27,7 @@ module Cucumber
 
       def on_test_step_finished(event)
         wrapper = event.test_step.hook? ?
-                    Cucumber::Messages::Wrapper.new(
+                    Cucumber::Messages::Envelope.new(
                       testHookFinished: Cucumber::Messages::TestHookFinished.new(
                         testResult: Cucumber::Messages::TestResult.new(
                           status: event.result.to_sym.upcase
@@ -35,7 +35,7 @@ module Cucumber
                       )
                     )
                   :
-                    Cucumber::Messages::Wrapper.new(
+                    Cucumber::Messages::Envelope.new(
                       testStepFinished: Cucumber::Messages::TestStepFinished.new(
                         testResult: Cucumber::Messages::TestResult.new(
                           status: event.result.to_sym.upcase

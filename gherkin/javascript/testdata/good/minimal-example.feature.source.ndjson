@@ -3,7 +3,7 @@
     "data": "Feature: Minimal\n\n  Example: minimalistic\n    Given the minimalism\n",
     "media": {
       "contentType": "text/x.cucumber.gherkin+plain",
-      "encoding": "UTF-8"
+      "encoding": "UTF8"
     },
     "uri": "testdata/good/minimal-example.feature"
   }

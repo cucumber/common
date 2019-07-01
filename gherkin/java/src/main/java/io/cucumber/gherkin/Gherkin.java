@@ -2,8 +2,8 @@ package io.cucumber.gherkin;
 
 import io.cucumber.c21e.Exe;
 import io.cucumber.c21e.ExeFile;
+import io.cucumber.messages.Messages.Envelope;
 import io.cucumber.messages.Messages.Source;
-import io.cucumber.messages.Messages.Wrapper;
 import io.cucumber.messages.ProtobufStreamIterable;
 
 import java.io.ByteArrayInputStream;
@@ -13,6 +13,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -33,15 +34,15 @@ public class Gherkin {
         this.includePickles = includePickles;
     }
 
-    public static Iterable<Wrapper> fromPaths(List<String> paths, boolean includeSource, boolean includeAst, boolean includePickles) {
+    public static Iterable<Envelope> fromPaths(List<String> paths, boolean includeSource, boolean includeAst, boolean includePickles) {
         return new Gherkin(paths, null, includeSource, includeAst, includePickles).messages();
     }
 
-    public static Iterable<Wrapper> fromSources(List<Source> sources, boolean includeSource, boolean includeAst, boolean includePickles) {
+    public static Iterable<Envelope> fromSources(List<Source> sources, boolean includeSource, boolean includeAst, boolean includePickles) {
         return new Gherkin(Collections.<String>emptyList(), sources, includeSource, includeAst, includePickles).messages();
     }
 
-    public Iterable<Wrapper> messages() {
+    public Iterable<Envelope> messages() {
         try {
             Exe exe = makeExe();
             List<String> args = new ArrayList<>();
@@ -50,10 +51,37 @@ public class Gherkin {
             if (!includePickles) args.add("--no-pickles");
             args.addAll(paths);
             InputStream gherkinStdout = exe.execute(args, getSourcesStream());
-            return new ProtobufStreamIterable(gherkinStdout);
+            ProtobufStreamIterable streamIterable = new ProtobufStreamIterable(gherkinStdout);
+            return wrapIterable(streamIterable, exe);
         } catch (IOException e) {
             throw new GherkinException("Couldn't execute gherkin", e);
         }
+    }
+
+    // Wraps the iterable in an adapter that will wait for the exe to exit when the stream has reach the end.
+    private Iterable<Envelope> wrapIterable(Iterable<Envelope> streamIterable, Exe exe) {
+        return () -> {
+            Iterator<Envelope> iterator = streamIterable.iterator();
+            return new Iterator<Envelope>() {
+                @Override
+                public boolean hasNext() {
+                    boolean hasNext = iterator.hasNext();
+                    if (!hasNext) {
+                        try {
+                            exe.waitFor();
+                        } catch (IOException | InterruptedException e) {
+                            throw new GherkinException("Failed waiting for gherkin", e);
+                        }
+                    }
+                    return hasNext;
+                }
+
+                @Override
+                public Envelope next() {
+                    return iterator.next();
+                }
+            };
+        };
     }
 
     public static Exe makeExe() {
@@ -64,7 +92,7 @@ public class Gherkin {
         if (sources == null) return null;
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         for (Source source : sources) {
-            Wrapper.newBuilder().setSource(source).build().writeDelimitedTo(baos);
+            Envelope.newBuilder().setSource(source).build().writeDelimitedTo(baos);
         }
         return new ByteArrayInputStream(baos.toByteArray());
     }
