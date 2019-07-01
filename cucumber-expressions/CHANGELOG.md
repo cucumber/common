@@ -11,6 +11,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Changed
 
+* [Java] Simplify heuristics to distinguish between Cucumber Expressions and Regular Expressions
+  ([#515](https://github.com/cucumber/cucumber/issues/515)
+   [#581](https://github.com/cucumber/cucumber/pull/581)
+   [mpkorstanje])
+
 ### Deprecated
 
 ### Removed
