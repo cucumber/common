@@ -16,6 +16,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Removed
 
 ### Fixed
+
+* Match integer strings as `{float}`.
+  ([#600](https://github.com/cucumber/cucumber/issues/600)
+   [#605](https://github.com/cucumber/cucumber/pull/605)
+   [aslakhellesoy]
+   [vincent-psarga])
+
 * Allow `?!` as a non-capturing regex
  ([#481](https://github.com/cucumber/cucumber/issues/576),
    [#593](https://github.com/cucumber/cucumber/pull/593)
@@ -594,3 +601,4 @@ N/A
 [spicalous]:        https://github.com/spicalous
 [tooky]:            https://github.com/tooky
 [tommywo]:          https://github.com/tommywo
+[vincent-psarga]:   https://github.com/vincent-psarga
