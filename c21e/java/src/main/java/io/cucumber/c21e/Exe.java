@@ -13,6 +13,9 @@ import static io.cucumber.c21e.IO.copy;
 
 public class Exe {
     private final ExeFile exeFile;
+    private Process process;
+    private File stderrFile;
+    private File file;
 
     public Exe(ExeFile exeFile) {
         this.exeFile = exeFile;
@@ -24,27 +27,35 @@ public class Exe {
      * @param args  command line arguments
      * @param stdin stream to write to the executable's STDIN
      * @return the STDOUT of the executable
-     * @throws IOException          if execution failed
-     * @throws InterruptedException if execution failed
+     * @throws IOException if stream processing failed
      */
-    public InputStream execute(List<String> args, InputStream stdin) throws IOException, InterruptedException {
-        File file = exeFile.extract();
+    public InputStream execute(List<String> args, InputStream stdin) throws IOException {
+        file = exeFile.extract();
         List<String> allArgs = new ArrayList<>();
         allArgs.add(file.getAbsolutePath());
         allArgs.addAll(args);
 
         ProcessBuilder processBuilder = new ProcessBuilder().command(allArgs);
-        File stderrFile = File.createTempFile("stderr-", ".log");
+        stderrFile = File.createTempFile("stderr-", ".log");
         stderrFile.deleteOnExit();
         processBuilder.redirectError(stderrFile);
-        Process process = processBuilder.start();
+        process = processBuilder.start();
         if (stdin != null) {
             OutputStream processStdin = process.getOutputStream();
             copy(stdin, processStdin);
             processStdin.flush();
             processStdin.close();
         }
-        InputStream processStdout = process.getInputStream();
+        return process.getInputStream();
+    }
+
+    /**
+     * Waits for the executable to finish.
+     *
+     * @throws IOException          if execution failed
+     * @throws InterruptedException if execution failed
+     */
+    public void waitFor() throws InterruptedException, IOException {
         process.waitFor();
         if (process.exitValue() != 0) {
             byte[] stderr = Files.readAllBytes(stderrFile.toPath());
@@ -52,6 +63,5 @@ public class Exe {
                     file.getAbsolutePath(),
                     new String(stderr, StandardCharsets.UTF_8)));
         }
-        return processStdout;
     }
 }

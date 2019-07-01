@@ -15,7 +15,7 @@ module Cucumber
         non_capturing_maybe = false
         char_class = false
 
-        @regexp.source.split('').each_with_index do |c, n|
+        @regexp.source.each_char.with_index do |c, n|
           if c == '[' && !escaping
             char_class = true
           elsif c == ']' && !escaping
@@ -36,7 +36,7 @@ module Cucumber
             non_capturing_maybe = false
           elsif c == '?' && last == '('
             non_capturing_maybe = true
-          elsif c == ':' && non_capturing_maybe
+          elsif (c == ':' || c == '!') && non_capturing_maybe
             stack.last.set_non_capturing!
             non_capturing_maybe = false
           elsif c == '<' && non_capturing_maybe
@@ -55,7 +55,6 @@ module Cucumber
         group_indices = (0..match.length).to_a.to_enum
         @group_builder.build(match, group_indices)
       end
-
     end
   end
 end

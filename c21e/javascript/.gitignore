@@ -7,8 +7,8 @@ npm-debug.log
 package-lock.json
 .deps
 .tested
-.eslinted
+.linted
 .compared
+.codegen
 acceptance
-dist
 *-go/

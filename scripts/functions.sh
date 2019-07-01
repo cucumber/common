@@ -35,7 +35,13 @@ function echo_blue
 function docker_image() {
   dockerfile=$1
   image_name=$(basename ${dockerfile} | cut -d '.' -f 2)
-  tag=$(cat ${dockerfile} | md5sum | cut -d ' ' -f 1)
+
+  if hash md5sum 2>/dev/null; then
+    tag=$(cat ${dockerfile} | md5sum | cut -d ' ' -f 1)
+  else
+    tag=$(cat ${dockerfile} | md5 -r | cut -d ' ' -f 1)
+  fi
+
   echo "cucumber/${image_name}:${tag}"
 }
 
@@ -152,7 +158,7 @@ function release_module()
   
   git commit -am "Release ${module} v${version}"
   git tag "${module}/v${version}"
-  git push && git push --tags
+  git push && git push origin "${module}/v${version}"
 }
 
 function setup_travis_maven_deploy()

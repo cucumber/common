@@ -12,20 +12,21 @@ ERRORS       = $(patsubst testdata/%.feature,acceptance/testdata/%.feature.error
 
 .deps:
 	./scripts/s3-download gherkin-go $(LIBRARY_VERSION)
-	# Linking will only work when we're building in the monorepo, so allow this to fail
-	# If it fails, we'll be using cucumber-messages from package.json
-	-npm link cucumber-messages
-	-npm link c21e
-	touch $@
+	# Linking will only work when we're building in the monorepo
+	# On subrepo builds SKIP_NPM_LINK is set in .travis.yml so
+	# we'll use the packages from from package.json
+ifndef SKIP_NPM_LINK
+	npm link cucumber-messages
+	npm link c21e
+endif
 
-.tested: dist/src/index.d.ts .compared
+.tested: dist/src/index.js .compared
 
 .compared: $(ASTS) $(PICKLES) $(ERRORS) $(SOURCES)
 	touch $@
 
-dist/src/index.d.ts: src/index.d.ts
-	mkdir -p `dirname $@`
-	cp $< $@
+dist/src/index.js: src/index.ts
+	npm run build
 
 acceptance/testdata/%.feature.ast.ndjson: testdata/%.feature testdata/%.feature.ast.ndjson .deps
 	mkdir -p `dirname $@`

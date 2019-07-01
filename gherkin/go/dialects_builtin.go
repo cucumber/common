@@ -264,7 +264,7 @@ var buildinDialects = gherkinDialectMap{
 				"Kontekst",
 			},
 			scenario: []string{
-				"Nümunələr",
+				"Nümunə",
 				"Ssenari",
 			},
 			scenarioOutline: []string{
@@ -1277,6 +1277,9 @@ var buildinDialects = gherkinDialectMap{
 			given: []string{
 				"* ",
 				"Soit ",
+				"Sachant que ",
+				"Sachant qu'",
+				"Sachant ",
 				"Etant donné que ",
 				"Etant donné qu'",
 				"Etant donné ",
@@ -1299,6 +1302,7 @@ var buildinDialects = gherkinDialectMap{
 			then: []string{
 				"* ",
 				"Alors ",
+				"Donc ",
 			},
 			and: []string{
 				"* ",

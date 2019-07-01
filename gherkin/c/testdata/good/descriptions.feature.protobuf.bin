@@ -1,105 +1,0 @@
-∆	
-√	
-"testdata/good/descriptions.featureÙFeature: Descriptions everywhere
-  This is a single line description
-
-  Scenario: two lines
-  This description
-  has two lines and indented with two spaces
-    Given the minimalism
-
-Scenario: without indentation
-This is a description without indentation
-  Given the minimalism
-
-  Scenario: empty lines in the middle
-  This description
-
-  has an empty line in the middle
-    Given the minimalism
-
-  Scenario: empty lines around
-
-  This description
-  has an empty lines around
-
-    Given the minimalism
-
-  Scenario: comment after description
-  This description
-  has a comment after
-
-# this is a comment
-    Given the minimalism
-
-  Scenario: comment right after description
-  This description
-  has a comment right after
-    #  this is another comment
-
-    Given the minimalism
-
-  Scenario: description with escaped docstring separator
-  This description has an \"\"\" (escaped docstring sparator)
-
-    Given the minimalism
-
-  Scenario Outline: scenario outline with a description
-This is a scenario outline description
-    Given the minimalism
-
-  Examples: examples with description
-This is an examples description
-    | foo |
-    | bar |
-&
-UTF-8text/x.cucumber.gherkin+plain⁄
-◊
-
-"testdata/good/descriptions.featureÎ	
-en"Feature*Descriptions everywhere2#  This is a single line description:~|
-Scenario"	two lines*?  This description
-  has two lines and indented with two spaces2
-Given the minimalism:rp
-	Scenario"without indentation*)This is a description without indentation2
-Given the minimalism:ÖÇ
-Scenario"empty lines in the middle*5  This description
-
-  has an empty line in the middle2
-Given the minimalism:vt
-Scenario"empty lines around*.  This description
-  has an empty lines around2
-Given the minimalism:wu
-Scenario"comment after description*(  This description
-  has a comment after2
-Given the minimalism:ÑÅ
-!Scenario"comment right after description*.  This description
-  has a comment right after2
-&Given the minimalism:†ù
-(Scenario",description with escaped docstring separator*=  This description has an \"\"\" (escaped docstring sparator)2
-+Given the minimalism:Ä˝
--Scenario Outline"#scenario outline with a description*&This is a scenario outline description2
-/Given the minimalism:v
-1Examples"examples with description*This is an examples description2
-3
-3foo:
-4
-4bar
-# this is a comment&
-$    #  this is another commentSQ
-"testdata/good/descriptions.feature	two linesen"
-the minimalism2][
-"testdata/good/descriptions.featurewithout indentationen"
-the minimalism	2	ca
-"testdata/good/descriptions.featureempty lines in the middleen"
-the minimalism2\Z
-"testdata/good/descriptions.featureempty lines arounden"
-the minimalism2ca
-"testdata/good/descriptions.featurecomment after descriptionen"
-the minimalism2ig
-"testdata/good/descriptions.featurecomment right after descriptionen"
-the minimalism&2!vt
-"testdata/good/descriptions.feature,description with escaped docstring separatoren"
-the minimalism+2(yw
-"testdata/good/descriptions.feature#scenario outline with a descriptionen"
-the minimalism/42-24

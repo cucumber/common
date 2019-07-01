@@ -14,6 +14,7 @@
             <useTransitiveDependencies>false</useTransitiveDependencies>
             <unpack>true</unpack>
             <scope>runtime</scope>
+            <useStrictFiltering>true</useStrictFiltering>
         </dependencySet>
     </dependencySets>
     <fileSets>

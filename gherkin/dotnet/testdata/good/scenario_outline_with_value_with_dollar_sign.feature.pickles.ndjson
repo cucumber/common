@@ -1,1 +1,33 @@
-{"pickle":{"language":"en","locations":[{"column":1,"line":3},{"column":3,"line":8}],"name":"minimalistic","steps":[{"locations":[{"column":11,"line":4},{"column":3,"line":8}],"text":"the pa$$word"}],"uri":"testdata/good/scenario_outline_with_value_with_dollar_sign.feature"}}
+{
+  "pickle": {
+    "id": "9d6ed498b4d46b7158502dc6260201ff9245ba57",
+    "language": "en",
+    "locations": [
+      {
+        "column": 1,
+        "line": 3
+      },
+      {
+        "column": 3,
+        "line": 8
+      }
+    ],
+    "name": "minimalistic",
+    "steps": [
+      {
+        "locations": [
+          {
+            "column": 11,
+            "line": 4
+          },
+          {
+            "column": 3,
+            "line": 8
+          }
+        ],
+        "text": "the pa$$word"
+      }
+    ],
+    "uri": "testdata/good/scenario_outline_with_value_with_dollar_sign.feature"
+  }
+}

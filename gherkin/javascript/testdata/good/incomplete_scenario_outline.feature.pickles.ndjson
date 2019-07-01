@@ -1,3 +1,66 @@
-{"pickle":{"language":"en","locations":[{"column":3,"line":6}],"name":"steps, no examples","steps":[{"locations":[{"column":7,"line":4}],"text":"a step"},{"locations":[{"column":11,"line":7}],"text":"a step"}],"uri":"testdata/good/incomplete_scenario_outline.feature"}}
-{"pickle":{"language":"en","locations":[{"column":3,"line":9}],"name":"no steps, no examples","uri":"testdata/good/incomplete_scenario_outline.feature"}}
-{"pickle":{"language":"en","locations":[{"column":3,"line":20},{"column":5,"line":24}],"name":"no steps, one example header","uri":"testdata/good/incomplete_scenario_outline.feature"}}
+{
+  "pickle": {
+    "id": "d14243c923f892caae5dfaa0e13105b32a66dd93",
+    "language": "en",
+    "locations": [
+      {
+        "column": 3,
+        "line": 6
+      }
+    ],
+    "name": "steps, no examples",
+    "steps": [
+      {
+        "locations": [
+          {
+            "column": 7,
+            "line": 4
+          }
+        ],
+        "text": "a step"
+      },
+      {
+        "locations": [
+          {
+            "column": 11,
+            "line": 7
+          }
+        ],
+        "text": "a step"
+      }
+    ],
+    "uri": "testdata/good/incomplete_scenario_outline.feature"
+  }
+}
+{
+  "pickle": {
+    "id": "8fb6fff021638c5f329798343da04623088f368f",
+    "language": "en",
+    "locations": [
+      {
+        "column": 3,
+        "line": 9
+      }
+    ],
+    "name": "no steps, no examples",
+    "uri": "testdata/good/incomplete_scenario_outline.feature"
+  }
+}
+{
+  "pickle": {
+    "id": "1ad954170a2ad1b1f39cc3577066247d7de2dc14",
+    "language": "en",
+    "locations": [
+      {
+        "column": 3,
+        "line": 20
+      },
+      {
+        "column": 5,
+        "line": 24
+      }
+    ],
+    "name": "no steps, one example header",
+    "uri": "testdata/good/incomplete_scenario_outline.feature"
+  }
+}

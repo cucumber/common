@@ -1,2 +1,117 @@
-{"pickle":{"language":"en","locations":[{"column":3,"line":4},{"column":7,"line":9}],"steps":[{"locations":[{"column":11,"line":5},{"column":7,"line":9}],"text":"y"}],"tags":[{"location":{"column":1,"line":1},"name":"@a"},{"location":{"column":3,"line":3},"name":"@b"},{"location":{"column":6,"line":3},"name":"@c"}],"uri":"testdata/good/scenario_outlines_with_tags.feature"}}
-{"pickle":{"language":"en","locations":[{"column":3,"line":12},{"column":7,"line":18}],"steps":[{"locations":[{"column":11,"line":13},{"column":7,"line":18}],"text":"n"}],"tags":[{"location":{"column":1,"line":1},"name":"@a"},{"location":{"column":3,"line":11},"name":"@d"},{"location":{"column":6,"line":11},"name":"@e"},{"location":{"column":5,"line":15},"name":"@f"}],"uri":"testdata/good/scenario_outlines_with_tags.feature"}}
+{
+  "pickle": {
+    "id": "a52fc25d450d3ebef7452200369049dc8d554419",
+    "language": "en",
+    "locations": [
+      {
+        "column": 3,
+        "line": 4
+      },
+      {
+        "column": 7,
+        "line": 9
+      }
+    ],
+    "steps": [
+      {
+        "locations": [
+          {
+            "column": 11,
+            "line": 5
+          },
+          {
+            "column": 7,
+            "line": 9
+          }
+        ],
+        "text": "y"
+      }
+    ],
+    "tags": [
+      {
+        "location": {
+          "column": 1,
+          "line": 1
+        },
+        "name": "@a"
+      },
+      {
+        "location": {
+          "column": 3,
+          "line": 3
+        },
+        "name": "@b"
+      },
+      {
+        "location": {
+          "column": 6,
+          "line": 3
+        },
+        "name": "@c"
+      }
+    ],
+    "uri": "testdata/good/scenario_outlines_with_tags.feature"
+  }
+}
+{
+  "pickle": {
+    "id": "f302b2b954f7cbec1bfe1e10c07829d967af97af",
+    "language": "en",
+    "locations": [
+      {
+        "column": 3,
+        "line": 12
+      },
+      {
+        "column": 7,
+        "line": 18
+      }
+    ],
+    "steps": [
+      {
+        "locations": [
+          {
+            "column": 11,
+            "line": 13
+          },
+          {
+            "column": 7,
+            "line": 18
+          }
+        ],
+        "text": "n"
+      }
+    ],
+    "tags": [
+      {
+        "location": {
+          "column": 1,
+          "line": 1
+        },
+        "name": "@a"
+      },
+      {
+        "location": {
+          "column": 3,
+          "line": 11
+        },
+        "name": "@d"
+      },
+      {
+        "location": {
+          "column": 6,
+          "line": 11
+        },
+        "name": "@e"
+      },
+      {
+        "location": {
+          "column": 5,
+          "line": 15
+        },
+        "name": "@f"
+      }
+    ],
+    "uri": "testdata/good/scenario_outlines_with_tags.feature"
+  }
+}

@@ -1,23 +1,0 @@
-…
-‚
-,testdata/good/example_token_multiple.feature©Feature: Example token used multiple times
-
-  Scenario Outline: Token used twice in a single step
-    Given <what> <what>
-
-    Examples:
-      | what  |
-      | usage |
-&
-UTF-8text/x.cucumber.gherkin+plain‰†
-,testdata/good/example_token_multiple.featureÕ
-en"Feature*!Example token used multiple times:œ™
-Scenario Outline"!Token used twice in a single step2
-Given <what> <what>:=
-Examples2
-
-	what:
-
-	usage~|
-,testdata/good/example_token_multiple.feature!Token used twice in a single stepen"
-usage usage22

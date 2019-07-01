@@ -1,1 +1,12 @@
-{"attachment":{"data":"(2:1): expected: #EOF, #Language, #TagLine, #FeatureLine, #Comment, #Empty, got 'invalid line here'","source":{"location":{"column":1,"line":2},"uri":"testdata/bad/single_parser_error.feature"}}}
+{
+  "attachment": {
+    "data": "(2:1): expected: #EOF, #Language, #TagLine, #FeatureLine, #Comment, #Empty, got 'invalid line here'",
+    "source": {
+      "location": {
+        "column": 1,
+        "line": 2
+      },
+      "uri": "testdata/bad/single_parser_error.feature"
+    }
+  }
+}

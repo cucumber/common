@@ -1,14 +1,0 @@
-
-
-testdata/good/minimal.featureDFeature: Minimal
-
-  Scenario: minimalistic
-    Given the minimalism
-&
-UTF-8text/x.cucumber.gherkin+plain
-testdata/good/minimal.feature^
-en"Feature*Minimal:@>
-Scenario"minimalistic2
-Given the minimalismQO
-testdata/good/minimal.featureminimalisticen"
-the minimalism2

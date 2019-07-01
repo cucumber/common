@@ -8,12 +8,12 @@ include default.mk
 	go get github.com/stretchr/testify
 	touch $@
 
-.tested: v2/messages.pb.go
+.tested: v3/messages.pb.go
 
-v2/messages.pb.go: messages.proto
+v3/messages.pb.go: messages.proto
 	-protoc -I=. -I=$(GOPATH)/src -I=$(GOPATH)/src/github.com/gogo/protobuf/protobuf --gogofaster_out=\
-	Mgoogle/protobuf/timestamp.proto=github.com/gogo/protobuf/types:./v2 \
+	Mgoogle/protobuf/timestamp.proto=github.com/gogo/protobuf/types:./v3 \
 	$<
 
 clean:
-	rm -f v2/messages.pb.go
+	rm -f v3/messages.pb.go

@@ -1,8 +1,208 @@
-{"pickle":{"language":"en","locations":[{"column":3,"line":4}],"name":"two lines","steps":[{"locations":[{"column":11,"line":7}],"text":"the minimalism"}],"uri":"testdata/good/descriptions.feature"}}
-{"pickle":{"language":"en","locations":[{"column":1,"line":9}],"name":"without indentation","steps":[{"locations":[{"column":9,"line":11}],"text":"the minimalism"}],"uri":"testdata/good/descriptions.feature"}}
-{"pickle":{"language":"en","locations":[{"column":3,"line":13}],"name":"empty lines in the middle","steps":[{"locations":[{"column":11,"line":17}],"text":"the minimalism"}],"uri":"testdata/good/descriptions.feature"}}
-{"pickle":{"language":"en","locations":[{"column":3,"line":19}],"name":"empty lines around","steps":[{"locations":[{"column":11,"line":24}],"text":"the minimalism"}],"uri":"testdata/good/descriptions.feature"}}
-{"pickle":{"language":"en","locations":[{"column":3,"line":26}],"name":"comment after description","steps":[{"locations":[{"column":11,"line":31}],"text":"the minimalism"}],"uri":"testdata/good/descriptions.feature"}}
-{"pickle":{"language":"en","locations":[{"column":3,"line":33}],"name":"comment right after description","steps":[{"locations":[{"column":11,"line":38}],"text":"the minimalism"}],"uri":"testdata/good/descriptions.feature"}}
-{"pickle":{"language":"en","locations":[{"column":3,"line":40}],"name":"description with escaped docstring separator","steps":[{"locations":[{"column":11,"line":43}],"text":"the minimalism"}],"uri":"testdata/good/descriptions.feature"}}
-{"pickle":{"language":"en","locations":[{"column":3,"line":45},{"column":5,"line":52}],"name":"scenario outline with a description","steps":[{"locations":[{"column":11,"line":47},{"column":5,"line":52}],"text":"the minimalism"}],"uri":"testdata/good/descriptions.feature"}}
+{
+  "pickle": {
+    "id": "03f546fa889ff3354c22642bb57010f0a55c7c8d",
+    "language": "en",
+    "locations": [
+      {
+        "column": 3,
+        "line": 4
+      }
+    ],
+    "name": "two lines",
+    "steps": [
+      {
+        "locations": [
+          {
+            "column": 11,
+            "line": 7
+          }
+        ],
+        "text": "the minimalism"
+      }
+    ],
+    "uri": "testdata/good/descriptions.feature"
+  }
+}
+{
+  "pickle": {
+    "id": "f0f3c9218d0a7f276807b8399cc8a10232d3aa99",
+    "language": "en",
+    "locations": [
+      {
+        "column": 1,
+        "line": 9
+      }
+    ],
+    "name": "without indentation",
+    "steps": [
+      {
+        "locations": [
+          {
+            "column": 9,
+            "line": 11
+          }
+        ],
+        "text": "the minimalism"
+      }
+    ],
+    "uri": "testdata/good/descriptions.feature"
+  }
+}
+{
+  "pickle": {
+    "id": "8c17132a2b6b412c439b92d51ce42976180fb4a5",
+    "language": "en",
+    "locations": [
+      {
+        "column": 3,
+        "line": 13
+      }
+    ],
+    "name": "empty lines in the middle",
+    "steps": [
+      {
+        "locations": [
+          {
+            "column": 11,
+            "line": 17
+          }
+        ],
+        "text": "the minimalism"
+      }
+    ],
+    "uri": "testdata/good/descriptions.feature"
+  }
+}
+{
+  "pickle": {
+    "id": "6ed95a2e148609d3ca3bc65c744e56af5eb0364a",
+    "language": "en",
+    "locations": [
+      {
+        "column": 3,
+        "line": 19
+      }
+    ],
+    "name": "empty lines around",
+    "steps": [
+      {
+        "locations": [
+          {
+            "column": 11,
+            "line": 24
+          }
+        ],
+        "text": "the minimalism"
+      }
+    ],
+    "uri": "testdata/good/descriptions.feature"
+  }
+}
+{
+  "pickle": {
+    "id": "fddf16c0c251a6ec601e748a0cd0f96b65b6a1ff",
+    "language": "en",
+    "locations": [
+      {
+        "column": 3,
+        "line": 26
+      }
+    ],
+    "name": "comment after description",
+    "steps": [
+      {
+        "locations": [
+          {
+            "column": 11,
+            "line": 31
+          }
+        ],
+        "text": "the minimalism"
+      }
+    ],
+    "uri": "testdata/good/descriptions.feature"
+  }
+}
+{
+  "pickle": {
+    "id": "144721f2d8d4a2e56a8c11a534d93d663abdd43c",
+    "language": "en",
+    "locations": [
+      {
+        "column": 3,
+        "line": 33
+      }
+    ],
+    "name": "comment right after description",
+    "steps": [
+      {
+        "locations": [
+          {
+            "column": 11,
+            "line": 38
+          }
+        ],
+        "text": "the minimalism"
+      }
+    ],
+    "uri": "testdata/good/descriptions.feature"
+  }
+}
+{
+  "pickle": {
+    "id": "f9b52fc14bec4c80bad794aed5df5b7a86a85788",
+    "language": "en",
+    "locations": [
+      {
+        "column": 3,
+        "line": 40
+      }
+    ],
+    "name": "description with escaped docstring separator",
+    "steps": [
+      {
+        "locations": [
+          {
+            "column": 11,
+            "line": 43
+          }
+        ],
+        "text": "the minimalism"
+      }
+    ],
+    "uri": "testdata/good/descriptions.feature"
+  }
+}
+{
+  "pickle": {
+    "id": "8450874b078bbc680a775c164e7b880e9b6c386e",
+    "language": "en",
+    "locations": [
+      {
+        "column": 3,
+        "line": 45
+      },
+      {
+        "column": 5,
+        "line": 52
+      }
+    ],
+    "name": "scenario outline with a description",
+    "steps": [
+      {
+        "locations": [
+          {
+            "column": 11,
+            "line": 47
+          },
+          {
+            "column": 5,
+            "line": 52
+          }
+        ],
+        "text": "the minimalism"
+      }
+    ],
+    "uri": "testdata/good/descriptions.feature"
+  }
+}

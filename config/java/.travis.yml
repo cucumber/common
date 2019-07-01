@@ -1,15 +1,17 @@
 sudo: false
 language: java
 jdk:
-- oraclejdk8
+- openjdk8
 - openjdk11
+script: make default
 jobs:
   include:
-  - stage: deploy
-    jdk: oraclejdk8
-    script:
-    - "[ -z $TRAVIS_TAG ] && ./scripts/mvn_deploy.sh"
-script: make default
+  - stage: mvn deploy
+    jdk: openjdk8
+    deploy:
+      skip_cleanup: true
+      provider: script
+      script: bash ./scripts/mvn_deploy.sh
 env:
   global:
   - secure: VrhWb8Tc7n2C/N4sIHcijHWFoO4EPlRiTxzqOBYH4scwAtOYv6JonFPLCT18eE1D0X30783uCgTDqfrbHrrYQKLkltuV16iVcNSKojS9cW/2wRRp56x80nihyXxu246t3VcGl92SQD17yNjFGLQumxJJ3tA+2w99owEX/w4nh6MJ3TDA2zLSEtNnQEMbXw5vgwgwtAnXX6J1hCz0r4r3bsjIhKBhkLfpJ+6qpCEpLHjBB8/Dkn29J3tBqwY8VhOiXX2MqFOQue93Z71G7C89SUoN+ATs/PbVuvZ5nwAGhgTlbj3s0NeMbr5pFpUbpm9YpYAeldggftWJAPOVE50s3ItaK+A6py0Q4hvp4z866Jx0OKV6R/4IqjQ9mzb0WahMC4/+58VV9hIF+CkFHJLdJf4FRS7L6F/1D3S0/3XUrRQlEz+tWEN6Lbzr9mSbrXjB/FYrwmCpBXJucIJvuFxPyFw16l5GuiTGpSXUXGVCf06N/2zC/MHIYrm6DRZ5hab/k0970pZaFwGGOEh+LsQq9fogP0Jwt5ZmJWiteZdy4eSFKYoKkghc1NpLWhO4b5UOK/x2BKjpHE3t/x6iZYW8hoYDuLf22EptmCwhQtB8PJ3BfaZrzJpOdWcPmSz7Upv1/jkRAfkjAyIOuvl6T4aAYQ88+nchAnAb6nSC3WGduY0=

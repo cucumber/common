@@ -6,10 +6,10 @@
     <parent>
         <groupId>io.cucumber</groupId>
         <artifactId>cucumber-parent</artifactId>
-        <version>1.0.1</version>
+        <version>1.0.4</version>
     </parent>
     <artifactId>c21e</artifactId>
-    <version>1.1.9-SNAPSHOT</version>
+    <version>1.2.1</version>
     <packaging>jar</packaging>
     <name>c21e</name>
     <description>Cross-Platform Executable</description>

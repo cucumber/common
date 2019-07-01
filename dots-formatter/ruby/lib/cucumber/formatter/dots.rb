@@ -6,8 +6,6 @@ module Cucumber
   module Formatter
 
     class Dots
-      include ::Cucumber::Messages::Varint
-
       def initialize(config)
         @out_stream = config.out_stream
 
@@ -21,6 +19,7 @@ module Cucumber
 
       def on_test_run_started(event)
         @stdin, stdout, _stderr, @wait_thread = Open3.popen3(@exe)
+        @stdin.binmode
         @out_thread = Thread.new do
           stdout.each_byte { |b| @out_stream << b.chr }
         end
@@ -28,7 +27,7 @@ module Cucumber
 
       def on_test_step_finished(event)
         wrapper = event.test_step.hook? ?
-                    Cucumber::Messages::Wrapper.new(
+                    Cucumber::Messages::Envelope.new(
                       testHookFinished: Cucumber::Messages::TestHookFinished.new(
                         testResult: Cucumber::Messages::TestResult.new(
                           status: event.result.to_sym.upcase
@@ -36,16 +35,14 @@ module Cucumber
                       )
                     )
                   :
-                    Cucumber::Messages::Wrapper.new(
+                    Cucumber::Messages::Envelope.new(
                       testStepFinished: Cucumber::Messages::TestStepFinished.new(
                         testResult: Cucumber::Messages::TestResult.new(
                           status: event.result.to_sym.upcase
                         )
                       )
                     )
-        bytes = Cucumber::Messages::Wrapper.encode(wrapper)
-        encode_varint(@stdin, bytes.unpack('C*').length)
-        @stdin.write(bytes)
+        wrapper.write_delimited_to(@stdin)
       end
 
       def on_test_run_finished(event)

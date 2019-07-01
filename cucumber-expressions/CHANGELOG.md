@@ -10,25 +10,68 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Added
 
 ### Changed
-* Limit generated expressions to 256
- ([#576](https://github.com/cucumber/cucumber/issues/576),
-   [#574](https://github.com/cucumber/cucumber/pull/574)
-   [mpkorstanje])
+
 ### Deprecated
 
 ### Removed
 
 ### Fixed
+
+* Match integer strings as `{float}`.
+  ([#600](https://github.com/cucumber/cucumber/issues/600)
+   [#605](https://github.com/cucumber/cucumber/pull/605)
+   [aslakhellesoy]
+   [vincent-psarga])
+
+* Allow `?!` as a non-capturing regex
+ ([#481](https://github.com/cucumber/cucumber/issues/576),
+   [#593](https://github.com/cucumber/cucumber/pull/593)
+   [luke-hill])
+
+## [7.0.2] - 2019-06-15
+
+### Fixed
+
+* Support Boolean in BuiltInParameterTransformer 
+    ([#604](https://github.com/cucumber/cucumber/pull/604) [tommywo])
+
+## [7.0.0] - 2019-03-22
+
+### Fixed
+
+* Javascript release process
+* Version numbering 🙈
+
+## [6.6.2] - 2019-03-22
+
+This was a mistaken release due to [tooky]'s fat fingers.
+
+## [6.2.3] - 2019-03-22
+
+### Fixed
+
+* Ruby release process working again
+
+## [6.2.2] - 2019-03-16
+
+### Changed
+
+* Limit generated expressions to 256
+ ([#576](https://github.com/cucumber/cucumber/issues/576),
+   [#574](https://github.com/cucumber/cucumber/pull/574)
+   [mpkorstanje])
+
+### Fixed
+
 * Allow parameter-types in escaped optional groups
    ([#572](https://github.com/cucumber/cucumber/pull/572),
      [#561](https://github.com/cucumber/cucumber/pull/561)
      [luke-hill], [jaysonesmith], [mpkorstanje])
-     
+
 * Prefer expression with the longest non-empty match #580
   ([#580](https://github.com/cucumber/cucumber/pull/580),
     [#575](https://github.com/cucumber/cucumber/issues/575)
     [mpkorstanje])
-     
 
 ## [6.2.1] - 2018-11-30
 
@@ -499,9 +542,15 @@ N/A
 * First stable release!
 
 <!-- Releases -->
-[Unreleased]: https://github.com/cucumber/cucumber/compare/cucumber-expressions-v6.2.0...master
-[6.2.0]:      https://github.com/cucumber/cucumber/compare/cucumber-expressions-v6.1.2..cucumber-expressions-v6.2.0
-[6.1.2]:      https://github.com/cucumber/cucumber/compare/cucumber-expressions-v6.1.0..cucumber-expressions-v6.1.2
+[Unreleased]: https://github.com/cucumber/cucumber/compare/cucumber-expressions-v7.0.2...master
+[7.0.2]:      https://github.com/cucumber/cucumber/compare/cucumber-expressions-v7.0.0...cucumber-expressions-v7.0.2
+[7.0.0]:      https://github.com/cucumber/cucumber/compare/cucumber-expressions-v6.6.2...cucumber-expressions-v7.0.0
+[6.6.2]:      https://github.com/cucumber/cucumber/compare/cucumber-expressions-v6.2.3...cucumber-expressions-v6.6.2
+[6.2.3]:      https://github.com/cucumber/cucumber/compare/cucumber-expressions-v6.2.2...cucumber-expressions-v6.2.3
+[6.2.2]:      https://github.com/cucumber/cucumber/compare/cucumber-expressions-v6.2.1...cucumber-expressions-v6.2.2
+[6.2.1]:      https://github.com/cucumber/cucumber/compare/cucumber-expressions-v6.2.0...cucumber-expressions-v6.2.1
+[6.2.0]:      https://github.com/cucumber/cucumber/compare/cucumber-expressions-v6.1.2...cucumber-expressions-v6.2.0
+[6.1.2]:      https://github.com/cucumber/cucumber/compare/cucumber-expressions-v6.1.0...cucumber-expressions-v6.1.2
 [6.1.1]:      https://github.com/cucumber/cucumber/compare/cucumber-expressions-v6.1.0...cucumber-expressions-v6.1.1
 [6.1.0]:      https://github.com/cucumber/cucumber/compare/cucumber-expressions-v6.0.1...cucumber-expressions-v6.1.0
 [6.0.1]:      https://github.com/cucumber/cucumber/compare/cucumber-expressions-v6.0.0...cucumber-expressions-v6.0.1
@@ -550,3 +599,6 @@ N/A
 [kAworu]:           https://github.com/kAworu
 [savkk]:            https://github.com/savkk
 [spicalous]:        https://github.com/spicalous
+[tooky]:            https://github.com/tooky
+[tommywo]:          https://github.com/tommywo
+[vincent-psarga]:   https://github.com/vincent-psarga

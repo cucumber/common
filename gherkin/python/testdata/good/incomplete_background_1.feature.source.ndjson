@@ -1,1 +1,10 @@
-{"source":{"data":"Feature: Incomplete backgrounds, Part 1\n\n  Background: no steps\n\n  Scenario: still pickles up\n    * a step\n","media":{"contentType":"text/x.cucumber.gherkin+plain","encoding":"UTF-8"},"uri":"testdata/good/incomplete_background_1.feature"}}
+{
+  "source": {
+    "data": "Feature: Incomplete backgrounds, Part 1\n\n  Background: no steps\n\n  Scenario: still pickles up\n    * a step\n",
+    "media": {
+      "contentType": "text/x.cucumber.gherkin+plain",
+      "encoding": "UTF8"
+    },
+    "uri": "testdata/good/incomplete_background_1.feature"
+  }
+}

@@ -1,6 +1,7 @@
 sudo: false
 language: node_js
 node_js:
+  - "12"
   - "10"
   - "9"
   - "8"
@@ -8,11 +9,13 @@ node_js:
 
 before_install:
 - npm i -g npm@latest
+env:
+  - SKIP_NPM_LINK=1
 script: make default
 jobs:
   include:
   - stage: deploy
-    node_js: '10'
+    node_js: '12'
 deploy:
   skip_cleanup: true
   provider: npm

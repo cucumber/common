@@ -1,1 +1,14 @@
-{"gherkinDocument":{"feature":{"keyword":"OH HAI","language":"en-lol","location":{"column":1,"line":2},"name":"STUFFING"},"uri":"testdata/good/spaces_in_language.feature"}}
+{
+  "gherkinDocument": {
+    "feature": {
+      "keyword": "OH HAI",
+      "language": "en-lol",
+      "location": {
+        "column": 1,
+        "line": 2
+      },
+      "name": "STUFFING"
+    },
+    "uri": "testdata/good/spaces_in_language.feature"
+  }
+}

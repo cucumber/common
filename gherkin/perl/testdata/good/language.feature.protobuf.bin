@@ -1,16 +1,0 @@
-·
-´
-testdata/good/language.featurej#language:en
-
-Feature: Explicit language specification
-
-  Scenario: minimalistic
-    Given the minimalism
-&
-UTF-8text/x.cucumber.gherkin+plain›˜
-testdata/good/language.featurev
-en"Feature*Explicit language specification:@>
-Scenario"minimalistic2
-Given the minimalismRP
-testdata/good/language.featureminimalisticen"
-the minimalism2
