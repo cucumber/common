@@ -55,7 +55,7 @@ var CucumberExpression = /** @class */ (function () {
             if (p1 === DOUBLE_ESCAPE) {
                 return "\\(" + p2 + "\\)";
             }
-            _this._checkNoParameterType(p2, PARAMETER_TYPES_CANNOT_BE_OPTIONAL);
+            _this.checkNoParameterType(p2, PARAMETER_TYPES_CANNOT_BE_OPTIONAL);
             return "(?:" + p2 + ")?";
         });
     };
@@ -70,7 +70,7 @@ var CucumberExpression = /** @class */ (function () {
                 try {
                     for (var _b = __values(replacement.split(/\|/)), _c = _b.next(); !_c.done; _c = _b.next()) {
                         var part = _c.value;
-                        _this._checkNoParameterType(part, PARAMETER_TYPES_CANNOT_BE_ALTERNATIVE);
+                        _this.checkNoParameterType(part, PARAMETER_TYPES_CANNOT_BE_ALTERNATIVE);
                     }
                 }
                 catch (e_1_1) { e_1 = { error: e_1_1 }; }
@@ -120,7 +120,7 @@ var CucumberExpression = /** @class */ (function () {
         enumerable: true,
         configurable: true
     });
-    CucumberExpression.prototype._checkNoParameterType = function (s, message) {
+    CucumberExpression.prototype.checkNoParameterType = function (s, message) {
         if (s.match(PARAMETER_REGEXP())) {
             throw new Errors_1.CucumberExpressionError(message + this.source);
         }

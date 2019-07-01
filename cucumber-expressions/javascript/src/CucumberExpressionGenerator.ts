@@ -11,7 +11,7 @@ export default class CucumberExpressionGenerator {
 
   public generateExpressions(text: string): GeneratedExpression[] {
     const parameterTypeCombinations: Array<Array<ParameterType<any>>> = []
-    const parameterTypeMatchers = this._createParameterTypeMatchers(text)
+    const parameterTypeMatchers = this.createParameterTypeMatchers(text)
     let expressionTemplate = ''
     let pos = 0
 
@@ -88,7 +88,7 @@ export default class CucumberExpressionGenerator {
     )()
   }
 
-  public _createParameterTypeMatchers(text: string): ParameterTypeMatcher[] {
+  private createParameterTypeMatchers(text: string): ParameterTypeMatcher[] {
     let parameterMatchers: ParameterTypeMatcher[] = []
     for (const parameterType of this.parameterTypeRegistry.parameterTypes) {
       if (parameterType.useForSnippets) {

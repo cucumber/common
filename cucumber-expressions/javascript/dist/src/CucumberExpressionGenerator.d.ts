@@ -1,5 +1,4 @@
 import ParameterTypeRegistry from './ParameterTypeRegistry';
-import ParameterTypeMatcher from './ParameterTypeMatcher';
 import GeneratedExpression from './GeneratedExpression';
 export default class CucumberExpressionGenerator {
     private readonly parameterTypeRegistry;
@@ -9,6 +8,6 @@ export default class CucumberExpressionGenerator {
      * @deprecated
      */
     generateExpression(text: string): GeneratedExpression;
-    _createParameterTypeMatchers(text: string): ParameterTypeMatcher[];
+    private createParameterTypeMatchers;
     private static createParameterTypeMatchers2;
 }

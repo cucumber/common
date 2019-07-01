@@ -23,7 +23,7 @@ var CucumberExpressionGenerator = /** @class */ (function () {
     }
     CucumberExpressionGenerator.prototype.generateExpressions = function (text) {
         var parameterTypeCombinations = [];
-        var parameterTypeMatchers = this._createParameterTypeMatchers(text);
+        var parameterTypeMatchers = this.createParameterTypeMatchers(text);
         var expressionTemplate = '';
         var pos = 0;
         var _loop_1 = function () {
@@ -102,7 +102,7 @@ var CucumberExpressionGenerator = /** @class */ (function () {
         var _this = this;
         return util_1.default.deprecate(function () { return _this.generateExpressions(text)[0]; }, 'CucumberExpressionGenerator.generateExpression: Use CucumberExpressionGenerator.generateExpressions instead')();
     };
-    CucumberExpressionGenerator.prototype._createParameterTypeMatchers = function (text) {
+    CucumberExpressionGenerator.prototype.createParameterTypeMatchers = function (text) {
         var e_3, _a;
         var parameterMatchers = [];
         try {

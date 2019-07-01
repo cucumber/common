@@ -2,8 +2,9 @@ import Argument from './Argument'
 import TreeRegexp from './TreeRegexp'
 import ParameterType from './ParameterType'
 import ParameterTypeRegistry from './ParameterTypeRegistry'
+import Expression from './Expression'
 
-export default class RegularExpression {
+export default class RegularExpression implements Expression {
   private readonly treeRegexp: TreeRegexp
 
   constructor(

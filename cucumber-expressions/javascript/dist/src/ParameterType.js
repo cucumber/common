@@ -59,8 +59,7 @@ var ParameterType = /** @class */ (function () {
         }
     };
     ParameterType.prototype.transform = function (thisObj, groupValues) {
-        var result = this.transformFn.apply(thisObj, groupValues);
-        return result;
+        return this.transformFn.apply(thisObj, groupValues);
     };
     return ParameterType;
 }());
