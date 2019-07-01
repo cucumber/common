@@ -30,10 +30,10 @@ describe('RegularExpression', function () {
         assert_1.default.deepStrictEqual(match(/(\d+)/, '22')[0], 22);
     });
     it('transforms float without integer part', function () {
-        assert_1.default.deepStrictEqual(match(/(-?\d*(?:\.\d+)?)/, '.22')[0], 0.22);
+        assert_1.default.deepStrictEqual(match(new RegExp("(" + ParameterTypeRegistry_1.default.FLOAT_REGEXP.source + ")"), '.22')[0], 0.22);
     });
     it('transforms float with sign', function () {
-        assert_1.default.deepStrictEqual(match(/(-?\d*(?:\.\d+)?)/, '-1.22')[0], -1.22);
+        assert_1.default.deepStrictEqual(match(new RegExp("(" + ParameterTypeRegistry_1.default.FLOAT_REGEXP.source + ")"), '-1.22')[0], -1.22);
     });
     it('returns null when there is no match', function () {
         assert_1.default.strictEqual(match(/hello/, 'world'), null);

@@ -18,7 +18,7 @@ describe('CucumberExpression', function () {
             assertRegexp('I said Alpha1/Beta1', /^I said (?:Alpha1|Beta1)$/);
         });
         it('translates parameters', function () {
-            assertRegexp("I have {float} cukes at {int} o'clock", /^I have (-?\d*(?:\.\d+)?) cukes at ((?:-?\d+)|(?:\d+)) o'clock$/);
+            assertRegexp("I have {float} cukes at {int} o'clock", /^I have (-?\d*(?:[.,]\d+)?) cukes at ((?:-?\d+)|(?:\d+)) o'clock$/);
         });
         it('translates parenthesis to non-capturing optional capture group', function () {
             assertRegexp('I have many big(ish) cukes', /^I have many big(?:ish)? cukes$/);
