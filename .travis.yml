@@ -5,6 +5,13 @@ services:
 before_script:
 - export PATH=$PATH:$PWD/bin/linux/amd64
 
+# We only build the master branch in the monorepo. Reasons for this:
+# - Travis only gives us a few slaves
+# - The build system doesn't handle branches well anyway
+branches:
+  only:
+  - master
+
 jobs:
   include:
     - env: PUSH_SUB_REPOS=true
