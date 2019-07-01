@@ -70,7 +70,7 @@ describe('gherkin (TypeScript)', function () {
                         uri: 'test.feature',
                         data: "Feature: Minimal\n\n  Scenario: minimalistic\n    Given the minimalism\n",
                         media: Media.fromObject({
-                            encoding: 'UTF-8',
+                            encoding: 'UTF8',
                             contentType: 'text/x.cucumber.gherkin+plain',
                         }),
                     });

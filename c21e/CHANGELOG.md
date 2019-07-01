@@ -17,11 +17,16 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Fixed
 
+* [TypeScript] ExeFile not a constructor
+  ([#641](https://github.com/cucumber/cucumber/pull/641)
+   [#634](https://github.com/cucumber/cucumber/issues/634)
+   [joscha])
+
 ## [1.2.1] - 2019-06-06
 
 ### Fixed
 
-* [Java] fix the build, which failed on Travis, causing 1.2.0 to not be released. 
+* [Java] fix the build, which failed on Travis, causing 1.2.0 to not be released.
 
 ## [1.2.0] - 2019-06-06
 
@@ -51,7 +56,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 * [Ruby] Detect x64
   ([#517](https://github.com/cucumber/cucumber/issues/517)
-   [@aslakhellesoy])
+   [aslakhellesoy])
 
 ## [1.1.6] - 2018-10-21
 
@@ -77,3 +82,4 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 <!-- Contributors in alphabetical order -->
 [aslakhellesoy]:    https://github.com/aslakhellesoy
+[joscha]:           https://github.com/joscha

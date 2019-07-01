@@ -20,13 +20,10 @@ var __values = (this && this.__values) || function (o) {
         }
     };
 };
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
 var child_process_1 = require("child_process");
 var fs_1 = require("fs");
-var c21e_1 = __importDefault(require("c21e"));
+var c21e_1 = require("c21e");
 var cucumber_messages_1 = require("cucumber-messages");
 var defaultOptions = {
     includeSource: true,
@@ -57,7 +54,7 @@ var Gherkin = /** @class */ (function () {
             // Dev mode - we're in src, not dist/src
             gherkinGoDir = __dirname + "/../gherkin-go";
         }
-        this.exeFile = new c21e_1.default(gherkinGoDir + "/gherkin-go-{{.OS}}-{{.Arch}}{{.Ext}}");
+        this.exeFile = new c21e_1.ExeFile(gherkinGoDir + "/gherkin-go-{{.OS}}-{{.Arch}}{{.Ext}}");
     }
     Gherkin.prototype.messageStream = function () {
         var e_1, _a;

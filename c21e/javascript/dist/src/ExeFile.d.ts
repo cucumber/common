@@ -1,4 +1,4 @@
-export default class ExeFile {
+export declare class ExeFile {
     private readonly fileNamePattern;
     private readonly props;
     constructor(fileNamePattern: string, props?: {
