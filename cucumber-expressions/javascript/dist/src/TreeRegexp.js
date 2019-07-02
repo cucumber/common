@@ -44,7 +44,7 @@ var TreeRegexp = /** @class */ (function () {
             else if (c === '?' && last === '(') {
                 nonCapturingMaybe = true;
             }
-            else if ((c === ':' || c === '!') && nonCapturingMaybe) {
+            else if ((c === ':' || c === '!' || c === '=') && nonCapturingMaybe) {
                 stack[stack.length - 1].setNonCapturing();
                 nonCapturingMaybe = false;
             }
