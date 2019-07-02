@@ -14,10 +14,10 @@ var CombinatorialGeneratedExpressionFactory = /** @class */ (function () {
     }
     CombinatorialGeneratedExpressionFactory.prototype.generateExpressions = function () {
         var generatedExpressions = [];
-        this._generatePermutations(generatedExpressions, 0, []);
+        this.generatePermutations(generatedExpressions, 0, []);
         return generatedExpressions;
     };
-    CombinatorialGeneratedExpressionFactory.prototype._generatePermutations = function (generatedExpressions, depth, currentParameterTypes) {
+    CombinatorialGeneratedExpressionFactory.prototype.generatePermutations = function (generatedExpressions, depth, currentParameterTypes) {
         if (generatedExpressions.length >= MAX_EXPRESSIONS) {
             return;
         }
@@ -33,7 +33,7 @@ var CombinatorialGeneratedExpressionFactory = /** @class */ (function () {
             }
             var newCurrentParameterTypes = currentParameterTypes.slice(); // clone
             newCurrentParameterTypes.push(this.parameterTypeCombinations[depth][i]);
-            this._generatePermutations(generatedExpressions, depth + 1, newCurrentParameterTypes);
+            this.generatePermutations(generatedExpressions, depth + 1, newCurrentParameterTypes);
         }
     };
     return CombinatorialGeneratedExpressionFactory;

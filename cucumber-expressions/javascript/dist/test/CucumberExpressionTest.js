@@ -83,6 +83,9 @@ describe('CucumberExpression', function () {
         assert_1.default.deepStrictEqual(match('{float}', '0.22'), [0.22]);
         assert_1.default.deepStrictEqual(match('{float}', '.22'), [0.22]);
     });
+    it('matches float with zero', function () {
+        assert_1.default.deepEqual(match('{float}', '0'), [0]);
+    });
     it('matches anonymous', function () {
         assert_1.default.deepStrictEqual(match('{}', '0.22'), ['0.22']);
     });

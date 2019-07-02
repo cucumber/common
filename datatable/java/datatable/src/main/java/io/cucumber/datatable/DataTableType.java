@@ -86,7 +86,11 @@ public final class DataTableType {
      *
      * @param type the type of the entry
      * @param <T>  see <code>type</code>
+     * @deprecated consider defining a custom transformer that uses the Jackson {@code ObjectMapper} or registering the
+     * Jackson {@code ObjectMapper} through {@link DataTableTypeRegistry#setDefaultDataTableEntryTransformer(io.cucumber.datatable.TableEntryByTypeTransformer)}
+     * to transform a table entry to an arbitrary object.
      */
+    @Deprecated
     public static <T> DataTableType entry(final Class<T> type) {
         return new DataTableType(type, new TableEntryTransformer<T>() {
             @Override
@@ -109,7 +113,11 @@ public final class DataTableType {
      *
      * @param type the type of the cell
      * @param <T>  see <code>type</code>
+     * @deprecated consider defining a custom transformer that uses the Jackson {@code ObjectMapper} or registering the
+     * Jackson {@code ObjectMapper} through {@link DataTableTypeRegistry#setDefaultDataTableCellTransformer(io.cucumber.datatable.TableCellByTypeTransformer)}
+     * to transform a table cell to an arbitrary object.
      */
+    @Deprecated
     public static <T> DataTableType cell(final Class<T> type) {
         return new DataTableType(type, new TableCellTransformer<T>() {
             @Override

@@ -44,5 +44,5 @@ var ExeFile = /** @class */ (function () {
     };
     return ExeFile;
 }());
-exports.default = ExeFile;
+exports.ExeFile = ExeFile;
 //# sourceMappingURL=ExeFile.js.map

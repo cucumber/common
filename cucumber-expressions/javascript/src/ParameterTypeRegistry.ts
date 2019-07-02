@@ -3,13 +3,13 @@ import ParameterType from './ParameterType'
 import CucumberExpressionGenerator from './CucumberExpressionGenerator'
 import { AmbiguousParameterTypeError, CucumberExpressionError } from './Errors'
 
-const INTEGER_REGEXPS = [/-?\d+/, /\d+/]
-const FLOAT_REGEXP = /-?\d*\.?\d+/
-const WORD_REGEXP = /[^\s]+/
-const STRING_REGEXP = /"([^"\\]*(\\.[^"\\]*)*)"|'([^'\\]*(\\.[^'\\]*)*)'/
-const ANONYMOUS_REGEXP = /.*/
-
 export default class ParameterTypeRegistry {
+  public static readonly INTEGER_REGEXPS = [/-?\d+/, /\d+/]
+  public static readonly FLOAT_REGEXP = /-?\d*(?:[.,]\d+)?/
+  public static readonly WORD_REGEXP = /[^\s]+/
+  public static readonly STRING_REGEXP = /"([^"\\]*(\\.[^"\\]*)*)"|'([^'\\]*(\\.[^'\\]*)*)'/
+  public static readonly ANONYMOUS_REGEXP = /.*/
+
   private readonly parameterTypeByName = new Map<string, ParameterType<any>>()
   private readonly parameterTypesByRegexp = new Map<
     string,
@@ -20,7 +20,7 @@ export default class ParameterTypeRegistry {
     this.defineParameterType(
       new ParameterType(
         'int',
-        INTEGER_REGEXPS,
+        ParameterTypeRegistry.INTEGER_REGEXPS,
         Number,
         s => (s === undefined ? null : Number(s)),
         true,
@@ -30,7 +30,7 @@ export default class ParameterTypeRegistry {
     this.defineParameterType(
       new ParameterType(
         'float',
-        FLOAT_REGEXP,
+        ParameterTypeRegistry.FLOAT_REGEXP,
         Number,
         s => (s === undefined ? null : parseFloat(s)),
         true,
@@ -38,12 +38,19 @@ export default class ParameterTypeRegistry {
       )
     )
     this.defineParameterType(
-      new ParameterType('word', WORD_REGEXP, String, s => s, false, false)
+      new ParameterType(
+        'word',
+        ParameterTypeRegistry.WORD_REGEXP,
+        String,
+        s => s,
+        false,
+        false
+      )
     )
     this.defineParameterType(
       new ParameterType(
         'string',
-        STRING_REGEXP,
+        ParameterTypeRegistry.STRING_REGEXP,
         String,
         s => s.replace(/\\"/g, '"').replace(/\\'/g, "'"),
         true,
@@ -51,7 +58,14 @@ export default class ParameterTypeRegistry {
       )
     )
     this.defineParameterType(
-      new ParameterType('', ANONYMOUS_REGEXP, String, s => s, false, true)
+      new ParameterType(
+        '',
+        ParameterTypeRegistry.ANONYMOUS_REGEXP,
+        String,
+        s => s,
+        false,
+        true
+      )
     )
   }
 

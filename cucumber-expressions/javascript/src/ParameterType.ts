@@ -4,7 +4,7 @@ const ILLEGAL_PARAMETER_NAME_PATTERN = /([[\]()$.|?*+])/
 const UNESCAPE_PATTERN = () => /(\\([[$.|?*+\]]))/g
 
 export default class ParameterType<T> {
-  private transformFn: (match: string) => T
+  private transformFn: (...match: string[]) => T
 
   public static compare(pt1: ParameterType<any>, pt2: ParameterType<any>) {
     if (pt1.preferForRegexpMatch && !pt2.preferForRegexpMatch) {
@@ -63,8 +63,7 @@ export default class ParameterType<T> {
   }
 
   public transform(thisObj: any, groupValues: string[]) {
-    const result = this.transformFn.apply(thisObj, groupValues)
-    return result
+    return this.transformFn.apply(thisObj, groupValues)
   }
 }
 

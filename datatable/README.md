@@ -39,7 +39,7 @@ This representation is not very useful. The fields are no longer labeled and
 the first row has to be discarded. So instead we can convert this table 
 into a list of maps.
 
-`java type: List<Map<String, String>`
+`java type: List<Map<String, String>>`
 
 ```json
 [

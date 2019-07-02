@@ -16,20 +16,15 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var ParameterType_1 = __importDefault(require("./ParameterType"));
 var CucumberExpressionGenerator_1 = __importDefault(require("./CucumberExpressionGenerator"));
 var Errors_1 = require("./Errors");
-var INTEGER_REGEXPS = [/-?\d+/, /\d+/];
-var FLOAT_REGEXP = /-?\d*\.?\d+/;
-var WORD_REGEXP = /[^\s]+/;
-var STRING_REGEXP = /"([^"\\]*(\\.[^"\\]*)*)"|'([^'\\]*(\\.[^'\\]*)*)'/;
-var ANONYMOUS_REGEXP = /.*/;
 var ParameterTypeRegistry = /** @class */ (function () {
     function ParameterTypeRegistry() {
         this.parameterTypeByName = new Map();
         this.parameterTypesByRegexp = new Map();
-        this.defineParameterType(new ParameterType_1.default('int', INTEGER_REGEXPS, Number, function (s) { return (s === undefined ? null : Number(s)); }, true, true));
-        this.defineParameterType(new ParameterType_1.default('float', FLOAT_REGEXP, Number, function (s) { return (s === undefined ? null : parseFloat(s)); }, true, false));
-        this.defineParameterType(new ParameterType_1.default('word', WORD_REGEXP, String, function (s) { return s; }, false, false));
-        this.defineParameterType(new ParameterType_1.default('string', STRING_REGEXP, String, function (s) { return s.replace(/\\"/g, '"').replace(/\\'/g, "'"); }, true, false));
-        this.defineParameterType(new ParameterType_1.default('', ANONYMOUS_REGEXP, String, function (s) { return s; }, false, true));
+        this.defineParameterType(new ParameterType_1.default('int', ParameterTypeRegistry.INTEGER_REGEXPS, Number, function (s) { return (s === undefined ? null : Number(s)); }, true, true));
+        this.defineParameterType(new ParameterType_1.default('float', ParameterTypeRegistry.FLOAT_REGEXP, Number, function (s) { return (s === undefined ? null : parseFloat(s)); }, true, false));
+        this.defineParameterType(new ParameterType_1.default('word', ParameterTypeRegistry.WORD_REGEXP, String, function (s) { return s; }, false, false));
+        this.defineParameterType(new ParameterType_1.default('string', ParameterTypeRegistry.STRING_REGEXP, String, function (s) { return s.replace(/\\"/g, '"').replace(/\\'/g, "'"); }, true, false));
+        this.defineParameterType(new ParameterType_1.default('', ParameterTypeRegistry.ANONYMOUS_REGEXP, String, function (s) { return s; }, false, true));
     }
     Object.defineProperty(ParameterTypeRegistry.prototype, "parameterTypes", {
         get: function () {
@@ -96,6 +91,11 @@ var ParameterTypeRegistry = /** @class */ (function () {
             finally { if (e_1) throw e_1.error; }
         }
     };
+    ParameterTypeRegistry.INTEGER_REGEXPS = [/-?\d+/, /\d+/];
+    ParameterTypeRegistry.FLOAT_REGEXP = /-?\d*(?:[.,]\d+)?/;
+    ParameterTypeRegistry.WORD_REGEXP = /[^\s]+/;
+    ParameterTypeRegistry.STRING_REGEXP = /"([^"\\]*(\\.[^"\\]*)*)"|'([^'\\]*(\\.[^'\\]*)*)'/;
+    ParameterTypeRegistry.ANONYMOUS_REGEXP = /.*/;
     return ParameterTypeRegistry;
 }());
 exports.default = ParameterTypeRegistry;

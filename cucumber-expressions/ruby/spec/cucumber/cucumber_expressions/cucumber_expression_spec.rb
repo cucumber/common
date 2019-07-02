@@ -71,6 +71,10 @@ module Cucumber
         expect(match("{int}", "1.22")).to be_nil
       end
 
+      it "matches int as float" do
+        expect(match("{float}", "0")).to eq([0.0])
+      end
+
       it "matches float" do
         expect(match("{float}", "0.22")).to eq([0.22])
         expect(match("{float}", ".22")).to eq([0.22])

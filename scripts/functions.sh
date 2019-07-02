@@ -34,7 +34,13 @@ function echo_blue
 
 function docker_image() {
   dockerfile=$1
-  tag=$(cat ${dockerfile} | md5sum | cut -d ' ' -f 1)
+
+  if hash md5sum 2>/dev/null; then
+    tag=$(cat ${dockerfile} | md5sum | cut -d ' ' -f 1)
+  else
+    tag=$(cat ${dockerfile} | md5 -r | cut -d ' ' -f 1)
+  fi
+
   echo "cucumber/cucumber-build:${tag}"
 }
 

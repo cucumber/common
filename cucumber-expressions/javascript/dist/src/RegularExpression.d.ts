@@ -1,6 +1,7 @@
 import Argument from './Argument';
 import ParameterTypeRegistry from './ParameterTypeRegistry';
-export default class RegularExpression {
+import Expression from './Expression';
+export default class RegularExpression implements Expression {
     readonly regexp: RegExp;
     private readonly parameterTypeRegistry;
     private readonly treeRegexp;

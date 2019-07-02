@@ -3,6 +3,7 @@ import ParameterType from './ParameterType'
 import TreeRegexp from './TreeRegexp'
 import Argument from './Argument'
 import { CucumberExpressionError, UndefinedParameterTypeError } from './Errors'
+import Expression from './Expression'
 
 // RegExps with the g flag are stateful in JavaScript. In order to be able
 // to reuse them we have to wrap them in a function.
@@ -20,7 +21,7 @@ const PARAMETER_TYPES_CANNOT_BE_ALTERNATIVE =
 const PARAMETER_TYPES_CANNOT_BE_OPTIONAL =
   'Parameter types cannot be optional: '
 
-export default class CucumberExpression {
+export default class CucumberExpression implements Expression {
   private parameterTypes: Array<ParameterType<any>> = []
   private treeRegexp: TreeRegexp
 
@@ -41,21 +42,21 @@ export default class CucumberExpression {
     this.treeRegexp = new TreeRegexp(expr)
   }
 
-  public processEscapes(expression: string) {
+  private processEscapes(expression: string) {
     return expression.replace(ESCAPE_REGEXP(), '\\$1')
   }
 
-  public processOptional(expression: string) {
+  private processOptional(expression: string) {
     return expression.replace(OPTIONAL_REGEXP(), (match, p1, p2) => {
       if (p1 === DOUBLE_ESCAPE) {
         return `\\(${p2}\\)`
       }
-      this._checkNoParameterType(p2, PARAMETER_TYPES_CANNOT_BE_OPTIONAL)
+      this.checkNoParameterType(p2, PARAMETER_TYPES_CANNOT_BE_OPTIONAL)
       return `(?:${p2})?`
     })
   }
 
-  public processAlternation(expression: string) {
+  private processAlternation(expression: string) {
     return expression.replace(
       ALTERNATIVE_NON_WHITESPACE_TEXT_REGEXP(),
       match => {
@@ -64,7 +65,7 @@ export default class CucumberExpression {
         const replacement = match.replace(/\//g, '|').replace(/\\\|/g, '/')
         if (replacement.indexOf('|') !== -1) {
           for (const part of replacement.split(/\|/)) {
-            this._checkNoParameterType(
+            this.checkNoParameterType(
               part,
               PARAMETER_TYPES_CANNOT_BE_ALTERNATIVE
             )
@@ -77,7 +78,7 @@ export default class CucumberExpression {
     )
   }
 
-  public processParameters(
+  private processParameters(
     expression: string,
     parameterTypeRegistry: ParameterTypeRegistry
   ) {
@@ -109,7 +110,7 @@ export default class CucumberExpression {
     return this.expression
   }
 
-  public _checkNoParameterType(s: string, message: string) {
+  private checkNoParameterType(s: string, message: string) {
     if (s.match(PARAMETER_REGEXP())) {
       throw new CucumberExpressionError(message + this.source)
     }

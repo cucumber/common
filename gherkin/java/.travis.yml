@@ -1,14 +1,13 @@
-dist: trusty
 sudo: false
 language: java
 jdk:
-- oraclejdk8
+- openjdk8
 - openjdk11
 script: make default
 jobs:
   include:
   - stage: mvn deploy
-    jdk: oraclejdk8
+    jdk: openjdk8
     deploy:
       skip_cleanup: true
       provider: script

@@ -53,7 +53,7 @@ module Cucumber
       def <=>(other)
         return -1 if prefer_for_regexp_match? && !other.prefer_for_regexp_match?
         return 1 if other.prefer_for_regexp_match? && !prefer_for_regexp_match?
-        name <=> other.name
+        return name <=> other.name
       end
 
       private
