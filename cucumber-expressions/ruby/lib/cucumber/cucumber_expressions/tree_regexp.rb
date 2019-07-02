@@ -11,11 +11,13 @@ module Cucumber
         stack = [GroupBuilder.new]
         group_start_stack = []
         last = nil
+        following = nil
         escaping = false
         non_capturing_maybe = false
         char_class = false
 
         @regexp.source.each_char.with_index do |c, n|
+          following = @regexp.source[n + 1]
           if c == '[' && !escaping
             char_class = true
           elsif c == ']' && !escaping
@@ -40,7 +42,12 @@ module Cucumber
             stack.last.set_non_capturing!
             non_capturing_maybe = false
           elsif c == '<' && non_capturing_maybe
-            raise CucumberExpressionError.new("Named capture groups are not supported. See https://github.com/cucumber/cucumber/issues/329")
+            if (following == '=' || following == '!')
+              stack.last.set_non_capturing!
+              non_capturing_maybe = false
+            else
+              raise CucumberExpressionError.new("Named capture groups are not supported. See https://github.com/cucumber/cucumber/issues/329")
+            end
           end
 
           escaping = c == '\\' && !escaping
