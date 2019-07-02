@@ -89,6 +89,17 @@ public class TreeRegexpTest {
     }
 
     @Test
+    public void recognizes_lookaround_capture_groups() {
+        String regexp = "foo is a (?=[bar])(.*)$";
+        TreeRegexp tr = new TreeRegexp(regexp);
+
+        Group g = tr.match("foo is a big bar");
+        assertEquals("big bar", g.getChildren().get(0).getValue());
+
+        assertNull(tr.match("foo is a small bar"));
+    }
+
+    @Test
     public void works_with_escaped_backslash() {
         TreeRegexp tr = new TreeRegexp("foo\\\\(bar|baz)");
         Group g = tr.match("foo\\bar");
@@ -127,7 +138,7 @@ public class TreeRegexpTest {
         assertEquals("FU(BAR)", g.getChildren().get(0).getValue());
         assertEquals(0, g.getChildren().get(0).getChildren().size());
     }
-    
+
     @Test
     public void works_with_flags() {
         TreeRegexp tr = new TreeRegexp(Pattern.compile("HELLO", Pattern.CASE_INSENSITIVE));

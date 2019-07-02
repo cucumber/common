@@ -53,7 +53,7 @@ class TreeRegexp {
                 nonCapturingMaybe = false;
             } else if (c == '?' && last == '(') {
                 nonCapturingMaybe = true;
-            } else if ((c == ':' || c == '!') && nonCapturingMaybe) {
+            } else if ((c == ':' || c == '!' || c == '=') && nonCapturingMaybe) {
                 stack.peek().setNonCapturing();
                 nonCapturingMaybe = false;
             }
