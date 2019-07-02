@@ -31,9 +31,7 @@ describe('CucumberExpressionGenerator', () => {
     const match = cucumberExpression.match(text)
     if (match === null) {
       assert.fail(
-        `Expected text '${text}' to match generated expression '${
-          generatedExpression.source
-        }'`
+        `Expected text '${text}' to match generated expression '${generatedExpression.source}'`
       )
     }
     assert.strictEqual(match.length, expectedArgumentNames.length)

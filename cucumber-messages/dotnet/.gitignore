@@ -369,6 +369,7 @@ GitExtensions.settings.backup
 # Protobuf MSBuild results
 [Mm]essages.cs
 
-
 .packed
 .tested
+.generated
+.fixprotoc

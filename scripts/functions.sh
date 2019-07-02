@@ -34,9 +34,8 @@ function echo_blue
 
 function docker_image() {
   dockerfile=$1
-  image_name=$(basename ${dockerfile} | cut -d '.' -f 2)
   tag=$(cat ${dockerfile} | md5sum | cut -d ' ' -f 1)
-  echo "cucumber/${image_name}:${tag}"
+  echo "cucumber/cucumber-build:${tag}"
 }
 
 function docker_build() {

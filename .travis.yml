@@ -7,7 +7,7 @@ before_script:
 - export PATH=$PATH:$PWD/bin/linux/amd64
 script:
 - scripts/push_subrepos.sh
-- "./scripts/docker-run Dockerfile.cucumber-build make"
+- "./scripts/docker-run Dockerfile make"
 #- cd gherkin/dotnet && ../../scripts/docker-run ../../Dockerfile.cucumber-build-dotnet
 #  make
 env:

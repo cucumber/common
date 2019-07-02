@@ -1,4 +1,5 @@
 SHELL := /usr/bin/env bash
+ALPINE := $(shell which apk 2> /dev/null)
 SLN_FILES = $(shell find . -name "*.sln")
 CSPROJ_FILES = $(shell find . -name "*.csproj")
 CSHARP_SOURCE_FILES = $(shell find . -name "*.cs")
@@ -16,8 +17,11 @@ endif
 default: .packed
 .PHONY: default
 
-.built: $(SLN_FILES) $(CSPROJ_FILES) $(CSHARP_SOURCE_FILES)
+.built: $(SLN_FILES) $(CSPROJ_FILES) $(CSHARP_SOURCE_FILES) .generated
 	dotnet build -bl -c Release
+	touch $@
+
+.generated:
 	touch $@
 
 .tested: .built
@@ -28,9 +32,9 @@ default: .packed
 	dotnet pack -c Release -p:PrereleaseVersionPostfix="$(LIBRARY_VERSION)"
 	touch $@
 
-clean: clean-java
+clean: clean-dotnet
+	rm -rf .generated .tested .built .packed
 .PHONY: clean
 
-clean-java:
-	rm -rf .tested .built .packed
-.PHONY: clean-java
+clean-dotnet:
+.PHONY: clean-dotnet
