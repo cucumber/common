@@ -58,6 +58,12 @@ module Cucumber
         expect(group.children.length).to eq(3)
       end
 
+      it 'recognizes lookaround capture groups' do
+        tr = TreeRegexp.new(/foo is a (?=[bar])(.*)$/)
+        group = tr.match("foo is a big bar")
+        expect(group.children[0].value).to eq('big bar')
+      end
+
       it 'works with escaped backslash' do
         tr = TreeRegexp.new(/foo\\(bar|baz)/)
         group = tr.match("foo\\bar")
