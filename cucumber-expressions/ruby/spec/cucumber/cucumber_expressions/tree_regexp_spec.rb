@@ -31,6 +31,14 @@ module Cucumber
         expect(group.children.length).to eq 1
       end
 
+      it 'treats `?=` as a non-capturing group' do
+        tr = TreeRegexp.new(/a(?=b)(.+)$/)
+        group = tr.match('abc')
+        expect(group.value).to eq('abc')
+        expect(group.children[0].value).to eq('bc')
+        expect(group.children.length).to eq 1
+      end
+
       it 'matches optional group' do
         tr = TreeRegexp.new(/^Something( with an optional argument)?/)
         group = tr.match('Something')
@@ -56,12 +64,6 @@ module Cucumber
         tr = TreeRegexp.new(/(?:a)(:b)(\?c)(d)/)
         group = tr.match("a:b?cd")
         expect(group.children.length).to eq(3)
-      end
-
-      it 'recognizes lookaround capture groups' do
-        tr = TreeRegexp.new(/foo is a (?=[bar])(.*)$/)
-        group = tr.match("foo is a big bar")
-        expect(group.children[0].value).to eq('big bar')
       end
 
       it 'works with escaped backslash' do

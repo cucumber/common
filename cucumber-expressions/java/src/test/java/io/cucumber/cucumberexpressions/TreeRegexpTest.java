@@ -50,6 +50,15 @@ public class TreeRegexpTest {
     }
 
     @Test
+    public void ignores_question_mark_equal_sign_non_capturing_group() {
+        TreeRegexp tr = new TreeRegexp("a(?=b)(.+)");
+        Group g = tr.match("abc");
+        assertEquals("abc", g.getValue());
+        assertEquals(1, g.getChildren().size());
+        assertEquals("bc", g.getChildren().get(0).getValue());
+    }
+
+    @Test
     public void matches_optional_group() {
         TreeRegexp tr = new TreeRegexp("^Something( with an optional argument)?");
         Group g = tr.match("Something");
@@ -86,17 +95,6 @@ public class TreeRegexpTest {
         TreeRegexp tr = new TreeRegexp("(?:a)(:b)(\\?c)(d)");
         Group g = tr.match("a:b?cd");
         assertEquals(3, g.getChildren().size());
-    }
-
-    @Test
-    public void recognizes_lookaround_capture_groups() {
-        String regexp = "foo is a (?=[bar])(.*)$";
-        TreeRegexp tr = new TreeRegexp(regexp);
-
-        Group g = tr.match("foo is a big bar");
-        assertEquals("big bar", g.getChildren().get(0).getValue());
-
-        assertNull(tr.match("foo is a small bar"));
     }
 
     @Test
