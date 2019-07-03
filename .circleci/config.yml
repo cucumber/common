@@ -1,21 +1,64 @@
 version: 2
 jobs:
-  build:
-    docker:
-      - image: cucumber/cucumber-build:53bdf15c8c2e8fab1fab780056642239
-
-    working_directory: ~/repo
-
+  checkout:
     steps:
       - checkout
-      - restore_cache:
-          keys:
-            - v1-dependencies-{{ checksum "pom.xml" }}
-            - v1-dependencies-
 
-      - run: make
+  c21e-javascript:
+    docker:
+      - image: cucumber/cucumber-build:eaf07fd33b43f4078d85f1b3886c3925
+    steps:
+      - run: 
+          name: c21e/javascript
+          command: |
+            cd c21e/javascript
+            make
 
-      - save_cache:
-          paths:
-            - ~/.m2
-          key: v1-dependencies-{{ checksum "pom.xml" }}
+  cucumber-expressions-javascript:
+    docker:
+      - image: cucumber/cucumber-build:eaf07fd33b43f4078d85f1b3886c3925
+    steps:
+      - run: 
+          name: cucumber-expressions/javascript
+          command: |
+            cd cucumber-expressions/javascript
+            make
+
+  cucumber-messages-javascript:
+    docker:
+      - image: cucumber/cucumber-build:eaf07fd33b43f4078d85f1b3886c3925
+    steps:
+      - run: 
+          name: cucumber-messages/javascript
+          command: |
+            cd cucumber-messages/javascript
+            make
+
+  gherkin-javascript:
+    docker:
+      - image: cucumber/cucumber-build:eaf07fd33b43f4078d85f1b3886c3925
+    steps:
+      - run: 
+          name: gherkin/javascript
+          command: |
+            cd gherkin/javascript
+            make
+
+workflows:
+  version: 2
+  javascript:
+    jobs:
+      - c21e-javascript:
+          requires:
+            - checkout
+      - cucumber-expressions-javascript:
+          requires:
+            - checkout
+      - cucumber-messages-javascript:
+          requires:
+            - checkout
+      - gherkin-javascript:
+          requires:
+            - checkout
+            - c21e-javascript
+            - cucumber-messages-javascript
