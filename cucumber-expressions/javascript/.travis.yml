@@ -12,8 +12,10 @@ before_install:
 script: make default
 jobs:
   include:
-  - stage: npm release
+  - stage: npm publish
     node_js: '12'
+    # Remove the .npmrc so the deploy is made to the default npm registry
+    before_deploy: 'rm .npmrc'
     deploy:
       skip_cleanup: true
       provider: npm

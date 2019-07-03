@@ -24,6 +24,9 @@ source "${DIR}/functions.sh"
 dockerfile=$1
 shift
 docker run \
+  -e NPM_SNAPSHOT_REGISTRY="${NPM_SNAPSHOT_REGISTRY}" \
+  -e NPM_SNAPSHOT_REGISTRY_TOKEN="${NPM_SNAPSHOT_REGISTRY_TOKEN}" \
+  -e TRAVIS_BUILD_NUMBER="${TRAVIS_BUILD_NUMBER}" \
   -e TRAVIS_BRANCH="${TRAVIS_BRANCH}" \
   -e TRAVIS_TAG="${TRAVIS_TAG}" \
   -v "${LOCAL_PATH}":/app \

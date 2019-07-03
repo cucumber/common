@@ -163,3 +163,18 @@ in the "Cucumber Open Source" vault.
 
 The images are published [in the cucumber repository section at
 Docker Hub](https://hub.docker.com/r/cucumber/).
+
+### NPM and CI
+
+The CI process will publish snapshot releases to our own private NPM registry.
+This allows dependent modules to download these snapshot releases without
+having to access them from the public NPM registry.
+
+Publishing to the snapshot registry happens when the following environment
+variables are set:
+
+* `NPM_SNAPSHOT_REGISTRY` (For local development, set it to `localhost:4873`)
+* `NPM_SNAPSHOT_REGISTRY_TOKEN`
+* `TRAVIS_BUILD_NUMBER`
+
+Tagged releases are published to the public NPM registry. 

@@ -5,7 +5,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ----
-## [Unreleased]
+## [Unreleased - 1.1.2-SNAPSHOT]
 
 ### Added
 * Go: New implementation.

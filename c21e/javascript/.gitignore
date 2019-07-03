@@ -1,3 +1,4 @@
+dist/
 .idea/
 .nyc_output/
 coverage/
@@ -10,5 +11,8 @@ package-lock.json
 .linted
 .compared
 .codegen
-acceptance
+.published-snapshot
+.downloaded-exes
+.npm-linked
+acceptance/
 *-go/

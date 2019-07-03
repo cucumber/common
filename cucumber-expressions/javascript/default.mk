@@ -7,7 +7,7 @@ else
 	LIBRARY_VERSION=master
 endif
 
-default: .built .tested .linted
+default: .published-snapshot
 .PHONY: default
 
 .deps: package-lock.json
@@ -27,6 +27,16 @@ default: .built .tested .linted
 	npm run lint-fix
 	touch $@
 
+.published-snapshot: .tested .linted
+ifdef NPM_SNAPSHOT_REGISTRY
+ifdef NPM_SNAPSHOT_REGISTRY_TOKEN
+ifdef TRAVIS_BUILD_NUMBER
+	npm publish --tag $$(./node_modules/.bin/npm-snapshot $${TRAVIS_BUILD_NUMBER})
+endif
+endif
+endif
+	touch $@
+
 package-lock.json: package.json
 	npm install
 	npm link
@@ -36,5 +46,5 @@ clean: clean-javascript
 .PHONY: clean
 
 clean-javascript:
-	rm -rf .codegen .linted package-lock.json node_modules coverage dist
+	rm -rf .codegen .built .tested .linted .published-snapshot package-lock.json node_modules coverage dist
 .PHONY: clean-javascript

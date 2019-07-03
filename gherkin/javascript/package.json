@@ -1,6 +1,6 @@
 {
   "name": "gherkin",
-  "version": "7.0.0",
+  "version": "7.0.0-SNAPSHOT-verdaccio",
   "description": "Gherkin parser",
   "main": "dist/src/index.js",
   "types": "dist/src/index.d.ts",
@@ -30,19 +30,20 @@
   },
   "homepage": "https://github.com/cucumber/gherkin-javascript",
   "devDependencies": {
-    "@types/mocha": "^5.2.6",
-    "@types/node": "^11.13.9",
-    "mocha": "^6.0.2",
+    "@types/mocha": "^5.2.7",
+    "@types/node": "^12.0.10",
+    "mocha": "^6.1.4",
+    "npm-snapshot": "^1.0.3",
     "nyc": "^14.1.0",
-    "prettier": "^1.17.0",
-    "ts-node": "^8.1.0",
-    "tslint": "^5.16.0",
+    "prettier": "^1.18.2",
+    "ts-node": "^8.3.0",
+    "tslint": "^5.18.0",
     "tslint-config-prettier": "^1.18.0",
     "tslint-plugin-prettier": "^2.0.1",
-    "typescript": "^3.4.5"
+    "typescript": "^3.5.2"
   },
   "dependencies": {
-    "c21e": "cucumber/c21e-javascript",
-    "cucumber-messages": "cucumber/cucumber-messages-javascript"
+    "c21e": "^1.2.2-SNAPSHOT-verdaccio",
+    "cucumber-messages": "^3.0.1-SNAPSHOT-verdaccio"
   }
 }

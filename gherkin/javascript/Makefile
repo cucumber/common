@@ -10,15 +10,21 @@ ERRORS       = $(patsubst testdata/%.feature,acceptance/testdata/%.feature.error
 
 .DELETE_ON_ERROR:
 
-.deps:
+.deps: .downloaded-exes .npm-linked
+
+.downloaded-exes:
 	./scripts/s3-download gherkin-go $(LIBRARY_VERSION)
-	# Linking will only work when we're building in the monorepo
-	# On subrepo builds SKIP_NPM_LINK is set in .travis.yml so
-	# we'll use the packages from from package.json
+	touch $@
+
+.npm-linked:
+	# Linking will only work when we're building in the monorepo.
+	# SKIP_NPM_LINK is set in .travis.yml so on subrepo CI builds
+	# we'll download the packages from verdaccio
 ifndef SKIP_NPM_LINK
 	npm link cucumber-messages
 	npm link c21e
 endif
+	touch $@
 
 .tested: dist/src/index.js .compared
 
@@ -49,5 +55,5 @@ acceptance/testdata/%.feature.errors.ndjson: testdata/%.feature testdata/%.featu
 	diff --unified <(jq "." $<.errors.ndjson) <(jq "." $@)
 
 clean:
-	rm -rf acceptance gherkin-go
+	rm -rf acceptance gherkin-go .downloaded-exes .npm-linked
 .PHONY: clean
