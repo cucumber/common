@@ -1,15 +1,29 @@
+# https://github.com/envoyproxy/envoy/blob/master/.circleci/config.yml
+# https://hackernoon.com/circleci-performance-difference-between-cache-and-workspace-5567679c3601
+# https://circleci.com/docs/2.0/caching/#source-caching
 version: 2
+
+executors:
+  docker-executor:
+    docker:
+      - image: cucumber/cucumber-build:eaf07fd33b43f4078d85f1b3886c3925
+    working_directory: ~/cucumber
+
 jobs:
   checkout:
-    docker:
-      - image: cucumber/cucumber-build:eaf07fd33b43f4078d85f1b3886c3925
+    executor: docker-executor
     steps:
       - checkout
+      - save_cache:
+          key: v1-repo-{{ .Environment.CIRCLE_SHA1 }}
+          paths:
+            - ~/cucumber
 
   c21e-javascript:
-    docker:
-      - image: cucumber/cucumber-build:eaf07fd33b43f4078d85f1b3886c3925
+    executor: docker-executor
     steps:
+      - restore_cache:
+          key: v1-repo-{{ .Environment.CIRCLE_SHA1 }}
       - run: 
           name: c21e/javascript
           command: |
@@ -17,9 +31,10 @@ jobs:
             make
 
   cucumber-expressions-javascript:
-    docker:
-      - image: cucumber/cucumber-build:eaf07fd33b43f4078d85f1b3886c3925
+    executor: docker-executor
     steps:
+      - restore_cache:
+          key: v1-repo-{{ .Environment.CIRCLE_SHA1 }}
       - run: 
           name: cucumber-expressions/javascript
           command: |
@@ -27,19 +42,20 @@ jobs:
             make
 
   cucumber-messages-javascript:
-    docker:
-      - image: cucumber/cucumber-build:eaf07fd33b43f4078d85f1b3886c3925
+    executor: docker-executor
     steps:
+      - restore_cache:
+          key: v1-repo-{{ .Environment.CIRCLE_SHA1 }}
       - run: 
           name: cucumber-messages/javascript
           command: |
             cd cucumber-messages/javascript
             make
 
-  gherkin-javascript:
-    docker:
-      - image: cucumber/cucumber-build:eaf07fd33b43f4078d85f1b3886c3925
+    executor: docker-executor
     steps:
+      - restore_cache:
+          key: v1-repo-{{ .Environment.CIRCLE_SHA1 }}
       - run: 
           name: gherkin/javascript
           command: |
@@ -51,17 +67,10 @@ workflows:
   javascript:
     jobs:
       - checkout
-      - c21e-javascript:
-          requires:
-            - checkout
-      - cucumber-expressions-javascript:
-          requires:
-            - checkout
-      - cucumber-messages-javascript:
-          requires:
-            - checkout
+      - c21e-javascript
+      - cucumber-expressions-javascript
+      - cucumber-messages-javascript
       - gherkin-javascript:
           requires:
-            - checkout
             - c21e-javascript
             - cucumber-messages-javascript
