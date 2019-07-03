@@ -1,6 +1,8 @@
 version: 2
 jobs:
   checkout:
+    docker:
+      - image: cucumber/cucumber-build:eaf07fd33b43f4078d85f1b3886c3925
     steps:
       - checkout
 
