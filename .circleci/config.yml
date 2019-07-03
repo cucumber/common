@@ -48,6 +48,7 @@ workflows:
   version: 2
   javascript:
     jobs:
+      - checkout
       - c21e-javascript:
           requires:
             - checkout
