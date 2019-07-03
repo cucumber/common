@@ -26,7 +26,8 @@ RUN apk add --no-cache \
   ruby \
   ruby-dev \
   unzip \
-  wget
+  wget \
+  xmlstarlet
 
 # Configure Ruby
 RUN echo "gem: --no-document" > ~/.gemrc
