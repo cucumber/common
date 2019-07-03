@@ -31,6 +31,7 @@ default: .published-snapshot
 ifdef NPM_SNAPSHOT_REGISTRY
 ifdef NPM_SNAPSHOT_REGISTRY_TOKEN
 ifdef TRAVIS_BUILD_NUMBER
+	mv .npmrc_snapshots .npmrc
 	npm publish --tag $$(./node_modules/.bin/npm-snapshot $${TRAVIS_BUILD_NUMBER})
 endif
 endif
