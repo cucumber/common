@@ -52,6 +52,7 @@ jobs:
             cd cucumber-messages/javascript
             make
 
+  gherkin:
     executor: docker-executor
     steps:
       - restore_cache:
