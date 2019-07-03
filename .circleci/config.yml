@@ -68,10 +68,17 @@ workflows:
   javascript:
     jobs:
       - checkout
-      - c21e-javascript
-      - cucumber-expressions-javascript
-      - cucumber-messages-javascript
+      - c21e-javascript:
+          requires:
+            - checkout
+      - cucumber-expressions-javascript:
+          requires:
+            - checkout
+      - cucumber-messages-javascript:
+          requires:
+            - checkout
       - gherkin-javascript:
           requires:
+            - checkout
             - c21e-javascript
             - cucumber-messages-javascript
