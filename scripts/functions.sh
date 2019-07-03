@@ -374,36 +374,18 @@ function dotnet_release_karma()
   ls ~/.config/NuGet/NuGet.Config && echo_green ".NET ok" || echo_red "\nYou need to: nuget setApiKey Your-API-Key. See https://docs.nuget.org/ndocs/create-packages/publish-a-package"
 }
 
-function dotnet_release()
+
+function dotnet_version()
 {
   dir=$1
   version=$2
-  next_version=$3
-
-  pushd "${dir}"
-  dotnet_update_version "${version}"
-  dotnet pack --configuration Release
-  nupkg_dir=$(cat .nuget-push | head -1) 
-  nupkg=$(find_path "${nupkg_dir}" "*.nupkg")
   
-  echo_green "Log into nuget.org and manually upload ${nupkg}"
-
-  git add .
-  git commit -m "Release ${version}"
-  git show > .release.patch
-  cd ..
-  patch -p1 < .release/.release.patch
-  popd
-}
-
-function dotnet_update_version()
-{
-  version=$1
-  nupkg_dir=$(cat .nuget-push | head -1)
-  csproj=$(find_path "${nupkg_dir}" "*.csproj")
+  releaseable_file=$(find_path "${dir}" "*.releaseable")
+  releaseable_dir=$(dirname ${releaseable_file})
+  csproj=$(find_path "${releaseable_dir}" "*.csproj")
 
   xmlstarlet ed --inplace --ps \
-    --update "/Project/PropertyGroup/PackageVersion" \
+    --update "/Project/PropertyGroup/VersionNumber" \
     --value "${version}" \
     "${csproj}"
   echo_green "Updated ${csproj} to ${version}"
