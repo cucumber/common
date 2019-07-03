@@ -1,0 +1,17 @@
+language: csharp
+mono: none
+dotnet: 2.2.300
+script:
+ - make
+ 
+jobs:
+  include:
+  - stage: NuGet.org push
+    deploy:
+      skip_cleanup: true
+      provider: script
+      script: dotnet nuget push --api-key "$NUGET_API_KEY" GeneratedNuGetPackages/Release/*.nupkg
+      on:
+        tags: true
+      api_key:
+        secure: AmQUTZce4l/tfc4oEGai1MTpoIsG0JbCbjCaVrttPD80i/4iQyR27lmfxaiTmlWfNxkBAHiK6JNd3NNckmQVu/8yZ5sB/2qw+FKwzzjdLg4LczEuJocK4hGWw0JETkRVHucXxfS6gA0ngZ6EpvM5IHknmpfTsrVu/5Ri7JKiXsqzQMkDNtcwEZJX9hIdaOXXT+PtedVyoElw7EcIQ90m3IMEUtu8fMm2nklp8qWmBEnbWeD1+MAvtSJLWzO2KAlSMxbmkinRUYw9Jo6+lu9y9G1UDOZ7P7FVlD+wBLuFHL1sto+C/S1zHXmCW14pL98uf1cVjzTHafNd4Qmi73n46CASE3QRSbQnLSdJ6kMGZuHciXCGCHhhJgCqw5zznskWPzoC/PCdvhX2g4vwMxpZqazIAqGxiaMXEZvdj3H5tPOxkR+PHdIGHEcVmpWBRg99oH01n7GqUj/+/cMxg5d85QkHqzgwjvsOvqnXsdbk4Qz7OJrx0uD3FqOfyFQdiMDWH32thN67dEmAT19GvHepF4Kj6RWk6RoZG9gqjfz99OSEidpT8VkE5CtfRZcyEXst77Bg5KIDxGr3Lm5G3vG8P5AWVdvNpVcSeISsEJonKrP35lXHLp/rJ/5pJwQo5O5unrkLSfqDqOReM829m7YRIsTK8l9EKrkjNzFaXSg7Ndg=

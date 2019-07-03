@@ -17,7 +17,7 @@ jobs:
     - env: PUSH_SUB_REPOS=true
       script: scripts/push_subrepos.sh
     - env: DOCKER_RUN=true
-      script: scripts/docker-run Dockerfile.cucumber-build make
+      script: scripts/docker-run Dockerfile make
 
 env:
   global:
