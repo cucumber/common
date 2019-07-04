@@ -12,7 +12,7 @@ default: .gofmt .tested
 .PHONY: default
 
 ifneq (,$(wildcard ./cmd/main.go))
-ifdef ALPINE
+ifndef ALPINE
 # Cross-compile executables if there is a CLI, and if we're running on Alpine (Docker). 
 # This speeds up the build for developers who are building on their host OS
 default: .dist
