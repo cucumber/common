@@ -14,18 +14,18 @@ jobs:
     executor: docker-executor
     steps:
       - checkout
-      - save_cache:
-          key: v1-repo-{{ .Environment.CIRCLE_SHA1 }}
-          paths:
-            - ~/cucumber
+      - persist_to_workspace:
+          root: ~/cucumber
+          paths: 
+            - **/*
 
 ### Go
 
   cucumber-expressions-go:
     executor: docker-executor
     steps:
-      - restore_cache:
-          key: v1-repo-{{ .Environment.CIRCLE_SHA1 }}
+      - attach_workspace:
+          at: ~/cucumber
       - run: 
           name: cucumber-expressions/go
           command: |
@@ -35,8 +35,8 @@ jobs:
   cucumber-messages-go:
     executor: docker-executor
     steps:
-      - restore_cache:
-          key: v1-repo-{{ .Environment.CIRCLE_SHA1 }}
+      - attach_workspace:
+          at: ~/cucumber
       - run: 
           name: cucumber-messages/go
           command: |
@@ -48,8 +48,8 @@ jobs:
   c21e-javascript:
     executor: docker-executor
     steps:
-      - restore_cache:
-          key: v1-repo-{{ .Environment.CIRCLE_SHA1 }}
+      - attach_workspace:
+          at: ~/cucumber
       - run: 
           name: c21e/javascript
           command: |
@@ -64,8 +64,8 @@ jobs:
   cucumber-expressions-javascript:
     executor: docker-executor
     steps:
-      - restore_cache:
-          key: v1-repo-{{ .Environment.CIRCLE_SHA1 }}
+      - attach_workspace:
+          at: ~/cucumber
       - run: 
           name: cucumber-expressions/javascript
           command: |
@@ -80,8 +80,8 @@ jobs:
   cucumber-messages-javascript:
     executor: docker-executor
     steps:
-      - restore_cache:
-          key: v1-repo-{{ .Environment.CIRCLE_SHA1 }}
+      - attach_workspace:
+          at: ~/cucumber
       - run: 
           name: cucumber-messages/javascript
           command: |
@@ -96,8 +96,6 @@ jobs:
   gherkin-javascript:
     executor: docker-executor
     steps:
-      - restore_cache:
-          key: v1-repo-{{ .Environment.CIRCLE_SHA1 }}
       - attach_workspace:
           at: ~/cucumber
       - run: 
@@ -109,8 +107,6 @@ jobs:
   tag-expressions-javascript:
     executor: docker-executor
     steps:
-      - restore_cache:
-          key: v1-repo-{{ .Environment.CIRCLE_SHA1 }}
       - attach_workspace:
           at: ~/cucumber
       - run: 
