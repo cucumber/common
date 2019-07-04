@@ -6,7 +6,7 @@
 .dist
 .dist-compressed
 .gofmt
-.mod-replaced
+.go-get
 bin/
 acceptance/
 dist_compressed/
