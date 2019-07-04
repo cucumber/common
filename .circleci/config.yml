@@ -95,7 +95,7 @@ jobs:
             cd gherkin/javascript
             make
 
-  gherkin-tag-expressions:
+  tag-expressions-javascript:
     executor: docker-executor
     steps:
       - restore_cache:
@@ -110,9 +110,17 @@ jobs:
 
 workflows:
   version: 2
-  javascript:
+  monorepo-build:
     jobs:
       - checkout
+### Go
+
+      - cucumber-expressions-go:
+          requires:
+            - checkout
+
+### JavaScript
+
       - c21e-javascript:
           requires:
             - checkout
