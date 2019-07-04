@@ -37,6 +37,7 @@ jobs:
           root: ~/cucumber
           paths: 
             - c21e/javascript/dist
+            - c21e/javascript/node_modules
 
   cucumber-expressions-javascript:
     executor: docker-executor
@@ -56,6 +57,7 @@ jobs:
           root: ~/cucumber
           paths: 
             - cucumber-expressions/javascript/dist
+            - cucumber-expressions/javascript/node_modules
 
   cucumber-messages-javascript:
     executor: docker-executor
@@ -75,6 +77,7 @@ jobs:
           root: ~/cucumber
           paths: 
             - cucumber-messages/javascript/dist
+            - cucumber-messages/javascript/node_modules
 
   gherkin-javascript:
     executor: docker-executor
