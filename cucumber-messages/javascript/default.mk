@@ -40,7 +40,6 @@ endif
 
 package-lock.json: package.json
 	npm install
-	npm link
 	touch $@
 
 clean: clean-javascript
