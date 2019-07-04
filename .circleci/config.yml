@@ -31,7 +31,8 @@ jobs:
             make
       - persist_to_workspace:
           root: /usr/lib/node_modules
-            paths: c21e
+          paths: 
+            - c21e
       - persist_to_workspace:
           root: ~/cucumber
           paths: 
@@ -49,7 +50,8 @@ jobs:
             make
       - persist_to_workspace:
           root: /usr/lib/node_modules
-            paths: cucumber-expressions
+          paths: 
+            - cucumber-expressions
       - persist_to_workspace:
           root: ~/cucumber
           paths: 
@@ -67,7 +69,8 @@ jobs:
             make
       - persist_to_workspace:
           root: /usr/lib/node_modules
-            paths: cucumber-messages
+          paths: 
+            - cucumber-messages
       - persist_to_workspace:
           root: ~/cucumber
           paths: 
