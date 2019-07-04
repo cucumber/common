@@ -19,6 +19,21 @@ jobs:
           paths:
             - ~/cucumber
 
+### Go
+
+  cucumber-expressions-go:
+    executor: docker-executor
+    steps:
+      - restore_cache:
+          key: v1-repo-{{ .Environment.CIRCLE_SHA1 }}
+      - run: 
+          name: cucumber-expressions/go
+          command: |
+            cd cucumber-expressions/go
+            make
+
+### JavaScript
+
   c21e-javascript:
     executor: docker-executor
     steps:
@@ -29,10 +44,6 @@ jobs:
           command: |
             cd c21e/javascript
             make
-      # - persist_to_workspace:
-      #     root: /usr/lib/node_modules
-      #     paths: 
-      #       - c21e
       - persist_to_workspace:
           root: ~/cucumber
           paths: 
@@ -49,10 +60,6 @@ jobs:
           command: |
             cd cucumber-expressions/javascript
             make
-      # - persist_to_workspace:
-      #     root: /usr/lib/node_modules
-      #     paths: 
-      #       - cucumber-expressions
       - persist_to_workspace:
           root: ~/cucumber
           paths: 
@@ -69,10 +76,6 @@ jobs:
           command: |
             cd cucumber-messages/javascript
             make
-      # - persist_to_workspace:
-      #     root: /usr/lib/node_modules
-      #     paths: 
-      #       - cucumber-messages
       - persist_to_workspace:
           root: ~/cucumber
           paths: 
@@ -84,14 +87,25 @@ jobs:
     steps:
       - restore_cache:
           key: v1-repo-{{ .Environment.CIRCLE_SHA1 }}
-      # - attach_workspace:
-      #     at: /usr/lib/node_modules
       - attach_workspace:
           at: ~/cucumber
       - run: 
           name: gherkin/javascript
           command: |
             cd gherkin/javascript
+            make
+
+  gherkin-tag-expressions:
+    executor: docker-executor
+    steps:
+      - restore_cache:
+          key: v1-repo-{{ .Environment.CIRCLE_SHA1 }}
+      - attach_workspace:
+          at: ~/cucumber
+      - run: 
+          name: tag-expressions/javascript
+          command: |
+            cd tag-expressions/javascript
             make
 
 workflows:
@@ -113,3 +127,6 @@ workflows:
             - checkout
             - c21e-javascript
             - cucumber-messages-javascript
+      - tag-expressions-javascript:
+          requires:
+            - checkout
