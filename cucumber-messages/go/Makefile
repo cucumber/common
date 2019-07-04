@@ -4,7 +4,6 @@ include default.mk
 
 .go-get:
 	go get github.com/gogo/protobuf/proto
-	# go get github.com/golang/protobuf/protoc-gen-go
 	go get github.com/stretchr/testify
 
 .tested: v3/messages.pb.go
