@@ -31,7 +31,8 @@ jobs:
             make
       - persist_to_workspace:
           root: /usr/lib/node_modules
-            paths: c21e
+          paths: 
+            - c21e
 
   cucumber-expressions-javascript:
     executor: docker-executor
@@ -45,7 +46,8 @@ jobs:
             make
       - persist_to_workspace:
           root: /usr/lib/node_modules
-            paths: cucumber-expressions
+          paths: 
+            - cucumber-expressions
 
   cucumber-messages-javascript:
     executor: docker-executor
@@ -59,7 +61,8 @@ jobs:
             make
       - persist_to_workspace:
           root: /usr/lib/node_modules
-            paths: cucumber-messages
+          paths: 
+            - cucumber-messages
 
   gherkin-javascript:
     executor: docker-executor
