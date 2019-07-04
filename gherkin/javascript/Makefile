@@ -10,26 +10,19 @@ ERRORS       = $(patsubst testdata/%.feature,acceptance/testdata/%.feature.error
 
 .DELETE_ON_ERROR:
 
-.deps: .downloaded-exes
+.deps: gherkin-go .npm-linked
 
-ifndef SKIP_NPM_LINK
-.deps: .npm-linked
-endif
-
-.downloaded-exes:
-	./scripts/s3-download gherkin-go $(LIBRARY_VERSION)
-	touch $@
+gherkin-go:
+	#./scripts/s3-download gherkin-go $(LIBRARY_VERSION)
+	rm -rf gherkin-go
+	ln -s "$$(pwd)/../../gherkin/go/dist" gherkin-go
 
 .npm-linked:
-	# Linking will only work when we're building in the monorepo.
-	# SKIP_NPM_LINK is set in .travis.yml so on subrepo CI builds
-	# we'll download the packages from verdaccio
+	# `npm link` does not work on CircleCI, so we're doing manual symlinking instead
 	rm -rf node_modules/cucumber-messages
 	ln -s "$$(pwd)/../../cucumber-messages/javascript" node_modules/cucumber-messages
 	rm -rf node_modules/c21e
 	ln -s "$$(pwd)/../../c21e/javascript" node_modules/c21e
-	# npm link cucumber-messages
-	# npm link c21e
 	touch $@
 
 .tested: dist/src/index.js .compared
@@ -61,5 +54,5 @@ acceptance/testdata/%.feature.errors.ndjson: testdata/%.feature testdata/%.featu
 	diff --unified <(jq "." $<.errors.ndjson) <(jq "." $@)
 
 clean:
-	rm -rf acceptance gherkin-go .downloaded-exes .npm-linked
+	rm -rf acceptance gherkin-go .exes-linked .npm-linked
 .PHONY: clean

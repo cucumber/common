@@ -57,6 +57,10 @@ jobs:
           command: |
             cd gherkin/go
             make
+      - persist_to_workspace:
+          root: ~/cucumber
+          paths: 
+            - gherkin/go/dist
 
 ### JavaScript
 
@@ -165,6 +169,7 @@ workflows:
             - checkout
             - c21e-javascript
             - cucumber-messages-javascript
+            - gherkin-go
       - tag-expressions-javascript:
           requires:
             - checkout

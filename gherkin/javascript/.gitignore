@@ -15,4 +15,4 @@ package-lock.json
 .downloaded-exes
 .npm-linked
 acceptance/
-*-go/
+*-go
