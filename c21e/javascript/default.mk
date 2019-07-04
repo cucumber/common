@@ -18,6 +18,7 @@ default: .built .published-snapshot
 
 .built: .deps .codegen $(TYPESCRIPT_SOURCE_FILES)
 	npm run build
+	npm link
 
 .tested: .deps .codegen $(TYPESCRIPT_SOURCE_FILES)
 	TS_NODE_TRANSPILE_ONLY=1 npm run test
