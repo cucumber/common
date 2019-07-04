@@ -13,8 +13,8 @@ default: .gofmt .tested
 
 ifneq (,$(wildcard ./cmd/main.go))
 ifndef ALPINE
-# Cross-compile executables if there is a CLI, and if we're running on Alpine (Docker). 
-# This speeds up the build for developers who are building on their host OS
+# Cross-compile executables if there is a CLI, and if we're not running on Alpine (Docker)
+# where cross-compilation doesn't work. 
 default: .dist
 endif
 endif
