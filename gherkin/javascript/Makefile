@@ -21,12 +21,12 @@ ERRORS       = $(patsubst testdata/%.feature,acceptance/testdata/%.feature.error
 	# SKIP_NPM_LINK is set in .travis.yml so on subrepo CI builds
 	# we'll download the packages from verdaccio
 ifndef SKIP_NPM_LINK
-	# rm -rf node_modules/cucumber-messages
-	# ln -s "$$(pwd)/../../cucumber-messages/javascript" node_modules/cucumber-messages
-	# rm -rf node_modules/c21e
-	# ln -s "$$(pwd)/../../c21e/javascript" node_modules/c21e
-	npm link cucumber-messages
-	npm link c21e
+	rm -rf node_modules/cucumber-messages
+	ln -s "$$(pwd)/../../cucumber-messages/javascript" node_modules/cucumber-messages
+	rm -rf node_modules/c21e
+	ln -s "$$(pwd)/../../c21e/javascript" node_modules/c21e
+	# npm link cucumber-messages
+	# npm link c21e
 endif
 	touch $@
 
