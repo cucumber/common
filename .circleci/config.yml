@@ -12,6 +12,10 @@ executors:
     docker:
       - image: circleci/golang:1.12
     working_directory: ~/cucumber
+  docker-circleci-node:
+    docker:
+      - image: circleci/node:12
+    working_directory: ~/cucumber
 
 jobs:
   checkout:
@@ -62,10 +66,21 @@ jobs:
           paths: 
             - gherkin/go/dist
 
+  tag-expressions-go:
+    executor: docker-circleci-golang
+    steps:
+      - attach_workspace:
+          at: ~/cucumber
+      - run: 
+          name: tag-expressions/go
+          command: |
+            cd tag-expressions/go
+            make
+
 ### JavaScript
 
   c21e-javascript:
-    executor: docker-cucumber-build
+    executor: docker-circleci-node
     steps:
       - attach_workspace:
           at: ~/cucumber
@@ -81,7 +96,7 @@ jobs:
             - c21e/javascript/node_modules
 
   cucumber-expressions-javascript:
-    executor: docker-cucumber-build
+    executor: docker-circleci-node
     steps:
       - attach_workspace:
           at: ~/cucumber
@@ -97,7 +112,7 @@ jobs:
             - cucumber-expressions/javascript/node_modules
 
   cucumber-messages-javascript:
-    executor: docker-cucumber-build
+    executor: docker-circleci-node
     steps:
       - attach_workspace:
           at: ~/cucumber
@@ -113,7 +128,7 @@ jobs:
             - cucumber-messages/javascript/node_modules
 
   gherkin-javascript:
-    executor: docker-cucumber-build
+    executor: docker-circleci-node
     steps:
       - attach_workspace:
           at: ~/cucumber
@@ -124,7 +139,7 @@ jobs:
             make
 
   tag-expressions-javascript:
-    executor: docker-cucumber-build
+    executor: docker-circleci-node
     steps:
       - attach_workspace:
           at: ~/cucumber
@@ -139,6 +154,7 @@ workflows:
   monorepo-build:
     jobs:
       - checkout
+
 ### Go
 
       - cucumber-expressions-go:
@@ -150,6 +166,10 @@ workflows:
             - checkout
 
       - gherkin-go:
+          requires:
+            - checkout
+
+      - tag-expressions-go:
           requires:
             - checkout
 
