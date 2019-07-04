@@ -47,6 +47,17 @@ jobs:
             cd cucumber-messages/go
             make
 
+  gherkin-go:
+    executor: docker-circleci-golang
+    steps:
+      - attach_workspace:
+          at: ~/cucumber
+      - run: 
+          name: gherkin/go
+          command: |
+            cd gherkin/go
+            make
+
 ### JavaScript
 
   c21e-javascript:
@@ -131,6 +142,10 @@ workflows:
             - checkout
 
       - cucumber-messages-go:
+          requires:
+            - checkout
+
+      - gherkin-go:
           requires:
             - checkout
 
