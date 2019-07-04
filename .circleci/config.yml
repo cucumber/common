@@ -32,6 +32,17 @@ jobs:
             cd cucumber-expressions/go
             make
 
+  cucumber-messages-go:
+    executor: docker-executor
+    steps:
+      - restore_cache:
+          key: v1-repo-{{ .Environment.CIRCLE_SHA1 }}
+      - run: 
+          name: cucumber-messages/go
+          command: |
+            cd cucumber-messages/go
+            make
+
 ### JavaScript
 
   c21e-javascript:
@@ -116,6 +127,10 @@ workflows:
 ### Go
 
       - cucumber-expressions-go:
+          requires:
+            - checkout
+
+      - cucumber-messages-go:
           requires:
             - checkout
 

@@ -12,19 +12,22 @@ default: .gofmt .tested
 .PHONY: default
 
 ifneq (,$(wildcard ./cmd/main.go))
-ifndef ALPINE
-# Cross-compile executables if there is a CLI. Disabled on Alpine Linux builds
-# (monorepo build in Docker) where cross compilation fails for certain platforms.
-# Subrepo builds don't run in Docker/Alpine, so cross compile will happen there.
+ifdef ALPINE
+# Cross-compile executables if there is a CLI, and if we're running on Alpine (Docker). 
+# This speeds up the build for developers who are building on their host OS
 default: .dist
 endif
 endif
+
+.deps:
+	touch $@
 
 .dist: .deps dist/$(LIBNAME)-darwin-amd64
 	touch $@
 
 dist/$(LIBNAME)-%: $(GO_SOURCE_FILES)
 	mkdir -p dist
+	go get github.com/aslakhellesoy/gox
 	gox -ldflags $(GOX_LDFLAGS) -output "dist/$(LIBNAME)-{{.OS}}-{{.Arch}}" -rebuild ./cmd
 
 .dist-compressed: $(UPX_EXES)
@@ -51,5 +54,5 @@ clean: clean-go
 .PHONY: clean
 
 clean-go:
-	rm -rf .deps .tested dist/* dist_compressed
+	rm -rf .deps .tested .mod-replaced .gofmt .dist-compressed .dist dist/* dist_compressed
 .PHONY: clean-go

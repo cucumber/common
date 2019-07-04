@@ -10,7 +10,11 @@ ERRORS       = $(patsubst testdata/%.feature,acceptance/testdata/%.feature.error
 
 .DELETE_ON_ERROR:
 
-.deps: .downloaded-exes .npm-linked
+.deps: .downloaded-exes
+
+ifndef SKIP_NPM_LINK
+.deps: .npm-linked
+endif
 
 .downloaded-exes:
 	./scripts/s3-download gherkin-go $(LIBRARY_VERSION)
@@ -20,14 +24,12 @@ ERRORS       = $(patsubst testdata/%.feature,acceptance/testdata/%.feature.error
 	# Linking will only work when we're building in the monorepo.
 	# SKIP_NPM_LINK is set in .travis.yml so on subrepo CI builds
 	# we'll download the packages from verdaccio
-ifndef SKIP_NPM_LINK
 	rm -rf node_modules/cucumber-messages
 	ln -s "$$(pwd)/../../cucumber-messages/javascript" node_modules/cucumber-messages
 	rm -rf node_modules/c21e
 	ln -s "$$(pwd)/../../c21e/javascript" node_modules/c21e
 	# npm link cucumber-messages
 	# npm link c21e
-endif
 	touch $@
 
 .tested: dist/src/index.js .compared
