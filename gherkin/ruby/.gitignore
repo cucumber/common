@@ -3,6 +3,6 @@ coverage/
 acceptance/
 .compared
 pkg/
-gherkin-go/
 .deps
 .tested
+*-go

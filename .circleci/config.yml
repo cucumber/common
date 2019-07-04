@@ -16,6 +16,10 @@ executors:
     docker:
       - image: circleci/node:12
     working_directory: ~/cucumber
+  docker-circleci-ruby:
+    docker:
+      - image: circleci/ruby:2.6
+    working_directory: ~/cucumber
 
 jobs:
   checkout:
@@ -149,6 +153,63 @@ jobs:
             cd tag-expressions/javascript
             make
 
+### Ruby
+
+  c21e-ruby:
+    executor: docker-circleci-ruby
+    steps:
+      - attach_workspace:
+          at: ~/cucumber
+      - run: 
+          name: c21e/ruby
+          command: |
+            cd c21e/ruby
+            make
+
+  cucumber-expressions-ruby:
+    executor: docker-circleci-node
+    steps:
+      - attach_workspace:
+          at: ~/cucumber
+      - run: 
+          name: cucumber-expressions/ruby
+          command: |
+            cd cucumber-expressions/ruby
+            make
+
+  cucumber-messages-ruby:
+    executor: docker-circleci-node
+    steps:
+      - attach_workspace:
+          at: ~/cucumber
+      - run: 
+          name: cucumber-messages/ruby
+          command: |
+            cd cucumber-messages/ruby
+            make
+
+  gherkin-ruby:
+    executor: docker-circleci-node
+    steps:
+      - attach_workspace:
+          at: ~/cucumber
+      - run: 
+          name: gherkin/ruby
+          command: |
+            cd gherkin/ruby
+            make
+
+  tag-expressions-ruby:
+    executor: docker-circleci-node
+    steps:
+      - attach_workspace:
+          at: ~/cucumber
+      - run: 
+          name: tag-expressions/ruby
+          command: |
+            cd tag-expressions/ruby
+            make
+
 workflows:
   version: 2
   monorepo-build:
@@ -191,5 +252,26 @@ workflows:
             - cucumber-messages-javascript
             - gherkin-go
       - tag-expressions-javascript:
+          requires:
+            - checkout
+
+### Ruby
+
+      - c21e-ruby:
+          requires:
+            - checkout
+      - cucumber-expressions-ruby:
+          requires:
+            - checkout
+      - cucumber-messages-ruby:
+          requires:
+            - checkout
+      - gherkin-ruby:
+          requires:
+            - checkout
+            - c21e-ruby
+            - cucumber-messages-ruby
+            - gherkin-go
+      - tag-expressions-ruby:
           requires:
             - checkout
