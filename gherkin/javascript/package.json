@@ -43,7 +43,7 @@
     "typescript": "^3.5.2"
   },
   "dependencies": {
-    "c21e": "^1.2.2-SNAPSHOT-verdaccio",
-    "cucumber-messages": "^3.0.1-SNAPSHOT-verdaccio"
+    "c21e": "1.2.1",
+    "cucumber-messages": "3.0.0"
   }
 }

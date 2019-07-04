@@ -7,7 +7,7 @@ else
 	LIBRARY_VERSION=master
 endif
 
-default: .published-snapshot
+default: .built .published-snapshot
 .PHONY: default
 
 .deps: package-lock.json

@@ -1,7 +1,6 @@
 include default.mk
 
 .codegen: src/cucumber-messages.js src/cucumber-messages.d.ts
-	touch $@
 
 src/cucumber-messages.js: messages.proto
 	npm run pbjs
