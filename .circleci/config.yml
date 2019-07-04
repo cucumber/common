@@ -30,9 +30,9 @@ jobs:
             cd c21e/javascript
             make
       - persist_to_workspace:
-          root: ~/cucumber/c21e/javascript
+          root: ~/cucumber
           paths: 
-            - dist
+            - c21e/javascript/dist
 
   cucumber-expressions-javascript:
     executor: docker-executor
@@ -45,9 +45,9 @@ jobs:
             cd cucumber-expressions/javascript
             make
       - persist_to_workspace:
-          root: ~/cucumber/cucumber-expressions/javascript
+          root: ~/cucumber
           paths: 
-            - dist
+            - cucumber-expressions/javascript/dist
 
   cucumber-messages-javascript:
     executor: docker-executor
@@ -60,9 +60,9 @@ jobs:
             cd cucumber-messages/javascript
             make
       - persist_to_workspace:
-          root: ~/cucumber/cucumber-messages/javascript
+          root: ~/cucumber
           paths: 
-            - dist
+            - cucumber-messages/javascript/dist
 
   gherkin-javascript:
     executor: docker-executor
@@ -70,9 +70,7 @@ jobs:
       - restore_cache:
           key: v1-repo-{{ .Environment.CIRCLE_SHA1 }}
       - attach_workspace:
-          at: ~/cucumber/c21e/javascript
-      - attach_workspace:
-          at: ~/cucumber/cucumber-messages/javascript
+          at: ~/cucumber
       - run: 
           name: gherkin/javascript
           command: |
