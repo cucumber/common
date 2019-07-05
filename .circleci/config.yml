@@ -20,6 +20,10 @@ executors:
     docker:
       - image: circleci/ruby:2.6
     working_directory: ~/cucumber
+  docker-circleci-openjdk:
+    docker:
+      - image: circleci/openjdk:8-jdk
+    working_directory: ~/cucumber
 
 jobs:
   checkout:
@@ -210,6 +214,63 @@ jobs:
             cd tag-expressions/ruby
             make
 
+### Java
+
+  c21e-java:
+    executor: docker-circleci-openjdk
+    steps:
+      - attach_workspace:
+          at: ~/cucumber
+      - run: 
+          name: c21e/java
+          command: |
+            cd c21e/java
+            make
+
+  cucumber-expressions-java:
+    executor: docker-circleci-openjdk
+    steps:
+      - attach_workspace:
+          at: ~/cucumber
+      - run: 
+          name: cucumber-expressions/java
+          command: |
+            cd cucumber-expressions/java
+            make
+
+  cucumber-messages-java:
+    executor: docker-circleci-openjdk
+    steps:
+      - attach_workspace:
+          at: ~/cucumber
+      - run: 
+          name: cucumber-messages/java
+          command: |
+            cd cucumber-messages/java
+            make
+
+  gherkin-java:
+    executor: docker-circleci-openjdk
+    steps:
+      - attach_workspace:
+          at: ~/cucumber
+      - run: 
+          name: gherkin/java
+          command: |
+            cd gherkin/java
+            make
+
+  tag-expressions-java:
+    executor: docker-circleci-java
+    steps:
+      - attach_workspace:
+          at: ~/cucumber
+      - run: 
+          name: tag-expressions/java
+          command: |
+            cd tag-expressions/java
+            make
+
 workflows:
   version: 2
   monorepo-build:
@@ -229,6 +290,7 @@ workflows:
       - gherkin-go:
           requires:
             - checkout
+            - cucumber-messages-go
 
       - tag-expressions-go:
           requires:
@@ -273,5 +335,26 @@ workflows:
             - cucumber-messages-ruby
             - gherkin-go
       - tag-expressions-ruby:
+          requires:
+            - checkout
+
+### Java
+
+      - c21e-java:
+          requires:
+            - checkout
+      - cucumber-expressions-java:
+          requires:
+            - checkout
+      - cucumber-messages-java:
+          requires:
+            - checkout
+      - gherkin-java:
+          requires:
+            - checkout
+            - c21e-java
+            - cucumber-messages-java
+            - gherkin-go
+      - tag-expressions-java:
           requires:
             - checkout
