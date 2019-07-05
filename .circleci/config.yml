@@ -44,7 +44,7 @@ jobs:
           command: rm ~/git-crypt.key
       - run:
           name: Import GPG signing key
-          command: gpg -q --fast-import codesigning.key
+          command: gpg --batch -q --fast-import codesigning.key
       - run:
           name: Write ~/.gem/credentials
           command: cp .gem_credentials ~/.gem/credentials
