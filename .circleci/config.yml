@@ -117,6 +117,17 @@ jobs:
             cd tag-expressions/go
             make
 
+  dots-formatter-go:
+    executor: docker-circleci-golang
+    steps:
+      - attach_workspace:
+          at: ~/cucumber
+      - run: 
+          name: dots-formatter/go
+          command: |
+            cd dots-formatter/go
+            make
+
 ### JavaScript
 
   c21e-javascript:
@@ -423,6 +434,10 @@ workflows:
             - cucumber-messages-go
 
       - tag-expressions-go:
+          requires:
+            - checkout
+
+      - dots-formatter-go:
           requires:
             - checkout
 
