@@ -5,8 +5,7 @@ of the module, and all associated module repos will be tagged.
 
 Please pay attention to the following:
 
-* Maven `pom.xml` should *not* have any `-SNAPSHOT` dependencies
-  * Do not remove the `-SNAPSHOT` suffix from the maven `pom.xml` version field, the build process will remove it automatically.
+* Maven `pom.xml` should **only** have a *-SNAPSHOT* suffix in the `<version>` field, **nowhere else**
 * Node.js `package.json` should *not* have any github dependencies (`"cucumber-messages": "cucumber/cucumber-messages-javascript"`) but rather depend on a released version.
 * Update the CHANGELOG.md
   * Update the version and contributor links at the bottom of the files
