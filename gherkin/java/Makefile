@@ -12,9 +12,11 @@ ERRORS       = $(patsubst testdata/%.feature,acceptance/testdata/%.feature.error
 
 default: .compared
 
-.deps:
-	./scripts/s3-download gherkin-go $(LIBRARY_VERSION)
-	touch $@
+.deps: gherkin-go
+
+gherkin-go:
+	rm -rf gherkin-go
+	ln -s "$$(pwd)/../../gherkin/go/dist" gherkin-go
 
 .compared: $(ASTS) $(PICKLES) $(ERRORS) $(SOURCES)
 	touch $@

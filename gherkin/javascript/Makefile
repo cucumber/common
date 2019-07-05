@@ -13,7 +13,6 @@ ERRORS       = $(patsubst testdata/%.feature,acceptance/testdata/%.feature.error
 .deps: gherkin-go .npm-linked
 
 gherkin-go:
-	#./scripts/s3-download gherkin-go $(LIBRARY_VERSION)
 	rm -rf gherkin-go
 	ln -s "$$(pwd)/../../gherkin/go/dist" gherkin-go
 
