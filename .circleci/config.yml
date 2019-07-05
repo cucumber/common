@@ -467,6 +467,10 @@ workflows:
           type: approval
           # filters:
           #   tags: { only: '/cucumber-expressions\/v\//' }
+          filters:
+            branches:
+              only:
+                - master
           requires:
             - cucumber-expressions-javascript
 
@@ -496,6 +500,10 @@ workflows:
           type: approval
           # filters:
           #   tags: { only: '/cucumber-expressions\/v\//' }
+          filters:
+            branches:
+              only:
+                - master
           requires:
             - cucumber-expressions-ruby
 
@@ -525,6 +533,10 @@ workflows:
           type: approval
           # filters:
           #   tags: { only: '/cucumber-expressions\/v\//' }
+          filters:
+            branches:
+              only:
+                - master
           requires:
             - cucumber-expressions-java
 
@@ -540,6 +552,10 @@ workflows:
           type: approval
           # filters:
           #   tags: { only: '/cucumber-messages\/v\//' }
+          filters:
+            branches:
+              only:
+                - master
           requires:
             - cucumber-messages-dotnet
 
