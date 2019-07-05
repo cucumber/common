@@ -261,7 +261,7 @@ jobs:
             make
 
   tag-expressions-java:
-    executor: docker-circleci-java
+    executor: docker-circleci-openjdk
     steps:
       - attach_workspace:
           at: ~/cucumber
