@@ -248,12 +248,18 @@ jobs:
           command: |
             cd cucumber-messages/java
             make
+      - persist_to_workspace:
+          root: ~/.m2/repository/io/cucumber/messages
+          paths: 
+            - "**/*"
 
   gherkin-java:
     executor: docker-circleci-openjdk
     steps:
       - attach_workspace:
           at: ~/cucumber
+      - attach_workspace:
+          at: ~/.m2/repository/io/cucumber/messages
       - run: 
           name: gherkin/java
           command: |
