@@ -3,6 +3,10 @@
 # https://circleci.com/docs/2.0/caching/#source-caching
 version: 2.1
 
+###
+### Executors ###
+###
+
 executors:
   docker-cucumber-build:
     docker:
@@ -24,6 +28,10 @@ executors:
     docker:
       - image: circleci/openjdk:11
     working_directory: ~/cucumber
+
+###
+### Jobs ###
+###
 
 jobs:
   checkout:
@@ -379,6 +387,21 @@ jobs:
             cd config
             make
 
+  datatables:
+    executor: docker-circleci-openjdk
+    steps:
+      - attach_workspace:
+          at: ~/cucumber
+      - run: 
+          name: datatables
+          command: |
+            cd datatables
+            make
+
+###
+### Workflows ###
+###
+
 workflows:
   version: 2
   monorepo-build:
@@ -508,5 +531,11 @@ workflows:
 ### Config
 
       - config:
+          requires:
+            - checkout
+
+### Datatable
+
+      - datatable:
           requires:
             - checkout
