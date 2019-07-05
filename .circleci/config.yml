@@ -167,7 +167,7 @@ jobs:
             make
 
   cucumber-expressions-ruby:
-    executor: docker-circleci-node
+    executor: docker-circleci-ruby
     steps:
       - attach_workspace:
           at: ~/cucumber
@@ -178,7 +178,7 @@ jobs:
             make
 
   cucumber-messages-ruby:
-    executor: docker-circleci-node
+    executor: docker-circleci-ruby
     steps:
       - attach_workspace:
           at: ~/cucumber
@@ -189,7 +189,7 @@ jobs:
             make
 
   gherkin-ruby:
-    executor: docker-circleci-node
+    executor: docker-circleci-ruby
     steps:
       - attach_workspace:
           at: ~/cucumber
@@ -200,7 +200,7 @@ jobs:
             make
 
   tag-expressions-ruby:
-    executor: docker-circleci-node
+    executor: docker-circleci-ruby
     steps:
       - attach_workspace:
           at: ~/cucumber
