@@ -85,7 +85,7 @@ public class Gherkin {
     }
 
     public static Exe makeExe() {
-        return new Exe(new ExeFile(new File("gherkin-go"), "gherkin-go-{{.OS}}-{{.Arch}}{{.Ext}}"));
+        return new Exe(new ExeFile(new File("executables"), "gherkin-{{.OS}}-{{.Arch}}{{.Ext}}"));
     }
 
     private InputStream getSourcesStream() throws IOException {

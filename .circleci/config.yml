@@ -415,9 +415,8 @@ workflows:
 ### JavaScript - publish
 
       - cucumber-expressions-javascript-publish:
-          type: approval
-          # filters:
-          #   tags: { only: '/cucumber-expressions\/v\//' }
+          filters:
+            tags: { only: '/cucumber-expressions\/v\//' }
           requires:
             - cucumber-expressions-javascript
 
@@ -444,9 +443,8 @@ workflows:
 ### Ruby - publish
 
       - cucumber-expressions-ruby-publish:
-          type: approval
-          # filters:
-          #   tags: { only: '/cucumber-expressions\/v\//' }
+          filters:
+            tags: { only: '/cucumber-expressions\/v\//' }
           requires:
             - cucumber-expressions-ruby
 
@@ -473,9 +471,8 @@ workflows:
 ### Java - publish
 
       - cucumber-expressions-java-publish:
-          type: approval
-          # filters:
-          #   tags: { only: '/cucumber-expressions\/v\//' }
+          filters:
+            tags: { only: '/cucumber-expressions\/v\//' }
           requires:
             - cucumber-expressions-java
 
@@ -488,8 +485,7 @@ workflows:
 ### .NET - publish
 
       - cucumber-messages-dotnet-publish:
-          type: approval
-          # filters:
-          #   tags: { only: '/cucumber-messages\/v\//' }
+          filters:
+            tags: { only: '/cucumber-messages\/v\//' }
           requires:
             - cucumber-messages-dotnet

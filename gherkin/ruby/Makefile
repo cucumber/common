@@ -12,12 +12,11 @@ ERRORS       = $(patsubst testdata/%.feature,acceptance/testdata/%.feature.error
 
 default: .compared
 
-.deps: gherkin-go
+.deps: executables
 
-gherkin-go:
-	#./scripts/s3-download gherkin-go $(LIBRARY_VERSION)
-	rm -rf gherkin-go
-	ln -s "$$(pwd)/../../gherkin/go/dist" gherkin-go
+executables:
+	rm -rf executables
+	ln -s "$$(pwd)/../../gherkin/go/dist" executables
 
 .compared: $(ERRORS) $(SOURCES) $(PICKLES) $(PROTOBUFS) $(ASTS)
 	touch $@
@@ -43,4 +42,4 @@ acceptance/testdata/%.feature.errors.ndjson: testdata/%.feature testdata/%.featu
 	diff --unified <(jq "." $<.errors.ndjson) <(jq "." $@)
 
 clean:
-	rm -rf .compared acceptance gherkin-go
+	rm -rf .compared acceptance executables

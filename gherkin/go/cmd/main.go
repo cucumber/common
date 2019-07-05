@@ -23,7 +23,7 @@ var dialectsFlag = flag.Bool("dialects", false, "print dialects as JSON")
 var defaultDialectFlag = flag.String("default-dialect", "en", "the default dialect")
 
 // Set during build with -ldflags
-var version string
+var version string = "(unknown version)"
 var gherkinDialects string
 
 func main() {

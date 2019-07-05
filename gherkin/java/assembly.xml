@@ -19,7 +19,7 @@
     </dependencySets>
     <fileSets>
         <fileSet>
-            <directory>gherkin-go</directory>
+            <directory>executables</directory>
         </fileSet>
     </fileSets>
 </assembly>

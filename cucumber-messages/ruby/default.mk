@@ -12,6 +12,7 @@ default: .tested
 .PHONY: default
 
 .deps: Gemfile.lock
+	touch $@
 
 Gemfile.lock: Gemfile $(GEMSPECS)
 	bundle install

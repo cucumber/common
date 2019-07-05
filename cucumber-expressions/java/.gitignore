@@ -6,5 +6,8 @@ pom.xml.releaseBackup
 dependency-reduced-pom.xml
 .deps
 .tested
+.compared
+# Approval tests
+acceptance/
 scripts/codesigning.asc
 scripts/env.sh
