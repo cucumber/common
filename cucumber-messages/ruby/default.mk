@@ -21,6 +21,11 @@ Gemfile.lock: Gemfile $(GEMSPECS)
 	bundle exec rspec --color
 	touch $@
 
+publish:
+	gem build $$(find . -name "*.gemspec")
+	ls -al $$(find . -name "*.gem")
+.PHONY: publish
+
 clean: clean-ruby
 .PHONY: clean
 

@@ -1,1 +1,3 @@
-secrets/*.key filter=git-crypt diff=git-crypt
+codesigning.key filter=git-crypt diff=git-crypt
+.npmrc filter=git-crypt diff=git-crypt
+.gem_credentials filter=git-crypt diff=git-crypt

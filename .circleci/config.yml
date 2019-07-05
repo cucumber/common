@@ -42,10 +42,20 @@ jobs:
       - run:
           name: Remove git-crypt key
           command: rm ~/git-crypt.key
+      - run:
+          name: Import GPG signing key
+          command: gpg -q --fast-import codesigning.key
+      - run:
+          name: Write ~/.gem/credentials
+          command: cp .gem_credentials ~/.gem/credentials
       - persist_to_workspace:
           root: ~/cucumber
           paths: 
             - "**/*"
+      - persist_to_workspace:
+          root: ~/.gem
+          paths: 
+            - credentials
 
 ### Go
 
@@ -169,6 +179,19 @@ jobs:
             cd tag-expressions/javascript
             make
 
+### JavaScript - publish
+
+  cucumber-expressions-javascript-publish:
+    executor: docker-circleci-node
+    steps:
+      - attach_workspace:
+          at: ~/cucumber
+      - run: 
+          name: cucumber-expressions/javascript
+          command: |
+            cd cucumber-expressions/javascript
+            make publish
+
 ### Ruby
 
   c21e-ruby:
@@ -225,6 +248,21 @@ jobs:
           command: |
             cd tag-expressions/ruby
             make
+
+### Ruby - publish
+
+  cucumber-expressions-ruby-publish:
+    executor: docker-circleci-ruby
+    steps:
+      - attach_workspace:
+          at: ~/cucumber
+      - attach_workspace:
+          at: ~/.gem
+      - run: 
+          name: cucumber-expressions/ruby
+          command: |
+            cd cucumber-expressions/ruby
+            make publish
 
 ### Java
 
@@ -291,15 +329,15 @@ jobs:
 
 #### Java - publish
 
-  cucumber-messages-java-publish:
+  cucumber-expressions-java-publish:
     executor: docker-circleci-openjdk
     steps:
       - attach_workspace:
           at: ~/cucumber
       - run: 
-          name: cucumber-messages/java
+          name: cucumber-expressions/java
           command: |
-            cd cucumber-messages/java
+            cd cucumber-expressions/java
             make publish
 
 ### .NET
@@ -346,7 +384,6 @@ workflows:
 
       - gherkin-go:
           requires:
-            - checkout
             - cucumber-messages-go
 
       - tag-expressions-go:
@@ -366,13 +403,21 @@ workflows:
             - checkout
       - gherkin-javascript:
           requires:
-            - checkout
             - c21e-javascript
             - cucumber-messages-javascript
             - gherkin-go
       - tag-expressions-javascript:
           requires:
             - checkout
+
+### JavaScript - publish
+
+      - cucumber-expressions-javascript-publish:
+          type: approval
+          # filters:
+          #   tags: { only: '/cucumber-expressions\/v\//' }
+          requires:
+            - cucumber-expressions-javascript
 
 ### Ruby
 
@@ -387,13 +432,21 @@ workflows:
             - checkout
       - gherkin-ruby:
           requires:
-            - checkout
             - c21e-ruby
             - cucumber-messages-ruby
             - gherkin-go
       - tag-expressions-ruby:
           requires:
             - checkout
+
+### Ruby - publish
+
+      - cucumber-expressions-ruby-publish:
+          type: approval
+          # filters:
+          #   tags: { only: '/cucumber-expressions\/v\//' }
+          requires:
+            - cucumber-expressions-ruby
 
 ### Java
 
@@ -408,7 +461,6 @@ workflows:
             - checkout
       - gherkin-java:
           requires:
-            - checkout
             - c21e-java
             - cucumber-messages-java
             - gherkin-go
@@ -418,12 +470,12 @@ workflows:
 
 ### Java - publish
 
-      - cucumber-messages-java-publish:
+      - cucumber-expressions-java-publish:
           type: approval
           # filters:
-          #   tags: { only: '/cucumber-messages\/v\//' }
+          #   tags: { only: '/cucumber-expressions\/v\//' }
           requires:
-            - cucumber-messages-java
+            - cucumber-expressions-java
 
 ### .NET
 

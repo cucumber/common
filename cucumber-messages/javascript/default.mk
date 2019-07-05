@@ -42,6 +42,10 @@ package-lock.json: package.json
 	npm install
 	touch $@
 
+publish:
+	npm publish
+.PHONY: publish
+
 clean: clean-javascript
 .PHONY: clean
 
