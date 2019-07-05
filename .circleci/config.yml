@@ -27,7 +27,7 @@ executors:
 
 jobs:
   checkout:
-    executor: docker-cucumber-build
+    executor: docker-circleci-ruby
     steps:
       - checkout
       - persist_to_workspace:
@@ -277,6 +277,19 @@ jobs:
             cd tag-expressions/java
             make
 
+### .NET
+
+  cucumber-messages-dotnet:
+    executor: docker-cucumber-build
+    steps:
+      - attach_workspace:
+          at: ~/cucumber
+      - run: 
+          name: cucumber-messages/dotnet
+          command: |
+            cd cucumber-messages/dotnet
+            make
+
 workflows:
   version: 2
   monorepo-build:
@@ -362,5 +375,11 @@ workflows:
             - cucumber-messages-java
             - gherkin-go
       - tag-expressions-java:
+          requires:
+            - checkout
+
+### .NET
+
+      - cucumber-messages-dotnet:
           requires:
             - checkout
