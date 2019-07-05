@@ -47,7 +47,9 @@ jobs:
           command: gpg --batch -q --fast-import codesigning.key
       - run:
           name: Write ~/.gem/credentials
-          command: cp .gem_credentials ~/.gem/credentials
+          command: |
+            mkdir -p ~/.gem
+            cp .gem_credentials ~/.gem/credentials
       - persist_to_workspace:
           root: ~/cucumber
           paths: 
