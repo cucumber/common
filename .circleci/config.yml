@@ -348,6 +348,28 @@ jobs:
             cd tag-expressions/java
             make
 
+  datatable-java:
+    executor: docker-circleci-openjdk
+    steps:
+      - attach_workspace:
+          at: ~/cucumber
+      - run: 
+          name: datatable-java
+          command: |
+            cd datatable/java
+            make
+
+  config-java:
+    executor: docker-circleci-openjdk
+    steps:
+      - attach_workspace:
+          at: ~/cucumber
+      - run: 
+          name: config-java
+          command: |
+            cd config/java
+            make
+
 #### Java - publish
 
   cucumber-expressions-java-publish:
@@ -386,28 +408,6 @@ jobs:
           command: |
             cd cucumber-messages/dotnet
             make publish
-  
-  config:
-    executor: docker-circleci-openjdk
-    steps:
-      - attach_workspace:
-          at: ~/cucumber
-      - run: 
-          name: config
-          command: |
-            cd config
-            make
-
-  datatable:
-    executor: docker-circleci-openjdk
-    steps:
-      - attach_workspace:
-          at: ~/cucumber
-      - run: 
-          name: datatable
-          command: |
-            cd datatable
-            make
 
 ###
 ### Workflows ###
@@ -526,6 +526,12 @@ workflows:
       - tag-expressions-java:
           requires:
             - checkout
+      - datatable-java:
+          requires:
+            - checkout
+      - config-java:
+          requires:
+            - checkout
 
 ### Java - publish
 
@@ -558,15 +564,3 @@ workflows:
                 - master
           requires:
             - cucumber-messages-dotnet
-
-### Config
-
-      - config:
-          requires:
-            - checkout
-
-### Datatable
-
-      - datatable:
-          requires:
-            - checkout
