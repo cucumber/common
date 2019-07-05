@@ -29,7 +29,19 @@ jobs:
   checkout:
     executor: docker-circleci-ruby
     steps:
+      - run:
+          name: Install git-crypt
+          command: sudo apt-get install git-crypt
+      - run:
+          name: Decode git-crypt key
+          command: echo "$GIT_CRYPT_KEY_BASE64" | base64 -d > ~/git-crypt.key
       - checkout
+      - run:
+          name: Decrypt encrypted files
+          command: git-crypt unlock ~/git-crypt.key
+      - run:
+          name: Remove git-crypt key
+          command: rm ~/git-crypt.key
       - persist_to_workspace:
           root: ~/cucumber
           paths: 
@@ -277,6 +289,19 @@ jobs:
             cd tag-expressions/java
             make
 
+#### Java - publish
+
+  cucumber-messages-java-publish:
+    executor: docker-circleci-openjdk
+    steps:
+      - attach_workspace:
+          at: ~/cucumber
+      - run: 
+          name: cucumber-messages/java
+          command: |
+            cd cucumber-messages/java
+            make publish
+
 ### .NET
 
   cucumber-messages-dotnet:
@@ -289,6 +314,19 @@ jobs:
           command: |
             cd cucumber-messages/dotnet
             make
+
+#### .NET - publish
+
+  cucumber-messages-dotnet-publish:
+    executor: docker-cucumber-build
+    steps:
+      - attach_workspace:
+          at: ~/cucumber
+      - run: 
+          name: cucumber-messages/dotnet
+          command: |
+            cd cucumber-messages/dotnet
+            make publish
 
 workflows:
   version: 2
@@ -378,8 +416,26 @@ workflows:
           requires:
             - checkout
 
+### Java - publish
+
+      - cucumber-messages-java-publish:
+          type: approval
+          # filters:
+          #   tags: { only: '/cucumber-messages\/v\//' }
+          requires:
+            - cucumber-messages-java
+
 ### .NET
 
       - cucumber-messages-dotnet:
           requires:
             - checkout
+
+### .NET - publish
+
+      - cucumber-messages-dotnet-publish:
+          type: approval
+          # filters:
+          #   tags: { only: '/cucumber-messages\/v\//' }
+          requires:
+            - cucumber-messages-dotnet
