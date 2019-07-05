@@ -44,27 +44,29 @@ in a docker container, due to needing a large amount of pre-requisites and often
 To start with, we need to ensure we have Docker installed. This is usually fairly easy, and a comprehensive set
 of setup instructions are available [HERE](https://docs.docker.com/install/) for most OS'
 
-Once docker is installed, we then need to grab a copy of the official cucumber container. This should only need
+Once docker is installed, we then need to grab a copy of the official cucumber image. This should only need
 to be done once and will likely take 5-10 minutes.
 
 ```bash
-$ ./scripts/docker-run Dockerfile.cucumber-build # This requires at least 2.5Gig of space on your directory
+$ ./scripts/docker-run Dockerfile # This requires at least 2.5Gig of space on your directory
 ```
 
 This will create a localised version of the Docker image used on CI to build cucumber then run through
 all of the associated make tasks in each of the sub-repos. This can take a while, but it saves you needing
 to push each individual commit up to the repo and then wait for the CI tests to finish.
 
-Now we have a copy of the official docker container for cucumber, it will use the local version cached on
+Now we have a copy of the official docker image for *building* cucumber, it will use the local version cached on
 your machine so long as you keep hold of it. So future calls to run the docker-run script won't take longer
-than a couple of seconds.
+than a couple of seconds. This allows us to build the cucumber image quickly and easily from now on.
 
-One the docker image has been installed you will be entered into "interactive" mode inside the docker container.
+One the docker container has been started you will be entered into "interactive" mode inside the docker container.
 This allows you to run any command inside the container.
 
 It is important to note that as we are developing locally, the container does **not** contain any localised code
 from the cucumber repositories, is uses shared volumes. As such some of the state between your host OS and
-the docker OS **is** persisted - Things such as which gems/jars are installed, for instance.
+the docker OS **is** persisted - Things such as which gems/jars are installed on your local machine,
+for instance *is* persisted to the Docker container during runtime, but anything you install on the docker container
+during runtime *won't* be persisted to your local machine.
 
 ### Adding a new subrepo
 
@@ -173,13 +175,13 @@ files. These need to be rebuilt and published manually whenever they change.
 In order to publish new images, log in as `cukebot`. The password is in 1Password,
 in the "Cucumber Open Source" vault.
 
-     source ./scripts/functions.sh
-     # Standard image (for all builds except .NET)
-     docker_build Dockerfile
-     docker_push Dockerfile
-     # .NET image (for .NET builds only)
-     docker_build Dockerfile-dotnet
-     docker_push Dockerfile-dotnet
+    source ./scripts/functions.sh
+    # Standard image (for all builds except .NET)
+    docker_build Dockerfile
+    docker_push Dockerfile
+    # .NET image (for .NET builds only)
+    docker_build Dockerfile-dotnet
+    docker_push Dockerfile-dotnet
 
 The images are published [in the cucumber repository section at
 Docker Hub](https://hub.docker.com/r/cucumber/).
