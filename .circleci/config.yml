@@ -367,6 +367,17 @@ jobs:
           command: |
             cd cucumber-messages/dotnet
             make publish
+  
+  config:
+    executor: docker-circleci-openjdk
+    steps:
+      - attach_workspace:
+          at: ~/cucumber
+      - run: 
+          name: config
+          command: |
+            cd config
+            make
 
 workflows:
   version: 2
@@ -493,3 +504,9 @@ workflows:
           #   tags: { only: '/cucumber-messages\/v\//' }
           requires:
             - cucumber-messages-dotnet
+
+### Config
+
+      - config:
+          requires:
+            - checkout
