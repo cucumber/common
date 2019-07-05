@@ -371,5 +371,6 @@ GitExtensions.settings.backup
 
 .packed
 .tested
+.built
 .generated
 .fixprotoc

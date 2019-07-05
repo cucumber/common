@@ -3,8 +3,8 @@
 target/
 release.properties
 pom.xml.releaseBackup
+dependency-reduced-pom.xml
 .deps
 .tested
-.compared
-acceptance/
-gherkin-go/
+scripts/codesigning.asc
+scripts/env.sh
