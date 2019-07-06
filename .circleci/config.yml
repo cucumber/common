@@ -97,7 +97,7 @@ jobs:
           at: ~/cucumber
       - run:
           name: move protoc
-          command: cp protoc /usr/bin
+          command: sudo cp protoc /usr/bin
       - run: 
           name: cucumber-messages/go
           command: |
