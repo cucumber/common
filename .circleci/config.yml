@@ -461,18 +461,8 @@ workflows:
 ### JavaScript - publish
 
       - cucumber-expressions-javascript-publish:
-<<<<<<< HEAD
           filters:
             tags: { only: '/cucumber-expressions\/v\//' }
-=======
-          type: approval
-          # filters:
-          #   tags: { only: '/cucumber-expressions\/v\//' }
-          filters:
-            branches:
-              only:
-                - master
->>>>>>> fa455261370c105bffa9f05f2cdc4463f9b85f79
           requires:
             - cucumber-expressions-javascript
 
@@ -499,18 +489,8 @@ workflows:
 ### Ruby - publish
 
       - cucumber-expressions-ruby-publish:
-<<<<<<< HEAD
           filters:
             tags: { only: '/cucumber-expressions\/v\//' }
-=======
-          type: approval
-          # filters:
-          #   tags: { only: '/cucumber-expressions\/v\//' }
-          filters:
-            branches:
-              only:
-                - master
->>>>>>> fa455261370c105bffa9f05f2cdc4463f9b85f79
           requires:
             - cucumber-expressions-ruby
 
@@ -543,18 +523,8 @@ workflows:
 ### Java - publish
 
       - cucumber-expressions-java-publish:
-<<<<<<< HEAD
           filters:
             tags: { only: '/cucumber-expressions\/v\//' }
-=======
-          type: approval
-          # filters:
-          #   tags: { only: '/cucumber-expressions\/v\//' }
-          filters:
-            branches:
-              only:
-                - master
->>>>>>> fa455261370c105bffa9f05f2cdc4463f9b85f79
           requires:
             - cucumber-expressions-java
 
@@ -567,17 +537,7 @@ workflows:
 ### .NET - publish
 
       - cucumber-messages-dotnet-publish:
-<<<<<<< HEAD
           filters:
             tags: { only: '/cucumber-messages\/v\//' }
-=======
-          type: approval
-          # filters:
-          #   tags: { only: '/cucumber-messages\/v\//' }
-          filters:
-            branches:
-              only:
-                - master
->>>>>>> fa455261370c105bffa9f05f2cdc4463f9b85f79
           requires:
             - cucumber-messages-dotnet
