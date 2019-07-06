@@ -5,6 +5,11 @@ version: 2.1
 ###
 
 executors:
+  # This executor's Docker image contains all the tools required to build
+  # this repo (protoc, dotnet, openjdk, ruby, node etc). We use it for
+  # jobs that require a combination of those tools. For other jobs we use
+  # the circleci images, as they are typically cached more widely around
+  # the build nodes (faster builds).
   docker-cucumber-build:
     docker:
       - image: cucumber/cucumber-build:eaf07fd33b43f4078d85f1b3886c3925
@@ -326,7 +331,7 @@ jobs:
             make
 
   cucumber-messages-java:
-    executor: docker-circleci-openjdk
+    executor: docker-cucumber-messages
     steps:
       - attach_workspace:
           at: ~/cucumber
