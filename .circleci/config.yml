@@ -12,6 +12,7 @@ executors:
   docker-circleci-golang:
     docker:
       - image: circleci/golang:1.12
+      - image: znly/protoc
     working_directory: ~/cucumber
   docker-circleci-node:
     docker:
