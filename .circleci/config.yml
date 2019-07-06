@@ -27,6 +27,16 @@ executors:
     working_directory: ~/cucumber
 
 ###
+### Commands ###
+###
+
+commands:
+  copy-protoc:
+    description: "Copy protoc file from workspace and into usr/bin"
+    steps:
+      - run: sudo cp protoc /usr/bin
+
+###
 ### Jobs ###
 ###
 
@@ -95,9 +105,7 @@ jobs:
     steps:
       - attach_workspace:
           at: ~/cucumber
-      - run:
-          name: move protoc
-          command: sudo cp protoc /usr/bin
+      - copy-protoc
       - run: 
           name: cucumber-messages/go
           command: |
@@ -184,6 +192,7 @@ jobs:
     steps:
       - attach_workspace:
           at: ~/cucumber
+      - copy-protoc
       - run: 
           name: cucumber-messages/javascript
           command: |
@@ -259,6 +268,7 @@ jobs:
     steps:
       - attach_workspace:
           at: ~/cucumber
+      - copy-protoc
       - run: 
           name: cucumber-messages/ruby
           command: |
@@ -342,6 +352,7 @@ jobs:
     steps:
       - attach_workspace:
           at: ~/cucumber
+      - copy-protoc
       - run: 
           name: cucumber-messages/java
           command: |
@@ -418,6 +429,7 @@ jobs:
     steps:
       - attach_workspace:
           at: ~/cucumber
+      - copy-protoc
       - run: 
           name: cucumber-messages/dotnet
           command: |
