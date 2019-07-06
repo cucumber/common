@@ -105,7 +105,9 @@ jobs:
     steps:
       - attach_workspace:
           at: ~/cucumber
-      - copy-protoc
+      - run:
+          name: install protoc
+          command: sudo apt install protobuf-compiler
       - run: 
           name: cucumber-messages/go
           command: |
@@ -468,7 +470,7 @@ workflows:
       - cucumber-messages-go:
           requires:
             - checkout
-            - protoc
+            # - protoc
       - gherkin-go:
           requires:
             - cucumber-messages-go
