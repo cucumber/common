@@ -448,20 +448,16 @@ workflows:
       - cucumber-expressions-go:
           requires:
             - checkout
-
       - cucumber-messages-go:
           requires:
             - checkout
             - protoc
-
       - gherkin-go:
           requires:
             - cucumber-messages-go
-
       - tag-expressions-go:
           requires:
             - checkout
-
       - dots-formatter-go:
           requires:
             - checkout
@@ -477,6 +473,7 @@ workflows:
       - cucumber-messages-javascript:
           requires:
             - checkout
+            - protoc
       - gherkin-javascript:
           requires:
             - c21e-javascript
@@ -505,6 +502,7 @@ workflows:
       - cucumber-messages-ruby:
           requires:
             - checkout
+            - protoc
       - gherkin-ruby:
           requires:
             - c21e-ruby
@@ -537,6 +535,7 @@ workflows:
       - cucumber-messages-java:
           requires:
             - checkout
+            - protoc
       - gherkin-java:
           requires:
             - c21e-java
@@ -565,6 +564,7 @@ workflows:
       - cucumber-messages-dotnet:
           requires:
             - checkout
+            - protoc
 
 ### .NET - publish
 
