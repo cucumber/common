@@ -12,7 +12,6 @@ executors:
   docker-circleci-golang:
     docker:
       - image: circleci/golang:1.12
-      - image: znly/protoc
     working_directory: ~/cucumber
   docker-circleci-node:
     docker:
@@ -30,16 +29,6 @@ executors:
     docker:
       - image: circleci/python:3.7.3
     working_directory: ~/cucumber
-
-###
-### Commands ###
-###
-
-commands:
-  copy-protoc:
-    description: "Copy protoc file from workspace and into usr/bin"
-    steps:
-      - run: sudo cp protoc /usr/bin
 
 ###
 ### Jobs ###
@@ -79,19 +68,6 @@ jobs:
           paths: 
             - credentials
 
-  protoc:
-    executor: docker-circleci-golang
-    steps:
-      - run:
-          name: Install protoc
-          command: |
-            sudo apt install protobuf-compiler
-            cp /usr/bin/protoc .
-      - persist_to_workspace:
-          root: ~/cucumber
-          paths: 
-            - protoc
-
 ### Go
 
   cucumber-expressions-go:
@@ -106,13 +82,10 @@ jobs:
             make
 
   cucumber-messages-go:
-    executor: docker-circleci-golang
+    executor: docker-cucumber-build
     steps:
       - attach_workspace:
           at: ~/cucumber
-      - run:
-          name: install protoc
-          command: sudo apt install protobuf-compiler
       - run: 
           name: cucumber-messages/go
           command: |
@@ -199,7 +172,6 @@ jobs:
     steps:
       - attach_workspace:
           at: ~/cucumber
-      - copy-protoc
       - run: 
           name: cucumber-messages/javascript
           command: |
@@ -275,7 +247,6 @@ jobs:
     steps:
       - attach_workspace:
           at: ~/cucumber
-      - copy-protoc
       - run: 
           name: cucumber-messages/ruby
           command: |
@@ -359,7 +330,6 @@ jobs:
     steps:
       - attach_workspace:
           at: ~/cucumber
-      - copy-protoc
       - run: 
           name: cucumber-messages/java
           command: |
@@ -436,7 +406,6 @@ jobs:
     steps:
       - attach_workspace:
           at: ~/cucumber
-      - copy-protoc
       - run: 
           name: cucumber-messages/dotnet
           command: |
@@ -478,7 +447,6 @@ workflows:
   monorepo-build:
     jobs:
       - checkout
-      - protoc
 
 ### Go
 
@@ -488,7 +456,6 @@ workflows:
       - cucumber-messages-go:
           requires:
             - checkout
-            # - protoc
       - gherkin-go:
           requires:
             - cucumber-messages-go
@@ -510,7 +477,6 @@ workflows:
       - cucumber-messages-javascript:
           requires:
             - checkout
-            - protoc
       - gherkin-javascript:
           requires:
             - c21e-javascript
@@ -539,7 +505,6 @@ workflows:
       - cucumber-messages-ruby:
           requires:
             - checkout
-            - protoc
       - gherkin-ruby:
           requires:
             - c21e-ruby
@@ -572,7 +537,6 @@ workflows:
       - cucumber-messages-java:
           requires:
             - checkout
-            - protoc
       - gherkin-java:
           requires:
             - c21e-java
@@ -601,7 +565,6 @@ workflows:
       - cucumber-messages-dotnet:
           requires:
             - checkout
-            - protoc
 
 ### .NET - publish
 
