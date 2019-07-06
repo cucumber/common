@@ -528,7 +528,7 @@ workflows:
             - checkout
       - dots-formatter-ruby:
           requires:
-            - checkout
+            - cucumber-messages-ruby
             - dots-formatter-go
 
 ### Ruby - publish
