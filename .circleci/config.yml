@@ -64,6 +64,17 @@ jobs:
           paths: 
             - credentials
 
+  protoc:
+    executor: docker-circleci-golang
+    steps:
+      - run:
+          name: Install protoc
+          command: sudo apt install protobuf-compiler
+      - persist_to_workspace:
+          root: ~/cucumber
+          paths: 
+            - /usr/bin/protoc
+
 ### Go
 
   cucumber-expressions-go:
@@ -430,6 +441,7 @@ workflows:
   monorepo-build:
     jobs:
       - checkout
+      - protoc
 
 ### Go
 
@@ -440,6 +452,7 @@ workflows:
       - cucumber-messages-go:
           requires:
             - checkout
+            - protoc
 
       - gherkin-go:
           requires:
