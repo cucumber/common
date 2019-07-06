@@ -24,7 +24,7 @@ Gemfile.lock: Gemfile $(GEMSPECS)
 
 publish:
 	gem build $$(find . -name "*.gemspec")
-	ls -al $$(find . -name "*.gem")
+	gem push $$(find . -name "*.gem")
 .PHONY: publish
 
 clean: clean-ruby
