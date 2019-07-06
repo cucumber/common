@@ -64,6 +64,7 @@ jobs:
           command: |
             mkdir -p ~/.gem
             cp .gem_credentials ~/.gem/credentials
+            chmod 0600 ~/.gem/credentials
       - persist_to_workspace:
           root: ~/cucumber
           paths: 
