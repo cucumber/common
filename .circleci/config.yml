@@ -248,7 +248,7 @@ jobs:
             make
 
   cucumber-messages-ruby:
-    executor: docker-circleci-ruby
+    executor: docker-cucumber-build
     steps:
       - attach_workspace:
           at: ~/cucumber
@@ -331,7 +331,7 @@ jobs:
             make
 
   cucumber-messages-java:
-    executor: docker-cucumber-messages
+    executor: docker-cucumber-build
     steps:
       - attach_workspace:
           at: ~/cucumber
