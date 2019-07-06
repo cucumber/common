@@ -71,9 +71,9 @@ jobs:
           name: Install protoc
           command: sudo apt install protobuf-compiler
       - persist_to_workspace:
-          root: ~/cucumber
+          root: /usr/bin
           paths: 
-            - ../../usr/bin/protoc
+            - protoc
 
 ### Go
 
