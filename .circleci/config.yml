@@ -261,6 +261,10 @@ jobs:
           command: |
             cd cucumber-messages/ruby
             make
+      - persist_to_workspace:
+          root: ~/cucumber
+          paths: 
+            - cucumber-messages/ruby/lib/cucumber/messages/messages_pb.rb
 
   gherkin-ruby:
     executor: docker-circleci-ruby
