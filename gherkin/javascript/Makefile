@@ -10,11 +10,11 @@ ERRORS       = $(patsubst testdata/%.feature,acceptance/testdata/%.feature.error
 
 .DELETE_ON_ERROR:
 
-.deps: gherkin-go .npm-linked
+.deps: executables .npm-linked
 
-gherkin-go:
-	rm -rf gherkin-go
-	ln -s "$$(pwd)/../../gherkin/go/dist" gherkin-go
+executables:
+	rm -rf executables
+	ln -s "$$(pwd)/../../gherkin/go/dist" executables
 
 .npm-linked:
 	# `npm link` does not work on CircleCI, so we're doing manual symlinking instead
@@ -53,5 +53,5 @@ acceptance/testdata/%.feature.errors.ndjson: testdata/%.feature testdata/%.featu
 	diff --unified <(jq "." $<.errors.ndjson) <(jq "." $@)
 
 clean:
-	rm -rf acceptance gherkin-go .exes-linked .npm-linked
+	rm -rf acceptance executables .exes-linked .npm-linked
 .PHONY: clean

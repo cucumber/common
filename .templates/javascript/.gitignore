@@ -9,10 +9,9 @@ package-lock.json
 .deps
 .tested
 .linted
+.built
 .compared
 .codegen
-.published-snapshot
-.downloaded-exes
 .npm-linked
 acceptance/
 *-go

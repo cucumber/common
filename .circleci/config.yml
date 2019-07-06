@@ -1,6 +1,3 @@
-# https://github.com/envoyproxy/envoy/blob/master/.circleci/config.yml
-# https://hackernoon.com/circleci-performance-difference-between-cache-and-workspace-5567679c3601
-# https://circleci.com/docs/2.0/caching/#source-caching
 version: 2.1
 
 ###
@@ -479,13 +476,8 @@ workflows:
 ### JavaScript - publish
 
       - cucumber-expressions-javascript-publish:
-          type: approval
-          # filters:
-          #   tags: { only: '/cucumber-expressions\/v\//' }
           filters:
-            branches:
-              only:
-                - master
+            tags: { only: '/cucumber-expressions\/v\//' }
           requires:
             - cucumber-expressions-javascript
 
@@ -516,13 +508,8 @@ workflows:
 ### Ruby - publish
 
       - cucumber-expressions-ruby-publish:
-          type: approval
-          # filters:
-          #   tags: { only: '/cucumber-expressions\/v\//' }
           filters:
-            branches:
-              only:
-                - master
+            tags: { only: '/cucumber-expressions\/v\//' }
           requires:
             - cucumber-expressions-ruby
 
@@ -555,13 +542,8 @@ workflows:
 ### Java - publish
 
       - cucumber-expressions-java-publish:
-          type: approval
-          # filters:
-          #   tags: { only: '/cucumber-expressions\/v\//' }
           filters:
-            branches:
-              only:
-                - master
+            tags: { only: '/cucumber-expressions\/v\//' }
           requires:
             - cucumber-expressions-java
 
@@ -574,12 +556,7 @@ workflows:
 ### .NET - publish
 
       - cucumber-messages-dotnet-publish:
-          type: approval
-          # filters:
-          #   tags: { only: '/cucumber-messages\/v\//' }
           filters:
-            branches:
-              only:
-                - master
+            tags: { only: '/cucumber-messages\/v\//' }
           requires:
             - cucumber-messages-dotnet

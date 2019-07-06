@@ -366,9 +366,6 @@ GitExtensions.settings.backup
 # SpecFlow
 *.feature.cs
 
-# Protobuf MSBuild results
-[Mm]essages.cs
-
 .packed
 .tested
 .built

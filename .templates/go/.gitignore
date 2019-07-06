@@ -1,11 +1,10 @@
 .deps
-.linked
 .tested
 .built
 .compared
 .dist
 .dist-compressed
-.gofmt
+.linted
 .go-get
 bin/
 acceptance/
