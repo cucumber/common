@@ -127,6 +127,10 @@ jobs:
           command: |
             cd dots-formatter/go
             make
+      - persist_to_workspace:
+          root: ~/cucumber
+          paths: 
+            - gherkin/go/dist
 
 ### JavaScript
 
@@ -507,6 +511,7 @@ workflows:
       - dots-formatter-ruby:
           requires:
             - checkout
+            - dots-formatter-go
 
 ### Ruby - publish
 
