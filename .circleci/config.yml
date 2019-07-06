@@ -96,6 +96,10 @@ jobs:
           command: |
             cd cucumber-messages/go
             make
+      - persist_to_workspace:
+          root: ~/cucumber
+          paths: 
+            - cucumber-messages/go/v3/messages.pb.go
 
   gherkin-go:
     executor: docker-circleci-golang
