@@ -13,7 +13,7 @@ OS := $(shell [[ "$$(uname)" == "Darwin" ]] && echo "darwin" || echo "linux")
 ARCH := $(shell [[ "$$(arch)" == "x86_64" ]] && echo "amd64" || echo "386")
 EXE = dist/$(LIBNAME)-$(OS)-$(ARCH)
 
-default: .gofmt .tested
+default: .linted .tested
 .PHONY: default
 
 # Run the .dist target if there is a main file
@@ -53,7 +53,7 @@ dist_compressed/$(LIBNAME)-%: dist/$(LIBNAME)-%
 	# Test the integrity
 	if [ -f "$@" ]; then upx -t $@ || rm $@; fi
 
-.gofmt: $(GO_SOURCE_FILES)
+.linted: $(GO_SOURCE_FILES)
 	gofmt -w $^
 	touch $@
 
@@ -65,5 +65,5 @@ clean: clean-go
 .PHONY: clean
 
 clean-go:
-	rm -rf .deps .tested .mod-replaced .gofmt .dist-compressed .dist dist/* dist_compressed
+	rm -rf .deps .tested .mod-replaced .linted .dist-compressed .dist dist/* dist_compressed
 .PHONY: clean-go

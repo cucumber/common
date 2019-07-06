@@ -7,7 +7,7 @@ else
 	LIBRARY_VERSION=master
 endif
 
-default: .tested
+default: .tested .built
 .PHONY: default
 
 .deps: package-lock.json
