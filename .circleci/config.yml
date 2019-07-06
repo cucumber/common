@@ -73,7 +73,7 @@ jobs:
       - persist_to_workspace:
           root: ~/cucumber
           paths: 
-            - /usr/bin/protoc
+            - ../../usr/bin/protoc
 
 ### Go
 
