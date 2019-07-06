@@ -1,7 +1,8 @@
-# https://github.com/envoyproxy/envoy/blob/master/.circleci/config.yml
-# https://hackernoon.com/circleci-performance-difference-between-cache-and-workspace-5567679c3601
-# https://circleci.com/docs/2.0/caching/#source-caching
 version: 2.1
+
+###
+### Executors ###
+###
 
 executors:
   docker-cucumber-build:
@@ -24,6 +25,10 @@ executors:
     docker:
       - image: circleci/openjdk:11
     working_directory: ~/cucumber
+
+###
+### Jobs ###
+###
 
 jobs:
   checkout:
@@ -107,6 +112,17 @@ jobs:
           name: tag-expressions/go
           command: |
             cd tag-expressions/go
+            make
+
+  dots-formatter-go:
+    executor: docker-circleci-golang
+    steps:
+      - attach_workspace:
+          at: ~/cucumber
+      - run: 
+          name: dots-formatter/go
+          command: |
+            cd dots-formatter/go
             make
 
 ### JavaScript
@@ -329,6 +345,28 @@ jobs:
             cd tag-expressions/java
             make
 
+  datatable-java:
+    executor: docker-circleci-openjdk
+    steps:
+      - attach_workspace:
+          at: ~/cucumber
+      - run: 
+          name: datatable-java
+          command: |
+            cd datatable/java
+            make
+
+  config-java:
+    executor: docker-circleci-openjdk
+    steps:
+      - attach_workspace:
+          at: ~/cucumber
+      - run: 
+          name: config-java
+          command: |
+            cd config/java
+            make
+
 #### Java - publish
 
   cucumber-expressions-java-publish:
@@ -368,6 +406,10 @@ jobs:
             cd cucumber-messages/dotnet
             make publish
 
+###
+### Workflows ###
+###
+
 workflows:
   version: 2
   monorepo-build:
@@ -389,6 +431,10 @@ workflows:
             - cucumber-messages-go
 
       - tag-expressions-go:
+          requires:
+            - checkout
+
+      - dots-formatter-go:
           requires:
             - checkout
 
@@ -415,8 +461,18 @@ workflows:
 ### JavaScript - publish
 
       - cucumber-expressions-javascript-publish:
+<<<<<<< HEAD
           filters:
             tags: { only: '/cucumber-expressions\/v\//' }
+=======
+          type: approval
+          # filters:
+          #   tags: { only: '/cucumber-expressions\/v\//' }
+          filters:
+            branches:
+              only:
+                - master
+>>>>>>> fa455261370c105bffa9f05f2cdc4463f9b85f79
           requires:
             - cucumber-expressions-javascript
 
@@ -443,8 +499,18 @@ workflows:
 ### Ruby - publish
 
       - cucumber-expressions-ruby-publish:
+<<<<<<< HEAD
           filters:
             tags: { only: '/cucumber-expressions\/v\//' }
+=======
+          type: approval
+          # filters:
+          #   tags: { only: '/cucumber-expressions\/v\//' }
+          filters:
+            branches:
+              only:
+                - master
+>>>>>>> fa455261370c105bffa9f05f2cdc4463f9b85f79
           requires:
             - cucumber-expressions-ruby
 
@@ -467,12 +533,28 @@ workflows:
       - tag-expressions-java:
           requires:
             - checkout
+      - datatable-java:
+          requires:
+            - checkout
+      - config-java:
+          requires:
+            - checkout
 
 ### Java - publish
 
       - cucumber-expressions-java-publish:
+<<<<<<< HEAD
           filters:
             tags: { only: '/cucumber-expressions\/v\//' }
+=======
+          type: approval
+          # filters:
+          #   tags: { only: '/cucumber-expressions\/v\//' }
+          filters:
+            branches:
+              only:
+                - master
+>>>>>>> fa455261370c105bffa9f05f2cdc4463f9b85f79
           requires:
             - cucumber-expressions-java
 
@@ -485,7 +567,17 @@ workflows:
 ### .NET - publish
 
       - cucumber-messages-dotnet-publish:
+<<<<<<< HEAD
           filters:
             tags: { only: '/cucumber-messages\/v\//' }
+=======
+          type: approval
+          # filters:
+          #   tags: { only: '/cucumber-messages\/v\//' }
+          filters:
+            branches:
+              only:
+                - master
+>>>>>>> fa455261370c105bffa9f05f2cdc4463f9b85f79
           requires:
             - cucumber-messages-dotnet
