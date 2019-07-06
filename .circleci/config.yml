@@ -612,5 +612,5 @@ workflows:
 
 ## Python
       - tag-expressions-python:
-          - requires:
+          requires:
             - checkout
