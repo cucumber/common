@@ -270,6 +270,17 @@ jobs:
             cd tag-expressions/ruby
             make
 
+  dots-formatter-ruby:
+    executor: docker-circleci-ruby
+    steps:
+      - attach_workspace:
+          at: ~/cucumber
+      - run: 
+          name: dots-formatter/ruby
+          command: |
+            cd dots-formatter/ruby
+            make
+
 ### Ruby - publish
 
   cucumber-expressions-ruby-publish:
@@ -491,6 +502,9 @@ workflows:
             - cucumber-messages-ruby
             - gherkin-go
       - tag-expressions-ruby:
+          requires:
+            - checkout
+      - dots-formatter-ruby:
           requires:
             - checkout
 
