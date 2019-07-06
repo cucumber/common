@@ -25,6 +25,10 @@ executors:
     docker:
       - image: circleci/openjdk:11
     working_directory: ~/cucumber
+  docker-circleci-python:
+    docker:
+      - image: circleci/python:3.7.3
+    working_directory: ~/cucumber
 
 ###
 ### Commands ###
@@ -451,6 +455,19 @@ jobs:
             cd cucumber-messages/dotnet
             make publish
 
+### Python
+
+  tag-expressions-python:
+    executor: docker-circleci-python
+    steps:
+      - attach_workspace:
+          at: ~/cucumber
+      - run: 
+          name: tag-expressions/python
+          command: |
+            cd tag-expressions/python
+            make
+
 ###
 ### Workflows ###
 ###
@@ -592,3 +609,8 @@ workflows:
             tags: { only: '/cucumber-messages\/v\//' }
           requires:
             - cucumber-messages-dotnet
+
+## Python
+      - tag-expressions-python:
+          - requires:
+            - checkout
