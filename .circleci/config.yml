@@ -69,9 +69,11 @@ jobs:
     steps:
       - run:
           name: Install protoc
-          command: sudo apt install protobuf-compiler
+          command: |
+            sudo apt install protobuf-compiler
+            cp /usr/bin/protoc .
       - persist_to_workspace:
-          root: /usr/bin
+          root: ~/cucumber
           paths: 
             - protoc
 
@@ -93,6 +95,9 @@ jobs:
     steps:
       - attach_workspace:
           at: ~/cucumber
+      - run:
+          name: move protoc
+          command: cp protoc /usr/bin
       - run: 
           name: cucumber-messages/go
           command: |
