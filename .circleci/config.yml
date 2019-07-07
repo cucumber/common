@@ -519,9 +519,7 @@ workflows:
             - checkout
       - cucumber-messages-ruby:
           requires:
-            # Those dependencies are here to work around a race condition
-            - cucumber-expressions-ruby
-            - c21e-ruby
+            - checkout
       - gherkin-ruby:
           requires:
             - c21e-ruby
