@@ -478,7 +478,7 @@ workflows:
             - checkout
       - dots-formatter-go:
           requires:
-            - checkout
+            - cucumber-messages-go
 
 ### JavaScript
 
