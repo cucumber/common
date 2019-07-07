@@ -60,17 +60,17 @@ jobs:
           name: Import GPG signing key
           command: gpg --batch -q --fast-import codesigning.key
       - run:
-          name: Write ~/.gem/credentials
+          name: Write /home/circleci/.gem/credentials
           command: |
-            mkdir -p ~/.gem
-            cp .gem_credentials ~/.gem/credentials
-            chmod 0600 ~/.gem/credentials
+            mkdir -p /home/circleci/.gem
+            cp .gem_credentials /home/circleci/.gem/credentials
+            chmod 0600 /home/circleci/.gem/credentials
       - persist_to_workspace:
           root: ~/cucumber
           paths: 
             - "**/*"
       - persist_to_workspace:
-          root: ~/.gem
+          root: /home/circleci/.gem
           paths: 
             - credentials
 
@@ -308,7 +308,7 @@ jobs:
       - attach_workspace:
           at: ~/cucumber
       - attach_workspace:
-          at: ~/.gem
+          at: /home/circleci/.gem
       - run: 
           name: cucumber-expressions/ruby
           command: |
