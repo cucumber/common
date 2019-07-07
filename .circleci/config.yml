@@ -141,7 +141,7 @@ jobs:
       - persist_to_workspace:
           root: ~/cucumber
           paths: 
-            - gherkin/go/dist
+            - dots-formatter/go/dist
 
 ### JavaScript
 
