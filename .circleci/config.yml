@@ -69,10 +69,10 @@ jobs:
           root: ~/cucumber
           paths: 
             - "**/*"
-      - persist_to_workspace:
-          root: /home/circleci/.gem
-          paths: 
-            - credentials
+      # - persist_to_workspace:
+      #     root: /home/circleci/.gem
+      #     paths: 
+      #       - credentials
 
 ### Go
 
