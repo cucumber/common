@@ -14,7 +14,7 @@ module Cucumber
         config.on_event :test_run_finished, &method(:on_test_run_finished)
 
         root = File.expand_path(File.dirname(__FILE__) + '/../../..')
-        @exe = C21e::ExeFile.new("#{root}/dots-formatter-go/dots-formatter-go-{{.OS}}-{{.Arch}}{{.Ext}}").target_file
+        @exe = C21e::ExeFile.new("#{root}/executables/dots-formatter-{{.OS}}-{{.Arch}}{{.Ext}}").target_file
       end
 
       def on_test_run_started(event)
