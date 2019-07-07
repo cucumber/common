@@ -6,7 +6,7 @@
     <parent>
         <groupId>io.cucumber</groupId>
         <artifactId>cucumber-parent</artifactId>
-        <version>1.0.4</version>
+        <version>1.0.5</version>
     </parent>
     <artifactId>gherkin</artifactId>
     <version>7.0.0-SNAPSHOT</version>
