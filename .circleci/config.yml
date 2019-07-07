@@ -504,7 +504,8 @@ workflows:
 
       - cucumber-expressions-javascript-publish:
           filters:
-            tags: { only: '/cucumber-expressions\/v\//' }
+            tags: 
+              only: /cucumber-expressions\/v\//
           requires:
             - cucumber-expressions-javascript
 
@@ -518,7 +519,9 @@ workflows:
             - checkout
       - cucumber-messages-ruby:
           requires:
-            - checkout
+            # Those dependencies are here to work around a race condition
+            - cucumber-expressions-ruby
+            - c21e-ruby
       - gherkin-ruby:
           requires:
             - c21e-ruby
@@ -536,7 +539,8 @@ workflows:
 
       - cucumber-expressions-ruby-publish:
           filters:
-            tags: { only: '/cucumber-expressions\/v\//' }
+            tags: 
+              only: /cucumber-expressions\/v\//
           requires:
             - cucumber-expressions-ruby
 
@@ -570,7 +574,8 @@ workflows:
 
       - cucumber-expressions-java-publish:
           filters:
-            tags: { only: '/cucumber-expressions\/v\//' }
+            tags: 
+              only: /cucumber-expressions\/v\//
           requires:
             - cucumber-expressions-java
 
@@ -584,7 +589,8 @@ workflows:
 
       - cucumber-messages-dotnet-publish:
           filters:
-            tags: { only: '/cucumber-messages\/v\//' }
+            tags: 
+              only: /cucumber-expressions\/v\//
           requires:
             - cucumber-messages-dotnet
 
