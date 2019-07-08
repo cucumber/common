@@ -18,7 +18,7 @@ default: .tested
 	touch $@
 
 publish:
-	mvn deploy -Psign-source-javadoc --settings scripts/ci-settings.xml -DskipTests=true
+	mvn -X deploy -Psign-source-javadoc --settings scripts/ci-settings.xml -DskipTests=true
 .PHONY: publish
 
 clean: clean-java
