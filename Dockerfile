@@ -19,6 +19,7 @@ RUN apk add --no-cache \
   nodejs \
   npm \
   openjdk8 \
+  openssh \
   openssl-dev \
   protobuf \
   python2 \
