@@ -432,7 +432,7 @@ jobs:
           name: cucumber-messages/dotnet
           command: |
             cd cucumber-messages/dotnet
-            make publish
+            make
 
 #### .NET - publish
 
@@ -458,7 +458,7 @@ jobs:
           name: tag-expressions/python
           command: |
             cd tag-expressions/python
-            make publish
+            make
 
 ###
 ### Workflows ###
