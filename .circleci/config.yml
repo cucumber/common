@@ -353,7 +353,7 @@ jobs:
       - persist_to_workspace:
           root: "~/.m2/repository"
           paths: 
-            - "io/cucumber/cucumberexpressions"
+            - "io/cucumber/cucumber-expressions"
 
   cucumber-messages-java:
     executor: docker-cucumber-build
@@ -400,7 +400,7 @@ jobs:
       - persist_to_workspace:
           root: "~/.m2/repository"
           paths: 
-            - "io/cucumber/tagexpressions"
+            - "io/cucumber/tag-expressions"
 
   datatable-java:
     executor: docker-circleci-openjdk
