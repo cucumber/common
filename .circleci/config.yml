@@ -313,7 +313,7 @@ jobs:
           name: cucumber-expressions/ruby
           command: |
             cd cucumber-expressions/ruby
-            make publish
+            make
 
 ### Java
 
