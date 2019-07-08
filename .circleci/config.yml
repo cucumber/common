@@ -335,6 +335,10 @@ jobs:
           command: |
             cd c21e/java
             make
+      - persist_to_workspace:
+          root: "~/.m2/repository"
+          paths: 
+            - "io/cucumber/c21e"
 
   cucumber-expressions-java:
     executor: docker-circleci-openjdk
@@ -346,6 +350,10 @@ jobs:
           command: |
             cd cucumber-expressions/java
             make
+      - persist_to_workspace:
+          root: "~/.m2/repository"
+          paths: 
+            - "io/cucumber/cucumberexpressions"
 
   cucumber-messages-java:
     executor: docker-cucumber-build
@@ -374,6 +382,10 @@ jobs:
           command: |
             cd gherkin/java
             make
+      - persist_to_workspace:
+          root: "~/.m2/repository"
+          paths: 
+            - "io/cucumber/gherkin"
 
   tag-expressions-java:
     executor: docker-circleci-openjdk
@@ -385,6 +397,10 @@ jobs:
           command: |
             cd tag-expressions/java
             make
+      - persist_to_workspace:
+          root: "~/.m2/repository"
+          paths: 
+            - "io/cucumber/tagexpressions"
 
   datatable-java:
     executor: docker-circleci-openjdk
@@ -396,6 +412,10 @@ jobs:
           command: |
             cd datatable/java
             make
+      - persist_to_workspace:
+          root: "~/.m2/repository"
+          paths: 
+            - "io/cucumber/datatable"
 
   config-java:
     executor: docker-circleci-openjdk
@@ -407,6 +427,10 @@ jobs:
           command: |
             cd config/java
             make
+      - persist_to_workspace:
+          root: "~/.m2/repository"
+          paths: 
+            - "io/cucumber/config"
 
 #### Java - publish
 
@@ -571,7 +595,7 @@ workflows:
             - checkout
       - datatable-java:
           requires:
-            - checkout
+            - gherkin-java
       - config-java:
           requires:
             - checkout

@@ -17,7 +17,7 @@
 
     <properties>
         <io.cucumber.messages.version>3.0.1-SNAPSHOT</io.cucumber.messages.version>
-        <io.cucumber.c21e.version>1.2.1</io.cucumber.c21e.version>
+        <io.cucumber.c21e.version>1.2.2-SNAPSHOT</io.cucumber.c21e.version>
         <project.Automatic-Module-Name>io.cucumber.gherkin</project.Automatic-Module-Name>
     </properties>
 
