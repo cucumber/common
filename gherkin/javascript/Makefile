@@ -13,8 +13,7 @@ ERRORS       = $(patsubst testdata/%.feature,acceptance/testdata/%.feature.error
 .deps: executables .npm-linked
 
 executables:
-	rm -rf executables
-	ln -s "$$(pwd)/../../gherkin/go/dist" executables
+	cp -R "$$(pwd)/../go/dist" $@
 
 .npm-linked:
 	# `npm link` does not work on CircleCI, so we're doing manual symlinking instead

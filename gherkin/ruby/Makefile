@@ -15,8 +15,7 @@ default: .compared
 .deps: executables
 
 executables:
-	rm -rf executables
-	ln -s "$$(pwd)/../../gherkin/go/dist" executables
+	cp -R "$$(pwd)/../go/dist" $@
 
 .compared: $(ERRORS) $(SOURCES) $(PICKLES) $(PROTOBUFS) $(ASTS)
 	touch $@
