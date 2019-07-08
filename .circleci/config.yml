@@ -616,7 +616,7 @@ workflows:
             branches:
               # Publish the master branch. Maven ensures -SNAPSHOT versions
               # end up in the snapshot repo. 
-              only: "master"
+              only: "verdaccio"
             tags: 
               only: /cucumber-expressions\/v.*/
           requires:
