@@ -11,6 +11,7 @@ RUN apk add --no-cache \
   diffutils \
   go \
   git \
+  g++ \
   jq \
   libc-dev \
   make \
@@ -18,6 +19,7 @@ RUN apk add --no-cache \
   nodejs \
   npm \
   openjdk8 \
+  openssl-dev \
   protobuf \
   python2 \
   python2-dev \
@@ -39,3 +41,9 @@ RUN pip install pipenv==8.3.2
 # Fix Protobuf - it doesn't include google/protobuf/timestamp.proto
 RUN mkdir -p mkdir -p /usr/local/include/google/protobuf
 RUN curl --fail -L https://raw.githubusercontent.com/protocolbuffers/protobuf/v3.6.1/src/google/protobuf/timestamp.proto > /usr/local/include/google/protobuf/timestamp.proto
+
+# Install git-crypt
+RUN git clone https://github.com/AGWA/git-crypt.git
+RUN cd git-crypt
+RUN git checkout 0.6.0
+RUN make && make install
