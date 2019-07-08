@@ -538,8 +538,10 @@ workflows:
 
       - cucumber-expressions-javascript-publish:
           filters:
+            branches:
+              ignore: /.*/
             tags: 
-              only: /cucumber-expressions\/v\//
+              only: /cucumber-expressions\/v.*/
           requires:
             - cucumber-expressions-javascript
 
@@ -571,8 +573,10 @@ workflows:
 
       - cucumber-expressions-ruby-publish:
           filters:
+            branches:
+              ignore: /.*/
             tags: 
-              only: /cucumber-expressions\/v\//
+              only: /cucumber-expressions\/v.*/
           requires:
             - cucumber-expressions-ruby
 
@@ -606,8 +610,10 @@ workflows:
 
       - cucumber-expressions-java-publish:
           filters:
+            branches:
+              ignore: /.*/
             tags: 
-              only: /cucumber-expressions\/v\//
+              only: /cucumber-expressions\/v.*/
           requires:
             - cucumber-expressions-java
 
@@ -621,8 +627,10 @@ workflows:
 
       - cucumber-messages-dotnet-publish:
           filters:
+            branches:
+              ignore: /.*/
             tags: 
-              only: /cucumber-expressions\/v\//
+              only: /cucumber-expressions\/v.*/
           requires:
             - cucumber-messages-dotnet
 
