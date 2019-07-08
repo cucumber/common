@@ -43,7 +43,6 @@ RUN mkdir -p mkdir -p /usr/local/include/google/protobuf
 RUN curl --fail -L https://raw.githubusercontent.com/protocolbuffers/protobuf/v3.6.1/src/google/protobuf/timestamp.proto > /usr/local/include/google/protobuf/timestamp.proto
 
 # Install git-crypt
-RUN git clone https://github.com/AGWA/git-crypt.git
-RUN cd git-crypt
-RUN git checkout 0.6.0
-RUN make && make install
+RUN git clone -b 0.6.0 --single-branch --depth 1 https://github.com/AGWA/git-crypt.git && \
+    cd git-crypt && \
+    make && make install
