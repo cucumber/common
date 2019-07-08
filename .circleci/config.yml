@@ -441,6 +441,9 @@ jobs:
     steps:
       - attach_workspace:
           at: "~/cucumber"
+      - run:
+          name: Install git-crypt
+          command: sudo apt-get install git-crypt
       - run: 
           name: cucumber-expressions/java
           command: |
