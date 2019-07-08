@@ -8,7 +8,7 @@ Feature: Sending TestRunStarted messages
 
         Examples:
           | Case                              | NumberOfFeatureFiles | NumberOfTestRunStartedMessages |
-          | empty test suite                  | 0                    | 0                              |
+          | empty test suite                  | 0                    | 1                              |
           | test suite contains feature files | 1                    | 1                              |
 
     @SpecFlow
@@ -16,6 +16,7 @@ Feature: Sending TestRunStarted messages
 
         Given the test runner is 'SpecFlow+Runner'
         And there are '3' feature files
+        And all steps are bound and pass
         When the test suite was executed with a testThreadCount of '3'
         Then '3' TestRunStarted messages have been sent
 
