@@ -63,16 +63,22 @@ jobs:
           name: Write ~/.gem/credentials
           command: |
             mkdir -p ~/.gem
-            cp .gem_credentials ~/.gem/credentials
+            cp .gem/credentials ~/.gem/credentials
             chmod 0600 ~/.gem/credentials
+      - run:
+          name: Write ~/.npmrc
+          command: |
+            cp .npmrc ~/.npmrc
+            chmod 0600 ~/.npmrc
       - persist_to_workspace:
           root: ~/cucumber
           paths: 
             - "*"
       - persist_to_workspace:
-          root: ~/.gem
+          root: ~
           paths: 
-            - credentials
+            - .gem/credentials
+            - .npmrc
 
 ### Go
 
@@ -221,6 +227,8 @@ jobs:
     executor: docker-circleci-node
     steps:
       - attach_workspace:
+          at: ~
+      - attach_workspace:
           at: ~/cucumber
       - run: 
           name: cucumber-expressions/javascript
@@ -306,14 +314,14 @@ jobs:
     executor: docker-circleci-ruby
     steps:
       - attach_workspace:
-          at: ~/cucumber
+          at: ~
       - attach_workspace:
-          at: ~/.gem
+          at: ~/cucumber
       - run: 
           name: cucumber-expressions/ruby
           command: |
             cd cucumber-expressions/ruby
-            make
+            make publish
 
 ### Java
 
@@ -424,7 +432,7 @@ jobs:
           name: cucumber-messages/dotnet
           command: |
             cd cucumber-messages/dotnet
-            make
+            make publish
 
 #### .NET - publish
 
@@ -450,7 +458,7 @@ jobs:
           name: tag-expressions/python
           command: |
             cd tag-expressions/python
-            make
+            make publish
 
 ###
 ### Workflows ###
