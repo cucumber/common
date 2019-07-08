@@ -57,9 +57,6 @@ jobs:
           name: Remove git-crypt key
           command: rm ~/git-crypt.key
       - run:
-          name: Import GPG signing key
-          command: gpg --batch -q --fast-import codesigning.key
-      - run:
           name: Write ~/.gem/credentials
           command: |
             mkdir -p ~/.gem
@@ -444,6 +441,9 @@ jobs:
       - run:
           name: Install git-crypt
           command: sudo apt-get install git-crypt
+      - run:
+          name: Import GPG signing key
+          command: gpg --batch -q --fast-import codesigning.key
       - run: 
           name: cucumber-expressions/java
           command: |
@@ -614,7 +614,9 @@ workflows:
       - cucumber-expressions-java-publish:
           filters:
             branches:
-              ignore: /.*/
+              # Publish the master branch. Maven ensures -SNAPSHOT versions
+              # end up in the snapshot repo. 
+              only: "master"
             tags: 
               only: /cucumber-expressions\/v.*/
           requires:

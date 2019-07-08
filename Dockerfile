@@ -11,6 +11,7 @@ RUN apk add --no-cache \
   diffutils \
   go \
   git \
+  gnupg \
   g++ \
   jq \
   libc-dev \
