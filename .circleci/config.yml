@@ -407,6 +407,8 @@ jobs:
     steps:
       - attach_workspace:
           at: "~/cucumber"
+      - attach_workspace:
+          at: "~/.m2/repository"
       - run: 
           name: datatable-java
           command: |
