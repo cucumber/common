@@ -75,7 +75,7 @@ jobs:
           paths: 
             - "*"
       - persist_to_workspace:
-          root: ~
+          root: "~"
           paths: 
             - .gem/credentials
             - .npmrc
@@ -86,7 +86,7 @@ jobs:
     executor: docker-circleci-golang
     steps:
       - attach_workspace:
-          at: ~/cucumber
+          at: "~/cucumber"
       - run: 
           name: cucumber-expressions/go
           command: |
@@ -97,7 +97,7 @@ jobs:
     executor: docker-cucumber-build
     steps:
       - attach_workspace:
-          at: ~/cucumber
+          at: "~/cucumber"
       - run: 
           name: cucumber-messages/go
           command: |
@@ -112,7 +112,7 @@ jobs:
     executor: docker-circleci-golang
     steps:
       - attach_workspace:
-          at: ~/cucumber
+          at: "~/cucumber"
       - run: 
           name: gherkin/go
           command: |
@@ -127,7 +127,7 @@ jobs:
     executor: docker-circleci-golang
     steps:
       - attach_workspace:
-          at: ~/cucumber
+          at: "~/cucumber"
       - run: 
           name: tag-expressions/go
           command: |
@@ -138,7 +138,7 @@ jobs:
     executor: docker-circleci-golang
     steps:
       - attach_workspace:
-          at: ~/cucumber
+          at: "~/cucumber"
       - run: 
           name: dots-formatter/go
           command: |
@@ -155,7 +155,7 @@ jobs:
     executor: docker-circleci-node
     steps:
       - attach_workspace:
-          at: ~/cucumber
+          at: "~/cucumber"
       - run: 
           name: c21e/javascript
           command: |
@@ -171,7 +171,7 @@ jobs:
     executor: docker-circleci-node
     steps:
       - attach_workspace:
-          at: ~/cucumber
+          at: "~/cucumber"
       - run: 
           name: cucumber-expressions/javascript
           command: |
@@ -187,7 +187,7 @@ jobs:
     executor: docker-circleci-node
     steps:
       - attach_workspace:
-          at: ~/cucumber
+          at: "~/cucumber"
       - run: 
           name: cucumber-messages/javascript
           command: |
@@ -203,7 +203,7 @@ jobs:
     executor: docker-circleci-node
     steps:
       - attach_workspace:
-          at: ~/cucumber
+          at: "~/cucumber"
       - run: 
           name: gherkin/javascript
           command: |
@@ -214,7 +214,7 @@ jobs:
     executor: docker-circleci-node
     steps:
       - attach_workspace:
-          at: ~/cucumber
+          at: "~/cucumber"
       - run: 
           name: tag-expressions/javascript
           command: |
@@ -227,9 +227,9 @@ jobs:
     executor: docker-circleci-node
     steps:
       - attach_workspace:
-          at: ~
+          at: "~"
       - attach_workspace:
-          at: ~/cucumber
+          at: "~/cucumber"
       - run: 
           name: cucumber-expressions/javascript
           command: |
@@ -242,7 +242,7 @@ jobs:
     executor: docker-circleci-ruby
     steps:
       - attach_workspace:
-          at: ~/cucumber
+          at: "~/cucumber"
       - run: 
           name: c21e/ruby
           command: |
@@ -253,7 +253,7 @@ jobs:
     executor: docker-circleci-ruby
     steps:
       - attach_workspace:
-          at: ~/cucumber
+          at: "~/cucumber"
       - run: 
           name: cucumber-expressions/ruby
           command: |
@@ -264,7 +264,7 @@ jobs:
     executor: docker-cucumber-build
     steps:
       - attach_workspace:
-          at: ~/cucumber
+          at: "~/cucumber"
       - run: 
           name: cucumber-messages/ruby
           command: |
@@ -279,7 +279,7 @@ jobs:
     executor: docker-circleci-ruby
     steps:
       - attach_workspace:
-          at: ~/cucumber
+          at: "~/cucumber"
       - run: 
           name: gherkin/ruby
           command: |
@@ -290,7 +290,7 @@ jobs:
     executor: docker-circleci-ruby
     steps:
       - attach_workspace:
-          at: ~/cucumber
+          at: "~/cucumber"
       - run: 
           name: tag-expressions/ruby
           command: |
@@ -301,7 +301,7 @@ jobs:
     executor: docker-circleci-ruby
     steps:
       - attach_workspace:
-          at: ~/cucumber
+          at: "~/cucumber"
       - run: 
           name: dots-formatter/ruby
           command: |
@@ -314,9 +314,9 @@ jobs:
     executor: docker-circleci-ruby
     steps:
       - attach_workspace:
-          at: ~
+          at: "~"
       - attach_workspace:
-          at: ~/cucumber
+          at: "~/cucumber"
       - run: 
           name: cucumber-expressions/ruby
           command: |
@@ -329,7 +329,7 @@ jobs:
     executor: docker-circleci-openjdk
     steps:
       - attach_workspace:
-          at: ~/cucumber
+          at: "~/cucumber"
       - run: 
           name: c21e/java
           command: |
@@ -340,7 +340,7 @@ jobs:
     executor: docker-circleci-openjdk
     steps:
       - attach_workspace:
-          at: ~/cucumber
+          at: "~/cucumber"
       - run: 
           name: cucumber-expressions/java
           command: |
@@ -351,7 +351,7 @@ jobs:
     executor: docker-cucumber-build
     steps:
       - attach_workspace:
-          at: ~/cucumber
+          at: "~/cucumber"
       - run: 
           name: cucumber-messages/java
           command: |
@@ -366,9 +366,9 @@ jobs:
     executor: docker-circleci-openjdk
     steps:
       - attach_workspace:
-          at: ~/cucumber
+          at: "~/cucumber"
       - attach_workspace:
-          at: ~/.m2/repository/io/cucumber/messages
+          at: "~"/.m2/repository/io/cucumber/messages
       - run: 
           name: gherkin/java
           command: |
@@ -379,7 +379,7 @@ jobs:
     executor: docker-circleci-openjdk
     steps:
       - attach_workspace:
-          at: ~/cucumber
+          at: "~/cucumber"
       - run: 
           name: tag-expressions/java
           command: |
@@ -390,7 +390,7 @@ jobs:
     executor: docker-circleci-openjdk
     steps:
       - attach_workspace:
-          at: ~/cucumber
+          at: "~/cucumber"
       - run: 
           name: datatable-java
           command: |
@@ -401,7 +401,7 @@ jobs:
     executor: docker-circleci-openjdk
     steps:
       - attach_workspace:
-          at: ~/cucumber
+          at: "~/cucumber"
       - run: 
           name: config-java
           command: |
@@ -414,7 +414,7 @@ jobs:
     executor: docker-circleci-openjdk
     steps:
       - attach_workspace:
-          at: ~/cucumber
+          at: "~/cucumber"
       - run: 
           name: cucumber-expressions/java
           command: |
@@ -427,7 +427,7 @@ jobs:
     executor: docker-cucumber-build
     steps:
       - attach_workspace:
-          at: ~/cucumber
+          at: "~/cucumber"
       - run: 
           name: cucumber-messages/dotnet
           command: |
@@ -440,7 +440,7 @@ jobs:
     executor: docker-cucumber-build
     steps:
       - attach_workspace:
-          at: ~/cucumber
+          at: "~/cucumber"
       - run: 
           name: cucumber-messages/dotnet
           command: |
@@ -453,7 +453,7 @@ jobs:
     executor: docker-circleci-python
     steps:
       - attach_workspace:
-          at: ~/cucumber
+          at: "~/cucumber"
       - run: 
           name: tag-expressions/python
           command: |
