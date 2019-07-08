@@ -39,9 +39,9 @@ module Cucumber
             @non_capturing_maybe = true
           elsif (c == '<') && @non_capturing_maybe
             @name_capturing_maybe = true
-          elsif (c == ':' || c == '!' || c == '=') && @non_capturing_maybe
+          elsif (c == ':' || c == '!' || c == '=') && last == '?' && @non_capturing_maybe
             end_non_capturing_group()
-          elsif (c == '=' || c == '!') && @name_capturing_maybe
+          elsif (c == '=' || c == '!') && last == '<' && @name_capturing_maybe
             end_non_capturing_group()
           elsif @name_capturing_maybe
             raise CucumberExpressionError.new("Named capture groups are not supported. See https://github.com/cucumber/cucumber/issues/329")
