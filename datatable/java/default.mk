@@ -14,6 +14,9 @@ default: .tested
 	mvn install
 	touch $@
 
+.deps:
+	touch $@
+
 publish:
 	mvn deploy -Psign-source-javadoc --settings scripts/ci-settings.xml -DskipTests=true
 .PHONY: publish
