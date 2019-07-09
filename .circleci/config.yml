@@ -220,6 +220,19 @@ jobs:
 
 ### JavaScript - publish
 
+  c21e-javascript-publish:
+    executor: docker-circleci-node
+    steps:
+      - attach_workspace:
+          at: "~"
+      - attach_workspace:
+          at: "~/cucumber"
+      - run:
+          name: c21e/javascript
+          command: |
+            cd c21e/javascript
+            make publish
+
   cucumber-expressions-javascript-publish:
     executor: docker-circleci-node
     steps:
@@ -231,6 +244,45 @@ jobs:
           name: cucumber-expressions/javascript
           command: |
             cd cucumber-expressions/javascript
+            make publish
+
+  cucumber-messages-javascript-publish:
+    executor: docker-circleci-node
+    steps:
+      - attach_workspace:
+          at: "~"
+      - attach_workspace:
+          at: "~/cucumber"
+      - run:
+          name: cucumber-messages/javascript
+          command: |
+            cd cucumber-messages/javascript
+            make publish
+
+  gherkin-javascript-publish:
+    executor: docker-circleci-node
+    steps:
+      - attach_workspace:
+          at: "~"
+      - attach_workspace:
+          at: "~/cucumber"
+      - run:
+          name: gherkin/javascript
+          command: |
+            cd gherkin/javascript
+            make publish
+
+  tag-expressions-javascript-publish:
+    executor: docker-circleci-node
+    steps:
+      - attach_workspace:
+          at: "~"
+      - attach_workspace:
+          at: "~/cucumber"
+      - run:
+          name: tag-expressions/javascript
+          command: |
+            cd tag-expressions/javascript
             make publish
 
 ### Ruby
@@ -307,6 +359,19 @@ jobs:
 
 ### Ruby - publish
 
+  c21e-ruby-publish:
+    executor: docker-circleci-ruby
+    steps:
+      - attach_workspace:
+          at: "~"
+      - attach_workspace:
+          at: "~/cucumber"
+      - run:
+          name: c21e/ruby
+          command: |
+            cd c21e/ruby
+            make publish
+
   cucumber-expressions-ruby-publish:
     executor: docker-circleci-ruby
     steps:
@@ -318,6 +383,45 @@ jobs:
           name: cucumber-expressions/ruby
           command: |
             cd cucumber-expressions/ruby
+            make publish
+
+  cucumber-messages-ruby-publish:
+    executor: docker-circleci-ruby
+    steps:
+      - attach_workspace:
+          at: "~"
+      - attach_workspace:
+          at: "~/cucumber"
+      - run:
+          name: cucumber-messages/ruby
+          command: |
+            cd cucumber-messages/ruby
+            make publish
+
+  gherkin-ruby-publish:
+    executor: docker-circleci-ruby
+    steps:
+      - attach_workspace:
+          at: "~"
+      - attach_workspace:
+          at: "~/cucumber"
+      - run:
+          name: gherkin/ruby
+          command: |
+            cd gherkin/ruby
+            make publish
+
+  tag-expressions-ruby-publish:
+    executor: docker-circleci-ruby
+    steps:
+      - attach_workspace:
+          at: "~"
+      - attach_workspace:
+          at: "~/cucumber"
+      - run:
+          name: tag-expressions/ruby
+          command: |
+            cd tag-expressions/ruby
             make publish
 
 ### Java
@@ -433,6 +537,23 @@ jobs:
 
 #### Java - publish
 
+  c21e-java-publish:
+    executor: docker-circleci-openjdk
+    steps:
+      - attach_workspace:
+          at: "~/cucumber"
+      - run:
+          name: Install git-crypt
+          command: sudo apt-get install git-crypt
+      - run:
+          name: Import GPG signing key
+          command: gpg --batch -q --fast-import codesigning.key
+      - run:
+          name: c21e/java
+          command: |
+            cd c21e/java
+            make publish
+
   cucumber-expressions-java-publish:
     executor: docker-circleci-openjdk
     steps:
@@ -449,6 +570,92 @@ jobs:
           command: |
             cd cucumber-expressions/java
             make publish
+
+  cucumber-messages-java-publish:
+    executor: docker-circleci-openjdk
+    steps:
+      - attach_workspace:
+          at: "~/cucumber"
+      - run:
+          name: Install git-crypt
+          command: sudo apt-get install git-crypt
+      - run:
+          name: Import GPG signing key
+          command: gpg --batch -q --fast-import codesigning.key
+      - run:
+          name: cucumber-messages/java
+          command: |
+            cd cucumber-messages/java
+            make publish
+
+  gherkin-java-publish:
+    executor: docker-circleci-openjdk
+    steps:
+      - attach_workspace:
+          at: "~/cucumber"
+      - run:
+          name: Install git-crypt
+          command: sudo apt-get install git-crypt
+      - run:
+          name: Import GPG signing key
+          command: gpg --batch -q --fast-import codesigning.key
+      - run:
+          name: gherkin/java
+          command: |
+            cd gherkin/java
+            make publish
+
+  tag-expressions-java-publish:
+    executor: docker-circleci-openjdk
+    steps:
+      - attach_workspace:
+          at: "~/cucumber"
+      - run:
+          name: Install git-crypt
+          command: sudo apt-get install git-crypt
+      - run:
+          name: Import GPG signing key
+          command: gpg --batch -q --fast-import codesigning.key
+      - run:
+          name: tag-expressions/java
+          command: |
+            cd tag-expressions/java
+            make publish
+
+  datatable-java-publish:
+    executor: docker-circleci-openjdk
+    steps:
+      - attach_workspace:
+          at: "~/cucumber"
+      - run:
+          name: Install git-crypt
+          command: sudo apt-get install git-crypt
+      - run:
+          name: Import GPG signing key
+          command: gpg --batch -q --fast-import codesigning.key
+      - run:
+          name: datatable/java
+          command: |
+            cd datatable/java
+            make publish
+
+  config-java-publish:
+    executor: docker-circleci-openjdk
+    steps:
+      - attach_workspace:
+          at: "~/cucumber"
+      - run:
+          name: Install git-crypt
+          command: sudo apt-get install git-crypt
+      - run:
+          name: Import GPG signing key
+          command: gpg --batch -q --fast-import codesigning.key
+      - run:
+          name: config/java
+          command: |
+            cd config/java
+            make publish
+
 
 ### .NET
 
@@ -539,6 +746,15 @@ workflows:
 
 ### JavaScript - publish
 
+      - c21e-javascript-publish:
+          filters:
+            branches:
+              ignore: /.*/
+            tags:
+              only: /c21e\/v.*/
+          requires:
+            - c21e-javascript
+
       - cucumber-expressions-javascript-publish:
           filters:
             branches:
@@ -547,6 +763,33 @@ workflows:
               only: /cucumber-expressions\/v.*/
           requires:
             - cucumber-expressions-javascript
+
+      - cucumber-messages-javascript-publish:
+          filters:
+            branches:
+              ignore: /.*/
+            tags:
+              only: /cucumber-messages\/v.*/
+          requires:
+            - cucumber-messages-javascript
+
+      - gherkin-javascript-publish:
+          filters:
+            branches:
+              ignore: /.*/
+            tags:
+              only: /gherkin\/v.*/
+          requires:
+            - gherkin-javascript
+
+      - tag-expressions-javascript-publish:
+          filters:
+            branches:
+              ignore: /.*/
+            tags:
+              only: /tag-expressions\/v.*/
+          requires:
+            - tag-expressions-javascript
 
 ### Ruby
 
@@ -574,6 +817,15 @@ workflows:
 
 ### Ruby - publish
 
+      - c21e-ruby-publish:
+          filters:
+            branches:
+              ignore: /.*/
+            tags:
+              only: /c21e\/v.*/
+          requires:
+            - c21e-ruby
+
       - cucumber-expressions-ruby-publish:
           filters:
             branches:
@@ -583,6 +835,41 @@ workflows:
           requires:
             - cucumber-expressions-ruby
 
+      - cucumber-messages-ruby-publish:
+          filters:
+            branches:
+              ignore: /.*/
+            tags:
+              only: /cucumber-messages\/v.*/
+          requires:
+            - cucumber-messages-ruby
+
+      - gherkin-ruby-publish:
+          filters:
+            branches:
+              ignore: /.*/
+            tags:
+              only: /gherkin\/v.*/
+          requires:
+            - gherkin-ruby
+
+      - tag-expressions-ruby-publish:
+          filters:
+            branches:
+              ignore: /.*/
+            tags:
+              only: /tag-expressions\/v.*/
+          requires:
+            - tag-expressions-ruby
+
+      - dots-formatter-ruby-publish:
+          filters:
+            branches:
+              ignore: /.*/
+            tags:
+              only: /dots-formatter\/v.*/
+          requires:
+            - dots-formatter-ruby
 ### Java
 
       - c21e-java:
@@ -611,6 +898,17 @@ workflows:
 
 ### Java - publish
 
+      - c21e-java-publish:
+          filters:
+            branches:
+              # Publish the master branch. Maven ensures -SNAPSHOT versions
+              # end up in the snapshot repo.
+              only: "verdaccio"
+            tags:
+              only: /c21e\/v.*/
+          requires:
+            - c21e-java
+
       - cucumber-expressions-java-publish:
           filters:
             branches:
@@ -621,6 +919,61 @@ workflows:
               only: /cucumber-expressions\/v.*/
           requires:
             - cucumber-expressions-java
+
+      - cucumber-messages-java-publish:
+          filters:
+            branches:
+              # Publish the master branch. Maven ensures -SNAPSHOT versions
+              # end up in the snapshot repo.
+              only: "verdaccio"
+            tags:
+              only: /cucumber-messages\/v.*/
+          requires:
+            - cucumber-messages-java
+
+      - gherkin-java-publish:
+          filters:
+            branches:
+              # Publish the master branch. Maven ensures -SNAPSHOT versions
+              # end up in the snapshot repo.
+              only: "verdaccio"
+            tags:
+              only: /gherkin\/v.*/
+          requires:
+            - gherkin-java
+
+      - tag-expressions-java-publish:
+          filters:
+            branches:
+              # Publish the master branch. Maven ensures -SNAPSHOT versions
+              # end up in the snapshot repo.
+              only: "verdaccio"
+            tags:
+              only: /tag-expressions\/v.*/
+          requires:
+            - tag-expressions-java
+
+      - datatable-java-publish:
+          filters:
+            branches:
+              # Publish the master branch. Maven ensures -SNAPSHOT versions
+              # end up in the snapshot repo.
+              only: "verdaccio"
+            tags:
+              only: /datatable\/v.*/
+          requires:
+            - datatable-java
+
+      - config-java-publish:
+          filters:
+            branches:
+              # Publish the master branch. Maven ensures -SNAPSHOT versions
+              # end up in the snapshot repo.
+              only: "verdaccio"
+            tags:
+              only: /config\/v.*/
+          requires:
+            - config-java
 
 ### .NET
 
