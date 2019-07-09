@@ -59,28 +59,36 @@ public class Gherkin {
     }
 
     // Wraps the iterable in an adapter that will wait for the exe to exit when the stream has reach the end.
-    private Iterable<Envelope> wrapIterable(Iterable<Envelope> streamIterable, Exe exe) {
-        return () -> {
-            Iterator<Envelope> iterator = streamIterable.iterator();
-            return new Iterator<Envelope>() {
-                @Override
-                public boolean hasNext() {
-                    boolean hasNext = iterator.hasNext();
-                    if (!hasNext) {
-                        try {
-                            exe.waitFor();
-                        } catch (IOException | InterruptedException e) {
-                            throw new GherkinException("Failed waiting for gherkin", e);
+    private Iterable<Envelope> wrapIterable(final Iterable<Envelope> streamIterable, final Exe exe) {
+        return new Iterable<Envelope>() {
+            @Override
+            public Iterator<Envelope> iterator() {
+                final Iterator<Envelope> iterator = streamIterable.iterator();
+                return new Iterator<Envelope>() {
+                    @Override
+                    public boolean hasNext() {
+                        boolean hasNext = iterator.hasNext();
+                        if (!hasNext) {
+                            try {
+                                exe.waitFor();
+                            } catch (IOException | InterruptedException e) {
+                                throw new GherkinException("Failed waiting for gherkin", e);
+                            }
                         }
+                        return hasNext;
                     }
-                    return hasNext;
-                }
 
-                @Override
-                public Envelope next() {
-                    return iterator.next();
-                }
-            };
+                    @Override
+                    public Envelope next() {
+                        return iterator.next();
+                    }
+
+                    @Override
+                    public void remove() {
+                        throw new UnsupportedOperationException();
+                    }
+                };
+            }
         };
     }
 
