@@ -11,7 +11,7 @@ default: .tested
 .deps:
 	touch $@
 
-publish:
+publish: .deps
 	gpg --batch -q --fast-import ../../codesigning.key
 	mvn deploy -Psign-source-javadoc --settings scripts/ci-settings.xml -DskipTests=true
 .PHONY: publish
