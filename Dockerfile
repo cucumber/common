@@ -29,6 +29,7 @@ RUN apk add --no-cache \
   rsync \
   ruby \
   ruby-dev \
+  tree \
   unzip \
   wget \
   xmlstarlet
@@ -40,7 +41,7 @@ RUN gem install bundler io-console
 # Configure Python
 RUN pip install pipenv==8.3.2
 
-# Fix Protobuf - it doesn't include google/protobuf/timestamp.proto
+# Fix Protobuf - the apk package doesn't include google/protobuf/timestamp.proto
 RUN mkdir -p mkdir -p /usr/local/include/google/protobuf
 RUN curl --fail -L https://raw.githubusercontent.com/protocolbuffers/protobuf/v3.6.1/src/google/protobuf/timestamp.proto > /usr/local/include/google/protobuf/timestamp.proto
 
