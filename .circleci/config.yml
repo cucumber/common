@@ -561,7 +561,7 @@ jobs:
 #### Java - publish
 
   c21e-java-publish:
-    executor: docker-circleci-openjdk
+    executor: docker-cucumber-build
     steps:
       - attach_workspace:
           at: "~/cucumber"
@@ -577,7 +577,7 @@ jobs:
             make publish
 
   cucumber-expressions-java-publish:
-    executor: docker-circleci-openjdk
+    executor: docker-cucumber-build
     steps:
       - attach_workspace:
           at: "~/cucumber"
@@ -606,7 +606,7 @@ jobs:
             make publish
 
   gherkin-java-publish:
-    executor: docker-circleci-openjdk
+    executor: docker-cucumber-build
     steps:
       - attach_workspace:
           at: "~/cucumber"
@@ -622,7 +622,7 @@ jobs:
             make publish
 
   tag-expressions-java-publish:
-    executor: docker-circleci-openjdk
+    executor: docker-cucumber-build
     steps:
       - attach_workspace:
           at: "~/cucumber"
@@ -638,7 +638,7 @@ jobs:
             make publish
 
   datatable-java-publish:
-    executor: docker-circleci-openjdk
+    executor: docker-cucumber-build
     steps:
       - attach_workspace:
           at: "~/cucumber"
@@ -654,7 +654,7 @@ jobs:
             make publish
 
   config-java-publish:
-    executor: docker-circleci-openjdk
+    executor: docker-cucumber-build
     steps:
       - attach_workspace:
           at: "~/cucumber"
