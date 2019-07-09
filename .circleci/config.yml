@@ -568,9 +568,6 @@ jobs:
       - attach_workspace:
           at: "~/.m2/repository"
       - run:
-          name: Install git-crypt
-          command: sudo apt-get install git-crypt
-      - run:
           name: c21e/java
           command: |
             cd c21e/java
@@ -583,9 +580,6 @@ jobs:
           at: "~/cucumber"
       - attach_workspace:
           at: "~/.m2/repository"
-      - run:
-          name: Install git-crypt
-          command: sudo apt-get install git-crypt
       - run:
           name: cucumber-expressions/java
           command: |
@@ -613,9 +607,6 @@ jobs:
       - attach_workspace:
           at: "~/.m2/repository"
       - run:
-          name: Install git-crypt
-          command: sudo apt-get install git-crypt
-      - run:
           name: gherkin/java
           command: |
             cd gherkin/java
@@ -628,9 +619,6 @@ jobs:
           at: "~/cucumber"
       - attach_workspace:
           at: "~/.m2/repository"
-      - run:
-          name: Install git-crypt
-          command: sudo apt-get install git-crypt
       - run:
           name: tag-expressions/java
           command: |
@@ -645,9 +633,6 @@ jobs:
       - attach_workspace:
           at: "~/.m2/repository"
       - run:
-          name: Install git-crypt
-          command: sudo apt-get install git-crypt
-      - run:
           name: datatable/java
           command: |
             cd datatable/java
@@ -660,9 +645,6 @@ jobs:
           at: "~/cucumber"
       - attach_workspace:
           at: "~/.m2/repository"
-      - run:
-          name: Install git-crypt
-          command: sudo apt-get install git-crypt
       - run:
           name: config/java
           command: |
