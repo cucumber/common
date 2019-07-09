@@ -16,8 +16,6 @@
     <url>https://github.com/cucumber/gherkin-java</url>
 
     <properties>
-        <io.cucumber.messages.version>3.0.1-SNAPSHOT</io.cucumber.messages.version>
-        <io.cucumber.c21e.version>1.2.2-SNAPSHOT</io.cucumber.c21e.version>
         <project.Automatic-Module-Name>io.cucumber.gherkin</project.Automatic-Module-Name>
     </properties>
 
@@ -32,13 +30,13 @@
         <dependency>
             <groupId>io.cucumber</groupId>
             <artifactId>messages</artifactId>
-            <version>${io.cucumber.messages.version}</version>
+            <version>3.0.1-SNAPSHOT</version>
         </dependency>
 
         <dependency>
             <groupId>io.cucumber</groupId>
             <artifactId>c21e</artifactId>
-            <version>${io.cucumber.c21e.version}</version>
+            <version>1.2.2-SNAPSHOT</version>
         </dependency>
 
         <dependency>
