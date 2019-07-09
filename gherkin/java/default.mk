@@ -1,12 +1,6 @@
 SHELL := /usr/bin/env bash
 JAVA_SOURCE_FILES = $(shell find . -name "*.java")
 
-ifdef TRAVIS_TAG
-	LIBRARY_VERSION=$(TRAVIS_TAG)
-else
-	LIBRARY_VERSION=master
-endif
-
 default: .tested
 .PHONY: default
 

@@ -1,12 +1,6 @@
 SHELL := /usr/bin/env bash
 TYPESCRIPT_SOURCE_FILES = $(shell find src test -type f -name "*.ts")
 
-ifdef TRAVIS_TAG
-	LIBRARY_VERSION=$(TRAVIS_TAG)
-else
-	LIBRARY_VERSION=master
-endif
-
 default: .tested .built
 .PHONY: default
 
