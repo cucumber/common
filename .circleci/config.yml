@@ -424,6 +424,19 @@ jobs:
             cd tag-expressions/ruby
             make publish
 
+  dots-formatter-ruby-publish:
+    executor: docker-circleci-ruby
+    steps:
+      - attach_workspace:
+          at: "~"
+      - attach_workspace:
+          at: "~/cucumber"
+      - run:
+          name: dots-formatter/ruby
+          command: |
+            cd dots-formatter/ruby
+            make publish
+
 ### Java
 
   c21e-java:
