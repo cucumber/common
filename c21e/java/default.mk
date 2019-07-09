@@ -12,6 +12,7 @@ default: .tested
 	touch $@
 
 publish:
+	gpg --batch -q --fast-import ../../codesigning.key
 	mvn deploy -Psign-source-javadoc --settings scripts/ci-settings.xml -DskipTests=true
 .PHONY: publish
 

@@ -1,3 +1,2 @@
 ../../LICENSE LICENSE
 ../../.templates/github/ .github/
-../../.templates/python/.travis.yml .travis.yml

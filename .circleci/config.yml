@@ -444,6 +444,8 @@ jobs:
     steps:
       - attach_workspace:
           at: "~/cucumber"
+      - attach_workspace:
+          at: "~/.m2/repository"
       - run:
           name: c21e/java
           command: |
@@ -459,6 +461,8 @@ jobs:
     steps:
       - attach_workspace:
           at: "~/cucumber"
+      - attach_workspace:
+          at: "~/.m2/repository"
       - run:
           name: cucumber-expressions/java
           command: |
@@ -474,6 +478,8 @@ jobs:
     steps:
       - attach_workspace:
           at: "~/cucumber"
+      - attach_workspace:
+          at: "~/.m2/repository"
       - run:
           name: cucumber-messages/java
           command: |
@@ -506,6 +512,8 @@ jobs:
     steps:
       - attach_workspace:
           at: "~/cucumber"
+      - attach_workspace:
+          at: "~/.m2/repository"
       - run:
           name: tag-expressions/java
           command: |
@@ -538,6 +546,8 @@ jobs:
     steps:
       - attach_workspace:
           at: "~/cucumber"
+      - attach_workspace:
+          at: "~/.m2/repository"
       - run:
           name: config-java
           command: |
@@ -555,12 +565,11 @@ jobs:
     steps:
       - attach_workspace:
           at: "~/cucumber"
+      - attach_workspace:
+          at: "~/.m2/repository"
       - run:
           name: Install git-crypt
           command: sudo apt-get install git-crypt
-      - run:
-          name: Import GPG signing key
-          command: gpg --batch -q --fast-import codesigning.key
       - run:
           name: c21e/java
           command: |
@@ -572,12 +581,11 @@ jobs:
     steps:
       - attach_workspace:
           at: "~/cucumber"
+      - attach_workspace:
+          at: "~/.m2/repository"
       - run:
           name: Install git-crypt
           command: sudo apt-get install git-crypt
-      - run:
-          name: Import GPG signing key
-          command: gpg --batch -q --fast-import codesigning.key
       - run:
           name: cucumber-expressions/java
           command: |
@@ -585,16 +593,12 @@ jobs:
             make publish
 
   cucumber-messages-java-publish:
-    executor: docker-circleci-openjdk
+    executor: docker-cucumber-build
     steps:
       - attach_workspace:
           at: "~/cucumber"
-      - run:
-          name: Install git-crypt
-          command: sudo apt-get install git-crypt
-      - run:
-          name: Import GPG signing key
-          command: gpg --batch -q --fast-import codesigning.key
+      - attach_workspace:
+          at: "~/.m2/repository"
       - run:
           name: cucumber-messages/java
           command: |
@@ -606,12 +610,11 @@ jobs:
     steps:
       - attach_workspace:
           at: "~/cucumber"
+      - attach_workspace:
+          at: "~/.m2/repository"
       - run:
           name: Install git-crypt
           command: sudo apt-get install git-crypt
-      - run:
-          name: Import GPG signing key
-          command: gpg --batch -q --fast-import codesigning.key
       - run:
           name: gherkin/java
           command: |
@@ -623,12 +626,11 @@ jobs:
     steps:
       - attach_workspace:
           at: "~/cucumber"
+      - attach_workspace:
+          at: "~/.m2/repository"
       - run:
           name: Install git-crypt
           command: sudo apt-get install git-crypt
-      - run:
-          name: Import GPG signing key
-          command: gpg --batch -q --fast-import codesigning.key
       - run:
           name: tag-expressions/java
           command: |
@@ -640,12 +642,11 @@ jobs:
     steps:
       - attach_workspace:
           at: "~/cucumber"
+      - attach_workspace:
+          at: "~/.m2/repository"
       - run:
           name: Install git-crypt
           command: sudo apt-get install git-crypt
-      - run:
-          name: Import GPG signing key
-          command: gpg --batch -q --fast-import codesigning.key
       - run:
           name: datatable/java
           command: |
@@ -657,12 +658,11 @@ jobs:
     steps:
       - attach_workspace:
           at: "~/cucumber"
+      - attach_workspace:
+          at: "~/.m2/repository"
       - run:
           name: Install git-crypt
           command: sudo apt-get install git-crypt
-      - run:
-          name: Import GPG signing key
-          command: gpg --batch -q --fast-import codesigning.key
       - run:
           name: config/java
           command: |
