@@ -12,7 +12,9 @@ executors:
   # the build nodes (faster builds).
   docker-cucumber-build:
     docker:
-      - image: cucumber/cucumber-build:eaf07fd33b43f4078d85f1b3886c3925
+      # Remember to update to the latest image tag.
+      # Run: `source scripts/functions.sh && docker_image Dockerfile` to print it
+      - image: cucumber/cucumber-build:dfbaf74579ea6993af125f38098199e7
     working_directory: ~/cucumber
   docker-circleci-golang:
     docker:
