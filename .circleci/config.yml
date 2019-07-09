@@ -69,11 +69,11 @@ jobs:
             chmod 0600 ~/.npmrc
       - persist_to_workspace:
           root: ~/cucumber
-          paths: 
+          paths:
             - "*"
       - persist_to_workspace:
           root: "~"
-          paths: 
+          paths:
             - .gem/credentials
             - .npmrc
 
@@ -84,7 +84,7 @@ jobs:
     steps:
       - attach_workspace:
           at: "~/cucumber"
-      - run: 
+      - run:
           name: cucumber-expressions/go
           command: |
             cd cucumber-expressions/go
@@ -95,14 +95,14 @@ jobs:
     steps:
       - attach_workspace:
           at: "~/cucumber"
-      - run: 
+      - run:
           name: cucumber-messages/go
           command: |
             cd cucumber-messages/go
             make
       - persist_to_workspace:
           root: ~/cucumber
-          paths: 
+          paths:
             - cucumber-messages/go/v3/messages.pb.go
 
   gherkin-go:
@@ -110,14 +110,14 @@ jobs:
     steps:
       - attach_workspace:
           at: "~/cucumber"
-      - run: 
+      - run:
           name: gherkin/go
           command: |
             cd gherkin/go
             make
       - persist_to_workspace:
           root: ~/cucumber
-          paths: 
+          paths:
             - gherkin/go/dist
 
   tag-expressions-go:
@@ -125,7 +125,7 @@ jobs:
     steps:
       - attach_workspace:
           at: "~/cucumber"
-      - run: 
+      - run:
           name: tag-expressions/go
           command: |
             cd tag-expressions/go
@@ -136,14 +136,14 @@ jobs:
     steps:
       - attach_workspace:
           at: "~/cucumber"
-      - run: 
+      - run:
           name: dots-formatter/go
           command: |
             cd dots-formatter/go
             make
       - persist_to_workspace:
           root: ~/cucumber
-          paths: 
+          paths:
             - dots-formatter/go/dist
 
 ### JavaScript
@@ -153,14 +153,14 @@ jobs:
     steps:
       - attach_workspace:
           at: "~/cucumber"
-      - run: 
+      - run:
           name: c21e/javascript
           command: |
             cd c21e/javascript
             make
       - persist_to_workspace:
           root: ~/cucumber
-          paths: 
+          paths:
             - c21e/javascript/dist
             - c21e/javascript/node_modules
 
@@ -169,14 +169,14 @@ jobs:
     steps:
       - attach_workspace:
           at: "~/cucumber"
-      - run: 
+      - run:
           name: cucumber-expressions/javascript
           command: |
             cd cucumber-expressions/javascript
             make
       - persist_to_workspace:
           root: ~/cucumber
-          paths: 
+          paths:
             - cucumber-expressions/javascript/dist
             - cucumber-expressions/javascript/node_modules
 
@@ -185,14 +185,14 @@ jobs:
     steps:
       - attach_workspace:
           at: "~/cucumber"
-      - run: 
+      - run:
           name: cucumber-messages/javascript
           command: |
             cd cucumber-messages/javascript
             make
       - persist_to_workspace:
           root: ~/cucumber
-          paths: 
+          paths:
             - cucumber-messages/javascript/dist
             - cucumber-messages/javascript/node_modules
 
@@ -201,7 +201,7 @@ jobs:
     steps:
       - attach_workspace:
           at: "~/cucumber"
-      - run: 
+      - run:
           name: gherkin/javascript
           command: |
             cd gherkin/javascript
@@ -212,7 +212,7 @@ jobs:
     steps:
       - attach_workspace:
           at: "~/cucumber"
-      - run: 
+      - run:
           name: tag-expressions/javascript
           command: |
             cd tag-expressions/javascript
@@ -227,7 +227,7 @@ jobs:
           at: "~"
       - attach_workspace:
           at: "~/cucumber"
-      - run: 
+      - run:
           name: cucumber-expressions/javascript
           command: |
             cd cucumber-expressions/javascript
@@ -240,7 +240,7 @@ jobs:
     steps:
       - attach_workspace:
           at: "~/cucumber"
-      - run: 
+      - run:
           name: c21e/ruby
           command: |
             cd c21e/ruby
@@ -251,7 +251,7 @@ jobs:
     steps:
       - attach_workspace:
           at: "~/cucumber"
-      - run: 
+      - run:
           name: cucumber-expressions/ruby
           command: |
             cd cucumber-expressions/ruby
@@ -262,14 +262,14 @@ jobs:
     steps:
       - attach_workspace:
           at: "~/cucumber"
-      - run: 
+      - run:
           name: cucumber-messages/ruby
           command: |
             cd cucumber-messages/ruby
             make
       - persist_to_workspace:
           root: ~/cucumber
-          paths: 
+          paths:
             - cucumber-messages/ruby/lib/cucumber/messages_pb.rb
 
   gherkin-ruby:
@@ -277,7 +277,7 @@ jobs:
     steps:
       - attach_workspace:
           at: "~/cucumber"
-      - run: 
+      - run:
           name: gherkin/ruby
           command: |
             cd gherkin/ruby
@@ -288,7 +288,7 @@ jobs:
     steps:
       - attach_workspace:
           at: "~/cucumber"
-      - run: 
+      - run:
           name: tag-expressions/ruby
           command: |
             cd tag-expressions/ruby
@@ -299,7 +299,7 @@ jobs:
     steps:
       - attach_workspace:
           at: "~/cucumber"
-      - run: 
+      - run:
           name: dots-formatter/ruby
           command: |
             cd dots-formatter/ruby
@@ -314,7 +314,7 @@ jobs:
           at: "~"
       - attach_workspace:
           at: "~/cucumber"
-      - run: 
+      - run:
           name: cucumber-expressions/ruby
           command: |
             cd cucumber-expressions/ruby
@@ -327,14 +327,14 @@ jobs:
     steps:
       - attach_workspace:
           at: "~/cucumber"
-      - run: 
+      - run:
           name: c21e/java
           command: |
             cd c21e/java
             make
       - persist_to_workspace:
           root: "~/.m2/repository"
-          paths: 
+          paths:
             - "io/cucumber/c21e"
 
   cucumber-expressions-java:
@@ -342,14 +342,14 @@ jobs:
     steps:
       - attach_workspace:
           at: "~/cucumber"
-      - run: 
+      - run:
           name: cucumber-expressions/java
           command: |
             cd cucumber-expressions/java
             make
       - persist_to_workspace:
           root: "~/.m2/repository"
-          paths: 
+          paths:
             - "io/cucumber/cucumber-expressions"
 
   cucumber-messages-java:
@@ -357,14 +357,14 @@ jobs:
     steps:
       - attach_workspace:
           at: "~/cucumber"
-      - run: 
+      - run:
           name: cucumber-messages/java
           command: |
             cd cucumber-messages/java
             make
       - persist_to_workspace:
           root: "~/.m2/repository"
-          paths: 
+          paths:
             - "io/cucumber/messages"
 
   gherkin-java:
@@ -374,14 +374,14 @@ jobs:
           at: "~/cucumber"
       - attach_workspace:
           at: "~/.m2/repository"
-      - run: 
+      - run:
           name: gherkin/java
           command: |
             cd gherkin/java
             make
       - persist_to_workspace:
           root: "~/.m2/repository"
-          paths: 
+          paths:
             - "io/cucumber/gherkin"
 
   tag-expressions-java:
@@ -389,14 +389,14 @@ jobs:
     steps:
       - attach_workspace:
           at: "~/cucumber"
-      - run: 
+      - run:
           name: tag-expressions/java
           command: |
             cd tag-expressions/java
             make
       - persist_to_workspace:
           root: "~/.m2/repository"
-          paths: 
+          paths:
             - "io/cucumber/tag-expressions"
 
   datatable-java:
@@ -406,14 +406,14 @@ jobs:
           at: "~/cucumber"
       - attach_workspace:
           at: "~/.m2/repository"
-      - run: 
+      - run:
           name: datatable-java
           command: |
             cd datatable/java
             make
       - persist_to_workspace:
           root: "~/.m2/repository"
-          paths: 
+          paths:
             - "io/cucumber/datatable"
 
   config-java:
@@ -421,14 +421,14 @@ jobs:
     steps:
       - attach_workspace:
           at: "~/cucumber"
-      - run: 
+      - run:
           name: config-java
           command: |
             cd config/java
             make
       - persist_to_workspace:
           root: "~/.m2/repository"
-          paths: 
+          paths:
             - "io/cucumber/config"
 
 #### Java - publish
@@ -444,7 +444,7 @@ jobs:
       - run:
           name: Import GPG signing key
           command: gpg --batch -q --fast-import codesigning.key
-      - run: 
+      - run:
           name: cucumber-expressions/java
           command: |
             cd cucumber-expressions/java
@@ -457,7 +457,7 @@ jobs:
     steps:
       - attach_workspace:
           at: "~/cucumber"
-      - run: 
+      - run:
           name: cucumber-messages/dotnet
           command: |
             cd cucumber-messages/dotnet
@@ -470,7 +470,7 @@ jobs:
     steps:
       - attach_workspace:
           at: "~/cucumber"
-      - run: 
+      - run:
           name: cucumber-messages/dotnet
           command: |
             cd cucumber-messages/dotnet
@@ -483,7 +483,7 @@ jobs:
     steps:
       - attach_workspace:
           at: "~/cucumber"
-      - run: 
+      - run:
           name: tag-expressions/python
           command: |
             cd tag-expressions/python
@@ -498,149 +498,149 @@ workflows:
   monorepo-build:
     jobs:
       - checkout
-# 
-# ### Go
-# 
-#       - cucumber-expressions-go:
-#           requires:
-#             - checkout
-#       - cucumber-messages-go:
-#           requires:
-#             - checkout
-#       - gherkin-go:
-#           requires:
-#             - cucumber-messages-go
-#       - tag-expressions-go:
-#           requires:
-#             - checkout
-#       - dots-formatter-go:
-#           requires:
-#             - cucumber-messages-go
-# 
-# ### JavaScript
-# 
-#       - c21e-javascript:
-#           requires:
-#             - checkout
-#       - cucumber-expressions-javascript:
-#           requires:
-#             - checkout
-#       - cucumber-messages-javascript:
-#           requires:
-#             - checkout
-#       - gherkin-javascript:
-#           requires:
-#             - c21e-javascript
-#             - cucumber-messages-javascript
-#             - gherkin-go
-#       - tag-expressions-javascript:
-#           requires:
-#             - checkout
-# 
-# ### JavaScript - publish
-# 
-#       - cucumber-expressions-javascript-publish:
-#           filters:
-#             branches:
-#               ignore: /.*/
-#             tags: 
-#               only: /cucumber-expressions\/v.*/
-#           requires:
-#             - cucumber-expressions-javascript
-# 
-# ### Ruby
-# 
-#       - c21e-ruby:
-#           requires:
-#             - checkout
-#       - cucumber-expressions-ruby:
-#           requires:
-#             - checkout
-#       - cucumber-messages-ruby:
-#           requires:
-#             - checkout
-#       - gherkin-ruby:
-#           requires:
-#             - c21e-ruby
-#             - cucumber-messages-ruby
-#             - gherkin-go
-#       - tag-expressions-ruby:
-#           requires:
-#             - checkout
-#       - dots-formatter-ruby:
-#           requires:
-#             - cucumber-messages-ruby
-#             - dots-formatter-go
-# 
-# ### Ruby - publish
-# 
-#       - cucumber-expressions-ruby-publish:
-#           filters:
-#             branches:
-#               ignore: /.*/
-#             tags: 
-#               only: /cucumber-expressions\/v.*/
-#           requires:
-#             - cucumber-expressions-ruby
-# 
-# ### Java
-# 
-#       - c21e-java:
-#           requires:
-#             - checkout
+
+### Go
+
+      - cucumber-expressions-go:
+          requires:
+            - checkout
+      - cucumber-messages-go:
+          requires:
+            - checkout
+      - gherkin-go:
+          requires:
+            - cucumber-messages-go
+      - tag-expressions-go:
+          requires:
+            - checkout
+      - dots-formatter-go:
+          requires:
+            - cucumber-messages-go
+
+### JavaScript
+
+      - c21e-javascript:
+          requires:
+            - checkout
+      - cucumber-expressions-javascript:
+          requires:
+            - checkout
+      - cucumber-messages-javascript:
+          requires:
+            - checkout
+      - gherkin-javascript:
+          requires:
+            - c21e-javascript
+            - cucumber-messages-javascript
+            - gherkin-go
+      - tag-expressions-javascript:
+          requires:
+            - checkout
+
+### JavaScript - publish
+
+      - cucumber-expressions-javascript-publish:
+          filters:
+            branches:
+              ignore: /.*/
+            tags:
+              only: /cucumber-expressions\/v.*/
+          requires:
+            - cucumber-expressions-javascript
+
+### Ruby
+
+      - c21e-ruby:
+          requires:
+            - checkout
+      - cucumber-expressions-ruby:
+          requires:
+            - checkout
+      - cucumber-messages-ruby:
+          requires:
+            - checkout
+      - gherkin-ruby:
+          requires:
+            - c21e-ruby
+            - cucumber-messages-ruby
+            - gherkin-go
+      - tag-expressions-ruby:
+          requires:
+            - checkout
+      - dots-formatter-ruby:
+          requires:
+            - cucumber-messages-ruby
+            - dots-formatter-go
+
+### Ruby - publish
+
+      - cucumber-expressions-ruby-publish:
+          filters:
+            branches:
+              ignore: /.*/
+            tags:
+              only: /cucumber-expressions\/v.*/
+          requires:
+            - cucumber-expressions-ruby
+
+### Java
+
+      - c21e-java:
+          requires:
+            - checkout
       - cucumber-expressions-java:
           requires:
             - checkout
-#       - cucumber-messages-java:
-#           requires:
-#             - checkout
-#       - gherkin-java:
-#           requires:
-#             - c21e-java
-#             - cucumber-messages-java
-#             - gherkin-go
-#       - tag-expressions-java:
-#           requires:
-#             - checkout
-#       - datatable-java:
-#           requires:
-#             - gherkin-java
-#       - config-java:
-#           requires:
-#             - checkout
-# 
-# ### Java - publish
-# 
+      - cucumber-messages-java:
+          requires:
+            - checkout
+      - gherkin-java:
+          requires:
+            - c21e-java
+            - cucumber-messages-java
+            - gherkin-go
+      - tag-expressions-java:
+          requires:
+            - checkout
+      - datatable-java:
+          requires:
+            - gherkin-java
+      - config-java:
+          requires:
+            - checkout
+
+### Java - publish
+
       - cucumber-expressions-java-publish:
           filters:
             branches:
               # Publish the master branch. Maven ensures -SNAPSHOT versions
-              # end up in the snapshot repo. 
+              # end up in the snapshot repo.
               only: "verdaccio"
-            tags: 
+            tags:
               only: /cucumber-expressions\/v.*/
           requires:
             - cucumber-expressions-java
-# 
-# ### .NET
-# 
-#       - cucumber-messages-dotnet:
-#           requires:
-#             - checkout
-# 
-# ### .NET - publish
-# 
-#       - cucumber-messages-dotnet-publish:
-#           filters:
-#             branches:
-#               ignore: /.*/
-#             tags: 
-#               only: /cucumber-expressions\/v.*/
-#           requires:
-#             - cucumber-messages-dotnet
-# 
-# ## Python
-# 
-#       - tag-expressions-python:
-#           requires:
-#             - checkout
+
+### .NET
+
+      - cucumber-messages-dotnet:
+          requires:
+            - checkout
+
+### .NET - publish
+
+      - cucumber-messages-dotnet-publish:
+          filters:
+            branches:
+              ignore: /.*/
+            tags:
+              only: /cucumber-expressions\/v.*/
+          requires:
+            - cucumber-messages-dotnet
+
+## Python
+
+      - tag-expressions-python:
+          requires:
+            - checkout

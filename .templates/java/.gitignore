@@ -4,7 +4,10 @@ target/
 release.properties
 pom.xml.releaseBackup
 dependency-reduced-pom.xml
+.classpath
 .deps
+.project
+.settings/
 .tested
 .compared
 # Approval tests

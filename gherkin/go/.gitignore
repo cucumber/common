@@ -6,6 +6,7 @@
 .dist-compressed
 .linted
 .go-get
+.gofmt
 bin/
 acceptance/
 dist_compressed/
