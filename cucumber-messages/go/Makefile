@@ -20,4 +20,4 @@ v3/messages.pb.go: messages.proto
 		$<
 
 clean:
-	rm -f v3/messages.pb.go
+	rm -f v3/messages.pb.go .go-get
