@@ -26,6 +26,9 @@ package-lock.json: package.json
 	npm install
 	touch $@
 
+update-dependencies:
+	npx npm-check-updates --upgrade
+
 publish:
 	npm publish
 .PHONY: publish

@@ -3,6 +3,7 @@ ALPINE := $(shell which apk 2> /dev/null)
 GOPATH := $(shell go env GOPATH)
 PATH := $(PATH):$(GOPATH)/bin
 GO_SOURCE_FILES := $(shell find . -name "*.go" | sort)
+MOD_DIR := $(shell dirname $$(find . -name go.mod))
 LIBNAME := $(shell basename $$(dirname $$(pwd)))
 GOX_LDFLAGS := "-X main.version=${CIRCLE_TAG}"
 EXES := $(shell find dist -name '$(LIBNAME)-*')
@@ -43,6 +44,10 @@ endif
 
 .dist-compressed: $(UPX_EXES)
 	touch $@
+
+update-dependencies:
+	cd $(MOD_DIR) && go get -u && go mod tidy
+.PHONY: update-dependencies
 
 dist_compressed/$(LIBNAME)-%: dist/$(LIBNAME)-%
 	mkdir -p dist_compressed

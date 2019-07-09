@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+#
+# Updates the *.gemspec in the current directory to use the latest releases of gems
+#
+set -eufx -o pipefail
+IFS=$'\n'
+
+gemspec=$(find . -type f -maxdepth 1 -name "*.gemspec")
+gems=$(cat ${gemspec} | grep s.add_dependency | tr -s ' ' | cut -d ' ' -f3 | cut -d"'" -f 2)
+
+while read -r gem; do
+  gem_line=$(gem list "${gem}" --remote --all --no-prerelease | grep "${gem}")
+  latest_version=$(echo "${gem_line}" | cut -d'(' -f2 | cut -d',' -f1)
+  cat "${gemspec}" | sed "s/s.add_dependency '${gem}', .*/s.add_dependency '${gem}', '~> ${latest_version}'/" > ${gemspec}.tmp
+  mv ${gemspec}.tmp ${gemspec}
+done <<< "${gems}"

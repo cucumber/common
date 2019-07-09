@@ -69,5 +69,40 @@ than a local build.
 
 ## Releasing a module
 
+The release process is automated from the command line.
 
+When a module is released, _all_ implementations of the module are released.
+For example, when you release `cucumber-expressions`, it will release the Java, Ruby,
+Go and JavaScript implementations of that library, with the same version number.
+
+You *must* be on the `master` branch when you make a release.
+
+### Update dependencies
+
+Before you make a release, you should update the module's dependencies to the latest
+available versions:
+
+    cd themodule
+    make update-dependencies
+
+This will typically modify the files where dependencies are declared, without
+committing the changes to git. See what changed:
  
+    git diff
+
+After inspecting the diff, make sure the module still builds, and that the tests
+are still passing:
+
+    make
+
+If all is good, commit the files and push.
+
+    git add .
+    git commit -m "Update dependencies"
+
+Keep an eye on [CircleCI](https://circleci.com/gh/cucumber/workflows/cucumber/tree/master).
+If all the jobs are green you can proceed to the next step, where we update the version
+number:
+
+### Update version number
+

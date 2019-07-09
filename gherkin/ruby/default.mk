@@ -16,6 +16,10 @@ Gemfile.lock: Gemfile $(GEMSPECS)
 	bundle exec rspec --color
 	touch $@
 
+update-dependencies:
+	./scripts/update-gemspec
+.PHONY: update-dependencies
+
 publish:
 	gem build $$(find . -name "*.gemspec")
 	gem push $$(find . -name "*.gem")
