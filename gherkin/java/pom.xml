@@ -30,19 +30,19 @@
         <dependency>
             <groupId>io.cucumber</groupId>
             <artifactId>messages</artifactId>
-            <version>3.0.1-SNAPSHOT</version>
+            <version>3.0.0</version>
         </dependency>
 
         <dependency>
             <groupId>io.cucumber</groupId>
             <artifactId>c21e</artifactId>
-            <version>1.2.2-SNAPSHOT</version>
+            <version>1.2.1</version>
         </dependency>
 
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
-            <version>4.12</version>
+            <version>4.13-beta-3</version>
             <scope>test</scope>
         </dependency>
     </dependencies>

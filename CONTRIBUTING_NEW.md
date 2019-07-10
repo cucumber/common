@@ -86,14 +86,14 @@ available versions:
     make update-dependencies
 
 This will typically modify the files where dependencies are declared, without
-committing the changes to git. See what changed:
+committing the changes to git. Examine what changed:
  
     git diff
 
-After inspecting the diff, make sure the module still builds, and that the tests
-are still passing:
+Inspecting the diff, and undo any changes that you think shouldn't have been made.
+Make sure the module still builds, and that the tests are still passing:
 
-    make
+    make clean && make
 
 If all is good, commit the files and push.
 
@@ -101,8 +101,47 @@ If all is good, commit the files and push.
     git commit -m "Update dependencies"
 
 Keep an eye on [CircleCI](https://circleci.com/gh/cucumber/workflows/cucumber/tree/master).
-If all the jobs are green you can proceed to the next step, where we update the version
-number:
+If all the jobs are green you can proceed to the next step, where we trigger a
+release for the new version number:
 
-### Update version number
+### Trigger a release
 
+Triggering a release is a process with the following steps:
+
+* Update the version number in the module descriptor
+* Add and commit the modified files
+* Tag the git repository
+* Push
+* Wait for CircleCI to halt for approval
+* Manually approve the release of each module
+
+We have a script that handles the first 4 steps.
+
+    ./scripts/docker_run Dockerfile
+    source scripts/functions.sh && release_module MODULE_NAME VERSION # Don't specify the v in the version
+
+Head over to [CircleCI](https://circleci.com/gh/cucumber/workflows/cucumber/tree/master)
+and open the currently running build. You should see extra jobs for making the release.
+
+(This uses encrypted credentials in files. Those files are decrypted during `checkout`).
+See the section on [security](#security)
+
+### Update version and dependencies (again!)
+
+Now that we have made a release, we must link the module dependencies to other
+versions in this repo:
+
+* Update the module version to the next `-SNAPSHOT` version (Java only)
+* Update all dependencies internal to this repo to use `-SNAPSHOT` version (Java only)
+
+## Security
+ 
+Only a small handful of people should be allowed to make a release.
+
+This means we need to guard access to the secret key required to decrypt
+encrypted files.
+
+This decryption key is passed to CircleCI as an environment variable.
+
+When a publish job is awaiting approval, only members of the `release-manager`
+group will be granted access to this approval.
