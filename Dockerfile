@@ -12,6 +12,7 @@ RUN apk add --no-cache \
   go \
   git \
   gnupg \
+  groff \
   g++ \
   jq \
   libc-dev \
@@ -49,3 +50,19 @@ RUN curl --fail -L https://raw.githubusercontent.com/protocolbuffers/protobuf/v3
 RUN git clone -b 0.6.0 --single-branch --depth 1 https://github.com/AGWA/git-crypt.git && \
     cd git-crypt && \
     make && make install
+
+# Configure Go
+ENV GO111MODULE on
+ENV GOPATH /root/go
+
+# Install hub
+RUN mkdir -p "$GOPATH"/src/github.com/github && \
+  git clone \
+    -b v2.12.2 --single-branch --depth 1 \
+    --config transfer.fsckobjects=false \
+    --config receive.fsckobjects=false \
+    --config fetch.fsckobjects=false \
+    https://github.com/github/hub.git "$GOPATH"/src/github.com/github/hub && \
+  cd "$GOPATH"/src/github.com/github/hub && \
+  make && \
+  cp bin/hub /usr/local/bin/hub

@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+#
+# Creates a GitHub release and uploads all the executables
+#
+set -euf -o pipefail
+
+libname=$(basename $(dirname $(pwd)))
+add_args=$(find dist -type f -name "${libname}-*" | \
+  # Replace newline with space
+  tr '\n' ' ' | \
+  # Remove trailing space
+  sed -e 's/[[:space:]]*$//' | \
+  # Insert ' -a ' between all files
+  sed "s/[[:space:]]/ -a /g")
+eval hub release create -dp -a ${add_args} -m "${libname} ${CIRCLE_TAG}" testing/v1.2.3

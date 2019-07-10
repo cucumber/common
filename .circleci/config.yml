@@ -148,6 +148,19 @@ jobs:
           paths:
             - dots-formatter/go/dist
 
+### Go - publish
+
+  dots-formatter-go-publish:
+    executor: docker-cucumber-build
+    steps:
+      - attach_workspace:
+          at: "~/cucumber"
+      - run:
+          name: dots-formatter/go
+          command: |
+            cd dots-formatter/go
+            make publish
+
 ### JavaScript
 
   c21e-javascript:
@@ -720,6 +733,12 @@ workflows:
       - dots-formatter-go:
           requires:
             - cucumber-messages-go
+
+### Go - publish (only the ones with a cmd/main.go)
+
+      - dots-formatter-go-publish:
+          requires:
+            - dots-formatter-go
 
 ### JavaScript
 

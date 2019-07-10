@@ -49,6 +49,9 @@ update-dependencies:
 	cd $(MOD_DIR) && go get -u && go mod tidy
 .PHONY: update-dependencies
 
+publish: .dist-compressed
+	./scripts/github-release
+
 dist_compressed/$(LIBNAME)-%: dist/$(LIBNAME)-%
 	mkdir -p dist_compressed
 	# requires upx in PATH to compress supported binaries
@@ -56,7 +59,7 @@ dist_compressed/$(LIBNAME)-%: dist/$(LIBNAME)-%
 	-upx $< -o $@
 
 	# Test the integrity
-	if [ -f "$@" ]; then upx -t $@ || rm $@; fi
+	if [ -f "$@" ]; then upx -t $@ && cp $@ $< || rm $@; fi
 
 .linted: $(GO_SOURCE_FILES)
 	gofmt -w $^
