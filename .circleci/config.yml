@@ -737,6 +737,12 @@ workflows:
 ### Go - publish (only the ones with a cmd/main.go)
 
       - dots-formatter-go-publish:
+          type: approval
+          filters:
+            branches:
+              ignore: /.*/
+            tags:
+              only: /dots-formatter\/v.*/
           requires:
             - dots-formatter-go
 
@@ -763,6 +769,7 @@ workflows:
 ### JavaScript - publish
 
       - c21e-javascript-publish:
+          type: approval
           filters:
             branches:
               ignore: /.*/
@@ -772,6 +779,7 @@ workflows:
             - c21e-javascript
 
       - cucumber-expressions-javascript-publish:
+          type: approval
           filters:
             branches:
               ignore: /.*/
@@ -781,6 +789,7 @@ workflows:
             - cucumber-expressions-javascript
 
       - cucumber-messages-javascript-publish:
+          type: approval
           filters:
             branches:
               ignore: /.*/
@@ -790,6 +799,7 @@ workflows:
             - cucumber-messages-javascript
 
       - gherkin-javascript-publish:
+          type: approval
           filters:
             branches:
               ignore: /.*/
@@ -799,6 +809,7 @@ workflows:
             - gherkin-javascript
 
       - tag-expressions-javascript-publish:
+          type: approval
           filters:
             branches:
               ignore: /.*/
@@ -834,6 +845,7 @@ workflows:
 ### Ruby - publish
 
       - c21e-ruby-publish:
+          type: approval
           filters:
             branches:
               ignore: /.*/
@@ -843,6 +855,7 @@ workflows:
             - c21e-ruby
 
       - cucumber-expressions-ruby-publish:
+          type: approval
           filters:
             branches:
               ignore: /.*/
@@ -852,6 +865,7 @@ workflows:
             - cucumber-expressions-ruby
 
       - cucumber-messages-ruby-publish:
+          type: approval
           filters:
             branches:
               ignore: /.*/
@@ -861,6 +875,7 @@ workflows:
             - cucumber-messages-ruby
 
       - gherkin-ruby-publish:
+          type: approval
           filters:
             branches:
               ignore: /.*/
@@ -870,6 +885,7 @@ workflows:
             - gherkin-ruby
 
       - tag-expressions-ruby-publish:
+          type: approval
           filters:
             branches:
               ignore: /.*/
@@ -879,6 +895,7 @@ workflows:
             - tag-expressions-ruby
 
       - dots-formatter-ruby-publish:
+          type: approval
           filters:
             branches:
               ignore: /.*/
@@ -915,77 +932,80 @@ workflows:
 ### Java - publish
 
       - c21e-java-publish:
+          type: approval
           filters:
             branches:
-              # Publish the master branch. Maven ensures -SNAPSHOT versions
-              # end up in the snapshot repo.
-              only: "verdaccio"
+              ignore: /.*/
+            tags:
+              only: /c21e\/v.*/
+          requires:
+            - c21e-java
+
+      - c21e-java-publish:
+          type: approval
+          filters:
+            branches:
+              ignore: /.*/
             tags:
               only: /c21e\/v.*/
           requires:
             - c21e-java
 
       - cucumber-expressions-java-publish:
+          type: approval
           filters:
             branches:
-              # Publish the master branch. Maven ensures -SNAPSHOT versions
-              # end up in the snapshot repo.
-              only: "verdaccio"
+              ignore: /.*/
             tags:
               only: /cucumber-expressions\/v.*/
           requires:
             - cucumber-expressions-java
 
       - cucumber-messages-java-publish:
+          type: approval
           filters:
             branches:
-              # Publish the master branch. Maven ensures -SNAPSHOT versions
-              # end up in the snapshot repo.
-              only: "verdaccio"
+              ignore: /.*/
             tags:
               only: /cucumber-messages\/v.*/
           requires:
             - cucumber-messages-java
 
       - gherkin-java-publish:
+          type: approval
           filters:
             branches:
-              # Publish the master branch. Maven ensures -SNAPSHOT versions
-              # end up in the snapshot repo.
-              only: "verdaccio"
+              ignore: /.*/
             tags:
               only: /gherkin\/v.*/
           requires:
             - gherkin-java
 
       - tag-expressions-java-publish:
+          type: approval
           filters:
             branches:
-              # Publish the master branch. Maven ensures -SNAPSHOT versions
-              # end up in the snapshot repo.
-              only: "verdaccio"
+              ignore: /.*/
             tags:
               only: /tag-expressions\/v.*/
           requires:
             - tag-expressions-java
 
       - datatable-java-publish:
+          type: approval
           filters:
             branches:
-              # Publish the master branch. Maven ensures -SNAPSHOT versions
-              # end up in the snapshot repo.
-              only: "verdaccio"
+              ignore: /.*/
             tags:
               only: /datatable\/v.*/
           requires:
             - datatable-java
 
       - config-java-publish:
+          type: approval
           filters:
             branches:
-              # Publish the master branch. Maven ensures -SNAPSHOT versions
-              # end up in the snapshot repo.
-              only: "verdaccio"
+              ignore: /.*/
             tags:
               only: /config\/v.*/
           requires:
@@ -1004,7 +1024,7 @@ workflows:
             branches:
               ignore: /.*/
             tags:
-              only: /cucumber-expressions\/v.*/
+              only: /cucumber-messages\/v.*/
           requires:
             - cucumber-messages-dotnet
 
