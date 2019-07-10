@@ -32,6 +32,7 @@ RUN apk add --no-cache \
   ruby-dev \
   tree \
   unzip \
+  upx \
   wget \
   xmlstarlet
 
