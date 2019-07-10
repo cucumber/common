@@ -29,21 +29,21 @@
   },
   "homepage": "https://github.com/cucumber/cucumber-expressions-javascript#readme",
   "devDependencies": {
-    "@types/mocha": "^5.2.6",
-    "@types/node": "^11.13.9",
-    "mocha": "^6.1.2",
-    "nyc": "^14.1.0",
-    "prettier": "^1.17.0",
-    "ts-node": "^8.1.0",
-    "tslint": "^5.16.0",
+    "@types/mocha": "^5.2.7",
+    "@types/node": "^12.6.2",
+    "mocha": "^6.1.4",
+    "nyc": "^14.1.1",
+    "prettier": "^1.18.2",
+    "ts-node": "^8.3.0",
+    "tslint": "^5.18.0",
     "tslint-config-prettier": "^1.18.0",
     "tslint-plugin-prettier": "^2.0.1",
-    "typescript": "^3.4.5"
+    "typescript": "^3.5.3"
   },
   "files": [
     "*"
   ],
   "dependencies": {
-    "becke-ch--regex--s0-0-v1--base--pl--lib": "^1.2.0"
+    "becke-ch--regex--s0-0-v1--base--pl--lib": "^1.4.0"
   }
 }

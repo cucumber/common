@@ -1,3 +1,4 @@
+dist/
 .idea/
 .nyc_output/
 coverage/
@@ -8,7 +9,9 @@ package-lock.json
 .deps
 .tested
 .linted
+.built
 .compared
 .codegen
-acceptance
-*-go/
+.npm-linked
+acceptance/
+*-go

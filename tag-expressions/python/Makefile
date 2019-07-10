@@ -68,7 +68,12 @@ ifeq ($(_PIPENV_RESOLVED),)
 	@echo "INSTALL-REQUIRED: pipenv"
 	$(SUDO) pip install pipenv==$(PIPENV_VERSION)
 endif
+
+ifeq ($(CI),true)
+	$(SUDO) $(PIPENV) install $(addprefix -r ,$(PY_REQUIREMENT_FILES))
+else
 	$(PIPENV) install $(addprefix -r ,$(PY_REQUIREMENT_FILES))
+endif
 	touch $(BOOTSTRAP_DONE_MARKER_FILE)
 
 #	$(PIPENV) install -r py.requirements/testing.txt
@@ -91,3 +96,5 @@ test.coverage: $(BOOTSTRAP_DONE_MARKER_FILE)
 
 tox: $(BOOTSTRAP_DONE_MARKER_FILE)
 	$(PIPENV_RUN) tox $(TOX_ARGS)
+
+include default.mk

@@ -7,14 +7,20 @@ ifndef ALPINE
 default: messages.md
 endif
 
+messages.md: messages.proto
+	docker run --rm -v $$(pwd):/out -v $$(pwd):/protos pseudomuto/protoc-gen-doc --doc_opt=markdown,$@
+
 default: $(patsubst %/Makefile,default-%,$(MAKEFILES))
 .PHONY: default
 
 default-%: %
 	cd $< && make default
 
-messages.md: messages.proto
-	docker run --rm -v $$(pwd):/out -v $$(pwd):/protos pseudomuto/protoc-gen-doc --doc_opt=markdown,$@
+update-dependencies: $(patsubst %/Makefile,update-dependencies-%,$(MAKEFILES))
+.PHONY: update-dependencies
+
+update-dependencies-%: %
+	cd $< && make update-dependencies
 
 clean: $(patsubst %/Makefile,clean-%,$(MAKEFILES))
 .PHONY: clean

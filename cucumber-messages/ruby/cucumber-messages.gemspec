@@ -20,7 +20,7 @@ Gem::Specification.new do |s|
                   }
 
   # Users of JRuby and MRI < 2.6 will have to specify google-protobuf=3.2 (later versions don't work)
-  s.add_dependency('google-protobuf', ['>= 3.2', '<= 3.7'])
+  s.add_dependency 'google-protobuf', ['>= 3.2', '<= 3.7']
   s.add_development_dependency 'bundler'
   s.add_development_dependency 'rake',      '~> 12.3'
   s.add_development_dependency 'rspec',     '~> 3.7'

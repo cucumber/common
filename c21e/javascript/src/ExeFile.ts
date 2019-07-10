@@ -1,6 +1,6 @@
 import os from 'os'
 
-export class ExeFile {
+export default class ExeFile {
   constructor(
     private readonly fileNamePattern: string,
     private readonly props: { os: string; arch: string } = {
