@@ -15,7 +15,7 @@ Please pay attention to the following:
 
 Triggering a release is simple:
 
-    ./scripts/docker_run Dockerfile
+    ./scripts/docker-run Dockerfile
     source scripts/functions.sh && release_module MODULE_NAME VERSION # Don't specify the v in the version
 
 Triggering a release will update the various package descriptors (`pom.xml`, `package.json`, `*.gemspec`)
