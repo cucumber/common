@@ -1,4 +1,4 @@
-module github.com/cucumber/cucumber-expressions-go
+module github.com/cucumber/cucumbber/cucumber-expressions/go
 
 require (
 	github.com/davecgh/go-spew v1.1.1 // indirect
