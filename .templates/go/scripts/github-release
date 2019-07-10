@@ -2,7 +2,7 @@
 #
 # Creates a GitHub release and uploads all the executables
 #
-set -ef -o pipefail
+#set -euf -o pipefail
 
 libname=$(basename $(dirname $(pwd)))
 add_args=$(find dist -type f -name "${libname}-*" | \

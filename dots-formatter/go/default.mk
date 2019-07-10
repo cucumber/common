@@ -19,15 +19,14 @@ default: .linted .tested
 
 # Run the .dist target if there is a main file
 ifneq (,$(wildcard ./cmd/main.go))
-default: .dist
+default: dist
 endif
 
 .deps:
 	touch $@
 
-## TODO: Dynamically detect OS/arch using uname and arch (and a bit of regexp)
-## TODO: Always place the gherkin exe in dist (and not in bin)
-.dist: $(EXE)
+dist: $(EXE)
+	make .dist-compressed
 	touch $@
 
 $(EXE): .deps $(GO_SOURCE_FILES)
@@ -49,7 +48,7 @@ update-dependencies:
 	cd $(MOD_DIR) && go get -u && go mod tidy
 .PHONY: update-dependencies
 
-publish: .dist-compressed
+publish: dist
 	./scripts/github-release
 
 dist_compressed/$(LIBNAME)-%: dist/$(LIBNAME)-%
@@ -73,5 +72,5 @@ clean: clean-go
 .PHONY: clean
 
 clean-go:
-	rm -rf .deps .tested .mod-replaced .linted .dist-compressed .dist dist/* dist_compressed
+	rm -rf .deps .tested .mod-replaced .linted dist .dist_compressed dist_compressed
 .PHONY: clean-go
