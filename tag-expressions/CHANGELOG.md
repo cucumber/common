@@ -8,16 +8,25 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ## [Unreleased - 1.1.2-SNAPSHOT]
 
 ### Added
+
+### Changed
+
+### Deprecated
+
+### Removed
+
+### Fixed
+
+## [2.0.0] - 2019-07-10
+
+### Added
 * Go: New implementation.
   ([#339](https://github.com/cucumber/cucumber/pull/339)
    [charlierudolph])
 
 ### Changed
 * JavaScript: Changed API to return a `parse` function rather than a class with a `parse` method.
-* JavaScript: Refactored to ES6 syntax
-
-### Deprecated
-N/A
+* JavaScript: Refactored to TypeScript
 
 ### Removed
 * Java: OSGi support has been removed.
@@ -77,9 +86,10 @@ N/A
 * First stable release!
 
 <!-- Releases -->
-[Unreleased]: https://github.com/cucumber/cucumber/compare/tag-expressions-v1.1.1...master
-[1.1.1]: https://github.com/cucumber/cucumber/compare/tag-expressions-v1.1.0...v1.1.1
-[1.1.0]: https://github.com/cucumber/cucumber/compare/tag-expressions-v1.0.1...v1.1.0
+[Unreleased]: https://github.com/cucumber/cucumber/compare/tag-expressions/v1.1.1...master
+[2.0.0]: https://github.com/cucumber/cucumber/compare/tag-expressions-v1.1.1...tag-expressions/v1.1.1
+[1.1.1]: https://github.com/cucumber/cucumber/compare/tag-expressions-v1.1.0...tag-expressions-v1.1.1
+[1.1.0]: https://github.com/cucumber/cucumber/compare/tag-expressions-v1.0.1...tag-expressions-v1.1.0
 [1.0.1]:      https://github.com/cucumber/cucumber/releases/tag/tag-expressions-v1.0.1
 
 <!-- Contributors -->
