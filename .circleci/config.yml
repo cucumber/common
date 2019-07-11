@@ -148,19 +148,6 @@ jobs:
           paths:
             - dots-formatter/go/dist
 
-### Go - publish
-
-  dots-formatter-go-publish:
-    executor: docker-cucumber-build
-    steps:
-      - attach_workspace:
-          at: "~/cucumber"
-      - run:
-          name: dots-formatter/go
-          command: |
-            cd dots-formatter/go
-            make publish
-
 ### JavaScript
 
   c21e-javascript:
@@ -233,73 +220,6 @@ jobs:
             cd tag-expressions/javascript
             make
 
-### JavaScript - publish
-
-  c21e-javascript-publish:
-    executor: docker-circleci-node
-    steps:
-      - attach_workspace:
-          at: "~"
-      - attach_workspace:
-          at: "~/cucumber"
-      - run:
-          name: c21e/javascript
-          command: |
-            cd c21e/javascript
-            make publish
-
-  cucumber-expressions-javascript-publish:
-    executor: docker-circleci-node
-    steps:
-      - attach_workspace:
-          at: "~"
-      - attach_workspace:
-          at: "~/cucumber"
-      - run:
-          name: cucumber-expressions/javascript
-          command: |
-            cd cucumber-expressions/javascript
-            make publish
-
-  cucumber-messages-javascript-publish:
-    executor: docker-circleci-node
-    steps:
-      - attach_workspace:
-          at: "~"
-      - attach_workspace:
-          at: "~/cucumber"
-      - run:
-          name: cucumber-messages/javascript
-          command: |
-            cd cucumber-messages/javascript
-            make publish
-
-  gherkin-javascript-publish:
-    executor: docker-circleci-node
-    steps:
-      - attach_workspace:
-          at: "~"
-      - attach_workspace:
-          at: "~/cucumber"
-      - run:
-          name: gherkin/javascript
-          command: |
-            cd gherkin/javascript
-            make publish
-
-  tag-expressions-javascript-publish:
-    executor: docker-circleci-node
-    steps:
-      - attach_workspace:
-          at: "~"
-      - attach_workspace:
-          at: "~/cucumber"
-      - run:
-          name: tag-expressions/javascript
-          command: |
-            cd tag-expressions/javascript
-            make publish
-
 ### Ruby
 
   c21e-ruby:
@@ -371,86 +291,6 @@ jobs:
           command: |
             cd dots-formatter/ruby
             make
-
-### Ruby - publish
-
-  c21e-ruby-publish:
-    executor: docker-circleci-ruby
-    steps:
-      - attach_workspace:
-          at: "~"
-      - attach_workspace:
-          at: "~/cucumber"
-      - run:
-          name: c21e/ruby
-          command: |
-            cd c21e/ruby
-            make publish
-
-  cucumber-expressions-ruby-publish:
-    executor: docker-circleci-ruby
-    steps:
-      - attach_workspace:
-          at: "~"
-      - attach_workspace:
-          at: "~/cucumber"
-      - run:
-          name: cucumber-expressions/ruby
-          command: |
-            cd cucumber-expressions/ruby
-            make publish
-
-  cucumber-messages-ruby-publish:
-    executor: docker-circleci-ruby
-    steps:
-      - attach_workspace:
-          at: "~"
-      - attach_workspace:
-          at: "~/cucumber"
-      - run:
-          name: cucumber-messages/ruby
-          command: |
-            cd cucumber-messages/ruby
-            make publish
-
-  gherkin-ruby-publish:
-    executor: docker-circleci-ruby
-    steps:
-      - attach_workspace:
-          at: "~"
-      - attach_workspace:
-          at: "~/cucumber"
-      - run:
-          name: gherkin/ruby
-          command: |
-            cd gherkin/ruby
-            make publish
-
-  tag-expressions-ruby-publish:
-    executor: docker-circleci-ruby
-    steps:
-      - attach_workspace:
-          at: "~"
-      - attach_workspace:
-          at: "~/cucumber"
-      - run:
-          name: tag-expressions/ruby
-          command: |
-            cd tag-expressions/ruby
-            make publish
-
-  dots-formatter-ruby-publish:
-    executor: docker-circleci-ruby
-    steps:
-      - attach_workspace:
-          at: "~"
-      - attach_workspace:
-          at: "~/cucumber"
-      - run:
-          name: dots-formatter/ruby
-          command: |
-            cd dots-formatter/ruby
-            make publish
 
 ### Java
 
@@ -573,100 +413,6 @@ jobs:
           paths:
             - "io/cucumber/config"
 
-#### Java - publish
-
-  c21e-java-publish:
-    executor: docker-cucumber-build
-    steps:
-      - attach_workspace:
-          at: "~/cucumber"
-      - attach_workspace:
-          at: "~/.m2/repository"
-      - run:
-          name: c21e/java
-          command: |
-            cd c21e/java
-            make publish
-
-  cucumber-expressions-java-publish:
-    executor: docker-cucumber-build
-    steps:
-      - attach_workspace:
-          at: "~/cucumber"
-      - attach_workspace:
-          at: "~/.m2/repository"
-      - run:
-          name: cucumber-expressions/java
-          command: |
-            cd cucumber-expressions/java
-            make publish
-
-  cucumber-messages-java-publish:
-    executor: docker-cucumber-build
-    steps:
-      - attach_workspace:
-          at: "~/cucumber"
-      - attach_workspace:
-          at: "~/.m2/repository"
-      - run:
-          name: cucumber-messages/java
-          command: |
-            cd cucumber-messages/java
-            make publish
-
-  gherkin-java-publish:
-    executor: docker-cucumber-build
-    steps:
-      - attach_workspace:
-          at: "~/cucumber"
-      - attach_workspace:
-          at: "~/.m2/repository"
-      - run:
-          name: gherkin/java
-          command: |
-            cd gherkin/java
-            make publish
-
-  tag-expressions-java-publish:
-    executor: docker-cucumber-build
-    steps:
-      - attach_workspace:
-          at: "~/cucumber"
-      - attach_workspace:
-          at: "~/.m2/repository"
-      - run:
-          name: tag-expressions/java
-          command: |
-            cd tag-expressions/java
-            make publish
-
-  datatable-java-publish:
-    executor: docker-cucumber-build
-    steps:
-      - attach_workspace:
-          at: "~/cucumber"
-      - attach_workspace:
-          at: "~/.m2/repository"
-      - run:
-          name: datatable/java
-          command: |
-            cd datatable/java
-            make publish
-
-  config-java-publish:
-    executor: docker-cucumber-build
-    steps:
-      - attach_workspace:
-          at: "~/cucumber"
-      - attach_workspace:
-          at: "~/.m2/repository"
-      - run:
-          name: config/java
-          command: |
-            cd config/java
-            make publish
-
-
 ### .NET
 
   cucumber-messages-dotnet:
@@ -679,19 +425,6 @@ jobs:
           command: |
             cd cucumber-messages/dotnet
             make
-
-#### .NET - publish
-
-  cucumber-messages-dotnet-publish:
-    executor: docker-cucumber-build
-    steps:
-      - attach_workspace:
-          at: "~/cucumber"
-      - run:
-          name: cucumber-messages/dotnet
-          command: |
-            cd cucumber-messages/dotnet
-            make publish
 
 ### Python
 
@@ -734,18 +467,6 @@ workflows:
           requires:
             - cucumber-messages-go
 
-### Go - publish (only the ones with a cmd/main.go)
-
-      - dots-formatter-go-publish:
-          type: approval
-          filters:
-            branches:
-              ignore: /.*/
-            tags:
-              only: /dots-formatter\/v.*/
-          requires:
-            - dots-formatter-go
-
 ### JavaScript
 
       - c21e-javascript:
@@ -765,58 +486,6 @@ workflows:
       - tag-expressions-javascript:
           requires:
             - checkout
-
-### JavaScript - publish
-
-      - c21e-javascript-publish:
-          type: approval
-          filters:
-            branches:
-              ignore: /.*/
-            tags:
-              only: /c21e\/v.*/
-          requires:
-            - c21e-javascript
-
-      - cucumber-expressions-javascript-publish:
-          type: approval
-          filters:
-            branches:
-              ignore: /.*/
-            tags:
-              only: /cucumber-expressions\/v.*/
-          requires:
-            - cucumber-expressions-javascript
-
-      - cucumber-messages-javascript-publish:
-          type: approval
-          filters:
-            branches:
-              ignore: /.*/
-            tags:
-              only: /cucumber-messages\/v.*/
-          requires:
-            - cucumber-messages-javascript
-
-      - gherkin-javascript-publish:
-          type: approval
-          filters:
-            branches:
-              ignore: /.*/
-            tags:
-              only: /gherkin\/v.*/
-          requires:
-            - gherkin-javascript
-
-      - tag-expressions-javascript-publish:
-          type: approval
-          filters:
-            branches:
-              ignore: /.*/
-            tags:
-              only: /tag-expressions\/v.*/
-          requires:
-            - tag-expressions-javascript
 
 ### Ruby
 
@@ -842,67 +511,6 @@ workflows:
             - cucumber-messages-ruby
             - dots-formatter-go
 
-### Ruby - publish
-
-      - c21e-ruby-publish:
-          type: approval
-          filters:
-            branches:
-              ignore: /.*/
-            tags:
-              only: /c21e\/v.*/
-          requires:
-            - c21e-ruby
-
-      - cucumber-expressions-ruby-publish:
-          type: approval
-          filters:
-            branches:
-              ignore: /.*/
-            tags:
-              only: /cucumber-expressions\/v.*/
-          requires:
-            - cucumber-expressions-ruby
-
-      - cucumber-messages-ruby-publish:
-          type: approval
-          filters:
-            branches:
-              ignore: /.*/
-            tags:
-              only: /cucumber-messages\/v.*/
-          requires:
-            - cucumber-messages-ruby
-
-      - gherkin-ruby-publish:
-          type: approval
-          filters:
-            branches:
-              ignore: /.*/
-            tags:
-              only: /gherkin\/v.*/
-          requires:
-            - gherkin-ruby
-
-      - tag-expressions-ruby-publish:
-          type: approval
-          filters:
-            branches:
-              ignore: /.*/
-            tags:
-              only: /tag-expressions\/v.*/
-          requires:
-            - tag-expressions-ruby
-
-      - dots-formatter-ruby-publish:
-          type: approval
-          filters:
-            branches:
-              ignore: /.*/
-            tags:
-              only: /dots-formatter\/v.*/
-          requires:
-            - dots-formatter-ruby
 ### Java
 
       - c21e-java:
@@ -929,104 +537,11 @@ workflows:
           requires:
             - checkout
 
-### Java - publish
-
-      - c21e-java-publish:
-          type: approval
-          filters:
-            branches:
-              ignore: /.*/
-            tags:
-              only: /c21e\/v.*/
-          requires:
-            - c21e-java
-
-      - c21e-java-publish:
-          type: approval
-          filters:
-            branches:
-              ignore: /.*/
-            tags:
-              only: /c21e\/v.*/
-          requires:
-            - c21e-java
-
-      - cucumber-expressions-java-publish:
-          type: approval
-          filters:
-            branches:
-              ignore: /.*/
-            tags:
-              only: /cucumber-expressions\/v.*/
-          requires:
-            - cucumber-expressions-java
-
-      - cucumber-messages-java-publish:
-          type: approval
-          filters:
-            branches:
-              ignore: /.*/
-            tags:
-              only: /cucumber-messages\/v.*/
-          requires:
-            - cucumber-messages-java
-
-      - gherkin-java-publish:
-          type: approval
-          filters:
-            branches:
-              ignore: /.*/
-            tags:
-              only: /gherkin\/v.*/
-          requires:
-            - gherkin-java
-
-      - tag-expressions-java-publish:
-          type: approval
-          filters:
-            branches:
-              ignore: /.*/
-            tags:
-              only: /tag-expressions\/v.*/
-          requires:
-            - tag-expressions-java
-
-      - datatable-java-publish:
-          type: approval
-          filters:
-            branches:
-              ignore: /.*/
-            tags:
-              only: /datatable\/v.*/
-          requires:
-            - datatable-java
-
-      - config-java-publish:
-          type: approval
-          filters:
-            branches:
-              ignore: /.*/
-            tags:
-              only: /config\/v.*/
-          requires:
-            - config-java
-
 ### .NET
 
       - cucumber-messages-dotnet:
           requires:
             - checkout
-
-### .NET - publish
-
-      - cucumber-messages-dotnet-publish:
-          filters:
-            branches:
-              ignore: /.*/
-            tags:
-              only: /cucumber-messages\/v.*/
-          requires:
-            - cucumber-messages-dotnet
 
 ## Python
 
