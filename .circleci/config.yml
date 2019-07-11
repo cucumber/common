@@ -45,30 +45,7 @@ jobs:
   checkout:
     executor: docker-circleci-ruby
     steps:
-      - run:
-          name: Install git-crypt
-          command: sudo apt-get install git-crypt
-      - run:
-          name: Decode git-crypt key
-          command: echo "$GIT_CRYPT_KEY_BASE64" | base64 -d > ~/git-crypt.key
       - checkout
-      - run:
-          name: Decrypt encrypted files
-          command: git-crypt unlock ~/git-crypt.key
-      - run:
-          name: Remove git-crypt key
-          command: rm ~/git-crypt.key
-      - run:
-          name: Write ~/.gem/credentials
-          command: |
-            mkdir -p ~/.gem
-            cp .gem/credentials ~/.gem/credentials
-            chmod 0600 ~/.gem/credentials
-      - run:
-          name: Write ~/.npmrc
-          command: |
-            cp .npmrc ~/.npmrc
-            chmod 0600 ~/.npmrc
       - persist_to_workspace:
           root: ~/cucumber
           paths:
