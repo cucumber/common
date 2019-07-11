@@ -8,7 +8,7 @@ Feature: Sending TestRunStarted messages
 
         Examples:
           | Case                              | NumberOfFeatureFiles | NumberOfTestRunStartedMessages |
-          | empty test suite                  | 0                    | 1                              |
+          | empty test suite                  | 0                    | 0                              |
           | test suite contains feature files | 1                    | 1                              |
 
     @SpecFlow
