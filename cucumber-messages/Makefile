@@ -22,6 +22,12 @@ update-dependencies: $(patsubst %/Makefile,update-dependencies-%,$(MAKEFILES))
 update-dependencies-%: %
 	cd $< && make update-dependencies
 
+publish: $(patsubst %/Makefile,publish-%,$(MAKEFILES))
+.PHONY: publish
+
+publish-%: %
+	cd $< && make publish
+
 clean: $(patsubst %/Makefile,clean-%,$(MAKEFILES))
 .PHONY: clean
 
