@@ -17,13 +17,12 @@ Feature: Sending TestRunStarted messages
         Given the test runner is 'SpecFlow+Runner'
         And there are '3' feature files
         And all steps are bound and pass
-        When the test suite was executed with a testThreadCount of '3'
+        When the test suite is executed with a testThreadCount of '3'
         Then '3' TestRunStarted messages have been sent
 
     Scenario: Test suite starting time is included in the message
 
         When the test suite is started at '2019-05-13 13:09:46'
-        And the test suite was executed
         Then a TestRunStarted message has been sent with the following attributes
           | Attribute | Value               |
           | timestamp | 2019-05-13 13:09:46 |
