@@ -50,11 +50,6 @@ jobs:
           root: ~/cucumber
           paths:
             - "*"
-      - persist_to_workspace:
-          root: "~"
-          paths:
-            - .gem/credentials
-            - .npmrc
 
 ### Go
 
