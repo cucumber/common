@@ -21,13 +21,12 @@ All the release commands will be done from a shell session in the Docker contain
 The credentials for the various package managers are stored in the `/secrets`
 directory. They are encrypted with [git-crypt](https://www.agwa.name/projects/git-crypt/).
 
-You need to decrypt these files with `git-crypt` before you can make a release. 
+You need to decrypt these files with `git-crypt` before you can make a release.
 Here is how you do it:
 
-    ./scripts/docker-run Dockerfile
-    export GIT_CRYPT_KEY_BASE64="..." # Find it in 1Password
-    echo "$GIT_CRYPT_KEY_BASE64" | base64 -d > ~/git-crypt.key
-    git-crypt unlock ~/git-crypt.key
+    ./scripts/docker-run Dockerfile bash
+    # Find GIT_CRYPT_KEY_BASE64 in 1Password
+    GIT_CRYPT_KEY_BASE64="..." source ./scripts/prepare_release_env.sh
 
 The files under `/secrets` are now decrypted, and will be used later when we
 publish packages.
@@ -42,7 +41,7 @@ available versions:
 
 This will typically modify the files where dependencies are declared, *without*
 committing the changes to git. Examine what changed:
- 
+
     git diff
 
 Inspecting the diff, and undo any changes that you think shouldn't have been made.

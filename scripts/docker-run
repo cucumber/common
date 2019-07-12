@@ -25,6 +25,7 @@ dockerfile=$1
 shift
 docker run \
   -v "${LOCAL_PATH}":/app \
+  -v "${HOME}/.m2":/root/.m2 \
   -v "${HOME}/.gitconfig":/root/.gitconfig \
   --rm \
   -it $(docker_image ${dockerfile}) $@

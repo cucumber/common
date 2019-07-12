@@ -23,6 +23,9 @@ update-version: $(patsubst %/Makefile,update-version-%,$(MAKEFILES))
 update-version-%: %
 	cd $< && make update-version
 
+release: update-version publish
+.PHONY: release
+
 publish: $(patsubst %/Makefile,publish-%,$(MAKEFILES))
 .PHONY: publish
 

@@ -30,6 +30,7 @@ RUN apk add --no-cache \
   rsync \
   ruby \
   ruby-dev \
+  sed \
   tree \
   unzip \
   upx \
@@ -41,7 +42,8 @@ RUN echo "gem: --no-document" > ~/.gemrc
 RUN gem install bundler io-console
 
 # Configure Python
-RUN pip install pipenv==8.3.2
+RUN pip install pipenv
+RUN pip install twine
 
 # Fix Protobuf - the apk package doesn't include google/protobuf/timestamp.proto
 RUN mkdir -p mkdir -p /usr/local/include/google/protobuf
