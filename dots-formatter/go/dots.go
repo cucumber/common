@@ -7,7 +7,7 @@ package dots
 
 import (
 	"fmt"
-	"github.com/cucumber/cucumber-messages-go/v3"
+	"github.com/cucumber/cucumber/cucumber-messages/go/v3"
 	"github.com/fatih/color"
 	gio "github.com/gogo/protobuf/io"
 	"io"

@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/cucumber/cucumber.svg?branch=master)](https://travis-ci.org/cucumber/cucumber)
+[![CircleCI](https://circleci.com/gh/cucumber/cucumber.svg?style=svg)](https://circleci.com/gh/cucumber/cucumber)
 [![OpenCollective](https://opencollective.com/cucumber/backers/badge.svg)](#backers) [![OpenCollective](https://opencollective.com/cucumber/sponsors/badge.svg)](#sponsors)
 
 # ![Cucumber Logo](https://github.com/cucumber-ltd/brand/raw/master/images/png/notm/cucumber-black/cucumber-black-128.png)

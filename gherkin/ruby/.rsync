@@ -1,5 +1,4 @@
 ../LICENSE LICENSE
 ../../.templates/github/ .github/
 ../../.templates/ruby/ .
-../../.templates/s3-download scripts/s3-download
 ../testdata/ testdata/

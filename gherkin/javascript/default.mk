@@ -1,13 +1,7 @@
 SHELL := /usr/bin/env bash
 TYPESCRIPT_SOURCE_FILES = $(shell find src test -type f -name "*.ts")
 
-ifdef TRAVIS_TAG
-	LIBRARY_VERSION=$(TRAVIS_TAG)
-else
-	LIBRARY_VERSION=master
-endif
-
-default: .built .tested .linted
+default: .tested .built
 .PHONY: default
 
 .deps: package-lock.json
@@ -18,6 +12,7 @@ default: .built .tested .linted
 
 .built: .deps .codegen $(TYPESCRIPT_SOURCE_FILES)
 	npm run build
+	touch $@
 
 .tested: .deps .codegen $(TYPESCRIPT_SOURCE_FILES)
 	TS_NODE_TRANSPILE_ONLY=1 npm run test
@@ -29,12 +24,26 @@ default: .built .tested .linted
 
 package-lock.json: package.json
 	npm install
-	npm link
 	touch $@
+
+update-dependencies:
+	npx npm-check-updates --upgrade
+
+update-version:
+ifdef NEW_VERSION
+	npm --no-git-tag-version version "$(NEW_VERSION)"
+else
+	@echo -e "\033[0;NEW_VERSION is not defined. Can't update version :-(\033[0m"
+	exit 1
+endif
+
+publish:
+	npm publish
+.PHONY: publish
 
 clean: clean-javascript
 .PHONY: clean
 
 clean-javascript:
-	rm -rf .codegen .linted package-lock.json node_modules coverage dist
+	rm -rf .codegen .built .tested .linted package-lock.json node_modules coverage dist
 .PHONY: clean-javascript

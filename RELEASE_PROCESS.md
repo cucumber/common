@@ -7,7 +7,6 @@ Please pay attention to the following:
 
 * Maven `pom.xml` should *not* have any `-SNAPSHOT` dependencies
   * Do not remove the `-SNAPSHOT` suffix from the maven `pom.xml` version field, the build process will remove it automatically.
-* Node.js `package.json` should *not* have any github dependencies (`"cucumber-messages": "cucumber/cucumber-messages-javascript"`) but rather depend on a released version.
 * Update the CHANGELOG.md
   * Update the version and contributor links at the bottom of the files
   * Create a new empty "Unreleased" section
@@ -16,7 +15,7 @@ Please pay attention to the following:
 
 Triggering a release is simple:
 
-    ./scripts/docker_run Dockerfile
+    ./scripts/docker-run Dockerfile
     source scripts/functions.sh && release_module MODULE_NAME VERSION # Don't specify the v in the version
 
 Triggering a release will update the various package descriptors (`pom.xml`, `package.json`, `*.gemspec`)
@@ -49,6 +48,22 @@ the go executables have been uploaded to S3 and made available for download.
 To work around this limitation,
 the go module build will trigger a new build of dependent module repos after a successful
 tagged build. This second time the builds should pass and successfully publish packages.
+
+## Encrypted secrets
+
+# Secrets
+
+Some files in the repo are encrypted [git-crypt](https://www.agwa.name/projects/git-crypt/).
+Look inside `/.gitattributes` to find out which ones.
+
+Releases can only be made when these files are decrypted.
+
+In order to decrypt the encrypted files you need the git-crypt key used by this repository.
+
+    git-crypt unlock /path/to/git-crypt.key
+
+CircleCI knows the key, and will decrypt them after checking out the code.
+The key is stored in 1Password as a base64-encoded string.
 
 ## Configuring a module dir for automated releases
 

@@ -41,7 +41,9 @@ public class MessageSerializationTest {
 
     private static <T> List<T> toList(Iterable<T> iterable) {
         List<T> result = new ArrayList<>();
-        iterable.iterator().forEachRemaining(result::add);
+        for (T item : iterable) {
+            result.add(item);
+        }
         return result;
     }
 }
