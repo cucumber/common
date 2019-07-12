@@ -32,6 +32,10 @@ Here is how you do it:
 The files under `/secrets` are now decrypted, and will be used later when we
 publish packages.
 
+*IMPORTANT:* You should also install `git-crypt` on your host OS, even if the
+releases are made from the Docker container. If you don't, you'll get an error
+when you run certain `git` commands on your host OS later.
+
 ## Update dependencies
 
 Before you make a release, you should update the package's dependencies to the latest
