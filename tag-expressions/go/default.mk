@@ -48,6 +48,9 @@ update-dependencies:
 	cd $(MOD_DIR) && go get -u && go mod tidy
 .PHONY: update-dependencies
 
+update-version:
+	# no-op
+
 publish: dist
 	./scripts/github-release
 

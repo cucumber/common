@@ -15,6 +15,14 @@ update-dependencies:
 	mvn versions:force-releases
 	mvn versions:use-latest-versions
 
+update-version:
+ifdef NEW_VERSION
+	mvn versions:set -DnewVersion=$(NEW_VERSION) -DgenerateBackupPoms=false
+else
+	@echo -e "\033[0;NEW_VERSION is not defined. Can't update version :-(\033[0m"
+	exit 1
+endif
+
 publish: .deps
 	gpg --batch -q --fast-import ../../codesigning.key
 	mvn deploy -Psign-source-javadoc --settings scripts/ci-settings.xml -DskipTests=true

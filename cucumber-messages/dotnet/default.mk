@@ -18,6 +18,14 @@ update-dependencies:
 	@echo "\033[0;31mPlease update dependencies for dotnet manually!!\033[0m"
 .PHONY: update-dependencies
 
+update-version:
+ifdef NEW_VERSION
+	./scripts/update-version
+else
+	@echo -e "\033[0;NEW_VERSION is not defined. Can't update version :-(\033[0m"
+	exit 1
+endif
+
 .built: $(SLN_FILES) $(CSPROJ_FILES) $(CSHARP_SOURCE_FILES) .generated
 	dotnet build -bl -c Release -p:SnapshotSuffix="$(SNAPSHOT_SUFFIX)"
 	touch $@

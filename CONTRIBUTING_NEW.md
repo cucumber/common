@@ -75,7 +75,31 @@ When a module is released, _all_ implementations of the module are released.
 For example, when you release `cucumber-expressions`, it will release the Java, Ruby,
 Go and JavaScript implementations of that library, with the same version number.
 
-You *must* be on the `master` branch when you make a release.
+You *must* be on the `master` branch when you make a release. The steps below
+outline the process:
+
+* Decrypt credentials
+* Update dependencies
+* Update CHANGELOG
+* Release packages
+
+All the release command will be done from a shell session in the Docker container.
+
+### Decrypt credentials
+
+The credentials for the various package managers are stored in the `/secrets`
+directory. They are encrypted with [git-crypt](https://www.agwa.name/projects/git-crypt/).
+
+You need to decrypt these files with `git-crypt` before you can make a release. 
+Here is how you do it:
+
+    ./scripts/docker-run Dockerfile
+    export GIT_CRYPT_KEY_BASE64="..." # Find it in 1Password
+    echo "$GIT_CRYPT_KEY_BASE64" | base64 -d > ~/git-crypt.key
+    git-crypt unlock ~/git-crypt.key
+
+The files under `/secrets` are now decrypted, and will be used later when we
+publish packages.
 
 ### Update dependencies
 
@@ -99,16 +123,31 @@ If all is good, commit the files and push.
 
     git add .
     git commit -m "Update dependencies"
+    git push
 
 Keep an eye on [CircleCI](https://circleci.com/gh/cucumber/workflows/cucumber/tree/master).
 If all the jobs are green you can proceed to the next step, where we trigger a
 release for the new version number:
 
-### Trigger a release
+### Update CHANGELOG
+
+### Release packages
+
+Update the version numbers by running the following commands from the module directory
+(e.g `/cucumber-expressions`):
+
+    NEW_VERSION=1.2.3 make release
+
+This will:
+* Update the version number in all the implementations
+* Commit the changed files
+* Create a git tag
+
+### Release packages
 
 Triggering a release is a process with the following steps:
 
-* Update the version number in the module descriptor
+* Update the version number in the module descriptor files (`package.json`, `pom.xml` etc)
 * Add and commit the modified files
 * Tag the git repository
 * Push

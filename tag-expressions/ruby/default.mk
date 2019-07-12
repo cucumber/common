@@ -1,6 +1,6 @@
 SHELL := /usr/bin/env bash
 RUBY_SOURCE_FILES = $(shell find . -name "*.rb")
-GEMSPECS = $(shell find . -name "*.gemspec")
+GEMSPEC = $(shell find . -name "*.gemspec")
 
 default: .tested
 .PHONY: default
@@ -8,7 +8,7 @@ default: .tested
 .deps: Gemfile.lock
 	touch $@
 
-Gemfile.lock: Gemfile $(GEMSPECS)
+Gemfile.lock: Gemfile $(GEMSPEC)
 	bundle install
 	touch $@
 
@@ -20,8 +20,16 @@ update-dependencies:
 	./scripts/update-gemspec
 .PHONY: update-dependencies
 
+update-version:
+ifdef NEW_VERSION
+	sed -i "" "s/\(s\.version *= *'\)[0-9]*\.[0-9]*\.[0-9]*\('\)/\1$(NEW_VERSION)\2/" $(GEMSPEC)
+else
+	@echo -e "\033[0;NEW_VERSION is not defined. Can't update version :-(\033[0m"
+	exit 1
+endif
+
 publish:
-	gem build $$(find . -name "*.gemspec")
+	gem build $(GEMSPEC)
 	gem push $$(find . -name "*.gem")
 .PHONY: publish
 
