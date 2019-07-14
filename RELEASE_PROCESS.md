@@ -31,6 +31,10 @@ Here is how you do it:
 The files under `/secrets` are now decrypted, and will be used later when we
 publish packages.
 
+*IMPORTANT:* You should also install `git-crypt` on your host OS, even if the
+releases are made from the Docker container. If you don't, you'll get an error
+when you run certain `git` commands on your host OS later.
+
 ## Update dependencies
 
 Before you make a release, you should update the package's dependencies to the latest
@@ -61,7 +65,7 @@ If all the jobs are green you can proceed to the next step, where we update the 
 ## Update changelog
 
 The `CHANGELOG.md` file in the package directory must be updated to reflect the
-changes that went into this release:
+changes that are going into this release:
 
 * Under `<!-- Releases -->` at the bottom:
   * Update the `Unreleased` link
@@ -69,19 +73,19 @@ changes that went into this release:
 * Change `[Unreleased]` to `[major.minor.patch] - YYYY-mm-dd`
 * Remove any `###` headers without content
 * Add an empty `[Unreleased]` section at the top with:
-  ```
-  ## [Unreleased]
+```
+## [Unreleased]
 
-  ### Added
+### Added
 
-  ### Changed
+### Changed
 
-  ### Deprecated
+### Deprecated
 
-  ### Removed
+### Removed
 
-  ### Fixed
-  ```
+### Fixed
+```
 
 ## Release packages
 
