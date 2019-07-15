@@ -87,7 +87,6 @@ This will:
 * Commit the changed files
 * Publish all the packages
 * Create a git tag
-* Push changes to GitHub
 
 Check that releases show up under:
 
@@ -97,6 +96,8 @@ Check that releases show up under:
 * `https://www.nuget.org/packages/[package]/[version]`
 
 ## Post release
+
+First off - exit your docker container. This should be done on your host OS:
 
 Add an empty `[Unreleased]` section at the top of `CHANGELOG.md` with:
 
@@ -120,6 +121,7 @@ Also, add a link at the bottom:
 [Unreleased]: https://github.com/cucumber/cucumber/compare/[package]/v[version]...master
 ```
 
-Finally, commit it:
+Finally, commit it and push everything:
 
     git commit CHANGELOG.md -m "Post-release of [package] v[version]"
+    git push && git push --tags

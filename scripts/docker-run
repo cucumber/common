@@ -25,8 +25,8 @@ dockerfile=$1
 shift
 docker run \
   --volume "${LOCAL_PATH}":/app \
-  --volume "${HOME}/.m2":/root/.m2 \
-  --volume "${HOME}/.gitconfig":/root/.gitconfig \
+  --volume "${HOME}/.m2":/home/cukebot/.m2 \
+  --volume "${HOME}/.gitconfig":/home/cukebot/.gitconfig \
   --user 1000 \
   --rm \
   -it $(docker_image ${dockerfile}) $@
