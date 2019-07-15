@@ -1,16 +1,6 @@
 #!/usr/bin/env bash
 #
-# Runs the docker image
-#
-# Usage:
-#   # Run `make` in the cucumber-build container
-#   docker-run Dockerfile.cucumber-build make
-#
-#   # Run `make` in the cucumber-build-dotnet container
-#   docker-run Dockerfile.cucumber-build-dotnet make
-#
-#   # Interactive bash session
-#   docker-run Dockerfile.cucumber-build bash
+# Starts a new docker container
 #
 set -ef -o pipefail
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
