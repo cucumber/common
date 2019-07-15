@@ -1,5 +1,11 @@
 #!/usr/bin/env bash
 
+if [ "${BASH_SOURCE[0]}" -ef "$0" ]
+then
+    echo "Usage: source ./scripts/prepare_release_env.sh"
+    exit 1
+fi
+
 echo "$GIT_CRYPT_KEY_BASE64" | base64 -d > ~/git-crypt.key
 git-crypt unlock ~/git-crypt.key
 shopt -s dotglob
