@@ -54,14 +54,10 @@ Make sure the package still builds, and that the tests are still passing:
 
     make clean && make
 
-If all is good, commit the files and push.
+If all is good, commit the files.
 
     git add .
     git commit -m "Update dependencies"
-    git push
-
-Keep an eye on [CircleCI](https://circleci.com/gh/cucumber/workflows/cucumber/tree/master).
-If all the jobs are green you can proceed to the next step, where we update the changelog.
 
 ## Update changelog
 
