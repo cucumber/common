@@ -4,6 +4,7 @@ echo "$GIT_CRYPT_KEY_BASE64" | base64 -d > ~/git-crypt.key
 git-crypt unlock ~/git-crypt.key
 shopt -s dotglob
 cp -R secrets/* ~
+chmod 0600 ~/.gem/credentials
 source ~/.bash_profile
 
 export GPG_TTY=$(tty)

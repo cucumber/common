@@ -8,10 +8,10 @@
   "author": "Cucumber Limited <cukes@googlegroups.com>",
   "license": "MIT",
   "scripts": {
-    "test": "mocha test/**/*.ts",
+    "test": "mocha",
     "lint": "tslint src/**/*.ts test/**/*.ts --exclude src/cucumber-messages.d.ts --exclude dist/src/cucumber-messages.d.ts",
     "lint-fix": "tslint --fix src/**/*.ts test/**/*.ts --exclude src/cucumber-messages.d.ts --exclude dist/src/cucumber-messages.d.ts",
-    "coverage": "nyc --reporter=html --reporter=text mocha test/**/*.ts",
+    "coverage": "nyc --reporter=html --reporter=text mocha",
     "pbjs": "pbjs --target static-module --wrap commonjs messages.proto --out src/cucumber-messages.js",
     "pbts": "pbts src/cucumber-messages.js > src/cucumber-messages.d.ts",
     "build": "tsc && npm run pbjs && npm run pbts && copyfiles src/cucumber-messages.js src/cucumber-messages.d.ts dist",

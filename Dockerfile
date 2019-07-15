@@ -64,3 +64,22 @@ RUN git clone \
   cd hub && \
   make && \
   cp bin/hub /usr/local/bin/hub
+
+# Create a cukebot user. Some tools (Bundler, npm publish) don't work properly
+# when run as root
+
+ENV USER=cukebot
+ENV UID=12345
+ENV GID=23456
+
+RUN addgroup --gid "$GID" "$USER" \
+    && adduser \
+    --disabled-password \
+    --gecos "" \
+    --home "$(pwd)" \
+    --ingroup "$USER" \
+    --no-create-home \
+    --uid "$UID" \
+    "$USER"
+
+USER "$USER"
