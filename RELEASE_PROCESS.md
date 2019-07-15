@@ -21,13 +21,12 @@ All the release commands will be done from a shell session in the Docker contain
 The credentials for the various package managers are stored in the `/secrets`
 directory. They are encrypted with [git-crypt](https://www.agwa.name/projects/git-crypt/).
 
-You need to decrypt these files with `git-crypt` before you can make a release. 
+You need to decrypt these files with `git-crypt` before you can make a release.
 Here is how you do it:
 
     ./scripts/docker-run Dockerfile
-    export GIT_CRYPT_KEY_BASE64="..." # Find it in 1Password
-    echo "$GIT_CRYPT_KEY_BASE64" | base64 -d > ~/git-crypt.key
-    git-crypt unlock ~/git-crypt.key
+    # Find GIT_CRYPT_KEY_BASE64 in 1Password
+    GIT_CRYPT_KEY_BASE64="..." source ./scripts/prepare_release_env.sh
 
 The files under `/secrets` are now decrypted, and will be used later when we
 publish packages.
@@ -46,7 +45,7 @@ available versions:
 
 This will typically modify the files where dependencies are declared, *without*
 committing the changes to git. Examine what changed:
- 
+
     git diff
 
 Inspecting the diff, and undo any changes that you think shouldn't have been made.
@@ -66,27 +65,14 @@ If all the jobs are green you can proceed to the next step, where we update the 
 ## Update changelog
 
 The `CHANGELOG.md` file in the package directory must be updated to reflect the
-changes that went into this release:
+changes that are going into this release:
 
 * Under `<!-- Releases -->` at the bottom:
   * Update the `Unreleased` link
   * Create a new link for the new release
 * Change `[Unreleased]` to `[major.minor.patch] - YYYY-mm-dd`
 * Remove any `###` headers without content
-* Add an empty `[Unreleased]` section at the top with:
-  ```
-  ## [Unreleased]
-
-  ### Added
-
-  ### Changed
-
-  ### Deprecated
-
-  ### Removed
-
-  ### Fixed
-  ```
+* `git add CHANGELOG.md`, but don't commit it (that will happen in the next step). 
 
 ## Release packages
 
@@ -101,7 +87,6 @@ This will:
 * Commit the changed files
 * Publish all the packages
 * Create a git tag
-* Push changes to GitHub
 
 Check that releases show up under:
 
@@ -110,3 +95,38 @@ Check that releases show up under:
 * `https://search.maven.org/search?q=a:[package]` (This will take a few hours to show up)
 * `https://www.nuget.org/packages/[package]/[version]`
 
+## Post release
+
+TODO: Script all of this!
+
+First off - exit your docker container. This should be done on your host OS:
+
+Add an empty `[Unreleased]` section at the top of `CHANGELOG.md` with:
+
+```markdown
+## [Unreleased]
+
+### Added
+
+### Changed
+
+### Deprecated
+
+### Removed
+
+### Fixed
+```
+
+Also, add a link at the bottom:
+
+```markdown
+[Unreleased]: https://github.com/cucumber/cucumber/compare/[package]/v[version]...master
+```
+
+You also need to bump the minor version in the `pom.xml` and append `-SNAPSHOT`
+to it.
+
+Finally, commit it and push everything:
+
+    git commit CHANGELOG.md -m "Post-release of [package] v[version]"
+    git push && git push --tags
