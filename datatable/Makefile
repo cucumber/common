@@ -4,6 +4,7 @@
 #     source scripts/functions.sh && rsync_files
 #
 MAKEFILES=$(wildcard */Makefile)
+LIBNAME := $(shell basename $$(pwd))
 
 default: $(patsubst %/Makefile,default-%,$(MAKEFILES))
 .PHONY: default
@@ -22,6 +23,11 @@ update-version: $(patsubst %/Makefile,update-version-%,$(MAKEFILES))
 
 update-version-%: %
 	cd $< && make update-version
+
+release: update-version publish
+	git commit -am "Release $(LIBNAME) v$(NEW_VERSION)"
+	git tag -s "$(LIBNAME)/v$(NEW_VERSION)" -m "Release $(LIBNAME) v$(NEW_VERSION)"
+.PHONY: release
 
 publish: $(patsubst %/Makefile,publish-%,$(MAKEFILES))
 .PHONY: publish

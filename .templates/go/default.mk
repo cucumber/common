@@ -33,11 +33,10 @@ $(EXE): .deps $(GO_SOURCE_FILES)
 	mkdir -p dist
 ifndef ALPINE
 	# Cross-compile executable for many platforms if we're not running on Alpine (Docker)
-	# where cross-compilation doesn't work. 
+	# where cross-compilation doesn't work.
 	go get github.com/aslakhellesoy/gox
 	gox -ldflags $(GOX_LDFLAGS) -output "dist/$(LIBNAME)-{{.OS}}-{{.Arch}}" -rebuild ./cmd
-endif
-ifdef ALPINE
+else
 	go build -ldflags $(GOX_LDFLAGS) -o $@ ./cmd
 endif
 
@@ -51,8 +50,13 @@ update-dependencies:
 update-version:
 	# no-op
 
+ifneq (,$(wildcard ./cmd/main.go))
 publish: dist
 	./scripts/github-release
+else
+publish:
+	# no-op
+endif
 
 dist_compressed/$(LIBNAME)-%: dist/$(LIBNAME)-%
 	mkdir -p dist_compressed
