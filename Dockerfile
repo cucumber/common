@@ -81,3 +81,5 @@ RUN addgroup --gid "$GID" "$USER" \
     --uid "$UID" \
     --shell /bin/bash \
     "$USER"
+
+CMD ["/bin/bash"]
