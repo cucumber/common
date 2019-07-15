@@ -1,6 +1,6 @@
 include default.mk
 
-.deps: .go-get
+.deps: v3/messages.pb.go
 
 .go-get:
 	go get github.com/gogo/protobuf/proto
@@ -8,9 +8,7 @@ include default.mk
 	go get github.com/stretchr/testify
 	touch $@
 
-.tested: v3/messages.pb.go
-
-v3/messages.pb.go: messages.proto
+v3/messages.pb.go: messages.proto .go-get
 	protoc \
 		-I=. \
 		-I=/usr/local/include \

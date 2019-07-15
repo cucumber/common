@@ -41,6 +41,7 @@ Before you make a release, you should update the package's dependencies to the l
 available versions:
 
     cd thepackage
+    make clean && make
     make update-dependencies
 
 This will typically modify the files where dependencies are declared, *without*
@@ -72,7 +73,7 @@ changes that are going into this release:
   * Create a new link for the new release
 * Change `[Unreleased]` to `[major.minor.patch] - YYYY-mm-dd`
 * Remove any `###` headers without content
-* `git add CHANGELOG.md`, but don't commit it (that will happen in the post release step). 
+* `git add CHANGELOG.md`, but don't commit it (that will happen in the post release step).
 
 ## Release packages
 
