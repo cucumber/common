@@ -31,6 +31,7 @@ RUN apk add --no-cache \
   ruby \
   ruby-dev \
   sed \
+  su-exec \
   tree \
   unzip \
   upx \
@@ -69,17 +70,14 @@ RUN git clone \
 # when run as root
 
 ENV USER=cukebot
-ENV UID=12345
-ENV GID=23456
+ENV UID=1000
+ENV GID=2000
 
 RUN addgroup --gid "$GID" "$USER" \
     && adduser \
     --disabled-password \
     --gecos "" \
-    --home "$(pwd)" \
     --ingroup "$USER" \
-    --no-create-home \
     --uid "$UID" \
+    --shell /bin/bash \
     "$USER"
-
-USER "$USER"

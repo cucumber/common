@@ -24,8 +24,9 @@ source "${DIR}/functions.sh"
 dockerfile=$1
 shift
 docker run \
-  -v "${LOCAL_PATH}":/app \
-  -v "${HOME}/.m2":/root/.m2 \
-  -v "${HOME}/.gitconfig":/root/.gitconfig \
+  --volume "${LOCAL_PATH}":/app \
+  --volume "${HOME}/.m2":/root/.m2 \
+  --volume "${HOME}/.gitconfig":/root/.gitconfig \
+  --user 1000 \
   --rm \
   -it $(docker_image ${dockerfile}) $@

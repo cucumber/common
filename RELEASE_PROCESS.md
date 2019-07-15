@@ -24,7 +24,7 @@ directory. They are encrypted with [git-crypt](https://www.agwa.name/projects/gi
 You need to decrypt these files with `git-crypt` before you can make a release.
 Here is how you do it:
 
-    ./scripts/docker-run Dockerfile bash
+    ./scripts/docker-run Dockerfile
     # Find GIT_CRYPT_KEY_BASE64 in 1Password
     GIT_CRYPT_KEY_BASE64="..." source ./scripts/prepare_release_env.sh
 
