@@ -24,7 +24,6 @@ else
 endif
 
 publish: .deps
-	gpg --batch -q --fast-import ../../secrets/codesigning.key
 	mvn deploy -Psign-source-javadoc --settings scripts/ci-settings.xml -DskipTests=true
 .PHONY: publish
 
