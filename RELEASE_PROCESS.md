@@ -72,20 +72,7 @@ changes that are going into this release:
   * Create a new link for the new release
 * Change `[Unreleased]` to `[major.minor.patch] - YYYY-mm-dd`
 * Remove any `###` headers without content
-* Add an empty `[Unreleased]` section at the top with:
-```
-## [Unreleased]
-
-### Added
-
-### Changed
-
-### Deprecated
-
-### Removed
-
-### Fixed
-```
+* `git add CHANGELOG.md`, but don't commit it (that will happen in the next step). 
 
 ## Release packages
 
@@ -109,3 +96,30 @@ Check that releases show up under:
 * `https://search.maven.org/search?q=a:[package]` (This will take a few hours to show up)
 * `https://www.nuget.org/packages/[package]/[version]`
 
+## Post release
+
+Add an empty `[Unreleased]` section at the top of `CHANGELOG.md` with:
+
+```markdown
+## [Unreleased]
+
+### Added
+
+### Changed
+
+### Deprecated
+
+### Removed
+
+### Fixed
+```
+
+Also, add a link at the bottom:
+
+```markdown
+[Unreleased]: https://github.com/cucumber/cucumber/compare/[package]/v[version]...master
+```
+
+Finally, commit it:
+
+    git commit CHANGELOG.md -m "Post-release of [package] v[version]"
