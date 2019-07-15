@@ -97,6 +97,8 @@ Check that releases show up under:
 
 ## Post release
 
+TODO: Script all of this!
+
 First off - exit your docker container. This should be done on your host OS:
 
 Add an empty `[Unreleased]` section at the top of `CHANGELOG.md` with:
@@ -120,6 +122,9 @@ Also, add a link at the bottom:
 ```markdown
 [Unreleased]: https://github.com/cucumber/cucumber/compare/[package]/v[version]...master
 ```
+
+You also need to bump the minor version in the `pom.xml` and append `-SNAPSHOT`
+to it.
 
 Finally, commit it and push everything:
 
