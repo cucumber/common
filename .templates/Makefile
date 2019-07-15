@@ -25,8 +25,8 @@ update-version-%: %
 	cd $< && make update-version
 
 release: update-version publish
-	git commit -m "Release $(LIBNAME) v$(NEW_VERSION)"
-	git tag -a "$(LIBNAME)/v$(NEW_VERSION)" -m "Release $(LIBNAME) v$(NEW_VERSION)"
+	git commit -am "Release $(LIBNAME) v$(NEW_VERSION)"
+	git tag -s "$(LIBNAME)/v$(NEW_VERSION)" -m "Release $(LIBNAME) v$(NEW_VERSION)"
 .PHONY: release
 
 publish: $(patsubst %/Makefile,publish-%,$(MAKEFILES))
