@@ -28,6 +28,7 @@ package-lock.json: package.json
 
 update-dependencies:
 	npx npm-check-updates --upgrade
+.PHONY: update-dependencies
 
 update-version:
 ifdef NEW_VERSION
