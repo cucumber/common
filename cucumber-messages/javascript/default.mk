@@ -36,8 +36,9 @@ else
 	@echo -e "\033[0;NEW_VERSION is not defined. Can't update version :-(\033[0m"
 	exit 1
 endif
+.PHONY: update-version
 
-publish:
+publish: .deps
 	npm publish
 .PHONY: publish
 
