@@ -38,9 +38,26 @@ RUN apk add --no-cache \
   wget \
   xmlstarlet
 
+# Create a cukebot user. Some tools (Bundler, npm publish) don't work properly
+# when run as root
+
+ENV USER=cukebot
+ENV UID=1000
+ENV GID=2000
+
+RUN addgroup --gid "$GID" "$USER" \
+    && adduser \
+    --disabled-password \
+    --gecos "" \
+    --ingroup "$USER" \
+    --uid "$UID" \
+    --shell /bin/bash \
+    "$USER"
+
 # Configure Ruby
 RUN echo "gem: --no-document" > ~/.gemrc
 RUN gem install bundler io-console
+RUN chown -R cukebot:cukebot /usr/lib/ruby
 
 # Configure Python
 RUN pip install pipenv
@@ -65,21 +82,5 @@ RUN git clone \
   cd hub && \
   make && \
   cp bin/hub /usr/local/bin/hub
-
-# Create a cukebot user. Some tools (Bundler, npm publish) don't work properly
-# when run as root
-
-ENV USER=cukebot
-ENV UID=1000
-ENV GID=2000
-
-RUN addgroup --gid "$GID" "$USER" \
-    && adduser \
-    --disabled-password \
-    --gecos "" \
-    --ingroup "$USER" \
-    --uid "$UID" \
-    --shell /bin/bash \
-    "$USER"
 
 CMD ["/bin/bash"]

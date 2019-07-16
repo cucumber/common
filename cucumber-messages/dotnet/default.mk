@@ -4,13 +4,6 @@ SLN_FILES = $(shell find . -name "*.sln")
 CSPROJ_FILES = $(shell find . -name "*.csproj")
 CSHARP_SOURCE_FILES = $(shell find . -name "*.cs")
 
-ifndef CIRCLE_TAG
-	SNAPSHOT_SUFFIX=$(CIRCLE_BUILD_NUM)
-ifndef LIBRARY_VERSION
-	SNAPSHOT_SUFFIX=$(shell git rev-parse --abbrev-ref HEAD)
-endif
-endif
-
 default: .packed
 .PHONY: default
 
@@ -41,6 +34,7 @@ endif
 	dotnet pack -c Release -p:SnapshotSuffix="$(SNAPSHOT_SUFFIX)"
 	touch $@
 
+# Define SNAPSHOT_SUFFIX to make pre-release: export SNAPSHOT_SUFFIX=beta-1 make publish
 publish: .packed
 ifdef NUGET_API_KEY
 	# https://circleci.com/gh/cucumber/cucumber/edit#env-vars

@@ -1,5 +1,6 @@
 ALPINE := $(shell which apk 2> /dev/null)
 MAKEFILES=$(wildcard */Makefile)
+LIBNAME := $(shell basename $$(pwd))
 
 ifndef ALPINE
 # Rebuild the docs unless we're already running in the build docker image (running
@@ -21,6 +22,20 @@ update-dependencies: $(patsubst %/Makefile,update-dependencies-%,$(MAKEFILES))
 
 update-dependencies-%: %
 	cd $< && make update-dependencies
+
+update-version: $(patsubst %/Makefile,update-version-%,$(MAKEFILES))
+.PHONY: update-version
+
+update-version-%: %
+	cd $< && make update-version
+
+release-tag:
+	git commit -am "Release $(LIBNAME) v$(NEW_VERSION)"
+	git tag -s "$(LIBNAME)/v$(NEW_VERSION)" -m "Release $(LIBNAME) v$(NEW_VERSION)"
+.PHONY: release-tag
+
+release: update-version publish release-tag
+.PHONY: release
 
 publish: $(patsubst %/Makefile,publish-%,$(MAKEFILES))
 .PHONY: publish
