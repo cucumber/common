@@ -120,10 +120,10 @@ Also, add a link at the bottom:
 [Unreleased]: https://github.com/cucumber/cucumber/compare/[package]/v[version]...master
 ```
 
-You also need to bump the minor version in the `pom.xml` and append `-SNAPSHOT`
+You also need to bump the patch version in the `pom.xml` and append `-SNAPSHOT`
 to it.
 
 Finally, commit it and push everything:
 
-    git commit CHANGELOG.md -m "Post-release of [package] v[version]"
+    git commit -am "Post-release of [package] v[version]"
     git push && git push --tags
