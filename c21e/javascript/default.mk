@@ -28,6 +28,7 @@ package-lock.json: package.json
 
 update-dependencies:
 	npx npm-check-updates --upgrade
+.PHONY: update-dependencies
 
 update-version:
 ifdef NEW_VERSION
@@ -36,8 +37,9 @@ else
 	@echo -e "\033[0;NEW_VERSION is not defined. Can't update version :-(\033[0m"
 	exit 1
 endif
+.PHONY: update-version
 
-publish:
+publish: .deps
 	npm publish
 .PHONY: publish
 

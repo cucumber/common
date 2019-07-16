@@ -49,6 +49,7 @@ update-dependencies:
 
 update-version:
 	# no-op
+.PHONY: update-version
 
 ifneq (,$(wildcard ./cmd/main.go))
 publish: dist
@@ -57,6 +58,7 @@ else
 publish:
 	# no-op
 endif
+.PHONY: publish
 
 dist_compressed/$(LIBNAME)-%: dist/$(LIBNAME)-%
 	mkdir -p dist_compressed
