@@ -1,5 +1,5 @@
 import assert from 'assert'
-import ExeFile from '../src/ExeFile'
+import { ExeFile } from '../src'
 
 describe('ExeFile', () => {
   it('detects macos', () => {

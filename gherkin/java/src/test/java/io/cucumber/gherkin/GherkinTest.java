@@ -1,9 +1,9 @@
 package io.cucumber.gherkin;
 
+import io.cucumber.messages.Messages.Envelope;
 import io.cucumber.messages.Messages.GherkinDocument;
 import io.cucumber.messages.Messages.Pickle;
 import io.cucumber.messages.Messages.Source;
-import io.cucumber.messages.Messages.Envelope;
 import org.junit.Test;
 
 import java.util.ArrayList;
@@ -56,7 +56,9 @@ public class GherkinTest {
 
     private static <T> List<T> toList(Iterable<T> iterable) {
         List<T> result = new ArrayList<>();
-        iterable.iterator().forEachRemaining(result::add);
+        for (T item : iterable) {
+            result.add(item);
+        }
         return result;
     }
 }

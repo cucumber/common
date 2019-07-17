@@ -1,11 +1,8 @@
-ALPINE := $(shell which apk 2> /dev/null)
-MAKE_FILES=$(wildcard */Makefile)
+MAKE_FILES = $(wildcard */Makefile)
+include default.mk
 
 EXAMPLES_JSON = $(wildcard examples/*.json)
 EXAMPLES_BIN = $(patsubst examples/%.json,examples/%.bin,$(EXAMPLES_JSON))
-
-default: $(patsubst %/Makefile,default-%,$(MAKE_FILES))
-.PHONY: default
 
 ifndef ALPINE
 # Rebuild the docs unless we're already running in the build docker image (running
@@ -13,9 +10,6 @@ ifndef ALPINE
 # container).
 default: messages.md .examples
 endif
-
-default-%: %
-	cd $< && make default
 
 messages.md: messages.proto
 	docker run --rm -v $$(pwd):/out -v $$(pwd):/protos pseudomuto/protoc-gen-doc --doc_opt=markdown,$@
@@ -34,10 +28,9 @@ examples-bin: $(EXAMPLES_BIN)
 examples/%.bin: examples/%.json
 	cat $< | ruby -I ruby/lib ./json2protobuf.rb > $@
 
-clean: $(patsubst %/Makefile,clean-%,$(MAKE_FILES))
-	rm -rf examples
-.PHONY: clean
+clean: clean-docs
 
-clean-%: %
+clean-docs:
 	cd $< && make clean
-	rm -f messages.md .examples
+	rm -f examples messages.md .examples
+.PHONY: clean-docs

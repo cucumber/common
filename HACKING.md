@@ -40,7 +40,7 @@ separated by an underscore. For example, `messages_gherkin-use-protobuf`.
 
 To run a copy of the CI locally simply run the command below. **NB: This will require docker being installed.**
 
-    ./scripts/docker-run Dockerfile.cucumber-build make
+    ./scripts/docker-run Dockerfile make
     
 This will create a localised version of the Docker image used on CI to build cucumber then run through
 all of the associated make tasks in each of the sub-repos. This can take a while, but it saves you needing
@@ -155,11 +155,12 @@ in the "Cucumber Open Source" vault.
 
    source ./scripts/functions.sh
    # Standard image (for all builds except .NET)
-   docker_build Dockerfile.cucumber-build
-   docker_push Dockerfile.cucumber-build
+   docker_build Dockerfile
+   docker_push Dockerfile
    # .NET image (for .NET builds only)
-   docker_build Dockerfile.cucumber-build-dotnet
-   docker_push Dockerfile.cucumber-build-dotnet
+   docker_build Dockerfile-dotnet
+   docker_push Dockerfile-dotnet
 
 The images are published [in the cucumber repository section at
 Docker Hub](https://hub.docker.com/r/cucumber/).
+

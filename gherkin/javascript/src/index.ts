@@ -1,6 +1,6 @@
 import { spawn } from 'child_process'
 import { statSync } from 'fs'
-import ExeFile from 'c21e'
+import { ExeFile } from 'c21e'
 import { messages, ProtobufMessageStream } from 'cucumber-messages'
 
 const defaultOptions = {
@@ -37,15 +37,15 @@ class Gherkin {
     private options: IGherkinOptions
   ) {
     this.options = { ...defaultOptions, ...options }
-    let gherkinGoDir = `${__dirname}/../../gherkin-go`
+    let executables = `${__dirname}/../../executables`
     try {
-      statSync(gherkinGoDir)
+      statSync(executables)
     } catch (err) {
       // Dev mode - we're in src, not dist/src
-      gherkinGoDir = `${__dirname}/../gherkin-go`
+      executables = `${__dirname}/../executables`
     }
     this.exeFile = new ExeFile(
-      `${gherkinGoDir}/gherkin-go-{{.OS}}-{{.Arch}}{{.Ext}}`
+      `${executables}/gherkin-{{.OS}}-{{.Arch}}{{.Ext}}`
     )
   }
 

@@ -94,7 +94,7 @@ func TestCucumberExpressionGeneratory(t *testing.T) {
 			false,
 		)
 		require.NoError(t, err)
-		parameterTypeRegistry.DefineParameterType(currencyParameterType)
+		require.NoError(t, parameterTypeRegistry.DefineParameterType(currencyParameterType))
 
 		assertExpressionWithParameterTypeRegistry(
 			t,
@@ -116,7 +116,7 @@ func TestCucumberExpressionGeneratory(t *testing.T) {
 			false,
 		)
 		require.NoError(t, err)
-		parameterTypeRegistry.DefineParameterType(parameterType1)
+		require.NoError(t, parameterTypeRegistry.DefineParameterType(parameterType1))
 		parameterType2, err := NewParameterType(
 			"type2",
 			[]*regexp.Regexp{regexp.MustCompile("bc")},
@@ -126,7 +126,7 @@ func TestCucumberExpressionGeneratory(t *testing.T) {
 			false,
 		)
 		require.NoError(t, err)
-		parameterTypeRegistry.DefineParameterType(parameterType2)
+		require.NoError(t, parameterTypeRegistry.DefineParameterType(parameterType2))
 
 		assertExpressionWithParameterTypeRegistry(
 			t,
@@ -150,7 +150,7 @@ func TestCucumberExpressionGeneratory(t *testing.T) {
 			false,
 		)
 		require.NoError(t, err)
-		parameterTypeRegistry.DefineParameterType(parameterType1)
+		require.NoError(t, parameterTypeRegistry.DefineParameterType(parameterType1))
 		parameterType2, err := NewParameterType(
 			"type2",
 			[]*regexp.Regexp{regexp.MustCompile("x")},
@@ -160,7 +160,7 @@ func TestCucumberExpressionGeneratory(t *testing.T) {
 			false,
 		)
 		require.NoError(t, err)
-		parameterTypeRegistry.DefineParameterType(parameterType2)
+		require.NoError(t, parameterTypeRegistry.DefineParameterType(parameterType2))
 		generator := NewCucumberExpressionGenerator(parameterTypeRegistry)
 		generatedExpressions := generator.GenerateExpressions("I have x and x and another x")
 		sources := make([]string, len(generatedExpressions))
@@ -201,7 +201,7 @@ func TestCucumberExpressionGeneratory(t *testing.T) {
 			false,
 		)
 		require.NoError(t, err)
-		parameterTypeRegistry.DefineParameterType(optionalFlightParameterType)
+		require.NoError(t, parameterTypeRegistry.DefineParameterType(optionalFlightParameterType))
 		optionalHotelParameterType, err := NewParameterType(
 			"optional-hotel",
 			[]*regexp.Regexp{regexp.MustCompile("(1st hotel)?")},
@@ -211,7 +211,7 @@ func TestCucumberExpressionGeneratory(t *testing.T) {
 			false,
 		)
 		require.NoError(t, err)
-		parameterTypeRegistry.DefineParameterType(optionalHotelParameterType)
+		require.NoError(t, parameterTypeRegistry.DefineParameterType(optionalHotelParameterType))
 		generator := NewCucumberExpressionGenerator(parameterTypeRegistry)
 		generatedExpression := generator.GenerateExpressions("I reach Stage4: 1st flight-1st hotel")[0]
 		// While you would expect this to be `I reach Stage{int}: {optional-flight}-{optional-hotel}`
@@ -231,7 +231,7 @@ func TestCucumberExpressionGeneratory(t *testing.T) {
 				false,
 			)
 			require.NoError(t, err)
-			parameterTypeRegistry.DefineParameterType(myType)
+			require.NoError(t, parameterTypeRegistry.DefineParameterType(myType))
 		}
 
 		generator := NewCucumberExpressionGenerator(parameterTypeRegistry)
@@ -251,7 +251,7 @@ func TestCucumberExpressionGeneratory(t *testing.T) {
 			false,
 		)
 		require.NoError(t, err)
-		parameterTypeRegistry.DefineParameterType(zeroOrMore)
+		require.NoError(t, parameterTypeRegistry.DefineParameterType(zeroOrMore))
 		exactlyOne, err := NewParameterType(
 			"exactly-one",
 			[]*regexp.Regexp{regexp.MustCompile("[a-z]")},
@@ -261,7 +261,7 @@ func TestCucumberExpressionGeneratory(t *testing.T) {
 			false,
 		)
 		require.NoError(t, err)
-		parameterTypeRegistry.DefineParameterType(exactlyOne)
+		require.NoError(t, parameterTypeRegistry.DefineParameterType(exactlyOne))
 		generator := NewCucumberExpressionGenerator(parameterTypeRegistry)
 
 		generatedExpressions := generator.GenerateExpressions("a simple step")
@@ -279,7 +279,6 @@ func assertExpression(t *testing.T, expectedExpression string, expectedArgumentN
 func assertExpressionWithParameterTypeRegistry(t *testing.T, parameterTypeRegistry *ParameterTypeRegistry, expectedExpression string, expectedArgumentNames []string, text string) {
 	generator := NewCucumberExpressionGenerator(parameterTypeRegistry)
 	generatedExpressions := generator.GenerateExpressions(text)
-	require.Len(t, generatedExpressions, 1)
 	generatedExpression := generatedExpressions[0]
 	require.Equal(t, generatedExpression.ParameterNames(), expectedArgumentNames)
 	require.Equal(t, generatedExpression.Source(), expectedExpression)

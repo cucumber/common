@@ -1,0 +1,661 @@
+syntax = "proto3";
+import "google/protobuf/timestamp.proto";
+package io.cucumber.messages;
+option ruby_package = "Cucumber.Messages";
+option go_package = "messages";
+
+// When removing a field, replace it with reserved, rather than deleting the line.
+// When adding a field, add it to the end and increment the number by one.
+// See https://developers.google.com/protocol-buffers/docs/proto#updating for details
+
+/**
+ * All the messages that are passed between different components/processes are Envelope
+ * messages.
+ */
+message Envelope {
+  oneof message {
+    // Gherkin messages
+    Source source = 1;
+    GherkinDocument gherkinDocument = 2;
+    Pickle pickle = 3;
+    Attachment attachment = 4;
+    // Execution messages
+    TestCaseStarted testCaseStarted = 5;
+    TestStepStarted testStepStarted = 6;
+    TestStepFinished testStepFinished = 7;
+    TestCaseFinished testCaseFinished = 8;
+    TestHookStarted testHookStarted = 9;
+    TestHookFinished testHookFinished = 10;
+    PickleAccepted pickleAccepted = 11;
+    PickleRejected pickleRejected = 12;
+    TestCasePrepared testCasePrepared = 13;
+    TestRunStarted testRunStarted = 14;
+    TestRunFinished testRunFinished = 15;
+    // Cucumber-Engine Messages
+    CommandStart commandStart = 16;
+    CommandActionComplete commandActionComplete = 17;
+    CommandRunBeforeTestRunHooks commandRunBeforeTestRunHooks = 18;
+    CommandInitializeTestCase commandInitializeTestCase = 19;
+    CommandRunBeforeTestCaseHook commandRunBeforeTestCaseHook = 20;
+    CommandRunTestStep commandRunTestStep = 21;
+    CommandRunAfterTestCaseHook commandRunAfterTestCaseHook = 22;
+    CommandRunAfterTestRunHooks commandRunAfterTestRunHooks = 23;
+    CommandGenerateSnippet commandGenerateSnippet = 24;
+    string commandError = 25;
+    Quit quit = 26;
+  }
+}
+
+////// Common types
+
+/**
+ * Points to a line and a column in a text file
+ */
+message Location {
+  uint32 line = 1;
+  uint32 column = 2;
+}
+
+/**
+ * Points to a [Source](#io.cucumber.messages.Source) identified by `uri` and a 
+ * [Location](#io.cucumber.messages.Location) within that file.
+ */
+message SourceReference {
+  string uri = 1;
+  Location location = 2;
+}
+
+/**
+ * Meta information about encoded contents
+ */
+message Media {
+  // The encoding of the data
+  Encoding encoding = 1;
+  /**
+   * The content type of the data. This can be any valid
+   * [IANA Media Type](https://www.iana.org/assignments/media-types/media-types.xhtml)
+   * as well as Cucumber-specific media types such as `text/x.cucumber.gherkin+plain`
+   * and `text/x.cucumber.stacktrace+plain`
+   */
+  string content_type = 2;
+
+  enum Encoding {
+    // Base64 encoded binary data
+    BASE64 = 0;
+    // UTF8 encoded string
+    UTF8 = 1;
+  }
+}
+
+////// Source
+
+/**
+ * A source file, typically a Gherkin document
+ */
+message Source {
+  /**
+   * The [URI](https://en.wikipedia.org/wiki/Uniform_Resource_Identifier)
+   * of the source, typically a file path relative to the root directory
+   */
+  string uri = 1;
+  // The contents of the file
+  string data = 2;
+  // The media type of the file
+  Media media = 3;
+}
+
+////// Gherkin
+
+/**
+ * The [AST](https://en.wikipedia.org/wiki/Abstract_syntax_tree) of a Gherkin document.
+ * Cucumber implementations should *not* depend on `GherkinDocument` or any of its
+ * children for execution - use [Pickle](#io.cucumber.messages.Pickle) instead.
+ *
+ * The only consumers of `GherkinDocument` should only be formatters that produce
+ * "rich" output, resembling the original Gherkin document.
+ */
+message GherkinDocument {
+  /**
+   * The [URI](https://en.wikipedia.org/wiki/Uniform_Resource_Identifier)
+   * of the source, typically a file path relative to the root directory
+   */
+  string uri = 1;
+  Feature feature = 2;
+  // All the comments in the Gherkin document
+  repeated Comment comments = 3;
+
+  /**
+   * A comment in a Gherkin document
+   */
+  message Comment {
+    // The location of the comment
+    Location location = 1;
+    // The text of the comment
+    string text = 2;
+  }
+
+  /**
+   * The top level node in the AST
+   */
+  message Feature {
+    // The location of the `Feature` keyword
+    Location location = 1;
+    // All the tags placed above the `Feature` keyword
+    repeated Tag tags = 2;
+    // The [ISO 639-1](https://en.wikipedia.org/wiki/ISO_639-1) language code of the Gherkin document
+    string language = 3;
+    // The text of the `Feature` keyword (in the language specified by `language`)
+    string keyword = 4;
+    // The name of the feature (the text following the `keyword`)
+    string name = 5;
+    // The line(s) underneath the line with the `keyword` that are used as description
+    string description = 6;
+    // Zero or more children
+    repeated FeatureChild children = 7;
+
+    /**
+     * A tag
+     */
+    message Tag {
+      // Location of the tag
+      Location location = 1;
+      // The name of the tag (including the leading `@`)
+      string name = 2;
+    }
+
+    /**
+     * A child node of a `Feature` node
+     */
+    message FeatureChild {
+      oneof value {
+        Rule rule = 1;
+        Background background = 2;
+        Scenario scenario = 3;
+      }
+
+      /**
+       * A `Rule` node
+       */
+      message Rule {
+        // The location of the `Rule` keyword
+        Location location = 1;
+        string keyword = 2;
+        string name = 3;
+        string description = 4;
+        repeated RuleChild children = 5;
+      }
+
+      message RuleChild {
+        oneof value {
+          Background background = 1;
+          Scenario scenario = 2;
+        }
+      }
+    }
+    
+    message Background {
+      // The location of the `Background` keyword
+      Location location = 1;
+      string keyword = 2;
+      string name = 3;
+      string description = 4;
+      repeated Step steps = 5;
+    }
+
+    message Scenario {
+      // The location of the `Scenario` keyword
+      Location location = 1;
+      repeated Tag tags = 2;
+      string keyword = 3;
+      string name = 4;
+      string description = 5;
+      repeated Step steps = 6;
+      repeated Examples examples = 7;
+
+      message Examples {
+        // The location of the `Examples` keyword
+        Location location = 1;
+        repeated Tag tags = 2;
+        string keyword = 3;
+        string name = 4;
+        string description = 5;
+        TableRow table_header = 6;
+        repeated TableRow table_body = 7;
+      }
+    }
+    
+    // A row in a table
+    message TableRow {
+      // The location of the first cell in the row
+      Location location = 1;
+      // Cells in the row
+      repeated TableCell cells = 2;
+
+      // A cell in a `TableRow`
+      message TableCell {
+        // The location of the cell
+        Location location = 1;
+        // The value of the cell
+        string value = 2;
+      }
+    }
+
+    // A step
+    message Step {
+      // The location of the steps' `keyword`
+      Location location = 1;
+      string keyword = 2;
+      string text = 3;
+      oneof argument {
+        DocString doc_string = 5;
+        DataTable data_table = 6;
+      }
+
+      message DataTable {
+        Location location = 1;
+        repeated TableRow rows = 2;
+      }
+
+      message DocString {
+        Location location = 1;
+        string content_type = 2;
+        string content = 3;
+        string delimiter = 4;
+      }
+    }
+  }
+}
+
+////// Attachments (parse errors, execution errors, screenshots, links...)
+
+/**
+ * An attachment represents any kind of data associated with a line in a
+ * [Source](#io.cucumber.messages.Source) file. It can be used for:
+ *
+ * * Syntax errors during parse time
+ * * Screenshots captured and attached during execution
+ * * Logs captured and attached during execution
+ * * Runtime errors raised/thrown during execution (TODO: Conflicts with `TestResult#message`?)
+ */
+message Attachment {
+  SourceReference source = 1;
+  string data = 2;
+  Media media = 3;
+}
+
+////// Pickles
+
+/**
+ * A `Pickle` represents a test case Cucumber can *execute*. It is typically derived
+ * from another format, such as [GherkinDocument](#io.cucumber.messages.GherkinDocument).
+ * In the future a `Pickle` may be derived from other formats such as Markdown or
+ * Excel files.
+ *
+ * By making `Pickle` the main data structure Cucumber uses for execution, the 
+ * implementation of Cucumber itself becomes simpler, as it doesn't have to deal
+ * with the complex structure of a [GherkinDocument](#io.cucumber.messages.GherkinDocument).
+ */
+message Pickle {
+  /**
+   * A unique id for the pickle. This is a [SHA1](https://en.wikipedia.org/wiki/SHA-1) hash
+   * from the source data and the `locations` of the pickle.
+   * This ID will change if source the file is modified.
+   */
+  string id = 1;
+  // The uri of the source file
+  string uri = 2;
+  // The name of the pickle
+  string name = 3;
+  // The language of the pickle
+  string language = 4;
+  // One or more steps
+  repeated PickleStep steps = 5;
+  /**
+   * One or more tags. If this pickle is constructed from a Gherkin document,
+   * It includes inherited tags from the `Feature` as well.
+   */
+  repeated PickleTag tags = 6;
+  /**
+   * The source locations of the pickle. The last one represents the unique
+   * line number. A pickle constructed from `Examples` will have the first
+   * location originating from the `Step`, and the second from the table row.
+   */
+  repeated Location locations = 7;
+
+  /**
+   * A tag
+   */
+  message PickleTag {
+    Location location = 1;
+    string name = 2;
+  }
+
+  /**
+   * An executable step
+   */
+  message PickleStep {
+    string text = 1;
+    repeated Location locations = 2;
+    reserved 3, 4;
+    // An optional argument
+    PickleStepArgument argument = 5;
+  }
+}
+
+/**
+ * A wrapper for either a doc string or a table.
+ */
+message PickleStepArgument {
+  oneof argument {
+    PickleDocString doc_string = 1;
+    PickleTable data_table = 2;
+  }
+
+  message PickleDocString {
+    Location location = 1;
+    string contentType = 2;
+    string content = 3;
+  }
+
+  message PickleTable {
+    repeated PickleTableRow rows = 1;
+
+    message PickleTableRow {
+      repeated PickleTableCell cells = 1;
+
+      message PickleTableCell {
+        Location location = 1;
+        string value = 2;
+      }
+    }
+  }
+}
+
+//// Cucumber Engine
+
+////// Filtering
+
+message PickleAccepted {
+  string pickleId = 1;
+}
+
+message PickleRejected {
+  string pickleId = 2;
+}
+
+////// Results
+
+message TestRunStarted {
+  google.protobuf.Timestamp timestamp = 1;
+}
+
+message TestCasePreparedStep {
+  SourceReference sourceLocation = 1;
+  SourceReference actionLocation = 2;
+}
+
+message TestCasePrepared {
+  string pickleId = 1;
+  repeated TestCasePreparedStep steps = 2;
+}
+
+message TestCaseStarted {
+  string pickleId = 1;
+  google.protobuf.Timestamp timestamp = 2;
+  Platform platform = 3;
+
+  message Platform {
+    // The runner implementation. For example "SpecFlow", "Cucumber-JVM", "Behat" etc.
+    string implementation = 1;
+    // The version of the runner
+    string version = 2;
+    // The operating system
+    string os = 3;
+    // The CPU architecture
+    string cpu = 4;
+  }
+}
+
+message TestCaseFinished {
+  string pickleId = 1;
+  google.protobuf.Timestamp timestamp = 2;
+  TestResult testResult = 3;
+}
+
+message TestStepStarted {
+  string pickleId = 1;
+  uint32 index = 2;
+  google.protobuf.Timestamp timestamp = 3;
+}
+
+message TestStepFinished {
+  string pickleId = 1;
+  uint32 index = 2;
+  TestResult testResult = 3;
+  google.protobuf.Timestamp timestamp = 4;
+}
+
+message TestHookStarted {
+  string pickleId = 1;
+  google.protobuf.Timestamp timestamp = 2;
+}
+
+message TestHookFinished {
+  string pickleId = 1;
+  TestResult testResult = 2;
+  google.protobuf.Timestamp timestamp = 3;
+}
+
+message TestResult {
+  Status status = 1;
+  string message = 2;
+  uint64 durationNanoseconds = 3;
+
+  enum Status {
+    AMBIGUOUS = 0;
+    FAILED = 1;
+    PASSED = 2;
+    PENDING = 3;
+    SKIPPED = 4;
+    UNDEFINED = 5;
+  }
+}
+
+message TestRunFinished {
+  bool success = 1;
+}
+
+////// Commands
+
+/**
+ * This is the first message the front-end should send to the engine.
+ */
+message CommandStart {
+  // The absolute path of the current directory.
+  // Example: "/Users/me/my-project"
+  string baseDirectory = 2;
+  // The feature files to execute
+  SourcesConfig sourcesConfig = 3;
+  RuntimeConfig runtimeConfig = 4;
+  SupportCodeConfig supportCodeConfig = 5;
+
+  message SourcesConfig {
+    // Example: "/Users/me/my-project/features/foo.feature"
+    // Example: "/Users/me/my-project/features/bar.feature"
+    repeated string absolutePaths = 1;
+    // The ISO-639 language code to use for parsing. This can also be specified as a
+    // `# language: en` header at the top of the source file.
+    // Example: "en"
+    string language = 2;
+    SourcesFilterConfig filters = 3;
+    SourcesOrder order = 4;
+
+    /**
+     * Specifies how to filter feature files.
+     */
+    message SourcesFilterConfig {
+      // An infix boolean expression of tags
+      // Example: "@foo and not @bar"
+      string tagExpression = 1;
+      // A regular expression for filtering based on scenario name
+      repeated string nameRegularExpressions = 2;
+      repeated UriToLinesMapping uriToLinesMapping = 3;
+
+      /**
+       * Specifies line numbers in a particular file
+       */
+      message UriToLinesMapping {
+        // Example: "/Users/me/my-project/features/hello.feature"
+        string absolutePath = 1;
+        // Example: 27
+        // Example: 39
+        repeated uint64 lines = 2;
+      }
+    }
+    
+    /**
+     * Specifies the order in which tests should be executed
+     */
+    message SourcesOrder {
+      // Example: 0
+      SourcesOrderType type = 1;
+      // Random seed (in case of random ordering)
+      // Example: 129071284
+      uint64 seed = 2;
+
+      enum SourcesOrderType {
+        // Execute in alphabetical order
+        ORDER_OF_DEFINITION = 0;
+        // Execute in random order, using the specified seed
+        RANDOM = 1;
+      }
+    }
+  }
+  
+  message RuntimeConfig {
+    // Example: false
+    bool isFailFast = 1;
+    // Example: false
+    bool isDryRun = 2;
+    // Example: true
+    bool isStrict = 3;
+    // Example: 1
+    uint64 maxParallel = 4;
+  }
+
+  message SupportCodeConfig {
+    repeated TestCaseHookDefinitionConfig beforeTestCaseHookDefinitionConfigs = 1;
+    repeated TestCaseHookDefinitionConfig afterTestCaseHookDefinitionConfigs = 2;
+    repeated StepDefinitionConfig stepDefinitionConfigs = 3;
+    repeated ParameterTypeConfig parameterTypeConfigs = 4;
+
+    message TestCaseHookDefinitionConfig {
+      string id = 1;
+      string tagExpression = 2;
+      SourceReference location = 3;
+    }
+
+    message StepDefinitionConfig {
+      string id = 1;
+      StepDefinitionPattern pattern = 2;
+      SourceReference location = 3;
+
+      message StepDefinitionPattern {
+        string source = 1;
+        StepDefinitionPatternType type = 2;
+
+        enum StepDefinitionPatternType {
+          CUCUMBER_EXPRESSION = 0;
+          REGULAR_EXPRESSION = 1;
+        }
+      }
+    }
+  }
+
+  message ParameterTypeConfig {
+    string name = 1;
+    repeated string regularExpressions = 2;
+    bool preferForRegularExpressionMatch = 3;
+    bool useForSnippets = 4;
+  }
+}
+
+message CommandActionComplete {
+  string completedId = 1;
+
+  oneof result {
+    // Used for responses to CommandRunBeforeTestCaseHook / CommandRunTestStep / CommandRunAfterTestCaseHook
+    TestResult testResult = 2;
+    // Used for response to CommandGenerateSnippet
+    string snippet = 3;
+  }
+}
+
+message CommandRunBeforeTestRunHooks {
+  string actionId = 1;
+}
+
+message CommandRunAfterTestRunHooks {
+  string actionId = 1;
+}
+
+message CommandInitializeTestCase {
+  string actionId = 1;
+  reserved 2;
+  Pickle pickle = 3;
+}
+
+message CommandRunBeforeTestCaseHook {
+  string actionId = 1;
+  reserved 2;
+  string testCaseHookDefinitionId = 3;
+  string pickleId = 4;
+}
+
+message CommandRunAfterTestCaseHook {
+  string actionId = 1;
+  reserved 2;
+  string testCaseHookDefinitionId = 3;
+  string pickleId = 4;
+}
+
+message CommandRunTestStep {
+  string actionId = 1;
+  reserved 2;
+  string stepDefinitionId = 3;
+  repeated PatternMatch patternMatches = 4;
+  string pickleId = 5;
+  PickleStepArgument pickleStepArgument = 6;
+
+  message PatternMatch {
+    repeated string captures = 1;
+    string parameterTypeName = 2;
+    reserved 3, 4;
+  }
+}
+
+message CommandGenerateSnippet {
+  string actionId = 1;
+  repeated GeneratedExpression generatedExpressions = 2;
+  reserved 3, 4;
+  PickleStepArgument pickleStepArgument = 5;
+
+  message GeneratedExpression {
+    string text = 1;
+    repeated string parameterTypeNames = 2;
+  }
+}
+
+// Tells the other end that the connection should be closed.
+message Quit {
+  // The reason for quitting.
+  // Example: 0
+  Reason reason = 1;
+  
+  // Loosely modelled after [WebSocket close codes](https://github.com/Luka967/websocket-close-codes)
+  enum Reason {
+    // Tells the other end that I'm going away, but I will wait for it to finish its business,
+    // reject further messages and gracefully close the connection.
+    FINISH_PLEASE = 0;
+  }
+}

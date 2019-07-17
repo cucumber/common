@@ -54,7 +54,7 @@ def find_packages_by_root_package(where):
 # -----------------------------------------------------------------------------
 setup(
     name = "cucumber-tag-expressions",
-    version = "1.1.2.dev0",
+    version = "2.0.2",
     author = "Jens Engel",
     author_email = "jenisys@noreply.github.com",
     url = "https://github.com/cucumber/tag-expressions-python",

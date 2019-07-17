@@ -4,7 +4,6 @@ import io.cucumber.datatable.DataTable;
 import io.cucumber.datatable.DataTableDiff;
 import io.cucumber.datatable.TableDiffer;
 import org.hamcrest.Description;
-import org.hamcrest.Factory;
 import org.hamcrest.TypeSafeDiagnosingMatcher;
 
 /**
@@ -57,7 +56,6 @@ public class DataTableHasTheSameRowsAs extends TypeSafeDiagnosingMatcher<DataTab
         return new DataTableHasTheSameRowsAs(expectedValue, false);
     }
 
-    @Factory
     public static DataTableHasTheSameRowsAs hasTheSameRowsAs(DataTable operand) {
         return new DataTableHasTheSameRowsAs(operand, true);
     }

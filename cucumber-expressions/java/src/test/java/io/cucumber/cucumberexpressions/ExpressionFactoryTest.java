@@ -34,6 +34,21 @@ public class ExpressionFactoryTest {
     }
 
     @Test
+    public void creates_cucumber_expression_for_escaped_parenthesis_with_regex_symbols() {
+        assertCucumberExpression("this looks\\( i.e: no regex symbols) like a cukexp");
+    }
+
+    @Test
+    public void creates_cucumber_expression_for_escaped_parenthesis_with_alpha() {
+        assertCucumberExpression("a heavy storm forecast \\(BF {int}+)");
+    }
+
+    @Test
+    public void creates_cucumber_expression_for_parenthesis_with_regex_symbols() {
+        assertCucumberExpression("the temperature is (\\+){int} degrees celsius");
+    }
+
+    @Test
     public void creates_cucumber_expression_for_only_begin_anchor() {
         assertRegularExpression("^this looks like a regexp");
     }
@@ -41,16 +56,6 @@ public class ExpressionFactoryTest {
     @Test
     public void creates_cucumber_expression_for_only_end_anchor() {
         assertRegularExpression("this looks like a regexp$");
-    }
-
-    @Test
-    public void creates_regular_expression_for_parenthesis_with_non_alpha() {
-        assertRegularExpression("this (.+) like a regexp");
-    }
-
-    @Test
-    public void creates_regular_expression_for_parenthesis_with_regexp_digits() {
-        assertRegularExpression("this (\\d+) like a regexp");
     }
 
     @Test

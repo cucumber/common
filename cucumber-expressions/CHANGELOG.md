@@ -5,17 +5,33 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ----
-## [Unreleased]
+## [8.0.0 - Unreleased]
 
 ### Added
 
 ### Changed
+
+* [Java] Simplify heuristics to distinguish between Cucumber Expressions and Regular Expressions
+  ([#515](https://github.com/cucumber/cucumber/issues/515)
+   [#581](https://github.com/cucumber/cucumber/pull/581)
+   [mpkorstanje])
 
 ### Deprecated
 
 ### Removed
 
 ### Fixed
+
+* Match integer strings as `{float}`.
+  ([#600](https://github.com/cucumber/cucumber/issues/600)
+   [#605](https://github.com/cucumber/cucumber/pull/605)
+   [aslakhellesoy]
+   [vincent-psarga])
+
+* Allow `?!` as a non-capturing regex
+ ([#481](https://github.com/cucumber/cucumber/issues/576),
+   [#593](https://github.com/cucumber/cucumber/pull/593)
+   [luke-hill])
 
 ## [7.0.2] - 2019-06-15
 
@@ -590,3 +606,4 @@ N/A
 [spicalous]:        https://github.com/spicalous
 [tooky]:            https://github.com/tooky
 [tommywo]:          https://github.com/tommywo
+[vincent-psarga]:   https://github.com/vincent-psarga

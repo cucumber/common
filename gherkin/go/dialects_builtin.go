@@ -1082,7 +1082,7 @@ var buildinDialects = gherkinDialectMap{
 				"Característica",
 			},
 			rule: []string{
-				"Rule",
+				"Regla",
 			},
 			background: []string{
 				"Antecedentes",
@@ -2547,7 +2547,7 @@ var buildinDialects = gherkinDialectMap{
 				"Caracteristica",
 			},
 			rule: []string{
-				"Rule",
+				"Regra",
 			},
 			background: []string{
 				"Contexto",

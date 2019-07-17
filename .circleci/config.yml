@@ -1,21 +1,522 @@
-version: 2
-jobs:
-  build:
+version: 2.1
+
+###
+### Executors ###
+###
+
+executors:
+  # This executor's Docker image contains all the tools required to build
+  # this repo (protoc, dotnet, openjdk, ruby, node etc). We use it for
+  # jobs that require a combination of those tools. For other jobs we use
+  # the circleci images, as they are typically cached more widely around
+  # the build nodes (faster builds).
+  docker-cucumber-build:
     docker:
-      - image: cucumber/cucumber-build:239a61b280059c39f31d5d7be85bb747
+      # Remember to update to the latest image tag.
+      # Run `source scripts/functions.sh && docker_image Dockerfile` to print it.
+      - image: cucumber/cucumber-build:0c1d729b5c4ff5dd5bf247cd96ebaff7
+    working_directory: ~/cucumber
+  docker-circleci-golang:
+    docker:
+      - image: circleci/golang:1.12
+    working_directory: ~/cucumber
+  docker-circleci-node:
+    docker:
+      - image: circleci/node:12
+    working_directory: ~/cucumber
+  docker-circleci-ruby:
+    docker:
+      - image: circleci/ruby:2.6
+    working_directory: ~/cucumber
+  docker-circleci-openjdk:
+    docker:
+      - image: circleci/openjdk:11
+    working_directory: ~/cucumber
+  docker-circleci-python:
+    docker:
+      - image: circleci/python:3.7.3
+    working_directory: ~/cucumber
 
-    working_directory: ~/repo
+###
+### Jobs ###
+###
 
+jobs:
+  checkout:
+    executor: docker-circleci-ruby
     steps:
       - checkout
-      - restore_cache:
-          keys:
-            - v1-dependencies-{{ checksum "pom.xml" }}
-            - v1-dependencies-
-
-      - run: make
-
-      - save_cache:
+      - persist_to_workspace:
+          root: ~/cucumber
           paths:
-            - ~/.m2
-          key: v1-dependencies-{{ checksum "pom.xml" }}
+            - "*"
+
+### Go
+
+  cucumber-expressions-go:
+    executor: docker-circleci-golang
+    steps:
+      - attach_workspace:
+          at: "~/cucumber"
+      - run:
+          name: cucumber-expressions/go
+          command: |
+            cd cucumber-expressions/go
+            make
+
+  cucumber-messages-go:
+    executor: docker-cucumber-build
+    steps:
+      - attach_workspace:
+          at: "~/cucumber"
+      - run:
+          name: cucumber-messages/go
+          command: |
+            cd cucumber-messages/go
+            make
+      - persist_to_workspace:
+          root: ~/cucumber
+          paths:
+            - cucumber-messages/go/v3/messages.pb.go
+
+  gherkin-go:
+    executor: docker-circleci-golang
+    steps:
+      - attach_workspace:
+          at: "~/cucumber"
+      - run:
+          name: gherkin/go
+          command: |
+            cd gherkin/go
+            make
+      - persist_to_workspace:
+          root: ~/cucumber
+          paths:
+            - gherkin/go/dist
+
+  tag-expressions-go:
+    executor: docker-circleci-golang
+    steps:
+      - attach_workspace:
+          at: "~/cucumber"
+      - run:
+          name: tag-expressions/go
+          command: |
+            cd tag-expressions/go
+            make
+
+  dots-formatter-go:
+    executor: docker-circleci-golang
+    steps:
+      - attach_workspace:
+          at: "~/cucumber"
+      - run:
+          name: dots-formatter/go
+          command: |
+            cd dots-formatter/go
+            make
+      - persist_to_workspace:
+          root: ~/cucumber
+          paths:
+            - dots-formatter/go/dist
+
+### JavaScript
+
+  c21e-javascript:
+    executor: docker-circleci-node
+    steps:
+      - attach_workspace:
+          at: "~/cucumber"
+      - run:
+          name: c21e/javascript
+          command: |
+            cd c21e/javascript
+            make
+      - persist_to_workspace:
+          root: ~/cucumber
+          paths:
+            - c21e/javascript/dist
+            - c21e/javascript/node_modules
+
+  cucumber-expressions-javascript:
+    executor: docker-circleci-node
+    steps:
+      - attach_workspace:
+          at: "~/cucumber"
+      - run:
+          name: cucumber-expressions/javascript
+          command: |
+            cd cucumber-expressions/javascript
+            make
+      - persist_to_workspace:
+          root: ~/cucumber
+          paths:
+            - cucumber-expressions/javascript/dist
+            - cucumber-expressions/javascript/node_modules
+
+  cucumber-messages-javascript:
+    executor: docker-circleci-node
+    steps:
+      - attach_workspace:
+          at: "~/cucumber"
+      - run:
+          name: cucumber-messages/javascript
+          command: |
+            cd cucumber-messages/javascript
+            make
+      - persist_to_workspace:
+          root: ~/cucumber
+          paths:
+            - cucumber-messages/javascript/dist
+            - cucumber-messages/javascript/node_modules
+
+  gherkin-javascript:
+    executor: docker-circleci-node
+    steps:
+      - attach_workspace:
+          at: "~/cucumber"
+      - run:
+          name: gherkin/javascript
+          command: |
+            cd gherkin/javascript
+            make
+
+  tag-expressions-javascript:
+    executor: docker-circleci-node
+    steps:
+      - attach_workspace:
+          at: "~/cucumber"
+      - run:
+          name: tag-expressions/javascript
+          command: |
+            cd tag-expressions/javascript
+            make
+
+### Ruby
+
+  c21e-ruby:
+    executor: docker-circleci-ruby
+    steps:
+      - attach_workspace:
+          at: "~/cucumber"
+      - run:
+          name: c21e/ruby
+          command: |
+            cd c21e/ruby
+            make
+
+  cucumber-expressions-ruby:
+    executor: docker-circleci-ruby
+    steps:
+      - attach_workspace:
+          at: "~/cucumber"
+      - run:
+          name: cucumber-expressions/ruby
+          command: |
+            cd cucumber-expressions/ruby
+            make
+
+  cucumber-messages-ruby:
+    executor: docker-cucumber-build
+    steps:
+      - attach_workspace:
+          at: "~/cucumber"
+      - run:
+          name: cucumber-messages/ruby
+          command: |
+            cd cucumber-messages/ruby
+            make
+      - persist_to_workspace:
+          root: ~/cucumber
+          paths:
+            - cucumber-messages/ruby/lib/cucumber/messages_pb.rb
+
+  gherkin-ruby:
+    executor: docker-circleci-ruby
+    steps:
+      - attach_workspace:
+          at: "~/cucumber"
+      - run:
+          name: gherkin/ruby
+          command: |
+            cd gherkin/ruby
+            make
+
+  tag-expressions-ruby:
+    executor: docker-circleci-ruby
+    steps:
+      - attach_workspace:
+          at: "~/cucumber"
+      - run:
+          name: tag-expressions/ruby
+          command: |
+            cd tag-expressions/ruby
+            make
+
+  dots-formatter-ruby:
+    executor: docker-circleci-ruby
+    steps:
+      - attach_workspace:
+          at: "~/cucumber"
+      - run:
+          name: dots-formatter/ruby
+          command: |
+            cd dots-formatter/ruby
+            make
+
+### Java
+
+  c21e-java:
+    executor: docker-circleci-openjdk
+    steps:
+      - attach_workspace:
+          at: "~/cucumber"
+      - attach_workspace:
+          at: "~/.m2/repository"
+      - run:
+          name: c21e/java
+          command: |
+            cd c21e/java
+            make
+      - persist_to_workspace:
+          root: "~/.m2/repository"
+          paths:
+            - "io/cucumber/c21e"
+
+  cucumber-expressions-java:
+    executor: docker-circleci-openjdk
+    steps:
+      - attach_workspace:
+          at: "~/cucumber"
+      - attach_workspace:
+          at: "~/.m2/repository"
+      - run:
+          name: cucumber-expressions/java
+          command: |
+            cd cucumber-expressions/java
+            make
+      - persist_to_workspace:
+          root: "~/.m2/repository"
+          paths:
+            - "io/cucumber/cucumber-expressions"
+
+  cucumber-messages-java:
+    executor: docker-cucumber-build
+    steps:
+      - attach_workspace:
+          at: "~/cucumber"
+      - attach_workspace:
+          at: "~/.m2/repository"
+      - run:
+          name: cucumber-messages/java
+          command: |
+            cd cucumber-messages/java
+            make
+      - persist_to_workspace:
+          root: "~/.m2/repository"
+          paths:
+            - "io/cucumber/messages"
+
+  gherkin-java:
+    executor: docker-circleci-openjdk
+    steps:
+      - attach_workspace:
+          at: "~/cucumber"
+      - attach_workspace:
+          at: "~/.m2/repository"
+      - run:
+          name: gherkin/java
+          command: |
+            cd gherkin/java
+            make
+      - persist_to_workspace:
+          root: "~/.m2/repository"
+          paths:
+            - "io/cucumber/gherkin"
+
+  tag-expressions-java:
+    executor: docker-circleci-openjdk
+    steps:
+      - attach_workspace:
+          at: "~/cucumber"
+      - attach_workspace:
+          at: "~/.m2/repository"
+      - run:
+          name: tag-expressions/java
+          command: |
+            cd tag-expressions/java
+            make
+      - persist_to_workspace:
+          root: "~/.m2/repository"
+          paths:
+            - "io/cucumber/tag-expressions"
+
+  datatable-java:
+    executor: docker-circleci-openjdk
+    steps:
+      - attach_workspace:
+          at: "~/cucumber"
+      - attach_workspace:
+          at: "~/.m2/repository"
+      - run:
+          name: datatable-java
+          command: |
+            cd datatable/java
+            make
+      - persist_to_workspace:
+          root: "~/.m2/repository"
+          paths:
+            - "io/cucumber/datatable"
+
+  config-java:
+    executor: docker-circleci-openjdk
+    steps:
+      - attach_workspace:
+          at: "~/cucumber"
+      - attach_workspace:
+          at: "~/.m2/repository"
+      - run:
+          name: config-java
+          command: |
+            cd config/java
+            make
+      - persist_to_workspace:
+          root: "~/.m2/repository"
+          paths:
+            - "io/cucumber/config"
+
+### .NET
+
+  cucumber-messages-dotnet:
+    executor: docker-cucumber-build
+    steps:
+      - attach_workspace:
+          at: "~/cucumber"
+      - run:
+          name: cucumber-messages/dotnet
+          command: |
+            cd cucumber-messages/dotnet
+            make
+
+### Python
+
+  tag-expressions-python:
+    executor: docker-circleci-python
+    steps:
+      - attach_workspace:
+          at: "~/cucumber"
+      - run:
+          name: tag-expressions/python
+          command: |
+            cd tag-expressions/python
+            make
+
+###
+### Workflows ###
+###
+
+workflows:
+  version: 2
+  monorepo-build:
+    jobs:
+      - checkout
+
+### Go
+
+      - cucumber-expressions-go:
+          requires:
+            - checkout
+      - cucumber-messages-go:
+          requires:
+            - checkout
+      - gherkin-go:
+          requires:
+            - cucumber-messages-go
+      - tag-expressions-go:
+          requires:
+            - checkout
+      - dots-formatter-go:
+          requires:
+            - cucumber-messages-go
+
+### JavaScript
+
+      - c21e-javascript:
+          requires:
+            - checkout
+      - cucumber-expressions-javascript:
+          requires:
+            - checkout
+      - cucumber-messages-javascript:
+          requires:
+            - checkout
+      - gherkin-javascript:
+          requires:
+            - c21e-javascript
+            - cucumber-messages-javascript
+            - gherkin-go
+      - tag-expressions-javascript:
+          requires:
+            - checkout
+
+### Ruby
+
+      - c21e-ruby:
+          requires:
+            - checkout
+      - cucumber-expressions-ruby:
+          requires:
+            - checkout
+      - cucumber-messages-ruby:
+          requires:
+            - checkout
+      - gherkin-ruby:
+          requires:
+            - c21e-ruby
+            - cucumber-messages-ruby
+            - gherkin-go
+      - tag-expressions-ruby:
+          requires:
+            - checkout
+      - dots-formatter-ruby:
+          requires:
+            - cucumber-messages-ruby
+            - dots-formatter-go
+
+### Java
+
+      - c21e-java:
+          requires:
+            - checkout
+      - cucumber-expressions-java:
+          requires:
+            - checkout
+      - cucumber-messages-java:
+          requires:
+            - checkout
+      - gherkin-java:
+          requires:
+            - c21e-java
+            - cucumber-messages-java
+            - gherkin-go
+      - tag-expressions-java:
+          requires:
+            - checkout
+      - datatable-java:
+          requires:
+            - gherkin-java
+      - config-java:
+          requires:
+            - checkout
+
+### .NET
+
+      - cucumber-messages-dotnet:
+          requires:
+            - checkout
+
+## Python
+
+      - tag-expressions-python:
+          requires:
+            - checkout

@@ -1,5 +1,9 @@
-coverage/
-pkg/
 Gemfile.lock
-.tested
+coverage/
+acceptance/
+pkg/
+*.gem
+.compared
 .deps
+.tested
+*-go

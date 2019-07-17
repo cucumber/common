@@ -262,17 +262,17 @@ public class TableDifferTest {
     }
 
     @Test
-    public void diff_set_with_itself() {
+    public void unordered_diff_with_itself() {
         assertTrue(new TableDiffer(table(), table()).calculateUnorderedDiffs().isEmpty());
     }
 
     @Test
-    public void diff_set_with_itself_in_different_order() {
+    public void unordered_diff_with_itself_in_different_order() {
         assertTrue(new TableDiffer(table(), otherTableWithDifferentOrder()).calculateUnorderedDiffs().isEmpty());
     }
 
     @Test
-    public void diff_set_with_less_lines_in_other() {
+    public void unordered_diff_with_less_lines_in_other() {
         String expected = "" +
 
             "      | Aslak | aslak@email.com | 123 |\n" +
@@ -319,6 +319,19 @@ public class TableDifferTest {
             "    + | Ni    | ni@email.com    | 654 |\n" +
             "    + | Joe   | joe@email.com   | 234 |\n";
         assertUnorderedDiff(table(), otherTableWithDifferentOrderAndDuplicate(), expected);
+    }
+
+    @Test
+    public void unordered_diff_with_added_duplicate_in_other_reversed() {
+        String expected = "" +
+
+            "      | Joe   | joe@email.com   | 234 |\n" +
+            "      | Aslak | aslak@email.com | 123 |\n" +
+            "      | Bryan | bryan@email.org | 456 |\n" +
+            "      | Ni    | ni@email.com    | 654 |\n" +
+            "    - | Ni    | ni@email.com    | 654 |\n" +
+            "    - | Joe   | joe@email.com   | 234 |\n";
+        assertUnorderedDiff(otherTableWithDifferentOrderAndDuplicate(), table(), expected);
     }
 
     @Test

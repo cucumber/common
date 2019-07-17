@@ -1,7 +1,7 @@
 # -*- encoding: utf-8 -*-
 Gem::Specification.new do |s|
   s.name        = 'cucumber-messages'
-  s.version     = '3.0.0'
+  s.version     = '3.0.1'
   s.authors     = ["Aslak Hellesøy"]
   s.description = "Protocol Buffer messages for Cucumber's inter-process communication"
   s.summary     = "cucumber-messages-#{s.version}"
@@ -20,7 +20,7 @@ Gem::Specification.new do |s|
                   }
 
   # Users of JRuby and MRI < 2.6 will have to specify google-protobuf=3.2 (later versions don't work)
-  s.add_dependency('google-protobuf', ['>= 3.2', '<= 3.7'])
+  s.add_dependency 'google-protobuf', ['>= 3.2', '<= 3.7']
   s.add_development_dependency 'bundler'
   s.add_development_dependency 'rake',      '~> 12.3'
   s.add_development_dependency 'rspec',     '~> 3.7'

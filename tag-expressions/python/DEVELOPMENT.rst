@@ -60,6 +60,7 @@ Running the Tests
     pytest --html=report.html   # Run tests and create HTML test report.
 
 SEE ALSO:
+
 * https://pytest.org/
 * https://pypi.python.org/pypi/pytest-html
 
@@ -73,9 +74,10 @@ virtual environments, one for each version.
 To run the tests, use::
 
     tox -e py27     # Run tests in a virtual environment with python2.7
-    tox -e py36     # Run tests in a virtual environment with python3.6
+    tox -e py37     # Run tests in a virtual environment with python3.7
 
 SEE ALSO:
+
 * https://tox.readthedocs.io/
 * https://pypi.python.org/pypi/tox
 
@@ -105,6 +107,7 @@ ALTERNATIVE: Run tools in a tox environment::
     tox -e bandit         # Run bandit security checks.
 
 SEE ALSO:
+
 * https://pypi.python.org/pypi/pylint
 * https://pypi.python.org/pypi/bandit
 * https://pylint.readthedocs.io/
@@ -116,5 +119,5 @@ Cleanup the Workspace
 
 To cleanup the local workspace and development environment, use::
 
-    invoke clean        # Cleanup common temporary files.
-    invoke clean-all    # Cleanup everything (.venv, .tox, ...)
+    invoke cleanup        # Cleanup common temporary files.
+    invoke cleanup.all    # Cleanup everything (.venv, .tox, ...)

@@ -14,11 +14,11 @@ export default class CombinatorialGeneratedExpressionFactory {
 
   public generateExpressions() {
     const generatedExpressions: GeneratedExpression[] = []
-    this._generatePermutations(generatedExpressions, 0, [])
+    this.generatePermutations(generatedExpressions, 0, [])
     return generatedExpressions
   }
 
-  public _generatePermutations(
+  private generatePermutations(
     generatedExpressions: GeneratedExpression[],
     depth: number,
     currentParameterTypes: Array<ParameterType<any>>
@@ -43,7 +43,7 @@ export default class CombinatorialGeneratedExpressionFactory {
 
       const newCurrentParameterTypes = currentParameterTypes.slice() // clone
       newCurrentParameterTypes.push(this.parameterTypeCombinations[depth][i])
-      this._generatePermutations(
+      this.generatePermutations(
         generatedExpressions,
         depth + 1,
         newCurrentParameterTypes

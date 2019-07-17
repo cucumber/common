@@ -1,13 +1,2 @@
-MAKEFILES=go/Makefile java/Makefile javascript/Makefile ruby/Makefile
-
-default: $(patsubst %/Makefile,default-%,$(MAKEFILES))
-.PHONY: default
-
-default-%: %
-	cd $< && make default
-
-clean: $(patsubst %/Makefile,clean-%,$(MAKEFILES))
-.PHONY: clean
-
-clean-%: %
-	cd $< && make clean
+MAKE_FILES = go/Makefile java/Makefile javascript/Makefile ruby/Makefile
+include default.mk
