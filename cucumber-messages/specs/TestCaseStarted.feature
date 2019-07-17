@@ -20,3 +20,18 @@ Feature: Sending TestCaseStarted Messages
           | Attribute | Value                                |
           | pickleId  | ff981b6f-b11e-4149-baa1-9794940ac8bf |
           | timestamp | '2019-05-13 13:09:46'                |
+
+    Scenario Outline: Cucumber implementation and version is included in the message
+
+        Given the cucumber implementation is <implementation> in version <Version>
+        When the test suite is executed
+        Then a TestCaseStarted message has been sent with the following platform information
+          | Attribute      | Value              |
+          | implementation | <ImplementationId> |
+          | version        | <Version>          |
+
+        @SpecFlow
+        Examples:
+          | implementation | ImplementationId | Version |
+          | SpecFlow 3.1   | SpecFlow         | 3.1     |
+
