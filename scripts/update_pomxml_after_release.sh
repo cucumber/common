@@ -3,7 +3,7 @@
 # Ensure pom.xml is here
 if [ ! -f "java/pom.xml" ]; then
   echo "No pom.xml found in java directory"
-  exit 1
+  exit 0
 fi
 
 # Finding current version in Changelog is way simpler, as there may be multiple <version> nodes in pom.xml
