@@ -1,6 +1,9 @@
-coverage/
 Gemfile.lock
+coverage/
+acceptance/
 pkg/
+*.gem
+.compared
 .deps
 .tested
-dots-formatter-go/
+*-go

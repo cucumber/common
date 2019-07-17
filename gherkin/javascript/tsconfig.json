@@ -1,14 +1,26 @@
 {
   "compilerOptions": {
-    "lib": ["es6"],
-    "noImplicitAny": true,
-    "removeComments": true,
-    "preserveConstEnums": true,
+    "declaration": true,
+    "target": "es5",
+    "lib": [
+      "es5",
+      "es6",
+      "es7",
+      "es2015",
+      "es2017",
+      "dom"
+    ],
     "sourceMap": true,
-    "rootDir": ".",
-    "outDir": "dist"
+    "allowJs": false,
+    "module": "commonjs",
+    "esModuleInterop": true,
+    "noImplicitAny": true,
+    "moduleResolution": "node",
+    "outDir": "dist",
+    "downlevelIteration": true
   },
-  "files": [
-    "test/GherkinTypeScriptTest.ts"
+  "include": [
+    "src/**/*",
+    "test/**/*"
   ]
 }

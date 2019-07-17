@@ -1084,7 +1084,7 @@
     "name": "Spanish",
     "native": "español",
     "rule": [
-      "Rule"
+      "Regla"
     ],
     "scenario": [
       "Ejemplo",
@@ -1256,6 +1256,9 @@
     "given": [
       "* ",
       "Soit ",
+      "Sachant que ",
+      "Sachant qu'",
+      "Sachant ",
       "Etant donné que ",
       "Etant donné qu'",
       "Etant donné ",
@@ -1284,7 +1287,8 @@
     ],
     "then": [
       "* ",
-      "Alors "
+      "Alors ",
+      "Donc "
     ],
     "when": [
       "* ",
@@ -2549,7 +2553,7 @@
     "name": "Portuguese",
     "native": "português",
     "rule": [
-      "Rule"
+      "Regra"
     ],
     "scenario": [
       "Exemplo",

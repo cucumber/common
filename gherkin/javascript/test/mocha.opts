@@ -1,2 +1,4 @@
---recursive
 --require ts-node/register
+--require source-map-support/register
+--extension ts,tsx
+--recursive

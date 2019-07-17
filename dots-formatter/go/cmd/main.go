@@ -1,7 +1,7 @@
 package main
 
 import (
-	dots "github.com/cucumber/dots-formatter-go"
+	dots "github.com/cucumber/cucumber/dots-formatter/go"
 	"os"
 )
 

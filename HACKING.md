@@ -36,6 +36,16 @@ Occasionally you want to sync to multiple subrepos. For example, if you are maki
 in two modules (say `messages` and `gherkin`), prefix the branch with both module names, 
 separated by an underscore. For example, `messages_gherkin-use-protobuf`.
 
+### Local Testing / Development checks
+
+To run a copy of the CI locally simply run the command below. **NB: This will require docker being installed.**
+
+    ./scripts/docker-run Dockerfile make
+    
+This will create a localised version of the Docker image used on CI to build cucumber then run through
+all of the associated make tasks in each of the sub-repos. This can take a while, but it saves you needing
+to push each individual commit up to the repo and then wait for the CI tests to finish.
+
 ### Adding a new subrepo
 
 Occasionally, a sub directory is promoted to a separate subrepo. The process for doing this is:
@@ -145,11 +155,12 @@ in the "Cucumber Open Source" vault.
 
    source ./scripts/functions.sh
    # Standard image (for all builds except .NET)
-   docker_build Dockerfile.cucumber-build
-   docker_push Dockerfile.cucumber-build
+   docker_build Dockerfile
+   docker_push Dockerfile
    # .NET image (for .NET builds only)
-   docker_build Dockerfile.cucumber-build-dotnet
-   docker_push Dockerfile.cucumber-build-dotnet
+   docker_build Dockerfile-dotnet
+   docker_push Dockerfile-dotnet
 
 The images are published [in the cucumber repository section at
 Docker Hub](https://hub.docker.com/r/cucumber/).
+

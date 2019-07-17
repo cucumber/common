@@ -21,13 +21,4 @@ The table below describes the heuristics, along with some examples
 |RegularExpression
 |Forward slashes always assumes Regular Expression. The slashes themselves are removed.
 
-|this (.+) like a regexp
-|RegularExpression
-|If there are capture groups, assume Regular Expression.
-
-|this look(s) like a cukexp
-|CucumberExpression
-|Parenthesis containing only alphabetic characters are not considered Regular Expression capture groups,
-but Cucumber Expression optional text.
-
 |===

@@ -215,6 +215,21 @@ class TestTagExpressionParser(object):
         # -- NOTE: RPN parsebility due to Shunting-yard algorithm (stack-based).
         self.assert_parse_with_error_contains_message(text, expected)
 
+    # -- TODO:
+    # @pytest.mark.parametrize("text, expected", [
+    #     ("@a\\(1\\)", "@a(1)"),
+    #     ("@a\\(1\\) and @b\\(2\\)", "( @a(1) and @b(2) )"),
+    # ])
+    # def test_parse__with_escaped_chars(self, text, expected):
+    #     self.assert_parse_expression_equals_expression_string(text, expected)
+    #
+    # -- FROM: TagExpressionParserTest.java
+    # public void evaluates_expr_with_escaped_chars() {
+    #     Expression expr = parser.parse("((not @a\\(1\\) or @b\\(2\\)) and not @c\\(3\\) or not @d\\(4\\) or @e\\(5\\) and @f\\(6\\))");
+    #     assertFalse(expr.evaluate(asList("@a(1) @c(3) @d(4)".split(" "))));
+    #     assertTrue(expr.evaluate(asList("@b(2) @e(5) @f(6)".split(" "))));
+    # }
+
 
     # -- BAD CASES: Too few operands
     @pytest.mark.parametrize("text, error_message", [

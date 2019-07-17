@@ -6,7 +6,7 @@
         <server>
             <id>ossrh</id>
             <username>cukebot</username>
-            <password>${env.CI_SONATYPE_PASSWORD}</password>
+            <password>${env.SONATYPE_PASSWORD}</password>
         </server>
     </servers>
     <profiles>
@@ -18,7 +18,7 @@
             <properties>
                 <gpg.executable>gpg</gpg.executable>
                 <gpg.keyname>E60E1F911B996560FFB135DAF4CABFB5B89B8BE6</gpg.keyname>
-                <gpg.passphrase>${env.CI_GPG_PASSPHRASE}</gpg.passphrase>
+                <gpg.passphrase>${env.GPG_SIGNING_KEY_PASSPHRASE}</gpg.passphrase>
             </properties>
         </profile>
     </profiles>

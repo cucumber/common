@@ -1082,7 +1082,7 @@ var buildinDialects = gherkinDialectMap{
 				"Característica",
 			},
 			rule: []string{
-				"Rule",
+				"Regla",
 			},
 			background: []string{
 				"Antecedentes",
@@ -1277,6 +1277,9 @@ var buildinDialects = gherkinDialectMap{
 			given: []string{
 				"* ",
 				"Soit ",
+				"Sachant que ",
+				"Sachant qu'",
+				"Sachant ",
 				"Etant donné que ",
 				"Etant donné qu'",
 				"Etant donné ",
@@ -1299,6 +1302,7 @@ var buildinDialects = gherkinDialectMap{
 			then: []string{
 				"* ",
 				"Alors ",
+				"Donc ",
 			},
 			and: []string{
 				"* ",
@@ -2543,7 +2547,7 @@ var buildinDialects = gherkinDialectMap{
 				"Caracteristica",
 			},
 			rule: []string{
-				"Rule",
+				"Regra",
 			},
 			background: []string{
 				"Contexto",

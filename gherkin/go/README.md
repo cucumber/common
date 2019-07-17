@@ -32,6 +32,5 @@ make .dist-compressed
 Your `./dist_compressed/` directory should now have compressed binaries.
 Compression fails for some binaries, so you likely won't have a full set.
 
-The CI build copies the successfully compressed binaries back to `./dist/`
-before uploading them to S3.
+The build copies the successfully compressed binaries back to `./dist/`.
 

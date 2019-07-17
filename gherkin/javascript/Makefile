@@ -10,25 +10,26 @@ ERRORS       = $(patsubst testdata/%.feature,acceptance/testdata/%.feature.error
 
 .DELETE_ON_ERROR:
 
-.deps:
-	./scripts/s3-download gherkin-go $(LIBRARY_VERSION)
-	# Linking will only work when we're building in the monorepo
-	# On subrepo builds SKIP_NPM_LINK is set in .travis.yml so
-	# we'll use the packages from from package.json
-ifndef SKIP_NPM_LINK
-	npm link cucumber-messages
-	npm link c21e
-endif
+.deps: executables .npm-linked
+
+executables:
+	cp -R "$$(pwd)/../go/dist" $@
+
+.npm-linked:
+	# `npm link` does not work on CircleCI, so we're doing manual symlinking instead
+	rm -rf node_modules/cucumber-messages
+	ln -s "$$(pwd)/../../cucumber-messages/javascript" node_modules/cucumber-messages
+	rm -rf node_modules/c21e
+	ln -s "$$(pwd)/../../c21e/javascript" node_modules/c21e
 	touch $@
 
-.tested: dist/src/index.d.ts .compared
+.tested: dist/src/index.js .compared
 
 .compared: $(ASTS) $(PICKLES) $(ERRORS) $(SOURCES)
 	touch $@
 
-dist/src/index.d.ts: src/index.d.ts
-	mkdir -p `dirname $@`
-	cp $< $@
+dist/src/index.js: src/index.ts
+	npm run build
 
 acceptance/testdata/%.feature.ast.ndjson: testdata/%.feature testdata/%.feature.ast.ndjson .deps
 	mkdir -p `dirname $@`
@@ -51,5 +52,5 @@ acceptance/testdata/%.feature.errors.ndjson: testdata/%.feature testdata/%.featu
 	diff --unified <(jq "." $<.errors.ndjson) <(jq "." $@)
 
 clean:
-	rm -rf acceptance gherkin-go
+	rm -rf acceptance executables .exes-linked .npm-linked
 .PHONY: clean

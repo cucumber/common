@@ -10,7 +10,8 @@ Provides parsing of boolean tag expressions.
     assert "( a and ( b or not (c) ) )" == str(expression)
 
 UNSUPPORTED:
-* Support special tags w/ escaped-parens: ``@reqid\(10\)``
+
+* Support special tags w/ escaped-parens: ``@reqid\\(10\\)``
 """
 
 from __future__ import absolute_import

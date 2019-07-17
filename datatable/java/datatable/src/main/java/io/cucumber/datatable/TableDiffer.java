@@ -44,13 +44,12 @@ public class TableDiffer {
         extraRows.addAll(to.cells());
 
         for (List<String> row : from.cells()) {
-            if (!to.cells().contains(row)) {
+            if (!extraRows.remove(row)) {
                 diffTableRows.add(
                         new SimpleEntry<>(row, DiffType.DELETE));
             } else {
                 diffTableRows.add(
                         new SimpleEntry<>(row, DiffType.NONE));
-                extraRows.remove(row);
             }
         }
 
