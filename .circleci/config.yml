@@ -42,6 +42,15 @@ executors:
 ###
 
 jobs:
+  build-serial:
+    executor: docker-cucumber-build
+    steps:
+      - checkout
+      - run:
+          name: everything
+          command: |
+            make
+
   checkout:
     executor: docker-circleci-ruby
     steps:
@@ -417,7 +426,12 @@ jobs:
 
 workflows:
   version: 2
-  monorepo-build:
+  
+  monorepo-serial:
+    jobs:
+      - build-serial
+
+  monorepo-parallel:
     jobs:
       - checkout
 
