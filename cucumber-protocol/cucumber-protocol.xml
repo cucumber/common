@@ -1,0 +1,718 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<pnml>
+    <net>
+        <token id="Default" red="0" green="0" blue="0"/>
+        <place id="unexecuted pickles">
+            <graphics>
+                <position x="823.0" y="182.0"/>
+            </graphics>
+            <name>
+                <value>P0</value>
+                <graphics>
+                    <offset x="-8.0" y="20.0"/>
+                </graphics>
+            </name>
+            <capacity>
+                <value>0</value>
+            </capacity>
+            <initialMarking>
+                <graphics>
+                    <offset x="0.0" y="0.0"/>
+                </graphics>
+                <value>Default,0</value>
+            </initialMarking>
+        </place>
+        <place id="ready to load stepdefs">
+            <graphics>
+                <position x="358.0" y="45.0"/>
+            </graphics>
+            <name>
+                <value>P0</value>
+                <graphics>
+                    <offset x="-5.0" y="35.0"/>
+                </graphics>
+            </name>
+            <capacity>
+                <value>0</value>
+            </capacity>
+            <initialMarking>
+                <graphics>
+                    <offset x="0.0" y="0.0"/>
+                </graphics>
+                <value>Default,1</value>
+            </initialMarking>
+        </place>
+        <place id="pending">
+            <graphics>
+                <position x="597.0" y="756.0"/>
+            </graphics>
+            <name>
+                <value>P1</value>
+                <graphics>
+                    <offset x="-5.0" y="35.0"/>
+                </graphics>
+            </name>
+            <capacity>
+                <value>0</value>
+            </capacity>
+            <initialMarking>
+                <graphics>
+                    <offset x="0.0" y="0.0"/>
+                </graphics>
+                <value>Default,0</value>
+            </initialMarking>
+        </place>
+        <place id="stepdefs loaded">
+            <graphics>
+                <position x="824.0" y="51.0"/>
+            </graphics>
+            <name>
+                <value>P0</value>
+                <graphics>
+                    <offset x="-5.0" y="35.0"/>
+                </graphics>
+            </name>
+            <capacity>
+                <value>0</value>
+            </capacity>
+            <initialMarking>
+                <graphics>
+                    <offset x="0.0" y="0.0"/>
+                </graphics>
+                <value>Default,0</value>
+            </initialMarking>
+        </place>
+        <place id="executing">
+            <graphics>
+                <position x="797.0" y="568.0"/>
+            </graphics>
+            <name>
+                <value>P1</value>
+                <graphics>
+                    <offset x="-5.0" y="35.0"/>
+                </graphics>
+            </name>
+            <capacity>
+                <value>0</value>
+            </capacity>
+            <initialMarking>
+                <graphics>
+                    <offset x="0.0" y="0.0"/>
+                </graphics>
+                <value>Default,0</value>
+            </initialMarking>
+        </place>
+        <place id="passed">
+            <graphics>
+                <position x="600.0" y="543.0"/>
+            </graphics>
+            <name>
+                <value>P2</value>
+                <graphics>
+                    <offset x="-5.0" y="35.0"/>
+                </graphics>
+            </name>
+            <capacity>
+                <value>0</value>
+            </capacity>
+            <initialMarking>
+                <graphics>
+                    <offset x="0.0" y="0.0"/>
+                </graphics>
+                <value>Default,0</value>
+            </initialMarking>
+        </place>
+        <place id="failed">
+            <graphics>
+                <position x="595.0" y="645.0"/>
+            </graphics>
+            <name>
+                <value>P1</value>
+                <graphics>
+                    <offset x="-5.0" y="35.0"/>
+                </graphics>
+            </name>
+            <capacity>
+                <value>0</value>
+            </capacity>
+            <initialMarking>
+                <graphics>
+                    <offset x="0.0" y="0.0"/>
+                </graphics>
+                <value>Default,0</value>
+            </initialMarking>
+        </place>
+        <place id="ambiguous">
+            <graphics>
+                <position x="1001.0" y="381.0"/>
+            </graphics>
+            <name>
+                <value>P3</value>
+                <graphics>
+                    <offset x="-5.0" y="35.0"/>
+                </graphics>
+            </name>
+            <capacity>
+                <value>0</value>
+            </capacity>
+            <initialMarking>
+                <graphics>
+                    <offset x="0.0" y="0.0"/>
+                </graphics>
+                <value>Default,0</value>
+            </initialMarking>
+        </place>
+        <place id="ready to load pickles">
+            <graphics>
+                <position x="436.0" y="145.0"/>
+            </graphics>
+            <name>
+                <value>P1</value>
+                <graphics>
+                    <offset x="-5.0" y="35.0"/>
+                </graphics>
+            </name>
+            <capacity>
+                <value>0</value>
+            </capacity>
+            <initialMarking>
+                <graphics>
+                    <offset x="0.0" y="0.0"/>
+                </graphics>
+                <value>Default,1</value>
+            </initialMarking>
+        </place>
+        <place id="idle executors">
+            <graphics>
+                <position x="253.0" y="686.0"/>
+            </graphics>
+            <name>
+                <value>P1</value>
+                <graphics>
+                    <offset x="-9.0" y="30.0"/>
+                </graphics>
+            </name>
+            <capacity>
+                <value>0</value>
+            </capacity>
+            <initialMarking>
+                <graphics>
+                    <offset x="0.0" y="0.0"/>
+                </graphics>
+                <value>Default,1</value>
+            </initialMarking>
+        </place>
+        <place id="defined">
+            <graphics>
+                <position x="633.0" y="376.0"/>
+            </graphics>
+            <name>
+                <value>P4</value>
+                <graphics>
+                    <offset x="-5.0" y="35.0"/>
+                </graphics>
+            </name>
+            <capacity>
+                <value>0</value>
+            </capacity>
+            <initialMarking>
+                <graphics>
+                    <offset x="0.0" y="0.0"/>
+                </graphics>
+                <value>Default,0</value>
+            </initialMarking>
+        </place>
+        <place id="undefined">
+            <graphics>
+                <position x="821.0" y="380.0"/>
+            </graphics>
+            <name>
+                <value>P1</value>
+                <graphics>
+                    <offset x="-5.0" y="35.0"/>
+                </graphics>
+            </name>
+            <capacity>
+                <value>0</value>
+            </capacity>
+            <initialMarking>
+                <graphics>
+                    <offset x="0.0" y="0.0"/>
+                </graphics>
+                <value>Default,0</value>
+            </initialMarking>
+        </place>
+        <transition id="2+ matches">
+            <graphics>
+                <position x="1011.0" y="289.0"/>
+            </graphics>
+            <name>
+                <value>T0</value>
+                <graphics>
+                    <offset x="-5.0" y="35.0"/>
+                </graphics>
+            </name>
+            <infiniteServer>
+                <value>false</value>
+            </infiniteServer>
+            <timed>
+                <value>false</value>
+            </timed>
+            <priority>
+                <value>1</value>
+            </priority>
+            <orientation>
+                <value>90</value>
+            </orientation>
+            <rate>
+                <value>1</value>
+            </rate>
+        </transition>
+        <transition id="throw error">
+            <graphics>
+                <position x="669.0" y="709.0"/>
+            </graphics>
+            <name>
+                <value>T0</value>
+                <graphics>
+                    <offset x="-5.0" y="35.0"/>
+                </graphics>
+            </name>
+            <infiniteServer>
+                <value>false</value>
+            </infiniteServer>
+            <timed>
+                <value>false</value>
+            </timed>
+            <priority>
+                <value>1</value>
+            </priority>
+            <orientation>
+                <value>0</value>
+            </orientation>
+            <rate>
+                <value>1</value>
+            </rate>
+        </transition>
+        <transition id="load pickle">
+            <graphics>
+                <position x="609.0" y="144.0"/>
+            </graphics>
+            <name>
+                <value>T0</value>
+                <graphics>
+                    <offset x="-5.0" y="35.0"/>
+                </graphics>
+            </name>
+            <infiniteServer>
+                <value>false</value>
+            </infiniteServer>
+            <timed>
+                <value>false</value>
+            </timed>
+            <priority>
+                <value>1</value>
+            </priority>
+            <orientation>
+                <value>0</value>
+            </orientation>
+            <rate>
+                <value>1</value>
+            </rate>
+        </transition>
+        <transition id="signal pending">
+            <graphics>
+                <position x="668.0" y="823.0"/>
+            </graphics>
+            <name>
+                <value>T0</value>
+                <graphics>
+                    <offset x="-5.0" y="35.0"/>
+                </graphics>
+            </name>
+            <infiniteServer>
+                <value>false</value>
+            </infiniteServer>
+            <timed>
+                <value>false</value>
+            </timed>
+            <priority>
+                <value>1</value>
+            </priority>
+            <orientation>
+                <value>0</value>
+            </orientation>
+            <rate>
+                <value>1</value>
+            </rate>
+        </transition>
+        <transition id="0 matches">
+            <graphics>
+                <position x="831.0" y="289.0"/>
+            </graphics>
+            <name>
+                <value>T1</value>
+                <graphics>
+                    <offset x="-5.0" y="35.0"/>
+                </graphics>
+            </name>
+            <infiniteServer>
+                <value>false</value>
+            </infiniteServer>
+            <timed>
+                <value>false</value>
+            </timed>
+            <priority>
+                <value>1</value>
+            </priority>
+            <orientation>
+                <value>90</value>
+            </orientation>
+            <rate>
+                <value>1</value>
+            </rate>
+        </transition>
+        <transition id="load stepdefs">
+            <graphics>
+                <position x="575.0" y="38.0"/>
+            </graphics>
+            <name>
+                <value>T0</value>
+                <graphics>
+                    <offset x="-5.0" y="35.0"/>
+                </graphics>
+            </name>
+            <infiniteServer>
+                <value>false</value>
+            </infiniteServer>
+            <timed>
+                <value>false</value>
+            </timed>
+            <priority>
+                <value>1</value>
+            </priority>
+            <orientation>
+                <value>0</value>
+            </orientation>
+            <rate>
+                <value>1</value>
+            </rate>
+        </transition>
+        <transition id="1 match">
+            <graphics>
+                <position x="641.0" y="287.0"/>
+            </graphics>
+            <name>
+                <value>T0</value>
+                <graphics>
+                    <offset x="-5.0" y="35.0"/>
+                </graphics>
+            </name>
+            <infiniteServer>
+                <value>false</value>
+            </infiniteServer>
+            <timed>
+                <value>false</value>
+            </timed>
+            <priority>
+                <value>1</value>
+            </priority>
+            <orientation>
+                <value>90</value>
+            </orientation>
+            <rate>
+                <value>1</value>
+            </rate>
+        </transition>
+        <transition id="no errors">
+            <graphics>
+                <position x="673.0" y="580.0"/>
+            </graphics>
+            <name>
+                <value>T2</value>
+                <graphics>
+                    <offset x="-5.0" y="35.0"/>
+                </graphics>
+            </name>
+            <infiniteServer>
+                <value>false</value>
+            </infiniteServer>
+            <timed>
+                <value>false</value>
+            </timed>
+            <priority>
+                <value>1</value>
+            </priority>
+            <orientation>
+                <value>0</value>
+            </orientation>
+            <rate>
+                <value>1</value>
+            </rate>
+        </transition>
+        <transition id="execute">
+            <graphics>
+                <position x="643.0" y="478.0"/>
+            </graphics>
+            <name>
+                <value>T0</value>
+                <graphics>
+                    <offset x="-5.0" y="35.0"/>
+                </graphics>
+            </name>
+            <infiniteServer>
+                <value>false</value>
+            </infiniteServer>
+            <timed>
+                <value>false</value>
+            </timed>
+            <priority>
+                <value>1</value>
+            </priority>
+            <orientation>
+                <value>90</value>
+            </orientation>
+            <rate>
+                <value>1</value>
+            </rate>
+        </transition>
+        <arc id="defined TO P4" source="1 match" target="defined">
+            <arcpath id="" x="646.0" y="307.0" curvePoint="false"/>
+            <arcpath id="" x="648.0" y="376.0" curvePoint="false"/>
+            <type value="normal"/>
+            <inscription>
+                <value>Default,1</value>
+            </inscription>
+        </arc>
+        <arc id="throw error TO idle executors" source="throw error" target="idle executors">
+            <arcpath id="" x="669.0" y="724.0" curvePoint="false"/>
+            <arcpath id="" x="283.0" y="702.0" curvePoint="false"/>
+            <type value="normal"/>
+            <inscription>
+                <value>Default,1</value>
+            </inscription>
+        </arc>
+        <arc id="1 match TO stepdefs loaded" source="1 match" target="stepdefs loaded">
+            <arcpath id="" x="646.0" y="297.0" curvePoint="false"/>
+            <arcpath id="" x="830.0" y="78.0" curvePoint="false"/>
+            <type value="normal"/>
+            <inscription>
+                <value>Default,1</value>
+            </inscription>
+        </arc>
+        <arc id="execute TO executing" source="execute" target="executing">
+            <arcpath id="" x="663.0" y="493.0" curvePoint="false"/>
+            <arcpath id="" x="799.0" y="576.0" curvePoint="false"/>
+            <type value="normal"/>
+            <inscription>
+                <value>Default,1</value>
+            </inscription>
+        </arc>
+        <arc id="0 matches TO stepdefs loaded" source="0 matches" target="stepdefs loaded">
+            <arcpath id="" x="836.0" y="299.0" curvePoint="false"/>
+            <arcpath id="" x="905.0" y="180.0" curvePoint="false"/>
+            <arcpath id="" x="847.0" y="79.0" curvePoint="false"/>
+            <type value="normal"/>
+            <inscription>
+                <value>Default,1</value>
+            </inscription>
+        </arc>
+        <arc id="2+ matches TO stepdefs loaded" source="2+ matches" target="stepdefs loaded">
+            <arcpath id="" x="1016.0" y="299.0" curvePoint="false"/>
+            <arcpath id="" x="1005.0" y="152.0" curvePoint="false"/>
+            <arcpath id="" x="852.0" y="73.0" curvePoint="false"/>
+            <type value="normal"/>
+            <inscription>
+                <value>Default,1</value>
+            </inscription>
+        </arc>
+        <arc id="load pickle TO unexecuted pickles" source="load pickle" target="unexecuted pickles">
+            <arcpath id="" x="619.0" y="159.0" curvePoint="false"/>
+            <arcpath id="" x="823.0" y="194.0" curvePoint="false"/>
+            <type value="normal"/>
+            <inscription>
+                <value>Default,1</value>
+            </inscription>
+        </arc>
+        <arc id="no errors TO idle executors" source="no errors" target="idle executors">
+            <arcpath id="" x="673.0" y="595.0" curvePoint="false"/>
+            <arcpath id="" x="283.0" y="697.0" curvePoint="false"/>
+            <type value="normal"/>
+            <inscription>
+                <value>Default,1</value>
+            </inscription>
+        </arc>
+        <arc id="signal pending TO idle executors" source="signal pending" target="idle executors">
+            <arcpath id="" x="668.0" y="838.0" curvePoint="false"/>
+            <arcpath id="" x="282.0" y="706.0" curvePoint="false"/>
+            <type value="normal"/>
+            <inscription>
+                <value>Default,1</value>
+            </inscription>
+        </arc>
+        <arc id="load pickle TO P1" source="load pickle" target="ready to load pickles">
+            <arcpath id="" x="609.0" y="159.0" curvePoint="false"/>
+            <arcpath id="" x="537.0" y="124.0" curvePoint="false"/>
+            <arcpath id="" x="465.0" y="154.0" curvePoint="false"/>
+            <type value="normal"/>
+            <inscription>
+                <value>Default,1</value>
+            </inscription>
+        </arc>
+        <arc id="undefined TO P1" source="0 matches" target="undefined">
+            <arcpath id="" x="836.0" y="309.0" curvePoint="false"/>
+            <arcpath id="" x="836.0" y="380.0" curvePoint="false"/>
+            <type value="normal"/>
+            <inscription>
+                <value>Default,1</value>
+            </inscription>
+        </arc>
+        <arc id="load glue TO stepdefs loaded" source="load stepdefs" target="stepdefs loaded">
+            <arcpath id="" x="585.0" y="53.0" curvePoint="false"/>
+            <arcpath id="" x="824.0" y="65.0" curvePoint="false"/>
+            <type value="normal"/>
+            <inscription>
+                <value>Default,1</value>
+            </inscription>
+        </arc>
+        <arc id="signal pending TO pending" source="signal pending" target="pending">
+            <arcpath id="" x="673.0" y="823.0" curvePoint="false"/>
+            <arcpath id="" x="623.0" y="781.0" curvePoint="false"/>
+            <type value="normal"/>
+            <inscription>
+                <value>Default,1</value>
+            </inscription>
+        </arc>
+        <arc id="ambiguous TO P3" source="2+ matches" target="ambiguous">
+            <arcpath id="" x="1016.0" y="309.0" curvePoint="false"/>
+            <arcpath id="" x="1016.0" y="381.0" curvePoint="false"/>
+            <type value="normal"/>
+            <inscription>
+                <value>Default,1</value>
+            </inscription>
+        </arc>
+        <arc id="throw error TO failed" source="throw error" target="failed">
+            <arcpath id="" x="669.0" y="724.0" curvePoint="false"/>
+            <arcpath id="" x="620.0" y="671.0" curvePoint="false"/>
+            <type value="normal"/>
+            <inscription>
+                <value>Default,1</value>
+            </inscription>
+        </arc>
+        <arc id="T2 TO P2" source="no errors" target="passed">
+            <arcpath id="" x="673.0" y="595.0" curvePoint="false"/>
+            <arcpath id="" x="628.0" y="566.0" curvePoint="false"/>
+            <type value="normal"/>
+            <inscription>
+                <value>Default,1</value>
+            </inscription>
+        </arc>
+        <arc id="P0 TO load glue" source="ready to load stepdefs" target="load stepdefs">
+            <arcpath id="" x="388.0" y="59.0" curvePoint="false"/>
+            <arcpath id="" x="575.0" y="53.0" curvePoint="false"/>
+            <type value="normal"/>
+            <inscription>
+                <value>Default,1</value>
+            </inscription>
+        </arc>
+        <arc id="stepdefs loaded TO 2+ matches" source="stepdefs loaded" target="2+ matches">
+            <arcpath id="" x="851.0" y="75.0" curvePoint="false"/>
+            <arcpath id="" x="962.0" y="166.0" curvePoint="false"/>
+            <arcpath id="" x="1016.0" y="299.0" curvePoint="false"/>
+            <type value="normal"/>
+            <inscription>
+                <value>Default,1</value>
+            </inscription>
+        </arc>
+        <arc id="P1 TO load pickle" source="ready to load pickles" target="load pickle">
+            <arcpath id="" x="466.0" y="160.0" curvePoint="false"/>
+            <arcpath id="" x="609.0" y="159.0" curvePoint="false"/>
+            <type value="normal"/>
+            <inscription>
+                <value>Default,1</value>
+            </inscription>
+        </arc>
+        <arc id="stepdefs loaded TO 0 matches" source="stepdefs loaded" target="0 matches">
+            <arcpath id="" x="848.0" y="78.0" curvePoint="false"/>
+            <arcpath id="" x="926.0" y="180.0" curvePoint="false"/>
+            <arcpath id="" x="836.0" y="299.0" curvePoint="false"/>
+            <type value="normal"/>
+            <inscription>
+                <value>Default,1</value>
+            </inscription>
+        </arc>
+        <arc id="P0 TO T0" source="unexecuted pickles" target="1 match">
+            <arcpath id="" x="825.0" y="204.0" curvePoint="false"/>
+            <arcpath id="" x="661.0" y="302.0" curvePoint="false"/>
+            <type value="normal"/>
+            <inscription>
+                <value>Default,1</value>
+            </inscription>
+        </arc>
+        <arc id="P0 TO T1" source="unexecuted pickles" target="0 matches">
+            <arcpath id="" x="838.0" y="212.0" curvePoint="false"/>
+            <arcpath id="" x="836.0" y="299.0" curvePoint="false"/>
+            <type value="normal"/>
+            <inscription>
+                <value>Default,1</value>
+            </inscription>
+        </arc>
+        <arc id="executing TO pending" source="executing" target="signal pending">
+            <arcpath id="" x="804.0" y="596.0" curvePoint="false"/>
+            <arcpath id="" x="673.0" y="823.0" curvePoint="false"/>
+            <type value="normal"/>
+            <inscription>
+                <value>Default,1</value>
+            </inscription>
+        </arc>
+        <arc id="P0 TO ambiguous" source="unexecuted pickles" target="2+ matches">
+            <arcpath id="" x="851.0" y="205.0" curvePoint="false"/>
+            <arcpath id="" x="1001.0" y="304.0" curvePoint="false"/>
+            <type value="normal"/>
+            <inscription>
+                <value>Default,1</value>
+            </inscription>
+        </arc>
+        <arc id="executing TO failed" source="executing" target="throw error">
+            <arcpath id="" x="802.0" y="594.0" curvePoint="false"/>
+            <arcpath id="" x="674.0" y="709.0" curvePoint="false"/>
+            <type value="normal"/>
+            <inscription>
+                <value>Default,1</value>
+            </inscription>
+        </arc>
+        <arc id="stepdefs loaded TO 1 match" source="stepdefs loaded" target="1 match">
+            <arcpath id="" x="828.0" y="76.0" curvePoint="false"/>
+            <arcpath id="" x="710.0" y="175.0" curvePoint="false"/>
+            <arcpath id="" x="646.0" y="297.0" curvePoint="false"/>
+            <type value="normal"/>
+            <inscription>
+                <value>Default,1</value>
+            </inscription>
+        </arc>
+        <arc id="executing TO passed" source="executing" target="no errors">
+            <arcpath id="" x="797.0" y="584.0" curvePoint="false"/>
+            <arcpath id="" x="683.0" y="595.0" curvePoint="false"/>
+            <type value="normal"/>
+            <inscription>
+                <value>Default,1</value>
+            </inscription>
+        </arc>
+        <arc id="P4 TO execute" source="defined" target="execute">
+            <arcpath id="" x="648.0" y="406.0" curvePoint="false"/>
+            <arcpath id="" x="648.0" y="488.0" curvePoint="false"/>
+            <type value="normal"/>
+            <inscription>
+                <value>Default,1</value>
+            </inscription>
+        </arc>
+        <arc id="idle executors TO execute" source="idle executors" target="execute">
+            <arcpath id="" x="281.0" y="694.0" curvePoint="false"/>
+            <arcpath id="" x="633.0" y="493.0" curvePoint="false"/>
+            <type value="normal"/>
+            <inscription>
+                <value>Default,1</value>
+            </inscription>
+        </arc>
+    </net>
+</pnml>
