@@ -94,36 +94,15 @@ Check that releases show up under:
 
 ## Post release
 
-TODO: Script all of this!
+Run the following command:
 
-First off - exit your docker container. This should be done on your host OS:
+    make post-release
 
-Add an empty `[Unreleased]` section at the top of `CHANGELOG.md` with:
+This should update the CHANGELOG to get placeholders for the Unreleased version and also the pom.xml file for the snapshot releases.
 
-```markdown
-## [Unreleased]
+Finally, exit your docker container, this should be done on your host OS.
 
-### Added
-
-### Changed
-
-### Deprecated
-
-### Removed
-
-### Fixed
-```
-
-Also, add a link at the bottom:
-
-```markdown
-[Unreleased]: https://github.com/cucumber/cucumber/compare/[package]/v[version]...master
-```
-
-You also need to bump the patch version in the `pom.xml` and append `-SNAPSHOT`
-to it.
-
-Finally, commit it and push everything:
+Commit the changes and push everything:
 
     git commit -am "Post-release of [package] v[version]"
     git push && git push --tags
