@@ -1,0 +1,376 @@
+{
+  "gherkinDocument": {
+    "uri": null,
+    "feature": {
+      "location": {
+        "line": null,
+        "column": null
+      },
+      "tags": [
+        {
+          "location": {
+            "line": null,
+            "column": null
+          },
+          "name": null
+        }
+      ],
+      "language": null,
+      "keyword": null,
+      "name": null,
+      "description": null,
+      "children": [
+        {
+          "rule": {
+            "location": {
+              "line": null,
+              "column": null
+            },
+            "keyword": null,
+            "name": null,
+            "description": null,
+            "children": [
+              {
+                "background": {
+                  "location": {
+                    "line": null,
+                    "column": null
+                  },
+                  "keyword": null,
+                  "name": null,
+                  "description": null,
+                  "steps": [
+                    {
+                      "location": {
+                        "line": null,
+                        "column": null
+                      },
+                      "keyword": null,
+                      "text": null,
+                      "doc_string": {
+                        "location": {
+                          "line": null,
+                          "column": null
+                        },
+                        "content_type": null,
+                        "content": null,
+                        "delimiter": null
+                      },
+                      "data_table": {
+                        "location": {
+                          "line": null,
+                          "column": null
+                        },
+                        "rows": [
+                          {
+                            "location": {
+                              "line": null,
+                              "column": null
+                            },
+                            "cells": [
+                              {
+                                "location": {
+                                  "line": null,
+                                  "column": null
+                                },
+                                "value": null
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    }
+                  ]
+                },
+                "scenario": {
+                  "location": {
+                    "line": null,
+                    "column": null
+                  },
+                  "tags": [
+                    {
+                      "location": {
+                        "line": null,
+                        "column": null
+                      },
+                      "name": null
+                    }
+                  ],
+                  "keyword": null,
+                  "name": null,
+                  "description": null,
+                  "steps": [
+                    {
+                      "location": {
+                        "line": null,
+                        "column": null
+                      },
+                      "keyword": null,
+                      "text": null,
+                      "doc_string": {
+                        "location": {
+                          "line": null,
+                          "column": null
+                        },
+                        "content_type": null,
+                        "content": null,
+                        "delimiter": null
+                      },
+                      "data_table": {
+                        "location": {
+                          "line": null,
+                          "column": null
+                        },
+                        "rows": [
+                          {
+                            "location": {
+                              "line": null,
+                              "column": null
+                            },
+                            "cells": [
+                              {
+                                "location": {
+                                  "line": null,
+                                  "column": null
+                                },
+                                "value": null
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    }
+                  ],
+                  "examples": [
+                    {
+                      "location": {
+                        "line": null,
+                        "column": null
+                      },
+                      "tags": [
+                        {
+                          "location": {
+                            "line": null,
+                            "column": null
+                          },
+                          "name": null
+                        }
+                      ],
+                      "keyword": null,
+                      "name": null,
+                      "description": null,
+                      "table_header": {
+                        "location": {
+                          "line": null,
+                          "column": null
+                        },
+                        "cells": [
+                          {
+                            "location": {
+                              "line": null,
+                              "column": null
+                            },
+                            "value": null
+                          }
+                        ]
+                      },
+                      "table_body": [
+                        {
+                          "location": {
+                            "line": null,
+                            "column": null
+                          },
+                          "cells": [
+                            {
+                              "location": {
+                                "line": null,
+                                "column": null
+                              },
+                              "value": null
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          "background": {
+            "location": {
+              "line": null,
+              "column": null
+            },
+            "keyword": null,
+            "name": null,
+            "description": null,
+            "steps": [
+              {
+                "location": {
+                  "line": null,
+                  "column": null
+                },
+                "keyword": null,
+                "text": null,
+                "doc_string": {
+                  "location": {
+                    "line": null,
+                    "column": null
+                  },
+                  "content_type": null,
+                  "content": null,
+                  "delimiter": null
+                },
+                "data_table": {
+                  "location": {
+                    "line": null,
+                    "column": null
+                  },
+                  "rows": [
+                    {
+                      "location": {
+                        "line": null,
+                        "column": null
+                      },
+                      "cells": [
+                        {
+                          "location": {
+                            "line": null,
+                            "column": null
+                          },
+                          "value": null
+                        }
+                      ]
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          "scenario": {
+            "location": {
+              "line": null,
+              "column": null
+            },
+            "tags": [
+              {
+                "location": {
+                  "line": null,
+                  "column": null
+                },
+                "name": null
+              }
+            ],
+            "keyword": null,
+            "name": null,
+            "description": null,
+            "steps": [
+              {
+                "location": {
+                  "line": null,
+                  "column": null
+                },
+                "keyword": null,
+                "text": null,
+                "doc_string": {
+                  "location": {
+                    "line": null,
+                    "column": null
+                  },
+                  "content_type": null,
+                  "content": null,
+                  "delimiter": null
+                },
+                "data_table": {
+                  "location": {
+                    "line": null,
+                    "column": null
+                  },
+                  "rows": [
+                    {
+                      "location": {
+                        "line": null,
+                        "column": null
+                      },
+                      "cells": [
+                        {
+                          "location": {
+                            "line": null,
+                            "column": null
+                          },
+                          "value": null
+                        }
+                      ]
+                    }
+                  ]
+                }
+              }
+            ],
+            "examples": [
+              {
+                "location": {
+                  "line": null,
+                  "column": null
+                },
+                "tags": [
+                  {
+                    "location": {
+                      "line": null,
+                      "column": null
+                    },
+                    "name": null
+                  }
+                ],
+                "keyword": null,
+                "name": null,
+                "description": null,
+                "table_header": {
+                  "location": {
+                    "line": null,
+                    "column": null
+                  },
+                  "cells": [
+                    {
+                      "location": {
+                        "line": null,
+                        "column": null
+                      },
+                      "value": null
+                    }
+                  ]
+                },
+                "table_body": [
+                  {
+                    "location": {
+                      "line": null,
+                      "column": null
+                    },
+                    "cells": [
+                      {
+                        "location": {
+                          "line": null,
+                          "column": null
+                        },
+                        "value": null
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "comments": [
+      {
+        "location": {
+          "line": null,
+          "column": null
+        },
+        "text": null
+      }
+    ]
+  }
+}

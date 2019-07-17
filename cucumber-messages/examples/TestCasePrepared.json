@@ -1,0 +1,23 @@
+{
+  "testCasePrepared": {
+    "pickleId": null,
+    "steps": [
+      {
+        "sourceLocation": {
+          "uri": null,
+          "location": {
+            "line": null,
+            "column": null
+          }
+        },
+        "actionLocation": {
+          "uri": null,
+          "location": {
+            "line": null,
+            "column": null
+          }
+        }
+      }
+    ]
+  }
+}

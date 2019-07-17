@@ -7,15 +7,26 @@
     - [Attachment](#io.cucumber.messages.Attachment)
     - [CommandActionComplete](#io.cucumber.messages.CommandActionComplete)
     - [CommandGenerateSnippet](#io.cucumber.messages.CommandGenerateSnippet)
+    - [CommandGenerateSnippet.GeneratedExpression](#io.cucumber.messages.CommandGenerateSnippet.GeneratedExpression)
     - [CommandInitializeTestCase](#io.cucumber.messages.CommandInitializeTestCase)
     - [CommandRunAfterTestCaseHook](#io.cucumber.messages.CommandRunAfterTestCaseHook)
     - [CommandRunAfterTestRunHooks](#io.cucumber.messages.CommandRunAfterTestRunHooks)
     - [CommandRunBeforeTestCaseHook](#io.cucumber.messages.CommandRunBeforeTestCaseHook)
     - [CommandRunBeforeTestRunHooks](#io.cucumber.messages.CommandRunBeforeTestRunHooks)
     - [CommandRunTestStep](#io.cucumber.messages.CommandRunTestStep)
+    - [CommandRunTestStep.PatternMatch](#io.cucumber.messages.CommandRunTestStep.PatternMatch)
     - [CommandStart](#io.cucumber.messages.CommandStart)
+    - [CommandStart.ParameterTypeConfig](#io.cucumber.messages.CommandStart.ParameterTypeConfig)
+    - [CommandStart.RuntimeConfig](#io.cucumber.messages.CommandStart.RuntimeConfig)
+    - [CommandStart.SourcesConfig](#io.cucumber.messages.CommandStart.SourcesConfig)
+    - [CommandStart.SourcesConfig.SourcesFilterConfig](#io.cucumber.messages.CommandStart.SourcesConfig.SourcesFilterConfig)
+    - [CommandStart.SourcesConfig.SourcesFilterConfig.UriToLinesMapping](#io.cucumber.messages.CommandStart.SourcesConfig.SourcesFilterConfig.UriToLinesMapping)
+    - [CommandStart.SourcesConfig.SourcesOrder](#io.cucumber.messages.CommandStart.SourcesConfig.SourcesOrder)
+    - [CommandStart.SupportCodeConfig](#io.cucumber.messages.CommandStart.SupportCodeConfig)
+    - [CommandStart.SupportCodeConfig.StepDefinitionConfig](#io.cucumber.messages.CommandStart.SupportCodeConfig.StepDefinitionConfig)
+    - [CommandStart.SupportCodeConfig.StepDefinitionConfig.StepDefinitionPattern](#io.cucumber.messages.CommandStart.SupportCodeConfig.StepDefinitionConfig.StepDefinitionPattern)
+    - [CommandStart.SupportCodeConfig.TestCaseHookDefinitionConfig](#io.cucumber.messages.CommandStart.SupportCodeConfig.TestCaseHookDefinitionConfig)
     - [Envelope](#io.cucumber.messages.Envelope)
-    - [GeneratedExpression](#io.cucumber.messages.GeneratedExpression)
     - [GherkinDocument](#io.cucumber.messages.GherkinDocument)
     - [GherkinDocument.Comment](#io.cucumber.messages.GherkinDocument.Comment)
     - [GherkinDocument.Feature](#io.cucumber.messages.GherkinDocument.Feature)
@@ -33,8 +44,6 @@
     - [GherkinDocument.Feature.Tag](#io.cucumber.messages.GherkinDocument.Feature.Tag)
     - [Location](#io.cucumber.messages.Location)
     - [Media](#io.cucumber.messages.Media)
-    - [ParameterTypeConfig](#io.cucumber.messages.ParameterTypeConfig)
-    - [PatternMatch](#io.cucumber.messages.PatternMatch)
     - [Pickle](#io.cucumber.messages.Pickle)
     - [Pickle.PickleStep](#io.cucumber.messages.Pickle.PickleStep)
     - [Pickle.PickleTag](#io.cucumber.messages.Pickle.PickleTag)
@@ -45,17 +54,10 @@
     - [PickleStepArgument.PickleTable](#io.cucumber.messages.PickleStepArgument.PickleTable)
     - [PickleStepArgument.PickleTable.PickleTableRow](#io.cucumber.messages.PickleStepArgument.PickleTable.PickleTableRow)
     - [PickleStepArgument.PickleTable.PickleTableRow.PickleTableCell](#io.cucumber.messages.PickleStepArgument.PickleTable.PickleTableRow.PickleTableCell)
-    - [RuntimeConfig](#io.cucumber.messages.RuntimeConfig)
+    - [Quit](#io.cucumber.messages.Quit)
     - [Source](#io.cucumber.messages.Source)
     - [SourceReference](#io.cucumber.messages.SourceReference)
-    - [SourcesConfig](#io.cucumber.messages.SourcesConfig)
-    - [SourcesFilterConfig](#io.cucumber.messages.SourcesFilterConfig)
-    - [SourcesOrder](#io.cucumber.messages.SourcesOrder)
-    - [StepDefinitionConfig](#io.cucumber.messages.StepDefinitionConfig)
-    - [StepDefinitionPattern](#io.cucumber.messages.StepDefinitionPattern)
-    - [SupportCodeConfig](#io.cucumber.messages.SupportCodeConfig)
     - [TestCaseFinished](#io.cucumber.messages.TestCaseFinished)
-    - [TestCaseHookDefinitionConfig](#io.cucumber.messages.TestCaseHookDefinitionConfig)
     - [TestCasePrepared](#io.cucumber.messages.TestCasePrepared)
     - [TestCasePreparedStep](#io.cucumber.messages.TestCasePreparedStep)
     - [TestCaseStarted](#io.cucumber.messages.TestCaseStarted)
@@ -67,11 +69,11 @@
     - [TestRunStarted](#io.cucumber.messages.TestRunStarted)
     - [TestStepFinished](#io.cucumber.messages.TestStepFinished)
     - [TestStepStarted](#io.cucumber.messages.TestStepStarted)
-    - [UriToLinesMapping](#io.cucumber.messages.UriToLinesMapping)
   
+    - [CommandStart.SourcesConfig.SourcesOrder.SourcesOrderType](#io.cucumber.messages.CommandStart.SourcesConfig.SourcesOrder.SourcesOrderType)
+    - [CommandStart.SupportCodeConfig.StepDefinitionConfig.StepDefinitionPattern.StepDefinitionPatternType](#io.cucumber.messages.CommandStart.SupportCodeConfig.StepDefinitionConfig.StepDefinitionPattern.StepDefinitionPatternType)
     - [Media.Encoding](#io.cucumber.messages.Media.Encoding)
-    - [SourcesOrderType](#io.cucumber.messages.SourcesOrderType)
-    - [StepDefinitionPatternType](#io.cucumber.messages.StepDefinitionPatternType)
+    - [Quit.Reason](#io.cucumber.messages.Quit.Reason)
     - [TestResult.Status](#io.cucumber.messages.TestResult.Status)
   
   
@@ -137,8 +139,24 @@ An attachment represents any kind of data associated with a line in a
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
 | actionId | [string](#string) |  |  |
-| generatedExpressions | [GeneratedExpression](#io.cucumber.messages.GeneratedExpression) | repeated |  |
+| generatedExpressions | [CommandGenerateSnippet.GeneratedExpression](#io.cucumber.messages.CommandGenerateSnippet.GeneratedExpression) | repeated |  |
 | pickleStepArgument | [PickleStepArgument](#io.cucumber.messages.PickleStepArgument) |  |  |
+
+
+
+
+
+
+<a name="io.cucumber.messages.CommandGenerateSnippet.GeneratedExpression"></a>
+
+### CommandGenerateSnippet.GeneratedExpression
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| text | [string](#string) |  |  |
+| parameterTypeNames | [string](#string) | repeated |  |
 
 
 
@@ -235,9 +253,25 @@ An attachment represents any kind of data associated with a line in a
 | ----- | ---- | ----- | ----------- |
 | actionId | [string](#string) |  |  |
 | stepDefinitionId | [string](#string) |  |  |
-| patternMatches | [PatternMatch](#io.cucumber.messages.PatternMatch) | repeated |  |
+| patternMatches | [CommandRunTestStep.PatternMatch](#io.cucumber.messages.CommandRunTestStep.PatternMatch) | repeated |  |
 | pickleId | [string](#string) |  |  |
 | pickleStepArgument | [PickleStepArgument](#io.cucumber.messages.PickleStepArgument) |  |  |
+
+
+
+
+
+
+<a name="io.cucumber.messages.CommandRunTestStep.PatternMatch"></a>
+
+### CommandRunTestStep.PatternMatch
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| captures | [string](#string) | repeated |  |
+| parameterTypeName | [string](#string) |  |  |
 
 
 
@@ -247,15 +281,186 @@ An attachment represents any kind of data associated with a line in a
 <a name="io.cucumber.messages.CommandStart"></a>
 
 ### CommandStart
+This is the first message the front-end should send to the engine.
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| baseDirectory | [string](#string) |  | The absolute path of the current directory. Example: &#34;/Users/me/my-project&#34; |
+| sourcesConfig | [CommandStart.SourcesConfig](#io.cucumber.messages.CommandStart.SourcesConfig) |  | The feature files to execute |
+| runtimeConfig | [CommandStart.RuntimeConfig](#io.cucumber.messages.CommandStart.RuntimeConfig) |  |  |
+| supportCodeConfig | [CommandStart.SupportCodeConfig](#io.cucumber.messages.CommandStart.SupportCodeConfig) |  |  |
+
+
+
+
+
+
+<a name="io.cucumber.messages.CommandStart.ParameterTypeConfig"></a>
+
+### CommandStart.ParameterTypeConfig
 
 
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| baseDirectory | [string](#string) |  |  |
-| sourcesConfig | [SourcesConfig](#io.cucumber.messages.SourcesConfig) |  |  |
-| runtimeConfig | [RuntimeConfig](#io.cucumber.messages.RuntimeConfig) |  |  |
-| supportCodeConfig | [SupportCodeConfig](#io.cucumber.messages.SupportCodeConfig) |  |  |
+| name | [string](#string) |  |  |
+| regularExpressions | [string](#string) | repeated |  |
+| preferForRegularExpressionMatch | [bool](#bool) |  |  |
+| useForSnippets | [bool](#bool) |  |  |
+
+
+
+
+
+
+<a name="io.cucumber.messages.CommandStart.RuntimeConfig"></a>
+
+### CommandStart.RuntimeConfig
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| isFailFast | [bool](#bool) |  | Example: false |
+| isDryRun | [bool](#bool) |  | Example: false |
+| isStrict | [bool](#bool) |  | Example: true |
+| maxParallel | [uint64](#uint64) |  | Example: 1 |
+
+
+
+
+
+
+<a name="io.cucumber.messages.CommandStart.SourcesConfig"></a>
+
+### CommandStart.SourcesConfig
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| absolutePaths | [string](#string) | repeated | Example: &#34;/Users/me/my-project/features/foo.feature&#34; Example: &#34;/Users/me/my-project/features/bar.feature&#34; |
+| language | [string](#string) |  | The ISO-639 language code to use for parsing. This can also be specified as a `# language: en` header at the top of the source file. Example: &#34;en&#34; |
+| filters | [CommandStart.SourcesConfig.SourcesFilterConfig](#io.cucumber.messages.CommandStart.SourcesConfig.SourcesFilterConfig) |  |  |
+| order | [CommandStart.SourcesConfig.SourcesOrder](#io.cucumber.messages.CommandStart.SourcesConfig.SourcesOrder) |  |  |
+
+
+
+
+
+
+<a name="io.cucumber.messages.CommandStart.SourcesConfig.SourcesFilterConfig"></a>
+
+### CommandStart.SourcesConfig.SourcesFilterConfig
+Specifies how to filter feature files.
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| tagExpression | [string](#string) |  | An infix boolean expression of tags Example: &#34;@foo and not @bar&#34; |
+| nameRegularExpressions | [string](#string) | repeated | A regular expression for filtering based on scenario name |
+| uriToLinesMapping | [CommandStart.SourcesConfig.SourcesFilterConfig.UriToLinesMapping](#io.cucumber.messages.CommandStart.SourcesConfig.SourcesFilterConfig.UriToLinesMapping) | repeated |  |
+
+
+
+
+
+
+<a name="io.cucumber.messages.CommandStart.SourcesConfig.SourcesFilterConfig.UriToLinesMapping"></a>
+
+### CommandStart.SourcesConfig.SourcesFilterConfig.UriToLinesMapping
+Specifies line numbers in a particular file
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| absolutePath | [string](#string) |  | Example: &#34;/Users/me/my-project/features/hello.feature&#34; |
+| lines | [uint64](#uint64) | repeated | Example: 27 Example: 39 |
+
+
+
+
+
+
+<a name="io.cucumber.messages.CommandStart.SourcesConfig.SourcesOrder"></a>
+
+### CommandStart.SourcesConfig.SourcesOrder
+Specifies the order in which tests should be executed
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| type | [CommandStart.SourcesConfig.SourcesOrder.SourcesOrderType](#io.cucumber.messages.CommandStart.SourcesConfig.SourcesOrder.SourcesOrderType) |  | Example: 0 |
+| seed | [uint64](#uint64) |  | Random seed (in case of random ordering) Example: 129071284 |
+
+
+
+
+
+
+<a name="io.cucumber.messages.CommandStart.SupportCodeConfig"></a>
+
+### CommandStart.SupportCodeConfig
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| beforeTestCaseHookDefinitionConfigs | [CommandStart.SupportCodeConfig.TestCaseHookDefinitionConfig](#io.cucumber.messages.CommandStart.SupportCodeConfig.TestCaseHookDefinitionConfig) | repeated |  |
+| afterTestCaseHookDefinitionConfigs | [CommandStart.SupportCodeConfig.TestCaseHookDefinitionConfig](#io.cucumber.messages.CommandStart.SupportCodeConfig.TestCaseHookDefinitionConfig) | repeated |  |
+| stepDefinitionConfigs | [CommandStart.SupportCodeConfig.StepDefinitionConfig](#io.cucumber.messages.CommandStart.SupportCodeConfig.StepDefinitionConfig) | repeated |  |
+| parameterTypeConfigs | [CommandStart.ParameterTypeConfig](#io.cucumber.messages.CommandStart.ParameterTypeConfig) | repeated |  |
+
+
+
+
+
+
+<a name="io.cucumber.messages.CommandStart.SupportCodeConfig.StepDefinitionConfig"></a>
+
+### CommandStart.SupportCodeConfig.StepDefinitionConfig
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| id | [string](#string) |  |  |
+| pattern | [CommandStart.SupportCodeConfig.StepDefinitionConfig.StepDefinitionPattern](#io.cucumber.messages.CommandStart.SupportCodeConfig.StepDefinitionConfig.StepDefinitionPattern) |  |  |
+| location | [SourceReference](#io.cucumber.messages.SourceReference) |  |  |
+
+
+
+
+
+
+<a name="io.cucumber.messages.CommandStart.SupportCodeConfig.StepDefinitionConfig.StepDefinitionPattern"></a>
+
+### CommandStart.SupportCodeConfig.StepDefinitionConfig.StepDefinitionPattern
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| source | [string](#string) |  |  |
+| type | [CommandStart.SupportCodeConfig.StepDefinitionConfig.StepDefinitionPattern.StepDefinitionPatternType](#io.cucumber.messages.CommandStart.SupportCodeConfig.StepDefinitionConfig.StepDefinitionPattern.StepDefinitionPatternType) |  |  |
+
+
+
+
+
+
+<a name="io.cucumber.messages.CommandStart.SupportCodeConfig.TestCaseHookDefinitionConfig"></a>
+
+### CommandStart.SupportCodeConfig.TestCaseHookDefinitionConfig
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| id | [string](#string) |  |  |
+| tagExpression | [string](#string) |  |  |
+| location | [SourceReference](#io.cucumber.messages.SourceReference) |  |  |
 
 
 
@@ -296,22 +501,7 @@ messages.
 | commandRunAfterTestRunHooks | [CommandRunAfterTestRunHooks](#io.cucumber.messages.CommandRunAfterTestRunHooks) |  |  |
 | commandGenerateSnippet | [CommandGenerateSnippet](#io.cucumber.messages.CommandGenerateSnippet) |  |  |
 | commandError | [string](#string) |  |  |
-
-
-
-
-
-
-<a name="io.cucumber.messages.GeneratedExpression"></a>
-
-### GeneratedExpression
-
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| text | [string](#string) |  |  |
-| parameterTypeNames | [string](#string) | repeated |  |
+| quit | [Quit](#io.cucumber.messages.Quit) |  |  |
 
 
 
@@ -623,40 +813,6 @@ Meta information about encoded contents
 
 
 
-<a name="io.cucumber.messages.ParameterTypeConfig"></a>
-
-### ParameterTypeConfig
-
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| name | [string](#string) |  |  |
-| regularExpressions | [string](#string) | repeated |  |
-| preferForRegularExpressionMatch | [bool](#bool) |  |  |
-| useForSnippets | [bool](#bool) |  |  |
-
-
-
-
-
-
-<a name="io.cucumber.messages.PatternMatch"></a>
-
-### PatternMatch
-
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| captures | [string](#string) | repeated |  |
-| parameterTypeName | [string](#string) |  |  |
-
-
-
-
-
-
 <a name="io.cucumber.messages.Pickle"></a>
 
 ### Pickle
@@ -827,18 +983,15 @@ A wrapper for either a doc string or a table.
 
 
 
-<a name="io.cucumber.messages.RuntimeConfig"></a>
+<a name="io.cucumber.messages.Quit"></a>
 
-### RuntimeConfig
-
+### Quit
+Tells the other end that the connection should be closed.
 
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| isFailFast | [bool](#bool) |  |  |
-| isDryRun | [bool](#bool) |  |  |
-| isStrict | [bool](#bool) |  |  |
-| maxParallel | [uint64](#uint64) |  |  |
+| reason | [Quit.Reason](#io.cucumber.messages.Quit.Reason) |  | The reason for quitting. Example: 0 |
 
 
 
@@ -879,108 +1032,6 @@ Points to a [Source](#io.cucumber.messages.Source) identified by `uri` and a
 
 
 
-<a name="io.cucumber.messages.SourcesConfig"></a>
-
-### SourcesConfig
-
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| absolutePaths | [string](#string) | repeated |  |
-| language | [string](#string) |  |  |
-| filters | [SourcesFilterConfig](#io.cucumber.messages.SourcesFilterConfig) |  |  |
-| order | [SourcesOrder](#io.cucumber.messages.SourcesOrder) |  |  |
-
-
-
-
-
-
-<a name="io.cucumber.messages.SourcesFilterConfig"></a>
-
-### SourcesFilterConfig
-
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| tagExpression | [string](#string) |  |  |
-| nameRegularExpressions | [string](#string) | repeated |  |
-| uriToLinesMapping | [UriToLinesMapping](#io.cucumber.messages.UriToLinesMapping) | repeated |  |
-
-
-
-
-
-
-<a name="io.cucumber.messages.SourcesOrder"></a>
-
-### SourcesOrder
-
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| type | [SourcesOrderType](#io.cucumber.messages.SourcesOrderType) |  |  |
-| seed | [uint64](#uint64) |  |  |
-
-
-
-
-
-
-<a name="io.cucumber.messages.StepDefinitionConfig"></a>
-
-### StepDefinitionConfig
-
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| id | [string](#string) |  |  |
-| pattern | [StepDefinitionPattern](#io.cucumber.messages.StepDefinitionPattern) |  |  |
-| location | [SourceReference](#io.cucumber.messages.SourceReference) |  |  |
-
-
-
-
-
-
-<a name="io.cucumber.messages.StepDefinitionPattern"></a>
-
-### StepDefinitionPattern
-
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| source | [string](#string) |  |  |
-| type | [StepDefinitionPatternType](#io.cucumber.messages.StepDefinitionPatternType) |  |  |
-
-
-
-
-
-
-<a name="io.cucumber.messages.SupportCodeConfig"></a>
-
-### SupportCodeConfig
-
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| beforeTestCaseHookDefinitionConfigs | [TestCaseHookDefinitionConfig](#io.cucumber.messages.TestCaseHookDefinitionConfig) | repeated |  |
-| afterTestCaseHookDefinitionConfigs | [TestCaseHookDefinitionConfig](#io.cucumber.messages.TestCaseHookDefinitionConfig) | repeated |  |
-| stepDefinitionConfigs | [StepDefinitionConfig](#io.cucumber.messages.StepDefinitionConfig) | repeated |  |
-| parameterTypeConfigs | [ParameterTypeConfig](#io.cucumber.messages.ParameterTypeConfig) | repeated |  |
-
-
-
-
-
-
 <a name="io.cucumber.messages.TestCaseFinished"></a>
 
 ### TestCaseFinished
@@ -992,23 +1043,6 @@ Points to a [Source](#io.cucumber.messages.Source) identified by `uri` and a
 | pickleId | [string](#string) |  |  |
 | timestamp | [google.protobuf.Timestamp](#google.protobuf.Timestamp) |  |  |
 | testResult | [TestResult](#io.cucumber.messages.TestResult) |  |  |
-
-
-
-
-
-
-<a name="io.cucumber.messages.TestCaseHookDefinitionConfig"></a>
-
-### TestCaseHookDefinitionConfig
-
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| id | [string](#string) |  |  |
-| tagExpression | [string](#string) |  |  |
-| location | [SourceReference](#io.cucumber.messages.SourceReference) |  |  |
 
 
 
@@ -1196,23 +1230,31 @@ Points to a [Source](#io.cucumber.messages.Source) identified by `uri` and a
 
 
 
-
-<a name="io.cucumber.messages.UriToLinesMapping"></a>
-
-### UriToLinesMapping
-
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| absolutePath | [string](#string) |  |  |
-| lines | [uint64](#uint64) | repeated |  |
-
-
-
-
-
  
+
+
+<a name="io.cucumber.messages.CommandStart.SourcesConfig.SourcesOrder.SourcesOrderType"></a>
+
+### CommandStart.SourcesConfig.SourcesOrder.SourcesOrderType
+
+
+| Name | Number | Description |
+| ---- | ------ | ----------- |
+| ORDER_OF_DEFINITION | 0 | Execute in alphabetical order |
+| RANDOM | 1 | Execute in random order, using the specified seed |
+
+
+
+<a name="io.cucumber.messages.CommandStart.SupportCodeConfig.StepDefinitionConfig.StepDefinitionPattern.StepDefinitionPatternType"></a>
+
+### CommandStart.SupportCodeConfig.StepDefinitionConfig.StepDefinitionPattern.StepDefinitionPatternType
+
+
+| Name | Number | Description |
+| ---- | ------ | ----------- |
+| CUCUMBER_EXPRESSION | 0 |  |
+| REGULAR_EXPRESSION | 1 |  |
+
 
 
 <a name="io.cucumber.messages.Media.Encoding"></a>
@@ -1227,27 +1269,14 @@ Points to a [Source](#io.cucumber.messages.Source) identified by `uri` and a
 
 
 
-<a name="io.cucumber.messages.SourcesOrderType"></a>
+<a name="io.cucumber.messages.Quit.Reason"></a>
 
-### SourcesOrderType
-
-
-| Name | Number | Description |
-| ---- | ------ | ----------- |
-| ORDER_OF_DEFINITION | 0 |  |
-| RANDOM | 1 |  |
-
-
-
-<a name="io.cucumber.messages.StepDefinitionPatternType"></a>
-
-### StepDefinitionPatternType
-
+### Quit.Reason
+Loosely modelled after [WebSocket close codes](https://github.com/Luka967/websocket-close-codes)
 
 | Name | Number | Description |
 | ---- | ------ | ----------- |
-| CUCUMBER_EXPRESSION | 0 |  |
-| REGULAR_EXPRESSION | 1 |  |
+| FINISH_PLEASE | 0 | Tells the other end that I&#39;m going away, but I will wait for it to finish its business, reject further messages and gracefully close the connection. |
 
 
 

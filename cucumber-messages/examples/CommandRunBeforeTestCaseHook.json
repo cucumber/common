@@ -1,0 +1,7 @@
+{
+  "commandRunBeforeTestCaseHook": {
+    "actionId": null,
+    "testCaseHookDefinitionId": null,
+    "pickleId": null
+  }
+}

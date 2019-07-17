@@ -10,7 +10,7 @@
   "scripts": {
     "test": "mocha",
     "lint": "tslint src/**/*.ts test/**/*.ts --exclude src/cucumber-messages.d.ts --exclude dist/src/cucumber-messages.d.ts",
-    "lint-fix": "tslint --fix src/**/*.ts test/**/*.ts --exclude src/cucumber-messages.d.ts --exclude dist/src/cucumber-messages.d.ts",
+    "lint-fix": "tslint --fix src/index.ts src/ProtobufMessageStream.ts test/**/*.ts",
     "coverage": "nyc --reporter=html --reporter=text mocha",
     "pbjs": "pbjs --target static-module --wrap commonjs messages.proto --out src/cucumber-messages.js",
     "pbts": "pbts src/cucumber-messages.js > src/cucumber-messages.d.ts",

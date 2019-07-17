@@ -1,0 +1,38 @@
+{
+  "commandGenerateSnippet": {
+    "actionId": null,
+    "generatedExpressions": [
+      {
+        "text": null,
+        "parameterTypeNames": [
+
+        ]
+      }
+    ],
+    "pickleStepArgument": {
+      "doc_string": {
+        "location": {
+          "line": null,
+          "column": null
+        },
+        "contentType": null,
+        "content": null
+      },
+      "data_table": {
+        "rows": [
+          {
+            "cells": [
+              {
+                "location": {
+                  "line": null,
+                  "column": null
+                },
+                "value": null
+              }
+            ]
+          }
+        ]
+      }
+    }
+  }
+}
