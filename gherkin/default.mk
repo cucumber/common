@@ -2,7 +2,6 @@
 #
 #     source scripts/functions.sh && rsync_files
 #
-MAKEFILES = $(wildcard */Makefile)
 LIBNAME = $(shell basename $$(pwd))
 
 default: $(patsubst %/Makefile,default-%,$(MAKEFILES))

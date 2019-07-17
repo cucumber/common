@@ -58,10 +58,13 @@ RUN addgroup --gid "$GID" "$USER" \
 RUN echo "gem: --no-document" > ~/.gemrc
 RUN gem install bundler io-console
 RUN chown -R cukebot:cukebot /usr/lib/ruby
+RUN chown -R cukebot:cukebot /usr/bin
 
 # Configure Python
 RUN pip install pipenv
 RUN pip install twine
+RUN chown -R cukebot:cukebot /usr/lib/python2.7/site-packages
+RUN mkdir -p /usr/man && chown -R cukebot:cukebot /usr/man
 
 # Fix Protobuf - the apk package doesn't include google/protobuf/timestamp.proto
 RUN mkdir -p mkdir -p /usr/local/include/google/protobuf
