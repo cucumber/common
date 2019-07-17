@@ -17,7 +17,7 @@ HEADER=$(cat <<EOF
 EOF
 )
 
-if [[ $(cat CHANGELOG.md) = \#\#\ \[Unreleased\] ]]; then
+if [[ $(cat CHANGELOG.md) =~ \#\#\ \[Unreleased\] ]]; then
   echo "Unreleased header found, skipping"
 else
   HEADER_ESCAPED=${HEADER//$'\n'/\\$'\n'}
