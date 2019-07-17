@@ -31,6 +31,5 @@ examples/%.bin: examples/%.json
 clean: clean-docs
 
 clean-docs:
-	cd $< && make clean
-	rm -f examples messages.md .examples
+	rm -rf examples messages.md .examples
 .PHONY: clean-docs
