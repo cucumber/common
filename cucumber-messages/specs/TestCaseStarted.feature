@@ -23,7 +23,7 @@ Feature: Sending TestCaseStarted Messages
 
     Scenario Outline: Cucumber implementation and version is included in the message
 
-        Given the cucumber implementation is <implementation> in version <Version>
+        Given the cucumber implementation is '<implementation>' in version '<Version>'
         When the test suite is executed
         Then a TestCaseStarted message has been sent with the following platform information
           | Attribute      | Value              |
