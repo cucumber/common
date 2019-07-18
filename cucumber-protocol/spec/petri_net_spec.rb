@@ -28,12 +28,32 @@ describe PetriNet do
     before do
       @pn = PetriNet.from_pnml(IO.read(File.dirname(__FILE__) + '/../src/cucumber-protocol.xml'))
     end
-    
-    it 'allows "load stepdefs"' do
+
+    it 'only allows "load stepdefs" once' do
       @pn.fire("load stepdefs".to_sym)
       expect do
         @pn.fire("load stepdefs".to_sym)
       end.to raise_error('Cannot fire: load stepdefs')
+    end
+    
+    it 'allows execution of 5 with 2 executors' do
+      @pn.fire("load pickle".to_sym)
+      @pn.fire("load pickle".to_sym)
+      @pn.fire("load pickle".to_sym)
+      @pn.fire("load pickle".to_sym)
+      @pn.fire("load pickle".to_sym)
+      @pn.fire("load stepdefs".to_sym)
+      @pn.fire("1 match".to_sym)
+      @pn.fire("0 matches".to_sym) # TODO: Fails here. Bug in Petri Net definition!
+      @pn.fire("2+ matches".to_sym)
+      @pn.fire("1 match".to_sym)
+      @pn.fire("1 match".to_sym)
+      @pn.fire("execute".to_sym)
+      @pn.fire("execute".to_sym)
+      @pn.fire("no errors".to_sym)
+      @pn.fire("execute".to_sym)
+      @pn.fire("no errors".to_sym)
+      @pn.fire("no errors".to_sym)
     end
   end
 end
