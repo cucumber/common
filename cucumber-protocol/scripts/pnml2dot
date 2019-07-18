@@ -28,8 +28,8 @@ digraph :PetriNet do
     end
   end
 
-  doc.xpath('//transition').each do |place|
-    id = place[:id]
+  doc.xpath('//transition').each do |transition|
+    id = transition[:id]
     subgraph "cluster_transition_#{id.to_sym}" do
       graph[label: id, labeljust: 'l', labelloc: 'c']
       node[shape: 'box', fillcolor: 'black', style: "solid, filled", height: 0.1, width: 0.5]

@@ -1,11 +1,57 @@
 # A very simple Petri Net simulator that validates whether or
 # not a sequence of transitions can be fired.
 #
+require 'nokogiri'
+
 class PetriNet
   def self.build(&proc)
     builder = Builder.new
     builder.instance_exec(&proc)
     builder.net
+  end
+
+  def self.from_pnml(xml)
+    doc = Nokogiri::XML(xml)
+    
+    transitions = Hash.new {|h, k| h[k] = {in: Set.new, out: Set.new}}
+    markings = Hash.new
+    
+    doc.xpath('//place').each do |place|
+      place_name = place[:id].to_sym
+      initial_marking = place.xpath('initialMarking/value/text()')[0].text.split(',')[1].to_i
+      markings[place_name] = initial_marking
+    end
+
+    doc.xpath('//transition').each do |transition|
+      transition_name = transition[:id].to_sym
+      transitions[transition_name]
+    end
+
+    doc.xpath('//arc').each do |arc|
+      source_name = arc[:source].to_sym
+      target_name = arc[:target].to_sym
+      
+      if transitions.has_key?(source_name)
+        transition_name = source_name
+        place_name = target_name
+        transitions[transition_name][:out] << place_name
+      elsif transitions.has_key?(target_name)
+        transition_name = target_name
+        place_name = source_name
+        transitions[transition_name][:in] << place_name
+      else
+        raise "Unknown transition name in one of: #{source_name} -> #{target_name}"
+      end
+    end
+    
+    self.build do
+      transitions.each do |transition_name, places|
+        transition(transition_name, in: places[:in].to_a, out: places[:out].to_a)
+      end
+      markings.each do |place_name, initial_marking|
+        token(place_name, initial_marking)
+      end
+    end
   end
 
   def initialize(transitions)
@@ -14,6 +60,7 @@ class PetriNet
 
   def fire(transition_name)
     transition = @transitions[transition_name]
+    raise "No such transition: #{transition_name}" unless transition
     transition.fire
   end
 
@@ -37,7 +84,7 @@ class PetriNet
     def check
       @ins.each do |place|
         if place.tokens < 1
-          raise "Cannot fire #{@name}"
+          raise "Cannot fire: #{@name}"
         end
       end
     end
