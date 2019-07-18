@@ -10,10 +10,10 @@ Gemfile.lock: Gemfile
 pngs: $(patsubst %.xml,%.png,$(PNML_FILES))
 .PHONY: pngs
 
-%.dot: %.xml Gemfile.lock
+%.dot: %.xml Gemfile.lock scripts/pnml2dot
 	cat $< | scripts/pnml2dot > $@
 
-%.svg: %.dot Gemfile.lock
+%.svg: %.dot Gemfile.lock scripts/petri-places
 	dot -T svg $< -o $@.tmp.svg
 	cat $@.tmp.svg | scripts/petri-places > $@
 	rm $@.tmp.svg
