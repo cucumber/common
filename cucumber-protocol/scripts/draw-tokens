@@ -1,7 +1,7 @@
 #!/usr/bin/env ruby
 #
 # This script reads an SVG from STDIN and replaces each <text> node
-# with one or more <circle> nodes to represent places in a Petri net.
+# with one or more <circle> nodes to represent tokens in a Petri net.
 # The result is written to STDOUT.
 #
 require 'nokogiri'

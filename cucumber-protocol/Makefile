@@ -13,9 +13,9 @@ pngs: $(patsubst %.xml,%.png,$(PNML_FILES))
 %.dot: %.xml Gemfile.lock scripts/pnml2dot
 	cat $< | scripts/pnml2dot > $@
 
-%.svg: %.dot Gemfile.lock scripts/petri-places
+%.svg: %.dot Gemfile.lock scripts/draw-tokens
 	dot -T svg $< -o $@.tmp.svg
-	cat $@.tmp.svg | scripts/petri-places > $@
+	cat $@.tmp.svg | scripts/draw-tokens > $@
 	rm $@.tmp.svg
 
 %.png: %.svg
