@@ -1,7 +1,11 @@
 SHELL := /usr/bin/env bash
 PNML_FILES=$(wildcard src/*.xml)
 
-default: pngs
+default: .rspec pngs
+
+.rspec: lib/petri_net.rb spec/petri_net_spec.rb
+	bundle exec rspec
+	touch $@
 
 Gemfile.lock: Gemfile
 	bundle install
@@ -22,5 +26,5 @@ pngs: $(patsubst %.xml,%.png,$(PNML_FILES))
 	cairosvg --output-width 800 --output $@ $<
 
 clean:
-	rm -f src/*.{dot,svg,png}
+	rm -f src/*.{dot,svg,png} .rspec
 .PHONY: clean
