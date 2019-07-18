@@ -2,12 +2,12 @@
 
 # Ensure pom.xml is here
 if [ ! -f "java/pom.xml" ]; then
-  echo "No pom.xml found in java directory"
+  echo "No java/pom.xml found"
   exit 0
 fi
 
 # Finding current version in Changelog is way simpler, as there may be multiple <version> nodes in pom.xml
-# Also extracting version from maven itself is
+# Also extracting version with maven itself is a bit tedious
 if [[ $(cat "CHANGELOG.md") =~ \[([0-9]+).([0-9]+).([0-9]+)\] ]]; then
   MAJOR="${BASH_REMATCH[1]}"
   MINOR="${BASH_REMATCH[2]}"

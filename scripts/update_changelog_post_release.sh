@@ -28,20 +28,18 @@ fi
 # Find new version number
 RELEASE_HEADER_LINE="$(grep -n "<!-- Releases -->" CHANGELOG.md | head -n 1 | cut -d: -f1)"
 INSERTION_LINE=$((RELEASE_HEADER_LINE + 1))
-CURRENT_GIT_DIFF=$(head -n $INSERTION_LINE CHANGELOG.md | tail -1)
+CURRENT_GITHUB_DIFF_LINK=$(head -n $INSERTION_LINE CHANGELOG.md | tail -1)
 LIB_NAME=$(basename $(pwd))
 
 #Add new diff at the end of the file
-if [[ $CURRENT_GIT_DIFF =~ \[([0-9]+.[0-9]+.[0-9]+)\] ]]; then
+if [[ $CURRENT_GITHUB_DIFF_LINK =~ \[([0-9]+.[0-9]+.[0-9]+)\] ]]; then
   CURRENT_VERSION="${BASH_REMATCH[1]}"
-  NEW_GIT_DIFF=$(echo $CURRENT_GIT_DIFF | \
+  NEW_GITHUB_DIFF_LINK=$(echo $CURRENT_GITHUB_DIFF_LINK | \
     sed "s/$CURRENT_VERSION/Unreleased/" | \
     sed "s/$LIB_NAME\/v$CURRENT_VERSION/master/" | \
     sed "s/$LIB_NAME\/v[0-9]\+.[0-9]\+.[0-9]\+/$LIB_NAME\/v$CURRENT_VERSION/"
   )
-
-  echo "Adding new git diff: $NEW_GIT_DIFF"
-  sed -i "${INSERTION_LINE} i ${NEW_GIT_DIFF}" CHANGELOG.md
+  sed -i "${INSERTION_LINE} i ${NEW_GITHUB_DIFF_LINK}" CHANGELOG.md
 else
  echo "No current version found in $(head -n $INSERTION_LINE CHANGELOG.md | tail -1)"
 fi
