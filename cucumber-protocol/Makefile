@@ -14,4 +14,4 @@ pngs: $(patsubst %.xml,%.png,$(PNML_FILES))
 	rm $@.tmp
 
 %.png: %.svg
-	rsvg-convert --keep-aspect-ratio --width 800 --format png --output $@ $<
+	cairosvg --output-width 800 --output $@ $< 
