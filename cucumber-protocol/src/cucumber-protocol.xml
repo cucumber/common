@@ -199,7 +199,7 @@
                 <graphics>
                     <offset x="0.0" y="0.0"/>
                 </graphics>
-                <value>Default,1</value>
+                <value>Default,2</value>
             </initialMarking>
         </place>
         <place id="defined">
@@ -577,7 +577,7 @@
         </arc>
         <arc id="signal pending TO pending" source="signal pending" target="pending">
             <arcpath id="" x="673.0" y="823.0" curvePoint="false"/>
-            <arcpath id="" x="623.0" y="781.0" curvePoint="false"/>
+            <arcpath id="" x="622.0" y="782.0" curvePoint="false"/>
             <type value="normal"/>
             <inscription>
                 <value>Default,1</value>
@@ -592,8 +592,8 @@
             </inscription>
         </arc>
         <arc id="throw error TO failed" source="throw error" target="failed">
-            <arcpath id="" x="669.0" y="724.0" curvePoint="false"/>
-            <arcpath id="" x="620.0" y="671.0" curvePoint="false"/>
+            <arcpath id="" x="674.0" y="709.0" curvePoint="false"/>
+            <arcpath id="" x="621.0" y="671.0" curvePoint="false"/>
             <type value="normal"/>
             <inscription>
                 <value>Default,1</value>
@@ -658,7 +658,7 @@
             </inscription>
         </arc>
         <arc id="executing TO pending" source="executing" target="signal pending">
-            <arcpath id="" x="804.0" y="596.0" curvePoint="false"/>
+            <arcpath id="" x="805.0" y="596.0" curvePoint="false"/>
             <arcpath id="" x="673.0" y="823.0" curvePoint="false"/>
             <type value="normal"/>
             <inscription>

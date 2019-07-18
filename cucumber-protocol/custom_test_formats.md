@@ -44,7 +44,7 @@ The reporter could combine the original Markdown document with the test results 
 
 The advantage of this approach is that the annotated copy can be rendered by any Markdown processor. 
 
-The disadvantage is that Markdown offers no support for colours, so it wouldn't be easy to see "coloured" results. It would also be difficult to show/hide details (such as stack traces).
+The disadvantage is that Markdown offers limited support for styling and interaction.
 
 ### Render overlay
 

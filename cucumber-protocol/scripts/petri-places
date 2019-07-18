@@ -1,0 +1,54 @@
+#!/usr/bin/env ruby
+#
+# This script reads an SVG from STDIN and replaces each <text> node
+# with one or more <circle> nodes to represent places in a Petri net.
+# The result is written to STDOUT.
+#
+require 'nokogiri'
+
+def rad(y)
+  y % 360 * Math::PI / 180
+end
+
+# place radius (outer)
+pr = 6
+# place radius (inner = with padding)
+pri = pr * 0.8
+
+doc = Nokogiri::XML(STDIN.read)
+texts = doc.search('text')
+texts.each do |text|
+  circle = (text.parent.search('ellipse') || text.parent.search('circle'))[0]
+  if circle
+    cx = circle[:cx].to_i
+    cy = circle[:cy].to_i
+    if text.text == '1'
+      text.add_next_sibling %Q{<circle fill="#000000" stroke="none" cx="#{cx}" cy="#{cy}" r="#{pri}" />}
+    end
+    if text.text == '2'
+      text.add_next_sibling %Q{<circle fill="#000000" stroke="none" cx="#{cx-pr}" cy="#{cy}" r="#{pri}" />}
+      text.add_next_sibling %Q{<circle fill="#000000" stroke="none" cx="#{cx+pr}" cy="#{cy}" r="#{pri}" />}
+    end
+    if text.text == '3'
+      fx_bot = 1
+      fy_bot = Math.tan(rad(30))
+      fx_top = 0
+      fy_top = 1 / Math.cos(rad(30))
+
+      text.add_next_sibling %Q{<circle fill="#000000" stroke="none" cx="#{cx + fx_top*pr}" cy="#{cy - fy_top*pr}" r="#{pri}" />}
+      text.add_next_sibling %Q{<circle fill="#000000" stroke="none" cx="#{cx - fx_bot*pr}" cy="#{cy + fy_bot*pr}" r="#{pri}" />}
+      text.add_next_sibling %Q{<circle fill="#000000" stroke="none" cx="#{cx + fx_bot*pr}" cy="#{cy + fy_bot*pr}" r="#{pri}" />}
+    end
+    if text.text == '4'
+      fx_bot = fy_bot = fx_top = fy_top = 1
+
+      text.add_next_sibling %Q{<circle fill="#000000" stroke="none" cx="#{cx - fx_top*pr}" cy="#{cy - fy_top*pr}" r="#{pri}" />}
+      text.add_next_sibling %Q{<circle fill="#000000" stroke="none" cx="#{cx + fx_top*pr}" cy="#{cy - fy_top*pr}" r="#{pri}" />}
+      text.add_next_sibling %Q{<circle fill="#000000" stroke="none" cx="#{cx - fx_bot*pr}" cy="#{cy + fy_bot*pr}" r="#{pri}" />}
+      text.add_next_sibling %Q{<circle fill="#000000" stroke="none" cx="#{cx + fx_bot*pr}" cy="#{cy + fy_bot*pr}" r="#{pri}" />}
+    end
+    text.remove
+  end
+end
+
+puts doc.to_xml

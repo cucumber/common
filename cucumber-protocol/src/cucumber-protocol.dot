@@ -1,0 +1,381 @@
+digraph PetriNet {
+	graph [bb="0,0,854.72,331",
+		bgcolor=white,
+		labeljust=l,
+		labelloc=t,
+		nodesep=0.5,
+		penwidth=0,
+		ranksep=0.5,
+		style=filled
+	];
+	node [label="\N"];
+	subgraph "cluster_place_unexecuted pickles" {
+		graph [bb="428.72,196,550.72,270",
+			label="unexecuted pickles",
+			lheight=0.19,
+			lp="490.17,259",
+			lwidth=1.48
+		];
+		node [shape=circle];
+		"node_unexecuted pickles"		 [height=0.5,
+			label=0,
+			pos="514.72,222",
+			width=0.75];
+	}
+	subgraph "cluster_place_ready to load stepdefs" {
+		graph [bb="565.72,196,703.72,270",
+			label="ready to load stepdefs",
+			lheight=0.19,
+			lp="634.95,259",
+			lwidth=1.70
+		];
+		node [shape=circle];
+		"node_ready to load stepdefs"		 [height=0.5,
+			label=1,
+			pos="661.72,222",
+			width=0.75];
+	}
+	subgraph cluster_place_pending {
+		graph [bb="283.72,61,353.72,135",
+			label=pending,
+			lheight=0.19,
+			lp="314.27,124",
+			lwidth=0.63
+		];
+		node [shape=circle];
+		node_pending		 [height=0.5,
+			label=0,
+			pos="318.72,87",
+			width=0.75];
+	}
+	subgraph "cluster_place_stepdefs loaded" {
+		graph [bb="541.72,61,643.72,135",
+			label="stepdefs loaded",
+			lheight=0.19,
+			lp="593.06,124",
+			lwidth=1.20
+		];
+		node [shape=circle];
+		"node_stepdefs loaded"		 [height=0.5,
+			label=0,
+			pos="588.72,87",
+			width=0.75];
+	}
+	subgraph cluster_place_executing {
+		graph [bb="67.716,196,137.72,270",
+			label=executing,
+			lheight=0.19,
+			lp="102.93,259",
+			lwidth=0.76
+		];
+		node [shape=circle];
+		node_executing		 [height=0.5,
+			label=0,
+			pos="102.72,222",
+			width=0.75];
+	}
+	subgraph cluster_place_passed {
+		graph [bb="193.72,61,263.72,135",
+			label=passed,
+			lheight=0.19,
+			lp="220.38,124",
+			lwidth=0.52
+		];
+		node [shape=circle];
+		node_passed		 [height=0.5,
+			label=0,
+			pos="228.72,87",
+			width=0.75];
+	}
+	subgraph cluster_place_failed {
+		graph [bb="13.716,61,83.716,135",
+			label=failed,
+			lheight=0.19,
+			lp="37.651,124",
+			lwidth=0.44
+		];
+		node [shape=circle];
+		node_failed		 [height=0.5,
+			label=0,
+			pos="48.716,87",
+			width=0.75];
+	}
+	subgraph cluster_place_ambiguous {
+		graph [bb="651.72,61,728.72,135",
+			label=ambiguous,
+			lheight=0.19,
+			lp="690.44,124",
+			lwidth=0.85
+		];
+		node [shape=circle];
+		node_ambiguous		 [height=0.5,
+			label=0,
+			pos="686.72,87",
+			width=0.75];
+	}
+	subgraph "cluster_place_ready to load pickles" {
+		graph [bb="714.72,196,846.72,270",
+			label="ready to load pickles",
+			lheight=0.19,
+			lp="780.84,259",
+			lwidth=1.61
+		];
+		node [shape=circle];
+		"node_ready to load pickles"		 [height=0.5,
+			label=1,
+			pos="751.72,222",
+			width=0.75];
+	}
+	subgraph "cluster_place_idle executors" {
+		graph [bb="91.716,61,185.72,135",
+			label="idle executors",
+			lheight=0.19,
+			lp="138.78,124",
+			lwidth=1.09
+		];
+		node [shape=circle];
+		"node_idle executors"		 [height=0.5,
+			label=2,
+			pos="138.72,87",
+			width=0.75];
+	}
+	subgraph cluster_place_defined {
+		graph [bb="373.72,61,443.72,135",
+			label=defined,
+			lheight=0.19,
+			lp="402.32,124",
+			lwidth=0.57
+		];
+		node [shape=circle];
+		node_defined		 [height=0.5,
+			label=0,
+			pos="408.72,87",
+			width=0.75];
+	}
+	subgraph cluster_place_undefined {
+		graph [bb="462.72,61,533.72,135",
+			label=undefined,
+			lheight=0.19,
+			lp="498.32,124",
+			lwidth=0.77
+		];
+		node [shape=circle];
+		node_undefined		 [height=0.5,
+			label=0,
+			pos="498.72,87",
+			width=0.75];
+	}
+	subgraph "cluster_transition_2+ matches" {
+		graph [bb="548.72,143,628.72,188",
+			label="2+ matches",
+			labeljust=l,
+			labelloc=c,
+			lheight=0.19,
+			lp="588.85,177",
+			lwidth=0.89
+		];
+		node [fillcolor=black,
+			height=0.1,
+			shape=box,
+			style="solid, filled",
+			width=0.5
+		];
+		"node_2+ matches"		 [height=0.097222,
+			label="",
+			pos="588.72,154.5",
+			width=0.5];
+	}
+	subgraph "cluster_transition_throw error" {
+		graph [bb="14.716,143,93.716,188",
+			label="throw error",
+			labeljust=l,
+			labelloc=c,
+			lheight=0.19,
+			lp="54.397,177",
+			lwidth=0.88
+		];
+		node [fillcolor=black,
+			height=0.1,
+			shape=box,
+			style="solid, filled",
+			width=0.5
+		];
+		"node_throw error"		 [height=0.097222,
+			label="",
+			pos="66.716,154.5",
+			width=0.5];
+	}
+	subgraph "cluster_transition_load pickle" {
+		graph [bb="594.72,278,671.72,323",
+			label="load pickle",
+			labeljust=l,
+			labelloc=c,
+			lheight=0.19,
+			lp="633.62,312",
+			lwidth=0.86
+		];
+		node [fillcolor=black,
+			height=0.1,
+			shape=box,
+			style="solid, filled",
+			width=0.5
+		];
+		"node_load pickle"		 [height=0.097222,
+			label="",
+			pos="632.72,289.5",
+			width=0.5];
+	}
+	subgraph "cluster_transition_signal pending" {
+		graph [bb="179.72,143,277.72,188",
+			label="signal pending",
+			labeljust=l,
+			labelloc=c,
+			lheight=0.19,
+			lp="228.74,177",
+			lwidth=1.14
+		];
+		node [fillcolor=black,
+			height=0.1,
+			shape=box,
+			style="solid, filled",
+			width=0.5
+		];
+		"node_signal pending"		 [height=0.097222,
+			label="",
+			pos="210.72,154.5",
+			width=0.5];
+	}
+	subgraph "cluster_transition_0 matches" {
+		graph [bb="468.72,143,540.72,188",
+			label="0 matches",
+			labeljust=l,
+			labelloc=c,
+			lheight=0.19,
+			lp="504.9,177",
+			lwidth=0.78
+		];
+		node [fillcolor=black,
+			height=0.1,
+			shape=box,
+			style="solid, filled",
+			width=0.5
+		];
+		"node_0 matches"		 [height=0.097222,
+			label="",
+			pos="514.72,154.5",
+			width=0.5];
+	}
+	subgraph "cluster_transition_load stepdefs" {
+		graph [bb="636.72,143,725.72,188",
+			label="load stepdefs",
+			labeljust=l,
+			labelloc=c,
+			lheight=0.19,
+			lp="681.46,177",
+			lwidth=1.02
+		];
+		node [fillcolor=black,
+			height=0.1,
+			shape=box,
+			style="solid, filled",
+			width=0.5
+		];
+		"node_load stepdefs"		 [height=0.097222,
+			label="",
+			pos="662.72,154.5",
+			width=0.5];
+	}
+	subgraph "cluster_transition_1 match" {
+		graph [bb="400.72,143,460.72,188",
+			label="1 match",
+			labeljust=l,
+			labelloc=c,
+			lheight=0.19,
+			lp="431.07,177",
+			lwidth=0.62
+		];
+		node [fillcolor=black,
+			height=0.1,
+			shape=box,
+			style="solid, filled",
+			width=0.5
+		];
+		"node_1 match"		 [height=0.097222,
+			label="",
+			pos="434.72,154.5",
+			width=0.5];
+	}
+	subgraph "cluster_transition_no errors" {
+		graph [bb="103.72,143,169.72,188",
+			label="no errors",
+			labeljust=l,
+			labelloc=c,
+			lheight=0.19,
+			lp="136.79,177",
+			lwidth=0.70
+		];
+		node [fillcolor=black,
+			height=0.1,
+			shape=box,
+			style="solid, filled",
+			width=0.5
+		];
+		"node_no errors"		 [height=0.097222,
+			label="",
+			pos="138.72,154.5",
+			width=0.5];
+	}
+	subgraph cluster_transition_execute {
+		graph [bb="109.72,8,167.72,53",
+			label=execute,
+			labeljust=l,
+			labelloc=c,
+			lheight=0.19,
+			lp="139.09,42",
+			lwidth=0.59
+		];
+		node [fillcolor=black,
+			height=0.1,
+			shape=box,
+			style="solid, filled",
+			width=0.5
+		];
+		node_execute		 [height=0.097222,
+			label="",
+			pos="138.72,19.5",
+			width=0.5];
+	}
+	"node_1 match" -> node_defined	 [pos="e,415.54,104.71 433.32,150.87 430.64,143.93 424.59,128.2 419.15,114.09"];
+	"node_1 match" -> "node_stepdefs loaded"	 [pos="e,567.57,98.789 426.04,151.29 427.21,148.59 434.71,144.89 441.72,143 477.5,133.34 491.37,151.17 524.72,135 538.09,128.52 549.65,\
+116.41 560.12,105.98"];
+	node_defined -> node_execute	 [pos="e,155.8,20.731 389.26,74.105 381.31,69.352 371.85,64.324 362.72,61 294.5,36.191 208.97,25.625 166.01,21.63"];
+	"node_throw error" -> "node_idle executors"	 [pos="e,124.82,102.76 71.693,151.13 77.068,147.41 85.791,141.14 92.716,135 101.36,127.34 110.27,118.34 117.92,110.21"];
+	"node_throw error" -> node_failed	 [pos="e,53.521,105.02 65.749,150.87 63.927,144.04 59.837,128.7 56.122,114.77"];
+	"node_idle executors" -> node_execute	 [pos="e,138.72,23.062 138.72,68.911 138.72,57.695 138.72,43.513 138.72,33.223"];
+	"node_stepdefs loaded" -> "node_1 match"	 [pos="e,449.93,152.56 591.98,105.2 586.23,115.8 574.43,128.35 560.72,135 527.37,151.17 513.5,133.34 477.72,143 472.2,144.49 466.38,147.1 \
+459.91,149.45"];
+	"node_stepdefs loaded" -> "node_0 matches"	 [pos="e,529.47,152.42 588.95,105.16 582.37,114.52 571.42,125.85 560.72,135 554.7,140.15 547.33,145.24 539.1,148.92"];
+	"node_stepdefs loaded" -> "node_2+ matches"	 [pos="e,595.24,150.87 600.45,103.22 603.06,114.98 602.78,130.67 599.6,141.59"];
+	node_execute -> node_executing	 [pos="e,76.988,216.46 124.36,21.775 92.826,27.094 19.167,41.397 4.7163,61 -2.0588,70.191 -1.0908,178.59 5.7163,188 13.208,198.36 42.693,\
+207.77 67.208,214.05"];
+	node_executing -> "node_throw error"	 [pos="e,68.681,158.18 93.632,204.97 87.386,193.26 79.225,177.95 73.534,167.28"];
+	node_executing -> "node_no errors"	 [pos="e,136.75,158.18 111.8,204.97 118.05,193.26 126.21,177.95 131.9,167.28"];
+	node_executing -> "node_signal pending"	 [pos="e,208.08,158.07 126.92,213.93 142.51,208.09 162.77,199.25 178.72,188 187.39,181.88 195.63,173.16 201.57,166.16"];
+	"node_0 matches" -> "node_stepdefs loaded"	 [pos="e,565.98,97.506 506.93,150.93 508.38,147.24 517.51,141.16 524.72,135 535.87,125.46 547.29,113.56 558.17,103.99"];
+	"node_0 matches" -> node_undefined	 [pos="e,502.99,105.02 513.86,150.87 512.24,144.04 508.6,128.7 505.3,114.77"];
+	"node_2+ matches" -> "node_stepdefs loaded"	 [pos="e,576.99,103.22 582.19,150.87 576.56,143.78 574.34,127.5 575.52,113.16"];
+	"node_2+ matches" -> node_ambiguous	 [pos="e,678.21,104.32 598.78,151.52 616.52,146.27 651.59,135.81 652.72,135 660.74,129.21 667.57,120.92 672.95,112.86"];
+	"node_load pickle" -> "node_unexecuted pickles"	 [pos="e,525.63,239.02 615.89,288.07 599.7,286.06 575.05,281.28 556.72,270 547.24,264.17 538.73,255.52 531.89,247.16"];
+	"node_load pickle" -> "node_ready to load pickles"	 [pos="e,731.07,234.15 639.18,286.18 654.76,282.51 684.81,276.26 694.72,270 705.89,262.94 715.33,251.57 724.13,241.67"];
+	"node_unexecuted pickles" -> "node_1 match"	 [pos="e,436.94,158.38 493.05,211.11 482.35,205.14 469.65,197.1 459.72,188 453.11,181.95 447.07,173.95 442.58,167.29"];
+	"node_unexecuted pickles" -> "node_0 matches"	 [pos="e,514.72,158.06 514.72,203.91 514.72,192.69 514.72,178.51 514.72,168.22"];
+	"node_unexecuted pickles" -> "node_2+ matches"	 [pos="e,584.95,157.93 530.77,207.35 544.87,194.5 565,176.13 577.45,164.78"];
+	"node_no errors" -> "node_idle executors"	 [pos="e,138.72,105.02 138.72,150.87 138.72,144.11 138.72,129 138.72,115.18"];
+	"node_no errors" -> node_passed	 [pos="e,220.13,104.22 147.39,151.32 153.82,148.98 162.8,145.74 170.72,143 181.34,139.32 185.69,141.7 194.72,135 202.67,129.1 209.47,120.79 \
+214.86,112.74"];
+	"node_signal pending" -> "node_idle executors"	 [pos="e,152.61,102.76 205.74,151.13 200.36,147.41 191.64,141.14 184.72,135 176.07,127.34 167.16,118.34 159.51,110.21"];
+	"node_signal pending" -> node_pending	 [pos="e,306.66,103.29 224.61,152.2 237.76,149.56 257.67,144.35 272.72,135 282.93,128.66 292.44,119.54 300.14,110.94"];
+	"node_ready to load pickles" -> "node_load pickle"	 [pos="e,649.81,288.25 756.89,240.02 752.39,250.28 742.51,262.54 730.72,270 720.04,276.75 686,283.47 660.02,286.99"];
+	"node_load stepdefs" -> "node_stepdefs loaded"	 [pos="e,604.9,101.76 658.74,150.87 650.17,143.06 629.41,124.12 612.7,108.88"];
+	"node_ready to load stepdefs" -> "node_load stepdefs"	 [pos="e,662.66,158.06 661.98,203.91 662.15,192.69 662.36,178.51 662.51,168.22"];
+}

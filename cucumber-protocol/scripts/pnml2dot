@@ -1,0 +1,43 @@
+#!/usr/bin/env ruby
+#
+# This script reads a PNML from STDIN and writes a GraphVIZ Dot file to STDOUT.
+#
+require 'nokogiri'
+require 'graphviz/dsl'
+
+g = GraphViz.new( :G, :type => :digraph )
+doc = Nokogiri::XML(STDIN.read)
+
+digraph :PetriNet do
+  #world[:label => "World"] << hello[:label => "Hello"]
+  graph[bgcolor: 'white', labeljust: 'l', labelloc: 't', nodesep: 0.5, penwidth: 0, ranksep: 0.5, style: 'filled']
+
+  doc.xpath('//arc').each do |arc|
+    source = arc[:source]
+    target = arc[:target]
+    
+    self.send("node_#{source}".to_sym) << self.send("node_#{target}".to_sym)
+  end
+
+  doc.xpath('//place').each do |place|
+    id = place[:id]
+    initial_marking = place.xpath('initialMarking/value/text()')[0].text.split(',')[1]
+    subgraph "cluster_place_#{id.to_sym}" do
+      graph[label: id]
+      node[shape: 'circle']
+      self.send("node_#{id}".to_sym)[label: initial_marking]
+    end
+  end
+
+  doc.xpath('//transition').each do |place|
+    id = place[:id]
+    subgraph "cluster_transition_#{id.to_sym}" do
+      graph[label: id, labeljust: 'l', labelloc: 'c']
+      node[shape: 'box', fillcolor: 'black', style: "solid, filled", height: 0.1, width: 0.5]
+      self.send("node_#{id}".to_sym)[label: '', height: 0.1, width: 0.5]
+    end
+  end
+
+  output :dot => nil # STDOUT
+  # output :png => 'pnml2dot.png'
+end
