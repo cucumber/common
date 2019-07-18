@@ -5,6 +5,7 @@ default: pngs
 
 Gemfile.lock: Gemfile
 	bundle install
+	touch $@
 
 pngs: $(patsubst %.xml,%.png,$(PNML_FILES))
 .PHONY: pngs
