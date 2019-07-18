@@ -9,7 +9,6 @@ g = GraphViz.new( :G, :type => :digraph )
 doc = Nokogiri::XML(STDIN.read)
 
 digraph :PetriNet do
-  #world[:label => "World"] << hello[:label => "Hello"]
   graph[bgcolor: 'white', labeljust: 'l', labelloc: 't', nodesep: 0.5, penwidth: 0, ranksep: 0.5, style: 'filled']
 
   doc.xpath('//arc').each do |arc|
@@ -39,5 +38,4 @@ digraph :PetriNet do
   end
 
   output :dot => nil # STDOUT
-  # output :png => 'pnml2dot.png'
 end
