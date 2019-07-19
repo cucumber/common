@@ -11,7 +11,7 @@ describe PetriNet do
         token(:vote, 1)
       end
     end
-    
+
     it "allows a transition" do
       @pn.fire(:yay)
     end
@@ -35,7 +35,7 @@ describe PetriNet do
         @pn.fire("load stepdefs")
       end.to raise_error('Cannot fire: load stepdefs')
     end
-    
+
     it 'allows execution of 5 with 2 executors' do
       @pn.fire("load pickle")
       @pn.fire("load pickle")
@@ -43,6 +43,7 @@ describe PetriNet do
       @pn.fire("load pickle")
       @pn.fire("load pickle")
       @pn.fire("load stepdefs")
+      @pn.fire("start matching")
       @pn.fire("1 match")
       @pn.fire("0 matches") # TODO: Fails here. Bug in Petri Net definition!
       @pn.fire("2+ matches")
@@ -59,6 +60,7 @@ describe PetriNet do
     it 'does not allow pickle loading after execution starts' do
       @pn.fire("load stepdefs")
       @pn.fire("load pickle")
+      @pn.fire("start matching")
       @pn.fire("1 match")
       @pn.fire("execute")
       expect do

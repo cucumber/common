@@ -12,13 +12,17 @@ class PetriNet
 
   def self.from_pnml(xml)
     doc = Nokogiri::XML(xml)
-    
+
     transitions = Hash.new {|h, k| h[k] = {in: Set.new, out: Set.new}}
     markings = Hash.new
-    
+
     doc.xpath('//place').each do |place|
       place_name = place[:id].to_sym
-      initial_marking = place.xpath('initialMarking/value/text()')[0].text.split(',')[1].to_i
+      initial_marking_nodes = place.xpath('initialMarking/value/text()')
+      if initial_marking_nodes.empty?
+        raise "Unable to find initialMarking for place #{place}"
+      end
+      initial_marking = initial_marking_nodes[0].text.split(',')[1].to_i
       markings[place_name] = initial_marking
     end
 
@@ -30,7 +34,7 @@ class PetriNet
     doc.xpath('//arc').each do |arc|
       source_name = arc[:source].to_sym
       target_name = arc[:target].to_sym
-      
+
       if transitions.has_key?(source_name)
         transition_name = source_name
         place_name = target_name
@@ -43,7 +47,7 @@ class PetriNet
         raise "Unknown transition name in one of: #{source_name} -> #{target_name}"
       end
     end
-    
+
     self.build do
       transitions.each do |transition_name, places|
         transition(transition_name, in: places[:in].to_a, out: places[:out].to_a)
@@ -68,7 +72,7 @@ class PetriNet
     def initialize(name, ins, outs)
       @name, @ins, @outs = name, ins, outs
     end
-    
+
     def fire
       check
       @ins.each do |place|
@@ -92,7 +96,7 @@ class PetriNet
 
   class Place
     attr_accessor :tokens
-    
+
     def initialize
       @tokens = 0
     end
@@ -104,7 +108,7 @@ class PetriNet
       @places = Hash.new {|h,k| h[k] = Place.new}
       @transitions = Hash.new
     end
-    
+
     def transition(transition_name, arcs)
       ins = [arcs[:in]].flatten.map do |place_name|
         @places[place_name]
@@ -119,7 +123,7 @@ class PetriNet
     def token(place_name, count)
       @places[place_name].tokens = count
     end
-    
+
     def net
       PetriNet.new(@transitions)
     end
