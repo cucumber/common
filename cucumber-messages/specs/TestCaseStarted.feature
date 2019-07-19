@@ -1,5 +1,8 @@
 Feature: Sending TestCaseStarted Messages
 
+    - Message is send before all BeforeScenario hooks
+    - Timestamp is in local time zone
+
     Scenario Outline: Starting test cases sends a message per test case
 
         Given there are '<NumberOfScenarios>' scenarios

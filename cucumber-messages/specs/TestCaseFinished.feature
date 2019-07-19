@@ -1,5 +1,9 @@
 Feature: Sending TestCaseFinished Messages
 
+    - Message is send after all AfterScenario hooks
+    - Timestamp is in local time zone
+    - The durationNanoseconds are the duration between timestamp of the TestCaseStarted and TestCaseFinished messages
+
     Scenario Outline: Ending test cases sends a message per test case
 
         Given there are <NumberOfScenarios> scenarios

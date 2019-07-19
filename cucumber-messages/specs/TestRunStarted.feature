@@ -1,5 +1,8 @@
 Feature: Sending TestRunStarted messages
 
+    - Message is send before all BeforeTestRun hooks
+    - Timestamp is in local time zone
+
     Scenario Outline: Starting test suite sends a message (independent of feature file exist)
 
         Given there are '<NumberOfFeatureFiles>' feature files
