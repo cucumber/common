@@ -2,7 +2,27 @@
 <pnml>
     <net>
         <token id="Default" red="0" green="0" blue="0"/>
-        <place id="ready to load stepdefs">
+        <place id="execution started">
+            <graphics>
+                <position x="426.0" y="402.0"/>
+            </graphics>
+            <name>
+                <value>P0</value>
+                <graphics>
+                    <offset x="-5.0" y="35.0"/>
+                </graphics>
+            </name>
+            <capacity>
+                <value>0</value>
+            </capacity>
+            <initialMarking>
+                <graphics>
+                    <offset x="0.0" y="0.0"/>
+                </graphics>
+                <value>Default,0</value>
+            </initialMarking>
+        </place>
+        <place id="loading step definitions">
             <graphics>
                 <position x="358.0" y="45.0"/>
             </graphics>
@@ -40,6 +60,26 @@
                     <offset x="0.0" y="0.0"/>
                 </graphics>
                 <value>Default,0</value>
+            </initialMarking>
+        </place>
+        <place id="ready to file feature files">
+            <graphics>
+                <position x="143.0" y="172.0"/>
+            </graphics>
+            <name>
+                <value>P0</value>
+                <graphics>
+                    <offset x="-5.0" y="35.0"/>
+                </graphics>
+            </name>
+            <capacity>
+                <value>0</value>
+            </capacity>
+            <initialMarking>
+                <graphics>
+                    <offset x="0.0" y="0.0"/>
+                </graphics>
+                <value>Default,1</value>
             </initialMarking>
         </place>
         <place id="executing">
@@ -142,26 +182,6 @@
                 <value>Default,0</value>
             </initialMarking>
         </place>
-        <place id="matching started">
-            <graphics>
-                <position x="426.0" y="402.0"/>
-            </graphics>
-            <name>
-                <value>P0</value>
-                <graphics>
-                    <offset x="-5.0" y="35.0"/>
-                </graphics>
-            </name>
-            <capacity>
-                <value>2</value>
-            </capacity>
-            <initialMarking>
-                <graphics>
-                    <offset x="0.0" y="0.0"/>
-                </graphics>
-                <value>Default,0</value>
-            </initialMarking>
-        </place>
         <place id="unexecuted pickles">
             <graphics>
                 <position x="823.0" y="182.0"/>
@@ -222,7 +242,7 @@
                 <value>Default,0</value>
             </initialMarking>
         </place>
-        <place id="ready to load pickles">
+        <place id="extracting pickles">
             <graphics>
                 <position x="436.0" y="145.0"/>
             </graphics>
@@ -239,7 +259,7 @@
                 <graphics>
                     <offset x="0.0" y="0.0"/>
                 </graphics>
-                <value>Default,1</value>
+                <value>Default,0</value>
             </initialMarking>
         </place>
         <place id="defined">
@@ -262,32 +282,6 @@
                 <value>Default,0</value>
             </initialMarking>
         </place>
-        <transition id="start matching">
-            <graphics>
-                <position x="381.0" y="288.0"/>
-            </graphics>
-            <name>
-                <value>T0</value>
-                <graphics>
-                    <offset x="-5.0" y="35.0"/>
-                </graphics>
-            </name>
-            <infiniteServer>
-                <value>false</value>
-            </infiniteServer>
-            <timed>
-                <value>false</value>
-            </timed>
-            <priority>
-                <value>1</value>
-            </priority>
-            <orientation>
-                <value>0</value>
-            </orientation>
-            <rate>
-                <value>1</value>
-            </rate>
-        </transition>
         <transition id="2+ matches">
             <graphics>
                 <position x="1011.0" y="289.0"/>
@@ -340,9 +334,61 @@
                 <value>1</value>
             </rate>
         </transition>
-        <transition id="load pickle">
+        <transition id="CommandStoreStepDefinition">
+            <graphics>
+                <position x="575.0" y="38.0"/>
+            </graphics>
+            <name>
+                <value>T0</value>
+                <graphics>
+                    <offset x="-5.0" y="35.0"/>
+                </graphics>
+            </name>
+            <infiniteServer>
+                <value>false</value>
+            </infiniteServer>
+            <timed>
+                <value>false</value>
+            </timed>
+            <priority>
+                <value>1</value>
+            </priority>
+            <orientation>
+                <value>0</value>
+            </orientation>
+            <rate>
+                <value>1</value>
+            </rate>
+        </transition>
+        <transition id="CommandStorePickle">
             <graphics>
                 <position x="609.0" y="144.0"/>
+            </graphics>
+            <name>
+                <value>T0</value>
+                <graphics>
+                    <offset x="-5.0" y="35.0"/>
+                </graphics>
+            </name>
+            <infiniteServer>
+                <value>false</value>
+            </infiniteServer>
+            <timed>
+                <value>false</value>
+            </timed>
+            <priority>
+                <value>1</value>
+            </priority>
+            <orientation>
+                <value>0</value>
+            </orientation>
+            <rate>
+                <value>1</value>
+            </rate>
+        </transition>
+        <transition id="CommandLoadFeatureFiles">
+            <graphics>
+                <position x="220.0" y="234.0"/>
             </graphics>
             <name>
                 <value>T0</value>
@@ -392,6 +438,32 @@
                 <value>1</value>
             </rate>
         </transition>
+        <transition id="CommandExecutePickles">
+            <graphics>
+                <position x="381.0" y="288.0"/>
+            </graphics>
+            <name>
+                <value>T0</value>
+                <graphics>
+                    <offset x="-5.0" y="35.0"/>
+                </graphics>
+            </name>
+            <infiniteServer>
+                <value>false</value>
+            </infiniteServer>
+            <timed>
+                <value>false</value>
+            </timed>
+            <priority>
+                <value>1</value>
+            </priority>
+            <orientation>
+                <value>0</value>
+            </orientation>
+            <rate>
+                <value>1</value>
+            </rate>
+        </transition>
         <transition id="0 matches">
             <graphics>
                 <position x="831.0" y="289.0"/>
@@ -413,32 +485,6 @@
             </priority>
             <orientation>
                 <value>90</value>
-            </orientation>
-            <rate>
-                <value>1</value>
-            </rate>
-        </transition>
-        <transition id="load stepdefs">
-            <graphics>
-                <position x="575.0" y="38.0"/>
-            </graphics>
-            <name>
-                <value>T0</value>
-                <graphics>
-                    <offset x="-5.0" y="35.0"/>
-                </graphics>
-            </name>
-            <infiniteServer>
-                <value>false</value>
-            </infiniteServer>
-            <timed>
-                <value>false</value>
-            </timed>
-            <priority>
-                <value>1</value>
-            </priority>
-            <orientation>
-                <value>0</value>
             </orientation>
             <rate>
                 <value>1</value>
@@ -522,7 +568,7 @@
                 <value>1</value>
             </rate>
         </transition>
-        <arc id="1 match TO matching started" source="1 match" target="matching started">
+        <arc id="1 match TO matching started" source="1 match" target="execution started">
             <arcpath id="" x="631.0" y="302.0" curvePoint="false"/>
             <arcpath id="" x="454.0" y="410.0" curvePoint="false"/>
             <type value="normal"/>
@@ -538,7 +584,7 @@
                 <value>Default,1</value>
             </inscription>
         </arc>
-        <arc id="2+ matches TO matching started" source="2+ matches" target="matching started">
+        <arc id="2+ matches TO matching started" source="2+ matches" target="execution started">
             <arcpath id="" x="1001.0" y="304.0" curvePoint="false"/>
             <arcpath id="" x="456.0" y="414.0" curvePoint="false"/>
             <type value="normal"/>
@@ -554,7 +600,7 @@
                 <value>Default,1</value>
             </inscription>
         </arc>
-        <arc id="0 matches TO matching started" source="0 matches" target="matching started">
+        <arc id="0 matches TO matching started" source="0 matches" target="execution started">
             <arcpath id="" x="821.0" y="304.0" curvePoint="false"/>
             <arcpath id="" x="455.0" y="413.0" curvePoint="false"/>
             <type value="normal"/>
@@ -562,7 +608,7 @@
                 <value>Default,1</value>
             </inscription>
         </arc>
-        <arc id="start matching TO matching started" source="start matching" target="matching started">
+        <arc id="start matching TO matching started" source="CommandExecutePickles" target="execution started">
             <arcpath id="" x="386.0" y="318.0" curvePoint="false"/>
             <arcpath id="" x="434.0" y="403.0" curvePoint="false"/>
             <type value="normal"/>
@@ -573,6 +619,14 @@
         <arc id="1 match TO stepdefs loaded" source="1 match" target="stepdefs loaded">
             <arcpath id="" x="646.0" y="297.0" curvePoint="false"/>
             <arcpath id="" x="830.0" y="78.0" curvePoint="false"/>
+            <type value="normal"/>
+            <inscription>
+                <value>Default,1</value>
+            </inscription>
+        </arc>
+        <arc id="CommandLoadFeatureFiles TO ready to load pickles" source="CommandLoadFeatureFiles" target="extracting pickles">
+            <arcpath id="" x="230.0" y="249.0" curvePoint="false"/>
+            <arcpath id="" x="437.0" y="165.0" curvePoint="false"/>
             <type value="normal"/>
             <inscription>
                 <value>Default,1</value>
@@ -604,7 +658,7 @@
                 <value>Default,1</value>
             </inscription>
         </arc>
-        <arc id="load pickle TO unexecuted pickles" source="load pickle" target="unexecuted pickles">
+        <arc id="load pickle TO unexecuted pickles" source="CommandStorePickle" target="unexecuted pickles">
             <arcpath id="" x="619.0" y="159.0" curvePoint="false"/>
             <arcpath id="" x="823.0" y="194.0" curvePoint="false"/>
             <type value="normal"/>
@@ -628,7 +682,7 @@
                 <value>Default,1</value>
             </inscription>
         </arc>
-        <arc id="load pickle TO P1" source="load pickle" target="ready to load pickles">
+        <arc id="load pickle TO P1" source="CommandStorePickle" target="extracting pickles">
             <arcpath id="" x="609.0" y="159.0" curvePoint="false"/>
             <arcpath id="" x="537.0" y="124.0" curvePoint="false"/>
             <arcpath id="" x="465.0" y="154.0" curvePoint="false"/>
@@ -645,7 +699,15 @@
                 <value>Default,1</value>
             </inscription>
         </arc>
-        <arc id="load glue TO stepdefs loaded" source="load stepdefs" target="stepdefs loaded">
+        <arc id="CommandStoreStepDefinition TO ready to load stepdefs" source="CommandStoreStepDefinition" target="loading step definitions">
+            <arcpath id="" x="575.0" y="53.0" curvePoint="false"/>
+            <arcpath id="" x="388.0" y="59.0" curvePoint="false"/>
+            <type value="normal"/>
+            <inscription>
+                <value>Default,1</value>
+            </inscription>
+        </arc>
+        <arc id="load glue TO stepdefs loaded" source="CommandStoreStepDefinition" target="stepdefs loaded">
             <arcpath id="" x="585.0" y="53.0" curvePoint="false"/>
             <arcpath id="" x="824.0" y="65.0" curvePoint="false"/>
             <type value="normal"/>
@@ -685,16 +747,9 @@
                 <value>Default,1</value>
             </inscription>
         </arc>
-        <arc id="start matching TO unexecuted pickles" source="start matching" target="unexecuted pickles">
-            <arcpath id="" x="391.0" y="303.0" curvePoint="false"/>
-            <arcpath id="" x="823.0" y="200.0" curvePoint="false"/>
-            <type value="normal"/>
-            <inscription>
-                <value>Default,1</value>
-            </inscription>
-        </arc>
-        <arc id="P0 TO load glue" source="ready to load stepdefs" target="load stepdefs">
-            <arcpath id="" x="388.0" y="59.0" curvePoint="false"/>
+        <arc id="P0 TO load glue" source="loading step definitions" target="CommandStoreStepDefinition">
+            <arcpath id="" x="387.0" y="55.0" curvePoint="false"/>
+            <arcpath id="" x="475.0" y="23.0" curvePoint="false"/>
             <arcpath id="" x="575.0" y="53.0" curvePoint="false"/>
             <type value="normal"/>
             <inscription>
@@ -710,7 +765,7 @@
                 <value>Default,1</value>
             </inscription>
         </arc>
-        <arc id="matching started TO 0 matches" source="matching started" target="0 matches">
+        <arc id="matching started TO 0 matches" source="execution started" target="0 matches">
             <arcpath id="" x="455.0" y="412.0" curvePoint="false"/>
             <arcpath id="" x="684.0" y="330.0" curvePoint="false"/>
             <arcpath id="" x="821.0" y="304.0" curvePoint="false"/>
@@ -719,7 +774,7 @@
                 <value>Default,1</value>
             </inscription>
         </arc>
-        <arc id="P1 TO load pickle" source="ready to load pickles" target="load pickle">
+        <arc id="P1 TO load pickle" source="extracting pickles" target="CommandStorePickle">
             <arcpath id="" x="466.0" y="160.0" curvePoint="false"/>
             <arcpath id="" x="609.0" y="159.0" curvePoint="false"/>
             <type value="normal"/>
@@ -727,18 +782,9 @@
                 <value>Default,1</value>
             </inscription>
         </arc>
-        <arc id="ready to load pickles TO start matching" source="ready to load pickles" target="start matching">
+        <arc id="ready to load pickles TO start matching" source="extracting pickles" target="CommandExecutePickles">
             <arcpath id="" x="445.0" y="174.0" curvePoint="false"/>
             <arcpath id="" x="386.0" y="288.0" curvePoint="false"/>
-            <type value="normal"/>
-            <inscription>
-                <value>Default,1</value>
-            </inscription>
-        </arc>
-        <arc id="unexecuted pickles TO start matching" source="unexecuted pickles" target="start matching">
-            <arcpath id="" x="823.0" y="198.0" curvePoint="false"/>
-            <arcpath id="" x="491.0" y="222.0" curvePoint="false"/>
-            <arcpath id="" x="391.0" y="303.0" curvePoint="false"/>
             <type value="normal"/>
             <inscription>
                 <value>Default,1</value>
@@ -753,7 +799,7 @@
                 <value>Default,1</value>
             </inscription>
         </arc>
-        <arc id="matching started TO 1 match" source="matching started" target="1 match">
+        <arc id="matching started TO 1 match" source="execution started" target="1 match">
             <arcpath id="" x="452.0" y="407.0" curvePoint="false"/>
             <arcpath id="" x="518.0" y="347.0" curvePoint="false"/>
             <arcpath id="" x="631.0" y="302.0" curvePoint="false"/>
@@ -786,6 +832,22 @@
                 <value>Default,1</value>
             </inscription>
         </arc>
+        <arc id="loading step definitions TO CommandExecutePickles" source="loading step definitions" target="CommandExecutePickles">
+            <arcpath id="" x="374.0" y="75.0" curvePoint="false"/>
+            <arcpath id="" x="386.0" y="288.0" curvePoint="false"/>
+            <type value="normal"/>
+            <inscription>
+                <value>Default,1</value>
+            </inscription>
+        </arc>
+        <arc id="ready to file feature files TO CommandLoadFeatureFiles" source="ready to file feature files" target="CommandLoadFeatureFiles">
+            <arcpath id="" x="169.0" y="197.0" curvePoint="false"/>
+            <arcpath id="" x="220.0" y="249.0" curvePoint="false"/>
+            <type value="normal"/>
+            <inscription>
+                <value>Default,1</value>
+            </inscription>
+        </arc>
         <arc id="P0 TO ambiguous" source="unexecuted pickles" target="2+ matches">
             <arcpath id="" x="851.0" y="205.0" curvePoint="false"/>
             <arcpath id="" x="1001.0" y="304.0" curvePoint="false"/>
@@ -811,7 +873,7 @@
                 <value>Default,1</value>
             </inscription>
         </arc>
-        <arc id="matching started TO 2+ matches" source="matching started" target="2+ matches">
+        <arc id="matching started TO 2+ matches" source="execution started" target="2+ matches">
             <arcpath id="" x="456.0" y="413.0" curvePoint="false"/>
             <arcpath id="" x="758.0" y="339.0" curvePoint="false"/>
             <arcpath id="" x="1001.0" y="304.0" curvePoint="false"/>

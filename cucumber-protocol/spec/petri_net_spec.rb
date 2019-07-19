@@ -29,43 +29,27 @@ describe PetriNet do
       @pn = PetriNet.from_pnml(IO.read(File.dirname(__FILE__) + '/../src/cucumber-protocol.xml'))
     end
 
-    it 'only allows "load stepdefs" once' do
-      @pn.fire("load stepdefs")
-      expect do
-        @pn.fire("load stepdefs")
-      end.to raise_error('Cannot fire: load stepdefs')
-    end
-
-    it 'allows execution of 5 with 2 executors' do
-      @pn.fire("load pickle")
-      @pn.fire("load pickle")
-      @pn.fire("load pickle")
-      @pn.fire("load pickle")
-      @pn.fire("load pickle")
-      @pn.fire("load stepdefs")
-      @pn.fire("start matching")
-      @pn.fire("1 match")
-      @pn.fire("0 matches") # TODO: Fails here. Bug in Petri Net definition!
-      @pn.fire("2+ matches")
-      @pn.fire("1 match")
-      @pn.fire("1 match")
-      @pn.fire("execute")
-      @pn.fire("execute")
-      @pn.fire("no errors")
-      @pn.fire("execute")
-      @pn.fire("no errors")
-      @pn.fire("no errors")
-    end
-
     it 'does not allow pickle loading after execution starts' do
-      @pn.fire("load stepdefs")
-      @pn.fire("load pickle")
-      @pn.fire("start matching")
+      @pn.fire("CommandStoreStepDefinition")
+      @pn.fire("CommandLoadFeatureFiles")
+      @pn.fire("CommandStorePickle")
+      @pn.fire("CommandExecutePickles")
       @pn.fire("1 match")
       @pn.fire("execute")
       expect do
-        @pn.fire("load pickle")
-      end.to raise_error('Cannot fire: load pickle')
+        @pn.fire("CommandStorePickle")
+      end.to raise_error('Cannot fire: CommandStorePickle')
+    end
+
+    it 'does not allow step def loading after execution started' do
+      @pn.fire('CommandStoreStepDefinition')
+      @pn.fire('CommandStoreStepDefinition')
+      @pn.fire('CommandLoadFeatureFiles')
+      @pn.fire('CommandStorePickle')
+      @pn.fire('CommandStorePickle')
+      @pn.fire('CommandExecutePickles')
+
+      expect { @pn.fire('CommandStoreStepDefinition') }.to raise_error('Cannot fire: CommandStoreStepDefinition')
     end
   end
 end
