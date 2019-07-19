@@ -19,6 +19,7 @@ public final class ParameterType<T> implements Comparable<ParameterType<?>> {
     private final boolean useForSnippets;
     private final CaptureGroupTransformer<T> transformer;
     private final boolean anonymous;
+    private final boolean useRegexpMatchAsStrongTypeHint;
 
     static void checkParameterTypeName(String name) {
         String unescapedTypeName = UNESCAPE_PATTERN.matcher(name).replaceAll("$2");
@@ -34,7 +35,7 @@ public final class ParameterType<T> implements Comparable<ParameterType<?>> {
             public Object transform(String[] arg) {
                 throw new UnsupportedOperationException("Anonymous transform must be deanonymized before use");
             }
-        }, false, true, true);
+        }, false, true, false, true);
     }
 
     public static <E extends Enum> ParameterType<E> fromEnum(final Class<E> enumClass) {
@@ -57,7 +58,7 @@ public final class ParameterType<T> implements Comparable<ParameterType<?>> {
         );
     }
 
-    private ParameterType(String name, List<String> regexps, Type type, CaptureGroupTransformer<T> transformer, boolean useForSnippets, boolean preferForRegexpMatch, boolean anonymous) {
+    private ParameterType(String name, List<String> regexps, Type type, CaptureGroupTransformer<T> transformer, boolean useForSnippets, boolean preferForRegexpMatch, boolean useRegexpMatchAsStrongTypeHint, boolean anonymous) {
         if (regexps == null) throw new NullPointerException("regexps cannot be null");
         if (type == null) throw new NullPointerException("type cannot be null");
         if (transformer == null) throw new NullPointerException("transformer cannot be null");
@@ -69,10 +70,15 @@ public final class ParameterType<T> implements Comparable<ParameterType<?>> {
         this.useForSnippets = useForSnippets;
         this.preferForRegexpMatch = preferForRegexpMatch;
         this.anonymous = anonymous;
+        this.useRegexpMatchAsStrongTypeHint = useRegexpMatchAsStrongTypeHint;
+    }
+
+    public ParameterType(String name, List<String> regexps, Type type, CaptureGroupTransformer<T> transformer, boolean useForSnippets, boolean preferForRegexpMatch, boolean useRegexpMatchAsStrongTypeHint) {
+        this(name, regexps, type, transformer, useForSnippets, preferForRegexpMatch, useRegexpMatchAsStrongTypeHint, false);
     }
 
     public ParameterType(String name, List<String> regexps, Type type, CaptureGroupTransformer<T> transformer, boolean useForSnippets, boolean preferForRegexpMatch) {
-        this(name, regexps, type, transformer, useForSnippets, preferForRegexpMatch, false);
+        this(name, regexps, type, transformer, useForSnippets, preferForRegexpMatch, true, false);
     }
 
     public ParameterType(String name, List<String> regexps, Class<T> type, CaptureGroupTransformer<T> transformer, boolean useForSnippets, boolean preferForRegexpMatch) {
@@ -91,14 +97,23 @@ public final class ParameterType<T> implements Comparable<ParameterType<?>> {
         this(name, singletonList(regexp), type, transformer, true, false);
     }
 
+    public ParameterType(String name, List<String> regexps, Type type, Transformer<T> transformer, boolean useForSnippets, boolean preferForRegexpMatch, boolean useRegexpMatchAsStrongTypeHint) {
+        this(name, regexps, type, new TransformerAdaptor<>(transformer), useForSnippets, preferForRegexpMatch, useRegexpMatchAsStrongTypeHint);
+    }
     public ParameterType(String name, List<String> regexps, Type type, Transformer<T> transformer, boolean useForSnippets, boolean preferForRegexpMatch) {
         this(name, regexps, type, new TransformerAdaptor<>(transformer), useForSnippets, preferForRegexpMatch);
     }
 
+    public ParameterType(String name, List<String> regexps, Class<T> type, Transformer<T> transformer, boolean useForSnippets, boolean preferForRegexpMatch, boolean useRegexpMatchAsStrongTypeHint) {
+        this(name, regexps, (Type) type, transformer, useForSnippets, preferForRegexpMatch, useRegexpMatchAsStrongTypeHint);
+    }
     public ParameterType(String name, List<String> regexps, Class<T> type, Transformer<T> transformer, boolean useForSnippets, boolean preferForRegexpMatch) {
         this(name, regexps, (Type) type, transformer, useForSnippets, preferForRegexpMatch);
     }
 
+    public ParameterType(String name, String regexp, Class<T> type, Transformer<T> transformer, boolean useForSnippets, boolean preferForRegexpMatch, boolean useRegexpMatchAsStrongTypeHint) {
+        this(name, singletonList(regexp), type, transformer, useForSnippets, preferForRegexpMatch, useRegexpMatchAsStrongTypeHint);
+    }
     public ParameterType(String name, String regexp, Class<T> type, Transformer<T> transformer, boolean useForSnippets, boolean preferForRegexpMatch) {
         this(name, singletonList(regexp), type, transformer, useForSnippets, preferForRegexpMatch);
     }
@@ -149,7 +164,7 @@ public final class ParameterType<T> implements Comparable<ParameterType<?>> {
     }
 
     /**
-     * Indicates whether or not this is a parameter type that should be used for generating
+     * Indicates whether or not this is a parameter type should be used for generating
      * {@link GeneratedExpression}s from text. Typically, parameter types with greedy regexps
      * should return false.
      *
@@ -161,6 +176,21 @@ public final class ParameterType<T> implements Comparable<ParameterType<?>> {
 
     boolean isAnonymous() {
         return anonymous;
+    }
+
+    /**
+     * Indicates whether or not this parameter provides a strong type hint when considering a
+     * regular expression match. If so, the type hint provided by the method arguments  will be
+     * ignored. If not, when both type hints are in agreement, this parameter types transformer
+     * will be used. Otherwise parameter transformation for a regular expression match will be
+     * <p>
+     * handled by {@link ParameterTypeRegistry#getDefaultParameterTransformer()}.
+     *
+     * @return true if this parameter type provides a type hint when considering a regular
+     * expression match
+     */
+    public boolean useRegexpMatchAsStrongTypeHint() {
+        return useRegexpMatchAsStrongTypeHint;
     }
 
     ParameterType<Object> deAnonymize(Type type, Transformer<Object> transformer) {
@@ -201,7 +231,7 @@ public final class ParameterType<T> implements Comparable<ParameterType<?>> {
     }
 
     public int weight() {
-        if(this.type.equals(Integer.class) || this.type.equals(Integer.TYPE)) {
+        if (this.type.equals(Integer.class) || this.type.equals(Integer.TYPE)) {
             return 1000;
         }
         return 0;
