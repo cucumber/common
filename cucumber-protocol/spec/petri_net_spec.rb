@@ -30,30 +30,40 @@ describe PetriNet do
     end
 
     it 'only allows "load stepdefs" once' do
-      @pn.fire("load stepdefs".to_sym)
+      @pn.fire("load stepdefs")
       expect do
-        @pn.fire("load stepdefs".to_sym)
+        @pn.fire("load stepdefs")
       end.to raise_error('Cannot fire: load stepdefs')
     end
     
     it 'allows execution of 5 with 2 executors' do
-      @pn.fire("load pickle".to_sym)
-      @pn.fire("load pickle".to_sym)
-      @pn.fire("load pickle".to_sym)
-      @pn.fire("load pickle".to_sym)
-      @pn.fire("load pickle".to_sym)
-      @pn.fire("load stepdefs".to_sym)
-      @pn.fire("1 match".to_sym)
-      @pn.fire("0 matches".to_sym) # TODO: Fails here. Bug in Petri Net definition!
-      @pn.fire("2+ matches".to_sym)
-      @pn.fire("1 match".to_sym)
-      @pn.fire("1 match".to_sym)
-      @pn.fire("execute".to_sym)
-      @pn.fire("execute".to_sym)
-      @pn.fire("no errors".to_sym)
-      @pn.fire("execute".to_sym)
-      @pn.fire("no errors".to_sym)
-      @pn.fire("no errors".to_sym)
+      @pn.fire("load pickle")
+      @pn.fire("load pickle")
+      @pn.fire("load pickle")
+      @pn.fire("load pickle")
+      @pn.fire("load pickle")
+      @pn.fire("load stepdefs")
+      @pn.fire("1 match")
+      @pn.fire("0 matches") # TODO: Fails here. Bug in Petri Net definition!
+      @pn.fire("2+ matches")
+      @pn.fire("1 match")
+      @pn.fire("1 match")
+      @pn.fire("execute")
+      @pn.fire("execute")
+      @pn.fire("no errors")
+      @pn.fire("execute")
+      @pn.fire("no errors")
+      @pn.fire("no errors")
+    end
+
+    it 'does not allow pickle loading after execution starts' do
+      @pn.fire("load stepdefs")
+      @pn.fire("load pickle")
+      @pn.fire("1 match")
+      @pn.fire("execute")
+      expect do
+        @pn.fire("load pickle")
+      end.to raise_error('Cannot fire: load pickle')
     end
   end
 end

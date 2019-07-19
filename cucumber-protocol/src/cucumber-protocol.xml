@@ -657,14 +657,6 @@
                 <value>Default,1</value>
             </inscription>
         </arc>
-        <arc id="ready to load pickles TO 2+ matches" source="ready to load pickles" target="2+ matches">
-            <arcpath id="" x="466.0" y="164.0" curvePoint="false"/>
-            <arcpath id="" x="1001.0" y="304.0" curvePoint="false"/>
-            <type value="normal"/>
-            <inscription>
-                <value>Default,1</value>
-            </inscription>
-        </arc>
         <arc id="executing TO pending" source="executing" target="signal pending">
             <arcpath id="" x="805.0" y="596.0" curvePoint="false"/>
             <arcpath id="" x="673.0" y="823.0" curvePoint="false"/>
@@ -689,26 +681,10 @@
                 <value>Default,1</value>
             </inscription>
         </arc>
-        <arc id="ready to load pickles TO 1 match" source="ready to load pickles" target="1 match">
-            <arcpath id="" x="463.0" y="169.0" curvePoint="false"/>
-            <arcpath id="" x="631.0" y="302.0" curvePoint="false"/>
-            <type value="normal"/>
-            <inscription>
-                <value>Default,1</value>
-            </inscription>
-        </arc>
         <arc id="stepdefs loaded TO 1 match" source="stepdefs loaded" target="1 match">
             <arcpath id="" x="828.0" y="76.0" curvePoint="false"/>
             <arcpath id="" x="710.0" y="175.0" curvePoint="false"/>
             <arcpath id="" x="646.0" y="297.0" curvePoint="false"/>
-            <type value="normal"/>
-            <inscription>
-                <value>Default,1</value>
-            </inscription>
-        </arc>
-        <arc id="ready to load pickles TO 0 matches" source="ready to load pickles" target="0 matches">
-            <arcpath id="" x="465.0" y="165.0" curvePoint="false"/>
-            <arcpath id="" x="821.0" y="304.0" curvePoint="false"/>
             <type value="normal"/>
             <inscription>
                 <value>Default,1</value>

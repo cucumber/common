@@ -59,7 +59,7 @@ class PetriNet
   end
 
   def fire(transition_name)
-    transition = @transitions[transition_name]
+    transition = @transitions[transition_name.to_sym]
     raise "No such transition: #{transition_name}" unless transition
     transition.fire
   end
