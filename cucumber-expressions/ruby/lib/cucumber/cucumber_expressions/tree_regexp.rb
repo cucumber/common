@@ -34,7 +34,7 @@ module Cucumber
             else
               gb.move_children_to(@stack.last)
             end
-            end_group()
+            end_group
           elsif c == '?' && last == '('
             @non_capturing_maybe = true
           elsif (c == '<') && @non_capturing_maybe
@@ -64,7 +64,7 @@ module Cucumber
 
       def end_non_capturing_group
         @stack.last.set_non_capturing!
-        end_group()
+        end_group
       end
 
       def end_group
