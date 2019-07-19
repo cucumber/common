@@ -36,19 +36,6 @@ public class RegularExpressionTest {
     }
 
     @Test
-    public void matches_positive_int_with_hint() {
-        List<?> match = match(compile("(\\d+)"), "22", Integer.class);
-        assertEquals(singletonList(22), match);
-    }
-
-    @Test
-    public void matches_positive_int_with_conflicting_type_hint() {
-        List<?> match = match(compile("(\\d+)"), "22", String.class);
-        assertEquals(singletonList("22"), match);
-    }
-
-
-    @Test
     public void matches_nested_capture_group_without_match() {
         List<?> match = match(compile("^a user( named \"([^\"]*)\")?$"), "a user");
         assertEquals(singletonList(null), match);
@@ -138,39 +125,6 @@ public class RegularExpressionTest {
         ));
         List<?> match = match(compile("a quote ([\"a-z ]+)"), "a quote \" and quote \"", String.class);
         assertEquals(asList("\" AND QUOTE \""), match);
-    }
-
-    @Test
-    public void ignores_type_hint_when_parameter_type_has_strong_type_hint() {
-        parameterTypeRegistry.defineParameterType(new ParameterType<>(
-                "test",
-                "one|two|three",
-                Integer.class,
-                new Transformer<Integer>() {
-                    @Override
-                    public Integer transform(String s) {
-                        return 42;
-                    }
-                }, false, false, true
-        ));
-        assertEquals(asList(42), match(compile("(one|two|three)"), "one", String.class));
-    }
-
-
-    @Test
-    public void follows_type_hint_when_parameter_type_does_not_have_strong_type_hint() {
-        parameterTypeRegistry.defineParameterType(new ParameterType<>(
-                "test",
-                "one|two|three",
-                Integer.class,
-                new Transformer<Integer>() {
-                    @Override
-                    public Integer transform(String s) {
-                        return 42;
-                    }
-                }, false, false, false
-        ));
-        assertEquals(asList("one"), match(compile("(one|two|three)"), "one", String.class));
     }
 
     @Test
