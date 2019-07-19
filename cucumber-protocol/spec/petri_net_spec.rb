@@ -51,5 +51,25 @@ describe PetriNet do
 
       expect { @pn.fire('CommandStoreStepDefinition') }.to raise_error('Cannot fire: CommandStoreStepDefinition')
     end
+
+    context 'when step defs have not been loaded and pickle is executed' do
+      before do
+        @pn.fire("CommandLoadFeatureFiles")
+        @pn.fire("CommandStorePickle")
+        @pn.fire("CommandExecutePickles")
+      end
+
+      it 'cannot be undefined' do
+        expect { @pn.fire('0 matches') }.not_to raise_error
+      end
+
+      it 'cannot be defined' do
+        expect { @pn.fire('1 match') }.to raise_error('Cannot fire: 1 match')
+      end
+
+      it 'cannot be ambiguous' do
+        expect { @pn.fire('2+ matches') }.to raise_error('Cannot fire: 2+ matches')
+      end
+    end
   end
 end

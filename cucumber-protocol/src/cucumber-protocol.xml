@@ -640,15 +640,6 @@
                 <value>Default,1</value>
             </inscription>
         </arc>
-        <arc id="0 matches TO stepdefs loaded" source="0 matches" target="stepdefs loaded">
-            <arcpath id="" x="836.0" y="299.0" curvePoint="false"/>
-            <arcpath id="" x="905.0" y="180.0" curvePoint="false"/>
-            <arcpath id="" x="847.0" y="79.0" curvePoint="false"/>
-            <type value="normal"/>
-            <inscription>
-                <value>Default,1</value>
-            </inscription>
-        </arc>
         <arc id="2+ matches TO stepdefs loaded" source="2+ matches" target="stepdefs loaded">
             <arcpath id="" x="1016.0" y="299.0" curvePoint="false"/>
             <arcpath id="" x="1005.0" y="152.0" curvePoint="false"/>
@@ -785,15 +776,6 @@
         <arc id="ready to load pickles TO start matching" source="extracting pickles" target="CommandExecutePickles">
             <arcpath id="" x="445.0" y="174.0" curvePoint="false"/>
             <arcpath id="" x="386.0" y="288.0" curvePoint="false"/>
-            <type value="normal"/>
-            <inscription>
-                <value>Default,1</value>
-            </inscription>
-        </arc>
-        <arc id="stepdefs loaded TO 0 matches" source="stepdefs loaded" target="0 matches">
-            <arcpath id="" x="848.0" y="78.0" curvePoint="false"/>
-            <arcpath id="" x="926.0" y="180.0" curvePoint="false"/>
-            <arcpath id="" x="836.0" y="299.0" curvePoint="false"/>
             <type value="normal"/>
             <inscription>
                 <value>Default,1</value>
