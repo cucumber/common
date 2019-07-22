@@ -59,7 +59,7 @@ describe PetriNet do
         @pn.fire("CommandExecutePickles")
       end
 
-      it 'cannot be undefined' do
+      it 'can be undefined' do
         expect { @pn.fire('0 matches') }.not_to raise_error
       end
 
