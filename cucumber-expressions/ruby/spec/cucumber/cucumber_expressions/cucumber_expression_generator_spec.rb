@@ -162,6 +162,34 @@ module Cucumber
         expect(expressions[1].source).to eq("{zero-or-more} {zero-or-more} {zero-or-more}")
       end
 
+      context "does not suggest parameter when match is" do
+        before do
+          @parameter_type_registry.define_parameter_type(ParameterType.new(
+              'direction',
+              /(up|down)/,
+              String,
+              lambda {|s| s},
+              true,
+              false
+          ))
+        end
+
+        it "at the beginning of a word" do
+          expect(@generator.generate_expression("When I download a picture").source).not_to eq("When I {direction}load a picture")
+          expect(@generator.generate_expression("When I download a picture").source).to eq("When I download a picture")
+        end
+
+        it "inside a word" do
+          expect(@generator.generate_expression("When I watch the muppet show").source).not_to eq("When I watch the m{direction}pet show")
+          expect(@generator.generate_expression("When I watch the muppet show").source).to eq("When I watch the muppet show")
+        end
+
+        it "at the end of a word" do
+          expect(@generator.generate_expression("When I create a group").source).not_to eq("When I create a gro{direction}")
+          expect(@generator.generate_expression("When I create a group").source).to eq("When I create a group")
+        end
+      end
+
       def assert_expression(expected_expression, expected_argument_names, text)
         generated_expression = @generator.generate_expression(text)
         expect(generated_expression.parameter_names).to eq(expected_argument_names)
