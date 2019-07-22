@@ -9,11 +9,14 @@ RUN apk add --no-cache \
   bash \
   curl \
   diffutils \
+  ghostscript-fonts \
   go \
   git \
   gnupg \
+  graphviz-dev \
   groff \
   g++ \
+  imagemagick \
   jq \
   libc-dev \
   make \
@@ -36,7 +39,8 @@ RUN apk add --no-cache \
   unzip \
   upx \
   wget \
-  xmlstarlet
+  xmlstarlet \
+  zlib-dev
 
 # Create a cukebot user. Some tools (Bundler, npm publish) don't work properly
 # when run as root

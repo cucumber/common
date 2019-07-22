@@ -3,7 +3,7 @@ PNML_FILES=$(wildcard src/*.xml)
 
 default: .rspec pngs
 
-.rspec: lib/petri_net.rb spec/petri_net_spec.rb
+.rspec: Gemfile.lock lib/petri_net.rb spec/petri_net_spec.rb
 	bundle exec rspec
 	touch $@
 
@@ -23,8 +23,8 @@ pngs: $(patsubst %.xml,%.png,$(PNML_FILES))
 	rm $@.tmp.svg
 
 %.png: %.svg
-	cairosvg --output-width 800 --output $@ $<
+	convert $< $@
 
 clean:
-	rm -f src/*.{dot,svg,png} .rspec
+	rm -f src/*.{dot,svg,png} Gemfile.lock .rspec
 .PHONY: clean
