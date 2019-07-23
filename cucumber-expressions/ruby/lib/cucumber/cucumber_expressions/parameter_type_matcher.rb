@@ -3,20 +3,20 @@ module Cucumber
     class ParameterTypeMatcher
       attr_reader :parameter_type
 
-      def initialize(parameter_type, regexp, text, match_position=0)
-        @parameter_type, @regexp, @text = parameter_type, regexp, text
+      def initialize(parameter_type, regexp, text, match_position=0, force_full_word=true)
+        @parameter_type, @regexp, @text, @force_full_word = parameter_type, regexp, text, force_full_word
         @match = @regexp.match(@text, match_position)
       end
 
       def advance_to(new_match_position)
         (new_match_position...@text.length).each {|advancedPos|
-          matcher = self.class.new(parameter_type, @regexp, @text, advancedPos)
+          matcher = self.class.new(parameter_type, @regexp, @text, advancedPos, @force_full_word)
           if matcher.find && matcher.full_word?
             return matcher
           end
         }
 
-        self.class.new(parameter_type, @regexp, @text, @text.length)
+        self.class.new(parameter_type, @regexp, @text, @text.length, @force_full_word)
       end
 
       def find
@@ -24,7 +24,7 @@ module Cucumber
       end
 
       def full_word?
-        space_before_match_or_sentence_start && space_after_match_or_sentence_end
+        !@force_full_word || (space_before_match_or_sentence_start && space_after_match_or_sentence_end)
       end
 
       def start

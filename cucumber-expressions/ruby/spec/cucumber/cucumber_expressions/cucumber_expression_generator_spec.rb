@@ -105,6 +105,7 @@ module Cucumber
             String,
             lambda {|s| s},
             true,
+            false,
             false
         ))
         @parameter_type_registry.define_parameter_type(ParameterType.new(
@@ -130,6 +131,7 @@ module Cucumber
               String,
               lambda {|s| s},
               true,
+              false,
               false
           ))
         end
@@ -162,37 +164,64 @@ module Cucumber
         expect(expressions[1].source).to eq("{zero-or-more} {zero-or-more} {zero-or-more}")
       end
 
-      context "does not suggest parameter when match is" do
-        before do
+      context "defining 'force_full_word' on ParameterType" do
+        let(:force_full_word) { true }
+
+        let!(:direction_parameter_type) {
           @parameter_type_registry.define_parameter_type(ParameterType.new(
               'direction',
               /(up|down)/,
               String,
               lambda {|s| s},
               true,
-              false
+              false,
+              force_full_word
           ))
+        }
+
+        context "when set to true, does not suggest parameter when match is" do
+          it "at the beginning of a word" do
+            expect(@generator.generate_expression("When I download a picture").source).not_to eq("When I {direction}load a picture")
+            expect(@generator.generate_expression("When I download a picture").source).to eq("When I download a picture")
+          end
+
+          it "inside a word" do
+            expect(@generator.generate_expression("When I watch the muppet show").source).not_to eq("When I watch the m{direction}pet show")
+            expect(@generator.generate_expression("When I watch the muppet show").source).to eq("When I watch the muppet show")
+          end
+
+          it "at the end of a word" do
+            expect(@generator.generate_expression("When I create a group").source).not_to eq("When I create a gro{direction}")
+            expect(@generator.generate_expression("When I create a group").source).to eq("When I create a group")
+          end
+
+          it "a full word" do
+            expect(@generator.generate_expression("When I go down the road").source).to eq("When I go {direction} the road")
+            expect(@generator.generate_expression("When I walk up the hill").source).to eq("When I walk {direction} the hill")
+            expect(@generator.generate_expression("up the hill, the road goes down").source).to eq("{direction} the hill, the road goes {direction}")
+          end
         end
 
-        it "at the beginning of a word" do
-          expect(@generator.generate_expression("When I download a picture").source).not_to eq("When I {direction}load a picture")
-          expect(@generator.generate_expression("When I download a picture").source).to eq("When I download a picture")
-        end
+        context "when set to false, suggests parameter when match is" do
+          let(:force_full_word) { false }
 
-        it "inside a word" do
-          expect(@generator.generate_expression("When I watch the muppet show").source).not_to eq("When I watch the m{direction}pet show")
-          expect(@generator.generate_expression("When I watch the muppet show").source).to eq("When I watch the muppet show")
-        end
+           it "at the beginning of a word" do
+            expect(@generator.generate_expression("When I download a picture").source).to eq("When I {direction}load a picture")
+          end
 
-        it "at the end of a word" do
-          expect(@generator.generate_expression("When I create a group").source).not_to eq("When I create a gro{direction}")
-          expect(@generator.generate_expression("When I create a group").source).to eq("When I create a group")
-        end
+          it "inside a word" do
+            expect(@generator.generate_expression("When I watch the muppet show").source).to eq("When I watch the m{direction}pet show")
+          end
 
-        it "still matches full words" do
-          expect(@generator.generate_expression("When I go down the road").source).to eq("When I go {direction} the road")
-          expect(@generator.generate_expression("When I walk up the hill").source).to eq("When I walk {direction} the hill")
-          expect(@generator.generate_expression("up the hill, the road goes down").source).to eq("{direction} the hill, the road goes {direction}")
+          it "at the end of a word" do
+            expect(@generator.generate_expression("When I create a group").source).to eq("When I create a gro{direction}")
+          end
+
+          it "a full word" do
+            expect(@generator.generate_expression("When I go down the road").source).to eq("When I go {direction} the road")
+            expect(@generator.generate_expression("When I walk up the hill").source).to eq("When I walk {direction} the hill")
+            expect(@generator.generate_expression("up the hill, the road goes down").source).to eq("{direction} the hill, the road goes {direction}")
+          end
         end
       end
 
