@@ -188,6 +188,12 @@ module Cucumber
           expect(@generator.generate_expression("When I create a group").source).not_to eq("When I create a gro{direction}")
           expect(@generator.generate_expression("When I create a group").source).to eq("When I create a group")
         end
+
+        it "still matches full words" do
+          expect(@generator.generate_expression("When I go down the road").source).to eq("When I go {direction} the road")
+          expect(@generator.generate_expression("When I walk up the hill").source).to eq("When I walk {direction} the hill")
+          expect(@generator.generate_expression("up the hill, the road goes down").source).to eq("{direction} the hill, the road goes {direction}")
+        end
       end
 
       def assert_expression(expected_expression, expected_argument_names, text)
