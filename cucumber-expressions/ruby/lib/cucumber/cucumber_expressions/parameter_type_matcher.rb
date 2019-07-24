@@ -47,12 +47,12 @@ module Cucumber
 
       def space_before_match_or_sentence_start
         match_begin = @match.begin(0)
-        match_begin == 0 || @text[match_begin - 1].match(/\s/)
+        match_begin == 0 || @text[match_begin - 1].match(/\s|[[:punct:]]/)
       end
 
       def space_after_match_or_sentence_end
         match_end = @match.end(0)
-        match_end == @text.length || @text[match_end].match(/\s/)
+        match_end == @text.length || @text[match_end].match(/\s|[[:punct:]]/)
       end
     end
   end

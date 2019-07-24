@@ -200,6 +200,11 @@ module Cucumber
             expect(@generator.generate_expression("When I walk up the hill").source).to eq("When I walk {direction} the hill")
             expect(@generator.generate_expression("up the hill, the road goes down").source).to eq("{direction} the hill, the road goes {direction}")
           end
+
+          it 'does not consider punctuation as being part of a word' do
+            expect(@generator.generate_expression("When direction is:down").source).to eq("When direction is:{direction}")
+            expect(@generator.generate_expression("Then direction is down.").source).to eq("Then direction is {direction}.")
+          end
         end
 
         context "when set to false, suggests parameter when match is" do
