@@ -76,7 +76,7 @@ jobs:
             make
 
   gherkin-go:
-    executor: docker-cucumber-build
+    executor: docker-circleci-golang
     steps:
       - attach_workspace:
           at: "~/cucumber"
