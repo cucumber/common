@@ -42,6 +42,20 @@ executors:
 ###
 
 jobs:
+  build-serial:
+    executor: docker-cucumber-build
+    environment:
+      # Override CI=true to false because CI=true causes
+      # tag-expressions/python/Makefile to use sudo, which we don't want
+      # because the cucumber-build docker image doesn't have sudo installed
+      CI: false
+    steps:
+      - checkout
+      - run:
+          name: everything
+          command: |
+            make
+
   checkout:
     executor: docker-circleci-ruby
     steps:
@@ -74,10 +88,6 @@ jobs:
           command: |
             cd cucumber-messages/go
             make
-      - persist_to_workspace:
-          root: ~/cucumber
-          paths:
-            - cucumber-messages/go/v3/messages.pb.go
 
   gherkin-go:
     executor: docker-circleci-golang
@@ -417,7 +427,12 @@ jobs:
 
 workflows:
   version: 2
-  monorepo-build:
+  
+  monorepo-serial:
+    jobs:
+      - build-serial
+
+  monorepo-parallel:
     jobs:
       - checkout
 
