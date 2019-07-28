@@ -1,13 +1,16 @@
 package io.cucumber.datatable;
 
 import com.google.common.base.Joiner;
-import io.cucumber.gherkin.Gherkin;
-import io.cucumber.messages.Messages;
+import gherkin.AstBuilder;
+import gherkin.Parser;
+import gherkin.ast.GherkinDocument;
+import gherkin.pickles.Compiler;
+import gherkin.pickles.Pickle;
+import gherkin.pickles.PickleTable;
 
-import java.util.Iterator;
+import java.util.List;
 
 import static io.cucumber.datatable.PickleTableConverter.toTable;
-import static java.util.Collections.singletonList;
 
 class TableParser {
 
@@ -20,25 +23,15 @@ class TableParser {
     }
 
     static DataTable parse(String source) {
-        Messages.Source sourceMessage = Messages.Source.newBuilder().setData(
+        String feature = "" +
                 "Feature:\n" +
-                        "  Scenario:\n" +
-                        "    Given x\n" +
-                        source
-        ).build();
-
-        Iterable<Messages.Envelope> envelopes = Gherkin.fromSources(
-                singletonList(sourceMessage),
-                false,
-                false,
-                true
-        );
-
-        //        List<Envelope> wrappers = toList();
-        Iterator<Messages.Envelope> iterator = envelopes.iterator();
-        if(!iterator.hasNext()) throw new RuntimeException("Expected one pickle envelope");
-        Messages.Envelope envelope = iterator.next();
-        Messages.PickleStepArgument.PickleTable pickleTable = envelope.getPickle().getSteps(0).getArgument().getDataTable();
+                "  Scenario:\n" +
+                "    Given x\n" +
+                source;
+        Parser<GherkinDocument> parser = new Parser<>(new AstBuilder());
+        Compiler compiler = new Compiler();
+        List<Pickle> pickles = compiler.compile(parser.parse(feature));
+        PickleTable pickleTable = (PickleTable) pickles.get(0).getSteps().get(0).getArgument().get(0);
 
         return DataTable.create(toTable(pickleTable));
 

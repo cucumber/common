@@ -1,16 +1,18 @@
 package io.cucumber.datatable;
 
-import io.cucumber.messages.Messages;
+import gherkin.pickles.PickleCell;
+import gherkin.pickles.PickleRow;
+import gherkin.pickles.PickleTable;
 
 import java.util.ArrayList;
 import java.util.List;
 
 class PickleTableConverter {
-    static List<List<String>> toTable(Messages.PickleStepArgument.PickleTable pickleTable) {
+    static List<List<String>> toTable(PickleTable pickleTable) {
         List<List<String>> table = new ArrayList<>();
-        for (Messages.PickleStepArgument.PickleTable.PickleTableRow pickleRow : pickleTable.getRowsList()) {
+        for (PickleRow pickleRow : pickleTable.getRows()) {
             List<String> row = new ArrayList<>();
-            for (Messages.PickleStepArgument.PickleTable.PickleTableRow.PickleTableCell pickleCell : pickleRow.getCellsList()) {
+            for (PickleCell pickleCell : pickleRow.getCells()) {
                 row.add(pickleCell.getValue());
             }
             table.add(row);
