@@ -11,6 +11,10 @@ This document is formatted according to the principles of [Keep A CHANGELOG](htt
 
 ### Added
 
+* [TypeScript] dialect support
+  ([#597](https://github.com/cucumber/cucumber/pull/597)
+   [charlierudolph]
+   [aslakhellesoy])
 * Populate the `Pickle#id` field with a SHA1 hash of the source + line + column.
 
 ### Changed
