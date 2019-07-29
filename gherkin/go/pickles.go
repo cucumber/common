@@ -5,7 +5,7 @@ import (
 	"encoding/binary"
 	"encoding/hex"
 	"fmt"
-	"github.com/cucumber/cucumber/cucumber-messages/go/v3"
+	"github.com/cucumber/cucumber/cucumber-messages/go"
 	"strings"
 	"unicode/utf8"
 )

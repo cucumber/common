@@ -6,7 +6,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/cucumber/cucumber/cucumber-messages/go/v3"
+	"github.com/cucumber/cucumber/cucumber-messages/go"
 	"github.com/fatih/color"
 	gio "github.com/gogo/protobuf/io"
 	"github.com/stretchr/testify/require"
