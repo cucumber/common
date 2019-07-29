@@ -58,6 +58,13 @@ public class CucumberExpressionGeneratorTest {
     }
 
     @Test
+    public void generates_expression_for_hyphen() {
+        assertExpression(
+                "-", Collections.<String>emptyList(),
+                "-");
+    }
+
+    @Test
     public void generates_expression_for_int_double_arg() {
         assertExpression(
                 "I have {int} cukes and {double} euro", asList("int1", "double1"),
@@ -111,69 +118,101 @@ public class CucumberExpressionGeneratorTest {
     }
 
     @Test
+    public void does_not_suggest_parameter_type_when_surrounded_by_alphanum() {
+        parameterTypeRegistry.defineParameterType(new ParameterType<>(
+                "direction",
+                "(up|down)",
+                String.class,
+                new Transformer<String>() {
+                    @Override
+                    public String transform(String arg) {
+                        return arg;
+                    }
+                },
+                true,
+                false
+        ));
+        assertExpression(
+                "I like muppets", Collections.<String>emptyList(),
+                "I like muppets");
+    }
+
+    @Test
+    public void does_suggest_parameter_type_when_surrounded_by_space() {
+        parameterTypeRegistry.defineParameterType(new ParameterType<>(
+                "direction",
+                "(up|down)",
+                String.class,
+                new Transformer<String>() {
+                    @Override
+                    public String transform(String arg) {
+                        return arg;
+                    }
+                },
+                true,
+                false
+        ));
+        assertExpression(
+                "it went {direction} and {direction}", asList("direction", "direction2"),
+                "it went up and down");
+    }
+
+    @Test
     public void prefers_leftmost_match_when_there_is_overlap() {
         parameterTypeRegistry.defineParameterType(new ParameterType<>(
-                "currency",
-                "cd",
-                Currency.class,
-                new Transformer<Currency>() {
+                "right",
+                "c d",
+                String.class,
+                new Transformer<String>() {
                     @Override
-                    public Currency transform(String arg) {
-                        return Currency.getInstance(arg);
+                    public String transform(String arg) {
+                        return arg;
                     }
                 }
         ));
         parameterTypeRegistry.defineParameterType(new ParameterType<>(
-                "date",
-                "bc",
-                Date.class,
-                new Transformer<Date>() {
+                "left",
+                "b c",
+                String.class,
+                new Transformer<String>() {
                     @Override
-                    public Date transform(String arg) {
-                        try {
-                            return df.parse(arg);
-                        } catch (ParseException e) {
-                            throw new RuntimeException(e);
-                        }
+                    public String transform(String arg) {
+                        return arg;
                     }
                 }
         ));
         assertExpression(
-                "a{date}defg", singletonList("date"),
-                "abcdefg");
+                "a {left} d e f g", singletonList("left"),
+                "a b c d e f g");
     }
 
     @Test
     public void prefers_widest_match_when_pos_is_same() {
         parameterTypeRegistry.defineParameterType(new ParameterType<>(
-                "currency",
-                "cd",
-                Currency.class,
-                new Transformer<Currency>() {
+                "airport",
+                "[A-Z]{3}",
+                String.class,
+                new Transformer<String>() {
                     @Override
-                    public Currency transform(String arg) {
-                        return Currency.getInstance(arg);
+                    public String transform(String arg) {
+                        return arg;
                     }
                 }
         ));
         parameterTypeRegistry.defineParameterType(new ParameterType<>(
-                "date",
-                "cde",
-                Date.class,
-                new Transformer<Date>() {
+                "leg",
+                "[A-Z]{3}-[A-Z]{3}",
+                String.class,
+                new Transformer<String>() {
                     @Override
-                    public Date transform(String arg) {
-                        try {
-                            return df.parse(arg);
-                        } catch (ParseException e) {
-                            throw new RuntimeException(e);
-                        }
+                    public String transform(String arg) {
+                        return arg;
                     }
                 }
         ));
         assertExpression(
-                "ab{date}fg", singletonList("date"),
-                "abcdefg");
+                "leg {leg}", singletonList("leg"),
+                "leg LHR-CDG");
     }
 
     @Test
@@ -235,43 +274,6 @@ public class CucumberExpressionGeneratorTest {
     }
 
     @Test
-    public void matches_parameter_types_with_optional_capture_groups() {
-        ParameterType<String> optionalFlight = new ParameterType<>(
-                "optional-flight",
-                "(1st flight)?",
-                String.class,
-                new Transformer<String>() {
-                    @Override
-                    public String transform(String arg) {
-                        return arg;
-                    }
-                },
-                true,
-                false
-        );
-        ParameterType<String> optionalHotel = new ParameterType<>(
-                "optional-hotel",
-                "(1st hotel)?",
-                String.class,
-                new Transformer<String>() {
-                    @Override
-                    public String transform(String arg) {
-                        return arg;
-                    }
-                },
-                true,
-                false
-        );
-
-        parameterTypeRegistry.defineParameterType(optionalFlight);
-        parameterTypeRegistry.defineParameterType(optionalHotel);
-        // While you would expect this to be `I reach Stage{int}: {optional-flight}-{optional-hotel}` the `-1` causes
-        // {int} to match just before {optional-hotel}.
-        List<GeneratedExpression> generatedExpressions = generator.generateExpressions("I reach Stage4: 1st flight-1st hotel");
-        assertEquals("I reach Stage{int}: {optional-flight}{int}st hotel", generatedExpressions.get(0).getSource());
-    }
-
-    @Test
     public void generates_at_most_256_expressions() {
         for (int i = 0; i < 4; i++) {
             ParameterType<String> myType = new ParameterType<>(
@@ -291,7 +293,7 @@ public class CucumberExpressionGeneratorTest {
 
         }
         // This would otherwise generate 4^11=419430 expressions and consume just shy of 1.5GB.
-        assertEquals(256, generator.generateExpressions("a simple step").size());
+        assertEquals(256, generator.generateExpressions("a b c d e f g h i j k").size());
     }
 
     @Test
