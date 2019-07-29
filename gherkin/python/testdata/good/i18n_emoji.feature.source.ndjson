@@ -1,1 +1,10 @@
-{"source":{"data":"# language: em\n📚: 🙈🙉🙊\n\n  📕: 💃\n    😐🎸\n","media":{"contentType":"text/x.cucumber.gherkin+plain","encoding":"UTF-8"},"uri":"testdata/good/i18n_emoji.feature"}}
+{
+  "source": {
+    "data": "# language: em\n📚: 🙈🙉🙊\n\n  📕: 💃\n    😐🎸\n",
+    "media": {
+      "contentType": "text/x.cucumber.gherkin+plain",
+      "encoding": "UTF8"
+    },
+    "uri": "testdata/good/i18n_emoji.feature"
+  }
+}

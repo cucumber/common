@@ -145,6 +145,19 @@ func TestCucumberExpression(t *testing.T) {
 		)
 	})
 
+	t.Run("matches float with zero", func(t *testing.T) {
+		require.Equal(
+			t,
+			MatchCucumberExpression(t, "{float}", "0"),
+			[]interface{}{0.0},
+		)
+		require.Equal(
+			t,
+			MatchCucumberExpression(t, "{float}", "-1"),
+			[]interface{}{-1.0},
+		)
+	})
+
 	t.Run("matches anonymous", func(t *testing.T) {
 		require.Equal(
 			t,
@@ -199,6 +212,12 @@ func TestCucumberExpression(t *testing.T) {
 		_, err := NewCucumberExpression("{unknown}", parameterTypeRegistry)
 		require.Error(t, err)
 		require.Equal(t, err.Error(), "Undefined parameter type {unknown}")
+	})
+
+	t.Run("does not allow negative matchers (?!", func(t *testing.T) {
+		parameterTypeRegistry := NewParameterTypeRegistry()
+		_, err := NewCucumberExpression(`a(?!b)(.+)`, parameterTypeRegistry)
+		require.Equal(t, err.Error(), "sorry, go does not support ?! used as a regex negative matcher")
 	})
 
 	t.Run("exposes source", func(t *testing.T) {

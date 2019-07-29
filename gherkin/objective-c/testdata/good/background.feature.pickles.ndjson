@@ -1,1 +1,34 @@
-{"pickle":{"language":"en","locations":[{"column":3,"line":7}],"name":"minimalistic","steps":[{"locations":[{"column":11,"line":4}],"text":"the minimalism inside a background"},{"locations":[{"column":11,"line":8}],"text":"the minimalism"}],"uri":"testdata/good/background.feature"}}
+{
+  "pickle": {
+    "id": "c93e36efdc320a44a21a370bda594f20bb48a4c0",
+    "language": "en",
+    "locations": [
+      {
+        "column": 3,
+        "line": 7
+      }
+    ],
+    "name": "minimalistic",
+    "steps": [
+      {
+        "locations": [
+          {
+            "column": 11,
+            "line": 4
+          }
+        ],
+        "text": "the minimalism inside a background"
+      },
+      {
+        "locations": [
+          {
+            "column": 11,
+            "line": 8
+          }
+        ],
+        "text": "the minimalism"
+      }
+    ],
+    "uri": "testdata/good/background.feature"
+  }
+}

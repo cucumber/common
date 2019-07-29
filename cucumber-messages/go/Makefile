@@ -1,19 +1,19 @@
 include default.mk
 
-.deps:
-	# Can't use `go build` because we don't have any sources - they're generated!
-	go get github.com/gogo/protobuf/protoc-gen-gogofaster
-	go get github.com/gogo/protobuf/proto
-	go get github.com/golang/protobuf/protoc-gen-go
-	go get github.com/stretchr/testify
+GOGO_PROTOBUF_VERSION=65acae22fc9d1fe290b33faa2bd64cdc20a463a0
+
+.deps: messages.pb.go
+
+.go-get:
+	go get github.com/gogo/protobuf/protoc-gen-gogofaster@$(GOGO_PROTOBUF_VERSION)
 	touch $@
 
-.tested: v2/messages.pb.go
-
-v2/messages.pb.go: messages.proto
-	-protoc -I=. -I=$(GOPATH)/src -I=$(GOPATH)/src/github.com/gogo/protobuf/protobuf --gogofaster_out=\
-	Mgoogle/protobuf/timestamp.proto=github.com/gogo/protobuf/types:./v2 \
-	$<
+messages.pb.go: messages.proto .go-get
+	protoc \
+		-I=. \
+		-I=/usr/local/include \
+		--gogofaster_out=Mgoogle/protobuf/timestamp.proto=github.com/gogo/protobuf/types:. \
+		$<
 
 clean:
-	rm -f v2/messages.pb.go
+	rm -f messages.pb.go .go-get

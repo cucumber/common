@@ -1,10 +1,16 @@
 include default.mk
 
 GHERKIN_DIALECTS := $(shell cat gherkin-languages.json | jq --compact-output --sort-keys . | base64 | tr -d '\n')
-GOX_LDFLAGS := "-X main.version=${TRAVIS_TAG} -X main.gherkinDialects=${GHERKIN_DIALECTS}"
+GOX_LDFLAGS := "-X 'main.version=${CIRCLE_TAG}' -X 'main.gherkinDialects=${GHERKIN_DIALECTS}'"
 
 GOOD_FEATURE_FILES = $(shell find testdata/good -name "*.feature")
 BAD_FEATURE_FILES  = $(shell find testdata/bad -name "*.feature")
+
+TOKENS_GOLDEN       = $(patsubst testdata/%.feature,testdata/%.feature.tokens,$(GOOD_FEATURE_FILES))
+ASTS_GOLDEN         = $(patsubst testdata/%.feature,testdata/%.feature.ast.ndjson,$(GOOD_FEATURE_FILES))
+PICKLES_GOLDEN      = $(patsubst testdata/%.feature,testdata/%.feature.pickles.ndjson,$(GOOD_FEATURE_FILES))
+SOURCES_GOLDEN      = $(patsubst testdata/%.feature,testdata/%.feature.source.ndjson,$(GOOD_FEATURE_FILES))
+ERRORS_GOLDEN       = $(patsubst testdata/%.feature,testdata/%.feature.errors.ndjson,$(BAD_FEATURE_FILES))
 
 TOKENS       = $(patsubst testdata/%.feature,acceptance/testdata/%.feature.tokens,$(GOOD_FEATURE_FILES))
 ASTS         = $(patsubst testdata/%.feature,acceptance/testdata/%.feature.ast.ndjson,$(GOOD_FEATURE_FILES))
@@ -16,50 +22,74 @@ ERRORS       = $(patsubst testdata/%.feature,acceptance/testdata/%.feature.error
 
 default: .compared
 
-.deps:
-	go get github.com/aslakhellesoy/gox
-	touch $@
-
 .compared: .built $(TOKENS) $(ASTS) $(PICKLES) $(SOURCES) $(ERRORS)
 	touch $@
 
-.built: bin/gherkin-generate-tokens bin/gherkin
+.built: bin/gherkin-generate-tokens $(EXE)
 	touch $@
 
 .tested: parser.go dialects_builtin.go
 
+golden: .built $(TOKENS_GOLDEN) $(ASTS_GOLDEN) $(PICKLES_GOLDEN) $(SOURCES_GOLDEN) $(ERRORS_GOLDEN)
+
 bin/gherkin-generate-tokens: .deps $(GO_SOURCE_FILES) parser.go dialects_builtin.go
 	go build -o $@ ./gherkin-generate-tokens
 
-bin/gherkin: .deps $(GO_SOURCE_FILES) parser.go dialects_builtin.go
-	# We're building without -ldflags because it fails on Alpine Linux. This binary
-	# is for testing only and won't be released. The cross-compiled binaries are built
-	# on Travis' standard linux where this is not an issue.
-	go build -o $@ ./cmd
+$(EXE): parser.go dialects_builtin.go
+
+testdata/%.feature.tokens: testdata/%.feature
+ifdef GOLDEN
+	mkdir -p `dirname $@`
+	bin/gherkin-generate-tokens $< > $@
+endif
 
 acceptance/testdata/%.feature.tokens: testdata/%.feature testdata/%.feature.tokens bin/gherkin-generate-tokens
 	mkdir -p `dirname $@`
 	bin/gherkin-generate-tokens $< > $@
 	diff --unified $<.tokens $@
 
-acceptance/testdata/%.feature.ast.ndjson: testdata/%.feature testdata/%.feature.ast.ndjson bin/gherkin
+testdata/%.feature.ast.ndjson: testdata/%.feature $(EXE)
+ifdef GOLDEN
 	mkdir -p `dirname $@`
-	bin/gherkin --json --no-source --no-pickles $< | jq --sort-keys --compact-output -f remove_empty.jq > $@
+	$(EXE) --json --no-source --no-pickles $< | jq --sort-keys -f remove_empty.jq > $@
+endif
+
+acceptance/testdata/%.feature.ast.ndjson: testdata/%.feature testdata/%.feature.ast.ndjson $(EXE)
+	mkdir -p `dirname $@`
+	$(EXE) --json --no-source --no-pickles $< | jq --sort-keys --compact-output -f remove_empty.jq > $@
 	diff --unified <(jq "." $<.ast.ndjson) <(jq "." $@)
 
-acceptance/testdata/%.feature.errors.ndjson: testdata/%.feature testdata/%.feature.errors.ndjson bin/gherkin
+testdata/%.feature.errors.ndjson: testdata/%.feature bin/gherkin
+ifdef GOLDEN
 	mkdir -p `dirname $@`
-	bin/gherkin --json --no-source $< | jq --sort-keys --compact-output -f remove_empty.jq > $@
+	$(EXE) --json --no-source $< | jq --sort-keys -f remove_empty.jq > $@
+endif
+
+acceptance/testdata/%.feature.errors.ndjson: testdata/%.feature testdata/%.feature.errors.ndjson $(EXE)
+	mkdir -p `dirname $@`
+	$(EXE) --json --no-source $< | jq --sort-keys --compact-output -f remove_empty.jq > $@
 	diff --unified <(jq "." $<.errors.ndjson) <(jq "." $@)
 
-acceptance/testdata/%.feature.source.ndjson: testdata/%.feature testdata/%.feature.source.ndjson bin/gherkin
+testdata/%.feature.source.ndjson: testdata/%.feature $(EXE)
+ifdef GOLDEN
 	mkdir -p `dirname $@`
-	bin/gherkin --json --no-ast --no-pickles $< | jq --sort-keys -f remove_empty.jq > $@
+	$(EXE) --json --no-ast --no-pickles $< | jq --sort-keys -f remove_empty.jq > $@
+endif
+
+acceptance/testdata/%.feature.source.ndjson: testdata/%.feature testdata/%.feature.source.ndjson $(EXE)
+	mkdir -p `dirname $@`
+	$(EXE) --json --no-ast --no-pickles $< | jq --sort-keys --compact-output -f remove_empty.jq > $@
 	diff --unified <(jq "." $<.source.ndjson) <(jq "." $@)
 
-acceptance/testdata/%.feature.pickles.ndjson: testdata/%.feature testdata/%.feature.pickles.ndjson bin/gherkin
+testdata/%.feature.pickles.ndjson: testdata/%.feature bin/gherkin
+ifdef GOLDEN
 	mkdir -p `dirname $@`
-	bin/gherkin --json --no-source --no-ast $< | jq --sort-keys -f remove_empty.jq > $@
+	$(EXE) --json --no-source --no-ast $< | jq --sort-keys -f remove_empty.jq > $@
+endif
+
+acceptance/testdata/%.feature.pickles.ndjson: testdata/%.feature testdata/%.feature.pickles.ndjson $(EXE)
+	mkdir -p `dirname $@`
+	$(EXE) --json --no-source --no-ast $< | jq --sort-keys --compact-output -f remove_empty.jq > $@
 	diff --unified <(jq "." $<.pickles.ndjson) <(jq "." $@)
 
 parser.go: gherkin.berp parser.go.razor berp/berp.exe

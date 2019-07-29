@@ -18,3 +18,7 @@ The messages are defined in [messages.proto](./messages.proto).
 
 Each subdirectory defines language-specific implementations of these messages,
 generated with `protoc` - the Protobuf compiler.
+
+## Documentation
+
+See the generated [messages.md](messages.md) file.

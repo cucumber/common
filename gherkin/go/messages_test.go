@@ -2,7 +2,7 @@ package gherkin
 
 import (
 	"bytes"
-	"github.com/cucumber/cucumber-messages-go/v2"
+	"github.com/cucumber/cucumber/cucumber-messages/go"
 	gio "github.com/gogo/protobuf/io"
 	"testing"
 )
@@ -20,13 +20,13 @@ func TestMessagesWithStdin(t *testing.T) {
     Given b
 `
 
-	wrapper := &messages.Wrapper{
-		Message: &messages.Wrapper_Source{
+	wrapper := &messages.Envelope{
+		Message: &messages.Envelope_Source{
 			Source: &messages.Source{
 				Uri:  "features/test.feature",
 				Data: gherkin,
 				Media: &messages.Media{
-					Encoding:    "UTF-8",
+					Encoding:    messages.Media_UTF8,
 					ContentType: "text/x.cucumber.gherkin+plain",
 				},
 			},

@@ -1,1 +1,10 @@
-{"source":{"data":"# Just a comment","media":{"contentType":"text/x.cucumber.gherkin+plain","encoding":"UTF-8"},"uri":"testdata/good/incomplete_feature_3.feature"}}
+{
+  "source": {
+    "data": "# Just a comment",
+    "media": {
+      "contentType": "text/x.cucumber.gherkin+plain",
+      "encoding": "UTF8"
+    },
+    "uri": "testdata/good/incomplete_feature_3.feature"
+  }
+}

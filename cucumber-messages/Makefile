@@ -1,18 +1,11 @@
-# Please update /.templates/Makefile in the cucumber/cucumber monorepo
-# and sync:
-#
-#     source scripts/functions.sh && rsync_files
-#
-MAKEFILES=$(wildcard */Makefile)
+MAKEFILES = $(wildcard */Makefile)
+include default.mk
 
-default: $(patsubst %/Makefile,default-%,$(MAKEFILES))
-.PHONY: default
+ifndef ALPINE
+# Rebuild the docs unless we're already running in the build docker image (running
+# docker from docker doesn't work).
+default: messages.md
+endif
 
-default-%: %
-	cd $< && make default
-
-clean: $(patsubst %/Makefile,clean-%,$(MAKEFILES))
-.PHONY: clean
-
-clean-%: %
-	cd $< && make clean
+messages.md: messages.proto
+	docker run --rm -v $$(pwd):/out -v $$(pwd):/protos pseudomuto/protoc-gen-doc --doc_opt=markdown,$@

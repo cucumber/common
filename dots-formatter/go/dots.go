@@ -7,7 +7,7 @@ package dots
 
 import (
 	"fmt"
-	"github.com/cucumber/cucumber-messages-go/v2"
+	"github.com/cucumber/cucumber/cucumber-messages/go"
 	"github.com/fatih/color"
 	gio "github.com/gogo/protobuf/io"
 	"io"
@@ -21,31 +21,31 @@ func ProcessMessages(stdin io.Reader, stdout io.Writer) {
 
 	r := gio.NewDelimitedReader(stdin, 4096)
 	for {
-		wrapper := &messages.Wrapper{}
+		wrapper := &messages.Envelope{}
 		err := r.ReadMsg(wrapper)
 		if err == io.EOF {
 			break
 		}
 
 		switch m := wrapper.Message.(type) {
-		case *messages.Wrapper_TestHookFinished:
+		case *messages.Envelope_TestHookFinished:
 			switch m.TestHookFinished.TestResult.Status {
-			case messages.Status_FAILED:
+			case messages.TestResult_FAILED:
 				color.New(color.FgRed).Fprint(stdout, "H")
 			}
-		case *messages.Wrapper_TestStepFinished:
+		case *messages.Envelope_TestStepFinished:
 			switch m.TestStepFinished.TestResult.Status {
-			case messages.Status_AMBIGUOUS:
+			case messages.TestResult_AMBIGUOUS:
 				color.New(color.FgMagenta).Fprint(stdout, "A")
-			case messages.Status_FAILED:
+			case messages.TestResult_FAILED:
 				color.New(color.FgRed).Fprint(stdout, "F")
-			case messages.Status_PASSED:
+			case messages.TestResult_PASSED:
 				color.New(color.FgGreen).Fprint(stdout, ".")
-			case messages.Status_PENDING:
+			case messages.TestResult_PENDING:
 				color.New(color.FgYellow).Fprint(stdout, "P")
-			case messages.Status_SKIPPED:
+			case messages.TestResult_SKIPPED:
 				color.New(color.FgCyan).Fprint(stdout, "-")
-			case messages.Status_UNDEFINED:
+			case messages.TestResult_UNDEFINED:
 				color.New(color.FgYellow).Fprint(stdout, "U")
 			}
 		}

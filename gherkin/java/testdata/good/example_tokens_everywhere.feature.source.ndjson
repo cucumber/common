@@ -1,1 +1,10 @@
-{"source":{"data":"Feature: Example tokens everywhere\n\n  Scenario Outline: the <one>\n    Given the <two>:\n      \"\"\"\n      <three>\n      \"\"\"\n    Given the <four>:\n      | <five> |\n\n    Examples:\n      | one | two  | three | four   | five  |\n      | un  | deux | trois | quatre | cinq  |\n      | uno | dos  | tres  | quatro | cinco |\n","media":{"contentType":"text/x.cucumber.gherkin+plain","encoding":"UTF-8"},"uri":"testdata/good/example_tokens_everywhere.feature"}}
+{
+  "source": {
+    "data": "Feature: Example tokens everywhere\n\n  Scenario Outline: the <one>\n    Given the <two>:\n      \"\"\"\n      <three>\n      \"\"\"\n    Given the <four>:\n      | <five> |\n\n    Examples:\n      | one | two  | three | four   | five  |\n      | un  | deux | trois | quatre | cinq  |\n      | uno | dos  | tres  | quatro | cinco |\n",
+    "media": {
+      "contentType": "text/x.cucumber.gherkin+plain",
+      "encoding": "UTF8"
+    },
+    "uri": "testdata/good/example_tokens_everywhere.feature"
+  }
+}

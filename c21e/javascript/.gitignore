@@ -1,3 +1,4 @@
+dist/
 .idea/
 .nyc_output/
 coverage/
@@ -8,10 +9,9 @@ package-lock.json
 .deps
 .tested
 .linted
+.built
 .compared
 .codegen
-acceptance
-*-go/
-# Only applies to cucumber-messages/javascript
-src/cucumber-messages.d.ts
-src/cucumber-messages.js
+.npm-linked
+acceptance/
+*-go

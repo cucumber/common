@@ -14,11 +14,12 @@
             <useTransitiveDependencies>false</useTransitiveDependencies>
             <unpack>true</unpack>
             <scope>runtime</scope>
+            <useStrictFiltering>true</useStrictFiltering>
         </dependencySet>
     </dependencySets>
     <fileSets>
         <fileSet>
-            <directory>gherkin-go</directory>
+            <directory>executables</directory>
         </fileSet>
     </fileSets>
 </assembly>

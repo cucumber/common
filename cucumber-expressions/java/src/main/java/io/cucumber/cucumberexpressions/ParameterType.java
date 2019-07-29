@@ -200,6 +200,13 @@ public final class ParameterType<T> implements Comparable<ParameterType<?>> {
         return name.compareTo(otherName);
     }
 
+    public int weight() {
+        if(this.type.equals(Integer.class) || this.type.equals(Integer.TYPE)) {
+            return 1000;
+        }
+        return 0;
+    }
+
     private static final class TransformerAdaptor<T> implements CaptureGroupTransformer<T> {
 
         private final Transformer<T> transformer;

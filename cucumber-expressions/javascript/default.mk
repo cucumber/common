@@ -1,44 +1,51 @@
 SHELL := /usr/bin/env bash
-JAVASCRIPT_SOURCE_FILES = $(shell find src test -type f -name "*.js")
 TYPESCRIPT_SOURCE_FILES = $(shell find src test -type f -name "*.ts")
 
-ifdef TRAVIS_TAG
-	LIBRARY_VERSION=$(TRAVIS_TAG)
-else
-	LIBRARY_VERSION=master
-endif
-
-ASYNC_SUPPORTED := $(shell node --eval "async function foo(){}" 2> /dev/null; echo $$?)
-
-default: .tested .linted
+default: .tested .built
 .PHONY: default
 
-.codegen: .deps
-
-.tested: package-lock.json .codegen $(JAVASCRIPT_SOURCE_FILES) $(TYPESCRIPT_SOURCE_FILES)
-	npm run build
-ifeq ($(ASYNC_SUPPORTED),0)
-	npm run test
-else
-	npm run build-test
-	npm run mocha-built
-endif
+.deps: package-lock.json
 	touch $@
 
-.linted: $(JAVASCRIPT_SOURCE_FILES) $(TYPESCRIPT_SOURCE_FILES)
+.codegen:
+	touch $@
+
+.built: .deps .codegen $(TYPESCRIPT_SOURCE_FILES)
+	npm run build
+	touch $@
+
+.tested: .deps .codegen $(TYPESCRIPT_SOURCE_FILES)
+	TS_NODE_TRANSPILE_ONLY=1 npm run test
+	touch $@
+
+.linted: .deps .codegen $(TYPESCRIPT_SOURCE_FILES)
 	npm run lint-fix
 	touch $@
 
-.deps: package-lock.json
-
 package-lock.json: package.json
 	npm install
-	npm link
 	touch $@
+
+update-dependencies:
+	npx npm-check-updates --upgrade
+.PHONY: update-dependencies
+
+update-version:
+ifdef NEW_VERSION
+	npm --no-git-tag-version --allow-same-version version "$(NEW_VERSION)"
+else
+	@echo -e "\033[0;NEW_VERSION is not defined. Can't update version :-(\033[0m"
+	exit 1
+endif
+.PHONY: update-version
+
+publish: .deps
+	npm publish
+.PHONY: publish
 
 clean: clean-javascript
 .PHONY: clean
 
 clean-javascript:
-	rm -rf .codegen .linted package-lock.json node_modules coverage dist
+	rm -rf .codegen .built .tested .linted package-lock.json node_modules coverage dist
 .PHONY: clean-javascript

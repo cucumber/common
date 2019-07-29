@@ -1,7 +1,7 @@
 package io.cucumber.gherkin;
 
-import io.cucumber.messages.Messages.Wrapper;
-import io.cucumber.messages.StreamWrapperIterable;
+import io.cucumber.messages.Messages.Envelope;
+import io.cucumber.messages.ProtobufStreamIterable;
 import io.cucumber.messages.com.google.protobuf.util.JsonFormat;
 import io.cucumber.messages.com.google.protobuf.util.JsonFormat.Printer;
 
@@ -50,19 +50,19 @@ public class Main {
         }
 
         if (dialects) {
-            InputStream gherkinStdout = Gherkin.EXE.execute(Collections.singletonList("--dialects"), null);
+            InputStream gherkinStdout = Gherkin.makeExe().execute(Collections.singletonList("--dialects"), null);
             IO.copy(gherkinStdout, System.out);
             System.exit(0);
         }
 
-        Iterable<Wrapper> messages = paths.isEmpty() ?
-                new StreamWrapperIterable(System.in) :
+        Iterable<Envelope> messages = paths.isEmpty() ?
+                new ProtobufStreamIterable(System.in) :
                 Gherkin.fromPaths(paths, includeSource, includeAst, includePickles);
         printMessages(jsonPrinter, messages);
     }
 
-    private static void printMessages(Printer jsonPrinter, Iterable<Wrapper> messages) throws IOException {
-        for (Wrapper wrapper : messages) {
+    private static void printMessages(Printer jsonPrinter, Iterable<Envelope> messages) throws IOException {
+        for (Envelope wrapper : messages) {
             if (jsonPrinter != null) {
                 IO.out.write(jsonPrinter.print(wrapper));
                 IO.out.write("\n");

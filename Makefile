@@ -2,7 +2,6 @@ SHELL := /usr/bin/env bash
 MAKEFILES=c21e/Makefile \
 	cucumber-messages/Makefile \
 	gherkin/Makefile \
-	dots-formatter/Makefile \
 	datatable/Makefile \
 	config/Makefile \
 	cucumber-expressions/Makefile \
@@ -13,6 +12,12 @@ default: .rsynced $(patsubst %/Makefile,default-%,$(MAKEFILES))
 
 default-%: %
 	cd $< && make default
+
+update-dependencies: $(patsubst %/Makefile,update-dependencies-%,$(MAKEFILES))
+.PHONY: update-dependencies
+
+update-dependencies-%: %
+	cd $< && make update-dependencies
 
 clean: $(patsubst %/Makefile,clean-%,$(MAKEFILES)) rm-release
 	rm -f .rsynced

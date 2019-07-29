@@ -1,7 +1,7 @@
 # encoding: utf-8
 Gem::Specification.new do |s|
   s.name        = 'gherkin'
-  s.version     = '6.0.17'
+  s.version     = '7.0.0'
   s.authors     = ["Gáspár Nagy", "Aslak Hellesøy", "Steve Tooke"]
   s.description = 'Gherkin parser'
   s.summary     = "#{s.name}-#{s.version}"
@@ -14,13 +14,13 @@ Gem::Specification.new do |s|
   s.metadata    = {
                     'bug_tracker_uri'   => 'https://github.com/cucumber/cucumber/issues',
                     'changelog_uri'     => 'https://github.com/cucumber/cucumber/blob/master/gherkin/CHANGELOG.md',
-                    'documentation_uri' => 'https://docs.cucumber.io/gherkin/',
+                    'documentation_uri' => 'https://cucumber.io/docs/gherkin/',
                     'mailing_list_uri'  => 'https://groups.google.com/forum/#!forum/cukes',
                     'source_code_uri'   => 'https://github.com/cucumber/cucumber/blob/master/gherkin/ruby',
                   }
 
-  s.add_dependency 'c21e', '~> 1.1.9'
-  s.add_dependency 'cucumber-messages', '~> 2.1.2'
+  s.add_dependency 'c21e', '~> 1.2.1'
+  s.add_dependency 'cucumber-messages', '~> 3.0.0'
 
   s.add_development_dependency 'bundler'
   s.add_development_dependency 'rake',  '~> 10.5'

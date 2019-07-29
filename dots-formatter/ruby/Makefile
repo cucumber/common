@@ -1,8 +1,10 @@
 include default.mk
 
-.deps:
-	./scripts/s3-download dots-formatter-go $(LIBRARY_VERSION)
-	touch $@
+.deps: executables
+
+executables:
+	rm -rf executables
+	ln -s "$$(pwd)/../../dots-formatter/go/dist" executables
 
 clean:
 	rm -rf dots-formatter-go

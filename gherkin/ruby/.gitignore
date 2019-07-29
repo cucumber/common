@@ -1,8 +1,9 @@
 Gemfile.lock
 coverage/
 acceptance/
-.compared
 pkg/
-gherkin-go/
+*.gem
+.compared
 .deps
 .tested
+*-go

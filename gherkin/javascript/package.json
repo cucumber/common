@@ -8,13 +8,12 @@
     "gherkin-javascript": "bin/gherkin"
   },
   "scripts": {
-    "test": "mocha test/**/*.{ts,js}",
-    "lint-fix": "eslint --fix src test",
-    "coverage": "nyc --reporter=html --reporter=text mocha test/**/*.{ts,js}",
-    "build": "babel src --out-dir dist/src",
-    "build-test": "babel test --out-dir dist/test",
-    "prepublishOnly": "npm run build",
-    "mocha-built": "mocha dist/test"
+    "test": "mocha",
+    "lint": "tslint src/**/*.ts test/**/*.ts",
+    "lint-fix": "tslint --fix src/**/*.ts test/**/*.ts",
+    "coverage": "nyc --reporter=html --reporter=text mocha",
+    "build": "tsc",
+    "prepublishOnly": "npm run build"
   },
   "repository": {
     "type": "git",
@@ -31,26 +30,19 @@
   },
   "homepage": "https://github.com/cucumber/gherkin-javascript",
   "devDependencies": {
-    "@babel/cli": "^7.0.0",
-    "@babel/core": "^7.0.0",
-    "@babel/plugin-transform-async-to-generator": "^7.0.0",
-    "@babel/polyfill": "^7.0.0",
-    "@babel/preset-env": "^7.0.0",
-    "@types/mocha": "^5.2.5",
-    "@types/node": "^11.12.1",
-    "eslint": "^5.3.0",
-    "eslint-config-eslint": "^5.0.1",
-    "eslint-config-prettier": "^4.1.0",
-    "eslint-plugin-node": "^8.0.1",
-    "eslint-plugin-prettier": "^3.0.0",
-    "mocha": "^6.0.2",
-    "nyc": "^13.1.0",
-    "prettier": "^1.8.2",
-    "ts-node": "^8.0.3",
-    "typescript": "^3.4.1"
+    "@types/mocha": "^5.2.7",
+    "@types/node": "^12.6.2",
+    "mocha": "^6.1.4",
+    "nyc": "^14.1.1",
+    "prettier": "^1.18.2",
+    "ts-node": "^8.3.0",
+    "tslint": "^5.18.0",
+    "tslint-config-prettier": "^1.18.0",
+    "tslint-plugin-prettier": "^2.0.1",
+    "typescript": "^3.5.3"
   },
   "dependencies": {
-    "c21e": "cucumber/c21e-javascript",
-    "cucumber-messages": "cucumber/cucumber-messages-javascript"
+    "c21e": "1.2.1",
+    "cucumber-messages": "3.0.0"
   }
 }

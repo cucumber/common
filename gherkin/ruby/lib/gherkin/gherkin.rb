@@ -1,12 +1,11 @@
 require 'open3'
 require 'c21e/exe_file'
-require 'gherkin/protobuf_cucumber_messages'
+# require 'gherkin/protobuf_cucumber_messages'
 require 'gherkin/exe_file_path'
 require 'cucumber/messages'
 
 module Gherkin
   class Gherkin
-    include Cucumber::Messages::Varint
 
     DEFAULT_OPTIONS = {
       include_source: true,
@@ -39,15 +38,13 @@ module Gherkin
       stdin, stdout, stderr, wait_thr = Open3.popen3(*args)
       stdin.binmode
       @sources.each do |source|
-        wrapper = Cucumber::Messages::Wrapper.new(
+        wrapper = Cucumber::Messages::Envelope.new(
           source: source
         )
-        proto = Cucumber::Messages::Wrapper.encode(wrapper)
-        encode_varint(stdin, proto.length)
-        stdin.write(proto)
+        wrapper.write_delimited_to(stdin)
       end
       stdin.close
-      ProtobufCucumberMessages.new(stdout, stderr).messages
+      Cucumber::Messages::ProtobufIoEnumerator.call(stdout)
     end
 
     private
@@ -63,7 +60,7 @@ module Gherkin
 
     def self.encode_source_message(uri, data)
       media_obj = Cucumber::Messages::Media.new
-      media_obj.encoding = 'UTF-8'
+      media_obj.encoding = :UTF8
       media_obj.content_type = 'text/x.cucumber.gherkin+plain'
       source_obj = Cucumber::Messages::Source.new
       source_obj.uri = uri

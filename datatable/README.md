@@ -39,7 +39,7 @@ This representation is not very useful. The fields are no longer labeled and
 the first row has to be discarded. So instead we can convert this table 
 into a list of maps.
 
-`java type: List<Map<String, String>`
+`java type: List<Map<String, String>>`
 
 ```json
 [
@@ -109,7 +109,7 @@ are swapped. This can be avoided by adding a header to the table:
 Note that the first cell has been left blank. This tells the table that the
 map's keys should be created from the first column rather than the header.
 
-`java type: Map<String, Map<String, Double>>`
+`java type: Map<String, Map<String, String>>`
 
 ```json
 {
