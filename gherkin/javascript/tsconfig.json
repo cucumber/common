@@ -12,6 +12,8 @@
     ],
     "sourceMap": true,
     "allowJs": false,
+    "jsx": "react",
+    "resolveJsonModule": true,
     "module": "commonjs",
     "esModuleInterop": true,
     "noImplicitAny": true,

@@ -1,0 +1,70 @@
+{
+  "name": "react-typescript-storybook",
+  "version": "4.0.1",
+  "description": "Starter project for React, TypeScript and StoryBook",
+  "main": "dist/src/index.js",
+  "types": "dist/src/index.d.ts",
+  "repository": "https://github.com/aslakhellesoy/react-typescript-storybook",
+  "author": "Aslak Hellesøy",
+  "license": "MIT",
+  "scripts": {
+    "nyc": "nyc --reporter=html --reporter=text mocha",
+    "test": "mocha",
+    "build": "tsc",
+    "storybook": "start-storybook -p 6006",
+    "build-storybook": "build-storybook",
+    "pretty-quick": "pretty-quick --staged"
+  },
+  "dependencies": {
+    "@types/react": "^16.8.22",
+    "@types/react-dom": "^16.8.4",
+    "cucumber-messages": "3.0.0",
+    "react": "^16.8.6",
+    "react-dom": "^16.8.6"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.4.5",
+    "@storybook/addon-actions": "^5.1.9",
+    "@storybook/addon-links": "^5.1.9",
+    "@storybook/addons": "^5.1.9",
+    "@storybook/react": "^5.1.9",
+    "@types/mocha": "^5.2.7",
+    "@types/node": "^12.6.2",
+    "@types/storybook__react": "^4.0.2",
+    "awesome-typescript-loader": "^5.2.1",
+    "babel-loader": "^8.0.6",
+    "c21e": "1.2.1",
+    "gherkin": "6.0.17",
+    "jsdom": "^15.1.1",
+    "mocha": "^6.2.0",
+    "nyc": "^14.1.1",
+    "prettier": "^1.18.2",
+    "pretty-quick": "^1.11.1",
+    "prop-types": "^15.5.9",
+    "source-map-support": "^0.5.12",
+    "ts-node": "^8.3.0",
+    "typescript": "^3.5.3",
+    "webpack": "^4.35.0",
+    "webpack-cli": "^3.3.5"
+  },
+  "nyc": {
+    "extension": [
+      ".ts",
+      ".tsx"
+    ],
+    "exclude": [
+      "**/*.d.ts",
+      "coverage",
+      "stories"
+    ],
+    "reporter": [
+      "html"
+    ],
+    "all": true
+  },
+  "prettier": {
+    "trailingComma": "es5",
+    "semi": false,
+    "singleQuote": true
+  }
+}

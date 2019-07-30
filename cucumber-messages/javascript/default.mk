@@ -12,6 +12,7 @@ default: .tested .built
 
 .built: .deps .codegen $(TYPESCRIPT_SOURCE_FILES)
 	npm run build
+	npm link
 	touch $@
 
 .tested: .deps .codegen $(TYPESCRIPT_SOURCE_FILES)

@@ -1,0 +1,17 @@
+dist/
+.idea/
+.nyc_output/
+coverage/
+node_modules/
+yarn.lock
+npm-debug.log
+package-lock.json
+.deps
+.tested
+.linted
+.built
+.compared
+.codegen
+.npm-linked
+acceptance/
+*-go
