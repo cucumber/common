@@ -5,6 +5,7 @@ default: .tested .built
 .PHONY: default
 
 .deps: package-lock.json
+	if [ -f ".internal-dependencies" ]; then cat .internal-dependencies | xargs -n 1 scripts/npm-link; fi
 	touch $@
 
 .codegen:
@@ -12,7 +13,6 @@ default: .tested .built
 
 .built: .deps .codegen $(TYPESCRIPT_SOURCE_FILES)
 	npm run build
-	npm link
 	touch $@
 
 .tested: .deps .codegen $(TYPESCRIPT_SOURCE_FILES)

@@ -12,6 +12,5 @@ package-lock.json
 .built
 .compared
 .codegen
-.npm-linked
 acceptance/
 *-go

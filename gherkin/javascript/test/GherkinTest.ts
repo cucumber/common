@@ -6,7 +6,7 @@ import Envelope = messages.Envelope
 import Source = messages.Source
 import Media = messages.Media
 
-describe('gherkin (TypeScript)', () => {
+describe('gherkin', () => {
   it('parses gherkin from the file system', async () => {
     const wrappers = await streamToArray(
       gherkin.fromPaths(['testdata/good/minimal.feature'])

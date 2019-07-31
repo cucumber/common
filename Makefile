@@ -2,6 +2,7 @@ SHELL := /usr/bin/env bash
 MAKEFILES=c21e/Makefile \
 	cucumber-messages/Makefile \
 	gherkin/Makefile \
+	cucumber-react/Makefile \
 	datatable/Makefile \
 	config/Makefile \
 	cucumber-expressions/Makefile \
