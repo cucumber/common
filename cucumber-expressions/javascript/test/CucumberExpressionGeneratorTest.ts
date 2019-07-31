@@ -132,7 +132,7 @@ describe('CucumberExpressionGenerator', () => {
     parameterTypeRegistry.defineParameterType(
       new ParameterType<Currency>(
         'currency',
-        /cd/,
+        /c d/,
         Currency,
         s => new Currency(s),
         true,
@@ -140,10 +140,10 @@ describe('CucumberExpressionGenerator', () => {
       )
     )
     parameterTypeRegistry.defineParameterType(
-      new ParameterType('date', /bc/, Date, s => new Date(s), true, false)
+      new ParameterType('date', /b c/, Date, s => new Date(s), true, false)
     )
 
-    assertExpression('a{date}defg', ['date'], 'abcdefg')
+    assertExpression('a {date} d e f g', ['date'], 'a b c d e f g')
   })
 
   // TODO: prefers widest match
@@ -201,7 +201,7 @@ describe('CucumberExpressionGenerator', () => {
     parameterTypeRegistry.defineParameterType(
       new ParameterType(
         'optional-hotel',
-        /(1st hotel)?/,
+        /(1 hotel)?/,
         null,
         s => s,
         true,
@@ -210,24 +210,24 @@ describe('CucumberExpressionGenerator', () => {
     )
 
     const expression = generator.generateExpressions(
-      'I reach Stage4: 1st flight-1st hotel'
+      'I reach Stage 4: 1st flight -1 hotel'
     )[0]
-    // While you would expect this to be `I reach Stage{int}: {optional-flight}-{optional-hotel}` the `-1` causes
+    // While you would expect this to be `I reach Stage {int}: {optional-flight} -{optional-hotel}` the `-1` causes
     // {int} to match just before {optional-hotel}.
     assert.strictEqual(
       expression.source,
-      'I reach Stage{int}: {optional-flight}{int}st hotel'
+      'I reach Stage {int}: {optional-flight} {int} hotel'
     )
   })
 
   it('generates at most 256 expressions', () => {
     for (let i = 0; i < 4; i++) {
       parameterTypeRegistry.defineParameterType(
-        new ParameterType('my-type-' + i, /[a-z]/, null, s => s, true, false)
+        new ParameterType('my-type-' + i, /([a-z] )*?[a-z]/, null, s => s, true, false)
       )
     }
     // This would otherwise generate 4^11=419430 expressions and consume just shy of 1.5GB.
-    const expressions = generator.generateExpressions('a simple step')
+    const expressions = generator.generateExpressions('a s i m p l e s t e p')
     assert.strictEqual(expressions.length, 256)
   })
 
