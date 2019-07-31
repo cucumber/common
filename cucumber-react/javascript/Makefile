@@ -9,8 +9,10 @@ GHERKIN_EXE = ../../gherkin/go/dist/gherkin-$(OS)-$(ARCH)
 FEATURE_FILES = $(wildcard testdata/*.feature)
 GHERKIN_DOCUMENT_JSON_FILES = $(patsubst testdata/%.feature,testdata/%.json,$(FEATURE_FILES))
 
-gherkin_document_json_files: $(GHERKIN_DOCUMENT_JSON_FILES)
-
 testdata/%.json: testdata/%.feature
 	$(GHERKIN_EXE) --no-pickles --no-source --json $< > $@
-	
+
+.codegen: $(GHERKIN_DOCUMENT_JSON_FILES)
+
+clean:
+	rm -f $(GHERKIN_DOCUMENT_JSON_FILES)
