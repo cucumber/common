@@ -202,6 +202,17 @@ jobs:
             cd tag-expressions/javascript
             make
 
+  cucumber-react-javascript:
+    executor: docker-circleci-node
+    steps:
+      - attach_workspace:
+          at: "~/cucumber"
+      - run:
+          name: cucumber-react/javascript
+          command: |
+            cd cucumber-react/javascript
+            make
+
 ### Ruby
 
   c21e-ruby:
@@ -473,6 +484,11 @@ workflows:
       - tag-expressions-javascript:
           requires:
             - checkout
+      - cucumber-react-javascript:
+          requires:
+            - c21e-javascript
+            - cucumber-messages-javascript
+            - gherkin-javascript
 
 ### Ruby
 
