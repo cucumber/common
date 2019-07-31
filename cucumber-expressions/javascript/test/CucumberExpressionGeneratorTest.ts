@@ -250,4 +250,92 @@ describe('CucumberExpressionGenerator', () => {
       '{zero-or-more} {zero-or-more} {zero-or-more}'
     )
   })
+
+  it('does not suggest parameter included at the beginning of a word', () => {
+    parameterTypeRegistry.defineParameterType(
+      new ParameterType('direction', /(up|down)/, null, s => s, true, false)
+    )
+
+    const expressions = generator.generateExpressions('I download a picture')
+    assert.strictEqual(expressions.length, 1)
+    assert.notEqual(
+      expressions[0].source,
+      'I {direction}load a picture'
+    )
+    assert.strictEqual(
+      expressions[0].source,
+      'I download a picture'
+    )
+  })
+
+  it('does not suggest parameter included inside a word', () => {
+    parameterTypeRegistry.defineParameterType(
+      new ParameterType('direction', /(up|down)/, null, s => s, true, false)
+    )
+
+    const expressions = generator.generateExpressions('I watch the muppet show')
+    assert.strictEqual(expressions.length, 1)
+    assert.notEqual(
+      expressions[0].source,
+      'I watch the m{direction}pet show'
+    )
+    assert.strictEqual(
+      expressions[0].source,
+      'I watch the muppet show'
+    )
+  })
+
+  it('does not suggest parameter at the end of a word', () => {
+    parameterTypeRegistry.defineParameterType(
+      new ParameterType('direction', /(up|down)/, null, s => s, true, false)
+    )
+
+    const expressions = generator.generateExpressions('I create a group')
+    assert.strictEqual(expressions.length, 1)
+    assert.notEqual(
+      expressions[0].source,
+      'I create a gro{direction}'
+    )
+    assert.strictEqual(
+      expressions[0].source,
+      'I create a group'
+    )
+  })
+
+  it('does suggest parameter that are a full word', () => {
+    parameterTypeRegistry.defineParameterType(
+      new ParameterType('direction', /(up|down)/, null, s => s, true, false)
+    )
+
+    assert.strictEqual(
+      generator.generateExpressions("When I go down the road")[0].source,
+      "When I go {direction} the road"
+    )
+
+    assert.strictEqual(
+      generator.generateExpressions("When I walk up the hill")[0].source,
+      "When I walk {direction} the hill"
+    )
+
+    assert.strictEqual(
+      generator.generateExpressions("up the hill, the road goes down")[0].source,
+      "{direction} the hill, the road goes {direction}"
+    )
+  })
+
+  it('does not consider punctuation as being part of a word', () => {
+    parameterTypeRegistry.defineParameterType(
+      new ParameterType('direction', /(up|down)/, null, s => s, true, false)
+    )
+
+    assert.strictEqual(
+      generator.generateExpressions("direction is:down")[0].source,
+      "direction is:{direction}"
+    )
+
+    assert.strictEqual(
+      generator.generateExpressions("direction is down.")[0].source,
+      "direction is {direction}."
+    )
+  })
 })
