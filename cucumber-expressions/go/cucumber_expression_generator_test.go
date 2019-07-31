@@ -109,7 +109,7 @@ func TestCucumberExpressionGeneratory(t *testing.T) {
 		parameterTypeRegistry := NewParameterTypeRegistry()
 		parameterType1, err := NewParameterType(
 			"type1",
-			[]*regexp.Regexp{regexp.MustCompile("cd")},
+			[]*regexp.Regexp{regexp.MustCompile("c d")},
 			"type1",
 			nil,
 			true,
@@ -119,7 +119,7 @@ func TestCucumberExpressionGeneratory(t *testing.T) {
 		require.NoError(t, parameterTypeRegistry.DefineParameterType(parameterType1))
 		parameterType2, err := NewParameterType(
 			"type2",
-			[]*regexp.Regexp{regexp.MustCompile("bc")},
+			[]*regexp.Regexp{regexp.MustCompile("b c")},
 			"type2",
 			nil,
 			true,
@@ -131,9 +131,9 @@ func TestCucumberExpressionGeneratory(t *testing.T) {
 		assertExpressionWithParameterTypeRegistry(
 			t,
 			parameterTypeRegistry,
-			"a{type2}defg",
+			"a {type2} d e f g",
 			[]string{"type2"},
-			"abcdefg",
+			"a b c d e f g",
 		)
 	})
 
@@ -204,7 +204,7 @@ func TestCucumberExpressionGeneratory(t *testing.T) {
 		require.NoError(t, parameterTypeRegistry.DefineParameterType(optionalFlightParameterType))
 		optionalHotelParameterType, err := NewParameterType(
 			"optional-hotel",
-			[]*regexp.Regexp{regexp.MustCompile("(1st hotel)?")},
+			[]*regexp.Regexp{regexp.MustCompile("(1 hotel)?")},
 			"optional-hotel",
 			nil,
 			true,
@@ -213,10 +213,10 @@ func TestCucumberExpressionGeneratory(t *testing.T) {
 		require.NoError(t, err)
 		require.NoError(t, parameterTypeRegistry.DefineParameterType(optionalHotelParameterType))
 		generator := NewCucumberExpressionGenerator(parameterTypeRegistry)
-		generatedExpression := generator.GenerateExpressions("I reach Stage4: 1st flight-1st hotel")[0]
-		// While you would expect this to be `I reach Stage{int}: {optional-flight}-{optional-hotel}`
+		generatedExpression := generator.GenerateExpressions("I reach Stage 4: 1st flight -1 hotel")[0]
+		// While you would expect this to be `I reach Stage {int}: {optional-flight} -{optional-hotel}`
 		// the `-1` causes {int} to match just before {optional-hotel}.
-		require.Equal(t, generatedExpression.Source(), "I reach Stage{int}: {optional-flight}{int}st hotel")
+		require.Equal(t, generatedExpression.Source(), "I reach Stage {int}: {optional-flight} {int} hotel")
 	})
 
 	t.Run("generates at most 256 expressions", func(t *testing.T) {
@@ -224,7 +224,7 @@ func TestCucumberExpressionGeneratory(t *testing.T) {
 		for i := 1; i <= 4; i++ {
 			myType, err := NewParameterType(
 				"my-type-"+string(i),
-				[]*regexp.Regexp{regexp.MustCompile("[a-z]")},
+				[]*regexp.Regexp{regexp.MustCompile("([a-z] )*?[a-z]")},
 				"string",
 				nil,
 				true,
@@ -236,7 +236,7 @@ func TestCucumberExpressionGeneratory(t *testing.T) {
 
 		generator := NewCucumberExpressionGenerator(parameterTypeRegistry)
 		// This would otherwise generate 4^11=419430 expressions and consume just shy of 1.5GB.
-		generatedExpressions := generator.GenerateExpressions("a simple step")
+		generatedExpressions := generator.GenerateExpressions("a s i m p l e s t e p")
 		require.Equal(t, len(generatedExpressions), 256)
 	})
 
