@@ -4,7 +4,7 @@ module Cucumber
       attr_reader :parameter_type
 
       def initialize(parameter_type, regexp, text, match_position=0)
-        @parameter_type, @regexp, @text, @force_full_word = parameter_type, regexp, text
+        @parameter_type, @regexp, @text = parameter_type, regexp, text
         @match = @regexp.match(@text, match_position)
       end
 
@@ -24,7 +24,7 @@ module Cucumber
       end
 
       def full_word?
-        space_before_match_or_sentence_start && space_after_match_or_sentence_end
+        space_before_match_or_sentence_start? && space_after_match_or_sentence_end?
       end
 
       def start
@@ -45,12 +45,12 @@ module Cucumber
 
       private
 
-      def space_before_match_or_sentence_start
+      def space_before_match_or_sentence_start?
         match_begin = @match.begin(0)
         match_begin == 0 || @text[match_begin - 1].match(/\s|\p{P}/)
       end
 
-      def space_after_match_or_sentence_end
+      def space_after_match_or_sentence_end?
         match_end = @match.end(0)
         match_end == @text.length || @text[match_end].match(/\s|\p{P}/)
       end

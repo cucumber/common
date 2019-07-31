@@ -163,7 +163,7 @@ module Cucumber
       end
 
       context "does not suggest parameter when match is" do
-        let!(:direction_parameter_type) {
+        before do
           @parameter_type_registry.define_parameter_type(ParameterType.new(
               'direction',
               /(up|down)/,
@@ -172,7 +172,7 @@ module Cucumber
               true,
               false
           ))
-        }
+        end
 
         it "at the beginning of a word" do
           expect(@generator.generate_expression("When I download a picture").source).not_to eq("When I {direction}load a picture")
@@ -191,7 +191,7 @@ module Cucumber
       end
 
       context "does suggest parameter when match is" do
-        let!(:direction_parameter_type) {
+        before do
           @parameter_type_registry.define_parameter_type(ParameterType.new(
               'direction',
               /(up|down)/,
@@ -200,7 +200,7 @@ module Cucumber
               true,
               false
           ))
-        }
+        end
 
         it "a full word" do
           expect(@generator.generate_expression("When I go down the road").source).to eq("When I go {direction} the road")
