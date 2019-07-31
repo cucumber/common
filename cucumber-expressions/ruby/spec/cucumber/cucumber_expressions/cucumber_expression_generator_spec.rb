@@ -173,6 +173,7 @@ module Cucumber
               false
           ))
         }
+
         it "at the beginning of a word" do
           expect(@generator.generate_expression("When I download a picture").source).not_to eq("When I {direction}load a picture")
           expect(@generator.generate_expression("When I download a picture").source).to eq("When I download a picture")
@@ -187,6 +188,19 @@ module Cucumber
           expect(@generator.generate_expression("When I create a group").source).not_to eq("When I create a gro{direction}")
           expect(@generator.generate_expression("When I create a group").source).to eq("When I create a group")
         end
+      end
+
+      context "does suggest parameter when match is" do
+        let!(:direction_parameter_type) {
+          @parameter_type_registry.define_parameter_type(ParameterType.new(
+              'direction',
+              /(up|down)/,
+              String,
+              lambda {|s| s},
+              true,
+              false
+          ))
+        }
 
         it "a full word" do
           expect(@generator.generate_expression("When I go down the road").source).to eq("When I go {direction} the road")
@@ -194,7 +208,7 @@ module Cucumber
           expect(@generator.generate_expression("up the hill, the road goes down").source).to eq("{direction} the hill, the road goes {direction}")
         end
 
-        it 'does not consider punctuation as being part of a word' do
+        it 'wrapped around punctuation characters' do
           expect(@generator.generate_expression("When direction is:down").source).to eq("When direction is:{direction}")
           expect(@generator.generate_expression("Then direction is down.").source).to eq("Then direction is {direction}.")
         end
