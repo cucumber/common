@@ -6,7 +6,7 @@ module Cucumber
       ILLEGAL_PARAMETER_NAME_PATTERN = /([\[\]()$.|?*+])/
       UNESCAPE_PATTERN = /(\\([\[$.|?*+\]]))/
 
-      attr_reader :name, :type, :regexps, :force_full_word
+      attr_reader :name, :type, :regexps
 
       def self.check_parameter_type_name(type_name)
         unescaped_type_name = type_name.gsub(UNESCAPE_PATTERN) do
@@ -34,7 +34,7 @@ module Cucumber
       # @param use_for_snippets true if this should be used for snippet generation
       # @param prefer_for_regexp_match true if this should be preferred over similar types
       #
-      def initialize(name, regexp, type, transformer, use_for_snippets, prefer_for_regexp_match, force_full_word=true)
+      def initialize(name, regexp, type, transformer, use_for_snippets, prefer_for_regexp_match)
         raise "regexp can't be nil" if regexp.nil?
         raise "type can't be nil" if type.nil?
         raise "transformer can't be nil" if transformer.nil?
@@ -42,7 +42,7 @@ module Cucumber
         raise "prefer_for_regexp_match can't be nil" if prefer_for_regexp_match.nil?
 
         self.class.check_parameter_type_name(name) unless name.nil?
-        @name, @type, @transformer, @use_for_snippets, @prefer_for_regexp_match, @force_full_word = name, type, transformer, use_for_snippets, prefer_for_regexp_match, force_full_word
+        @name, @type, @transformer, @use_for_snippets, @prefer_for_regexp_match = name, type, transformer, use_for_snippets, prefer_for_regexp_match
         @regexps = string_array(regexp)
       end
 

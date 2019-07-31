@@ -3,20 +3,20 @@ module Cucumber
     class ParameterTypeMatcher
       attr_reader :parameter_type
 
-      def initialize(parameter_type, regexp, text, match_position=0, force_full_word=true)
-        @parameter_type, @regexp, @text, @force_full_word = parameter_type, regexp, text, force_full_word
+      def initialize(parameter_type, regexp, text, match_position=0)
+        @parameter_type, @regexp, @text, @force_full_word = parameter_type, regexp, text
         @match = @regexp.match(@text, match_position)
       end
 
       def advance_to(new_match_position)
         (new_match_position...@text.length).each {|advancedPos|
-          matcher = self.class.new(parameter_type, @regexp, @text, advancedPos, @force_full_word)
+          matcher = self.class.new(parameter_type, @regexp, @text, advancedPos)
           if matcher.find && matcher.full_word?
             return matcher
           end
         }
 
-        self.class.new(parameter_type, @regexp, @text, @text.length, @force_full_word)
+        self.class.new(parameter_type, @regexp, @text, @text.length)
       end
 
       def find
@@ -24,7 +24,7 @@ module Cucumber
       end
 
       def full_word?
-        !@force_full_word || (space_before_match_or_sentence_start && space_after_match_or_sentence_end)
+        space_before_match_or_sentence_start && space_after_match_or_sentence_end
       end
 
       def start
@@ -47,12 +47,12 @@ module Cucumber
 
       def space_before_match_or_sentence_start
         match_begin = @match.begin(0)
-        match_begin == 0 || @text[match_begin - 1].match(/\s|[[:punct:]]/)
+        match_begin == 0 || @text[match_begin - 1].match(/\s|\p{P}/)
       end
 
       def space_after_match_or_sentence_end
         match_end = @match.end(0)
-        match_end == @text.length || @text[match_end].match(/\s|[[:punct:]]/)
+        match_end == @text.length || @text[match_end].match(/\s|\p{P}/)
       end
     end
   end
