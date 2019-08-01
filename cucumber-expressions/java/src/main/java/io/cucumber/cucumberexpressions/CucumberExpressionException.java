@@ -1,5 +1,8 @@
 package io.cucumber.cucumberexpressions;
 
+import org.apiguardian.api.API;
+
+@API(status = API.Status.STABLE)
 public class CucumberExpressionException extends RuntimeException {
     CucumberExpressionException(String message) {
         super(message);

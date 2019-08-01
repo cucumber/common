@@ -1,10 +1,13 @@
 package io.cucumber.cucumberexpressions;
 
+import org.apiguardian.api.API;
+
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Argument<T> {
+@API(status = API.Status.STABLE)
+public final class Argument<T> {
     private final ParameterType<T> parameterType;
     private final Group group;
 
@@ -51,7 +54,7 @@ public class Argument<T> {
         return list;
     }
 
-    public Argument(Group group, ParameterType<T> parameterType) {
+    private Argument(Group group, ParameterType<T> parameterType) {
         this.group = group;
         this.parameterType = parameterType;
     }

@@ -1,5 +1,7 @@
 package io.cucumber.cucumberexpressions;
 
+import org.apiguardian.api.API;
+
 import java.util.regex.Pattern;
 
 /**
@@ -8,6 +10,7 @@ import java.util.regex.Pattern;
  * @see DefaultPatternCompiler
  * @see java.util.ServiceLoader
  */
+@API(status = API.Status.STABLE)
 public interface PatternCompiler {
 
     /**
