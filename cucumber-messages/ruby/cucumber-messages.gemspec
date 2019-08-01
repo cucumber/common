@@ -1,7 +1,7 @@
 # -*- encoding: utf-8 -*-
 Gem::Specification.new do |s|
   s.name        = 'cucumber-messages'
-  s.version     = '3.0.1'
+  s.version     = '3.0.2'
   s.authors     = ["Aslak Hellesøy"]
   s.description = "Protocol Buffer messages for Cucumber's inter-process communication"
   s.summary     = "cucumber-messages-#{s.version}"
