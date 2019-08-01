@@ -9,6 +9,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Added
 
+* Add Timestamp property and comments to TestRunFinished message
+  ([#665](https://github.com/cucumber/cucumber/pull/665)
+   [SabotageAndi]
+
 ### Changed
 
 ### Deprecated
