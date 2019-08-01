@@ -1,5 +1,7 @@
 package io.cucumber.datatable;
 
+import org.apiguardian.api.API;
+
 import java.io.IOException;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
@@ -40,6 +42,7 @@ import static java.util.Collections.unmodifiableMap;
  * <p>
  * A DataTable is immutable and thread safe.
  */
+@API(status = API.Status.STABLE)
 public final class DataTable {
 
     private final List<List<String>> raw;

@@ -1,6 +1,7 @@
 package io.cucumber.datatable;
 
 import io.cucumber.datatable.DataTable.AbstractTableConverter;
+import org.apiguardian.api.API;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
@@ -27,6 +28,7 @@ import static java.util.Collections.nCopies;
 import static java.util.Collections.unmodifiableList;
 import static java.util.Collections.unmodifiableMap;
 
+@API(status = API.Status.STABLE)
 public final class DataTableTypeRegistryTableConverter extends AbstractTableConverter {
 
     private final DataTableTypeRegistry registry;

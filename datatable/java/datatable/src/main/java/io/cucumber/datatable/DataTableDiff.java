@@ -1,10 +1,13 @@
 package io.cucumber.datatable;
 
+import org.apiguardian.api.API;
+
 import java.util.AbstractMap.SimpleEntry;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DataTableDiff {
+@API(status = API.Status.INTERNAL)
+public final class DataTableDiff {
 
     private final List<List<String>> table;
     private final List<DiffType> diffTypes;

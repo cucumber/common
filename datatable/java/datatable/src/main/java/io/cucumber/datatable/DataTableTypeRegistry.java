@@ -1,6 +1,7 @@
 package io.cucumber.datatable;
 
 import io.cucumber.datatable.dependency.com.fasterxml.jackson.databind.JavaType;
+import org.apiguardian.api.API;
 
 import java.lang.reflect.Type;
 import java.math.BigDecimal;
@@ -12,6 +13,7 @@ import java.util.Map;
 import static io.cucumber.datatable.TypeFactory.constructType;
 import static java.lang.String.format;
 
+@API(status = API.Status.STABLE)
 public final class DataTableTypeRegistry {
 
     private final DataTableCellByTypeTransformer tableCellByTypeTransformer = new DataTableCellByTypeTransformer(this);
@@ -114,7 +116,7 @@ public final class DataTableTypeRegistry {
 
     }
 
-    public DataTableType lookupTableTypeByType(final Type tableType) {
+    DataTableType lookupTableTypeByType(final Type tableType) {
         JavaType targetType = constructType(tableType);
         return tableTypeByType.get(targetType);
     }
