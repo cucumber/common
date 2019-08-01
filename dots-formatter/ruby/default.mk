@@ -31,7 +31,7 @@ endif
 
 publish: .deps
 	gem build $(GEMSPEC)
-	gem push $$(find . -name "*.gem")
+	gem push $$(find . -name "*$(NEW_VERSION).gem")
 .PHONY: publish
 
 clean: clean-ruby
