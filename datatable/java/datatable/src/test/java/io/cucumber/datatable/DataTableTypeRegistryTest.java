@@ -156,106 +156,100 @@ public class DataTableTypeRegistryTest {
     }
 
     @Test
-    public void empty_big_integer_transformed_to_null() {
+    public void null_big_integer_transformed_to_null() {
         DataTableTypeRegistry registry = new DataTableTypeRegistry(Locale.ENGLISH);
         DataTableType dataTableType = registry.lookupTableTypeByType(LIST_OF_LIST_OF_BIG_INTEGER);
         assertEquals(
                 singletonList(singletonList(null)),
-                dataTableType.transform(singletonList(singletonList("")))
+                dataTableType.transform(singletonList(singletonList(null)))
         );
 
     }
 
     @Test
-    public void empty_big_decimal_transformed_to_null() {
+    public void null_big_decimal_transformed_to_null() {
         DataTableTypeRegistry registry = new DataTableTypeRegistry(Locale.ENGLISH);
         DataTableType dataTableType = registry.lookupTableTypeByType(LIST_OF_LIST_OF_BIG_DECIMAL);
         assertEquals(
                 singletonList(singletonList(null)),
-                dataTableType.transform(singletonList(singletonList("")))
+                dataTableType.transform(singletonList(singletonList(null)))
         );
 
     }
 
     @Test
-    public void empty_byte_transformed_to_null() {
+    public void null_byte_transformed_to_null() {
         DataTableTypeRegistry registry = new DataTableTypeRegistry(Locale.ENGLISH);
         DataTableType dataTableType = registry.lookupTableTypeByType(LIST_OF_LIST_OF_BYTE);
         assertEquals(
                 singletonList(singletonList(null)),
-                dataTableType.transform(singletonList(singletonList("")))
+                dataTableType.transform(singletonList(singletonList(null)))
         );
 
     }
 
     @Test
-    public void empty_short_transformed_to_null() {
+    public void null_short_transformed_to_null() {
         DataTableTypeRegistry registry = new DataTableTypeRegistry(Locale.ENGLISH);
         DataTableType dataTableType = registry.lookupTableTypeByType(LIST_OF_LIST_OF_SHORT);
         assertEquals(
                 singletonList(singletonList(null)),
-                dataTableType.transform(singletonList(singletonList("")))
+                dataTableType.transform(singletonList(singletonList(null)))
         );
 
     }
 
     @Test
-    public void empty_integer_transformed_to_null() {
+    public void null_integer_transformed_to_null() {
         DataTableTypeRegistry registry = new DataTableTypeRegistry(Locale.ENGLISH);
         DataTableType dataTableType = registry.lookupTableTypeByType(LIST_OF_LIST_OF_INTEGER);
         assertEquals(
                 singletonList(singletonList(null)),
-                dataTableType.transform(singletonList(singletonList("")))
+                dataTableType.transform(singletonList(singletonList(null)))
         );
 
     }
 
     @Test
-    public void empty_long_transformed_to_null() {
+    public void null_long_transformed_to_null() {
         DataTableTypeRegistry registry = new DataTableTypeRegistry(Locale.ENGLISH);
         DataTableType dataTableType = registry.lookupTableTypeByType(LIST_OF_LIST_OF_LONG);
         assertEquals(
                 singletonList(singletonList(null)),
-                dataTableType.transform(singletonList(singletonList("")))
+                dataTableType.transform(singletonList(singletonList(null)))
         );
 
     }
 
     @Test
-    public void empty_float_transformed_to_null() {
+    public void null_float_transformed_to_null() {
         DataTableTypeRegistry registry = new DataTableTypeRegistry(Locale.ENGLISH);
         DataTableType dataTableType = registry.lookupTableTypeByType(LIST_OF_LIST_OF_FLOAT);
         assertEquals(
                 singletonList(singletonList(null)),
-                dataTableType.transform(singletonList(singletonList("")))
+                dataTableType.transform(singletonList(singletonList(null)))
         );
 
     }
 
     @Test
-    public void empty_double_transformed_to_null() {
+    public void null_double_transformed_to_null() {
         DataTableTypeRegistry registry = new DataTableTypeRegistry(Locale.ENGLISH);
         DataTableType dataTableType = registry.lookupTableTypeByType(LIST_OF_LIST_OF_DOUBLE);
         assertEquals(
                 singletonList(singletonList(null)),
-                dataTableType.transform(singletonList(singletonList("")))
+                dataTableType.transform(singletonList(singletonList(null)))
         );
 
     }
 
-    /**
-     * TODO in v5
-     * To remain consistent the empty string should always be converted to null (so also for strings)
-     * and doing this would be a breaking change.
-     * Should be picked up with v5.
-     */
     @Test
-    public void empty_string_transformed_to_empty() {
+    public void null_string_transformed_to_null() {
         DataTableTypeRegistry registry = new DataTableTypeRegistry(Locale.ENGLISH);
         DataTableType dataTableType = registry.lookupTableTypeByType(LIST_OF_LIST_OF_STRING);
         assertEquals(
-                singletonList(singletonList("")),
-                dataTableType.transform(singletonList(singletonList("")))
+                singletonList(singletonList(null)),
+                dataTableType.transform(singletonList(singletonList(null)))
         );
 
     }

@@ -29,8 +29,7 @@ import static io.cucumber.datatable.UndefinedDataTableTypeException.singletonNoC
 import static java.lang.Double.parseDouble;
 import static java.lang.String.format;
 import static java.util.Arrays.asList;
-import static java.util.Collections.emptyList;
-import static java.util.Collections.emptyMap;
+import static java.util.Collections.*;
 import static java.util.Locale.ENGLISH;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
@@ -376,6 +375,16 @@ public class DataTableTypeRegistryTableConverterTest {
         );
 
         List<Integer> expected = asList(3, 5, 6, 7);
+
+        assertEquals(expected, converter.toList(table, Integer.class));
+        assertEquals(expected, converter.convert(table, LIST_OF_INT));
+    }
+
+    @Test
+    public void convert_null_cells_to_null() {
+        DataTable table = DataTable.create(singletonList(singletonList(null)));
+
+        List<Integer> expected = singletonList(null);
 
         assertEquals(expected, converter.toList(table, Integer.class));
         assertEquals(expected, converter.convert(table, LIST_OF_INT));
