@@ -19,6 +19,8 @@ import static io.cucumber.datatable.UndefinedDataTableTypeException.mapNoConvert
 import static io.cucumber.datatable.UndefinedDataTableTypeException.mapsNoConverterDefined;
 import static io.cucumber.datatable.UndefinedDataTableTypeException.listNoConverterDefined;
 import static io.cucumber.datatable.UndefinedDataTableTypeException.listsNoConverterDefined;
+import static io.cucumber.datatable.UndefinedDataTableTypeException.listTableTooWide;
+import static io.cucumber.datatable.UndefinedDataTableTypeException.singletonTableTooWide;
 import static java.util.Collections.emptyList;
 import static java.util.Collections.emptyMap;
 import static java.util.Collections.nCopies;
@@ -103,6 +105,10 @@ public final class DataTableTypeRegistryTableConverter extends AbstractTableConv
 
         List<T> singletonList = toListOrNull(dataTable, type);
         if (singletonList == null) {
+            DataTableType cellValueType = registry.lookupTableTypeByType(aListOf(aListOf(type)));
+            if (cellValueType != null) {
+                throw singletonTableTooWide(type, "TableEntryConverter or TableCellConverter", type);
+            }
             throw singletonNoConverterDefined(type);
         }
 
@@ -127,39 +133,49 @@ public final class DataTableTypeRegistryTableConverter extends AbstractTableConv
             return unmodifiableList(list);
         }
 
-        if (dataTable.width() > 1) {
-            throw listNoConverterDefined(itemType, "TableEntryTransformer or TableRowTransformer", itemType);
-        }
-
-        throw listNoConverterDefined(itemType, "TableEntryTransformer, TableRowTransformer or TableCellTransformer", itemType);
-    }
-
-    private <T> List<T> toListOrNull(DataTable dataTable, Type itemType) {
-        return toListOrNull(dataTable.cells(), itemType);
-    }
-
-    @SuppressWarnings("unchecked")
-    private <T> List<T> toListOrNull(List<List<String>> cells, Type itemType) {
-        DataTableType tableType = registry.lookupTableTypeByType(aListOf(itemType));
-        if (tableType != null) {
-            return (List<T>) tableType.transform(cells);
+        if (dataTable.width() == 1) {
+            throw listNoConverterDefined(itemType, "TableEntryTransformer, TableRowTransformer or TableCellTransformer", itemType);
         }
 
         DataTableType cellValueType = registry.lookupTableTypeByType(aListOf(aListOf(itemType)));
         if (cellValueType != null) {
-            return unpack((List<List<T>>) cellValueType.transform(cells));
+            throw listTableTooWide(itemType, "TableEntryTransformer or TableRowTransformer", itemType);
         }
 
-        if (cells.size() > 1) {
+        throw listNoConverterDefined(itemType, "TableEntryTransformer or TableRowTransformer", itemType);
+    }
+
+    private <T> List<T> toListOrNull(DataTable dataTable, Type itemType) {
+        DataTableType tableType = registry.lookupTableTypeByType(aListOf(itemType));
+        List<List<String>> cells = dataTable.cells();
+        if (tableType != null) {
+            return (List<T>) tableType.transform(cells);
+        }
+
+        if (dataTable.width() == 1) {
+            DataTableType cellValueType = registry.lookupTableTypeByType(aListOf(aListOf(itemType)));
+            if (cellValueType != null) {
+                return unpack((List<List<T>>) cellValueType.transform(cells));
+            }
+        }
+
+        if (dataTable.height() > 1) {
             DataTableType defaultTableType = registry.getDefaultTableEntryTransformer(itemType);
             if (defaultTableType != null) {
                 return (List<T>) defaultTableType.transform(cells);
             }
         }
 
-        DataTableType defaultCellValueType = registry.getDefaultTableCellTransformer(itemType);
-        if (defaultCellValueType != null) {
-            return unpack((List<List<T>>) defaultCellValueType.transform(cells));
+        if (dataTable.width() == 1) {
+            DataTableType defaultCellValueType = registry.getDefaultTableCellTransformer(itemType);
+            if (defaultCellValueType != null) {
+                return unpack((List<List<T>>) defaultCellValueType.transform(cells));
+            }
+        }
+
+        DataTableType defaultTableType = registry.getDefaultTableEntryTransformer(itemType);
+        if (defaultTableType != null) {
+            return (List<T>) defaultTableType.transform(cells);
         }
 
         return null;
@@ -199,7 +215,7 @@ public final class DataTableTypeRegistryTableConverter extends AbstractTableConv
 
         String firstHeaderCell = keyColumn.cell(0, 0);
         boolean firstHeaderCellIsBlank = firstHeaderCell == null || firstHeaderCell.isEmpty();
-        List<K> keys = convertEntryKeys(keyType, keyColumn.cells(), valueType, firstHeaderCellIsBlank);
+        List<K> keys = convertEntryKeys(keyType, keyColumn, valueType, firstHeaderCellIsBlank);
 
         if (valueColumns.isEmpty()) {
             return createMap(keyType, keys, valueType, nCopies(keys.size(), (V) null));
@@ -232,7 +248,7 @@ public final class DataTableTypeRegistryTableConverter extends AbstractTableConv
     }
 
     @SuppressWarnings("unchecked")
-    private <K> List<K> convertEntryKeys(Type keyType, List<List<String>> keyColumn, Type valueType, boolean firstHeaderCellIsBlank) {
+    private <K> List<K> convertEntryKeys(Type keyType, DataTable keyColumn, Type valueType, boolean firstHeaderCellIsBlank) {
         if (firstHeaderCellIsBlank) {
             DataTableType keyConverter;
             keyConverter = registry.lookupTableTypeByType(aListOf(aListOf(keyType)));
@@ -242,7 +258,7 @@ public final class DataTableTypeRegistryTableConverter extends AbstractTableConv
             if (keyConverter == null) {
                 throw mapNoConverterDefined(keyType, valueType, "TableCellTransformer", keyType);
             }
-            return unpack((List<List<K>>) keyConverter.transform(keyColumn.subList(1, keyColumn.size())));
+            return unpack((List<List<K>>) keyConverter.transform(keyColumn.rows(1, keyColumn.height()).cells()));
         }
 
         List<K> list = toListOrNull(keyColumn, keyType);

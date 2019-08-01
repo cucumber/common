@@ -187,6 +187,15 @@ public class DataTableTypeRegistryTableConverterTest {
     }
 
     @Test
+    public void convert_to_empty_list__only_header() {
+        final DataTable table = parse("",
+                " | firstName | lastName | birthDate |"
+        );
+        registry.defineDataTableType(new DataTableType(Author.class, AUTHOR_TABLE_ENTRY_TRANSFORMER));
+        assertEquals(emptyList(), converter.convert(table, LIST_OF_AUTHOR));
+    }
+
+    @Test
     public void convert_to_empty_map__blank_first_cell() {
         DataTable table = parse("|   |");
         assertEquals(emptyMap(), converter.toMap(table, Integer.class, Integer.class));
@@ -251,6 +260,17 @@ public class DataTableTypeRegistryTableConverterTest {
 
         assertEquals(expected, converter.toList(table, Integer.class));
         assertEquals(expected, converter.convert(table, LIST_OF_INT));
+    }
+
+    @Test
+    public void convert_to_list__double_column__throws_exception() {
+        DataTable table = parse("",
+                "| 3 | 5 |",
+                "| 6 | 7 | "
+        );
+
+        expectedException.expectMessage("Can't convert DataTable to List<java.lang.Integer>");
+        converter.toList(table, Integer.class);
     }
 
     @Test
@@ -367,20 +387,6 @@ public class DataTableTypeRegistryTableConverterTest {
 
         assertEquals(expected, converter.toList(table, Author.class));
         assertEquals(expected, converter.convert(table, LIST_OF_AUTHOR));
-    }
-
-
-    @Test
-    public void convert_to_list_of_primitive() {
-        DataTable table = parse("",
-                "| 3 | 5 |",
-                "| 6 | 7 | "
-        );
-
-        List<Integer> expected = asList(3, 5, 6, 7);
-
-        assertEquals(expected, converter.toList(table, Integer.class));
-        assertEquals(expected, converter.convert(table, LIST_OF_INT));
     }
 
     @Test
@@ -631,8 +637,6 @@ public class DataTableTypeRegistryTableConverterTest {
 
         assertEquals(expected, converter.convert(table, MAP_OF_AIR_PORT_CODE_TO_AIR_PORT_CODE));
     }
-
-
 
     @Test
     public void convert_to_map_of_object_to_object_using_entry_and_cell() {
@@ -962,6 +966,24 @@ public class DataTableTypeRegistryTableConverterTest {
                         "Can't convert DataTable to %s. " +
                         "The table contained more then one item: [♘, ♝]",
                 typeName(Piece.class)));
+
+        DataTable table = parse("",
+                "| ♘ |",
+                "| ♝ |"
+        );
+
+        registry.defineDataTableType(new DataTableType(Piece.class, PIECE_TABLE_CELL_TRANSFORMER));
+        converter.convert(table, Piece.class);
+    }
+
+
+    @Test
+    public void convert_to_object__too_wide__throws_exception() {
+        expectedException.expectMessage(format("" +
+                        "Can't convert DataTable to %s.\n" +
+                        "There was a table cell converter but the table was too wide to use it.\n" +
+                        "Please reduce the table width or register a TableEntryConverter or TableCellConverter for %s.",
+                typeName(Piece.class), typeName(Piece.class)));
 
         DataTable table = parse("",
                 "| ♘ | ♝ |"
