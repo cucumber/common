@@ -1140,7 +1140,8 @@ Points to a [Source](#io.cucumber.messages.Source) identified by `uri` and a
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| success | [bool](#bool) |  |  |
+| success | [bool](#bool) |  | success = StrictModeEnabled ? (failed_count == 0 &amp;&amp; ambiguous_count == 0 &amp;&amp; undefined_count == 0 &amp;&amp; pending_count == 0) : (failed_count == 0 &amp;&amp; ambiguous_count == 0) |
+| timestamp | [google.protobuf.Timestamp](#google.protobuf.Timestamp) |  | Timestamp when the TestRun is finished |
 
 
 
