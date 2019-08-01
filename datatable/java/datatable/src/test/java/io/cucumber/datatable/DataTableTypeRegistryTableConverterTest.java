@@ -370,8 +370,10 @@ public class DataTableTypeRegistryTableConverterTest {
     @Test
     public void convert_to_list_of_primitive() {
         DataTable table = parse("",
-                "| 3 | 5 |",
-                "| 6 | 7 | "
+                "| 3 |",
+                "| 5 |",
+                "| 6 |",
+                "| 7 |"
         );
 
         List<Integer> expected = asList(3, 5, 6, 7);

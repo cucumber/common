@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Changed
  * Allow `null` values in `DataTable`.
+ * Improve handling of tables without header ([#540](https://github.com/cucumber/cucumber/pull/540) [mpkorstanje])
 
 ### Deprecated
 
