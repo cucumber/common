@@ -1,11 +1,14 @@
 package io.cucumber.datatable;
 
+import org.apiguardian.api.API;
+
 import java.lang.reflect.Type;
 
 import static io.cucumber.datatable.TypeFactory.typeName;
 import static java.lang.String.format;
 
-public class UndefinedDataTableTypeException extends CucumberDataTableException {
+@API(status = API.Status.STABLE)
+public  final class UndefinedDataTableTypeException extends CucumberDataTableException {
     private UndefinedDataTableTypeException(String message) {
         super(message);
     }

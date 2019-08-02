@@ -1,5 +1,7 @@
 package io.cucumber.cucumberexpressions;
 
+import org.apiguardian.api.API;
+
 import java.lang.reflect.Type;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -7,6 +9,7 @@ import java.util.regex.Pattern;
 
 import static java.util.Collections.singletonList;
 
+@API(status = API.Status.STABLE)
 public final class ParameterType<T> implements Comparable<ParameterType<?>> {
     @SuppressWarnings("RegExpRedundantEscape") // Android can't parse unescaped braces
     private static final Pattern ILLEGAL_PARAMETER_NAME_PATTERN = Pattern.compile("([\\[\\]()$.|?*+])");

@@ -6,7 +6,7 @@ import java.text.NumberFormat;
 import java.text.ParseException;
 import java.util.Locale;
 
-class NumberParser {
+final class NumberParser {
     private final NumberFormat numberFormat;
 
     NumberParser(Locale locale) {
