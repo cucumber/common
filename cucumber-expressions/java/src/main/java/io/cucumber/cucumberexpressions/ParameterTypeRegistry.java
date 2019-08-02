@@ -4,6 +4,7 @@ import org.apiguardian.api.API;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.text.DecimalFormatSymbols;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
@@ -21,10 +22,24 @@ import static java.util.Collections.singletonList;
 public final class ParameterTypeRegistry {
     // Pattern.compile(...).pattern() is not necessary, but it helps us take advantage of the IntelliJ's regexp validation,
     // which detects unneeded escapes.
-    private static final List<String> INTEGER_REGEXPS = asList(Pattern.compile("-?\\d+").pattern(), Pattern.compile("\\d+").pattern());
-    private static final List<String> FLOAT_REGEXPS = singletonList(Pattern.compile("-?\\d*(?:[.,]\\d+)?").pattern());
-    private static final List<String> WORD_REGEXPS = singletonList(Pattern.compile("[^\\s]+").pattern());
-    private static final List<String> STRING_REGEXPS = singletonList(Pattern.compile("\"([^\"\\\\]*(\\\\.[^\"\\\\]*)*)\"|'([^'\\\\]*(\\\\.[^'\\\\]*)*)'").pattern());
+    private static final List<String> INTEGER_REGEXPS = asList(
+            Pattern.compile("-?\\d+").pattern(),
+            Pattern.compile("\\d+").pattern()
+    );
+    private static final String SIGN = "[-+]?";
+    private static final String MUST_CONTAIN_NUMBER = "(?=.*[0-9].*)";
+    private static final String SCIENTIFIC_NUMBER = "(?:[0-9]+[{expnt}][-+]?[0-9]+)?";
+    private static final String DECIMAL_FRACTION = "(?:[{decimal}](?=[0-9].*))?[0-9]*";
+    private static final String INTEGER = "(?:[0-9]+(?:[{group}]?[0-9]+)*)*";
+    private static final String FLOAT_REGEXPS =
+            Pattern.compile(MUST_CONTAIN_NUMBER + SIGN + INTEGER + DECIMAL_FRACTION + SCIENTIFIC_NUMBER).pattern();
+    private static final List<String> WORD_REGEXPS = singletonList(
+            Pattern.compile("[^\\s]+").pattern()
+    );
+    private static final List<String> STRING_REGEXPS = asList(
+            Pattern.compile("\"([^\"\\\\]*(\\\\.[^\"\\\\]*)*)\"").pattern(),
+            Pattern.compile("'([^'\\\\]*(\\\\.[^'\\\\]*)*)'").pattern()
+    );
     private static final String ANONYMOUS_REGEX = Pattern.compile(".*").pattern();
     private final Map<String, ParameterType<?>> parameterTypeByName = new HashMap<>();
     private final Map<String, SortedSet<ParameterType<?>>> parameterTypesByRegexp = new HashMap<>();
@@ -36,12 +51,20 @@ public final class ParameterTypeRegistry {
     private ParameterByTypeTransformer defaultParameterTransformer;
 
     public ParameterTypeRegistry(Locale locale) {
-        this(new BuiltInParameterTransformer(locale));
+        this(new BuiltInParameterTransformer(locale), locale);
     }
 
-    private ParameterTypeRegistry(ParameterByTypeTransformer defaultParameterTransformer) {
+    private ParameterTypeRegistry(ParameterByTypeTransformer defaultParameterTransformer, Locale locale) {
         this.internalParameterTransformer = defaultParameterTransformer;
         this.defaultParameterTransformer = defaultParameterTransformer;
+
+        DecimalFormatSymbols numberFormat = DecimalFormatSymbols.getInstance(locale);
+
+        List<String> localizedFloatRegexp = singletonList(FLOAT_REGEXPS
+                .replace("{decimal}", "" + numberFormat.getDecimalSeparator())
+                .replace("{group}", "" + numberFormat.getGroupingSeparator())
+                .replace("{expnt}", "" + numberFormat.getExponentSeparator())
+        );
 
         defineParameterType(new ParameterType<>("biginteger", INTEGER_REGEXPS, BigInteger.class, new Transformer<BigInteger>() {
             @Override
@@ -49,7 +72,7 @@ public final class ParameterTypeRegistry {
                 return (BigInteger) internalParameterTransformer.transform(arg, BigInteger.class);
             }
         }, false, false));
-        defineParameterType(new ParameterType<>("bigdecimal", FLOAT_REGEXPS, BigDecimal.class, new Transformer<BigDecimal>() {
+        defineParameterType(new ParameterType<>("bigdecimal", localizedFloatRegexp, BigDecimal.class, new Transformer<BigDecimal>() {
             @Override
             public BigDecimal transform(String arg) throws Throwable {
                 return (BigDecimal) internalParameterTransformer.transform(arg, BigDecimal.class);
@@ -79,13 +102,13 @@ public final class ParameterTypeRegistry {
                 return (Long) internalParameterTransformer.transform(arg, Long.class);
             }
         }, false, false));
-        defineParameterType(new ParameterType<>("float", FLOAT_REGEXPS, Float.class, new Transformer<Float>() {
+        defineParameterType(new ParameterType<>("float", localizedFloatRegexp, Float.class, new Transformer<Float>() {
             @Override
             public Float transform(String arg) throws Throwable {
                 return (Float) internalParameterTransformer.transform(arg, Float.class);
             }
         }, false, false));
-        defineParameterType(new ParameterType<>("double", FLOAT_REGEXPS, Double.class, new Transformer<Double>() {
+        defineParameterType(new ParameterType<>("double", localizedFloatRegexp, Double.class, new Transformer<Double>() {
             @Override
             public Double transform(String arg) throws Throwable {
                 return (Double) internalParameterTransformer.transform(arg, Double.class);

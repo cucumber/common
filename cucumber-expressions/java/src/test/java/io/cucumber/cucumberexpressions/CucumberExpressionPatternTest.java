@@ -39,7 +39,12 @@ public class CucumberExpressionPatternTest {
     public void translates_parameters() {
         assertPattern(
                 "I have {float} cukes at {int} o'clock",
-                "^I have (-?\\d*(?:[.,]\\d+)?) cukes at ((?:-?\\d+)|(?:\\d+)) o'clock$"
+                "^I have (" +
+                        "(?=.*[0-9].*)" +
+                        "[-+]?" +
+                        "(?:[0-9]+(?:[,]?[0-9]+)*)*" +
+                        "(?:[.](?=[0-9].*))?[0-9]*" +
+                        "(?:[0-9]+[E][-+]?[0-9]+)?) cukes at ((?:-?\\d+)|(?:\\d+)) o'clock$"
         );
     }
 
