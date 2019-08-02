@@ -15,7 +15,7 @@
     <url>https://github.com/cucumber/tag-expressions-java</url>
 
     <properties>
-        <project.Automatic-Module-Name>io.cucumber.tag.expressions</project.Automatic-Module-Name>
+        <project.Automatic-Module-Name>io.cucumber.tagexpressions</project.Automatic-Module-Name>
     </properties>
 
     <scm>
