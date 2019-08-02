@@ -1099,7 +1099,7 @@ static const Keywords es_feature_keywords = { 1, es_feature_KEYWORDS };
 static const wchar_t* const es_given_KEYWORDS[] = { L"* ", L"Dado ", L"Dada ", L"Dados ", L"Dadas " };
 static const Keywords es_given_keywords = { 5, es_given_KEYWORDS };
 
-static const wchar_t* const es_rule_KEYWORDS[] = { L"Rule" };
+static const wchar_t* const es_rule_KEYWORDS[] = { L"Regla" };
 static const Keywords es_rule_keywords = { 1, es_rule_KEYWORDS };
 
 static const wchar_t* const es_scenario_KEYWORDS[] = { L"Ejemplo", L"Escenario" };
@@ -1284,8 +1284,8 @@ static const Keywords fr_examples_keywords = { 1, fr_examples_KEYWORDS };
 static const wchar_t* const fr_feature_KEYWORDS[] = { L"Fonctionnalité" };
 static const Keywords fr_feature_keywords = { 1, fr_feature_KEYWORDS };
 
-static const wchar_t* const fr_given_KEYWORDS[] = { L"* ", L"Soit ", L"Etant donné que ", L"Etant donné qu'", L"Etant donné ", L"Etant donnée ", L"Etant donnés ", L"Etant données ", L"Étant donné que ", L"Étant donné qu'", L"Étant donné ", L"Étant donnée ", L"Étant donnés ", L"Étant données " };
-static const Keywords fr_given_keywords = { 14, fr_given_KEYWORDS };
+static const wchar_t* const fr_given_KEYWORDS[] = { L"* ", L"Soit ", L"Sachant que ", L"Sachant qu'", L"Sachant ", L"Etant donné que ", L"Etant donné qu'", L"Etant donné ", L"Etant donnée ", L"Etant donnés ", L"Etant données ", L"Étant donné que ", L"Étant donné qu'", L"Étant donné ", L"Étant donnée ", L"Étant donnés ", L"Étant données " };
+static const Keywords fr_given_keywords = { 17, fr_given_KEYWORDS };
 
 static const wchar_t* const fr_rule_KEYWORDS[] = { L"Règle" };
 static const Keywords fr_rule_keywords = { 1, fr_rule_KEYWORDS };
@@ -1296,8 +1296,8 @@ static const Keywords fr_scenario_keywords = { 2, fr_scenario_KEYWORDS };
 static const wchar_t* const fr_scenarioOutline_KEYWORDS[] = { L"Plan du scénario", L"Plan du Scénario" };
 static const Keywords fr_scenarioOutline_keywords = { 2, fr_scenarioOutline_KEYWORDS };
 
-static const wchar_t* const fr_then_KEYWORDS[] = { L"* ", L"Alors " };
-static const Keywords fr_then_keywords = { 2, fr_then_KEYWORDS };
+static const wchar_t* const fr_then_KEYWORDS[] = { L"* ", L"Alors ", L"Donc " };
+static const Keywords fr_then_keywords = { 3, fr_then_KEYWORDS };
 
 static const wchar_t* const fr_when_KEYWORDS[] = { L"* ", L"Quand ", L"Lorsque ", L"Lorsqu'" };
 static const Keywords fr_when_keywords = { 4, fr_when_KEYWORDS };
@@ -2556,7 +2556,7 @@ static const Keywords pt_feature_keywords = { 3, pt_feature_KEYWORDS };
 static const wchar_t* const pt_given_KEYWORDS[] = { L"* ", L"Dado ", L"Dada ", L"Dados ", L"Dadas " };
 static const Keywords pt_given_keywords = { 5, pt_given_KEYWORDS };
 
-static const wchar_t* const pt_rule_KEYWORDS[] = { L"Rule" };
+static const wchar_t* const pt_rule_KEYWORDS[] = { L"Regra" };
 static const Keywords pt_rule_keywords = { 1, pt_rule_KEYWORDS };
 
 static const wchar_t* const pt_scenario_KEYWORDS[] = { L"Exemplo", L"Cenário", L"Cenario" };

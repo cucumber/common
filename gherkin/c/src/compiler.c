@@ -8,6 +8,7 @@
 #include "data_table.h"
 #include "doc_string.h"
 #include "pickle_table.h"
+#include "pickle_id_creator.h"
 #include "pickle_tag.h"
 #include "pickle_string.h"
 #include "string_utilities.h"
@@ -24,7 +25,7 @@ typedef struct ReplacementItem {
     const wchar_t* new_text;
 } ReplacementItem;
 
-static void compile_scenario_container(Compiler* compiler, const ChildDefinitions* child_definitions, const Tags* feature_tags, const wchar_t* uri, const wchar_t* language, int context_background_step_count, const Steps* context_background_steps);
+static void compile_scenario_container(Compiler* compiler, const ChildDefinitions* child_definitions, const Tags* feature_tags, const wchar_t* uri, const wchar_t* language, const Pickle_Id_Data* pickle_id_data, int context_background_step_count, const Steps* context_background_steps);
 
 static const PickleArgument* create_pickle_argument(const StepArgument* step_argument, const TableRow* example_header, const TableRow* body_row);
 
@@ -53,14 +54,16 @@ void Compiler_delete(Compiler* compiler) {
     free((void*)compiler);
 }
 
-int Compiler_compile(Compiler* compiler, const GherkinDocument* gherkin_document) {
+int Compiler_compile(Compiler* compiler, const GherkinDocument* gherkin_document, const wchar_t* source) {
     const Feature* feature = gherkin_document->feature;
     if (!feature) {
         return 0;
     }
     int background_step_count = 0;
     const Steps* background_steps = 0;
-    compile_scenario_container(compiler, feature->child_definitions, feature->tags, gherkin_document->uri, feature->language, background_step_count, background_steps);
+    const Pickle_Id_Data* pickle_id_data = Pickle_Id_Data_new(source);
+    compile_scenario_container(compiler, feature->child_definitions, feature->tags, gherkin_document->uri, feature->language, pickle_id_data, background_step_count, background_steps);
+    Pickle_Id_Data_delete(pickle_id_data);
     return 0;
 }
 
@@ -72,7 +75,7 @@ const Pickle* Compiler_next_pickle(Compiler* compiler) {
     return (Pickle*)ItemQueue_remove(compiler->pickle_list);
 }
 
-static void compile_scenario_container(Compiler* compiler, const ChildDefinitions* child_definitions, const Tags* feature_tags, const wchar_t* uri, const wchar_t* language, int context_background_step_count, const Steps* context_background_steps) {
+static void compile_scenario_container(Compiler* compiler, const ChildDefinitions* child_definitions, const Tags* feature_tags, const wchar_t* uri, const wchar_t* language, const Pickle_Id_Data* pickle_id_data, int context_background_step_count, const Steps* context_background_steps) {
     int background_step_count = 0;
     const Steps* background_steps = 0;
     int i;
@@ -102,7 +105,8 @@ static void compile_scenario_container(Compiler* compiler, const ChildDefinition
                     }
                     copy_steps(steps->steps + context_background_step_count + background_step_count, scenario->steps);
                 }
-                ItemQueue_add(compiler->pickle_list, (Item*)Pickle_new(uri, language, locations, tags, scenario->name, steps));
+                const unsigned char* id = Pickle_Id_calculate(pickle_id_data, locations);
+                ItemQueue_add(compiler->pickle_list, (Item*)Pickle_new(uri, language, locations, tags, scenario->name, id, steps));
             }
             else {
                 int k;
@@ -138,7 +142,8 @@ static void compile_scenario_container(Compiler* compiler, const ChildDefinition
                             }
                         }
                         const wchar_t* new_name = create_expanded_text(scenario->name, example_table->table_header, table_row);
-                        ItemQueue_add(compiler->pickle_list, (Item*)Pickle_new(uri, language, locations, tags, new_name, steps));
+                        const unsigned char* id = Pickle_Id_calculate(pickle_id_data, locations);
+                        ItemQueue_add(compiler->pickle_list, (Item*)Pickle_new(uri, language, locations, tags, new_name, id, steps));
                         free((void*)new_name);
                     }
                 }
@@ -146,7 +151,7 @@ static void compile_scenario_container(Compiler* compiler, const ChildDefinition
         }
         else if (child_definitions->child_definitions[i]->type == Gherkin_Rule) {
             const Rule* rule = (const Rule*)child_definitions->child_definitions[i];
-            compile_scenario_container(compiler, rule->child_definitions, feature_tags, uri, language, background_step_count, background_steps);
+            compile_scenario_container(compiler, rule->child_definitions, feature_tags, uri, language, pickle_id_data, background_step_count, background_steps);
         }
     }
 }

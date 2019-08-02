@@ -19,10 +19,11 @@ typedef struct Pickle {
     const PickleLocations* locations;
     const PickleTags* tags;
     wchar_t* name;
+    const unsigned char* id;
     const PickleSteps* steps;
 } Pickle;
 
-const Pickle* Pickle_new(const wchar_t* uri, const wchar_t* language, const PickleLocations* locations, const PickleTags* tags, const wchar_t* name, const PickleSteps* steps);
+const Pickle* Pickle_new(const wchar_t* uri, const wchar_t* language, const PickleLocations* locations, const PickleTags* tags, const wchar_t* name, const unsigned char* id, const PickleSteps* steps);
 
 void Pickle_delete(const Pickle* pickle);
 

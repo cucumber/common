@@ -48,7 +48,7 @@ static void print_table_row(FILE* file, const PickleRow* pickle_row) {
 }
 
 static void print_pickle_table(FILE* file, const PickleTable* pickle_table) {
-    fprintf(file, ",\"dataTable\":{\"rows\":[");
+    fprintf(file, "\"dataTable\":{\"rows\":[");
     int i;
     for (i = 0; i < pickle_table->rows->row_count; ++i) {
         if (i > 0) {
@@ -60,7 +60,7 @@ static void print_pickle_table(FILE* file, const PickleTable* pickle_table) {
 }
 
 static void print_pickle_string(FILE* file, const PickleString* pickle_string) {
-    fprintf(file, ",\"docString\": {\"location\": ");
+    fprintf(file, "\"docString\": {\"location\": ");
     print_location(file, &pickle_string->location);
     fprintf(file, ",\"content\":\"");
     if (pickle_string->content) {
@@ -102,16 +102,25 @@ static void print_pickle_step(FILE* file, const PickleStep* step) {
     fprintf(file, "{");
     print_locations(file, step->locations);
     if (step->argument) {
+        fprintf(file, ",\"argument\":{");
         if (step->argument->type == Argument_String) {
             print_pickle_string(file, (const PickleString*)step->argument);
         }
         if (step->argument->type == Argument_Table) {
             print_pickle_table(file, (const PickleTable*)step->argument);
         }
+        fprintf(file, "}");
     }
     fprintf(file, ",\"text\":\"");
     PrintUtilities_print_json_string(file, step->text);
     fprintf(file, "\"}");
+}
+
+static void print_pickle_id(FILE* file, const unsigned char* id) {
+    int i;
+    for (i = 0; i < 20; ++i) {
+        fprintf(file, "%02x", id[i]);
+    }
 }
 
 void PicklePrinter_print_pickle(FILE* file, const Pickle* pickle) {
@@ -120,6 +129,8 @@ void PicklePrinter_print_pickle(FILE* file, const Pickle* pickle) {
     PrintUtilities_print_json_string(file, pickle->uri);
     fprintf(file, "\",\"language\":\"");
     PrintUtilities_print_json_string(file, pickle->language);
+    fprintf(file, "\",\"id\":\"");
+    print_pickle_id(file, pickle->id);
     fprintf(file, "\",");
     if (pickle->name && wcslen(pickle->name) > 0) {
         fprintf(file, "\"name\":\"");
