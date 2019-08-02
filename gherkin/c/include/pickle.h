@@ -14,6 +14,7 @@ extern "C" {
 
 typedef struct Pickle {
     item_delete_function pickle_delete;
+    wchar_t* uri;
     wchar_t* language;
     const PickleLocations* locations;
     const PickleTags* tags;
@@ -21,7 +22,7 @@ typedef struct Pickle {
     const PickleSteps* steps;
 } Pickle;
 
-const Pickle* Pickle_new(const wchar_t* language, const PickleLocations* locations, const PickleTags* tags, const wchar_t* name, const PickleSteps* steps);
+const Pickle* Pickle_new(const wchar_t* uri, const wchar_t* language, const PickleLocations* locations, const PickleTags* tags, const wchar_t* name, const PickleSteps* steps);
 
 void Pickle_delete(const Pickle* pickle);
 

@@ -4,9 +4,10 @@
 
 static void delete_pickle_content(const Pickle* pickle);
 
-const Pickle* Pickle_new(const wchar_t* language, const PickleLocations* locations, const PickleTags* tags, const wchar_t* name, const PickleSteps* steps) {
+const Pickle* Pickle_new(const wchar_t* uri, const wchar_t* language, const PickleLocations* locations, const PickleTags* tags, const wchar_t* name, const PickleSteps* steps) {
     Pickle* pickle = (Pickle*)malloc(sizeof(Pickle));
     pickle->pickle_delete = (item_delete_function)Pickle_delete;
+    pickle->uri = StringUtilities_copy_string(uri);
     pickle->language = StringUtilities_copy_string(language);
     pickle->locations = locations;
     pickle->tags = tags;

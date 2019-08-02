@@ -77,8 +77,8 @@ AST_OBJS= \
 	../objs/ast_node.o \
 	../objs/gherkin_document.o \
 	../objs/feature.o \
+	../objs/rule.o \
 	../objs/scenario.o \
-	../objs/scenario_outline.o \
 	../objs/background.o \
 	../objs/comment.o \
 	../objs/data_table.o \

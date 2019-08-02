@@ -18,6 +18,9 @@ static const Keywords af_feature_keywords = { 3, af_feature_KEYWORDS };
 static const wchar_t* const af_given_KEYWORDS[] = { L"* ", L"Gegewe " };
 static const Keywords af_given_keywords = { 2, af_given_KEYWORDS };
 
+static const wchar_t* const af_rule_KEYWORDS[] = { L"Rule" };
+static const Keywords af_rule_keywords = { 1, af_rule_KEYWORDS };
+
 static const wchar_t* const af_scenario_KEYWORDS[] = { L"Voorbeeld", L"Situasie" };
 static const Keywords af_scenario_keywords = { 2, af_scenario_KEYWORDS };
 
@@ -38,6 +41,7 @@ static const Dialect af_dialect = {
         &af_examples_keywords,
         &af_feature_keywords,
         &af_given_keywords,
+        &af_rule_keywords,
         &af_scenario_keywords,
         &af_scenarioOutline_keywords,
         &af_then_keywords,
@@ -61,6 +65,9 @@ static const Keywords am_feature_keywords = { 2, am_feature_KEYWORDS };
 static const wchar_t* const am_given_KEYWORDS[] = { L"* ", L"Դիցուք " };
 static const Keywords am_given_keywords = { 2, am_given_KEYWORDS };
 
+static const wchar_t* const am_rule_KEYWORDS[] = { L"Rule" };
+static const Keywords am_rule_keywords = { 1, am_rule_KEYWORDS };
+
 static const wchar_t* const am_scenario_KEYWORDS[] = { L"Օրինակ", L"Սցենար" };
 static const Keywords am_scenario_keywords = { 2, am_scenario_KEYWORDS };
 
@@ -81,6 +88,7 @@ static const Dialect am_dialect = {
         &am_examples_keywords,
         &am_feature_keywords,
         &am_given_keywords,
+        &am_rule_keywords,
         &am_scenario_keywords,
         &am_scenarioOutline_keywords,
         &am_then_keywords,
@@ -104,6 +112,9 @@ static const Keywords an_feature_keywords = { 1, an_feature_KEYWORDS };
 static const wchar_t* const an_given_KEYWORDS[] = { L"* ", L"Dau ", L"Dada ", L"Daus ", L"Dadas " };
 static const Keywords an_given_keywords = { 5, an_given_KEYWORDS };
 
+static const wchar_t* const an_rule_KEYWORDS[] = { L"Rule" };
+static const Keywords an_rule_keywords = { 1, an_rule_KEYWORDS };
+
 static const wchar_t* const an_scenario_KEYWORDS[] = { L"Eixemplo", L"Caso" };
 static const Keywords an_scenario_keywords = { 2, an_scenario_KEYWORDS };
 
@@ -124,6 +135,7 @@ static const Dialect an_dialect = {
         &an_examples_keywords,
         &an_feature_keywords,
         &an_given_keywords,
+        &an_rule_keywords,
         &an_scenario_keywords,
         &an_scenarioOutline_keywords,
         &an_then_keywords,
@@ -147,6 +159,9 @@ static const Keywords ar_feature_keywords = { 1, ar_feature_KEYWORDS };
 static const wchar_t* const ar_given_KEYWORDS[] = { L"* ", L"بفرض " };
 static const Keywords ar_given_keywords = { 2, ar_given_KEYWORDS };
 
+static const wchar_t* const ar_rule_KEYWORDS[] = { L"Rule" };
+static const Keywords ar_rule_keywords = { 1, ar_rule_KEYWORDS };
+
 static const wchar_t* const ar_scenario_KEYWORDS[] = { L"مثال", L"سيناريو" };
 static const Keywords ar_scenario_keywords = { 2, ar_scenario_KEYWORDS };
 
@@ -167,6 +182,7 @@ static const Dialect ar_dialect = {
         &ar_examples_keywords,
         &ar_feature_keywords,
         &ar_given_keywords,
+        &ar_rule_keywords,
         &ar_scenario_keywords,
         &ar_scenarioOutline_keywords,
         &ar_then_keywords,
@@ -190,6 +206,9 @@ static const Keywords ast_feature_keywords = { 1, ast_feature_KEYWORDS };
 static const wchar_t* const ast_given_KEYWORDS[] = { L"* ", L"Dáu ", L"Dada ", L"Daos ", L"Daes " };
 static const Keywords ast_given_keywords = { 5, ast_given_KEYWORDS };
 
+static const wchar_t* const ast_rule_KEYWORDS[] = { L"Rule" };
+static const Keywords ast_rule_keywords = { 1, ast_rule_KEYWORDS };
+
 static const wchar_t* const ast_scenario_KEYWORDS[] = { L"Exemplo", L"Casu" };
 static const Keywords ast_scenario_keywords = { 2, ast_scenario_KEYWORDS };
 
@@ -210,6 +229,7 @@ static const Dialect ast_dialect = {
         &ast_examples_keywords,
         &ast_feature_keywords,
         &ast_given_keywords,
+        &ast_rule_keywords,
         &ast_scenario_keywords,
         &ast_scenarioOutline_keywords,
         &ast_then_keywords,
@@ -233,6 +253,9 @@ static const Keywords az_feature_keywords = { 1, az_feature_KEYWORDS };
 static const wchar_t* const az_given_KEYWORDS[] = { L"* ", L"Tutaq ki ", L"Verilir " };
 static const Keywords az_given_keywords = { 3, az_given_KEYWORDS };
 
+static const wchar_t* const az_rule_KEYWORDS[] = { L"Rule" };
+static const Keywords az_rule_keywords = { 1, az_rule_KEYWORDS };
+
 static const wchar_t* const az_scenario_KEYWORDS[] = { L"Nümunə", L"Ssenari" };
 static const Keywords az_scenario_keywords = { 2, az_scenario_KEYWORDS };
 
@@ -253,6 +276,7 @@ static const Dialect az_dialect = {
         &az_examples_keywords,
         &az_feature_keywords,
         &az_given_keywords,
+        &az_rule_keywords,
         &az_scenario_keywords,
         &az_scenarioOutline_keywords,
         &az_then_keywords,
@@ -276,6 +300,9 @@ static const Keywords bg_feature_keywords = { 1, bg_feature_KEYWORDS };
 static const wchar_t* const bg_given_KEYWORDS[] = { L"* ", L"Дадено " };
 static const Keywords bg_given_keywords = { 2, bg_given_KEYWORDS };
 
+static const wchar_t* const bg_rule_KEYWORDS[] = { L"Rule" };
+static const Keywords bg_rule_keywords = { 1, bg_rule_KEYWORDS };
+
 static const wchar_t* const bg_scenario_KEYWORDS[] = { L"Пример", L"Сценарий" };
 static const Keywords bg_scenario_keywords = { 2, bg_scenario_KEYWORDS };
 
@@ -296,6 +323,7 @@ static const Dialect bg_dialect = {
         &bg_examples_keywords,
         &bg_feature_keywords,
         &bg_given_keywords,
+        &bg_rule_keywords,
         &bg_scenario_keywords,
         &bg_scenarioOutline_keywords,
         &bg_then_keywords,
@@ -319,6 +347,9 @@ static const Keywords bm_feature_keywords = { 1, bm_feature_KEYWORDS };
 static const wchar_t* const bm_given_KEYWORDS[] = { L"* ", L"Diberi ", L"Bagi " };
 static const Keywords bm_given_keywords = { 3, bm_given_KEYWORDS };
 
+static const wchar_t* const bm_rule_KEYWORDS[] = { L"Rule" };
+static const Keywords bm_rule_keywords = { 1, bm_rule_KEYWORDS };
+
 static const wchar_t* const bm_scenario_KEYWORDS[] = { L"Senario", L"Situasi", L"Keadaan" };
 static const Keywords bm_scenario_keywords = { 3, bm_scenario_KEYWORDS };
 
@@ -339,6 +370,7 @@ static const Dialect bm_dialect = {
         &bm_examples_keywords,
         &bm_feature_keywords,
         &bm_given_keywords,
+        &bm_rule_keywords,
         &bm_scenario_keywords,
         &bm_scenarioOutline_keywords,
         &bm_then_keywords,
@@ -362,6 +394,9 @@ static const Keywords bs_feature_keywords = { 1, bs_feature_KEYWORDS };
 static const wchar_t* const bs_given_KEYWORDS[] = { L"* ", L"Dato " };
 static const Keywords bs_given_keywords = { 2, bs_given_KEYWORDS };
 
+static const wchar_t* const bs_rule_KEYWORDS[] = { L"Rule" };
+static const Keywords bs_rule_keywords = { 1, bs_rule_KEYWORDS };
+
 static const wchar_t* const bs_scenario_KEYWORDS[] = { L"Primjer", L"Scenariju", L"Scenario" };
 static const Keywords bs_scenario_keywords = { 3, bs_scenario_KEYWORDS };
 
@@ -382,6 +417,7 @@ static const Dialect bs_dialect = {
         &bs_examples_keywords,
         &bs_feature_keywords,
         &bs_given_keywords,
+        &bs_rule_keywords,
         &bs_scenario_keywords,
         &bs_scenarioOutline_keywords,
         &bs_then_keywords,
@@ -405,6 +441,9 @@ static const Keywords ca_feature_keywords = { 2, ca_feature_KEYWORDS };
 static const wchar_t* const ca_given_KEYWORDS[] = { L"* ", L"Donat ", L"Donada ", L"Atès ", L"Atesa " };
 static const Keywords ca_given_keywords = { 5, ca_given_KEYWORDS };
 
+static const wchar_t* const ca_rule_KEYWORDS[] = { L"Rule" };
+static const Keywords ca_rule_keywords = { 1, ca_rule_KEYWORDS };
+
 static const wchar_t* const ca_scenario_KEYWORDS[] = { L"Exemple", L"Escenari" };
 static const Keywords ca_scenario_keywords = { 2, ca_scenario_KEYWORDS };
 
@@ -425,6 +464,7 @@ static const Dialect ca_dialect = {
         &ca_examples_keywords,
         &ca_feature_keywords,
         &ca_given_keywords,
+        &ca_rule_keywords,
         &ca_scenario_keywords,
         &ca_scenarioOutline_keywords,
         &ca_then_keywords,
@@ -448,6 +488,9 @@ static const Keywords cs_feature_keywords = { 1, cs_feature_KEYWORDS };
 static const wchar_t* const cs_given_KEYWORDS[] = { L"* ", L"Pokud ", L"Za předpokladu " };
 static const Keywords cs_given_keywords = { 3, cs_given_KEYWORDS };
 
+static const wchar_t* const cs_rule_KEYWORDS[] = { L"Rule" };
+static const Keywords cs_rule_keywords = { 1, cs_rule_KEYWORDS };
+
 static const wchar_t* const cs_scenario_KEYWORDS[] = { L"Příklad", L"Scénář" };
 static const Keywords cs_scenario_keywords = { 2, cs_scenario_KEYWORDS };
 
@@ -468,6 +511,7 @@ static const Dialect cs_dialect = {
         &cs_examples_keywords,
         &cs_feature_keywords,
         &cs_given_keywords,
+        &cs_rule_keywords,
         &cs_scenario_keywords,
         &cs_scenarioOutline_keywords,
         &cs_then_keywords,
@@ -491,6 +535,9 @@ static const Keywords cy_GB_feature_keywords = { 1, cy_GB_feature_KEYWORDS };
 static const wchar_t* const cy_GB_given_KEYWORDS[] = { L"* ", L"Anrhegedig a " };
 static const Keywords cy_GB_given_keywords = { 2, cy_GB_given_KEYWORDS };
 
+static const wchar_t* const cy_GB_rule_KEYWORDS[] = { L"Rule" };
+static const Keywords cy_GB_rule_keywords = { 1, cy_GB_rule_KEYWORDS };
+
 static const wchar_t* const cy_GB_scenario_KEYWORDS[] = { L"Enghraifft", L"Scenario" };
 static const Keywords cy_GB_scenario_keywords = { 2, cy_GB_scenario_KEYWORDS };
 
@@ -511,6 +558,7 @@ static const Dialect cy_GB_dialect = {
         &cy_GB_examples_keywords,
         &cy_GB_feature_keywords,
         &cy_GB_given_keywords,
+        &cy_GB_rule_keywords,
         &cy_GB_scenario_keywords,
         &cy_GB_scenarioOutline_keywords,
         &cy_GB_then_keywords,
@@ -534,6 +582,9 @@ static const Keywords da_feature_keywords = { 1, da_feature_KEYWORDS };
 static const wchar_t* const da_given_KEYWORDS[] = { L"* ", L"Givet " };
 static const Keywords da_given_keywords = { 2, da_given_KEYWORDS };
 
+static const wchar_t* const da_rule_KEYWORDS[] = { L"Rule" };
+static const Keywords da_rule_keywords = { 1, da_rule_KEYWORDS };
+
 static const wchar_t* const da_scenario_KEYWORDS[] = { L"Eksempel", L"Scenarie" };
 static const Keywords da_scenario_keywords = { 2, da_scenario_KEYWORDS };
 
@@ -554,6 +605,7 @@ static const Dialect da_dialect = {
         &da_examples_keywords,
         &da_feature_keywords,
         &da_given_keywords,
+        &da_rule_keywords,
         &da_scenario_keywords,
         &da_scenarioOutline_keywords,
         &da_then_keywords,
@@ -577,6 +629,9 @@ static const Keywords de_feature_keywords = { 1, de_feature_KEYWORDS };
 static const wchar_t* const de_given_KEYWORDS[] = { L"* ", L"Angenommen ", L"Gegeben sei ", L"Gegeben seien " };
 static const Keywords de_given_keywords = { 4, de_given_KEYWORDS };
 
+static const wchar_t* const de_rule_KEYWORDS[] = { L"Rule" };
+static const Keywords de_rule_keywords = { 1, de_rule_KEYWORDS };
+
 static const wchar_t* const de_scenario_KEYWORDS[] = { L"Beispiel", L"Szenario" };
 static const Keywords de_scenario_keywords = { 2, de_scenario_KEYWORDS };
 
@@ -597,6 +652,7 @@ static const Dialect de_dialect = {
         &de_examples_keywords,
         &de_feature_keywords,
         &de_given_keywords,
+        &de_rule_keywords,
         &de_scenario_keywords,
         &de_scenarioOutline_keywords,
         &de_then_keywords,
@@ -620,6 +676,9 @@ static const Keywords el_feature_keywords = { 2, el_feature_KEYWORDS };
 static const wchar_t* const el_given_KEYWORDS[] = { L"* ", L"Δεδομένου " };
 static const Keywords el_given_keywords = { 2, el_given_KEYWORDS };
 
+static const wchar_t* const el_rule_KEYWORDS[] = { L"Rule" };
+static const Keywords el_rule_keywords = { 1, el_rule_KEYWORDS };
+
 static const wchar_t* const el_scenario_KEYWORDS[] = { L"Παράδειγμα", L"Σενάριο" };
 static const Keywords el_scenario_keywords = { 2, el_scenario_KEYWORDS };
 
@@ -640,6 +699,7 @@ static const Dialect el_dialect = {
         &el_examples_keywords,
         &el_feature_keywords,
         &el_given_keywords,
+        &el_rule_keywords,
         &el_scenario_keywords,
         &el_scenarioOutline_keywords,
         &el_then_keywords,
@@ -663,6 +723,9 @@ static const Keywords em_feature_keywords = { 1, em_feature_KEYWORDS };
 static const wchar_t* const em_given_KEYWORDS[] = { L"* ", L"😐" };
 static const Keywords em_given_keywords = { 2, em_given_KEYWORDS };
 
+static const wchar_t* const em_rule_KEYWORDS[] = { L"Rule" };
+static const Keywords em_rule_keywords = { 1, em_rule_KEYWORDS };
+
 static const wchar_t* const em_scenario_KEYWORDS[] = { L"🥒", L"📕" };
 static const Keywords em_scenario_keywords = { 2, em_scenario_KEYWORDS };
 
@@ -683,6 +746,7 @@ static const Dialect em_dialect = {
         &em_examples_keywords,
         &em_feature_keywords,
         &em_given_keywords,
+        &em_rule_keywords,
         &em_scenario_keywords,
         &em_scenarioOutline_keywords,
         &em_then_keywords,
@@ -706,6 +770,9 @@ static const Keywords en_feature_keywords = { 3, en_feature_KEYWORDS };
 static const wchar_t* const en_given_KEYWORDS[] = { L"* ", L"Given " };
 static const Keywords en_given_keywords = { 2, en_given_KEYWORDS };
 
+static const wchar_t* const en_rule_KEYWORDS[] = { L"Rule" };
+static const Keywords en_rule_keywords = { 1, en_rule_KEYWORDS };
+
 static const wchar_t* const en_scenario_KEYWORDS[] = { L"Example", L"Scenario" };
 static const Keywords en_scenario_keywords = { 2, en_scenario_KEYWORDS };
 
@@ -726,6 +793,7 @@ static const Dialect en_dialect = {
         &en_examples_keywords,
         &en_feature_keywords,
         &en_given_keywords,
+        &en_rule_keywords,
         &en_scenario_keywords,
         &en_scenarioOutline_keywords,
         &en_then_keywords,
@@ -749,6 +817,9 @@ static const Keywords en_Scouse_feature_keywords = { 1, en_Scouse_feature_KEYWOR
 static const wchar_t* const en_Scouse_given_KEYWORDS[] = { L"* ", L"Givun ", L"Youse know when youse got " };
 static const Keywords en_Scouse_given_keywords = { 3, en_Scouse_given_KEYWORDS };
 
+static const wchar_t* const en_Scouse_rule_KEYWORDS[] = { L"Rule" };
+static const Keywords en_Scouse_rule_keywords = { 1, en_Scouse_rule_KEYWORDS };
+
 static const wchar_t* const en_Scouse_scenario_KEYWORDS[] = { L"The thing of it is" };
 static const Keywords en_Scouse_scenario_keywords = { 1, en_Scouse_scenario_KEYWORDS };
 
@@ -769,6 +840,7 @@ static const Dialect en_Scouse_dialect = {
         &en_Scouse_examples_keywords,
         &en_Scouse_feature_keywords,
         &en_Scouse_given_keywords,
+        &en_Scouse_rule_keywords,
         &en_Scouse_scenario_keywords,
         &en_Scouse_scenarioOutline_keywords,
         &en_Scouse_then_keywords,
@@ -792,6 +864,9 @@ static const Keywords en_au_feature_keywords = { 1, en_au_feature_KEYWORDS };
 static const wchar_t* const en_au_given_KEYWORDS[] = { L"* ", L"Y'know " };
 static const Keywords en_au_given_keywords = { 2, en_au_given_KEYWORDS };
 
+static const wchar_t* const en_au_rule_KEYWORDS[] = { L"Rule" };
+static const Keywords en_au_rule_keywords = { 1, en_au_rule_KEYWORDS };
+
 static const wchar_t* const en_au_scenario_KEYWORDS[] = { L"Awww, look mate" };
 static const Keywords en_au_scenario_keywords = { 1, en_au_scenario_KEYWORDS };
 
@@ -812,6 +887,7 @@ static const Dialect en_au_dialect = {
         &en_au_examples_keywords,
         &en_au_feature_keywords,
         &en_au_given_keywords,
+        &en_au_rule_keywords,
         &en_au_scenario_keywords,
         &en_au_scenarioOutline_keywords,
         &en_au_then_keywords,
@@ -835,6 +911,9 @@ static const Keywords en_lol_feature_keywords = { 1, en_lol_feature_KEYWORDS };
 static const wchar_t* const en_lol_given_KEYWORDS[] = { L"* ", L"I CAN HAZ " };
 static const Keywords en_lol_given_keywords = { 2, en_lol_given_KEYWORDS };
 
+static const wchar_t* const en_lol_rule_KEYWORDS[] = { L"Rule" };
+static const Keywords en_lol_rule_keywords = { 1, en_lol_rule_KEYWORDS };
+
 static const wchar_t* const en_lol_scenario_KEYWORDS[] = { L"MISHUN" };
 static const Keywords en_lol_scenario_keywords = { 1, en_lol_scenario_KEYWORDS };
 
@@ -855,6 +934,7 @@ static const Dialect en_lol_dialect = {
         &en_lol_examples_keywords,
         &en_lol_feature_keywords,
         &en_lol_given_keywords,
+        &en_lol_rule_keywords,
         &en_lol_scenario_keywords,
         &en_lol_scenarioOutline_keywords,
         &en_lol_then_keywords,
@@ -878,6 +958,9 @@ static const Keywords en_old_feature_keywords = { 2, en_old_feature_KEYWORDS };
 static const wchar_t* const en_old_given_KEYWORDS[] = { L"* ", L"Thurh ", L"Þurh ", L"Ðurh " };
 static const Keywords en_old_given_keywords = { 4, en_old_given_KEYWORDS };
 
+static const wchar_t* const en_old_rule_KEYWORDS[] = { L"Rule" };
+static const Keywords en_old_rule_keywords = { 1, en_old_rule_KEYWORDS };
+
 static const wchar_t* const en_old_scenario_KEYWORDS[] = { L"Swa" };
 static const Keywords en_old_scenario_keywords = { 1, en_old_scenario_KEYWORDS };
 
@@ -898,6 +981,7 @@ static const Dialect en_old_dialect = {
         &en_old_examples_keywords,
         &en_old_feature_keywords,
         &en_old_given_keywords,
+        &en_old_rule_keywords,
         &en_old_scenario_keywords,
         &en_old_scenarioOutline_keywords,
         &en_old_then_keywords,
@@ -921,6 +1005,9 @@ static const Keywords en_pirate_feature_keywords = { 1, en_pirate_feature_KEYWOR
 static const wchar_t* const en_pirate_given_KEYWORDS[] = { L"* ", L"Gangway! " };
 static const Keywords en_pirate_given_keywords = { 2, en_pirate_given_KEYWORDS };
 
+static const wchar_t* const en_pirate_rule_KEYWORDS[] = { L"Rule" };
+static const Keywords en_pirate_rule_keywords = { 1, en_pirate_rule_KEYWORDS };
+
 static const wchar_t* const en_pirate_scenario_KEYWORDS[] = { L"Heave to" };
 static const Keywords en_pirate_scenario_keywords = { 1, en_pirate_scenario_KEYWORDS };
 
@@ -941,6 +1028,7 @@ static const Dialect en_pirate_dialect = {
         &en_pirate_examples_keywords,
         &en_pirate_feature_keywords,
         &en_pirate_given_keywords,
+        &en_pirate_rule_keywords,
         &en_pirate_scenario_keywords,
         &en_pirate_scenarioOutline_keywords,
         &en_pirate_then_keywords,
@@ -964,6 +1052,9 @@ static const Keywords eo_feature_keywords = { 1, eo_feature_KEYWORDS };
 static const wchar_t* const eo_given_KEYWORDS[] = { L"* ", L"Donitaĵo ", L"Komence " };
 static const Keywords eo_given_keywords = { 3, eo_given_KEYWORDS };
 
+static const wchar_t* const eo_rule_KEYWORDS[] = { L"Rule" };
+static const Keywords eo_rule_keywords = { 1, eo_rule_KEYWORDS };
+
 static const wchar_t* const eo_scenario_KEYWORDS[] = { L"Ekzemplo", L"Scenaro", L"Kazo" };
 static const Keywords eo_scenario_keywords = { 3, eo_scenario_KEYWORDS };
 
@@ -984,6 +1075,7 @@ static const Dialect eo_dialect = {
         &eo_examples_keywords,
         &eo_feature_keywords,
         &eo_given_keywords,
+        &eo_rule_keywords,
         &eo_scenario_keywords,
         &eo_scenarioOutline_keywords,
         &eo_then_keywords,
@@ -1007,6 +1099,9 @@ static const Keywords es_feature_keywords = { 1, es_feature_KEYWORDS };
 static const wchar_t* const es_given_KEYWORDS[] = { L"* ", L"Dado ", L"Dada ", L"Dados ", L"Dadas " };
 static const Keywords es_given_keywords = { 5, es_given_KEYWORDS };
 
+static const wchar_t* const es_rule_KEYWORDS[] = { L"Rule" };
+static const Keywords es_rule_keywords = { 1, es_rule_KEYWORDS };
+
 static const wchar_t* const es_scenario_KEYWORDS[] = { L"Ejemplo", L"Escenario" };
 static const Keywords es_scenario_keywords = { 2, es_scenario_KEYWORDS };
 
@@ -1027,6 +1122,7 @@ static const Dialect es_dialect = {
         &es_examples_keywords,
         &es_feature_keywords,
         &es_given_keywords,
+        &es_rule_keywords,
         &es_scenario_keywords,
         &es_scenarioOutline_keywords,
         &es_then_keywords,
@@ -1050,6 +1146,9 @@ static const Keywords et_feature_keywords = { 1, et_feature_KEYWORDS };
 static const wchar_t* const et_given_KEYWORDS[] = { L"* ", L"Eeldades " };
 static const Keywords et_given_keywords = { 2, et_given_KEYWORDS };
 
+static const wchar_t* const et_rule_KEYWORDS[] = { L"Rule" };
+static const Keywords et_rule_keywords = { 1, et_rule_KEYWORDS };
+
 static const wchar_t* const et_scenario_KEYWORDS[] = { L"Juhtum", L"Stsenaarium" };
 static const Keywords et_scenario_keywords = { 2, et_scenario_KEYWORDS };
 
@@ -1070,6 +1169,7 @@ static const Dialect et_dialect = {
         &et_examples_keywords,
         &et_feature_keywords,
         &et_given_keywords,
+        &et_rule_keywords,
         &et_scenario_keywords,
         &et_scenarioOutline_keywords,
         &et_then_keywords,
@@ -1093,6 +1193,9 @@ static const Keywords fa_feature_keywords = { 1, fa_feature_KEYWORDS };
 static const wchar_t* const fa_given_KEYWORDS[] = { L"* ", L"با فرض " };
 static const Keywords fa_given_keywords = { 2, fa_given_KEYWORDS };
 
+static const wchar_t* const fa_rule_KEYWORDS[] = { L"Rule" };
+static const Keywords fa_rule_keywords = { 1, fa_rule_KEYWORDS };
+
 static const wchar_t* const fa_scenario_KEYWORDS[] = { L"مثال", L"سناریو" };
 static const Keywords fa_scenario_keywords = { 2, fa_scenario_KEYWORDS };
 
@@ -1113,6 +1216,7 @@ static const Dialect fa_dialect = {
         &fa_examples_keywords,
         &fa_feature_keywords,
         &fa_given_keywords,
+        &fa_rule_keywords,
         &fa_scenario_keywords,
         &fa_scenarioOutline_keywords,
         &fa_then_keywords,
@@ -1136,6 +1240,9 @@ static const Keywords fi_feature_keywords = { 1, fi_feature_KEYWORDS };
 static const wchar_t* const fi_given_KEYWORDS[] = { L"* ", L"Oletetaan " };
 static const Keywords fi_given_keywords = { 2, fi_given_KEYWORDS };
 
+static const wchar_t* const fi_rule_KEYWORDS[] = { L"Rule" };
+static const Keywords fi_rule_keywords = { 1, fi_rule_KEYWORDS };
+
 static const wchar_t* const fi_scenario_KEYWORDS[] = { L"Tapaus" };
 static const Keywords fi_scenario_keywords = { 1, fi_scenario_KEYWORDS };
 
@@ -1156,6 +1263,7 @@ static const Dialect fi_dialect = {
         &fi_examples_keywords,
         &fi_feature_keywords,
         &fi_given_keywords,
+        &fi_rule_keywords,
         &fi_scenario_keywords,
         &fi_scenarioOutline_keywords,
         &fi_then_keywords,
@@ -1176,8 +1284,11 @@ static const Keywords fr_examples_keywords = { 1, fr_examples_KEYWORDS };
 static const wchar_t* const fr_feature_KEYWORDS[] = { L"Fonctionnalité" };
 static const Keywords fr_feature_keywords = { 1, fr_feature_KEYWORDS };
 
-static const wchar_t* const fr_given_KEYWORDS[] = { L"* ", L"Soit ", L"Sachant que ", L"Sachant qu'", L"Sachant ", L"Etant donné que ", L"Etant donné qu'", L"Etant donné ", L"Etant donnée ", L"Etant donnés ", L"Etant données ", L"Étant donné que ", L"Étant donné qu'", L"Étant donné ", L"Étant donnée ", L"Étant donnés ", L"Étant données " };
-static const Keywords fr_given_keywords = { 17, fr_given_KEYWORDS };
+static const wchar_t* const fr_given_KEYWORDS[] = { L"* ", L"Soit ", L"Etant donné que ", L"Etant donné qu'", L"Etant donné ", L"Etant donnée ", L"Etant donnés ", L"Etant données ", L"Étant donné que ", L"Étant donné qu'", L"Étant donné ", L"Étant donnée ", L"Étant donnés ", L"Étant données " };
+static const Keywords fr_given_keywords = { 14, fr_given_KEYWORDS };
+
+static const wchar_t* const fr_rule_KEYWORDS[] = { L"Règle" };
+static const Keywords fr_rule_keywords = { 1, fr_rule_KEYWORDS };
 
 static const wchar_t* const fr_scenario_KEYWORDS[] = { L"Exemple", L"Scénario" };
 static const Keywords fr_scenario_keywords = { 2, fr_scenario_KEYWORDS };
@@ -1185,8 +1296,8 @@ static const Keywords fr_scenario_keywords = { 2, fr_scenario_KEYWORDS };
 static const wchar_t* const fr_scenarioOutline_KEYWORDS[] = { L"Plan du scénario", L"Plan du Scénario" };
 static const Keywords fr_scenarioOutline_keywords = { 2, fr_scenarioOutline_KEYWORDS };
 
-static const wchar_t* const fr_then_KEYWORDS[] = { L"* ", L"Alors ", L"Donc " };
-static const Keywords fr_then_keywords = { 3, fr_then_KEYWORDS };
+static const wchar_t* const fr_then_KEYWORDS[] = { L"* ", L"Alors " };
+static const Keywords fr_then_keywords = { 2, fr_then_KEYWORDS };
 
 static const wchar_t* const fr_when_KEYWORDS[] = { L"* ", L"Quand ", L"Lorsque ", L"Lorsqu'" };
 static const Keywords fr_when_keywords = { 4, fr_when_KEYWORDS };
@@ -1199,6 +1310,7 @@ static const Dialect fr_dialect = {
         &fr_examples_keywords,
         &fr_feature_keywords,
         &fr_given_keywords,
+        &fr_rule_keywords,
         &fr_scenario_keywords,
         &fr_scenarioOutline_keywords,
         &fr_then_keywords,
@@ -1222,6 +1334,9 @@ static const Keywords ga_feature_keywords = { 1, ga_feature_KEYWORDS };
 static const wchar_t* const ga_given_KEYWORDS[] = { L"* ", L"Cuir i gcás go", L"Cuir i gcás nach", L"Cuir i gcás gur", L"Cuir i gcás nár" };
 static const Keywords ga_given_keywords = { 5, ga_given_KEYWORDS };
 
+static const wchar_t* const ga_rule_KEYWORDS[] = { L"Rule" };
+static const Keywords ga_rule_keywords = { 1, ga_rule_KEYWORDS };
+
 static const wchar_t* const ga_scenario_KEYWORDS[] = { L"Sampla", L"Cás" };
 static const Keywords ga_scenario_keywords = { 2, ga_scenario_KEYWORDS };
 
@@ -1242,6 +1357,7 @@ static const Dialect ga_dialect = {
         &ga_examples_keywords,
         &ga_feature_keywords,
         &ga_given_keywords,
+        &ga_rule_keywords,
         &ga_scenario_keywords,
         &ga_scenarioOutline_keywords,
         &ga_then_keywords,
@@ -1265,6 +1381,9 @@ static const Keywords gj_feature_keywords = { 3, gj_feature_KEYWORDS };
 static const wchar_t* const gj_given_KEYWORDS[] = { L"* ", L"આપેલ છે " };
 static const Keywords gj_given_keywords = { 2, gj_given_KEYWORDS };
 
+static const wchar_t* const gj_rule_KEYWORDS[] = { L"Rule" };
+static const Keywords gj_rule_keywords = { 1, gj_rule_KEYWORDS };
+
 static const wchar_t* const gj_scenario_KEYWORDS[] = { L"ઉદાહરણ", L"સ્થિતિ" };
 static const Keywords gj_scenario_keywords = { 2, gj_scenario_KEYWORDS };
 
@@ -1285,6 +1404,7 @@ static const Dialect gj_dialect = {
         &gj_examples_keywords,
         &gj_feature_keywords,
         &gj_given_keywords,
+        &gj_rule_keywords,
         &gj_scenario_keywords,
         &gj_scenarioOutline_keywords,
         &gj_then_keywords,
@@ -1308,6 +1428,9 @@ static const Keywords gl_feature_keywords = { 1, gl_feature_KEYWORDS };
 static const wchar_t* const gl_given_KEYWORDS[] = { L"* ", L"Dado ", L"Dada ", L"Dados ", L"Dadas " };
 static const Keywords gl_given_keywords = { 5, gl_given_KEYWORDS };
 
+static const wchar_t* const gl_rule_KEYWORDS[] = { L"Rule" };
+static const Keywords gl_rule_keywords = { 1, gl_rule_KEYWORDS };
+
 static const wchar_t* const gl_scenario_KEYWORDS[] = { L"Exemplo", L"Escenario" };
 static const Keywords gl_scenario_keywords = { 2, gl_scenario_KEYWORDS };
 
@@ -1328,6 +1451,7 @@ static const Dialect gl_dialect = {
         &gl_examples_keywords,
         &gl_feature_keywords,
         &gl_given_keywords,
+        &gl_rule_keywords,
         &gl_scenario_keywords,
         &gl_scenarioOutline_keywords,
         &gl_then_keywords,
@@ -1351,6 +1475,9 @@ static const Keywords he_feature_keywords = { 1, he_feature_KEYWORDS };
 static const wchar_t* const he_given_KEYWORDS[] = { L"* ", L"בהינתן " };
 static const Keywords he_given_keywords = { 2, he_given_KEYWORDS };
 
+static const wchar_t* const he_rule_KEYWORDS[] = { L"Rule" };
+static const Keywords he_rule_keywords = { 1, he_rule_KEYWORDS };
+
 static const wchar_t* const he_scenario_KEYWORDS[] = { L"דוגמא", L"תרחיש" };
 static const Keywords he_scenario_keywords = { 2, he_scenario_KEYWORDS };
 
@@ -1371,6 +1498,7 @@ static const Dialect he_dialect = {
         &he_examples_keywords,
         &he_feature_keywords,
         &he_given_keywords,
+        &he_rule_keywords,
         &he_scenario_keywords,
         &he_scenarioOutline_keywords,
         &he_then_keywords,
@@ -1394,6 +1522,9 @@ static const Keywords hi_feature_keywords = { 1, hi_feature_KEYWORDS };
 static const wchar_t* const hi_given_KEYWORDS[] = { L"* ", L"अगर ", L"यदि ", L"चूंकि " };
 static const Keywords hi_given_keywords = { 4, hi_given_KEYWORDS };
 
+static const wchar_t* const hi_rule_KEYWORDS[] = { L"Rule" };
+static const Keywords hi_rule_keywords = { 1, hi_rule_KEYWORDS };
+
 static const wchar_t* const hi_scenario_KEYWORDS[] = { L"परिदृश्य" };
 static const Keywords hi_scenario_keywords = { 1, hi_scenario_KEYWORDS };
 
@@ -1414,6 +1545,7 @@ static const Dialect hi_dialect = {
         &hi_examples_keywords,
         &hi_feature_keywords,
         &hi_given_keywords,
+        &hi_rule_keywords,
         &hi_scenario_keywords,
         &hi_scenarioOutline_keywords,
         &hi_then_keywords,
@@ -1437,6 +1569,9 @@ static const Keywords hr_feature_keywords = { 3, hr_feature_KEYWORDS };
 static const wchar_t* const hr_given_KEYWORDS[] = { L"* ", L"Zadan ", L"Zadani ", L"Zadano ", L"Ukoliko " };
 static const Keywords hr_given_keywords = { 5, hr_given_KEYWORDS };
 
+static const wchar_t* const hr_rule_KEYWORDS[] = { L"Rule" };
+static const Keywords hr_rule_keywords = { 1, hr_rule_KEYWORDS };
+
 static const wchar_t* const hr_scenario_KEYWORDS[] = { L"Primjer", L"Scenarij" };
 static const Keywords hr_scenario_keywords = { 2, hr_scenario_KEYWORDS };
 
@@ -1457,6 +1592,7 @@ static const Dialect hr_dialect = {
         &hr_examples_keywords,
         &hr_feature_keywords,
         &hr_given_keywords,
+        &hr_rule_keywords,
         &hr_scenario_keywords,
         &hr_scenarioOutline_keywords,
         &hr_then_keywords,
@@ -1480,6 +1616,9 @@ static const Keywords ht_feature_keywords = { 3, ht_feature_KEYWORDS };
 static const wchar_t* const ht_given_KEYWORDS[] = { L"* ", L"Sipoze ", L"Sipoze ke ", L"Sipoze Ke " };
 static const Keywords ht_given_keywords = { 4, ht_given_KEYWORDS };
 
+static const wchar_t* const ht_rule_KEYWORDS[] = { L"Rule" };
+static const Keywords ht_rule_keywords = { 1, ht_rule_KEYWORDS };
+
 static const wchar_t* const ht_scenario_KEYWORDS[] = { L"Senaryo" };
 static const Keywords ht_scenario_keywords = { 1, ht_scenario_KEYWORDS };
 
@@ -1500,6 +1639,7 @@ static const Dialect ht_dialect = {
         &ht_examples_keywords,
         &ht_feature_keywords,
         &ht_given_keywords,
+        &ht_rule_keywords,
         &ht_scenario_keywords,
         &ht_scenarioOutline_keywords,
         &ht_then_keywords,
@@ -1523,6 +1663,9 @@ static const Keywords hu_feature_keywords = { 1, hu_feature_KEYWORDS };
 static const wchar_t* const hu_given_KEYWORDS[] = { L"* ", L"Amennyiben ", L"Adott " };
 static const Keywords hu_given_keywords = { 3, hu_given_KEYWORDS };
 
+static const wchar_t* const hu_rule_KEYWORDS[] = { L"Rule" };
+static const Keywords hu_rule_keywords = { 1, hu_rule_KEYWORDS };
+
 static const wchar_t* const hu_scenario_KEYWORDS[] = { L"Példa", L"Forgatókönyv" };
 static const Keywords hu_scenario_keywords = { 2, hu_scenario_KEYWORDS };
 
@@ -1543,6 +1686,7 @@ static const Dialect hu_dialect = {
         &hu_examples_keywords,
         &hu_feature_keywords,
         &hu_given_keywords,
+        &hu_rule_keywords,
         &hu_scenario_keywords,
         &hu_scenarioOutline_keywords,
         &hu_then_keywords,
@@ -1566,6 +1710,9 @@ static const Keywords id_feature_keywords = { 1, id_feature_KEYWORDS };
 static const wchar_t* const id_given_KEYWORDS[] = { L"* ", L"Dengan " };
 static const Keywords id_given_keywords = { 2, id_given_KEYWORDS };
 
+static const wchar_t* const id_rule_KEYWORDS[] = { L"Rule" };
+static const Keywords id_rule_keywords = { 1, id_rule_KEYWORDS };
+
 static const wchar_t* const id_scenario_KEYWORDS[] = { L"Skenario" };
 static const Keywords id_scenario_keywords = { 1, id_scenario_KEYWORDS };
 
@@ -1586,6 +1733,7 @@ static const Dialect id_dialect = {
         &id_examples_keywords,
         &id_feature_keywords,
         &id_given_keywords,
+        &id_rule_keywords,
         &id_scenario_keywords,
         &id_scenarioOutline_keywords,
         &id_then_keywords,
@@ -1609,6 +1757,9 @@ static const Keywords is_feature_keywords = { 1, is_feature_KEYWORDS };
 static const wchar_t* const is_given_KEYWORDS[] = { L"* ", L"Ef " };
 static const Keywords is_given_keywords = { 2, is_given_KEYWORDS };
 
+static const wchar_t* const is_rule_KEYWORDS[] = { L"Rule" };
+static const Keywords is_rule_keywords = { 1, is_rule_KEYWORDS };
+
 static const wchar_t* const is_scenario_KEYWORDS[] = { L"Atburðarás" };
 static const Keywords is_scenario_keywords = { 1, is_scenario_KEYWORDS };
 
@@ -1629,6 +1780,7 @@ static const Dialect is_dialect = {
         &is_examples_keywords,
         &is_feature_keywords,
         &is_given_keywords,
+        &is_rule_keywords,
         &is_scenario_keywords,
         &is_scenarioOutline_keywords,
         &is_then_keywords,
@@ -1652,6 +1804,9 @@ static const Keywords it_feature_keywords = { 1, it_feature_KEYWORDS };
 static const wchar_t* const it_given_KEYWORDS[] = { L"* ", L"Dato ", L"Data ", L"Dati ", L"Date " };
 static const Keywords it_given_keywords = { 5, it_given_KEYWORDS };
 
+static const wchar_t* const it_rule_KEYWORDS[] = { L"Rule" };
+static const Keywords it_rule_keywords = { 1, it_rule_KEYWORDS };
+
 static const wchar_t* const it_scenario_KEYWORDS[] = { L"Esempio", L"Scenario" };
 static const Keywords it_scenario_keywords = { 2, it_scenario_KEYWORDS };
 
@@ -1672,6 +1827,7 @@ static const Dialect it_dialect = {
         &it_examples_keywords,
         &it_feature_keywords,
         &it_given_keywords,
+        &it_rule_keywords,
         &it_scenario_keywords,
         &it_scenarioOutline_keywords,
         &it_then_keywords,
@@ -1695,6 +1851,9 @@ static const Keywords ja_feature_keywords = { 2, ja_feature_KEYWORDS };
 static const wchar_t* const ja_given_KEYWORDS[] = { L"* ", L"前提" };
 static const Keywords ja_given_keywords = { 2, ja_given_KEYWORDS };
 
+static const wchar_t* const ja_rule_KEYWORDS[] = { L"Rule" };
+static const Keywords ja_rule_keywords = { 1, ja_rule_KEYWORDS };
+
 static const wchar_t* const ja_scenario_KEYWORDS[] = { L"シナリオ" };
 static const Keywords ja_scenario_keywords = { 1, ja_scenario_KEYWORDS };
 
@@ -1715,6 +1874,7 @@ static const Dialect ja_dialect = {
         &ja_examples_keywords,
         &ja_feature_keywords,
         &ja_given_keywords,
+        &ja_rule_keywords,
         &ja_scenario_keywords,
         &ja_scenarioOutline_keywords,
         &ja_then_keywords,
@@ -1738,6 +1898,9 @@ static const Keywords jv_feature_keywords = { 1, jv_feature_KEYWORDS };
 static const wchar_t* const jv_given_KEYWORDS[] = { L"* ", L"Nalika ", L"Nalikaning " };
 static const Keywords jv_given_keywords = { 3, jv_given_KEYWORDS };
 
+static const wchar_t* const jv_rule_KEYWORDS[] = { L"Rule" };
+static const Keywords jv_rule_keywords = { 1, jv_rule_KEYWORDS };
+
 static const wchar_t* const jv_scenario_KEYWORDS[] = { L"Skenario" };
 static const Keywords jv_scenario_keywords = { 1, jv_scenario_KEYWORDS };
 
@@ -1758,6 +1921,7 @@ static const Dialect jv_dialect = {
         &jv_examples_keywords,
         &jv_feature_keywords,
         &jv_given_keywords,
+        &jv_rule_keywords,
         &jv_scenario_keywords,
         &jv_scenarioOutline_keywords,
         &jv_then_keywords,
@@ -1781,6 +1945,9 @@ static const Keywords ka_feature_keywords = { 1, ka_feature_KEYWORDS };
 static const wchar_t* const ka_given_KEYWORDS[] = { L"* ", L"მოცემული" };
 static const Keywords ka_given_keywords = { 2, ka_given_KEYWORDS };
 
+static const wchar_t* const ka_rule_KEYWORDS[] = { L"Rule" };
+static const Keywords ka_rule_keywords = { 1, ka_rule_KEYWORDS };
+
 static const wchar_t* const ka_scenario_KEYWORDS[] = { L"მაგალითად", L"სცენარის" };
 static const Keywords ka_scenario_keywords = { 2, ka_scenario_KEYWORDS };
 
@@ -1801,6 +1968,7 @@ static const Dialect ka_dialect = {
         &ka_examples_keywords,
         &ka_feature_keywords,
         &ka_given_keywords,
+        &ka_rule_keywords,
         &ka_scenario_keywords,
         &ka_scenarioOutline_keywords,
         &ka_then_keywords,
@@ -1824,6 +1992,9 @@ static const Keywords kn_feature_keywords = { 1, kn_feature_KEYWORDS };
 static const wchar_t* const kn_given_KEYWORDS[] = { L"* ", L"ನೀಡಿದ " };
 static const Keywords kn_given_keywords = { 2, kn_given_KEYWORDS };
 
+static const wchar_t* const kn_rule_KEYWORDS[] = { L"Rule" };
+static const Keywords kn_rule_keywords = { 1, kn_rule_KEYWORDS };
+
 static const wchar_t* const kn_scenario_KEYWORDS[] = { L"ಉದಾಹರಣೆ", L"ಕಥಾಸಾರಾಂಶ" };
 static const Keywords kn_scenario_keywords = { 2, kn_scenario_KEYWORDS };
 
@@ -1844,6 +2015,7 @@ static const Dialect kn_dialect = {
         &kn_examples_keywords,
         &kn_feature_keywords,
         &kn_given_keywords,
+        &kn_rule_keywords,
         &kn_scenario_keywords,
         &kn_scenarioOutline_keywords,
         &kn_then_keywords,
@@ -1867,6 +2039,9 @@ static const Keywords ko_feature_keywords = { 1, ko_feature_KEYWORDS };
 static const wchar_t* const ko_given_KEYWORDS[] = { L"* ", L"조건", L"먼저" };
 static const Keywords ko_given_keywords = { 3, ko_given_KEYWORDS };
 
+static const wchar_t* const ko_rule_KEYWORDS[] = { L"Rule" };
+static const Keywords ko_rule_keywords = { 1, ko_rule_KEYWORDS };
+
 static const wchar_t* const ko_scenario_KEYWORDS[] = { L"시나리오" };
 static const Keywords ko_scenario_keywords = { 1, ko_scenario_KEYWORDS };
 
@@ -1887,6 +2062,7 @@ static const Dialect ko_dialect = {
         &ko_examples_keywords,
         &ko_feature_keywords,
         &ko_given_keywords,
+        &ko_rule_keywords,
         &ko_scenario_keywords,
         &ko_scenarioOutline_keywords,
         &ko_then_keywords,
@@ -1910,6 +2086,9 @@ static const Keywords lt_feature_keywords = { 1, lt_feature_KEYWORDS };
 static const wchar_t* const lt_given_KEYWORDS[] = { L"* ", L"Duota " };
 static const Keywords lt_given_keywords = { 2, lt_given_KEYWORDS };
 
+static const wchar_t* const lt_rule_KEYWORDS[] = { L"Rule" };
+static const Keywords lt_rule_keywords = { 1, lt_rule_KEYWORDS };
+
 static const wchar_t* const lt_scenario_KEYWORDS[] = { L"Pavyzdys", L"Scenarijus" };
 static const Keywords lt_scenario_keywords = { 2, lt_scenario_KEYWORDS };
 
@@ -1930,6 +2109,7 @@ static const Dialect lt_dialect = {
         &lt_examples_keywords,
         &lt_feature_keywords,
         &lt_given_keywords,
+        &lt_rule_keywords,
         &lt_scenario_keywords,
         &lt_scenarioOutline_keywords,
         &lt_then_keywords,
@@ -1953,6 +2133,9 @@ static const Keywords lu_feature_keywords = { 1, lu_feature_KEYWORDS };
 static const wchar_t* const lu_given_KEYWORDS[] = { L"* ", L"ugeholl " };
 static const Keywords lu_given_keywords = { 2, lu_given_KEYWORDS };
 
+static const wchar_t* const lu_rule_KEYWORDS[] = { L"Rule" };
+static const Keywords lu_rule_keywords = { 1, lu_rule_KEYWORDS };
+
 static const wchar_t* const lu_scenario_KEYWORDS[] = { L"Beispill", L"Szenario" };
 static const Keywords lu_scenario_keywords = { 2, lu_scenario_KEYWORDS };
 
@@ -1973,6 +2156,7 @@ static const Dialect lu_dialect = {
         &lu_examples_keywords,
         &lu_feature_keywords,
         &lu_given_keywords,
+        &lu_rule_keywords,
         &lu_scenario_keywords,
         &lu_scenarioOutline_keywords,
         &lu_then_keywords,
@@ -1996,6 +2180,9 @@ static const Keywords lv_feature_keywords = { 2, lv_feature_KEYWORDS };
 static const wchar_t* const lv_given_KEYWORDS[] = { L"* ", L"Kad " };
 static const Keywords lv_given_keywords = { 2, lv_given_KEYWORDS };
 
+static const wchar_t* const lv_rule_KEYWORDS[] = { L"Rule" };
+static const Keywords lv_rule_keywords = { 1, lv_rule_KEYWORDS };
+
 static const wchar_t* const lv_scenario_KEYWORDS[] = { L"Piemērs", L"Scenārijs" };
 static const Keywords lv_scenario_keywords = { 2, lv_scenario_KEYWORDS };
 
@@ -2016,6 +2203,7 @@ static const Dialect lv_dialect = {
         &lv_examples_keywords,
         &lv_feature_keywords,
         &lv_given_keywords,
+        &lv_rule_keywords,
         &lv_scenario_keywords,
         &lv_scenarioOutline_keywords,
         &lv_then_keywords,
@@ -2039,6 +2227,9 @@ static const Keywords mk_Cyrl_feature_keywords = { 3, mk_Cyrl_feature_KEYWORDS }
 static const wchar_t* const mk_Cyrl_given_KEYWORDS[] = { L"* ", L"Дадено ", L"Дадена " };
 static const Keywords mk_Cyrl_given_keywords = { 3, mk_Cyrl_given_KEYWORDS };
 
+static const wchar_t* const mk_Cyrl_rule_KEYWORDS[] = { L"Rule" };
+static const Keywords mk_Cyrl_rule_keywords = { 1, mk_Cyrl_rule_KEYWORDS };
+
 static const wchar_t* const mk_Cyrl_scenario_KEYWORDS[] = { L"Пример", L"Сценарио", L"На пример" };
 static const Keywords mk_Cyrl_scenario_keywords = { 3, mk_Cyrl_scenario_KEYWORDS };
 
@@ -2059,6 +2250,7 @@ static const Dialect mk_Cyrl_dialect = {
         &mk_Cyrl_examples_keywords,
         &mk_Cyrl_feature_keywords,
         &mk_Cyrl_given_keywords,
+        &mk_Cyrl_rule_keywords,
         &mk_Cyrl_scenario_keywords,
         &mk_Cyrl_scenarioOutline_keywords,
         &mk_Cyrl_then_keywords,
@@ -2082,6 +2274,9 @@ static const Keywords mk_Latn_feature_keywords = { 3, mk_Latn_feature_KEYWORDS }
 static const wchar_t* const mk_Latn_given_KEYWORDS[] = { L"* ", L"Dadeno ", L"Dadena " };
 static const Keywords mk_Latn_given_keywords = { 3, mk_Latn_given_KEYWORDS };
 
+static const wchar_t* const mk_Latn_rule_KEYWORDS[] = { L"Rule" };
+static const Keywords mk_Latn_rule_keywords = { 1, mk_Latn_rule_KEYWORDS };
+
 static const wchar_t* const mk_Latn_scenario_KEYWORDS[] = { L"Scenario", L"Na primer" };
 static const Keywords mk_Latn_scenario_keywords = { 2, mk_Latn_scenario_KEYWORDS };
 
@@ -2102,6 +2297,7 @@ static const Dialect mk_Latn_dialect = {
         &mk_Latn_examples_keywords,
         &mk_Latn_feature_keywords,
         &mk_Latn_given_keywords,
+        &mk_Latn_rule_keywords,
         &mk_Latn_scenario_keywords,
         &mk_Latn_scenarioOutline_keywords,
         &mk_Latn_then_keywords,
@@ -2125,6 +2321,9 @@ static const Keywords mn_feature_keywords = { 2, mn_feature_KEYWORDS };
 static const wchar_t* const mn_given_KEYWORDS[] = { L"* ", L"Өгөгдсөн нь ", L"Анх " };
 static const Keywords mn_given_keywords = { 3, mn_given_KEYWORDS };
 
+static const wchar_t* const mn_rule_KEYWORDS[] = { L"Rule" };
+static const Keywords mn_rule_keywords = { 1, mn_rule_KEYWORDS };
+
 static const wchar_t* const mn_scenario_KEYWORDS[] = { L"Сценар" };
 static const Keywords mn_scenario_keywords = { 1, mn_scenario_KEYWORDS };
 
@@ -2145,6 +2344,7 @@ static const Dialect mn_dialect = {
         &mn_examples_keywords,
         &mn_feature_keywords,
         &mn_given_keywords,
+        &mn_rule_keywords,
         &mn_scenario_keywords,
         &mn_scenarioOutline_keywords,
         &mn_then_keywords,
@@ -2168,6 +2368,9 @@ static const Keywords nl_feature_keywords = { 1, nl_feature_KEYWORDS };
 static const wchar_t* const nl_given_KEYWORDS[] = { L"* ", L"Gegeven ", L"Stel " };
 static const Keywords nl_given_keywords = { 3, nl_given_KEYWORDS };
 
+static const wchar_t* const nl_rule_KEYWORDS[] = { L"Rule" };
+static const Keywords nl_rule_keywords = { 1, nl_rule_KEYWORDS };
+
 static const wchar_t* const nl_scenario_KEYWORDS[] = { L"Voorbeeld", L"Scenario" };
 static const Keywords nl_scenario_keywords = { 2, nl_scenario_KEYWORDS };
 
@@ -2188,6 +2391,7 @@ static const Dialect nl_dialect = {
         &nl_examples_keywords,
         &nl_feature_keywords,
         &nl_given_keywords,
+        &nl_rule_keywords,
         &nl_scenario_keywords,
         &nl_scenarioOutline_keywords,
         &nl_then_keywords,
@@ -2211,6 +2415,9 @@ static const Keywords no_feature_keywords = { 1, no_feature_KEYWORDS };
 static const wchar_t* const no_given_KEYWORDS[] = { L"* ", L"Gitt " };
 static const Keywords no_given_keywords = { 2, no_given_KEYWORDS };
 
+static const wchar_t* const no_rule_KEYWORDS[] = { L"Regel" };
+static const Keywords no_rule_keywords = { 1, no_rule_KEYWORDS };
+
 static const wchar_t* const no_scenario_KEYWORDS[] = { L"Eksempel", L"Scenario" };
 static const Keywords no_scenario_keywords = { 2, no_scenario_KEYWORDS };
 
@@ -2231,6 +2438,7 @@ static const Dialect no_dialect = {
         &no_examples_keywords,
         &no_feature_keywords,
         &no_given_keywords,
+        &no_rule_keywords,
         &no_scenario_keywords,
         &no_scenarioOutline_keywords,
         &no_then_keywords,
@@ -2254,6 +2462,9 @@ static const Keywords pa_feature_keywords = { 3, pa_feature_KEYWORDS };
 static const wchar_t* const pa_given_KEYWORDS[] = { L"* ", L"ਜੇਕਰ ", L"ਜਿਵੇਂ ਕਿ " };
 static const Keywords pa_given_keywords = { 3, pa_given_KEYWORDS };
 
+static const wchar_t* const pa_rule_KEYWORDS[] = { L"Rule" };
+static const Keywords pa_rule_keywords = { 1, pa_rule_KEYWORDS };
+
 static const wchar_t* const pa_scenario_KEYWORDS[] = { L"ਉਦਾਹਰਨ", L"ਪਟਕਥਾ" };
 static const Keywords pa_scenario_keywords = { 2, pa_scenario_KEYWORDS };
 
@@ -2274,6 +2485,7 @@ static const Dialect pa_dialect = {
         &pa_examples_keywords,
         &pa_feature_keywords,
         &pa_given_keywords,
+        &pa_rule_keywords,
         &pa_scenario_keywords,
         &pa_scenarioOutline_keywords,
         &pa_then_keywords,
@@ -2297,6 +2509,9 @@ static const Keywords pl_feature_keywords = { 4, pl_feature_KEYWORDS };
 static const wchar_t* const pl_given_KEYWORDS[] = { L"* ", L"Zakładając ", L"Mając ", L"Zakładając, że " };
 static const Keywords pl_given_keywords = { 4, pl_given_KEYWORDS };
 
+static const wchar_t* const pl_rule_KEYWORDS[] = { L"Rule" };
+static const Keywords pl_rule_keywords = { 1, pl_rule_KEYWORDS };
+
 static const wchar_t* const pl_scenario_KEYWORDS[] = { L"Przykład", L"Scenariusz" };
 static const Keywords pl_scenario_keywords = { 2, pl_scenario_KEYWORDS };
 
@@ -2317,6 +2532,7 @@ static const Dialect pl_dialect = {
         &pl_examples_keywords,
         &pl_feature_keywords,
         &pl_given_keywords,
+        &pl_rule_keywords,
         &pl_scenario_keywords,
         &pl_scenarioOutline_keywords,
         &pl_then_keywords,
@@ -2340,6 +2556,9 @@ static const Keywords pt_feature_keywords = { 3, pt_feature_KEYWORDS };
 static const wchar_t* const pt_given_KEYWORDS[] = { L"* ", L"Dado ", L"Dada ", L"Dados ", L"Dadas " };
 static const Keywords pt_given_keywords = { 5, pt_given_KEYWORDS };
 
+static const wchar_t* const pt_rule_KEYWORDS[] = { L"Rule" };
+static const Keywords pt_rule_keywords = { 1, pt_rule_KEYWORDS };
+
 static const wchar_t* const pt_scenario_KEYWORDS[] = { L"Exemplo", L"Cenário", L"Cenario" };
 static const Keywords pt_scenario_keywords = { 3, pt_scenario_KEYWORDS };
 
@@ -2360,6 +2579,7 @@ static const Dialect pt_dialect = {
         &pt_examples_keywords,
         &pt_feature_keywords,
         &pt_given_keywords,
+        &pt_rule_keywords,
         &pt_scenario_keywords,
         &pt_scenarioOutline_keywords,
         &pt_then_keywords,
@@ -2383,6 +2603,9 @@ static const Keywords ro_feature_keywords = { 3, ro_feature_KEYWORDS };
 static const wchar_t* const ro_given_KEYWORDS[] = { L"* ", L"Date fiind ", L"Dat fiind ", L"Dată fiind", L"Dati fiind ", L"Dați fiind ", L"Daţi fiind " };
 static const Keywords ro_given_keywords = { 7, ro_given_KEYWORDS };
 
+static const wchar_t* const ro_rule_KEYWORDS[] = { L"Rule" };
+static const Keywords ro_rule_keywords = { 1, ro_rule_KEYWORDS };
+
 static const wchar_t* const ro_scenario_KEYWORDS[] = { L"Exemplu", L"Scenariu" };
 static const Keywords ro_scenario_keywords = { 2, ro_scenario_KEYWORDS };
 
@@ -2403,6 +2626,7 @@ static const Dialect ro_dialect = {
         &ro_examples_keywords,
         &ro_feature_keywords,
         &ro_given_keywords,
+        &ro_rule_keywords,
         &ro_scenario_keywords,
         &ro_scenarioOutline_keywords,
         &ro_then_keywords,
@@ -2426,6 +2650,9 @@ static const Keywords ru_feature_keywords = { 4, ru_feature_KEYWORDS };
 static const wchar_t* const ru_given_KEYWORDS[] = { L"* ", L"Допустим ", L"Дано ", L"Пусть " };
 static const Keywords ru_given_keywords = { 4, ru_given_KEYWORDS };
 
+static const wchar_t* const ru_rule_KEYWORDS[] = { L"Rule" };
+static const Keywords ru_rule_keywords = { 1, ru_rule_KEYWORDS };
+
 static const wchar_t* const ru_scenario_KEYWORDS[] = { L"Пример", L"Сценарий" };
 static const Keywords ru_scenario_keywords = { 2, ru_scenario_KEYWORDS };
 
@@ -2446,6 +2673,7 @@ static const Dialect ru_dialect = {
         &ru_examples_keywords,
         &ru_feature_keywords,
         &ru_given_keywords,
+        &ru_rule_keywords,
         &ru_scenario_keywords,
         &ru_scenarioOutline_keywords,
         &ru_then_keywords,
@@ -2469,6 +2697,9 @@ static const Keywords sk_feature_keywords = { 3, sk_feature_KEYWORDS };
 static const wchar_t* const sk_given_KEYWORDS[] = { L"* ", L"Pokiaľ ", L"Za predpokladu " };
 static const Keywords sk_given_keywords = { 3, sk_given_KEYWORDS };
 
+static const wchar_t* const sk_rule_KEYWORDS[] = { L"Rule" };
+static const Keywords sk_rule_keywords = { 1, sk_rule_KEYWORDS };
+
 static const wchar_t* const sk_scenario_KEYWORDS[] = { L"Príklad", L"Scenár" };
 static const Keywords sk_scenario_keywords = { 2, sk_scenario_KEYWORDS };
 
@@ -2489,6 +2720,7 @@ static const Dialect sk_dialect = {
         &sk_examples_keywords,
         &sk_feature_keywords,
         &sk_given_keywords,
+        &sk_rule_keywords,
         &sk_scenario_keywords,
         &sk_scenarioOutline_keywords,
         &sk_then_keywords,
@@ -2512,6 +2744,9 @@ static const Keywords sl_feature_keywords = { 6, sl_feature_KEYWORDS };
 static const wchar_t* const sl_given_KEYWORDS[] = { L"Dano ", L"Podano ", L"Zaradi ", L"Privzeto " };
 static const Keywords sl_given_keywords = { 4, sl_given_KEYWORDS };
 
+static const wchar_t* const sl_rule_KEYWORDS[] = { L"Rule" };
+static const Keywords sl_rule_keywords = { 1, sl_rule_KEYWORDS };
+
 static const wchar_t* const sl_scenario_KEYWORDS[] = { L"Primer", L"Scenarij" };
 static const Keywords sl_scenario_keywords = { 2, sl_scenario_KEYWORDS };
 
@@ -2532,6 +2767,7 @@ static const Dialect sl_dialect = {
         &sl_examples_keywords,
         &sl_feature_keywords,
         &sl_given_keywords,
+        &sl_rule_keywords,
         &sl_scenario_keywords,
         &sl_scenarioOutline_keywords,
         &sl_then_keywords,
@@ -2555,6 +2791,9 @@ static const Keywords sr_Cyrl_feature_keywords = { 3, sr_Cyrl_feature_KEYWORDS }
 static const wchar_t* const sr_Cyrl_given_KEYWORDS[] = { L"* ", L"За дато ", L"За дате ", L"За дати " };
 static const Keywords sr_Cyrl_given_keywords = { 4, sr_Cyrl_given_KEYWORDS };
 
+static const wchar_t* const sr_Cyrl_rule_KEYWORDS[] = { L"Rule" };
+static const Keywords sr_Cyrl_rule_keywords = { 1, sr_Cyrl_rule_KEYWORDS };
+
 static const wchar_t* const sr_Cyrl_scenario_KEYWORDS[] = { L"Пример", L"Сценарио", L"Пример" };
 static const Keywords sr_Cyrl_scenario_keywords = { 3, sr_Cyrl_scenario_KEYWORDS };
 
@@ -2575,6 +2814,7 @@ static const Dialect sr_Cyrl_dialect = {
         &sr_Cyrl_examples_keywords,
         &sr_Cyrl_feature_keywords,
         &sr_Cyrl_given_keywords,
+        &sr_Cyrl_rule_keywords,
         &sr_Cyrl_scenario_keywords,
         &sr_Cyrl_scenarioOutline_keywords,
         &sr_Cyrl_then_keywords,
@@ -2598,6 +2838,9 @@ static const Keywords sr_Latn_feature_keywords = { 4, sr_Latn_feature_KEYWORDS }
 static const wchar_t* const sr_Latn_given_KEYWORDS[] = { L"* ", L"Za dato ", L"Za date ", L"Za dati " };
 static const Keywords sr_Latn_given_keywords = { 4, sr_Latn_given_KEYWORDS };
 
+static const wchar_t* const sr_Latn_rule_KEYWORDS[] = { L"Rule" };
+static const Keywords sr_Latn_rule_keywords = { 1, sr_Latn_rule_KEYWORDS };
+
 static const wchar_t* const sr_Latn_scenario_KEYWORDS[] = { L"Scenario", L"Primer" };
 static const Keywords sr_Latn_scenario_keywords = { 2, sr_Latn_scenario_KEYWORDS };
 
@@ -2618,6 +2861,7 @@ static const Dialect sr_Latn_dialect = {
         &sr_Latn_examples_keywords,
         &sr_Latn_feature_keywords,
         &sr_Latn_given_keywords,
+        &sr_Latn_rule_keywords,
         &sr_Latn_scenario_keywords,
         &sr_Latn_scenarioOutline_keywords,
         &sr_Latn_then_keywords,
@@ -2641,6 +2885,9 @@ static const Keywords sv_feature_keywords = { 1, sv_feature_KEYWORDS };
 static const wchar_t* const sv_given_KEYWORDS[] = { L"* ", L"Givet " };
 static const Keywords sv_given_keywords = { 2, sv_given_KEYWORDS };
 
+static const wchar_t* const sv_rule_KEYWORDS[] = { L"Rule" };
+static const Keywords sv_rule_keywords = { 1, sv_rule_KEYWORDS };
+
 static const wchar_t* const sv_scenario_KEYWORDS[] = { L"Scenario" };
 static const Keywords sv_scenario_keywords = { 1, sv_scenario_KEYWORDS };
 
@@ -2661,6 +2908,7 @@ static const Dialect sv_dialect = {
         &sv_examples_keywords,
         &sv_feature_keywords,
         &sv_given_keywords,
+        &sv_rule_keywords,
         &sv_scenario_keywords,
         &sv_scenarioOutline_keywords,
         &sv_then_keywords,
@@ -2684,6 +2932,9 @@ static const Keywords ta_feature_keywords = { 3, ta_feature_KEYWORDS };
 static const wchar_t* const ta_given_KEYWORDS[] = { L"* ", L"கொடுக்கப்பட்ட " };
 static const Keywords ta_given_keywords = { 2, ta_given_KEYWORDS };
 
+static const wchar_t* const ta_rule_KEYWORDS[] = { L"Rule" };
+static const Keywords ta_rule_keywords = { 1, ta_rule_KEYWORDS };
+
 static const wchar_t* const ta_scenario_KEYWORDS[] = { L"உதாரணமாக", L"காட்சி" };
 static const Keywords ta_scenario_keywords = { 2, ta_scenario_KEYWORDS };
 
@@ -2704,6 +2955,7 @@ static const Dialect ta_dialect = {
         &ta_examples_keywords,
         &ta_feature_keywords,
         &ta_given_keywords,
+        &ta_rule_keywords,
         &ta_scenario_keywords,
         &ta_scenarioOutline_keywords,
         &ta_then_keywords,
@@ -2727,6 +2979,9 @@ static const Keywords th_feature_keywords = { 3, th_feature_KEYWORDS };
 static const wchar_t* const th_given_KEYWORDS[] = { L"* ", L"กำหนดให้ " };
 static const Keywords th_given_keywords = { 2, th_given_KEYWORDS };
 
+static const wchar_t* const th_rule_KEYWORDS[] = { L"Rule" };
+static const Keywords th_rule_keywords = { 1, th_rule_KEYWORDS };
+
 static const wchar_t* const th_scenario_KEYWORDS[] = { L"เหตุการณ์" };
 static const Keywords th_scenario_keywords = { 1, th_scenario_KEYWORDS };
 
@@ -2747,6 +3002,7 @@ static const Dialect th_dialect = {
         &th_examples_keywords,
         &th_feature_keywords,
         &th_given_keywords,
+        &th_rule_keywords,
         &th_scenario_keywords,
         &th_scenarioOutline_keywords,
         &th_then_keywords,
@@ -2770,6 +3026,9 @@ static const Keywords tl_feature_keywords = { 1, tl_feature_KEYWORDS };
 static const wchar_t* const tl_given_KEYWORDS[] = { L"* ", L"చెప్పబడినది " };
 static const Keywords tl_given_keywords = { 2, tl_given_KEYWORDS };
 
+static const wchar_t* const tl_rule_KEYWORDS[] = { L"Rule" };
+static const Keywords tl_rule_keywords = { 1, tl_rule_KEYWORDS };
+
 static const wchar_t* const tl_scenario_KEYWORDS[] = { L"ఉదాహరణ", L"సన్నివేశం" };
 static const Keywords tl_scenario_keywords = { 2, tl_scenario_KEYWORDS };
 
@@ -2790,6 +3049,7 @@ static const Dialect tl_dialect = {
         &tl_examples_keywords,
         &tl_feature_keywords,
         &tl_given_keywords,
+        &tl_rule_keywords,
         &tl_scenario_keywords,
         &tl_scenarioOutline_keywords,
         &tl_then_keywords,
@@ -2813,6 +3073,9 @@ static const Keywords tlh_feature_keywords = { 5, tlh_feature_KEYWORDS };
 static const wchar_t* const tlh_given_KEYWORDS[] = { L"* ", L"ghu' noblu' ", L"DaH ghu' bejlu' " };
 static const Keywords tlh_given_keywords = { 3, tlh_given_KEYWORDS };
 
+static const wchar_t* const tlh_rule_KEYWORDS[] = { L"Rule" };
+static const Keywords tlh_rule_keywords = { 1, tlh_rule_KEYWORDS };
+
 static const wchar_t* const tlh_scenario_KEYWORDS[] = { L"lut" };
 static const Keywords tlh_scenario_keywords = { 1, tlh_scenario_KEYWORDS };
 
@@ -2833,6 +3096,7 @@ static const Dialect tlh_dialect = {
         &tlh_examples_keywords,
         &tlh_feature_keywords,
         &tlh_given_keywords,
+        &tlh_rule_keywords,
         &tlh_scenario_keywords,
         &tlh_scenarioOutline_keywords,
         &tlh_then_keywords,
@@ -2856,6 +3120,9 @@ static const Keywords tr_feature_keywords = { 1, tr_feature_KEYWORDS };
 static const wchar_t* const tr_given_KEYWORDS[] = { L"* ", L"Diyelim ki " };
 static const Keywords tr_given_keywords = { 2, tr_given_KEYWORDS };
 
+static const wchar_t* const tr_rule_KEYWORDS[] = { L"Rule" };
+static const Keywords tr_rule_keywords = { 1, tr_rule_KEYWORDS };
+
 static const wchar_t* const tr_scenario_KEYWORDS[] = { L"Örnek", L"Senaryo" };
 static const Keywords tr_scenario_keywords = { 2, tr_scenario_KEYWORDS };
 
@@ -2876,6 +3143,7 @@ static const Dialect tr_dialect = {
         &tr_examples_keywords,
         &tr_feature_keywords,
         &tr_given_keywords,
+        &tr_rule_keywords,
         &tr_scenario_keywords,
         &tr_scenarioOutline_keywords,
         &tr_then_keywords,
@@ -2899,6 +3167,9 @@ static const Keywords tt_feature_keywords = { 2, tt_feature_KEYWORDS };
 static const wchar_t* const tt_given_KEYWORDS[] = { L"* ", L"Әйтик " };
 static const Keywords tt_given_keywords = { 2, tt_given_KEYWORDS };
 
+static const wchar_t* const tt_rule_KEYWORDS[] = { L"Rule" };
+static const Keywords tt_rule_keywords = { 1, tt_rule_KEYWORDS };
+
 static const wchar_t* const tt_scenario_KEYWORDS[] = { L"Сценарий" };
 static const Keywords tt_scenario_keywords = { 1, tt_scenario_KEYWORDS };
 
@@ -2919,6 +3190,7 @@ static const Dialect tt_dialect = {
         &tt_examples_keywords,
         &tt_feature_keywords,
         &tt_given_keywords,
+        &tt_rule_keywords,
         &tt_scenario_keywords,
         &tt_scenarioOutline_keywords,
         &tt_then_keywords,
@@ -2942,6 +3214,9 @@ static const Keywords uk_feature_keywords = { 1, uk_feature_KEYWORDS };
 static const wchar_t* const uk_given_KEYWORDS[] = { L"* ", L"Припустимо ", L"Припустимо, що ", L"Нехай ", L"Дано " };
 static const Keywords uk_given_keywords = { 5, uk_given_KEYWORDS };
 
+static const wchar_t* const uk_rule_KEYWORDS[] = { L"Rule" };
+static const Keywords uk_rule_keywords = { 1, uk_rule_KEYWORDS };
+
 static const wchar_t* const uk_scenario_KEYWORDS[] = { L"Приклад", L"Сценарій" };
 static const Keywords uk_scenario_keywords = { 2, uk_scenario_KEYWORDS };
 
@@ -2962,6 +3237,7 @@ static const Dialect uk_dialect = {
         &uk_examples_keywords,
         &uk_feature_keywords,
         &uk_given_keywords,
+        &uk_rule_keywords,
         &uk_scenario_keywords,
         &uk_scenarioOutline_keywords,
         &uk_then_keywords,
@@ -2985,6 +3261,9 @@ static const Keywords ur_feature_keywords = { 3, ur_feature_KEYWORDS };
 static const wchar_t* const ur_given_KEYWORDS[] = { L"* ", L"اگر ", L"بالفرض ", L"فرض کیا " };
 static const Keywords ur_given_keywords = { 4, ur_given_KEYWORDS };
 
+static const wchar_t* const ur_rule_KEYWORDS[] = { L"Rule" };
+static const Keywords ur_rule_keywords = { 1, ur_rule_KEYWORDS };
+
 static const wchar_t* const ur_scenario_KEYWORDS[] = { L"منظرنامہ" };
 static const Keywords ur_scenario_keywords = { 1, ur_scenario_KEYWORDS };
 
@@ -3005,6 +3284,7 @@ static const Dialect ur_dialect = {
         &ur_examples_keywords,
         &ur_feature_keywords,
         &ur_given_keywords,
+        &ur_rule_keywords,
         &ur_scenario_keywords,
         &ur_scenarioOutline_keywords,
         &ur_then_keywords,
@@ -3028,6 +3308,9 @@ static const Keywords uz_feature_keywords = { 1, uz_feature_KEYWORDS };
 static const wchar_t* const uz_given_KEYWORDS[] = { L"* ", L"Агар " };
 static const Keywords uz_given_keywords = { 2, uz_given_KEYWORDS };
 
+static const wchar_t* const uz_rule_KEYWORDS[] = { L"Rule" };
+static const Keywords uz_rule_keywords = { 1, uz_rule_KEYWORDS };
+
 static const wchar_t* const uz_scenario_KEYWORDS[] = { L"Сценарий" };
 static const Keywords uz_scenario_keywords = { 1, uz_scenario_KEYWORDS };
 
@@ -3048,6 +3331,7 @@ static const Dialect uz_dialect = {
         &uz_examples_keywords,
         &uz_feature_keywords,
         &uz_given_keywords,
+        &uz_rule_keywords,
         &uz_scenario_keywords,
         &uz_scenarioOutline_keywords,
         &uz_then_keywords,
@@ -3071,6 +3355,9 @@ static const Keywords vi_feature_keywords = { 1, vi_feature_KEYWORDS };
 static const wchar_t* const vi_given_KEYWORDS[] = { L"* ", L"Biết ", L"Cho " };
 static const Keywords vi_given_keywords = { 3, vi_given_KEYWORDS };
 
+static const wchar_t* const vi_rule_KEYWORDS[] = { L"Rule" };
+static const Keywords vi_rule_keywords = { 1, vi_rule_KEYWORDS };
+
 static const wchar_t* const vi_scenario_KEYWORDS[] = { L"Tình huống", L"Kịch bản" };
 static const Keywords vi_scenario_keywords = { 2, vi_scenario_KEYWORDS };
 
@@ -3091,6 +3378,7 @@ static const Dialect vi_dialect = {
         &vi_examples_keywords,
         &vi_feature_keywords,
         &vi_given_keywords,
+        &vi_rule_keywords,
         &vi_scenario_keywords,
         &vi_scenarioOutline_keywords,
         &vi_then_keywords,
@@ -3114,6 +3402,9 @@ static const Keywords zh_CN_feature_keywords = { 1, zh_CN_feature_KEYWORDS };
 static const wchar_t* const zh_CN_given_KEYWORDS[] = { L"* ", L"假如", L"假设", L"假定" };
 static const Keywords zh_CN_given_keywords = { 4, zh_CN_given_KEYWORDS };
 
+static const wchar_t* const zh_CN_rule_KEYWORDS[] = { L"Rule" };
+static const Keywords zh_CN_rule_keywords = { 1, zh_CN_rule_KEYWORDS };
+
 static const wchar_t* const zh_CN_scenario_KEYWORDS[] = { L"场景", L"剧本" };
 static const Keywords zh_CN_scenario_keywords = { 2, zh_CN_scenario_KEYWORDS };
 
@@ -3134,6 +3425,7 @@ static const Dialect zh_CN_dialect = {
         &zh_CN_examples_keywords,
         &zh_CN_feature_keywords,
         &zh_CN_given_keywords,
+        &zh_CN_rule_keywords,
         &zh_CN_scenario_keywords,
         &zh_CN_scenarioOutline_keywords,
         &zh_CN_then_keywords,
@@ -3157,6 +3449,9 @@ static const Keywords zh_TW_feature_keywords = { 1, zh_TW_feature_KEYWORDS };
 static const wchar_t* const zh_TW_given_KEYWORDS[] = { L"* ", L"假如", L"假設", L"假定" };
 static const Keywords zh_TW_given_keywords = { 4, zh_TW_given_KEYWORDS };
 
+static const wchar_t* const zh_TW_rule_KEYWORDS[] = { L"Rule" };
+static const Keywords zh_TW_rule_keywords = { 1, zh_TW_rule_KEYWORDS };
+
 static const wchar_t* const zh_TW_scenario_KEYWORDS[] = { L"場景", L"劇本" };
 static const Keywords zh_TW_scenario_keywords = { 2, zh_TW_scenario_KEYWORDS };
 
@@ -3177,6 +3472,7 @@ static const Dialect zh_TW_dialect = {
         &zh_TW_examples_keywords,
         &zh_TW_feature_keywords,
         &zh_TW_given_keywords,
+        &zh_TW_rule_keywords,
         &zh_TW_scenario_keywords,
         &zh_TW_scenarioOutline_keywords,
         &zh_TW_then_keywords,

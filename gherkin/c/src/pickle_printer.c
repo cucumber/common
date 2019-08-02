@@ -21,15 +21,17 @@ static void print_locations(FILE* file, const PickleLocations* locations) {
             print_location(file, &locations->locations[i]);
         }
     }
-    fprintf(file, "],");
+    fprintf(file, "]");
 }
 
 static void print_table_cell(FILE* file, const PickleCell* pickle_cell) {
     fprintf(file, "{\"location\": ");
     print_location(file, pickle_cell->location);
-    fprintf(file, ",\"value\": \"");
-    PrintUtilities_print_json_string(file, pickle_cell->value);
-    fprintf(file, "\"");
+    if (pickle_cell->value && wcslen(pickle_cell->value) > 0) {
+        fprintf(file, ",\"value\": \"");
+        PrintUtilities_print_json_string(file, pickle_cell->value);
+        fprintf(file, "\"");
+    }
     fprintf(file, "}");
 }
 
@@ -46,7 +48,7 @@ static void print_table_row(FILE* file, const PickleRow* pickle_row) {
 }
 
 static void print_pickle_table(FILE* file, const PickleTable* pickle_table) {
-    fprintf(file, "{\"rows\":[");
+    fprintf(file, ",\"dataTable\":{\"rows\":[");
     int i;
     for (i = 0; i < pickle_table->rows->row_count; ++i) {
         if (i > 0) {
@@ -58,7 +60,7 @@ static void print_pickle_table(FILE* file, const PickleTable* pickle_table) {
 }
 
 static void print_pickle_string(FILE* file, const PickleString* pickle_string) {
-    fprintf(file, "{\"location\": ");
+    fprintf(file, ",\"docString\": {\"location\": ");
     print_location(file, &pickle_string->location);
     fprintf(file, ",\"content\":\"");
     if (pickle_string->content) {
@@ -81,10 +83,24 @@ static void print_tag(FILE* file, const PickleTag* tag) {
     fprintf(file, "\"}");
 }
 
+static void print_tags(FILE* file, const PickleTags* tags) {
+    if (tags && tags->tag_count > 0) {
+        fprintf(file, ",\"tags\":[");
+        int i;
+        for (i = 0; i < tags->tag_count; ++i) {
+            if (i > 0) {
+                fprintf(file, ",");
+            }
+            print_tag(file, &tags->tags[i]);
+        }
+        fprintf(file, "]");
+    }
+}
+
+
 static void print_pickle_step(FILE* file, const PickleStep* step) {
     fprintf(file, "{");
     print_locations(file, step->locations);
-    fprintf(file, "\"arguments\" : [");
     if (step->argument) {
         if (step->argument->type == Argument_String) {
             print_pickle_string(file, (const PickleString*)step->argument);
@@ -93,34 +109,27 @@ static void print_pickle_step(FILE* file, const PickleStep* step) {
             print_pickle_table(file, (const PickleTable*)step->argument);
         }
     }
-    fprintf(file, "],");
-    fprintf(file, "\"text\":\"");
+    fprintf(file, ",\"text\":\"");
     PrintUtilities_print_json_string(file, step->text);
     fprintf(file, "\"}");
 }
 
 void PicklePrinter_print_pickle(FILE* file, const Pickle* pickle) {
     fprintf(file, "{");
-    fprintf(file, "\"language\" : \"");
+    fprintf(file, "\"uri\":\"");
+    PrintUtilities_print_json_string(file, pickle->uri);
+    fprintf(file, "\",\"language\":\"");
     PrintUtilities_print_json_string(file, pickle->language);
     fprintf(file, "\",");
-    fprintf(file, "\"name\" : \"");
-    PrintUtilities_print_json_string(file, pickle->name);
-    fprintf(file, "\",");
-    print_locations(file, pickle->locations);
-    fprintf(file, "\"tags\":[");
-    if (pickle->tags) {
-        int i;
-        for (i = 0; i < pickle->tags->tag_count; ++i) {
-            if (i > 0) {
-                fprintf(file, ",");
-            }
-            print_tag(file, &pickle->tags->tags[i]);
-        }
+    if (pickle->name && wcslen(pickle->name) > 0) {
+        fprintf(file, "\"name\":\"");
+        PrintUtilities_print_json_string(file, pickle->name);
+        fprintf(file, "\",");
     }
-    fprintf(file, "],");
-    fprintf(file, "\"steps\":[");
-    if (pickle->steps) {
+    print_locations(file, pickle->locations);
+    print_tags(file, pickle->tags);
+    if (pickle->steps && pickle->steps->step_count >0) {
+        fprintf(file, ",\"steps\":[");
         int i;
         for (i = 0; i < pickle->steps->step_count; ++i) {
             if (i > 0) {
@@ -128,7 +137,7 @@ void PicklePrinter_print_pickle(FILE* file, const Pickle* pickle) {
             }
             print_pickle_step(file, &pickle->steps->steps[i]);
         }
+        fprintf(file, "]");
     }
-    fprintf(file, "]");
     fprintf(file, "}");
 }

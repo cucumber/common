@@ -4,9 +4,11 @@
 #include <wchar.h>
 
 #include "ast.h"
+#include "child_definition.h"
+#include "example_table.h"
 #include "location.h"
 #include "tag.h"
-#include "scenario_definition.h"
+#include "step.h"
 
 #ifdef __cplusplus
 extern "C" {
@@ -21,9 +23,10 @@ typedef struct Scenario {
     const wchar_t* description;
     const Tags* tags;
     const Steps* steps;
+    const Examples* examples;
 } Scenario;
 
-const Scenario* Scenario_new(Location location, const wchar_t* keyword, const wchar_t* name, const wchar_t* description, const Tags* tags, const Steps* steps);
+const Scenario* Scenario_new(Location location, const wchar_t* keyword, const wchar_t* name, const wchar_t* description, const Tags* tags, const Steps* steps, const Examples* examples);
 
 void Scenario_delete(const Scenario* scenario);
 
