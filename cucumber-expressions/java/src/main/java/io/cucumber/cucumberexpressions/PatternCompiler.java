@@ -11,6 +11,7 @@ import java.util.regex.Pattern;
  * @see java.util.ServiceLoader
  */
 @API(status = API.Status.STABLE)
+@FunctionalInterface
 public interface PatternCompiler {
 
     /**

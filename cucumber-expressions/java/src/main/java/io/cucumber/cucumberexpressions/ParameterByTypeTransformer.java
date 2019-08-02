@@ -10,6 +10,7 @@ import java.lang.reflect.Type;
  * anonymous types.
  */
 @API(status = API.Status.STABLE)
+@FunctionalInterface
 public interface ParameterByTypeTransformer {
 
     Object transform(String fromValue, Type toValueType) throws Throwable;
