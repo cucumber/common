@@ -421,6 +421,19 @@ jobs:
             cd tag-expressions/python
             make
 
+### C
+
+  gherkin-c:
+    executor: docker-cucumber-build
+    steps:
+      - attach_workspace:
+          at: "~/cucumber"
+      - run:
+          name: gherkin/c
+          command: |
+            cd gherkin/c
+            make
+
 ###
 ### Workflows ###
 ###
@@ -533,5 +546,11 @@ workflows:
 ## Python
 
       - tag-expressions-python:
+          requires:
+            - checkout
+
+### C
+
+      - gherkin-c:
           requires:
             - checkout
