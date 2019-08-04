@@ -15,6 +15,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
     ([cucumber/cucumber-jvm#1536](https://github.com/cucumber/cucumber-jvm/issues/1536)
     [mpkorstanje])
 ### Changed
+
+* Only suggest parameter types when text is surrounded by whitespace or punctuation
+  ([#657](https://github.com/cucumber/cucumber/issues/657)
+   [#661](https://github.com/cucumber/cucumber/pull/661)
+   [vincent-psarga]
+   [aslakhellesoy]
+   [mpkorstanje])
 * Upgrades to `cucumber-parent:2.0.2`
 * [Java] Simplify heuristics to distinguish between Cucumber Expressions and Regular Expressions
   ([#515](https://github.com/cucumber/cucumber/issues/515)
