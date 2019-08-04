@@ -2,9 +2,9 @@ package cucumberexpressions
 
 import (
 	"fmt"
+	"github.com/stretchr/testify/require"
 	"reflect"
 	"testing"
-	"github.com/stretchr/testify/require"
 )
 
 func TestCucumberExpression(t *testing.T) {

@@ -78,6 +78,7 @@ module Cucumber
       it "matches float" do
         expect(match("{float}", "0.22")).to eq([0.22])
         expect(match("{float}", ".22")).to eq([0.22])
+        expect(match("{float}", "-1.22")).to eq([-1.22])
       end
 
       it "matches anonymous" do
