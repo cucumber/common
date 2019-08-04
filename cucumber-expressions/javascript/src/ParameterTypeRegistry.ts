@@ -5,7 +5,7 @@ import { AmbiguousParameterTypeError, CucumberExpressionError } from './Errors'
 
 export default class ParameterTypeRegistry {
   public static readonly INTEGER_REGEXPS = [/-?\d+/, /\d+/]
-  public static readonly FLOAT_REGEXP = /-?\d*(?:[.,]\d+)?/
+  public static readonly FLOAT_REGEXP = /(?=.*[0-9].*)[-+]?(?:[0-9]+(?:[,.]?[0-9]+)*)*(?:[.,](?=[0-9].*))?[0-9]*(?:[0-9]+[E][-+]?[0-9]+)?/
   public static readonly WORD_REGEXP = /[^\s]+/
   public static readonly STRING_REGEXP = /"([^"\\]*(\\.[^"\\]*)*)"|'([^'\\]*(\\.[^'\\]*)*)'/
   public static readonly ANONYMOUS_REGEXP = /.*/
