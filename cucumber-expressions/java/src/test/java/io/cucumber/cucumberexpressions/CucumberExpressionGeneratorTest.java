@@ -20,7 +20,7 @@ public class CucumberExpressionGeneratorTest {
 
     private final ParameterTypeRegistry parameterTypeRegistry = new ParameterTypeRegistry(Locale.ENGLISH);
     private final CucumberExpressionGenerator generator = new CucumberExpressionGenerator(parameterTypeRegistry);
-    private DateFormat df = DateFormat.getDateInstance();
+    private static final DateFormat df = DateFormat.getDateInstance();
 
     @Test
     public void documents_expression_generation() {
@@ -116,12 +116,7 @@ public class CucumberExpressionGeneratorTest {
                 "currency",
                 "cd",
                 Currency.class,
-                new Transformer<Currency>() {
-                    @Override
-                    public Currency transform(String arg) {
-                        return Currency.getInstance(arg);
-                    }
-                }
+                (Transformer<Currency>) Currency::getInstance
         ));
         parameterTypeRegistry.defineParameterType(new ParameterType<>(
                 "date",
@@ -149,12 +144,7 @@ public class CucumberExpressionGeneratorTest {
                 "currency",
                 "cd",
                 Currency.class,
-                new Transformer<Currency>() {
-                    @Override
-                    public Currency transform(String arg) {
-                        return Currency.getInstance(arg);
-                    }
-                }
+                (Transformer<Currency>) Currency::getInstance
         ));
         parameterTypeRegistry.defineParameterType(new ParameterType<>(
                 "date",
@@ -182,12 +172,7 @@ public class CucumberExpressionGeneratorTest {
                 "currency",
                 "x",
                 Currency.class,
-                new Transformer<Currency>() {
-                    @Override
-                    public Currency transform(String arg) {
-                        return Currency.getInstance(arg);
-                    }
-                },
+                (Transformer<Currency>) Currency::getInstance,
                 true,
                 true
         ));
@@ -240,12 +225,7 @@ public class CucumberExpressionGeneratorTest {
                 "optional-flight",
                 "(1st flight)?",
                 String.class,
-                new Transformer<String>() {
-                    @Override
-                    public String transform(String arg) {
-                        return arg;
-                    }
-                },
+                (Transformer<String>) arg -> arg,
                 true,
                 false
         );
@@ -253,12 +233,7 @@ public class CucumberExpressionGeneratorTest {
                 "optional-hotel",
                 "(1st hotel)?",
                 String.class,
-                new Transformer<String>() {
-                    @Override
-                    public String transform(String arg) {
-                        return arg;
-                    }
-                },
+                (Transformer<String>) arg -> arg,
                 true,
                 false
         );
@@ -278,12 +253,7 @@ public class CucumberExpressionGeneratorTest {
                     "my-type-" + i,
                     "[a-z]",
                     String.class,
-                    new Transformer<String>() {
-                        @Override
-                        public String transform(String arg) {
-                            return arg;
-                        }
-                    },
+                    (Transformer<String>) arg -> arg,
                     true,
                     false
             );
@@ -300,12 +270,7 @@ public class CucumberExpressionGeneratorTest {
                 "zero-or-more",
                 "[a-z]*",
                 String.class,
-                new Transformer<String>() {
-                    @Override
-                    public String transform(String arg) {
-                        return arg;
-                    }
-                },
+                (Transformer<String>) arg -> arg,
                 true,
                 false
         );
@@ -314,12 +279,7 @@ public class CucumberExpressionGeneratorTest {
                 "exactly-one",
                 "[a-z]",
                 String.class,
-                new Transformer<String>() {
-                    @Override
-                    public String transform(String arg) {
-                        return arg;
-                    }
-                },
+                (Transformer<String>) arg -> arg,
                 true,
                 false
         );

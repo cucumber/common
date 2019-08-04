@@ -204,7 +204,7 @@ public final class ParameterType<T> implements Comparable<ParameterType<?>> {
     }
 
     public int weight() {
-        if(this.type.equals(Integer.class) || this.type.equals(Integer.TYPE)) {
+        if (this.type.equals(Integer.class) || this.type.equals(Integer.TYPE)) {
             return 1000;
         }
         return 0;

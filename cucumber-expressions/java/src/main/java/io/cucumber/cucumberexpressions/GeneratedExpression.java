@@ -13,7 +13,7 @@ import java.util.Map;
 @API(status = API.Status.STABLE)
 public class GeneratedExpression {
     private static final Collator ENGLISH_COLLATOR = Collator.getInstance(Locale.ENGLISH);
-    private static final String JAVA_KEYWORDS[] = {
+    private static final String[] JAVA_KEYWORDS = {
             "abstract", "assert", "boolean", "break", "byte", "case",
             "catch", "char", "class", "const", "continue",
             "default", "do", "double", "else", "extends",

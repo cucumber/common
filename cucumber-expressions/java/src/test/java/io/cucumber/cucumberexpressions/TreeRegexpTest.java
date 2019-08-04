@@ -7,7 +7,6 @@ import java.util.List;
 import java.util.regex.Pattern;
 
 import static java.util.Arrays.asList;
-import static java.util.Collections.emptyList;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 
@@ -127,7 +126,7 @@ public class TreeRegexpTest {
         assertEquals("FU(BAR)", g.getChildren().get(0).getValue());
         assertEquals(0, g.getChildren().get(0).getChildren().size());
     }
-    
+
     @Test
     public void works_with_flags() {
         TreeRegexp tr = new TreeRegexp(Pattern.compile("HELLO", Pattern.CASE_INSENSITIVE));
@@ -141,12 +140,7 @@ public class TreeRegexpTest {
         TreeRegexp tr = new TreeRegexp(regexp);
         assertNull(tr.match("1a"));
 
-        PatternCompilerProvider.service = new PatternCompiler() {
-            @Override
-            public Pattern compile(String regexp, int flags) {
-                return Pattern.compile(regexp + "[a-z]", flags);
-            }
-        };
+        PatternCompilerProvider.service = (re, flags) -> Pattern.compile(re + "[a-z]", flags);
 
         tr = new TreeRegexp(regexp);
         assertEquals("1a", tr.match("1a").getValue());

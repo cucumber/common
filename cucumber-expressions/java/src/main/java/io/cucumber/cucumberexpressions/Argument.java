@@ -67,7 +67,7 @@ public final class Argument<T> {
         return parameterType.transform(group.getValues());
     }
 
-    public Type getType(){
+    public Type getType() {
         return parameterType.getType();
     }
 }
