@@ -24,10 +24,6 @@ type CucumberExpression struct {
 func NewCucumberExpression(expression string, parameterTypeRegistry *ParameterTypeRegistry) (*CucumberExpression, error) {
 	result := &CucumberExpression{source: expression, parameterTypeRegistry: parameterTypeRegistry}
 
-	if strings.Contains(expression, `(?!`) {
-		return nil, errors.New("sorry, go does not support ?! used as a regex negative matcher")
-	}
-
 	expression = result.processEscapes(expression)
 
 	expression, err := result.processOptional(expression)
