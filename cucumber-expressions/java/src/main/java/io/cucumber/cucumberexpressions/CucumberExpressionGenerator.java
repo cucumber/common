@@ -113,7 +113,7 @@ public final class CucumberExpressionGenerator {
         for (String captureGroupRegexp : captureGroupRegexps) {
             Pattern regexp = Pattern.compile("(" + captureGroupRegexp + ")");
             Matcher matcher = regexp.matcher(text);
-            result.add(new ParameterTypeMatcher(parameterType, matcher, text.length()));
+            result.add(new ParameterTypeMatcher(parameterType, matcher, text));
         }
         return result;
     }

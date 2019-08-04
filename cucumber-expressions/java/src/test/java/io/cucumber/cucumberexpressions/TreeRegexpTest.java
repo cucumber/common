@@ -49,6 +49,33 @@ public class TreeRegexpTest {
     }
 
     @Test
+    public void ignores_question_mark_equal_sign_non_capturing_group() {
+        TreeRegexp tr = new TreeRegexp("a(?=b)(.+)");
+        Group g = tr.match("abc");
+        assertEquals("abc", g.getValue());
+        assertEquals(1, g.getChildren().size());
+        assertEquals("bc", g.getChildren().get(0).getValue());
+    }
+
+    @Test
+    public void ignores_question_mark_less_than_equal_sign_non_capturing_group() {
+        TreeRegexp tr = new TreeRegexp("a(.+)(?<=c)$");
+        Group g = tr.match("abc");
+        assertEquals("abc", g.getValue());
+        assertEquals(1, g.getChildren().size());
+        assertEquals("bc", g.getChildren().get(0).getValue());
+    }
+
+    @Test
+    public void ignores_question_mark_less_than_exclamation_mark_non_capturing_group() {
+        TreeRegexp tr = new TreeRegexp("a(.+)(?<!b)$");
+        Group g = tr.match("abc");
+        assertEquals("abc", g.getValue());
+        assertEquals(1, g.getChildren().size());
+        assertEquals("bc", g.getChildren().get(0).getValue());
+    }
+
+    @Test
     public void matches_optional_group() {
         TreeRegexp tr = new TreeRegexp("^Something( with an optional argument)?");
         Group g = tr.match("Something");

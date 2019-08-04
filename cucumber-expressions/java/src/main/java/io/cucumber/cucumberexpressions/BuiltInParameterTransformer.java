@@ -34,7 +34,7 @@ final class BuiltInParameterTransformer implements ParameterByTypeTransformer {
             return new BigInteger(fromValue);
         }
 
-        if (BigDecimal.class.equals(toValueClass)) {
+        if (BigDecimal.class.equals(toValueClass) || Number.class.equals(toValueClass)) {
             return numberParser.parseBigDecimal(fromValue);
         }
 

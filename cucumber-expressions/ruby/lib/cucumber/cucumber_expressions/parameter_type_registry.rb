@@ -6,7 +6,7 @@ module Cucumber
   module CucumberExpressions
     class ParameterTypeRegistry
       INTEGER_REGEXPS = [/-?\d+/, /\d+/]
-      FLOAT_REGEXP = /-?\d*(?:[.,]\d+)?/
+      FLOAT_REGEXP = /(?=.*[0-9].*)[-+]?(?:[0-9]+(?:[,.]?[0-9]+)*)*(?:[.,](?=[0-9].*))?[0-9]*(?:[0-9]+[E][-+]?[0-9]+)?/
       WORD_REGEXP = /[^\s]+/
       STRING_REGEXP = /"([^"\\]*(\\.[^"\\]*)*)"|'([^'\\]*(\\.[^'\\]*)*)'/
       ANONYMOUS_REGEXP = /.*/
