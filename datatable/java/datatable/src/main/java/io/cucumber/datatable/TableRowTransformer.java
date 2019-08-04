@@ -1,5 +1,7 @@
 package io.cucumber.datatable;
 
+import org.apiguardian.api.API;
+
 import java.util.List;
 
 /**
@@ -7,6 +9,8 @@ import java.util.List;
  *
  * @param <T> the target type
  */
+@API(status = API.Status.STABLE)
+@FunctionalInterface
 public interface TableRowTransformer<T> {
     /**
      * Transforms a single table row to an instance of {@code T}.
