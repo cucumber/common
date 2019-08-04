@@ -16,6 +16,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
     [mpkorstanje])
 ### Changed
 
+* Improve decimal number parsing
+  ([#669](https://github.com/cucumber/cucumber/issues/669)
+   [#672](https://github.com/cucumber/cucumber/pull/672)
+   [mpkorstanje])
 * Only suggest parameter types when text is surrounded by whitespace or punctuation
   ([#657](https://github.com/cucumber/cucumber/issues/657)
    [#661](https://github.com/cucumber/cucumber/pull/661)
