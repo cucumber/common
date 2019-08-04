@@ -1,7 +1,6 @@
 package cucumberexpressions
 
 import (
-	"errors"
 	"fmt"
 	"reflect"
 	"regexp"
