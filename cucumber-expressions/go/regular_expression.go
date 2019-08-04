@@ -23,9 +23,20 @@ func (r *RegularExpression) Match(text string, typeHints ...reflect.Type) ([]*Ar
 	parameterTypes := []*ParameterType{}
 	for i, groupBuilder := range r.treeRegexp.GroupBuilder().Children() {
 		parameterTypeRegexp := groupBuilder.Source()
+		typeHint := reflect.TypeOf("")
+		hasTypeHint := i < len(typeHints)
+		if hasTypeHint {
+			typeHint = typeHints[i]
+		}
+
 		parameterType, err := r.parameterTypeRegistry.LookupByRegexp(parameterTypeRegexp, r.expressionRegexp.String(), text)
 		if err != nil {
 			return nil, err
+		}
+		if parameterType!= nil && hasTypeHint && !parameterType.UseRegexpMatchAsStrongTypeHint() {
+			if parameterType.Type() != typeHint.Name() {
+				parameterType = nil
+			}
 		}
 
 		if parameterType == nil {
@@ -37,7 +48,6 @@ func (r *RegularExpression) Match(text string, typeHints ...reflect.Type) ([]*Ar
 		}
 
 		if parameterType.isAnonymous() {
-			typeHint := typeHintOrDefault(i, typeHints...)
 			deanonimizedParameterType, err := parameterType.deAnonymize(typeHint, r.objectMapperTransformer(typeHint))
 			if err != nil {
 				return nil, err
@@ -47,14 +57,6 @@ func (r *RegularExpression) Match(text string, typeHints ...reflect.Type) ([]*Ar
 		parameterTypes = append(parameterTypes, parameterType)
 	}
 	return BuildArguments(r.treeRegexp, text, parameterTypes), nil
-}
-
-func typeHintOrDefault(i int, typeHints ...reflect.Type) reflect.Type {
-	typeHint := reflect.TypeOf("")
-	if i < len(typeHints) {
-		typeHint = typeHints[i]
-	}
-	return typeHint
 }
 
 func (r *RegularExpression) Regexp() *regexp.Regexp {

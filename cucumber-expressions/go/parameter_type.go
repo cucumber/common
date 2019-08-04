@@ -12,24 +12,25 @@ var UNESCAPE_REGEXP = regexp.MustCompile(`(\\([\[$.|?*+\]]))`)
 var ILLEGAL_PARAMETER_NAME_REGEXP = regexp.MustCompile(`([\[\]()$.|?*+])`)
 
 type ParameterType struct {
-	name                 string
-	regexps              []*regexp.Regexp
-	type1                string // Cannot have a field named type as hit a compile error
-	transform            func(...*string) interface{}
-	useForSnippets       bool
-	preferForRegexpMatch bool
+	name                           string
+	regexps                        []*regexp.Regexp
+	type1                          string // Cannot have a field named type as hit a compile error
+	transform                      func(...*string) interface{}
+	useForSnippets                 bool
+	preferForRegexpMatch           bool
+	useRegexpMatchAsStrongTypeHint bool
 }
 
 func CheckParameterTypeName(typeName string) error {
 	unescapedTypeName := UNESCAPE_REGEXP.ReplaceAllString(typeName, "$2")
 	if ILLEGAL_PARAMETER_NAME_REGEXP.MatchString(typeName) {
 		c := ILLEGAL_PARAMETER_NAME_REGEXP.FindStringSubmatch(typeName)[0]
-		return fmt.Errorf("Illegal character '%s' in parameter name {%s}", c, unescapedTypeName)
+		return fmt.Errorf("illegal character '%s' in parameter name {%s}", c, unescapedTypeName)
 	}
 	return nil
 }
 
-func NewParameterType(name string, regexps []*regexp.Regexp, type1 string, transform func(...*string) interface{}, useForSnippets bool, preferForRegexpMatch bool) (*ParameterType, error) {
+func NewParameterType(name string, regexps []*regexp.Regexp, type1 string, transform func(...*string) interface{}, useForSnippets bool, preferForRegexpMatch bool, useRegexpMatchAsStrongTypeHint bool) (*ParameterType, error) {
 	if transform == nil {
 		transform = func(s ...*string) interface{} {
 			return *s[0]
@@ -45,12 +46,13 @@ func NewParameterType(name string, regexps []*regexp.Regexp, type1 string, trans
 		return nil, err
 	}
 	return &ParameterType{
-		name:                 name,
-		regexps:              regexps,
-		type1:                type1,
-		transform:            transform,
-		useForSnippets:       useForSnippets,
-		preferForRegexpMatch: preferForRegexpMatch,
+		name:                           name,
+		regexps:                        regexps,
+		type1:                          type1,
+		transform:                      transform,
+		useForSnippets:                 useForSnippets,
+		preferForRegexpMatch:           preferForRegexpMatch,
+		useRegexpMatchAsStrongTypeHint: useRegexpMatchAsStrongTypeHint,
 	}, nil
 }
 
@@ -64,6 +66,7 @@ func createAnonymousParameterType(parameterTypeRegexp string) (*ParameterType, e
 		},
 		false,
 		true,
+		false,
 	)
 }
 
@@ -75,6 +78,7 @@ func (p *ParameterType) deAnonymize(type1 reflect.Type, transform func(args ...*
 		transform,
 		p.useForSnippets,
 		p.preferForRegexpMatch,
+		false,
 	)
 }
 
@@ -96,6 +100,10 @@ func (p *ParameterType) UseForSnippets() bool {
 
 func (p *ParameterType) PreferForRegexpMatch() bool {
 	return p.preferForRegexpMatch
+}
+
+func (p *ParameterType) UseRegexpMatchAsStrongTypeHint() bool {
+	return p.useRegexpMatchAsStrongTypeHint
 }
 
 func (p *ParameterType) Transform(groupValues []*string) interface{} {

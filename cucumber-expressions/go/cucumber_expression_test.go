@@ -175,7 +175,7 @@ func TestCucumberExpression(t *testing.T) {
 		parameterTypeRegistry := NewParameterTypeRegistry()
 		_, err := NewCucumberExpression("{[string]}", parameterTypeRegistry)
 		require.Error(t, err)
-		require.Equal(t, err.Error(), "Illegal character '[' in parameter name {[string]}")
+		require.Equal(t, err.Error(), "illegal character '[' in parameter name {[string]}")
 	})
 
 	t.Run("does not allow optional parameter types", func(t *testing.T) {
