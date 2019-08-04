@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"reflect"
 	"testing"
-
 	"github.com/stretchr/testify/require"
 )
 
@@ -212,12 +211,6 @@ func TestCucumberExpression(t *testing.T) {
 		_, err := NewCucumberExpression("{unknown}", parameterTypeRegistry)
 		require.Error(t, err)
 		require.Equal(t, err.Error(), "Undefined parameter type {unknown}")
-	})
-
-	t.Run("does not allow negative matchers (?!", func(t *testing.T) {
-		parameterTypeRegistry := NewParameterTypeRegistry()
-		_, err := NewCucumberExpression(`a(?!b)(.+)`, parameterTypeRegistry)
-		require.Equal(t, err.Error(), "sorry, go does not support ?! used as a regex negative matcher")
 	})
 
 	t.Run("exposes source", func(t *testing.T) {

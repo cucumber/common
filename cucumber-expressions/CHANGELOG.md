@@ -27,6 +27,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Fixed
 
+* Fix RegExp lookaround
+  ([#643](https://github.com/cucumber/cucumber/issues/643)
+   [#644](https://github.com/cucumber/cucumber/pull/644)
+   [vincent-psarga]
+   [mpkorstanje])
+
 * Match integer strings as `{float}`.
   ([#600](https://github.com/cucumber/cucumber/issues/600)
    [#605](https://github.com/cucumber/cucumber/pull/605)
