@@ -1,5 +1,7 @@
 package io.cucumber.cucumberexpressions;
 
+import org.apiguardian.api.API;
+
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
@@ -7,7 +9,8 @@ import java.util.regex.Pattern;
 
 import static io.cucumber.cucumberexpressions.ParameterType.createAnonymousParameterType;
 
-public class RegularExpression implements Expression {
+@API(status = API.Status.STABLE)
+public final class RegularExpression implements Expression {
     private final Pattern expressionRegexp;
     private final ParameterTypeRegistry parameterTypeRegistry;
     private final TreeRegexp treeRegexp;
@@ -20,7 +23,7 @@ public class RegularExpression implements Expression {
      * @param expressionRegexp      the regular expression to use
      * @param parameterTypeRegistry used to look up parameter types
      */
-    public RegularExpression(Pattern expressionRegexp, ParameterTypeRegistry parameterTypeRegistry) {
+    RegularExpression(Pattern expressionRegexp, ParameterTypeRegistry parameterTypeRegistry) {
         this.expressionRegexp = expressionRegexp;
         this.parameterTypeRegistry = parameterTypeRegistry;
         this.treeRegexp = new TreeRegexp(expressionRegexp);
@@ -43,8 +46,7 @@ public class RegularExpression implements Expression {
 
             // Either from createAnonymousParameterType or lookupByRegexp
             if (parameterType.isAnonymous()) {
-                Transformer<Object> transformer = new ObjectMapperTransformer(defaultTransformer, typeHint);
-                parameterType = parameterType.deAnonymize(typeHint, transformer);
+                parameterType = parameterType.deAnonymize(typeHint, arg -> defaultTransformer.transform(arg, typeHint));
             }
 
             parameterTypes.add(parameterType);

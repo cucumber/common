@@ -13,5 +13,3 @@ dependency-reduced-pom.xml
 .compared
 # Approval tests
 acceptance/
-scripts/codesigning.asc
-scripts/env.sh

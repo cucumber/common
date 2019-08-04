@@ -1,10 +1,13 @@
 package io.cucumber.datatable;
 
+import org.apiguardian.api.API;
+
 import java.lang.reflect.Type;
 
 import static io.cucumber.datatable.TypeFactory.typeName;
 import static java.lang.String.format;
 
+@API(status = API.Status.STABLE)
 public class CucumberDataTableException extends RuntimeException {
     CucumberDataTableException(String message) {
         super(message);

@@ -18,6 +18,11 @@
 
     <dependencies>
         <dependency>
+            <groupId>org.apiguardian</groupId>
+            <artifactId>apiguardian-api</artifactId>
+        </dependency>
+
+        <dependency>
             <groupId>io.cucumber</groupId>
             <artifactId>datatable-dependencies</artifactId>
         </dependency>

@@ -1,6 +1,9 @@
 package io.cucumber.datatable;
 
-public class TableDiffException extends RuntimeException {
+import org.apiguardian.api.API;
+
+@API(status = API.Status.INTERNAL)
+public final class TableDiffException extends RuntimeException {
     private TableDiffException(String message) {
         super(message);
     }

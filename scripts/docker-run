@@ -1,16 +1,6 @@
 #!/usr/bin/env bash
 #
-# Runs the docker image
-#
-# Usage:
-#   # Run `make` in the cucumber-build container
-#   docker-run Dockerfile.cucumber-build make
-#
-#   # Run `make` in the cucumber-build-dotnet container
-#   docker-run Dockerfile.cucumber-build-dotnet make
-#
-#   # Interactive bash session
-#   docker-run Dockerfile.cucumber-build bash
+# Starts a new docker container
 #
 set -ef -o pipefail
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
@@ -24,7 +14,9 @@ source "${DIR}/functions.sh"
 dockerfile=$1
 shift
 docker run \
-  -v "${LOCAL_PATH}":/app \
-  -v "${HOME}/.gitconfig":/root/.gitconfig \
+  --volume "${LOCAL_PATH}":/app \
+  --volume "${HOME}/.m2":/home/cukebot/.m2 \
+  --volume "${HOME}/.gitconfig":/home/cukebot/.gitconfig \
+  --user 1000 \
   --rm \
   -it $(docker_image ${dockerfile}) $@

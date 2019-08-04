@@ -5,7 +5,7 @@ import java.util.List;
 import static io.cucumber.datatable.TypeFactory.aListOf;
 import static java.util.Collections.singletonList;
 
-class DataTableCellByTypeTransformer implements TableCellByTypeTransformer {
+final class DataTableCellByTypeTransformer implements TableCellByTypeTransformer {
 
     private DataTableTypeRegistry dataTableTypeRegistry;
 

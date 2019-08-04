@@ -1,9 +1,13 @@
 package io.cucumber.datatable;
 
+import org.apiguardian.api.API;
+
 /**
  * Transformer for single cell. Similar to {@link TableCellTransformer} but additionally it receives expected {@code Class<T>} of cell.
  * @see TableCellTransformer
  */
+@API(status = API.Status.STABLE)
+@FunctionalInterface
 public interface TableCellByTypeTransformer {
 
 	/**

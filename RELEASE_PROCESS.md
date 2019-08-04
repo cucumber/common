@@ -1,122 +1,129 @@
-## Release process
+# Release process
 
-*Note:* When a module is released, artifacts will be published for *all* implementations
-of the module, and all associated module repos will be tagged.
+The release process is automated from the command line.
 
-Please pay attention to the following:
+When a package is released, _all_ implementations of the package are released.
+For example, when you release `cucumber-expressions`, it will release the Java, Ruby,
+Go and JavaScript implementations of that library, with the same version number.
 
-* Maven `pom.xml` should *not* have any `-SNAPSHOT` dependencies
-  * Do not remove the `-SNAPSHOT` suffix from the maven `pom.xml` version field, the build process will remove it automatically.
-* Update the CHANGELOG.md
-  * Update the version and contributor links at the bottom of the files
-  * Create a new empty "Unreleased" section
-  * Update the title for the new release
-  * Remove the empty change sections
+You *must* be on the `master` branch when you make a release. The steps below
+outline the process:
 
-Triggering a release is simple:
+* Decrypt credentials
+* Update dependencies
+* Update changelog
+* Release packages
+
+All the release commands will be done from a shell session in the Docker container.
+
+## Decrypt credentials
+
+The credentials for the various package managers are stored in the `/secrets`
+directory. They are encrypted with [git-crypt](https://www.agwa.name/projects/git-crypt/).
+
+You need to decrypt these files with `git-crypt` before you can make a release.
+Here is how you do it:
 
     ./scripts/docker-run Dockerfile
-    source scripts/functions.sh && release_module MODULE_NAME VERSION # Don't specify the v in the version
+    # Find GIT_CRYPT_KEY_BASE64 in 1Password
+    GIT_CRYPT_KEY_BASE64="..." source ./scripts/prepare_release_env.sh
 
-Triggering a release will update the various package descriptors (`pom.xml`, `package.json`, `*.gemspec`)
-in the module directories. A git commit will be created with message "Release MODULE_NAME vVERSION". 
-This commit is also tagged with `MODULE/vVERSION`. 
+The files under `/secrets` are now decrypted, and will be used later when we
+publish packages.
 
-Behind the scenes - the following will occur:
+*IMPORTANT:* You should also install `git-crypt` on your host OS, even if the
+releases are made from the Docker container. If you don't, you'll get an error
+when you run certain `git` commands on your host OS later.
 
-- The release commit and tag is pushed, which will kick off the build of the monorepo.
-- The monorepo build tags each relevant module repo with `vVERSION`.
-- Each module repo will have a tagged Travis build triggered.
-- The module repo's Travis builds will publish packages (maven, npm, rubygems etc).
+## Update dependencies
 
-### Post-release process
+Before you make a release, you should update the package's dependencies to the latest
+available versions:
 
-After triggering a release:
+    cd thepackage
+    make clean && make
+    make update-dependencies
 
-* Bump the minor version and append `-SNAPSHOT` to any affected `pom.xml` files
-* Restore `package.json` dependencies on other modules from semver to git dependency. For example, in `gherkin/javascript/package.json` - change the `"cucumber-messages": "9.9.9"` (or whatever the version is) back to `"cucumber-messages": "cucumber/cucumber-messages-javascript"`.
+This will typically modify the files where dependencies are declared, *without*
+committing the changes to git. Examine what changed:
 
-Then commit with message "Post-release: Bump to development versions".
+    git diff
 
-### Caveats
+Inspecting the diff, and undo any changes that you think shouldn't have been made.
+Make sure the package still builds, and that the tests are still passing:
 
-After you push a tag, each module repo will start building in parallel. If a module
-has a dependency on the go implementation (such as `gherkin`, `dots-formatter` and
-`pretty-formatter`), the build will initially fail because it can only pass after 
-the go executables have been uploaded to S3 and made available for download.
+    make clean && make
 
-To work around this limitation,
-the go module build will trigger a new build of dependent module repos after a successful
-tagged build. This second time the builds should pass and successfully publish packages.
+If all is good, commit the files.
 
-## Encrypted secrets
+    git add .
+    git commit -m "Update dependencies"
 
-# Secrets
+## Update changelog
 
-Some files in the repo are encrypted [git-crypt](https://www.agwa.name/projects/git-crypt/).
-Look inside `/.gitattributes` to find out which ones.
+The `CHANGELOG.md` file in the package directory must be updated to reflect the
+changes that are going into this release:
 
-Releases can only be made when these files are decrypted.
+* Under `<!-- Releases -->` at the bottom:
+  * Update the `Unreleased` link
+  * Create a new link for the new release
+* Change `[Unreleased]` to `[major.minor.patch] - YYYY-mm-dd`
+* Remove any `###` headers without content
+* `git add CHANGELOG.md`, but don't commit it (that will happen in the post release step).
 
-In order to decrypt the encrypted files you need the git-crypt key used by this repository.
+## Release packages
 
-    git-crypt unlock /path/to/git-crypt.key
+Make sure you're in the package directory (e.g `/cucumber-expressions`).
+Publish a release with the following command:
 
-CircleCI knows the key, and will decrypt them after checking out the code.
-The key is stored in 1Password as a base64-encoded string.
+    NEW_VERSION=1.2.3 make release
 
-## Configuring a module dir for automated releases
+This will:
 
-Before a module can be released automatically, a few scripts and files must be 
-modified/added and committed to the monorepo.
+* Update the version number in all the package descriptors
+* Commit the changed files
+* Publish all the packages
+* Create a git tag
 
-### Java (Maven)
+Check that releases show up under:
 
-*IMPORTANT*: Make sure you [escape](https://docs.travis-ci.com/user/encryption-keys/#Note-on-escaping-certain-symbols)
-characters with `\` in the password/passphrase when running the commands below:
+* `https://rubygems.org/gems/[package]/versions/[version]`
+* `https://www.npmjs.com/package/[package]`
+* `https://search.maven.org/search?q=a:[package]` (This will take a few hours to show up)
+* `https://www.nuget.org/packages/[package]/[version]`
 
-    export CI_SONATYPE_PASSWORD="..."
-    export CI_GPG_PASSPHRASE="..."
-    setup_travis_maven_deploy MODULE/java
+## Post release
 
-### Ruby (Rubygems)
+TODO: Script all of this!
 
-Cd into the module dir and run:
+First off - exit your docker container. This should be done on your host OS:
 
-    # Find the AUTH_TOKEN at https://rubygems.org/profile/edit (cukebot login password in 1Password)
-    travis encrypt "${AUTH_TOKEN}" --repo cucumber/gherkin-ruby --add deploy.api_key
+Add an empty `[Unreleased]` section at the top of `CHANGELOG.md` with:
 
-For more details, follow the Travis [RubyGems Deployment](https://docs.travis-ci.com/user/deployment/rubygems/) guide.
+```markdown
+## [Unreleased]
 
-### JavaScript (NPM)
+### Added
 
-Cd into the module dir and run:
+### Changed
 
-    # Set AUTH_TOKEN to the value from 1Password
-    travis encrypt "${AUTH_TOKEN}" --repo cucumber/gherkin-javascript --add deploy.api_key
+### Deprecated
 
-For more details, follow the Travis [NPM Releasing](https://docs.travis-ci.com/user/deployment/npm/) guide.
+### Removed
 
-### Go (modules)
+### Fixed
+```
 
-Starting with Go 1.11, releasing a go module is simply a matter of pushing a git tag,
-so there is nothing extra to set up. The tag is pushed by the `release_module` command.
+Also, add a link at the bottom:
 
-#### executables
+```markdown
+[Unreleased]: https://github.com/cucumber/cucumber/compare/[package]/v[version]...master
+```
 
-Cd into the module dir.
+You also need to bump the patch version in the `pom.xml` and append `-SNAPSHOT`
+to it.
 
-Copy `gherkin/go/.travis.yml` and change the following:
+Finally, commit it and push everything:
 
-* Change `upload-dir`
-* Change `after_deploy` entries. See the Caveats section above for details
-* Remove all the properties that have `secure:` values (encrypted values)
-
-Add encrypted values:
-
-    # Find "cukebot personal github token for releases" in 1Password
-    travis encrypt "..." --add deploy[0].api_key --repo cucumber/dots-formatter-go
-    # Ok, that deploy[0] ends up in the wrong place - move it to the right place.
-
-    # Find TRAVIS_API_TOKEN in 1Password
-    travis encrypt TRAVIS_API_TOKEN=... --add env.global --repo cucumber/dots-formatter-go
+    git commit -am "Post-release of [package] v[version]"
+    git push && git push --tags

@@ -1,11 +1,14 @@
 package io.cucumber.datatable;
 
+import org.apiguardian.api.API;
+
 import java.lang.reflect.Type;
 
 import static io.cucumber.datatable.TypeFactory.typeName;
 import static java.lang.String.format;
 
-public class UndefinedDataTableTypeException extends CucumberDataTableException {
+@API(status = API.Status.STABLE)
+public  final class UndefinedDataTableTypeException extends CucumberDataTableException {
     private UndefinedDataTableTypeException(String message) {
         super(message);
     }
@@ -16,6 +19,15 @@ public class UndefinedDataTableTypeException extends CucumberDataTableException 
                                 "Please register a DataTableType with a " +
                                 "TableTransformer, TableEntryTransformer or TableRowTransformer for %s.",
                         typeName(type), typeName(type))
+        );
+    }
+
+    static CucumberDataTableException singletonTableTooWide(Type itemType, String missingConverter, Type typeToRegister) {
+        return new UndefinedDataTableTypeException(
+                format("Can't convert DataTable to %s.\n" +
+                                "There was a table cell converter but the table was too wide to use it.\n" +
+                                "Please reduce the table width or register a %s for %s.\n" ,
+                        typeName(itemType), missingConverter, typeName(typeToRegister))
         );
     }
 
@@ -46,6 +58,14 @@ public class UndefinedDataTableTypeException extends CucumberDataTableException 
         );
     }
 
+    static CucumberDataTableException listTableTooWide(Type itemType, String missingConverter, Type typeToRegister) {
+        return new UndefinedDataTableTypeException(
+                format("Can't convert DataTable to List<%s>.\n" +
+                                "There was a table cell converter but the table was too wide to use it.\n" +
+                                "Please reduce the table width or register a %s for %s.\n" ,
+                        typeName(itemType), missingConverter, typeName(typeToRegister))
+        );
+    }
 
     static CucumberDataTableException listsNoConverterDefined(Type itemType) {
         return new UndefinedDataTableTypeException(

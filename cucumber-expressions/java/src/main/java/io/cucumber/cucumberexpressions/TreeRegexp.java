@@ -12,7 +12,7 @@ import java.util.regex.Pattern;
  * reflecting the nested structure of capture groups in the original
  * regexp.
  */
-class TreeRegexp {
+final class TreeRegexp {
     private final Pattern pattern;
     private final GroupBuilder groupBuilder;
 
