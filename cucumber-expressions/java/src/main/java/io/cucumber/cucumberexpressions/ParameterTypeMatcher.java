@@ -23,22 +23,26 @@ final class ParameterTypeMatcher implements Comparable<ParameterTypeMatcher> {
         // so we can't use the immutable semantics.
         matcher.region(newMatchPos, text.length());
         while (matcher.find()) {
-            if (!group().isEmpty()) {
-                if (matcher.start() > 0) {
-                    char before = text.charAt(matcher.start() - 1);
-                    if (!isWhitespaceOrPunctuation(before)) {
-                        return false;
-                    }
-                }
-
-                if (matcher.end() < text.length()) {
-                    char after = text.charAt(matcher.end());
-                    return isWhitespaceOrPunctuation(after);
-                }
+            if (!group().isEmpty() && groupMatchesFullWord()) {
                 return true;
             }
         }
         return false;
+    }
+
+    private boolean groupMatchesFullWord() {
+        if (matcher.start() > 0) {
+            char before = text.charAt(matcher.start() - 1);
+            if (!isWhitespaceOrPunctuation(before)) {
+                return false;
+            }
+        }
+
+        if (matcher.end() < text.length()) {
+            char after = text.charAt(matcher.end());
+            return isWhitespaceOrPunctuation(after);
+        }
+        return true;
     }
 
     int start() {
