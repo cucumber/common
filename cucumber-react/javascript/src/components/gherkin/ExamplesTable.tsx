@@ -14,13 +14,13 @@ const ExamplesTable: React.FunctionComponent<IProps> = ({tableHeader, tableBody}
   return (
     <table>
       <thead>
-      <th>
+      <tr>
         {(tableHeader.cells || []).map((cell, j) => (
-          <td key={j}>
+          <th key={j}>
             <pre>{cell.value}</pre>
-          </td>
+          </th>
         ))}
-      </th>
+      </tr>
       </thead>
       <tbody>
       {(tableBody || []).map((row, i) => (

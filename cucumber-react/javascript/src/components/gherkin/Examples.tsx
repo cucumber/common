@@ -17,9 +17,9 @@ const Examples: React.SFC<IExamplesProps> = ({examples}) => {
   return (
     <section>
       <Tags tags={examples.tags}/>
-      <h3>
+      <h2>
         <Keyword>{examples.keyword}</Keyword>: <span>{examples.name}</span>
-      </h3>
+      </h2>
       <Description description={examples.description}/>
       <ExamplesTable
         tableHeader={examples.tableHeader}
