@@ -58,13 +58,6 @@ public class CucumberExpressionGeneratorTest {
     }
 
     @Test
-    public void generates_expression_for_hyphen() {
-        assertExpression(
-                "-", Collections.<String>emptyList(),
-                "-");
-    }
-
-    @Test
     public void generates_expression_for_int_double_arg() {
         assertExpression(
                 "I have {int} cukes and {double} euro", asList("int1", "double1"),

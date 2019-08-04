@@ -22,7 +22,7 @@ public final class ParameterTypeRegistry {
     // Pattern.compile(...).pattern() is not necessary, but it helps us take advantage of the IntelliJ's regexp validation,
     // which detects unneeded escapes.
     private static final List<String> INTEGER_REGEXPS = asList(Pattern.compile("-?\\d+").pattern(), Pattern.compile("\\d+").pattern());
-    private static final List<String> FLOAT_REGEXPS = singletonList(Pattern.compile("[+-]?(?:[0-9]*[.,])?[0-9]+").pattern());
+    private static final List<String> FLOAT_REGEXPS = singletonList(Pattern.compile("-?\\d*(?:[.,]\\d+)?").pattern());
     private static final List<String> WORD_REGEXPS = singletonList(Pattern.compile("[^\\s]+").pattern());
     private static final List<String> STRING_REGEXPS = singletonList(Pattern.compile("\"([^\"\\\\]*(\\\\.[^\"\\\\]*)*)\"|'([^'\\\\]*(\\\\.[^'\\\\]*)*)'").pattern());
     private static final String ANONYMOUS_REGEX = Pattern.compile(".*").pattern();
