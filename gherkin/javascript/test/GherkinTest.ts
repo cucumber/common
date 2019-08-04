@@ -31,6 +31,29 @@ describe('gherkin (TypeScript)', () => {
     const wrappers = await streamToArray(gherkin.fromSources([source]))
     assert.strictEqual(wrappers.length, 3)
   })
+
+  it('parses gherkin using the provided default language', async () => {
+    const source = messages.Source.fromObject({
+      uri: 'test.feature',
+      data: `Fonctionnalité: i18n support
+  Scénario: Support des caractères spéciaux
+    Soit un exemple de scénario en français
+`,
+      media: messages.Media.fromObject({
+        encoding: 'UTF-8',
+        contentType: 'text/x.cucumber.gherkin+plain',
+      }),
+    })
+    const wrappers = await streamToArray(
+      gherkin.fromSources([source], { defaultDialect: 'fr' })
+    )
+    assert.strictEqual(wrappers.length, 3)
+  })
+
+  it('outputs dialects', async () => {
+    const result = gherkin.dialects()
+    assert.strictEqual(result.en.name, 'English')
+  })
 })
 
 async function streamToArray(readableStream: Readable): Promise<Envelope[]> {

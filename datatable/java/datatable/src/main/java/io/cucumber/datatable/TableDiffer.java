@@ -3,6 +3,7 @@ package io.cucumber.datatable;
 import io.cucumber.datatable.dependency.difflib.Delta;
 import io.cucumber.datatable.dependency.difflib.DiffUtils;
 import io.cucumber.datatable.dependency.difflib.Patch;
+import org.apiguardian.api.API;
 
 import java.util.AbstractMap.SimpleEntry;
 import java.util.ArrayList;
@@ -10,6 +11,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+@API(status = API.Status.INTERNAL)
 public class TableDiffer {
 
     private final DataTable from;

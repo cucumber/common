@@ -47,6 +47,13 @@ public class DataTableTest {
     }
 
     @Test
+    public void raw_may_contain_nulls() {
+        List<List<String>> raw = asList(asList(null, null), asList(null, null));
+        DataTable table = DataTable.create(raw);
+        assertEquals(raw, table.cells());
+    }
+
+    @Test
     public void cells_should_equal_raw() {
         List<List<String>> raw = asList(asList("hundred", "100"), asList("thousand", "1000"));
         DataTable table = DataTable.create(raw);
@@ -341,6 +348,24 @@ public class DataTableTest {
         assertEquals("" +
                         "      | one  | four  | seven  |\n" +
                         "      | 4444 | 55555 | 666666 |\n",
+                other.toString());
+    }
+
+    @Test
+    public void can_print_table_with_empty_cells() {
+        DataTable dataTable = DataTable.create(singletonList(singletonList("")));
+        List<List<String>> listOfListOfString = dataTable.cells();
+        DataTable other = DataTable.create(listOfListOfString);
+        assertEquals("      | [empty] |\n",
+                other.toString());
+    }
+
+    @Test
+    public void can_print_table_with_null_cells() {
+        DataTable dataTable = DataTable.create(singletonList(singletonList(null)));
+        List<List<String>> listOfListOfString = dataTable.cells();
+        DataTable other = DataTable.create(listOfListOfString);
+        assertEquals("      |  |\n",
                 other.toString());
     }
 

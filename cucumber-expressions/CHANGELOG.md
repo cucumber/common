@@ -8,9 +8,14 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ## [8.0.0 - Unreleased]
 
 ### Added
-
+* [Java] Annotate function interfaces with @FunctionalInterface
+    ([cucumber/cucumber-jvm#1716](https://github.com/cucumber/cucumber-jvm/issues/1716)
+    [mpkorstanje])
+* [Java] Mark public api with @API Guardian annotations
+    ([cucumber/cucumber-jvm#1536](https://github.com/cucumber/cucumber-jvm/issues/1536)
+    [mpkorstanje])
 ### Changed
-
+* Upgrades to `cucumber-parent:2.0.2`
 * [Java] Simplify heuristics to distinguish between Cucumber Expressions and Regular Expressions
   ([#515](https://github.com/cucumber/cucumber/issues/515)
    [#581](https://github.com/cucumber/cucumber/pull/581)

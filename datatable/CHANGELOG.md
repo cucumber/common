@@ -8,12 +8,25 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ## [Unreleased]
 
 ### Added
-
+* [Java] Annotate function interfaces with @FunctionalInterface
+    ([cucumber/cucumber-jvm#1716](https://github.com/cucumber/cucumber-jvm/issues/1716)
+    [mpkorstanje])
+* [Java] Mark public api with @API Guardian annotations
+    ([cucumber/cucumber-jvm#1536](https://github.com/cucumber/cucumber-jvm/issues/1536)
+    [mpkorstanje])        
+    
 ### Changed
-
+ * Upgrades to `cucumber-parent:2.0.2`
+ * Allow `null` values in `DataTable`.
+     ([cucumber/cucumber-jvm#1617](https://github.com/cucumber/cucumber-jvm/issues/1617)
+     [mpkorstanje])        
+ * Improve handling of tables without header ([#540](https://github.com/cucumber/cucumber/pull/540) [mpkorstanje])
 ### Deprecated
 
 ### Removed
+ * Remove DataTableType convenience methods
+     ([cucumber/cucumber-jvm#1643](https://github.com/cucumber/cucumber-jvm/issues/1643)
+     [mpkorstanje])    
 
 ### Fixed
 

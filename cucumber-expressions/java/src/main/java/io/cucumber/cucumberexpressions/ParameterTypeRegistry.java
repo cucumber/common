@@ -1,5 +1,7 @@
 package io.cucumber.cucumberexpressions;
 
+import org.apiguardian.api.API;
+
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.Collection;
@@ -15,7 +17,8 @@ import static io.cucumber.cucumberexpressions.ParameterType.createAnonymousParam
 import static java.util.Arrays.asList;
 import static java.util.Collections.singletonList;
 
-public class ParameterTypeRegistry {
+@API(status = API.Status.STABLE)
+public final class ParameterTypeRegistry {
     // Pattern.compile(...).pattern() is not necessary, but it helps us take advantage of the IntelliJ's regexp validation,
     // which detects unneeded escapes.
     private static final List<String> INTEGER_REGEXPS = asList(Pattern.compile("-?\\d+").pattern(), Pattern.compile("\\d+").pattern());
@@ -134,7 +137,7 @@ public class ParameterTypeRegistry {
         }
     }
 
-    public ParameterByTypeTransformer getDefaultParameterTransformer() {
+    ParameterByTypeTransformer getDefaultParameterTransformer() {
         return defaultParameterTransformer;
     }
 
@@ -142,11 +145,11 @@ public class ParameterTypeRegistry {
         this.defaultParameterTransformer = defaultParameterTransformer;
     }
 
-    public <T> ParameterType<T> lookupByTypeName(String typeName) {
+    <T> ParameterType<T> lookupByTypeName(String typeName) {
         return (ParameterType<T>) parameterTypeByName.get(typeName);
     }
 
-    public <T> ParameterType<T> lookupByRegexp(String parameterTypeRegexp, Pattern expressionRegexp, String text) {
+    <T> ParameterType<T> lookupByRegexp(String parameterTypeRegexp, Pattern expressionRegexp, String text) {
         SortedSet<ParameterType<?>> parameterTypes = parameterTypesByRegexp.get(parameterTypeRegexp);
         if (parameterTypes == null) return null;
         if (parameterTypes.size() > 1 && !parameterTypes.first().preferForRegexpMatch()) {
@@ -159,7 +162,7 @@ public class ParameterTypeRegistry {
         return (ParameterType<T>) parameterTypes.first();
     }
 
-    public Collection<ParameterType<?>> getParameterTypes() {
+    Collection<ParameterType<?>> getParameterTypes() {
         return parameterTypeByName.values();
     }
 

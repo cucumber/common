@@ -1,12 +1,15 @@
 package io.cucumber.cucumberexpressions;
 
+import org.apiguardian.api.API;
+
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class CucumberExpression implements Expression {
+@API(status = API.Status.STABLE)
+public final class CucumberExpression implements Expression {
     // Does not include (){} characters because they have special meaning
     private static final Pattern ESCAPE_PATTERN = Pattern.compile("([\\\\^\\[$.|?*+\\]])");
     @SuppressWarnings("RegExpRedundantEscape") // Android can't parse unescaped braces
@@ -22,7 +25,7 @@ public class CucumberExpression implements Expression {
     private final TreeRegexp treeRegexp;
     private final ParameterTypeRegistry parameterTypeRegistry;
 
-    public CucumberExpression(String expression, ParameterTypeRegistry parameterTypeRegistry) {
+    CucumberExpression(String expression, ParameterTypeRegistry parameterTypeRegistry) {
         this.source = expression;
         this.parameterTypeRegistry = parameterTypeRegistry;
 
@@ -134,8 +137,7 @@ public class CucumberExpression implements Expression {
             Type type = i < typeHints.length ? typeHints[i] : String.class;
             if (parameterType.isAnonymous()) {
                 ParameterByTypeTransformer defaultTransformer = parameterTypeRegistry.getDefaultParameterTransformer();
-                ObjectMapperTransformer transformer = new ObjectMapperTransformer(defaultTransformer, type);
-                parameterTypes.set(i, parameterType.deAnonymize(type, transformer));
+                parameterTypes.set(i, parameterType.deAnonymize(type, arg -> defaultTransformer.transform(arg, type) ));
             }
         }
 

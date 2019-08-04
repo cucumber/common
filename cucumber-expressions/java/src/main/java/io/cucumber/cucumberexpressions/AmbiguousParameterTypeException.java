@@ -1,18 +1,20 @@
 package io.cucumber.cucumberexpressions;
 
-import java.lang.reflect.Type;
+import org.apiguardian.api.API;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.SortedSet;
 import java.util.regex.Pattern;
 
-public class AmbiguousParameterTypeException extends CucumberExpressionException {
+@API(status = API.Status.STABLE)
+public final class AmbiguousParameterTypeException extends CucumberExpressionException {
     private final Pattern regexp;
     private final String parameterTypeRegexp;
     private final SortedSet<ParameterType<?>> parameterTypes;
     private final List<GeneratedExpression> generatedExpressions;
 
-    public AmbiguousParameterTypeException(String parameterTypeRegexp, Pattern expressionRegexp, SortedSet<ParameterType<?>> parameterTypes, List<GeneratedExpression> generatedExpressions) {
+    AmbiguousParameterTypeException(String parameterTypeRegexp, Pattern expressionRegexp, SortedSet<ParameterType<?>> parameterTypes, List<GeneratedExpression> generatedExpressions) {
         super(String.format("Your Regular Expression /%s/\n" +
                         "matches multiple parameter types with regexp /%s/:\n" +
                         "   %s\n" +

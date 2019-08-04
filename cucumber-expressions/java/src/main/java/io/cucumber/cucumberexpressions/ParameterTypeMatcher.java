@@ -3,18 +3,22 @@ package io.cucumber.cucumberexpressions;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-class ParameterTypeMatcher implements Comparable<ParameterTypeMatcher> {
+final class ParameterTypeMatcher implements Comparable<ParameterTypeMatcher> {
     private final ParameterType<?> parameterType;
     private final Matcher matcher;
     private final String text;
 
-    public ParameterTypeMatcher(ParameterType<?> parameterType, Matcher matcher, String text) {
+    ParameterTypeMatcher(ParameterType<?> parameterType, Matcher matcher, String text) {
         this.parameterType = parameterType;
         this.matcher = matcher;
         this.text = text;
     }
 
-    public boolean advanceToAndFind(int newMatchPos) {
+    private static boolean isWhitespaceOrPunctuation(char c) {
+        return Pattern.matches("[\\s\\p{P}]", new String(new char[]{c}));
+    }
+
+    boolean advanceToAndFind(int newMatchPos) {
         // Unlike js, ruby and go, the matcher is stateful
         // so we can't use the immutable semantics.
         matcher.region(newMatchPos, text.length());
@@ -37,15 +41,11 @@ class ParameterTypeMatcher implements Comparable<ParameterTypeMatcher> {
         return false;
     }
 
-    private static boolean isWhitespaceOrPunctuation(char c) {
-        return Pattern.matches("[\\s\\p{P}]", new String(new char[]{c}));
-    }
-
-    public int start() {
+    int start() {
         return matcher.start();
     }
 
-    public String group() {
+    String group() {
         return matcher.group();
     }
 
@@ -60,7 +60,7 @@ class ParameterTypeMatcher implements Comparable<ParameterTypeMatcher> {
         return 0;
     }
 
-    public ParameterType<?> getParameterType() {
+    ParameterType<?> getParameterType() {
         return parameterType;
     }
 
