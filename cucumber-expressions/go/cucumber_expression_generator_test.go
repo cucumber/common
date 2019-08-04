@@ -109,7 +109,7 @@ func TestCucumberExpressionGeneratory(t *testing.T) {
 		parameterTypeRegistry := NewParameterTypeRegistry()
 		parameterType1, err := NewParameterType(
 			"type1",
-			[]*regexp.Regexp{regexp.MustCompile("cd")},
+			[]*regexp.Regexp{regexp.MustCompile("c d")},
 			"type1",
 			nil,
 			true,
@@ -119,7 +119,7 @@ func TestCucumberExpressionGeneratory(t *testing.T) {
 		require.NoError(t, parameterTypeRegistry.DefineParameterType(parameterType1))
 		parameterType2, err := NewParameterType(
 			"type2",
-			[]*regexp.Regexp{regexp.MustCompile("bc")},
+			[]*regexp.Regexp{regexp.MustCompile("b c")},
 			"type2",
 			nil,
 			true,
@@ -131,9 +131,9 @@ func TestCucumberExpressionGeneratory(t *testing.T) {
 		assertExpressionWithParameterTypeRegistry(
 			t,
 			parameterTypeRegistry,
-			"a{type2}defg",
+			"a {type2} d e f g",
 			[]string{"type2"},
-			"abcdefg",
+			"a b c d e f g",
 		)
 	})
 
@@ -204,7 +204,7 @@ func TestCucumberExpressionGeneratory(t *testing.T) {
 		require.NoError(t, parameterTypeRegistry.DefineParameterType(optionalFlightParameterType))
 		optionalHotelParameterType, err := NewParameterType(
 			"optional-hotel",
-			[]*regexp.Regexp{regexp.MustCompile("(1st hotel)?")},
+			[]*regexp.Regexp{regexp.MustCompile("(1 hotel)?")},
 			"optional-hotel",
 			nil,
 			true,
@@ -213,10 +213,10 @@ func TestCucumberExpressionGeneratory(t *testing.T) {
 		require.NoError(t, err)
 		require.NoError(t, parameterTypeRegistry.DefineParameterType(optionalHotelParameterType))
 		generator := NewCucumberExpressionGenerator(parameterTypeRegistry)
-		generatedExpression := generator.GenerateExpressions("I reach Stage4: 1st flight-1st hotel")[0]
-		// While you would expect this to be `I reach Stage{int}: {optional-flight}-{optional-hotel}`
+		generatedExpression := generator.GenerateExpressions("I reach Stage 4: 1st flight -1 hotel")[0]
+		// While you would expect this to be `I reach Stage {int}: {optional-flight} -{optional-hotel}`
 		// the `-1` causes {int} to match just before {optional-hotel}.
-		require.Equal(t, generatedExpression.Source(), "I reach Stage{int}: {optional-flight}{int}st hotel")
+		require.Equal(t, generatedExpression.Source(), "I reach Stage {int}: {optional-flight} {int} hotel")
 	})
 
 	t.Run("generates at most 256 expressions", func(t *testing.T) {
@@ -224,7 +224,7 @@ func TestCucumberExpressionGeneratory(t *testing.T) {
 		for i := 1; i <= 4; i++ {
 			myType, err := NewParameterType(
 				"my-type-"+string(i),
-				[]*regexp.Regexp{regexp.MustCompile("[a-z]")},
+				[]*regexp.Regexp{regexp.MustCompile("([a-z] )*?[a-z]")},
 				"string",
 				nil,
 				true,
@@ -236,7 +236,7 @@ func TestCucumberExpressionGeneratory(t *testing.T) {
 
 		generator := NewCucumberExpressionGenerator(parameterTypeRegistry)
 		// This would otherwise generate 4^11=419430 expressions and consume just shy of 1.5GB.
-		generatedExpressions := generator.GenerateExpressions("a simple step")
+		generatedExpressions := generator.GenerateExpressions("a s i m p l e s t e p")
 		require.Equal(t, len(generatedExpressions), 256)
 	})
 
@@ -268,6 +268,114 @@ func TestCucumberExpressionGeneratory(t *testing.T) {
 		require.Equal(t, len(generatedExpressions), 2)
 		require.Equal(t, generatedExpressions[0].Source(), "{exactly-one} {zero-or-more} {zero-or-more}")
 		require.Equal(t, generatedExpressions[1].Source(), "{zero-or-more} {zero-or-more} {zero-or-more}")
+	})
+
+	t.Run("does not suggest parameter when match is at the beginning of a word", func(t *testing.T) {
+		parameterTypeRegistry := NewParameterTypeRegistry()
+		direction, err := NewParameterType(
+			"direction",
+			[]*regexp.Regexp{regexp.MustCompile("(up|down)")},
+			"string",
+			nil,
+			true,
+			false,
+		)
+		require.NoError(t, err)
+		require.NoError(t, parameterTypeRegistry.DefineParameterType(direction))
+
+		generator := NewCucumberExpressionGenerator(parameterTypeRegistry)
+		generatedExpressions := generator.GenerateExpressions("I download a picture")
+
+		require.Equal(t, len(generatedExpressions), 1)
+		require.Equal(t, generatedExpressions[0].Source(), "I download a picture")
+	})
+
+	t.Run("does not suggest parameter when match is inside a word", func(t *testing.T) {
+		parameterTypeRegistry := NewParameterTypeRegistry()
+		direction, err := NewParameterType(
+			"direction",
+			[]*regexp.Regexp{regexp.MustCompile("(up|down)")},
+			"string",
+			nil,
+			true,
+			false,
+		)
+		require.NoError(t, err)
+		require.NoError(t, parameterTypeRegistry.DefineParameterType(direction))
+
+		generator := NewCucumberExpressionGenerator(parameterTypeRegistry)
+		generatedExpressions := generator.GenerateExpressions("I watch the muppet show")
+
+		require.Equal(t, len(generatedExpressions), 1)
+		require.Equal(t, generatedExpressions[0].Source(), "I watch the muppet show")
+	})
+
+	t.Run("does not suggest parameter when match is at the end of a word", func(t *testing.T) {
+		parameterTypeRegistry := NewParameterTypeRegistry()
+		direction, err := NewParameterType(
+			"direction",
+			[]*regexp.Regexp{regexp.MustCompile("(up|down)")},
+			"string",
+			nil,
+			true,
+			false,
+		)
+		require.NoError(t, err)
+		require.NoError(t, parameterTypeRegistry.DefineParameterType(direction))
+
+		generator := NewCucumberExpressionGenerator(parameterTypeRegistry)
+		generatedExpressions := generator.GenerateExpressions("I create a group")
+
+		require.Equal(t, len(generatedExpressions), 1)
+		require.Equal(t, generatedExpressions[0].Source(), "I create a group")
+	})
+
+	t.Run("does suggest parameter when match is a full word", func(t *testing.T) {
+		parameterTypeRegistry := NewParameterTypeRegistry()
+		direction, err := NewParameterType(
+			"direction",
+			[]*regexp.Regexp{regexp.MustCompile("(up|down)")},
+			"string",
+			nil,
+			true,
+			false,
+		)
+		require.NoError(t, err)
+		require.NoError(t, parameterTypeRegistry.DefineParameterType(direction))
+
+		generator := NewCucumberExpressionGenerator(parameterTypeRegistry)
+
+		generatedExpressions1 := generator.GenerateExpressions("I go down the road")
+		require.Equal(t, len(generatedExpressions1), 1)
+		require.Equal(t, generatedExpressions1[0].Source(), "I go {direction} the road")
+
+		generatedExpressions2 := generator.GenerateExpressions("up the hill, the road goes down")
+		require.Equal(t, len(generatedExpressions2), 1)
+		require.Equal(t, generatedExpressions2[0].Source(), "{direction} the hill, the road goes {direction}")
+	})
+
+	t.Run("does suggest parameter when match is wrapped around punctuation characters", func(t *testing.T) {
+		parameterTypeRegistry := NewParameterTypeRegistry()
+		direction, err := NewParameterType(
+			"direction",
+			[]*regexp.Regexp{regexp.MustCompile("(up|down)")},
+			"string",
+			nil,
+			true,
+			false,
+		)
+		require.NoError(t, err)
+		require.NoError(t, parameterTypeRegistry.DefineParameterType(direction))
+
+		generator := NewCucumberExpressionGenerator(parameterTypeRegistry)
+
+		generatedExpressions1 := generator.GenerateExpressions("direction is:down")
+		require.Equal(t, len(generatedExpressions1), 1)
+		require.Equal(t, generatedExpressions1[0].Source(), "direction is:{direction}")
+
+		generatedExpressions2 := generator.GenerateExpressions("direction is down.")
+		require.Equal(t, len(generatedExpressions2), 1)
+		require.Equal(t, generatedExpressions2[0].Source(), "direction is {direction}.")
 	})
 }
 
