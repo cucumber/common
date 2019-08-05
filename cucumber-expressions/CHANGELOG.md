@@ -15,6 +15,17 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
     ([cucumber/cucumber-jvm#1536](https://github.com/cucumber/cucumber-jvm/issues/1536)
     [mpkorstanje])
 ### Changed
+
+* Improve decimal number parsing
+  ([#669](https://github.com/cucumber/cucumber/issues/669)
+   [#672](https://github.com/cucumber/cucumber/pull/672)
+   [mpkorstanje])
+* Only suggest parameter types when text is surrounded by whitespace or punctuation
+  ([#657](https://github.com/cucumber/cucumber/issues/657)
+   [#661](https://github.com/cucumber/cucumber/pull/661)
+   [vincent-psarga]
+   [aslakhellesoy]
+   [mpkorstanje])
 * Upgrades to `cucumber-parent:2.0.2`
 * [Java] Simplify heuristics to distinguish between Cucumber Expressions and Regular Expressions
   ([#515](https://github.com/cucumber/cucumber/issues/515)
@@ -30,6 +41,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Removed
 
 ### Fixed
+
+* Fix RegExp lookaround
+  ([#643](https://github.com/cucumber/cucumber/issues/643)
+   [#644](https://github.com/cucumber/cucumber/pull/644)
+   [vincent-psarga]
+   [mpkorstanje])
 
 * Match integer strings as `{float}`.
   ([#600](https://github.com/cucumber/cucumber/issues/600)

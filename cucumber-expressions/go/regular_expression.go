@@ -33,7 +33,7 @@ func (r *RegularExpression) Match(text string, typeHints ...reflect.Type) ([]*Ar
 		if err != nil {
 			return nil, err
 		}
-		if parameterType!= nil && hasTypeHint && !parameterType.UseRegexpMatchAsStrongTypeHint() {
+		if parameterType != nil && hasTypeHint && !parameterType.UseRegexpMatchAsStrongTypeHint() {
 			if parameterType.Type() != typeHint.Name() {
 				parameterType = nil
 			}

@@ -84,7 +84,6 @@ func TestRegularExpression(t *testing.T) {
 		require.Equal(t, args[0].GetValue(), "one")
 	})
 
-
 	t.Run("transforms negative int", func(t *testing.T) {
 		require.Equal(t, Match(t, `(-?\d+)`, "-22")[0], -22)
 	})
@@ -99,14 +98,6 @@ func TestRegularExpression(t *testing.T) {
 
 	t.Run("transforms positive int with conflicting hint", func(t *testing.T) {
 		require.Equal(t, Match(t, `(-?\d+)`, "22", reflect.TypeOf(""))[0], "22")
-	})
-
-	t.Run("transforms float without integer part", func(t *testing.T) {
-		require.Equal(t, Match(t, `(-?\d*(?:[.,]\d+)?)`, ".22")[0], 0.22)
-	})
-
-	t.Run("transforms float with sign", func(t *testing.T) {
-		require.Equal(t, Match(t, `(-?\d*(?:[.,]\d+)?)`, "-1.22")[0], -1.22)
 	})
 
 	t.Run("returns nil when there is no match", func(t *testing.T) {

@@ -32,14 +32,6 @@ module Cucumber
         expect( match(/(\d+)/, "22") ).to eq([22])
       end
 
-      it "transforms float without integer part" do
-        expect( match(/(-?\d*(?:[.,]\d+)?)/, ".22") ).to eq([0.22])
-      end
-
-      it "transforms float with sign" do
-        expect( match(/(-?\d*(?:[.,]\d+)?)/, "-1.22") ).to eq([-1.22])
-      end
-
       it "returns nil when there is no match" do
         expect( match(/hello/, "world") ).to be_nil
       end
