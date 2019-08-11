@@ -122,6 +122,10 @@ Also, add a link at the bottom:
 
 You also need to bump the patch version in the `pom.xml` and append `-SNAPSHOT`
 to it.
+```
+cd java
+mvn versions:set
+```
 
 Finally, commit it and push everything:
 
