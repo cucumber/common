@@ -34,8 +34,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
   ([#515](https://github.com/cucumber/cucumber/issues/515)
    [#581](https://github.com/cucumber/cucumber/pull/581)
    [mpkorstanje])
-* [Java] Prefer type hint over parameter type
-  ([#658](https://github.com/cucumber/cucumber/issues/658)
+* [Java/Go] cucumber-expressions: Prefer language type hint over parameter type
+  ([#658](https://github.com/cucumber/cucumber/pull/658)
    [#659](https://github.com/cucumber/cucumber/pull/659)
    [mpkorstanje])
 

@@ -38,12 +38,66 @@ func TestRegularExpression(t *testing.T) {
 		require.Equal(t, Match(t, `(.*)`, "22")[0], "22")
 	})
 
+	t.Run("ignores type hint when parameter type has strong type hint", func(t *testing.T) {
+		parameterTypeRegistry := NewParameterTypeRegistry()
+		parameterType2, err := NewParameterType(
+			"type2",
+			[]*regexp.Regexp{regexp.MustCompile("one|two|three")},
+			"type2",
+			func(args ...*string) interface{} {
+				return 42
+			},
+			false,
+			false,
+			true,
+		)
+		require.NoError(t, err)
+		err = parameterTypeRegistry.DefineParameterType(parameterType2)
+		require.NoError(t, err)
+		expr := regexp.MustCompile(`(one|two|three)`)
+		expression := NewRegularExpression(expr, parameterTypeRegistry)
+		args, err := expression.Match("one", reflect.TypeOf(""))
+		require.NoError(t, err)
+		require.Equal(t, args[0].GetValue(), 42)
+	})
+
+	t.Run("follows type hint when parameter type has does not have strong type hint", func(t *testing.T) {
+		parameterTypeRegistry := NewParameterTypeRegistry()
+		parameterType2, err := NewParameterType(
+			"type2",
+			[]*regexp.Regexp{regexp.MustCompile("one|two|three")},
+			"type2",
+			func(args ...*string) interface{} {
+				return 42
+			},
+			true,
+			false,
+			false,
+		)
+		require.NoError(t, err)
+		err = parameterTypeRegistry.DefineParameterType(parameterType2)
+		require.NoError(t, err)
+		expr := regexp.MustCompile(`(one|two|three)`)
+		expression := NewRegularExpression(expr, parameterTypeRegistry)
+		args, err := expression.Match("one", reflect.TypeOf(""))
+		require.NoError(t, err)
+		require.Equal(t, args[0].GetValue(), "one")
+	})
+
 	t.Run("transforms negative int", func(t *testing.T) {
 		require.Equal(t, Match(t, `(-?\d+)`, "-22")[0], -22)
 	})
 
 	t.Run("transforms positive int", func(t *testing.T) {
 		require.Equal(t, Match(t, `(-?\d+)`, "22")[0], 22)
+	})
+
+	t.Run("transforms positive int with hint", func(t *testing.T) {
+		require.Equal(t, Match(t, `(-?\d+)`, "22", reflect.TypeOf(int(0)))[0], 22)
+	})
+
+	t.Run("transforms positive int with conflicting hint", func(t *testing.T) {
+		require.Equal(t, Match(t, `(-?\d+)`, "22", reflect.TypeOf(""))[0], "22")
 	})
 
 	t.Run("returns nil when there is no match", func(t *testing.T) {

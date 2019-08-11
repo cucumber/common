@@ -92,6 +92,7 @@ func TestCucumberExpressionGeneratory(t *testing.T) {
 			},
 			true,
 			false,
+			false,
 		)
 		require.NoError(t, err)
 		require.NoError(t, parameterTypeRegistry.DefineParameterType(currencyParameterType))
@@ -114,6 +115,7 @@ func TestCucumberExpressionGeneratory(t *testing.T) {
 			nil,
 			true,
 			false,
+			false,
 		)
 		require.NoError(t, err)
 		require.NoError(t, parameterTypeRegistry.DefineParameterType(parameterType1))
@@ -123,6 +125,7 @@ func TestCucumberExpressionGeneratory(t *testing.T) {
 			"type2",
 			nil,
 			true,
+			false,
 			false,
 		)
 		require.NoError(t, err)
@@ -148,6 +151,7 @@ func TestCucumberExpressionGeneratory(t *testing.T) {
 			nil,
 			true,
 			false,
+			false,
 		)
 		require.NoError(t, err)
 		require.NoError(t, parameterTypeRegistry.DefineParameterType(parameterType1))
@@ -157,6 +161,7 @@ func TestCucumberExpressionGeneratory(t *testing.T) {
 			"type2",
 			nil,
 			true,
+			false,
 			false,
 		)
 		require.NoError(t, err)
@@ -199,6 +204,7 @@ func TestCucumberExpressionGeneratory(t *testing.T) {
 			nil,
 			true,
 			false,
+			false,
 		)
 		require.NoError(t, err)
 		require.NoError(t, parameterTypeRegistry.DefineParameterType(optionalFlightParameterType))
@@ -208,6 +214,7 @@ func TestCucumberExpressionGeneratory(t *testing.T) {
 			"optional-hotel",
 			nil,
 			true,
+			false,
 			false,
 		)
 		require.NoError(t, err)
@@ -229,6 +236,7 @@ func TestCucumberExpressionGeneratory(t *testing.T) {
 				nil,
 				true,
 				false,
+				false,
 			)
 			require.NoError(t, err)
 			require.NoError(t, parameterTypeRegistry.DefineParameterType(myType))
@@ -249,6 +257,7 @@ func TestCucumberExpressionGeneratory(t *testing.T) {
 			nil,
 			true,
 			false,
+			false,
 		)
 		require.NoError(t, err)
 		require.NoError(t, parameterTypeRegistry.DefineParameterType(zeroOrMore))
@@ -258,6 +267,7 @@ func TestCucumberExpressionGeneratory(t *testing.T) {
 			"string",
 			nil,
 			true,
+			false,
 			false,
 		)
 		require.NoError(t, err)
@@ -279,6 +289,7 @@ func TestCucumberExpressionGeneratory(t *testing.T) {
 			nil,
 			true,
 			false,
+			false,
 		)
 		require.NoError(t, err)
 		require.NoError(t, parameterTypeRegistry.DefineParameterType(direction))
@@ -298,6 +309,7 @@ func TestCucumberExpressionGeneratory(t *testing.T) {
 			"string",
 			nil,
 			true,
+			false,
 			false,
 		)
 		require.NoError(t, err)
@@ -319,6 +331,7 @@ func TestCucumberExpressionGeneratory(t *testing.T) {
 			nil,
 			true,
 			false,
+			false,
 		)
 		require.NoError(t, err)
 		require.NoError(t, parameterTypeRegistry.DefineParameterType(direction))
@@ -338,6 +351,7 @@ func TestCucumberExpressionGeneratory(t *testing.T) {
 			"string",
 			nil,
 			true,
+			false,
 			false,
 		)
 		require.NoError(t, err)
@@ -362,6 +376,7 @@ func TestCucumberExpressionGeneratory(t *testing.T) {
 			"string",
 			nil,
 			true,
+			false,
 			false,
 		)
 		require.NoError(t, err)
