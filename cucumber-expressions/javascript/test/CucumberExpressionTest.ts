@@ -118,8 +118,38 @@ describe('CucumberExpression', () => {
   })
 
   it('matches float', () => {
-    assert.deepStrictEqual(match('{float}', '0.22'), [0.22])
-    assert.deepStrictEqual(match('{float}', '.22'), [0.22])
+    assert.deepStrictEqual(match('{float}', ""), null);
+    assert.deepStrictEqual(match('{float}', "."), null);
+    assert.deepStrictEqual(match('{float}', ","), null);
+    assert.deepStrictEqual(match('{float}', "-"), null);
+    assert.deepStrictEqual(match('{float}', "E"), null);
+    assert.deepStrictEqual(match('{float}', "1,"), null);
+    assert.deepStrictEqual(match('{float}', ",1"), null);
+    assert.deepStrictEqual(match('{float}', "1."), null);
+
+    assert.deepStrictEqual(match('{float}', "1"), [1]);
+    assert.deepStrictEqual(match('{float}', "-1"), [-1]);
+    assert.deepStrictEqual(match('{float}', "1.1"), [1.1]);
+    assert.deepStrictEqual(match('{float}', "1,000"), null);
+    assert.deepStrictEqual(match('{float}', "1,000,0"), null);
+    assert.deepStrictEqual(match('{float}', "1,000.1"), null);
+    assert.deepStrictEqual(match('{float}', "1,000,10"), null);
+    assert.deepStrictEqual(match('{float}', "1,0.1"), null);
+    assert.deepStrictEqual(match('{float}', "1,000,000.1"), null);
+    assert.deepStrictEqual(match('{float}', "-1.1"), [-1.1]);
+
+    assert.deepStrictEqual(match('{float}', ".1"), [0.1]);
+    assert.deepStrictEqual(match('{float}', "-.1"), [-0.1]);
+    assert.deepStrictEqual(match('{float}', "-.10000001"), [-0.10000001]);
+    assert.deepStrictEqual(match('{float}', "1E1"), [1E1]); // precision 1 with scale -1, can not be expressed as a decimal
+    assert.deepStrictEqual(match('{float}', ".1E1"), [1]);
+    assert.deepStrictEqual(match('{float}', "E1"), null);
+    assert.deepStrictEqual(match('{float}', "-.1E-1"), [-0.01]);
+    assert.deepStrictEqual(match('{float}', "-.1E-2"), [-0.001]);
+    assert.deepStrictEqual(match('{float}', "-.1E+1"), [-1]);
+    assert.deepStrictEqual(match('{float}', "-.1E+2"), [-10]);
+    assert.deepStrictEqual(match('{float}', "-.1E1"), [-1]);
+    assert.deepStrictEqual(match('{float}', "-.10E2"), [-10]);
   })
 
   it('matches float with zero', () => {
@@ -210,7 +240,7 @@ describe('CucumberExpression', () => {
         'widget',
         /\w+/,
         null,
-        function(s: string) {
+        function (s: string) {
           return this.createWidget(s)
         },
         false,

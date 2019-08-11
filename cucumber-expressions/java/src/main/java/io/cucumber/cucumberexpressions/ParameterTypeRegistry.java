@@ -27,10 +27,10 @@ public final class ParameterTypeRegistry {
             Pattern.compile("\\d+").pattern()
     );
     private static final String SIGN = "[-+]?";
-    private static final String MUST_CONTAIN_NUMBER = "(?=.*[0-9].*)";
-    private static final String SCIENTIFIC_NUMBER = "(?:[0-9]+[{expnt}][-+]?[0-9]+)?";
-    private static final String DECIMAL_FRACTION = "(?:[{decimal}](?=[0-9].*))?[0-9]*";
-    private static final String INTEGER = "(?:[0-9]+(?:[{group}]?[0-9]+)*)*";
+    private static final String MUST_CONTAIN_NUMBER = "(?=.*\\d.*)";
+    private static final String SCIENTIFIC_NUMBER = "(?:\\d+[{expnt}]-?\\d+)?";
+    private static final String DECIMAL_FRACTION = "(?:[{decimal}](?=\\d.*))?\\d*";
+    private static final String INTEGER = "(?:\\d+(?:[{group}]?\\d+)*)*";
     private static final String FLOAT_REGEXPS =
             Pattern.compile(MUST_CONTAIN_NUMBER + SIGN + INTEGER + DECIMAL_FRACTION + SCIENTIFIC_NUMBER).pattern();
     private static final List<String> WORD_REGEXPS = singletonList(
