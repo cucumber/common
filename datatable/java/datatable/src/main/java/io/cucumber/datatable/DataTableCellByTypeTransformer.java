@@ -14,7 +14,7 @@ final class DataTableCellByTypeTransformer implements TableCellByTypeTransformer
     }
 
     @Override
-    public <T> T transform(String value, Class<T> cellType) throws Throwable {
+    public <T> T transform(String value, Class<T> cellType) {
         //noinspection unchecked
         DataTableType typeByType = dataTableTypeRegistry.lookupTableTypeByType(aListOf(aListOf(cellType)));
         if (typeByType == null) {

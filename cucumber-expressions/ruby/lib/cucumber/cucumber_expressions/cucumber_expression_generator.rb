@@ -89,7 +89,7 @@ module Cucumber
         regexps = parameter_type.regexps
         regexps.each do |regexp|
           regexp = Regexp.new("(#{regexp})")
-          result.push(ParameterTypeMatcher.new(parameter_type, regexp, text))
+          result.push(ParameterTypeMatcher.new(parameter_type, regexp, text, 0))
         end
         result
       end

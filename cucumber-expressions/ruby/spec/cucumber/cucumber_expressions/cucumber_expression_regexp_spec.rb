@@ -34,7 +34,7 @@ module Cucumber
         it "translates parameters" do
           assert_regexp(
             "I have {float} cukes at {int} o'clock",
-            /^I have (-?\d*(?:[.,]\d+)?) cukes at ((?:-?\d+)|(?:\d+)) o'clock$/
+            /^I have ((?=.*\d.*)[-+]?\d*(?:\.(?=\d.*))?\d*(?:\d+[E][-+]?\d+)?) cukes at ((?:-?\d+)|(?:\d+)) o'clock$/
           )
         end
 
