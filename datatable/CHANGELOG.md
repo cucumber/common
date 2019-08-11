@@ -8,6 +8,18 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ## [Unreleased]
 
 ### Added
+    
+### Changed
+
+### Deprecated
+
+### Removed
+
+### Fixed
+
+## [2.0.0] 2019-08-11
+
+### Added
 * [Java] Annotate function interfaces with @FunctionalInterface
     ([cucumber/cucumber-jvm#1716](https://github.com/cucumber/cucumber-jvm/issues/1716)
     [mpkorstanje])
@@ -21,7 +33,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
      ([cucumber/cucumber-jvm#1617](https://github.com/cucumber/cucumber-jvm/issues/1617)
      [mpkorstanje])        
  * Improve handling of tables without header ([#540](https://github.com/cucumber/cucumber/pull/540) [mpkorstanje])
-### Deprecated
 
 ### Removed
  * Remove DataTableType convenience methods
