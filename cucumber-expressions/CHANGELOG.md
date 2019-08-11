@@ -5,7 +5,19 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ----
-## [8.0.0 - Unreleased]
+## [Unreleased]
+
+### Added
+
+### Changed
+
+### Deprecated
+
+### Removed
+
+### Fixed
+
+## [8.0.0] - 2019-08-11
 
 ### Added
 * [Java] Annotate function interfaces with @FunctionalInterface
@@ -38,10 +50,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
   ([#658](https://github.com/cucumber/cucumber/pull/658)
    [#659](https://github.com/cucumber/cucumber/pull/659)
    [mpkorstanje])
-
-### Deprecated
-
-### Removed
 
 ### Fixed
 
@@ -579,6 +587,7 @@ N/A
 
 <!-- Releases -->
 [Unreleased]: https://github.com/cucumber/cucumber/compare/cucumber-expressions-v7.0.2...master
+[8.0.0]:      https://github.com/cucumber/cucumber/compare/cucumber-expressions-v7.0.2...cucumber-expressions-v8.0.0
 [7.0.2]:      https://github.com/cucumber/cucumber/compare/cucumber-expressions-v7.0.0...cucumber-expressions-v7.0.2
 [7.0.0]:      https://github.com/cucumber/cucumber/compare/cucumber-expressions-v6.6.2...cucumber-expressions-v7.0.0
 [6.6.2]:      https://github.com/cucumber/cucumber/compare/cucumber-expressions-v6.2.3...cucumber-expressions-v6.6.2
