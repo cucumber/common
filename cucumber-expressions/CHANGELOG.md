@@ -19,17 +19,24 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 * Improve decimal number parsing
   ([#669](https://github.com/cucumber/cucumber/issues/669)
    [#672](https://github.com/cucumber/cucumber/pull/672)
+   [#675](https://github.com/cucumber/cucumber/pull/675)
+   [#677](https://github.com/cucumber/cucumber/pull/677)
    [mpkorstanje])
 * Only suggest parameter types when text is surrounded by whitespace or punctuation
   ([#657](https://github.com/cucumber/cucumber/issues/657)
    [#661](https://github.com/cucumber/cucumber/pull/661)
    [vincent-psarga]
    [aslakhellesoy]
+   [luke-hill]
    [mpkorstanje])
 * Upgrades to `cucumber-parent:2.0.2`
 * [Java] Simplify heuristics to distinguish between Cucumber Expressions and Regular Expressions
   ([#515](https://github.com/cucumber/cucumber/issues/515)
    [#581](https://github.com/cucumber/cucumber/pull/581)
+   [mpkorstanje])
+* [Java] Prefer type hint over parameter type
+  ([#658](https://github.com/cucumber/cucumber/issues/658)
+   [#659](https://github.com/cucumber/cucumber/pull/659)
    [mpkorstanje])
 
 ### Deprecated
@@ -50,9 +57,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
    [aslakhellesoy]
    [vincent-psarga])
 
-* Allow `?!` as a non-capturing regex
- ([#481](https://github.com/cucumber/cucumber/issues/576),
+* reconized lookaround as a non-capturing regex
+ ([#481](https://github.com/cucumber/cucumber/issues/576)
    [#593](https://github.com/cucumber/cucumber/pull/593)
+   [#643](https://github.com/cucumber/cucumber/pull/643)
+   [#644](https://github.com/cucumber/cucumber/pull/644)
    [luke-hill])
 
 ## [7.0.2] - 2019-06-15
