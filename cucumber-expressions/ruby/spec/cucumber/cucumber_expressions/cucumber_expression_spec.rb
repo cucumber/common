@@ -76,9 +76,38 @@ module Cucumber
       end
 
       it "matches float" do
-        expect(match("{float}", "0.22")).to eq([0.22])
-        expect(match("{float}", ".22")).to eq([0.22])
-        expect(match("{float}", "-1.22")).to eq([-1.22])
+        expect(match("{float}", "")).to eq(nil)
+        expect(match("{float}", ".")).to eq(nil)
+        expect(match("{float}", ",")).to eq(nil)
+        expect(match("{float}", "-")).to eq(nil)
+        expect(match("{float}", "E")).to eq(nil)
+        expect(match("{float}", "1,")).to eq(nil)
+        expect(match("{float}", ",1")).to eq(nil)
+        expect(match("{float}", "1.")).to eq(nil)
+
+        expect(match("{float}", "1")).to eq([1])
+        expect(match("{float}", "-1")).to eq([-1])
+        expect(match("{float}", "1.1")).to eq([1.1])
+        expect(match("{float}", "1,000")).to eq(nil)
+        expect(match("{float}", "1,000,0")).to eq(nil)
+        expect(match("{float}", "1,000.1")).to eq(nil)
+        expect(match("{float}", "1,000,10")).to eq(nil)
+        expect(match("{float}", "1,0.1")).to eq(nil)
+        expect(match("{float}", "1,000,000.1")).to eq(nil)
+        expect(match("{float}", "-1.1")).to eq([-1.1])
+
+        expect(match("{float}", ".1")).to eq([0.1])
+        expect(match("{float}", "-.1")).to eq([-0.1])
+        expect(match("{float}", "-.1000001")).to eq([-0.1000001])
+        expect(match("{float}", "1E1")).to eq([10.0])
+        expect(match("{float}", ".1E1")).to eq([1])
+        expect(match("{float}", "E1")).to eq(nil)
+        expect(match("{float}", "-.1E-1")).to eq([-0.01])
+        expect(match("{float}", "-.1E-2")).to eq([-0.001])
+        expect(match("{float}", "-.1E+1")).to eq([-1])
+        expect(match("{float}", "-.1E+2")).to eq([-10])
+        expect(match("{float}", "-.1E1")).to eq([-1])
+        expect(match("{float}", "-.1E2")).to eq([-10])
       end
 
       it "matches anonymous" do

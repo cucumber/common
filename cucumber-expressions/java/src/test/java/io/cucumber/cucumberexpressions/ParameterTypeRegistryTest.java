@@ -186,8 +186,11 @@ public class ParameterTypeRegistryTest {
         assertThat(expression.match(".1E1").get(0).getValue(), is(new BigDecimal("1")));
         assertThat(expression.match("E1"), nullValue());
         assertThat(expression.match("-.1E-1").get(0).getValue(), is(new BigDecimal("-0.01")));
-        assertThat(expression.match("-.1E+1").get(0).getValue(), is(new BigDecimal("-0.1")));
+        assertThat(expression.match("-.1E-2").get(0).getValue(), is(new BigDecimal("-0.001")));
+        assertThat(expression.match("-.1E+1"), nullValue());
+        assertThat(expression.match("-.1E+2"), nullValue());
         assertThat(expression.match("-.1E1").get(0).getValue(), is(new BigDecimal("-1")));
+        assertThat(expression.match("-.10E2").get(0).getValue(), is(new BigDecimal("-10")));
     }
 
     @Test
