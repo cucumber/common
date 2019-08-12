@@ -86,26 +86,20 @@ function subrepo_remote()
   fi
 }
 
-function subrepo_owner_name()
-{
-  subrepo=$1
-  cat ${subrepo}/.subrepo
-}
-
 function git_branch() {
-  if [ -z "${TRAVIS_TAG}" ]; then
+  if [ -z "${CIRCLE_TAG}" ]; then
     # Only report branch if we're not on a tag
-    echo "${TRAVIS_BRANCH}"
+    echo "${CIRCLE_BRANCH}"
   fi
 }
 
 function git_tag() {
-  echo "${TRAVIS_TAG}"
+  echo "${CIRCLE_TAG}"
 }
 
 function push_subrepos()
 {
-  if [ "${TRAVIS_PULL_REQUEST}" = "false" ] || [ -z "${TRAVIS_PULL_REQUEST}" ]; then
+  if [ "${CIRCLE_PULL_REQUEST}" = "false" ] || [ -z "${CIRCLE_PULL_REQUEST}" ]; then
     subrepos $1 | while read subrepo; do
       push_subrepo_branch_maybe "${subrepo}"
     done
@@ -124,7 +118,11 @@ function push_subrepo_branch_maybe()
   if [ -z "${branch}" ]; then
     echo "No branch to push"
   else
-    git push --force "${remote}" $(splitsh-lite --prefix=${subrepo}):refs/heads/${branch}
+    {
+      git push --force "${remote}" $(splitsh-lite --prefix=${subrepo}):refs/heads/${branch}
+    } || {
+      git push --force "${remote}" $(splitsh-lite --scratch --prefix=${subrepo}):refs/heads/${branch}
+    }
   fi
 }
 
@@ -139,322 +137,12 @@ function push_subrepo_tag_maybe()
     subrepos . | while read subrepo; do
       if [[ "${subrepo}" = "${tagged_subrepo}"* ]]; then
         remote=$(subrepo_remote "${subrepo}")
-        ref=$(splitsh-lite --prefix=${subrepo} --origin=refs/tags/${tag})
-        git push --force "${remote}" ${ref}:refs/tags/${vtag}
+        {
+          git push --force "${remote}" $(splitsh-lite --prefix=${subrepo} --origin=refs/tags/${tag}):refs/tags/${vtag}
+        } || {
+          git push --force "${remote}" $(splitsh-lite --scratch --prefix=${subrepo} --origin=refs/tags/${tag}):refs/tags/${vtag}
+        }
       fi
     done
   fi
-}
-
-function release_module()
-{
-  module=$1
-  version=$2
-
-  subrepos "${module}" | while read subrepo; do
-    version_subrepo "${subrepo}" "${version}"
-  done
-  
-  git commit -am "Release ${module} v${version}"
-  git tag "${module}/v${version}"
-  git push && git push origin "${module}/v${version}"
-}
-
-function setup_travis_maven_deploy()
-{
-  subrepo=$1
-  repo=$(subrepo_owner_name "${subrepo}")
-  if [ -z "${CI_SONATYPE_PASSWORD}" ]; then
-    echo "Please define CI_SONATYPE_PASSWORD. It's in 1Password (cukebot)."
-    exit 1
-  fi
-  if [ -z "${CI_GPG_PASSPHRASE}" ]; then
-    echo "Please define CI_GPG_PASSPHRASE. It's in 1Password."
-    exit 1
-  fi
-
-  pushd "${subrepo}"
-  travis encrypt "CI_SONATYPE_PASSWORD=${CI_SONATYPE_PASSWORD}" --add --repo "${repo}"
-  travis encrypt "CI_GPG_PASSPHRASE=${CI_GPG_PASSPHRASE}" --add --repo "${repo}"
-  popd
-  setup_gpg "${subrepo}"
-}
-
-# Sets up GPG in a module dir
-function setup_gpg()
-{
-  subrepo=$1
-  if [ -z "$2" ]; then
-    repo=$(subrepo_owner_name "${subrepo}")
-  else
-    repo=$2
-  fi
-
-  pushd "${subrepo}"
-
-  if [ -z "${CI_GPG_PASSPHRASE}" ]; then
-    echo "Please define CI_GPG_PASSPHRASE. It's in 1Password."
-    exit 1
-  fi
-
-  echo "${CI_GPG_PASSPHRASE}" | gpg2 --batch --passphrase-fd 0 --pinentry-mode loopback \
-    --export-secret-key E60E1F911B996560FFB135DAF4CABFB5B89B8BE6 > scripts/codesigning.asc
-
-  # Encrypt the signing key to scripts/codesigning.asc.enc. Store the encrypted
-  # decryption keys in `.travis.yml` and copy the openssl command to decrypt it.
-  rm -f scripts/codesigning.asc.enc
-  travis encrypt-file \
-    scripts/codesigning.asc \
-    scripts/codesigning.asc.enc \
-    --add \
-    --repo "${repo}"
-  
-  # Remove the unencrypted key. We don't want that to accidentally end up in git!
-  rm scripts/codesigning.asc
-  
-  popd
-}
-
-function setup_travis_token() {
-  subrepo=$1
-  repo=$(subrepo_owner_name "${subrepo}")
-  pushd "${subrepo}"
-
-  travis encrypt TRAVIS_API_TOKEN=${TRAVIS_API_TOKEN} --add --repo "${repo}"
-
-  popd
-}
-
-function version_subrepo()
-{
-  dir=$1
-  version=$2
-
-  ptype=$(project_type "${dir}")
-  if [ -n "${ptype}" ]; then
-    eval ${ptype}_version "${dir}" "${version}"
-  fi
-}
-
-function project_type()
-{
-  dir=$1
-
-  if [ -f "${dir}/pom.xml" ]; then
-    echo "maven"
-  elif [ -f "${dir}/package.json" ]; then
-    echo "npm"
-  elif [ -f "${dir}/setup.py" ]; then
-    echo "python"
-  elif [ -f "${dir}/cpanfile" ]; then
-    echo "perl"
-  elif [ -f "$(find_path ${dir} "*.gemspec")" ]; then
-    echo "rubygem"
-  elif [ -f "$(find_path ${dir} "*.sln")" ]; then
-    echo "dotnet"
-  elif [ -f "$(find_path ${dir} "*.go")" ]; then
-    echo "go"
-  elif [ -d "$(find_path ${dir} "*.xcodeproj")" ]; then
-    echo "xcode"
-  elif [ -f "$(find_path ${dir} "*.c")" ]; then
-    echo "c"
-  else
-    echo_err "ERROR: Unrecognised platform: ${dir}"
-  fi
-}
-
-function find_path()
-{
-  subrepo=$1
-  glob=$2
-  find "${subrepo}" -name "${glob}" | head -1
-}
-
-################ MAVEN ################
-
-function maven_version()
-{
-  dir=$1
-  version=$2
-  next_version=$3
-
-  pushd "${dir}"
-  mvn versions:set -DnewVersion=${version} -DgenerateBackupPoms=false
-  popd
-}
-
-function npm_version() {
-  dir=$1
-  version=$2
-
-  pushd "${dir}"
-  npm --no-git-tag-version version "${version}"
-  popd
-}
-
-function rubygem_version() {
-  dir=$1
-  version=$2
-
-  pushd "${dir}"
-  sed -i "" "s/\(s\.version *= *'\)[0-9]*\.[0-9]*\.[0-9]*\('\)/\1${version}\2/" "$(find_path "." "*.gemspec")"
-  popd
-}
-
-# FUNCTIONS BELOW ARE OBSOLETE AND SHOULD BE REPLACXED WITH TRAVIS RELEASING
-
-function python_release() {
-  dir=$1
-  version=$2
-  next_version=$3
-
-  pushd "${dir}"
-  python_update_version "${version}"
-  python setup.py sdist upload -r pypi
-
-  git add .
-  git commit -m "Release ${version}"
-  git tag "v${version}"
-  git push
-  git push --tags
-  popd
-}
-
-function python_update_version()
-{
-  version=$1
-  sed -i "" \
-    -e "s/\(version *= *'\)[0-9]*\.[0-9]*\.[0-9]*\('\)/\1${version}\2/" \
-    -e "s/\(archive\/v\)[0-9]*\.[0-9]*\.[0-9]*\(\.tar\)/\1${version}\2/" \
-    "setup.py"
-}
-
-################ PERL ################
-
-function perl_release_karma()
-{
-  echo_green "Checking Perl release karma..."
-  ls ~/pause.conf && echo_green "Perl ok" || echo_red "\nYou need a PAUSE (https://pause.perl.org/) account and a ~/pause.conf file. See http://search.cpan.org/~perlancar/App-pause-0.59/bin/pause"
-  which dzil && echo_green "Dist::Zilla ok" || echo_red "\nYou need dzil on your PATH. On OS X it's in something like /usr/local/Cellar/perl/5.24.1/bin/dzil"
-}
-
-function perl_release() {
-  dir=$1
-  version=$2
-  next_version=$3
-
-  pushd "${dir}"
-  perl_update_version "${version}"
-  git add .
-  git commit -m "Release ${version}"
-
-  dzil test --release
-  dzil build
-  dzil release
-
-  git tag "v${version}"
-  git push
-  git push --tags
-  popd
-}
-
-function perl_update_version()
-{
-  subrepo=$1
-  version=$2
-  echo "${version}" > "${subrepo}/VERSION"
-  echo_green "Updated ${subrepo} to ${version}"
-}
-
-################ .NET ################
-
-function dotnet_release_karma()
-{
-  echo_green "Checking .NET release karma..."
-  ls ~/.config/NuGet/NuGet.Config && echo_green ".NET ok" || echo_red "\nYou need to: nuget setApiKey Your-API-Key. See https://docs.nuget.org/ndocs/create-packages/publish-a-package"
-}
-
-
-function dotnet_version()
-{
-  dir=$1
-  version=$2
-  
-  releaseable_file=$(find_path "${dir}" "*.releaseable")
-  releaseable_dir=$(dirname ${releaseable_file})
-  csproj=$(find_path "${releaseable_dir}" "*.csproj")
-
-  xmlstarlet ed --inplace --ps \
-    --update "/Project/PropertyGroup/VersionNumber" \
-    --value "${version}" \
-    "${csproj}"
-  echo_green "Updated ${csproj} to ${version}"
-}
-
-################ Go ################
-
-function go_update_version()
-{
-  subrepo=$1
-  version=$2
-  echo_blue "No need to update to ${version} in ${subrepo} (currently not using a go package manager)"
-}
-
-function go_release_karma()
-{
-  echo_blue "No release karma needed for ${subrepo} (currently not using a Go package manager)"
-}
-
-function go_release() {
-  dir=$1
-  version=$2
-  next_version=$3
-
-  pushd "${dir}"
-  git add .
-  git commit -m "Release ${version}"
-  git tag "v${version}"
-  git push
-  git push --tags
-  popd
-}
-
-function go_version() {
-  # no-op
-  echo ""
-}
-
-################ xcode ################
-
-function xcode_update_version()
-{
-  subrepo=$1
-  version=$2
-  echo_blue "No need to update to ${version} in ${subrepo} (currently not using an xcode package manager)"
-}
-
-function xcode_release_karma()
-{
-  echo_blue "No release karma needed for ${subrepo} (currently not using an xcode package manager)"
-}
-
-################ c ################
-
-function c_release_karma()
-{
-  echo_blue "No release karma needed for ${subrepo} (currently not using a c package manager)"
-}
-
-function c_release() {
-  dir=$1
-  version=$2
-  next_version=$3
-
-  pushd "${dir}"
-  git add .
-  git commit -m "Release ${version}"
-  git tag "v${version}"
-  git push
-  git push --tags
-  popd
 }

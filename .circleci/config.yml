@@ -54,7 +54,7 @@ jobs:
       - run:
           name: everything
           command: |
-            make
+            make ci
 
   checkout:
     executor: docker-circleci-ruby

@@ -26,6 +26,12 @@ clean: $(patsubst %/Makefile,clean-%,$(MAKEFILES)) rm-release
 clean-%: %
 	cd $< && make clean
 
+ci: push_subrepos default
+
+push_subrepos:
+	source scripts/functions.sh && push_subrepos .
+.PHONY: push_subrepos
+
 .rsynced:
 	source scripts/functions.sh && rsync_files
 	touch $@
