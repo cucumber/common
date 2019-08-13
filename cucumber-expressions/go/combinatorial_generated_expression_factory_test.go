@@ -15,6 +15,7 @@ func TestCombinatorialGeneratedExpressionFactory(t *testing.T) {
 			func(arg3 ...*string) interface{} { return *arg3[0] },
 			false,
 			true,
+			false,
 		)
 		require.NoError(t, err)
 		csscolorParameterType, err := NewParameterType(
@@ -24,6 +25,7 @@ func TestCombinatorialGeneratedExpressionFactory(t *testing.T) {
 			func(arg3 ...*string) interface{} { return *arg3[0] },
 			false,
 			true,
+			false,
 		)
 		require.NoError(t, err)
 		dateParameterType, err := NewParameterType(
@@ -33,6 +35,7 @@ func TestCombinatorialGeneratedExpressionFactory(t *testing.T) {
 			func(arg3 ...*string) interface{} { return *arg3[0] },
 			false,
 			true,
+			false,
 		)
 		require.NoError(t, err)
 		datetimeParameterType, err := NewParameterType(
@@ -42,6 +45,7 @@ func TestCombinatorialGeneratedExpressionFactory(t *testing.T) {
 			func(arg3 ...*string) interface{} { return *arg3[0] },
 			false,
 			true,
+			false,
 		)
 		require.NoError(t, err)
 		timestampParameterType, err := NewParameterType(
@@ -51,6 +55,7 @@ func TestCombinatorialGeneratedExpressionFactory(t *testing.T) {
 			func(arg3 ...*string) interface{} { return *arg3[0] },
 			false,
 			true,
+			false,
 		)
 		require.NoError(t, err)
 		parameterTypeCombinations := [][]*ParameterType{

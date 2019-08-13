@@ -132,16 +132,38 @@ func TestCucumberExpression(t *testing.T) {
 	})
 
 	t.Run("matches float", func(t *testing.T) {
-		require.Equal(
-			t,
-			MatchCucumberExpression(t, "{float}", "0.22"),
-			[]interface{}{0.22},
-		)
-		require.Equal(
-			t,
-			MatchCucumberExpression(t, "{float}", ".22"),
-			[]interface{}{0.22},
-		)
+		require.Equal(t, MatchCucumberExpression(t, "{float}", ""), []interface{}(nil))
+		require.Equal(t, MatchCucumberExpression(t, "{float}", "."), []interface{}(nil))
+		require.Equal(t, MatchCucumberExpression(t, "{float}", ","), []interface{}(nil))
+		require.Equal(t, MatchCucumberExpression(t, "{float}", "-"), []interface{}(nil))
+		require.Equal(t, MatchCucumberExpression(t, "{float}", "E"), []interface{}(nil))
+		require.Equal(t, MatchCucumberExpression(t, "{float}", "1,"), []interface{}(nil))
+		require.Equal(t, MatchCucumberExpression(t, "{float}", ",1"), []interface{}(nil))
+		require.Equal(t, MatchCucumberExpression(t, "{float}", "1."), []interface{}(nil))
+
+		require.Equal(t, MatchCucumberExpression(t, "{float}", "1"), []interface{}{1.0})
+		require.Equal(t, MatchCucumberExpression(t, "{float}", "-1"), []interface{}{-1.0})
+		require.Equal(t, MatchCucumberExpression(t, "{float}", "1.1"), []interface{}{1.1})
+		require.Equal(t, MatchCucumberExpression(t, "{float}", "1,000"), []interface{}(nil))
+		require.Equal(t, MatchCucumberExpression(t, "{float}", "1,000,0"), []interface{}(nil))
+		require.Equal(t, MatchCucumberExpression(t, "{float}", "1,000.1"), []interface{}(nil))
+		require.Equal(t, MatchCucumberExpression(t, "{float}", "1,000,10"), []interface{}(nil))
+		require.Equal(t, MatchCucumberExpression(t, "{float}", "1,0.1"), []interface{}(nil))
+		require.Equal(t, MatchCucumberExpression(t, "{float}", "1,000,000.1"), []interface{}(nil))
+		require.Equal(t, MatchCucumberExpression(t, "{float}", "-1.1"), []interface{}{-1.1})
+
+		require.Equal(t, MatchCucumberExpression(t, "{float}", ".1"), []interface{}{0.1})
+		require.Equal(t, MatchCucumberExpression(t, "{float}", "-.1"), []interface{}{-0.1})
+		require.Equal(t, MatchCucumberExpression(t, "{float}", "-.10000001"), []interface{}{-0.10000001})
+		require.Equal(t, MatchCucumberExpression(t, "{float}", "1e1"), []interface{}(nil))
+		require.Equal(t, MatchCucumberExpression(t, "{float}", ".1E1"), []interface{}(nil))
+		require.Equal(t, MatchCucumberExpression(t, "{float}", "E1"), []interface{}(nil))
+		require.Equal(t, MatchCucumberExpression(t, "{float}", "-.1E-1"), []interface{}(nil))
+		require.Equal(t, MatchCucumberExpression(t, "{float}", "-.1E-2"), []interface{}(nil))
+		require.Equal(t, MatchCucumberExpression(t, "{float}", "-.1E+1"), []interface{}(nil))
+		require.Equal(t, MatchCucumberExpression(t, "{float}", "-.1E+2"), []interface{}(nil))
+		require.Equal(t, MatchCucumberExpression(t, "{float}", "-.1E1"), []interface{}(nil))
+		require.Equal(t, MatchCucumberExpression(t, "{float}", "-.10E2"), []interface{}(nil))
 	})
 
 	t.Run("matches float with zero", func(t *testing.T) {
@@ -174,7 +196,7 @@ func TestCucumberExpression(t *testing.T) {
 		parameterTypeRegistry := NewParameterTypeRegistry()
 		_, err := NewCucumberExpression("{[string]}", parameterTypeRegistry)
 		require.Error(t, err)
-		require.Equal(t, err.Error(), "Illegal character '[' in parameter name {[string]}")
+		require.Equal(t, err.Error(), "illegal character '[' in parameter name {[string]}")
 	})
 
 	t.Run("does not allow optional parameter types", func(t *testing.T) {

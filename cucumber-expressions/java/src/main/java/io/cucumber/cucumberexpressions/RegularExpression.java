@@ -36,9 +36,21 @@ public final class RegularExpression implements Expression {
         int typeHintIndex = 0;
         for (GroupBuilder groupBuilder : treeRegexp.getGroupBuilder().getChildren()) {
             final String parameterTypeRegexp = groupBuilder.getSource();
-            final Type typeHint = typeHintIndex < typeHints.length ? typeHints[typeHintIndex++] : String.class;
+            boolean hasTypeHint = typeHintIndex < typeHints.length;
+            final Type typeHint = hasTypeHint ? typeHints[typeHintIndex++] : String.class;
 
             ParameterType<?> parameterType = parameterTypeRegistry.lookupByRegexp(parameterTypeRegexp, expressionRegexp, text);
+
+            // When there is a conflict between the type hint from the regular expression and the method
+            // prefer the the parameter type associated with the regular expression. This ensures we will
+            // use the internal/user registered parameter transformer rather then the default.
+            //
+            // Unless the parameter type indicates it is the stronger type hint.
+            if (parameterType != null && hasTypeHint && !parameterType.useRegexpMatchAsStrongTypeHint()) {
+                if (!parameterType.getType().equals(typeHint)) {
+                    parameterType = null;
+                }
+            }
 
             if (parameterType == null) {
                 parameterType = createAnonymousParameterType(parameterTypeRegexp);

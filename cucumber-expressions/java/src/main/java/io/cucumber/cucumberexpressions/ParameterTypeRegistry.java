@@ -27,10 +27,10 @@ public final class ParameterTypeRegistry {
             Pattern.compile("\\d+").pattern()
     );
     private static final String SIGN = "[-+]?";
-    private static final String MUST_CONTAIN_NUMBER = "(?=.*[0-9].*)";
-    private static final String SCIENTIFIC_NUMBER = "(?:[0-9]+[{expnt}][-+]?[0-9]+)?";
-    private static final String DECIMAL_FRACTION = "(?:[{decimal}](?=[0-9].*))?[0-9]*";
-    private static final String INTEGER = "(?:[0-9]+(?:[{group}]?[0-9]+)*)*";
+    private static final String MUST_CONTAIN_NUMBER = "(?=.*\\d.*)";
+    private static final String SCIENTIFIC_NUMBER = "(?:\\d+[{expnt}]-?\\d+)?";
+    private static final String DECIMAL_FRACTION = "(?:[{decimal}](?=\\d.*))?\\d*";
+    private static final String INTEGER = "(?:\\d+(?:[{group}]?\\d+)*)*";
     private static final String FLOAT_REGEXPS =
             Pattern.compile(MUST_CONTAIN_NUMBER + SIGN + INTEGER + DECIMAL_FRACTION + SCIENTIFIC_NUMBER).pattern();
     private static final List<String> WORD_REGEXPS = singletonList(
@@ -71,31 +71,31 @@ public final class ParameterTypeRegistry {
             public BigInteger transform(String arg) throws Throwable {
                 return (BigInteger) internalParameterTransformer.transform(arg, BigInteger.class);
             }
-        }, false, false));
+        }, false, false, false));
         defineParameterType(new ParameterType<>("bigdecimal", localizedFloatRegexp, BigDecimal.class, new Transformer<BigDecimal>() {
             @Override
             public BigDecimal transform(String arg) throws Throwable {
                 return (BigDecimal) internalParameterTransformer.transform(arg, BigDecimal.class);
             }
-        }, false, false));
+        }, false, false, false));
         defineParameterType(new ParameterType<>("byte", INTEGER_REGEXPS, Byte.class, new Transformer<Byte>() {
             @Override
             public Byte transform(String arg) throws Throwable {
                 return (Byte) internalParameterTransformer.transform(arg, Byte.class);
             }
-        }, false, false));
+        }, false, false, false));
         defineParameterType(new ParameterType<>("short", INTEGER_REGEXPS, Short.class, new Transformer<Short>() {
             @Override
             public Short transform(String arg) throws Throwable {
                 return (Short) internalParameterTransformer.transform(arg, Short.class);
             }
-        }, false, false));
+        }, false, false, false));
         defineParameterType(new ParameterType<>("int", INTEGER_REGEXPS, Integer.class, new Transformer<Integer>() {
             @Override
             public Integer transform(String arg) throws Throwable {
                 return (Integer) internalParameterTransformer.transform(arg, Integer.class);
             }
-        }, true, true));
+        }, true, true, false));
         defineParameterType(new ParameterType<>("long", INTEGER_REGEXPS, Long.class, new Transformer<Long>() {
             @Override
             public Long transform(String arg) throws Throwable {
@@ -113,13 +113,13 @@ public final class ParameterTypeRegistry {
             public Double transform(String arg) throws Throwable {
                 return (Double) internalParameterTransformer.transform(arg, Double.class);
             }
-        }, true, true));
+        }, true, true, false));
         defineParameterType(new ParameterType<>("word", WORD_REGEXPS, String.class, new Transformer<String>() {
             @Override
             public String transform(String arg) throws Throwable {
                 return (String) internalParameterTransformer.transform(arg, String.class);
             }
-        }, false, false));
+        }, false, false, false));
         defineParameterType(new ParameterType<>("string", STRING_REGEXPS, String.class, new Transformer<String>() {
             @Override
             public String transform(String arg) throws Throwable {
@@ -128,7 +128,7 @@ public final class ParameterTypeRegistry {
                                 .replaceAll("\\\\'", "'"),
                         String.class);
             }
-        }, true, false));
+        }, true, false, false));
 
         defineParameterType(createAnonymousParameterType(ANONYMOUS_REGEX));
     }

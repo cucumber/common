@@ -32,5 +32,8 @@ public class NumberParserTest {
         assertEquals(new BigDecimal("1042.0000000000000000000002"), english.parseBigDecimal("1,042.0000000000000000000002"));
         assertEquals(new BigDecimal("1042.0000000000000000000002"), german.parseBigDecimal( "1.042,0000000000000000000002"));
         assertEquals(new BigDecimal("1042.0000000000000000000002"), canadianFrench.parseBigDecimal( "1\u00A0042,0000000000000000000002"));
+
+        assertEquals(new BigDecimal("100"), english.parseBigDecimal("1.00E2"));
+        assertEquals(new BigDecimal("0.01"), english.parseBigDecimal("1E-2"));
     }
 }
