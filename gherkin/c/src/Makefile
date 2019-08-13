@@ -77,8 +77,8 @@ AST_OBJS= \
 	../objs/ast_node.o \
 	../objs/gherkin_document.o \
 	../objs/feature.o \
+	../objs/rule.o \
 	../objs/scenario.o \
-	../objs/scenario_outline.o \
 	../objs/background.o \
 	../objs/comment.o \
 	../objs/data_table.o \
@@ -97,6 +97,7 @@ COMPILER_OBJS= \
 PICKLES_OBJS= \
 	../objs/pickle.o \
 	../objs/pickle_cell.o \
+	../objs/pickle_id_creator.o \
 	../objs/pickle_location.o \
 	../objs/pickle_row.o \
 	../objs/pickle_step.o \

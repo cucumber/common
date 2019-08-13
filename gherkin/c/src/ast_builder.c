@@ -2,8 +2,9 @@
 #include "ast_node.h"
 #include "item_queue.h"
 #include "token.h"
+#include "background.h"
+#include "rule.h"
 #include "scenario.h"
-#include "scenario_outline.h"
 #include "data_table.h"
 #include "doc_string.h"
 #include <stdio.h>
@@ -38,7 +39,7 @@ static void* transform_node(AstNode* ast_node, AstBuilder* ast_builder);
 
 static const Background* get_background(AstNode* ast_node);
 
-static const ScenarioDefinitions* get_scenario_definitions(AstNode* ast_node);
+static const ChildDefinitions* get_child_definitions(AstNode* ast_node);
 
 static const Steps* get_steps(AstNode* ast_node);
 
@@ -138,8 +139,10 @@ void AstBuilder_end_rule(Builder* builder, RuleType rule) {
     AstNode_add(((AstNode*)ItemQueue_peek(((AstBuilder*)builder)->stack)), rule, object);
 }
 
-const GherkinDocument* AstBuilder_get_result(Builder* builder) {
-    return (const GherkinDocument*)AstNode_get_single(current_node((AstBuilder*)builder), Rule_GherkinDocument);
+const GherkinDocument* AstBuilder_get_result(Builder* builder, const char* uri) {
+    GherkinDocument* gherkin_document = (GherkinDocument*)AstNode_get_single(current_node((AstBuilder*)builder), Rule_GherkinDocument);
+    GherkinDocument_set_uri(gherkin_document, uri);
+    return gherkin_document;
 }
 
 static AstNode* current_node(AstBuilder* ast_builder) {
@@ -166,7 +169,7 @@ static void* transform_node(AstNode* ast_node, AstBuilder* ast_builder) {
     }
     case Rule_DocString: {
         token = AstNode_get_token(ast_node, Token_DocStringSeparator);
-        const DocString* doc_string = DocString_new(token->location, token->matched_text, get_doc_string_text(ast_node));
+        const DocString* doc_string = DocString_new(token->location,token->matched_keyword, token->matched_text, get_doc_string_text(ast_node));
         Token_delete(token);
         AstNode_delete(ast_node);
         return (void*)doc_string;
@@ -178,33 +181,19 @@ static void* transform_node(AstNode* ast_node, AstBuilder* ast_builder) {
         AstNode_delete(ast_node);
         return (void*)background;
     }
-    case Rule_Scenario_Definition: {
+    case Rule_ScenarioDefinition: {
         node = AstNode_get_single(ast_node, Rule_Scenario);
-        if (node) {
-            token = AstNode_get_token(node, Token_ScenarioLine);
-            const Scenario* scenario = Scenario_new(token->location, token->matched_keyword, token->matched_text, get_description(node), get_tags(ast_node), get_steps(node));
-            Token_delete(token);
-            AstNode_delete(node);
-            AstNode_delete(ast_node);
-            return (void*)scenario;
-        }
-        else {
-            node = AstNode_get_single(ast_node, Rule_ScenarioOutline);
-            if (!node) {
-                ErrorList_internal_grammar_error(ast_builder->errors);
-            }
-            token = AstNode_get_token(node, Token_ScenarioOutlineLine);
-            const ScenarioOutline* scenario_outline = ScenarioOutline_new(token->location, token->matched_keyword, token->matched_text, get_description(node), get_tags(ast_node), get_steps(node), get_examples(node));
-            Token_delete(token);
-            AstNode_delete(node);
-            AstNode_delete(ast_node);
-            return (void*)scenario_outline;
-        }
+        token = AstNode_get_token(node, Token_ScenarioLine);
+        const Scenario* scenario = Scenario_new(token->location, token->matched_keyword, token->matched_text, get_description(node), get_tags(ast_node), get_steps(node), get_examples(node));
+        Token_delete(token);
+        AstNode_delete(node);
+        AstNode_delete(ast_node);
+        return (void*)scenario;
     }
-    case Rule_Examples_Definition: {
+    case Rule_ExamplesDefinition: {
         node = AstNode_get_single(ast_node, Rule_Examples);
         token = AstNode_get_token(node, Token_ExamplesLine);
-        const ExampleTableOnly* table = (ExampleTableOnly*)AstNode_get_single(node, Rule_Examples_Table);
+        const ExampleTableOnly* table = (ExampleTableOnly*)AstNode_get_single(node, Rule_ExamplesTable);
         const TableRow* header = table ? table->table_header : 0;
         const TableRows* body = table ? table->table_body : 0;
         const ExampleTable* example_table = ExampleTable_new(token->location, token->matched_keyword, token->matched_text, get_description(node), get_tags(ast_node), header, body);
@@ -214,7 +203,7 @@ static void* transform_node(AstNode* ast_node, AstBuilder* ast_builder) {
         AstNode_delete(ast_node);
         return (void*)example_table;
     }
-    case Rule_Examples_Table: {
+    case Rule_ExamplesTable: {
         const TableRow* header = get_table_header(ast_node);
         const TableRows* body = get_table_body(ast_node);
         ensure_cell_count(ast_builder->errors, body, header, ast_node);
@@ -230,8 +219,17 @@ static void* transform_node(AstNode* ast_node, AstBuilder* ast_builder) {
         AstNode_delete(ast_node);
         return (void*)description;
     }
+    case Rule_Rule: {
+        node = AstNode_get_single(ast_node, Rule_RuleHeader);
+        token = AstNode_get_token(node, Token_RuleLine);
+        const Rule* rule = Rule_new(token->location, token->matched_keyword, token->matched_text, get_description(node), get_child_definitions(ast_node));
+        Token_delete(token);
+        AstNode_delete(node);
+        AstNode_delete(ast_node);
+        return (void*)rule;
+    }
     case Rule_Feature: {
-        node = AstNode_get_single(ast_node, Rule_Feature_Header);
+        node = AstNode_get_single(ast_node, Rule_FeatureHeader);
         if (!node) {
             return (void*)0;
         }
@@ -239,7 +237,7 @@ static void* transform_node(AstNode* ast_node, AstBuilder* ast_builder) {
         if (!token) {
             return (void*)0;
         }
-        const Feature* feature = Feature_new(token->location, token->matched_language, token->matched_keyword, token->matched_text, get_description(node), get_tags(node), get_scenario_definitions(ast_node));
+        const Feature* feature = Feature_new(token->location, token->matched_language, token->matched_keyword, token->matched_text, get_description(node), get_tags(node), get_child_definitions(ast_node));
         Token_delete(token);
         AstNode_delete(node);
         AstNode_delete(ast_node);
@@ -256,24 +254,29 @@ static void* transform_node(AstNode* ast_node, AstBuilder* ast_builder) {
     }
 }
 
-static const ScenarioDefinitions* get_scenario_definitions(AstNode* ast_node) {
-    ItemQueue* scenario_definitions_queue = AstNode_get_items(ast_node, Rule_Scenario_Definition);
+static const ChildDefinitions* get_child_definitions(AstNode* ast_node) {
+    ItemQueue* scenario_definitions_queue = AstNode_get_items(ast_node, Rule_ScenarioDefinition);
+    ItemQueue* rule_queue = AstNode_get_items(ast_node, Rule_Rule);
     const Background* background = get_background(ast_node);
     int background_count = background ? 1 : 0;
-    ScenarioDefinitions* scenario_definitions = (ScenarioDefinitions*)malloc(sizeof(ScenarioDefinitions));
-    scenario_definitions->scenario_definition_count = background_count + ItemQueue_size(scenario_definitions_queue);
-    scenario_definitions->scenario_definitions = 0;
-    if (scenario_definitions->scenario_definition_count > 0) {
-        scenario_definitions->scenario_definitions = (ScenarioDefinition**)malloc(scenario_definitions->scenario_definition_count * sizeof(ScenarioDefinition*));
+    int scenario_count = ItemQueue_size(scenario_definitions_queue);
+    ChildDefinitions* child_definitions = (ChildDefinitions*)malloc(sizeof(ChildDefinitions));
+    child_definitions->child_definition_count = background_count + scenario_count + ItemQueue_size(rule_queue);
+    child_definitions->child_definitions = 0;
+    if (child_definitions->child_definition_count > 0) {
+        child_definitions->child_definitions = (ChildDefinition**)malloc(child_definitions->child_definition_count * sizeof(ChildDefinition*));
         int i;
         if (background) {
-            scenario_definitions->scenario_definitions[0] = (ScenarioDefinition*)background;
+            child_definitions->child_definitions[0] = (ChildDefinition*)background;
         }
-        for (i = background_count; i < scenario_definitions->scenario_definition_count; ++i) {
-            scenario_definitions->scenario_definitions[i] = (ScenarioDefinition*)ItemQueue_remove(scenario_definitions_queue);
+        for (i = background_count; i < background_count + scenario_count; ++i) {
+            child_definitions->child_definitions[i] = (ChildDefinition*)ItemQueue_remove(scenario_definitions_queue);
+        }
+        for (i = background_count + scenario_count; i < child_definitions->child_definition_count; ++i) {
+            child_definitions->child_definitions[i] = (ChildDefinition*)ItemQueue_remove(rule_queue);
         }
     }
-    return scenario_definitions;
+    return child_definitions;
 }
 
 static const Background* get_background(AstNode* ast_node) {
@@ -307,7 +310,7 @@ static const StepArgument* get_step_argument(AstNode* ast_node) {
 }
 
 static const Examples* get_examples(AstNode* ast_node) {
-    ItemQueue* examples_queue = AstNode_get_items(ast_node, Rule_Examples_Definition);
+    ItemQueue* examples_queue = AstNode_get_items(ast_node, Rule_ExamplesDefinition);
     Examples* examples = (Examples*)malloc(sizeof(Examples));
     examples->example_count = ItemQueue_size(examples_queue);
     examples->example_table = 0;
