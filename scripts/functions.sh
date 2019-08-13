@@ -117,7 +117,7 @@ function push_subrepo_branch_maybe()
   
   if [ -z "${branch}" ]; then
     echo "No branch to push"
-  else if [ "${branch}" != "master" ]; then
+  elif [ "${branch}" != "master" ]; then
     echo "Not pushing branch (we only push master)"
   else
     {
