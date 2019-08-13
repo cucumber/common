@@ -26,7 +26,11 @@ clean: $(patsubst %/Makefile,clean-%,$(MAKEFILES)) rm-release
 clean-%: %
 	cd $< && make clean
 
-ci: push_subrepos default
+ci: check_synced push_subrepos default
+
+check_synced: .rsynced
+	[[ -z $$(git status -s) ]] || (echo "Working copy is dirty" && exit 1)
+.PHONY: check_synced
 
 push_subrepos:
 	source scripts/functions.sh && push_subrepos .
