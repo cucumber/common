@@ -8,7 +8,7 @@ import static io.cucumber.datatable.TypeFactory.typeName;
 import static java.lang.String.format;
 
 @API(status = API.Status.STABLE)
-public  final class UndefinedDataTableTypeException extends CucumberDataTableException {
+public final class UndefinedDataTableTypeException extends CucumberDataTableException {
     private UndefinedDataTableTypeException(String message) {
         super(message);
     }
@@ -26,7 +26,7 @@ public  final class UndefinedDataTableTypeException extends CucumberDataTableExc
         return new UndefinedDataTableTypeException(
                 format("Can't convert DataTable to %s.\n" +
                                 "There was a table cell converter but the table was too wide to use it.\n" +
-                                "Please reduce the table width or register a %s for %s.\n" ,
+                                "Please reduce the table width or register a %s for %s.\n",
                         typeName(itemType), missingConverter, typeName(typeToRegister))
         );
     }
@@ -62,7 +62,7 @@ public  final class UndefinedDataTableTypeException extends CucumberDataTableExc
         return new UndefinedDataTableTypeException(
                 format("Can't convert DataTable to List<%s>.\n" +
                                 "There was a table cell converter but the table was too wide to use it.\n" +
-                                "Please reduce the table width or register a %s for %s.\n" ,
+                                "Please reduce the table width or register a %s for %s.\n",
                         typeName(itemType), missingConverter, typeName(typeToRegister))
         );
     }
