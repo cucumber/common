@@ -29,6 +29,10 @@ publish: .deps
 	mvn deploy -Psign-source-javadoc --settings scripts/ci-settings.xml -DskipTests=true
 .PHONY: publish
 
+post-release:
+	scripts/post-release.sh
+.PHONY: post-release
+
 clean: clean-java
 .PHONY: clean
 

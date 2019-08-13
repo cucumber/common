@@ -34,6 +34,10 @@ publish: .deps
 	gem push $$(find . -name "*$(NEW_VERSION).gem")
 .PHONY: publish
 
+post-release:
+	@echo "No post-release needed for ruby"
+.PHONY: post-release
+
 clean: clean-ruby
 .PHONY: clean
 
