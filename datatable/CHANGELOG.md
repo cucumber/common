@@ -8,12 +8,36 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ## [Unreleased]
 
 ### Added
-
+    
 ### Changed
 
 ### Deprecated
 
 ### Removed
+
+### Fixed
+
+## [2.0.0] 2019-08-11
+
+### Added
+* [Java] Annotate function interfaces with @FunctionalInterface
+    ([cucumber/cucumber-jvm#1716](https://github.com/cucumber/cucumber-jvm/issues/1716)
+    [mpkorstanje])
+* [Java] Mark public api with @API Guardian annotations
+    ([cucumber/cucumber-jvm#1536](https://github.com/cucumber/cucumber-jvm/issues/1536)
+    [mpkorstanje])        
+    
+### Changed
+ * Upgrades to `cucumber-parent:2.0.2`
+ * Allow `null` values in `DataTable`.
+     ([cucumber/cucumber-jvm#1617](https://github.com/cucumber/cucumber-jvm/issues/1617)
+     [mpkorstanje])        
+ * Improve handling of tables without header ([#540](https://github.com/cucumber/cucumber/pull/540) [mpkorstanje])
+
+### Removed
+ * Remove DataTableType convenience methods
+     ([cucumber/cucumber-jvm#1643](https://github.com/cucumber/cucumber-jvm/issues/1643)
+     [mpkorstanje])    
 
 ### Fixed
 
@@ -94,7 +118,8 @@ There are no (1.1.0 and 1.1.1 releases).
 * java: OSGI fixes
 
 <!-- Releases -->
-[Unreleased]: https://github.com/cucumber/cucumber/compare/datatable-v1.1.14...master
+[Unreleased]: https://github.com/cucumber/cucumber/compare/datatable-v2.0.0...master
+[2.0.0]: https://github.com/cucumber/cucumber/compare/datatable-v1.1.14...datatable-v2.0.0
 [1.1.14]: https://github.com/cucumber/cucumber/compare/datatable-v1.1.7...datatable-v1.1.14
 [1.1.7]:      https://github.com/cucumber/cucumber/compare/datatable-v1.1.2...datatable-v1.1.7
 [1.1.2]:      https://github.com/cucumber/cucumber/compare/datatable-v1.0.3...datatable-v1.1.2

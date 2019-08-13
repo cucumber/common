@@ -1,35 +1,55 @@
 package io.cucumber.cucumberexpressions;
 
 import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
-class ParameterTypeMatcher implements Comparable<ParameterTypeMatcher> {
+final class ParameterTypeMatcher implements Comparable<ParameterTypeMatcher> {
     private final ParameterType<?> parameterType;
     private final Matcher matcher;
-    private final int textLength;
+    private final String text;
 
-    public ParameterTypeMatcher(ParameterType<?> parameterType, Matcher matcher, int textLength) {
+    ParameterTypeMatcher(ParameterType<?> parameterType, Matcher matcher, String text) {
         this.parameterType = parameterType;
         this.matcher = matcher;
-        this.textLength = textLength;
+        this.text = text;
     }
 
-    public boolean advanceToAndFind(int newMatchPos) {
+    private static boolean isWhitespaceOrPunctuation(char c) {
+        return Pattern.matches("[\\s\\p{P}]", new String(new char[]{c}));
+    }
+
+    boolean advanceToAndFind(int newMatchPos) {
         // Unlike js, ruby and go, the matcher is stateful
         // so we can't use the immutable semantics.
-        matcher.region(newMatchPos, textLength);
+        matcher.region(newMatchPos, text.length());
         while (matcher.find()) {
-            if (!group().isEmpty()) {
+            if (!group().isEmpty() && groupMatchesFullWord()) {
                 return true;
             }
         }
         return false;
     }
 
-    public int start() {
+    private boolean groupMatchesFullWord() {
+        if (matcher.start() > 0) {
+            char before = text.charAt(matcher.start() - 1);
+            if (!isWhitespaceOrPunctuation(before)) {
+                return false;
+            }
+        }
+
+        if (matcher.end() < text.length()) {
+            char after = text.charAt(matcher.end());
+            return isWhitespaceOrPunctuation(after);
+        }
+        return true;
+    }
+
+    int start() {
         return matcher.start();
     }
 
-    public String group() {
+    String group() {
         return matcher.group();
     }
 
@@ -44,7 +64,7 @@ class ParameterTypeMatcher implements Comparable<ParameterTypeMatcher> {
         return 0;
     }
 
-    public ParameterType<?> getParameterType() {
+    ParameterType<?> getParameterType() {
         return parameterType;
     }
 

@@ -2,6 +2,7 @@ package io.cucumber.datatable;
 
 import io.cucumber.datatable.dependency.com.fasterxml.jackson.databind.JavaType;
 import io.cucumber.datatable.dependency.com.fasterxml.jackson.databind.ObjectMapper;
+import org.apiguardian.api.API;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
@@ -16,6 +17,7 @@ import static io.cucumber.datatable.TypeFactory.constructType;
  *
  * @see <a href="https://github.com/cucumber/cucumber/tree/master/datatable">DataTable - README.md</a>
  */
+@API(status = API.Status.STABLE)
 public final class DataTableType {
 
     private static final ConversionRequired CONVERSION_REQUIRED = new ConversionRequired();
@@ -61,7 +63,6 @@ public final class DataTableType {
      * @param type        the type of the list items
      * @param transformer a function that creates an instance of <code>type</code> from the data table entry
      * @param <T>         see <code>type</code>
-     * @see DataTableType#entry(Class)
      */
     public <T> DataTableType(Class<T> type, TableEntryTransformer<T> transformer) {
         this(type, aListOf(type), new TableEntryTransformerAdaptor<>(transformer));
@@ -79,56 +80,6 @@ public final class DataTableType {
     }
 
     /**
-     * Creates a data table type that transforms an entry into an object, using Jackson Databind internally.
-     * The class must have an empty constructor. There must be public fields or setters matching the table headers.
-     * <p>
-     * Jackson annotations will be ignored. If you need those, write your own transformer.
-     *
-     * @param type the type of the entry
-     * @param <T>  see <code>type</code>
-     * @deprecated consider defining a custom transformer that uses the Jackson {@code ObjectMapper} or registering the
-     * Jackson {@code ObjectMapper} through {@link DataTableTypeRegistry#setDefaultDataTableEntryTransformer(io.cucumber.datatable.TableEntryByTypeTransformer)}
-     * to transform a table entry to an arbitrary object.
-     */
-    @Deprecated
-    public static <T> DataTableType entry(final Class<T> type) {
-        return new DataTableType(type, new TableEntryTransformer<T>() {
-            @Override
-            public T transform(Map<String, String> entry) {
-                ObjectMapper objectMapper = new ObjectMapper();
-                return objectMapper.convertValue(entry, type);
-            }
-        });
-    }
-
-    /**
-     * Creates a data table type that transforms individual cells to another type, using Jackson Databind internally.
-     * <p>
-     * The class must satisfy one of the following:
-     * <ul>
-     * <li>String constructor</li>
-     * <li>static <code>fromString</code> method</li>
-     * <li>static <code>valueOf</code> method</li>
-     * </ul>
-     *
-     * @param type the type of the cell
-     * @param <T>  see <code>type</code>
-     * @deprecated consider defining a custom transformer that uses the Jackson {@code ObjectMapper} or registering the
-     * Jackson {@code ObjectMapper} through {@link DataTableTypeRegistry#setDefaultDataTableCellTransformer(io.cucumber.datatable.TableCellByTypeTransformer)}
-     * to transform a table cell to an arbitrary object.
-     */
-    @Deprecated
-    public static <T> DataTableType cell(final Class<T> type) {
-        return new DataTableType(type, new TableCellTransformer<T>() {
-            @Override
-            public T transform(String cell) {
-                ObjectMapper objectMapper = new ObjectMapper();
-                return objectMapper.convertValue(cell, type);
-            }
-        });
-    }
-
-    /**
      * Creates a data table type for default cell transformer
      *
      * @param cellType                    class representing cell declared in {@code List<List<T>>}
@@ -137,12 +88,7 @@ public final class DataTableType {
      * @return new DataTableType witch transforms {@code List<List<String>>} to {@code List<List<T>>}
      */
     static <T> DataTableType defaultCell(final Class<T> cellType, final TableCellByTypeTransformer defaultDataTableTransformer) {
-        return new DataTableType(cellType, new TableCellTransformer<T>() {
-            @Override
-            public T transform(String cell) throws Throwable {
-                return defaultDataTableTransformer.transform(cell, cellType);
-            }
-        });
+        return new DataTableType(cellType, (String  cell) -> defaultDataTableTransformer.transform(cell, cellType));
     }
 
     /**
@@ -154,12 +100,7 @@ public final class DataTableType {
      * @return new DataTableType witch transforms {@code List<List<String>>} to {@code List<T>}
      */
     static <T> DataTableType defaultEntry(final Class<T> entryType, final TableEntryByTypeTransformer defaultDataTableTransformer, final TableCellByTypeTransformer tableCellByTypeTransformer) {
-        return new DataTableType(entryType, new TableEntryTransformer<T>() {
-            @Override
-            public T transform(Map<String, String> entry) throws Throwable {
-                return defaultDataTableTransformer.transform(entry, entryType, tableCellByTypeTransformer);
-            }
-        });
+        return new DataTableType(entryType, (Map<String, String> entry) -> defaultDataTableTransformer.transform(entry, entryType, tableCellByTypeTransformer));
     }
 
     public Object transform(List<List<String>> raw) {

@@ -1,5 +1,7 @@
 package io.cucumber.cucumberexpressions;
 
+import org.apiguardian.api.API;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -11,7 +13,8 @@ import java.util.TreeSet;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class CucumberExpressionGenerator {
+@API(status = API.Status.STABLE)
+public final class CucumberExpressionGenerator {
     private final ParameterTypeRegistry parameterTypeRegistry;
 
     public CucumberExpressionGenerator(ParameterTypeRegistry parameterTypeRegistry) {
@@ -111,7 +114,7 @@ public class CucumberExpressionGenerator {
         for (String captureGroupRegexp : captureGroupRegexps) {
             Pattern regexp = Pattern.compile("(" + captureGroupRegexp + ")");
             Matcher matcher = regexp.matcher(text);
-            result.add(new ParameterTypeMatcher(parameterType, matcher, text.length()));
+            result.add(new ParameterTypeMatcher(parameterType, matcher, text));
         }
         return result;
     }

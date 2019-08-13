@@ -37,8 +37,8 @@ when you run certain `git` commands on your host OS later.
 
 ## Update dependencies
 
-Before you make a release, you should update the package's dependencies to the latest
-available versions:
+Before you make a major release, you should consider updating the package's dependencies to the latest
+available stable versions:
 
     cd thepackage
     make clean && make
@@ -99,6 +99,8 @@ Run the following command:
     make post-release
 
 This should update the CHANGELOG to get placeholders for the Unreleased version and also the pom.xml file for the snapshot releases.
+
+TODO: Use `mvn versions:set`
 
 Finally, exit your docker container, this should be done on your host OS.
 

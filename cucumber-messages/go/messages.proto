@@ -461,7 +461,10 @@ message TestResult {
 }
 
 message TestRunFinished {
+  // success = StrictModeEnabled ? (failed_count == 0 && ambiguous_count == 0 && undefined_count == 0 && pending_count == 0) : (failed_count == 0 && ambiguous_count == 0)
   bool success = 1;
+  // Timestamp when the TestRun is finished
+  google.protobuf.Timestamp timestamp = 2;
 }
 
 ////// Commands

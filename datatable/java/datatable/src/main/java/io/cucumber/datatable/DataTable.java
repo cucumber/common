@@ -1,5 +1,7 @@
 package io.cucumber.datatable;
 
+import org.apiguardian.api.API;
+
 import java.io.IOException;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
@@ -40,6 +42,7 @@ import static java.util.Collections.unmodifiableMap;
  * <p>
  * A DataTable is immutable and thread safe.
  */
+@API(status = API.Status.STABLE)
 public final class DataTable {
 
     private final List<List<String>> raw;
@@ -85,7 +88,7 @@ public final class DataTable {
      * @throws IllegalArgumentException when the table is not rectangular or contains null values
      */
     public static DataTable create(List<List<String>> raw, TableConverter tableConverter) {
-        return new DataTable(copy(requireNonNullEntries(requireRectangularTable(raw))), tableConverter);
+        return new DataTable(copy(requireRectangularTable(raw)), tableConverter);
     }
 
     private static List<List<String>> copy(List<List<String>> balanced) {
@@ -101,21 +104,6 @@ public final class DataTable {
             rawCopy.add(unmodifiableList(rowCopy));
         }
         return unmodifiableList(rawCopy);
-    }
-
-    private static List<List<String>> requireNonNullEntries(List<List<String>> raw) {
-        // Iterate in case of linked list.
-        int rowIndex = 0;
-        for (List<String> row : raw) {
-            int columnIndex = row.indexOf(null);
-            if (columnIndex >= 0) {
-                throw new IllegalArgumentException(
-                        "raw contained null at row: " + rowIndex + " column: " + columnIndex);
-            }
-            rowIndex++;
-        }
-
-        return raw;
     }
 
     private static List<List<String>> requireRectangularTable(List<List<String>> table) {
@@ -134,7 +122,7 @@ public final class DataTable {
      * @return an empty DataTable
      */
     public static DataTable emptyDataTable() {
-        return new DataTable(Collections.<List<String>>emptyList(), new NoConverterDefined());
+        return new DataTable(Collections.emptyList(), new NoConverterDefined());
     }
 
     /**
@@ -575,6 +563,7 @@ public final class DataTable {
          *
          * @param dataTable the table to convert
          * @param type      the type to convert to
+         * @param <T>       the type to convert to
          * @return an object of type
          */
         <T> T convert(DataTable dataTable, Type type);
@@ -589,6 +578,7 @@ public final class DataTable {
          *
          * @param dataTable  the table to convert
          * @param type       the type to convert to
+         * @param <T>       the type to convert to
          * @param transposed whether the table should be transposed first.
          * @return an object of type
          */
@@ -645,6 +635,7 @@ public final class DataTable {
          *
          * @param dataTable the table to convert
          * @param itemType  the  list item type to convert to
+         * @param <T>       the type to convert to
          * @return a list of objects of <code>itemType</code>
          */
         <T> List<T> toList(DataTable dataTable, Type itemType);
@@ -673,6 +664,7 @@ public final class DataTable {
          *
          * @param dataTable the table to convert
          * @param itemType  the  list item type to convert to
+         * @param <T>       the type to convert to
          * @return a list of lists of objects of <code>itemType</code>
          */
         <T> List<List<T>> toLists(DataTable dataTable, Type itemType);
@@ -722,6 +714,8 @@ public final class DataTable {
          * @param dataTable the table to convert
          * @param keyType   the  key type to convert to
          * @param valueType the  value to convert to
+         * @param <K>       the key type to convert to
+         * @param <V>       the value type to convert to
          * @return a map of <code>keyType</code> <code>valueType</code>
          */
 
@@ -750,6 +744,8 @@ public final class DataTable {
          * @param dataTable the table to convert
          * @param keyType   the  key type to convert to
          * @param valueType the  value to convert to
+         * @param <K>       the key type to convert to
+         * @param <V>       the value type to convert to
          * @return a list of maps of <code>keyType</code> <code>valueType</code>
          */
         <K, V> List<Map<K, V>> toMaps(DataTable dataTable, Type keyType, Type valueType);

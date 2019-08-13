@@ -3,7 +3,7 @@ package io.cucumber.datatable;
 import java.io.IOException;
 import java.util.List;
 
-class DiffTablePrinter extends TablePrinter {
+final class DiffTablePrinter extends TablePrinter {
     private final List<DiffType> diffTypes;
 
     DiffTablePrinter(List<DiffType> diffTypes) {

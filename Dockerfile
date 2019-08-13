@@ -7,6 +7,7 @@ WORKDIR /app
 
 RUN apk add --no-cache \
   bash \
+  cmake \
   curl \
   diffutils \
   go \
@@ -58,10 +59,13 @@ RUN addgroup --gid "$GID" "$USER" \
 RUN echo "gem: --no-document" > ~/.gemrc
 RUN gem install bundler io-console
 RUN chown -R cukebot:cukebot /usr/lib/ruby
+RUN chown -R cukebot:cukebot /usr/bin
 
 # Configure Python
 RUN pip install pipenv
 RUN pip install twine
+RUN chown -R cukebot:cukebot /usr/lib/python2.7/site-packages
+RUN mkdir -p /usr/man && chown -R cukebot:cukebot /usr/man
 
 # Fix Protobuf - the apk package doesn't include google/protobuf/timestamp.proto
 RUN mkdir -p mkdir -p /usr/local/include/google/protobuf
@@ -82,5 +86,16 @@ RUN git clone \
   cd hub && \
   make && \
   cp bin/hub /usr/local/bin/hub
+
+# Install splitsh/lite
+RUN go get -d github.com/libgit2/git2go && \
+  cd $(go env GOPATH)/src/github.com/libgit2/git2go && \
+  git checkout next && \
+  git submodule update --init && \
+  # config_test.go does not compile on the current go version
+  rm $(go env GOPATH)/src/github.com/libgit2/git2go/config_test.go && \
+  make install && \
+  go get github.com/splitsh/lite && \
+  go build -o /usr/local/bin/splitsh-lite github.com/splitsh/lite
 
 CMD ["/bin/bash"]

@@ -14,33 +14,22 @@ import static org.junit.Assert.assertThat;
 
 public class DataTableTypeTest {
 
-    private final DataTableType singleCellType = new DataTableType(Integer.class, new TableCellTransformer<Integer>() {
-        @Override
-        public Integer transform(String cell) {
-            return Integer.parseInt(cell);
-        }
-    });
+    private final DataTableType singleCellType = new DataTableType(Integer.class, (String cell) -> Integer.parseInt(cell));
 
     @Test
-    @SuppressWarnings("unchecked")
     public void shouldTransformATableCell() {
-        assertThat((List<List<Integer>>)singleCellType.transform(singletonList(singletonList("12"))), equalTo(singletonList(singletonList(12))));
+        assertThat(singleCellType.transform(singletonList(singletonList("12"))), equalTo(singletonList(singletonList(12))));
     }
 
     @Test
     public void shouldTransformATableEntry() {
-        DataTableType tableType = new DataTableType(Place.class, new TableEntryTransformer<Place>() {
-            @Override
-            public Place transform(Map<String, String> entry) throws Throwable {
-                return new Place(entry.get("place"));
-            }
-        });
+        DataTableType tableType = new DataTableType(Place.class, (Map<String, String> entry) -> new Place(entry.get("place")));
 
         String here = "here";
         //noinspection unchecked
         List<Place> transform = (List<Place>) tableType.transform(Arrays.asList(singletonList("place"), singletonList(here)));
 
-        assertEquals(1,transform.size());
+        assertEquals(1, transform.size());
         assertEquals(here, transform.get(0).name);
     }
 

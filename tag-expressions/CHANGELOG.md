@@ -10,7 +10,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Added
 
 ### Changed
-
+* Upgrades to `cucumber-parent:2.0.2`
 ### Deprecated
 
 ### Removed

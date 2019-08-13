@@ -1,5 +1,7 @@
 package io.cucumber.datatable;
 
+import org.apiguardian.api.API;
+
 import java.util.Map;
 
 /**
@@ -10,6 +12,8 @@ import java.util.Map;
  *
  * @see TableEntryTransformer
  */
+@API(status = API.Status.STABLE)
+@FunctionalInterface
 public interface TableEntryByTypeTransformer {
 
     /**
@@ -20,6 +24,7 @@ public interface TableEntryByTypeTransformer {
      * @param cellTransformer cell transformer
      * @param <T>             see {@code type}
      * @return new instance of {@code type}
+     * @throws Throwable unable to transform
      */
     <T> T transform(Map<String, String> entry, Class<T> type, TableCellByTypeTransformer cellTransformer) throws Throwable;
 

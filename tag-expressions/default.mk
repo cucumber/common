@@ -2,7 +2,7 @@
 #
 #     source scripts/functions.sh && rsync_files
 #
-MAKEFILES = $(wildcard */Makefile)
+ALPINE = $(shell which apk 2> /dev/null)
 LIBNAME = $(shell basename $$(pwd))
 
 default: $(patsubst %/Makefile,default-%,$(MAKEFILES))

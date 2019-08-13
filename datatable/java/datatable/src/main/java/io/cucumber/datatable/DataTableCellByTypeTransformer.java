@@ -5,7 +5,7 @@ import java.util.List;
 import static io.cucumber.datatable.TypeFactory.aListOf;
 import static java.util.Collections.singletonList;
 
-class DataTableCellByTypeTransformer implements TableCellByTypeTransformer {
+final class DataTableCellByTypeTransformer implements TableCellByTypeTransformer {
 
     private DataTableTypeRegistry dataTableTypeRegistry;
 
@@ -14,7 +14,7 @@ class DataTableCellByTypeTransformer implements TableCellByTypeTransformer {
     }
 
     @Override
-    public <T> T transform(String value, Class<T> cellType) throws Throwable {
+    public <T> T transform(String value, Class<T> cellType) {
         //noinspection unchecked
         DataTableType typeByType = dataTableTypeRegistry.lookupTableTypeByType(aListOf(aListOf(cellType)));
         if (typeByType == null) {

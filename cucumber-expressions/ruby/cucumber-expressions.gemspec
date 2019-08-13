@@ -1,7 +1,7 @@
 # -*- encoding: utf-8 -*-
 Gem::Specification.new do |s|
   s.name        = 'cucumber-expressions'
-  s.version     = '7.0.0'
+  s.version     = '8.0.0'
   s.authors     = ["Aslak Hellesøy"]
   s.description = 'Cucumber Expressions - a simpler alternative to Regular Expressions'
   s.summary     = "cucumber-expressions-#{s.version}"
@@ -14,7 +14,7 @@ Gem::Specification.new do |s|
   s.metadata    = {
                     'bug_tracker_uri'   => 'https://github.com/cucumber/cucumber/issues',
                     'changelog_uri'     => 'https://github.com/cucumber/cucumber/blob/master/cucumber-expressions/CHANGELOG.md',
-                    'documentation_uri' => 'https://docs.cucumber.io/cucumber/cucumber-expressions/',
+                    'documentation_uri' => 'https://cucumber.io/docs/cucumber/cucumber-expressions/',
                     'mailing_list_uri'  => 'https://groups.google.com/forum/#!forum/cukes',
                     'source_code_uri'   => 'https://github.com/cucumber/cucumber/blob/master/cucumber-expressions/ruby',
                   }
