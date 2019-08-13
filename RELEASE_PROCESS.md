@@ -98,11 +98,10 @@ Run the following command:
 
     make post-release
 
-This should update the CHANGELOG to get placeholders for the Unreleased version and also the pom.xml file for the snapshot releases.
+This should update the CHANGELOG to get placeholders for the Unreleased version 
+and also the `java/pom.xml` file for the snapshot releases.
 
-TODO: Use `mvn versions:set`
-
-Finally, exit your docker container, this should be done on your host OS.
+Exit your docker container. The final step should be done on your host OS.
 
 Commit the changes and push everything:
 

@@ -17,3 +17,7 @@ publish:
 	python setup.py sdist
 	python -m twine upload dist/*
 .PHONY: publish
+
+post-release:
+	@echo "No post-release needed for python"
+.PHONY: post-release

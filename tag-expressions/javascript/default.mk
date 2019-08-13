@@ -43,6 +43,10 @@ publish: .deps
 	npm publish
 .PHONY: publish
 
+post-release:
+	@echo "No post-release needed for javascript"
+.PHONY: post-release
+
 clean: clean-javascript
 .PHONY: clean
 

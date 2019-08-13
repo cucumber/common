@@ -44,6 +44,10 @@ else
 	exit 1
 endif
 
+post-release:
+	@echo "No post-release needed for dotnet"
+.PHONY: post-release
+
 clean: clean-dotnet
 	rm -rf .generated .tested .built .packed GeneratedNuGetPackages
 .PHONY: clean

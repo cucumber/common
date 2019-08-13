@@ -77,6 +77,10 @@ dist_compressed/$(LIBNAME)-%: dist/$(LIBNAME)-%
 	go test ./...
 	touch $@
 
+post-release:
+	@echo "No post-release needed for go"
+.PHONY: post-release
+
 clean: clean-go
 .PHONY: clean
 

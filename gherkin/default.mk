@@ -36,21 +36,23 @@ publish-%: %
 	cd $< && make publish
 .PHONY: publish-%
 
+post-release: $(patsubst %/Makefile,post-release-%,$(MAKEFILES))
+.PHONY: post-release
+
+post-release-%: %
+	cd $< && make post-release
+.PHONY: post-release-%
+
+post-release: post-release-update-changelog
+
+post-release-update-changelog:
+	../scripts/post_release_update_changelog.sh
+.PHONY: post-release-update-changelog
+
 release-tag:
 	git commit -am "Release $(LIBNAME) v$(NEW_VERSION)"
 	git tag -s "$(LIBNAME)/v$(NEW_VERSION)" -m "Release $(LIBNAME) v$(NEW_VERSION)"
 .PHONY: release-tag
-
-post-release-update-changelog:
-	../scripts/update_changelog_post_release.sh
-.PHONY: post-release-update-changelog
-
-post-release-update-pomxml:
-	../scripts/update_pomxml_after_release.sh
-.PHONY: post-release-pomxml
-
-post-release: post-release-update-changelog post-release-update-pomxml
-.PHONY: post-release
 
 clean: $(patsubst %/Makefile,clean-%,$(MAKEFILES))
 .PHONY: clean
