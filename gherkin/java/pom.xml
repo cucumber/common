@@ -30,7 +30,7 @@
         <dependency>
             <groupId>io.cucumber</groupId>
             <artifactId>messages</artifactId>
-            <version>3.0.0</version>
+            <version>3.0.2</version>
         </dependency>
 
         <dependency>
