@@ -37,7 +37,7 @@ public class ExeFileTest {
 
         String expectedMessage = "/gherkin/notfound-darwin-amd64 not found on classpath. Please submit an issue to https://github.com/cucumber/cucumber/issues";
 
-        assertThrows(expectedMessage, RuntimeException.class, exeFile::extract);
-        exeFile.extract();
+        ExeException exeException = assertThrows(ExeException.class, exeFile::extract);
+        assertEquals(expectedMessage, exeException.getMessage());
     }
 }
