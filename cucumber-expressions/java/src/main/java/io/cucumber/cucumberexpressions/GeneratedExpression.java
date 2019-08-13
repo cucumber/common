@@ -1,5 +1,7 @@
 package io.cucumber.cucumberexpressions;
 
+import org.apiguardian.api.API;
+
 import java.text.Collator;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -8,7 +10,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
-
+@API(status = API.Status.STABLE)
 public class GeneratedExpression {
     private static final Collator ENGLISH_COLLATOR = Collator.getInstance(Locale.ENGLISH);
     private static final String JAVA_KEYWORDS[] = {
@@ -27,7 +29,7 @@ public class GeneratedExpression {
     private final String expressionTemplate;
     private final List<ParameterType<?>> parameterTypes;
 
-    public GeneratedExpression(String expressionTemplate, List<ParameterType<?>> parameterTypes) {
+    GeneratedExpression(String expressionTemplate, List<ParameterType<?>> parameterTypes) {
         this.expressionTemplate = expressionTemplate;
         this.parameterTypes = parameterTypes;
     }

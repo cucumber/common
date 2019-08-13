@@ -37,8 +37,8 @@ when you run certain `git` commands on your host OS later.
 
 ## Update dependencies
 
-Before you make a release, you should update the package's dependencies to the latest
-available versions:
+Before you make a major release, you should consider updating the package's dependencies to the latest
+available stable versions:
 
     cd thepackage
     make clean && make
@@ -122,6 +122,10 @@ Also, add a link at the bottom:
 
 You also need to bump the patch version in the `pom.xml` and append `-SNAPSHOT`
 to it.
+```
+cd java
+mvn versions:set
+```
 
 Finally, commit it and push everything:
 

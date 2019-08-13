@@ -2,7 +2,7 @@ package io.cucumber.datatable;
 
 import java.util.List;
 
-class DiffableRow {
+final class DiffableRow {
     final List<String> row;
     private final List<String> convertedRow;
 

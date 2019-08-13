@@ -29,8 +29,7 @@ import static io.cucumber.datatable.UndefinedDataTableTypeException.singletonNoC
 import static java.lang.Double.parseDouble;
 import static java.lang.String.format;
 import static java.util.Arrays.asList;
-import static java.util.Collections.emptyList;
-import static java.util.Collections.emptyMap;
+import static java.util.Collections.*;
 import static java.util.Locale.ENGLISH;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
@@ -187,6 +186,15 @@ public class DataTableTypeRegistryTableConverterTest {
     }
 
     @Test
+    public void convert_to_empty_list__only_header() {
+        final DataTable table = parse("",
+                " | firstName | lastName | birthDate |"
+        );
+        registry.defineDataTableType(new DataTableType(Author.class, AUTHOR_TABLE_ENTRY_TRANSFORMER));
+        assertEquals(emptyList(), converter.convert(table, LIST_OF_AUTHOR));
+    }
+
+    @Test
     public void convert_to_empty_map__blank_first_cell() {
         DataTable table = parse("|   |");
         assertEquals(emptyMap(), converter.toMap(table, Integer.class, Integer.class));
@@ -251,6 +259,17 @@ public class DataTableTypeRegistryTableConverterTest {
 
         assertEquals(expected, converter.toList(table, Integer.class));
         assertEquals(expected, converter.convert(table, LIST_OF_INT));
+    }
+
+    @Test
+    public void convert_to_list__double_column__throws_exception() {
+        DataTable table = parse("",
+                "| 3 | 5 |",
+                "| 6 | 7 | "
+        );
+
+        expectedException.expectMessage("Can't convert DataTable to List<java.lang.Integer>");
+        converter.toList(table, Integer.class);
     }
 
     @Test
@@ -349,35 +368,25 @@ public class DataTableTypeRegistryTableConverterTest {
     }
 
     @Test
-    public void convert_to_list_of_object__using_object_mapper() {
-        registry.defineDataTableType(DataTableType.entry(Author.class));
-
-        DataTable table = parse("",
-                " | firstName   | lastName | birthDate  |",
-                " | Annie M. G. | Schmidt  | 1911-03-20 |",
-                " | Roald       | Dahl     | 1916-09-13 |",
-                " | Astrid      | Lindgren | 1907-11-14 |"
-        );
-
-        List<Author> expected = asList(
-                new Author("Annie M. G.", "Schmidt", "1911-03-20"),
-                new Author("Roald", "Dahl", "1916-09-13"),
-                new Author("Astrid", "Lindgren", "1907-11-14")
-        );
-
-        assertEquals(expected, converter.toList(table, Author.class));
-        assertEquals(expected, converter.convert(table, LIST_OF_AUTHOR));
-    }
-
-
-    @Test
     public void convert_to_list_of_primitive() {
         DataTable table = parse("",
-                "| 3 | 5 |",
-                "| 6 | 7 | "
+                "| 3 |",
+                "| 5 |",
+                "| 6 |",
+                "| 7 |"
         );
 
         List<Integer> expected = asList(3, 5, 6, 7);
+
+        assertEquals(expected, converter.toList(table, Integer.class));
+        assertEquals(expected, converter.convert(table, LIST_OF_INT));
+    }
+
+    @Test
+    public void convert_null_cells_to_null() {
+        DataTable table = DataTable.create(singletonList(singletonList(null)));
+
+        List<Integer> expected = singletonList(null);
 
         assertEquals(expected, converter.toList(table, Integer.class));
         assertEquals(expected, converter.convert(table, LIST_OF_INT));
@@ -630,32 +639,6 @@ public class DataTableTypeRegistryTableConverterTest {
         registry.setDefaultDataTableCellTransformer(JACKSON_TABLE_CELL_BY_TYPE_CONVERTER);
 
         assertEquals(expected, converter.convert(table, MAP_OF_AIR_PORT_CODE_TO_AIR_PORT_CODE));
-    }
-
-
-
-    @Test
-    public void convert_to_map_of_object_to_object_using_entry_and_cell() {
-        DataTable table = parse("",
-                "|      | lat       | lon         |",
-                "| KMSY | 29.993333 | -90.258056  |",
-                "| KSFO | 37.618889 | -122.375    |",
-                "| KSEA | 47.448889 | -122.309444 |",
-                "| KJFK | 40.639722 | -73.778889  |"
-        );
-
-        Map<AirPortCode, Coordinate> expected = new HashMap<AirPortCode, Coordinate>() {{
-            put(new AirPortCode("KMSY"), new Coordinate(29.993333, -90.258056));
-            put(new AirPortCode("KSFO"), new Coordinate(37.618889, -122.375));
-            put(new AirPortCode("KSEA"), new Coordinate(47.448889, -122.309444));
-            put(new AirPortCode("KJFK"), new Coordinate(40.639722, -73.778889));
-        }};
-
-        registry.defineDataTableType(DataTableType.entry(Coordinate.class));
-        registry.defineDataTableType(DataTableType.cell(AirPortCode.class));
-
-        assertEquals(expected, converter.toMap(table, AirPortCode.class, Coordinate.class));
-        assertEquals(expected, converter.convert(table, MAP_OF_AIR_PORT_CODE_TO_COORDINATE));
     }
 
     @Test
@@ -962,6 +945,24 @@ public class DataTableTypeRegistryTableConverterTest {
                         "Can't convert DataTable to %s. " +
                         "The table contained more then one item: [♘, ♝]",
                 typeName(Piece.class)));
+
+        DataTable table = parse("",
+                "| ♘ |",
+                "| ♝ |"
+        );
+
+        registry.defineDataTableType(new DataTableType(Piece.class, PIECE_TABLE_CELL_TRANSFORMER));
+        converter.convert(table, Piece.class);
+    }
+
+
+    @Test
+    public void convert_to_object__too_wide__throws_exception() {
+        expectedException.expectMessage(format("" +
+                        "Can't convert DataTable to %s.\n" +
+                        "There was a table cell converter but the table was too wide to use it.\n" +
+                        "Please reduce the table width or register a TableEntryConverter or TableCellConverter for %s.",
+                typeName(Piece.class), typeName(Piece.class)));
 
         DataTable table = parse("",
                 "| ♘ | ♝ |"

@@ -1,5 +1,7 @@
 package io.cucumber.cucumberexpressions;
 
+import org.apiguardian.api.API;
+
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
@@ -7,7 +9,8 @@ import java.util.regex.Pattern;
 
 import static io.cucumber.cucumberexpressions.ParameterType.createAnonymousParameterType;
 
-public class RegularExpression implements Expression {
+@API(status = API.Status.STABLE)
+public final class RegularExpression implements Expression {
     private final Pattern expressionRegexp;
     private final ParameterTypeRegistry parameterTypeRegistry;
     private final TreeRegexp treeRegexp;
@@ -20,7 +23,7 @@ public class RegularExpression implements Expression {
      * @param expressionRegexp      the regular expression to use
      * @param parameterTypeRegistry used to look up parameter types
      */
-    public RegularExpression(Pattern expressionRegexp, ParameterTypeRegistry parameterTypeRegistry) {
+    RegularExpression(Pattern expressionRegexp, ParameterTypeRegistry parameterTypeRegistry) {
         this.expressionRegexp = expressionRegexp;
         this.parameterTypeRegistry = parameterTypeRegistry;
         this.treeRegexp = new TreeRegexp(expressionRegexp);
@@ -33,9 +36,21 @@ public class RegularExpression implements Expression {
         int typeHintIndex = 0;
         for (GroupBuilder groupBuilder : treeRegexp.getGroupBuilder().getChildren()) {
             final String parameterTypeRegexp = groupBuilder.getSource();
-            final Type typeHint = typeHintIndex < typeHints.length ? typeHints[typeHintIndex++] : String.class;
+            boolean hasTypeHint = typeHintIndex < typeHints.length;
+            final Type typeHint = hasTypeHint ? typeHints[typeHintIndex++] : String.class;
 
             ParameterType<?> parameterType = parameterTypeRegistry.lookupByRegexp(parameterTypeRegexp, expressionRegexp, text);
+
+            // When there is a conflict between the type hint from the regular expression and the method
+            // prefer the the parameter type associated with the regular expression. This ensures we will
+            // use the internal/user registered parameter transformer rather then the default.
+            //
+            // Unless the parameter type indicates it is the stronger type hint.
+            if (parameterType != null && hasTypeHint && !parameterType.useRegexpMatchAsStrongTypeHint()) {
+                if (!parameterType.getType().equals(typeHint)) {
+                    parameterType = null;
+                }
+            }
 
             if (parameterType == null) {
                 parameterType = createAnonymousParameterType(parameterTypeRegexp);
@@ -43,8 +58,7 @@ public class RegularExpression implements Expression {
 
             // Either from createAnonymousParameterType or lookupByRegexp
             if (parameterType.isAnonymous()) {
-                Transformer<Object> transformer = new ObjectMapperTransformer(defaultTransformer, typeHint);
-                parameterType = parameterType.deAnonymize(typeHint, transformer);
+                parameterType = parameterType.deAnonymize(typeHint, arg -> defaultTransformer.transform(arg, typeHint));
             }
 
             parameterTypes.add(parameterType);

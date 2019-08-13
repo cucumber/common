@@ -12,7 +12,7 @@ import java.util.regex.Pattern;
  * reflecting the nested structure of capture groups in the original
  * regexp.
  */
-class TreeRegexp {
+final class TreeRegexp {
     private final Pattern pattern;
     private final GroupBuilder groupBuilder;
 
@@ -29,9 +29,11 @@ class TreeRegexp {
 
         stack.push(new GroupBuilder());
         char last = 0;
+
         boolean escaping = false, charClass = false;
         boolean nonCapturingMaybe = false;
         int n = 1;
+
         for (char c : chars) {
             if (c == '[' && !escaping) {
                 charClass = true;
@@ -53,7 +55,7 @@ class TreeRegexp {
                 nonCapturingMaybe = false;
             } else if (c == '?' && last == '(') {
                 nonCapturingMaybe = true;
-            } else if ((c == ':' || c == '!') && nonCapturingMaybe) {
+            } else if ((c == ':' || c == '!' || c == '=' || c == '<') && last == '?' && nonCapturingMaybe) {
                 stack.peek().setNonCapturing();
                 nonCapturingMaybe = false;
             }

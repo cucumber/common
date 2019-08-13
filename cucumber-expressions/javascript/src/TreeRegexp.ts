@@ -38,7 +38,11 @@ export default class TreeRegexp {
         nonCapturingMaybe = false
       } else if (c === '?' && last === '(') {
         nonCapturingMaybe = true
-      } else if ((c === ':' || c === '!') && nonCapturingMaybe) {
+      } else if (
+        (c === ':' || c === '!' || c === '=' || c === '<') &&
+        last === '?' &&
+        nonCapturingMaybe
+      ) {
         stack[stack.length - 1].setNonCapturing()
         nonCapturingMaybe = false
       }
