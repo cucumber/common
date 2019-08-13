@@ -60,23 +60,12 @@ public class DataTableTypeRegistryTest {
     @Test
     public void throws_duplicate_type_exception() {
 
-        registry.defineDataTableType(new DataTableType(Place.class, new TableTransformer<Place>() {
-            @Override
-            public Place transform(DataTable table) {
-                return new Place(table.cell(0, 0));
-            }
-
-        }));
+        registry.defineDataTableType(new DataTableType(Place.class, (TableTransformer<Place>) table -> new Place(table.cell(0, 0))));
         expectedException.expectMessage("" +
                 "There is already a data table type registered for class io.cucumber.datatable.Place.\n" +
                 "It registered an TableTransformer. You are trying to add a TableTransformer"
         );
-        registry.defineDataTableType(new DataTableType(Place.class, new TableTransformer<Place>() {
-            @Override
-            public Place transform(DataTable table) {
-                return new Place(table.cell(0, 0));
-            }
-        }));
+        registry.defineDataTableType(new DataTableType(Place.class, (TableTransformer<Place>) table -> new Place(table.cell(0, 0))));
     }
 
     @Test

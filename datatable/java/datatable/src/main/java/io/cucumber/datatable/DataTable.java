@@ -578,7 +578,7 @@ public final class DataTable {
          *
          * @param dataTable  the table to convert
          * @param type       the type to convert to
-         * @param <T>       the type to convert to
+         * @param <T>        the type to convert to
          * @param transposed whether the table should be transposed first.
          * @return an object of type
          */

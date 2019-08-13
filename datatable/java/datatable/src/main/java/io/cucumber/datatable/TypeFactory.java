@@ -9,7 +9,7 @@ final class TypeFactory {
     private static final io.cucumber.datatable.dependency.com.fasterxml.jackson.databind.type.TypeFactory typeFactory
             = io.cucumber.datatable.dependency.com.fasterxml.jackson.databind.type.TypeFactory.defaultInstance();
 
-    private TypeFactory(){
+    private TypeFactory() {
 
     }
 

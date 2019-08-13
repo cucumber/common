@@ -13,15 +13,15 @@ final class DiffTablePrinter extends TablePrinter {
     @Override
     protected void printStartIndent(Appendable buffer, int rowIndex) throws IOException {
         switch (diffTypes.get(rowIndex)) {
-        case NONE:
-            buffer.append("      ");
-            break;
-        case DELETE:
-            buffer.append("    - ");
-            break;
-        case INSERT:
-            buffer.append("    + ");
-            break;
+            case NONE:
+                buffer.append("      ");
+                break;
+            case DELETE:
+                buffer.append("    - ");
+                break;
+            case INSERT:
+                buffer.append("    + ");
+                break;
         }
     }
 

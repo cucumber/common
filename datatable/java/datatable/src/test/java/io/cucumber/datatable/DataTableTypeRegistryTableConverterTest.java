@@ -29,7 +29,9 @@ import static io.cucumber.datatable.UndefinedDataTableTypeException.singletonNoC
 import static java.lang.Double.parseDouble;
 import static java.lang.String.format;
 import static java.util.Arrays.asList;
-import static java.util.Collections.*;
+import static java.util.Collections.emptyList;
+import static java.util.Collections.emptyMap;
+import static java.util.Collections.singletonList;
 import static java.util.Locale.ENGLISH;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
@@ -79,67 +81,27 @@ public class DataTableTypeRegistryTableConverterTest {
     }.getType();
     private static final Type MAP_OF_STRING_TO_MAP_OF_INTEGER_TO_PIECE = new TypeReference<Map<String, Map<Integer, Piece>>>() {
     }.getType();
-    private static final TableTransformer<ChessBoard> CHESS_BOARD_TABLE_TRANSFORMER = new TableTransformer<ChessBoard>() {
-        @Override
-        public ChessBoard transform(DataTable table) {
-            return new ChessBoard(table.subTable(1, 1).asList());
-        }
-    };
-    private static final TableCellTransformer<Piece> PIECE_TABLE_CELL_TRANSFORMER = new TableCellTransformer<Piece>() {
-        @Override
-        public Piece transform(String cell) {
-            return Piece.fromString(cell);
-        }
-    };
-    private static final TableCellTransformer<AirPortCode> AIR_PORT_CODE_TABLE_CELL_TRANSFORMER = new TableCellTransformer<AirPortCode>() {
-        @Override
-        public AirPortCode transform(String cell) {
-            return new AirPortCode(cell);
-        }
-    };
+    private static final TableTransformer<ChessBoard> CHESS_BOARD_TABLE_TRANSFORMER = table -> new ChessBoard(table.subTable(1, 1).asList());
+    private static final TableCellTransformer<Piece> PIECE_TABLE_CELL_TRANSFORMER = Piece::fromString;
+    private static final TableCellTransformer<AirPortCode> AIR_PORT_CODE_TABLE_CELL_TRANSFORMER = AirPortCode::new;
     private static final SimpleDateFormat SIMPLE_DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd");
 
     static {
         SIMPLE_DATE_FORMAT.setTimeZone(TimeZone.getTimeZone("UTC"));
     }
 
-    private static final DataTableType DATE_TABLE_CELL_TRANSFORMER = new DataTableType(Date.class, new TableCellTransformer<Date>() {
-        @Override
-        public Date transform(String cell) throws Throwable {
-            return SIMPLE_DATE_FORMAT.parse(cell);
-        }
-    });
+    private static final DataTableType DATE_TABLE_CELL_TRANSFORMER = new DataTableType(Date.class, (TableCellTransformer<Date>) SIMPLE_DATE_FORMAT::parse);
 
-    private static final TableEntryTransformer<Coordinate> COORDINATE_TABLE_ENTRY_TRANSFORMER = new TableEntryTransformer<Coordinate>() {
-        @Override
-        public Coordinate transform(Map<String, String> tableEntry) {
-            return new Coordinate(
-                    parseDouble(tableEntry.get("lat")),
-                    parseDouble(tableEntry.get("lon"))
-            );
-        }
-    };
-    private static final TableEntryTransformer<Author> AUTHOR_TABLE_ENTRY_TRANSFORMER = new TableEntryTransformer<Author>() {
-        @Override
-        public Author transform(Map<String, String> tableEntry) {
-            return new Author(tableEntry.get("firstName"), tableEntry.get("lastName"), tableEntry.get("birthDate"));
-        }
-    };
-    private static final TableRowTransformer<Coordinate> COORDINATE_TABLE_ROW_TRANSFORMER = new TableRowTransformer<Coordinate>() {
-        @Override
-        public Coordinate transform(List<String> tableRow) {
-            return new Coordinate(
-                    Double.parseDouble(tableRow.get(0)),
-                    Double.parseDouble(tableRow.get(1))
-            );
-        }
-    };
-    private static final TableEntryTransformer<AirPortCode> AIR_PORT_CODE_TABLE_ENTRY_TRANSFORMER = new TableEntryTransformer<AirPortCode>() {
-        @Override
-        public AirPortCode transform(Map<String, String> tableEntry) {
-            return new AirPortCode(tableEntry.get("code"));
-        }
-    };
+    private static final TableEntryTransformer<Coordinate> COORDINATE_TABLE_ENTRY_TRANSFORMER = tableEntry -> new Coordinate(
+            parseDouble(tableEntry.get("lat")),
+            parseDouble(tableEntry.get("lon"))
+    );
+    private static final TableEntryTransformer<Author> AUTHOR_TABLE_ENTRY_TRANSFORMER = tableEntry -> new Author(tableEntry.get("firstName"), tableEntry.get("lastName"), tableEntry.get("birthDate"));
+    private static final TableRowTransformer<Coordinate> COORDINATE_TABLE_ROW_TRANSFORMER = tableRow -> new Coordinate(
+            Double.parseDouble(tableRow.get(0)),
+            Double.parseDouble(tableRow.get(1))
+    );
+    private static final TableEntryTransformer<AirPortCode> AIR_PORT_CODE_TABLE_ENTRY_TRANSFORMER = tableEntry -> new AirPortCode(tableEntry.get("code"));
     private static final TableEntryByTypeTransformer TABLE_ENTRY_BY_TYPE_CONVERTER_SHOULD_NOT_BE_USED = new TableEntryByTypeTransformer() {
         @Override
         public <T> T transform(Map<String, String> entry, Class<T> type, TableCellByTypeTransformer cellTransformer) {
