@@ -20,13 +20,11 @@ public class RegularExpressionTest {
 
     @Test
     public void documentation_match_arguments() {
-        /// [capture-match-arguments]
         Pattern expr = Pattern.compile("I have (\\d+) cukes? in my (\\w+) now");
         Expression expression = new RegularExpression(expr, parameterTypeRegistry);
         List<Argument<?>> match = expression.match("I have 7 cukes in my belly now");
         assertEquals(7, match.get(0).getValue());
         assertEquals("belly", match.get(1).getValue());
-        /// [capture-match-arguments]
     }
 
     @Test
@@ -120,7 +118,7 @@ public class RegularExpressionTest {
     @Test
     public void retains_all_content_captured_by_the_capture_group() {
         List<?> match = match(compile("a quote ([\"a-z ]+)"), "a quote \" and quote \"", String.class);
-        assertEquals(asList("\" and quote \""), match);
+        assertEquals(singletonList("\" and quote \""), match);
     }
 
     @Test
@@ -137,7 +135,7 @@ public class RegularExpressionTest {
                 }
         ));
         List<?> match = match(compile("a quote ([\"a-z ]+)"), "a quote \" and quote \"", String.class);
-        assertEquals(asList("\" AND QUOTE \""), match);
+        assertEquals(singletonList("\" AND QUOTE \""), match);
     }
 
     @Test

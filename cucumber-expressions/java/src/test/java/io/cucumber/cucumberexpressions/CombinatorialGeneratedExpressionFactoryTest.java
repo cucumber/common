@@ -15,38 +15,13 @@ public class CombinatorialGeneratedExpressionFactoryTest {
     @Test
     public void generates_multiple_expressions() {
         List<ParameterType<?>> first = new ArrayList<>();
-        first.add(new ParameterType<>("color", WORD, Color.class, new Transformer<Color>() {
-            @Override
-            public Color transform(String arg) {
-                return new Color(arg);
-            }
-        }));
-        first.add(new ParameterType<>("csscolor", WORD, CssColor.class, new Transformer<CssColor>() {
-            @Override
-            public CssColor transform(String arg) {
-                return new CssColor(arg);
-            }
-        }));
+        first.add(new ParameterType<>("color", WORD, Color.class, Color::new));
+        first.add(new ParameterType<>("csscolor", WORD, CssColor.class, CssColor::new));
 
         List<ParameterType<?>> second = new ArrayList<>();
-        second.add(new ParameterType<>("date", WORD, Date.class, new Transformer<Date>() {
-            @Override
-            public Date transform(String arg) {
-                return new Date(arg);
-            }
-        }));
-        second.add(new ParameterType<>("datetime", WORD, DateTime.class, new Transformer<DateTime>() {
-            @Override
-            public DateTime transform(String arg) {
-                return new DateTime(arg);
-            }
-        }));
-        second.add(new ParameterType<>("timestamp", WORD, Timestamp.class, new Transformer<Timestamp>() {
-            @Override
-            public Timestamp transform(String arg) {
-                return new Timestamp(arg);
-            }
-        }));
+        second.add(new ParameterType<>("date", WORD, Date.class, Date::new));
+        second.add(new ParameterType<>("datetime", WORD, DateTime.class, DateTime::new));
+        second.add(new ParameterType<>("timestamp", WORD, Timestamp.class, Timestamp::new));
         List<List<ParameterType<?>>> parameterTypeCombinations = asList(first, second);
 
         CombinatorialGeneratedExpressionFactory factory = new CombinatorialGeneratedExpressionFactory(
