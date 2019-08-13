@@ -5,7 +5,19 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ----
-## [8.0.0 - Unreleased]
+## [Unreleased]
+
+### Added
+
+### Changed
+
+### Deprecated
+
+### Removed
+
+### Fixed
+
+## [8.0.0] - 2019-08-11
 
 ### Added
 * [Java] Annotate function interfaces with @FunctionalInterface
@@ -15,17 +27,37 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
     ([cucumber/cucumber-jvm#1536](https://github.com/cucumber/cucumber-jvm/issues/1536)
     [mpkorstanje])
 ### Changed
+
+* Improve decimal number parsing
+  ([#669](https://github.com/cucumber/cucumber/issues/669)
+   [#672](https://github.com/cucumber/cucumber/pull/672)
+   [#675](https://github.com/cucumber/cucumber/pull/675)
+   [#677](https://github.com/cucumber/cucumber/pull/677)
+   [mpkorstanje])
+* Only suggest parameter types when text is surrounded by whitespace or punctuation
+  ([#657](https://github.com/cucumber/cucumber/issues/657)
+   [#661](https://github.com/cucumber/cucumber/pull/661)
+   [vincent-psarga]
+   [aslakhellesoy]
+   [luke-hill]
+   [mpkorstanje])
 * Upgrades to `cucumber-parent:2.0.2`
 * [Java] Simplify heuristics to distinguish between Cucumber Expressions and Regular Expressions
   ([#515](https://github.com/cucumber/cucumber/issues/515)
    [#581](https://github.com/cucumber/cucumber/pull/581)
    [mpkorstanje])
-
-### Deprecated
-
-### Removed
+* [Java/Go] cucumber-expressions: Prefer language type hint over parameter type
+  ([#658](https://github.com/cucumber/cucumber/pull/658)
+   [#659](https://github.com/cucumber/cucumber/pull/659)
+   [mpkorstanje])
 
 ### Fixed
+
+* Fix RegExp lookaround
+  ([#643](https://github.com/cucumber/cucumber/issues/643)
+   [#644](https://github.com/cucumber/cucumber/pull/644)
+   [vincent-psarga]
+   [mpkorstanje])
 
 * Match integer strings as `{float}`.
   ([#600](https://github.com/cucumber/cucumber/issues/600)
@@ -33,9 +65,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
    [aslakhellesoy]
    [vincent-psarga])
 
-* Allow `?!` as a non-capturing regex
- ([#481](https://github.com/cucumber/cucumber/issues/576),
+* reconized lookaround as a non-capturing regex
+ ([#481](https://github.com/cucumber/cucumber/issues/576)
    [#593](https://github.com/cucumber/cucumber/pull/593)
+   [#643](https://github.com/cucumber/cucumber/pull/643)
+   [#644](https://github.com/cucumber/cucumber/pull/644)
    [luke-hill])
 
 ## [7.0.2] - 2019-06-15
@@ -553,6 +587,7 @@ N/A
 
 <!-- Releases -->
 [Unreleased]: https://github.com/cucumber/cucumber/compare/cucumber-expressions-v7.0.2...master
+[8.0.0]:      https://github.com/cucumber/cucumber/compare/cucumber-expressions-v7.0.2...cucumber-expressions-v8.0.0
 [7.0.2]:      https://github.com/cucumber/cucumber/compare/cucumber-expressions-v7.0.0...cucumber-expressions-v7.0.2
 [7.0.0]:      https://github.com/cucumber/cucumber/compare/cucumber-expressions-v6.6.2...cucumber-expressions-v7.0.0
 [6.6.2]:      https://github.com/cucumber/cucumber/compare/cucumber-expressions-v6.2.3...cucumber-expressions-v6.6.2

@@ -16,6 +16,7 @@ func TestParameterType(t *testing.T) {
 			nil,
 			true,
 			true,
+			false,
 		)
 		require.EqualError(t, err, "ParameterType Regexps can't use flags")
 	})

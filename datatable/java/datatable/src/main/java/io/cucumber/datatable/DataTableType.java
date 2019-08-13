@@ -63,7 +63,6 @@ public final class DataTableType {
      * @param type        the type of the list items
      * @param transformer a function that creates an instance of <code>type</code> from the data table entry
      * @param <T>         see <code>type</code>
-     * @see DataTableType#entry(Class)
      */
     public <T> DataTableType(Class<T> type, TableEntryTransformer<T> transformer) {
         this(type, aListOf(type), new TableEntryTransformerAdaptor<>(transformer));

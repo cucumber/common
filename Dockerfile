@@ -7,6 +7,7 @@ WORKDIR /app
 
 RUN apk add --no-cache \
   bash \
+  cmake \
   curl \
   diffutils \
   go \
@@ -85,5 +86,16 @@ RUN git clone \
   cd hub && \
   make && \
   cp bin/hub /usr/local/bin/hub
+
+# Install splitsh/lite
+RUN go get -d github.com/libgit2/git2go && \
+  cd $(go env GOPATH)/src/github.com/libgit2/git2go && \
+  git checkout next && \
+  git submodule update --init && \
+  # config_test.go does not compile on the current go version
+  rm $(go env GOPATH)/src/github.com/libgit2/git2go/config_test.go && \
+  make install && \
+  go get github.com/splitsh/lite && \
+  go build -o /usr/local/bin/splitsh-lite github.com/splitsh/lite
 
 CMD ["/bin/bash"]

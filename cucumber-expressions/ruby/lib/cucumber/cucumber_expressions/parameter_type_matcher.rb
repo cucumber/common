@@ -11,7 +11,7 @@ module Cucumber
       def advance_to(new_match_position)
         (new_match_position...@text.length).each {|advancedPos|
           matcher = self.class.new(parameter_type, @regexp, @text, advancedPos)
-          if matcher.find
+          if matcher.find && matcher.full_word?
             return matcher
           end
         }
@@ -21,6 +21,10 @@ module Cucumber
 
       def find
         !@match.nil? && !group.empty?
+      end
+
+      def full_word?
+        space_before_match_or_sentence_start? && space_after_match_or_sentence_end?
       end
 
       def start
@@ -37,6 +41,18 @@ module Cucumber
         length_comparison = other.group.length <=> group.length
         return length_comparison if length_comparison != 0
         0
+      end
+
+      private
+
+      def space_before_match_or_sentence_start?
+        match_begin = @match.begin(0)
+        match_begin == 0 || @text[match_begin - 1].match(/\s|\p{P}/)
+      end
+
+      def space_after_match_or_sentence_end?
+        match_end = @match.end(0)
+        match_end == @text.length || @text[match_end].match(/\s|\p{P}/)
       end
     end
   end
