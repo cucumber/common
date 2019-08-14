@@ -65,9 +65,7 @@ push-tag-and-commit-post-release:
 ifdef NEW_VERSION
 	git push --tags
 	git commit -am "Post release $(LIBNAME) v$(NEW_VERSION)"
-	# We're not pushing the post-release commit, as it would abort the running
-	# CI tag build. 
-	# A new `git push` should be done manually after the CI tag build has completed.
+	git push
 else
 	@echo -e "\033[0;31mNEW_VERSION is not defined.\033[0m"
 	exit 1

@@ -43,6 +43,6 @@
   },
   "dependencies": {
     "c21e": "1.2.1",
-    "cucumber-messages": "3.0.2"
+    "cucumber-messages": "4.0.0"
   }
 }

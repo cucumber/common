@@ -10,7 +10,7 @@ import (
 	b64 "encoding/base64"
 	"flag"
 	"fmt"
-	"github.com/cucumber/gherkin-go"
+	"github.com/cucumber/gherkin-go/v7"
 	"os"
 )
 

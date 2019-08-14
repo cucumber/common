@@ -38,11 +38,17 @@ when you run certain `git` commands on your host OS later.
 ## Update dependencies
 
 Before you make a major release, you should consider updating the package's dependencies to the latest
-available stable versions:
+available stable versions.
 
     cd thepackage
-    make clean && make
+
+Open `go/go.mod` and remove any `replace` directives. When we make a release, we
+must *only* depend on a released versions.
+
+Then, upgrade other dependencies:
+
     make update-dependencies
+    make clean && make
 
 This will typically modify the files where dependencies are declared, *without*
 committing the changes to git. Examine what changed:
@@ -93,12 +99,11 @@ Check that releases show up under:
 Exit your docker container. The final step should be done on your host OS,
 because we'll be pushing to git.
 
+Open `go/go.mod` and *restore* any `replace` directives you removed in the [update dependencied](#update-dependencies) step above.
+
 Run the following command (using the same NEW_VERSION as you used for the release):
 
     NEW_VERSION=1.2.3 make post-release
 
 This should update the version in `java/pom.xml` file to use a `-SNAPSHOT` suffix.
 This is automatically committed, and pushed along with the tag of the release.
-
-Wait for the build to complete (VERY IMPORTANT). Then `git push` the post-release
-commit.

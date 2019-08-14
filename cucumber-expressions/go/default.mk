@@ -53,7 +53,12 @@ update-version:
 
 ifneq (,$(wildcard ./cmd/main.go))
 publish: dist
-	./scripts/github-release
+ifdef NEW_VERSION
+	./scripts/github-release $(NEW_VERSION)
+else
+	@echo -e "\033[0;31mNEW_VERSION is not defined. Can't publish :-(\033[0m"
+	exit 1
+endif
 else
 publish:
 	# no-op
@@ -85,5 +90,5 @@ clean: clean-go
 .PHONY: clean
 
 clean-go:
-	rm -rf .deps .tested .mod-replaced .linted dist .dist_compressed dist_compressed
+	rm -rf .deps .tested .linted dist .dist_compressed dist_compressed
 .PHONY: clean-go
