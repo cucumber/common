@@ -1,7 +1,7 @@
 # -*- encoding: utf-8 -*-
 Gem::Specification.new do |s|
   s.name        = 'c21e'
-  s.version     = '1.2.1'
+  s.version     = '2.0.0'
   s.authors     = ["Aslak Hellesøy"]
   s.description = 'Run cross-platform executables'
   s.summary     = "#{s.name}-#{s.version}"
