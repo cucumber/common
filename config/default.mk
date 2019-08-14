@@ -50,6 +50,8 @@ publish-%: %
 post-release: $(patsubst %/Makefile,post-release-%,$(MAKEFILES))
 .PHONY: post-release
 
+post-release: commit-post-release-and-push-all
+
 post-release-%: %
 	cd $< && make post-release
 .PHONY: post-release-%
@@ -58,6 +60,11 @@ release-tag:
 	git commit -am "Release $(LIBNAME) v$(NEW_VERSION)"
 	git tag -s "$(LIBNAME)/v$(NEW_VERSION)" -m "Release $(LIBNAME) v$(NEW_VERSION)"
 .PHONY: release-tag
+
+commit-post-release-and-push-all:
+	git commit -am "Post release $(LIBNAME) v$(NEW_VERSION)"
+	git push && git push --tags
+.PHONY: commit-post-release-and-push-all
 
 clean: $(patsubst %/Makefile,clean-%,$(MAKEFILES))
 .PHONY: clean

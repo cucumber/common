@@ -1,5 +1,3 @@
-line_number: 105
-line_number: 98
 # CHANGE LOG
 All notable changes to this project will be documented in this file.
 

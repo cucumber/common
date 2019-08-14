@@ -38,7 +38,6 @@ changelog=$(echo "${changelog}" | sed "s/## \[Unreleased\]/## \[${new_version}\]
 
 line_number_colon_unreleased_link=$(echo "${changelog}" | grep -n "\[Unreleased\]")
 line_number=$(echo "${line_number_colon_unreleased_link}" | cut -d: -f1)
-echo "line_number: ${line_number}"
 unreleased_link=$(echo "${line_number_colon_unreleased_link}" | cut -d' ' -f2)
 
 if [[ "${unreleased_link}" =~ \/v([0-9]+\.[0-9]+\.[0-9]+) ]]; then

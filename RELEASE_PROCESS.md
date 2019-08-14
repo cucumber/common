@@ -90,16 +90,12 @@ Check that releases show up under:
 
 ## Post release
 
+Exit your docker container. The final step should be done on your host OS,
+because we'll be pushing to git.
+
 Run the following command:
 
     make post-release
 
-This should update the CHANGELOG to get placeholders for the Unreleased version 
-and also the `java/pom.xml` file for the snapshot releases.
-
-Exit your docker container. The final step should be done on your host OS.
-
-Commit the changes and push everything:
-
-    git commit -am "Post-release of [package] v[version]"
-    git push && git push --tags
+This should update the version in `java/pom.xml` file to use a `-SNAPSHOT` suffix.
+This is automatically committed, and pushed along with the tag of the release.
