@@ -1,4 +1,3 @@
-../CHANGELOG.md CHANGES
 ../../.templates/github/ .github/
 ../LICENSE LICENSE.txt
 ../testdata/ testdata/
