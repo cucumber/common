@@ -16,36 +16,36 @@
     "pretty-quick": "pretty-quick --staged"
   },
   "dependencies": {
-    "@types/react": "^16.8.22",
-    "@types/react-dom": "^16.8.4",
-    "cucumber-messages": "3.0.0",
-    "react": "^16.8.6",
-    "react-dom": "^16.8.6"
+    "@types/react": "^16.9.1",
+    "@types/react-dom": "^16.8.5",
+    "cucumber-messages": "4.0.0",
+    "react": "^16.9.0",
+    "react-dom": "^16.9.0"
   },
   "devDependencies": {
-    "@babel/core": "^7.4.5",
-    "@storybook/addon-actions": "^5.1.9",
-    "@storybook/addon-links": "^5.1.9",
-    "@storybook/addons": "^5.1.9",
-    "@storybook/react": "^5.1.9",
+    "@babel/core": "^7.5.5",
+    "@storybook/addon-actions": "^5.1.11",
+    "@storybook/addon-links": "^5.1.11",
+    "@storybook/addons": "^5.1.11",
+    "@storybook/react": "^5.1.11",
     "@types/mocha": "^5.2.7",
-    "@types/node": "^12.6.2",
+    "@types/node": "^12.7.1",
     "@types/storybook__react": "^4.0.2",
     "awesome-typescript-loader": "^5.2.1",
     "babel-loader": "^8.0.6",
-    "c21e": "1.2.1",
-    "gherkin": "6.0.17",
+    "c21e": "2.0.0",
+    "gherkin": "7.0.2",
     "jsdom": "^15.1.1",
     "mocha": "^6.2.0",
     "nyc": "^14.1.1",
     "prettier": "^1.18.2",
     "pretty-quick": "^1.11.1",
-    "prop-types": "^15.5.9",
-    "source-map-support": "^0.5.12",
+    "prop-types": "^15.7.2",
+    "source-map-support": "^0.5.13",
     "ts-node": "^8.3.0",
     "typescript": "^3.5.3",
-    "webpack": "^4.35.0",
-    "webpack-cli": "^3.3.5"
+    "webpack": "^4.39.2",
+    "webpack-cli": "^3.3.6"
   },
   "nyc": {
     "extension": [

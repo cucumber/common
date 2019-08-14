@@ -8,7 +8,7 @@ You should do a full build of the monorepo first, as this library depends on oth
 libraries in the monorepo. Then:
 
     npm install
-    npm storybook
+    npm run storybook
 
 ## Ideas
 
