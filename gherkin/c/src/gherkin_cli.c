@@ -75,18 +75,17 @@ int main(int argc, char** argv) {
         }
         TokenScanner* token_scanner = StringTokenScanner_new(source_event->source);
         result_code = Parser_parse(parser, token_matcher, token_scanner);
-        Event_delete((const Event*)source_event);
         if (result_code == 0) {
-            const GherkinDocumentEvent* gherkin_document_event = GherkinDocumentEvent_new(argv[i], AstBuilder_get_result(builder));
+            const GherkinDocumentEvent* gherkin_document_event = GherkinDocumentEvent_new(AstBuilder_get_result(builder, argv[i]));
             if (options.print_ast_events) {
                 Event_print((const Event*)gherkin_document_event, stdout);
             }
-            result_code = Compiler_compile(compiler, gherkin_document_event->gherkin_document);
+            result_code = Compiler_compile(compiler, gherkin_document_event->gherkin_document, source_event->source);
             Event_delete((const Event*)gherkin_document_event);
             if (result_code == 0) {
                 if (options.print_pickle_events) {
                     while (Compiler_has_more_pickles(compiler)) {
-                        const Event* pickle_event = (const Event*)PickleEvent_new(argv[i], Compiler_next_pickle(compiler));
+                        const Event* pickle_event = (const Event*)PickleEvent_new(Compiler_next_pickle(compiler));
                         Event_print(pickle_event, stdout);
                         Event_delete(pickle_event);
                     }
@@ -108,6 +107,7 @@ int main(int argc, char** argv) {
             }
         }
         TokenScanner_delete(token_scanner);
+        Event_delete((const Event*)source_event);
     }
     Compiler_delete(compiler);
     Parser_delete(parser);

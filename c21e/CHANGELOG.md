@@ -17,6 +17,18 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Fixed
 
+## [2.0.0] - 2019-08-14
+
+### Added
+
+### Changed
+
+### Deprecated
+
+### Removed
+
+### Fixed
+
 * [TypeScript] ExeFile not a constructor
   ([#641](https://github.com/cucumber/cucumber/pull/641)
    [#634](https://github.com/cucumber/cucumber/issues/634)
@@ -71,7 +83,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 * First stable release!
 
 <!-- Releases -->
-[Unreleased]: https://github.com/cucumber/cucumber/compare/c21e/v1.2.1...master
+[Unreleased]: https://github.com/cucumber/cucumber/compare/c21e/v2.0.0...master
+[2.0.0]:      https://github.com/cucumber/cucumber/compare/c21e/v1.2.1...c21e/2.0.0
 [1.2.1]:      https://github.com/cucumber/cucumber/compare/c21e/v1.2.0...c21e/1.2.1
 [1.2.0]:      https://github.com/cucumber/cucumber/compare/c21e/v1.1.9...c21e/1.2.0
 [1.1.9]:      https://github.com/cucumber/cucumber/compare/c21e/v1.1.8...c21e/v1.1.9

@@ -15,12 +15,12 @@ import static io.cucumber.datatable.CucumberDataTableException.duplicateKeyExcep
 import static io.cucumber.datatable.CucumberDataTableException.keyValueMismatchException;
 import static io.cucumber.datatable.CucumberDataTableException.keysImplyTableEntryTransformer;
 import static io.cucumber.datatable.TypeFactory.aListOf;
-import static io.cucumber.datatable.UndefinedDataTableTypeException.singletonNoConverterDefined;
+import static io.cucumber.datatable.UndefinedDataTableTypeException.listNoConverterDefined;
+import static io.cucumber.datatable.UndefinedDataTableTypeException.listTableTooWide;
+import static io.cucumber.datatable.UndefinedDataTableTypeException.listsNoConverterDefined;
 import static io.cucumber.datatable.UndefinedDataTableTypeException.mapNoConverterDefined;
 import static io.cucumber.datatable.UndefinedDataTableTypeException.mapsNoConverterDefined;
-import static io.cucumber.datatable.UndefinedDataTableTypeException.listNoConverterDefined;
-import static io.cucumber.datatable.UndefinedDataTableTypeException.listsNoConverterDefined;
-import static io.cucumber.datatable.UndefinedDataTableTypeException.listTableTooWide;
+import static io.cucumber.datatable.UndefinedDataTableTypeException.singletonNoConverterDefined;
 import static io.cucumber.datatable.UndefinedDataTableTypeException.singletonTableTooWide;
 import static java.util.Collections.emptyList;
 import static java.util.Collections.emptyMap;

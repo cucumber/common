@@ -1,6 +1,17 @@
 #include "unicode_utilities.h"
 
-static void print_code_point_to_utf8_file(FILE* file, long code_point);
+typedef struct Utf8Bytes {
+    unsigned char byte_count;
+    unsigned char bytes[5];
+} Utf8Bytes;
+
+static long get_code_point_from_utf16_surrogate(const wchar_t* text, int pos);
+
+static void write_utf8_bytes_for_code_point(Utf8Bytes* utf8_bytes, long code_point);
+
+static void print_code_point_to_utf8_file(FILE* file, Utf8Bytes* utf8_bytes);
+
+static void print_code_point_to_utf8_buffer(unsigned char* buffer, Utf8Bytes* utf8_bytes);
 
 long UnicodeUtilities_read_code_point_from_utf8_source(Utf8Source* utf8_source) {
     unsigned char c = Utf8Source_read(utf8_source);
@@ -48,53 +59,87 @@ int UnicodeUtilities_print_wide_character_to_utf8_file(FILE* file, const wchar_t
     if (!UnicodeUtilities_is_utf16_surrogate(text[pos]) || sizeof(wchar_t) > 2) {
         code_point = (long)text[pos];
     } else {
-        long leading_surrogate = (long)text[pos++];
-        long trailing_surrogate = (long)text[pos];
-        code_point = 0x10000 + ((leading_surrogate - 0xD800) << 10) + (trailing_surrogate - 0xDC00);
+        code_point = get_code_point_from_utf16_surrogate(text, pos++);
     }
-    print_code_point_to_utf8_file(file, code_point);
+    Utf8Bytes utf8_bytes;
+    write_utf8_bytes_for_code_point(&utf8_bytes, code_point);
+    print_code_point_to_utf8_file(file, &utf8_bytes);
     return pos;
+}
+
+int UnicodeUtilities_print_wide_character_to_utf8_buffer(unsigned char* buffer, const wchar_t* text, int pos) {
+    long code_point;
+    if (!UnicodeUtilities_is_utf16_surrogate(text[pos]) || sizeof(wchar_t) > 2) {
+        code_point = (long)text[pos];
+    } else {
+        code_point = get_code_point_from_utf16_surrogate(text, pos++);
+    }
+    Utf8Bytes utf8_bytes;
+    write_utf8_bytes_for_code_point(&utf8_bytes, code_point);
+    print_code_point_to_utf8_buffer(buffer, &utf8_bytes);
+    return utf8_bytes.byte_count;
 }
 
 bool UnicodeUtilities_is_utf16_surrogate(const wchar_t wide_char) {
     return wide_char >= 0xD800 && wide_char < 0xE000;
 }
 
-void print_code_point_to_utf8_file(FILE* file, long code_point) {
-    int trailing_bytes;
+static long get_code_point_from_utf16_surrogate(const wchar_t* text, int pos) {
+    long leading_surrogate = (long)text[pos];
+    long trailing_surrogate = (long)text[pos + 1];
+    return 0x10000 + ((leading_surrogate - 0xD800) << 10) + (trailing_surrogate - 0xDC00);
+}
+
+static void write_utf8_bytes_for_code_point(Utf8Bytes* utf8_bytes, long code_point) {
     if (code_point < 0x80) {
-        fputc((char)code_point, file);
+        utf8_bytes->bytes[0] = (unsigned char)code_point;
+        utf8_bytes->byte_count = 1;
         return;
     } else if (code_point < 0x800) {
-        fputc((char)(0xC0 | ((code_point & 0x7C0) >> 6)), file);
-        trailing_bytes = 1;
+        utf8_bytes->bytes[0] = (unsigned char)(0xC0 | ((code_point & 0x7C0) >> 6));
+        utf8_bytes->byte_count = 2;
     } else if (code_point < 0x10000) {
-        fputc((char)(0xE0 | ((code_point & 0xF000) >> 12)), file);
-        trailing_bytes = 2;
+        utf8_bytes->bytes[0] = (unsigned char)(0xE0 | ((code_point & 0xF000) >> 12));
+        utf8_bytes->byte_count = 3;
     } else if (code_point < 0x200000) {
-        fputc((char)(0xF0 | ((code_point & 0x1C0000) >> 18)), file);
-        trailing_bytes = 3;
+        utf8_bytes->bytes[0] = (unsigned char)(0xF0 | ((code_point & 0x1C0000) >> 18));
+        utf8_bytes->byte_count = 4;
     } else if (code_point < 0x4000000) {
-        fputc((char)(0xF8 | ((code_point & 0x3000000) >> 24)), file);
-        trailing_bytes = 4;
+        utf8_bytes->bytes[0] = (unsigned char)(0xF8 | ((code_point & 0x3000000) >> 24));
+        utf8_bytes->byte_count = 5;
     } else {
-        fputc((char)(0xFC | ((code_point & 0x40000000) >> 30)), file);
-        trailing_bytes = 5;
+        utf8_bytes->bytes[0] = (unsigned char)(0xFC | ((code_point & 0x40000000) >> 30));
+        utf8_bytes->byte_count = 6;
     }
-    switch (trailing_bytes) {
+    int i = 1;
+    switch (utf8_bytes->byte_count) {
+    case 6:
+        utf8_bytes->bytes[i++] = (unsigned char)(0x80 | ((code_point & 0x3F000000) >> 24));
+        /* fall through */
     case 5:
-        fputc((char)(0x80 | ((code_point & 0x3F000000) >> 24)), file);
+        utf8_bytes->bytes[i++] = (unsigned char)(0x80 | ((code_point & 0xFC0000) >> 18));
         /* fall through */
     case 4:
-        fputc((char)(0x80 | ((code_point & 0xFC0000) >> 18)), file);
+        utf8_bytes->bytes[i++] = (unsigned char)(0x80 | ((code_point & 0x3F000) >> 12));
         /* fall through */
     case 3:
-        fputc((char)(0x80 | ((code_point & 0x3F000) >> 12)), file);
+        utf8_bytes->bytes[i++] = (unsigned char)(0x80 | ((code_point & 0xFC0) >> 6));
         /* fall through */
     case 2:
-        fputc((char)(0x80 | ((code_point & 0xFC0) >> 6)), file);
-        /* fall through */
-    case 1:
-        fputc((char)(0x80 | (code_point & 0x3F)), file);
+        utf8_bytes->bytes[i++] = (unsigned char)(0x80 | (code_point & 0x3F));
+    }
+}
+
+void print_code_point_to_utf8_file(FILE* file, Utf8Bytes* utf8_bytes) {
+    int i;
+    for (i = 0; i < utf8_bytes->byte_count; ++i) {
+        fputc((char)utf8_bytes->bytes[i], file);
+    }
+}
+
+void print_code_point_to_utf8_buffer(unsigned char* buffer, Utf8Bytes* utf8_bytes) {
+    int i;
+    for (i = 0; i < utf8_bytes->byte_count; ++i) {
+        buffer[i] = utf8_bytes->bytes[i];
     }
 }

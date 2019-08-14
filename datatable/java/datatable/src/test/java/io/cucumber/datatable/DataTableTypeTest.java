@@ -9,12 +9,12 @@ import java.util.Map;
 import static java.util.Collections.singletonList;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertThat;
 
 public class DataTableTypeTest {
 
-    private final DataTableType singleCellType = new DataTableType(Integer.class, (String cell) -> Integer.parseInt(cell));
+    private final DataTableType singleCellType = new DataTableType(Integer.class, (TableCellTransformer<Integer>) Integer::parseInt);
 
     @Test
     public void shouldTransformATableCell() {

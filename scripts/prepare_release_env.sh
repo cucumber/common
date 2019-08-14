@@ -2,12 +2,17 @@
 
 if [ "${BASH_SOURCE[0]}" -ef "$0" ]
 then
-    echo "Usage: source ./scripts/prepare_release_env.sh"
-    exit 1
+  >&2 echo "Usage: source ./scripts/prepare_release_env.sh"
+  exit 1
 fi
 
-echo "$GIT_CRYPT_KEY_BASE64" | base64 -d > ~/git-crypt.key
-git-crypt unlock ~/git-crypt.key
+if [ -z ${GIT_CRYPT_KEY_BASE64} ]; then
+  echo "Not decrypting secrets - hopefully this is already done"
+else
+  echo "${GIT_CRYPT_KEY_BASE64}" | base64 -d > ~/git-crypt.key
+  git-crypt unlock ~/git-crypt.key
+fi
+
 shopt -s dotglob
 cp -R secrets/* ~
 chmod 0600 ~/.gem/credentials

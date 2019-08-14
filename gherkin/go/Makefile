@@ -1,7 +1,7 @@
 include default.mk
 
 GHERKIN_DIALECTS := $(shell cat gherkin-languages.json | jq --compact-output --sort-keys . | base64 | tr -d '\n')
-GOX_LDFLAGS := "-X 'main.version=${CIRCLE_TAG}' -X 'main.gherkinDialects=${GHERKIN_DIALECTS}'"
+GOX_LDFLAGS := "-X 'main.version=${NEW_VERSION}' -X 'main.gherkinDialects=${GHERKIN_DIALECTS}'"
 
 GOOD_FEATURE_FILES = $(shell find testdata/good -name "*.feature")
 BAD_FEATURE_FILES  = $(shell find testdata/bad -name "*.feature")

@@ -1,7 +1,6 @@
 package io.cucumber.datatable;
 
 import io.cucumber.datatable.dependency.com.fasterxml.jackson.databind.JavaType;
-import io.cucumber.datatable.dependency.com.fasterxml.jackson.databind.ObjectMapper;
 import org.apiguardian.api.API;
 
 import java.lang.reflect.Type;
@@ -88,7 +87,7 @@ public final class DataTableType {
      * @return new DataTableType witch transforms {@code List<List<String>>} to {@code List<List<T>>}
      */
     static <T> DataTableType defaultCell(final Class<T> cellType, final TableCellByTypeTransformer defaultDataTableTransformer) {
-        return new DataTableType(cellType, (String  cell) -> defaultDataTableTransformer.transform(cell, cellType));
+        return new DataTableType(cellType, (String cell) -> defaultDataTableTransformer.transform(cell, cellType));
     }
 
     /**

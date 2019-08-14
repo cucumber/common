@@ -23,6 +23,4 @@ public class EnumParameterTypeTest {
         List<Argument<?>> args = expression.match("I am happy");
         assertEquals(Mood.happy, args.get(0).getValue());
     }
-
-
 }
