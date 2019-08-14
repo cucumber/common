@@ -19,6 +19,12 @@ This document is formatted according to the principles of [Keep A CHANGELOG](htt
 
 ### Fixed
 
+## [7.0.1] - 2019-08-14
+
+### Fixed
+
+* The 7.0.0 release failed
+
 ## [7.0.0] - 2019-08-14
 
 ### Added
@@ -507,8 +513,9 @@ to Gherkin 2.
 * First release
 
 <!-- Releases -->
-[Unreleased]: https://github.com/cucumber/cucumber/compare/gherkin/v7.0.0...master
-[7.0.0]:     https://github.com/cucumber/cucumber/compare/gherkin-v6.0.17...gherkin/v7.0.0
+[Unreleased]: https://github.com/cucumber/cucumber/compare/gherkin/v7.0.1...master
+[7.0.1]:     https://github.com/cucumber/cucumber/compare/gherkin/v7.0.0...gherkin/v7.0.1
+[7.0.0]:     https://github.com/cucumber/cucumber/compare/gherkin/v6.0.17...gherkin/v7.0.0
 [6.0.17]:     https://github.com/cucumber/cucumber/compare/gherkin-v6.0.15...gherkin/v6.0.17
 [6.0.15]:     https://github.com/cucumber/cucumber/compare/gherkin-v6.0.14...gherkin/v6.0.15
 [6.0.14]:     https://github.com/cucumber/cucumber/compare/gherkin-v6.0.13...gherkin/v6.0.14
