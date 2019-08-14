@@ -9,15 +9,9 @@ This document is formatted according to the principles of [Keep A CHANGELOG](htt
 ----
 ## [Unreleased]
 
-### Added
-
 ### Changed
 
-### Deprecated
-
-### Removed
-
-### Fixed
+* Upgrade to c21e 2.0.0
 
 ## [7.0.1] - 2019-08-14
 
