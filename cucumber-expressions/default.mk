@@ -47,24 +47,32 @@ publish-%: %
 	cd $< && make publish
 .PHONY: publish-%
 
-post-release: $(patsubst %/Makefile,post-release-%,$(MAKEFILES))
-.PHONY: post-release
-
-post-release: commit-post-release-and-push-all
-
-post-release-%: %
-	cd $< && make post-release
-.PHONY: post-release-%
-
 release-tag:
 	git commit -am "Release $(LIBNAME) v$(NEW_VERSION)"
 	git tag -s "$(LIBNAME)/v$(NEW_VERSION)" -m "Release $(LIBNAME) v$(NEW_VERSION)"
 .PHONY: release-tag
 
-commit-post-release-and-push-all:
+post-release: $(patsubst %/Makefile,post-release-%,$(MAKEFILES))
+.PHONY: post-release
+
+post-release: push-tag-and-commit-post-release
+
+post-release-%: %
+	cd $< && make post-release
+.PHONY: post-release-%
+
+push-tag-and-commit-post-release:
+ifdef NEW_VERSION
+	git push --tags
 	git commit -am "Post release $(LIBNAME) v$(NEW_VERSION)"
-	git push && git push --tags
-.PHONY: commit-post-release-and-push-all
+	# We're not pushing the post-release commit, as it would abort the running
+	# CI tag build. 
+	# A new `git push` should be done manually after the CI tag build has completed.
+else
+	@echo -e "\033[0;31mNEW_VERSION is not defined.\033[0m"
+	exit 1
+endif
+.PHONY: push-tag-and-commit-post-release
 
 clean: $(patsubst %/Makefile,clean-%,$(MAKEFILES))
 .PHONY: clean

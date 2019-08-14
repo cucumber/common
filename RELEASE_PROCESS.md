@@ -93,9 +93,9 @@ Check that releases show up under:
 Exit your docker container. The final step should be done on your host OS,
 because we'll be pushing to git.
 
-Run the following command:
+Run the following command (using the same NEW_VERSION as you used for the release):
 
-    make post-release
+    NEW_VERSION=1.2.3 make post-release
 
 This should update the version in `java/pom.xml` file to use a `-SNAPSHOT` suffix.
 This is automatically committed, and pushed along with the tag of the release.
