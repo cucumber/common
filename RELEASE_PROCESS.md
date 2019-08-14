@@ -61,7 +61,7 @@ If all is good, commit the files.
 
 ## Update changelog
 
-Open `CHANGELOG.md` and remove any `###` headers without content.
+Open `CHANGELOG.md` and remove any `###` headers without content. Do not commit.
 
 No further edits should be made. The markdown headers and links will be updated
 automatically in the next step.

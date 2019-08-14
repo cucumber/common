@@ -1,3 +1,4 @@
+line_number: 105
 line_number: 98
 # CHANGE LOG
 All notable changes to this project will be documented in this file.
@@ -17,6 +18,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Removed
 
 ### Fixed
+
+## [3.0.4] - 2019-08-14
+
+### Fixed
+
+* [Go] Tag the cucumber/cucumber-messages-go subrepo (again)
 
 ## [3.0.3] - 2019-08-14
 
@@ -108,7 +115,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 * Protobuf messages for Go, Java, JavaScript, TypeScript and Ruby
 
 <!-- Releases -->
-[Unreleased]: https://github.com/cucumber/cucumber/compare/cucumber-messages/v3.0.3...master
+[Unreleased]: https://github.com/cucumber/cucumber/compare/cucumber-messages/v3.0.4...master
+[3.0.4]:      https://github.com/cucumber/cucumber/compare/cucumber-messages/v3.0.3...cucumber-messages/v3.0.4
 [3.0.3]:      https://github.com/cucumber/cucumber/compare/cucumber-messages/v3.0.2...cucumber-messages/v3.0.3
 [3.0.2]:      https://github.com/cucumber/cucumber/compare/cucumber-messages/v3.0.1...cucumber-messages/v3.0.2
 [3.0.1]:      https://github.com/cucumber/cucumber/compare/cucumber-messages/v3.0.0...cucumber-messages/v3.0.1
