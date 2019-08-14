@@ -443,7 +443,11 @@ workflows:
   
   monorepo-serial:
     jobs:
-      - build-serial
+      - build-serial:
+          # Explicitly enable build for tags. Needed to sync tags to subrepos.
+          filters:
+            tags:
+              only: /.*/
 
   monorepo-parallel:
     jobs:
