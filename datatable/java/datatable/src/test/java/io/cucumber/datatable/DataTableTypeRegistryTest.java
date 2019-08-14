@@ -1,6 +1,6 @@
 package io.cucumber.datatable;
 
-import io.cucumber.datatable.dependency.com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
@@ -32,24 +32,15 @@ public class DataTableTypeRegistryTest {
     private static final Type LIST_OF_LIST_OF_DOUBLE = aListOf(aListOf(Double.class));
     private static final Type LIST_OF_LIST_OF_STRING = aListOf(aListOf(String.class));
 
-    private static final TableCellByTypeTransformer PLACE_TABLE_CELL_TRANSFORMER = new TableCellByTypeTransformer() {
-        @Override
-        @SuppressWarnings("unchecked")
-        public <T> T transform(String value, Class<T> cellType) {
-            return (T) new Place(value);
-        }
-    };
-    private static final TableEntryByTypeTransformer PLACE_TABLE_ENTRY_TRANSFORMER = new TableEntryByTypeTransformer() {
-        @Override
-        @SuppressWarnings("unchecked")
-        public <T> T transform(Map<String, String> entry, Class<T> type, TableCellByTypeTransformer cellTransformer) {
-            return (T) new Place(entry.get("name"), Integer.valueOf(entry.get("index of place")));
-        }
-    };
+    private static final TableCellByTypeTransformer PLACE_TABLE_CELL_TRANSFORMER =
+            (value, cellType) -> new Place(value);
+    private static final TableEntryByTypeTransformer PLACE_TABLE_ENTRY_TRANSFORMER =
+            (entry, type, cellTransformer) -> new Place(entry.get("name"), Integer.parseInt(entry.get("index of place")));
+    private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
     private static final DataTableType CELL = new DataTableType(Place.class, (String cell) ->
-            new ObjectMapper().convertValue(cell, Place.class));
+            OBJECT_MAPPER.convertValue(cell, Place.class));
     private static final DataTableType ENTRY = new DataTableType(Place.class, (Map<String, String> entry) ->
-            new ObjectMapper().convertValue(entry, Place.class));
+            OBJECT_MAPPER.convertValue(entry, Place.class));
 
     @Rule
     public ExpectedException expectedException = ExpectedException.none();
@@ -60,23 +51,18 @@ public class DataTableTypeRegistryTest {
     @Test
     public void throws_duplicate_type_exception() {
 
-        registry.defineDataTableType(new DataTableType(Place.class, new TableTransformer<Place>() {
-            @Override
-            public Place transform(DataTable table) {
-                return new Place(table.cell(0, 0));
-            }
-
-        }));
+        registry.defineDataTableType(new DataTableType(
+                Place.class,
+                (TableTransformer<Place>) table -> new Place(table.cell(0, 0))
+        ));
         expectedException.expectMessage("" +
                 "There is already a data table type registered for class io.cucumber.datatable.Place.\n" +
                 "It registered an TableTransformer. You are trying to add a TableTransformer"
         );
-        registry.defineDataTableType(new DataTableType(Place.class, new TableTransformer<Place>() {
-            @Override
-            public Place transform(DataTable table) {
-                return new Place(table.cell(0, 0));
-            }
-        }));
+        registry.defineDataTableType(new DataTableType(
+                Place.class,
+                (TableTransformer<Place>) table -> new Place(table.cell(0, 0))
+        ));
     }
 
     @Test

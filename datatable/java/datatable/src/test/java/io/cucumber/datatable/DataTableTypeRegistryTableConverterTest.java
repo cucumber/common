@@ -1,9 +1,9 @@
 package io.cucumber.datatable;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.collect.HashMultiset;
 import com.google.common.collect.Multiset;
 import io.cucumber.datatable.DataTable.TableConverter;
-import io.cucumber.datatable.dependency.com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
@@ -36,6 +36,8 @@ import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertSame;
 
 public class DataTableTypeRegistryTableConverterTest {
+
+    private static final ObjectMapper objectMapper = new ObjectMapper();
 
     private static final Type MAP_OF_STRING_TO_COORDINATE = new TypeReference<Map<String, Coordinate>>() {
     }.getType();
@@ -79,91 +81,42 @@ public class DataTableTypeRegistryTableConverterTest {
     }.getType();
     private static final Type MAP_OF_STRING_TO_MAP_OF_INTEGER_TO_PIECE = new TypeReference<Map<String, Map<Integer, Piece>>>() {
     }.getType();
-    private static final TableTransformer<ChessBoard> CHESS_BOARD_TABLE_TRANSFORMER = new TableTransformer<ChessBoard>() {
-        @Override
-        public ChessBoard transform(DataTable table) {
-            return new ChessBoard(table.subTable(1, 1).asList());
-        }
-    };
-    private static final TableCellTransformer<Piece> PIECE_TABLE_CELL_TRANSFORMER = new TableCellTransformer<Piece>() {
-        @Override
-        public Piece transform(String cell) {
-            return Piece.fromString(cell);
-        }
-    };
-    private static final TableCellTransformer<AirPortCode> AIR_PORT_CODE_TABLE_CELL_TRANSFORMER = new TableCellTransformer<AirPortCode>() {
-        @Override
-        public AirPortCode transform(String cell) {
-            return new AirPortCode(cell);
-        }
-    };
+    private static final TableTransformer<ChessBoard> CHESS_BOARD_TABLE_TRANSFORMER = table -> new ChessBoard(table.subTable(1, 1).asList());
+    private static final TableCellTransformer<Piece> PIECE_TABLE_CELL_TRANSFORMER = Piece::fromString;
+    private static final TableCellTransformer<AirPortCode> AIR_PORT_CODE_TABLE_CELL_TRANSFORMER = AirPortCode::new;
     private static final SimpleDateFormat SIMPLE_DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd");
 
     static {
         SIMPLE_DATE_FORMAT.setTimeZone(TimeZone.getTimeZone("UTC"));
     }
 
-    private static final DataTableType DATE_TABLE_CELL_TRANSFORMER = new DataTableType(Date.class, new TableCellTransformer<Date>() {
-        @Override
-        public Date transform(String cell) throws Throwable {
-            return SIMPLE_DATE_FORMAT.parse(cell);
-        }
-    });
+    private static final DataTableType DATE_TABLE_CELL_TRANSFORMER = new DataTableType(Date.class, (String cell) -> SIMPLE_DATE_FORMAT.parse(cell));
 
-    private static final TableEntryTransformer<Coordinate> COORDINATE_TABLE_ENTRY_TRANSFORMER = new TableEntryTransformer<Coordinate>() {
-        @Override
-        public Coordinate transform(Map<String, String> tableEntry) {
-            return new Coordinate(
-                    parseDouble(tableEntry.get("lat")),
-                    parseDouble(tableEntry.get("lon"))
-            );
-        }
+    private static final TableEntryTransformer<Coordinate> COORDINATE_TABLE_ENTRY_TRANSFORMER = tableEntry -> new Coordinate(
+            parseDouble(tableEntry.get("lat")),
+            parseDouble(tableEntry.get("lon"))
+    );
+    private static final TableEntryTransformer<Author> AUTHOR_TABLE_ENTRY_TRANSFORMER =
+            tableEntry -> new Author(tableEntry.get("firstName"), tableEntry.get("lastName"), tableEntry.get("birthDate"));
+    private static final TableRowTransformer<Coordinate> COORDINATE_TABLE_ROW_TRANSFORMER = tableRow -> new Coordinate(
+            Double.parseDouble(tableRow.get(0)),
+            Double.parseDouble(tableRow.get(1))
+    );
+    private static final TableEntryTransformer<AirPortCode> AIR_PORT_CODE_TABLE_ENTRY_TRANSFORMER =
+            tableEntry -> new AirPortCode(tableEntry.get("code"));
+    private static final TableEntryByTypeTransformer TABLE_ENTRY_BY_TYPE_CONVERTER_SHOULD_NOT_BE_USED =
+            (Map<String, String> entry, Type type, TableCellByTypeTransformer cellTransformer) -> {
+                throw new IllegalStateException("Should not be used");
+            };
+
+    private static final TableCellByTypeTransformer TABLE_CELL_BY_TYPE_CONVERTER_SHOULD_NOT_BE_USED = (value, cellType) -> {
+        throw new IllegalStateException("Should not be used");
     };
-    private static final TableEntryTransformer<Author> AUTHOR_TABLE_ENTRY_TRANSFORMER = new TableEntryTransformer<Author>() {
-        @Override
-        public Author transform(Map<String, String> tableEntry) {
-            return new Author(tableEntry.get("firstName"), tableEntry.get("lastName"), tableEntry.get("birthDate"));
-        }
-    };
-    private static final TableRowTransformer<Coordinate> COORDINATE_TABLE_ROW_TRANSFORMER = new TableRowTransformer<Coordinate>() {
-        @Override
-        public Coordinate transform(List<String> tableRow) {
-            return new Coordinate(
-                    Double.parseDouble(tableRow.get(0)),
-                    Double.parseDouble(tableRow.get(1))
-            );
-        }
-    };
-    private static final TableEntryTransformer<AirPortCode> AIR_PORT_CODE_TABLE_ENTRY_TRANSFORMER = new TableEntryTransformer<AirPortCode>() {
-        @Override
-        public AirPortCode transform(Map<String, String> tableEntry) {
-            return new AirPortCode(tableEntry.get("code"));
-        }
-    };
-    private static final TableEntryByTypeTransformer TABLE_ENTRY_BY_TYPE_CONVERTER_SHOULD_NOT_BE_USED = new TableEntryByTypeTransformer() {
-        @Override
-        public <T> T transform(Map<String, String> entry, Class<T> type, TableCellByTypeTransformer cellTransformer) {
-            throw new IllegalStateException("Should not be used");
-        }
-    };
-    private static final TableCellByTypeTransformer TABLE_CELL_BY_TYPE_CONVERTER_SHOULD_NOT_BE_USED = new TableCellByTypeTransformer() {
-        @Override
-        public <T> T transform(String value, Class<T> cellType) {
-            throw new IllegalStateException("Should not be used");
-        }
-    };
-    private static final TableEntryByTypeTransformer JACKSON_TABLE_ENTRY_BY_TYPE_CONVERTER = new TableEntryByTypeTransformer() {
-        @Override
-        public <T> T transform(Map<String, String> entry, Class<T> type, TableCellByTypeTransformer cellTransformer) {
-            return new ObjectMapper().convertValue(entry, type);
-        }
-    };
-    private static final TableCellByTypeTransformer JACKSON_TABLE_CELL_BY_TYPE_CONVERTER = new TableCellByTypeTransformer() {
-        @Override
-        public <T> T transform(String value, Class<T> cellType) {
-            return new ObjectMapper().convertValue(value, cellType);
-        }
-    };
+    private static final TableEntryByTypeTransformer JACKSON_TABLE_ENTRY_BY_TYPE_CONVERTER =
+            (entry, type, cellTransformer) -> objectMapper.convertValue(entry, objectMapper.constructType(type));
+
+    private static final TableCellByTypeTransformer JACKSON_TABLE_CELL_BY_TYPE_CONVERTER =
+            (value, cellType) -> objectMapper.convertValue(value, objectMapper.constructType(cellType));
 
     private final DataTableTypeRegistry registry = new DataTableTypeRegistry(ENGLISH);
     private final TableConverter converter = new DataTableTypeRegistryTableConverter(registry);
@@ -1022,12 +975,7 @@ public class DataTableTypeRegistryTableConverterTest {
         );
 
         final DataTable expected = emptyDataTable();
-        registry.defineDataTableType(new DataTableType(DataTable.class, new TableTransformer<DataTable>() {
-            @Override
-            public DataTable transform(DataTable raw) {
-                return expected;
-            }
-        }));
+        registry.defineDataTableType(new DataTableType(DataTable.class, (DataTable raw) -> expected));
 
         assertSame(expected, converter.convert(table, DataTable.class));
     }

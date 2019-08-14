@@ -56,5 +56,13 @@
             <artifactId>gherkin</artifactId>
             <scope>test</scope>
         </dependency>
+
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            <version>2.9.9.3</version>
+            <scope>test</scope>
+        </dependency>
+
     </dependencies>
 </project>
