@@ -37,7 +37,7 @@ update-version-%: %
 	cd $< && make update-version
 .PHONY: update-version-%
 
-release: update-version clean default publish release-tag
+release: update-version clean default release-tag publish
 .PHONY: release
 
 publish: $(patsubst %/Makefile,publish-%,$(MAKEFILES))
