@@ -7,7 +7,19 @@ This project adheres to [Semantic Versioning](http://semver.org).
 This document is formatted according to the principles of [Keep A CHANGELOG](http://keepachangelog.com).
 
 ----
-## [7.0.0] - Not released, in Git
+## [Unreleased]
+
+### Added
+
+### Changed
+
+### Deprecated
+
+### Removed
+
+### Fixed
+
+## [7.0.0] - 2019-08-14
 
 ### Added
 
@@ -16,12 +28,6 @@ This document is formatted according to the principles of [Keep A CHANGELOG](htt
    [charlierudolph]
    [aslakhellesoy])
 * Populate the `Pickle#id` field with a SHA1 hash of the source + line + column.
-
-### Changed
-
-### Deprecated
-
-### Removed
 
 ### Fixed
 
@@ -501,7 +507,8 @@ to Gherkin 2.
 * First release
 
 <!-- Releases -->
-[Unreleased]: https://github.com/cucumber/cucumber/compare/gherkin/v6.0.17...HEAD
+[Unreleased]: https://github.com/cucumber/cucumber/compare/gherkin/v7.0.0...master
+[7.0.0]:     https://github.com/cucumber/cucumber/compare/gherkin-v6.0.17...gherkin/v7.0.0
 [6.0.17]:     https://github.com/cucumber/cucumber/compare/gherkin-v6.0.15...gherkin/v6.0.17
 [6.0.15]:     https://github.com/cucumber/cucumber/compare/gherkin-v6.0.14...gherkin/v6.0.15
 [6.0.14]:     https://github.com/cucumber/cucumber/compare/gherkin-v6.0.13...gherkin/v6.0.14

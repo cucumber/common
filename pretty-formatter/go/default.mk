@@ -5,7 +5,7 @@ PATH := $(PATH):$(GOPATH)/bin
 GO_SOURCE_FILES := $(shell find . -name "*.go" | sort)
 MOD_DIR := $(shell dirname $$(find . -name go.mod))
 LIBNAME := $(shell basename $$(dirname $$(pwd)))
-GOX_LDFLAGS := "-X main.version=${CIRCLE_TAG}"
+GOX_LDFLAGS := "-X main.version=${NEW_VERSION}"
 EXES := $(shell find dist -name '$(LIBNAME)-*')
 UPX_EXES = $(patsubst dist/$(LIBNAME)-%,dist_compressed/$(LIBNAME)-%,$(EXES))
 # Determine if we're on linux or osx (ignoring other OSes as we're not building on them)
@@ -31,11 +31,11 @@ dist: $(EXE)
 
 $(EXE): .deps $(GO_SOURCE_FILES)
 	mkdir -p dist
-ifndef ALPINE
+ifndef NO_CROSS_COMPILE
 	# Cross-compile executable for many platforms if we're not running on Alpine (Docker)
 	# where cross-compilation doesn't work.
 	go get github.com/aslakhellesoy/gox
-	gox -ldflags $(GOX_LDFLAGS) -output "dist/$(LIBNAME)-{{.OS}}-{{.Arch}}" -rebuild ./cmd
+	gox -cgo -buildmode=exe -ldflags $(GOX_LDFLAGS) -output "dist/$(LIBNAME)-{{.OS}}-{{.Arch}}" -rebuild ./cmd
 else
 	go build -ldflags $(GOX_LDFLAGS) -o $@ ./cmd
 endif
