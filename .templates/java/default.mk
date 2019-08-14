@@ -20,7 +20,7 @@ update-version:
 ifdef NEW_VERSION
 	mvn versions:set -DnewVersion=$(NEW_VERSION) -DgenerateBackupPoms=false
 else
-	@echo -e "\033[0;NEW_VERSION is not defined. Can't update version :-(\033[0m"
+	@echo -e "\033[0;31mNEW_VERSION is not defined. Can't update version :-(\033[0m"
 	exit 1
 endif
 .PHONY: update-version

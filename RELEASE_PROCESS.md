@@ -61,15 +61,10 @@ If all is good, commit the files.
 
 ## Update changelog
 
-The `CHANGELOG.md` file in the package directory must be updated to reflect the
-changes that are going into this release:
+Open `CHANGELOG.md` and remove any `###` headers without content.
 
-* Under `<!-- Releases -->` at the bottom:
-  * Update the `Unreleased` link
-  * Create a new link for the new release
-* Change `[Unreleased]` to `[major.minor.patch] - YYYY-mm-dd`
-* Remove any `###` headers without content
-* `git add CHANGELOG.md`, but don't commit it (that will happen in the post release step).
+No further edits should be made. The markdown headers and links will be updated
+automatically in the next step.
 
 ## Release packages
 
@@ -81,8 +76,9 @@ Publish a release with the following command:
 This will:
 
 * Update the version number in all the package descriptors
-* Commit the changed files
+* Update `CHANGELOG.md` with the new version
 * Publish all the packages
+* Commit all the changed files
 * Create a git tag
 
 Check that releases show up under:

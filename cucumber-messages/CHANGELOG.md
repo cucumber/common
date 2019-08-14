@@ -1,3 +1,4 @@
+line_number: 98
 # CHANGE LOG
 All notable changes to this project will be documented in this file.
 
@@ -5,7 +6,19 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ----
-## [3.0.3] - 2019-08-13
+## [Unreleased]
+
+### Added
+
+### Changed
+
+### Deprecated
+
+### Removed
+
+### Fixed
+
+## [3.0.3] - 2019-08-14
 
 ### Fixed
 

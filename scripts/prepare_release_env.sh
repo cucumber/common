@@ -2,8 +2,8 @@
 
 if [ "${BASH_SOURCE[0]}" -ef "$0" ]
 then
-    echo "Usage: source ./scripts/prepare_release_env.sh"
-    exit 1
+  >&2 echo "Usage: source ./scripts/prepare_release_env.sh"
+  exit 1
 fi
 
 if [ -z ${GIT_CRYPT_KEY_BASE64} ]; then
