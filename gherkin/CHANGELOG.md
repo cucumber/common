@@ -19,6 +19,8 @@ This document is formatted according to the principles of [Keep A CHANGELOG](htt
 
 ### Fixed
 
+* [Ruby] Fix inclusion of gherkin executables
+
 ## [7.0.2] - 2019-08-14
 
 ### Changed
