@@ -96,9 +96,6 @@ Check that releases show up under:
 
 ## Post release
 
-Exit your docker container. The final step should be done on your host OS,
-because we'll be pushing to git.
-
 Open `go/go.mod` and *restore* any `replace` directives you removed in the [update dependencied](#update-dependencies) step above.
 
 Run the following command (using the same NEW_VERSION as you used for the release):

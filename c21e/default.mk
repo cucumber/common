@@ -37,7 +37,7 @@ update-version-%: %
 	cd $< && make update-version
 .PHONY: update-version-%
 
-release: update-version clean default release-tag publish
+release: update-version clean default create-and-push-release-tag publish
 .PHONY: release
 
 publish: $(patsubst %/Makefile,publish-%,$(MAKEFILES))
@@ -47,22 +47,22 @@ publish-%: %
 	cd $< && make publish
 .PHONY: publish-%
 
-release-tag:
+create-and-push-release-tag:
 	git commit -am "Release $(LIBNAME) v$(NEW_VERSION)"
 	git tag -s "$(LIBNAME)/v$(NEW_VERSION)" -m "Release $(LIBNAME) v$(NEW_VERSION)"
 	git push --tags
-.PHONY: release-tag
+.PHONY: create-and-push-release-tag
 
 post-release: $(patsubst %/Makefile,post-release-%,$(MAKEFILES))
 .PHONY: post-release
 
-post-release: push-tag-and-commit-post-release
+post-release: commit-and-push-post-release
 
 post-release-%: %
 	cd $< && make post-release
 .PHONY: post-release-%
 
-push-tag-and-commit-post-release:
+commit-and-push-post-release:
 ifdef NEW_VERSION
 	git push --tags
 	git commit -am "Post release $(LIBNAME) v$(NEW_VERSION)"
@@ -71,7 +71,7 @@ else
 	@echo -e "\033[0;31mNEW_VERSION is not defined.\033[0m"
 	exit 1
 endif
-.PHONY: push-tag-and-commit-post-release
+.PHONY: commit-and-push-post-release
 
 clean: $(patsubst %/Makefile,clean-%,$(MAKEFILES))
 .PHONY: clean
