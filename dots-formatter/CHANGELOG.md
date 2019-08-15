@@ -19,6 +19,18 @@ This document is formatted according to the principles of [Keep A CHANGELOG](htt
 
 ### Fixed
 
+## [1.2.0] - 2019-08-15
+
+### Added
+
+### Changed
+
+### Deprecated
+
+### Removed
+
+### Fixed
+
 ## [1.1.2]
 
 * Misc updates
@@ -48,7 +60,8 @@ This document is formatted according to the principles of [Keep A CHANGELOG](htt
 * First release
 
 <!-- Releases -->
-[Unreleased]: https://github.com/cucumber/cucumber/compare/gherkin/v1.1.2...master
+[Unreleased]: https://github.com/cucumber/cucumber/compare/gherkin/v1.2.0...master
+[1.2.0]:     https://github.com/cucumber/cucumber/compare/dots-formatter/v1.1.2...dots-formatter/v1.2.0
 [1.1.2]:     https://github.com/cucumber/cucumber/compare/dots-formatter/v1.1.1...dots-formatter/v1.1.2
 [1.1.1]:     https://github.com/cucumber/cucumber/compare/dots-formatter/v1.0.4...dots-formatter/v1.1.1
 [1.0.4]:     https://github.com/cucumber/cucumber/compare/dots-formatter/v1.0.3...dots-formatter/v1.0.4
@@ -58,4 +71,3 @@ This document is formatted according to the principles of [Keep A CHANGELOG](htt
 
 <!-- Contributors -->
 [aslakhellesoy]:    https://github.com/aslakhellesoy
-
