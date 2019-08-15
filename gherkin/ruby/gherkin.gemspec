@@ -1,7 +1,7 @@
 # encoding: utf-8
 Gem::Specification.new do |s|
   s.name        = 'gherkin'
-  s.version     = '7.0.2'
+  s.version     = '7.0.3'
   s.authors     = ["Gáspár Nagy", "Aslak Hellesøy", "Steve Tooke"]
   s.description = 'Gherkin parser'
   s.summary     = "#{s.name}-#{s.version}"

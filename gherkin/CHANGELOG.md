@@ -19,6 +19,10 @@ This document is formatted according to the principles of [Keep A CHANGELOG](htt
 
 ### Fixed
 
+## [7.0.3] - 2019-08-15
+
+### Fixed
+
 * [Ruby] Fix inclusion of gherkin executables
 
 ## [7.0.2] - 2019-08-14
@@ -521,7 +525,8 @@ to Gherkin 2.
 * First release
 
 <!-- Releases -->
-[Unreleased]: https://github.com/cucumber/cucumber/compare/gherkin/v7.0.2...master
+[Unreleased]: https://github.com/cucumber/cucumber/compare/gherkin/v7.0.3...master
+[7.0.3]:     https://github.com/cucumber/cucumber/compare/gherkin/v7.0.2...gherkin/v7.0.3
 [7.0.2]:     https://github.com/cucumber/cucumber/compare/gherkin/v7.0.1...gherkin/v7.0.2
 [7.0.1]:     https://github.com/cucumber/cucumber/compare/gherkin/v7.0.0...gherkin/v7.0.1
 [7.0.0]:     https://github.com/cucumber/cucumber/compare/gherkin/v6.0.17...gherkin/v7.0.0
