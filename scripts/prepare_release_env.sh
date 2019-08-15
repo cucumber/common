@@ -15,7 +15,12 @@ fi
 
 shopt -s dotglob
 cp -R secrets/* ~
+
+chmod 0600 ~/.ssh/id_rsa
+chmod 0644 ~/.ssh/id_rsa.pub
+chmod 0644 ~/.ssh/known_hosts
 chmod 0600 ~/.gem/credentials
+
 source ~/.bash_profile
 
 export GPG_TTY=$(tty)

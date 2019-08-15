@@ -21,15 +21,9 @@ This document is formatted according to the principles of [Keep A CHANGELOG](htt
 
 ## [1.2.0] - 2019-08-15
 
-### Added
-
 ### Changed
 
-### Deprecated
-
-### Removed
-
-### Fixed
+* Upgrade to cucumber-messages v3
 
 ## [1.1.2]
 
