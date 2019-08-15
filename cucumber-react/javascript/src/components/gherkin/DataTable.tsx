@@ -3,13 +3,10 @@ import { messages } from "cucumber-messages"
 import IDataTable = messages.GherkinDocument.Feature.Step.IDataTable
 
 interface IProps {
-  dataTable?: IDataTable | null
+  dataTable: IDataTable
 }
 
 const DataTable: React.FunctionComponent<IProps> = ({dataTable}) => {
-  if (!dataTable) {
-    return null
-  }
   return (
     <table>
       <tbody>

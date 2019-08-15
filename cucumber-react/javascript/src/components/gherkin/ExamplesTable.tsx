@@ -3,19 +3,16 @@ import { messages } from "cucumber-messages"
 import ITableRow = messages.GherkinDocument.Feature.ITableRow
 
 interface IProps {
-  tableHeader?: ITableRow | null
-  tableBody?: ITableRow[] | null
+  tableHeader: ITableRow
+  tableBody: ITableRow[]
 }
 
 const ExamplesTable: React.FunctionComponent<IProps> = ({tableHeader, tableBody}) => {
-  if (!tableHeader) {
-    return null
-  }
   return (
     <table>
       <thead>
       <tr>
-        {(tableHeader.cells || []).map((cell, j) => (
+        {(tableHeader.cells).map((cell, j) => (
           <th key={j}>
             <pre>{cell.value}</pre>
           </th>
@@ -23,9 +20,9 @@ const ExamplesTable: React.FunctionComponent<IProps> = ({tableHeader, tableBody}
       </tr>
       </thead>
       <tbody>
-      {(tableBody || []).map((row, i) => (
+      {(tableBody).map((row, i) => (
         <tr key={i}>
-          {(row.cells || []).map((cell, j) => (
+          {(row.cells).map((cell, j) => (
             <td key={j}>
               <pre>{cell.value}</pre>
             </td>

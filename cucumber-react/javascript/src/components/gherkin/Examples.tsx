@@ -7,13 +7,10 @@ import Description from "./Description"
 import IExamples = messages.GherkinDocument.Feature.Scenario.IExamples
 
 interface IExamplesProps {
-  examples?: IExamples | null
+  examples: IExamples
 }
 
 const Examples: React.SFC<IExamplesProps> = ({examples}) => {
-  if (!examples) {
-    return null
-  }
   return (
     <section>
       <Tags tags={examples.tags}/>

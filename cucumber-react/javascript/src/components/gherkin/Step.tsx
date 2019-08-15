@@ -13,8 +13,8 @@ const Step: React.FunctionComponent<IProps> = ({step}) => {
   return (
     <li>
       <Keyword>{step.keyword}</Keyword><span>{step.text}</span>
-      <DataTable dataTable={step.dataTable}/>
-      <DocString docString={step.docString}/>
+      {step.dataTable && <DataTable dataTable={step.dataTable}/>}
+      {step.docString && <DocString docString={step.docString}/>}
     </li>
   )
 }

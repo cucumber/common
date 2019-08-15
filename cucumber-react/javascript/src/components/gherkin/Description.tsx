@@ -1,11 +1,11 @@
 import * as React from "react"
 
 interface IProps {
-  description?: string | null
+  description: string
 }
 
 const Description: React.FunctionComponent<IProps> = ({description}) => {
-  return description ? <p>{description}</p> : null
+  return <p>{description}</p>
 }
 
 export default Description

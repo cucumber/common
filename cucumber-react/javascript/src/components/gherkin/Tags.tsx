@@ -4,13 +4,10 @@ import Tag from "./Tag"
 import ITag = messages.GherkinDocument.Feature.ITag
 
 interface IProps {
-  tags?: ITag[] | null
+  tags: ITag[]
 }
 
 const Tags: React.FunctionComponent<IProps> = ({tags}) => {
-  if (!tags) {
-    return null
-  }
   return (
     <ul>
       {tags.map((tag, index) => (
