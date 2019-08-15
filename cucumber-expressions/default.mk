@@ -50,6 +50,7 @@ publish-%: %
 release-tag:
 	git commit -am "Release $(LIBNAME) v$(NEW_VERSION)"
 	git tag -s "$(LIBNAME)/v$(NEW_VERSION)" -m "Release $(LIBNAME) v$(NEW_VERSION)"
+	git push --tags
 .PHONY: release-tag
 
 post-release: $(patsubst %/Makefile,post-release-%,$(MAKEFILES))
