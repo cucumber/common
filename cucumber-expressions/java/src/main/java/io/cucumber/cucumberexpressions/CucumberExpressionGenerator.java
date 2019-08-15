@@ -53,13 +53,12 @@ public final class CucumberExpressionGenerator {
                 // same ParameterType.
                 // We're sorting the list so preferential parameter types are listed first.
                 // Users are most likely to want these, so they should be listed at the top.
-                SortedSet<ParameterType<?>> parameterTypes = new TreeSet<>();
                 Set<ParameterType<?>> set = new HashSet<>();
                 for (ParameterTypeMatcher parameterTypeMatcher : bestParameterTypeMatchers) {
                     ParameterType<?> parameterType = parameterTypeMatcher.getParameterType();
                     set.add(parameterType);
                 }
-                parameterTypes.addAll(set);
+                SortedSet<ParameterType<?>> parameterTypes = new TreeSet<>(set);
 
                 parameterTypeCombinations.add(new ArrayList<>(parameterTypes));
 
@@ -114,7 +113,7 @@ public final class CucumberExpressionGenerator {
         for (String captureGroupRegexp : captureGroupRegexps) {
             Pattern regexp = Pattern.compile("(" + captureGroupRegexp + ")");
             Matcher matcher = regexp.matcher(text);
-            result.add(new ParameterTypeMatcher(parameterType, matcher, text.length()));
+            result.add(new ParameterTypeMatcher(parameterType, matcher, text));
         }
         return result;
     }

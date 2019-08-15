@@ -6,6 +6,7 @@ import java.util.Iterator;
 import java.util.NoSuchElementException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.IntStream;
 
 /**
  * TreeRegexp represents matches as a tree of {@link Group}
@@ -29,9 +30,11 @@ final class TreeRegexp {
 
         stack.push(new GroupBuilder());
         char last = 0;
+
         boolean escaping = false, charClass = false;
         boolean nonCapturingMaybe = false;
         int n = 1;
+
         for (char c : chars) {
             if (c == '[' && !escaping) {
                 charClass = true;
@@ -53,7 +56,7 @@ final class TreeRegexp {
                 nonCapturingMaybe = false;
             } else if (c == '?' && last == '(') {
                 nonCapturingMaybe = true;
-            } else if ((c == ':' || c == '!') && nonCapturingMaybe) {
+            } else if ((c == ':' || c == '!' || c == '=' || c == '<') && last == '?' && nonCapturingMaybe) {
                 stack.peek().setNonCapturing();
                 nonCapturingMaybe = false;
             }
@@ -72,38 +75,10 @@ final class TreeRegexp {
     Group match(CharSequence s) {
         final Matcher matcher = pattern.matcher(s);
         if (!matcher.matches()) return null;
-        return groupBuilder.build(matcher, new IntRange(0, matcher.groupCount() + 1));
+        return groupBuilder.build(matcher, IntStream.rangeClosed(0, matcher.groupCount()).iterator());
     }
 
     public GroupBuilder getGroupBuilder() {
         return groupBuilder;
-    }
-
-    private static class IntRange implements Iterator<Integer> {
-        private final int endExclusive;
-        private int n;
-
-        public IntRange(int startInclusive, int endExclusive) {
-            this.endExclusive = endExclusive;
-            n = startInclusive;
-        }
-
-        @Override
-        public boolean hasNext() {
-            return n < endExclusive;
-        }
-
-        @Override
-        public Integer next() {
-            if (!hasNext()) {
-                throw new NoSuchElementException();
-            }
-            return n++;
-        }
-
-        @Override
-        public void remove() {
-            throw new UnsupportedOperationException();
-        }
     }
 }

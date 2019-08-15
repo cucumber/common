@@ -14,7 +14,7 @@ executors:
     docker:
       # Remember to update to the latest image tag.
       # Run `source scripts/functions.sh && docker_image Dockerfile` to print it.
-      - image: cucumber/cucumber-build:0c1d729b5c4ff5dd5bf247cd96ebaff7
+      - image: cucumber/cucumber-build:01a99bbce444eee296f68471b3341855
     working_directory: ~/cucumber
   docker-circleci-golang:
     docker:
@@ -54,7 +54,7 @@ jobs:
       - run:
           name: everything
           command: |
-            make
+            make ci
 
   checkout:
     executor: docker-circleci-ruby
@@ -421,6 +421,19 @@ jobs:
             cd tag-expressions/python
             make
 
+### C
+
+  gherkin-c:
+    executor: docker-cucumber-build
+    steps:
+      - attach_workspace:
+          at: "~/cucumber"
+      - run:
+          name: gherkin/c
+          command: |
+            cd gherkin/c
+            make
+
 ###
 ### Workflows ###
 ###
@@ -430,7 +443,11 @@ workflows:
   
   monorepo-serial:
     jobs:
-      - build-serial
+      - build-serial:
+          # Explicitly enable build for tags. Needed to sync tags to subrepos.
+          filters:
+            tags:
+              only: /.*/
 
   monorepo-parallel:
     jobs:
@@ -533,5 +550,11 @@ workflows:
 ## Python
 
       - tag-expressions-python:
+          requires:
+            - checkout
+
+### C
+
+      - gherkin-c:
           requires:
             - checkout

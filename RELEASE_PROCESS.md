@@ -37,12 +37,18 @@ when you run certain `git` commands on your host OS later.
 
 ## Update dependencies
 
-Before you make a release, you should update the package's dependencies to the latest
-available versions:
+Before you make a major release, you should consider updating the package's dependencies to the latest
+available stable versions.
 
     cd thepackage
-    make clean && make
+
+Open `go/go.mod` and remove any `replace` directives. When we make a release, we
+must *only* depend on a released versions.
+
+Then, upgrade other dependencies:
+
     make update-dependencies
+    make clean && make
 
 This will typically modify the files where dependencies are declared, *without*
 committing the changes to git. Examine what changed:
@@ -61,15 +67,10 @@ If all is good, commit the files.
 
 ## Update changelog
 
-The `CHANGELOG.md` file in the package directory must be updated to reflect the
-changes that are going into this release:
+Open `CHANGELOG.md` and remove any `###` headers without content. Do not commit.
 
-* Under `<!-- Releases -->` at the bottom:
-  * Update the `Unreleased` link
-  * Create a new link for the new release
-* Change `[Unreleased]` to `[major.minor.patch] - YYYY-mm-dd`
-* Remove any `###` headers without content
-* `git add CHANGELOG.md`, but don't commit it (that will happen in the post release step).
+No further edits should be made. The markdown headers and links will be updated
+automatically in the next step.
 
 ## Release packages
 
@@ -81,8 +82,9 @@ Publish a release with the following command:
 This will:
 
 * Update the version number in all the package descriptors
-* Commit the changed files
+* Update `CHANGELOG.md` with the new version
 * Publish all the packages
+* Commit all the changed files
 * Create a git tag
 
 Check that releases show up under:
@@ -94,36 +96,11 @@ Check that releases show up under:
 
 ## Post release
 
-TODO: Script all of this!
+Open `go/go.mod` and *restore* any `replace` directives you removed in the [update dependencied](#update-dependencies) step above.
 
-First off - exit your docker container. This should be done on your host OS:
+Run the following command (using the same NEW_VERSION as you used for the release):
 
-Add an empty `[Unreleased]` section at the top of `CHANGELOG.md` with:
+    NEW_VERSION=1.2.3 make post-release
 
-```markdown
-## [Unreleased]
-
-### Added
-
-### Changed
-
-### Deprecated
-
-### Removed
-
-### Fixed
-```
-
-Also, add a link at the bottom:
-
-```markdown
-[Unreleased]: https://github.com/cucumber/cucumber/compare/[package]/v[version]...master
-```
-
-You also need to bump the patch version in the `pom.xml` and append `-SNAPSHOT`
-to it.
-
-Finally, commit it and push everything:
-
-    git commit -am "Post-release of [package] v[version]"
-    git push && git push --tags
+This should update the version in `java/pom.xml` file to use a `-SNAPSHOT` suffix.
+This is automatically committed, and pushed along with the tag of the release.

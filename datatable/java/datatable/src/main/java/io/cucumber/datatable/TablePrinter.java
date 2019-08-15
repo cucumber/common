@@ -14,6 +14,7 @@ class TablePrinter {
             throw new IllegalStateException(e);
         }
     }
+
     void printTable(List<List<String>> table, Appendable appendable) throws IOException {
         calculateColumnAndMaxLengths(table);
         for (int i = 0; i < table.size(); ++i) {
@@ -70,11 +71,11 @@ class TablePrinter {
     }
 
     private String escapeCell(String cell) {
-        if(cell == null){
+        if (cell == null) {
             return "";
         }
 
-        if(cell.isEmpty()){
+        if (cell.isEmpty()) {
             return "[empty]";
         }
 

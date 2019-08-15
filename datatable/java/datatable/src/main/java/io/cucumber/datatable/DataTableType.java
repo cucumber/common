@@ -97,7 +97,7 @@ public final class DataTableType {
      * @return new DataTableType witch transforms {@code List<List<String>>} to
      * {@code List<List<T>>}
      */
-    static DataTableType defaultCell(Type cellType, final TableCellByTypeTransformer defaultDataTableTransformer) {
+    static DataTableType defaultCell(Type cellType, TableCellByTypeTransformer defaultDataTableTransformer) {
         return new DataTableType(cellType, (String cell) -> defaultDataTableTransformer.transform(cell, cellType));
     }
 
@@ -112,7 +112,7 @@ public final class DataTableType {
      * @return new DataTableType witch transforms {@code List<List<String>>} to
      * {@code List<T>}
      */
-    static <T> DataTableType defaultEntry(Type entryType, TableEntryByTypeTransformer defaultDataTableTransformer, final TableCellByTypeTransformer tableCellByTypeTransformer) {
+    static <T> DataTableType defaultEntry(Type entryType, TableEntryByTypeTransformer defaultDataTableTransformer,  TableCellByTypeTransformer tableCellByTypeTransformer) {
         return new DataTableType(entryType, (Map<String, String> entry) -> defaultDataTableTransformer.transform(entry, entryType, tableCellByTypeTransformer));
     }
 

@@ -2,14 +2,13 @@ package dots
 
 import (
 	"bytes"
-	"io/ioutil"
-	"strings"
-	"testing"
-
-	"github.com/cucumber/cucumber/cucumber-messages/go"
+	"github.com/cucumber/cucumber-messages-go/v4"
 	"github.com/fatih/color"
 	gio "github.com/gogo/protobuf/io"
 	"github.com/stretchr/testify/require"
+	"io/ioutil"
+	"strings"
+	"testing"
 )
 
 func TestAllResultTypes(t *testing.T) {

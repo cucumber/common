@@ -20,7 +20,6 @@ final class DataTableCellByTypeTransformer implements TableCellByTypeTransformer
         if (typeByType == null) {
             throw new CucumberDataTableException("There is no DataTableType registered for cell type " + toValueType);
         }
-        //noinspection unchecked
         return ((List<List<Object>>) typeByType.transform(singletonList(singletonList(cellValue)))).get(0).get(0);
     }
 }

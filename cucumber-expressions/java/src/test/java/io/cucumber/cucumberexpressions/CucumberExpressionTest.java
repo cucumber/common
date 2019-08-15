@@ -1,8 +1,6 @@
 package io.cucumber.cucumberexpressions;
 
-import org.junit.Rule;
 import org.junit.Test;
-import org.junit.rules.ExpectedException;
 
 import java.lang.reflect.Type;
 import java.math.BigDecimal;
@@ -16,22 +14,18 @@ import static java.util.Collections.emptyList;
 import static java.util.Collections.singletonList;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertThrows;
 
 public class CucumberExpressionTest {
-
-    @Rule
-    public ExpectedException expectedException = ExpectedException.none();
 
     @Test
     public void documents_match_arguments() {
         ParameterTypeRegistry parameterTypeRegistry = new ParameterTypeRegistry(Locale.ENGLISH);
 
-        /// [capture-match-arguments]
         String expr = "I have {int} cuke(s)";
         Expression expression = new CucumberExpression(expr, parameterTypeRegistry);
         List<Argument<?>> args = expression.match("I have 7 cukes");
         assertEquals(7, args.get(0).getValue());
-        /// [capture-match-arguments]
     }
 
     @Test
@@ -122,20 +116,17 @@ public class CucumberExpressionTest {
 
     @Test
     public void does_not_allow_parameter_type_with_left_bracket() {
-        expectedException.expectMessage("Illegal character '[' in parameter name {[string]}");
-        match("{[string]}", "something");
+        assertThrows("Illegal character '[' in parameter name {[string]}", CucumberExpressionException.class, () -> match("{[string]}", "something"));
     }
 
     @Test
     public void throws_unknown_parameter_type() {
-        expectedException.expectMessage("Undefined parameter type {unknown}. Please register a ParameterType for {unknown}.");
-        match("{unknown}", "something");
+        assertThrows("Undefined parameter type {unknown}. Please register a ParameterType for {unknown}.", CucumberExpressionException.class, () -> match("{unknown}", "something"));
     }
 
     @Test
     public void does_not_allow_optional_parameter_types() {
-        expectedException.expectMessage("Parameter types cannot be optional: ({int})");
-        match("({int})", "3");
+        assertThrows("Parameter types cannot be optional: ({int})", CucumberExpressionException.class, () -> match("({int})", "3"));
     }
 
     @Test
@@ -145,14 +136,12 @@ public class CucumberExpressionTest {
 
     @Test
     public void does_not_allow_text_parameter_type_alternation() {
-        expectedException.expectMessage("Parameter types cannot be alternative: x/{int}");
-        match("x/{int}", "3");
+        assertThrows("Parameter types cannot be alternative: x/{int}", CucumberExpressionException.class, () -> match("x/{int}", "3"));
     }
 
     @Test
     public void does_not_allow_parameter_type_text_alternation() {
-        expectedException.expectMessage("Parameter types cannot be alternative: {int}/x");
-        match("{int}/x", "3");
+        assertThrows("Parameter types cannot be alternative: {int}/x", CucumberExpressionException.class, () -> match("{int}/x", "3"));
     }
 
     @Test

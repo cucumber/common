@@ -1,6 +1,6 @@
 {
   "name": "cucumber-messages",
-  "version": "3.0.2",
+  "version": "4.0.0",
   "description": "Protocol Buffer messages for Cucumber's inter-process communication",
   "main": "dist/src/index.js",
   "types": "dist/src/index.d.ts",
@@ -22,7 +22,7 @@
   },
   "devDependencies": {
     "@types/mocha": "^5.2.7",
-    "@types/node": "^12.6.8",
+    "@types/node": "^12.7.1",
     "copyfiles": "^2.1.1",
     "mocha": "^6.2.0",
     "nyc": "^14.1.1",

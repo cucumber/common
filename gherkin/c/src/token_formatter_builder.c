@@ -99,10 +99,10 @@ const char* token_type_to_string(TokenType token_type) {
         return "Empty";
     case Token_FeatureLine:
         return "FeatureLine";
+    case Token_RuleLine:
+        return "RuleLine";
     case Token_ScenarioLine:
         return "ScenarioLine";
-    case Token_ScenarioOutlineLine:
-        return "ScenarioOutlineLine";
     case Token_ExamplesLine:
         return "ExamplesLine";
     case Token_BackgroundLine:

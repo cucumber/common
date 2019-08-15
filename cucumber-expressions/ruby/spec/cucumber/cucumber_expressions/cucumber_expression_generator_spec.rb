@@ -109,32 +109,32 @@ module Cucumber
         ))
         @parameter_type_registry.define_parameter_type(ParameterType.new(
             'optional-hotel',
-            /(1st hotel)?/,
+            /(1 hotel)?/,
             String,
             lambda {|s| s},
             true,
             false
         ))
 
-        expression = @generator.generate_expressions("I reach Stage4: 1st flight-1st hotel")[0]
-        # While you would expect this to be `I reach Stage{int}: {optional-flight}-{optional-hotel}`
+        expression = @generator.generate_expressions("I reach Stage 4: 1st flight -1 hotel")[0]
+        # While you would expect this to be `I reach Stage {int}: {optional-flight} -{optional-hotel}`
         # the `-1` causes {int} to match just before {optional-hotel}.
-        expect(expression.source).to eq("I reach Stage{int}: {optional-flight}{int}st hotel")
+        expect(expression.source).to eq("I reach Stage {int}: {optional-flight} {int} hotel")
       end
 
       it "generates at most 256 expressions" do
         for i in 0..3
           @parameter_type_registry.define_parameter_type(ParameterType.new(
               "my-type-#{i}",
-              /[a-z]/,
+              /([a-z] )*?[a-z]/,
               String,
               lambda {|s| s},
               true,
               false
           ))
         end
-        # This would otherwise generate 4^11=419430 expressions and consume just shy of 1.5GB.
-        expressions = @generator.generate_expressions("a simple step")
+        # This would otherwise generate 4^11=4194300 expressions and consume just shy of 1.5GB.
+        expressions = @generator.generate_expressions("a s i m p l e s t e p")
         expect(expressions.length).to eq(256)
       end
 
@@ -160,6 +160,58 @@ module Cucumber
         expect(expressions.length).to eq(2)
         expect(expressions[0].source).to eq("{exactly-one} {zero-or-more} {zero-or-more}")
         expect(expressions[1].source).to eq("{zero-or-more} {zero-or-more} {zero-or-more}")
+      end
+
+      context "does not suggest parameter when match is" do
+        before do
+          @parameter_type_registry.define_parameter_type(ParameterType.new(
+              'direction',
+              /(up|down)/,
+              String,
+              lambda {|s| s},
+              true,
+              false
+          ))
+        end
+
+        it "at the beginning of a word" do
+          expect(@generator.generate_expression("When I download a picture").source).not_to eq("When I {direction}load a picture")
+          expect(@generator.generate_expression("When I download a picture").source).to eq("When I download a picture")
+        end
+
+        it "inside a word" do
+          expect(@generator.generate_expression("When I watch the muppet show").source).not_to eq("When I watch the m{direction}pet show")
+          expect(@generator.generate_expression("When I watch the muppet show").source).to eq("When I watch the muppet show")
+        end
+
+        it "at the end of a word" do
+          expect(@generator.generate_expression("When I create a group").source).not_to eq("When I create a gro{direction}")
+          expect(@generator.generate_expression("When I create a group").source).to eq("When I create a group")
+        end
+      end
+
+      context "does suggest parameter when match is" do
+        before do
+          @parameter_type_registry.define_parameter_type(ParameterType.new(
+              'direction',
+              /(up|down)/,
+              String,
+              lambda {|s| s},
+              true,
+              false
+          ))
+        end
+
+        it "a full word" do
+          expect(@generator.generate_expression("When I go down the road").source).to eq("When I go {direction} the road")
+          expect(@generator.generate_expression("When I walk up the hill").source).to eq("When I walk {direction} the hill")
+          expect(@generator.generate_expression("up the hill, the road goes down").source).to eq("{direction} the hill, the road goes {direction}")
+        end
+
+        it 'wrapped around punctuation characters' do
+          expect(@generator.generate_expression("When direction is:down").source).to eq("When direction is:{direction}")
+          expect(@generator.generate_expression("Then direction is down.").source).to eq("Then direction is {direction}.")
+        end
       end
 
       def assert_expression(expected_expression, expected_argument_names, text)

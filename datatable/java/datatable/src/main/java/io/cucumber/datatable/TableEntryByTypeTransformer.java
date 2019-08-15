@@ -24,6 +24,7 @@ public interface TableEntryByTypeTransformer {
      * @param toValueType     type of an expected object to return
      * @param cellTransformer cell transformer
      * @return new instance of {@code type}
+     * @throws Throwable unable to transform
      */
     Object transform(Map<String, String> entryValue, Type toValueType, TableCellByTypeTransformer cellTransformer) throws Throwable;
 

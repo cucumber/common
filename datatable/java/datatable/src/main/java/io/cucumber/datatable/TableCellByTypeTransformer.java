@@ -6,7 +6,7 @@ import java.lang.reflect.Type;
 
 /**
  * Transformer for single cell. Similar to {@link TableCellTransformer} but
- * additionally it receives expected {@code Class<T>} of cell.
+ * additionally it receives expected {@code Type} of cell.
  *
  * @see TableCellTransformer
  */
@@ -20,6 +20,7 @@ public interface TableCellByTypeTransformer {
      * @param cellValue   cell
      * @param toValueType expected cell type
      * @return an instance of type
+     * @throws Throwable when unable to transform
      */
     Object transform(String cellValue, Type toValueType) throws Throwable;
 }
