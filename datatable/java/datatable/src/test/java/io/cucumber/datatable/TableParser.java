@@ -1,6 +1,5 @@
 package io.cucumber.datatable;
 
-import com.google.common.base.Joiner;
 import gherkin.AstBuilder;
 import gherkin.Parser;
 import gherkin.ast.GherkinDocument;
@@ -19,7 +18,7 @@ class TableParser {
 
 
     static DataTable parse(String... source) {
-        return parse(Joiner.on('\n').join(source));
+        return parse(String.join("\n", source));
     }
 
     static DataTable parse(String source) {

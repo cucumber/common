@@ -32,6 +32,7 @@ import static java.util.Collections.emptyMap;
 import static java.util.Collections.nCopies;
 import static java.util.Collections.unmodifiableList;
 import static java.util.Collections.unmodifiableMap;
+import static java.util.Objects.requireNonNull;
 
 @API(status = API.Status.STABLE)
 public final class DataTableTypeRegistryTableConverter implements TableConverter {
@@ -50,8 +51,8 @@ public final class DataTableTypeRegistryTableConverter implements TableConverter
     @Override
     @SuppressWarnings("unchecked")
     public <T> T convert(DataTable dataTable, Type type, boolean transposed) {
-        if (dataTable == null) throw new NullPointerException("dataTable may not be null");
-        if (type == null) throw new NullPointerException("type may not be null");
+        requireNonNull(dataTable, "dataTable may not be null");
+        requireNonNull(type, "type may not be null");
 
         if (transposed) {
             dataTable = dataTable.transpose();
@@ -118,8 +119,8 @@ public final class DataTableTypeRegistryTableConverter implements TableConverter
 
     @Override
     public <T> List<T> toList(DataTable dataTable, Type itemType) {
-        if (dataTable == null) throw new NullPointerException("dataTable may not be null");
-        if (itemType == null) throw new NullPointerException("itemType may not be null");
+        requireNonNull(dataTable, "dataTable may not be null");
+        requireNonNull(itemType, "itemType may not be null");
 
         if (dataTable.isEmpty()) {
             return emptyList();
@@ -181,8 +182,8 @@ public final class DataTableTypeRegistryTableConverter implements TableConverter
     @Override
     @SuppressWarnings("unchecked")
     public <T> List<List<T>> toLists(DataTable dataTable, Type itemType) {
-        if (dataTable == null) throw new NullPointerException("dataTable may not be null");
-        if (itemType == null) throw new NullPointerException("itemType may not be null");
+        requireNonNull(dataTable, "dataTable may not be null");
+        requireNonNull(itemType, "itemType may not be null");
 
         if (dataTable.isEmpty()) {
             return emptyList();
@@ -200,9 +201,9 @@ public final class DataTableTypeRegistryTableConverter implements TableConverter
 
     @Override
     public <K, V> Map<K, V> toMap(DataTable dataTable, Type keyType, Type valueType) {
-        if (dataTable == null) throw new NullPointerException("dataTable may not be null");
-        if (keyType == null) throw new NullPointerException("keyType may not be null");
-        if (valueType == null) throw new NullPointerException("valueType may not be null");
+        requireNonNull(dataTable, "dataTable may not be null");
+        requireNonNull(keyType, "keyType may not be null");
+        requireNonNull(valueType, "valueType may not be null");
 
         if (dataTable.isEmpty()) {
             return emptyMap();
@@ -348,9 +349,9 @@ public final class DataTableTypeRegistryTableConverter implements TableConverter
     @Override
     @SuppressWarnings("unchecked")
     public <K, V> List<Map<K, V>> toMaps(DataTable dataTable, Type keyType, Type valueType) {
-        if (dataTable == null) throw new NullPointerException("dataTable may not be null");
-        if (keyType == null) throw new NullPointerException("keyType may not be null");
-        if (valueType == null) throw new NullPointerException("valueType may not be null");
+        requireNonNull(dataTable, "dataTable may not be null");
+        requireNonNull(keyType, "keyType may not be null");
+        requireNonNull(valueType, "valueType may not be null");
 
         if (dataTable.isEmpty()) {
             return emptyList();
