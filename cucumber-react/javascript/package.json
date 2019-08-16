@@ -16,7 +16,7 @@
     "pretty-quick": "pretty-quick --staged"
   },
   "dependencies": {
-    "@types/react": "^16.9.1",
+    "@types/react": "^16.9.2",
     "@types/react-dom": "^16.8.5",
     "cucumber-messages": "4.0.0",
     "react": "^16.9.0",
@@ -29,12 +29,12 @@
     "@storybook/addons": "^5.1.11",
     "@storybook/react": "^5.1.11",
     "@types/mocha": "^5.2.7",
-    "@types/node": "^12.7.1",
+    "@types/node": "^12.7.2",
     "@types/storybook__react": "^4.0.2",
     "awesome-typescript-loader": "^5.2.1",
     "babel-loader": "^8.0.6",
     "c21e": "2.0.0",
-    "gherkin": "7.0.2",
+    "gherkin": "7.0.3",
     "jsdom": "^15.1.1",
     "mocha": "^6.2.0",
     "nyc": "^14.1.1",
