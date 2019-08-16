@@ -18,7 +18,6 @@ Gem::Specification.new do |s|
                     'source_code_uri'   => 'https://github.com/cucumber/cucumber/blob/master/c21e/ruby',
                   }
 
-  s.add_development_dependency 'bundler', '~> 1.16', '>= 1.16.2'
   s.add_development_dependency 'rake', '~> 12.3', '>= 12.3.3'
   s.add_development_dependency 'rspec', '~> 3.8', '>= 3.8.0'
 

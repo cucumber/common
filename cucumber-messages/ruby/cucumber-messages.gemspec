@@ -21,7 +21,6 @@ Gem::Specification.new do |s|
 
   # Users of JRuby should use google-protobuf 3.2.0.2 (later versions don't work)
   s.add_dependency('google-protobuf', ['>= 3.2', '<= 3.8'])
-  s.add_development_dependency 'bundler', '~> 1.16', '>= 1.16.2'
   s.add_development_dependency 'rake', '~> 12.3', '>= 12.3.3'
   s.add_development_dependency 'rspec', '~> 3.8', '>= 3.8.0'
 
