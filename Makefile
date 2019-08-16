@@ -5,7 +5,8 @@ MAKEFILES=c21e/Makefile \
 	datatable/Makefile \
 	config/Makefile \
 	cucumber-expressions/Makefile \
-	tag-expressions/Makefile
+	tag-expressions/Makefile \
+	dots-formatter/Makefile
 
 default: .rsynced $(patsubst %/Makefile,default-%,$(MAKEFILES))
 .PHONY: default
