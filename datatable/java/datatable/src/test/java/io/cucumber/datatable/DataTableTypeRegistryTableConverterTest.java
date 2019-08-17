@@ -180,7 +180,7 @@ class DataTableTypeRegistryTableConverterTest {
                 "| 3 |",
                 "| 5 |",
                 "| 6 |",
-                "| 7 | "
+                "| 7 |"
         );
 
         List<String> expected = asList("3", "5", "6", "7");
@@ -195,7 +195,7 @@ class DataTableTypeRegistryTableConverterTest {
                 "| 3 |",
                 "| 5 |",
                 "| 6 |",
-                "| 7 | "
+                "| 7 |"
         );
 
         List<Integer> expected = asList(3, 5, 6, 7);
@@ -208,7 +208,7 @@ class DataTableTypeRegistryTableConverterTest {
     void convert_to_list__double_column__throws_exception() {
         DataTable table = parse("",
                 "| 3 | 5 |",
-                "| 6 | 7 | "
+                "| 6 | 7 |"
         );
 
         CucumberDataTableException exception = assertThrows(
@@ -361,7 +361,7 @@ class DataTableTypeRegistryTableConverterTest {
     void convert_to_lists() {
         DataTable table = parse("",
                 "| 3 | 5 |",
-                "| 6 | 7 | "
+                "| 6 | 7 |"
         );
 
         List<List<String>> expected = asList(
@@ -376,7 +376,7 @@ class DataTableTypeRegistryTableConverterTest {
     void convert_to_lists_of_primitive() {
         DataTable table = parse("",
                 "| 3 | 5 |",
-                "| 6 | 7 | "
+                "| 6 | 7 |"
         );
 
         List<List<Integer>> expected = asList(
@@ -557,10 +557,10 @@ class DataTableTypeRegistryTableConverterTest {
     @Test
     void convert_to_map_of_object_to_object__without_implied_entries__using_default_cell_transformer() {
         DataTable table = parse("",
-                "| KMSY | KSFO | ",
-                "| KSFO | KSEA | ",
-                "| KSEA | KJFK | ",
-                "| KJFK | AMS  | "
+                "| KMSY | KSFO |",
+                "| KSFO | KSEA |",
+                "| KSEA | KJFK |",
+                "| KJFK | AMS  |"
         );
 
         Map<AirPortCode, AirPortCode> expected = new HashMap<AirPortCode, AirPortCode>() {{
@@ -578,10 +578,10 @@ class DataTableTypeRegistryTableConverterTest {
     @Test
     void to_map_of_object_to_object__without_implied_entries__prefers__default_table_entry_converter() {
         DataTable table = parse("",
-                "| KMSY | KSFO | ",
-                "| KSFO | KSEA | ",
-                "| KSEA | KJFK | ",
-                "| KJFK | AMS  | "
+                "| KMSY | KSFO |",
+                "| KSFO | KSEA |",
+                "| KSEA | KJFK |",
+                "| KJFK | AMS  |"
         );
 
         Map<AirPortCode, AirPortCode> expected = new HashMap<AirPortCode, AirPortCode>() {{
