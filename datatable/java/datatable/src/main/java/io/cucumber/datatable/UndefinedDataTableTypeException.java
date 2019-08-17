@@ -52,8 +52,7 @@ public final class UndefinedDataTableTypeException extends CucumberDataTableExce
     static CucumberDataTableException listNoConverterDefined(Type itemType, String missingConverter, Type typeToRegister) {
         return new UndefinedDataTableTypeException(
                 format("Can't convert DataTable to List<%s>.\n" +
-                                "You can register a DataTableType using DataTableType.entry(%s.class).\n" +
-                                "For more control you can define your own DataTableType with a %s for %s.\n",
+                                "You can register a with a %s for %s.\n",
                         typeName(itemType), typeName(typeToRegister), missingConverter, typeName(typeToRegister))
         );
     }

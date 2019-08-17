@@ -1,6 +1,6 @@
 package io.cucumber.datatable;
 
-import io.cucumber.datatable.dependency.com.fasterxml.jackson.databind.JavaType;
+import io.cucumber.datatable.TypeFactory.JavaType;
 import org.apiguardian.api.API;
 
 import java.lang.reflect.Type;
@@ -24,6 +24,9 @@ public final class DataTableTypeRegistry {
 
     public DataTableTypeRegistry(Locale locale) {
         final NumberParser numberParser = new NumberParser(locale);
+
+        TableCellTransformer<Object> objectTableCellTransformer = applyIfPresent(s -> s);
+        defineDataTableType(new DataTableType(Object.class, objectTableCellTransformer));
 
         TableCellTransformer<BigInteger> bigIntegerTableCellTransformer = applyIfPresent(BigInteger::new);
         defineDataTableType(new DataTableType(BigInteger.class, bigIntegerTableCellTransformer));
@@ -83,26 +86,34 @@ public final class DataTableTypeRegistry {
         return tableTypeByType.get(targetType);
     }
 
-    DataTableType getDefaultTableCellTransformer(final Type tableType) {
+    DataTableType getDefaultTableCellTransformer(Type tableType) {
         if (defaultDataTableCellTransformer == null) {
             return null;
         }
 
-        JavaType targetType = constructType(tableType);
+        if (tableType instanceof JavaType) {
+            JavaType javaType = (JavaType) tableType;
+            tableType = javaType.getOriginal();
+        }
+
         return DataTableType.defaultCell(
-                targetType.getRawClass(),
+                tableType,
                 defaultDataTableCellTransformer
         );
     }
 
-    DataTableType getDefaultTableEntryTransformer(final Type tableType) {
+    DataTableType getDefaultTableEntryTransformer(Type tableType) {
         if (defaultDataTableEntryTransformer == null) {
             return null;
         }
 
-        JavaType targetType = constructType(tableType);
+        if (tableType instanceof JavaType) {
+            JavaType javaType = (JavaType) tableType;
+            tableType = javaType.getOriginal();
+        }
+
         return DataTableType.defaultEntry(
-                targetType.getRawClass(),
+                tableType,
                 defaultDataTableEntryTransformer,
                 tableCellByTypeTransformer
         );

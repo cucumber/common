@@ -752,43 +752,6 @@ public final class DataTable {
 
     }
 
-    static abstract class AbstractTableConverter implements TableConverter {
-
-        AbstractTableConverter() {
-
-        }
-
-        static Type listItemType(Type type) {
-            return typeArg(type, List.class, 0);
-        }
-
-        static Type typeArg(Type type, Class<?> wantedRawType, int index) {
-            if (type instanceof ParameterizedType) {
-                ParameterizedType parameterizedType = (ParameterizedType) type;
-                Type rawType = parameterizedType.getRawType();
-                if (rawType instanceof Class && wantedRawType.isAssignableFrom((Class) rawType)) {
-                    Type result = parameterizedType.getActualTypeArguments()[index];
-                    if (result instanceof TypeVariable) {
-                        throw new CucumberDataTableException("Generic types must be explicit");
-                    }
-                    return result;
-                } else {
-                    return null;
-                }
-            }
-
-            return null;
-        }
-
-        static Type mapKeyType(Type type) {
-            return typeArg(type, Map.class, 0);
-        }
-
-        static Type mapValueType(Type type) {
-            return typeArg(type, Map.class, 1);
-        }
-    }
-
     static final class NoConverterDefined implements TableConverter {
 
         NoConverterDefined() {
