@@ -10,11 +10,14 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Added
     
 ### Changed
-
+ 
 ### Deprecated
 
 ### Removed
-
+ * [Java] Remove shaded dependency on Jackson Databind
+    ([#682](https://github.com/cucumber/cucumber/pull/682)
+    [#679](https://github.com/cucumber/cucumber/issues/679)
+    M.P. Korstanje)
 ### Fixed
 
 ## [2.0.0] 2019-08-11

@@ -2,8 +2,11 @@ package io.cucumber.datatable;
 
 import org.apiguardian.api.API;
 
+import java.lang.reflect.Type;
+
 /**
- * Transformer for single cell. Similar to {@link TableCellTransformer} but additionally it receives expected {@code Class<T>} of cell.
+ * Transformer for single cell. Similar to {@link TableCellTransformer} but
+ * additionally it receives expected {@code Type} of cell.
  *
  * @see TableCellTransformer
  */
@@ -12,13 +15,12 @@ import org.apiguardian.api.API;
 public interface TableCellByTypeTransformer {
 
     /**
-     * Transforms single cell to type {@code T}
+     * Transforms single cell to value of type
      *
-     * @param value    cell
-     * @param cellType expected cell type
-     * @param <T>      see {@code cellType}
-     * @return an instance of {@code T}
-     * @throws Throwable unable to transform
+     * @param cellValue   cell
+     * @param toValueType expected cell type
+     * @return an instance of type
+     * @throws Throwable when unable to transform
      */
-    <T> T transform(String value, Class<T> cellType) throws Throwable;
+    Object transform(String cellValue, Type toValueType) throws Throwable;
 }

@@ -1,16 +1,14 @@
 package io.cucumber.datatable;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import static java.util.Collections.singletonList;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.*;
 
-public class TableDifferTest {
+class TableDifferTest {
 
     private DataTable table() {
         String source = "" +
@@ -124,7 +122,7 @@ public class TableDifferTest {
     }
 
     @Test
-    public void shouldFindDifferences() {
+    void shouldFindDifferences() {
         String expected = "" +
 
                 "      | Aslak | aslak@email.com      | 123 |\n" +
@@ -137,7 +135,7 @@ public class TableDifferTest {
     }
 
     @Test
-    public void shouldFindNewLinesAtEnd() {
+    void shouldFindNewLinesAtEnd() {
         String expected = "" +
 
                 "      | Aslak | aslak@email.com      | 123 |\n" +
@@ -151,12 +149,12 @@ public class TableDifferTest {
     }
 
     @Test
-    public void considers_same_table_as_equal() {
+    void considers_same_table_as_equal() {
         assertTrue(new TableDiffer(table(), table()).calculateDiffs().isEmpty());
     }
 
     @Test
-    public void should_find_new_lines_at_end_when_using_diff() {
+    void should_find_new_lines_at_end_when_using_diff() {
         String expected = "" +
 
                 "      | Aslak | aslak@email.com      | 123 |\n" +
@@ -170,7 +168,7 @@ public class TableDifferTest {
     }
 
     @Test
-    public void should_not_fail_with_out_of_memory() {
+    void should_not_fail_with_out_of_memory() {
         DataTable expected = TableParser.parse("" +
                 "| I'm going to work |\n");
         List<List<String>> actual = new ArrayList<>();
@@ -181,7 +179,7 @@ public class TableDifferTest {
     }
 
     @Test
-    public void should_diff_when_consecutive_deleted_lines() {
+    void should_diff_when_consecutive_deleted_lines() {
         String expected = "" +
 
                 "      | Aslak | aslak@email.com | 123 |\n" +
@@ -192,7 +190,7 @@ public class TableDifferTest {
     }
 
     @Test
-    public void should_diff_with_empty_list() {
+    void should_diff_with_empty_list() {
         String expected = "" +
 
                 "    - | Aslak | aslak@email.com | 123 |\n" +
@@ -203,7 +201,7 @@ public class TableDifferTest {
     }
 
     @Test
-    public void should_diff_with_empty_table() {
+    void should_diff_with_empty_table() {
         String expected = "" +
 
                 "    - | Aslak | aslak@email.com | 123 |\n" +
@@ -215,14 +213,14 @@ public class TableDifferTest {
     }
 
     @Test
-    public void empty_list_should_not_diff_with_empty_table() {
+    void empty_list_should_not_diff_with_empty_table() {
         List<List<String>> emptyList = new ArrayList<>();
         DataTable emptyTable = DataTable.emptyDataTable();
         assertEquals(emptyTable.cells(), emptyList);
     }
 
     @Test
-    public void should_diff_when_consecutive_changed_lines() {
+    void should_diff_when_consecutive_changed_lines() {
         String expected = "" +
 
                 "      | Aslak | aslak@email.com  | 123 |\n" +
@@ -236,7 +234,7 @@ public class TableDifferTest {
     }
 
     @Test
-    public void should_diff_when_consecutive_inserted_lines() {
+    void should_diff_when_consecutive_inserted_lines() {
         String expected = "" +
 
                 "      | Aslak | aslak@email.com      | 123 |\n" +
@@ -249,7 +247,7 @@ public class TableDifferTest {
     }
 
     @Test
-    public void should_return_tables() {
+    void should_return_tables() {
         String expected = "" +
                 "      | Aslak | aslak@email.com      | 123 |\n" +
                 "      | Joe   | joe@email.com        | 234 |\n" +
@@ -262,17 +260,17 @@ public class TableDifferTest {
     }
 
     @Test
-    public void unordered_diff_with_itself() {
+    void unordered_diff_with_itself() {
         assertTrue(new TableDiffer(table(), table()).calculateUnorderedDiffs().isEmpty());
     }
 
     @Test
-    public void unordered_diff_with_itself_in_different_order() {
+    void unordered_diff_with_itself_in_different_order() {
         assertTrue(new TableDiffer(table(), otherTableWithDifferentOrder()).calculateUnorderedDiffs().isEmpty());
     }
 
     @Test
-    public void unordered_diff_with_less_lines_in_other() {
+    void unordered_diff_with_less_lines_in_other() {
         String expected = "" +
 
                 "      | Aslak | aslak@email.com | 123 |\n" +
@@ -283,7 +281,7 @@ public class TableDifferTest {
     }
 
     @Test
-    public void unordered_diff_with_more_lines_in_other() {
+    void unordered_diff_with_more_lines_in_other() {
         String expected = "" +
 
                 "      | Aslak | aslak@email.com      | 123 |\n" +
@@ -296,7 +294,7 @@ public class TableDifferTest {
     }
 
     @Test
-    public void unordered_diff_with_added_and_deleted_rows_in_other() {
+    void unordered_diff_with_added_and_deleted_rows_in_other() {
         String expected = "" +
 
                 "      | Aslak | aslak@email.com      | 123 |\n" +
@@ -309,7 +307,7 @@ public class TableDifferTest {
     }
 
     @Test
-    public void unordered_diff_with_added_duplicate_in_other() {
+    void unordered_diff_with_added_duplicate_in_other() {
         String expected = "" +
 
                 "      | Aslak | aslak@email.com | 123 |\n" +
@@ -322,7 +320,7 @@ public class TableDifferTest {
     }
 
     @Test
-    public void unordered_diff_with_added_duplicate_in_other_reversed() {
+    void unordered_diff_with_added_duplicate_in_other_reversed() {
         String expected = "" +
 
                 "      | Joe   | joe@email.com   | 234 |\n" +
@@ -335,7 +333,7 @@ public class TableDifferTest {
     }
 
     @Test
-    public void unordered_diff_with_added_duplicate_and_deleted_in_other() {
+    void unordered_diff_with_added_duplicate_and_deleted_in_other() {
         String expected = "" +
 
                 "    - | Aslak | aslak@email.com | 123 |\n" +
