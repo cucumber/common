@@ -1,13 +1,13 @@
-import * as React from "react"
-import { messages } from "cucumber-messages"
-import Tag from "./Tag"
+import * as React from 'react'
+import { messages } from 'cucumber-messages'
+import Tag from './Tag'
 import ITag = messages.GherkinDocument.Feature.ITag
 
 interface IProps {
   tags: ITag[]
 }
 
-const Tags: React.FunctionComponent<IProps> = ({tags}) => {
+const Tags: React.FunctionComponent<IProps> = ({ tags }) => {
   return (
     <ul>
       {tags.map((tag, index) => (

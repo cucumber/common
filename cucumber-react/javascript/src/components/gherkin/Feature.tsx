@@ -1,18 +1,18 @@
-import * as React from "react"
-import Tags from "./Tags"
-import Keyword from "./Keyword"
-import Description from "./Description"
-import Scenario from "./Scenario"
-import { messages } from "cucumber-messages"
-import Rule from "./Rule"
-import Background from "./Background"
+import * as React from 'react'
+import Tags from './Tags'
+import Keyword from './Keyword'
+import Description from './Description'
+import Scenario from './Scenario'
+import { messages } from 'cucumber-messages'
+import Rule from './Rule'
+import Background from './Background'
 import IFeature = messages.GherkinDocument.IFeature
 
 interface IProps {
   feature: IFeature
 }
 
-const Feature: React.FunctionComponent<IProps> = ({feature}) => {
+const Feature: React.FunctionComponent<IProps> = ({ feature }) => {
   return (
     <section>
       {feature.tags ? <Tags tags={feature.tags}/> : null}
@@ -28,7 +28,7 @@ const Feature: React.FunctionComponent<IProps> = ({feature}) => {
         } else if (child.rule) {
           return <Rule key={index} rule={child.rule}/>
         } else {
-          throw new Error("Expected background, scenario or rule")
+          throw new Error('Expected background, scenario or rule')
         }
       })}
     </section>

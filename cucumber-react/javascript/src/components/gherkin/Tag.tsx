@@ -1,10 +1,10 @@
-import * as React from "react"
+import * as React from 'react'
 
 interface IProps {
   children: string
 }
 
-const Tag: React.FunctionComponent<IProps> = ({children}) => {
+const Tag: React.FunctionComponent<IProps> = ({ children }) => {
   return <li>{children}</li>
 }
 

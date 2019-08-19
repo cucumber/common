@@ -1,16 +1,16 @@
-import * as React from "react"
-import Keyword from "./Keyword"
-import ExamplesTable from "./ExamplesTable"
-import { messages } from "cucumber-messages"
-import Tags from "./Tags"
-import Description from "./Description"
+import * as React from 'react'
+import Keyword from './Keyword'
+import ExamplesTable from './ExamplesTable'
+import { messages } from 'cucumber-messages'
+import Tags from './Tags'
+import Description from './Description'
 import IExamples = messages.GherkinDocument.Feature.Scenario.IExamples
 
 interface IExamplesProps {
   examples: IExamples
 }
 
-const Examples: React.SFC<IExamplesProps> = ({examples}) => {
+const Examples: React.SFC<IExamplesProps> = ({ examples }) => {
   return (
     <section>
       <Tags tags={examples.tags}/>
