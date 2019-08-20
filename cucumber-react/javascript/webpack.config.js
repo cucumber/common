@@ -1,20 +1,24 @@
 const path = require('path')
 
 module.exports = {
-  entry: {
-    'gherkin-react': './src/index.tsx',
-    'gherkin-react.min': './src/index.tsx',
+  resolve: {
+    // Add '.ts' and '.tsx' as resolvable extensions.
+    extensions: ['.ts', '.tsx', '.js', '.json'],
   },
-  output: {
-    path: path.resolve(__dirname, 'dist'),
-    filename: '[name].js',
-    libraryTarget: 'umd',
-    library: 'GherkinReact',
-    umdNamedDefine: true,
-  },
-  optimization: {
-    minimize: false,
-  },
+
+  // entry: {
+  //   'cucumber-html': './src/html-formatter/browser-main.tsx',
+  // },
+  // output: {
+  //   path: path.resolve(__dirname, 'dist'),
+  //   filename: '[name].js',
+  //   libraryTarget: 'umd',
+  //   library: 'cucumber-html',
+  //   umdNamedDefine: true,
+  // },
+  // optimization: {
+  //   minimize: false,
+  // },
   // Enable sourcemaps for debugging webpack's output.
   devtool: 'source-map',
   // plugins: [
@@ -24,38 +28,17 @@ module.exports = {
   //     include: /\.min\.js$/,
   //   }),
   // ],
-  resolve: {
-    // Add '.ts' and '.tsx' as resolvable extensions.
-    extensions: ['.ts', '.tsx', '.js', '.json'],
-  },
 
   module: {
     rules: [
-      {
-        test: /\.css$/,
-        use: ['style-loader', 'css-loader'],
-      },
-      {
-        test: /\.(woff|woff2)$/,
-        use: [
-          {
-            loader: 'file-loader',
-            options: {},
-          },
-        ],
-      },
       // All files with a '.ts' or '.tsx' extension will be handled by 'awesome-typescript-loader'.
       {
         test: /\.tsx?$/,
         loader: 'awesome-typescript-loader',
-        exclude: /node_modules/,
-        query: {
-          declaration: false,
-        },
       },
-
-      // All output '.js' files will have any sourcemaps re-processed by 'source-map-loader'.
-      { enforce: 'pre', test: /\.js$/, loader: 'source-map-loader' },
+      //
+      // // All output '.js' files will have any sourcemaps re-processed by 'source-map-loader'.
+      // { enforce: 'pre', test: /\.js$/, loader: 'source-map-loader' },
     ],
   },
 
@@ -63,8 +46,8 @@ module.exports = {
   // assume a corresponding global variable exists and use that instead.
   // This is important because it allows us to avoid bundling all of our
   // dependencies, which allows browsers to cache those libraries between builds.
-  externals: {
-    react: 'React',
-    'react-dom': 'ReactDOM',
-  },
+  // externals: {
+  //   react: 'React',
+  //   'react-dom': 'ReactDOM',
+  // },
 }

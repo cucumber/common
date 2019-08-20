@@ -13,15 +13,13 @@
     "build": "tsc",
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook",
-    "pretty-quick": "pretty-quick --staged"
+    "pretty-quick": "pretty-quick --staged",
+    "webpack-cucumber-html": "webpack-cli ./src/html-formatter/browser-main.tsx"
   },
   "dependencies": {
-    "@types/color": "^3.0.0",
-    "@types/react": "^16.9.2",
-    "@types/react-dom": "^16.8.5",
-    "@types/styled-components": "^4.1.18",
     "color": "^3.1.2",
     "cucumber-messages": "4.0.0",
+    "jsdom": "^15.1.1",
     "react": "^16.9.0",
     "react-dom": "^16.9.0",
     "react-sidenav": "^4.0.3",
@@ -33,14 +31,18 @@
     "@storybook/addon-links": "^5.1.11",
     "@storybook/addons": "^5.1.11",
     "@storybook/react": "^5.1.11",
+    "@types/color": "^3.0.0",
+    "@types/jsdom": "^12.2.4",
     "@types/mocha": "^5.2.7",
     "@types/node": "^12.7.2",
+    "@types/react": "^16.9.2",
+    "@types/react-dom": "^16.9.0",
     "@types/storybook__react": "^4.0.2",
+    "@types/styled-components": "^4.1.18",
     "awesome-typescript-loader": "^5.2.1",
     "babel-loader": "^8.0.6",
     "c21e": "2.0.0",
     "gherkin": "7.0.3",
-    "jsdom": "^15.1.1",
     "mocha": "^6.2.0",
     "nyc": "^14.1.1",
     "prettier": "^1.18.2",
@@ -50,7 +52,7 @@
     "ts-node": "^8.3.0",
     "typescript": "^3.5.3",
     "webpack": "^4.39.2",
-    "webpack-cli": "^3.3.6"
+    "webpack-cli": "^3.3.7"
   },
   "nyc": {
     "extension": [

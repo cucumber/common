@@ -39,7 +39,7 @@ const GherkinDocumentSideNav: React.FunctionComponent<
   return (
     <SideNav defaultSelectedPath={selectedUri} onSelection={onSelection}>
       {gherkinDocuments.map(gherkinDocument => (
-        <Nav id={gherkinDocument.uri}>
+        <Nav key={gherkinDocument.uri} id={gherkinDocument.uri}>
           <GherkinDocumentItem key={gherkinDocument.uri}>
             {gherkinDocument.uri}
           </GherkinDocumentItem>
