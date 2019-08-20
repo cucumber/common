@@ -4,12 +4,13 @@ import React from 'react'
 import { Nav, NavContext, SideNav } from 'react-sidenav'
 import styled from 'styled-components'
 
-interface ItemProps {
+interface GherkinDocumentItemDivProps {
   selected: boolean
 }
 
 const GherkinDocumentItemDiv = styled.div`
-  color: ${(props: ItemProps) => (props.selected ? 'yellow' : 'inmherit')};
+  color: ${(props: GherkinDocumentItemDivProps) =>
+    props.selected ? 'yellow' : 'inmherit'};
   padding: 8px 12px;
   cursor: pointer;
   :hover {
@@ -32,13 +33,20 @@ interface IGherkinDocumentNavProps {
   onSelection: OnSelectionListener
 }
 
-const GherkinDocumentSideNav: React.FunctionComponent<IGherkinDocumentNavProps> = ({ gherkinDocuments, selectedUri, onSelection }) => {
-  return <SideNav defaultSelectedPath={selectedUri} onSelection={onSelection}>
-    {gherkinDocuments.map(gherkinDocument => <Nav id={gherkinDocument.uri}>
-        <GherkinDocumentItem key={gherkinDocument.uri}>{gherkinDocument.uri}</GherkinDocumentItem>
-      </Nav>,
-    )}
-  </SideNav>
+const GherkinDocumentSideNav: React.FunctionComponent<
+  IGherkinDocumentNavProps
+> = ({ gherkinDocuments, selectedUri, onSelection }) => {
+  return (
+    <SideNav defaultSelectedPath={selectedUri} onSelection={onSelection}>
+      {gherkinDocuments.map(gherkinDocument => (
+        <Nav id={gherkinDocument.uri}>
+          <GherkinDocumentItem key={gherkinDocument.uri}>
+            {gherkinDocument.uri}
+          </GherkinDocumentItem>
+        </Nav>
+      ))}
+    </SideNav>
+  )
 }
 
 export default GherkinDocumentSideNav

@@ -5,20 +5,42 @@ import DocString from './DocString'
 import { messages } from 'cucumber-messages'
 import GherkinDocumentContext from '../../GherkinDocumentContext'
 import UriContext from '../../UriContext'
+import styled from 'styled-components'
 import Status = messages.TestResult.Status
+import Color from 'color'
+
+const StepLi = styled.li`
+  background-color: ${(props: IStepLiProps) => {
+    return {
+      [Status.AMBIGUOUS]: 'gray',
+      [Status.FAILED]: Color('red')
+        .lighten(0.9)
+        .hex(),
+      [Status.PASSED]: Color('lime')
+        .lighten(0.9)
+        .hex(),
+      [Status.PENDING]: Color('yellow')
+        .lighten(0.9)
+        .hex(),
+      [Status.SKIPPED]: Color('cyan')
+        .lighten(0.9)
+        .hex(),
+      [Status.UNDEFINED]: Color('orange')
+        .lighten(0.9)
+        .hex(),
+      [Status.AMBIGUOUS]: Color('rebeccapurple')
+        .lighten(0.9)
+        .hex(),
+    }[props.status]
+  }};
+`
+
+interface IStepLiProps {
+  status: Status
+}
 
 interface IProps {
   step: messages.GherkinDocument.Feature.IStep
-}
-
-const statusColours = {
-  [Status.AMBIGUOUS]: 'gray',
-  [Status.FAILED]: 'red',
-  [Status.PASSED]: 'green',
-  [Status.PENDING]: 'yellow',
-  [Status.SKIPPED]: 'cyan',
-  [Status.UNDEFINED]: 'orange',
-  [Status.AMBIGUOUS]: 'purple',
 }
 
 const Step: React.FunctionComponent<IProps> = ({ step }) => {
@@ -28,12 +50,12 @@ const Step: React.FunctionComponent<IProps> = ({ step }) => {
   const testResults = resultsLookup(uri, step.location.line)
   const status = testResults[0].status
   return (
-    <li>
-      <span
-        style={{ color: statusColours[status] }}>{step.location.line}</span>: <Keyword>{step.keyword}</Keyword><span>{step.text}</span>
-      {step.dataTable && <DataTable dataTable={step.dataTable}/>}
-      {step.docString && <DocString docString={step.docString}/>}
-    </li>
+    <StepLi status={status}>
+      <Keyword>{step.keyword}</Keyword>
+      <span>{step.text}</span>
+      {step.dataTable && <DataTable dataTable={step.dataTable} />}
+      {step.docString && <DocString docString={step.docString} />}
+    </StepLi>
   )
 }
 

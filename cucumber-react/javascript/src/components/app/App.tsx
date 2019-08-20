@@ -31,8 +31,8 @@ const Headings = styled.div`
   background: #eee;
   box-shadow: 0 0 5px black;
   transform: translate3d(0, 0, 0);
-  transition: transform .3s;
-  
+  transition: transform 0.3s;
+
   ${SwipeInput}:checked ~ & {
     transform: translate3d(280px, 0px, 0px);
   }
@@ -46,7 +46,7 @@ const Sidebar = styled.div`
   color: #eee;
   left: 0;
   height: 100%;
-  transition: all .3s;
+  transition: all 0.3s;
 
   ${SwipeInput}:checked ~ & {
     transform: translate3d(0, 0, 0);
@@ -61,21 +61,21 @@ const SwipeLabel = styled.label`
   display: block;
   width: 42px;
   height: 42px;
-  font: 42px fontawesome;
+  font: 30px fontawesome;
   text-align: center;
   color: #333;
   cursor: pointer;
   transform: translate3d(0, 0, 0);
-  transition: transform .3s;
-  
+  transition: transform 0.3s;
+
   &:hover {
     color: red;
   }
-  
+
   &:checked {
     display: block;
   }
-  
+
   &:nth-child(2) {
     display: none;
   }
@@ -83,7 +83,7 @@ const SwipeLabel = styled.label`
   ${SwipeInput}:checked ~ & {
     transform: translate3d(280px, 0, 0);
   }
-  
+
   ${SwipeInput}:checked ~ &:nth-child(2) {
     display: block;
     transform: translate3d(280px, 0px, 0px);
@@ -92,7 +92,6 @@ const SwipeLabel = styled.label`
   ${SwipeInput}:checked ~ &:nth-child(3) {
     display: none;
   }
-
 `
 
 interface IProps {
@@ -100,32 +99,55 @@ interface IProps {
   resultsLookup: ResultsLookup
 }
 
-const App: React.FunctionComponent<IProps> = ({ gherkinDocuments, resultsLookup }) => {
+const App: React.FunctionComponent<IProps> = ({
+  gherkinDocuments,
+  resultsLookup,
+}) => {
   const [selectedUri, setSelectedUri] = useState(gherkinDocuments[2].uri)
   const gherkinDocumentByUri = toMap(gherkinDocuments)
 
-  const selectGherkinDocument = (selectionPath: string, selectionPathData: ISelectionPathData) => {
+  const selectGherkinDocument = (
+    selectionPath: string,
+    selectionPathData: ISelectionPathData
+  ) => {
     setSelectedUri(selectionPath)
   }
 
-  return <Body>
-    <link href="https://netdna.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.css" rel="stylesheet"/>
-    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300" rel="stylesheet"/>
-    <Container>
-      <SwipeInput data-function="swipe" id="swipe" type="checkbox"/>
-      <SwipeLabel data-function="swipe" htmlFor="swipe">&#xf057;</SwipeLabel>
-      <SwipeLabel data-function="swipe" htmlFor="swipe">&#xf0c9;</SwipeLabel>
+  return (
+    <Body>
+      <link
+        href="https://netdna.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.css"
+        rel="stylesheet"
+      />
+      <link
+        href="https://fonts.googleapis.com/css?family=Open+Sans:300"
+        rel="stylesheet"
+      />
+      <Container>
+        <SwipeInput data-function="swipe" id="swipe" type="checkbox" />
+        <SwipeLabel data-function="swipe" htmlFor="swipe">
+          &#xf057;
+        </SwipeLabel>
+        <SwipeLabel data-function="swipe" htmlFor="swipe">
+          &#xf0c9;
+        </SwipeLabel>
 
-      <Headings>
-        <GherkinDocument gherkinDocument={gherkinDocumentByUri.get(selectedUri)} resultsLookup={resultsLookup}/>
-      </Headings>
-      <Sidebar>
-        <GherkinDocumentSideNav gherkinDocuments={gherkinDocuments}
-                                selectedUri={selectedUri}
-                                onSelection={selectGherkinDocument}/>
-      </Sidebar>
-    </Container>
-  </Body>
+        <Headings>
+          <GherkinDocument
+            gherkinDocument={gherkinDocumentByUri.get(selectedUri)}
+            resultsLookup={resultsLookup}
+          />
+        </Headings>
+        <Sidebar>
+          <GherkinDocumentSideNav
+            gherkinDocuments={gherkinDocuments}
+            selectedUri={selectedUri}
+            onSelection={selectGherkinDocument}
+          />
+        </Sidebar>
+      </Container>
+    </Body>
+  )
 }
 
 function toMap(gherkinDocuments: messages.IGherkinDocument[]) {

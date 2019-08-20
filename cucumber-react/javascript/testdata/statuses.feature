@@ -4,6 +4,8 @@ Feature: Statuses
 
   Scenario: Pass-Fail-Skip
     Given a passed step
+      | we | have  |
+      | a  | table |
     When a step has failed
     Then the next one will be skipped
 

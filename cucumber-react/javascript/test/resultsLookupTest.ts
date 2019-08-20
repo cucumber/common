@@ -14,7 +14,7 @@ describe('resultsLookup', () => {
       .map(m => messages.TestStepFinished.fromObject(m.testStepFinished))
 
     const resultsLookup = makeResultsLookup(pickles, testStepFinishedList)
-    const result = resultsLookup('testdata/statuses.feature', 7)[0]
+    const result = resultsLookup('testdata/statuses.feature', 9)[0]
     assert.strictEqual(result.status, messages.TestResult.Status.FAILED)
   })
 })

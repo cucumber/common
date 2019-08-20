@@ -9,7 +9,7 @@ FEATURE_FILES = $(wildcard testdata/*.feature)
 GHERKIN_DOCUMENT_JSON_FILES = $(patsubst testdata/%.feature,testdata/%.json,$(FEATURE_FILES))
 ALL_JSON_FILE = testdata/all.json
 
-default: $(GHERKIN_DOCUMENT_JSON_FILES) $(ALL_JSON_FILE)
+.codegen: $(GHERKIN_DOCUMENT_JSON_FILES) $(ALL_JSON_FILE)
 
 testdata/%.json: testdata/%.feature
 	./node_modules/fake-cucumber/bin/fake-cucumber $< > $@
