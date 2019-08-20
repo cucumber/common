@@ -19,7 +19,8 @@
     "noImplicitAny": true,
     "moduleResolution": "node",
     "outDir": "dist",
-    "downlevelIteration": true
+    "downlevelIteration": true,
+    "skipLibCheck": true
   },
   "include": [
     "src/**/*",

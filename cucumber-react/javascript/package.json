@@ -18,9 +18,12 @@
   "dependencies": {
     "@types/react": "^16.9.2",
     "@types/react-dom": "^16.8.5",
+    "@types/styled-components": "^4.1.18",
     "cucumber-messages": "4.0.0",
     "react": "^16.9.0",
-    "react-dom": "^16.9.0"
+    "react-dom": "^16.9.0",
+    "react-sidenav": "^4.0.3",
+    "styled-components": "^4.3.2"
   },
   "devDependencies": {
     "@babel/core": "^7.5.5",

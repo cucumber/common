@@ -82,7 +82,10 @@ class FakeCucumberStream extends Transform {
   }
 
   public _flush(callback: (error?: Error | null, data?: any) => void): void {
-    this.push(JSON.stringify(this.buffer) + '\n')
+    if (this.format === 'json') {
+      this.push(JSON.stringify(this.buffer) + '\n')
+    }
+    callback()
   }
 
   private p(envelope: messages.Envelope) {
