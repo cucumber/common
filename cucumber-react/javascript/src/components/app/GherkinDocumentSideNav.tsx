@@ -9,11 +9,11 @@ interface ItemProps {
 }
 
 const GherkinDocumentItemDiv = styled.div`
-  color: ${(props: ItemProps) => (props.selected ? 'rgb(0, 166, 90)' : '#555')};
+  color: ${(props: ItemProps) => (props.selected ? 'yellow' : 'inmherit')};
   padding: 8px 12px;
   cursor: pointer;
-  &:hover {
-    color: rgb(0, 166, 90);
+  :hover {
+    color: yellow;
   }
 `
 
