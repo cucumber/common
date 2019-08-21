@@ -4,6 +4,7 @@ import React from 'react'
 import { Nav, NavContext, SideNav } from 'react-sidenav'
 import styled from 'styled-components'
 import statusColor from '../gherkin/statusColor'
+import ResultsLookupContext from '../../ResultsLookupContext'
 
 interface IGherkinDocumentItemDivProps {
   selected: boolean
@@ -22,13 +23,15 @@ const GherkinDocumentItemDiv = styled.div`
 `
 
 interface IGherkinDocumentItemProps {
-  status: messages.TestResult.Status
+  uri: string
 }
 
-const GherkinDocumentItem: React.FunctionComponent<IGherkinDocumentItemProps> = ({ status, children }) => {
-  const context = React.useContext(NavContext)
+const GherkinDocumentItem: React.FunctionComponent<IGherkinDocumentItemProps> = ({ uri, children }) => {
+  const nav = React.useContext(NavContext)
+  const resultsLookup = React.useContext(ResultsLookupContext)
+  const testResult = resultsLookup(uri, null)[0]
   return (
-    <GherkinDocumentItemDiv selected={context.selected} status={status}>
+    <GherkinDocumentItemDiv selected={nav.selected} status={testResult.status}>
       {children}
     </GherkinDocumentItemDiv>
   )
@@ -45,7 +48,7 @@ const GherkinDocumentSideNav: React.FunctionComponent<IGherkinDocumentNavProps> 
     <SideNav defaultSelectedPath={selectedUri} onSelection={onSelection}>
       {gherkinDocuments.map(gherkinDocument => (
         <Nav key={gherkinDocument.uri} id={gherkinDocument.uri}>
-          <GherkinDocumentItem key={gherkinDocument.uri} status={messages.TestResult.Status.FAILED}>
+          <GherkinDocumentItem key={gherkinDocument.uri} uri={gherkinDocument.uri}>
             {gherkinDocument.uri}
           </GherkinDocumentItem>
         </Nav>

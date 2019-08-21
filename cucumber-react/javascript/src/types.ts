@@ -7,5 +7,9 @@ import { messages } from 'cucumber-messages'
  */
 export type ResultsLookup = (
   queryUri: string,
-  queryLine?: number,
+  queryLine: number | null,
+) => messages.ITestResult[]
+
+export type ResultsLookupByLine = (
+  queryLine: number | null,
 ) => messages.ITestResult[]

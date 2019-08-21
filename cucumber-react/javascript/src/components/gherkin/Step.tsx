@@ -3,10 +3,9 @@ import DataTable from './DataTable'
 import Keyword from './Keyword'
 import DocString from './DocString'
 import { messages } from 'cucumber-messages'
-import GherkinDocumentContext from '../../GherkinDocumentContext'
-import UriContext from '../../UriContext'
 import styled from 'styled-components'
 import statusColor from './statusColor'
+import ResultsLookupByLineContext from '../../ResultsLookupByLineContext'
 import Status = messages.TestResult.Status
 
 interface IStepLiProps {
@@ -22,13 +21,12 @@ interface IProps {
 }
 
 const Step: React.FunctionComponent<IProps> = ({ step }) => {
-  const uri = React.useContext(UriContext)
-  const resultsLookup = React.useContext(GherkinDocumentContext)
+  const resultsLookup = React.useContext(ResultsLookupByLineContext)
 
-  const testResults = resultsLookup(uri, step.location.line)
+  const testResults = resultsLookup(step.location.line)
   const status = testResults[0].status
 
-console.log({status, step})
+  console.log({ status, step })
   return (
     <StepLi status={status}>
       <Keyword>{step.keyword}</Keyword>

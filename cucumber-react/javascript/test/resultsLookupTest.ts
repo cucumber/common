@@ -32,7 +32,7 @@ describe('resultsLookup', () => {
 
   it('finds results for a whole file', () => {
     const resultsLookup = makeResultsLookup(pickles, testStepFinishedList, testCaseFinishedList)
-    const results = resultsLookup('testdata/statuses.feature')
+    const results = resultsLookup('testdata/statuses.feature', null)
     assert.strictEqual(results[0].status, messages.TestResult.Status.FAILED)
   })
 })

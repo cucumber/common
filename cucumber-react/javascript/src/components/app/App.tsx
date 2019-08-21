@@ -5,6 +5,9 @@ import GherkinDocument from '../gherkin/GherkinDocument'
 import { messages } from 'cucumber-messages'
 import GherkinDocumentSideNav from './GherkinDocumentSideNav'
 import styled from 'styled-components'
+import ResultsLookupContext from '../../ResultsLookupContext'
+import ResultsLookupByLineContext from '../../ResultsLookupByLineContext'
+import R = require('ramda')
 
 // https://webdevtrick.com/css-sidebar-menu/
 
@@ -112,6 +115,8 @@ const App: React.FunctionComponent<IProps> = ({
     setSelectedUri(selectionPath)
   }
 
+  const resultsLookupByLine = R.curry(resultsLookup)(selectedUri)
+
   return (
     <Body>
       <link
@@ -132,17 +137,21 @@ const App: React.FunctionComponent<IProps> = ({
         </SwipeLabel>
 
         <Headings>
-          <GherkinDocument
-            gherkinDocument={gherkinDocumentByUri.get(selectedUri)}
-            resultsLookup={resultsLookup}
-          />
+          <ResultsLookupByLineContext.Provider value={resultsLookupByLine}>
+            <GherkinDocument
+              gherkinDocument={gherkinDocumentByUri.get(selectedUri)}
+            />
+          </ResultsLookupByLineContext.Provider>
         </Headings>
         <Sidebar>
-          <GherkinDocumentSideNav
-            gherkinDocuments={gherkinDocuments}
-            selectedUri={selectedUri}
-            onSelection={selectGherkinDocument}
-          />
+          <ResultsLookupContext.Provider value={resultsLookup}>
+
+            <GherkinDocumentSideNav
+              gherkinDocuments={gherkinDocuments}
+              selectedUri={selectedUri}
+              onSelection={selectGherkinDocument}
+            />
+          </ResultsLookupContext.Provider>
         </Sidebar>
       </Container>
     </Body>

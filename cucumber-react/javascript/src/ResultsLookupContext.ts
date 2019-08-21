@@ -5,6 +5,6 @@ const defaultResultsLookup: ResultsLookup = (
   queryUri: string,
   queryLine: number,
 ) => []
-const GherkinDocumentContext: React.Context<ResultsLookup> = React.createContext(defaultResultsLookup)
+const ResultsLookupContext: React.Context<ResultsLookup> = React.createContext(defaultResultsLookup)
 
-export default GherkinDocumentContext
+export default ResultsLookupContext

@@ -64,7 +64,7 @@ export default function makeResultsLookup(
   }
 
   return (queryUri: string, queryLine?: number): messages.ITestResult[] => {
-    if (queryLine === undefined) {
+    if (queryLine === null) {
       return testCaseFinishedListByUri.get(queryUri).sort((a, b) => {
         return b.testResult.status.valueOf() - a.testResult.status.valueOf()
       }).map(

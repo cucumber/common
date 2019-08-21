@@ -17,9 +17,11 @@
     "webpack-cucumber-html": "webpack-cli src/html-formatter/main.tsx"
   },
   "dependencies": {
+    "@types/ramda": "^0.26.19",
     "color": "^3.1.2",
     "cucumber-messages": "4.0.0",
     "jsdom": "^15.1.1",
+    "ramda": "^0.26.1",
     "react": "^16.9.0",
     "react-dom": "^16.9.0",
     "react-sidenav": "^4.0.3",
