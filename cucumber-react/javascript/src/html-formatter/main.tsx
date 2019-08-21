@@ -1,31 +1,16 @@
-import all from '../../testdata/all.json'
 import { messages } from 'cucumber-messages'
 import App from '../components/app/App'
-import { renderToNodeStream } from 'react-dom/server'
 import React from 'react'
-import makeGherkinDocumentsAndResultsLookup from '../components/app/makeGherkinDocumentsAndResultsLookup'
+import makeGherkinDocumentsAndResultsLookup from '../makeGherkinDocumentsAndResultsLookup'
+import ReactDOM from 'react-dom'
 
-const { gherkinDocuments, resultsLookup } = makeGherkinDocumentsAndResultsLookup(all as messages.IEnvelope[])
+declare global {
+  interface Window { CUCUMBER_MESSAGES: string; }
+}
 
-const out = process.stdout
+const envelopes = JSON.parse(window.CUCUMBER_MESSAGES).map((message: any) => messages.Envelope.fromObject(message))
 
-out.write(`<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <title>Cucumber</title>
-    <meta content="text/html;charset=utf-8" http-equiv="Content-Type">
-  </head>
-  <body>
-    <div id="content">
-`)
-const stream = renderToNodeStream(<App gherkinDocuments={gherkinDocuments} resultsLookup={resultsLookup}/>)
-stream.pipe(out, { end: false })
-stream.on('end', () => {
-  out.write(`
-    </div>
-    <script src="main.js"></script>
-  </body>
-</html>
-`)
-  out.end()
-})
+const { gherkinDocuments, resultsLookup } = makeGherkinDocumentsAndResultsLookup(envelopes)
+
+const app = <App gherkinDocuments={gherkinDocuments} resultsLookup={resultsLookup}/>
+ReactDOM.render(app, document.getElementById('content'));

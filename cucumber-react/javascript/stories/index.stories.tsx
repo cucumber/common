@@ -3,7 +3,7 @@ import React from 'react'
 import { messages } from 'cucumber-messages'
 import all from '../testdata/all.json'
 import App from '../src/components/app/App'
-import makeGherkinDocumentsAndResultsLookup from '../src/components/app/makeGherkinDocumentsAndResultsLookup'
+import makeGherkinDocumentsAndResultsLookup from '../src/makeGherkinDocumentsAndResultsLookup'
 
 storiesOf('Features', module)
   .add('All', () => {

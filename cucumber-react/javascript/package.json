@@ -14,7 +14,7 @@
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook",
     "pretty-quick": "pretty-quick --staged",
-    "webpack-cucumber-html": "webpack-cli ./src/html-formatter/browser-main.tsx"
+    "webpack-cucumber-html": "webpack-cli src/html-formatter/main.tsx"
   },
   "dependencies": {
     "color": "^3.1.2",

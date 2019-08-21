@@ -16,9 +16,9 @@ module.exports = {
   //   library: 'cucumber-html',
   //   umdNamedDefine: true,
   // },
-  // optimization: {
-  //   minimize: false,
-  // },
+  optimization: {
+    minimize: true,
+  },
   // Enable sourcemaps for debugging webpack's output.
   devtool: 'source-map',
   // plugins: [

@@ -1,12 +1,21 @@
 import * as gherkin from 'gherkin'
-import FakeCucumberStream from './FakeCucumber'
+import FakeTestResultsStream from './FakeTestResultsStream'
 
 const paths = process.argv.splice(2)
 
 const format = process.env.FORMAT || 'json'
 
+// @ts-ignore
+const fakeTestResultsStream = new FakeTestResultsStream(format)
+fakeTestResultsStream.on('error', (err: Error) => exit(err))
+
 gherkin
   .fromPaths(paths)
-  // @ts-ignore
-  .pipe(new FakeCucumberStream(format))
+  .pipe(fakeTestResultsStream)
   .pipe(process.stdout)
+
+function exit(err: Error) {
+  // tslint:disable-next-line:no-console
+  console.error(err)
+  process.exit(1)
+}

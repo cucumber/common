@@ -23,7 +23,12 @@ class ProtobufMessageStream<T> extends Transform {
         this.push(message)
         this.buffer = this.buffer.slice(reader.pos)
       } catch (err) {
-        break
+        if (err instanceof RangeError) {
+          // The buffer doesn't have all the data yet. Keep reading.
+          break
+        } else {
+          throw err
+        }
       }
     }
     callback()

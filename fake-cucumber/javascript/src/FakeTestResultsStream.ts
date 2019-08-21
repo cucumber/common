@@ -1,19 +1,18 @@
 import { Transform } from 'stream'
 import { messages } from 'cucumber-messages'
 
-class FakeCucumberStream extends Transform {
-  private readonly buffer: messages.Envelope[] = []
+class FakeTestResultsStream extends Transform {
+  private readonly buffer: messages.IEnvelope[] = []
 
   constructor(private readonly format: 'json' | 'ndjson' | 'protobuf') {
     super({ objectMode: true })
   }
 
   public _transform(
-    message: any,
+    envelope: messages.IEnvelope,
     encoding: string,
     callback: (error?: Error | null, data?: any) => void
   ): void {
-    const envelope = message.constructor.toObject(message, { defaults: true })
     this.p(envelope)
 
     if (envelope.pickle) {
@@ -88,7 +87,7 @@ class FakeCucumberStream extends Transform {
     callback()
   }
 
-  private p(envelope: messages.Envelope) {
+  private p(envelope: messages.IEnvelope) {
     switch (this.format) {
       case 'ndjson':
         this.push(JSON.stringify(envelope) + '\n')
@@ -98,8 +97,11 @@ class FakeCucumberStream extends Transform {
         break
       case 'json':
         this.buffer.push(envelope)
+        break
+      default:
+        throw new Error(`FORMAT=${this.format} is invalid`)
     }
   }
 }
 
-export default FakeCucumberStream
+export default FakeTestResultsStream
