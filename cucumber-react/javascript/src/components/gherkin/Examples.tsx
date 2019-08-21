@@ -10,7 +10,7 @@ interface IExamplesProps {
   examples: IExamples
 }
 
-const Examples: React.SFC<IExamplesProps> = ({ examples }) => {
+const Examples: React.FunctionComponent<IExamplesProps> = ({ examples }) => {
   return (
     <section>
       <Tags tags={examples.tags}/>

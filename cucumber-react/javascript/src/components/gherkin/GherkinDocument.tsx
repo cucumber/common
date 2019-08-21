@@ -11,13 +11,13 @@ interface IProps {
 }
 
 const GherkinDocument: React.FunctionComponent<IProps> = ({
-  gherkinDocument,
-  resultsLookup,
-}) => {
+                                                            gherkinDocument,
+                                                            resultsLookup,
+                                                          }) => {
   return (
     <UriContext.Provider value={gherkinDocument.uri}>
       <GherkinDocumentContext.Provider value={resultsLookup}>
-        <Feature feature={gherkinDocument.feature} />
+        <Feature feature={gherkinDocument.feature}/>
       </GherkinDocumentContext.Provider>
     </UriContext.Provider>
   )

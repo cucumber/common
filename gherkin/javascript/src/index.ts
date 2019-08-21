@@ -2,7 +2,7 @@ import { spawn, spawnSync } from 'child_process'
 import { statSync } from 'fs'
 import { ExeFile } from 'c21e'
 import { messages, ProtobufMessageStream } from 'cucumber-messages'
-import { Transform } from 'stream'
+import { Readable } from 'stream'
 
 const defaultOptions = {
   defaultDialect: 'en',
@@ -77,7 +77,7 @@ class Gherkin {
     return JSON.parse(result.stdout)
   }
 
-  public messageStream(): Transform {
+  public messageStream(): Readable {
     const options = ['--default-dialect', this.options.defaultDialect]
     if (!this.options.includeSource) {
       options.push('--no-source')

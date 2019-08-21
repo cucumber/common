@@ -9,13 +9,13 @@ interface IProps {
 const TableBody: React.FunctionComponent<IProps> = ({ rows }) => {
   return (
     <tbody>
-      {rows.map((row, i) => (
-        <tr key={i}>
-          {(row.cells || []).map((cell, j) => (
-            <Td key={j}>{cell.value}</Td>
-          ))}
-        </tr>
-      ))}
+    {rows.map((row, i) => (
+      <tr key={i}>
+        {(row.cells || []).map((cell, j) => (
+          <Td key={j}>{cell.value}</Td>
+        ))}
+      </tr>
+    ))}
     </tbody>
   )
 }

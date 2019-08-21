@@ -3,10 +3,8 @@ import * as React from 'react'
 
 const defaultResultsLookup: ResultsLookup = (
   queryUri: string,
-  queryLine: number
+  queryLine: number,
 ) => []
-const GherkinDocumentContext: React.Context<
-  ResultsLookup
-> = React.createContext(defaultResultsLookup)
+const GherkinDocumentContext: React.Context<ResultsLookup> = React.createContext(defaultResultsLookup)
 
 export default GherkinDocumentContext

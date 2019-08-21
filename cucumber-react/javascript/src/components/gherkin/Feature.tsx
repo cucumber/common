@@ -15,7 +15,7 @@ interface IProps {
 const Feature: React.FunctionComponent<IProps> = ({ feature }) => {
   return (
     <section>
-      {feature.tags ? <Tags tags={feature.tags}/> : null}
+      <Tags tags={feature.tags}/>
       <h1>
         <Keyword>{feature.keyword}</Keyword>: <span>{feature.name}</span>
       </h1>

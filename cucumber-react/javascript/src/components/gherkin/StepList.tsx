@@ -16,7 +16,7 @@ const StepList: React.FunctionComponent<IProps> = ({ steps }) => {
   return (
     <StepsOl>
       {steps.map((step, index) => (
-        <Step key={index} step={step} />
+        <Step key={index} step={step}/>
       ))}
     </StepsOl>
   )

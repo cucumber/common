@@ -4,7 +4,9 @@ import { messages } from 'cucumber-messages'
 class FakeTestResultsStream extends Transform {
   private readonly buffer: messages.IEnvelope[] = []
 
-  constructor(private readonly format: 'json' | 'ndjson' | 'protobuf') {
+  constructor(
+    private readonly format: 'json' | 'ndjson' | 'protobuf' | 'protobuf-binary'
+  ) {
     super({ objectMode: true })
   }
 
@@ -24,6 +26,10 @@ class FakeTestResultsStream extends Transform {
         })
       )
       let index = 0
+      let testCaseStatus: messages.TestResult.Status =
+        messages.TestResult.Status.UNKNOWN
+      let errorMessage: string = null
+
       for (const step of envelope.pickle.steps) {
         this.p(
           new messages.Envelope({
@@ -35,7 +41,6 @@ class FakeTestResultsStream extends Transform {
         )
 
         let status: messages.TestResult.Status
-        let errorMessage: string = null
         if (step.text.match(/ambiguous/)) {
           status = messages.TestResult.Status.AMBIGUOUS
         } else if (step.text.match(/failed/)) {
@@ -51,6 +56,10 @@ class FakeTestResultsStream extends Transform {
           status = messages.TestResult.Status.UNDEFINED
         } else {
           status = messages.TestResult.Status.PASSED
+        }
+
+        if (status > testCaseStatus) {
+          testCaseStatus = status
         }
 
         this.p(
@@ -72,6 +81,10 @@ class FakeTestResultsStream extends Transform {
         new messages.Envelope({
           testCaseFinished: new messages.TestCaseFinished({
             pickleId: envelope.pickle.id,
+            testResult: {
+              status: testCaseStatus,
+              message: errorMessage,
+            },
           }),
         })
       )
@@ -93,6 +106,9 @@ class FakeTestResultsStream extends Transform {
         this.push(JSON.stringify(envelope) + '\n')
         break
       case 'protobuf':
+        this.push(envelope)
+        break
+      case 'protobuf-binary':
         this.push(messages.Envelope.encodeDelimited(envelope).finish())
         break
       case 'json':

@@ -43,7 +43,6 @@ const Sidebar = styled.div`
   position: absolute;
   width: 280px;
   background: #263249;
-  color: #eee;
   left: 0;
   height: 100%;
   transition: all 0.3s;
@@ -100,15 +99,15 @@ interface IProps {
 }
 
 const App: React.FunctionComponent<IProps> = ({
-  gherkinDocuments,
-  resultsLookup,
-}) => {
+                                                gherkinDocuments,
+                                                resultsLookup,
+                                              }) => {
   const [selectedUri, setSelectedUri] = useState(gherkinDocuments[2].uri)
   const gherkinDocumentByUri = toMap(gherkinDocuments)
 
   const selectGherkinDocument = (
     selectionPath: string,
-    selectionPathData: ISelectionPathData
+    selectionPathData: ISelectionPathData,
   ) => {
     setSelectedUri(selectionPath)
   }
@@ -124,7 +123,7 @@ const App: React.FunctionComponent<IProps> = ({
         rel="stylesheet"
       />
       <Container>
-        <SwipeInput data-function="swipe" id="swipe" type="checkbox" />
+        <SwipeInput data-function="swipe" id="swipe" type="checkbox"/>
         <SwipeLabel data-function="swipe" htmlFor="swipe">
           &#xf057;
         </SwipeLabel>

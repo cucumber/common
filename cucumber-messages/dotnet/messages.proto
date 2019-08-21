@@ -463,20 +463,20 @@ message TestResult {
    * then the pickle's status us undefined. 
    */
   enum Status {
-    // The step matched one step definition and passed execution
-    PASSED = 0;
-    // The step matched one step definition but was not executed
-    SKIPPED = 1;
-    // The step matched one step definition and signalled pending during executed
-    PENDING = 2;
-    // The step matched no step definitions
-    UNDEFINED = 3;
-    // The step matched two or more step definitions
-    AMBIGUOUS = 4;
-    // The step matched one step definition and faild execution
-    FAILED = 5;
     // The step hasn't been matched or executed
-    UNKNOWN = 6;
+    UNKNOWN = 0;
+    // The step matched one step definition and passed execution
+    PASSED = 1;
+    // The step matched one step definition but was not executed
+    SKIPPED = 2;
+    // The step matched one step definition and signalled pending during execution
+    PENDING = 3;
+    // The step matched no step definitions
+    UNDEFINED = 4;
+    // The step matched two or more step definitions
+    AMBIGUOUS = 5;
+    // The step matched one step definition and failed execution
+    FAILED = 6;
   }
 }
 

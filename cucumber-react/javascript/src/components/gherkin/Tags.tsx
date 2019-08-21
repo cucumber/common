@@ -8,6 +8,7 @@ interface IProps {
 }
 
 const Tags: React.FunctionComponent<IProps> = ({ tags }) => {
+  if (!tags) return null
   return (
     <ul>
       {tags.map((tag, index) => (

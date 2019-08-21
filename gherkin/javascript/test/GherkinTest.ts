@@ -1,10 +1,7 @@
-import * as assert from 'assert'
+import assert from 'assert'
 import * as gherkin from '../src'
 import { Readable } from 'stream'
 import { messages } from 'cucumber-messages'
-import Envelope = messages.Envelope
-import Source = messages.Source
-import Media = messages.Media
 
 describe('gherkin', () => {
   it('parses gherkin from the file system', async () => {
@@ -15,21 +12,21 @@ describe('gherkin', () => {
   })
 
   it('parses gherkin from STDIN', async () => {
-    const source = Source.fromObject({
+    const source = messages.Source.fromObject({
       uri: 'test.feature',
       data: `Feature: Minimal
 
   Scenario: minimalistic
     Given the minimalism
 `,
-      media: Media.fromObject({
+      media: messages.Media.fromObject({
         encoding: 'UTF8',
         contentType: 'text/x.cucumber.gherkin+plain',
       }),
     })
 
-    const wrappers = await streamToArray(gherkin.fromSources([source]))
-    assert.strictEqual(wrappers.length, 3)
+    const envelopes = await streamToArray(gherkin.fromSources([source]))
+    assert.strictEqual(envelopes.length, 3)
   })
 
   it('parses gherkin using the provided default language', async () => {
@@ -56,10 +53,15 @@ describe('gherkin', () => {
   })
 })
 
-async function streamToArray(readableStream: Readable): Promise<Envelope[]> {
-  return new Promise<Envelope[]>(
-    (resolve: (wrappers: Envelope[]) => void, reject: (err: Error) => void) => {
-      const items: Envelope[] = []
+async function streamToArray(
+  readableStream: Readable
+): Promise<messages.IEnvelope[]> {
+  return new Promise<messages.IEnvelope[]>(
+    (
+      resolve: (wrappers: messages.IEnvelope[]) => void,
+      reject: (err: Error) => void
+    ) => {
+      const items: messages.IEnvelope[] = []
       readableStream.on('data', items.push.bind(items))
       readableStream.on('error', (err: Error) => reject(err))
       readableStream.on('end', () => resolve(items))
