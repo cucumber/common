@@ -105,7 +105,9 @@ const App: React.FunctionComponent<IProps> = ({
                                                 gherkinDocuments,
                                                 resultsLookup,
                                               }) => {
-  const [selectedUri, setSelectedUri] = useState(gherkinDocuments[2].uri)
+  // TODO: Don't assume there is always one document - there could be none!
+  // We should start with an overview page anyway, with some stats and charts on it.
+  const [selectedUri, setSelectedUri] = useState(gherkinDocuments[0].uri)
   const gherkinDocumentByUri = toMap(gherkinDocuments)
 
   const selectGherkinDocument = (

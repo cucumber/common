@@ -1,5 +1,5 @@
 SHELL := /usr/bin/env bash
-TYPESCRIPT_SOURCE_FILES = $(shell find src test -type f -name "*.ts")
+TYPESCRIPT_SOURCE_FILES = $(shell find src test -type f -name "*.ts" -o -name "*.tsx")
 
 default: .tested .built
 .PHONY: default

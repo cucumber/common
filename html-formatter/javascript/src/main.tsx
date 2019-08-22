@@ -1,7 +1,6 @@
 import { messages } from 'cucumber-messages'
-import App from '../components/app/App'
+import { App, makeGherkinDocumentsAndResultsLookup } from 'cucumber-react'
 import React from 'react'
-import makeGherkinDocumentsAndResultsLookup from '../makeGherkinDocumentsAndResultsLookup'
 import ReactDOM from 'react-dom'
 
 declare global {
