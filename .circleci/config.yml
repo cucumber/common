@@ -190,6 +190,11 @@ jobs:
           command: |
             cd gherkin/javascript
             make
+      - persist_to_workspace:
+          root: ~/cucumber
+          paths:
+            - gherkin/javascript/dist
+            - gherkin/javascript/node_modules
 
   tag-expressions-javascript:
     executor: docker-circleci-node
