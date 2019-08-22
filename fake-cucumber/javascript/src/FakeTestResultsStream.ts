@@ -5,7 +5,7 @@ class FakeTestResultsStream extends Transform {
   private readonly buffer: messages.IEnvelope[] = []
 
   constructor(
-    private readonly format: 'json' | 'ndjson' | 'protobuf' | 'protobuf-binary'
+    private readonly format: 'json' | 'ndjson' | 'protobuf' | 'protobuf-objects',
   ) {
     super({ objectMode: true })
   }
@@ -13,7 +13,7 @@ class FakeTestResultsStream extends Transform {
   public _transform(
     envelope: messages.IEnvelope,
     encoding: string,
-    callback: (error?: Error | null, data?: any) => void
+    callback: (error?: Error | null, data?: any) => void,
   ): void {
     this.p(envelope)
 
@@ -23,7 +23,7 @@ class FakeTestResultsStream extends Transform {
           testCaseStarted: new messages.TestCaseStarted({
             pickleId: envelope.pickle.id,
           }),
-        })
+        }),
       )
       let index = 0
       let testCaseStatus: messages.TestResult.Status =
@@ -37,7 +37,7 @@ class FakeTestResultsStream extends Transform {
               index,
               pickleId: envelope.pickle.id,
             }),
-          })
+          }),
         )
 
         let status: messages.TestResult.Status
@@ -72,7 +72,7 @@ class FakeTestResultsStream extends Transform {
                 message: errorMessage,
               },
             }),
-          })
+          }),
         )
         index++
       }
@@ -86,7 +86,7 @@ class FakeTestResultsStream extends Transform {
               message: errorMessage,
             },
           }),
-        })
+        }),
       )
     }
 
@@ -102,20 +102,20 @@ class FakeTestResultsStream extends Transform {
 
   private p(envelope: messages.IEnvelope) {
     switch (this.format) {
+      case 'json':
+        this.buffer.push(envelope)
+        break
       case 'ndjson':
         this.push(JSON.stringify(envelope) + '\n')
         break
       case 'protobuf':
-        this.push(envelope)
-        break
-      case 'protobuf-binary':
         this.push(messages.Envelope.encodeDelimited(envelope).finish())
         break
-      case 'json':
-        this.buffer.push(envelope)
+      case 'protobuf-objects':
+        this.push(envelope)
         break
       default:
-        throw new Error(`FORMAT=${this.format} is invalid`)
+        throw new Error(`Invalid format "${this.format}"`)
     }
   }
 }

@@ -1,12 +1,21 @@
+import { Command } from 'commander'
+import packageJson from '../package.json'
 import * as gherkin from 'gherkin'
 import FakeTestResultsStream from './FakeTestResultsStream'
 
-const paths = process.argv.splice(2)
+const program = new Command()
+program.version(packageJson.version)
+program.option(
+  '-f, --format <format>',
+  'output format: json|ndjson|protobuf',
+  'protobuf'
+)
+program.parse(process.argv)
 
-const format = process.env.FORMAT || 'json'
+const paths = program.args
 
 // @ts-ignore
-const fakeTestResultsStream = new FakeTestResultsStream(format)
+const fakeTestResultsStream = new FakeTestResultsStream(program.format)
 fakeTestResultsStream.on('error', (err: Error) => exit(err))
 
 gherkin

@@ -41,6 +41,7 @@
     "typescript": "^3.5.3"
   },
   "dependencies": {
+    "commander": "^3.0.0",
     "cucumber-messages": "^4.0.0",
     "gherkin": "^7.0.3"
   }

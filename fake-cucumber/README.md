@@ -12,7 +12,7 @@ possible statuses.
 
 ## Usage
 
-    gherkin [FILES] | fake-cucumber > messages.json
+    fake-cucumber [FILES] > messages.json
 
 ## Formats
 

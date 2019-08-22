@@ -18,7 +18,7 @@ async function getTestCaseFinished(gherkinSource: string) {
 
   const fakeTestResultsStream = gherkin
     .fromSources([source])
-    .pipe(new FakeTestResultsStream('protobuf'))
+    .pipe(new FakeTestResultsStream('protobuf-objects'))
   const envelopes = await streamToArray(fakeTestResultsStream)
 
   return envelopes.find(envelope => envelope.testCaseFinished).testCaseFinished
