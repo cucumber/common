@@ -1,4 +1,4 @@
-import * as React from 'react'
+import React from 'react'
 import { messages } from 'cucumber-messages'
 import Tag from './Tag'
 import ITag = messages.GherkinDocument.Feature.ITag

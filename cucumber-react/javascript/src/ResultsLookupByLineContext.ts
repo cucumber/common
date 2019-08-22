@@ -1,5 +1,5 @@
 import { ResultsLookup, ResultsLookupByLine } from './types'
-import * as React from 'react'
+import React from 'react'
 
 const defaultResultsLookup: ResultsLookupByLine = (
   queryLine: number,

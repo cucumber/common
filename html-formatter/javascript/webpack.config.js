@@ -2,43 +2,18 @@ const path = require('path')
 
 module.exports = {
   resolve: {
-    // Add '.ts' and '.tsx' as resolvable extensions.
     extensions: ['.ts', '.tsx', '.js', '.json'],
   },
-
-  // entry: {
-  //   'cucumber-html': './src/html-formatter/browser-main.tsx',
-  // },
-  // output: {
-  //   path: path.resolve(__dirname, 'dist'),
-  //   filename: '[name].js',
-  //   libraryTarget: 'umd',
-  //   library: 'cucumber-html',
-  //   umdNamedDefine: true,
-  // },
   optimization: {
-    minimize: true,
+    minimize: false,
   },
-  // Enable sourcemaps for debugging webpack's output.
   devtool: 'source-map',
-  // plugins: [
-  //   new webpack.optimize.UglifyJsPlugin({
-  //     minimize: true,
-  //     sourceMap: true,
-  //     include: /\.min\.js$/,
-  //   }),
-  // ],
-
   module: {
     rules: [
-      // All files with a '.ts' or '.tsx' extension will be handled by 'awesome-typescript-loader'.
       {
         test: /\.tsx?$/,
         loader: 'awesome-typescript-loader',
       },
-      //
-      // // All output '.js' files will have any sourcemaps re-processed by 'source-map-loader'.
-      // { enforce: 'pre', test: /\.js$/, loader: 'source-map-loader' },
     ],
   },
 

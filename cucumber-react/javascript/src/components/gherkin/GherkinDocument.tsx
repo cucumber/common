@@ -1,5 +1,5 @@
 import { messages } from 'cucumber-messages'
-import * as React from 'react'
+import React from 'react'
 import Feature from './Feature'
 
 interface IProps {

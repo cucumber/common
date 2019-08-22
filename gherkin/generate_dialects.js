@@ -37,4 +37,4 @@ function space(keywords) {
   });
 }
 
-console.log(JSON.stringify(dialects, null, 2));
+process.stdout.write(JSON.stringify(dialects, null, 2) + '\n');

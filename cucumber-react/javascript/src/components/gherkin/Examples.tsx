@@ -1,4 +1,4 @@
-import * as React from 'react'
+import React from 'react'
 import Keyword from './Keyword'
 import ExamplesTable from './ExamplesTable'
 import { messages } from 'cucumber-messages'

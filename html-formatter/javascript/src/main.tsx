@@ -5,11 +5,11 @@ import ReactDOM from 'react-dom'
 
 declare global {
   interface Window {
-    CUCUMBER_MESSAGES: string;
+    CUCUMBER_MESSAGES: any[];
   }
 }
 
-const envelopes = JSON.parse(window.CUCUMBER_MESSAGES).map((message: any) => messages.Envelope.fromObject(message))
+const envelopes = window.CUCUMBER_MESSAGES.map((message: any) => messages.Envelope.fromObject(message))
 
 const { gherkinDocuments, resultsLookup } = makeGherkinDocumentsAndResultsLookup(envelopes)
 

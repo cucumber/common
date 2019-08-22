@@ -1,5 +1,5 @@
 import { ResultsLookup } from './types'
-import * as React from 'react'
+import React from 'react'
 
 const defaultResultsLookup: ResultsLookup = (
   queryUri: string,

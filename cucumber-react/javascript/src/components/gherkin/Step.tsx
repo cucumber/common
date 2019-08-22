@@ -1,4 +1,4 @@
-import * as React from 'react'
+import React from 'react'
 import DataTable from './DataTable'
 import Keyword from './Keyword'
 import DocString from './DocString'
@@ -26,7 +26,6 @@ const Step: React.FunctionComponent<IProps> = ({ step }) => {
   const testResults = resultsLookup(step.location.line)
   const status = testResults[0].status
 
-  console.log({ status, step })
   return (
     <StepLi status={status}>
       <Keyword>{step.keyword}</Keyword>

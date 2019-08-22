@@ -12,13 +12,15 @@
     "nyc": "nyc --reporter=html --reporter=text mocha",
     "test": "mocha",
     "build": "tsc && webpack-cli src/main.tsx",
-    "pretty-quick": "pretty-quick --staged"
+    "pretty-quick": "pretty-quick --staged",
+    "npm-link-shared-react": "npm-link-shared ./node_modules/cucumber-react/node_modules . react"
   },
   "dependencies": {
-    "react": "^16.9.0",
-    "react-dom": "^16.9.0",
     "cucumber-messages": "4.0.0",
-    "jsdom": "^15.1.1"
+    "cucumber-react": "cucumber/cucumber-react#cucumber-react",
+    "jsdom": "^15.1.1",
+    "react": "^16.9.0",
+    "react-dom": "^16.9.0"
   },
   "devDependencies": {
     "@babel/core": "^7.5.5",
@@ -30,6 +32,7 @@
     "awesome-typescript-loader": "^5.2.1",
     "babel-loader": "^8.0.6",
     "mocha": "^6.2.0",
+    "npm-link-shared": "^0.5.6",
     "nyc": "^14.1.1",
     "prettier": "^1.18.2",
     "pretty-quick": "^1.11.1",

@@ -17,20 +17,16 @@
   },
   "dependencies": {
     "color": "^3.1.2",
-    "cucumber-messages": "4.0.0",
-    "ramda": "^0.26.1"
-  },
-  "peerDependencies": {
-    "react": "^16.9.0",
-    "react-dom": "^16.9.0",
+    "ramda": "^0.26.1",
     "react-sidenav": "^4.0.3",
     "styled-components": "^4.3.2"
   },
+  "peerDependencies": {
+    "cucumber-messages": "4.0.0",
+    "react": "^16.8.6",
+    "react-dom": "^16.8.6"
+  },
   "devDependencies": {
-    "react": "^16.9.0",
-    "react-dom": "^16.9.0",
-    "react-sidenav": "^4.0.3",
-    "styled-components": "^4.3.2",
     "@babel/core": "^7.5.5",
     "@storybook/addon-actions": "^5.1.11",
     "@storybook/addon-links": "^5.1.11",

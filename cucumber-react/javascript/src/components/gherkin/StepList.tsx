@@ -1,5 +1,5 @@
 import { messages } from 'cucumber-messages'
-import * as React from 'react'
+import React from 'react'
 import Step from './Step'
 import styled from 'styled-components'
 
