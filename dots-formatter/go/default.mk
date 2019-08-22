@@ -1,5 +1,4 @@
 SHELL := /usr/bin/env bash
-ALPINE := $(shell which apk 2> /dev/null)
 GOPATH := $(shell go env GOPATH)
 PATH := $(PATH):$(GOPATH)/bin
 GO_SOURCE_FILES := $(shell find . -name "*.go" | sort)
@@ -90,5 +89,5 @@ clean: clean-go
 .PHONY: clean
 
 clean-go:
-	rm -rf .deps .tested .linted dist .dist_compressed dist_compressed
+	rm -rf .deps .tested .linted dist .dist-compressed dist_compressed
 .PHONY: clean-go

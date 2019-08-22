@@ -120,13 +120,13 @@ const (
 	TestResult_PASSED TestResult_Status = 1
 	// The step matched one step definition but was not executed
 	TestResult_SKIPPED TestResult_Status = 2
-	// The step matched one step definition and signalled pending during executed
+	// The step matched one step definition and signalled pending during execution
 	TestResult_PENDING TestResult_Status = 3
 	// The step matched no step definitions
 	TestResult_UNDEFINED TestResult_Status = 4
 	// The step matched two or more step definitions
 	TestResult_AMBIGUOUS TestResult_Status = 5
-	// The step matched one step definition and faild execution
+	// The step matched one step definition and failed execution
 	TestResult_FAILED TestResult_Status = 6
 )
 
