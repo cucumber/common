@@ -48,7 +48,7 @@ publish-%: %
 .PHONY: publish-%
 
 create-and-push-release-tag:
-	git commit -am "Release $(LIBNAME) v$(NEW_VERSION)"
+	#git commit -am "Release $(LIBNAME) v$(NEW_VERSION)"
 	git tag -s "$(LIBNAME)/v$(NEW_VERSION)" -m "Release $(LIBNAME) v$(NEW_VERSION)"
 	git push --tags
 .PHONY: create-and-push-release-tag
