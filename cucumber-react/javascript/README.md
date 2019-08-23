@@ -23,17 +23,17 @@ JIRA, Confluence and various issue trackers that support plugins.
 
 Configure with a regexp and url function, and tags will be rendered as JIRA issue links
 
-## Search
+### Search
 
 Search by tag, but also by text. Could use http://elasticlunr.com/
 or https://lunrjs.com/
 
-## Search results
+### Search results
 
 Each scenario displayed underneath each other, grouped by feature file. The feature description is "collapsed", 
 (unless it contains the search term) but can be opened.
 
-## Filtering / sorting
+### Filtering / sorting
 
 * by tag
 * by duration (find slow ones)
@@ -41,30 +41,30 @@ Each scenario displayed underneath each other, grouped by feature file. The feat
 * by recency (update timestamp) - exclude old ones
 * by flickeriness
 
-## Tag search
+### Tag search
 
 * Render a tag cloud for all tags
   * Size: count
   * Color: pass/fail/undefined
     
-## On-demand data
+### On-demand data
 
 For large reports (especially with screenshots) it may be too heavy to store it all in the browser.
 The GUI should request data for the current document on demand. The GUI should also be able to filter
 what kind of events it wants. For example, to render the initial screen.
 
-## Server / App
+### Server / App
 
 It should be easy to use. Just run the app (Electron). It will create a named pipe where
 it will listen. What's written here gets written straight to the React app (no websocket,
 it's in the same process). This app can be fairly small.
 
-## Rerun tests
+### Rerun tests
 Add a message to represent a config+cwd+env for a run, so the GUI can rerun it.
 The config is essentially command line options. They can be modified in the gui.
 Rerun on file change can also be set up. This just makes the whole DX simple.
 
-## Alerts
+### Alerts
 
 The app could use the OS to send screen messages (autotest like)
 
