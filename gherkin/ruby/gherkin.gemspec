@@ -20,7 +20,7 @@ Gem::Specification.new do |s|
                   }
 
   s.add_dependency 'c21e', '~> 2.0', '>= 2.0.0'
-  s.add_dependency 'cucumber-messages', '~> 4.0', '>= 4.0.0'
+  s.add_dependency 'cucumber-messages', '~> 5.0', '>= 5.0.1'
 
   s.add_development_dependency 'rake', '~> 12.3', '>= 12.3.3'
   s.add_development_dependency 'rspec', '~> 3.8', '>= 3.8.0'

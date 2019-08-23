@@ -22,9 +22,9 @@
     "styled-components": "^4.3.2"
   },
   "peerDependencies": {
-    "cucumber-messages": "4.0.0",
-    "react": "^16.8.6",
-    "react-dom": "^16.8.6"
+    "cucumber-messages": "5.0.1",
+    "react": "^16.9.0",
+    "react-dom": "^16.9.0"
   },
   "devDependencies": {
     "@babel/core": "^7.5.5",
@@ -36,7 +36,7 @@
     "@types/jsdom": "^12.2.4",
     "@types/mocha": "^5.2.7",
     "@types/node": "^12.7.2",
-    "@types/ramda": "^0.26.19",
+    "@types/ramda": "^0.26.21",
     "@types/react": "^16.9.2",
     "@types/react-dom": "^16.9.0",
     "@types/storybook__react": "^4.0.2",

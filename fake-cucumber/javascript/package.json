@@ -42,7 +42,7 @@
   },
   "dependencies": {
     "commander": "^3.0.0",
-    "cucumber-messages": "^4.0.0",
+    "cucumber-messages": "^5.0.1",
     "gherkin": "^7.0.3"
   }
 }
