@@ -17,6 +17,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Fixed
 
+## [5.0.1] - 2019-08-23
+
+### Fixed
+
+* [Go] Fix module version (5.0.0 left it at v4)
+
 ## [5.0.0] - 2019-08-23
 
 ### Changed
@@ -134,7 +140,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 * Protobuf messages for Go, Java, JavaScript, TypeScript and Ruby
 
 <!-- Releases -->
-[Unreleased]: https://github.com/cucumber/cucumber/compare/cucumber-messages/v5.0.0...master
+[Unreleased]: https://github.com/cucumber/cucumber/compare/cucumber-messages/v5.0.1...master
+[5.0.1]:      https://github.com/cucumber/cucumber/compare/cucumber-messages/v5.0.0...cucumber-messages/v5.0.1
 [5.0.0]:      https://github.com/cucumber/cucumber/compare/cucumber-messages/v4.0.0...cucumber-messages/v5.0.0
 [4.0.0]:      https://github.com/cucumber/cucumber/compare/cucumber-messages/v3.0.5...cucumber-messages/v4.0.0
 [3.0.5]:      https://github.com/cucumber/cucumber/compare/cucumber-messages/v3.0.4...cucumber-messages/v3.0.5
