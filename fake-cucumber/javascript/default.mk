@@ -5,7 +5,9 @@ default: .tested .built
 .PHONY: default
 
 .deps: package-lock.json
+ifndef NEW_VERSION
 	if [ -f ".internal-dependencies" ]; then cat .internal-dependencies | xargs -n 1 scripts/npm-link; fi
+endif
 	touch $@
 
 .codegen: .deps

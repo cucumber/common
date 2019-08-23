@@ -17,6 +17,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Fixed
 
+## [1.0.0] - 2019-08-23
+
+### Added
+
+* First release
+
 <!-- Releases -->
 [Unreleased]: https://github.com/cucumber/cucumber/compare/fake-cucumber/v1.0.0...master
 [1.0.0]:      https://github.com/cucumber/cucumber/releases/tag/fake-cucumber/v1.0.0

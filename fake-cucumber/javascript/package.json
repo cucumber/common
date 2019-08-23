@@ -1,7 +1,7 @@
 {
   "name": "fake-cucumber",
   "version": "1.0.0",
-  "description": "Fake Cucumber",
+  "description": "Fake Cucumber generates fake results",
   "main": "dist/src/tag_expression_parser.js",
   "types": "dist/src/tag_expression_parser.d.ts",
   "bin": {
