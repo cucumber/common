@@ -17,12 +17,12 @@
   },
   "dependencies": {
     "color": "^3.1.2",
+    "cucumber-messages": "^5.0.1",
     "ramda": "^0.26.1",
     "react-sidenav": "^4.0.3",
     "styled-components": "^4.3.2"
   },
   "peerDependencies": {
-    "cucumber-messages": "5.0.1",
     "react": "^16.9.0",
     "react-dom": "^16.9.0"
   },
@@ -44,6 +44,7 @@
     "awesome-typescript-loader": "^5.2.1",
     "babel-loader": "^8.0.6",
     "c21e": "2.0.0",
+    "fake-cucumber": "^1.0.0",
     "gherkin": "7.0.3",
     "mocha": "^6.2.0",
     "nyc": "^14.1.1",

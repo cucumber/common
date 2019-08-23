@@ -17,8 +17,15 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Fixed
 
+## [1.0.0] - 2019-08-23
+
+### Added
+
+* First release
+
 <!-- Releases -->
 [Unreleased]: https://github.com/cucumber/cucumber/compare/cucumber-react/v1.0.0...master
+[1.0.0]:      https://github.com/cucumber/cucumber/releases/tag/cucumber-react/v1.0.0
 [1.0.0]:      https://github.com/cucumber/cucumber/releases/tag/cucumber-react/v1.0.0
 
 <!-- Contributors in alphabetical order -->
