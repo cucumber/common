@@ -99,13 +99,9 @@ class Gherkin {
     gherkin.stdout.pipe(protobufMessageStream)
     for (const source of this.sources) {
       const envelope = messages.Envelope.fromObject({ source })
-      console.error('Writing', envelope)
       gherkin.stdin.write(messages.Envelope.encodeDelimited(envelope).finish())
-      console.error('Done', envelope)
     }
-    console.error('Closing')
     gherkin.stdin.end()
-    console.error('Closed')
     return protobufMessageStream
   }
 }
