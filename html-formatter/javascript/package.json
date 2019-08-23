@@ -16,8 +16,8 @@
     "npm-link-shared-react": "npm-link-shared ./node_modules/cucumber-react/node_modules . react"
   },
   "dependencies": {
-    "cucumber-messages": "4.0.0",
-    "cucumber-react": "cucumber/cucumber-react#cucumber-react",
+    "cucumber-messages": "^5.0.1",
+    "cucumber-react": "^1.0.0",
     "jsdom": "^15.1.1",
     "react": "^16.9.0",
     "react-dom": "^16.9.0"
