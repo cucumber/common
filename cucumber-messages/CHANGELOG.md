@@ -11,11 +11,16 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Changed
 
+* The ordinal numbers of the `Status` enum have changed, to easier compute an
+  aggregated status.
+
 ### Deprecated
 
 ### Removed
 
 ### Fixed
+
+* [JavaScript] Don't swallow exceptions happening in `ProtobufMessageStream`
 
 ## [4.0.0] - 2019-08-14
 
