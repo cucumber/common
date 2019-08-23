@@ -17,6 +17,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Fixed
 
+## [1.0.2] - 2019-08-23
+
+### Fixed
+
+* Fixed packaging (again)
+
 ## [1.0.1] - 2019-08-23
 
 ### Fixed
@@ -32,7 +38,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Fixed
 
 <!-- Releases -->
-[Unreleased]: https://github.com/cucumber/cucumber/compare/html-formatter/v1.0.1...master
+[Unreleased]: https://github.com/cucumber/cucumber/compare/html-formatter/v1.0.2...master
+[1.0.2]:      https://github.com/cucumber/cucumber/compare/html-formatter/v1.0.1...html-formatter/v1.0.2
 [1.0.1]:      https://github.com/cucumber/cucumber/compare/html-formatter/v1.0.0...html-formatter/v1.0.1
 [1.0.0]:      https://github.com/cucumber/cucumber/releases/tag/html-formatter/v1.0.0
 
