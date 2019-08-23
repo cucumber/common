@@ -179,7 +179,6 @@ jobs:
           paths:
             - cucumber-messages/javascript/dist
             - cucumber-messages/javascript/node_modules
-            - cucumber-messages/javascript/executables
 
   gherkin-javascript:
     executor: docker-circleci-node
@@ -196,6 +195,7 @@ jobs:
           paths:
             - gherkin/javascript/dist
             - gherkin/javascript/node_modules
+            - gherkin/javascript/executables
 
   tag-expressions-javascript:
     executor: docker-circleci-node
