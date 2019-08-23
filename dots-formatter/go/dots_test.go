@@ -2,7 +2,7 @@ package dots
 
 import (
 	"bytes"
-	"github.com/cucumber/cucumber-messages-go/v4"
+	"github.com/cucumber/cucumber-messages-go/v5"
 	"github.com/fatih/color"
 	gio "github.com/gogo/protobuf/io"
 	"github.com/stretchr/testify/require"
