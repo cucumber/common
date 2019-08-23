@@ -6,24 +6,6 @@ import * as assert from 'assert'
 import Source = messages.Source
 import Media = messages.Media
 
-async function getTestCaseFinished(gherkinSource: string) {
-  const source = Source.fromObject({
-    uri: 'test.feature',
-    data: gherkinSource,
-    media: Media.fromObject({
-      encoding: 'UTF8',
-      contentType: 'text/x.cucumber.gherkin+plain',
-    }),
-  })
-
-  const fakeTestResultsStream = gherkin
-    .fromSources([source])
-    .pipe(new FakeTestResultsStream('protobuf-objects'))
-  const envelopes = await streamToArray(fakeTestResultsStream)
-
-  return envelopes.find(envelope => envelope.testCaseFinished).testCaseFinished
-}
-
 describe('FakeTestResultsStream', () => {
   it('generates failed pickle result', async () => {
     const gherkinSource = `Feature: mixed results
@@ -57,6 +39,24 @@ Scenario: passed then failed
     )
   })
 })
+
+async function getTestCaseFinished(gherkinSource: string) {
+  const source = Source.fromObject({
+    uri: 'test.feature',
+    data: gherkinSource,
+    media: Media.fromObject({
+      encoding: 'UTF8',
+      contentType: 'text/x.cucumber.gherkin+plain',
+    }),
+  })
+
+  const fakeTestResultsStream = gherkin
+    .fromSources([source])
+    .pipe(new FakeTestResultsStream('protobuf-objects'))
+  const envelopes = await streamToArray(fakeTestResultsStream)
+
+  return envelopes.find(envelope => envelope.testCaseFinished).testCaseFinished
+}
 
 async function streamToArray(
   readableStream: Readable

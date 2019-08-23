@@ -66,10 +66,12 @@ class Gherkin {
     } catch (err) {
       // Dev mode - we're in src, not dist/src
       executables = `${__dirname}/../executables`
+      statSync(executables)
     }
     this.exeFile = new ExeFile(
       `${executables}/gherkin-{{.OS}}-{{.Arch}}{{.Ext}}`
     )
+    statSync(this.exeFile.fileName)
   }
 
   public dialects(): { [key: string]: Dialect } {
