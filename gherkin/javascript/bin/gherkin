@@ -1,12 +1,14 @@
 #!/usr/bin/env node
 'use strict'
 const Stream = require('stream')
+const fs = require('fs')
 const gherkin = require('../dist/src/index')
 const args = process.argv.slice(2)
 const options = {
   includeSource: true,
   includeGherkinDocument: true,
   includePickles: true,
+  useLegacyImplementation: false
 }
 
 const paths = []
@@ -23,6 +25,10 @@ while (args.length > 0) {
 
     case '--no-pickles':
       options.includePickles = false
+      break
+
+    case '--use-legacy-implementation':
+      options.useLegacyImplementation = true
       break
 
     default:

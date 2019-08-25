@@ -1,7 +1,7 @@
 var assert = require('assert');
-var Gherkin = require('..');
+var { legacy: Gherkin } = require('../../src');
 
-describe('Parser', function () {
+describe('Parser (legacy)', function () {
   it("parses a simple feature", function () {
     var parser = new Gherkin.Parser(new Gherkin.AstBuilder());
     var scanner = new Gherkin.TokenScanner("Feature: hello");

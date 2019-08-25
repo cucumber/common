@@ -1,29 +1,78 @@
 import { spawn, spawnSync } from 'child_process'
-import { statSync } from 'fs'
+import { statSync, createReadStream } from 'fs'
 import { ExeFile } from 'c21e'
 import { messages, ProtobufMessageStream } from 'cucumber-messages'
 import { Transform } from 'stream'
+// @ts-ignore
+import * as legacy from './legacy'
 
 const defaultOptions = {
   defaultDialect: 'en',
   includeSource: true,
   includeGherkinDocument: true,
   includePickles: true,
+  useLegacyImplementation: false,
+}
+
+function translateLegacyOptions(
+  options: IGherkinOptions
+): IGherkinLegacyOptions {
+  return {
+    source: options.includeSource,
+    'gherkin-document': options.includeGherkinDocument,
+    pickle: options.includePickles,
+  }
 }
 
 function fromPaths(paths: string[], options: IGherkinOptions = defaultOptions) {
-  return new Gherkin(paths, [], options).messageStream()
+  if (options.useLegacyImplementation) {
+    const objectWrapper = new Transform({
+      objectMode: true,
+      transform(object, _, callback) {
+        this.push(messages.Envelope.fromObject(object))
+        callback()
+      },
+    })
+
+    const pipeEventsFor = ([path, ...rest]: string[]) => {
+      if (!path) {
+        return objectWrapper.end()
+      }
+
+      const fileStream = createReadStream(path, { encoding: 'utf-8' })
+      const eventStream = new legacy.EventStream(
+        path,
+        translateLegacyOptions(options)
+      )
+      fileStream.pipe(eventStream)
+      eventStream.pipe(
+        objectWrapper,
+        { end: false }
+      )
+      eventStream.on('end', () => pipeEventsFor(rest))
+    }
+
+    pipeEventsFor(paths)
+
+    return objectWrapper
+  } else {
+    return new Gherkin(paths, [], options).messageStream()
+  }
 }
 
 function fromSources(
   sources: messages.Source[],
-  options: IGherkinOptions = defaultOptions
+  options: Omit<IGherkinOptions, 'useLegacyImplementation'> = defaultOptions
 ) {
   return new Gherkin([], sources, options).messageStream()
 }
 
-function dialects() {
-  return new Gherkin([], [], {}).dialects()
+function dialects(options: IGherkinOptions = defaultOptions) {
+  if (options.useLegacyImplementation) {
+    return legacy.DIALECTS
+  } else {
+    return new Gherkin([], [], {}).dialects()
+  }
 }
 
 interface IGherkinOptions {
@@ -31,6 +80,13 @@ interface IGherkinOptions {
   includeSource?: boolean
   includeGherkinDocument?: boolean
   includePickles?: boolean
+  useLegacyImplementation?: boolean
+}
+
+interface IGherkinLegacyOptions {
+  source?: boolean
+  'gherkin-document'?: boolean
+  pickle?: boolean
 }
 
 interface Dialect {
@@ -49,7 +105,7 @@ interface Dialect {
   but: readonly string[]
 }
 
-export { fromPaths, fromSources, dialects }
+export { fromPaths, fromSources, dialects, legacy }
 
 class Gherkin {
   private exeFile: ExeFile

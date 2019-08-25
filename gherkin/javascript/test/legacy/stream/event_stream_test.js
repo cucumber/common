@@ -1,8 +1,8 @@
 const assert = require('assert')
 const fs = require('fs')
-const EventStream = require('../../lib/gherkin/stream/event_stream')
+const EventStream = require('../../../src/legacy/gherkin/stream/event_stream')
 
-describe('EventStream', () => {
+describe('EventStream (legacy)', () => {
   it("transforms input to stream", (callback) => {
     const events = []
     const eventStream = new EventStream('test.feature', {
