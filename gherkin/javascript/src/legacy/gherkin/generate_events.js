@@ -1,9 +1,27 @@
 var Parser = require('./parser')
 var Compiler = require('./pickles/compiler')
+var Crypto = require('crypto')
+var TokenMatcher = require('./token_matcher')
 
 var compiler = new Compiler()
 var parser = new Parser()
 parser.stopAtFirstError = false
+
+function numberToInt32LE(value) {
+  var buffer = Buffer.allocUnsafe(4)
+  buffer.writeInt32LE(value)
+  return buffer
+}
+
+function makeId(data, locations) {
+  var shasum = Crypto.createHash('sha1')
+  shasum.update(Buffer.from(data))
+  for (var l in locations) {
+    shasum.update(numberToInt32LE(locations[l].line));
+    shasum.update(numberToInt32LE(locations[l].column));
+  }
+  return shasum.digest('hex')
+}
 
 function generateEvents(data, uri, types, language) {
   types = Object.assign({
@@ -17,12 +35,13 @@ function generateEvents(data, uri, types, language) {
   try {
     if (types['source']) {
       result.push({
-        type: 'source',
-        uri: uri,
-        data: data,
-        media: {
-          encoding: 'utf-8',
-          type: 'text/x.cucumber.gherkin+plain'
+        source: {
+          uri: uri,
+          data: data,
+          media: {
+            encoding: 'UTF8',
+            contentType: 'text/x.cucumber.gherkin+plain'
+          }
         }
       })
     }
@@ -30,23 +49,20 @@ function generateEvents(data, uri, types, language) {
     if (!types['gherkin-document'] && !types['pickle'])
       return result
 
-    var gherkinDocument = parser.parse(data, language)
+    var gherkinDocument = parser.parse(data, new TokenMatcher(language))
 
     if (types['gherkin-document']) {
       result.push({
-        type: 'gherkin-document',
-        uri: uri,
-        document: gherkinDocument
+        gherkinDocument: { ...gherkinDocument, uri }
       })
     }
 
     if (types['pickle']) {
       var pickles = compiler.compile(gherkinDocument)
       for (var p in pickles) {
+        var id = makeId(data, pickles[p].locations);
         result.push({
-          type: 'pickle',
-          uri: uri,
-          pickle: pickles[p]
+          pickle: { ...pickles[p], id, uri }
         })
       }
     }
@@ -54,18 +70,15 @@ function generateEvents(data, uri, types, language) {
     var errors = err.errors || [err]
     for (var e in errors) {
       result.push({
-        type: "attachment",
-        source: {
-          uri: uri,
-          start: {
-            line: errors[e].location.line,
-            column: errors[e].location.column
-          }
-        },
-        data: errors[e].message,
-        media: {
-          encoding: "utf-8",
-          type: "text/x.cucumber.stacktrace+plain"
+        attachment: {
+          source: {
+            uri: uri,
+            location: {
+              line: errors[e].location.line,
+              column: errors[e].location.column
+            }
+          },
+          data: errors[e].message
         }
       })
     }

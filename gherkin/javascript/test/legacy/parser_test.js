@@ -8,9 +8,7 @@ describe('Parser (legacy)', function () {
     var matcher = new Gherkin.TokenMatcher();
     var ast = parser.parse(scanner, matcher);
     assert.deepEqual(ast, {
-      type: 'GherkinDocument',
       feature: {
-        type: 'Feature',
         tags: [],
         location: { line: 1, column: 1 },
         language: 'en',
@@ -30,9 +28,7 @@ describe('Parser (legacy)', function () {
     var ast2 = parser.parse(new Gherkin.TokenScanner("Feature: hello again"), matcher);
 
     assert.deepEqual(ast1, {
-      type: 'GherkinDocument',
       feature: {
-        type: 'Feature',
         tags: [],
         location: { line: 1, column: 1 },
         language: 'en',
@@ -44,9 +40,7 @@ describe('Parser (legacy)', function () {
       comments: []
     });
     assert.deepEqual(ast2, {
-      type: 'GherkinDocument',
       feature: {
-        type: 'Feature',
         tags: [],
         location: { line: 1, column: 1 },
         language: 'en',
@@ -79,9 +73,7 @@ describe('Parser (legacy)', function () {
 			   matcher);
 
     assert.deepEqual(ast, {
-      type: 'GherkinDocument',
       feature: {
-        type: 'Feature',
         tags: [],
         location: {line: 1, column: 1},
         language: 'en',
@@ -89,22 +81,22 @@ describe('Parser (legacy)', function () {
         name: 'Foo',
         description: undefined,
         children: [{
-          description: undefined,
-          keyword: 'Scenario',
-          location: {line: 2, column: 3},
-          name: 'Bar',
-          steps: [{
-            argument: {
-              content: 'closed docstring',
-              location: {line: 4, column: 7},
-              type: 'DocString',
-            },
-            keyword: 'Given ',
-            location: {line: 3, column: 5},
-            text: 'x',
-            type: 'Step' }],
-          tags: [],
-          type: 'Scenario' }]
+          scenario: {
+            description: undefined,
+            examples: [],
+            keyword: 'Scenario',
+            location: {line: 2, column: 3},
+            name: 'Bar',
+            steps: [{
+              docString: {
+                content: 'closed docstring',
+                delimiter: "\"\"\"",
+                location: {line: 4, column: 7},
+              },
+              keyword: 'Given ',
+              location: {line: 3, column: 5},
+              text: 'x' }],
+            tags: [] }}]
       },
       comments: []
     });
@@ -116,9 +108,7 @@ describe('Parser (legacy)', function () {
     var scanner = new Gherkin.TokenScanner("Egenskap: i18n support");
     var ast = parser.parse(scanner, matcher);
     assert.deepEqual(ast, {
-      type: 'GherkinDocument',
       feature: {
-        type: 'Feature',
         tags: [],
         location: { line: 1, column: 1 },
         language: 'no',

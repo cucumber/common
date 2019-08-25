@@ -13,7 +13,7 @@ describe('EventStream (legacy)', () => {
     eventStream.on('data', data => events.push(data))
     eventStream.on('end', () => {
       assert.equal(events.length, 3)
-      assert.deepEqual(events.map(e => e.uri), ['test.feature', 'test.feature', 'test.feature'])
+      assert.deepEqual(events.map(e => Object.values(e)[0].uri), ['test.feature', 'test.feature', 'test.feature'])
       callback()
     })
     fs.createReadStream(__dirname + '/test.feature', { encoding: 'utf-8' }).pipe(eventStream)
@@ -29,7 +29,7 @@ describe('EventStream (legacy)', () => {
     eventStream.on('data', data => events.push(data))
     eventStream.on('end', () => {
       assert.equal(events.length, 3)
-      assert.deepEqual(events.map(e => e.uri), ['test_fr.feature', 'test_fr.feature', 'test_fr.feature'])
+      assert.deepEqual(events.map(e => Object.values(e)[0].uri), ['test_fr.feature', 'test_fr.feature', 'test_fr.feature'])
       callback()
     })
     fs.createReadStream(__dirname + '/test_fr.feature', { encoding: 'utf-8' }).pipe(eventStream)

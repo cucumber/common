@@ -24,7 +24,6 @@ module.exports = function AstBuilder () {
   this.build = function (token) {
     if(token.matchedType === 'Comment') {
       comments.push({
-        type: 'Comment',
         location: getLocation(token),
         text: token.matchedText
       });
@@ -52,7 +51,6 @@ module.exports = function AstBuilder () {
     tagsNode.getTokens('TagLine').forEach(function (token) {
       token.matchedItems.forEach(function (tagItem) {
         tags.push({
-          type: 'Tag',
           location: getLocation(token, tagItem.column),
           name: tagItem.text
         });
@@ -65,7 +63,6 @@ module.exports = function AstBuilder () {
   function getCells(tableRowToken) {
     return tableRowToken.matchedItems.map(function (cellItem) {
       return {
-        type: 'TableCell',
         location: getLocation(tableRowToken, cellItem.column),
         value: cellItem.text
       }
@@ -83,7 +80,6 @@ module.exports = function AstBuilder () {
   function getTableRows(node) {
     var rows = node.getTokens('TableRow').map(function (token) {
       return {
-        type: 'TableRow',
         location: getLocation(token),
         cells: getCells(token)
       };
@@ -107,15 +103,19 @@ module.exports = function AstBuilder () {
     switch(node.ruleType) {
       case 'Step':
         var stepLine = node.getToken('StepLine');
-        var stepArgument = node.getSingle('DataTable') || node.getSingle('DocString') || undefined;
+        var dataTable = node.getSingle('DataTable');
+        var docString = node.getSingle('DocString');
 
-        return {
-          type: node.ruleType,
+        var node = {
           location: getLocation(stepLine),
           keyword: stepLine.matchedKeyword,
-          text: stepLine.matchedText,
-          argument: stepArgument
+          text: stepLine.matchedText
         }
+
+        if (dataTable) node.dataTable = dataTable;
+        if (docString) node.docString = docString;
+
+        return node;
       case 'DocString':
         var separatorToken = node.getTokens('DocStringSeparator')[0];
         var contentType = separatorToken.matchedText.length > 0 ? separatorToken.matchedText : undefined;
@@ -123,9 +123,9 @@ module.exports = function AstBuilder () {
         var content = lineTokens.map(function (t) {return t.matchedText}).join("\n");
 
         var result = {
-          type: node.ruleType,
           location: getLocation(separatorToken),
-          content: content
+          content: content,
+          delimiter: separatorToken.line.trimmedLineText.substring(0, 3)
         };
         // conditionally add this like this (needed to make tests pass on node 0.10 as well as 4.0)
         if(contentType) {
@@ -135,7 +135,6 @@ module.exports = function AstBuilder () {
       case 'DataTable':
         var rows = getTableRows(node);
         return {
-          type: node.ruleType,
           location: rows[0].location,
           rows: rows,
         }
@@ -145,12 +144,13 @@ module.exports = function AstBuilder () {
         var steps = getSteps(node);
 
         return {
-          type: node.ruleType,
-          location: getLocation(backgroundLine),
-          keyword: backgroundLine.matchedKeyword,
-          name: backgroundLine.matchedText,
-          description: description,
-          steps: steps
+          background: {
+            location: getLocation(backgroundLine),
+            keyword: backgroundLine.matchedKeyword,
+            name: backgroundLine.matchedText,
+            description: description,
+            steps: steps
+          }
         };
       case 'ScenarioDefinition':
         var tags = getTags(node);
@@ -160,14 +160,15 @@ module.exports = function AstBuilder () {
         var steps = getSteps(scenarioNode);
         var examples = scenarioNode.getItems('ExamplesDefinition');
         return {
-          type: scenarioNode.ruleType,
-          tags: tags,
-          location: getLocation(scenarioLine),
-          keyword: scenarioLine.matchedKeyword,
-          name: scenarioLine.matchedText,
-          description: description,
-          steps: steps,
-          examples: examples
+          scenario: {
+            tags: tags,
+            location: getLocation(scenarioLine),
+            keyword: scenarioLine.matchedKeyword,
+            name: scenarioLine.matchedText,
+            description: description,
+            steps: steps,
+            examples: examples
+          }
         };
       case 'ExamplesDefinition':
         var tags = getTags(node);
@@ -177,7 +178,6 @@ module.exports = function AstBuilder () {
         var exampleTable = examplesNode.getSingle('ExamplesTable')
 
         return {
-          type: examplesNode.ruleType,
           tags: tags,
           location: getLocation(examplesLine),
           keyword: examplesLine.matchedKeyword,
@@ -215,11 +215,11 @@ module.exports = function AstBuilder () {
         var background = node.getSingle('Background');
         if(background) children.push(background);
         children = children.concat(node.getItems('ScenarioDefinition'));
+        children = children.concat(node.getItems('Rule'));
         var description = getDescription(header);
         var language = featureLine.matchedGherkinDialect;
 
         return {
-          type: node.ruleType,
           tags: tags,
           location: getLocation(featureLine),
           language: language,
@@ -228,11 +228,33 @@ module.exports = function AstBuilder () {
           description: description,
           children: children,
         };
+
+        case 'Rule':
+          var header = node.getSingle('RuleHeader');
+          if(!header) return null;
+          var ruleLine = header.getToken('RuleLine');
+          if(!ruleLine) return null;
+          var children = []
+          var background = node.getSingle('Background');
+          if(background) children.push(background);
+          children = children.concat(node.getItems('ScenarioDefinition'));
+          var description = getDescription(header);
+          var language = ruleLine.matchedGherkinDialect;
+
+          return {
+            rule: {
+              tags: tags,
+              location: getLocation(ruleLine),
+              keyword: ruleLine.matchedKeyword,
+              name: ruleLine.matchedText,
+              description: description,
+              children: children,
+            }
+          };
       case 'GherkinDocument':
         var feature = node.getSingle('Feature');
 
         return {
-          type: node.ruleType,
           feature: feature,
           comments: comments
         };

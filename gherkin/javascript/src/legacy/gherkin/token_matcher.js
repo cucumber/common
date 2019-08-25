@@ -53,6 +53,10 @@ module.exports = function TokenMatcher(defaultDialectName) {
     return matchTitleLine(token, 'ExamplesLine', dialect.examples);
   };
 
+  this.match_RuleLine = function match_RuleLine(token) {
+    return matchTitleLine(token, 'RuleLine', dialect.rule);
+  };
+
   this.match_TableRow = function match_TableRow(token) {
     if (token.line.startsWith('|')) {
       // TODO: indent

@@ -12,16 +12,32 @@ function Compiler() {
     var backgroundSteps = [];
 
     feature.children.forEach(function (stepsContainer) {
-      if(stepsContainer.type === 'Background') {
-        backgroundSteps = pickleSteps(stepsContainer);
-      } else if(stepsContainer.examples.length === 0) {
-        compileScenario(featureTags, backgroundSteps, stepsContainer, language, pickles);
+      if(stepsContainer.background) {
+        backgroundSteps = pickleSteps(stepsContainer.background);
+      } else if (stepsContainer.rule) {
+        compileRule(featureTags, backgroundSteps, stepsContainer.rule, language, pickles);
+      } else if(stepsContainer.scenario.examples.length === 0) {
+        compileScenario(featureTags, backgroundSteps, stepsContainer.scenario, language, pickles);
       } else {
-        compileScenarioOutline(featureTags, backgroundSteps, stepsContainer, language, pickles);
+        compileScenarioOutline(featureTags, backgroundSteps, stepsContainer.scenario, language, pickles);
       }
     });
     return pickles;
   };
+
+  function compileRule(featureTags, inheritedBackgroundSteps, rule, language, pickles) {
+    var backgroundSteps = [].concat(inheritedBackgroundSteps);
+
+    rule.children.forEach(function (stepsContainer) {
+      if(stepsContainer.background) {
+        backgroundSteps = backgroundSteps.concat(pickleSteps(stepsContainer.background));
+      } else if(stepsContainer.scenario.examples.length === 0) {
+        compileScenario(featureTags, backgroundSteps, stepsContainer.scenario, language, pickles);
+      } else {
+        compileScenarioOutline(featureTags, backgroundSteps, stepsContainer.scenario, language, pickles);
+      }
+    });
+  }
 
   function compileScenario(featureTags, backgroundSteps, scenario, language, pickles) {
     var steps = scenario.steps.length == 0 ? [] : [].concat(backgroundSteps);
@@ -52,13 +68,13 @@ function Compiler() {
 
         scenario.steps.forEach(function (scenarioOutlineStep) {
           var stepText = interpolate(scenarioOutlineStep.text, variableCells, valueCells);
-          var args = createPickleArguments(scenarioOutlineStep.argument, variableCells, valueCells);
+          var args = createPickleArguments(scenarioOutlineStep, variableCells, valueCells);
           var pickleStep = {
             text: stepText,
-            arguments: args,
+            argument: args,
             locations: [
-              pickleLocation(values.location),
-              pickleStepLocation(scenarioOutlineStep)
+              pickleStepLocation(scenarioOutlineStep),
+              pickleLocation(values.location)
             ]
           };
           steps.push(pickleStep);
@@ -70,8 +86,8 @@ function Compiler() {
           steps: steps,
           tags: pickleTags(tags),
           locations: [
-            pickleLocation(values.location),
-            pickleLocation(scenario.location)
+            pickleLocation(scenario.location),
+            pickleLocation(values.location)
           ]
         };
         pickles.push(pickle);
@@ -80,10 +96,9 @@ function Compiler() {
     });
   }
 
-  function createPickleArguments(argument, variableCells, valueCells) {
-    var result = [];
-    if (!argument) return result;
-    if (argument.type === 'DataTable') {
+  function createPickleArguments(step, variableCells, valueCells) {
+    if (step.dataTable) {
+      var argument = step.dataTable;
       var table = {
         rows: argument.rows.map(function (row) {
           return {
@@ -96,8 +111,11 @@ function Compiler() {
           };
         })
       };
-      result.push(table);
-    } else if (argument.type === 'DocString') {
+      return {
+        dataTable: table
+      };
+    } else if (step.docString) {
+      var argument = step.docString;
       var docString = {
         location: pickleLocation(argument.location),
         content: interpolate(argument.content, variableCells, valueCells),
@@ -105,11 +123,10 @@ function Compiler() {
       if(argument.contentType) {
         docString.contentType = interpolate(argument.contentType, variableCells, valueCells);
       }
-      result.push(docString);
-    } else {
-      throw Error('Internal error');
+      return {
+        docString
+      };
     }
-    return result;
   }
 
   function interpolate(name, variableCells, valueCells) {
@@ -133,7 +150,7 @@ function Compiler() {
   function pickleStep(step) {
     return {
       text: step.text,
-      arguments: createPickleArguments(step.argument, [], []),
+      argument: createPickleArguments(step, [], []),
       locations: [pickleStepLocation(step)]
     }
   }
