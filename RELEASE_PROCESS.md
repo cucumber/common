@@ -104,3 +104,9 @@ Run the following command (using the same NEW_VERSION as you used for the releas
 
 This should update the version in `java/pom.xml` file to use a `-SNAPSHOT` suffix.
 This is automatically committed, and pushed along with the tag of the release.
+
+It's also a good practice to update all the dependencies in the monorepo, especially
+when the module you just released is a dependency of other modules:
+
+    # Rub this in the root directory:
+    make update-dependencies

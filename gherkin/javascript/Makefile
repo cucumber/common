@@ -10,18 +10,10 @@ ERRORS       = $(patsubst testdata/%.feature,acceptance/testdata/%.feature.error
 
 .DELETE_ON_ERROR:
 
-.deps: executables .npm-linked
+.deps: executables
 
 executables:
 	cp -R "$$(pwd)/../go/dist" $@
-
-.npm-linked:
-	# `npm link` does not work on CircleCI, so we're doing manual symlinking instead
-	rm -rf node_modules/cucumber-messages
-	ln -s "$$(pwd)/../../cucumber-messages/javascript" node_modules/cucumber-messages
-	rm -rf node_modules/c21e
-	ln -s "$$(pwd)/../../c21e/javascript" node_modules/c21e
-	touch $@
 
 .tested: dist/src/index.js .compared
 
@@ -52,5 +44,5 @@ acceptance/testdata/%.feature.errors.ndjson: testdata/%.feature testdata/%.featu
 	diff --unified <(jq "." $<.errors.ndjson) <(jq "." $@)
 
 clean:
-	rm -rf acceptance executables .exes-linked .npm-linked
+	rm -rf acceptance executables
 .PHONY: clean

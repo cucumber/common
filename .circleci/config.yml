@@ -190,6 +190,12 @@ jobs:
           command: |
             cd gherkin/javascript
             make
+      - persist_to_workspace:
+          root: ~/cucumber
+          paths:
+            - gherkin/javascript/dist
+            - gherkin/javascript/node_modules
+            - gherkin/javascript/executables
 
   tag-expressions-javascript:
     executor: docker-circleci-node
@@ -200,6 +206,33 @@ jobs:
           name: tag-expressions/javascript
           command: |
             cd tag-expressions/javascript
+            make
+
+  fake-cucumber-javascript:
+    executor: docker-circleci-node
+    steps:
+      - attach_workspace:
+          at: "~/cucumber"
+      - run:
+          name: fake-cucumber/javascript
+          command: |
+            cd fake-cucumber/javascript
+            make
+      - persist_to_workspace:
+          root: ~/cucumber
+          paths:
+            - fake-cucumber/javascript/dist
+            - fake-cucumber/javascript/node_modules
+
+  cucumber-react-javascript:
+    executor: docker-circleci-node
+    steps:
+      - attach_workspace:
+          at: "~/cucumber"
+      - run:
+          name: cucumber-react/javascript
+          command: |
+            cd cucumber-react/javascript
             make
 
 ### Ruby
@@ -490,6 +523,17 @@ workflows:
       - tag-expressions-javascript:
           requires:
             - checkout
+      - fake-cucumber-javascript:
+          requires:
+            - cucumber-messages-javascript
+            - c21e-javascript
+            - gherkin-javascript
+      - cucumber-react-javascript:
+          requires:
+            - cucumber-messages-javascript
+            - c21e-javascript
+            - gherkin-javascript
+            - fake-cucumber-javascript
 
 ### Ruby
 
