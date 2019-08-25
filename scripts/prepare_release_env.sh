@@ -6,6 +6,11 @@ then
   exit 1
 fi
 
+if [ ! -d "/app/RELEASE_PROCESS.md" ]; then
+  >&2 echo "Are you running in docker?"
+  exit 1
+fi
+
 if [ -z ${GIT_CRYPT_KEY_BASE64} ]; then
   echo "Not decrypting secrets - hopefully this is already done"
 else
