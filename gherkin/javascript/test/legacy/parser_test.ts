@@ -1,5 +1,5 @@
-var assert = require('assert');
-var { legacy: Gherkin } = require('../../src');
+import * as assert from 'assert'
+import { legacy as Gherkin }  from '../../src'
 
 describe('Parser (legacy)', function () {
   it("parses a simple feature", function () {
