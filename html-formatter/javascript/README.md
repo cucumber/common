@@ -7,7 +7,7 @@ For general information, see the parent [README.md](../README.md)
 While hacking on this module you may want to try it out manually. To be able to
 do this without getting errors, first run:
 
-    make clean && make && npm run npm-link-shared-react
+    make clean && make && make npm-link-shared
 
 This is to avoid errors from React as described in [facebook/react#13991](https://github.com/facebook/react/issues/13991).
 

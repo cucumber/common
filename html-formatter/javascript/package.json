@@ -14,8 +14,7 @@
     "nyc": "nyc --reporter=html --reporter=text mocha",
     "test": "mocha",
     "build": "tsc && webpack-cli src/main.tsx",
-    "pretty-quick": "pretty-quick --staged",
-    "npm-link-shared-react": "npm-link-shared ./node_modules/cucumber-react/node_modules . react"
+    "pretty-quick": "pretty-quick --staged"
   },
   "dependencies": {
     "cucumber-messages": "^5.0.1",
