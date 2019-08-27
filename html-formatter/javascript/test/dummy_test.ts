@@ -1,3 +1,3 @@
-describe('dummy', () => {
-  it('has no tests', () => null)
+describe('cucumber-html-formatter', () => {
+  it('has no unit tests, but it has acceptance tests (see Makefile)', () => null)
 })

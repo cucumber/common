@@ -15,7 +15,7 @@ After you have done that you should be able to generate HTML reports - for examp
 
 ```
 ../../fake-cucumber/javascript/bin/fake-cucumber \
-../../cucumber-react/javascript/testdata/*.feature | \
+features/*.feature | \
 ./bin/cucumber-html-formatter.js > \
 index.html
 ```
