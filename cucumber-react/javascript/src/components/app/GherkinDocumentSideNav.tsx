@@ -1,10 +1,15 @@
 import { messages } from 'cucumber-messages'
-import { OnSelectionListener } from 'react-sidenav/types'
 import React from 'react'
-import { Nav, NavContext, SideNav } from 'react-sidenav'
 import styled from 'styled-components'
 import statusColor from '../gherkin/statusColor'
 import ResultsLookupContext from '../../ResultsLookupContext'
+import {
+  Accordion,
+  AccordionItem,
+  AccordionItemButton,
+  AccordionItemHeading,
+  AccordionItemPanel,
+} from '../styled-react-accessible-accordion'
 
 interface IGherkinDocumentItemDivProps {
   selected: boolean
@@ -27,11 +32,11 @@ interface IGherkinDocumentItemProps {
 }
 
 const GherkinDocumentItem: React.FunctionComponent<IGherkinDocumentItemProps> = ({ uri, children }) => {
-  const nav = React.useContext(NavContext)
   const resultsLookup = React.useContext(ResultsLookupContext)
-  const testResult = resultsLookup(uri, null)[0]
+  const testResults = resultsLookup(uri, null)
+  const status = testResults.length > 0 ? testResults[0].status : messages.TestResult.Status.UNKNOWN
   return (
-    <GherkinDocumentItemDiv selected={nav.selected} status={testResult.status}>
+    <GherkinDocumentItemDiv selected={false} status={status}>
       {children}
     </GherkinDocumentItemDiv>
   )
@@ -39,21 +44,38 @@ const GherkinDocumentItem: React.FunctionComponent<IGherkinDocumentItemProps> = 
 
 interface IGherkinDocumentNavProps {
   gherkinDocuments: messages.IGherkinDocument[]
-  selectedUri: string
-  onSelection: OnSelectionListener
+  selectedUri: string,
+  onSelection: (uri: string) => void
 }
 
 const GherkinDocumentSideNav: React.FunctionComponent<IGherkinDocumentNavProps> = ({ gherkinDocuments, selectedUri, onSelection }) => {
   return (
-    <SideNav defaultSelectedPath={selectedUri} onSelection={onSelection}>
+    <Accordion
+      allowMultipleExpanded={false}
+      allowZeroExpanded={false}
+      preExpanded={[selectedUri]}
+      onChange={(args: string[]): void => onSelection(args[0])}
+    >
       {gherkinDocuments.map(gherkinDocument => (
-        <Nav key={gherkinDocument.uri} id={gherkinDocument.uri}>
-          <GherkinDocumentItem key={gherkinDocument.uri} uri={gherkinDocument.uri}>
-            {gherkinDocument.uri}
-          </GherkinDocumentItem>
-        </Nav>
+        <AccordionItem
+          key={gherkinDocument.uri}
+          uuid={gherkinDocument.uri}
+        >
+          <AccordionItemHeading>
+            <AccordionItemButton>
+              <GherkinDocumentItem uri={gherkinDocument.uri}>
+                {gherkinDocument.uri}
+              </GherkinDocumentItem>
+            </AccordionItemButton>
+          </AccordionItemHeading>
+          <AccordionItemPanel>
+            <p>
+              Bla
+            </p>
+          </AccordionItemPanel>
+        </AccordionItem>
       ))}
-    </SideNav>
+    </Accordion>
   )
 }
 

@@ -1,6 +1,6 @@
 import styled from 'styled-components'
 
-const Html = styled.table`
+const Table = styled.table`
   border: 1px solid black;
   border-collapse: collapse;
 `
@@ -15,4 +15,4 @@ const Td = styled.td`
   padding: 0.3em;
 `
 
-export { Html, Th, Td }
+export { Table, Th, Td }

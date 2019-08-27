@@ -65,15 +65,19 @@ export default function makeResultsLookup(
 
   return (queryUri: string, queryLine?: number): messages.ITestResult[] => {
     if (queryLine === null) {
-      return testCaseFinishedListByUri.get(queryUri).sort((a, b) => {
+      const testCaseFinishedList = testCaseFinishedListByUri.get(queryUri)
+      if (testCaseFinishedList === undefined) return []
+      return testCaseFinishedList.sort((a, b) => {
         return b.testResult.status.valueOf() - a.testResult.status.valueOf()
       }).map(
         testCaseFinished => testCaseFinished.testResult,
       )
     }
-    return finishedListByUriAndLine.get(
+    const finishedList = finishedListByUriAndLine.get(
       `${queryUri}:${queryLine}`,
-    ).map(
+    )
+    if (finishedList === undefined) return []
+    return finishedList.map(
       finished => finished.testResult,
     )
   }

@@ -24,7 +24,7 @@ const Step: React.FunctionComponent<IProps> = ({ step }) => {
   const resultsLookup = React.useContext(ResultsLookupByLineContext)
 
   const testResults = resultsLookup(step.location.line)
-  const status = testResults[0].status
+  const status = testResults.length > 0 ? testResults[0].status : messages.TestResult.Status.UNKNOWN
 
   return (
     <StepLi status={status}>

@@ -18,10 +18,10 @@ const Examples: React.FunctionComponent<IExamplesProps> = ({ examples }) => {
         <Keyword>{examples.keyword}</Keyword>: <span>{examples.name}</span>
       </h2>
       <Description description={examples.description}/>
-      <ExamplesTable
+      {examples.tableHeader && <ExamplesTable
         tableHeader={examples.tableHeader}
         tableBody={examples.tableBody}
-      />
+      />}
     </section>
   )
 }

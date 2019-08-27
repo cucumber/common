@@ -1,7 +1,7 @@
 import React from 'react'
 import { messages } from 'cucumber-messages'
 import TableBody from './TableBody'
-import { Html } from './html'
+import { Table } from './html'
 import IDataTable = messages.GherkinDocument.Feature.Step.IDataTable
 
 interface IProps {
@@ -10,9 +10,9 @@ interface IProps {
 
 const DataTable: React.FunctionComponent<IProps> = ({ dataTable }) => {
   return (
-    <Html>
+    <Table>
       <TableBody rows={dataTable.rows || []}/>
-    </Html>
+    </Table>
   )
 }
 
