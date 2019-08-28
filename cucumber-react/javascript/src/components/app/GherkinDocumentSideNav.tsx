@@ -6,7 +6,6 @@ import {
   AccordionItem,
   AccordionItemButton,
   AccordionItemHeading,
-  AccordionItemPanel,
 } from '../styled-react-accessible-accordion'
 
 interface IGherkinDocumentNavProps {
@@ -38,11 +37,6 @@ const GherkinDocumentSideNav: React.FunctionComponent<IGherkinDocumentNavProps> 
                 {gherkinDocument.uri}
               </AccordionItemButton>
             </AccordionItemHeading>
-            <AccordionItemPanel>
-              <p>
-                Bla
-              </p>
-            </AccordionItemPanel>
           </AccordionItem>
         )
       })}
