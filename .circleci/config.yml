@@ -234,6 +234,22 @@ jobs:
           command: |
             cd cucumber-react/javascript
             make
+      - persist_to_workspace:
+          root: ~/cucumber
+          paths:
+            - cucumber-react/javascript/dist
+            - cucumber-react/javascript/node_modules
+
+  html-formatter-javascript:
+    executor: docker-circleci-node
+    steps:
+      - attach_workspace:
+          at: "~/cucumber"
+      - run:
+          name: html-formatter/javascript
+          command: |
+            cd html-formatter/javascript
+            make
 
 ### Ruby
 
@@ -534,6 +550,9 @@ workflows:
             - c21e-javascript
             - gherkin-javascript
             - fake-cucumber-javascript
+      - html-formatter-javascript:
+          requires:
+            - cucumber-react-javascript
 
 ### Ruby
 

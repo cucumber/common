@@ -1,6 +1,5 @@
 import React, { useState } from 'react'
 import { ResultsLookup } from '../../types'
-import { ISelectionPathData } from 'react-sidenav/types'
 import GherkinDocument from '../gherkin/GherkinDocument'
 import { messages } from 'cucumber-messages'
 import GherkinDocumentSideNav from './GherkinDocumentSideNav'
@@ -12,9 +11,9 @@ import R = require('ramda')
 // https://webdevtrick.com/css-sidebar-menu/
 
 const Body = styled.div`
-  font: 12px 'Open Sans', sans-serif;
+  font: 14px 'Open Sans', sans-serif;
   color: #212121;
-  background: #eee;
+  background: #fff;
   overflow-x: hidden;
 `
 
@@ -31,7 +30,7 @@ const SwipeInput = styled.input`
 const Headings = styled.div`
   flex: 1;
   padding: 80px 30px;
-  background: #eee;
+  background: #fff;
   box-shadow: 0 0 5px black;
   transform: translate3d(0, 0, 0);
   transition: transform 0.3s;
@@ -45,7 +44,6 @@ const Sidebar = styled.div`
   transform: translate3d(-280px, 0px, 0px);
   position: absolute;
   width: 280px;
-  background: #263249;
   left: 0;
   height: 100%;
   transition: all 0.3s;
@@ -65,7 +63,6 @@ const SwipeLabel = styled.label`
   height: 42px;
   font: 30px fontawesome;
   text-align: center;
-  color: #333;
   cursor: pointer;
   transform: translate3d(0, 0, 0);
   transition: transform 0.3s;
@@ -101,6 +98,17 @@ interface IProps {
   resultsLookup: ResultsLookup
 }
 
+function getGherkinDocument(gherkinDocumentByUri: Map<string,messages.IGherkinDocument>, selectedUri: string) {
+  const gherkinDocument = gherkinDocumentByUri.get(selectedUri)
+  if(!gherkinDocument.feature) {
+    // TODO: Render parse error messages instead
+    return "syntax error"
+  }
+  return <GherkinDocument
+    gherkinDocument={gherkinDocument}
+  />
+}
+
 const App: React.FunctionComponent<IProps> = ({
                                                 gherkinDocuments,
                                                 resultsLookup,
@@ -110,13 +118,11 @@ const App: React.FunctionComponent<IProps> = ({
   const [selectedUri, setSelectedUri] = useState(gherkinDocuments[0].uri)
   const gherkinDocumentByUri = toMap(gherkinDocuments)
 
-  const selectGherkinDocument = (
-    selectionPath: string,
-    selectionPathData: ISelectionPathData,
-  ) => {
-    setSelectedUri(selectionPath)
+  const selectGherkinDocument = (uri: string) => {
+    setSelectedUri(uri)
   }
 
+  // TODO: Write our own curry and remove Ramda depencendy
   const resultsLookupByLine = R.curry(resultsLookup)(selectedUri)
 
   return (
@@ -130,7 +136,7 @@ const App: React.FunctionComponent<IProps> = ({
         rel="stylesheet"
       />
       <Container>
-        <SwipeInput data-function="swipe" id="swipe" type="checkbox"/>
+        <SwipeInput data-function="swipe" id="swipe" type="checkbox" defaultChecked={false}/>
         <SwipeLabel data-function="swipe" htmlFor="swipe">
           &#xf057;
         </SwipeLabel>
@@ -140,14 +146,11 @@ const App: React.FunctionComponent<IProps> = ({
 
         <Headings>
           <ResultsLookupByLineContext.Provider value={resultsLookupByLine}>
-            <GherkinDocument
-              gherkinDocument={gherkinDocumentByUri.get(selectedUri)}
-            />
+            {getGherkinDocument(gherkinDocumentByUri, selectedUri)}
           </ResultsLookupByLineContext.Provider>
         </Headings>
         <Sidebar>
           <ResultsLookupContext.Provider value={resultsLookup}>
-
             <GherkinDocumentSideNav
               gherkinDocuments={gherkinDocuments}
               selectedUri={selectedUri}
