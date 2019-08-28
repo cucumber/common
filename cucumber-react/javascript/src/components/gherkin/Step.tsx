@@ -32,7 +32,6 @@ interface IProps {
 
 const Step: React.FunctionComponent<IProps> = ({ step }) => {
   const resultsLookup = React.useContext(ResultsLookupByLineContext)
-
   const testResults = resultsLookup(step.location.line)
   const status = testResults.length > 0 ? testResults[0].status : messages.TestResult.Status.UNKNOWN
 

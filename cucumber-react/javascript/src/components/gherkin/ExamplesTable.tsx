@@ -1,7 +1,7 @@
 import React from 'react'
 import { messages } from 'cucumber-messages'
-import TableBody from './TableBody'
 import { Table, Th } from './html'
+import ExamplesTableBody from './ExamplesTableBody'
 import ITableRow = messages.GherkinDocument.Feature.ITableRow
 
 interface IProps {
@@ -24,7 +24,7 @@ const ExamplesTable: React.FunctionComponent<IProps> = ({
         ))}
       </tr>
       </thead>
-      <TableBody rows={tableBody || []}/>
+      <ExamplesTableBody rows={tableBody || []}/>
     </Table>
   )
 }

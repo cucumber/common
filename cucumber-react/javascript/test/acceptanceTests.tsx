@@ -10,10 +10,6 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 
 describe('App', () => {
-  // beforeEach('', () => {
-  //   console.log("BEFORE")
-  // })
-
   const dir = __dirname + '/../../../gherkin/testdata/good'
   const files = fs.readdirSync(dir)
   for (const file of files) {
