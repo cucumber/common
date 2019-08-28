@@ -1,12 +1,7 @@
 import { messages } from 'cucumber-messages'
 import React from 'react'
 import Step from './Step'
-import styled from 'styled-components'
-
-const StepsOl = styled.ol`
-  list-style-type: none;
-  padding-left: 0;
-`
+import { Ol } from './html'
 
 interface IProps {
   steps: messages.GherkinDocument.Feature.IStep[]
@@ -14,11 +9,11 @@ interface IProps {
 
 const StepList: React.FunctionComponent<IProps> = ({ steps }) => {
   return (
-    <StepsOl>
+    <Ol>
       {steps.map((step, index) => (
         <Step key={index} step={step}/>
       ))}
-    </StepsOl>
+    </Ol>
   )
 }
 

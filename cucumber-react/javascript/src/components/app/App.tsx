@@ -11,9 +11,9 @@ import R = require('ramda')
 // https://webdevtrick.com/css-sidebar-menu/
 
 const Body = styled.div`
-  font: 12px 'Open Sans', sans-serif;
+  font: 14px 'Open Sans', sans-serif;
   color: #212121;
-  background: #eee;
+  background: #fff;
   overflow-x: hidden;
 `
 
@@ -30,7 +30,7 @@ const SwipeInput = styled.input`
 const Headings = styled.div`
   flex: 1;
   padding: 80px 30px;
-  background: #eee;
+  background: #fff;
   box-shadow: 0 0 5px black;
   transform: translate3d(0, 0, 0);
   transition: transform 0.3s;
@@ -136,7 +136,7 @@ const App: React.FunctionComponent<IProps> = ({
         rel="stylesheet"
       />
       <Container>
-        <SwipeInput data-function="swipe" id="swipe" type="checkbox" defaultChecked={true}/>
+        <SwipeInput data-function="swipe" id="swipe" type="checkbox" defaultChecked={false}/>
         <SwipeLabel data-function="swipe" htmlFor="swipe">
           &#xf057;
         </SwipeLabel>
