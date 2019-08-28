@@ -39,9 +39,15 @@ const Th = styled.th`
   padding: 0.3em;
 `
 
+// Lifted from cucumber-expressions/javascript/src/ParameterTypeRegistry#FLOAT_REGEXP
+const numberPattern = /(?=.*\d.*)[-+]?\d*(?:\.(?=\d.*))?\d*(?:\d+[E][+\-]?\d+)?/
+
 const Td = styled.td`
   border: 1px solid black;
   padding: 0.3em;
+  text-align: ${(props) => {
+  return (props.children as string).match(numberPattern) ? 'right' : 'left'
+}};
 `
 
 export { H1, H2, H3, Indent, Ol, PlainWeightSpan, Section, Table, Th, Td }

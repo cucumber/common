@@ -19,7 +19,7 @@ const ExamplesTable: React.FunctionComponent<IProps> = ({
       <tr>
         {tableHeader.cells.map((cell, j) => (
           <Th key={j}>
-            <pre>{cell.value}</pre>
+            {cell.value}
           </Th>
         ))}
       </tr>
