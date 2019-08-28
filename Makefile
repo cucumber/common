@@ -4,6 +4,7 @@ MAKEFILES=c21e/Makefile \
 	gherkin/Makefile \
 	fake-cucumber/Makefile \
 	cucumber-react/Makefile \
+	html-formatter/Makefile \
 	datatable/Makefile \
 	config/Makefile \
 	cucumber-expressions/Makefile \

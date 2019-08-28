@@ -19,7 +19,7 @@
     "color": "^3.1.2",
     "cucumber-messages": "^5.0.1",
     "ramda": "^0.26.1",
-    "react-sidenav": "^4.0.3",
+    "react-accessible-accordion": "^3.0.0",
     "styled-components": "^4.3.2"
   },
   "peerDependencies": {
@@ -46,6 +46,7 @@
     "c21e": "2.0.0",
     "fake-cucumber": "^1.0.0",
     "gherkin": "7.0.3",
+    "jsdom": "^15.1.1",
     "mocha": "^6.2.0",
     "nyc": "^14.1.1",
     "prettier": "^1.18.2",
@@ -54,7 +55,7 @@
     "source-map-support": "^0.5.13",
     "ts-node": "^8.3.0",
     "typescript": "^3.5.3",
-    "webpack": "^4.39.2",
+    "webpack": "^4.39.3",
     "webpack-cli": "^3.3.7"
   },
   "nyc": {

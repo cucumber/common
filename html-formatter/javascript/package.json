@@ -1,10 +1,12 @@
 {
   "name": "cucumber-html-formatter",
-  "version": "1.0.0",
+  "version": "1.0.2",
   "description": "HTML formatter for Cucumber",
   "bin": {
     "cucumber-html-formatter": "bin/cucumber-html-formatter.js"
   },
+  "main": "dist/src/cli-main.js",
+  "types": "dist/src/cli-main.d.ts",
   "repository": "https://github.com/cucumber/cucumber",
   "author": "Aslak Hellesøy",
   "license": "MIT",
@@ -12,8 +14,7 @@
     "nyc": "nyc --reporter=html --reporter=text mocha",
     "test": "mocha",
     "build": "tsc && webpack-cli src/main.tsx",
-    "pretty-quick": "pretty-quick --staged",
-    "npm-link-shared-react": "npm-link-shared ./node_modules/cucumber-react/node_modules . react"
+    "pretty-quick": "pretty-quick --staged"
   },
   "dependencies": {
     "cucumber-messages": "^5.0.1",

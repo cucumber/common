@@ -3,6 +3,7 @@ import Keyword from './Keyword'
 import Description from './Description'
 import { messages } from 'cucumber-messages'
 import StepList from './StepList'
+import { H2, Indent, PlainWeightSpan, Section } from './html'
 import IBackground = messages.GherkinDocument.Feature.IBackground
 
 interface IProps {
@@ -11,13 +12,15 @@ interface IProps {
 
 const Background: React.FunctionComponent<IProps> = ({ background }) => {
   return (
-    <section>
-      <h2>
-        <Keyword>{background.keyword}</Keyword>: <span>{background.name}</span>
-      </h2>
-      <Description description={background.description}/>
-      <StepList steps={background.steps || []}/>
-    </section>
+    <Section>
+      <H2>
+        <Keyword>{background.keyword}:</Keyword> <PlainWeightSpan>{background.name}</PlainWeightSpan>
+      </H2>
+      <Indent>
+        <Description description={background.description}/>
+        <StepList steps={background.steps || []}/>
+      </Indent>
+    </Section>
   )
 }
 
