@@ -136,7 +136,7 @@ const App: React.FunctionComponent<IProps> = ({
         rel="stylesheet"
       />
       <Container>
-        <SwipeInput data-function="swipe" id="swipe" type="checkbox"/>
+        <SwipeInput data-function="swipe" id="swipe" type="checkbox" defaultChecked={true}/>
         <SwipeLabel data-function="swipe" htmlFor="swipe">
           &#xf057;
         </SwipeLabel>

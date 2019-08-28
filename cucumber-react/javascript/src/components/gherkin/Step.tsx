@@ -6,14 +6,13 @@ import { messages } from 'cucumber-messages'
 import styled from 'styled-components'
 import statusColor from './statusColor'
 import ResultsLookupByLineContext from '../../ResultsLookupByLineContext'
-import Status = messages.TestResult.Status
 
 interface IStepLiProps {
-  status: Status
+  status: messages.TestResult.Status
 }
 
 const StepLi = styled.li`
-  background-color: ${(props: IStepLiProps) => statusColor(props.status)};
+  background-color: ${(props: IStepLiProps) => statusColor(props.status).hex()};
 `
 
 interface IProps {
