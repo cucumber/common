@@ -23,7 +23,7 @@ describe('App', () => {
         const document = dom.window.document
 
         const p = path.join(dir, file)
-        const fakeTestResultsStream = new FakeTestResultsStream('protobuf-objects')
+        const fakeTestResultsStream = new FakeTestResultsStream('protobuf-objects', 'pattern')
         const envelopes = await streamToArray(gherkin
           .fromPaths([p])
           .pipe(fakeTestResultsStream))

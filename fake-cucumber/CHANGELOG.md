@@ -9,6 +9,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Added
 
+* Add new --results=none|random|pattern option
+
 ### Changed
 
 ### Deprecated

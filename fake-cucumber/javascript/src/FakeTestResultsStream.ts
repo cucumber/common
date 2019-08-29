@@ -5,7 +5,12 @@ class FakeTestResultsStream extends Transform {
   private readonly buffer: messages.IEnvelope[] = []
 
   constructor(
-    private readonly format: 'json' | 'ndjson' | 'protobuf' | 'protobuf-objects',
+    private readonly format:
+      | 'json'
+      | 'ndjson'
+      | 'protobuf'
+      | 'protobuf-objects',
+    private readonly results: 'none' | 'random' | 'pattern',
   ) {
     super({ objectMode: true })
   }
@@ -17,7 +22,7 @@ class FakeTestResultsStream extends Transform {
   ): void {
     this.p(envelope)
 
-    if (envelope.pickle) {
+    if (envelope.pickle && this.results !== 'none') {
       this.p(
         new messages.Envelope({
           testCaseStarted: new messages.TestCaseStarted({
@@ -28,6 +33,8 @@ class FakeTestResultsStream extends Transform {
       let index = 0
       let testCaseStatus: messages.TestResult.Status =
         messages.TestResult.Status.UNKNOWN
+      let testStepStatus: messages.TestResult.Status =
+        messages.TestResult.Status.PASSED
       let errorMessage: string = null
 
       for (const step of envelope.pickle.steps) {
@@ -40,26 +47,24 @@ class FakeTestResultsStream extends Transform {
           }),
         )
 
-        let status: messages.TestResult.Status
-        if (step.text.match(/ambiguous/)) {
-          status = messages.TestResult.Status.AMBIGUOUS
-        } else if (step.text.match(/failed/)) {
-          status = messages.TestResult.Status.FAILED
-          errorMessage = `Error in step '${step.text}'`
-        } else if (step.text.match(/passed/)) {
-          status = messages.TestResult.Status.PASSED
-        } else if (step.text.match(/pending/)) {
-          status = messages.TestResult.Status.PENDING
-        } else if (step.text.match(/skipped/)) {
-          status = messages.TestResult.Status.SKIPPED
-        } else if (step.text.match(/undefined/)) {
-          status = messages.TestResult.Status.UNDEFINED
-        } else {
-          status = messages.TestResult.Status.PASSED
+        switch (this.results) {
+          case 'pattern':
+            testStepStatus = patternStatus(step.text)
+            break
+          case 'random':
+            testStepStatus =
+              testStepStatus === messages.TestResult.Status.PASSED
+                ? randomStatus()
+                : messages.TestResult.Status.SKIPPED
+            break
+          default:
+            throw new Error(`Unexpected results value: ${this.results}`)
         }
-
-        if (status > testCaseStatus) {
-          testCaseStatus = status
+        if (testStepStatus === messages.TestResult.Status.FAILED) {
+          errorMessage = `Error in step '${step.text}'`
+        }
+        if (testStepStatus > testCaseStatus) {
+          testCaseStatus = testStepStatus
         }
 
         this.p(
@@ -68,7 +73,7 @@ class FakeTestResultsStream extends Transform {
               index,
               pickleId: envelope.pickle.id,
               testResult: {
-                status,
+                status: testStepStatus,
                 message: errorMessage,
               },
             }),
@@ -118,6 +123,39 @@ class FakeTestResultsStream extends Transform {
         throw new Error(`Invalid format "${this.format}"`)
     }
   }
+}
+
+function patternStatus(text: string): messages.TestResult.Status {
+  if (text.match(/ambiguous/)) {
+    return messages.TestResult.Status.AMBIGUOUS
+  } else if (text.match(/failed/)) {
+    return messages.TestResult.Status.FAILED
+  } else if (text.match(/passed/)) {
+    return messages.TestResult.Status.PASSED
+  } else if (text.match(/pending/)) {
+    return messages.TestResult.Status.PENDING
+  } else if (text.match(/skipped/)) {
+    return messages.TestResult.Status.SKIPPED
+  } else if (text.match(/undefined/)) {
+    return messages.TestResult.Status.UNDEFINED
+  } else {
+    return messages.TestResult.Status.PASSED
+  }
+}
+
+function randomStatus(): messages.TestResult.Status {
+  return random([
+    messages.TestResult.Status.PASSED,
+    messages.TestResult.Status.PENDING,
+    messages.TestResult.Status.UNDEFINED,
+    messages.TestResult.Status.AMBIGUOUS,
+    messages.TestResult.Status.FAILED,
+  ])
+}
+
+function random<T>(array: T[]): T {
+  const randomIndex = Math.round(Math.random() * array.length)
+  return array[randomIndex]
 }
 
 export default FakeTestResultsStream

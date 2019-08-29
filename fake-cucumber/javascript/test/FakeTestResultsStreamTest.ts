@@ -15,11 +15,11 @@ Scenario: passed then failed
   And a failed step
   And a skipped step
 `
-    const testCaseFinished = await getTestCaseFinished(gherkinSource)
+    const testCaseFinished = await getTestCaseFinished(gherkinSource, 'pattern')
 
     assert.strictEqual(
       testCaseFinished.testResult.status,
-      messages.TestResult.Status.FAILED
+      messages.TestResult.Status.FAILED,
     )
   })
 
@@ -31,16 +31,40 @@ Scenario: passed then failed
   And a pending step
   And a skipped step
 `
-    const testCaseFinished = await getTestCaseFinished(gherkinSource)
+    const testCaseFinished = await getTestCaseFinished(gherkinSource, 'pattern')
 
     assert.strictEqual(
       testCaseFinished.testResult.status,
-      messages.TestResult.Status.PENDING
+      messages.TestResult.Status.PENDING,
+    )
+  })
+
+  it('generates no pickle result when results=none', async () => {
+    const gherkinSource = `Feature: mixed results
+
+Scenario: passed then failed
+  Given a passed step
+  And a pending step
+  And a skipped step
+`
+    const envelopes = await generateMessages(gherkinSource, 'none')
+
+    assert.strictEqual(
+      undefined,
+      envelopes.find(envelope => envelope.testCaseFinished)
+    )
+
+    assert.strictEqual(
+      undefined,
+      envelopes.find(envelope => envelope.testStepFinished)
     )
   })
 })
 
-async function getTestCaseFinished(gherkinSource: string) {
+async function generateMessages(
+  gherkinSource: string,
+  results: 'none' | 'pattern' | 'random',
+): Promise<messages.IEnvelope[]> {
   const source = Source.fromObject({
     uri: 'test.feature',
     data: gherkinSource,
@@ -52,24 +76,30 @@ async function getTestCaseFinished(gherkinSource: string) {
 
   const fakeTestResultsStream = gherkin
     .fromSources([source])
-    .pipe(new FakeTestResultsStream('protobuf-objects'))
-  const envelopes = await streamToArray(fakeTestResultsStream)
+    .pipe(new FakeTestResultsStream('protobuf-objects', results))
+  return streamToArray(fakeTestResultsStream)
+}
 
+async function getTestCaseFinished(
+  gherkinSource: string,
+  results: 'none' | 'pattern' | 'random',
+): Promise<messages.ITestCaseFinished> {
+  const envelopes = await generateMessages(gherkinSource, results)
   return envelopes.find(envelope => envelope.testCaseFinished).testCaseFinished
 }
 
 async function streamToArray(
-  readableStream: Readable
+  readableStream: Readable,
 ): Promise<messages.IEnvelope[]> {
   return new Promise<messages.IEnvelope[]>(
     (
       resolve: (wrappers: messages.IEnvelope[]) => void,
-      reject: (err: Error) => void
+      reject: (err: Error) => void,
     ) => {
       const items: messages.IEnvelope[] = []
       readableStream.on('data', items.push.bind(items))
       readableStream.on('error', (err: Error) => reject(err))
       readableStream.on('end', () => resolve(items))
-    }
+    },
   )
 }

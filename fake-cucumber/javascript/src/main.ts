@@ -10,12 +10,20 @@ program.option(
   'output format: json|ndjson|protobuf',
   'protobuf'
 )
+program.option(
+  '-r, --results <results>',
+  'generate results: none|random|pattern',
+  'pattern'
+)
 program.parse(process.argv)
 
 const paths = program.args
 
 // @ts-ignore
-const fakeTestResultsStream = new FakeTestResultsStream(program.format)
+const fakeTestResultsStream = new FakeTestResultsStream(
+  program.format,
+  program.results
+)
 fakeTestResultsStream.on('error', (err: Error) => exit(err))
 
 gherkin

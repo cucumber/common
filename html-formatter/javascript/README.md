@@ -11,11 +11,15 @@ do this without getting errors, first run:
 
 This is to avoid errors from React as described in [facebook/react#13991](https://github.com/facebook/react/issues/13991).
 
-After you have done that you should be able to generate HTML reports - for example:
+After you have done that you should be able to generate HTML reports. For example,
+to generate a report with random results for the `.feature` files used in gherkin's
+test suite:
 
 ```
-../../fake-cucumber/javascript/bin/fake-cucumber \
-features/*.feature | \
-./bin/cucumber-html-formatter.js > \
-index.html
+cd ../../gherkin
+../fake-cucumber/javascript/bin/fake-cucumber \
+  --results random \
+  testdata/good/*.feature | \
+  ../html-formatter/javascript/bin/cucumber-html-formatter.js > \
+  gherkin.html
 ```
