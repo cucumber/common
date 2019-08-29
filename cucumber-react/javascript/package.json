@@ -1,6 +1,6 @@
 {
   "name": "cucumber-react",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "React components for Cucumber",
   "main": "dist/src/index.js",
   "types": "dist/src/index.d.ts",
@@ -44,7 +44,7 @@
     "awesome-typescript-loader": "^5.2.1",
     "babel-loader": "^8.0.6",
     "c21e": "2.0.0",
-    "fake-cucumber": "^1.0.1",
+    "fake-cucumber": "^1.1.0",
     "gherkin": "7.0.4",
     "jsdom": "^15.1.1",
     "mocha": "^6.2.0",
