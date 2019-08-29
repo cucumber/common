@@ -9,8 +9,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Added
 
-* Add new --results=none|random|pattern option
-
 ### Changed
 
 ### Deprecated
@@ -19,6 +17,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Fixed
 
+## [1.0.1] - 2019-08-29
+
+### Added
+
+* Add new --results=none|random|pattern option
+
 ## [1.0.0] - 2019-08-23
 
 ### Added
@@ -26,7 +30,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 * First release
 
 <!-- Releases -->
-[Unreleased]: https://github.com/cucumber/cucumber/compare/fake-cucumber/v1.0.0...master
+[Unreleased]: https://github.com/cucumber/cucumber/compare/fake-cucumber/v1.0.1...master
+[1.0.1]:      https://github.com/cucumber/cucumber/releases/tag/fake-cucumber/v1.0.0
 [1.0.0]:      https://github.com/cucumber/cucumber/releases/tag/fake-cucumber/v1.0.0
 [1.0.0]:      https://github.com/cucumber/cucumber/releases/tag/fake-cucumber/v1.0.0
 
