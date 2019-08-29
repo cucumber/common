@@ -70,7 +70,7 @@ class FakeTestResultsStream extends Transform {
               pickleId: envelope.pickle.id,
               testResult: {
                 status: testStepStatus,
-                message: testStepStatus === messages.TestResult.Status.FAILED ? `Some error message\n\tfake_file:2\n\tfake_file:7\n`,
+                message: testStepStatus === messages.TestResult.Status.FAILED ? `Some error message\n\tfake_file:2\n\tfake_file:7\n` : null,
               },
             }),
           }),
@@ -84,7 +84,7 @@ class FakeTestResultsStream extends Transform {
             pickleId: envelope.pickle.id,
             testResult: {
               status: testCaseStatus,
-              message: testStepStatus === messages.TestResult.Status.FAILED ? `Some error message\n\tfake_file:2\n\tfake_file:7\n`,
+              message: testStepStatus === messages.TestResult.Status.FAILED ? `Some error message\n\tfake_file:2\n\tfake_file:7\n` : null,
             },
           }),
         }),
