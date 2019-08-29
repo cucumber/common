@@ -9,15 +9,9 @@ This document is formatted according to the principles of [Keep A CHANGELOG](htt
 ----
 ## [Unreleased]
 
-### Added
-
 ### Changed
 
-### Deprecated
-
-### Removed
-
-### Fixed
+* Upgrade to cucumber-messages 5.0.1
 
 ## [7.0.3] - 2019-08-15
 
