@@ -77,7 +77,7 @@ automatically in the next step.
 Make sure you're in the package directory (e.g `/cucumber-expressions`).
 Publish a release with the following command:
 
-    NEW_VERSION=1.2.3 make release
+    NEW_VERSION=X.Y.Z make release
 
 This will:
 
@@ -96,11 +96,11 @@ Check that releases show up under:
 
 ## Post release
 
-Open `go/go.mod` and *restore* any `replace` directives you removed in the [update dependencied](#update-dependencies) step above.
+Open `go/go.mod` and *restore* any `replace` directives you removed in the [update dependencies](#update-dependencies) step above.
 
 Run the following command (using the same NEW_VERSION as you used for the release):
 
-    NEW_VERSION=1.2.3 make post-release
+    NEW_VERSION=X.Y.Z make post-release
 
 This should update the version in `java/pom.xml` file to use a `-SNAPSHOT` suffix.
 This is automatically committed, and pushed along with the tag of the release.
@@ -108,5 +108,5 @@ This is automatically committed, and pushed along with the tag of the release.
 It's also a good practice to update all the dependencies in the monorepo, especially
 when the module you just released is a dependency of other modules:
 
-    # Rub this in the root directory:
+    # Run this in the root directory:
     make update-dependencies

@@ -6,9 +6,8 @@ then
   exit 1
 fi
 
-if [ ! -d "/app/RELEASE_PROCESS.md" ]; then
-  >&2 echo "Are you running in docker?"
-  exit 1
+if [ ! -f "/app/RELEASE_PROCESS.md" ]; then
+  >&2 echo -e "\033[0;31mReleases must be done from withing Docker\033[0m"
 fi
 
 if [ -z ${GIT_CRYPT_KEY_BASE64} ]; then
