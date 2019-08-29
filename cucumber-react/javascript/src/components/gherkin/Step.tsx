@@ -8,7 +8,7 @@ import statusColor from './statusColor'
 import ResultsLookupByLineContext from '../../ResultsLookupByLineContext'
 import { H3, Indent, PlainWeightSpan } from './html'
 
-interface IStepLiProps {
+interface IStatusProps {
   status: messages.TestResult.Status
 }
 
@@ -19,11 +19,16 @@ const StepLi = styled.li`
   border-bottom: 1px #ccc solid;
   border-left: 1px #ccc solid;
   border-right: 1px #ccc solid;
-  background-color: ${(props: IStepLiProps) => statusColor(props.status).hex()};
+  background-color: ${(props: IStatusProps) => statusColor(props.status).hex()};
 
   &:nth-child(1) {
     border-top: 1px #ccc solid;
   }
+`
+
+const ErrorMessage = styled.div`
+  padding: 0.5em;
+  background-color: ${(props: IStatusProps) => statusColor(props.status).darken(0.1).hex()};
 `
 
 interface IProps {
@@ -34,6 +39,7 @@ const Step: React.FunctionComponent<IProps> = ({ step }) => {
   const resultsLookup = React.useContext(ResultsLookupByLineContext)
   const testResults = resultsLookup(step.location.line)
   const status = testResults.length > 0 ? testResults[0].status : messages.TestResult.Status.UNKNOWN
+  const resultsWithMessage = testResults.filter(tr => tr.message)
 
   return (
     <StepLi status={status}>
@@ -44,6 +50,7 @@ const Step: React.FunctionComponent<IProps> = ({ step }) => {
         {step.dataTable && <DataTable dataTable={step.dataTable}/>}
         {step.docString && <DocString docString={step.docString}/>}
       </Indent>
+      {resultsWithMessage.map(result => <ErrorMessage status={status}>{result.message}</ErrorMessage>)}
     </StepLi>
   )
 }

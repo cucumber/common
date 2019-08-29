@@ -16,7 +16,7 @@ Background: B
 
 # C
 Scenario: C
-  Given c
+  Given c failed
     """
     x
      y

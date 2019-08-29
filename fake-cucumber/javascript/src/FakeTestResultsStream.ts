@@ -35,7 +35,6 @@ class FakeTestResultsStream extends Transform {
         messages.TestResult.Status.UNKNOWN
       let testStepStatus: messages.TestResult.Status =
         messages.TestResult.Status.PASSED
-      let errorMessage: string = null
 
       for (const step of envelope.pickle.steps) {
         this.p(
@@ -60,9 +59,6 @@ class FakeTestResultsStream extends Transform {
           default:
             throw new Error(`Unexpected results value: ${this.results}`)
         }
-        if (testStepStatus === messages.TestResult.Status.FAILED) {
-          errorMessage = `Error in step '${step.text}'`
-        }
         if (testStepStatus > testCaseStatus) {
           testCaseStatus = testStepStatus
         }
@@ -74,7 +70,7 @@ class FakeTestResultsStream extends Transform {
               pickleId: envelope.pickle.id,
               testResult: {
                 status: testStepStatus,
-                message: errorMessage,
+                message: testStepStatus === messages.TestResult.Status.FAILED ? `Some error message\n\tfake_file:2\n\tfake_file:7\n`,
               },
             }),
           }),
@@ -88,7 +84,7 @@ class FakeTestResultsStream extends Transform {
             pickleId: envelope.pickle.id,
             testResult: {
               status: testCaseStatus,
-              message: errorMessage,
+              message: testStepStatus === messages.TestResult.Status.FAILED ? `Some error message\n\tfake_file:2\n\tfake_file:7\n`,
             },
           }),
         }),
