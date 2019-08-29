@@ -31,8 +31,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 <!-- Releases -->
 [Unreleased]: https://github.com/cucumber/cucumber/compare/fake-cucumber/v1.0.1...master
-[1.0.1]:      https://github.com/cucumber/cucumber/releases/tag/fake-cucumber/v1.0.0
-[1.0.0]:      https://github.com/cucumber/cucumber/releases/tag/fake-cucumber/v1.0.0
+[1.0.1]:      https://github.com/cucumber/cucumber/compare/fake-cucumber/v1.0.1...fake-cucumber/v1.0.1
 [1.0.0]:      https://github.com/cucumber/cucumber/releases/tag/fake-cucumber/v1.0.0
 
 <!-- Contributors in alphabetical order -->
