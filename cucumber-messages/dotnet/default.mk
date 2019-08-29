@@ -8,7 +8,7 @@ default: .packed
 .PHONY: default
 
 update-dependencies:
-	@echo "\033[0;31mPlease update dependencies for dotnet manually!!\033[0m"
+	@echo -e "\033[0;31mPlease update dependencies for dotnet manually!!\033[0m"
 .PHONY: update-dependencies
 
 update-version:
