@@ -17,6 +17,14 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Fixed
 
+## [1.1.0] - 2019-08-29
+
+### Changed
+
+* Upgrade to Gherkin 7.0.4
+
+### Fixed
+
 ## [1.0.1] - 2019-08-29
 
 ### Added
@@ -30,8 +38,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 * First release
 
 <!-- Releases -->
-[Unreleased]: https://github.com/cucumber/cucumber/compare/fake-cucumber/v1.0.1...master
-[1.0.1]:      https://github.com/cucumber/cucumber/compare/fake-cucumber/v1.0.1...fake-cucumber/v1.0.1
+[Unreleased]: https://github.com/cucumber/cucumber/compare/fake-cucumber/v1.1.0...master
+[1.1.0]:      https://github.com/cucumber/cucumber/compare/fake-cucumber/v1.0.1...fake-cucumber/v1.1.0
+[1.0.1]:      https://github.com/cucumber/cucumber/compare/fake-cucumber/v1.1.0...fake-cucumber/v1.0.1
 [1.0.0]:      https://github.com/cucumber/cucumber/releases/tag/fake-cucumber/v1.0.0
 
 <!-- Contributors in alphabetical order -->

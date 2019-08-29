@@ -1,6 +1,6 @@
 {
   "name": "fake-cucumber",
-  "version": "1.0.1",
+  "version": "1.1.0",
   "description": "Fake Cucumber generates fake results",
   "main": "dist/src/index.js",
   "types": "dist/src/index.d.ts",
@@ -43,6 +43,6 @@
   "dependencies": {
     "commander": "^3.0.0",
     "cucumber-messages": "^5.0.1",
-    "gherkin": "^7.0.3"
+    "gherkin": "^7.0.4"
   }
 }

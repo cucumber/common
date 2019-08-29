@@ -7,7 +7,7 @@ require (
 	github.com/mattn/go-colorable v0.1.2 // indirect
 	github.com/mattn/go-isatty v0.0.9 // indirect
 	github.com/stretchr/testify v1.4.0
-	golang.org/x/sys v0.0.0-20190826190057-c7b8b68b1456 // indirect
+	golang.org/x/sys v0.0.0-20190829204830-5fe476d8906b // indirect
 )
 
 replace github.com/cucumber/cucumber-messages-go/v5 => ../../cucumber-messages/go
