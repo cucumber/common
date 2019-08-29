@@ -17,22 +17,36 @@ const testCaseFinishedList: messages.ITestStepFinished[] = envelopes
   .filter(m => m.testCaseFinished)
   .map(m => m.testCaseFinished)
 
+const resultsLookup = makeResultsLookup(pickles, testStepFinishedList, testCaseFinishedList)
+
 describe('resultsLookup', () => {
   it('finds results for a step', () => {
-    const resultsLookup = makeResultsLookup(pickles, testStepFinishedList, testCaseFinishedList)
     const result = resultsLookup('testdata/statuses.feature', 9)[0]
     assert.strictEqual(result.status, messages.TestResult.Status.FAILED)
   })
 
   it('finds results for a scenario', () => {
-    const resultsLookup = makeResultsLookup(pickles, testStepFinishedList, testCaseFinishedList)
     const result = resultsLookup('testdata/statuses.feature', 5)[0]
     assert.strictEqual(result.status, messages.TestResult.Status.FAILED)
   })
 
+  it('finds results for a passed example row', () => {
+    const result = resultsLookup('testdata/statuses.feature', 24)[0]
+    assert.strictEqual(result.status, messages.TestResult.Status.PASSED)
+  })
+
+  it('finds results for a failed example row', () => {
+    const result = resultsLookup('testdata/statuses.feature', 25)[0]
+    assert.strictEqual(result.status, messages.TestResult.Status.FAILED)
+  })
+
+  it('finds results for an ambiguous example row', () => {
+    const result = resultsLookup('testdata/statuses.feature', 26)[0]
+    assert.strictEqual(result.status, messages.TestResult.Status.AMBIGUOUS)
+  })
+
   it('finds results for a whole file', () => {
-    const resultsLookup = makeResultsLookup(pickles, testStepFinishedList, testCaseFinishedList)
-    const results = resultsLookup('testdata/statuses.feature', null)
-    assert.strictEqual(results[0].status, messages.TestResult.Status.FAILED)
+    const result = resultsLookup('testdata/statuses.feature', null)[0]
+    assert.strictEqual(result.status, messages.TestResult.Status.FAILED)
   })
 })

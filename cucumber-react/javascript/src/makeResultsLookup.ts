@@ -9,6 +9,12 @@ interface IFinished {
   testResult?: (messages.ITestResult | null);
 }
 
+function sort(finishedList: IFinished[]): IFinished[] {
+  return finishedList.sort((a, b) => {
+    return b.testResult.status.valueOf() - a.testResult.status.valueOf()
+  })
+}
+
 /**
  * Returns a function that can be used to look up results for a document uri
  * and an optional line number.
@@ -64,20 +70,12 @@ export default function makeResultsLookup(
   }
 
   return (queryUri: string, queryLine?: number): messages.ITestResult[] => {
-    if (queryLine === null) {
-      const testCaseFinishedList = testCaseFinishedListByUri.get(queryUri)
-      if (testCaseFinishedList === undefined) return []
-      return testCaseFinishedList.sort((a, b) => {
-        return b.testResult.status.valueOf() - a.testResult.status.valueOf()
-      }).map(
-        testCaseFinished => testCaseFinished.testResult,
-      )
-    }
-    const finishedList = finishedListByUriAndLine.get(
-      `${queryUri}:${queryLine}`,
-    )
+    const finishedList = queryLine === null ?
+      testCaseFinishedListByUri.get(queryUri) :
+      finishedListByUriAndLine.get(`${queryUri}:${queryLine}`)
+
     if (finishedList === undefined) return []
-    return finishedList.map(
+    return sort(finishedList).map(
       finished => finished.testResult,
     )
   }
