@@ -9,6 +9,18 @@ This document is formatted according to the principles of [Keep A CHANGELOG](htt
 ----
 ## [Unreleased]
 
+### Added
+
+### Changed
+
+### Deprecated
+
+### Removed
+
+### Fixed
+
+## [7.0.4] - 2019-08-29
+
 ### Changed
 
 * Upgrade to cucumber-messages 5.0.1
@@ -519,7 +531,8 @@ to Gherkin 2.
 * First release
 
 <!-- Releases -->
-[Unreleased]: https://github.com/cucumber/cucumber/compare/gherkin/v7.0.3...master
+[Unreleased]: https://github.com/cucumber/cucumber/compare/gherkin/v7.0.4...master
+[7.0.4]:     https://github.com/cucumber/cucumber/compare/gherkin/v7.0.3...gherkin/v7.0.4
 [7.0.3]:     https://github.com/cucumber/cucumber/compare/gherkin/v7.0.2...gherkin/v7.0.3
 [7.0.2]:     https://github.com/cucumber/cucumber/compare/gherkin/v7.0.1...gherkin/v7.0.2
 [7.0.1]:     https://github.com/cucumber/cucumber/compare/gherkin/v7.0.0...gherkin/v7.0.1
