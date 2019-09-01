@@ -39,13 +39,9 @@ sub match_FeatureLine {
 sub match_ScenarioLine {
     my ( $self, $token ) = @_;
     $self->_match_title_line( $token,
-        ScenarioLine => $self->dialect->Scenario );
-}
-
-sub match_ScenarioOutlineLine {
-    my ( $self, $token ) = @_;
-    $self->_match_title_line( $token,
-        ScenarioOutlineLine => $self->dialect->ScenarioOutline );
+        ScenarioLine => $self->dialect->Scenario )
+        or $self->_match_title_line( $token,
+               ScenarioOutlineLine => $self->dialect->ScenarioOutline );
 }
 
 sub match_BackgroundLine {
@@ -58,6 +54,18 @@ sub match_ExamplesLine {
     my ( $self, $token ) = @_;
     $self->_match_title_line( $token,
         ExamplesLine => $self->dialect->Examples );
+}
+
+sub match_RuleLine {
+    my ( $self, $token ) = @_;
+    $self->_match_title_line( $token,
+        RuleLine => $self->dialect->Rule );
+}
+
+sub match_ExampleLine {
+    my ( $self, $token ) = @_;
+    $self->_match_title_line( $token,
+        ExampleLine => $self->dialect->Example );
 }
 
 sub match_Language {
