@@ -3,7 +3,7 @@ package Gherkin::TokenMatcher;
 use strict;
 use warnings;
 
-our $LANGUAGE_RE = qr/^\s*#\s*language\s*:\s*([a-zA-Z\-_]+)\s*$/o;
+our $LANGUAGE_RE = qr/^\s*#\s*language\s*:\s*([a-zA-Z\-_]+)\s*$/io;
 
 use Class::XSAccessor accessors => [
     qw/dialect _default_dialect_name _indent_to_remove _active_doc_string_separator/,
@@ -41,7 +41,7 @@ sub match_ScenarioLine {
     $self->_match_title_line( $token,
         ScenarioLine => $self->dialect->Scenario )
         or $self->_match_title_line( $token,
-               ScenarioOutlineLine => $self->dialect->ScenarioOutline );
+               ScenarioLine => $self->dialect->ScenarioOutline );
 }
 
 sub match_BackgroundLine {
@@ -218,7 +218,7 @@ sub _match_DocStringSeparator {
     }
 
     $self->_set_token_matched( $token,
-        DocStringSeparator => { text => $content_type } );
+        DocStringSeparator => { keyword => $separator, text => $content_type } );
 }
 
 sub match_TableRow {
