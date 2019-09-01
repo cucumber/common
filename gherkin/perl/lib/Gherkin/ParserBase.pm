@@ -41,8 +41,8 @@ sub _start_rule {
 }
 
 sub _end_rule {
-    my ( $self, $context, $ruleType ) = @_;
-    $self->_handle_ast_error( $context, end_rule => $ruleType );
+    my ( $self, $context, $ruleType, $additional ) = @_;
+    $self->_handle_ast_error( $context, end_rule => $ruleType, $additional );
 }
 
 sub _build {
@@ -51,9 +51,9 @@ sub _build {
 }
 
 sub _handle_ast_error {
-    my ( $self, $context, $method_name, $arg ) = @_;
+    my ( $self, $context, $method_name, @args ) = @_;
     my $action = sub {
-        $self->ast_builder->$method_name($arg);
+        $self->ast_builder->$method_name(@args);
     };
 
     $self->handle_external_error( $context, 1, $action );

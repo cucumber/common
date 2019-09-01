@@ -38,9 +38,9 @@ sub start_rule {
 }
 
 sub end_rule {
-    my ( $self, $rule_type ) = @_;
+    my ( $self, $rule_type, $additional ) = @_;
     my $node = pop( @{ $self->{'stack'} } );
-    $self->current_node->add( $node->rule_type, $self->transform_node($node) );
+    $self->current_node->add( $node->rule_type, $self->transform_node($node, $additional) );
 }
 
 sub build {
@@ -182,7 +182,7 @@ sub reject_nones {
 }
 
 sub transform_node {
-    my ( $self, $node ) = @_;
+    my ( $self, $node, $additional ) = @_;
     if ( $node->rule_type eq 'Step' ) {
         my $step_line = $node->get_token('StepLine');
         my $step_argument =
@@ -353,13 +353,14 @@ sub transform_node {
     } elsif ( $node->rule_type eq 'GherkinDocument' ) {
          my $feature = $node->get_single('Feature');
 
-         return $self->reject_nones(
-             {
-                 type                => $node->rule_type,
-                 feature             => $feature,
-                 comments            => $self->{'comments'}
-             }
-         );
+         return {
+             'gherkinDocument' => $self->reject_nones(
+                 {
+                     feature             => $feature,
+                     comments            => $self->{'comments'},
+                     %{$additional || {}}
+                 })
+         };
     } else {
         return $node;
     }

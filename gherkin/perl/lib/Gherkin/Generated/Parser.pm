@@ -96,6 +96,8 @@ our %states_to_match_names = (
 
 sub parse {
     my ( $self, $token_scanner, $token_matcher ) = @_;
+    my $additional = {};
+    $additional->{'uri'} = $token_scanner unless ref $token_scanner;
 
     $token_matcher ||= Gherkin::TokenMatcher->new();
     $token_scanner = Gherkin::TokenScanner->new($token_scanner)
@@ -123,7 +125,7 @@ sub parse {
         last if $token->is_eof();
     }
 
-    $self->_end_rule( $context, 'GherkinDocument' );
+    $self->_end_rule( $context, 'GherkinDocument', $additional );
 
     if ( my @errors = $context->errors ) {
         Gherkin::Exceptions::CompositeParser->throw(@errors);
