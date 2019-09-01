@@ -228,7 +228,7 @@ sub transform_node {
                 steps       => $steps
             }
         );
-    } elsif ( $node->rule_type eq 'Scenario_Definition' ) {
+    } elsif ( $node->rule_type eq 'ScenarioDefinition' ) {
         my $tags          = $self->get_tags($node);
         my $scenario_node = $node->get_single('Scenario');
         if ($scenario_node) {
@@ -256,7 +256,7 @@ sub transform_node {
             my $description = $self->get_description($scenario_outline_node);
             my $steps       = $self->get_steps($scenario_outline_node);
             my $examples =
-              $scenario_outline_node->get_items('Examples_Definition');
+              $scenario_outline_node->get_items('ExamplesDefinition');
 
             return $self->reject_nones(
                 {
@@ -271,12 +271,12 @@ sub transform_node {
                 }
             );
         }
-    } elsif ( $node->rule_type eq 'Examples_Definition' ) {
+    } elsif ( $node->rule_type eq 'ExamplesDefinition' ) {
         my $tags           = $self->get_tags($node);
         my $examples_node  = $node->get_single('Examples');
         my $examples_line  = $examples_node->get_token('ExamplesLine');
         my $description    = $self->get_description($examples_node);
-        my $examples_table = $examples_node->get_single('Examples_Table');
+        my $examples_table = $examples_node->get_single('ExamplesTable');
 
         return $self->reject_nones(
             {
@@ -290,7 +290,7 @@ sub transform_node {
                 tableBody   => $examples_table->{'tableBody'} || undef
             }
         );
-    } elsif ( $node->rule_type eq 'Examples_Table' ) {
+    } elsif ( $node->rule_type eq 'ExamplesTable' ) {
         my $rows = $self->get_table_rows($node);
 
         my $table_header = shift(@$rows) if $rows;
@@ -310,7 +310,7 @@ sub transform_node {
 
         return join "\n", map { $_->matched_text } @description;
     } elsif ( $node->rule_type eq 'Feature' ) {
-        my $header = $node->get_single('Feature_Header');
+        my $header = $node->get_single('FeatureHeader');
         return unless $header;
         my $feature_line = $header->get_token('FeatureLine');
         return unless $feature_line;
@@ -321,7 +321,7 @@ sub transform_node {
         if ( $background ) {
             push( @{ $children }, $background)
         }
-        for my $scenario_definition ( @{ $node->get_items('Scenario_Definition') } ) {
+        for my $scenario_definition ( @{ $node->get_items('ScenarioDefinition') } ) {
             push( @{ $children }, $scenario_definition)
         }
 
