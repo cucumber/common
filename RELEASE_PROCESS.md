@@ -57,7 +57,7 @@ committing the changes to git. Examine what changed:
 
     git diff
 
-Inspecting the diff, and undo any changes that you think shouldn't have been made.
+Inspect the diff, and undo any changes that you think shouldn't have been made.
 Make sure the package still builds, and that the tests are still passing:
 
     make clean && make
