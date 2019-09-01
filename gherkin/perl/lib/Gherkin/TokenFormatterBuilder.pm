@@ -30,7 +30,7 @@ my $c = 0;
 sub format_token {
     my ( $self, $token ) = @_;
     return "EOF" if $token->is_eof;
-    my $v = sprintf(
+    return sprintf(
         "(%s:%s)%s:%s/%s/%s",
         $token->location->{'line'},
         $token->location->{'column'},
@@ -39,10 +39,8 @@ sub format_token {
         $token->matched_text    || '',
         join( ',',
             map { $_->{'column'} . ':' . $_->{'text'} }
-              @{ $token->matched_items } )
+              @{ $token->matched_items || [] } )
     );
-    utf8::encode($v);
-    return $v;
 }
 
 1;
