@@ -49,7 +49,6 @@ sub build {
         push(
             @{ $self->{'comments'} },
             {
-                type     => 'Comment',
                 location => $self->get_location($token),
                 text     => $token->matched_text
             }
@@ -91,7 +90,6 @@ sub get_tags {
             push(
                 @tags,
                 {
-                    type => 'Tag',
                     location =>
                       $self->get_location( $token, $item->{'column'} ),
                     name => $item->{'text'}
@@ -111,7 +109,6 @@ sub get_table_rows {
         push(
             @rows,
             {
-                type     => 'TableRow',
                 location => $self->get_location($token),
                 cells    => $self->get_cells($token)
             }
@@ -147,13 +144,13 @@ sub get_cells {
         $value = undef unless $value; # reduce empty string to undef
         push(
             @cells,
-            {
-                type     => 'TableCell',
-                location => $self->get_location(
-                    $table_row_token, $cell_item->{'column'}
-                ),
-                value => $cell_item->{'text'}
-            }
+            $self->reject_nones(
+                {
+                    location => $self->get_location(
+                        $table_row_token, $cell_item->{'column'}
+                        ),
+                    value => $value
+                })
         );
     }
 
@@ -185,18 +182,16 @@ sub transform_node {
     my ( $self, $node, $additional ) = @_;
     if ( $node->rule_type eq 'Step' ) {
         my $step_line = $node->get_token('StepLine');
-        my $step_argument =
-             $node->get_single('DataTable')
-          || $node->get_single('DocString')
-          || undef;
+        my $step_datatable = $node->get_single('DataTable');
+        my $step_docstring = $node->get_single('DocString');
 
         return $self->reject_nones(
             {
-                type     => $node->rule_type,
-                location => $self->get_location($step_line),
-                keyword  => $step_line->matched_keyword,
-                text     => $step_line->matched_text,
-                argument => $step_argument
+                location  => $self->get_location($step_line),
+                keyword   => $step_line->matched_keyword,
+                text      => $step_line->matched_text,
+                docString => $step_docstring,
+                dataTable => $step_datatable,
             }
         );
     } elsif ( $node->rule_type eq 'DocString' ) {
@@ -208,17 +203,16 @@ sub transform_node {
 
         return $self->reject_nones(
             {
-                type        => $node->rule_type,
                 location    => $self->get_location($separator_token),
                 contentType => $content_type,
-                content     => $content
+                content     => $content,
+                delimiter   => $separator_token->matched_keyword
             }
         );
     } elsif ( $node->rule_type eq 'DataTable' ) {
         my $rows = $self->get_table_rows($node);
         return $self->reject_nones(
             {
-                type     => $node->rule_type,
                 location => $rows->[0]->{'location'},
                 rows     => $rows
             }
@@ -230,14 +224,36 @@ sub transform_node {
 
         return $self->reject_nones(
             {
-                type        => $node->rule_type,
                 location    => $self->get_location($background_line),
                 keyword     => $background_line->matched_keyword,
                 name        => $background_line->matched_text,
                 description => $description,
                 steps       => $steps
-            }
-        );
+            });
+    } elsif ( $node->rule_type eq 'Rule' ) {
+        my $header = $node->get_single('RuleHeader');
+        return unless $header;
+        my $line = $header->get_token('RuleLine');
+        return unless $line;
+
+        my $children = [];
+        my $background = $node->get_single('Background');
+        if ( $background ) {
+            push( @{ $children }, { background => $background })
+        }
+        for my $scenario_definition ( @{ $node->get_items('ScenarioDefinition') } ) {
+            push( @{ $children }, { scenario => $scenario_definition } )
+        }
+
+        my $description          = $self->get_description($header);
+        return $self->reject_nones(
+            {
+                location            => $self->get_location($line),
+                keyword             => $line->matched_keyword,
+                name                => $line->matched_text,
+                description         => $description,
+                children            => $children
+            });
     } elsif ( $node->rule_type eq 'ScenarioDefinition' ) {
         my $tags          = $self->get_tags($node);
         my $scenario_node = $node->get_single('Scenario');
@@ -245,41 +261,19 @@ sub transform_node {
             my $scenario_line = $scenario_node->get_token('ScenarioLine');
             my $description   = $self->get_description($scenario_node);
             my $steps         = $self->get_steps($scenario_node);
+            my $examples =
+              $scenario_node->get_items('ExamplesDefinition');
 
             return $self->reject_nones(
                 {
-                    type        => $scenario_node->rule_type,
                     tags        => $tags,
                     location    => $self->get_location($scenario_line),
                     keyword     => $scenario_line->matched_keyword,
                     name        => $scenario_line->matched_text,
                     description => $description,
-                    steps       => $steps
-                }
-            );
-        } else {
-            my $scenario_outline_node = $node->get_single('ScenarioOutline');
-
-            die "Internal grammar error" unless $scenario_outline_node;
-            my $scenario_outline_line =
-              $scenario_outline_node->get_token('ScenarioOutlineLine');
-            my $description = $self->get_description($scenario_outline_node);
-            my $steps       = $self->get_steps($scenario_outline_node);
-            my $examples =
-              $scenario_outline_node->get_items('ExamplesDefinition');
-
-            return $self->reject_nones(
-                {
-                    type        => $scenario_outline_node->rule_type,
-                    tags        => $tags,
-                    location    => $self->get_location($scenario_outline_line),
-                    keyword     => $scenario_outline_line->matched_keyword,
-                    name        => $scenario_outline_line->matched_text,
-                    description => $description,
                     steps       => $steps,
                     examples    => $examples
-                }
-            );
+                });
         }
     } elsif ( $node->rule_type eq 'ExamplesDefinition' ) {
         my $tags           = $self->get_tags($node);
@@ -290,7 +284,6 @@ sub transform_node {
 
         return $self->reject_nones(
             {
-                type        => $examples_node->rule_type,
                 tags        => $tags,
                 location    => $self->get_location($examples_line),
                 keyword     => $examples_line->matched_keyword,
@@ -329,27 +322,28 @@ sub transform_node {
         my $children = [];
         my $background = $node->get_single('Background');
         if ( $background ) {
-            push( @{ $children }, $background)
+            push( @{ $children }, { background => $background })
+        }
+        for my $rule ( @{ $node->get_items('Rule') } ) {
+            push( @{ $children }, { rule => $rule } )
         }
         for my $scenario_definition ( @{ $node->get_items('ScenarioDefinition') } ) {
-            push( @{ $children }, $scenario_definition)
+            push( @{ $children }, { scenario => $scenario_definition } )
         }
 
         my $description          = $self->get_description($header);
         my $language             = $feature_line->matched_gherkin_dialect;
 
         return $self->reject_nones(
-            {
-                type                => $node->rule_type,
-                tags                => $tags,
-                location            => $self->get_location($feature_line),
-                language            => $language,
-                keyword             => $feature_line->matched_keyword,
-                name                => $feature_line->matched_text,
-                description         => $description,
-                children            => $children
-            }
-        );
+                {
+                    tags                => $tags,
+                    location            => $self->get_location($feature_line),
+                    language            => $language,
+                    keyword             => $feature_line->matched_keyword,
+                    name                => $feature_line->matched_text,
+                    description         => $description,
+                    children            => $children
+                });
     } elsif ( $node->rule_type eq 'GherkinDocument' ) {
          my $feature = $node->get_single('Feature');
 
