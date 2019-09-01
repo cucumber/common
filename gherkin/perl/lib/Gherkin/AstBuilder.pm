@@ -3,6 +3,8 @@ package Gherkin::AstBuilder;
 use strict;
 use warnings;
 
+use Scalar::Util 'reftype';
+
 use Gherkin::Exceptions;
 use Gherkin::AstNode;
 
@@ -141,6 +143,8 @@ sub get_cells {
     my ( $self, $table_row_token ) = @_;
     my @cells;
     for my $cell_item ( @{ $table_row_token->matched_items } ) {
+        my $value = $cell_item->{'text'};
+        $value = undef unless $value; # reduce empty string to undef
         push(
             @cells,
             {
@@ -165,7 +169,13 @@ sub reject_nones {
     my $defined_only = {};
     for my $key ( keys %$values ) {
         my $value = $values->{$key};
-        $defined_only->{$key} = $value if defined $value;
+        next if not defined $value;
+
+        # eliminate empty arrays too
+        next if ref $value and reftype $value eq 'ARRAY'
+            and scalar(@{$value}) == 0;
+
+        $defined_only->{$key} = $value;
     }
 
     return $defined_only;

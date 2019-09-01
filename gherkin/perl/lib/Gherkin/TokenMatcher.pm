@@ -95,7 +95,8 @@ sub _match_title_line {
     for my $keyword (@$keywords) {
         if ( $token->line->startswith_title_keyword($keyword) ) {
             my $title =
-              $token->line->get_rest_trimmed( length( $keyword . ': ' ) );
+                $token->line->get_rest_trimmed( length( $keyword . ': ' ) );
+            $title = undef unless $title; # reduce empty string to undef
             $self->_set_token_matched( $token, $token_type,
                 { text => $title, keyword => $keyword } );
             return 1;
