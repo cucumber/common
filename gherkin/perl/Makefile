@@ -19,7 +19,7 @@ default: .compared
 	touch $@
 
 .cpanfile_dependencies:
-	cpanm --installdeps .
+	cpanm --installdeps --notest .
 	touch $@
 
 .built: .cpanfile_dependencies lib/Gherkin/Generated/Parser.pm lib/Gherkin/Generated/Languages.pm $(PERL_FILES) bin/gherkin-generate-tokens bin/gherkin-generate-ast LICENSE.txt
