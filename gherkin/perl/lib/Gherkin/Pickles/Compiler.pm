@@ -10,29 +10,14 @@ use Scalar::Util 'reftype';
 sub compile {
     my ( $class, $root ) = @_;
     my $gherkin_document = $root->{'gherkinDocument'};
-    my @pickles;
-
-    my $uri     = $gherkin_document->{'uri'};
-    my $feature = $gherkin_document->{'feature'};
+    my $uri              = $gherkin_document->{'uri'};
+    my $feature          = $gherkin_document->{'feature'};
     my $language         = $feature->{'language'};
     my $feature_tags     = $feature->{'tags'};
-    my $background_steps = [];
+    my @pickles;
 
-    for my $scenario_definition ( @{ $feature->{'children'} } ) {
-        if ( $scenario_definition->{'background'} ) {
-            $background_steps =
-                $class->_pickle_steps($scenario_definition->{'background'})
-        } elsif ( $scenario_definition->{'scenario'}
-                  and $scenario_definition->{'scenario'}->{'examples'}) {
-            $class->_compile_scenario_outline($feature_tags, $background_steps,
-                                              $scenario_definition->{'scenario'},
-                                              $language, $uri, \@pickles);
-        } else {
-            $class->_compile_scenario($feature_tags, $background_steps,
-                                      $scenario_definition->{'scenario'},
-                                      $language, $uri, \@pickles);
-        }
-    }
+    $class->_compile_scenario_definitions($uri, $language, $feature_tags,
+                                          $feature->{'children'}, [], \@pickles);
 
     return \@pickles;
 }
@@ -60,6 +45,37 @@ sub _pickle_steps {
     my @steps = map { $class->_pickle_step( $_ ) }
       @{ $scenario_definition->{'steps'} };
     return \@steps;
+}
+
+
+sub _compile_scenario_definitions {
+    my ( $class, $uri, $language, $feature_tags,
+         $scenario_definitions, $outer_background_steps, $pickles) = @_;
+
+    $outer_background_steps ||= [];
+    my $background_steps = [ @$outer_background_steps ];
+
+    for my $scenario_definition ( @$scenario_definitions ) {
+        if ( $scenario_definition->{'background'} ) {
+            $background_steps = [
+                @$outer_background_steps,
+                @{$class->_pickle_steps($scenario_definition->{'background'})}
+                ];
+        } elsif ( $scenario_definition->{'rule'} ) {
+            $class->_compile_scenario_definitions(
+                $uri, $language, $feature_tags,
+                $scenario_definition->{'rule'}->{'children'}, $background_steps, $pickles);
+        } elsif ( $scenario_definition->{'scenario'}
+                  and $scenario_definition->{'scenario'}->{'examples'}) {
+            $class->_compile_scenario_outline(
+                $feature_tags, $background_steps,
+                $scenario_definition->{'scenario'}, $language, $uri, $pickles);
+        } else {
+            $class->_compile_scenario($feature_tags, $background_steps,
+                                      $scenario_definition->{'scenario'},
+                                      $language, $uri, $pickles);
+        }
+    }
 }
 
 sub _compile_scenario {
