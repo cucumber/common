@@ -4,20 +4,24 @@ use strict;
 use warnings;
 use utf8;
 
+use Digest::SHA;
 use Scalar::Util 'reftype';
 
 
 sub compile {
-    my ( $class, $root ) = @_;
+    my ( $class, $root, $source ) = @_;
     my $gherkin_document = $root->{'gherkinDocument'};
     my $uri              = $gherkin_document->{'uri'};
     my $feature          = $gherkin_document->{'feature'};
     my $language         = $feature->{'language'};
     my $feature_tags     = $feature->{'tags'};
+    my $source_sha       = Digest::SHA->new(1); # SHA1
     my @pickles;
 
-    $class->_compile_scenario_definitions($uri, $language, $feature_tags,
-                                          $feature->{'children'}, [], \@pickles);
+    $source_sha->add($source);
+    $class->_compile_scenario_definitions(
+        $uri, $language, $feature_tags,
+        $feature->{'children'}, [], $source_sha, \@pickles);
 
     return \@pickles;
 }
@@ -40,17 +44,10 @@ sub reject_nones {
     return $defined_only;
 }
 
-sub _pickle_steps {
-    my ( $class, $scenario_definition ) = @_;
-    my @steps = map { $class->_pickle_step( $_ ) }
-      @{ $scenario_definition->{'steps'} };
-    return \@steps;
-}
-
 
 sub _compile_scenario_definitions {
-    my ( $class, $uri, $language, $feature_tags,
-         $scenario_definitions, $outer_background_steps, $pickles) = @_;
+    my ( $class, $uri, $language, $feature_tags, $scenario_definitions,
+         $outer_background_steps, $source_sha, $pickles) = @_;
 
     $outer_background_steps ||= [];
     my $background_steps = [ @$outer_background_steps ];
@@ -64,22 +61,25 @@ sub _compile_scenario_definitions {
         } elsif ( $scenario_definition->{'rule'} ) {
             $class->_compile_scenario_definitions(
                 $uri, $language, $feature_tags,
-                $scenario_definition->{'rule'}->{'children'}, $background_steps, $pickles);
+                $scenario_definition->{'rule'}->{'children'}, $background_steps,
+                $source_sha, $pickles);
         } elsif ( $scenario_definition->{'scenario'}
                   and $scenario_definition->{'scenario'}->{'examples'}) {
             $class->_compile_scenario_outline(
                 $feature_tags, $background_steps,
-                $scenario_definition->{'scenario'}, $language, $uri, $pickles);
+                $scenario_definition->{'scenario'}, $language, $uri,
+                $source_sha, $pickles);
         } else {
             $class->_compile_scenario($feature_tags, $background_steps,
                                       $scenario_definition->{'scenario'},
-                                      $language, $uri, $pickles);
+                                      $language, $uri, $source_sha, $pickles);
         }
     }
 }
 
 sub _compile_scenario {
-    my ( $class, $feature_tags, $background_steps, $scenario, $language, $uri, $pickles )
+    my ( $class, $feature_tags, $background_steps, $scenario, $language, $uri,
+         $source_sha, $pickles )
       = @_;
 
     my @actual_array =  @{ $scenario->{'steps'} || [] };
@@ -96,16 +96,18 @@ sub _compile_scenario {
         );
     }
 
+    my @locations = $class->_pickle_location( $scenario->{'location'} );
+    my $id = $class->_pickle_id($source_sha, @locations);
     push(
         @$pickles,
         {
             'pickle' => $class->reject_nones( {
+                id => $id,
                 uri => $uri,
                 tags => $class->_pickle_tags( \@tags ),
                 language => $language,
                 name => $scenario->{'name'},
-                locations =>
-                    [ $class->_pickle_location( $scenario->{'location'} ) ],
+                locations => \@locations,
                 steps => \@steps,
             })
         }
@@ -113,7 +115,8 @@ sub _compile_scenario {
 }
 
 sub _compile_scenario_outline {
-    my ( $class, $feature_tags, $background_steps, $scenario_outline, $language, $uri, $pickles )
+    my ( $class, $feature_tags, $background_steps, $scenario_outline, $language,
+         $uri, $source_sha, $pickles )
       = @_;
 
     my @actual_array =  @{ $scenario_outline->{'steps'} || [] };
@@ -161,10 +164,16 @@ sub _compile_scenario_outline {
                 );
             }
 
+            my @locations = (
+                $class->_pickle_location($scenario_outline->{'location'}),
+                $class->_pickle_location($values->{'location'}),
+                );
+            my $id = $class->_pickle_id($source_sha, @locations);
             push(
                 @$pickles,
                 {
                     'pickle' => $class->reject_nones({
+                        id  => $id,
                         uri => $uri,
                         name =>
                             $class->_interpolate(
@@ -174,14 +183,7 @@ sub _compile_scenario_outline {
                         language  => $language,
                         steps     => \@steps,
                         tags      => $class->_pickle_tags( \@tags ),
-                        locations => [
-                            $class->_pickle_location(
-                                $scenario_outline->{'location'}
-                            ),
-                            $class->_pickle_location(
-                                $values->{'location'}
-                            ),
-                            ],
+                        locations => \@locations,
                     })
                 }
             );
@@ -237,6 +239,13 @@ sub _interpolate {
     return $name;
 }
 
+sub _pickle_steps {
+    my ( $class, $scenario_definition ) = @_;
+    my @steps = map { $class->_pickle_step( $_ ) }
+      @{ $scenario_definition->{'steps'} };
+    return \@steps;
+}
+
 sub _pickle_step {
     my ( $class, $step ) = @_;
 
@@ -278,6 +287,16 @@ sub _pickle_tag {
         name     => $tag->{'name'},
         location => $class->_pickle_location( $tag->{'location'} )
     };
+}
+
+sub _pickle_id {
+    my ($class, $source_sha, @locations) = @_;
+    my $sha = $source_sha->clone;
+    for my $location (@locations) {
+        my $packed = pack('VV', $location->{'line'}, $location->{'column'});
+        $sha->add($packed);
+    }
+    my $id = $sha->hexdigest;
 }
 
 1;
