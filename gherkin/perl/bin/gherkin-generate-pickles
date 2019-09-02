@@ -14,7 +14,7 @@ use Gherkin::Pickles::Compiler;
 
 sub run {
     my ( $class, $fh, @file_list ) = @_;
-    my $json = Cpanel::JSON::XS->new->utf8->canonical;
+    my $json = Cpanel::JSON::XS->new->utf8->pretty->canonical;
 
     my $parser = Gherkin::Parser->new();
 
@@ -25,7 +25,6 @@ sub run {
         );
         for my $pickle (@$pickles) {
             print $fh $json->encode($pickle);
-            print "\n"
         }
     }
 }
