@@ -1,15 +1,16 @@
 #!/usr/bin/env perl
 
+package App::GherkinGeneratePickles;
+
 use strict;
 use warnings;
 use lib 'lib';
 
 use Cpanel::JSON::XS;
+use Path::Class;
 
 use Gherkin::Parser;
 use Gherkin::Pickles::Compiler;
-
-package App::GherkinGeneratePickles;
 
 sub run {
     my ( $class, $fh, @file_list ) = @_;
@@ -18,16 +19,12 @@ sub run {
     my $parser = Gherkin::Parser->new();
 
     for my $file (@file_list) {
+        my $source = file($file)->slurp;
         my $pickles = Gherkin::Pickles::Compiler->compile(
-            $parser->parse($file)
+            $parser->parse($file), $source
         );
         for my $pickle (@$pickles) {
-            my $event = {
-              type => 'pickle',
-              uri => $file,
-              pickle => $pickle
-            };
-            print $fh $json->encode($event);
+            print $fh $json->encode($pickle);
             print "\n"
         }
     }
