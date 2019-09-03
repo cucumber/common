@@ -12,13 +12,4 @@ possible statuses.
 
 ## Usage
 
-    fake-cucumber [FILES] > messages.json
-
-## Formats
-
-Fake Cucumber can write messages in 3 different formats:
-
-- For JSON output, define `FORMAT=json` (this is the default).
-- For [ndjson](http://ndjson.org/) output, define `FORMAT=ndjson`.
-- For binary protobuf output, define `FORMAT=protobuf-binary`.
-- For protobuf object output, define `FORMAT=protobuf`.
+    fake-cucumber [--format=json|ndjson|protobuf] [--results=none|random|pattern] [FILES]
