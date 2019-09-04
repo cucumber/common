@@ -4,126 +4,141 @@
   switch(production.Type)
   {
     case ProductionRuleType.Start:
-      @:startRule(context, '@production.RuleName');
+      @:this.startRule(context, RuleType.@production.RuleName);
       break;
     case ProductionRuleType.End:
-      @:endRule(context, '@production.RuleName');
+      @:this.endRule(context, RuleType.@production.RuleName);
       break;
     case ProductionRuleType.Process:
-      @:build(context, token);
+      @:this.build(context, token);
       break;
   }
 }
 @helper HandleParserError(IEnumerable<string> expectedTokens, State state)
 {<text>
-    var stateComment = "State: @state.Id - @Raw(state.Comment)";
+    const stateComment = "State: @state.Id - @Raw(state.Comment)";
     token.detach();
-    var expectedTokens = ["@Raw(string.Join("\", \"", expectedTokens))"];
-    var error = token.isEof ?
-      Errors.UnexpectedEOFException.create(token, expectedTokens, stateComment) :
-      Errors.UnexpectedTokenException.create(token, expectedTokens, stateComment);
-    if (self.stopAtFirstError) throw error;
-    addError(context, error);
+    const expectedTokens = ["@Raw(string.Join("\", \"", expectedTokens))"];
+    const error = token.isEof ?
+      UnexpectedEOFException.create(token, expectedTokens, stateComment) :
+      UnexpectedTokenException.create(token, expectedTokens, stateComment);
+    if (this.stopAtFirstError) throw error;
+    this.addError(context, error);
     return @state.Id;</text>}
 @helper MatchToken(TokenType tokenType)
 {<text>match_@(tokenType)(context, token)</text>}
 // This file is generated. Do not edit! Edit gherkin-javascript.razor instead.
-var Errors = require('./errors');
-var AstBuilder = require('./ast_builder');
-var TokenScanner = require('./token_scanner');
-var TokenMatcher = require('./token_matcher');
+import {
+  ParserException,
+  CompositeParserException,
+  UnexpectedTokenException,
+  UnexpectedEOFException,
+  AstBuilderException,
+  NoSuchLanguageException
+} from './errors'
+import AstBuilder from './ast_builder'
+import Token from './token'
+import TokenScanner from './token_scanner'
+import TokenMatcher from './token_matcher'
 
-var RULE_TYPES = [
-  'None',
-  @foreach(var rule in Model.RuleSet.Where(r => !r.TempRule))
-  {<text>  '@rule.Name.Replace("#", "_")', // @rule.ToString(true)
+export enum TokenType {
+  None,
+  @foreach(var rule in Model.RuleSet.TokenRules)
+  {<text>  @rule.Name.Replace("#", ""),
 </text>}
-];
+}
 
-module.exports = function Parser(builder) {
-  builder = builder || new AstBuilder();
-  var self = this;
-  var context;
+export enum RuleType {
+  None,
+  @foreach(var rule in Model.RuleSet.Where(r => !r.TempRule))
+  {<text>  @rule.Name.Replace("#", "_"), // @rule.ToString(true)
+</text>}
+}
 
-  this.parse = function(tokenScanner, tokenMatcher) {
-    if(typeof tokenScanner == 'string') {
+interface Context {
+  tokenScanner: TokenScanner
+  tokenMatcher: TokenMatcher
+  tokenQueue: Token[]
+  errors: Error[]
+}
+
+export default class Parser {
+  public stopAtFirstError: boolean = false
+  private context: Context
+
+  constructor(private readonly builder: AstBuilder = new AstBuilder()) {
+  }
+
+  public parse(tokenScanner: TokenScanner|string, tokenMatcher: TokenMatcher = new TokenMatcher()) {
+    if(typeof tokenScanner === 'string') {
       tokenScanner = new TokenScanner(tokenScanner);
     }
-    tokenMatcher = tokenMatcher || new TokenMatcher();
-    builder.reset();
+    this.builder.reset();
     tokenMatcher.reset();
-    context = {
-      tokenScanner: tokenScanner,
-      tokenMatcher: tokenMatcher,
+    this.context = {
+      tokenScanner,
+      tokenMatcher,
       tokenQueue: [],
       errors: []
     };
-    startRule(context, "@Model.RuleSet.StartRule.Name");
-    var state = 0;
-    var token = null;
+    this.startRule(this.context, RuleType.@Model.RuleSet.StartRule.Name);
+    let state = 0;
+    let token = null;
     while(true) {
-      token = readToken(context);
-      state = matchToken(state, token, context);
+      token = this.readToken(this.context);
+      state = this.matchToken(state, token, this.context);
       if(token.isEof) break;
     }
 
-    endRule(context, "@Model.RuleSet.StartRule.Name");
+    this.endRule(this.context, RuleType.@Model.RuleSet.StartRule.Name);
 
-    if(context.errors.length > 0) {
-      throw Errors.CompositeParserException.create(context.errors);
+    if(this.context.errors.length > 0) {
+      throw CompositeParserException.create(this.context.errors);
     }
 
-    return getResult();
-  };
+    return this.getResult();
+  }
 
-  function addError(context, error) {
+  private addError(context: Context, error: Error) {
     context.errors.push(error);
     if (context.errors.length > 10)
-      throw Errors.CompositeParserException.create(context.errors);
+      throw CompositeParserException.create(context.errors);
   }
 
-  function startRule(context, ruleType) {
-    handleAstError(context, function () {
-      builder.startRule(ruleType);
-    });
+  private startRule(context: Context, ruleType: RuleType) {
+    this.handleAstError(context, () => this.builder.startRule(ruleType));
   }
 
-  function endRule(context, ruleType) {
-    handleAstError(context, function () {
-      builder.endRule(ruleType);
-    });
+  private endRule(context: Context, ruleType: RuleType) {
+    this.handleAstError(context, () => this.builder.endRule(ruleType));
   }
 
-  function build(context, token) {
-    handleAstError(context, function () {
-      builder.build(token);
-    });
+  private build(context: Context, token: Token) {
+    this.handleAstError(context, () => this.builder.build(token));
   }
 
-  function getResult() {
-    return builder.getResult();
+  private getResult() {
+    return this.builder.getResult();
   }
 
-  function handleAstError(context, action) {
-    handleExternalError(context, true, action)
+  private handleAstError(context: Context, action: () => any) {
+    this.handleExternalError(context, true, action)
   }
 
-  function handleExternalError(context, defaultValue, action) {
-    if(self.stopAtFirstError) return action();
+  private handleExternalError<T>(context: Context, defaultValue: T, action: () => T) {
+    if(this.stopAtFirstError) return action()
     try {
-      return action();
+      return action()
     } catch (e) {
-      if(e instanceof Errors.CompositeParserException) {
-        e.errors.forEach(function (error) {
-          addError(context, error);
-        });
+      if(e instanceof CompositeParserException) {
+        e.errors.forEach((error: Error) => this.addError(context, error))
       } else if(
-        e instanceof Errors.ParserException ||
-        e instanceof Errors.AstBuilderException ||
-        e instanceof Errors.UnexpectedTokenException ||
-        e instanceof Errors.NoSuchLanguageException
+        e instanceof ParserException ||
+        e instanceof AstBuilderException ||
+        e instanceof UnexpectedTokenException ||
+        e instanceof NoSuchLanguageException
       ) {
-        addError(context, e);
+        this.addError(context, e)
       } else {
         throw e;
       }
@@ -131,18 +146,18 @@ module.exports = function Parser(builder) {
     return defaultValue;
   }
 
-  function readToken(context) {
+  private readToken(context: Context) {
     return context.tokenQueue.length > 0 ?
       context.tokenQueue.shift() :
       context.tokenScanner.read();
   }
 
-  function matchToken(state, token, context) {
+  private matchToken(state: number, token: Token, context: Context) {
     switch(state) {
     @foreach(var state in Model.States.Values.Where(s => !s.IsEndState))
     {
     @:case @state.Id:
-      @:return matchTokenAt_@(state.Id)(token, context);
+      @:return this.matchTokenAt_@(state.Id)(token, context);
     }
     default:
       throw new Error("Unknown state: " + state);
@@ -153,13 +168,13 @@ module.exports = function Parser(builder) {
 {
 <text>
   // @Raw(state.Comment)
-  function matchTokenAt_@(state.Id)(token, context) {
+  private matchTokenAt_@(state.Id)(token: Token, context: Context) {
     @foreach(var transition in state.Transitions)
     {
-    @:if(@MatchToken(transition.TokenType)) {
+    @:if(this.@MatchToken(transition.TokenType)) {
       if (transition.LookAheadHint != null)
       {
-      @:if(lookahead_@(transition.LookAheadHint.Id)(context, token)) {
+      @:if(this.lookahead_@(transition.LookAheadHint.Id)(context, token)) {
       }
       foreach(var production in transition.Productions)
       {
@@ -180,14 +195,12 @@ module.exports = function Parser(builder) {
 @foreach(var rule in Model.RuleSet.TokenRules)
 {
 <text>
-  function match_@(rule.Name.Replace("#", ""))(context, token) {
+  private match_@(rule.Name.Replace("#", ""))(context: Context, token: Token) {
     @if (rule.Name != "#EOF")
     {
     @:if(token.isEof) return false;
     }
-    return handleExternalError(context, false, function () {
-      return context.tokenMatcher.match_@(rule.Name.Replace("#", ""))(token);
-    });
+    return this.handleExternalError(context, false, () => context.tokenMatcher.match_@(rule.Name.Replace("#", ""))(token));
   }
 </text>
 }
@@ -195,21 +208,21 @@ module.exports = function Parser(builder) {
 @foreach(var lookAheadHint in Model.RuleSet.LookAheadHints)
 {
 <text>
-  function lookahead_@(lookAheadHint.Id)(context, currentToken) {
+  private lookahead_@(lookAheadHint.Id)(context: Context, currentToken: Token) {
     currentToken.detach();
-    var token;
-    var queue = [];
-    var match = false;
+    let token;
+    const queue: Token[] = [];
+    let match = false;
     do {
-      token = readToken(context);
+      token = this.readToken(this.context);
       token.detach();
       queue.push(token);
 
-      if (false @foreach(var tokenType in lookAheadHint.ExpectedTokens) { <text>|| @MatchToken(tokenType)</text>}) {
+      if (false @foreach(var tokenType in lookAheadHint.ExpectedTokens) { <text>|| this.@MatchToken(tokenType)</text>}) {
         match = true;
         break;
       }
-    } while(false @foreach(var tokenType in lookAheadHint.Skip) { <text>|| @MatchToken(tokenType)</text>});
+    } while(false @foreach(var tokenType in lookAheadHint.Skip) { <text>|| this.@MatchToken(tokenType)</text>});
 
     context.tokenQueue = context.tokenQueue.concat(queue);
 

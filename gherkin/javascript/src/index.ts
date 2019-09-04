@@ -2,10 +2,9 @@ import { spawn, spawnSync } from 'child_process'
 import { statSync, createReadStream } from 'fs'
 import { ExeFile } from 'c21e'
 import { messages, ProtobufMessageStream } from 'cucumber-messages'
-import { Readable } from 'stream'
-import { Transform } from 'stream'
-// @ts-ignore
-import * as legacy from './legacy'
+import { Transform, Readable } from 'stream'
+import legacy from './legacy'
+import Dialect from './legacy/gherkin/Dialect'
 
 const defaultOptions = {
   defaultDialect: 'en',
@@ -27,37 +26,38 @@ function translateLegacyOptions(
 
 function fromPaths(paths: string[], options: IGherkinOptions = defaultOptions) {
   if (options.useLegacyImplementation) {
-    const objectWrapper = new Transform({
-      objectMode: true,
-      transform(object, _, callback) {
-        this.push(messages.Envelope.fromObject(object))
-        callback()
-      },
-    })
-
-    const pipeEventsFor = ([path, ...rest]: string[]) => {
-      if (!path) {
-        return objectWrapper.end()
-      }
-
-      const fileStream = createReadStream(path, { encoding: 'utf-8' })
-      const eventStream = new legacy.EventStream(
-        path,
-        translateLegacyOptions(options)
-      )
-      fileStream.pipe(eventStream)
-      eventStream.pipe(
-        objectWrapper,
-        { end: false }
-      )
-      eventStream.on('end', () => pipeEventsFor(rest))
-    }
-
-    pipeEventsFor(paths)
-
-    return objectWrapper
+    throw new Error('FIXME')
+    // const objectWrapper = new Transform({
+    //   objectMode: true,
+    //   transform(object, _, callback) {
+    //     this.push(messages.Envelope.fromObject(object))
+    //     callback()
+    //   },
+    // })
+    //
+    // const pipeEventsFor = ([path, ...rest]: string[]) => {
+    //   if (!path) {
+    //     return objectWrapper.end()
+    //   }
+    //
+    //   const fileStream = createReadStream(path, { encoding: 'utf-8' })
+    //   const eventStream = new legacy.EventStream(
+    //     path,
+    //     translateLegacyOptions(options)
+    //   )
+    //   fileStream.pipe(eventStream)
+    //   eventStream.pipe(
+    //     objectWrapper,
+    //     { end: false }
+    //   )
+    //   eventStream.on('end', () => pipeEventsFor(rest))
+    // }
+    //
+    // pipeEventsFor(paths)
+    //
+    // return objectWrapper
   } else {
-    return new Gherkin(paths, [], options).messageStream()
+    return new GherkinExe(paths, [], options).messageStream()
   }
 }
 
@@ -65,14 +65,14 @@ function fromSources(
   sources: messages.Source[],
   options: Omit<IGherkinOptions, 'useLegacyImplementation'> = defaultOptions
 ) {
-  return new Gherkin([], sources, options).messageStream()
+  return new GherkinExe([], sources, options).messageStream()
 }
 
 function dialects(options: IGherkinOptions = defaultOptions) {
   if (options.useLegacyImplementation) {
     return legacy.DIALECTS
   } else {
-    return new Gherkin([], [], {}).dialects()
+    return new GherkinExe([], [], {}).dialects()
   }
 }
 
@@ -90,25 +90,9 @@ interface IGherkinLegacyOptions {
   pickle?: boolean
 }
 
-interface Dialect {
-  name: string
-  native: string
-  feature: readonly string[]
-  background: readonly string[]
-  rule: readonly string[]
-  scenario: readonly string[]
-  scenarioOutline: readonly string[]
-  examples: readonly string[]
-  given: readonly string[]
-  when: readonly string[]
-  then: readonly string[]
-  and: readonly string[]
-  but: readonly string[]
-}
-
 export { fromPaths, fromSources, dialects, legacy }
 
-class Gherkin {
+class GherkinExe {
   private exeFile: ExeFile
 
   constructor(
