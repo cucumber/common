@@ -141,16 +141,40 @@ function patternStatus(text: string): messages.TestResult.Status {
 
 function randomStatus(): messages.TestResult.Status {
   return random([
+    // The duplicates are deliberate - we're trying
+    // to generate realistic results
+    messages.TestResult.Status.PASSED,
+    messages.TestResult.Status.PASSED,
+    messages.TestResult.Status.PASSED,
+    messages.TestResult.Status.PASSED,
+    messages.TestResult.Status.PASSED,
+    messages.TestResult.Status.PASSED,
+    messages.TestResult.Status.PASSED,
+    messages.TestResult.Status.PASSED,
+    messages.TestResult.Status.PASSED,
+    messages.TestResult.Status.PASSED,
+    messages.TestResult.Status.PASSED,
+    messages.TestResult.Status.PASSED,
+    messages.TestResult.Status.PASSED,
+    messages.TestResult.Status.PASSED,
+    messages.TestResult.Status.PASSED,
+    messages.TestResult.Status.PASSED,
+    messages.TestResult.Status.PASSED,
+    messages.TestResult.Status.PASSED,
+    messages.TestResult.Status.PASSED,
+    messages.TestResult.Status.PASSED,
     messages.TestResult.Status.PASSED,
     messages.TestResult.Status.PENDING,
     messages.TestResult.Status.UNDEFINED,
     messages.TestResult.Status.AMBIGUOUS,
     messages.TestResult.Status.FAILED,
+    messages.TestResult.Status.FAILED,
+    messages.TestResult.Status.FAILED,
   ])
 }
 
 function random<T>(array: T[]): T {
-  const randomIndex = Math.round(Math.random() * array.length)
+  const randomIndex = Math.floor(Math.random() * array.length)
   return array[randomIndex]
 }
 
