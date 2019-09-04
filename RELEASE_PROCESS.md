@@ -26,6 +26,8 @@ Here is how you do it:
 
     ./scripts/docker-run Dockerfile
     # Find GIT_CRYPT_KEY_BASE64 in 1Password
+    # Sign up for a free 1Password account and ping someone in the Slack #committers channel
+    # to request access.
     GIT_CRYPT_KEY_BASE64="..." source ./scripts/prepare_release_env.sh
 
 The files under `/secrets` are now decrypted, and will be used later when we
@@ -55,7 +57,7 @@ committing the changes to git. Examine what changed:
 
     git diff
 
-Inspecting the diff, and undo any changes that you think shouldn't have been made.
+Inspect the diff, and undo any changes that you think shouldn't have been made.
 Make sure the package still builds, and that the tests are still passing:
 
     make clean && make
