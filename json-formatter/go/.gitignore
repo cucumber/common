@@ -1,0 +1,14 @@
+.deps
+.tested
+.built
+.compared
+.dist
+.dist-compressed
+.linted
+.go-get
+.gofmt
+bin/
+acceptance/
+dist_compressed/
+dist/
+*.bin
