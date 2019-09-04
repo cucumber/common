@@ -17,6 +17,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Fixed
 
+* More realistic random results
+
 ## [1.1.0] - 2019-08-29
 
 ### Changed
