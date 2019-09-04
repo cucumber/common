@@ -18,19 +18,18 @@ Gem::Specification.new do |s|
                     'source_code_uri'   => 'https://github.com/cucumber/cucumber/blob/master/dots-formatter/ruby',
                   }
 
-  s.add_dependency 'c21e', '~> 1.2.1'
-  s.add_dependency 'cucumber-messages', '~> 3.0.0'
+  s.add_dependency 'c21e', '~> 2.0', '>= 2.0.0'
+  s.add_dependency 'cucumber-messages', '~> 5.0', '>= 5.0.1'
 
-  s.add_development_dependency 'bundler'
-  s.add_development_dependency 'rake',      '~> 10.5'
-  s.add_development_dependency 'rspec',     '~> 3.7'
+  s.add_development_dependency 'rake', '~> 12.3', '>= 12.3.3'
+  s.add_development_dependency 'rspec', '~> 3.8', '>= 3.8.0'
 
   s.rubygems_version = ">= 1.6.1"
   s.files            = Dir[
     'README.md',
     'LICENSE',
     'lib/**/*',
-    'dots-formatter-go/*'
+    'executables/*'
   ]
   s.test_files       = Dir['spec/**/*']
   s.rdoc_options     = ["--charset=UTF-8"]

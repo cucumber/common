@@ -14,6 +14,7 @@ class TablePrinter {
             throw new IllegalStateException(e);
         }
     }
+
     void printTable(List<List<String>> table, Appendable appendable) throws IOException {
         calculateColumnAndMaxLengths(table);
         for (int i = 0; i < table.size(); ++i) {
@@ -70,7 +71,18 @@ class TablePrinter {
     }
 
     private String escapeCell(String cell) {
-        return cell.replaceAll("\\\\(?!\\|)", "\\\\\\\\").replaceAll("\\n", "\\\\n").replaceAll("\\|", "\\\\|");
+        if (cell == null) {
+            return "";
+        }
+
+        if (cell.isEmpty()) {
+            return "[empty]";
+        }
+
+        return cell
+                .replaceAll("\\\\(?!\\|)", "\\\\\\\\")
+                .replaceAll("\\n", "\\\\n")
+                .replaceAll("\\|", "\\\\|");
     }
 
     private void padSpace(Appendable buffer, int indent) throws IOException {

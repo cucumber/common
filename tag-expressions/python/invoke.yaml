@@ -14,9 +14,13 @@ project:
 
 run:
     echo: true
-    pty:  true
-
-clean_all:
+    # DISABLED: pty:  true
+cleanup:
     extra_directories:
-      - .pytest_cache
+      - "build"
+      - "dist"
+
+cleanup_all:
+    extra_directories:
       - .hypothesis
+      - .pytest_cache

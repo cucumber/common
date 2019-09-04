@@ -3,6 +3,7 @@ package io.cucumber.datatable;
 import io.cucumber.datatable.dependency.difflib.Delta;
 import io.cucumber.datatable.dependency.difflib.DiffUtils;
 import io.cucumber.datatable.dependency.difflib.Patch;
+import org.apiguardian.api.API;
 
 import java.util.AbstractMap.SimpleEntry;
 import java.util.ArrayList;
@@ -10,6 +11,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+@API(status = API.Status.INTERNAL)
 public class TableDiffer {
 
     private final DataTable from;
@@ -36,21 +38,18 @@ public class TableDiffer {
     public DataTableDiff calculateUnorderedDiffs() {
         List<SimpleEntry<List<String>, DiffType>> diffTableRows = new ArrayList<>();
 
-        ArrayList<List<String>> extraRows = new ArrayList<>();
-
         // 1. add all "to" row in extra table
         // 2. iterate over "from", when a common row occurs, remove it from extraRows
         // finally, only extra rows are kept and in same order that in "to".
-        extraRows.addAll(to.cells());
+        ArrayList<List<String>> extraRows = new ArrayList<>(to.cells());
 
         for (List<String> row : from.cells()) {
-            if (!to.cells().contains(row)) {
+            if (!extraRows.remove(row)) {
                 diffTableRows.add(
                         new SimpleEntry<>(row, DiffType.DELETE));
             } else {
                 diffTableRows.add(
                         new SimpleEntry<>(row, DiffType.NONE));
-                extraRows.remove(row);
             }
         }
 

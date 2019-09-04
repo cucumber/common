@@ -5,17 +5,17 @@
     <parent>
         <groupId>io.cucumber</groupId>
         <artifactId>cucumber-parent</artifactId>
-        <version>1.0.4</version>
+        <version>2.0.2</version>
     </parent>
     <artifactId>tag-expressions</artifactId>
-    <version>1.1.2-SNAPSHOT</version>
+    <version>2.0.3-SNAPSHOT</version>
     <packaging>jar</packaging>
     <name>Cucumber Tag Expressions</name>
     <description>Parses boolean infix expressions</description>
     <url>https://github.com/cucumber/tag-expressions-java</url>
 
     <properties>
-        <project.Automatic-Module-Name>io.cucumber.tag.expressions</project.Automatic-Module-Name>
+        <project.Automatic-Module-Name>io.cucumber.tagexpressions</project.Automatic-Module-Name>
     </properties>
 
     <scm>
@@ -29,7 +29,7 @@
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
-            <version>4.12</version>
+            <version>4.13-beta-3</version>
             <scope>test</scope>
         </dependency>
     </dependencies>

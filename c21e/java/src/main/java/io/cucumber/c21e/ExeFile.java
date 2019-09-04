@@ -69,10 +69,11 @@ public class ExeFile {
         File file = new File(exeDir, fileName);
         if (file.isFile()) return new FileInputStream(file);
 
-        InputStream is = getClass().getResourceAsStream(String.format("/%s/%s", exeDir.getName(), fileName));
+        String executablePath = String.format("/%s/%s", exeDir.getName(), fileName);
+        InputStream is = getClass().getResourceAsStream(executablePath);
         if (is != null) return is;
 
-        throw new ExeException(String.format("No gherkin executable for %s. Please submit an issue to https://github.com/cucumber/cucumber/issues", fileName));
+        throw new ExeException(String.format("%s not found on classpath. Please submit an issue to https://github.com/cucumber/cucumber/issues", executablePath));
     }
 
     private String getOs() {

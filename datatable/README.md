@@ -109,7 +109,7 @@ are swapped. This can be avoided by adding a header to the table:
 Note that the first cell has been left blank. This tells the table that the
 map's keys should be created from the first column rather than the header.
 
-`java type: Map<String, Map<String, Double>>`
+`java type: Map<String, Map<String, String>>`
 
 ```json
 {

@@ -30,6 +30,7 @@ func CreateParameterTypeRegistry(t *testing.T) *ParameterTypeRegistry {
 		func(args ...*string) interface{} { return &Color{name: *args[0]} }, // transformer
 		false, // useForSnippets
 		true,  // preferForRegexpMatch
+		false,
 	)
 	require.NoError(t, err)
 	err = parameterTypeRegistry.DefineParameterType(colorParameterType)
@@ -49,9 +50,10 @@ func TestCustomParameterTypes(t *testing.T) {
 			},
 			false,
 			false,
+			false,
 		)
 		require.Error(t, err)
-		require.Equal(t, "Illegal character '[' in parameter name {[string]}", err.Error())
+		require.Equal(t, "illegal character '[' in parameter name {[string]}", err.Error())
 	})
 
 	t.Run("CucumberExpression", func(t *testing.T) {
@@ -92,6 +94,7 @@ func TestCustomParameterTypes(t *testing.T) {
 				},
 				true,
 				true,
+				false,
 			)
 			require.NoError(t, err)
 			err = parameterTypeRegistry.DefineParameterType(coordinateParameterType)
@@ -117,6 +120,7 @@ func TestCustomParameterTypes(t *testing.T) {
 				func(args ...*string) interface{} { return &Color{name: *args[0]} },
 				false,
 				true,
+				false,
 			)
 			require.NoError(t, err)
 			err = parameterTypeRegistry.DefineParameterType(colorParameterType)
@@ -137,6 +141,7 @@ func TestCustomParameterTypes(t *testing.T) {
 				func(args ...*string) interface{} { panic(fmt.Sprintf("Can't transform [%s]", *args[0])) },
 				false,
 				true,
+				false,
 			)
 			require.NoError(t, err)
 			err = parameterTypeRegistry.DefineParameterType(colorParameterType)
@@ -161,6 +166,7 @@ func TestCustomParameterTypes(t *testing.T) {
 					func(args ...*string) interface{} { return &CSSColor{name: *args[0]} },
 					false,
 					true,
+					false,
 				)
 				require.NoError(t, err)
 				err = parameterTypeRegistry.DefineParameterType(colorParameterType)
@@ -177,6 +183,7 @@ func TestCustomParameterTypes(t *testing.T) {
 					func(args ...*string) interface{} { return &Color{name: *args[0]} },
 					false,
 					false,
+					false,
 				)
 				require.NoError(t, err)
 				err = parameterTypeRegistry.DefineParameterType(colorParameterType)
@@ -191,6 +198,7 @@ func TestCustomParameterTypes(t *testing.T) {
 					"CSSColor",
 					func(args ...*string) interface{} { return &CSSColor{name: *args[0]} },
 					true,
+					false,
 					false,
 				)
 				require.NoError(t, err)
@@ -223,6 +231,7 @@ func TestCustomParameterTypes(t *testing.T) {
 					func(args ...*string) interface{} { return &Color{name: *args[0]} },
 					false,
 					true,
+					false,
 				)
 				require.NoError(t, err)
 				err = parameterTypeRegistry.DefineParameterType(colorParameterType)

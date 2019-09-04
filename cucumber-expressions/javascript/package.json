@@ -1,14 +1,14 @@
 {
   "name": "cucumber-expressions",
-  "version": "7.0.2",
+  "version": "8.0.0",
   "description": "Cucumber Expressions - a simpler alternative to Regular Expressions",
   "main": "dist/src/index.js",
   "types": "dist/src/index.d.ts",
   "scripts": {
-    "test": "mocha test/**/*.ts",
+    "test": "mocha",
     "lint": "tslint src/**/*.ts test/**/*.ts",
     "lint-fix": "tslint --fix src/**/*.ts test/**/*.ts",
-    "coverage": "nyc --reporter=html --reporter=text mocha test/**/*.ts",
+    "coverage": "nyc --reporter=html --reporter=text mocha",
     "build": "tsc",
     "prepublishOnly": "npm run build"
   },
@@ -29,21 +29,21 @@
   },
   "homepage": "https://github.com/cucumber/cucumber-expressions-javascript#readme",
   "devDependencies": {
-    "@types/mocha": "^5.2.6",
-    "@types/node": "^11.13.9",
-    "mocha": "^6.1.2",
-    "nyc": "^14.1.0",
-    "prettier": "^1.17.0",
-    "ts-node": "^8.1.0",
-    "tslint": "^5.16.0",
+    "@types/mocha": "^5.2.7",
+    "@types/node": "^12.7.2",
+    "mocha": "^6.2.0",
+    "nyc": "^14.1.1",
+    "prettier": "^1.18.2",
+    "ts-node": "^8.3.0",
+    "tslint": "^5.19.0",
     "tslint-config-prettier": "^1.18.0",
     "tslint-plugin-prettier": "^2.0.1",
-    "typescript": "^3.4.5"
+    "typescript": "^3.6.2"
   },
   "files": [
     "*"
   ],
   "dependencies": {
-    "becke-ch--regex--s0-0-v1--base--pl--lib": "^1.2.0"
+    "becke-ch--regex--s0-0-v1--base--pl--lib": "^1.4.0"
   }
 }

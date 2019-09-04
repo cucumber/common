@@ -1,7 +1,7 @@
 # -*- encoding: utf-8 -*-
 Gem::Specification.new do |s|
   s.name        = 'cucumber-expressions'
-  s.version     = '7.0.0'
+  s.version     = '8.0.0'
   s.authors     = ["Aslak Hellesøy"]
   s.description = 'Cucumber Expressions - a simpler alternative to Regular Expressions'
   s.summary     = "cucumber-expressions-#{s.version}"
@@ -14,17 +14,16 @@ Gem::Specification.new do |s|
   s.metadata    = {
                     'bug_tracker_uri'   => 'https://github.com/cucumber/cucumber/issues',
                     'changelog_uri'     => 'https://github.com/cucumber/cucumber/blob/master/cucumber-expressions/CHANGELOG.md',
-                    'documentation_uri' => 'https://docs.cucumber.io/cucumber/cucumber-expressions/',
+                    'documentation_uri' => 'https://cucumber.io/docs/cucumber/cucumber-expressions/',
                     'mailing_list_uri'  => 'https://groups.google.com/forum/#!forum/cukes',
                     'source_code_uri'   => 'https://github.com/cucumber/cucumber/blob/master/cucumber-expressions/ruby',
                   }
 
-  s.add_development_dependency 'bundler'
-  s.add_development_dependency 'rake',      '~> 12.3'
-  s.add_development_dependency 'rspec',     '~> 3.7'
+  s.add_development_dependency 'rake', '~> 12.3', '>= 12.3.3'
+  s.add_development_dependency 'rspec', '~> 3.8', '>= 3.8.0'
 
   # For coverage reports
-  s.add_development_dependency 'coveralls'
+  s.add_development_dependency 'coveralls', '~> 0.8', '>= 0.8.23'
 
   s.rubygems_version = ">= 1.6.1"
   s.files            = `git ls-files`.split("\n").reject {|path| path =~ /\.gitignore$/ }

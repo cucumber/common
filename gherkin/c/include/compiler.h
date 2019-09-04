@@ -16,7 +16,7 @@ Compiler* Compiler_new();
 
 void Compiler_delete(Compiler* compiler);
 
-int Compiler_compile(Compiler* compiler, const GherkinDocument* gherkin_document);
+int Compiler_compile(Compiler* compiler, const GherkinDocument* gherkin_document, const wchar_t* source);
 
 bool Compiler_has_more_pickles(Compiler* compiler);
 

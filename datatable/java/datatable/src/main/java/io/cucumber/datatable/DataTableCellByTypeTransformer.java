@@ -1,11 +1,12 @@
 package io.cucumber.datatable;
 
+import java.lang.reflect.Type;
 import java.util.List;
 
 import static io.cucumber.datatable.TypeFactory.aListOf;
 import static java.util.Collections.singletonList;
 
-class DataTableCellByTypeTransformer implements TableCellByTypeTransformer {
+final class DataTableCellByTypeTransformer implements TableCellByTypeTransformer {
 
     private DataTableTypeRegistry dataTableTypeRegistry;
 
@@ -14,13 +15,11 @@ class DataTableCellByTypeTransformer implements TableCellByTypeTransformer {
     }
 
     @Override
-    public <T> T transform(String value, Class<T> cellType) throws Throwable {
-        //noinspection unchecked
-        DataTableType typeByType = dataTableTypeRegistry.lookupTableTypeByType(aListOf(aListOf(cellType)));
+    public Object transform(String cellValue, Type toValueType) {
+        DataTableType typeByType = dataTableTypeRegistry.lookupTableTypeByType(aListOf(aListOf(toValueType)));
         if (typeByType == null) {
-            throw new CucumberDataTableException("There is no DataTableType registered for cell type "+ cellType);
+            throw new CucumberDataTableException("There is no DataTableType registered for cell type " + toValueType);
         }
-        //noinspection unchecked
-        return ((List<List<T>>)typeByType.transform(singletonList(singletonList(value)))).get(0).get(0);
+        return ((List<List<Object>>) typeByType.transform(singletonList(singletonList(cellValue)))).get(0).get(0);
     }
 }

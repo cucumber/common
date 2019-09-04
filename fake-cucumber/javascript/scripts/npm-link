@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+#
+# Links an npm module
+#
+set -euf -o pipefail
+
+# `npm link` does not work on CircleCI, so we're doing manual symlinking instead
+rm -rf "node_modules/$1"
+ln -s "$(pwd)/../../$1/javascript" node_modules/$1

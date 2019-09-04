@@ -16,7 +16,7 @@ typedef struct PickleEvent {
     const Pickle* pickle;
 } PickleEvent;
 
-const PickleEvent* PickleEvent_new(const char* uri, const Pickle* pickle);
+const PickleEvent* PickleEvent_new(const Pickle* pickle);
 
 #ifdef __cplusplus
 }

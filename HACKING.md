@@ -94,7 +94,7 @@ In the new directory, create the following files:
 
     [![Build Status](https://travis-ci.org/cucumber/tag-expressions-go.svg?branch=master)](https://travis-ci.org/cucumber/tag-expressions-go)
 
-    [The docs are here](https://docs.cucumber.io/cucumber/api/#tag-expressions).
+    [The docs are here](https://cucumber.io/docs/cucumber/api/#tag-expressions).
 
 #### Sync files
 
@@ -185,3 +185,4 @@ in the "Cucumber Open Source" vault.
 
 The images are published [in the cucumber repository section at
 Docker Hub](https://hub.docker.com/r/cucumber/).
+

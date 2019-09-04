@@ -39,11 +39,32 @@ func (p *ParameterTypeMatcher) AdvanceTo(newMatchPosition int) *ParameterTypeMat
 }
 
 func (p *ParameterTypeMatcher) Find() bool {
-	return p.match != nil && p.Group() != ""
+	return p.match != nil && p.FullWord() && p.Group() != ""
+}
+
+func (p *ParameterTypeMatcher) FullWord() bool {
+	return p.MatchStartWord() && p.MatchEndWord()
+}
+
+func (p *ParameterTypeMatcher) MatchStartWord() bool {
+	return p.Start() == 0 || p.CharacterIsWordDelimiter(p.Start()-1)
+}
+
+func (p *ParameterTypeMatcher) MatchEndWord() bool {
+	return p.End() == len(p.text) || p.CharacterIsWordDelimiter(p.End())
+}
+
+func (p *ParameterTypeMatcher) CharacterIsWordDelimiter(index int) bool {
+	matched, _ := regexp.MatchString(`\s|\p{P}`, p.text[index:index+1])
+	return matched
 }
 
 func (p *ParameterTypeMatcher) Start() int {
 	return p.matchPosition + p.match[0]
+}
+
+func (p *ParameterTypeMatcher) End() int {
+	return p.Start() + len(p.Group())
 }
 
 func (p *ParameterTypeMatcher) Group() string {

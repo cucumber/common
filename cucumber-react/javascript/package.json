@@ -1,0 +1,81 @@
+{
+  "name": "cucumber-react",
+  "version": "1.1.0",
+  "description": "React components for Cucumber",
+  "main": "dist/src/index.js",
+  "types": "dist/src/index.d.ts",
+  "repository": "https://github.com/cucumber/cucumber",
+  "author": "Aslak Hellesøy",
+  "license": "MIT",
+  "scripts": {
+    "nyc": "nyc --reporter=html --reporter=text mocha",
+    "test": "mocha",
+    "build": "tsc",
+    "storybook": "start-storybook -p 6006",
+    "build-storybook": "build-storybook",
+    "pretty-quick": "pretty-quick --staged"
+  },
+  "dependencies": {
+    "color": "^3.1.2",
+    "cucumber-messages": "^5.0.1",
+    "ramda": "^0.26.1",
+    "react-accessible-accordion": "^3.0.0",
+    "styled-components": "^4.3.2"
+  },
+  "peerDependencies": {
+    "react": "^16.9.0",
+    "react-dom": "^16.9.0"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.5.5",
+    "@storybook/addon-actions": "^5.1.11",
+    "@storybook/addon-links": "^5.1.11",
+    "@storybook/addons": "^5.1.11",
+    "@storybook/react": "^5.1.11",
+    "@types/color": "^3.0.0",
+    "@types/jsdom": "^12.2.4",
+    "@types/mocha": "^5.2.7",
+    "@types/node": "^12.7.2",
+    "@types/ramda": "^0.26.21",
+    "@types/react": "^16.9.2",
+    "@types/react-dom": "^16.9.0",
+    "@types/storybook__react": "^4.0.2",
+    "@types/styled-components": "^4.1.18",
+    "awesome-typescript-loader": "^5.2.1",
+    "babel-loader": "^8.0.6",
+    "c21e": "2.0.0",
+    "fake-cucumber": "^1.1.0",
+    "gherkin": "7.0.4",
+    "jsdom": "^15.1.1",
+    "mocha": "^6.2.0",
+    "nyc": "^14.1.1",
+    "prettier": "^1.18.2",
+    "pretty-quick": "^1.11.1",
+    "prop-types": "^15.7.2",
+    "source-map-support": "^0.5.13",
+    "ts-node": "^8.3.0",
+    "typescript": "^3.6.2",
+    "webpack": "^4.39.3",
+    "webpack-cli": "^3.3.7"
+  },
+  "nyc": {
+    "extension": [
+      ".ts",
+      ".tsx"
+    ],
+    "exclude": [
+      "**/*.d.ts",
+      "coverage",
+      "stories"
+    ],
+    "reporter": [
+      "html"
+    ],
+    "all": true
+  },
+  "prettier": {
+    "trailingComma": "es5",
+    "semi": false,
+    "singleQuote": true
+  }
+}

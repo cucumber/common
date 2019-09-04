@@ -1,7 +1,10 @@
 package io.cucumber.cucumberexpressions;
 
+import org.apiguardian.api.API;
+
+@API(status = API.Status.STABLE)
 public class DuplicateTypeNameException extends CucumberExpressionException {
-    public DuplicateTypeNameException(String message) {
+    DuplicateTypeNameException(String message) {
         super(message);
     }
 }

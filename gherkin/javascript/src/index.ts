@@ -1,9 +1,11 @@
-import { spawn } from 'child_process'
+import { spawn, spawnSync } from 'child_process'
 import { statSync } from 'fs'
 import { ExeFile } from 'c21e'
 import { messages, ProtobufMessageStream } from 'cucumber-messages'
+import { Readable } from 'stream'
 
 const defaultOptions = {
+  defaultDialect: 'en',
   includeSource: true,
   includeGherkinDocument: true,
   includePickles: true,
@@ -20,13 +22,34 @@ function fromSources(
   return new Gherkin([], sources, options).messageStream()
 }
 
-export interface IGherkinOptions {
-  includeSource: boolean
-  includeGherkinDocument: boolean
-  includePickles: boolean
+function dialects() {
+  return new Gherkin([], [], {}).dialects()
 }
 
-export { fromPaths, fromSources }
+interface IGherkinOptions {
+  defaultDialect?: string
+  includeSource?: boolean
+  includeGherkinDocument?: boolean
+  includePickles?: boolean
+}
+
+interface Dialect {
+  name: string
+  native: string
+  feature: readonly string[]
+  background: readonly string[]
+  rule: readonly string[]
+  scenario: readonly string[]
+  scenarioOutline: readonly string[]
+  examples: readonly string[]
+  given: readonly string[]
+  when: readonly string[]
+  then: readonly string[]
+  and: readonly string[]
+  but: readonly string[]
+}
+
+export { fromPaths, fromSources, dialects }
 
 class Gherkin {
   private exeFile: ExeFile
@@ -34,23 +57,30 @@ class Gherkin {
   constructor(
     private readonly paths: string[],
     private readonly sources: messages.Source[],
-    private options: IGherkinOptions
+    private readonly options: IGherkinOptions
   ) {
     this.options = { ...defaultOptions, ...options }
-    let gherkinGoDir = `${__dirname}/../../gherkin-go`
+    let executables = `${__dirname}/../../executables`
     try {
-      statSync(gherkinGoDir)
+      statSync(executables)
     } catch (err) {
       // Dev mode - we're in src, not dist/src
-      gherkinGoDir = `${__dirname}/../gherkin-go`
+      executables = `${__dirname}/../executables`
+      statSync(executables)
     }
     this.exeFile = new ExeFile(
-      `${gherkinGoDir}/gherkin-go-{{.OS}}-{{.Arch}}{{.Ext}}`
+      `${executables}/gherkin-{{.OS}}-{{.Arch}}{{.Ext}}`
     )
+    statSync(this.exeFile.fileName)
   }
 
-  public messageStream() {
-    const options = []
+  public dialects(): { [key: string]: Dialect } {
+    const result = spawnSync(this.exeFile.fileName, ['--dialects'])
+    return JSON.parse(result.stdout)
+  }
+
+  public messageStream(): Readable {
+    const options = ['--default-dialect', this.options.defaultDialect]
     if (!this.options.includeSource) {
       options.push('--no-source')
     }
@@ -70,8 +100,8 @@ class Gherkin {
     })
     gherkin.stdout.pipe(protobufMessageStream)
     for (const source of this.sources) {
-      const wrapper = messages.Envelope.fromObject({ source })
-      gherkin.stdin.write(messages.Envelope.encodeDelimited(wrapper).finish())
+      const envelope = messages.Envelope.fromObject({ source })
+      gherkin.stdin.write(messages.Envelope.encodeDelimited(envelope).finish())
     }
     gherkin.stdin.end()
     return protobufMessageStream

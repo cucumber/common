@@ -1,6 +1,7 @@
 package io.cucumber.datatable;
 
-import io.cucumber.datatable.dependency.com.fasterxml.jackson.databind.JavaType;
+import io.cucumber.datatable.TypeFactory.JavaType;
+import org.apiguardian.api.API;
 
 import java.lang.reflect.Type;
 import java.math.BigDecimal;
@@ -8,10 +9,12 @@ import java.math.BigInteger;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
+import java.util.function.Function;
 
 import static io.cucumber.datatable.TypeFactory.constructType;
 import static java.lang.String.format;
 
+@API(status = API.Status.STABLE)
 public final class DataTableTypeRegistry {
 
     private final DataTableCellByTypeTransformer tableCellByTypeTransformer = new DataTableCellByTypeTransformer(this);
@@ -22,81 +25,45 @@ public final class DataTableTypeRegistry {
     public DataTableTypeRegistry(Locale locale) {
         final NumberParser numberParser = new NumberParser(locale);
 
-        defineDataTableType(new DataTableType(BigInteger.class, new TableCellTransformer<BigInteger>() {
-            @Override
-            public BigInteger transform(String cell) {
-                return cell.isEmpty() ? null : new BigInteger(cell);
-            }
-        }));
+        TableCellTransformer<Object> objectTableCellTransformer = applyIfPresent(s -> s);
+        defineDataTableType(new DataTableType(Object.class, objectTableCellTransformer));
 
-        defineDataTableType(new DataTableType(BigDecimal.class, new TableCellTransformer<BigDecimal>() {
-            @Override
-            public BigDecimal transform(String cell) {
-                return cell.isEmpty() ? null : numberParser.parseBigDecimal(cell);
-            }
-        }));
+        TableCellTransformer<BigInteger> bigIntegerTableCellTransformer = applyIfPresent(BigInteger::new);
+        defineDataTableType(new DataTableType(BigInteger.class, bigIntegerTableCellTransformer));
 
-        TableCellTransformer<Byte> byteTableCellTransformer = new TableCellTransformer<Byte>() {
-            @Override
-            public Byte transform(String cell) {
-                return cell.isEmpty() ? null : Byte.decode(cell);
-            }
-        };
+        TableCellTransformer<BigDecimal> bigDecimalTableCellTransformer = applyIfPresent(numberParser::parseBigDecimal);
+        defineDataTableType(new DataTableType(BigDecimal.class, bigDecimalTableCellTransformer));
+        TableCellTransformer<Byte> byteTableCellTransformer = applyIfPresent(Byte::decode);
         defineDataTableType(new DataTableType(Byte.class, byteTableCellTransformer));
         defineDataTableType(new DataTableType(byte.class, byteTableCellTransformer));
 
-        TableCellTransformer<Short> shortTableCellTransformer = new TableCellTransformer<Short>() {
-            @Override
-            public Short transform(String cell) {
-                return cell.isEmpty() ? null : Short.decode(cell);
-            }
-        };
+        TableCellTransformer<Short> shortTableCellTransformer = applyIfPresent(Short::decode);
         defineDataTableType(new DataTableType(Short.class, shortTableCellTransformer));
         defineDataTableType(new DataTableType(short.class, shortTableCellTransformer));
 
-        TableCellTransformer<Integer> integerTableCellTransformer = new TableCellTransformer<Integer>() {
-            @Override
-            public Integer transform(String cell) {
-                return cell.isEmpty() ? null : Integer.decode(cell);
-            }
-        };
+        TableCellTransformer<Integer> integerTableCellTransformer = applyIfPresent(Integer::decode);
         defineDataTableType(new DataTableType(Integer.class, integerTableCellTransformer));
         defineDataTableType(new DataTableType(int.class, integerTableCellTransformer));
 
-        TableCellTransformer<Long> longTableCellTransformer = new TableCellTransformer<Long>() {
-            @Override
-            public Long transform(String cell) {
-                return cell.isEmpty() ? null : Long.decode(cell);
-            }
-        };
+        TableCellTransformer<Long> longTableCellTransformer = applyIfPresent(Long::decode);
         defineDataTableType(new DataTableType(Long.class, longTableCellTransformer));
         defineDataTableType(new DataTableType(long.class, longTableCellTransformer));
 
-        TableCellTransformer<Float> floatTableCellTransformer = new TableCellTransformer<Float>() {
-            @Override
-            public Float transform(String cell) {
-                return cell.isEmpty() ? null : numberParser.parseFloat(cell);
-            }
-        };
+        TableCellTransformer<Float> floatTableCellTransformer = applyIfPresent(numberParser::parseFloat);
         defineDataTableType(new DataTableType(Float.class, floatTableCellTransformer));
         defineDataTableType(new DataTableType(float.class, floatTableCellTransformer));
 
-        TableCellTransformer<Double> doubleTableCellTransformer = new TableCellTransformer<Double>() {
-            @Override
-            public Double transform(String cell) {
-                return cell.isEmpty() ? null : numberParser.parseDouble(cell);
-            }
-        };
+        TableCellTransformer<Double> doubleTableCellTransformer = applyIfPresent(numberParser::parseDouble);
         defineDataTableType(new DataTableType(Double.class, doubleTableCellTransformer));
         defineDataTableType(new DataTableType(double.class, doubleTableCellTransformer));
 
-        defineDataTableType(new DataTableType(String.class, new TableCellTransformer<String>() {
-            @Override
-            public String transform(String cell) {
-                return cell;
-            }
-        }));
+        TableCellTransformer<String> stringTableCellTransformer = (String cell) -> cell;
+        defineDataTableType(new DataTableType(String.class, stringTableCellTransformer));
 
+    }
+
+    private static <R> TableCellTransformer<R> applyIfPresent(Function<String, R> f) {
+        return s -> s == null ? null : f.apply(s);
     }
 
     public void defineDataTableType(DataTableType dataTableType) {
@@ -114,31 +81,39 @@ public final class DataTableTypeRegistry {
 
     }
 
-    public DataTableType lookupTableTypeByType(final Type tableType) {
+    DataTableType lookupTableTypeByType(final Type tableType) {
         JavaType targetType = constructType(tableType);
         return tableTypeByType.get(targetType);
     }
 
-    DataTableType getDefaultTableCellTransformer(final Type tableType) {
+    DataTableType getDefaultTableCellTransformer(Type tableType) {
         if (defaultDataTableCellTransformer == null) {
             return null;
         }
 
-        JavaType targetType = constructType(tableType);
+        if (tableType instanceof JavaType) {
+            JavaType javaType = (JavaType) tableType;
+            tableType = javaType.getOriginal();
+        }
+
         return DataTableType.defaultCell(
-                targetType.getRawClass(),
+                tableType,
                 defaultDataTableCellTransformer
         );
     }
 
-    DataTableType getDefaultTableEntryTransformer(final Type tableType) {
+    DataTableType getDefaultTableEntryTransformer(Type tableType) {
         if (defaultDataTableEntryTransformer == null) {
             return null;
         }
 
-        JavaType targetType = constructType(tableType);
+        if (tableType instanceof JavaType) {
+            JavaType javaType = (JavaType) tableType;
+            tableType = javaType.getOriginal();
+        }
+
         return DataTableType.defaultEntry(
-                targetType.getRawClass(),
+                tableType,
                 defaultDataTableEntryTransformer,
                 tableCellByTypeTransformer
         );

@@ -1,13 +1,14 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<?xml version="1.0"?>
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFrameworks>net45;netstandard2.0</TargetFrameworks>
-    <VersionNumber>1.0.0</VersionNumber>
-    <Version Condition="'$(Version)' == '' and '$(PrereleaseVersionPostfix)' != ''">$(VersionNumber)-$(PrereleaseVersionPostfix)</Version>
-    <Version Condition="'$(Version)' == ''">$(VersionNumber)</Version>
+    <VersionNumber>5.0.1</VersionNumber>
+    <Version Condition="'$(SnapshotSuffix)' != ''">$(VersionNumber)-$(SnapshotSuffix)</Version>
+    <Version Condition="'$(SnapshotSuffix)' == ''">$(VersionNumber)</Version>
     <SignAssembly>true</SignAssembly>
     <DelaySign>false</DelaySign>
-    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
   </PropertyGroup>
 
   <PropertyGroup Label="Package Properties">
@@ -16,7 +17,7 @@
     <Authors>Cucumber Ltd, TechTalk</Authors>
     <Description>Protocol Buffer messages for Cucumber's and SpecFlow's inter-process communication</Description>
     <PackageVersion>$(Version)</PackageVersion>
-    <Copyright>Copyright © Cucumber Ltd &amp; TechTalk</Copyright>
+    <Copyright>Copyright &#xA9; Cucumber Ltd &amp; TechTalk</Copyright>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageIconUrl>https://cucumber.io/images/cucumber-mark-32x32.png</PackageIconUrl>
     <PackageTags>cucumber-messages cucumber specflow gherkin</PackageTags>
@@ -28,7 +29,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Google.Protobuf" Version="3.7.0" />
+    <PackageReference Include="Google.Protobuf" Version="3.7.0"/>
     <PackageReference Include="Grpc.Tools" Version="1.20.1">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -41,7 +42,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Remove="Messages.cs" />
-    <Protobuf Include="../messages.proto" OutputDir="$(MsBuildThisFileDirectory)" GrpcServices="None" />
+    <Compile Remove="Messages.cs"/>
+    <Protobuf Include="../messages.proto" OutputDir="$(MsBuildThisFileDirectory)" GrpcServices="None"/>
   </ItemGroup>
 </Project>

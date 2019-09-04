@@ -1,5 +1,7 @@
 package io.cucumber.cucumberexpressions;
 
+import org.apiguardian.api.API;
+
 import java.lang.reflect.Type;
 
 /**
@@ -7,6 +9,8 @@ import java.lang.reflect.Type;
  * to execute all transforms for build in parameter types and all
  * anonymous types.
  */
+@API(status = API.Status.STABLE)
+@FunctionalInterface
 public interface ParameterByTypeTransformer {
 
     Object transform(String fromValue, Type toValueType) throws Throwable;

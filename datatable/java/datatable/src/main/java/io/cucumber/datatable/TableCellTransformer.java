@@ -1,10 +1,14 @@
 package io.cucumber.datatable;
 
+import org.apiguardian.api.API;
+
 /**
  * Transforms a single table cell to an instance of {@code T}.
  *
  * @param <T> the target type
  */
+@API(status = API.Status.STABLE)
+@FunctionalInterface
 public interface TableCellTransformer<T> {
 
     /**

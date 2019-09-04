@@ -1,9 +1,7 @@
 package io.cucumber.cucumberexpressions;
 
 import org.junit.Before;
-import org.junit.Rule;
 import org.junit.Test;
-import org.junit.rules.ExpectedException;
 
 import java.util.List;
 import java.util.Locale;
@@ -13,12 +11,10 @@ import static java.lang.Integer.parseInt;
 import static java.util.Arrays.asList;
 import static java.util.regex.Pattern.compile;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertThrows;
 import static org.junit.Assert.fail;
 
 public class CustomParameterTypeTest {
-
-    @Rule
-    public ExpectedException expectedException = ExpectedException.none();
 
     private ParameterTypeRegistry parameterTypeRegistry = new ParameterTypeRegistry(Locale.ENGLISH);
 
@@ -53,38 +49,29 @@ public class CustomParameterTypeTest {
 
     @Before
     public void create_parameter() {
-        /// [add-color-parameter-type]
         parameterTypeRegistry.defineParameterType(new ParameterType<>(
                 "color",                                  // name
                 "red|blue|yellow",                        // regexp
                 Color.class,                              // type
-                new Transformer<Color>() {
-                    @Override
-                    public Color transform(String arg) {
-                        return new Color(arg);
-                    }
-                },                                        // transform
+                Color::new,                               // transform
                 false,                                    // useForSnippets
                 false                                     // preferForRegexpMatch
         ));
-        /// [add-color-parameter-type]
     }
 
     @Test
     public void throws_exception_for_illegal_character_in_parameter_name() {
-        expectedException.expectMessage("Illegal character '[' in parameter name {[string]}");
-        new ParameterType<>(
-                "[string]",
-                ".*",
-                String.class, new Transformer<String>() {
-            @Override
-            public String transform(String s) {
-                return s;
-            }
-        },
-                false,
-                false
-        );
+        assertThrows(
+                "Illegal character '[' in parameter name {[string]}",
+                CucumberExpressionException.class,
+                () -> new ParameterType<>(
+                        "[string]",
+                        ".*",
+                        String.class,
+                        (Transformer<String>) s -> s,
+                        false,
+                        false
+                ));
     }
 
     @Test
@@ -118,7 +105,7 @@ public class CustomParameterTypeTest {
         Integer thick = (Integer) arguments.get(0).getValue();
         Coordinate from = (Coordinate) arguments.get(1).getValue();
         Coordinate to = (Coordinate) arguments.get(2).getValue();
-        assertEquals(new Integer(5), thick);
+        assertEquals(Integer.valueOf(5), thick);
         assertEquals(new Coordinate(10, 20, 30), from);
         assertEquals(new Coordinate(40, 50, 60), to);
     }
@@ -144,10 +131,12 @@ public class CustomParameterTypeTest {
 
         arguments.get(0).getValue();
 
-        expectedException.expectMessage(
+        assertThrows(
                 "ParameterType {coordinate} was registered with a Transformer but has multiple capture groups [(\\d+),\\s*(\\d+),\\s*(\\d+)]. " +
-                        "Did you mean to use a CaptureGroupTransformer?");
-        arguments.get(1).getValue();
+                        "Did you mean to use a CaptureGroupTransformer?",
+                CucumberExpressionException.class,
+                () -> arguments.get(1).getValue()
+        );
     }
 
     @Test
@@ -159,11 +148,12 @@ public class CustomParameterTypeTest {
 
         arguments.get(0).getValue();
 
-        expectedException.expectMessage(
+        assertThrows(
                 "Anonymous ParameterType has multiple capture groups [(\\d+),\\s*(\\d+),\\s*(\\d+)]. " +
-                        "You can only use a single capture group in an anonymous ParameterType."
+                        "You can only use a single capture group in an anonymous ParameterType.",
+                CucumberExpressionException.class,
+                () -> arguments.get(1).getValue()
         );
-        arguments.get(1).getValue();
     }
 
     @Test
@@ -173,12 +163,7 @@ public class CustomParameterTypeTest {
                 "color",
                 asList("red|blue|yellow", "(?:dark|light) (?:red|blue|yellow)"),
                 Color.class,
-                new Transformer<Color>() {
-                    @Override
-                    public Color transform(String arg) {
-                        return new Color(arg);
-                    }
-                },
+                Color::new,
                 false,
                 false
         ));
@@ -219,12 +204,7 @@ public class CustomParameterTypeTest {
                     "color",
                     ".*",
                     CssColor.class,
-                    new Transformer<CssColor>() {
-                        @Override
-                        public CssColor transform(String arg) {
-                            return new CssColor(arg);
-                        }
-                    },
+                    CssColor::new,
                     false,
                     false
             ));
@@ -240,12 +220,7 @@ public class CustomParameterTypeTest {
                 "whatever",
                 ".*",
                 Color.class,
-                new Transformer<Color>() {
-                    @Override
-                    public Color transform(String arg) {
-                        return new Color(arg);
-                    }
-                },
+                Color::new,
                 false,
                 false
         ));
@@ -259,12 +234,7 @@ public class CustomParameterTypeTest {
                 "css-color",
                 "red|blue|yellow",
                 CssColor.class,
-                new Transformer<CssColor>() {
-                    @Override
-                    public CssColor transform(String arg) {
-                        return new CssColor(arg);
-                    }
-                },
+                CssColor::new,
                 false,
                 false
         ));
@@ -280,12 +250,7 @@ public class CustomParameterTypeTest {
                 null,
                 "red|blue|yellow",
                 Color.class,
-                new Transformer<Color>() {
-                    @Override
-                    public Color transform(String arg) {
-                        return new Color(arg);
-                    }
-                },
+                Color::new,
                 false,
                 false
         ));
@@ -318,11 +283,9 @@ public class CustomParameterTypeTest {
     public static class CssColor {
         final String name;
 
-        /// [color-constructor]
         CssColor(String name) {
             this.name = name;
         }
-        /// [color-constructor]
 
         @Override
         public int hashCode() {

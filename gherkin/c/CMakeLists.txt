@@ -26,8 +26,8 @@ LIST(APPEND GHERKIN_SRS
         src/ast_node.c
         src/gherkin_document.c
         src/feature.c
+        src/rule.c
         src/scenario.c
-        src/scenario_outline.c
         src/background.c
         src/comment.c
         src/data_table.c
@@ -40,6 +40,7 @@ LIST(APPEND GHERKIN_SRS
         src/compiler.c
         src/pickle.c
         src/pickle_cell.c
+        src/pickle_id_creator.c
         src/pickle_location.c
         src/pickle_row.c
         src/pickle_step.c

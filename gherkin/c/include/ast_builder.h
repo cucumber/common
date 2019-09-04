@@ -12,7 +12,7 @@ Builder* AstBuilder_new();
 
 void AstBuilder_delete(Builder* builder);
 
-const GherkinDocument* AstBuilder_get_result(Builder* builder);
+const GherkinDocument* AstBuilder_get_result(Builder* builder, const char* uri);
 
 #ifdef __cplusplus
 }

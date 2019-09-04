@@ -7,17 +7,51 @@ This project adheres to [Semantic Versioning](http://semver.org).
 This document is formatted according to the principles of [Keep A CHANGELOG](http://keepachangelog.com).
 
 ----
-## [In Git] - Not released
+## [Unreleased]
 
 ### Added
-
-* Populate the `Pickle#id` field with a SHA1 hash of the source + line + column.
 
 ### Changed
 
 ### Deprecated
 
 ### Removed
+
+### Fixed
+
+## [7.0.4] - 2019-08-29
+
+### Changed
+
+* Upgrade to cucumber-messages 5.0.1
+
+## [7.0.3] - 2019-08-15
+
+### Fixed
+
+* [Ruby] Fix inclusion of gherkin executables
+
+## [7.0.2] - 2019-08-14
+
+### Changed
+
+* Upgrade to c21e 2.0.0
+
+## [7.0.1] - 2019-08-14
+
+### Fixed
+
+* The 7.0.0 release failed
+
+## [7.0.0] - 2019-08-14
+
+### Added
+
+* [TypeScript] dialect support
+  ([#597](https://github.com/cucumber/cucumber/pull/597)
+   [charlierudolph]
+   [aslakhellesoy])
+* Populate the `Pickle#id` field with a SHA1 hash of the source + line + column.
 
 ### Fixed
 
@@ -497,7 +531,12 @@ to Gherkin 2.
 * First release
 
 <!-- Releases -->
-[Unreleased]: https://github.com/cucumber/cucumber/compare/gherkin/v6.0.17...HEAD
+[Unreleased]: https://github.com/cucumber/cucumber/compare/gherkin/v7.0.4...master
+[7.0.4]:     https://github.com/cucumber/cucumber/compare/gherkin/v7.0.3...gherkin/v7.0.4
+[7.0.3]:     https://github.com/cucumber/cucumber/compare/gherkin/v7.0.2...gherkin/v7.0.3
+[7.0.2]:     https://github.com/cucumber/cucumber/compare/gherkin/v7.0.1...gherkin/v7.0.2
+[7.0.1]:     https://github.com/cucumber/cucumber/compare/gherkin/v7.0.0...gherkin/v7.0.1
+[7.0.0]:     https://github.com/cucumber/cucumber/compare/gherkin/v6.0.17...gherkin/v7.0.0
 [6.0.17]:     https://github.com/cucumber/cucumber/compare/gherkin-v6.0.15...gherkin/v6.0.17
 [6.0.15]:     https://github.com/cucumber/cucumber/compare/gherkin-v6.0.14...gherkin/v6.0.15
 [6.0.14]:     https://github.com/cucumber/cucumber/compare/gherkin-v6.0.13...gherkin/v6.0.14
