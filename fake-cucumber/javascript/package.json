@@ -1,6 +1,6 @@
 {
   "name": "fake-cucumber",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "Fake Cucumber generates fake results",
   "main": "dist/src/index.js",
   "types": "dist/src/index.d.ts",
@@ -30,7 +30,7 @@
   "homepage": "https://github.com/cucumber/cucumber",
   "devDependencies": {
     "@types/mocha": "^5.2.7",
-    "@types/node": "^12.7.2",
+    "@types/node": "^12.7.4",
     "mocha": "^6.2.0",
     "nyc": "^14.1.1",
     "prettier": "^1.18.2",
@@ -41,7 +41,7 @@
     "typescript": "^3.6.2"
   },
   "dependencies": {
-    "commander": "^3.0.0",
+    "commander": "^3.0.1",
     "cucumber-messages": "^5.0.1",
     "gherkin": "^7.0.4"
   }
