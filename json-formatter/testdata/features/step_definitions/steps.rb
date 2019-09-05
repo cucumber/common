@@ -1,7 +1,7 @@
-Given("a passing step") do
+Given("a passed step") do
 end
 
-When("a failing step") do
+When("a failed step") do
   raise "Some error"
 end
 
