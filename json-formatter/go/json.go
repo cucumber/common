@@ -20,11 +20,18 @@ type feature struct {
 }
 
 type featureElement struct {
-	Description string `json:"description"`
-	Keyword     string `json:"keyword"`
-	Line        uint32 `json:"line"`
-	Name        string `json:"name"`
-	Type        string `json:"type"`
+	Description string               `json:"description"`
+	Keyword     string               `json:"keyword"`
+	Line        uint32               `json:"line"`
+	Name        string               `json:"name"`
+	Steps       []featureElementStep `json:"steps"`
+	Type        string               `json:"type"`
+}
+
+type featureElementStep struct {
+	Keyword string `json:"keyword"`
+	Line    uint32 `json:"line"`
+	Name    string `json:"name"`
 }
 
 // ProcessMessages writes a JSON report to STDOUT
@@ -46,15 +53,15 @@ func ProcessMessages(stdin io.Reader, stdout io.Writer) (err error) {
 			elements := make([]featureElement, 0)
 
 			for _, child := range m.GherkinDocument.Feature.Children {
-				element := &featureElement{
-					Description: child.GetScenario().Description,
-					Keyword:     child.GetScenario().Keyword,
-					Line:        child.GetScenario().Location.Line,
-					Name:        child.GetScenario().Name,
-					Type:        "scenario",
+				background := child.GetBackground()
+				if background != nil {
+					elements = append(elements, backgroundToFeatureElement(background))
 				}
 
-				elements = append(elements, *element)
+				scenario := child.GetScenario()
+				if scenario != nil {
+					elements = append(elements, scenarioToFeatureElement(scenario))
+				}
 			}
 
 			feature := &feature{
@@ -73,4 +80,53 @@ func ProcessMessages(stdin io.Reader, stdout io.Writer) (err error) {
 	output, _ := json.Marshal(features)
 	_, err = fmt.Fprintln(stdout, string(output))
 	return err
+}
+
+func backgroundToFeatureElement(background *messages.GherkinDocument_Feature_Background) featureElement {
+	return makeFeatureElement(
+		background.Description,
+		background.Keyword,
+		background.Location.Line,
+		background.Name,
+		makefeatureElementSteps(background.GetSteps()),
+		"background",
+	)
+}
+
+func makeFeatureElement(description string, keyword string, line uint32, name string, steps []featureElementStep, elementType string) featureElement {
+	return featureElement{
+		Description: description,
+		Keyword:     keyword,
+		Line:        line,
+		Name:        name,
+		Steps:       steps,
+		Type:        elementType,
+	}
+}
+
+func scenarioToFeatureElement(scenario *messages.GherkinDocument_Feature_Scenario) featureElement {
+	return makeFeatureElement(
+		scenario.Description,
+		scenario.Keyword,
+		scenario.Location.Line,
+		scenario.Name,
+		makefeatureElementSteps(scenario.GetSteps()),
+		"scenario",
+	)
+}
+
+func makefeatureElementSteps(steps []*messages.GherkinDocument_Feature_Step) []featureElementStep {
+	elementSteps := make([]featureElementStep, 0)
+
+	for _, step := range steps {
+		stepElement := &featureElementStep{
+			Keyword: step.Keyword,
+			Line:    step.Location.Line,
+			Name:    step.Text,
+		}
+
+		elementSteps = append(elementSteps, *stepElement)
+	}
+
+	return elementSteps
 }
