@@ -7,12 +7,13 @@ JSONS  = $(patsubst ../testdata/features/%.feature,acceptance/%.json,$(FEATURE_F
 
 default: $(JSONS)
 
-acceptance/%.json: ../testdata/features/%.feature ../testdata/features/%.json
+acceptance/%.json: ../testdata/features/%.feature ../testdata/features/%.json $(EXE)
 	mkdir -p $$(dirname $@)
 	../../fake-cucumber/javascript/bin/fake-cucumber \
 		--results pattern \
 		$< | \
-		$(EXE) > \
+		$(EXE) | \
+		jq --sort-keys "." > \
 		$@
 
-	#diff --unified <(jq "." $<.ast.ndjson) <(jq "." $@)
+	diff --unified $(word 2, $^) $@

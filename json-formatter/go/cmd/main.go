@@ -1,10 +1,14 @@
 package main
 
 import (
-	json "github.com/cucumber/json-formatter-go"
+	jf "github.com/cucumber/json-formatter-go"
+	"log"
 	"os"
 )
 
 func main() {
-	json.ProcessMessages(os.Stdin, os.Stdout)
+	err := jf.ProcessMessages(os.Stdin, os.Stdout)
+	if err != nil {
+		log.Fatal("ERROR: ", err)
+	}
 }

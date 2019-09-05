@@ -5,7 +5,9 @@ JSONS_GOLDEN  = $(patsubst features/%.feature,features/%.json,$(FEATURE_FILES))
 default: $(JSONS_GOLDEN)
 
 features/%.json: features/%.feature $(RUBY_FILES) Gemfile.lock
-	-bundle exec cucumber --format json $< > $@
+	-bundle exec cucumber --format json $< | \
+	jq --sort-keys "." > \
+	$@
 
 Gemfile.lock: Gemfile
 	bundle install
