@@ -14,6 +14,7 @@ type Feature struct {
 }
 
 func ProcessMessages(stdin io.Reader, stdout io.Writer) (err error) {
+	features := make([]Feature, 0)
 	r := gio.NewDelimitedReader(stdin, 4096)
 	for {
 		wrapper := &messages.Envelope{}
@@ -30,8 +31,9 @@ func ProcessMessages(stdin io.Reader, stdout io.Writer) (err error) {
 		Uri: "features/hello.feature",
 		Id:  "some-id",
 	}
+	features = append(features, *feature)
 
-	output, _ := json.Marshal(feature)
+	output, _ := json.Marshal(features)
 	_, err = fmt.Fprintln(stdout, string(output))
 	return err
 }
