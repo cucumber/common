@@ -4,6 +4,8 @@ import (
 	"encoding/json"
 	"fmt"
 	"io"
+	"runtime"
+	"strings"
 
 	messages "github.com/cucumber/cucumber-messages-go/v5"
 	gio "github.com/gogo/protobuf/io"
@@ -29,15 +31,25 @@ type featureElement struct {
 }
 
 type featureElementStep struct {
-	Keyword string `json:"keyword"`
-	Line    uint32 `json:"line"`
-	Name    string `json:"name"`
+	Keyword string      `json:"keyword"`
+	Line    uint32      `json:"line"`
+	Name    string      `json:"name"`
+	Result  *stepResult `json:"result"`
+}
+
+type stepResult struct {
+	Duration uint64 `json:"duration"`
+	Status   string `json:"status"`
 }
 
 // ProcessMessages writes a JSON report to STDOUT
 func ProcessMessages(stdin io.Reader, stdout io.Writer) (err error) {
 	features := make([]feature, 0)
+	elementsByURIAndLineNumber := make(map[string]featureElement)
+	picklesByID := make(map[string]*messages.Pickle)
+
 	r := gio.NewDelimitedReader(stdin, 4096)
+
 	for {
 		wrapper := &messages.Envelope{}
 		err := r.ReadMsg(wrapper)
@@ -55,12 +67,18 @@ func ProcessMessages(stdin io.Reader, stdout io.Writer) (err error) {
 			for _, child := range m.GherkinDocument.Feature.Children {
 				background := child.GetBackground()
 				if background != nil {
-					elements = append(elements, backgroundToFeatureElement(background))
+					element := backgroundToFeatureElement(background)
+					elementsByURIAndLineNumber[fmt.Sprintf("%s:%d", m.GherkinDocument.Uri, element.Line)] = element
+
+					elements = append(elements, element)
 				}
 
 				scenario := child.GetScenario()
 				if scenario != nil {
-					elements = append(elements, scenarioToFeatureElement(scenario))
+					element := scenarioToFeatureElement(scenario)
+					elementsByURIAndLineNumber[fmt.Sprintf("%s:%d", m.GherkinDocument.Uri, element.Line)] = element
+
+					elements = append(elements, element)
 				}
 			}
 
@@ -74,12 +92,40 @@ func ProcessMessages(stdin io.Reader, stdout io.Writer) (err error) {
 				URI:         m.GherkinDocument.Uri,
 			}
 			features = append(features, *feature)
+
+		case *messages.Envelope_Pickle:
+			pickle := m.Pickle
+			picklesByID[pickle.Id] = pickle
+
+		case *messages.Envelope_TestStepFinished:
+			step := lookupStep(m.TestStepFinished.PickleId, m.TestStepFinished.Index, picklesByID, elementsByURIAndLineNumber)
+
+			step.Result = &stepResult{
+				Duration: m.TestStepFinished.TestResult.DurationNanoseconds,
+				Status:   strings.ToLower(m.TestStepFinished.TestResult.Status.String()),
+			}
 		}
 	}
 
 	output, _ := json.Marshal(features)
 	_, err = fmt.Fprintln(stdout, string(output))
 	return err
+}
+
+func lookupStep(pickleID string, stepIndex uint32, picklesByID map[string]*messages.Pickle, elementsByURIAndLineNumber map[string]featureElement) featureElementStep {
+	runtime.Breakpoint()
+	element := lookupFeatureElement(pickleID, picklesByID, elementsByURIAndLineNumber)
+	return element.Steps[stepIndex]
+}
+
+func lookupFeatureElement(pickleID string, picklesByID map[string]*messages.Pickle, elementsByURIAndLineNumber map[string]featureElement) featureElement {
+	pickle := picklesByID[pickleID]
+
+	return elementsByURIAndLineNumber[pickleToURIAndLineNumber(pickle)]
+}
+
+func pickleToURIAndLineNumber(pickle *messages.Pickle) string {
+	return fmt.Sprintf("%s:%d", pickle.Uri, pickle.Locations[0].Line)
 }
 
 func backgroundToFeatureElement(background *messages.GherkinDocument_Feature_Background) featureElement {
