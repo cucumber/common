@@ -9,8 +9,9 @@ import (
 )
 
 type Feature struct {
-	Uri string `json:"uri"`
-	Id  string `json:"id"`
+	Id   string `json:"id"`
+	Name string `json:"name"`
+	Uri  string `json:"uri"`
 }
 
 func ProcessMessages(stdin io.Reader, stdout io.Writer) (err error) {
@@ -25,13 +26,17 @@ func ProcessMessages(stdin io.Reader, stdout io.Writer) (err error) {
 		if err != nil {
 			return err
 		}
-	}
 
-	feature := &Feature{
-		Uri: "features/hello.feature",
-		Id:  "some-id",
+		switch m := wrapper.Message.(type) {
+		case *messages.Envelope_GherkinDocument:
+			feature := &Feature{
+				Id:   "some-id",
+				Name: m.GherkinDocument.Feature.Name,
+				Uri:  m.GherkinDocument.Uri,
+			}
+			features = append(features, *feature)
+		}
 	}
-	features = append(features, *feature)
 
 	output, _ := json.Marshal(features)
 	_, err = fmt.Fprintln(stdout, string(output))
