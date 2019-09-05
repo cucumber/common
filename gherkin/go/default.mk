@@ -89,5 +89,5 @@ clean: clean-go
 .PHONY: clean
 
 clean-go:
-	rm -rf .deps .tested .linted dist .dist-compressed dist_compressed
+	rm -rf .deps .tested .linted dist/ .dist-compressed dist_compressed/ acceptance/
 .PHONY: clean-go

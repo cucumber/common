@@ -1,5 +1,5 @@
 Feature: Simple
   Scenario: number 1
-    Given a passing step
-    When a failing step
+    Given a passed step
+    When a failed step
     Then a skipped step
