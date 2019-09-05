@@ -25,7 +25,9 @@ endif
 	touch $@
 
 dist: $(EXE)
+ifndef NO_UPX_COMPRESSION
 	make .dist-compressed
+endif
 	touch $@
 
 $(EXE): .deps $(GO_SOURCE_FILES)
