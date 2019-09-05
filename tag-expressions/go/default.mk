@@ -10,7 +10,7 @@ UPX_EXES = $(patsubst dist/$(LIBNAME)-%,dist_compressed/$(LIBNAME)-%,$(EXES))
 # Determine if we're on linux or osx (ignoring other OSes as we're not building on them)
 OS := $(shell [[ "$$(uname)" == "Darwin" ]] && echo "darwin" || echo "linux")
 # Determine if we're on 386 or amd64 (ignoring other processors as we're not building on them)
-ARCH := $(shell [[ "$$(arch)" == "x86_64" ]] && echo "amd64" || echo "386")
+ARCH := $(shell [[ "$$(uname -m)" == "x86_64" ]] && echo "amd64" || echo "386")
 EXE = dist/$(LIBNAME)-$(OS)-$(ARCH)
 
 default: .linted .tested
