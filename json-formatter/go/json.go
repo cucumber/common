@@ -3,22 +3,33 @@ package json
 import (
 	"encoding/json"
 	"fmt"
+	"io"
+
 	messages "github.com/cucumber/cucumber-messages-go/v5"
 	gio "github.com/gogo/protobuf/io"
-	"io"
 )
 
-type Feature struct {
+type feature struct {
+	Description string           `json:"description"`
+	Elements    []featureElement `json:"elements"`
+	ID          string           `json:"id"`
+	Keyword     string           `json:"keyword"`
+	Line        uint32           `json:"line"`
+	Name        string           `json:"name"`
+	URI         string           `json:"uri"`
+}
+
+type featureElement struct {
 	Description string `json:"description"`
-	Id          string `json:"id"`
 	Keyword     string `json:"keyword"`
 	Line        uint32 `json:"line"`
 	Name        string `json:"name"`
-	Uri         string `json:"uri"`
+	Type        string `json:"type"`
 }
 
+// ProcessMessages writes a JSON report to STDOUT
 func ProcessMessages(stdin io.Reader, stdout io.Writer) (err error) {
-	features := make([]Feature, 0)
+	features := make([]feature, 0)
 	r := gio.NewDelimitedReader(stdin, 4096)
 	for {
 		wrapper := &messages.Envelope{}
@@ -32,13 +43,28 @@ func ProcessMessages(stdin io.Reader, stdout io.Writer) (err error) {
 
 		switch m := wrapper.Message.(type) {
 		case *messages.Envelope_GherkinDocument:
-			feature := &Feature{
+			elements := make([]featureElement, 0)
+
+			for _, child := range m.GherkinDocument.Feature.Children {
+				element := &featureElement{
+					Description: child.GetScenario().Description,
+					Keyword:     child.GetScenario().Keyword,
+					Line:        child.GetScenario().Location.Line,
+					Name:        child.GetScenario().Name,
+					Type:        "scenario",
+				}
+
+				elements = append(elements, *element)
+			}
+
+			feature := &feature{
 				Description: m.GherkinDocument.Feature.Description,
-				Id:          "some-id",
+				Elements:    elements,
+				ID:          "some-id",
 				Keyword:     m.GherkinDocument.Feature.Keyword,
 				Line:        m.GherkinDocument.Feature.Location.Line,
 				Name:        m.GherkinDocument.Feature.Name,
-				Uri:         m.GherkinDocument.Uri,
+				URI:         m.GherkinDocument.Uri,
 			}
 			features = append(features, *feature)
 		}
