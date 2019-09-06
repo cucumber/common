@@ -97,7 +97,8 @@ func (formatter *Formatter) ProcessMessages(stdin io.Reader, stdout io.Writer) (
 
 				jsonSteps = append(jsonSteps, &jsonStep{
 					Keyword: step.Keyword,
-					Name:    pickleStep.Text,
+					Line:    step.Location.Line,
+					Name:    step.Text,
 				})
 			}
 
