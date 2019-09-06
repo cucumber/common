@@ -2,9 +2,6 @@ Feature: Simple
   some description
   here
 
-  Background:
-    Given a passed step
-
   Scenario: number 1
     some other
     description here

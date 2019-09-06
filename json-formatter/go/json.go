@@ -4,7 +4,6 @@ import (
 	"encoding/json"
 	"fmt"
 	"io"
-	"runtime"
 	"strings"
 
 	messages "github.com/cucumber/cucumber-messages-go/v5"
@@ -100,9 +99,10 @@ func ProcessMessages(stdin io.Reader, stdout io.Writer) (err error) {
 		case *messages.Envelope_TestStepFinished:
 			step := lookupStep(m.TestStepFinished.PickleId, m.TestStepFinished.Index, picklesByID, elementsByURIAndLineNumber)
 
+			status := strings.ToLower(m.TestStepFinished.TestResult.Status.String())
 			step.Result = &stepResult{
 				Duration: m.TestStepFinished.TestResult.DurationNanoseconds,
-				Status:   strings.ToLower(m.TestStepFinished.TestResult.Status.String()),
+				Status:   status,
 			}
 		}
 	}
@@ -112,10 +112,9 @@ func ProcessMessages(stdin io.Reader, stdout io.Writer) (err error) {
 	return err
 }
 
-func lookupStep(pickleID string, stepIndex uint32, picklesByID map[string]*messages.Pickle, elementsByURIAndLineNumber map[string]featureElement) featureElementStep {
-	runtime.Breakpoint()
+func lookupStep(pickleID string, stepIndex uint32, picklesByID map[string]*messages.Pickle, elementsByURIAndLineNumber map[string]featureElement) *featureElementStep {
 	element := lookupFeatureElement(pickleID, picklesByID, elementsByURIAndLineNumber)
-	return element.Steps[stepIndex]
+	return &element.Steps[stepIndex]
 }
 
 func lookupFeatureElement(pickleID string, picklesByID map[string]*messages.Pickle, elementsByURIAndLineNumber map[string]featureElement) featureElement {
