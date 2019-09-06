@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"io"
+	"strings"
 
 	messages "github.com/cucumber/cucumber-messages-go/v5"
 	gio "github.com/gogo/protobuf/io"
@@ -44,7 +45,9 @@ type jsonStepResult struct {
 type Formatter struct {
 	jsonFeatures         []*jsonFeature
 	jsonFeaturesByURI    map[string]*jsonFeature
+	jsonStepsByKey       map[string]*jsonStep
 	gherkinDocumentByURI map[string]*messages.GherkinDocument
+	pickleById           map[string]*messages.Pickle
 	scenariosByKey       map[string]*messages.GherkinDocument_Feature_Scenario
 	stepsByKey           map[string]*messages.GherkinDocument_Feature_Step
 }
@@ -53,12 +56,12 @@ type Formatter struct {
 func (formatter *Formatter) ProcessMessages(stdin io.Reader, stdout io.Writer) (err error) {
 	formatter.jsonFeatures = make([]*jsonFeature, 0)
 	formatter.jsonFeaturesByURI = make(map[string]*jsonFeature)
+	formatter.jsonStepsByKey = make(map[string]*jsonStep)
+
 	formatter.gherkinDocumentByURI = make(map[string]*messages.GherkinDocument)
+	formatter.pickleById = make(map[string]*messages.Pickle)
 	formatter.scenariosByKey = make(map[string]*messages.GherkinDocument_Feature_Scenario)
 	formatter.stepsByKey = make(map[string]*messages.GherkinDocument_Feature_Step)
-
-	// elementsByURIAndLineNumber := make(map[string]jsonFeatureElement)
-	picklesByID := make(map[string]*messages.Pickle)
 
 	r := gio.NewDelimitedReader(stdin, 4096)
 
@@ -86,7 +89,7 @@ func (formatter *Formatter) ProcessMessages(stdin io.Reader, stdout io.Writer) (
 
 		case *messages.Envelope_Pickle:
 			pickle := m.Pickle
-			picklesByID[pickle.Id] = pickle
+			formatter.pickleById[pickle.Id] = pickle
 			jsonFeature := formatter.findOrCreateJsonFeature(pickle)
 
 			scenario := formatter.findScenario(pickle.Uri, pickle.Locations[0])
@@ -95,11 +98,13 @@ func (formatter *Formatter) ProcessMessages(stdin io.Reader, stdout io.Writer) (
 			for _, pickleStep := range pickle.Steps {
 				step := formatter.findStep(pickle.Uri, pickleStep.Locations[0])
 
-				jsonSteps = append(jsonSteps, &jsonStep{
+				jsonStep := &jsonStep{
 					Keyword: step.Keyword,
 					Line:    step.Location.Line,
 					Name:    step.Text,
-				})
+				}
+				jsonSteps = append(jsonSteps, jsonStep)
+				formatter.jsonStepsByKey[key(pickle.Uri, step.Location)] = jsonStep
 			}
 
 			jsonFeature.Elements = append(jsonFeature.Elements, jsonFeatureElement{
@@ -111,15 +116,18 @@ func (formatter *Formatter) ProcessMessages(stdin io.Reader, stdout io.Writer) (
 				Type:        "scenario",
 			})
 
-			// case *messages.Envelope_TestStepFinished:
-			// step := lookupStep(m.TestStepFinished.PickleId, m.TestStepFinished.Index, picklesByID, elementsByURIAndLineNumber)
-			// status := strings.ToLower(m.TestStepFinished.TestResult.Status.String())
+		case *messages.Envelope_TestStepFinished:
+			pickle := formatter.pickleById[m.TestStepFinished.PickleId]
+			pickleStep := pickle.Steps[m.TestStepFinished.Index]
 
-			// step.Result = &jsonStepResult{
-			// 	Duration:     m.TestStepFinished.TestResult.DurationNanoseconds,
-			// 	Status:       status,
-			// 	ErrorMessage: m.TestStepFinished.TestResult.Message,
-			// }
+			step := formatter.jsonStepsByKey[key(pickle.Uri, pickleStep.Locations[0])]
+
+			status := strings.ToLower(m.TestStepFinished.TestResult.Status.String())
+			step.Result = &jsonStepResult{
+				Duration:     m.TestStepFinished.TestResult.DurationNanoseconds,
+				Status:       status,
+				ErrorMessage: m.TestStepFinished.TestResult.Message,
+			}
 		}
 	}
 
