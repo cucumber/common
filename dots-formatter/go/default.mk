@@ -79,7 +79,9 @@ dist_compressed/$(LIBNAME)-%: dist/$(LIBNAME)-%
 	gofmt -w $^
 	touch $@
 
-.tested: .deps $(GO_SOURCE_FILES)
+.tested: .deps $(GO_SOURCE_FILES) .go-tested
+
+.go-tested:
 	go test ./...
 	touch $@
 
@@ -91,5 +93,5 @@ clean: clean-go
 .PHONY: clean
 
 clean-go:
-	rm -rf .deps .tested .linted dist/ .dist-compressed dist_compressed/ acceptance/
+	rm -rf .deps .tested .go-tested .linted dist/ .dist-compressed dist_compressed/ acceptance/
 .PHONY: clean-go
