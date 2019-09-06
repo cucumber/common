@@ -37,8 +37,9 @@ type featureElementStep struct {
 }
 
 type stepResult struct {
-	Duration uint64 `json:"duration"`
-	Status   string `json:"status"`
+	Duration     uint64 `json:"duration"`
+	Status       string `json:"status"`
+	ErrorMessage string `json:"error_message,omitempty"`
 }
 
 // ProcessMessages writes a JSON report to STDOUT
@@ -98,11 +99,12 @@ func ProcessMessages(stdin io.Reader, stdout io.Writer) (err error) {
 
 		case *messages.Envelope_TestStepFinished:
 			step := lookupStep(m.TestStepFinished.PickleId, m.TestStepFinished.Index, picklesByID, elementsByURIAndLineNumber)
-
 			status := strings.ToLower(m.TestStepFinished.TestResult.Status.String())
+
 			step.Result = &stepResult{
-				Duration: m.TestStepFinished.TestResult.DurationNanoseconds,
-				Status:   status,
+				Duration:     m.TestStepFinished.TestResult.DurationNanoseconds,
+				Status:       status,
+				ErrorMessage: m.TestStepFinished.TestResult.Message,
 			}
 		}
 	}
