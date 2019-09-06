@@ -1,13 +1,14 @@
 package main
 
 import (
-	jf "github.com/cucumber/json-formatter-go"
+	jsonFormatter "github.com/cucumber/json-formatter-go"
 	"log"
 	"os"
 )
 
 func main() {
 	var err error
+	jf := &jsonFormatter.Formatter{}
 	if len(os.Args) > 1 {
 		for _, arg := range os.Args[1:] {
 			file, err := os.Open(arg)

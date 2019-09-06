@@ -4,7 +4,6 @@ import (
 	"encoding/json"
 	"fmt"
 	"io"
-	//	"strings"
 
 	messages "github.com/cucumber/cucumber-messages-go/v5"
 	gio "github.com/gogo/protobuf/io"
@@ -21,12 +20,12 @@ type jsonFeature struct {
 }
 
 type jsonFeatureElement struct {
-	Description string     `json:"description"`
-	Keyword     string     `json:"keyword"`
-	Line        uint32     `json:"line"`
-	Name        string     `json:"name"`
-	Steps       []jsonStep `json:"steps"`
-	Type        string     `json:"type"`
+	Description string      `json:"description"`
+	Keyword     string      `json:"keyword"`
+	Line        uint32      `json:"line"`
+	Name        string      `json:"name"`
+	Steps       []*jsonStep `json:"steps"`
+	Type        string      `json:"type"`
 }
 
 type jsonStep struct {
@@ -42,11 +41,21 @@ type jsonStepResult struct {
 	ErrorMessage string `json:"error_message,omitempty"`
 }
 
+type Formatter struct {
+	jsonFeatures         []*jsonFeature
+	jsonFeaturesByURI    map[string]*jsonFeature
+	gherkinDocumentByURI map[string]*messages.GherkinDocument
+	scenariosByKey       map[string]*messages.GherkinDocument_Feature_Scenario
+	stepsByKey           map[string]*messages.GherkinDocument_Feature_Step
+}
+
 // ProcessMessages writes a JSON report to STDOUT
-func ProcessMessages(stdin io.Reader, stdout io.Writer) (err error) {
-	jsonFeatures := make([]jsonFeature, 0)
-	jsonFeaturesByURI := make(map[string]*jsonFeature)
-	gherkinDocumentByURI := make(map[string]*messages.GherkinDocument)
+func (formatter *Formatter) ProcessMessages(stdin io.Reader, stdout io.Writer) (err error) {
+	formatter.jsonFeatures = make([]*jsonFeature, 0)
+	formatter.jsonFeaturesByURI = make(map[string]*jsonFeature)
+	formatter.gherkinDocumentByURI = make(map[string]*messages.GherkinDocument)
+	formatter.scenariosByKey = make(map[string]*messages.GherkinDocument_Feature_Scenario)
+	formatter.stepsByKey = make(map[string]*messages.GherkinDocument_Feature_Step)
 
 	// elementsByURIAndLineNumber := make(map[string]jsonFeatureElement)
 	picklesByID := make(map[string]*messages.Pickle)
@@ -65,52 +74,40 @@ func ProcessMessages(stdin io.Reader, stdout io.Writer) (err error) {
 
 		switch m := wrapper.Message.(type) {
 		case *messages.Envelope_GherkinDocument:
-			gherkinDocumentByURI[m.GherkinDocument.Uri] = m.GherkinDocument
-			// elements := make([]jsonFeatureElement, 0)
-
-			// for _, child := range m.GherkinDocument.Feature.Children {
-			// 	background := child.GetBackground()
-			// 	if background != nil {
-			// 		element := backgroundTojsonFeatureElement(background)
-			// 		elementsByURIAndLineNumber[fmt.Sprintf("%s:%d", m.GherkinDocument.Uri, element.Line)] = element
-
-			// 		elements = append(elements, element)
-			// 	}
-
-			// 	scenario := child.GetScenario()
-			// 	if scenario != nil {
-			// 		element := scenarioTojsonFeatureElement(scenario)
-			// 		elementsByURIAndLineNumber[fmt.Sprintf("%s:%d", m.GherkinDocument.Uri, element.Line)] = element
-
-			// 		elements = append(elements, element)
-			// 	}
-			// }
-
-			// feature := &feature{
-			// 	Description: m.GherkinDocument.Feature.Description,
-			// 	Elements:    elements,
-			// 	ID:          "some-id",
-			// 	Keyword:     m.GherkinDocument.Feature.Keyword,
-			// 	Line:        m.GherkinDocument.Feature.Location.Line,
-			// 	Name:        m.GherkinDocument.Feature.Name,
-			// 	URI:         m.GherkinDocument.Uri,
-			// }
-			// features = append(features, *feature)
+			formatter.gherkinDocumentByURI[m.GherkinDocument.Uri] = m.GherkinDocument
+			for _, child := range m.GherkinDocument.Feature.Children {
+				if child.GetScenario() != nil {
+					formatter.scenariosByKey[key(m.GherkinDocument.Uri, child.GetScenario().Location)] = child.GetScenario()
+					for _, step := range child.GetScenario().Steps {
+						formatter.stepsByKey[key(m.GherkinDocument.Uri, step.Location)] = step
+					}
+				}
+			}
 
 		case *messages.Envelope_Pickle:
 			pickle := m.Pickle
 			picklesByID[pickle.Id] = pickle
-			var jsonFeature *jsonFeature
+			jsonFeature := formatter.findOrCreateJsonFeature(pickle)
 
-			jsonFeature, jsonFeaturesByURI, jsonFeatures = findOrCreateJsonFeature(
-				pickle,
-				jsonFeaturesByURI,
-				jsonFeatures,
-				gherkinDocumentByURI,
-			)
+			scenario := formatter.findScenario(pickle.Uri, pickle.Locations[0])
+
+			jsonSteps := make([]*jsonStep, 0)
+			for _, pickleStep := range pickle.Steps {
+				step := formatter.findStep(pickle.Uri, pickleStep.Locations[0])
+
+				jsonSteps = append(jsonSteps, &jsonStep{
+					Keyword: step.Keyword,
+					Name:    pickleStep.Text,
+				})
+			}
 
 			jsonFeature.Elements = append(jsonFeature.Elements, jsonFeatureElement{
-				Description: "hello :)",
+				Description: scenario.Description,
+				Keyword:     scenario.Keyword,
+				Line:        scenario.Location.Line,
+				Name:        scenario.Name,
+				Steps:       jsonSteps,
+				Type:        "scenario",
 			})
 
 			// case *messages.Envelope_TestStepFinished:
@@ -125,26 +122,17 @@ func ProcessMessages(stdin io.Reader, stdout io.Writer) (err error) {
 		}
 	}
 
-	output, _ := json.Marshal(jsonFeatures)
+	output, _ := json.MarshalIndent(formatter.jsonFeatures, "", "  ")
 	_, err = fmt.Fprintln(stdout, string(output))
 	return err
 }
 
-func findOrCreateJsonFeature(
-	pickle *messages.Pickle,
-	jsonFeaturesByURI map[string]*jsonFeature,
-	jsonFeatures []jsonFeature,
-	gherkinDocumentByURI map[string]*messages.GherkinDocument,
-) (
-	*jsonFeature,
-	map[string]*jsonFeature,
-	[]jsonFeature,
-) {
-	f, ok := jsonFeaturesByURI[pickle.Uri]
+func (formatter *Formatter) findOrCreateJsonFeature(pickle *messages.Pickle) *jsonFeature {
+	jFeature, ok := formatter.jsonFeaturesByURI[pickle.Uri]
 	if !ok {
-		gherkinDocumentFeature := gherkinDocumentByURI[pickle.Uri].Feature
+		gherkinDocumentFeature := formatter.gherkinDocumentByURI[pickle.Uri].Feature
 
-		f = &jsonFeature{
+		jFeature = &jsonFeature{
 			Description: gherkinDocumentFeature.Description,
 			Elements:    make([]jsonFeatureElement, 0),
 			ID:          "some-id",
@@ -153,72 +141,24 @@ func findOrCreateJsonFeature(
 			Name:        gherkinDocumentFeature.Name,
 			URI:         pickle.Uri,
 		}
-		jsonFeaturesByURI[pickle.Uri] = f
-		jsonFeatures = append(jsonFeatures, *f)
+		formatter.jsonFeaturesByURI[pickle.Uri] = jFeature
+		formatter.jsonFeatures = append(formatter.jsonFeatures, jFeature)
 	}
-	return f, jsonFeaturesByURI, jsonFeatures
+	return jFeature
 }
 
-func lookupStep(pickleID string, stepIndex uint32, picklesByID map[string]*messages.Pickle, elementsByURIAndLineNumber map[string]jsonFeatureElement) *jsonStep {
-	element := lookupjsonFeatureElement(pickleID, picklesByID, elementsByURIAndLineNumber)
-	return &element.Steps[stepIndex]
-}
-
-func lookupjsonFeatureElement(pickleID string, picklesByID map[string]*messages.Pickle, elementsByURIAndLineNumber map[string]jsonFeatureElement) jsonFeatureElement {
-	pickle := picklesByID[pickleID]
-
-	return elementsByURIAndLineNumber[pickleToURIAndLineNumber(pickle)]
-}
-
-func pickleToURIAndLineNumber(pickle *messages.Pickle) string {
+func (formatter *Formatter) pickleToURIAndLineNumber(pickle *messages.Pickle) string {
 	return fmt.Sprintf("%s:%d", pickle.Uri, pickle.Locations[0].Line)
 }
 
-func backgroundTojsonFeatureElement(background *messages.GherkinDocument_Feature_Background) jsonFeatureElement {
-	return makeJsonFeatureElement(
-		background.Description,
-		background.Keyword,
-		background.Location.Line,
-		background.Name,
-		makeJsonSteps(background.GetSteps()),
-		"background",
-	)
+func (formatter *Formatter) findScenario(uri string, location *messages.Location) *messages.GherkinDocument_Feature_Scenario {
+	return formatter.scenariosByKey[key(uri, location)]
 }
 
-func makeJsonFeatureElement(description string, keyword string, line uint32, name string, steps []jsonStep, elementType string) jsonFeatureElement {
-	return jsonFeatureElement{
-		Description: description,
-		Keyword:     keyword,
-		Line:        line,
-		Name:        name,
-		Steps:       steps,
-		Type:        elementType,
-	}
+func (formatter *Formatter) findStep(uri string, location *messages.Location) *messages.GherkinDocument_Feature_Step {
+	return formatter.stepsByKey[key(uri, location)]
 }
 
-func scenarioTojsonFeatureElement(scenario *messages.GherkinDocument_Feature_Scenario) jsonFeatureElement {
-	return makeJsonFeatureElement(
-		scenario.Description,
-		scenario.Keyword,
-		scenario.Location.Line,
-		scenario.Name,
-		makeJsonSteps(scenario.GetSteps()),
-		"scenario",
-	)
-}
-
-func makeJsonSteps(steps []*messages.GherkinDocument_Feature_Step) []jsonStep {
-	jsonSteps := make([]jsonStep, 0)
-
-	for _, step := range steps {
-		jsonStep := &jsonStep{
-			Keyword: step.Keyword,
-			Line:    step.Location.Line,
-			Name:    step.Text,
-		}
-
-		jsonSteps = append(jsonSteps, *jsonStep)
-	}
-
-	return jsonSteps
+func key(uri string, location *messages.Location) string {
+	return fmt.Sprintf("%s:%d", uri, location.Line)
 }
