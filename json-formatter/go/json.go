@@ -22,6 +22,7 @@ type jsonFeature struct {
 
 type jsonFeatureElement struct {
 	Description string      `json:"description"`
+	ID          string      `json:"id"`
 	Keyword     string      `json:"keyword"`
 	Line        uint32      `json:"line"`
 	Name        string      `json:"name"`
@@ -109,6 +110,7 @@ func (formatter *Formatter) ProcessMessages(stdin io.Reader, stdout io.Writer) (
 
 			jsonFeature.Elements = append(jsonFeature.Elements, jsonFeatureElement{
 				Description: scenario.Description,
+				ID:          fmt.Sprintf("%s;%s", jsonFeature.ID, idify(scenario.Name)),
 				Keyword:     scenario.Keyword,
 				Line:        scenario.Location.Line,
 				Name:        scenario.Name,
@@ -144,7 +146,7 @@ func (formatter *Formatter) findOrCreateJsonFeature(pickle *messages.Pickle) *js
 		jFeature = &jsonFeature{
 			Description: gherkinDocumentFeature.Description,
 			Elements:    make([]jsonFeatureElement, 0),
-			ID:          "some-id",
+			ID:          idify(gherkinDocumentFeature.Name),
 			Keyword:     gherkinDocumentFeature.Keyword,
 			Line:        gherkinDocumentFeature.Location.Line,
 			Name:        gherkinDocumentFeature.Name,
@@ -158,4 +160,8 @@ func (formatter *Formatter) findOrCreateJsonFeature(pickle *messages.Pickle) *js
 
 func key(uri string, location *messages.Location) string {
 	return fmt.Sprintf("%s:%d", uri, location.Line)
+}
+
+func idify(s string) string {
+	return strings.ToLower(strings.Replace(s, " ", "-", -1))
 }
