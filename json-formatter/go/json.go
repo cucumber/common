@@ -92,11 +92,11 @@ func (formatter *Formatter) ProcessMessages(stdin io.Reader, stdout io.Writer) (
 			formatter.pickleById[pickle.Id] = pickle
 			jsonFeature := formatter.findOrCreateJsonFeature(pickle)
 
-			scenario := formatter.findScenario(pickle.Uri, pickle.Locations[0])
+			scenario := formatter.scenariosByKey[key(pickle.Uri, pickle.Locations[0])]
 
 			jsonSteps := make([]*jsonStep, 0)
 			for _, pickleStep := range pickle.Steps {
-				step := formatter.findStep(pickle.Uri, pickleStep.Locations[0])
+				step := formatter.stepsByKey[key(pickle.Uri, pickleStep.Locations[0])]
 
 				jsonStep := &jsonStep{
 					Keyword: step.Keyword,
@@ -154,18 +154,6 @@ func (formatter *Formatter) findOrCreateJsonFeature(pickle *messages.Pickle) *js
 		formatter.jsonFeatures = append(formatter.jsonFeatures, jFeature)
 	}
 	return jFeature
-}
-
-func (formatter *Formatter) pickleToURIAndLineNumber(pickle *messages.Pickle) string {
-	return fmt.Sprintf("%s:%d", pickle.Uri, pickle.Locations[0].Line)
-}
-
-func (formatter *Formatter) findScenario(uri string, location *messages.Location) *messages.GherkinDocument_Feature_Scenario {
-	return formatter.scenariosByKey[key(uri, location)]
-}
-
-func (formatter *Formatter) findStep(uri string, location *messages.Location) *messages.GherkinDocument_Feature_Step {
-	return formatter.stepsByKey[key(uri, location)]
 }
 
 func key(uri string, location *messages.Location) string {
