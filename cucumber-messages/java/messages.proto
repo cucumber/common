@@ -56,7 +56,7 @@ message Location {
 }
 
 /**
- * Points to a [Source](#io.cucumber.messages.Source) identified by `uri` and a 
+ * Points to a [Source](#io.cucumber.messages.Source) identified by `uri` and a
  * [Location](#io.cucumber.messages.Location) within that file.
  */
 message SourceReference {
@@ -191,7 +191,7 @@ message GherkinDocument {
         }
       }
     }
-    
+
     message Background {
       // The location of the `Background` keyword
       Location location = 1;
@@ -222,7 +222,7 @@ message GherkinDocument {
         repeated TableRow table_body = 7;
       }
     }
-    
+
     // A row in a table
     message TableRow {
       // The location of the first cell in the row
@@ -290,7 +290,7 @@ message Attachment {
  * In the future a `Pickle` may be derived from other formats such as Markdown or
  * Excel files.
  *
- * By making `Pickle` the main data structure Cucumber uses for execution, the 
+ * By making `Pickle` the main data structure Cucumber uses for execution, the
  * implementation of Cucumber itself becomes simpler, as it doesn't have to deal
  * with the complex structure of a [GherkinDocument](#io.cucumber.messages.GherkinDocument).
  */
@@ -317,7 +317,7 @@ message Pickle {
   /**
    * The source locations of the pickle. The last one represents the unique
    * line number. A pickle constructed from `Examples` will have the first
-   * location originating from the `Step`, and the second from the table row.
+   * location originating from the `Scenario`, and the second from the table row.
    */
   repeated Location locations = 7;
 
@@ -460,7 +460,7 @@ message TestResult {
    * in the enum.
    *
    * For example, if a pickle has steps with statuses passed, undefined and skipped,
-   * then the pickle's status us undefined. 
+   * then the pickle's status us undefined.
    */
   enum Status {
     // The step hasn't been matched or executed

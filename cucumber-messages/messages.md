@@ -665,7 +665,7 @@ from another format, such as [GherkinDocument](#io.cucumber.messages.GherkinDocu
 In the future a `Pickle` may be derived from other formats such as Markdown or
 Excel files.
 
-By making `Pickle` the main data structure Cucumber uses for execution, the 
+By making `Pickle` the main data structure Cucumber uses for execution, the
 implementation of Cucumber itself becomes simpler, as it doesn&#39;t have to deal
 with the complex structure of a [GherkinDocument](#io.cucumber.messages.GherkinDocument).
 
@@ -678,7 +678,7 @@ with the complex structure of a [GherkinDocument](#io.cucumber.messages.GherkinD
 | language | [string](#string) |  | The language of the pickle |
 | steps | [Pickle.PickleStep](#io.cucumber.messages.Pickle.PickleStep) | repeated | One or more steps |
 | tags | [Pickle.PickleTag](#io.cucumber.messages.Pickle.PickleTag) | repeated | One or more tags. If this pickle is constructed from a Gherkin document, It includes inherited tags from the `Feature` as well. |
-| locations | [Location](#io.cucumber.messages.Location) | repeated | The source locations of the pickle. The last one represents the unique line number. A pickle constructed from `Examples` will have the first location originating from the `Step`, and the second from the table row. |
+| locations | [Location](#io.cucumber.messages.Location) | repeated | The source locations of the pickle. The last one represents the unique line number. A pickle constructed from `Examples` will have the first location originating from the `Scenario`, and the second from the table row. |
 
 
 
@@ -865,7 +865,7 @@ A source file, typically a Gherkin document
 <a name="io.cucumber.messages.SourceReference"></a>
 
 ### SourceReference
-Points to a [Source](#io.cucumber.messages.Source) identified by `uri` and a 
+Points to a [Source](#io.cucumber.messages.Source) identified by `uri` and a
 [Location](#io.cucumber.messages.Location) within that file.
 
 
@@ -1255,16 +1255,26 @@ Points to a [Source](#io.cucumber.messages.Source) identified by `uri` and a
 <a name="io.cucumber.messages.TestResult.Status"></a>
 
 ### TestResult.Status
+Status of a step. Can also represent status of a Pickle (aggregated
+from the status of its steps).
 
+The ordinal values of statuses are significant. The status of a Pickle
+is determined by the union of statuses of its steps. The
+status of the Pickle is the status with the highest ordinal
+in the enum.
+
+For example, if a pickle has steps with statuses passed, undefined and skipped,
+then the pickle&#39;s status us undefined.
 
 | Name | Number | Description |
 | ---- | ------ | ----------- |
-| AMBIGUOUS | 0 |  |
-| FAILED | 1 |  |
-| PASSED | 2 |  |
-| PENDING | 3 |  |
-| SKIPPED | 4 |  |
-| UNDEFINED | 5 |  |
+| UNKNOWN | 0 | The step hasn&#39;t been matched or executed |
+| PASSED | 1 | The step matched one step definition and passed execution |
+| SKIPPED | 2 | The step matched one step definition but was not executed |
+| PENDING | 3 | The step matched one step definition and signalled pending during execution |
+| UNDEFINED | 4 | The step matched no step definitions |
+| AMBIGUOUS | 5 | The step matched two or more step definitions |
+| FAILED | 6 | The step matched one step definition and failed execution |
 
 
  
