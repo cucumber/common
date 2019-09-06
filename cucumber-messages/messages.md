@@ -1255,16 +1255,26 @@ Points to a [Source](#io.cucumber.messages.Source) identified by `uri` and a
 <a name="io.cucumber.messages.TestResult.Status"></a>
 
 ### TestResult.Status
+Status of a step. Can also represent status of a Pickle (aggregated
+from the status of its steps).
 
+The ordinal values of statuses are significant. The status of a Pickle
+is determined by the union of statuses of its steps. The
+status of the Pickle is the status with the highest ordinal
+in the enum.
+
+For example, if a pickle has steps with statuses passed, undefined and skipped,
+then the pickle&#39;s status us undefined.
 
 | Name | Number | Description |
 | ---- | ------ | ----------- |
-| AMBIGUOUS | 0 |  |
-| FAILED | 1 |  |
-| PASSED | 2 |  |
-| PENDING | 3 |  |
-| SKIPPED | 4 |  |
-| UNDEFINED | 5 |  |
+| UNKNOWN | 0 | The step hasn&#39;t been matched or executed. |
+| PASSED | 1 | The step matched one step definition and passed execution. |
+| SKIPPED | 2 | The step matched one step definition but was not executed because the previous step was not PASSED. |
+| PENDING | 3 | The step matched one step definition and signalled pending during execution. This is the default behaviour of generated step definitions, which either throw a special PendingException, or return a special value indicating that it&#39;s pending. How to signal the pending status depends on the Cucumber implementation. |
+| UNDEFINED | 4 | The step matched no step definitions. |
+| AMBIGUOUS | 5 | The step matched two or more step definitions. |
+| FAILED | 6 | The step matched one step definition and failed execution. |
 
 
  
