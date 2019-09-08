@@ -1,7 +1,5 @@
 package gherkin.pickles;
 
-import gherkin.deps.com.google.gson.annotations.SerializedName;
-
 public class PickleString implements Argument {
     private final PickleLocation location;
     private final String content;

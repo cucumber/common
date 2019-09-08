@@ -4,21 +4,29 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+@SuppressWarnings("unchecked")
 public class GherkinDialect {
-    private final Map<String, List<String>> keywords;
+    private final Map<String, Object> keywords;
     private String language;
 
-    public GherkinDialect(String language, Map<String, List<String>> keywords) {
+    public GherkinDialect(String language, Map<String, Object> keywords) {
         this.language = language;
         this.keywords = keywords;
     }
 
     public List<String> getFeatureKeywords() {
-        return keywords.get("feature");
+        return (List<String>) keywords.get("feature");
+    }
+
+    public String getName() {
+        return (String) keywords.get("name");
+    }
+    public String getNativeName() {
+        return (String) keywords.get("native");
     }
 
     public List<String> getScenarioKeywords() {
-        return keywords.get("scenario");
+        return (List<String>) keywords.get("scenario");
     }
 
     public List<String> getStepKeywords() {
@@ -32,35 +40,35 @@ public class GherkinDialect {
     }
 
     public List<String> getBackgroundKeywords() {
-        return keywords.get("background");
+        return (List<String>) keywords.get("background");
     }
 
     public List<String> getScenarioOutlineKeywords() {
-        return keywords.get("scenarioOutline");
+        return (List<String>) keywords.get("scenarioOutline");
     }
 
     public List<String> getExamplesKeywords() {
-        return keywords.get("examples");
+        return (List<String>) keywords.get("examples");
     }
 
     public List<String> getGivenKeywords() {
-        return keywords.get("given");
+        return (List<String>) keywords.get("given");
     }
 
     public List<String> getWhenKeywords() {
-        return keywords.get("when");
+        return (List<String>) keywords.get("when");
     }
 
     public List<String> getThenKeywords() {
-        return keywords.get("then");
+        return (List<String>) keywords.get("then");
     }
 
     public List<String> getAndKeywords() {
-        return keywords.get("and");
+        return (List<String>) keywords.get("and");
     }
 
     public List<String> getButKeywords() {
-        return keywords.get("but");
+        return (List<String>) keywords.get("but");
     }
 
     public String getLanguage() {
