@@ -154,7 +154,11 @@ func (formatter *Formatter) ProcessMessages(stdin io.Reader, stdout io.Writer) (
 
 			if len(scenario.Examples) > 0 {
 				pickleLine = pickle.Locations[1].Line
-				scenarioID = fmt.Sprintf("%s;%s;;%d", jsonFeature.ID, idify(scenario.Name), formatter.exampleRowByLine[fmt.Sprintf("%s:%d", pickle.Uri, pickle.Locations[1].Line)])
+				scenarioID = fmt.Sprintf(
+					"%s;%s;;%d",
+					jsonFeature.ID,
+					idify(scenario.Name),
+					formatter.exampleRowByLine[fmt.Sprintf("%s:%d", pickle.Uri, pickle.Locations[1].Line)])
 			}
 
 			jsonFeature.Elements = append(jsonFeature.Elements, jsonFeatureElement{
