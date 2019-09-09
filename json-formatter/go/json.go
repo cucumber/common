@@ -2,6 +2,7 @@ package json
 
 import (
 	"encoding/json"
+	"errors"
 	"fmt"
 	"io"
 	"strings"
@@ -46,7 +47,8 @@ type jsonStepResult struct {
 type Formatter struct {
 	backgroundByUri      map[string]*messages.GherkinDocument_Feature_Background
 	backgroundStepsByKey map[string]*messages.GherkinDocument_Feature_Step
-	exampleRowByLine     map[string]int
+	exampleByRowKey      map[string]*messages.GherkinDocument_Feature_Scenario_Examples
+	exampleRowIndexByKey map[string]int
 	gherkinDocumentByURI map[string]*messages.GherkinDocument
 	jsonFeatures         []*jsonFeature
 	jsonFeaturesByURI    map[string]*jsonFeature
@@ -64,7 +66,8 @@ func (formatter *Formatter) ProcessMessages(stdin io.Reader, stdout io.Writer) (
 
 	formatter.backgroundByUri = make(map[string]*messages.GherkinDocument_Feature_Background)
 	formatter.backgroundStepsByKey = make(map[string]*messages.GherkinDocument_Feature_Step)
-	formatter.exampleRowByLine = make(map[string]int)
+	formatter.exampleByRowKey = make(map[string]*messages.GherkinDocument_Feature_Scenario_Examples)
+	formatter.exampleRowIndexByKey = make(map[string]int)
 	formatter.gherkinDocumentByURI = make(map[string]*messages.GherkinDocument)
 	formatter.pickleById = make(map[string]*messages.Pickle)
 	formatter.scenariosByKey = make(map[string]*messages.GherkinDocument_Feature_Scenario)
@@ -99,8 +102,13 @@ func (formatter *Formatter) ProcessMessages(stdin io.Reader, stdout io.Writer) (
 						formatter.scenarioStepsByKey[key(m.GherkinDocument.Uri, step.Location)] = step
 					}
 
-					for index, example := range child.GetScenario().Examples {
-						formatter.exampleRowByLine[fmt.Sprintf("%s:%d", m.GherkinDocument.Uri, example.Location.Line)] = index
+					for _, example := range child.GetScenario().Examples {
+						for rowIndex, row := range example.TableBody {
+							rowKey := key(m.GherkinDocument.Uri, row.Location)
+							formatter.exampleByRowKey[rowKey] = example
+							// Add 1 for the row header, and another 1 because the id is 1-based
+							formatter.exampleRowIndexByKey[rowKey] = rowIndex + 2
+						}
 					}
 				}
 			}
@@ -150,15 +158,25 @@ func (formatter *Formatter) ProcessMessages(stdin io.Reader, stdout io.Writer) (
 			}
 
 			pickleLine := pickle.Locations[0].Line
-			scenarioID := fmt.Sprintf("%s;%s", jsonFeature.ID, idify(scenario.Name))
+			scenarioID := fmt.Sprintf("%s;%s", jsonFeature.ID, makeId(scenario.Name))
 
 			if len(scenario.Examples) > 0 {
 				pickleLine = pickle.Locations[1].Line
+				exampleKey := key(pickle.Uri, pickle.Locations[1])
+				exampleRowIndex, ok := formatter.exampleRowIndexByKey[exampleKey]
+				if !ok {
+					return errors.New(fmt.Sprintf("No example row index for: %s", exampleKey))
+				}
+				example, eok := formatter.exampleByRowKey[exampleKey]
+				if !eok {
+					return errors.New(fmt.Sprintf("No example for: %s", exampleKey))
+				}
 				scenarioID = fmt.Sprintf(
-					"%s;%s;;%d",
+					"%s;%s;%s;%d",
 					jsonFeature.ID,
-					idify(scenario.Name),
-					formatter.exampleRowByLine[fmt.Sprintf("%s:%d", pickle.Uri, pickle.Locations[1].Line)])
+					makeId(scenario.Name),
+					makeId(example.Name),
+					exampleRowIndex)
 			}
 
 			jsonFeature.Elements = append(jsonFeature.Elements, jsonFeatureElement{
@@ -199,7 +217,7 @@ func (formatter *Formatter) findOrCreateJsonFeature(pickle *messages.Pickle) *js
 		jFeature = &jsonFeature{
 			Description: gherkinDocumentFeature.Description,
 			Elements:    make([]jsonFeatureElement, 0),
-			ID:          idify(gherkinDocumentFeature.Name),
+			ID:          makeId(gherkinDocumentFeature.Name),
 			Keyword:     gherkinDocumentFeature.Keyword,
 			Line:        gherkinDocumentFeature.Location.Line,
 			Name:        gherkinDocumentFeature.Name,
@@ -215,6 +233,6 @@ func key(uri string, location *messages.Location) string {
 	return fmt.Sprintf("%s:%d", uri, location.Line)
 }
 
-func idify(s string) string {
+func makeId(s string) string {
 	return strings.ToLower(strings.Replace(s, " ", "-", -1))
 }

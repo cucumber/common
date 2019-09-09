@@ -20,9 +20,15 @@ Feature: Simple
     When a <status1> step
     Then a <status2> step
 
-    Examples:
+    Examples: some examples
+      Some examples description
+
       | status1   | status2   |
       | passed    | passed    |
       | failed    | skipped   |
-      | ambiguous | undefined |
   
+    Examples: some more examples
+      Bla bla
+
+      | status1   | status2   |
+      | ambiguous | undefined |
