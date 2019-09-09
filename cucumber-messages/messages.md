@@ -34,7 +34,7 @@
     - [Location](#io.cucumber.messages.Location)
     - [Media](#io.cucumber.messages.Media)
     - [ParameterTypeConfig](#io.cucumber.messages.ParameterTypeConfig)
-    - [PatternMatch](#io.cucumber.messages.PatternMatch)
+    - [ParameterTypeMatch](#io.cucumber.messages.ParameterTypeMatch)
     - [Pickle](#io.cucumber.messages.Pickle)
     - [Pickle.PickleStep](#io.cucumber.messages.Pickle.PickleStep)
     - [Pickle.PickleTag](#io.cucumber.messages.Pickle.PickleTag)
@@ -66,6 +66,7 @@
     - [TestRunFinished](#io.cucumber.messages.TestRunFinished)
     - [TestRunStarted](#io.cucumber.messages.TestRunStarted)
     - [TestStepFinished](#io.cucumber.messages.TestStepFinished)
+    - [TestStepMatched](#io.cucumber.messages.TestStepMatched)
     - [TestStepStarted](#io.cucumber.messages.TestStepStarted)
     - [UriToLinesMapping](#io.cucumber.messages.UriToLinesMapping)
   
@@ -235,7 +236,7 @@ An attachment represents any kind of data associated with a line in a
 | ----- | ---- | ----- | ----------- |
 | actionId | [string](#string) |  |  |
 | stepDefinitionId | [string](#string) |  |  |
-| patternMatches | [PatternMatch](#io.cucumber.messages.PatternMatch) | repeated |  |
+| parameterTypeMatches | [ParameterTypeMatch](#io.cucumber.messages.ParameterTypeMatch) | repeated |  |
 | pickleId | [string](#string) |  |  |
 | pickleStepArgument | [PickleStepArgument](#io.cucumber.messages.PickleStepArgument) |  |  |
 
@@ -641,9 +642,9 @@ Meta information about encoded contents
 
 
 
-<a name="io.cucumber.messages.PatternMatch"></a>
+<a name="io.cucumber.messages.ParameterTypeMatch"></a>
 
-### PatternMatch
+### ParameterTypeMatch
 
 
 
@@ -1008,7 +1009,7 @@ Points to a [Source](#io.cucumber.messages.Source) identified by `uri` and a
 | ----- | ---- | ----- | ----------- |
 | id | [string](#string) |  |  |
 | tagExpression | [string](#string) |  |  |
-| location | [SourceReference](#io.cucumber.messages.SourceReference) |  |  |
+| location | [SourceReference](#io.cucumber.messages.SourceReference) |  | TODO: rename to sourceReference as Location is another type and this is ambiguous. |
 
 
 
@@ -1181,6 +1182,24 @@ Points to a [Source](#io.cucumber.messages.Source) identified by `uri` and a
 
 
 
+<a name="io.cucumber.messages.TestStepMatched"></a>
+
+### TestStepMatched
+For each step, there will be a match
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| pickleId | [string](#string) |  |  |
+| index | [uint32](#uint32) |  |  |
+| stepDefinitionReference | [SourceReference](#io.cucumber.messages.SourceReference) |  |  |
+| parameterTypeMatches | [ParameterTypeMatch](#io.cucumber.messages.ParameterTypeMatch) | repeated |  |
+
+
+
+
+
+
 <a name="io.cucumber.messages.TestStepStarted"></a>
 
 ### TestStepStarted
@@ -1264,7 +1283,7 @@ status of the Pickle is the status with the highest ordinal
 in the enum.
 
 For example, if a pickle has steps with statuses passed, undefined and skipped,
-then the pickle&#39;s status us undefined.
+then the pickle&#39;s status is undefined.
 
 | Name | Number | Description |
 | ---- | ------ | ----------- |
