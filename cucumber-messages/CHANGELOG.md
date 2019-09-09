@@ -9,7 +9,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Added
 
+* New `TestStepMatched` message
+
 ### Changed
+
+* Renamed `PatternMatch` to `ParameterTypeMatch`
 
 ### Deprecated
 
