@@ -1268,13 +1268,13 @@ then the pickle&#39;s status us undefined.
 
 | Name | Number | Description |
 | ---- | ------ | ----------- |
-| UNKNOWN | 0 | The step hasn&#39;t been matched or executed |
-| PASSED | 1 | The step matched one step definition and passed execution |
-| SKIPPED | 2 | The step matched one step definition but was not executed |
-| PENDING | 3 | The step matched one step definition and signalled pending during execution |
-| UNDEFINED | 4 | The step matched no step definitions |
-| AMBIGUOUS | 5 | The step matched two or more step definitions |
-| FAILED | 6 | The step matched one step definition and failed execution |
+| UNKNOWN | 0 | The step hasn&#39;t been matched or executed. |
+| PASSED | 1 | The step matched one step definition and passed execution. |
+| SKIPPED | 2 | The step matched one step definition but was not executed because the previous step was not PASSED. |
+| PENDING | 3 | The step matched one step definition and signalled pending during execution. This is the default behaviour of generated step definitions, which either throw a special PendingException, or return a special value indicating that it&#39;s pending. How to signal the pending status depends on the Cucumber implementation. |
+| UNDEFINED | 4 | The step matched no step definitions. |
+| AMBIGUOUS | 5 | The step matched two or more step definitions. |
+| FAILED | 6 | The step matched one step definition and failed execution. |
 
 
  

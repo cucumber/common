@@ -114,19 +114,23 @@ func (Media_Encoding) EnumDescriptor() ([]byte, []int) {
 type TestResult_Status int32
 
 const (
-	// The step hasn't been matched or executed
+	// The step hasn't been matched or executed.
 	TestResult_UNKNOWN TestResult_Status = 0
-	// The step matched one step definition and passed execution
+	// The step matched one step definition and passed execution.
 	TestResult_PASSED TestResult_Status = 1
-	// The step matched one step definition but was not executed
+	// The step matched one step definition but was not executed because the
+	// previous step was not PASSED.
 	TestResult_SKIPPED TestResult_Status = 2
-	// The step matched one step definition and signalled pending during execution
+	// The step matched one step definition and signalled pending during execution.
+	// This is the default behaviour of generated step definitions, which either
+	// throw a special PendingException, or return a special value indicating that it's
+	// pending. How to signal the pending status depends on the Cucumber implementation.
 	TestResult_PENDING TestResult_Status = 3
-	// The step matched no step definitions
+	// The step matched no step definitions.
 	TestResult_UNDEFINED TestResult_Status = 4
-	// The step matched two or more step definitions
+	// The step matched two or more step definitions.
 	TestResult_AMBIGUOUS TestResult_Status = 5
-	// The step matched one step definition and failed execution
+	// The step matched one step definition and failed execution.
 	TestResult_FAILED TestResult_Status = 6
 )
 
