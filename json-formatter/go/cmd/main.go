@@ -8,10 +8,11 @@ import (
 
 func main() {
 	var err error
+	var file *os.File
 	jf := &jsonFormatter.Formatter{}
 	if len(os.Args) > 1 {
 		for _, arg := range os.Args[1:] {
-			file, err := os.Open(arg)
+			file, err = os.Open(arg)
 			if err != nil {
 				break
 			}
