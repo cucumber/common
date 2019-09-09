@@ -421,6 +421,14 @@ message TestCaseFinished {
   TestResult testResult = 3;
 }
 
+// For each step, there will be a match
+message TestStepMatched {
+  string pickleId = 1;
+  uint32 index = 2;
+  SourceReference stepDefinitionReference = 3;
+  repeated ParameterTypeMatch parameterTypeMatches = 4;
+}
+
 message TestStepStarted {
   string pickleId = 1;
   uint32 index = 2;
@@ -460,7 +468,7 @@ message TestResult {
    * in the enum.
    *
    * For example, if a pickle has steps with statuses passed, undefined and skipped,
-   * then the pickle's status us undefined.
+   * then the pickle's status is undefined.
    */
   enum Status {
     // The step hasn't been matched or executed.
@@ -545,6 +553,7 @@ message SupportCodeConfig {
 message TestCaseHookDefinitionConfig {
   string id = 1;
   string tagExpression = 2;
+  // TODO: rename to sourceReference as Location is another type and this is ambiguous.
   SourceReference location = 3;
 }
 
@@ -614,12 +623,12 @@ message CommandRunTestStep {
   string actionId = 1;
   reserved 2;
   string stepDefinitionId = 3;
-  repeated PatternMatch patternMatches = 4;
+  repeated ParameterTypeMatch parameterTypeMatches = 4;
   string pickleId = 5;
   PickleStepArgument pickleStepArgument = 6;
 }
 
-message PatternMatch {
+message ParameterTypeMatch {
   repeated string captures = 1;
   string parameterTypeName = 2;
   reserved 3, 4;
