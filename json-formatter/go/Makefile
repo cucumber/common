@@ -7,18 +7,21 @@ JSONS         = $(patsubst ../testdata/features/%.feature,acceptance/%.json,$(FE
 
 .tested: $(JSONS)
 
-acceptance/%.bin: ../testdata/features/%.feature $(EXE)
+acceptance/%.bin: ../testdata/features/%.feature
 	mkdir -p $$(dirname $@)
-	cd ../testdata && \
+	pushd ../testdata && \
 		../../fake-cucumber/javascript/bin/fake-cucumber \
 		--results pattern \
 		$(patsubst ../testdata/%,%,$<) > \
-		../go/$@
+		../go/$@ && \
+		popd
 
-acceptance/%.json: acceptance/%.bin ../testdata/features/%.json
+acceptance/%.json: acceptance/%.bin $(EXE) ../testdata/features/%.json
 	cat $< | \
-		../go/$(EXE) | \
+		$(EXE) | \
 		jq --sort-keys "." > \
 		$@
+	diff --unified $(word 3, $^) $@
 
-	diff --unified $(word 2, $^) $@
+#../testdata/features/%.json:
+#	pushd ../testdata && make && popd
