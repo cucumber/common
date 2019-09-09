@@ -44,14 +44,15 @@ type jsonStepResult struct {
 }
 
 type Formatter struct {
+	backgroundByUri      map[string]*messages.GherkinDocument_Feature_Background
+	backgroundStepsByKey map[string]*messages.GherkinDocument_Feature_Step
+	exampleRowByLine     map[string]int
+	gherkinDocumentByURI map[string]*messages.GherkinDocument
 	jsonFeatures         []*jsonFeature
 	jsonFeaturesByURI    map[string]*jsonFeature
 	jsonStepsByKey       map[string]*jsonStep
-	gherkinDocumentByURI map[string]*messages.GherkinDocument
 	pickleById           map[string]*messages.Pickle
-	backgroundByUri      map[string]*messages.GherkinDocument_Feature_Background
 	scenariosByKey       map[string]*messages.GherkinDocument_Feature_Scenario
-	backgroundStepsByKey map[string]*messages.GherkinDocument_Feature_Step
 	scenarioStepsByKey   map[string]*messages.GherkinDocument_Feature_Step
 }
 
@@ -61,11 +62,12 @@ func (formatter *Formatter) ProcessMessages(stdin io.Reader, stdout io.Writer) (
 	formatter.jsonFeaturesByURI = make(map[string]*jsonFeature)
 	formatter.jsonStepsByKey = make(map[string]*jsonStep)
 
+	formatter.backgroundByUri = make(map[string]*messages.GherkinDocument_Feature_Background)
+	formatter.backgroundStepsByKey = make(map[string]*messages.GherkinDocument_Feature_Step)
+	formatter.exampleRowByLine = make(map[string]int)
 	formatter.gherkinDocumentByURI = make(map[string]*messages.GherkinDocument)
 	formatter.pickleById = make(map[string]*messages.Pickle)
-	formatter.backgroundByUri = make(map[string]*messages.GherkinDocument_Feature_Background)
 	formatter.scenariosByKey = make(map[string]*messages.GherkinDocument_Feature_Scenario)
-	formatter.backgroundStepsByKey = make(map[string]*messages.GherkinDocument_Feature_Step)
 	formatter.scenarioStepsByKey = make(map[string]*messages.GherkinDocument_Feature_Step)
 
 	r := gio.NewDelimitedReader(stdin, 4096)
@@ -96,6 +98,10 @@ func (formatter *Formatter) ProcessMessages(stdin io.Reader, stdout io.Writer) (
 					for _, step := range child.GetScenario().Steps {
 						formatter.scenarioStepsByKey[key(m.GherkinDocument.Uri, step.Location)] = step
 					}
+
+					for index, example := range child.GetScenario().Examples {
+						formatter.exampleRowByLine[fmt.Sprintf("%s:%d", m.GherkinDocument.Uri, example.Location.Line)] = index
+					}
 				}
 			}
 
@@ -121,7 +127,7 @@ func (formatter *Formatter) ProcessMessages(stdin io.Reader, stdout io.Writer) (
 				jsonStep := &jsonStep{
 					Keyword: step.Keyword,
 					Line:    step.Location.Line,
-					Name:    step.Text,
+					Name:    pickleStep.Text,
 				}
 				if isBackgroundStep {
 					backgroundJsonSteps = append(backgroundJsonSteps, jsonStep)
@@ -143,11 +149,19 @@ func (formatter *Formatter) ProcessMessages(stdin io.Reader, stdout io.Writer) (
 				})
 			}
 
+			pickleLine := pickle.Locations[0].Line
+			scenarioID := fmt.Sprintf("%s;%s", jsonFeature.ID, idify(scenario.Name))
+
+			if len(scenario.Examples) > 0 {
+				pickleLine = pickle.Locations[1].Line
+				scenarioID = fmt.Sprintf("%s;%s;;%d", jsonFeature.ID, idify(scenario.Name), formatter.exampleRowByLine[fmt.Sprintf("%s:%d", pickle.Uri, pickle.Locations[1].Line)])
+			}
+
 			jsonFeature.Elements = append(jsonFeature.Elements, jsonFeatureElement{
 				Description: scenario.Description,
-				ID:          fmt.Sprintf("%s;%s", jsonFeature.ID, idify(scenario.Name)),
+				ID:          scenarioID,
 				Keyword:     scenario.Keyword,
-				Line:        scenario.Location.Line,
+				Line:        pickleLine,
 				Name:        scenario.Name,
 				Steps:       scenarioJsonSteps,
 				Type:        "scenario",
