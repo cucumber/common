@@ -143,7 +143,7 @@ func (formatter *Formatter) ProcessMessages(stdin io.Reader, stdout io.Writer) (
 					Name:    pickleStep.Text,
 					// The match field defaults to the feature itself for some curious reason
 					Match: &jsonStepMatch{
-						Location: fmt.Sprintf("%s:%d", pickle.Uri, step.Location.Line),
+						Location: fmt.Sprintf("%s:%d", pickle.Uri, pickleStep.Locations[len(pickleStep.Locations)-1].Line),
 					},
 				}
 				if isBackgroundStep {
