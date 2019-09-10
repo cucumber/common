@@ -40,7 +40,7 @@ type jsonStep struct {
 }
 
 type jsonStepResult struct {
-	Duration     uint64 `json:"duration"`
+	Duration     uint64 `json:"duration,omitempty"`
 	Status       string `json:"status"`
 	ErrorMessage string `json:"error_message,omitempty"`
 }
@@ -204,7 +204,11 @@ func (formatter *Formatter) ProcessMessages(stdin io.Reader, stdout io.Writer) (
 			step := formatter.jsonStepsByKey[key(pickle.Uri, pickleStep.Locations[0])]
 
 			step.Match = &jsonStepMatch{
-				Location: fmt.Sprintf("%s:%d", m.TestStepMatched.StepDefinitionReference.Uri, m.TestStepMatched.StepDefinitionReference.Location.Line),
+				Location: fmt.Sprintf(
+					"%s:%d",
+					m.TestStepMatched.StepDefinitionReference.Uri,
+					m.TestStepMatched.StepDefinitionReference.Location.Line
+			),
 			}
 
 		case *messages.Envelope_TestStepFinished:
