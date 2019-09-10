@@ -141,7 +141,7 @@ func (formatter *Formatter) ProcessMessages(stdin io.Reader, stdout io.Writer) (
 					Keyword: step.Keyword,
 					Line:    step.Location.Line,
 					Name:    pickleStep.Text,
-					// The match field defaults to the feature itself for some curious reason
+					// The match field defaults to the Gherkin step itself for some curious reason
 					Match: &jsonStepMatch{
 						Location: fmt.Sprintf("%s:%d", pickle.Uri, pickleStep.Locations[len(pickleStep.Locations)-1].Line),
 					},
