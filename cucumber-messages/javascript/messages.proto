@@ -42,6 +42,7 @@ message Envelope {
     CommandRunAfterTestRunHooks commandRunAfterTestRunHooks = 23;
     CommandGenerateSnippet commandGenerateSnippet = 24;
     string commandError = 25;
+    TestStepMatched testStepMatched = 26;
   }
 }
 
@@ -426,7 +427,7 @@ message TestStepMatched {
   string pickleId = 1;
   uint32 index = 2;
   SourceReference stepDefinitionReference = 3;
-  repeated ParameterTypeMatch parameterTypeMatches = 4;
+  repeated StepMatchArgument stepMatchArguments = 4;
 }
 
 message TestStepStarted {
@@ -623,15 +624,34 @@ message CommandRunTestStep {
   string actionId = 1;
   reserved 2;
   string stepDefinitionId = 3;
-  repeated ParameterTypeMatch parameterTypeMatches = 4;
+  repeated StepMatchArgument stepMatchArguments = 4;
   string pickleId = 5;
   PickleStepArgument pickleStepArgument = 6;
 }
 
-message ParameterTypeMatch {
-  repeated string captures = 1;
+/**
+ * Represents a single argument extracted from a step match and passed to a step definition.
+ * This is used for the following purposes:
+ * - Construct an argument to pass to a step definition (possibly through a parameter type transform)
+ * - Highlight the matched parameter in rich formatters such as the HTML formatter
+ *
+ * This message closely matches the `Argument` class in the `cucumber-expressions` library.
+ */
+message StepMatchArgument {
+  reserved 1;
   string parameterTypeName = 2;
   reserved 3, 4;
+  Group group = 5;
+  
+  /**
+   * Represents the outermost capture group of an argument. This message closely matches the 
+   * `Group` class in the `cucumber-expressions` library.
+   */
+  message Group {
+    uint32 start = 1;
+    string value = 2;
+    repeated Group children = 3;
+  }
 }
 
 message CommandGenerateSnippet {

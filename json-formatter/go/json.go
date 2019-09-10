@@ -36,12 +36,17 @@ type jsonStep struct {
 	Line    uint32          `json:"line"`
 	Name    string          `json:"name"`
 	Result  *jsonStepResult `json:"result"`
+	Match   *jsonStepMatch  `json:"match,omitempty"`
 }
 
 type jsonStepResult struct {
 	Duration     uint64 `json:"duration"`
 	Status       string `json:"status"`
 	ErrorMessage string `json:"error_message,omitempty"`
+}
+
+type jsonStepMatch struct {
+	Location string `json:"location"`
 }
 
 type Formatter struct {
@@ -136,6 +141,10 @@ func (formatter *Formatter) ProcessMessages(stdin io.Reader, stdout io.Writer) (
 					Keyword: step.Keyword,
 					Line:    step.Location.Line,
 					Name:    pickleStep.Text,
+					// The match field defaults to the feature itself for some curious reason
+					Match: &jsonStepMatch{
+						Location: fmt.Sprintf("%s:%d", pickle.Uri, step.Location.Line),
+					},
 				}
 				if isBackgroundStep {
 					backgroundJsonSteps = append(backgroundJsonSteps, jsonStep)
@@ -189,10 +198,18 @@ func (formatter *Formatter) ProcessMessages(stdin io.Reader, stdout io.Writer) (
 				Type:        "scenario",
 			})
 
+		case *messages.Envelope_TestStepMatched:
+			pickle := formatter.pickleById[m.TestStepMatched.PickleId]
+			pickleStep := pickle.Steps[m.TestStepMatched.Index]
+			step := formatter.jsonStepsByKey[key(pickle.Uri, pickleStep.Locations[0])]
+
+			step.Match = &jsonStepMatch{
+				Location: fmt.Sprintf("%s:%d", m.TestStepMatched.StepDefinitionReference.Uri, m.TestStepMatched.StepDefinitionReference.Location.Line),
+			}
+
 		case *messages.Envelope_TestStepFinished:
 			pickle := formatter.pickleById[m.TestStepFinished.PickleId]
 			pickleStep := pickle.Steps[m.TestStepFinished.Index]
-
 			step := formatter.jsonStepsByKey[key(pickle.Uri, pickleStep.Locations[0])]
 
 			status := strings.ToLower(m.TestStepFinished.TestResult.Status.String())

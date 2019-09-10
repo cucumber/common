@@ -10,7 +10,7 @@ class FakeTestResultsStream extends Transform {
       | 'ndjson'
       | 'protobuf'
       | 'protobuf-objects',
-    private readonly results: 'none' | 'random' | 'pattern',
+    private readonly results: 'none' | 'random' | 'pattern'
   ) {
     super({ objectMode: true })
   }
@@ -18,7 +18,7 @@ class FakeTestResultsStream extends Transform {
   public _transform(
     envelope: messages.IEnvelope,
     encoding: string,
-    callback: (error?: Error | null, data?: any) => void,
+    callback: (error?: Error | null, data?: any) => void
   ): void {
     this.p(envelope)
 
@@ -28,7 +28,7 @@ class FakeTestResultsStream extends Transform {
           testCaseStarted: new messages.TestCaseStarted({
             pickleId: envelope.pickle.id,
           }),
-        }),
+        })
       )
       let index = 0
       let testCaseStatus: messages.TestResult.Status =
@@ -43,7 +43,7 @@ class FakeTestResultsStream extends Transform {
               index,
               pickleId: envelope.pickle.id,
             }),
-          }),
+          })
         )
 
         switch (this.results) {
@@ -59,6 +59,29 @@ class FakeTestResultsStream extends Transform {
           default:
             throw new Error(`Unexpected results value: ${this.results}`)
         }
+
+        if (
+          ![
+            messages.TestResult.Status.UNDEFINED,
+            messages.TestResult.Status.AMBIGUOUS,
+            messages.TestResult.Status.UNKNOWN,
+          ].includes(testStepStatus)
+        ) {
+          // send new message
+          this.p(
+            new messages.Envelope({
+              testStepMatched: new messages.TestStepMatched({
+                index,
+                pickleId: envelope.pickle.id,
+                stepDefinitionReference: new messages.SourceReference({
+                  location: new messages.Location({ column: 4, line: 999 }),
+                  uri: envelope.pickle.uri + '.cobol',
+                }),
+              }),
+            })
+          )
+        }
+
         if (testStepStatus > testCaseStatus) {
           testCaseStatus = testStepStatus
         }
@@ -70,11 +93,14 @@ class FakeTestResultsStream extends Transform {
               pickleId: envelope.pickle.id,
               testResult: {
                 status: testStepStatus,
-                message: testStepStatus === messages.TestResult.Status.FAILED ? `Some error message\n\tfake_file:2\n\tfake_file:7\n` : null,
+                message:
+                  testStepStatus === messages.TestResult.Status.FAILED
+                    ? `Some error message\n\tfake_file:2\n\tfake_file:7\n`
+                    : null,
                 durationNanoseconds: 123456789,
               },
             }),
-          }),
+          })
         )
         index++
       }
@@ -85,11 +111,14 @@ class FakeTestResultsStream extends Transform {
             pickleId: envelope.pickle.id,
             testResult: {
               status: testCaseStatus,
-              message: testStepStatus === messages.TestResult.Status.FAILED ? `Some error message\n\tfake_file:2\n\tfake_file:7\n` : null,
+              message:
+                testStepStatus === messages.TestResult.Status.FAILED
+                  ? `Some error message\n\tfake_file:2\n\tfake_file:7\n`
+                  : null,
               durationNanoseconds: 987654321,
             },
           }),
-        }),
+        })
       )
     }
 

@@ -13,7 +13,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Changed
 
-* Renamed `PatternMatch` to `ParameterTypeMatch`
+* Renamed `PatternMatch` to `StepArgument`
+* Renamed `CommandRunTestStep#patternMatches` to `CommandRunTestStep#stepArguments`
 
 ### Deprecated
 
