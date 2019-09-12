@@ -207,8 +207,8 @@ func (formatter *Formatter) ProcessMessages(stdin io.Reader, stdout io.Writer) (
 				Location: fmt.Sprintf(
 					"%s:%d",
 					m.TestStepMatched.StepDefinitionReference.Uri,
-					m.TestStepMatched.StepDefinitionReference.Location.Line
-			),
+					m.TestStepMatched.StepDefinitionReference.Location.Line,
+				),
 			}
 
 		case *messages.Envelope_TestStepFinished:
