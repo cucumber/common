@@ -9,7 +9,7 @@
         <version>2.0.2</version>
     </parent>
     <artifactId>datatable-parent</artifactId>
-    <version>3.0.0</version>
+    <version>3.0.1-SNAPSHOT</version>
     <packaging>pom</packaging>
     <name>Data Table Parent</name>
     <url>https://github.com/cucumber/datatable-java</url>
@@ -19,7 +19,6 @@
         <connection>scm:git:git://github.com/cucumber/datatable-java.git</connection>
         <developerConnection>scm:git:git@github.com:cucumber/datatable-java.git</developerConnection>
         <url>git://github.com/cucumber/datatable-java.git</url>
-        <tag>HEAD</tag>
     </scm>
 
     <modules>
@@ -50,14 +49,14 @@
 
             <dependency>
                 <groupId>org.hamcrest</groupId>
-                <artifactId>hamcrest-core</artifactId>
+                <artifactId>hamcrest</artifactId>
                 <version>2.1</version>
             </dependency>
 
             <dependency>
                 <groupId>org.junit.jupiter</groupId>
                 <artifactId>junit-jupiter</artifactId>
-                <version>5.5.1</version>
+                <version>5.5.2</version>
                 <scope>test</scope>
             </dependency>
 
