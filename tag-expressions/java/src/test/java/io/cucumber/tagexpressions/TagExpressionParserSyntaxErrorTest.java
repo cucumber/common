@@ -1,44 +1,35 @@
 package io.cucumber.tagexpressions;
 
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.Parameterized;
-import org.junit.runners.Parameterized.Parameters;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 
-import java.util.Arrays;
-import java.util.Collection;
+import java.util.stream.Stream;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.fail;
+import static org.junit.jupiter.params.provider.Arguments.arguments;
 
-@RunWith(Parameterized.class)
 public class TagExpressionParserSyntaxErrorTest {
 
-    private final String infix;
-    private final String expectedError;
     private final TagExpressionParser parser = new TagExpressionParser();
 
-    public TagExpressionParserSyntaxErrorTest(String infix, String expectedError) {
-        this.infix = infix;
-        this.expectedError = expectedError;
+    static Stream<Arguments> data() {
+        return Stream.of(
+                arguments("@a @b or", "Syntax error. Expected operator"),
+                arguments("@a and (@b not)", "Syntax error. Expected operator"),
+                arguments("@a and (@b @c) or", "Syntax error. Expected operator"),
+                arguments("@a and or", "Syntax error. Expected operand"),
+                arguments("or or", "Syntax error. Expected operand"),
+                arguments("a b", "Syntax error. Expected operator"),
+                arguments("( a and b ) )", "Syntax error. Unmatched )"),
+                arguments("( ( a and b )", "Syntax error. Unmatched (")
+        );
     }
 
-    @Parameters
-    public static Collection<Object[]> data() {
-        return Arrays.asList(new Object[][]{
-                {"@a @b or", "Syntax error. Expected operator"},
-                {"@a and (@b not)", "Syntax error. Expected operator"},
-                {"@a and (@b @c) or", "Syntax error. Expected operator"},
-                {"@a and or", "Syntax error. Expected operand"},
-                {"or or", "Syntax error. Expected operand"},
-                {"a b", "Syntax error. Expected operator"},
-                {"( a and b ) )", "Syntax error. Unmatched )"},
-                {"( ( a and b )", "Syntax error. Unmatched ("},
-        });
-    }
-
-    @Test
-    public void parser_expression() {
+    @ParameterizedTest
+    @MethodSource("data")
+    public void parser_expression(final String infix, final String expectedError) {
         try {
             parser.parse(infix);
             fail();
@@ -46,4 +37,5 @@ public class TagExpressionParserSyntaxErrorTest {
             assertEquals(expectedError, e.getMessage());
         }
     }
+
 }
