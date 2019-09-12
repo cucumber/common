@@ -1,11 +1,11 @@
 package io.cucumber.cucumberexpressions;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;
 import java.util.Locale;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class NumberParserTest {
 
@@ -36,4 +36,5 @@ public class NumberParserTest {
         assertEquals(new BigDecimal("100"), english.parseBigDecimal("1.00E2"));
         assertEquals(new BigDecimal("0.01"), english.parseBigDecimal("1E-2"));
     }
+
 }

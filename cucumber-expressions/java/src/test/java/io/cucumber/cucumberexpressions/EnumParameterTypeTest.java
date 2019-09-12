@@ -1,13 +1,14 @@
 package io.cucumber.cucumberexpressions;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.util.List;
 import java.util.Locale;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class EnumParameterTypeTest {
+
     public enum Mood {
         happy,
         meh,
@@ -23,6 +24,5 @@ public class EnumParameterTypeTest {
         List<Argument<?>> args = expression.match("I am happy");
         assertEquals(Mood.happy, args.get(0).getValue());
     }
-
 
 }

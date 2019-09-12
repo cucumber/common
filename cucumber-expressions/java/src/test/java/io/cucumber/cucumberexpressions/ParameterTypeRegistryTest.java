@@ -1,8 +1,7 @@
 package io.cucumber.cucumberexpressions;
 
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.ExpectedException;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.function.Executable;
 
 import java.math.BigDecimal;
 import java.util.Locale;
@@ -10,14 +9,13 @@ import java.util.regex.Pattern;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.nullValue;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertSame;
-import static org.junit.Assert.assertThat;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.core.IsEqual.equalTo;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertSame;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class ParameterTypeRegistryTest {
-
-    @Rule
-    public ExpectedException expectedException = ExpectedException.none();
 
     private static final String CAPITALISED_WORD = "[A-Z]+\\w+";
 
@@ -55,15 +53,16 @@ public class ParameterTypeRegistryTest {
                 return new Person(arg);
             }
         }, false, false));
-        expectedException.expectMessage("There can only be one preferential parameter type per regexp. The regexp /[A-Z]+\\w+/ is used for two preferential parameter types, {name} and {place}");
 
-        registry.defineParameterType(new ParameterType<>("place", CAPITALISED_WORD, Place.class, new Transformer<Place>() {
+        final Executable testMethod = () -> registry.defineParameterType(new ParameterType<>("place", CAPITALISED_WORD, Place.class, new Transformer<Place>() {
             @Override
             public Place transform(String arg) {
                 return new Place(arg);
             }
         }, false, true));
 
+        final CucumberExpressionException thrownException = assertThrows(CucumberExpressionException.class, testMethod);
+        assertThat("Unexpected message", thrownException.getMessage(), is(equalTo("There can only be one preferential parameter type per regexp. The regexp /[A-Z]+\\w+/ is used for two preferential parameter types, {name} and {place}")));
     }
 
     @Test
@@ -138,20 +137,25 @@ public class ParameterTypeRegistryTest {
                 "\n" +
                 "2) Make one of the parameter types preferential and continue to use a Regular Expression.\n" +
                 "\n";
-        expectedException.expectMessage(expected);
 
-        registry.lookupByRegexp(CAPITALISED_WORD, Pattern.compile("([A-Z]+\\w+) and ([A-Z]+\\w+)"), "Lisa and Bob");
+        final Executable testMethod = () -> registry.lookupByRegexp(CAPITALISED_WORD, Pattern.compile("([A-Z]+\\w+) and ([A-Z]+\\w+)"), "Lisa and Bob");
+
+        final AmbiguousParameterTypeException thrownException = assertThrows(AmbiguousParameterTypeException.class, testMethod);
+        assertThat("Unexpected message", thrownException.getMessage(), is(equalTo(expected)));
     }
 
     @Test
     public void does_not_allow_anonymous_parameter_type_to_be_registered() {
-        expectedException.expectMessage("The anonymous parameter type has already been defined");
-        registry.defineParameterType(new ParameterType<>("", ".*", Object.class, new Transformer<Object>() {
+
+        final Executable testMethod = () -> registry.defineParameterType(new ParameterType<>("", ".*", Object.class, new Transformer<Object>() {
             @Override
             public Object transform(String arg) {
                 return arg;
             }
         }));
+
+        final DuplicateTypeNameException thrownException = assertThrows(DuplicateTypeNameException.class, testMethod);
+        assertThat("Unexpected message", thrownException.getMessage(), is(equalTo("The anonymous parameter type has already been defined")));
     }
 
     @Test

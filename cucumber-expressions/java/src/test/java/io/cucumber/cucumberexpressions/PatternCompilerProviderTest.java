@@ -1,24 +1,28 @@
 package io.cucumber.cucumberexpressions;
 
-import org.junit.After;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.function.Executable;
 
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.regex.Pattern;
 
-import static org.junit.Assert.assertSame;
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.core.IsEqual.equalTo;
+import static org.junit.jupiter.api.Assertions.assertSame;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class PatternCompilerProviderTest {
 
-    @Before
+    @BeforeEach
     public void setUp() {
         PatternCompilerProvider.service = null;
     }
 
-    @After
+    @AfterEach
     public void tearDown() {
         PatternCompilerProvider.service = null;
     }
@@ -36,10 +40,13 @@ public class PatternCompilerProviderTest {
         assertSame(compiler, PatternCompilerProvider.service);
     }
 
-    @Test(expected = IllegalStateException.class)
+    @Test
     public void throws_error_if_more_than_one_pattern_compiler() {
-        PatternCompilerProvider.findPatternCompiler(Arrays.asList(new DefaultPatternCompiler(), getTestCompiler()).iterator());
 
+        final Executable testMethod = () -> PatternCompilerProvider.findPatternCompiler(Arrays.asList(new DefaultPatternCompiler(), getTestCompiler()).iterator());
+
+        final IllegalStateException thrownException = assertThrows(IllegalStateException.class, testMethod);
+        assertThat("Unexpected message", thrownException.getMessage(), is(equalTo("More than one PatternCompiler: [class io.cucumber.cucumberexpressions.DefaultPatternCompiler, class io.cucumber.cucumberexpressions.PatternCompilerProviderTest$1]")));
     }
 
     private PatternCompiler getTestCompiler() {
@@ -50,4 +57,5 @@ public class PatternCompilerProviderTest {
             }
         };
     }
+
 }

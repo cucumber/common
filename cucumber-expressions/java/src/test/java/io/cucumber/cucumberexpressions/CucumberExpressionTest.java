@@ -1,8 +1,7 @@
 package io.cucumber.cucumberexpressions;
 
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.ExpectedException;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.function.Executable;
 
 import java.lang.reflect.Type;
 import java.math.BigDecimal;
@@ -14,13 +13,14 @@ import java.util.Locale;
 import static java.util.Arrays.asList;
 import static java.util.Collections.emptyList;
 import static java.util.Collections.singletonList;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.core.Is.is;
+import static org.hamcrest.core.IsEqual.equalTo;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class CucumberExpressionTest {
-
-    @Rule
-    public ExpectedException expectedException = ExpectedException.none();
 
     @Test
     public void documents_match_arguments() {
@@ -122,20 +122,29 @@ public class CucumberExpressionTest {
 
     @Test
     public void does_not_allow_parameter_type_with_left_bracket() {
-        expectedException.expectMessage("Illegal character '[' in parameter name {[string]}");
-        match("{[string]}", "something");
+
+        final Executable testMethod = () -> match("{[string]}", "something");
+
+        final CucumberExpressionException thrownException = assertThrows(CucumberExpressionException.class, testMethod);
+        assertThat("Unexpected message", thrownException.getMessage(), is(equalTo("Illegal character '[' in parameter name {[string]}.")));
     }
 
     @Test
     public void throws_unknown_parameter_type() {
-        expectedException.expectMessage("Undefined parameter type {unknown}. Please register a ParameterType for {unknown}.");
-        match("{unknown}", "something");
+
+        final Executable testMethod = () -> match("{unknown}", "something");
+
+        final UndefinedParameterTypeException thrownException = assertThrows(UndefinedParameterTypeException.class, testMethod);
+        assertThat("Unexpected message", thrownException.getMessage(), is(equalTo("Undefined parameter type {unknown}. Please register a ParameterType for {unknown}.")));
     }
 
     @Test
     public void does_not_allow_optional_parameter_types() {
-        expectedException.expectMessage("Parameter types cannot be optional: ({int})");
-        match("({int})", "3");
+
+        final Executable testMethod = () -> match("({int})", "3");
+
+        final CucumberExpressionException thrownException = assertThrows(CucumberExpressionException.class, testMethod);
+        assertThat("Unexpected message", thrownException.getMessage(), is(equalTo("Parameter types cannot be optional: ({int})")));
     }
 
     @Test
@@ -145,14 +154,20 @@ public class CucumberExpressionTest {
 
     @Test
     public void does_not_allow_text_parameter_type_alternation() {
-        expectedException.expectMessage("Parameter types cannot be alternative: x/{int}");
-        match("x/{int}", "3");
+
+        final Executable testMethod = () -> match("x/{int}", "3");
+
+        final CucumberExpressionException thrownException = assertThrows(CucumberExpressionException.class, testMethod);
+        assertThat("Unexpected message", thrownException.getMessage(), is(equalTo("Parameter types cannot be alternative: x/{int}")));
     }
 
     @Test
     public void does_not_allow_parameter_type_text_alternation() {
-        expectedException.expectMessage("Parameter types cannot be alternative: {int}/x");
-        match("{int}/x", "3");
+
+        final Executable testMethod = () -> match("{int}/x", "3");
+
+        final CucumberExpressionException thrownException = assertThrows(CucumberExpressionException.class, testMethod);
+        assertThat("Unexpected message", thrownException.getMessage(), is(equalTo("Parameter types cannot be alternative: {int}/x")));
     }
 
     @Test
@@ -221,4 +236,5 @@ public class CucumberExpressionTest {
             return list;
         }
     }
+
 }

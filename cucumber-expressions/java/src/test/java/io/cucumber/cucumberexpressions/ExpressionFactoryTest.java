@@ -1,17 +1,17 @@
 package io.cucumber.cucumberexpressions;
 
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.ExpectedException;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.function.Executable;
 
 import java.util.Locale;
 
-import static org.junit.Assert.assertEquals;
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.core.IsEqual.equalTo;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class ExpressionFactoryTest {
-
-    @Rule
-    public ExpectedException expectedException = ExpectedException.none();
 
     @Test
     public void creates_cucumber_expression_by_default() {
@@ -65,8 +65,11 @@ public class ExpressionFactoryTest {
 
     @Test
     public void explains_cukexp_regexp_mix() {
-        expectedException.expectMessage("You cannot use anchors (^ or $) in Cucumber Expressions. Please remove them from ^the seller has {int} strike(s)$");
-        createExpression("^the seller has {int} strike(s)$");
+
+        final Executable testMethod = () -> createExpression("^the seller has {int} strike(s)$");
+
+        final CucumberExpressionException thrownException = assertThrows(CucumberExpressionException.class, testMethod);
+        assertThat("Unexpected message", thrownException.getMessage(), is(equalTo("You cannot use anchors (^ or $) in Cucumber Expressions. Please remove them from ^the seller has {int} strike(s)$")));
     }
 
     private void assertRegularExpression(String expressionString) {
@@ -92,4 +95,5 @@ public class ExpressionFactoryTest {
     private Expression createExpression(String expressionSource) {
         return new ExpressionFactory(new ParameterTypeRegistry(Locale.ENGLISH)).createExpression(expressionSource);
     }
+
 }

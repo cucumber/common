@@ -1,6 +1,6 @@
 package io.cucumber.cucumberexpressions;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -8,8 +8,8 @@ import java.util.SortedSet;
 import java.util.TreeSet;
 
 import static java.util.Arrays.asList;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 public class ParameterTypeComparatorTest {
 
@@ -72,4 +72,5 @@ public class ParameterTypeComparatorTest {
         }
         assertEquals(asList("b", "c", "a", "d"), names);
     }
+
 }

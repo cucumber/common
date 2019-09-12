@@ -1,6 +1,6 @@
 package io.cucumber.cucumberexpressions;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -13,8 +13,8 @@ import java.util.Locale;
 
 import static java.util.Arrays.asList;
 import static java.util.Collections.singletonList;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.fail;
 
 public class CucumberExpressionGeneratorTest {
 
@@ -339,4 +339,5 @@ public class CucumberExpressionGeneratorTest {
         }
         assertEquals(expectedArgumentNames.size(), match.size());
     }
+
 }
