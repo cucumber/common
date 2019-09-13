@@ -21,8 +21,14 @@ const Ol = styled.ol`
   padding-left: 0;
 `
 
-const PlainWeightSpan = styled.span`
+const StepText = styled.span`
   font-weight: normal;
+`
+
+const StepParam = styled.span`
+  font-weight: normal;
+  font-style: italic;
+  color: #072a80;
 `
 
 const Section = styled.section`
@@ -50,4 +56,4 @@ const Td = styled.td`
 }};
 `
 
-export { H1, H2, H3, Indent, Ol, PlainWeightSpan, Section, Table, Th, Td }
+export { H1, H2, H3, Indent, Ol, StepParam, StepText, Section, Table, Th, Td }

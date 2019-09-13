@@ -1,10 +1,9 @@
-import { StepMatchLookup } from './types'
+import { StepMatchLookupByLine } from './types'
 import React from 'react'
 
-const defaultStepMatchLookup: StepMatchLookup = (
-  queryUri: string,
+const defaultStepMatchLookup: StepMatchLookupByLine = (
   queryLine: number,
-) => null
-const StepMatchLookupContext: React.Context<StepMatchLookup> = React.createContext(defaultStepMatchLookup)
+) => []
+const StepMatchLookupByLineContext: React.Context<StepMatchLookupByLine> = React.createContext(defaultStepMatchLookup)
 
-export default StepMatchLookupContext
+export default StepMatchLookupByLineContext

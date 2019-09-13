@@ -4,6 +4,9 @@ import { messages } from 'cucumber-messages'
 import all from '../testdata/all.json'
 import App from '../src/components/app/App'
 import makeGherkinDocumentsAndResultsLookup from '../src/makeGherkinDocumentsAndResultsLookup'
+import StepList from '../src/components/gherkin/StepList'
+import { StepMatchLookupByLine } from '../src/types'
+import StepMatchLookupByLineContext from '../src/StepMatchLookupByLineContext'
 
 const envelopes = all.map(o => messages.Envelope.fromObject(o))
 
@@ -11,4 +14,36 @@ storiesOf('Features', module)
   .add('All', () => {
     const { gherkinDocuments, resultsLookup } = makeGherkinDocumentsAndResultsLookup(envelopes)
     return <App gherkinDocuments={gherkinDocuments} resultsLookup={resultsLookup}/>
+  })
+  .add('Steps', () => {
+    const steps = [
+      new messages.GherkinDocument.Feature.Step({
+        keyword: 'Given ',
+        text: 'flight LHR-CDG on the 1st Nov is full',
+        location: new messages.Location({
+          column: 4,
+          line: 10,
+        }),
+      }),
+    ]
+    const stepMatchLookupByLine: StepMatchLookupByLine = () => [
+      new messages.StepMatchArgument({
+        group: new messages.StepMatchArgument.Group({
+          start: 7,
+          value: 'LHR-CDG',
+          children: [],
+        }),
+      }),
+      new messages.StepMatchArgument({
+        group: new messages.StepMatchArgument.Group({
+          start: 22,
+          value: '1st Nov',
+          children: [],
+        }),
+      }),
+    ]
+
+    return <StepMatchLookupByLineContext.Provider value={stepMatchLookupByLine}>
+      <StepList steps={steps}/>
+    </StepMatchLookupByLineContext.Provider>
   })

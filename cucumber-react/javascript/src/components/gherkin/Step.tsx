@@ -6,7 +6,8 @@ import { messages } from 'cucumber-messages'
 import styled from 'styled-components'
 import statusColor from './statusColor'
 import ResultsLookupByLineContext from '../../ResultsLookupByLineContext'
-import { H3, Indent, PlainWeightSpan } from './html'
+import { StepParam, H3, Indent, StepText } from './html'
+import StepMatchLookupByLineContext from '../../StepMatchLookupByLineContext'
 
 interface IStatusProps {
   status: messages.TestResult.Status
@@ -36,15 +37,37 @@ interface IProps {
 }
 
 const Step: React.FunctionComponent<IProps> = ({ step }) => {
+  const stepMatchLookup = React.useContext(StepMatchLookupByLineContext)
   const resultsLookup = React.useContext(ResultsLookupByLineContext)
+
   const testResults = resultsLookup(step.location.line)
   const status = testResults.length > 0 ? testResults[0].status : messages.TestResult.Status.UNKNOWN
   const resultsWithMessage = testResults.filter(tr => tr.message)
 
+  const matches = stepMatchLookup(step.location.line)
+
+  const stepTextElements: JSX.Element[] = []
+  let offset = 0
+  matches.forEach((match, index) => {
+    const plain = step.text.slice(offset, match.group.start)
+    if(plain.length > 0) {
+      stepTextElements.push(<StepText key={`plain-${index}`}>{plain}</StepText>)
+    }
+    const arg = match.group.value
+    if(arg.length > 0) {
+      stepTextElements.push(<StepParam key={`bold-${index}`}>{arg}</StepParam>)
+    }
+    offset += plain.length + arg.length
+  })
+  const plain = step.text.slice(offset)
+  if(plain.length > 0) {
+    stepTextElements.push(<StepText key={`plain-rest`}>{plain}</StepText>)
+  }
+
   return (
     <StepLi status={status}>
       <H3>
-        <Keyword>{step.keyword}</Keyword><PlainWeightSpan>{step.text}</PlainWeightSpan>
+        <Keyword>{step.keyword}</Keyword>{stepTextElements}
       </H3>
       <Indent>
         {step.dataTable && <DataTable dataTable={step.dataTable}/>}
