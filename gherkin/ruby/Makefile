@@ -3,6 +3,7 @@ include default.mk
 GOOD_FEATURE_FILES = $(shell find testdata/good -name "*.feature")
 BAD_FEATURE_FILES  = $(shell find testdata/bad -name "*.feature")
 
+TOKENS       = $(patsubst testdata/%.feature,acceptance/testdata/%.feature.tokens,$(GOOD_FEATURE_FILES))
 ASTS         = $(patsubst testdata/%.feature,acceptance/testdata/%.feature.ast.ndjson,$(GOOD_FEATURE_FILES))
 PICKLES      = $(patsubst testdata/%.feature,acceptance/testdata/%.feature.pickles.ndjson,$(GOOD_FEATURE_FILES))
 SOURCES      = $(patsubst testdata/%.feature,acceptance/testdata/%.feature.source.ndjson,$(GOOD_FEATURE_FILES))
@@ -12,13 +13,15 @@ ERRORS       = $(patsubst testdata/%.feature,acceptance/testdata/%.feature.error
 
 default: .compared
 
-.deps: executables
+.deps: lib/gherkin/parser.rb lib/gherkin/gherkin-languages.json bin/gherkin
 
-executables:
-	cp -R "$$(pwd)/../go/dist" $@
-
-.compared: $(ERRORS) $(SOURCES) $(PICKLES) $(PROTOBUFS) $(ASTS)
+.compared: $(TOKENS) $(SOURCES) $(ASTS) $(PICKLES) $(ERRORS)
 	touch $@
+
+acceptance/testdata/%.feature.tokens: testdata/%.feature testdata/%.feature.tokens .deps
+	mkdir -p `dirname $@`
+	bundle exec bin/gherkin-generate-tokens $< > $@
+	diff --unified $<.tokens $@
 
 acceptance/testdata/%.feature.ast.ndjson: testdata/%.feature testdata/%.feature.ast.ndjson .deps
 	mkdir -p `dirname $@`
@@ -41,4 +44,15 @@ acceptance/testdata/%.feature.errors.ndjson: testdata/%.feature testdata/%.featu
 	diff --unified <(jq "." $<.errors.ndjson) <(jq "." $@)
 
 clean:
-	rm -rf .compared acceptance executables
+	rm -rf .compared acceptance coverage
+.PHONY: clean
+
+clobber: clean
+	rm -rf lib/gherkin/parser.rb Gemfile.lock
+.PHONY: clobber
+
+lib/gherkin/parser.rb: gherkin.berp gherkin-ruby.razor berp/berp.exe
+	-mono berp/berp.exe -g gherkin.berp -t gherkin-ruby.razor -o $@
+	# Remove BOM
+	awk 'NR==1{sub(/^\xef\xbb\xbf/,"")}{print}' < $@ > $@.nobom
+	mv $@.nobom $@

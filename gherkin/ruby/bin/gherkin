@@ -4,12 +4,16 @@ $LOAD_PATH.unshift(File.join(File.dirname(__FILE__),"../lib"))
 
 require 'optparse'
 require 'json'
+require 'cucumber/messages'
 require 'gherkin/gherkin'
+require 'gherkin/messages/subprocess_cucumber_messages'
+require 'gherkin/messages/protobuf_cucumber_messages'
 
 options = {
   include_source: true,
   include_gherkin_document: true,
-  include_pickles: true
+  include_pickles: true,
+  protobuf: false
 }
 
 OptionParser.new do |opts|
@@ -22,14 +26,22 @@ OptionParser.new do |opts|
   opts.on("--[no-]pickles", "Don't print pickle messages") do |v|
     options[:include_pickles] = v
   end
+  opts.on("--protobuf", "Print messages as Protocol Buffers") do |v|
+    options[:protobuf] = v
+  end
 end.parse!
 
-def include_messages(messages)
+def include_messages(messages, options)
   messages.each do |message|
-    json = message.class.encode_json(message)
-    ob = JSON.parse(json)
-    remove_empties(ob)
-    puts JSON.generate(ob)
+    if options[:protobuf]
+      message.write_delimited_to(STDOUT)
+    else
+      json = message.class.encode_json(message)
+      # puts json
+      ob = JSON.parse(json)
+      remove_empties(ob)
+      puts JSON.generate(ob)
+    end
   end
 end
 
@@ -49,12 +61,24 @@ def remove_empties(ob)
   end
 end
 
-messages = ARGV.empty? ? 
+gherkin_executable = ENV['GHERKIN_EXECUTABLE']
+if ARGV.empty?
   # Read protobuf from STDIN
-  Gherkin::ProtobufCucumberMessages.new(STDIN).messages
-  :
-  Gherkin::Gherkin.from_paths(
+  messages = Gherkin::Messages::ProtobufCucumberMessages.new(STDIN).messages
+elsif gherkin_executable
+  # Read protobuf from STDIN
+  STDERR.puts options
+  messages = Gherkin::Messages::SubprocessCucumberMessages.new(
+    gherkin_executable,
+    ARGV,
+    options[:include_source],
+    options[:include_gherkin_document],
+    options[:include_pickles]
+  ).messages
+else
+  messages = Gherkin::Gherkin.from_paths(
     ARGV,
     options
   )
-include_messages(messages)
+end
+include_messages(messages, options)
