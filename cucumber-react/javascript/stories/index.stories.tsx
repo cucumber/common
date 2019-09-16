@@ -12,8 +12,12 @@ const envelopes = all.map(o => messages.Envelope.fromObject(o))
 
 storiesOf('Features', module)
   .add('All', () => {
-    const { gherkinDocuments, resultsLookup } = makeGherkinDocumentsAndResultsLookup(envelopes)
-    return <App gherkinDocuments={gherkinDocuments} resultsLookup={resultsLookup}/>
+    const { gherkinDocuments, resultsLookup, stepMatchLookup } = makeGherkinDocumentsAndResultsLookup(envelopes)
+    return <App
+      gherkinDocuments={gherkinDocuments}
+      resultsLookup={resultsLookup}
+      stepMatchLookup={stepMatchLookup}
+    />
   })
   .add('Steps', () => {
     const steps = [
@@ -26,22 +30,28 @@ storiesOf('Features', module)
         }),
       }),
     ]
-    const stepMatchLookupByLine: StepMatchLookupByLine = () => [
-      new messages.StepMatchArgument({
-        group: new messages.StepMatchArgument.Group({
-          start: 7,
-          value: 'LHR-CDG',
-          children: [],
-        }),
-      }),
-      new messages.StepMatchArgument({
-        group: new messages.StepMatchArgument.Group({
-          start: 22,
-          value: '1st Nov',
-          children: [],
-        }),
-      }),
-    ]
+    const stepMatchLookupByLine: StepMatchLookupByLine = () => {
+      return [
+        new messages.TestStepMatched({
+          stepMatchArguments: [
+            new messages.StepMatchArgument({
+              group: new messages.StepMatchArgument.Group({
+                start: 7,
+                value: 'LHR-CDG',
+                children: [],
+              }),
+            }),
+            new messages.StepMatchArgument({
+              group: new messages.StepMatchArgument.Group({
+                start: 22,
+                value: '1st Nov',
+                children: [],
+              }),
+            }),
+          ]
+        })
+      ]
+    }
 
     return <StepMatchLookupByLineContext.Provider value={stepMatchLookupByLine}>
       <StepList steps={steps}/>

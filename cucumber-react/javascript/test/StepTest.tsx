@@ -20,15 +20,21 @@ describe('Step', () => {
       text: 'the 48 pixies',
       location: new messages.Location({ column: 1, line: 1 }),
     })
-    const stepMatchLookupByLine: StepMatchLookupByLine = () => [
-      new messages.StepMatchArgument({
-        group: new messages.StepMatchArgument.Group({
-          start: 4,
-          value: '48',
-          children: []
+    const stepMatchLookupByLine: StepMatchLookupByLine = () => {
+      return [
+        new messages.TestStepMatched({
+          stepMatchArguments: [
+            new messages.StepMatchArgument({
+              group: new messages.StepMatchArgument.Group({
+                start: 4,
+                value: '48',
+                children: [],
+              }),
+            }),
+          ]
         })
-      }),
-    ]
+      ]
+    }
     const app = <StepMatchLookupByLineContext.Provider value={stepMatchLookupByLine}>
       <Step step={step}/>
     </StepMatchLookupByLineContext.Provider>

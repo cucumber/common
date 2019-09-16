@@ -6,12 +6,8 @@ import { messages } from 'cucumber-messages'
 import styled from 'styled-components'
 import statusColor from './statusColor'
 import ResultsLookupByLineContext from '../../ResultsLookupByLineContext'
-import { StepParam, H3, Indent, StepText } from './html'
+import { StepParam, H3, Indent, StepText, IStatusProps } from './html'
 import StepMatchLookupByLineContext from '../../StepMatchLookupByLineContext'
-
-interface IStatusProps {
-  status: messages.TestResult.Status
-}
 
 const StepLi = styled.li`
   padding: 0.5em;
@@ -44,24 +40,34 @@ const Step: React.FunctionComponent<IProps> = ({ step }) => {
   const status = testResults.length > 0 ? testResults[0].status : messages.TestResult.Status.UNKNOWN
   const resultsWithMessage = testResults.filter(tr => tr.message)
 
-  const matches = stepMatchLookup(step.location.line)
-
   const stepTextElements: JSX.Element[] = []
-  let offset = 0
-  matches.forEach((match, index) => {
-    const plain = step.text.slice(offset, match.group.start)
+
+  const matches = stepMatchLookup(step.location.line)
+  if(matches.length === 1) {
+    // Step is defined
+    const args = matches[0].stepMatchArguments
+    let offset = 0
+    args.forEach((argument, index) => {
+      const plain = step.text.slice(offset, argument.group.start)
+      if(plain.length > 0) {
+        stepTextElements.push(<StepText key={`plain-${index}`}>{plain}</StepText>)
+      }
+      const arg = argument.group.value
+      if(arg.length > 0) {
+        stepTextElements.push(<StepParam key={`bold-${index}`} status={status}>{arg}</StepParam>)
+      }
+      offset += plain.length + arg.length
+    })
+    const plain = step.text.slice(offset)
     if(plain.length > 0) {
-      stepTextElements.push(<StepText key={`plain-${index}`}>{plain}</StepText>)
+      stepTextElements.push(<StepText key={`plain-rest`}>{plain}</StepText>)
     }
-    const arg = match.group.value
-    if(arg.length > 0) {
-      stepTextElements.push(<StepParam key={`bold-${index}`}>{arg}</StepParam>)
-    }
-    offset += plain.length + arg.length
-  })
-  const plain = step.text.slice(offset)
-  if(plain.length > 0) {
-    stepTextElements.push(<StepText key={`plain-rest`}>{plain}</StepText>)
+  } else if(matches.length === 2) {
+    // Step is ambiguous
+    stepTextElements.push(<StepText key={`plain-ambiguous`}>{step.text}</StepText>)
+  } else {
+    // Step is undefined
+    stepTextElements.push(<StepText key={`plain-undefined`}>{step.text}</StepText>)
   }
 
   return (

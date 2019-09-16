@@ -1,4 +1,10 @@
 import styled from 'styled-components'
+import { messages } from 'cucumber-messages'
+import statusColor from './statusColor'
+
+interface IStatusProps {
+  status: messages.TestResult.Status
+}
 
 const H1 = styled.h1`
   margin: 0.1em;
@@ -26,8 +32,8 @@ const StepText = styled.span`
 `
 
 const StepParam = styled.span`
-  font-weight: normal;
-  font-style: italic;
+  font-weight: bold;
+  background-color: ${(props: IStatusProps) => statusColor(props.status).darken(0.1).hex()};
   color: #072a80;
 `
 
@@ -51,9 +57,7 @@ const numberPattern = /(?=.*\d.*)[-+]?\d*(?:\.(?=\d.*))?\d*(?:\d+[E][+\-]?\d+)?/
 const Td = styled.td`
   border: 1px solid black;
   padding: 0.3em;
-  text-align: ${(props) => {
-  return (props.children as string).match(numberPattern) ? 'right' : 'left'
-}};
+  text-align: ${(props) => (props.children as string).match(numberPattern) ? 'right' : 'left'};
 `
 
-export { H1, H2, H3, Indent, Ol, StepParam, StepText, Section, Table, Th, Td }
+export { IStatusProps, H1, H2, H3, Indent, Ol, StepParam, StepText, Section, Table, Th, Td }

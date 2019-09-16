@@ -20,8 +20,8 @@ export type ResultsLookupByLine = (
 export type StepMatchLookup = (
   queryUri: string,
   queryLine: number,
-) => messages.IStepMatchArgument[]
+) => messages.ITestStepMatched[]
 
 export type StepMatchLookupByLine = (
   queryLine: number,
-) => messages.IStepMatchArgument[]
+) => messages.ITestStepMatched[]
