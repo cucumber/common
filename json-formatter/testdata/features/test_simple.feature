@@ -23,12 +23,13 @@ Feature: Simple
     Examples: some examples
       Some examples description
 
-      | status1   | status2   |
-      | passed    | passed    |
-      | failed    | skipped   |
-  
+      | status1 | status2   |
+      | passed  | passed    |
+      | passed  | undefined |
+
+
     Examples: some more examples
       Bla bla
 
-      | status1   | status2   |
-      | ambiguous | undefined |
+      | status1 | status2 |
+      | failed  | skipped |
