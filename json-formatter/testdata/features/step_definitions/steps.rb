@@ -8,8 +8,3 @@ end
 Then("a skipped step") do
 end
 
-Then("a (a)mbiguous step") do
-end
-
-Then("a ambiguou(s) step") do
-end
