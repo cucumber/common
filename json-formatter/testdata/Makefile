@@ -10,11 +10,14 @@ features/all.json: $(FEATURE_FILES)
 	jq --sort-keys "." > \
 	$@
 
-features/%.json: features/%.feature $(RUBY_FILES) Gemfile.lock
-	-bundle exec cucumber --format json $< | \
-	./neutralize-json | \
-	jq --sort-keys "." > \
-	$@
+features/%_basic.json: features/%.feature $(RUBY_FILES) Gemfile.lock
+	-bundle exec cucumber --format json $< > $@
+
+features/%_neutralized.json: features/%_basic.json
+	cat $< | ./neutralize-json > $@
+
+features/%.json: features/%_neutralized.json
+	cat $< | jq --sort-keys "." > $@
 
 Gemfile.lock: Gemfile
 	bundle install
