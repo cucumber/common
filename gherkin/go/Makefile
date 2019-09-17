@@ -57,7 +57,7 @@ acceptance/testdata/%.feature.ast.ndjson: testdata/%.feature testdata/%.feature.
 	$(EXE) --json --no-source --no-pickles $< | jq --sort-keys --compact-output -f remove_empty.jq > $@
 	diff --unified <(jq "." $<.ast.ndjson) <(jq "." $@)
 
-testdata/%.feature.errors.ndjson: testdata/%.feature bin/gherkin
+testdata/%.feature.errors.ndjson: testdata/%.feature $(EXE)
 ifdef GOLDEN
 	mkdir -p `dirname $@`
 	$(EXE) --json --no-source $< | jq --sort-keys -f remove_empty.jq > $@
@@ -79,7 +79,7 @@ acceptance/testdata/%.feature.source.ndjson: testdata/%.feature testdata/%.featu
 	$(EXE) --json --no-ast --no-pickles $< | jq --sort-keys --compact-output -f remove_empty.jq > $@
 	diff --unified <(jq "." $<.source.ndjson) <(jq "." $@)
 
-testdata/%.feature.pickles.ndjson: testdata/%.feature bin/gherkin
+testdata/%.feature.pickles.ndjson: testdata/%.feature $(EXE)
 ifdef GOLDEN
 	mkdir -p `dirname $@`
 	$(EXE) --json --no-source --no-ast $< | jq --sort-keys -f remove_empty.jq > $@
