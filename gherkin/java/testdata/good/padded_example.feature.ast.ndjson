@@ -1,5 +1,49 @@
 {
   "gherkinDocument": {
+    "comments": [
+      {
+        "location": {
+          "column": 1,
+          "line": 10
+        },
+        "text": "    # The \"red\" cell below has the following whitespace characters on each side:"
+      },
+      {
+        "location": {
+          "column": 1,
+          "line": 11
+        },
+        "text": "    # - U+00A0 (non-breaking space)"
+      },
+      {
+        "location": {
+          "column": 1,
+          "line": 12
+        },
+        "text": "    # - U+0020 (space)"
+      },
+      {
+        "location": {
+          "column": 1,
+          "line": 13
+        },
+        "text": "    # - U+0009 (tab)"
+      },
+      {
+        "location": {
+          "column": 1,
+          "line": 14
+        },
+        "text": "    # This is generated with `ruby -e 'STDOUT.write \"\\u00A0\\u0020\\u0009\".encode(\"utf-8\")' | pbcopy`"
+      },
+      {
+        "location": {
+          "column": 1,
+          "line": 15
+        },
+        "text": "    # and pasted. "
+      }
+    ],
     "feature": {
       "children": [
         {
@@ -9,22 +53,22 @@
                 "keyword": "Examples",
                 "location": {
                   "column": 5,
-                  "line": 10
+                  "line": 16
                 },
                 "tableBody": [
                   {
                     "cells": [
                       {
                         "location": {
-                          "column": 10,
-                          "line": 12
+                          "column": 12,
+                          "line": 18
                         },
                         "value": "red"
                       }
                     ],
                     "location": {
                       "column": 7,
-                      "line": 12
+                      "line": 18
                     }
                   }
                 ],
@@ -33,14 +77,14 @@
                     {
                       "location": {
                         "column": 9,
-                        "line": 11
+                        "line": 17
                       },
                       "value": "color"
                     }
                   ],
                   "location": {
                     "column": 7,
-                    "line": 11
+                    "line": 17
                   }
                 }
               }

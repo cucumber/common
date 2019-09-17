@@ -7,7 +7,13 @@
 (7:7)TableRow://11:pool,25:5.6
 (8:1)Empty://
 (9:1)Empty://
-(10:5)ExamplesLine:Examples//
-(11:7)TableRow://9:color
-(12:7)TableRow://10:red
+(10:1)Comment:/    # The "red" cell below has the following whitespace characters on each side:/
+(11:1)Comment:/    # - U+00A0 (non-breaking space)/
+(12:1)Comment:/    # - U+0020 (space)/
+(13:1)Comment:/    # - U+0009 (tab)/
+(14:1)Comment:/    # This is generated with `ruby -e 'STDOUT.write "\u00A0\u0020\u0009".encode("utf-8")' | pbcopy`/
+(15:1)Comment:/    # and pasted. /
+(16:5)ExamplesLine:Examples//
+(17:7)TableRow://9:color
+(18:7)TableRow://12:red
 EOF
