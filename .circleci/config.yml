@@ -347,7 +347,6 @@ jobs:
           name: json-formatter/testdata
           command: |
             cd json-formatter/testdata
-            bundle update --bundler
             make
       - persist_to_workspace:
           root: ~/cucumber
