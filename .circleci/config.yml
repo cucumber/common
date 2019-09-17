@@ -130,6 +130,21 @@ jobs:
           paths:
             - dots-formatter/go/dist
 
+  json-formatter-go:
+    executor: docker-circleci-golang
+    steps:
+      - attach_workspace:
+          at: "~/cucumber"
+      - run:
+          name: json-formatter/go
+          command: |
+            cd json-formatter/go
+            make
+      - persist_to_workspace:
+          root: ~/cucumber
+          paths:
+            - json-formatter/go/dist
+
 ### JavaScript
 
   c21e-javascript:
@@ -323,6 +338,21 @@ jobs:
             cd dots-formatter/ruby
             make
 
+  json-formatter-testdata-ruby:
+    executor: docker-circleci-ruby
+    steps:
+      - attach_workspace:
+          at: "~/cucumber"
+      - run:
+          name: json-formatter/testdata
+          command: |
+            cd json-formatter/testdata
+            make
+      - persist_to_workspace:
+          root: ~/cucumber
+          paths:
+            - json-formatter/testdata
+
 ### Java
 
   c21e-java:
@@ -489,7 +519,7 @@ jobs:
 
 workflows:
   version: 2
-  
+
   monorepo-serial:
     jobs:
       - build-serial:
@@ -518,6 +548,12 @@ workflows:
             - checkout
       - dots-formatter-go:
           requires:
+            - cucumber-messages-go
+
+      - json-formatter-go:
+          requires:
+            - json-formatter-testdata-ruby
+            - fake-cucumber-javascript
             - cucumber-messages-go
 
 ### JavaScript
@@ -577,6 +613,10 @@ workflows:
           requires:
             - cucumber-messages-ruby
             - dots-formatter-go
+      - json-formatter-testdata-ruby:
+          requires:
+            - checkout
+
 
 ### Java
 
