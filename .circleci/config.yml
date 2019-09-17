@@ -131,7 +131,7 @@ jobs:
             - dots-formatter/go/dist
 
   json-formatter-go:
-    executor: docker-circleci-golang
+    executor: docker-cucumber-build
     steps:
       - attach_workspace:
           at: "~/cucumber"
