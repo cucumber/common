@@ -1,0 +1,13 @@
+(1:1)FeatureLine:Feature/test/
+(2:1)Empty://
+(3:3)ScenarioLine:Scenario/test/
+(4:5)StepLine:Given /a <color> ball with:/
+(5:7)TableRow://9:type,20:diameter
+(6:7)TableRow://9:football,26:69
+(7:7)TableRow://11:pool,25:5.6
+(8:1)Empty://
+(9:1)Empty://
+(10:5)ExamplesLine:Examples//
+(11:7)TableRow://9:color
+(12:7)TableRow://10:red
+EOF

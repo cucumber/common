@@ -1,0 +1,10 @@
+{
+  "source": {
+    "data": "Feature: test\n\n  Scenario: test\n    Given a <color> ball with:\n      | type     | diameter |\n      | football |       69 |\n      |   pool   |      5.6 |\n\n\n    Examples:\n      | color |\n      |  red  |\n",
+    "media": {
+      "contentType": "text/x.cucumber.gherkin+plain",
+      "encoding": "UTF8"
+    },
+    "uri": "testdata/good/padded_example.feature"
+  }
+}
