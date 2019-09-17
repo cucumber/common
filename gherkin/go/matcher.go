@@ -3,6 +3,7 @@ package gherkin
 import (
 	"regexp"
 	"strings"
+	"unicode"
 	"unicode/utf8"
 )
 
@@ -202,9 +203,11 @@ func (m *matcher) MatchTableRow(line *Line) (ok bool, token *Token, err error) {
 			if char == TABLE_CELL_SEPARATOR {
 				// append current cell
 				txt := string(cell)
-				txtTrimmed := strings.TrimLeft(txt, " ")
-				ind := len(txt) - len(txtTrimmed)
-				cells = append(cells, &LineSpan{startCol + ind, strings.TrimRight(txtTrimmed, " ")})
+
+				txtTrimmedLeadingSpace := strings.TrimLeftFunc(txt, unicode.IsSpace)
+				ind := len(txt) - len(txtTrimmedLeadingSpace)
+				txtTrimmed := strings.TrimRightFunc(txtTrimmedLeadingSpace, unicode.IsSpace)
+				cells = append(cells, &LineSpan{startCol + ind, txtTrimmed})
 				// start building next
 				cell = make([]rune, 0)
 				startCol = col + 1
