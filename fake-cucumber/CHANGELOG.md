@@ -11,6 +11,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Changed
 
+* Upgrade cucumber-messages to 6.0.0
+
 ### Deprecated
 
 ### Removed
