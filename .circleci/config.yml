@@ -131,11 +131,7 @@ jobs:
             - dots-formatter/go/dist
 
   json-formatter-go:
-<<<<<<< HEAD
-    executor: docker-cucumber-build
-=======
     executor: docker-circleci-golang
->>>>>>> master
     steps:
       - attach_workspace:
           at: "~/cucumber"
@@ -357,34 +353,20 @@ jobs:
             cd dots-formatter/ruby
             make
 
-<<<<<<< HEAD
-  json-formatter-testdata-ruby:
-=======
   json-formatter-ruby:
->>>>>>> master
     executor: docker-circleci-ruby
     steps:
       - attach_workspace:
           at: "~/cucumber"
       - run:
-<<<<<<< HEAD
-          name: json-formatter/testdata
-          command: |
-            cd json-formatter/testdata
-=======
           name: json-formatter/ruby
           command: |
             cd json-formatter/ruby
->>>>>>> master
             make
       - persist_to_workspace:
           root: ~/cucumber
           paths:
-<<<<<<< HEAD
-            - json-formatter/testdata
-=======
             - json-formatter/ruby
->>>>>>> master
 
 ### Java
 
@@ -585,14 +567,8 @@ workflows:
 
       - json-formatter-go:
           requires:
-<<<<<<< HEAD
-            - json-formatter-testdata-ruby
-            - fake-cucumber-javascript
-=======
             - json-formatter-ruby
             - json-formatter-javascript
->>>>>>> master
-            - cucumber-messages-go
 
 ### JavaScript
 
@@ -655,14 +631,9 @@ workflows:
           requires:
             - cucumber-messages-ruby
             - dots-formatter-go
-<<<<<<< HEAD
-      - json-formatter-testdata-ruby:
-=======
       - json-formatter-ruby:
->>>>>>> master
           requires:
             - checkout
-
 
 ### Java
 
