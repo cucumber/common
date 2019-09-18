@@ -14,6 +14,8 @@ This document is formatted according to the principles of [Keep A CHANGELOG](htt
 ### Changed
 
 * Upgrade cucumber-messages to 6.0.0
+* [Ruby] restore native ruby parser 
+  ([#702](https://github.com/cucumber/cucumber/pull/702) [brasmusson])
 
 ### Deprecated
 
@@ -21,7 +23,7 @@ This document is formatted according to the principles of [Keep A CHANGELOG](htt
 
 ### Fixed
 
-* [Go] Fix trimming of whitespace in example cells
+* [Go, Ruby] Fix trimming of whitespace in example cells
   ([#703](https://github.com/cucumber/cucumber/pull/703) [aslakhellesoy])
 
 ## [7.0.4] - 2019-08-29
