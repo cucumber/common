@@ -32,8 +32,7 @@ Gem::Specification.new do |s|
   s.files            = Dir[
     'README.md',
     'LICENSE',
-    'lib/**/*',
-    'executables/*'
+    'lib/**/*'
   ]
   s.test_files       = Dir['spec/**/*']
   s.rdoc_options     = ["--charset=UTF-8"]
