@@ -37,8 +37,10 @@ module Gherkin
       cells = []
 
       self.split_table_cells(@trimmed_line_text) do |item, column|
-        cell_indent = item.length - item.lstrip.length
-        span = Span.new(@indent + column + cell_indent, item.strip)
+        txt_trimmed_left = item.gsub(/^[ \t\n\v\f\r\u0085\u00A0]*/, '')
+        txt_trimmed = txt_trimmed_left.gsub(/[ \t\n\v\f\r\u0085\u00A0]*$/, '')
+        cell_indent = item.length - txt_trimmed_left.length
+        span = Span.new(@indent + column + cell_indent, txt_trimmed)
         cells.push(span)
       end
 

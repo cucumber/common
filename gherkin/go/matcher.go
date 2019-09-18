@@ -101,7 +101,7 @@ func (m *matcher) MatchTagLine(line *Line) (ok bool, token *Token, err error) {
 			if txt != "" {
 				tags = append(tags, &LineSpan{column, TAG_PREFIX + txt})
 			}
-			column = column + len(splits[i]) + 1
+			column = column + utf8.RuneCountInString(splits[i]) + 1
 		}
 
 		token, ok = m.newTokenAtLocation(line.LineNumber, line.Indent()), true
@@ -205,7 +205,7 @@ func (m *matcher) MatchTableRow(line *Line) (ok bool, token *Token, err error) {
 				txt := string(cell)
 
 				txtTrimmedLeadingSpace := strings.TrimLeftFunc(txt, unicode.IsSpace)
-				ind := len(txt) - len(txtTrimmedLeadingSpace)
+				ind := utf8.RuneCountInString(txt) - utf8.RuneCountInString(txtTrimmedLeadingSpace)
 				txtTrimmed := strings.TrimRightFunc(txtTrimmedLeadingSpace, unicode.IsSpace)
 				cells = append(cells, &LineSpan{startCol + ind, txtTrimmed})
 				// start building next
