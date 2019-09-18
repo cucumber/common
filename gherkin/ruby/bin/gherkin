@@ -67,7 +67,6 @@ if ARGV.empty?
   messages = Gherkin::Messages::ProtobufCucumberMessages.new(STDIN).messages
 elsif gherkin_executable
   # Read protobuf from STDIN
-  STDERR.puts options
   messages = Gherkin::Messages::SubprocessCucumberMessages.new(
     gherkin_executable,
     ARGV,
