@@ -22,15 +22,13 @@ ERRORS       = $(patsubst testdata/%.feature,acceptance/testdata/%.feature.error
 
 default: .compared
 
-.compared: .built $(TOKENS) $(ASTS) $(PICKLES) $(SOURCES) $(ERRORS)
-	touch $@
-
-.built: bin/gherkin-generate-tokens $(EXE)
+.compared: bin/gherkin-generate-tokens $(EXE) $(TOKENS) $(ASTS) $(PICKLES) $(SOURCES) $(ERRORS)
 	touch $@
 
 .tested: parser.go dialects_builtin.go
 
-golden: .built $(TOKENS_GOLDEN) $(ASTS_GOLDEN) $(PICKLES_GOLDEN) $(SOURCES_GOLDEN) $(ERRORS_GOLDEN)
+# The golden target regenerates the golden master
+golden: bin/gherkin-generate-tokens $(EXE) $(TOKENS_GOLDEN) $(ASTS_GOLDEN) $(PICKLES_GOLDEN) $(SOURCES_GOLDEN) $(ERRORS_GOLDEN)
 
 bin/gherkin-generate-tokens: .deps $(GO_SOURCE_FILES) parser.go dialects_builtin.go
 	go build -o $@ ./gherkin-generate-tokens
@@ -107,4 +105,4 @@ dialects_builtin.go: gherkin-languages.json dialects_builtin.go.jq
 	gofmt -w $@
 
 clean:
-	rm -rf .compared .built acceptance bin/ dist/* dist_compressed/ .dist .dist-compressed
+	rm -rf .compared bin/
