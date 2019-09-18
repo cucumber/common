@@ -621,9 +621,7 @@ workflows:
             - checkout
       - gherkin-ruby:
           requires:
-            - c21e-ruby
             - cucumber-messages-ruby
-            - gherkin-go
       - tag-expressions-ruby:
           requires:
             - checkout
