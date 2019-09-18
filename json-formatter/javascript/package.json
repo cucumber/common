@@ -1,6 +1,6 @@
 {
   "name": "json-formatter",
-  "publish": false,
+  "private": true,
   "version": "1.0.0",
   "license": "MIT",
   "scripts": {

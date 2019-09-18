@@ -30,8 +30,12 @@ endif
 .PHONY: update-version
 
 publish: .deps
+ifneq (,$(GEMSPEC))
 	gem build $(GEMSPEC)
 	gem push $$(find . -name "*$(NEW_VERSION).gem")
+else
+	@echo "Not publishing because there is no gemspec"
+endif
 .PHONY: publish
 
 post-release:
