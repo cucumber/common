@@ -131,7 +131,7 @@ jobs:
             - dots-formatter/go/dist
 
   json-formatter-go:
-    executor: docker-cucumber-build
+    executor: docker-circleci-golang
     steps:
       - attach_workspace:
           at: "~/cucumber"
@@ -276,6 +276,11 @@ jobs:
           command: |
             cd json-formatter/javascript
             make
+      - persist_to_workspace:
+          root: ~/cucumber
+          paths:
+            - json-formatter/javascript/acceptance
+
 ### Ruby
 
   c21e-ruby:
