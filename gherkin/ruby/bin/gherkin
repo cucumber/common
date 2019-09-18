@@ -13,7 +13,7 @@ options = {
   include_source: true,
   include_gherkin_document: true,
   include_pickles: true,
-  protobuf: false
+  json: false
 }
 
 OptionParser.new do |opts|
@@ -26,21 +26,21 @@ OptionParser.new do |opts|
   opts.on("--[no-]pickles", "Don't print pickle messages") do |v|
     options[:include_pickles] = v
   end
-  opts.on("--protobuf", "Print messages as Protocol Buffers") do |v|
-    options[:protobuf] = v
+  opts.on("--json", "Print messages as JSON") do |v|
+    options[:json] = v
   end
 end.parse!
 
 def include_messages(messages, options)
   messages.each do |message|
-    if options[:protobuf]
-      message.write_delimited_to(STDOUT)
-    else
+    if options[:json]
       json = message.class.encode_json(message)
       # puts json
       ob = JSON.parse(json)
       remove_empties(ob)
       puts JSON.generate(ob)
+    else
+      message.write_delimited_to(STDOUT)
     end
   end
 end
