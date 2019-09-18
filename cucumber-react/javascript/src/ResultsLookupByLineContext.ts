@@ -1,4 +1,4 @@
-import { ResultsLookup, ResultsLookupByLine } from './types'
+import { ResultsLookupByLine } from './types'
 import React from 'react'
 
 const defaultResultsLookup: ResultsLookupByLine = (

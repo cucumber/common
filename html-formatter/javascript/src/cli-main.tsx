@@ -20,7 +20,7 @@ class CucumberHtmlStream extends Transform {
   _flush(callback: (error?: (Error | null), data?: any) => void): void {
     readFile(__dirname + '/../main.js', (err: Error, js: Buffer) => {
       if (err) return callback(err)
-      const { gherkinDocuments, resultsLookup } = makeGherkinDocumentsAndResultsLookup(this.envelopes)
+      const { gherkinDocuments, resultsLookup, stepMatchLookup } = makeGherkinDocumentsAndResultsLookup(this.envelopes)
       this.push(`<!DOCTYPE html>
 <html lang="en">
   <head>
@@ -30,7 +30,8 @@ class CucumberHtmlStream extends Transform {
   <body>
     <div id="content">
 `)
-      this.push(renderToString(<App gherkinDocuments={gherkinDocuments} resultsLookup={resultsLookup}/>))
+      this.push(renderToString(<App gherkinDocuments={gherkinDocuments} resultsLookup={resultsLookup}
+                                    stepMatchLookup={stepMatchLookup}/>))
       this.push(`
     </div>
     <script>

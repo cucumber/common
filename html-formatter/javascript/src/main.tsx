@@ -11,7 +11,7 @@ declare global {
 
 const envelopes = window.CUCUMBER_MESSAGES.map((message: any) => messages.Envelope.fromObject(message))
 
-const { gherkinDocuments, resultsLookup } = makeGherkinDocumentsAndResultsLookup(envelopes)
+const { gherkinDocuments, resultsLookup, stepMatchLookup } = makeGherkinDocumentsAndResultsLookup(envelopes)
 
-const app = <App gherkinDocuments={gherkinDocuments} resultsLookup={resultsLookup}/>
+const app = <App gherkinDocuments={gherkinDocuments} resultsLookup={resultsLookup} stepMatchLookup={stepMatchLookup}/>
 ReactDOM.render(app, document.getElementById('content'))

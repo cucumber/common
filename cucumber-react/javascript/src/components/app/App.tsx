@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { ResultsLookup } from '../../types'
+import { ResultsLookup, StepMatchLookup } from '../../types'
 import GherkinDocument from '../gherkin/GherkinDocument'
 import { messages } from 'cucumber-messages'
 import GherkinDocumentSideNav from './GherkinDocumentSideNav'
@@ -7,6 +7,7 @@ import styled from 'styled-components'
 import ResultsLookupContext from '../../ResultsLookupContext'
 import ResultsLookupByLineContext from '../../ResultsLookupByLineContext'
 import R = require('ramda')
+import StepMatchLookupByLineContext from '../../StepMatchLookupByLineContext'
 
 // https://webdevtrick.com/css-sidebar-menu/
 
@@ -96,6 +97,7 @@ const SwipeLabel = styled.label`
 interface IProps {
   gherkinDocuments: messages.IGherkinDocument[]
   resultsLookup: ResultsLookup
+  stepMatchLookup: StepMatchLookup
 }
 
 function getGherkinDocument(gherkinDocumentByUri: Map<string,messages.IGherkinDocument>, selectedUri: string) {
@@ -112,6 +114,7 @@ function getGherkinDocument(gherkinDocumentByUri: Map<string,messages.IGherkinDo
 const App: React.FunctionComponent<IProps> = ({
                                                 gherkinDocuments,
                                                 resultsLookup,
+                                                stepMatchLookup,
                                               }) => {
   // TODO: Don't assume there is always one document - there could be none!
   // We should start with an overview page anyway, with some stats and charts on it.
@@ -124,6 +127,7 @@ const App: React.FunctionComponent<IProps> = ({
 
   // TODO: Write our own curry and remove Ramda depencendy
   const resultsLookupByLine = R.curry(resultsLookup)(selectedUri)
+  const stepMatchLookupByLine = R.curry(stepMatchLookup)(selectedUri)
 
   return (
     <Body>
@@ -146,7 +150,9 @@ const App: React.FunctionComponent<IProps> = ({
 
         <Headings>
           <ResultsLookupByLineContext.Provider value={resultsLookupByLine}>
-            {getGherkinDocument(gherkinDocumentByUri, selectedUri)}
+            <StepMatchLookupByLineContext.Provider value={stepMatchLookupByLine}>
+              {getGherkinDocument(gherkinDocumentByUri, selectedUri)}
+            </StepMatchLookupByLineContext.Provider>
           </ResultsLookupByLineContext.Provider>
         </Headings>
         <Sidebar>
