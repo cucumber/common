@@ -266,6 +266,16 @@ jobs:
             cd html-formatter/javascript
             make
 
+  json-formatter-javascript:
+    executor: docker-circleci-node
+    steps:
+      - attach_workspace:
+          at: "~/cucumber"
+      - run:
+          name: json-formatter/javascript
+          command: |
+            cd json-formatter/javascript
+            make
 ### Ruby
 
   c21e-ruby:
@@ -338,20 +348,20 @@ jobs:
             cd dots-formatter/ruby
             make
 
-  json-formatter-testdata-ruby:
+  json-formatter-ruby:
     executor: docker-circleci-ruby
     steps:
       - attach_workspace:
           at: "~/cucumber"
       - run:
-          name: json-formatter/testdata
+          name: json-formatter/ruby
           command: |
-            cd json-formatter/testdata
+            cd json-formatter/ruby
             make
       - persist_to_workspace:
           root: ~/cucumber
           paths:
-            - json-formatter/testdata
+            - json-formatter/ruby
 
 ### Java
 
@@ -552,8 +562,8 @@ workflows:
 
       - json-formatter-go:
           requires:
-            - json-formatter-testdata-ruby
-            - fake-cucumber-javascript
+            - json-formatter-ruby
+            - json-formatter-javascript
             - cucumber-messages-go
 
 ### JavaScript
@@ -589,6 +599,10 @@ workflows:
       - html-formatter-javascript:
           requires:
             - cucumber-react-javascript
+      - json-formatter-javascript:
+          requires:
+            - json-formatter-ruby
+            - fake-cucumber-javascript
 
 ### Ruby
 
@@ -613,7 +627,7 @@ workflows:
           requires:
             - cucumber-messages-ruby
             - dots-formatter-go
-      - json-formatter-testdata-ruby:
+      - json-formatter-ruby:
           requires:
             - checkout
 
