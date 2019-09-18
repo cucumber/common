@@ -1,5 +1,6 @@
 SHELL := /usr/bin/env bash
 TYPESCRIPT_SOURCE_FILES = $(shell find src test -type f -name "*.ts" -o -name "*.tsx")
+PRIVATE = $(shell node -e "console.log(require('./package.json').private)")
 
 default: .tested .built
 .PHONY: default
@@ -43,7 +44,11 @@ endif
 .PHONY: update-version
 
 publish: .codegen
+ifneq (true,$(PRIVATE))
 	npm publish
+else
+	@echo "Not publishing private npm module"
+endif
 .PHONY: publish
 
 post-release:

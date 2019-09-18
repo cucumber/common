@@ -28,8 +28,12 @@ describe('App', () => {
           .fromPaths([p])
           .pipe(fakeTestResultsStream))
 
-        const { gherkinDocuments, resultsLookup } = makeGherkinDocumentsAndResultsLookup(envelopes)
-        const app = <App gherkinDocuments={gherkinDocuments} resultsLookup={resultsLookup}/>
+        const { gherkinDocuments, resultsLookup, stepMatchLookup } = makeGherkinDocumentsAndResultsLookup(envelopes)
+        const app = <App
+          gherkinDocuments={gherkinDocuments}
+          resultsLookup={resultsLookup}
+          stepMatchLookup={stepMatchLookup}
+        />
 
         ReactDOM.render(app, document.getElementById('content'))
       }).timeout(7000) // TODO: What the hell is taking so long??

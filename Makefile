@@ -9,6 +9,7 @@ MAKEFILES=c21e/Makefile \
 	config/Makefile \
 	cucumber-expressions/Makefile \
 	tag-expressions/Makefile \
+	json-formatter/Makefile \
 	dots-formatter/Makefile
 
 default: .rsynced $(patsubst %/Makefile,default-%,$(MAKEFILES))

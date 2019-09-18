@@ -19,15 +19,23 @@ function sort(finishedList: IFinished[]): IFinished[] {
  * Returns a function that can be used to look up results for a document uri
  * and an optional line number.
  *
+ * This function will return a list of test results. That means, a step could have
+ * multiple results. This happens for Background steps and Scenario Outline steps
+ * because they are executed multiple times.
+ *
+ * There are different ways to render this. Rendering all the results can clutter up the UI,
+ * so it's advisable to display an aggregate of all the results. This can be done easily since
+ * the STATUS type is an enum which can be sorted by "severity".
+ *
  * @param pickles
  * @param testStepFinishedList
  * @param testCaseFinishedList
  */
-export default function makeResultsLookup(
+export default (
   pickles: messages.IPickle[],
   testStepFinishedList: messages.ITestStepFinished[],
   testCaseFinishedList: messages.ITestCaseFinished[],
-): ResultsLookup {
+): ResultsLookup => {
   const finishedListByUriAndLine = new Map<string, IFinished[]>()
   const testCaseFinishedListByUri = new Map<string, messages.ITestCaseFinished[]>()
   const pickleById = new Map<string, messages.IPickle>()
