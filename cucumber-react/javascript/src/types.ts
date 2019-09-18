@@ -13,3 +13,15 @@ export type ResultsLookup = (
 export type ResultsLookupByLine = (
   queryLine: number | null,
 ) => messages.ITestResult[]
+
+/**
+ * Looks up a step definition match for a uri and a line number
+ */
+export type StepMatchLookup = (
+  queryUri: string,
+  queryLine: number,
+) => messages.ITestStepMatched[]
+
+export type StepMatchLookupByLine = (
+  queryLine: number,
+) => messages.ITestStepMatched[]

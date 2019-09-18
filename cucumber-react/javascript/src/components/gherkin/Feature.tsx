@@ -6,7 +6,7 @@ import Scenario from './Scenario'
 import { messages } from 'cucumber-messages'
 import Rule from './Rule'
 import Background from './Background'
-import { H1, Indent, PlainWeightSpan, Section } from './html'
+import { H1, Indent, StepText, Section } from './html'
 import IFeature = messages.GherkinDocument.IFeature
 
 interface IProps {
@@ -18,7 +18,7 @@ const Feature: React.FunctionComponent<IProps> = ({ feature }) => {
     <Section>
       <Tags tags={feature.tags}/>
       <H1>
-        <Keyword>{feature.keyword}:</Keyword> <PlainWeightSpan>{feature.name}</PlainWeightSpan>
+        <Keyword>{feature.keyword}:</Keyword> <StepText>{feature.name}</StepText>
       </H1>
       <Indent>
         {feature.description ? <Description description={feature.description}/> : null}

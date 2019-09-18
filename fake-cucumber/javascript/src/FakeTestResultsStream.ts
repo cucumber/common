@@ -67,7 +67,45 @@ class FakeTestResultsStream extends Transform {
             messages.TestResult.Status.UNKNOWN,
           ].includes(testStepStatus)
         ) {
-          // send new message
+          const stepMatchArguments: messages.IStepMatchArgument[] = []
+
+          let word = ''
+          let wordIndex = 0
+          step.text.split('').forEach((character, i) => {
+            if (character !== ' ') {
+              word += character
+            } else {
+              if (word.length > 0) {
+                if (wordIndex % 2 === 1) {
+                  stepMatchArguments.push(
+                    new messages.StepMatchArgument({
+                      group: new messages.StepMatchArgument.Group({
+                        value: word,
+                        start: i - word.length,
+                      }),
+                      parameterTypeName: 'fake',
+                    })
+                  )
+                }
+                word = ''
+                wordIndex++
+              }
+            }
+          })
+
+          if (word.length > 0) {
+            stepMatchArguments.push(
+              new messages.StepMatchArgument({
+                group: new messages.StepMatchArgument.Group({
+                  value: word,
+                  start: step.text.length - word.length,
+                }),
+                parameterTypeName: 'fake',
+              })
+            )
+            word = ''
+          }
+
           this.p(
             new messages.Envelope({
               testStepMatched: new messages.TestStepMatched({
@@ -77,6 +115,7 @@ class FakeTestResultsStream extends Transform {
                   location: new messages.Location({ column: 4, line: 999 }),
                   uri: envelope.pickle.uri + '.cobol',
                 }),
+                stepMatchArguments,
               }),
             })
           )
