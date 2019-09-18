@@ -1,0 +1,10 @@
+{
+  "name": "json-formatter",
+  "private": true,
+  "version": "1.0.0",
+  "license": "MIT",
+  "scripts": {
+    "test": "echo 'no tests'",
+    "build": "echo 'nothing to build'"
+  }
+}

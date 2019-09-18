@@ -1,2 +1,2 @@
-MAKEFILES = testdata/Makefile go/Makefile
+MAKEFILES = ruby/Makefile javascript/Makefile go/Makefile
 include default.mk

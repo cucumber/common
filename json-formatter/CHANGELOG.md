@@ -13,6 +13,11 @@ This document is formatted according to the principles of [Keep A CHANGELOG](htt
 
 ### Changed
 
+<<<<<<< HEAD
+=======
+* Upgrade cucumber-messages to 6.0.0
+
+>>>>>>> master
 ### Deprecated
 
 ### Removed
