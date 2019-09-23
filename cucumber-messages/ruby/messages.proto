@@ -21,6 +21,18 @@ message Timestamp {
   int32 nanos = 2;
 }
 
+// The structure is pretty close of the Timestamp one. For clarity, a second type
+// of message is used.
+message Duration {
+  int64 seconds = 1;
+
+  // Non-negative fractions of a second at nanosecond resolution. Negative
+  // second values with fractions must still have non-negative nanos values
+  // that count forward in time. Must be from 0 to 999,999,999
+  // inclusive.
+  int32 nanos = 2;
+}
+
 /**
  * All the messages that are passed between different components/processes are Envelope
  * messages.
@@ -470,7 +482,8 @@ message TestHookFinished {
 message TestResult {
   Status status = 1;
   string message = 2;
-  uint64 durationNanoseconds = 3;
+  uint64 durationNanoseconds = 3 [deprecated=true];
+  Duration duration = 4;
 
   /**
    * Status of a step. Can also represent status of a Pickle (aggregated
