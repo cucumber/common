@@ -18,11 +18,11 @@ endif
 	npm run build
 	touch $@
 
-.tested: .codegen $(TYPESCRIPT_SOURCE_FILES)
+.tested: .built $(TYPESCRIPT_SOURCE_FILES)
 	TS_NODE_TRANSPILE_ONLY=1 npm run test
 	touch $@
 
-.linted: .codegen $(TYPESCRIPT_SOURCE_FILES)
+.linted: $(TYPESCRIPT_SOURCE_FILES)
 	npm run lint-fix
 	touch $@
 
