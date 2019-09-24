@@ -218,7 +218,7 @@ func (formatter *Formatter) ProcessMessages(stdin io.Reader, stdout io.Writer) (
 
 			status := strings.ToLower(m.TestStepFinished.TestResult.Status.String())
 			step.Result = &jsonStepResult{
-				Duration:     m.TestStepFinished.TestResult.DurationNanoseconds,
+				Duration:     durationToNanos(m.TestStepFinished.TestResult.Duration),
 				Status:       status,
 				ErrorMessage: m.TestStepFinished.TestResult.Message,
 			}
@@ -256,4 +256,8 @@ func key(uri string, location *messages.Location) string {
 
 func makeId(s string) string {
 	return strings.ToLower(strings.Replace(s, " ", "-", -1))
+}
+
+func durationToNanos(d *messages.Duration) uint64 {
+	return uint64(d.Seconds*1000000000 + int64(d.Nanos))
 }
