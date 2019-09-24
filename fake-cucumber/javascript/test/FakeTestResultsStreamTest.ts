@@ -3,8 +3,6 @@ import { messages } from 'cucumber-messages'
 import FakeTestResultsStream from '../src/FakeTestResultsStream'
 import { Readable } from 'stream'
 import * as assert from 'assert'
-import Source = messages.Source
-import Media = messages.Media
 
 describe('FakeTestResultsStream', () => {
   it('generates failed pickle result', async () => {
@@ -106,17 +104,19 @@ async function generateMessages(
   gherkinSource: string,
   results: 'none' | 'pattern' | 'random'
 ): Promise<messages.IEnvelope[]> {
-  const source = Source.fromObject({
-    uri: 'test.feature',
-    data: gherkinSource,
-    media: Media.fromObject({
-      encoding: 'UTF8',
-      contentType: 'text/x.cucumber.gherkin+plain',
-    }),
+  const source = messages.Envelope.fromObject({
+    source: {
+      uri: 'test.feature',
+      data: gherkinSource,
+      media: messages.Media.fromObject({
+        encoding: 'UTF8',
+        contentType: 'text/x.cucumber.gherkin+plain',
+      }),
+    },
   })
 
   const fakeTestResultsStream = gherkin
-    .fromSources([source])
+    .fromSources([source], {})
     .pipe(new FakeTestResultsStream('protobuf-objects', results))
   return streamToArray(fakeTestResultsStream)
 }
