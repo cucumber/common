@@ -11,6 +11,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Changed
 
+* Generate TestStepFinished messages with duration instead of durationNanoseconds
+
 * Upgrade cucumber-messages to 6.0.0
 
 ### Deprecated

@@ -136,7 +136,10 @@ class FakeTestResultsStream extends Transform {
                   testStepStatus === messages.TestResult.Status.FAILED
                     ? `Some error message\n\tfake_file:2\n\tfake_file:7\n`
                     : null,
-                durationNanoseconds: 123456789,
+                duration: new messages.Duration({
+                  seconds: 123456,
+                  nanos: 789
+                }),
               },
             }),
           })
@@ -154,7 +157,10 @@ class FakeTestResultsStream extends Transform {
                 testStepStatus === messages.TestResult.Status.FAILED
                   ? `Some error message\n\tfake_file:2\n\tfake_file:7\n`
                   : null,
-              durationNanoseconds: 987654321,
+              duration: new messages.Duration({
+                seconds: 987654,
+                nanos: 321
+              }),
             },
           }),
         })
