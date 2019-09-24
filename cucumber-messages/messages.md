@@ -1170,7 +1170,6 @@ Represents the outermost capture group of an argument. This message closely matc
 | ----- | ---- | ----- | ----------- |
 | status | [TestResult.Status](#io.cucumber.messages.TestResult.Status) |  |  |
 | message | [string](#string) |  |  |
-| durationNanoseconds | [uint64](#uint64) |  |  |
 | duration | [Duration](#io.cucumber.messages.Duration) |  |  |
 
 

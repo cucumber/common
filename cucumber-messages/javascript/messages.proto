@@ -482,7 +482,7 @@ message TestHookFinished {
 message TestResult {
   Status status = 1;
   string message = 2;
-  uint64 durationNanoseconds = 3 [deprecated=true];
+  reserved 3;
   Duration duration = 4;
 
   /**
