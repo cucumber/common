@@ -1,6 +1,6 @@
 import { messages } from 'cucumber-messages'
-import GherkinLine from './gherkin_line'
-import { TokenType } from './parser'
+import GherkinLine from './GherkinLine'
+import { TokenType } from './Parser'
 
 export default class Token {
   public isEof: boolean

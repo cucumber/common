@@ -1,4 +1,4 @@
-import countSymbols from '../count_symbols'
+import countSymbols from '../countSymbols'
 import { messages } from 'cucumber-messages'
 import IGherkinDocument = messages.IGherkinDocument
 
@@ -6,7 +6,7 @@ export default function compile(gherkinDocument: IGherkinDocument) {
   const pickles: messages.IPickle[] = []
 
   if (gherkinDocument.feature == null) {
-    return this.pickles
+    return pickles
   }
 
   const feature = gherkinDocument.feature
@@ -14,7 +14,7 @@ export default function compile(gherkinDocument: IGherkinDocument) {
   const featureTags = feature.tags
   let backgroundSteps: messages.GherkinDocument.Feature.IStep[] = []
 
-  feature.children.forEach(function(stepsContainer) {
+  feature.children.forEach(stepsContainer => {
     if (stepsContainer.background) {
       backgroundSteps = pickleSteps(stepsContainer.background)
     } else if (stepsContainer.rule) {
@@ -55,7 +55,7 @@ function compileRule(
 ) {
   let backgroundSteps = [].concat(inheritedBackgroundSteps)
 
-  rule.children.forEach(function(stepsContainer) {
+  rule.children.forEach(stepsContainer => {
     if (stepsContainer.background) {
       backgroundSteps = backgroundSteps.concat(
         pickleSteps(stepsContainer.background)
@@ -91,9 +91,7 @@ function compileScenario(
 
   const tags = [].concat(featureTags).concat(scenario.tags)
 
-  scenario.steps.forEach(function(step) {
-    steps.push(pickleStep(step))
-  })
+  scenario.steps.forEach(step => steps.push(pickleStep(step)))
 
   const pickle = messages.Pickle.fromObject({
     tags: pickleTags(tags),
@@ -113,10 +111,10 @@ function compileScenarioOutline(
   pickles: messages.IPickle[]
 ) {
   scenario.examples
-    .filter(e => e.tableHeader !== undefined)
-    .forEach(function(examples) {
+    .filter(e => e.tableHeader !== null)
+    .forEach(examples => {
       const variableCells = examples.tableHeader.cells
-      examples.tableBody.forEach(function(values) {
+      examples.tableBody.forEach(values => {
         const valueCells = values.cells
         const steps =
           scenario.steps.length === 0 ? [] : [].concat(backgroundSteps)
@@ -125,7 +123,7 @@ function compileScenarioOutline(
           .concat(scenario.tags)
           .concat(examples.tags)
 
-        scenario.steps.forEach(function(scenarioOutlineStep) {
+        scenario.steps.forEach(scenarioOutlineStep => {
           const stepText = interpolate(
             scenarioOutlineStep.text,
             variableCells,
@@ -207,7 +205,7 @@ function interpolate(
   variableCells: messages.GherkinDocument.Feature.TableRow.ITableCell[],
   valueCells: messages.GherkinDocument.Feature.TableRow.ITableCell[]
 ) {
-  variableCells.forEach(function(variableCell, n) {
+  variableCells.forEach((variableCell, n) => {
     const valueCell = valueCells[n]
     const search = new RegExp('<' + variableCell.value + '>', 'g')
     // JS Specific - dollar sign needs to be escaped with another dollar sign
@@ -221,9 +219,7 @@ function interpolate(
 function pickleSteps(
   scenarioDefinition: messages.GherkinDocument.Feature.IScenario
 ) {
-  return scenarioDefinition.steps.map(function(step) {
-    return pickleStep(step)
-  })
+  return scenarioDefinition.steps.map(pickleStep)
 }
 
 function pickleStep(step: messages.GherkinDocument.Feature.IStep) {
@@ -235,22 +231,20 @@ function pickleStep(step: messages.GherkinDocument.Feature.IStep) {
 }
 
 function pickleStepLocation(step: messages.GherkinDocument.Feature.IStep) {
-  return {
+  return messages.Location.fromObject({
     line: step.location.line,
     column:
       step.location.column + (step.keyword ? countSymbols(step.keyword) : 0),
-  }
+  })
 }
 
 function pickleTags(tags: messages.GherkinDocument.Feature.ITag[]) {
-  return tags.map(function(tag) {
-    return pickleTag(tag)
-  })
+  return tags.map(pickleTag)
 }
 
 function pickleTag(tag: messages.GherkinDocument.Feature.ITag) {
   return messages.Pickle.PickleTag.fromObject({
     name: tag.name,
-    location,
+    location: tag.location,
   })
 }

@@ -4,7 +4,7 @@ import { Reader } from 'protobufjs'
 /**
  * Transforms a stream of bytes to protobuf messages
  */
-class ProtobufMessageStream<T> extends Transform {
+export default class ProtobufMessageStream<T> extends Transform {
   private buffer = Buffer.alloc(0)
 
   constructor(
@@ -34,5 +34,3 @@ class ProtobufMessageStream<T> extends Transform {
     callback()
   }
 }
-
-export default ProtobufMessageStream

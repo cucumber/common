@@ -1,5 +1,5 @@
-import { RuleType, TokenType } from './parser'
-import Token from './token'
+import { RuleType, TokenType } from './Parser'
+import Token from './Token'
 
 export default class AstNode {
   private readonly subItems = new Map<any, any[]>()

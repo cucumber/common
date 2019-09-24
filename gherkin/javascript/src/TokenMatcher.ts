@@ -1,9 +1,9 @@
 import DIALECTS from './gherkin-languages.json'
 import Dialect from './Dialect'
-import { NoSuchLanguageException } from './errors'
+import { NoSuchLanguageException } from './Errors'
 import { messages } from 'cucumber-messages'
-import Token from './token'
-import { TokenType } from './parser'
+import Token from './Token'
+import { TokenType } from './Parser'
 
 const DIALECT_DICT: { [key: string]: Dialect } = DIALECTS
 const LANGUAGE_PATTERN = /^\s*#\s*language\s*:\s*([a-zA-Z\-_]+)\s*$/

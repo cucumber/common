@@ -1,150 +1,76 @@
-import { spawn, spawnSync } from 'child_process'
-import { statSync, createReadStream } from 'fs'
-import { ExeFile } from 'c21e'
+import { IGherkinOptions } from './types'
+import { PassThrough, Readable, Writable } from 'stream'
+import ParserMessageStream from './stream/ParserMessageStream'
+import fs from 'fs'
+import SourceMessageStream from './stream/SourceMessageStream'
 import { messages, ProtobufMessageStream } from 'cucumber-messages'
-import { Transform, Readable } from 'stream'
-import legacy from './legacy'
-import Dialect from './legacy/gherkin/Dialect'
+import DIALECTS from './gherkin-languages.json'
+import Dialect from './Dialect'
 
-const defaultOptions = {
-  defaultDialect: 'en',
-  includeSource: true,
-  includeGherkinDocument: true,
-  includePickles: true,
-  useLegacyImplementation: false,
+export function fromStream(stream: Readable, options: IGherkinOptions) {
+  return stream
+    .pipe(new ProtobufMessageStream(messages.Envelope.decodeDelimited))
+    .pipe(new ParserMessageStream(options))
 }
 
-function translateLegacyOptions(
+export function fromPaths(paths: string[], options: IGherkinOptions): Readable {
+  const combinedMessageStream = new PassThrough({
+    writableObjectMode: true,
+    readableObjectMode: true,
+  })
+
+  function pipeSequentially() {
+    const path = paths.shift()
+    if (path !== undefined) {
+      const parserMessageStream = new ParserMessageStream(options)
+      parserMessageStream.on('end', () => {
+        pipeSequentially()
+      })
+
+      const end = paths.length === 0
+      fs.createReadStream(path, { encoding: 'utf-8' })
+        .pipe(new SourceMessageStream(path))
+        .pipe(parserMessageStream)
+        .pipe(
+          combinedMessageStream,
+          { end }
+        )
+    }
+  }
+  pipeSequentially()
+  return combinedMessageStream
+}
+
+export function fromSources(
+  envelopes: messages.IEnvelope[],
   options: IGherkinOptions
-): IGherkinLegacyOptions {
-  return {
-    source: options.includeSource,
-    'gherkin-document': options.includeGherkinDocument,
-    pickle: options.includePickles,
-  }
-}
+): Readable {
+  const combinedMessageStream = new PassThrough({ objectMode: true })
 
-function fromPaths(paths: string[], options: IGherkinOptions = defaultOptions) {
-  if (options.useLegacyImplementation) {
-    throw new Error('FIXME')
-    // const objectWrapper = new Transform({
-    //   objectMode: true,
-    //   transform(object, _, callback) {
-    //     this.push(messages.Envelope.fromObject(object))
-    //     callback()
-    //   },
-    // })
-    //
-    // const pipeEventsFor = ([path, ...rest]: string[]) => {
-    //   if (!path) {
-    //     return objectWrapper.end()
-    //   }
-    //
-    //   const fileStream = createReadStream(path, { encoding: 'utf-8' })
-    //   const eventStream = new legacy.EventStream(
-    //     path,
-    //     translateLegacyOptions(options)
-    //   )
-    //   fileStream.pipe(eventStream)
-    //   eventStream.pipe(
-    //     objectWrapper,
-    //     { end: false }
-    //   )
-    //   eventStream.on('end', () => pipeEventsFor(rest))
-    // }
-    //
-    // pipeEventsFor(paths)
-    //
-    // return objectWrapper
-  } else {
-    return new GherkinExe(paths, [], options).messageStream()
-  }
-}
-
-function fromSources(
-  sources: messages.Source[],
-  options: Omit<IGherkinOptions, 'useLegacyImplementation'> = defaultOptions
-) {
-  return new GherkinExe([], sources, options).messageStream()
-}
-
-function dialects(options: IGherkinOptions = defaultOptions) {
-  if (options.useLegacyImplementation) {
-    return legacy.DIALECTS
-  } else {
-    return new GherkinExe([], [], {}).dialects()
-  }
-}
-
-interface IGherkinOptions {
-  defaultDialect?: string
-  includeSource?: boolean
-  includeGherkinDocument?: boolean
-  includePickles?: boolean
-  useLegacyImplementation?: boolean
-}
-
-interface IGherkinLegacyOptions {
-  source?: boolean
-  'gherkin-document'?: boolean
-  pickle?: boolean
-}
-
-export { fromPaths, fromSources, dialects, legacy }
-
-class GherkinExe {
-  private exeFile: ExeFile
-
-  constructor(
-    private readonly paths: string[],
-    private readonly sources: messages.Source[],
-    private readonly options: IGherkinOptions
-  ) {
-    this.options = { ...defaultOptions, ...options }
-    let executables = `${__dirname}/../../executables`
-    try {
-      statSync(executables)
-    } catch (err) {
-      // Dev mode - we're in src, not dist/src
-      executables = `${__dirname}/../executables`
-      statSync(executables)
+  function pipeSequentially() {
+    const envelope = envelopes.shift()
+    if (envelope !== undefined && envelope.source) {
+      const parserMessageStream = new ParserMessageStream(options)
+      parserMessageStream.pipe(
+        combinedMessageStream,
+        { end: envelopes.length === 0 }
+      )
+      parserMessageStream.on('end', pipeSequentially)
+      parserMessageStream.end(envelope)
     }
-    this.exeFile = new ExeFile(
-      `${executables}/gherkin-{{.OS}}-{{.Arch}}{{.Ext}}`
-    )
-    statSync(this.exeFile.fileName)
   }
+  pipeSequentially()
 
-  public dialects(): { [key: string]: Dialect } {
-    const result = spawnSync(this.exeFile.fileName, ['--dialects'])
-    return JSON.parse(result.stdout)
-  }
+  return combinedMessageStream
+}
 
-  public messageStream(): Readable {
-    const options = ['--default-dialect', this.options.defaultDialect]
-    if (!this.options.includeSource) {
-      options.push('--no-source')
-    }
-    if (!this.options.includeGherkinDocument) {
-      options.push('--no-ast')
-    }
-    if (!this.options.includePickles) {
-      options.push('--no-pickles')
-    }
-    const args = options.concat(this.paths)
-    const gherkin = spawn(this.exeFile.fileName, args)
-    const protobufMessageStream = new ProtobufMessageStream(
-      messages.Envelope.decodeDelimited.bind(messages.Envelope)
-    )
-    gherkin.on('error', err => {
-      protobufMessageStream.emit('error', err)
-    })
-    gherkin.stdout.pipe(protobufMessageStream)
-    for (const source of this.sources) {
-      const envelope = messages.Envelope.fromObject({ source })
-      gherkin.stdin.write(messages.Envelope.encodeDelimited(envelope).finish())
-    }
-    gherkin.stdin.end()
-    return protobufMessageStream
-  }
+export function dialects(): { [key: string]: Dialect } {
+  return DIALECTS
+}
+
+export default {
+  fromStream,
+  fromPaths,
+  fromSources,
+  dialects,
 }

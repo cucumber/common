@@ -1,4 +1,4 @@
-import countSymbols from './count_symbols'
+import countSymbols from './countSymbols'
 
 export default class GherkinLine {
   public trimmedLineText: string

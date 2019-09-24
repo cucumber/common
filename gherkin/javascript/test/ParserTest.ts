@@ -1,12 +1,15 @@
 import * as assert from 'assert'
-import Gherkin from '../../src/legacy'
 import { messages } from 'cucumber-messages'
+import AstBuilder from '../src/AstBuilder'
+import Parser from '../src/Parser'
+import TokenScanner from '../src/TokenScanner'
+import TokenMatcher from '../src/TokenMatcher'
 
-describe('Parser (legacy)', function() {
+describe('Parser', function() {
   it('parses a simple feature', function() {
-    const parser = new Gherkin.Parser(new Gherkin.AstBuilder())
-    const scanner = new Gherkin.TokenScanner('Feature: hello')
-    const matcher = new Gherkin.TokenMatcher()
+    const parser = new Parser(new AstBuilder())
+    const scanner = new TokenScanner('Feature: hello')
+    const matcher = new TokenMatcher()
     const ast = parser.parse(scanner, matcher)
     assert.deepStrictEqual(
       ast,
@@ -26,16 +29,10 @@ describe('Parser (legacy)', function() {
   })
 
   it('parses multiple features', function() {
-    const parser = new Gherkin.Parser(new Gherkin.AstBuilder())
-    const matcher = new Gherkin.TokenMatcher()
-    const ast1 = parser.parse(
-      new Gherkin.TokenScanner('Feature: hello'),
-      matcher
-    )
-    const ast2 = parser.parse(
-      new Gherkin.TokenScanner('Feature: hello again'),
-      matcher
-    )
+    const parser = new Parser(new AstBuilder())
+    const matcher = new TokenMatcher()
+    const ast1 = parser.parse(new TokenScanner('Feature: hello'), matcher)
+    const ast2 = parser.parse(new TokenScanner('Feature: hello again'), matcher)
 
     assert.deepStrictEqual(
       ast1,
@@ -70,11 +67,12 @@ describe('Parser (legacy)', function() {
   })
 
   it('parses feature after parse error', function() {
-    const parser = new Gherkin.Parser(new Gherkin.AstBuilder())
-    const matcher = new Gherkin.TokenMatcher()
+    const parser = new Parser(new AstBuilder())
+    const matcher = new TokenMatcher()
+    let ast: messages.IGherkinDocument
     try {
       parser.parse(
-        new Gherkin.TokenScanner(
+        new TokenScanner(
           '# a comment\n' +
             'Feature: Foo\n' +
             '  Scenario: Bar\n' +
@@ -84,20 +82,19 @@ describe('Parser (legacy)', function() {
         ),
         matcher
       )
-    } catch(expected) {
-      console.log(expected)
+    } catch (expected) {
+      ast = parser.parse(
+        new TokenScanner(
+          'Feature: Foo\n' +
+            '  Scenario: Bar\n' +
+            '    Given x\n' +
+            '      """\n' +
+            '      closed docstring\n' +
+            '      """'
+        ),
+        matcher
+      )
     }
-    const ast = parser.parse(
-      new Gherkin.TokenScanner(
-        'Feature: Foo\n' +
-          '  Scenario: Bar\n' +
-          '    Given x\n' +
-          '      """\n' +
-          '      closed docstring\n' +
-          '      """'
-      ),
-      matcher
-    )
 
     assert.deepStrictEqual(
       ast,
@@ -140,9 +137,9 @@ describe('Parser (legacy)', function() {
   })
 
   it('can change the default language', function() {
-    const parser = new Gherkin.Parser(new Gherkin.AstBuilder())
-    const matcher = new Gherkin.TokenMatcher('no')
-    const scanner = new Gherkin.TokenScanner('Egenskap: i18n support')
+    const parser = new Parser(new AstBuilder())
+    const matcher = new TokenMatcher('no')
+    const scanner = new TokenScanner('Egenskap: i18n support')
     const ast = parser.parse(scanner, matcher)
     assert.deepStrictEqual(
       ast,

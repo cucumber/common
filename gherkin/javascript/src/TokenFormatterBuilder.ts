@@ -1,5 +1,5 @@
-import { RuleType } from './parser'
-import Token from './token'
+import { RuleType } from './Parser'
+import Token from './Token'
 
 export default class TokenFormatterBuilder {
   private tokensText: string = ''

@@ -6,11 +6,11 @@ import {
   UnexpectedEOFException,
   AstBuilderException,
   NoSuchLanguageException,
-} from './errors'
-import AstBuilder from './ast_builder'
-import Token from './token'
-import TokenScanner from './token_scanner'
-import TokenMatcher from './token_matcher'
+} from './Errors'
+import AstBuilder from './AstBuilder'
+import Token from './Token'
+import TokenScanner from './TokenScanner'
+import TokenMatcher from './TokenMatcher'
 
 export enum TokenType {
   None,

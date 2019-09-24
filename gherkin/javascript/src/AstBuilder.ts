@@ -1,8 +1,8 @@
-import AstNode from './ast_node'
+import AstNode from './AstNode'
 import { messages } from 'cucumber-messages'
-import { RuleType, TokenType } from './parser'
-import Token from './token'
-import { AstBuilderException } from './errors'
+import { RuleType, TokenType } from './Parser'
+import Token from './Token'
+import { AstBuilderException } from './Errors'
 
 export default class AstBuilder {
   private stack: AstNode[]
@@ -60,7 +60,7 @@ export default class AstBuilder {
     if (!tagsNode) {
       return tags
     }
-    const tokens = tagsNode.getTokens('TagLine')
+    const tokens = tagsNode.getTokens(TokenType.TagLine)
     for (const token of tokens) {
       for (const tagItem of token.matchedItems) {
         tags.push(
@@ -76,7 +76,7 @@ export default class AstBuilder {
 
   public getCells(tableRowToken: Token) {
     return tableRowToken.matchedItems.map(cellItem =>
-      messages.Location.fromObject({
+      messages.GherkinDocument.Feature.TableRow.TableCell.fromObject({
         location: this.getLocation(tableRowToken, cellItem.column),
         value: cellItem.text,
       })
@@ -125,14 +125,13 @@ export default class AstBuilder {
         const dataTable = node.getSingle(RuleType.DataTable)
         const docString = node.getSingle(RuleType.DocString)
 
-        const result = messages.GherkinDocument.Feature.Step.fromObject({
+        return messages.GherkinDocument.Feature.Step.fromObject({
           location: this.getLocation(stepLine),
           keyword: stepLine.matchedKeyword,
           text: stepLine.matchedText,
           dataTable,
           docString,
         })
-        return result
       }
       case RuleType.DocString: {
         const separatorToken = node.getTokens(TokenType.DocStringSeparator)[0]
@@ -158,7 +157,7 @@ export default class AstBuilder {
       }
       case RuleType.DataTable: {
         const rows = this.getTableRows(node)
-        return messages.GherkinDocument.Feature.TableRow.fromObject({
+        return messages.GherkinDocument.Feature.Step.DataTable.fromObject({
           location: rows[0].location,
           rows,
         })
@@ -168,15 +167,13 @@ export default class AstBuilder {
         const description = this.getDescription(node)
         const steps = this.getSteps(node)
 
-        return {
-          background: {
-            location: this.getLocation(backgroundLine),
-            keyword: backgroundLine.matchedKeyword,
-            name: backgroundLine.matchedText,
-            description,
-            steps,
-          },
-        }
+        return messages.GherkinDocument.Feature.Background.fromObject({
+          location: this.getLocation(backgroundLine),
+          keyword: backgroundLine.matchedKeyword,
+          name: backgroundLine.matchedText,
+          description,
+          steps,
+        })
       }
       case RuleType.ScenarioDefinition: {
         const tags = this.getTags(node)
@@ -185,44 +182,38 @@ export default class AstBuilder {
         const description = this.getDescription(scenarioNode)
         const steps = this.getSteps(scenarioNode)
         const examples = scenarioNode.getItems(RuleType.ExamplesDefinition)
-        return {
-          scenario: {
-            tags,
-            location: this.getLocation(scenarioLine),
-            keyword: scenarioLine.matchedKeyword,
-            name: scenarioLine.matchedText,
-            description,
-            steps,
-            examples,
-          },
-        }
+        return messages.GherkinDocument.Feature.Scenario.fromObject({
+          tags,
+          location: this.getLocation(scenarioLine),
+          keyword: scenarioLine.matchedKeyword,
+          name: scenarioLine.matchedText,
+          description,
+          steps,
+          examples,
+        })
       }
       case RuleType.ExamplesDefinition: {
         const tags = this.getTags(node)
         const examplesNode = node.getSingle(RuleType.Examples)
         const examplesLine = examplesNode.getToken(TokenType.ExamplesLine)
         const description = this.getDescription(examplesNode)
-        const exampleTable = examplesNode.getSingle(RuleType.ExamplesTable)
+        const exampleTable: messages.GherkinDocument.Feature.TableRow[] = examplesNode.getSingle(
+          RuleType.ExamplesTable
+        )
 
-        return {
+        return messages.GherkinDocument.Feature.Scenario.Examples.fromObject({
           tags,
           location: this.getLocation(examplesLine),
           keyword: examplesLine.matchedKeyword,
           name: examplesLine.matchedText,
           description,
-          tableHeader:
-            exampleTable !== undefined ? exampleTable.tableHeader : undefined,
+          tableHeader: exampleTable !== undefined ? exampleTable[0] : undefined,
           tableBody:
-            exampleTable !== undefined ? exampleTable.tableBody : undefined,
-        }
+            exampleTable !== undefined ? exampleTable.slice(1) : undefined,
+        })
       }
       case RuleType.ExamplesTable: {
-        const rows = this.getTableRows(node)
-
-        return {
-          tableHeader: rows !== undefined ? rows[0] : undefined,
-          tableBody: rows !== undefined ? rows.slice(1) : undefined,
-        }
+        return this.getTableRows(node)
       }
       case RuleType.Description: {
         let lineTokens = node.getTokens(TokenType.Other)
@@ -233,11 +224,7 @@ export default class AstBuilder {
         }
         lineTokens = lineTokens.slice(0, end)
 
-        return lineTokens
-          .map(function(token) {
-            return token.matchedText
-          })
-          .join('\n')
+        return lineTokens.map(token => token.matchedText).join('\n')
       }
 
       case RuleType.Feature: {
@@ -250,13 +237,30 @@ export default class AstBuilder {
         if (!featureLine) {
           return null
         }
-        let children = []
+        const children = []
         const background = node.getSingle(RuleType.Background)
         if (background) {
-          children.push(background)
+          children.push(
+            messages.GherkinDocument.Feature.FeatureChild.fromObject({
+              background,
+            })
+          )
         }
-        children = children.concat(node.getItems(RuleType.ScenarioDefinition))
-        children = children.concat(node.getItems(RuleType.Rule))
+        for (const scenario of node.getItems(RuleType.ScenarioDefinition)) {
+          children.push(
+            messages.GherkinDocument.Feature.FeatureChild.fromObject({
+              scenario,
+            })
+          )
+        }
+        for (const rule of node.getItems(RuleType.Rule)) {
+          children.push(
+            messages.GherkinDocument.Feature.FeatureChild.fromObject({
+              rule,
+            })
+          )
+        }
+
         const description = this.getDescription(header)
         const language = featureLine.matchedGherkinDialect
 
@@ -281,24 +285,32 @@ export default class AstBuilder {
         if (!ruleLine) {
           return null
         }
-        let children = []
+        const children = []
         const background = node.getSingle(RuleType.Background)
         if (background) {
-          children.push(background)
+          children.push(
+            messages.GherkinDocument.Feature.FeatureChild.fromObject({
+              background,
+            })
+          )
         }
-        children = children.concat(node.getItems(RuleType.ScenarioDefinition))
+        for (const scenario of node.getItems(RuleType.ScenarioDefinition)) {
+          children.push(
+            messages.GherkinDocument.Feature.FeatureChild.fromObject({
+              scenario,
+            })
+          )
+        }
         const description = this.getDescription(header)
 
-        return {
-          rule: messages.GherkinDocument.Feature.FeatureChild.Rule.fromObject({
-            tags,
-            location: this.getLocation(ruleLine),
-            keyword: ruleLine.matchedKeyword,
-            name: ruleLine.matchedText,
-            description,
-            children,
-          }),
-        }
+        return messages.GherkinDocument.Feature.FeatureChild.Rule.fromObject({
+          tags,
+          location: this.getLocation(ruleLine),
+          keyword: ruleLine.matchedKeyword,
+          name: ruleLine.matchedText,
+          description,
+          children,
+        })
       }
       case RuleType.GherkinDocument: {
         const feature = node.getSingle(RuleType.Feature)

@@ -1,5 +1,5 @@
-import Token from './token'
-import GherkinLine from './gherkin_line'
+import Token from './Token'
+import GherkinLine from './GherkinLine'
 import { messages } from 'cucumber-messages'
 
 /**
