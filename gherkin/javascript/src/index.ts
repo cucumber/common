@@ -6,6 +6,7 @@ import SourceMessageStream from './stream/SourceMessageStream'
 import { messages, ProtobufMessageStream } from 'cucumber-messages'
 import DIALECTS from './gherkin-languages.json'
 import Dialect from './Dialect'
+import GherkinExe from './external/GherkinExe'
 
 export function fromStream(stream: Readable, options: IGherkinOptions) {
   return stream
@@ -14,6 +15,15 @@ export function fromStream(stream: Readable, options: IGherkinOptions) {
 }
 
 export function fromPaths(paths: string[], options: IGherkinOptions): Readable {
+  if (process.env.GHERKIN_EXECUTABLE) {
+    return new GherkinExe(
+      process.env.GHERKIN_EXECUTABLE,
+      paths,
+      [],
+      options
+    ).messageStream()
+  }
+
   const combinedMessageStream = new PassThrough({
     writableObjectMode: true,
     readableObjectMode: true,
@@ -45,6 +55,15 @@ export function fromSources(
   envelopes: messages.IEnvelope[],
   options: IGherkinOptions
 ): Readable {
+  if (process.env.GHERKIN_EXECUTABLE) {
+    return new GherkinExe(
+      process.env.GHERKIN_EXECUTABLE,
+      [],
+      envelopes,
+      options
+    ).messageStream()
+  }
+
   const combinedMessageStream = new PassThrough({ objectMode: true })
 
   function pipeSequentially() {

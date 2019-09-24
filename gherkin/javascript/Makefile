@@ -10,8 +10,6 @@ ERRORS       = $(patsubst testdata/%.feature,acceptance/testdata/%.feature.error
 
 .DELETE_ON_ERROR:
 
-.deps: executables
-
 .codegen: src/Parser.ts
 
 src/Parser.ts: gherkin.berp gherkin-javascript.razor berp/berp.exe
@@ -22,9 +20,6 @@ src/Parser.ts: gherkin.berp gherkin-javascript.razor berp/berp.exe
 	# Remove BOM
 	awk 'NR==1{sub(/^\xef\xbb\xbf/,"")}{print}' < $@ > $@.nobom
 	mv $@.nobom $@
-
-executables:
-	cp -R "$$(pwd)/../go/dist" $@
 
 .tested: .compared
 
@@ -52,5 +47,5 @@ acceptance/testdata/%.feature.errors.ndjson: testdata/%.feature testdata/%.featu
 	diff --unified <(jq "." $<.errors.ndjson) <(jq "." $@)
 
 clean:
-	rm -rf acceptance executables
+	rm -rf acceptance
 .PHONY: clean

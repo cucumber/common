@@ -1,59 +1,22 @@
 import { spawn, spawnSync } from 'child_process'
 import { statSync } from 'fs'
-import { ExeFile } from 'c21e'
 import { messages, ProtobufMessageStream } from 'cucumber-messages'
 import { Readable } from 'stream'
 import Dialect from '../Dialect'
-import { IGherkinOptions } from '../types'
+import { gherkinOptions, IGherkinOptions } from '../types'
 
-// function fromPaths(paths: string[], options: IGherkinOptions = defaultOptions) {
-//   return new GherkinExe(paths, [], options).messageStream()
-// }
-//
-// function fromSources(
-//   sources: messages.Source[],
-//   options: IGherkinOptions = defaultOptions
-// ) {
-//   return new GherkinExe([], sources, options).messageStream()
-// }
-//
-// function dialects() {
-//   return new GherkinExe([], [], {}).dialects()
-// }
-//
-// interface IGherkinLegacyOptions {
-//   source?: boolean
-//   'gherkin-document'?: boolean
-//   pickle?: boolean
-// }
-//
-// export { fromPaths, fromSources, dialects }
-//
-class GherkinExe {
-  private exeFile: ExeFile
-
+export default class GherkinExe {
   constructor(
+    private readonly gherkinExe: string,
     private readonly paths: string[],
-    private readonly sources: messages.Source[],
+    private readonly envelopes: messages.IEnvelope[],
     private readonly options: IGherkinOptions
   ) {
-    // this.options = { ...defaultOptions, ...options }
-    let executables = `${__dirname}/../../executables`
-    try {
-      statSync(executables)
-    } catch (err) {
-      // Dev mode - we're in src, not dist/src
-      executables = `${__dirname}/../executables`
-      statSync(executables)
-    }
-    this.exeFile = new ExeFile(
-      `${executables}/gherkin-{{.OS}}-{{.Arch}}{{.Ext}}`
-    )
-    statSync(this.exeFile.fileName)
+    this.options = gherkinOptions(options)
   }
 
   public dialects(): { [key: string]: Dialect } {
-    const result = spawnSync(this.exeFile.fileName, ['--dialects'])
+    const result = spawnSync(this.gherkinExe, ['--dialects'])
     return JSON.parse(result.stdout)
   }
 
@@ -69,7 +32,7 @@ class GherkinExe {
       options.push('--no-pickles')
     }
     const args = options.concat(this.paths)
-    const gherkin = spawn(this.exeFile.fileName, args)
+    const gherkin = spawn(this.gherkinExe, args)
     const protobufMessageStream = new ProtobufMessageStream(
       messages.Envelope.decodeDelimited.bind(messages.Envelope)
     )
@@ -77,8 +40,7 @@ class GherkinExe {
       protobufMessageStream.emit('error', err)
     })
     gherkin.stdout.pipe(protobufMessageStream)
-    for (const source of this.sources) {
-      const envelope = messages.Envelope.fromObject({ source })
+    for (const envelope of this.envelopes) {
       gherkin.stdin.write(messages.Envelope.encodeDelimited(envelope).finish())
     }
     gherkin.stdin.end()
