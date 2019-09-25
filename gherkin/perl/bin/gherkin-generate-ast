@@ -12,18 +12,13 @@ package App::GherkinGenerateAst;
 sub run {
     my ($class, $fh, @file_list) = @_;
 
-    my $json = Cpanel::JSON::XS->new->utf8->canonical;
+    my $json = Cpanel::JSON::XS->new->utf8->convert_blessed->canonical->pretty;
 
     my $parser = Gherkin::Parser->new();
 
     for my $file (@file_list) {
         my $gherkin_document = $parser->parse($file);
-        my $event = {
-            type => 'gherkin-document',
-            uri => $file,
-            document => $gherkin_document
-        };
-        print $fh $json->encode( $event );
+        print $fh $json->encode( $gherkin_document );
         print "\n"
     }
 

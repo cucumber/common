@@ -41,6 +41,8 @@ sub Feature    { $_[0]->dictionary->{ $_[0]->dialect }->{'feature'}; }
 sub Scenario   { $_[0]->dictionary->{ $_[0]->dialect }->{'scenario'}; }
 sub Background { $_[0]->dictionary->{ $_[0]->dialect }->{'background'}; }
 sub Examples   { $_[0]->dictionary->{ $_[0]->dialect }->{'examples'}; }
+sub Rule       { $_[0]->dictionary->{ $_[0]->dialect }->{'rule'}; }
+sub Example    { $_[0]->dictionary->{ $_[0]->dialect }->{'example'}; }
 sub Given      { $_[0]->dictionary->{ $_[0]->dialect }->{'given'}; }
 sub When       { $_[0]->dictionary->{ $_[0]->dialect }->{'when'}; }
 sub Then       { $_[0]->dictionary->{ $_[0]->dialect }->{'then'}; }

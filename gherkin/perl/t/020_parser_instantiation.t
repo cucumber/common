@@ -28,6 +28,7 @@ for (
 
 my $reference_type;
 my $reference_copy;
+delete $results{filename}->{gherkinDocument}->{uri};
 
 for my $type (sort keys %results) {
     my $examine = delete $results{ $type };

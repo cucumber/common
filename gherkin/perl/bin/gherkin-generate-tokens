@@ -3,6 +3,7 @@
 use strict;
 use warnings;
 use lib 'lib';
+use utf8;
 
 use Gherkin::Parser;
 use Gherkin::TokenFormatterBuilder;
@@ -20,4 +21,5 @@ sub run {
 
 }
 
+binmode STDOUT, ':utf8';
 __PACKAGE__->run(\*STDOUT, @ARGV) unless caller;
