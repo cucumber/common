@@ -529,7 +529,7 @@ jobs:
 
 ### Perl
 
-  gherkin-c:
+  gherkin-perl:
     executor: docker-cucumber-build
     steps:
       - attach_workspace:
