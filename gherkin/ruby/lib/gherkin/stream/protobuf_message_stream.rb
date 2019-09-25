@@ -1,15 +1,16 @@
 require 'cucumber/messages'
 
 module Gherkin
-  module Messages
-    class ProtobufCucumberMessages
+  module Stream
+    class ProtobufMessageStream
       def initialize(io)
         @io = io
       end
 
       def messages
         Enumerator.new do |y|
-          while !@io.eof?
+          until @io.eof?
+            STDERR.puts "HELLO"
             envelope = Cucumber::Messages::Envelope.parse_delimited_from(@io)
             y.yield envelope
           end

@@ -5,9 +5,9 @@ $LOAD_PATH.unshift(File.join(File.dirname(__FILE__),"../lib"))
 require 'optparse'
 require 'json'
 require 'cucumber/messages'
-require 'gherkin/gherkin'
-require 'gherkin/messages/subprocess_cucumber_messages'
-require 'gherkin/messages/protobuf_cucumber_messages'
+require 'gherkin'
+require 'gherkin/stream/subprocess_message_stream'
+require 'gherkin/stream/protobuf_message_stream'
 
 options = {
   include_source: true,
@@ -31,11 +31,10 @@ OptionParser.new do |opts|
   end
 end.parse!
 
-def include_messages(messages, options)
+def process_messages(messages, options)
   messages.each do |message|
     if options[:json]
       json = message.class.encode_json(message)
-      # puts json
       ob = JSON.parse(json)
       remove_empties(ob)
       puts JSON.generate(ob)
@@ -64,10 +63,10 @@ end
 gherkin_executable = ENV['GHERKIN_EXECUTABLE']
 if ARGV.empty?
   # Read protobuf from STDIN
-  messages = Gherkin::Messages::ProtobufCucumberMessages.new(STDIN).messages
+  messages = Gherkin::Stream::ProtobufMessageStream.new(STDIN).messages
 elsif gherkin_executable
   # Read protobuf from STDIN
-  messages = Gherkin::Messages::SubprocessCucumberMessages.new(
+  messages = Gherkin::Stream::SubprocessMessageStream.new(
     gherkin_executable,
     ARGV,
     options[:include_source],
@@ -75,9 +74,9 @@ elsif gherkin_executable
     options[:include_pickles]
   ).messages
 else
-  messages = Gherkin::Gherkin.from_paths(
+  messages = Gherkin.from_paths(
     ARGV,
     options
   )
 end
-include_messages(messages, options)
+process_messages(messages, options)

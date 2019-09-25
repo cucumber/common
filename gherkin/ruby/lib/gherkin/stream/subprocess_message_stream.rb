@@ -1,13 +1,13 @@
 require 'open3'
-require 'gherkin/messages/protobuf_cucumber_messages'
+require 'gherkin/stream/protobuf_message_stream'
 
 module Gherkin
-  module Messages
-    class SubprocessCucumberMessages
+  module Stream
+    class SubprocessMessageStream
       def initialize(gherkin_executable, paths, print_source, print_ast, print_pickles)
         @gherkin_executable, @paths, @print_source, @print_ast, @print_pickles = gherkin_executable, paths, print_source, print_ast, print_pickles
       end
-      
+
       def messages
         args = [@gherkin_executable]
         args.push('--no-source') unless @print_source
@@ -15,7 +15,11 @@ module Gherkin
         args.push('--no-pickles') unless @print_pickles
         args = args.concat(@paths)
         stdin, stdout, stderr, wait_thr = Open3.popen3(*args)
-        ProtobufCucumberMessages.new(stdout).messages
+        if(stdout.eof?)
+          error = stderr.read
+          raise error
+        end
+        ProtobufMessageStream.new(stdout).messages
       end
     end
   end

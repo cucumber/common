@@ -4,10 +4,12 @@ require 'gherkin/token_matcher'
 require 'gherkin/pickles/compiler'
 
 module Gherkin
-  module Messages
-    class ParserCucumberMessages
+  module Stream
+    class ParserMessageStream
       def initialize(paths, sources, options)
-        @paths, @sources, @options = paths, sources, options
+        @paths = paths
+        @sources = sources
+        @options = options
         @parser = Parser.new
         @compiler = Pickles::Compiler.new
       end
@@ -60,14 +62,14 @@ module Gherkin
       def sources
         Enumerator.new do |y|
           @paths.each do |path|
-            source = Cucumber::Messages::Source.new({
+            source = Cucumber::Messages::Source.new(
               uri: path,
               data: File.open(path, 'r:UTF-8', &:read),
-              media: Cucumber::Messages::Media.new({
+              media: Cucumber::Messages::Media.new(
                 encoding: :UTF8,
                 content_type: 'text/x.cucumber.gherkin+plain'
-              })
-            })
+              )
+            )
             y.yield(source)
           end
           @sources.each do |source|
@@ -86,7 +88,6 @@ module Gherkin
         gd[:uri] = source.uri
         Cucumber::Messages::GherkinDocument.new(gd)
       end
-
     end
   end
 end

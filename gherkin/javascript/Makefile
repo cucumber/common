@@ -10,39 +10,42 @@ ERRORS       = $(patsubst testdata/%.feature,acceptance/testdata/%.feature.error
 
 .DELETE_ON_ERROR:
 
-.deps: executables
+.codegen: src/Parser.ts
 
-executables:
-	cp -R "$$(pwd)/../go/dist" $@
+src/Parser.ts: gherkin.berp gherkin-javascript.razor berp/berp.exe
+	# We're allowing mono to fail. The monorepo build runs in a docker image which
+	# doesn't have mono installed. This looks like it will be fixed post Alpine 3.9:
+	# https://pkgs.alpinelinux.org/packages?name=mono&branch=edge
+	-mono berp/berp.exe -g gherkin.berp -t gherkin-javascript.razor -o $@
+	# Remove BOM
+	awk 'NR==1{sub(/^\xef\xbb\xbf/,"")}{print}' < $@ > $@.nobom
+	mv $@.nobom $@
 
-.tested: dist/src/index.js .compared
+.tested: .compared
 
 .compared: $(ASTS) $(PICKLES) $(ERRORS) $(SOURCES)
 	touch $@
 
-dist/src/index.js: src/index.ts
-	npm run build
-
 acceptance/testdata/%.feature.ast.ndjson: testdata/%.feature testdata/%.feature.ast.ndjson .deps
 	mkdir -p `dirname $@`
-	bin/gherkin --no-source --no-pickles $< | jq --sort-keys --compact-output "." > $@
+	bin/gherkin --no-source --no-pickles --json $< | jq --sort-keys --compact-output "." > $@
 	diff --unified <(jq "." $<.ast.ndjson) <(jq "." $@)
 
 acceptance/testdata/%.feature.pickles.ndjson: testdata/%.feature testdata/%.feature.pickles.ndjson .deps
 	mkdir -p `dirname $@`
-	bin/gherkin --no-source --no-ast $< | jq --sort-keys --compact-output "." > $@
+	bin/gherkin --no-source --no-ast --json $< | jq --sort-keys --compact-output "." > $@
 	diff --unified <(jq "." $<.pickles.ndjson) <(jq "." $@)
 
 acceptance/testdata/%.feature.source.ndjson: testdata/%.feature testdata/%.feature.source.ndjson .deps
 	mkdir -p `dirname $@`
-	bin/gherkin --no-ast --no-pickles $< | jq --sort-keys --compact-output "." > $@
+	bin/gherkin --no-ast --no-pickles --json $< | jq --sort-keys --compact-output "." > $@
 	diff --unified <(jq "." $<.source.ndjson) <(jq "." $@)
 
 acceptance/testdata/%.feature.errors.ndjson: testdata/%.feature testdata/%.feature.errors.ndjson .deps
 	mkdir -p `dirname $@`
-	bin/gherkin --no-source $< | jq --sort-keys --compact-output "." > $@
+	bin/gherkin --no-source --json $< | jq --sort-keys --compact-output "." > $@
 	diff --unified <(jq "." $<.errors.ndjson) <(jq "." $@)
 
 clean:
-	rm -rf acceptance executables
+	rm -rf acceptance
 .PHONY: clean
