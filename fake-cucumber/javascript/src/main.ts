@@ -27,7 +27,7 @@ const fakeTestResultsStream = new FakeTestResultsStream(
 fakeTestResultsStream.on('error', (err: Error) => exit(err))
 
 gherkin
-  .fromPaths(paths)
+  .fromPaths(paths, {})
   .pipe(fakeTestResultsStream)
   .pipe(process.stdout)
 

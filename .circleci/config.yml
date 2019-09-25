@@ -210,7 +210,6 @@ jobs:
           paths:
             - gherkin/javascript/dist
             - gherkin/javascript/node_modules
-            - gherkin/javascript/executables
 
   tag-expressions-javascript:
     executor: docker-circleci-node
@@ -583,7 +582,6 @@ workflows:
             - checkout
       - gherkin-javascript:
           requires:
-            - c21e-javascript
             - cucumber-messages-javascript
             - gherkin-go
       - tag-expressions-javascript:
@@ -592,12 +590,10 @@ workflows:
       - fake-cucumber-javascript:
           requires:
             - cucumber-messages-javascript
-            - c21e-javascript
             - gherkin-javascript
       - cucumber-react-javascript:
           requires:
             - cucumber-messages-javascript
-            - c21e-javascript
             - gherkin-javascript
             - fake-cucumber-javascript
       - html-formatter-javascript:

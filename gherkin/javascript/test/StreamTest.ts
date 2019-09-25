@@ -1,54 +1,47 @@
 import assert from 'assert'
-import * as gherkin from '../src'
 import { Readable } from 'stream'
 import { messages } from 'cucumber-messages'
+import { fromPaths, fromSources, dialects } from '../src'
+import makeSourceEnvelope from '../src/stream/makeSourceEnvelope'
 
 describe('gherkin', () => {
   it('parses gherkin from the file system', async () => {
-    const wrappers = await streamToArray(
-      gherkin.fromPaths(['testdata/good/minimal.feature'])
+    const envelopes = await streamToArray(
+      fromPaths(['testdata/good/minimal.feature'], {})
     )
-    assert.strictEqual(wrappers.length, 3)
+    assert.strictEqual(envelopes.length, 3)
   })
 
   it('parses gherkin from STDIN', async () => {
-    const source = messages.Source.fromObject({
-      uri: 'test.feature',
-      data: `Feature: Minimal
+    const source = makeSourceEnvelope(
+      `Feature: Minimal
 
   Scenario: minimalistic
     Given the minimalism
 `,
-      media: messages.Media.fromObject({
-        encoding: 'UTF8',
-        contentType: 'text/x.cucumber.gherkin+plain',
-      }),
-    })
+      'test.feature'
+    )
 
-    const envelopes = await streamToArray(gherkin.fromSources([source]))
+    const envelopes = await streamToArray(fromSources([source], {}))
     assert.strictEqual(envelopes.length, 3)
   })
 
   it('parses gherkin using the provided default language', async () => {
-    const source = messages.Source.fromObject({
-      uri: 'test.feature',
-      data: `Fonctionnalité: i18n support
+    const source = makeSourceEnvelope(
+      `Fonctionnalité: i18n support
   Scénario: Support des caractères spéciaux
     Soit un exemple de scénario en français
 `,
-      media: messages.Media.fromObject({
-        encoding: 'UTF-8',
-        contentType: 'text/x.cucumber.gherkin+plain',
-      }),
-    })
-    const wrappers = await streamToArray(
-      gherkin.fromSources([source], { defaultDialect: 'fr' })
+      'test.feature'
     )
-    assert.strictEqual(wrappers.length, 3)
+    const envelopes = await streamToArray(
+      fromSources([source], { defaultDialect: 'fr' })
+    )
+    assert.strictEqual(envelopes.length, 3)
   })
 
   it('outputs dialects', async () => {
-    const result = gherkin.dialects()
+    const result = dialects()
     assert.strictEqual(result.en.name, 'English')
   })
 })

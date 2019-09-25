@@ -80,7 +80,7 @@ module Gherkin
       return if rows.empty?
       cell_count = rows[0].cells.length
       rows.each do |row|
-        if (row.cells.length != cell_count)
+        if row.cells.length != cell_count
           location = {line: row.location.line, column: row.location.column}
           raise AstBuilderException.new("inconsistent cell count within the table", location)
         end
