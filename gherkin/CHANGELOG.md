@@ -14,6 +14,12 @@ This document is formatted according to the principles of [Keep A CHANGELOG](htt
 ### Changed
 
 * Upgrade cucumber-messages to 6.0.0
+* [JavaScript] restore native JavaScript parser
+  ([#709](https://github.com/cucumber/cucumber/pull/709)
+   [#689](https://github.com/cucumber/cucumber/pull/689)
+   [badeball]
+   [aslakhellesoy])
+  ([#702](https://github.com/cucumber/cucumber/pull/702) [brasmusson])
 * [Ruby] restore native ruby parser 
   ([#702](https://github.com/cucumber/cucumber/pull/702) [brasmusson])
 
@@ -564,6 +570,7 @@ to Gherkin 2.
 [Ahmed-Ali]:        https://github.com/Ahmed-Ali
 [ajspadial]:        https://github.com/ajspadial
 [aslakhellesoy]:    https://github.com/aslakhellesoy
+[badeball]:         https://github.com/badeball
 [brasmusson]:       https://github.com/brasmusson
 [charlierudolph]:   https://github.com/charlierudolph
 [cyocum]:           https://github.com/cyocum
