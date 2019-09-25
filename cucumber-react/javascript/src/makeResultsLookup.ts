@@ -1,11 +1,10 @@
 import { messages } from 'cucumber-messages'
 import { ResultsLookup } from './types'
-import { google } from 'cucumber-messages/dist/src/cucumber-messages'
 
 // Unifying interface for both ITestStepFinished and ITestCaseFinished
 interface IFinished {
   pickleId?: (string | null);
-  timestamp?: (google.protobuf.ITimestamp | null);
+  timestamp?: (messages.ITimestamp | null);
   testResult?: (messages.ITestResult | null);
 }
 

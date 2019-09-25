@@ -16,4 +16,4 @@ messages.pb.go: messages.proto .go-get
 		$<
 
 clean:
-	rm -f messages.pb.go .go-get
+	rm -f .go-get

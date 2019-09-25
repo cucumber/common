@@ -10,15 +10,20 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Added
 
 * New `TestStepMatched` message
+* `Duration` message to express duration in a seconds + nano format
+* field `duration` in `TestResult` message
 
 ### Changed
 
 * Renamed `PatternMatch` to `StepMatchArgument`
 * Renamed `CommandRunTestStep#patternMatches` to `CommandRunTestStep#stepMatchArguments`
+* Replace Google's Timestamp by our own message
 
 ### Deprecated
 
 ### Removed
+
+* `durationNanoSeconds` field in `TestResult` message
 
 ### Fixed
 

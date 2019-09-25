@@ -14,6 +14,7 @@
     - [CommandRunBeforeTestRunHooks](#io.cucumber.messages.CommandRunBeforeTestRunHooks)
     - [CommandRunTestStep](#io.cucumber.messages.CommandRunTestStep)
     - [CommandStart](#io.cucumber.messages.CommandStart)
+    - [Duration](#io.cucumber.messages.Duration)
     - [Envelope](#io.cucumber.messages.Envelope)
     - [GeneratedExpression](#io.cucumber.messages.GeneratedExpression)
     - [GherkinDocument](#io.cucumber.messages.GherkinDocument)
@@ -34,7 +35,6 @@
     - [Location](#io.cucumber.messages.Location)
     - [Media](#io.cucumber.messages.Media)
     - [ParameterTypeConfig](#io.cucumber.messages.ParameterTypeConfig)
-    - [ParameterTypeMatch](#io.cucumber.messages.ParameterTypeMatch)
     - [Pickle](#io.cucumber.messages.Pickle)
     - [Pickle.PickleStep](#io.cucumber.messages.Pickle.PickleStep)
     - [Pickle.PickleTag](#io.cucumber.messages.Pickle.PickleTag)
@@ -53,6 +53,8 @@
     - [SourcesOrder](#io.cucumber.messages.SourcesOrder)
     - [StepDefinitionConfig](#io.cucumber.messages.StepDefinitionConfig)
     - [StepDefinitionPattern](#io.cucumber.messages.StepDefinitionPattern)
+    - [StepMatchArgument](#io.cucumber.messages.StepMatchArgument)
+    - [StepMatchArgument.Group](#io.cucumber.messages.StepMatchArgument.Group)
     - [SupportCodeConfig](#io.cucumber.messages.SupportCodeConfig)
     - [TestCaseFinished](#io.cucumber.messages.TestCaseFinished)
     - [TestCaseHookDefinitionConfig](#io.cucumber.messages.TestCaseHookDefinitionConfig)
@@ -68,6 +70,7 @@
     - [TestStepFinished](#io.cucumber.messages.TestStepFinished)
     - [TestStepMatched](#io.cucumber.messages.TestStepMatched)
     - [TestStepStarted](#io.cucumber.messages.TestStepStarted)
+    - [Timestamp](#io.cucumber.messages.Timestamp)
     - [UriToLinesMapping](#io.cucumber.messages.UriToLinesMapping)
   
     - [Media.Encoding](#io.cucumber.messages.Media.Encoding)
@@ -236,7 +239,7 @@ An attachment represents any kind of data associated with a line in a
 | ----- | ---- | ----- | ----------- |
 | actionId | [string](#string) |  |  |
 | stepDefinitionId | [string](#string) |  |  |
-| parameterTypeMatches | [ParameterTypeMatch](#io.cucumber.messages.ParameterTypeMatch) | repeated |  |
+| stepMatchArguments | [StepMatchArgument](#io.cucumber.messages.StepMatchArgument) | repeated |  |
 | pickleId | [string](#string) |  |  |
 | pickleStepArgument | [PickleStepArgument](#io.cucumber.messages.PickleStepArgument) |  |  |
 
@@ -257,6 +260,23 @@ An attachment represents any kind of data associated with a line in a
 | sourcesConfig | [SourcesConfig](#io.cucumber.messages.SourcesConfig) |  |  |
 | runtimeConfig | [RuntimeConfig](#io.cucumber.messages.RuntimeConfig) |  |  |
 | supportCodeConfig | [SupportCodeConfig](#io.cucumber.messages.SupportCodeConfig) |  |  |
+
+
+
+
+
+
+<a name="io.cucumber.messages.Duration"></a>
+
+### Duration
+The structure is pretty close of the Timestamp one. For clarity, a second type
+of message is used.
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| seconds | [int64](#int64) |  |  |
+| nanos | [int32](#int32) |  | Non-negative fractions of a second at nanosecond resolution. Negative second values with fractions must still have non-negative nanos values that count forward in time. Must be from 0 to 999,999,999 inclusive. |
 
 
 
@@ -297,6 +317,7 @@ messages.
 | commandRunAfterTestRunHooks | [CommandRunAfterTestRunHooks](#io.cucumber.messages.CommandRunAfterTestRunHooks) |  |  |
 | commandGenerateSnippet | [CommandGenerateSnippet](#io.cucumber.messages.CommandGenerateSnippet) |  |  |
 | commandError | [string](#string) |  |  |
+| testStepMatched | [TestStepMatched](#io.cucumber.messages.TestStepMatched) |  |  |
 
 
 
@@ -642,22 +663,6 @@ Meta information about encoded contents
 
 
 
-<a name="io.cucumber.messages.ParameterTypeMatch"></a>
-
-### ParameterTypeMatch
-
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| captures | [string](#string) | repeated |  |
-| parameterTypeName | [string](#string) |  |  |
-
-
-
-
-
-
 <a name="io.cucumber.messages.Pickle"></a>
 
 ### Pickle
@@ -964,6 +969,45 @@ Points to a [Source](#io.cucumber.messages.Source) identified by `uri` and a
 
 
 
+<a name="io.cucumber.messages.StepMatchArgument"></a>
+
+### StepMatchArgument
+Represents a single argument extracted from a step match and passed to a step definition.
+This is used for the following purposes:
+- Construct an argument to pass to a step definition (possibly through a parameter type transform)
+- Highlight the matched parameter in rich formatters such as the HTML formatter
+
+This message closely matches the `Argument` class in the `cucumber-expressions` library.
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| parameterTypeName | [string](#string) |  |  |
+| group | [StepMatchArgument.Group](#io.cucumber.messages.StepMatchArgument.Group) |  |  |
+
+
+
+
+
+
+<a name="io.cucumber.messages.StepMatchArgument.Group"></a>
+
+### StepMatchArgument.Group
+Represents the outermost capture group of an argument. This message closely matches the
+`Group` class in the `cucumber-expressions` library.
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| start | [uint32](#uint32) |  |  |
+| value | [string](#string) |  |  |
+| children | [StepMatchArgument.Group](#io.cucumber.messages.StepMatchArgument.Group) | repeated |  |
+
+
+
+
+
+
 <a name="io.cucumber.messages.SupportCodeConfig"></a>
 
 ### SupportCodeConfig
@@ -991,7 +1035,7 @@ Points to a [Source](#io.cucumber.messages.Source) identified by `uri` and a
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
 | pickleId | [string](#string) |  |  |
-| timestamp | [google.protobuf.Timestamp](#google.protobuf.Timestamp) |  |  |
+| timestamp | [Timestamp](#io.cucumber.messages.Timestamp) |  |  |
 | testResult | [TestResult](#io.cucumber.messages.TestResult) |  |  |
 
 
@@ -1057,7 +1101,7 @@ Points to a [Source](#io.cucumber.messages.Source) identified by `uri` and a
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
 | pickleId | [string](#string) |  |  |
-| timestamp | [google.protobuf.Timestamp](#google.protobuf.Timestamp) |  |  |
+| timestamp | [Timestamp](#io.cucumber.messages.Timestamp) |  |  |
 | platform | [TestCaseStarted.Platform](#io.cucumber.messages.TestCaseStarted.Platform) |  |  |
 
 
@@ -1093,7 +1137,7 @@ Points to a [Source](#io.cucumber.messages.Source) identified by `uri` and a
 | ----- | ---- | ----- | ----------- |
 | pickleId | [string](#string) |  |  |
 | testResult | [TestResult](#io.cucumber.messages.TestResult) |  |  |
-| timestamp | [google.protobuf.Timestamp](#google.protobuf.Timestamp) |  |  |
+| timestamp | [Timestamp](#io.cucumber.messages.Timestamp) |  |  |
 
 
 
@@ -1109,7 +1153,7 @@ Points to a [Source](#io.cucumber.messages.Source) identified by `uri` and a
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
 | pickleId | [string](#string) |  |  |
-| timestamp | [google.protobuf.Timestamp](#google.protobuf.Timestamp) |  |  |
+| timestamp | [Timestamp](#io.cucumber.messages.Timestamp) |  |  |
 
 
 
@@ -1126,7 +1170,7 @@ Points to a [Source](#io.cucumber.messages.Source) identified by `uri` and a
 | ----- | ---- | ----- | ----------- |
 | status | [TestResult.Status](#io.cucumber.messages.TestResult.Status) |  |  |
 | message | [string](#string) |  |  |
-| durationNanoseconds | [uint64](#uint64) |  |  |
+| duration | [Duration](#io.cucumber.messages.Duration) |  |  |
 
 
 
@@ -1142,7 +1186,7 @@ Points to a [Source](#io.cucumber.messages.Source) identified by `uri` and a
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
 | success | [bool](#bool) |  | success = StrictModeEnabled ? (failed_count == 0 &amp;&amp; ambiguous_count == 0 &amp;&amp; undefined_count == 0 &amp;&amp; pending_count == 0) : (failed_count == 0 &amp;&amp; ambiguous_count == 0) |
-| timestamp | [google.protobuf.Timestamp](#google.protobuf.Timestamp) |  | Timestamp when the TestRun is finished |
+| timestamp | [Timestamp](#io.cucumber.messages.Timestamp) |  | Timestamp when the TestRun is finished |
 
 
 
@@ -1157,7 +1201,7 @@ Points to a [Source](#io.cucumber.messages.Source) identified by `uri` and a
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| timestamp | [google.protobuf.Timestamp](#google.protobuf.Timestamp) |  |  |
+| timestamp | [Timestamp](#io.cucumber.messages.Timestamp) |  |  |
 
 
 
@@ -1175,7 +1219,7 @@ Points to a [Source](#io.cucumber.messages.Source) identified by `uri` and a
 | pickleId | [string](#string) |  |  |
 | index | [uint32](#uint32) |  |  |
 | testResult | [TestResult](#io.cucumber.messages.TestResult) |  |  |
-| timestamp | [google.protobuf.Timestamp](#google.protobuf.Timestamp) |  |  |
+| timestamp | [Timestamp](#io.cucumber.messages.Timestamp) |  |  |
 
 
 
@@ -1193,7 +1237,7 @@ For each step, there will be a match
 | pickleId | [string](#string) |  |  |
 | index | [uint32](#uint32) |  |  |
 | stepDefinitionReference | [SourceReference](#io.cucumber.messages.SourceReference) |  |  |
-| parameterTypeMatches | [ParameterTypeMatch](#io.cucumber.messages.ParameterTypeMatch) | repeated |  |
+| stepMatchArguments | [StepMatchArgument](#io.cucumber.messages.StepMatchArgument) | repeated |  |
 
 
 
@@ -1210,7 +1254,23 @@ For each step, there will be a match
 | ----- | ---- | ----- | ----------- |
 | pickleId | [string](#string) |  |  |
 | index | [uint32](#uint32) |  |  |
-| timestamp | [google.protobuf.Timestamp](#google.protobuf.Timestamp) |  |  |
+| timestamp | [Timestamp](#io.cucumber.messages.Timestamp) |  |  |
+
+
+
+
+
+
+<a name="io.cucumber.messages.Timestamp"></a>
+
+### Timestamp
+From https://github.com/protocolbuffers/protobuf/blob/master/src/google/protobuf/timestamp.proto
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| seconds | [int64](#int64) |  | Represents seconds of UTC time since Unix epoch 1970-01-01T00:00:00Z. Must be from 0001-01-01T00:00:00Z to 9999-12-31T23:59:59Z inclusive. |
+| nanos | [int32](#int32) |  | Non-negative fractions of a second at nanosecond resolution. Negative second values with fractions must still have non-negative nanos values that count forward in time. Must be from 0 to 999,999,999 inclusive. |
 
 
 
