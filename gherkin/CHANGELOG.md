@@ -11,6 +11,13 @@ This document is formatted according to the principles of [Keep A CHANGELOG](htt
 
 ### Added
 
+* New keywords for German
+  ([#352](https://github.com/cucumber/cucumber/pull/352)
+   [#707](https://github.com/cucumber/cucumber/issues/707)
+   [#708](https://github.com/cucumber/cucumber/pull/708)
+   [coderbyheart]
+   [Haukinger])
+
 ### Changed
 
 * Upgrade cucumber-messages to 6.0.0
@@ -573,12 +580,14 @@ to Gherkin 2.
 [badeball]:         https://github.com/badeball
 [brasmusson]:       https://github.com/brasmusson
 [charlierudolph]:   https://github.com/charlierudolph
+[coderbyheart]:     https://github.com/coderbyheart
 [cyocum]:           https://github.com/cyocum
 [danilat]:          https://github.com/danilat
 [dobiedad]:         https://github.com/dobiedad
 [ehpc]:             https://github.com/ehpc
 [enkessler]:        https://github.com/enkessler
 [gabanz]:           https://github.com/gabanz
+[Haukinger]:        https://github.com/Haukinger
 [jargalan]:         https://github.com/jargalan
 [jmezach]:          https://github.com/jmezach
 [joscha]:           https://github.com/joscha

@@ -624,12 +624,17 @@ var buildinDialects = gherkinDialectMap{
 		"de", "German", "Deutsch", map[string][]string{
 			feature: []string{
 				"Funktionalität",
+				"Funktion",
 			},
 			rule: []string{
 				"Rule",
+				"Regel",
 			},
 			background: []string{
 				"Grundlage",
+				"Hintergrund",
+				"Voraussetzungen",
+				"Vorbedingungen",
 			},
 			scenario: []string{
 				"Beispiel",
@@ -637,6 +642,7 @@ var buildinDialects = gherkinDialectMap{
 			},
 			scenarioOutline: []string{
 				"Szenariogrundriss",
+				"Szenarien",
 			},
 			examples: []string{
 				"Beispiele",
