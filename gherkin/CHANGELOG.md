@@ -26,7 +26,6 @@ This document is formatted according to the principles of [Keep A CHANGELOG](htt
    [#689](https://github.com/cucumber/cucumber/pull/689)
    [badeball]
    [aslakhellesoy])
-  ([#702](https://github.com/cucumber/cucumber/pull/702) [brasmusson])
 * [Ruby] restore native ruby parser 
   ([#702](https://github.com/cucumber/cucumber/pull/702) [brasmusson])
 
