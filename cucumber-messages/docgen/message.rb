@@ -27,7 +27,8 @@ class Message
       long_type = field['longType']
       repeated = field['label'] == 'repeated'
       field_examples = []
-      if @messages[long_type]
+      different_type = long_type != @long_name
+      if @messages[long_type] && different_type # Avoid infinite recursion for Group
         field = Message.new(long_type, @messages)
         field_examples.push(field.example)
       else

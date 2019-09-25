@@ -1,5 +1,7 @@
 package io.cucumber.datatable;
 
+import org.apiguardian.api.API;
+
 import java.util.Map;
 
 /**
@@ -10,6 +12,8 @@ import java.util.Map;
  *
  * @param <T> the target type
  */
+@API(status = API.Status.STABLE)
+@FunctionalInterface
 public interface TableEntryTransformer<T> {
 
     /**

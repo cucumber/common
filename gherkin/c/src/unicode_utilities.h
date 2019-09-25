@@ -22,6 +22,8 @@ Utf16Surrogates UnicodeUtilities_get_utf16_surrogates(long code_point);
 
 int UnicodeUtilities_print_wide_character_to_utf8_file(FILE* file, const wchar_t* text, int pos);
 
+int UnicodeUtilities_print_wide_character_to_utf8_buffer(unsigned char* buffer, const wchar_t* text, int pos);
+
 bool UnicodeUtilities_is_utf16_surrogate(const wchar_t wide_char);
 
 #ifdef __cplusplus

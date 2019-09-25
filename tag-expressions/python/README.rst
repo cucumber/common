@@ -35,4 +35,4 @@ in an easy way::
 
 SEE ALSO:
 
-* https://docs.cucumber.io/cucumber/api/#tag-expressions
+* https://cucumber.io/docs/cucumber/api/#tag-expressions

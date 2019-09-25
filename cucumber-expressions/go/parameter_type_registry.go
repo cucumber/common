@@ -12,7 +12,7 @@ var INTEGER_REGEXPS = []*regexp.Regexp{
 	regexp.MustCompile(`\d+`),
 }
 var FLOAT_REGEXPS = []*regexp.Regexp{
-	regexp.MustCompile(`-?\d*(?:[.,]\d+)?`),
+	regexp.MustCompile(`[-+]?\d*\.?\d+`),
 }
 var WORD_REGEXPS = []*regexp.Regexp{
 	regexp.MustCompile(`[^\s]+`),
@@ -49,6 +49,7 @@ func NewParameterTypeRegistry() *ParameterTypeRegistry {
 		},
 		true,
 		true,
+		false,
 	)
 	if err != nil {
 		panic(err)
@@ -67,6 +68,7 @@ func NewParameterTypeRegistry() *ParameterTypeRegistry {
 		},
 		true,
 		false,
+		false,
 	)
 	if err != nil {
 		panic(err)
@@ -83,6 +85,7 @@ func NewParameterTypeRegistry() *ParameterTypeRegistry {
 			}
 			return i
 		},
+		false,
 		false,
 		false,
 	)
@@ -109,6 +112,7 @@ func NewParameterTypeRegistry() *ParameterTypeRegistry {
 			return i
 		},
 		true,
+		false,
 		false,
 	)
 	if err != nil {

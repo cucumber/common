@@ -1,0 +1,25 @@
+{
+  "testStepMatched": {
+    "pickleId": null,
+    "index": null,
+    "stepDefinitionReference": {
+      "uri": null,
+      "location": {
+        "line": null,
+        "column": null
+      }
+    },
+    "stepMatchArguments": [
+      {
+        "parameterTypeName": null,
+        "group": {
+          "start": null,
+          "value": null,
+          "children": [
+
+          ]
+        }
+      }
+    ]
+  }
+}

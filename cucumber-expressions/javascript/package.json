@@ -1,6 +1,6 @@
 {
   "name": "cucumber-expressions",
-  "version": "7.0.2",
+  "version": "8.0.0",
   "description": "Cucumber Expressions - a simpler alternative to Regular Expressions",
   "main": "dist/src/index.js",
   "types": "dist/src/index.d.ts",
@@ -30,15 +30,15 @@
   "homepage": "https://github.com/cucumber/cucumber-expressions-javascript#readme",
   "devDependencies": {
     "@types/mocha": "^5.2.7",
-    "@types/node": "^12.6.2",
-    "mocha": "^6.1.4",
+    "@types/node": "^12.7.4",
+    "mocha": "^6.2.0",
     "nyc": "^14.1.1",
     "prettier": "^1.18.2",
     "ts-node": "^8.3.0",
-    "tslint": "^5.18.0",
+    "tslint": "^5.19.0",
     "tslint-config-prettier": "^1.18.0",
     "tslint-plugin-prettier": "^2.0.1",
-    "typescript": "^3.5.3"
+    "typescript": "^3.6.2"
   },
   "files": [
     "*"

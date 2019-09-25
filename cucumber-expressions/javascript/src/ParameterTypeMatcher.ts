@@ -40,11 +40,24 @@ export default class ParameterTypeMatcher {
   }
 
   get find() {
-    return this.match && this.group !== ''
+    return this.match && this.group !== '' && this.full_word
   }
 
   get start() {
     return this.matchPosition + this.match.index
+  }
+
+  get full_word() {
+    return this.match_start_word && this.match_end_word
+  }
+
+  get match_start_word() {
+    return this.start == 0 || this.text[this.start - 1].match(/\s|\p{P}/u)
+  }
+
+  get match_end_word() {
+    const next_character_index = this.start + this.group.length
+    return  next_character_index === this.text.length || this.text[next_character_index].match(/\s|\p{P}/u)
   }
 
   get group() {

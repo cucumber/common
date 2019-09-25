@@ -1,5 +1,8 @@
 {
   "testRunStarted": {
-    "timestamp": null
+    "timestamp": {
+      "seconds": null,
+      "nanos": null
+    }
   }
 }

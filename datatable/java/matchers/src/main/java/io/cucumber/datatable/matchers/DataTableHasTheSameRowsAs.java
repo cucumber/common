@@ -3,6 +3,7 @@ package io.cucumber.datatable.matchers;
 import io.cucumber.datatable.DataTable;
 import io.cucumber.datatable.DataTableDiff;
 import io.cucumber.datatable.TableDiffer;
+import org.apiguardian.api.API;
 import org.hamcrest.Description;
 import org.hamcrest.TypeSafeDiagnosingMatcher;
 
@@ -16,11 +17,12 @@ import org.hamcrest.TypeSafeDiagnosingMatcher;
  *   assertThat(shuffled, hasTheSameRowsAs(table));
  * </pre>
  */
-public class DataTableHasTheSameRowsAs extends TypeSafeDiagnosingMatcher<DataTable> {
+@API(status = API.Status.STABLE)
+public final class DataTableHasTheSameRowsAs extends TypeSafeDiagnosingMatcher<DataTable> {
     private final DataTable expectedValue;
     private final boolean unordered;
 
-    protected DataTableHasTheSameRowsAs(DataTable expectedValue, boolean unordered) {
+    private DataTableHasTheSameRowsAs(DataTable expectedValue, boolean unordered) {
         this.expectedValue = expectedValue;
         this.unordered = unordered;
     }

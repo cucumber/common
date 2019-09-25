@@ -1,4 +1,4 @@
-See [website docs](https://docs.cucumber.io/cucumber/cucumber-expressions/) for more details.
+See [website docs](https://cucumber.io/docs/cucumber/cucumber-expressions/) for more details.
 
 ## Acknowledgements
 

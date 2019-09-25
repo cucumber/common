@@ -1,5 +1,7 @@
 package io.cucumber.cucumberexpressions;
 
+import org.apiguardian.api.API;
+
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
@@ -9,7 +11,8 @@ import java.util.regex.PatternSyntaxException;
  * using heuristics. This is particularly useful for languages that don't have a
  * literal syntax for regular expressions. In Java, a regular expression has to be represented as a String.
  */
-public class ExpressionFactory {
+@API(status = API.Status.STABLE)
+public final class ExpressionFactory {
 
     private static final Pattern BEGIN_ANCHOR = Pattern.compile("^\\^.*");
     private static final Pattern END_ANCHOR = Pattern.compile(".*\\$$");

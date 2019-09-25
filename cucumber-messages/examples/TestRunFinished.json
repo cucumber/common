@@ -1,5 +1,9 @@
 {
   "testRunFinished": {
-    "success": null
+    "success": null,
+    "timestamp": {
+      "seconds": null,
+      "nanos": null
+    }
   }
 }

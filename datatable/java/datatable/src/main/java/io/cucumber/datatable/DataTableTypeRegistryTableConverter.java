@@ -1,6 +1,11 @@
 package io.cucumber.datatable;
 
-import io.cucumber.datatable.DataTable.AbstractTableConverter;
+import io.cucumber.datatable.DataTable.TableConverter;
+import io.cucumber.datatable.TypeFactory.JavaType;
+import io.cucumber.datatable.TypeFactory.ListType;
+import io.cucumber.datatable.TypeFactory.MapType;
+import io.cucumber.datatable.TypeFactory.OtherType;
+import org.apiguardian.api.API;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
@@ -14,18 +19,23 @@ import static io.cucumber.datatable.CucumberDataTableException.duplicateKeyExcep
 import static io.cucumber.datatable.CucumberDataTableException.keyValueMismatchException;
 import static io.cucumber.datatable.CucumberDataTableException.keysImplyTableEntryTransformer;
 import static io.cucumber.datatable.TypeFactory.aListOf;
+import static io.cucumber.datatable.TypeFactory.constructType;
 import static io.cucumber.datatable.UndefinedDataTableTypeException.singletonNoConverterDefined;
 import static io.cucumber.datatable.UndefinedDataTableTypeException.mapNoConverterDefined;
 import static io.cucumber.datatable.UndefinedDataTableTypeException.mapsNoConverterDefined;
 import static io.cucumber.datatable.UndefinedDataTableTypeException.listNoConverterDefined;
 import static io.cucumber.datatable.UndefinedDataTableTypeException.listsNoConverterDefined;
+import static io.cucumber.datatable.UndefinedDataTableTypeException.listTableTooWide;
+import static io.cucumber.datatable.UndefinedDataTableTypeException.singletonTableTooWide;
 import static java.util.Collections.emptyList;
 import static java.util.Collections.emptyMap;
 import static java.util.Collections.nCopies;
 import static java.util.Collections.unmodifiableList;
 import static java.util.Collections.unmodifiableMap;
+import static java.util.Objects.requireNonNull;
 
-public final class DataTableTypeRegistryTableConverter extends AbstractTableConverter {
+@API(status = API.Status.STABLE)
+public final class DataTableTypeRegistryTableConverter implements TableConverter {
 
     private final DataTableTypeRegistry registry;
 
@@ -41,14 +51,15 @@ public final class DataTableTypeRegistryTableConverter extends AbstractTableConv
     @Override
     @SuppressWarnings("unchecked")
     public <T> T convert(DataTable dataTable, Type type, boolean transposed) {
-        if (dataTable == null) throw new NullPointerException("dataTable may not be null");
-        if (type == null) throw new NullPointerException("type may not be null");
+        requireNonNull(dataTable, "dataTable may not be null");
+        requireNonNull(type, "type may not be null");
 
         if (transposed) {
             dataTable = dataTable.transpose();
         }
+        JavaType javaType = TypeFactory.constructType(type);
 
-        DataTableType tableType = registry.lookupTableTypeByType(type);
+        DataTableType tableType = registry.lookupTableTypeByType(javaType);
         if (tableType != null) {
             return (T) tableType.transform(dataTable.cells());
         }
@@ -57,43 +68,32 @@ public final class DataTableTypeRegistryTableConverter extends AbstractTableConv
             return (T) dataTable;
         }
 
-        Type mapKeyType = mapKeyType(type);
-        if (mapKeyType != null) {
-            Type mapValueType = mapValueType(type);
-            return (T) toMap(dataTable, mapKeyType, mapValueType);
-        } else if (Map.class.equals(type)) {
-            // Non-generic map
-            return (T) toMap(dataTable, String.class, String.class);
+        if (javaType instanceof MapType) {
+            MapType mapType = (MapType) javaType;
+            return (T) toMap(dataTable, mapType.getKeyType(), mapType.getValueType());
         }
 
-        Type itemType = listItemType(type);
-        if (itemType == null) {
-            if (List.class.equals(type)) {
-                // Non-generic list
-                return (T) toList(dataTable, String.class);
-            } else {
-                return toSingleton(dataTable, type);
-            }
+        if (javaType instanceof OtherType) {
+            return toSingleton(dataTable, javaType);
         }
 
-        Type mapKeyItemType = mapKeyType(itemType);
-        if (mapKeyItemType != null) {
-            Type mapValueType = mapValueType(itemType);
-            return (T) toMaps(dataTable, mapKeyItemType, mapValueType);
-        } else if (Map.class.equals(itemType)) {
-            // Non-generic map
-            return (T) toMaps(dataTable, String.class, String.class);
+        assert javaType instanceof ListType;
+
+        ListType listType = (ListType) javaType;
+        JavaType listElementType = listType.getElementType();
+
+        if (listElementType instanceof MapType) {
+            MapType mapElement = (MapType) listElementType;
+            return (T) toMaps(dataTable, mapElement.getKeyType(), mapElement.getValueType());
         }
 
-        Type listItemType = listItemType(itemType);
-        if (listItemType != null) {
-            return (T) toLists(dataTable, listItemType);
-        } else if (List.class.equals(itemType)) {
-            // Non-generic list
-            return (T) toLists(dataTable, String.class);
+        if (listElementType instanceof ListType) {
+            ListType listElement = (ListType) listElementType;
+            return (T) toLists(dataTable, listElement.getElementType());
         }
 
-        return (T) toList(dataTable, itemType);
+        assert listElementType instanceof OtherType;
+        return (T) toList(dataTable, listElementType);
     }
 
     private <T> T toSingleton(DataTable dataTable, Type type) {
@@ -103,6 +103,10 @@ public final class DataTableTypeRegistryTableConverter extends AbstractTableConv
 
         List<T> singletonList = toListOrNull(dataTable, type);
         if (singletonList == null) {
+            DataTableType cellValueType = registry.lookupTableTypeByType(aListOf(aListOf(type)));
+            if (cellValueType != null) {
+                throw singletonTableTooWide(type, "TableEntryConverter or TableCellConverter", type);
+            }
             throw singletonNoConverterDefined(type);
         }
 
@@ -115,8 +119,8 @@ public final class DataTableTypeRegistryTableConverter extends AbstractTableConv
 
     @Override
     public <T> List<T> toList(DataTable dataTable, Type itemType) {
-        if (dataTable == null) throw new NullPointerException("dataTable may not be null");
-        if (itemType == null) throw new NullPointerException("itemType may not be null");
+        requireNonNull(dataTable, "dataTable may not be null");
+        requireNonNull(itemType, "itemType may not be null");
 
         if (dataTable.isEmpty()) {
             return emptyList();
@@ -127,39 +131,49 @@ public final class DataTableTypeRegistryTableConverter extends AbstractTableConv
             return unmodifiableList(list);
         }
 
-        if (dataTable.width() > 1) {
-            throw listNoConverterDefined(itemType, "TableEntryTransformer or TableRowTransformer", itemType);
-        }
-
-        throw listNoConverterDefined(itemType, "TableEntryTransformer, TableRowTransformer or TableCellTransformer", itemType);
-    }
-
-    private <T> List<T> toListOrNull(DataTable dataTable, Type itemType) {
-        return toListOrNull(dataTable.cells(), itemType);
-    }
-
-    @SuppressWarnings("unchecked")
-    private <T> List<T> toListOrNull(List<List<String>> cells, Type itemType) {
-        DataTableType tableType = registry.lookupTableTypeByType(aListOf(itemType));
-        if (tableType != null) {
-            return (List<T>) tableType.transform(cells);
+        if (dataTable.width() == 1) {
+            throw listNoConverterDefined(itemType, "TableEntryTransformer, TableRowTransformer or TableCellTransformer", itemType);
         }
 
         DataTableType cellValueType = registry.lookupTableTypeByType(aListOf(aListOf(itemType)));
         if (cellValueType != null) {
-            return unpack((List<List<T>>) cellValueType.transform(cells));
+            throw listTableTooWide(itemType, "TableEntryTransformer or TableRowTransformer", itemType);
         }
 
-        if (cells.size() > 1) {
+        throw listNoConverterDefined(itemType, "TableEntryTransformer or TableRowTransformer", itemType);
+    }
+
+    private <T> List<T> toListOrNull(DataTable dataTable, Type itemType) {
+        DataTableType tableType = registry.lookupTableTypeByType(aListOf(itemType));
+        List<List<String>> cells = dataTable.cells();
+        if (tableType != null) {
+            return (List<T>) tableType.transform(cells);
+        }
+
+        if (dataTable.width() == 1) {
+            DataTableType cellValueType = registry.lookupTableTypeByType(aListOf(aListOf(itemType)));
+            if (cellValueType != null) {
+                return unpack((List<List<T>>) cellValueType.transform(cells));
+            }
+        }
+
+        if (dataTable.height() > 1) {
             DataTableType defaultTableType = registry.getDefaultTableEntryTransformer(itemType);
             if (defaultTableType != null) {
                 return (List<T>) defaultTableType.transform(cells);
             }
         }
 
-        DataTableType defaultCellValueType = registry.getDefaultTableCellTransformer(itemType);
-        if (defaultCellValueType != null) {
-            return unpack((List<List<T>>) defaultCellValueType.transform(cells));
+        if (dataTable.width() == 1) {
+            DataTableType defaultCellValueType = registry.getDefaultTableCellTransformer(itemType);
+            if (defaultCellValueType != null) {
+                return unpack((List<List<T>>) defaultCellValueType.transform(cells));
+            }
+        }
+
+        DataTableType defaultTableType = registry.getDefaultTableEntryTransformer(itemType);
+        if (defaultTableType != null) {
+            return (List<T>) defaultTableType.transform(cells);
         }
 
         return null;
@@ -168,8 +182,8 @@ public final class DataTableTypeRegistryTableConverter extends AbstractTableConv
     @Override
     @SuppressWarnings("unchecked")
     public <T> List<List<T>> toLists(DataTable dataTable, Type itemType) {
-        if (dataTable == null) throw new NullPointerException("dataTable may not be null");
-        if (itemType == null) throw new NullPointerException("itemType may not be null");
+        requireNonNull(dataTable, "dataTable may not be null");
+        requireNonNull(itemType, "itemType may not be null");
 
         if (dataTable.isEmpty()) {
             return emptyList();
@@ -187,9 +201,9 @@ public final class DataTableTypeRegistryTableConverter extends AbstractTableConv
 
     @Override
     public <K, V> Map<K, V> toMap(DataTable dataTable, Type keyType, Type valueType) {
-        if (dataTable == null) throw new NullPointerException("dataTable may not be null");
-        if (keyType == null) throw new NullPointerException("keyType may not be null");
-        if (valueType == null) throw new NullPointerException("valueType may not be null");
+        requireNonNull(dataTable, "dataTable may not be null");
+        requireNonNull(keyType, "keyType may not be null");
+        requireNonNull(valueType, "valueType may not be null");
 
         if (dataTable.isEmpty()) {
             return emptyMap();
@@ -199,7 +213,7 @@ public final class DataTableTypeRegistryTableConverter extends AbstractTableConv
 
         String firstHeaderCell = keyColumn.cell(0, 0);
         boolean firstHeaderCellIsBlank = firstHeaderCell == null || firstHeaderCell.isEmpty();
-        List<K> keys = convertEntryKeys(keyType, keyColumn.cells(), valueType, firstHeaderCellIsBlank);
+        List<K> keys = convertEntryKeys(keyType, keyColumn, valueType, firstHeaderCellIsBlank);
 
         if (valueColumns.isEmpty()) {
             return createMap(keyType, keys, valueType, nCopies(keys.size(), (V) null));
@@ -232,7 +246,7 @@ public final class DataTableTypeRegistryTableConverter extends AbstractTableConv
     }
 
     @SuppressWarnings("unchecked")
-    private <K> List<K> convertEntryKeys(Type keyType, List<List<String>> keyColumn, Type valueType, boolean firstHeaderCellIsBlank) {
+    private <K> List<K> convertEntryKeys(Type keyType, DataTable keyColumn, Type valueType, boolean firstHeaderCellIsBlank) {
         if (firstHeaderCellIsBlank) {
             DataTableType keyConverter;
             keyConverter = registry.lookupTableTypeByType(aListOf(aListOf(keyType)));
@@ -242,7 +256,7 @@ public final class DataTableTypeRegistryTableConverter extends AbstractTableConv
             if (keyConverter == null) {
                 throw mapNoConverterDefined(keyType, valueType, "TableCellTransformer", keyType);
             }
-            return unpack((List<List<K>>) keyConverter.transform(keyColumn.subList(1, keyColumn.size())));
+            return unpack((List<List<K>>) keyConverter.transform(keyColumn.rows(1, keyColumn.height()).cells()));
         }
 
         List<K> list = toListOrNull(keyColumn, keyType);
@@ -280,13 +294,15 @@ public final class DataTableTypeRegistryTableConverter extends AbstractTableConv
         //
         // So instead we unroll these steps here. This keeps the error handling and messages sane.
 
+        JavaType javaType = constructType(valueType);
+
         // Handle case #1.
-        Type listItemType = listItemType(valueType);
-        if (listItemType != null) {
+        if (javaType instanceof ListType) {
+            ListType listType = (ListType) javaType;
             // Table cell types take priority over default converters
-            DataTableType cellValueConverter = registry.lookupTableTypeByType(aListOf(aListOf(listItemType)));
+            DataTableType cellValueConverter = registry.lookupTableTypeByType(aListOf(aListOf(listType.getElementType())));
             if (cellValueConverter == null) {
-                cellValueConverter = registry.getDefaultTableCellTransformer(listItemType);
+                cellValueConverter = registry.getDefaultTableCellTransformer(listType.getElementType());
             }
             if (cellValueConverter == null) {
                 throw mapNoConverterDefined(keyType, valueType, "TableCellTransformer", valueType);
@@ -295,12 +311,9 @@ public final class DataTableTypeRegistryTableConverter extends AbstractTableConv
         }
 
         // Handle case #2
-        Type valueMapKeyType = mapKeyType(valueType);
-        if (valueMapKeyType != null) {
-            Type valueMapValueType = mapValueType(valueType);
-            return (List<V>) toMaps(dataTable, valueMapKeyType, valueMapValueType);
-        } else if (Map.class.equals(valueType)) {
-            return (List<V>) toMaps(dataTable, String.class, String.class);
+        if (javaType instanceof MapType) {
+            MapType mapType = (MapType) javaType;
+            return (List<V>) toMaps(dataTable, mapType.getKeyType(), mapType.getValueType());
         }
 
         // Try to handle case #3.
@@ -336,9 +349,9 @@ public final class DataTableTypeRegistryTableConverter extends AbstractTableConv
     @Override
     @SuppressWarnings("unchecked")
     public <K, V> List<Map<K, V>> toMaps(DataTable dataTable, Type keyType, Type valueType) {
-        if (dataTable == null) throw new NullPointerException("dataTable may not be null");
-        if (keyType == null) throw new NullPointerException("keyType may not be null");
-        if (valueType == null) throw new NullPointerException("valueType may not be null");
+        requireNonNull(dataTable, "dataTable may not be null");
+        requireNonNull(keyType, "keyType may not be null");
+        requireNonNull(valueType, "valueType may not be null");
 
         if (dataTable.isEmpty()) {
             return emptyList();

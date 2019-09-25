@@ -1,17 +1,20 @@
 package io.cucumber.cucumberexpressions;
 
+import org.apiguardian.api.API;
+
 import java.util.ArrayList;
 import java.util.List;
 
 import static java.util.Collections.singletonList;
 
+@API(status = API.Status.STABLE)
 public class Group {
     private final List<Group> children;
     private final String value;
     private final int start;
     private final int end;
 
-    public Group(String value, int start, int end, List<Group> children) {
+    Group(String value, int start, int end, List<Group> children) {
         this.value = value;
         this.start = start;
         this.end = end;

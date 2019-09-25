@@ -1,6 +1,9 @@
 {
   "testHookStarted": {
     "pickleId": null,
-    "timestamp": null
+    "timestamp": {
+      "seconds": null,
+      "nanos": null
+    }
   }
 }

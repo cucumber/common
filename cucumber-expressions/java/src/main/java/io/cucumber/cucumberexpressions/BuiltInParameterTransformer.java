@@ -3,7 +3,6 @@ package io.cucumber.cucumberexpressions;
 import java.lang.reflect.Type;
 import java.math.BigDecimal;
 import java.math.BigInteger;
-import java.text.NumberFormat;
 import java.util.Locale;
 
 import static java.util.Objects.requireNonNull;
@@ -35,7 +34,7 @@ final class BuiltInParameterTransformer implements ParameterByTypeTransformer {
             return new BigInteger(fromValue);
         }
 
-        if (BigDecimal.class.equals(toValueClass)) {
+        if (BigDecimal.class.equals(toValueClass) || Number.class.equals(toValueClass)) {
             return numberParser.parseBigDecimal(fromValue);
         }
 
@@ -75,7 +74,7 @@ final class BuiltInParameterTransformer implements ParameterByTypeTransformer {
                     return enumConstant;
                 }
             }
-            throw new CucumberExpressionException("Can't transform '" + fromValue + "' to " + toValueType +". " +
+            throw new CucumberExpressionException("Can't transform '" + fromValue + "' to " + toValueType + ". " +
                     "Not an enum constant");
         }
 

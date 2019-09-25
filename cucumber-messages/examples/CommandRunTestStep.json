@@ -2,12 +2,16 @@
   "commandRunTestStep": {
     "actionId": null,
     "stepDefinitionId": null,
-    "patternMatches": [
+    "stepMatchArguments": [
       {
-        "captures": [
+        "parameterTypeName": null,
+        "group": {
+          "start": null,
+          "value": null,
+          "children": [
 
-        ],
-        "parameterTypeName": null
+          ]
+        }
       }
     ],
     "pickleId": null,

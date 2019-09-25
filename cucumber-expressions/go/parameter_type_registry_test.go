@@ -22,6 +22,7 @@ func TestParameterTypeRegistry(t *testing.T) {
 			nil,
 			true,
 			true,
+			false,
 		)
 		require.NoError(t, err)
 		err = parameterTypeRegistry.DefineParameterType(nameParameterType)
@@ -32,6 +33,7 @@ func TestParameterTypeRegistry(t *testing.T) {
 			"person",
 			nil,
 			true,
+			false,
 			false,
 		)
 		require.NoError(t, err)
@@ -44,6 +46,7 @@ func TestParameterTypeRegistry(t *testing.T) {
 			nil,
 			true,
 			true,
+			false,
 		)
 		require.NoError(t, err)
 		err = parameterTypeRegistry.DefineParameterType(placeParameterType)
@@ -57,6 +60,7 @@ func TestParameterTypeRegistry(t *testing.T) {
 			CAPITALISED_WORD_REGEXPS,
 			"anonymous",
 			nil,
+			false,
 			false,
 			false,
 		)
@@ -73,6 +77,7 @@ func TestParameterTypeRegistry(t *testing.T) {
 			nil,
 			true,
 			false,
+			false,
 		)
 		require.NoError(t, err)
 		err = parameterTypeRegistry.DefineParameterType(nameParameterType)
@@ -84,6 +89,7 @@ func TestParameterTypeRegistry(t *testing.T) {
 			nil,
 			true,
 			true,
+			false,
 		)
 		require.NoError(t, err)
 		err = parameterTypeRegistry.DefineParameterType(personParameterType)
@@ -94,6 +100,7 @@ func TestParameterTypeRegistry(t *testing.T) {
 			"place",
 			nil,
 			true,
+			false,
 			false,
 		)
 		require.NoError(t, err)
@@ -113,6 +120,7 @@ func TestParameterTypeRegistry(t *testing.T) {
 			nil,
 			true,
 			false,
+			false,
 		)
 		require.NoError(t, err)
 		err = parameterTypeRegistry.DefineParameterType(nameParameterType)
@@ -124,6 +132,7 @@ func TestParameterTypeRegistry(t *testing.T) {
 			nil,
 			true,
 			false,
+			false,
 		)
 		require.NoError(t, err)
 		err = parameterTypeRegistry.DefineParameterType(personParameterType)
@@ -134,6 +143,7 @@ func TestParameterTypeRegistry(t *testing.T) {
 			"place",
 			nil,
 			true,
+			false,
 			false,
 		)
 		require.NoError(t, err)

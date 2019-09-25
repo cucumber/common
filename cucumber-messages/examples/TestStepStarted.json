@@ -2,6 +2,9 @@
   "testStepStarted": {
     "pickleId": null,
     "index": null,
-    "timestamp": null
+    "timestamp": {
+      "seconds": null,
+      "nanos": null
+    }
   }
 }

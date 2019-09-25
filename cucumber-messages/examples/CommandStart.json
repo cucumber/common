@@ -1,37 +1,35 @@
 {
   "commandStart": {
-    "baseDirectory": "/Users/me/my-project",
+    "baseDirectory": null,
     "sourcesConfig": {
       "absolutePaths": [
-        "/Users/me/my-project/features/foo.feature",
-        "/Users/me/my-project/features/bar.feature"
+
       ],
-      "language": "en",
+      "language": null,
       "filters": {
-        "tagExpression": "@foo and not @bar",
+        "tagExpression": null,
         "nameRegularExpressions": [
 
         ],
         "uriToLinesMapping": [
           {
-            "absolutePath": "/Users/me/my-project/features/hello.feature",
+            "absolutePath": null,
             "lines": [
-              27,
-              39
+
             ]
           }
         ]
       },
       "order": {
-        "type": 0,
-        "seed": 129071284
+        "type": null,
+        "seed": null
       }
     },
     "runtimeConfig": {
-      "isFailFast": false,
-      "isDryRun": false,
-      "isStrict": true,
-      "maxParallel": 1
+      "isFailFast": null,
+      "isDryRun": null,
+      "isStrict": null,
+      "maxParallel": null
     },
     "supportCodeConfig": {
       "beforeTestCaseHookDefinitionConfigs": [

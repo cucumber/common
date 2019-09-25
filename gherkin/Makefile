@@ -1,2 +1,2 @@
-MAKE_FILES = go/Makefile java/Makefile javascript/Makefile ruby/Makefile
+MAKE_FILES = go/Makefile javascript/Makefile ruby/Makefile java/Makefile
 include default.mk

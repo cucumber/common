@@ -4,47 +4,11 @@
       "name": "messages.proto",
       "description": "",
       "package": "io.cucumber.messages",
-      "hasEnums": false,
+      "hasEnums": true,
       "hasExtensions": false,
       "hasMessages": true,
       "hasServices": false,
       "enums": [
-        {
-          "name": "SourcesOrderType",
-          "longName": "CommandStart.SourcesConfig.SourcesOrder.SourcesOrderType",
-          "fullName": "io.cucumber.messages.CommandStart.SourcesConfig.SourcesOrder.SourcesOrderType",
-          "description": "",
-          "values": [
-            {
-              "name": "ORDER_OF_DEFINITION",
-              "number": "0",
-              "description": "Execute in alphabetical order"
-            },
-            {
-              "name": "RANDOM",
-              "number": "1",
-              "description": "Execute in random order, using the specified seed"
-            }
-          ]
-        },
-        {
-          "name": "StepDefinitionPatternType",
-          "longName": "CommandStart.SupportCodeConfig.StepDefinitionConfig.StepDefinitionPattern.StepDefinitionPatternType",
-          "fullName": "io.cucumber.messages.CommandStart.SupportCodeConfig.StepDefinitionConfig.StepDefinitionPattern.StepDefinitionPatternType",
-          "description": "",
-          "values": [
-            {
-              "name": "CUCUMBER_EXPRESSION",
-              "number": "0",
-              "description": ""
-            },
-            {
-              "name": "REGULAR_EXPRESSION",
-              "number": "1",
-              "description": ""
-            }
-          ]
-        },
         {
           "name": "Encoding",
           "longName": "Media.Encoding",
@@ -64,15 +28,38 @@
           ]
         },
         {
-          "name": "Reason",
-          "longName": "Quit.Reason",
-          "fullName": "io.cucumber.messages.Quit.Reason",
-          "description": "Loosely modelled after [WebSocket close codes](https://github.com/Luka967/websocket-close-codes)",
+          "name": "SourcesOrderType",
+          "longName": "SourcesOrderType",
+          "fullName": "io.cucumber.messages.SourcesOrderType",
+          "description": "",
           "values": [
             {
-              "name": "FINISH_PLEASE",
+              "name": "ORDER_OF_DEFINITION",
               "number": "0",
-              "description": "Tells the other end that I'm going away, but I will wait for it to finish its business,\nreject further messages and gracefully close the connection."
+              "description": ""
+            },
+            {
+              "name": "RANDOM",
+              "number": "1",
+              "description": ""
+            }
+          ]
+        },
+        {
+          "name": "StepDefinitionPatternType",
+          "longName": "StepDefinitionPatternType",
+          "fullName": "io.cucumber.messages.StepDefinitionPatternType",
+          "description": "",
+          "values": [
+            {
+              "name": "CUCUMBER_EXPRESSION",
+              "number": "0",
+              "description": ""
+            },
+            {
+              "name": "REGULAR_EXPRESSION",
+              "number": "1",
+              "description": ""
             }
           ]
         },
@@ -80,37 +67,42 @@
           "name": "Status",
           "longName": "TestResult.Status",
           "fullName": "io.cucumber.messages.TestResult.Status",
-          "description": "",
+          "description": "Status of a step. Can also represent status of a Pickle (aggregated\nfrom the status of its steps).\n\nThe ordinal values of statuses are significant. The status of a Pickle\nis determined by the union of statuses of its steps. The\nstatus of the Pickle is the status with the highest ordinal\nin the enum.\n\nFor example, if a pickle has steps with statuses passed, undefined and skipped,\nthen the pickle's status is undefined.",
           "values": [
             {
-              "name": "AMBIGUOUS",
+              "name": "UNKNOWN",
               "number": "0",
-              "description": ""
-            },
-            {
-              "name": "FAILED",
-              "number": "1",
-              "description": ""
+              "description": "The step hasn't been matched or executed."
             },
             {
               "name": "PASSED",
+              "number": "1",
+              "description": "The step matched one step definition and passed execution."
+            },
+            {
+              "name": "SKIPPED",
               "number": "2",
-              "description": ""
+              "description": "The step matched one step definition but was not executed because the\nprevious step was not PASSED."
             },
             {
               "name": "PENDING",
               "number": "3",
-              "description": ""
-            },
-            {
-              "name": "SKIPPED",
-              "number": "4",
-              "description": ""
+              "description": "The step matched one step definition and signalled pending during execution.\nThis is the default behaviour of generated step definitions, which either\nthrow a special PendingException, or return a special value indicating that it's\npending. How to signal the pending status depends on the Cucumber implementation."
             },
             {
               "name": "UNDEFINED",
+              "number": "4",
+              "description": "The step matched no step definitions."
+            },
+            {
+              "name": "AMBIGUOUS",
               "number": "5",
-              "description": ""
+              "description": "The step matched two or more step definitions."
+            },
+            {
+              "name": "FAILED",
+              "number": "6",
+              "description": "The step matched one step definition and failed execution."
             }
           ]
         }
@@ -223,8 +215,8 @@
               "description": "",
               "label": "repeated",
               "type": "GeneratedExpression",
-              "longType": "CommandGenerateSnippet.GeneratedExpression",
-              "fullType": "io.cucumber.messages.CommandGenerateSnippet.GeneratedExpression",
+              "longType": "GeneratedExpression",
+              "fullType": "io.cucumber.messages.GeneratedExpression",
               "ismap": false,
               "defaultValue": ""
             },
@@ -235,37 +227,6 @@
               "type": "PickleStepArgument",
               "longType": "PickleStepArgument",
               "fullType": "io.cucumber.messages.PickleStepArgument",
-              "ismap": false,
-              "defaultValue": ""
-            }
-          ]
-        },
-        {
-          "name": "GeneratedExpression",
-          "longName": "CommandGenerateSnippet.GeneratedExpression",
-          "fullName": "io.cucumber.messages.CommandGenerateSnippet.GeneratedExpression",
-          "description": "",
-          "hasExtensions": false,
-          "hasFields": true,
-          "extensions": [],
-          "fields": [
-            {
-              "name": "text",
-              "description": "",
-              "label": "",
-              "type": "string",
-              "longType": "string",
-              "fullType": "string",
-              "ismap": false,
-              "defaultValue": ""
-            },
-            {
-              "name": "parameterTypeNames",
-              "description": "",
-              "label": "repeated",
-              "type": "string",
-              "longType": "string",
-              "fullType": "string",
               "ismap": false,
               "defaultValue": ""
             }
@@ -456,12 +417,12 @@
               "defaultValue": ""
             },
             {
-              "name": "patternMatches",
+              "name": "stepMatchArguments",
               "description": "",
               "label": "repeated",
-              "type": "PatternMatch",
-              "longType": "CommandRunTestStep.PatternMatch",
-              "fullType": "io.cucumber.messages.CommandRunTestStep.PatternMatch",
+              "type": "StepMatchArgument",
+              "longType": "StepMatchArgument",
+              "fullType": "io.cucumber.messages.StepMatchArgument",
               "ismap": false,
               "defaultValue": ""
             },
@@ -488,48 +449,17 @@
           ]
         },
         {
-          "name": "PatternMatch",
-          "longName": "CommandRunTestStep.PatternMatch",
-          "fullName": "io.cucumber.messages.CommandRunTestStep.PatternMatch",
+          "name": "CommandStart",
+          "longName": "CommandStart",
+          "fullName": "io.cucumber.messages.CommandStart",
           "description": "",
           "hasExtensions": false,
           "hasFields": true,
           "extensions": [],
           "fields": [
             {
-              "name": "captures",
-              "description": "",
-              "label": "repeated",
-              "type": "string",
-              "longType": "string",
-              "fullType": "string",
-              "ismap": false,
-              "defaultValue": ""
-            },
-            {
-              "name": "parameterTypeName",
-              "description": "",
-              "label": "",
-              "type": "string",
-              "longType": "string",
-              "fullType": "string",
-              "ismap": false,
-              "defaultValue": ""
-            }
-          ]
-        },
-        {
-          "name": "CommandStart",
-          "longName": "CommandStart",
-          "fullName": "io.cucumber.messages.CommandStart",
-          "description": "This is the first message the front-end should send to the engine.",
-          "hasExtensions": false,
-          "hasFields": true,
-          "extensions": [],
-          "fields": [
-            {
               "name": "baseDirectory",
-              "description": "The absolute path of the current directory.\nExample: \"/Users/me/my-project\"",
+              "description": "",
               "label": "",
               "type": "string",
               "longType": "string",
@@ -539,11 +469,11 @@
             },
             {
               "name": "sourcesConfig",
-              "description": "The feature files to execute",
+              "description": "",
               "label": "",
               "type": "SourcesConfig",
-              "longType": "CommandStart.SourcesConfig",
-              "fullType": "io.cucumber.messages.CommandStart.SourcesConfig",
+              "longType": "SourcesConfig",
+              "fullType": "io.cucumber.messages.SourcesConfig",
               "ismap": false,
               "defaultValue": ""
             },
@@ -552,8 +482,8 @@
               "description": "",
               "label": "",
               "type": "RuntimeConfig",
-              "longType": "CommandStart.RuntimeConfig",
-              "fullType": "io.cucumber.messages.CommandStart.RuntimeConfig",
+              "longType": "RuntimeConfig",
+              "fullType": "io.cucumber.messages.RuntimeConfig",
               "ismap": false,
               "defaultValue": ""
             },
@@ -562,428 +492,39 @@
               "description": "",
               "label": "",
               "type": "SupportCodeConfig",
-              "longType": "CommandStart.SupportCodeConfig",
-              "fullType": "io.cucumber.messages.CommandStart.SupportCodeConfig",
+              "longType": "SupportCodeConfig",
+              "fullType": "io.cucumber.messages.SupportCodeConfig",
               "ismap": false,
               "defaultValue": ""
             }
           ]
         },
         {
-          "name": "ParameterTypeConfig",
-          "longName": "CommandStart.ParameterTypeConfig",
-          "fullName": "io.cucumber.messages.CommandStart.ParameterTypeConfig",
-          "description": "",
+          "name": "Duration",
+          "longName": "Duration",
+          "fullName": "io.cucumber.messages.Duration",
+          "description": "The structure is pretty close of the Timestamp one. For clarity, a second type\nof message is used.",
           "hasExtensions": false,
           "hasFields": true,
           "extensions": [],
           "fields": [
             {
-              "name": "name",
+              "name": "seconds",
               "description": "",
               "label": "",
-              "type": "string",
-              "longType": "string",
-              "fullType": "string",
+              "type": "int64",
+              "longType": "int64",
+              "fullType": "int64",
               "ismap": false,
               "defaultValue": ""
             },
             {
-              "name": "regularExpressions",
-              "description": "",
-              "label": "repeated",
-              "type": "string",
-              "longType": "string",
-              "fullType": "string",
-              "ismap": false,
-              "defaultValue": ""
-            },
-            {
-              "name": "preferForRegularExpressionMatch",
-              "description": "",
+              "name": "nanos",
+              "description": "Non-negative fractions of a second at nanosecond resolution. Negative\nsecond values with fractions must still have non-negative nanos values\nthat count forward in time. Must be from 0 to 999,999,999\ninclusive.",
               "label": "",
-              "type": "bool",
-              "longType": "bool",
-              "fullType": "bool",
-              "ismap": false,
-              "defaultValue": ""
-            },
-            {
-              "name": "useForSnippets",
-              "description": "",
-              "label": "",
-              "type": "bool",
-              "longType": "bool",
-              "fullType": "bool",
-              "ismap": false,
-              "defaultValue": ""
-            }
-          ]
-        },
-        {
-          "name": "RuntimeConfig",
-          "longName": "CommandStart.RuntimeConfig",
-          "fullName": "io.cucumber.messages.CommandStart.RuntimeConfig",
-          "description": "",
-          "hasExtensions": false,
-          "hasFields": true,
-          "extensions": [],
-          "fields": [
-            {
-              "name": "isFailFast",
-              "description": "Example: false",
-              "label": "",
-              "type": "bool",
-              "longType": "bool",
-              "fullType": "bool",
-              "ismap": false,
-              "defaultValue": ""
-            },
-            {
-              "name": "isDryRun",
-              "description": "Example: false",
-              "label": "",
-              "type": "bool",
-              "longType": "bool",
-              "fullType": "bool",
-              "ismap": false,
-              "defaultValue": ""
-            },
-            {
-              "name": "isStrict",
-              "description": "Example: true",
-              "label": "",
-              "type": "bool",
-              "longType": "bool",
-              "fullType": "bool",
-              "ismap": false,
-              "defaultValue": ""
-            },
-            {
-              "name": "maxParallel",
-              "description": "Example: 1",
-              "label": "",
-              "type": "uint64",
-              "longType": "uint64",
-              "fullType": "uint64",
-              "ismap": false,
-              "defaultValue": ""
-            }
-          ]
-        },
-        {
-          "name": "SourcesConfig",
-          "longName": "CommandStart.SourcesConfig",
-          "fullName": "io.cucumber.messages.CommandStart.SourcesConfig",
-          "description": "",
-          "hasExtensions": false,
-          "hasFields": true,
-          "extensions": [],
-          "fields": [
-            {
-              "name": "absolutePaths",
-              "description": "Example: \"/Users/me/my-project/features/foo.feature\"\nExample: \"/Users/me/my-project/features/bar.feature\"",
-              "label": "repeated",
-              "type": "string",
-              "longType": "string",
-              "fullType": "string",
-              "ismap": false,
-              "defaultValue": ""
-            },
-            {
-              "name": "language",
-              "description": "The ISO-639 language code to use for parsing. This can also be specified as a\n`# language: en` header at the top of the source file.\nExample: \"en\"",
-              "label": "",
-              "type": "string",
-              "longType": "string",
-              "fullType": "string",
-              "ismap": false,
-              "defaultValue": ""
-            },
-            {
-              "name": "filters",
-              "description": "",
-              "label": "",
-              "type": "SourcesFilterConfig",
-              "longType": "CommandStart.SourcesConfig.SourcesFilterConfig",
-              "fullType": "io.cucumber.messages.CommandStart.SourcesConfig.SourcesFilterConfig",
-              "ismap": false,
-              "defaultValue": ""
-            },
-            {
-              "name": "order",
-              "description": "",
-              "label": "",
-              "type": "SourcesOrder",
-              "longType": "CommandStart.SourcesConfig.SourcesOrder",
-              "fullType": "io.cucumber.messages.CommandStart.SourcesConfig.SourcesOrder",
-              "ismap": false,
-              "defaultValue": ""
-            }
-          ]
-        },
-        {
-          "name": "SourcesFilterConfig",
-          "longName": "CommandStart.SourcesConfig.SourcesFilterConfig",
-          "fullName": "io.cucumber.messages.CommandStart.SourcesConfig.SourcesFilterConfig",
-          "description": "Specifies how to filter feature files.",
-          "hasExtensions": false,
-          "hasFields": true,
-          "extensions": [],
-          "fields": [
-            {
-              "name": "tagExpression",
-              "description": "An infix boolean expression of tags\nExample: \"@foo and not @bar\"",
-              "label": "",
-              "type": "string",
-              "longType": "string",
-              "fullType": "string",
-              "ismap": false,
-              "defaultValue": ""
-            },
-            {
-              "name": "nameRegularExpressions",
-              "description": "A regular expression for filtering based on scenario name",
-              "label": "repeated",
-              "type": "string",
-              "longType": "string",
-              "fullType": "string",
-              "ismap": false,
-              "defaultValue": ""
-            },
-            {
-              "name": "uriToLinesMapping",
-              "description": "",
-              "label": "repeated",
-              "type": "UriToLinesMapping",
-              "longType": "CommandStart.SourcesConfig.SourcesFilterConfig.UriToLinesMapping",
-              "fullType": "io.cucumber.messages.CommandStart.SourcesConfig.SourcesFilterConfig.UriToLinesMapping",
-              "ismap": false,
-              "defaultValue": ""
-            }
-          ]
-        },
-        {
-          "name": "UriToLinesMapping",
-          "longName": "CommandStart.SourcesConfig.SourcesFilterConfig.UriToLinesMapping",
-          "fullName": "io.cucumber.messages.CommandStart.SourcesConfig.SourcesFilterConfig.UriToLinesMapping",
-          "description": "Specifies line numbers in a particular file",
-          "hasExtensions": false,
-          "hasFields": true,
-          "extensions": [],
-          "fields": [
-            {
-              "name": "absolutePath",
-              "description": "Example: \"/Users/me/my-project/features/hello.feature\"",
-              "label": "",
-              "type": "string",
-              "longType": "string",
-              "fullType": "string",
-              "ismap": false,
-              "defaultValue": ""
-            },
-            {
-              "name": "lines",
-              "description": "Example: 27\nExample: 39",
-              "label": "repeated",
-              "type": "uint64",
-              "longType": "uint64",
-              "fullType": "uint64",
-              "ismap": false,
-              "defaultValue": ""
-            }
-          ]
-        },
-        {
-          "name": "SourcesOrder",
-          "longName": "CommandStart.SourcesConfig.SourcesOrder",
-          "fullName": "io.cucumber.messages.CommandStart.SourcesConfig.SourcesOrder",
-          "description": "Specifies the order in which tests should be executed",
-          "hasExtensions": false,
-          "hasFields": true,
-          "extensions": [],
-          "fields": [
-            {
-              "name": "type",
-              "description": "Example: 0",
-              "label": "",
-              "type": "SourcesOrderType",
-              "longType": "CommandStart.SourcesConfig.SourcesOrder.SourcesOrderType",
-              "fullType": "io.cucumber.messages.CommandStart.SourcesConfig.SourcesOrder.SourcesOrderType",
-              "ismap": false,
-              "defaultValue": ""
-            },
-            {
-              "name": "seed",
-              "description": "Random seed (in case of random ordering)\nExample: 129071284",
-              "label": "",
-              "type": "uint64",
-              "longType": "uint64",
-              "fullType": "uint64",
-              "ismap": false,
-              "defaultValue": ""
-            }
-          ]
-        },
-        {
-          "name": "SupportCodeConfig",
-          "longName": "CommandStart.SupportCodeConfig",
-          "fullName": "io.cucumber.messages.CommandStart.SupportCodeConfig",
-          "description": "",
-          "hasExtensions": false,
-          "hasFields": true,
-          "extensions": [],
-          "fields": [
-            {
-              "name": "beforeTestCaseHookDefinitionConfigs",
-              "description": "",
-              "label": "repeated",
-              "type": "TestCaseHookDefinitionConfig",
-              "longType": "CommandStart.SupportCodeConfig.TestCaseHookDefinitionConfig",
-              "fullType": "io.cucumber.messages.CommandStart.SupportCodeConfig.TestCaseHookDefinitionConfig",
-              "ismap": false,
-              "defaultValue": ""
-            },
-            {
-              "name": "afterTestCaseHookDefinitionConfigs",
-              "description": "",
-              "label": "repeated",
-              "type": "TestCaseHookDefinitionConfig",
-              "longType": "CommandStart.SupportCodeConfig.TestCaseHookDefinitionConfig",
-              "fullType": "io.cucumber.messages.CommandStart.SupportCodeConfig.TestCaseHookDefinitionConfig",
-              "ismap": false,
-              "defaultValue": ""
-            },
-            {
-              "name": "stepDefinitionConfigs",
-              "description": "",
-              "label": "repeated",
-              "type": "StepDefinitionConfig",
-              "longType": "CommandStart.SupportCodeConfig.StepDefinitionConfig",
-              "fullType": "io.cucumber.messages.CommandStart.SupportCodeConfig.StepDefinitionConfig",
-              "ismap": false,
-              "defaultValue": ""
-            },
-            {
-              "name": "parameterTypeConfigs",
-              "description": "",
-              "label": "repeated",
-              "type": "ParameterTypeConfig",
-              "longType": "CommandStart.ParameterTypeConfig",
-              "fullType": "io.cucumber.messages.CommandStart.ParameterTypeConfig",
-              "ismap": false,
-              "defaultValue": ""
-            }
-          ]
-        },
-        {
-          "name": "StepDefinitionConfig",
-          "longName": "CommandStart.SupportCodeConfig.StepDefinitionConfig",
-          "fullName": "io.cucumber.messages.CommandStart.SupportCodeConfig.StepDefinitionConfig",
-          "description": "",
-          "hasExtensions": false,
-          "hasFields": true,
-          "extensions": [],
-          "fields": [
-            {
-              "name": "id",
-              "description": "",
-              "label": "",
-              "type": "string",
-              "longType": "string",
-              "fullType": "string",
-              "ismap": false,
-              "defaultValue": ""
-            },
-            {
-              "name": "pattern",
-              "description": "",
-              "label": "",
-              "type": "StepDefinitionPattern",
-              "longType": "CommandStart.SupportCodeConfig.StepDefinitionConfig.StepDefinitionPattern",
-              "fullType": "io.cucumber.messages.CommandStart.SupportCodeConfig.StepDefinitionConfig.StepDefinitionPattern",
-              "ismap": false,
-              "defaultValue": ""
-            },
-            {
-              "name": "location",
-              "description": "",
-              "label": "",
-              "type": "SourceReference",
-              "longType": "SourceReference",
-              "fullType": "io.cucumber.messages.SourceReference",
-              "ismap": false,
-              "defaultValue": ""
-            }
-          ]
-        },
-        {
-          "name": "StepDefinitionPattern",
-          "longName": "CommandStart.SupportCodeConfig.StepDefinitionConfig.StepDefinitionPattern",
-          "fullName": "io.cucumber.messages.CommandStart.SupportCodeConfig.StepDefinitionConfig.StepDefinitionPattern",
-          "description": "",
-          "hasExtensions": false,
-          "hasFields": true,
-          "extensions": [],
-          "fields": [
-            {
-              "name": "source",
-              "description": "",
-              "label": "",
-              "type": "string",
-              "longType": "string",
-              "fullType": "string",
-              "ismap": false,
-              "defaultValue": ""
-            },
-            {
-              "name": "type",
-              "description": "",
-              "label": "",
-              "type": "StepDefinitionPatternType",
-              "longType": "CommandStart.SupportCodeConfig.StepDefinitionConfig.StepDefinitionPattern.StepDefinitionPatternType",
-              "fullType": "io.cucumber.messages.CommandStart.SupportCodeConfig.StepDefinitionConfig.StepDefinitionPattern.StepDefinitionPatternType",
-              "ismap": false,
-              "defaultValue": ""
-            }
-          ]
-        },
-        {
-          "name": "TestCaseHookDefinitionConfig",
-          "longName": "CommandStart.SupportCodeConfig.TestCaseHookDefinitionConfig",
-          "fullName": "io.cucumber.messages.CommandStart.SupportCodeConfig.TestCaseHookDefinitionConfig",
-          "description": "",
-          "hasExtensions": false,
-          "hasFields": true,
-          "extensions": [],
-          "fields": [
-            {
-              "name": "id",
-              "description": "",
-              "label": "",
-              "type": "string",
-              "longType": "string",
-              "fullType": "string",
-              "ismap": false,
-              "defaultValue": ""
-            },
-            {
-              "name": "tagExpression",
-              "description": "",
-              "label": "",
-              "type": "string",
-              "longType": "string",
-              "fullType": "string",
-              "ismap": false,
-              "defaultValue": ""
-            },
-            {
-              "name": "location",
-              "description": "",
-              "label": "",
-              "type": "SourceReference",
-              "longType": "SourceReference",
-              "fullType": "io.cucumber.messages.SourceReference",
+              "type": "int32",
+              "longType": "int32",
+              "fullType": "int32",
               "ismap": false,
               "defaultValue": ""
             }
@@ -1249,12 +790,43 @@
               "defaultValue": ""
             },
             {
-              "name": "quit",
+              "name": "testStepMatched",
               "description": "",
               "label": "",
-              "type": "Quit",
-              "longType": "Quit",
-              "fullType": "io.cucumber.messages.Quit",
+              "type": "TestStepMatched",
+              "longType": "TestStepMatched",
+              "fullType": "io.cucumber.messages.TestStepMatched",
+              "ismap": false,
+              "defaultValue": ""
+            }
+          ]
+        },
+        {
+          "name": "GeneratedExpression",
+          "longName": "GeneratedExpression",
+          "fullName": "io.cucumber.messages.GeneratedExpression",
+          "description": "",
+          "hasExtensions": false,
+          "hasFields": true,
+          "extensions": [],
+          "fields": [
+            {
+              "name": "text",
+              "description": "",
+              "label": "",
+              "type": "string",
+              "longType": "string",
+              "fullType": "string",
+              "ismap": false,
+              "defaultValue": ""
+            },
+            {
+              "name": "parameterTypeNames",
+              "description": "",
+              "label": "repeated",
+              "type": "string",
+              "longType": "string",
+              "fullType": "string",
               "ismap": false,
               "defaultValue": ""
             }
@@ -2068,10 +1640,61 @@
           ]
         },
         {
+          "name": "ParameterTypeConfig",
+          "longName": "ParameterTypeConfig",
+          "fullName": "io.cucumber.messages.ParameterTypeConfig",
+          "description": "",
+          "hasExtensions": false,
+          "hasFields": true,
+          "extensions": [],
+          "fields": [
+            {
+              "name": "name",
+              "description": "",
+              "label": "",
+              "type": "string",
+              "longType": "string",
+              "fullType": "string",
+              "ismap": false,
+              "defaultValue": ""
+            },
+            {
+              "name": "regularExpressions",
+              "description": "",
+              "label": "repeated",
+              "type": "string",
+              "longType": "string",
+              "fullType": "string",
+              "ismap": false,
+              "defaultValue": ""
+            },
+            {
+              "name": "preferForRegularExpressionMatch",
+              "description": "",
+              "label": "",
+              "type": "bool",
+              "longType": "bool",
+              "fullType": "bool",
+              "ismap": false,
+              "defaultValue": ""
+            },
+            {
+              "name": "useForSnippets",
+              "description": "",
+              "label": "",
+              "type": "bool",
+              "longType": "bool",
+              "fullType": "bool",
+              "ismap": false,
+              "defaultValue": ""
+            }
+          ]
+        },
+        {
           "name": "Pickle",
           "longName": "Pickle",
           "fullName": "io.cucumber.messages.Pickle",
-          "description": "A `Pickle` represents a test case Cucumber can *execute*. It is typically derived\nfrom another format, such as [GherkinDocument](#io.cucumber.messages.GherkinDocument).\nIn the future a `Pickle` may be derived from other formats such as Markdown or\nExcel files.\n\nBy making `Pickle` the main data structure Cucumber uses for execution, the \nimplementation of Cucumber itself becomes simpler, as it doesn't have to deal\nwith the complex structure of a [GherkinDocument](#io.cucumber.messages.GherkinDocument).",
+          "description": "A `Pickle` represents a test case Cucumber can *execute*. It is typically derived\nfrom another format, such as [GherkinDocument](#io.cucumber.messages.GherkinDocument).\nIn the future a `Pickle` may be derived from other formats such as Markdown or\nExcel files.\n\nBy making `Pickle` the main data structure Cucumber uses for execution, the\nimplementation of Cucumber itself becomes simpler, as it doesn't have to deal\nwith the complex structure of a [GherkinDocument](#io.cucumber.messages.GherkinDocument).",
           "hasExtensions": false,
           "hasFields": true,
           "extensions": [],
@@ -2138,7 +1761,7 @@
             },
             {
               "name": "locations",
-              "description": "The source locations of the pickle. The last one represents the unique\nline number. A pickle constructed from `Examples` will have the first\nlocation originating from the `Step`, and the second from the table row.",
+              "description": "The source locations of the pickle. The last one represents the unique\nline number. A pickle constructed from `Examples` will have the first\nlocation originating from the `Scenario`, and the second from the table row.",
               "label": "repeated",
               "type": "Location",
               "longType": "Location",
@@ -2408,21 +2031,51 @@
           ]
         },
         {
-          "name": "Quit",
-          "longName": "Quit",
-          "fullName": "io.cucumber.messages.Quit",
-          "description": "Tells the other end that the connection should be closed.",
+          "name": "RuntimeConfig",
+          "longName": "RuntimeConfig",
+          "fullName": "io.cucumber.messages.RuntimeConfig",
+          "description": "",
           "hasExtensions": false,
           "hasFields": true,
           "extensions": [],
           "fields": [
             {
-              "name": "reason",
-              "description": "The reason for quitting.\nExample: 0",
+              "name": "isFailFast",
+              "description": "",
               "label": "",
-              "type": "Reason",
-              "longType": "Quit.Reason",
-              "fullType": "io.cucumber.messages.Quit.Reason",
+              "type": "bool",
+              "longType": "bool",
+              "fullType": "bool",
+              "ismap": false,
+              "defaultValue": ""
+            },
+            {
+              "name": "isDryRun",
+              "description": "",
+              "label": "",
+              "type": "bool",
+              "longType": "bool",
+              "fullType": "bool",
+              "ismap": false,
+              "defaultValue": ""
+            },
+            {
+              "name": "isStrict",
+              "description": "",
+              "label": "",
+              "type": "bool",
+              "longType": "bool",
+              "fullType": "bool",
+              "ismap": false,
+              "defaultValue": ""
+            },
+            {
+              "name": "maxParallel",
+              "description": "",
+              "label": "",
+              "type": "uint64",
+              "longType": "uint64",
+              "fullType": "uint64",
               "ismap": false,
               "defaultValue": ""
             }
@@ -2473,7 +2126,7 @@
           "name": "SourceReference",
           "longName": "SourceReference",
           "fullName": "io.cucumber.messages.SourceReference",
-          "description": "Points to a [Source](#io.cucumber.messages.Source) identified by `uri` and a \n[Location](#io.cucumber.messages.Location) within that file.",
+          "description": "Points to a [Source](#io.cucumber.messages.Source) identified by `uri` and a\n[Location](#io.cucumber.messages.Location) within that file.",
           "hasExtensions": false,
           "hasFields": true,
           "extensions": [],
@@ -2495,6 +2148,324 @@
               "type": "Location",
               "longType": "Location",
               "fullType": "io.cucumber.messages.Location",
+              "ismap": false,
+              "defaultValue": ""
+            }
+          ]
+        },
+        {
+          "name": "SourcesConfig",
+          "longName": "SourcesConfig",
+          "fullName": "io.cucumber.messages.SourcesConfig",
+          "description": "",
+          "hasExtensions": false,
+          "hasFields": true,
+          "extensions": [],
+          "fields": [
+            {
+              "name": "absolutePaths",
+              "description": "",
+              "label": "repeated",
+              "type": "string",
+              "longType": "string",
+              "fullType": "string",
+              "ismap": false,
+              "defaultValue": ""
+            },
+            {
+              "name": "language",
+              "description": "",
+              "label": "",
+              "type": "string",
+              "longType": "string",
+              "fullType": "string",
+              "ismap": false,
+              "defaultValue": ""
+            },
+            {
+              "name": "filters",
+              "description": "",
+              "label": "",
+              "type": "SourcesFilterConfig",
+              "longType": "SourcesFilterConfig",
+              "fullType": "io.cucumber.messages.SourcesFilterConfig",
+              "ismap": false,
+              "defaultValue": ""
+            },
+            {
+              "name": "order",
+              "description": "",
+              "label": "",
+              "type": "SourcesOrder",
+              "longType": "SourcesOrder",
+              "fullType": "io.cucumber.messages.SourcesOrder",
+              "ismap": false,
+              "defaultValue": ""
+            }
+          ]
+        },
+        {
+          "name": "SourcesFilterConfig",
+          "longName": "SourcesFilterConfig",
+          "fullName": "io.cucumber.messages.SourcesFilterConfig",
+          "description": "",
+          "hasExtensions": false,
+          "hasFields": true,
+          "extensions": [],
+          "fields": [
+            {
+              "name": "tagExpression",
+              "description": "",
+              "label": "",
+              "type": "string",
+              "longType": "string",
+              "fullType": "string",
+              "ismap": false,
+              "defaultValue": ""
+            },
+            {
+              "name": "nameRegularExpressions",
+              "description": "",
+              "label": "repeated",
+              "type": "string",
+              "longType": "string",
+              "fullType": "string",
+              "ismap": false,
+              "defaultValue": ""
+            },
+            {
+              "name": "uriToLinesMapping",
+              "description": "",
+              "label": "repeated",
+              "type": "UriToLinesMapping",
+              "longType": "UriToLinesMapping",
+              "fullType": "io.cucumber.messages.UriToLinesMapping",
+              "ismap": false,
+              "defaultValue": ""
+            }
+          ]
+        },
+        {
+          "name": "SourcesOrder",
+          "longName": "SourcesOrder",
+          "fullName": "io.cucumber.messages.SourcesOrder",
+          "description": "",
+          "hasExtensions": false,
+          "hasFields": true,
+          "extensions": [],
+          "fields": [
+            {
+              "name": "type",
+              "description": "",
+              "label": "",
+              "type": "SourcesOrderType",
+              "longType": "SourcesOrderType",
+              "fullType": "io.cucumber.messages.SourcesOrderType",
+              "ismap": false,
+              "defaultValue": ""
+            },
+            {
+              "name": "seed",
+              "description": "",
+              "label": "",
+              "type": "uint64",
+              "longType": "uint64",
+              "fullType": "uint64",
+              "ismap": false,
+              "defaultValue": ""
+            }
+          ]
+        },
+        {
+          "name": "StepDefinitionConfig",
+          "longName": "StepDefinitionConfig",
+          "fullName": "io.cucumber.messages.StepDefinitionConfig",
+          "description": "",
+          "hasExtensions": false,
+          "hasFields": true,
+          "extensions": [],
+          "fields": [
+            {
+              "name": "id",
+              "description": "",
+              "label": "",
+              "type": "string",
+              "longType": "string",
+              "fullType": "string",
+              "ismap": false,
+              "defaultValue": ""
+            },
+            {
+              "name": "pattern",
+              "description": "",
+              "label": "",
+              "type": "StepDefinitionPattern",
+              "longType": "StepDefinitionPattern",
+              "fullType": "io.cucumber.messages.StepDefinitionPattern",
+              "ismap": false,
+              "defaultValue": ""
+            },
+            {
+              "name": "location",
+              "description": "",
+              "label": "",
+              "type": "SourceReference",
+              "longType": "SourceReference",
+              "fullType": "io.cucumber.messages.SourceReference",
+              "ismap": false,
+              "defaultValue": ""
+            }
+          ]
+        },
+        {
+          "name": "StepDefinitionPattern",
+          "longName": "StepDefinitionPattern",
+          "fullName": "io.cucumber.messages.StepDefinitionPattern",
+          "description": "",
+          "hasExtensions": false,
+          "hasFields": true,
+          "extensions": [],
+          "fields": [
+            {
+              "name": "source",
+              "description": "",
+              "label": "",
+              "type": "string",
+              "longType": "string",
+              "fullType": "string",
+              "ismap": false,
+              "defaultValue": ""
+            },
+            {
+              "name": "type",
+              "description": "",
+              "label": "",
+              "type": "StepDefinitionPatternType",
+              "longType": "StepDefinitionPatternType",
+              "fullType": "io.cucumber.messages.StepDefinitionPatternType",
+              "ismap": false,
+              "defaultValue": ""
+            }
+          ]
+        },
+        {
+          "name": "StepMatchArgument",
+          "longName": "StepMatchArgument",
+          "fullName": "io.cucumber.messages.StepMatchArgument",
+          "description": "Represents a single argument extracted from a step match and passed to a step definition.\nThis is used for the following purposes:\n- Construct an argument to pass to a step definition (possibly through a parameter type transform)\n- Highlight the matched parameter in rich formatters such as the HTML formatter\n\nThis message closely matches the `Argument` class in the `cucumber-expressions` library.",
+          "hasExtensions": false,
+          "hasFields": true,
+          "extensions": [],
+          "fields": [
+            {
+              "name": "parameterTypeName",
+              "description": "",
+              "label": "",
+              "type": "string",
+              "longType": "string",
+              "fullType": "string",
+              "ismap": false,
+              "defaultValue": ""
+            },
+            {
+              "name": "group",
+              "description": "",
+              "label": "",
+              "type": "Group",
+              "longType": "StepMatchArgument.Group",
+              "fullType": "io.cucumber.messages.StepMatchArgument.Group",
+              "ismap": false,
+              "defaultValue": ""
+            }
+          ]
+        },
+        {
+          "name": "Group",
+          "longName": "StepMatchArgument.Group",
+          "fullName": "io.cucumber.messages.StepMatchArgument.Group",
+          "description": "Represents the outermost capture group of an argument. This message closely matches the\n`Group` class in the `cucumber-expressions` library.",
+          "hasExtensions": false,
+          "hasFields": true,
+          "extensions": [],
+          "fields": [
+            {
+              "name": "start",
+              "description": "",
+              "label": "",
+              "type": "uint32",
+              "longType": "uint32",
+              "fullType": "uint32",
+              "ismap": false,
+              "defaultValue": ""
+            },
+            {
+              "name": "value",
+              "description": "",
+              "label": "",
+              "type": "string",
+              "longType": "string",
+              "fullType": "string",
+              "ismap": false,
+              "defaultValue": ""
+            },
+            {
+              "name": "children",
+              "description": "",
+              "label": "repeated",
+              "type": "Group",
+              "longType": "StepMatchArgument.Group",
+              "fullType": "io.cucumber.messages.StepMatchArgument.Group",
+              "ismap": false,
+              "defaultValue": ""
+            }
+          ]
+        },
+        {
+          "name": "SupportCodeConfig",
+          "longName": "SupportCodeConfig",
+          "fullName": "io.cucumber.messages.SupportCodeConfig",
+          "description": "",
+          "hasExtensions": false,
+          "hasFields": true,
+          "extensions": [],
+          "fields": [
+            {
+              "name": "beforeTestCaseHookDefinitionConfigs",
+              "description": "",
+              "label": "repeated",
+              "type": "TestCaseHookDefinitionConfig",
+              "longType": "TestCaseHookDefinitionConfig",
+              "fullType": "io.cucumber.messages.TestCaseHookDefinitionConfig",
+              "ismap": false,
+              "defaultValue": ""
+            },
+            {
+              "name": "afterTestCaseHookDefinitionConfigs",
+              "description": "",
+              "label": "repeated",
+              "type": "TestCaseHookDefinitionConfig",
+              "longType": "TestCaseHookDefinitionConfig",
+              "fullType": "io.cucumber.messages.TestCaseHookDefinitionConfig",
+              "ismap": false,
+              "defaultValue": ""
+            },
+            {
+              "name": "stepDefinitionConfigs",
+              "description": "",
+              "label": "repeated",
+              "type": "StepDefinitionConfig",
+              "longType": "StepDefinitionConfig",
+              "fullType": "io.cucumber.messages.StepDefinitionConfig",
+              "ismap": false,
+              "defaultValue": ""
+            },
+            {
+              "name": "parameterTypeConfigs",
+              "description": "",
+              "label": "repeated",
+              "type": "ParameterTypeConfig",
+              "longType": "ParameterTypeConfig",
+              "fullType": "io.cucumber.messages.ParameterTypeConfig",
               "ismap": false,
               "defaultValue": ""
             }
@@ -2524,8 +2495,8 @@
               "description": "",
               "label": "",
               "type": "Timestamp",
-              "longType": "google.protobuf.Timestamp",
-              "fullType": "google.protobuf.Timestamp",
+              "longType": "Timestamp",
+              "fullType": "io.cucumber.messages.Timestamp",
               "ismap": false,
               "defaultValue": ""
             },
@@ -2536,6 +2507,47 @@
               "type": "TestResult",
               "longType": "TestResult",
               "fullType": "io.cucumber.messages.TestResult",
+              "ismap": false,
+              "defaultValue": ""
+            }
+          ]
+        },
+        {
+          "name": "TestCaseHookDefinitionConfig",
+          "longName": "TestCaseHookDefinitionConfig",
+          "fullName": "io.cucumber.messages.TestCaseHookDefinitionConfig",
+          "description": "",
+          "hasExtensions": false,
+          "hasFields": true,
+          "extensions": [],
+          "fields": [
+            {
+              "name": "id",
+              "description": "",
+              "label": "",
+              "type": "string",
+              "longType": "string",
+              "fullType": "string",
+              "ismap": false,
+              "defaultValue": ""
+            },
+            {
+              "name": "tagExpression",
+              "description": "",
+              "label": "",
+              "type": "string",
+              "longType": "string",
+              "fullType": "string",
+              "ismap": false,
+              "defaultValue": ""
+            },
+            {
+              "name": "location",
+              "description": "TODO: rename to sourceReference as Location is another type and this is ambiguous.",
+              "label": "",
+              "type": "SourceReference",
+              "longType": "SourceReference",
+              "fullType": "io.cucumber.messages.SourceReference",
               "ismap": false,
               "defaultValue": ""
             }
@@ -2627,8 +2639,8 @@
               "description": "",
               "label": "",
               "type": "Timestamp",
-              "longType": "google.protobuf.Timestamp",
-              "fullType": "google.protobuf.Timestamp",
+              "longType": "Timestamp",
+              "fullType": "io.cucumber.messages.Timestamp",
               "ismap": false,
               "defaultValue": ""
             },
@@ -2729,8 +2741,8 @@
               "description": "",
               "label": "",
               "type": "Timestamp",
-              "longType": "google.protobuf.Timestamp",
-              "fullType": "google.protobuf.Timestamp",
+              "longType": "Timestamp",
+              "fullType": "io.cucumber.messages.Timestamp",
               "ismap": false,
               "defaultValue": ""
             }
@@ -2760,8 +2772,8 @@
               "description": "",
               "label": "",
               "type": "Timestamp",
-              "longType": "google.protobuf.Timestamp",
-              "fullType": "google.protobuf.Timestamp",
+              "longType": "Timestamp",
+              "fullType": "io.cucumber.messages.Timestamp",
               "ismap": false,
               "defaultValue": ""
             }
@@ -2797,12 +2809,12 @@
               "defaultValue": ""
             },
             {
-              "name": "durationNanoseconds",
+              "name": "duration",
               "description": "",
               "label": "",
-              "type": "uint64",
-              "longType": "uint64",
-              "fullType": "uint64",
+              "type": "Duration",
+              "longType": "Duration",
+              "fullType": "io.cucumber.messages.Duration",
               "ismap": false,
               "defaultValue": ""
             }
@@ -2819,11 +2831,21 @@
           "fields": [
             {
               "name": "success",
-              "description": "",
+              "description": "success = StrictModeEnabled ? (failed_count == 0 \u0026\u0026 ambiguous_count == 0 \u0026\u0026 undefined_count == 0 \u0026\u0026 pending_count == 0) : (failed_count == 0 \u0026\u0026 ambiguous_count == 0)",
               "label": "",
               "type": "bool",
               "longType": "bool",
               "fullType": "bool",
+              "ismap": false,
+              "defaultValue": ""
+            },
+            {
+              "name": "timestamp",
+              "description": "Timestamp when the TestRun is finished",
+              "label": "",
+              "type": "Timestamp",
+              "longType": "Timestamp",
+              "fullType": "io.cucumber.messages.Timestamp",
               "ismap": false,
               "defaultValue": ""
             }
@@ -2843,8 +2865,8 @@
               "description": "",
               "label": "",
               "type": "Timestamp",
-              "longType": "google.protobuf.Timestamp",
-              "fullType": "google.protobuf.Timestamp",
+              "longType": "Timestamp",
+              "fullType": "io.cucumber.messages.Timestamp",
               "ismap": false,
               "defaultValue": ""
             }
@@ -2894,8 +2916,59 @@
               "description": "",
               "label": "",
               "type": "Timestamp",
-              "longType": "google.protobuf.Timestamp",
-              "fullType": "google.protobuf.Timestamp",
+              "longType": "Timestamp",
+              "fullType": "io.cucumber.messages.Timestamp",
+              "ismap": false,
+              "defaultValue": ""
+            }
+          ]
+        },
+        {
+          "name": "TestStepMatched",
+          "longName": "TestStepMatched",
+          "fullName": "io.cucumber.messages.TestStepMatched",
+          "description": "For each step, there will be a match",
+          "hasExtensions": false,
+          "hasFields": true,
+          "extensions": [],
+          "fields": [
+            {
+              "name": "pickleId",
+              "description": "",
+              "label": "",
+              "type": "string",
+              "longType": "string",
+              "fullType": "string",
+              "ismap": false,
+              "defaultValue": ""
+            },
+            {
+              "name": "index",
+              "description": "",
+              "label": "",
+              "type": "uint32",
+              "longType": "uint32",
+              "fullType": "uint32",
+              "ismap": false,
+              "defaultValue": ""
+            },
+            {
+              "name": "stepDefinitionReference",
+              "description": "",
+              "label": "",
+              "type": "SourceReference",
+              "longType": "SourceReference",
+              "fullType": "io.cucumber.messages.SourceReference",
+              "ismap": false,
+              "defaultValue": ""
+            },
+            {
+              "name": "stepMatchArguments",
+              "description": "",
+              "label": "repeated",
+              "type": "StepMatchArgument",
+              "longType": "StepMatchArgument",
+              "fullType": "io.cucumber.messages.StepMatchArgument",
               "ismap": false,
               "defaultValue": ""
             }
@@ -2935,8 +3008,70 @@
               "description": "",
               "label": "",
               "type": "Timestamp",
-              "longType": "google.protobuf.Timestamp",
-              "fullType": "google.protobuf.Timestamp",
+              "longType": "Timestamp",
+              "fullType": "io.cucumber.messages.Timestamp",
+              "ismap": false,
+              "defaultValue": ""
+            }
+          ]
+        },
+        {
+          "name": "Timestamp",
+          "longName": "Timestamp",
+          "fullName": "io.cucumber.messages.Timestamp",
+          "description": "From https://github.com/protocolbuffers/protobuf/blob/master/src/google/protobuf/timestamp.proto",
+          "hasExtensions": false,
+          "hasFields": true,
+          "extensions": [],
+          "fields": [
+            {
+              "name": "seconds",
+              "description": "Represents seconds of UTC time since Unix epoch\n1970-01-01T00:00:00Z. Must be from 0001-01-01T00:00:00Z to\n9999-12-31T23:59:59Z inclusive.",
+              "label": "",
+              "type": "int64",
+              "longType": "int64",
+              "fullType": "int64",
+              "ismap": false,
+              "defaultValue": ""
+            },
+            {
+              "name": "nanos",
+              "description": "Non-negative fractions of a second at nanosecond resolution. Negative\nsecond values with fractions must still have non-negative nanos values\nthat count forward in time. Must be from 0 to 999,999,999\ninclusive.",
+              "label": "",
+              "type": "int32",
+              "longType": "int32",
+              "fullType": "int32",
+              "ismap": false,
+              "defaultValue": ""
+            }
+          ]
+        },
+        {
+          "name": "UriToLinesMapping",
+          "longName": "UriToLinesMapping",
+          "fullName": "io.cucumber.messages.UriToLinesMapping",
+          "description": "",
+          "hasExtensions": false,
+          "hasFields": true,
+          "extensions": [],
+          "fields": [
+            {
+              "name": "absolutePath",
+              "description": "",
+              "label": "",
+              "type": "string",
+              "longType": "string",
+              "fullType": "string",
+              "ismap": false,
+              "defaultValue": ""
+            },
+            {
+              "name": "lines",
+              "description": "",
+              "label": "repeated",
+              "type": "uint64",
+              "longType": "uint64",
+              "fullType": "uint64",
               "ismap": false,
               "defaultValue": ""
             }

@@ -4,7 +4,10 @@
     "testResult": {
       "status": null,
       "message": null,
-      "durationNanoseconds": null
+      "duration": {
+        "seconds": null,
+        "nanos": null
+      }
     },
     "snippet": null
   }

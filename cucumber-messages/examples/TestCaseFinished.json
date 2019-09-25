@@ -1,11 +1,17 @@
 {
   "testCaseFinished": {
     "pickleId": null,
-    "timestamp": null,
+    "timestamp": {
+      "seconds": null,
+      "nanos": null
+    },
     "testResult": {
       "status": null,
       "message": null,
-      "durationNanoseconds": null
+      "duration": {
+        "seconds": null,
+        "nanos": null
+      }
     }
   }
 }
