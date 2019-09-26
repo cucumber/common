@@ -29,47 +29,24 @@ describe PetriNet do
       @pn = PetriNet.from_pnml(IO.read(File.dirname(__FILE__) + '/../src/cucumber-protocol.xml'))
     end
 
-    it 'does not allow pickle loading after execution starts' do
-      @pn.fire("CommandStoreStepDefinition")
-      @pn.fire("CommandLoadFeatureFiles")
-      @pn.fire("CommandStorePickle")
-      @pn.fire("CommandExecutePickles")
-      @pn.fire("1 match")
-      @pn.fire("execute")
+    it 'does not allow PickleStep after Execute' do
+      @pn.fire("Start")
+      @pn.fire("GlueCode")
+      @pn.fire("PickleStep")
+      @pn.fire("PickleStep")
+      @pn.fire("Execute")
       expect do
-        @pn.fire("CommandStorePickle")
-      end.to raise_error('Cannot fire: CommandStorePickle')
+        @pn.fire("PickleStep")
+      end.to raise_error('Cannot fire: PickleStep')
     end
 
-    it 'does not allow step def loading after execution started' do
-      @pn.fire('CommandStoreStepDefinition')
-      @pn.fire('CommandStoreStepDefinition')
-      @pn.fire('CommandLoadFeatureFiles')
-      @pn.fire('CommandStorePickle')
-      @pn.fire('CommandStorePickle')
-      @pn.fire('CommandExecutePickles')
+    it 'does not allow GlueCode twice' do
+      @pn.fire("Start")
+      @pn.fire("GlueCode")
 
-      expect { @pn.fire('CommandStoreStepDefinition') }.to raise_error('Cannot fire: CommandStoreStepDefinition')
-    end
-
-    context 'when step defs have not been loaded and pickle is executed' do
-      before do
-        @pn.fire("CommandLoadFeatureFiles")
-        @pn.fire("CommandStorePickle")
-        @pn.fire("CommandExecutePickles")
-      end
-
-      it 'can be undefined' do
-        expect { @pn.fire('0 matches') }.not_to raise_error
-      end
-
-      it 'cannot be defined' do
-        expect { @pn.fire('1 match') }.to raise_error('Cannot fire: 1 match')
-      end
-
-      it 'cannot be ambiguous' do
-        expect { @pn.fire('2+ matches') }.to raise_error('Cannot fire: 2+ matches')
-      end
+      expect do 
+        @pn.fire('GlueCode')
+      end.to raise_error('Cannot fire: GlueCode')
     end
   end
 end
