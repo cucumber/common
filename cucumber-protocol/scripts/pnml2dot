@@ -1,6 +1,6 @@
 #!/usr/bin/env ruby
 #
-# This script reads a PNML from STDIN and writes a GraphVIZ Dot file to STDOUT.
+# This script reads a PNML from STDIN and writes a Graphviz Dot file to STDOUT.
 #
 require 'nokogiri'
 require 'graphviz/dsl'

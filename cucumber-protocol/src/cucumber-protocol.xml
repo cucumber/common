@@ -2,207 +2,7 @@
 <pnml>
     <net>
         <token id="Default" red="0" green="0" blue="0"/>
-        <place id="execution started">
-            <graphics>
-                <position x="426.0" y="402.0"/>
-            </graphics>
-            <name>
-                <value>P0</value>
-                <graphics>
-                    <offset x="-5.0" y="35.0"/>
-                </graphics>
-            </name>
-            <capacity>
-                <value>0</value>
-            </capacity>
-            <initialMarking>
-                <graphics>
-                    <offset x="0.0" y="0.0"/>
-                </graphics>
-                <value>Default,0</value>
-            </initialMarking>
-        </place>
-        <place id="loading step definitions">
-            <graphics>
-                <position x="358.0" y="45.0"/>
-            </graphics>
-            <name>
-                <value>P0</value>
-                <graphics>
-                    <offset x="-5.0" y="35.0"/>
-                </graphics>
-            </name>
-            <capacity>
-                <value>0</value>
-            </capacity>
-            <initialMarking>
-                <graphics>
-                    <offset x="0.0" y="0.0"/>
-                </graphics>
-                <value>Default,1</value>
-            </initialMarking>
-        </place>
-        <place id="pending">
-            <graphics>
-                <position x="597.0" y="756.0"/>
-            </graphics>
-            <name>
-                <value>P1</value>
-                <graphics>
-                    <offset x="-5.0" y="35.0"/>
-                </graphics>
-            </name>
-            <capacity>
-                <value>0</value>
-            </capacity>
-            <initialMarking>
-                <graphics>
-                    <offset x="0.0" y="0.0"/>
-                </graphics>
-                <value>Default,0</value>
-            </initialMarking>
-        </place>
-        <place id="ready to file feature files">
-            <graphics>
-                <position x="143.0" y="172.0"/>
-            </graphics>
-            <name>
-                <value>P0</value>
-                <graphics>
-                    <offset x="-5.0" y="35.0"/>
-                </graphics>
-            </name>
-            <capacity>
-                <value>0</value>
-            </capacity>
-            <initialMarking>
-                <graphics>
-                    <offset x="0.0" y="0.0"/>
-                </graphics>
-                <value>Default,1</value>
-            </initialMarking>
-        </place>
-        <place id="executing">
-            <graphics>
-                <position x="797.0" y="568.0"/>
-            </graphics>
-            <name>
-                <value>P1</value>
-                <graphics>
-                    <offset x="-5.0" y="35.0"/>
-                </graphics>
-            </name>
-            <capacity>
-                <value>0</value>
-            </capacity>
-            <initialMarking>
-                <graphics>
-                    <offset x="0.0" y="0.0"/>
-                </graphics>
-                <value>Default,0</value>
-            </initialMarking>
-        </place>
-        <place id="failed">
-            <graphics>
-                <position x="595.0" y="645.0"/>
-            </graphics>
-            <name>
-                <value>P1</value>
-                <graphics>
-                    <offset x="-5.0" y="35.0"/>
-                </graphics>
-            </name>
-            <capacity>
-                <value>0</value>
-            </capacity>
-            <initialMarking>
-                <graphics>
-                    <offset x="0.0" y="0.0"/>
-                </graphics>
-                <value>Default,0</value>
-            </initialMarking>
-        </place>
-        <place id="ambiguous">
-            <graphics>
-                <position x="1001.0" y="381.0"/>
-            </graphics>
-            <name>
-                <value>P3</value>
-                <graphics>
-                    <offset x="-5.0" y="35.0"/>
-                </graphics>
-            </name>
-            <capacity>
-                <value>0</value>
-            </capacity>
-            <initialMarking>
-                <graphics>
-                    <offset x="0.0" y="0.0"/>
-                </graphics>
-                <value>Default,0</value>
-            </initialMarking>
-        </place>
-        <place id="idle executors">
-            <graphics>
-                <position x="253.0" y="686.0"/>
-            </graphics>
-            <name>
-                <value>P1</value>
-                <graphics>
-                    <offset x="-9.0" y="30.0"/>
-                </graphics>
-            </name>
-            <capacity>
-                <value>0</value>
-            </capacity>
-            <initialMarking>
-                <graphics>
-                    <offset x="0.0" y="0.0"/>
-                </graphics>
-                <value>Default,3</value>
-            </initialMarking>
-        </place>
-        <place id="undefined">
-            <graphics>
-                <position x="821.0" y="380.0"/>
-            </graphics>
-            <name>
-                <value>P1</value>
-                <graphics>
-                    <offset x="-5.0" y="35.0"/>
-                </graphics>
-            </name>
-            <capacity>
-                <value>0</value>
-            </capacity>
-            <initialMarking>
-                <graphics>
-                    <offset x="0.0" y="0.0"/>
-                </graphics>
-                <value>Default,0</value>
-            </initialMarking>
-        </place>
-        <place id="unexecuted pickles">
-            <graphics>
-                <position x="823.0" y="182.0"/>
-            </graphics>
-            <name>
-                <value>P0</value>
-                <graphics>
-                    <offset x="-8.0" y="20.0"/>
-                </graphics>
-            </name>
-            <capacity>
-                <value>0</value>
-            </capacity>
-            <initialMarking>
-                <graphics>
-                    <offset x="0.0" y="0.0"/>
-                </graphics>
-                <value>Default,0</value>
-            </initialMarking>
-        </place>
-        <place id="stepdefs loaded">
+        <place id="GlueCode loaded">
             <graphics>
                 <position x="824.0" y="51.0"/>
             </graphics>
@@ -222,7 +22,7 @@
                 <value>Default,0</value>
             </initialMarking>
         </place>
-        <place id="passed">
+        <place id="PASSED TestStep">
             <graphics>
                 <position x="600.0" y="543.0"/>
             </graphics>
@@ -242,9 +42,49 @@
                 <value>Default,0</value>
             </initialMarking>
         </place>
-        <place id="extracting pickles">
+        <place id="Idle Executors">
             <graphics>
-                <position x="436.0" y="145.0"/>
+                <position x="253.0" y="686.0"/>
+            </graphics>
+            <name>
+                <value>P1</value>
+                <graphics>
+                    <offset x="-9.0" y="30.0"/>
+                </graphics>
+            </name>
+            <capacity>
+                <value>0</value>
+            </capacity>
+            <initialMarking>
+                <graphics>
+                    <offset x="0.0" y="0.0"/>
+                </graphics>
+                <value>Default,3</value>
+            </initialMarking>
+        </place>
+        <place id="Loading GlueCode">
+            <graphics>
+                <position x="358.0" y="45.0"/>
+            </graphics>
+            <name>
+                <value>P0</value>
+                <graphics>
+                    <offset x="-5.0" y="35.0"/>
+                </graphics>
+            </name>
+            <capacity>
+                <value>0</value>
+            </capacity>
+            <initialMarking>
+                <graphics>
+                    <offset x="0.0" y="0.0"/>
+                </graphics>
+                <value>Default,0</value>
+            </initialMarking>
+        </place>
+        <place id="Running TestStep">
+            <graphics>
+                <position x="797.0" y="568.0"/>
             </graphics>
             <name>
                 <value>P1</value>
@@ -262,7 +102,7 @@
                 <value>Default,0</value>
             </initialMarking>
         </place>
-        <place id="defined">
+        <place id="Defined PickleStep">
             <graphics>
                 <position x="633.0" y="376.0"/>
             </graphics>
@@ -282,85 +122,167 @@
                 <value>Default,0</value>
             </initialMarking>
         </place>
-        <transition id="2+ matches">
+        <place id="UNKNOWN PickleStep">
             <graphics>
-                <position x="1011.0" y="289.0"/>
+                <position x="823.0" y="182.0"/>
             </graphics>
             <name>
-                <value>T0</value>
+                <value>P0</value>
                 <graphics>
-                    <offset x="-5.0" y="35.0"/>
+                    <offset x="-8.0" y="20.0"/>
                 </graphics>
             </name>
-            <infiniteServer>
-                <value>false</value>
-            </infiniteServer>
-            <timed>
-                <value>false</value>
-            </timed>
-            <priority>
-                <value>1</value>
-            </priority>
-            <orientation>
-                <value>90</value>
-            </orientation>
-            <rate>
-                <value>1</value>
-            </rate>
-        </transition>
-        <transition id="throw error">
-            <graphics>
-                <position x="669.0" y="709.0"/>
-            </graphics>
-            <name>
-                <value>T0</value>
-                <graphics>
-                    <offset x="-5.0" y="35.0"/>
-                </graphics>
-            </name>
-            <infiniteServer>
-                <value>false</value>
-            </infiniteServer>
-            <timed>
-                <value>false</value>
-            </timed>
-            <priority>
-                <value>1</value>
-            </priority>
-            <orientation>
+            <capacity>
                 <value>0</value>
-            </orientation>
-            <rate>
-                <value>1</value>
-            </rate>
-        </transition>
-        <transition id="CommandStoreStepDefinition">
+            </capacity>
+            <initialMarking>
+                <graphics>
+                    <offset x="0.0" y="0.0"/>
+                </graphics>
+                <value>Default,0</value>
+            </initialMarking>
+        </place>
+        <place id="AMBIGUOUS PickleStep">
             <graphics>
-                <position x="575.0" y="38.0"/>
+                <position x="1001.0" y="381.0"/>
             </graphics>
             <name>
-                <value>T0</value>
+                <value>P3</value>
+                <graphics>
+                    <offset x="-20.0" y="32.0"/>
+                </graphics>
+            </name>
+            <capacity>
+                <value>0</value>
+            </capacity>
+            <initialMarking>
+                <graphics>
+                    <offset x="0.0" y="0.0"/>
+                </graphics>
+                <value>Default,0</value>
+            </initialMarking>
+        </place>
+        <place id="UNDEFINED PickleStep">
+            <graphics>
+                <position x="821.0" y="380.0"/>
+            </graphics>
+            <name>
+                <value>P1</value>
                 <graphics>
                     <offset x="-5.0" y="35.0"/>
                 </graphics>
             </name>
-            <infiniteServer>
-                <value>false</value>
-            </infiniteServer>
-            <timed>
-                <value>false</value>
-            </timed>
-            <priority>
-                <value>1</value>
-            </priority>
-            <orientation>
+            <capacity>
                 <value>0</value>
-            </orientation>
-            <rate>
-                <value>1</value>
-            </rate>
-        </transition>
-        <transition id="CommandStorePickle">
+            </capacity>
+            <initialMarking>
+                <graphics>
+                    <offset x="0.0" y="0.0"/>
+                </graphics>
+                <value>Default,0</value>
+            </initialMarking>
+        </place>
+        <place id="Idle">
+            <graphics>
+                <position x="143.0" y="172.0"/>
+            </graphics>
+            <name>
+                <value>P0</value>
+                <graphics>
+                    <offset x="-5.0" y="35.0"/>
+                </graphics>
+            </name>
+            <capacity>
+                <value>0</value>
+            </capacity>
+            <initialMarking>
+                <graphics>
+                    <offset x="0.0" y="0.0"/>
+                </graphics>
+                <value>Default,1</value>
+            </initialMarking>
+        </place>
+        <place id="Building Pickles">
+            <graphics>
+                <position x="436.0" y="145.0"/>
+            </graphics>
+            <name>
+                <value>P1</value>
+                <graphics>
+                    <offset x="-5.0" y="35.0"/>
+                </graphics>
+            </name>
+            <capacity>
+                <value>0</value>
+            </capacity>
+            <initialMarking>
+                <graphics>
+                    <offset x="0.0" y="0.0"/>
+                </graphics>
+                <value>Default,0</value>
+            </initialMarking>
+        </place>
+        <place id="Executing">
+            <graphics>
+                <position x="426.0" y="402.0"/>
+            </graphics>
+            <name>
+                <value>P0</value>
+                <graphics>
+                    <offset x="-5.0" y="35.0"/>
+                </graphics>
+            </name>
+            <capacity>
+                <value>0</value>
+            </capacity>
+            <initialMarking>
+                <graphics>
+                    <offset x="0.0" y="0.0"/>
+                </graphics>
+                <value>Default,0</value>
+            </initialMarking>
+        </place>
+        <place id="PENDING TestStep">
+            <graphics>
+                <position x="597.0" y="756.0"/>
+            </graphics>
+            <name>
+                <value>P1</value>
+                <graphics>
+                    <offset x="-5.0" y="35.0"/>
+                </graphics>
+            </name>
+            <capacity>
+                <value>0</value>
+            </capacity>
+            <initialMarking>
+                <graphics>
+                    <offset x="0.0" y="0.0"/>
+                </graphics>
+                <value>Default,0</value>
+            </initialMarking>
+        </place>
+        <place id="FAILED TestStep">
+            <graphics>
+                <position x="595.0" y="645.0"/>
+            </graphics>
+            <name>
+                <value>P1</value>
+                <graphics>
+                    <offset x="-5.0" y="35.0"/>
+                </graphics>
+            </name>
+            <capacity>
+                <value>0</value>
+            </capacity>
+            <initialMarking>
+                <graphics>
+                    <offset x="0.0" y="0.0"/>
+                </graphics>
+                <value>Default,0</value>
+            </initialMarking>
+        </place>
+        <transition id="PickleStep">
             <graphics>
                 <position x="609.0" y="144.0"/>
             </graphics>
@@ -386,9 +308,9 @@
                 <value>1</value>
             </rate>
         </transition>
-        <transition id="CommandLoadFeatureFiles">
+        <transition id="PickleStepMatched(2+)">
             <graphics>
-                <position x="220.0" y="234.0"/>
+                <position x="1011.0" y="289.0"/>
             </graphics>
             <name>
                 <value>T0</value>
@@ -406,65 +328,13 @@
                 <value>1</value>
             </priority>
             <orientation>
-                <value>0</value>
+                <value>90</value>
             </orientation>
             <rate>
                 <value>1</value>
             </rate>
         </transition>
-        <transition id="signal pending">
-            <graphics>
-                <position x="668.0" y="823.0"/>
-            </graphics>
-            <name>
-                <value>T0</value>
-                <graphics>
-                    <offset x="-5.0" y="35.0"/>
-                </graphics>
-            </name>
-            <infiniteServer>
-                <value>false</value>
-            </infiniteServer>
-            <timed>
-                <value>false</value>
-            </timed>
-            <priority>
-                <value>1</value>
-            </priority>
-            <orientation>
-                <value>0</value>
-            </orientation>
-            <rate>
-                <value>1</value>
-            </rate>
-        </transition>
-        <transition id="CommandExecutePickles">
-            <graphics>
-                <position x="381.0" y="288.0"/>
-            </graphics>
-            <name>
-                <value>T0</value>
-                <graphics>
-                    <offset x="-5.0" y="35.0"/>
-                </graphics>
-            </name>
-            <infiniteServer>
-                <value>false</value>
-            </infiniteServer>
-            <timed>
-                <value>false</value>
-            </timed>
-            <priority>
-                <value>1</value>
-            </priority>
-            <orientation>
-                <value>0</value>
-            </orientation>
-            <rate>
-                <value>1</value>
-            </rate>
-        </transition>
-        <transition id="0 matches">
+        <transition id="PickleStepMatched(0)">
             <graphics>
                 <position x="831.0" y="289.0"/>
             </graphics>
@@ -490,7 +360,7 @@
                 <value>1</value>
             </rate>
         </transition>
-        <transition id="1 match">
+        <transition id="PickleStepMatched(1)">
             <graphics>
                 <position x="641.0" y="287.0"/>
             </graphics>
@@ -516,7 +386,137 @@
                 <value>1</value>
             </rate>
         </transition>
-        <transition id="no errors">
+        <transition id="Execute">
+            <graphics>
+                <position x="381.0" y="288.0"/>
+            </graphics>
+            <name>
+                <value>T0</value>
+                <graphics>
+                    <offset x="-5.0" y="35.0"/>
+                </graphics>
+            </name>
+            <infiniteServer>
+                <value>false</value>
+            </infiniteServer>
+            <timed>
+                <value>false</value>
+            </timed>
+            <priority>
+                <value>1</value>
+            </priority>
+            <orientation>
+                <value>0</value>
+            </orientation>
+            <rate>
+                <value>1</value>
+            </rate>
+        </transition>
+        <transition id="Start">
+            <graphics>
+                <position x="236.0" y="162.0"/>
+            </graphics>
+            <name>
+                <value>T0</value>
+                <graphics>
+                    <offset x="-5.0" y="35.0"/>
+                </graphics>
+            </name>
+            <infiniteServer>
+                <value>false</value>
+            </infiniteServer>
+            <timed>
+                <value>false</value>
+            </timed>
+            <priority>
+                <value>1</value>
+            </priority>
+            <orientation>
+                <value>0</value>
+            </orientation>
+            <rate>
+                <value>1</value>
+            </rate>
+        </transition>
+        <transition id="TestStepFinished(PENDING)">
+            <graphics>
+                <position x="668.0" y="823.0"/>
+            </graphics>
+            <name>
+                <value>T0</value>
+                <graphics>
+                    <offset x="-5.0" y="35.0"/>
+                </graphics>
+            </name>
+            <infiniteServer>
+                <value>false</value>
+            </infiniteServer>
+            <timed>
+                <value>false</value>
+            </timed>
+            <priority>
+                <value>1</value>
+            </priority>
+            <orientation>
+                <value>0</value>
+            </orientation>
+            <rate>
+                <value>1</value>
+            </rate>
+        </transition>
+        <transition id="GlueCode">
+            <graphics>
+                <position x="575.0" y="38.0"/>
+            </graphics>
+            <name>
+                <value>T0</value>
+                <graphics>
+                    <offset x="-5.0" y="35.0"/>
+                </graphics>
+            </name>
+            <infiniteServer>
+                <value>false</value>
+            </infiniteServer>
+            <timed>
+                <value>false</value>
+            </timed>
+            <priority>
+                <value>1</value>
+            </priority>
+            <orientation>
+                <value>0</value>
+            </orientation>
+            <rate>
+                <value>1</value>
+            </rate>
+        </transition>
+        <transition id="TestStepFinished(FAILED)">
+            <graphics>
+                <position x="669.0" y="709.0"/>
+            </graphics>
+            <name>
+                <value>T0</value>
+                <graphics>
+                    <offset x="-5.0" y="35.0"/>
+                </graphics>
+            </name>
+            <infiniteServer>
+                <value>false</value>
+            </infiniteServer>
+            <timed>
+                <value>false</value>
+            </timed>
+            <priority>
+                <value>1</value>
+            </priority>
+            <orientation>
+                <value>0</value>
+            </orientation>
+            <rate>
+                <value>1</value>
+            </rate>
+        </transition>
+        <transition id="TestStepFinished(PASSED)">
             <graphics>
                 <position x="673.0" y="580.0"/>
             </graphics>
@@ -542,7 +542,7 @@
                 <value>1</value>
             </rate>
         </transition>
-        <transition id="execute">
+        <transition id="CommandRunTestStep">
             <graphics>
                 <position x="643.0" y="478.0"/>
             </graphics>
@@ -568,7 +568,7 @@
                 <value>1</value>
             </rate>
         </transition>
-        <arc id="1 match TO matching started" source="1 match" target="execution started">
+        <arc id="1 match TO matching started" source="PickleStepMatched(1)" target="Executing">
             <arcpath id="" x="631.0" y="302.0" curvePoint="false"/>
             <arcpath id="" x="454.0" y="410.0" curvePoint="false"/>
             <type value="normal"/>
@@ -576,7 +576,7 @@
                 <value>Default,1</value>
             </inscription>
         </arc>
-        <arc id="defined TO P4" source="1 match" target="defined">
+        <arc id="defined TO P4" source="PickleStepMatched(1)" target="Defined PickleStep">
             <arcpath id="" x="646.0" y="307.0" curvePoint="false"/>
             <arcpath id="" x="648.0" y="376.0" curvePoint="false"/>
             <type value="normal"/>
@@ -584,7 +584,7 @@
                 <value>Default,1</value>
             </inscription>
         </arc>
-        <arc id="2+ matches TO matching started" source="2+ matches" target="execution started">
+        <arc id="2+ matches TO matching started" source="PickleStepMatched(2+)" target="Executing">
             <arcpath id="" x="1001.0" y="304.0" curvePoint="false"/>
             <arcpath id="" x="456.0" y="414.0" curvePoint="false"/>
             <type value="normal"/>
@@ -592,7 +592,7 @@
                 <value>Default,1</value>
             </inscription>
         </arc>
-        <arc id="throw error TO idle executors" source="throw error" target="idle executors">
+        <arc id="throw error TO idle executors" source="TestStepFinished(FAILED)" target="Idle Executors">
             <arcpath id="" x="669.0" y="724.0" curvePoint="false"/>
             <arcpath id="" x="283.0" y="702.0" curvePoint="false"/>
             <type value="normal"/>
@@ -600,7 +600,7 @@
                 <value>Default,1</value>
             </inscription>
         </arc>
-        <arc id="0 matches TO matching started" source="0 matches" target="execution started">
+        <arc id="0 matches TO matching started" source="PickleStepMatched(0)" target="Executing">
             <arcpath id="" x="821.0" y="304.0" curvePoint="false"/>
             <arcpath id="" x="455.0" y="413.0" curvePoint="false"/>
             <type value="normal"/>
@@ -608,7 +608,7 @@
                 <value>Default,1</value>
             </inscription>
         </arc>
-        <arc id="start matching TO matching started" source="CommandExecutePickles" target="execution started">
+        <arc id="start matching TO matching started" source="Execute" target="Executing">
             <arcpath id="" x="386.0" y="318.0" curvePoint="false"/>
             <arcpath id="" x="434.0" y="403.0" curvePoint="false"/>
             <type value="normal"/>
@@ -616,7 +616,15 @@
                 <value>Default,1</value>
             </inscription>
         </arc>
-        <arc id="1 match TO stepdefs loaded" source="1 match" target="stepdefs loaded">
+        <arc id="Execute TO GlueCode loaded" source="Execute" target="GlueCode loaded">
+            <arcpath id="" x="391.0" y="303.0" curvePoint="false"/>
+            <arcpath id="" x="826.0" y="73.0" curvePoint="false"/>
+            <type value="normal"/>
+            <inscription>
+                <value>Default,1</value>
+            </inscription>
+        </arc>
+        <arc id="1 match TO stepdefs loaded" source="PickleStepMatched(1)" target="GlueCode loaded">
             <arcpath id="" x="646.0" y="297.0" curvePoint="false"/>
             <arcpath id="" x="830.0" y="78.0" curvePoint="false"/>
             <type value="normal"/>
@@ -624,15 +632,15 @@
                 <value>Default,1</value>
             </inscription>
         </arc>
-        <arc id="CommandLoadFeatureFiles TO ready to load pickles" source="CommandLoadFeatureFiles" target="extracting pickles">
-            <arcpath id="" x="230.0" y="249.0" curvePoint="false"/>
-            <arcpath id="" x="437.0" y="165.0" curvePoint="false"/>
+        <arc id="CommandLoadFeatureFiles TO ready to load pickles" source="Start" target="Building Pickles">
+            <arcpath id="" x="246.0" y="177.0" curvePoint="false"/>
+            <arcpath id="" x="436.0" y="161.0" curvePoint="false"/>
             <type value="normal"/>
             <inscription>
                 <value>Default,1</value>
             </inscription>
         </arc>
-        <arc id="execute TO executing" source="execute" target="executing">
+        <arc id="execute TO executing" source="CommandRunTestStep" target="Running TestStep">
             <arcpath id="" x="663.0" y="493.0" curvePoint="false"/>
             <arcpath id="" x="799.0" y="576.0" curvePoint="false"/>
             <type value="normal"/>
@@ -640,7 +648,7 @@
                 <value>Default,1</value>
             </inscription>
         </arc>
-        <arc id="2+ matches TO stepdefs loaded" source="2+ matches" target="stepdefs loaded">
+        <arc id="2+ matches TO stepdefs loaded" source="PickleStepMatched(2+)" target="GlueCode loaded">
             <arcpath id="" x="1016.0" y="299.0" curvePoint="false"/>
             <arcpath id="" x="1005.0" y="152.0" curvePoint="false"/>
             <arcpath id="" x="852.0" y="73.0" curvePoint="false"/>
@@ -649,7 +657,7 @@
                 <value>Default,1</value>
             </inscription>
         </arc>
-        <arc id="load pickle TO unexecuted pickles" source="CommandStorePickle" target="unexecuted pickles">
+        <arc id="load pickle TO unexecuted pickles" source="PickleStep" target="UNKNOWN PickleStep">
             <arcpath id="" x="619.0" y="159.0" curvePoint="false"/>
             <arcpath id="" x="823.0" y="194.0" curvePoint="false"/>
             <type value="normal"/>
@@ -657,7 +665,7 @@
                 <value>Default,1</value>
             </inscription>
         </arc>
-        <arc id="no errors TO idle executors" source="no errors" target="idle executors">
+        <arc id="no errors TO idle executors" source="TestStepFinished(PASSED)" target="Idle Executors">
             <arcpath id="" x="673.0" y="595.0" curvePoint="false"/>
             <arcpath id="" x="283.0" y="697.0" curvePoint="false"/>
             <type value="normal"/>
@@ -665,7 +673,7 @@
                 <value>Default,1</value>
             </inscription>
         </arc>
-        <arc id="signal pending TO idle executors" source="signal pending" target="idle executors">
+        <arc id="signal pending TO idle executors" source="TestStepFinished(PENDING)" target="Idle Executors">
             <arcpath id="" x="668.0" y="838.0" curvePoint="false"/>
             <arcpath id="" x="282.0" y="706.0" curvePoint="false"/>
             <type value="normal"/>
@@ -673,7 +681,7 @@
                 <value>Default,1</value>
             </inscription>
         </arc>
-        <arc id="load pickle TO P1" source="CommandStorePickle" target="extracting pickles">
+        <arc id="load pickle TO P1" source="PickleStep" target="Building Pickles">
             <arcpath id="" x="609.0" y="159.0" curvePoint="false"/>
             <arcpath id="" x="537.0" y="124.0" curvePoint="false"/>
             <arcpath id="" x="465.0" y="154.0" curvePoint="false"/>
@@ -682,7 +690,7 @@
                 <value>Default,1</value>
             </inscription>
         </arc>
-        <arc id="undefined TO P1" source="0 matches" target="undefined">
+        <arc id="undefined TO P1" source="PickleStepMatched(0)" target="UNDEFINED PickleStep">
             <arcpath id="" x="836.0" y="309.0" curvePoint="false"/>
             <arcpath id="" x="836.0" y="380.0" curvePoint="false"/>
             <type value="normal"/>
@@ -690,15 +698,7 @@
                 <value>Default,1</value>
             </inscription>
         </arc>
-        <arc id="CommandStoreStepDefinition TO ready to load stepdefs" source="CommandStoreStepDefinition" target="loading step definitions">
-            <arcpath id="" x="575.0" y="53.0" curvePoint="false"/>
-            <arcpath id="" x="388.0" y="59.0" curvePoint="false"/>
-            <type value="normal"/>
-            <inscription>
-                <value>Default,1</value>
-            </inscription>
-        </arc>
-        <arc id="load glue TO stepdefs loaded" source="CommandStoreStepDefinition" target="stepdefs loaded">
+        <arc id="load glue TO stepdefs loaded" source="GlueCode" target="GlueCode loaded">
             <arcpath id="" x="585.0" y="53.0" curvePoint="false"/>
             <arcpath id="" x="824.0" y="65.0" curvePoint="false"/>
             <type value="normal"/>
@@ -706,7 +706,15 @@
                 <value>Default,1</value>
             </inscription>
         </arc>
-        <arc id="signal pending TO pending" source="signal pending" target="pending">
+        <arc id="Start TO loading step definitions" source="Start" target="Loading GlueCode">
+            <arcpath id="" x="246.0" y="177.0" curvePoint="false"/>
+            <arcpath id="" x="362.0" y="70.0" curvePoint="false"/>
+            <type value="normal"/>
+            <inscription>
+                <value>Default,1</value>
+            </inscription>
+        </arc>
+        <arc id="signal pending TO pending" source="TestStepFinished(PENDING)" target="PENDING TestStep">
             <arcpath id="" x="673.0" y="823.0" curvePoint="false"/>
             <arcpath id="" x="622.0" y="782.0" curvePoint="false"/>
             <type value="normal"/>
@@ -714,7 +722,7 @@
                 <value>Default,1</value>
             </inscription>
         </arc>
-        <arc id="ambiguous TO P3" source="2+ matches" target="ambiguous">
+        <arc id="ambiguous TO P3" source="PickleStepMatched(2+)" target="AMBIGUOUS PickleStep">
             <arcpath id="" x="1016.0" y="309.0" curvePoint="false"/>
             <arcpath id="" x="1016.0" y="381.0" curvePoint="false"/>
             <type value="normal"/>
@@ -722,7 +730,7 @@
                 <value>Default,1</value>
             </inscription>
         </arc>
-        <arc id="throw error TO failed" source="throw error" target="failed">
+        <arc id="throw error TO failed" source="TestStepFinished(FAILED)" target="FAILED TestStep">
             <arcpath id="" x="674.0" y="709.0" curvePoint="false"/>
             <arcpath id="" x="621.0" y="671.0" curvePoint="false"/>
             <type value="normal"/>
@@ -730,7 +738,7 @@
                 <value>Default,1</value>
             </inscription>
         </arc>
-        <arc id="T2 TO P2" source="no errors" target="passed">
+        <arc id="T2 TO P2" source="TestStepFinished(PASSED)" target="PASSED TestStep">
             <arcpath id="" x="673.0" y="595.0" curvePoint="false"/>
             <arcpath id="" x="628.0" y="566.0" curvePoint="false"/>
             <type value="normal"/>
@@ -738,16 +746,15 @@
                 <value>Default,1</value>
             </inscription>
         </arc>
-        <arc id="P0 TO load glue" source="loading step definitions" target="CommandStoreStepDefinition">
-            <arcpath id="" x="387.0" y="55.0" curvePoint="false"/>
-            <arcpath id="" x="475.0" y="23.0" curvePoint="false"/>
+        <arc id="P0 TO load glue" source="Loading GlueCode" target="GlueCode">
+            <arcpath id="" x="388.0" y="59.0" curvePoint="false"/>
             <arcpath id="" x="575.0" y="53.0" curvePoint="false"/>
             <type value="normal"/>
             <inscription>
                 <value>Default,1</value>
             </inscription>
         </arc>
-        <arc id="stepdefs loaded TO 2+ matches" source="stepdefs loaded" target="2+ matches">
+        <arc id="stepdefs loaded TO 2+ matches" source="GlueCode loaded" target="PickleStepMatched(2+)">
             <arcpath id="" x="851.0" y="75.0" curvePoint="false"/>
             <arcpath id="" x="962.0" y="166.0" curvePoint="false"/>
             <arcpath id="" x="1016.0" y="299.0" curvePoint="false"/>
@@ -756,7 +763,7 @@
                 <value>Default,1</value>
             </inscription>
         </arc>
-        <arc id="matching started TO 0 matches" source="execution started" target="0 matches">
+        <arc id="matching started TO 0 matches" source="Executing" target="PickleStepMatched(0)">
             <arcpath id="" x="455.0" y="412.0" curvePoint="false"/>
             <arcpath id="" x="684.0" y="330.0" curvePoint="false"/>
             <arcpath id="" x="821.0" y="304.0" curvePoint="false"/>
@@ -765,7 +772,7 @@
                 <value>Default,1</value>
             </inscription>
         </arc>
-        <arc id="P1 TO load pickle" source="extracting pickles" target="CommandStorePickle">
+        <arc id="P1 TO load pickle" source="Building Pickles" target="PickleStep">
             <arcpath id="" x="466.0" y="160.0" curvePoint="false"/>
             <arcpath id="" x="609.0" y="159.0" curvePoint="false"/>
             <type value="normal"/>
@@ -773,7 +780,7 @@
                 <value>Default,1</value>
             </inscription>
         </arc>
-        <arc id="ready to load pickles TO start matching" source="extracting pickles" target="CommandExecutePickles">
+        <arc id="ready to load pickles TO start matching" source="Building Pickles" target="Execute">
             <arcpath id="" x="445.0" y="174.0" curvePoint="false"/>
             <arcpath id="" x="386.0" y="288.0" curvePoint="false"/>
             <type value="normal"/>
@@ -781,7 +788,7 @@
                 <value>Default,1</value>
             </inscription>
         </arc>
-        <arc id="matching started TO 1 match" source="execution started" target="1 match">
+        <arc id="matching started TO 1 match" source="Executing" target="PickleStepMatched(1)">
             <arcpath id="" x="452.0" y="407.0" curvePoint="false"/>
             <arcpath id="" x="518.0" y="347.0" curvePoint="false"/>
             <arcpath id="" x="631.0" y="302.0" curvePoint="false"/>
@@ -790,7 +797,7 @@
                 <value>Default,1</value>
             </inscription>
         </arc>
-        <arc id="P0 TO T0" source="unexecuted pickles" target="1 match">
+        <arc id="P0 TO T0" source="UNKNOWN PickleStep" target="PickleStepMatched(1)">
             <arcpath id="" x="825.0" y="204.0" curvePoint="false"/>
             <arcpath id="" x="661.0" y="302.0" curvePoint="false"/>
             <type value="normal"/>
@@ -798,7 +805,7 @@
                 <value>Default,1</value>
             </inscription>
         </arc>
-        <arc id="P0 TO T1" source="unexecuted pickles" target="0 matches">
+        <arc id="P0 TO T1" source="UNKNOWN PickleStep" target="PickleStepMatched(0)">
             <arcpath id="" x="838.0" y="212.0" curvePoint="false"/>
             <arcpath id="" x="836.0" y="299.0" curvePoint="false"/>
             <type value="normal"/>
@@ -806,7 +813,7 @@
                 <value>Default,1</value>
             </inscription>
         </arc>
-        <arc id="executing TO pending" source="executing" target="signal pending">
+        <arc id="executing TO pending" source="Running TestStep" target="TestStepFinished(PENDING)">
             <arcpath id="" x="805.0" y="596.0" curvePoint="false"/>
             <arcpath id="" x="673.0" y="823.0" curvePoint="false"/>
             <type value="normal"/>
@@ -814,23 +821,15 @@
                 <value>Default,1</value>
             </inscription>
         </arc>
-        <arc id="loading step definitions TO CommandExecutePickles" source="loading step definitions" target="CommandExecutePickles">
-            <arcpath id="" x="374.0" y="75.0" curvePoint="false"/>
-            <arcpath id="" x="386.0" y="288.0" curvePoint="false"/>
+        <arc id="ready to file feature files TO CommandLoadFeatureFiles" source="Idle" target="Start">
+            <arcpath id="" x="173.0" y="185.0" curvePoint="false"/>
+            <arcpath id="" x="236.0" y="177.0" curvePoint="false"/>
             <type value="normal"/>
             <inscription>
                 <value>Default,1</value>
             </inscription>
         </arc>
-        <arc id="ready to file feature files TO CommandLoadFeatureFiles" source="ready to file feature files" target="CommandLoadFeatureFiles">
-            <arcpath id="" x="169.0" y="197.0" curvePoint="false"/>
-            <arcpath id="" x="220.0" y="249.0" curvePoint="false"/>
-            <type value="normal"/>
-            <inscription>
-                <value>Default,1</value>
-            </inscription>
-        </arc>
-        <arc id="P0 TO ambiguous" source="unexecuted pickles" target="2+ matches">
+        <arc id="P0 TO ambiguous" source="UNKNOWN PickleStep" target="PickleStepMatched(2+)">
             <arcpath id="" x="851.0" y="205.0" curvePoint="false"/>
             <arcpath id="" x="1001.0" y="304.0" curvePoint="false"/>
             <type value="normal"/>
@@ -838,7 +837,7 @@
                 <value>Default,1</value>
             </inscription>
         </arc>
-        <arc id="executing TO failed" source="executing" target="throw error">
+        <arc id="executing TO failed" source="Running TestStep" target="TestStepFinished(FAILED)">
             <arcpath id="" x="802.0" y="594.0" curvePoint="false"/>
             <arcpath id="" x="674.0" y="709.0" curvePoint="false"/>
             <type value="normal"/>
@@ -846,7 +845,16 @@
                 <value>Default,1</value>
             </inscription>
         </arc>
-        <arc id="stepdefs loaded TO 1 match" source="stepdefs loaded" target="1 match">
+        <arc id="GlueCode loaded TO Execute" source="GlueCode loaded" target="Execute">
+            <arcpath id="" x="826.0" y="74.0" curvePoint="false"/>
+            <arcpath id="" x="566.0" y="238.0" curvePoint="false"/>
+            <arcpath id="" x="391.0" y="303.0" curvePoint="false"/>
+            <type value="normal"/>
+            <inscription>
+                <value>Default,1</value>
+            </inscription>
+        </arc>
+        <arc id="stepdefs loaded TO 1 match" source="GlueCode loaded" target="PickleStepMatched(1)">
             <arcpath id="" x="828.0" y="76.0" curvePoint="false"/>
             <arcpath id="" x="710.0" y="175.0" curvePoint="false"/>
             <arcpath id="" x="646.0" y="297.0" curvePoint="false"/>
@@ -855,7 +863,7 @@
                 <value>Default,1</value>
             </inscription>
         </arc>
-        <arc id="matching started TO 2+ matches" source="execution started" target="2+ matches">
+        <arc id="matching started TO 2+ matches" source="Executing" target="PickleStepMatched(2+)">
             <arcpath id="" x="456.0" y="413.0" curvePoint="false"/>
             <arcpath id="" x="758.0" y="339.0" curvePoint="false"/>
             <arcpath id="" x="1001.0" y="304.0" curvePoint="false"/>
@@ -864,7 +872,7 @@
                 <value>Default,1</value>
             </inscription>
         </arc>
-        <arc id="executing TO passed" source="executing" target="no errors">
+        <arc id="executing TO passed" source="Running TestStep" target="TestStepFinished(PASSED)">
             <arcpath id="" x="797.0" y="584.0" curvePoint="false"/>
             <arcpath id="" x="683.0" y="595.0" curvePoint="false"/>
             <type value="normal"/>
@@ -872,7 +880,7 @@
                 <value>Default,1</value>
             </inscription>
         </arc>
-        <arc id="P4 TO execute" source="defined" target="execute">
+        <arc id="P4 TO execute" source="Defined PickleStep" target="CommandRunTestStep">
             <arcpath id="" x="648.0" y="406.0" curvePoint="false"/>
             <arcpath id="" x="648.0" y="488.0" curvePoint="false"/>
             <type value="normal"/>
@@ -880,7 +888,7 @@
                 <value>Default,1</value>
             </inscription>
         </arc>
-        <arc id="idle executors TO execute" source="idle executors" target="execute">
+        <arc id="idle executors TO execute" source="Idle Executors" target="CommandRunTestStep">
             <arcpath id="" x="281.0" y="694.0" curvePoint="false"/>
             <arcpath id="" x="633.0" y="493.0" curvePoint="false"/>
             <type value="normal"/>

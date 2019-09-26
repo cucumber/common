@@ -1,0 +1,14 @@
+#!/usr/bin/env ruby
+#
+# This script reads an SVG from STDIN and removes black rectangles.
+# The result is written to STDOUT.
+#
+require 'nokogiri'
+
+doc = Nokogiri::XML(STDIN.read)
+polygons = doc.xpath('//svg:polygon[@fill="#ffffff" and @stroke="#000000"]', 'svg' => 'http://www.w3.org/2000/svg')
+polygons.each do |polygon|
+  polygon.remove
+end
+
+puts doc.to_xml

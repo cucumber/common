@@ -19,7 +19,7 @@ pngs: $(patsubst %.xml,%.png,$(PNML_FILES))
 
 %.svg: %.dot Gemfile.lock scripts/draw-tokens
 	dot -T svg $< -o $@.tmp.svg
-	cat $@.tmp.svg | scripts/draw-tokens > $@
+	cat $@.tmp.svg | scripts/draw-tokens | scripts/remove-rectangles > $@
 	rm $@.tmp.svg
 
 %.png: %.svg

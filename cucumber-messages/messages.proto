@@ -67,7 +67,8 @@ message Envelope {
     CommandRunAfterTestRunHooks commandRunAfterTestRunHooks = 23;
     CommandGenerateSnippet commandGenerateSnippet = 24;
     string commandError = 25;
-    TestStepMatched testStepMatched = 26;
+    PickleStepMatched pickleStepMatched = 26;
+    StepDefinition stepDefinition = 27;
   }
 }
 
@@ -447,12 +448,26 @@ message TestCaseFinished {
   TestResult testResult = 3;
 }
 
-// For each step, there will be a match
-message TestStepMatched {
+// Each PickleStep will have a match before execution starts
+message PickleStepMatched {
   string pickleId = 1;
+  // Index of the step within the pickle
   uint32 index = 2;
-  SourceReference stepDefinitionReference = 3;
+  reserved 3;
+  /**
+   * If the stepDefinitionIds length is 1, this contains the arguments from
+   * the match. Otherwise this field is not set.
+   */
   repeated StepMatchArgument stepMatchArguments = 4;
+  /**
+   * The ids of the matching step definitions. This will determine
+   * the status of the step:
+   *
+   * - 0: UNDEFINED
+   * - 1: defined - status determined later by execution
+   * - 2+: AMBIGUOUS
+   */
+  repeated uint32 stepDefinitionIds = 5;
 }
 
 message TestStepStarted {
@@ -531,8 +546,8 @@ message TestRunFinished {
 message CommandStart {
   string baseDirectory = 2;
   SourcesConfig sourcesConfig = 3;
-  RuntimeConfig runtimeConfig = 4;
-  SupportCodeConfig supportCodeConfig = 5;
+  ExecutionConfig executionConfig = 4;
+  GlueCode glueCode = 5;
 }
 
 message SourcesConfig {
@@ -563,47 +578,47 @@ enum SourcesOrderType {
   RANDOM = 1;
 }
 
-message RuntimeConfig {
+message ExecutionConfig {
   bool isFailFast = 1;
   bool isDryRun = 2;
   bool isStrict = 3;
   uint64 maxParallel = 4;
 }
 
-message SupportCodeConfig {
-  repeated TestCaseHookDefinitionConfig beforeTestCaseHookDefinitionConfigs = 1;
-  repeated TestCaseHookDefinitionConfig afterTestCaseHookDefinitionConfigs = 2;
-  repeated StepDefinitionConfig stepDefinitionConfigs = 3;
-  repeated ParameterTypeConfig parameterTypeConfigs = 4;
+message GlueCode {
+  repeated TestCaseHook beforeTestCaseHooks = 1;
+  repeated TestCaseHook afterTestCaseHooks = 2;
+  repeated StepDefinition stepDefinitions = 3;
+  repeated ParameterType parameterTypes = 4;
 }
 
-message TestCaseHookDefinitionConfig {
+message TestCaseHook {
   string id = 1;
   string tagExpression = 2;
   // TODO: rename to sourceReference as Location is another type and this is ambiguous.
   SourceReference location = 3;
 }
 
-message StepDefinitionConfig {
+message StepDefinition {
   string id = 1;
-  StepDefinitionPattern pattern = 2;
+  Expression expression = 2;
   SourceReference location = 3;
 }
 
-message StepDefinitionPattern {
+message Expression {
   string source = 1;
-  StepDefinitionPatternType type = 2;
+  ExpressionType type = 2;
 }
 
-enum StepDefinitionPatternType {
+enum ExpressionType {
   CUCUMBER_EXPRESSION = 0;
   REGULAR_EXPRESSION = 1;
 }
 
-message ParameterTypeConfig {
+message ParameterType {
   string name = 1;
-  repeated string regularExpressions = 2;
-  bool preferForRegularExpressionMatch = 3;
+  repeated string regexps = 2;
+  bool preferForRegexpMatch = 3;
   bool useForSnippets = 4;
 }
 
