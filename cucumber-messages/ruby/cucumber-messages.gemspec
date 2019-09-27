@@ -10,6 +10,7 @@ Gem::Specification.new do |s|
   s.platform    = Gem::Platform::RUBY
   s.license     = "MIT"
   s.required_ruby_version = ">= 2.3"
+  s.extensions = ["ext/cucumber-messages/extconf.rb".freeze]
 
   s.metadata    = {
                     'bug_tracker_uri'   => 'https://github.com/cucumber/cucumber/issues',
@@ -31,6 +32,7 @@ Gem::Specification.new do |s|
   s.files            = Dir[
     'README.md',
     'LICENSE',
+    'messages.proto',
     'lib/**/*'
   ]
   s.test_files       = Dir['spec/**/*']
