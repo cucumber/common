@@ -46,5 +46,5 @@ clean: clean-ruby
 .PHONY: clean
 
 clean-ruby:
-	rm -f .deps .linked .tested Gemfile.lock *.gem
+	rm -f .deps .linked .tested Gemfile.lock *.gem pkg/*.gem
 .PHONY: clean-ruby
