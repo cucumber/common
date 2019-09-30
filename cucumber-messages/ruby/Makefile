@@ -1,5 +1,4 @@
 include default.mk
-LIBNAME = $(shell $(cd "..";basename $(pwd)))
 
 default: pkg/.installable_tested
 
