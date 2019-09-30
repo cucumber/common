@@ -4,6 +4,8 @@ find_executable('protoc')
 
 File.open(File.join(Dir.pwd, 'Makefile'), 'w') do |file|
   file.write %Q(
+SHELL := /usr/bin/env bash
+
 default: ../../lib/cucumber/messages_pb.rb
 
 ../../lib/cucumber/messages_pb.rb: ../../messages.proto
