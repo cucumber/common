@@ -5,6 +5,7 @@ import {
   ProtobufBinaryStream,
   ProtobufNdjsonStream,
 } from 'cucumber-messages'
+import { Readable } from 'stream'
 
 const args = process.argv.slice(2)
 const options: IGherkinOptions = {
@@ -42,7 +43,7 @@ while (args.length > 0) {
 
 const messageStream =
   paths.length === 0
-    ? gherkin.fromStream(process.stdin, options)
+    ? gherkin.fromStream((process.stdin as unknown) as Readable, options)
     : gherkin.fromPaths(paths, options)
 
 const encodedStream = json
