@@ -6,6 +6,9 @@ set -uf -o pipefail
 IFS=$'\n'
 
 gemspec=$(find . -type f -maxdepth 1 -name "*.gemspec")
+if [ "${gemspec}" = "" ]; then
+  exit 0
+fi
 add_dependency_lines=$(cat ${gemspec} | grep "s.add_[a-z_]*dependency '[^']*'")
 if [ $? -ne 0 ]; then
   # No add_dependency_lines found - nothing to do

@@ -11,7 +11,7 @@ import StepMatchLookupByLineContext from '../src/StepMatchLookupByLineContext'
 const envelopes = all.map(o => messages.Envelope.fromObject(o))
 
 storiesOf('Features', module)
-  .add('All', () => {
+  .add('Full document', () => {
     const { gherkinDocuments, resultsLookup, stepMatchLookup } = makeGherkinDocumentsAndResultsLookup(envelopes)
     return <App
       gherkinDocuments={gherkinDocuments}
