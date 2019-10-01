@@ -25,7 +25,7 @@ describe('App', () => {
         const p = path.join(dir, file)
         const fakeTestResultsStream = new FakeTestResultsStream('protobuf-objects', 'pattern')
         const envelopes = await streamToArray(gherkin
-          .fromPaths([p])
+          .fromPaths([p], {})
           .pipe(fakeTestResultsStream))
 
         const { gherkinDocuments, resultsLookup, stepMatchLookup } = makeGherkinDocumentsAndResultsLookup(envelopes)

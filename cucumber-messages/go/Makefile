@@ -1,6 +1,6 @@
 include default.mk
 
-GOGO_PROTOBUF_VERSION=65acae22fc9d1fe290b33faa2bd64cdc20a463a0
+GOGO_PROTOBUF_VERSION=v1.3.0
 
 .deps: messages.pb.go
 

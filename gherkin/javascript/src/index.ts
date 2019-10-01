@@ -1,5 +1,5 @@
 import { IGherkinOptions } from './types'
-import { PassThrough, Readable, Writable } from 'stream'
+import { PassThrough, Readable } from 'stream'
 import ParserMessageStream from './stream/ParserMessageStream'
 import fs from 'fs'
 import SourceMessageStream from './stream/SourceMessageStream'
