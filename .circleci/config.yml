@@ -534,6 +534,18 @@ jobs:
 workflows:
   version: 2
 
+  monorepo-nightly:
+    triggers:
+      - schedule:
+          cron: "5 0 * * *"
+          filters:
+            branches:
+              only:
+                - master
+
+    jobs:
+      - build-serial
+
   monorepo-serial:
     jobs:
       - build-serial:
@@ -545,7 +557,6 @@ workflows:
   monorepo-parallel:
     jobs:
       - checkout
-
 ### Go
 
       - cucumber-expressions-go:
