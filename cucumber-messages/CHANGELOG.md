@@ -9,6 +9,18 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Added
 
+### Changed
+
+### Deprecated
+
+### Removed
+
+### Fixed
+
+## [6.0.0] - 2019-10-02
+
+### Added
+
 * New `TestStepMatched` message
 * `Duration` message to express duration in a seconds + nano format
 * field `duration` in `TestResult` message
@@ -19,13 +31,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 * Renamed `CommandRunTestStep#patternMatches` to `CommandRunTestStep#stepMatchArguments`
 * Replace Google's Timestamp by our own message
 
-### Deprecated
-
 ### Removed
 
 * `durationNanoSeconds` field in `TestResult` message
-
-### Fixed
 
 ## [5.0.1] - 2019-08-23
 
@@ -150,7 +158,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 * Protobuf messages for Go, Java, JavaScript, TypeScript and Ruby
 
 <!-- Releases -->
-[Unreleased]: https://github.com/cucumber/cucumber/compare/cucumber-messages/v5.0.1...master
+[Unreleased]: https://github.com/cucumber/cucumber/compare/cucumber-messages/v6.0.0...master
+[6.0.0]:      https://github.com/cucumber/cucumber/compare/cucumber-messages/v5.0.1...cucumber-messages/v6.0.0
 [5.0.1]:      https://github.com/cucumber/cucumber/compare/cucumber-messages/v5.0.0...cucumber-messages/v5.0.1
 [5.0.0]:      https://github.com/cucumber/cucumber/compare/cucumber-messages/v4.0.0...cucumber-messages/v5.0.0
 [4.0.0]:      https://github.com/cucumber/cucumber/compare/cucumber-messages/v3.0.5...cucumber-messages/v4.0.0
