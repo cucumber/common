@@ -22,7 +22,7 @@
   },
   "devDependencies": {
     "@types/mocha": "^5.2.7",
-    "@types/node": "^12.7.8",
+    "@types/node": "^12.7.9",
     "copyfiles": "^2.1.1",
     "mocha": "^6.2.1",
     "nyc": "^14.1.1",
