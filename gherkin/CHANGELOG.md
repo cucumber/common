@@ -20,13 +20,13 @@ This document is formatted according to the principles of [Keep A CHANGELOG](htt
 
 ### Changed
 
-* Upgrade cucumber-messages to 6.0.0
+* Upgrade cucumber-messages to 6.0.1
 * [JavaScript] restore native JavaScript parser
   ([#709](https://github.com/cucumber/cucumber/pull/709)
    [#689](https://github.com/cucumber/cucumber/pull/689)
    [badeball]
    [aslakhellesoy])
-* [Ruby] restore native ruby parser 
+* [Ruby] restore native ruby parser
   ([#702](https://github.com/cucumber/cucumber/pull/702) [brasmusson])
 
 ### Deprecated
