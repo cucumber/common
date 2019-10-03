@@ -2336,51 +2336,6 @@
       "Хэрэв "
     ]
   },
-  "nl": {
-    "and": [
-      "* ",
-      "En "
-    ],
-    "background": [
-      "Achtergrond"
-    ],
-    "but": [
-      "* ",
-      "Maar "
-    ],
-    "examples": [
-      "Voorbeelden"
-    ],
-    "feature": [
-      "Functionaliteit"
-    ],
-    "given": [
-      "* ",
-      "Gegeven ",
-      "Stel "
-    ],
-    "name": "Dutch",
-    "native": "Nederlands",
-    "rule": [
-      "Rule"
-    ],
-    "scenario": [
-      "Voorbeeld",
-      "Scenario"
-    ],
-    "scenarioOutline": [
-      "Abstract Scenario"
-    ],
-    "then": [
-      "* ",
-      "Dan "
-    ],
-    "when": [
-      "* ",
-      "Als ",
-      "Wanneer "
-    ]
-  },
   "ne": {
     "and": [
       "* ",
@@ -2427,6 +2382,51 @@
     "when": [
       "* ",
       "जब "
+    ]
+  },
+  "nl": {
+    "and": [
+      "* ",
+      "En "
+    ],
+    "background": [
+      "Achtergrond"
+    ],
+    "but": [
+      "* ",
+      "Maar "
+    ],
+    "examples": [
+      "Voorbeelden"
+    ],
+    "feature": [
+      "Functionaliteit"
+    ],
+    "given": [
+      "* ",
+      "Gegeven ",
+      "Stel "
+    ],
+    "name": "Dutch",
+    "native": "Nederlands",
+    "rule": [
+      "Rule"
+    ],
+    "scenario": [
+      "Voorbeeld",
+      "Scenario"
+    ],
+    "scenarioOutline": [
+      "Abstract Scenario"
+    ],
+    "then": [
+      "* ",
+      "Dan "
+    ],
+    "when": [
+      "* ",
+      "Als ",
+      "Wanneer "
     ]
   },
   "no": {
