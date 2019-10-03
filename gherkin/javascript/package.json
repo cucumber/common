@@ -31,7 +31,7 @@
   "homepage": "https://github.com/cucumber/gherkin-javascript",
   "devDependencies": {
     "@types/mocha": "^5.2.7",
-    "@types/node": "^12.7.8",
+    "@types/node": "^12.7.9",
     "mocha": "^6.2.1",
     "nyc": "^14.1.1",
     "prettier": "^1.18.2",
@@ -42,6 +42,6 @@
     "typescript": "^3.6.3"
   },
   "dependencies": {
-    "cucumber-messages": "5.0.1"
+    "cucumber-messages": "6.0.1"
   }
 }
