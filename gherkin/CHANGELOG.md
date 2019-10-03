@@ -11,6 +11,18 @@ This document is formatted according to the principles of [Keep A CHANGELOG](htt
 
 ### Added
 
+### Changed
+
+### Deprecated
+
+### Removed
+
+### Fixed
+
+## [8.0.0] - 2019-10-03
+
+### Added
+
 * New keywords for German
   ([#352](https://github.com/cucumber/cucumber/pull/352)
    [#707](https://github.com/cucumber/cucumber/issues/707)
@@ -28,10 +40,6 @@ This document is formatted according to the principles of [Keep A CHANGELOG](htt
    [aslakhellesoy])
 * [Ruby] restore native ruby parser
   ([#702](https://github.com/cucumber/cucumber/pull/702) [brasmusson])
-
-### Deprecated
-
-### Removed
 
 ### Fixed
 
@@ -550,7 +558,8 @@ to Gherkin 2.
 * First release
 
 <!-- Releases -->
-[Unreleased]: https://github.com/cucumber/cucumber/compare/gherkin/v7.0.4...master
+[Unreleased]: https://github.com/cucumber/cucumber/compare/gherkin/v8.0.0...master
+[8.0.0]:     https://github.com/cucumber/cucumber/compare/gherkin/v7.0.4...gherkin/v8.0.0
 [7.0.4]:     https://github.com/cucumber/cucumber/compare/gherkin/v7.0.3...gherkin/v7.0.4
 [7.0.3]:     https://github.com/cucumber/cucumber/compare/gherkin/v7.0.2...gherkin/v7.0.3
 [7.0.2]:     https://github.com/cucumber/cucumber/compare/gherkin/v7.0.1...gherkin/v7.0.2
