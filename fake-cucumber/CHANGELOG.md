@@ -7,19 +7,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ----
 ## [Unreleased]
 
-### Added
-
 ### Changed
 
 * Generate TestStepFinished messages with duration instead of durationNanoseconds
 
-* Upgrade cucumber-messages to 6.0.0
+* Upgrade cucumber-messages to 6.0.1
 
-### Deprecated
-
-### Removed
-
-### Fixed
+* Upgrade gherkin to 8.0.0
 
 ## [1.1.1] - 2019-09-04
 

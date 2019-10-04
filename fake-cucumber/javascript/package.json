@@ -30,7 +30,7 @@
   "homepage": "https://github.com/cucumber/cucumber",
   "devDependencies": {
     "@types/mocha": "^5.2.7",
-    "@types/node": "^12.7.9",
+    "@types/node": "^12.7.11",
     "mocha": "^6.2.1",
     "nyc": "^14.1.1",
     "prettier": "^1.18.2",
