@@ -46,6 +46,8 @@ available stable versions.
 
 Open `go/go.mod` and remove any `replace` directives. When we make a release, we
 must *only* depend on a released versions.
+If you change the major version of the library, also update the first line of the `go.mod` to reflect
+correctly the major version.
 
 Then, upgrade other dependencies:
 
