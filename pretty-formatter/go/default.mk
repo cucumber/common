@@ -100,8 +100,8 @@ clean-go:
 remove-replaces:
 	sed -i '/^replace/d' go.mod
 	sed -i 'N;/^\n$$/D;P;D;' go.mod
-.PHONY: remove_replaces
+.PHONY: remove-replaces
 
 add-replaces:
 	sed -i '/^go .*/i $(REPLACEMENTS)\n' go.mod
-.PHONY: add_replaces
+.PHONY: add-replaces
