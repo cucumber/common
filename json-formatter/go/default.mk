@@ -95,3 +95,7 @@ clean: clean-go
 clean-go:
 	rm -rf .deps .tested .go-tested .linted dist/ .dist-compressed dist_compressed/ acceptance/
 .PHONY: clean-go
+
+remove_replaces:
+	sed -i '/^replace/d' go.mod
+.PHONY: remove_replaces
