@@ -97,11 +97,11 @@ clean-go:
 	rm -rf .deps .tested .go-tested .linted dist/ .dist-compressed dist_compressed/ acceptance/
 .PHONY: clean-go
 
-remove_replaces:
+remove-replaces:
 	sed -i '/^replace/d' go.mod
 	sed -i 'N;/^\n$$/D;P;D;' go.mod
 .PHONY: remove_replaces
 
-add_replaces:
+add-replaces:
 	sed -i '/^go .*/i $(REPLACEMENTS)\n' go.mod
 .PHONY: add_replaces
