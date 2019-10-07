@@ -12,6 +12,7 @@ OS := $(shell [[ "$$(uname)" == "Darwin" ]] && echo "darwin" || echo "linux")
 # Determine if we're on 386 or amd64 (ignoring other processors as we're not building on them)
 ARCH := $(shell [[ "$$(uname -m)" == "x86_64" ]] && echo "amd64" || echo "386")
 EXE = dist/$(LIBNAME)-$(OS)-$(ARCH)
+REPLACEMENTS := $(shell sed -n "/^\s*github.com\/cucumber/p" go.mod | perl -wpe 's/\s*(github.com\/cucumber\/(.*)-go\/v\d+).*/q{replace } . $$1 . q{ => ..\/..\/} . $$2 . q{\/go}/eg')
 
 default: .linted .tested
 .PHONY: default
@@ -98,4 +99,9 @@ clean-go:
 
 remove_replaces:
 	sed -i '/^replace/d' go.mod
+	sed -i 'N;/^\n$$/D;P;D;' go.mod
 .PHONY: remove_replaces
+
+add_replaces:
+	sed -i '/^go .*/i $(REPLACEMENTS)\n' go.mod
+.PHONY: add_replaces
