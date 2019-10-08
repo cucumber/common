@@ -32,7 +32,7 @@ export default class GherkinExe {
       options.push('--no-pickles')
     }
     const args = options.concat(this.paths)
-    const gherkin = spawn(this.gherkinExe, args)
+    const gherkin = spawn(this.gherkinExe, args, {stdio: ['pipe', 'pipe', 'inherit']})
     const protobufMessageStream = new ProtobufMessageStream(
       messages.Envelope.decodeDelimited.bind(messages.Envelope)
     )
