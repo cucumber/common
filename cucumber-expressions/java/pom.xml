@@ -1,6 +1,5 @@
-<?xml version="1.0"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
@@ -8,6 +7,7 @@
         <artifactId>cucumber-parent</artifactId>
         <version>2.0.2</version>
     </parent>
+
     <artifactId>cucumber-expressions</artifactId>
     <version>8.0.1-SNAPSHOT</version>
     <packaging>jar</packaging>
@@ -17,6 +17,8 @@
 
     <properties>
         <project.Automatic-Module-Name>io.cucumber.cucumberexpressions</project.Automatic-Module-Name>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
     </properties>
 
     <scm>
@@ -24,6 +26,16 @@
         <developerConnection>scm:git:git@github.com:cucumber/cucumber-expressions-java.git</developerConnection>
         <url>git://github.com/cucumber/cucumber-expressions-java.git</url>
     </scm>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.8.1</version>
+            </plugin>
+        </plugins>
+    </build>
 
     <dependencies>
         <dependency>
