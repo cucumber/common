@@ -52,21 +52,14 @@ public class CustomParameterTypeTest {
 
     @BeforeEach
     public void create_parameter() {
-        /// [add-color-parameter-type]
         parameterTypeRegistry.defineParameterType(new ParameterType<>(
                 "color",                                  // name
                 "red|blue|yellow",                        // regexp
                 Color.class,                              // type
-                new Transformer<Color>() {
-                    @Override
-                    public Color transform(String arg) {
-                        return new Color(arg);
-                    }
-                },                                        // transform
+                Color::new,                               // transform
                 false,                                    // useForSnippets
                 false                                     // preferForRegexpMatch
         ));
-        /// [add-color-parameter-type]
     }
 
     @Test
@@ -75,12 +68,8 @@ public class CustomParameterTypeTest {
         final Executable testMethod = () -> new ParameterType<>(
                 "[string]",
                 ".*",
-                String.class, new Transformer<String>() {
-            @Override
-            public String transform(String s) {
-                return s;
-            }
-        },
+                String.class,
+                (Transformer<String>) s -> s,
                 false,
                 false
         );
@@ -120,7 +109,7 @@ public class CustomParameterTypeTest {
         Integer thick = (Integer) arguments.get(0).getValue();
         Coordinate from = (Coordinate) arguments.get(1).getValue();
         Coordinate to = (Coordinate) arguments.get(2).getValue();
-        assertEquals(new Integer(5), thick);
+        assertEquals(Integer.valueOf(5), thick);
         assertEquals(new Coordinate(10, 20, 30), from);
         assertEquals(new Coordinate(40, 50, 60), to);
     }
@@ -180,12 +169,7 @@ public class CustomParameterTypeTest {
                 "color",
                 asList("red|blue|yellow", "(?:dark|light) (?:red|blue|yellow)"),
                 Color.class,
-                new Transformer<Color>() {
-                    @Override
-                    public Color transform(String arg) {
-                        return new Color(arg);
-                    }
-                },
+                Color::new,
                 false,
                 false
         ));
@@ -226,12 +210,7 @@ public class CustomParameterTypeTest {
                     "color",
                     ".*",
                     CssColor.class,
-                    new Transformer<CssColor>() {
-                        @Override
-                        public CssColor transform(String arg) {
-                            return new CssColor(arg);
-                        }
-                    },
+                    CssColor::new,
                     false,
                     false
             ));
@@ -247,12 +226,7 @@ public class CustomParameterTypeTest {
                 "whatever",
                 ".*",
                 Color.class,
-                new Transformer<Color>() {
-                    @Override
-                    public Color transform(String arg) {
-                        return new Color(arg);
-                    }
-                },
+                Color::new,
                 false,
                 false
         ));
@@ -266,12 +240,7 @@ public class CustomParameterTypeTest {
                 "css-color",
                 "red|blue|yellow",
                 CssColor.class,
-                new Transformer<CssColor>() {
-                    @Override
-                    public CssColor transform(String arg) {
-                        return new CssColor(arg);
-                    }
-                },
+                CssColor::new,
                 false,
                 false
         ));
@@ -287,12 +256,7 @@ public class CustomParameterTypeTest {
                 null,
                 "red|blue|yellow",
                 Color.class,
-                new Transformer<Color>() {
-                    @Override
-                    public Color transform(String arg) {
-                        return new Color(arg);
-                    }
-                },
+                Color::new,
                 false,
                 false
         ));
@@ -325,11 +289,9 @@ public class CustomParameterTypeTest {
     public static class CssColor {
         final String name;
 
-        /// [color-constructor]
         CssColor(String name) {
             this.name = name;
         }
-        /// [color-constructor]
 
         @Override
         public int hashCode() {

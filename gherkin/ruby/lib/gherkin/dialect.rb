@@ -1,18 +1,8 @@
 require 'json'
-require 'open3'
-require 'c21e/exe_file'
-require 'gherkin/exe_file_path'
 
 module Gherkin
-  def self.dialects_json
-    gherkin_executable = C21e::ExeFile.new(EXE_FILE_PATH).target_file
-    data, = Open3.capture2e(gherkin_executable, '--dialects')
-    data
-  end
-
-  private_class_method :dialects_json
-
-  DIALECTS = JSON.parse(dialects_json)
+  DIALECT_FILE_PATH = File.expand_path("gherkin-languages.json", File.dirname(__FILE__))
+  DIALECTS = JSON.parse File.open(DIALECT_FILE_PATH, 'r:UTF-8').read
 
   class Dialect
     def self.for(name)

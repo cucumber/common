@@ -2,7 +2,7 @@
 #include "string_utilities.h"
 #include <stdlib.h>
 
-const Scenario* Scenario_new(Location location, const wchar_t* keyword, const wchar_t* name, const wchar_t* description, const Tags* tags, const Steps* steps) {
+const Scenario* Scenario_new(Location location, const wchar_t* keyword, const wchar_t* name, const wchar_t* description, const Tags* tags, const Steps* steps, const Examples* examples) {
     Scenario* scenario = (Scenario*)malloc(sizeof(Scenario));
     scenario->scenario_delete = (item_delete_function)Scenario_delete;
     scenario->type = Gherkin_Scenario;
@@ -19,6 +19,7 @@ const Scenario* Scenario_new(Location location, const wchar_t* keyword, const wc
     scenario->description = description;
     scenario->tags = tags;
     scenario->steps = steps;
+    scenario->examples = examples;
     return scenario;
 }
 
@@ -41,6 +42,9 @@ void Scenario_delete(const Scenario* scenario) {
     if (scenario->steps) {
         Steps_delete(scenario->steps);
     }
+    if (scenario->examples) {
+        Examples_delete(scenario->examples);
+    }
     free((void*)scenario);
 }
 
@@ -58,5 +62,7 @@ void Scenario_transfer(Scenario* to_scenario, Scenario* from_scenario) {
     from_scenario->tags = 0;
     to_scenario->steps = from_scenario->steps;
     from_scenario->steps = 0;
+    to_scenario->examples = from_scenario->examples;
+    from_scenario->examples = 0;
     Scenario_delete(from_scenario);
 }

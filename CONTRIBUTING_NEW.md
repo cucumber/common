@@ -37,10 +37,13 @@ installed. To use this you need Docker installed, and a bash shell on your host 
 ```
 ./scripts/docker-run Dockerfile
 make clean
-make
+NO_CROSS_COMPILE=1 make
 ```
 
-This will take a while the first time you run it, but subsequent calls to `make`
+You can leave out `NO_CROSS_COMPILE=1` to cross-compile go executables, but this
+will slow down your build.
+
+The build will take a while the first time you run it, but subsequent calls to `make`
 should be a lot faster because downloaded files will be cached, and `make` will
 only rebuild packages that you have changed.
 

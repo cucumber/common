@@ -23,8 +23,8 @@ const wchar_t* FileReader_read(FileReader* file_reader) {
     FILE* file = fopen(file_reader->file_name, "rb");
 
     if(file == NULL) {
-      swprintf(buffer, sizeof(wchar_t), L"%c", ' ');
-      return buffer;
+        buffer[pos] = L'\0';
+        return buffer;
     }
 
     Utf8Source* utf8_source = FileUtf8Source_new(file);

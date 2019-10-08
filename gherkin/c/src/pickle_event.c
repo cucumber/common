@@ -9,15 +9,11 @@ static void PickleEvent_delete(const Event* event);
 
 static void PickleEvent_print(const Event* event, FILE* file);
 
-const PickleEvent* PickleEvent_new(const char* uri, const Pickle* pickle) {
+const PickleEvent* PickleEvent_new(const Pickle* pickle) {
     PickleEvent* pickle_event = (PickleEvent*)malloc(sizeof(PickleEvent));
     pickle_event->event.event_delete = &PickleEvent_delete;
     pickle_event->event.event_print = &PickleEvent_print;
     pickle_event->event.event_type = Gherkin_PickleEvent;
-    pickle_event->uri = 0;
-    if (uri) {
-        pickle_event->uri = StringUtilities_copy_to_wide_string(uri);
-    }
     pickle_event->pickle = pickle;
     return pickle_event;
 }
@@ -27,9 +23,6 @@ static void PickleEvent_delete(const Event* event) {
         return;
     }
     const PickleEvent* pickle_event = (const PickleEvent*) event;
-    if (pickle_event->uri) {
-        free((void*)pickle_event->uri);
-    }
     if (pickle_event->pickle) {
         Pickle_delete(pickle_event->pickle);
     }
@@ -42,11 +35,7 @@ static void PickleEvent_print(const Event* event, FILE* file) {
     }
     const PickleEvent* pickle_event = (const PickleEvent*) event;
     if (pickle_event) {
-        fprintf(file, "{");
-        fprintf(file, "\"type\":\"pickle\",");
-        fprintf(file, "\"uri\":\"");
-        PrintUtilities_print_json_string(file, pickle_event->uri);
-        fprintf(file, "\",\"pickle\":");
+        fprintf(file, "{\"pickle\":");
         PicklePrinter_print_pickle(file, pickle_event->pickle);
         fprintf(file, "}\n");
     }

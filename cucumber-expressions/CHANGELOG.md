@@ -17,6 +17,15 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Fixed
 
+## [8.0.1] - 2019-10-07
+
+### Fixed
+
+* [JavaScript] Support Node 8
+  ([#732](https://github.com/cucumber/cucumber/pull/732)
+   [#725](https://github.com/cucumber/cucumber/issues/725)
+   [charlierudolph])
+
 ## [8.0.0] - 2019-08-11
 
 ### Added
@@ -586,9 +595,10 @@ N/A
 * First stable release!
 
 <!-- Releases -->
-[Unreleased]: https://github.com/cucumber/cucumber/compare/cucumber-expressions-v7.0.2...master
-[8.0.0]:      https://github.com/cucumber/cucumber/compare/cucumber-expressions-v7.0.2...cucumber-expressions-v8.0.0
-[7.0.2]:      https://github.com/cucumber/cucumber/compare/cucumber-expressions-v7.0.0...cucumber-expressions-v7.0.2
+[Unreleased]: https://github.com/cucumber/cucumber/compare/cucumber-expressions/v8.0.1...master
+[8.0.1]:      https://github.com/cucumber/cucumber/compare/cucumber-expressions/v8.0.0...cucumber-expressions/v8.0.1
+[8.0.0]:      https://github.com/cucumber/cucumber/compare/cucumber-expressions/v7.0.2...cucumber-expressions/v8.0.0
+[7.0.2]:      https://github.com/cucumber/cucumber/compare/cucumber-expressions/v7.0.0...cucumber-expressions/v7.0.2
 [7.0.0]:      https://github.com/cucumber/cucumber/compare/cucumber-expressions-v6.6.2...cucumber-expressions-v7.0.0
 [6.6.2]:      https://github.com/cucumber/cucumber/compare/cucumber-expressions-v6.2.3...cucumber-expressions-v6.6.2
 [6.2.3]:      https://github.com/cucumber/cucumber/compare/cucumber-expressions-v6.2.2...cucumber-expressions-v6.2.3

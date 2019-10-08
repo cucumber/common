@@ -1,7 +1,7 @@
 # -*- encoding: utf-8 -*-
 Gem::Specification.new do |s|
   s.name        = 'cucumber-messages'
-  s.version     = '3.0.2'
+  s.version     = '6.0.1'
   s.authors     = ["Aslak Hellesøy"]
   s.description = "Protocol Buffer messages for Cucumber's inter-process communication"
   s.summary     = "cucumber-messages-#{s.version}"
@@ -21,12 +21,11 @@ Gem::Specification.new do |s|
 
   # Users of JRuby should use google-protobuf 3.2.0.2 (later versions don't work)
   s.add_dependency('google-protobuf', ['>= 3.2', '<= 3.8'])
-  s.add_development_dependency 'bundler'
-  s.add_development_dependency 'rake',      '~> 12.3'
-  s.add_development_dependency 'rspec',     '~> 3.7'
+  s.add_development_dependency 'rake', '~> 13.0', '>= 13.0.0'
+  s.add_development_dependency 'rspec', '~> 3.8', '>= 3.8.0'
 
   # For coverage reports
-  s.add_development_dependency 'coveralls'
+  s.add_development_dependency 'coveralls', '~> 0.8', '>= 0.8.23'
 
   s.rubygems_version = ">= 1.6.1"
   s.files            = Dir[

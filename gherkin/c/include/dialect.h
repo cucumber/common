@@ -20,6 +20,7 @@ typedef struct Dialect {
     const Keywords* examples_keywords;
     const Keywords* feature_keywords;
     const Keywords* given_keywords;
+    const Keywords* rule_keywords;
     const Keywords* scenario_keywords;
     const Keywords* scenario_outline_keywords;
     const Keywords* then_keywords;

@@ -18,14 +18,16 @@ public class GenericParameterTypeTest {
                 "stringlist",
                 singletonList(".*"),
                 new TypeReference<List<String>>() {
-                }.getType(), new CaptureGroupTransformer<List<String>>() {
-            @Override
-            public List<String> transform(String... args) {
-                return asList(args[0].split(","));
-            }
-        },
+                }.getType(),
+                new CaptureGroupTransformer<List<String>>() {
+                    @Override
+                    public List<String> transform(String... args) {
+                        return asList(args[0].split(","));
+                    }
+                },
                 false,
-                false));
+                false)
+        );
         Expression expression = new CucumberExpression("I have {stringlist} yay", parameterTypeRegistry);
         List<Argument<?>> args = expression.match("I have three,blind,mice yay");
         assertEquals(asList("three", "blind", "mice"), args.get(0).getValue());

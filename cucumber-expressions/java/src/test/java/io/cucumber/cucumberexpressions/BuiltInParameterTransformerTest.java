@@ -24,12 +24,13 @@ public class BuiltInParameterTransformerTest {
         Type abstractListOfE = ArrayList.class.getGenericSuperclass();
         final Executable testMethod = () -> objectMapper.transform("something", abstractListOfE);
 
-        final IllegalArgumentException thrownException = assertThrows(IllegalArgumentException.class, testMethod);
-        assertThat("Unexpected message", thrownException.getMessage(), is(equalTo(
+        String expected = "" +
                 "Can't transform 'something' to java.util.AbstractList<E>\n" +
-                        "BuiltInParameterTransformer only supports a limited number of class types\n" +
-                        "Consider using a different object mapper or register a parameter type for java.util.AbstractList<E>"
-        )));
+                "BuiltInParameterTransformer only supports a limited number of class types\n" +
+                "Consider using a different object mapper or register a parameter type for java.util.AbstractList<E>";
+
+        final IllegalArgumentException thrownException = assertThrows(IllegalArgumentException.class, testMethod);
+        assertThat("Unexpected message", thrownException.getMessage(), is(equalTo(expected)));
     }
 
     @Test
@@ -59,9 +60,9 @@ public class BuiltInParameterTransformerTest {
 
     @Test
     public void should_transform_boolean() {
-      for (String value : Arrays.asList("true", "True", "false", "False")){
-        objectMapper.transform(value, Boolean.class);
-      }
+        for (String value : Arrays.asList("true", "True", "false", "False")) {
+            objectMapper.transform(value, Boolean.class);
+        }
     }
 
     private enum TestEnum {

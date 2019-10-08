@@ -26,12 +26,10 @@ public class CucumberExpressionTest {
     public void documents_match_arguments() {
         ParameterTypeRegistry parameterTypeRegistry = new ParameterTypeRegistry(Locale.ENGLISH);
 
-        /// [capture-match-arguments]
         String expr = "I have {int} cuke(s)";
         Expression expression = new CucumberExpression(expr, parameterTypeRegistry);
         List<Argument<?>> args = expression.match("I have 7 cukes");
         assertEquals(7, args.get(0).getValue());
-        /// [capture-match-arguments]
     }
 
     @Test

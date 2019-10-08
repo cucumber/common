@@ -1,15 +1,15 @@
 package io.cucumber.datatable.matchers;
 
 import io.cucumber.datatable.DataTable;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import static io.cucumber.datatable.matchers.DataTableHasTheSameRowsAs.hasTheSameRowsAs;
 import static java.util.Arrays.asList;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertThat;
-import static org.junit.Assert.assertTrue;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class DataTableHasTheSameRowsAsTest {
+class DataTableHasTheSameRowsAsTest {
     private final DataTable table = DataTable.create(
             asList(
                     asList("Aslak", "aslak@email.com", "123"),
@@ -43,21 +43,21 @@ public class DataTableHasTheSameRowsAsTest {
             ));
 
     @Test
-    public void testHasTheSameRowsAsInOrder() {
+    void testHasTheSameRowsAsInOrder() {
         assertTrue(hasTheSameRowsAs(table).inOrder().matches(identical));
         assertFalse(hasTheSameRowsAs(table).inOrder().matches(shuffled));
         assertFalse(hasTheSameRowsAs(table).inOrder().matches(different));
     }
 
     @Test
-    public void testHasTheSameRowsAs() {
+    void testHasTheSameRowsAs() {
         assertTrue(hasTheSameRowsAs(table).matches(identical));
         assertTrue(hasTheSameRowsAs(table).matches(shuffled));
         assertFalse(hasTheSameRowsAs(table).matches(different));
     }
 
     @Test
-    public void usageExample() {
+    void usageExample() {
         assertThat(identical, hasTheSameRowsAs(table).inOrder());
         assertThat(shuffled, hasTheSameRowsAs(table));
     }

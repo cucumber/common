@@ -2,6 +2,7 @@ package io.cucumber.datatable;
 
 import org.apiguardian.api.API;
 
+import java.lang.reflect.Type;
 import java.util.Map;
 
 /**
@@ -19,12 +20,12 @@ public interface TableEntryByTypeTransformer {
     /**
      * This method should transform row represented by key-value map to object of type {@code type}
      *
-     * @param entry           table entry, key - column name, value - cell
-     * @param type            type of an expected object to return
+     * @param entryValue      table entry, key - column name, value - cell
+     * @param toValueType     type of an expected object to return
      * @param cellTransformer cell transformer
-     * @param <T>             see {@code type}
      * @return new instance of {@code type}
+     * @throws Throwable unable to transform
      */
-    <T> T transform(Map<String, String> entry, Class<T> type, TableCellByTypeTransformer cellTransformer) throws Throwable;
+    Object transform(Map<String, String> entryValue, Type toValueType, TableCellByTypeTransformer cellTransformer) throws Throwable;
 
 }

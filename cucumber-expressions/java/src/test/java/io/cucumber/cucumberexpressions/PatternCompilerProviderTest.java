@@ -29,7 +29,7 @@ public class PatternCompilerProviderTest {
 
     @Test
     public void use_default_compiler_if_none_registered() {
-        PatternCompilerProvider.findPatternCompiler(Collections.<PatternCompiler>emptyList().iterator());
+        PatternCompilerProvider.findPatternCompiler(Collections.emptyIterator());
         assertSame(DefaultPatternCompiler.class, PatternCompilerProvider.service.getClass());
     }
 

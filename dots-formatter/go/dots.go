@@ -7,7 +7,7 @@ package dots
 
 import (
 	"fmt"
-	"github.com/cucumber/cucumber/cucumber-messages/go"
+	"github.com/cucumber/cucumber-messages-go/v5"
 	"github.com/fatih/color"
 	gio "github.com/gogo/protobuf/io"
 	"io"
@@ -35,18 +35,21 @@ func ProcessMessages(stdin io.Reader, stdout io.Writer) {
 			}
 		case *messages.Envelope_TestStepFinished:
 			switch m.TestStepFinished.TestResult.Status {
+			// Keep the same order as in messages.proto - for readability's sake
+			case messages.TestResult_PASSED:
+				color.New(color.FgGreen).Fprint(stdout, ".")
+			case messages.TestResult_SKIPPED:
+				color.New(color.FgCyan).Fprint(stdout, "-")
+			case messages.TestResult_PENDING:
+				color.New(color.FgYellow).Fprint(stdout, "P")
+			case messages.TestResult_UNDEFINED:
+				color.New(color.FgYellow).Fprint(stdout, "U")
 			case messages.TestResult_AMBIGUOUS:
 				color.New(color.FgMagenta).Fprint(stdout, "A")
 			case messages.TestResult_FAILED:
 				color.New(color.FgRed).Fprint(stdout, "F")
-			case messages.TestResult_PASSED:
-				color.New(color.FgGreen).Fprint(stdout, ".")
-			case messages.TestResult_PENDING:
-				color.New(color.FgYellow).Fprint(stdout, "P")
-			case messages.TestResult_SKIPPED:
-				color.New(color.FgCyan).Fprint(stdout, "-")
-			case messages.TestResult_UNDEFINED:
-				color.New(color.FgYellow).Fprint(stdout, "U")
+			case messages.TestResult_UNKNOWN:
+				color.New(color.FgBlue).Fprint(stdout, "?")
 			}
 		}
 	}

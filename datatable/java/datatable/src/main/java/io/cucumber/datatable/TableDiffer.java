@@ -38,12 +38,10 @@ public class TableDiffer {
     public DataTableDiff calculateUnorderedDiffs() {
         List<SimpleEntry<List<String>, DiffType>> diffTableRows = new ArrayList<>();
 
-        ArrayList<List<String>> extraRows = new ArrayList<>();
-
         // 1. add all "to" row in extra table
         // 2. iterate over "from", when a common row occurs, remove it from extraRows
         // finally, only extra rows are kept and in same order that in "to".
-        extraRows.addAll(to.cells());
+        ArrayList<List<String>> extraRows = new ArrayList<>(to.cells());
 
         for (List<String> row : from.cells()) {
             if (!extraRows.remove(row)) {

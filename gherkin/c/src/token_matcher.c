@@ -13,9 +13,9 @@ void TokenMatcher_reset(TokenMatcher* token_matcher);
 
 bool TokenMatcher_match_FeatureLine(TokenMatcher* token_matcher, Token* token);
 
-bool TokenMatcher_match_ScenarioLine(TokenMatcher* token_matcher, Token* token);
+bool TokenMatcher_match_RuleLine(TokenMatcher* token_matcher, Token* token);
 
-bool TokenMatcher_match_ScenarioOutlineLine(TokenMatcher* token_matcher, Token* token);
+bool TokenMatcher_match_ScenarioLine(TokenMatcher* token_matcher, Token* token);
 
 bool TokenMatcher_match_ExamplesLine(TokenMatcher* token_matcher, Token* token);
 
@@ -61,8 +61,8 @@ TokenMatcher* TokenMatcher_new(const wchar_t* default_language) {
     token_matcher->errors = 0;
     token_matcher->reset = &TokenMatcher_reset;
     token_matcher->match_FeatureLine = &TokenMatcher_match_FeatureLine;
+    token_matcher->match_RuleLine = &TokenMatcher_match_RuleLine;
     token_matcher->match_ScenarioLine = &TokenMatcher_match_ScenarioLine;
-    token_matcher->match_ScenarioOutlineLine = &TokenMatcher_match_ScenarioOutlineLine;
     token_matcher->match_ExamplesLine = &TokenMatcher_match_ExamplesLine;
     token_matcher->match_BackgroundLine = &TokenMatcher_match_BackgroundLine;
     token_matcher->match_StepLine = &TokenMatcher_match_StepLine;
@@ -99,14 +99,16 @@ bool TokenMatcher_match_FeatureLine(TokenMatcher* token_matcher, Token* token) {
     return false;
 }
 
-bool TokenMatcher_match_ScenarioLine(TokenMatcher* token_matcher, Token* token) {
-    if (match_title_line(token, Token_ScenarioLine, token_matcher->dialect->scenario_keywords))
+bool TokenMatcher_match_RuleLine(TokenMatcher* token_matcher, Token* token) {
+    if (match_title_line(token, Token_RuleLine, token_matcher->dialect->rule_keywords))
         return true;
     return false;
 }
 
-bool TokenMatcher_match_ScenarioOutlineLine(TokenMatcher* token_matcher, Token* token) {
-    if (match_title_line(token, Token_ScenarioOutlineLine, token_matcher->dialect->scenario_outline_keywords))
+bool TokenMatcher_match_ScenarioLine(TokenMatcher* token_matcher, Token* token) {
+    if (match_title_line(token, Token_ScenarioLine, token_matcher->dialect->scenario_keywords))
+        return true;
+    if (match_title_line(token, Token_ScenarioLine, token_matcher->dialect->scenario_outline_keywords))
         return true;
     return false;
 }
@@ -237,7 +239,7 @@ static bool match_DocStringSeparator(TokenMatcher* token_matcher, Token* token, 
             token_matcher->active_doc_string_separator = 0;
             token_matcher->indent_to_remove = 0;
         }
-        set_token_matched(token, Token_DocStringSeparator, content_type, 0, -1, 0);
+        set_token_matched(token, Token_DocStringSeparator, content_type, separator, -1, 0);
         return true;
     }
     return false;

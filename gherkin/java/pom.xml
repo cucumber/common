@@ -6,10 +6,10 @@
     <parent>
         <groupId>io.cucumber</groupId>
         <artifactId>cucumber-parent</artifactId>
-        <version>1.0.6</version>
+        <version>2.0.2</version>
     </parent>
     <artifactId>gherkin</artifactId>
-    <version>7.0.0-SNAPSHOT</version>
+    <version>8.0.1-SNAPSHOT</version>
     <packaging>jar</packaging>
     <name>Gherkin</name>
     <description>Gherkin parser</description>
@@ -30,13 +30,13 @@
         <dependency>
             <groupId>io.cucumber</groupId>
             <artifactId>messages</artifactId>
-            <version>3.0.0</version>
+            <version>6.0.1</version>
         </dependency>
 
         <dependency>
             <groupId>io.cucumber</groupId>
             <artifactId>c21e</artifactId>
-            <version>1.2.1</version>
+            <version>2.0.0</version>
         </dependency>
 
         <dependency>

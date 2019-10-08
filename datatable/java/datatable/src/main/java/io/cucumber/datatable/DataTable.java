@@ -122,7 +122,7 @@ public final class DataTable {
      * @return an empty DataTable
      */
     public static DataTable emptyDataTable() {
-        return new DataTable(Collections.<List<String>>emptyList(), new NoConverterDefined());
+        return new DataTable(Collections.emptyList(), new NoConverterDefined());
     }
 
     /**
@@ -563,6 +563,7 @@ public final class DataTable {
          *
          * @param dataTable the table to convert
          * @param type      the type to convert to
+         * @param <T>       the type to convert to
          * @return an object of type
          */
         <T> T convert(DataTable dataTable, Type type);
@@ -577,6 +578,7 @@ public final class DataTable {
          *
          * @param dataTable  the table to convert
          * @param type       the type to convert to
+         * @param <T>        the type to convert to
          * @param transposed whether the table should be transposed first.
          * @return an object of type
          */
@@ -633,6 +635,7 @@ public final class DataTable {
          *
          * @param dataTable the table to convert
          * @param itemType  the  list item type to convert to
+         * @param <T>       the type to convert to
          * @return a list of objects of <code>itemType</code>
          */
         <T> List<T> toList(DataTable dataTable, Type itemType);
@@ -661,6 +664,7 @@ public final class DataTable {
          *
          * @param dataTable the table to convert
          * @param itemType  the  list item type to convert to
+         * @param <T>       the type to convert to
          * @return a list of lists of objects of <code>itemType</code>
          */
         <T> List<List<T>> toLists(DataTable dataTable, Type itemType);
@@ -710,6 +714,8 @@ public final class DataTable {
          * @param dataTable the table to convert
          * @param keyType   the  key type to convert to
          * @param valueType the  value to convert to
+         * @param <K>       the key type to convert to
+         * @param <V>       the value type to convert to
          * @return a map of <code>keyType</code> <code>valueType</code>
          */
 
@@ -738,47 +744,12 @@ public final class DataTable {
          * @param dataTable the table to convert
          * @param keyType   the  key type to convert to
          * @param valueType the  value to convert to
+         * @param <K>       the key type to convert to
+         * @param <V>       the value type to convert to
          * @return a list of maps of <code>keyType</code> <code>valueType</code>
          */
         <K, V> List<Map<K, V>> toMaps(DataTable dataTable, Type keyType, Type valueType);
 
-    }
-
-    static abstract class AbstractTableConverter implements TableConverter {
-
-        AbstractTableConverter() {
-
-        }
-
-        static Type listItemType(Type type) {
-            return typeArg(type, List.class, 0);
-        }
-
-        static Type typeArg(Type type, Class<?> wantedRawType, int index) {
-            if (type instanceof ParameterizedType) {
-                ParameterizedType parameterizedType = (ParameterizedType) type;
-                Type rawType = parameterizedType.getRawType();
-                if (rawType instanceof Class && wantedRawType.isAssignableFrom((Class) rawType)) {
-                    Type result = parameterizedType.getActualTypeArguments()[index];
-                    if (result instanceof TypeVariable) {
-                        throw new CucumberDataTableException("Generic types must be explicit");
-                    }
-                    return result;
-                } else {
-                    return null;
-                }
-            }
-
-            return null;
-        }
-
-        static Type mapKeyType(Type type) {
-            return typeArg(type, Map.class, 0);
-        }
-
-        static Type mapValueType(Type type) {
-            return typeArg(type, Map.class, 1);
-        }
     }
 
     static final class NoConverterDefined implements TableConverter {
