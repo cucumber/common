@@ -11,8 +11,10 @@ This document is formatted according to the principles of [Keep A CHANGELOG](htt
 
 ### Added
 
-* Nepali translation
+* New Nepali translation
   ([#729](https://github.com/cucumber/cucumber/pull/729))
+* New Marathi keywords
+  ([#731](https://github.com/cucumber/cucumber/pull/731))
 
 ### Changed
 
