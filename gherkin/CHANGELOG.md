@@ -24,6 +24,10 @@ This document is formatted according to the principles of [Keep A CHANGELOG](htt
 
 ### Fixed
 
+* [JavaScript] - `GherkinExe` exposes `stderr`
+  ([#723](https://github.com/cucumber/cucumber/pull/723)
+   [charlierudolph])
+
 ## [8.0.0] - 2019-10-03
 
 ### Added
