@@ -2,10 +2,14 @@ SHELL := /usr/bin/env bash
 MAKEFILES=c21e/Makefile \
 	cucumber-messages/Makefile \
 	gherkin/Makefile \
+	fake-cucumber/Makefile \
+	cucumber-react/Makefile \
+	html-formatter/Makefile \
 	datatable/Makefile \
 	config/Makefile \
 	cucumber-expressions/Makefile \
 	tag-expressions/Makefile \
+	json-formatter/Makefile \
 	dots-formatter/Makefile
 
 default: .rsynced $(patsubst %/Makefile,default-%,$(MAKEFILES))
@@ -30,7 +34,7 @@ clean-%: %
 ci: check_synced push_subrepos default
 
 check_synced: .rsynced
-	[[ -z $$(git status -s) ]] || (echo "Working copy is dirty" && exit 1)
+	[[ -z $$(git status -s) ]] || (echo "Working copy is dirty. Please run `source scripts/functions.sh && rsync_files` and commit modified files." && exit 1)
 .PHONY: check_synced
 
 push_subrepos:

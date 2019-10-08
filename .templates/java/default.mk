@@ -13,7 +13,7 @@ default: .tested
 
 update-dependencies:
 	mvn versions:force-releases
-	mvn versions:use-latest-versions
+	mvn versions:use-latest-versions -Dmaven.version.rules=file://$(shell pwd)/maven-versions-rules.xml
 .PHONY: update-dependencies
 
 update-version:

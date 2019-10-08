@@ -1,354 +1,45 @@
-# coding: utf-8
 require 'rspec'
-require 'gherkin/gherkin'
-
-module Gherkin
-  describe Gherkin do
-    context 'using paths' do
-      it "works" do
-        messages = Gherkin.from_paths(
-          ["testdata/good/minimal.feature"]
-        )
-        expect(messages.to_a.length).to eq(3)
-      end
-    end
-
-    context 'using string content' do
-      it 'works' do
-        file = File.new('testdata/good/minimal.feature')
-        content = file.read.encode('UTF-8')
-        messages = Gherkin.from_source('testdata/good/minimal.feature', content).to_a
-        expect(messages.to_a.length).to eq(3)
-      end
-
-      it 'also works' do
-        content = """
-Feature:
-
-  Scenario: scenario 1
-    Given text
-
-  Scenario: scenario 2
-    Given text
-
-  Scenario: scenario 3
-    Given text
-
-  Scenario: scenario 4
-    Given text
-
-  Scenario: scenario 5
-    Given text
-
-  Scenario: scenario 6
-    Given text
-
-  Scenario: scenario 7
-    Given text
-
-  Scenario: scenario 8
-    Given text
-
-  Scenario: scenario 9
-    Given text
-
-  Scenario: scenario 10
-    Given text
-
-  Scenario: scenario 11
-    Given text
-
-  Scenario: scenario 12
-    Given text
-
-  Scenario: scenario 13
-    Given text
-
-  Scenario: scenario 14
-    Given text
-
-  Scenario: scenario 15
-    Given text
-
-  Scenario: scenario 16
-    Given text
-
-  Scenario: scenario 17
-    Given text
-
-  Scenario: scenario 18
-    Given text
-
-  Scenario: scenario 19
-    Given text
-
-  Scenario: scenario 20
-    Given text
-
-  Scenario: scenario 21
-    Given text
-
-  Scenario: scenario 22
-    Given text
-
-  Scenario: scenario 23
-    Given text
-
-  Scenario: scenario 24
-    Given text
-
-  Scenario: scenario 25
-    Given text
-
-  Scenario: scenario 26
-    Given text
-
-  Scenario: scenario 27
-    Given text
-
-  Scenario: scenario 28
-    Given text
-
-  Scenario: scenario 29
-    Given text
-
-  Scenario: scenario 30
-    Given text
-
-  Scenario: scenario 31
-    Given text
-
-  Scenario: scenario 32
-    Given text
-
-  Scenario: scenario 33
-    Given text
-
-  Scenario: scenario 34
-    Given text
-
-  Scenario: scenario 35
-    Given text
-
-  Scenario: scenario 36
-    Given text
-
-  Scenario: scenario 37
-    Given text
-
-  Scenario: scenario 38
-    Given text
-
-  Scenario: scenario 39
-    Given text
-
-  Scenario: scenario 40
-    Given text
-
-  Scenario: scenario 41
-    Given text
-
-  Scenario: scenario 42
-    Given text
-
-  Scenario: scenario 43
-    Given text
-
-  Scenario: scenario 44
-    Given text
-
-  Scenario: scenario 45
-    Given text
-
-  Scenario: scenario 46
-    Given text
-
-  Scenario: scenario 47
-    Given text
-
-  Scenario: scenario 48
-    Given text
-
-  Scenario: scenario 49
-    Given text
-"""
-        messages = Gherkin.from_source('dummy', content).to_a
-        expect(messages.to_a.length).to eq(51)
-      end
-
-      it 'still works' do
-        content = """
-Feature:
-
-  Scenario: scenario 1
-    Given text
-
-  Scenario: scenario 2
-    Given text
-
-  Scenario: scenario 3
-    Given text
-
-  Scenario: scenario 4
-    Given text
-
-  Scenario: scenario 5
-    Given text
-
-  Scenario: scenario 6
-    Given text
-
-  Scenario: scenario 7
-    Given text
-
-  Scenario: scenario 8
-    Given text
-
-  Scenario: scenario 9
-    Given text
-
-  Scenario: scenario 10
-    Given text
-
-  Scenario: scenario 11
-    Given text
-
-  Scenario: scenario 12
-    Given text
-
-  Scenario: scenario 13
-    Given text
-
-  Scenario: scenario 14
-    Given text
-
-  Scenario: scenario 15
-    Given text
-
-  Scenario: scenario 16
-    Given text
-
-  Scenario: scenario 17
-    Given text
-
-  Scenario: scenario 18
-    Given text
-
-  Scenario: scenario 19
-    Given text
-
-  Scenario: scenario 20
-    Given text
-
-  Scenario: scenario 21
-    Given text
-
-  Scenario: scenario 22
-    Given text
-
-  Scenario: scenario 23
-    Given text
-
-  Scenario: scenario 24
-    Given text
-
-  Scenario: scenario 25
-    Given text
-
-  Scenario: scenario 26
-    Given text
-
-  Scenario: scenario 27
-    Given text
-
-  Scenario: scenario 28
-    Given text
-
-  Scenario: scenario 29
-    Given text
-
-  Scenario: scenario 30
-    Given text
-
-  Scenario: scenario 31
-    Given text
-
-  Scenario: scenario 32
-    Given text
-
-  Scenario: scenario 33
-    Given text
-
-  Scenario: scenario 34
-    Given text
-
-  Scenario: scenario 35
-    Given text
-
-  Scenario: scenario 36
-    Given text
-
-  Scenario: scenario 37
-    Given text
-
-  Scenario: scenario 38
-    Given text
-
-  Scenario: scenario 39
-    Given text
-
-  Scenario: scenario 40
-    Given text
-
-  Scenario: scenario 41
-    Given text
-
-  Scenario: scenario 42
-    Given text
-
-  Scenario: scenario 43
-    Given text
-
-  Scenario: scenario 44
-    Given text
-
-  Scenario: scenario 45
-    Given text
-
-  Scenario: scenario 46
-    Given text
-
-  Scenario: scenario 47
-    Given text
-
-  Scenario: scenario 48
-    Given text
-
-  Scenario: scenario 49
-    Given text
-
-  Scenario: scenario 50
-    Given text
-"""
-        messages = Gherkin.from_source('dummy', content).to_a
-        expect(messages.to_a.length).to eq(52)
-    end
-
-    end
-
-    context 'setting the default dialect' do
-      it 'features will be parsed using the set default dialect' do
-        content = """
-          Egenskap: i18n support
-
-            Scenario: Parsing many languages
-              Gitt Gherkin supports many languages
-              Når Norwegian keywords are parsed
-              Så they should be recognized
-          """
-        messages = Gherkin.from_source('dummy', content, {default_dialect: 'no'})
-        expect(messages.to_a.length).to eq(3)
-      end
-    end
+require 'gherkin'
+
+describe Gherkin do
+  it "can process feature file paths" do
+    messages = Gherkin.from_paths(
+      ["testdata/good/minimal.feature"],
+      {include_source: true,
+       include_gherkin_document: true,
+       include_pickles: true}
+    ).to_a
+
+    expect(messages.length).to eq(3)
+  end
+
+  it "can process feature file content" do
+    data = File.open("testdata/good/minimal.feature", 'r:UTF-8', &:read)
+
+    messages = Gherkin.from_source(
+      "uri",
+      data,
+      {include_source: true,
+       include_gherkin_document: true,
+       include_pickles: true}
+    ).to_a
+
+    expect(messages.length).to eq(3)
+  end
+
+  it "can set the default dialect for the feature file content" do
+    data = File.open("testdata/good/i18n_no.feature", 'r:UTF-8', &:read)
+    data_without_language_header = data.split("\n")[1..-1].join("\n")
+
+    messages = Gherkin.from_source(
+      "uri",
+      data,
+      {include_source: true,
+       include_gherkin_document: true,
+       include_pickles: true,
+       default_dialect: "no"}
+    ).to_a
+
+    expect(messages.length).to eq(3)
   end
 end

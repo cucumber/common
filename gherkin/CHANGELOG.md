@@ -11,6 +11,11 @@ This document is formatted according to the principles of [Keep A CHANGELOG](htt
 
 ### Added
 
+* New Nepali translation
+  ([#729](https://github.com/cucumber/cucumber/pull/729))
+* New Marathi keywords
+  ([#731](https://github.com/cucumber/cucumber/pull/731))
+
 ### Changed
 
 ### Deprecated
@@ -18,6 +23,43 @@ This document is formatted according to the principles of [Keep A CHANGELOG](htt
 ### Removed
 
 ### Fixed
+
+* [JavaScript] - `GherkinExe` exposes `stderr`
+  ([#723](https://github.com/cucumber/cucumber/pull/723)
+   [charlierudolph])
+
+## [8.0.0] - 2019-10-03
+
+### Added
+
+* New keywords for German
+  ([#352](https://github.com/cucumber/cucumber/pull/352)
+   [#707](https://github.com/cucumber/cucumber/issues/707)
+   [#708](https://github.com/cucumber/cucumber/pull/708)
+   [coderbyheart]
+   [Haukinger])
+
+### Changed
+
+* Upgrade cucumber-messages to 6.0.1
+* [JavaScript] restore native JavaScript parser
+  ([#709](https://github.com/cucumber/cucumber/pull/709)
+   [#689](https://github.com/cucumber/cucumber/pull/689)
+   [badeball]
+   [aslakhellesoy])
+* [Ruby] restore native ruby parser
+  ([#702](https://github.com/cucumber/cucumber/pull/702) [brasmusson])
+
+### Fixed
+
+* [Go, Ruby] Fix trimming of whitespace in example cells
+  ([#703](https://github.com/cucumber/cucumber/pull/703) [aslakhellesoy])
+
+## [7.0.4] - 2019-08-29
+
+### Changed
+
+* Upgrade to cucumber-messages 5.0.1
 
 ## [7.0.3] - 2019-08-15
 
@@ -525,7 +567,9 @@ to Gherkin 2.
 * First release
 
 <!-- Releases -->
-[Unreleased]: https://github.com/cucumber/cucumber/compare/gherkin/v7.0.3...master
+[Unreleased]: https://github.com/cucumber/cucumber/compare/gherkin/v8.0.0...master
+[8.0.0]:     https://github.com/cucumber/cucumber/compare/gherkin/v7.0.4...gherkin/v8.0.0
+[7.0.4]:     https://github.com/cucumber/cucumber/compare/gherkin/v7.0.3...gherkin/v7.0.4
 [7.0.3]:     https://github.com/cucumber/cucumber/compare/gherkin/v7.0.2...gherkin/v7.0.3
 [7.0.2]:     https://github.com/cucumber/cucumber/compare/gherkin/v7.0.1...gherkin/v7.0.2
 [7.0.1]:     https://github.com/cucumber/cucumber/compare/gherkin/v7.0.0...gherkin/v7.0.1
@@ -550,14 +594,17 @@ to Gherkin 2.
 [Ahmed-Ali]:        https://github.com/Ahmed-Ali
 [ajspadial]:        https://github.com/ajspadial
 [aslakhellesoy]:    https://github.com/aslakhellesoy
+[badeball]:         https://github.com/badeball
 [brasmusson]:       https://github.com/brasmusson
 [charlierudolph]:   https://github.com/charlierudolph
+[coderbyheart]:     https://github.com/coderbyheart
 [cyocum]:           https://github.com/cyocum
 [danilat]:          https://github.com/danilat
 [dobiedad]:         https://github.com/dobiedad
 [ehpc]:             https://github.com/ehpc
 [enkessler]:        https://github.com/enkessler
 [gabanz]:           https://github.com/gabanz
+[Haukinger]:        https://github.com/Haukinger
 [jargalan]:         https://github.com/jargalan
 [jmezach]:          https://github.com/jmezach
 [joscha]:           https://github.com/joscha

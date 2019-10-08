@@ -9,7 +9,7 @@
         <version>2.0.2</version>
     </parent>
     <artifactId>gherkin</artifactId>
-    <version>7.0.4-SNAPSHOT</version>
+    <version>8.0.1-SNAPSHOT</version>
     <packaging>jar</packaging>
     <name>Gherkin</name>
     <description>Gherkin parser</description>
@@ -30,7 +30,7 @@
         <dependency>
             <groupId>io.cucumber</groupId>
             <artifactId>messages</artifactId>
-            <version>4.0.0</version>
+            <version>6.0.1</version>
         </dependency>
 
         <dependency>

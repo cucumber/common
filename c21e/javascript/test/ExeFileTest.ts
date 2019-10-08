@@ -11,10 +11,19 @@ describe('ExeFile', () => {
     assert.strictEqual(exeFile.fileName, 'gherkin-darwin-amd64')
   })
 
-  it('detects windows', () => {
+  it('detects windows x32', () => {
     const exeFile = new ExeFile('gherkin-{{.OS}}-{{.Arch}}{{.Ext}}', {
       os: 'win32',
       arch: 'x32',
+    })
+
+    assert.strictEqual(exeFile.fileName, 'gherkin-windows-386.exe')
+  })
+
+  it('detects windows ia32', () => {
+    const exeFile = new ExeFile('gherkin-{{.OS}}-{{.Arch}}{{.Ext}}', {
+      os: 'win32',
+      arch: 'ia32',
     })
 
     assert.strictEqual(exeFile.fileName, 'gherkin-windows-386.exe')

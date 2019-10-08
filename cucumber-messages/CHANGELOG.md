@@ -17,6 +17,47 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Fixed
 
+## [6.0.1] - 2019-10-03
+
+### Fixed
+
+* [Go] Release 6.0.0 is unusable.
+
+## [6.0.0] - 2019-10-02
+
+### Added
+
+* New `TestStepMatched` message
+* `Duration` message to express duration in a seconds + nano format
+* field `duration` in `TestResult` message
+
+### Changed
+
+* Renamed `PatternMatch` to `StepMatchArgument`
+* Renamed `CommandRunTestStep#patternMatches` to `CommandRunTestStep#stepMatchArguments`
+* Replace Google's Timestamp by our own message
+
+### Removed
+
+* `durationNanoSeconds` field in `TestResult` message
+
+## [5.0.1] - 2019-08-23
+
+### Fixed
+
+* [Go] Fix module version (5.0.0 left it at v4)
+
+## [5.0.0] - 2019-08-23
+
+### Changed
+
+* The ordinal numbers of the `Status` enum have changed, to easier compute an
+  aggregated status.
+
+### Fixed
+
+* [JavaScript] Don't swallow exceptions happening in `ProtobufMessageStream`
+
 ## [4.0.0] - 2019-08-14
 
 * [Go] Append v4 to go module name to comply with the go.mod spec
@@ -123,7 +164,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 * Protobuf messages for Go, Java, JavaScript, TypeScript and Ruby
 
 <!-- Releases -->
-[Unreleased]: https://github.com/cucumber/cucumber/compare/cucumber-messages/v4.0.0...master
+[Unreleased]: https://github.com/cucumber/cucumber/compare/cucumber-messages/v6.0.1...master
+[6.0.1]:      https://github.com/cucumber/cucumber/compare/cucumber-messages/v6.0.0...cucumber-messages/v6.0.1
+[6.0.0]:      https://github.com/cucumber/cucumber/compare/cucumber-messages/v5.0.1...cucumber-messages/v6.0.0
+[5.0.1]:      https://github.com/cucumber/cucumber/compare/cucumber-messages/v5.0.0...cucumber-messages/v5.0.1
+[5.0.0]:      https://github.com/cucumber/cucumber/compare/cucumber-messages/v4.0.0...cucumber-messages/v5.0.0
 [4.0.0]:      https://github.com/cucumber/cucumber/compare/cucumber-messages/v3.0.5...cucumber-messages/v4.0.0
 [3.0.5]:      https://github.com/cucumber/cucumber/compare/cucumber-messages/v3.0.4...cucumber-messages/v3.0.5
 [3.0.4]:      https://github.com/cucumber/cucumber/compare/cucumber-messages/v3.0.3...cucumber-messages/v3.0.4

@@ -14,6 +14,7 @@
     - [CommandRunBeforeTestRunHooks](#io.cucumber.messages.CommandRunBeforeTestRunHooks)
     - [CommandRunTestStep](#io.cucumber.messages.CommandRunTestStep)
     - [CommandStart](#io.cucumber.messages.CommandStart)
+    - [Duration](#io.cucumber.messages.Duration)
     - [Envelope](#io.cucumber.messages.Envelope)
     - [GeneratedExpression](#io.cucumber.messages.GeneratedExpression)
     - [GherkinDocument](#io.cucumber.messages.GherkinDocument)
@@ -34,7 +35,6 @@
     - [Location](#io.cucumber.messages.Location)
     - [Media](#io.cucumber.messages.Media)
     - [ParameterTypeConfig](#io.cucumber.messages.ParameterTypeConfig)
-    - [PatternMatch](#io.cucumber.messages.PatternMatch)
     - [Pickle](#io.cucumber.messages.Pickle)
     - [Pickle.PickleStep](#io.cucumber.messages.Pickle.PickleStep)
     - [Pickle.PickleTag](#io.cucumber.messages.Pickle.PickleTag)
@@ -53,6 +53,8 @@
     - [SourcesOrder](#io.cucumber.messages.SourcesOrder)
     - [StepDefinitionConfig](#io.cucumber.messages.StepDefinitionConfig)
     - [StepDefinitionPattern](#io.cucumber.messages.StepDefinitionPattern)
+    - [StepMatchArgument](#io.cucumber.messages.StepMatchArgument)
+    - [StepMatchArgument.Group](#io.cucumber.messages.StepMatchArgument.Group)
     - [SupportCodeConfig](#io.cucumber.messages.SupportCodeConfig)
     - [TestCaseFinished](#io.cucumber.messages.TestCaseFinished)
     - [TestCaseHookDefinitionConfig](#io.cucumber.messages.TestCaseHookDefinitionConfig)
@@ -66,7 +68,9 @@
     - [TestRunFinished](#io.cucumber.messages.TestRunFinished)
     - [TestRunStarted](#io.cucumber.messages.TestRunStarted)
     - [TestStepFinished](#io.cucumber.messages.TestStepFinished)
+    - [TestStepMatched](#io.cucumber.messages.TestStepMatched)
     - [TestStepStarted](#io.cucumber.messages.TestStepStarted)
+    - [Timestamp](#io.cucumber.messages.Timestamp)
     - [UriToLinesMapping](#io.cucumber.messages.UriToLinesMapping)
   
     - [Media.Encoding](#io.cucumber.messages.Media.Encoding)
@@ -235,7 +239,7 @@ An attachment represents any kind of data associated with a line in a
 | ----- | ---- | ----- | ----------- |
 | actionId | [string](#string) |  |  |
 | stepDefinitionId | [string](#string) |  |  |
-| patternMatches | [PatternMatch](#io.cucumber.messages.PatternMatch) | repeated |  |
+| stepMatchArguments | [StepMatchArgument](#io.cucumber.messages.StepMatchArgument) | repeated |  |
 | pickleId | [string](#string) |  |  |
 | pickleStepArgument | [PickleStepArgument](#io.cucumber.messages.PickleStepArgument) |  |  |
 
@@ -256,6 +260,23 @@ An attachment represents any kind of data associated with a line in a
 | sourcesConfig | [SourcesConfig](#io.cucumber.messages.SourcesConfig) |  |  |
 | runtimeConfig | [RuntimeConfig](#io.cucumber.messages.RuntimeConfig) |  |  |
 | supportCodeConfig | [SupportCodeConfig](#io.cucumber.messages.SupportCodeConfig) |  |  |
+
+
+
+
+
+
+<a name="io.cucumber.messages.Duration"></a>
+
+### Duration
+The structure is pretty close of the Timestamp one. For clarity, a second type
+of message is used.
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| seconds | [int64](#int64) |  |  |
+| nanos | [int32](#int32) |  | Non-negative fractions of a second at nanosecond resolution. Negative second values with fractions must still have non-negative nanos values that count forward in time. Must be from 0 to 999,999,999 inclusive. |
 
 
 
@@ -296,6 +317,7 @@ messages.
 | commandRunAfterTestRunHooks | [CommandRunAfterTestRunHooks](#io.cucumber.messages.CommandRunAfterTestRunHooks) |  |  |
 | commandGenerateSnippet | [CommandGenerateSnippet](#io.cucumber.messages.CommandGenerateSnippet) |  |  |
 | commandError | [string](#string) |  |  |
+| testStepMatched | [TestStepMatched](#io.cucumber.messages.TestStepMatched) |  |  |
 
 
 
@@ -641,22 +663,6 @@ Meta information about encoded contents
 
 
 
-<a name="io.cucumber.messages.PatternMatch"></a>
-
-### PatternMatch
-
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| captures | [string](#string) | repeated |  |
-| parameterTypeName | [string](#string) |  |  |
-
-
-
-
-
-
 <a name="io.cucumber.messages.Pickle"></a>
 
 ### Pickle
@@ -665,7 +671,7 @@ from another format, such as [GherkinDocument](#io.cucumber.messages.GherkinDocu
 In the future a `Pickle` may be derived from other formats such as Markdown or
 Excel files.
 
-By making `Pickle` the main data structure Cucumber uses for execution, the 
+By making `Pickle` the main data structure Cucumber uses for execution, the
 implementation of Cucumber itself becomes simpler, as it doesn&#39;t have to deal
 with the complex structure of a [GherkinDocument](#io.cucumber.messages.GherkinDocument).
 
@@ -678,7 +684,7 @@ with the complex structure of a [GherkinDocument](#io.cucumber.messages.GherkinD
 | language | [string](#string) |  | The language of the pickle |
 | steps | [Pickle.PickleStep](#io.cucumber.messages.Pickle.PickleStep) | repeated | One or more steps |
 | tags | [Pickle.PickleTag](#io.cucumber.messages.Pickle.PickleTag) | repeated | One or more tags. If this pickle is constructed from a Gherkin document, It includes inherited tags from the `Feature` as well. |
-| locations | [Location](#io.cucumber.messages.Location) | repeated | The source locations of the pickle. The last one represents the unique line number. A pickle constructed from `Examples` will have the first location originating from the `Step`, and the second from the table row. |
+| locations | [Location](#io.cucumber.messages.Location) | repeated | The source locations of the pickle. The last one represents the unique line number. A pickle constructed from `Examples` will have the first location originating from the `Scenario`, and the second from the table row. |
 
 
 
@@ -865,7 +871,7 @@ A source file, typically a Gherkin document
 <a name="io.cucumber.messages.SourceReference"></a>
 
 ### SourceReference
-Points to a [Source](#io.cucumber.messages.Source) identified by `uri` and a 
+Points to a [Source](#io.cucumber.messages.Source) identified by `uri` and a
 [Location](#io.cucumber.messages.Location) within that file.
 
 
@@ -963,6 +969,45 @@ Points to a [Source](#io.cucumber.messages.Source) identified by `uri` and a
 
 
 
+<a name="io.cucumber.messages.StepMatchArgument"></a>
+
+### StepMatchArgument
+Represents a single argument extracted from a step match and passed to a step definition.
+This is used for the following purposes:
+- Construct an argument to pass to a step definition (possibly through a parameter type transform)
+- Highlight the matched parameter in rich formatters such as the HTML formatter
+
+This message closely matches the `Argument` class in the `cucumber-expressions` library.
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| parameterTypeName | [string](#string) |  |  |
+| group | [StepMatchArgument.Group](#io.cucumber.messages.StepMatchArgument.Group) |  |  |
+
+
+
+
+
+
+<a name="io.cucumber.messages.StepMatchArgument.Group"></a>
+
+### StepMatchArgument.Group
+Represents the outermost capture group of an argument. This message closely matches the
+`Group` class in the `cucumber-expressions` library.
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| start | [uint32](#uint32) |  |  |
+| value | [string](#string) |  |  |
+| children | [StepMatchArgument.Group](#io.cucumber.messages.StepMatchArgument.Group) | repeated |  |
+
+
+
+
+
+
 <a name="io.cucumber.messages.SupportCodeConfig"></a>
 
 ### SupportCodeConfig
@@ -990,7 +1035,7 @@ Points to a [Source](#io.cucumber.messages.Source) identified by `uri` and a
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
 | pickleId | [string](#string) |  |  |
-| timestamp | [google.protobuf.Timestamp](#google.protobuf.Timestamp) |  |  |
+| timestamp | [Timestamp](#io.cucumber.messages.Timestamp) |  |  |
 | testResult | [TestResult](#io.cucumber.messages.TestResult) |  |  |
 
 
@@ -1008,7 +1053,7 @@ Points to a [Source](#io.cucumber.messages.Source) identified by `uri` and a
 | ----- | ---- | ----- | ----------- |
 | id | [string](#string) |  |  |
 | tagExpression | [string](#string) |  |  |
-| location | [SourceReference](#io.cucumber.messages.SourceReference) |  |  |
+| location | [SourceReference](#io.cucumber.messages.SourceReference) |  | TODO: rename to sourceReference as Location is another type and this is ambiguous. |
 
 
 
@@ -1056,7 +1101,7 @@ Points to a [Source](#io.cucumber.messages.Source) identified by `uri` and a
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
 | pickleId | [string](#string) |  |  |
-| timestamp | [google.protobuf.Timestamp](#google.protobuf.Timestamp) |  |  |
+| timestamp | [Timestamp](#io.cucumber.messages.Timestamp) |  |  |
 | platform | [TestCaseStarted.Platform](#io.cucumber.messages.TestCaseStarted.Platform) |  |  |
 
 
@@ -1092,7 +1137,7 @@ Points to a [Source](#io.cucumber.messages.Source) identified by `uri` and a
 | ----- | ---- | ----- | ----------- |
 | pickleId | [string](#string) |  |  |
 | testResult | [TestResult](#io.cucumber.messages.TestResult) |  |  |
-| timestamp | [google.protobuf.Timestamp](#google.protobuf.Timestamp) |  |  |
+| timestamp | [Timestamp](#io.cucumber.messages.Timestamp) |  |  |
 
 
 
@@ -1108,7 +1153,7 @@ Points to a [Source](#io.cucumber.messages.Source) identified by `uri` and a
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
 | pickleId | [string](#string) |  |  |
-| timestamp | [google.protobuf.Timestamp](#google.protobuf.Timestamp) |  |  |
+| timestamp | [Timestamp](#io.cucumber.messages.Timestamp) |  |  |
 
 
 
@@ -1125,7 +1170,7 @@ Points to a [Source](#io.cucumber.messages.Source) identified by `uri` and a
 | ----- | ---- | ----- | ----------- |
 | status | [TestResult.Status](#io.cucumber.messages.TestResult.Status) |  |  |
 | message | [string](#string) |  |  |
-| durationNanoseconds | [uint64](#uint64) |  |  |
+| duration | [Duration](#io.cucumber.messages.Duration) |  |  |
 
 
 
@@ -1141,7 +1186,7 @@ Points to a [Source](#io.cucumber.messages.Source) identified by `uri` and a
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
 | success | [bool](#bool) |  | success = StrictModeEnabled ? (failed_count == 0 &amp;&amp; ambiguous_count == 0 &amp;&amp; undefined_count == 0 &amp;&amp; pending_count == 0) : (failed_count == 0 &amp;&amp; ambiguous_count == 0) |
-| timestamp | [google.protobuf.Timestamp](#google.protobuf.Timestamp) |  | Timestamp when the TestRun is finished |
+| timestamp | [Timestamp](#io.cucumber.messages.Timestamp) |  | Timestamp when the TestRun is finished |
 
 
 
@@ -1156,7 +1201,7 @@ Points to a [Source](#io.cucumber.messages.Source) identified by `uri` and a
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| timestamp | [google.protobuf.Timestamp](#google.protobuf.Timestamp) |  |  |
+| timestamp | [Timestamp](#io.cucumber.messages.Timestamp) |  |  |
 
 
 
@@ -1174,7 +1219,25 @@ Points to a [Source](#io.cucumber.messages.Source) identified by `uri` and a
 | pickleId | [string](#string) |  |  |
 | index | [uint32](#uint32) |  |  |
 | testResult | [TestResult](#io.cucumber.messages.TestResult) |  |  |
-| timestamp | [google.protobuf.Timestamp](#google.protobuf.Timestamp) |  |  |
+| timestamp | [Timestamp](#io.cucumber.messages.Timestamp) |  |  |
+
+
+
+
+
+
+<a name="io.cucumber.messages.TestStepMatched"></a>
+
+### TestStepMatched
+For each step, there will be a match
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| pickleId | [string](#string) |  |  |
+| index | [uint32](#uint32) |  |  |
+| stepDefinitionReference | [SourceReference](#io.cucumber.messages.SourceReference) |  |  |
+| stepMatchArguments | [StepMatchArgument](#io.cucumber.messages.StepMatchArgument) | repeated |  |
 
 
 
@@ -1191,7 +1254,23 @@ Points to a [Source](#io.cucumber.messages.Source) identified by `uri` and a
 | ----- | ---- | ----- | ----------- |
 | pickleId | [string](#string) |  |  |
 | index | [uint32](#uint32) |  |  |
-| timestamp | [google.protobuf.Timestamp](#google.protobuf.Timestamp) |  |  |
+| timestamp | [Timestamp](#io.cucumber.messages.Timestamp) |  |  |
+
+
+
+
+
+
+<a name="io.cucumber.messages.Timestamp"></a>
+
+### Timestamp
+From https://github.com/protocolbuffers/protobuf/blob/master/src/google/protobuf/timestamp.proto
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| seconds | [int64](#int64) |  | Represents seconds of UTC time since Unix epoch 1970-01-01T00:00:00Z. Must be from 0001-01-01T00:00:00Z to 9999-12-31T23:59:59Z inclusive. |
+| nanos | [int32](#int32) |  | Non-negative fractions of a second at nanosecond resolution. Negative second values with fractions must still have non-negative nanos values that count forward in time. Must be from 0 to 999,999,999 inclusive. |
 
 
 
@@ -1255,16 +1334,26 @@ Points to a [Source](#io.cucumber.messages.Source) identified by `uri` and a
 <a name="io.cucumber.messages.TestResult.Status"></a>
 
 ### TestResult.Status
+Status of a step. Can also represent status of a Pickle (aggregated
+from the status of its steps).
 
+The ordinal values of statuses are significant. The status of a Pickle
+is determined by the union of statuses of its steps. The
+status of the Pickle is the status with the highest ordinal
+in the enum.
+
+For example, if a pickle has steps with statuses passed, undefined and skipped,
+then the pickle&#39;s status is undefined.
 
 | Name | Number | Description |
 | ---- | ------ | ----------- |
-| AMBIGUOUS | 0 |  |
-| FAILED | 1 |  |
-| PASSED | 2 |  |
-| PENDING | 3 |  |
-| SKIPPED | 4 |  |
-| UNDEFINED | 5 |  |
+| UNKNOWN | 0 | The step hasn&#39;t been matched or executed. |
+| PASSED | 1 | The step matched one step definition and passed execution. |
+| SKIPPED | 2 | The step matched one step definition but was not executed because the previous step was not PASSED. |
+| PENDING | 3 | The step matched one step definition and signalled pending during execution. This is the default behaviour of generated step definitions, which either throw a special PendingException, or return a special value indicating that it&#39;s pending. How to signal the pending status depends on the Cucumber implementation. |
+| UNDEFINED | 4 | The step matched no step definitions. |
+| AMBIGUOUS | 5 | The step matched two or more step definitions. |
+| FAILED | 6 | The step matched one step definition and failed execution. |
 
 
  

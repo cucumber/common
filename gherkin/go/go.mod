@@ -1,8 +1,11 @@
-module github.com/cucumber/gherkin-go/v7
+module github.com/cucumber/gherkin-go/v8
 
 require (
-	github.com/cucumber/cucumber-messages-go/v4 v4.0.0
-	github.com/gogo/protobuf v1.2.2-0.20190723190241-65acae22fc9d
+	github.com/aslakhellesoy/gox v1.0.100 // indirect
+	github.com/cucumber/cucumber-messages-go/v6 v6.0.1
+	github.com/gogo/protobuf v1.3.0
 )
 
-replace github.com/cucumber/cucumber-messages-go/v4 => ../../cucumber-messages/go
+replace github.com/cucumber/cucumber-messages-go/v6 => ../../cucumber-messages/go
+
+go 1.13

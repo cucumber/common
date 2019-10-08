@@ -29,6 +29,7 @@ export default class ExeFile {
     const defaults: { [key: string]: string } = {
       mipsel: 'mipsle',
       x32: '386',
+      ia32: '386',
       x64: 'amd64',
     }
     return defaults[this.props.arch] || this.props.arch
