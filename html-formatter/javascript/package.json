@@ -20,15 +20,15 @@
     "cucumber-messages": "^6.0.1",
     "cucumber-react": "^1.1.0",
     "jsdom": "^15.1.1",
-    "react": "^16.10.1",
-    "react-dom": "^16.10.1"
+    "react": "^16.10.2",
+    "react-dom": "^16.10.2"
   },
   "devDependencies": {
     "@babel/core": "^7.6.2",
     "@types/jsdom": "^12.2.4",
     "@types/mocha": "^5.2.7",
-    "@types/node": "^12.7.9",
-    "@types/react": "^16.9.4",
+    "@types/node": "^12.7.11",
+    "@types/react": "^16.9.5",
     "@types/react-dom": "^16.9.1",
     "awesome-typescript-loader": "^5.2.1",
     "babel-loader": "^8.0.6",
