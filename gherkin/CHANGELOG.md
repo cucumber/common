@@ -11,6 +11,9 @@ This document is formatted according to the principles of [Keep A CHANGELOG](htt
 
 ### Added
 
+* Nepali translation
+  ([#729](https://github.com/cucumber/cucumber/pull/729))
+
 ### Changed
 
 ### Deprecated
