@@ -1,10 +1,14 @@
 package io.cucumber.cucumberexpressions;
 
+import org.apiguardian.api.API;
+
 /**
  * Transformer for a @{@link ParameterType} with (multiple) capture groups.
  *
  * @param <T> the type to transform to.
  */
+@API(status = API.Status.STABLE)
+@FunctionalInterface
 public interface CaptureGroupTransformer<T> {
     /**
      * Transforms multiple strings into to an object. The strings are taken from

@@ -1,13 +1,8 @@
 package io.cucumber.datatable;
 
-import com.google.common.base.Joiner;
-import io.cucumber.gherkin.Gherkin;
-import io.cucumber.messages.Messages;
+import java.util.ArrayList;
+import java.util.List;
 
-import java.util.Iterator;
-
-import static io.cucumber.datatable.PickleTableConverter.toTable;
-import static java.util.Collections.singletonList;
 
 class TableParser {
 
@@ -16,32 +11,32 @@ class TableParser {
 
 
     static DataTable parse(String... source) {
-        return parse(Joiner.on('\n').join(source));
+        return parse(String.join("\n", source));
     }
 
     static DataTable parse(String source) {
-        Messages.Source sourceMessage = Messages.Source.newBuilder().setData(
-                "Feature:\n" +
-                        "  Scenario:\n" +
-                        "    Given x\n" +
-                        source
-        ).build();
+        List<List<String>> rows = new ArrayList<>();
+        for (String line : source.split("\n")) {
+            if (line.isEmpty()) {
+                continue;
+            }
+            rows.add(parseRow(line));
+        }
+        return DataTable.create(rows);
+    }
 
-        Iterable<Messages.Envelope> envelopes = Gherkin.fromSources(
-                singletonList(sourceMessage),
-                false,
-                false,
-                true
-        );
-
-        //        List<Envelope> wrappers = toList();
-        Iterator<Messages.Envelope> iterator = envelopes.iterator();
-        if(!iterator.hasNext()) throw new RuntimeException("Expected one pickle envelope");
-        Messages.Envelope envelope = iterator.next();
-        Messages.PickleStepArgument.PickleTable pickleTable = envelope.getPickle().getSteps(0).getArgument().getDataTable();
-
-        return DataTable.create(toTable(pickleTable));
-
+    private static List<String> parseRow(String line) {
+        List<String> row = new ArrayList<>();
+        String[] split = line.trim().split("\\|");
+        for (int i = 0; i < split.length; i++) {
+            String s = split[i];
+            if (i == 0) {
+                continue;
+            }
+            String trimmed = s.trim();
+            row.add(trimmed);
+        }
+        return row;
     }
 
 }

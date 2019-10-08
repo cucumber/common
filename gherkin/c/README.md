@@ -22,4 +22,4 @@ add_executable(gherkincsample main.cpp)
 target_link_libraries(gherkincsample gherkin::gherkin)
 ```
 
-[The docs are here](https://docs.cucumber.io/).
+[The docs are here](https://cucumber.io/docs/).

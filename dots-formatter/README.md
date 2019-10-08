@@ -1,13 +1,11 @@
-# Cucumber Formatters
+# Cucumber Dots Formatter
 
-Cucumber formatters are command line programs that read results from `STDIN`.
-They are designed to work with any Cucumber implementation that supports
-[Cucumber Messages](https://github.com/cucumber/cucumber/tree/master/messages).
+This formatter produces dots (`....F-U.....`) from Cucumber results.
 
-*2018/07/09: These formatters are currently not yet used by Cucumber. They will
-be integrated with Cucumber implementations as soon as they support Cucumber
-Messages.*
+## Trying it out
 
-The following formatters exist:
+    ../fake-cucumber/javascript/bin/fake-cucumber \
+    --results=random \
+    ../gherkin/testdata/good/*.feature \ | 
+    go/dist/dots-formatter-darwin-amd64
 
-* [dots](./dots)

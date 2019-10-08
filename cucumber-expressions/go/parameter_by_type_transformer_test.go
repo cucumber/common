@@ -37,8 +37,12 @@ func TestConvert(t *testing.T) {
 	})
 
 	t.Run("converts to kind float", func(t *testing.T) {
+		assertTransforms(t, float32(4), "4", reflect.Float32)
+		assertTransforms(t, float64(.2), ".2", reflect.Float64)
 		assertTransforms(t, float32(4.2), "4.2", reflect.Float32)
 		assertTransforms(t, float64(4.2), "4.2", reflect.Float64)
+		assertTransforms(t, float32(4.2e+12), "4.2E12", reflect.Float32)
+		assertTransforms(t, float64(4.2e+12), "4.2e12", reflect.Float64)
 	})
 
 	t.Run("errors un supported kind", func(t *testing.T) {

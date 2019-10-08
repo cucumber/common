@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.Deque;
 import java.util.List;
 
-class CombinatorialGeneratedExpressionFactory {
+final class CombinatorialGeneratedExpressionFactory {
     // 256 generated expressions ought to be enough for anybody
     private static final int MAX_EXPRESSIONS = 256;
     private final String expressionTemplate;

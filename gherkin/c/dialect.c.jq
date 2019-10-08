@@ -1,6 +1,6 @@
 . as $root |
 [(to_entries[] | .key as $lang_orig |(.key | split("-") | join("_")) as $lang | .value |
-  [({"and", "background", "but", "examples", "feature", "given", "scenario", "scenarioOutline", "then", "when"} | to_entries[] |
+  [({"and", "background", "but", "examples", "feature", "given", "rule", "scenario", "scenarioOutline", "then", "when"} | to_entries[] |
     [(
       ["static const wchar_t* const ",$lang,"_",.key,"_KEYWORDS[] = { ",([.value[] | ["L",@json] | add] | join(", "))," };\n"] | add
      ),
@@ -9,7 +9,7 @@
     ] | add
    ),
    (["static const Dialect ",$lang,"_dialect = {\n        L\"",$lang_orig,"\",\n",
-     ([{"and", "background", "but", "examples", "feature", "given", "scenario", "scenarioOutline", "then", "when"} | to_entries[] |
+     ([{"and", "background", "but", "examples", "feature", "given", "rule", "scenario", "scenarioOutline", "then", "when"} | to_entries[] |
        ["        &",$lang,"_",.key,"_keywords"] | add
       ] | join(",\n")
      )," };\n\n"

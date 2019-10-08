@@ -5,6 +5,7 @@ package io.cucumber.cucumberexpressions;
  *
  * @param <T> the type to transform to.
  */
+@FunctionalInterface
 public interface Transformer<T> {
     /**
      * Transforms a string into to an object. The string is either taken

@@ -1,7 +1,7 @@
 # -*- encoding: utf-8 -*-
 Gem::Specification.new do |s|
   s.name        = 'c21e'
-  s.version     = '1.2.1'
+  s.version     = '2.0.0'
   s.authors     = ["Aslak Hellesøy"]
   s.description = 'Run cross-platform executables'
   s.summary     = "#{s.name}-#{s.version}"
@@ -18,12 +18,11 @@ Gem::Specification.new do |s|
                     'source_code_uri'   => 'https://github.com/cucumber/cucumber/blob/master/c21e/ruby',
                   }
 
-  s.add_development_dependency 'bundler'
-  s.add_development_dependency 'rake',      '~> 12.3'
-  s.add_development_dependency 'rspec',     '~> 3.7'
+  s.add_development_dependency 'rake', '~> 13.0', '>= 13.0.0'
+  s.add_development_dependency 'rspec', '~> 3.8', '>= 3.8.0'
 
   # For coverage reports
-  s.add_development_dependency 'coveralls'
+  s.add_development_dependency 'coveralls', '~> 0.8', '>= 0.8.23'
 
   s.rubygems_version = ">= 1.6.1"
   s.files            = Dir[

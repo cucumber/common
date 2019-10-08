@@ -1,5 +1,4 @@
 syntax = "proto3";
-import "google/protobuf/timestamp.proto";
 package io.cucumber.messages;
 option ruby_package = "Cucumber.Messages";
 option go_package = "messages";
@@ -7,6 +6,32 @@ option go_package = "messages";
 // When removing a field, replace it with reserved, rather than deleting the line.
 // When adding a field, add it to the end and increment the number by one.
 // See https://developers.google.com/protocol-buffers/docs/proto#updating for details
+
+// From https://github.com/protocolbuffers/protobuf/blob/master/src/google/protobuf/timestamp.proto
+message Timestamp {
+  // Represents seconds of UTC time since Unix epoch
+  // 1970-01-01T00:00:00Z. Must be from 0001-01-01T00:00:00Z to
+  // 9999-12-31T23:59:59Z inclusive.
+  int64 seconds = 1;
+
+  // Non-negative fractions of a second at nanosecond resolution. Negative
+  // second values with fractions must still have non-negative nanos values
+  // that count forward in time. Must be from 0 to 999,999,999
+  // inclusive.
+  int32 nanos = 2;
+}
+
+// The structure is pretty close of the Timestamp one. For clarity, a second type
+// of message is used.
+message Duration {
+  int64 seconds = 1;
+
+  // Non-negative fractions of a second at nanosecond resolution. Negative
+  // second values with fractions must still have non-negative nanos values
+  // that count forward in time. Must be from 0 to 999,999,999
+  // inclusive.
+  int32 nanos = 2;
+}
 
 /**
  * All the messages that are passed between different components/processes are Envelope
@@ -42,6 +67,7 @@ message Envelope {
     CommandRunAfterTestRunHooks commandRunAfterTestRunHooks = 23;
     CommandGenerateSnippet commandGenerateSnippet = 24;
     string commandError = 25;
+    TestStepMatched testStepMatched = 26;
   }
 }
 
@@ -56,7 +82,7 @@ message Location {
 }
 
 /**
- * Points to a [Source](#io.cucumber.messages.Source) identified by `uri` and a 
+ * Points to a [Source](#io.cucumber.messages.Source) identified by `uri` and a
  * [Location](#io.cucumber.messages.Location) within that file.
  */
 message SourceReference {
@@ -191,7 +217,7 @@ message GherkinDocument {
         }
       }
     }
-    
+
     message Background {
       // The location of the `Background` keyword
       Location location = 1;
@@ -222,7 +248,7 @@ message GherkinDocument {
         repeated TableRow table_body = 7;
       }
     }
-    
+
     // A row in a table
     message TableRow {
       // The location of the first cell in the row
@@ -290,7 +316,7 @@ message Attachment {
  * In the future a `Pickle` may be derived from other formats such as Markdown or
  * Excel files.
  *
- * By making `Pickle` the main data structure Cucumber uses for execution, the 
+ * By making `Pickle` the main data structure Cucumber uses for execution, the
  * implementation of Cucumber itself becomes simpler, as it doesn't have to deal
  * with the complex structure of a [GherkinDocument](#io.cucumber.messages.GherkinDocument).
  */
@@ -317,7 +343,7 @@ message Pickle {
   /**
    * The source locations of the pickle. The last one represents the unique
    * line number. A pickle constructed from `Examples` will have the first
-   * location originating from the `Step`, and the second from the table row.
+   * location originating from the `Scenario`, and the second from the table row.
    */
   repeated Location locations = 7;
 
@@ -385,7 +411,7 @@ message PickleRejected {
 ////// Results
 
 message TestRunStarted {
-  google.protobuf.Timestamp timestamp = 1;
+  Timestamp timestamp = 1;
 }
 
 message TestCasePreparedStep {
@@ -400,7 +426,7 @@ message TestCasePrepared {
 
 message TestCaseStarted {
   string pickleId = 1;
-  google.protobuf.Timestamp timestamp = 2;
+  Timestamp timestamp = 2;
   Platform platform = 3;
 
   message Platform {
@@ -417,51 +443,87 @@ message TestCaseStarted {
 
 message TestCaseFinished {
   string pickleId = 1;
-  google.protobuf.Timestamp timestamp = 2;
+  Timestamp timestamp = 2;
   TestResult testResult = 3;
+}
+
+// For each step, there will be a match
+message TestStepMatched {
+  string pickleId = 1;
+  uint32 index = 2;
+  SourceReference stepDefinitionReference = 3;
+  repeated StepMatchArgument stepMatchArguments = 4;
 }
 
 message TestStepStarted {
   string pickleId = 1;
   uint32 index = 2;
-  google.protobuf.Timestamp timestamp = 3;
+  Timestamp timestamp = 3;
 }
 
 message TestStepFinished {
   string pickleId = 1;
   uint32 index = 2;
   TestResult testResult = 3;
-  google.protobuf.Timestamp timestamp = 4;
+  Timestamp timestamp = 4;
 }
 
 message TestHookStarted {
   string pickleId = 1;
-  google.protobuf.Timestamp timestamp = 2;
+  Timestamp timestamp = 2;
 }
 
 message TestHookFinished {
   string pickleId = 1;
   TestResult testResult = 2;
-  google.protobuf.Timestamp timestamp = 3;
+  Timestamp timestamp = 3;
 }
 
 message TestResult {
   Status status = 1;
   string message = 2;
-  uint64 durationNanoseconds = 3;
+  reserved 3;
+  Duration duration = 4;
 
+  /**
+   * Status of a step. Can also represent status of a Pickle (aggregated
+   * from the status of its steps).
+   *
+   * The ordinal values of statuses are significant. The status of a Pickle
+   * is determined by the union of statuses of its steps. The
+   * status of the Pickle is the status with the highest ordinal
+   * in the enum.
+   *
+   * For example, if a pickle has steps with statuses passed, undefined and skipped,
+   * then the pickle's status is undefined.
+   */
   enum Status {
-    AMBIGUOUS = 0;
-    FAILED = 1;
-    PASSED = 2;
+    // The step hasn't been matched or executed.
+    UNKNOWN = 0;
+    // The step matched one step definition and passed execution.
+    PASSED = 1;
+    // The step matched one step definition but was not executed because the
+    // previous step was not PASSED.
+    SKIPPED = 2;
+    // The step matched one step definition and signalled pending during execution.
+    // This is the default behaviour of generated step definitions, which either
+    // throw a special PendingException, or return a special value indicating that it's
+    // pending. How to signal the pending status depends on the Cucumber implementation.
     PENDING = 3;
-    SKIPPED = 4;
-    UNDEFINED = 5;
+    // The step matched no step definitions.
+    UNDEFINED = 4;
+    // The step matched two or more step definitions.
+    AMBIGUOUS = 5;
+    // The step matched one step definition and failed execution.
+    FAILED = 6;
   }
 }
 
 message TestRunFinished {
+  // success = StrictModeEnabled ? (failed_count == 0 && ambiguous_count == 0 && undefined_count == 0 && pending_count == 0) : (failed_count == 0 && ambiguous_count == 0)
   bool success = 1;
+  // Timestamp when the TestRun is finished
+  Timestamp timestamp = 2;
 }
 
 ////// Commands
@@ -518,6 +580,7 @@ message SupportCodeConfig {
 message TestCaseHookDefinitionConfig {
   string id = 1;
   string tagExpression = 2;
+  // TODO: rename to sourceReference as Location is another type and this is ambiguous.
   SourceReference location = 3;
 }
 
@@ -587,15 +650,34 @@ message CommandRunTestStep {
   string actionId = 1;
   reserved 2;
   string stepDefinitionId = 3;
-  repeated PatternMatch patternMatches = 4;
+  repeated StepMatchArgument stepMatchArguments = 4;
   string pickleId = 5;
   PickleStepArgument pickleStepArgument = 6;
 }
 
-message PatternMatch {
-  repeated string captures = 1;
+/**
+ * Represents a single argument extracted from a step match and passed to a step definition.
+ * This is used for the following purposes:
+ * - Construct an argument to pass to a step definition (possibly through a parameter type transform)
+ * - Highlight the matched parameter in rich formatters such as the HTML formatter
+ *
+ * This message closely matches the `Argument` class in the `cucumber-expressions` library.
+ */
+message StepMatchArgument {
+  reserved 1;
   string parameterTypeName = 2;
   reserved 3, 4;
+  Group group = 5;
+
+  /**
+   * Represents the outermost capture group of an argument. This message closely matches the
+   * `Group` class in the `cucumber-expressions` library.
+   */
+  message Group {
+    uint32 start = 1;
+    string value = 2;
+    repeated Group children = 3;
+  }
 }
 
 message CommandGenerateSnippet {

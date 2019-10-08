@@ -1,13 +1,11 @@
 package io.cucumber.cucumberexpressions;
 
 import org.junit.After;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.regex.Pattern;
 
 import static org.junit.Assert.assertSame;
 
@@ -25,7 +23,7 @@ public class PatternCompilerProviderTest {
 
     @Test
     public void use_default_compiler_if_none_registered() {
-        PatternCompilerProvider.findPatternCompiler(Collections.<PatternCompiler>emptyList().iterator());
+        PatternCompilerProvider.findPatternCompiler(Collections.emptyIterator());
         assertSame(DefaultPatternCompiler.class, PatternCompilerProvider.service.getClass());
     }
 
@@ -43,11 +41,6 @@ public class PatternCompilerProviderTest {
     }
 
     private PatternCompiler getTestCompiler() {
-        return new PatternCompiler() {
-            @Override
-            public Pattern compile(String regexp, int flags) {
-                return null;
-            }
-        };
+        return (regexp, flags) -> null;
     }
 }

@@ -5,7 +5,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.regex.Matcher;
 
-class GroupBuilder {
+final class GroupBuilder {
     private List<GroupBuilder> groupBuilders = new ArrayList<>();
     private boolean capturing = true;
     private String source;

@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+#
+# Deletes old git branches
+#
+set -ef -o pipefail
+for k in $(git branch | sed /\*/d); do 
+  if [ -n "$(git log -1 --since='3 months ago' -s $k)" ]; then
+    echo "NEW ${k}"
+  else
+    echo "OLD ${k}"
+    git branch -D $k
+  fi
+done

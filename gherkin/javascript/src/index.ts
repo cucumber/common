@@ -1,79 +1,95 @@
-import { spawn } from 'child_process'
-import { statSync } from 'fs'
-import { ExeFile } from 'c21e'
+import { IGherkinOptions } from './types'
+import { PassThrough, Readable } from 'stream'
+import ParserMessageStream from './stream/ParserMessageStream'
+import fs from 'fs'
+import SourceMessageStream from './stream/SourceMessageStream'
 import { messages, ProtobufMessageStream } from 'cucumber-messages'
+import DIALECTS from './gherkin-languages.json'
+import Dialect from './Dialect'
+import GherkinExe from './external/GherkinExe'
 
-const defaultOptions = {
-  includeSource: true,
-  includeGherkinDocument: true,
-  includePickles: true,
+export function fromStream(stream: Readable, options: IGherkinOptions) {
+  return stream
+    .pipe(new ProtobufMessageStream(messages.Envelope.decodeDelimited))
+    .pipe(new ParserMessageStream(options))
 }
 
-function fromPaths(paths: string[], options: IGherkinOptions = defaultOptions) {
-  return new Gherkin(paths, [], options).messageStream()
-}
-
-function fromSources(
-  sources: messages.Source[],
-  options: IGherkinOptions = defaultOptions
-) {
-  return new Gherkin([], sources, options).messageStream()
-}
-
-export interface IGherkinOptions {
-  includeSource: boolean
-  includeGherkinDocument: boolean
-  includePickles: boolean
-}
-
-export { fromPaths, fromSources }
-
-class Gherkin {
-  private exeFile: ExeFile
-
-  constructor(
-    private readonly paths: string[],
-    private readonly sources: messages.Source[],
-    private options: IGherkinOptions
-  ) {
-    this.options = { ...defaultOptions, ...options }
-    let executables = `${__dirname}/../../executables`
-    try {
-      statSync(executables)
-    } catch (err) {
-      // Dev mode - we're in src, not dist/src
-      executables = `${__dirname}/../executables`
-    }
-    this.exeFile = new ExeFile(
-      `${executables}/gherkin-{{.OS}}-{{.Arch}}{{.Ext}}`
-    )
+export function fromPaths(paths: string[], options: IGherkinOptions): Readable {
+  if (process.env.GHERKIN_EXECUTABLE) {
+    return new GherkinExe(
+      process.env.GHERKIN_EXECUTABLE,
+      paths,
+      [],
+      options
+    ).messageStream()
   }
 
-  public messageStream() {
-    const options = []
-    if (!this.options.includeSource) {
-      options.push('--no-source')
+  const combinedMessageStream = new PassThrough({
+    writableObjectMode: true,
+    readableObjectMode: true,
+  })
+
+  function pipeSequentially() {
+    const path = paths.shift()
+    if (path !== undefined) {
+      const parserMessageStream = new ParserMessageStream(options)
+      parserMessageStream.on('end', () => {
+        pipeSequentially()
+      })
+
+      const end = paths.length === 0
+      fs.createReadStream(path, { encoding: 'utf-8' })
+        .pipe(new SourceMessageStream(path))
+        .pipe(parserMessageStream)
+        .pipe(
+          combinedMessageStream,
+          { end }
+        )
     }
-    if (!this.options.includeGherkinDocument) {
-      options.push('--no-ast')
-    }
-    if (!this.options.includePickles) {
-      options.push('--no-pickles')
-    }
-    const args = options.concat(this.paths)
-    const gherkin = spawn(this.exeFile.fileName, args)
-    const protobufMessageStream = new ProtobufMessageStream(
-      messages.Envelope.decodeDelimited.bind(messages.Envelope)
-    )
-    gherkin.on('error', err => {
-      protobufMessageStream.emit('error', err)
-    })
-    gherkin.stdout.pipe(protobufMessageStream)
-    for (const source of this.sources) {
-      const wrapper = messages.Envelope.fromObject({ source })
-      gherkin.stdin.write(messages.Envelope.encodeDelimited(wrapper).finish())
-    }
-    gherkin.stdin.end()
-    return protobufMessageStream
   }
+  pipeSequentially()
+  return combinedMessageStream
+}
+
+export function fromSources(
+  envelopes: messages.IEnvelope[],
+  options: IGherkinOptions
+): Readable {
+  if (process.env.GHERKIN_EXECUTABLE) {
+    return new GherkinExe(
+      process.env.GHERKIN_EXECUTABLE,
+      [],
+      envelopes,
+      options
+    ).messageStream()
+  }
+
+  const combinedMessageStream = new PassThrough({ objectMode: true })
+
+  function pipeSequentially() {
+    const envelope = envelopes.shift()
+    if (envelope !== undefined && envelope.source) {
+      const parserMessageStream = new ParserMessageStream(options)
+      parserMessageStream.pipe(
+        combinedMessageStream,
+        { end: envelopes.length === 0 }
+      )
+      parserMessageStream.on('end', pipeSequentially)
+      parserMessageStream.end(envelope)
+    }
+  }
+  pipeSequentially()
+
+  return combinedMessageStream
+}
+
+export function dialects(): { [key: string]: Dialect } {
+  return DIALECTS
+}
+
+export default {
+  fromStream,
+  fromPaths,
+  fromSources,
+  dialects,
 }

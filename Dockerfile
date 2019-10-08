@@ -7,6 +7,7 @@ WORKDIR /app
 
 RUN apk add --no-cache \
   bash \
+  cmake \
   curl \
   diffutils \
   go \
@@ -23,6 +24,8 @@ RUN apk add --no-cache \
   openjdk8 \
   openssh \
   openssl-dev \
+  perl \
+  perl-dev \
   protobuf \
   python2 \
   python2-dev \
@@ -38,17 +41,37 @@ RUN apk add --no-cache \
   wget \
   xmlstarlet
 
+# Create a cukebot user. Some tools (Bundler, npm publish) don't work properly
+# when run as root
+
+ENV USER=cukebot
+ENV UID=1000
+ENV GID=2000
+
+RUN addgroup --gid "$GID" "$USER" \
+    && adduser \
+    --disabled-password \
+    --gecos "" \
+    --ingroup "$USER" \
+    --uid "$UID" \
+    --shell /bin/bash \
+    "$USER"
+
 # Configure Ruby
 RUN echo "gem: --no-document" > ~/.gemrc
 RUN gem install bundler io-console
+RUN chown -R cukebot:cukebot /usr/lib/ruby
+RUN chown -R cukebot:cukebot /usr/bin
 
 # Configure Python
 RUN pip install pipenv
 RUN pip install twine
+RUN chown -R cukebot:cukebot /usr/lib/python2.7/site-packages
+RUN mkdir -p /usr/man && chown -R cukebot:cukebot /usr/man
 
-# Fix Protobuf - the apk package doesn't include google/protobuf/timestamp.proto
-RUN mkdir -p mkdir -p /usr/local/include/google/protobuf
-RUN curl --fail -L https://raw.githubusercontent.com/protocolbuffers/protobuf/v3.6.1/src/google/protobuf/timestamp.proto > /usr/local/include/google/protobuf/timestamp.proto
+# Configure Perl
+RUN curl -L https://cpanmin.us/ -o /usr/local/bin/cpanm
+RUN chmod +x /usr/local/bin/cpanm
 
 # Install git-crypt
 RUN git clone -b 0.6.0 --single-branch --depth 1 https://github.com/AGWA/git-crypt.git && \
@@ -66,20 +89,15 @@ RUN git clone \
   make && \
   cp bin/hub /usr/local/bin/hub
 
-# Create a cukebot user. Some tools (Bundler, npm publish) don't work properly
-# when run as root
-
-ENV USER=cukebot
-ENV UID=1000
-ENV GID=2000
-
-RUN addgroup --gid "$GID" "$USER" \
-    && adduser \
-    --disabled-password \
-    --gecos "" \
-    --ingroup "$USER" \
-    --uid "$UID" \
-    --shell /bin/bash \
-    "$USER"
+# Install splitsh/lite
+RUN go get -d github.com/libgit2/git2go && \
+  cd $(go env GOPATH)/src/github.com/libgit2/git2go && \
+  git checkout next && \
+  git submodule update --init && \
+  # config_test.go does not compile on the current go version
+  rm $(go env GOPATH)/src/github.com/libgit2/git2go/config_test.go && \
+  make install && \
+  go get github.com/splitsh/lite && \
+  go build -o /usr/local/bin/splitsh-lite github.com/splitsh/lite
 
 CMD ["/bin/bash"]
