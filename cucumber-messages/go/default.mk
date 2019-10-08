@@ -13,6 +13,8 @@ OS := $(shell [[ "$$(uname)" == "Darwin" ]] && echo "darwin" || echo "linux")
 ARCH := $(shell [[ "$$(uname -m)" == "x86_64" ]] && echo "amd64" || echo "386")
 EXE = dist/$(LIBNAME)-$(OS)-$(ARCH)
 REPLACEMENTS := $(shell sed -n "/^\s*github.com\/cucumber/p" go.mod | perl -wpe 's/\s*(github.com\/cucumber\/(.*)-go\/v\d+).*/q{replace } . $$1 . q{ => ..\/..\/} . $$2 . q{\/go}/eg')
+CURRENT_MAJOR := $(shell sed -n "/^module/p" go.mod | perl -wpe 's/^.*cucumber\/.*-go\/v(\d+).*/$$1/eg')
+NEW_MAJOR := $(shell echo ${NEW_VERSION} | awk -F'.' '{print $$1}')
 
 default: .linted .tested
 .PHONY: default
@@ -105,3 +107,14 @@ remove-replaces:
 add-replaces:
 	sed -i '/^go .*/i $(REPLACEMENTS)\n' go.mod
 .PHONY: add-replaces
+
+update-major:
+ifeq ($(CURRENT_MAJOR), $(NEW_MAJOR))
+	# echo "No major version change"
+else
+	echo "Updating major to $(NEW_MAJOR)"
+	sed -i "s/$(LIBNAME)-go\/v$(CURRENT_MAJOR)/$(LIBNAME)-go\/v$(NEW_MAJOR)/" go.mod
+	sed -i "s/$(LIBNAME)-go\/v$(CURRENT_MAJOR)/$(LIBNAME)-go\/v$(NEW_MAJOR)/" **/*.go
+endif
+.PHONY: update-major
+
