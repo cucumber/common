@@ -14,6 +14,12 @@ default: .compared
 
 .deps: executables
 
+src/main/java/gherkin/Parser.java: gherkin.berp gherkin-java.razor berp/berp.exe
+	-mono berp/berp.exe -g gherkin.berp -t gherkin-java.razor -o $@
+	# Remove BOM
+	awk 'NR==1{sub(/^\xef\xbb\xbf/,"")}{print}' < $@ > $@.nobom
+	mv $@.nobom $@
+
 executables:
 	cp -R "$$(pwd)/../go/dist" $@
 

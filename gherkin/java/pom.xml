@@ -40,6 +40,12 @@
         </dependency>
 
         <dependency>
+            <groupId>com.eclipsesource.minimal-json</groupId>
+            <artifactId>minimal-json</artifactId>
+            <version>0.9.5</version>
+        </dependency>
+
+        <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
             <version>4.13-beta-3</version>
