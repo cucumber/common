@@ -11,7 +11,7 @@
     <artifactId>datatable-parent</artifactId>
     <version>3.0.1-SNAPSHOT</version>
     <packaging>pom</packaging>
-    <name>Data Table Parent</name>
+    <name>DataTable Parent</name>
     <url>https://github.com/cucumber/datatable-java</url>
     <description>Parent POM for data tables</description>
 
