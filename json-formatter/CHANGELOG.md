@@ -11,19 +11,10 @@ This document is formatted according to the principles of [Keep A CHANGELOG](htt
 
 ### Added
 
-### Changed
-
-* Upgrade cucumber-messages to 6.0.0
-
-### Deprecated
-
-### Removed
-
-### Fixed
+* Initial release
 
 <!-- Releases -->
-[Unreleased]: https://github.com/cucumber/cucumber/compare/dots-formatter/v1.0.1...master
-[1.0.0]:     https://github.com/cucumber/cucumber/compare/dots-formatter/v1.0.0...dots-formatter/v1.0.1
+[1.0.0]:      https://github.com/cucumber/cucumber/releases/tag/dots-formatter/v1.0.0
 
 <!-- Contributors -->
 [aslakhellesoy]:    https://github.com/aslakhellesoy
