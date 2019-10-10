@@ -51,7 +51,7 @@ update-dependencies:
 	cd $(MOD_DIR) && go get -u && go mod tidy
 .PHONY: update-dependencies
 
-pre-release: update-dependencies clean default
+pre-release: update-major update-dependencies clean default
 .PHONY: pre-release
 
 update-version:
@@ -91,8 +91,7 @@ dist_compressed/$(LIBNAME)-%: dist/$(LIBNAME)-%
 	go test ./...
 	touch $@
 
-post-release:
-	@echo "No post-release needed for go"
+post-release: add-replaces
 .PHONY: post-release
 
 clean: clean-go
