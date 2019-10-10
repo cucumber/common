@@ -51,6 +51,9 @@ update-dependencies:
 	cd $(MOD_DIR) && go get -u && go mod tidy
 .PHONY: update-dependencies
 
+pre-release: update-dependencies clean default
+.PHONY: pre-release
+
 update-version:
 	# no-op
 .PHONY: update-version

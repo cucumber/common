@@ -4,6 +4,9 @@ update-dependencies:
 	# no-op
 .PHONY: update-dependencies
 
+pre-release: update-dependencies clean default
+.PHONY: pre-release
+
 update-version:
 ifdef NEW_VERSION
 	sed -i "s/[0-9]*\.[0-9]*\.[0-9]*/$(NEW_VERSION)/" VERSION
