@@ -1,6 +1,5 @@
-<?xml version="1.0"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
@@ -8,10 +7,11 @@
         <artifactId>cucumber-parent</artifactId>
         <version>2.0.2</version>
     </parent>
+
     <artifactId>datatable-parent</artifactId>
-    <version>3.0.0</version>
+    <version>3.0.1-SNAPSHOT</version>
     <packaging>pom</packaging>
-    <name>Data Table Parent</name>
+    <name>DataTable Parent</name>
     <url>https://github.com/cucumber/datatable-java</url>
     <description>Parent POM for data tables</description>
 
@@ -19,7 +19,6 @@
         <connection>scm:git:git://github.com/cucumber/datatable-java.git</connection>
         <developerConnection>scm:git:git@github.com:cucumber/datatable-java.git</developerConnection>
         <url>git://github.com/cucumber/datatable-java.git</url>
-        <tag>HEAD</tag>
     </scm>
 
     <modules>
@@ -50,7 +49,7 @@
 
             <dependency>
                 <groupId>org.hamcrest</groupId>
-                <artifactId>hamcrest-core</artifactId>
+                <artifactId>hamcrest</artifactId>
                 <version>2.1</version>
             </dependency>
 
