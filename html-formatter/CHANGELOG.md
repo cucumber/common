@@ -11,13 +11,17 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Changed
 
-* Upgrade cucumber-messages to 6.0.0
-
 ### Deprecated
 
 ### Removed
 
 ### Fixed
+
+## [2.0.0] - 2019-10-10
+
+### Changed
+
+* Upgrade cucumber-messages to 6.0.1
 
 ## [1.1.0] - 2019-08-29
 
@@ -46,7 +50,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Fixed
 
 <!-- Releases -->
-[Unreleased]: https://github.com/cucumber/cucumber/compare/html-formatter/v1.1.0...master
+[Unreleased]: https://github.com/cucumber/cucumber/compare/html-formatter/v2.0.0...master
+[2.0.0]:      https://github.com/cucumber/cucumber/compare/html-formatter/v1.1.0...html-formatter/v2.0.0
 [1.1.0]:      https://github.com/cucumber/cucumber/compare/html-formatter/v1.0.2...html-formatter/v1.1.0
 [1.0.2]:      https://github.com/cucumber/cucumber/compare/html-formatter/v1.0.1...html-formatter/v1.0.2
 [1.0.1]:      https://github.com/cucumber/cucumber/compare/html-formatter/v1.0.0...html-formatter/v1.0.1
