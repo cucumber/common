@@ -11,10 +11,23 @@ This document is formatted according to the principles of [Keep A CHANGELOG](htt
 
 ### Added
 
+### Changed
+
+### Deprecated
+
+### Removed
+
+### Fixed
+
+## [1.0.0]
+
+### Added
+
 * Initial release
 
 <!-- Releases -->
-[1.0.0]:      https://github.com/cucumber/cucumber/releases/tag/dots-formatter/v1.0.0
+[Unreleased]: https://github.com/cucumber/cucumber/compare/json-formatter/v1.0.0...master
+[1.0.0]:      https://github.com/cucumber/cucumber/releases/tag/json-formatter/v1.0.0
 
 <!-- Contributors -->
 [aslakhellesoy]:    https://github.com/aslakhellesoy
