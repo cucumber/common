@@ -11,13 +11,15 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Changed
 
-* Upgrade cucumber-messages to 6.0.0
-
 ### Deprecated
 
 ### Removed
 
 ### Fixed
+
+## [2.0.0] - 2019-10-10
+
+* Upgrade cucumber-messages to 6.0.1
 
 ## [1.1.0] - 2019-08-29
 
@@ -34,7 +36,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 * First release
 
 <!-- Releases -->
-[Unreleased]: https://github.com/cucumber/cucumber/compare/cucumber-react/v1.1.0...master
+[Unreleased]: https://github.com/cucumber/cucumber/compare/cucumber-react/v2.0.0...master
+[2.0.0]:      https://github.com/cucumber/cucumber/compare/cucumber-react/v1.1.0...cucumber-react/v2.0.0
 [1.1.0]:      https://github.com/cucumber/cucumber/compare/cucumber-react/v1.0.0...cucumber-react/v1.1.0
 [1.0.0]:      https://github.com/cucumber/cucumber/releases/tag/cucumber-react/v1.0.0
 
