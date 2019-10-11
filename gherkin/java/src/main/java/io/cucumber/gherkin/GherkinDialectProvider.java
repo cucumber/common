@@ -2,6 +2,7 @@ package io.cucumber.gherkin;
 
 import com.eclipsesource.json.Json;
 import com.eclipsesource.json.JsonObject;
+import com.eclipsesource.json.JsonValue;
 
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -40,12 +41,12 @@ public class GherkinDialectProvider implements IGherkinDialectProvider {
 
     @Override
     public GherkinDialect getDialect(String language, Location location) {
-        JsonObject languageMap = DIALECTS.get(language).asObject();
-        if (languageMap == null) {
+        JsonValue languageObject = DIALECTS.get(language);
+        if (languageObject == null) {
             throw new ParserException.NoSuchLanguageException(language, location);
         }
 
-        return new GherkinDialect(language, languageMap);
+        return new GherkinDialect(language, languageObject.asObject());
     }
 
     @Override
