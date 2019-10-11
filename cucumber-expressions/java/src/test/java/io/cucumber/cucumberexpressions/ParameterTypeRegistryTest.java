@@ -1,6 +1,7 @@
 package io.cucumber.cucumberexpressions;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.function.Executable;
 
 import java.math.BigDecimal;
 import java.util.Locale;
@@ -8,10 +9,11 @@ import java.util.regex.Pattern;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.nullValue;
-import static org.hamcrest.junit.MatcherAssert.assertThat;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertSame;
-import static org.junit.Assert.assertThrows;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.core.IsEqual.equalTo;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertSame;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class ParameterTypeRegistryTest {
 
@@ -39,21 +41,21 @@ public class ParameterTypeRegistryTest {
 
     @Test
     public void does_not_allow_more_than_one_preferential_parameter_type_for_each_regexp() {
+
         registry.defineParameterType(new ParameterType<>("name", CAPITALISED_WORD, Name.class, Name::new, false, true));
         registry.defineParameterType(new ParameterType<>("person", CAPITALISED_WORD, Person.class, Person::new, false, false));
 
-        assertThrows(
-                "There can only be one preferential parameter type per regexp. The regexp /[A-Z]+\\w+/ is used for two preferential parameter types, {name} and {place}",
-                CucumberExpressionException.class,
-                () -> registry.defineParameterType(new ParameterType<>(
-                        "place",
-                        CAPITALISED_WORD,
-                        Place.class,
-                        Place::new,
-                        false,
-                        true
-                ))
-        );
+        final Executable testMethod = () -> registry.defineParameterType(new ParameterType<>(
+                "place",
+                CAPITALISED_WORD,
+                Place.class,
+                Place::new,
+                false,
+                true
+        ));
+
+        final CucumberExpressionException thrownException = assertThrows(CucumberExpressionException.class, testMethod);
+        assertThat("Unexpected message", thrownException.getMessage(), is(equalTo("There can only be one preferential parameter type per regexp. The regexp /[A-Z]+\\w+/ is used for two preferential parameter types, {name} and {place}")));
     }
 
     @Test
@@ -99,20 +101,19 @@ public class ParameterTypeRegistryTest {
                 "2) Make one of the parameter types preferential and continue to use a Regular Expression.\n" +
                 "\n";
 
-        assertThrows(
-                expected,
-                CucumberExpressionException.class,
-                () -> registry.lookupByRegexp(CAPITALISED_WORD, Pattern.compile("([A-Z]+\\w+) and ([A-Z]+\\w+)"), "Lisa and Bob")
-        );
+        final Executable testMethod = () -> registry.lookupByRegexp(CAPITALISED_WORD, Pattern.compile("([A-Z]+\\w+) and ([A-Z]+\\w+)"), "Lisa and Bob");
+
+        final AmbiguousParameterTypeException thrownException = assertThrows(AmbiguousParameterTypeException.class, testMethod);
+        assertThat("Unexpected message", thrownException.getMessage(), is(equalTo(expected)));
     }
 
     @Test
     public void does_not_allow_anonymous_parameter_type_to_be_registered() {
-        assertThrows(
-                "The anonymous parameter type has already been defined",
-                CucumberExpressionException.class,
-                () -> registry.defineParameterType(new ParameterType<>("", ".*", Object.class, (Transformer<Object>) arg -> arg))
-        );
+
+        final Executable testMethod = () -> registry.defineParameterType(new ParameterType<>("", ".*", Object.class, (Transformer<Object>) arg -> arg));
+
+        final DuplicateTypeNameException thrownException = assertThrows(DuplicateTypeNameException.class, testMethod);
+        assertThat("Unexpected message", thrownException.getMessage(), is(equalTo("The anonymous parameter type has already been defined")));
     }
 
     @Test

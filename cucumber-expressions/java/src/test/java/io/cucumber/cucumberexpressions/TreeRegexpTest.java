@@ -1,16 +1,18 @@
 package io.cucumber.cucumberexpressions;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
 
 import static java.util.Arrays.asList;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 public class TreeRegexpTest {
+
     @Test
     public void exposes_group_source() {
         TreeRegexp tr = new TreeRegexp("(a(?:b)?)(c)");
@@ -173,4 +175,5 @@ public class TreeRegexpTest {
         assertEquals("1a", tr.match("1a").getValue());
         PatternCompilerProvider.service = null;
     }
+
 }
