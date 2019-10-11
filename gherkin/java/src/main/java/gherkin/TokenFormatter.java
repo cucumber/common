@@ -1,12 +1,7 @@
 package gherkin;
 
 public class TokenFormatter {
-    private static final StringUtils.ToString<GherkinLineSpan> SPAN_TO_STRING = new StringUtils.ToString<GherkinLineSpan>() {
-        @Override
-        public String toString(GherkinLineSpan o) {
-            return o.column + ":" + o.text;
-        }
-    };
+    private static final StringUtils.ToString<GherkinLineSpan> SPAN_TO_STRING = o -> o.column + ":" + o.text;
 
     public String formatToken(Token token) {
         if (token.isEOF())

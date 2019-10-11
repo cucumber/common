@@ -1,6 +1,6 @@
 package gherkin.pickles;
 
-import gherkin.SymbolCounter;
+import gherkin.StringUtils;
 import io.cucumber.messages.Messages;
 import io.cucumber.messages.Messages.GherkinDocument;
 import io.cucumber.messages.Messages.GherkinDocument.Feature;
@@ -208,7 +208,7 @@ public class PickleCompiler {
     private Location pickleStepLocation(Feature.Step step) {
         return Location.newBuilder()
                 .setLine(step.getLocation().getLine())
-                .setColumn(step.getLocation().getColumn() + (step.getKeyword() != null ? SymbolCounter.countSymbols(step.getKeyword()) : 0))
+                .setColumn(step.getLocation().getColumn() + (step.getKeyword() != null ? StringUtils.symbolCount(step.getKeyword()) : 0))
                 .build();
     }
 

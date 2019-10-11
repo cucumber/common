@@ -3,7 +3,7 @@ package gherkin;
 import java.util.List;
 
 public interface IGherkinLine {
-    Integer indent();
+    int indent();
 
     void detach();
 

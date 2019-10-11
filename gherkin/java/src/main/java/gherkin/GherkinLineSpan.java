@@ -18,7 +18,6 @@ public class GherkinLineSpan {
         if (o == null || getClass() != o.getClass()) return false;
         GherkinLineSpan that = (GherkinLineSpan) o;
         return column == that.column && text.equals(that.text);
-
     }
 
     @Override
