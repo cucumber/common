@@ -29,7 +29,7 @@ public class GherkinDocumentBuilderTest {
     @Test
     public void parses_rules() {
         Parser<GherkinDocument.Builder> parser = new Parser<>(new GherkinDocumentBuilder());
-        GherkinDocument doc = parser.parse("" +
+        String data = "" +
                 "Feature: Some rules\n" +
                 "\n" +
                 "  Background:\n" +
@@ -48,13 +48,14 @@ public class GherkinDocumentBuilderTest {
                 "    The rule B description\n" +
                 "\n" +
                 "    Example: Example B\n" +
-                "      Given b").build();
+                "      Given b";
+        GherkinDocument doc = parser.parse(data).build();
 
         List<FeatureChild> children = doc.getFeature().getChildrenList();
         assertEquals(3, children.size());
 
         PickleCompiler pickleCompiler = new PickleCompiler();
-        List<Pickle> pickles = pickleCompiler.compile(doc, "hello.feature");
+        List<Pickle> pickles = pickleCompiler.compile(doc, "hello.feature", data);
         assertEquals(2, pickles.size());
 
         assertEquals(3, pickles.get(0).getStepsList().size());
@@ -75,7 +76,11 @@ public class GherkinDocumentBuilderTest {
     public void sets_empty_table_cells() {
         Parser<GherkinDocument.Builder> parser = new Parser<>(new GherkinDocumentBuilder());
         GherkinDocument doc = parser.parse("" +
-                "Feature:\n  Scenario:\n    Given a table\n      |a||b|").build();
+                "Feature:\n" +
+                "  Scenario:\n" +
+                "    Given a table\n" +
+                "      |a||b|"
+        ).build();
         TableRow row = doc.getFeature().getChildren(0).getScenario().getSteps(0).getDataTable().getRows(0);
         assertEquals("a", row.getCells(0).getValue());
         assertEquals("", row.getCells(1).getValue());
@@ -85,10 +90,13 @@ public class GherkinDocumentBuilderTest {
     @Test
     public void reports_step_text_column() {
         Parser<GherkinDocument.Builder> parser = new Parser<>(new GherkinDocumentBuilder());
-        GherkinDocument doc = parser.parse("" +
-                "Feature:\n  Scenario:\n    Given a step").build();
+        String data = "" +
+                "Feature:\n" +
+                "  Scenario:\n" +
+                "    Given a step";
+        GherkinDocument doc = parser.parse(data).build();
         PickleCompiler pickleCompiler = new PickleCompiler();
-        List<Pickle> pickles = pickleCompiler.compile(doc, "hello.feature");
+        List<Pickle> pickles = pickleCompiler.compile(doc, "hello.feature", data);
 
         PickleStep step = pickles.get(0).getSteps(0);
         assertEquals(11, step.getLocations(0).getColumn());

@@ -144,7 +144,7 @@ public class Gherkin {
                         gherkinDocument = parser.parse(data).setUri(uri).build();
                     }
                     PickleCompiler pickleCompiler = new PickleCompiler();
-                    List<Messages.Pickle> pickles = pickleCompiler.compile(gherkinDocument, uri);
+                    List<Messages.Pickle> pickles = pickleCompiler.compile(gherkinDocument, uri, data);
                     for (Messages.Pickle pickle : pickles) {
                         messages.add(Envelope.newBuilder().setPickle(pickle).build());
                     }
