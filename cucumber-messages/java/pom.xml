@@ -58,10 +58,16 @@
                             <goal>shade</goal>
                         </goals>
                         <configuration>
+                            <artifactSet>
+                                <includes>
+                                    <include>com.google.protobuf:protobuf-java</include>
+                                    <include>com.google.protobuf:protobuf-java-util</include>
+                                </includes>
+                            </artifactSet>
                             <relocations>
                                 <relocation>
                                     <pattern>com.google</pattern>
-                                    <shadedPattern>io.cucumber.messages.com.google</shadedPattern>
+                                    <shadedPattern>io.cucumber.messages.internal.com.google</shadedPattern>
                                 </relocation>
                             </relocations>
                         </configuration>
@@ -70,5 +76,4 @@
             </plugin>
         </plugins>
     </build>
-
 </project>
