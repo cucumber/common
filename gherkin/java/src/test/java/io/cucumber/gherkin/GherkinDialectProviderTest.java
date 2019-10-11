@@ -1,7 +1,5 @@
 package io.cucumber.gherkin;
 
-import io.cucumber.gherkin.GherkinDialect;
-import io.cucumber.gherkin.GherkinDialectProvider;
 import org.junit.Test;
 
 import static io.cucumber.gherkin.StringUtils.symbolCount;

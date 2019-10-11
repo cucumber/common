@@ -1,7 +1,5 @@
 package io.cucumber.gherkin;
 
-import io.cucumber.gherkin.GherkinLine;
-import io.cucumber.gherkin.GherkinLineSpan;
 import org.junit.Test;
 
 import java.util.List;

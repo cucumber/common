@@ -16,11 +16,13 @@ public class GherkinDialectProvider implements IGherkinDialectProvider {
     private static JsonObject DIALECTS;
     private final String defaultDialectName;
 
+    public static final String JSON_PATH = "/io/cucumber/gherkin/gherkin-languages.json";
+
     static {
-        try (Reader reader = new InputStreamReader(GherkinDialectProvider.class.getResourceAsStream("/gherkin/gherkin-languages.json"), UTF_8)) {
+        try (Reader reader = new InputStreamReader(GherkinDialectProvider.class.getResourceAsStream(JSON_PATH), UTF_8)) {
             DIALECTS = Json.parse(reader).asObject();
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new GherkinException("Unable to parse " + JSON_PATH, e);
         }
     }
 

@@ -1,8 +1,5 @@
 package io.cucumber.gherkin;
 
-import io.cucumber.gherkin.GherkinDocumentBuilder;
-import io.cucumber.gherkin.Parser;
-import io.cucumber.gherkin.TokenMatcher;
 import io.cucumber.gherkin.pickles.PickleCompiler;
 import io.cucumber.messages.Messages.GherkinDocument;
 import io.cucumber.messages.Messages.GherkinDocument.Comment;

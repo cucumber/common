@@ -4,4 +4,4 @@
 ../testdata/ testdata/
 ../gherkin.berp gherkin.berp
 ../bin/ berp/
-../gherkin-languages.json src/legacy/gherkin/gherkin-languages.json
+../gherkin-languages.json src/main/resources/io/cucumber/gherkin/gherkin-languages.json

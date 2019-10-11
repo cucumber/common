@@ -262,7 +262,7 @@
       "Rule"
     ],
     "scenario": [
-      "Nümunələr",
+      "Nümunə",
       "Ssenari"
     ],
     "scenarioOutline": [
@@ -605,7 +605,10 @@
       "Und "
     ],
     "background": [
-      "Grundlage"
+      "Grundlage",
+      "Hintergrund",
+      "Voraussetzungen",
+      "Vorbedingungen"
     ],
     "but": [
       "* ",
@@ -615,7 +618,8 @@
       "Beispiele"
     ],
     "feature": [
-      "Funktionalität"
+      "Funktionalität",
+      "Funktion"
     ],
     "given": [
       "* ",
@@ -626,14 +630,16 @@
     "name": "German",
     "native": "Deutsch",
     "rule": [
-      "Rule"
+      "Rule",
+      "Regel"
     ],
     "scenario": [
       "Beispiel",
       "Szenario"
     ],
     "scenarioOutline": [
-      "Szenariogrundriss"
+      "Szenariogrundriss",
+      "Szenarien"
     ],
     "then": [
       "* ",
@@ -1084,7 +1090,7 @@
     "name": "Spanish",
     "native": "español",
     "rule": [
-      "Rule"
+      "Regla"
     ],
     "scenario": [
       "Ejemplo",
@@ -1256,6 +1262,9 @@
     "given": [
       "* ",
       "Soit ",
+      "Sachant que ",
+      "Sachant qu'",
+      "Sachant ",
       "Etant donné que ",
       "Etant donné qu'",
       "Etant donné ",
@@ -1284,7 +1293,8 @@
     ],
     "then": [
       "* ",
-      "Alors "
+      "Alors ",
+      "Donc "
     ],
     "when": [
       "* ",
@@ -1554,7 +1564,8 @@
       "* ",
       "Zadan ",
       "Zadani ",
-      "Zadano "
+      "Zadano ",
+      "Ukoliko "
     ],
     "name": "Croatian",
     "native": "hrvatski",
@@ -2325,6 +2336,54 @@
       "Хэрэв "
     ]
   },
+  "ne": {
+    "and": [
+      "* ",
+      "र ",
+      "अनी "
+    ],
+    "background": [
+      "पृष्ठभूमी"
+    ],
+    "but": [
+      "* ",
+      "तर "
+    ],
+    "examples": [
+      "उदाहरण",
+      "उदाहरणहरु"
+    ],
+    "feature": [
+      "सुविधा",
+      "विशेषता"
+    ],
+    "given": [
+      "* ",
+      "दिइएको ",
+      "दिएको ",
+      "यदि "
+    ],
+    "name": "Nepali",
+    "native": "नेपाली",
+    "rule": [
+      "नियम"
+    ],
+    "scenario": [
+      "परिदृश्य"
+    ],
+    "scenarioOutline": [
+      "परिदृश्य रूपरेखा"
+    ],
+    "then": [
+      "* ",
+      "त्यसपछि ",
+      "अनी "
+    ],
+    "when": [
+      "* ",
+      "जब "
+    ]
+  },
   "nl": {
     "and": [
       "* ",
@@ -2548,7 +2607,7 @@
     "name": "Portuguese",
     "native": "português",
     "rule": [
-      "Rule"
+      "Regra"
     ],
     "scenario": [
       "Exemplo",
@@ -3504,6 +3563,53 @@
     "when": [
       "* ",
       "當"
+    ]
+  },
+  "mr": {
+    "and": [
+      "* ",
+      "आणि ",
+      "तसेच "
+    ],
+    "background": [
+      "पार्श्वभूमी"
+    ],
+    "but": [
+      "* ",
+      "पण ",
+      "परंतु "
+    ],
+    "examples": [
+      "उदाहरण"
+    ],
+    "feature": [
+      "वैशिष्ट्य",
+      "सुविधा"
+    ],
+    "given": [
+      "* ",
+      "जर",
+      "दिलेल्या प्रमाणे "
+    ],
+    "name": "Marathi",
+    "native": "मराठी",
+    "rule": [
+      "नियम"
+    ],
+    "scenario": [
+      "परिदृश्य"
+    ],
+    "scenarioOutline": [
+      "परिदृश्य रूपरेखा"
+    ],
+    "then": [
+      "* ",
+      "मग ",
+      "तेव्हा "
+    ],
+    "when": [
+      "* ",
+      "जेव्हा "
     ]
   }
 }

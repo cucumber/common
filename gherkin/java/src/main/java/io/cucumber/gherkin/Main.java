@@ -49,13 +49,13 @@ public class Main {
     }
 
     private static void printMessages(Printer jsonPrinter, Iterable<Envelope> messages) throws IOException {
-        for (Envelope wrapper : messages) {
+        for (Envelope envelope : messages) {
             if (jsonPrinter != null) {
-                Stdio.out.write(jsonPrinter.print(wrapper));
+                Stdio.out.write(jsonPrinter.print(envelope));
                 Stdio.out.write("\n");
                 Stdio.out.flush();
             } else {
-                wrapper.writeDelimitedTo(System.out);
+                envelope.writeDelimitedTo(System.out);
             }
         }
     }
