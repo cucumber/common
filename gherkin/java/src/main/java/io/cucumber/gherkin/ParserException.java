@@ -1,9 +1,9 @@
-package gherkin;
+package io.cucumber.gherkin;
 
 import java.util.Collections;
 import java.util.List;
 
-public class ParserException extends GherkinException {
+public class ParserException extends RuntimeException {
     public final Location location;
 
     protected ParserException(String message) {

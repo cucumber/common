@@ -1,4 +1,4 @@
-package gherkin;
+package io.cucumber.gherkin;
 
 import java.util.List;
 

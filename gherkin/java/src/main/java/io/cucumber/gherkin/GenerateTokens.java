@@ -1,6 +1,4 @@
-package gherkin;
-
-import io.cucumber.gherkin.Stdio;
+package io.cucumber.gherkin;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;

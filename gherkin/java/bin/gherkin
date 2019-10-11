@@ -1,9 +1,10 @@
 #!/usr/bin/env bash
+set -euf -o pipefail
 DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
 
-gherkin_jar=$(ls ${DIR}/../target/*.jar | tail -1)
-messages_version=$(cat pom.xml | grep "<io.cucumber.messages.version>" | sed -E "s/.*>(.*)<.*/\1/")
+messages_version=6.0.2-SNAPSHOT
+gherkin_version=8.0.1-SNAPSHOT
 
 java \
-    -classpath "${gherkin_jar}:$HOME/.m2/repository/io/cucumber/messages/${messages_version}/messages-${messages_version}.jar" \
+    -classpath "${DIR}/../target/gherkin-${gherkin_version}.jar:${HOME}/.m2/repository/io/cucumber/messages/${messages_version}/messages-${messages_version}.jar" \
     io.cucumber.gherkin.Main $*

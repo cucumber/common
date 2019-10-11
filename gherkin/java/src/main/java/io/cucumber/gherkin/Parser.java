@@ -4,7 +4,7 @@
 //      the code is regenerated.
 
 
-package gherkin;
+package io.cucumber.gherkin;
 
 import java.io.Reader;
 import java.io.StringReader;
@@ -333,7 +333,7 @@ public class Parser<T> {
 
     private int matchToken(int state, Token token, ParserContext context) {
         int newState;
-        switch(state) {
+        switch (state) {
             case 0:
                 newState = matchTokenAt_0(token, context);
                 break;

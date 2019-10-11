@@ -1,4 +1,4 @@
-package gherkin;
+package io.cucumber.gherkin;
 
 import com.eclipsesource.json.JsonArray;
 import com.eclipsesource.json.JsonObject;

@@ -1,4 +1,4 @@
-package gherkin;
+package io.cucumber.gherkin;
 
 public interface GherkinLanguageConstants {
     String TAG_PREFIX = "@";

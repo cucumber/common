@@ -1,4 +1,4 @@
-package gherkin;
+package io.cucumber.gherkin;
 
 public class Location {
     private final int line;

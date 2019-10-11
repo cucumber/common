@@ -35,7 +35,7 @@
 @helper matchToken(TokenType tokenType)
 {<text>match_@(tokenType)(context, token)</text>}
 
-package gherkin;
+package io.cucumber.gherkin;
 
 import java.io.Reader;
 import java.io.StringReader;
@@ -211,7 +211,7 @@ public class @Model.ParserClassName<T> {
 
     private int matchToken(int state, Token token, ParserContext context) {
         int newState;
-        switch(state) {
+        switch (state) {
         @foreach(var state in Model.States.Values.Where(s => !s.IsEndState))
         {
             @:case @state.Id:

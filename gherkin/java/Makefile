@@ -12,16 +12,13 @@ ERRORS       = $(patsubst testdata/%.feature,acceptance/testdata/%.feature.error
 
 default: .compared
 
-.deps: executables
+.deps: src/main/java/io/cucumber/gherkin/Parser.java
 
-src/main/java/gherkin/Parser.java: gherkin.berp gherkin-java.razor berp/berp.exe
+src/main/java/io/cucumber/gherkin/Parser.java: gherkin.berp gherkin-java.razor berp/berp.exe
 	-mono berp/berp.exe -g gherkin.berp -t gherkin-java.razor -o $@
 	# Remove BOM
 	awk 'NR==1{sub(/^\xef\xbb\xbf/,"")}{print}' < $@ > $@.nobom
 	mv $@.nobom $@
-
-executables:
-	cp -R "$$(pwd)/../go/dist" $@
 
 .compared: $(ASTS) $(PICKLES) $(ERRORS) $(SOURCES)
 	touch $@
@@ -47,4 +44,7 @@ acceptance/testdata/%.feature.errors.ndjson: testdata/%.feature testdata/%.featu
 	diff --unified <(jq "." $<.errors.ndjson) <(jq "." $@)
 
 clean:
-	rm -rf .compared acceptance executables
+	rm -rf .compared acceptance
+
+clobber: clean
+	rm -f src/main/java/io/cucumber/gherkin/Parser.java

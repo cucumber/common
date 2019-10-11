@@ -1,4 +1,4 @@
-package gherkin;
+package io.cucumber.gherkin;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -6,8 +6,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static gherkin.Parser.RuleType;
-import static gherkin.Parser.TokenType;
+import static io.cucumber.gherkin.Parser.RuleType;
+import static io.cucumber.gherkin.Parser.TokenType;
 
 public class AstNode {
     private final Map<RuleType, List<Object>> subItems = new HashMap<RuleType, List<Object>>();

@@ -1,4 +1,4 @@
-package gherkin;
+package io.cucumber.gherkin;
 
 import io.cucumber.messages.Messages.GherkinDocument;
 import io.cucumber.messages.Messages.GherkinDocument.Comment;
@@ -22,10 +22,10 @@ import java.util.ArrayList;
 import java.util.Deque;
 import java.util.List;
 
-import static gherkin.Parser.Builder;
-import static gherkin.Parser.RuleType;
-import static gherkin.Parser.TokenType;
-import static gherkin.StringUtils.join;
+import static io.cucumber.gherkin.Parser.Builder;
+import static io.cucumber.gherkin.Parser.RuleType;
+import static io.cucumber.gherkin.Parser.TokenType;
+import static io.cucumber.gherkin.StringUtils.join;
 
 public class GherkinDocumentBuilder implements Builder<GherkinDocument.Builder> {
     private Deque<AstNode> stack;
@@ -285,7 +285,7 @@ public class GherkinDocumentBuilder implements Builder<GherkinDocument.Builder> 
         int cellCount = rows.get(0).getCellsCount();
         for (TableRow row : rows) {
             if (row.getCellsCount() != cellCount) {
-                gherkin.Location location = new gherkin.Location(row.getLocation().getLine(), row.getLocation().getColumn());
+                io.cucumber.gherkin.Location location = new io.cucumber.gherkin.Location(row.getLocation().getLine(), row.getLocation().getColumn());
                 throw new ParserException.AstBuilderException("inconsistent cell count within the table", location);
             }
         }

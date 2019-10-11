@@ -1,4 +1,4 @@
-package gherkin;
+package io.cucumber.gherkin;
 
 public class TokenFormatter {
     private static final StringUtils.ToString<GherkinLineSpan> SPAN_TO_STRING = o -> o.column + ":" + o.text;

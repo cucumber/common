@@ -32,7 +32,7 @@ public class ProtobufStreamIterable implements Iterable<Messages.Envelope> {
 
             @Override
             public Messages.Envelope next() {
-                if(next == null) {
+                if (next == null) {
                     throw new IllegalStateException("next() should only be called after a call to hasNext() that returns true");
                 }
                 return next;

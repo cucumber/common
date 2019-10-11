@@ -1,11 +1,11 @@
-package gherkin;
+package io.cucumber.gherkin;
 
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import static gherkin.Parser.ITokenMatcher;
-import static gherkin.Parser.TokenType;
+import static io.cucumber.gherkin.Parser.ITokenMatcher;
+import static io.cucumber.gherkin.Parser.TokenType;
 
 public class TokenMatcher implements ITokenMatcher {
     private static final Pattern LANGUAGE_PATTERN = Pattern.compile("^\\s*#\\s*language\\s*:\\s*([a-zA-Z\\-_]+)\\s*$");

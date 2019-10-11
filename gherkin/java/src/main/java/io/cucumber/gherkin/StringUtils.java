@@ -1,4 +1,4 @@
-package gherkin;
+package io.cucumber.gherkin;
 
 import java.util.Iterator;
 import java.util.List;
@@ -46,14 +46,17 @@ public class StringUtils {
     public static Iterable<String> codePoints(final String string) {
         return () -> new Iterator<String>() {
             int nextIndex = 0;
+
             public boolean hasNext() {
                 return nextIndex < string.length();
             }
+
             public String next() {
                 int codePoint = string.codePointAt(nextIndex);
                 nextIndex += Character.charCount(codePoint);
                 return codePointToString(codePoint);
             }
+
             public void remove() {
                 throw new UnsupportedOperationException();
             }
@@ -75,6 +78,7 @@ public class StringUtils {
 
     public interface ToString<T> {
         ToString<String> DEFAULT = o -> o;
+
         String toString(T o);
     }
 }

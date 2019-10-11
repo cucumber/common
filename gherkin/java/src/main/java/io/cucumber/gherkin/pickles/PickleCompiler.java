@@ -1,6 +1,6 @@
-package gherkin.pickles;
+package io.cucumber.gherkin.pickles;
 
-import gherkin.StringUtils;
+import io.cucumber.gherkin.StringUtils;
 import io.cucumber.messages.Messages;
 import io.cucumber.messages.Messages.GherkinDocument;
 import io.cucumber.messages.Messages.GherkinDocument.Feature;

@@ -1,4 +1,4 @@
-package gherkin;
+package io.cucumber.gherkin;
 
 import java.io.BufferedReader;
 import java.io.IOException;

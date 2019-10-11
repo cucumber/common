@@ -1,14 +1,14 @@
-package gherkin;
+package io.cucumber.gherkin;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-import static gherkin.StringUtils.codePoints;
-import static gherkin.StringUtils.ltrim;
-import static gherkin.StringUtils.rtrim;
-import static gherkin.StringUtils.symbolCount;
-import static gherkin.StringUtils.trim;
+import static io.cucumber.gherkin.StringUtils.codePoints;
+import static io.cucumber.gherkin.StringUtils.ltrim;
+import static io.cucumber.gherkin.StringUtils.rtrim;
+import static io.cucumber.gherkin.StringUtils.symbolCount;
+import static io.cucumber.gherkin.StringUtils.trim;
 
 public class GherkinLine implements IGherkinLine {
     // TODO: set this to 0 when/if we change to 0-indexed columns

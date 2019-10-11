@@ -1,11 +1,8 @@
 package io.cucumber.gherkin;
 
-import gherkin.GherkinDocumentBuilder;
-import gherkin.Parser;
-import gherkin.ParserException;
-import gherkin.pickles.PickleCompiler;
 import io.cucumber.c21e.Exe;
 import io.cucumber.c21e.ExeFile;
+import io.cucumber.gherkin.pickles.PickleCompiler;
 import io.cucumber.messages.Messages;
 import io.cucumber.messages.Messages.Envelope;
 import io.cucumber.messages.ProtobufStreamIterable;

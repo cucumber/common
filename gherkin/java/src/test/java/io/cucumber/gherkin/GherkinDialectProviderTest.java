@@ -1,8 +1,10 @@
-package gherkin;
+package io.cucumber.gherkin;
 
+import io.cucumber.gherkin.GherkinDialect;
+import io.cucumber.gherkin.GherkinDialectProvider;
 import org.junit.Test;
 
-import static gherkin.StringUtils.symbolCount;
+import static io.cucumber.gherkin.StringUtils.symbolCount;
 import static org.junit.Assert.assertEquals;
 
 public class GherkinDialectProviderTest {
