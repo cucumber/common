@@ -198,8 +198,7 @@ public class GherkinDocumentBuilder implements Builder<GherkinDocument.Builder> 
                 }
                 lineTokens = lineTokens.subList(0, end);
 
-                return lineTokens
-                        .stream()
+                return lineTokens.stream()
                         .map(t -> t.matchedText)
                         .collect(Collectors.joining("\n"));
             }
