@@ -177,7 +177,6 @@ In order to publish new images, log in as `cukebot`. The password is in 1Passwor
 in the "Cucumber Open Source" vault.
 
     source ./scripts/functions.sh
-    # Standard image (for all builds except .NET)
     docker_build Dockerfile
     docker_push Dockerfile
 
