@@ -42,8 +42,8 @@ Cucumber runs with a highly coupled system of tests. Because cucumber is a mono-
 in a docker container, due to needing a large amount of pre-requisites. The setting up of these often can be a tricky
 task, so we use Docker to help us with this.
 
-To start with, we need to ensure we have Docker installed. This is fairly straightforward, and a comprehensive set
-of setup instructions are available on the official docker site [HERE](https://docs.docker.com/install/) for most OS'
+To start with, we need to ensure we have Docker installed. How to do this is documented extensively
+ on the official docker site [HERE](https://docs.docker.com/install/) for most operating systems.
 
 Once docker is installed, we then need to grab a copy of the official cucumber image. This should only need
 to be done once and will likely take 5-10 minutes.
