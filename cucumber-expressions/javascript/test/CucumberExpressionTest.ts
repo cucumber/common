@@ -95,6 +95,30 @@ describe('CucumberExpression', () => {
     )
   })
 
+  it('matches single quoted empty string as empty string', () => {
+    assert.deepStrictEqual(match('three {string} mice', "three '' mice"),
+      ['']
+    )
+  })
+
+  it('matches double quoted empty string as empty string ', () => {
+    assert.deepStrictEqual(match('three {string} mice', 'three "" mice'),
+      ['']
+    )
+  })
+
+  it('matches single quoted empty string as empty string, along with other strings', () => {
+    assert.deepStrictEqual(match('three {string} and {string} mice', "three '' and 'handsome' mice"),
+      ['', 'handsome']
+    )
+  })
+
+  it('matches double quoted empty string as empty string, along with other strings', () => {
+    assert.deepStrictEqual(match('three {string} and {string} mice', 'three "" and "handsome" mice'),
+      ['', 'handsome']
+    )
+  })
+
   it('matches escaped parenthesis', () => {
     assert.deepStrictEqual(
       match(
