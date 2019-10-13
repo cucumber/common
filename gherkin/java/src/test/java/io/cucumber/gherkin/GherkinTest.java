@@ -7,6 +7,7 @@ import org.junit.Test;
 
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import static io.cucumber.gherkin.Gherkin.makeSourceEnvelope;
 import static java.util.Collections.singletonList;
@@ -14,8 +15,25 @@ import static org.junit.Assert.assertEquals;
 
 public class GherkinTest {
     @Test
+    public void use_this_in_readme() {
+        List<String> paths = singletonList("testdata/good/minimal.feature");
+        boolean includeSource = false;
+        boolean includeAst = true;
+        boolean includePickles = true;
+        Stream<Envelope> envelopeStream = Gherkin.fromPaths(paths, includeSource, includeAst, includePickles);
+        Stream<Envelope> pickleStream = envelopeStream.filter(Envelope::hasPickle);
+
+        assertEquals("minimalistic", pickleStream.collect(Collectors.toList()).get(0).getPickle().getName());
+    }
+
+
+    @Test
     public void provides_access_to_the_ast() {
-        List<Envelope> envelopes = Gherkin.fromPaths(singletonList("testdata/good/minimal.feature"), false, true, false).collect(Collectors.toList());
+        List<String> paths = singletonList("testdata/good/minimal.feature");
+        boolean includeSource = false;
+        boolean includeAst = true;
+        boolean includePickles = false;
+        List<Envelope> envelopes = Gherkin.fromPaths(paths, includeSource, includeAst, includePickles).collect(Collectors.toList());
 
         // Get the AST
         GherkinDocument gherkinDocument = envelopes.get(0).getGherkinDocument();
