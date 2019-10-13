@@ -83,6 +83,26 @@ public class CucumberExpressionTest {
     }
 
     @Test
+    public void matches_single_quoted_empty_string_as_empty_string() {
+        assertEquals(singletonList(""), match("three {string} mice", "three '' mice"));
+    }
+
+    @Test
+    public void matches_double_quoted_empty_string_as_empty_string() {
+        assertEquals(singletonList(""), match("three {string} mice", "three \"\" mice"));
+    }
+
+    @Test
+    public void matches_single_quoted_empty_string_as_empty_string_along_with_other_strings() {
+        assertEquals(asList("", "handsome"), match("three {string} and {string} mice", "three '' and 'handsome' mice"));
+    }
+
+    @Test
+    public void matches_double_quoted_empty_string_as_empty_string_along_with_other_strings() {
+        assertEquals(asList("", "handsome"), match("three {string} and {string} mice", "three \"\" and \"handsome\" mice"));
+    }
+
+    @Test
     public void matches_escaped_parenthesis() {
         assertEquals(singletonList("blind"), match("three \\(exceptionally) {string} mice", "three (exceptionally) \"blind\" mice"));
     }
