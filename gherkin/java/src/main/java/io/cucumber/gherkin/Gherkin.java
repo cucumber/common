@@ -1,15 +1,10 @@
 package io.cucumber.gherkin;
 
-import io.cucumber.c21e.Exe;
-import io.cucumber.c21e.ExeFile;
 import io.cucumber.gherkin.pickles.PickleCompiler;
 import io.cucumber.messages.Messages;
 import io.cucumber.messages.Messages.Envelope;
 import io.cucumber.messages.ProtobufStreamIterable;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -18,7 +13,6 @@ import java.io.Reader;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Iterator;
 import java.util.List;
 import java.util.function.Function;
 import java.util.stream.Stream;
@@ -69,29 +63,9 @@ public class Gherkin {
 
     // TODO: Return Stream<Envelope>
     public Stream<Envelope> messages() {
-        String executable = System.getenv("GHERKIN_EXECUTABLE");
-        if (executable != null) {
-            try {
-                File file = new File(executable);
-                ExeFile exeFile = new ExeFile(file.getParentFile(), file.getName());
-                Exe exe = new Exe(exeFile);
-                List<String> args = new ArrayList<>();
-                if (!includeSource) args.add("--no-source");
-                if (!includeAst) args.add("--no-ast");
-                if (!includePickles) args.add("--no-pickles");
-                args.addAll(paths);
-                InputStream gherkinStdout = exe.execute(args, getSourcesStream());
-                Iterable<Envelope> envelopeIterable = new ProtobufStreamIterable(gherkinStdout);
-                Iterable<Envelope> wrappedEnvelopeIterable = wrapIterable(envelopeIterable, exe);
-                return StreamSupport.stream(wrappedEnvelopeIterable.spliterator(), false);
-            } catch (IOException e) {
-                throw new GherkinException("Couldn't execute gherkin", e);
-            }
-        } else {
-            Stream<Envelope> envelopeStream = envelopes != null ? envelopes.stream() : envelopeStreamFromPaths(paths);
-            return envelopeStream
-                    .flatMap((Function<Envelope, Stream<Envelope>>) envelope -> parserMessageStream(envelope, includeSource, includeAst, includePickles));
-        }
+        Stream<Envelope> envelopeStream = envelopes != null ? envelopes.stream() : envelopeStreamFromPaths(paths);
+        return envelopeStream
+                .flatMap((Function<Envelope, Stream<Envelope>>) envelope -> parserMessageStream(envelope, includeSource, includeAst, includePickles));
     }
 
     private Stream<Envelope> envelopeStreamFromPaths(List<String> paths) {
@@ -176,45 +150,5 @@ public class Gherkin {
                 .setData(e.getMessage())
                 .build();
         messages.add(Envelope.newBuilder().setAttachment(attachment).build());
-    }
-
-    // Wraps the iterable in an adapter that will wait for the exe to exit when the stream has reached the end.
-    private Iterable<Envelope> wrapIterable(final Iterable<Envelope> streamIterable, final Exe exe) {
-        return () -> {
-            final Iterator<Envelope> iterator = streamIterable.iterator();
-            return new Iterator<Envelope>() {
-                @Override
-                public boolean hasNext() {
-                    boolean hasNext = iterator.hasNext();
-                    if (!hasNext) {
-                        try {
-                            exe.waitFor();
-                        } catch (IOException | InterruptedException e) {
-                            throw new GherkinException("Failed waiting for gherkin", e);
-                        }
-                    }
-                    return hasNext;
-                }
-
-                @Override
-                public Envelope next() {
-                    return iterator.next();
-                }
-
-                @Override
-                public void remove() {
-                    throw new UnsupportedOperationException();
-                }
-            };
-        };
-    }
-
-    private InputStream getSourcesStream() throws IOException {
-        if (envelopes == null) return null;
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        for (Envelope envelope : envelopes) {
-            envelope.writeDelimitedTo(baos);
-        }
-        return new ByteArrayInputStream(baos.toByteArray());
     }
 }
