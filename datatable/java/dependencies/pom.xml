@@ -52,11 +52,11 @@
                             <relocations>
                                 <relocation>
                                     <pattern>com.fasterxml</pattern>
-                                    <shadedPattern>io.cucumber.datatable.dependency.com.fasterxml</shadedPattern>
+                                    <shadedPattern>io.cucumber.datatable.internal.com.fasterxml</shadedPattern>
                                 </relocation>
                                 <relocation>
                                     <pattern>difflib</pattern>
-                                    <shadedPattern>io.cucumber.datatable.dependency.difflib</shadedPattern>
+                                    <shadedPattern>io.cucumber.datatable.internal.difflib</shadedPattern>
                                 </relocation>
                             </relocations>
                         </configuration>

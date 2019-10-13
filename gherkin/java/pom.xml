@@ -81,7 +81,7 @@
                             <relocations>
                                 <relocation>
                                     <pattern>com.eclipsesource.json</pattern>
-                                    <shadedPattern>io.cucumber.gherkin.com.eclipsesource.json</shadedPattern>
+                                    <shadedPattern>io.cucumber.gherkin.internal.com.eclipsesource.json</shadedPattern>
                                 </relocation>
                             </relocations>
                         </configuration>

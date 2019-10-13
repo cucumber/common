@@ -59,19 +59,19 @@
                             <relocations>
                                 <relocation>
                                     <pattern>com.google</pattern>
-                                    <shadedPattern>io.cucumber.messages.com.google</shadedPattern>
+                                    <shadedPattern>io.cucumber.messages.internal.com.google</shadedPattern>
                                 </relocation>
                                 <relocation>
                                     <pattern>javax.annotation</pattern>
-                                    <shadedPattern>io.cucumber.messages.javax.annotation</shadedPattern>
+                                    <shadedPattern>io.cucumber.messages.internal.avax.annotation</shadedPattern>
                                 </relocation>
                                 <relocation>
                                     <pattern>org.checkerframework</pattern>
-                                    <shadedPattern>io.cucumber.messages.org.checkerframework</shadedPattern>
+                                    <shadedPattern>io.cucumber.messages.internal.org.checkerframework</shadedPattern>
                                 </relocation>
                                 <relocation>
                                     <pattern>org.codehaus</pattern>
-                                    <shadedPattern>io.cucumber.messages.org.codehaus</shadedPattern>
+                                    <shadedPattern>io.cucumber.messages.internal.org.codehaus</shadedPattern>
                                 </relocation>
                             </relocations>
                         </configuration>
