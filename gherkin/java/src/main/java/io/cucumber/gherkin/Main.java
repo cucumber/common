@@ -7,6 +7,7 @@ import io.cucumber.messages.com.google.protobuf.util.JsonFormat.Printer;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Stream;
 
 import static java.util.Arrays.asList;
 
@@ -42,21 +43,25 @@ public class Main {
             }
         }
 
-        Iterable<Envelope> messages = paths.isEmpty() ?
+        Stream<Envelope> messages = paths.isEmpty() ?
                 Gherkin.fromStream(System.in) :
                 Gherkin.fromPaths(paths, includeSource, includeAst, includePickles);
         printMessages(jsonPrinter, messages);
     }
 
-    private static void printMessages(Printer jsonPrinter, Iterable<Envelope> messages) throws IOException {
-        for (Envelope envelope : messages) {
-            if (jsonPrinter != null) {
-                Stdio.out.write(jsonPrinter.print(envelope));
-                Stdio.out.write("\n");
-                Stdio.out.flush();
-            } else {
-                envelope.writeDelimitedTo(System.out);
+    private static void printMessages(Printer jsonPrinter, Stream<Envelope> messages) {
+        messages.forEach(envelope -> {
+            try {
+                if (jsonPrinter != null) {
+                    Stdio.out.write(jsonPrinter.print(envelope));
+                    Stdio.out.write("\n");
+                    Stdio.out.flush();
+                } else {
+                    envelope.writeDelimitedTo(System.out);
+                }
+            } catch (IOException e) {
+                throw new GherkinException("Couldn't print messages", e);
             }
-        }
+        });
     }
 }

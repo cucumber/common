@@ -21,8 +21,8 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.function.Function;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
+import java.util.stream.StreamSupport;
 
 /**
  * Main entry point for the Gherkin library
@@ -42,16 +42,17 @@ public class Gherkin {
         this.includePickles = includePickles;
     }
 
-    public static Iterable<Envelope> fromPaths(List<String> paths, boolean includeSource, boolean includeAst, boolean includePickles) {
+    public static Stream<Envelope> fromPaths(List<String> paths, boolean includeSource, boolean includeAst, boolean includePickles) {
         return new Gherkin(paths, null, includeSource, includeAst, includePickles).messages();
     }
 
-    public static Iterable<Envelope> fromSources(List<Envelope> envelopes, boolean includeSource, boolean includeAst, boolean includePickles) {
+    public static Stream<Envelope> fromSources(List<Envelope> envelopes, boolean includeSource, boolean includeAst, boolean includePickles) {
         return new Gherkin(Collections.<String>emptyList(), envelopes, includeSource, includeAst, includePickles).messages();
     }
 
-    public static Iterable<Envelope> fromStream(InputStream in) {
-        return new ProtobufStreamIterable(in);
+    public static Stream<Envelope> fromStream(InputStream in) {
+        ProtobufStreamIterable envelopeIterable = new ProtobufStreamIterable(in);
+        return StreamSupport.stream(envelopeIterable.spliterator(), false);
     }
 
     public static Envelope makeSourceEnvelope(String data, String uri) {
@@ -67,7 +68,7 @@ public class Gherkin {
     }
 
     // TODO: Return Stream<Envelope>
-    public Iterable<Envelope> messages() {
+    public Stream<Envelope> messages() {
         String executable = System.getenv("GHERKIN_EXECUTABLE");
         if (executable != null) {
             try {
@@ -80,16 +81,16 @@ public class Gherkin {
                 if (!includePickles) args.add("--no-pickles");
                 args.addAll(paths);
                 InputStream gherkinStdout = exe.execute(args, getSourcesStream());
-                ProtobufStreamIterable streamIterable = new ProtobufStreamIterable(gherkinStdout);
-                return wrapIterable(streamIterable, exe);
+                Iterable<Envelope> envelopeIterable = new ProtobufStreamIterable(gherkinStdout);
+                Iterable<Envelope> wrappedEnvelopeIterable = wrapIterable(envelopeIterable, exe);
+                return StreamSupport.stream(wrappedEnvelopeIterable.spliterator(), false);
             } catch (IOException e) {
                 throw new GherkinException("Couldn't execute gherkin", e);
             }
         } else {
             Stream<Envelope> envelopeStream = envelopes != null ? envelopes.stream() : envelopeStreamFromPaths(paths);
             return envelopeStream
-                    .flatMap((Function<Envelope, Stream<Envelope>>) envelope -> parserMessageStream(envelope, includeSource, includeAst, includePickles))
-                    .collect(Collectors.toList());
+                    .flatMap((Function<Envelope, Stream<Envelope>>) envelope -> parserMessageStream(envelope, includeSource, includeAst, includePickles));
         }
     }
 
@@ -177,7 +178,7 @@ public class Gherkin {
         messages.add(Envelope.newBuilder().setAttachment(attachment).build());
     }
 
-    // Wraps the iterable in an adapter that will wait for the exe to exit when the stream has reach the end.
+    // Wraps the iterable in an adapter that will wait for the exe to exit when the stream has reached the end.
     private Iterable<Envelope> wrapIterable(final Iterable<Envelope> streamIterable, final Exe exe) {
         return () -> {
             final Iterator<Envelope> iterator = streamIterable.iterator();

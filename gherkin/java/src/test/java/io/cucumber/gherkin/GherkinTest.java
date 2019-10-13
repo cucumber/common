@@ -5,8 +5,8 @@ import io.cucumber.messages.Messages.GherkinDocument;
 import io.cucumber.messages.Messages.Pickle;
 import org.junit.Test;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static io.cucumber.gherkin.Gherkin.makeSourceEnvelope;
 import static java.util.Collections.singletonList;
@@ -15,7 +15,7 @@ import static org.junit.Assert.assertEquals;
 public class GherkinTest {
     @Test
     public void provides_access_to_the_ast() {
-        List<Envelope> envelopes = toList(Gherkin.fromPaths(singletonList("testdata/good/minimal.feature"), false, true, false));
+        List<Envelope> envelopes = Gherkin.fromPaths(singletonList("testdata/good/minimal.feature"), false, true, false).collect(Collectors.toList());
 
         // Get the AST
         GherkinDocument gherkinDocument = envelopes.get(0).getGherkinDocument();
@@ -31,7 +31,7 @@ public class GherkinTest {
 
     @Test
     public void provides_access_to_pickles_which_are_compiled_from_the_ast() {
-        List<Envelope> envelopes = toList(Gherkin.fromPaths(singletonList("testdata/good/scenario_outline.feature"), false, false, true));
+        List<Envelope> envelopes = Gherkin.fromPaths(singletonList("testdata/good/scenario_outline.feature"), false, false, true).collect(Collectors.toList());
 
         // Get the first pickle
         Pickle pickle = envelopes.get(0).getPickle();
@@ -47,18 +47,10 @@ public class GherkinTest {
                 "\n" +
                 "  Scenario: minimalistic\n" +
                 "    Given the minimalism\n", "test.feature");
-        List<Envelope> envelopes = toList(Gherkin.fromSources(singletonList(envelope), false, true, false));
+        List<Envelope> envelopes = Gherkin.fromSources(singletonList(envelope), false, true, false).collect(Collectors.toList());
 
         GherkinDocument gherkinDocument = envelopes.get(0).getGherkinDocument();
         GherkinDocument.Feature feature = gherkinDocument.getFeature();
         assertEquals("Minimal", feature.getName());
-    }
-
-    private static <T> List<T> toList(Iterable<T> iterable) {
-        List<T> result = new ArrayList<>();
-        for (T item : iterable) {
-            result.add(item);
-        }
-        return result;
     }
 }
