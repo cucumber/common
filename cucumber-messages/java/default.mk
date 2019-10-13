@@ -6,6 +6,7 @@ default: .tested
 
 .tested: pom.xml $(JAVA_SOURCE_FILES) .deps
 	mvn install
+	./scripts/check-jar.sh
 	touch $@
 
 .deps:
@@ -38,4 +39,5 @@ clean: clean-java
 
 clean-java:
 	rm -rf target .deps .tested
+	mvn clean
 .PHONY: clean-java
