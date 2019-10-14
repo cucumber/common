@@ -11,10 +11,15 @@ This document is formatted according to the principles of [Keep A CHANGELOG](htt
 
 ### Added
 
+* Better Indonesian translation
+  ([#733](https://github.com/cucumber/cucumber/pull/733)
+   [milhcbt])
 * New Nepali translation
-  ([#729](https://github.com/cucumber/cucumber/pull/729))
+  ([#729](https://github.com/cucumber/cucumber/pull/729)
+   [ankitpokhrel])
 * New Marathi keywords
-  ([#731](https://github.com/cucumber/cucumber/pull/731))
+  ([#731](https://github.com/cucumber/cucumber/pull/731)
+   [upgundecha])
 
 ### Changed
 
@@ -592,6 +597,7 @@ to Gherkin 2.
 
 <!-- Contributors -->
 [Ahmed-Ali]:        https://github.com/Ahmed-Ali
+[ankitpokhrel]:     https://github.com/ankitpokhrel
 [ajspadial]:        https://github.com/ajspadial
 [aslakhellesoy]:    https://github.com/aslakhellesoy
 [badeball]:         https://github.com/badeball
@@ -615,6 +621,7 @@ to Gherkin 2.
 [maximeg]:          https://github.com/maximeg
 [maxmeyer]:         https://github.com/maxmeyer
 [merrua]:           https://github.com/merrua
+[milhcbt]:          https://github.com/milhcbt
 [moreau-nicolas]:   https://github.com/moreau-nicolas
 [nalekberov]:       https://github.com/nalekberov
 [nixel2007]:        https://github.com/nixel2007
@@ -628,5 +635,6 @@ to Gherkin 2.
 [Pwera]:            https://github.com/Pwera
 [SabotageAndi]:     https://github.com/SabotageAndi
 [tsundberg]:        https://github.com/tsundberg
+[upgundecha]:       https://github.com/upgundecha
 [zbmott]:           https://github.com/zbmott
 [Zearin]:           https://github.com/Zearin
