@@ -13,8 +13,12 @@ For each code name, the tables show the support for all languages:
 
 # Release constraints
 
- - a final release **must** implement all of the features
- - a release candidate __may__ implement partial requirements
+ - a final release **must** implement at least one of the required features
+
+# Puzzles
+
+Do we define what goes into an API release retrospectively after making a major platform release? Then that becomes the
+standard for the other platforms.
 
 # Cucumber Cobra (draft)
 
