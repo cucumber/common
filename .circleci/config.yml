@@ -689,7 +689,6 @@ workflows:
             - checkout
       - gherkin-java:
           requires:
-            - c21e-java
             - cucumber-messages-java
             - gherkin-go
       - tag-expressions-java:

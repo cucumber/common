@@ -1,21 +1,19 @@
 package io.cucumber.gherkin;
 
 import io.cucumber.messages.Messages.Envelope;
-import io.cucumber.messages.ProtobufStreamIterable;
-import io.cucumber.messages.com.google.protobuf.util.JsonFormat;
-import io.cucumber.messages.com.google.protobuf.util.JsonFormat.Printer;
+import io.cucumber.messages.internal.com.google.protobuf.util.JsonFormat;
+import io.cucumber.messages.internal.com.google.protobuf.util.JsonFormat.Printer;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
+import java.util.stream.Stream;
 
 import static java.util.Arrays.asList;
 
 public class Main {
 
-    public static void main(String[] argv) throws IOException, InterruptedException {
+    public static void main(String[] argv) throws IOException {
         List<String> args = new ArrayList<>(asList(argv));
         List<String> paths = new ArrayList<>();
 
@@ -23,7 +21,6 @@ public class Main {
         boolean includeAst = true;
         boolean includePickles = true;
         Printer jsonPrinter = null;
-        boolean dialects = false;
 
         while (!args.isEmpty()) {
             String arg = args.remove(0).trim();
@@ -41,35 +38,30 @@ public class Main {
                 case "--json":
                     jsonPrinter = JsonFormat.printer();
                     break;
-                case "--dialects":
-                    dialects = true;
-                    break;
                 default:
                     paths.add(arg);
             }
         }
 
-        if (dialects) {
-            InputStream gherkinStdout = Gherkin.makeExe().execute(Collections.singletonList("--dialects"), null);
-            IO.copy(gherkinStdout, System.out);
-            System.exit(0);
-        }
-
-        Iterable<Envelope> messages = paths.isEmpty() ?
-                new ProtobufStreamIterable(System.in) :
+        Stream<Envelope> messages = paths.isEmpty() ?
+                Gherkin.fromStream(System.in) :
                 Gherkin.fromPaths(paths, includeSource, includeAst, includePickles);
         printMessages(jsonPrinter, messages);
     }
 
-    private static void printMessages(Printer jsonPrinter, Iterable<Envelope> messages) throws IOException {
-        for (Envelope wrapper : messages) {
-            if (jsonPrinter != null) {
-                IO.out.write(jsonPrinter.print(wrapper));
-                IO.out.write("\n");
-                IO.out.flush();
-            } else {
-                wrapper.writeDelimitedTo(System.out);
+    private static void printMessages(Printer jsonPrinter, Stream<Envelope> messages) {
+        messages.forEach(envelope -> {
+            try {
+                if (jsonPrinter != null) {
+                    Stdio.out.write(jsonPrinter.print(envelope));
+                    Stdio.out.write("\n");
+                    Stdio.out.flush();
+                } else {
+                    envelope.writeDelimitedTo(System.out);
+                }
+            } catch (IOException e) {
+                throw new GherkinException("Couldn't print messages", e);
             }
-        }
+        });
     }
 }
