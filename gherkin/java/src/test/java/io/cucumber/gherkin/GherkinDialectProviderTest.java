@@ -21,4 +21,9 @@ public class GherkinDialectProviderTest {
         assertTrue(languages.contains("en"));
     }
 
+    @Test
+    public void provides_native_name_which_is_used_in_cucumber_jvm_code_generation() {
+        GherkinDialect no = new GherkinDialectProvider().getDialect("no", null);
+        assertEquals("norsk", no.getNativeName());
+    }
 }

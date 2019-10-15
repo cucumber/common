@@ -32,6 +32,10 @@ public class GherkinDialect {
         return keywords.getString("name", null);
     }
 
+    public String getNativeName() {
+        return keywords.getString("native", null);
+    }
+
     public List<String> getRuleKeywords() {
         return toStringList(keywords.get("rule").asArray());
     }
