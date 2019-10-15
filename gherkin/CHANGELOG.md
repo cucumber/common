@@ -23,6 +23,10 @@ This document is formatted according to the principles of [Keep A CHANGELOG](htt
 
 ### Changed
 
+* [Java] restore native Java parser
+  ([#750](https://github.com/cucumber/cucumber/pull/750)
+   [aslakhellesoy])
+
 ### Deprecated
 
 ### Removed
