@@ -1,8 +1,8 @@
 package io.cucumber.datatable;
 
-import io.cucumber.datatable.dependency.difflib.Delta;
-import io.cucumber.datatable.dependency.difflib.DiffUtils;
-import io.cucumber.datatable.dependency.difflib.Patch;
+import difflib.Delta;
+import difflib.DiffUtils;
+import difflib.Patch;
 import org.apiguardian.api.API;
 
 import java.util.AbstractMap.SimpleEntry;

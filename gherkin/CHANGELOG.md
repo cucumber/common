@@ -11,6 +11,32 @@ This document is formatted according to the principles of [Keep A CHANGELOG](htt
 
 ### Added
 
+* Better Indonesian translation
+  ([#733](https://github.com/cucumber/cucumber/pull/733)
+   [milhcbt])
+* New Nepali translation
+  ([#729](https://github.com/cucumber/cucumber/pull/729)
+   [ankitpokhrel])
+* New Marathi keywords
+  ([#731](https://github.com/cucumber/cucumber/pull/731)
+   [upgundecha])
+
+### Changed
+
+### Deprecated
+
+### Removed
+
+### Fixed
+
+* [JavaScript] - `GherkinExe` exposes `stderr`
+  ([#723](https://github.com/cucumber/cucumber/pull/723)
+   [charlierudolph])
+
+## [8.0.0] - 2019-10-03
+
+### Added
+
 * New keywords for German
   ([#352](https://github.com/cucumber/cucumber/pull/352)
    [#707](https://github.com/cucumber/cucumber/issues/707)
@@ -20,18 +46,14 @@ This document is formatted according to the principles of [Keep A CHANGELOG](htt
 
 ### Changed
 
-* Upgrade cucumber-messages to 6.0.0
+* Upgrade cucumber-messages to 6.0.1
 * [JavaScript] restore native JavaScript parser
   ([#709](https://github.com/cucumber/cucumber/pull/709)
    [#689](https://github.com/cucumber/cucumber/pull/689)
    [badeball]
    [aslakhellesoy])
-* [Ruby] restore native ruby parser 
+* [Ruby] restore native ruby parser
   ([#702](https://github.com/cucumber/cucumber/pull/702) [brasmusson])
-
-### Deprecated
-
-### Removed
 
 ### Fixed
 
@@ -550,7 +572,8 @@ to Gherkin 2.
 * First release
 
 <!-- Releases -->
-[Unreleased]: https://github.com/cucumber/cucumber/compare/gherkin/v7.0.4...master
+[Unreleased]: https://github.com/cucumber/cucumber/compare/gherkin/v8.0.0...master
+[8.0.0]:     https://github.com/cucumber/cucumber/compare/gherkin/v7.0.4...gherkin/v8.0.0
 [7.0.4]:     https://github.com/cucumber/cucumber/compare/gherkin/v7.0.3...gherkin/v7.0.4
 [7.0.3]:     https://github.com/cucumber/cucumber/compare/gherkin/v7.0.2...gherkin/v7.0.3
 [7.0.2]:     https://github.com/cucumber/cucumber/compare/gherkin/v7.0.1...gherkin/v7.0.2
@@ -574,6 +597,7 @@ to Gherkin 2.
 
 <!-- Contributors -->
 [Ahmed-Ali]:        https://github.com/Ahmed-Ali
+[ankitpokhrel]:     https://github.com/ankitpokhrel
 [ajspadial]:        https://github.com/ajspadial
 [aslakhellesoy]:    https://github.com/aslakhellesoy
 [badeball]:         https://github.com/badeball
@@ -597,6 +621,7 @@ to Gherkin 2.
 [maximeg]:          https://github.com/maximeg
 [maxmeyer]:         https://github.com/maxmeyer
 [merrua]:           https://github.com/merrua
+[milhcbt]:          https://github.com/milhcbt
 [moreau-nicolas]:   https://github.com/moreau-nicolas
 [nalekberov]:       https://github.com/nalekberov
 [nixel2007]:        https://github.com/nixel2007
@@ -610,5 +635,6 @@ to Gherkin 2.
 [Pwera]:            https://github.com/Pwera
 [SabotageAndi]:     https://github.com/SabotageAndi
 [tsundberg]:        https://github.com/tsundberg
+[upgundecha]:       https://github.com/upgundecha
 [zbmott]:           https://github.com/zbmott
 [Zearin]:           https://github.com/Zearin

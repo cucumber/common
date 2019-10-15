@@ -1,6 +1,6 @@
 package io.cucumber.cucumberexpressions;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
@@ -12,7 +12,7 @@ import static java.util.Arrays.asList;
 import static java.util.Collections.emptyList;
 import static java.util.Collections.singletonList;
 import static java.util.regex.Pattern.compile;
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class RegularExpressionTest {
 
@@ -44,7 +44,6 @@ public class RegularExpressionTest {
         List<?> match = match(compile("(\\d+)"), "22", String.class);
         assertEquals(singletonList("22"), match);
     }
-
 
     @Test
     public void matches_nested_capture_group_without_match() {
@@ -154,7 +153,6 @@ public class RegularExpressionTest {
         assertEquals(asList(42), match(compile("(one|two|three)"), "one", String.class));
     }
 
-
     @Test
     public void follows_type_hint_when_parameter_type_does_not_have_strong_type_hint() {
         parameterTypeRegistry.defineParameterType(new ParameterType<>(
@@ -190,4 +188,5 @@ public class RegularExpressionTest {
         }
         return values;
     }
+
 }

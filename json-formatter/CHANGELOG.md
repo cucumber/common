@@ -13,17 +13,21 @@ This document is formatted according to the principles of [Keep A CHANGELOG](htt
 
 ### Changed
 
-* Upgrade cucumber-messages to 6.0.0
-
 ### Deprecated
 
 ### Removed
 
 ### Fixed
 
+## [1.0.0]
+
+### Added
+
+* Initial release
+
 <!-- Releases -->
-[Unreleased]: https://github.com/cucumber/cucumber/compare/dots-formatter/v1.0.1...master
-[1.0.0]:     https://github.com/cucumber/cucumber/compare/dots-formatter/v1.0.0...dots-formatter/v1.0.1
+[Unreleased]: https://github.com/cucumber/cucumber/compare/json-formatter/v1.0.0...master
+[1.0.0]:      https://github.com/cucumber/cucumber/releases/tag/json-formatter/v1.0.0
 
 <!-- Contributors -->
 [aslakhellesoy]:    https://github.com/aslakhellesoy

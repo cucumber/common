@@ -1,7 +1,8 @@
 package io.cucumber.cucumberexpressions;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.function.Executable;
 
 import java.util.List;
 import java.util.Locale;
@@ -10,9 +11,12 @@ import java.util.regex.Pattern;
 import static java.lang.Integer.parseInt;
 import static java.util.Arrays.asList;
 import static java.util.regex.Pattern.compile;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertThrows;
-import static org.junit.Assert.fail;
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.core.IsEqual.equalTo;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.fail;
 
 public class CustomParameterTypeTest {
 
@@ -46,8 +50,7 @@ public class CustomParameterTypeTest {
         }
     }
 
-
-    @Before
+    @BeforeEach
     public void create_parameter() {
         parameterTypeRegistry.defineParameterType(new ParameterType<>(
                 "color",                                  // name
@@ -61,17 +64,18 @@ public class CustomParameterTypeTest {
 
     @Test
     public void throws_exception_for_illegal_character_in_parameter_name() {
-        assertThrows(
-                "Illegal character '[' in parameter name {[string]}",
-                CucumberExpressionException.class,
-                () -> new ParameterType<>(
-                        "[string]",
-                        ".*",
-                        String.class,
-                        (Transformer<String>) s -> s,
-                        false,
-                        false
-                ));
+
+        final Executable testMethod = () -> new ParameterType<>(
+                "[string]",
+                ".*",
+                String.class,
+                (Transformer<String>) s -> s,
+                false,
+                false
+        );
+
+        final CucumberExpressionException thrownException = assertThrows(CucumberExpressionException.class, testMethod);
+        assertThat("Unexpected message", thrownException.getMessage(), is(equalTo("Illegal character '[' in parameter name {[string]}.")));
     }
 
     @Test
@@ -131,12 +135,13 @@ public class CustomParameterTypeTest {
 
         arguments.get(0).getValue();
 
-        assertThrows(
+        final Executable testMethod = () -> arguments.get(1).getValue();
+
+        final CucumberExpressionException thrownException = assertThrows(CucumberExpressionException.class, testMethod);
+        assertThat("Unexpected message", thrownException.getMessage(), is(equalTo(
                 "ParameterType {coordinate} was registered with a Transformer but has multiple capture groups [(\\d+),\\s*(\\d+),\\s*(\\d+)]. " +
-                        "Did you mean to use a CaptureGroupTransformer?",
-                CucumberExpressionException.class,
-                () -> arguments.get(1).getValue()
-        );
+                        "Did you mean to use a CaptureGroupTransformer?"
+        )));
     }
 
     @Test
@@ -148,12 +153,13 @@ public class CustomParameterTypeTest {
 
         arguments.get(0).getValue();
 
-        assertThrows(
+        final Executable testMethod = () -> arguments.get(1).getValue();
+
+        final CucumberExpressionException thrownException = assertThrows(CucumberExpressionException.class, testMethod);
+        assertThat("Unexpected message", thrownException.getMessage(), is(equalTo(
                 "Anonymous ParameterType has multiple capture groups [(\\d+),\\s*(\\d+),\\s*(\\d+)]. " +
-                        "You can only use a single capture group in an anonymous ParameterType.",
-                CucumberExpressionException.class,
-                () -> arguments.get(1).getValue()
-        );
+                        "You can only use a single capture group in an anonymous ParameterType."
+        )));
     }
 
     @Test
@@ -297,4 +303,5 @@ public class CustomParameterTypeTest {
             return obj instanceof CssColor && ((CssColor) obj).name.equals(name);
         }
     }
+
 }

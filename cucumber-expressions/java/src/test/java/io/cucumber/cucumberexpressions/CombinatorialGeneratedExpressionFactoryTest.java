@@ -1,15 +1,16 @@
 package io.cucumber.cucumberexpressions;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import static java.util.Arrays.asList;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 public class CombinatorialGeneratedExpressionFactoryTest {
+
     private static final String WORD = "\\w+";
 
     @Test
@@ -73,4 +74,5 @@ public class CombinatorialGeneratedExpressionFactoryTest {
             assertNotNull(s);
         }
     }
+
 }

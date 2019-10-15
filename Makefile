@@ -34,7 +34,7 @@ clean-%: %
 ci: check_synced push_subrepos default
 
 check_synced: .rsynced
-	[[ -z $$(git status -s) ]] || (echo "Working copy is dirty" && exit 1)
+	[[ -z $$(git status -s) ]] || (echo "Working copy is dirty. Please run `source scripts/functions.sh && rsync_files` and commit modified files." && exit 1)
 .PHONY: check_synced
 
 push_subrepos:

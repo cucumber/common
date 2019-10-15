@@ -20,7 +20,15 @@ executors:
     docker:
       - image: circleci/golang:1.12
     working_directory: ~/cucumber
-  docker-circleci-node:
+  docker-circleci-node8:
+    docker:
+      - image: circleci/node:8
+    working_directory: ~/cucumber
+  docker-circleci-node10:
+    docker:
+      - image: circleci/node:10
+    working_directory: ~/cucumber
+  docker-circleci-node12:
     docker:
       - image: circleci/node:12
     working_directory: ~/cucumber
@@ -148,7 +156,7 @@ jobs:
 ### JavaScript
 
   c21e-javascript:
-    executor: docker-circleci-node
+    executor: docker-circleci-node12
     steps:
       - attach_workspace:
           at: "~/cucumber"
@@ -163,8 +171,30 @@ jobs:
             - c21e/javascript/dist
             - c21e/javascript/node_modules
 
-  cucumber-expressions-javascript:
-    executor: docker-circleci-node
+  cucumber-expressions-javascript-node8:
+    executor: docker-circleci-node8
+    steps:
+      - attach_workspace:
+          at: "~/cucumber"
+      - run:
+          name: cucumber-expressions/javascript
+          command: |
+            cd cucumber-expressions/javascript
+            make
+
+  cucumber-expressions-javascript-node10:
+    executor: docker-circleci-node10
+    steps:
+      - attach_workspace:
+          at: "~/cucumber"
+      - run:
+          name: cucumber-expressions/javascript
+          command: |
+            cd cucumber-expressions/javascript
+            make
+
+  cucumber-expressions-javascript-node12:
+    executor: docker-circleci-node12
     steps:
       - attach_workspace:
           at: "~/cucumber"
@@ -180,7 +210,7 @@ jobs:
             - cucumber-expressions/javascript/node_modules
 
   cucumber-messages-javascript:
-    executor: docker-circleci-node
+    executor: docker-circleci-node12
     steps:
       - attach_workspace:
           at: "~/cucumber"
@@ -196,7 +226,7 @@ jobs:
             - cucumber-messages/javascript/node_modules
 
   gherkin-javascript:
-    executor: docker-circleci-node
+    executor: docker-circleci-node12
     steps:
       - attach_workspace:
           at: "~/cucumber"
@@ -212,7 +242,7 @@ jobs:
             - gherkin/javascript/node_modules
 
   tag-expressions-javascript:
-    executor: docker-circleci-node
+    executor: docker-circleci-node12
     steps:
       - attach_workspace:
           at: "~/cucumber"
@@ -223,7 +253,7 @@ jobs:
             make
 
   fake-cucumber-javascript:
-    executor: docker-circleci-node
+    executor: docker-circleci-node12
     steps:
       - attach_workspace:
           at: "~/cucumber"
@@ -239,7 +269,7 @@ jobs:
             - fake-cucumber/javascript/node_modules
 
   cucumber-react-javascript:
-    executor: docker-circleci-node
+    executor: docker-circleci-node12
     steps:
       - attach_workspace:
           at: "~/cucumber"
@@ -255,7 +285,7 @@ jobs:
             - cucumber-react/javascript/node_modules
 
   html-formatter-javascript:
-    executor: docker-circleci-node
+    executor: docker-circleci-node12
     steps:
       - attach_workspace:
           at: "~/cucumber"
@@ -266,7 +296,7 @@ jobs:
             make
 
   json-formatter-javascript:
-    executor: docker-circleci-node
+    executor: docker-circleci-node12
     steps:
       - attach_workspace:
           at: "~/cucumber"
@@ -585,7 +615,13 @@ workflows:
       - c21e-javascript:
           requires:
             - checkout
-      - cucumber-expressions-javascript:
+      - cucumber-expressions-javascript-node8:
+          requires:
+            - checkout
+      - cucumber-expressions-javascript-node10:
+          requires:
+            - checkout
+      - cucumber-expressions-javascript-node12:
           requires:
             - checkout
       - cucumber-messages-javascript:

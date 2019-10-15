@@ -1,6 +1,6 @@
 # Cucumber JSON Formatter
 
-This formatter produces JSON output similar to the legacy `--format=json` formatter.
+This formatter produces JSON output similar to the legacy `--format=json` formatter. It reads cucumber messages from STDIN and writes a JSON report to STDOUT. The purpose is to provide backwards compatibility for tools that consume the JSON report after native JSON formatters have been removed from Cucumber.
 
 The formatter is a command line tool implemented in Go, and cross-compiled for
 several platforms.

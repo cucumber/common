@@ -1,15 +1,16 @@
 package io.cucumber.cucumberexpressions;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.util.List;
 import java.util.Locale;
 
 import static java.util.Arrays.asList;
 import static java.util.Collections.singletonList;
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class GenericParameterTypeTest {
+
     @Test
     public void transforms_to_a_list_of_string() {
         ParameterTypeRegistry parameterTypeRegistry = new ParameterTypeRegistry(Locale.ENGLISH);
@@ -31,4 +32,5 @@ public class GenericParameterTypeTest {
         List<Argument<?>> args = expression.match("I have three,blind,mice yay");
         assertEquals(asList("three", "blind", "mice"), args.get(0).getValue());
     }
+
 }
