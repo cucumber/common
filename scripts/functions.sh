@@ -114,7 +114,7 @@ function push_subrepo_branch_maybe()
   subrepo=$1
   remote=$(subrepo_remote "${subrepo}")
   branch=$(git_branch)
-  
+
   if [ -z "${branch}" ]; then
     echo "No branch to push"
   elif [ "${branch}" != "master" ]; then
@@ -146,5 +146,23 @@ function push_subrepo_tag_maybe()
         }
       fi
     done
+  fi
+}
+
+function update_go_library_version()
+{
+  if [ "$#" -ne 2 ]; then
+    echo "Usage: update_go_library_version libraryName version"
+  else
+    libname=$1
+    version=$2
+    major=`echo $version | awk -F'.' '{print $1}'`
+
+    echo "Updating ${libname} to ${version}"
+    pushd ${root_dir}
+    sed -i "s/${libname}-go\/v[[:digit:]]\+ v.*/${libname}-go\/v$major v${version}/" */go/go.mod
+    sed -i "s/${libname}-go\/v[[:digit:]]\+/${libname}-go\/v${major}/" */go/*.go
+    sed -i "s/${libname}-go\/v[[:digit:]]\+/${libname}-go\/v${major}/" */go/**/*.go
+    popd
   fi
 }

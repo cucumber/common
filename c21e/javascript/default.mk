@@ -34,6 +34,9 @@ update-dependencies:
 	npx npm-check-updates --upgrade
 .PHONY: update-dependencies
 
+pre-release: update-dependencies clean default
+.PHONY: pre-release
+
 update-version:
 ifdef NEW_VERSION
 	npm --no-git-tag-version --allow-same-version version "$(NEW_VERSION)"

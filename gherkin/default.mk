@@ -37,6 +37,13 @@ update-version-%: %
 	cd $< && make update-version
 .PHONY: update-version-%
 
+pre-release: $(patsubst %/Makefile,pre-release-%,$(MAKEFILES))
+.PHONY: pre-release
+
+pre-release-%: %
+	cd $< && make pre-release
+.PHONY: pre-release-%
+
 release: update-version clean default create-and-push-release-tag publish
 .PHONY: release
 

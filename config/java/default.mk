@@ -16,6 +16,9 @@ update-dependencies:
 	mvn versions:use-latest-versions -Dmaven.version.rules=file://$(shell pwd)/maven-versions-rules.xml
 .PHONY: update-dependencies
 
+pre-release: update-dependencies clean default
+.PHONY: pre-release
+
 update-version:
 ifdef NEW_VERSION
 	mvn versions:set -DnewVersion=$(NEW_VERSION) -DgenerateBackupPoms=false
