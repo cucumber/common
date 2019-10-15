@@ -537,7 +537,7 @@ workflows:
   monorepo-nightly:
     triggers:
       - schedule:
-          cron: "5 0 * * *"
+          cron: "0 5 * * *"
           filters:
             branches:
               only:
