@@ -1,8 +1,8 @@
 package io.cucumber.gherkin;
 
 import io.cucumber.messages.Messages.Envelope;
-import io.cucumber.messages.com.google.protobuf.util.JsonFormat;
-import io.cucumber.messages.com.google.protobuf.util.JsonFormat.Printer;
+import io.cucumber.messages.internal.com.google.protobuf.util.JsonFormat;
+import io.cucumber.messages.internal.com.google.protobuf.util.JsonFormat.Printer;
 
 import java.io.IOException;
 import java.util.ArrayList;
