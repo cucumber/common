@@ -16,7 +16,7 @@ For each code name, the tables show the support for all languages:
  - a final release **must** implement all of the features
  - a release candidate __may__ implement partial requirements
 
-# Cucumber Cobra
+# Cucumber Cobra (draft)
 
 ## Features
 
@@ -33,7 +33,7 @@ For each code name, the tables show the support for all languages:
 | **Release candidate**          | |  | | | |
 
 
-# Cucumber burpless
+# Cucumber burpless - Q4 2019
 
 ## Features
 
@@ -51,7 +51,7 @@ For each code name, the tables show the support for all languages:
 | **Release candidate**          | |  | 4.0.0rc1 | | |
 
 
-# Cucumber Arola
+# Cucumber Arola - 2018
 
 ## Features
 
