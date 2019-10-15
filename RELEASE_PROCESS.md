@@ -44,15 +44,9 @@ available stable versions.
 
     cd thepackage
 
-Open `go/go.mod` and remove any `replace` directives. When we make a release, we
-must *only* depend on a released versions.
-If you change the major version of the library, also update the first line of the `go.mod` to reflect
-correctly the major version.
+Upgrade the dependencies and also update the references in the code:
 
-Then, upgrade other dependencies:
-
-    make update-dependencies
-    make clean && make
+    NEW_VERSION=X.Y.Z make pre-release
 
 This will typically modify the files where dependencies are declared, *without*
 committing the changes to git. Examine what changed:
@@ -100,13 +94,13 @@ Check that releases show up under:
 
 ## Post release
 
-Open `go/go.mod` and *restore* any `replace` directives you removed in the [update dependencies](#update-dependencies) step above.
 
 Run the following command (using the same NEW_VERSION as you used for the release):
 
     NEW_VERSION=X.Y.Z make post-release
 
-This should update the version in `java/pom.xml` file to use a `-SNAPSHOT` suffix.
+This should update the version in `java/pom.xml` file to use a `-SNAPSHOT` suffix and add
+the `replace`directives in the `go.mod`file.
 This is automatically committed, and pushed along with the tag of the release.
 
 It's also a good practice to update all the dependencies in the monorepo, especially
@@ -114,3 +108,9 @@ when the module you just released is a dependency of other modules:
 
     # Run this in the root directory:
     make update-dependencies
+
+If you did a new major release of a Go package, you can also update all the references in the
+libraries using it:
+
+    # Run this in the root directory
+    source scripts/functions.sh && update_go_library_version libraryName X.Y.Z

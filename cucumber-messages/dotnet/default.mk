@@ -11,6 +11,9 @@ update-dependencies:
 	@echo -e "\033[0;31mPlease update dependencies for dotnet manually!!\033[0m"
 .PHONY: update-dependencies
 
+pre-release: update-dependencies clean default
+.PHONY: pre-release
+
 update-version:
 ifdef NEW_VERSION
 	./scripts/update-version

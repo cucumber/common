@@ -1,16 +1,17 @@
 package io.cucumber.cucumberexpressions;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.util.Locale;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * This test verifies that the regular expression generated
  * from the cucumber expression is as expected.
  */
 public class CucumberExpressionPatternTest {
+
     @Test
     public void translates_no_args() {
         assertPattern(
@@ -67,4 +68,5 @@ public class CucumberExpressionPatternTest {
         CucumberExpression cucumberExpression = new CucumberExpression(expr, new ParameterTypeRegistry(Locale.ENGLISH));
         assertEquals(expectedRegexp, cucumberExpression.getRegexp().pattern());
     }
+
 }

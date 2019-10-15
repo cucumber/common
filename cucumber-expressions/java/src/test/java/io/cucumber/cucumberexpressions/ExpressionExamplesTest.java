@@ -1,10 +1,9 @@
 package io.cucumber.cucumberexpressions;
 
 import com.google.gson.Gson;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.Parameterized;
-import org.junit.runners.Parameterized.Parameters;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 
 import java.io.IOException;
 import java.nio.charset.Charset;
@@ -17,38 +16,32 @@ import java.util.regex.Pattern;
 
 import static java.nio.file.Files.readAllBytes;
 import static java.nio.file.Paths.get;
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.params.provider.Arguments.arguments;
 
-@RunWith(Parameterized.class)
 public class ExpressionExamplesTest {
+
     private static final Pattern REGEX_PATTERN = Pattern.compile("/(.*)/");
-    private final String expressionString;
-    private final String text;
-    private final String expectedArgs;
 
-    public ExpressionExamplesTest(String expressionString, String text, String expectedArgs) {
-        this.expressionString = expressionString;
-        this.text = text;
-        this.expectedArgs = expectedArgs;
-    }
+    static Collection<Arguments> data() throws IOException {
 
-    @Parameters
-    public static Collection<Object[]> data() throws IOException {
-        Collection<Object[]> data = new ArrayList<>();
+        final Collection<Arguments> data = new ArrayList<>();
 
         String s = new String(readAllBytes(get("examples.txt")), Charset.forName("UTF-8"));
         String[] chunks = s.split("---");
         for (String chunk : chunks) {
             chunk = chunk.trim();
-            data.add(chunk.split(System.lineSeparator()));
+            final String[] split = chunk.split(System.lineSeparator());
+            data.add(arguments(split[0], split[1], split[2]));
         }
         return data;
     }
 
-    @Test
-    public void works_with_expression() {
+    @ParameterizedTest
+    @MethodSource("data")
+    public void works_with_expression(final String expressionString, final String text, final String expectedArgs) {
         String args = new Gson().toJson(match(expressionString, text));
-        assertEquals(String.format("\nExpression: %s\n      Text: %s", expressionString, text), expectedArgs, args);
+        assertEquals(expectedArgs, args, String.format("\nExpression: %s\n      Text: %s", expressionString, text));
     }
 
     private List<?> match(String expressionString, String text) {
@@ -72,4 +65,5 @@ public class ExpressionExamplesTest {
             return list;
         }
     }
+
 }

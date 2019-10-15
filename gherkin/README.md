@@ -79,7 +79,7 @@ Stream<Envelope> pickleStream = envelopeStream.filter(Envelope::hasPickle);
 ```csharp
 // C#
 var parser = new Parser();
-var gherkinDocument = parser.Parse("Feature: ...");
+var gherkinDocument = parser.Parse(@"Drive:\PathToGherkinDocument\document.feature");
 ```
 
 ```ruby

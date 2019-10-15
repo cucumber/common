@@ -1698,36 +1698,44 @@
       "Dan "
     ],
     "background": [
-      "Dasar"
+      "Dasar",
+      "Latar Belakang"
     ],
     "but": [
       "* ",
-      "Tapi "
+      "Tapi ",
+      "Tetapi"
     ],
     "examples": [
-      "Contoh"
+      "Contoh",
+      "Misal"
     ],
     "feature": [
       "Fitur"
     ],
     "given": [
       "* ",
-      "Dengan "
+      "Dengan ",
+      "Diketahui ",
+      "Diasumsikan "
     ],
     "name": "Indonesian",
     "native": "Bahasa Indonesia",
     "rule": [
-      "Rule"
+      "Rule",
+      "Aturan"
     ],
     "scenario": [
       "Skenario"
     ],
     "scenarioOutline": [
-      "Skenario konsep"
+      "Skenario konsep",
+      "Garis-Besar Skenario"
     ],
     "then": [
       "* ",
-      "Maka "
+      "Maka ",
+      "Kemudian "
     ],
     "when": [
       "* ",

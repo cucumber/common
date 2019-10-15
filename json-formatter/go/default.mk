@@ -12,6 +12,9 @@ OS := $(shell [[ "$$(uname)" == "Darwin" ]] && echo "darwin" || echo "linux")
 # Determine if we're on 386 or amd64 (ignoring other processors as we're not building on them)
 ARCH := $(shell [[ "$$(uname -m)" == "x86_64" ]] && echo "amd64" || echo "386")
 EXE = dist/$(LIBNAME)-$(OS)-$(ARCH)
+REPLACEMENTS := $(shell sed -n "/^\s*github.com\/cucumber/p" go.mod | perl -wpe 's/\s*(github.com\/cucumber\/(.*)-go\/v\d+).*/q{replace } . $$1 . q{ => ..\/..\/} . $$2 . q{\/go}/eg')
+CURRENT_MAJOR := $(shell sed -n "/^module/p" go.mod | perl -wpe 's/^.*cucumber\/.*-go\/v(\d+).*/$$1/eg')
+NEW_MAJOR := $(shell echo ${NEW_VERSION} | awk -F'.' '{print $$1}')
 
 default: .linted .tested
 .PHONY: default
@@ -47,6 +50,9 @@ endif
 update-dependencies:
 	cd $(MOD_DIR) && go get -u && go mod tidy
 .PHONY: update-dependencies
+
+pre-release: remove-replaces update-major update-dependencies clean default
+.PHONY: pre-release
 
 update-version:
 	# no-op
@@ -85,8 +91,7 @@ dist_compressed/$(LIBNAME)-%: dist/$(LIBNAME)-%
 	go test ./...
 	touch $@
 
-post-release:
-	@echo "No post-release needed for go"
+post-release: add-replaces
 .PHONY: post-release
 
 clean: clean-go
@@ -95,3 +100,23 @@ clean: clean-go
 clean-go:
 	rm -rf .deps .tested .go-tested .linted dist/ .dist-compressed dist_compressed/ acceptance/
 .PHONY: clean-go
+
+remove-replaces:
+	sed -i '/^replace/d' go.mod
+	sed -i 'N;/^\n$$/D;P;D;' go.mod
+.PHONY: remove-replaces
+
+add-replaces:
+	sed -i '/^go .*/i $(REPLACEMENTS)\n' go.mod
+.PHONY: add-replaces
+
+update-major:
+ifeq ($(CURRENT_MAJOR), $(NEW_MAJOR))
+	# echo "No major version change"
+else
+	echo "Updating major to $(NEW_MAJOR)"
+	sed -i "s/$(LIBNAME)-go\/v$(CURRENT_MAJOR)/$(LIBNAME)-go\/v$(NEW_MAJOR)/" go.mod
+	sed -i "s/$(LIBNAME)-go\/v$(CURRENT_MAJOR)/$(LIBNAME)-go\/v$(NEW_MAJOR)/" **/*.go
+endif
+.PHONY: update-major
+

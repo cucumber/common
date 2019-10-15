@@ -56,22 +56,16 @@
                             <goal>shade</goal>
                         </goals>
                         <configuration>
+                            <artifactSet>
+                                <includes>
+                                    <include>com.google.protobuf:protobuf-java</include>
+                                    <include>com.google.protobuf:protobuf-java-util</include>
+                                </includes>
+                            </artifactSet>
                             <relocations>
                                 <relocation>
                                     <pattern>com.google</pattern>
                                     <shadedPattern>io.cucumber.messages.internal.com.google</shadedPattern>
-                                </relocation>
-                                <relocation>
-                                    <pattern>javax.annotation</pattern>
-                                    <shadedPattern>io.cucumber.messages.internal.avax.annotation</shadedPattern>
-                                </relocation>
-                                <relocation>
-                                    <pattern>org.checkerframework</pattern>
-                                    <shadedPattern>io.cucumber.messages.internal.org.checkerframework</shadedPattern>
-                                </relocation>
-                                <relocation>
-                                    <pattern>org.codehaus</pattern>
-                                    <shadedPattern>io.cucumber.messages.internal.org.codehaus</shadedPattern>
                                 </relocation>
                             </relocations>
                         </configuration>
@@ -80,5 +74,4 @@
             </plugin>
         </plugins>
     </build>
-
 </project>

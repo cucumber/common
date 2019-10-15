@@ -20,6 +20,9 @@ update-dependencies:
 	./scripts/update-gemspec
 .PHONY: update-dependencies
 
+pre-release: update-dependencies clean default
+.PHONY: pre-release
+
 update-version:
 ifdef NEW_VERSION
 	sed -i "s/\(s\.version *= *'\)[0-9]*\.[0-9]*\.[0-9]*\('\)/\1$(NEW_VERSION)\2/" $(GEMSPEC)
