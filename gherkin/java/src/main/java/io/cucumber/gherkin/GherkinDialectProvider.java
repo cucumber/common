@@ -7,6 +7,7 @@ import com.eclipsesource.json.JsonValue;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.Reader;
+import java.util.ArrayList;
 import java.util.List;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
@@ -51,7 +52,7 @@ public class GherkinDialectProvider implements IGherkinDialectProvider {
 
     @Override
     public List<String> getLanguages() {
-        List<String> languages = DIALECTS.names();
+        List<String> languages = new ArrayList<>(DIALECTS.names());
         sort(languages);
         return unmodifiableList(languages);
     }
