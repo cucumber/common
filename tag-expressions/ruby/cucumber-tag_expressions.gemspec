@@ -20,7 +20,7 @@ Gem::Specification.new do |s|
                   }
 
   s.add_development_dependency 'rake', '~> 13.0', '>= 13.0.0'
-  s.add_development_dependency 'rspec', '~> 3.8', '>= 3.8.0'
+  s.add_development_dependency 'rspec', '~> 3.9', '>= 3.9.0'
 
   # For coverage reports
   s.add_development_dependency 'coveralls', '~> 0.8', '>= 0.8.23'
