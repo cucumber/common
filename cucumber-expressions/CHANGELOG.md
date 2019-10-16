@@ -7,15 +7,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ----
 ## [Unreleased]
 
-### Added
-
-### Changed
-
-### Deprecated
-
-### Removed
-
 ### Fixed
+
+* Fix captured empty strings being undefined
+  ([#754](https://github.com/cucumber/cucumber/pull/754)
+   [davidjgoss])
 
 ## [8.0.1] - 2019-10-07
 
@@ -644,6 +640,7 @@ N/A
 [aslakhellesoy]:    https://github.com/aslakhellesoy
 [brasmusson]:       https://github.com/brasmusson
 [charlierudolph]:   https://github.com/charlierudolph
+[davidjgoss]:       https://github.com/davidjgoss
 [dmeehan1968]:      https://github.com/dmeehan1968
 [gpichot]:          https://github.com/gpichot
 [jamis]:            https://github.com/jamis

@@ -28,9 +28,9 @@ This document is formatted according to the principles of [Keep A CHANGELOG](htt
   ([#750](https://github.com/cucumber/cucumber/pull/750)
    [aslakhellesoy])
 
-### Deprecated
-
 ### Removed
+
+* [JavaScript] - `GherkinExe` (after it was fixed)
 
 ### Fixed
 
