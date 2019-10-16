@@ -100,6 +100,38 @@ func TestCucumberExpression(t *testing.T) {
 		)
 	})
 
+	t.Run("matches single quoted empty string as empty string", func(t *testing.T) {
+		require.Equal(
+			t,
+			MatchCucumberExpression(t, "three {string} mice", `three '' mice`),
+			[]interface{}{""},
+		)
+	})
+
+	t.Run("matches double quoted empty string as empty string", func(t *testing.T) {
+		require.Equal(
+			t,
+			MatchCucumberExpression(t, "three {string} mice", `three "" mice`),
+			[]interface{}{""},
+		)
+	})
+
+	t.Run("matches single quoted empty string as empty string along with other strings", func(t *testing.T) {
+		require.Equal(
+			t,
+			MatchCucumberExpression(t, "three {string} and {string} mice", `three '' and 'handsome' mice`),
+			[]interface{}{"", "handsome"},
+		)
+	})
+
+	t.Run("matches double quoted empty string as empty string along with other strings", func(t *testing.T) {
+		require.Equal(
+			t,
+			MatchCucumberExpression(t, "three {string} and {string} mice", `three "" and "handsome" mice`),
+			[]interface{}{"", "handsome"},
+		)
+	})
+
 	t.Run("matches escaped parenthesis", func(t *testing.T) {
 		require.Equal(
 			t,

@@ -55,6 +55,22 @@ module Cucumber
         expect(match('three {string} mice', "three 'bl\\'nd' mice")).to eq(["bl'nd"])
       end
 
+      it('matches single quoted empty string as empty string') do
+        expect(match('three {string} mice', "three '' mice")).to eq([''])
+      end
+
+      it('matches double quoted empty string as empty string') do
+        expect(match('three {string} mice', 'three "" mice')).to eq([''])
+      end
+
+      it('matches single quoted empty string as empty string, along with other strings') do
+        expect(match('three {string} and {string} mice', "three '' and 'handsome' mice")).to eq(['', 'handsome'])
+      end
+
+      it('matches double quoted empty string as empty string, along with other strings') do
+        expect(match('three {string} and {string} mice', 'three "" and "handsome" mice')).to eq(['', 'handsome'])
+      end
+
       it 'matches escaped parentheses' do
         expect(match('three \\(exceptionally) {string} mice', 'three (exceptionally) "blind" mice')).to eq(['blind'])
       end
