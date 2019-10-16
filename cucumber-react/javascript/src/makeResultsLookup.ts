@@ -39,6 +39,12 @@ export default (
   const testCaseFinishedListByUri = new Map<string, messages.ITestCaseFinished[]>()
   const pickleById = new Map<string, messages.IPickle>()
 
+  function getPickleById(pickleId: string) {
+    const pickle = pickleById.get(pickleId)
+    if (!pickle) throw new Error(`No pickle with id ${pickleId}`)
+    return pickle
+  }
+
   for (const pickle of pickles) {
     const uri = pickle.uri
     pickleById.set(pickle.id, pickle)
@@ -55,9 +61,10 @@ export default (
   }
 
   for (const testStepFinished of testStepFinishedList) {
-    const pickle = pickleById.get(testStepFinished.pickleId)
+    const pickle = getPickleById(testStepFinished.pickleId)
     const uri = pickle.uri
     const pickleStep = pickle.steps[testStepFinished.index]
+    if (!pickleStep) throw new Error(`Pickle ${pickle} has no steps at index ${testStepFinished.index}`)
     for (const location of pickleStep.locations) {
       finishedListByUriAndLine.get(
         `${uri}:${location.line}`,
@@ -66,7 +73,7 @@ export default (
   }
 
   for (const testCaseFinished of testCaseFinishedList) {
-    const pickle = pickleById.get(testCaseFinished.pickleId)
+    const pickle = getPickleById(testCaseFinished.pickleId)
     const uri = pickle.uri
     for (const location of pickle.locations) {
       finishedListByUriAndLine.get(
