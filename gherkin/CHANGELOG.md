@@ -19,6 +19,7 @@ This document is formatted according to the principles of [Keep A CHANGELOG](htt
    [ankitpokhrel])
 * New Marathi keywords
   ([#731](https://github.com/cucumber/cucumber/pull/731)
+   [#758](https://github.com/cucumber/cucumber/pull/758)
    [upgundecha])
 
 ### Changed
