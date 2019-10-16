@@ -1,6 +1,6 @@
 package gherkin
 
-// Builtin dialects for af (Afrikaans), am (Armenian), an (Aragonese), ar (Arabic), ast (Asturian), az (Azerbaijani), bg (Bulgarian), bm (Malay), bs (Bosnian), ca (Catalan), cs (Czech), cy-GB (Welsh), da (Danish), de (German), el (Greek), em (Emoji), en (English), en-Scouse (Scouse), en-au (Australian), en-lol (LOLCAT), en-old (Old English), en-pirate (Pirate), eo (Esperanto), es (Spanish), et (Estonian), fa (Persian), fi (Finnish), fr (French), ga (Irish), gj (Gujarati), gl (Galician), he (Hebrew), hi (Hindi), hr (Croatian), ht (Creole), hu (Hungarian), id (Indonesian), is (Icelandic), it (Italian), ja (Japanese), jv (Javanese), ka (Georgian), kn (Kannada), ko (Korean), lt (Lithuanian), lu (Luxemburgish), lv (Latvian), mk-Cyrl (Macedonian), mk-Latn (Macedonian (Latin)), mn (Mongolian), ne (Nepali), nl (Dutch), no (Norwegian), pa (Panjabi), pl (Polish), pt (Portuguese), ro (Romanian), ru (Russian), sk (Slovak), sl (Slovenian), sr-Cyrl (Serbian), sr-Latn (Serbian (Latin)), sv (Swedish), ta (Tamil), th (Thai), tl (Telugu), tlh (Klingon), tr (Turkish), tt (Tatar), uk (Ukrainian), ur (Urdu), uz (Uzbek), vi (Vietnamese), zh-CN (Chinese simplified), zh-TW (Chinese traditional)
+// Builtin dialects for af (Afrikaans), am (Armenian), an (Aragonese), ar (Arabic), ast (Asturian), az (Azerbaijani), bg (Bulgarian), bm (Malay), bs (Bosnian), ca (Catalan), cs (Czech), cy-GB (Welsh), da (Danish), de (German), el (Greek), em (Emoji), en (English), en-Scouse (Scouse), en-au (Australian), en-lol (LOLCAT), en-old (Old English), en-pirate (Pirate), eo (Esperanto), es (Spanish), et (Estonian), fa (Persian), fi (Finnish), fr (French), ga (Irish), gj (Gujarati), gl (Galician), he (Hebrew), hi (Hindi), hr (Croatian), ht (Creole), hu (Hungarian), id (Indonesian), is (Icelandic), it (Italian), ja (Japanese), jv (Javanese), ka (Georgian), kn (Kannada), ko (Korean), lt (Lithuanian), lu (Luxemburgish), lv (Latvian), mk-Cyrl (Macedonian), mk-Latn (Macedonian (Latin)), mn (Mongolian), ne (Nepali), nl (Dutch), no (Norwegian), pa (Panjabi), pl (Polish), pt (Portuguese), ro (Romanian), ru (Russian), sk (Slovak), sl (Slovenian), sr-Cyrl (Serbian), sr-Latn (Serbian (Latin)), sv (Swedish), ta (Tamil), th (Thai), tl (Telugu), tlh (Klingon), tr (Turkish), tt (Tatar), uk (Ukrainian), ur (Urdu), uz (Uzbek), vi (Vietnamese), zh-CN (Chinese simplified), zh-TW (Chinese traditional), mr (Marathi)
 func GherkinDialectsBuildin() GherkinDialectProvider {
 	return buildinDialects
 }
@@ -1720,22 +1720,28 @@ var buildinDialects = gherkinDialectMap{
 			},
 			rule: []string{
 				"Rule",
+				"Aturan",
 			},
 			background: []string{
 				"Dasar",
+				"Latar Belakang",
 			},
 			scenario: []string{
 				"Skenario",
 			},
 			scenarioOutline: []string{
 				"Skenario konsep",
+				"Garis-Besar Skenario",
 			},
 			examples: []string{
 				"Contoh",
+				"Misal",
 			},
 			given: []string{
 				"* ",
 				"Dengan ",
+				"Diketahui ",
+				"Diasumsikan ",
 			},
 			when: []string{
 				"* ",
@@ -1744,6 +1750,7 @@ var buildinDialects = gherkinDialectMap{
 			then: []string{
 				"* ",
 				"Maka ",
+				"Kemudian ",
 			},
 			and: []string{
 				"* ",
@@ -1752,6 +1759,7 @@ var buildinDialects = gherkinDialectMap{
 			but: []string{
 				"* ",
 				"Tapi ",
+				"Tetapi",
 			},
 		},
 	},
@@ -3583,6 +3591,53 @@ var buildinDialects = gherkinDialectMap{
 			but: []string{
 				"* ",
 				"但是",
+			},
+		},
+	},
+	"mr": &GherkinDialect{
+		"mr", "Marathi", "मराठी", map[string][]string{
+			feature: []string{
+				"वैशिष्ट्य",
+				"सुविधा",
+			},
+			rule: []string{
+				"नियम",
+			},
+			background: []string{
+				"पार्श्वभूमी",
+			},
+			scenario: []string{
+				"परिदृश्य",
+			},
+			scenarioOutline: []string{
+				"परिदृश्य रूपरेखा",
+			},
+			examples: []string{
+				"उदाहरण",
+			},
+			given: []string{
+				"* ",
+				"जर",
+				"दिलेल्या प्रमाणे ",
+			},
+			when: []string{
+				"* ",
+				"जेव्हा ",
+			},
+			then: []string{
+				"* ",
+				"मग ",
+				"तेव्हा ",
+			},
+			and: []string{
+				"* ",
+				"आणि ",
+				"तसेच ",
+			},
+			but: []string{
+				"* ",
+				"पण ",
+				"परंतु ",
 			},
 		},
 	},
