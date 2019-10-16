@@ -17,6 +17,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Fixed
 
+* Fix captured empty strings being undefined
+  ([#746](https://github.com/cucumber/cucumber/issues/746)
+   [#754](https://github.com/cucumber/cucumber/pull/754)
+   [davidjgoss])
+
 ## [8.0.1] - 2019-10-07
 
 ### Fixed
