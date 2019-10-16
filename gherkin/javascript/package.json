@@ -42,6 +42,6 @@
     "typescript": "^3.6.4"
   },
   "dependencies": {
-    "cucumber-messages": "6.0.1"
+    "cucumber-messages": "6.0.2"
   }
 }
