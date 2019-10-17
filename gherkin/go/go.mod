@@ -6,4 +6,6 @@ require (
 	github.com/gogo/protobuf v1.3.1
 )
 
+replace github.com/cucumber/cucumber-messages-go/v6 => ../../cucumber-messages/go
+
 go 1.13
