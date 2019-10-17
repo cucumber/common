@@ -11,6 +11,42 @@ This document is formatted according to the principles of [Keep A CHANGELOG](htt
 
 ### Added
 
+### Changed
+
+### Deprecated
+
+### Removed
+
+### Fixed
+
+## [8.1.0] - 2019-10-16
+
+### Added
+
+### Changed
+
+### Deprecated
+
+### Removed
+
+### Fixed
+
+## [8.1.0] - 2019-10-16
+
+### Added
+
+### Changed
+
+### Deprecated
+
+### Removed
+
+### Fixed
+
+## [8.1.0] - 2019-10-16
+
+### Added
+
 * Better Indonesian translation
   ([#733](https://github.com/cucumber/cucumber/pull/733)
    [milhcbt])
@@ -577,7 +613,10 @@ to Gherkin 2.
 * First release
 
 <!-- Releases -->
-[Unreleased]: https://github.com/cucumber/cucumber/compare/gherkin/v8.0.0...master
+[Unreleased]: https://github.com/cucumber/cucumber/compare/gherkin/v8.1.0...master
+[8.1.0]:     https://github.com/cucumber/cucumber/compare/gherkin/v8.1.0...gherkin/v8.1.0
+[8.1.0]:     https://github.com/cucumber/cucumber/compare/gherkin/v8.1.0...gherkin/v8.1.0
+[8.1.0]:     https://github.com/cucumber/cucumber/compare/gherkin/v8.0.0...gherkin/v8.1.0
 [8.0.0]:     https://github.com/cucumber/cucumber/compare/gherkin/v7.0.4...gherkin/v8.0.0
 [7.0.4]:     https://github.com/cucumber/cucumber/compare/gherkin/v7.0.3...gherkin/v7.0.4
 [7.0.3]:     https://github.com/cucumber/cucumber/compare/gherkin/v7.0.2...gherkin/v7.0.3
