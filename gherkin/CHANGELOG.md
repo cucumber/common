@@ -19,6 +19,10 @@ This document is formatted according to the principles of [Keep A CHANGELOG](htt
 
 ### Fixed
 
+## [8.1.1] - 2019-10-17
+
+### Fixed
+
 * Replace internal `ProtobufMessageStream` with `ProtobufIoEnumerator`
 
 ## [8.1.0] - 2019-10-16
@@ -591,10 +595,11 @@ to Gherkin 2.
 * First release
 
 <!-- Releases -->
-[Unreleased]: https://github.com/cucumber/cucumber/compare/gherkin/v8.1.0...master
-[8.1.0]:     https://github.com/cucumber/cucumber/compare/gherkin/v8.1.0...gherkin/v8.1.0
-[8.1.0]:     https://github.com/cucumber/cucumber/compare/gherkin/v8.1.0...gherkin/v8.1.0
-[8.1.0]:     https://github.com/cucumber/cucumber/compare/gherkin/v8.1.0...gherkin/v8.1.0
+[Unreleased]: https://github.com/cucumber/cucumber/compare/gherkin/v8.1.1...master
+[8.1.1]:     https://github.com/cucumber/cucumber/compare/gherkin/v8.1.0...gherkin/v8.1.1
+[8.1.0]:     https://github.com/cucumber/cucumber/compare/gherkin/v8.1.1...gherkin/v8.1.0
+[8.1.0]:     https://github.com/cucumber/cucumber/compare/gherkin/v8.1.1...gherkin/v8.1.0
+[8.1.0]:     https://github.com/cucumber/cucumber/compare/gherkin/v8.1.1...gherkin/v8.1.0
 [8.1.0]:     https://github.com/cucumber/cucumber/compare/gherkin/v8.0.0...gherkin/v8.1.0
 [8.0.0]:     https://github.com/cucumber/cucumber/compare/gherkin/v7.0.4...gherkin/v8.0.0
 [7.0.4]:     https://github.com/cucumber/cucumber/compare/gherkin/v7.0.3...gherkin/v7.0.4

@@ -1,6 +1,6 @@
 {
   "name": "gherkin",
-  "version": "8.1.0",
+  "version": "8.1.1",
   "description": "Gherkin parser",
   "main": "dist/src/index.js",
   "types": "dist/src/index.d.ts",
