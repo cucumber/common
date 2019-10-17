@@ -25,7 +25,9 @@ pre-release: update-dependencies clean default
 
 update-version:
 ifdef NEW_VERSION
+ifneq (,$(GEMSPEC))
 	sed -i "s/\(s\.version *= *'\)[0-9]*\.[0-9]*\.[0-9]*\('\)/\1$(NEW_VERSION)\2/" $(GEMSPEC)
+endif
 else
 	@echo -e "\033[0;31mNEW_VERSION is not defined. Can't update version :-(\033[0m"
 	exit 1

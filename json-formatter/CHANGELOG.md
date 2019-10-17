@@ -19,6 +19,12 @@ This document is formatted according to the principles of [Keep A CHANGELOG](htt
 
 ### Fixed
 
+## [2.0.0] - 2019-10-17
+
+### Changed
+
+* Upgrade to cucumber-messages v6
+
 ## [1.0.0]
 
 ### Added
@@ -26,7 +32,8 @@ This document is formatted according to the principles of [Keep A CHANGELOG](htt
 * Initial release
 
 <!-- Releases -->
-[Unreleased]: https://github.com/cucumber/cucumber/compare/json-formatter/v1.0.0...master
+[Unreleased]: https://github.com/cucumber/cucumber/compare/json-formatter/v2.0.0...master
+[2.0.0]:      https://github.com/cucumber/cucumber/releases/tag/json-formatter/v1.0.0
 [1.0.0]:      https://github.com/cucumber/cucumber/releases/tag/json-formatter/v1.0.0
 
 <!-- Contributors -->

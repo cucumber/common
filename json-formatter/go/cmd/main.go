@@ -1,7 +1,7 @@
 package main
 
 import (
-	jsonFormatter "github.com/cucumber/json-formatter-go"
+	jsonFormatter "github.com/cucumber/json-formatter-go/v2"
 	"log"
 	"os"
 )
