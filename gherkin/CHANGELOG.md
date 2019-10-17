@@ -19,42 +19,6 @@ This document is formatted according to the principles of [Keep A CHANGELOG](htt
 
 ### Fixed
 
-## [8.1.0] - 2019-10-17
-
-### Added
-
-### Changed
-
-### Deprecated
-
-### Removed
-
-### Fixed
-
-## [8.1.0] - 2019-10-16
-
-### Added
-
-### Changed
-
-### Deprecated
-
-### Removed
-
-### Fixed
-
-## [8.1.0] - 2019-10-16
-
-### Added
-
-### Changed
-
-### Deprecated
-
-### Removed
-
-### Fixed
-
 ## [8.1.0] - 2019-10-16
 
 ### Added
