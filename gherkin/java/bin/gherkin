@@ -1,10 +1,16 @@
 #!/usr/bin/env bash
 set -euf -o pipefail
-DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
+DIR=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)
 
-messages_version=6.0.2
-gherkin_version=8.1.0
+CYAN='\033[0;36m'
+NC='\033[0m'
+
+if [ ! -f "${DIR}/classpath.txt" ] || [ "${DIR}/../pom.xml" -nt "${DIR}/classpath.txt" ]; then
+  >&2 echo -e "${CYAN}Writing new classpath file...${NC}"
+  mvn dependency:build-classpath -Dmdep.outputFile="${DIR}/classpath.txt" > /dev/null
+  touch "${DIR}/classpath.txt"
+fi
 
 java \
-    -classpath "${DIR}/../target/gherkin-${gherkin_version}.jar:${HOME}/.m2/repository/io/cucumber/messages/${messages_version}/messages-${messages_version}.jar" \
-    io.cucumber.gherkin.Main $*
+  -classpath "$(cat "${DIR}/classpath.txt"):${DIR}/../target/classes" \
+  io.cucumber.gherkin.Main $*
