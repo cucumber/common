@@ -19,6 +19,18 @@ This document is formatted according to the principles of [Keep A CHANGELOG](htt
 
 ### Fixed
 
+## [8.1.0] - 2019-10-17
+
+### Added
+
+### Changed
+
+### Deprecated
+
+### Removed
+
+### Fixed
+
 ## [8.1.0] - 2019-10-16
 
 ### Added
@@ -614,6 +626,7 @@ to Gherkin 2.
 
 <!-- Releases -->
 [Unreleased]: https://github.com/cucumber/cucumber/compare/gherkin/v8.1.0...master
+[8.1.0]:     https://github.com/cucumber/cucumber/compare/gherkin/v8.1.0...gherkin/v8.1.0
 [8.1.0]:     https://github.com/cucumber/cucumber/compare/gherkin/v8.1.0...gherkin/v8.1.0
 [8.1.0]:     https://github.com/cucumber/cucumber/compare/gherkin/v8.1.0...gherkin/v8.1.0
 [8.1.0]:     https://github.com/cucumber/cucumber/compare/gherkin/v8.0.0...gherkin/v8.1.0
