@@ -7,7 +7,6 @@ require 'json'
 require 'cucumber/messages'
 require 'gherkin'
 require 'gherkin/stream/subprocess_message_stream'
-require 'gherkin/stream/protobuf_message_stream'
 
 options = {
   include_source: true,
@@ -63,7 +62,7 @@ end
 gherkin_executable = ENV['GHERKIN_EXECUTABLE']
 if ARGV.empty?
   # Read protobuf from STDIN
-  messages = Gherkin::Stream::ProtobufMessageStream.new(STDIN).messages
+  messages = Cucumber::Messages::ProtobufIoEnumerator.call(STDIN)
 elsif gherkin_executable
   # Read protobuf from STDIN
   messages = Gherkin::Stream::SubprocessMessageStream.new(

@@ -1,5 +1,5 @@
 require 'open3'
-require 'gherkin/stream/protobuf_message_stream'
+require 'cucumber/messages'
 
 module Gherkin
   module Stream
@@ -19,7 +19,7 @@ module Gherkin
           error = stderr.read
           raise error
         end
-        ProtobufMessageStream.new(stdout).messages
+        Cucumber::Messages::ProtobufIoEnumerator.call(stdout)
       end
     end
   end
