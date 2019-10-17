@@ -1,6 +1,6 @@
 include default.mk
 
-FEATURE_FILES = $(wildcard ../ruby/features/*.feature)
+FEATURE_FILES = $(sort $(wildcard ../ruby/features/*.feature))
 FEATURE_BINS = $(patsubst ../ruby/features/%.feature,acceptance/%.bin,$(FEATURE_FILES))
 
 .DELETE_ON_ERROR:

@@ -1,6 +1,6 @@
 include default.mk
 
-GOLDEN_JSONS = $(wildcard ../ruby/features/*.json)
+GOLDEN_JSONS = $(sort $(wildcard ../ruby/features/*.json))
 GENERATED_JSONS = $(patsubst ../ruby/features/%.json,acceptance/%.json,$(GOLDEN_JSONS))
 
 .DELETE_ON_ERROR:

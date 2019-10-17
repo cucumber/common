@@ -1,7 +1,7 @@
 include default.mk
 
-FEATURE_FILES = $(wildcard features/*.feature)
-RUBY_FILES = $(wildcard features/step_definitions/*.rb)
+FEATURE_FILES = $(sort $(wildcard features/*.feature))
+RUBY_FILES = $(sort $(wildcard features/step_definitions/*.rb))
 JSONS_GOLDEN  = $(patsubst features/%.feature,features/%.json,$(FEATURE_FILES))
 
 .tested: $(JSONS_GOLDEN) features/all.json
