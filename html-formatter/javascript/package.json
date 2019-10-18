@@ -1,6 +1,6 @@
 {
   "name": "cucumber-html-formatter",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "HTML formatter for Cucumber",
   "bin": {
     "cucumber-html-formatter": "bin/cucumber-html-formatter.js"
@@ -18,7 +18,7 @@
   },
   "dependencies": {
     "cucumber-messages": "^6.0.2",
-    "cucumber-react": "^2.0.0",
+    "cucumber-react": "^2.0.1",
     "jsdom": "^15.2.0",
     "react": "^16.10.2",
     "react-dom": "^16.10.2"
