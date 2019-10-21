@@ -1,6 +1,8 @@
 import { readFile } from 'fs'
 import { messages, ProtobufMessageStream } from 'cucumber-messages'
 import React from 'react'
+import program from 'commander'
+import p from '../package.json'
 import { Transform } from 'stream'
 import { App, makeGherkinDocumentsAndResultsLookup } from 'cucumber-react'
 import { renderToString } from 'react-dom/server'
@@ -47,6 +49,10 @@ ${js.toString('utf8')}
     })
   }
 }
+
+program
+  .version(p.version)
+  .parse(process.argv);
 
 const protobufMessageStream = new ProtobufMessageStream(messages.Envelope.decodeDelimited.bind(messages.Envelope))
 protobufMessageStream.on('error', (err: Error) => exit(err))
