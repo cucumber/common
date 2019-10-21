@@ -85,12 +85,7 @@ This will:
 * Publish all the packages
 * Commit all the changed files
 * Create a git tag
-
-If the package has a `Dockerfile`, run the following from a shell
-on your host OS:
-
-    cd thepackage/thelanguage
-    NEW_VERSION=X.Y.Z make docker-push
+* If a `Dockerfile` is present, and DockerHub is configured to build it, a docker image will be published.
 
 Check that releases show up under:
 
