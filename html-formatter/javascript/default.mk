@@ -58,6 +58,11 @@ post-release:
 	@echo "No post-release needed for javascript"
 .PHONY: post-release
 
+docker-push:
+	source ../../scripts/functions.sh && \
+		docker_build Dockerfile \
+		docker_build Dockerfile
+
 clean: clean-javascript
 .PHONY: clean
 

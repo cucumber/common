@@ -14,7 +14,8 @@ outline the process:
 * Update changelog
 * Release packages
 
-All the release commands will be done from a shell session in the Docker container.
+The release commands will be done from a shell session in the Docker container.
+If the release publishes a docker image, this will be done from the host OS.
 
 ## Decrypt credentials
 
@@ -85,15 +86,21 @@ This will:
 * Commit all the changed files
 * Create a git tag
 
+If the package has a `Dockerfile`, run the following from a shell
+on your host OS:
+
+    cd thepackage/thelanguage
+    NEW_VERSION=X.Y.Z make docker-push
+
 Check that releases show up under:
 
 * `https://rubygems.org/gems/[package]/versions/[version]`
 * `https://www.npmjs.com/package/[package]`
 * `https://search.maven.org/search?q=a:[package]` (This will take a few hours to show up)
 * `https://www.nuget.org/packages/[package]/[version]`
+* `https://cloud.docker.com/u/cucumber/repository/list`
 
 ## Post release
-
 
 Run the following command (using the same NEW_VERSION as you used for the release):
 
