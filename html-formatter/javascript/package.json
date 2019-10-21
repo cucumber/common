@@ -22,7 +22,8 @@
     "cucumber-react": "^2.0.1",
     "jsdom": "^15.2.0",
     "react": "^16.10.2",
-    "react-dom": "^16.10.2"
+    "react-dom": "^16.10.2",
+    "source-map-support": "^0.5.13"
   },
   "devDependencies": {
     "@babel/core": "^7.6.4",

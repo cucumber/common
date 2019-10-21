@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+require('source-map-support').install()
 
 // a DOM is required to make SSR work on Node, because react-sidenav references document directly
 const { JSDOM } = require('jsdom')

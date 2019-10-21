@@ -17,6 +17,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Fixed
 
+* Add source map support for better stack traces
+
 ## [2.0.1] - 2019-10-18
 
 ### Changed
