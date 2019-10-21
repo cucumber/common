@@ -23,7 +23,7 @@ This document is formatted according to the principles of [Keep A CHANGELOG](htt
 
 ### Fixed
 
-* Replace internal `ProtobufMessageStream` with `ProtobufIoEnumerator`
+* [Ruby] Replace internal `ProtobufMessageStream` with `ProtobufIoEnumerator`
 
 ## [8.1.0] - 2019-10-16
 
