@@ -3,8 +3,8 @@ package tagexpressions
 import (
 	"errors"
 	"fmt"
-	"regexp"
 	"strings"
+	"unicode"
 )
 
 const OPERAND = "operand"
@@ -96,46 +96,41 @@ var PREC = map[string]int{
 	"not": 2,
 }
 
-var whitespaceRegex = regexp.MustCompile(`\s`)
-
 func tokenize(expr string) []string {
-	tokens := []string{}
-	isEscaped := false
-	token := []rune{}
-	for _, c := range expr {
-		if '\\' == c {
-			isEscaped = true
-		} else {
-			if whitespaceRegex.MatchString(string(c)) {
-				// skip
-				if len(token) > 0 {
-					// end of token
-					tokens = append(tokens, string(token))
-					token = []rune{}
-				}
-			} else {
-				switch c {
-				case '(', ')':
-					if !isEscaped {
-						if len(token) > 0 {
-							// end of token
-							tokens = append(tokens, string(token))
-							token = []rune{}
-						}
-						tokens = append(tokens, string(c))
-						break
-					}
-					fallthrough
-				default:
-					token = append(token, c)
-				}
-			}
-			isEscaped = false
+	var tokens []string
+	var token []rune
+
+	collectToken := func() {
+		if len(token) > 0 {
+			tokens = append(tokens, string(token))
+			token = []rune{}
 		}
 	}
-	if len(token) > 0 {
-		tokens = append(tokens, string(token))
+
+	escaped := false
+	for _, c := range expr {
+		if unicode.IsSpace(c) {
+			collectToken()
+			continue
+		}
+
+		switch c {
+		case '\\':
+			escaped = true
+		case '(', ')':
+			if escaped {
+				token = append(token, c)
+				escaped = false
+			} else {
+				collectToken()
+				tokens = append(tokens, string(c))
+			}
+		default:
+			token = append(token, c)
+		}
 	}
+
+	collectToken()
 	return tokens
 }
 
