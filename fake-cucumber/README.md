@@ -13,3 +13,7 @@ possible statuses.
 ## Usage
 
     fake-cucumber [--format=json|ndjson|protobuf] [--results=none|random|pattern] [FILES]
+
+Alternatively, using docker:
+
+    docker run --rm cucumber/fake-cucumber ....

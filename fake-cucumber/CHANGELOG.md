@@ -7,15 +7,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ----
 ## [Unreleased]
 
-### Added
-
-### Changed
-
-### Deprecated
-
-### Removed
-
 ### Fixed
+
+* Add source map support for better stack traces
 
 ## [2.0.0] - 2019-10-04
 
