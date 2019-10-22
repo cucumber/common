@@ -7,15 +7,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ----
 ## [Unreleased]
 
-### Added
-
-### Changed
-
-### Deprecated
-
-### Removed
-
 ### Fixed
+
+* Try another build of the docker image
 
 ## [2.0.2] - 2019-10-22
 
