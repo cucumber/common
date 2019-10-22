@@ -10,4 +10,6 @@ ADD tsconfig.json /home/node/app/tsconfig.json
 RUN cd /home/node/app && npm install
 RUN cd /home/node/app && npm run build
 
+USER node
+WORKDIR /tmp
 ENTRYPOINT [ "/home/node/app/bin/fake-cucumber" ]

@@ -12,8 +12,11 @@ possible statuses.
 
 ## Usage
 
+Using npm:
+
+    npm install -g fake-cucumber
     fake-cucumber [--format=json|ndjson|protobuf] [--results=none|random|pattern] [FILES]
 
 Alternatively, using docker:
 
-    docker run --rm cucumber/fake-cucumber ....
+    docker run -v $(pwd)/features:/tmp/features cucumber/fake-cucumber:latest features/**/*.feature

@@ -11,4 +11,5 @@ ADD webpack.config.js /home/node/app/webpack.config.js
 RUN cd /home/node/app && npm install
 RUN cd /home/node/app && npm run build
 
+USER node
 ENTRYPOINT [ "/home/node/app/bin/cucumber-html-formatter.js" ]
