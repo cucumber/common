@@ -428,6 +428,8 @@ message TestCaseStarted {
   string pickleId = 1;
   Timestamp timestamp = 2;
   Platform platform = 3;
+  uint32 attempt = 4;
+  string testCaseId = 5;
 
   message Platform {
     // The runner implementation. For example "SpecFlow", "Cucumber-JVM", "Behat" etc.
@@ -442,9 +444,10 @@ message TestCaseStarted {
 }
 
 message TestCaseFinished {
-  string pickleId = 1;
+  reserved 1;
   Timestamp timestamp = 2;
   TestResult testResult = 3;
+  string testCaseId = 4;
 }
 
 // For each step, there will be a match
@@ -456,27 +459,31 @@ message TestStepMatched {
 }
 
 message TestStepStarted {
-  string pickleId = 1;
+  reserved 1;
   uint32 index = 2;
   Timestamp timestamp = 3;
+  string testCaseId = 4;
 }
 
 message TestStepFinished {
-  string pickleId = 1;
+  reserved 1;
   uint32 index = 2;
   TestResult testResult = 3;
   Timestamp timestamp = 4;
+  string testCaseId = 5;
 }
 
 message TestHookStarted {
-  string pickleId = 1;
+  reserved 1;
   Timestamp timestamp = 2;
+  string testCaseId = 3;
 }
 
 message TestHookFinished {
-  string pickleId = 1;
+  reserved 1;
   TestResult testResult = 2;
   Timestamp timestamp = 3;
+  string testCaseId = 4;
 }
 
 message TestResult {
@@ -484,6 +491,7 @@ message TestResult {
   string message = 2;
   reserved 3;
   Duration duration = 4;
+  bool willBeRetried = 5;
 
   /**
    * Status of a step. Can also represent status of a Pickle (aggregated
@@ -636,14 +644,16 @@ message CommandRunBeforeTestCaseHook {
   string actionId = 1;
   reserved 2;
   string testCaseHookDefinitionId = 3;
-  string pickleId = 4;
+  reserved 4;
+  string testCaseId = 5;
 }
 
 message CommandRunAfterTestCaseHook {
   string actionId = 1;
   reserved 2;
   string testCaseHookDefinitionId = 3;
-  string pickleId = 4;
+  reserved 4;
+  string testCaseId = 5;
 }
 
 message CommandRunTestStep {
@@ -651,8 +661,9 @@ message CommandRunTestStep {
   reserved 2;
   string stepDefinitionId = 3;
   repeated StepMatchArgument stepMatchArguments = 4;
-  string pickleId = 5;
+  reserved 5;
   PickleStepArgument pickleStepArgument = 6;
+  string testCaseId = 7;
 }
 
 /**
