@@ -35,10 +35,16 @@ implement a `protobuf` formatter.
 
 ## Build / hack
 
-You should do a full build of the monorepo first, as this library depends on other
-libraries in the monorepo. Then:
+Install dependencies
 
     npm install
+
+Run tests
+
+    npm test
+
+Interactive development
+
     npm run storybook
 
 ## Ideas
