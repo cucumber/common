@@ -32,16 +32,24 @@ function sort(finishedList: IFinished[]): IFinished[] {
  */
 export default (
   pickles: messages.IPickle[],
+  testCaseStartedList: messages.ITestCaseStarted[],
   testStepFinishedList: messages.ITestStepFinished[],
   testCaseFinishedList: messages.ITestCaseFinished[],
 ): ResultsLookup => {
   const finishedListByUriAndLine = new Map<string, IFinished[]>()
   const testCaseFinishedListByUri = new Map<string, messages.ITestCaseFinished[]>()
   const pickleById = new Map<string, messages.IPickle>()
+  const pickleByTestCaseId = new Map<string, messages.IPickle>()
 
   function getPickleById(pickleId: string) {
     const pickle = pickleById.get(pickleId)
     if (!pickle) throw new Error(`No pickle with id ${pickleId}`)
+    return pickle
+  }
+
+  function getPickleByTestCaseId(testCaseId: string) {
+    const pickle = pickleByTestCaseId.get(testCaseId)
+    if (!pickle) throw new Error(`No pickle for testCase ${testCaseId}`)
     return pickle
   }
 
@@ -60,8 +68,13 @@ export default (
     }
   }
 
+  for (const testCaseStarted of testCaseStartedList) {
+    const pickle = getPickleById(testCaseStarted.pickleId)
+    pickleByTestCaseId.set(testCaseStarted.testCaseId, pickle)
+  }
+
   for (const testStepFinished of testStepFinishedList) {
-    const pickle = getPickleById(testStepFinished.pickleId)
+    const pickle = getPickleByTestCaseId(testStepFinished.testCaseId)
     const uri = pickle.uri
     const pickleStep = pickle.steps[testStepFinished.index]
     if (!pickleStep) throw new Error(`Pickle ${pickle} has no steps at index ${testStepFinished.index}`)
@@ -73,7 +86,7 @@ export default (
   }
 
   for (const testCaseFinished of testCaseFinishedList) {
-    const pickle = getPickleById(testCaseFinished.pickleId)
+    const pickle = getPickleByTestCaseId(testCaseFinished.testCaseId)
     const uri = pickle.uri
     for (const location of pickle.locations) {
       finishedListByUriAndLine.get(

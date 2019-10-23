@@ -9,6 +9,10 @@ const pickles: messages.IPickle[] = envelopes
   .filter(m => m.pickle)
   .map(m => m.pickle)
 
+const testCaseStartedList: messages.ITestCaseStarted[] = envelopes
+    .filter(m => m.testCaseStarted)
+    .map(m => m.testCaseStarted)
+
 const testStepFinishedList: messages.ITestStepFinished[] = envelopes
   .filter(m => m.testStepFinished)
   .map(m => m.testStepFinished)
@@ -17,7 +21,7 @@ const testCaseFinishedList: messages.ITestStepFinished[] = envelopes
   .filter(m => m.testCaseFinished)
   .map(m => m.testCaseFinished)
 
-const resultsLookup = makeResultsLookup(pickles, testStepFinishedList, testCaseFinishedList)
+const resultsLookup = makeResultsLookup(pickles, testCaseStartedList, testStepFinishedList, testCaseFinishedList)
 
 describe('resultsLookup', () => {
   it('finds results for a step', () => {
