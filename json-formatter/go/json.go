@@ -205,7 +205,7 @@ func (formatter *Formatter) ProcessMessages(stdin io.Reader, stdout io.Writer) (
 			formatter.pickleByTestCaseId[m.TestCaseStarted.TestCaseId] = pickle
 
 		case *messages.Envelope_TestStepMatched:
-			pickle := formatter.pickleByTestCaseId[m.TestStepMatched.TestCaseId]
+			pickle := formatter.pickleById[m.TestStepMatched.PickleId]
 			pickleStep := pickle.Steps[m.TestStepMatched.Index]
 			step := formatter.jsonStepsByKey[key(pickle.Uri, pickleStep.Locations[0])]
 
