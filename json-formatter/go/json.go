@@ -59,6 +59,7 @@ type Formatter struct {
 	jsonFeaturesByURI    map[string]*jsonFeature
 	jsonStepsByKey       map[string]*jsonStep
 	pickleById           map[string]*messages.Pickle
+	pickleByTestCaseId   map[string]*messages.Pickle
 	scenariosByKey       map[string]*messages.GherkinDocument_Feature_Scenario
 	scenarioStepsByKey   map[string]*messages.GherkinDocument_Feature_Step
 }
@@ -75,6 +76,7 @@ func (formatter *Formatter) ProcessMessages(stdin io.Reader, stdout io.Writer) (
 	formatter.exampleRowIndexByKey = make(map[string]int)
 	formatter.gherkinDocumentByURI = make(map[string]*messages.GherkinDocument)
 	formatter.pickleById = make(map[string]*messages.Pickle)
+	formatter.pickleByTestCaseId = make(map[string]*messages.Pickle)
 	formatter.scenariosByKey = make(map[string]*messages.GherkinDocument_Feature_Scenario)
 	formatter.scenarioStepsByKey = make(map[string]*messages.GherkinDocument_Feature_Step)
 
@@ -198,8 +200,12 @@ func (formatter *Formatter) ProcessMessages(stdin io.Reader, stdout io.Writer) (
 				Type:        "scenario",
 			})
 
+		case *messages.Envelope_TestCaseStarted:
+			pickle := formatter.pickleById[m.TestCaseStarted.PickleId]
+			formatter.pickleByTestCaseId[m.TestCaseStarted.TestCaseId] = pickle
+
 		case *messages.Envelope_TestStepMatched:
-			pickle := formatter.pickleById[m.TestStepMatched.PickleId]
+			pickle := formatter.pickleByTestCaseId[m.TestStepMatched.TestCaseId]
 			pickleStep := pickle.Steps[m.TestStepMatched.Index]
 			step := formatter.jsonStepsByKey[key(pickle.Uri, pickleStep.Locations[0])]
 
@@ -212,7 +218,7 @@ func (formatter *Formatter) ProcessMessages(stdin io.Reader, stdout io.Writer) (
 			}
 
 		case *messages.Envelope_TestStepFinished:
-			pickle := formatter.pickleById[m.TestStepFinished.PickleId]
+			pickle := formatter.pickleByTestCaseId[m.TestStepFinished.TestCaseId]
 			pickleStep := pickle.Steps[m.TestStepFinished.Index]
 			step := formatter.jsonStepsByKey[key(pickle.Uri, pickleStep.Locations[0])]
 
