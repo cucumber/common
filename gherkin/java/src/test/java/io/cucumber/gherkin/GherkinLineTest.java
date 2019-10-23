@@ -69,4 +69,32 @@ public class GherkinLineTest {
         List<String> texts = gherkinLine.getTableCells().stream().map(span -> span.text).collect(Collectors.toList());
         assertEquals(asList("\\o\no|"), texts);
     }
+
+    @Test
+    public void correctly_trims_white_spaces_before_cell_content() {
+        GherkinLine gherkinLine = new GherkinLine("|   \t spaces before|");
+        List<String> texts = gherkinLine.getTableCells().stream().map(span -> span.text).collect(Collectors.toList());
+        assertEquals(asList("spaces before"), texts);
+    }
+
+    @Test
+    public void correctly_trims_white_spaces_after_cell_content() {
+        GherkinLine gherkinLine = new GherkinLine("|spaces after   |");
+        List<String> texts = gherkinLine.getTableCells().stream().map(span -> span.text).collect(Collectors.toList());
+        assertEquals(asList("spaces after"), texts);
+    }
+
+    @Test
+    public void correctly_trims_white_spaces_around_cell_content() {
+        GherkinLine gherkinLine = new GherkinLine("|   \t spaces everywhere   \t|");
+        List<String> texts = gherkinLine.getTableCells().stream().map(span -> span.text).collect(Collectors.toList());
+        assertEquals(asList("spaces everywhere"), texts);
+    }
+
+    @Test
+    public void does_not_drop_white_spaces_inside_a_cell() {
+        GherkinLine gherkinLine = new GherkinLine("| foo()\n  bar\nbaz |");
+        List<String> texts = gherkinLine.getTableCells().stream().map(span -> span.text).collect(Collectors.toList());
+        assertEquals(asList("foo()\n  bar\nbaz"), texts);
+    }
 }
