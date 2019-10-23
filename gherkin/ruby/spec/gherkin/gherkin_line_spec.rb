@@ -7,9 +7,15 @@ describe Gherkin::GherkinLine do
       Gherkin::GherkinLine.new(line, 12).table_cells.map(&:text)
     end
 
-    it 'correctly trims cells content' do
-      expect(cells_text("|spaces after   |")).to eq(['spaces after'])
+    it 'trims white spaces before cell content' do
       expect(cells_text("|   \t spaces before|")).to eq(['spaces before'])
+    end
+
+    it 'trims white spaces after cell content' do
+      expect(cells_text("|spaces after   |")).to eq(['spaces after'])
+    end
+
+    it 'trims white spaces around cell content' do
       expect(cells_text("|   \t spaces everywhere   \t|")).to eq(['spaces everywhere'])
     end
 
