@@ -6,9 +6,9 @@ Cucumber-React is a set of React components for rendering Gherkin documents and 
 
 ![Cucumber-Ruby features](screenshots/cucumber-ruby-features.png)
 
-This screnshot renders the [<App>](src/components/app/App.tsx) component, which has a 
-[<GherkinDocumentSideNav>](src/components/app/GherkinDocumentSideNav.tsx) component on the left,
-and a [<GherkinDocument>](src/components/gherkin/GherkinDocument.tsx) on the right.
+This screnshot renders the [`<App>`](src/components/app/App.tsx) component, which has a 
+[`<GherkinDocumentSideNav>`](src/components/app/GherkinDocumentSideNav.tsx) component on the left,
+and a [`<GherkinDocument>`](src/components/gherkin/GherkinDocument.tsx) on the right.
 
 The `<GherkinDocument>` component and everything inside it is the "reusable" part of this library.
 It's intended to be embeddable in other web applications to display the contents of a Gherkin document.
@@ -32,7 +32,7 @@ Similarly, if you want to highlight [Cucumber Expression parameters](https://cuc
 or Regexp capture groups, you have to nest `<GherkinDocument>` inside a [`<StepMatchLookupByLineContext.Provider>`](src/StepMatchLookupByLineContext.ts)
 component.
 
-An example of how this is done is in [<App>](src/components/app/App.tsx). The messages for results and step matches are also
+An example of how this is done is in [`<App>`](src/components/app/App.tsx). The messages for results and step matches are also
 defined in [cucumber-messages](../../cucumber-messages/messages.md), and provided by Cucumber implementations that
 implement a `protobuf` formatter.
 
