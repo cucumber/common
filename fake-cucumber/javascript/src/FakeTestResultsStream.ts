@@ -1,5 +1,6 @@
 import { Transform } from 'stream'
 import { messages } from 'cucumber-messages'
+import uuidv4 from 'uuid/v4'
 
 class FakeTestResultsStream extends Transform {
   private readonly buffer: messages.IEnvelope[] = []
@@ -23,10 +24,13 @@ class FakeTestResultsStream extends Transform {
     this.p(envelope)
 
     if (envelope.pickle && this.results !== 'none') {
+      let testCaseId = uuidv4()
       this.p(
         new messages.Envelope({
           testCaseStarted: new messages.TestCaseStarted({
+            attemtNumber: 1,
             pickleId: envelope.pickle.id,
+            testCaseId,
           }),
         })
       )
@@ -41,7 +45,7 @@ class FakeTestResultsStream extends Transform {
           new messages.Envelope({
             testStepStarted: new messages.TestStepStarted({
               index,
-              pickleId: envelope.pickle.id,
+              testCaseId,
             }),
           })
         )
@@ -129,7 +133,7 @@ class FakeTestResultsStream extends Transform {
           new messages.Envelope({
             testStepFinished: new messages.TestStepFinished({
               index,
-              pickleId: envelope.pickle.id,
+              testCaseId,
               testResult: {
                 status: testStepStatus,
                 message:
@@ -150,7 +154,7 @@ class FakeTestResultsStream extends Transform {
       this.p(
         new messages.Envelope({
           testCaseFinished: new messages.TestCaseFinished({
-            pickleId: envelope.pickle.id,
+            testCaseId,
             testResult: {
               status: testCaseStatus,
               message:
