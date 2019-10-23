@@ -15,15 +15,12 @@ It's intended to be embeddable in other web applications to display the contents
 
 ## `<GherkinDocument>` features
 
-The `<GherkinDocument>` component is instantiated with a single `gherkinDocument` prop, which is an
-object provided by the Gherkin 8 parser. 
-
-The `gherkinDocument` prop is a protobuf object derived
-from the `GherkinDocument` message from the [cucumber-messages](../../cucumber-messages/messages.md) library.
-It represents the [AST](https://en.wikipedia.org/wiki/Abstract_syntax_tree) of a Gherkin document.
+The `<GherkinDocument>` component is instantiated with a single `gherkinDocument` prop, which is a
+`GherkinDocument` object returned by the Gherkin 8 parser and defined in [cucumber-messages](../../cucumber-messages/messages.md#io.cucumber.messages.GherkinDocument) library.
 
 By default the `<GherkinDocument>` component will not display any coloured results, as the `GherkinDocument`
-message object does not contain results, only the AST structure. This is fine for simple use cases.
+message object does not contain results, only the [AST](https://en.wikipedia.org/wiki/Abstract_syntax_tree) of the document. 
+This is fine for simple use cases where results are not important.
 
 To render a `<GherkinDocument>` with results, it must be nested inside a 
 [`<ResultsLookupByLineContext.Provider>`](src/ResultsLookupByLineContext.ts) component.
