@@ -35,6 +35,14 @@ public class CucumberExpressionPatternTest {
                 "^I said (?:Alpha1|Beta1)$"
         );
     }
+    
+    @Test
+    public void translates_alternation_with_optional_words() {
+        assertPattern(
+            "the (test )chat/call/email interactions are visible,
+            "^the (?:test )?(?:chat|call|email) interactions are visible$"
+        );
+    }
 
     @Test
     public void translates_parameters() {
