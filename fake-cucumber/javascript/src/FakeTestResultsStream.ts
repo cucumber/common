@@ -28,7 +28,6 @@ class FakeTestResultsStream extends Transform {
       this.p(
         new messages.Envelope({
           testCaseStarted: new messages.TestCaseStarted({
-            attemtNumber: 1,
             pickleId: envelope.pickle.id,
             testCaseId,
           }),
