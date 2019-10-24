@@ -38,6 +38,11 @@ public class CucumberExpressionTest {
     }
 
     @Test
+    public void matches_word_s() {
+        assertEquals(emptyList(), match("three (brown )mice/rats", "three brown rats"));
+    }
+
+    @Test
     public void matches_double_quoted_string() {
         assertEquals(singletonList("blind"), match("three {string} mice", "three \"blind\" mice"));
     }

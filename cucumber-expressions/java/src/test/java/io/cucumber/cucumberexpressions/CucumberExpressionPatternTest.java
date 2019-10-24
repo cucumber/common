@@ -37,6 +37,14 @@ public class CucumberExpressionPatternTest {
     }
 
     @Test
+    public void translates_alternation_with_optional_words() {
+        assertPattern(
+                "the (test )chat/call/email interactions are visible",
+                "^the (?:test )?(?:chat|call|email) interactions are visible$"
+        );
+    }
+
+    @Test
     public void translates_parameters() {
         assertPattern(
                 "I have {float} cukes at {int} o'clock",
