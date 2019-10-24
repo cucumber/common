@@ -24,7 +24,7 @@ class FakeTestResultsStream extends Transform {
     this.p(envelope)
 
     if (envelope.pickle && this.results !== 'none') {
-      let testCaseId = uuidv4()
+      const testCaseId = uuidv4()
       this.p(
         new messages.Envelope({
           testCaseStarted: new messages.TestCaseStarted({
