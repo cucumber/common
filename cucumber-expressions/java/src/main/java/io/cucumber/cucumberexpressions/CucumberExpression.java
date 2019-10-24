@@ -7,12 +7,13 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.function.BiFunction;
+import java.util.function.Function;
 import java.util.regex.MatchResult;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
-import static java.util.Collections.singletonList;
+import static java.util.stream.Collectors.joining;
 
 @API(status = API.Status.STABLE)
 public final class CucumberExpression implements Expression {
@@ -44,43 +45,117 @@ public final class CucumberExpression implements Expression {
         }
     }
 
-
     CucumberExpression(String expression, ParameterTypeRegistry parameterTypeRegistry) {
         this.source = expression;
         this.parameterTypeRegistry = parameterTypeRegistry;
 
-        List<Token> tokens = singletonList(new Token(expression, Token.Type.TEXT));
+        String pattern = Stream.of(new Token(expression, Token.Type.TEXT))
+                .flatMap(processOptional())
+                .flatMap(processAlternation())
+                .flatMap(processParameters())
+                .map(escapeTextTokens())
+                .collect(joining("", "^", "$"));
 
-        tokens = splitTextSections(tokens, OPTIONAL_PATTERN, this::processOptional);
-        tokens = splitTextSections(tokens, ALTERNATIVE_NON_WHITESPACE_TEXT_REGEXP, this::processAlternation);
-        tokens = splitTextSections(tokens, PARAMETER_PATTERN, this::processParameters);
-
-        expression = "^" + escapeTextSectionsAndJoin(tokens) + "$";
-        treeRegexp = new TreeRegexp(expression);
+        treeRegexp = new TreeRegexp(pattern);
     }
 
-    private String escapeTextSectionsAndJoin(List<Token> tokens) {
-        return tokens.stream()
-                .map(token -> token.type != Token.Type.TEXT ? token.text : processEscapes(token.text))
-                .collect(Collectors.joining());
+    private static Function<Token, String> escapeTextTokens() {
+        return token -> token.type != Token.Type.TEXT ? token.text : processEscapes(token.text);
     }
 
+    private static String processEscapes(String text) {
+        // This will cause explicitly-escaped parentheses to be double-escaped
+        return ESCAPE_PATTERN.matcher(text).replaceAll("\\\\$1");
+    }
 
-    private List<Token> splitTextSections(List<Token> unprocessed, Pattern pattern, BiFunction<String, MatchResult, Token> processor) {
-        List<Token> tokens = new ArrayList<>();
-        for (Token token : unprocessed) {
+    private Function<Token, Stream<Token>> processAlternation() {
+        return splitTextSections(ALTERNATIVE_NON_WHITESPACE_TEXT_REGEXP, (expression, matchResult) -> {
+            // replace \/ with /
+            // replace / with |
+            String replacement = matchResult.group(0).replace('/', '|').replaceAll("\\\\\\|", "/");
+            if (!replacement.contains("|")) {
+                // All / were escaped
+                return new Token(replacement, Token.Type.TEXT);
+            }
+
+            // Make sure the alternative parts aren't empty and don't contain parameter types
+            String[] split = replacement.split("\\|");
+            if (split.length == 0) {
+                throw new CucumberExpressionException("Alternative may not be empty: " + expression);
+            }
+            for (String part : split) {
+                if (part.isEmpty()) {
+                    throw new CucumberExpressionException("Alternative may not be empty: " + expression);
+                }
+                checkNotParameterType(part, PARAMETER_TYPES_CANNOT_BE_ALTERNATIVE);
+            }
+            String pattern = Arrays.stream(split)
+                    .map(s -> s.replace("/", "|"))
+                    .map(CucumberExpression::processEscapes)
+                    .collect(joining("|", "(?:", ")"));
+
+            return new Token(pattern, Token.Type.ALTERNATION);
+        });
+    }
+
+    private void checkNotParameterType(String s, String message) {
+        Matcher matcher = PARAMETER_PATTERN.matcher(s);
+        if (matcher.find()) {
+            throw new CucumberExpressionException(message + source);
+        }
+    }
+
+    private Function<Token, Stream<Token>> processOptional() {
+        return splitTextSections(OPTIONAL_PATTERN, (expression, matchResult) -> {
+            // look for double-escaped parentheses
+            String parameterPart = matchResult.group(2);
+            if (ESCAPE.equals(matchResult.group(1))) {
+                return new Token("(" + parameterPart + ")", Token.Type.TEXT);
+            }
+
+            checkNotParameterType(parameterPart, PARAMETER_TYPES_CANNOT_BE_OPTIONAL);
+            return new Token("(?:" + processEscapes(parameterPart) + ")?", Token.Type.OPTIONAL);
+        });
+    }
+
+    private Function<Token, Stream<Token>> processParameters() {
+        return splitTextSections(PARAMETER_PATTERN, (expression, matchResult) -> {
+            String typeName = matchResult.group(2);
+            if (ESCAPE.equals(matchResult.group(1))) {
+                return new Token("{" + typeName + "}", Token.Type.TEXT);
+            }
+            ParameterType.checkParameterTypeName(typeName);
+            ParameterType<?> parameterType = parameterTypeRegistry.lookupByTypeName(typeName);
+            if (parameterType == null) {
+                throw new UndefinedParameterTypeException(typeName);
+            }
+            parameterTypes.add(parameterType);
+            return new Token(buildCaptureRegexp(parameterType.getRegexps()), Token.Type.PARAMETER);
+        });
+    }
+
+    private String buildCaptureRegexp(List<String> regexps) {
+        if (regexps.size() == 1) {
+            return "(" + regexps.get(0)  + ")";
+        }
+        return regexps.stream()
+                .collect(joining(")|(?:", "((?:","))"));
+    }
+
+    private static Function<Token, Stream<Token>> splitTextSections(Pattern pattern, BiFunction<String, MatchResult, Token> processor) {
+        return token -> {
             if (token.type != Token.Type.TEXT) {
-                tokens.add(token);
-                continue;
+                return Stream.of(token);
             }
             String expression = token.text;
-            Matcher matcher = pattern.matcher(expression);
+            List<Token> tokens = new ArrayList<>();
+            Matcher matcher = pattern.matcher(token.text);
             int previousEnd = 0;
             while (matcher.find()) {
                 int start = matcher.start();
                 int end = matcher.end();
                 String prefix = expression.substring(previousEnd, start);
-                if(!prefix.isEmpty()) {
+                if (!prefix.isEmpty()) {
                     tokens.add(new Token(prefix, Token.Type.TEXT));
                 }
                 tokens.add(processor.apply(expression, matcher.toMatchResult()));
@@ -91,91 +166,8 @@ public final class CucumberExpression implements Expression {
             if (!suffix.isEmpty()) {
                 tokens.add(new Token(suffix, Token.Type.TEXT));
             }
-        }
-        return tokens;
-    }
-
-    private static String processEscapes(String text) {
-        // This will cause explicitly-escaped parentheses to be double-escaped
-        return ESCAPE_PATTERN.matcher(text).replaceAll("\\\\$1");
-    }
-
-    private Token processAlternation(String expression, MatchResult matchResult) {
-        // replace \/ with /
-        // replace / with |
-        String replacement = matchResult.group(0).replace('/', '|').replaceAll("\\\\\\|", "/");
-        if (!replacement.contains("|")) {
-            // All / were escaped
-            return new Token(replacement, Token.Type.TEXT);
-        }
-
-        // Make sure the alternative parts aren't empty and don't contain parameter types
-        String[] split = replacement.split("\\|");
-        if (split.length == 0) {
-            throw new CucumberExpressionException("Alternative may not be empty: " + expression);
-        }
-        for (String part : split) {
-            if (part.isEmpty()) {
-                throw new CucumberExpressionException("Alternative may not be empty: " + expression);
-            }
-            checkNotParameterType(part, PARAMETER_TYPES_CANNOT_BE_ALTERNATIVE);
-        }
-        String pattern = Arrays.stream(split)
-                .map(s -> s.replace("/", "|"))
-                .map(CucumberExpression::processEscapes)
-                .collect(Collectors.joining("|", "(?:", ")"));
-
-        return new Token(pattern, Token.Type.ALTERNATION);
-    }
-
-    private void checkNotParameterType(String s, String message) {
-        Matcher matcher = PARAMETER_PATTERN.matcher(s);
-        if (matcher.find()) {
-            throw new CucumberExpressionException(message + source);
-        }
-    }
-
-    private Token processOptional(String expression, MatchResult matchResult) {
-        // look for double-escaped parentheses
-        String parameterPart = matchResult.group(2);
-        if (ESCAPE.equals(matchResult.group(1))) {
-            return new Token("(" + parameterPart + ")", Token.Type.TEXT);
-        }
-
-        checkNotParameterType(parameterPart, PARAMETER_TYPES_CANNOT_BE_OPTIONAL);
-        return new Token("(?:" + processEscapes(parameterPart) + ")?", Token.Type.OPTIONAL);
-    }
-
-    private Token processParameters(String expression, MatchResult matchResult) {
-        String typeName = matchResult.group(2);
-        if (ESCAPE.equals(matchResult.group(1))) {
-            return new Token("{" + typeName + "}", Token.Type.TEXT);
-        }
-        ParameterType.checkParameterTypeName(typeName);
-        ParameterType<?> parameterType = parameterTypeRegistry.lookupByTypeName(typeName);
-        if (parameterType == null) {
-            throw new UndefinedParameterTypeException(typeName);
-        }
-        parameterTypes.add(parameterType);
-        return new Token(buildCaptureRegexp(parameterType.getRegexps()), Token.Type.PARAMETER);
-    }
-
-    private String buildCaptureRegexp(List<String> regexps) {
-        StringBuilder sb = new StringBuilder("(");
-
-        if (regexps.size() == 1) {
-            sb.append(regexps.get(0));
-        } else {
-            boolean bar = false;
-            for (String captureGroupRegexp : regexps) {
-                if (bar) sb.append("|");
-                sb.append("(?:").append(captureGroupRegexp).append(")");
-                bar = true;
-            }
-        }
-
-        sb.append(")");
-        return sb.toString();
+            return tokens.stream();
+        };
     }
 
     @Override
