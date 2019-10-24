@@ -43,6 +43,14 @@ public class CucumberExpressionTest {
     }
 
     @Test
+    public void matches_alternative_after_optional() {
+        assertEquals(singletonList(2), match("I wait {int} second(s)./?", "I wait 2 second?"));
+        assertEquals(singletonList(2), match("I wait {int} second(s)./?", "I wait 2 seconds."));
+        assertEquals(singletonList(1), match("I wait {int} second(s)./?", "I wait 1 second?"));
+        assertEquals(singletonList(1), match("I wait {int} second(s)./?", "I wait 1 second."));
+    }
+
+    @Test
     public void matches_alternative_in_optional_as_text() {
         //TODO: Does this make sense
         assertEquals(emptyList(), match("three( brown/black) mice", "three brown/black mice"));
