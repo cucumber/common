@@ -39,7 +39,7 @@ public class CucumberExpressionPatternTest {
     @Test
     public void translates_alternation_with_optional_words() {
         assertPattern(
-            "the (test )chat/call/email interactions are visible,
+            "the (test )chat/call/email interactions are visible",
             "^the (?:test )?(?:chat|call|email) interactions are visible$"
         );
     }
