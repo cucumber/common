@@ -38,8 +38,22 @@ public class CucumberExpressionTest {
     }
 
     @Test
-    public void matches_word_s() {
+    public void matches_optional_adjacent_to_alternative() {
         assertEquals(emptyList(), match("three (brown )mice/rats", "three brown rats"));
+    }
+
+    @Test
+    public void matches_alternative_in_optional_as_text() {
+        //TODO: Does this make sense
+        assertEquals(emptyList(), match("three( brown/black) mice", "three brown/black mice"));
+    }
+
+    @Test
+    public void matches_alternative_in_between_optional_as_text() {
+        //TODO: Does this make sense
+        assertEquals(emptyList(), match("three (brown)/(black) mice", "three brown/black mice"));
+        assertEquals(emptyList(), match("three (brown)/(black) mice", "three /black mice"));
+        assertEquals(emptyList(), match("three (brown)/(black) mice", "three brown/ mice"));
     }
 
     @Test
