@@ -25,6 +25,7 @@ public final class CucumberExpression implements Expression {
     private static final String ESCAPE = "\\";
     private static final String PARAMETER_TYPES_CANNOT_BE_ALTERNATIVE = "Parameter types cannot be alternative: ";
     private static final String PARAMETER_TYPES_CANNOT_BE_OPTIONAL = "Parameter types cannot be optional: ";
+    private static final String ALTERNATIVE_MAY_NOT_BE_EMPTY = "Alternative may not be empty: ";
 
     private final List<ParameterType<?>> parameterTypes = new ArrayList<>();
     private final String source;
@@ -69,7 +70,7 @@ public final class CucumberExpression implements Expression {
     }
 
     private Function<Token, Stream<Token>> processAlternation() {
-        return splitTextSections(ALTERNATIVE_NON_WHITESPACE_TEXT_REGEXP, (expression, matchResult) -> {
+        return splitTextTokens(ALTERNATIVE_NON_WHITESPACE_TEXT_REGEXP, (expression, matchResult) -> {
             // replace \/ with /
             // replace / with |
             String replacement = matchResult.group(0).replace('/', '|').replaceAll("\\\\\\|", "/");
@@ -81,11 +82,11 @@ public final class CucumberExpression implements Expression {
             // Make sure the alternative parts aren't empty and don't contain parameter types
             String[] split = replacement.split("\\|");
             if (split.length == 0) {
-                throw new CucumberExpressionException("Alternative may not be empty: " + expression);
+                throw new CucumberExpressionException(ALTERNATIVE_MAY_NOT_BE_EMPTY + expression);
             }
             for (String part : split) {
                 if (part.isEmpty()) {
-                    throw new CucumberExpressionException("Alternative may not be empty: " + expression);
+                    throw new CucumberExpressionException(ALTERNATIVE_MAY_NOT_BE_EMPTY + expression);
                 }
                 checkNotParameterType(part, PARAMETER_TYPES_CANNOT_BE_ALTERNATIVE);
             }
@@ -106,7 +107,7 @@ public final class CucumberExpression implements Expression {
     }
 
     private Function<Token, Stream<Token>> processOptional() {
-        return splitTextSections(OPTIONAL_PATTERN, (expression, matchResult) -> {
+        return splitTextTokens(OPTIONAL_PATTERN, (expression, matchResult) -> {
             // look for double-escaped parentheses
             String parameterPart = matchResult.group(2);
             if (ESCAPE.equals(matchResult.group(1))) {
@@ -119,7 +120,7 @@ public final class CucumberExpression implements Expression {
     }
 
     private Function<Token, Stream<Token>> processParameters() {
-        return splitTextSections(PARAMETER_PATTERN, (expression, matchResult) -> {
+        return splitTextTokens(PARAMETER_PATTERN, (expression, matchResult) -> {
             String typeName = matchResult.group(2);
             if (ESCAPE.equals(matchResult.group(1))) {
                 return new Token("{" + typeName + "}", Token.Type.TEXT);
@@ -142,7 +143,7 @@ public final class CucumberExpression implements Expression {
                 .collect(joining(")|(?:", "((?:","))"));
     }
 
-    private static Function<Token, Stream<Token>> splitTextSections(Pattern pattern, BiFunction<String, MatchResult, Token> processor) {
+    private static Function<Token, Stream<Token>> splitTextTokens(Pattern pattern, BiFunction<String, MatchResult, Token> processor) {
         return token -> {
             if (token.type != Token.Type.TEXT) {
                 return Stream.of(token);
