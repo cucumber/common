@@ -53,18 +53,17 @@ public final class CucumberExpression implements Expression {
                 .flatMap(processOptional())
                 .flatMap(processAlternation())
                 .flatMap(processParameters())
-                .map(escapeTextTokens())
+                .map(escapeRegex())
                 .collect(joining("", "^", "$"));
 
         treeRegexp = new TreeRegexp(pattern);
     }
 
-    private static Function<Token, String> escapeTextTokens() {
-        return token -> token.type != Token.Type.TEXT ? token.text : processEscapes(token.text);
+    private static Function<Token, String> escapeRegex() {
+        return token -> token.type != Token.Type.TEXT ? token.text : escapeRegex(token.text);
     }
 
-    private static String processEscapes(String text) {
-        // This will cause explicitly-escaped parentheses to be double-escaped
+    private static String escapeRegex(String text) {
         return ESCAPE_PATTERN.matcher(text).replaceAll("\\\\$1");
     }
 
@@ -90,7 +89,7 @@ public final class CucumberExpression implements Expression {
                 checkNotParameterType(alternative, PARAMETER_TYPES_CANNOT_BE_ALTERNATIVE);
             }
             String pattern = Arrays.stream(alternatives)
-                    .map(CucumberExpression::processEscapes)
+                    .map(CucumberExpression::escapeRegex)
                     .collect(joining("|", "(?:", ")"));
 
             return new Token(pattern, Token.Type.ALTERNATION);
@@ -113,7 +112,7 @@ public final class CucumberExpression implements Expression {
             }
 
             checkNotParameterType(parameterPart, PARAMETER_TYPES_CANNOT_BE_OPTIONAL);
-            return new Token("(?:" + processEscapes(parameterPart) + ")?", Token.Type.OPTIONAL);
+            return new Token("(?:" + escapeRegex(parameterPart) + ")?", Token.Type.OPTIONAL);
         });
     }
 

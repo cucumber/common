@@ -60,7 +60,7 @@ func NewCucumberExpression(expression string, parameterTypeRegistry *ParameterTy
 		return nil, err
 	}
 
-	pattern := result.escapeTextTokensAndJoin(tokens, "^", "$")
+	pattern := result.escapeRegexAndJoin(tokens, "^", "$")
 	result.treeRegexp = NewTreeRegexp(regexp.MustCompile(pattern))
 	return result, nil
 }
@@ -97,12 +97,12 @@ func (c *CucumberExpression) Source() string {
 	return c.source
 }
 
-func (c *CucumberExpression) escapeTextTokensAndJoin(expression []token, prefix string, suffix string) string {
+func (c *CucumberExpression) escapeRegexAndJoin(expression []token, prefix string, suffix string) string {
 	var builder strings.Builder
 	builder.WriteString(prefix)
 	for _, token := range expression {
 		if token.tokenType == text {
-			builder.WriteString(c.processEscapes(token.text))
+			builder.WriteString(c.escapeRegex(token.text))
 		} else {
 			builder.WriteString(token.text)
 		}
@@ -111,8 +111,7 @@ func (c *CucumberExpression) escapeTextTokensAndJoin(expression []token, prefix 
 	return builder.String()
 }
 
-func (c *CucumberExpression) processEscapes(expression string) string {
-	// This will cause explicitly-escaped parentheses to be double-escaped
+func (c *CucumberExpression) escapeRegex(expression string) string {
 	return escapeRegexp.ReplaceAllString(expression, `\$1`)
 }
 
@@ -126,7 +125,7 @@ func (c *CucumberExpression) processOptional(expression []token) ([]token, error
 		if parameterRegexp.MatchString(match) {
 			err = NewCucumberExpressionError(fmt.Sprintf(parameterTypesCanNotBeOptional, c.source))
 		}
-		optionalText := c.processEscapes(match[1 : len(match)-1])
+		optionalText := c.escapeRegex(match[1 : len(match)-1])
 		return token{fmt.Sprintf("(?:%s)?", optionalText), optional}
 	})
 	return result, err
@@ -158,7 +157,7 @@ func (c *CucumberExpression) processAlteration(expression []token) ([]token, err
 			if parameterRegexp.MatchString(alternative) {
 				err = NewCucumberExpressionError(fmt.Sprintf(parameterTypesCanNotBeAlternative, c.source))
 			}
-			alternativeTexts = append(alternativeTexts, c.processEscapes(alternative))
+			alternativeTexts = append(alternativeTexts, c.escapeRegex(alternative))
 		}
 		alternativeText := strings.Join(alternativeTexts, "|")
 		return token{fmt.Sprintf("(?:%s)", alternativeText), alternation}
