@@ -38,27 +38,40 @@ public class CucumberExpressionTest {
     }
 
     @Test
-    public void matches_optional_adjacent_to_alternative() {
-        assertEquals(emptyList(), match("three (brown )mice/rats", "three brown rats"));
-    }
-
-    @Test
     public void matches_alternation() {
         assertEquals(emptyList(), match("mice/rats and rats\\/mice", "rats and rats/mice"));
     }
 
     @Test
-    public void matches_alternative_after_optional() {
-        assertEquals(singletonList(2), match("I wait {int} second(s)./?", "I wait 2 second?"));
-        assertEquals(singletonList(2), match("I wait {int} second(s)./?", "I wait 2 seconds."));
-        assertEquals(singletonList(1), match("I wait {int} second(s)./?", "I wait 1 second?"));
-        assertEquals(singletonList(1), match("I wait {int} second(s)./?", "I wait 1 second."));
+    public void matches_optional_before_alternation() {
+        assertEquals(emptyList(), match("three (brown )mice/rats", "three brown rats"));
     }
 
     @Test
-    public void matches_alternative_in_optional_as_text() {
+    public void matches_optional_before_alternation_with_regex_characters() {
+        assertEquals(singletonList(2), match("I wait {int} second(s)./?", "I wait 2 second?"));
+    }
+
+    @Test
+    public void matches_alternation_in_optional_as_text() {
         assertEquals(emptyList(), match("three( brown/black) mice", "three brown/black mice"));
     }
+    @Test
+    public void does_not_allow_alternation_with_empty_alternative() {
+        Executable testMethod =  () -> match("three brown//black mice", "three brown mice");
+        CucumberExpressionException thrownException = assertThrows(CucumberExpressionException.class, testMethod);
+        assertThat(thrownException.getMessage(), is(equalTo("Alternative may not be empty: three brown//black mice")));
+    }
+
+    @Test
+    public void does_not_allow_optional_adjacent_to_alternation() {
+        Executable testMethod =  () -> match("three (brown)/black mice", "three brown mice");
+        CucumberExpressionException thrownException = assertThrows(CucumberExpressionException.class, testMethod);
+        assertThat(thrownException.getMessage(), is(equalTo("Alternative may not be empty: /black mice")));
+    }
+
+
+
 
     @Test
     public void matches_double_quoted_string() {
@@ -211,20 +224,6 @@ public class CucumberExpressionTest {
         assertThat("Unexpected message", thrownException.getMessage(), is(equalTo("Parameter types cannot be alternative: {int}/x")));
     }
 
-
-    @Test
-    public void does_not_allow_empty_alternative() {
-        Executable testMethod =  () -> match("three brown//black mice", "three brown mice");
-        CucumberExpressionException thrownException = assertThrows(CucumberExpressionException.class, testMethod);
-        assertThat(thrownException.getMessage(), is(equalTo("Alternative may not be empty: three brown//black mice")));
-    }
-
-    @Test
-    public void does_not_allow_optional_adjacent_to_alternative() {
-        Executable testMethod =  () -> match("three (brown)/black mice", "three brown mice");
-        CucumberExpressionException thrownException = assertThrows(CucumberExpressionException.class, testMethod);
-        assertThat(thrownException.getMessage(), is(equalTo("Alternative may not be empty: /black mice")));
-    }
 
     @Test
     public void exposes_source() {

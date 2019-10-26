@@ -2,7 +2,6 @@ package cucumberexpressions
 
 import (
 	"testing"
-
 	"github.com/stretchr/testify/require"
 )
 
@@ -30,6 +29,13 @@ func TestCucumberExpressionRegExpTranslation(t *testing.T) {
 			"^I said (?:Alpha1|Beta1)$",
 		)
 	})
+	t.Run("translates alternation with optional words", func(t *testing.T) {
+		assertRegexp(
+			t,
+			"the (test )chat/call/email interactions are visible",
+			"^the (?:test )?(?:chat|call|email) interactions are visible$",
+		)
+	})
 
 	t.Run("translates parameters", func(t *testing.T) {
 		assertRegexp(
@@ -54,11 +60,13 @@ func TestCucumberExpressionRegExpTranslation(t *testing.T) {
 			`^Привет, Мир(?:ы)?!$`,
 		)
 	})
+
+
 }
 
 func assertRegexp(t *testing.T, expression string, expectedRegexp string) {
 	parameterTypeRegistry := NewParameterTypeRegistry()
 	generator, err := NewCucumberExpression(expression, parameterTypeRegistry)
 	require.NoError(t, err)
-	require.Equal(t, generator.Regexp().String(), expectedRegexp)
+	require.Equal(t, expectedRegexp, generator.Regexp().String())
 }

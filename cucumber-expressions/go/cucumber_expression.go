@@ -9,14 +9,14 @@ import (
 
 const alternativesMayNotBeEmpty = "Alternatives may not be empty: %s"
 const parameterTypesCanNotBeAlternative = "Parameter types cannot be alternative: %s"
-
-var escapeRegexp = regexp.MustCompile(`([\\^[({$.|?*+})\]])`)
-var parameterRegexp = regexp.MustCompile(`(\\\\\\\\)?{([^}]*)}`)
-var optionalRegexp = regexp.MustCompile(`(\\\\\\\\)?\([^)]+\)`)
-var alternativeNonWhitespaceTextRegexp = regexp.MustCompile(`([^\s^/]+)((/[^\s^/]+)+)`)
-
-const doubleEscape = `\\`
 const parameterTypesCanNotBeOptional = "Parameter types cannot be optional: %s"
+
+var escapeRegexp = regexp.MustCompile(`([\\^\[({$.|?*+})\]])`)
+var parameterRegexp = regexp.MustCompile(`(\\)?{([^}]*)}`)
+var optionalRegexp = regexp.MustCompile(`(\\)?\([^)]+\)`)
+var alternativeNonWhitespaceTextRegexp = regexp.MustCompile(`([^\s/]*)((/[^\s/]*)+)`)
+
+const doubleEscape = `\`
 
 type tokenType int
 
@@ -42,7 +42,7 @@ type CucumberExpression struct {
 func NewCucumberExpression(expression string, parameterTypeRegistry *ParameterTypeRegistry) (Expression, error) {
 	result := &CucumberExpression{source: expression, parameterTypeRegistry: parameterTypeRegistry}
 
-	tokens := make([]token, 1)
+	tokens := make([]token, 0)
 	tokens = append(tokens, token{expression, text})
 
 	tokens, err := result.processOptional(tokens)
@@ -60,9 +60,8 @@ func NewCucumberExpression(expression string, parameterTypeRegistry *ParameterTy
 		return nil, err
 	}
 
-	expression = "^" + expression + "$"
-
-	result.treeRegexp = NewTreeRegexp(regexp.MustCompile(expression))
+	pattern := result.escapeTextTokensAndJoin(tokens, "^", "$")
+	result.treeRegexp = NewTreeRegexp(regexp.MustCompile(pattern))
 	return result, nil
 }
 
@@ -98,7 +97,22 @@ func (c *CucumberExpression) Source() string {
 	return c.source
 }
 
+func (c *CucumberExpression) escapeTextTokensAndJoin(expression []token, prefix string, suffix string) string {
+	var builder strings.Builder
+	builder.WriteString(prefix)
+	for _, token := range expression {
+		if token.tokenType == text {
+			builder.WriteString(c.processEscapes(token.text))
+		} else {
+			builder.WriteString(token.text)
+		}
+	}
+	builder.WriteString(suffix)
+	return builder.String()
+}
+
 func (c *CucumberExpression) processEscapes(expression string) string {
+	// This will cause explicitly-escaped parentheses to be double-escaped
 	return escapeRegexp.ReplaceAllString(expression, `\$1`)
 }
 
@@ -107,12 +121,13 @@ func (c *CucumberExpression) processOptional(expression []token) ([]token, error
 	result := splitTextTokens(expression, optionalRegexp, func(match string) (token) {
 		// look for double-escaped parentheses
 		if strings.HasPrefix(match, doubleEscape) {
-			return token{fmt.Sprintf(`(%s)`, match[5:len(match)-1]), text}
+			return token{fmt.Sprintf(`(%s)`, match[2:len(match)-1]), text}
 		}
 		if parameterRegexp.MatchString(match) {
 			err = NewCucumberExpressionError(fmt.Sprintf(parameterTypesCanNotBeOptional, c.source))
 		}
-		return token{fmt.Sprintf("(?:%s)?", match[1:len(match)-1]), optional}
+		optionalText := c.processEscapes(match[1 : len(match)-1])
+		return token{fmt.Sprintf("(?:%s)?", optionalText), optional}
 	})
 	return result, err
 }
@@ -123,36 +138,37 @@ func (c *CucumberExpression) processAlteration(expression []token) ([]token, err
 		// replace \/ with /
 		// replace / with |
 		replacement := strings.Replace(match, "/", "|", -1)
-		replacement = strings.Replace(replacement, `\\\\|`, "/", -1)
+		replacement = strings.Replace(replacement, `\|`, "/", -1)
 
 		if !strings.Contains(replacement, "|") {
 			// All / were escaped
 			return token{replacement, text}
 		}
 
-		// Make sure the alternative parts aren't empty and don't contain parameter types
-		parts := strings.Split(replacement, "|")
-
-		if len(parts) == 0 {
+		// Make sure the alternative alternatives aren't empty and don't contain parameter types
+		alternatives := strings.Split(replacement, "|")
+		alternativeTexts := make([]string,0)
+		if len(alternatives) == 0 {
 			err = NewCucumberExpressionError(fmt.Sprintf(alternativesMayNotBeEmpty, c.source))
 		}
-		for _, part := range parts {
-			if len(part) == 0 {
+		for _, alternative := range alternatives {
+			if len(alternative) == 0 {
 				err = NewCucumberExpressionError(fmt.Sprintf(alternativesMayNotBeEmpty, c.source))
 			}
-			if parameterRegexp.MatchString(part) {
+			if parameterRegexp.MatchString(alternative) {
 				err = NewCucumberExpressionError(fmt.Sprintf(parameterTypesCanNotBeAlternative, c.source))
 			}
+			alternativeTexts = append(alternativeTexts, c.processEscapes(alternative))
 		}
-		return token{fmt.Sprintf("(?:%s)", replacement), alternation}
-
+		alternativeText := strings.Join(alternativeTexts, "|")
+		return token{fmt.Sprintf("(?:%s)", alternativeText), alternation}
 	})
 	return result, err
 }
 
 func (c *CucumberExpression) processParameters(expression []token, parameterTypeRegistry *ParameterTypeRegistry) ([]token, error) {
 	var err error
-	result := splitTextTokens(expression, alternativeNonWhitespaceTextRegexp, func(match string) token {
+	result := splitTextTokens(expression, parameterRegexp, func(match string) token {
 		if strings.HasPrefix(match, doubleEscape) {
 			return token{fmt.Sprintf(`{%s}`, match[5:len(match)-1]), text}
 		}
@@ -172,18 +188,32 @@ func (c *CucumberExpression) processParameters(expression []token, parameterType
 	return result, err
 }
 
-func splitTextTokens(tokens []token, regexp *regexp.Regexp, processor func(string) (token)) ([]token) {
-	newTokens := make([]token, len(tokens))
-	for _, token := range tokens {
-		if token.tokenType != text {
-			newTokens = append(newTokens, token)
+func splitTextTokens(tokens []token, regexp *regexp.Regexp, processor func(string) token) []token {
+	newTokens := make([]token, 0)
+	for _, t := range tokens {
+		if t.tokenType != text {
+			newTokens = append(newTokens, t)
 			continue
 		}
-		regexp.FindAllStringSubmatchIndex()
-			//TODO: You wer here.
+		expression := t.text
+		loc := regexp.FindAllStringIndex(expression, -1)
+		previousEnd := 0
+		for i := 0; i < len(loc); i++ {
+			start := loc[i][0]
+			end := loc[i][1]
+			prefix := expression[previousEnd:start]
+			if len(prefix) > 0 {
+				newTokens = append(newTokens, token{prefix, text})
+			}
+			match := expression[start:end]
+			newTokens = append(newTokens, processor(match))
+			previousEnd = end
+		}
+		suffix := expression[previousEnd:]
+		if len(suffix) > 0 {
+			newTokens = append(newTokens, token{suffix, text})
+		}
 	}
-
-
 	return newTokens
 }
 
