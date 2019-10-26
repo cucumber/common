@@ -6,7 +6,6 @@ import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.function.BiFunction;
 import java.util.function.Function;
 import java.util.regex.MatchResult;
 import java.util.regex.Matcher;
@@ -70,7 +69,7 @@ public final class CucumberExpression implements Expression {
     }
 
     private Function<Token, Stream<Token>> processAlternation() {
-        return splitTextTokens(ALTERNATIVE_NON_WHITESPACE_TEXT_REGEXP, (expression, matchResult) -> {
+        return splitTextTokens(ALTERNATIVE_NON_WHITESPACE_TEXT_REGEXP, (matchResult) -> {
             // replace \/ with /
             // replace / with |
             String replacement = matchResult.group(0).replace('/', '|').replaceAll("\\\\\\|", "/");
@@ -82,11 +81,11 @@ public final class CucumberExpression implements Expression {
             // Make sure the alternative parts aren't empty and don't contain parameter types
             String[] alternatives = replacement.split("\\|");
             if (alternatives.length == 0) {
-                throw new CucumberExpressionException(ALTERNATIVE_MAY_NOT_BE_EMPTY + expression);
+                throw new CucumberExpressionException(ALTERNATIVE_MAY_NOT_BE_EMPTY + source);
             }
             for (String alternative : alternatives) {
                 if (alternative.isEmpty()) {
-                    throw new CucumberExpressionException(ALTERNATIVE_MAY_NOT_BE_EMPTY + expression);
+                    throw new CucumberExpressionException(ALTERNATIVE_MAY_NOT_BE_EMPTY + source);
                 }
                 checkNotParameterType(alternative, PARAMETER_TYPES_CANNOT_BE_ALTERNATIVE);
             }
@@ -106,7 +105,7 @@ public final class CucumberExpression implements Expression {
     }
 
     private Function<Token, Stream<Token>> processOptional() {
-        return splitTextTokens(OPTIONAL_PATTERN, (expression, matchResult) -> {
+        return splitTextTokens(OPTIONAL_PATTERN, (matchResult) -> {
             // look for double-escaped parentheses
             String parameterPart = matchResult.group(2);
             if (ESCAPE.equals(matchResult.group(1))) {
@@ -119,7 +118,7 @@ public final class CucumberExpression implements Expression {
     }
 
     private Function<Token, Stream<Token>> processParameters() {
-        return splitTextTokens(PARAMETER_PATTERN, (expression, matchResult) -> {
+        return splitTextTokens(PARAMETER_PATTERN, (matchResult) -> {
             String typeName = matchResult.group(2);
             if (ESCAPE.equals(matchResult.group(1))) {
                 return new Token("{" + typeName + "}", Token.Type.TEXT);
@@ -142,7 +141,7 @@ public final class CucumberExpression implements Expression {
                 .collect(joining(")|(?:", "((?:","))"));
     }
 
-    private static Function<Token, Stream<Token>> splitTextTokens(Pattern pattern, BiFunction<String, MatchResult, Token> processor) {
+    private static Function<Token, Stream<Token>> splitTextTokens(Pattern pattern, Function<MatchResult, Token> processor) {
         return token -> {
             if (token.type != Token.Type.TEXT) {
                 return Stream.of(token);
@@ -158,7 +157,7 @@ public final class CucumberExpression implements Expression {
                 if (!prefix.isEmpty()) {
                     tokens.add(new Token(prefix, Token.Type.TEXT));
                 }
-                tokens.add(processor.apply(expression, matcher.toMatchResult()));
+                tokens.add(processor.apply(matcher.toMatchResult()));
                 previousEnd = end;
             }
 

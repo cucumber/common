@@ -67,7 +67,7 @@ public class CucumberExpressionTest {
     public void does_not_allow_optional_adjacent_to_alternation() {
         Executable testMethod =  () -> match("three (brown)/black mice", "three brown mice");
         CucumberExpressionException thrownException = assertThrows(CucumberExpressionException.class, testMethod);
-        assertThat(thrownException.getMessage(), is(equalTo("Alternative may not be empty: /black mice")));
+        assertThat(thrownException.getMessage(), is(equalTo("Alternative may not be empty: three (brown)/black mice")));
     }
 
     @Test
