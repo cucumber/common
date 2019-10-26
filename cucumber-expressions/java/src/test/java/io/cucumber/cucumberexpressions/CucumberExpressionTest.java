@@ -43,6 +43,11 @@ public class CucumberExpressionTest {
     }
 
     @Test
+    public void matches_alternation() {
+        assertEquals(emptyList(), match("mice/rats and rats\\/mice", "rats and rats/mice"));
+    }
+
+    @Test
     public void matches_alternative_after_optional() {
         assertEquals(singletonList(2), match("I wait {int} second(s)./?", "I wait 2 second?"));
         assertEquals(singletonList(2), match("I wait {int} second(s)./?", "I wait 2 seconds."));

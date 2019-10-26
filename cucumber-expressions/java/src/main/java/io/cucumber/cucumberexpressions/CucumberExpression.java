@@ -80,18 +80,17 @@ public final class CucumberExpression implements Expression {
             }
 
             // Make sure the alternative parts aren't empty and don't contain parameter types
-            String[] split = replacement.split("\\|");
-            if (split.length == 0) {
+            String[] alternatives = replacement.split("\\|");
+            if (alternatives.length == 0) {
                 throw new CucumberExpressionException(ALTERNATIVE_MAY_NOT_BE_EMPTY + expression);
             }
-            for (String part : split) {
-                if (part.isEmpty()) {
+            for (String alternative : alternatives) {
+                if (alternative.isEmpty()) {
                     throw new CucumberExpressionException(ALTERNATIVE_MAY_NOT_BE_EMPTY + expression);
                 }
-                checkNotParameterType(part, PARAMETER_TYPES_CANNOT_BE_ALTERNATIVE);
+                checkNotParameterType(alternative, PARAMETER_TYPES_CANNOT_BE_ALTERNATIVE);
             }
-            String pattern = Arrays.stream(split)
-                    .map(s -> s.replace("/", "|"))
+            String pattern = Arrays.stream(alternatives)
                     .map(CucumberExpression::processEscapes)
                     .collect(joining("|", "(?:", ")"));
 
