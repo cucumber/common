@@ -7,7 +7,7 @@ import (
 	"strings"
 )
 
-const alternativesMayNotBeEmpty = "Alternatives may not be empty: %s"
+const alternativesMayNotBeEmpty = "Alternative may not be empty: %s"
 const parameterTypesCanNotBeAlternative = "Parameter types cannot be alternative: %s"
 const parameterTypesCanNotBeOptional = "Parameter types cannot be optional: %s"
 

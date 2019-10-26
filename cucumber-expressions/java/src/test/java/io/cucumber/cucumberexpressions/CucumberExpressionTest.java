@@ -70,9 +70,6 @@ public class CucumberExpressionTest {
         assertThat(thrownException.getMessage(), is(equalTo("Alternative may not be empty: /black mice")));
     }
 
-
-
-
     @Test
     public void matches_double_quoted_string() {
         assertEquals(singletonList("blind"), match("three {string} mice", "three \"blind\" mice"));
@@ -223,7 +220,6 @@ public class CucumberExpressionTest {
         final CucumberExpressionException thrownException = assertThrows(CucumberExpressionException.class, testMethod);
         assertThat("Unexpected message", thrownException.getMessage(), is(equalTo("Parameter types cannot be alternative: {int}/x")));
     }
-
 
     @Test
     public void exposes_source() {
