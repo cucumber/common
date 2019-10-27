@@ -115,9 +115,9 @@ func (c *CucumberExpression) escapeRegex(expression string) string {
 func (c *CucumberExpression) processOptional(expression []token) ([]token, error) {
 	var err error
 	result := splitTextTokens(expression, optionalRegexp, func(match []string) (token) {
-		// look for single-escaped parentheses
 		optionalPart := match[2]
 		escapes := match[1]
+		// look for single-escaped parentheses
 		if len(escapes) == 1 {
 			return token{`(` + optionalPart + `)`, text}
 		}
