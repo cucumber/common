@@ -119,13 +119,13 @@ func (c *CucumberExpression) processOptional(expression []token) ([]token, error
 		optionalPart := match[2]
 		escapes := match[1]
 		if len(escapes) == 1 {
-			return token{fmt.Sprintf(`(%s)`, optionalPart), text}
+			return token{`(` + optionalPart + `)`, text}
 		}
 		if parameterRegexp.MatchString(optionalPart) {
 			err = NewCucumberExpressionError(fmt.Sprintf(parameterTypesCanNotBeOptional, c.source))
 		}
 		// either no or double escape
-		return token{fmt.Sprintf("%s(?:%s)?", escapes, optionalPart), optional}
+		return token{escapes + "(?:" + optionalPart + ")?", optional}
 	})
 	return result, err
 }
@@ -159,7 +159,7 @@ func (c *CucumberExpression) processAlternation(expression []token) ([]token, er
 			alternativeTexts[i] = c.escapeRegex(alternative)
 		}
 		alternativeText := strings.Join(alternativeTexts, "|")
-		return token{fmt.Sprintf("(?:%s)", alternativeText), alternation}
+		return token{"(?:" + alternativeText + ")", alternation}
 	})
 	return result, err
 }
@@ -171,7 +171,7 @@ func (c *CucumberExpression) processParameters(expression []token, parameterType
 		escapes := match[1]
 		// look for single-escaped parentheses
 		if len(escapes) == 1 {
-			return token{fmt.Sprintf(`{%s}`, typeName), text}
+			return token{"{" + typeName + "}", text}
 		}
 		err = CheckParameterTypeName(typeName)
 		if err != nil {
@@ -219,15 +219,15 @@ func splitTextTokens(tokens []token, regexp *regexp.Regexp, processor func([]str
 
 func buildCaptureRegexp(regexps []*regexp.Regexp) string {
 	if len(regexps) == 1 {
-		return fmt.Sprintf("(%s)", regexps[0].String())
+		return "(" + regexps[0].String() + ")"
 	}
 
 	captureGroups := make([]string, len(regexps))
 	for i, r := range regexps {
-		captureGroups[i] = fmt.Sprintf("(?:%s)", r.String())
+		captureGroups[i] = "(?:" + r.String() + ")"
 	}
 
-	return fmt.Sprintf("(%s)", strings.Join(captureGroups, "|"))
+	return "(" + strings.Join(captureGroups, "|") + ")"
 }
 
 func (r *CucumberExpression) objectMapperTransformer(typeHint reflect.Type) func(args ...*string) interface{} {
