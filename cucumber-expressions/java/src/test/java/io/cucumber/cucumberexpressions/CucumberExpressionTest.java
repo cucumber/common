@@ -141,8 +141,18 @@ public class CucumberExpressionTest {
     }
 
     @Test
+    public void matches_doubly_escaped_parenthesis() {
+        assertEquals(singletonList("blind"), match("three \\\\(exceptionally) \\\\{string} mice", "three \\exceptionally \\\"blind\" mice"));
+    }
+
+    @Test
     public void matches_escaped_slash() {
         assertEquals(emptyList(), match("12\\/2020", "12/2020"));
+    }
+
+    @Test
+    public void matches_doubly_escaped_slash() {
+        assertEquals(emptyList(), match("12\\\\/2020", "12\\/2020"));
     }
 
     @Test

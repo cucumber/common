@@ -12,11 +12,12 @@ const parameterTypesCanNotBeAlternative = "Parameter types cannot be alternative
 const parameterTypesCanNotBeOptional = "Parameter types cannot be optional: %s"
 
 var escapeRegexp = regexp.MustCompile(`([\\^\[({$.|?*+})\]])`)
-var parameterRegexp = regexp.MustCompile(`(\\)?{([^}]*)}`)
-var optionalRegexp = regexp.MustCompile(`(\\)?\([^)]+\)`)
+var parameterRegexp = regexp.MustCompile(`((?:\\){0,2}){([^}]*)}`)
+var optionalRegexp = regexp.MustCompile(`((?:\\){0,2})\([^)]+\)`)
 var alternativeNonWhitespaceTextRegexp = regexp.MustCompile(`([^\s/]*)((/[^\s/]*)+)`)
 
-const doubleEscape = `\`
+const singleEscape = `\`
+const doubleEscape = `\\`
 
 type tokenType int
 
@@ -118,15 +119,24 @@ func (c *CucumberExpression) escapeRegex(expression string) string {
 func (c *CucumberExpression) processOptional(expression []token) ([]token, error) {
 	var err error
 	result := splitTextTokens(expression, optionalRegexp, func(match string) (token) {
-		// look for double-escaped parentheses
-		if strings.HasPrefix(match, doubleEscape) {
+		// look for single-escaped parentheses
+		if !strings.HasPrefix(match, doubleEscape) && strings.HasPrefix(match, singleEscape) {
 			return token{fmt.Sprintf(`(%s)`, match[2:len(match)-1]), text}
 		}
 		if parameterRegexp.MatchString(match) {
 			err = NewCucumberExpressionError(fmt.Sprintf(parameterTypesCanNotBeOptional, c.source))
 		}
-		optionalText := c.escapeRegex(match[1 : len(match)-1])
-		return token{fmt.Sprintf("(?:%s)?", optionalText), optional}
+
+		var optionalText string
+		var escape string
+		if strings.HasPrefix(match, doubleEscape) {
+			optionalText = c.escapeRegex(match[3 : len(match)-1])
+			escape = doubleEscape
+		} else {
+			optionalText = c.escapeRegex(match[1 : len(match)-1])
+			escape = ""
+		}
+		return token{fmt.Sprintf("%s(?:%s)?", escape, optionalText), optional}
 	})
 	return result, err
 }
@@ -168,10 +178,19 @@ func (c *CucumberExpression) processAlteration(expression []token) ([]token, err
 func (c *CucumberExpression) processParameters(expression []token, parameterTypeRegistry *ParameterTypeRegistry) ([]token, error) {
 	var err error
 	result := splitTextTokens(expression, parameterRegexp, func(match string) token {
-		if strings.HasPrefix(match, doubleEscape) {
+		// look for single-escaped parentheses
+		if !strings.HasPrefix(match, doubleEscape) && strings.HasPrefix(match, singleEscape) {
 			return token{fmt.Sprintf(`{%s}`, match[5:len(match)-1]), text}
 		}
-		typeName := match[1 : len(match)-1]
+		var typeName string
+		var escape string
+		if strings.HasPrefix(match, doubleEscape) {
+			typeName = match[3 : len(match)-1]
+			escape = doubleEscape
+		} else {
+			typeName = match[1 : len(match)-1]
+			escape = ""
+		}
 		err = CheckParameterTypeName(typeName)
 		if err != nil {
 			return token{match, parameter}
@@ -182,7 +201,7 @@ func (c *CucumberExpression) processParameters(expression []token, parameterType
 			return token{match, parameter}
 		}
 		c.parameterTypes = append(c.parameterTypes, parameterType)
-		return token{buildCaptureRegexp(parameterType.regexps), parameter}
+		return token{escape + buildCaptureRegexp(parameterType.regexps), parameter}
 	})
 	return result, err
 }

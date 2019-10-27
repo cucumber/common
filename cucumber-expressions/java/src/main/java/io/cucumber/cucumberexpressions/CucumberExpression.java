@@ -18,10 +18,9 @@ import static java.util.stream.Collectors.joining;
 public final class CucumberExpression implements Expression {
     private static final Pattern ESCAPE_PATTERN = Pattern.compile("([\\\\^\\[({$.|?*+})\\]])");
     @SuppressWarnings("RegExpRedundantEscape") // Android can't parse unescaped braces
-    static final Pattern PARAMETER_PATTERN = Pattern.compile("(\\\\)?\\{([^}]*)\\}");
-    private static final Pattern OPTIONAL_PATTERN = Pattern.compile("(\\\\)?\\(([^)]+)\\)");
+    static final Pattern PARAMETER_PATTERN = Pattern.compile("((?:\\\\){0,2})\\{([^}]*)\\}");
+    private static final Pattern OPTIONAL_PATTERN = Pattern.compile("((?:\\\\){0,2})\\(([^)]+)\\)");
     private static final Pattern ALTERNATIVE_NON_WHITESPACE_TEXT_REGEXP = Pattern.compile("([^\\s/]*)((/[^\\s/]*)+)");
-    private static final String ESCAPE = "\\";
     private static final String PARAMETER_TYPES_CANNOT_BE_ALTERNATIVE = "Parameter types cannot be alternative: ";
     private static final String PARAMETER_TYPES_CANNOT_BE_OPTIONAL = "Parameter types cannot be optional: ";
     private static final String ALTERNATIVE_MAY_NOT_BE_EMPTY = "Alternative may not be empty: ";
@@ -105,21 +104,26 @@ public final class CucumberExpression implements Expression {
 
     private Function<Token, Stream<Token>> processOptional() {
         return splitTextTokens(OPTIONAL_PATTERN, (matchResult) -> {
-            // look for double-escaped parentheses
             String parameterPart = matchResult.group(2);
-            if (ESCAPE.equals(matchResult.group(1))) {
+            String escapes = matchResult.group(1);
+            // look for single-escaped parentheses
+            if (escapes.length() == 1) {
                 return new Token("(" + parameterPart + ")", Token.Type.TEXT);
             }
 
             checkNotParameterType(parameterPart, PARAMETER_TYPES_CANNOT_BE_OPTIONAL);
-            return new Token("(?:" + escapeRegex(parameterPart) + ")?", Token.Type.OPTIONAL);
+            String pattern = "(?:" + escapeRegex(parameterPart) + ")?";
+            // either no or double escape
+            return new Token(escapes + pattern, Token.Type.OPTIONAL);
         });
     }
 
     private Function<Token, Stream<Token>> processParameters() {
         return splitTextTokens(PARAMETER_PATTERN, (matchResult) -> {
             String typeName = matchResult.group(2);
-            if (ESCAPE.equals(matchResult.group(1))) {
+            String escape = matchResult.group(1);
+            // look for single-escaped parentheses
+            if (escape.length() == 1) {
                 return new Token("{" + typeName + "}", Token.Type.TEXT);
             }
             ParameterType.checkParameterTypeName(typeName);
@@ -128,7 +132,9 @@ public final class CucumberExpression implements Expression {
                 throw new UndefinedParameterTypeException(typeName);
             }
             parameterTypes.add(parameterType);
-            return new Token(buildCaptureRegexp(parameterType.getRegexps()), Token.Type.PARAMETER);
+            String pattern = buildCaptureRegexp(parameterType.getRegexps());
+            // either no or double escape
+            return new Token(escape + pattern, Token.Type.PARAMETER);
         });
     }
 
