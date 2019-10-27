@@ -191,8 +191,9 @@ func (c *CucumberExpression) processParameters(expression []token, parameterType
 
 func splitTextTokens(tokens []token, regexp *regexp.Regexp, processor func([]string) token) []token {
 	// Guesstimate: When a match is found this splitTextTokens will at a minimum
-	// create 2 additional tokens
-	newTokens := make([]token, 0, len(tokens)+2)
+	// create 2 additional tokens. Adding 8 additional capacity allows for a few
+	// more
+	newTokens := make([]token, 0, len(tokens)+8)
 	for _, t := range tokens {
 		if t.tokenType != text {
 			newTokens = append(newTokens, t)
