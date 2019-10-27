@@ -40,8 +40,7 @@ type CucumberExpression struct {
 func NewCucumberExpression(expression string, parameterTypeRegistry *ParameterTypeRegistry) (Expression, error) {
 	result := &CucumberExpression{source: expression, parameterTypeRegistry: parameterTypeRegistry}
 
-	tokens := make([]token, 0)
-	tokens = append(tokens, token{expression, text})
+	tokens := []token{{expression, text}}
 
 	tokens, err := result.processOptional(tokens)
 	if err != nil {
@@ -146,18 +145,18 @@ func (c *CucumberExpression) processAlternation(expression []token) ([]token, er
 
 		// Make sure the alternative alternatives aren't empty and don't contain parameter types
 		alternatives := strings.Split(replacement, "|")
-		alternativeTexts := make([]string, 0)
 		if len(alternatives) == 0 {
 			err = NewCucumberExpressionError(fmt.Sprintf(alternativesMayNotBeEmpty, c.source))
 		}
-		for _, alternative := range alternatives {
+		alternativeTexts := make([]string, len(alternatives))
+		for i, alternative := range alternatives {
 			if len(alternative) == 0 {
 				err = NewCucumberExpressionError(fmt.Sprintf(alternativesMayNotBeEmpty, c.source))
 			}
 			if parameterRegexp.MatchString(alternative) {
 				err = NewCucumberExpressionError(fmt.Sprintf(parameterTypesCanNotBeAlternative, c.source))
 			}
-			alternativeTexts = append(alternativeTexts, c.escapeRegex(alternative))
+			alternativeTexts[i] = c.escapeRegex(alternative)
 		}
 		alternativeText := strings.Join(alternativeTexts, "|")
 		return token{fmt.Sprintf("(?:%s)", alternativeText), alternation}
@@ -191,7 +190,9 @@ func (c *CucumberExpression) processParameters(expression []token, parameterType
 }
 
 func splitTextTokens(tokens []token, regexp *regexp.Regexp, processor func([]string) token) []token {
-	newTokens := make([]token, 0)
+	// Guesstimate: When a match is found this splitTextTokens will at a minimum
+	// create 2 additional tokens
+	newTokens := make([]token, 0, len(tokens)+2)
 	for _, t := range tokens {
 		if t.tokenType != text {
 			newTokens = append(newTokens, t)
