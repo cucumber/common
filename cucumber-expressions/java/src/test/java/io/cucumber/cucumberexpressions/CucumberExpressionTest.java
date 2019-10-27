@@ -137,7 +137,7 @@ public class CucumberExpressionTest {
 
     @Test
     public void matches_escaped_parenthesis() {
-        assertEquals(singletonList("blind"), match("three \\(exceptionally) {string} mice", "three (exceptionally) \"blind\" mice"));
+        assertEquals(emptyList(), match("three \\(exceptionally) \\{string} mice", "three (exceptionally) {string} mice"));
     }
 
     @Test

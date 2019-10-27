@@ -171,7 +171,7 @@ func (c *CucumberExpression) processParameters(expression []token, parameterType
 		escapes := match[1]
 		// look for single-escaped parentheses
 		if len(escapes) == 1 {
-			return token{fmt.Sprintf(`{%s}`, match[5:len(match)-1]), text}
+			return token{fmt.Sprintf(`{%s}`, typeName), text}
 		}
 		err = CheckParameterTypeName(typeName)
 		if err != nil {

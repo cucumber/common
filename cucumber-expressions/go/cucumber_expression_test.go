@@ -174,8 +174,8 @@ func TestCucumberExpression(t *testing.T) {
 	t.Run("matches escaped parenthesis", func(t *testing.T) {
 		require.Equal(
 			t,
-			MatchCucumberExpression(t, "three \\(exceptionally) {string} mice", `three (exceptionally) "blind" mice`),
-			[]interface{}{"blind"},
+			MatchCucumberExpression(t, "three \\(exceptionally) \\{string} mice", `three (exceptionally) {string} mice`),
+			[]interface{}{},
 		)
 	})
 
