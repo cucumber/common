@@ -143,10 +143,10 @@ public final class CucumberExpression implements Expression {
 
     private String buildCaptureRegexp(List<String> regexps) {
         if (regexps.size() == 1) {
-            return "(" + regexps.get(0)  + ")";
+            return "(" + regexps.get(0) + ")";
         }
         return regexps.stream()
-                .collect(joining(")|(?:", "((?:","))"));
+                .collect(joining(")|(?:", "((?:", "))"));
     }
 
     private static Function<Token, Stream<Token>> splitTextTokens(Pattern pattern, Function<MatchResult, Token> processor) {
@@ -162,17 +162,12 @@ public final class CucumberExpression implements Expression {
                 int start = matcher.start();
                 int end = matcher.end();
                 String prefix = expression.substring(previousEnd, start);
-                if (!prefix.isEmpty()) {
-                    tokens.add(new Token(prefix, Token.Type.TEXT));
-                }
+                tokens.add(new Token(prefix, Token.Type.TEXT));
                 tokens.add(processor.apply(matcher.toMatchResult()));
                 previousEnd = end;
             }
-
             String suffix = expression.substring(previousEnd);
-            if (!suffix.isEmpty()) {
-                tokens.add(new Token(suffix, Token.Type.TEXT));
-            }
+            tokens.add(new Token(suffix, Token.Type.TEXT));
             return tokens.stream();
         };
     }

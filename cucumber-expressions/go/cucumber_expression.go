@@ -207,16 +207,12 @@ func splitTextTokens(tokens []token, regexp *regexp.Regexp, processor func([]str
 			start := locations[i][0]
 			end := locations[i][1]
 			prefix := expression[previousEnd:start]
-			if len(prefix) > 0 {
-				newTokens = append(newTokens, token{prefix, text})
-			}
+			newTokens = append(newTokens, token{prefix, text})
 			newTokens = append(newTokens, processor(groups[i]))
 			previousEnd = end
 		}
 		suffix := expression[previousEnd:]
-		if len(suffix) > 0 {
-			newTokens = append(newTokens, token{suffix, text})
-		}
+		newTokens = append(newTokens, token{suffix, text})
 	}
 	return newTokens
 }
