@@ -67,10 +67,13 @@ public final class CucumberExpression implements Expression {
     }
 
     private Function<Token, Stream<Token>> processAlternation() {
-        return splitTextTokens(ALTERNATIVE_NON_WHITESPACE_TEXT_REGEXP, (matchResult) -> {
+        return splitTextTokens(ALTERNATIVE_NON_WHITESPACE_TEXT_REGEXP, (match) -> {
             // replace \/ with /
             // replace / with |
-            String replacement = matchResult.group(0).replace('/', '|').replaceAll("\\\\\\|", "/");
+            String replacement = match.group(0)
+                    .replace('/', '|')
+                    .replaceAll("\\\\\\|", "/");
+
             if (!replacement.contains("|")) {
                 // All / were escaped
                 return new Token(replacement, Token.Type.TEXT);
@@ -103,9 +106,9 @@ public final class CucumberExpression implements Expression {
     }
 
     private Function<Token, Stream<Token>> processOptional() {
-        return splitTextTokens(OPTIONAL_PATTERN, (matchResult) -> {
-            String parameterPart = matchResult.group(2);
-            String escapes = matchResult.group(1);
+        return splitTextTokens(OPTIONAL_PATTERN, (match) -> {
+            String parameterPart = match.group(2);
+            String escapes = match.group(1);
             // look for single-escaped parentheses
             if (escapes.length() == 1) {
                 return new Token("(" + parameterPart + ")", Token.Type.TEXT);
@@ -119,9 +122,9 @@ public final class CucumberExpression implements Expression {
     }
 
     private Function<Token, Stream<Token>> processParameters() {
-        return splitTextTokens(PARAMETER_PATTERN, (matchResult) -> {
-            String typeName = matchResult.group(2);
-            String escape = matchResult.group(1);
+        return splitTextTokens(PARAMETER_PATTERN, (match) -> {
+            String typeName = match.group(2);
+            String escape = match.group(1);
             // look for single-escaped parentheses
             if (escape.length() == 1) {
                 return new Token("{" + typeName + "}", Token.Type.TEXT);
