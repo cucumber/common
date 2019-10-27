@@ -124,9 +124,9 @@ public final class CucumberExpression implements Expression {
     private Function<Token, Stream<Token>> processParameters() {
         return splitTextTokens(PARAMETER_PATTERN, (match) -> {
             String typeName = match.group(2);
-            String escape = match.group(1);
+            String escapes = match.group(1);
             // look for single-escaped parentheses
-            if (escape.length() == 1) {
+            if (escapes.length() == 1) {
                 return new Token("{" + typeName + "}", Token.Type.TEXT);
             }
             ParameterType.checkParameterTypeName(typeName);
@@ -137,7 +137,7 @@ public final class CucumberExpression implements Expression {
             parameterTypes.add(parameterType);
             String pattern = buildCaptureRegexp(parameterType.getRegexps());
             // either no or double escape
-            return new Token(escape + pattern, Token.Type.PARAMETER);
+            return new Token(escapes + pattern, Token.Type.PARAMETER);
         });
     }
 
