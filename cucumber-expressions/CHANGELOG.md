@@ -9,6 +9,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Fixed
 
+* [Go] Change Go module name to `github.com/cucumber/cucumber-expressions-go/v8`
+  ([aslakhellesoy])
+
 * Fix captured empty strings being undefined
   ([#746](https://github.com/cucumber/cucumber/issues/746)
    [#754](https://github.com/cucumber/cucumber/pull/754)
