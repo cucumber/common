@@ -4,5 +4,6 @@
   <ignoreVersions>
     <ignoreVersion type="regex">.*pr.*</ignoreVersion>
     <ignoreVersion type="regex">.*-rc.*</ignoreVersion>
+    <ignoreVersion type="regex">.*-M\d+</ignoreVersion>
   </ignoreVersions>
 </ruleset>
