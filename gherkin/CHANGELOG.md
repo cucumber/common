@@ -19,6 +19,11 @@ This document is formatted according to the principles of [Keep A CHANGELOG](htt
 
 ### Fixed
 
+* [Ruby] Make CI build work on Ruby 2.3, 2.4, 2.5 and 2.6
+  ([#777](https://github.com/cucumber/cucumber/pull/777)
+   [vincent-psarga]
+   [aslakhellesoy])
+
 ## [8.1.1] - 2019-10-17
 
 ### Fixed
@@ -664,5 +669,6 @@ to Gherkin 2.
 [SabotageAndi]:     https://github.com/SabotageAndi
 [tsundberg]:        https://github.com/tsundberg
 [upgundecha]:       https://github.com/upgundecha
+[vincent-psarga]:   https://github.com/vincent-psarga
 [zbmott]:           https://github.com/zbmott
 [Zearin]:           https://github.com/Zearin

@@ -1,0 +1,10 @@
+{
+  "source": {
+    "data": "Feature:\n\n  Rule:\n  Scenario:\n    Given text\n",
+    "media": {
+      "contentType": "text/x.cucumber.gherkin+plain",
+      "encoding": "UTF8"
+    },
+    "uri": "testdata/good/rule_without_name_and_description.feature"
+  }
+}
