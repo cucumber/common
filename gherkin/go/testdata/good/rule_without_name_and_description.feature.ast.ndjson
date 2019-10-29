@@ -1,0 +1,45 @@
+{
+  "gherkinDocument": {
+    "feature": {
+      "children": [
+        {
+          "rule": {
+            "children": [
+              {
+                "scenario": {
+                  "keyword": "Scenario",
+                  "location": {
+                    "column": 3,
+                    "line": 4
+                  },
+                  "steps": [
+                    {
+                      "keyword": "Given ",
+                      "location": {
+                        "column": 5,
+                        "line": 5
+                      },
+                      "text": "text"
+                    }
+                  ]
+                }
+              }
+            ],
+            "keyword": "Rule",
+            "location": {
+              "column": 3,
+              "line": 3
+            }
+          }
+        }
+      ],
+      "keyword": "Feature",
+      "language": "en",
+      "location": {
+        "column": 1,
+        "line": 1
+      }
+    },
+    "uri": "testdata/good/rule_without_name_and_description.feature"
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "pickle": {
+    "id": "fe69f807f6e2572656fa7fbf72e1fc57ee1f83a2",
+    "language": "en",
+    "locations": [
+      {
+        "column": 3,
+        "line": 4
+      }
+    ],
+    "steps": [
+      {
+        "locations": [
+          {
+            "column": 11,
+            "line": 5
+          }
+        ],
+        "text": "text"
+      }
+    ],
+    "uri": "testdata/good/rule_without_name_and_description.feature"
+  }
+}
