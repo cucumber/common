@@ -51,10 +51,6 @@ executors:
     docker:
       - image: circleci/ruby:2.6
     working_directory: ~/cucumber
-  docker-circleci-ruby-27:
-    docker:
-      - image: circleci/ruby:2.7.0-preview1
-    working_directory: ~/cucumber
   # JRuby
   docker-circleci-jruby-92:
     docker:
@@ -410,17 +406,6 @@ jobs:
 
   gherkin-ruby-26:
     executor: docker-circleci-ruby-26
-    steps:
-      - attach_workspace:
-          at: "~/cucumber"
-      - run:
-          name: gherkin/ruby
-          command: |
-            cd gherkin/ruby
-            make
-
-  gherkin-ruby-27:
-    executor: docker-circleci-ruby-27
     steps:
       - attach_workspace:
           at: "~/cucumber"

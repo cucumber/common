@@ -111,28 +111,25 @@ module Gherkin
         data_table = node.get_single(:DataTable)
         doc_string = node.get_single(:DocString)
 
-        props = {
+        Cucumber::Messages::GherkinDocument::Feature::Step.new(
           location: get_location(step_line, 0),
           keyword: step_line.matched_keyword,
-          text: step_line.matched_text
-        }
-        props[:data_table] = data_table if data_table
-        props[:doc_string] = doc_string if doc_string
-
-        Cucumber::Messages::GherkinDocument::Feature::Step.new(props)
+          text: step_line.matched_text,
+          data_table: data_table,
+          doc_string: doc_string,
+        )
       when :DocString
         separator_token = node.get_tokens(:DocStringSeparator)[0]
         content_type = separator_token.matched_text == '' ? nil : separator_token.matched_text
         line_tokens = node.get_tokens(:Other)
         content = line_tokens.map { |t| t.matched_text }.join("\n")
 
-        props = {
+        Cucumber::Messages::GherkinDocument::Feature::Step::DocString.new(
           location: get_location(separator_token, 0),
           content: content,
-          delimiter: separator_token.matched_keyword
-        }
-        props[:content_type] = content_type if content_type
-        Cucumber::Messages::GherkinDocument::Feature::Step::DocString.new(props)
+          delimiter: separator_token.matched_keyword,
+          content_type: content_type,
+        )
       when :DataTable
         rows = get_table_rows(node)
         Cucumber::Messages::GherkinDocument::Feature::Step::DataTable.new(
@@ -144,14 +141,13 @@ module Gherkin
         description = get_description(node)
         steps = get_steps(node)
 
-        props = {
+        Cucumber::Messages::GherkinDocument::Feature::Background.new(
           location: get_location(background_line, 0),
           keyword: background_line.matched_keyword,
           name: background_line.matched_text,
+          description: description,
           steps: steps
-        }
-        props[:description] = description if description
-        Cucumber::Messages::GherkinDocument::Feature::Background.new(props)
+        )
       when :ScenarioDefinition
         tags = get_tags(node)
         scenario_node = node.get_single(:Scenario)
@@ -159,16 +155,15 @@ module Gherkin
         description = get_description(scenario_node)
         steps = get_steps(scenario_node)
         examples = scenario_node.get_items(:ExamplesDefinition)
-        props = {
+        Cucumber::Messages::GherkinDocument::Feature::Scenario.new(
           tags: tags,
           location: get_location(scenario_line, 0),
           keyword: scenario_line.matched_keyword,
           name: scenario_line.matched_text,
+          description: description,
           steps: steps,
           examples: examples
-        }
-        props[:description] = description if description
-        Cucumber::Messages::GherkinDocument::Feature::Scenario.new(props)
+        )
       when :ExamplesDefinition
         tags = get_tags(node)
         examples_node = node.get_single(:Examples)
@@ -179,16 +174,15 @@ module Gherkin
         table_header = rows.nil? ? nil : rows.first
         table_body = rows.nil? ? nil : rows[1..-1]
 
-        props = {
+        Cucumber::Messages::GherkinDocument::Feature::Scenario::Examples.new(
           tags: tags,
           location: get_location(examples_line, 0),
           keyword: examples_line.matched_keyword,
           name: examples_line.matched_text,
-        }
-        props[:table_header] = table_header if table_header
-        props[:table_body] = table_body if table_body
-        props[:description] = description if description
-        Cucumber::Messages::GherkinDocument::Feature::Scenario::Examples.new(props)
+          description: description,
+          table_header: table_header,
+          table_body: table_body,
+        )
       when :ExamplesTable
         get_table_rows(node)
       when :Description
@@ -215,17 +209,15 @@ module Gherkin
         description = get_description(header)
         language = feature_line.matched_gherkin_dialect
 
-        props = {
+        Cucumber::Messages::GherkinDocument::Feature.new(
           tags: tags,
           location: get_location(feature_line, 0),
           language: language,
           keyword: feature_line.matched_keyword,
           name: feature_line.matched_text,
+          description: description,
           children: children,
-        }
-        props[:description] = description if description
-
-        Cucumber::Messages::GherkinDocument::Feature.new(props)
+        )
       when :Rule
         header = node.get_single(:RuleHeader)
         return unless header
