@@ -740,9 +740,6 @@ workflows:
       - gherkin-ruby-26:
           requires:
             - cucumber-messages-ruby
-      - gherkin-ruby-27:
-          requires:
-            - cucumber-messages-ruby
       - gherkin-jruby-92:
           requires:
             - cucumber-messages-ruby
