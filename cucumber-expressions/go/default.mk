@@ -107,7 +107,11 @@ remove-replaces:
 .PHONY: remove-replaces
 
 add-replaces:
+ifeq ($(shell sed -n "/^\s*github.com\/cucumber/p" go.mod | wc -l), 0)
+	# No replacements here
+else
 	sed -i '/^go .*/i $(REPLACEMENTS)\n' go.mod
+endif
 .PHONY: add-replaces
 
 update-major:
