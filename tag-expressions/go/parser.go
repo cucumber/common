@@ -1,6 +1,7 @@
 package tagexpressions
 
 import (
+	"bytes"
 	"errors"
 	"fmt"
 	"strings"
@@ -98,12 +99,12 @@ var PREC = map[string]int{
 
 func tokenize(expr string) []string {
 	var tokens []string
-	var token []rune
+	var token bytes.Buffer
 
 	collectToken := func() {
-		if len(token) > 0 {
-			tokens = append(tokens, string(token))
-			token = []rune{}
+		if token.Len() > 0 {
+			tokens = append(tokens, token.String())
+			token.Reset()
 		}
 	}
 
@@ -114,19 +115,21 @@ func tokenize(expr string) []string {
 			continue
 		}
 
-		switch c {
-		case '\\':
+		ch := string(c)
+
+		switch ch {
+		case "\\":
 			escaped = true
-		case '(', ')':
+		case "(", ")":
 			if escaped {
-				token = append(token, c)
+				token.WriteString(ch)
 				escaped = false
 			} else {
 				collectToken()
-				tokens = append(tokens, string(c))
+				tokens = append(tokens, ch)
 			}
 		default:
-			token = append(token, c)
+			token.WriteString(ch)
 		}
 	}
 
