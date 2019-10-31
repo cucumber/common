@@ -52,13 +52,13 @@ final class CucumberExpressionParser {
                 return 0;
             }
 
-            int rightHandBoundary = findFirst(expression, pivot, WHITE_SPACE, BEGIN_OPTIONAL);
-            if (rightHandBoundary < 0) {
-                rightHandBoundary = expression.size();
+            int rightHandBoundry = findFirst(expression, pivot, WHITE_SPACE, BEGIN_OPTIONAL);
+            if (rightHandBoundry < 0) {
+                rightHandBoundry = expression.size();
             }
 
-            ast.add(new Alternation(expression.subList(current, rightHandBoundary)));
-            return rightHandBoundary - current;
+            ast.add(new Alternation(expression.subList(current, rightHandBoundry)));
+            return rightHandBoundry - current;
         };
     }
 

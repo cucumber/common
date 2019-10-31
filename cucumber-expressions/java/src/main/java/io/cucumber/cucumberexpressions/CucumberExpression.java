@@ -92,8 +92,21 @@ public final class CucumberExpression implements Expression {
     }
 
     private void checkNotParameterType(List<CucumberExpressionTokenizer.Token> tokens, String message) {
-        if (tokens.stream().anyMatch(token -> token.type == BEGIN_PARAMETER)
-                && tokens.stream().anyMatch(token -> token.type == END_PARAMETER)) {
+        int beginParameterIndex = -1;
+        int endParameterIndex = -1;
+        for (int i = 0; i < tokens.size(); i++) {
+            CucumberExpressionTokenizer.Token token = tokens.get(i);
+            if (beginParameterIndex == -1 && token.type == BEGIN_PARAMETER) {
+                beginParameterIndex = i;
+            }
+            if (endParameterIndex == -1 && token.type == END_PARAMETER) {
+                endParameterIndex = i;
+            }
+        }
+        if(beginParameterIndex == -1 || endParameterIndex == -1){
+            return;
+        }
+        if (beginParameterIndex < endParameterIndex) {
             throw new CucumberExpressionException(message + source);
         }
     }

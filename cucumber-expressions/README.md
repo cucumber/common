@@ -5,14 +5,14 @@ See [website docs](https://cucumber.io/docs/cucumber/cucumber-expressions/) for 
 
 ```
 cucumber-expression :=  [ optional | escaped-optional | other-then-optional ]*
-optional := `\\`? + '(' + text + ')'
+optional := '(' + text + ')'
 escaped-optional :=  '\(' + other-then-optional + ')'
 other-then-optional: = [ alternative | escaped-alternative | other-then-alternative ]*
-alternative := text + [  `\\`? + '/' + text ]+
+alternative := text + [ '/' + text ]+
 escaped-alternative := other-then-alternative +[ '\/' + other-then-alternative ]+
 other-then-alternative :=  [ parameter | escaped-parameter | other-then-parameter ]*
 parameter := '{' + text + '}' 
-escaped-parameter  := `\\`? + '\{' + other-then-parameter + '}'
+escaped-parameter  := '\{' + other-then-parameter + '}'
 other-then-parameter:= text
 text := .*
 ```
