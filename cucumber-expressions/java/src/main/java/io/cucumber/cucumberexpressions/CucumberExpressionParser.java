@@ -47,18 +47,18 @@ final class CucumberExpressionParser {
                 return 0;
             }
 
-            int rightHandBoundary = findFirst(expression, current, WHITE_SPACE, END_OPTIONAL);
-            if (rightHandBoundary >= 0 && rightHandBoundary < pivot) {
+            int leftHandBoundary = findFirst(expression, current, WHITE_SPACE, END_OPTIONAL);
+            if (leftHandBoundary >= 0 && leftHandBoundary < pivot) {
                 return 0;
             }
 
-            int leftHandBoundary = findFirst(expression, pivot, WHITE_SPACE, BEGIN_OPTIONAL);
-            if (leftHandBoundary < 0) {
-                leftHandBoundary = expression.size();
+            int rightHandBoundary = findFirst(expression, pivot, WHITE_SPACE, BEGIN_OPTIONAL);
+            if (rightHandBoundary < 0) {
+                rightHandBoundary = expression.size();
             }
 
-            ast.add(new Alternation(expression.subList(current, leftHandBoundary)));
-            return leftHandBoundary - current;
+            ast.add(new Alternation(expression.subList(current, rightHandBoundary)));
+            return rightHandBoundary - current;
         };
     }
 
