@@ -83,14 +83,14 @@ class CucumberExpressionParserTest {
     @Test
     void escapedOpeningParenthesis() {
         assertThat(parser.parse("\\("), contains(
-                node("\\(", Text.class)
+                node("(", Text.class)
         ));
     }
 
     @Test
     void escapedOptional() {
         assertThat(parser.parse("\\(blind)"), contains(
-                node("\\(", Text.class),
+                node("(", Text.class),
                 node("blind", Text.class),
                 node(")", Text.class)
         ));
@@ -101,7 +101,7 @@ class CucumberExpressionParserTest {
         assertThat(parser.parse("three \\(blind) mice"), contains(
                 node("three", Text.class),
                 node(" ", Text.class),
-                node("\\(", Text.class),
+                node("(", Text.class),
                 node("blind", Text.class),
                 node(")", Text.class),
                 node(" ", Text.class),
@@ -114,7 +114,7 @@ class CucumberExpressionParserTest {
         assertThat(parser.parse("three \\((very) blind) mice"), contains(
                 node("three", Text.class),
                 node(" ", Text.class),
-                node("\\(", Text.class),
+                node("(", Text.class),
                 node("very", Optional.class),
                 node(" ", Text.class),
                 node("blind", Text.class),

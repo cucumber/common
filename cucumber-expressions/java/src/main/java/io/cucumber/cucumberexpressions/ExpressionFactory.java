@@ -17,6 +17,8 @@ public final class ExpressionFactory {
     private static final Pattern BEGIN_ANCHOR = Pattern.compile("^\\^.*");
     private static final Pattern END_ANCHOR = Pattern.compile(".*\\$$");
     private static final Pattern SCRIPT_STYLE_REGEXP = Pattern.compile("^/(.*)/$");
+    private static final Pattern PARAMETER_PATTERN = Pattern.compile("((?:\\\\){0,2})\\{([^}]*)\\}");
+
     private final ParameterTypeRegistry parameterTypeRegistry;
 
     public ExpressionFactory(ParameterTypeRegistry parameterTypeRegistry) {
@@ -38,7 +40,7 @@ public final class ExpressionFactory {
         try {
             return new RegularExpression(Pattern.compile(expressionString), parameterTypeRegistry);
         } catch (PatternSyntaxException e) {
-            if (CucumberExpression.PARAMETER_PATTERN.matcher(expressionString).find()) {
+            if (PARAMETER_PATTERN.matcher(expressionString).find()) {
                 throw new CucumberExpressionException("You cannot use anchors (^ or $) in Cucumber Expressions. Please remove them from " + expressionString, e);
             }
             throw e;

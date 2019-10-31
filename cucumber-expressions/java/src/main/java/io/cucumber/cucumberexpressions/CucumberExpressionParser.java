@@ -5,6 +5,7 @@ import io.cucumber.cucumberexpressions.CucumberExpressionTokenizer.Token;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Function;
+import java.util.stream.Collectors;
 
 import static io.cucumber.cucumberexpressions.CucumberExpressionTokenizer.Token.Type.ALTERNATION;
 import static io.cucumber.cucumberexpressions.CucumberExpressionTokenizer.Token.Type.BEGIN_OPTIONAL;
@@ -46,21 +47,18 @@ final class CucumberExpressionParser {
                 return 0;
             }
 
-            boolean contiguous = expression
-                    .subList(current, pivot)
-                    .stream()
-                    .noneMatch(t -> t.type == WHITE_SPACE);
-            if (!contiguous) {
+            int rightHandBoundary = findFirst(expression, current, WHITE_SPACE, END_OPTIONAL);
+            if (rightHandBoundary >= 0 && rightHandBoundary < pivot) {
                 return 0;
             }
 
-            int endToken = findFirst(expression, pivot, WHITE_SPACE);
-            if (endToken < 0) {
-                endToken = expression.size();
+            int leftHandBoundary = findFirst(expression, pivot, WHITE_SPACE, BEGIN_OPTIONAL);
+            if (leftHandBoundary < 0) {
+                leftHandBoundary = expression.size();
             }
 
-            ast.add(new Alternation(expression.subList(current, endToken)));
-            return endToken - current;
+            ast.add(new Alternation(expression.subList(current, leftHandBoundary)));
+            return leftHandBoundary - current;
         };
     }
 
@@ -81,11 +79,13 @@ final class CucumberExpressionParser {
         };
     }
 
-    private static int findFirst(List<Token> expression, int fromIndex, Token.Type end) {
+    private static int findFirst(List<Token> expression, int fromIndex, Token.Type... end) {
         for (int i = fromIndex; i < expression.size(); i++) {
             Token candidate = expression.get(i);
-            if (candidate.type == end) {
-                return i;
+            for (Token.Type type : end) {
+                if (candidate.type == type) {
+                    return i;
+                }
             }
         }
         return -1;
@@ -116,10 +116,24 @@ final class CucumberExpressionParser {
 
         @Override
         public String toString() {
+            return getText();
+        }
+
+        String getText() {
             return tokens.stream().map(token -> {
                 switch (token.type) {
                     case ESCAPED_ALTERNATION:
                         return "/";
+                    case ESCAPED_BEGIN_OPTIONAL:
+                        return "(";
+                    case ESCAPED_END_OPTIONAL:
+                        return ")";
+                    case ESCAPED_BEGIN_PARAMETER:
+                        return "{";
+                    case ESCAPED_END_PARAMETER:
+                        return "}";
+                    case ESCAPED_ESCAPE:
+                        return "\\";
                     default:
                         return token.text;
                 }
@@ -135,6 +149,10 @@ final class CucumberExpressionParser {
 
         @Override
         public String toString() {
+            return getOptionalText();
+        }
+
+        String getOptionalText() {
             return tokens.stream()
                     .map(token -> {
                         switch (token.type) {
@@ -158,6 +176,10 @@ final class CucumberExpressionParser {
 
         @Override
         public String toString() {
+            return getParameterName();
+        }
+
+        String getParameterName() {
             return tokens.stream()
                     .map(token -> {
                         switch (token.type) {
@@ -176,7 +198,7 @@ final class CucumberExpressionParser {
 
     static final class Alternation extends Node {
 
-        private final ArrayList<List<Token>> alternatives;
+        final List<List<Token>> alternatives;
 
         Alternation(List<Token> tokens) {
             super(tokens);
@@ -197,8 +219,7 @@ final class CucumberExpressionParser {
             }
         }
 
-        @Override
-        public String toString() {
+        public List<String> getAlternatives() {
             return alternatives.stream()
                     .map(alternatives -> alternatives
                             .stream()
@@ -208,17 +229,28 @@ final class CucumberExpressionParser {
                                         return " ";
                                     case ESCAPED_ALTERNATION:
                                         return "/";
+                                    case ESCAPED_ESCAPE:
+                                        return "\\";
+                                    case ESCAPED_BEGIN_OPTIONAL:
+                                        return "(";
+                                    case ESCAPED_BEGIN_PARAMETER:
+                                        return "{";
                                     default:
                                         return token.text;
                                 }
                             }).collect(joining()))
-                    .collect(joining(" - "));
+                    .collect(Collectors.toList());
+        }
+
+        @Override
+        public String toString() {
+            return String.join(" - ", getAlternatives());
         }
 
     }
 
-    List<Node> parse(String expressionStr) {
-        List<Token> tokens = tokenizer.tokenize(expressionStr);
+    List<Node> parse(String expression) {
+        List<Token> tokens = tokenizer.tokenize(expression);
         List<Node> ast = new ArrayList<>();
         int length = tokens.size();
         int current = 0;

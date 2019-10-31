@@ -21,11 +21,10 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class CucumberExpressionTest {
+    private final ParameterTypeRegistry parameterTypeRegistry = new ParameterTypeRegistry(Locale.ENGLISH);
 
     @Test
     public void documents_match_arguments() {
-        ParameterTypeRegistry parameterTypeRegistry = new ParameterTypeRegistry(Locale.ENGLISH);
-
         String expr = "I have {int} cuke(s)";
         Expression expression = new CucumberExpression(expr, parameterTypeRegistry);
         List<Argument<?>> args = expression.match("I have 7 cukes");
@@ -138,6 +137,10 @@ public class CucumberExpressionTest {
     @Test
     public void matches_escaped_parenthesis() {
         assertEquals(emptyList(), match("three \\(exceptionally) \\{string} mice", "three (exceptionally) {string} mice"));
+        assertEquals(singletonList("blind"), match("three \\((exceptionally)\\) \\{{string}\\} mice", "three (exceptionally) {\"blind\"} mice"));
+        assertEquals(singletonList("blind"), match("three \\((exceptionally)) \\{{string}} mice", "three (exceptionally) {\"blind\"} mice"));
+        parameterTypeRegistry.defineParameterType(new ParameterType<>("{string}", "\"(.*)\"", String.class, (String arg) -> arg));
+        assertEquals(singletonList("blind"), match("three (\\(exceptionally\\)) {\\{string\\}} mice", "three (exceptionally) \"blind\" mice"));
     }
 
     @Test
@@ -152,7 +155,8 @@ public class CucumberExpressionTest {
 
     @Test
     public void matches_doubly_escaped_slash() {
-        assertEquals(emptyList(), match("12\\\\/2020", "12\\/2020"));
+        assertEquals(emptyList(), match("12\\\\/2020", "12\\"));
+        assertEquals(emptyList(), match("12\\\\/2020", "2020"));
     }
 
     @Test
@@ -301,7 +305,7 @@ public class CucumberExpressionTest {
     }
 
     private List<?> match(String expr, String text, Type... typeHints) {
-        return match(expr, text, Locale.ENGLISH, typeHints);
+        return match(expr, text, parameterTypeRegistry, typeHints);
     }
 
     private List<?> match(String expr, String text, Locale locale, Type... typeHints) {
