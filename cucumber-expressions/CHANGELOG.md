@@ -9,6 +9,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Added
 
+* Expose `Argument#getParameterType()` method. Needed by Cucumber `protobuf` formatters.
+  ([#781](https://github.com/cucumber/cucumber/pull/781)
+   [aslakhellesoy])
+
 ### Changed
 
 ### Deprecated
