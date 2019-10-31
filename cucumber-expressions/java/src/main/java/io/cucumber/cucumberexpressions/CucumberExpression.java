@@ -31,7 +31,6 @@ public final class CucumberExpression implements Expression {
         List<CucumberExpressionParser.Node> parse = parser.parse(expression);
 
         String pattern = parse.stream()
-                .map(this::validate)
                 .map(this::process)
                 .collect(joining("", "^", "$"));
 
@@ -42,11 +41,13 @@ public final class CucumberExpression implements Expression {
     private String process(CucumberExpressionParser.Node node) {
         if (node instanceof CucumberExpressionParser.Optional) {
             CucumberExpressionParser.Optional optional = (CucumberExpressionParser.Optional) node;
+            checkNotParameterType(optional.tokens, PARAMETER_TYPES_CANNOT_BE_OPTIONAL);
             return "(?:" + escapeRegex(optional.getOptionalText()) + ")?";
         }
 
         if (node instanceof CucumberExpressionParser.Alternation) {
             CucumberExpressionParser.Alternation alternation = (CucumberExpressionParser.Alternation) node;
+            validateAlternation(alternation);
             return alternation.getAlternatives()
                     .stream()
                     .map(CucumberExpression::escapeRegex)
@@ -54,6 +55,7 @@ public final class CucumberExpression implements Expression {
         }
         if (node instanceof CucumberExpressionParser.Parameter) {
             CucumberExpressionParser.Parameter parameter = (CucumberExpressionParser.Parameter) node;
+            ParameterType.checkParameterTypeName(parameter.getParameterName());
             String typeName = parameter.getParameterName();
             ParameterType<?> parameterType = parameterTypeRegistry.lookupByTypeName(typeName);
             if (parameterType == null) {
@@ -71,32 +73,8 @@ public final class CucumberExpression implements Expression {
         throw new IllegalArgumentException(node.getClass().getName());
     }
 
-    private CucumberExpressionParser.Node validate(CucumberExpressionParser.Node node) {
-        if (node instanceof CucumberExpressionParser.Optional) {
-            CucumberExpressionParser.Optional optional = (CucumberExpressionParser.Optional) node;
-            return validateOptional(optional);
-        }
-
-        if (node instanceof CucumberExpressionParser.Alternation) {
-            CucumberExpressionParser.Alternation alternation = (CucumberExpressionParser.Alternation) node;
-            return validateAlternation(alternation);
-        }
-        if (node instanceof CucumberExpressionParser.Parameter) {
-            CucumberExpressionParser.Parameter parameter = (CucumberExpressionParser.Parameter) node;
-            return validateParameter(parameter);
-        }
-
-        return node;
-    }
-
-    private CucumberExpressionParser.Node validateParameter(CucumberExpressionParser.Parameter parameter) {
-        ParameterType.checkParameterTypeName(parameter.getParameterName());
-        return parameter;
-    }
-
-    private CucumberExpressionParser.Node validateAlternation(CucumberExpressionParser.Alternation alternation) {
+    private void validateAlternation(CucumberExpressionParser.Alternation alternation) {
         // Make sure the alternative parts aren't empty and don't contain parameter types
-        checkNotParameterType(alternation.tokens, PARAMETER_TYPES_CANNOT_BE_ALTERNATIVE);
         if (alternation.alternatives.isEmpty()) {
             throw new CucumberExpressionException(ALTERNATIVE_MAY_NOT_BE_EMPTY + source);
         }
@@ -105,13 +83,8 @@ public final class CucumberExpression implements Expression {
             if (alternative.isEmpty()) {
                 throw new CucumberExpressionException(ALTERNATIVE_MAY_NOT_BE_EMPTY + source);
             }
+            checkNotParameterType(alternation.tokens, PARAMETER_TYPES_CANNOT_BE_ALTERNATIVE);
         }
-        return alternation;
-    }
-
-    private CucumberExpressionParser.Node validateOptional(CucumberExpressionParser.Optional optional) {
-        checkNotParameterType(optional.tokens, PARAMETER_TYPES_CANNOT_BE_OPTIONAL);
-        return optional;
     }
 
     private static String escapeRegex(String text) {

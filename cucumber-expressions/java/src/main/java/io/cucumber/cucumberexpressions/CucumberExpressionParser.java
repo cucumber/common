@@ -215,7 +215,7 @@ final class CucumberExpressionParser {
             }
         }
 
-        public List<String> getAlternatives() {
+        List<String> getAlternatives() {
             return alternatives.stream()
                     .map(alternatives -> alternatives
                             .stream()
@@ -229,8 +229,12 @@ final class CucumberExpressionParser {
                                         return "\\";
                                     case ESCAPED_BEGIN_OPTIONAL:
                                         return "(";
+                                    case ESCAPED_END_OPTIONAL:
+                                        return ")";
                                     case ESCAPED_BEGIN_PARAMETER:
                                         return "{";
+                                    case ESCAPED_END_PARAMETER:
+                                        return "}";
                                     default:
                                         return token.text;
                                 }
