@@ -11,7 +11,7 @@ public final class Argument<T> {
     private final ParameterType<T> parameterType;
     private final Group group;
 
-    static List<Argument<?>> build(TreeRegexp treeRegexp, List<ParameterType<?>> parameterTypes, String text) {
+    static List<Argument<?>> build(TreeRegexp treeRegexp, String text, List<ParameterType<?>> parameterTypes) {
         Group group = treeRegexp.match(text);
         if (group == null) return null;
 
@@ -69,5 +69,9 @@ public final class Argument<T> {
 
     public Type getType() {
         return parameterType.getType();
+    }
+
+    public ParameterType<T> getParameterType() {
+        return parameterType;
     }
 }

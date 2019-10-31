@@ -4,7 +4,7 @@ require 'cucumber/cucumber_expressions/errors'
 module Cucumber
   module CucumberExpressions
     class Argument
-      attr_reader :group
+      attr_reader :group, :parameter_type
 
       def self.build(tree_regexp, text, parameter_types)
         group = tree_regexp.match(text)

@@ -48,6 +48,10 @@ export default class Argument<T> {
     const groupValues = this.group ? this.group.values : null
     return this.parameterType.transform(thisObj, groupValues)
   }
+
+  public getParameterType() {
+    return this.parameterType
+  }
 }
 
 module.exports = Argument

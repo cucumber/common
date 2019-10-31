@@ -42,7 +42,7 @@ public final class ParameterType<T> implements Comparable<ParameterType<?>> {
     }
 
     @SuppressWarnings("unchecked")
-    public static <E extends Enum> ParameterType<E> fromEnum(final Class<E> enumClass) {
+    static <E extends Enum> ParameterType<E> fromEnum(final Class<E> enumClass) {
         Enum[] enumConstants = enumClass.getEnumConstants();
         StringBuilder regexpBuilder = new StringBuilder();
         for (int i = 0; i < enumConstants.length; i++) {
