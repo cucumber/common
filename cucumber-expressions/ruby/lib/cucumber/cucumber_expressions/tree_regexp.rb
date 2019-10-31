@@ -23,7 +23,7 @@ module Cucumber
             char_class = false
           elsif c == '(' && !escaping && !char_class
             @stack.push(GroupBuilder.new)
-            group_start_stack.push(n+1)
+            group_start_stack.push(n + 1)
             @non_capturing_maybe = false
           elsif c == ')' && !escaping && !char_class
             gb = @stack.pop
@@ -40,9 +40,9 @@ module Cucumber
           elsif (c == '<') && @non_capturing_maybe
             @name_capturing_maybe = true
           elsif (c == ':' || c == '!' || c == '=') && last == '?' && @non_capturing_maybe
-            end_non_capturing_group()
+            end_non_capturing_group
           elsif (c == '=' || c == '!') && last == '<' && @name_capturing_maybe
-            end_non_capturing_group()
+            end_non_capturing_group
           elsif @name_capturing_maybe
             raise CucumberExpressionError.new("Named capture groups are not supported. See https://github.com/cucumber/cucumber/issues/329")
           end

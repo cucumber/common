@@ -65,7 +65,7 @@ public final class RegularExpression implements Expression {
         }
 
 
-        return Argument.build(treeRegexp, parameterTypes, text);
+        return Argument.build(treeRegexp, text, parameterTypes);
     }
 
     @Override
