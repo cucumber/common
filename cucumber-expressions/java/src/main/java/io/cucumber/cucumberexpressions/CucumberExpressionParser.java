@@ -126,12 +126,8 @@ final class CucumberExpressionParser {
                         return "/";
                     case ESCAPED_BEGIN_OPTIONAL:
                         return "(";
-                    case ESCAPED_END_OPTIONAL:
-                        return ")";
                     case ESCAPED_BEGIN_PARAMETER:
                         return "{";
-                    case ESCAPED_END_PARAMETER:
-                        return "}";
                     case ESCAPED_ESCAPE:
                         return "\\";
                     default:
