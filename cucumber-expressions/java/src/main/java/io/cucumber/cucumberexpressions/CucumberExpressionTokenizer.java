@@ -9,6 +9,10 @@ import java.util.regex.Pattern;
 
 class CucumberExpressionTokenizer {
 
+    private interface Tokenize {
+        int tokenize(List<Token> tokens, String expression, int current);
+    }
+
     private static final List<Tokenize> tokenizers = Arrays.asList(
             tokenizePattern(Token.Type.ESCAPED_WHITE_SPACE, Pattern.compile("\\\\\\s")),
             tokenizePattern(Token.Type.WHITE_SPACE, Pattern.compile("\\s+")),
@@ -49,8 +53,9 @@ class CucumberExpressionTokenizer {
                 }
             }
             if (!tokenized) {
-                // Should not happen
-                throw new IllegalStateException("Could not parse " + expression);
+                // Can't happen if configured properly
+                // Leave in to avoid looping if not configured properly
+                throw new IllegalStateException("Could not tokenize " + expression);
             }
         }
         return tokens;
@@ -92,10 +97,6 @@ class CucumberExpressionTokenizer {
         };
     }
 
-
-    private interface Tokenize {
-        int tokenize(List<Token> tokens, String expression, int current);
-    }
 
     static class Token {
         final String text;

@@ -83,7 +83,7 @@ public final class CucumberExpression implements Expression {
             if (alternative.isEmpty()) {
                 throw new CucumberExpressionException(ALTERNATIVE_MAY_NOT_BE_EMPTY + source);
             }
-            checkNotParameterType(alternation.tokens, PARAMETER_TYPES_CANNOT_BE_ALTERNATIVE);
+            checkNotParameterType(alternative, PARAMETER_TYPES_CANNOT_BE_ALTERNATIVE);
         }
     }
 
