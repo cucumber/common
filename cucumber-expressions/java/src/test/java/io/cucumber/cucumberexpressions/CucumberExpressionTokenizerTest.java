@@ -9,12 +9,12 @@ import static io.cucumber.cucumberexpressions.CucumberExpressionTokenizer.Token.
 import static io.cucumber.cucumberexpressions.CucumberExpressionTokenizer.Token.Type.BEGIN_PARAMETER;
 import static io.cucumber.cucumberexpressions.CucumberExpressionTokenizer.Token.Type.END_OPTIONAL;
 import static io.cucumber.cucumberexpressions.CucumberExpressionTokenizer.Token.Type.END_PARAMETER;
-import static io.cucumber.cucumberexpressions.CucumberExpressionTokenizer.Token.Type.ESCAPED_ALTERNATION;
-import static io.cucumber.cucumberexpressions.CucumberExpressionTokenizer.Token.Type.ESCAPED_BEGIN_OPTIONAL;
-import static io.cucumber.cucumberexpressions.CucumberExpressionTokenizer.Token.Type.ESCAPED_BEGIN_PARAMETER;
-import static io.cucumber.cucumberexpressions.CucumberExpressionTokenizer.Token.Type.ESCAPED_END_OPTIONAL;
-import static io.cucumber.cucumberexpressions.CucumberExpressionTokenizer.Token.Type.ESCAPED_END_PARAMETER;
-import static io.cucumber.cucumberexpressions.CucumberExpressionTokenizer.Token.Type.ESCAPED_WHITE_SPACE;
+import static io.cucumber.cucumberexpressions.CucumberExpressionTokenizer.Token.Type.ALTERNATION_ESCAPED;
+import static io.cucumber.cucumberexpressions.CucumberExpressionTokenizer.Token.Type.BEGIN_OPTIONAL_ESCAPED;
+import static io.cucumber.cucumberexpressions.CucumberExpressionTokenizer.Token.Type.BEGIN_PARAMETER_ESCAPED;
+import static io.cucumber.cucumberexpressions.CucumberExpressionTokenizer.Token.Type.END_OPTIONAL_ESCAPED;
+import static io.cucumber.cucumberexpressions.CucumberExpressionTokenizer.Token.Type.END_PARAMETER_ESCAPED;
+import static io.cucumber.cucumberexpressions.CucumberExpressionTokenizer.Token.Type.WHITE_SPACE_ESCAPED;
 import static io.cucumber.cucumberexpressions.CucumberExpressionTokenizer.Token.Type.TEXT;
 import static io.cucumber.cucumberexpressions.CucumberExpressionTokenizer.Token.Type.WHITE_SPACE;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -54,9 +54,9 @@ class CucumberExpressionTokenizerTest {
     @Test
     void escapedOptional() {
         assertThat(tokenizer.tokenize("\\(blind\\)"), contains(
-                new Token("\\(", ESCAPED_BEGIN_OPTIONAL),
+                new Token("\\(", BEGIN_OPTIONAL_ESCAPED),
                 new Token("blind", TEXT),
-                new Token("\\)", ESCAPED_END_OPTIONAL)
+                new Token("\\)", END_OPTIONAL_ESCAPED)
         ));
     }
 
@@ -85,9 +85,9 @@ class CucumberExpressionTokenizerTest {
     @Test
     void EscapedParameter() {
         assertThat(tokenizer.tokenize("\\{string\\}"), contains(
-                new Token("\\{", ESCAPED_BEGIN_PARAMETER),
+                new Token("\\{", BEGIN_PARAMETER_ESCAPED),
                 new Token("string", TEXT),
-                new Token("\\}", ESCAPED_END_PARAMETER)
+                new Token("\\}", END_PARAMETER_ESCAPED)
         ));
     }
 
@@ -118,11 +118,11 @@ class CucumberExpressionTokenizerTest {
     void escapedAlternation() {
         assertThat(tokenizer.tokenize("blind\\ and\\ famished\\/cripple"), contains(
                 new Token("blind", TEXT),
-                new Token("\\ ", ESCAPED_WHITE_SPACE),
+                new Token("\\ ", WHITE_SPACE_ESCAPED),
                 new Token("and", TEXT),
-                new Token("\\ ", ESCAPED_WHITE_SPACE),
+                new Token("\\ ", WHITE_SPACE_ESCAPED),
                 new Token("famished", TEXT),
-                new Token("\\/", ESCAPED_ALTERNATION),
+                new Token("\\/", ALTERNATION_ESCAPED),
                 new Token("cripple", TEXT)
         ));
     }

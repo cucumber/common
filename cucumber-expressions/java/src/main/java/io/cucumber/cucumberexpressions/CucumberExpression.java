@@ -64,11 +64,11 @@ public final class CucumberExpression implements Expression {
 
         if (node instanceof Parameter) {
             Parameter parameter = (Parameter) node;
-            ParameterType.checkParameterTypeName(parameter.getParameterName());
-            String typeName = parameter.getParameterName();
-            ParameterType<?> parameterType = parameterTypeRegistry.lookupByTypeName(typeName);
+            String name = parameter.getParameterName();
+            ParameterType.checkParameterTypeName(name);
+            ParameterType<?> parameterType = parameterTypeRegistry.lookupByTypeName(name);
             if (parameterType == null) {
-                throw new UndefinedParameterTypeException(typeName);
+                throw new UndefinedParameterTypeException(name);
             }
             parameterTypes.add(parameterType);
             List<String> regexps = parameterType.getRegexps();

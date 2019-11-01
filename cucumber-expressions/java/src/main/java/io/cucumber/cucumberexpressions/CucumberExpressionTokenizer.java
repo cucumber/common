@@ -7,6 +7,8 @@ import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import static io.cucumber.cucumberexpressions.CucumberExpressionTokenizer.Token.Type.*;
+
 class CucumberExpressionTokenizer {
 
     private interface Tokenize {
@@ -14,28 +16,28 @@ class CucumberExpressionTokenizer {
     }
 
     private static final List<Tokenize> tokenizers = Arrays.asList(
-            tokenizePattern(Token.Type.ESCAPED_WHITE_SPACE, Pattern.compile("\\\\\\s")),
-            tokenizePattern(Token.Type.WHITE_SPACE, Pattern.compile("\\s+")),
+            tokenizePattern(WHITE_SPACE_ESCAPED, Pattern.compile("\\\\\\s")),
+            tokenizePattern(WHITE_SPACE, Pattern.compile("\\s+")),
 
-            tokenizeString(Token.Type.ESCAPED_BEGIN_OPTIONAL, "\\("),
-            tokenizeCharacter(Token.Type.BEGIN_OPTIONAL, '('),
+            tokenizeString(BEGIN_OPTIONAL_ESCAPED, "\\("),
+            tokenizeCharacter(BEGIN_OPTIONAL, '('),
 
-            tokenizeString(Token.Type.ESCAPED_END_OPTIONAL, "\\)"),
-            tokenizeCharacter(Token.Type.END_OPTIONAL, ')'),
+            tokenizeString(END_OPTIONAL_ESCAPED, "\\)"),
+            tokenizeCharacter(END_OPTIONAL, ')'),
 
-            tokenizeString(Token.Type.ESCAPED_BEGIN_PARAMETER, "\\{"),
-            tokenizeCharacter(Token.Type.BEGIN_PARAMETER, '{'),
+            tokenizeString(BEGIN_PARAMETER_ESCAPED, "\\{"),
+            tokenizeCharacter(BEGIN_PARAMETER, '{'),
 
-            tokenizeString(Token.Type.ESCAPED_END_PARAMETER, "\\}"),
-            tokenizeCharacter(Token.Type.END_PARAMETER, '}'),
+            tokenizeString(END_PARAMETER_ESCAPED, "\\}"),
+            tokenizeCharacter(END_PARAMETER, '}'),
 
-            tokenizeString(Token.Type.ESCAPED_ALTERNATION, "\\/"),
-            tokenizeCharacter(Token.Type.ALTERNATION, '/'),
+            tokenizeString(ALTERNATION_ESCAPED, "\\/"),
+            tokenizeCharacter(ALTERNATION, '/'),
 
-            tokenizeString(Token.Type.ESCAPED_ESCAPE, "\\\\"),
-            tokenizeString(Token.Type.ESCAPE, "\\"),
+            tokenizeString(ESCAPE_ESCAPED, "\\\\"),
+            tokenizeString(ESCAPE, "\\"),
 
-            tokenizePattern(Token.Type.TEXT, Pattern.compile("[^(){}\\\\/\\s]+"))
+            tokenizePattern(TEXT, Pattern.compile("[^(){}\\\\/\\s]+"))
     );
 
     List<Token> tokenize(String expression) {
@@ -131,28 +133,21 @@ class CucumberExpressionTokenizer {
         }
 
         enum Type {
-
-            ESCAPED_WHITE_SPACE,
+            // In order of precedence
+            WHITE_SPACE_ESCAPED,
             WHITE_SPACE,
-
-            ESCAPED_BEGIN_OPTIONAL,
+            BEGIN_OPTIONAL_ESCAPED,
             BEGIN_OPTIONAL,
-
-            ESCAPED_END_OPTIONAL,
+            END_OPTIONAL_ESCAPED,
             END_OPTIONAL,
-
-            ESCAPED_BEGIN_PARAMETER,
+            BEGIN_PARAMETER_ESCAPED,
             BEGIN_PARAMETER,
-
-            ESCAPED_END_PARAMETER,
+            END_PARAMETER_ESCAPED,
             END_PARAMETER,
-
-            ESCAPED_ALTERNATION,
+            ALTERNATION_ESCAPED,
             ALTERNATION,
-
-            ESCAPED_ESCAPE,
+            ESCAPE_ESCAPED,
             ESCAPE,
-
             TEXT;
         }
     }
