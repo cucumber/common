@@ -139,8 +139,8 @@ final class CucumberExpressionParser {
     );
 
     /*
-     * alternation := (?:boundry) + alternative* + ( '/' + alternative* )+ + (?:boundry)
-     * boundry := whitespace | ^ | $
+     * alternation := (?<=boundary) + alternative* + ( '/' + alternative* )+ + (?=boundary)
+     * boundary := whitespace | ^ | $
      * alternative: = optional | parameter | text
      */
     private static final Parse alternationParser = (ast, expression, current) -> {
