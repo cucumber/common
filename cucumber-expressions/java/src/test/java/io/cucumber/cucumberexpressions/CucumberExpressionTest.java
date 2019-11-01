@@ -140,7 +140,7 @@ public class CucumberExpressionTest {
         assertEquals(singletonList("blind"), match("three \\((exceptionally)) \\{{string}} mice", "three (exceptionally) {\"blind\"} mice"));
         assertEquals(singletonList("blind"), match("three \\((exceptionally)) \\{{string}} mice", "three (exceptionally) {\"blind\"} mice"));
         parameterTypeRegistry.defineParameterType(new ParameterType<>("{string}", "\"(.*)\"", String.class, (String arg) -> arg));
-        assertEquals(singletonList("blind"), match("three (\\(exceptionally\\)) {\\{string\\}} mice", "three (exceptionally) \"blind\" mice"));
+        assertEquals(singletonList("blind"), match("three ((exceptionally\\)) {{string\\}} mice", "three (exceptionally) \"blind\" mice"));
     }
 
     @Test

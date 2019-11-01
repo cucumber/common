@@ -126,7 +126,7 @@ class CucumberExpressionParserTest {
 
     @Test
     void optionalContainingEscapedOptional() {
-        assertThat(parser.parse("three (\\(very\\) blind) mice"), contains(
+        assertThat(parser.parse("three ((very\\) blind) mice"), contains(
                 node("three", Text.class),
                 node(" ", Text.class),
                 node("(very) blind", Optional.class),
@@ -168,6 +168,34 @@ class CucumberExpressionParserTest {
     void alternationWithWhiteSpace() {
         assertThat(parser.parse("\\ three\\ hungry/blind\\ mice\\ "), contains(
                 node(" three hungry - blind mice ", Alternation.class)
+        ));
+    }
+
+    @Test
+    void alternationWithUnusedEndOptional() {
+        assertThat(parser.parse("three )blind\\ mice/rats"), contains(
+                node("three", Text.class),
+                node(" ", Text.class),
+                node(")blind mice - rats", Alternation.class)
+        ));
+    }
+
+    @Test
+    void alternationWithUnusedStartOptional() {
+        assertThat(parser.parse("three blind\\ mice/rats("), contains(
+                node("three", Text.class),
+                node(" ", Text.class),
+                node("blind mice - rats(", Alternation.class)
+        ));
+    }
+
+    @Test
+    void alternationFollowedByOptional() {
+        assertThat(parser.parse("three blind\\ rat/cat(s)"), contains(
+                node("three", Text.class),
+                node(" ", Text.class),
+                node("blind rat - cat", Alternation.class),
+                node("s", Optional.class)
         ));
     }
 

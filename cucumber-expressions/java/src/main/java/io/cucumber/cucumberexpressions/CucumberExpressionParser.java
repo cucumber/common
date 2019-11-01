@@ -24,7 +24,6 @@ import static io.cucumber.cucumberexpressions.CucumberExpressionTokenizer.Token.
 import static io.cucumber.cucumberexpressions.CucumberExpressionTokenizer.Token.Type.ESCAPED_WHITE_SPACE;
 import static io.cucumber.cucumberexpressions.CucumberExpressionTokenizer.Token.Type.WHITE_SPACE;
 import static java.util.Arrays.asList;
-import static java.util.Collections.singletonList;
 import static java.util.stream.Collectors.joining;
 import static java.util.stream.Collectors.toList;
 
@@ -36,6 +35,10 @@ final class CucumberExpressionParser {
     private static final Token END_OPTIONAL_TOKEN = new Token(")", END_OPTIONAL);
     private static final Token ESCAPE_TOKEN = new Token("\\", ESCAPE);
     private static final Token ALTERNATION_TOKEN = new Token("/", ALTERNATION);
+    // Rewrite the token text but retain the type. This allows Cucumber Expressions
+    // to validate there are no parameters in alternation but renders escapes correctly.
+    private static final Token ESCAPED_BEGIN_PARAMETER_TOKEN_AS_BEGIN_PARAMETER_TOKEN = new Token("{", ESCAPED_BEGIN_PARAMETER);
+    private static final Token ESCAPED_END_PARAMETER_TOKEN_AS_END_PARAMETER_TOKEN = new Token("}", ESCAPED_END_PARAMETER);
 
     private static final Function<Token, Token> escapeOptional;
     private static final Function<Token, Token> escapeAlternation;
@@ -46,8 +49,8 @@ final class CucumberExpressionParser {
     static {
         Map<Token.Type, Function<Token, Token>> escapesInOptional = new EnumMap<>(Token.Type.class);
         escapesInOptional.put(ESCAPED_ESCAPE, token -> ESCAPE_TOKEN);
-        escapesInOptional.put(ESCAPED_BEGIN_OPTIONAL, token -> BEGIN_OPTIONAL_TOKEN);
         escapesInOptional.put(ESCAPED_END_OPTIONAL, token -> END_OPTIONAL_TOKEN);
+        escapesInOptional.put(ESCAPED_BEGIN_PARAMETER, token -> ESCAPED_BEGIN_PARAMETER_TOKEN_AS_BEGIN_PARAMETER_TOKEN);
         escapeOptional = rewrite(escapesInOptional);
 
         Map<Token.Type, Function<Token, Token>> escapesInAlternation = new EnumMap<>(Token.Type.class);
@@ -56,18 +59,12 @@ final class CucumberExpressionParser {
         escapesInAlternation.put(ESCAPED_END_OPTIONAL, token -> END_OPTIONAL_TOKEN);
         escapesInAlternation.put(ESCAPED_WHITE_SPACE, token -> new Token(token.text.substring(1), WHITE_SPACE));
         escapesInAlternation.put(ESCAPED_ALTERNATION, token -> ALTERNATION_TOKEN);
-        // Rewrite the token text but retain the type. This allows Cucumber Expressions
-        // to validate there are no parameters in alternation but renders escapes correctly.
-        escapesInAlternation.put(ESCAPED_BEGIN_PARAMETER, token -> new Token("{", ESCAPED_BEGIN_PARAMETER));
-        escapesInAlternation.put(ESCAPED_END_PARAMETER, token -> new Token("}", ESCAPED_END_PARAMETER));
+        escapesInAlternation.put(ESCAPED_BEGIN_PARAMETER, token -> ESCAPED_BEGIN_PARAMETER_TOKEN_AS_BEGIN_PARAMETER_TOKEN);
         escapeAlternation = rewrite(escapesInAlternation);
 
         Map<Token.Type, Function<Token, Token>> escapesInParameter = new EnumMap<>(Token.Type.class);
         escapesInParameter.put(ESCAPED_ESCAPE, token -> ESCAPE_TOKEN);
-        escapesInAlternation.put(ESCAPED_BEGIN_OPTIONAL, token -> BEGIN_OPTIONAL_TOKEN);
-        escapesInAlternation.put(ESCAPED_END_OPTIONAL, token -> END_OPTIONAL_TOKEN);
         escapesInAlternation.put(ESCAPED_ALTERNATION, token -> ALTERNATION_TOKEN);
-        escapesInParameter.put(ESCAPED_BEGIN_PARAMETER, token -> BEGIN_PARAMETER_TOKEN);
         escapesInParameter.put(ESCAPED_END_PARAMETER, token -> END_PARAMETER_TOKEN);
         escapeParameter = rewrite(escapesInParameter);
 
@@ -118,9 +115,9 @@ final class CucumberExpressionParser {
 
     private static Parse parseText() {
         return (ast, expression, current) -> {
-            Token token = expression.get(current);
-            Token unescaped = escapeText.apply(token);
-            ast.add(new Text(singletonList(unescaped)));
+            Token currentToken = expression.get(current);
+            Token unescaped = escapeText.apply(currentToken);
+            ast.add(new Text(unescaped));
             return 1;
         };
     }
@@ -132,14 +129,26 @@ final class CucumberExpressionParser {
                 return 0;
             }
 
-            int leftHandBoundary = findFirst(expression, current, WHITE_SPACE, END_OPTIONAL);
+            int leftHandBoundary = findFirst(expression, current, WHITE_SPACE);
             if (leftHandBoundary >= 0 && leftHandBoundary < pivot) {
                 return 0;
             }
 
-            int rightHandBoundary = findFirst(expression, pivot, WHITE_SPACE, BEGIN_OPTIONAL);
+            List<Token> leftHandSide = expression.subList(current, pivot);
+            int leftHandOptional = lookAHeadForOptional(leftHandSide);
+            if (leftHandOptional >= 0) {
+                return 0;
+            }
+
+            int rightHandBoundary = findFirst(expression, pivot, WHITE_SPACE);
             if (rightHandBoundary < 0) {
                 rightHandBoundary = expression.size();
+            }
+
+            List<Token> rightHandSide = expression.subList(pivot, rightHandBoundary);
+            int rightHandOptional = lookAHeadForOptional(rightHandSide);
+            if(rightHandOptional > 0){
+                rightHandBoundary = pivot + rightHandOptional;
             }
 
             List<Token> tokens = expression.subList(current, rightHandBoundary);
@@ -155,14 +164,27 @@ final class CucumberExpressionParser {
         };
     }
 
+    private static int lookAHeadForOptional(List<Token> expression) {
+        int beginOptional = findFirst(expression, 0, BEGIN_OPTIONAL);
+        if (beginOptional < 0) {
+            return -1;
+        }
+
+        int endOptional = findFirst(expression, beginOptional, END_OPTIONAL);
+        if (endOptional < 0) {
+            return -1;
+        }
+        return beginOptional;
+    }
+
     private static Parse parseBetween(Token.Type startToken,
                                       Token.Type endToken,
                                       Function<List<Token>, Node> createNode,
                                       Function<Token, Token> rewriteEscapes
     ) {
         return (ast, expression, current) -> {
-            Token token = expression.get(current);
-            if (token.type != startToken) {
+            Token currentToken = expression.get(current);
+            if (currentToken.type != startToken) {
                 return 0;
             }
 
@@ -217,10 +239,10 @@ final class CucumberExpressionParser {
 
     static final class Text extends Node {
 
-        final List<Token> tokens;
+        private final Token token;
 
-        Text(List<Token> tokens) {
-            this.tokens = tokens;
+        Text(Token token) {
+            this.token = token;
         }
 
         @Override
@@ -229,7 +251,7 @@ final class CucumberExpressionParser {
         }
 
         String getText() {
-            return tokens.stream().map(token -> token.text).collect(joining());
+            return token.text;
         }
     }
 
@@ -253,7 +275,7 @@ final class CucumberExpressionParser {
 
     static final class Parameter extends Node {
 
-        final List<Token> tokens;
+        private final List<Token> tokens;
 
         Parameter(List<Token> tokens) {
             this.tokens = tokens;
