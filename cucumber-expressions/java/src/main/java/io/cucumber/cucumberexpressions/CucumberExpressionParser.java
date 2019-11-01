@@ -39,8 +39,13 @@ final class CucumberExpressionParser {
     // Expression to validate there are no parameters in alternation but renders
     // escaped braces correctly. Easier then then implementing
     //
-    // optional := '(' + option*  + ')'
+    // optional := '(' + option* + ')'
     // option := parameter | option-text
+    // option-text :=  [^ ')' ]
+    //
+    // Instead we implement:
+    //
+    // optional := '(' + option* + ')'
     private static final Token ESCAPED_BEGIN_PARAMETER_TOKEN_AS_BEGIN_PARAMETER_TOKEN =
             new Token("{", ESCAPED_BEGIN_PARAMETER);
 
@@ -81,40 +86,33 @@ final class CucumberExpressionParser {
         int parse(List<Node> ast, List<Token> expression, int current);
     }
 
-    private static final Parse optionalParser = (ast, expression, current) -> {
-        Token currentToken = expression.get(current);
-        if (currentToken.type != BEGIN_OPTIONAL) {
-            return 0;
-        }
+    private static final Parse optionalParser =
+            parseBetween(BEGIN_OPTIONAL, END_OPTIONAL, escapeOptional, Optional::new);
 
-        int endIndex = findFirst(expression, current + 1, END_OPTIONAL);
-        if (endIndex <= 0) {
-            return 0;
-        }
-        List<Token> tokens = expression.subList(current + 1, endIndex);
-        List<Token> unescaped = tokens.stream().map(escapeOptional).collect(toList());
-        ast.add(new Optional(unescaped));
-        // Consumes end token
-        return endIndex + 1 - current;
+    private static final Parse parameterParser =
+            parseBetween(BEGIN_PARAMETER, END_PARAMETER, escapeParameter, Parameter::new);
 
-    };
-    private static final Parse parameterParser = (ast, expression, current) -> {
-        Token currentToken = expression.get(current);
-        if (currentToken.type != BEGIN_PARAMETER) {
-            return 0;
-        }
+    private static Parse parseBetween(Token.Type startToken,
+                                      Token.Type endToken,
+                                      Function<Token, Token> escape,
+                                      Function<List<Token>, Node> create) {
+        return (ast, expression, current) -> {
+            Token currentToken = expression.get(current);
+            if (currentToken.type != startToken) {
+                return 0;
+            }
 
-        int endIndex = findFirst(expression, current + 1, END_PARAMETER);
-        if (endIndex <= 0) {
-            return 0;
-        }
-        List<Token> tokens = expression.subList(current + 1, endIndex);
-        List<Token> unescaped = tokens.stream().map(escapeParameter).collect(toList());
-        ast.add(new Parameter(unescaped));
-        // Consumes end token
-        return endIndex + 1 - current;
-
-    };
+            int endIndex = findFirst(expression, current + 1, endToken);
+            if (endIndex <= 0) {
+                return 0;
+            }
+            List<Token> tokens = expression.subList(current + 1, endIndex);
+            List<Token> unescaped = tokens.stream().map(escape).collect(toList());
+            ast.add(create.apply(unescaped));
+            // Consumes end token
+            return endIndex + 1 - current;
+        };
+    }
 
     private static final Parse textParser = (ast, expression, current) -> {
         Token currentToken = expression.get(current);
@@ -139,6 +137,7 @@ final class CucumberExpressionParser {
         //
         // alternation := alternative* + ( '/' + alternative* )+
     };
+
     private static Parse alternationSeparatorParser = (ast, expression, current) -> {
         Token currentToken = expression.get(current);
         if (currentToken.type != ALTERNATION) {
@@ -172,7 +171,6 @@ final class CucumberExpressionParser {
         // Does not consume right hand boundary token
         return consumed;
     };
-
 
     private static final List<Parse> parsers = asList(
             alternationParser,
@@ -244,7 +242,6 @@ final class CucumberExpressionParser {
         }
         return alternatives;
     }
-
 
     static abstract class Node {
 
