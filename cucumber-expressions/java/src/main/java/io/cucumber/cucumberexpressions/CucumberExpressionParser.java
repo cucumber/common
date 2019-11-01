@@ -6,8 +6,8 @@ import java.util.ArrayList;
 import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.function.Function;
-import java.util.stream.Collectors;
 
 import static io.cucumber.cucumberexpressions.CucumberExpressionTokenizer.Token.Type.ALTERNATION;
 import static io.cucumber.cucumberexpressions.CucumberExpressionTokenizer.Token.Type.BEGIN_OPTIONAL;
@@ -38,12 +38,13 @@ final class CucumberExpressionParser {
     // Rewrite the token text but retain the type. This allows Cucumber Expressions
     // to validate there are no parameters in alternation but renders escapes correctly.
     private static final Token ESCAPED_BEGIN_PARAMETER_TOKEN_AS_BEGIN_PARAMETER_TOKEN = new Token("{", ESCAPED_BEGIN_PARAMETER);
-    private static final Token ESCAPED_END_PARAMETER_TOKEN_AS_END_PARAMETER_TOKEN = new Token("}", ESCAPED_END_PARAMETER);
 
     private static final Function<Token, Token> escapeOptional;
-    private static final Function<Token, Token> escapeAlternation;
     private static final Function<Token, Token> escapeParameter;
     private static final Function<Token, Token> escapeText;
+    private static final Function<Token, Token> escapeAlternativeText;
+
+
 
 
     static {
@@ -53,18 +54,8 @@ final class CucumberExpressionParser {
         escapesInOptional.put(ESCAPED_BEGIN_PARAMETER, token -> ESCAPED_BEGIN_PARAMETER_TOKEN_AS_BEGIN_PARAMETER_TOKEN);
         escapeOptional = rewrite(escapesInOptional);
 
-        Map<Token.Type, Function<Token, Token>> escapesInAlternation = new EnumMap<>(Token.Type.class);
-        escapesInAlternation.put(ESCAPED_ESCAPE, token -> ESCAPE_TOKEN);
-        escapesInAlternation.put(ESCAPED_BEGIN_OPTIONAL, token -> BEGIN_OPTIONAL_TOKEN);
-        escapesInAlternation.put(ESCAPED_END_OPTIONAL, token -> END_OPTIONAL_TOKEN);
-        escapesInAlternation.put(ESCAPED_WHITE_SPACE, token -> new Token(token.text.substring(1), WHITE_SPACE));
-        escapesInAlternation.put(ESCAPED_ALTERNATION, token -> ALTERNATION_TOKEN);
-        escapesInAlternation.put(ESCAPED_BEGIN_PARAMETER, token -> ESCAPED_BEGIN_PARAMETER_TOKEN_AS_BEGIN_PARAMETER_TOKEN);
-        escapeAlternation = rewrite(escapesInAlternation);
-
         Map<Token.Type, Function<Token, Token>> escapesInParameter = new EnumMap<>(Token.Type.class);
         escapesInParameter.put(ESCAPED_ESCAPE, token -> ESCAPE_TOKEN);
-        escapesInAlternation.put(ESCAPED_ALTERNATION, token -> ALTERNATION_TOKEN);
         escapesInParameter.put(ESCAPED_END_PARAMETER, token -> END_PARAMETER_TOKEN);
         escapeParameter = rewrite(escapesInParameter);
 
@@ -74,17 +65,115 @@ final class CucumberExpressionParser {
         escapesInText.put(ESCAPED_ALTERNATION, token -> ALTERNATION_TOKEN);
         escapesInText.put(ESCAPED_BEGIN_PARAMETER, token -> BEGIN_PARAMETER_TOKEN);
         escapeText = rewrite(escapesInText);
+
+        Map<Token.Type, Function<Token, Token>> escapesInAlternativeText = new EnumMap<>(Token.Type.class);
+        escapesInAlternativeText.put(ESCAPED_ESCAPE, token -> ESCAPE_TOKEN);
+        escapesInAlternativeText.put(ESCAPED_ALTERNATION, token -> ALTERNATION_TOKEN);
+        escapesInAlternativeText.put(ESCAPED_WHITE_SPACE, token -> new Token(token.text.substring(1), WHITE_SPACE));
+        escapesInAlternativeText.put(ESCAPED_BEGIN_OPTIONAL, token -> BEGIN_OPTIONAL_TOKEN);
+        escapesInAlternativeText.put(ESCAPED_BEGIN_PARAMETER, token -> BEGIN_PARAMETER_TOKEN);
+        escapeAlternativeText = rewrite(escapesInAlternativeText);
     }
 
     private interface Parse {
         int parse(List<Node> ast, List<Token> expression, int current);
     }
 
+    private static final Parse optionalParser = (ast, expression, current) -> {
+        Token currentToken = expression.get(current);
+        if (currentToken.type != BEGIN_OPTIONAL) {
+            return 0;
+        }
+
+        int endIndex = findFirst(expression, current + 1, END_OPTIONAL);
+        if (endIndex <= 0) {
+            return 0;
+        }
+        List<Token> tokens = expression.subList(current + 1, endIndex);
+        List<Token> unescaped = tokens.stream().map(escapeOptional).collect(toList());
+        ast.add(new Optional(unescaped));
+        // Consumes end token
+        return endIndex + 1 - current;
+
+    };
+    private static final Parse parameterParser = (ast, expression, current) -> {
+        Token currentToken = expression.get(current);
+        if (currentToken.type != BEGIN_PARAMETER) {
+            return 0;
+        }
+
+        int endIndex = findFirst(expression, current + 1, END_PARAMETER);
+        if (endIndex <= 0) {
+            return 0;
+        }
+        List<Token> tokens = expression.subList(current + 1, endIndex);
+        List<Token> unescaped = tokens.stream().map(escapeParameter).collect(toList());
+        ast.add(new Parameter(unescaped));
+        // Consumes end token
+        return endIndex + 1 - current;
+
+    };
+
+    private static final Parse textParser = (ast, expression, current) -> {
+        Token currentToken = expression.get(current);
+        Token unescaped = escapeText.apply(currentToken);
+        ast.add(new Text(unescaped));
+        return 1;
+    };
+
+    private static final Parse alternativeTextParser = (ast, expression, current) -> {
+        Token currentToken = expression.get(current);
+        if (currentToken.type == WHITE_SPACE) {
+            return 0;
+        }
+        Token unescaped = escapeAlternativeText.apply(currentToken);
+        ast.add(new Text(unescaped));
+        return 1;
+    };
+
+    private static final Node ALTERNATION_NODE = new Node() {
+
+    };
+    private static Parse alternationSeparatorParser = (ast, expression, current) -> {
+        Token currentToken = expression.get(current);
+        if (currentToken.type != ALTERNATION) {
+            return 0;
+        }
+        ast.add(ALTERNATION_NODE);
+        return 1;
+    };
+
+    private static final Parse alternationParser = (ast, expression, current) -> {
+        Token currentToken = expression.get(current);
+        if (currentToken.type == WHITE_SPACE) {
+            return 0;
+        }
+
+        List<Parse> parsers = asList(
+                alternationSeparatorParser,
+                optionalParser,
+                parameterParser,
+                alternativeTextParser
+        );
+
+        List<Node> alternationAst = new ArrayList<>();
+        List<Token> subExpression = expression.subList(current, expression.size());
+        int consumed = parse(parsers, alternationAst, subExpression);
+        if (!alternationAst.contains(ALTERNATION_NODE)) {
+            return 0;
+        }
+        List<List<Node>> alternatives = split(alternationAst, ALTERNATION_NODE);
+        ast.add(new Alternation(alternatives));
+        // Does not consume right hand boundary token
+        return consumed;
+    };
+
+
     private static final List<Parse> parsers = asList(
-            parseBetween(BEGIN_OPTIONAL, END_OPTIONAL, Optional::new, escapeOptional),
-            parseAlternation(),
-            parseBetween(BEGIN_PARAMETER, END_PARAMETER, Parameter::new, escapeParameter),
-            parseText()
+            alternationParser,
+            optionalParser,
+            parameterParser,
+            textParser
     );
 
     private final CucumberExpressionTokenizer tokenizer = new CucumberExpressionTokenizer();
@@ -93,11 +182,20 @@ final class CucumberExpressionParser {
         List<Token> tokens = tokenizer.tokenize(expression);
         List<Node> ast = new ArrayList<>();
         int length = tokens.size();
+        int consumed = parse(parsers, ast, tokens);
+        if (consumed != length) {
+            throw new IllegalStateException("Could not parse " + tokens);
+        }
+        return ast;
+    }
+
+    private static int parse(List<Parse> parsers, List<Node> ast, List<Token> expression) {
+        int length = expression.size();
         int current = 0;
         while (current < length) {
             boolean parsed = false;
             for (Parse parser : parsers) {
-                int consumedChars = parser.parse(ast, tokens, current);
+                int consumedChars = parser.parse(ast, expression, current);
                 if (consumedChars != 0) {
                     current += consumedChars;
                     parsed = true;
@@ -105,100 +203,10 @@ final class CucumberExpressionParser {
                 }
             }
             if (!parsed) {
-                // Can't happen if configured properly
-                // Leave in to avoid looping if not configured properly
-                throw new IllegalStateException("Could not parse " + tokens);
+                break;
             }
         }
-        return ast;
-    }
-
-    private static Parse parseText() {
-        return (ast, expression, current) -> {
-            Token currentToken = expression.get(current);
-            Token unescaped = escapeText.apply(currentToken);
-            ast.add(new Text(unescaped));
-            return 1;
-        };
-    }
-
-    private static Parse parseAlternation() {
-        return (ast, expression, current) -> {
-            int pivot = findFirst(expression, current, ALTERNATION);
-            if (pivot < 0) {
-                return 0;
-            }
-
-            int leftHandBoundary = findFirst(expression, current, WHITE_SPACE);
-            if (leftHandBoundary >= 0 && leftHandBoundary < pivot) {
-                return 0;
-            }
-
-            List<Token> leftHandSide = expression.subList(current, pivot);
-            int leftHandOptional = lookAHeadForOptional(leftHandSide);
-            if (leftHandOptional >= 0) {
-                return 0;
-            }
-
-            int rightHandBoundary = findFirst(expression, pivot, WHITE_SPACE);
-            if (rightHandBoundary < 0) {
-                rightHandBoundary = expression.size();
-            }
-
-            List<Token> rightHandSide = expression.subList(pivot, rightHandBoundary);
-            int rightHandOptional = lookAHeadForOptional(rightHandSide);
-            if(rightHandOptional > 0){
-                rightHandBoundary = pivot + rightHandOptional;
-            }
-
-            List<Token> tokens = expression.subList(current, rightHandBoundary);
-            List<List<Token>> alternatives = split(tokens, ALTERNATION);
-            List<List<Token>> unescapedAlternative = alternatives.stream()
-                    .map(alternative -> alternative.stream()
-                            .map(escapeAlternation)
-                            .collect(toList())
-                    ).collect(toList());
-            ast.add(new Alternation(unescapedAlternative));
-            // Does not consume right hand boundary token
-            return rightHandBoundary - current;
-        };
-    }
-
-    private static int lookAHeadForOptional(List<Token> expression) {
-        int beginOptional = findFirst(expression, 0, BEGIN_OPTIONAL);
-        if (beginOptional < 0) {
-            return -1;
-        }
-
-        int endOptional = findFirst(expression, beginOptional, END_OPTIONAL);
-        if (endOptional < 0) {
-            return -1;
-        }
-        return beginOptional;
-    }
-
-    private static Parse parseBetween(Token.Type startToken,
-                                      Token.Type endToken,
-                                      Function<List<Token>, Node> createNode,
-                                      Function<Token, Token> rewriteEscapes
-    ) {
-        return (ast, expression, current) -> {
-            Token currentToken = expression.get(current);
-            if (currentToken.type != startToken) {
-                return 0;
-            }
-
-            int endIndex = findFirst(expression, current + 1, endToken);
-            if (endIndex <= 0) {
-                return 0;
-            }
-            List<Token> tokens = expression.subList(current + 1, endIndex);
-            List<Token> unescaped = tokens.stream().map(rewriteEscapes).collect(toList());
-            ast.add(createNode.apply(unescaped));
-            // Consumes end token
-            return endIndex + 1 - current;
-
-        };
+        return current;
     }
 
     private static Function<Token, Token> rewrite(Map<Token.Type, Function<Token, Token>> rewriteRules) {
@@ -217,12 +225,12 @@ final class CucumberExpressionParser {
         return -1;
     }
 
-    private static List<List<Token>> split(List<Token> tokens, Token.Type type) {
-        List<List<Token>> alternatives = new ArrayList<>();
-        List<Token> alternative = new ArrayList<>();
+    private static <T> List<List<T>> split(List<T> tokens, T bound) {
+        List<List<T>> alternatives = new ArrayList<>();
+        List<T> alternative = new ArrayList<>();
         alternatives.add(alternative);
-        for (Token token : tokens) {
-            if (token.type == type) {
+        for (T token : tokens) {
+            if (bound.equals(token)) {
                 alternative = new ArrayList<>();
                 alternatives.add(alternative);
             } else {
@@ -265,7 +273,7 @@ final class CucumberExpressionParser {
 
         @Override
         public String toString() {
-            return getOptionalText();
+            return "(" + getOptionalText() + ")";
         }
 
         String getOptionalText() {
@@ -293,24 +301,23 @@ final class CucumberExpressionParser {
 
     static final class Alternation extends Node {
 
-        final List<List<Token>> alternatives;
+        final List<List<Node>> alternatives;
 
-        Alternation(List<List<Token>> alternatives) {
+        Alternation(List<List<Node>> alternatives) {
             this.alternatives = alternatives;
         }
 
-        List<String> getAlternatives() {
-            return alternatives.stream()
-                    .map(alternatives -> alternatives
-                            .stream()
-                            .map(token -> token.text)
-                            .collect(joining()))
-                    .collect(Collectors.toList());
+        List<List<Node>> getAlternatives() {
+            return alternatives;
         }
 
         @Override
         public String toString() {
-            return String.join(" - ", getAlternatives());
+            return getAlternatives().stream()
+                    .map(nodes -> nodes.stream()
+                            .map(Objects::toString)
+                            .collect(joining()))
+                    .collect(joining(" - "));
         }
 
     }

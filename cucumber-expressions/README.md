@@ -4,12 +4,13 @@ See [website docs](https://cucumber.io/docs/cucumber/cucumber-expressions/) for 
 ## Grammar ##
 
 ```
-cucumber-expression :=  ( optional | other-then-optional )*
-other-then-optional: =  ( alternation | parameter | text )*
-optional := '(' + optional-text + ')'
+cucumber-expression :=  ( alternation | optional | parameter | text)*
+alternation := alternative* + ( '/' + alternative* )+
+alternative: = optional | parameter | alternative-text
+alternative-text: = [^ whitespace ] 
+optional := '(' + option* + ')'
+option := parameter | optional-text
 optional-text :=  [^ ')' ]
-alternation := alternative-text* + ( '/' + alternative-text* )+
-alternative-text: = [^ whitespace ]
 parameter := '{' + parameter-text* + '}'
 parameter-text := [^ '}' ]
 text := .*
