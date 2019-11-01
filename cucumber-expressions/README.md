@@ -5,7 +5,7 @@ See [website docs](https://cucumber.io/docs/cucumber/cucumber-expressions/) for 
 
 ```
 cucumber-expression :=  ( alternation | optional | parameter | text )*
-alternation := (?:boundry) + alternative* + ( '/' + alternative* )+ + (?:boundry) 
+alternation := (?<=boundry) + alternative* + ( '/' + alternative* )+ + (?=boundry) 
 boundry := whitespace | ^ | $
 alternative: = optional | parameter | text 
 optional := '(' + option* + ')'
