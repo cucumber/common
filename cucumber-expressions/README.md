@@ -13,7 +13,8 @@ option := parameter | text
 parameter := '{' + text* + '}'
 text := token
 
-token := '\' + whitespace | whitespace | '\(' | '(' | '\)' | ')' | '\{' | '{' | '\}' | '}' | '\/' | '/' | '\\' | '\' | .+ 
+token := '\' + whitespace | whitespace | '\(' | '(' | '\)' | ')' | '\{' | '{' | 
+         '\}' | '}' | '\/' | '/' | '\\' | '\' | .+ 
 ```
 
 Note:
