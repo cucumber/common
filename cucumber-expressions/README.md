@@ -5,18 +5,16 @@ See [website docs](https://cucumber.io/docs/cucumber/cucumber-expressions/) for 
 
 ```
 cucumber-expression :=  ( alternation | optional | parameter | text )*
-alternation := boundry + alternative* + ( '/' + alternative* )+ + boundry 
+alternation := (?:boundry) + alternative* + ( '/' + alternative* )+ + (?:boundry) 
 boundry := whitespace | ^ | $
 alternative: = optional | parameter | text 
 optional := '(' + option* + ')'
 option := parameter | text
 parameter := '{' + text* + '}'
-text := .*
+text := .
 ```
 
-Note:
-  * `boundry` is not consumed in parsing
-  * While `parameter` is allowed to appear as part of `alternative` and 
+Note: While `parameter` is allowed to appear as part of `alternative` and 
 `option` in the AST, such an AST is not a valid a Cucumber Expression.
 
 ## Acknowledgements

@@ -66,6 +66,13 @@ public class CucumberExpressionTest {
     }
 
     @Test
+    public void does_not_allow_empty_optional() {
+        Executable testMethod = () -> match("three () mice", "three brown mice");
+        CucumberExpressionException thrownException = assertThrows(CucumberExpressionException.class, testMethod);
+        assertThat(thrownException.getMessage(), is(equalTo("Optional may not be empty: three () mice")));
+    }
+
+    @Test
     public void does_not_allow_alternation_with_empty_alternative() {
         Executable testMethod = () -> match("three brown//black mice", "three brown mice");
         CucumberExpressionException thrownException = assertThrows(CucumberExpressionException.class, testMethod);

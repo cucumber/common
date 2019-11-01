@@ -1,6 +1,8 @@
 package io.cucumber.cucumberexpressions;
 
 import io.cucumber.cucumberexpressions.CucumberExpressionParser.Node;
+import io.cucumber.cucumberexpressions.CucumberExpressionParser.Parameter;
+import io.cucumber.cucumberexpressions.CucumberExpressionParser.Text;
 import org.apiguardian.api.API;
 
 import java.lang.reflect.Type;
@@ -16,6 +18,7 @@ public final class CucumberExpression implements Expression {
     private static final String PARAMETER_TYPES_CANNOT_BE_OPTIONAL = "Parameter types cannot be optional: ";
     private static final String PARAMETER_TYPES_CANNOT_BE_ALTERNATIVE = "Parameter types cannot be alternative: ";
     private static final String ALTERNATIVE_MAY_NOT_BE_EMPTY = "Alternative may not be empty: ";
+    private static final String OPTIONAL_MAY_NOT_BE_EMPTY = "Optional may not be empty: ";
     private static final String ALTERNATIVE_MAY_NOT_EXCLUSIVELY_CONTAIN_OPTIONALS = "Alternative may not exclusively contain optionals: ";
 
     private final List<ParameterType<?>> parameterTypes = new ArrayList<>();
@@ -41,10 +44,11 @@ public final class CucumberExpression implements Expression {
     private String rewriteToRegex(Node node) {
         if (node instanceof CucumberExpressionParser.Optional) {
             CucumberExpressionParser.Optional optional = (CucumberExpressionParser.Optional) node;
-            if (optional.containsParameterType()){
-                throw new CucumberExpressionException(PARAMETER_TYPES_CANNOT_BE_OPTIONAL + source);
-            }
-            return "(?:" + escapeRegex(optional.getOptionalText()) + ")?";
+            assertNoParameters(optional.getOptional(), PARAMETER_TYPES_CANNOT_BE_OPTIONAL);
+            assertNotEmpty(optional.getOptional(), OPTIONAL_MAY_NOT_BE_EMPTY);
+            return optional.getOptional().stream()
+                    .map(this::rewriteToRegex)
+                    .collect(joining("", "(?:", ")?"));
         }
 
         if (node instanceof CucumberExpressionParser.Alternation) {
@@ -52,12 +56,14 @@ public final class CucumberExpression implements Expression {
             validateAlternation(alternation);
             return alternation.getAlternatives()
                     .stream()
-                    .map(nodes -> nodes.stream().map(this::rewriteToRegex).collect(joining()))
-                    .collect(joining("|","(?:",")"));
+                    .map(nodes -> nodes.stream()
+                            .map(this::rewriteToRegex)
+                            .collect(joining()))
+                    .collect(joining("|", "(?:", ")"));
         }
 
-        if (node instanceof CucumberExpressionParser.Parameter) {
-            CucumberExpressionParser.Parameter parameter = (CucumberExpressionParser.Parameter) node;
+        if (node instanceof Parameter) {
+            Parameter parameter = (Parameter) node;
             ParameterType.checkParameterTypeName(parameter.getParameterName());
             String typeName = parameter.getParameterName();
             ParameterType<?> parameterType = parameterTypeRegistry.lookupByTypeName(typeName);
@@ -65,15 +71,29 @@ public final class CucumberExpression implements Expression {
                 throw new UndefinedParameterTypeException(typeName);
             }
             parameterTypes.add(parameterType);
-            return buildCaptureRegexp(parameterType.getRegexps());
+            List<String> regexps = parameterType.getRegexps();
+            if (regexps.size() == 1) {
+                return "(" + regexps.get(0) + ")";
+            }
+            return regexps.stream()
+                    .collect(joining(")|(?:", "((?:", "))"));
         }
 
-        if (node instanceof CucumberExpressionParser.Text) {
-            CucumberExpressionParser.Text text = (CucumberExpressionParser.Text) node;
+        if (node instanceof Text) {
+            Text text = (Text) node;
             return escapeRegex(text.getText());
         }
 
         throw new IllegalArgumentException(node.getClass().getName());
+    }
+
+    private void assertNotEmpty(List<Node> nodes, String message) {
+        boolean hasTextNode = nodes
+                .stream()
+                .anyMatch(Text.class::isInstance);
+        if (!hasTextNode) {
+            throw new CucumberExpressionException(message + source);
+        }
     }
 
     private void validateAlternation(CucumberExpressionParser.Alternation alternation) {
@@ -82,30 +102,21 @@ public final class CucumberExpression implements Expression {
             if (alternative.isEmpty()) {
                 throw new CucumberExpressionException(ALTERNATIVE_MAY_NOT_BE_EMPTY + source);
             }
-            boolean hasParameter = alternative.stream()
-                    .anyMatch(node -> node instanceof CucumberExpressionParser.Parameter);
-            if(hasParameter){
-                throw new CucumberExpressionException(PARAMETER_TYPES_CANNOT_BE_ALTERNATIVE + source);
-            }
+            assertNoParameters(alternative, PARAMETER_TYPES_CANNOT_BE_ALTERNATIVE);
+            assertNotEmpty(alternative, ALTERNATIVE_MAY_NOT_EXCLUSIVELY_CONTAIN_OPTIONALS);
+        }
+    }
 
-            boolean hasTextNode = alternative.stream()
-                    .anyMatch(node -> node instanceof CucumberExpressionParser.Text);
-            if (!hasTextNode) {
-                throw new CucumberExpressionException(ALTERNATIVE_MAY_NOT_EXCLUSIVELY_CONTAIN_OPTIONALS + source);
-            }
+    private void assertNoParameters(List<Node> alternative, String parameterTypesCannotBeAlternative) {
+        boolean hasParameter = alternative.stream()
+                .anyMatch(Parameter.class::isInstance);
+        if (hasParameter) {
+            throw new CucumberExpressionException(parameterTypesCannotBeAlternative + source);
         }
     }
 
     private static String escapeRegex(String text) {
         return ESCAPE_PATTERN.matcher(text).replaceAll("\\\\$1");
-    }
-
-    private String buildCaptureRegexp(List<String> regexps) {
-        if (regexps.size() == 1) {
-            return "(" + regexps.get(0) + ")";
-        }
-        return regexps.stream()
-                .collect(joining(")|(?:", "((?:", "))"));
     }
 
     @Override

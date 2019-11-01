@@ -37,7 +37,7 @@ class CucumberExpressionParserTest {
     @Test
     void optional() {
         assertThat(parser.parse("(blind)"), contains(
-                node("(blind)", Optional.class)
+                node("blind", Optional.class)
         ));
     }
 
@@ -60,7 +60,7 @@ class CucumberExpressionParserTest {
         assertThat(parser.parse("three (blind) mice"), contains(
                 node("three", Text.class),
                 node(" ", Text.class),
-                node("(blind)", Optional.class),
+                node("blind", Optional.class),
                 node(" ", Text.class),
                 node("mice", Text.class)
         ));
@@ -70,6 +70,13 @@ class CucumberExpressionParserTest {
     void slash() {
         assertThat(parser.parse("\\"), contains(
                 node("\\", Text.class)
+        ));
+    }
+
+    @Test
+    void brace() {
+        assertThat(parser.parse("{"), contains(
+                node("{", Text.class)
         ));
     }
 
@@ -115,7 +122,7 @@ class CucumberExpressionParserTest {
                 node("three", Text.class),
                 node(" ", Text.class),
                 node("(", Text.class),
-                node("(very)", Optional.class),
+                node("very", Optional.class),
                 node(" ", Text.class),
                 node("blind", Text.class),
                 node(")", Text.class),
@@ -129,7 +136,7 @@ class CucumberExpressionParserTest {
         assertThat(parser.parse("three ((very\\) blind) mice"), contains(
                 node("three", Text.class),
                 node(" ", Text.class),
-                node("((very) blind)", Optional.class),
+                node("(very) blind", Optional.class),
                 node(" ", Text.class),
                 node("mice", Text.class)
         ));
@@ -194,7 +201,7 @@ class CucumberExpressionParserTest {
         assertThat(parser.parse("three blind\\ rat/cat(s)"), contains(
                 node("three", Text.class),
                 node(" ", Text.class),
-                node("blind rat - cat(s)", Alternation.class)
+                node("blind rat - cats", Alternation.class)
         ));
     }
 
