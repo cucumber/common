@@ -10,7 +10,8 @@ MAKEFILES=c21e/Makefile \
 	cucumber-expressions/Makefile \
 	tag-expressions/Makefile \
 	json-formatter/Makefile \
-	dots-formatter/Makefile
+	dots-formatter/Makefile \
+	cucumber-demo-formatter/Makefile
 
 default: .rsynced $(patsubst %/Makefile,default-%,$(MAKEFILES))
 .PHONY: default

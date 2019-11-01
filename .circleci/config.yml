@@ -447,6 +447,17 @@ jobs:
           paths:
             - json-formatter/ruby
 
+  cucumber-demo-formatter-ruby:
+    executor: docker-circleci-ruby-26
+    steps:
+      - attach_workspace:
+          at: "~/cucumber"
+      - run:
+          name: cucumber-demo-formatter/ruby
+          command: |
+            cd cucumber-demo-formatter/ruby
+            make
+
 ### Java
 
   c21e-java:
@@ -734,6 +745,9 @@ workflows:
       - json-formatter-ruby:
           requires:
             - checkout
+      - cucumber-demo-formatter-ruby:
+          requires:
+            - cucumber-messages-ruby
 
 ### Java
 
