@@ -23,3 +23,13 @@ cd ../../gherkin
   ../html-formatter/javascript/bin/cucumber-html-formatter.js > \
   gherkin.html
 ```
+
+## Docker image
+
+The Docker image is automatically built on docker hub, but you can also build it locally:
+
+```
+source ../../scripts/functions.sh
+docker_build Dockerfile
+```
+

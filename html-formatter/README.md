@@ -4,18 +4,27 @@ This is a cross-platform formatter that produces a HTML report for Cucumber runs
 It is built on top of [cucumber-react](../cucumber-react/javascript) and works with *any* 
 Cucumber implementation with a `protobuf` formatter that outputs [cucumber messages](../cucumber-messages).
 
-# Installation
+## Installation
+
+Using NPM:
 
     npm install -g cucumber-html-formatter
-    
-# Usage
-    
-    cat messages.bin | cucumber-html-formatter > index.html
 
-Or, if you have some feature files and just want to try it out with some fake results:
+Using Docker:
 
-    # As of 23 Aug 2019 none of the Cucumber implementations can output
-    # cucumber messages. Until they do you can use fake-cucumber instead,
-    # which will generate fake results for your Gherkin documents (.feature files)
-    npm install -g fake-cucumber
-    fake-cucumber features/*.feature | cucumber-html-formatter > index.html
+    docker pull cucumber/cucumber-html-formatter:latest
+    
+## Usage
+
+Using NPM:
+
+    cat cucumber-messages.bin | cucumber-html-formatter > index.html
+
+Using Docker:
+
+    cat cucumber-messages.bin | docker run --interactive --rm cucumber/cucumber-html-formatter:latest > index.html
+
+## Obtaining `cucumber-messages.bin`
+
+If you're using a Cucumber version with a `protobuf` formatter, pass `--format protobuf:cucumber-messages.bin` to it.
+Alternatively you can generate it with [fake-cucumber](../fake-cucumber)

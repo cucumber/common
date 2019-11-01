@@ -2,8 +2,8 @@
 
 This formatter produces JSON output similar to the legacy `--format=json` formatter. It reads cucumber messages from STDIN and writes a JSON report to STDOUT. It is intended to be used as a post-processor for the output of the new `protobuf` formatter that we're adding to all Cucumber implementations:
 
-    cucumber --format protobuf:cucumber-results.bin
-    cat cucumber-results.bin | cucumber-json-formatter > cucumber-results.json
+    cucumber --format protobuf:cucumber-messages.bin
+    cat cucumber-messages.bin | cucumber-json-formatter > cucumber-results.json
 
 The purpose is to provide backwards compatibility for tools that consume the JSON report after native JSON formatters have been removed from Cucumber.
 
