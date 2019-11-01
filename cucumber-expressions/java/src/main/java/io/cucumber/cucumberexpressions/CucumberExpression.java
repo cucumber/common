@@ -1,5 +1,6 @@
 package io.cucumber.cucumberexpressions;
 
+import io.cucumber.cucumberexpressions.CucumberExpressionParser.Node;
 import org.apiguardian.api.API;
 
 import java.lang.reflect.Type;
@@ -7,10 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
 
-import static io.cucumber.cucumberexpressions.CucumberExpressionTokenizer.Token.Type.BEGIN_PARAMETER;
-import static io.cucumber.cucumberexpressions.CucumberExpressionTokenizer.Token.Type.END_PARAMETER;
 import static java.util.stream.Collectors.joining;
-import static java.util.stream.Collectors.toList;
 
 @API(status = API.Status.STABLE)
 public final class CucumberExpression implements Expression {
@@ -30,20 +28,22 @@ public final class CucumberExpression implements Expression {
         this.parameterTypeRegistry = parameterTypeRegistry;
 
         CucumberExpressionParser parser = new CucumberExpressionParser();
-        List<CucumberExpressionParser.Node> parse = parser.parse(expression);
+        List<Node> ast = parser.parse(expression);
 
-        String pattern = parse.stream()
-                .map(this::process)
+        String pattern = ast.stream()
+                .map(this::rewriteToRegex)
                 .collect(joining("", "^", "$"));
 
 
         treeRegexp = new TreeRegexp(pattern);
     }
 
-    private String process(CucumberExpressionParser.Node node) {
+    private String rewriteToRegex(Node node) {
         if (node instanceof CucumberExpressionParser.Optional) {
             CucumberExpressionParser.Optional optional = (CucumberExpressionParser.Optional) node;
-            checkNotParameterType(optional.tokens, PARAMETER_TYPES_CANNOT_BE_OPTIONAL);
+            if (optional.containsParameterType()){
+                throw new CucumberExpressionException(PARAMETER_TYPES_CANNOT_BE_OPTIONAL + source);
+            }
             return "(?:" + escapeRegex(optional.getOptionalText()) + ")?";
         }
 
@@ -52,9 +52,10 @@ public final class CucumberExpression implements Expression {
             validateAlternation(alternation);
             return alternation.getAlternatives()
                     .stream()
-                    .map(nodes -> nodes.stream().map(this::process).collect(joining()))
+                    .map(nodes -> nodes.stream().map(this::rewriteToRegex).collect(joining()))
                     .collect(joining("|","(?:",")"));
         }
+
         if (node instanceof CucumberExpressionParser.Parameter) {
             CucumberExpressionParser.Parameter parameter = (CucumberExpressionParser.Parameter) node;
             ParameterType.checkParameterTypeName(parameter.getParameterName());
@@ -77,52 +78,26 @@ public final class CucumberExpression implements Expression {
 
     private void validateAlternation(CucumberExpressionParser.Alternation alternation) {
         // Make sure the alternative parts aren't empty and don't contain parameter types
-        if (alternation.alternatives.isEmpty()) {
-            throw new CucumberExpressionException(ALTERNATIVE_MAY_NOT_BE_EMPTY + source);
-        }
-
-        for (List<CucumberExpressionParser.Node> alternative : alternation.alternatives) {
+        for (List<Node> alternative : alternation.getAlternatives()) {
             if (alternative.isEmpty()) {
                 throw new CucumberExpressionException(ALTERNATIVE_MAY_NOT_BE_EMPTY + source);
             }
             boolean hasParameter = alternative.stream()
                     .anyMatch(node -> node instanceof CucumberExpressionParser.Parameter);
-
             if(hasParameter){
                 throw new CucumberExpressionException(PARAMETER_TYPES_CANNOT_BE_ALTERNATIVE + source);
             }
 
-            boolean hasTextNode = alternative.stream().anyMatch(node -> node instanceof CucumberExpressionParser.Text);
+            boolean hasTextNode = alternative.stream()
+                    .anyMatch(node -> node instanceof CucumberExpressionParser.Text);
             if (!hasTextNode) {
                 throw new CucumberExpressionException(ALTERNATIVE_MAY_NOT_EXCLUSIVELY_CONTAIN_OPTIONALS + source);
             }
-
         }
     }
 
     private static String escapeRegex(String text) {
         return ESCAPE_PATTERN.matcher(text).replaceAll("\\\\$1");
-    }
-
-    //TODO: Catch in AST.
-    private void checkNotParameterType(List<CucumberExpressionTokenizer.Token> tokens, String message) {
-        int beginParameterIndex = -1;
-        int endParameterIndex = -1;
-        for (int i = 0; i < tokens.size(); i++) {
-            CucumberExpressionTokenizer.Token token = tokens.get(i);
-            if (beginParameterIndex == -1 && token.type == BEGIN_PARAMETER) {
-                beginParameterIndex = i;
-            }
-            if (endParameterIndex == -1 && token.type == END_PARAMETER) {
-                endParameterIndex = i;
-            }
-        }
-        if(beginParameterIndex == -1 || endParameterIndex == -1){
-            return;
-        }
-        if (beginParameterIndex < endParameterIndex) {
-            throw new CucumberExpressionException(message + source);
-        }
     }
 
     private String buildCaptureRegexp(List<String> regexps) {
