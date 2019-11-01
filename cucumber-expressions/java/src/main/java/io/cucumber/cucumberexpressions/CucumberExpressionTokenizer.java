@@ -37,6 +37,7 @@ class CucumberExpressionTokenizer {
             tokenizeString(ESCAPE_ESCAPED, "\\\\"),
             tokenizeString(ESCAPE, "\\"),
 
+            // Should be `.+` but this creates a nicer parse tree.
             tokenizePattern(TEXT, Pattern.compile("[^(){}\\\\/\\s]+"))
     );
 

@@ -11,11 +11,16 @@ alternative: = optional | parameter | text
 optional := '(' + option* + ')'
 option := parameter | text
 parameter := '{' + text* + '}'
-text := .
+text := token
+
+token := '\' + whitespace | whitespace | '\(' | '(' | '\)' | ')' | '\{' | '{' | '\}' | '}' | '\/' | '/' | '\\' | '\' | .+ 
 ```
 
-Note: While `parameter` is allowed to appear as part of `alternative` and 
+Note:
+ * While `parameter` is allowed to appear as part of `alternative` and 
 `option` in the AST, such an AST is not a valid a Cucumber Expression.
+ * All escaped tokens (tokens starting with a backslash) are rewritten to their
+   unescaped equivalent after parsing.
 
 ## Acknowledgements
 
