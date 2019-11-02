@@ -115,23 +115,23 @@ final class CucumberExpressionParser {
         };
     }
 
-    private static final Node NODE_ALTERNATION = new Node() {
+    private static final Node ALTERNATIVE_SEPARATOR = new Node() {
         // Marker. This way we don't need to model the
         // the tail end of alternation in the AST:
         //
         // alternation := alternative* + ( '/' + alternative* )+
     };
 
-    private static Parse alternationSeparatorParser = (ast, expression, current) -> {
+    private static Parse alternativeSeparator = (ast, expression, current) -> {
         if (!lookingAt(expression, current, ALTERNATION)) {
             return 0;
         }
-        ast.add(NODE_ALTERNATION);
+        ast.add(ALTERNATIVE_SEPARATOR);
         return 1;
     };
 
-    private static final List<Parse> alternationParsers = asList(
-            alternationSeparatorParser,
+    private static final List<Parse> alternativeParsers = asList(
+            alternativeSeparator,
             optionalParser,
             parameterParser,
             textParser
@@ -150,8 +150,8 @@ final class CucumberExpressionParser {
         }
 
         List<Node> subAst = new ArrayList<>();
-        int consumed = parseTokensUntil(alternationParsers, subAst, expression, current, WHITE_SPACE, END_OF_LINE);
-        if (!subAst.contains(NODE_ALTERNATION)) {
+        int consumed = parseTokensUntil(alternativeParsers, subAst, expression, current, WHITE_SPACE, END_OF_LINE);
+        if (!subAst.contains(ALTERNATIVE_SEPARATOR)) {
             return 0;
         }
 
@@ -246,7 +246,7 @@ final class CucumberExpressionParser {
         List<T> alternative = new ArrayList<>();
         alternatives.add(alternative);
         for (T token : tokens) {
-            if (NODE_ALTERNATION.equals(token)) {
+            if (ALTERNATIVE_SEPARATOR.equals(token)) {
                 alternative = new ArrayList<>();
                 alternatives.add(alternative);
             } else {
