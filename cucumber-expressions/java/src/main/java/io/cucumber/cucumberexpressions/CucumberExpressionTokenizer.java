@@ -134,6 +134,8 @@ class CucumberExpressionTokenizer {
         }
 
         enum Type {
+            START_OF_LINE,
+            END_OF_LINE,
             // In order of precedence
             WHITE_SPACE_ESCAPED,
             WHITE_SPACE,
