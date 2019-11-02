@@ -43,3 +43,11 @@ If a step doesn't match the lower-case name of a known status it will get status
 
 See [messages.proto](../cucumber-messages/messages.md#io.cucumber.messages.TestResult.Status) to see all the
 possible statuses.
+
+## Fake attachments
+
+If a step matches `/screenshot/`, an [Attachment](../cucumber-messages/messages.md#io.cucumber.messages.Attachment) message
+including a JPEG image will be emitted. This is useful for testing formatters that
+render images, such as [cucumber-react](../cucumber-react), which is the core component [html-formatter](../html-formatter)
+is built on.
+

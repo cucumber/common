@@ -12,7 +12,7 @@
     "lint": "tslint src/**/*.ts test/**/*.ts",
     "lint-fix": "tslint --fix src/**/*.ts test/**/*.ts",
     "coverage": "nyc --reporter=html --reporter=text mocha",
-    "build": "tsc",
+    "build": "tsc && cp src/*.jpg dist/src",
     "prepublishOnly": "npm run build"
   },
   "repository": {

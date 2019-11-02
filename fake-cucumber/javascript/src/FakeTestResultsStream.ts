@@ -1,5 +1,6 @@
 import { Transform } from 'stream'
 import { messages } from 'cucumber-messages'
+import * as fs from 'fs'
 
 class FakeTestResultsStream extends Transform {
   private readonly buffer: messages.IEnvelope[] = []
@@ -119,6 +120,25 @@ class FakeTestResultsStream extends Transform {
               }),
             })
           )
+
+          if (step.text.match(/screenshot/)) {
+            // public domain image from https://www.pexels.com/photo/photo-of-headlight-3099358/
+            const base64JpegData = fs.readFileSync(
+              __dirname + '/chrome-classic-fender-3099358.jpg',
+              { encoding: 'base64' }
+            )
+            this.p(
+              new messages.Envelope({
+                attachment: new messages.Attachment({
+                  media: new messages.Media({
+                    contentType: 'image/jpeg',
+                    encoding: messages.Media.Encoding.BASE64,
+                  }),
+                  data: base64JpegData,
+                }),
+              })
+            )
+          }
         }
 
         if (testStepStatus > testCaseStatus) {
@@ -138,7 +158,7 @@ class FakeTestResultsStream extends Transform {
                     : null,
                 duration: new messages.Duration({
                   seconds: 123456,
-                  nanos: 789
+                  nanos: 789,
                 }),
               },
             }),
@@ -159,7 +179,7 @@ class FakeTestResultsStream extends Transform {
                   : null,
               duration: new messages.Duration({
                 seconds: 987654,
-                nanos: 321
+                nanos: 321,
               }),
             },
           }),

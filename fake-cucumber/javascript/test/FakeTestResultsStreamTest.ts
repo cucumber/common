@@ -21,6 +21,19 @@ Scenario: passed then failed
     )
   })
 
+  it('generates attachment for screenshot steps', async () => {
+    const gherkinSource = `Feature: with attachment
+
+Scenario: with attachment
+  Given a passed step
+  And a failed step
+  And a step with a screenshot
+`
+    const attachment = await getAttachment(gherkinSource, 'pattern')
+
+    assert.strictEqual(attachment.media.contentType, 'image/jpeg')
+  })
+
   it('generates pending pickle result', async () => {
     const gherkinSource = `Feature: mixed results
 
@@ -127,6 +140,14 @@ async function getTestCaseFinished(
 ): Promise<messages.ITestCaseFinished> {
   const envelopes = await generateMessages(gherkinSource, results)
   return envelopes.find(envelope => envelope.testCaseFinished).testCaseFinished
+}
+
+async function getAttachment(
+  gherkinSource: string,
+  results: 'none' | 'pattern' | 'random'
+): Promise<messages.IAttachment> {
+  const envelopes = await generateMessages(gherkinSource, results)
+  return envelopes.find(envelope => envelope.attachment).attachment
 }
 
 async function getAllTestStepMatched(
