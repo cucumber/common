@@ -163,6 +163,9 @@ final class CucumberExpressionParser {
         return consumed;
     };
 
+    // For readability
+    private static final Token.Type endOfLine = null;
+
     private static final List<Parse> cucumberExpressionParsers = asList(
             alternationParser,
             optionalParser,
@@ -170,15 +173,12 @@ final class CucumberExpressionParser {
             textParser
     );
 
-    private final CucumberExpressionTokenizer tokenizer = new CucumberExpressionTokenizer();
-
     /*
      * cucumber-expression :=  ( alternation | optional | parameter | text )*
      */
-    List<Node> parse(String expression) {
-        List<Token> tokens = tokenizer.tokenize(expression);
+    List<Node> parse(List<Token> tokens) {
         List<Node> ast = new ArrayList<>();
-        parseTokensUntil(cucumberExpressionParsers, ast, tokens, 0, null);
+        parseTokensUntil(cucumberExpressionParsers, ast, tokens, 0, endOfLine);
         return ast;
     }
 

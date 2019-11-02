@@ -5,10 +5,13 @@ import io.cucumber.cucumberexpressions.CucumberExpressionParser.Node;
 import io.cucumber.cucumberexpressions.CucumberExpressionParser.Optional;
 import io.cucumber.cucumberexpressions.CucumberExpressionParser.Parameter;
 import io.cucumber.cucumberexpressions.CucumberExpressionParser.Text;
+import io.cucumber.cucumberexpressions.CucumberExpressionTokenizer.Token;
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 import org.hamcrest.TypeSafeDiagnosingMatcher;
 import org.junit.jupiter.api.Test;
+
+import java.util.List;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.contains;
@@ -16,16 +19,17 @@ import static org.hamcrest.Matchers.empty;
 
 class CucumberExpressionParserTest {
 
-    private CucumberExpressionParser parser = new CucumberExpressionParser();
+    private final CucumberExpressionTokenizer tokenizer = new CucumberExpressionTokenizer();
+    private final CucumberExpressionParser parser = new CucumberExpressionParser();
 
     @Test
     void emptyString() {
-        assertThat(parser.parse(""), empty());
+        assertThat(astOf(""), empty());
     }
 
     @Test
     void phrase() {
-        assertThat(parser.parse("three blind mice"), contains(
+        assertThat(astOf("three blind mice"), contains(
                 node("three", Text.class),
                 node(" ", Text.class),
                 node("blind", Text.class),
@@ -36,28 +40,28 @@ class CucumberExpressionParserTest {
 
     @Test
     void optional() {
-        assertThat(parser.parse("(blind)"), contains(
+        assertThat(astOf("(blind)"), contains(
                 node("blind", Optional.class)
         ));
     }
 
     @Test
     void parameter() {
-        assertThat(parser.parse("{string}"), contains(
+        assertThat(astOf("{string}"), contains(
                 node("string", Parameter.class)
         ));
     }
 
     @Test
     void anonymousParameter() {
-        assertThat(parser.parse("{}"), contains(
+        assertThat(astOf("{}"), contains(
                 node("", Parameter.class)
         ));
     }
 
     @Test
     void optionalPhrase() {
-        assertThat(parser.parse("three (blind) mice"), contains(
+        assertThat(astOf("three (blind) mice"), contains(
                 node("three", Text.class),
                 node(" ", Text.class),
                 node("blind", Optional.class),
@@ -68,35 +72,35 @@ class CucumberExpressionParserTest {
 
     @Test
     void slash() {
-        assertThat(parser.parse("\\"), contains(
+        assertThat(astOf("\\"), contains(
                 node("\\", Text.class)
         ));
     }
 
     @Test
     void brace() {
-        assertThat(parser.parse("{"), contains(
+        assertThat(astOf("{"), contains(
                 node("{", Text.class)
         ));
     }
 
     @Test
     void openingParenthesis() {
-        assertThat(parser.parse("("), contains(
+        assertThat(astOf("("), contains(
                 node("(", Text.class)
         ));
     }
 
     @Test
     void escapedOpeningParenthesis() {
-        assertThat(parser.parse("\\("), contains(
+        assertThat(astOf("\\("), contains(
                 node("(", Text.class)
         ));
     }
 
     @Test
     void escapedOptional() {
-        assertThat(parser.parse("\\(blind)"), contains(
+        assertThat(astOf("\\(blind)"), contains(
                 node("(", Text.class),
                 node("blind", Text.class),
                 node(")", Text.class)
@@ -105,7 +109,7 @@ class CucumberExpressionParserTest {
 
     @Test
     void escapedOptionalPhrase() {
-        assertThat(parser.parse("three \\(blind) mice"), contains(
+        assertThat(astOf("three \\(blind) mice"), contains(
                 node("three", Text.class),
                 node(" ", Text.class),
                 node("(", Text.class),
@@ -118,7 +122,7 @@ class CucumberExpressionParserTest {
 
     @Test
     void escapedOptionalFollowedByOptional() {
-        assertThat(parser.parse("three \\((very) blind) mice"), contains(
+        assertThat(astOf("three \\((very) blind) mice"), contains(
                 node("three", Text.class),
                 node(" ", Text.class),
                 node("(", Text.class),
@@ -133,7 +137,7 @@ class CucumberExpressionParserTest {
 
     @Test
     void optionalContainingEscapedOptional() {
-        assertThat(parser.parse("three ((very\\) blind) mice"), contains(
+        assertThat(astOf("three ((very\\) blind) mice"), contains(
                 node("three", Text.class),
                 node(" ", Text.class),
                 node("(very) blind", Optional.class),
@@ -145,14 +149,14 @@ class CucumberExpressionParserTest {
 
     @Test
     void alternation() {
-        assertThat(parser.parse("mice/rats"), contains(
+        assertThat(astOf("mice/rats"), contains(
                 node("mice - rats", Alternation.class)
         ));
     }
 
     @Test
     void escapedAlternation() {
-        assertThat(parser.parse("mice\\/rats"), contains(
+        assertThat(astOf("mice\\/rats"), contains(
                 node("mice", Text.class),
                 node("/", Text.class),
                 node("rats", Text.class)
@@ -162,7 +166,7 @@ class CucumberExpressionParserTest {
 
     @Test
     void alternationPhrase() {
-        assertThat(parser.parse("three hungry/blind mice"), contains(
+        assertThat(astOf("three hungry/blind mice"), contains(
                 node("three", Text.class),
                 node(" ", Text.class),
                 node("hungry - blind", Alternation.class),
@@ -173,14 +177,14 @@ class CucumberExpressionParserTest {
 
     @Test
     void alternationWithWhiteSpace() {
-        assertThat(parser.parse("\\ three\\ hungry/blind\\ mice\\ "), contains(
+        assertThat(astOf("\\ three\\ hungry/blind\\ mice\\ "), contains(
                 node(" three hungry - blind mice ", Alternation.class)
         ));
     }
 
     @Test
     void alternationWithUnusedEndOptional() {
-        assertThat(parser.parse("three )blind\\ mice/rats"), contains(
+        assertThat(astOf("three )blind\\ mice/rats"), contains(
                 node("three", Text.class),
                 node(" ", Text.class),
                 node(")blind mice - rats", Alternation.class)
@@ -189,7 +193,7 @@ class CucumberExpressionParserTest {
 
     @Test
     void alternationWithUnusedStartOptional() {
-        assertThat(parser.parse("three blind\\ mice/rats("), contains(
+        assertThat(astOf("three blind\\ mice/rats("), contains(
                 node("three", Text.class),
                 node(" ", Text.class),
                 node("blind mice - rats(", Alternation.class)
@@ -198,11 +202,16 @@ class CucumberExpressionParserTest {
 
     @Test
     void alternationFollowedByOptional() {
-        assertThat(parser.parse("three blind\\ rat/cat(s)"), contains(
+        assertThat(astOf("three blind\\ rat/cat(s)"), contains(
                 node("three", Text.class),
                 node(" ", Text.class),
                 node("blind rat - cats", Alternation.class)
         ));
+    }
+
+    private List<Node> astOf(String s) {
+        List<Token> tokens = tokenizer.tokenize(s);
+        return parser.parse(tokens);
     }
 
     private static Matcher<Node> node(String expectedExpression, Class<?> type) {

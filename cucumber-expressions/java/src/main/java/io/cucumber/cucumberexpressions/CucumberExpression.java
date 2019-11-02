@@ -3,6 +3,7 @@ package io.cucumber.cucumberexpressions;
 import io.cucumber.cucumberexpressions.CucumberExpressionParser.Node;
 import io.cucumber.cucumberexpressions.CucumberExpressionParser.Parameter;
 import io.cucumber.cucumberexpressions.CucumberExpressionParser.Text;
+import io.cucumber.cucumberexpressions.CucumberExpressionTokenizer.Token;
 import org.apiguardian.api.API;
 
 import java.lang.reflect.Type;
@@ -30,8 +31,10 @@ public final class CucumberExpression implements Expression {
         this.source = expression;
         this.parameterTypeRegistry = parameterTypeRegistry;
 
+        CucumberExpressionTokenizer tokenizer = new CucumberExpressionTokenizer();
+        List<Token> tokens = tokenizer.tokenize(expression);
         CucumberExpressionParser parser = new CucumberExpressionParser();
-        List<Node> ast = parser.parse(expression);
+        List<Node> ast = parser.parse(tokens);
 
         String pattern = ast.stream()
                 .map(this::rewriteToRegex)
