@@ -5,11 +5,11 @@ import { FakeTestResultsStream } from 'fake-cucumber'
 import * as gherkin from 'gherkin'
 import { Readable } from 'stream'
 import makeGherkinDocumentsAndResultsLookup from '../src/makeGherkinDocumentsAndResultsLookup'
-import App from '../src/components/app/App'
 import React from 'react'
 import ReactDOM from 'react-dom'
+import { GherkinDocumentList } from '../src'
 
-describe('App', () => {
+describe('<GherkinDocumentList/>', () => {
   const dir = __dirname + '/../../../gherkin/testdata/good'
   const files = fs.readdirSync(dir)
   for (const file of files) {
@@ -29,7 +29,7 @@ describe('App', () => {
           .pipe(fakeTestResultsStream))
 
         const { gherkinDocuments, resultsLookup, stepMatchLookup } = makeGherkinDocumentsAndResultsLookup(envelopes)
-        const app = <App
+        const app = <GherkinDocumentList
           gherkinDocuments={gherkinDocuments}
           resultsLookup={resultsLookup}
           stepMatchLookup={stepMatchLookup}

@@ -3,6 +3,7 @@ import React from 'react'
 import { messages } from 'cucumber-messages'
 import all from '../testdata/all.json'
 import App from '../src/components/app/App'
+import GherkinDocumentList from '../src/components/app/GherkinDocumentList'
 import makeGherkinDocumentsAndResultsLookup from '../src/makeGherkinDocumentsAndResultsLookup'
 import StepList from '../src/components/gherkin/StepList'
 import { StepMatchLookupByLine } from '../src/types'
@@ -14,6 +15,14 @@ storiesOf('Features', module)
   .add('Full document', () => {
     const { gherkinDocuments, resultsLookup, stepMatchLookup } = makeGherkinDocumentsAndResultsLookup(envelopes)
     return <App
+      gherkinDocuments={gherkinDocuments}
+      resultsLookup={resultsLookup}
+      stepMatchLookup={stepMatchLookup}
+    />
+  })
+  .add('Document list', () => {
+    const { gherkinDocuments, resultsLookup, stepMatchLookup } = makeGherkinDocumentsAndResultsLookup(envelopes)
+    return <GherkinDocumentList
       gherkinDocuments={gherkinDocuments}
       resultsLookup={resultsLookup}
       stepMatchLookup={stepMatchLookup}
