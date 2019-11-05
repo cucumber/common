@@ -678,12 +678,12 @@ message StepMatchArgument {
   reserved 1;
   string parameterTypeName = 2;
   reserved 3, 4;
-  Group group = 5;
-
   /**
    * Represents the outermost capture group of an argument. This message closely matches the
    * `Group` class in the `cucumber-expressions` library.
    */
+  Group group = 5;
+
   message Group {
     uint32 start = 1;
     string value = 2;

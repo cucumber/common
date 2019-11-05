@@ -175,7 +175,7 @@ An attachment represents any kind of data associated with a line in a
 | ----- | ---- | ----- | ----------- |
 | actionId | [string](#string) |  |  |
 | testCaseHookDefinitionId | [string](#string) |  |  |
-| pickleId | [string](#string) |  |  |
+| testCaseId | [string](#string) |  |  |
 
 
 
@@ -207,7 +207,7 @@ An attachment represents any kind of data associated with a line in a
 | ----- | ---- | ----- | ----------- |
 | actionId | [string](#string) |  |  |
 | testCaseHookDefinitionId | [string](#string) |  |  |
-| pickleId | [string](#string) |  |  |
+| testCaseId | [string](#string) |  |  |
 
 
 
@@ -240,8 +240,8 @@ An attachment represents any kind of data associated with a line in a
 | actionId | [string](#string) |  |  |
 | stepDefinitionId | [string](#string) |  |  |
 | stepMatchArguments | [StepMatchArgument](#io.cucumber.messages.StepMatchArgument) | repeated |  |
-| pickleId | [string](#string) |  |  |
 | pickleStepArgument | [PickleStepArgument](#io.cucumber.messages.PickleStepArgument) |  |  |
+| testCaseId | [string](#string) |  |  |
 
 
 
@@ -983,7 +983,7 @@ This message closely matches the `Argument` class in the `cucumber-expressions` 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
 | parameterTypeName | [string](#string) |  |  |
-| group | [StepMatchArgument.Group](#io.cucumber.messages.StepMatchArgument.Group) |  |  |
+| group | [StepMatchArgument.Group](#io.cucumber.messages.StepMatchArgument.Group) |  | Represents the outermost capture group of an argument. This message closely matches the `Group` class in the `cucumber-expressions` library. |
 
 
 
@@ -993,8 +993,7 @@ This message closely matches the `Argument` class in the `cucumber-expressions` 
 <a name="io.cucumber.messages.StepMatchArgument.Group"></a>
 
 ### StepMatchArgument.Group
-Represents the outermost capture group of an argument. This message closely matches the
-`Group` class in the `cucumber-expressions` library.
+
 
 
 | Field | Type | Label | Description |
@@ -1034,9 +1033,9 @@ Represents the outermost capture group of an argument. This message closely matc
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| pickleId | [string](#string) |  |  |
 | timestamp | [Timestamp](#io.cucumber.messages.Timestamp) |  |  |
 | testResult | [TestResult](#io.cucumber.messages.TestResult) |  |  |
+| testCaseId | [string](#string) |  |  |
 
 
 
@@ -1103,6 +1102,8 @@ Represents the outermost capture group of an argument. This message closely matc
 | pickleId | [string](#string) |  |  |
 | timestamp | [Timestamp](#io.cucumber.messages.Timestamp) |  |  |
 | platform | [TestCaseStarted.Platform](#io.cucumber.messages.TestCaseStarted.Platform) |  |  |
+| attempt | [uint32](#uint32) |  |  |
+| testCaseId | [string](#string) |  |  |
 
 
 
@@ -1135,9 +1136,9 @@ Represents the outermost capture group of an argument. This message closely matc
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| pickleId | [string](#string) |  |  |
 | testResult | [TestResult](#io.cucumber.messages.TestResult) |  |  |
 | timestamp | [Timestamp](#io.cucumber.messages.Timestamp) |  |  |
+| testCaseId | [string](#string) |  |  |
 
 
 
@@ -1152,8 +1153,8 @@ Represents the outermost capture group of an argument. This message closely matc
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| pickleId | [string](#string) |  |  |
 | timestamp | [Timestamp](#io.cucumber.messages.Timestamp) |  |  |
+| testCaseId | [string](#string) |  |  |
 
 
 
@@ -1171,6 +1172,7 @@ Represents the outermost capture group of an argument. This message closely matc
 | status | [TestResult.Status](#io.cucumber.messages.TestResult.Status) |  |  |
 | message | [string](#string) |  |  |
 | duration | [Duration](#io.cucumber.messages.Duration) |  |  |
+| willBeRetried | [bool](#bool) |  |  |
 
 
 
@@ -1216,10 +1218,10 @@ Represents the outermost capture group of an argument. This message closely matc
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| pickleId | [string](#string) |  |  |
 | index | [uint32](#uint32) |  |  |
 | testResult | [TestResult](#io.cucumber.messages.TestResult) |  |  |
 | timestamp | [Timestamp](#io.cucumber.messages.Timestamp) |  |  |
+| testCaseId | [string](#string) |  |  |
 
 
 
@@ -1252,9 +1254,9 @@ For each step, there will be a match
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| pickleId | [string](#string) |  |  |
 | index | [uint32](#uint32) |  |  |
 | timestamp | [Timestamp](#io.cucumber.messages.Timestamp) |  |  |
+| testCaseId | [string](#string) |  |  |
 
 
 
