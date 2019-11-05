@@ -9,6 +9,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Added
 
+* Support retry
+  ([#722](https://github.com/cucumber/cucumber/pull/722)
+   [charlierudolph])
+
 ### Changed
 
 ### Deprecated
