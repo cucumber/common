@@ -19,7 +19,7 @@ This document is formatted according to the principles of [Keep A CHANGELOG](htt
 
 ### Fixed
 
-* Support for DataTable and DocStrings
+* Support for Tags, DataTable and DocStrings
 
 ## [2.0.0] - 2019-10-17
 
