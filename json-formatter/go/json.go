@@ -12,14 +12,14 @@ import (
 )
 
 type jsonFeature struct {
-	Description string               `json:"description"`
-	Elements    []jsonFeatureElement `json:"elements"`
-	ID          string               `json:"id"`
-	Keyword     string               `json:"keyword"`
-	Line        uint32               `json:"line"`
-	Name        string               `json:"name"`
-	URI         string               `json:"uri"`
-	Tags        []jsonTag            `json:"tags,omitempty"`
+	Description string                `json:"description"`
+	Elements    []*jsonFeatureElement `json:"elements"`
+	ID          string                `json:"id"`
+	Keyword     string                `json:"keyword"`
+	Line        uint32                `json:"line"`
+	Name        string                `json:"name"`
+	URI         string                `json:"uri"`
+	Tags        []*jsonTag            `json:"tags,omitempty"`
 }
 
 type jsonFeatureElement struct {
@@ -30,7 +30,7 @@ type jsonFeatureElement struct {
 	Name        string      `json:"name"`
 	Steps       []*jsonStep `json:"steps"`
 	Type        string      `json:"type"`
-	Tags        []jsonTag   `json:"tags,omitempty"`
+	Tags        []*jsonTag  `json:"tags,omitempty"`
 }
 
 type jsonStep struct {
@@ -200,7 +200,7 @@ func (formatter *Formatter) ProcessMessages(stdin io.Reader, stdout io.Writer) (
 
 			if len(backgroundJsonSteps) > 0 {
 				background := formatter.backgroundByUri[pickle.Uri]
-				jsonFeature.Elements = append(jsonFeature.Elements, jsonFeatureElement{
+				jsonFeature.Elements = append(jsonFeature.Elements, &jsonFeatureElement{
 					Description: background.Description,
 					Keyword:     background.Keyword,
 					Line:        background.Location.Line,
@@ -231,15 +231,15 @@ func (formatter *Formatter) ProcessMessages(stdin io.Reader, stdout io.Writer) (
 					exampleRowIndex)
 			}
 
-			scenarioTags := make([]jsonTag, len(pickle.Tags))
+			scenarioTags := make([]*jsonTag, len(pickle.Tags))
 			for tagIndex, tag := range pickle.Tags {
-				scenarioTags[tagIndex] = jsonTag{
+				scenarioTags[tagIndex] = &jsonTag{
 					Line: tag.Location.Line,
 					Name: tag.Name,
 				}
 			}
 
-			jsonFeature.Elements = append(jsonFeature.Elements, jsonFeatureElement{
+			jsonFeature.Elements = append(jsonFeature.Elements, &jsonFeatureElement{
 				Description: scenario.Description,
 				ID:          scenarioID,
 				Keyword:     scenario.Keyword,
@@ -289,17 +289,17 @@ func (formatter *Formatter) findOrCreateJsonFeature(pickle *messages.Pickle) *js
 
 		jFeature = &jsonFeature{
 			Description: gherkinDocumentFeature.Description,
-			Elements:    make([]jsonFeatureElement, 0),
+			Elements:    make([]*jsonFeatureElement, 0),
 			ID:          makeId(gherkinDocumentFeature.Name),
 			Keyword:     gherkinDocumentFeature.Keyword,
 			Line:        gherkinDocumentFeature.Location.Line,
 			Name:        gherkinDocumentFeature.Name,
 			URI:         pickle.Uri,
-			Tags:        make([]jsonTag, len(gherkinDocumentFeature.Tags)),
+			Tags:        make([]*jsonTag, len(gherkinDocumentFeature.Tags)),
 		}
 
 		for tagIndex, tag := range gherkinDocumentFeature.Tags {
-			jFeature.Tags[tagIndex] = jsonTag{
+			jFeature.Tags[tagIndex] = &jsonTag{
 				Line: tag.Location.Line,
 				Name: tag.Name,
 			}
