@@ -5,7 +5,7 @@ Feature: doc strings
       """
       This is a doc string
       """
-    Then a failed step
+    Then a failed step with
       """
       Can also have doc strings
       """
