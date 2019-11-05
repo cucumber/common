@@ -56,6 +56,8 @@
     - [StepMatchArgument](#io.cucumber.messages.StepMatchArgument)
     - [StepMatchArgument.Group](#io.cucumber.messages.StepMatchArgument.Group)
     - [SupportCodeConfig](#io.cucumber.messages.SupportCodeConfig)
+    - [TestCase](#io.cucumber.messages.TestCase)
+    - [TestCase.TestStep](#io.cucumber.messages.TestCase.TestStep)
     - [TestCaseFinished](#io.cucumber.messages.TestCaseFinished)
     - [TestCaseHookDefinitionConfig](#io.cucumber.messages.TestCaseHookDefinitionConfig)
     - [TestCasePrepared](#io.cucumber.messages.TestCasePrepared)
@@ -485,6 +487,7 @@ A `Rule` node
 | description | [string](#string) |  |  |
 | steps | [GherkinDocument.Feature.Step](#io.cucumber.messages.GherkinDocument.Feature.Step) | repeated |  |
 | examples | [GherkinDocument.Feature.Scenario.Examples](#io.cucumber.messages.GherkinDocument.Feature.Scenario.Examples) | repeated |  |
+| id | [string](#string) |  |  |
 
 
 
@@ -575,6 +578,7 @@ A row in a table
 | ----- | ---- | ----- | ----------- |
 | location | [Location](#io.cucumber.messages.Location) |  | The location of the first cell in the row |
 | cells | [GherkinDocument.Feature.TableRow.TableCell](#io.cucumber.messages.GherkinDocument.Feature.TableRow.TableCell) | repeated | Cells in the row |
+| id | [string](#string) |  |  |
 
 
 
@@ -684,7 +688,7 @@ with the complex structure of a [GherkinDocument](#io.cucumber.messages.GherkinD
 | language | [string](#string) |  | The language of the pickle |
 | steps | [Pickle.PickleStep](#io.cucumber.messages.Pickle.PickleStep) | repeated | One or more steps |
 | tags | [Pickle.PickleTag](#io.cucumber.messages.Pickle.PickleTag) | repeated | One or more tags. If this pickle is constructed from a Gherkin document, It includes inherited tags from the `Feature` as well. |
-| locations | [Location](#io.cucumber.messages.Location) | repeated | The source locations of the pickle. The last one represents the unique line number. A pickle constructed from `Examples` will have the first location originating from the `Scenario`, and the second from the table row. |
+| sourceIds | [string](#string) | repeated | Points to the source locations of the pickle. The last one represents the unique id of the pickle. A pickle constructed from `Examples` will have the first sourceId originating from the `Scenario`, and the second from the table row. |
 
 
 
@@ -939,7 +943,7 @@ Points to a [Source](#io.cucumber.messages.Source) identified by `uri` and a
 <a name="io.cucumber.messages.StepDefinitionConfig"></a>
 
 ### StepDefinitionConfig
-
+TODO: Rename to StepDefinition
 
 
 | Field | Type | Label | Description |
@@ -1025,6 +1029,42 @@ This message closely matches the `Argument` class in the `cucumber-expressions` 
 
 
 
+<a name="io.cucumber.messages.TestCase"></a>
+
+### TestCase
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| id | [string](#string) |  |  |
+| pickleId | [string](#string) |  |  |
+| steps | [TestCase.TestStep](#io.cucumber.messages.TestCase.TestStep) | repeated |  |
+
+
+
+
+
+
+<a name="io.cucumber.messages.TestCase.TestStep"></a>
+
+### TestCase.TestStep
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| id | [string](#string) |  |  |
+| pickleStepId | [string](#string) |  | Pointer to the PickleStep (if derived from a PickleStep) |
+| stepDefinitionId | [string](#string) | repeated | Pointer to all the matching StepDefinitions (if derived from a PickleStep) |
+| stepMatchArguments | [StepMatchArgument](#io.cucumber.messages.StepMatchArgument) | repeated | All the arguments from the match (if derived from a PickleStep and there was exactly 1 StepDefinition) |
+| hookId | [string](#string) |  | Pointer to the TestCaseHookDefinitionConfig (if derived from a Hook) |
+
+
+
+
+
+
 <a name="io.cucumber.messages.TestCaseFinished"></a>
 
 ### TestCaseFinished
@@ -1045,7 +1085,7 @@ This message closely matches the `Argument` class in the `cucumber-expressions` 
 <a name="io.cucumber.messages.TestCaseHookDefinitionConfig"></a>
 
 ### TestCaseHookDefinitionConfig
-
+TODO: Rename to Hook
 
 
 | Field | Type | Label | Description |
@@ -1099,7 +1139,6 @@ This message closely matches the `Argument` class in the `cucumber-expressions` 
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| pickleId | [string](#string) |  |  |
 | timestamp | [Timestamp](#io.cucumber.messages.Timestamp) |  |  |
 | platform | [TestCaseStarted.Platform](#io.cucumber.messages.TestCaseStarted.Platform) |  |  |
 | attempt | [uint32](#uint32) |  |  |
@@ -1131,7 +1170,7 @@ This message closely matches the `Argument` class in the `cucumber-expressions` 
 <a name="io.cucumber.messages.TestHookFinished"></a>
 
 ### TestHookFinished
-
+DEPRECATED: Replaced by TestStepFinished
 
 
 | Field | Type | Label | Description |
@@ -1148,7 +1187,7 @@ This message closely matches the `Argument` class in the `cucumber-expressions` 
 <a name="io.cucumber.messages.TestHookStarted"></a>
 
 ### TestHookStarted
-
+DEPRECATED: Replaced by TestStepStarted
 
 
 | Field | Type | Label | Description |
@@ -1218,10 +1257,9 @@ This message closely matches the `Argument` class in the `cucumber-expressions` 
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| index | [uint32](#uint32) |  |  |
 | testResult | [TestResult](#io.cucumber.messages.TestResult) |  |  |
 | timestamp | [Timestamp](#io.cucumber.messages.Timestamp) |  |  |
-| testCaseId | [string](#string) |  |  |
+| testStepId | [string](#string) |  |  |
 
 
 
@@ -1232,6 +1270,7 @@ This message closely matches the `Argument` class in the `cucumber-expressions` 
 
 ### TestStepMatched
 For each step, there will be a match
+DEPRECATED - replaced by TestStep
 
 
 | Field | Type | Label | Description |
@@ -1254,9 +1293,8 @@ For each step, there will be a match
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| index | [uint32](#uint32) |  |  |
 | timestamp | [Timestamp](#io.cucumber.messages.Timestamp) |  |  |
-| testCaseId | [string](#string) |  |  |
+| testStepId | [string](#string) |  |  |
 
 
 

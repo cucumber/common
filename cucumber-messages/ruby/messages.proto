@@ -236,6 +236,7 @@ message GherkinDocument {
       string description = 5;
       repeated Step steps = 6;
       repeated Examples examples = 7;
+      string id = 8;
 
       message Examples {
         // The location of the `Examples` keyword
@@ -255,6 +256,7 @@ message GherkinDocument {
       Location location = 1;
       // Cells in the row
       repeated TableCell cells = 2;
+      string id = 3;
 
       // A cell in a `TableRow`
       message TableCell {
@@ -340,12 +342,13 @@ message Pickle {
    * It includes inherited tags from the `Feature` as well.
    */
   repeated PickleTag tags = 6;
+  reserved 7;
   /**
-   * The source locations of the pickle. The last one represents the unique
-   * line number. A pickle constructed from `Examples` will have the first
-   * location originating from the `Scenario`, and the second from the table row.
+   * Points to the source locations of the pickle. The last one represents the unique
+   * id of the pickle. A pickle constructed from `Examples` will have the first
+   * sourceId originating from the `Scenario`, and the second from the table row.
    */
-  repeated Location locations = 7;
+  repeated string sourceIds = 8;
 
   /**
    * A tag
@@ -396,6 +399,26 @@ message PickleStepArgument {
   }
 }
 
+////// TestCases
+
+message TestCase {
+  string id = 1;
+  string pickleId = 2;
+  repeated TestStep steps = 3;
+  
+  message TestStep {
+    string id = 1;
+    // Pointer to the PickleStep (if derived from a PickleStep)
+    string pickleStepId = 2;
+    // Pointer to all the matching StepDefinitions (if derived from a PickleStep)
+    repeated string stepDefinitionId = 3;
+    // All the arguments from the match (if derived from a PickleStep and there was exactly 1 StepDefinition)
+    repeated StepMatchArgument stepMatchArguments = 4;
+    // Pointer to the TestCaseHookDefinitionConfig (if derived from a Hook)
+    string hookId = 5;
+  } 
+}
+
 //// Cucumber Engine
 
 ////// Filtering
@@ -425,7 +448,7 @@ message TestCasePrepared {
 }
 
 message TestCaseStarted {
-  string pickleId = 1;
+  reserved 1;
   Timestamp timestamp = 2;
   Platform platform = 3;
   uint32 attempt = 4;
@@ -451,6 +474,7 @@ message TestCaseFinished {
 }
 
 // For each step, there will be a match
+// DEPRECATED - replaced by TestStep
 message TestStepMatched {
   string pickleId = 1;
   uint32 index = 2;
@@ -459,26 +483,26 @@ message TestStepMatched {
 }
 
 message TestStepStarted {
-  reserved 1;
-  uint32 index = 2;
+  reserved 1, 2, 4;
   Timestamp timestamp = 3;
-  string testCaseId = 4;
+  string testStepId = 5;
 }
 
 message TestStepFinished {
-  reserved 1;
-  uint32 index = 2;
+  reserved 1, 2, 5;
   TestResult testResult = 3;
   Timestamp timestamp = 4;
-  string testCaseId = 5;
+  string testStepId = 6;
 }
 
+// DEPRECATED: Replaced by TestStepStarted
 message TestHookStarted {
   reserved 1;
   Timestamp timestamp = 2;
   string testCaseId = 3;
 }
 
+// DEPRECATED: Replaced by TestStepFinished
 message TestHookFinished {
   reserved 1;
   TestResult testResult = 2;
@@ -585,6 +609,7 @@ message SupportCodeConfig {
   repeated ParameterTypeConfig parameterTypeConfigs = 4;
 }
 
+// TODO: Rename to Hook
 message TestCaseHookDefinitionConfig {
   string id = 1;
   string tagExpression = 2;
@@ -592,6 +617,7 @@ message TestCaseHookDefinitionConfig {
   SourceReference location = 3;
 }
 
+// TODO: Rename to StepDefinition
 message StepDefinitionConfig {
   string id = 1;
   StepDefinitionPattern pattern = 2;
@@ -678,12 +704,12 @@ message StepMatchArgument {
   reserved 1;
   string parameterTypeName = 2;
   reserved 3, 4;
-  Group group = 5;
-
   /**
    * Represents the outermost capture group of an argument. This message closely matches the
    * `Group` class in the `cucumber-expressions` library.
    */
+  Group group = 5;
+
   message Group {
     uint32 start = 1;
     string value = 2;
