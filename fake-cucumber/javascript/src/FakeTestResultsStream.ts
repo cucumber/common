@@ -36,6 +36,36 @@ class FakeTestResultsStream extends Transform {
       let testStepStatus: messages.TestResult.Status =
         messages.TestResult.Status.PASSED
 
+      const beforeHookMatch = envelope.pickle.name.match(/(.*) before hook/)
+      if (beforeHookMatch) {
+        testStepStatus = patternStatus(beforeHookMatch[1])
+        this.p(
+          new messages.Envelope({
+            testHookStarted: new messages.TestHookStarted({
+              pickleId: envelope.pickle.id,
+            }),
+          })
+        )
+        this.p(
+          new messages.Envelope({
+            testHookFinished: new messages.TestHookFinished({
+              pickleId: envelope.pickle.id,
+              testResult: {
+                status: testStepStatus,
+                message:
+                  testStepStatus === messages.TestResult.Status.FAILED
+                    ? `Some error message\n\tfake_file:2\n\tfake_file:7\n`
+                    : null,
+                duration: new messages.Duration({
+                  seconds: 123456,
+                  nanos: 789,
+                }),
+              },
+            }),
+          })
+        )
+      }
+
       for (const step of envelope.pickle.steps) {
         this.p(
           new messages.Envelope({
@@ -138,13 +168,43 @@ class FakeTestResultsStream extends Transform {
                     : null,
                 duration: new messages.Duration({
                   seconds: 123456,
-                  nanos: 789
+                  nanos: 789,
                 }),
               },
             }),
           })
         )
         index++
+      }
+
+      const afterHookMatch = envelope.pickle.name.match(/(.*) after hook/)
+      if (afterHookMatch) {
+        testStepStatus = patternStatus(afterHookMatch[1])
+        this.p(
+          new messages.Envelope({
+            testHookStarted: new messages.TestHookStarted({
+              pickleId: envelope.pickle.id,
+            }),
+          })
+        )
+        this.p(
+          new messages.Envelope({
+            testHookFinished: new messages.TestHookFinished({
+              pickleId: envelope.pickle.id,
+              testResult: {
+                status: testStepStatus,
+                message:
+                  testStepStatus === messages.TestResult.Status.FAILED
+                    ? `Some error message\n\tfake_file:2\n\tfake_file:7\n`
+                    : null,
+                duration: new messages.Duration({
+                  seconds: 123456,
+                  nanos: 789,
+                }),
+              },
+            }),
+          })
+        )
       }
 
       this.p(
@@ -159,7 +219,7 @@ class FakeTestResultsStream extends Transform {
                   : null,
               duration: new messages.Duration({
                 seconds: 987654,
-                nanos: 321
+                nanos: 321,
               }),
             },
           }),

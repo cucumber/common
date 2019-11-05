@@ -5,6 +5,20 @@ import { Readable } from 'stream'
 import * as assert from 'assert'
 
 describe('FakeTestResultsStream', () => {
+  it('generates before and after hook messages', async () => {
+    const gherkinSource = `Feature: some hooks
+
+Scenario: I have a passed before hook and a failed after hook
+  Given a passed step
+`
+    const envelopes = await generateMessages(gherkinSource, 'pattern')
+
+    const testHookFinishedMessages = envelopes.filter(
+      envelope => envelope.testHookFinished
+    )
+    assert.strictEqual(2, testHookFinishedMessages.length)
+  })
+
   it('generates failed pickle result', async () => {
     const gherkinSource = `Feature: mixed results
 
