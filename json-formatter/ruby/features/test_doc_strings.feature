@@ -1,11 +1,11 @@
 Feature: doc strings
 
   Scenario: a step can have docstrings
-    When a passed step
+    Given a passed step with
       """
       This is a doc string
       """
-    Then a failing step
+    Then a failed step
       """
       Can also have doc strings
       """

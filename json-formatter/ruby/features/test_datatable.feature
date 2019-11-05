@@ -1,9 +1,9 @@
 Feature: doc strings
 
   Scenario: a step can have docstrings
-    When a passed step
+    Given a passed step with
       | name | value |
       | x    | 1     |
-    Then a failing step
+    Then a failed step
       | name | value |
       | y    | 2     |

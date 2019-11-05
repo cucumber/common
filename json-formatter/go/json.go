@@ -32,11 +32,18 @@ type jsonFeatureElement struct {
 }
 
 type jsonStep struct {
-	Keyword string          `json:"keyword"`
-	Line    uint32          `json:"line"`
-	Name    string          `json:"name"`
-	Result  *jsonStepResult `json:"result"`
-	Match   *jsonStepMatch  `json:"match,omitempty"`
+	Keyword   string          `json:"keyword"`
+	Line      uint32          `json:"line"`
+	Name      string          `json:"name"`
+	Result    *jsonStepResult `json:"result"`
+	Match     *jsonStepMatch  `json:"match,omitempty"`
+	DocString *jsonDocString  `json:"doc_string,omitempty"`
+}
+
+type jsonDocString struct {
+	ContentType string `json:"content_type"`
+	Line        uint32 `json:"line"`
+	Value       string `json:"value"`
 }
 
 type jsonStepResult struct {
@@ -150,6 +157,15 @@ func (formatter *Formatter) ProcessMessages(stdin io.Reader, stdout io.Writer) (
 					backgroundJsonSteps = append(backgroundJsonSteps, jsonStep)
 				} else {
 					scenarioJsonSteps = append(scenarioJsonSteps, jsonStep)
+				}
+
+				docString := step.GetDocString()
+				if docString != nil {
+					jsonStep.DocString = &jsonDocString{
+						Line:        docString.Location.Line,
+						ContentType: docString.ContentType,
+						Value:       docString.Content,
+					}
 				}
 
 				formatter.jsonStepsByKey[key(pickle.Uri, step.Location)] = jsonStep
