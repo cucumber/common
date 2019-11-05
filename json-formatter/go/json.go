@@ -32,18 +32,23 @@ type jsonFeatureElement struct {
 }
 
 type jsonStep struct {
-	Keyword   string          `json:"keyword"`
-	Line      uint32          `json:"line"`
-	Name      string          `json:"name"`
-	Result    *jsonStepResult `json:"result"`
-	Match     *jsonStepMatch  `json:"match,omitempty"`
-	DocString *jsonDocString  `json:"doc_string,omitempty"`
+	Keyword   string              `json:"keyword"`
+	Line      uint32              `json:"line"`
+	Name      string              `json:"name"`
+	Result    *jsonStepResult     `json:"result"`
+	Match     *jsonStepMatch      `json:"match,omitempty"`
+	DocString *jsonDocString      `json:"doc_string,omitempty"`
+	Rows      []*jsonDatatableRow `json:"rows,omitempty"`
 }
 
 type jsonDocString struct {
 	ContentType string `json:"content_type"`
 	Line        uint32 `json:"line"`
 	Value       string `json:"value"`
+}
+
+type jsonDatatableRow struct {
+	Cells []string `json:"cells"`
 }
 
 type jsonStepResult struct {
@@ -165,6 +170,21 @@ func (formatter *Formatter) ProcessMessages(stdin io.Reader, stdout io.Writer) (
 						Line:        docString.Location.Line,
 						ContentType: docString.ContentType,
 						Value:       docString.Content,
+					}
+				}
+
+				datatable := step.GetDataTable()
+				if datatable != nil {
+					jsonStep.Rows = make([]*jsonDatatableRow, len(datatable.GetRows()))
+					for rowIndex, row := range datatable.GetRows() {
+						cells := make([]string, len(row.Cells))
+						for cellIndex, cell := range row.Cells {
+							cells[cellIndex] = cell.Value
+						}
+
+						jsonStep.Rows[rowIndex] = &jsonDatatableRow{
+							Cells: cells,
+						}
 					}
 				}
 
