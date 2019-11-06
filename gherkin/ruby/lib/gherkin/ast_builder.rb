@@ -1,5 +1,6 @@
 require 'cucumber/messages'
 require 'gherkin/ast_node'
+require 'gherkin/id_generator'
 
 module Gherkin
   class AstBuilder
@@ -68,6 +69,7 @@ module Gherkin
     def get_table_rows(node)
       rows = node.get_tokens(:TableRow).map do |token|
         Cucumber::Messages::GherkinDocument::Feature::TableRow.new(
+          id: Gherkin::IdGenerator.new_id,
           location: get_location(token, 0),
           cells: get_cells(token)
         )
@@ -156,6 +158,7 @@ module Gherkin
         steps = get_steps(scenario_node)
         examples = scenario_node.get_items(:ExamplesDefinition)
         Cucumber::Messages::GherkinDocument::Feature::Scenario.new(
+          id: Gherkin::IdGenerator.new_id,
           tags: tags,
           location: get_location(scenario_line, 0),
           keyword: scenario_line.matched_keyword,

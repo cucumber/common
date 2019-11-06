@@ -67,7 +67,7 @@ module Gherkin
           tags: pickle_tags(tags),
           name: scenario.name,
           language: language,
-          locations: [scenario.location],
+          sourceIds: [scenario.id],
           steps: steps
         )
         pickles.push(pickle)
@@ -94,10 +94,10 @@ module Gherkin
               language: language,
               steps: steps,
               tags: pickle_tags(tags),
-              locations: [
-                scenario.location,
-                values.location
-              ]
+              sourceIds: [
+                scenario.id,
+                values.id
+              ],
             )
             pickles.push(pickle);
 
