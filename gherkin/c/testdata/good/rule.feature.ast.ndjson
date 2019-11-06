@@ -45,6 +45,7 @@
               },
               {
                 "scenario": {
+                  "id": "0",
                   "keyword": "Example",
                   "location": {
                     "column": 5,
@@ -78,6 +79,7 @@
             "children": [
               {
                 "scenario": {
+                  "id": "1",
                   "keyword": "Example",
                   "location": {
                     "column": 5,

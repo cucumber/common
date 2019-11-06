@@ -1,18 +1,12 @@
 {
   "pickle": {
-    "id": "bb69d6ff129ad9c020796f29aac02fc3b763a850",
+    "id": "4",
     "language": "en",
-    "locations": [
-      {
-        "column": 1,
-        "line": 3
-      },
-      {
-        "column": 3,
-        "line": 11
-      }
-    ],
     "name": "Greetings come in many forms",
+    "sourceIds": [
+      "3",
+      "1"
+    ],
     "steps": [
       {
         "argument": {
@@ -43,19 +37,13 @@
 }
 {
   "pickle": {
-    "id": "40d1873c0ee28dc1ab3b4cfdb130ae56c1966939",
+    "id": "5",
     "language": "en",
-    "locations": [
-      {
-        "column": 1,
-        "line": 3
-      },
-      {
-        "column": 3,
-        "line": 12
-      }
-    ],
     "name": "Greetings come in many forms",
+    "sourceIds": [
+      "3",
+      "2"
+    ],
     "steps": [
       {
         "argument": {

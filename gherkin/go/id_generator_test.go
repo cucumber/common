@@ -5,7 +5,7 @@ import (
 )
 
 func TestIdGeneratorIncrementing(t *testing.T) {
-	newId := Incrementing{}.NewId
+	newId := (&Incrementing{0}).NewId
 
 	generated := newId()
 	if generated != "0" {

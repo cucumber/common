@@ -21,6 +21,7 @@
         {
           "scenario": {
             "description": "  This description\n  has two lines and indented with two spaces",
+            "id": "0",
             "keyword": "Scenario",
             "location": {
               "column": 3,
@@ -42,6 +43,7 @@
         {
           "scenario": {
             "description": "This is a description without indentation",
+            "id": "1",
             "keyword": "Scenario",
             "location": {
               "column": 1,
@@ -63,6 +65,7 @@
         {
           "scenario": {
             "description": "  This description\n\n  has an empty line in the middle",
+            "id": "2",
             "keyword": "Scenario",
             "location": {
               "column": 3,
@@ -84,6 +87,7 @@
         {
           "scenario": {
             "description": "  This description\n  has an empty lines around",
+            "id": "3",
             "keyword": "Scenario",
             "location": {
               "column": 3,
@@ -105,6 +109,7 @@
         {
           "scenario": {
             "description": "  This description\n  has a comment after",
+            "id": "4",
             "keyword": "Scenario",
             "location": {
               "column": 3,
@@ -126,6 +131,7 @@
         {
           "scenario": {
             "description": "  This description\n  has a comment right after",
+            "id": "5",
             "keyword": "Scenario",
             "location": {
               "column": 3,
@@ -147,6 +153,7 @@
         {
           "scenario": {
             "description": "  This description has an \\\"\\\"\\\" (escaped docstring sparator)",
+            "id": "6",
             "keyword": "Scenario",
             "location": {
               "column": 3,
@@ -188,6 +195,7 @@
                         "value": "bar"
                       }
                     ],
+                    "id": "8",
                     "location": {
                       "column": 5,
                       "line": 52
@@ -204,6 +212,7 @@
                       "value": "foo"
                     }
                   ],
+                  "id": "7",
                   "location": {
                     "column": 5,
                     "line": 51
@@ -211,6 +220,7 @@
                 }
               }
             ],
+            "id": "9",
             "keyword": "Scenario Outline",
             "location": {
               "column": 3,

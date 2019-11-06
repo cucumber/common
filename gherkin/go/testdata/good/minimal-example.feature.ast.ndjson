@@ -4,6 +4,7 @@
       "children": [
         {
           "scenario": {
+            "id": "0",
             "keyword": "Example",
             "location": {
               "column": 3,

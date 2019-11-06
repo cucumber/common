@@ -4,6 +4,7 @@
       "children": [
         {
           "scenario": {
+            "id": "4",
             "keyword": "Scenario",
             "location": {
               "column": 3,
@@ -35,6 +36,7 @@
                           "value": "o"
                         }
                       ],
+                      "id": "0",
                       "location": {
                         "column": 7,
                         "line": 7
@@ -57,6 +59,7 @@
                           "value": "ø"
                         }
                       ],
+                      "id": "1",
                       "location": {
                         "column": 7,
                         "line": 8
@@ -95,6 +98,7 @@
                           "value": "\\o\no\\"
                         }
                       ],
+                      "id": "2",
                       "location": {
                         "column": 7,
                         "line": 10
@@ -117,6 +121,7 @@
                           "value": "ø\\\nø\\"
                         }
                       ],
+                      "id": "3",
                       "location": {
                         "column": 7,
                         "line": 11

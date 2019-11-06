@@ -1,14 +1,11 @@
 {
   "pickle": {
-    "id": "5673b383ecd6bbe6679bba4adec551902b7aefdd",
+    "id": "1",
     "language": "no",
-    "locations": [
-      {
-        "column": 3,
-        "line": 4
-      }
-    ],
     "name": "Parsing many languages",
+    "sourceIds": [
+      "0"
+    ],
     "steps": [
       {
         "locations": [

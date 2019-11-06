@@ -1,18 +1,12 @@
 {
   "pickle": {
-    "id": "a64c9d5075b45f466b8fbcae2780a7caf506d74c",
+    "id": "3",
     "language": "en",
-    "locations": [
-      {
-        "column": 3,
-        "line": 3
-      },
-      {
-        "column": 7,
-        "line": 8
-      }
-    ],
     "name": "minimalistic",
+    "sourceIds": [
+      "2",
+      "1"
+    ],
     "steps": [
       {
         "locations": [

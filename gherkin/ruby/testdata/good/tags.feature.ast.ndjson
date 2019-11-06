@@ -4,6 +4,7 @@
       "children": [
         {
           "scenario": {
+            "id": "0",
             "keyword": "Scenario",
             "location": {
               "column": 1,
@@ -65,6 +66,7 @@
                         "value": "minimalism"
                       }
                     ],
+                    "id": "2",
                     "location": {
                       "column": 3,
                       "line": 19
@@ -81,6 +83,7 @@
                       "value": "what"
                     }
                   ],
+                  "id": "1",
                   "location": {
                     "column": 3,
                     "line": 18
@@ -127,6 +130,7 @@
                         "value": "more minimalism"
                       }
                     ],
+                    "id": "4",
                     "location": {
                       "column": 3,
                       "line": 25
@@ -143,6 +147,7 @@
                       "value": "what"
                     }
                   ],
+                  "id": "3",
                   "location": {
                     "column": 3,
                     "line": 24
@@ -173,6 +178,7 @@
                 ]
               }
             ],
+            "id": "5",
             "keyword": "Scenario Outline",
             "location": {
               "column": 1,

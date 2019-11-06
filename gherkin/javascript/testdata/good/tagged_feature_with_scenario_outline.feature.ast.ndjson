@@ -22,6 +22,7 @@
                         "value": "X"
                       }
                     ],
+                    "id": "1",
                     "location": {
                       "column": 5,
                       "line": 9
@@ -37,6 +38,7 @@
                         "value": "Y"
                       }
                     ],
+                    "id": "2",
                     "location": {
                       "column": 5,
                       "line": 10
@@ -53,6 +55,7 @@
                       "value": "name"
                     }
                   ],
+                  "id": "0",
                   "location": {
                     "column": 5,
                     "line": 8
@@ -60,6 +63,7 @@
                 }
               }
             ],
+            "id": "3",
             "keyword": "Scenario Outline",
             "location": {
               "column": 3,

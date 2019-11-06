@@ -1,18 +1,12 @@
 {
   "pickle": {
-    "id": "f824595a3ebcf7560e1225d83abb8cca439daf54",
+    "id": "6",
     "language": "en",
-    "locations": [
-      {
-        "column": 3,
-        "line": 3
-      },
-      {
-        "column": 7,
-        "line": 9
-      }
-    ],
     "name": "minimalistic",
+    "sourceIds": [
+      "4",
+      "1"
+    ],
     "steps": [
       {
         "locations": [
@@ -42,19 +36,13 @@
 }
 {
   "pickle": {
-    "id": "c46750283b2008436017833106a9be63d8991d4f",
+    "id": "7",
     "language": "en",
-    "locations": [
-      {
-        "column": 3,
-        "line": 3
-      },
-      {
-        "column": 7,
-        "line": 14
-      }
-    ],
     "name": "minimalistic",
+    "sourceIds": [
+      "4",
+      "3"
+    ],
     "steps": [
       {
         "locations": [
@@ -84,15 +72,12 @@
 }
 {
   "pickle": {
-    "id": "30d1f9a373d7af4fdb8ce14bbcb606eb26695c43",
+    "id": "8",
     "language": "en",
-    "locations": [
-      {
-        "column": 3,
-        "line": 17
-      }
-    ],
     "name": "ha ok",
+    "sourceIds": [
+      "5"
+    ],
     "tags": [
       {
         "location": {

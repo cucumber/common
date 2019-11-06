@@ -13,9 +13,9 @@ type Incrementing struct {
 	next int
 }
 
-func (i *Incrementing) NewId() string {
-	result := strconv.Itoa(i.next)
-	i.next++
+func (self *Incrementing) NewId() string {
+	result := strconv.Itoa(self.next)
+	self.next++
 	return result
 }
 

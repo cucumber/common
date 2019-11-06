@@ -1,14 +1,11 @@
 {
   "pickle": {
-    "id": "499f7f626cef9bba0b95a0441eceeb1cb5581a26",
+    "id": "11",
     "language": "fr",
-    "locations": [
-      {
-        "column": 3,
-        "line": 4
-      }
-    ],
     "name": "Support des caractères spéciaux",
+    "sourceIds": [
+      "0"
+    ],
     "steps": [
       {
         "locations": [
@@ -43,15 +40,12 @@
 }
 {
   "pickle": {
-    "id": "0f24a621bb6362b5f54ed7b60dfe8a10e412ef25",
+    "id": "12",
     "language": "fr",
-    "locations": [
-      {
-        "column": 3,
-        "line": 9
-      }
-    ],
     "name": "Support du mot-clef \"Etant donné que \"",
+    "sourceIds": [
+      "1"
+    ],
     "steps": [
       {
         "locations": [
@@ -86,15 +80,12 @@
 }
 {
   "pickle": {
-    "id": "300dfc52010feb88339628315cbd02824e604eea",
+    "id": "13",
     "language": "fr",
-    "locations": [
-      {
-        "column": 3,
-        "line": 14
-      }
-    ],
     "name": "Support du mot-clef \"Etant donné qu'\"",
+    "sourceIds": [
+      "2"
+    ],
     "steps": [
       {
         "locations": [
@@ -129,15 +120,12 @@
 }
 {
   "pickle": {
-    "id": "3accb2589daafe6a62bddc185c0e698ac56b35e9",
+    "id": "14",
     "language": "fr",
-    "locations": [
-      {
-        "column": 3,
-        "line": 19
-      }
-    ],
     "name": "Support du mot-clef \"Étant donné que \"",
+    "sourceIds": [
+      "3"
+    ],
     "steps": [
       {
         "locations": [
@@ -172,15 +160,12 @@
 }
 {
   "pickle": {
-    "id": "5a2447eb9b410a7276cd93886995e70a9a5ebb26",
+    "id": "15",
     "language": "fr",
-    "locations": [
-      {
-        "column": 3,
-        "line": 24
-      }
-    ],
     "name": "Support du mot-clef \"Étant donné qu'\"",
+    "sourceIds": [
+      "4"
+    ],
     "steps": [
       {
         "locations": [
@@ -215,15 +200,12 @@
 }
 {
   "pickle": {
-    "id": "9dde722e35a965662f264e9eee0fae1f90a2a963",
+    "id": "16",
     "language": "fr",
-    "locations": [
-      {
-        "column": 3,
-        "line": 29
-      }
-    ],
     "name": "Support du mot-clef \"Et que \"",
+    "sourceIds": [
+      "5"
+    ],
     "steps": [
       {
         "locations": [
@@ -267,15 +249,12 @@
 }
 {
   "pickle": {
-    "id": "b075fcabde423fd777dd1a2549f55f1846e6388b",
+    "id": "17",
     "language": "fr",
-    "locations": [
-      {
-        "column": 3,
-        "line": 35
-      }
-    ],
     "name": "Support du mot-clef \"Et qu'\"",
+    "sourceIds": [
+      "6"
+    ],
     "steps": [
       {
         "locations": [
@@ -319,15 +298,12 @@
 }
 {
   "pickle": {
-    "id": "417c87022a35ee85bfee64cd5145534fed13b316",
+    "id": "18",
     "language": "fr",
-    "locations": [
-      {
-        "column": 3,
-        "line": 41
-      }
-    ],
     "name": "Support du mot-clef \"Et \"",
+    "sourceIds": [
+      "7"
+    ],
     "steps": [
       {
         "locations": [
@@ -371,15 +347,12 @@
 }
 {
   "pickle": {
-    "id": "716e5cf322d786053167071830c5513a15ef8bcf",
+    "id": "19",
     "language": "fr",
-    "locations": [
-      {
-        "column": 3,
-        "line": 47
-      }
-    ],
     "name": "Support du mot-clef \"Mais que \"",
+    "sourceIds": [
+      "8"
+    ],
     "steps": [
       {
         "locations": [
@@ -423,15 +396,12 @@
 }
 {
   "pickle": {
-    "id": "15b3681c6a778b57bd205bc666b258e17674d01b",
+    "id": "20",
     "language": "fr",
-    "locations": [
-      {
-        "column": 3,
-        "line": 53
-      }
-    ],
     "name": "Support du mot-clef \"Mais qu'\"",
+    "sourceIds": [
+      "9"
+    ],
     "steps": [
       {
         "locations": [
@@ -475,15 +445,12 @@
 }
 {
   "pickle": {
-    "id": "63f5dfbccb4c68783da0fc3c1f0287c0fa12b1db",
+    "id": "21",
     "language": "fr",
-    "locations": [
-      {
-        "column": 3,
-        "line": 59
-      }
-    ],
     "name": "Support du mot-clef \"Mais \"",
+    "sourceIds": [
+      "10"
+    ],
     "steps": [
       {
         "locations": [

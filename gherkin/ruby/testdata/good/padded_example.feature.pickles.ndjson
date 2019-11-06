@@ -1,18 +1,12 @@
 {
   "pickle": {
-    "id": "675e70f00cefc5525253465e09f88b6e379eae72",
+    "id": "6",
     "language": "en",
-    "locations": [
-      {
-        "column": 3,
-        "line": 3
-      },
-      {
-        "column": 7,
-        "line": 18
-      }
-    ],
     "name": "test",
+    "sourceIds": [
+      "5",
+      "4"
+    ],
     "steps": [
       {
         "argument": {

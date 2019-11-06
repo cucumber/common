@@ -1,14 +1,11 @@
 {
   "pickle": {
-    "id": "c9c3da2dbae8c8494a077acd97b4917173ab971f",
+    "id": "5",
     "language": "en",
-    "locations": [
-      {
-        "column": 3,
-        "line": 5
-      }
-    ],
     "name": "They are the future",
+    "sourceIds": [
+      "4"
+    ],
     "steps": [
       {
         "argument": {

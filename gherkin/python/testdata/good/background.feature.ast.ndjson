@@ -24,6 +24,7 @@
         },
         {
           "scenario": {
+            "id": "0",
             "keyword": "Scenario",
             "location": {
               "column": 3,

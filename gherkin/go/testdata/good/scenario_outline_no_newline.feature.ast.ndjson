@@ -22,6 +22,7 @@
                         "value": "minimalism"
                       }
                     ],
+                    "id": "1",
                     "location": {
                       "column": 3,
                       "line": 8
@@ -38,6 +39,7 @@
                       "value": "what"
                     }
                   ],
+                  "id": "0",
                   "location": {
                     "column": 3,
                     "line": 7
@@ -45,6 +47,7 @@
                 }
               }
             ],
+            "id": "2",
             "keyword": "Scenario Outline",
             "location": {
               "column": 1,

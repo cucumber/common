@@ -1,14 +1,11 @@
 {
   "pickle": {
-    "id": "03f546fa889ff3354c22642bb57010f0a55c7c8d",
+    "id": "10",
     "language": "en",
-    "locations": [
-      {
-        "column": 3,
-        "line": 4
-      }
-    ],
     "name": "two lines",
+    "sourceIds": [
+      "0"
+    ],
     "steps": [
       {
         "locations": [
@@ -25,15 +22,12 @@
 }
 {
   "pickle": {
-    "id": "f0f3c9218d0a7f276807b8399cc8a10232d3aa99",
+    "id": "11",
     "language": "en",
-    "locations": [
-      {
-        "column": 1,
-        "line": 9
-      }
-    ],
     "name": "without indentation",
+    "sourceIds": [
+      "1"
+    ],
     "steps": [
       {
         "locations": [
@@ -50,15 +44,12 @@
 }
 {
   "pickle": {
-    "id": "8c17132a2b6b412c439b92d51ce42976180fb4a5",
+    "id": "12",
     "language": "en",
-    "locations": [
-      {
-        "column": 3,
-        "line": 13
-      }
-    ],
     "name": "empty lines in the middle",
+    "sourceIds": [
+      "2"
+    ],
     "steps": [
       {
         "locations": [
@@ -75,15 +66,12 @@
 }
 {
   "pickle": {
-    "id": "6ed95a2e148609d3ca3bc65c744e56af5eb0364a",
+    "id": "13",
     "language": "en",
-    "locations": [
-      {
-        "column": 3,
-        "line": 19
-      }
-    ],
     "name": "empty lines around",
+    "sourceIds": [
+      "3"
+    ],
     "steps": [
       {
         "locations": [
@@ -100,15 +88,12 @@
 }
 {
   "pickle": {
-    "id": "fddf16c0c251a6ec601e748a0cd0f96b65b6a1ff",
+    "id": "14",
     "language": "en",
-    "locations": [
-      {
-        "column": 3,
-        "line": 26
-      }
-    ],
     "name": "comment after description",
+    "sourceIds": [
+      "4"
+    ],
     "steps": [
       {
         "locations": [
@@ -125,15 +110,12 @@
 }
 {
   "pickle": {
-    "id": "144721f2d8d4a2e56a8c11a534d93d663abdd43c",
+    "id": "15",
     "language": "en",
-    "locations": [
-      {
-        "column": 3,
-        "line": 33
-      }
-    ],
     "name": "comment right after description",
+    "sourceIds": [
+      "5"
+    ],
     "steps": [
       {
         "locations": [
@@ -150,15 +132,12 @@
 }
 {
   "pickle": {
-    "id": "f9b52fc14bec4c80bad794aed5df5b7a86a85788",
+    "id": "16",
     "language": "en",
-    "locations": [
-      {
-        "column": 3,
-        "line": 40
-      }
-    ],
     "name": "description with escaped docstring separator",
+    "sourceIds": [
+      "6"
+    ],
     "steps": [
       {
         "locations": [
@@ -175,19 +154,13 @@
 }
 {
   "pickle": {
-    "id": "8450874b078bbc680a775c164e7b880e9b6c386e",
+    "id": "17",
     "language": "en",
-    "locations": [
-      {
-        "column": 3,
-        "line": 45
-      },
-      {
-        "column": 5,
-        "line": 52
-      }
-    ],
     "name": "scenario outline with a description",
+    "sourceIds": [
+      "9",
+      "8"
+    ],
     "steps": [
       {
         "locations": [

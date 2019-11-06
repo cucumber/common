@@ -4,6 +4,7 @@
       "children": [
         {
           "scenario": {
+            "id": "0",
             "keyword": "Scénario",
             "location": {
               "column": 3,
@@ -40,6 +41,7 @@
         },
         {
           "scenario": {
+            "id": "1",
             "keyword": "Scénario",
             "location": {
               "column": 3,
@@ -76,6 +78,7 @@
         },
         {
           "scenario": {
+            "id": "2",
             "keyword": "Scénario",
             "location": {
               "column": 3,
@@ -112,6 +115,7 @@
         },
         {
           "scenario": {
+            "id": "3",
             "keyword": "Scénario",
             "location": {
               "column": 3,
@@ -148,6 +152,7 @@
         },
         {
           "scenario": {
+            "id": "4",
             "keyword": "Scénario",
             "location": {
               "column": 3,
@@ -184,6 +189,7 @@
         },
         {
           "scenario": {
+            "id": "5",
             "keyword": "Scénario",
             "location": {
               "column": 3,
@@ -228,6 +234,7 @@
         },
         {
           "scenario": {
+            "id": "6",
             "keyword": "Scénario",
             "location": {
               "column": 3,
@@ -272,6 +279,7 @@
         },
         {
           "scenario": {
+            "id": "7",
             "keyword": "Scénario",
             "location": {
               "column": 3,
@@ -316,6 +324,7 @@
         },
         {
           "scenario": {
+            "id": "8",
             "keyword": "Scénario",
             "location": {
               "column": 3,
@@ -360,6 +369,7 @@
         },
         {
           "scenario": {
+            "id": "9",
             "keyword": "Scénario",
             "location": {
               "column": 3,
@@ -404,6 +414,7 @@
         },
         {
           "scenario": {
+            "id": "10",
             "keyword": "Scénario",
             "location": {
               "column": 3,

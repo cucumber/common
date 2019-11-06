@@ -24,6 +24,7 @@
         },
         {
           "scenario": {
+            "id": "0",
             "keyword": "Scenario Outline",
             "location": {
               "column": 3,
@@ -44,6 +45,7 @@
         },
         {
           "scenario": {
+            "id": "1",
             "keyword": "Scenario Outline",
             "location": {
               "column": 3,
@@ -63,6 +65,7 @@
                 }
               }
             ],
+            "id": "2",
             "keyword": "Scenario Outline",
             "location": {
               "column": 3,
@@ -90,6 +93,7 @@
                       "value": "what"
                     }
                   ],
+                  "id": "3",
                   "location": {
                     "column": 5,
                     "line": 18
@@ -97,6 +101,7 @@
                 }
               }
             ],
+            "id": "4",
             "keyword": "Scenario Outline",
             "location": {
               "column": 3,
@@ -125,6 +130,7 @@
                         "value": "nada"
                       }
                     ],
+                    "id": "6",
                     "location": {
                       "column": 5,
                       "line": 24
@@ -141,6 +147,7 @@
                       "value": "nope"
                     }
                   ],
+                  "id": "5",
                   "location": {
                     "column": 5,
                     "line": 23
@@ -148,6 +155,7 @@
                 }
               }
             ],
+            "id": "7",
             "keyword": "Scenario Outline",
             "location": {
               "column": 3,

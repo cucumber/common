@@ -177,7 +177,7 @@ func (t *astBuilder) transformNode(node *astNode) (interface{}, error) {
 		return ds, nil
 
 	case RuleTypeDataTable:
-		rows, err := astTableRows(node)
+		rows, err := astTableRows(node, t.newId)
 		dt := &messages.GherkinDocument_Feature_Step_DataTable{
 			Location: rows[0].Location,
 			Rows:     rows,
@@ -239,7 +239,7 @@ func (t *astBuilder) transformNode(node *astNode) (interface{}, error) {
 		return ex, nil
 
 	case RuleTypeExamplesTable:
-		allRows, err := astTableRows(node)
+		allRows, err := astTableRows(node, t.newId)
 		return allRows, err
 
 	case RuleTypeDescription:
@@ -358,11 +358,12 @@ func astLocation(t *Token) *messages.Location {
 	}
 }
 
-func astTableRows(t *astNode) (rows []*messages.GherkinDocument_Feature_TableRow, err error) {
+func astTableRows(t *astNode, newId func() string) (rows []*messages.GherkinDocument_Feature_TableRow, err error) {
 	rows = []*messages.GherkinDocument_Feature_TableRow{}
 	tokens := t.getTokens(TokenTypeTableRow)
 	for i := range tokens {
 		row := &messages.GherkinDocument_Feature_TableRow{
+			Id:       newId(),
 			Location: astLocation(tokens[i]),
 			Cells:    astTableCells(tokens[i]),
 		}

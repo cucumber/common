@@ -1,14 +1,11 @@
 {
   "pickle": {
-    "id": "8c8b620046e9b3af3758289c7bef06b41c2cdc26",
+    "id": "6",
     "language": "en",
-    "locations": [
-      {
-        "column": 1,
-        "line": 7
-      }
-    ],
     "name": "minimalistic",
+    "sourceIds": [
+      "0"
+    ],
     "steps": [
       {
         "locations": [
@@ -69,19 +66,13 @@
 }
 {
   "pickle": {
-    "id": "10f01a51f5782ac1c8d0d81fb1b3f21e540637b4",
+    "id": "7",
     "language": "en",
-    "locations": [
-      {
-        "column": 1,
-        "line": 12
-      },
-      {
-        "column": 3,
-        "line": 19
-      }
-    ],
     "name": "minimalistic outline",
+    "sourceIds": [
+      "5",
+      "2"
+    ],
     "steps": [
       {
         "locations": [
@@ -167,19 +158,13 @@
 }
 {
   "pickle": {
-    "id": "87f6b1c886d0d43d5fd7bde709bf056c5acc89be",
+    "id": "8",
     "language": "en",
-    "locations": [
-      {
-        "column": 1,
-        "line": 12
-      },
-      {
-        "column": 3,
-        "line": 25
-      }
-    ],
     "name": "minimalistic outline",
+    "sourceIds": [
+      "5",
+      "4"
+    ],
     "steps": [
       {
         "locations": [

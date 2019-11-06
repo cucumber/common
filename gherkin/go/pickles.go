@@ -26,7 +26,7 @@ func compileFeature(pickles []*messages.Pickle, feature messages.GherkinDocument
 		case *messages.GherkinDocument_Feature_FeatureChild_Background:
 			backgroundSteps = append(backgroundSteps, pickleSteps(t.Background.Steps)...)
 		case *messages.GherkinDocument_Feature_FeatureChild_Rule_:
-			pickles = compileRule(pickles, child.GetRule(), featureTags, backgroundSteps, uri, language, nil)
+			pickles = compileRule(pickles, child.GetRule(), featureTags, backgroundSteps, uri, language, newId)
 		case *messages.GherkinDocument_Feature_FeatureChild_Scenario:
 			scenario := t.Scenario
 			if len(scenario.GetExamples()) == 0 {

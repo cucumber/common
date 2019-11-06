@@ -22,6 +22,7 @@
                         "value": "y"
                       }
                     ],
+                    "id": "1",
                     "location": {
                       "column": 7,
                       "line": 9
@@ -38,6 +39,7 @@
                       "value": "x"
                     }
                   ],
+                  "id": "0",
                   "location": {
                     "column": 7,
                     "line": 8
@@ -45,6 +47,7 @@
                 }
               }
             ],
+            "id": "2",
             "keyword": "Scenario Outline",
             "location": {
               "column": 3,
@@ -98,6 +101,7 @@
                         "value": "n"
                       }
                     ],
+                    "id": "4",
                     "location": {
                       "column": 7,
                       "line": 18
@@ -114,6 +118,7 @@
                       "value": "m"
                     }
                   ],
+                  "id": "3",
                   "location": {
                     "column": 7,
                     "line": 17
@@ -130,6 +135,7 @@
                 ]
               }
             ],
+            "id": "5",
             "keyword": "Scenario Outline",
             "location": {
               "column": 3,

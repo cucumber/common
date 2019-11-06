@@ -1,16 +1,10 @@
 {
   "pickle": {
-    "id": "a52fc25d450d3ebef7452200369049dc8d554419",
+    "id": "6",
     "language": "en",
-    "locations": [
-      {
-        "column": 3,
-        "line": 4
-      },
-      {
-        "column": 7,
-        "line": 9
-      }
+    "sourceIds": [
+      "2",
+      "1"
     ],
     "steps": [
       {
@@ -55,17 +49,11 @@
 }
 {
   "pickle": {
-    "id": "f302b2b954f7cbec1bfe1e10c07829d967af97af",
+    "id": "7",
     "language": "en",
-    "locations": [
-      {
-        "column": 3,
-        "line": 12
-      },
-      {
-        "column": 7,
-        "line": 18
-      }
+    "sourceIds": [
+      "5",
+      "4"
     ],
     "steps": [
       {

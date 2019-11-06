@@ -1,18 +1,12 @@
 {
   "pickle": {
-    "id": "d362d02a1eab586d35ff7e5dabd03dadb43552da",
+    "id": "3",
     "language": "en",
-    "locations": [
-      {
-        "column": 3,
-        "line": 3
-      },
-      {
-        "column": 7,
-        "line": 8
-      }
-    ],
     "name": "Token used twice in a single step",
+    "sourceIds": [
+      "2",
+      "1"
+    ],
     "steps": [
       {
         "locations": [

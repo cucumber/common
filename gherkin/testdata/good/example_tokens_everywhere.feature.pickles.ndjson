@@ -1,18 +1,12 @@
 {
   "pickle": {
-    "id": "0b35a1485451727b2d85b439a4c6171295f4686c",
+    "id": "5",
     "language": "en",
-    "locations": [
-      {
-        "column": 3,
-        "line": 3
-      },
-      {
-        "column": 7,
-        "line": 13
-      }
-    ],
     "name": "the un",
+    "sourceIds": [
+      "4",
+      "2"
+    ],
     "steps": [
       {
         "argument": {
@@ -72,19 +66,13 @@
 }
 {
   "pickle": {
-    "id": "2e4517970503a7a1fcf588ec6dd99bfd4b41f226",
+    "id": "6",
     "language": "en",
-    "locations": [
-      {
-        "column": 3,
-        "line": 3
-      },
-      {
-        "column": 7,
-        "line": 14
-      }
-    ],
     "name": "the uno",
+    "sourceIds": [
+      "4",
+      "3"
+    ],
     "steps": [
       {
         "argument": {

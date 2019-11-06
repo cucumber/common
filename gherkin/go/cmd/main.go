@@ -42,7 +42,7 @@ func main() {
 
 	var newId func() string
 	if *predictableIds {
-		newId = gherkin.Incrementing{}.NewId
+		newId = (&gherkin.Incrementing{}).NewId
 	} else {
 		newId = gherkin.UUID{}.NewId
 	}
