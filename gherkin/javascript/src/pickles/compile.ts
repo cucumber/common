@@ -1,8 +1,13 @@
 import countSymbols from '../countSymbols'
 import { messages } from 'cucumber-messages'
 import IGherkinDocument = messages.IGherkinDocument
+import { NewId } from '../types'
 
-export default function compile(gherkinDocument: IGherkinDocument) {
+export default function compile(
+  gherkinDocument: IGherkinDocument,
+  uri: string,
+  newId: NewId
+) {
   const pickles: messages.IPickle[] = []
 
   if (gherkinDocument.feature == null) {
@@ -23,7 +28,9 @@ export default function compile(gherkinDocument: IGherkinDocument) {
         backgroundSteps,
         stepsContainer.rule,
         language,
-        pickles
+        pickles,
+        uri,
+        newId
       )
     } else if (stepsContainer.scenario.examples.length === 0) {
       compileScenario(
@@ -31,7 +38,9 @@ export default function compile(gherkinDocument: IGherkinDocument) {
         backgroundSteps,
         stepsContainer.scenario,
         language,
-        pickles
+        pickles,
+        uri,
+        newId
       )
     } else {
       compileScenarioOutline(
@@ -39,7 +48,9 @@ export default function compile(gherkinDocument: IGherkinDocument) {
         backgroundSteps,
         stepsContainer.scenario,
         language,
-        pickles
+        pickles,
+        uri,
+        newId
       )
     }
   })
@@ -51,7 +62,9 @@ function compileRule(
   inheritedBackgroundSteps: messages.GherkinDocument.Feature.IStep[],
   rule: messages.GherkinDocument.Feature.FeatureChild.IRule,
   language: string,
-  pickles: messages.IPickle[]
+  pickles: messages.IPickle[],
+  uri: string,
+  newId: NewId
 ) {
   let backgroundSteps = [].concat(inheritedBackgroundSteps)
 
@@ -66,7 +79,9 @@ function compileRule(
         backgroundSteps,
         stepsContainer.scenario,
         language,
-        pickles
+        pickles,
+        uri,
+        newId
       )
     } else {
       compileScenarioOutline(
@@ -74,7 +89,9 @@ function compileRule(
         backgroundSteps,
         stepsContainer.scenario,
         language,
-        pickles
+        pickles,
+        uri,
+        newId
       )
     }
   })
@@ -85,7 +102,9 @@ function compileScenario(
   backgroundSteps: messages.GherkinDocument.Feature.IStep[],
   scenario: messages.GherkinDocument.Feature.IScenario,
   language: string,
-  pickles: messages.IPickle[]
+  pickles: messages.IPickle[],
+  uri: string,
+  newId: NewId
 ) {
   const steps = scenario.steps.length === 0 ? [] : [].concat(backgroundSteps)
 
@@ -94,6 +113,9 @@ function compileScenario(
   scenario.steps.forEach(step => steps.push(pickleStep(step)))
 
   const pickle = messages.Pickle.fromObject({
+    id: newId(),
+    uri,
+    sourceIds: [scenario.id],
     tags: pickleTags(tags),
     name: scenario.name,
     language,
@@ -108,7 +130,9 @@ function compileScenarioOutline(
   backgroundSteps: messages.GherkinDocument.Feature.IStep[],
   scenario: messages.GherkinDocument.Feature.IScenario,
   language: string,
-  pickles: messages.IPickle[]
+  pickles: messages.IPickle[],
+  uri: string,
+  newId: NewId
 ) {
   scenario.examples
     .filter(e => e.tableHeader !== null)
@@ -148,6 +172,9 @@ function compileScenarioOutline(
 
         pickles.push(
           messages.Pickle.fromObject({
+            id: newId(),
+            uri,
+            sourceIds: [scenario.id, values.id],
             name: interpolate(scenario.name, variableCells, valueCells),
             language,
             steps,

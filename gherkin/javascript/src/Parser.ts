@@ -77,7 +77,7 @@ export default class Parser {
   public stopAtFirstError: boolean = false
   private context: Context
 
-  constructor(private readonly builder: AstBuilder = new AstBuilder()) {}
+  constructor(private readonly builder: AstBuilder) {}
 
   public parse(
     tokenScanner: TokenScanner | string,

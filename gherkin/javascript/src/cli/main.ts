@@ -6,6 +6,7 @@ import {
   ProtobufNdjsonStream,
 } from 'cucumber-messages'
 import { Readable } from 'stream'
+import { incrementing, uuid } from '../IdGenerator'
 
 const args = process.argv.slice(2)
 const options: IGherkinOptions = {
@@ -13,6 +14,7 @@ const options: IGherkinOptions = {
   includeSource: true,
   includeGherkinDocument: true,
   includePickles: true,
+  newId: uuid(),
 }
 let json = false
 
@@ -34,6 +36,10 @@ while (args.length > 0) {
 
     case '--json':
       json = true
+      break
+
+    case '--predictable-ids':
+      options.newId = incrementing()
       break
 
     default:

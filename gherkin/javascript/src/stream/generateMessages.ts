@@ -1,25 +1,9 @@
 import Parser from '../Parser'
-import Crypto from 'crypto'
 import TokenMatcher from '../TokenMatcher'
 import { messages } from 'cucumber-messages'
 import { gherkinOptions, IGherkinOptions } from '../types'
 import compile from '../pickles/compile'
-
-function numberToInt32LE(value: number) {
-  const buffer = Buffer.allocUnsafe(4)
-  buffer.writeInt32LE(value, 0)
-  return buffer
-}
-
-function makeId(data: string, locations: messages.ILocation[]) {
-  const shasum = Crypto.createHash('sha1')
-  shasum.update(Buffer.from(data))
-  for (const loc of locations) {
-    shasum.update(numberToInt32LE(loc.line))
-    shasum.update(numberToInt32LE(loc.column))
-  }
-  return shasum.digest('hex')
-}
+import AstBuilder from '../AstBuilder'
 
 export default function generateMessages(
   data: string,
@@ -50,7 +34,7 @@ export default function generateMessages(
       return result
     }
 
-    const parser = new Parser()
+    const parser = new Parser(new AstBuilder(options.newId))
     parser.stopAtFirstError = false
     const gherkinDocument = parser.parse(
       data,
@@ -66,12 +50,11 @@ export default function generateMessages(
     }
 
     if (opts.includePickles) {
-      const pickles = compile(gherkinDocument)
+      const pickles = compile(gherkinDocument, uri, options.newId)
       for (const pickle of pickles) {
-        const id = makeId(data, pickle.locations)
         result.push(
           messages.Envelope.fromObject({
-            pickle: { ...pickle, id, uri },
+            pickle,
           })
         )
       }
@@ -79,6 +62,10 @@ export default function generateMessages(
   } catch (err) {
     const errors = err.errors || [err]
     for (const error of errors) {
+      if (!error.location) {
+        // It wasn't a parser error - throw it (this is unexpected)
+        throw error
+      }
       result.push(
         messages.Envelope.fromObject({
           attachment: {
