@@ -13,6 +13,7 @@ type AstBuilder interface {
 type astBuilder struct {
 	stack    []*astNode
 	comments []*messages.GherkinDocument_Comment
+	newId    func() string
 }
 
 func (t *astBuilder) Reset() {
@@ -118,10 +119,12 @@ func (t *astBuilder) Build(tok *Token) (bool, error) {
 	}
 	return true, nil
 }
+
 func (t *astBuilder) StartRule(r RuleType) (bool, error) {
 	t.push(newAstNode(r))
 	return true, nil
 }
+
 func (t *astBuilder) EndRule(r RuleType) (bool, error) {
 	node := t.pop()
 	transformedNode, err := t.transformNode(node)
@@ -199,6 +202,7 @@ func (t *astBuilder) transformNode(node *astNode) (interface{}, error) {
 		scenarioLine := scenarioNode.getToken(TokenTypeScenarioLine)
 		description, _ := scenarioNode.getSingle(RuleTypeDescription).(string)
 		sc := &messages.GherkinDocument_Feature_Scenario{
+			Id:          t.newId(),
 			Tags:        tags,
 			Location:    astLocation(scenarioLine),
 			Keyword:     scenarioLine.Keyword,

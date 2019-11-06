@@ -22,6 +22,7 @@ func Messages(
 	includePickles bool,
 	outStream io.Writer,
 	json bool,
+	newId func() string,
 ) ([]messages.Envelope, error) {
 	var result []messages.Envelope
 	var err error
@@ -84,7 +85,7 @@ func Messages(
 		}
 
 		if includePickles {
-			for _, pickle := range Pickles(*doc, source.Uri, source.Data) {
+			for _, pickle := range Pickles(*doc, source.Uri, newId) {
 				result, err = handleMessage(result, &messages.Envelope{
 					Message: &messages.Envelope_Pickle{
 						Pickle: pickle,

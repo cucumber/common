@@ -45,6 +45,7 @@ func TestMessagesWithStdin(t *testing.T) {
 		true,
 		nil,
 		false,
+		Incrementing{}.NewId,
 	)
 	if err != nil {
 		t.Error(err)
