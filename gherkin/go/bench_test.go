@@ -59,7 +59,7 @@ func Benchmark_NewParserMatcherScanner(b *testing.B) { //benchmark function star
 func Benchmark_ParseGherkinDocument(b *testing.B) { //benchmark function starts with "Benchmark" and takes a pointer to type testing.B
 	for i := 0; i < b.N; i++ { // use b.N for looping
 		r := strings.NewReader(benchmarkGherkinText)
-		_, err := ParseGherkinDocument(r)
+		_, err := ParseGherkinDocument(r, Incrementing{}.NewId)
 		if err != nil {
 			b.FailNow()
 		}

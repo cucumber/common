@@ -90,8 +90,9 @@ func newAstNode(rt RuleType) *astNode {
 	}
 }
 
-func NewAstBuilder() AstBuilder {
+func NewAstBuilder(newId func() string) AstBuilder {
 	builder := new(astBuilder)
+	builder.newId = newId
 	builder.comments = []*messages.GherkinDocument_Comment{}
 	builder.push(newAstNode(RuleTypeNone))
 	return builder
