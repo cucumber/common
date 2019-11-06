@@ -21,17 +21,20 @@ import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Deque;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static io.cucumber.gherkin.Parser.Builder;
 import static io.cucumber.gherkin.Parser.RuleType;
 import static io.cucumber.gherkin.Parser.TokenType;
-import static io.cucumber.gherkin.StringUtils.join;
 
 public class GherkinDocumentBuilder implements Builder<GherkinDocument.Builder> {
+    private final IdGenerator idGenerator;
+
     private Deque<AstNode> stack;
     private GherkinDocument.Builder gherkinDocumentBuilder;
 
-    public GherkinDocumentBuilder() {
+    public GherkinDocumentBuilder(IdGenerator idGenerator) {
+        this.idGenerator = idGenerator;
         reset();
     }
 
@@ -145,6 +148,7 @@ public class GherkinDocumentBuilder implements Builder<GherkinDocument.Builder> 
                 if (description != null) builder.setDescription(description);
 
                 return builder
+                        .setId(idGenerator.newId())
                         .setLocation(getLocation(scenarioLine, 0))
                         .setKeyword(scenarioLine.matchedKeyword)
                         .setName(scenarioLine.matchedText)
@@ -192,12 +196,10 @@ public class GherkinDocumentBuilder implements Builder<GherkinDocument.Builder> 
                 }
                 lineTokens = lineTokens.subList(0, end);
 
-                return join(new StringUtils.ToString<Token>() {
-                    @Override
-                    public String toString(Token t) {
-                        return t.matchedText;
-                    }
-                }, "\n", lineTokens);
+                return lineTokens
+                        .stream()
+                        .map(t -> t.matchedText)
+                        .collect(Collectors.joining("\n"));
             }
             case Feature: {
                 Feature.Builder builder = Feature.newBuilder();
@@ -273,7 +275,11 @@ public class GherkinDocumentBuilder implements Builder<GherkinDocument.Builder> 
         List<TableRow> rows = new ArrayList<>();
 
         for (Token token : node.getTokens(TokenType.TableRow)) {
-            rows.add(TableRow.newBuilder().setLocation(getLocation(token, 0)).addAllCells(getCells(token)).build());
+            rows.add(TableRow.newBuilder()
+                    .setId(idGenerator.newId())
+                    .setLocation(getLocation(token, 0))
+                    .addAllCells(getCells(token))
+                    .build());
         }
         ensureCellCount(rows);
         return rows;

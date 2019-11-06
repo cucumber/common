@@ -14,13 +14,15 @@ import static java.util.Collections.singletonList;
 import static org.junit.Assert.assertEquals;
 
 public class GherkinTest {
+    private IdGenerator idGenerator = new IdGenerator.Incrementing();
+
     @Test
     public void use_this_in_readme() {
         List<String> paths = singletonList("testdata/good/minimal.feature");
         boolean includeSource = false;
         boolean includeAst = true;
         boolean includePickles = true;
-        Stream<Envelope> envelopeStream = Gherkin.fromPaths(paths, includeSource, includeAst, includePickles);
+        Stream<Envelope> envelopeStream = Gherkin.fromPaths(paths, includeSource, includeAst, includePickles, idGenerator);
         Stream<Envelope> pickleStream = envelopeStream.filter(Envelope::hasPickle);
 
         assertEquals("minimalistic", pickleStream.collect(Collectors.toList()).get(0).getPickle().getName());
@@ -33,7 +35,7 @@ public class GherkinTest {
         boolean includeSource = false;
         boolean includeAst = true;
         boolean includePickles = false;
-        List<Envelope> envelopes = Gherkin.fromPaths(paths, includeSource, includeAst, includePickles).collect(Collectors.toList());
+        List<Envelope> envelopes = Gherkin.fromPaths(paths, includeSource, includeAst, includePickles, idGenerator).collect(Collectors.toList());
 
         // Get the AST
         GherkinDocument gherkinDocument = envelopes.get(0).getGherkinDocument();
@@ -49,7 +51,7 @@ public class GherkinTest {
 
     @Test
     public void provides_access_to_pickles_which_are_compiled_from_the_ast() {
-        List<Envelope> envelopes = Gherkin.fromPaths(singletonList("testdata/good/scenario_outline.feature"), false, false, true).collect(Collectors.toList());
+        List<Envelope> envelopes = Gherkin.fromPaths(singletonList("testdata/good/scenario_outline.feature"), false, false, true, idGenerator).collect(Collectors.toList());
 
         // Get the first pickle
         Pickle pickle = envelopes.get(0).getPickle();
@@ -65,7 +67,7 @@ public class GherkinTest {
                 "\n" +
                 "  Scenario: minimalistic\n" +
                 "    Given the minimalism\n", "test.feature");
-        List<Envelope> envelopes = Gherkin.fromSources(singletonList(envelope), false, true, false).collect(Collectors.toList());
+        List<Envelope> envelopes = Gherkin.fromSources(singletonList(envelope), false, true, false, idGenerator).collect(Collectors.toList());
 
         GherkinDocument gherkinDocument = envelopes.get(0).getGherkinDocument();
         GherkinDocument.Feature feature = gherkinDocument.getFeature();

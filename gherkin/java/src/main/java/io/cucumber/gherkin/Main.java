@@ -21,6 +21,7 @@ public class Main {
         boolean includeAst = true;
         boolean includePickles = true;
         Printer jsonPrinter = null;
+        IdGenerator idGenerator = null;
 
         while (!args.isEmpty()) {
             String arg = args.remove(0).trim();
@@ -38,14 +39,21 @@ public class Main {
                 case "--json":
                     jsonPrinter = JsonFormat.printer();
                     break;
+                case "--predictable-ids":
+                    idGenerator = new IdGenerator.Incrementing();
+                    break;
                 default:
                     paths.add(arg);
             }
         }
 
+        if (idGenerator == null) {
+            idGenerator = new IdGenerator.UUID();
+        }
+
         Stream<Envelope> messages = paths.isEmpty() ?
                 Gherkin.fromStream(System.in) :
-                Gherkin.fromPaths(paths, includeSource, includeAst, includePickles);
+                Gherkin.fromPaths(paths, includeSource, includeAst, includePickles, idGenerator);
         printMessages(jsonPrinter, messages);
     }
 

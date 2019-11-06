@@ -2,6 +2,7 @@ package io.cucumber.gherkin;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class ParserException extends RuntimeException {
     public final Location location;
@@ -47,7 +48,7 @@ public class ParserException extends RuntimeException {
 
         private static String getMessage(Token receivedToken, List<String> expectedTokenTypes) {
             return String.format("expected: %s, got '%s'",
-                    StringUtils.join(", ", expectedTokenTypes),
+                    String.join(", ", expectedTokenTypes),
                     receivedToken.getTokenValue().trim());
         }
 
@@ -70,7 +71,7 @@ public class ParserException extends RuntimeException {
 
         private static String getMessage(List<String> expectedTokenTypes) {
             return String.format("unexpected end of file, expected: %s",
-                    StringUtils.join(", ", expectedTokenTypes));
+                    String.join(", ", expectedTokenTypes));
         }
     }
 
@@ -84,14 +85,7 @@ public class ParserException extends RuntimeException {
 
         private static String getMessage(List<ParserException> errors) {
             if (errors == null) throw new NullPointerException("errors");
-
-            StringUtils.ToString<ParserException> exceptionToString = new StringUtils.ToString<ParserException>() {
-                @Override
-                public String toString(ParserException e) {
-                    return e.getMessage();
-                }
-            };
-            return "Parser errors:\n" + StringUtils.join(exceptionToString, "\n", errors);
+            return "Parser errors:\n" + errors.stream().map(Throwable::getMessage).collect(Collectors.joining("\n"));
         }
     }
 }
