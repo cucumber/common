@@ -13,7 +13,7 @@ type Incrementing struct {
 	next int
 }
 
-func (i Incrementing) NewId() string {
+func (i *Incrementing) NewId() string {
 	result := strconv.Itoa(i.next)
 	i.next++
 	return result
