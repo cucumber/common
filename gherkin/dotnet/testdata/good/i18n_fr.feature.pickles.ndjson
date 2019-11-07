@@ -1,6 +1,6 @@
 {
   "pickle": {
-    "id": "11",
+    "id": "14",
     "language": "fr",
     "name": "Support des caractères spéciaux",
     "sourceIds": [
@@ -8,6 +8,7 @@
     ],
     "steps": [
       {
+        "id": "11",
         "locations": [
           {
             "column": 10,
@@ -17,6 +18,7 @@
         "text": "un exemple de scénario en français"
       },
       {
+        "id": "12",
         "locations": [
           {
             "column": 11,
@@ -26,6 +28,7 @@
         "text": "j'ai 1 gâteau"
       },
       {
+        "id": "13",
         "locations": [
           {
             "column": 11,
@@ -40,7 +43,7 @@
 }
 {
   "pickle": {
-    "id": "12",
+    "id": "18",
     "language": "fr",
     "name": "Support du mot-clef \"Etant donné que \"",
     "sourceIds": [
@@ -48,6 +51,7 @@
     ],
     "steps": [
       {
+        "id": "15",
         "locations": [
           {
             "column": 21,
@@ -57,6 +61,7 @@
         "text": "j'aime les gâteaux"
       },
       {
+        "id": "16",
         "locations": [
           {
             "column": 12,
@@ -66,6 +71,7 @@
         "text": "on m'offre 1 gâteau"
       },
       {
+        "id": "17",
         "locations": [
           {
             "column": 11,
@@ -80,7 +86,7 @@
 }
 {
   "pickle": {
-    "id": "13",
+    "id": "22",
     "language": "fr",
     "name": "Support du mot-clef \"Etant donné qu'\"",
     "sourceIds": [
@@ -88,6 +94,7 @@
     ],
     "steps": [
       {
+        "id": "19",
         "locations": [
           {
             "column": 20,
@@ -97,6 +104,7 @@
         "text": "offrir un gâteau rend heureux"
       },
       {
+        "id": "20",
         "locations": [
           {
             "column": 12,
@@ -106,6 +114,7 @@
         "text": "on m'offre 1 gâteau"
       },
       {
+        "id": "21",
         "locations": [
           {
             "column": 11,
@@ -120,7 +129,7 @@
 }
 {
   "pickle": {
-    "id": "14",
+    "id": "26",
     "language": "fr",
     "name": "Support du mot-clef \"Étant donné que \"",
     "sourceIds": [
@@ -128,6 +137,7 @@
     ],
     "steps": [
       {
+        "id": "23",
         "locations": [
           {
             "column": 21,
@@ -137,6 +147,7 @@
         "text": "j'aime les gâteaux"
       },
       {
+        "id": "24",
         "locations": [
           {
             "column": 12,
@@ -146,6 +157,7 @@
         "text": "on m'offre 1 gâteau"
       },
       {
+        "id": "25",
         "locations": [
           {
             "column": 11,
@@ -160,7 +172,7 @@
 }
 {
   "pickle": {
-    "id": "15",
+    "id": "30",
     "language": "fr",
     "name": "Support du mot-clef \"Étant donné qu'\"",
     "sourceIds": [
@@ -168,6 +180,7 @@
     ],
     "steps": [
       {
+        "id": "27",
         "locations": [
           {
             "column": 20,
@@ -177,6 +190,7 @@
         "text": "offrir un gâteau rend heureux"
       },
       {
+        "id": "28",
         "locations": [
           {
             "column": 12,
@@ -186,6 +200,7 @@
         "text": "on m'offre 1 gâteau"
       },
       {
+        "id": "29",
         "locations": [
           {
             "column": 11,
@@ -200,7 +215,7 @@
 }
 {
   "pickle": {
-    "id": "16",
+    "id": "35",
     "language": "fr",
     "name": "Support du mot-clef \"Et que \"",
     "sourceIds": [
@@ -208,6 +223,7 @@
     ],
     "steps": [
       {
+        "id": "31",
         "locations": [
           {
             "column": 10,
@@ -217,6 +233,7 @@
         "text": "un exemple de scénario en français"
       },
       {
+        "id": "32",
         "locations": [
           {
             "column": 13,
@@ -226,6 +243,7 @@
         "text": "j'ai 2 gâteaux"
       },
       {
+        "id": "33",
         "locations": [
           {
             "column": 12,
@@ -235,6 +253,7 @@
         "text": "quelqu'un m'offre 1 gâteau"
       },
       {
+        "id": "34",
         "locations": [
           {
             "column": 11,
@@ -249,7 +268,7 @@
 }
 {
   "pickle": {
-    "id": "17",
+    "id": "40",
     "language": "fr",
     "name": "Support du mot-clef \"Et qu'\"",
     "sourceIds": [
@@ -257,6 +276,7 @@
     ],
     "steps": [
       {
+        "id": "36",
         "locations": [
           {
             "column": 10,
@@ -266,6 +286,7 @@
         "text": "un exemple de scénario en français"
       },
       {
+        "id": "37",
         "locations": [
           {
             "column": 13,
@@ -275,6 +296,7 @@
         "text": "j'ai 2 gâteaux"
       },
       {
+        "id": "38",
         "locations": [
           {
             "column": 11,
@@ -284,6 +306,7 @@
         "text": "on m'offre 1 gâteau"
       },
       {
+        "id": "39",
         "locations": [
           {
             "column": 11,
@@ -298,7 +321,7 @@
 }
 {
   "pickle": {
-    "id": "18",
+    "id": "45",
     "language": "fr",
     "name": "Support du mot-clef \"Et \"",
     "sourceIds": [
@@ -306,6 +329,7 @@
     ],
     "steps": [
       {
+        "id": "41",
         "locations": [
           {
             "column": 10,
@@ -315,6 +339,7 @@
         "text": "un exemple de scénario en français"
       },
       {
+        "id": "42",
         "locations": [
           {
             "column": 11,
@@ -324,6 +349,7 @@
         "text": "j'ai 2 gâteaux"
       },
       {
+        "id": "43",
         "locations": [
           {
             "column": 8,
@@ -333,6 +359,7 @@
         "text": "quelqu'un m'offre 1 gâteau"
       },
       {
+        "id": "44",
         "locations": [
           {
             "column": 11,
@@ -347,7 +374,7 @@
 }
 {
   "pickle": {
-    "id": "19",
+    "id": "50",
     "language": "fr",
     "name": "Support du mot-clef \"Mais que \"",
     "sourceIds": [
@@ -355,6 +382,7 @@
     ],
     "steps": [
       {
+        "id": "46",
         "locations": [
           {
             "column": 10,
@@ -364,6 +392,7 @@
         "text": "un exemple de scénario en français"
       },
       {
+        "id": "47",
         "locations": [
           {
             "column": 13,
@@ -373,6 +402,7 @@
         "text": "j'ai 2 gâteaux"
       },
       {
+        "id": "48",
         "locations": [
           {
             "column": 14,
@@ -382,6 +412,7 @@
         "text": "quelqu'un me vole 1 gâteau"
       },
       {
+        "id": "49",
         "locations": [
           {
             "column": 11,
@@ -396,7 +427,7 @@
 }
 {
   "pickle": {
-    "id": "20",
+    "id": "55",
     "language": "fr",
     "name": "Support du mot-clef \"Mais qu'\"",
     "sourceIds": [
@@ -404,6 +435,7 @@
     ],
     "steps": [
       {
+        "id": "51",
         "locations": [
           {
             "column": 10,
@@ -413,6 +445,7 @@
         "text": "un exemple de scénario en français"
       },
       {
+        "id": "52",
         "locations": [
           {
             "column": 13,
@@ -422,6 +455,7 @@
         "text": "j'ai 2 gâteaux"
       },
       {
+        "id": "53",
         "locations": [
           {
             "column": 13,
@@ -431,6 +465,7 @@
         "text": "on me vole 1 gâteau"
       },
       {
+        "id": "54",
         "locations": [
           {
             "column": 11,
@@ -445,7 +480,7 @@
 }
 {
   "pickle": {
-    "id": "21",
+    "id": "60",
     "language": "fr",
     "name": "Support du mot-clef \"Mais \"",
     "sourceIds": [
@@ -453,6 +488,7 @@
     ],
     "steps": [
       {
+        "id": "56",
         "locations": [
           {
             "column": 10,
@@ -462,6 +498,7 @@
         "text": "un exemple de scénario en français"
       },
       {
+        "id": "57",
         "locations": [
           {
             "column": 11,
@@ -471,6 +508,7 @@
         "text": "j'ai 2 gâteaux"
       },
       {
+        "id": "58",
         "locations": [
           {
             "column": 10,
@@ -480,6 +518,7 @@
         "text": "quelqu'un me vole 1 gâteau"
       },
       {
+        "id": "59",
         "locations": [
           {
             "column": 11,

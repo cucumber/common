@@ -1,6 +1,6 @@
 {
   "pickle": {
-    "id": "1",
+    "id": "3",
     "language": "en",
     "name": "minimalistic",
     "sourceIds": [
@@ -8,6 +8,7 @@
     ],
     "steps": [
       {
+        "id": "1",
         "locations": [
           {
             "column": 11,
@@ -17,6 +18,7 @@
         "text": "the minimalism inside a background"
       },
       {
+        "id": "2",
         "locations": [
           {
             "column": 11,

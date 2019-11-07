@@ -1,6 +1,6 @@
 {
   "pickle": {
-    "id": "1",
+    "id": "8",
     "language": "en",
     "name": "minimalistic",
     "sourceIds": [
@@ -17,6 +17,7 @@
             }
           }
         },
+        "id": "1",
         "locations": [
           {
             "column": 11,
@@ -36,6 +37,7 @@
             }
           }
         },
+        "id": "2",
         "locations": [
           {
             "column": 11,
@@ -54,6 +56,7 @@
             }
           }
         },
+        "id": "3",
         "locations": [
           {
             "column": 9,
@@ -72,6 +75,7 @@
             }
           }
         },
+        "id": "4",
         "locations": [
           {
             "column": 9,
@@ -90,6 +94,7 @@
             }
           }
         },
+        "id": "5",
         "locations": [
           {
             "column": 9,
@@ -108,6 +113,7 @@
             }
           }
         },
+        "id": "6",
         "locations": [
           {
             "column": 9,
@@ -126,6 +132,7 @@
             }
           }
         },
+        "id": "7",
         "locations": [
           {
             "column": 9,

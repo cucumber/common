@@ -184,6 +184,7 @@ public class PickleCompiler {
         String stepText = interpolate(step.getText(), variableCells, valueCells);
 
         PickleStep.Builder pickleStepBuilder = PickleStep.newBuilder()
+                .setId(idGenerator.newId())
                 .setText(stepText)
                 .addLocations(pickleStepLocation(step));
 

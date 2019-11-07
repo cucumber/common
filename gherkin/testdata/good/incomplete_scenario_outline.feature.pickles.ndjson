@@ -1,6 +1,6 @@
 {
   "pickle": {
-    "id": "8",
+    "id": "10",
     "language": "en",
     "name": "steps, no examples",
     "sourceIds": [
@@ -8,6 +8,7 @@
     ],
     "steps": [
       {
+        "id": "8",
         "locations": [
           {
             "column": 7,
@@ -17,6 +18,7 @@
         "text": "a step"
       },
       {
+        "id": "9",
         "locations": [
           {
             "column": 11,
@@ -31,7 +33,7 @@
 }
 {
   "pickle": {
-    "id": "9",
+    "id": "11",
     "language": "en",
     "name": "no steps, no examples",
     "sourceIds": [
@@ -42,7 +44,7 @@
 }
 {
   "pickle": {
-    "id": "10",
+    "id": "12",
     "language": "en",
     "name": "no steps, one example header",
     "sourceIds": [

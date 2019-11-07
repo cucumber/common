@@ -1,6 +1,6 @@
 {
   "pickle": {
-    "id": "1",
+    "id": "2",
     "language": "en",
     "name": "minimalistic",
     "sourceIds": [
@@ -8,6 +8,7 @@
     ],
     "steps": [
       {
+        "id": "1",
         "locations": [
           {
             "column": 11,

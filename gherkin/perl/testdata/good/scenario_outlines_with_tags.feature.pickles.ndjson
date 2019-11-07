@@ -1,6 +1,6 @@
 {
   "pickle": {
-    "id": "6",
+    "id": "7",
     "language": "en",
     "sourceIds": [
       "2",
@@ -8,6 +8,7 @@
     ],
     "steps": [
       {
+        "id": "6",
         "locations": [
           {
             "column": 11,
@@ -49,7 +50,7 @@
 }
 {
   "pickle": {
-    "id": "7",
+    "id": "9",
     "language": "en",
     "sourceIds": [
       "5",
@@ -57,6 +58,7 @@
     ],
     "steps": [
       {
+        "id": "8",
         "locations": [
           {
             "column": 11,

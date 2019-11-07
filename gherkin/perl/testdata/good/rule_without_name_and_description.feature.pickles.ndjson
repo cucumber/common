@@ -1,12 +1,13 @@
 {
   "pickle": {
-    "id": "1",
+    "id": "2",
     "language": "en",
     "sourceIds": [
       "0"
     ],
     "steps": [
       {
+        "id": "1",
         "locations": [
           {
             "column": 11,

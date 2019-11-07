@@ -1,6 +1,6 @@
 {
   "pickle": {
-    "id": "1",
+    "id": "2",
     "language": "en",
     "name": "still pickles up",
     "sourceIds": [
@@ -8,6 +8,7 @@
     ],
     "steps": [
       {
+        "id": "1",
         "locations": [
           {
             "column": 7,

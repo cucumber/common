@@ -1,6 +1,6 @@
 {
   "pickle": {
-    "id": "1",
+    "id": "4",
     "language": "no",
     "name": "Parsing many languages",
     "sourceIds": [
@@ -8,6 +8,7 @@
     ],
     "steps": [
       {
+        "id": "1",
         "locations": [
           {
             "column": 10,
@@ -17,6 +18,7 @@
         "text": "Gherkin supports many languages"
       },
       {
+        "id": "2",
         "locations": [
           {
             "column": 9,
@@ -26,6 +28,7 @@
         "text": "Norwegian keywords are parsed"
       },
       {
+        "id": "3",
         "locations": [
           {
             "column": 8,

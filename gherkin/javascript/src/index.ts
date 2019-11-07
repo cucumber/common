@@ -7,6 +7,7 @@ import { messages, ProtobufMessageStream } from 'cucumber-messages'
 import DIALECTS from './gherkin-languages.json'
 import Dialect from './Dialect'
 import GherkinExe from './external/GherkinExe'
+import { uuid, incrementing } from './IdGenerator'
 
 export function fromStream(stream: Readable, options: IGherkinOptions) {
   return stream
@@ -92,4 +93,6 @@ export default {
   fromPaths,
   fromSources,
   dialects,
+  uuid,
+  incrementing,
 }

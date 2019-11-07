@@ -1,6 +1,6 @@
 {
   "pickle": {
-    "id": "10",
+    "id": "11",
     "language": "en",
     "name": "two lines",
     "sourceIds": [
@@ -8,6 +8,7 @@
     ],
     "steps": [
       {
+        "id": "10",
         "locations": [
           {
             "column": 11,
@@ -22,7 +23,7 @@
 }
 {
   "pickle": {
-    "id": "11",
+    "id": "13",
     "language": "en",
     "name": "without indentation",
     "sourceIds": [
@@ -30,6 +31,7 @@
     ],
     "steps": [
       {
+        "id": "12",
         "locations": [
           {
             "column": 9,
@@ -44,7 +46,7 @@
 }
 {
   "pickle": {
-    "id": "12",
+    "id": "15",
     "language": "en",
     "name": "empty lines in the middle",
     "sourceIds": [
@@ -52,6 +54,7 @@
     ],
     "steps": [
       {
+        "id": "14",
         "locations": [
           {
             "column": 11,
@@ -66,7 +69,7 @@
 }
 {
   "pickle": {
-    "id": "13",
+    "id": "17",
     "language": "en",
     "name": "empty lines around",
     "sourceIds": [
@@ -74,6 +77,7 @@
     ],
     "steps": [
       {
+        "id": "16",
         "locations": [
           {
             "column": 11,
@@ -88,7 +92,7 @@
 }
 {
   "pickle": {
-    "id": "14",
+    "id": "19",
     "language": "en",
     "name": "comment after description",
     "sourceIds": [
@@ -96,6 +100,7 @@
     ],
     "steps": [
       {
+        "id": "18",
         "locations": [
           {
             "column": 11,
@@ -110,7 +115,7 @@
 }
 {
   "pickle": {
-    "id": "15",
+    "id": "21",
     "language": "en",
     "name": "comment right after description",
     "sourceIds": [
@@ -118,6 +123,7 @@
     ],
     "steps": [
       {
+        "id": "20",
         "locations": [
           {
             "column": 11,
@@ -132,7 +138,7 @@
 }
 {
   "pickle": {
-    "id": "16",
+    "id": "23",
     "language": "en",
     "name": "description with escaped docstring separator",
     "sourceIds": [
@@ -140,6 +146,7 @@
     ],
     "steps": [
       {
+        "id": "22",
         "locations": [
           {
             "column": 11,
@@ -154,7 +161,7 @@
 }
 {
   "pickle": {
-    "id": "17",
+    "id": "25",
     "language": "en",
     "name": "scenario outline with a description",
     "sourceIds": [
@@ -163,6 +170,7 @@
     ],
     "steps": [
       {
+        "id": "24",
         "locations": [
           {
             "column": 11,
