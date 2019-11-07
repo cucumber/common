@@ -1,8 +1,8 @@
 package cucumberexpressions
 
 import (
-	"testing"
 	"github.com/stretchr/testify/require"
+	"testing"
 )
 
 func TestCucumberExpressionRegExpTranslation(t *testing.T) {
@@ -60,7 +60,6 @@ func TestCucumberExpressionRegExpTranslation(t *testing.T) {
 			`^Привет, Мир(?:ы)?!$`,
 		)
 	})
-
 
 }
 

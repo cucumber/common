@@ -107,23 +107,25 @@ class CucumberExpressionTokenizerTest {
 
     @Test
     void alternation() {
-        assertThat(tokenizer.tokenize("(blind)"), contains(
-                new Token("(", BEGIN_OPTIONAL),
+        assertThat(tokenizer.tokenize("blind/cripple"), contains(
                 new Token("blind", TEXT),
-                new Token(")", END_OPTIONAL)
+                new Token("/", ALTERNATION),
+                new Token("cripple", TEXT)
         ));
     }
 
     @Test
     void escapedAlternation() {
-        assertThat(tokenizer.tokenize("blind\\ and\\ famished\\/cripple"), contains(
+        assertThat(tokenizer.tokenize("blind\\ and\\ famished\\/cripple mice"), contains(
                 new Token("blind", TEXT),
                 new Token("\\ ", WHITE_SPACE_ESCAPED),
                 new Token("and", TEXT),
                 new Token("\\ ", WHITE_SPACE_ESCAPED),
                 new Token("famished", TEXT),
                 new Token("\\/", ALTERNATION_ESCAPED),
-                new Token("cripple", TEXT)
+                new Token("cripple", TEXT),
+                new Token(" ", WHITE_SPACE),
+                new Token("mice", TEXT)
         ));
     }
 

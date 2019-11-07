@@ -26,11 +26,11 @@ import static io.cucumber.cucumberexpressions.AstNode.Token.Type.WHITE_SPACE_ESC
 
 final class CucumberExpressionTokenizer {
 
-    private interface Tokenize {
+    private interface Tokenizer {
         int tokenize(List<Token> tokens, String expression, int current);
     }
 
-    private static final List<Tokenize> tokenizers = Arrays.asList(
+    private static final List<Tokenizer> tokenizers = Arrays.asList(
             tokenizePattern(WHITE_SPACE_ESCAPED, Pattern.compile("\\\\\\s")),
             tokenizePattern(WHITE_SPACE, Pattern.compile("\\s+")),
 
@@ -66,10 +66,10 @@ final class CucumberExpressionTokenizer {
         int current = 0;
         while (current < length) {
             boolean tokenized = false;
-            for (Tokenize tokenizer : tokenizers) {
-                int consumedChars = tokenizer.tokenize(tokens, expression, current);
-                if (consumedChars != 0) {
-                    current += consumedChars;
+            for (Tokenizer tokenizer : tokenizers) {
+                int consumed = tokenizer.tokenize(tokens, expression, current);
+                if (consumed != 0) {
+                    current += consumed;
                     tokenized = true;
                     break;
                 }
@@ -83,22 +83,19 @@ final class CucumberExpressionTokenizer {
         return tokens;
     }
 
-    private static Tokenize tokenizeCharacter(Token.Type type, char character) {
+    private static Tokenizer tokenizeCharacter(Token.Type type, char character) {
         return (tokens, expression, current) -> {
-            char c = expression.charAt(current);
-            if (character != c) {
+            if (character != expression.charAt(current)) {
                 return 0;
             }
-            Token e = new Token("" + character, type);
-            tokens.add(e);
+            tokens.add(new Token("" + character, type));
             return 1;
         };
     }
 
-    private static Tokenize tokenizeString(Token.Type type, String string) {
+    private static Tokenizer tokenizeString(Token.Type type, String string) {
         return (tokens, expression, current) -> {
-            boolean c = expression.regionMatches(current, string, 0, string.length());
-            if (!c) {
+            if (!expression.regionMatches(current, string, 0, string.length())) {
                 return 0;
             }
             tokens.add(new Token(string, type));
@@ -106,7 +103,7 @@ final class CucumberExpressionTokenizer {
         };
     }
 
-    private static Tokenize tokenizePattern(Token.Type type, Pattern pattern) {
+    private static Tokenizer tokenizePattern(Token.Type type, Pattern pattern) {
         return (tokens, expression, current) -> {
             String tail = expression.substring(current);
             Matcher matcher = pattern.matcher(tail);
