@@ -1,4 +1,4 @@
-import { IGherkinOptions } from './types'
+import { gherkinOptions, IGherkinOptions } from './types'
 import { PassThrough, Readable } from 'stream'
 import ParserMessageStream from './stream/ParserMessageStream'
 import fs from 'fs'
@@ -9,13 +9,18 @@ import Dialect from './Dialect'
 import GherkinExe from './external/GherkinExe'
 import { uuid, incrementing } from './IdGenerator'
 
-export function fromStream(stream: Readable, options: IGherkinOptions) {
+export function fromStream(stream: Readable, options: IGherkinOptions = {}) {
   return stream
     .pipe(new ProtobufMessageStream(messages.Envelope.decodeDelimited))
     .pipe(new ParserMessageStream(options))
 }
 
-export function fromPaths(paths: string[], options: IGherkinOptions): Readable {
+export function fromPaths(
+  paths: string[],
+  options: IGherkinOptions = {}
+): Readable {
+  options = gherkinOptions(options)
+
   if (process.env.GHERKIN_EXECUTABLE) {
     return new GherkinExe(
       process.env.GHERKIN_EXECUTABLE,
@@ -54,8 +59,9 @@ export function fromPaths(paths: string[], options: IGherkinOptions): Readable {
 
 export function fromSources(
   envelopes: messages.IEnvelope[],
-  options: IGherkinOptions
+  options: IGherkinOptions = {}
 ): Readable {
+  options = gherkinOptions(options)
   if (process.env.GHERKIN_EXECUTABLE) {
     return new GherkinExe(
       process.env.GHERKIN_EXECUTABLE,

@@ -1,7 +1,7 @@
 import Parser from '../Parser'
 import TokenMatcher from '../TokenMatcher'
 import { messages } from 'cucumber-messages'
-import { gherkinOptions, IGherkinOptions } from '../types'
+import { IGherkinOptions } from '../types'
 import compile from '../pickles/compile'
 import AstBuilder from '../AstBuilder'
 
@@ -12,10 +12,8 @@ export default function generateMessages(
 ) {
   const result = []
 
-  const opts = gherkinOptions(options)
-
   try {
-    if (opts.includeSource) {
+    if (options.includeSource) {
       result.push(
         new messages.Envelope({
           source: {
@@ -30,7 +28,7 @@ export default function generateMessages(
       )
     }
 
-    if (!opts.includeGherkinDocument && !opts.includePickles) {
+    if (!options.includeGherkinDocument && !options.includePickles) {
       return result
     }
 
@@ -38,10 +36,10 @@ export default function generateMessages(
     parser.stopAtFirstError = false
     const gherkinDocument = parser.parse(
       data,
-      new TokenMatcher(opts.defaultDialect)
+      new TokenMatcher(options.defaultDialect)
     )
 
-    if (opts.includeGherkinDocument) {
+    if (options.includeGherkinDocument) {
       result.push(
         messages.Envelope.fromObject({
           gherkinDocument: { ...gherkinDocument, uri },
@@ -49,7 +47,7 @@ export default function generateMessages(
       )
     }
 
-    if (opts.includePickles) {
+    if (options.includePickles) {
       const pickles = compile(gherkinDocument, uri, options.newId)
       for (const pickle of pickles) {
         result.push(

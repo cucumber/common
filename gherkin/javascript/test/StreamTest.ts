@@ -3,12 +3,11 @@ import { Readable } from 'stream'
 import { messages } from 'cucumber-messages'
 import { fromPaths, fromSources, dialects } from '../src'
 import makeSourceEnvelope from '../src/stream/makeSourceEnvelope'
-import { gherkinOptions } from '../src/types'
 
 describe('gherkin', () => {
   it('parses gherkin from the file system', async () => {
     const envelopes = await streamToArray(
-      fromPaths(['testdata/good/minimal.feature'], gherkinOptions({}))
+      fromPaths(['testdata/good/minimal.feature'])
     )
     assert.strictEqual(envelopes.length, 3)
   })
@@ -24,7 +23,7 @@ describe('gherkin', () => {
     )
 
     const envelopes = await streamToArray(
-      fromSources([source], gherkinOptions({}))
+      fromSources([source])
     )
     assert.strictEqual(envelopes.length, 3)
   })
@@ -38,7 +37,7 @@ describe('gherkin', () => {
       'test.feature'
     )
     const envelopes = await streamToArray(
-      fromSources([source], gherkinOptions({ defaultDialect: 'fr' }))
+      fromSources([source], { defaultDialect: 'fr' })
     )
     assert.strictEqual(envelopes.length, 3)
   })
