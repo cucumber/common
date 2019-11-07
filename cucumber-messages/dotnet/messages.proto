@@ -277,6 +277,8 @@ message GherkinDocument {
         DocString doc_string = 5;
         DataTable data_table = 6;
       }
+      // Unique ID to be able to reference the Step from PickleStep
+      string id = 7;
 
       message DataTable {
         Location location = 1;
@@ -354,7 +356,7 @@ message Pickle {
    * A tag
    */
   message PickleTag {
-    Location location = 1;
+    reserved 1;
     string name = 2;
   }
 
@@ -363,10 +365,13 @@ message Pickle {
    */
   message PickleStep {
     string text = 1;
-    repeated Location locations = 2;
-    reserved 3, 4;
+    reserved 2, 3, 4;
     // An optional argument
     PickleStepArgument argument = 5;
+    // A unique ID for the PickleStep
+    string id = 6;
+    // References the scenario step where the PickleStep originates from
+    string stepId = 7;
   }
 }
 
@@ -380,7 +385,7 @@ message PickleStepArgument {
   }
 
   message PickleDocString {
-    Location location = 1;
+    reserved 1;
     string contentType = 2;
     string content = 3;
   }
@@ -392,7 +397,7 @@ message PickleStepArgument {
       repeated PickleTableCell cells = 1;
 
       message PickleTableCell {
-        Location location = 1;
+        reserved 1;
         string value = 2;
       }
     }
@@ -405,7 +410,7 @@ message TestCase {
   string id = 1;
   string pickleId = 2;
   repeated TestStep steps = 3;
-  
+
   message TestStep {
     string id = 1;
     // Pointer to the PickleStep (if derived from a PickleStep)
@@ -416,7 +421,7 @@ message TestCase {
     repeated StepMatchArgument stepMatchArguments = 4;
     // Pointer to the TestCaseHookDefinitionConfig (if derived from a Hook)
     string hookId = 5;
-  } 
+  }
 }
 
 //// Cucumber Engine
