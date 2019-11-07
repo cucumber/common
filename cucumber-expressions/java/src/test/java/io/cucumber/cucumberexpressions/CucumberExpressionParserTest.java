@@ -4,7 +4,6 @@ import io.cucumber.cucumberexpressions.AstNode.Alternation;
 import io.cucumber.cucumberexpressions.AstNode.Optional;
 import io.cucumber.cucumberexpressions.AstNode.Parameter;
 import io.cucumber.cucumberexpressions.AstNode.Text;
-import io.cucumber.cucumberexpressions.AstNode.Token;
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 import org.hamcrest.TypeSafeDiagnosingMatcher;
@@ -76,7 +75,7 @@ class CucumberExpressionParserTest {
     }
 
     @Test
-    void brace() {
+    void openingBrace() {
         assertThat(astOf("{"), contains(
                 node("{", Text.class)
         ));

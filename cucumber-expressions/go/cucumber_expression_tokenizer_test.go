@@ -6,6 +6,12 @@ import (
 )
 
 func TestCucumberExpressionTokenizer(t *testing.T) {
+	var assertContains = func(t *testing.T, expression string, expected []token) {
+		tokens, err := tokenize(expression)
+		require.NoError(t, err)
+		require.Equal(t, expected, tokens)
+	}
+
 	t.Run("empty string", func(t *testing.T) {
 		assertContains(t, "", []token{})
 	})
@@ -108,10 +114,4 @@ func TestCucumberExpressionTokenizer(t *testing.T) {
 		})
 	})
 
-}
-
-func assertContains(t *testing.T, expression string, expected []token) {
-	tokens, err := tokenize(expression)
-	require.NoError(t, err)
-	require.Equal(t, expected, tokens)
 }

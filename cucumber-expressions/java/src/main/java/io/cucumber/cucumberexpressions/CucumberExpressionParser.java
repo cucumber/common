@@ -25,14 +25,14 @@ import static java.util.Collections.singletonList;
 
 final class CucumberExpressionParser {
 
-    private interface Parse {
+    private interface Parser {
         int parse(List<AstNode> ast, List<Token> expression, int current);
     }
 
     /*
      * text := token
      */
-    private static final Parse textParser = (ast, expression, current) -> {
+    private static final Parser textParser = (ast, expression, current) -> {
         Token currentToken = expression.get(current);
         Token unescaped = unEscape(currentToken);
         ast.add(new Text(unescaped));
@@ -63,7 +63,7 @@ final class CucumberExpressionParser {
     /*
      * parameter := '{' + text* + '}'
      */
-    private static final Parse parameterParser = parseBetween(
+    private static final Parser parameterParser = parseBetween(
             BEGIN_PARAMETER,
             END_PARAMETER,
             singletonList(textParser),
@@ -74,17 +74,17 @@ final class CucumberExpressionParser {
      * optional := '(' + option* + ')'
      * option := parameter | text
      */
-    private static final Parse optionalParser = parseBetween(
+    private static final Parser optionalParser = parseBetween(
             BEGIN_OPTIONAL,
             END_OPTIONAL,
             asList(parameterParser, textParser),
             Optional::new
     );
 
-    private static Parse parseBetween(
+    private static Parser parseBetween(
             Type beginToken,
             Type endToken,
-            List<Parse> parsers,
+            List<Parser> parsers,
             Function<List<AstNode>, AstNode> create) {
         return (ast, expression, current) -> {
             if (!lookingAt(expression, current, beginToken)) {
@@ -115,7 +115,7 @@ final class CucumberExpressionParser {
         // alternation := alternative* + ( '/' + alternative* )+
     };
 
-    private static Parse alternativeSeparator = (ast, expression, current) -> {
+    private static Parser alternativeSeparator = (ast, expression, current) -> {
         if (!lookingAt(expression, current, ALTERNATION)) {
             return 0;
         }
@@ -123,7 +123,7 @@ final class CucumberExpressionParser {
         return 1;
     };
 
-    private static final List<Parse> alternativeParsers = asList(
+    private static final List<Parser> alternativeParsers = asList(
             alternativeSeparator,
             optionalParser,
             parameterParser,
@@ -135,7 +135,7 @@ final class CucumberExpressionParser {
      * boundary := whitespace | ^ | $
      * alternative: = optional | parameter | text
      */
-    private static final Parse alternationParser = (ast, expression, current) -> {
+    private static final Parser alternationParser = (ast, expression, current) -> {
         int previous = current - 1;
         if (!lookingAt(expression, previous, START_OF_LINE)
                 && !lookingAt(expression, previous, WHITE_SPACE)) {
@@ -154,7 +154,7 @@ final class CucumberExpressionParser {
         return consumed;
     };
 
-    private static final List<Parse> cucumberExpressionParsers = asList(
+    private static final List<Parser> cucumberExpressionParsers = asList(
             alternationParser,
             optionalParser,
             parameterParser,
@@ -168,50 +168,51 @@ final class CucumberExpressionParser {
         CucumberExpressionTokenizer tokenizer = new CucumberExpressionTokenizer();
         List<Token> tokens = tokenizer.tokenize(expression);
         List<AstNode> ast = new ArrayList<>();
-        parseTokensUntil(cucumberExpressionParsers, ast, tokens, 0, END_OF_LINE);
+        int consumed = parseTokensUntil(cucumberExpressionParsers, ast, tokens, 0, END_OF_LINE);
+        if (consumed != tokens.size()) {
+            // If configured correctly this will never happen
+            throw new IllegalStateException("Could not parse " + expression);
+        }
         return new Expression(ast);
     }
 
-    private static int parseTokensUntil(List<Parse> parsers,
+    private static int parseTokensUntil(List<Parser> parsers,
                                         List<AstNode> ast,
                                         List<Token> expression,
                                         int startAt,
                                         Type... endTokens) {
         int current = startAt;
-        while (current < expression.size()) {
+        int size = expression.size();
+        while (current < size) {
             if (lookingAt(expression, current, endTokens)) {
                 break;
             }
 
             int consumed = parseToken(parsers, ast, expression, current);
             if (consumed == 0) {
-                // If configured correctly this will never happen
-                // Keep to avoid infinite loop just in case
-                throw new IllegalStateException("Could not parse " + expression);
+                break;
             }
             current += consumed;
         }
         return current - startAt;
     }
 
-    private static int parseToken(List<Parse> parsers,
+    private static int parseToken(List<Parser> parsers,
                                   List<AstNode> ast,
                                   List<Token> expression,
                                   int startAt) {
-        int current = startAt;
-        for (Parse parser : parsers) {
-            int consumed = parser.parse(ast, expression, current);
+        for (Parser parser : parsers) {
+            int consumed = parser.parse(ast, expression, startAt);
             if (consumed != 0) {
-                current += consumed;
-                break;
+                return consumed;
             }
         }
-        return current - startAt;
+        return 0;
     }
 
-    private static boolean lookingAt(List<Token> expression, int current, Type... endTokens) {
-        for (Type endToken : endTokens) {
-            if (lookingAt(expression, current, endToken)) {
+    private static boolean lookingAt(List<Token> expression, int at, Type... tokens) {
+        for (Type token : tokens) {
+            if (lookingAt(expression, at, token)) {
                 return true;
             }
         }
@@ -228,8 +229,7 @@ final class CucumberExpressionParser {
             }
             return false;
         }
-        Token currentToken = expression.get(at);
-        return currentToken.type == token;
+        return expression.get(at).type == token;
     }
 
     private static <T> List<List<T>> splitOnAlternation(List<T> tokens) {

@@ -1,10 +1,27 @@
 package cucumberexpressions
 
+type nodeType int
+
+const (
+	textNode nodeType = iota
+	optionalNode
+	alternationNode
+	alternativeNode
+	parameterNode
+	expressionNode
+)
+
+type astNode struct {
+	nodeType nodeType
+	nodes    []astNode
+	token    token
+}
+
 type tokenType int
 
 const (
 	startOfLine tokenType = iota
-	EndOfLine
+	endOfLine
 	// In order of precedence
 	whiteSpaceEscaped
 	whiteSpace
@@ -27,3 +44,10 @@ type token struct {
 	text      string
 	tokenType tokenType
 }
+
+var beginOptionalToken = token{"(", beginOptional}
+var endOptionalToken = token{")", endOptional}
+var beginParameterToken = token{"{", beginParameter}
+var endParameterToken = token{"}", endParameter}
+var alternationToken = token{"/", alternation}
+var escapeToken = token{"\\", escape}
