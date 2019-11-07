@@ -1,9 +1,9 @@
 package io.cucumber.cucumberexpressions;
 
-import io.cucumber.cucumberexpressions.CucumberExpressionParser.Node;
-import io.cucumber.cucumberexpressions.CucumberExpressionParser.Parameter;
-import io.cucumber.cucumberexpressions.CucumberExpressionParser.Text;
-import io.cucumber.cucumberexpressions.CucumberExpressionTokenizer.Token;
+import io.cucumber.cucumberexpressions.AstNode.Alternation;
+import io.cucumber.cucumberexpressions.AstNode.Optional;
+import io.cucumber.cucumberexpressions.AstNode.Parameter;
+import io.cucumber.cucumberexpressions.AstNode.Text;
 import org.apiguardian.api.API;
 
 import java.lang.reflect.Type;
@@ -31,22 +31,15 @@ public final class CucumberExpression implements Expression {
         this.source = expression;
         this.parameterTypeRegistry = parameterTypeRegistry;
 
-        CucumberExpressionTokenizer tokenizer = new CucumberExpressionTokenizer();
-        List<Token> tokens = tokenizer.tokenize(expression);
         CucumberExpressionParser parser = new CucumberExpressionParser();
-        List<Node> ast = parser.parse(tokens);
-
-        String pattern = ast.stream()
-                .map(this::rewriteToRegex)
-                .collect(joining("", "^", "$"));
-
-
+        AstNode.Expression ast = parser.parse(expression);
+        String pattern = rewriteToRegex(ast);
         treeRegexp = new TreeRegexp(pattern);
     }
 
-    private String rewriteToRegex(Node node) {
-        if (node instanceof CucumberExpressionParser.Optional) {
-            CucumberExpressionParser.Optional optional = (CucumberExpressionParser.Optional) node;
+    private String rewriteToRegex(AstNode node) {
+        if (node instanceof Optional) {
+            Optional optional = (Optional) node;
             assertNoParameters(optional.getOptional(), PARAMETER_TYPES_CANNOT_BE_OPTIONAL);
             assertNotEmpty(optional.getOptional(), OPTIONAL_MAY_NOT_BE_EMPTY);
             return optional.getOptional().stream()
@@ -54,8 +47,8 @@ public final class CucumberExpression implements Expression {
                     .collect(joining("", "(?:", ")?"));
         }
 
-        if (node instanceof CucumberExpressionParser.Alternation) {
-            CucumberExpressionParser.Alternation alternation = (CucumberExpressionParser.Alternation) node;
+        if (node instanceof Alternation) {
+            Alternation alternation = (Alternation) node;
             validateAlternation(alternation);
             return alternation.getAlternatives()
                     .stream()
@@ -87,10 +80,17 @@ public final class CucumberExpression implements Expression {
             return escapeRegex(text.getText());
         }
 
+        if (node instanceof AstNode.Expression) {
+            AstNode.Expression xpo = (AstNode.Expression) node;
+            return xpo.getNodes().stream()
+                    .map(this::rewriteToRegex)
+                    .collect(joining("", "^", "$"));
+        }
+
         throw new IllegalArgumentException(node.getClass().getName());
     }
 
-    private void assertNotEmpty(List<Node> nodes, String message) {
+    private void assertNotEmpty(List<AstNode> nodes, String message) {
         boolean hasTextNode = nodes
                 .stream()
                 .anyMatch(Text.class::isInstance);
@@ -99,9 +99,9 @@ public final class CucumberExpression implements Expression {
         }
     }
 
-    private void validateAlternation(CucumberExpressionParser.Alternation alternation) {
+    private void validateAlternation(Alternation alternation) {
         // Make sure the alternative parts aren't empty and don't contain parameter types
-        for (List<Node> alternative : alternation.getAlternatives()) {
+        for (List<AstNode> alternative : alternation.getAlternatives()) {
             if (alternative.isEmpty()) {
                 throw new CucumberExpressionException(ALTERNATIVE_MAY_NOT_BE_EMPTY + source);
             }
@@ -110,7 +110,7 @@ public final class CucumberExpression implements Expression {
         }
     }
 
-    private void assertNoParameters(List<Node> alternative, String parameterTypesCannotBeAlternative) {
+    private void assertNoParameters(List<AstNode> alternative, String parameterTypesCannotBeAlternative) {
         boolean hasParameter = alternative.stream()
                 .anyMatch(Parameter.class::isInstance);
         if (hasParameter) {

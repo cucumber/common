@@ -1,22 +1,22 @@
 package io.cucumber.cucumberexpressions;
 
 
-import io.cucumber.cucumberexpressions.CucumberExpressionTokenizer.Token;
+import io.cucumber.cucumberexpressions.AstNode.Token;
 import org.junit.jupiter.api.Test;
 
-import static io.cucumber.cucumberexpressions.CucumberExpressionTokenizer.Token.Type.ALTERNATION;
-import static io.cucumber.cucumberexpressions.CucumberExpressionTokenizer.Token.Type.BEGIN_OPTIONAL;
-import static io.cucumber.cucumberexpressions.CucumberExpressionTokenizer.Token.Type.BEGIN_PARAMETER;
-import static io.cucumber.cucumberexpressions.CucumberExpressionTokenizer.Token.Type.END_OPTIONAL;
-import static io.cucumber.cucumberexpressions.CucumberExpressionTokenizer.Token.Type.END_PARAMETER;
-import static io.cucumber.cucumberexpressions.CucumberExpressionTokenizer.Token.Type.ALTERNATION_ESCAPED;
-import static io.cucumber.cucumberexpressions.CucumberExpressionTokenizer.Token.Type.BEGIN_OPTIONAL_ESCAPED;
-import static io.cucumber.cucumberexpressions.CucumberExpressionTokenizer.Token.Type.BEGIN_PARAMETER_ESCAPED;
-import static io.cucumber.cucumberexpressions.CucumberExpressionTokenizer.Token.Type.END_OPTIONAL_ESCAPED;
-import static io.cucumber.cucumberexpressions.CucumberExpressionTokenizer.Token.Type.END_PARAMETER_ESCAPED;
-import static io.cucumber.cucumberexpressions.CucumberExpressionTokenizer.Token.Type.WHITE_SPACE_ESCAPED;
-import static io.cucumber.cucumberexpressions.CucumberExpressionTokenizer.Token.Type.TEXT;
-import static io.cucumber.cucumberexpressions.CucumberExpressionTokenizer.Token.Type.WHITE_SPACE;
+import static io.cucumber.cucumberexpressions.AstNode.Token.Type.ALTERNATION;
+import static io.cucumber.cucumberexpressions.AstNode.Token.Type.ALTERNATION_ESCAPED;
+import static io.cucumber.cucumberexpressions.AstNode.Token.Type.BEGIN_OPTIONAL;
+import static io.cucumber.cucumberexpressions.AstNode.Token.Type.BEGIN_OPTIONAL_ESCAPED;
+import static io.cucumber.cucumberexpressions.AstNode.Token.Type.BEGIN_PARAMETER;
+import static io.cucumber.cucumberexpressions.AstNode.Token.Type.BEGIN_PARAMETER_ESCAPED;
+import static io.cucumber.cucumberexpressions.AstNode.Token.Type.END_OPTIONAL;
+import static io.cucumber.cucumberexpressions.AstNode.Token.Type.END_OPTIONAL_ESCAPED;
+import static io.cucumber.cucumberexpressions.AstNode.Token.Type.END_PARAMETER;
+import static io.cucumber.cucumberexpressions.AstNode.Token.Type.END_PARAMETER_ESCAPED;
+import static io.cucumber.cucumberexpressions.AstNode.Token.Type.TEXT;
+import static io.cucumber.cucumberexpressions.AstNode.Token.Type.WHITE_SPACE;
+import static io.cucumber.cucumberexpressions.AstNode.Token.Type.WHITE_SPACE_ESCAPED;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.contains;
 import static org.hamcrest.Matchers.empty;

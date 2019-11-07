@@ -1,15 +1,30 @@
 package io.cucumber.cucumberexpressions;
 
+import io.cucumber.cucumberexpressions.AstNode.Token;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import static io.cucumber.cucumberexpressions.CucumberExpressionTokenizer.Token.Type.*;
+import static io.cucumber.cucumberexpressions.AstNode.Token.Type.ALTERNATION;
+import static io.cucumber.cucumberexpressions.AstNode.Token.Type.ALTERNATION_ESCAPED;
+import static io.cucumber.cucumberexpressions.AstNode.Token.Type.BEGIN_OPTIONAL;
+import static io.cucumber.cucumberexpressions.AstNode.Token.Type.BEGIN_OPTIONAL_ESCAPED;
+import static io.cucumber.cucumberexpressions.AstNode.Token.Type.BEGIN_PARAMETER;
+import static io.cucumber.cucumberexpressions.AstNode.Token.Type.BEGIN_PARAMETER_ESCAPED;
+import static io.cucumber.cucumberexpressions.AstNode.Token.Type.END_OPTIONAL;
+import static io.cucumber.cucumberexpressions.AstNode.Token.Type.END_OPTIONAL_ESCAPED;
+import static io.cucumber.cucumberexpressions.AstNode.Token.Type.END_PARAMETER;
+import static io.cucumber.cucumberexpressions.AstNode.Token.Type.END_PARAMETER_ESCAPED;
+import static io.cucumber.cucumberexpressions.AstNode.Token.Type.ESCAPE;
+import static io.cucumber.cucumberexpressions.AstNode.Token.Type.ESCAPE_ESCAPED;
+import static io.cucumber.cucumberexpressions.AstNode.Token.Type.TEXT;
+import static io.cucumber.cucumberexpressions.AstNode.Token.Type.WHITE_SPACE;
+import static io.cucumber.cucumberexpressions.AstNode.Token.Type.WHITE_SPACE_ESCAPED;
 
-class CucumberExpressionTokenizer {
+final class CucumberExpressionTokenizer {
 
     private interface Tokenize {
         int tokenize(List<Token> tokens, String expression, int current);
@@ -41,6 +56,10 @@ class CucumberExpressionTokenizer {
             tokenizePattern(TEXT, Pattern.compile("[^(){}\\\\/\\s]+"))
     );
 
+    /*
+     * token := '\' + whitespace | whitespace | '\(' | '(' | '\)' | ')' |
+     *          '\{' | '{' | '\}' | '}' | '\/' | '/' | '\\' | '\' | .
+     */
     List<Token> tokenize(String expression) {
         List<Token> tokens = new ArrayList<>();
         int length = expression.length();
@@ -101,57 +120,4 @@ class CucumberExpressionTokenizer {
     }
 
 
-    static class Token {
-        final String text;
-        final Type type;
-
-        Token(String text, Type type) {
-            this.text = text;
-            this.type = type;
-        }
-
-
-        @Override
-        public boolean equals(Object o) {
-            if (this == o) return true;
-            if (o == null || getClass() != o.getClass()) return false;
-            Token token = (Token) o;
-            return text.equals(token.text) &&
-                    type == token.type;
-        }
-
-        @Override
-        public int hashCode() {
-            return Objects.hash(text, type);
-        }
-
-        @Override
-        public String toString() {
-            return "Token{" +
-                    "text='" + text + '\'' +
-                    ", type=" + type +
-                    '}';
-        }
-
-        enum Type {
-            START_OF_LINE,
-            END_OF_LINE,
-            // In order of precedence
-            WHITE_SPACE_ESCAPED,
-            WHITE_SPACE,
-            BEGIN_OPTIONAL_ESCAPED,
-            BEGIN_OPTIONAL,
-            END_OPTIONAL_ESCAPED,
-            END_OPTIONAL,
-            BEGIN_PARAMETER_ESCAPED,
-            BEGIN_PARAMETER,
-            END_PARAMETER_ESCAPED,
-            END_PARAMETER,
-            ALTERNATION_ESCAPED,
-            ALTERNATION,
-            ESCAPE_ESCAPED,
-            ESCAPE,
-            TEXT;
-        }
-    }
 }

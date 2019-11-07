@@ -1,11 +1,10 @@
 package io.cucumber.cucumberexpressions;
 
-import io.cucumber.cucumberexpressions.CucumberExpressionParser.Alternation;
-import io.cucumber.cucumberexpressions.CucumberExpressionParser.Node;
-import io.cucumber.cucumberexpressions.CucumberExpressionParser.Optional;
-import io.cucumber.cucumberexpressions.CucumberExpressionParser.Parameter;
-import io.cucumber.cucumberexpressions.CucumberExpressionParser.Text;
-import io.cucumber.cucumberexpressions.CucumberExpressionTokenizer.Token;
+import io.cucumber.cucumberexpressions.AstNode.Alternation;
+import io.cucumber.cucumberexpressions.AstNode.Optional;
+import io.cucumber.cucumberexpressions.AstNode.Parameter;
+import io.cucumber.cucumberexpressions.AstNode.Text;
+import io.cucumber.cucumberexpressions.AstNode.Token;
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 import org.hamcrest.TypeSafeDiagnosingMatcher;
@@ -19,7 +18,6 @@ import static org.hamcrest.Matchers.empty;
 
 class CucumberExpressionParserTest {
 
-    private final CucumberExpressionTokenizer tokenizer = new CucumberExpressionTokenizer();
     private final CucumberExpressionParser parser = new CucumberExpressionParser();
 
     @Test
@@ -209,13 +207,12 @@ class CucumberExpressionParserTest {
         ));
     }
 
-    private List<Node> astOf(String s) {
-        List<Token> tokens = tokenizer.tokenize(s);
-        return parser.parse(tokens);
+    private List<AstNode> astOf(String expression) {
+        return parser.parse(expression).getNodes();
     }
 
-    private static Matcher<Node> node(String expectedExpression, Class<?> type) {
-        return new TypeSafeDiagnosingMatcher<Node>() {
+    private static Matcher<AstNode> node(String expectedExpression, Class<?> type) {
+        return new TypeSafeDiagnosingMatcher<AstNode>() {
             @Override
             public void describeTo(Description description) {
                 description.appendText("(");
@@ -226,7 +223,7 @@ class CucumberExpressionParserTest {
             }
 
             @Override
-            protected boolean matchesSafely(Node node, Description description) {
+            protected boolean matchesSafely(AstNode node, Description description) {
                 description.appendText("(");
                 String expression = node.toString();
                 description.appendValue(expression);

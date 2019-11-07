@@ -1,71 +1,64 @@
 package io.cucumber.cucumberexpressions;
 
-import io.cucumber.cucumberexpressions.CucumberExpressionTokenizer.Token;
+import io.cucumber.cucumberexpressions.AstNode.Alternation;
+import io.cucumber.cucumberexpressions.AstNode.Expression;
+import io.cucumber.cucumberexpressions.AstNode.Optional;
+import io.cucumber.cucumberexpressions.AstNode.Parameter;
+import io.cucumber.cucumberexpressions.AstNode.Text;
+import io.cucumber.cucumberexpressions.AstNode.Token;
+import io.cucumber.cucumberexpressions.AstNode.Token.Type;
 
 import java.util.ArrayList;
-import java.util.EnumMap;
 import java.util.List;
-import java.util.Map;
-import java.util.Objects;
 import java.util.function.Function;
 
-import static io.cucumber.cucumberexpressions.CucumberExpressionTokenizer.Token.Type.ALTERNATION;
-import static io.cucumber.cucumberexpressions.CucumberExpressionTokenizer.Token.Type.ALTERNATION_ESCAPED;
-import static io.cucumber.cucumberexpressions.CucumberExpressionTokenizer.Token.Type.BEGIN_OPTIONAL;
-import static io.cucumber.cucumberexpressions.CucumberExpressionTokenizer.Token.Type.BEGIN_OPTIONAL_ESCAPED;
-import static io.cucumber.cucumberexpressions.CucumberExpressionTokenizer.Token.Type.BEGIN_PARAMETER;
-import static io.cucumber.cucumberexpressions.CucumberExpressionTokenizer.Token.Type.BEGIN_PARAMETER_ESCAPED;
-import static io.cucumber.cucumberexpressions.CucumberExpressionTokenizer.Token.Type.END_OF_LINE;
-import static io.cucumber.cucumberexpressions.CucumberExpressionTokenizer.Token.Type.END_OPTIONAL;
-import static io.cucumber.cucumberexpressions.CucumberExpressionTokenizer.Token.Type.END_OPTIONAL_ESCAPED;
-import static io.cucumber.cucumberexpressions.CucumberExpressionTokenizer.Token.Type.END_PARAMETER;
-import static io.cucumber.cucumberexpressions.CucumberExpressionTokenizer.Token.Type.END_PARAMETER_ESCAPED;
-import static io.cucumber.cucumberexpressions.CucumberExpressionTokenizer.Token.Type.ESCAPE;
-import static io.cucumber.cucumberexpressions.CucumberExpressionTokenizer.Token.Type.ESCAPE_ESCAPED;
-import static io.cucumber.cucumberexpressions.CucumberExpressionTokenizer.Token.Type.START_OF_LINE;
-import static io.cucumber.cucumberexpressions.CucumberExpressionTokenizer.Token.Type.WHITE_SPACE;
-import static io.cucumber.cucumberexpressions.CucumberExpressionTokenizer.Token.Type.WHITE_SPACE_ESCAPED;
+import static io.cucumber.cucumberexpressions.AstNode.Token.Type.ALTERNATION;
+import static io.cucumber.cucumberexpressions.AstNode.Token.Type.BEGIN_OPTIONAL;
+import static io.cucumber.cucumberexpressions.AstNode.Token.Type.BEGIN_PARAMETER;
+import static io.cucumber.cucumberexpressions.AstNode.Token.Type.END_OF_LINE;
+import static io.cucumber.cucumberexpressions.AstNode.Token.Type.END_OPTIONAL;
+import static io.cucumber.cucumberexpressions.AstNode.Token.Type.END_PARAMETER;
+import static io.cucumber.cucumberexpressions.AstNode.Token.Type.START_OF_LINE;
+import static io.cucumber.cucumberexpressions.AstNode.Token.Type.WHITE_SPACE;
 import static java.util.Arrays.asList;
 import static java.util.Collections.singletonList;
-import static java.util.function.Function.identity;
-import static java.util.stream.Collectors.joining;
 
 final class CucumberExpressionParser {
 
-    private static final Token TOKEN_BEGIN_PARAMETER = new Token("{", BEGIN_PARAMETER);
-    private static final Token TOKEN_END_PARAMETER = new Token("}", END_PARAMETER);
-    private static final Token TOKEN_BEGIN_OPTIONAL = new Token("(", BEGIN_OPTIONAL);
-    private static final Token TOKEN_END_OPTIONAL = new Token(")", END_OPTIONAL);
-    private static final Token TOKEN_ESCAPE = new Token("\\", ESCAPE);
-    private static final Token TOKEN_ALTERNATION = new Token("/", ALTERNATION);
-
-    private static final Function<Token, Token> escapeText;
-
-    static {
-        Map<Token.Type, Function<Token, Token>> escapesInText = new EnumMap<>(Token.Type.class);
-        escapesInText.put(ESCAPE_ESCAPED, token -> TOKEN_ESCAPE);
-        escapesInText.put(WHITE_SPACE_ESCAPED, token -> new Token(token.text.substring(1), WHITE_SPACE));
-        escapesInText.put(BEGIN_OPTIONAL_ESCAPED, token -> TOKEN_BEGIN_OPTIONAL);
-        escapesInText.put(END_OPTIONAL_ESCAPED, token -> TOKEN_END_OPTIONAL);
-        escapesInText.put(ALTERNATION_ESCAPED, token -> TOKEN_ALTERNATION);
-        escapesInText.put(BEGIN_PARAMETER_ESCAPED, token -> TOKEN_BEGIN_PARAMETER);
-        escapesInText.put(END_PARAMETER_ESCAPED, token -> TOKEN_END_PARAMETER);
-        escapeText = rewrite(escapesInText);
-    }
-
     private interface Parse {
-        int parse(List<Node> ast, List<Token> expression, int current);
+        int parse(List<AstNode> ast, List<Token> expression, int current);
     }
 
     /*
-     * text := .
+     * text := token
      */
     private static final Parse textParser = (ast, expression, current) -> {
         Token currentToken = expression.get(current);
-        Token unescaped = escapeText.apply(currentToken);
+        Token unescaped = unEscape(currentToken);
         ast.add(new Text(unescaped));
         return 1;
     };
+
+    private static Token unEscape(Token currentToken) {
+        switch (currentToken.type) {
+            case WHITE_SPACE_ESCAPED:
+                return new Token(currentToken.text.substring(1), Type.WHITE_SPACE);
+            case BEGIN_OPTIONAL_ESCAPED:
+                return Token.BEGIN_OPTIONAL;
+            case END_OPTIONAL_ESCAPED:
+                return Token.END_OPTIONAL;
+            case BEGIN_PARAMETER_ESCAPED:
+                return Token.BEGIN_PARAMETER;
+            case END_PARAMETER_ESCAPED:
+                return Token.END_PARAMETER;
+            case ALTERNATION_ESCAPED:
+                return Token.ALTERNATION;
+            case ESCAPE_ESCAPED:
+                return Token.ESCAPE;
+            default:
+                return currentToken;
+        }
+    }
 
     /*
      * parameter := '{' + text* + '}'
@@ -89,15 +82,15 @@ final class CucumberExpressionParser {
     );
 
     private static Parse parseBetween(
-            Token.Type beginToken,
-            Token.Type endToken,
+            Type beginToken,
+            Type endToken,
             List<Parse> parsers,
-            Function<List<Node>, Node> create) {
+            Function<List<AstNode>, AstNode> create) {
         return (ast, expression, current) -> {
             if (!lookingAt(expression, current, beginToken)) {
                 return 0;
             }
-            List<Node> subAst = new ArrayList<>();
+            List<AstNode> subAst = new ArrayList<>();
             int subCurrent = current + 1;
             int consumed = parseTokensUntil(parsers, subAst, expression, subCurrent, endToken);
             subCurrent += consumed;
@@ -115,7 +108,7 @@ final class CucumberExpressionParser {
         };
     }
 
-    private static final Node ALTERNATIVE_SEPARATOR = new Node() {
+    private static final AstNode ALTERNATIVE_SEPARATOR = new AstNode() {
         // Marker. This way we don't need to model the
         // the tail end of alternation in the AST:
         //
@@ -149,13 +142,13 @@ final class CucumberExpressionParser {
             return 0;
         }
 
-        List<Node> subAst = new ArrayList<>();
+        List<AstNode> subAst = new ArrayList<>();
         int consumed = parseTokensUntil(alternativeParsers, subAst, expression, current, WHITE_SPACE, END_OF_LINE);
         if (!subAst.contains(ALTERNATIVE_SEPARATOR)) {
             return 0;
         }
 
-        List<List<Node>> alternatives = splitOnAlternation(subAst);
+        List<List<AstNode>> alternatives = splitOnAlternation(subAst);
         ast.add(new Alternation(alternatives));
         // Does not consume right hand boundary token
         return consumed;
@@ -171,17 +164,19 @@ final class CucumberExpressionParser {
     /*
      * cucumber-expression :=  ( alternation | optional | parameter | text )*
      */
-    List<Node> parse(List<Token> expression) {
-        List<Node> ast = new ArrayList<>();
-        parseTokensUntil(cucumberExpressionParsers, ast, expression, 0, END_OF_LINE);
-        return ast;
+    Expression parse(String expression) {
+        CucumberExpressionTokenizer tokenizer = new CucumberExpressionTokenizer();
+        List<Token> tokens = tokenizer.tokenize(expression);
+        List<AstNode> ast = new ArrayList<>();
+        parseTokensUntil(cucumberExpressionParsers, ast, tokens, 0, END_OF_LINE);
+        return new Expression(ast);
     }
 
     private static int parseTokensUntil(List<Parse> parsers,
-                                        List<Node> ast,
+                                        List<AstNode> ast,
                                         List<Token> expression,
                                         int startAt,
-                                        Token.Type... endTokens) {
+                                        Type... endTokens) {
         int current = startAt;
         while (current < expression.size()) {
             if (lookingAt(expression, current, endTokens)) {
@@ -200,7 +195,7 @@ final class CucumberExpressionParser {
     }
 
     private static int parseToken(List<Parse> parsers,
-                                  List<Node> ast,
+                                  List<AstNode> ast,
                                   List<Token> expression,
                                   int startAt) {
         int current = startAt;
@@ -214,8 +209,8 @@ final class CucumberExpressionParser {
         return current - startAt;
     }
 
-    private static boolean lookingAt(List<Token> expression, int current, Token.Type... endTokens) {
-        for (Token.Type endToken : endTokens) {
+    private static boolean lookingAt(List<Token> expression, int current, Type... endTokens) {
+        for (Type endToken : endTokens) {
             if (lookingAt(expression, current, endToken)) {
                 return true;
             }
@@ -223,7 +218,7 @@ final class CucumberExpressionParser {
         return false;
     }
 
-    private static boolean lookingAt(List<Token> expression, int at, Token.Type token) {
+    private static boolean lookingAt(List<Token> expression, int at, Type token) {
         if (at < 0 || at >= expression.size()) {
             if (token == START_OF_LINE) {
                 return at < 0;
@@ -235,10 +230,6 @@ final class CucumberExpressionParser {
         }
         Token currentToken = expression.get(at);
         return currentToken.type == token;
-    }
-
-    private static Function<Token, Token> rewrite(Map<Token.Type, Function<Token, Token>> rewriteRules) {
-        return token -> rewriteRules.computeIfAbsent(token.type, type -> identity()).apply(token);
     }
 
     private static <T> List<List<T>> splitOnAlternation(List<T> tokens) {
@@ -254,91 +245,6 @@ final class CucumberExpressionParser {
             }
         }
         return alternatives;
-    }
-
-    static abstract class Node {
-
-    }
-
-    static final class Text extends Node {
-
-        private final Token token;
-
-        Text(Token token) {
-            this.token = token;
-        }
-
-        @Override
-        public String toString() {
-            return getText();
-        }
-
-        String getText() {
-            return token.text;
-        }
-    }
-
-    static final class Optional extends Node {
-
-        private final List<Node> optional;
-
-        Optional(List<Node> optional) {
-            this.optional = optional;
-        }
-
-        List<Node> getOptional() {
-            return optional;
-        }
-
-        @Override
-        public String toString() {
-            return optional.stream()
-                    .map(Object::toString)
-                    .collect(joining());
-        }
-    }
-
-    static final class Parameter extends Node {
-
-        private final List<Node> nodes;
-
-        Parameter(List<Node> nodes) {
-            this.nodes = nodes;
-        }
-
-        @Override
-        public String toString() {
-            return getParameterName();
-        }
-
-        String getParameterName() {
-            return nodes.stream()
-                    .map(Text.class::cast)
-                    .map(Text::getText)
-                    .collect(joining());
-        }
-    }
-
-    static final class Alternation extends Node {
-
-        private final List<List<Node>> alternatives;
-
-        Alternation(List<List<Node>> alternatives) {
-            this.alternatives = alternatives;
-        }
-
-        List<List<Node>> getAlternatives() {
-            return alternatives;
-        }
-
-        @Override
-        public String toString() {
-            return getAlternatives().stream()
-                    .map(nodes -> nodes.stream()
-                            .map(Objects::toString)
-                            .collect(joining()))
-                    .collect(joining(" - "));
-        }
     }
 
 }
