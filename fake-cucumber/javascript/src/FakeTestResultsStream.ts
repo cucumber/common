@@ -89,14 +89,14 @@ class FakeTestResultsStream extends Transform {
       )
 
       const attempt = 0
-      const attemptId = uuidv4()
+      const testCaseStartedId = uuidv4()
 
       this.p(
         new messages.Envelope({
           testCaseStarted: new messages.TestCaseStarted({
             attempt,
             testCaseId,
-            attemptId,
+            id: testCaseStartedId,
           }),
         })
       )
@@ -108,7 +108,7 @@ class FakeTestResultsStream extends Transform {
         this.p(
           new messages.Envelope({
             testStepStarted: new messages.TestStepStarted({
-              attemptId,
+              testCaseStartedId,
               testStepId: testStep.id,
             }),
           })
@@ -133,7 +133,7 @@ class FakeTestResultsStream extends Transform {
         this.p(
           new messages.Envelope({
             testStepFinished: new messages.TestStepFinished({
-              attemptId,
+              testCaseStartedId,
               testResult: {
                 status: testStepStatus,
                 message:
@@ -154,9 +154,9 @@ class FakeTestResultsStream extends Transform {
       this.p(
         new messages.Envelope({
           testCaseFinished: new messages.TestCaseFinished({
-            attemptId,
+            testCaseStartedId,
             testResult: {
-              status: testStepStatuses.sort()[testStepStatuses.length-1],
+              status: testStepStatuses.sort()[testStepStatuses.length - 1],
               message:
                 testStepStatus === messages.TestResult.Status.FAILED
                   ? `Some error message\n\tfake_file:2\n\tfake_file:7\n`
