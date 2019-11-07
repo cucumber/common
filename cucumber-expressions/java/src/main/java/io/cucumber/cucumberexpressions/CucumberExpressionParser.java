@@ -171,9 +171,9 @@ final class CucumberExpressionParser {
     /*
      * cucumber-expression :=  ( alternation | optional | parameter | text )*
      */
-    List<Node> parse(List<Token> tokens) {
+    List<Node> parse(List<Token> expression) {
         List<Node> ast = new ArrayList<>();
-        parseTokensUntil(cucumberExpressionParsers, ast, tokens, 0, END_OF_LINE);
+        parseTokensUntil(cucumberExpressionParsers, ast, expression, 0, END_OF_LINE);
         return ast;
     }
 
@@ -286,7 +286,7 @@ final class CucumberExpressionParser {
             this.optional = optional;
         }
 
-        public List<Node> getOptional() {
+        List<Node> getOptional() {
             return optional;
         }
 
