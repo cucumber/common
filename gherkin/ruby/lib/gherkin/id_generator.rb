@@ -2,14 +2,7 @@ require 'securerandom'
 
 module Gherkin
   module IdGenerator
-
-    class IdGenerator
-      # To be implemented by sub-classes
-      # def new_id
-      # end
-    end
-
-    class Incrementing < IdGenerator
+    class Incrementing
       def initialize
         @index = -1
       end
@@ -20,7 +13,7 @@ module Gherkin
       end
     end
 
-    class UUID < IdGenerator
+    class UUID
       def new_id
         SecureRandom.uuid
       end
