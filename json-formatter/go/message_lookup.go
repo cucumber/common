@@ -1,7 +1,6 @@
 package json
 
 import (
-	"fmt"
 	messages "github.com/cucumber/cucumber-messages-go/v6"
 )
 
@@ -40,10 +39,7 @@ func (self *MessageLookup) ProcessMessage(envelope *messages.Envelope) (err erro
 
 			scenario := child.GetScenario()
 			if scenario != nil {
-				fmt.Println("Adding scenario", scenario.Name)
-				fmt.Println("Scenario ID", scenario.Id)
 				self.scenarioByID[scenario.Id] = scenario
-				fmt.Println("scenarios stored:", len(self.scenarioByID))
 				for _, step := range scenario.Steps {
 					self.stepByID[step.Id] = step
 				}
