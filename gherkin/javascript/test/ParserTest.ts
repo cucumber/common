@@ -111,13 +111,14 @@ describe('Parser', function() {
             {
               scenario: {
                 description: undefined,
-                id: '0',
+                id: '1',
                 examples: [],
                 keyword: 'Scenario',
                 location: { line: 2, column: 3 },
                 name: 'Bar',
                 steps: [
                   {
+                    id: '0',
                     docString: {
                       content: 'closed docstring',
                       delimiter: '"""',

@@ -154,7 +154,6 @@ function compileScenarioOutline(
             valueCells,
             newId
           )
-          step.locations.push(values.location)
           steps.push(step)
         })
 
@@ -250,6 +249,7 @@ function pickleStep(
 ) {
   return messages.Pickle.PickleStep.fromObject({
     id: newId(),
+    stepId: step.id,
     text: interpolate(step.text, variableCells, valueCells),
     argument: createPickleArguments(step, variableCells, valueCells),
     locations: [pickleStepLocation(step)],

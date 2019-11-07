@@ -133,6 +133,7 @@ export default class AstBuilder {
         const docString = node.getSingle(RuleType.DocString)
 
         return messages.GherkinDocument.Feature.Step.fromObject({
+          id: this.newId(),
           location: this.getLocation(stepLine),
           keyword: stepLine.matchedKeyword,
           text: stepLine.matchedText,
