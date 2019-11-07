@@ -6,7 +6,6 @@ import io.cucumber.messages.Messages.GherkinDocument.Comment;
 import io.cucumber.messages.Messages.GherkinDocument.Feature.FeatureChild;
 import io.cucumber.messages.Messages.GherkinDocument.Feature.TableRow;
 import io.cucumber.messages.Messages.Pickle;
-import io.cucumber.messages.Messages.Pickle.PickleStep;
 import org.junit.Test;
 
 import java.util.List;
@@ -89,22 +88,4 @@ public class GherkinDocumentBuilderTest {
         assertEquals("", row.getCells(1).getValue());
         assertEquals("b", row.getCells(2).getValue());
     }
-
-    @Test
-    public void reports_step_text_column() {
-        Parser<GherkinDocument.Builder> parser = new Parser<>(new GherkinDocumentBuilder(idGenerator));
-        String data = "" +
-                "Feature:\n" +
-                "  Scenario:\n" +
-                "    Given a step";
-        GherkinDocument doc = parser.parse(data).build();
-        IdGenerator idGenerator = new IdGenerator.Incrementing();
-        PickleCompiler pickleCompiler = new PickleCompiler(idGenerator);
-        List<Pickle> pickles = pickleCompiler.compile(doc, "hello.feature");
-
-        PickleStep step = pickles.get(0).getSteps(0);
-        assertEquals(11, step.getLocations(0).getColumn());
-
-    }
-
 }

@@ -1,7 +1,6 @@
 package io.cucumber.gherkin.pickles;
 
 import io.cucumber.gherkin.IdGenerator;
-import io.cucumber.gherkin.StringUtils;
 import io.cucumber.messages.Messages;
 import io.cucumber.messages.Messages.GherkinDocument;
 import io.cucumber.messages.Messages.GherkinDocument.Feature;
@@ -13,7 +12,6 @@ import io.cucumber.messages.Messages.GherkinDocument.Feature.Step.DataTable;
 import io.cucumber.messages.Messages.GherkinDocument.Feature.TableRow;
 import io.cucumber.messages.Messages.GherkinDocument.Feature.TableRow.TableCell;
 import io.cucumber.messages.Messages.GherkinDocument.Feature.Tag;
-import io.cucumber.messages.Messages.Location;
 import io.cucumber.messages.Messages.Pickle;
 import io.cucumber.messages.Messages.Pickle.PickleStep;
 import io.cucumber.messages.Messages.Pickle.PickleTag;
@@ -132,8 +130,6 @@ public class PickleCompiler {
                 for (Step scenarioOutlineStep : scenario.getStepsList()) {
                     PickleStep.Builder pickleStepBuilder = pickleStepBuilder(scenarioOutlineStep, variableCells, valueCells);
 
-                    pickleStepBuilder.addLocations(values.getLocation());
-
                     steps.add(pickleStepBuilder.build());
                 }
 
@@ -162,7 +158,6 @@ public class PickleCompiler {
             for (TableCell cell : cells) {
                 newCells.add(
                         PickleTableRow.PickleTableCell.newBuilder()
-                                .setLocation(cell.getLocation())
                                 .setValue(interpolate(cell.getValue(), variableCells, valueCells))
                                 .build()
                 );
@@ -174,7 +169,6 @@ public class PickleCompiler {
 
     private PickleDocString pickleDocString(Step.DocString docString, List<TableCell> variableCells, List<TableCell> valueCells) {
         return PickleDocString.newBuilder()
-                .setLocation(docString.getLocation())
                 .setContent(interpolate(docString.getContent(), variableCells, valueCells))
                 .setContentType(Objects.requireNonNull(docString.getContentType() == null ? null : interpolate(docString.getContentType(), variableCells, valueCells)))
                 .build();
@@ -185,8 +179,8 @@ public class PickleCompiler {
 
         PickleStep.Builder pickleStepBuilder = PickleStep.newBuilder()
                 .setId(idGenerator.newId())
-                .setText(stepText)
-                .addLocations(pickleStepLocation(step));
+                .setStepId(step.getId())
+                .setText(stepText);
 
         if (step.hasDataTable()) {
             Messages.PickleStepArgument.Builder argument = Messages.PickleStepArgument.newBuilder();
@@ -226,13 +220,6 @@ public class PickleCompiler {
         return name;
     }
 
-    private Location pickleStepLocation(Step step) {
-        return Location.newBuilder()
-                .setLine(step.getLocation().getLine())
-                .setColumn(step.getLocation().getColumn() + (step.getKeyword() != null ? StringUtils.symbolCount(step.getKeyword()) : 0))
-                .build();
-    }
-
     private List<PickleTag> pickleTags(List<Tag> tags) {
         List<PickleTag> result = new ArrayList<>();
         for (Tag tag : tags) {
@@ -243,7 +230,6 @@ public class PickleCompiler {
 
     private PickleTag pickleTag(Tag tag) {
         return PickleTag.newBuilder()
-                .setLocation(tag.getLocation())
                 .setName(tag.getName())
                 .build();
     }

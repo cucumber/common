@@ -80,6 +80,7 @@ public class GherkinDocumentBuilder implements Builder<GherkinDocument.Builder> 
                 Step.Builder builder = Step.newBuilder();
                 Token stepLine = node.getToken(TokenType.StepLine);
                 builder
+                        .setId(idGenerator.newId())
                         .setLocation(getLocation(stepLine, 0))
                         .setKeyword(stepLine.matchedKeyword)
                         .setText(stepLine.matchedText);
