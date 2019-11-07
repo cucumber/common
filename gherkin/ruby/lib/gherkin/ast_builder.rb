@@ -120,6 +120,7 @@ module Gherkin
           text: step_line.matched_text,
           data_table: data_table,
           doc_string: doc_string,
+          id: @id_generator.new_id
         )
       when :DocString
         separator_token = node.get_tokens(:DocStringSeparator)[0]

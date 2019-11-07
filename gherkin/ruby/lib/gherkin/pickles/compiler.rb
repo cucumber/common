@@ -88,7 +88,6 @@ module Gherkin
 
             scenario.steps.each do |scenario_outline_step|
               step_props = pickle_step_props(scenario_outline_step, variable_cells, value_cells)
-              step_props[:locations].push(values.location)
               steps.push(Cucumber::Messages::Pickle::PickleStep.new(step_props))
             end
 
@@ -108,38 +107,6 @@ module Gherkin
 
           end
         end
-      end
-
-      def create_pickle_arguments(argument, variable_cells, value_cells)
-        result = []
-        return result if argument.nil?
-        if (argument[:type] == :DataTable)
-          table = {
-            rows: argument[:rows].map do |row|
-              {
-                cells: row[:cells].map do |cell|
-                  {
-                    location: cell.location,
-                    value: interpolate(cell.value, variable_cells, value_cells)
-                  }
-                end
-              }
-            end
-          }
-          result.push(table)
-        elsif (argument[:type] == :DocString)
-          doc_string = {
-            location: pickle_location(argument.location),
-            content: interpolate(argument[:content], variable_cells, value_cells)
-          }
-          if argument.key?(:contentType)
-            doc_string[:contentType] = interpolate(argument[:contentType], variable_cells, value_cells)
-          end
-          result.push(doc_string)
-        else
-          raise 'Internal error'
-        end
-        result
       end
 
       def interpolate(name, variable_cells, value_cells)
@@ -162,8 +129,9 @@ module Gherkin
 
       def pickle_step_props(step, variable_cells, value_cells)
         props = {
+          id: @id_generator.new_id,
+          stepId: step.id,
           text: interpolate(step.text, variable_cells, value_cells),
-          locations: [pickle_step_location(step)]
         }
 
         if step.data_table
@@ -187,7 +155,6 @@ module Gherkin
             Cucumber::Messages::PickleStepArgument::PickleTable::PickleTableRow.new(
               cells: row.cells.map do |cell|
                 Cucumber::Messages::PickleStepArgument::PickleTable::PickleTableRow::PickleTableCell.new(
-                  location: cell.location,
                   value: interpolate(cell.value, variable_cells, value_cells)
                 )
               end
@@ -198,7 +165,6 @@ module Gherkin
 
       def pickle_doc_string(doc_string, variable_cells, value_cells)
         props = {
-          location: doc_string.location,
           content: interpolate(doc_string.content, variable_cells, value_cells)
         }
         if doc_string.content_type
@@ -207,21 +173,13 @@ module Gherkin
         Cucumber::Messages::PickleStepArgument::PickleDocString.new(props)
       end
 
-      def pickle_step_location(step)
-        Cucumber::Messages::Location.new(
-          line: step.location.line,
-          column: step.location.column + (step.keyword ? step.keyword.length : 0)
-        )
-      end
-
       def pickle_tags(tags)
         tags.map {|tag| pickle_tag(tag)}
       end
 
       def pickle_tag(tag)
         Cucumber::Messages::Pickle::PickleTag.new(
-          name: tag.name,
-          location: tag.location
+          name: tag.name
         )
       end
     end
