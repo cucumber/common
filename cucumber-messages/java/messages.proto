@@ -68,6 +68,7 @@ message Envelope {
     CommandGenerateSnippet commandGenerateSnippet = 24;
     string commandError = 25;
     TestStepMatched testStepMatched = 26;
+    TestCase testCase = 27;
   }
 }
 
@@ -409,8 +410,8 @@ message PickleStepArgument {
 message TestCase {
   string id = 1;
   string pickleId = 2;
-  repeated TestStep steps = 3;
-
+  repeated TestStep testSteps = 3;
+  
   message TestStep {
     string id = 1;
     // Pointer to the PickleStep (if derived from a PickleStep)
@@ -456,8 +457,17 @@ message TestCaseStarted {
   reserved 1;
   Timestamp timestamp = 2;
   Platform platform = 3;
+  /**
+   * The first attempt should have value 0, and for each retry the value
+   * should increase by 1.
+   */
   uint32 attempt = 4;
   string testCaseId = 5;
+  /**
+   * Because a `TestCase` can be run multiple times (in case of a retry),
+   * we use this field to group messages relating to the same attempt.
+   */
+  string id = 6;
 
   message Platform {
     // The runner implementation. For example "SpecFlow", "Cucumber-JVM", "Behat" etc.
@@ -475,7 +485,8 @@ message TestCaseFinished {
   reserved 1;
   Timestamp timestamp = 2;
   TestResult testResult = 3;
-  string testCaseId = 4;
+  reserved 4;
+  string testCaseStartedId = 5;
 }
 
 // For each step, there will be a match
@@ -491,6 +502,7 @@ message TestStepStarted {
   reserved 1, 2, 4;
   Timestamp timestamp = 3;
   string testStepId = 5;
+  string testCaseStartedId = 6;
 }
 
 message TestStepFinished {
@@ -498,6 +510,7 @@ message TestStepFinished {
   TestResult testResult = 3;
   Timestamp timestamp = 4;
   string testStepId = 6;
+  string testCaseStartedId = 7;
 }
 
 // DEPRECATED: Replaced by TestStepStarted

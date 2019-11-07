@@ -320,6 +320,7 @@ messages.
 | commandGenerateSnippet | [CommandGenerateSnippet](#io.cucumber.messages.CommandGenerateSnippet) |  |  |
 | commandError | [string](#string) |  |  |
 | testStepMatched | [TestStepMatched](#io.cucumber.messages.TestStepMatched) |  |  |
+| testCase | [TestCase](#io.cucumber.messages.TestCase) |  |  |
 
 
 
@@ -528,6 +529,7 @@ A step
 | text | [string](#string) |  |  |
 | doc_string | [GherkinDocument.Feature.Step.DocString](#io.cucumber.messages.GherkinDocument.Feature.Step.DocString) |  |  |
 | data_table | [GherkinDocument.Feature.Step.DataTable](#io.cucumber.messages.GherkinDocument.Feature.Step.DataTable) |  |  |
+| id | [string](#string) |  | Unique ID to be able to reference the Step from PickleStep |
 
 
 
@@ -704,8 +706,9 @@ An executable step
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
 | text | [string](#string) |  |  |
-| locations | [Location](#io.cucumber.messages.Location) | repeated |  |
 | argument | [PickleStepArgument](#io.cucumber.messages.PickleStepArgument) |  | An optional argument |
+| id | [string](#string) |  | A unique ID for the PickleStep |
+| stepId | [string](#string) |  | References the scenario step where the PickleStep originates from |
 
 
 
@@ -720,7 +723,6 @@ A tag
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| location | [Location](#io.cucumber.messages.Location) |  |  |
 | name | [string](#string) |  |  |
 
 
@@ -782,7 +784,6 @@ A wrapper for either a doc string or a table.
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| location | [Location](#io.cucumber.messages.Location) |  |  |
 | contentType | [string](#string) |  |  |
 | content | [string](#string) |  |  |
 
@@ -829,7 +830,6 @@ A wrapper for either a doc string or a table.
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| location | [Location](#io.cucumber.messages.Location) |  |  |
 | value | [string](#string) |  |  |
 
 
@@ -1039,7 +1039,7 @@ This message closely matches the `Argument` class in the `cucumber-expressions` 
 | ----- | ---- | ----- | ----------- |
 | id | [string](#string) |  |  |
 | pickleId | [string](#string) |  |  |
-| steps | [TestCase.TestStep](#io.cucumber.messages.TestCase.TestStep) | repeated |  |
+| testSteps | [TestCase.TestStep](#io.cucumber.messages.TestCase.TestStep) | repeated |  |
 
 
 
@@ -1075,7 +1075,7 @@ This message closely matches the `Argument` class in the `cucumber-expressions` 
 | ----- | ---- | ----- | ----------- |
 | timestamp | [Timestamp](#io.cucumber.messages.Timestamp) |  |  |
 | testResult | [TestResult](#io.cucumber.messages.TestResult) |  |  |
-| testCaseId | [string](#string) |  |  |
+| attemptId | [string](#string) |  |  |
 
 
 
@@ -1141,8 +1141,9 @@ TODO: Rename to Hook
 | ----- | ---- | ----- | ----------- |
 | timestamp | [Timestamp](#io.cucumber.messages.Timestamp) |  |  |
 | platform | [TestCaseStarted.Platform](#io.cucumber.messages.TestCaseStarted.Platform) |  |  |
-| attempt | [uint32](#uint32) |  |  |
+| attempt | [uint32](#uint32) |  | The first attempt should have value 0, and for each retry the value should increase by 1. |
 | testCaseId | [string](#string) |  |  |
+| attemptId | [string](#string) |  | Because a `TestCase` can be run multiple times (in case of a retry), we use this field to group messages relating to the same attempt. |
 
 
 
@@ -1260,6 +1261,7 @@ DEPRECATED: Replaced by TestStepStarted
 | testResult | [TestResult](#io.cucumber.messages.TestResult) |  |  |
 | timestamp | [Timestamp](#io.cucumber.messages.Timestamp) |  |  |
 | testStepId | [string](#string) |  |  |
+| attemptId | [string](#string) |  |  |
 
 
 
@@ -1295,6 +1297,7 @@ DEPRECATED - replaced by TestStep
 | ----- | ---- | ----- | ----------- |
 | timestamp | [Timestamp](#io.cucumber.messages.Timestamp) |  |  |
 | testStepId | [string](#string) |  |  |
+| attemptId | [string](#string) |  |  |
 
 
 

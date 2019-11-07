@@ -9,12 +9,7 @@ import (
 
 func TestMessages(t *testing.T) {
 	t.Run("builds a pickle doc string", func(t *testing.T) {
-		location := &Location{
-			Line:   uint32(10),
-			Column: uint32(20),
-		}
 		pickleDocString := PickleStepArgument_PickleDocString{
-			Location:    location,
 			ContentType: "text/plain",
 			Content:     "some\ncontent\n",
 		}
@@ -26,7 +21,6 @@ func TestMessages(t *testing.T) {
 		r := gio.NewDelimitedReader(b, 4096)
 		var decoded PickleStepArgument_PickleDocString
 		r.ReadMsg(&decoded)
-		require.Equal(t, uint32(20), decoded.Location.Column)
 		require.Equal(t, "some\ncontent\n", decoded.Content)
 	})
 

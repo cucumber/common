@@ -1,4 +1,4 @@
-import * as gherkin from 'gherkin'
+import gherkin from 'gherkin'
 import { messages } from 'cucumber-messages'
 import FakeTestResultsStream from '../src/FakeTestResultsStream'
 import { Readable } from 'stream'
@@ -64,39 +64,19 @@ Scenario: passed then failed
 Scenario: some matches
   Given one two three four five six
 `
-    const allTestCaseMatched = await getAllTestStepMatched(
-      gherkinSource,
-      'pattern'
-    )
+    const testCases = await getTestCases(gherkinSource, 'pattern')
+    const stepMatchArguments = testCases[0].testSteps[0].stepMatchArguments
 
-    assert.strictEqual(allTestCaseMatched[0].stepMatchArguments.length, 3)
+    assert.strictEqual(stepMatchArguments.length, 3)
 
-    assert.strictEqual(
-      allTestCaseMatched[0].stepMatchArguments[0].group.value,
-      'two'
-    )
-    assert.strictEqual(
-      allTestCaseMatched[0].stepMatchArguments[0].group.start,
-      4
-    )
+    assert.strictEqual(stepMatchArguments[0].group.value, 'two')
+    assert.strictEqual(stepMatchArguments[0].group.start, 4)
 
-    assert.strictEqual(
-      allTestCaseMatched[0].stepMatchArguments[1].group.value,
-      'four'
-    )
-    assert.strictEqual(
-      allTestCaseMatched[0].stepMatchArguments[1].group.start,
-      14
-    )
+    assert.strictEqual(stepMatchArguments[1].group.value, 'four')
+    assert.strictEqual(stepMatchArguments[1].group.start, 14)
 
-    assert.strictEqual(
-      allTestCaseMatched[0].stepMatchArguments[2].group.value,
-      'six'
-    )
-    assert.strictEqual(
-      allTestCaseMatched[0].stepMatchArguments[2].group.start,
-      24
-    )
+    assert.strictEqual(stepMatchArguments[2].group.value, 'six')
+    assert.strictEqual(stepMatchArguments[2].group.start, 24)
   })
 })
 
@@ -116,7 +96,7 @@ async function generateMessages(
   })
 
   const fakeTestResultsStream = gherkin
-    .fromSources([source], {})
+    .fromSources([source], { newId: gherkin.uuid() })
     .pipe(new FakeTestResultsStream('protobuf-objects', results))
   return streamToArray(fakeTestResultsStream)
 }
@@ -129,14 +109,14 @@ async function getTestCaseFinished(
   return envelopes.find(envelope => envelope.testCaseFinished).testCaseFinished
 }
 
-async function getAllTestStepMatched(
+async function getTestCases(
   gherkinSource: string,
   results: 'none' | 'pattern' | 'random'
-): Promise<messages.ITestStepMatched[]> {
+): Promise<messages.ITestCase[]> {
   const envelopes = await generateMessages(gherkinSource, results)
   return envelopes
-    .filter(envelope => envelope.testStepMatched)
-    .map(envelope => envelope.testStepMatched)
+    .filter(envelope => envelope.testCase)
+    .map(envelope => envelope.testCase)
 }
 
 async function streamToArray(

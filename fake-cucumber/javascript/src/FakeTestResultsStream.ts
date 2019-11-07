@@ -25,33 +25,100 @@ class FakeTestResultsStream extends Transform {
 
     if (envelope.pickle && this.results !== 'none') {
       const testCaseId = uuidv4()
+
+      const pickleStepById = new Map<string, messages.Pickle.IPickleStep>()
+      const testSteps: messages.TestCase.ITestStep[] = []
+      for (const pickleStep of envelope.pickle.steps) {
+        pickleStepById.set(pickleStep.id, pickleStep)
+
+        const stepMatchArguments: messages.IStepMatchArgument[] = []
+
+        let word = ''
+        let wordIndex = 0
+        pickleStep.text.split('').forEach((character, i) => {
+          if (character !== ' ') {
+            word += character
+          } else {
+            if (word.length > 0) {
+              if (wordIndex % 2 === 1) {
+                stepMatchArguments.push(
+                  new messages.StepMatchArgument({
+                    group: new messages.StepMatchArgument.Group({
+                      value: word,
+                      start: i - word.length,
+                    }),
+                    parameterTypeName: 'fake',
+                  })
+                )
+              }
+              word = ''
+              wordIndex++
+            }
+          }
+        })
+
+        if (word.length > 0) {
+          stepMatchArguments.push(
+            new messages.StepMatchArgument({
+              group: new messages.StepMatchArgument.Group({
+                value: word,
+                start: pickleStep.text.length - word.length,
+              }),
+              parameterTypeName: 'fake',
+            })
+          )
+          word = ''
+        }
+        testSteps.push(
+          new messages.TestCase.TestStep({
+            id: uuidv4(),
+            pickleStepId: pickleStep.id,
+            stepMatchArguments,
+          })
+        )
+      }
+
       this.p(
         new messages.Envelope({
-          testCaseStarted: new messages.TestCaseStarted({
+          testCase: new messages.TestCase({
             pickleId: envelope.pickle.id,
-            testCaseId,
+            id: testCaseId,
+            testSteps,
           }),
         })
       )
-      let index = 0
-      let testCaseStatus: messages.TestResult.Status =
-        messages.TestResult.Status.UNKNOWN
-      let testStepStatus: messages.TestResult.Status =
-        messages.TestResult.Status.PASSED
 
-      for (const step of envelope.pickle.steps) {
+      const attempt = 0
+      const attemptId = uuidv4()
+
+      this.p(
+        new messages.Envelope({
+          testCaseStarted: new messages.TestCaseStarted({
+            attempt,
+            testCaseId,
+            attemptId,
+          }),
+        })
+      )
+
+      let testStepStatus: messages.TestResult.Status = null
+      const testStepStatuses: messages.TestResult.Status[] = []
+
+      for (const testStep of testSteps) {
         this.p(
           new messages.Envelope({
             testStepStarted: new messages.TestStepStarted({
-              index,
-              testCaseId,
+              attemptId,
+              testStepId: testStep.id,
             }),
           })
         )
 
+        const pickleStep = pickleStepById.get(testStep.pickleStepId)
+
         switch (this.results) {
           case 'pattern':
-            testStepStatus = patternStatus(step.text)
+            testStepStatus = patternStatus(pickleStep.text)
             break
           case 'random':
             testStepStatus =
@@ -63,76 +130,10 @@ class FakeTestResultsStream extends Transform {
             throw new Error(`Unexpected results value: ${this.results}`)
         }
 
-        if (
-          ![
-            messages.TestResult.Status.UNDEFINED,
-            messages.TestResult.Status.AMBIGUOUS,
-            messages.TestResult.Status.UNKNOWN,
-          ].includes(testStepStatus)
-        ) {
-          const stepMatchArguments: messages.IStepMatchArgument[] = []
-
-          let word = ''
-          let wordIndex = 0
-          step.text.split('').forEach((character, i) => {
-            if (character !== ' ') {
-              word += character
-            } else {
-              if (word.length > 0) {
-                if (wordIndex % 2 === 1) {
-                  stepMatchArguments.push(
-                    new messages.StepMatchArgument({
-                      group: new messages.StepMatchArgument.Group({
-                        value: word,
-                        start: i - word.length,
-                      }),
-                      parameterTypeName: 'fake',
-                    })
-                  )
-                }
-                word = ''
-                wordIndex++
-              }
-            }
-          })
-
-          if (word.length > 0) {
-            stepMatchArguments.push(
-              new messages.StepMatchArgument({
-                group: new messages.StepMatchArgument.Group({
-                  value: word,
-                  start: step.text.length - word.length,
-                }),
-                parameterTypeName: 'fake',
-              })
-            )
-            word = ''
-          }
-
-          this.p(
-            new messages.Envelope({
-              testStepMatched: new messages.TestStepMatched({
-                index,
-                pickleId: envelope.pickle.id,
-                stepDefinitionReference: new messages.SourceReference({
-                  location: new messages.Location({ column: 4, line: 999 }),
-                  uri: envelope.pickle.uri + '.cobol',
-                }),
-                stepMatchArguments,
-              }),
-            })
-          )
-        }
-
-        if (testStepStatus > testCaseStatus) {
-          testCaseStatus = testStepStatus
-        }
-
         this.p(
           new messages.Envelope({
             testStepFinished: new messages.TestStepFinished({
-              index,
-              testCaseId,
+              attemptId,
               testResult: {
                 status: testStepStatus,
                 message:
@@ -141,28 +142,28 @@ class FakeTestResultsStream extends Transform {
                     : null,
                 duration: new messages.Duration({
                   seconds: 123456,
-                  nanos: 789
+                  nanos: 789,
                 }),
               },
             }),
           })
         )
-        index++
+        testStepStatuses.push(testStepStatus)
       }
 
       this.p(
         new messages.Envelope({
           testCaseFinished: new messages.TestCaseFinished({
-            testCaseId,
+            attemptId,
             testResult: {
-              status: testCaseStatus,
+              status: testStepStatuses.sort()[testStepStatuses.length-1],
               message:
                 testStepStatus === messages.TestResult.Status.FAILED
                   ? `Some error message\n\tfake_file:2\n\tfake_file:7\n`
                   : null,
               duration: new messages.Duration({
                 seconds: 987654,
-                nanos: 321
+                nanos: 321,
               }),
             },
           }),
