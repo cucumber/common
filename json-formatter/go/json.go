@@ -69,18 +69,17 @@ type jsonTag struct {
 }
 
 type Formatter struct {
-	backgroundByUri       map[string]*messages.GherkinDocument_Feature_Background
-	backgroundStepsByKey  map[string]*messages.GherkinDocument_Feature_Step
-	exampleByRowKey       map[string]*messages.GherkinDocument_Feature_Scenario_Examples
-	exampleRowIndexByKey  map[string]int
-	gherkinDocumentByURI  map[string]*messages.GherkinDocument
-	jsonFeatures          []*jsonFeature
-	jsonFeaturesByURI     map[string]*jsonFeature
-	jsonStepsByKey        map[string]*jsonStep
-	pickleById            map[string]*messages.Pickle
-	pickleStepsByPickleId map[string][]*messages.Pickle_PickleStep
-	scenariosByKey        map[string]*messages.GherkinDocument_Feature_Scenario
-	scenarioStepsByKey    map[string]*messages.GherkinDocument_Feature_Step
+	backgroundByUri      map[string]*messages.GherkinDocument_Feature_Background
+	backgroundStepsByKey map[string]*messages.GherkinDocument_Feature_Step
+	exampleByRowKey      map[string]*messages.GherkinDocument_Feature_Scenario_Examples
+	exampleRowIndexByKey map[string]int
+	gherkinDocumentByURI map[string]*messages.GherkinDocument
+	jsonFeatures         []*jsonFeature
+	jsonFeaturesByURI    map[string]*jsonFeature
+	jsonStepsByKey       map[string]*jsonStep
+	pickleById           map[string]*messages.Pickle
+	scenariosByKey       map[string]*messages.GherkinDocument_Feature_Scenario
+	scenarioStepsByKey   map[string]*messages.GherkinDocument_Feature_Step
 }
 
 // ProcessMessages writes a JSON report to STDOUT
@@ -95,7 +94,6 @@ func (formatter *Formatter) ProcessMessages(stdin io.Reader, stdout io.Writer) (
 	formatter.exampleRowIndexByKey = make(map[string]int)
 	formatter.gherkinDocumentByURI = make(map[string]*messages.GherkinDocument)
 	formatter.pickleById = make(map[string]*messages.Pickle)
-	formatter.pickleStepsByPickleId = make(map[string][]*messages.Pickle_PickleStep)
 	formatter.scenariosByKey = make(map[string]*messages.GherkinDocument_Feature_Scenario)
 	formatter.scenarioStepsByKey = make(map[string]*messages.GherkinDocument_Feature_Step)
 
@@ -142,7 +140,6 @@ func (formatter *Formatter) ProcessMessages(stdin io.Reader, stdout io.Writer) (
 		case *messages.Envelope_Pickle:
 			pickle := m.Pickle
 			formatter.pickleById[pickle.Id] = pickle
-			formatter.pickleStepsByPickleId[pickle.Id] = pickle.Steps
 			jsonFeature := formatter.findOrCreateJsonFeature(pickle)
 
 			scenario := formatter.scenariosByKey[key(pickle.Uri, pickle.Locations[0])]
@@ -255,8 +252,7 @@ func (formatter *Formatter) ProcessMessages(stdin io.Reader, stdout io.Writer) (
 
 		case *messages.Envelope_TestStepMatched:
 			pickle := formatter.pickleById[m.TestStepMatched.PickleId]
-			pickleSteps := formatter.pickleStepsByPickleId[m.TestStepMatched.PickleId]
-			pickleStep := pickleSteps[m.TestStepMatched.Index]
+			pickleStep := pickle.Steps[m.TestStepMatched.Index]
 			step := formatter.jsonStepsByKey[key(pickle.Uri, pickleStep.Locations[0])]
 
 			step.Match = &jsonStepMatch{
