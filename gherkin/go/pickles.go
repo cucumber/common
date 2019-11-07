@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"github.com/cucumber/cucumber-messages-go/v6"
 	"strings"
-	"unicode/utf8"
 )
 
 func Pickles(gherkinDocument messages.GherkinDocument, uri string, newId func() string) []*messages.Pickle {
@@ -92,7 +91,6 @@ func compileScenarioOutline(
 				}
 
 				pickleStep := pickleStep(step, variableCells, valueCells, newId)
-				pickleStep.Locations = append(pickleStep.Locations, values.Location)
 				pickleSteps = append(pickleSteps, pickleStep)
 			}
 
@@ -126,8 +124,6 @@ func compileScenario(pickles []*messages.Pickle, backgroundSteps []*messages.Pic
 		steps = append(backgroundSteps, pickleSteps(scenario.Steps, newId)...)
 	}
 	tags := pickleTags(append(featureTags, scenario.Tags...))
-	locations := make([]*messages.Location, 0)
-	locations = append(locations, scenario.Location)
 	pickles = append(pickles, &messages.Pickle{
 		Id:        newId(),
 		Uri:       uri,
@@ -146,8 +142,7 @@ func pickleDataTable(table *messages.GherkinDocument_Feature_Step_DataTable, var
 		pickleTableCells := make([]*messages.PickleStepArgument_PickleTable_PickleTableRow_PickleTableCell, len(row.Cells))
 		for j, cell := range row.Cells {
 			pickleTableCells[j] = &messages.PickleStepArgument_PickleTable_PickleTableRow_PickleTableCell{
-				Location: cell.Location,
-				Value:    interpolate(cell.Value, variableCells, valueCells),
+				Value: interpolate(cell.Value, variableCells, valueCells),
 			}
 		}
 		pickleTableRows[i] = &messages.PickleStepArgument_PickleTable_PickleTableRow{Cells: pickleTableCells}
@@ -157,7 +152,6 @@ func pickleDataTable(table *messages.GherkinDocument_Feature_Step_DataTable, var
 
 func pickleDocString(docString *messages.GherkinDocument_Feature_Step_DocString, variableCells, valueCells []*messages.GherkinDocument_Feature_TableRow_TableCell) *messages.PickleStepArgument_PickleDocString {
 	return &messages.PickleStepArgument_PickleDocString{
-		Location:    docString.Location,
 		ContentType: interpolate(docString.ContentType, variableCells, valueCells),
 		Content:     interpolate(docString.Content, variableCells, valueCells),
 	}
@@ -167,8 +161,7 @@ func pickleTags(tags []*messages.GherkinDocument_Feature_Tag) []*messages.Pickle
 	ptags := make([]*messages.Pickle_PickleTag, len(tags))
 	for i, tag := range tags {
 		ptags[i] = &messages.Pickle_PickleTag{
-			Location: tag.Location,
-			Name:     tag.Name,
+			Name: tag.Name,
 		}
 	}
 	return ptags
@@ -184,16 +177,10 @@ func pickleSteps(steps []*messages.GherkinDocument_Feature_Step, newId func() st
 }
 
 func pickleStep(step *messages.GherkinDocument_Feature_Step, variableCells, valueCells []*messages.GherkinDocument_Feature_TableRow_TableCell, newId func() string) *messages.Pickle_PickleStep {
-	loc := &messages.Location{
-		Line:   step.Location.Line,
-		Column: step.Location.Column + uint32(utf8.RuneCountInString(step.Keyword)),
-	}
-	locations := make([]*messages.Location, 0)
-	locations = append(locations, loc)
 	pickleStep := &messages.Pickle_PickleStep{
-		Id:        newId(),
-		Text:      interpolate(step.Text, variableCells, valueCells),
-		Locations: locations,
+		Id:     newId(),
+		Text:   interpolate(step.Text, variableCells, valueCells),
+		StepId: step.Id,
 	}
 	if step.GetDataTable() != nil {
 		pickleStep.Argument = &messages.PickleStepArgument{

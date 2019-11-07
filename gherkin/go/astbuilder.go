@@ -143,6 +143,7 @@ func (t *astBuilder) transformNode(node *astNode) (interface{}, error) {
 			Location: astLocation(stepLine),
 			Keyword:  stepLine.Keyword,
 			Text:     stepLine.Text,
+			Id:       t.newId(),
 		}
 		dataTable := node.getSingle(RuleTypeDataTable)
 		if dataTable != nil {
