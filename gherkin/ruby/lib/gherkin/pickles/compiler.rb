@@ -63,7 +63,7 @@ module Gherkin
 
         pickle = Cucumber::Messages::Pickle.new(
           uri: source.uri,
-          id: calculate_id(source.data, [scenario.location]),
+          id: Gherkin::IdGenerator.new_id,
           tags: pickle_tags(tags),
           name: scenario.name,
           language: language,
@@ -89,7 +89,7 @@ module Gherkin
 
             pickle = Cucumber::Messages::Pickle.new(
               uri: source.uri,
-              id: calculate_id(source.data, [scenario.location, values.location]),
+              id: Gherkin::IdGenerator.new_id,
               name: interpolate(scenario.name, variable_cells, value_cells),
               language: language,
               steps: steps,
@@ -143,15 +143,6 @@ module Gherkin
           name = name.gsub('<' + variable_cell.value + '>', value_cell.value)
         end
         name
-      end
-
-      def calculate_id(source_data, locations)
-        sha1 = Digest::SHA1.new
-        sha1 << source_data
-        locations.each do |location|
-          sha1 << [location.line, location.column].pack('V*')
-        end
-        sha1.hexdigest
       end
 
       def pickle_steps(steps)

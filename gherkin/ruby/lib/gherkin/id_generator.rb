@@ -14,7 +14,7 @@ module Gherkin
     end
   end
 
-  class Incrementing < IdGenerator
+  class Incrementing
     @@index ||= -1
 
     def self.new_id
@@ -27,7 +27,7 @@ module Gherkin
     end
   end
 
-  class UUID < IdGenerator
+  class UUID
     def self.new_id
       SecureRandom.uuid
     end

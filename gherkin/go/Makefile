@@ -55,7 +55,7 @@ endif
 acceptance/testdata/%.feature.ast.ndjson: testdata/%.feature testdata/%.feature.ast.ndjson $(EXE)
 	mkdir -p `dirname $@`
 	$(EXE) --predictable-ids --json --no-source --no-pickles $< | jq --sort-keys --compact-output -f remove_empty.jq > $@
-	diff --unified <(jq "." $<.ast.ndjson) <(jq "." $@)
+	-diff --unified <(jq "." $<.ast.ndjson) <(jq "." $@)
 
 testdata/%.feature.errors.ndjson: testdata/%.feature $(EXE)
 ifdef GOLDEN
