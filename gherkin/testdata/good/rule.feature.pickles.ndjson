@@ -1,40 +1,25 @@
 {
   "pickle": {
-    "id": "5",
+    "id": "9",
     "language": "en",
     "name": "Example A",
     "sourceIds": [
-      "0"
+      "3"
     ],
     "steps": [
       {
-        "id": "2",
-        "locations": [
-          {
-            "column": 11,
-            "line": 4
-          }
-        ],
+        "id": "6",
+        "stepId": "0",
         "text": "fb"
       },
       {
-        "id": "3",
-        "locations": [
-          {
-            "column": 13,
-            "line": 10
-          }
-        ],
+        "id": "7",
+        "stepId": "1",
         "text": "ab"
       },
       {
-        "id": "4",
-        "locations": [
-          {
-            "column": 13,
-            "line": 13
-          }
-        ],
+        "id": "8",
+        "stepId": "2",
         "text": "a"
       }
     ],
@@ -43,31 +28,21 @@
 }
 {
   "pickle": {
-    "id": "7",
+    "id": "11",
     "language": "en",
     "name": "Example B",
     "sourceIds": [
-      "1"
+      "5"
     ],
     "steps": [
       {
-        "id": "2",
-        "locations": [
-          {
-            "column": 11,
-            "line": 4
-          }
-        ],
+        "id": "6",
+        "stepId": "0",
         "text": "fb"
       },
       {
-        "id": "6",
-        "locations": [
-          {
-            "column": 13,
-            "line": 19
-          }
-        ],
+        "id": "10",
+        "stepId": "4",
         "text": "b"
       }
     ],

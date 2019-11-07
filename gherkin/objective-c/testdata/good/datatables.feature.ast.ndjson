@@ -13,7 +13,7 @@
       "children": [
         {
           "scenario": {
-            "id": "8",
+            "id": "13",
             "keyword": "Scenario",
             "location": {
               "column": 3,
@@ -76,6 +76,7 @@
                     }
                   ]
                 },
+                "id": "2",
                 "keyword": "Given ",
                 "location": {
                   "column": 5,
@@ -100,7 +101,7 @@
                           "value": "foo"
                         }
                       ],
-                      "id": "2",
+                      "id": "3",
                       "location": {
                         "column": 7,
                         "line": 8
@@ -108,6 +109,7 @@
                     }
                   ]
                 },
+                "id": "4",
                 "keyword": "And ",
                 "location": {
                   "column": 5,
@@ -146,7 +148,7 @@
                           "value": "boz"
                         }
                       ],
-                      "id": "3",
+                      "id": "5",
                       "location": {
                         "column": 7,
                         "line": 10
@@ -154,6 +156,7 @@
                     }
                   ]
                 },
+                "id": "6",
                 "keyword": "And ",
                 "location": {
                   "column": 5,
@@ -191,7 +194,7 @@
                           "value": "boz"
                         }
                       ],
-                      "id": "4",
+                      "id": "7",
                       "location": {
                         "column": 7,
                         "line": 12
@@ -199,6 +202,7 @@
                     }
                   ]
                 },
+                "id": "8",
                 "keyword": "And ",
                 "location": {
                   "column": 5,
@@ -230,7 +234,7 @@
                           "value": "bar"
                         }
                       ],
-                      "id": "5",
+                      "id": "9",
                       "location": {
                         "column": 7,
                         "line": 14
@@ -253,7 +257,7 @@
                           "value": "boo"
                         }
                       ],
-                      "id": "6",
+                      "id": "10",
                       "location": {
                         "column": 7,
                         "line": 16
@@ -276,7 +280,7 @@
                           "value": "boo2"
                         }
                       ],
-                      "id": "7",
+                      "id": "11",
                       "location": {
                         "column": 7,
                         "line": 18
@@ -284,6 +288,7 @@
                     }
                   ]
                 },
+                "id": "12",
                 "keyword": "And ",
                 "location": {
                   "column": 5,

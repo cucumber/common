@@ -1,20 +1,15 @@
 {
   "pickle": {
-    "id": "2",
+    "id": "3",
     "language": "em",
     "name": "💃",
     "sourceIds": [
-      "0"
+      "1"
     ],
     "steps": [
       {
-        "id": "1",
-        "locations": [
-          {
-            "column": 6,
-            "line": 5
-          }
-        ],
+        "id": "2",
+        "stepId": "0",
         "text": "🎸"
       }
     ],

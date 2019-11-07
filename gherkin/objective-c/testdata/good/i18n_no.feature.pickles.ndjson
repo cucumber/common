@@ -1,40 +1,25 @@
 {
   "pickle": {
-    "id": "4",
+    "id": "7",
     "language": "no",
     "name": "Parsing many languages",
     "sourceIds": [
-      "0"
+      "3"
     ],
     "steps": [
       {
-        "id": "1",
-        "locations": [
-          {
-            "column": 10,
-            "line": 5
-          }
-        ],
+        "id": "4",
+        "stepId": "0",
         "text": "Gherkin supports many languages"
       },
       {
-        "id": "2",
-        "locations": [
-          {
-            "column": 9,
-            "line": 6
-          }
-        ],
+        "id": "5",
+        "stepId": "1",
         "text": "Norwegian keywords are parsed"
       },
       {
-        "id": "3",
-        "locations": [
-          {
-            "column": 8,
-            "line": 7
-          }
-        ],
+        "id": "6",
+        "stepId": "2",
         "text": "they should be recognized"
       }
     ],

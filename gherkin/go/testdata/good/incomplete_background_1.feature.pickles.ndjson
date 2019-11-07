@@ -1,20 +1,15 @@
 {
   "pickle": {
-    "id": "2",
+    "id": "3",
     "language": "en",
     "name": "still pickles up",
     "sourceIds": [
-      "0"
+      "1"
     ],
     "steps": [
       {
-        "id": "1",
-        "locations": [
-          {
-            "column": 7,
-            "line": 6
-          }
-        ],
+        "id": "2",
+        "stepId": "0",
         "text": "a step"
       }
     ],

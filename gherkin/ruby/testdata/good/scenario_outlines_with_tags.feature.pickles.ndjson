@@ -1,47 +1,26 @@
 {
   "pickle": {
-    "id": "7",
+    "id": "9",
     "language": "en",
     "sourceIds": [
-      "2",
-      "1"
+      "3",
+      "2"
     ],
     "steps": [
       {
-        "id": "6",
-        "locations": [
-          {
-            "column": 11,
-            "line": 5
-          },
-          {
-            "column": 7,
-            "line": 9
-          }
-        ],
+        "id": "8",
+        "stepId": "0",
         "text": "y"
       }
     ],
     "tags": [
       {
-        "location": {
-          "column": 1,
-          "line": 1
-        },
         "name": "@a"
       },
       {
-        "location": {
-          "column": 3,
-          "line": 3
-        },
         "name": "@b"
       },
       {
-        "location": {
-          "column": 6,
-          "line": 3
-        },
         "name": "@c"
       }
     ],
@@ -50,55 +29,30 @@
 }
 {
   "pickle": {
-    "id": "9",
+    "id": "11",
     "language": "en",
     "sourceIds": [
-      "5",
-      "4"
+      "7",
+      "6"
     ],
     "steps": [
       {
-        "id": "8",
-        "locations": [
-          {
-            "column": 11,
-            "line": 13
-          },
-          {
-            "column": 7,
-            "line": 18
-          }
-        ],
+        "id": "10",
+        "stepId": "4",
         "text": "n"
       }
     ],
     "tags": [
       {
-        "location": {
-          "column": 1,
-          "line": 1
-        },
         "name": "@a"
       },
       {
-        "location": {
-          "column": 3,
-          "line": 11
-        },
         "name": "@d"
       },
       {
-        "location": {
-          "column": 6,
-          "line": 11
-        },
         "name": "@e"
       },
       {
-        "location": {
-          "column": 5,
-          "line": 15
-        },
         "name": "@f"
       }
     ],

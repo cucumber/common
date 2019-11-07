@@ -4,7 +4,7 @@
       "children": [
         {
           "scenario": {
-            "id": "0",
+            "id": "1",
             "keyword": "📕",
             "location": {
               "column": 3,
@@ -13,6 +13,7 @@
             "name": "💃",
             "steps": [
               {
+                "id": "0",
                 "keyword": "😐",
                 "location": {
                   "column": 5,

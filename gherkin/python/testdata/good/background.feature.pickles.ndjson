@@ -1,30 +1,20 @@
 {
   "pickle": {
-    "id": "3",
+    "id": "5",
     "language": "en",
     "name": "minimalistic",
     "sourceIds": [
-      "0"
+      "2"
     ],
     "steps": [
       {
-        "id": "1",
-        "locations": [
-          {
-            "column": 11,
-            "line": 4
-          }
-        ],
+        "id": "3",
+        "stepId": "0",
         "text": "the minimalism inside a background"
       },
       {
-        "id": "2",
-        "locations": [
-          {
-            "column": 11,
-            "line": 8
-          }
-        ],
+        "id": "4",
+        "stepId": "1",
         "text": "the minimalism"
       }
     ],

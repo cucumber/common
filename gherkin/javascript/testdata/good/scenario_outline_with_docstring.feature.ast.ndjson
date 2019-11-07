@@ -29,7 +29,7 @@
                         "value": "Hello"
                       }
                     ],
-                    "id": "1",
+                    "id": "2",
                     "location": {
                       "column": 3,
                       "line": 11
@@ -52,7 +52,7 @@
                         "value": "Bonjour"
                       }
                     ],
-                    "id": "2",
+                    "id": "3",
                     "location": {
                       "column": 3,
                       "line": 12
@@ -76,7 +76,7 @@
                       "value": "content"
                     }
                   ],
-                  "id": "0",
+                  "id": "1",
                   "location": {
                     "column": 3,
                     "line": 10
@@ -84,7 +84,7 @@
                 }
               }
             ],
-            "id": "3",
+            "id": "4",
             "keyword": "Scenario Outline",
             "location": {
               "column": 1,
@@ -102,6 +102,7 @@
                     "line": 5
                   }
                 },
+                "id": "0",
                 "keyword": "Given ",
                 "location": {
                   "column": 5,

@@ -1,10 +1,10 @@
 {
   "pickle": {
-    "id": "7",
+    "id": "9",
     "language": "en",
     "name": "They are the future",
     "sourceIds": [
-      "4"
+      "6"
     ],
     "steps": [
       {
@@ -14,17 +14,9 @@
               {
                 "cells": [
                   {
-                    "location": {
-                      "column": 9,
-                      "line": 7
-                    },
                     "value": "æ"
                   },
                   {
-                    "location": {
-                      "column": 13,
-                      "line": 7
-                    },
                     "value": "o"
                   }
                 ]
@@ -32,17 +24,9 @@
               {
                 "cells": [
                   {
-                    "location": {
-                      "column": 9,
-                      "line": 8
-                    },
                     "value": "a"
                   },
                   {
-                    "location": {
-                      "column": 13,
-                      "line": 8
-                    },
                     "value": "ø"
                   }
                 ]
@@ -50,13 +34,8 @@
             ]
           }
         },
-        "id": "5",
-        "locations": [
-          {
-            "column": 11,
-            "line": 6
-          }
-        ],
+        "id": "7",
+        "stepId": "2",
         "text": "they have arrived"
       },
       {
@@ -66,17 +45,9 @@
               {
                 "cells": [
                   {
-                    "location": {
-                      "column": 9,
-                      "line": 10
-                    },
                     "value": "|æ\\n"
                   },
                   {
-                    "location": {
-                      "column": 22,
-                      "line": 10
-                    },
                     "value": "\\o\no\\"
                   }
                 ]
@@ -84,17 +55,9 @@
               {
                 "cells": [
                   {
-                    "location": {
-                      "column": 9,
-                      "line": 11
-                    },
                     "value": "\\|a\\\\n"
                   },
                   {
-                    "location": {
-                      "column": 22,
-                      "line": 11
-                    },
                     "value": "ø\\\nø\\"
                   }
                 ]
@@ -102,13 +65,8 @@
             ]
           }
         },
-        "id": "6",
-        "locations": [
-          {
-            "column": 11,
-            "line": 9
-          }
-        ],
+        "id": "8",
+        "stepId": "5",
         "text": "they have arrived"
       }
     ],

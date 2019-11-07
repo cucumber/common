@@ -1,25 +1,16 @@
 {
   "pickle": {
-    "id": "4",
+    "id": "5",
     "language": "en",
     "name": "minimalistic",
     "sourceIds": [
-      "2",
-      "1"
+      "3",
+      "2"
     ],
     "steps": [
       {
-        "id": "3",
-        "locations": [
-          {
-            "column": 11,
-            "line": 4
-          },
-          {
-            "column": 3,
-            "line": 8
-          }
-        ],
+        "id": "4",
+        "stepId": "0",
         "text": "the pa$$word"
       }
     ],

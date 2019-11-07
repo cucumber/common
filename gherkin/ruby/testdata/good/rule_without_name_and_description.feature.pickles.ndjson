@@ -1,19 +1,14 @@
 {
   "pickle": {
-    "id": "2",
+    "id": "3",
     "language": "en",
     "sourceIds": [
-      "0"
+      "1"
     ],
     "steps": [
       {
-        "id": "1",
-        "locations": [
-          {
-            "column": 11,
-            "line": 5
-          }
-        ],
+        "id": "2",
+        "stepId": "0",
         "text": "text"
       }
     ],

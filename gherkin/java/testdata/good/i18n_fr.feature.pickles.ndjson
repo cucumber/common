@@ -1,169 +1,25 @@
 {
   "pickle": {
-    "id": "14",
+    "id": "53",
     "language": "fr",
     "name": "Support des caractères spéciaux",
-    "sourceIds": [
-      "0"
-    ],
-    "steps": [
-      {
-        "id": "11",
-        "locations": [
-          {
-            "column": 10,
-            "line": 5
-          }
-        ],
-        "text": "un exemple de scénario en français"
-      },
-      {
-        "id": "12",
-        "locations": [
-          {
-            "column": 11,
-            "line": 6
-          }
-        ],
-        "text": "j'ai 1 gâteau"
-      },
-      {
-        "id": "13",
-        "locations": [
-          {
-            "column": 11,
-            "line": 7
-          }
-        ],
-        "text": "je suis heureux"
-      }
-    ],
-    "uri": "testdata/good/i18n_fr.feature"
-  }
-}
-{
-  "pickle": {
-    "id": "18",
-    "language": "fr",
-    "name": "Support du mot-clef \"Etant donné que \"",
-    "sourceIds": [
-      "1"
-    ],
-    "steps": [
-      {
-        "id": "15",
-        "locations": [
-          {
-            "column": 21,
-            "line": 10
-          }
-        ],
-        "text": "j'aime les gâteaux"
-      },
-      {
-        "id": "16",
-        "locations": [
-          {
-            "column": 12,
-            "line": 11
-          }
-        ],
-        "text": "on m'offre 1 gâteau"
-      },
-      {
-        "id": "17",
-        "locations": [
-          {
-            "column": 11,
-            "line": 12
-          }
-        ],
-        "text": "je suis heureux"
-      }
-    ],
-    "uri": "testdata/good/i18n_fr.feature"
-  }
-}
-{
-  "pickle": {
-    "id": "22",
-    "language": "fr",
-    "name": "Support du mot-clef \"Etant donné qu'\"",
-    "sourceIds": [
-      "2"
-    ],
-    "steps": [
-      {
-        "id": "19",
-        "locations": [
-          {
-            "column": 20,
-            "line": 15
-          }
-        ],
-        "text": "offrir un gâteau rend heureux"
-      },
-      {
-        "id": "20",
-        "locations": [
-          {
-            "column": 12,
-            "line": 16
-          }
-        ],
-        "text": "on m'offre 1 gâteau"
-      },
-      {
-        "id": "21",
-        "locations": [
-          {
-            "column": 11,
-            "line": 17
-          }
-        ],
-        "text": "je suis heureux"
-      }
-    ],
-    "uri": "testdata/good/i18n_fr.feature"
-  }
-}
-{
-  "pickle": {
-    "id": "26",
-    "language": "fr",
-    "name": "Support du mot-clef \"Étant donné que \"",
     "sourceIds": [
       "3"
     ],
     "steps": [
       {
-        "id": "23",
-        "locations": [
-          {
-            "column": 21,
-            "line": 20
-          }
-        ],
-        "text": "j'aime les gâteaux"
+        "id": "50",
+        "stepId": "0",
+        "text": "un exemple de scénario en français"
       },
       {
-        "id": "24",
-        "locations": [
-          {
-            "column": 12,
-            "line": 21
-          }
-        ],
-        "text": "on m'offre 1 gâteau"
+        "id": "51",
+        "stepId": "1",
+        "text": "j'ai 1 gâteau"
       },
       {
-        "id": "25",
-        "locations": [
-          {
-            "column": 11,
-            "line": 22
-          }
-        ],
+        "id": "52",
+        "stepId": "2",
         "text": "je suis heureux"
       }
     ],
@@ -172,200 +28,143 @@
 }
 {
   "pickle": {
-    "id": "30",
+    "id": "57",
     "language": "fr",
-    "name": "Support du mot-clef \"Étant donné qu'\"",
-    "sourceIds": [
-      "4"
-    ],
-    "steps": [
-      {
-        "id": "27",
-        "locations": [
-          {
-            "column": 20,
-            "line": 25
-          }
-        ],
-        "text": "offrir un gâteau rend heureux"
-      },
-      {
-        "id": "28",
-        "locations": [
-          {
-            "column": 12,
-            "line": 26
-          }
-        ],
-        "text": "on m'offre 1 gâteau"
-      },
-      {
-        "id": "29",
-        "locations": [
-          {
-            "column": 11,
-            "line": 27
-          }
-        ],
-        "text": "je suis heureux"
-      }
-    ],
-    "uri": "testdata/good/i18n_fr.feature"
-  }
-}
-{
-  "pickle": {
-    "id": "35",
-    "language": "fr",
-    "name": "Support du mot-clef \"Et que \"",
-    "sourceIds": [
-      "5"
-    ],
-    "steps": [
-      {
-        "id": "31",
-        "locations": [
-          {
-            "column": 10,
-            "line": 30
-          }
-        ],
-        "text": "un exemple de scénario en français"
-      },
-      {
-        "id": "32",
-        "locations": [
-          {
-            "column": 13,
-            "line": 31
-          }
-        ],
-        "text": "j'ai 2 gâteaux"
-      },
-      {
-        "id": "33",
-        "locations": [
-          {
-            "column": 12,
-            "line": 32
-          }
-        ],
-        "text": "quelqu'un m'offre 1 gâteau"
-      },
-      {
-        "id": "34",
-        "locations": [
-          {
-            "column": 11,
-            "line": 33
-          }
-        ],
-        "text": "j'ai 3 gâteaux"
-      }
-    ],
-    "uri": "testdata/good/i18n_fr.feature"
-  }
-}
-{
-  "pickle": {
-    "id": "40",
-    "language": "fr",
-    "name": "Support du mot-clef \"Et qu'\"",
-    "sourceIds": [
-      "6"
-    ],
-    "steps": [
-      {
-        "id": "36",
-        "locations": [
-          {
-            "column": 10,
-            "line": 36
-          }
-        ],
-        "text": "un exemple de scénario en français"
-      },
-      {
-        "id": "37",
-        "locations": [
-          {
-            "column": 13,
-            "line": 37
-          }
-        ],
-        "text": "j'ai 2 gâteaux"
-      },
-      {
-        "id": "38",
-        "locations": [
-          {
-            "column": 11,
-            "line": 38
-          }
-        ],
-        "text": "on m'offre 1 gâteau"
-      },
-      {
-        "id": "39",
-        "locations": [
-          {
-            "column": 11,
-            "line": 39
-          }
-        ],
-        "text": "j'ai 3 gâteaux"
-      }
-    ],
-    "uri": "testdata/good/i18n_fr.feature"
-  }
-}
-{
-  "pickle": {
-    "id": "45",
-    "language": "fr",
-    "name": "Support du mot-clef \"Et \"",
+    "name": "Support du mot-clef \"Etant donné que \"",
     "sourceIds": [
       "7"
     ],
     "steps": [
       {
-        "id": "41",
-        "locations": [
-          {
-            "column": 10,
-            "line": 42
-          }
-        ],
+        "id": "54",
+        "stepId": "4",
+        "text": "j'aime les gâteaux"
+      },
+      {
+        "id": "55",
+        "stepId": "5",
+        "text": "on m'offre 1 gâteau"
+      },
+      {
+        "id": "56",
+        "stepId": "6",
+        "text": "je suis heureux"
+      }
+    ],
+    "uri": "testdata/good/i18n_fr.feature"
+  }
+}
+{
+  "pickle": {
+    "id": "61",
+    "language": "fr",
+    "name": "Support du mot-clef \"Etant donné qu'\"",
+    "sourceIds": [
+      "11"
+    ],
+    "steps": [
+      {
+        "id": "58",
+        "stepId": "8",
+        "text": "offrir un gâteau rend heureux"
+      },
+      {
+        "id": "59",
+        "stepId": "9",
+        "text": "on m'offre 1 gâteau"
+      },
+      {
+        "id": "60",
+        "stepId": "10",
+        "text": "je suis heureux"
+      }
+    ],
+    "uri": "testdata/good/i18n_fr.feature"
+  }
+}
+{
+  "pickle": {
+    "id": "65",
+    "language": "fr",
+    "name": "Support du mot-clef \"Étant donné que \"",
+    "sourceIds": [
+      "15"
+    ],
+    "steps": [
+      {
+        "id": "62",
+        "stepId": "12",
+        "text": "j'aime les gâteaux"
+      },
+      {
+        "id": "63",
+        "stepId": "13",
+        "text": "on m'offre 1 gâteau"
+      },
+      {
+        "id": "64",
+        "stepId": "14",
+        "text": "je suis heureux"
+      }
+    ],
+    "uri": "testdata/good/i18n_fr.feature"
+  }
+}
+{
+  "pickle": {
+    "id": "69",
+    "language": "fr",
+    "name": "Support du mot-clef \"Étant donné qu'\"",
+    "sourceIds": [
+      "19"
+    ],
+    "steps": [
+      {
+        "id": "66",
+        "stepId": "16",
+        "text": "offrir un gâteau rend heureux"
+      },
+      {
+        "id": "67",
+        "stepId": "17",
+        "text": "on m'offre 1 gâteau"
+      },
+      {
+        "id": "68",
+        "stepId": "18",
+        "text": "je suis heureux"
+      }
+    ],
+    "uri": "testdata/good/i18n_fr.feature"
+  }
+}
+{
+  "pickle": {
+    "id": "74",
+    "language": "fr",
+    "name": "Support du mot-clef \"Et que \"",
+    "sourceIds": [
+      "24"
+    ],
+    "steps": [
+      {
+        "id": "70",
+        "stepId": "20",
         "text": "un exemple de scénario en français"
       },
       {
-        "id": "42",
-        "locations": [
-          {
-            "column": 11,
-            "line": 43
-          }
-        ],
+        "id": "71",
+        "stepId": "21",
         "text": "j'ai 2 gâteaux"
       },
       {
-        "id": "43",
-        "locations": [
-          {
-            "column": 8,
-            "line": 44
-          }
-        ],
+        "id": "72",
+        "stepId": "22",
         "text": "quelqu'un m'offre 1 gâteau"
       },
       {
-        "id": "44",
-        "locations": [
-          {
-            "column": 11,
-            "line": 45
-          }
-        ],
+        "id": "73",
+        "stepId": "23",
         "text": "j'ai 3 gâteaux"
       }
     ],
@@ -374,51 +173,97 @@
 }
 {
   "pickle": {
-    "id": "50",
+    "id": "79",
+    "language": "fr",
+    "name": "Support du mot-clef \"Et qu'\"",
+    "sourceIds": [
+      "29"
+    ],
+    "steps": [
+      {
+        "id": "75",
+        "stepId": "25",
+        "text": "un exemple de scénario en français"
+      },
+      {
+        "id": "76",
+        "stepId": "26",
+        "text": "j'ai 2 gâteaux"
+      },
+      {
+        "id": "77",
+        "stepId": "27",
+        "text": "on m'offre 1 gâteau"
+      },
+      {
+        "id": "78",
+        "stepId": "28",
+        "text": "j'ai 3 gâteaux"
+      }
+    ],
+    "uri": "testdata/good/i18n_fr.feature"
+  }
+}
+{
+  "pickle": {
+    "id": "84",
+    "language": "fr",
+    "name": "Support du mot-clef \"Et \"",
+    "sourceIds": [
+      "34"
+    ],
+    "steps": [
+      {
+        "id": "80",
+        "stepId": "30",
+        "text": "un exemple de scénario en français"
+      },
+      {
+        "id": "81",
+        "stepId": "31",
+        "text": "j'ai 2 gâteaux"
+      },
+      {
+        "id": "82",
+        "stepId": "32",
+        "text": "quelqu'un m'offre 1 gâteau"
+      },
+      {
+        "id": "83",
+        "stepId": "33",
+        "text": "j'ai 3 gâteaux"
+      }
+    ],
+    "uri": "testdata/good/i18n_fr.feature"
+  }
+}
+{
+  "pickle": {
+    "id": "89",
     "language": "fr",
     "name": "Support du mot-clef \"Mais que \"",
     "sourceIds": [
-      "8"
+      "39"
     ],
     "steps": [
       {
-        "id": "46",
-        "locations": [
-          {
-            "column": 10,
-            "line": 48
-          }
-        ],
+        "id": "85",
+        "stepId": "35",
         "text": "un exemple de scénario en français"
       },
       {
-        "id": "47",
-        "locations": [
-          {
-            "column": 13,
-            "line": 49
-          }
-        ],
+        "id": "86",
+        "stepId": "36",
         "text": "j'ai 2 gâteaux"
       },
       {
-        "id": "48",
-        "locations": [
-          {
-            "column": 14,
-            "line": 50
-          }
-        ],
+        "id": "87",
+        "stepId": "37",
         "text": "quelqu'un me vole 1 gâteau"
       },
       {
-        "id": "49",
-        "locations": [
-          {
-            "column": 11,
-            "line": 51
-          }
-        ],
+        "id": "88",
+        "stepId": "38",
         "text": "j'ai 1 gâteau"
       }
     ],
@@ -427,51 +272,31 @@
 }
 {
   "pickle": {
-    "id": "55",
+    "id": "94",
     "language": "fr",
     "name": "Support du mot-clef \"Mais qu'\"",
     "sourceIds": [
-      "9"
+      "44"
     ],
     "steps": [
       {
-        "id": "51",
-        "locations": [
-          {
-            "column": 10,
-            "line": 54
-          }
-        ],
+        "id": "90",
+        "stepId": "40",
         "text": "un exemple de scénario en français"
       },
       {
-        "id": "52",
-        "locations": [
-          {
-            "column": 13,
-            "line": 55
-          }
-        ],
+        "id": "91",
+        "stepId": "41",
         "text": "j'ai 2 gâteaux"
       },
       {
-        "id": "53",
-        "locations": [
-          {
-            "column": 13,
-            "line": 56
-          }
-        ],
+        "id": "92",
+        "stepId": "42",
         "text": "on me vole 1 gâteau"
       },
       {
-        "id": "54",
-        "locations": [
-          {
-            "column": 11,
-            "line": 57
-          }
-        ],
+        "id": "93",
+        "stepId": "43",
         "text": "j'ai 1 gâteau"
       }
     ],
@@ -480,51 +305,31 @@
 }
 {
   "pickle": {
-    "id": "60",
+    "id": "99",
     "language": "fr",
     "name": "Support du mot-clef \"Mais \"",
     "sourceIds": [
-      "10"
+      "49"
     ],
     "steps": [
       {
-        "id": "56",
-        "locations": [
-          {
-            "column": 10,
-            "line": 60
-          }
-        ],
+        "id": "95",
+        "stepId": "45",
         "text": "un exemple de scénario en français"
       },
       {
-        "id": "57",
-        "locations": [
-          {
-            "column": 11,
-            "line": 61
-          }
-        ],
+        "id": "96",
+        "stepId": "46",
         "text": "j'ai 2 gâteaux"
       },
       {
-        "id": "58",
-        "locations": [
-          {
-            "column": 10,
-            "line": 62
-          }
-        ],
+        "id": "97",
+        "stepId": "47",
         "text": "quelqu'un me vole 1 gâteau"
       },
       {
-        "id": "59",
-        "locations": [
-          {
-            "column": 11,
-            "line": 63
-          }
-        ],
+        "id": "98",
+        "stepId": "48",
         "text": "j'ai 1 gâteau"
       }
     ],

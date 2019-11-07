@@ -4,7 +4,7 @@
       "children": [
         {
           "scenario": {
-            "id": "0",
+            "id": "1",
             "keyword": "Scenario",
             "location": {
               "column": 1,
@@ -13,6 +13,7 @@
             "name": "minimalistic",
             "steps": [
               {
+                "id": "0",
                 "keyword": "Given ",
                 "location": {
                   "column": 5,
@@ -66,7 +67,7 @@
                         "value": "minimalism"
                       }
                     ],
-                    "id": "2",
+                    "id": "4",
                     "location": {
                       "column": 3,
                       "line": 19
@@ -83,7 +84,7 @@
                       "value": "what"
                     }
                   ],
-                  "id": "1",
+                  "id": "3",
                   "location": {
                     "column": 3,
                     "line": 18
@@ -130,7 +131,7 @@
                         "value": "more minimalism"
                       }
                     ],
-                    "id": "4",
+                    "id": "6",
                     "location": {
                       "column": 3,
                       "line": 25
@@ -147,7 +148,7 @@
                       "value": "what"
                     }
                   ],
-                  "id": "3",
+                  "id": "5",
                   "location": {
                     "column": 3,
                     "line": 24
@@ -178,7 +179,7 @@
                 ]
               }
             ],
-            "id": "5",
+            "id": "7",
             "keyword": "Scenario Outline",
             "location": {
               "column": 1,
@@ -187,6 +188,7 @@
             "name": "minimalistic outline",
             "steps": [
               {
+                "id": "2",
                 "keyword": "Given ",
                 "location": {
                   "column": 5,

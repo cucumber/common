@@ -4,7 +4,7 @@
       "children": [
         {
           "scenario": {
-            "id": "0",
+            "id": "7",
             "keyword": "Scenario",
             "location": {
               "column": 3,
@@ -21,6 +21,7 @@
                     "line": 5
                   }
                 },
+                "id": "0",
                 "keyword": "Given ",
                 "location": {
                   "column": 5,
@@ -38,6 +39,7 @@
                     "line": 12
                   }
                 },
+                "id": "1",
                 "keyword": "Given ",
                 "location": {
                   "column": 5,
@@ -54,6 +56,7 @@
                     "line": 18
                   }
                 },
+                "id": "2",
                 "keyword": "And ",
                 "location": {
                   "column": 5,
@@ -70,6 +73,7 @@
                     "line": 22
                   }
                 },
+                "id": "3",
                 "keyword": "And ",
                 "location": {
                   "column": 5,
@@ -86,6 +90,7 @@
                     "line": 27
                   }
                 },
+                "id": "4",
                 "keyword": "And ",
                 "location": {
                   "column": 5,
@@ -102,6 +107,7 @@
                     "line": 33
                   }
                 },
+                "id": "5",
                 "keyword": "And ",
                 "location": {
                   "column": 5,
@@ -118,6 +124,7 @@
                     "line": 39
                   }
                 },
+                "id": "6",
                 "keyword": "And ",
                 "location": {
                   "column": 5,

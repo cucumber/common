@@ -12,6 +12,7 @@
             "name": "a simple background",
             "steps": [
               {
+                "id": "0",
                 "keyword": "Given ",
                 "location": {
                   "column": 5,
@@ -24,7 +25,7 @@
         },
         {
           "scenario": {
-            "id": "0",
+            "id": "2",
             "keyword": "Scenario",
             "location": {
               "column": 3,
@@ -33,6 +34,7 @@
             "name": "minimalistic",
             "steps": [
               {
+                "id": "1",
                 "keyword": "Given ",
                 "location": {
                   "column": 5,

@@ -1,34 +1,21 @@
 {
   "pickle": {
-    "id": "5",
+    "id": "6",
     "language": "en",
     "name": "Bar",
     "sourceIds": [
-      "3",
-      "1"
+      "4",
+      "2"
     ],
     "steps": [
       {
-        "id": "4",
-        "locations": [
-          {
-            "column": 10,
-            "line": 5
-          },
-          {
-            "column": 5,
-            "line": 9
-          }
-        ],
+        "id": "5",
+        "stepId": "0",
         "text": "Baz"
       }
     ],
     "tags": [
       {
-        "location": {
-          "column": 1,
-          "line": 1
-        },
         "name": "@sometag"
       }
     ],
@@ -37,35 +24,22 @@
 }
 {
   "pickle": {
-    "id": "7",
+    "id": "8",
     "language": "en",
     "name": "Bar",
     "sourceIds": [
-      "3",
-      "2"
+      "4",
+      "3"
     ],
     "steps": [
       {
-        "id": "6",
-        "locations": [
-          {
-            "column": 10,
-            "line": 5
-          },
-          {
-            "column": 5,
-            "line": 10
-          }
-        ],
+        "id": "7",
+        "stepId": "0",
         "text": "Baz"
       }
     ],
     "tags": [
       {
-        "location": {
-          "column": 1,
-          "line": 1
-        },
         "name": "@sometag"
       }
     ],

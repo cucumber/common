@@ -11,6 +11,7 @@
             },
             "steps": [
               {
+                "id": "0",
                 "keyword": "Given ",
                 "location": {
                   "column": 5,
@@ -33,6 +34,7 @@
                   },
                   "steps": [
                     {
+                      "id": "1",
                       "keyword": "Given ",
                       "location": {
                         "column": 7,
@@ -45,7 +47,7 @@
               },
               {
                 "scenario": {
-                  "id": "0",
+                  "id": "3",
                   "keyword": "Example",
                   "location": {
                     "column": 5,
@@ -54,6 +56,7 @@
                   "name": "Example A",
                   "steps": [
                     {
+                      "id": "2",
                       "keyword": "Given ",
                       "location": {
                         "column": 7,
@@ -79,7 +82,7 @@
             "children": [
               {
                 "scenario": {
-                  "id": "1",
+                  "id": "5",
                   "keyword": "Example",
                   "location": {
                     "column": 5,
@@ -88,6 +91,7 @@
                   "name": "Example B",
                   "steps": [
                     {
+                      "id": "4",
                       "keyword": "Given ",
                       "location": {
                         "column": 7,

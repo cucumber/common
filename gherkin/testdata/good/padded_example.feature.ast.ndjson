@@ -66,7 +66,7 @@
                         "value": "red"
                       }
                     ],
-                    "id": "4",
+                    "id": "5",
                     "location": {
                       "column": 7,
                       "line": 18
@@ -83,7 +83,7 @@
                       "value": "color"
                     }
                   ],
-                  "id": "3",
+                  "id": "4",
                   "location": {
                     "column": 7,
                     "line": 17
@@ -91,7 +91,7 @@
                 }
               }
             ],
-            "id": "5",
+            "id": "6",
             "keyword": "Scenario",
             "location": {
               "column": 3,
@@ -177,6 +177,7 @@
                     }
                   ]
                 },
+                "id": "3",
                 "keyword": "Given ",
                 "location": {
                   "column": 5,

@@ -7,7 +7,7 @@
             "children": [
               {
                 "scenario": {
-                  "id": "0",
+                  "id": "1",
                   "keyword": "Scenario",
                   "location": {
                     "column": 3,
@@ -15,6 +15,7 @@
                   },
                   "steps": [
                     {
+                      "id": "0",
                       "keyword": "Given ",
                       "location": {
                         "column": 5,
