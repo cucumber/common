@@ -4,6 +4,10 @@ require 'digest'
 module Gherkin
   module Pickles
     class Compiler
+      def initialize(id_generator)
+        @id_generator = id_generator
+      end
+
       def compile(gherkin_document, source)
         pickles = []
 
@@ -63,7 +67,7 @@ module Gherkin
 
         pickle = Cucumber::Messages::Pickle.new(
           uri: source.uri,
-          id: Gherkin::IdGenerator.new_id,
+          id: @id_generator.new_id,
           tags: pickle_tags(tags),
           name: scenario.name,
           language: language,
@@ -89,7 +93,7 @@ module Gherkin
 
             pickle = Cucumber::Messages::Pickle.new(
               uri: source.uri,
-              id: Gherkin::IdGenerator.new_id,
+              id: @id_generator.new_id,
               name: interpolate(scenario.name, variable_cells, value_cells),
               language: language,
               steps: steps,

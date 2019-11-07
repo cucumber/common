@@ -6,14 +6,14 @@ require 'optparse'
 require 'json'
 require 'cucumber/messages'
 require 'gherkin'
-require 'gherkin/id_generator'
 require 'gherkin/stream/subprocess_message_stream'
 
 options = {
   include_source: true,
   include_gherkin_document: true,
   include_pickles: true,
-  json: false
+  json: false,
+  predictable_ids: false
 }
 
 OptionParser.new do |opts|
@@ -30,7 +30,7 @@ OptionParser.new do |opts|
     options[:json] = v
   end
   opts.on("--predictable-ids", "Generate incrementing ids rather than UUIDs") do |v|
-    Gherkin::IdGenerator.use_incrementing
+    options[:predictable_ids] = v
   end
 end.parse!
 
