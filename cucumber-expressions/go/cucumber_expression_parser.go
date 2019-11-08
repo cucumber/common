@@ -115,24 +115,22 @@ var alternationParser = func(expression []token, current int) (int, astNode) {
 		return 0, nullNode
 	}
 
-	splitOn := func(subAst []astNode, separator astNode) []astNode {
+	splitAlternatives := func(subAst []astNode) []astNode {
 		alternatives := make([]astNode, 0)
 		alternative := make([]astNode, 0)
 		for _, node := range subAst {
-			if node.nodeType == separator.nodeType {
+			if node.nodeType == alternativeSeparator.nodeType {
 				alternatives = append(alternatives, astNode{alternativeNode, alternative, token{}})
 				alternative = make([]astNode, 0)
 			} else {
 				alternative = append(alternative, node)
 			}
 		}
-		alternatives = append(alternatives, astNode{alternativeNode, alternative, token{}})
-		return alternatives
+		return append(alternatives, astNode{alternativeNode, alternative, token{}})
 	}
 
-	alternatives := splitOn(subAst, alternativeSeparator)
 	// Does not consume right hand boundary token
-	return consumed, astNode{alternationNode, alternatives, token{}}
+	return consumed, astNode{alternationNode, splitAlternatives(subAst), token{}}
 
 }
 
