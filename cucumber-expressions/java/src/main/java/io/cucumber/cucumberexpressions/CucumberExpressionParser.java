@@ -213,14 +213,11 @@ final class CucumberExpressionParser {
     }
 
     private static boolean lookingAt(List<Token> expression, int at, Type token) {
-        if (at < 0 || at >= expression.size()) {
-            if (token == START_OF_LINE) {
-                return at < 0;
-            }
-            if (token == END_OF_LINE) {
-                return at >= expression.size();
-            }
-            return false;
+        if (at < 0) {
+            return token == START_OF_LINE;
+        }
+        if (at >= expression.size()) {
+            return token == END_OF_LINE;
         }
         return expression.get(at).type == token;
     }

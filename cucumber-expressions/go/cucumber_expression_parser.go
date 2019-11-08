@@ -136,7 +136,6 @@ var cucumberExpressionParsers = []parser{
 	textParser,
 }
 
-
 /*
  * cucumber-expression :=  ( alternation | optional | parameter | text )*
  */
@@ -197,14 +196,11 @@ func lookingAtAny(expression []token, at int, tokens ...tokenType) bool {
 
 func lookingAt(expression []token, at int, token tokenType) bool {
 	size := len(expression)
-	if at < 0 || at >= size {
-		if token == startOfLine {
-			return at < 0
-		}
-		if token == endOfLine {
-			return at >= size
-		}
-		return false
+	if at < 0 {
+		return token == startOfLine
+	}
+	if at >= size {
+		return token == endOfLine
 	}
 	return expression[at].tokenType == token
 }
