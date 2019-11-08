@@ -130,7 +130,7 @@ func (formatter *Formatter) ProcessMessages(stdin io.Reader, stdout io.Writer) (
 			pickle := m.Pickle
 			jsonFeature := formatter.findOrCreateJsonFeature(pickle)
 
-			//scenario := formatter.lookup.LookupScenario(pickle.SourceIds[0])
+			scenario := formatter.lookup.LookupScenario(pickle.SourceIds[0])
 
 			scenarioJsonSteps := make([]*jsonStep, 0)
 
@@ -187,8 +187,7 @@ func (formatter *Formatter) ProcessMessages(stdin io.Reader, stdout io.Writer) (
 			// 	})
 			// }
 
-			//scenarioID := fmt.Sprintf("%s;%s", jsonFeature.ID, makeId(scenario.Name))
-			scenarioID := fmt.Sprintf("%s;%s", jsonFeature.ID, "Hello world")
+			scenarioID := fmt.Sprintf("%s;%s", jsonFeature.ID, makeId(scenario.Name))
 
 			// if len(scenario.Examples) > 0 {
 			// 	exampleKey := key(pickle.Uri)
@@ -217,11 +216,11 @@ func (formatter *Formatter) ProcessMessages(stdin io.Reader, stdout io.Writer) (
 			}
 
 			jsonFeature.Elements = append(jsonFeature.Elements, &jsonFeatureElement{
-				Description: "This is a scenario", //scenario.Description,
+				Description: scenario.Description,
 				ID:          scenarioID,
-				Keyword:     "Scenario", //scenario.Keyword,
-				Line:        456,
-				Name:        "Hello world", //scenario.Name,
+				Keyword:     scenario.Keyword,
+				Line:        scenario.Location.Line,
+				Name:        scenario.Name,
 				Steps:       scenarioJsonSteps,
 				Type:        "scenario",
 				Tags:        scenarioTags,
