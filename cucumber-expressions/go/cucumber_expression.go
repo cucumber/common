@@ -31,7 +31,7 @@ func NewCucumberExpression(expression string, parameterTypeRegistry *ParameterTy
 		return nil, err
 	}
 
-	pattern, err := result.compileNodeToRegex(ast)
+	pattern, err := result.rewriteNodeToRegex(ast)
 	if err != nil {
 		return nil, err
 	}
@@ -39,7 +39,7 @@ func NewCucumberExpression(expression string, parameterTypeRegistry *ParameterTy
 	return result, nil
 }
 
-func (c *CucumberExpression) compileNodeToRegex(node astNode) (string, error) {
+func (c *CucumberExpression) rewriteNodeToRegex(node astNode) (string, error) {
 	switch node.nodeType {
 	case textNode:
 		return c.processEscapes(node.token.text), nil
@@ -71,7 +71,7 @@ func (c *CucumberExpression) rewriteOptional(node astNode) (string, error) {
 	if err != nil {
 		return "", err
 	}
-	return c.compileNodesToRegex(node.nodes, "", "(?:", ")?")
+	return c.rewriteNodesToRegex(node.nodes, "", "(?:", ")?")
 }
 
 func (c *CucumberExpression) rewriteAlternation(node astNode) (string, error) {
@@ -89,11 +89,11 @@ func (c *CucumberExpression) rewriteAlternation(node astNode) (string, error) {
 			return "", err
 		}
 	}
-	return c.compileNodesToRegex(node.nodes, "|", "(?:", ")")
+	return c.rewriteNodesToRegex(node.nodes, "|", "(?:", ")")
 }
 
 func (c *CucumberExpression) rewriteAlternative(node astNode) (string, error) {
-	return c.compileNodesToRegex(node.nodes, "", "", "")
+	return c.rewriteNodesToRegex(node.nodes, "", "", "")
 }
 
 func (c *CucumberExpression) rewriteParameter(node astNode) (string, error) {
@@ -125,17 +125,17 @@ func (c *CucumberExpression) rewriteParameter(node astNode) (string, error) {
 }
 
 func (c *CucumberExpression) rewriteExpression(node astNode) (string, error) {
-	return c.compileNodesToRegex(node.nodes, "", "^", "$")
+	return c.rewriteNodesToRegex(node.nodes, "", "^", "$")
 }
 
-func (c *CucumberExpression) compileNodesToRegex(nodes []astNode, delimiter string, prefix string, suffix string) (string, error) {
+func (c *CucumberExpression) rewriteNodesToRegex(nodes []astNode, delimiter string, prefix string, suffix string) (string, error) {
 	builder := strings.Builder{}
 	builder.WriteString(prefix)
 	for i, node := range nodes {
 		if i > 0 {
 			builder.WriteString(delimiter)
 		}
-		s, err := c.compileNodeToRegex(node)
+		s, err := c.rewriteNodeToRegex(node)
 		if err != nil {
 			return s, err
 		}
