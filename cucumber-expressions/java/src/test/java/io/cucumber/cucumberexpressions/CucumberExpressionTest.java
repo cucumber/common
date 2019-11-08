@@ -56,7 +56,7 @@ public class CucumberExpressionTest {
 
     @Test
     public void matches_optional_before_alternation_with_regex_characters() {
-        assertEquals(singletonList(2), match("I wait {int} second(s)./second(s)?", "I wait 2 second?"));
+        assertEquals(singletonList(2), match("I wait {int} second(s)./second(s)?", "I wait 2 seconds?"));
         assertEquals(singletonList(1), match("I wait {int} second(s)./second(s)?", "I wait 1 second."));
     }
 

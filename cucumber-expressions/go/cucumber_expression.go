@@ -12,7 +12,7 @@ const parameterTypesCanNotBeAlternative = "Parameter types cannot be alternative
 const parameterTypesCanNotBeOptional = "Parameter types cannot be optional: %s"
 const alternativeMayNotExclusivelyContainOptionals = "Alternative may not exclusively contain optionals: %s"
 const couldNotRewrite = "Could not rewrite %s"
-const optionalMayNotBeEmpty = "Optional may not be empty: "
+const optionalMayNotBeEmpty = "Optional may not be empty: %s"
 
 var escapeRegexp = regexp.MustCompile(`([\\^\[({$.|?*+})\]])`)
 

@@ -51,12 +51,52 @@ func TestCucumberExpression(t *testing.T) {
 		)
 	})
 
+	t.Run("matches optional in alternation", func(t *testing.T) {
+		require.Equal(
+			t,
+			MatchCucumberExpression(t, "{int} rat(s)/mice/mouse", "3 rats"),
+			[]interface{}{3},
+		)
+		require.Equal(
+			t,
+			MatchCucumberExpression(t, "{int} rat(s)/mice/mouse", "2 mice"),
+			[]interface{}{2},
+		)
+		require.Equal(
+			t,
+			MatchCucumberExpression(t, "{int} rat(s)/mice/mouse", "1 mouse"),
+			[]interface{}{1},
+		)
+
+	})
+
+	t.Run("matches optional before alternation with regex characters", func(t *testing.T) {
+		require.Equal(
+			t,
+			MatchCucumberExpression(t, "I wait {int} second(s)./second(s)?", "I wait 2 seconds?"),
+			[]interface{}{2},
+		)
+		require.Equal(
+			t,
+			MatchCucumberExpression(t, "I wait {int} second(s)./second(s)?", "I wait 1 second?"),
+			[]interface{}{1},
+		)
+
+	})
+
 	t.Run("matches alternation in optional as text", func(t *testing.T) {
 		require.Equal(
 			t,
 			MatchCucumberExpression(t, "three( brown/black) mice", "three brown/black mice"),
 			[]interface{}{},
 		)
+	})
+
+	t.Run("does not allow empty optional", func(t *testing.T) {
+		parameterTypeRegistry := NewParameterTypeRegistry()
+		_, err := NewCucumberExpression("three () mice", parameterTypeRegistry)
+		require.Error(t, err)
+		require.Equal(t, "Optional may not be empty: three () mice", err.Error())
 	})
 
 	t.Run("does not allow alternation with empty alternatives", func(t *testing.T) {
@@ -181,6 +221,16 @@ func TestCucumberExpression(t *testing.T) {
 			t,
 			MatchCucumberExpression(t, "three \\(exceptionally) \\{string} mice", `three (exceptionally) {string} mice`),
 			[]interface{}{},
+		)
+		require.Equal(
+			t,
+			MatchCucumberExpression(t, "three \\((exceptionally)) \\{{string}} mice", `three (exceptionally) {"blind"} mice`),
+			[]interface{}{"blind"},
+		)
+		require.Equal(
+			t,
+			MatchCucumberExpression(t, "three ((exceptionally\\)) {{string\\}} mice", `three (exceptionally) "blind" mice`),
+			[]interface{}{"\"blind\""},
 		)
 	})
 
@@ -417,6 +467,17 @@ func TestCucumberExpression(t *testing.T) {
 
 func MatchCucumberExpression(t *testing.T, expr string, text string, typeHints ...reflect.Type) []interface{} {
 	parameterTypeRegistry := NewParameterTypeRegistry()
+	parameterType1, err := NewParameterType(
+		"{string}",
+		[]*regexp.Regexp{regexp.MustCompile(`".*"`)},
+		"string",
+		nil,
+		true,
+		false,
+		false,
+	)
+	require.NoError(t, err)
+	require.NoError(t, parameterTypeRegistry.DefineParameterType(parameterType1))
 	expression, err := NewCucumberExpression(expr, parameterTypeRegistry)
 	require.NoError(t, err)
 	args, err := expression.Match(text, typeHints...)
