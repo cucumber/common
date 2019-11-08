@@ -109,6 +109,16 @@ class CucumberExpressionParserTest {
     }
 
     @Test
+    void unfinishedParameter() {
+        assertThat(astOf("{string"), equalTo(
+                new AstNode(EXPRESSION_NODE,
+                        new AstNode(TEXT_NODE, new Token("{", BEGIN_PARAMETER)),
+                        new AstNode(TEXT_NODE, new Token("string", TEXT))
+                )
+        ));
+    }
+
+    @Test
     void openingParenthesis() {
         assertThat(astOf("("), equalTo(
                 new AstNode(EXPRESSION_NODE,

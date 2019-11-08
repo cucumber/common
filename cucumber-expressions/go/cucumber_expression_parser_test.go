@@ -113,6 +113,17 @@ func TestCucumberExpressionParser(t *testing.T) {
 		})
 	})
 
+	t.Run("unfinished parameter", func(t *testing.T) {
+		assertAst(t, "{string", astNode{
+			expressionNode,
+			[]astNode{
+				{textNode, []astNode{}, token{"{", beginParameter}},
+				{textNode, []astNode{}, token{"string",text}},
+			},
+			nullToken,
+		})
+	})
+
 	t.Run("opening parenthesis", func(t *testing.T) {
 		assertAst(t, "(", astNode{
 			expressionNode,

@@ -63,9 +63,6 @@ func parseBetween(nodeType nodeType, beginToken tokenType, endToken tokenType, p
 		subCurrent += consumed
 
 		// endToken not found
-		if lookingAt(expression, subCurrent, endOfLine) {
-			return 0, nullNode
-		}
 		if !lookingAt(expression, subCurrent, endToken) {
 			return 0, nullNode
 		}
@@ -167,6 +164,8 @@ func parseTokensUntil(parsers []parser, expresion []token, startAt int, endToken
 		}
 		consumed, node := parseToken(parsers, expresion, current)
 		if consumed == 0 {
+			// If configured correctly this will never happen
+			// Keep to avoid infinite loops
 			break
 		}
 		current += consumed
@@ -183,6 +182,7 @@ func parseToken(parsers []parser, expresion []token, startAt int) (int, astNode)
 			return consumed, node
 		}
 	}
+	// If configured correctly this will never happen
 	return 0, nullNode
 }
 

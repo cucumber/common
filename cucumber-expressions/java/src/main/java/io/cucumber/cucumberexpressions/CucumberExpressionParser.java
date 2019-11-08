@@ -98,9 +98,6 @@ final class CucumberExpressionParser {
             subCurrent += consumed;
 
             // endToken not found
-            if (lookingAt(expression, subCurrent, END_OF_LINE)) {
-                return 0;
-            }
             if (!lookingAt(expression, subCurrent, endToken)) {
                 return 0;
             }
@@ -183,6 +180,8 @@ final class CucumberExpressionParser {
 
             int consumed = parseToken(parsers, ast, expression, current);
             if (consumed == 0) {
+                // If configured correctly this will never happen
+                // Keep to avoid infinite loops
                 break;
             }
             current += consumed;
@@ -200,6 +199,7 @@ final class CucumberExpressionParser {
                 return consumed;
             }
         }
+        // If configured correctly this will never happen
         return 0;
     }
 
