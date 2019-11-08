@@ -22,6 +22,8 @@ token := '\' + whitespace | whitespace | '\(' | '(' | '\)' | ')' | '\{' | '{' |
 Note:
  * While `parameter` is allowed to appear as part of `alternative` and 
 `option` in the AST, such an AST is not a valid a Cucumber Expression.
+ * ASTs with empty alternatives or alternatives that only
+   contain an optional are valid ASTs but invalid Cucumber Expressions.
  * All escaped tokens (tokens starting with a backslash) are rewritten to their
    unescaped equivalent after parsing.
 
