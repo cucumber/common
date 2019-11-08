@@ -32,11 +32,11 @@ public final class CucumberExpression implements Expression {
 
         CucumberExpressionParser parser = new CucumberExpressionParser();
         AstNode ast = parser.parse(expression);
-        String pattern = rewriteToRegex(ast);
+        String pattern = compileToRegex(ast);
         treeRegexp = new TreeRegexp(pattern);
     }
 
-    private String rewriteToRegex(AstNode node) {
+    private String compileToRegex(AstNode node) {
         switch (node.getType()) {
             case TEXT_NODE:
                 return escapeRegex(node.getText());
@@ -63,7 +63,7 @@ public final class CucumberExpression implements Expression {
         assertNoParameters(node, PARAMETER_TYPES_CANNOT_BE_OPTIONAL);
         assertNotEmpty(node, OPTIONAL_MAY_NOT_BE_EMPTY);
         return node.getNodes().stream()
-                .map(this::rewriteToRegex)
+                .map(this::compileToRegex)
                 .collect(joining("", "(?:", ")?"));
     }
 
@@ -79,13 +79,13 @@ public final class CucumberExpression implements Expression {
         }
         return node.getNodes()
                 .stream()
-                .map(this::rewriteToRegex)
+                .map(this::compileToRegex)
                 .collect(joining("|", "(?:", ")"));
     }
 
     private String rewriteAlternative(AstNode node) {
         return node.getNodes().stream()
-                .map(this::rewriteToRegex)
+                .map(this::compileToRegex)
                 .collect(joining());
     }
 
@@ -107,7 +107,7 @@ public final class CucumberExpression implements Expression {
 
     private String rewriteExpression(AstNode node) {
         return node.getNodes().stream()
-                .map(this::rewriteToRegex)
+                .map(this::compileToRegex)
                 .collect(joining("", "^", "$"));
     }
 
