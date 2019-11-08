@@ -191,23 +191,16 @@ func (formatter *Formatter) ProcessMessages(stdin io.Reader, stdout io.Writer) (
 
 			scenarioID := fmt.Sprintf("%s;%s", jsonFeature.ID, makeId(scenario.Name))
 
-			// if len(scenario.Examples) > 0 {
-			// 	exampleKey := key(pickle.Uri)
-			// 	exampleRowIndex, ok := formatter.exampleRowIndexByKey[exampleKey]
-			// 	if !ok {
-			// 		return errors.New(fmt.Sprintf("No example row index for: %s", exampleKey))
-			// 	}
-			// 	example, eok := formatter.exampleByRowKey[exampleKey]
-			// 	if !eok {
-			// 		return errors.New(fmt.Sprintf("No example for: %s", exampleKey))
-			// 	}
-			// 	scenarioID = fmt.Sprintf(
-			// 		"%s;%s;%s;%d",
-			// 		jsonFeature.ID,
-			// 		makeId(scenario.Name),
-			// 		makeId(example.Name),
-			// 		exampleRowIndex)
-			// }
+			if len(pickle.SourceIds) > 1 {
+				exampleRow := formatter.lookup.LookupExampleRow(pickle.SourceIds[1])
+				example := formatter.lookup.LookupExample(pickle.SourceIds[1])
+				scenarioID = fmt.Sprintf(
+					"%s;%s;%s;%s",
+					jsonFeature.ID,
+					makeId(scenario.Name),
+					makeId(example.Name),
+					exampleRow.Id)
+			}
 
 			scenarioTags := make([]*jsonTag, len(pickle.Tags))
 			for tagIndex, tag := range pickle.Tags {

@@ -11,6 +11,7 @@ type MessageLookup struct {
 	testCaseStartedByID    map[string]*messages.TestCaseStarted
 	stepByID               map[string]*messages.GherkinDocument_Feature_Step
 	scenarioByID           map[string]*messages.GherkinDocument_Feature_Scenario
+	exampleByRowID         map[string]*messages.GherkinDocument_Feature_Scenario_Examples
 	exampleRowByID         map[string]*messages.GherkinDocument_Feature_TableRow
 	backgroundStepIds      map[string]string
 	backgroundByFeatureURI map[string]*messages.GherkinDocument_Feature_Background
@@ -23,6 +24,7 @@ func (self *MessageLookup) Initialize() {
 	self.testCaseStartedByID = make(map[string]*messages.TestCaseStarted)
 	self.stepByID = make(map[string]*messages.GherkinDocument_Feature_Step)
 	self.scenarioByID = make(map[string]*messages.GherkinDocument_Feature_Scenario)
+	self.exampleByRowID = make(map[string]*messages.GherkinDocument_Feature_Scenario_Examples)
 	self.exampleRowByID = make(map[string]*messages.GherkinDocument_Feature_TableRow)
 	self.backgroundStepIds = make(map[string]string)
 	self.backgroundByFeatureURI = make(map[string]*messages.GherkinDocument_Feature_Background)
@@ -52,6 +54,8 @@ func (self *MessageLookup) ProcessMessage(envelope *messages.Envelope) (err erro
 
 				for _, example := range scenario.Examples {
 					for _, row := range example.TableBody {
+						// TODO: we may also need to add IDs to the examples
+						self.exampleByRowID[row.Id] = example
 						self.exampleRowByID[row.Id] = row
 					}
 				}
@@ -81,6 +85,14 @@ func (self *MessageLookup) LookupScenario(id string) *messages.GherkinDocument_F
 
 func (self *MessageLookup) LookupStep(id string) *messages.GherkinDocument_Feature_Step {
 	return self.stepByID[id]
+}
+
+func (self *MessageLookup) LookupExample(id string) *messages.GherkinDocument_Feature_Scenario_Examples {
+	return self.exampleByRowID[id]
+}
+
+func (self *MessageLookup) LookupExampleRow(id string) *messages.GherkinDocument_Feature_TableRow {
+	return self.exampleRowByID[id]
 }
 
 func (self *MessageLookup) IsBackgroundStep(id string) bool {
