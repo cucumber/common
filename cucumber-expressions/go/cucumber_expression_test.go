@@ -41,7 +41,12 @@ func TestCucumberExpression(t *testing.T) {
 	t.Run("matches optional before alternation", func(t *testing.T) {
 		require.Equal(
 			t,
-			MatchCucumberExpression(t, "three (brown )mice/rats", "three brown rats"),
+			MatchCucumberExpression(t, "three (brown )mice/rats", "three rats"),
+			[]interface{}{},
+		)
+		require.Equal(
+			t,
+			MatchCucumberExpression(t, "three (brown )mice/rats", "three brown mice"),
 			[]interface{}{},
 		)
 	})
@@ -65,7 +70,7 @@ func TestCucumberExpression(t *testing.T) {
 		parameterTypeRegistry := NewParameterTypeRegistry()
 		_, err := NewCucumberExpression("three (brown)/black mice", parameterTypeRegistry)
 		require.Error(t, err)
-		require.Equal(t, "Alternative may not be empty: three (brown)/black mice", err.Error())
+		require.Equal(t, "Alternative may not exclusively contain optionals: three (brown)/black mice", err.Error())
 	})
 
 	t.Run("matches double quoted string", func(t *testing.T) {
@@ -197,7 +202,12 @@ func TestCucumberExpression(t *testing.T) {
 	t.Run("matches doubly escaped slash", func(t *testing.T) {
 		require.Equal(
 			t,
-			MatchCucumberExpression(t, "12\\\\/2020", `12\/2020`),
+			MatchCucumberExpression(t, "12\\\\/2020", `12\`),
+			[]interface{}{},
+		)
+		require.Equal(
+			t,
+			MatchCucumberExpression(t, "12\\\\/2020", `2020`),
 			[]interface{}{},
 		)
 	})

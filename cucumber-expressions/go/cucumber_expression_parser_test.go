@@ -16,7 +16,7 @@ func TestCucumberExpressionParser(t *testing.T) {
 		assertAst(t, "", astNode{
 			expressionNode,
 			[]astNode{},
-			token{},
+			nullToken,
 		})
 	})
 
@@ -30,7 +30,7 @@ func TestCucumberExpressionParser(t *testing.T) {
 				{textNode, []astNode{}, token{" ", whiteSpace}},
 				{textNode, []astNode{}, token{"mice", text}},
 			},
-			token{},
+			nullToken,
 		})
 	})
 
@@ -42,10 +42,10 @@ func TestCucumberExpressionParser(t *testing.T) {
 					[]astNode{
 						{textNode, []astNode{}, token{"blind", text}},
 					},
-					token{},
+					nullToken,
 				},
 			},
-			token{},
+			nullToken,
 		})
 	})
 
@@ -57,10 +57,10 @@ func TestCucumberExpressionParser(t *testing.T) {
 					[]astNode{
 						{textNode, []astNode{}, token{"string", text}},
 					},
-					token{},
+					nullToken,
 				},
 			},
-			token{},
+			nullToken,
 		})
 	})
 
@@ -70,10 +70,10 @@ func TestCucumberExpressionParser(t *testing.T) {
 			[]astNode{
 				{parameterNode,
 					[]astNode{},
-					token{},
+					nullToken,
 				},
 			},
-			token{},
+			nullToken,
 		})
 	})
 
@@ -85,11 +85,11 @@ func TestCucumberExpressionParser(t *testing.T) {
 				{textNode, []astNode{}, token{" ", whiteSpace}},
 				{optionalNode, []astNode{
 					{textNode, []astNode{}, token{"blind", text}},
-				}, token{}},
+				}, nullToken},
 				{textNode, []astNode{}, token{" ", whiteSpace}},
 				{textNode, []astNode{}, token{"mice", text}},
 			},
-			token{},
+			nullToken,
 		})
 	})
 
@@ -99,7 +99,7 @@ func TestCucumberExpressionParser(t *testing.T) {
 			[]astNode{
 				{textNode, []astNode{}, token{"\\", escape}},
 			},
-			token{},
+			nullToken,
 		})
 	})
 
@@ -109,7 +109,7 @@ func TestCucumberExpressionParser(t *testing.T) {
 			[]astNode{
 				{textNode, []astNode{}, token{"{", beginParameter}},
 			},
-			token{},
+			nullToken,
 		})
 	})
 
@@ -119,7 +119,7 @@ func TestCucumberExpressionParser(t *testing.T) {
 			[]astNode{
 				{textNode, []astNode{}, token{"(", beginOptional}},
 			},
-			token{},
+			nullToken,
 		})
 	})
 
@@ -129,7 +129,7 @@ func TestCucumberExpressionParser(t *testing.T) {
 			[]astNode{
 				{textNode, []astNode{}, token{"(", beginOptional}},
 			},
-			token{},
+			nullToken,
 		})
 	})
 
@@ -145,7 +145,7 @@ func TestCucumberExpressionParser(t *testing.T) {
 				{textNode, []astNode{}, token{" ", whiteSpace}},
 				{textNode, []astNode{}, token{"mice", text}},
 			},
-			token{},
+			nullToken,
 		})
 	})
 
@@ -158,14 +158,14 @@ func TestCucumberExpressionParser(t *testing.T) {
 				{textNode, []astNode{}, token{"(", beginOptional}},
 				{optionalNode, []astNode{
 					{textNode, []astNode{}, token{"very", text}},
-				}, token{}},
+				}, nullToken},
 				{textNode, []astNode{}, token{" ", whiteSpace}},
 				{textNode, []astNode{}, token{"blind", text}},
 				{textNode, []astNode{}, token{")", endOptional}},
 				{textNode, []astNode{}, token{" ", whiteSpace}},
 				{textNode, []astNode{}, token{"mice", text}},
 			},
-			token{},
+			nullToken,
 		})
 	})
 
@@ -181,11 +181,11 @@ func TestCucumberExpressionParser(t *testing.T) {
 					{textNode, []astNode{}, token{")", endOptional}},
 					{textNode, []astNode{}, token{" ", whiteSpace}},
 					{textNode, []astNode{}, token{"blind", text}},
-				}, token{}},
+				}, nullToken},
 				{textNode, []astNode{}, token{" ", whiteSpace}},
 				{textNode, []astNode{}, token{"mice", text}},
 			},
-			token{},
+			nullToken,
 		})
 	})
 
@@ -196,13 +196,13 @@ func TestCucumberExpressionParser(t *testing.T) {
 				{alternationNode, []astNode{
 					{alternativeNode, []astNode{
 						{textNode, []astNode{}, token{"mice", text}},
-					}, token{}},
+					}, nullToken},
 					{alternativeNode, []astNode{
 						{textNode, []astNode{}, token{"rats", text}},
-					}, token{}},
-				}, token{}},
+					}, nullToken},
+				}, nullToken},
 			},
-			token{},
+			nullToken,
 		})
 	})
 
@@ -214,7 +214,7 @@ func TestCucumberExpressionParser(t *testing.T) {
 				{textNode, []astNode{}, token{"/", alternation}},
 				{textNode, []astNode{}, token{"rats", text}},
 			},
-			token{},
+			nullToken,
 		})
 	})
 
@@ -227,15 +227,15 @@ func TestCucumberExpressionParser(t *testing.T) {
 				{alternationNode, []astNode{
 					{alternativeNode, []astNode{
 						{textNode, []astNode{}, token{"hungry", text}},
-					}, token{}},
+					}, nullToken},
 					{alternativeNode, []astNode{
 						{textNode, []astNode{}, token{"blind", text}},
-					}, token{}},
-				}, token{}},
+					}, nullToken},
+				}, nullToken},
 				{textNode, []astNode{}, token{" ", whiteSpace}},
 				{textNode, []astNode{}, token{"mice", text}},
 			},
-			token{},
+			nullToken,
 		})
 	})
 
@@ -249,16 +249,16 @@ func TestCucumberExpressionParser(t *testing.T) {
 						{textNode, []astNode{}, token{"three", text}},
 						{textNode, []astNode{}, token{" ", whiteSpace}},
 						{textNode, []astNode{}, token{"hungry", text}},
-					}, token{}},
+					}, nullToken},
 					{alternativeNode, []astNode{
 						{textNode, []astNode{}, token{"blind", text}},
 						{textNode, []astNode{}, token{" ", whiteSpace}},
 						{textNode, []astNode{}, token{"mice", text}},
 						{textNode, []astNode{}, token{" ", whiteSpace}},
-					}, token{}},
-				}, token{}},
+					}, nullToken},
+				}, nullToken},
 			},
-			token{},
+			nullToken,
 		})
 	})
 
@@ -274,13 +274,13 @@ func TestCucumberExpressionParser(t *testing.T) {
 						{textNode, []astNode{}, token{"blind", text}},
 						{textNode, []astNode{}, token{" ", whiteSpace}},
 						{textNode, []astNode{}, token{"mice", text}},
-					}, token{}},
+					}, nullToken},
 					{alternativeNode, []astNode{
 						{textNode, []astNode{}, token{"rats", text}},
-					}, token{}},
-				}, token{}},
+					}, nullToken},
+				}, nullToken},
 			},
-			token{},
+			nullToken,
 		})
 	})
 
@@ -295,14 +295,14 @@ func TestCucumberExpressionParser(t *testing.T) {
 						{textNode, []astNode{}, token{"blind", text}},
 						{textNode, []astNode{}, token{" ", whiteSpace}},
 						{textNode, []astNode{}, token{"mice", text}},
-					}, token{}},
+					}, nullToken},
 					{alternativeNode, []astNode{
 						{textNode, []astNode{}, token{"rats", text}},
 						{textNode, []astNode{}, token{"(", beginOptional}},
-					}, token{}},
-				}, token{}},
+					}, nullToken},
+				}, nullToken},
 			},
-			token{},
+			nullToken,
 		})
 	})
 
@@ -317,16 +317,16 @@ func TestCucumberExpressionParser(t *testing.T) {
 						{textNode, []astNode{}, token{"blind", text}},
 						{textNode, []astNode{}, token{" ", whiteSpace}},
 						{textNode, []astNode{}, token{"rat", text}},
-					}, token{}},
+					}, nullToken},
 					{alternativeNode, []astNode{
 						{textNode, []astNode{}, token{"cat", text}},
 						{optionalNode, []astNode{
 							{textNode, []astNode{}, token{"s", text}},
-						}, token{}},
-					}, token{}},
-				}, token{}},
+						}, nullToken},
+					}, nullToken},
+				}, nullToken},
 			},
-			token{},
+			nullToken,
 		})
 	})
 

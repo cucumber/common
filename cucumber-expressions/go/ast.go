@@ -1,5 +1,7 @@
 package cucumberexpressions
 
+import "strings"
+
 type nodeType int
 
 const (
@@ -17,11 +19,20 @@ type astNode struct {
 	token    token
 }
 
+func (node astNode) text() string {
+	builder := strings.Builder{}
+	builder.WriteString(node.token.text)
+	for _, c := range node.nodes {
+		builder.WriteString(c.text())
+	}
+	return builder.String()
+}
+
 // Marker. This way we don't need to model the
 // the tail end of alternation in the AST:
 //
 // alternation := alternative* + ( '/' + alternative* )+
-var alternativeSeparator = astNode{alternativeNode, []astNode{}, token{"/",  alternation}}
+var alternativeSeparator = astNode{alternativeNode, []astNode{}, token{"/", alternation}}
 
 type tokenType int
 
@@ -57,3 +68,6 @@ var beginParameterToken = token{"{", beginParameter}
 var endParameterToken = token{"}", endParameter}
 var alternationToken = token{"/", alternation}
 var escapeToken = token{"\\", escape}
+
+var nullNode = astNode{textNode, []astNode{}, nullToken}
+var nullToken = token{"", text}

@@ -32,8 +32,8 @@ func TestCucumberExpressionRegExpTranslation(t *testing.T) {
 	t.Run("translates alternation with optional words", func(t *testing.T) {
 		assertRegexp(
 			t,
-			"the (test )chat/call/email interactions are visible",
-			"^the (?:test )?(?:chat|call|email) interactions are visible$",
+			"the (test )chat/(test )call/(test )email interactions are visible",
+			"^the (?:(?:test )?chat|(?:test )?call|(?:test )?email) interactions are visible$",
 		)
 	})
 

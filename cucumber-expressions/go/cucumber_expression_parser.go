@@ -1,7 +1,5 @@
 package cucumberexpressions
 
-var nullNode = astNode{textNode, []astNode{}, token{}}
-
 type parser func(expression []token, current int) (int, astNode)
 
 /*
@@ -36,9 +34,9 @@ var textParser = func(expression []token, current int) (int, astNode) {
  * parameter := '{' + text* + '}'
  */
 var parameterParser = parseBetween(
-	optionalNode,
-	beginOptional,
-	endOptional,
+	parameterNode,
+	beginParameter,
+	endParameter,
 	textParser,
 )
 
@@ -47,9 +45,9 @@ var parameterParser = parseBetween(
  * option := parameter | text
  */
 var optionalParser = parseBetween(
-	parameterNode,
-	beginParameter,
-	endParameter,
+	optionalNode,
+	beginOptional,
+	endOptional,
 	parameterParser,
 	textParser,
 )
@@ -72,7 +70,7 @@ func parseBetween(nodeType nodeType, beginToken tokenType, endToken tokenType, p
 			return 0, nullNode
 		}
 		// consumes endToken
-		return subCurrent + 1 - current, astNode{nodeType, subAst, token{}}
+		return subCurrent + 1 - current, astNode{nodeType, subAst, nullToken}
 	}
 }
 
@@ -120,17 +118,17 @@ var alternationParser = func(expression []token, current int) (int, astNode) {
 		alternative := make([]astNode, 0)
 		for _, node := range subAst {
 			if node.nodeType == alternativeSeparator.nodeType {
-				alternatives = append(alternatives, astNode{alternativeNode, alternative, token{}})
+				alternatives = append(alternatives, astNode{alternativeNode, alternative, nullToken})
 				alternative = make([]astNode, 0)
 			} else {
 				alternative = append(alternative, node)
 			}
 		}
-		return append(alternatives, astNode{alternativeNode, alternative, token{}})
+		return append(alternatives, astNode{alternativeNode, alternative, nullToken})
 	}
 
 	// Does not consume right hand boundary token
-	return consumed, astNode{alternationNode, splitAlternatives(subAst), token{}}
+	return consumed, astNode{alternationNode, splitAlternatives(subAst), nullToken}
 
 }
 
@@ -156,7 +154,7 @@ func parse(expression string) (astNode, error) {
 		return nullNode, NewCucumberExpressionError("Could not parse" + expression)
 	}
 
-	return astNode{expressionNode, ast, token{}}, nil
+	return astNode{expressionNode, ast, nullToken}, nil
 }
 
 func parseTokensUntil(parsers []parser, expresion []token, startAt int, endTokens ...tokenType) (int, []astNode) {
