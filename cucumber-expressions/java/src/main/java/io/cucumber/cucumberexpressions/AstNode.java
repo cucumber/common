@@ -7,6 +7,13 @@ import static java.util.stream.Collectors.joining;
 
 abstract class AstNode {
 
+    static final AstNode ALTERNATIVE_SEPARATOR = new AstNode() {
+        // Marker. This way we don't need to model the
+        // the tail end of alternation in the AST:
+        //
+        // alternation := alternative* + ( '/' + alternative* )+
+    };
+
     static final class Expression extends AstNode {
 
         private final List<AstNode> nodes;

@@ -17,6 +17,12 @@ type astNode struct {
 	token    token
 }
 
+// Marker. This way we don't need to model the
+// the tail end of alternation in the AST:
+//
+// alternation := alternative* + ( '/' + alternative* )+
+var alternativeSeparator = astNode{alternativeNode, []astNode{}, token{"/",  alternation}}
+
 type tokenType int
 
 const (

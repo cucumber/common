@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Function;
 
+import static io.cucumber.cucumberexpressions.AstNode.ALTERNATIVE_SEPARATOR;
 import static io.cucumber.cucumberexpressions.AstNode.Token.Type.ALTERNATION;
 import static io.cucumber.cucumberexpressions.AstNode.Token.Type.BEGIN_OPTIONAL;
 import static io.cucumber.cucumberexpressions.AstNode.Token.Type.BEGIN_PARAMETER;
@@ -108,13 +109,6 @@ final class CucumberExpressionParser {
         };
     }
 
-    private static final AstNode ALTERNATIVE_SEPARATOR = new AstNode() {
-        // Marker. This way we don't need to model the
-        // the tail end of alternation in the AST:
-        //
-        // alternation := alternative* + ( '/' + alternative* )+
-    };
-
     private static Parser alternativeSeparator = (ast, expression, current) -> {
         if (!lookingAt(expression, current, ALTERNATION)) {
             return 0;
@@ -137,8 +131,7 @@ final class CucumberExpressionParser {
      */
     private static final Parser alternationParser = (ast, expression, current) -> {
         int previous = current - 1;
-        if (!lookingAt(expression, previous, START_OF_LINE)
-                && !lookingAt(expression, previous, WHITE_SPACE)) {
+        if (!lookingAt(expression, previous, START_OF_LINE, WHITE_SPACE)) {
             return 0;
         }
 
@@ -148,7 +141,7 @@ final class CucumberExpressionParser {
             return 0;
         }
 
-        List<List<AstNode>> alternatives = splitOnAlternation(subAst);
+        List<List<AstNode>> alternatives = splitOn(subAst, ALTERNATIVE_SEPARATOR);
         ast.add(new Alternation(alternatives));
         // Does not consume right hand boundary token
         return consumed;
@@ -232,12 +225,12 @@ final class CucumberExpressionParser {
         return expression.get(at).type == token;
     }
 
-    private static <T> List<List<T>> splitOnAlternation(List<T> tokens) {
+    private static <T> List<List<T>> splitOn(List<T> astNode, T separator) {
         List<List<T>> alternatives = new ArrayList<>();
         List<T> alternative = new ArrayList<>();
         alternatives.add(alternative);
-        for (T token : tokens) {
-            if (ALTERNATIVE_SEPARATOR.equals(token)) {
+        for (T token : astNode) {
+            if (separator.equals(token)) {
                 alternative = new ArrayList<>();
                 alternatives.add(alternative);
             } else {
