@@ -129,14 +129,14 @@ func (formatter *Formatter) ProcessMessages(stdin io.Reader, stdout io.Writer) (
 		case *messages.Envelope_Pickle:
 			pickle := m.Pickle
 			jsonFeature := formatter.findOrCreateJsonFeature(pickle)
-
 			scenario := formatter.lookup.LookupScenario(pickle.SourceIds[0])
-
+			// TODO: find a better way to get backgrounds
+			background := &messages.GherkinDocument_Feature_Background{}
 			scenarioJsonSteps := make([]*jsonStep, 0)
+			backgroundJsonSteps := make([]*jsonStep, 0)
 
 			for _, pickleStep := range pickle.Steps {
 				step := formatter.lookup.LookupStep(pickleStep.StepId)
-
 				jsonStep := &jsonStep{
 					Keyword: step.Keyword,
 					Line:    step.Location.Line,
@@ -146,8 +146,6 @@ func (formatter *Formatter) ProcessMessages(stdin io.Reader, stdout io.Writer) (
 						Location: fmt.Sprintf("%s", pickle.Uri),
 					},
 				}
-
-				scenarioJsonSteps = append(scenarioJsonSteps, jsonStep)
 
 				docString := step.GetDocString()
 				if docString != nil {
@@ -172,20 +170,24 @@ func (formatter *Formatter) ProcessMessages(stdin io.Reader, stdout io.Writer) (
 						}
 					}
 				}
-
+				if formatter.lookup.IsBackgroundStep(step.Id) {
+					backgroundJsonSteps = append(backgroundJsonSteps, jsonStep)
+					background = formatter.lookup.LookupBrackgroundByStepId(step.Id)
+				} else {
+					scenarioJsonSteps = append(scenarioJsonSteps, jsonStep)
+				}
 				formatter.jsonStepsByKey[key(pickle.Uri)] = jsonStep
 			}
 
-			// if len(backgroundJsonSteps) > 0 {
-			// 	background := formatter.backgroundByUri[pickle.Uri]
-			// 	jsonFeature.Elements = append(jsonFeature.Elements, &jsonFeatureElement{
-			// 		Description: background.Description,
-			// 		Keyword:     background.Keyword,
-			// 		Line:        background.Location.Line,
-			// 		Steps:       backgroundJsonSteps,
-			// 		Type:        "background",
-			// 	})
-			// }
+			if len(backgroundJsonSteps) > 0 {
+				jsonFeature.Elements = append(jsonFeature.Elements, &jsonFeatureElement{
+					Description: background.Description,
+					Keyword:     background.Keyword,
+					Line:        background.Location.Line,
+					Steps:       backgroundJsonSteps,
+					Type:        "background",
+				})
+			}
 
 			scenarioID := fmt.Sprintf("%s;%s", jsonFeature.ID, makeId(scenario.Name))
 
