@@ -55,9 +55,7 @@ public final class CucumberExpression implements Expression {
                         .map(this::rewriteToRegex)
                         .collect(joining());
             case PARAMETER_NODE:
-                String name = node.getNodes().stream()
-                        .map(AstNode::getText)
-                        .collect(joining());
+                String name = node.getText();
                 ParameterType.checkParameterTypeName(name);
                 ParameterType<?> parameterType = parameterTypeRegistry.lookupByTypeName(name);
                 if (parameterType == null) {
@@ -102,12 +100,12 @@ public final class CucumberExpression implements Expression {
         }
     }
 
-    private void assertNoParameters(AstNode node, String parameterTypesCannotBeAlternative) {
+    private void assertNoParameters(AstNode node, String message) {
         boolean hasParameter = node.getNodes().stream()
                 .map(AstNode::getType)
                 .anyMatch(type -> type == PARAMETER_NODE);
         if (hasParameter) {
-            throw new CucumberExpressionException(parameterTypesCannotBeAlternative + source);
+            throw new CucumberExpressionException(message + source);
         }
     }
 

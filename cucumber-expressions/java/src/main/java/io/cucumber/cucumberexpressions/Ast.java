@@ -6,6 +6,7 @@ import java.util.Objects;
 import static io.cucumber.cucumberexpressions.Ast.AstNode.Type.ALTERNATIVE_NODE;
 import static io.cucumber.cucumberexpressions.Ast.Token.ALTERNATION;
 import static java.util.Arrays.asList;
+import static java.util.stream.Collectors.joining;
 
 final class Ast {
     // Marker. This way we don't need to model the
@@ -57,7 +58,12 @@ final class Ast {
         }
 
         String getText() {
-            return token.text;
+            if(token != null)
+                return token.text;
+
+            return getNodes().stream()
+                    .map(AstNode::getText)
+                    .collect(joining());
         }
 
         @Override
