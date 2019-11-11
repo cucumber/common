@@ -4,10 +4,10 @@ import TreeRegexp from '../src/TreeRegexp'
 describe('TreeRegexp', () => {
   it('exposes group source', () => {
     const tr = new TreeRegexp(/(a(?:b)?)(c)/)
-    assert.deepStrictEqual(tr.groupBuilder.children.map(gb => gb.source), [
-      'a(?:b)?',
-      'c',
-    ])
+    assert.deepStrictEqual(
+      tr.groupBuilder.children.map(gb => gb.source),
+      ['a(?:b)?', 'c']
+    )
   })
 
   it('builds tree', () => {
