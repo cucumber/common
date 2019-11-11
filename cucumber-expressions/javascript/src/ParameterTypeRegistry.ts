@@ -1,7 +1,7 @@
 import ParameterType from './ParameterType'
 
 import CucumberExpressionGenerator from './CucumberExpressionGenerator'
-import {AmbiguousParameterTypeError, CucumberExpressionError} from './Errors'
+import { AmbiguousParameterTypeError, CucumberExpressionError } from './Errors'
 
 export default class ParameterTypeRegistry {
   public static readonly INTEGER_REGEXPS = [/-?\d+/, /\d+/]
@@ -11,7 +11,10 @@ export default class ParameterTypeRegistry {
   public static readonly ANONYMOUS_REGEXP = /.*/
 
   private readonly parameterTypeByName = new Map<string, ParameterType<any>>()
-  private readonly parameterTypesByRegexp = new Map<string, Array<ParameterType<any>>>()
+  private readonly parameterTypesByRegexp = new Map<
+    string,
+    Array<ParameterType<any>>
+  >()
 
   constructor() {
     this.defineParameterType(
