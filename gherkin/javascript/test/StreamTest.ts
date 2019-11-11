@@ -22,9 +22,7 @@ describe('gherkin', () => {
       'test.feature'
     )
 
-    const envelopes = await streamToArray(
-      fromSources([source])
-    )
+    const envelopes = await streamToArray(fromSources([source]))
     assert.strictEqual(envelopes.length, 3)
   })
 
