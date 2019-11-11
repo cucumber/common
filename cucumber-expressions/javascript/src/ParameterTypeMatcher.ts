@@ -1,6 +1,6 @@
 import ParameterType from './ParameterType'
 // @ts-ignore
-import XRegExp from 'xregexp';
+import XRegExp from 'xregexp'
 
 // Needed for Node8 support, should be able to remove once Node 8 reaches end of life
 // (eta 2019-12-31) https://nodejs.org/en/about/releases/
@@ -54,16 +54,22 @@ export default class ParameterTypeMatcher {
   }
 
   get full_word() {
-    return this.match_start_word && this.match_end_word
+    return this.matchStartWord && this.matchEndWord
   }
 
-  get match_start_word() {
-    return this.start == 0 || this.text[this.start - 1].match(whitespacePunctuationPattern)
+  get matchStartWord() {
+    return (
+      this.start === 0 ||
+      this.text[this.start - 1].match(whitespacePunctuationPattern)
+    )
   }
 
-  get match_end_word() {
-    const next_character_index = this.start + this.group.length
-    return  next_character_index === this.text.length || this.text[next_character_index].match(whitespacePunctuationPattern)
+  get matchEndWord() {
+    const nextCharacterIndex = this.start + this.group.length
+    return (
+      nextCharacterIndex === this.text.length ||
+      this.text[nextCharacterIndex].match(whitespacePunctuationPattern)
+    )
   }
 
   get group() {
