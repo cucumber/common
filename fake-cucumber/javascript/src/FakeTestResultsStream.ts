@@ -134,6 +134,7 @@ class FakeTestResultsStream extends Transform {
           new messages.Envelope({
             testStepFinished: new messages.TestStepFinished({
               testCaseStartedId,
+              testStepId: testStep.id,
               testResult: {
                 status: testStepStatus,
                 message:
