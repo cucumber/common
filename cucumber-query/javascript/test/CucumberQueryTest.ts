@@ -19,13 +19,13 @@ describe('CucumberQuery', () => {
 `,
       query,
       () => {
-        const line3: messages.ITestResult[] = query.getStepResult(
+        const line3: messages.ITestResult[] = query.getStepResults(
           'test.feature',
           3
         )
         assert.strictEqual(line3[0].status, messages.TestResult.Status.PASSED)
 
-        const line4: messages.ITestResult[] = query.getStepResult(
+        const line4: messages.ITestResult[] = query.getStepResults(
           'test.feature',
           4
         )
@@ -49,7 +49,7 @@ describe('CucumberQuery', () => {
 `,
       query,
       () => {
-        const line2: messages.ITestResult[] = query.getScenarioResult(
+        const line2: messages.ITestResult[] = query.getScenarioResults(
           'test.feature',
           2
         )
@@ -74,11 +74,40 @@ describe('CucumberQuery', () => {
 `,
       query,
       () => {
-        const line3: messages.ITestResult[] = query.getScenarioResult(
+        const line3: messages.ITestResult[] = query.getScenarioResults(
           'test.feature',
           3
         )
         assert.strictEqual(line3[0].status, messages.TestResult.Status.FAILED)
+        cb()
+      },
+      cb
+    )
+  })
+
+  it('looks up result for a whole file', (cb: (
+    error?: Error | null
+  ) => void) => {
+    const query = new CucumberQuery()
+
+    check(
+      `Feature: hello
+
+    Scenario: passed
+      Given a passed step
+
+    Scenario: failed
+      Given a failed step
+
+    Scenario: passed too
+      Given a passed step
+`,
+      query,
+      () => {
+        const results: messages.ITestResult[] = query.getDocumentResults(
+          'test.feature'
+        )
+        assert.strictEqual(results[0].status, messages.TestResult.Status.FAILED)
         cb()
       },
       cb

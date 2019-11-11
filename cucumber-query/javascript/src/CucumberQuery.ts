@@ -9,6 +9,10 @@ export default class CucumberQuery {
     string,
     messages.ITestResult[]
   >()
+  private readonly documentResultsByUri = new Map<
+    string,
+    messages.ITestResult[]
+  >()
   private readonly testCaseStartedById = new Map<
     string,
     messages.ITestCaseStarted
@@ -91,6 +95,12 @@ export default class CucumberQuery {
         }
         testCaseResults.push(message.testCaseFinished.testResult)
       }
+      let documentResults = this.documentResultsByUri.get(uri)
+      if (!documentResults) {
+        documentResults = []
+        this.documentResultsByUri.set(uri, documentResults)
+      }
+      documentResults.push(message.testCaseFinished.testResult)
     }
 
     if (message.testCase) {
@@ -136,17 +146,22 @@ export default class CucumberQuery {
     }
   }
 
-  public getStepResult(
+  public getStepResults(
     uri: string,
     lineNumber: number
   ): messages.ITestResult[] {
     return this.testStepResultsByUriAndLine.get(`${uri}:${lineNumber}`)
   }
 
-  public getScenarioResult(
+  public getScenarioResults(
     uri: string,
     lineNumber: number
   ): messages.ITestResult[] {
     return this.testCaseResultsByUriAndLine.get(`${uri}:${lineNumber}`)
+  }
+
+  public getDocumentResults(uri: string): messages.ITestResult[] {
+    const results = this.documentResultsByUri.get(uri)
+    return results.sort((a, b) => b.status.valueOf() - a.status.valueOf())
   }
 }
