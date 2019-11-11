@@ -22,10 +22,20 @@ function generateMessages(gherkinSource: string, uri: string): Readable {
 }
 
 class CucumberQuery {
-  private readonly testResultsByUriAndLine = new Map<
+  private readonly testStepResultsByUriAndLine = new Map<
     string,
     messages.ITestResult[]
   >()
+  private readonly testCaseResultsByUriAndLine = new Map<
+    string,
+    messages.ITestResult[]
+  >()
+  private readonly testCaseStartedById = new Map<
+    string,
+    messages.ITestCaseStarted
+  >()
+  private readonly testCaseById = new Map<string, messages.ITestCase>()
+  private readonly pickleById = new Map<string, messages.IPickle>()
   private readonly testStepById = new Map<string, messages.TestCase.ITestStep>()
   private readonly pickleStepById = new Map<
     string,
@@ -39,6 +49,7 @@ class CucumberQuery {
     messages.GherkinDocument.Feature.IStep,
     string
   >()
+  private readonly locationsById = new Map<string, messages.ILocation>()
 
   public update(message: messages.IEnvelope): void {
     if (message.testStepFinished) {
@@ -51,12 +62,56 @@ class CucumberQuery {
       const uri = this.uriByGherkinStep.get(gherkinStep)
       const lineNumber = gherkinStep.location.line
 
-      let testResults = this.testResultsByUriAndLine.get(`${uri}:${lineNumber}`)
-      if (testResults === undefined) {
-        testResults = []
-        this.testResultsByUriAndLine.set(`${uri}:${lineNumber}`, testResults)
+      let testStepResults = this.testStepResultsByUriAndLine.get(
+        `${uri}:${lineNumber}`
+      )
+      if (testStepResults === undefined) {
+        testStepResults = []
+        this.testStepResultsByUriAndLine.set(
+          `${uri}:${lineNumber}`,
+          testStepResults
+        )
       }
-      testResults.push(message.testStepFinished.testResult)
+      testStepResults.push(message.testStepFinished.testResult)
+    }
+
+    if (message.testCase) {
+      this.testCaseById.set(message.testCase.id, message.testCase)
+    }
+
+    if (message.testCaseStarted) {
+      this.testCaseStartedById.set(
+        message.testCaseStarted.id,
+        message.testCaseStarted
+      )
+    }
+
+    if (message.testCaseFinished) {
+      const testCaseStarted = this.testCaseStartedById.get(
+        message.testCaseFinished.testCaseStartedId
+      )
+      const testCase = this.testCaseById.get(testCaseStarted.testCaseId)
+
+      const pickle = this.pickleById.get(testCase.pickleId)
+
+      const uri = pickle.uri
+      const lineNumbers = pickle.sourceIds.map(
+        sourceId => this.locationsById.get(sourceId).line
+      )
+
+      for (const lineNumber of lineNumbers) {
+        let testCaseResults = this.testCaseResultsByUriAndLine.get(
+          `${uri}:${lineNumber}`
+        )
+        if (testCaseResults === undefined) {
+          testCaseResults = []
+          this.testCaseResultsByUriAndLine.set(
+            `${uri}:${lineNumber}`,
+            testCaseResults
+          )
+        }
+        testCaseResults.push(message.testCaseFinished.testResult)
+      }
     }
 
     if (message.testCase) {
@@ -66,6 +121,7 @@ class CucumberQuery {
     }
 
     if (message.pickle) {
+      this.pickleById.set(message.pickle.id, message.pickle)
       for (const pickleStep of message.pickle.steps) {
         this.pickleStepById.set(pickleStep.id, pickleStep)
       }
@@ -73,7 +129,11 @@ class CucumberQuery {
 
     if (message.gherkinDocument && message.gherkinDocument.feature) {
       for (const featureChild of message.gherkinDocument.feature.children) {
-        for (const step of featureChild.scenario.steps) {
+        const scenario = featureChild.scenario
+
+        this.locationsById.set(scenario.id, scenario.location)
+
+        for (const step of scenario.steps) {
           this.uriByGherkinStep.set(step, message.gherkinDocument.uri)
           this.gherkinStepById.set(step.id, step)
         }
@@ -81,48 +141,97 @@ class CucumberQuery {
     }
   }
 
-  public getResult(uri: string, lineNumber: number): messages.ITestResult[] {
-    return this.testResultsByUriAndLine.get(`${uri}:${lineNumber}`)
+  public getStepResult(
+    uri: string,
+    lineNumber: number
+  ): messages.ITestResult[] {
+    return this.testStepResultsByUriAndLine.get(`${uri}:${lineNumber}`)
+  }
+
+  public getScenarioResult(
+    uri: string,
+    lineNumber: number
+  ): messages.ITestResult[] {
+    return this.testCaseResultsByUriAndLine.get(`${uri}:${lineNumber}`)
   }
 }
 
+function check(
+  gherkinSource: string,
+  query: CucumberQuery,
+  listener: () => void,
+  cb: (error?: Error | null) => void
+) {
+  const sink = generateMessages(gherkinSource, 'test.feature').pipe(
+    new Writable({
+      objectMode: true,
+      write(
+        message: messages.IEnvelope,
+        encoding: string,
+        callback: (error?: Error | null) => void
+      ): void {
+        query.update(message)
+        callback()
+      },
+    })
+  )
+
+  sink.on('error', cb)
+  sink.on('finish', listener)
+}
+
 describe('CucumberQuery', () => {
-  it('looks up result for uri and line', (cb: (
+  it("looks up result for step's uri and line", (cb: (
     error?: Error | null
   ) => void) => {
     const query = new CucumberQuery()
 
-    const mess = generateMessages(
+    check(
       `Feature: hello
-  Scenario: hi
-    Given a passed step
-    Given a failed step
+Scenario: hi
+  Given a passed step
+  Given a failed step
 `,
-      'test.feature'
+      query,
+      () => {
+        const line3: messages.ITestResult[] = query.getStepResult(
+          'test.feature',
+          3
+        )
+        assert.strictEqual(line3[0].status, messages.TestResult.Status.PASSED)
+
+        const line4: messages.ITestResult[] = query.getStepResult(
+          'test.feature',
+          4
+        )
+        assert.strictEqual(line4[0].status, messages.TestResult.Status.FAILED)
+        cb()
+      },
+      cb
     )
+  })
 
-    const sink = mess.pipe(
-      new Writable({
-        objectMode: true,
-        write(
-          message: messages.IEnvelope,
-          encoding: string,
-          callback: (error?: Error | null) => void
-        ): void {
-          query.update(message)
-          callback()
-        },
-      })
+  it("looks up result for scenario's uri and line", (cb: (
+    error?: Error | null
+  ) => void) => {
+    const query = new CucumberQuery()
+
+    check(
+      `Feature: hello
+Scenario: hi
+  Given a passed step
+  Given a failed step
+`,
+      query,
+      () => {
+        const line2: messages.ITestResult[] = query.getScenarioResult(
+          'test.feature',
+          2
+        )
+        assert.strictEqual(line2[0].status, messages.TestResult.Status.FAILED)
+        cb()
+      },
+      cb
     )
-
-    sink.on('error', cb)
-    sink.on('finish', () => {
-      const line3: messages.ITestResult[] = query.getResult('test.feature', 3)
-      assert.strictEqual(line3[0].status, messages.TestResult.Status.PASSED)
-
-      const line4: messages.ITestResult[] = query.getResult('test.feature', 4)
-      assert.strictEqual(line4[0].status, messages.TestResult.Status.FAILED)
-      cb()
-    })
   })
 })
