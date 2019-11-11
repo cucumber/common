@@ -17,6 +17,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Fixed
 
+## [8.2.1] - 2019-11-11
+
+### Fixed
+
+* Fix webpack packaging (simplify by assigning to `window.CucumberExpressions`)
+
 ## [8.2.0] - 2019-11-11
 
 ### Added
@@ -623,7 +629,8 @@ N/A
 * First stable release!
 
 <!-- Releases -->
-[Unreleased]: https://github.com/cucumber/cucumber/compare/cucumber-expressions/v8.2.0...master
+[Unreleased]: https://github.com/cucumber/cucumber/compare/cucumber-expressions/v8.2.1...master
+[8.2.1]:      https://github.com/cucumber/cucumber/compare/cucumber-expressions/v8.2.0...cucumber-expressions/v8.2.1
 [8.2.0]:      https://github.com/cucumber/cucumber/compare/cucumber-expressions/v8.1.0...cucumber-expressions/v8.2.0
 [8.1.0]:      https://github.com/cucumber/cucumber/compare/cucumber-expressions/v8.0.2...cucumber-expressions/v8.1.0
 [8.0.2]:      https://github.com/cucumber/cucumber/compare/cucumber-expressions/v8.0.1...cucumber-expressions/v8.0.2
