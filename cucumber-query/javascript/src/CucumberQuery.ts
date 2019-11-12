@@ -37,7 +37,8 @@ export default class CucumberQuery {
     messages.GherkinDocument.Feature.IStep,
     string
   >()
-  private readonly locationsById = new Map<string, messages.ILocation>()
+  private readonly uriBySourceId = new Map<string, string>()
+  private readonly locationBySourceId = new Map<string, messages.ILocation>()
 
   public update(message: messages.IEnvelope): CucumberQuery {
     if (message.gherkinDocument && message.gherkinDocument.feature) {
@@ -86,12 +87,12 @@ export default class CucumberQuery {
 
     if (message.testCase) {
       this.testCaseById.set(message.testCase.id, message.testCase)
-      const pickle = this.pickleById.get(message.testCase.pickleId)
 
       for (const testStep of message.testCase.testSteps) {
         this.testStepById.set(testStep.id, testStep)
 
         const pickleStep = this.pickleStepById.get(testStep.pickleStepId)
+
         const gherkinStep = this.gherkinStepById.get(pickleStep.stepId)
 
         const uri = this.uriByGherkinStep.get(gherkinStep)
@@ -116,22 +117,23 @@ export default class CucumberQuery {
         message.testStepFinished.testStepId
       )
       const pickleStep = this.pickleStepById.get(testStep.pickleStepId)
-      const gherkinStep = this.gherkinStepById.get(pickleStep.stepId)
 
-      const uri = this.uriByGherkinStep.get(gherkinStep)
-      const lineNumber = gherkinStep.location.line
+      for (const sourceId of pickleStep.sourceIds) {
+        const uri = this.uriBySourceId.get(sourceId)
+        const lineNumber = this.locationBySourceId.get(sourceId).line
 
-      let testStepResults = this.testStepResultsByUriAndLine.get(
-        `${uri}:${lineNumber}`
-      )
-      if (testStepResults === undefined) {
-        testStepResults = []
-        this.testStepResultsByUriAndLine.set(
-          `${uri}:${lineNumber}`,
-          testStepResults
+        let testStepResults = this.testStepResultsByUriAndLine.get(
+          `${uri}:${lineNumber}`
         )
+        if (testStepResults === undefined) {
+          testStepResults = []
+          this.testStepResultsByUriAndLine.set(
+            `${uri}:${lineNumber}`,
+            testStepResults
+          )
+        }
+        testStepResults.push(message.testStepFinished.testResult)
       }
-      testStepResults.push(message.testStepFinished.testResult)
     }
 
     if (message.testCaseFinished) {
@@ -144,7 +146,7 @@ export default class CucumberQuery {
 
       const uri = pickle.uri
       const lineNumbers = pickle.sourceIds.map(
-        sourceId => this.locationsById.get(sourceId).line
+        sourceId => this.locationBySourceId.get(sourceId).line
       )
 
       for (const lineNumber of lineNumbers) {
@@ -173,11 +175,15 @@ export default class CucumberQuery {
 
   private updateBackground(
     background: messages.GherkinDocument.Feature.IBackground,
-    url: string
+    uri: string
   ) {
     for (const step of background.steps) {
-      this.uriByGherkinStep.set(step, url)
+      this.uriBySourceId.set(step.id, uri)
+      this.locationBySourceId.set(step.id, step.location)
       this.gherkinStepById.set(step.id, step)
+
+      // TODO: Remove?
+      this.uriByGherkinStep.set(step, uri)
     }
   }
 
@@ -185,16 +191,21 @@ export default class CucumberQuery {
     scenario: messages.GherkinDocument.Feature.IScenario,
     uri: string
   ) {
-    this.locationsById.set(scenario.id, scenario.location)
+    this.locationBySourceId.set(scenario.id, scenario.location)
 
     for (const step of scenario.steps) {
-      this.uriByGherkinStep.set(step, uri)
+      this.uriBySourceId.set(step.id, uri)
+      this.locationBySourceId.set(step.id, step.location)
       this.gherkinStepById.set(step.id, step)
+
+      // TODO: Remove?
+      this.uriByGherkinStep.set(step, uri)
     }
 
     for (const examples of scenario.examples) {
       for (const tableRow of examples.tableBody) {
-        this.locationsById.set(tableRow.id, tableRow.location)
+        this.uriBySourceId.set(tableRow.id, uri)
+        this.locationBySourceId.set(tableRow.id, tableRow.location)
       }
     }
   }
