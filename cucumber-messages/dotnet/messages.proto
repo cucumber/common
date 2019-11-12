@@ -361,8 +361,8 @@ message Pickle {
   message PickleTag {
     reserved 1;
     string name = 2;
-    // Reference to the tag id
-    string tagId = 3;
+    // Reference to the source id
+    string sourceId = 3;
   }
 
   /**
