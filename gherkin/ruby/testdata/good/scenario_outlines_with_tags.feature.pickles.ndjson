@@ -1,14 +1,14 @@
 {
   "pickle": {
-    "id": "9",
+    "id": "15",
     "language": "en",
     "sourceIds": [
-      "3",
+      "5",
       "2"
     ],
     "steps": [
       {
-        "id": "8",
+        "id": "14",
         "sourceIds": [
           "0",
           "2"
@@ -19,13 +19,16 @@
     ],
     "tags": [
       {
-        "name": "@a"
+        "name": "@a",
+        "tagId": "13"
       },
       {
-        "name": "@b"
+        "name": "@b",
+        "tagId": "3"
       },
       {
-        "name": "@c"
+        "name": "@c",
+        "tagId": "4"
       }
     ],
     "uri": "testdata/good/scenario_outlines_with_tags.feature"
@@ -33,35 +36,39 @@
 }
 {
   "pickle": {
-    "id": "11",
+    "id": "17",
     "language": "en",
     "sourceIds": [
-      "7",
-      "6"
+      "12",
+      "8"
     ],
     "steps": [
       {
-        "id": "10",
+        "id": "16",
         "sourceIds": [
-          "4",
-          "6"
+          "6",
+          "8"
         ],
-        "stepId": "4",
+        "stepId": "6",
         "text": "n"
       }
     ],
     "tags": [
       {
-        "name": "@a"
+        "name": "@a",
+        "tagId": "13"
       },
       {
-        "name": "@d"
+        "name": "@d",
+        "tagId": "10"
       },
       {
-        "name": "@e"
+        "name": "@e",
+        "tagId": "11"
       },
       {
-        "name": "@f"
+        "name": "@f",
+        "tagId": "9"
       }
     ],
     "uri": "testdata/good/scenario_outlines_with_tags.feature"

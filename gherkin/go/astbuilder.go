@@ -198,7 +198,7 @@ func (t *astBuilder) transformNode(node *astNode) (interface{}, error) {
 		return bg, nil
 
 	case RuleTypeScenarioDefinition:
-		tags := astTags(node)
+		tags := astTags(node, t.newId)
 		scenarioNode, _ := node.getSingle(RuleTypeScenario).(*astNode)
 
 		scenarioLine := scenarioNode.getToken(TokenTypeScenarioLine)
@@ -217,7 +217,7 @@ func (t *astBuilder) transformNode(node *astNode) (interface{}, error) {
 		return sc, nil
 
 	case RuleTypeExamplesDefinition:
-		tags := astTags(node)
+		tags := astTags(node, t.newId)
 		examplesNode, _ := node.getSingle(RuleTypeExamples).(*astNode)
 		examplesLine := examplesNode.getToken(TokenTypeExamplesLine)
 		description, _ := examplesNode.getSingle(RuleTypeDescription).(string)
@@ -261,7 +261,7 @@ func (t *astBuilder) transformNode(node *astNode) (interface{}, error) {
 		if !ok {
 			return nil, nil
 		}
-		tags := astTags(header)
+		tags := astTags(header, t.newId)
 		featureLine := header.getToken(TokenTypeFeatureLine)
 		if featureLine == nil {
 			return nil, nil
@@ -425,7 +425,7 @@ func astExamples(t *astNode) (examples []*messages.GherkinDocument_Feature_Scena
 	return
 }
 
-func astTags(node *astNode) (tags []*messages.GherkinDocument_Feature_Tag) {
+func astTags(node *astNode, newId func() string) (tags []*messages.GherkinDocument_Feature_Tag) {
 	tags = []*messages.GherkinDocument_Feature_Tag{}
 	tagsNode, ok := node.getSingle(RuleTypeTags).(*astNode)
 	if !ok {
@@ -442,6 +442,7 @@ func astTags(node *astNode) (tags []*messages.GherkinDocument_Feature_Tag) {
 				Column: uint32(item.Column),
 			}
 			tag.Name = item.Text
+			tag.Id = newId()
 			tags = append(tags, tag)
 		}
 	}

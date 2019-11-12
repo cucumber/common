@@ -1,14 +1,14 @@
 {
   "pickle": {
-    "id": "9",
+    "id": "24",
     "language": "en",
     "name": "minimalistic",
     "sourceIds": [
-      "1"
+      "4"
     ],
     "steps": [
       {
-        "id": "8",
+        "id": "23",
         "sourceIds": [
           "0"
         ],
@@ -18,22 +18,28 @@
     ],
     "tags": [
       {
-        "name": "@feature_tag1"
+        "name": "@feature_tag1",
+        "tagId": "20"
       },
       {
-        "name": "@feature_tag2"
+        "name": "@feature_tag2",
+        "tagId": "21"
       },
       {
-        "name": "@feature_tag3"
+        "name": "@feature_tag3",
+        "tagId": "22"
       },
       {
-        "name": "@scenario_tag1"
+        "name": "@scenario_tag1",
+        "tagId": "1"
       },
       {
-        "name": "@scenario_tag2"
+        "name": "@scenario_tag2",
+        "tagId": "2"
       },
       {
-        "name": "@scenario_tag3"
+        "name": "@scenario_tag3",
+        "tagId": "3"
       }
     ],
     "uri": "testdata/good/tags.feature"
@@ -41,51 +47,60 @@
 }
 {
   "pickle": {
-    "id": "11",
+    "id": "26",
     "language": "en",
     "name": "minimalistic outline",
     "sourceIds": [
-      "7",
-      "4"
+      "19",
+      "7"
     ],
     "steps": [
       {
-        "id": "10",
+        "id": "25",
         "sourceIds": [
-          "2",
-          "4"
+          "5",
+          "7"
         ],
-        "stepId": "2",
+        "stepId": "5",
         "text": "the minimalism"
       }
     ],
     "tags": [
       {
-        "name": "@feature_tag1"
+        "name": "@feature_tag1",
+        "tagId": "20"
       },
       {
-        "name": "@feature_tag2"
+        "name": "@feature_tag2",
+        "tagId": "21"
       },
       {
-        "name": "@feature_tag3"
+        "name": "@feature_tag3",
+        "tagId": "22"
       },
       {
-        "name": "@so_tag1"
+        "name": "@so_tag1",
+        "tagId": "16"
       },
       {
-        "name": "@so_tag2"
+        "name": "@so_tag2",
+        "tagId": "17"
       },
       {
-        "name": "@so_tag3"
+        "name": "@so_tag3",
+        "tagId": "18"
       },
       {
-        "name": "@ex_tag1"
+        "name": "@ex_tag1",
+        "tagId": "8"
       },
       {
-        "name": "@ex_tag2"
+        "name": "@ex_tag2",
+        "tagId": "9"
       },
       {
-        "name": "@ex_tag3"
+        "name": "@ex_tag3",
+        "tagId": "10"
       }
     ],
     "uri": "testdata/good/tags.feature"
@@ -93,51 +108,60 @@
 }
 {
   "pickle": {
-    "id": "13",
+    "id": "28",
     "language": "en",
     "name": "minimalistic outline",
     "sourceIds": [
-      "7",
-      "6"
+      "19",
+      "12"
     ],
     "steps": [
       {
-        "id": "12",
+        "id": "27",
         "sourceIds": [
-          "2",
-          "6"
+          "5",
+          "12"
         ],
-        "stepId": "2",
+        "stepId": "5",
         "text": "the more minimalism"
       }
     ],
     "tags": [
       {
-        "name": "@feature_tag1"
+        "name": "@feature_tag1",
+        "tagId": "20"
       },
       {
-        "name": "@feature_tag2"
+        "name": "@feature_tag2",
+        "tagId": "21"
       },
       {
-        "name": "@feature_tag3"
+        "name": "@feature_tag3",
+        "tagId": "22"
       },
       {
-        "name": "@so_tag1"
+        "name": "@so_tag1",
+        "tagId": "16"
       },
       {
-        "name": "@so_tag2"
+        "name": "@so_tag2",
+        "tagId": "17"
       },
       {
-        "name": "@so_tag3"
+        "name": "@so_tag3",
+        "tagId": "18"
       },
       {
-        "name": "@ex_tag4"
+        "name": "@ex_tag4",
+        "tagId": "13"
       },
       {
-        "name": "@ex_tag5"
+        "name": "@ex_tag5",
+        "tagId": "14"
       },
       {
-        "name": "@ex_tag6"
+        "name": "@ex_tag6",
+        "tagId": "15"
       }
     ],
     "uri": "testdata/good/tags.feature"

@@ -93,6 +93,7 @@
       "name": "Foo",
       "tags": [
         {
+          "id": "5",
           "location": {
             "column": 1,
             "line": 1

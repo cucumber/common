@@ -161,7 +161,8 @@ func pickleTags(tags []*messages.GherkinDocument_Feature_Tag) []*messages.Pickle
 	ptags := make([]*messages.Pickle_PickleTag, len(tags))
 	for i, tag := range tags {
 		ptags[i] = &messages.Pickle_PickleTag{
-			Name: tag.Name,
+			Name:  tag.Name,
+			TagId: tag.Id,
 		}
 	}
 	return ptags

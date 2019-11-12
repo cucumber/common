@@ -47,7 +47,7 @@
                 }
               }
             ],
-            "id": "3",
+            "id": "5",
             "keyword": "Scenario Outline",
             "location": {
               "column": 3,
@@ -66,6 +66,7 @@
             ],
             "tags": [
               {
+                "id": "3",
                 "location": {
                   "column": 3,
                   "line": 3
@@ -73,6 +74,7 @@
                 "name": "@b"
               },
               {
+                "id": "4",
                 "location": {
                   "column": 6,
                   "line": 3
@@ -102,7 +104,7 @@
                         "value": "n"
                       }
                     ],
-                    "id": "6",
+                    "id": "8",
                     "location": {
                       "column": 7,
                       "line": 18
@@ -119,7 +121,7 @@
                       "value": "m"
                     }
                   ],
-                  "id": "5",
+                  "id": "7",
                   "location": {
                     "column": 7,
                     "line": 17
@@ -127,6 +129,7 @@
                 },
                 "tags": [
                   {
+                    "id": "9",
                     "location": {
                       "column": 5,
                       "line": 15
@@ -136,7 +139,7 @@
                 ]
               }
             ],
-            "id": "7",
+            "id": "12",
             "keyword": "Scenario Outline",
             "location": {
               "column": 3,
@@ -144,7 +147,7 @@
             },
             "steps": [
               {
-                "id": "4",
+                "id": "6",
                 "keyword": "Given ",
                 "location": {
                   "column": 5,
@@ -155,6 +158,7 @@
             ],
             "tags": [
               {
+                "id": "10",
                 "location": {
                   "column": 3,
                   "line": 11
@@ -162,6 +166,7 @@
                 "name": "@d"
               },
               {
+                "id": "11",
                 "location": {
                   "column": 6,
                   "line": 11
@@ -180,6 +185,7 @@
       },
       "tags": [
         {
+          "id": "13",
           "location": {
             "column": 1,
             "line": 1

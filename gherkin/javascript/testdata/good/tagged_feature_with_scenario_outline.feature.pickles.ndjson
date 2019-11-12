@@ -1,6 +1,6 @@
 {
   "pickle": {
-    "id": "6",
+    "id": "7",
     "language": "en",
     "name": "Bar",
     "sourceIds": [
@@ -9,7 +9,7 @@
     ],
     "steps": [
       {
-        "id": "5",
+        "id": "6",
         "sourceIds": [
           "0",
           "2"
@@ -20,7 +20,8 @@
     ],
     "tags": [
       {
-        "name": "@sometag"
+        "name": "@sometag",
+        "tagId": "5"
       }
     ],
     "uri": "testdata/good/tagged_feature_with_scenario_outline.feature"
@@ -28,7 +29,7 @@
 }
 {
   "pickle": {
-    "id": "8",
+    "id": "9",
     "language": "en",
     "name": "Bar",
     "sourceIds": [
@@ -37,7 +38,7 @@
     ],
     "steps": [
       {
-        "id": "7",
+        "id": "8",
         "sourceIds": [
           "0",
           "3"
@@ -48,7 +49,8 @@
     ],
     "tags": [
       {
-        "name": "@sometag"
+        "name": "@sometag",
+        "tagId": "5"
       }
     ],
     "uri": "testdata/good/tagged_feature_with_scenario_outline.feature"
