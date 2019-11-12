@@ -5,9 +5,9 @@ import DocString from './DocString'
 import { messages } from 'cucumber-messages'
 import styled from 'styled-components'
 import statusColor from './statusColor'
-import ResultsLookupByLineContext from '../../ResultsLookupByLineContext'
 import { StepParam, H3, Indent, StepText, IStatusProps } from './html'
-import StepMatchLookupByLineContext from '../../StepMatchLookupByLineContext'
+import CucumberQueryContext from '../../CucumberQueryContext'
+import UriContext from '../../UriContext'
 
 const StepLi = styled.li`
   padding: 0.5em;
@@ -33,19 +33,18 @@ interface IProps {
 }
 
 const Step: React.FunctionComponent<IProps> = ({ step }) => {
-  const stepMatchLookup = React.useContext(StepMatchLookupByLineContext)
-  const resultsLookup = React.useContext(ResultsLookupByLineContext)
+  const cucumberQuery = React.useContext(CucumberQueryContext)
+  const uri = React.useContext(UriContext)
 
-  const testResults = resultsLookup(step.location.line)
+  const testResults = cucumberQuery.getStepResults(uri, step.location.line)
   const status = testResults.length > 0 ? testResults[0].status : messages.TestResult.Status.UNKNOWN
   const resultsWithMessage = testResults.filter(tr => tr.message)
 
   const stepTextElements: JSX.Element[] = []
 
-  const matches = stepMatchLookup(step.location.line)
-  if(matches.length === 1) {
+  const args = cucumberQuery.getStepMatchArguments(uri, step.location.line)
+  if(args) {
     // Step is defined
-    const args = matches[0].stepMatchArguments
     let offset = 0
     args.forEach((argument, index) => {
       const plain = step.text.slice(offset, argument.group.start)
@@ -62,7 +61,7 @@ const Step: React.FunctionComponent<IProps> = ({ step }) => {
     if(plain.length > 0) {
       stepTextElements.push(<StepText key={`plain-rest`}>{plain}</StepText>)
     }
-  } else if(matches.length === 2) {
+  } else if(args.length === 2) {
     // Step is ambiguous
     stepTextElements.push(<StepText key={`plain-ambiguous`}>{step.text}</StepText>)
   } else {

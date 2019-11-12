@@ -2,11 +2,7 @@ import { storiesOf } from '@storybook/react'
 import React from 'react'
 import { messages } from 'cucumber-messages'
 import all from '../testdata/all.json'
-import App from '../src/components/app/App'
-import makeGherkinDocumentsAndResultsLookup from '../src/makeGherkinDocumentsAndResultsLookup'
 import StepList from '../src/components/gherkin/StepList'
-import { StepMatchLookupByLine } from '../src/types'
-import StepMatchLookupByLineContext from '../src/StepMatchLookupByLineContext'
 
 const envelopes = all.map(o => messages.Envelope.fromObject(o))
 

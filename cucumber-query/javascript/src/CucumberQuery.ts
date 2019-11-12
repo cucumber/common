@@ -13,6 +13,11 @@ export default class CucumberQuery {
     string,
     messages.ITestResult[]
   >()
+  private readonly testStepMatchArgumentsByUriAndLine = new Map<
+    string,
+    messages.IStepMatchArgument[]
+  >()
+
   private readonly testCaseStartedById = new Map<
     string,
     messages.ITestCaseStarted
@@ -60,6 +65,19 @@ export default class CucumberQuery {
 
     if (message.testCase) {
       this.testCaseById.set(message.testCase.id, message.testCase)
+
+      for (const testStep of message.testCase.testSteps) {
+        const pickleStep = this.pickleStepById.get(testStep.pickleStepId)
+        const gherkinStep = this.gherkinStepById.get(pickleStep.stepId)
+
+        const uri = this.uriByGherkinStep.get(gherkinStep)
+        const lineNumber = gherkinStep.location.line
+
+        this.testStepMatchArgumentsByUriAndLine.set(
+          `${uri}:${lineNumber}`,
+          testStep.stepMatchArguments
+        )
+      }
     }
 
     if (message.testCaseStarted) {
@@ -163,5 +181,12 @@ export default class CucumberQuery {
   public getDocumentResults(uri: string): messages.ITestResult[] {
     const results = this.documentResultsByUri.get(uri)
     return results.sort((a, b) => b.status.valueOf() - a.status.valueOf())
+  }
+
+  public getStepMatchArguments(
+    uri: string,
+    lineNumber: number
+  ): messages.IStepMatchArgument[] {
+    return this.testStepMatchArgumentsByUriAndLine.get(`${uri}:${lineNumber}`)
   }
 }

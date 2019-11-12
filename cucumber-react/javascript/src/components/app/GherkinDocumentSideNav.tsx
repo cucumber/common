@@ -1,12 +1,12 @@
 import { messages } from 'cucumber-messages'
 import React from 'react'
-import ResultsLookupContext from '../../ResultsLookupContext'
 import {
   Accordion,
   AccordionItem,
   AccordionItemButton,
   AccordionItemHeading,
 } from '../styled-react-accessible-accordion'
+import CucumberQueryContext from '../../CucumberQueryContext'
 
 interface IGherkinDocumentNavProps {
   gherkinDocuments: messages.IGherkinDocument[]
@@ -15,7 +15,7 @@ interface IGherkinDocumentNavProps {
 }
 
 const GherkinDocumentSideNav: React.FunctionComponent<IGherkinDocumentNavProps> = ({ gherkinDocuments, selectedUri, onSelection }) => {
-  const resultsLookup = React.useContext(ResultsLookupContext)
+  const cucumberQuery = React.useContext(CucumberQueryContext)
   return (
     <Accordion
       allowMultipleExpanded={false}
@@ -24,7 +24,7 @@ const GherkinDocumentSideNav: React.FunctionComponent<IGherkinDocumentNavProps> 
       onChange={(args: string[]): void => onSelection(args[0])}
     >
       {gherkinDocuments.map(gherkinDocument => {
-        const testResults = resultsLookup(gherkinDocument.uri, null)
+        const testResults = cucumberQuery.getDocumentResults(gherkinDocument.uri)
         const status = testResults.length > 0 ? testResults[0].status : messages.TestResult.Status.UNKNOWN
 
         return (

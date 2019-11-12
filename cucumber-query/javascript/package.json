@@ -2,8 +2,8 @@
   "name": "cucumber-query",
   "version": "1.0.0",
   "description": "Cucumber Query - query messages",
-  "main": "dist/src/index.js",
-  "types": "dist/src/index.d.ts",
+  "main": "dist/src/CucumberQuery.js",
+  "types": "dist/src/CucumberQuery.d.ts",
   "scripts": {
     "test": "mocha",
     "lint": "tslint src/**/*.ts test/**/*.ts",

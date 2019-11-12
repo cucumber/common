@@ -113,6 +113,34 @@ describe('CucumberQuery', () => {
       cb
     )
   })
+
+  it("looks up result for step's uri and line", (cb: (
+    error?: Error | null
+  ) => void) => {
+    const query = new CucumberQuery()
+
+    check(
+      `Feature: hello
+  Scenario: hi
+    Given a passed step
+    Given a failed step
+`,
+      query,
+      () => {
+        const line3: messages.IStepMatchArgument[] = query.getStepMatchArguments(
+          'test.feature',
+          3
+        )
+        assert.deepStrictEqual(
+          line3.map(arg => arg.parameterTypeName),
+          ['fake', 'fake']
+        )
+
+        cb()
+      },
+      cb
+    )
+  })
 })
 
 function generateMessages(gherkinSource: string, uri: string): Readable {
