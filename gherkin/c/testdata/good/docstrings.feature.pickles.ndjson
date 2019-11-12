@@ -14,6 +14,9 @@
           }
         },
         "id": "8",
+        "sourceIds": [
+          "0"
+        ],
         "stepId": "0",
         "text": "a simple DocString"
       },
@@ -25,6 +28,9 @@
           }
         },
         "id": "9",
+        "sourceIds": [
+          "1"
+        ],
         "stepId": "1",
         "text": "a DocString with content type"
       },
@@ -35,6 +41,9 @@
           }
         },
         "id": "10",
+        "sourceIds": [
+          "2"
+        ],
         "stepId": "2",
         "text": "a DocString with wrong indentation"
       },
@@ -45,6 +54,9 @@
           }
         },
         "id": "11",
+        "sourceIds": [
+          "3"
+        ],
         "stepId": "3",
         "text": "a DocString with alternative separator"
       },
@@ -55,6 +67,9 @@
           }
         },
         "id": "12",
+        "sourceIds": [
+          "4"
+        ],
         "stepId": "4",
         "text": "a DocString with normal separator inside"
       },
@@ -65,6 +80,9 @@
           }
         },
         "id": "13",
+        "sourceIds": [
+          "5"
+        ],
         "stepId": "5",
         "text": "a DocString with alternative separator inside"
       },
@@ -75,6 +93,9 @@
           }
         },
         "id": "14",
+        "sourceIds": [
+          "6"
+        ],
         "stepId": "6",
         "text": "a DocString with escaped separator inside"
       }

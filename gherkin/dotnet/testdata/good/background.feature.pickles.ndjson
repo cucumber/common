@@ -9,11 +9,17 @@
     "steps": [
       {
         "id": "3",
+        "sourceIds": [
+          "0"
+        ],
         "stepId": "0",
         "text": "the minimalism inside a background"
       },
       {
         "id": "4",
+        "sourceIds": [
+          "1"
+        ],
         "stepId": "1",
         "text": "the minimalism"
       }

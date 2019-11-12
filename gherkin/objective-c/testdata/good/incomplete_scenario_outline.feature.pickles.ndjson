@@ -9,11 +9,17 @@
     "steps": [
       {
         "id": "10",
+        "sourceIds": [
+          "0"
+        ],
         "stepId": "0",
         "text": "a step"
       },
       {
         "id": "11",
+        "sourceIds": [
+          "1"
+        ],
         "stepId": "1",
         "text": "a step"
       }

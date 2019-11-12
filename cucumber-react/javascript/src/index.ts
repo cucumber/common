@@ -1,3 +1,2 @@
-import App from './components/app/App'
-
-export { App }
+import GherkinDocumentList from './components/app/GherkinDocumentList'
+export { GherkinDocumentList }

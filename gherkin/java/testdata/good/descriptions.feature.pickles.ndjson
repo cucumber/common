@@ -9,6 +9,9 @@
     "steps": [
       {
         "id": "18",
+        "sourceIds": [
+          "0"
+        ],
         "stepId": "0",
         "text": "the minimalism"
       }
@@ -27,6 +30,9 @@
     "steps": [
       {
         "id": "20",
+        "sourceIds": [
+          "2"
+        ],
         "stepId": "2",
         "text": "the minimalism"
       }
@@ -45,6 +51,9 @@
     "steps": [
       {
         "id": "22",
+        "sourceIds": [
+          "4"
+        ],
         "stepId": "4",
         "text": "the minimalism"
       }
@@ -63,6 +72,9 @@
     "steps": [
       {
         "id": "24",
+        "sourceIds": [
+          "6"
+        ],
         "stepId": "6",
         "text": "the minimalism"
       }
@@ -81,6 +93,9 @@
     "steps": [
       {
         "id": "26",
+        "sourceIds": [
+          "8"
+        ],
         "stepId": "8",
         "text": "the minimalism"
       }
@@ -99,6 +114,9 @@
     "steps": [
       {
         "id": "28",
+        "sourceIds": [
+          "10"
+        ],
         "stepId": "10",
         "text": "the minimalism"
       }
@@ -117,6 +135,9 @@
     "steps": [
       {
         "id": "30",
+        "sourceIds": [
+          "12"
+        ],
         "stepId": "12",
         "text": "the minimalism"
       }
@@ -136,6 +157,10 @@
     "steps": [
       {
         "id": "32",
+        "sourceIds": [
+          "14",
+          "16"
+        ],
         "stepId": "14",
         "text": "the minimalism"
       }

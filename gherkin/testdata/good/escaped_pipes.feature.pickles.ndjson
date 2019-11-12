@@ -35,6 +35,9 @@
           }
         },
         "id": "7",
+        "sourceIds": [
+          "2"
+        ],
         "stepId": "2",
         "text": "they have arrived"
       },
@@ -66,6 +69,9 @@
           }
         },
         "id": "8",
+        "sourceIds": [
+          "5"
+        ],
         "stepId": "5",
         "text": "they have arrived"
       }

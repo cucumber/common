@@ -9,16 +9,25 @@
     "steps": [
       {
         "id": "6",
+        "sourceIds": [
+          "0"
+        ],
         "stepId": "0",
         "text": "fb"
       },
       {
         "id": "7",
+        "sourceIds": [
+          "1"
+        ],
         "stepId": "1",
         "text": "ab"
       },
       {
         "id": "8",
+        "sourceIds": [
+          "2"
+        ],
         "stepId": "2",
         "text": "a"
       }
@@ -37,11 +46,17 @@
     "steps": [
       {
         "id": "6",
+        "sourceIds": [
+          "0"
+        ],
         "stepId": "0",
         "text": "fb"
       },
       {
         "id": "10",
+        "sourceIds": [
+          "4"
+        ],
         "stepId": "4",
         "text": "b"
       }

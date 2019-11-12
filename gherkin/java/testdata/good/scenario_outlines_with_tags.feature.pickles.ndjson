@@ -9,6 +9,10 @@
     "steps": [
       {
         "id": "8",
+        "sourceIds": [
+          "0",
+          "2"
+        ],
         "stepId": "0",
         "text": "y"
       }
@@ -38,6 +42,10 @@
     "steps": [
       {
         "id": "10",
+        "sourceIds": [
+          "4",
+          "6"
+        ],
         "stepId": "4",
         "text": "n"
       }

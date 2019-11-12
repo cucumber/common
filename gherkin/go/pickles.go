@@ -77,20 +77,20 @@ func compileScenarioOutline(
 			continue
 		}
 		variableCells := examples.TableHeader.Cells
-		for _, values := range examples.TableBody {
-			valueCells := values.Cells
+		for _, valuesRow := range examples.TableBody {
+			valueCells := valuesRow.Cells
 			tags := pickleTags(append(featureTags, append(scenario.Tags, examples.Tags...)...))
 
 			pickleSteps := make([]*messages.Pickle_PickleStep, 0)
 
-			// translate pickleSteps based on values
+			// translate pickleSteps based on valuesRow
 			for _, step := range scenario.Steps {
 				text := step.Text
 				for i, variableCell := range variableCells {
 					text = strings.Replace(text, "<"+variableCell.Value+">", valueCells[i].Value, -1)
 				}
 
-				pickleStep := pickleStep(step, variableCells, valueCells, newId)
+				pickleStep := pickleStep(step, variableCells, valuesRow, newId)
 				pickleSteps = append(pickleSteps, pickleStep)
 			}
 
@@ -111,7 +111,7 @@ func compileScenarioOutline(
 				Tags:      tags,
 				Name:      name,
 				Language:  language,
-				SourceIds: []string{scenario.Id, values.Id},
+				SourceIds: []string{scenario.Id, valuesRow.Id},
 			})
 		}
 	}
@@ -136,7 +136,7 @@ func compileScenario(pickles []*messages.Pickle, backgroundSteps []*messages.Pic
 	return pickles
 }
 
-func pickleDataTable(table *messages.GherkinDocument_Feature_Step_DataTable, variableCells, valueCells []*messages.GherkinDocument_Feature_TableRow_TableCell) *messages.PickleStepArgument_PickleTable {
+func pickleDataTable(table *messages.GherkinDocument_Feature_Step_DataTable, variableCells []*messages.GherkinDocument_Feature_TableRow_TableCell, valueCells []*messages.GherkinDocument_Feature_TableRow_TableCell) *messages.PickleStepArgument_PickleTable {
 	pickleTableRows := make([]*messages.PickleStepArgument_PickleTable_PickleTableRow, len(table.Rows))
 	for i, row := range table.Rows {
 		pickleTableCells := make([]*messages.PickleStepArgument_PickleTable_PickleTableRow_PickleTableCell, len(row.Cells))
@@ -150,7 +150,7 @@ func pickleDataTable(table *messages.GherkinDocument_Feature_Step_DataTable, var
 	return &messages.PickleStepArgument_PickleTable{Rows: pickleTableRows}
 }
 
-func pickleDocString(docString *messages.GherkinDocument_Feature_Step_DocString, variableCells, valueCells []*messages.GherkinDocument_Feature_TableRow_TableCell) *messages.PickleStepArgument_PickleDocString {
+func pickleDocString(docString *messages.GherkinDocument_Feature_Step_DocString, variableCells []*messages.GherkinDocument_Feature_TableRow_TableCell, valueCells []*messages.GherkinDocument_Feature_TableRow_TableCell) *messages.PickleStepArgument_PickleDocString {
 	return &messages.PickleStepArgument_PickleDocString{
 		ContentType: interpolate(docString.ContentType, variableCells, valueCells),
 		Content:     interpolate(docString.Content, variableCells, valueCells),
@@ -176,11 +176,25 @@ func pickleSteps(steps []*messages.GherkinDocument_Feature_Step, newId func() st
 	return pickleSteps
 }
 
-func pickleStep(step *messages.GherkinDocument_Feature_Step, variableCells, valueCells []*messages.GherkinDocument_Feature_TableRow_TableCell, newId func() string) *messages.Pickle_PickleStep {
+func pickleStep(
+	step *messages.GherkinDocument_Feature_Step,
+	variableCells []*messages.GherkinDocument_Feature_TableRow_TableCell,
+	valuesRow *messages.GherkinDocument_Feature_TableRow,
+	newId func() string) *messages.Pickle_PickleStep {
+
+	var valueCells []*messages.GherkinDocument_Feature_TableRow_TableCell
+	if valuesRow != nil {
+		valueCells = valuesRow.Cells
+	}
+
 	pickleStep := &messages.Pickle_PickleStep{
-		Id:     newId(),
-		Text:   interpolate(step.Text, variableCells, valueCells),
-		StepId: step.Id,
+		Id:        newId(),
+		Text:      interpolate(step.Text, variableCells, valueCells),
+		StepId:    step.Id,
+		SourceIds: []string{step.Id},
+	}
+	if valuesRow != nil {
+		pickleStep.SourceIds = append(pickleStep.SourceIds, valuesRow.Id)
 	}
 	if step.GetDataTable() != nil {
 		pickleStep.Argument = &messages.PickleStepArgument{
@@ -199,7 +213,7 @@ func pickleStep(step *messages.GherkinDocument_Feature_Step, variableCells, valu
 	return pickleStep
 }
 
-func interpolate(s string, variableCells, valueCells []*messages.GherkinDocument_Feature_TableRow_TableCell) string {
+func interpolate(s string, variableCells []*messages.GherkinDocument_Feature_TableRow_TableCell, valueCells []*messages.GherkinDocument_Feature_TableRow_TableCell) string {
 	if variableCells == nil || valueCells == nil {
 		return s
 	}

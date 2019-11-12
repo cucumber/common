@@ -1,9 +1,10 @@
 import React from 'react'
 import { messages } from 'cucumber-messages'
 import { Td } from './html'
-import ResultsLookupByLineContext from '../../ResultsLookupByLineContext'
 import styled from 'styled-components'
 import statusColor from './statusColor'
+import CucumberQueryContext from '../../CucumberQueryContext'
+import UriContext from '../../UriContext'
 
 interface IProps {
   rows: messages.GherkinDocument.Feature.ITableRow[]
@@ -18,12 +19,14 @@ const Tr = styled.tr`
 `
 
 const ExamplesTableBody: React.FunctionComponent<IProps> = ({ rows }) => {
-  const resultsLookup = React.useContext(ResultsLookupByLineContext)
+  const cucumberQuery = React.useContext(CucumberQueryContext)
+  const uri = React.useContext(UriContext)
 
   return (
     <tbody>
     {rows.map((row, i) => {
-      const testResults = resultsLookup(row.location.line)
+      // TODO: cucumberQuery.getRowResults???
+      const testResults = cucumberQuery.getStepResults(uri, row.location.line)
       const status = testResults.length > 0 ? testResults[0].status : messages.TestResult.Status.UNKNOWN
       return (
         <Tr key={i} status={status}>

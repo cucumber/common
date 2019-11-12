@@ -81,13 +81,13 @@ module Gherkin
       def compile_scenario_outline(feature_tags, background_steps, scenario, language, pickles, source)
         scenario.examples.reject { |examples| examples.table_header.nil? }.each do |examples|
           variable_cells = examples.table_header.cells
-          examples.table_body.each do |values|
-            value_cells = values.cells
+          examples.table_body.each do |values_row|
+            value_cells = values_row.cells
             steps = scenario.steps.empty? ? [] : [].concat(background_steps)
             tags = [].concat(feature_tags).concat(scenario.tags).concat(examples.tags)
 
             scenario.steps.each do |scenario_outline_step|
-              step_props = pickle_step_props(scenario_outline_step, variable_cells, value_cells)
+              step_props = pickle_step_props(scenario_outline_step, variable_cells, values_row)
               steps.push(Cucumber::Messages::Pickle::PickleStep.new(step_props))
             end
 
@@ -100,7 +100,7 @@ module Gherkin
               tags: pickle_tags(tags),
               sourceIds: [
                 scenario.id,
-                values.id
+                values_row.id
               ],
             )
             pickles.push(pickle);
@@ -124,15 +124,20 @@ module Gherkin
       end
 
       def pickle_step(step)
-        Cucumber::Messages::Pickle::PickleStep.new(pickle_step_props(step, [], []))
+        Cucumber::Messages::Pickle::PickleStep.new(pickle_step_props(step, [], nil))
       end
 
-      def pickle_step_props(step, variable_cells, value_cells)
+      def pickle_step_props(step, variable_cells, values_row)
+        value_cells = values_row ? values_row.cells : []
         props = {
           id: @id_generator.new_id,
           stepId: step.id,
+          sourceIds: [step.id],
           text: interpolate(step.text, variable_cells, value_cells),
         }
+        if values_row
+          props[:sourceIds].push(values_row.id)
+        end
 
         if step.data_table
           data_table = Cucumber::Messages::PickleStepArgument.new(

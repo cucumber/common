@@ -10,6 +10,10 @@
     "steps": [
       {
         "id": "5",
+        "sourceIds": [
+          "0",
+          "2"
+        ],
         "stepId": "0",
         "text": "Baz"
       }
@@ -34,6 +38,10 @@
     "steps": [
       {
         "id": "7",
+        "sourceIds": [
+          "0",
+          "3"
+        ],
         "stepId": "0",
         "text": "Baz"
       }

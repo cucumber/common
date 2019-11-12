@@ -16,6 +16,10 @@
           }
         },
         "id": "5",
+        "sourceIds": [
+          "0",
+          "2"
+        ],
         "stepId": "0",
         "text": "this file:"
       }
@@ -41,6 +45,10 @@
           }
         },
         "id": "7",
+        "sourceIds": [
+          "0",
+          "3"
+        ],
         "stepId": "0",
         "text": "this file:"
       }

@@ -9,6 +9,9 @@
     "steps": [
       {
         "id": "8",
+        "sourceIds": [
+          "0"
+        ],
         "stepId": "0",
         "text": "the minimalism"
       }
@@ -48,6 +51,10 @@
     "steps": [
       {
         "id": "10",
+        "sourceIds": [
+          "2",
+          "4"
+        ],
         "stepId": "2",
         "text": "the minimalism"
       }
@@ -96,6 +103,10 @@
     "steps": [
       {
         "id": "12",
+        "sourceIds": [
+          "2",
+          "6"
+        ],
         "stepId": "2",
         "text": "the more minimalism"
       }

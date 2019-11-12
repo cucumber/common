@@ -8,6 +8,9 @@
     "steps": [
       {
         "id": "2",
+        "sourceIds": [
+          "0"
+        ],
         "stepId": "0",
         "text": "text"
       }

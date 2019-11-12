@@ -114,8 +114,8 @@ public class PickleCompiler {
         for (final Examples examples : scenario.getExamplesList()) {
             if (examples.getTableHeader() == null) continue;
             List<TableCell> variableCells = examples.getTableHeader().getCellsList();
-            for (final TableRow values : examples.getTableBodyList()) {
-                List<TableCell> valueCells = values.getCellsList();
+            for (final TableRow valuesRow : examples.getTableBodyList()) {
+                List<TableCell> valueCells = valuesRow.getCellsList();
 
                 List<PickleStep> steps = new ArrayList<>();
 
@@ -128,12 +128,12 @@ public class PickleCompiler {
                 tags.addAll(examples.getTagsList());
 
                 for (Step scenarioOutlineStep : scenario.getStepsList()) {
-                    PickleStep.Builder pickleStepBuilder = pickleStepBuilder(scenarioOutlineStep, variableCells, valueCells);
+                    PickleStep.Builder pickleStepBuilder = pickleStepBuilder(scenarioOutlineStep, variableCells, valuesRow);
 
                     steps.add(pickleStepBuilder.build());
                 }
 
-                List<String> sourceIds = asList(scenario.getId(), values.getId());
+                List<String> sourceIds = asList(scenario.getId(), valuesRow.getId());
                 Pickle pickle = Pickle.newBuilder()
                         .setId(idGenerator.newId())
                         .setUri(uri)
@@ -174,13 +174,18 @@ public class PickleCompiler {
                 .build();
     }
 
-    private PickleStep.Builder pickleStepBuilder(Step step, List<TableCell> variableCells, List<TableCell> valueCells) {
+    private PickleStep.Builder pickleStepBuilder(Step step, List<TableCell> variableCells, TableRow valuesRow) {
+        List<TableCell> valueCells = valuesRow == null ? Collections.emptyList() : valuesRow.getCellsList();
         String stepText = interpolate(step.getText(), variableCells, valueCells);
 
         PickleStep.Builder pickleStepBuilder = PickleStep.newBuilder()
                 .setId(idGenerator.newId())
                 .setStepId(step.getId())
+                .addSourceIds(step.getId())
                 .setText(stepText);
+        if(valuesRow != null) {
+            pickleStepBuilder.addSourceIds(valuesRow.getId());
+        }
 
         if (step.hasDataTable()) {
             Messages.PickleStepArgument.Builder argument = Messages.PickleStepArgument.newBuilder();
@@ -205,7 +210,7 @@ public class PickleCompiler {
     }
 
     private PickleStep pickleStep(Step step) {
-        PickleStep.Builder pickleStepBuilder = pickleStepBuilder(step, Collections.emptyList(), Collections.emptyList());
+        PickleStep.Builder pickleStepBuilder = pickleStepBuilder(step, Collections.emptyList(), null);
         return pickleStepBuilder.build();
     }
 

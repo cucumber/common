@@ -2,9 +2,9 @@ import ReactDOM from 'react-dom'
 import React from 'react'
 import Step from '../src/components/gherkin/Step'
 import { messages } from 'cucumber-messages'
-import { StepMatchLookupByLine } from '../src/types'
 import * as assert from 'assert'
-import StepMatchLookupByLineContext from '../src/StepMatchLookupByLineContext'
+import CucumberQuery from 'cucumber-query'
+import CucumberQueryContext from '../src/CucumberQueryContext'
 
 describe('Step', () => {
   it('renders', () => {
@@ -20,24 +20,24 @@ describe('Step', () => {
       text: 'the 48 pixies',
       location: new messages.Location({ column: 1, line: 1 }),
     })
-    const stepMatchLookupByLine: StepMatchLookupByLine = () => {
-      return [
-        new messages.TestStepMatched({
-          stepMatchArguments: [
-            new messages.StepMatchArgument({
-              group: new messages.StepMatchArgument.Group({
-                start: 4,
-                value: '48',
-                children: [],
-              }),
+
+    class StubCucumberQuery extends CucumberQuery {
+      getStepMatchArguments(uri: string, lineNumber: number): messages.IStepMatchArgument[] {
+        return [
+          new messages.StepMatchArgument({
+            group: new messages.StepMatchArgument.Group({
+              start: 4,
+              value: '48',
+              children: [],
             }),
-          ]
-        })
-      ]
+          }),
+        ]
+      }
     }
-    const app = <StepMatchLookupByLineContext.Provider value={stepMatchLookupByLine}>
+
+    const app = <CucumberQueryContext.Provider value={new StubCucumberQuery()}>
       <Step step={step}/>
-    </StepMatchLookupByLineContext.Provider>
+    </CucumberQueryContext.Provider>
     ReactDOM.render(app, document.getElementById('content'))
 
     assert.strictEqual(document.querySelector('#content h3 > span:nth-child(2)').innerHTML, 'the ')

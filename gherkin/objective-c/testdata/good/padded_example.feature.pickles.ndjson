@@ -46,6 +46,10 @@
           }
         },
         "id": "7",
+        "sourceIds": [
+          "3",
+          "5"
+        ],
         "stepId": "3",
         "text": "a red ball with:"
       }

@@ -9,16 +9,25 @@
     "steps": [
       {
         "id": "50",
+        "sourceIds": [
+          "0"
+        ],
         "stepId": "0",
         "text": "un exemple de scénario en français"
       },
       {
         "id": "51",
+        "sourceIds": [
+          "1"
+        ],
         "stepId": "1",
         "text": "j'ai 1 gâteau"
       },
       {
         "id": "52",
+        "sourceIds": [
+          "2"
+        ],
         "stepId": "2",
         "text": "je suis heureux"
       }
@@ -37,16 +46,25 @@
     "steps": [
       {
         "id": "54",
+        "sourceIds": [
+          "4"
+        ],
         "stepId": "4",
         "text": "j'aime les gâteaux"
       },
       {
         "id": "55",
+        "sourceIds": [
+          "5"
+        ],
         "stepId": "5",
         "text": "on m'offre 1 gâteau"
       },
       {
         "id": "56",
+        "sourceIds": [
+          "6"
+        ],
         "stepId": "6",
         "text": "je suis heureux"
       }
@@ -65,16 +83,25 @@
     "steps": [
       {
         "id": "58",
+        "sourceIds": [
+          "8"
+        ],
         "stepId": "8",
         "text": "offrir un gâteau rend heureux"
       },
       {
         "id": "59",
+        "sourceIds": [
+          "9"
+        ],
         "stepId": "9",
         "text": "on m'offre 1 gâteau"
       },
       {
         "id": "60",
+        "sourceIds": [
+          "10"
+        ],
         "stepId": "10",
         "text": "je suis heureux"
       }
@@ -93,16 +120,25 @@
     "steps": [
       {
         "id": "62",
+        "sourceIds": [
+          "12"
+        ],
         "stepId": "12",
         "text": "j'aime les gâteaux"
       },
       {
         "id": "63",
+        "sourceIds": [
+          "13"
+        ],
         "stepId": "13",
         "text": "on m'offre 1 gâteau"
       },
       {
         "id": "64",
+        "sourceIds": [
+          "14"
+        ],
         "stepId": "14",
         "text": "je suis heureux"
       }
@@ -121,16 +157,25 @@
     "steps": [
       {
         "id": "66",
+        "sourceIds": [
+          "16"
+        ],
         "stepId": "16",
         "text": "offrir un gâteau rend heureux"
       },
       {
         "id": "67",
+        "sourceIds": [
+          "17"
+        ],
         "stepId": "17",
         "text": "on m'offre 1 gâteau"
       },
       {
         "id": "68",
+        "sourceIds": [
+          "18"
+        ],
         "stepId": "18",
         "text": "je suis heureux"
       }
@@ -149,21 +194,33 @@
     "steps": [
       {
         "id": "70",
+        "sourceIds": [
+          "20"
+        ],
         "stepId": "20",
         "text": "un exemple de scénario en français"
       },
       {
         "id": "71",
+        "sourceIds": [
+          "21"
+        ],
         "stepId": "21",
         "text": "j'ai 2 gâteaux"
       },
       {
         "id": "72",
+        "sourceIds": [
+          "22"
+        ],
         "stepId": "22",
         "text": "quelqu'un m'offre 1 gâteau"
       },
       {
         "id": "73",
+        "sourceIds": [
+          "23"
+        ],
         "stepId": "23",
         "text": "j'ai 3 gâteaux"
       }
@@ -182,21 +239,33 @@
     "steps": [
       {
         "id": "75",
+        "sourceIds": [
+          "25"
+        ],
         "stepId": "25",
         "text": "un exemple de scénario en français"
       },
       {
         "id": "76",
+        "sourceIds": [
+          "26"
+        ],
         "stepId": "26",
         "text": "j'ai 2 gâteaux"
       },
       {
         "id": "77",
+        "sourceIds": [
+          "27"
+        ],
         "stepId": "27",
         "text": "on m'offre 1 gâteau"
       },
       {
         "id": "78",
+        "sourceIds": [
+          "28"
+        ],
         "stepId": "28",
         "text": "j'ai 3 gâteaux"
       }
@@ -215,21 +284,33 @@
     "steps": [
       {
         "id": "80",
+        "sourceIds": [
+          "30"
+        ],
         "stepId": "30",
         "text": "un exemple de scénario en français"
       },
       {
         "id": "81",
+        "sourceIds": [
+          "31"
+        ],
         "stepId": "31",
         "text": "j'ai 2 gâteaux"
       },
       {
         "id": "82",
+        "sourceIds": [
+          "32"
+        ],
         "stepId": "32",
         "text": "quelqu'un m'offre 1 gâteau"
       },
       {
         "id": "83",
+        "sourceIds": [
+          "33"
+        ],
         "stepId": "33",
         "text": "j'ai 3 gâteaux"
       }
@@ -248,21 +329,33 @@
     "steps": [
       {
         "id": "85",
+        "sourceIds": [
+          "35"
+        ],
         "stepId": "35",
         "text": "un exemple de scénario en français"
       },
       {
         "id": "86",
+        "sourceIds": [
+          "36"
+        ],
         "stepId": "36",
         "text": "j'ai 2 gâteaux"
       },
       {
         "id": "87",
+        "sourceIds": [
+          "37"
+        ],
         "stepId": "37",
         "text": "quelqu'un me vole 1 gâteau"
       },
       {
         "id": "88",
+        "sourceIds": [
+          "38"
+        ],
         "stepId": "38",
         "text": "j'ai 1 gâteau"
       }
@@ -281,21 +374,33 @@
     "steps": [
       {
         "id": "90",
+        "sourceIds": [
+          "40"
+        ],
         "stepId": "40",
         "text": "un exemple de scénario en français"
       },
       {
         "id": "91",
+        "sourceIds": [
+          "41"
+        ],
         "stepId": "41",
         "text": "j'ai 2 gâteaux"
       },
       {
         "id": "92",
+        "sourceIds": [
+          "42"
+        ],
         "stepId": "42",
         "text": "on me vole 1 gâteau"
       },
       {
         "id": "93",
+        "sourceIds": [
+          "43"
+        ],
         "stepId": "43",
         "text": "j'ai 1 gâteau"
       }
@@ -314,21 +419,33 @@
     "steps": [
       {
         "id": "95",
+        "sourceIds": [
+          "45"
+        ],
         "stepId": "45",
         "text": "un exemple de scénario en français"
       },
       {
         "id": "96",
+        "sourceIds": [
+          "46"
+        ],
         "stepId": "46",
         "text": "j'ai 2 gâteaux"
       },
       {
         "id": "97",
+        "sourceIds": [
+          "47"
+        ],
         "stepId": "47",
         "text": "quelqu'un me vole 1 gâteau"
       },
       {
         "id": "98",
+        "sourceIds": [
+          "48"
+        ],
         "stepId": "48",
         "text": "j'ai 1 gâteau"
       }

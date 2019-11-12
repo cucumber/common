@@ -9,16 +9,25 @@
     "steps": [
       {
         "id": "4",
+        "sourceIds": [
+          "0"
+        ],
         "stepId": "0",
         "text": "Gherkin supports many languages"
       },
       {
         "id": "5",
+        "sourceIds": [
+          "1"
+        ],
         "stepId": "1",
         "text": "Norwegian keywords are parsed"
       },
       {
         "id": "6",
+        "sourceIds": [
+          "2"
+        ],
         "stepId": "2",
         "text": "they should be recognized"
       }

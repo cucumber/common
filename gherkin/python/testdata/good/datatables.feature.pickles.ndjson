@@ -35,6 +35,9 @@
           }
         },
         "id": "14",
+        "sourceIds": [
+          "2"
+        ],
         "stepId": "2",
         "text": "a simple data table"
       },
@@ -53,6 +56,9 @@
           }
         },
         "id": "15",
+        "sourceIds": [
+          "4"
+        ],
         "stepId": "4",
         "text": "a data table with a single cell"
       },
@@ -77,6 +83,9 @@
           }
         },
         "id": "16",
+        "sourceIds": [
+          "6"
+        ],
         "stepId": "6",
         "text": "a data table with different fromatting"
       },
@@ -99,6 +108,9 @@
           }
         },
         "id": "17",
+        "sourceIds": [
+          "8"
+        ],
         "stepId": "8",
         "text": "a data table with an empty cell"
       },
@@ -140,6 +152,9 @@
           }
         },
         "id": "18",
+        "sourceIds": [
+          "12"
+        ],
         "stepId": "12",
         "text": "a data table with comments and newlines inside"
       }
