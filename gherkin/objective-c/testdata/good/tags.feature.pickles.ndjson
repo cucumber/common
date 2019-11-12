@@ -19,27 +19,27 @@
     "tags": [
       {
         "name": "@feature_tag1",
-        "tagId": "20"
+        "sourceId": "20"
       },
       {
         "name": "@feature_tag2",
-        "tagId": "21"
+        "sourceId": "21"
       },
       {
         "name": "@feature_tag3",
-        "tagId": "22"
+        "sourceId": "22"
       },
       {
         "name": "@scenario_tag1",
-        "tagId": "1"
+        "sourceId": "1"
       },
       {
         "name": "@scenario_tag2",
-        "tagId": "2"
+        "sourceId": "2"
       },
       {
         "name": "@scenario_tag3",
-        "tagId": "3"
+        "sourceId": "3"
       }
     ],
     "uri": "testdata/good/tags.feature"
@@ -68,39 +68,39 @@
     "tags": [
       {
         "name": "@feature_tag1",
-        "tagId": "20"
+        "sourceId": "20"
       },
       {
         "name": "@feature_tag2",
-        "tagId": "21"
+        "sourceId": "21"
       },
       {
         "name": "@feature_tag3",
-        "tagId": "22"
+        "sourceId": "22"
       },
       {
         "name": "@so_tag1",
-        "tagId": "16"
+        "sourceId": "16"
       },
       {
         "name": "@so_tag2",
-        "tagId": "17"
+        "sourceId": "17"
       },
       {
         "name": "@so_tag3",
-        "tagId": "18"
+        "sourceId": "18"
       },
       {
         "name": "@ex_tag1",
-        "tagId": "8"
+        "sourceId": "8"
       },
       {
         "name": "@ex_tag2",
-        "tagId": "9"
+        "sourceId": "9"
       },
       {
         "name": "@ex_tag3",
-        "tagId": "10"
+        "sourceId": "10"
       }
     ],
     "uri": "testdata/good/tags.feature"
@@ -129,39 +129,39 @@
     "tags": [
       {
         "name": "@feature_tag1",
-        "tagId": "20"
+        "sourceId": "20"
       },
       {
         "name": "@feature_tag2",
-        "tagId": "21"
+        "sourceId": "21"
       },
       {
         "name": "@feature_tag3",
-        "tagId": "22"
+        "sourceId": "22"
       },
       {
         "name": "@so_tag1",
-        "tagId": "16"
+        "sourceId": "16"
       },
       {
         "name": "@so_tag2",
-        "tagId": "17"
+        "sourceId": "17"
       },
       {
         "name": "@so_tag3",
-        "tagId": "18"
+        "sourceId": "18"
       },
       {
         "name": "@ex_tag4",
-        "tagId": "13"
+        "sourceId": "13"
       },
       {
         "name": "@ex_tag5",
-        "tagId": "14"
+        "sourceId": "14"
       },
       {
         "name": "@ex_tag6",
-        "tagId": "15"
+        "sourceId": "15"
       }
     ],
     "uri": "testdata/good/tags.feature"

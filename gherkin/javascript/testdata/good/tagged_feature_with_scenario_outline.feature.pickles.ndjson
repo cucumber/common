@@ -21,7 +21,7 @@
     "tags": [
       {
         "name": "@sometag",
-        "tagId": "5"
+        "sourceId": "5"
       }
     ],
     "uri": "testdata/good/tagged_feature_with_scenario_outline.feature"
@@ -50,7 +50,7 @@
     "tags": [
       {
         "name": "@sometag",
-        "tagId": "5"
+        "sourceId": "5"
       }
     ],
     "uri": "testdata/good/tagged_feature_with_scenario_outline.feature"

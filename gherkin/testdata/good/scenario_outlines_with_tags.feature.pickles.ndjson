@@ -20,15 +20,15 @@
     "tags": [
       {
         "name": "@a",
-        "tagId": "13"
+        "sourceId": "13"
       },
       {
         "name": "@b",
-        "tagId": "3"
+        "sourceId": "3"
       },
       {
         "name": "@c",
-        "tagId": "4"
+        "sourceId": "4"
       }
     ],
     "uri": "testdata/good/scenario_outlines_with_tags.feature"
@@ -56,19 +56,19 @@
     "tags": [
       {
         "name": "@a",
-        "tagId": "13"
+        "sourceId": "13"
       },
       {
         "name": "@d",
-        "tagId": "10"
+        "sourceId": "10"
       },
       {
         "name": "@e",
-        "tagId": "11"
+        "sourceId": "11"
       },
       {
         "name": "@f",
-        "tagId": "9"
+        "sourceId": "9"
       }
     ],
     "uri": "testdata/good/scenario_outlines_with_tags.feature"

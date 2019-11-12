@@ -21,7 +21,7 @@
     "tags": [
       {
         "name": "@foo",
-        "tagId": "3"
+        "sourceId": "3"
       }
     ],
     "uri": "testdata/good/several_examples.feature"
@@ -50,7 +50,7 @@
     "tags": [
       {
         "name": "@bar",
-        "tagId": "6"
+        "sourceId": "6"
       }
     ],
     "uri": "testdata/good/several_examples.feature"
@@ -67,7 +67,7 @@
     "tags": [
       {
         "name": "@zap",
-        "tagId": "8"
+        "sourceId": "8"
       }
     ],
     "uri": "testdata/good/several_examples.feature"
