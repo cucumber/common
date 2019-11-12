@@ -1,7 +1,8 @@
 import { messages } from 'cucumber-messages'
-import { App, makeGherkinDocumentsAndResultsLookup } from 'cucumber-react'
+import { GherkinDocumentList } from 'cucumber-react'
 import React from 'react'
 import ReactDOM from 'react-dom'
+import CucumberQuery from 'cucumber-query'
 
 declare global {
   interface Window {
@@ -11,7 +12,12 @@ declare global {
 
 const envelopes = window.CUCUMBER_MESSAGES.map((message: any) => messages.Envelope.fromObject(message))
 
-const { gherkinDocuments, resultsLookup, stepMatchLookup } = makeGherkinDocumentsAndResultsLookup(envelopes)
+const gherkinDocuments = envelopes.filter(e => e.gherkinDocument).map(e => e.gherkinDocument)
+const cucumberQuery = envelopes.reduce((q, e) => q.update(e), new CucumberQuery())
 
-const app = <App gherkinDocuments={gherkinDocuments} resultsLookup={resultsLookup} stepMatchLookup={stepMatchLookup}/>
+const app = <GherkinDocumentList
+  gherkinDocuments={gherkinDocuments}
+  cucumberQuery={cucumberQuery}
+/>
+
 ReactDOM.render(app, document.getElementById('content'))
