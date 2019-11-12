@@ -119,6 +119,8 @@ func (self *Formatter) ProcessMessages(stdin io.Reader, stdout io.Writer) (err e
 			pickle := m.Pickle
 			jsonFeature := self.findOrCreateJsonFeature(pickle)
 			scenario := self.lookup.LookupScenario(pickle.SourceIds[0])
+			elementLine := scenario.Location.Line
+
 			// TODO: find a better way to get backgrounds
 			background := &messages.GherkinDocument_Feature_Background{}
 			scenarioJsonSteps := make([]*jsonStep, 0)
@@ -190,6 +192,8 @@ func (self *Formatter) ProcessMessages(stdin io.Reader, stdout io.Writer) (err e
 					makeId(scenario.Name),
 					makeId(example.Name),
 					self.exampleRowIndexById[exampleRow.Id])
+
+				elementLine = exampleRow.Location.Line
 			}
 
 			scenarioTags := make([]*jsonTag, len(pickle.Tags))
@@ -206,7 +210,7 @@ func (self *Formatter) ProcessMessages(stdin io.Reader, stdout io.Writer) (err e
 				Description: scenario.Description,
 				ID:          scenarioID,
 				Keyword:     scenario.Keyword,
-				Line:        scenario.Location.Line,
+				Line:        elementLine,
 				Name:        scenario.Name,
 				Steps:       scenarioJsonSteps,
 				Type:        "scenario",
