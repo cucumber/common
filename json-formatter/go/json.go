@@ -71,20 +71,10 @@ type jsonTag struct {
 type Formatter struct {
 	lookup *MessageLookup
 
-	jsonStepsByPickleStepId map[string]*jsonStep
-	exampleRowIndexById     map[string]int
-
-	// Old mappings
-	backgroundStepsByKey map[string]*messages.GherkinDocument_Feature_Step
-	backgroundByUri      map[string]*messages.GherkinDocument_Feature_Background
-	exampleByRowKey      map[string]*messages.GherkinDocument_Feature_Scenario_Examples
-	gherkinDocumentByURI map[string]*messages.GherkinDocument
 	jsonFeatures         []*jsonFeature
 	jsonFeaturesByURI    map[string]*jsonFeature
-	pickleById           map[string]*messages.Pickle
-	pickleByTestCaseId   map[string]*messages.Pickle
-	scenariosByKey       map[string]*messages.GherkinDocument_Feature_Scenario
-	scenarioStepsByKey   map[string]*messages.GherkinDocument_Feature_Step
+	jsonStepsByPickleStepId map[string]*jsonStep
+	exampleRowIndexById     map[string]int
 }
 
 // ProcessMessages writes a JSON report to STDOUT
@@ -92,22 +82,10 @@ func (formatter *Formatter) ProcessMessages(stdin io.Reader, stdout io.Writer) (
 	formatter.lookup = &MessageLookup{}
 	formatter.lookup.Initialize()
 
-	// Still useful mapping
 	formatter.jsonFeatures = make([]*jsonFeature, 0)
 	formatter.jsonFeaturesByURI = make(map[string]*jsonFeature)
 	formatter.jsonStepsByPickleStepId = make(map[string]*jsonStep)
 	formatter.exampleRowIndexById = make(map[string]int)
-
-	// Old ones - should be deleted at the end.
-
-	formatter.backgroundByUri = make(map[string]*messages.GherkinDocument_Feature_Background)
-	formatter.backgroundStepsByKey = make(map[string]*messages.GherkinDocument_Feature_Step)
-	formatter.exampleByRowKey = make(map[string]*messages.GherkinDocument_Feature_Scenario_Examples)
-	formatter.gherkinDocumentByURI = make(map[string]*messages.GherkinDocument)
-	formatter.pickleById = make(map[string]*messages.Pickle)
-	formatter.pickleByTestCaseId = make(map[string]*messages.Pickle)
-	formatter.scenariosByKey = make(map[string]*messages.GherkinDocument_Feature_Scenario)
-	formatter.scenarioStepsByKey = make(map[string]*messages.GherkinDocument_Feature_Step)
 
 	reader := gio.NewDelimitedReader(stdin, 4096)
 
