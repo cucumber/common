@@ -78,7 +78,7 @@ const Step: React.FunctionComponent<IProps> = ({ step }) => {
         {step.dataTable && <DataTable dataTable={step.dataTable}/>}
         {step.docString && <DocString docString={step.docString}/>}
       </Indent>
-      {resultsWithMessage.map(result => <ErrorMessage status={status}>{result.message}</ErrorMessage>)}
+      {resultsWithMessage.map((result, i) => <ErrorMessage key={i} status={status}>{result.message}</ErrorMessage>)}
     </StepLi>
   )
 }
