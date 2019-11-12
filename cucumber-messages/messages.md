@@ -708,7 +708,8 @@ An executable step
 | text | [string](#string) |  |  |
 | argument | [PickleStepArgument](#io.cucumber.messages.PickleStepArgument) |  | An optional argument |
 | id | [string](#string) |  | A unique ID for the PickleStep |
-| stepId | [string](#string) |  | References the scenario step where the PickleStep originates from |
+| stepId | [string](#string) |  | References the scenario step where the PickleStep originates from DEPRECATED - use sourceIds |
+| sourceIds | [string](#string) | repeated | References the IDs of the source of the step. For Gherkin, this can be the ID of a Step, and possibly also the ID of a TableRow |
 
 
 
@@ -1075,7 +1076,7 @@ This message closely matches the `Argument` class in the `cucumber-expressions` 
 | ----- | ---- | ----- | ----------- |
 | timestamp | [Timestamp](#io.cucumber.messages.Timestamp) |  |  |
 | testResult | [TestResult](#io.cucumber.messages.TestResult) |  |  |
-| attemptId | [string](#string) |  |  |
+| testCaseStartedId | [string](#string) |  |  |
 
 
 
@@ -1143,7 +1144,7 @@ TODO: Rename to Hook
 | platform | [TestCaseStarted.Platform](#io.cucumber.messages.TestCaseStarted.Platform) |  |  |
 | attempt | [uint32](#uint32) |  | The first attempt should have value 0, and for each retry the value should increase by 1. |
 | testCaseId | [string](#string) |  |  |
-| attemptId | [string](#string) |  | Because a `TestCase` can be run multiple times (in case of a retry), we use this field to group messages relating to the same attempt. |
+| id | [string](#string) |  | Because a `TestCase` can be run multiple times (in case of a retry), we use this field to group messages relating to the same attempt. |
 
 
 
@@ -1261,7 +1262,7 @@ DEPRECATED: Replaced by TestStepStarted
 | testResult | [TestResult](#io.cucumber.messages.TestResult) |  |  |
 | timestamp | [Timestamp](#io.cucumber.messages.Timestamp) |  |  |
 | testStepId | [string](#string) |  |  |
-| attemptId | [string](#string) |  |  |
+| testCaseStartedId | [string](#string) |  |  |
 
 
 
@@ -1297,7 +1298,7 @@ DEPRECATED - replaced by TestStep
 | ----- | ---- | ----- | ----------- |
 | timestamp | [Timestamp](#io.cucumber.messages.Timestamp) |  |  |
 | testStepId | [string](#string) |  |  |
-| attemptId | [string](#string) |  |  |
+| testCaseStartedId | [string](#string) |  |  |
 
 
 

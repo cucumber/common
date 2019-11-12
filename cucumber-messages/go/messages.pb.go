@@ -2363,6 +2363,7 @@ type Pickle_PickleStep struct {
 	// A unique ID for the PickleStep
 	Id string `protobuf:"bytes,6,opt,name=id,proto3" json:"id,omitempty"`
 	// References the scenario step where the PickleStep originates from
+	// DEPRECATED - use sourceIds
 	StepId string `protobuf:"bytes,7,opt,name=stepId,proto3" json:"stepId,omitempty"`
 	// References the IDs of the source of the step. For Gherkin, this can be
 	// the ID of a Step, and possibly also the ID of a TableRow
