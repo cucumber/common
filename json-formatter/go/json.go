@@ -71,8 +71,8 @@ type jsonTag struct {
 type Formatter struct {
 	lookup *MessageLookup
 
-	jsonFeatures         []*jsonFeature
-	jsonFeaturesByURI    map[string]*jsonFeature
+	jsonFeatures            []*jsonFeature
+	jsonFeaturesByURI       map[string]*jsonFeature
 	jsonStepsByPickleStepId map[string]*jsonStep
 	exampleRowIndexById     map[string]int
 }
@@ -232,7 +232,7 @@ func (formatter *Formatter) ProcessMessages(stdin io.Reader, stdout io.Writer) (
 						"%s:%d",
 						stepDefinitions[0].Location.Uri,
 						stepDefinitions[0].Location.Location.Line,
-					)
+					),
 				}
 			}
 		}
