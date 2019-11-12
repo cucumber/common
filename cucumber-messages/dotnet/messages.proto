@@ -187,6 +187,8 @@ message GherkinDocument {
       Location location = 1;
       // The name of the tag (including the leading `@`)
       string name = 2;
+      // Unique ID to be able to reference the Tag from PickleTag
+      string id = 3;
     }
 
     /**
@@ -359,6 +361,8 @@ message Pickle {
   message PickleTag {
     reserved 1;
     string name = 2;
+    // Reference to the tag id
+    string tagId = 3;
   }
 
   /**
@@ -415,7 +419,7 @@ message TestCase {
   string id = 1;
   string pickleId = 2;
   repeated TestStep testSteps = 3;
-  
+
   message TestStep {
     string id = 1;
     // Pointer to the PickleStep (if derived from a PickleStep)
