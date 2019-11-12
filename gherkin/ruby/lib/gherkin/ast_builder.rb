@@ -59,7 +59,8 @@ module Gherkin
         token.matched_items.each do |tag_item|
           tags.push(Cucumber::Messages::GherkinDocument::Feature::Tag.new(
             location: get_location(token, tag_item.column),
-            name: tag_item.text
+            name: tag_item.text,
+            id: @id_generator.new_id
           ))
         end
       end

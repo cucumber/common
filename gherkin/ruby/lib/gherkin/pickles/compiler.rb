@@ -184,7 +184,8 @@ module Gherkin
 
       def pickle_tag(tag)
         Cucumber::Messages::Pickle::PickleTag.new(
-          name: tag.name
+          name: tag.name,
+          sourceId: tag.id
         )
       end
     end
