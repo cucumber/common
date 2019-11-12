@@ -6,16 +6,17 @@ import (
 )
 
 type MessageLookup struct {
-	gherkinDocumentByURI map[string]*messages.GherkinDocument
-	pickleByID           map[string]*messages.Pickle
-	pickleStepByID       map[string]*messages.Pickle_PickleStep
-	testCaseByID         map[string]*messages.TestCase
-	testStepByID         map[string]*messages.TestCase_TestStep
-	testCaseStartedByID  map[string]*messages.TestCaseStarted
-	stepByID             map[string]*messages.GherkinDocument_Feature_Step
-	scenarioByID         map[string]*messages.GherkinDocument_Feature_Scenario
-	exampleByRowID       map[string]*messages.GherkinDocument_Feature_Scenario_Examples
-	exampleRowByID       map[string]*messages.GherkinDocument_Feature_TableRow
+	gherkinDocumentByURI     map[string]*messages.GherkinDocument
+	pickleByID               map[string]*messages.Pickle
+	pickleStepByID           map[string]*messages.Pickle_PickleStep
+	testCaseByID             map[string]*messages.TestCase
+	testStepByID             map[string]*messages.TestCase_TestStep
+	testCaseStartedByID      map[string]*messages.TestCaseStarted
+	stepByID                 map[string]*messages.GherkinDocument_Feature_Step
+	scenarioByID             map[string]*messages.GherkinDocument_Feature_Scenario
+	exampleByRowID           map[string]*messages.GherkinDocument_Feature_Scenario_Examples
+	exampleRowByID           map[string]*messages.GherkinDocument_Feature_TableRow
+	stepDefinitionConfigByID map[string]*messages.StepDefinitionConfig
 
 	// Temporary: need a better structure in the messages
 	backgroundStepIds      map[string]string
@@ -34,6 +35,7 @@ func (self *MessageLookup) Initialize() {
 	self.scenarioByID = make(map[string]*messages.GherkinDocument_Feature_Scenario)
 	self.exampleByRowID = make(map[string]*messages.GherkinDocument_Feature_Scenario_Examples)
 	self.exampleRowByID = make(map[string]*messages.GherkinDocument_Feature_TableRow)
+	self.stepDefinitionConfigByID = make(map[string]*messages.StepDefinitionConfig)
 	self.backgroundStepIds = make(map[string]string)
 	self.backgroundByFeatureURI = make(map[string]*messages.GherkinDocument_Feature_Background)
 	self.tagByURIAndName = make(map[string]*messages.GherkinDocument_Feature_Tag)
@@ -94,6 +96,11 @@ func (self *MessageLookup) ProcessMessage(envelope *messages.Envelope) (err erro
 
 	case *messages.Envelope_TestCaseStarted:
 		self.testCaseStartedByID[m.TestCaseStarted.Id] = m.TestCaseStarted
+
+	case *messages.Envelope_CommandStart:
+		for _, stepDefinitionConfig := range m.CommandStart.SupportCodeConfig.StepDefinitionConfigs {
+			self.stepDefinitionConfigByID[stepDefinitionConfig.Id] = stepDefinitionConfig
+		}
 	}
 
 	return nil
@@ -147,6 +154,18 @@ func (self *MessageLookup) LookupTestStepByID(id string) *messages.TestCase_Test
 
 func (self *MessageLookup) LookupPickleStepByID(id string) *messages.Pickle_PickleStep {
 	return self.pickleStepByID[id]
+}
+
+func (self *MessageLookup) LookupStepDefinitionConfigsByIDs(ids []string) []*messages.StepDefinitionConfig {
+	stepDefinitions := make([]*messages.StepDefinitionConfig, len(ids))
+	for index, id := range ids {
+		stepDefinitions[index] = self.LookupStepDefinitionConfigByID(id)
+	}
+	return stepDefinitions
+}
+
+func (self *MessageLookup) LookupStepDefinitionConfigByID(id string) *messages.StepDefinitionConfig {
+	return self.stepDefinitionConfigByID[id]
 }
 
 func tagKey(featureURI string, tagValue string) string {

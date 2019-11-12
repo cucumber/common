@@ -93,12 +93,12 @@ func (formatter *Formatter) ProcessMessages(stdin io.Reader, stdout io.Writer) (
 	formatter.lookup.Initialize()
 
 	// Still useful mapping
+	formatter.jsonFeatures = make([]*jsonFeature, 0)
+	formatter.jsonFeaturesByURI = make(map[string]*jsonFeature)
 	formatter.jsonStepsByPickleStepId = make(map[string]*jsonStep)
 	formatter.exampleRowIndexById = make(map[string]int)
 
 	// Old ones - should be deleted at the end.
-	formatter.jsonFeatures = make([]*jsonFeature, 0)
-	formatter.jsonFeaturesByURI = make(map[string]*jsonFeature)
 
 	formatter.backgroundByUri = make(map[string]*messages.GherkinDocument_Feature_Background)
 	formatter.backgroundStepsByKey = make(map[string]*messages.GherkinDocument_Feature_Step)
@@ -247,43 +247,16 @@ func (formatter *Formatter) ProcessMessages(stdin io.Reader, stdout io.Writer) (
 				ErrorMessage: m.TestStepFinished.TestResult.Message,
 			}
 
-			// case *messages.Envelope_TestCase:
-			// 	formatter.testCaseByID[m.TestCase.Id] = m.TestCase
-
-			// case *messages.Envelope_TestCaseStarted:
-			// 	formatter.testCaseStartedById[m.TestCaseStarted.Id] = m.TestCaseStarted
-
-			// testCase := formatter.testCaseByID[m.TestCaseStarted.TestCaseId]
-			// pickle := formatter.pickleById[testCase.PickleId]
-			// formatter.pickleByTestCaseId[m.TestCaseStarted.TestCaseId] = pickle
-
-			// case *messages.Envelope_TestStepMatched:
-			// 	pickle := formatter.pickleById[m.TestStepMatched.PickleId]
-			// 	pickleStep := pickle.Steps[m.TestStepMatched.Index]
-			// 	step := formatter.jsonStepsByKey[key(pickle.Uri, pickleStep.Locations[0])]
-
-			// 	step.Match = &jsonStepMatch{
-			// 		Location: fmt.Sprintf(
-			// 			"%s:%d",
-			// 			m.TestStepMatched.StepDefinitionReference.Uri,
-			// 			m.TestStepMatched.StepDefinitionReference.Location.Line,
-			// 		),
-			// 	}
-
-			// case *messages.Envelope_TestStepFinished:
-			// 	testCaseStarted := formatter.testCaseStartedById[m.TestStepFinished.TestCaseStartedId]
-			// 	testCase := formatter.testCaseByID[testCaseStarted.TestCaseId]
-
-			// 	pickle := formatter.pickleByTestCaseId[m.TestStepFinished.TestCaseId]
-			// 	pickleStep := pickle.Steps[m.TestStepFinished.Index]
-			// 	jsonStep := formatter.jsonStepsByKey[key(pickle.Uri, pickleStep.Locations[0])]
-
-			// 	status := strings.ToLower(m.TestStepFinished.TestResult.Status.String())
-			// 	jsonStep.Result = &jsonStepResult{
-			// 		Duration:     durationToNanos(m.TestStepFinished.TestResult.Duration),
-			// 		Status:       status,
-			// 		ErrorMessage: m.TestStepFinished.TestResult.Message,
-			// 	}
+			stepDefinitions := formatter.lookup.LookupStepDefinitionConfigsByIDs(testStep.StepDefinitionId)
+			if len(stepDefinitions) > 0 {
+				jsonStep.Match = &jsonStepMatch{
+					Location: fmt.Sprintf(
+						"%s:%d",
+						stepDefinitions[0].Location.Uri,
+						stepDefinitions[0].Location.Location.Line,
+					)
+				}
+			}
 		}
 	}
 
