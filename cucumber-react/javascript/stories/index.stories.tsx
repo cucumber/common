@@ -5,7 +5,7 @@ import all from '../testdata/all.json'
 import StepList from '../src/components/gherkin/StepList'
 import GherkinDocumentList from '../src/components/app/GherkinDocumentList'
 import CucumberQuery from 'cucumber-query'
-import CucumberQueryContext from '../src/CucumberQueryContext.js';
+import CucumberQueryContext from '../src/CucumberQueryContext';
 
 const envelopes = all.map(o => messages.Envelope.fromObject(o))
 

@@ -3,8 +3,9 @@ MAKEFILES=c21e/Makefile \
 	cucumber-messages/Makefile \
 	gherkin/Makefile \
 	fake-cucumber/Makefile \
-	json-formatter/Makefile \
+	cucumber-query/Makefile \
 	cucumber-react/Makefile \
+	json-formatter/Makefile \
 	html-formatter/Makefile \
 	datatable/Makefile \
 	config/Makefile \

@@ -167,6 +167,11 @@ export default class CucumberQuery {
         documentResults = []
         this.documentResultsByUri.set(uri, documentResults)
       }
+      if (message.testCaseFinished.testResult.status === undefined) {
+        throw new Error(
+          'Status not set for ' + JSON.stringify(message, null, 2)
+        )
+      }
       documentResults.push(message.testCaseFinished.testResult)
     }
 

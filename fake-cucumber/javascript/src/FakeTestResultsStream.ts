@@ -157,7 +157,9 @@ class FakeTestResultsStream extends Transform {
           testCaseFinished: new messages.TestCaseFinished({
             testCaseStartedId,
             testResult: {
-              status: testStepStatuses.sort()[testStepStatuses.length - 1],
+              status:
+                testStepStatuses.sort()[testStepStatuses.length - 1] ||
+                messages.TestResult.Status.UNKNOWN,
               message:
                 testStepStatus === messages.TestResult.Status.FAILED
                   ? `Some error message\n\tfake_file:2\n\tfake_file:7\n`
