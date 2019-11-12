@@ -127,7 +127,7 @@ func (self *Formatter) ProcessMessages(stdin io.Reader, stdout io.Writer) (err e
 			backgroundJsonSteps := make([]*jsonStep, 0)
 
 			for _, pickleStep := range pickle.Steps {
-				step := self.lookup.LookupStep(pickleStep.StepId)
+				step := self.lookup.LookupStep(pickleStep.SourceIds[0])
 				jsonStep := &jsonStep{
 					Keyword: step.Keyword,
 					Line:    step.Location.Line,
