@@ -1,7 +1,6 @@
 package json
 
 import (
-	"fmt"
 	messages "github.com/cucumber/cucumber-messages-go/v6"
 )
 
@@ -18,9 +17,7 @@ type MessageLookup struct {
 	exampleRowByID           map[string]*messages.GherkinDocument_Feature_TableRow
 	stepDefinitionConfigByID map[string]*messages.StepDefinitionConfig
 	backgroundByStepId       map[string]*messages.GherkinDocument_Feature_Background
-
-	// Temporary: need a better structure in the messages
-	tagByURIAndName map[string]*messages.GherkinDocument_Feature_Tag
+	tagByID                  map[string]*messages.GherkinDocument_Feature_Tag
 }
 
 func (self *MessageLookup) Initialize() {
@@ -36,8 +33,7 @@ func (self *MessageLookup) Initialize() {
 	self.exampleRowByID = make(map[string]*messages.GherkinDocument_Feature_TableRow)
 	self.stepDefinitionConfigByID = make(map[string]*messages.StepDefinitionConfig)
 	self.backgroundByStepId = make(map[string]*messages.GherkinDocument_Feature_Background)
-
-	self.tagByURIAndName = make(map[string]*messages.GherkinDocument_Feature_Tag)
+	self.tagByID = make(map[string]*messages.GherkinDocument_Feature_Tag)
 }
 
 func (self *MessageLookup) ProcessMessage(envelope *messages.Envelope) (err error) {
@@ -45,7 +41,7 @@ func (self *MessageLookup) ProcessMessage(envelope *messages.Envelope) (err erro
 	case *messages.Envelope_GherkinDocument:
 		self.gherkinDocumentByURI[m.GherkinDocument.Uri] = m.GherkinDocument
 		for _, tag := range m.GherkinDocument.Feature.Tags {
-			self.tagByURIAndName[tagKey(m.GherkinDocument.Uri, tag.Name)] = tag
+			self.tagByID[tag.Id] = tag
 		}
 
 		for _, child := range m.GherkinDocument.Feature.Children {
@@ -61,7 +57,7 @@ func (self *MessageLookup) ProcessMessage(envelope *messages.Envelope) (err erro
 			if scenario != nil {
 				self.scenarioByID[scenario.Id] = scenario
 				for _, tag := range scenario.Tags {
-					self.tagByURIAndName[tagKey(m.GherkinDocument.Uri, tag.Name)] = tag
+					self.tagByID[tag.Id] = tag
 				}
 
 				for _, step := range scenario.Steps {
@@ -128,8 +124,8 @@ func (self *MessageLookup) LookupBrackgroundByStepId(id string) *messages.Gherki
 	return self.backgroundByStepId[id]
 }
 
-func (self *MessageLookup) LookupTagByURIAndName(featureURI string, name string) *messages.GherkinDocument_Feature_Tag {
-	return self.tagByURIAndName[tagKey(featureURI, name)]
+func (self *MessageLookup) LookupTagByID(id string) *messages.GherkinDocument_Feature_Tag {
+	return self.tagByID[id]
 }
 
 func (self *MessageLookup) LookupTestCaseStartedByID(id string) *messages.TestCaseStarted {
@@ -158,8 +154,4 @@ func (self *MessageLookup) LookupStepDefinitionConfigsByIDs(ids []string) []*mes
 
 func (self *MessageLookup) LookupStepDefinitionConfigByID(id string) *messages.StepDefinitionConfig {
 	return self.stepDefinitionConfigByID[id]
-}
-
-func tagKey(featureURI string, tagValue string) string {
-	return fmt.Sprintf("%s-%s", featureURI, tagValue)
 }
