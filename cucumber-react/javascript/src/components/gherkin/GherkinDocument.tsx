@@ -10,7 +10,7 @@ const GherkinDocument: React.FunctionComponent<IProps> = ({
                                                             gherkinDocument,
                                                           }) => {
   return (
-    <Feature feature={gherkinDocument.feature}/>
+    gherkinDocument.feature && <Feature feature={gherkinDocument.feature}/>
   )
 }
 
