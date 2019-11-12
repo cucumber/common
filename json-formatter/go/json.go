@@ -161,7 +161,7 @@ func (self *Formatter) ProcessMessages(stdin io.Reader, stdout io.Writer) (err e
 						}
 					}
 				}
-				if self.lookup.IsBackgroundStep(step.Id) {
+				if self.isBackgroundStep(step.Id) {
 					backgroundJsonSteps = append(backgroundJsonSteps, jsonStep)
 					background = self.lookup.LookupBrackgroundByStepId(step.Id)
 				} else {
@@ -181,7 +181,7 @@ func (self *Formatter) ProcessMessages(stdin io.Reader, stdout io.Writer) (err e
 				})
 			}
 
-			scenarioID := fmt.Sprintf("%s;%s", jsonFeature.ID, makeId(scenario.Name))
+			scenarioID := fmt.Sprintf("%s;%s", jsonFeature.ID, self.makeId(scenario.Name))
 
 			if len(pickle.SourceIds) > 1 {
 				exampleRow := self.lookup.LookupExampleRow(pickle.SourceIds[1])
@@ -189,8 +189,8 @@ func (self *Formatter) ProcessMessages(stdin io.Reader, stdout io.Writer) (err e
 				scenarioID = fmt.Sprintf(
 					"%s;%s;%s;%d",
 					jsonFeature.ID,
-					makeId(scenario.Name),
-					makeId(example.Name),
+					self.makeId(scenario.Name),
+					self.makeId(example.Name),
 					self.exampleRowIndexById[exampleRow.Id])
 
 				elementLine = exampleRow.Location.Line
@@ -224,7 +224,7 @@ func (self *Formatter) ProcessMessages(stdin io.Reader, stdout io.Writer) (err e
 
 			status := strings.ToLower(m.TestStepFinished.TestResult.Status.String())
 			jsonStep.Result = &jsonStepResult{
-				Duration:     durationToNanos(m.TestStepFinished.TestResult.Duration),
+				Duration:     self.durationToNanos(m.TestStepFinished.TestResult.Duration),
 				Status:       status,
 				ErrorMessage: m.TestStepFinished.TestResult.Message,
 			}
@@ -255,7 +255,7 @@ func (self *Formatter) findOrCreateJsonFeature(pickle *messages.Pickle) *jsonFea
 		jFeature = &jsonFeature{
 			Description: gherkinDocumentFeature.Description,
 			Elements:    make([]*jsonFeatureElement, 0),
-			ID:          makeId(gherkinDocumentFeature.Name),
+			ID:          self.makeId(gherkinDocumentFeature.Name),
 			Keyword:     gherkinDocumentFeature.Keyword,
 			Line:        gherkinDocumentFeature.Location.Line,
 			Name:        gherkinDocumentFeature.Name,
@@ -276,14 +276,15 @@ func (self *Formatter) findOrCreateJsonFeature(pickle *messages.Pickle) *jsonFea
 	return jFeature
 }
 
-func key(uri string) string {
-	return fmt.Sprintf("%s", uri)
+func (self *Formatter) isBackgroundStep(id string) bool {
+	_, ok := self.lookup.backgroundByStepId[id]
+	return ok
 }
 
-func makeId(s string) string {
+func (self *Formatter) makeId(s string) string {
 	return strings.ToLower(strings.Replace(s, " ", "-", -1))
 }
 
-func durationToNanos(d *messages.Duration) uint64 {
+func (self *Formatter) durationToNanos(d *messages.Duration) uint64 {
 	return uint64(d.Seconds*1000000000 + int64(d.Nanos))
 }

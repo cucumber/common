@@ -17,11 +17,10 @@ type MessageLookup struct {
 	exampleByRowID           map[string]*messages.GherkinDocument_Feature_Scenario_Examples
 	exampleRowByID           map[string]*messages.GherkinDocument_Feature_TableRow
 	stepDefinitionConfigByID map[string]*messages.StepDefinitionConfig
+	backgroundByStepId       map[string]*messages.GherkinDocument_Feature_Background
 
 	// Temporary: need a better structure in the messages
-	backgroundStepIds      map[string]string
-	backgroundByFeatureURI map[string]*messages.GherkinDocument_Feature_Background
-	tagByURIAndName        map[string]*messages.GherkinDocument_Feature_Tag
+	tagByURIAndName map[string]*messages.GherkinDocument_Feature_Tag
 }
 
 func (self *MessageLookup) Initialize() {
@@ -36,8 +35,8 @@ func (self *MessageLookup) Initialize() {
 	self.exampleByRowID = make(map[string]*messages.GherkinDocument_Feature_Scenario_Examples)
 	self.exampleRowByID = make(map[string]*messages.GherkinDocument_Feature_TableRow)
 	self.stepDefinitionConfigByID = make(map[string]*messages.StepDefinitionConfig)
-	self.backgroundStepIds = make(map[string]string)
-	self.backgroundByFeatureURI = make(map[string]*messages.GherkinDocument_Feature_Background)
+	self.backgroundByStepId = make(map[string]*messages.GherkinDocument_Feature_Background)
+
 	self.tagByURIAndName = make(map[string]*messages.GherkinDocument_Feature_Tag)
 }
 
@@ -53,8 +52,7 @@ func (self *MessageLookup) ProcessMessage(envelope *messages.Envelope) (err erro
 			background := child.GetBackground()
 			if background != nil {
 				for _, step := range background.Steps {
-					self.backgroundStepIds[step.Id] = m.GherkinDocument.Uri
-					self.backgroundByFeatureURI[m.GherkinDocument.Uri] = background
+					self.backgroundByStepId[step.Id] = background
 					self.stepByID[step.Id] = step
 				}
 			}
@@ -126,14 +124,8 @@ func (self *MessageLookup) LookupExampleRow(id string) *messages.GherkinDocument
 	return self.exampleRowByID[id]
 }
 
-func (self *MessageLookup) IsBackgroundStep(id string) bool {
-	_, ok := self.backgroundStepIds[id]
-	return ok
-}
-
 func (self *MessageLookup) LookupBrackgroundByStepId(id string) *messages.GherkinDocument_Feature_Background {
-	backgroundURI, _ := self.backgroundStepIds[id]
-	return self.backgroundByFeatureURI[backgroundURI]
+	return self.backgroundByStepId[id]
 }
 
 func (self *MessageLookup) LookupTagByURIAndName(featureURI string, name string) *messages.GherkinDocument_Feature_Tag {
