@@ -78,14 +78,14 @@ type Formatter struct {
 }
 
 // ProcessMessages writes a JSON report to STDOUT
-func (formatter *Formatter) ProcessMessages(stdin io.Reader, stdout io.Writer) (err error) {
-	formatter.lookup = &MessageLookup{}
-	formatter.lookup.Initialize()
+func (self *Formatter) ProcessMessages(stdin io.Reader, stdout io.Writer) (err error) {
+	self.lookup = &MessageLookup{}
+	self.lookup.Initialize()
 
-	formatter.jsonFeatures = make([]*jsonFeature, 0)
-	formatter.jsonFeaturesByURI = make(map[string]*jsonFeature)
-	formatter.jsonStepsByPickleStepId = make(map[string]*jsonStep)
-	formatter.exampleRowIndexById = make(map[string]int)
+	self.jsonFeatures = make([]*jsonFeature, 0)
+	self.jsonFeaturesByURI = make(map[string]*jsonFeature)
+	self.jsonStepsByPickleStepId = make(map[string]*jsonStep)
+	self.exampleRowIndexById = make(map[string]int)
 
 	reader := gio.NewDelimitedReader(stdin, 4096)
 
@@ -99,7 +99,7 @@ func (formatter *Formatter) ProcessMessages(stdin io.Reader, stdout io.Writer) (
 			return err
 		}
 
-		formatter.lookup.ProcessMessage(envelope)
+		self.lookup.ProcessMessage(envelope)
 
 		switch m := envelope.Message.(type) {
 		case *messages.Envelope_GherkinDocument:
@@ -109,7 +109,7 @@ func (formatter *Formatter) ProcessMessages(stdin io.Reader, stdout io.Writer) (
 					for _, example := range scenario.Examples {
 						for index, row := range example.TableBody {
 							// index + 2: it's a 1 based index and the header is counted too.
-							formatter.exampleRowIndexById[row.Id] = index + 2
+							self.exampleRowIndexById[row.Id] = index + 2
 						}
 					}
 				}
@@ -117,15 +117,15 @@ func (formatter *Formatter) ProcessMessages(stdin io.Reader, stdout io.Writer) (
 
 		case *messages.Envelope_Pickle:
 			pickle := m.Pickle
-			jsonFeature := formatter.findOrCreateJsonFeature(pickle)
-			scenario := formatter.lookup.LookupScenario(pickle.SourceIds[0])
+			jsonFeature := self.findOrCreateJsonFeature(pickle)
+			scenario := self.lookup.LookupScenario(pickle.SourceIds[0])
 			// TODO: find a better way to get backgrounds
 			background := &messages.GherkinDocument_Feature_Background{}
 			scenarioJsonSteps := make([]*jsonStep, 0)
 			backgroundJsonSteps := make([]*jsonStep, 0)
 
 			for _, pickleStep := range pickle.Steps {
-				step := formatter.lookup.LookupStep(pickleStep.StepId)
+				step := self.lookup.LookupStep(pickleStep.StepId)
 				jsonStep := &jsonStep{
 					Keyword: step.Keyword,
 					Line:    step.Location.Line,
@@ -159,14 +159,14 @@ func (formatter *Formatter) ProcessMessages(stdin io.Reader, stdout io.Writer) (
 						}
 					}
 				}
-				if formatter.lookup.IsBackgroundStep(step.Id) {
+				if self.lookup.IsBackgroundStep(step.Id) {
 					backgroundJsonSteps = append(backgroundJsonSteps, jsonStep)
-					background = formatter.lookup.LookupBrackgroundByStepId(step.Id)
+					background = self.lookup.LookupBrackgroundByStepId(step.Id)
 				} else {
 					scenarioJsonSteps = append(scenarioJsonSteps, jsonStep)
 				}
 
-				formatter.jsonStepsByPickleStepId[pickleStep.Id] = jsonStep
+				self.jsonStepsByPickleStepId[pickleStep.Id] = jsonStep
 			}
 
 			if len(backgroundJsonSteps) > 0 {
@@ -182,19 +182,19 @@ func (formatter *Formatter) ProcessMessages(stdin io.Reader, stdout io.Writer) (
 			scenarioID := fmt.Sprintf("%s;%s", jsonFeature.ID, makeId(scenario.Name))
 
 			if len(pickle.SourceIds) > 1 {
-				exampleRow := formatter.lookup.LookupExampleRow(pickle.SourceIds[1])
-				example := formatter.lookup.LookupExample(pickle.SourceIds[1])
+				exampleRow := self.lookup.LookupExampleRow(pickle.SourceIds[1])
+				example := self.lookup.LookupExample(pickle.SourceIds[1])
 				scenarioID = fmt.Sprintf(
 					"%s;%s;%s;%d",
 					jsonFeature.ID,
 					makeId(scenario.Name),
 					makeId(example.Name),
-					formatter.exampleRowIndexById[exampleRow.Id])
+					self.exampleRowIndexById[exampleRow.Id])
 			}
 
 			scenarioTags := make([]*jsonTag, len(pickle.Tags))
 			for tagIndex, pickleTag := range pickle.Tags {
-				tag := formatter.lookup.LookupTagByURIAndName(pickle.Uri, pickleTag.Name)
+				tag := self.lookup.LookupTagByURIAndName(pickle.Uri, pickleTag.Name)
 
 				scenarioTags[tagIndex] = &jsonTag{
 					Line: tag.Location.Line,
@@ -214,9 +214,9 @@ func (formatter *Formatter) ProcessMessages(stdin io.Reader, stdout io.Writer) (
 			})
 
 		case *messages.Envelope_TestStepFinished:
-			testStep := formatter.lookup.LookupTestStepByID(m.TestStepFinished.TestStepId)
-			pickleStep := formatter.lookup.LookupPickleStepByID(testStep.PickleStepId)
-			jsonStep := formatter.jsonStepsByPickleStepId[pickleStep.Id]
+			testStep := self.lookup.LookupTestStepByID(m.TestStepFinished.TestStepId)
+			pickleStep := self.lookup.LookupPickleStepByID(testStep.PickleStepId)
+			jsonStep := self.jsonStepsByPickleStepId[pickleStep.Id]
 
 			status := strings.ToLower(m.TestStepFinished.TestResult.Status.String())
 			jsonStep.Result = &jsonStepResult{
@@ -225,7 +225,7 @@ func (formatter *Formatter) ProcessMessages(stdin io.Reader, stdout io.Writer) (
 				ErrorMessage: m.TestStepFinished.TestResult.Message,
 			}
 
-			stepDefinitions := formatter.lookup.LookupStepDefinitionConfigsByIDs(testStep.StepDefinitionId)
+			stepDefinitions := self.lookup.LookupStepDefinitionConfigsByIDs(testStep.StepDefinitionId)
 			if len(stepDefinitions) > 0 {
 				jsonStep.Match = &jsonStepMatch{
 					Location: fmt.Sprintf(
@@ -238,15 +238,15 @@ func (formatter *Formatter) ProcessMessages(stdin io.Reader, stdout io.Writer) (
 		}
 	}
 
-	output, _ := json.MarshalIndent(formatter.jsonFeatures, "", "  ")
+	output, _ := json.MarshalIndent(self.jsonFeatures, "", "  ")
 	_, err = fmt.Fprintln(stdout, string(output))
 	return err
 }
 
-func (formatter *Formatter) findOrCreateJsonFeature(pickle *messages.Pickle) *jsonFeature {
-	jFeature, ok := formatter.jsonFeaturesByURI[pickle.Uri]
+func (self *Formatter) findOrCreateJsonFeature(pickle *messages.Pickle) *jsonFeature {
+	jFeature, ok := self.jsonFeaturesByURI[pickle.Uri]
 	if !ok {
-		gherkinDocumentFeature := formatter.lookup.LookupGherkinDocument(pickle.Uri).Feature
+		gherkinDocumentFeature := self.lookup.LookupGherkinDocument(pickle.Uri).Feature
 
 		jFeature = &jsonFeature{
 			Description: gherkinDocumentFeature.Description,
@@ -266,8 +266,8 @@ func (formatter *Formatter) findOrCreateJsonFeature(pickle *messages.Pickle) *js
 			}
 		}
 
-		formatter.jsonFeaturesByURI[pickle.Uri] = jFeature
-		formatter.jsonFeatures = append(formatter.jsonFeatures, jFeature)
+		self.jsonFeaturesByURI[pickle.Uri] = jFeature
+		self.jsonFeatures = append(self.jsonFeatures, jFeature)
 	}
 	return jFeature
 }
