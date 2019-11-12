@@ -8,7 +8,9 @@ import (
 type MessageLookup struct {
 	gherkinDocumentByURI map[string]*messages.GherkinDocument
 	pickleByID           map[string]*messages.Pickle
+	pickleStepByID       map[string]*messages.Pickle_PickleStep
 	testCaseByID         map[string]*messages.TestCase
+	testStepByID         map[string]*messages.TestCase_TestStep
 	testCaseStartedByID  map[string]*messages.TestCaseStarted
 	stepByID             map[string]*messages.GherkinDocument_Feature_Step
 	scenarioByID         map[string]*messages.GherkinDocument_Feature_Scenario
@@ -24,7 +26,9 @@ type MessageLookup struct {
 func (self *MessageLookup) Initialize() {
 	self.gherkinDocumentByURI = make(map[string]*messages.GherkinDocument)
 	self.pickleByID = make(map[string]*messages.Pickle)
+	self.pickleStepByID = make(map[string]*messages.Pickle_PickleStep)
 	self.testCaseByID = make(map[string]*messages.TestCase)
+	self.testStepByID = make(map[string]*messages.TestCase_TestStep)
 	self.testCaseStartedByID = make(map[string]*messages.TestCaseStarted)
 	self.stepByID = make(map[string]*messages.GherkinDocument_Feature_Step)
 	self.scenarioByID = make(map[string]*messages.GherkinDocument_Feature_Scenario)
@@ -77,8 +81,16 @@ func (self *MessageLookup) ProcessMessage(envelope *messages.Envelope) (err erro
 	case *messages.Envelope_Pickle:
 		self.pickleByID[m.Pickle.Id] = m.Pickle
 
+		for _, step := range m.Pickle.Steps {
+			self.pickleStepByID[step.Id] = step
+		}
+
 	case *messages.Envelope_TestCase:
 		self.testCaseByID[m.TestCase.Id] = m.TestCase
+
+		for _, step := range m.TestCase.TestSteps {
+			self.testStepByID[step.Id] = step
+		}
 
 	case *messages.Envelope_TestCaseStarted:
 		self.testCaseStartedByID[m.TestCaseStarted.Id] = m.TestCaseStarted
@@ -119,6 +131,22 @@ func (self *MessageLookup) LookupBrackgroundByStepId(id string) *messages.Gherki
 
 func (self *MessageLookup) LookupTagByURIAndName(featureURI string, name string) *messages.GherkinDocument_Feature_Tag {
 	return self.tagByURIAndName[tagKey(featureURI, name)]
+}
+
+func (self *MessageLookup) LookupTestCaseStartedByID(id string) *messages.TestCaseStarted {
+	return self.testCaseStartedByID[id]
+}
+
+func (self *MessageLookup) LookupTestCaseByID(id string) *messages.TestCase {
+	return self.testCaseByID[id]
+}
+
+func (self *MessageLookup) LookupTestStepByID(id string) *messages.TestCase_TestStep {
+	return self.testStepByID[id]
+}
+
+func (self *MessageLookup) LookupPickleStepByID(id string) *messages.Pickle_PickleStep {
+	return self.pickleStepByID[id]
 }
 
 func tagKey(featureURI string, tagValue string) string {

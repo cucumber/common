@@ -75,8 +75,6 @@ type Formatter struct {
 	exampleRowIndexById     map[string]int
 
 	// Old mappings
-	testCaseByID         map[string]*messages.TestCase
-	testCaseStartedById  map[string]*messages.TestCaseStarted
 	backgroundStepsByKey map[string]*messages.GherkinDocument_Feature_Step
 	backgroundByUri      map[string]*messages.GherkinDocument_Feature_Background
 	exampleByRowKey      map[string]*messages.GherkinDocument_Feature_Scenario_Examples
@@ -99,9 +97,6 @@ func (formatter *Formatter) ProcessMessages(stdin io.Reader, stdout io.Writer) (
 	formatter.exampleRowIndexById = make(map[string]int)
 
 	// Old ones - should be deleted at the end.
-	formatter.testCaseByID = make(map[string]*messages.TestCase, 0)
-	formatter.testCaseStartedById = make(map[string]*messages.TestCaseStarted, 0)
-
 	formatter.jsonFeatures = make([]*jsonFeature, 0)
 	formatter.jsonFeaturesByURI = make(map[string]*jsonFeature)
 
@@ -240,11 +235,23 @@ func (formatter *Formatter) ProcessMessages(stdin io.Reader, stdout io.Writer) (
 				Tags:        scenarioTags,
 			})
 
-		case *messages.Envelope_TestCase:
-			formatter.testCaseByID[m.TestCase.Id] = m.TestCase
+		case *messages.Envelope_TestStepFinished:
+			testStep := formatter.lookup.LookupTestStepByID(m.TestStepFinished.TestStepId)
+			pickleStep := formatter.lookup.LookupPickleStepByID(testStep.PickleStepId)
+			jsonStep := formatter.jsonStepsByPickleStepId[pickleStep.Id]
 
-		case *messages.Envelope_TestCaseStarted:
-			formatter.testCaseStartedById[m.TestCaseStarted.Id] = m.TestCaseStarted
+			status := strings.ToLower(m.TestStepFinished.TestResult.Status.String())
+			jsonStep.Result = &jsonStepResult{
+				Duration:     durationToNanos(m.TestStepFinished.TestResult.Duration),
+				Status:       status,
+				ErrorMessage: m.TestStepFinished.TestResult.Message,
+			}
+
+			// case *messages.Envelope_TestCase:
+			// 	formatter.testCaseByID[m.TestCase.Id] = m.TestCase
+
+			// case *messages.Envelope_TestCaseStarted:
+			// 	formatter.testCaseStartedById[m.TestCaseStarted.Id] = m.TestCaseStarted
 
 			// testCase := formatter.testCaseByID[m.TestCaseStarted.TestCaseId]
 			// pickle := formatter.pickleById[testCase.PickleId]
