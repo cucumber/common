@@ -71,17 +71,18 @@ type jsonTag struct {
 type Formatter struct {
 	lookup *MessageLookup
 
-	testCaseByID        map[string]*messages.TestCase
-	testCaseStartedById map[string]*messages.TestCaseStarted
+	jsonStepsByPickleStepId map[string]*jsonStep
+	exampleRowIndexById     map[string]int
 
-	backgroundByUri      map[string]*messages.GherkinDocument_Feature_Background
+	// Old mappings
+	testCaseByID         map[string]*messages.TestCase
+	testCaseStartedById  map[string]*messages.TestCaseStarted
 	backgroundStepsByKey map[string]*messages.GherkinDocument_Feature_Step
+	backgroundByUri      map[string]*messages.GherkinDocument_Feature_Background
 	exampleByRowKey      map[string]*messages.GherkinDocument_Feature_Scenario_Examples
-	exampleRowIndexByKey map[string]int
 	gherkinDocumentByURI map[string]*messages.GherkinDocument
 	jsonFeatures         []*jsonFeature
 	jsonFeaturesByURI    map[string]*jsonFeature
-	jsonStepsByKey       map[string]*jsonStep
 	pickleById           map[string]*messages.Pickle
 	pickleByTestCaseId   map[string]*messages.Pickle
 	scenariosByKey       map[string]*messages.GherkinDocument_Feature_Scenario
@@ -93,17 +94,20 @@ func (formatter *Formatter) ProcessMessages(stdin io.Reader, stdout io.Writer) (
 	formatter.lookup = &MessageLookup{}
 	formatter.lookup.Initialize()
 
+	// Still useful mapping
+	formatter.jsonStepsByPickleStepId = make(map[string]*jsonStep)
+	formatter.exampleRowIndexById = make(map[string]int)
+
+	// Old ones - should be deleted at the end.
 	formatter.testCaseByID = make(map[string]*messages.TestCase, 0)
 	formatter.testCaseStartedById = make(map[string]*messages.TestCaseStarted, 0)
 
 	formatter.jsonFeatures = make([]*jsonFeature, 0)
 	formatter.jsonFeaturesByURI = make(map[string]*jsonFeature)
-	formatter.jsonStepsByKey = make(map[string]*jsonStep)
 
 	formatter.backgroundByUri = make(map[string]*messages.GherkinDocument_Feature_Background)
 	formatter.backgroundStepsByKey = make(map[string]*messages.GherkinDocument_Feature_Step)
 	formatter.exampleByRowKey = make(map[string]*messages.GherkinDocument_Feature_Scenario_Examples)
-	formatter.exampleRowIndexByKey = make(map[string]int)
 	formatter.gherkinDocumentByURI = make(map[string]*messages.GherkinDocument)
 	formatter.pickleById = make(map[string]*messages.Pickle)
 	formatter.pickleByTestCaseId = make(map[string]*messages.Pickle)
@@ -125,6 +129,18 @@ func (formatter *Formatter) ProcessMessages(stdin io.Reader, stdout io.Writer) (
 		formatter.lookup.ProcessMessage(envelope)
 
 		switch m := envelope.Message.(type) {
+		case *messages.Envelope_GherkinDocument:
+			for _, child := range m.GherkinDocument.Feature.Children {
+				scenario := child.GetScenario()
+				if scenario != nil {
+					for _, example := range scenario.Examples {
+						for index, row := range example.TableBody {
+							// index + 2: it's a 1 based index and the header is counted too.
+							formatter.exampleRowIndexById[row.Id] = index + 2
+						}
+					}
+				}
+			}
 
 		case *messages.Envelope_Pickle:
 			pickle := m.Pickle
@@ -176,7 +192,8 @@ func (formatter *Formatter) ProcessMessages(stdin io.Reader, stdout io.Writer) (
 				} else {
 					scenarioJsonSteps = append(scenarioJsonSteps, jsonStep)
 				}
-				formatter.jsonStepsByKey[key(pickle.Uri)] = jsonStep
+
+				formatter.jsonStepsByPickleStepId[pickleStep.Id] = jsonStep
 			}
 
 			if len(backgroundJsonSteps) > 0 {
@@ -195,11 +212,11 @@ func (formatter *Formatter) ProcessMessages(stdin io.Reader, stdout io.Writer) (
 				exampleRow := formatter.lookup.LookupExampleRow(pickle.SourceIds[1])
 				example := formatter.lookup.LookupExample(pickle.SourceIds[1])
 				scenarioID = fmt.Sprintf(
-					"%s;%s;%s;%s",
+					"%s;%s;%s;%d",
 					jsonFeature.ID,
 					makeId(scenario.Name),
 					makeId(example.Name),
-					exampleRow.Id)
+					formatter.exampleRowIndexById[exampleRow.Id])
 			}
 
 			scenarioTags := make([]*jsonTag, len(pickle.Tags))
