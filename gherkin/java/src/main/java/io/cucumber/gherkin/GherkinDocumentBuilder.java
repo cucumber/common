@@ -331,7 +331,12 @@ public class GherkinDocumentBuilder implements Builder<GherkinDocument.Builder> 
         List<Tag> tags = new ArrayList<>();
         for (Token token : tokens) {
             for (GherkinLineSpan tagItem : token.mathcedItems) {
-                tags.add(Tag.newBuilder().setLocation(getLocation(token, tagItem.column)).setName(tagItem.text).build());
+                tags.add(
+                    Tag.newBuilder()
+                        .setLocation(getLocation(token, tagItem.column))
+                        .setName(tagItem.text)
+                        .setId(idGenerator.newId())
+                        .build());
             }
         }
         return tags;

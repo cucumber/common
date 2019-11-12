@@ -236,6 +236,7 @@ public class PickleCompiler {
     private PickleTag pickleTag(Tag tag) {
         return PickleTag.newBuilder()
                 .setName(tag.getName())
+                .setSourceId(tag.getId())
                 .build();
     }
 
