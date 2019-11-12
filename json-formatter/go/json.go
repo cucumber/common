@@ -220,9 +220,11 @@ func (formatter *Formatter) ProcessMessages(stdin io.Reader, stdout io.Writer) (
 			}
 
 			scenarioTags := make([]*jsonTag, len(pickle.Tags))
-			for tagIndex, tag := range pickle.Tags {
+			for tagIndex, pickleTag := range pickle.Tags {
+				tag := formatter.lookup.LookupTagByURIAndName(pickle.Uri, pickleTag.Name)
+
 				scenarioTags[tagIndex] = &jsonTag{
-					Line: 987,
+					Line: tag.Location.Line,
 					Name: tag.Name,
 				}
 			}

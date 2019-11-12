@@ -1,20 +1,24 @@
 package json
 
 import (
+	"fmt"
 	messages "github.com/cucumber/cucumber-messages-go/v6"
 )
 
 type MessageLookup struct {
-	gherkinDocumentByURI   map[string]*messages.GherkinDocument
-	pickleByID             map[string]*messages.Pickle
-	testCaseByID           map[string]*messages.TestCase
-	testCaseStartedByID    map[string]*messages.TestCaseStarted
-	stepByID               map[string]*messages.GherkinDocument_Feature_Step
-	scenarioByID           map[string]*messages.GherkinDocument_Feature_Scenario
-	exampleByRowID         map[string]*messages.GherkinDocument_Feature_Scenario_Examples
-	exampleRowByID         map[string]*messages.GherkinDocument_Feature_TableRow
+	gherkinDocumentByURI map[string]*messages.GherkinDocument
+	pickleByID           map[string]*messages.Pickle
+	testCaseByID         map[string]*messages.TestCase
+	testCaseStartedByID  map[string]*messages.TestCaseStarted
+	stepByID             map[string]*messages.GherkinDocument_Feature_Step
+	scenarioByID         map[string]*messages.GherkinDocument_Feature_Scenario
+	exampleByRowID       map[string]*messages.GherkinDocument_Feature_Scenario_Examples
+	exampleRowByID       map[string]*messages.GherkinDocument_Feature_TableRow
+
+	// Temporary: need a better structure in the messages
 	backgroundStepIds      map[string]string
 	backgroundByFeatureURI map[string]*messages.GherkinDocument_Feature_Background
+	tagByURIAndName        map[string]*messages.GherkinDocument_Feature_Tag
 }
 
 func (self *MessageLookup) Initialize() {
@@ -28,12 +32,16 @@ func (self *MessageLookup) Initialize() {
 	self.exampleRowByID = make(map[string]*messages.GherkinDocument_Feature_TableRow)
 	self.backgroundStepIds = make(map[string]string)
 	self.backgroundByFeatureURI = make(map[string]*messages.GherkinDocument_Feature_Background)
+	self.tagByURIAndName = make(map[string]*messages.GherkinDocument_Feature_Tag)
 }
 
 func (self *MessageLookup) ProcessMessage(envelope *messages.Envelope) (err error) {
 	switch m := envelope.Message.(type) {
 	case *messages.Envelope_GherkinDocument:
 		self.gherkinDocumentByURI[m.GherkinDocument.Uri] = m.GherkinDocument
+		for _, tag := range m.GherkinDocument.Feature.Tags {
+			self.tagByURIAndName[tagKey(m.GherkinDocument.Uri, tag.Name)] = tag
+		}
 
 		for _, child := range m.GherkinDocument.Feature.Children {
 			background := child.GetBackground()
@@ -48,6 +56,10 @@ func (self *MessageLookup) ProcessMessage(envelope *messages.Envelope) (err erro
 			scenario := child.GetScenario()
 			if scenario != nil {
 				self.scenarioByID[scenario.Id] = scenario
+				for _, tag := range scenario.Tags {
+					self.tagByURIAndName[tagKey(m.GherkinDocument.Uri, tag.Name)] = tag
+				}
+
 				for _, step := range scenario.Steps {
 					self.stepByID[step.Id] = step
 				}
@@ -103,4 +115,12 @@ func (self *MessageLookup) IsBackgroundStep(id string) bool {
 func (self *MessageLookup) LookupBrackgroundByStepId(id string) *messages.GherkinDocument_Feature_Background {
 	backgroundURI, _ := self.backgroundStepIds[id]
 	return self.backgroundByFeatureURI[backgroundURI]
+}
+
+func (self *MessageLookup) LookupTagByURIAndName(featureURI string, name string) *messages.GherkinDocument_Feature_Tag {
+	return self.tagByURIAndName[tagKey(featureURI, name)]
+}
+
+func tagKey(featureURI string, tagValue string) string {
+	return fmt.Sprintf("%s-%s", featureURI, tagValue)
 }
