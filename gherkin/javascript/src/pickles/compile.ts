@@ -275,6 +275,6 @@ function pickleTags(tags: messages.GherkinDocument.Feature.ITag[]) {
 function pickleTag(tag: messages.GherkinDocument.Feature.ITag) {
   return messages.Pickle.PickleTag.fromObject({
     name: tag.name,
-    location: tag.location,
+    sourceId: tag.id,
   })
 }

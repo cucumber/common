@@ -73,6 +73,7 @@ export default class AstBuilder {
           messages.GherkinDocument.Feature.Tag.fromObject({
             location: this.getLocation(token, tagItem.column),
             name: tagItem.text,
+            id: this.newId()
           })
         )
       }
