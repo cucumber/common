@@ -180,7 +180,6 @@ public class PickleCompiler {
 
         PickleStep.Builder pickleStepBuilder = PickleStep.newBuilder()
                 .setId(idGenerator.newId())
-                .setStepId(step.getId())
                 .addSourceIds(step.getId())
                 .setText(stepText);
         if(valuesRow != null) {

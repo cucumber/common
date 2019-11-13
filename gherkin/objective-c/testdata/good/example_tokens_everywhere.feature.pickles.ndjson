@@ -19,7 +19,6 @@
           "0",
           "4"
         ],
-        "stepId": "0",
         "text": "the deux:"
       },
       {
@@ -41,7 +40,6 @@
           "2",
           "4"
         ],
-        "stepId": "2",
         "text": "the quatre:"
       }
     ],
@@ -69,7 +67,6 @@
           "0",
           "5"
         ],
-        "stepId": "0",
         "text": "the dos:"
       },
       {
@@ -91,7 +88,6 @@
           "2",
           "5"
         ],
-        "stepId": "2",
         "text": "the quatro:"
       }
     ],

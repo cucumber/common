@@ -191,7 +191,6 @@ func pickleStep(
 	pickleStep := &messages.Pickle_PickleStep{
 		Id:        newId(),
 		Text:      interpolate(step.Text, variableCells, valueCells),
-		StepId:    step.Id,
 		SourceIds: []string{step.Id},
 	}
 	if valuesRow != nil {

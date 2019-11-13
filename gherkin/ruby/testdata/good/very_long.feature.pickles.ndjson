@@ -38,7 +38,6 @@
         "sourceIds": [
           "2"
         ],
-        "stepId": "2",
         "text": "a simple data table"
       },
       {
@@ -59,7 +58,6 @@
         "sourceIds": [
           "4"
         ],
-        "stepId": "4",
         "text": "a data table with a single cell"
       },
       {
@@ -86,7 +84,6 @@
         "sourceIds": [
           "6"
         ],
-        "stepId": "6",
         "text": "a data table with different fromatting"
       },
       {
@@ -111,7 +108,6 @@
         "sourceIds": [
           "8"
         ],
-        "stepId": "8",
         "text": "a data table with an empty cell"
       },
       {
@@ -155,7 +151,6 @@
         "sourceIds": [
           "12"
         ],
-        "stepId": "12",
         "text": "a data table with comments and newlines inside"
       }
     ],
@@ -202,7 +197,6 @@
         "sourceIds": [
           "16"
         ],
-        "stepId": "16",
         "text": "a simple data table"
       },
       {
@@ -223,7 +217,6 @@
         "sourceIds": [
           "18"
         ],
-        "stepId": "18",
         "text": "a data table with a single cell"
       },
       {
@@ -250,7 +243,6 @@
         "sourceIds": [
           "20"
         ],
-        "stepId": "20",
         "text": "a data table with different fromatting"
       },
       {
@@ -275,7 +267,6 @@
         "sourceIds": [
           "22"
         ],
-        "stepId": "22",
         "text": "a data table with an empty cell"
       },
       {
@@ -319,7 +310,6 @@
         "sourceIds": [
           "26"
         ],
-        "stepId": "26",
         "text": "a data table with comments and newlines inside"
       }
     ],
@@ -366,7 +356,6 @@
         "sourceIds": [
           "30"
         ],
-        "stepId": "30",
         "text": "a simple data table"
       },
       {
@@ -387,7 +376,6 @@
         "sourceIds": [
           "32"
         ],
-        "stepId": "32",
         "text": "a data table with a single cell"
       },
       {
@@ -414,7 +402,6 @@
         "sourceIds": [
           "34"
         ],
-        "stepId": "34",
         "text": "a data table with different fromatting"
       },
       {
@@ -439,7 +426,6 @@
         "sourceIds": [
           "36"
         ],
-        "stepId": "36",
         "text": "a data table with an empty cell"
       },
       {
@@ -483,7 +469,6 @@
         "sourceIds": [
           "40"
         ],
-        "stepId": "40",
         "text": "a data table with comments and newlines inside"
       }
     ],
@@ -530,7 +515,6 @@
         "sourceIds": [
           "44"
         ],
-        "stepId": "44",
         "text": "a simple data table"
       },
       {
@@ -551,7 +535,6 @@
         "sourceIds": [
           "46"
         ],
-        "stepId": "46",
         "text": "a data table with a single cell"
       },
       {
@@ -578,7 +561,6 @@
         "sourceIds": [
           "48"
         ],
-        "stepId": "48",
         "text": "a data table with different fromatting"
       },
       {
@@ -603,7 +585,6 @@
         "sourceIds": [
           "50"
         ],
-        "stepId": "50",
         "text": "a data table with an empty cell"
       },
       {
@@ -647,7 +628,6 @@
         "sourceIds": [
           "54"
         ],
-        "stepId": "54",
         "text": "a data table with comments and newlines inside"
       }
     ],
@@ -694,7 +674,6 @@
         "sourceIds": [
           "58"
         ],
-        "stepId": "58",
         "text": "a simple data table"
       },
       {
@@ -715,7 +694,6 @@
         "sourceIds": [
           "60"
         ],
-        "stepId": "60",
         "text": "a data table with a single cell"
       },
       {
@@ -742,7 +720,6 @@
         "sourceIds": [
           "62"
         ],
-        "stepId": "62",
         "text": "a data table with different fromatting"
       },
       {
@@ -767,7 +744,6 @@
         "sourceIds": [
           "64"
         ],
-        "stepId": "64",
         "text": "a data table with an empty cell"
       },
       {
@@ -811,7 +787,6 @@
         "sourceIds": [
           "68"
         ],
-        "stepId": "68",
         "text": "a data table with comments and newlines inside"
       }
     ],
@@ -858,7 +833,6 @@
         "sourceIds": [
           "72"
         ],
-        "stepId": "72",
         "text": "a simple data table"
       },
       {
@@ -879,7 +853,6 @@
         "sourceIds": [
           "74"
         ],
-        "stepId": "74",
         "text": "a data table with a single cell"
       },
       {
@@ -906,7 +879,6 @@
         "sourceIds": [
           "76"
         ],
-        "stepId": "76",
         "text": "a data table with different fromatting"
       },
       {
@@ -931,7 +903,6 @@
         "sourceIds": [
           "78"
         ],
-        "stepId": "78",
         "text": "a data table with an empty cell"
       },
       {
@@ -975,7 +946,6 @@
         "sourceIds": [
           "82"
         ],
-        "stepId": "82",
         "text": "a data table with comments and newlines inside"
       }
     ],
@@ -1022,7 +992,6 @@
         "sourceIds": [
           "86"
         ],
-        "stepId": "86",
         "text": "a simple data table"
       },
       {
@@ -1043,7 +1012,6 @@
         "sourceIds": [
           "88"
         ],
-        "stepId": "88",
         "text": "a data table with a single cell"
       },
       {
@@ -1070,7 +1038,6 @@
         "sourceIds": [
           "90"
         ],
-        "stepId": "90",
         "text": "a data table with different fromatting"
       },
       {
@@ -1095,7 +1062,6 @@
         "sourceIds": [
           "92"
         ],
-        "stepId": "92",
         "text": "a data table with an empty cell"
       },
       {
@@ -1139,7 +1105,6 @@
         "sourceIds": [
           "96"
         ],
-        "stepId": "96",
         "text": "a data table with comments and newlines inside"
       }
     ],
@@ -1186,7 +1151,6 @@
         "sourceIds": [
           "100"
         ],
-        "stepId": "100",
         "text": "a simple data table"
       },
       {
@@ -1207,7 +1171,6 @@
         "sourceIds": [
           "102"
         ],
-        "stepId": "102",
         "text": "a data table with a single cell"
       },
       {
@@ -1234,7 +1197,6 @@
         "sourceIds": [
           "104"
         ],
-        "stepId": "104",
         "text": "a data table with different fromatting"
       },
       {
@@ -1259,7 +1221,6 @@
         "sourceIds": [
           "106"
         ],
-        "stepId": "106",
         "text": "a data table with an empty cell"
       },
       {
@@ -1303,7 +1264,6 @@
         "sourceIds": [
           "110"
         ],
-        "stepId": "110",
         "text": "a data table with comments and newlines inside"
       }
     ],
@@ -1350,7 +1310,6 @@
         "sourceIds": [
           "114"
         ],
-        "stepId": "114",
         "text": "a simple data table"
       },
       {
@@ -1371,7 +1330,6 @@
         "sourceIds": [
           "116"
         ],
-        "stepId": "116",
         "text": "a data table with a single cell"
       },
       {
@@ -1398,7 +1356,6 @@
         "sourceIds": [
           "118"
         ],
-        "stepId": "118",
         "text": "a data table with different fromatting"
       },
       {
@@ -1423,7 +1380,6 @@
         "sourceIds": [
           "120"
         ],
-        "stepId": "120",
         "text": "a data table with an empty cell"
       },
       {
@@ -1467,7 +1423,6 @@
         "sourceIds": [
           "124"
         ],
-        "stepId": "124",
         "text": "a data table with comments and newlines inside"
       }
     ],
@@ -1514,7 +1469,6 @@
         "sourceIds": [
           "128"
         ],
-        "stepId": "128",
         "text": "a simple data table"
       },
       {
@@ -1535,7 +1489,6 @@
         "sourceIds": [
           "130"
         ],
-        "stepId": "130",
         "text": "a data table with a single cell"
       },
       {
@@ -1562,7 +1515,6 @@
         "sourceIds": [
           "132"
         ],
-        "stepId": "132",
         "text": "a data table with different fromatting"
       },
       {
@@ -1587,7 +1539,6 @@
         "sourceIds": [
           "134"
         ],
-        "stepId": "134",
         "text": "a data table with an empty cell"
       },
       {
@@ -1631,7 +1582,6 @@
         "sourceIds": [
           "138"
         ],
-        "stepId": "138",
         "text": "a data table with comments and newlines inside"
       }
     ],
@@ -1678,7 +1628,6 @@
         "sourceIds": [
           "142"
         ],
-        "stepId": "142",
         "text": "a simple data table"
       },
       {
@@ -1699,7 +1648,6 @@
         "sourceIds": [
           "144"
         ],
-        "stepId": "144",
         "text": "a data table with a single cell"
       },
       {
@@ -1726,7 +1674,6 @@
         "sourceIds": [
           "146"
         ],
-        "stepId": "146",
         "text": "a data table with different fromatting"
       },
       {
@@ -1751,7 +1698,6 @@
         "sourceIds": [
           "148"
         ],
-        "stepId": "148",
         "text": "a data table with an empty cell"
       },
       {
@@ -1795,7 +1741,6 @@
         "sourceIds": [
           "152"
         ],
-        "stepId": "152",
         "text": "a data table with comments and newlines inside"
       }
     ],
@@ -1842,7 +1787,6 @@
         "sourceIds": [
           "156"
         ],
-        "stepId": "156",
         "text": "a simple data table"
       },
       {
@@ -1863,7 +1807,6 @@
         "sourceIds": [
           "158"
         ],
-        "stepId": "158",
         "text": "a data table with a single cell"
       },
       {
@@ -1890,7 +1833,6 @@
         "sourceIds": [
           "160"
         ],
-        "stepId": "160",
         "text": "a data table with different fromatting"
       },
       {
@@ -1915,7 +1857,6 @@
         "sourceIds": [
           "162"
         ],
-        "stepId": "162",
         "text": "a data table with an empty cell"
       },
       {
@@ -1959,7 +1900,6 @@
         "sourceIds": [
           "166"
         ],
-        "stepId": "166",
         "text": "a data table with comments and newlines inside"
       }
     ],
@@ -2006,7 +1946,6 @@
         "sourceIds": [
           "170"
         ],
-        "stepId": "170",
         "text": "a simple data table"
       },
       {
@@ -2027,7 +1966,6 @@
         "sourceIds": [
           "172"
         ],
-        "stepId": "172",
         "text": "a data table with a single cell"
       },
       {
@@ -2054,7 +1992,6 @@
         "sourceIds": [
           "174"
         ],
-        "stepId": "174",
         "text": "a data table with different fromatting"
       },
       {
@@ -2079,7 +2016,6 @@
         "sourceIds": [
           "176"
         ],
-        "stepId": "176",
         "text": "a data table with an empty cell"
       },
       {
@@ -2123,7 +2059,6 @@
         "sourceIds": [
           "180"
         ],
-        "stepId": "180",
         "text": "a data table with comments and newlines inside"
       }
     ],
@@ -2170,7 +2105,6 @@
         "sourceIds": [
           "184"
         ],
-        "stepId": "184",
         "text": "a simple data table"
       },
       {
@@ -2191,7 +2125,6 @@
         "sourceIds": [
           "186"
         ],
-        "stepId": "186",
         "text": "a data table with a single cell"
       },
       {
@@ -2218,7 +2151,6 @@
         "sourceIds": [
           "188"
         ],
-        "stepId": "188",
         "text": "a data table with different fromatting"
       },
       {
@@ -2243,7 +2175,6 @@
         "sourceIds": [
           "190"
         ],
-        "stepId": "190",
         "text": "a data table with an empty cell"
       },
       {
@@ -2287,7 +2218,6 @@
         "sourceIds": [
           "194"
         ],
-        "stepId": "194",
         "text": "a data table with comments and newlines inside"
       }
     ],
@@ -2334,7 +2264,6 @@
         "sourceIds": [
           "198"
         ],
-        "stepId": "198",
         "text": "a simple data table"
       },
       {
@@ -2355,7 +2284,6 @@
         "sourceIds": [
           "200"
         ],
-        "stepId": "200",
         "text": "a data table with a single cell"
       },
       {
@@ -2382,7 +2310,6 @@
         "sourceIds": [
           "202"
         ],
-        "stepId": "202",
         "text": "a data table with different fromatting"
       },
       {
@@ -2407,7 +2334,6 @@
         "sourceIds": [
           "204"
         ],
-        "stepId": "204",
         "text": "a data table with an empty cell"
       },
       {
@@ -2451,7 +2377,6 @@
         "sourceIds": [
           "208"
         ],
-        "stepId": "208",
         "text": "a data table with comments and newlines inside"
       }
     ],
@@ -2498,7 +2423,6 @@
         "sourceIds": [
           "212"
         ],
-        "stepId": "212",
         "text": "a simple data table"
       },
       {
@@ -2519,7 +2443,6 @@
         "sourceIds": [
           "214"
         ],
-        "stepId": "214",
         "text": "a data table with a single cell"
       },
       {
@@ -2546,7 +2469,6 @@
         "sourceIds": [
           "216"
         ],
-        "stepId": "216",
         "text": "a data table with different fromatting"
       },
       {
@@ -2571,7 +2493,6 @@
         "sourceIds": [
           "218"
         ],
-        "stepId": "218",
         "text": "a data table with an empty cell"
       },
       {
@@ -2615,7 +2536,6 @@
         "sourceIds": [
           "222"
         ],
-        "stepId": "222",
         "text": "a data table with comments and newlines inside"
       }
     ],
@@ -2662,7 +2582,6 @@
         "sourceIds": [
           "226"
         ],
-        "stepId": "226",
         "text": "a simple data table"
       },
       {
@@ -2683,7 +2602,6 @@
         "sourceIds": [
           "228"
         ],
-        "stepId": "228",
         "text": "a data table with a single cell"
       },
       {
@@ -2710,7 +2628,6 @@
         "sourceIds": [
           "230"
         ],
-        "stepId": "230",
         "text": "a data table with different fromatting"
       },
       {
@@ -2735,7 +2652,6 @@
         "sourceIds": [
           "232"
         ],
-        "stepId": "232",
         "text": "a data table with an empty cell"
       },
       {
@@ -2779,7 +2695,6 @@
         "sourceIds": [
           "236"
         ],
-        "stepId": "236",
         "text": "a data table with comments and newlines inside"
       }
     ],
@@ -2826,7 +2741,6 @@
         "sourceIds": [
           "240"
         ],
-        "stepId": "240",
         "text": "a simple data table"
       },
       {
@@ -2847,7 +2761,6 @@
         "sourceIds": [
           "242"
         ],
-        "stepId": "242",
         "text": "a data table with a single cell"
       },
       {
@@ -2874,7 +2787,6 @@
         "sourceIds": [
           "244"
         ],
-        "stepId": "244",
         "text": "a data table with different fromatting"
       },
       {
@@ -2899,7 +2811,6 @@
         "sourceIds": [
           "246"
         ],
-        "stepId": "246",
         "text": "a data table with an empty cell"
       },
       {
@@ -2943,7 +2854,6 @@
         "sourceIds": [
           "250"
         ],
-        "stepId": "250",
         "text": "a data table with comments and newlines inside"
       }
     ],
@@ -2990,7 +2900,6 @@
         "sourceIds": [
           "254"
         ],
-        "stepId": "254",
         "text": "a simple data table"
       },
       {
@@ -3011,7 +2920,6 @@
         "sourceIds": [
           "256"
         ],
-        "stepId": "256",
         "text": "a data table with a single cell"
       },
       {
@@ -3038,7 +2946,6 @@
         "sourceIds": [
           "258"
         ],
-        "stepId": "258",
         "text": "a data table with different fromatting"
       },
       {
@@ -3063,7 +2970,6 @@
         "sourceIds": [
           "260"
         ],
-        "stepId": "260",
         "text": "a data table with an empty cell"
       },
       {
@@ -3107,7 +3013,6 @@
         "sourceIds": [
           "264"
         ],
-        "stepId": "264",
         "text": "a data table with comments and newlines inside"
       }
     ],
@@ -3154,7 +3059,6 @@
         "sourceIds": [
           "268"
         ],
-        "stepId": "268",
         "text": "a simple data table"
       },
       {
@@ -3175,7 +3079,6 @@
         "sourceIds": [
           "270"
         ],
-        "stepId": "270",
         "text": "a data table with a single cell"
       },
       {
@@ -3202,7 +3105,6 @@
         "sourceIds": [
           "272"
         ],
-        "stepId": "272",
         "text": "a data table with different fromatting"
       },
       {
@@ -3227,7 +3129,6 @@
         "sourceIds": [
           "274"
         ],
-        "stepId": "274",
         "text": "a data table with an empty cell"
       },
       {
@@ -3271,7 +3172,6 @@
         "sourceIds": [
           "278"
         ],
-        "stepId": "278",
         "text": "a data table with comments and newlines inside"
       }
     ],
@@ -3318,7 +3218,6 @@
         "sourceIds": [
           "282"
         ],
-        "stepId": "282",
         "text": "a simple data table"
       },
       {
@@ -3339,7 +3238,6 @@
         "sourceIds": [
           "284"
         ],
-        "stepId": "284",
         "text": "a data table with a single cell"
       },
       {
@@ -3366,7 +3264,6 @@
         "sourceIds": [
           "286"
         ],
-        "stepId": "286",
         "text": "a data table with different fromatting"
       },
       {
@@ -3391,7 +3288,6 @@
         "sourceIds": [
           "288"
         ],
-        "stepId": "288",
         "text": "a data table with an empty cell"
       },
       {
@@ -3435,7 +3331,6 @@
         "sourceIds": [
           "292"
         ],
-        "stepId": "292",
         "text": "a data table with comments and newlines inside"
       }
     ],
@@ -3482,7 +3377,6 @@
         "sourceIds": [
           "296"
         ],
-        "stepId": "296",
         "text": "a simple data table"
       },
       {
@@ -3503,7 +3397,6 @@
         "sourceIds": [
           "298"
         ],
-        "stepId": "298",
         "text": "a data table with a single cell"
       },
       {
@@ -3530,7 +3423,6 @@
         "sourceIds": [
           "300"
         ],
-        "stepId": "300",
         "text": "a data table with different fromatting"
       },
       {
@@ -3555,7 +3447,6 @@
         "sourceIds": [
           "302"
         ],
-        "stepId": "302",
         "text": "a data table with an empty cell"
       },
       {
@@ -3599,7 +3490,6 @@
         "sourceIds": [
           "306"
         ],
-        "stepId": "306",
         "text": "a data table with comments and newlines inside"
       }
     ],
@@ -3646,7 +3536,6 @@
         "sourceIds": [
           "310"
         ],
-        "stepId": "310",
         "text": "a simple data table"
       },
       {
@@ -3667,7 +3556,6 @@
         "sourceIds": [
           "312"
         ],
-        "stepId": "312",
         "text": "a data table with a single cell"
       },
       {
@@ -3694,7 +3582,6 @@
         "sourceIds": [
           "314"
         ],
-        "stepId": "314",
         "text": "a data table with different fromatting"
       },
       {
@@ -3719,7 +3606,6 @@
         "sourceIds": [
           "316"
         ],
-        "stepId": "316",
         "text": "a data table with an empty cell"
       },
       {
@@ -3763,7 +3649,6 @@
         "sourceIds": [
           "320"
         ],
-        "stepId": "320",
         "text": "a data table with comments and newlines inside"
       }
     ],
@@ -3810,7 +3695,6 @@
         "sourceIds": [
           "324"
         ],
-        "stepId": "324",
         "text": "a simple data table"
       },
       {
@@ -3831,7 +3715,6 @@
         "sourceIds": [
           "326"
         ],
-        "stepId": "326",
         "text": "a data table with a single cell"
       },
       {
@@ -3858,7 +3741,6 @@
         "sourceIds": [
           "328"
         ],
-        "stepId": "328",
         "text": "a data table with different fromatting"
       },
       {
@@ -3883,7 +3765,6 @@
         "sourceIds": [
           "330"
         ],
-        "stepId": "330",
         "text": "a data table with an empty cell"
       },
       {
@@ -3927,7 +3808,6 @@
         "sourceIds": [
           "334"
         ],
-        "stepId": "334",
         "text": "a data table with comments and newlines inside"
       }
     ],
@@ -3974,7 +3854,6 @@
         "sourceIds": [
           "338"
         ],
-        "stepId": "338",
         "text": "a simple data table"
       },
       {
@@ -3995,7 +3874,6 @@
         "sourceIds": [
           "340"
         ],
-        "stepId": "340",
         "text": "a data table with a single cell"
       },
       {
@@ -4022,7 +3900,6 @@
         "sourceIds": [
           "342"
         ],
-        "stepId": "342",
         "text": "a data table with different fromatting"
       },
       {
@@ -4047,7 +3924,6 @@
         "sourceIds": [
           "344"
         ],
-        "stepId": "344",
         "text": "a data table with an empty cell"
       },
       {
@@ -4091,7 +3967,6 @@
         "sourceIds": [
           "348"
         ],
-        "stepId": "348",
         "text": "a data table with comments and newlines inside"
       }
     ],
@@ -4138,7 +4013,6 @@
         "sourceIds": [
           "352"
         ],
-        "stepId": "352",
         "text": "a simple data table"
       },
       {
@@ -4159,7 +4033,6 @@
         "sourceIds": [
           "354"
         ],
-        "stepId": "354",
         "text": "a data table with a single cell"
       },
       {
@@ -4186,7 +4059,6 @@
         "sourceIds": [
           "356"
         ],
-        "stepId": "356",
         "text": "a data table with different fromatting"
       },
       {
@@ -4211,7 +4083,6 @@
         "sourceIds": [
           "358"
         ],
-        "stepId": "358",
         "text": "a data table with an empty cell"
       },
       {
@@ -4255,7 +4126,6 @@
         "sourceIds": [
           "362"
         ],
-        "stepId": "362",
         "text": "a data table with comments and newlines inside"
       }
     ],
@@ -4302,7 +4172,6 @@
         "sourceIds": [
           "366"
         ],
-        "stepId": "366",
         "text": "a simple data table"
       },
       {
@@ -4323,7 +4192,6 @@
         "sourceIds": [
           "368"
         ],
-        "stepId": "368",
         "text": "a data table with a single cell"
       },
       {
@@ -4350,7 +4218,6 @@
         "sourceIds": [
           "370"
         ],
-        "stepId": "370",
         "text": "a data table with different fromatting"
       },
       {
@@ -4375,7 +4242,6 @@
         "sourceIds": [
           "372"
         ],
-        "stepId": "372",
         "text": "a data table with an empty cell"
       },
       {
@@ -4419,7 +4285,6 @@
         "sourceIds": [
           "376"
         ],
-        "stepId": "376",
         "text": "a data table with comments and newlines inside"
       }
     ],
@@ -4466,7 +4331,6 @@
         "sourceIds": [
           "380"
         ],
-        "stepId": "380",
         "text": "a simple data table"
       },
       {
@@ -4487,7 +4351,6 @@
         "sourceIds": [
           "382"
         ],
-        "stepId": "382",
         "text": "a data table with a single cell"
       },
       {
@@ -4514,7 +4377,6 @@
         "sourceIds": [
           "384"
         ],
-        "stepId": "384",
         "text": "a data table with different fromatting"
       },
       {
@@ -4539,7 +4401,6 @@
         "sourceIds": [
           "386"
         ],
-        "stepId": "386",
         "text": "a data table with an empty cell"
       },
       {
@@ -4583,7 +4444,6 @@
         "sourceIds": [
           "390"
         ],
-        "stepId": "390",
         "text": "a data table with comments and newlines inside"
       }
     ],
@@ -4630,7 +4490,6 @@
         "sourceIds": [
           "394"
         ],
-        "stepId": "394",
         "text": "a simple data table"
       },
       {
@@ -4651,7 +4510,6 @@
         "sourceIds": [
           "396"
         ],
-        "stepId": "396",
         "text": "a data table with a single cell"
       },
       {
@@ -4678,7 +4536,6 @@
         "sourceIds": [
           "398"
         ],
-        "stepId": "398",
         "text": "a data table with different fromatting"
       },
       {
@@ -4703,7 +4560,6 @@
         "sourceIds": [
           "400"
         ],
-        "stepId": "400",
         "text": "a data table with an empty cell"
       },
       {
@@ -4747,7 +4603,6 @@
         "sourceIds": [
           "404"
         ],
-        "stepId": "404",
         "text": "a data table with comments and newlines inside"
       }
     ],
@@ -4794,7 +4649,6 @@
         "sourceIds": [
           "408"
         ],
-        "stepId": "408",
         "text": "a simple data table"
       },
       {
@@ -4815,7 +4669,6 @@
         "sourceIds": [
           "410"
         ],
-        "stepId": "410",
         "text": "a data table with a single cell"
       },
       {
@@ -4842,7 +4695,6 @@
         "sourceIds": [
           "412"
         ],
-        "stepId": "412",
         "text": "a data table with different fromatting"
       },
       {
@@ -4867,7 +4719,6 @@
         "sourceIds": [
           "414"
         ],
-        "stepId": "414",
         "text": "a data table with an empty cell"
       },
       {
@@ -4911,7 +4762,6 @@
         "sourceIds": [
           "418"
         ],
-        "stepId": "418",
         "text": "a data table with comments and newlines inside"
       }
     ],
@@ -4958,7 +4808,6 @@
         "sourceIds": [
           "422"
         ],
-        "stepId": "422",
         "text": "a simple data table"
       },
       {
@@ -4979,7 +4828,6 @@
         "sourceIds": [
           "424"
         ],
-        "stepId": "424",
         "text": "a data table with a single cell"
       },
       {
@@ -5006,7 +4854,6 @@
         "sourceIds": [
           "426"
         ],
-        "stepId": "426",
         "text": "a data table with different fromatting"
       },
       {
@@ -5031,7 +4878,6 @@
         "sourceIds": [
           "428"
         ],
-        "stepId": "428",
         "text": "a data table with an empty cell"
       },
       {
@@ -5075,7 +4921,6 @@
         "sourceIds": [
           "432"
         ],
-        "stepId": "432",
         "text": "a data table with comments and newlines inside"
       }
     ],
@@ -5122,7 +4967,6 @@
         "sourceIds": [
           "436"
         ],
-        "stepId": "436",
         "text": "a simple data table"
       },
       {
@@ -5143,7 +4987,6 @@
         "sourceIds": [
           "438"
         ],
-        "stepId": "438",
         "text": "a data table with a single cell"
       },
       {
@@ -5170,7 +5013,6 @@
         "sourceIds": [
           "440"
         ],
-        "stepId": "440",
         "text": "a data table with different fromatting"
       },
       {
@@ -5195,7 +5037,6 @@
         "sourceIds": [
           "442"
         ],
-        "stepId": "442",
         "text": "a data table with an empty cell"
       },
       {
@@ -5239,7 +5080,6 @@
         "sourceIds": [
           "446"
         ],
-        "stepId": "446",
         "text": "a data table with comments and newlines inside"
       }
     ],
@@ -5286,7 +5126,6 @@
         "sourceIds": [
           "450"
         ],
-        "stepId": "450",
         "text": "a simple data table"
       },
       {
@@ -5307,7 +5146,6 @@
         "sourceIds": [
           "452"
         ],
-        "stepId": "452",
         "text": "a data table with a single cell"
       },
       {
@@ -5334,7 +5172,6 @@
         "sourceIds": [
           "454"
         ],
-        "stepId": "454",
         "text": "a data table with different fromatting"
       },
       {
@@ -5359,7 +5196,6 @@
         "sourceIds": [
           "456"
         ],
-        "stepId": "456",
         "text": "a data table with an empty cell"
       },
       {
@@ -5403,7 +5239,6 @@
         "sourceIds": [
           "460"
         ],
-        "stepId": "460",
         "text": "a data table with comments and newlines inside"
       }
     ],
@@ -5450,7 +5285,6 @@
         "sourceIds": [
           "464"
         ],
-        "stepId": "464",
         "text": "a simple data table"
       },
       {
@@ -5471,7 +5305,6 @@
         "sourceIds": [
           "466"
         ],
-        "stepId": "466",
         "text": "a data table with a single cell"
       },
       {
@@ -5498,7 +5331,6 @@
         "sourceIds": [
           "468"
         ],
-        "stepId": "468",
         "text": "a data table with different fromatting"
       },
       {
@@ -5523,7 +5355,6 @@
         "sourceIds": [
           "470"
         ],
-        "stepId": "470",
         "text": "a data table with an empty cell"
       },
       {
@@ -5567,7 +5398,6 @@
         "sourceIds": [
           "474"
         ],
-        "stepId": "474",
         "text": "a data table with comments and newlines inside"
       }
     ],
@@ -5614,7 +5444,6 @@
         "sourceIds": [
           "478"
         ],
-        "stepId": "478",
         "text": "a simple data table"
       },
       {
@@ -5635,7 +5464,6 @@
         "sourceIds": [
           "480"
         ],
-        "stepId": "480",
         "text": "a data table with a single cell"
       },
       {
@@ -5662,7 +5490,6 @@
         "sourceIds": [
           "482"
         ],
-        "stepId": "482",
         "text": "a data table with different fromatting"
       },
       {
@@ -5687,7 +5514,6 @@
         "sourceIds": [
           "484"
         ],
-        "stepId": "484",
         "text": "a data table with an empty cell"
       },
       {
@@ -5731,7 +5557,6 @@
         "sourceIds": [
           "488"
         ],
-        "stepId": "488",
         "text": "a data table with comments and newlines inside"
       }
     ],
@@ -5778,7 +5603,6 @@
         "sourceIds": [
           "492"
         ],
-        "stepId": "492",
         "text": "a simple data table"
       },
       {
@@ -5799,7 +5623,6 @@
         "sourceIds": [
           "494"
         ],
-        "stepId": "494",
         "text": "a data table with a single cell"
       },
       {
@@ -5826,7 +5649,6 @@
         "sourceIds": [
           "496"
         ],
-        "stepId": "496",
         "text": "a data table with different fromatting"
       },
       {
@@ -5851,7 +5673,6 @@
         "sourceIds": [
           "498"
         ],
-        "stepId": "498",
         "text": "a data table with an empty cell"
       },
       {
@@ -5895,7 +5716,6 @@
         "sourceIds": [
           "502"
         ],
-        "stepId": "502",
         "text": "a data table with comments and newlines inside"
       }
     ],
@@ -5942,7 +5762,6 @@
         "sourceIds": [
           "506"
         ],
-        "stepId": "506",
         "text": "a simple data table"
       },
       {
@@ -5963,7 +5782,6 @@
         "sourceIds": [
           "508"
         ],
-        "stepId": "508",
         "text": "a data table with a single cell"
       },
       {
@@ -5990,7 +5808,6 @@
         "sourceIds": [
           "510"
         ],
-        "stepId": "510",
         "text": "a data table with different fromatting"
       },
       {
@@ -6015,7 +5832,6 @@
         "sourceIds": [
           "512"
         ],
-        "stepId": "512",
         "text": "a data table with an empty cell"
       },
       {
@@ -6059,7 +5875,6 @@
         "sourceIds": [
           "516"
         ],
-        "stepId": "516",
         "text": "a data table with comments and newlines inside"
       }
     ],
@@ -6106,7 +5921,6 @@
         "sourceIds": [
           "520"
         ],
-        "stepId": "520",
         "text": "a simple data table"
       },
       {
@@ -6127,7 +5941,6 @@
         "sourceIds": [
           "522"
         ],
-        "stepId": "522",
         "text": "a data table with a single cell"
       },
       {
@@ -6154,7 +5967,6 @@
         "sourceIds": [
           "524"
         ],
-        "stepId": "524",
         "text": "a data table with different fromatting"
       },
       {
@@ -6179,7 +5991,6 @@
         "sourceIds": [
           "526"
         ],
-        "stepId": "526",
         "text": "a data table with an empty cell"
       },
       {
@@ -6223,7 +6034,6 @@
         "sourceIds": [
           "530"
         ],
-        "stepId": "530",
         "text": "a data table with comments and newlines inside"
       }
     ],
@@ -6270,7 +6080,6 @@
         "sourceIds": [
           "534"
         ],
-        "stepId": "534",
         "text": "a simple data table"
       },
       {
@@ -6291,7 +6100,6 @@
         "sourceIds": [
           "536"
         ],
-        "stepId": "536",
         "text": "a data table with a single cell"
       },
       {
@@ -6318,7 +6126,6 @@
         "sourceIds": [
           "538"
         ],
-        "stepId": "538",
         "text": "a data table with different fromatting"
       },
       {
@@ -6343,7 +6150,6 @@
         "sourceIds": [
           "540"
         ],
-        "stepId": "540",
         "text": "a data table with an empty cell"
       },
       {
@@ -6387,7 +6193,6 @@
         "sourceIds": [
           "544"
         ],
-        "stepId": "544",
         "text": "a data table with comments and newlines inside"
       }
     ],
@@ -6434,7 +6239,6 @@
         "sourceIds": [
           "548"
         ],
-        "stepId": "548",
         "text": "a simple data table"
       },
       {
@@ -6455,7 +6259,6 @@
         "sourceIds": [
           "550"
         ],
-        "stepId": "550",
         "text": "a data table with a single cell"
       },
       {
@@ -6482,7 +6285,6 @@
         "sourceIds": [
           "552"
         ],
-        "stepId": "552",
         "text": "a data table with different fromatting"
       },
       {
@@ -6507,7 +6309,6 @@
         "sourceIds": [
           "554"
         ],
-        "stepId": "554",
         "text": "a data table with an empty cell"
       },
       {
@@ -6551,7 +6352,6 @@
         "sourceIds": [
           "558"
         ],
-        "stepId": "558",
         "text": "a data table with comments and newlines inside"
       }
     ],
@@ -6598,7 +6398,6 @@
         "sourceIds": [
           "562"
         ],
-        "stepId": "562",
         "text": "a simple data table"
       },
       {
@@ -6619,7 +6418,6 @@
         "sourceIds": [
           "564"
         ],
-        "stepId": "564",
         "text": "a data table with a single cell"
       },
       {
@@ -6646,7 +6444,6 @@
         "sourceIds": [
           "566"
         ],
-        "stepId": "566",
         "text": "a data table with different fromatting"
       },
       {
@@ -6671,7 +6468,6 @@
         "sourceIds": [
           "568"
         ],
-        "stepId": "568",
         "text": "a data table with an empty cell"
       },
       {
@@ -6715,7 +6511,6 @@
         "sourceIds": [
           "572"
         ],
-        "stepId": "572",
         "text": "a data table with comments and newlines inside"
       }
     ],
@@ -6762,7 +6557,6 @@
         "sourceIds": [
           "576"
         ],
-        "stepId": "576",
         "text": "a simple data table"
       },
       {
@@ -6783,7 +6577,6 @@
         "sourceIds": [
           "578"
         ],
-        "stepId": "578",
         "text": "a data table with a single cell"
       },
       {
@@ -6810,7 +6603,6 @@
         "sourceIds": [
           "580"
         ],
-        "stepId": "580",
         "text": "a data table with different fromatting"
       },
       {
@@ -6835,7 +6627,6 @@
         "sourceIds": [
           "582"
         ],
-        "stepId": "582",
         "text": "a data table with an empty cell"
       },
       {
@@ -6879,7 +6670,6 @@
         "sourceIds": [
           "586"
         ],
-        "stepId": "586",
         "text": "a data table with comments and newlines inside"
       }
     ],
@@ -6926,7 +6716,6 @@
         "sourceIds": [
           "590"
         ],
-        "stepId": "590",
         "text": "a simple data table"
       },
       {
@@ -6947,7 +6736,6 @@
         "sourceIds": [
           "592"
         ],
-        "stepId": "592",
         "text": "a data table with a single cell"
       },
       {
@@ -6974,7 +6762,6 @@
         "sourceIds": [
           "594"
         ],
-        "stepId": "594",
         "text": "a data table with different fromatting"
       },
       {
@@ -6999,7 +6786,6 @@
         "sourceIds": [
           "596"
         ],
-        "stepId": "596",
         "text": "a data table with an empty cell"
       },
       {
@@ -7043,7 +6829,6 @@
         "sourceIds": [
           "600"
         ],
-        "stepId": "600",
         "text": "a data table with comments and newlines inside"
       }
     ],
@@ -7090,7 +6875,6 @@
         "sourceIds": [
           "604"
         ],
-        "stepId": "604",
         "text": "a simple data table"
       },
       {
@@ -7111,7 +6895,6 @@
         "sourceIds": [
           "606"
         ],
-        "stepId": "606",
         "text": "a data table with a single cell"
       },
       {
@@ -7138,7 +6921,6 @@
         "sourceIds": [
           "608"
         ],
-        "stepId": "608",
         "text": "a data table with different fromatting"
       },
       {
@@ -7163,7 +6945,6 @@
         "sourceIds": [
           "610"
         ],
-        "stepId": "610",
         "text": "a data table with an empty cell"
       },
       {
@@ -7207,7 +6988,6 @@
         "sourceIds": [
           "614"
         ],
-        "stepId": "614",
         "text": "a data table with comments and newlines inside"
       }
     ],
@@ -7254,7 +7034,6 @@
         "sourceIds": [
           "618"
         ],
-        "stepId": "618",
         "text": "a simple data table"
       },
       {
@@ -7275,7 +7054,6 @@
         "sourceIds": [
           "620"
         ],
-        "stepId": "620",
         "text": "a data table with a single cell"
       },
       {
@@ -7302,7 +7080,6 @@
         "sourceIds": [
           "622"
         ],
-        "stepId": "622",
         "text": "a data table with different fromatting"
       },
       {
@@ -7327,7 +7104,6 @@
         "sourceIds": [
           "624"
         ],
-        "stepId": "624",
         "text": "a data table with an empty cell"
       },
       {
@@ -7371,7 +7147,6 @@
         "sourceIds": [
           "628"
         ],
-        "stepId": "628",
         "text": "a data table with comments and newlines inside"
       }
     ],
@@ -7418,7 +7193,6 @@
         "sourceIds": [
           "632"
         ],
-        "stepId": "632",
         "text": "a simple data table"
       },
       {
@@ -7439,7 +7213,6 @@
         "sourceIds": [
           "634"
         ],
-        "stepId": "634",
         "text": "a data table with a single cell"
       },
       {
@@ -7466,7 +7239,6 @@
         "sourceIds": [
           "636"
         ],
-        "stepId": "636",
         "text": "a data table with different fromatting"
       },
       {
@@ -7491,7 +7263,6 @@
         "sourceIds": [
           "638"
         ],
-        "stepId": "638",
         "text": "a data table with an empty cell"
       },
       {
@@ -7535,7 +7306,6 @@
         "sourceIds": [
           "642"
         ],
-        "stepId": "642",
         "text": "a data table with comments and newlines inside"
       }
     ],
@@ -7582,7 +7352,6 @@
         "sourceIds": [
           "646"
         ],
-        "stepId": "646",
         "text": "a simple data table"
       },
       {
@@ -7603,7 +7372,6 @@
         "sourceIds": [
           "648"
         ],
-        "stepId": "648",
         "text": "a data table with a single cell"
       },
       {
@@ -7630,7 +7398,6 @@
         "sourceIds": [
           "650"
         ],
-        "stepId": "650",
         "text": "a data table with different fromatting"
       },
       {
@@ -7655,7 +7422,6 @@
         "sourceIds": [
           "652"
         ],
-        "stepId": "652",
         "text": "a data table with an empty cell"
       },
       {
@@ -7699,7 +7465,6 @@
         "sourceIds": [
           "656"
         ],
-        "stepId": "656",
         "text": "a data table with comments and newlines inside"
       }
     ],
@@ -7746,7 +7511,6 @@
         "sourceIds": [
           "660"
         ],
-        "stepId": "660",
         "text": "a simple data table"
       },
       {
@@ -7767,7 +7531,6 @@
         "sourceIds": [
           "662"
         ],
-        "stepId": "662",
         "text": "a data table with a single cell"
       },
       {
@@ -7794,7 +7557,6 @@
         "sourceIds": [
           "664"
         ],
-        "stepId": "664",
         "text": "a data table with different fromatting"
       },
       {
@@ -7819,7 +7581,6 @@
         "sourceIds": [
           "666"
         ],
-        "stepId": "666",
         "text": "a data table with an empty cell"
       },
       {
@@ -7863,7 +7624,6 @@
         "sourceIds": [
           "670"
         ],
-        "stepId": "670",
         "text": "a data table with comments and newlines inside"
       }
     ],
@@ -7910,7 +7670,6 @@
         "sourceIds": [
           "674"
         ],
-        "stepId": "674",
         "text": "a simple data table"
       },
       {
@@ -7931,7 +7690,6 @@
         "sourceIds": [
           "676"
         ],
-        "stepId": "676",
         "text": "a data table with a single cell"
       },
       {
@@ -7958,7 +7716,6 @@
         "sourceIds": [
           "678"
         ],
-        "stepId": "678",
         "text": "a data table with different fromatting"
       },
       {
@@ -7983,7 +7740,6 @@
         "sourceIds": [
           "680"
         ],
-        "stepId": "680",
         "text": "a data table with an empty cell"
       },
       {
@@ -8027,7 +7783,6 @@
         "sourceIds": [
           "684"
         ],
-        "stepId": "684",
         "text": "a data table with comments and newlines inside"
       }
     ],
@@ -8074,7 +7829,6 @@
         "sourceIds": [
           "688"
         ],
-        "stepId": "688",
         "text": "a simple data table"
       },
       {
@@ -8095,7 +7849,6 @@
         "sourceIds": [
           "690"
         ],
-        "stepId": "690",
         "text": "a data table with a single cell"
       },
       {
@@ -8122,7 +7875,6 @@
         "sourceIds": [
           "692"
         ],
-        "stepId": "692",
         "text": "a data table with different fromatting"
       },
       {
@@ -8147,7 +7899,6 @@
         "sourceIds": [
           "694"
         ],
-        "stepId": "694",
         "text": "a data table with an empty cell"
       },
       {
@@ -8191,7 +7942,6 @@
         "sourceIds": [
           "698"
         ],
-        "stepId": "698",
         "text": "a data table with comments and newlines inside"
       }
     ],
@@ -8238,7 +7988,6 @@
         "sourceIds": [
           "702"
         ],
-        "stepId": "702",
         "text": "a simple data table"
       },
       {
@@ -8259,7 +8008,6 @@
         "sourceIds": [
           "704"
         ],
-        "stepId": "704",
         "text": "a data table with a single cell"
       },
       {
@@ -8286,7 +8034,6 @@
         "sourceIds": [
           "706"
         ],
-        "stepId": "706",
         "text": "a data table with different fromatting"
       },
       {
@@ -8311,7 +8058,6 @@
         "sourceIds": [
           "708"
         ],
-        "stepId": "708",
         "text": "a data table with an empty cell"
       },
       {
@@ -8355,7 +8101,6 @@
         "sourceIds": [
           "712"
         ],
-        "stepId": "712",
         "text": "a data table with comments and newlines inside"
       }
     ],
@@ -8402,7 +8147,6 @@
         "sourceIds": [
           "716"
         ],
-        "stepId": "716",
         "text": "a simple data table"
       },
       {
@@ -8423,7 +8167,6 @@
         "sourceIds": [
           "718"
         ],
-        "stepId": "718",
         "text": "a data table with a single cell"
       },
       {
@@ -8450,7 +8193,6 @@
         "sourceIds": [
           "720"
         ],
-        "stepId": "720",
         "text": "a data table with different fromatting"
       },
       {
@@ -8475,7 +8217,6 @@
         "sourceIds": [
           "722"
         ],
-        "stepId": "722",
         "text": "a data table with an empty cell"
       },
       {
@@ -8519,7 +8260,6 @@
         "sourceIds": [
           "726"
         ],
-        "stepId": "726",
         "text": "a data table with comments and newlines inside"
       }
     ],
@@ -8566,7 +8306,6 @@
         "sourceIds": [
           "730"
         ],
-        "stepId": "730",
         "text": "a simple data table"
       },
       {
@@ -8587,7 +8326,6 @@
         "sourceIds": [
           "732"
         ],
-        "stepId": "732",
         "text": "a data table with a single cell"
       },
       {
@@ -8614,7 +8352,6 @@
         "sourceIds": [
           "734"
         ],
-        "stepId": "734",
         "text": "a data table with different fromatting"
       },
       {
@@ -8639,7 +8376,6 @@
         "sourceIds": [
           "736"
         ],
-        "stepId": "736",
         "text": "a data table with an empty cell"
       },
       {
@@ -8683,7 +8419,6 @@
         "sourceIds": [
           "740"
         ],
-        "stepId": "740",
         "text": "a data table with comments and newlines inside"
       }
     ],
@@ -8730,7 +8465,6 @@
         "sourceIds": [
           "744"
         ],
-        "stepId": "744",
         "text": "a simple data table"
       },
       {
@@ -8751,7 +8485,6 @@
         "sourceIds": [
           "746"
         ],
-        "stepId": "746",
         "text": "a data table with a single cell"
       },
       {
@@ -8778,7 +8511,6 @@
         "sourceIds": [
           "748"
         ],
-        "stepId": "748",
         "text": "a data table with different fromatting"
       },
       {
@@ -8803,7 +8535,6 @@
         "sourceIds": [
           "750"
         ],
-        "stepId": "750",
         "text": "a data table with an empty cell"
       },
       {
@@ -8847,7 +8578,6 @@
         "sourceIds": [
           "754"
         ],
-        "stepId": "754",
         "text": "a data table with comments and newlines inside"
       }
     ],
@@ -8894,7 +8624,6 @@
         "sourceIds": [
           "758"
         ],
-        "stepId": "758",
         "text": "a simple data table"
       },
       {
@@ -8915,7 +8644,6 @@
         "sourceIds": [
           "760"
         ],
-        "stepId": "760",
         "text": "a data table with a single cell"
       },
       {
@@ -8942,7 +8670,6 @@
         "sourceIds": [
           "762"
         ],
-        "stepId": "762",
         "text": "a data table with different fromatting"
       },
       {
@@ -8967,7 +8694,6 @@
         "sourceIds": [
           "764"
         ],
-        "stepId": "764",
         "text": "a data table with an empty cell"
       },
       {
@@ -9011,7 +8737,6 @@
         "sourceIds": [
           "768"
         ],
-        "stepId": "768",
         "text": "a data table with comments and newlines inside"
       }
     ],
@@ -9058,7 +8783,6 @@
         "sourceIds": [
           "772"
         ],
-        "stepId": "772",
         "text": "a simple data table"
       },
       {
@@ -9079,7 +8803,6 @@
         "sourceIds": [
           "774"
         ],
-        "stepId": "774",
         "text": "a data table with a single cell"
       },
       {
@@ -9106,7 +8829,6 @@
         "sourceIds": [
           "776"
         ],
-        "stepId": "776",
         "text": "a data table with different fromatting"
       },
       {
@@ -9131,7 +8853,6 @@
         "sourceIds": [
           "778"
         ],
-        "stepId": "778",
         "text": "a data table with an empty cell"
       },
       {
@@ -9175,7 +8896,6 @@
         "sourceIds": [
           "782"
         ],
-        "stepId": "782",
         "text": "a data table with comments and newlines inside"
       }
     ],
@@ -9222,7 +8942,6 @@
         "sourceIds": [
           "786"
         ],
-        "stepId": "786",
         "text": "a simple data table"
       },
       {
@@ -9243,7 +8962,6 @@
         "sourceIds": [
           "788"
         ],
-        "stepId": "788",
         "text": "a data table with a single cell"
       },
       {
@@ -9270,7 +8988,6 @@
         "sourceIds": [
           "790"
         ],
-        "stepId": "790",
         "text": "a data table with different fromatting"
       },
       {
@@ -9295,7 +9012,6 @@
         "sourceIds": [
           "792"
         ],
-        "stepId": "792",
         "text": "a data table with an empty cell"
       },
       {
@@ -9339,7 +9055,6 @@
         "sourceIds": [
           "796"
         ],
-        "stepId": "796",
         "text": "a data table with comments and newlines inside"
       }
     ],
@@ -9386,7 +9101,6 @@
         "sourceIds": [
           "800"
         ],
-        "stepId": "800",
         "text": "a simple data table"
       },
       {
@@ -9407,7 +9121,6 @@
         "sourceIds": [
           "802"
         ],
-        "stepId": "802",
         "text": "a data table with a single cell"
       },
       {
@@ -9434,7 +9147,6 @@
         "sourceIds": [
           "804"
         ],
-        "stepId": "804",
         "text": "a data table with different fromatting"
       },
       {
@@ -9459,7 +9171,6 @@
         "sourceIds": [
           "806"
         ],
-        "stepId": "806",
         "text": "a data table with an empty cell"
       },
       {
@@ -9503,7 +9214,6 @@
         "sourceIds": [
           "810"
         ],
-        "stepId": "810",
         "text": "a data table with comments and newlines inside"
       }
     ],
@@ -9550,7 +9260,6 @@
         "sourceIds": [
           "814"
         ],
-        "stepId": "814",
         "text": "a simple data table"
       },
       {
@@ -9571,7 +9280,6 @@
         "sourceIds": [
           "816"
         ],
-        "stepId": "816",
         "text": "a data table with a single cell"
       },
       {
@@ -9598,7 +9306,6 @@
         "sourceIds": [
           "818"
         ],
-        "stepId": "818",
         "text": "a data table with different fromatting"
       },
       {
@@ -9623,7 +9330,6 @@
         "sourceIds": [
           "820"
         ],
-        "stepId": "820",
         "text": "a data table with an empty cell"
       },
       {
@@ -9667,7 +9373,6 @@
         "sourceIds": [
           "824"
         ],
-        "stepId": "824",
         "text": "a data table with comments and newlines inside"
       }
     ],
@@ -9714,7 +9419,6 @@
         "sourceIds": [
           "828"
         ],
-        "stepId": "828",
         "text": "a simple data table"
       },
       {
@@ -9735,7 +9439,6 @@
         "sourceIds": [
           "830"
         ],
-        "stepId": "830",
         "text": "a data table with a single cell"
       },
       {
@@ -9762,7 +9465,6 @@
         "sourceIds": [
           "832"
         ],
-        "stepId": "832",
         "text": "a data table with different fromatting"
       },
       {
@@ -9787,7 +9489,6 @@
         "sourceIds": [
           "834"
         ],
-        "stepId": "834",
         "text": "a data table with an empty cell"
       },
       {
@@ -9831,7 +9532,6 @@
         "sourceIds": [
           "838"
         ],
-        "stepId": "838",
         "text": "a data table with comments and newlines inside"
       }
     ],
@@ -9878,7 +9578,6 @@
         "sourceIds": [
           "842"
         ],
-        "stepId": "842",
         "text": "a simple data table"
       },
       {
@@ -9899,7 +9598,6 @@
         "sourceIds": [
           "844"
         ],
-        "stepId": "844",
         "text": "a data table with a single cell"
       },
       {
@@ -9926,7 +9624,6 @@
         "sourceIds": [
           "846"
         ],
-        "stepId": "846",
         "text": "a data table with different fromatting"
       },
       {
@@ -9951,7 +9648,6 @@
         "sourceIds": [
           "848"
         ],
-        "stepId": "848",
         "text": "a data table with an empty cell"
       },
       {
@@ -9995,7 +9691,6 @@
         "sourceIds": [
           "852"
         ],
-        "stepId": "852",
         "text": "a data table with comments and newlines inside"
       }
     ],
@@ -10042,7 +9737,6 @@
         "sourceIds": [
           "856"
         ],
-        "stepId": "856",
         "text": "a simple data table"
       },
       {
@@ -10063,7 +9757,6 @@
         "sourceIds": [
           "858"
         ],
-        "stepId": "858",
         "text": "a data table with a single cell"
       },
       {
@@ -10090,7 +9783,6 @@
         "sourceIds": [
           "860"
         ],
-        "stepId": "860",
         "text": "a data table with different fromatting"
       },
       {
@@ -10115,7 +9807,6 @@
         "sourceIds": [
           "862"
         ],
-        "stepId": "862",
         "text": "a data table with an empty cell"
       },
       {
@@ -10159,7 +9850,6 @@
         "sourceIds": [
           "866"
         ],
-        "stepId": "866",
         "text": "a data table with comments and newlines inside"
       }
     ],
@@ -10206,7 +9896,6 @@
         "sourceIds": [
           "870"
         ],
-        "stepId": "870",
         "text": "a simple data table"
       },
       {
@@ -10227,7 +9916,6 @@
         "sourceIds": [
           "872"
         ],
-        "stepId": "872",
         "text": "a data table with a single cell"
       },
       {
@@ -10254,7 +9942,6 @@
         "sourceIds": [
           "874"
         ],
-        "stepId": "874",
         "text": "a data table with different fromatting"
       },
       {
@@ -10279,7 +9966,6 @@
         "sourceIds": [
           "876"
         ],
-        "stepId": "876",
         "text": "a data table with an empty cell"
       },
       {
@@ -10323,7 +10009,6 @@
         "sourceIds": [
           "880"
         ],
-        "stepId": "880",
         "text": "a data table with comments and newlines inside"
       }
     ],
@@ -10370,7 +10055,6 @@
         "sourceIds": [
           "884"
         ],
-        "stepId": "884",
         "text": "a simple data table"
       },
       {
@@ -10391,7 +10075,6 @@
         "sourceIds": [
           "886"
         ],
-        "stepId": "886",
         "text": "a data table with a single cell"
       },
       {
@@ -10418,7 +10101,6 @@
         "sourceIds": [
           "888"
         ],
-        "stepId": "888",
         "text": "a data table with different fromatting"
       },
       {
@@ -10443,7 +10125,6 @@
         "sourceIds": [
           "890"
         ],
-        "stepId": "890",
         "text": "a data table with an empty cell"
       },
       {
@@ -10487,7 +10168,6 @@
         "sourceIds": [
           "894"
         ],
-        "stepId": "894",
         "text": "a data table with comments and newlines inside"
       }
     ],
@@ -10534,7 +10214,6 @@
         "sourceIds": [
           "898"
         ],
-        "stepId": "898",
         "text": "a simple data table"
       },
       {
@@ -10555,7 +10234,6 @@
         "sourceIds": [
           "900"
         ],
-        "stepId": "900",
         "text": "a data table with a single cell"
       },
       {
@@ -10582,7 +10260,6 @@
         "sourceIds": [
           "902"
         ],
-        "stepId": "902",
         "text": "a data table with different fromatting"
       },
       {
@@ -10607,7 +10284,6 @@
         "sourceIds": [
           "904"
         ],
-        "stepId": "904",
         "text": "a data table with an empty cell"
       },
       {
@@ -10651,7 +10327,6 @@
         "sourceIds": [
           "908"
         ],
-        "stepId": "908",
         "text": "a data table with comments and newlines inside"
       }
     ],
@@ -10698,7 +10373,6 @@
         "sourceIds": [
           "912"
         ],
-        "stepId": "912",
         "text": "a simple data table"
       },
       {
@@ -10719,7 +10393,6 @@
         "sourceIds": [
           "914"
         ],
-        "stepId": "914",
         "text": "a data table with a single cell"
       },
       {
@@ -10746,7 +10419,6 @@
         "sourceIds": [
           "916"
         ],
-        "stepId": "916",
         "text": "a data table with different fromatting"
       },
       {
@@ -10771,7 +10443,6 @@
         "sourceIds": [
           "918"
         ],
-        "stepId": "918",
         "text": "a data table with an empty cell"
       },
       {
@@ -10815,7 +10486,6 @@
         "sourceIds": [
           "922"
         ],
-        "stepId": "922",
         "text": "a data table with comments and newlines inside"
       }
     ],
@@ -10862,7 +10532,6 @@
         "sourceIds": [
           "926"
         ],
-        "stepId": "926",
         "text": "a simple data table"
       },
       {
@@ -10883,7 +10552,6 @@
         "sourceIds": [
           "928"
         ],
-        "stepId": "928",
         "text": "a data table with a single cell"
       },
       {
@@ -10910,7 +10578,6 @@
         "sourceIds": [
           "930"
         ],
-        "stepId": "930",
         "text": "a data table with different fromatting"
       },
       {
@@ -10935,7 +10602,6 @@
         "sourceIds": [
           "932"
         ],
-        "stepId": "932",
         "text": "a data table with an empty cell"
       },
       {
@@ -10979,7 +10645,6 @@
         "sourceIds": [
           "936"
         ],
-        "stepId": "936",
         "text": "a data table with comments and newlines inside"
       }
     ],
@@ -11026,7 +10691,6 @@
         "sourceIds": [
           "940"
         ],
-        "stepId": "940",
         "text": "a simple data table"
       },
       {
@@ -11047,7 +10711,6 @@
         "sourceIds": [
           "942"
         ],
-        "stepId": "942",
         "text": "a data table with a single cell"
       },
       {
@@ -11074,7 +10737,6 @@
         "sourceIds": [
           "944"
         ],
-        "stepId": "944",
         "text": "a data table with different fromatting"
       },
       {
@@ -11099,7 +10761,6 @@
         "sourceIds": [
           "946"
         ],
-        "stepId": "946",
         "text": "a data table with an empty cell"
       },
       {
@@ -11143,7 +10804,6 @@
         "sourceIds": [
           "950"
         ],
-        "stepId": "950",
         "text": "a data table with comments and newlines inside"
       }
     ],
@@ -11190,7 +10850,6 @@
         "sourceIds": [
           "954"
         ],
-        "stepId": "954",
         "text": "a simple data table"
       },
       {
@@ -11211,7 +10870,6 @@
         "sourceIds": [
           "956"
         ],
-        "stepId": "956",
         "text": "a data table with a single cell"
       },
       {
@@ -11238,7 +10896,6 @@
         "sourceIds": [
           "958"
         ],
-        "stepId": "958",
         "text": "a data table with different fromatting"
       },
       {
@@ -11263,7 +10920,6 @@
         "sourceIds": [
           "960"
         ],
-        "stepId": "960",
         "text": "a data table with an empty cell"
       },
       {
@@ -11307,7 +10963,6 @@
         "sourceIds": [
           "964"
         ],
-        "stepId": "964",
         "text": "a data table with comments and newlines inside"
       }
     ],
@@ -11354,7 +11009,6 @@
         "sourceIds": [
           "968"
         ],
-        "stepId": "968",
         "text": "a simple data table"
       },
       {
@@ -11375,7 +11029,6 @@
         "sourceIds": [
           "970"
         ],
-        "stepId": "970",
         "text": "a data table with a single cell"
       },
       {
@@ -11402,7 +11055,6 @@
         "sourceIds": [
           "972"
         ],
-        "stepId": "972",
         "text": "a data table with different fromatting"
       },
       {
@@ -11427,7 +11079,6 @@
         "sourceIds": [
           "974"
         ],
-        "stepId": "974",
         "text": "a data table with an empty cell"
       },
       {
@@ -11471,7 +11122,6 @@
         "sourceIds": [
           "978"
         ],
-        "stepId": "978",
         "text": "a data table with comments and newlines inside"
       }
     ],
@@ -11518,7 +11168,6 @@
         "sourceIds": [
           "982"
         ],
-        "stepId": "982",
         "text": "a simple data table"
       },
       {
@@ -11539,7 +11188,6 @@
         "sourceIds": [
           "984"
         ],
-        "stepId": "984",
         "text": "a data table with a single cell"
       },
       {
@@ -11566,7 +11214,6 @@
         "sourceIds": [
           "986"
         ],
-        "stepId": "986",
         "text": "a data table with different fromatting"
       },
       {
@@ -11591,7 +11238,6 @@
         "sourceIds": [
           "988"
         ],
-        "stepId": "988",
         "text": "a data table with an empty cell"
       },
       {
@@ -11635,7 +11281,6 @@
         "sourceIds": [
           "992"
         ],
-        "stepId": "992",
         "text": "a data table with comments and newlines inside"
       }
     ],
@@ -11682,7 +11327,6 @@
         "sourceIds": [
           "996"
         ],
-        "stepId": "996",
         "text": "a simple data table"
       },
       {
@@ -11703,7 +11347,6 @@
         "sourceIds": [
           "998"
         ],
-        "stepId": "998",
         "text": "a data table with a single cell"
       },
       {
@@ -11730,7 +11373,6 @@
         "sourceIds": [
           "1000"
         ],
-        "stepId": "1000",
         "text": "a data table with different fromatting"
       },
       {
@@ -11755,7 +11397,6 @@
         "sourceIds": [
           "1002"
         ],
-        "stepId": "1002",
         "text": "a data table with an empty cell"
       },
       {
@@ -11799,7 +11440,6 @@
         "sourceIds": [
           "1006"
         ],
-        "stepId": "1006",
         "text": "a data table with comments and newlines inside"
       }
     ],
@@ -11846,7 +11486,6 @@
         "sourceIds": [
           "1010"
         ],
-        "stepId": "1010",
         "text": "a simple data table"
       },
       {
@@ -11867,7 +11506,6 @@
         "sourceIds": [
           "1012"
         ],
-        "stepId": "1012",
         "text": "a data table with a single cell"
       },
       {
@@ -11894,7 +11532,6 @@
         "sourceIds": [
           "1014"
         ],
-        "stepId": "1014",
         "text": "a data table with different fromatting"
       },
       {
@@ -11919,7 +11556,6 @@
         "sourceIds": [
           "1016"
         ],
-        "stepId": "1016",
         "text": "a data table with an empty cell"
       },
       {
@@ -11963,7 +11599,6 @@
         "sourceIds": [
           "1020"
         ],
-        "stepId": "1020",
         "text": "a data table with comments and newlines inside"
       }
     ],
@@ -12010,7 +11645,6 @@
         "sourceIds": [
           "1024"
         ],
-        "stepId": "1024",
         "text": "a simple data table"
       },
       {
@@ -12031,7 +11665,6 @@
         "sourceIds": [
           "1026"
         ],
-        "stepId": "1026",
         "text": "a data table with a single cell"
       },
       {
@@ -12058,7 +11691,6 @@
         "sourceIds": [
           "1028"
         ],
-        "stepId": "1028",
         "text": "a data table with different fromatting"
       },
       {
@@ -12083,7 +11715,6 @@
         "sourceIds": [
           "1030"
         ],
-        "stepId": "1030",
         "text": "a data table with an empty cell"
       },
       {
@@ -12127,7 +11758,6 @@
         "sourceIds": [
           "1034"
         ],
-        "stepId": "1034",
         "text": "a data table with comments and newlines inside"
       }
     ],
@@ -12174,7 +11804,6 @@
         "sourceIds": [
           "1038"
         ],
-        "stepId": "1038",
         "text": "a simple data table"
       },
       {
@@ -12195,7 +11824,6 @@
         "sourceIds": [
           "1040"
         ],
-        "stepId": "1040",
         "text": "a data table with a single cell"
       },
       {
@@ -12222,7 +11850,6 @@
         "sourceIds": [
           "1042"
         ],
-        "stepId": "1042",
         "text": "a data table with different fromatting"
       },
       {
@@ -12247,7 +11874,6 @@
         "sourceIds": [
           "1044"
         ],
-        "stepId": "1044",
         "text": "a data table with an empty cell"
       },
       {
@@ -12291,7 +11917,6 @@
         "sourceIds": [
           "1048"
         ],
-        "stepId": "1048",
         "text": "a data table with comments and newlines inside"
       }
     ],
@@ -12338,7 +11963,6 @@
         "sourceIds": [
           "1052"
         ],
-        "stepId": "1052",
         "text": "a simple data table"
       },
       {
@@ -12359,7 +11983,6 @@
         "sourceIds": [
           "1054"
         ],
-        "stepId": "1054",
         "text": "a data table with a single cell"
       },
       {
@@ -12386,7 +12009,6 @@
         "sourceIds": [
           "1056"
         ],
-        "stepId": "1056",
         "text": "a data table with different fromatting"
       },
       {
@@ -12411,7 +12033,6 @@
         "sourceIds": [
           "1058"
         ],
-        "stepId": "1058",
         "text": "a data table with an empty cell"
       },
       {
@@ -12455,7 +12076,6 @@
         "sourceIds": [
           "1062"
         ],
-        "stepId": "1062",
         "text": "a data table with comments and newlines inside"
       }
     ],
@@ -12502,7 +12122,6 @@
         "sourceIds": [
           "1066"
         ],
-        "stepId": "1066",
         "text": "a simple data table"
       },
       {
@@ -12523,7 +12142,6 @@
         "sourceIds": [
           "1068"
         ],
-        "stepId": "1068",
         "text": "a data table with a single cell"
       },
       {
@@ -12550,7 +12168,6 @@
         "sourceIds": [
           "1070"
         ],
-        "stepId": "1070",
         "text": "a data table with different fromatting"
       },
       {
@@ -12575,7 +12192,6 @@
         "sourceIds": [
           "1072"
         ],
-        "stepId": "1072",
         "text": "a data table with an empty cell"
       },
       {
@@ -12619,7 +12235,6 @@
         "sourceIds": [
           "1076"
         ],
-        "stepId": "1076",
         "text": "a data table with comments and newlines inside"
       }
     ],
@@ -12666,7 +12281,6 @@
         "sourceIds": [
           "1080"
         ],
-        "stepId": "1080",
         "text": "a simple data table"
       },
       {
@@ -12687,7 +12301,6 @@
         "sourceIds": [
           "1082"
         ],
-        "stepId": "1082",
         "text": "a data table with a single cell"
       },
       {
@@ -12714,7 +12327,6 @@
         "sourceIds": [
           "1084"
         ],
-        "stepId": "1084",
         "text": "a data table with different fromatting"
       },
       {
@@ -12739,7 +12351,6 @@
         "sourceIds": [
           "1086"
         ],
-        "stepId": "1086",
         "text": "a data table with an empty cell"
       },
       {
@@ -12783,7 +12394,6 @@
         "sourceIds": [
           "1090"
         ],
-        "stepId": "1090",
         "text": "a data table with comments and newlines inside"
       }
     ],
@@ -12830,7 +12440,6 @@
         "sourceIds": [
           "1094"
         ],
-        "stepId": "1094",
         "text": "a simple data table"
       },
       {
@@ -12851,7 +12460,6 @@
         "sourceIds": [
           "1096"
         ],
-        "stepId": "1096",
         "text": "a data table with a single cell"
       },
       {
@@ -12878,7 +12486,6 @@
         "sourceIds": [
           "1098"
         ],
-        "stepId": "1098",
         "text": "a data table with different fromatting"
       },
       {
@@ -12903,7 +12510,6 @@
         "sourceIds": [
           "1100"
         ],
-        "stepId": "1100",
         "text": "a data table with an empty cell"
       },
       {
@@ -12947,7 +12553,6 @@
         "sourceIds": [
           "1104"
         ],
-        "stepId": "1104",
         "text": "a data table with comments and newlines inside"
       }
     ],
@@ -12994,7 +12599,6 @@
         "sourceIds": [
           "1108"
         ],
-        "stepId": "1108",
         "text": "a simple data table"
       },
       {
@@ -13015,7 +12619,6 @@
         "sourceIds": [
           "1110"
         ],
-        "stepId": "1110",
         "text": "a data table with a single cell"
       },
       {
@@ -13042,7 +12645,6 @@
         "sourceIds": [
           "1112"
         ],
-        "stepId": "1112",
         "text": "a data table with different fromatting"
       },
       {
@@ -13067,7 +12669,6 @@
         "sourceIds": [
           "1114"
         ],
-        "stepId": "1114",
         "text": "a data table with an empty cell"
       },
       {
@@ -13111,7 +12712,6 @@
         "sourceIds": [
           "1118"
         ],
-        "stepId": "1118",
         "text": "a data table with comments and newlines inside"
       }
     ],
@@ -13158,7 +12758,6 @@
         "sourceIds": [
           "1122"
         ],
-        "stepId": "1122",
         "text": "a simple data table"
       },
       {
@@ -13179,7 +12778,6 @@
         "sourceIds": [
           "1124"
         ],
-        "stepId": "1124",
         "text": "a data table with a single cell"
       },
       {
@@ -13206,7 +12804,6 @@
         "sourceIds": [
           "1126"
         ],
-        "stepId": "1126",
         "text": "a data table with different fromatting"
       },
       {
@@ -13231,7 +12828,6 @@
         "sourceIds": [
           "1128"
         ],
-        "stepId": "1128",
         "text": "a data table with an empty cell"
       },
       {
@@ -13275,7 +12871,6 @@
         "sourceIds": [
           "1132"
         ],
-        "stepId": "1132",
         "text": "a data table with comments and newlines inside"
       }
     ],
@@ -13322,7 +12917,6 @@
         "sourceIds": [
           "1136"
         ],
-        "stepId": "1136",
         "text": "a simple data table"
       },
       {
@@ -13343,7 +12937,6 @@
         "sourceIds": [
           "1138"
         ],
-        "stepId": "1138",
         "text": "a data table with a single cell"
       },
       {
@@ -13370,7 +12963,6 @@
         "sourceIds": [
           "1140"
         ],
-        "stepId": "1140",
         "text": "a data table with different fromatting"
       },
       {
@@ -13395,7 +12987,6 @@
         "sourceIds": [
           "1142"
         ],
-        "stepId": "1142",
         "text": "a data table with an empty cell"
       },
       {
@@ -13439,7 +13030,6 @@
         "sourceIds": [
           "1146"
         ],
-        "stepId": "1146",
         "text": "a data table with comments and newlines inside"
       }
     ],
@@ -13486,7 +13076,6 @@
         "sourceIds": [
           "1150"
         ],
-        "stepId": "1150",
         "text": "a simple data table"
       },
       {
@@ -13507,7 +13096,6 @@
         "sourceIds": [
           "1152"
         ],
-        "stepId": "1152",
         "text": "a data table with a single cell"
       },
       {
@@ -13534,7 +13122,6 @@
         "sourceIds": [
           "1154"
         ],
-        "stepId": "1154",
         "text": "a data table with different fromatting"
       },
       {
@@ -13559,7 +13146,6 @@
         "sourceIds": [
           "1156"
         ],
-        "stepId": "1156",
         "text": "a data table with an empty cell"
       },
       {
@@ -13603,7 +13189,6 @@
         "sourceIds": [
           "1160"
         ],
-        "stepId": "1160",
         "text": "a data table with comments and newlines inside"
       }
     ],
@@ -13650,7 +13235,6 @@
         "sourceIds": [
           "1164"
         ],
-        "stepId": "1164",
         "text": "a simple data table"
       },
       {
@@ -13671,7 +13255,6 @@
         "sourceIds": [
           "1166"
         ],
-        "stepId": "1166",
         "text": "a data table with a single cell"
       },
       {
@@ -13698,7 +13281,6 @@
         "sourceIds": [
           "1168"
         ],
-        "stepId": "1168",
         "text": "a data table with different fromatting"
       },
       {
@@ -13723,7 +13305,6 @@
         "sourceIds": [
           "1170"
         ],
-        "stepId": "1170",
         "text": "a data table with an empty cell"
       },
       {
@@ -13767,7 +13348,6 @@
         "sourceIds": [
           "1174"
         ],
-        "stepId": "1174",
         "text": "a data table with comments and newlines inside"
       }
     ],
@@ -13814,7 +13394,6 @@
         "sourceIds": [
           "1178"
         ],
-        "stepId": "1178",
         "text": "a simple data table"
       },
       {
@@ -13835,7 +13414,6 @@
         "sourceIds": [
           "1180"
         ],
-        "stepId": "1180",
         "text": "a data table with a single cell"
       },
       {
@@ -13862,7 +13440,6 @@
         "sourceIds": [
           "1182"
         ],
-        "stepId": "1182",
         "text": "a data table with different fromatting"
       },
       {
@@ -13887,7 +13464,6 @@
         "sourceIds": [
           "1184"
         ],
-        "stepId": "1184",
         "text": "a data table with an empty cell"
       },
       {
@@ -13931,7 +13507,6 @@
         "sourceIds": [
           "1188"
         ],
-        "stepId": "1188",
         "text": "a data table with comments and newlines inside"
       }
     ],
@@ -13978,7 +13553,6 @@
         "sourceIds": [
           "1192"
         ],
-        "stepId": "1192",
         "text": "a simple data table"
       },
       {
@@ -13999,7 +13573,6 @@
         "sourceIds": [
           "1194"
         ],
-        "stepId": "1194",
         "text": "a data table with a single cell"
       },
       {
@@ -14026,7 +13599,6 @@
         "sourceIds": [
           "1196"
         ],
-        "stepId": "1196",
         "text": "a data table with different fromatting"
       },
       {
@@ -14051,7 +13623,6 @@
         "sourceIds": [
           "1198"
         ],
-        "stepId": "1198",
         "text": "a data table with an empty cell"
       },
       {
@@ -14095,7 +13666,6 @@
         "sourceIds": [
           "1202"
         ],
-        "stepId": "1202",
         "text": "a data table with comments and newlines inside"
       }
     ],
@@ -14142,7 +13712,6 @@
         "sourceIds": [
           "1206"
         ],
-        "stepId": "1206",
         "text": "a simple data table"
       },
       {
@@ -14163,7 +13732,6 @@
         "sourceIds": [
           "1208"
         ],
-        "stepId": "1208",
         "text": "a data table with a single cell"
       },
       {
@@ -14190,7 +13758,6 @@
         "sourceIds": [
           "1210"
         ],
-        "stepId": "1210",
         "text": "a data table with different fromatting"
       },
       {
@@ -14215,7 +13782,6 @@
         "sourceIds": [
           "1212"
         ],
-        "stepId": "1212",
         "text": "a data table with an empty cell"
       },
       {
@@ -14259,7 +13825,6 @@
         "sourceIds": [
           "1216"
         ],
-        "stepId": "1216",
         "text": "a data table with comments and newlines inside"
       }
     ],
@@ -14306,7 +13871,6 @@
         "sourceIds": [
           "1220"
         ],
-        "stepId": "1220",
         "text": "a simple data table"
       },
       {
@@ -14327,7 +13891,6 @@
         "sourceIds": [
           "1222"
         ],
-        "stepId": "1222",
         "text": "a data table with a single cell"
       },
       {
@@ -14354,7 +13917,6 @@
         "sourceIds": [
           "1224"
         ],
-        "stepId": "1224",
         "text": "a data table with different fromatting"
       },
       {
@@ -14379,7 +13941,6 @@
         "sourceIds": [
           "1226"
         ],
-        "stepId": "1226",
         "text": "a data table with an empty cell"
       },
       {
@@ -14423,7 +13984,6 @@
         "sourceIds": [
           "1230"
         ],
-        "stepId": "1230",
         "text": "a data table with comments and newlines inside"
       }
     ],
@@ -14470,7 +14030,6 @@
         "sourceIds": [
           "1234"
         ],
-        "stepId": "1234",
         "text": "a simple data table"
       },
       {
@@ -14491,7 +14050,6 @@
         "sourceIds": [
           "1236"
         ],
-        "stepId": "1236",
         "text": "a data table with a single cell"
       },
       {
@@ -14518,7 +14076,6 @@
         "sourceIds": [
           "1238"
         ],
-        "stepId": "1238",
         "text": "a data table with different fromatting"
       },
       {
@@ -14543,7 +14100,6 @@
         "sourceIds": [
           "1240"
         ],
-        "stepId": "1240",
         "text": "a data table with an empty cell"
       },
       {
@@ -14587,7 +14143,6 @@
         "sourceIds": [
           "1244"
         ],
-        "stepId": "1244",
         "text": "a data table with comments and newlines inside"
       }
     ],
@@ -14634,7 +14189,6 @@
         "sourceIds": [
           "1248"
         ],
-        "stepId": "1248",
         "text": "a simple data table"
       },
       {
@@ -14655,7 +14209,6 @@
         "sourceIds": [
           "1250"
         ],
-        "stepId": "1250",
         "text": "a data table with a single cell"
       },
       {
@@ -14682,7 +14235,6 @@
         "sourceIds": [
           "1252"
         ],
-        "stepId": "1252",
         "text": "a data table with different fromatting"
       },
       {
@@ -14707,7 +14259,6 @@
         "sourceIds": [
           "1254"
         ],
-        "stepId": "1254",
         "text": "a data table with an empty cell"
       },
       {
@@ -14751,7 +14302,6 @@
         "sourceIds": [
           "1258"
         ],
-        "stepId": "1258",
         "text": "a data table with comments and newlines inside"
       }
     ],
@@ -14798,7 +14348,6 @@
         "sourceIds": [
           "1262"
         ],
-        "stepId": "1262",
         "text": "a simple data table"
       },
       {
@@ -14819,7 +14368,6 @@
         "sourceIds": [
           "1264"
         ],
-        "stepId": "1264",
         "text": "a data table with a single cell"
       },
       {
@@ -14846,7 +14394,6 @@
         "sourceIds": [
           "1266"
         ],
-        "stepId": "1266",
         "text": "a data table with different fromatting"
       },
       {
@@ -14871,7 +14418,6 @@
         "sourceIds": [
           "1268"
         ],
-        "stepId": "1268",
         "text": "a data table with an empty cell"
       },
       {
@@ -14915,7 +14461,6 @@
         "sourceIds": [
           "1272"
         ],
-        "stepId": "1272",
         "text": "a data table with comments and newlines inside"
       }
     ],
@@ -14962,7 +14507,6 @@
         "sourceIds": [
           "1276"
         ],
-        "stepId": "1276",
         "text": "a simple data table"
       },
       {
@@ -14983,7 +14527,6 @@
         "sourceIds": [
           "1278"
         ],
-        "stepId": "1278",
         "text": "a data table with a single cell"
       },
       {
@@ -15010,7 +14553,6 @@
         "sourceIds": [
           "1280"
         ],
-        "stepId": "1280",
         "text": "a data table with different fromatting"
       },
       {
@@ -15035,7 +14577,6 @@
         "sourceIds": [
           "1282"
         ],
-        "stepId": "1282",
         "text": "a data table with an empty cell"
       },
       {
@@ -15079,7 +14620,6 @@
         "sourceIds": [
           "1286"
         ],
-        "stepId": "1286",
         "text": "a data table with comments and newlines inside"
       }
     ],
@@ -15126,7 +14666,6 @@
         "sourceIds": [
           "1290"
         ],
-        "stepId": "1290",
         "text": "a simple data table"
       },
       {
@@ -15147,7 +14686,6 @@
         "sourceIds": [
           "1292"
         ],
-        "stepId": "1292",
         "text": "a data table with a single cell"
       },
       {
@@ -15174,7 +14712,6 @@
         "sourceIds": [
           "1294"
         ],
-        "stepId": "1294",
         "text": "a data table with different fromatting"
       },
       {
@@ -15199,7 +14736,6 @@
         "sourceIds": [
           "1296"
         ],
-        "stepId": "1296",
         "text": "a data table with an empty cell"
       },
       {
@@ -15243,7 +14779,6 @@
         "sourceIds": [
           "1300"
         ],
-        "stepId": "1300",
         "text": "a data table with comments and newlines inside"
       }
     ],
@@ -15290,7 +14825,6 @@
         "sourceIds": [
           "1304"
         ],
-        "stepId": "1304",
         "text": "a simple data table"
       },
       {
@@ -15311,7 +14845,6 @@
         "sourceIds": [
           "1306"
         ],
-        "stepId": "1306",
         "text": "a data table with a single cell"
       },
       {
@@ -15338,7 +14871,6 @@
         "sourceIds": [
           "1308"
         ],
-        "stepId": "1308",
         "text": "a data table with different fromatting"
       },
       {
@@ -15363,7 +14895,6 @@
         "sourceIds": [
           "1310"
         ],
-        "stepId": "1310",
         "text": "a data table with an empty cell"
       },
       {
@@ -15407,7 +14938,6 @@
         "sourceIds": [
           "1314"
         ],
-        "stepId": "1314",
         "text": "a data table with comments and newlines inside"
       }
     ],
@@ -15454,7 +14984,6 @@
         "sourceIds": [
           "1318"
         ],
-        "stepId": "1318",
         "text": "a simple data table"
       },
       {
@@ -15475,7 +15004,6 @@
         "sourceIds": [
           "1320"
         ],
-        "stepId": "1320",
         "text": "a data table with a single cell"
       },
       {
@@ -15502,7 +15030,6 @@
         "sourceIds": [
           "1322"
         ],
-        "stepId": "1322",
         "text": "a data table with different fromatting"
       },
       {
@@ -15527,7 +15054,6 @@
         "sourceIds": [
           "1324"
         ],
-        "stepId": "1324",
         "text": "a data table with an empty cell"
       },
       {
@@ -15571,7 +15097,6 @@
         "sourceIds": [
           "1328"
         ],
-        "stepId": "1328",
         "text": "a data table with comments and newlines inside"
       }
     ],
@@ -15618,7 +15143,6 @@
         "sourceIds": [
           "1332"
         ],
-        "stepId": "1332",
         "text": "a simple data table"
       },
       {
@@ -15639,7 +15163,6 @@
         "sourceIds": [
           "1334"
         ],
-        "stepId": "1334",
         "text": "a data table with a single cell"
       },
       {
@@ -15666,7 +15189,6 @@
         "sourceIds": [
           "1336"
         ],
-        "stepId": "1336",
         "text": "a data table with different fromatting"
       },
       {
@@ -15691,7 +15213,6 @@
         "sourceIds": [
           "1338"
         ],
-        "stepId": "1338",
         "text": "a data table with an empty cell"
       },
       {
@@ -15735,7 +15256,6 @@
         "sourceIds": [
           "1342"
         ],
-        "stepId": "1342",
         "text": "a data table with comments and newlines inside"
       }
     ],
@@ -15782,7 +15302,6 @@
         "sourceIds": [
           "1346"
         ],
-        "stepId": "1346",
         "text": "a simple data table"
       },
       {
@@ -15803,7 +15322,6 @@
         "sourceIds": [
           "1348"
         ],
-        "stepId": "1348",
         "text": "a data table with a single cell"
       },
       {
@@ -15830,7 +15348,6 @@
         "sourceIds": [
           "1350"
         ],
-        "stepId": "1350",
         "text": "a data table with different fromatting"
       },
       {
@@ -15855,7 +15372,6 @@
         "sourceIds": [
           "1352"
         ],
-        "stepId": "1352",
         "text": "a data table with an empty cell"
       },
       {
@@ -15899,7 +15415,6 @@
         "sourceIds": [
           "1356"
         ],
-        "stepId": "1356",
         "text": "a data table with comments and newlines inside"
       }
     ],
@@ -15946,7 +15461,6 @@
         "sourceIds": [
           "1360"
         ],
-        "stepId": "1360",
         "text": "a simple data table"
       },
       {
@@ -15967,7 +15481,6 @@
         "sourceIds": [
           "1362"
         ],
-        "stepId": "1362",
         "text": "a data table with a single cell"
       },
       {
@@ -15994,7 +15507,6 @@
         "sourceIds": [
           "1364"
         ],
-        "stepId": "1364",
         "text": "a data table with different fromatting"
       },
       {
@@ -16019,7 +15531,6 @@
         "sourceIds": [
           "1366"
         ],
-        "stepId": "1366",
         "text": "a data table with an empty cell"
       },
       {
@@ -16063,7 +15574,6 @@
         "sourceIds": [
           "1370"
         ],
-        "stepId": "1370",
         "text": "a data table with comments and newlines inside"
       }
     ],
@@ -16110,7 +15620,6 @@
         "sourceIds": [
           "1374"
         ],
-        "stepId": "1374",
         "text": "a simple data table"
       },
       {
@@ -16131,7 +15640,6 @@
         "sourceIds": [
           "1376"
         ],
-        "stepId": "1376",
         "text": "a data table with a single cell"
       },
       {
@@ -16158,7 +15666,6 @@
         "sourceIds": [
           "1378"
         ],
-        "stepId": "1378",
         "text": "a data table with different fromatting"
       },
       {
@@ -16183,7 +15690,6 @@
         "sourceIds": [
           "1380"
         ],
-        "stepId": "1380",
         "text": "a data table with an empty cell"
       },
       {
@@ -16227,7 +15733,6 @@
         "sourceIds": [
           "1384"
         ],
-        "stepId": "1384",
         "text": "a data table with comments and newlines inside"
       }
     ],
@@ -16274,7 +15779,6 @@
         "sourceIds": [
           "1388"
         ],
-        "stepId": "1388",
         "text": "a simple data table"
       },
       {
@@ -16295,7 +15799,6 @@
         "sourceIds": [
           "1390"
         ],
-        "stepId": "1390",
         "text": "a data table with a single cell"
       },
       {
@@ -16322,7 +15825,6 @@
         "sourceIds": [
           "1392"
         ],
-        "stepId": "1392",
         "text": "a data table with different fromatting"
       },
       {
@@ -16347,7 +15849,6 @@
         "sourceIds": [
           "1394"
         ],
-        "stepId": "1394",
         "text": "a data table with an empty cell"
       },
       {
@@ -16391,7 +15892,6 @@
         "sourceIds": [
           "1398"
         ],
-        "stepId": "1398",
         "text": "a data table with comments and newlines inside"
       }
     ],

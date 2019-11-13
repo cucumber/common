@@ -12,7 +12,6 @@
         "sourceIds": [
           "0"
         ],
-        "stepId": "0",
         "text": "Gherkin supports many languages"
       },
       {
@@ -20,7 +19,6 @@
         "sourceIds": [
           "1"
         ],
-        "stepId": "1",
         "text": "Norwegian keywords are parsed"
       },
       {
@@ -28,7 +26,6 @@
         "sourceIds": [
           "2"
         ],
-        "stepId": "2",
         "text": "they should be recognized"
       }
     ],

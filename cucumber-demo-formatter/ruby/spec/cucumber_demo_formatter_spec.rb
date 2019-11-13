@@ -6,14 +6,15 @@ describe CucumberDemoFormatter do
   it "prints a smiley for a passed step" do
     input = StringIO.new
     
-    passed = Cucumber::Messages::Envelope.new(
-      testStepFinished: Cucumber::Messages::TestStepFinished.new(
-        testResult: Cucumber::Messages::TestResult.new(
-          status: 'PASSED'
+    %w{UNKNOWN PASSED SKIPPED PENDING UNDEFINED AMBIGUOUS FAILED}.each do |status|
+      Cucumber::Messages::Envelope.new(
+        testStepFinished: Cucumber::Messages::TestStepFinished.new(
+          testResult: Cucumber::Messages::TestResult.new(
+            status: status
+          )
         )
-      )
-    )
-    passed.write_delimited_to(input)
+      ).write_delimited_to(input)
+    end
     
     input.rewind
 
@@ -24,6 +25,6 @@ describe CucumberDemoFormatter do
     
     output.rewind
     s = output.read
-    expect(s).to eq('😃')
+    expect(s).to eq('👽😃🥶⏰🤷🦄💣')
   end
 end

@@ -38,7 +38,6 @@
         "sourceIds": [
           "2"
         ],
-        "stepId": "2",
         "text": "a simple data table"
       },
       {
@@ -59,7 +58,6 @@
         "sourceIds": [
           "4"
         ],
-        "stepId": "4",
         "text": "a data table with a single cell"
       },
       {
@@ -86,7 +84,6 @@
         "sourceIds": [
           "6"
         ],
-        "stepId": "6",
         "text": "a data table with different fromatting"
       },
       {
@@ -111,7 +108,6 @@
         "sourceIds": [
           "8"
         ],
-        "stepId": "8",
         "text": "a data table with an empty cell"
       },
       {
@@ -155,7 +151,6 @@
         "sourceIds": [
           "12"
         ],
-        "stepId": "12",
         "text": "a data table with comments and newlines inside"
       }
     ],
