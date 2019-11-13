@@ -44,7 +44,7 @@ acceptance/testdata/%.feature.errors.ndjson: testdata/%.feature testdata/%.featu
 	diff --unified <(jq "." $<.errors.ndjson) <(jq "." $@)
 
 clean:
-	rm -rf .compared acceptance
+	rm -rf .compared acceptance bin/classpath.txt
 
 clobber: clean
 	rm -f src/main/java/io/cucumber/gherkin/Parser.java
