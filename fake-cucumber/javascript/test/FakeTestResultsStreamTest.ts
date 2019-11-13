@@ -78,6 +78,30 @@ Scenario: some matches
     assert.strictEqual(stepMatchArguments[2].group.value, 'six')
     assert.strictEqual(stepMatchArguments[2].group.start, 24)
   })
+
+  it('generates default step definitions', async () => {
+    const gherkinSource = `Feature: mixed results
+
+Scenario: some matches
+  Given one two three four five six
+`
+
+    const envelopes = await generateMessages(gherkinSource, 'none')
+    const stepDefinitions = envelopes
+      .filter(envelope => envelope.stepDefinitionConfig)
+      .map(envelope => envelope.stepDefinitionConfig)
+
+    console.log(stepDefinitions)
+
+    assert.equal(stepDefinitions.length, 6, "There are 6 default step definitions")
+
+    assert.equal(stepDefinitions[0].pattern.source, '{}passed{}', "The first matches passed steps")
+    assert.equal(stepDefinitions[1].pattern.source, '{}failed{}', "The first matches failed steps")
+    assert.equal(stepDefinitions[2].pattern.source, '{}pending{}', "The first matches pending steps")
+    assert.equal(stepDefinitions[3].pattern.source, '{}skipped{}', "The first matches skipped steps")
+    assert.equal(stepDefinitions[4].pattern.source, '{}ambig{}', "The first matches ambiguous steps")
+    assert.equal(stepDefinitions[5].pattern.source, '{}ambiguous{}', "The first matches ambiguous steps too")
+  })
 })
 
 async function generateMessages(
