@@ -14,7 +14,7 @@ executors:
     docker:
       # Remember to update to the latest image tag.
       # Run `source scripts/functions.sh && docker_image Dockerfile` to print it.
-      - image: cucumber/cucumber-build:9ce5f6a542de12ceecdd84caaad47365
+      - image: cucumber/cucumber-build:7ab79eb69e8007a0f2655f1bb6310312
     working_directory: ~/cucumber
   # Go
   docker-circleci-golang:
@@ -326,6 +326,22 @@ jobs:
           root: ~/cucumber
           paths:
             - json-formatter/javascript/acceptance
+
+  cucumber-query-javascript:
+    executor: docker-circleci-node-12
+    steps:
+      - attach_workspace:
+          at: "~/cucumber"
+      - run:
+          name: cucumber-query/javascript
+          command: |
+            cd cucumber-query/javascript
+            make
+      - persist_to_workspace:
+          root: ~/cucumber
+          paths:
+            - cucumber-query/javascript/dist
+            - cucumber-query/javascript/node_modules
 
 ### Ruby
 
@@ -691,7 +707,6 @@ workflows:
       - gherkin-javascript:
           requires:
             - cucumber-messages-javascript
-            - gherkin-go
       - tag-expressions-javascript:
           requires:
             - checkout
@@ -704,6 +719,7 @@ workflows:
             - cucumber-messages-javascript
             - gherkin-javascript
             - fake-cucumber-javascript
+            - cucumber-query-javascript
       - html-formatter-javascript:
           requires:
             - cucumber-react-javascript
@@ -711,6 +727,11 @@ workflows:
           requires:
             - json-formatter-ruby
             - fake-cucumber-javascript
+      - cucumber-query-javascript:
+          requires:
+            - cucumber-messages-javascript
+            - fake-cucumber-javascript
+            - gherkin-javascript
 
 ### Ruby
 
@@ -763,7 +784,6 @@ workflows:
       - gherkin-java:
           requires:
             - cucumber-messages-java
-            - gherkin-go
       - tag-expressions-java:
           requires:
             - checkout
