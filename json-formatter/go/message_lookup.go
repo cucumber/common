@@ -91,10 +91,8 @@ func (self *MessageLookup) ProcessMessage(envelope *messages.Envelope) (err erro
 	case *messages.Envelope_TestCaseStarted:
 		self.testCaseStartedByID[m.TestCaseStarted.Id] = m.TestCaseStarted
 
-	case *messages.Envelope_CommandStart:
-		for _, stepDefinitionConfig := range m.CommandStart.SupportCodeConfig.StepDefinitionConfigs {
-			self.stepDefinitionConfigByID[stepDefinitionConfig.Id] = stepDefinitionConfig
-		}
+	case *messages.Envelope_StepDefinitionConfig:
+		self.stepDefinitionConfigByID[m.StepDefinitionConfig.Id] = m.StepDefinitionConfig
 	}
 
 	return nil
