@@ -9,14 +9,16 @@ import CucumberExpression from 'cucumber-expressions/dist/src/CucumberExpression
 
 class FakeStepDefinition {
   public id: string
-  public pattern: string
   public expression: CucumberExpression
 
   constructor(
     public status: string,
+    public pattern: string = null
   ) {
     this.id = uuidv4()
-    this.pattern = `{}${status}{}`
+    if (pattern === null) {
+      this.pattern = `{}${status}{}`
+    }
     this.expression = new CucumberExpression(this.pattern, new ParameterTypeRegistry)
   }
 
@@ -93,6 +95,8 @@ class FakeStepDefinitions {
     statuses.forEach(status => {
       this.stepDefinitions.push(new FakeStepDefinition(status))
     })
+
+    this.stepDefinitions.push(new FakeStepDefinition('cukes', 'I have {int} cukes in my belly'))
   }
 }
 
