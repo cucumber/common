@@ -6,7 +6,6 @@ import io.cucumber.messages.Messages.GherkinDocument.Comment;
 import io.cucumber.messages.Messages.GherkinDocument.Feature.FeatureChild;
 import io.cucumber.messages.Messages.GherkinDocument.Feature.TableRow;
 import io.cucumber.messages.Messages.Pickle;
-import io.cucumber.messages.Messages.Pickle.PickleStep;
 import org.junit.Test;
 
 import java.util.List;
@@ -14,9 +13,11 @@ import java.util.List;
 import static org.junit.Assert.assertEquals;
 
 public class GherkinDocumentBuilderTest {
+    private IdGenerator idGenerator = new IdGenerator.Incrementing();
+
     @Test
     public void is_reusable() {
-        Parser<GherkinDocument.Builder> parser = new Parser<>(new GherkinDocumentBuilder());
+        Parser<GherkinDocument.Builder> parser = new Parser<>(new GherkinDocumentBuilder(idGenerator));
         TokenMatcher matcher = new TokenMatcher();
 
         GherkinDocument d1 = parser.parse("Feature: 1", matcher).build();
@@ -28,7 +29,7 @@ public class GherkinDocumentBuilderTest {
 
     @Test
     public void parses_rules() {
-        Parser<GherkinDocument.Builder> parser = new Parser<>(new GherkinDocumentBuilder());
+        Parser<GherkinDocument.Builder> parser = new Parser<>(new GherkinDocumentBuilder(idGenerator));
         String data = "" +
                 "Feature: Some rules\n" +
                 "\n" +
@@ -54,8 +55,9 @@ public class GherkinDocumentBuilderTest {
         List<FeatureChild> children = doc.getFeature().getChildrenList();
         assertEquals(3, children.size());
 
-        PickleCompiler pickleCompiler = new PickleCompiler();
-        List<Pickle> pickles = pickleCompiler.compile(doc, "hello.feature", data);
+        IdGenerator idGenerator = new IdGenerator.Incrementing();
+        PickleCompiler pickleCompiler = new PickleCompiler(idGenerator);
+        List<Pickle> pickles = pickleCompiler.compile(doc, "hello.feature");
         assertEquals(2, pickles.size());
 
         assertEquals(3, pickles.get(0).getStepsList().size());
@@ -65,7 +67,7 @@ public class GherkinDocumentBuilderTest {
 
     @Test
     public void parses_just_comments() {
-        Parser<GherkinDocument.Builder> parser = new Parser<>(new GherkinDocumentBuilder());
+        Parser<GherkinDocument.Builder> parser = new Parser<>(new GherkinDocumentBuilder(idGenerator));
         GherkinDocument doc = parser.parse("" +
                 "# Just a comment").build();
         List<Comment> children = doc.getCommentsList();
@@ -74,7 +76,7 @@ public class GherkinDocumentBuilderTest {
 
     @Test
     public void sets_empty_table_cells() {
-        Parser<GherkinDocument.Builder> parser = new Parser<>(new GherkinDocumentBuilder());
+        Parser<GherkinDocument.Builder> parser = new Parser<>(new GherkinDocumentBuilder(idGenerator));
         GherkinDocument doc = parser.parse("" +
                 "Feature:\n" +
                 "  Scenario:\n" +
@@ -86,21 +88,4 @@ public class GherkinDocumentBuilderTest {
         assertEquals("", row.getCells(1).getValue());
         assertEquals("b", row.getCells(2).getValue());
     }
-
-    @Test
-    public void reports_step_text_column() {
-        Parser<GherkinDocument.Builder> parser = new Parser<>(new GherkinDocumentBuilder());
-        String data = "" +
-                "Feature:\n" +
-                "  Scenario:\n" +
-                "    Given a step";
-        GherkinDocument doc = parser.parse(data).build();
-        PickleCompiler pickleCompiler = new PickleCompiler();
-        List<Pickle> pickles = pickleCompiler.compile(doc, "hello.feature", data);
-
-        PickleStep step = pickles.get(0).getSteps(0);
-        assertEquals(11, step.getLocations(0).getColumn());
-
-    }
-
 }

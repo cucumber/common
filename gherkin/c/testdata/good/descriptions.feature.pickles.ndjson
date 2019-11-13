@@ -1,22 +1,18 @@
 {
   "pickle": {
-    "id": "03f546fa889ff3354c22642bb57010f0a55c7c8d",
+    "id": "19",
     "language": "en",
-    "locations": [
-      {
-        "column": 3,
-        "line": 4
-      }
-    ],
     "name": "two lines",
+    "sourceIds": [
+      "1"
+    ],
     "steps": [
       {
-        "locations": [
-          {
-            "column": 11,
-            "line": 7
-          }
+        "id": "18",
+        "sourceIds": [
+          "0"
         ],
+        "stepId": "0",
         "text": "the minimalism"
       }
     ],
@@ -25,23 +21,19 @@
 }
 {
   "pickle": {
-    "id": "f0f3c9218d0a7f276807b8399cc8a10232d3aa99",
+    "id": "21",
     "language": "en",
-    "locations": [
-      {
-        "column": 1,
-        "line": 9
-      }
-    ],
     "name": "without indentation",
+    "sourceIds": [
+      "3"
+    ],
     "steps": [
       {
-        "locations": [
-          {
-            "column": 9,
-            "line": 11
-          }
+        "id": "20",
+        "sourceIds": [
+          "2"
         ],
+        "stepId": "2",
         "text": "the minimalism"
       }
     ],
@@ -50,23 +42,19 @@
 }
 {
   "pickle": {
-    "id": "8c17132a2b6b412c439b92d51ce42976180fb4a5",
+    "id": "23",
     "language": "en",
-    "locations": [
-      {
-        "column": 3,
-        "line": 13
-      }
-    ],
     "name": "empty lines in the middle",
+    "sourceIds": [
+      "5"
+    ],
     "steps": [
       {
-        "locations": [
-          {
-            "column": 11,
-            "line": 17
-          }
+        "id": "22",
+        "sourceIds": [
+          "4"
         ],
+        "stepId": "4",
         "text": "the minimalism"
       }
     ],
@@ -75,23 +63,19 @@
 }
 {
   "pickle": {
-    "id": "6ed95a2e148609d3ca3bc65c744e56af5eb0364a",
+    "id": "25",
     "language": "en",
-    "locations": [
-      {
-        "column": 3,
-        "line": 19
-      }
-    ],
     "name": "empty lines around",
+    "sourceIds": [
+      "7"
+    ],
     "steps": [
       {
-        "locations": [
-          {
-            "column": 11,
-            "line": 24
-          }
+        "id": "24",
+        "sourceIds": [
+          "6"
         ],
+        "stepId": "6",
         "text": "the minimalism"
       }
     ],
@@ -100,23 +84,19 @@
 }
 {
   "pickle": {
-    "id": "fddf16c0c251a6ec601e748a0cd0f96b65b6a1ff",
+    "id": "27",
     "language": "en",
-    "locations": [
-      {
-        "column": 3,
-        "line": 26
-      }
-    ],
     "name": "comment after description",
+    "sourceIds": [
+      "9"
+    ],
     "steps": [
       {
-        "locations": [
-          {
-            "column": 11,
-            "line": 31
-          }
+        "id": "26",
+        "sourceIds": [
+          "8"
         ],
+        "stepId": "8",
         "text": "the minimalism"
       }
     ],
@@ -125,23 +105,19 @@
 }
 {
   "pickle": {
-    "id": "144721f2d8d4a2e56a8c11a534d93d663abdd43c",
+    "id": "29",
     "language": "en",
-    "locations": [
-      {
-        "column": 3,
-        "line": 33
-      }
-    ],
     "name": "comment right after description",
+    "sourceIds": [
+      "11"
+    ],
     "steps": [
       {
-        "locations": [
-          {
-            "column": 11,
-            "line": 38
-          }
+        "id": "28",
+        "sourceIds": [
+          "10"
         ],
+        "stepId": "10",
         "text": "the minimalism"
       }
     ],
@@ -150,23 +126,19 @@
 }
 {
   "pickle": {
-    "id": "f9b52fc14bec4c80bad794aed5df5b7a86a85788",
+    "id": "31",
     "language": "en",
-    "locations": [
-      {
-        "column": 3,
-        "line": 40
-      }
-    ],
     "name": "description with escaped docstring separator",
+    "sourceIds": [
+      "13"
+    ],
     "steps": [
       {
-        "locations": [
-          {
-            "column": 11,
-            "line": 43
-          }
+        "id": "30",
+        "sourceIds": [
+          "12"
         ],
+        "stepId": "12",
         "text": "the minimalism"
       }
     ],
@@ -175,31 +147,21 @@
 }
 {
   "pickle": {
-    "id": "8450874b078bbc680a775c164e7b880e9b6c386e",
+    "id": "33",
     "language": "en",
-    "locations": [
-      {
-        "column": 3,
-        "line": 45
-      },
-      {
-        "column": 5,
-        "line": 52
-      }
-    ],
     "name": "scenario outline with a description",
+    "sourceIds": [
+      "17",
+      "16"
+    ],
     "steps": [
       {
-        "locations": [
-          {
-            "column": 11,
-            "line": 47
-          },
-          {
-            "column": 5,
-            "line": 52
-          }
+        "id": "32",
+        "sourceIds": [
+          "14",
+          "16"
         ],
+        "stepId": "14",
         "text": "the minimalism"
       }
     ],

@@ -28,7 +28,7 @@ func ExampleParseGherkinDocument() {
 `
 	r := strings.NewReader(input)
 
-	gherkinDocument, err := ParseGherkinDocument(r)
+	gherkinDocument, err := ParseGherkinDocument(r, (&Incrementing{0}).NewId)
 	if err != nil {
 		fmt.Fprintf(os.Stdout, "%s\n", err)
 		return
@@ -65,7 +65,7 @@ func ExampleParseGherkinDocument() {
 
 func ExampleParseGherkinDocument_multiple() {
 
-	builder := NewAstBuilder()
+	builder := NewAstBuilder((&Incrementing{0}).NewId)
 	parser := NewParser(builder)
 	parser.StopAtFirstError(false)
 	matcher := NewMatcher(GherkinDialectsBuildin())
@@ -113,7 +113,7 @@ func ExampleParseGherkinDocument_multiple() {
 
 func ExampleParseGherkinDocument_error() {
 
-	builder := NewAstBuilder()
+	builder := NewAstBuilder((&Incrementing{0}).NewId)
 	parser := NewParser(builder)
 	parser.StopAtFirstError(false)
 	matcher := NewMatcher(GherkinDialectsBuildin())
@@ -177,7 +177,7 @@ func ExampleParseGherkinDocument_dialect() {
 	input := "Egenskap: i18n support"
 	r := strings.NewReader(input)
 
-	gherkinDocument, err := ParseGherkinDocumentForLanguage(r, "no")
+	gherkinDocument, err := ParseGherkinDocumentForLanguage(r, "no", (&Incrementing{0}).NewId)
 	if err != nil {
 		fmt.Fprintf(os.Stdout, "%s\n", err)
 		return

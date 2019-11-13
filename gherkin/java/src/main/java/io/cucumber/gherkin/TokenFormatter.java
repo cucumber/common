@@ -1,7 +1,8 @@
 package io.cucumber.gherkin;
 
+import static java.util.stream.Collectors.joining;
+
 public class TokenFormatter {
-    private static final StringUtils.ToString<GherkinLineSpan> SPAN_TO_STRING = o -> o.column + ":" + o.text;
 
     public String formatToken(Token token) {
         if (token.isEOF())
@@ -13,7 +14,7 @@ public class TokenFormatter {
                 toString(token.matchedType),
                 toString(token.matchedKeyword),
                 toString(token.matchedText),
-                toString(token.mathcedItems == null ? "" : StringUtils.join(SPAN_TO_STRING, ",", token.mathcedItems))
+                toString(token.mathcedItems == null ? "" : token.mathcedItems.stream().map(i -> i.column + ":" + i.text).collect(joining(",")))
         );
     }
 

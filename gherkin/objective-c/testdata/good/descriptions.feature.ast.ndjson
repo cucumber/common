@@ -21,6 +21,7 @@
         {
           "scenario": {
             "description": "  This description\n  has two lines and indented with two spaces",
+            "id": "1",
             "keyword": "Scenario",
             "location": {
               "column": 3,
@@ -29,6 +30,7 @@
             "name": "two lines",
             "steps": [
               {
+                "id": "0",
                 "keyword": "Given ",
                 "location": {
                   "column": 5,
@@ -42,6 +44,7 @@
         {
           "scenario": {
             "description": "This is a description without indentation",
+            "id": "3",
             "keyword": "Scenario",
             "location": {
               "column": 1,
@@ -50,6 +53,7 @@
             "name": "without indentation",
             "steps": [
               {
+                "id": "2",
                 "keyword": "Given ",
                 "location": {
                   "column": 3,
@@ -63,6 +67,7 @@
         {
           "scenario": {
             "description": "  This description\n\n  has an empty line in the middle",
+            "id": "5",
             "keyword": "Scenario",
             "location": {
               "column": 3,
@@ -71,6 +76,7 @@
             "name": "empty lines in the middle",
             "steps": [
               {
+                "id": "4",
                 "keyword": "Given ",
                 "location": {
                   "column": 5,
@@ -84,6 +90,7 @@
         {
           "scenario": {
             "description": "  This description\n  has an empty lines around",
+            "id": "7",
             "keyword": "Scenario",
             "location": {
               "column": 3,
@@ -92,6 +99,7 @@
             "name": "empty lines around",
             "steps": [
               {
+                "id": "6",
                 "keyword": "Given ",
                 "location": {
                   "column": 5,
@@ -105,6 +113,7 @@
         {
           "scenario": {
             "description": "  This description\n  has a comment after",
+            "id": "9",
             "keyword": "Scenario",
             "location": {
               "column": 3,
@@ -113,6 +122,7 @@
             "name": "comment after description",
             "steps": [
               {
+                "id": "8",
                 "keyword": "Given ",
                 "location": {
                   "column": 5,
@@ -126,6 +136,7 @@
         {
           "scenario": {
             "description": "  This description\n  has a comment right after",
+            "id": "11",
             "keyword": "Scenario",
             "location": {
               "column": 3,
@@ -134,6 +145,7 @@
             "name": "comment right after description",
             "steps": [
               {
+                "id": "10",
                 "keyword": "Given ",
                 "location": {
                   "column": 5,
@@ -147,6 +159,7 @@
         {
           "scenario": {
             "description": "  This description has an \\\"\\\"\\\" (escaped docstring sparator)",
+            "id": "13",
             "keyword": "Scenario",
             "location": {
               "column": 3,
@@ -155,6 +168,7 @@
             "name": "description with escaped docstring separator",
             "steps": [
               {
+                "id": "12",
                 "keyword": "Given ",
                 "location": {
                   "column": 5,
@@ -188,6 +202,7 @@
                         "value": "bar"
                       }
                     ],
+                    "id": "16",
                     "location": {
                       "column": 5,
                       "line": 52
@@ -204,6 +219,7 @@
                       "value": "foo"
                     }
                   ],
+                  "id": "15",
                   "location": {
                     "column": 5,
                     "line": 51
@@ -211,6 +227,7 @@
                 }
               }
             ],
+            "id": "17",
             "keyword": "Scenario Outline",
             "location": {
               "column": 3,
@@ -219,6 +236,7 @@
             "name": "scenario outline with a description",
             "steps": [
               {
+                "id": "14",
                 "keyword": "Given ",
                 "location": {
                   "column": 5,

@@ -1,40 +1,27 @@
 {
   "pickle": {
-    "id": "773ed5dbac8744b8a4df3eea407e5d2b7b8a60fd",
+    "id": "7",
     "language": "en",
-    "locations": [
-      {
-        "column": 3,
-        "line": 4
-      },
-      {
-        "column": 5,
-        "line": 9
-      }
-    ],
     "name": "Bar",
+    "sourceIds": [
+      "4",
+      "2"
+    ],
     "steps": [
       {
-        "locations": [
-          {
-            "column": 10,
-            "line": 5
-          },
-          {
-            "column": 5,
-            "line": 9
-          }
+        "id": "6",
+        "sourceIds": [
+          "0",
+          "2"
         ],
+        "stepId": "0",
         "text": "Baz"
       }
     ],
     "tags": [
       {
-        "location": {
-          "column": 1,
-          "line": 1
-        },
-        "name": "@sometag"
+        "name": "@sometag",
+        "sourceId": "5"
       }
     ],
     "uri": "testdata/good/tagged_feature_with_scenario_outline.feature"
@@ -42,41 +29,28 @@
 }
 {
   "pickle": {
-    "id": "d35f4ca10ae7689a149159d851d022c6ddfcb538",
+    "id": "9",
     "language": "en",
-    "locations": [
-      {
-        "column": 3,
-        "line": 4
-      },
-      {
-        "column": 5,
-        "line": 10
-      }
-    ],
     "name": "Bar",
+    "sourceIds": [
+      "4",
+      "3"
+    ],
     "steps": [
       {
-        "locations": [
-          {
-            "column": 10,
-            "line": 5
-          },
-          {
-            "column": 5,
-            "line": 10
-          }
+        "id": "8",
+        "sourceIds": [
+          "0",
+          "3"
         ],
+        "stepId": "0",
         "text": "Baz"
       }
     ],
     "tags": [
       {
-        "location": {
-          "column": 1,
-          "line": 1
-        },
-        "name": "@sometag"
+        "name": "@sometag",
+        "sourceId": "5"
       }
     ],
     "uri": "testdata/good/tagged_feature_with_scenario_outline.feature"

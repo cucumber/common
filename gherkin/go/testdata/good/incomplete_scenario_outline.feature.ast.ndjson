@@ -12,6 +12,7 @@
             "name": "Adding a background won't make a pickle",
             "steps": [
               {
+                "id": "0",
                 "keyword": "* ",
                 "location": {
                   "column": 5,
@@ -24,6 +25,7 @@
         },
         {
           "scenario": {
+            "id": "2",
             "keyword": "Scenario Outline",
             "location": {
               "column": 3,
@@ -32,6 +34,7 @@
             "name": "steps, no examples",
             "steps": [
               {
+                "id": "1",
                 "keyword": "Given ",
                 "location": {
                   "column": 5,
@@ -44,6 +47,7 @@
         },
         {
           "scenario": {
+            "id": "3",
             "keyword": "Scenario Outline",
             "location": {
               "column": 3,
@@ -63,6 +67,7 @@
                 }
               }
             ],
+            "id": "4",
             "keyword": "Scenario Outline",
             "location": {
               "column": 3,
@@ -90,6 +95,7 @@
                       "value": "what"
                     }
                   ],
+                  "id": "5",
                   "location": {
                     "column": 5,
                     "line": 18
@@ -97,6 +103,7 @@
                 }
               }
             ],
+            "id": "6",
             "keyword": "Scenario Outline",
             "location": {
               "column": 3,
@@ -125,6 +132,7 @@
                         "value": "nada"
                       }
                     ],
+                    "id": "8",
                     "location": {
                       "column": 5,
                       "line": 24
@@ -141,6 +149,7 @@
                       "value": "nope"
                     }
                   ],
+                  "id": "7",
                   "location": {
                     "column": 5,
                     "line": 23
@@ -148,6 +157,7 @@
                 }
               }
             ],
+            "id": "9",
             "keyword": "Scenario Outline",
             "location": {
               "column": 3,

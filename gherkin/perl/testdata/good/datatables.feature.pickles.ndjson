@@ -1,14 +1,11 @@
 {
   "pickle": {
-    "id": "60d95df0cbf5ef34063e2fd47d342b289836bfae",
+    "id": "19",
     "language": "en",
-    "locations": [
-      {
-        "column": 3,
-        "line": 3
-      }
-    ],
     "name": "minimalistic",
+    "sourceIds": [
+      "13"
+    ],
     "steps": [
       {
         "argument": {
@@ -17,17 +14,9 @@
               {
                 "cells": [
                   {
-                    "location": {
-                      "column": 9,
-                      "line": 5
-                    },
                     "value": "foo"
                   },
                   {
-                    "location": {
-                      "column": 15,
-                      "line": 5
-                    },
                     "value": "bar"
                   }
                 ]
@@ -35,17 +24,9 @@
               {
                 "cells": [
                   {
-                    "location": {
-                      "column": 9,
-                      "line": 6
-                    },
                     "value": "boz"
                   },
                   {
-                    "location": {
-                      "column": 15,
-                      "line": 6
-                    },
                     "value": "boo"
                   }
                 ]
@@ -53,12 +34,11 @@
             ]
           }
         },
-        "locations": [
-          {
-            "column": 11,
-            "line": 4
-          }
+        "id": "14",
+        "sourceIds": [
+          "2"
         ],
+        "stepId": "2",
         "text": "a simple data table"
       },
       {
@@ -68,10 +48,6 @@
               {
                 "cells": [
                   {
-                    "location": {
-                      "column": 9,
-                      "line": 8
-                    },
                     "value": "foo"
                   }
                 ]
@@ -79,12 +55,11 @@
             ]
           }
         },
-        "locations": [
-          {
-            "column": 9,
-            "line": 7
-          }
+        "id": "15",
+        "sourceIds": [
+          "4"
         ],
+        "stepId": "4",
         "text": "a data table with a single cell"
       },
       {
@@ -94,24 +69,12 @@
               {
                 "cells": [
                   {
-                    "location": {
-                      "column": 11,
-                      "line": 10
-                    },
                     "value": "foo"
                   },
                   {
-                    "location": {
-                      "column": 15,
-                      "line": 10
-                    },
                     "value": "bar"
                   },
                   {
-                    "location": {
-                      "column": 23,
-                      "line": 10
-                    },
                     "value": "boz"
                   }
                 ]
@@ -119,12 +82,11 @@
             ]
           }
         },
-        "locations": [
-          {
-            "column": 9,
-            "line": 9
-          }
+        "id": "16",
+        "sourceIds": [
+          "6"
         ],
+        "stepId": "6",
         "text": "a data table with different fromatting"
       },
       {
@@ -134,23 +96,10 @@
               {
                 "cells": [
                   {
-                    "location": {
-                      "column": 8,
-                      "line": 12
-                    },
                     "value": "foo"
                   },
+                  {},
                   {
-                    "location": {
-                      "column": 12,
-                      "line": 12
-                    }
-                  },
-                  {
-                    "location": {
-                      "column": 13,
-                      "line": 12
-                    },
                     "value": "boz"
                   }
                 ]
@@ -158,12 +107,11 @@
             ]
           }
         },
-        "locations": [
-          {
-            "column": 9,
-            "line": 11
-          }
+        "id": "17",
+        "sourceIds": [
+          "8"
         ],
+        "stepId": "8",
         "text": "a data table with an empty cell"
       },
       {
@@ -173,17 +121,9 @@
               {
                 "cells": [
                   {
-                    "location": {
-                      "column": 9,
-                      "line": 14
-                    },
                     "value": "foo"
                   },
                   {
-                    "location": {
-                      "column": 15,
-                      "line": 14
-                    },
                     "value": "bar"
                   }
                 ]
@@ -191,17 +131,9 @@
               {
                 "cells": [
                   {
-                    "location": {
-                      "column": 9,
-                      "line": 16
-                    },
                     "value": "boz"
                   },
                   {
-                    "location": {
-                      "column": 16,
-                      "line": 16
-                    },
                     "value": "boo"
                   }
                 ]
@@ -209,17 +141,9 @@
               {
                 "cells": [
                   {
-                    "location": {
-                      "column": 9,
-                      "line": 18
-                    },
                     "value": "boz2"
                   },
                   {
-                    "location": {
-                      "column": 16,
-                      "line": 18
-                    },
                     "value": "boo2"
                   }
                 ]
@@ -227,12 +151,11 @@
             ]
           }
         },
-        "locations": [
-          {
-            "column": 9,
-            "line": 13
-          }
+        "id": "18",
+        "sourceIds": [
+          "12"
         ],
+        "stepId": "12",
         "text": "a data table with comments and newlines inside"
       }
     ],

@@ -3,12 +3,18 @@ import { messages } from 'cucumber-messages'
 import { RuleType, TokenType } from './Parser'
 import Token from './Token'
 import { AstBuilderException } from './Errors'
+import { NewId } from './types'
 
 export default class AstBuilder {
   private stack: AstNode[]
   private comments: messages.GherkinDocument.IComment[]
+  private readonly newId: NewId
 
-  constructor() {
+  constructor(newId: NewId) {
+    this.newId = newId
+    if (!newId) {
+      throw new Error('No newId')
+    }
     this.reset()
   }
 
@@ -67,6 +73,7 @@ export default class AstBuilder {
           messages.GherkinDocument.Feature.Tag.fromObject({
             location: this.getLocation(token, tagItem.column),
             name: tagItem.text,
+            id: this.newId()
           })
         )
       }
@@ -94,6 +101,7 @@ export default class AstBuilder {
   public getTableRows(node: AstNode) {
     const rows = node.getTokens(TokenType.TableRow).map(token =>
       messages.GherkinDocument.Feature.TableRow.fromObject({
+        id: this.newId(),
         location: this.getLocation(token),
         cells: this.getCells(token),
       })
@@ -126,6 +134,7 @@ export default class AstBuilder {
         const docString = node.getSingle(RuleType.DocString)
 
         return messages.GherkinDocument.Feature.Step.fromObject({
+          id: this.newId(),
           location: this.getLocation(stepLine),
           keyword: stepLine.matchedKeyword,
           text: stepLine.matchedText,
@@ -183,6 +192,7 @@ export default class AstBuilder {
         const steps = this.getSteps(scenarioNode)
         const examples = scenarioNode.getItems(RuleType.ExamplesDefinition)
         return messages.GherkinDocument.Feature.Scenario.fromObject({
+          id: this.newId(),
           tags,
           location: this.getLocation(scenarioLine),
           keyword: scenarioLine.matchedKeyword,

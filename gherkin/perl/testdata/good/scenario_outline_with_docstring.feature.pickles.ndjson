@@ -1,40 +1,26 @@
 {
   "pickle": {
-    "id": "bb69d6ff129ad9c020796f29aac02fc3b763a850",
+    "id": "6",
     "language": "en",
-    "locations": [
-      {
-        "column": 1,
-        "line": 3
-      },
-      {
-        "column": 3,
-        "line": 11
-      }
-    ],
     "name": "Greetings come in many forms",
+    "sourceIds": [
+      "4",
+      "2"
+    ],
     "steps": [
       {
         "argument": {
           "docString": {
             "content": "Greeting:Hello",
-            "contentType": "en",
-            "location": {
-              "column": 5,
-              "line": 5
-            }
+            "contentType": "en"
           }
         },
-        "locations": [
-          {
-            "column": 11,
-            "line": 4
-          },
-          {
-            "column": 3,
-            "line": 11
-          }
+        "id": "5",
+        "sourceIds": [
+          "0",
+          "2"
         ],
+        "stepId": "0",
         "text": "this file:"
       }
     ],
@@ -43,41 +29,27 @@
 }
 {
   "pickle": {
-    "id": "40d1873c0ee28dc1ab3b4cfdb130ae56c1966939",
+    "id": "8",
     "language": "en",
-    "locations": [
-      {
-        "column": 1,
-        "line": 3
-      },
-      {
-        "column": 3,
-        "line": 12
-      }
-    ],
     "name": "Greetings come in many forms",
+    "sourceIds": [
+      "4",
+      "3"
+    ],
     "steps": [
       {
         "argument": {
           "docString": {
             "content": "Greeting:Bonjour",
-            "contentType": "fr",
-            "location": {
-              "column": 5,
-              "line": 5
-            }
+            "contentType": "fr"
           }
         },
-        "locations": [
-          {
-            "column": 11,
-            "line": 4
-          },
-          {
-            "column": 3,
-            "line": 12
-          }
+        "id": "7",
+        "sourceIds": [
+          "0",
+          "3"
         ],
+        "stepId": "0",
         "text": "this file:"
       }
     ],

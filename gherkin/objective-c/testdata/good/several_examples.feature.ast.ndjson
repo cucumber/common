@@ -22,6 +22,7 @@
                         "value": "foo"
                       }
                     ],
+                    "id": "2",
                     "location": {
                       "column": 7,
                       "line": 9
@@ -38,6 +39,7 @@
                       "value": "what"
                     }
                   ],
+                  "id": "1",
                   "location": {
                     "column": 7,
                     "line": 8
@@ -45,6 +47,7 @@
                 },
                 "tags": [
                   {
+                    "id": "3",
                     "location": {
                       "column": 5,
                       "line": 6
@@ -70,6 +73,7 @@
                         "value": "bar"
                       }
                     ],
+                    "id": "5",
                     "location": {
                       "column": 7,
                       "line": 14
@@ -86,6 +90,7 @@
                       "value": "what"
                     }
                   ],
+                  "id": "4",
                   "location": {
                     "column": 7,
                     "line": 13
@@ -93,6 +98,7 @@
                 },
                 "tags": [
                   {
+                    "id": "6",
                     "location": {
                       "column": 5,
                       "line": 11
@@ -102,6 +108,7 @@
                 ]
               }
             ],
+            "id": "7",
             "keyword": "Scenario Outline",
             "location": {
               "column": 3,
@@ -110,6 +117,7 @@
             "name": "minimalistic",
             "steps": [
               {
+                "id": "0",
                 "keyword": "Given ",
                 "location": {
                   "column": 5,
@@ -122,6 +130,7 @@
         },
         {
           "scenario": {
+            "id": "9",
             "keyword": "Scenario",
             "location": {
               "column": 3,
@@ -130,6 +139,7 @@
             "name": "ha ok",
             "tags": [
               {
+                "id": "8",
                 "location": {
                   "column": 3,
                   "line": 16

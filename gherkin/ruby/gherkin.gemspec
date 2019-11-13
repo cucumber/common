@@ -21,7 +21,7 @@ Gem::Specification.new do |s|
 
   s.add_dependency 'cucumber-messages', '~> 6.0', '>= 6.0.2'
 
-  s.add_development_dependency 'rake', '~> 13.0', '>= 13.0.0'
+  s.add_development_dependency 'rake', '~> 13.0', '>= 13.0.1'
   s.add_development_dependency 'rspec', '~> 3.9', '>= 3.9.0'
 
   # For coverage reports

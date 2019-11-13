@@ -4,8 +4,9 @@ import React from 'react'
 import program from 'commander'
 import p from '../package.json'
 import { Transform } from 'stream'
-import { App, makeGherkinDocumentsAndResultsLookup } from 'cucumber-react'
+import { GherkinDocumentList } from 'cucumber-react'
 import { renderToString } from 'react-dom/server'
+import CucumberQuery from 'cucumber-query'
 
 class CucumberHtmlStream extends Transform {
   private readonly envelopes: messages.IEnvelope[] = []
@@ -22,7 +23,10 @@ class CucumberHtmlStream extends Transform {
   _flush(callback: (error?: (Error | null), data?: any) => void): void {
     readFile(__dirname + '/../main.js', (err: Error, js: Buffer) => {
       if (err) return callback(err)
-      const { gherkinDocuments, resultsLookup, stepMatchLookup } = makeGherkinDocumentsAndResultsLookup(this.envelopes)
+
+      const gherkinDocuments = this.envelopes.filter(e => e.gherkinDocument).map(e => e.gherkinDocument)
+      const cucumberQuery = this.envelopes.reduce((q, e) => q.update(e), new CucumberQuery())
+
       this.push(`<!DOCTYPE html>
 <html lang="en">
   <head>
@@ -32,8 +36,10 @@ class CucumberHtmlStream extends Transform {
   <body>
     <div id="content">
 `)
-      this.push(renderToString(<App gherkinDocuments={gherkinDocuments} resultsLookup={resultsLookup}
-                                    stepMatchLookup={stepMatchLookup}/>))
+      this.push(renderToString(<GherkinDocumentList
+        gherkinDocuments={gherkinDocuments}
+        cucumberQuery={cucumberQuery}
+      />))
       this.push(`
     </div>
     <script>

@@ -30,22 +30,22 @@
   "homepage": "https://github.com/cucumber/cucumber",
   "devDependencies": {
     "@types/mocha": "^5.2.7",
-    "@types/node": "^12.11.5",
-    "@types/uuid": "^3.4.5",
+    "@types/node": "^12.12.7",
+    "@types/uuid": "^3.4.6",
     "mocha": "^6.2.2",
     "nyc": "^14.1.1",
-    "prettier": "^1.18.2",
-    "ts-node": "^8.4.1",
-    "tslint": "^5.20.0",
+    "prettier": "^1.19.1",
+    "ts-node": "^8.5.0",
+    "tslint": "^5.20.1",
     "tslint-config-prettier": "^1.18.0",
     "tslint-plugin-prettier": "^2.0.1",
-    "typescript": "^3.6.4"
+    "typescript": "^3.7.2"
   },
   "dependencies": {
-    "commander": "^3.0.2",
+    "commander": "^4.0.1",
     "cucumber-messages": "^6.0.2",
     "gherkin": "^8.1.1",
-    "source-map-support": "^0.5.13",
+    "source-map-support": "^0.5.16",
     "uuid": "^3.3.3"
   }
 }

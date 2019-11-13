@@ -19,12 +19,12 @@ func ExampleCompilePickles() {
 `
 	r := strings.NewReader(input)
 
-	gherkinDocument, err := ParseGherkinDocument(r)
+	gherkinDocument, err := ParseGherkinDocument(r, (&Incrementing{0}).NewId)
 	if err != nil {
 		fmt.Fprintf(os.Stdout, "%s\n", err)
 		return
 	}
-	pickles := Pickles(*gherkinDocument, "test.feature", input)
+	pickles := Pickles(*gherkinDocument, "test.feature", (&Incrementing{0}).NewId)
 
 	fmt.Fprintf(os.Stdout, "Text: %+v\n", pickles[0].Steps[0].Text)
 

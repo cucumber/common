@@ -4,6 +4,7 @@
       "children": [
         {
           "scenario": {
+            "id": "1",
             "keyword": "Example",
             "location": {
               "column": 3,
@@ -12,6 +13,7 @@
             "name": "minimalistic",
             "steps": [
               {
+                "id": "0",
                 "keyword": "Given ",
                 "location": {
                   "column": 5,

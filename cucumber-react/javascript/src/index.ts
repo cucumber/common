@@ -1,4 +1,2 @@
-import App from './components/app/App'
-import makeGherkinDocumentsAndResultsLookup from './makeGherkinDocumentsAndResultsLookup'
-
-export { App, makeGherkinDocumentsAndResultsLookup }
+import GherkinDocumentList from './components/app/GherkinDocumentList'
+export { GherkinDocumentList }

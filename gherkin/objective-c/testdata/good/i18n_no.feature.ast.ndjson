@@ -4,6 +4,7 @@
       "children": [
         {
           "scenario": {
+            "id": "3",
             "keyword": "Scenario",
             "location": {
               "column": 3,
@@ -12,6 +13,7 @@
             "name": "Parsing many languages",
             "steps": [
               {
+                "id": "0",
                 "keyword": "Gitt ",
                 "location": {
                   "column": 5,
@@ -20,6 +22,7 @@
                 "text": "Gherkin supports many languages"
               },
               {
+                "id": "1",
                 "keyword": "Når ",
                 "location": {
                   "column": 5,
@@ -28,6 +31,7 @@
                 "text": "Norwegian keywords are parsed"
               },
               {
+                "id": "2",
                 "keyword": "Så ",
                 "location": {
                   "column": 5,

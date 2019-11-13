@@ -11,11 +11,6 @@ namespace Io.Cucumber.Messages.Specs
         {
             var pickleDocSring = new PickleDocString
             {
-                Location = new Location
-                {
-                    Line = 10,
-                    Column = 20
-                },
                 ContentType = "text/plain",
                 Content = "some\ncontent\n"
             };

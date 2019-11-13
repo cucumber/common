@@ -1,6 +1,6 @@
 import { Command } from 'commander'
 import packageJson from '../package.json'
-import * as gherkin from 'gherkin'
+import gherkin from 'gherkin'
 import FakeTestResultsStream from './FakeTestResultsStream'
 
 const program = new Command()

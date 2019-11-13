@@ -2,6 +2,7 @@ require 'cucumber/messages'
 require 'gherkin/parser'
 require 'gherkin/token_matcher'
 require 'gherkin/pickles/compiler'
+require 'gherkin/id_generator'
 
 module Gherkin
   module Stream
@@ -10,8 +11,14 @@ module Gherkin
         @paths = paths
         @sources = sources
         @options = options
-        @parser = Parser.new
-        @compiler = Pickles::Compiler.new
+
+        id_generator = id_generator_class.new
+        @parser = Parser.new(AstBuilder.new(id_generator))
+        @compiler = Pickles::Compiler.new(id_generator)
+      end
+
+      def id_generator_class
+        @options[:predictable_ids] ? Gherkin::IdGenerator::Incrementing : Gherkin::IdGenerator::UUID
       end
 
       def messages

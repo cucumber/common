@@ -1,39 +1,25 @@
 {
   "pickle": {
-    "id": "0b35a1485451727b2d85b439a4c6171295f4686c",
+    "id": "9",
     "language": "en",
-    "locations": [
-      {
-        "column": 3,
-        "line": 3
-      },
-      {
-        "column": 7,
-        "line": 13
-      }
-    ],
     "name": "the un",
+    "sourceIds": [
+      "6",
+      "4"
+    ],
     "steps": [
       {
         "argument": {
           "docString": {
-            "content": "trois",
-            "location": {
-              "column": 7,
-              "line": 5
-            }
+            "content": "trois"
           }
         },
-        "locations": [
-          {
-            "column": 11,
-            "line": 4
-          },
-          {
-            "column": 7,
-            "line": 13
-          }
+        "id": "7",
+        "sourceIds": [
+          "0",
+          "4"
         ],
+        "stepId": "0",
         "text": "the deux:"
       },
       {
@@ -43,10 +29,6 @@
               {
                 "cells": [
                   {
-                    "location": {
-                      "column": 9,
-                      "line": 9
-                    },
                     "value": "cinq"
                   }
                 ]
@@ -54,16 +36,12 @@
             ]
           }
         },
-        "locations": [
-          {
-            "column": 11,
-            "line": 8
-          },
-          {
-            "column": 7,
-            "line": 13
-          }
+        "id": "8",
+        "sourceIds": [
+          "2",
+          "4"
         ],
+        "stepId": "2",
         "text": "the quatre:"
       }
     ],
@@ -72,40 +50,26 @@
 }
 {
   "pickle": {
-    "id": "2e4517970503a7a1fcf588ec6dd99bfd4b41f226",
+    "id": "12",
     "language": "en",
-    "locations": [
-      {
-        "column": 3,
-        "line": 3
-      },
-      {
-        "column": 7,
-        "line": 14
-      }
-    ],
     "name": "the uno",
+    "sourceIds": [
+      "6",
+      "5"
+    ],
     "steps": [
       {
         "argument": {
           "docString": {
-            "content": "tres",
-            "location": {
-              "column": 7,
-              "line": 5
-            }
+            "content": "tres"
           }
         },
-        "locations": [
-          {
-            "column": 11,
-            "line": 4
-          },
-          {
-            "column": 7,
-            "line": 14
-          }
+        "id": "10",
+        "sourceIds": [
+          "0",
+          "5"
         ],
+        "stepId": "0",
         "text": "the dos:"
       },
       {
@@ -115,10 +79,6 @@
               {
                 "cells": [
                   {
-                    "location": {
-                      "column": 9,
-                      "line": 9
-                    },
                     "value": "cinco"
                   }
                 ]
@@ -126,16 +86,12 @@
             ]
           }
         },
-        "locations": [
-          {
-            "column": 11,
-            "line": 8
-          },
-          {
-            "column": 7,
-            "line": 14
-          }
+        "id": "11",
+        "sourceIds": [
+          "2",
+          "5"
         ],
+        "stepId": "2",
         "text": "the quatro:"
       }
     ],

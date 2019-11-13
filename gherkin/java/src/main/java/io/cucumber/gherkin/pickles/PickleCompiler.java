@@ -1,7 +1,6 @@
 package io.cucumber.gherkin.pickles;
 
-import io.cucumber.gherkin.GherkinException;
-import io.cucumber.gherkin.StringUtils;
+import io.cucumber.gherkin.IdGenerator;
 import io.cucumber.messages.Messages;
 import io.cucumber.messages.Messages.GherkinDocument;
 import io.cucumber.messages.Messages.GherkinDocument.Feature;
@@ -13,7 +12,6 @@ import io.cucumber.messages.Messages.GherkinDocument.Feature.Step.DataTable;
 import io.cucumber.messages.Messages.GherkinDocument.Feature.TableRow;
 import io.cucumber.messages.Messages.GherkinDocument.Feature.TableRow.TableCell;
 import io.cucumber.messages.Messages.GherkinDocument.Feature.Tag;
-import io.cucumber.messages.Messages.Location;
 import io.cucumber.messages.Messages.Pickle;
 import io.cucumber.messages.Messages.Pickle.PickleStep;
 import io.cucumber.messages.Messages.Pickle.PickleTag;
@@ -21,12 +19,6 @@ import io.cucumber.messages.Messages.PickleStepArgument.PickleDocString;
 import io.cucumber.messages.Messages.PickleStepArgument.PickleTable;
 import io.cucumber.messages.Messages.PickleStepArgument.PickleTable.PickleTableRow;
 
-import java.math.BigInteger;
-import java.nio.ByteBuffer;
-import java.nio.ByteOrder;
-import java.nio.charset.StandardCharsets;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -38,7 +30,13 @@ import static java.util.Collections.unmodifiableList;
 
 public class PickleCompiler {
 
-    public List<Pickle> compile(GherkinDocument gherkinDocument, String uri, String data) {
+    private final IdGenerator idGenerator;
+
+    public PickleCompiler(IdGenerator idGenerator) {
+        this.idGenerator = idGenerator;
+    }
+
+    public List<Pickle> compile(GherkinDocument gherkinDocument, String uri) {
         List<Pickle> pickles = new ArrayList<>();
         Feature feature = gherkinDocument.getFeature();
         if (feature == null) {
@@ -47,30 +45,30 @@ public class PickleCompiler {
 
         String language = feature.getLanguage();
 
-        compileFeature(pickles, feature, language, uri, data);
+        compileFeature(pickles, feature, language, uri);
         return pickles;
     }
 
-    private void compileFeature(List<Pickle> pickles, Feature feature, String language, String uri, String data) {
+    private void compileFeature(List<Pickle> pickles, Feature feature, String language, String uri) {
         List<Tag> tags = feature.getTagsList();
         List<PickleStep> backgroundSteps = new ArrayList<>();
         for (FeatureChild child : feature.getChildrenList()) {
             if (child.hasBackground()) {
                 backgroundSteps.addAll(pickleSteps(child.getBackground().getStepsList()));
             } else if (child.hasRule()) {
-                compileRule(pickles, child.getRule(), tags, backgroundSteps, language, uri, data);
+                compileRule(pickles, child.getRule(), tags, backgroundSteps, language, uri);
             } else {
                 Feature.Scenario scenario = child.getScenario();
                 if (scenario.getExamplesList().isEmpty()) {
-                    compileScenario(pickles, scenario, tags, backgroundSteps, language, uri, data);
+                    compileScenario(pickles, scenario, tags, backgroundSteps, language, uri);
                 } else {
-                    compileScenarioOutline(pickles, scenario, tags, backgroundSteps, language, uri, data);
+                    compileScenarioOutline(pickles, scenario, tags, backgroundSteps, language, uri);
                 }
             }
         }
     }
 
-    private void compileRule(List<Pickle> pickles, Rule rule, List<Tag> tags, List<PickleStep> featureBackgroundSteps, String language, String uri, String data) {
+    private void compileRule(List<Pickle> pickles, Rule rule, List<Tag> tags, List<PickleStep> featureBackgroundSteps, String language, String uri) {
         List<PickleStep> backgroundSteps = new ArrayList<>(featureBackgroundSteps);
         for (FeatureChild.RuleChild child : rule.getChildrenList()) {
             if (child.hasBackground()) {
@@ -78,15 +76,15 @@ public class PickleCompiler {
             } else {
                 Feature.Scenario scenario = child.getScenario();
                 if (scenario.getExamplesList().isEmpty()) {
-                    compileScenario(pickles, scenario, tags, backgroundSteps, language, uri, data);
+                    compileScenario(pickles, scenario, tags, backgroundSteps, language, uri);
                 } else {
-                    compileScenarioOutline(pickles, scenario, tags, backgroundSteps, language, uri, data);
+                    compileScenarioOutline(pickles, scenario, tags, backgroundSteps, language, uri);
                 }
             }
         }
     }
 
-    private void compileScenario(List<Pickle> pickles, Feature.Scenario scenario, List<Tag> parentTags, List<PickleStep> backgroundSteps, String language, String uri, String data) {
+    private void compileScenario(List<Pickle> pickles, Feature.Scenario scenario, List<Tag> parentTags, List<PickleStep> backgroundSteps, String language, String uri) {
         List<PickleStep> steps = new ArrayList<>();
         if (!scenario.getStepsList().isEmpty())
             steps.addAll(backgroundSteps);
@@ -99,25 +97,25 @@ public class PickleCompiler {
 
         List<PickleTag> pickleTags = pickleTags(scenarioTags);
 
-        List<Location> locations = singletonList(scenario.getLocation());
+        List<String> sourceIds = singletonList(scenario.getId());
         Pickle pickle = Pickle.newBuilder()
-                .setId(makeId(data, locations))
+                .setId(idGenerator.newId())
                 .setUri(uri)
                 .setName(scenario.getName())
                 .setLanguage(language)
                 .addAllSteps(steps)
                 .addAllTags(pickleTags)
-                .addAllLocations(locations)
+                .addAllSourceIds(sourceIds)
                 .build();
         pickles.add(pickle);
     }
 
-    private void compileScenarioOutline(List<Pickle> pickles, Feature.Scenario scenario, List<Tag> featureTags, List<PickleStep> backgroundSteps, String language, String uri, String data) {
+    private void compileScenarioOutline(List<Pickle> pickles, Feature.Scenario scenario, List<Tag> featureTags, List<PickleStep> backgroundSteps, String language, String uri) {
         for (final Examples examples : scenario.getExamplesList()) {
             if (examples.getTableHeader() == null) continue;
             List<TableCell> variableCells = examples.getTableHeader().getCellsList();
-            for (final TableRow values : examples.getTableBodyList()) {
-                List<TableCell> valueCells = values.getCellsList();
+            for (final TableRow valuesRow : examples.getTableBodyList()) {
+                List<TableCell> valueCells = valuesRow.getCellsList();
 
                 List<PickleStep> steps = new ArrayList<>();
 
@@ -130,22 +128,20 @@ public class PickleCompiler {
                 tags.addAll(examples.getTagsList());
 
                 for (Step scenarioOutlineStep : scenario.getStepsList()) {
-                    PickleStep.Builder pickleStepBuilder = pickleStepBuilder(scenarioOutlineStep, variableCells, valueCells);
-
-                    pickleStepBuilder.addLocations(values.getLocation());
+                    PickleStep.Builder pickleStepBuilder = pickleStepBuilder(scenarioOutlineStep, variableCells, valuesRow);
 
                     steps.add(pickleStepBuilder.build());
                 }
 
-                List<Location> locations = asList(scenario.getLocation(), values.getLocation());
+                List<String> sourceIds = asList(scenario.getId(), valuesRow.getId());
                 Pickle pickle = Pickle.newBuilder()
-                        .setId(makeId(data, locations))
+                        .setId(idGenerator.newId())
                         .setUri(uri)
                         .setName(interpolate(scenario.getName(), variableCells, valueCells))
                         .setLanguage(language)
                         .addAllSteps(steps)
                         .addAllTags(pickleTags(tags))
-                        .addAllLocations(locations)
+                        .addAllSourceIds(sourceIds)
                         .build();
 
                 pickles.add(pickle);
@@ -162,7 +158,6 @@ public class PickleCompiler {
             for (TableCell cell : cells) {
                 newCells.add(
                         PickleTableRow.PickleTableCell.newBuilder()
-                                .setLocation(cell.getLocation())
                                 .setValue(interpolate(cell.getValue(), variableCells, valueCells))
                                 .build()
                 );
@@ -174,18 +169,23 @@ public class PickleCompiler {
 
     private PickleDocString pickleDocString(Step.DocString docString, List<TableCell> variableCells, List<TableCell> valueCells) {
         return PickleDocString.newBuilder()
-                .setLocation(docString.getLocation())
                 .setContent(interpolate(docString.getContent(), variableCells, valueCells))
                 .setContentType(Objects.requireNonNull(docString.getContentType() == null ? null : interpolate(docString.getContentType(), variableCells, valueCells)))
                 .build();
     }
 
-    private PickleStep.Builder pickleStepBuilder(Step step, List<TableCell> variableCells, List<TableCell> valueCells) {
+    private PickleStep.Builder pickleStepBuilder(Step step, List<TableCell> variableCells, TableRow valuesRow) {
+        List<TableCell> valueCells = valuesRow == null ? Collections.emptyList() : valuesRow.getCellsList();
         String stepText = interpolate(step.getText(), variableCells, valueCells);
 
         PickleStep.Builder pickleStepBuilder = PickleStep.newBuilder()
-                .setText(stepText)
-                .addLocations(pickleStepLocation(step));
+                .setId(idGenerator.newId())
+                .setStepId(step.getId())
+                .addSourceIds(step.getId())
+                .setText(stepText);
+        if(valuesRow != null) {
+            pickleStepBuilder.addSourceIds(valuesRow.getId());
+        }
 
         if (step.hasDataTable()) {
             Messages.PickleStepArgument.Builder argument = Messages.PickleStepArgument.newBuilder();
@@ -210,7 +210,7 @@ public class PickleCompiler {
     }
 
     private PickleStep pickleStep(Step step) {
-        PickleStep.Builder pickleStepBuilder = pickleStepBuilder(step, Collections.emptyList(), Collections.emptyList());
+        PickleStep.Builder pickleStepBuilder = pickleStepBuilder(step, Collections.emptyList(), null);
         return pickleStepBuilder.build();
     }
 
@@ -225,13 +225,6 @@ public class PickleCompiler {
         return name;
     }
 
-    private Location pickleStepLocation(Step step) {
-        return Location.newBuilder()
-                .setLine(step.getLocation().getLine())
-                .setColumn(step.getLocation().getColumn() + (step.getKeyword() != null ? StringUtils.symbolCount(step.getKeyword()) : 0))
-                .build();
-    }
-
     private List<PickleTag> pickleTags(List<Tag> tags) {
         List<PickleTag> result = new ArrayList<>();
         for (Tag tag : tags) {
@@ -242,29 +235,9 @@ public class PickleCompiler {
 
     private PickleTag pickleTag(Tag tag) {
         return PickleTag.newBuilder()
-                .setLocation(tag.getLocation())
                 .setName(tag.getName())
+                .setSourceId(tag.getId())
                 .build();
     }
 
-    private String makeId(String data, List<Location> locations) {
-        try {
-            MessageDigest digest = MessageDigest.getInstance("SHA-1");
-            digest.reset();
-            digest.update(data.getBytes(StandardCharsets.UTF_8));
-            for (Location location : locations) {
-                digest.update(intToInt32LEbytes(location.getLine()));
-                digest.update(intToInt32LEbytes(location.getColumn()));
-            }
-            return String.format("%040x", new BigInteger(1, digest.digest()));
-        } catch (NoSuchAlgorithmException e) {
-            throw new GherkinException("Could not create pickle ID", e);
-        }
-    }
-
-    private byte[] intToInt32LEbytes(int line) {
-        ByteBuffer buffer = ByteBuffer.allocate(4);
-        buffer.order(ByteOrder.LITTLE_ENDIAN);
-        return buffer.putInt(line).array();
-    }
 }

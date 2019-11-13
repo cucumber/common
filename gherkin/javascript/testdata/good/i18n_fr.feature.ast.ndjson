@@ -4,6 +4,7 @@
       "children": [
         {
           "scenario": {
+            "id": "3",
             "keyword": "Scénario",
             "location": {
               "column": 3,
@@ -12,6 +13,7 @@
             "name": "Support des caractères spéciaux",
             "steps": [
               {
+                "id": "0",
                 "keyword": "Soit ",
                 "location": {
                   "column": 5,
@@ -20,6 +22,7 @@
                 "text": "un exemple de scénario en français"
               },
               {
+                "id": "1",
                 "keyword": "Quand ",
                 "location": {
                   "column": 5,
@@ -28,6 +31,7 @@
                 "text": "j'ai 1 gâteau"
               },
               {
+                "id": "2",
                 "keyword": "Alors ",
                 "location": {
                   "column": 5,
@@ -40,6 +44,7 @@
         },
         {
           "scenario": {
+            "id": "7",
             "keyword": "Scénario",
             "location": {
               "column": 3,
@@ -48,6 +53,7 @@
             "name": "Support du mot-clef \"Etant donné que \"",
             "steps": [
               {
+                "id": "4",
                 "keyword": "Etant donné que ",
                 "location": {
                   "column": 5,
@@ -56,6 +62,7 @@
                 "text": "j'aime les gâteaux"
               },
               {
+                "id": "5",
                 "keyword": "Lorsqu'",
                 "location": {
                   "column": 5,
@@ -64,6 +71,7 @@
                 "text": "on m'offre 1 gâteau"
               },
               {
+                "id": "6",
                 "keyword": "Alors ",
                 "location": {
                   "column": 5,
@@ -76,6 +84,7 @@
         },
         {
           "scenario": {
+            "id": "11",
             "keyword": "Scénario",
             "location": {
               "column": 3,
@@ -84,6 +93,7 @@
             "name": "Support du mot-clef \"Etant donné qu'\"",
             "steps": [
               {
+                "id": "8",
                 "keyword": "Etant donné qu'",
                 "location": {
                   "column": 5,
@@ -92,6 +102,7 @@
                 "text": "offrir un gâteau rend heureux"
               },
               {
+                "id": "9",
                 "keyword": "Lorsqu'",
                 "location": {
                   "column": 5,
@@ -100,6 +111,7 @@
                 "text": "on m'offre 1 gâteau"
               },
               {
+                "id": "10",
                 "keyword": "Alors ",
                 "location": {
                   "column": 5,
@@ -112,6 +124,7 @@
         },
         {
           "scenario": {
+            "id": "15",
             "keyword": "Scénario",
             "location": {
               "column": 3,
@@ -120,6 +133,7 @@
             "name": "Support du mot-clef \"Étant donné que \"",
             "steps": [
               {
+                "id": "12",
                 "keyword": "Étant donné que ",
                 "location": {
                   "column": 5,
@@ -128,6 +142,7 @@
                 "text": "j'aime les gâteaux"
               },
               {
+                "id": "13",
                 "keyword": "Lorsqu'",
                 "location": {
                   "column": 5,
@@ -136,6 +151,7 @@
                 "text": "on m'offre 1 gâteau"
               },
               {
+                "id": "14",
                 "keyword": "Alors ",
                 "location": {
                   "column": 5,
@@ -148,6 +164,7 @@
         },
         {
           "scenario": {
+            "id": "19",
             "keyword": "Scénario",
             "location": {
               "column": 3,
@@ -156,6 +173,7 @@
             "name": "Support du mot-clef \"Étant donné qu'\"",
             "steps": [
               {
+                "id": "16",
                 "keyword": "Étant donné qu'",
                 "location": {
                   "column": 5,
@@ -164,6 +182,7 @@
                 "text": "offrir un gâteau rend heureux"
               },
               {
+                "id": "17",
                 "keyword": "Lorsqu'",
                 "location": {
                   "column": 5,
@@ -172,6 +191,7 @@
                 "text": "on m'offre 1 gâteau"
               },
               {
+                "id": "18",
                 "keyword": "Alors ",
                 "location": {
                   "column": 5,
@@ -184,6 +204,7 @@
         },
         {
           "scenario": {
+            "id": "24",
             "keyword": "Scénario",
             "location": {
               "column": 3,
@@ -192,6 +213,7 @@
             "name": "Support du mot-clef \"Et que \"",
             "steps": [
               {
+                "id": "20",
                 "keyword": "Soit ",
                 "location": {
                   "column": 5,
@@ -200,6 +222,7 @@
                 "text": "un exemple de scénario en français"
               },
               {
+                "id": "21",
                 "keyword": "Lorsque ",
                 "location": {
                   "column": 5,
@@ -208,6 +231,7 @@
                 "text": "j'ai 2 gâteaux"
               },
               {
+                "id": "22",
                 "keyword": "Et que ",
                 "location": {
                   "column": 5,
@@ -216,6 +240,7 @@
                 "text": "quelqu'un m'offre 1 gâteau"
               },
               {
+                "id": "23",
                 "keyword": "Alors ",
                 "location": {
                   "column": 5,
@@ -228,6 +253,7 @@
         },
         {
           "scenario": {
+            "id": "29",
             "keyword": "Scénario",
             "location": {
               "column": 3,
@@ -236,6 +262,7 @@
             "name": "Support du mot-clef \"Et qu'\"",
             "steps": [
               {
+                "id": "25",
                 "keyword": "Soit ",
                 "location": {
                   "column": 5,
@@ -244,6 +271,7 @@
                 "text": "un exemple de scénario en français"
               },
               {
+                "id": "26",
                 "keyword": "Lorsque ",
                 "location": {
                   "column": 5,
@@ -252,6 +280,7 @@
                 "text": "j'ai 2 gâteaux"
               },
               {
+                "id": "27",
                 "keyword": "Et qu'",
                 "location": {
                   "column": 5,
@@ -260,6 +289,7 @@
                 "text": "on m'offre 1 gâteau"
               },
               {
+                "id": "28",
                 "keyword": "Alors ",
                 "location": {
                   "column": 5,
@@ -272,6 +302,7 @@
         },
         {
           "scenario": {
+            "id": "34",
             "keyword": "Scénario",
             "location": {
               "column": 3,
@@ -280,6 +311,7 @@
             "name": "Support du mot-clef \"Et \"",
             "steps": [
               {
+                "id": "30",
                 "keyword": "Soit ",
                 "location": {
                   "column": 5,
@@ -288,6 +320,7 @@
                 "text": "un exemple de scénario en français"
               },
               {
+                "id": "31",
                 "keyword": "Quand ",
                 "location": {
                   "column": 5,
@@ -296,6 +329,7 @@
                 "text": "j'ai 2 gâteaux"
               },
               {
+                "id": "32",
                 "keyword": "Et ",
                 "location": {
                   "column": 5,
@@ -304,6 +338,7 @@
                 "text": "quelqu'un m'offre 1 gâteau"
               },
               {
+                "id": "33",
                 "keyword": "Alors ",
                 "location": {
                   "column": 5,
@@ -316,6 +351,7 @@
         },
         {
           "scenario": {
+            "id": "39",
             "keyword": "Scénario",
             "location": {
               "column": 3,
@@ -324,6 +360,7 @@
             "name": "Support du mot-clef \"Mais que \"",
             "steps": [
               {
+                "id": "35",
                 "keyword": "Soit ",
                 "location": {
                   "column": 5,
@@ -332,6 +369,7 @@
                 "text": "un exemple de scénario en français"
               },
               {
+                "id": "36",
                 "keyword": "Lorsque ",
                 "location": {
                   "column": 5,
@@ -340,6 +378,7 @@
                 "text": "j'ai 2 gâteaux"
               },
               {
+                "id": "37",
                 "keyword": "Mais que ",
                 "location": {
                   "column": 5,
@@ -348,6 +387,7 @@
                 "text": "quelqu'un me vole 1 gâteau"
               },
               {
+                "id": "38",
                 "keyword": "Alors ",
                 "location": {
                   "column": 5,
@@ -360,6 +400,7 @@
         },
         {
           "scenario": {
+            "id": "44",
             "keyword": "Scénario",
             "location": {
               "column": 3,
@@ -368,6 +409,7 @@
             "name": "Support du mot-clef \"Mais qu'\"",
             "steps": [
               {
+                "id": "40",
                 "keyword": "Soit ",
                 "location": {
                   "column": 5,
@@ -376,6 +418,7 @@
                 "text": "un exemple de scénario en français"
               },
               {
+                "id": "41",
                 "keyword": "Lorsque ",
                 "location": {
                   "column": 5,
@@ -384,6 +427,7 @@
                 "text": "j'ai 2 gâteaux"
               },
               {
+                "id": "42",
                 "keyword": "Mais qu'",
                 "location": {
                   "column": 5,
@@ -392,6 +436,7 @@
                 "text": "on me vole 1 gâteau"
               },
               {
+                "id": "43",
                 "keyword": "Alors ",
                 "location": {
                   "column": 5,
@@ -404,6 +449,7 @@
         },
         {
           "scenario": {
+            "id": "49",
             "keyword": "Scénario",
             "location": {
               "column": 3,
@@ -412,6 +458,7 @@
             "name": "Support du mot-clef \"Mais \"",
             "steps": [
               {
+                "id": "45",
                 "keyword": "Soit ",
                 "location": {
                   "column": 5,
@@ -420,6 +467,7 @@
                 "text": "un exemple de scénario en français"
               },
               {
+                "id": "46",
                 "keyword": "Quand ",
                 "location": {
                   "column": 5,
@@ -428,6 +476,7 @@
                 "text": "j'ai 2 gâteaux"
               },
               {
+                "id": "47",
                 "keyword": "Mais ",
                 "location": {
                   "column": 5,
@@ -436,6 +485,7 @@
                 "text": "quelqu'un me vole 1 gâteau"
               },
               {
+                "id": "48",
                 "keyword": "Alors ",
                 "location": {
                   "column": 5,

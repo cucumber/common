@@ -39,7 +39,7 @@ ifndef NO_CROSS_COMPILE
 	# Cross-compile executable for many platforms if we're not running on Alpine (Docker)
 	# where cross-compilation doesn't work.
 	go get github.com/aslakhellesoy/gox
-	gox -cgo -buildmode=exe -ldflags $(GOX_LDFLAGS) -output "dist/$(LIBNAME)-{{.OS}}-{{.Arch}}" -rebuild ./cmd
+	gox -buildmode=exe -ldflags $(GOX_LDFLAGS) -output "dist/$(LIBNAME)-{{.OS}}-{{.Arch}}" -rebuild ./cmd
 else
 	go build -ldflags $(GOX_LDFLAGS) -o $@ ./cmd
 endif

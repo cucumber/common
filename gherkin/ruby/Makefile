@@ -25,22 +25,22 @@ acceptance/testdata/%.feature.tokens: testdata/%.feature testdata/%.feature.toke
 
 acceptance/testdata/%.feature.ast.ndjson: testdata/%.feature testdata/%.feature.ast.ndjson .deps
 	mkdir -p `dirname $@`
-	bundle exec bin/gherkin --no-source --no-pickles --json $< | jq --sort-keys --compact-output "." > $@
+	bundle exec bin/gherkin --predictable-ids --no-source --no-pickles --json $< | jq --sort-keys --compact-output "." > $@
 	diff --unified <(jq "." $<.ast.ndjson) <(jq "." $@)
 
 acceptance/testdata/%.feature.pickles.ndjson: testdata/%.feature testdata/%.feature.pickles.ndjson .deps
 	mkdir -p `dirname $@`
-	bundle exec bin/gherkin --no-source --no-ast --json $< | jq --sort-keys --compact-output "." > $@
+	bundle exec bin/gherkin --predictable-ids --no-source --no-ast --json $< | jq --sort-keys --compact-output "." > $@
 	diff --unified <(jq "." $<.pickles.ndjson) <(jq "." $@)
 
 acceptance/testdata/%.feature.source.ndjson: testdata/%.feature testdata/%.feature.source.ndjson .deps
 	mkdir -p `dirname $@`
-	bundle exec bin/gherkin --no-ast --no-pickles --json $< | jq --sort-keys --compact-output "." > $@
+	bundle exec bin/gherkin --predictable-ids --no-ast --no-pickles --json $< | jq --sort-keys --compact-output "." > $@
 	diff --unified <(jq "." $<.source.ndjson) <(jq "." $@)
 
 acceptance/testdata/%.feature.errors.ndjson: testdata/%.feature testdata/%.feature.errors.ndjson .deps
 	mkdir -p `dirname $@`
-	bundle exec bin/gherkin --no-source --json $< | jq --sort-keys --compact-output "." > $@
+	bundle exec bin/gherkin --predictable-ids --no-source --json $< | jq --sort-keys --compact-output "." > $@
 	diff --unified <(jq "." $<.errors.ndjson) <(jq "." $@)
 
 clean:

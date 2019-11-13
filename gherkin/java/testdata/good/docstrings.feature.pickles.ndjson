@@ -1,140 +1,102 @@
 {
   "pickle": {
-    "id": "7f6957a28baf5ecf2af10c7ebcbb2febb1719be4",
+    "id": "15",
     "language": "en",
-    "locations": [
-      {
-        "column": 3,
-        "line": 3
-      }
-    ],
     "name": "minimalistic",
+    "sourceIds": [
+      "7"
+    ],
     "steps": [
       {
         "argument": {
           "docString": {
-            "content": "first line (no indent)\n  second line (indented with two spaces)\n\nthird line was empty",
-            "location": {
-              "column": 7,
-              "line": 5
-            }
+            "content": "first line (no indent)\n  second line (indented with two spaces)\n\nthird line was empty"
           }
         },
-        "locations": [
-          {
-            "column": 11,
-            "line": 4
-          }
+        "id": "8",
+        "sourceIds": [
+          "0"
         ],
+        "stepId": "0",
         "text": "a simple DocString"
       },
       {
         "argument": {
           "docString": {
             "content": "<foo>\n  <bar />\n</foo>",
-            "contentType": "xml",
-            "location": {
-              "column": 7,
-              "line": 12
-            }
+            "contentType": "xml"
           }
         },
-        "locations": [
-          {
-            "column": 11,
-            "line": 11
-          }
+        "id": "9",
+        "sourceIds": [
+          "1"
         ],
+        "stepId": "1",
         "text": "a DocString with content type"
       },
       {
         "argument": {
           "docString": {
-            "content": "wrongly indented line",
-            "location": {
-              "column": 7,
-              "line": 18
-            }
+            "content": "wrongly indented line"
           }
         },
-        "locations": [
-          {
-            "column": 9,
-            "line": 17
-          }
+        "id": "10",
+        "sourceIds": [
+          "2"
         ],
+        "stepId": "2",
         "text": "a DocString with wrong indentation"
       },
       {
         "argument": {
           "docString": {
-            "content": "first line\nsecond line",
-            "location": {
-              "column": 7,
-              "line": 22
-            }
+            "content": "first line\nsecond line"
           }
         },
-        "locations": [
-          {
-            "column": 9,
-            "line": 21
-          }
+        "id": "11",
+        "sourceIds": [
+          "3"
         ],
+        "stepId": "3",
         "text": "a DocString with alternative separator"
       },
       {
         "argument": {
           "docString": {
-            "content": "first line\n\"\"\"\nthird line",
-            "location": {
-              "column": 7,
-              "line": 27
-            }
+            "content": "first line\n\"\"\"\nthird line"
           }
         },
-        "locations": [
-          {
-            "column": 9,
-            "line": 26
-          }
+        "id": "12",
+        "sourceIds": [
+          "4"
         ],
+        "stepId": "4",
         "text": "a DocString with normal separator inside"
       },
       {
         "argument": {
           "docString": {
-            "content": "first line\n```\nthird line",
-            "location": {
-              "column": 7,
-              "line": 33
-            }
+            "content": "first line\n```\nthird line"
           }
         },
-        "locations": [
-          {
-            "column": 9,
-            "line": 32
-          }
+        "id": "13",
+        "sourceIds": [
+          "5"
         ],
+        "stepId": "5",
         "text": "a DocString with alternative separator inside"
       },
       {
         "argument": {
           "docString": {
-            "content": "first line\n\"\"\"\nthird line",
-            "location": {
-              "column": 7,
-              "line": 39
-            }
+            "content": "first line\n\"\"\"\nthird line"
           }
         },
-        "locations": [
-          {
-            "column": 9,
-            "line": 38
-          }
+        "id": "14",
+        "sourceIds": [
+          "6"
         ],
+        "stepId": "6",
         "text": "a DocString with escaped separator inside"
       }
     ],

@@ -4,6 +4,7 @@
       "children": [
         {
           "scenario": {
+            "id": "6",
             "keyword": "Scenario",
             "location": {
               "column": 3,
@@ -35,6 +36,7 @@
                           "value": "o"
                         }
                       ],
+                      "id": "0",
                       "location": {
                         "column": 7,
                         "line": 7
@@ -57,6 +59,7 @@
                           "value": "ø"
                         }
                       ],
+                      "id": "1",
                       "location": {
                         "column": 7,
                         "line": 8
@@ -64,6 +67,7 @@
                     }
                   ]
                 },
+                "id": "2",
                 "keyword": "Given ",
                 "location": {
                   "column": 5,
@@ -95,6 +99,7 @@
                           "value": "\\o\no\\"
                         }
                       ],
+                      "id": "3",
                       "location": {
                         "column": 7,
                         "line": 10
@@ -117,6 +122,7 @@
                           "value": "ø\\\nø\\"
                         }
                       ],
+                      "id": "4",
                       "location": {
                         "column": 7,
                         "line": 11
@@ -124,6 +130,7 @@
                     }
                   ]
                 },
+                "id": "5",
                 "keyword": "Given ",
                 "location": {
                   "column": 5,

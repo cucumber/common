@@ -4,6 +4,7 @@
       "children": [
         {
           "scenario": {
+            "id": "4",
             "keyword": "Scenario",
             "location": {
               "column": 1,
@@ -12,6 +13,7 @@
             "name": "minimalistic",
             "steps": [
               {
+                "id": "0",
                 "keyword": "Given ",
                 "location": {
                   "column": 5,
@@ -22,6 +24,7 @@
             ],
             "tags": [
               {
+                "id": "1",
                 "location": {
                   "column": 1,
                   "line": 5
@@ -29,6 +32,7 @@
                 "name": "@scenario_tag1"
               },
               {
+                "id": "2",
                 "location": {
                   "column": 16,
                   "line": 5
@@ -36,6 +40,7 @@
                 "name": "@scenario_tag2"
               },
               {
+                "id": "3",
                 "location": {
                   "column": 3,
                   "line": 6
@@ -65,6 +70,7 @@
                         "value": "minimalism"
                       }
                     ],
+                    "id": "7",
                     "location": {
                       "column": 3,
                       "line": 19
@@ -81,6 +87,7 @@
                       "value": "what"
                     }
                   ],
+                  "id": "6",
                   "location": {
                     "column": 3,
                     "line": 18
@@ -88,6 +95,7 @@
                 },
                 "tags": [
                   {
+                    "id": "8",
                     "location": {
                       "column": 1,
                       "line": 15
@@ -95,6 +103,7 @@
                     "name": "@ex_tag1"
                   },
                   {
+                    "id": "9",
                     "location": {
                       "column": 10,
                       "line": 15
@@ -102,6 +111,7 @@
                     "name": "@ex_tag2"
                   },
                   {
+                    "id": "10",
                     "location": {
                       "column": 3,
                       "line": 16
@@ -127,6 +137,7 @@
                         "value": "more minimalism"
                       }
                     ],
+                    "id": "12",
                     "location": {
                       "column": 3,
                       "line": 25
@@ -143,6 +154,7 @@
                       "value": "what"
                     }
                   ],
+                  "id": "11",
                   "location": {
                     "column": 3,
                     "line": 24
@@ -150,6 +162,7 @@
                 },
                 "tags": [
                   {
+                    "id": "13",
                     "location": {
                       "column": 1,
                       "line": 21
@@ -157,6 +170,7 @@
                     "name": "@ex_tag4"
                   },
                   {
+                    "id": "14",
                     "location": {
                       "column": 10,
                       "line": 21
@@ -164,6 +178,7 @@
                     "name": "@ex_tag5"
                   },
                   {
+                    "id": "15",
                     "location": {
                       "column": 3,
                       "line": 22
@@ -173,6 +188,7 @@
                 ]
               }
             ],
+            "id": "19",
             "keyword": "Scenario Outline",
             "location": {
               "column": 1,
@@ -181,6 +197,7 @@
             "name": "minimalistic outline",
             "steps": [
               {
+                "id": "5",
                 "keyword": "Given ",
                 "location": {
                   "column": 5,
@@ -191,6 +208,7 @@
             ],
             "tags": [
               {
+                "id": "16",
                 "location": {
                   "column": 1,
                   "line": 10
@@ -198,6 +216,7 @@
                 "name": "@so_tag1"
               },
               {
+                "id": "17",
                 "location": {
                   "column": 11,
                   "line": 10
@@ -205,6 +224,7 @@
                 "name": "@so_tag2"
               },
               {
+                "id": "18",
                 "location": {
                   "column": 3,
                   "line": 11
@@ -224,6 +244,7 @@
       "name": "Minimal Scenario Outline",
       "tags": [
         {
+          "id": "20",
           "location": {
             "column": 1,
             "line": 1
@@ -231,6 +252,7 @@
           "name": "@feature_tag1"
         },
         {
+          "id": "21",
           "location": {
             "column": 15,
             "line": 1
@@ -238,6 +260,7 @@
           "name": "@feature_tag2"
         },
         {
+          "id": "22",
           "location": {
             "column": 3,
             "line": 2

@@ -18,6 +18,7 @@ var noSource = flag.Bool("no-source", false, "Skip gherkin source events")
 var noAst = flag.Bool("no-ast", false, "Skip gherkin AST events")
 var noPickles = flag.Bool("no-pickles", false, "Skip gherkin Pickle events")
 var printJson = flag.Bool("json", false, "Print messages as JSON instead of protobuf")
+var predictableIds = flag.Bool("predictable-ids", false, "Generate incrementing ids rather than UUIDs")
 var versionFlag = flag.Bool("version", false, "print version")
 var dialectsFlag = flag.Bool("dialects", false, "print dialects as JSON")
 var defaultDialectFlag = flag.String("default-dialect", "en", "the default dialect")
@@ -39,6 +40,13 @@ func main() {
 		os.Exit(0)
 	}
 
+	var newId func() string
+	if *predictableIds {
+		newId = (&gherkin.Incrementing{}).NewId
+	} else {
+		newId = gherkin.UUID{}.NewId
+	}
+
 	paths := flag.Args()
 
 	stdout := bufio.NewWriter(os.Stdout)
@@ -53,6 +61,7 @@ func main() {
 		!*noPickles,
 		stdout,
 		*printJson,
+		newId,
 	)
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "failed to parse Gherkin: %+v\n", err)

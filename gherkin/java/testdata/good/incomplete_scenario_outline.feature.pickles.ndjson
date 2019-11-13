@@ -1,31 +1,26 @@
 {
   "pickle": {
-    "id": "d14243c923f892caae5dfaa0e13105b32a66dd93",
+    "id": "12",
     "language": "en",
-    "locations": [
-      {
-        "column": 3,
-        "line": 6
-      }
-    ],
     "name": "steps, no examples",
+    "sourceIds": [
+      "2"
+    ],
     "steps": [
       {
-        "locations": [
-          {
-            "column": 7,
-            "line": 4
-          }
+        "id": "10",
+        "sourceIds": [
+          "0"
         ],
+        "stepId": "0",
         "text": "a step"
       },
       {
-        "locations": [
-          {
-            "column": 11,
-            "line": 7
-          }
+        "id": "11",
+        "sourceIds": [
+          "1"
         ],
+        "stepId": "1",
         "text": "a step"
       }
     ],
@@ -34,33 +29,24 @@
 }
 {
   "pickle": {
-    "id": "8fb6fff021638c5f329798343da04623088f368f",
+    "id": "13",
     "language": "en",
-    "locations": [
-      {
-        "column": 3,
-        "line": 9
-      }
-    ],
     "name": "no steps, no examples",
+    "sourceIds": [
+      "3"
+    ],
     "uri": "testdata/good/incomplete_scenario_outline.feature"
   }
 }
 {
   "pickle": {
-    "id": "1ad954170a2ad1b1f39cc3577066247d7de2dc14",
+    "id": "14",
     "language": "en",
-    "locations": [
-      {
-        "column": 3,
-        "line": 20
-      },
-      {
-        "column": 5,
-        "line": 24
-      }
-    ],
     "name": "no steps, one example header",
+    "sourceIds": [
+      "9",
+      "8"
+    ],
     "uri": "testdata/good/incomplete_scenario_outline.feature"
   }
 }

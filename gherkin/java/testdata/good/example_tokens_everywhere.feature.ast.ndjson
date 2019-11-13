@@ -50,6 +50,7 @@
                         "value": "cinq"
                       }
                     ],
+                    "id": "4",
                     "location": {
                       "column": 7,
                       "line": 13
@@ -93,6 +94,7 @@
                         "value": "cinco"
                       }
                     ],
+                    "id": "5",
                     "location": {
                       "column": 7,
                       "line": 14
@@ -137,6 +139,7 @@
                       "value": "five"
                     }
                   ],
+                  "id": "3",
                   "location": {
                     "column": 7,
                     "line": 12
@@ -144,6 +147,7 @@
                 }
               }
             ],
+            "id": "6",
             "keyword": "Scenario Outline",
             "location": {
               "column": 3,
@@ -160,6 +164,7 @@
                     "line": 5
                   }
                 },
+                "id": "0",
                 "keyword": "Given ",
                 "location": {
                   "column": 5,
@@ -184,6 +189,7 @@
                           "value": "<five>"
                         }
                       ],
+                      "id": "1",
                       "location": {
                         "column": 7,
                         "line": 9
@@ -191,6 +197,7 @@
                     }
                   ]
                 },
+                "id": "2",
                 "keyword": "Given ",
                 "location": {
                   "column": 5,

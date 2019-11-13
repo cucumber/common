@@ -1,53 +1,34 @@
 {
   "pickle": {
-    "id": "a52fc25d450d3ebef7452200369049dc8d554419",
+    "id": "15",
     "language": "en",
-    "locations": [
-      {
-        "column": 3,
-        "line": 4
-      },
-      {
-        "column": 7,
-        "line": 9
-      }
+    "sourceIds": [
+      "5",
+      "2"
     ],
     "steps": [
       {
-        "locations": [
-          {
-            "column": 11,
-            "line": 5
-          },
-          {
-            "column": 7,
-            "line": 9
-          }
+        "id": "14",
+        "sourceIds": [
+          "0",
+          "2"
         ],
+        "stepId": "0",
         "text": "y"
       }
     ],
     "tags": [
       {
-        "location": {
-          "column": 1,
-          "line": 1
-        },
-        "name": "@a"
+        "name": "@a",
+        "sourceId": "13"
       },
       {
-        "location": {
-          "column": 3,
-          "line": 3
-        },
-        "name": "@b"
+        "name": "@b",
+        "sourceId": "3"
       },
       {
-        "location": {
-          "column": 6,
-          "line": 3
-        },
-        "name": "@c"
+        "name": "@c",
+        "sourceId": "4"
       }
     ],
     "uri": "testdata/good/readme_example.feature"
@@ -55,61 +36,39 @@
 }
 {
   "pickle": {
-    "id": "f302b2b954f7cbec1bfe1e10c07829d967af97af",
+    "id": "17",
     "language": "en",
-    "locations": [
-      {
-        "column": 3,
-        "line": 12
-      },
-      {
-        "column": 7,
-        "line": 18
-      }
+    "sourceIds": [
+      "12",
+      "8"
     ],
     "steps": [
       {
-        "locations": [
-          {
-            "column": 11,
-            "line": 13
-          },
-          {
-            "column": 7,
-            "line": 18
-          }
+        "id": "16",
+        "sourceIds": [
+          "6",
+          "8"
         ],
+        "stepId": "6",
         "text": "n"
       }
     ],
     "tags": [
       {
-        "location": {
-          "column": 1,
-          "line": 1
-        },
-        "name": "@a"
+        "name": "@a",
+        "sourceId": "13"
       },
       {
-        "location": {
-          "column": 3,
-          "line": 11
-        },
-        "name": "@d"
+        "name": "@d",
+        "sourceId": "10"
       },
       {
-        "location": {
-          "column": 6,
-          "line": 11
-        },
-        "name": "@e"
+        "name": "@e",
+        "sourceId": "11"
       },
       {
-        "location": {
-          "column": 5,
-          "line": 15
-        },
-        "name": "@f"
+        "name": "@f",
+        "sourceId": "9"
       }
     ],
     "uri": "testdata/good/readme_example.feature"

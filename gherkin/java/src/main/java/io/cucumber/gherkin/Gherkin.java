@@ -27,21 +27,23 @@ public class Gherkin {
     private final boolean includeSource;
     private final boolean includeAst;
     private final boolean includePickles;
+    private final IdGenerator idGenerator;
 
-    private Gherkin(List<String> paths, List<Envelope> envelopes, boolean includeSource, boolean includeAst, boolean includePickles) {
+    private Gherkin(List<String> paths, List<Envelope> envelopes, boolean includeSource, boolean includeAst, boolean includePickles, IdGenerator idGenerator) {
         this.paths = paths;
         this.envelopes = envelopes;
         this.includeSource = includeSource;
         this.includeAst = includeAst;
         this.includePickles = includePickles;
+        this.idGenerator = idGenerator;
     }
 
-    public static Stream<Envelope> fromPaths(List<String> paths, boolean includeSource, boolean includeAst, boolean includePickles) {
-        return new Gherkin(paths, null, includeSource, includeAst, includePickles).messages();
+    public static Stream<Envelope> fromPaths(List<String> paths, boolean includeSource, boolean includeAst, boolean includePickles, IdGenerator idGenerator) {
+        return new Gherkin(paths, null, includeSource, includeAst, includePickles, idGenerator).messages();
     }
 
-    public static Stream<Envelope> fromSources(List<Envelope> envelopes, boolean includeSource, boolean includeAst, boolean includePickles) {
-        return new Gherkin(Collections.<String>emptyList(), envelopes, includeSource, includeAst, includePickles).messages();
+    public static Stream<Envelope> fromSources(List<Envelope> envelopes, boolean includeSource, boolean includeAst, boolean includePickles, IdGenerator idGenerator) {
+        return new Gherkin(Collections.<String>emptyList(), envelopes, includeSource, includeAst, includePickles, idGenerator).messages();
     }
 
     public static Stream<Envelope> fromStream(InputStream in) {
@@ -102,7 +104,7 @@ public class Gherkin {
         }
         if (envelope.hasSource()) {
 
-            Parser<Messages.GherkinDocument.Builder> parser = new Parser<>(new GherkinDocumentBuilder());
+            Parser<Messages.GherkinDocument.Builder> parser = new Parser<>(new GherkinDocumentBuilder(idGenerator));
             Messages.Source source = envelope.getSource();
             String uri = source.getUri();
             String data = source.getData();
@@ -118,8 +120,8 @@ public class Gherkin {
                     if (gherkinDocument == null) {
                         gherkinDocument = parser.parse(data).setUri(uri).build();
                     }
-                    PickleCompiler pickleCompiler = new PickleCompiler();
-                    List<Messages.Pickle> pickles = pickleCompiler.compile(gherkinDocument, uri, data);
+                    PickleCompiler pickleCompiler = new PickleCompiler(idGenerator);
+                    List<Messages.Pickle> pickles = pickleCompiler.compile(gherkinDocument, uri);
                     for (Messages.Pickle pickle : pickles) {
                         messages.add(Envelope.newBuilder().setPickle(pickle).build());
                     }

@@ -12,7 +12,8 @@ options = {
   include_source: true,
   include_gherkin_document: true,
   include_pickles: true,
-  json: false
+  json: false,
+  predictable_ids: false
 }
 
 OptionParser.new do |opts|
@@ -27,6 +28,9 @@ OptionParser.new do |opts|
   end
   opts.on("--json", "Print messages as JSON") do |v|
     options[:json] = v
+  end
+  opts.on("--predictable-ids", "Generate incrementing ids rather than UUIDs") do |v|
+    options[:predictable_ids] = v
   end
 end.parse!
 

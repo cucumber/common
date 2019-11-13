@@ -4,10 +4,10 @@ import { messages } from 'cucumber-messages'
 import { FakeTestResultsStream } from 'fake-cucumber'
 import * as gherkin from 'gherkin'
 import { Readable } from 'stream'
-import makeGherkinDocumentsAndResultsLookup from '../src/makeGherkinDocumentsAndResultsLookup'
-import App from '../src/components/app/App'
 import React from 'react'
 import ReactDOM from 'react-dom'
+import GherkinDocumentList from '../src/components/app/GherkinDocumentList'
+import CucumberQuery from 'cucumber-query';
 
 describe('App', () => {
   const dir = __dirname + '/../../../gherkin/testdata/good'
@@ -28,13 +28,12 @@ describe('App', () => {
           .fromPaths([p], {})
           .pipe(fakeTestResultsStream))
 
-        const { gherkinDocuments, resultsLookup, stepMatchLookup } = makeGherkinDocumentsAndResultsLookup(envelopes)
-        const app = <App
+        const gherkinDocuments = envelopes.filter(e => e.gherkinDocument).map(e => e.gherkinDocument)
+        const cucumberQuery = envelopes.reduce((q, e) => q.update(e), new CucumberQuery())
+        const app = <GherkinDocumentList
           gherkinDocuments={gherkinDocuments}
-          resultsLookup={resultsLookup}
-          stepMatchLookup={stepMatchLookup}
+          cucumberQuery={cucumberQuery}
         />
-
         ReactDOM.render(app, document.getElementById('content'))
       }).timeout(7000) // TODO: What the hell is taking so long??
     }

@@ -3,13 +3,14 @@ MAKEFILES=c21e/Makefile \
 	cucumber-messages/Makefile \
 	gherkin/Makefile \
 	fake-cucumber/Makefile \
+	cucumber-query/Makefile \
 	cucumber-react/Makefile \
 	html-formatter/Makefile \
+	json-formatter/Makefile \
 	datatable/Makefile \
 	config/Makefile \
 	cucumber-expressions/Makefile \
 	tag-expressions/Makefile \
-	json-formatter/Makefile \
 	dots-formatter/Makefile \
 	cucumber-demo-formatter/Makefile
 

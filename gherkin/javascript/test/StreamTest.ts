@@ -7,7 +7,7 @@ import makeSourceEnvelope from '../src/stream/makeSourceEnvelope'
 describe('gherkin', () => {
   it('parses gherkin from the file system', async () => {
     const envelopes = await streamToArray(
-      fromPaths(['testdata/good/minimal.feature'], {})
+      fromPaths(['testdata/good/minimal.feature'])
     )
     assert.strictEqual(envelopes.length, 3)
   })
@@ -22,7 +22,7 @@ describe('gherkin', () => {
       'test.feature'
     )
 
-    const envelopes = await streamToArray(fromSources([source], {}))
+    const envelopes = await streamToArray(fromSources([source]))
     assert.strictEqual(envelopes.length, 3)
   })
 

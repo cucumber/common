@@ -1,0 +1,49 @@
+{
+  "name": "cucumber-query",
+  "version": "1.0.0",
+  "description": "Cucumber Query - query messages",
+  "main": "dist/src/CucumberQuery.js",
+  "types": "dist/src/CucumberQuery.d.ts",
+  "scripts": {
+    "test": "mocha",
+    "lint": "tslint src/**/*.ts test/**/*.ts",
+    "lint-fix": "tslint --fix src/**/*.ts test/**/*.ts",
+    "coverage": "nyc --reporter=html --reporter=text mocha",
+    "build": "tsc",
+    "prepublishOnly": "npm run build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/cucumber/cucumber.git"
+  },
+  "keywords": [
+    "cucumber"
+  ],
+  "author": "Cucumber Limited <cukes@googlegroups.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/cucumber/cucumber/issues"
+  },
+  "homepage": "https://github.com/cucumber/cucumber#readme",
+  "devDependencies": {
+    "@types/mocha": "^5.2.7",
+    "@types/node": "^12.12.7",
+    "fake-cucumber": "^2.0.3",
+    "gherkin": "^8.1.1",
+    "mocha": "^6.2.2",
+    "nyc": "^14.1.1",
+    "prettier": "^1.19.1",
+    "ts-loader": "^6.2.1",
+    "ts-node": "^8.5.0",
+    "tslint": "^5.20.1",
+    "tslint-config-prettier": "^1.18.0",
+    "tslint-plugin-prettier": "^2.0.1",
+    "typescript": "^3.7.2"
+  },
+  "files": [
+    "*"
+  ],
+  "dependencies": {
+    "cucumber-messages": "^6.0.2"
+  }
+}

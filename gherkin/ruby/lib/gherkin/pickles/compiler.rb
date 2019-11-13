@@ -1,9 +1,14 @@
 require 'cucumber/messages'
 require 'digest'
+require 'gherkin/id_generator'
 
 module Gherkin
   module Pickles
     class Compiler
+      def initialize(id_generator = Gherkin::IdGenerator::UUID.new)
+        @id_generator = id_generator
+      end
+
       def compile(gherkin_document, source)
         pickles = []
 
@@ -63,11 +68,11 @@ module Gherkin
 
         pickle = Cucumber::Messages::Pickle.new(
           uri: source.uri,
-          id: calculate_id(source.data, [scenario.location]),
+          id: @id_generator.new_id,
           tags: pickle_tags(tags),
           name: scenario.name,
           language: language,
-          locations: [scenario.location],
+          sourceIds: [scenario.id],
           steps: steps
         )
         pickles.push(pickle)
@@ -76,65 +81,32 @@ module Gherkin
       def compile_scenario_outline(feature_tags, background_steps, scenario, language, pickles, source)
         scenario.examples.reject { |examples| examples.table_header.nil? }.each do |examples|
           variable_cells = examples.table_header.cells
-          examples.table_body.each do |values|
-            value_cells = values.cells
+          examples.table_body.each do |values_row|
+            value_cells = values_row.cells
             steps = scenario.steps.empty? ? [] : [].concat(background_steps)
             tags = [].concat(feature_tags).concat(scenario.tags).concat(examples.tags)
 
             scenario.steps.each do |scenario_outline_step|
-              step_props = pickle_step_props(scenario_outline_step, variable_cells, value_cells)
-              step_props[:locations].push(values.location)
+              step_props = pickle_step_props(scenario_outline_step, variable_cells, values_row)
               steps.push(Cucumber::Messages::Pickle::PickleStep.new(step_props))
             end
 
             pickle = Cucumber::Messages::Pickle.new(
               uri: source.uri,
-              id: calculate_id(source.data, [scenario.location, values.location]),
+              id: @id_generator.new_id,
               name: interpolate(scenario.name, variable_cells, value_cells),
               language: language,
               steps: steps,
               tags: pickle_tags(tags),
-              locations: [
-                scenario.location,
-                values.location
-              ]
+              sourceIds: [
+                scenario.id,
+                values_row.id
+              ],
             )
             pickles.push(pickle);
 
           end
         end
-      end
-
-      def create_pickle_arguments(argument, variable_cells, value_cells)
-        result = []
-        return result if argument.nil?
-        if (argument[:type] == :DataTable)
-          table = {
-            rows: argument[:rows].map do |row|
-              {
-                cells: row[:cells].map do |cell|
-                  {
-                    location: cell.location,
-                    value: interpolate(cell.value, variable_cells, value_cells)
-                  }
-                end
-              }
-            end
-          }
-          result.push(table)
-        elsif (argument[:type] == :DocString)
-          doc_string = {
-            location: pickle_location(argument.location),
-            content: interpolate(argument[:content], variable_cells, value_cells)
-          }
-          if argument.key?(:contentType)
-            doc_string[:contentType] = interpolate(argument[:contentType], variable_cells, value_cells)
-          end
-          result.push(doc_string)
-        else
-          raise 'Internal error'
-        end
-        result
       end
 
       def interpolate(name, variable_cells, value_cells)
@@ -145,15 +117,6 @@ module Gherkin
         name
       end
 
-      def calculate_id(source_data, locations)
-        sha1 = Digest::SHA1.new
-        sha1 << source_data
-        locations.each do |location|
-          sha1 << [location.line, location.column].pack('V*')
-        end
-        sha1.hexdigest
-      end
-
       def pickle_steps(steps)
         steps.map do |step|
           pickle_step(step)
@@ -161,14 +124,20 @@ module Gherkin
       end
 
       def pickle_step(step)
-        Cucumber::Messages::Pickle::PickleStep.new(pickle_step_props(step, [], []))
+        Cucumber::Messages::Pickle::PickleStep.new(pickle_step_props(step, [], nil))
       end
 
-      def pickle_step_props(step, variable_cells, value_cells)
+      def pickle_step_props(step, variable_cells, values_row)
+        value_cells = values_row ? values_row.cells : []
         props = {
+          id: @id_generator.new_id,
+          stepId: step.id,
+          sourceIds: [step.id],
           text: interpolate(step.text, variable_cells, value_cells),
-          locations: [pickle_step_location(step)]
         }
+        if values_row
+          props[:sourceIds].push(values_row.id)
+        end
 
         if step.data_table
           data_table = Cucumber::Messages::PickleStepArgument.new(
@@ -191,7 +160,6 @@ module Gherkin
             Cucumber::Messages::PickleStepArgument::PickleTable::PickleTableRow.new(
               cells: row.cells.map do |cell|
                 Cucumber::Messages::PickleStepArgument::PickleTable::PickleTableRow::PickleTableCell.new(
-                  location: cell.location,
                   value: interpolate(cell.value, variable_cells, value_cells)
                 )
               end
@@ -202,20 +170,12 @@ module Gherkin
 
       def pickle_doc_string(doc_string, variable_cells, value_cells)
         props = {
-          location: doc_string.location,
           content: interpolate(doc_string.content, variable_cells, value_cells)
         }
         if doc_string.content_type
           props[:contentType] = interpolate(doc_string.content_type, variable_cells, value_cells)
         end
         Cucumber::Messages::PickleStepArgument::PickleDocString.new(props)
-      end
-
-      def pickle_step_location(step)
-        Cucumber::Messages::Location.new(
-          line: step.location.line,
-          column: step.location.column + (step.keyword ? step.keyword.length : 0)
-        )
       end
 
       def pickle_tags(tags)
@@ -225,7 +185,7 @@ module Gherkin
       def pickle_tag(tag)
         Cucumber::Messages::Pickle::PickleTag.new(
           name: tag.name,
-          location: tag.location
+          sourceId: tag.id
         )
       end
     end

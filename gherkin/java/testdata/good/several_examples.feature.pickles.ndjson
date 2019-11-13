@@ -1,40 +1,27 @@
 {
   "pickle": {
-    "id": "f824595a3ebcf7560e1225d83abb8cca439daf54",
+    "id": "11",
     "language": "en",
-    "locations": [
-      {
-        "column": 3,
-        "line": 3
-      },
-      {
-        "column": 7,
-        "line": 9
-      }
-    ],
     "name": "minimalistic",
+    "sourceIds": [
+      "7",
+      "2"
+    ],
     "steps": [
       {
-        "locations": [
-          {
-            "column": 11,
-            "line": 4
-          },
-          {
-            "column": 7,
-            "line": 9
-          }
+        "id": "10",
+        "sourceIds": [
+          "0",
+          "2"
         ],
+        "stepId": "0",
         "text": "the foo"
       }
     ],
     "tags": [
       {
-        "location": {
-          "column": 5,
-          "line": 6
-        },
-        "name": "@foo"
+        "name": "@foo",
+        "sourceId": "3"
       }
     ],
     "uri": "testdata/good/several_examples.feature"
@@ -42,41 +29,28 @@
 }
 {
   "pickle": {
-    "id": "c46750283b2008436017833106a9be63d8991d4f",
+    "id": "13",
     "language": "en",
-    "locations": [
-      {
-        "column": 3,
-        "line": 3
-      },
-      {
-        "column": 7,
-        "line": 14
-      }
-    ],
     "name": "minimalistic",
+    "sourceIds": [
+      "7",
+      "5"
+    ],
     "steps": [
       {
-        "locations": [
-          {
-            "column": 11,
-            "line": 4
-          },
-          {
-            "column": 7,
-            "line": 14
-          }
+        "id": "12",
+        "sourceIds": [
+          "0",
+          "5"
         ],
+        "stepId": "0",
         "text": "the bar"
       }
     ],
     "tags": [
       {
-        "location": {
-          "column": 5,
-          "line": 11
-        },
-        "name": "@bar"
+        "name": "@bar",
+        "sourceId": "6"
       }
     ],
     "uri": "testdata/good/several_examples.feature"
@@ -84,22 +58,16 @@
 }
 {
   "pickle": {
-    "id": "30d1f9a373d7af4fdb8ce14bbcb606eb26695c43",
+    "id": "14",
     "language": "en",
-    "locations": [
-      {
-        "column": 3,
-        "line": 17
-      }
-    ],
     "name": "ha ok",
+    "sourceIds": [
+      "9"
+    ],
     "tags": [
       {
-        "location": {
-          "column": 3,
-          "line": 16
-        },
-        "name": "@zap"
+        "name": "@zap",
+        "sourceId": "8"
       }
     ],
     "uri": "testdata/good/several_examples.feature"

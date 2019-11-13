@@ -68,8 +68,12 @@ message Envelope {
     CommandGenerateSnippet commandGenerateSnippet = 24;
     string commandError = 25;
     TestStepMatched testStepMatched = 26;
+    TestCase testCase = 27;
+    StepDefinitionConfig stepDefinitionConfig = 28;
+    TestCaseHookDefinitionConfig testCaseHookDefinitionConfig = 29;
   }
 }
+
 
 ////// Common types
 
@@ -186,6 +190,8 @@ message GherkinDocument {
       Location location = 1;
       // The name of the tag (including the leading `@`)
       string name = 2;
+      // Unique ID to be able to reference the Tag from PickleTag
+      string id = 3;
     }
 
     /**
@@ -236,6 +242,7 @@ message GherkinDocument {
       string description = 5;
       repeated Step steps = 6;
       repeated Examples examples = 7;
+      string id = 8;
 
       message Examples {
         // The location of the `Examples` keyword
@@ -255,6 +262,7 @@ message GherkinDocument {
       Location location = 1;
       // Cells in the row
       repeated TableCell cells = 2;
+      string id = 3;
 
       // A cell in a `TableRow`
       message TableCell {
@@ -275,6 +283,8 @@ message GherkinDocument {
         DocString doc_string = 5;
         DataTable data_table = 6;
       }
+      // Unique ID to be able to reference the Step from PickleStep
+      string id = 7;
 
       message DataTable {
         Location location = 1;
@@ -340,19 +350,22 @@ message Pickle {
    * It includes inherited tags from the `Feature` as well.
    */
   repeated PickleTag tags = 6;
+  reserved 7;
   /**
-   * The source locations of the pickle. The last one represents the unique
-   * line number. A pickle constructed from `Examples` will have the first
-   * location originating from the `Scenario`, and the second from the table row.
+   * Points to the source locations of the pickle. The last one represents the unique
+   * id of the pickle. A pickle constructed from `Examples` will have the first
+   * sourceId originating from the `Scenario`, and the second from the table row.
    */
-  repeated Location locations = 7;
+  repeated string sourceIds = 8;
 
   /**
    * A tag
    */
   message PickleTag {
-    Location location = 1;
+    reserved 1;
     string name = 2;
+    // Reference to the source id
+    string sourceId = 3;
   }
 
   /**
@@ -360,10 +373,17 @@ message Pickle {
    */
   message PickleStep {
     string text = 1;
-    repeated Location locations = 2;
-    reserved 3, 4;
+    reserved 2, 3, 4;
     // An optional argument
     PickleStepArgument argument = 5;
+    // A unique ID for the PickleStep
+    string id = 6;
+    // References the scenario step where the PickleStep originates from
+    // DEPRECATED - use sourceIds
+    string stepId = 7;
+    // References the IDs of the source of the step. For Gherkin, this can be
+    // the ID of a Step, and possibly also the ID of a TableRow
+    repeated string sourceIds = 8;
   }
 }
 
@@ -377,7 +397,7 @@ message PickleStepArgument {
   }
 
   message PickleDocString {
-    Location location = 1;
+    reserved 1;
     string contentType = 2;
     string content = 3;
   }
@@ -389,10 +409,30 @@ message PickleStepArgument {
       repeated PickleTableCell cells = 1;
 
       message PickleTableCell {
-        Location location = 1;
+        reserved 1;
         string value = 2;
       }
     }
+  }
+}
+
+////// TestCases
+
+message TestCase {
+  string id = 1;
+  string pickleId = 2;
+  repeated TestStep testSteps = 3;
+
+  message TestStep {
+    string id = 1;
+    // Pointer to the PickleStep (if derived from a PickleStep)
+    string pickleStepId = 2;
+    // Pointer to all the matching StepDefinitions (if derived from a PickleStep)
+    repeated string stepDefinitionId = 3;
+    // All the arguments from the match (if derived from a PickleStep and there was exactly 1 StepDefinition)
+    repeated StepMatchArgument stepMatchArguments = 4;
+    // Pointer to the TestCaseHookDefinitionConfig (if derived from a Hook)
+    string hookId = 5;
   }
 }
 
@@ -425,11 +465,20 @@ message TestCasePrepared {
 }
 
 message TestCaseStarted {
-  string pickleId = 1;
+  reserved 1;
   Timestamp timestamp = 2;
   Platform platform = 3;
+  /**
+   * The first attempt should have value 0, and for each retry the value
+   * should increase by 1.
+   */
   uint32 attempt = 4;
   string testCaseId = 5;
+  /**
+   * Because a `TestCase` can be run multiple times (in case of a retry),
+   * we use this field to group messages relating to the same attempt.
+   */
+  string id = 6;
 
   message Platform {
     // The runner implementation. For example "SpecFlow", "Cucumber-JVM", "Behat" etc.
@@ -447,10 +496,12 @@ message TestCaseFinished {
   reserved 1;
   Timestamp timestamp = 2;
   TestResult testResult = 3;
-  string testCaseId = 4;
+  reserved 4;
+  string testCaseStartedId = 5;
 }
 
 // For each step, there will be a match
+// DEPRECATED - replaced by TestStep
 message TestStepMatched {
   string pickleId = 1;
   uint32 index = 2;
@@ -459,26 +510,28 @@ message TestStepMatched {
 }
 
 message TestStepStarted {
-  reserved 1;
-  uint32 index = 2;
+  reserved 1, 2, 4;
   Timestamp timestamp = 3;
-  string testCaseId = 4;
+  string testStepId = 5;
+  string testCaseStartedId = 6;
 }
 
 message TestStepFinished {
-  reserved 1;
-  uint32 index = 2;
+  reserved 1, 2, 5;
   TestResult testResult = 3;
   Timestamp timestamp = 4;
-  string testCaseId = 5;
+  string testStepId = 6;
+  string testCaseStartedId = 7;
 }
 
+// DEPRECATED: Replaced by TestStepStarted
 message TestHookStarted {
   reserved 1;
   Timestamp timestamp = 2;
   string testCaseId = 3;
 }
 
+// DEPRECATED: Replaced by TestStepFinished
 message TestHookFinished {
   reserved 1;
   TestResult testResult = 2;
@@ -585,6 +638,7 @@ message SupportCodeConfig {
   repeated ParameterTypeConfig parameterTypeConfigs = 4;
 }
 
+// TODO: Rename to Hook
 message TestCaseHookDefinitionConfig {
   string id = 1;
   string tagExpression = 2;
@@ -592,6 +646,7 @@ message TestCaseHookDefinitionConfig {
   SourceReference location = 3;
 }
 
+// TODO: Rename to StepDefinition
 message StepDefinitionConfig {
   string id = 1;
   StepDefinitionPattern pattern = 2;

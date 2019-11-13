@@ -13,6 +13,7 @@ type AstBuilder interface {
 type astBuilder struct {
 	stack    []*astNode
 	comments []*messages.GherkinDocument_Comment
+	newId    func() string
 }
 
 func (t *astBuilder) Reset() {
@@ -89,8 +90,9 @@ func newAstNode(rt RuleType) *astNode {
 	}
 }
 
-func NewAstBuilder() AstBuilder {
+func NewAstBuilder(newId func() string) AstBuilder {
 	builder := new(astBuilder)
+	builder.newId = newId
 	builder.comments = []*messages.GherkinDocument_Comment{}
 	builder.push(newAstNode(RuleTypeNone))
 	return builder
@@ -118,10 +120,12 @@ func (t *astBuilder) Build(tok *Token) (bool, error) {
 	}
 	return true, nil
 }
+
 func (t *astBuilder) StartRule(r RuleType) (bool, error) {
 	t.push(newAstNode(r))
 	return true, nil
 }
+
 func (t *astBuilder) EndRule(r RuleType) (bool, error) {
 	node := t.pop()
 	transformedNode, err := t.transformNode(node)
@@ -139,6 +143,7 @@ func (t *astBuilder) transformNode(node *astNode) (interface{}, error) {
 			Location: astLocation(stepLine),
 			Keyword:  stepLine.Keyword,
 			Text:     stepLine.Text,
+			Id:       t.newId(),
 		}
 		dataTable := node.getSingle(RuleTypeDataTable)
 		if dataTable != nil {
@@ -173,7 +178,7 @@ func (t *astBuilder) transformNode(node *astNode) (interface{}, error) {
 		return ds, nil
 
 	case RuleTypeDataTable:
-		rows, err := astTableRows(node)
+		rows, err := astTableRows(node, t.newId)
 		dt := &messages.GherkinDocument_Feature_Step_DataTable{
 			Location: rows[0].Location,
 			Rows:     rows,
@@ -193,12 +198,13 @@ func (t *astBuilder) transformNode(node *astNode) (interface{}, error) {
 		return bg, nil
 
 	case RuleTypeScenarioDefinition:
-		tags := astTags(node)
+		tags := astTags(node, t.newId)
 		scenarioNode, _ := node.getSingle(RuleTypeScenario).(*astNode)
 
 		scenarioLine := scenarioNode.getToken(TokenTypeScenarioLine)
 		description, _ := scenarioNode.getSingle(RuleTypeDescription).(string)
 		sc := &messages.GherkinDocument_Feature_Scenario{
+			Id:          t.newId(),
 			Tags:        tags,
 			Location:    astLocation(scenarioLine),
 			Keyword:     scenarioLine.Keyword,
@@ -211,7 +217,7 @@ func (t *astBuilder) transformNode(node *astNode) (interface{}, error) {
 		return sc, nil
 
 	case RuleTypeExamplesDefinition:
-		tags := astTags(node)
+		tags := astTags(node, t.newId)
 		examplesNode, _ := node.getSingle(RuleTypeExamples).(*astNode)
 		examplesLine := examplesNode.getToken(TokenTypeExamplesLine)
 		description, _ := examplesNode.getSingle(RuleTypeDescription).(string)
@@ -234,7 +240,7 @@ func (t *astBuilder) transformNode(node *astNode) (interface{}, error) {
 		return ex, nil
 
 	case RuleTypeExamplesTable:
-		allRows, err := astTableRows(node)
+		allRows, err := astTableRows(node, t.newId)
 		return allRows, err
 
 	case RuleTypeDescription:
@@ -255,7 +261,7 @@ func (t *astBuilder) transformNode(node *astNode) (interface{}, error) {
 		if !ok {
 			return nil, nil
 		}
-		tags := astTags(header)
+		tags := astTags(header, t.newId)
 		featureLine := header.getToken(TokenTypeFeatureLine)
 		if featureLine == nil {
 			return nil, nil
@@ -353,11 +359,12 @@ func astLocation(t *Token) *messages.Location {
 	}
 }
 
-func astTableRows(t *astNode) (rows []*messages.GherkinDocument_Feature_TableRow, err error) {
+func astTableRows(t *astNode, newId func() string) (rows []*messages.GherkinDocument_Feature_TableRow, err error) {
 	rows = []*messages.GherkinDocument_Feature_TableRow{}
 	tokens := t.getTokens(TokenTypeTableRow)
 	for i := range tokens {
 		row := &messages.GherkinDocument_Feature_TableRow{
+			Id:       newId(),
 			Location: astLocation(tokens[i]),
 			Cells:    astTableCells(tokens[i]),
 		}
@@ -418,7 +425,7 @@ func astExamples(t *astNode) (examples []*messages.GherkinDocument_Feature_Scena
 	return
 }
 
-func astTags(node *astNode) (tags []*messages.GherkinDocument_Feature_Tag) {
+func astTags(node *astNode, newId func() string) (tags []*messages.GherkinDocument_Feature_Tag) {
 	tags = []*messages.GherkinDocument_Feature_Tag{}
 	tagsNode, ok := node.getSingle(RuleTypeTags).(*astNode)
 	if !ok {
@@ -435,6 +442,7 @@ func astTags(node *astNode) (tags []*messages.GherkinDocument_Feature_Tag) {
 				Column: uint32(item.Column),
 			}
 			tag.Name = item.Text
+			tag.Id = newId()
 			tags = append(tags, tag)
 		}
 	}

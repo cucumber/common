@@ -2,7 +2,7 @@ package json
 
 import (
 	"encoding/json"
-	"errors"
+	//"errors"
 	"fmt"
 	"io"
 	"strings"
@@ -69,41 +69,29 @@ type jsonTag struct {
 }
 
 type Formatter struct {
-	backgroundByUri      map[string]*messages.GherkinDocument_Feature_Background
-	backgroundStepsByKey map[string]*messages.GherkinDocument_Feature_Step
-	exampleByRowKey      map[string]*messages.GherkinDocument_Feature_Scenario_Examples
-	exampleRowIndexByKey map[string]int
-	gherkinDocumentByURI map[string]*messages.GherkinDocument
-	jsonFeatures         []*jsonFeature
-	jsonFeaturesByURI    map[string]*jsonFeature
-	jsonStepsByKey       map[string]*jsonStep
-	pickleById           map[string]*messages.Pickle
-	pickleByTestCaseId   map[string]*messages.Pickle
-	scenariosByKey       map[string]*messages.GherkinDocument_Feature_Scenario
-	scenarioStepsByKey   map[string]*messages.GherkinDocument_Feature_Step
+	lookup *MessageLookup
+
+	jsonFeatures            []*jsonFeature
+	jsonFeaturesByURI       map[string]*jsonFeature
+	jsonStepsByPickleStepId map[string]*jsonStep
+	exampleRowIndexById     map[string]int
 }
 
 // ProcessMessages writes a JSON report to STDOUT
-func (formatter *Formatter) ProcessMessages(stdin io.Reader, stdout io.Writer) (err error) {
-	formatter.jsonFeatures = make([]*jsonFeature, 0)
-	formatter.jsonFeaturesByURI = make(map[string]*jsonFeature)
-	formatter.jsonStepsByKey = make(map[string]*jsonStep)
+func (self *Formatter) ProcessMessages(stdin io.Reader, stdout io.Writer) (err error) {
+	self.lookup = &MessageLookup{}
+	self.lookup.Initialize()
 
-	formatter.backgroundByUri = make(map[string]*messages.GherkinDocument_Feature_Background)
-	formatter.backgroundStepsByKey = make(map[string]*messages.GherkinDocument_Feature_Step)
-	formatter.exampleByRowKey = make(map[string]*messages.GherkinDocument_Feature_Scenario_Examples)
-	formatter.exampleRowIndexByKey = make(map[string]int)
-	formatter.gherkinDocumentByURI = make(map[string]*messages.GherkinDocument)
-	formatter.pickleById = make(map[string]*messages.Pickle)
-	formatter.pickleByTestCaseId = make(map[string]*messages.Pickle)
-	formatter.scenariosByKey = make(map[string]*messages.GherkinDocument_Feature_Scenario)
-	formatter.scenarioStepsByKey = make(map[string]*messages.GherkinDocument_Feature_Step)
+	self.jsonFeatures = make([]*jsonFeature, 0)
+	self.jsonFeaturesByURI = make(map[string]*jsonFeature)
+	self.jsonStepsByPickleStepId = make(map[string]*jsonStep)
+	self.exampleRowIndexById = make(map[string]int)
 
-	r := gio.NewDelimitedReader(stdin, 4096)
+	reader := gio.NewDelimitedReader(stdin, 4096)
 
 	for {
-		wrapper := &messages.Envelope{}
-		err := r.ReadMsg(wrapper)
+		envelope := &messages.Envelope{}
+		err := reader.ReadMsg(envelope)
 		if err == io.EOF {
 			break
 		}
@@ -111,29 +99,17 @@ func (formatter *Formatter) ProcessMessages(stdin io.Reader, stdout io.Writer) (
 			return err
 		}
 
-		switch m := wrapper.Message.(type) {
+		self.lookup.ProcessMessage(envelope)
+
+		switch m := envelope.Message.(type) {
 		case *messages.Envelope_GherkinDocument:
-			formatter.gherkinDocumentByURI[m.GherkinDocument.Uri] = m.GherkinDocument
 			for _, child := range m.GherkinDocument.Feature.Children {
-				if child.GetBackground() != nil {
-					formatter.backgroundByUri[m.GherkinDocument.Uri] = child.GetBackground()
-					for _, step := range child.GetBackground().Steps {
-						formatter.backgroundStepsByKey[key(m.GherkinDocument.Uri, step.Location)] = step
-					}
-				}
-
-				if child.GetScenario() != nil {
-					formatter.scenariosByKey[key(m.GherkinDocument.Uri, child.GetScenario().Location)] = child.GetScenario()
-					for _, step := range child.GetScenario().Steps {
-						formatter.scenarioStepsByKey[key(m.GherkinDocument.Uri, step.Location)] = step
-					}
-
-					for _, example := range child.GetScenario().Examples {
-						for rowIndex, row := range example.TableBody {
-							rowKey := key(m.GherkinDocument.Uri, row.Location)
-							formatter.exampleByRowKey[rowKey] = example
-							// Add 1 for the row header, and another 1 because the id is 1-based
-							formatter.exampleRowIndexByKey[rowKey] = rowIndex + 2
+				scenario := child.GetScenario()
+				if scenario != nil {
+					for _, example := range scenario.Examples {
+						for index, row := range example.TableBody {
+							// index + 2: it's a 1 based index and the header is counted too.
+							self.exampleRowIndexById[row.Id] = index + 2
 						}
 					}
 				}
@@ -141,36 +117,25 @@ func (formatter *Formatter) ProcessMessages(stdin io.Reader, stdout io.Writer) (
 
 		case *messages.Envelope_Pickle:
 			pickle := m.Pickle
-			formatter.pickleById[pickle.Id] = pickle
-			jsonFeature := formatter.findOrCreateJsonFeature(pickle)
+			jsonFeature := self.findOrCreateJsonFeature(pickle)
+			scenario := self.lookup.LookupScenario(pickle.SourceIds[0])
+			elementLine := scenario.Location.Line
 
-			scenario := formatter.scenariosByKey[key(pickle.Uri, pickle.Locations[0])]
-
+			// TODO: find a better way to get backgrounds
+			background := &messages.GherkinDocument_Feature_Background{}
 			scenarioJsonSteps := make([]*jsonStep, 0)
 			backgroundJsonSteps := make([]*jsonStep, 0)
 
 			for _, pickleStep := range pickle.Steps {
-				isBackgroundStep := false
-				step := formatter.scenarioStepsByKey[key(pickle.Uri, pickleStep.Locations[0])]
-
-				if step == nil {
-					step = formatter.backgroundStepsByKey[key(pickle.Uri, pickleStep.Locations[0])]
-					isBackgroundStep = true
-				}
-
+				step := self.lookup.LookupStep(pickleStep.SourceIds[0])
 				jsonStep := &jsonStep{
 					Keyword: step.Keyword,
 					Line:    step.Location.Line,
 					Name:    pickleStep.Text,
 					// The match field defaults to the Gherkin step itself for some curious reason
 					Match: &jsonStepMatch{
-						Location: fmt.Sprintf("%s:%d", pickle.Uri, pickleStep.Locations[len(pickleStep.Locations)-1].Line),
+						Location: fmt.Sprintf("%s", pickle.Uri),
 					},
-				}
-				if isBackgroundStep {
-					backgroundJsonSteps = append(backgroundJsonSteps, jsonStep)
-				} else {
-					scenarioJsonSteps = append(scenarioJsonSteps, jsonStep)
 				}
 
 				docString := step.GetDocString()
@@ -196,12 +161,17 @@ func (formatter *Formatter) ProcessMessages(stdin io.Reader, stdout io.Writer) (
 						}
 					}
 				}
+				if self.isBackgroundStep(step.Id) {
+					backgroundJsonSteps = append(backgroundJsonSteps, jsonStep)
+					background = self.lookup.LookupBrackgroundByStepId(step.Id)
+				} else {
+					scenarioJsonSteps = append(scenarioJsonSteps, jsonStep)
+				}
 
-				formatter.jsonStepsByKey[key(pickle.Uri, step.Location)] = jsonStep
+				self.jsonStepsByPickleStepId[pickleStep.Id] = jsonStep
 			}
 
 			if len(backgroundJsonSteps) > 0 {
-				background := formatter.backgroundByUri[pickle.Uri]
 				jsonFeature.Elements = append(jsonFeature.Elements, &jsonFeatureElement{
 					Description: background.Description,
 					Keyword:     background.Keyword,
@@ -211,30 +181,25 @@ func (formatter *Formatter) ProcessMessages(stdin io.Reader, stdout io.Writer) (
 				})
 			}
 
-			pickleLine := pickle.Locations[0].Line
-			scenarioID := fmt.Sprintf("%s;%s", jsonFeature.ID, makeId(scenario.Name))
+			scenarioID := fmt.Sprintf("%s;%s", jsonFeature.ID, self.makeId(scenario.Name))
 
-			if len(scenario.Examples) > 0 {
-				pickleLine = pickle.Locations[1].Line
-				exampleKey := key(pickle.Uri, pickle.Locations[1])
-				exampleRowIndex, ok := formatter.exampleRowIndexByKey[exampleKey]
-				if !ok {
-					return errors.New(fmt.Sprintf("No example row index for: %s", exampleKey))
-				}
-				example, eok := formatter.exampleByRowKey[exampleKey]
-				if !eok {
-					return errors.New(fmt.Sprintf("No example for: %s", exampleKey))
-				}
+			if len(pickle.SourceIds) > 1 {
+				exampleRow := self.lookup.LookupExampleRow(pickle.SourceIds[1])
+				example := self.lookup.LookupExample(pickle.SourceIds[1])
 				scenarioID = fmt.Sprintf(
 					"%s;%s;%s;%d",
 					jsonFeature.ID,
-					makeId(scenario.Name),
-					makeId(example.Name),
-					exampleRowIndex)
+					self.makeId(scenario.Name),
+					self.makeId(example.Name),
+					self.exampleRowIndexById[exampleRow.Id])
+
+				elementLine = exampleRow.Location.Line
 			}
 
 			scenarioTags := make([]*jsonTag, len(pickle.Tags))
-			for tagIndex, tag := range pickle.Tags {
+			for tagIndex, pickleTag := range pickle.Tags {
+				tag := self.lookup.LookupTagByID(pickleTag.SourceId)
+
 				scenarioTags[tagIndex] = &jsonTag{
 					Line: tag.Location.Line,
 					Name: tag.Name,
@@ -245,58 +210,52 @@ func (formatter *Formatter) ProcessMessages(stdin io.Reader, stdout io.Writer) (
 				Description: scenario.Description,
 				ID:          scenarioID,
 				Keyword:     scenario.Keyword,
-				Line:        pickleLine,
+				Line:        elementLine,
 				Name:        scenario.Name,
 				Steps:       scenarioJsonSteps,
 				Type:        "scenario",
 				Tags:        scenarioTags,
 			})
 
-		case *messages.Envelope_TestCaseStarted:
-			pickle := formatter.pickleById[m.TestCaseStarted.PickleId]
-			formatter.pickleByTestCaseId[m.TestCaseStarted.TestCaseId] = pickle
-
-		case *messages.Envelope_TestStepMatched:
-			pickle := formatter.pickleById[m.TestStepMatched.PickleId]
-			pickleStep := pickle.Steps[m.TestStepMatched.Index]
-			step := formatter.jsonStepsByKey[key(pickle.Uri, pickleStep.Locations[0])]
-
-			step.Match = &jsonStepMatch{
-				Location: fmt.Sprintf(
-					"%s:%d",
-					m.TestStepMatched.StepDefinitionReference.Uri,
-					m.TestStepMatched.StepDefinitionReference.Location.Line,
-				),
-			}
-
 		case *messages.Envelope_TestStepFinished:
-			pickle := formatter.pickleByTestCaseId[m.TestStepFinished.TestCaseId]
-			pickleStep := pickle.Steps[m.TestStepFinished.Index]
-			step := formatter.jsonStepsByKey[key(pickle.Uri, pickleStep.Locations[0])]
+			testStep := self.lookup.LookupTestStepByID(m.TestStepFinished.TestStepId)
+			pickleStep := self.lookup.LookupPickleStepByID(testStep.PickleStepId)
+			jsonStep := self.jsonStepsByPickleStepId[pickleStep.Id]
 
 			status := strings.ToLower(m.TestStepFinished.TestResult.Status.String())
-			step.Result = &jsonStepResult{
-				Duration:     durationToNanos(m.TestStepFinished.TestResult.Duration),
+			jsonStep.Result = &jsonStepResult{
+				Duration:     self.durationToNanos(m.TestStepFinished.TestResult.Duration),
 				Status:       status,
 				ErrorMessage: m.TestStepFinished.TestResult.Message,
+			}
+
+			stepDefinitions := self.lookup.LookupStepDefinitionConfigsByIDs(testStep.StepDefinitionId)
+			if len(stepDefinitions) > 0 {
+				jsonStep.Match = &jsonStepMatch{
+					Location: fmt.Sprintf(
+						"%s:%d",
+						stepDefinitions[0].Location.Uri,
+						stepDefinitions[0].Location.Location.Line,
+					),
+				}
 			}
 		}
 	}
 
-	output, _ := json.MarshalIndent(formatter.jsonFeatures, "", "  ")
+	output, _ := json.MarshalIndent(self.jsonFeatures, "", "  ")
 	_, err = fmt.Fprintln(stdout, string(output))
 	return err
 }
 
-func (formatter *Formatter) findOrCreateJsonFeature(pickle *messages.Pickle) *jsonFeature {
-	jFeature, ok := formatter.jsonFeaturesByURI[pickle.Uri]
+func (self *Formatter) findOrCreateJsonFeature(pickle *messages.Pickle) *jsonFeature {
+	jFeature, ok := self.jsonFeaturesByURI[pickle.Uri]
 	if !ok {
-		gherkinDocumentFeature := formatter.gherkinDocumentByURI[pickle.Uri].Feature
+		gherkinDocumentFeature := self.lookup.LookupGherkinDocument(pickle.Uri).Feature
 
 		jFeature = &jsonFeature{
 			Description: gherkinDocumentFeature.Description,
 			Elements:    make([]*jsonFeatureElement, 0),
-			ID:          makeId(gherkinDocumentFeature.Name),
+			ID:          self.makeId(gherkinDocumentFeature.Name),
 			Keyword:     gherkinDocumentFeature.Keyword,
 			Line:        gherkinDocumentFeature.Location.Line,
 			Name:        gherkinDocumentFeature.Name,
@@ -311,20 +270,21 @@ func (formatter *Formatter) findOrCreateJsonFeature(pickle *messages.Pickle) *js
 			}
 		}
 
-		formatter.jsonFeaturesByURI[pickle.Uri] = jFeature
-		formatter.jsonFeatures = append(formatter.jsonFeatures, jFeature)
+		self.jsonFeaturesByURI[pickle.Uri] = jFeature
+		self.jsonFeatures = append(self.jsonFeatures, jFeature)
 	}
 	return jFeature
 }
 
-func key(uri string, location *messages.Location) string {
-	return fmt.Sprintf("%s:%d", uri, location.Line)
+func (self *Formatter) isBackgroundStep(id string) bool {
+	_, ok := self.lookup.backgroundByStepId[id]
+	return ok
 }
 
-func makeId(s string) string {
+func (self *Formatter) makeId(s string) string {
 	return strings.ToLower(strings.Replace(s, " ", "-", -1))
 }
 
-func durationToNanos(d *messages.Duration) uint64 {
+func (self *Formatter) durationToNanos(d *messages.Duration) uint64 {
 	return uint64(d.Seconds*1000000000 + int64(d.Nanos))
 }
