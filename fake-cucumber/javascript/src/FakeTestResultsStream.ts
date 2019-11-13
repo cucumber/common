@@ -38,53 +38,25 @@ class FakeTestResultsStream extends Transform {
       const testSteps: messages.TestCase.ITestStep[] = []
       for (const pickleStep of envelope.pickle.steps) {
         pickleStepById.set(pickleStep.id, pickleStep)
+        const match = this.stepDefinitions.matchStep(pickleStep.text)
 
-        const stepMatchArguments: messages.IStepMatchArgument[] = []
-
-        let word = ''
-        let wordIndex = 0
-        pickleStep.text.split('').forEach((character, i) => {
-          if (character !== ' ') {
-            word += character
-          } else {
-            if (word.length > 0) {
-              if (wordIndex % 2 === 1) {
-                stepMatchArguments.push(
-                  new messages.StepMatchArgument({
-                    group: new messages.StepMatchArgument.Group({
-                      value: word,
-                      start: i - word.length,
-                    }),
-                    parameterTypeName: 'fake',
-                  })
-                )
-              }
-              word = ''
-              wordIndex++
-            }
-          }
-        })
-
-        if (word.length > 0) {
-          stepMatchArguments.push(
-            new messages.StepMatchArgument({
-              group: new messages.StepMatchArgument.Group({
-                value: word,
-                start: pickleStep.text.length - word.length,
-              }),
-              parameterTypeName: 'fake',
+        if (match.stepDefinitionId) {
+          testSteps.push(
+            new messages.TestCase.TestStep({
+              id: uuidv4(),
+              pickleStepId: pickleStep.id,
+              stepMatchArguments: match.makeStepMatchArgumentMessages(),
+              stepDefinitionId: [match.stepDefinitionId]
             })
           )
-          word = ''
+        } else {
+          testSteps.push(
+            new messages.TestCase.TestStep({
+              id: uuidv4(),
+              pickleStepId: pickleStep.id
+            })
+          )
         }
-        testSteps.push(
-          new messages.TestCase.TestStep({
-            id: uuidv4(),
-            pickleStepId: pickleStep.id,
-            stepMatchArguments,
-            stepDefinitionId: [random(this.stepDefinitions.ids())]
-          })
-        )
       }
 
       this.p(

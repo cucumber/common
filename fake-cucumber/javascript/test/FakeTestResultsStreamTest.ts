@@ -58,27 +58,6 @@ Scenario: passed then failed
     )
   })
 
-  it('generates a match with argument for every second word', async () => {
-    const gherkinSource = `Feature: mixed results
-
-Scenario: some matches
-  Given one two three four five six
-`
-    const testCases = await getTestCases(gherkinSource, 'pattern')
-    const stepMatchArguments = testCases[0].testSteps[0].stepMatchArguments
-
-    assert.strictEqual(stepMatchArguments.length, 3)
-
-    assert.strictEqual(stepMatchArguments[0].group.value, 'two')
-    assert.strictEqual(stepMatchArguments[0].group.start, 4)
-
-    assert.strictEqual(stepMatchArguments[1].group.value, 'four')
-    assert.strictEqual(stepMatchArguments[1].group.start, 14)
-
-    assert.strictEqual(stepMatchArguments[2].group.value, 'six')
-    assert.strictEqual(stepMatchArguments[2].group.start, 24)
-  })
-
   it('generates default step definitions', async () => {
     const gherkinSource = `Feature: mixed results
 
@@ -99,6 +78,34 @@ Scenario: some matches
     assert.equal(stepDefinitions[3].pattern.source, '{}skipped{}', "The first matches skipped steps")
     assert.equal(stepDefinitions[4].pattern.source, '{}ambig{}', "The first matches ambiguous steps")
     assert.equal(stepDefinitions[5].pattern.source, '{}ambiguous{}', "The first matches ambiguous steps too")
+  })
+
+  it('uses the step definitions to generate the arguments', async () => {
+    const gherkinSource = `Feature: mixed results
+
+Scenario: some matches
+  When there is a failed step
+  Then there should be a skipped step after
+`
+    const testCases = await getTestCases(gherkinSource, 'pattern')
+    const firstStepMatchArguments = testCases[0].testSteps[0].stepMatchArguments
+    const secondStepMatchArguments = testCases[0].testSteps[1].stepMatchArguments
+
+    assert.strictEqual(firstStepMatchArguments.length, 2)
+
+    assert.strictEqual(firstStepMatchArguments[0].group.value, 'there is a ')
+    assert.strictEqual(firstStepMatchArguments[0].group.start, 0)
+
+    assert.strictEqual(firstStepMatchArguments[1].group.value, ' step')
+    assert.strictEqual(firstStepMatchArguments[1].group.start, 17)
+
+    assert.strictEqual(secondStepMatchArguments.length, 2)
+
+    assert.strictEqual(secondStepMatchArguments[0].group.value, 'there should be a ')
+    assert.strictEqual(secondStepMatchArguments[0].group.start, 0)
+
+    assert.strictEqual(secondStepMatchArguments[1].group.value, ' step after')
+    assert.strictEqual(secondStepMatchArguments[1].group.start, 25)
   })
 })
 

@@ -1,14 +1,16 @@
 import { messages } from 'cucumber-messages'
 import {
-  CucumberExpression,
-  ParameterTypeRegistry,
+  ParameterTypeRegistry
 } from 'cucumber-expressions'
 import uuidv4 from 'uuid/v4'
+
+import Argument from 'cucumber-expressions/dist/src/Argument'
+import CucumberExpression from 'cucumber-expressions/dist/src/CucumberExpression'
 
 class FakeStepDefinition {
   public id: string
   public pattern: string
-  public expression: any
+  public expression: CucumberExpression
 
   constructor(
     public status: string,
@@ -36,6 +38,24 @@ class FakeStepDefinition {
   }
 }
 
+class FakeMatch {
+  public stepMatchArguments: Argument<any>[] = []
+  public stepDefinitionId: string = ""
+
+  public makeStepMatchArgumentMessages(): messages.StepMatchArgument[] {
+    const stepMatchMessages: messages.StepMatchArgument[] = []
+    this.stepMatchArguments.forEach(match => {
+      const message = new messages.StepMatchArgument({
+        group: match.group,
+        parameterTypeName: match.parameterType.name
+      })
+      stepMatchMessages.push(message)
+    })
+
+    return stepMatchMessages
+  }
+}
+
 class FakeStepDefinitions {
   public stepDefinitions: FakeStepDefinition[] = []
 
@@ -49,8 +69,22 @@ class FakeStepDefinitions {
 
   public makeMessages(): messages.Envelope[] {
     return this.stepDefinitions.map((stepDefinition, index) => {
-      return stepDefinition.asEnvelope(index)
+      return stepDefinition.asEnvelope(index * 3)
     })
+  }
+
+  public matchStep(step: string): FakeMatch {
+    const fakeMatch = new FakeMatch()
+
+    this.stepDefinitions.forEach(stepDefinition => {
+      const match = stepDefinition.expression.match(step)
+      if (match !== null) {
+        fakeMatch.stepMatchArguments = match
+        fakeMatch.stepDefinitionId = stepDefinition.id
+      }
+    })
+
+    return fakeMatch
   }
 
   private generateStepDefinitions(): void {
