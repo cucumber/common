@@ -69,8 +69,11 @@ message Envelope {
     string commandError = 25;
     TestStepMatched testStepMatched = 26;
     TestCase testCase = 27;
+    StepDefinitionConfig stepDefinitionConfig = 28;
+    TestCaseHookDefinitionConfig testCaseHookDefinitionConfig = 29;
   }
 }
+
 
 ////// Common types
 
