@@ -1,10 +1,11 @@
 import { Transform } from 'stream'
 import { messages } from 'cucumber-messages'
 import uuidv4 from 'uuid/v4'
+import FakeStepDefinitions from './FakeStepDefinitions'
 
 class FakeTestResultsStream extends Transform {
   private readonly buffer: messages.IEnvelope[] = []
-  private stepDefinitionIds: string[] = []
+  private stepDefinitions: FakeStepDefinitions = new FakeStepDefinitions
 
   constructor(
     private readonly format:
@@ -25,26 +26,8 @@ class FakeTestResultsStream extends Transform {
     this.p(envelope)
 
     if (envelope.source) {
-      const stepDefinitionPatterns = ['passed', 'failed', 'pending', 'skipped', 'ambig', 'ambiguous']
-      stepDefinitionPatterns.forEach(pattern => {
-        const stepDefinitionId = uuidv4()
-        this.stepDefinitionIds.push(stepDefinitionId)
-        this.p(
-          new messages.Envelope({
-            stepDefinitionConfig: new messages.StepDefinitionConfig({
-              id: stepDefinitionId,
-              pattern: new messages.StepDefinitionPattern({
-                source: `{}${pattern}{}`,
-              }),
-              location: new messages.SourceReference({
-                uri: "some/javascript/file.js",
-                location: new messages.Location({
-                  line: this.stepDefinitionIds.length * 3
-                })
-              })
-            })
-          })
-        )
+      this.stepDefinitions.makeMessages().forEach(message => {
+        this.p(message)
       })
     }
 
@@ -99,7 +82,7 @@ class FakeTestResultsStream extends Transform {
             id: uuidv4(),
             pickleStepId: pickleStep.id,
             stepMatchArguments,
-            stepDefinitionId: [random(this.stepDefinitionIds)]
+            stepDefinitionId: [random(this.stepDefinitions.ids())]
           })
         )
       }
