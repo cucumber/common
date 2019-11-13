@@ -14,7 +14,7 @@ executors:
     docker:
       # Remember to update to the latest image tag.
       # Run `source scripts/functions.sh && docker_image Dockerfile` to print it.
-      - image: cucumber/cucumber-build:7ab79eb69e8007a0f2655f1bb6310312
+      - image: cucumber/cucumber-build:9ce5f6a542de12ceecdd84caaad47365
     working_directory: ~/cucumber
   # Go
   docker-circleci-golang:

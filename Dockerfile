@@ -1,7 +1,7 @@
 # Builds a docker image used for building most projects in this repo. It's
 # used both by contributors and CI.
 #
-FROM mcr.microsoft.com/dotnet/core/sdk:3.0-alpine
+FROM mcr.microsoft.com/dotnet/core/sdk:2.2-alpine3.9
 
 WORKDIR /app
 
@@ -21,7 +21,7 @@ RUN apk add --no-cache \
   maven \
   nodejs \
   npm \
-  openjdk11 \
+  openjdk8 \
   openssh \
   openssl-dev \
   perl \
