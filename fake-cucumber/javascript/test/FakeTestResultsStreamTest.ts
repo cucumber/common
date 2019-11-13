@@ -91,8 +91,6 @@ Scenario: some matches
       .filter(envelope => envelope.stepDefinitionConfig)
       .map(envelope => envelope.stepDefinitionConfig)
 
-    console.log(stepDefinitions)
-
     assert.equal(stepDefinitions.length, 6, "There are 6 default step definitions")
 
     assert.equal(stepDefinitions[0].pattern.source, '{}passed{}', "The first matches passed steps")
