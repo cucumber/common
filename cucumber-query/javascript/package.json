@@ -44,6 +44,6 @@
     "*"
   ],
   "dependencies": {
-    "cucumber-messages": "^6.0.2"
+    "cucumber-messages": "^7.0.0"
   }
 }
