@@ -2,20 +2,20 @@ import assert from 'assert'
 import { stubConstructor } from "ts-sinon";
 import { messages } from 'cucumber-messages'
 
-import Match from '../src/Match'
+import SupportCodeExecutor from '../src/SupportCodeExecutor'
 import StepDefinition from '../src/StepDefinition'
 import StepDefinitionRegistry from '../src/StepDefinitionRegistry'
 
 describe('StepDefinitionRegistry', () => {
   context('execute', () => {
-    function stubMatch(result: messages.TestResult.Status): Match {
-      const matchStub = stubConstructor<Match>(Match)
+    function stubMatch(result: messages.TestResult.Status): SupportCodeExecutor {
+      const matchStub = stubConstructor<SupportCodeExecutor>(SupportCodeExecutor)
       matchStub.execute.returns(result)
 
       return matchStub
     }
 
-    function stubMatchingStepDefinition(match: Match = new Match): StepDefinition {
+    function stubMatchingStepDefinition(match: SupportCodeExecutor = new SupportCodeExecutor): StepDefinition {
       const stepDefinitionStub = stubConstructor<StepDefinition>(StepDefinition);
       stepDefinitionStub.match.returns(match);
 
